@@ -28,7 +28,7 @@ Use this as the execution checklist for `@tailng-ui/cdk`.
 - [x] Export `@tailng-ui/cdk/overlay`.
 - [x] Export `@tailng-ui/cdk/core`.
 - [x] Add/update `tsconfig.base.json` paths.
-- [ ] Validate subpath exports in `libs/tailng-ui/cdk/package.json`.
+- [x] Validate subpath exports in `libs/tailng-ui/cdk/package.json`.
 
 ## 4. Folder Scaffold
 
@@ -47,7 +47,7 @@ Use this as the execution checklist for `@tailng-ui/cdk`.
 - [x] Create `src/collections/selection-model/selection-model.ts`.
 - [x] Create `src/collections/selection-model/selection-model.spec.ts`.
 - [x] Export from `src/collections/index.ts`.
-- [ ] Add keyboard + behavior tests for single and multi select.
+- [x] Add keyboard + behavior tests for single and multi select.
 
 ## 6. Primitive 2: Typeahead
 
@@ -55,7 +55,7 @@ Use this as the execution checklist for `@tailng-ui/cdk`.
 - [x] Create `src/collections/typeahead/typeahead.ts`.
 - [x] Create `src/collections/typeahead/typeahead.spec.ts`.
 - [x] Export from `src/collections/index.ts`.
-- [ ] Add tests for buffering, timeout, wrap behavior, disabled items.
+- [x] Add tests for buffering, timeout, wrap behavior, disabled items.
 
 ## 7. Primitive 3: Roving Focus
 
@@ -63,7 +63,7 @@ Use this as the execution checklist for `@tailng-ui/cdk`.
 - [x] Create `src/a11y/roving-focus/roving-focus.ts`.
 - [x] Create `src/a11y/roving-focus/roving-focus.spec.ts`.
 - [x] Export from `src/a11y/index.ts`.
-- [ ] Add tests for horizontal/vertical orientation and wrapping.
+- [x] Add tests for horizontal/vertical orientation and wrapping.
 
 ## 8. Primitive 4: Active Descendant
 
@@ -71,7 +71,7 @@ Use this as the execution checklist for `@tailng-ui/cdk`.
 - [x] Create `src/a11y/active-descendant/active-descendant.ts`.
 - [x] Create `src/a11y/active-descendant/active-descendant.spec.ts`.
 - [x] Export from `src/a11y/index.ts`.
-- [ ] Add tests for id binding, next/prev navigation, reset.
+- [x] Add tests for id binding, next/prev navigation, reset.
 
 ## 9. Primitive 5: Dismissable Layer
 
@@ -79,7 +79,7 @@ Use this as the execution checklist for `@tailng-ui/cdk`.
 - [x] Create `src/overlay/dismissable-layer/dismissable-layer.ts`.
 - [x] Create `src/overlay/dismissable-layer/dismissable-layer.spec.ts`.
 - [x] Export from `src/overlay/index.ts`.
-- [ ] Add tests for escape, outside click, and layer stack priority.
+- [x] Add tests for escape, outside click, and layer stack priority.
 
 ## 10. Primitive 6: Focus Scope
 
@@ -87,7 +87,7 @@ Use this as the execution checklist for `@tailng-ui/cdk`.
 - [x] Create `src/a11y/focus-scope/focus-scope.ts`.
 - [x] Create `src/a11y/focus-scope/focus-scope.spec.ts`.
 - [x] Export from `src/a11y/index.ts`.
-- [ ] Add tests for trap, restore focus, nested scopes.
+- [x] Add tests for trap, restore focus, nested scopes.
 
 ## 11. Cross-Cutting Quality Gates
 
