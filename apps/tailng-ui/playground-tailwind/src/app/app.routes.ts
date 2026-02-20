@@ -49,6 +49,13 @@ export const appRoutes: Route[] = [
       ),
   },
   {
+    path: 'listbox',
+    loadComponent: () =>
+      import('./pages/primitives/listbox-demo/listbox-playground-page.component').then(
+        (module) => module.ListboxPlaygroundPageComponent,
+      ),
+  },
+  {
     path: 'icons',
     loadComponent: () =>
       import('./pages/icons/icon-demo/icon-playground-page.component').then(

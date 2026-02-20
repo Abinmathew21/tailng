@@ -9,10 +9,13 @@ export type TngRovingFocusOptions = Readonly<{
 }>;
 
 export type TngRovingFocusController = Readonly<{
+  clear: () => void;
   end: () => string | null;
   getActiveId: () => string | null;
   home: () => string | null;
   moveNext: () => string | null;
   movePrev: () => string | null;
   setActiveId: (id: string | null) => string | null;
+  setDisabledIds: (ids: readonly string[]) => void;
+  setItemIds: (ids: readonly string[]) => void;
 }>;
