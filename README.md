@@ -271,6 +271,8 @@ Build and run the `tailng` CLI:
 pnpm build:tailng
 pnpm tailng -- list
 pnpm tailng -- add button --cwd apps/tailng-ui/playground-vanilla --dry-run
+pnpm tailng -- add dialog --cwd apps/tailng-ui/playground-vanilla --dry-run
+pnpm tailng -- add popover --cwd apps/tailng-ui/playground-vanilla --dry-run
 pnpm tailng -- add button --cwd apps/tailng-ui/playground-registry --dry-run
 ```
 
@@ -286,6 +288,8 @@ pnpm tailng -- list
 
 ```bash
 pnpm tailng -- add button --cwd apps/tailng-ui/playground-registry --dry-run
+pnpm tailng -- add dialog --cwd apps/tailng-ui/playground-registry --dry-run
+pnpm tailng -- add popover --cwd apps/tailng-ui/playground-registry --dry-run
 ```
 
 - Generate files:
@@ -304,7 +308,7 @@ Note:
 
 - `--dry-run` shows `CREATE`, `SKIP`, or `OVERWRITE` behavior.
 - `--cwd` should point to the app root where files must be generated.
-- `tailng add button` follows shadcn-style source copy. It writes local files to:
+- `tailng add <component-name>` follows shadcn-style source copy. Example for `button`:
   - `src/app/tailng-ui/button/tng-button-primitive.ts`
   - `src/app/tailng-ui/button/tng-button.ts`
   - `src/app/tailng-ui/button/tng-button.html`

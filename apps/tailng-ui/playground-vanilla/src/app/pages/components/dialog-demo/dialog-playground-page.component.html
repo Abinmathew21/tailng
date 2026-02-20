@@ -1,0 +1,99 @@
+<main class="page">
+  <section class="container">
+    <header class="hero">
+      <div class="links">
+        <a routerLink="/">Home</a>
+        <a routerLink="/listbox">ListBox Demo</a>
+        <a routerLink="/popover">Popover Demo</a>
+      </div>
+      <h1 class="title">Dialog Demo (Vanilla CSS)</h1>
+      <p class="subtitle">
+        Dialog content includes multiple interactive controls and an embedded ListBox to verify
+        keyboard flow (Tab, Arrow keys, Enter, and typeahead).
+      </p>
+    </header>
+
+    <section class="card">
+      <div class="toolbar">
+        <tng-button (click)="onDialogOpenChange(true)">Open Project Dialog</tng-button>
+        <p>
+          Selected assignee:
+          <strong>{{ selectedAssigneeLabel() }}</strong>
+        </p>
+      </div>
+    </section>
+
+    <tng-dialog
+      title="Create Sprint Session"
+      description="Configure context, assignee, and notes before generating the planning workspace."
+      size="lg"
+      [open]="dialogOpen()"
+      (openChange)="onDialogOpenChange($event)"
+    >
+      <div class="field-grid">
+        <div class="field">
+          <p>Project Name</p>
+          <tng-input
+            data-tng-dialog-initial-focus
+            [value]="projectName()"
+            placeholder="Enter project name"
+            (valueChange)="onProjectNameChange($event)"
+          />
+        </div>
+
+        <div class="field">
+          <p>Sprint Notes</p>
+          <tng-textarea
+            [rows]="4"
+            [value]="notes()"
+            placeholder="Add sprint notes"
+            (valueChange)="onNotesChange($event)"
+          />
+        </div>
+      </div>
+
+      <tng-checkbox [checked]="notificationsEnabled()" (checkedChange)="onNotificationsChange($event)">
+        Notify team members when this session is created
+      </tng-checkbox>
+
+      <section class="listbox-card">
+        <h2>Assignee ListBox</h2>
+        <p>Active: {{ activeAssigneeLabel() }} | Selected: {{ selectedAssigneeLabel() }}</p>
+
+        <div
+          [id]="listboxId"
+          role="listbox"
+          tabindex="0"
+          class="listbox"
+          [attr.aria-activedescendant]="activeAssigneeId() ?? null"
+          (focus)="onListboxFocus()"
+          (keydown)="onListboxKeydown($event)"
+        >
+          @for (option of options; track option.id) {
+            <div
+              [id]="option.id"
+              role="option"
+              tabindex="-1"
+              class="listbox-option"
+              [class.active]="isAssigneeActive(option.id)"
+              [class.selected]="isAssigneeSelected(option.id)"
+              [attr.aria-selected]="isAssigneeSelected(option.id)"
+              (click)="onListboxOptionClick(option.id)"
+              (keydown)="onListboxOptionKeydown(option.id, $event)"
+            >
+              <p class="option-title">{{ option.label }}</p>
+              <p class="option-detail">{{ option.detail }}</p>
+            </div>
+          }
+        </div>
+      </section>
+
+      <div class="dialog-actions">
+        <tng-button appearance="ghost" tone="neutral" (click)="onDialogOpenChange(false)">
+          Cancel
+        </tng-button>
+        <tng-button tone="success" (click)="onDialogSubmit()">Create Session</tng-button>
+      </div>
+    </tng-dialog>
+  </section>
+</main>

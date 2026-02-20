@@ -1,0 +1,33 @@
+@if (open()) {
+  <div class="tng-dialog-backdrop">
+    <section
+      #panelRef
+      [id]="panelId"
+      role="dialog"
+      aria-modal="true"
+      class="tng-dialog-panel"
+      [attr.data-size]="size()"
+      [attr.aria-labelledby]="titleId"
+      [attr.aria-describedby]="description() ? descriptionId : null"
+      tabindex="-1"
+      (keydown)="onPanelKeydown($event)"
+    >
+      <header class="tng-dialog-header">
+        <div class="tng-dialog-heading">
+          <h2 [id]="titleId" class="tng-dialog-title">{{ title() }}</h2>
+          @if (description()) {
+            <p [id]="descriptionId" class="tng-dialog-description">{{ description() }}</p>
+          }
+        </div>
+
+        <button type="button" class="tng-dialog-close" aria-label="Close dialog" (click)="onCloseButtonClick()">
+          ×
+        </button>
+      </header>
+
+      <div class="tng-dialog-content">
+        <ng-content />
+      </div>
+    </section>
+  </div>
+}

@@ -1,7 +1,9 @@
 import { buttonRegistryItem } from './button/button.registry';
 import { cardRegistryItem } from './card/card.registry';
 import { checkboxRegistryItem } from './checkbox/checkbox.registry';
+import { dialogRegistryItem } from './dialog/dialog.registry';
 import { inputRegistryItem } from './input/input.registry';
+import { popoverRegistryItem } from './popover/popover.registry';
 import { radioRegistryItem } from './radio/radio.registry';
 import type { RegistryItem } from './registry.types';
 import { textareaRegistryItem } from './textarea/textarea.registry';
@@ -10,7 +12,9 @@ export const tailngRegistry: readonly RegistryItem[] = [
   buttonRegistryItem,
   cardRegistryItem,
   checkboxRegistryItem,
+  dialogRegistryItem,
   inputRegistryItem,
+  popoverRegistryItem,
   radioRegistryItem,
   textareaRegistryItem,
 ];

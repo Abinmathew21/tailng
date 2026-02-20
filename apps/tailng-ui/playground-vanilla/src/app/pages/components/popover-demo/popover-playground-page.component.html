@@ -1,0 +1,61 @@
+<main class="page">
+  <section class="container">
+    <header class="hero">
+      <div class="links">
+        <a routerLink="/">Home</a>
+        <a routerLink="/dialog">Dialog Demo</a>
+      </div>
+      <h1 class="title">Popover Demo (Vanilla CSS)</h1>
+      <p class="subtitle">
+        Validate trigger semantics, outside click handling, escape close, and composability with
+        TailNG buttons.
+      </p>
+    </header>
+
+    <section class="grid">
+      <article class="card">
+        <h2>Quick Actions</h2>
+        <tng-popover
+          triggerLabel="Project Actions"
+          [open]="actionsPopoverOpen()"
+          (openChange)="onActionsPopoverChange($event)"
+        >
+          <div class="action-list">
+            @for (action of actions; track action.id) {
+              <button type="button" class="action-item" (click)="onActionPick(action.id)">
+                <p class="action-title">{{ action.label }}</p>
+                <p class="action-detail">{{ action.description }}</p>
+              </button>
+            }
+          </div>
+        </tng-popover>
+      </article>
+
+      <article class="card">
+        <h2>Release Info</h2>
+        <tng-popover
+          triggerLabel="View Details"
+          [open]="detailsPopoverOpen()"
+          (openChange)="onDetailsPopoverChange($event)"
+        >
+          <div class="details">
+            <p class="details-title">TailNG Overlay Readiness</p>
+            <ul>
+              <li>Dialog + backdrop integrated with keyboard close.</li>
+              <li>Popover supports outside pointer and escape dismiss.</li>
+              <li>ListBox now validated inside dialog content.</li>
+            </ul>
+          </div>
+        </tng-popover>
+      </article>
+    </section>
+
+    <section class="card summary">
+      <h2>Selected Action</h2>
+      <p>{{ selectedAction() ?? 'No action selected yet.' }}</p>
+      <tng-button appearance="outline" tone="neutral" (click)="selectedAction.set(null)">
+        Clear Selection
+      </tng-button>
+    </section>
+  </section>
+</main>

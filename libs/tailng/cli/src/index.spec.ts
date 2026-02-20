@@ -127,6 +127,53 @@ it('tailng cli integration: add writes textarea source files', async (): Promise
   ).toBe(true);
 });
 
+it('tailng cli integration: add writes dialog source files', async (): Promise<void> => {
+  const targetRoot = await createTargetRoot();
+
+  const exitCode = await runCli(['add', 'dialog', '--cwd', targetRoot], {
+    registry: registryModule,
+  });
+
+  expect(exitCode).toBe(0);
+
+  const dialogTsPath = path.join(targetRoot, 'src/app/tailng-ui/dialog/tng-dialog.ts');
+  const primitivePath = path.join(targetRoot, 'src/app/tailng-ui/dialog/tng-dialog-primitive.ts');
+  const htmlPath = path.join(targetRoot, 'src/app/tailng-ui/dialog/tng-dialog.html');
+
+  expect(await pathExists(dialogTsPath)).toBe(true);
+  expect(await pathExists(primitivePath)).toBe(true);
+  expect(await pathExists(htmlPath)).toBe(true);
+
+  const dialogTsContent = await readFile(dialogTsPath, 'utf8');
+  expect(dialogTsContent).toContain("selector: 'tng-dialog'");
+  expect(dialogTsContent).toContain("from './tng-dialog-primitive';");
+});
+
+it('tailng cli integration: add writes popover source files', async (): Promise<void> => {
+  const targetRoot = await createTargetRoot();
+
+  const exitCode = await runCli(['add', 'popover', '--cwd', targetRoot], {
+    registry: registryModule,
+  });
+
+  expect(exitCode).toBe(0);
+
+  const popoverTsPath = path.join(targetRoot, 'src/app/tailng-ui/popover/tng-popover.ts');
+  const primitivePath = path.join(
+    targetRoot,
+    'src/app/tailng-ui/popover/tng-popover-primitive.ts',
+  );
+  const htmlPath = path.join(targetRoot, 'src/app/tailng-ui/popover/tng-popover.html');
+
+  expect(await pathExists(popoverTsPath)).toBe(true);
+  expect(await pathExists(primitivePath)).toBe(true);
+  expect(await pathExists(htmlPath)).toBe(true);
+
+  const popoverTsContent = await readFile(popoverTsPath, 'utf8');
+  expect(popoverTsContent).toContain("selector: 'tng-popover'");
+  expect(popoverTsContent).toContain("from './tng-popover-primitive';");
+});
+
 it('tailng cli integration: returns non-zero when files already exist without --force', async (): Promise<void> => {
   const targetRoot = await createTargetRoot();
 

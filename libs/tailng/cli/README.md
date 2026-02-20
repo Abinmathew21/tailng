@@ -15,6 +15,8 @@ TailNG command line utility.
 ```bash
 tailng list
 tailng add button --cwd apps/tailng-ui/playground-vanilla
+tailng add dialog --cwd apps/tailng-ui/playground-vanilla
+tailng add popover --cwd apps/tailng-ui/playground-vanilla
 ```
 
 ## Options

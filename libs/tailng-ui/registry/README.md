@@ -10,12 +10,17 @@
 
 Copy-paste registry source for TailNG CLI (`tailng add ...`).
 
-## Button Registry Item
+## Registry Items
 
-The `button` item includes template source files for:
+Current copy-paste items:
 
-- `tng-button.component.ts`
-- `tng-button.component.html`
-- `tng-button.component.css`
+- `button`
+- `card`
+- `checkbox`
+- `dialog`
+- `input`
+- `popover`
+- `radio`
+- `textarea`
 
 Use exported helpers to list and resolve registry items.

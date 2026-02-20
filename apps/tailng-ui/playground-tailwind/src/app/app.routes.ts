@@ -63,6 +63,20 @@ export const appRoutes: Route[] = [
       ),
   },
   {
+    path: 'dialog',
+    loadComponent: () =>
+      import('./pages/components/dialog-demo/dialog-playground-page.component').then(
+        (module) => module.DialogPlaygroundPageComponent,
+      ),
+  },
+  {
+    path: 'popover',
+    loadComponent: () =>
+      import('./pages/components/popover-demo/popover-playground-page.component').then(
+        (module) => module.PopoverPlaygroundPageComponent,
+      ),
+  },
+  {
     path: 'icons',
     loadComponent: () =>
       import('./pages/icons/icon-demo/icon-playground-page.component').then(

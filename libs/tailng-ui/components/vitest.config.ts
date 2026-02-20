@@ -8,9 +8,15 @@ const projectRoot = dirname(fileURLToPath(import.meta.url));
 export default defineConfig({
   root: projectRoot,
   resolve: {
-    alias: {
-      '@tailng-ui/primitives': resolve(projectRoot, '../primitives/src/index.ts'),
-    },
+    alias: [
+      { find: '@tailng-ui/cdk/core', replacement: resolve(projectRoot, '../cdk/src/core/index.ts') },
+      {
+        find: '@tailng-ui/cdk/overlay',
+        replacement: resolve(projectRoot, '../cdk/src/overlay/index.ts'),
+      },
+      { find: '@tailng-ui/cdk', replacement: resolve(projectRoot, '../cdk/src/index.ts') },
+      { find: '@tailng-ui/primitives', replacement: resolve(projectRoot, '../primitives/src/index.ts') },
+    ],
   },
   test: {
     name: 'components',

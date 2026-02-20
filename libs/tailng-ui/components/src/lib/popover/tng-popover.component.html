@@ -1,0 +1,26 @@
+<div class="tng-popover-root">
+  <button
+    type="button"
+    class="tng-popover-trigger"
+    aria-haspopup="dialog"
+    [attr.aria-expanded]="open()"
+    [attr.aria-controls]="open() ? panelId : null"
+    (click)="onTriggerClick()"
+  >
+    {{ triggerLabel() }}
+  </button>
+
+  @if (open()) {
+    <section
+      #panelRef
+      [id]="panelId"
+      role="dialog"
+      class="tng-popover-panel"
+      [attr.aria-label]="ariaLabel()"
+      tabindex="-1"
+      (keydown)="onPanelKeydown($event)"
+    >
+      <ng-content />
+    </section>
+  }
+</div>

@@ -3,22 +3,11 @@ import {
   provideTngIcons,
   type TngIconLoader,
 } from '@tailng-ui/icons';
-import bdFlagUrl from 'flag-icons/flags/4x3/bd.svg';
-import brFlagUrl from 'flag-icons/flags/4x3/br.svg';
-import cnFlagUrl from 'flag-icons/flags/4x3/cn.svg';
-import idFlagUrl from 'flag-icons/flags/4x3/id.svg';
-import inFlagUrl from 'flag-icons/flags/4x3/in.svg';
-import mxFlagUrl from 'flag-icons/flags/4x3/mx.svg';
-import ngFlagUrl from 'flag-icons/flags/4x3/ng.svg';
-import pkFlagUrl from 'flag-icons/flags/4x3/pk.svg';
-import ruFlagUrl from 'flag-icons/flags/4x3/ru.svg';
-import usFlagUrl from 'flag-icons/flags/4x3/us.svg';
 
-function createStaticSvgLoader(svg: string): TngIconLoader {
-  return (): Promise<string> => Promise.resolve(svg);
-}
+const flagSvgBaseUrl = 'https://cdn.jsdelivr.net/npm/flag-icons@7.5.0/flags/4x3';
 
-function createFlagSvgLoader(svgUrl: string): TngIconLoader {
+function createFlagSvgLoader(countryCode: string): TngIconLoader {
+  const svgUrl = `${flagSvgBaseUrl}/${countryCode}.svg`;
   return async (): Promise<string> => {
     const response = await fetch(svgUrl);
     if (!response.ok) {
@@ -27,6 +16,10 @@ function createFlagSvgLoader(svgUrl: string): TngIconLoader {
 
     return response.text();
   };
+}
+
+function createStaticSvgLoader(svg: string): TngIconLoader {
+  return (): Promise<string> => Promise.resolve(svg);
 }
 
 const customPack1 = createTngIconPack('customPack1', {
@@ -42,16 +35,16 @@ const customPack2 = createTngIconPack('customPack2', {
 });
 
 const flagPack = createTngIconPack('flags', {
-  bd: createFlagSvgLoader(bdFlagUrl),
-  br: createFlagSvgLoader(brFlagUrl),
-  cn: createFlagSvgLoader(cnFlagUrl),
-  id: createFlagSvgLoader(idFlagUrl),
-  in: createFlagSvgLoader(inFlagUrl),
-  mx: createFlagSvgLoader(mxFlagUrl),
-  ng: createFlagSvgLoader(ngFlagUrl),
-  pk: createFlagSvgLoader(pkFlagUrl),
-  ru: createFlagSvgLoader(ruFlagUrl),
-  us: createFlagSvgLoader(usFlagUrl),
+  bd: createFlagSvgLoader('bd'),
+  br: createFlagSvgLoader('br'),
+  cn: createFlagSvgLoader('cn'),
+  id: createFlagSvgLoader('id'),
+  in: createFlagSvgLoader('in'),
+  mx: createFlagSvgLoader('mx'),
+  ng: createFlagSvgLoader('ng'),
+  pk: createFlagSvgLoader('pk'),
+  ru: createFlagSvgLoader('ru'),
+  us: createFlagSvgLoader('us'),
 });
 
 export const tngIconProviders = provideTngIcons({
