@@ -21,6 +21,27 @@ export const appRoutes: Route[] = [
       ),
   },
   {
+    path: 'input',
+    loadComponent: () =>
+      import('./pages/primitives/input-demo/input-playground-page.component').then(
+        (module) => module.InputPlaygroundPageComponent,
+      ),
+  },
+  {
+    path: 'radio',
+    loadComponent: () =>
+      import('./pages/primitives/radio-demo/radio-playground-page.component').then(
+        (module) => module.RadioPlaygroundPageComponent,
+      ),
+  },
+  {
+    path: 'checkbox',
+    loadComponent: () =>
+      import('./pages/primitives/checkbox-demo/checkbox-playground-page.component').then(
+        (module) => module.CheckboxPlaygroundPageComponent,
+      ),
+  },
+  {
     path: 'icons',
     loadComponent: () =>
       import('./pages/icons/icon-demo/icon-playground-page.component').then(

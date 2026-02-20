@@ -1,0 +1,17 @@
+<label class="tng-checkbox-root" [attr.data-disabled]="disabled() ? '' : null">
+  <input
+    tngCheckbox
+    class="tng-checkbox-control"
+    [checked]="checked()"
+    [disabled]="disabled()"
+    [indeterminate]="indeterminate()"
+    [required]="required()"
+    [name]="name()"
+    [value]="value()"
+    [ariaDescribedBy]="ariaDescribedBy()"
+    (change)="onChange($event)"
+  />
+  <span class="tng-checkbox-label">
+    <ng-content />
+  </span>
+</label>

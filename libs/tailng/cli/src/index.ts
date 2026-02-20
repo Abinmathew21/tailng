@@ -141,10 +141,7 @@ function parseOptionToken(token: string): readonly [string, string | null] {
   return [name, value] as const;
 }
 
-function readBooleanOption(
-  options: Readonly<Record<string, string | true>>,
-  key: string,
-): boolean {
+function readBooleanOption(options: Readonly<Record<string, string | true>>, key: string): boolean {
   const value = options[key];
   if (value === undefined) {
     return false;
@@ -332,19 +329,18 @@ function printDependencyHint(item: RegistryItem): void {
   }
 }
 
-function formatImportHint(item: RegistryItem): string | null {
-  if (item.name !== 'button') {
-    return null;
-  }
+function toPascalCase(value: string): string {
+  return value.replace(/(^\w)|(-\w)/g, (match) => match.replace('-', '').toUpperCase());
+}
 
-  return "Import with: import { TngButton } from './tailng-ui/button';";
+function formatImportHint(item: RegistryItem): string {
+  const componentSymbol = `Tng${toPascalCase(item.name)}`;
+  return `Import with: import { ${componentSymbol} } from './tailng-ui/${item.name}';`;
 }
 
 function printImportHint(item: RegistryItem): void {
   const importHint = formatImportHint(item);
-  if (importHint) {
-    writeInfo(importHint);
-  }
+  writeInfo(importHint);
 }
 
 function printExistingTargetsError(existingTargets: readonly WriteTarget[]): void {
@@ -403,10 +399,7 @@ async function writeTargets(targets: readonly WriteTarget[]): Promise<void> {
   }
 }
 
-async function runAddCommand(
-  command: AddCommand,
-  registry: RegistryModule,
-): Promise<number> {
+async function runAddCommand(command: AddCommand, registry: RegistryModule): Promise<number> {
   const item = registry.getRegistryItem(command.componentName);
   if (!item) {
     writeError(`Unknown component "${command.componentName}".`);

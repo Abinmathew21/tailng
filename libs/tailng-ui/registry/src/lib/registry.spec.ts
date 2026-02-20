@@ -1,15 +1,24 @@
 import { describe, expect, it } from 'vitest';
 import { buttonRegistryItem } from './button/button.registry';
+import { checkboxRegistryItem } from './checkbox/checkbox.registry';
+import { inputRegistryItem } from './input/input.registry';
+import { radioRegistryItem } from './radio/radio.registry';
 import { getRegistryItem, listRegistryItemNames, tailngRegistry } from './registry';
 
 describe('registry helpers', () => {
   it('returns all registered component names', () => {
-    expect(listRegistryItemNames()).toEqual(['button']);
+    expect(listRegistryItemNames()).toEqual(['button', 'checkbox', 'input', 'radio']);
     expect(tailngRegistry).toContain(buttonRegistryItem);
+    expect(tailngRegistry).toContain(checkboxRegistryItem);
+    expect(tailngRegistry).toContain(inputRegistryItem);
+    expect(tailngRegistry).toContain(radioRegistryItem);
   });
 
   it('resolves known item and returns undefined for unknown', () => {
     expect(getRegistryItem('button')).toEqual(buttonRegistryItem);
+    expect(getRegistryItem('checkbox')).toEqual(checkboxRegistryItem);
+    expect(getRegistryItem('input')).toEqual(inputRegistryItem);
+    expect(getRegistryItem('radio')).toEqual(radioRegistryItem);
     expect(getRegistryItem('unknown')).toBeUndefined();
   });
 });

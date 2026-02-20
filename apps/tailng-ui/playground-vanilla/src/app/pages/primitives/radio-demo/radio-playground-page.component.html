@@ -1,0 +1,58 @@
+<main class="page">
+  <section class="container">
+    <header class="hero">
+      <div class="links">
+        <a routerLink="/">Home</a>
+        <a routerLink="/button">Button Demo</a>
+        <a routerLink="/input">Input Demo</a>
+        <a routerLink="/checkbox">Checkbox Demo</a>
+      </div>
+      <h1 class="title">Radio Demo (Vanilla CSS)</h1>
+      <p class="subtitle">
+        Native keyboard behavior from primitives, with owned wrapper styles for consistent visuals.
+      </p>
+    </header>
+
+    <section class="card">
+      <h2>Primitives (`tngRadio`)</h2>
+      <div class="stack">
+        <label class="row"><input tngRadio name="primitive-plan" [checked]="true" /> Starter</label>
+        <label class="row"><input tngRadio name="primitive-plan" /> Pro</label>
+        <label class="row disabled"
+          ><input tngRadio name="primitive-plan" [disabled]="true" /> Enterprise (disabled)</label
+        >
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Components (`tng-radio`)</h2>
+      <div class="stack">
+        <tng-radio
+          name="owned-plan"
+          value="starter"
+          [checked]="selectedPlan() === 'starter'"
+          (checkedChange)="onPlanChecked('starter', $event)"
+        >
+          Starter
+        </tng-radio>
+        <tng-radio
+          name="owned-plan"
+          value="pro"
+          [checked]="selectedPlan() === 'pro'"
+          (checkedChange)="onPlanChecked('pro', $event)"
+        >
+          Pro
+        </tng-radio>
+        <tng-radio
+          name="owned-plan"
+          value="enterprise"
+          [checked]="selectedPlan() === 'enterprise'"
+          (checkedChange)="onPlanChecked('enterprise', $event)"
+        >
+          Enterprise
+        </tng-radio>
+      </div>
+      <p class="current">Current selection: {{ selectedPlan() }}</p>
+    </section>
+  </section>
+</main>

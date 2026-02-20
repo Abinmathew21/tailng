@@ -1,0 +1,47 @@
+<main class="page">
+  <section class="container">
+    <header class="hero">
+      <div class="links">
+        <a routerLink="/">Home</a>
+        <a routerLink="/button">Button Demo</a>
+        <a routerLink="/radio">Radio Demo</a>
+        <a routerLink="/checkbox">Checkbox Demo</a>
+      </div>
+      <h1 class="title">Input Demo (Vanilla CSS)</h1>
+      <p class="subtitle">
+        Compare raw primitive usage (`tngInput`) with owned `tng-input` styling.
+      </p>
+    </header>
+
+    <section class="card">
+      <h2>Primitives (`tngInput`)</h2>
+      <div class="stack">
+        <input tngInput type="text" placeholder="Email" class="primitive-input" />
+        <input
+          tngInput
+          type="search"
+          placeholder="Search docs"
+          [ariaInvalid]="true"
+          class="primitive-input invalid"
+        />
+        <input
+          tngInput
+          type="password"
+          placeholder="Readonly token"
+          [readonly]="true"
+          value="tailng-secret"
+          class="primitive-input"
+        />
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Components (`tng-input`)</h2>
+      <div class="stack">
+        <tng-input placeholder="Project name" />
+        <tng-input type="email" placeholder="team@tailng.dev" [required]="true" />
+        <tng-input placeholder="Disabled input" [disabled]="true" value="Cannot edit" />
+      </div>
+    </section>
+  </section>
+</main>
