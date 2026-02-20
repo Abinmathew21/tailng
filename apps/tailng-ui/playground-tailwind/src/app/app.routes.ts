@@ -21,6 +21,13 @@ export const appRoutes: Route[] = [
       ),
   },
   {
+    path: 'card',
+    loadComponent: () =>
+      import('./pages/primitives/card-demo/card-playground-page.component').then(
+        (module) => module.CardPlaygroundPageComponent,
+      ),
+  },
+  {
     path: 'input',
     loadComponent: () =>
       import('./pages/primitives/input-demo/input-playground-page.component').then(

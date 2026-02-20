@@ -1,4 +1,5 @@
 export * from './lib/button/button.registry';
+export * from './lib/card/card.registry';
 export * from './lib/checkbox/checkbox.registry';
 export * from './lib/input/input.registry';
 export * from './lib/radio/radio.registry';
