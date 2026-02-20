@@ -3,6 +3,7 @@ export * from './lib/avatar/avatar.registry';
 export * from './lib/menu/menu.registry';
 export * from './lib/dropdown-menu/dropdown-menu.registry';
 export * from './lib/context-menu/context-menu.registry';
+export * from './lib/menubar/menubar.registry';
 export * from './lib/tag/tag.registry';
 export * from './lib/button/button.registry';
 export * from './lib/card/card.registry';

@@ -154,6 +154,13 @@ export const appRoutes: Route[] = [
       ),
   },
   {
+    path: 'menubar',
+    loadComponent: () =>
+      import('./pages/components/menubar-demo/menubar-playground-page.component').then(
+        (module) => module.MenubarPlaygroundPageComponent,
+      ),
+  },
+  {
     path: '**',
     redirectTo: '',
   },
