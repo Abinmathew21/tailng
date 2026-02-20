@@ -1,0 +1,37 @@
+<main class="page">
+  <section class="container">
+    <header class="hero">
+      <div class="links">
+        <a routerLink="/">Home</a>
+      </div>
+      <h1 class="title">Breadcrumb Demo (Vanilla CSS)</h1>
+      <p class="subtitle">Hierarchical navigation trail for current page location.</p>
+    </header>
+
+    <section class="card">
+      <h2>Primitives</h2>
+      <nav tngBreadcrumb aria-label="Breadcrumb">
+        <ol tngBreadcrumbList>
+          <li tngBreadcrumbItem><a tngBreadcrumbLink href="#">Home</a></li>
+          <span tngBreadcrumbSeparator>/</span>
+          <li tngBreadcrumbItem><a tngBreadcrumbLink href="#">Docs</a></li>
+          <span tngBreadcrumbSeparator>/</span>
+          <li tngBreadcrumbItem>Breadcrumb</li>
+        </ol>
+      </nav>
+    </section>
+
+    <section class="card">
+      <h2>Component</h2>
+      <tng-breadcrumb>
+        <ol tngBreadcrumbList>
+          <li tngBreadcrumbItem><a tngBreadcrumbLink href="#">Home</a></li>
+          <span tngBreadcrumbSeparator>/</span>
+          <li tngBreadcrumbItem><a tngBreadcrumbLink href="#">Playground</a></li>
+          <span tngBreadcrumbSeparator>/</span>
+          <li tngBreadcrumbItem>Breadcrumb Demo</li>
+        </ol>
+      </tng-breadcrumb>
+    </section>
+  </section>
+</main>

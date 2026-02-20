@@ -2,6 +2,7 @@ import { accordionRegistryItem } from './accordion/accordion.registry';
 import { autocompleteRegistryItem } from './autocomplete/autocomplete.registry';
 import { avatarRegistryItem } from './avatar/avatar.registry';
 import { bottomsheetRegistryItem } from './bottom-sheet/bottom-sheet.registry';
+import { breadcrumbRegistryItem } from './breadcrumb/breadcrumb.registry';
 import { buttonRegistryItem } from './button/button.registry';
 import { cardRegistryItem } from './card/card.registry';
 import { checkboxRegistryItem } from './checkbox/checkbox.registry';
@@ -39,6 +40,7 @@ import { treeRegistryItem } from './tree/tree.registry';
 export const tailngRegistry: readonly RegistryItem[] = [
   accordionRegistryItem,
   avatarRegistryItem,
+  breadcrumbRegistryItem,
   tagRegistryItem,
   buttonRegistryItem,
   cardRegistryItem,

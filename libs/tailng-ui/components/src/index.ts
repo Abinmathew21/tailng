@@ -1,5 +1,6 @@
 export * from './lib/accordion/tng-accordion.component';
 export * from './lib/avatar/tng-avatar.component';
+export * from './lib/breadcrumb/tng-breadcrumb.component';
 export * from './lib/menu/tng-menu.component';
 export * from './lib/dropdown-menu/tng-dropdown-menu.component';
 export * from './lib/context-menu/tng-context-menu.component';

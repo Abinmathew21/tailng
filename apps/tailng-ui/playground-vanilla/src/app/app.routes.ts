@@ -175,6 +175,13 @@ export const appRoutes: Route[] = [
       ),
   },
   {
+    path: 'breadcrumb',
+    loadComponent: () =>
+      import('./pages/components/breadcrumb-demo/breadcrumb-playground-page.component').then(
+        (module) => module.BreadcrumbPlaygroundPageComponent,
+      ),
+  },
+  {
     path: 'toolbar',
     loadComponent: () =>
       import('./pages/components/toolbar-demo/toolbar-playground-page.component').then(

@@ -1,5 +1,6 @@
 export * from './lib/accordion/accordion.registry';
 export * from './lib/avatar/avatar.registry';
+export * from './lib/breadcrumb/breadcrumb.registry';
 export * from './lib/menu/menu.registry';
 export * from './lib/dropdown-menu/dropdown-menu.registry';
 export * from './lib/context-menu/context-menu.registry';
