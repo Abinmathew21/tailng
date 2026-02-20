@@ -25,7 +25,11 @@ function firstId(ids: readonly string[]): string | null {
 }
 
 function lastId(ids: readonly string[]): string | null {
-  return ids.at(-1) ?? null;
+  if (ids.length === 0) {
+    return null;
+  }
+
+  return ids[ids.length - 1] ?? null;
 }
 
 class ActiveDescendantController implements TngActiveDescendantController {

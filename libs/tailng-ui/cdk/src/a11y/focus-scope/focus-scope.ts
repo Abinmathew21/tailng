@@ -25,7 +25,11 @@ function pushScopeToTop(scopeId: string): void {
 }
 
 function isTopMostScope(scopeId: string): boolean {
-  return activeScopeStack.at(-1) === scopeId;
+  if (activeScopeStack.length === 0) {
+    return false;
+  }
+
+  return activeScopeStack[activeScopeStack.length - 1] === scopeId;
 }
 
 function normalizeMemberId(id: string): string | null {
