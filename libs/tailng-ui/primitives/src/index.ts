@@ -11,6 +11,7 @@ export * from './lib/stepper/tng-stepper';
 export * from './lib/toggle-group/tng-toggle-group';
 export * from './lib/chips/tng-chips';
 export * from './lib/combobox/tng-combobox';
+export * from './lib/select/tng-select';
 export * from './lib/tag/tng-tag';
 export * from './lib/button/tng-button';
 export * from './lib/card/tng-card';

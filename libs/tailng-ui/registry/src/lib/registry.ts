@@ -17,6 +17,7 @@ import { stepperRegistryItem } from './stepper/stepper.registry';
 import { togglegroupRegistryItem } from './toggle-group/toggle-group.registry';
 import { chipsRegistryItem } from './chips/chips.registry';
 import { comboboxRegistryItem } from './combobox/combobox.registry';
+import { selectRegistryItem } from './select/select.registry';
 import { popoverRegistryItem } from './popover/popover.registry';
 import { progressBarRegistryItem } from './progress-bar/progress-bar.registry';
 import { progressSpinnerRegistryItem } from './progress-spinner/progress-spinner.registry';
@@ -47,6 +48,7 @@ export const tailngRegistry: readonly RegistryItem[] = [
   togglegroupRegistryItem,
   chipsRegistryItem,
   comboboxRegistryItem,
+  selectRegistryItem,
   popoverRegistryItem,
   progressBarRegistryItem,
   progressSpinnerRegistryItem,

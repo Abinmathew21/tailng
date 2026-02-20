@@ -210,6 +210,13 @@ export const appRoutes: Route[] = [
       ),
   },
   {
+    path: 'select',
+    loadComponent: () =>
+      import('./pages/components/select-demo/select-playground-page.component').then(
+        (module) => module.SelectPlaygroundPageComponent,
+      ),
+  },
+  {
     path: '**',
     redirectTo: '',
   },
