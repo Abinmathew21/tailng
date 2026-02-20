@@ -147,6 +147,13 @@ export const appRoutes: Route[] = [
       ),
   },
   {
+    path: 'context-menu',
+    loadComponent: () =>
+      import('./pages/components/context-menu-demo/context-menu-playground-page.component').then(
+        (module) => module.ContextMenuPlaygroundPageComponent,
+      ),
+  },
+  {
     path: '**',
     redirectTo: '',
   },

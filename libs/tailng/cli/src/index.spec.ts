@@ -126,6 +126,20 @@ it('tailng cli integration: add writes dropdown-menu source files', async (): Pr
   ).toBe(true);
 });
 
+
+it('tailng cli integration: add writes context-menu source files', async (): Promise<void> => {
+  const targetRoot = await createTargetRoot();
+
+  const exitCode = await runCli(['add', 'context-menu', '--cwd', targetRoot], {
+    registry: registryModule,
+  });
+
+  expect(exitCode).toBe(0);
+  expect(await pathExists(path.join(targetRoot, 'src/app/tailng-ui/context-menu/tng-context-menu.ts'))).toBe(true);
+  expect(
+    await pathExists(path.join(targetRoot, 'src/app/tailng-ui/context-menu/tng-context-menu-primitive.ts')),
+  ).toBe(true);
+});
 it('tailng cli integration: add writes avatar source files', async (): Promise<void> => {
   const targetRoot = await createTargetRoot();
 

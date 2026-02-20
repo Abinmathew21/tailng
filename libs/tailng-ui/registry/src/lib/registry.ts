@@ -8,6 +8,7 @@ import { dropdownMenuRegistryItem } from './dropdown-menu/dropdown-menu.registry
 import { emptyRegistryItem } from './empty/empty.registry';
 import { inputRegistryItem } from './input/input.registry';
 import { menuRegistryItem } from './menu/menu.registry';
+import { contextmenuRegistryItem } from './context-menu/context-menu.registry';
 import { popoverRegistryItem } from './popover/popover.registry';
 import { progressBarRegistryItem } from './progress-bar/progress-bar.registry';
 import { progressSpinnerRegistryItem } from './progress-spinner/progress-spinner.registry';
@@ -29,6 +30,7 @@ export const tailngRegistry: readonly RegistryItem[] = [
   emptyRegistryItem,
   inputRegistryItem,
   menuRegistryItem,
+  contextmenuRegistryItem,
   popoverRegistryItem,
   progressBarRegistryItem,
   progressSpinnerRegistryItem,
