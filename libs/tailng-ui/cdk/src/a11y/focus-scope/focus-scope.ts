@@ -25,8 +25,7 @@ function pushScopeToTop(scopeId: string): void {
 }
 
 function isTopMostScope(scopeId: string): boolean {
-  const topScopeId = activeScopeStack[activeScopeStack.length - 1];
-  return topScopeId === scopeId;
+  return activeScopeStack.at(-1) === scopeId;
 }
 
 function normalizeMemberId(id: string): string | null {
@@ -53,6 +52,7 @@ function normalizeMemberIds(ids: readonly string[] | undefined): readonly string
 
 class FocusScopeController implements TngFocusScopeController {
   private active = false;
+  private hadMemberRestrictions = false;
   private lastFocusedId: string | null = null;
   private readonly memberIds = new Set<string>();
   private readonly restoreFocus: boolean;
@@ -65,7 +65,9 @@ class FocusScopeController implements TngFocusScopeController {
     this.scopeId = createScopeId();
     this.trapFocus = options.trapFocus ?? false;
 
-    for (const memberId of normalizeMemberIds(options.members)) {
+    const initialMemberIds = normalizeMemberIds(options.members);
+    this.hadMemberRestrictions = initialMemberIds.length > 0;
+    for (const memberId of initialMemberIds) {
       this.memberIds.add(memberId);
     }
   }
@@ -129,12 +131,17 @@ class FocusScopeController implements TngFocusScopeController {
     const normalizedId = normalizeMemberId(id);
     if (normalizedId !== null) {
       this.memberIds.add(normalizedId);
+      this.hadMemberRestrictions = true;
     }
   }
 
   public resolveFocusCandidate(candidateId: string | null): string | null {
-    if (!this.isTrapActive() || this.memberIds.size === 0) {
+    if (!this.isTrapActive()) {
       return candidateId;
+    }
+
+    if (this.memberIds.size === 0) {
+      return this.hadMemberRestrictions ? null : candidateId;
     }
 
     if (candidateId !== null && this.memberIds.has(candidateId)) {
