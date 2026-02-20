@@ -94,6 +94,22 @@ it('tailng cli integration: add writes checkbox source files', async (): Promise
   ).toBe(true);
 });
 
+it('tailng cli integration: add writes textarea source files', async (): Promise<void> => {
+  const targetRoot = await createTargetRoot();
+
+  const exitCode = await runCli(['add', 'textarea', '--cwd', targetRoot], {
+    registry: registryModule,
+  });
+
+  expect(exitCode).toBe(0);
+  expect(
+    await pathExists(path.join(targetRoot, 'src/app/tailng-ui/textarea/tng-textarea.ts')),
+  ).toBe(true);
+  expect(
+    await pathExists(path.join(targetRoot, 'src/app/tailng-ui/textarea/tng-textarea-primitive.ts')),
+  ).toBe(true);
+});
+
 it('tailng cli integration: returns non-zero when files already exist without --force', async (): Promise<void> => {
   const targetRoot = await createTargetRoot();
 

@@ -3,15 +3,17 @@ import { buttonRegistryItem } from './button/button.registry';
 import { checkboxRegistryItem } from './checkbox/checkbox.registry';
 import { inputRegistryItem } from './input/input.registry';
 import { radioRegistryItem } from './radio/radio.registry';
+import { textareaRegistryItem } from './textarea/textarea.registry';
 import { getRegistryItem, listRegistryItemNames, tailngRegistry } from './registry';
 
 describe('registry helpers', () => {
   it('returns all registered component names', () => {
-    expect(listRegistryItemNames()).toEqual(['button', 'checkbox', 'input', 'radio']);
+    expect(listRegistryItemNames()).toEqual(['button', 'checkbox', 'input', 'radio', 'textarea']);
     expect(tailngRegistry).toContain(buttonRegistryItem);
     expect(tailngRegistry).toContain(checkboxRegistryItem);
     expect(tailngRegistry).toContain(inputRegistryItem);
     expect(tailngRegistry).toContain(radioRegistryItem);
+    expect(tailngRegistry).toContain(textareaRegistryItem);
   });
 
   it('resolves known item and returns undefined for unknown', () => {
@@ -19,6 +21,7 @@ describe('registry helpers', () => {
     expect(getRegistryItem('checkbox')).toEqual(checkboxRegistryItem);
     expect(getRegistryItem('input')).toEqual(inputRegistryItem);
     expect(getRegistryItem('radio')).toEqual(radioRegistryItem);
+    expect(getRegistryItem('textarea')).toEqual(textareaRegistryItem);
     expect(getRegistryItem('unknown')).toBeUndefined();
   });
 });

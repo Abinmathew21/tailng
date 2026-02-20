@@ -42,6 +42,13 @@ export const appRoutes: Route[] = [
       ),
   },
   {
+    path: 'textarea',
+    loadComponent: () =>
+      import('./pages/primitives/textarea-demo/textarea-playground-page.component').then(
+        (module) => module.TextareaPlaygroundPageComponent,
+      ),
+  },
+  {
     path: 'icons',
     loadComponent: () =>
       import('./pages/icons/icon-demo/icon-playground-page.component').then(

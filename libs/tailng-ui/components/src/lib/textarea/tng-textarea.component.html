@@ -1,0 +1,14 @@
+<textarea
+  tngTextarea
+  class="tng-textarea"
+  [rows]="rows()"
+  [disabled]="disabled()"
+  [readonly]="readonly()"
+  [required]="required()"
+  [ariaDescribedBy]="ariaDescribedBy()"
+  [ariaInvalid]="ariaInvalid()"
+  [ariaRequired]="ariaRequired()"
+  [attr.placeholder]="placeholder()"
+  [value]="value() ?? ''"
+  (input)="onInput($event)"
+></textarea>
