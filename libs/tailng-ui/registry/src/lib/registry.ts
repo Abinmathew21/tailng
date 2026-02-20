@@ -1,3 +1,4 @@
+import { avatarRegistryItem } from './avatar/avatar.registry';
 import { buttonRegistryItem } from './button/button.registry';
 import { cardRegistryItem } from './card/card.registry';
 import { checkboxRegistryItem } from './checkbox/checkbox.registry';
@@ -9,6 +10,7 @@ import type { RegistryItem } from './registry.types';
 import { textareaRegistryItem } from './textarea/textarea.registry';
 
 export const tailngRegistry: readonly RegistryItem[] = [
+  avatarRegistryItem,
   buttonRegistryItem,
   cardRegistryItem,
   checkboxRegistryItem,

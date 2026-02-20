@@ -1,0 +1,14 @@
+<span tngAvatar class="tng-avatar" [attr.data-shape]="shape()" [attr.data-size]="size()">
+  <img
+    tngAvatarImage
+    class="tng-avatar-image"
+    [attr.alt]="resolvedAlt()"
+    [attr.hidden]="showFallback() ? '' : null"
+    [attr.src]="resolvedSrc()"
+    (error)="onImageError()"
+    (load)="onImageLoad()"
+  />
+  <span tngAvatarFallback class="tng-avatar-fallback" [attr.hidden]="showFallback() ? null : ''">
+    {{ fallbackText() }}
+  </span>
+</span>

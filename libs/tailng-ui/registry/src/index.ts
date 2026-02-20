@@ -1,3 +1,4 @@
+export * from './lib/avatar/avatar.registry';
 export * from './lib/button/button.registry';
 export * from './lib/card/card.registry';
 export * from './lib/checkbox/checkbox.registry';

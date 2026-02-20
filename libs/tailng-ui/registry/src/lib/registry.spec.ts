@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { avatarRegistryItem } from './avatar/avatar.registry';
 import { buttonRegistryItem } from './button/button.registry';
 import { cardRegistryItem } from './card/card.registry';
 import { checkboxRegistryItem } from './checkbox/checkbox.registry';
@@ -12,6 +13,7 @@ import { textareaRegistryItem } from './textarea/textarea.registry';
 describe('registry helpers', () => {
   it('returns all registered component names', () => {
     expect(listRegistryItemNames()).toEqual([
+      'avatar',
       'button',
       'card',
       'checkbox',
@@ -21,6 +23,7 @@ describe('registry helpers', () => {
       'radio',
       'textarea',
     ]);
+    expect(tailngRegistry).toContain(avatarRegistryItem);
     expect(tailngRegistry).toContain(buttonRegistryItem);
     expect(tailngRegistry).toContain(cardRegistryItem);
     expect(tailngRegistry).toContain(checkboxRegistryItem);
@@ -32,6 +35,7 @@ describe('registry helpers', () => {
   });
 
   it('resolves known item and returns undefined for unknown', () => {
+    expect(getRegistryItem('avatar')).toEqual(avatarRegistryItem);
     expect(getRegistryItem('button')).toEqual(buttonRegistryItem);
     expect(getRegistryItem('card')).toEqual(cardRegistryItem);
     expect(getRegistryItem('checkbox')).toEqual(checkboxRegistryItem);
