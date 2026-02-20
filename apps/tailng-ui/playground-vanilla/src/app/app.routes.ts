@@ -252,6 +252,13 @@ export const appRoutes: Route[] = [
       ),
   },
   {
+    path: 'bottom-sheet',
+    loadComponent: () =>
+      import('./pages/components/bottom-sheet-demo/bottom-sheet-playground-page.component').then(
+        (module) => module.BottomSheetPlaygroundPageComponent,
+      ),
+  },
+  {
     path: '**',
     redirectTo: '',
   },

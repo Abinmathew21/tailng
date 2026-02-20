@@ -17,6 +17,7 @@ export * from './lib/multiselect/tng-multiselect.component';
 export * from './lib/grid/tng-grid.component';
 export * from './lib/tree/tng-tree.component';
 export * from './lib/drawer/tng-drawer.component';
+export * from './lib/bottom-sheet/tng-bottom-sheet.component';
 export * from './lib/tag/tng-tag.component';
 export * from './lib/button/tng-button.component';
 export * from './lib/card/tng-card.component';
