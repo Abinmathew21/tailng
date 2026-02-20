@@ -196,6 +196,13 @@ export const appRoutes: Route[] = [
       ),
   },
   {
+    path: 'switch',
+    loadComponent: () =>
+      import('./pages/components/switch-demo/switch-playground-page.component').then(
+        (module) => module.SwitchPlaygroundPageComponent,
+      ),
+  },
+  {
     path: 'chips',
     loadComponent: () =>
       import('./pages/components/chips-demo/chips-playground-page.component').then(

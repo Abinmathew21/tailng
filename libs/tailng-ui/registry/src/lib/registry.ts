@@ -26,6 +26,7 @@ import type { RegistryItem } from './registry.types';
 import { selectRegistryItem } from './select/select.registry';
 import { separatorRegistryItem } from './separator/separator.registry';
 import { stepperRegistryItem } from './stepper/stepper.registry';
+import { switchRegistryItem } from './switch/switch.registry';
 import { tabsRegistryItem } from './tabs/tabs.registry';
 import { tagRegistryItem } from './tag/tag.registry';
 import { textareaRegistryItem } from './textarea/textarea.registry';
@@ -55,6 +56,7 @@ export const tailngRegistry: readonly RegistryItem[] = [
   chipsRegistryItem,
   comboboxRegistryItem,
   selectRegistryItem,
+  switchRegistryItem,
   autocompleteRegistryItem,
   multiselectRegistryItem,
   gridRegistryItem,

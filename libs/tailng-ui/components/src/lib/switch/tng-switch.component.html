@@ -1,0 +1,16 @@
+<div class="tng-switch-root" [attr.data-disabled]="disabled() ? '' : null">
+  <button
+    tngSwitch
+    class="tng-switch-control"
+    [checked]="checked()"
+    [disabled]="disabled()"
+    (click)="onToggle()"
+  >
+    <span class="tng-switch-track">
+      <span class="tng-switch-thumb"></span>
+    </span>
+  </button>
+  <span class="tng-switch-label">
+    <ng-content />
+  </span>
+</div>

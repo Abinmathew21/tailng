@@ -12,6 +12,7 @@ export * from './lib/toggle-group/tng-toggle-group';
 export * from './lib/chips/tng-chips';
 export * from './lib/combobox/tng-combobox';
 export * from './lib/select/tng-select';
+export * from './lib/switch/tng-switch';
 export * from './lib/autocomplete/tng-autocomplete';
 export * from './lib/multiselect/tng-multiselect';
 export * from './lib/grid/tng-grid';

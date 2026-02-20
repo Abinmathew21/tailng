@@ -1,0 +1,26 @@
+<main class="page">
+  <section class="container">
+    <header class="hero">
+      <div class="links">
+        <a routerLink="/">Home</a>
+      </div>
+      <h1 class="title">Switch Demo (Vanilla CSS)</h1>
+      <p class="subtitle">On/off control with accessible role and state attributes.</p>
+    </header>
+
+    <section class="card">
+      <h2>Primitives (`tngSwitch`)</h2>
+      <button tngSwitch class="primitive-shell">Primitive switch shell</button>
+    </section>
+
+    <section class="card">
+      <h2>Components (`tng-switch`)</h2>
+      <tng-switch
+        [checked]="notificationsEnabled()"
+        (checkedChange)="onNotificationsEnabledChange($event)"
+      >
+        Notifications {{ notificationsEnabled() ? 'enabled' : 'disabled' }}
+      </tng-switch>
+    </section>
+  </section>
+</main>
