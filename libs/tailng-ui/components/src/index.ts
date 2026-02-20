@@ -31,4 +31,5 @@ export * from './lib/progress-bar/tng-progress-bar.component';
 export * from './lib/progress-spinner/tng-progress-spinner.component';
 export * from './lib/radio/tng-radio.component';
 export * from './lib/separator/tng-separator.component';
+export * from './lib/slider/tng-slider.component';
 export * from './lib/textarea/tng-textarea.component';

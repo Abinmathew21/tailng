@@ -203,6 +203,13 @@ export const appRoutes: Route[] = [
       ),
   },
   {
+    path: 'slider',
+    loadComponent: () =>
+      import('./pages/components/slider-demo/slider-playground-page.component').then(
+        (module) => module.SliderPlaygroundPageComponent,
+      ),
+  },
+  {
     path: 'chips',
     loadComponent: () =>
       import('./pages/components/chips-demo/chips-playground-page.component').then(

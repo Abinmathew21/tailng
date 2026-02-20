@@ -29,4 +29,5 @@ export * from './lib/progress-bar/tng-progress-bar';
 export * from './lib/progress-spinner/tng-progress-spinner';
 export * from './lib/radio/tng-radio';
 export * from './lib/separator/tng-separator';
+export * from './lib/slider/tng-slider';
 export * from './lib/textarea/tng-textarea';
