@@ -19,10 +19,8 @@ describe('resolveTngIconConfig defaults', () => {
 
     expect(config.defaultPack).toBe(TNG_DEFAULT_ICON_PACK);
     expect(config.packs.lucide).toBeDefined();
-    expect(config.packs.bootstrap).toBeDefined();
     expect(config.packs.lucide.bell).toBeDefined();
-    expect(config.packs.bootstrap.bell).toBeDefined();
-    expect(TNG_BUILTIN_ICON_PACK_NAMES).toEqual(['bootstrap', 'lucide']);
+    expect(TNG_BUILTIN_ICON_PACK_NAMES).toEqual(['lucide']);
   });
 
   it('loads the bell icon from the default pack', async () => {
@@ -43,9 +41,22 @@ describe('resolveTngIconConfig defaults', () => {
     });
 
     expect(config.defaultPack).toBe('customPack1');
-    expect(config.packs.bootstrap).toBeDefined();
     expect(config.packs.lucide).toBeDefined();
     expect(config.packs.customPack1.bell).toBeDefined();
+  });
+
+  it('allows bootstrap as a custom pack name', () => {
+    const config = resolveTngIconConfig({
+      defaultPack: 'bootstrap',
+      packs: [
+        createTngIconPack('bootstrap', {
+          bell: createLoaderWithValue('<svg id="bootstrap-custom"/>'),
+        }),
+      ],
+    });
+
+    expect(config.defaultPack).toBe('bootstrap');
+    expect(config.packs.bootstrap.bell).toBeDefined();
   });
 });
 
@@ -77,9 +88,7 @@ describe('resolveTngIconConfig reserved pack names', () => {
 
 describe('resolveTngIconConfig reserved override behavior', () => {
   it('allows reserved pack override when allowBuiltinOverride is true', async () => {
-    const overrideLoader = vi.fn((): Promise<string> =>
-      Promise.resolve('<svg id="override"/>'),
-    );
+    const overrideLoader = vi.fn((): Promise<string> => Promise.resolve('<svg id="override"/>'));
 
     const config = resolveTngIconConfig({
       allowBuiltinOverride: true,
@@ -92,8 +101,8 @@ describe('resolveTngIconConfig reserved override behavior', () => {
   });
 
   it('maps reserved override names to canonical built-in pack names', async () => {
-    const overrideLoader = vi.fn((): Promise<string> =>
-      Promise.resolve('<svg id="override-canonical"/>'),
+    const overrideLoader = vi.fn(
+      (): Promise<string> => Promise.resolve('<svg id="override-canonical"/>'),
     );
 
     const config = resolveTngIconConfig({
@@ -141,10 +150,10 @@ describe('parseTngIconRef', () => {
     });
   });
 
-  it('normalizes built-in pack names in references and default pack values', () => {
-    expect(parseTngIconRef('Bootstrap:bell', 'lucide')).toEqual({
+  it('normalizes only built-in pack names in references and default pack values', () => {
+    expect(parseTngIconRef('Lucide:bell', 'lucide')).toEqual({
       name: 'bell',
-      pack: 'bootstrap',
+      pack: 'lucide',
     });
     expect(parseTngIconRef('bell', 'Lucide')).toEqual({
       name: 'bell',
@@ -154,16 +163,14 @@ describe('parseTngIconRef', () => {
 
   it('throws on empty icon reference or malformed pack syntax', () => {
     expect(() => parseTngIconRef('', 'lucide')).toThrow('icon cannot be empty');
-    expect(() => parseTngIconRef('bootstrap:', 'lucide')).toThrow('icon name');
+    expect(() => parseTngIconRef('customPack:', 'lucide')).toThrow('icon name');
     expect(() => parseTngIconRef(':bell', 'lucide')).toThrow('icon pack');
   });
 });
 
 describe('TngIconResolver', () => {
   it('loads icons from the default pack and caches repeated requests', async () => {
-    const trackedLoader = vi.fn((): Promise<string> =>
-      Promise.resolve('<svg id="cached"/>'),
-    );
+    const trackedLoader = vi.fn((): Promise<string> => Promise.resolve('<svg id="cached"/>'));
 
     const config = resolveTngIconConfig({
       defaultPack: 'customPack1',

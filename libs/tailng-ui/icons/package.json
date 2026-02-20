@@ -2,7 +2,6 @@
   "name": "@tailng-ui/icons",
   "version": "0.0.1",
   "dependencies": {
-    "@ng-icons/bootstrap-icons": "^33.1.0",
     "@ng-icons/core": "^32.4.0",
     "@ng-icons/lucide": "^33.1.0"
   },
