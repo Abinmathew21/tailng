@@ -10,6 +10,8 @@ export {
   resolveTngIconConfig,
 } from './lib/icons';
 
+export { TngIcon, resolveTngIcon } from './lib/tng-icon';
+
 export type {
   TngIconLoader,
   TngIconPack,

@@ -45,7 +45,11 @@
                 <td class="px-5 py-3 font-mono text-cyan-300">#{{ country.rank }}</td>
                 <td class="px-5 py-3">
                   <div class="flex items-center gap-3">
-                    <span [ngClass]="['fi', 'flag', 'fi-' + country.iso2]" aria-hidden="true"></span>
+                    <tng-icon
+                      [icon]="'flag:' + country.iso2"
+                      [label]="country.name + ' flag'"
+                      class="text-xl leading-none"
+                    />
                     <span>{{ country.name }}</span>
                   </div>
                 </td>
@@ -58,7 +62,7 @@
                     [attr.aria-label]="'Relative rank signal for position ' + country.rank"
                   >
                     @for (marker of country.peopleMarkers; track marker) {
-                      <span aria-hidden="true" class="text-base leading-none">👥</span>
+                      <tng-icon icon="people" class="text-base leading-none text-cyan-200" />
                     }
                   </span>
                 </td>
