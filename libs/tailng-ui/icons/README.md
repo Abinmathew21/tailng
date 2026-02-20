@@ -9,6 +9,7 @@
 # @tailng-ui/icons
 
 Icon abstraction layer for TailNG.
+`tng-icon` is rendered using `@ng-icons/core` internally.
 
 ## Defaults
 

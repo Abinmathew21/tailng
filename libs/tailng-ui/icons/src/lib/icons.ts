@@ -34,13 +34,15 @@ function createStaticLoader(svg: string): TngIconLoader {
 }
 
 const lucidePackLoaders: TngIconPackLoaders = Object.freeze({
-  bell: createStaticLoader('<svg viewBox="0 0 24 24" fill="none"><path d="M15 17h5l-1.4-1.4A2 2 0 0 1 18 14.2V11a6 6 0 1 0-12 0v3.2a2 2 0 0 1-.6 1.4L4 17h5"/></svg>'),
-  check: createStaticLoader('<svg viewBox="0 0 24 24" fill="none"><path d="m20 6-11 11-5-5"/></svg>'),
+  bell: createStaticLoader('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 17h5l-1.4-1.4A2 2 0 0 1 18 14.2V11a6 6 0 1 0-12 0v3.2a2 2 0 0 1-.6 1.4L4 17h5"/><path d="M9 17a3 3 0 0 0 6 0"/></svg>'),
+  check: createStaticLoader('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11-5-5"/></svg>'),
+  people: createStaticLoader('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><path d="M20 8v6"/><path d="M23 11h-6"/></svg>'),
 });
 
 const bootstrapPackLoaders: TngIconPackLoaders = Object.freeze({
   bell: createStaticLoader('<svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 16a2 2 0 0 0 1.985-1.75h-3.97A2 2 0 0 0 8 16Zm.104-14.995a1 1 0 0 0-.208 0C5.981 1.116 4.5 2.57 4.5 4.5v2.086c0 .658-.194 1.3-.558 1.847L2.09 11.5h11.82l-1.852-3.067A3.5 3.5 0 0 1 11.5 6.586V4.5c0-1.93-1.481-3.384-3.396-3.495Z"/></svg>'),
   check: createStaticLoader('<svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.485 1.929a.75.75 0 0 1 .086 1.057l-7 8a.75.75 0 0 1-1.08.019l-3-3a.75.75 0 1 1 1.06-1.06l2.434 2.433 6.455-7.378a.75.75 0 0 1 1.045-.071Z"/></svg>'),
+  people: createStaticLoader('<svg viewBox="0 0 16 16" fill="currentColor"><path d="M5.216 14A2.238 2.238 0 0 1 3 11.757v-.172A2.239 2.239 0 0 1 5.216 9.34h.57A2.238 2.238 0 0 1 8 11.585v.172A2.237 2.237 0 0 1 5.786 14z"/><path d="M10.5 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/><path d="M5.5 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/><path d="M9.2 14h3.05A1.75 1.75 0 0 0 14 12.245v-.11A1.75 1.75 0 0 0 12.25 10.4h-.75A2.74 2.74 0 0 0 9.2 12.14z"/></svg>'),
 });
 
 export const TNG_DEFAULT_ICON_PACK = 'lucide';

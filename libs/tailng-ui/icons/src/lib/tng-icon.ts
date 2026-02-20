@@ -2,19 +2,20 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  effect,
+  inject,
   input,
+  signal,
 } from '@angular/core';
+import { NgIcon } from '@ng-icons/core';
+import { TNG_ICON_CONFIG, TngIconResolver } from './icons';
 
-const emojiIcons = Object.freeze({
-  people: '👥',
-});
-
-type TngIconKind = 'emoji' | 'flag' | 'unknown';
+type TngIconKind = 'flag' | 'icon' | 'unknown';
 
 type ResolvedTngIcon = Readonly<{
   flagCode: string | null;
+  iconRef: string | null;
   kind: TngIconKind;
-  value: string | null;
 }>;
 
 function normalizeOptionalString(value: string | null | undefined): string | null {
@@ -27,13 +28,20 @@ function normalizeOptionalString(value: string | null | undefined): string | nul
 }
 
 function normalizeIconName(value: string): string {
-  return value.trim().toLowerCase();
+  return value.trim();
+}
+
+function hasFlagPrefix(iconName: string): boolean {
+  const normalizedIconName = iconName.toLowerCase();
+  return normalizedIconName.startsWith('flag:') || normalizedIconName.startsWith('flag-');
 }
 
 function toFlagCode(iconName: string): string | null {
-  const prefix = iconName.startsWith('flag:')
+  const normalizedIconName = iconName.toLowerCase();
+
+  const prefix = normalizedIconName.startsWith('flag:')
     ? 'flag:'
-    : iconName.startsWith('flag-')
+    : normalizedIconName.startsWith('flag-')
       ? 'flag-'
       : null;
 
@@ -41,35 +49,42 @@ function toFlagCode(iconName: string): string | null {
     return null;
   }
 
-  const code = iconName.slice(prefix.length).trim().toLowerCase();
+  const code = normalizedIconName.slice(prefix.length).trim().toLowerCase();
   return /^[a-z]{2}$/.test(code) ? code : null;
 }
 
 export function resolveTngIcon(iconName: string): ResolvedTngIcon {
   const normalizedIconName = normalizeIconName(iconName);
+  if (normalizedIconName.length === 0) {
+    return {
+      flagCode: null,
+      iconRef: null,
+      kind: 'unknown',
+    };
+  }
+
   const flagCode = toFlagCode(normalizedIconName);
 
   if (flagCode !== null) {
     return {
       flagCode,
+      iconRef: null,
       kind: 'flag',
-      value: flagCode,
     };
   }
 
-  const emoji = emojiIcons[normalizedIconName as keyof typeof emojiIcons];
-  if (emoji !== undefined) {
+  if (hasFlagPrefix(normalizedIconName)) {
     return {
       flagCode: null,
-      kind: 'emoji',
-      value: emoji,
+      iconRef: null,
+      kind: 'unknown',
     };
   }
 
   return {
     flagCode: null,
-    kind: 'unknown',
-    value: null,
+    iconRef: normalizedIconName,
+    kind: 'icon',
   };
 }
 
@@ -78,6 +93,7 @@ export function resolveTngIcon(iconName: string): ResolvedTngIcon {
   host: {
     class: 'tng-icon',
   },
+  imports: [NgIcon],
   selector: 'tng-icon',
   styles: [
     `
@@ -89,7 +105,8 @@ export function resolveTngIcon(iconName: string): ResolvedTngIcon {
       }
 
       .tng-icon__flag,
-      .tng-icon__glyph {
+      .tng-icon__fallback,
+      .tng-icon__svg {
         line-height: 1;
       }
 
@@ -99,7 +116,15 @@ export function resolveTngIcon(iconName: string): ResolvedTngIcon {
         font-size: 1em;
       }
 
-      .tng-icon__glyph {
+      .tng-icon__fallback {
+        align-items: center;
+        color: currentColor;
+        display: inline-flex;
+        font-size: 1em;
+        justify-content: center;
+      }
+
+      .tng-icon__svg {
         font-size: 1em;
       }
     `,
@@ -112,14 +137,22 @@ export function resolveTngIcon(iconName: string): ResolvedTngIcon {
         [attr.aria-label]="iconAriaLabel()"
         [attr.role]="iconRole()"
       ></span>
+    } @else if (hasSvg()) {
+      <ng-icon
+        class="tng-icon__svg"
+        [svg]="svg()"
+        [attr.aria-hidden]="iconAriaHidden()"
+        [attr.aria-label]="iconAriaLabel()"
+        [attr.role]="iconRole()"
+      />
     } @else {
       <span
-        class="tng-icon__glyph"
+        class="tng-icon__fallback"
         [attr.aria-hidden]="iconAriaHidden()"
         [attr.aria-label]="iconAriaLabel()"
         [attr.role]="iconRole()"
       >
-        {{ resolvedValue() }}
+        ◻
       </span>
     }
   `,
@@ -129,6 +162,39 @@ export class TngIcon {
   public readonly label = input<string | null, string | null | undefined>(null, {
     transform: normalizeOptionalString,
   });
+  private readonly iconResolver = new TngIconResolver(inject(TNG_ICON_CONFIG));
+  private readonly svgSignal = signal<string | null>(null);
+
+  public constructor() {
+    effect(
+      (onCleanup): void => {
+        const resolvedIcon = this.resolvedIcon();
+        if (resolvedIcon.kind !== 'icon' || resolvedIcon.iconRef === null) {
+          this.svgSignal.set(null);
+          return;
+        }
+
+        let cancelled = false;
+        void this.iconResolver
+          .loadIcon(resolvedIcon.iconRef)
+          .then((resolvedSvg): void => {
+            if (!cancelled) {
+              this.svgSignal.set(resolvedSvg ?? null);
+            }
+          })
+          .catch((): void => {
+            if (!cancelled) {
+              this.svgSignal.set(null);
+            }
+          });
+
+        onCleanup((): void => {
+          cancelled = true;
+        });
+      },
+      { allowSignalWrites: true },
+    );
+  }
 
   protected readonly resolvedIcon = computed(() => resolveTngIcon(this.icon()));
 
@@ -143,6 +209,8 @@ export class TngIcon {
   );
 
   protected readonly isFlag = computed<boolean>(() => this.resolvedIcon().kind === 'flag');
+  protected readonly hasSvg = computed<boolean>(() => this.svgSignal() !== null);
+  protected readonly svg = computed<string>(() => this.svgSignal() ?? '');
 
   protected readonly flagClass = computed<string>(() => {
     const flagCode = this.resolvedIcon().flagCode;
@@ -151,10 +219,5 @@ export class TngIcon {
     }
 
     return `fi fi-${flagCode} tng-icon__flag`;
-  });
-
-  protected readonly resolvedValue = computed<string>(() => {
-    const value = this.resolvedIcon().value;
-    return value ?? '◻';
   });
 }

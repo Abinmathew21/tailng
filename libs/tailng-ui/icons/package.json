@@ -1,7 +1,11 @@
 {
   "name": "@tailng-ui/icons",
   "version": "0.0.1",
+  "dependencies": {
+    "@ng-icons/core": "^32.4.0"
+  },
   "peerDependencies": {
+    "@angular/common": "^21.1.0",
     "@angular/core": "^21.1.0",
     "tslib": "^2.3.0"
   },

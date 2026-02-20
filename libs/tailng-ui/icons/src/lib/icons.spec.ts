@@ -20,7 +20,16 @@ describe('resolveTngIconConfig defaults', () => {
     expect(config.defaultPack).toBe(TNG_DEFAULT_ICON_PACK);
     expect(config.packs.lucide).toBeDefined();
     expect(config.packs.bootstrap).toBeDefined();
+    expect(config.packs.lucide.people).toBeDefined();
+    expect(config.packs.bootstrap.people).toBeDefined();
     expect(TNG_BUILTIN_ICON_PACK_NAMES).toEqual(['bootstrap', 'lucide']);
+  });
+
+  it('loads the people icon from the default pack', async () => {
+    const resolver = new TngIconResolver(resolveTngIconConfig());
+    const iconSvg = await resolver.loadIcon('people');
+
+    expect(iconSvg).toContain('<svg');
   });
 
   it('accepts custom packs without requiring built-in pack registration', () => {
