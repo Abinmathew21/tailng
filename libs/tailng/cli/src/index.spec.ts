@@ -102,9 +102,7 @@ it('tailng cli integration: add writes tag source files', async (): Promise<void
   });
 
   expect(exitCode).toBe(0);
-  expect(await pathExists(path.join(targetRoot, 'src/app/tailng-ui/tag/tng-tag.ts'))).toBe(
-    true,
-  );
+  expect(await pathExists(path.join(targetRoot, 'src/app/tailng-ui/tag/tng-tag.ts'))).toBe(true);
   expect(
     await pathExists(path.join(targetRoot, 'src/app/tailng-ui/tag/tng-tag-primitive.ts')),
   ).toBe(true);
