@@ -13,6 +13,7 @@ export * from './lib/chips/tng-chips.component';
 export * from './lib/combobox/tng-combobox.component';
 export * from './lib/select/tng-select.component';
 export * from './lib/autocomplete/tng-autocomplete.component';
+export * from './lib/multiselect/tng-multiselect.component';
 export * from './lib/tag/tng-tag.component';
 export * from './lib/button/tng-button.component';
 export * from './lib/card/tng-card.component';

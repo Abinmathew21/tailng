@@ -280,6 +280,20 @@ it('tailng cli integration: add writes autocomplete source files', async (): Pro
     await pathExists(path.join(targetRoot, 'src/app/tailng-ui/autocomplete/tng-autocomplete-primitive.ts')),
   ).toBe(true);
 });
+
+it('tailng cli integration: add writes multiselect source files', async (): Promise<void> => {
+  const targetRoot = await createTargetRoot();
+
+  const exitCode = await runCli(['add', 'multiselect', '--cwd', targetRoot], {
+    registry: registryModule,
+  });
+
+  expect(exitCode).toBe(0);
+  expect(await pathExists(path.join(targetRoot, 'src/app/tailng-ui/multiselect/tng-multiselect.ts'))).toBe(true);
+  expect(
+    await pathExists(path.join(targetRoot, 'src/app/tailng-ui/multiselect/tng-multiselect-primitive.ts')),
+  ).toBe(true);
+});
 it('tailng cli integration: add writes avatar source files', async (): Promise<void> => {
   const targetRoot = await createTargetRoot();
 

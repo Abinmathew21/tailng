@@ -224,6 +224,13 @@ export const appRoutes: Route[] = [
       ),
   },
   {
+    path: 'multiselect',
+    loadComponent: () =>
+      import('./pages/components/multiselect-demo/multiselect-playground-page.component').then(
+        (module) => module.MultiselectPlaygroundPageComponent,
+      ),
+  },
+  {
     path: '**',
     redirectTo: '',
   },
