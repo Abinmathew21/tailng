@@ -15,6 +15,7 @@ export * from './lib/select/tng-select.component';
 export * from './lib/autocomplete/tng-autocomplete.component';
 export * from './lib/multiselect/tng-multiselect.component';
 export * from './lib/grid/tng-grid.component';
+export * from './lib/tree/tng-tree.component';
 export * from './lib/tag/tng-tag.component';
 export * from './lib/button/tng-button.component';
 export * from './lib/card/tng-card.component';

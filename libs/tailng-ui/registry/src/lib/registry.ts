@@ -21,6 +21,7 @@ import { selectRegistryItem } from './select/select.registry';
 import { autocompleteRegistryItem } from './autocomplete/autocomplete.registry';
 import { multiselectRegistryItem } from './multiselect/multiselect.registry';
 import { gridRegistryItem } from './grid/grid.registry';
+import { treeRegistryItem } from './tree/tree.registry';
 import { popoverRegistryItem } from './popover/popover.registry';
 import { progressBarRegistryItem } from './progress-bar/progress-bar.registry';
 import { progressSpinnerRegistryItem } from './progress-spinner/progress-spinner.registry';
@@ -55,6 +56,7 @@ export const tailngRegistry: readonly RegistryItem[] = [
   autocompleteRegistryItem,
   multiselectRegistryItem,
   gridRegistryItem,
+  treeRegistryItem,
   popoverRegistryItem,
   progressBarRegistryItem,
   progressSpinnerRegistryItem,

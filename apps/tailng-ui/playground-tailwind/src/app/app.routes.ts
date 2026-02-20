@@ -238,6 +238,13 @@ export const appRoutes: Route[] = [
       ),
   },
   {
+    path: 'tree',
+    loadComponent: () =>
+      import('./pages/components/tree-demo/tree-playground-page.component').then(
+        (module) => module.TreePlaygroundPageComponent,
+      ),
+  },
+  {
     path: '**',
     redirectTo: '',
   },
