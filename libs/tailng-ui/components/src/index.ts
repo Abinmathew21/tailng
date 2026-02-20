@@ -10,6 +10,7 @@ export * from './lib/tabs/tng-tabs.component';
 export * from './lib/stepper/tng-stepper.component';
 export * from './lib/toggle-group/tng-toggle-group.component';
 export * from './lib/chips/tng-chips.component';
+export * from './lib/combobox/tng-combobox.component';
 export * from './lib/tag/tng-tag.component';
 export * from './lib/button/tng-button.component';
 export * from './lib/card/tng-card.component';

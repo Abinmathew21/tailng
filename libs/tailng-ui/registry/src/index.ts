@@ -10,6 +10,7 @@ export * from './lib/tabs/tabs.registry';
 export * from './lib/stepper/stepper.registry';
 export * from './lib/toggle-group/toggle-group.registry';
 export * from './lib/chips/chips.registry';
+export * from './lib/combobox/combobox.registry';
 export * from './lib/tag/tag.registry';
 export * from './lib/button/button.registry';
 export * from './lib/card/card.registry';

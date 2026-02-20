@@ -203,6 +203,13 @@ export const appRoutes: Route[] = [
       ),
   },
   {
+    path: 'combobox',
+    loadComponent: () =>
+      import('./pages/components/combobox-demo/combobox-playground-page.component').then(
+        (module) => module.ComboboxPlaygroundPageComponent,
+      ),
+  },
+  {
     path: '**',
     redirectTo: '',
   },

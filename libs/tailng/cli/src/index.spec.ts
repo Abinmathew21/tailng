@@ -238,6 +238,20 @@ it('tailng cli integration: add writes chips source files', async (): Promise<vo
     await pathExists(path.join(targetRoot, 'src/app/tailng-ui/chips/tng-chips-primitive.ts')),
   ).toBe(true);
 });
+
+it('tailng cli integration: add writes combobox source files', async (): Promise<void> => {
+  const targetRoot = await createTargetRoot();
+
+  const exitCode = await runCli(['add', 'combobox', '--cwd', targetRoot], {
+    registry: registryModule,
+  });
+
+  expect(exitCode).toBe(0);
+  expect(await pathExists(path.join(targetRoot, 'src/app/tailng-ui/combobox/tng-combobox.ts'))).toBe(true);
+  expect(
+    await pathExists(path.join(targetRoot, 'src/app/tailng-ui/combobox/tng-combobox-primitive.ts')),
+  ).toBe(true);
+});
 it('tailng cli integration: add writes avatar source files', async (): Promise<void> => {
   const targetRoot = await createTargetRoot();
 
