@@ -1,0 +1,42 @@
+<main class="page">
+  <section class="container">
+    <header class="hero">
+      <div class="links">
+        <a routerLink="/">Home</a>
+        <a routerLink="/tag">Tag Demo</a>
+        <a routerLink="/empty">Empty Demo</a>
+      </div>
+      <h1 class="title">Separator Demo (Vanilla CSS)</h1>
+      <p class="subtitle">
+        Visual divider examples using primitive `tngSeparator` and component `tng-separator`.
+      </p>
+    </header>
+
+    <section class="card">
+      <h2>Primitives (`tngSeparator`)</h2>
+      <div class="stack">
+        <div class="muted">Top section</div>
+        <div tngSeparator class="primitive-horizontal"></div>
+        <div class="muted">Bottom section</div>
+        <div class="inline-row">
+          <span class="muted">Left</span>
+          <div tngSeparator orientation="vertical" class="primitive-vertical"></div>
+          <span class="muted">Right</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Components (`tng-separator`)</h2>
+      <div class="stack">
+        <p class="muted">Horizontal</p>
+        <tng-separator></tng-separator>
+        <div class="inline-row">
+          <span class="muted">Profile</span>
+          <tng-separator orientation="vertical" class="component-vertical"></tng-separator>
+          <span class="muted">Settings</span>
+        </div>
+      </div>
+    </section>
+  </section>
+</main>
