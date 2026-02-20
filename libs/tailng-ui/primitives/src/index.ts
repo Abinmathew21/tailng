@@ -5,6 +5,7 @@ export * from './lib/dropdown-menu/tng-dropdown-menu';
 export * from './lib/context-menu/tng-context-menu';
 export * from './lib/menubar/tng-menubar';
 export * from './lib/navigation-menu/tng-navigation-menu';
+export * from './lib/toolbar/tng-toolbar';
 export * from './lib/tag/tng-tag';
 export * from './lib/button/tng-button';
 export * from './lib/card/tng-card';

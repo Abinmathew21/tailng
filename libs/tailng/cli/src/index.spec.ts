@@ -168,6 +168,20 @@ it('tailng cli integration: add writes navigation-menu source files', async (): 
     await pathExists(path.join(targetRoot, 'src/app/tailng-ui/navigation-menu/tng-navigation-menu-primitive.ts')),
   ).toBe(true);
 });
+
+it('tailng cli integration: add writes toolbar source files', async (): Promise<void> => {
+  const targetRoot = await createTargetRoot();
+
+  const exitCode = await runCli(['add', 'toolbar', '--cwd', targetRoot], {
+    registry: registryModule,
+  });
+
+  expect(exitCode).toBe(0);
+  expect(await pathExists(path.join(targetRoot, 'src/app/tailng-ui/toolbar/tng-toolbar.ts'))).toBe(true);
+  expect(
+    await pathExists(path.join(targetRoot, 'src/app/tailng-ui/toolbar/tng-toolbar-primitive.ts')),
+  ).toBe(true);
+});
 it('tailng cli integration: add writes avatar source files', async (): Promise<void> => {
   const targetRoot = await createTargetRoot();
 

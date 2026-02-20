@@ -168,6 +168,13 @@ export const appRoutes: Route[] = [
       ),
   },
   {
+    path: 'toolbar',
+    loadComponent: () =>
+      import('./pages/components/toolbar-demo/toolbar-playground-page.component').then(
+        (module) => module.ToolbarPlaygroundPageComponent,
+      ),
+  },
+  {
     path: '**',
     redirectTo: '',
   },
