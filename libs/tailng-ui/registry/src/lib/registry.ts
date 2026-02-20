@@ -12,6 +12,7 @@ import { contextmenuRegistryItem } from './context-menu/context-menu.registry';
 import { menubarRegistryItem } from './menubar/menubar.registry';
 import { navigationmenuRegistryItem } from './navigation-menu/navigation-menu.registry';
 import { toolbarRegistryItem } from './toolbar/toolbar.registry';
+import { tabsRegistryItem } from './tabs/tabs.registry';
 import { popoverRegistryItem } from './popover/popover.registry';
 import { progressBarRegistryItem } from './progress-bar/progress-bar.registry';
 import { progressSpinnerRegistryItem } from './progress-spinner/progress-spinner.registry';
@@ -37,6 +38,7 @@ export const tailngRegistry: readonly RegistryItem[] = [
   menubarRegistryItem,
   navigationmenuRegistryItem,
   toolbarRegistryItem,
+  tabsRegistryItem,
   popoverRegistryItem,
   progressBarRegistryItem,
   progressSpinnerRegistryItem,

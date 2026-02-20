@@ -175,6 +175,13 @@ export const appRoutes: Route[] = [
       ),
   },
   {
+    path: 'tabs',
+    loadComponent: () =>
+      import('./pages/components/tabs-demo/tabs-playground-page.component').then(
+        (module) => module.TabsPlaygroundPageComponent,
+      ),
+  },
+  {
     path: '**',
     redirectTo: '',
   },

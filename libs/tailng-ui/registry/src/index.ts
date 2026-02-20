@@ -6,6 +6,7 @@ export * from './lib/context-menu/context-menu.registry';
 export * from './lib/menubar/menubar.registry';
 export * from './lib/navigation-menu/navigation-menu.registry';
 export * from './lib/toolbar/toolbar.registry';
+export * from './lib/tabs/tabs.registry';
 export * from './lib/tag/tag.registry';
 export * from './lib/button/button.registry';
 export * from './lib/card/card.registry';
