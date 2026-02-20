@@ -4,6 +4,7 @@ export * from './lib/menu/tng-menu.component';
 export * from './lib/dropdown-menu/tng-dropdown-menu.component';
 export * from './lib/context-menu/tng-context-menu.component';
 export * from './lib/menubar/tng-menubar.component';
+export * from './lib/navigation-menu/tng-navigation-menu.component';
 export * from './lib/tag/tng-tag.component';
 export * from './lib/button/tng-button.component';
 export * from './lib/card/tng-card.component';

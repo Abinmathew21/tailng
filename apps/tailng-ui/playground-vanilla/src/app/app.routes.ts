@@ -161,6 +161,13 @@ export const appRoutes: Route[] = [
       ),
   },
   {
+    path: 'navigation-menu',
+    loadComponent: () =>
+      import('./pages/components/navigation-menu-demo/navigation-menu-playground-page.component').then(
+        (module) => module.NavigationMenuPlaygroundPageComponent,
+      ),
+  },
+  {
     path: '**',
     redirectTo: '',
   },
