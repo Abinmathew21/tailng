@@ -191,6 +191,12 @@ Build static output for Cloudflare Pages:
 pnpm docs:seo
 ```
 
+If prerender fails with a Chrome/Puppeteer error, install the browser once:
+
+```bash
+pnpm exec puppeteer browsers install chrome
+```
+
 Build static playground output for Cloudflare Pages:
 
 ```bash
@@ -231,6 +237,12 @@ Run CLI integration tests (`tailng add ...` end-to-end in temp directories):
 
 ```bash
 pnpm test:cli
+```
+
+Run only `icons` tests:
+
+```bash
+pnpm test:icons
 ```
 
 Run in watch mode:

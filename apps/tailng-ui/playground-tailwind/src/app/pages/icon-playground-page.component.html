@@ -1,0 +1,72 @@
+<main class="min-h-screen bg-slate-950 px-4 py-8 text-slate-100 md:px-8">
+  <section class="mx-auto max-w-6xl space-y-6">
+    <header class="space-y-3">
+      <div class="flex flex-wrap items-center gap-3">
+        <a routerLink="/" class="rounded-lg border border-slate-700 px-3 py-1.5 text-sm text-slate-300">
+          Home
+        </a>
+        <a
+          routerLink="/theme"
+          class="rounded-lg border border-slate-700 px-3 py-1.5 text-sm text-slate-300"
+        >
+          Theme Demo
+        </a>
+        <a
+          routerLink="/button"
+          class="rounded-lg border border-slate-700 px-3 py-1.5 text-sm text-slate-300"
+        >
+          Button Demo
+        </a>
+      </div>
+      <h1 class="text-3xl font-semibold md:text-4xl">Icon Demo (Tailwind)</h1>
+      <p class="max-w-3xl text-slate-300">
+        Top 10 countries by population, rendered with
+        <code class="rounded bg-slate-900 px-1 py-0.5 text-cyan-300">flag-icons</code>
+        (MIT). Land area and nominal GDP are shown as compact labels.
+      </p>
+    </header>
+
+    <section class="overflow-hidden rounded-2xl border border-slate-700 bg-slate-900">
+      <div class="overflow-x-auto">
+        <table class="w-full min-w-[860px] text-left text-sm">
+          <thead class="bg-slate-800 text-slate-300">
+            <tr>
+              <th class="px-5 py-3 font-semibold">Rank</th>
+              <th class="px-5 py-3 font-semibold">Country</th>
+              <th class="px-5 py-3 font-semibold">Population</th>
+              <th class="px-5 py-3 font-semibold">Land Area</th>
+              <th class="px-5 py-3 font-semibold">Nominal GDP</th>
+              <th class="px-5 py-3 font-semibold">People Signal</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (country of countries; track country.rank) {
+              <tr class="border-t border-slate-800">
+                <td class="px-5 py-3 font-mono text-cyan-300">#{{ country.rank }}</td>
+                <td class="px-5 py-3">
+                  <div class="flex items-center gap-3">
+                    <span [ngClass]="['fi', 'flag', 'fi-' + country.iso2]" aria-hidden="true"></span>
+                    <span>{{ country.name }}</span>
+                  </div>
+                </td>
+                <td class="px-5 py-3 font-mono">{{ country.populationLabel }}</td>
+                <td class="px-5 py-3 font-mono">{{ country.landAreaLabel }}</td>
+                <td class="px-5 py-3 font-mono">{{ country.gdpLabel }}</td>
+                <td class="px-5 py-3">
+                  <span
+                    class="inline-flex items-center gap-1"
+                    [attr.aria-label]="'Relative rank signal for position ' + country.rank"
+                  >
+                    @for (marker of country.peopleMarkers; track marker) {
+                      <span aria-hidden="true" class="text-base leading-none">👥</span>
+                    }
+                  </span>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </section>
+</main>

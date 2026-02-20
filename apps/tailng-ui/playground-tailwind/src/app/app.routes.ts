@@ -21,6 +21,13 @@ export const appRoutes: Route[] = [
       ),
   },
   {
+    path: 'icons',
+    loadComponent: () =>
+      import('./pages/icon-playground-page.component').then(
+        (module) => module.IconPlaygroundPageComponent,
+      ),
+  },
+  {
     path: '**',
     redirectTo: '',
   },

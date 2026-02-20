@@ -90,6 +90,9 @@ jobs:
             exit 1
           fi
 
+      - name: Install browser for prerender
+        run: pnpm exec puppeteer browsers install chrome
+
       - name: Build and prerender
         run: pnpm run ${{ matrix.target.build_script }}
 

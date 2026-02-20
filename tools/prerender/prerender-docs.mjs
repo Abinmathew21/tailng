@@ -7,6 +7,7 @@ import puppeteer from 'puppeteer';
 const DIST_DIR = 'dist/apps/tailng-ui/docs/browser';
 const ROUTES_FILE = 'apps/tailng-ui/docs/prerender-routes.txt';
 const PORT = 4173;
+const HOST = '127.0.0.1';
 
 const indexHtmlPath = path.join(DIST_DIR, 'index.html');
 if (!fs.existsSync(indexHtmlPath)) {
@@ -53,7 +54,7 @@ const server = http.createServer((req, res) => {
   res.end(indexHtml);
 });
 
-await new Promise((resolve) => server.listen(PORT, resolve));
+await new Promise((resolve) => server.listen(PORT, HOST, resolve));
 
 const browser = await puppeteer.launch({
   headless: 'new',
@@ -86,7 +87,7 @@ const absolutizeAssets = (html) =>
     );
 
 for (const route of routes) {
-  const url = `http://localhost:${PORT}${route}`;
+  const url = `http://${HOST}:${PORT}${route}`;
   await page.goto(url, { waitUntil: 'networkidle0' });
 
   let html = await page.content();
