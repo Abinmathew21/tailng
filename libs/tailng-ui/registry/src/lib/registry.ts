@@ -1,4 +1,5 @@
 import { buttonRegistryItem } from './button/button.registry';
+import { cardRegistryItem } from './card/card.registry';
 import { checkboxRegistryItem } from './checkbox/checkbox.registry';
 import { inputRegistryItem } from './input/input.registry';
 import { radioRegistryItem } from './radio/radio.registry';
@@ -7,6 +8,7 @@ import { textareaRegistryItem } from './textarea/textarea.registry';
 
 export const tailngRegistry: readonly RegistryItem[] = [
   buttonRegistryItem,
+  cardRegistryItem,
   checkboxRegistryItem,
   inputRegistryItem,
   radioRegistryItem,

@@ -1,0 +1,73 @@
+<main class="page">
+  <section class="container">
+    <header class="hero">
+      <div class="links">
+        <a routerLink="/">Home</a>
+        <a routerLink="/theme">Theme Demo</a>
+        <a routerLink="/icons">Icon Demo</a>
+        <a routerLink="/button">Button Demo</a>
+        <a routerLink="/input">Input Demo</a>
+      </div>
+      <h1 class="title">Card Demo (Vanilla CSS)</h1>
+      <p class="subtitle">
+        First example uses primitives (`tngCard*`) with custom classes. Second example uses owned
+        wrappers (`tng-card*`).
+      </p>
+    </header>
+
+    <section class="card-shell">
+      <h2>Primitives (`tngCard*`)</h2>
+      <article tngCard class="primitive-card">
+        <header tngCardHeader class="primitive-header">
+          <h3 tngCardTitle>Release Summary</h3>
+          <p tngCardDescription>TailNG card primitives with custom CSS.</p>
+        </header>
+        <section tngCardContent class="primitive-content">
+          <p>Build status: healthy, 0 lint warnings, all vitest suites passing.</p>
+        </section>
+        <footer tngCardFooter class="primitive-footer">
+          <button type="button" class="outline">View Logs</button>
+          <button type="button" class="solid">Deploy</button>
+        </footer>
+      </article>
+    </section>
+
+    <section class="card-shell">
+      <h2>Components (`tng-card*`)</h2>
+      <div class="component-grid">
+        <tng-card>
+          <tng-card-header>
+            <tng-card-title>Design Tokens</tng-card-title>
+            <tng-card-description>
+              Card wrappers consume the same primitive slot directives.
+            </tng-card-description>
+          </tng-card-header>
+          <tng-card-content>
+            <p>
+              Update semantic surface, border, and foreground tokens to restyle every card
+              globally.
+            </p>
+          </tng-card-content>
+          <tng-card-footer>
+            <button type="button" class="outline">Cancel</button>
+            <button type="button" class="solid">Save</button>
+          </tng-card-footer>
+        </tng-card>
+
+        <tng-card>
+          <tng-card-header>
+            <tng-card-title>Readonly Card</tng-card-title>
+            <tng-card-description>Useful for compact summary widgets.</tng-card-description>
+          </tng-card-header>
+          <tng-card-content>
+            <ul>
+              <li>11 component test files green</li>
+              <li>Registry add command verified</li>
+              <li>Playground demos in tailwind + vanilla</li>
+            </ul>
+          </tng-card-content>
+        </tng-card>
+      </div>
+    </section>
+  </section>
+</main>
