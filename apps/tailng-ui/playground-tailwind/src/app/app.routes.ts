@@ -245,6 +245,13 @@ export const appRoutes: Route[] = [
       ),
   },
   {
+    path: 'drawer',
+    loadComponent: () =>
+      import('./pages/components/drawer-demo/drawer-playground-page.component').then(
+        (module) => module.DrawerPlaygroundPageComponent,
+      ),
+  },
+  {
     path: '**',
     redirectTo: '',
   },

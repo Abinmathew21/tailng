@@ -322,6 +322,20 @@ it('tailng cli integration: add writes tree source files', async (): Promise<voi
     await pathExists(path.join(targetRoot, 'src/app/tailng-ui/tree/tng-tree-primitive.ts')),
   ).toBe(true);
 });
+
+it('tailng cli integration: add writes drawer source files', async (): Promise<void> => {
+  const targetRoot = await createTargetRoot();
+
+  const exitCode = await runCli(['add', 'drawer', '--cwd', targetRoot], {
+    registry: registryModule,
+  });
+
+  expect(exitCode).toBe(0);
+  expect(await pathExists(path.join(targetRoot, 'src/app/tailng-ui/drawer/tng-drawer.ts'))).toBe(true);
+  expect(
+    await pathExists(path.join(targetRoot, 'src/app/tailng-ui/drawer/tng-drawer-primitive.ts')),
+  ).toBe(true);
+});
 it('tailng cli integration: add writes avatar source files', async (): Promise<void> => {
   const targetRoot = await createTargetRoot();
 

@@ -16,6 +16,7 @@ export * from './lib/autocomplete/autocomplete.registry';
 export * from './lib/multiselect/multiselect.registry';
 export * from './lib/grid/grid.registry';
 export * from './lib/tree/tree.registry';
+export * from './lib/drawer/drawer.registry';
 export * from './lib/tag/tag.registry';
 export * from './lib/button/button.registry';
 export * from './lib/card/card.registry';
