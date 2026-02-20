@@ -1,0 +1,71 @@
+<main class="page">
+  <section class="container">
+    <header class="hero">
+      <div class="links">
+        <a routerLink="/">Home</a>
+        <a routerLink="/theme">Theme Demo</a>
+        <a routerLink="/button">Button Demo</a>
+        <a routerLink="/icons">Icon Demo</a>
+      </div>
+      <h1 class="title">ListBox Demo (Vanilla CSS)</h1>
+      <p class="subtitle">
+        CDK-backed multi-select listbox with active-descendant focus, range selection, and
+        typeahead.
+      </p>
+    </header>
+
+    <section class="card hints-grid">
+      <article>
+        <h2>Keyboard Controls</h2>
+        <ul class="hints">
+          <li><strong>Arrow Up/Down</strong> move active option</li>
+          <li><strong>Home/End</strong> jump to first/last option</li>
+          <li><strong>Space</strong> toggle active selection</li>
+          <li><strong>Enter</strong> select only active option</li>
+          <li><strong>Shift + Arrow</strong> extend contiguous range</li>
+          <li><strong>Ctrl + A</strong> select all enabled</li>
+          <li><strong>Tab</strong> leave listbox naturally</li>
+          <li><strong>Type letters</strong> typeahead jump</li>
+        </ul>
+      </article>
+
+      <article class="state-card">
+        <h2>Live State</h2>
+        <p><strong>Active:</strong> {{ activeLabel() }}</p>
+        <p><strong>Selected:</strong> {{ selectedLabel() }}</p>
+      </article>
+    </section>
+
+    <section class="card">
+      <div
+        [id]="listboxId"
+        role="listbox"
+        tabindex="0"
+        aria-multiselectable="true"
+        [attr.aria-activedescendant]="activeId() ?? null"
+        class="listbox"
+        (focus)="onFocus()"
+        (keydown)="onKeydown($event)"
+      >
+        @for (option of options; track option.id) {
+          <div
+            [id]="option.id"
+            role="option"
+            class="option"
+            [class.option-active]="isActive(option.id)"
+            [class.option-selected]="isSelected(option.id)"
+            [class.option-disabled]="isDisabled(option.id)"
+            [attr.aria-disabled]="isDisabled(option.id) ? 'true' : null"
+            [attr.aria-selected]="isSelected(option.id)"
+            tabindex="-1"
+            (click)="onOptionClick(option.id, $event)"
+            (keydown)="onOptionKeydown(option.id, $event)"
+          >
+            <p class="option-title">{{ option.label }}</p>
+            <p class="option-desc">{{ option.description }}</p>
+          </div>
+        }
+      </div>
+    </section>
+  </section>
+</main>

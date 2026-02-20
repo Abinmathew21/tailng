@@ -101,3 +101,39 @@ it('accepts orientation options without changing navigation semantics', () => {
 
   expect(controller.moveNext()).toBe('b');
 });
+
+it('supports explicit clear operation', () => {
+  const controller = createRovingFocusController({ itemIds: ['a', 'b'] });
+
+  controller.clear();
+  expect(controller.getActiveId()).toBeNull();
+});
+
+it('supports runtime item updates and clears invalid active ids', () => {
+  const controller = createRovingFocusController({
+    initialActiveId: 'b',
+    itemIds: ['a', 'b', 'c'],
+  });
+
+  controller.setItemIds(['a', 'c']);
+  expect(controller.getActiveId()).toBeNull();
+});
+
+it('supports runtime disabled updates and clears invalid active ids', () => {
+  const controller = createRovingFocusController({
+    initialActiveId: 'b',
+    itemIds: ['a', 'b', 'c'],
+  });
+
+  controller.setDisabledIds(['b']);
+  expect(controller.getActiveId()).toBeNull();
+});
+
+it('uses updated items and disabled ids for navigation', () => {
+  const controller = createRovingFocusController({ itemIds: ['a', 'b'] });
+
+  controller.setItemIds(['a', 'b', 'c']);
+  controller.setDisabledIds(['b']);
+  expect(controller.end()).toBe('c');
+  expect(controller.movePrev()).toBe('a');
+});
