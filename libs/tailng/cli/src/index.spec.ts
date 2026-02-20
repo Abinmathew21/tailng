@@ -78,6 +78,22 @@ it('tailng cli integration: add writes all button source files', async (): Promi
   expect(indexContent).toContain("export * from './tng-button-primitive';");
 });
 
+it('tailng cli integration: add writes accordion source files', async (): Promise<void> => {
+  const targetRoot = await createTargetRoot();
+
+  const exitCode = await runCli(['add', 'accordion', '--cwd', targetRoot], {
+    registry: registryModule,
+  });
+
+  expect(exitCode).toBe(0);
+  expect(
+    await pathExists(path.join(targetRoot, 'src/app/tailng-ui/accordion/tng-accordion.ts')),
+  ).toBe(true);
+  expect(
+    await pathExists(path.join(targetRoot, 'src/app/tailng-ui/accordion/tng-accordion-primitive.ts')),
+  ).toBe(true);
+});
+
 it('tailng cli integration: add writes avatar source files', async (): Promise<void> => {
   const targetRoot = await createTargetRoot();
 

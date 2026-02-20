@@ -1,0 +1,46 @@
+<main class="min-h-screen bg-slate-950 px-4 py-8 text-slate-100 md:px-8">
+  <section class="mx-auto max-w-6xl space-y-6">
+    <header class="space-y-3">
+      <div class="flex flex-wrap items-center gap-3">
+        <a
+          routerLink="/"
+          class="rounded-lg border border-slate-700 px-3 py-1.5 text-sm text-slate-300"
+        >
+          Home
+        </a>
+        <a
+          routerLink="/dialog"
+          class="rounded-lg border border-slate-700 px-3 py-1.5 text-sm text-slate-300"
+        >
+          Dialog Demo
+        </a>
+      </div>
+      <h1 class="text-3xl font-semibold md:text-4xl">Accordion Demo (Tailwind)</h1>
+      <p class="max-w-2xl text-slate-300">
+        Expand/collapse sections using primitive and owned component layers.
+      </p>
+    </header>
+
+    <section class="space-y-3 rounded-2xl border border-slate-700 bg-slate-900 p-5">
+      <h2 class="text-lg font-semibold">Primitives (`tngAccordion`)</h2>
+      <section tngAccordion class="rounded-xl border border-slate-700 bg-slate-950 p-4">
+        <h3 class="font-medium">Primitive container</h3>
+        <p class="mt-2 text-sm text-slate-300">
+          Use this as a semantic shell when building a fully custom accordion experience.
+        </p>
+      </section>
+    </section>
+
+    <section class="space-y-3 rounded-2xl border border-slate-700 bg-slate-900 p-5">
+      <h2 class="text-lg font-semibold">Components (`tng-accordion`)</h2>
+      <div class="grid gap-3">
+        <tng-accordion title="What is TailNG?">
+          TailNG is an accessibility-first Angular component system with copy-paste and package modes.
+        </tng-accordion>
+        <tng-accordion title="Does it support custom styling?">
+          Yes. Consumers can style at micro-level without framework coupling.
+        </tng-accordion>
+      </div>
+    </section>
+  </section>
+</main>

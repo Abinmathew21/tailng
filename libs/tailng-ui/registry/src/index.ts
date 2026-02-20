@@ -1,3 +1,4 @@
+export * from './lib/accordion/accordion.registry';
 export * from './lib/avatar/avatar.registry';
 export * from './lib/tag/tag.registry';
 export * from './lib/button/button.registry';

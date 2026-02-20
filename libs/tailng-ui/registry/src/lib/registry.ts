@@ -1,3 +1,4 @@
+import { accordionRegistryItem } from './accordion/accordion.registry';
 import { avatarRegistryItem } from './avatar/avatar.registry';
 import { buttonRegistryItem } from './button/button.registry';
 import { cardRegistryItem } from './card/card.registry';
@@ -15,6 +16,7 @@ import { tagRegistryItem } from './tag/tag.registry';
 import { textareaRegistryItem } from './textarea/textarea.registry';
 
 export const tailngRegistry: readonly RegistryItem[] = [
+  accordionRegistryItem,
   avatarRegistryItem,
   tagRegistryItem,
   buttonRegistryItem,

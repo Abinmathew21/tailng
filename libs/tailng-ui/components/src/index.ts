@@ -1,3 +1,4 @@
+export * from './lib/accordion/tng-accordion.component';
 export * from './lib/avatar/tng-avatar.component';
 export * from './lib/tag/tng-tag.component';
 export * from './lib/button/tng-button.component';

@@ -1,0 +1,19 @@
+<section tngAccordion class="tng-accordion" [attr.data-open]="open() ? '' : null">
+  <button
+    type="button"
+    class="tng-accordion__trigger"
+    [disabled]="disabled()"
+    [attr.aria-controls]="panelId"
+    [attr.aria-expanded]="open()"
+    (click)="onToggle()"
+  >
+    <span>{{ title() }}</span>
+    <span aria-hidden="true" class="tng-accordion__chevron">{{ open() ? '−' : '+' }}</span>
+  </button>
+
+  @if (open()) {
+    <div [id]="panelId" class="tng-accordion__panel">
+      <ng-content />
+    </div>
+  }
+</section>

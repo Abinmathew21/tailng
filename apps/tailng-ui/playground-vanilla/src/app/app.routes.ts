@@ -21,6 +21,13 @@ export const appRoutes: Route[] = [
       ),
   },
   {
+    path: 'accordion',
+    loadComponent: () =>
+      import('./pages/components/accordion-demo/accordion-playground-page.component').then(
+        (module) => module.AccordionPlaygroundPageComponent,
+      ),
+  },
+  {
     path: 'avatar',
     loadComponent: () =>
       import('./pages/primitives/avatar-demo/avatar-playground-page.component').then(

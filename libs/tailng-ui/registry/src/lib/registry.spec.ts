@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { accordionRegistryItem } from './accordion/accordion.registry';
 import { avatarRegistryItem } from './avatar/avatar.registry';
 import { buttonRegistryItem } from './button/button.registry';
 import { cardRegistryItem } from './card/card.registry';
@@ -18,6 +19,7 @@ import { textareaRegistryItem } from './textarea/textarea.registry';
 describe('registry names', () => {
   it('returns all registered component names in stable order', () => {
     expect(listRegistryItemNames()).toEqual([
+      'accordion',
       'avatar',
       'tag',
       'button',
@@ -39,6 +41,7 @@ describe('registry names', () => {
 describe('registry lookup', () => {
   it('contains all item references and resolves items by name', () => {
     const expectedItems = [
+      ['accordion', accordionRegistryItem],
       ['avatar', avatarRegistryItem],
       ['tag', tagRegistryItem],
       ['button', buttonRegistryItem],
