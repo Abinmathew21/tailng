@@ -21,11 +21,53 @@ export const appRoutes: Route[] = [
       ),
   },
   {
+    path: 'avatar',
+    loadComponent: () =>
+      import('./pages/primitives/avatar-demo/avatar-playground-page.component').then(
+        (module) => module.AvatarPlaygroundPageComponent,
+      ),
+  },
+  {
     path: 'card',
     loadComponent: () =>
       import('./pages/primitives/card-demo/card-playground-page.component').then(
         (module) => module.CardPlaygroundPageComponent,
       ),
+  },
+  {
+    path: 'tag',
+    loadComponent: () =>
+      import('./pages/primitives/tag-demo/tag-playground-page.component').then(
+        (module) => module.TagPlaygroundPageComponent,
+      ),
+  },
+  {
+    path: 'separator',
+    loadComponent: () =>
+      import('./pages/primitives/separator-demo/separator-playground-page.component').then(
+        (module) => module.SeparatorPlaygroundPageComponent,
+      ),
+  },
+  {
+    path: 'empty',
+    loadComponent: () =>
+      import('./pages/primitives/empty-demo/empty-playground-page.component').then(
+        (module) => module.EmptyPlaygroundPageComponent,
+      ),
+  },
+  {
+    path: 'progress-bar',
+    loadComponent: () =>
+      import('./pages/primitives/progress-bar-demo/progress-bar-playground-page.component').then(
+        (module) => module.ProgressBarPlaygroundPageComponent,
+      ),
+  },
+  {
+    path: 'progress-spinner',
+    loadComponent: () =>
+      import(
+        './pages/primitives/progress-spinner-demo/progress-spinner-playground-page.component'
+      ).then((module) => module.ProgressSpinnerPlaygroundPageComponent),
   },
   {
     path: 'input',

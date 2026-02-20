@@ -78,6 +78,36 @@ it('tailng cli integration: add writes all button source files', async (): Promi
   expect(indexContent).toContain("export * from './tng-button-primitive';");
 });
 
+it('tailng cli integration: add writes avatar source files', async (): Promise<void> => {
+  const targetRoot = await createTargetRoot();
+
+  const exitCode = await runCli(['add', 'avatar', '--cwd', targetRoot], {
+    registry: registryModule,
+  });
+
+  expect(exitCode).toBe(0);
+  expect(await pathExists(path.join(targetRoot, 'src/app/tailng-ui/avatar/tng-avatar.ts'))).toBe(
+    true,
+  );
+  expect(
+    await pathExists(path.join(targetRoot, 'src/app/tailng-ui/avatar/tng-avatar-primitive.ts')),
+  ).toBe(true);
+});
+
+it('tailng cli integration: add writes tag source files', async (): Promise<void> => {
+  const targetRoot = await createTargetRoot();
+
+  const exitCode = await runCli(['add', 'tag', '--cwd', targetRoot], {
+    registry: registryModule,
+  });
+
+  expect(exitCode).toBe(0);
+  expect(await pathExists(path.join(targetRoot, 'src/app/tailng-ui/tag/tng-tag.ts'))).toBe(true);
+  expect(await pathExists(path.join(targetRoot, 'src/app/tailng-ui/tag/tng-tag-primitive.ts'))).toBe(
+    true,
+  );
+});
+
 it('tailng cli integration: add writes checkbox source files', async (): Promise<void> => {
   const targetRoot = await createTargetRoot();
 
@@ -108,6 +138,79 @@ it('tailng cli integration: add writes card source files', async (): Promise<voi
   ).toBe(true);
   expect(
     await pathExists(path.join(targetRoot, 'src/app/tailng-ui/card/tng-card-footer.html')),
+  ).toBe(true);
+});
+
+it('tailng cli integration: add writes empty source files', async (): Promise<void> => {
+  const targetRoot = await createTargetRoot();
+
+  const exitCode = await runCli(['add', 'empty', '--cwd', targetRoot], {
+    registry: registryModule,
+  });
+
+  expect(exitCode).toBe(0);
+  expect(await pathExists(path.join(targetRoot, 'src/app/tailng-ui/empty/tng-empty.ts'))).toBe(
+    true,
+  );
+  expect(
+    await pathExists(path.join(targetRoot, 'src/app/tailng-ui/empty/tng-empty-actions.html')),
+  ).toBe(true);
+});
+
+it('tailng cli integration: add writes progress-bar source files', async (): Promise<void> => {
+  const targetRoot = await createTargetRoot();
+
+  const exitCode = await runCli(['add', 'progress-bar', '--cwd', targetRoot], {
+    registry: registryModule,
+  });
+
+  expect(exitCode).toBe(0);
+  expect(
+    await pathExists(path.join(targetRoot, 'src/app/tailng-ui/progress-bar/tng-progress-bar.ts')),
+  ).toBe(true);
+  expect(
+    await pathExists(
+      path.join(targetRoot, 'src/app/tailng-ui/progress-bar/tng-progress-bar-primitive.ts'),
+    ),
+  ).toBe(true);
+});
+
+it('tailng cli integration: add writes progress-spinner source files', async (): Promise<void> => {
+  const targetRoot = await createTargetRoot();
+
+  const exitCode = await runCli(['add', 'progress-spinner', '--cwd', targetRoot], {
+    registry: registryModule,
+  });
+
+  expect(exitCode).toBe(0);
+  expect(
+    await pathExists(
+      path.join(targetRoot, 'src/app/tailng-ui/progress-spinner/tng-progress-spinner.ts'),
+    ),
+  ).toBe(true);
+  expect(
+    await pathExists(
+      path.join(
+        targetRoot,
+        'src/app/tailng-ui/progress-spinner/tng-progress-spinner-primitive.ts',
+      ),
+    ),
+  ).toBe(true);
+});
+
+it('tailng cli integration: add writes separator source files', async (): Promise<void> => {
+  const targetRoot = await createTargetRoot();
+
+  const exitCode = await runCli(['add', 'separator', '--cwd', targetRoot], {
+    registry: registryModule,
+  });
+
+  expect(exitCode).toBe(0);
+  expect(
+    await pathExists(path.join(targetRoot, 'src/app/tailng-ui/separator/tng-separator.ts')),
+  ).toBe(true);
+  expect(
+    await pathExists(path.join(targetRoot, 'src/app/tailng-ui/separator/tng-separator-primitive.ts')),
   ).toBe(true);
 });
 

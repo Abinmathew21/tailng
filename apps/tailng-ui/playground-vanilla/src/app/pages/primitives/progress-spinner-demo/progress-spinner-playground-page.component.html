@@ -1,0 +1,50 @@
+<main class="page">
+  <section class="container">
+    <header class="hero">
+      <div class="links">
+        <a routerLink="/">Home</a>
+        <a routerLink="/progress-bar">Progress Bar Demo</a>
+      </div>
+      <h1 class="title">Progress Spinner Demo (Vanilla CSS)</h1>
+      <p class="subtitle">Circular progress indicator with determinate and indeterminate states.</p>
+    </header>
+
+    <section class="card">
+      <h2>Primitives (`tngProgressSpinner`)</h2>
+      <div class="row">
+        <span
+          tngProgressSpinner
+          [value]="completion"
+          class="primitive-spinner-shell"
+          aria-label="Sync progress"
+        >
+          <svg class="primitive-svg" viewBox="0 0 40 40">
+            <circle cx="20" cy="20" r="18" fill="none" stroke="#334155" stroke-width="4"></circle>
+            <circle
+              cx="20"
+              cy="20"
+              r="18"
+              fill="none"
+              stroke="#22d3ee"
+              stroke-width="4"
+              stroke-linecap="round"
+              stroke-dasharray="113"
+              [attr.stroke-dashoffset]="113 - (113 * completion) / 100"
+              transform="rotate(-90 20 20)"
+            ></circle>
+          </svg>
+        </span>
+        <span tngProgressSpinner [indeterminate]="true" class="primitive-spinner"></span>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Components (`tng-progress-spinner`)</h2>
+      <div class="row">
+        <tng-progress-spinner [value]="completion" ariaLabel="Sync progress"></tng-progress-spinner>
+        <tng-progress-spinner [value]="85" [size]="52"></tng-progress-spinner>
+        <tng-progress-spinner [indeterminate]="true" ariaLabel="Loading"></tng-progress-spinner>
+      </div>
+    </section>
+  </section>
+</main>
