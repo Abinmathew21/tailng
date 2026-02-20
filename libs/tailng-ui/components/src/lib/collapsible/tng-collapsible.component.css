@@ -1,0 +1,41 @@
+:host {
+  display: block;
+}
+
+.tng-collapsible {
+  border: 1px solid var(--tng-semantic-border-primary, #cbd5e1);
+  border-radius: 0.85rem;
+  display: grid;
+  overflow: hidden;
+}
+
+.tng-collapsible-trigger {
+  align-items: center;
+  background: var(--tng-semantic-surface-primary, #f8fafc);
+  border: 0;
+  color: var(--tng-semantic-text-primary, #0f172a);
+  cursor: pointer;
+  display: flex;
+  font: inherit;
+  justify-content: space-between;
+  min-height: 2.75rem;
+  padding: 0.65rem 0.9rem;
+  text-align: left;
+  width: 100%;
+}
+
+.tng-collapsible-trigger:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.tng-collapsible-content {
+  background: var(--tng-semantic-surface-secondary, #e2e8f0);
+  color: var(--tng-semantic-text-primary, #0f172a);
+  padding: 0.85rem 0.95rem;
+}
+
+.tng-collapsible-icon {
+  font-size: 1.05rem;
+  line-height: 1;
+}

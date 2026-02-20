@@ -1,0 +1,61 @@
+<main class="page">
+  <section class="container">
+    <header class="hero">
+      <div class="links">
+        <a routerLink="/">Home</a>
+      </div>
+      <h1 class="title">Collapsible Demo (Vanilla CSS)</h1>
+      <p class="subtitle">Single-panel disclosure surface for compact progressive disclosure.</p>
+    </header>
+
+    <section class="card">
+      <h2>Primitives (`tngCollapsible`)</h2>
+      <div class="controls">
+        <button class="control-button" (click)="onTogglePrimitiveDisabled()">
+          {{ primitiveDisabled() ? 'Enable' : 'Disable' }} Primitive
+        </button>
+      </div>
+      <section tngCollapsible [open]="primitiveOpen()" [disabled]="primitiveDisabled()">
+        <button
+          tngCollapsibleTrigger
+          class="primitive-trigger"
+          [open]="primitiveOpen()"
+          [disabled]="primitiveDisabled()"
+          [contentId]="primitiveContentId"
+          (click)="onTogglePrimitive()"
+        >
+          Primitive Trigger
+        </button>
+        <div
+          tngCollapsibleContent
+          class="primitive-content"
+          [id]="primitiveContentId"
+          [open]="primitiveOpen()"
+        >
+          Primitive content region. Use Enter/Space on the trigger button to toggle visibility.
+        </div>
+      </section>
+    </section>
+
+    <section class="card">
+      <h2>Component (`tng-collapsible`)</h2>
+      <div class="controls">
+        <button class="control-button" (click)="onToggleComponentDisabled()">
+          {{ componentDisabled() ? 'Enable' : 'Disable' }} Component
+        </button>
+      </div>
+      <tng-collapsible
+        title="Release Checklist"
+        [open]="componentOpen()"
+        [disabled]="componentDisabled()"
+        (openChange)="onComponentOpenChange($event)"
+      >
+        <ul class="content-list">
+          <li>Run lint and Vitest in affected projects.</li>
+          <li>Validate demo pages in both tailwind and vanilla apps.</li>
+          <li>Commit with component-scoped change set.</li>
+        </ul>
+      </tng-collapsible>
+    </section>
+  </section>
+</main>

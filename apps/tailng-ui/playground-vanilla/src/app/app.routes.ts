@@ -28,6 +28,13 @@ export const appRoutes: Route[] = [
       ),
   },
   {
+    path: 'collapsible',
+    loadComponent: () =>
+      import('./pages/components/collapsible-demo/collapsible-playground-page.component').then(
+        (module) => module.CollapsiblePlaygroundPageComponent,
+      ),
+  },
+  {
     path: 'menu',
     loadComponent: () =>
       import('./pages/components/menu-demo/menu-playground-page.component').then(
