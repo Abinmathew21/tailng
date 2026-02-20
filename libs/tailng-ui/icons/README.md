@@ -13,16 +13,15 @@ Icon abstraction layer for TailNG.
 
 ## Contract
 
-- Built-in packs are always available internally: `lucide`, `bootstrap`.
+- Built-in packs are always available internally: `lucide`.
 - Zero-config default pack is `lucide`.
 - `defaultPack` is optional in `provideTngIcons`.
 - Custom packs can be added without re-registering built-in packs.
-- Built-ins are sourced from `@ng-icons/lucide` and `@ng-icons/bootstrap-icons` via generated loaders (no inline SVG constants).
+- Built-ins are sourced from `@ng-icons/lucide` via generated loaders (no inline SVG constants).
 - No implicit icon aliases are provided. Use the real icon names from each pack.
-- Pack names `lucide` and `bootstrap` are reserved unless `allowBuiltinOverride: true`.
+- Pack name `lucide` is reserved unless `allowBuiltinOverride: true`.
 - Built-in pack references are normalized case-insensitively:
   - `Lucide:bell` resolves as `lucide:bell`
-  - `Bootstrap:check` resolves as `bootstrap:check`
 
 ## Usage
 
@@ -56,6 +55,21 @@ const customPack1 = createTngIconPack('customPack1', {
 const customPack2 = createTngIconPack('customPack2', {
   check: async () => '<svg viewBox="0 0 24 24"></svg>',
 });
+```
+
+### Add Bootstrap as custom pack
+
+```ts
+import { createTngIconPack, provideTngIcons } from '@tailng-ui/icons';
+import { bootstrapBell } from '@ng-icons/bootstrap-icons';
+
+const bootstrap = createTngIconPack('bootstrap', {
+  bell: async () => bootstrapBell,
+});
+
+export const appConfig = {
+  providers: [provideTngIcons({ packs: [bootstrap] })],
+};
 ```
 
 ## Regenerate Built-In Loader Maps

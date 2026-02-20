@@ -1,17 +1,15 @@
 import { readFile, writeFile } from 'node:fs/promises';
-import path from 'node:path';
 import { createRequire } from 'node:module';
+import { fileURLToPath } from 'node:url';
+import path from 'node:path';
 
 const require = createRequire(import.meta.url);
+const currentDir = path.dirname(fileURLToPath(import.meta.url));
 
 const PACKS = [
   {
     exportPrefix: 'lucide',
     packageName: '@ng-icons/lucide',
-  },
-  {
-    exportPrefix: 'bootstrap',
-    packageName: '@ng-icons/bootstrap-icons',
   },
 ];
 
@@ -25,6 +23,10 @@ function toKebabCase(value) {
 
 function toCamelCase(value) {
   return value.replace(/-([a-z0-9])/g, (_, char) => char.toUpperCase());
+}
+
+function toPascalCase(value) {
+  return value.replace(/(^[a-z])|(-[a-z0-9])/g, (match) => match.replace('-', '').toUpperCase());
 }
 
 async function resolveTypesFilePath(packageName) {
@@ -74,9 +76,7 @@ function buildExportNameMap(exportNames, exportPrefix) {
   }
 
   return Object.fromEntries(
-    [...map.entries()].sort(([leftName], [rightName]) =>
-      leftName.localeCompare(rightName),
-    ),
+    [...map.entries()].sort(([leftName], [rightName]) => leftName.localeCompare(rightName)),
   );
 }
 
@@ -100,23 +100,22 @@ function createGeneratedContent(packDefinitions) {
   contentLines.push('type TngIconModule = Readonly<Record<string, unknown>>;');
   contentLines.push('type TngLoadIconModule = () => Promise<TngIconModule>;');
   contentLines.push('');
-  contentLines.push('let lucideModulePromise: Promise<TngIconModule> | undefined;');
-  contentLines.push('let bootstrapModulePromise: Promise<TngIconModule> | undefined;');
-  contentLines.push('');
-  contentLines.push('function loadLucideModule(): Promise<TngIconModule> {');
-  contentLines.push(
-    "  lucideModulePromise ??= import('@ng-icons/lucide') as Promise<TngIconModule>;",
-  );
-  contentLines.push('  return lucideModulePromise;');
-  contentLines.push('}');
-  contentLines.push('');
-  contentLines.push('function loadBootstrapModule(): Promise<TngIconModule> {');
-  contentLines.push(
-    "  bootstrapModulePromise ??= import('@ng-icons/bootstrap-icons') as Promise<TngIconModule>;",
-  );
-  contentLines.push('  return bootstrapModulePromise;');
-  contentLines.push('}');
-  contentLines.push('');
+
+  for (const definition of packDefinitions) {
+    const modulePromiseIdentifier = `${definition.exportPrefix}ModulePromise`;
+    const loadModuleFunctionName = `load${toPascalCase(definition.exportPrefix)}Module`;
+
+    contentLines.push(`let ${modulePromiseIdentifier}: Promise<TngIconModule> | undefined;`);
+    contentLines.push('');
+    contentLines.push(`function ${loadModuleFunctionName}(): Promise<TngIconModule> {`);
+    contentLines.push(
+      `  ${modulePromiseIdentifier} ??= import('${definition.packageName}') as Promise<TngIconModule>;`,
+    );
+    contentLines.push(`  return ${modulePromiseIdentifier};`);
+    contentLines.push('}');
+    contentLines.push('');
+  }
+
   contentLines.push('function createDynamicLoader(');
   contentLines.push('  loadModule: TngLoadIconModule,');
   contentLines.push('  exportName: string,');
@@ -150,13 +149,12 @@ function createGeneratedContent(packDefinitions) {
   for (const definition of packDefinitions) {
     const identifierBase = toConstIdentifier(definition.packageName);
     const exportConstName = `${identifierBase}_EXPORT_NAME_MAP`;
+    const loadModuleFunctionName = `load${toPascalCase(definition.exportPrefix)}Module`;
     const loaderConstName = `${definition.exportPrefix}PackLoaders`;
-    const loadModuleFunctionName =
-      definition.packageName === '@ng-icons/lucide'
-        ? 'loadLucideModule'
-        : 'loadBootstrapModule';
 
-    contentLines.push(`const ${exportConstName}: Readonly<Record<string, string>> = Object.freeze(`);
+    contentLines.push(
+      `const ${exportConstName}: Readonly<Record<string, string>> = Object.freeze(`,
+    );
     contentLines.push(`${JSON.stringify(definition.exportNameMap, null, 2)}`);
     contentLines.push(');');
     contentLines.push('');
@@ -171,7 +169,7 @@ function createGeneratedContent(packDefinitions) {
 }
 
 async function main() {
-  const workspaceRoot = path.resolve(import.meta.dirname, '../../../..');
+  const workspaceRoot = path.resolve(currentDir, '../../../..');
   const outputPath = path.join(
     workspaceRoot,
     'libs/tailng-ui/icons/src/lib/icon-loaders.generated.ts',

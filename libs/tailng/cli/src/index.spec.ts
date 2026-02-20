@@ -78,22 +78,51 @@ it('tailng cli integration: add writes all button source files', async (): Promi
   expect(indexContent).toContain("export * from './tng-button-primitive';");
 });
 
-it(
-  'tailng cli integration: returns non-zero when files already exist without --force',
-  async (): Promise<void> => {
-    const targetRoot = await createTargetRoot();
+it('tailng cli integration: add writes checkbox source files', async (): Promise<void> => {
+  const targetRoot = await createTargetRoot();
 
-    const firstRunExitCode = await runCli(['add', 'button', '--cwd', targetRoot], {
-      registry: registryModule,
-    });
-    expect(firstRunExitCode).toBe(0);
+  const exitCode = await runCli(['add', 'checkbox', '--cwd', targetRoot], {
+    registry: registryModule,
+  });
 
-    const secondRunExitCode = await runCli(['add', 'button', '--cwd', targetRoot], {
-      registry: registryModule,
-    });
-    expect(secondRunExitCode).toBe(1);
-  },
-);
+  expect(exitCode).toBe(0);
+  expect(
+    await pathExists(path.join(targetRoot, 'src/app/tailng-ui/checkbox/tng-checkbox.ts')),
+  ).toBe(true);
+  expect(
+    await pathExists(path.join(targetRoot, 'src/app/tailng-ui/checkbox/tng-checkbox-primitive.ts')),
+  ).toBe(true);
+});
+
+it('tailng cli integration: add writes textarea source files', async (): Promise<void> => {
+  const targetRoot = await createTargetRoot();
+
+  const exitCode = await runCli(['add', 'textarea', '--cwd', targetRoot], {
+    registry: registryModule,
+  });
+
+  expect(exitCode).toBe(0);
+  expect(
+    await pathExists(path.join(targetRoot, 'src/app/tailng-ui/textarea/tng-textarea.ts')),
+  ).toBe(true);
+  expect(
+    await pathExists(path.join(targetRoot, 'src/app/tailng-ui/textarea/tng-textarea-primitive.ts')),
+  ).toBe(true);
+});
+
+it('tailng cli integration: returns non-zero when files already exist without --force', async (): Promise<void> => {
+  const targetRoot = await createTargetRoot();
+
+  const firstRunExitCode = await runCli(['add', 'button', '--cwd', targetRoot], {
+    registry: registryModule,
+  });
+  expect(firstRunExitCode).toBe(0);
+
+  const secondRunExitCode = await runCli(['add', 'button', '--cwd', targetRoot], {
+    registry: registryModule,
+  });
+  expect(secondRunExitCode).toBe(1);
+});
 
 it('tailng cli integration: overwrites files when --force is provided', async (): Promise<void> => {
   const targetRoot = await createTargetRoot();

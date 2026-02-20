@@ -4,10 +4,7 @@ import {
   makeEnvironmentProviders,
   type EnvironmentProviders,
 } from '@angular/core';
-import {
-  bootstrapPackLoaders,
-  lucidePackLoaders,
-} from './icon-loaders.generated';
+import { lucidePackLoaders } from './icon-loaders.generated';
 
 export type TngIconSvg = string;
 export type TngIconLoader = () => Promise<TngIconSvg>;
@@ -36,11 +33,9 @@ export type TngParsedIconRef = Readonly<{
 
 export const TNG_DEFAULT_ICON_PACK = 'lucide';
 
-export const TNG_BUILTIN_ICON_PACKS: Readonly<Record<string, TngIconPackLoaders>> =
-  Object.freeze({
-    bootstrap: bootstrapPackLoaders,
-    lucide: lucidePackLoaders,
-  });
+export const TNG_BUILTIN_ICON_PACKS: Readonly<Record<string, TngIconPackLoaders>> = Object.freeze({
+  lucide: lucidePackLoaders,
+});
 
 export const TNG_BUILTIN_ICON_PACK_NAMES: readonly string[] = Object.freeze(
   Object.keys(TNG_BUILTIN_ICON_PACKS),
@@ -59,9 +54,7 @@ function hasPackName(
 
 function toCanonicalBuiltinPackName(packName: string): string | null {
   const normalizedPackName = packName.trim().toLowerCase();
-  return hasPackName(TNG_BUILTIN_ICON_PACKS, normalizedPackName)
-    ? normalizedPackName
-    : null;
+  return hasPackName(TNG_BUILTIN_ICON_PACKS, normalizedPackName) ? normalizedPackName : null;
 }
 
 function toEffectivePackName(packName: string): string {
@@ -170,9 +163,7 @@ export function parseTngIconRef(iconRef: string, defaultPack: string): TngParsed
   };
 }
 
-export function resolveTngIconConfig(
-  options: TngProvideIconsOptions = {},
-): TngResolvedIconConfig {
+export function resolveTngIconConfig(options: TngProvideIconsOptions = {}): TngResolvedIconConfig {
   const mergedPacks = withCustomPacks(
     TNG_BUILTIN_ICON_PACKS,
     options.packs ?? [],
@@ -185,25 +176,17 @@ export function resolveTngIconConfig(
   };
 }
 
-export const TNG_ICON_CONFIG = new InjectionToken<TngResolvedIconConfig>(
-  'TNG_ICON_CONFIG',
-  {
-    providedIn: 'root',
-    factory: (): TngResolvedIconConfig => resolveTngIconConfig(),
-  },
-);
+export const TNG_ICON_CONFIG = new InjectionToken<TngResolvedIconConfig>('TNG_ICON_CONFIG', {
+  providedIn: 'root',
+  factory: (): TngResolvedIconConfig => resolveTngIconConfig(),
+});
 
-export const TNG_ICON_RESOLVER = new InjectionToken<TngIconResolver>(
-  'TNG_ICON_RESOLVER',
-  {
-    providedIn: 'root',
-    factory: (): TngIconResolver => new TngIconResolver(inject(TNG_ICON_CONFIG)),
-  },
-);
+export const TNG_ICON_RESOLVER = new InjectionToken<TngIconResolver>('TNG_ICON_RESOLVER', {
+  providedIn: 'root',
+  factory: (): TngIconResolver => new TngIconResolver(inject(TNG_ICON_CONFIG)),
+});
 
-export function provideTngIcons(
-  options?: TngProvideIconsOptions,
-): EnvironmentProviders {
+export function provideTngIcons(options?: TngProvideIconsOptions): EnvironmentProviders {
   return makeEnvironmentProviders([
     {
       provide: TNG_ICON_CONFIG,
@@ -212,8 +195,7 @@ export function provideTngIcons(
     {
       deps: [TNG_ICON_CONFIG],
       provide: TNG_ICON_RESOLVER,
-      useFactory: (config: TngResolvedIconConfig): TngIconResolver =>
-        new TngIconResolver(config),
+      useFactory: (config: TngResolvedIconConfig): TngIconResolver => new TngIconResolver(config),
     },
   ]);
 }
