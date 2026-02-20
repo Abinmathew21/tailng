@@ -98,6 +98,13 @@ export const appRoutes: Route[] = [
       ).then((module) => module.ProgressSpinnerPlaygroundPageComponent),
   },
   {
+    path: 'skeleton',
+    loadComponent: () =>
+      import('./pages/primitives/skeleton-demo/skeleton-playground-page.component').then(
+        (module) => module.SkeletonPlaygroundPageComponent,
+      ),
+  },
+  {
     path: 'input',
     loadComponent: () =>
       import('./pages/primitives/input-demo/input-playground-page.component').then(

@@ -30,6 +30,7 @@ import { radioRegistryItem } from './radio/radio.registry';
 import type { RegistryItem } from './registry.types';
 import { selectRegistryItem } from './select/select.registry';
 import { separatorRegistryItem } from './separator/separator.registry';
+import { skeletonRegistryItem } from './skeleton/skeleton.registry';
 import { sliderRegistryItem } from './slider/slider.registry';
 import { stepperRegistryItem } from './stepper/stepper.registry';
 import { switchRegistryItem } from './switch/switch.registry';
@@ -79,6 +80,7 @@ export const tailngRegistry: readonly RegistryItem[] = [
   progressSpinnerRegistryItem,
   radioRegistryItem,
   separatorRegistryItem,
+  skeletonRegistryItem,
   sliderRegistryItem,
   textareaRegistryItem,
 ];
