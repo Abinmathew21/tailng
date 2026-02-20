@@ -28,6 +28,13 @@ export const appRoutes: Route[] = [
       ),
   },
   {
+    path: 'menu',
+    loadComponent: () =>
+      import('./pages/components/menu-demo/menu-playground-page.component').then(
+        (module) => module.MenuPlaygroundPageComponent,
+      ),
+  },
+  {
     path: 'avatar',
     loadComponent: () =>
       import('./pages/primitives/avatar-demo/avatar-playground-page.component').then(

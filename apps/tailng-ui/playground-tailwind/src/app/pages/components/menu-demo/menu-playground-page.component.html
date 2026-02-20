@@ -1,0 +1,42 @@
+<main class="min-h-screen bg-slate-950 px-4 py-8 text-slate-100 md:px-8">
+  <section class="mx-auto max-w-6xl space-y-6">
+    <header class="space-y-3">
+      <div class="flex flex-wrap items-center gap-3">
+        <a
+          routerLink="/"
+          class="rounded-lg border border-slate-700 px-3 py-1.5 text-sm text-slate-300"
+        >
+          Home
+        </a>
+        <a
+          routerLink="/accordion"
+          class="rounded-lg border border-slate-700 px-3 py-1.5 text-sm text-slate-300"
+        >
+          Accordion Demo
+        </a>
+      </div>
+      <h1 class="text-3xl font-semibold md:text-4xl">Menu Demo (Tailwind)</h1>
+      <p class="max-w-2xl text-slate-300">
+        Arrow/Home/End keyboard navigation over menuitem elements.
+      </p>
+    </header>
+
+    <section class="space-y-3 rounded-2xl border border-slate-700 bg-slate-900 p-5">
+      <h2 class="text-lg font-semibold">Primitives (`tngMenu`)</h2>
+      <ul tngMenu class="grid max-w-sm gap-1 rounded-xl border border-slate-700 bg-slate-950 p-2">
+        <li role="menuitem" tabindex="0" class="rounded-md px-3 py-2 hover:bg-slate-800">Edit</li>
+        <li role="menuitem" tabindex="-1" class="rounded-md px-3 py-2 hover:bg-slate-800">Duplicate</li>
+        <li role="menuitem" tabindex="-1" class="rounded-md px-3 py-2 hover:bg-slate-800">Archive</li>
+      </ul>
+    </section>
+
+    <section class="space-y-3 rounded-2xl border border-slate-700 bg-slate-900 p-5">
+      <h2 class="text-lg font-semibold">Components (`tng-menu`)</h2>
+      <tng-menu ariaLabel="File actions">
+        <li role="menuitem" tabindex="0">Create file</li>
+        <li role="menuitem" tabindex="-1">Rename file</li>
+        <li role="menuitem" tabindex="-1">Delete file</li>
+      </tng-menu>
+    </section>
+  </section>
+</main>

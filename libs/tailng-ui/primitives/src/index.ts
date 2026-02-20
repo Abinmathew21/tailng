@@ -1,5 +1,6 @@
 export * from './lib/accordion/tng-accordion';
 export * from './lib/avatar/tng-avatar';
+export * from './lib/menu/tng-menu';
 export * from './lib/tag/tng-tag';
 export * from './lib/button/tng-button';
 export * from './lib/card/tng-card';

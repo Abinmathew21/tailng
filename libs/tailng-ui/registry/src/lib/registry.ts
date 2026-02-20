@@ -6,6 +6,7 @@ import { checkboxRegistryItem } from './checkbox/checkbox.registry';
 import { dialogRegistryItem } from './dialog/dialog.registry';
 import { emptyRegistryItem } from './empty/empty.registry';
 import { inputRegistryItem } from './input/input.registry';
+import { menuRegistryItem } from './menu/menu.registry';
 import { popoverRegistryItem } from './popover/popover.registry';
 import { progressBarRegistryItem } from './progress-bar/progress-bar.registry';
 import { progressSpinnerRegistryItem } from './progress-spinner/progress-spinner.registry';
@@ -25,6 +26,7 @@ export const tailngRegistry: readonly RegistryItem[] = [
   dialogRegistryItem,
   emptyRegistryItem,
   inputRegistryItem,
+  menuRegistryItem,
   popoverRegistryItem,
   progressBarRegistryItem,
   progressSpinnerRegistryItem,
