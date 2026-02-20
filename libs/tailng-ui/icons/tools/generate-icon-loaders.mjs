@@ -2,6 +2,7 @@ import { readFile, writeFile } from 'node:fs/promises';
 import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
+import * as prettier from 'prettier';
 
 const require = createRequire(import.meta.url);
 const currentDir = path.dirname(fileURLToPath(import.meta.url));
@@ -168,6 +169,14 @@ function createGeneratedContent(packDefinitions) {
   return `${contentLines.join('\n')}\n`;
 }
 
+async function formatGeneratedContent(outputPath, generatedContent) {
+  const prettierConfig = await prettier.resolveConfig(outputPath);
+  return prettier.format(generatedContent, {
+    ...(prettierConfig ?? {}),
+    filepath: outputPath,
+  });
+}
+
 async function main() {
   const workspaceRoot = path.resolve(currentDir, '../../../..');
   const outputPath = path.join(
@@ -191,7 +200,8 @@ async function main() {
   }
 
   const generatedContent = createGeneratedContent(packDefinitions);
-  await writeFile(outputPath, generatedContent, 'utf8');
+  const formattedGeneratedContent = await formatGeneratedContent(outputPath, generatedContent);
+  await writeFile(outputPath, formattedGeneratedContent, 'utf8');
 }
 
 await main();
