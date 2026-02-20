@@ -129,7 +129,7 @@ function hasChildren(id: string, index: TngNodeIndex): boolean {
 function sanitizeExpanded(
   expandedIds: ReadonlySet<string>,
   index: TngNodeIndex,
-): ReadonlySet<string> {
+): Set<string> {
   const nextExpanded = new Set<string>();
   for (const id of expandedIds) {
     if (index.byId.has(id) && hasChildren(id, index)) {

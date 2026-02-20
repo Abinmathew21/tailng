@@ -3,7 +3,7 @@ import { Directive, ElementRef, HostBinding, HostListener, inject } from '@angul
 type MenuItemElement = HTMLElement;
 
 function getEnabledMenuItems(host: HTMLElement): readonly MenuItemElement[] {
-  return [...host.querySelectorAll<MenuItemElement>('[role="menuitem"]')].filter(
+  return Array.from(host.querySelectorAll<MenuItemElement>('[role="menuitem"]')).filter(
     (element) => element.getAttribute('aria-disabled') !== 'true',
   );
 }
