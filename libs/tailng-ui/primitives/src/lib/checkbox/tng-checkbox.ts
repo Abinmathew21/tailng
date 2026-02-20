@@ -51,6 +51,7 @@ export class TngCheckbox {
     transform: booleanAttribute,
   });
   public readonly value = input<string | null>(null);
+  protected readonly typeAttr = 'checkbox' as const;
 
   @HostBinding('checked')
   protected get checkedProp(): boolean {
@@ -98,8 +99,8 @@ export class TngCheckbox {
   }
 
   @HostBinding('attr.type')
-  protected get typeAttr(): 'checkbox' {
-    return 'checkbox';
+  protected get hostTypeAttr(): 'checkbox' {
+    return this.typeAttr;
   }
 
   @HostBinding('attr.value')

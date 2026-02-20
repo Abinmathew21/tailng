@@ -1,7 +1,11 @@
 import { booleanAttribute, Component, input, output } from '@angular/core';
 import { TngRadio as TngRadioPrimitive } from '@tailng-ui/primitives';
 
-export function readTngRadioChecked(event: Event): boolean | null {
+export function readTngRadioChecked(event: unknown): boolean | null {
+  if (!(event instanceof Event)) {
+    return null;
+  }
+
   const target = event.target;
   if (!(target instanceof HTMLInputElement)) {
     return null;
@@ -32,7 +36,7 @@ export class TngRadio {
 
   public readonly checkedChange = output<boolean>();
 
-  public onChange(event: Event): void {
+  public onChange(event: unknown): void {
     const checked = readTngRadioChecked(event);
     if (checked === null) {
       return;

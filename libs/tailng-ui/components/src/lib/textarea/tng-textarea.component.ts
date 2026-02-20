@@ -7,7 +7,11 @@ import {
 
 type NullableBooleanInput = boolean | null | string | undefined;
 
-export function readTngTextareaEventValue(event: Event): string | null {
+export function readTngTextareaEventValue(event: unknown): string | null {
+  if (!(event instanceof Event)) {
+    return null;
+  }
+
   const target = event.target;
   if (!(target instanceof HTMLTextAreaElement)) {
     return null;
@@ -48,7 +52,7 @@ export class TngTextarea {
 
   public readonly valueChange = output<string>();
 
-  public onInput(event: Event): void {
+  public onInput(event: unknown): void {
     const value = readTngTextareaEventValue(event);
     if (value === null) {
       return;

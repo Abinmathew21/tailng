@@ -6,7 +6,11 @@ export type TngCheckboxChange = Readonly<{
   indeterminate: boolean;
 }>;
 
-export function readTngCheckboxChange(event: Event): TngCheckboxChange | null {
+export function readTngCheckboxChange(event: unknown): TngCheckboxChange | null {
+  if (!(event instanceof Event)) {
+    return null;
+  }
+
   const target = event.target;
   if (!(target instanceof HTMLInputElement)) {
     return null;
@@ -44,7 +48,7 @@ export class TngCheckbox {
   public readonly checkedChange = output<boolean>();
   public readonly indeterminateChange = output<boolean>();
 
-  public onChange(event: Event): void {
+  public onChange(event: unknown): void {
     const change = readTngCheckboxChange(event);
     if (change === null) {
       return;

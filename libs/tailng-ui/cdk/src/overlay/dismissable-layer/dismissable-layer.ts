@@ -27,7 +27,7 @@ export function createDismissableLayerController(): TngDismissableLayerControlle
   };
 
   const dismissTop = (reason: TngDismissReason): void => {
-    const topLayer = layers.at(-1);
+    const topLayer = layers[layers.length - 1];
     if (topLayer !== undefined) {
       topLayer.onDismiss(reason);
     }

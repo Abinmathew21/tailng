@@ -7,7 +7,11 @@ import type { TngInputType } from '@tailng-ui/primitives';
 
 type NullableBooleanInput = boolean | null | string | undefined;
 
-export function readTngInputEventValue(event: Event): string | null {
+export function readTngInputEventValue(event: unknown): string | null {
+  if (!(event instanceof Event)) {
+    return null;
+  }
+
   const target = event.target;
   if (!(target instanceof HTMLInputElement)) {
     return null;
@@ -45,7 +49,7 @@ export class TngInput {
 
   public readonly valueChange = output<string>();
 
-  public onInput(event: Event): void {
+  public onInput(event: unknown): void {
     const value = readTngInputEventValue(event);
     if (value === null) {
       return;
