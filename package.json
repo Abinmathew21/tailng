@@ -39,12 +39,14 @@
     "test:components": "vitest run --config libs/tailng-ui/components/vitest.config.ts --reporter=verbose",
     "test:registry": "vitest run --config libs/tailng-ui/registry/vitest.config.ts --reporter=verbose",
     "test:icons": "vitest run --config libs/tailng-ui/icons/vitest.config.ts --reporter=verbose",
-    "test:cli": "vitest run --config libs/tailng/cli/vitest.config.ts --reporter=verbose"
+    "test:cli": "vitest run --config libs/tailng/cli/vitest.config.ts --reporter=verbose",
+    "icons:generate": "node libs/tailng-ui/icons/tools/generate-icon-loaders.mjs"
   },
   "private": true,
   "devDependencies": {
     "@angular-devkit/core": "21.1.1",
     "@angular-devkit/schematics": "21.1.1",
+    "@angular-eslint/template-parser": "^21.2.0",
     "@angular/build": "21.1.1",
     "@angular/cli": "21.1.1",
     "@angular/common": "21.1.1",
@@ -55,7 +57,9 @@
     "@angular/platform-browser": "21.1.1",
     "@angular/router": "21.1.1",
     "@eslint/js": "^9.8.0",
+    "@ng-icons/bootstrap-icons": "^33.1.0",
     "@ng-icons/core": "^32.4.0",
+    "@ng-icons/lucide": "^33.1.0",
     "@nx/angular": "22.5.0",
     "@nx/eslint": "22.5.0",
     "@nx/eslint-plugin": "22.5.0",

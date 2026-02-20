@@ -11,33 +11,55 @@
 Icon abstraction layer for TailNG.
 `tng-icon` is rendered using `@ng-icons/core` internally.
 
-## Defaults
+## Contract
 
-- Built-in packs: `lucide`, `bootstrap`
-- Default pack: `lucide`
-- `defaultPack` is optional in `provideTngIcons`
+- Built-in packs are always available internally: `lucide`, `bootstrap`.
+- Zero-config default pack is `lucide`.
+- `defaultPack` is optional in `provideTngIcons`.
+- Custom packs can be added without re-registering built-in packs.
+- Built-ins are sourced from `@ng-icons/lucide` and `@ng-icons/bootstrap-icons` via generated loaders (no inline SVG constants).
+- No implicit icon aliases are provided. Use the real icon names from each pack.
+- Pack names `lucide` and `bootstrap` are reserved unless `allowBuiltinOverride: true`.
+- Built-in pack references are normalized case-insensitively:
+  - `Lucide:bell` resolves as `lucide:bell`
+  - `Bootstrap:check` resolves as `bootstrap:check`
 
 ## Usage
 
+### Zero config
+
+```html
+<tng-icon icon="bell" />
+```
+
+This resolves to `lucide:bell`.
+
+### Custom default pack + extra packs
+
 ```ts
-import { provideTngIcons } from '@tailng-ui/icons';
+import { createTngIconPack, provideTngIcons } from '@tailng-ui/icons';
 
 export const appConfig = {
   providers: [
     provideTngIcons({
-      defaultPack: 'bootstrap',
-      packs: [
-        {
-          name: 'customPack1',
-          icons: {
-            bell: async () => '<svg viewBox="0 0 24 24"></svg>',
-          },
-        },
-      ],
+      // Optional: if omitted, default is "lucide"
+      defaultPack: 'customPack1',
+      packs: [customPack1, customPack2],
     }),
   ],
 };
+
+const customPack1 = createTngIconPack('customPack1', {
+  bell: async () => '<svg viewBox="0 0 24 24"></svg>',
+});
+
+const customPack2 = createTngIconPack('customPack2', {
+  check: async () => '<svg viewBox="0 0 24 24"></svg>',
+});
 ```
 
-Built-in pack names are reserved (`lucide`, `bootstrap`) unless
-`allowBuiltinOverride: true` is explicitly set.
+## Regenerate Built-In Loader Maps
+
+```bash
+pnpm icons:generate
+```

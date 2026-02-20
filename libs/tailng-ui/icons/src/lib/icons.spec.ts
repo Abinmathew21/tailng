@@ -20,14 +20,14 @@ describe('resolveTngIconConfig defaults', () => {
     expect(config.defaultPack).toBe(TNG_DEFAULT_ICON_PACK);
     expect(config.packs.lucide).toBeDefined();
     expect(config.packs.bootstrap).toBeDefined();
-    expect(config.packs.lucide.people).toBeDefined();
-    expect(config.packs.bootstrap.people).toBeDefined();
+    expect(config.packs.lucide.bell).toBeDefined();
+    expect(config.packs.bootstrap.bell).toBeDefined();
     expect(TNG_BUILTIN_ICON_PACK_NAMES).toEqual(['bootstrap', 'lucide']);
   });
 
-  it('loads the people icon from the default pack', async () => {
+  it('loads the bell icon from the default pack', async () => {
     const resolver = new TngIconResolver(resolveTngIconConfig());
-    const iconSvg = await resolver.loadIcon('people');
+    const iconSvg = await resolver.loadIcon('bell');
 
     expect(iconSvg).toContain('<svg');
   });
@@ -49,7 +49,7 @@ describe('resolveTngIconConfig defaults', () => {
   });
 });
 
-describe('resolveTngIconConfig validation', () => {
+describe('resolveTngIconConfig reserved pack names', () => {
   it('rejects overriding reserved built-in packs unless explicitly allowed', () => {
     const reservedOverride = createTngIconPack('lucide', {
       bell: createLoaderWithValue('<svg/>'),
@@ -62,6 +62,20 @@ describe('resolveTngIconConfig validation', () => {
     ).toThrow('reserved');
   });
 
+  it('rejects overriding reserved built-in packs using different letter casing', () => {
+    const reservedOverride = createTngIconPack('Lucide', {
+      bell: createLoaderWithValue('<svg/>'),
+    });
+
+    expect(() =>
+      resolveTngIconConfig({
+        packs: [reservedOverride],
+      }),
+    ).toThrow('reserved');
+  });
+});
+
+describe('resolveTngIconConfig reserved override behavior', () => {
   it('allows reserved pack override when allowBuiltinOverride is true', async () => {
     const overrideLoader = vi.fn((): Promise<string> =>
       Promise.resolve('<svg id="override"/>'),
@@ -77,12 +91,38 @@ describe('resolveTngIconConfig validation', () => {
     expect(overrideLoader).toHaveBeenCalledTimes(1);
   });
 
+  it('maps reserved override names to canonical built-in pack names', async () => {
+    const overrideLoader = vi.fn((): Promise<string> =>
+      Promise.resolve('<svg id="override-canonical"/>'),
+    );
+
+    const config = resolveTngIconConfig({
+      allowBuiltinOverride: true,
+      packs: [createTngIconPack('Lucide', { bell: overrideLoader })],
+    });
+    const resolver = new TngIconResolver(config);
+
+    expect(await resolver.loadIcon('lucide:bell')).toBe('<svg id="override-canonical"/>');
+    expect(await resolver.loadIcon('Lucide:bell')).toBe('<svg id="override-canonical"/>');
+    expect(overrideLoader).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe('resolveTngIconConfig defaultPack validation', () => {
   it('throws when defaultPack does not exist', () => {
     expect(() =>
       resolveTngIconConfig({
         defaultPack: 'does-not-exist',
       }),
     ).toThrow('Unknown defaultPack');
+  });
+
+  it('throws with a lucide hint for defaultPack typo', () => {
+    expect(() =>
+      resolveTngIconConfig({
+        defaultPack: 'lucid',
+      }),
+    ).toThrow('Did you mean "lucide"');
   });
 });
 
@@ -98,6 +138,17 @@ describe('parseTngIconRef', () => {
     expect(parseTngIconRef('bootstrap:bell', 'lucide')).toEqual({
       name: 'bell',
       pack: 'bootstrap',
+    });
+  });
+
+  it('normalizes built-in pack names in references and default pack values', () => {
+    expect(parseTngIconRef('Bootstrap:bell', 'lucide')).toEqual({
+      name: 'bell',
+      pack: 'bootstrap',
+    });
+    expect(parseTngIconRef('bell', 'Lucide')).toEqual({
+      name: 'bell',
+      pack: 'lucide',
     });
   });
 

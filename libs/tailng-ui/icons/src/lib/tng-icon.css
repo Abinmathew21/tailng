@@ -1,0 +1,23 @@
+:host {
+  align-items: center;
+  display: inline-flex;
+  justify-content: center;
+  line-height: 1;
+}
+
+.tng-icon__fallback,
+.tng-icon__svg {
+  line-height: 1;
+}
+
+.tng-icon__fallback {
+  align-items: center;
+  color: currentColor;
+  display: inline-flex;
+  font-size: 1em;
+  justify-content: center;
+}
+
+.tng-icon__svg {
+  font-size: 1em;
+}

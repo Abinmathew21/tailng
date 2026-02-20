@@ -3,6 +3,7 @@ export {
   TNG_BUILTIN_ICON_PACKS,
   TNG_DEFAULT_ICON_PACK,
   TNG_ICON_CONFIG,
+  TNG_ICON_RESOLVER,
   TngIconResolver,
   createTngIconPack,
   parseTngIconRef,
@@ -10,7 +11,7 @@ export {
   resolveTngIconConfig,
 } from './lib/icons';
 
-export { TngIcon, resolveTngIcon } from './lib/tng-icon';
+export { TngIcon } from './lib/tng-icon';
 
 export type {
   TngIconLoader,

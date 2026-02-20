@@ -8,9 +8,8 @@
       </div>
       <h1 class="title">Icon Demo (Vanilla CSS)</h1>
       <p class="subtitle">
-        Top 10 countries by population, rendered with
-        <code>flag-icons</code>
-        (MIT). Land area and nominal GDP are shown as compact labels.
+        Top 10 countries by population, rendered with TailNG icon packs. Land area and nominal GDP
+        are shown as compact labels.
       </p>
     </header>
 
@@ -34,7 +33,7 @@
                 <td>
                   <div class="country-cell">
                     <tng-icon
-                      [icon]="'flag:' + country.iso2"
+                      [icon]="'flags:' + country.iso2"
                       [label]="country.name + ' flag'"
                       class="country-flag"
                     />
@@ -50,7 +49,7 @@
                     [attr.aria-label]="'Relative rank signal for position ' + country.rank"
                   >
                     @for (marker of country.peopleMarkers; track marker) {
-                      <tng-icon icon="people" class="people-icon" />
+                      <tng-icon icon="users-round" class="people-icon" />
                     }
                   </span>
                 </td>

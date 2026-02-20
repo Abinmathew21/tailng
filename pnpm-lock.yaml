@@ -14,6 +14,9 @@ importers:
       '@angular-devkit/schematics':
         specifier: 21.1.1
         version: 21.1.1(chokidar@5.0.0)
+      '@angular-eslint/template-parser':
+        specifier: ^21.2.0
+        version: 21.2.0(eslint@9.39.2(jiti@1.21.7))(typescript@5.9.3)
       '@angular/build':
         specifier: 21.1.1
         version: 21.1.1(7d6982599020da049f6df24bc52ea67d)
@@ -44,6 +47,15 @@ importers:
       '@eslint/js':
         specifier: ^9.8.0
         version: 9.39.2
+      '@ng-icons/bootstrap-icons':
+        specifier: ^33.1.0
+        version: 33.1.0
+      '@ng-icons/core':
+        specifier: ^32.4.0
+        version: 32.5.0(@angular/common@21.1.1(@angular/core@21.1.1(@angular/compiler@21.1.1)(rxjs@7.8.2)(zone.js@0.16.0))(rxjs@7.8.2))(@angular/core@21.1.1(@angular/compiler@21.1.1)(rxjs@7.8.2)(zone.js@0.16.0))(rxjs@7.8.2)
+      '@ng-icons/lucide':
+        specifier: ^33.1.0
+        version: 33.1.0
       '@nx/angular':
         specifier: 22.5.0
         version: 22.5.0(8a6770a6a2f7d048bedd0b91481a9ee7)
@@ -2139,6 +2151,19 @@ packages:
 
   '@napi-rs/wasm-runtime@1.1.1':
     resolution: {integrity: sha512-p64ah1M1ld8xjWv3qbvFwHiFVWrq1yFvV4f7w+mzaqiR4IlSgkqhcRdHwsGgomwzBH51sRY4NEowLxnaBjcW/A==}
+
+  '@ng-icons/bootstrap-icons@33.1.0':
+    resolution: {integrity: sha512-TZv4NMgWx45ZMnyQLH8HDQOrGnFGWehC+IqoGdIWT7IvEFzAJ04Bp5IINYh7SjBR7plpP+YmIYDCXe5+0v2p1Q==}
+
+  '@ng-icons/core@32.5.0':
+    resolution: {integrity: sha512-6zAXQ5vryaclOWEVzprFJjJAW6NSOl0eBm+I6BwmcMk+vR+1vHU82DNpNTbUE9Wn4CGXEP1yd+S+pTKIaRTXjg==}
+    peerDependencies:
+      '@angular/common': '>=20.0.0'
+      '@angular/core': '>=20.0.0'
+      rxjs: ^6.5.3 || ^7.4.0
+
+  '@ng-icons/lucide@33.1.0':
+    resolution: {integrity: sha512-oO23pA4o/xL00FRMnW0U+jEckxw743OjFFzY9Bi2P3aHpoa6CfDZcHzdV2eqNPqnVoTd0rG5WMcARlI1HhHfag==}
 
   '@ngtools/webpack@21.1.1':
     resolution: {integrity: sha512-8ySRsb1xgr+7XQmZ2LJ+AhFe1IZKW93wfL6OMpZtcWU4FzxWa/NhlfSNBQI5kuyPEVDDAxJ4RI5IoQyvcOmNLg==}
@@ -11504,6 +11529,21 @@ snapshots:
       '@emnapi/runtime': 1.8.1
       '@tybys/wasm-util': 0.10.1
     optional: true
+
+  '@ng-icons/bootstrap-icons@33.1.0':
+    dependencies:
+      tslib: 2.8.1
+
+  '@ng-icons/core@32.5.0(@angular/common@21.1.1(@angular/core@21.1.1(@angular/compiler@21.1.1)(rxjs@7.8.2)(zone.js@0.16.0))(rxjs@7.8.2))(@angular/core@21.1.1(@angular/compiler@21.1.1)(rxjs@7.8.2)(zone.js@0.16.0))(rxjs@7.8.2)':
+    dependencies:
+      '@angular/common': 21.1.1(@angular/core@21.1.1(@angular/compiler@21.1.1)(rxjs@7.8.2)(zone.js@0.16.0))(rxjs@7.8.2)
+      '@angular/core': 21.1.1(@angular/compiler@21.1.1)(rxjs@7.8.2)(zone.js@0.16.0)
+      rxjs: 7.8.2
+      tslib: 2.8.1
+
+  '@ng-icons/lucide@33.1.0':
+    dependencies:
+      tslib: 2.8.1
 
   '@ngtools/webpack@21.1.1(@angular/compiler-cli@21.1.1(@angular/compiler@21.1.1)(typescript@5.9.3))(typescript@5.9.3)(webpack@5.104.1(@swc/core@1.15.8(@swc/helpers@0.5.18))(esbuild@0.27.2))':
     dependencies:
