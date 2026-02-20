@@ -196,6 +196,20 @@ it('tailng cli integration: add writes tabs source files', async (): Promise<voi
     await pathExists(path.join(targetRoot, 'src/app/tailng-ui/tabs/tng-tabs-primitive.ts')),
   ).toBe(true);
 });
+
+it('tailng cli integration: add writes stepper source files', async (): Promise<void> => {
+  const targetRoot = await createTargetRoot();
+
+  const exitCode = await runCli(['add', 'stepper', '--cwd', targetRoot], {
+    registry: registryModule,
+  });
+
+  expect(exitCode).toBe(0);
+  expect(await pathExists(path.join(targetRoot, 'src/app/tailng-ui/stepper/tng-stepper.ts'))).toBe(true);
+  expect(
+    await pathExists(path.join(targetRoot, 'src/app/tailng-ui/stepper/tng-stepper-primitive.ts')),
+  ).toBe(true);
+});
 it('tailng cli integration: add writes avatar source files', async (): Promise<void> => {
   const targetRoot = await createTargetRoot();
 

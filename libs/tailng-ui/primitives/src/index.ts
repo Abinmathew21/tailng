@@ -7,6 +7,7 @@ export * from './lib/menubar/tng-menubar';
 export * from './lib/navigation-menu/tng-navigation-menu';
 export * from './lib/toolbar/tng-toolbar';
 export * from './lib/tabs/tng-tabs';
+export * from './lib/stepper/tng-stepper';
 export * from './lib/tag/tng-tag';
 export * from './lib/button/tng-button';
 export * from './lib/card/tng-card';

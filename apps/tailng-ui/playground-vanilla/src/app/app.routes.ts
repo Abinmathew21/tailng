@@ -182,6 +182,13 @@ export const appRoutes: Route[] = [
       ),
   },
   {
+    path: 'stepper',
+    loadComponent: () =>
+      import('./pages/components/stepper-demo/stepper-playground-page.component').then(
+        (module) => module.StepperPlaygroundPageComponent,
+      ),
+  },
+  {
     path: '**',
     redirectTo: '',
   },
