@@ -217,6 +217,13 @@ export const appRoutes: Route[] = [
       ),
   },
   {
+    path: 'autocomplete',
+    loadComponent: () =>
+      import('./pages/components/autocomplete-demo/autocomplete-playground-page.component').then(
+        (module) => module.AutocompletePlaygroundPageComponent,
+      ),
+  },
+  {
     path: '**',
     redirectTo: '',
   },
