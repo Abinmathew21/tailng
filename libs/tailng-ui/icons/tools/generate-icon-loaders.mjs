@@ -1,11 +1,14 @@
+import { execFile } from 'node:child_process';
 import { readFile, writeFile } from 'node:fs/promises';
 import { createRequire } from 'node:module';
+import process from 'node:process';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
-import * as prettier from 'prettier';
+import { promisify } from 'node:util';
 
 const require = createRequire(import.meta.url);
 const currentDir = path.dirname(fileURLToPath(import.meta.url));
+const execFileAsync = promisify(execFile);
 
 const PACKS = [
   {
@@ -169,11 +172,14 @@ function createGeneratedContent(packDefinitions) {
   return `${contentLines.join('\n')}\n`;
 }
 
-async function formatGeneratedContent(outputPath, generatedContent) {
-  const prettierConfig = await prettier.resolveConfig(outputPath);
-  return prettier.format(generatedContent, {
-    ...(prettierConfig ?? {}),
-    filepath: outputPath,
+function getPrettierBinaryPath(workspaceRoot) {
+  const binaryName = process.platform === 'win32' ? 'prettier.cmd' : 'prettier';
+  return path.join(workspaceRoot, 'node_modules/.bin', binaryName);
+}
+
+async function runPrettier(workspaceRoot, outputPath) {
+  await execFileAsync(getPrettierBinaryPath(workspaceRoot), ['--write', outputPath], {
+    cwd: workspaceRoot,
   });
 }
 
@@ -200,8 +206,8 @@ async function main() {
   }
 
   const generatedContent = createGeneratedContent(packDefinitions);
-  const formattedGeneratedContent = await formatGeneratedContent(outputPath, generatedContent);
-  await writeFile(outputPath, formattedGeneratedContent, 'utf8');
+  await writeFile(outputPath, generatedContent, 'utf8');
+  await runPrettier(workspaceRoot, outputPath);
 }
 
 await main();

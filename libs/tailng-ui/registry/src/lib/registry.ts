@@ -2,8 +2,8 @@ import { buttonRegistryItem } from './button/button.registry';
 import { checkboxRegistryItem } from './checkbox/checkbox.registry';
 import { inputRegistryItem } from './input/input.registry';
 import { radioRegistryItem } from './radio/radio.registry';
-import { textareaRegistryItem } from './textarea/textarea.registry';
 import type { RegistryItem } from './registry.types';
+import { textareaRegistryItem } from './textarea/textarea.registry';
 
 export const tailngRegistry: readonly RegistryItem[] = [
   buttonRegistryItem,

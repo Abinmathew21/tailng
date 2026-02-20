@@ -3,11 +3,54 @@ import {
   type TngRovingFocusOptions,
 } from './roving-focus.types';
 
+type TngMoveOptions = Readonly<{
+  activeId: string | null;
+  delta: -1 | 1;
+  enabledIds: readonly string[];
+  loop: boolean;
+}>;
+
 function findEnabledIds(
   itemIds: readonly string[],
   disabledIds: readonly string[],
 ): readonly string[] {
   return itemIds.filter((id) => !disabledIds.includes(id));
+}
+
+function firstEnabledId(enabledIds: readonly string[]): string | null {
+  return enabledIds[0] ?? null;
+}
+
+function lastEnabledId(enabledIds: readonly string[]): string | null {
+  return enabledIds.length > 0 ? enabledIds[enabledIds.length - 1] ?? null : null;
+}
+
+function resolveBoundaryActiveId(options: TngMoveOptions): string | null {
+  return options.delta > 0
+    ? firstEnabledId(options.enabledIds)
+    : lastEnabledId(options.enabledIds);
+}
+
+function resolveNextActiveId(options: TngMoveOptions): string | null {
+  if (options.activeId === null || options.enabledIds.length === 0) {
+    return options.activeId;
+  }
+
+  const currentIndex = options.enabledIds.indexOf(options.activeId);
+  if (currentIndex < 0) {
+    return resolveBoundaryActiveId(options);
+  }
+
+  const nextIndex = currentIndex + options.delta;
+  if (nextIndex >= 0 && nextIndex < options.enabledIds.length) {
+    return options.enabledIds[nextIndex] ?? null;
+  }
+
+  if (!options.loop) {
+    return options.activeId;
+  }
+
+  return resolveBoundaryActiveId(options);
 }
 
 export function createRovingFocusController(
@@ -20,32 +63,22 @@ export function createRovingFocusController(
   const getActiveId = (): string | null => activeId;
 
   const home = (): string | null => {
-    activeId = enabledIds[0] ?? null;
+    activeId = firstEnabledId(enabledIds);
     return activeId;
   };
 
   const end = (): string | null => {
-    activeId = enabledIds.at(-1) ?? null;
+    activeId = lastEnabledId(enabledIds);
     return activeId;
   };
 
-  const moveBy = (delta: number): string | null => {
-    if (enabledIds.length === 0 || activeId === null) {
-      return activeId;
-    }
-
-    const currentIndex = enabledIds.indexOf(activeId);
-    const nextIndex = currentIndex + delta;
-
-    if (nextIndex >= 0 && nextIndex < enabledIds.length) {
-      activeId = enabledIds[nextIndex] ?? null;
-      return activeId;
-    }
-
-    if (loop) {
-      activeId = delta > 0 ? enabledIds[0] ?? null : enabledIds.at(-1) ?? null;
-    }
-
+  const moveBy = (delta: -1 | 1): string | null => {
+    activeId = resolveNextActiveId({
+      activeId,
+      delta,
+      enabledIds,
+      loop,
+    });
     return activeId;
   };
 

@@ -25,7 +25,7 @@ function firstId(ids: readonly string[]): string | null {
 }
 
 function lastId(ids: readonly string[]): string | null {
-  return ids.at(-1) ?? null;
+  return ids.length > 0 ? ids[ids.length - 1] ?? null : null;
 }
 
 class ActiveDescendantController implements TngActiveDescendantController {
@@ -109,22 +109,28 @@ class ActiveDescendantController implements TngActiveDescendantController {
     return this.itemIds.filter((id) => !this.disabledIds.includes(id));
   }
 
-  private moveBy(delta: -1 | 1): string | null {
-    const enabledIds = this.getEnabledIds();
-    if (enabledIds.length === 0) {
-      if (this.itemIds.length > 0) {
-        this.activeId = null;
-      }
-
-      return this.activeId;
+  private clearActiveIdWhenNoEnabledIds(): string | null {
+    if (this.itemIds.length > 0) {
+      this.activeId = null;
     }
 
-    const currentIndex = this.activeId === null ? -1 : enabledIds.indexOf(this.activeId);
-    if (currentIndex < 0) {
-      this.activeId = delta > 0 ? firstId(enabledIds) : lastId(enabledIds);
-      return this.activeId;
-    }
+    return this.activeId;
+  }
 
+  private resolveActiveIndex(enabledIds: readonly string[]): number {
+    return this.activeId === null ? -1 : enabledIds.indexOf(this.activeId);
+  }
+
+  private setBoundaryActiveId(enabledIds: readonly string[], delta: -1 | 1): string | null {
+    this.activeId = delta > 0 ? firstId(enabledIds) : lastId(enabledIds);
+    return this.activeId;
+  }
+
+  private moveWithinEnabledIds(
+    enabledIds: readonly string[],
+    currentIndex: number,
+    delta: -1 | 1,
+  ): string | null {
     const nextIndex = currentIndex + delta;
     if (nextIndex >= 0 && nextIndex < enabledIds.length) {
       this.activeId = enabledIds[nextIndex] ?? null;
@@ -132,10 +138,24 @@ class ActiveDescendantController implements TngActiveDescendantController {
     }
 
     if (this.loop) {
-      this.activeId = delta > 0 ? firstId(enabledIds) : lastId(enabledIds);
+      return this.setBoundaryActiveId(enabledIds, delta);
     }
 
     return this.activeId;
+  }
+
+  private moveBy(delta: -1 | 1): string | null {
+    const enabledIds = this.getEnabledIds();
+    if (enabledIds.length === 0) {
+      return this.clearActiveIdWhenNoEnabledIds();
+    }
+
+    const currentIndex = this.resolveActiveIndex(enabledIds);
+    if (currentIndex < 0) {
+      return this.setBoundaryActiveId(enabledIds, delta);
+    }
+
+    return this.moveWithinEnabledIds(enabledIds, currentIndex, delta);
   }
 }
 

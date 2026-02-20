@@ -26,6 +26,7 @@ export class TngRadio {
     transform: booleanAttribute,
   });
   public readonly value = input<string | null>(null);
+  protected readonly typeAttr = 'radio' as const;
 
   @HostBinding('checked')
   protected get checkedProp(): boolean {
@@ -63,8 +64,8 @@ export class TngRadio {
   }
 
   @HostBinding('attr.type')
-  protected get typeAttr(): 'radio' {
-    return 'radio';
+  protected get hostTypeAttr(): 'radio' {
+    return this.typeAttr;
   }
 
   @HostBinding('attr.value')

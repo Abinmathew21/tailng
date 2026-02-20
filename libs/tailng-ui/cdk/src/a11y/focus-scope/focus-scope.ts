@@ -25,7 +25,8 @@ function pushScopeToTop(scopeId: string): void {
 }
 
 function isTopMostScope(scopeId: string): boolean {
-  return activeScopeStack.at(-1) === scopeId;
+  const topScopeId = activeScopeStack[activeScopeStack.length - 1];
+  return topScopeId === scopeId;
 }
 
 function normalizeMemberId(id: string): string | null {
