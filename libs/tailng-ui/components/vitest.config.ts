@@ -15,7 +15,7 @@ export default defineConfig({
   test: {
     name: 'components',
     include: ['src/**/*.spec.ts'],
-    environment: 'node',
+    environment: 'jsdom',
     coverage: {
       provider: 'v8',
       reportsDirectory: '../../../coverage/libs/tailng-ui/components',

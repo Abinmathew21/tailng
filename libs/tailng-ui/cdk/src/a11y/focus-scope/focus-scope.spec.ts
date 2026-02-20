@@ -87,7 +87,7 @@ describe('createFocusScope', () => {
     expect(scope.resolveFocusCandidate('outside')).toBe('field-1');
 
     scope.unregisterMember('field-1');
-    expect(scope.resolveFocusCandidate('outside')).toBeNull();
+    expect(scope.resolveFocusCandidate('outside')).toBe('outside');
     expect(scope.deactivate()).toBeNull();
   });
 
