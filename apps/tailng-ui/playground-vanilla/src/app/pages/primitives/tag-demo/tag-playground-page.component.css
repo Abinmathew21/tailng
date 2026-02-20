@@ -1,0 +1,100 @@
+:host {
+  display: block;
+}
+
+.page {
+  background: #020617;
+  color: #e2e8f0;
+  min-height: 100vh;
+  padding: 2rem 1rem;
+}
+
+.container {
+  display: grid;
+  gap: 1.25rem;
+  margin: 0 auto;
+  max-width: 72rem;
+}
+
+.hero {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.links a {
+  border: 1px solid #334155;
+  border-radius: 0.5rem;
+  color: #cbd5e1;
+  font-size: 0.875rem;
+  padding: 0.45rem 0.7rem;
+  text-decoration: none;
+}
+
+.title {
+  font-size: clamp(1.875rem, 2vw + 1rem, 2.5rem);
+  line-height: 1.1;
+  margin: 0;
+}
+
+.subtitle {
+  color: #cbd5e1;
+  margin: 0;
+  max-width: 42rem;
+}
+
+.card {
+  background: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 1rem;
+  display: grid;
+  gap: 0.875rem;
+  padding: 1rem;
+}
+
+.card h2 {
+  margin: 0;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.primitive {
+  border: 1px solid transparent;
+  border-radius: 9999px;
+  display: inline-flex;
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1;
+  min-height: 1.5rem;
+  padding: 0 0.6rem;
+}
+
+.primitive.info {
+  background: #0e7490;
+  color: #cffafe;
+}
+
+.primitive.success {
+  background: #047857;
+  color: #ecfdf5;
+}
+
+.primitive.danger {
+  background: #9f1239;
+  color: #ffe4e6;
+}
+
+@media (min-width: 768px) {
+  .page {
+    padding-inline: 2rem;
+  }
+}

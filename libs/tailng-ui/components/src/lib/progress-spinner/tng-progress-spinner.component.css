@@ -1,0 +1,48 @@
+:host {
+  display: inline-flex;
+}
+
+.tng-progress-spinner {
+  display: inline-flex;
+  height: var(--tng-progress-spinner-size, 40px);
+  width: var(--tng-progress-spinner-size, 40px);
+}
+
+.tng-progress-spinner-svg {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
+.tng-progress-spinner-track,
+.tng-progress-spinner-indicator {
+  fill: none;
+  stroke-linecap: round;
+  stroke-width: var(--tng-progress-spinner-stroke-width, 4px);
+}
+
+.tng-progress-spinner-track {
+  stroke: var(--tng-semantic-background-surface, #e2e8f0);
+}
+
+.tng-progress-spinner-indicator {
+  stroke: var(--tng-semantic-accent-brand, #2563eb);
+  transform: rotate(-90deg);
+  transform-origin: center;
+  transition: stroke-dashoffset 180ms ease;
+}
+
+.tng-progress-spinner-indicator[data-indeterminate] {
+  animation: tng-progress-spinner-indeterminate 1s linear infinite;
+  stroke-dasharray: 70;
+  stroke-dashoffset: 20;
+}
+
+@keyframes tng-progress-spinner-indeterminate {
+  0% {
+    transform: rotate(-90deg);
+  }
+  100% {
+    transform: rotate(270deg);
+  }
+}

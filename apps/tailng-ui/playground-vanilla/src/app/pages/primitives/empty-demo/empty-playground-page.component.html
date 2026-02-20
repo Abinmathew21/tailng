@@ -1,0 +1,42 @@
+<main class="page">
+  <section class="container">
+    <header class="hero">
+      <div class="links">
+        <a routerLink="/">Home</a>
+        <a routerLink="/separator">Separator Demo</a>
+        <a routerLink="/progress-bar">Progress Bar Demo</a>
+      </div>
+      <h1 class="title">Empty Demo (Vanilla CSS)</h1>
+      <p class="subtitle">Empty-state placeholders with icon/title/description/actions slots.</p>
+    </header>
+
+    <section class="card">
+      <h2>Primitives (`tngEmpty*`)</h2>
+      <section tngEmpty class="empty primitive-empty">
+        <div tngEmptyIcon class="empty-icon">BOX</div>
+        <h3 tngEmptyTitle class="empty-title">No Messages</h3>
+        <p tngEmptyDescription class="empty-description">
+          You have no messages yet. Invite your team to start collaborating.
+        </p>
+        <div tngEmptyActions class="empty-actions">
+          <button type="button" class="solid">Invite Team</button>
+        </div>
+      </section>
+    </section>
+
+    <section class="card">
+      <h2>Components (`tng-empty*`)</h2>
+      <tng-empty>
+        <tng-empty-icon>FILE</tng-empty-icon>
+        <tng-empty-title>No Files Uploaded</tng-empty-title>
+        <tng-empty-description>
+          Upload your first file to get started with document processing.
+        </tng-empty-description>
+        <tng-empty-actions>
+          <button type="button" class="outline">Learn More</button>
+          <button type="button" class="solid">Upload</button>
+        </tng-empty-actions>
+      </tng-empty>
+    </section>
+  </section>
+</main>

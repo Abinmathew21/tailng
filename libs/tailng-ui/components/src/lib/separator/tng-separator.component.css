@@ -1,0 +1,19 @@
+:host {
+  display: block;
+}
+
+.tng-separator {
+  background: var(--tng-semantic-border-strong, #64748b);
+  display: block;
+}
+
+.tng-separator[data-orientation='horizontal'] {
+  height: 1px;
+  width: 100%;
+}
+
+.tng-separator[data-orientation='vertical'] {
+  height: 100%;
+  min-height: 1rem;
+  width: 1px;
+}

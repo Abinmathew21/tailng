@@ -1,0 +1,38 @@
+<main class="page">
+  <section class="container">
+    <header class="hero">
+      <div class="links">
+        <a routerLink="/">Home</a>
+        <a routerLink="/separator">Separator Demo</a>
+        <a routerLink="/empty">Empty Demo</a>
+      </div>
+      <h1 class="title">Tag Demo (Vanilla CSS)</h1>
+      <p class="subtitle">
+        Small status labels using unstyled primitive (`tngTag`) and owned wrapper (`tng-tag`).
+      </p>
+    </header>
+
+    <section class="card">
+      <h2>Primitives (`tngTag`)</h2>
+      <div class="row">
+        <span tngTag class="primitive info">New</span>
+        <span tngTag class="primitive success">Success</span>
+        <span tngTag class="primitive danger">Failed</span>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Components (`tng-tag`)</h2>
+      <div class="row">
+        <tng-tag tone="neutral">Neutral</tng-tag>
+        <tng-tag tone="info">Info</tng-tag>
+        <tng-tag tone="success">Success</tng-tag>
+        <tng-tag tone="warning">Warning</tng-tag>
+        <tng-tag tone="danger">Danger</tng-tag>
+        <tng-tag appearance="outline" tone="info">Outline</tng-tag>
+        <tng-tag appearance="solid" tone="success">Solid</tng-tag>
+        <tng-tag shape="rounded">Rounded</tng-tag>
+      </div>
+    </section>
+  </section>
+</main>
