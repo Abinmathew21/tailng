@@ -1,3 +1,4 @@
+export * from './lib/avatar/tng-avatar';
 export * from './lib/button/tng-button';
 export * from './lib/card/tng-card';
 export * from './lib/checkbox/tng-checkbox';
