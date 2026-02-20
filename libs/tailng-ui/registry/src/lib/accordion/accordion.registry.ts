@@ -12,8 +12,57 @@ export class TngAccordionPrimitive {
 }
 `;
 
-const accordionComponentTsTemplate = `import { booleanAttribute, Component, input, signal } from '@angular/core';
+const accordionComponentTsTemplate = `import { booleanAttribute, Component, effect, ElementRef, inject, input, signal } from '@angular/core';
+import { createDisclosureController } from '@tailng-ui/cdk';
+import { createTngIdFactory } from '@tailng-ui/cdk/core';
 import { TngAccordionPrimitive } from './tng-accordion-primitive';
+
+const accordionIdFactory = createTngIdFactory('tng-accordion-panel');
+const accordionTriggerIdFactory = createTngIdFactory('tng-accordion-trigger');
+const accordionTriggerSelector = '[data-tng-accordion-trigger]';
+
+function getAccordionGroupRoot(host: HTMLElement): ParentNode {
+  const explicitGroup = host.closest('[data-tng-accordion-group]');
+  if (explicitGroup !== null) {
+    return explicitGroup;
+  }
+
+  return host.parentElement ?? host.ownerDocument;
+}
+
+function getEnabledAccordionTriggers(groupRoot: ParentNode): readonly HTMLButtonElement[] {
+  return Array.from(groupRoot.querySelectorAll<HTMLButtonElement>(accordionTriggerSelector)).filter(
+    (trigger) => !trigger.disabled,
+  );
+}
+
+function resolveAccordionTriggerTargetIndex(
+  currentIndex: number,
+  total: number,
+  key: string,
+): number | null {
+  if (total <= 0 || currentIndex < 0 || currentIndex >= total) {
+    return null;
+  }
+
+  if (key === 'ArrowDown') {
+    return currentIndex + 1 >= total ? 0 : currentIndex + 1;
+  }
+
+  if (key === 'ArrowUp') {
+    return currentIndex - 1 < 0 ? total - 1 : currentIndex - 1;
+  }
+
+  if (key === 'Home') {
+    return 0;
+  }
+
+  if (key === 'End') {
+    return total - 1;
+  }
+
+  return null;
+}
 
 @Component({
   selector: 'tng-accordion',
@@ -31,17 +80,61 @@ export class TngAccordion {
   public readonly title = input<string>('Accordion');
 
   protected readonly open = signal(false);
+  protected readonly panelId = accordionIdFactory();
+  protected readonly triggerId = accordionTriggerIdFactory();
+
+  private readonly hostRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  private readonly disclosure = createDisclosureController();
 
   public constructor() {
-    this.open.set(this.defaultOpen());
+    effect(() => {
+      this.disclosure.setDisabled(this.disabled());
+      this.syncOpenState();
+    });
+
+    effect(() => {
+      if (this.defaultOpen()) {
+        this.disclosure.open();
+      } else {
+        this.disclosure.close();
+      }
+      this.syncOpenState();
+    });
   }
 
   protected onToggle(): void {
-    if (this.disabled()) {
+    this.disclosure.toggle();
+    this.syncOpenState();
+  }
+
+  protected onTriggerKeydown(event: KeyboardEvent): void {
+    if (event.altKey || event.ctrlKey || event.metaKey) {
       return;
     }
 
-    this.open.set(!this.open());
+    const currentTarget = event.currentTarget;
+    if (!(currentTarget instanceof HTMLButtonElement)) {
+      return;
+    }
+
+    const groupRoot = getAccordionGroupRoot(this.hostRef.nativeElement);
+    const triggers = getEnabledAccordionTriggers(groupRoot);
+    if (triggers.length <= 1) {
+      return;
+    }
+
+    const currentIndex = triggers.findIndex((trigger) => trigger === currentTarget);
+    const nextIndex = resolveAccordionTriggerTargetIndex(currentIndex, triggers.length, event.key);
+    if (nextIndex === null || nextIndex === currentIndex) {
+      return;
+    }
+
+    event.preventDefault();
+    triggers[nextIndex]?.focus();
+  }
+
+  private syncOpenState(): void {
+    this.open.set(this.disclosure.isOpen());
   }
 }
 `;
@@ -50,19 +143,27 @@ const accordionTemplateHtml = `<section tngAccordion class="tng-accordion" [attr
   <button
     type="button"
     class="tng-accordion__trigger"
+    data-tng-accordion-trigger
+    [attr.id]="triggerId"
     [disabled]="disabled()"
+    [attr.aria-controls]="panelId"
     [attr.aria-expanded]="open()"
     (click)="onToggle()"
+    (keydown)="onTriggerKeydown($event)"
   >
     <span>{{ title() }}</span>
     <span aria-hidden="true" class="tng-accordion__chevron">{{ open() ? '−' : '+' }}</span>
   </button>
 
-  @if (open()) {
-    <div class="tng-accordion__panel">
-      <ng-content />
-    </div>
-  }
+  <div
+    [id]="panelId"
+    class="tng-accordion__panel"
+    role="region"
+    [attr.aria-labelledby]="triggerId"
+    [hidden]="!open()"
+  >
+    <ng-content />
+  </div>
 </section>
 `;
 
@@ -89,6 +190,16 @@ const accordionTemplateCss = `:host {
   width: 100%;
 }
 
+.tng-accordion__trigger:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.tng-accordion__trigger:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: -2px;
+}
+
 .tng-accordion__panel {
   border-top: 1px solid #cbd5e1;
   padding: 0.9rem 1rem;
@@ -100,7 +211,7 @@ export * from './tng-accordion-primitive';
 `;
 
 export const accordionRegistryItem: RegistryItem = {
-  dependencies: [],
+  dependencies: ['@tailng-ui/cdk'],
   description: 'Shadcn-style source files for accordion primitive and styled wrapper.',
   files: [
     {

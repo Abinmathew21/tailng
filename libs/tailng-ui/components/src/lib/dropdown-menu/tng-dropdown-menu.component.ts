@@ -26,7 +26,11 @@ export class TngDropdownMenu {
   private readonly hostRef = inject<ElementRef<HTMLElement>>(ElementRef);
 
   @HostListener('document:click', ['$event'])
-  protected onDocumentClick(event: Event): void {
+  protected onDocumentClick(event: unknown): void {
+    if (!(event instanceof Event)) {
+      return;
+    }
+
     if (!this.open()) {
       return;
     }
@@ -41,8 +45,9 @@ export class TngDropdownMenu {
     }
   }
 
-  protected onKeydown(event: KeyboardEvent): void {
-    if (event.key !== 'Escape') {
+  @HostListener('document:keydown.escape')
+  protected onEscapeKeydown(): void {
+    if (!this.open()) {
       return;
     }
 
