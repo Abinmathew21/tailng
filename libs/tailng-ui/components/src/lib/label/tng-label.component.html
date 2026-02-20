@@ -1,0 +1,8 @@
+<label tngLabel class="tng-label" [disabled]="disabled()" [attr.for]="resolveForAttr()">
+  <span class="tng-label-text">
+    <ng-content />
+  </span>
+  @if (required()) {
+    <span class="tng-label-required" aria-hidden="true">*</span>
+  }
+</label>

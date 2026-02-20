@@ -105,6 +105,13 @@ export const appRoutes: Route[] = [
       ),
   },
   {
+    path: 'label',
+    loadComponent: () =>
+      import('./pages/primitives/label-demo/label-playground-page.component').then(
+        (module) => module.LabelPlaygroundPageComponent,
+      ),
+  },
+  {
     path: 'input-otp',
     loadComponent: () =>
       import('./pages/components/input-otp-demo/input-otp-playground-page.component').then(

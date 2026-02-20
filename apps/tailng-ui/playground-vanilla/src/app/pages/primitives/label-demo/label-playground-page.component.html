@@ -1,0 +1,30 @@
+<main class="page">
+  <section class="container">
+    <header class="hero">
+      <div class="links">
+        <a routerLink="/">Home</a>
+      </div>
+      <h1 class="title">Label Demo (Vanilla CSS)</h1>
+      <p class="subtitle">Accessible form labels for plain inputs and wrapped field controls.</p>
+    </header>
+
+    <section class="card">
+      <h2>Primitive (`label[tngLabel]`)</h2>
+      <div class="field">
+        <label tngLabel for="primitive-email">Email Address</label>
+        <input id="primitive-email" type="email" placeholder="hello@tailng.dev" />
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Component (`tng-label`)</h2>
+      <button class="control-button" (click)="onToggleRequired()">Toggle Required Marker</button>
+      <div class="field">
+        <tng-label forId="component-display-name" [required]="componentRequired()">
+          Display Name
+        </tng-label>
+        <input id="component-display-name" type="text" placeholder="TailNG Team" />
+      </div>
+    </section>
+  </section>
+</main>

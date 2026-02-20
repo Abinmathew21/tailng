@@ -19,6 +19,7 @@ export * from './lib/switch/tng-switch.component';
 export * from './lib/autocomplete/tng-autocomplete.component';
 export * from './lib/multiselect/tng-multiselect.component';
 export * from './lib/collapsible/tng-collapsible.component';
+export * from './lib/label/tng-label.component';
 export * from './lib/grid/tng-grid.component';
 export * from './lib/tree/tng-tree.component';
 export * from './lib/drawer/tng-drawer.component';

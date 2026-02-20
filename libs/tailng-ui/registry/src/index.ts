@@ -18,6 +18,7 @@ export * from './lib/switch/switch.registry';
 export * from './lib/autocomplete/autocomplete.registry';
 export * from './lib/multiselect/multiselect.registry';
 export * from './lib/collapsible/collapsible.registry';
+export * from './lib/label/label.registry';
 export * from './lib/grid/grid.registry';
 export * from './lib/tree/tree.registry';
 export * from './lib/drawer/drawer.registry';

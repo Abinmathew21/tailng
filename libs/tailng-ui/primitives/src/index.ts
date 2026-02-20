@@ -17,6 +17,7 @@ export * from './lib/switch/tng-switch';
 export * from './lib/autocomplete/tng-autocomplete';
 export * from './lib/breadcrumb/tng-breadcrumb';
 export * from './lib/collapsible/tng-collapsible';
+export * from './lib/label/tng-label';
 export * from './lib/multiselect/tng-multiselect';
 export * from './lib/grid/tng-grid';
 export * from './lib/tree/tng-tree';
