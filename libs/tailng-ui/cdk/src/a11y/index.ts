@@ -4,6 +4,8 @@ export * from './disclosure/disclosure';
 export * from './disclosure/disclosure.types';
 export * from './focus-scope/focus-scope';
 export * from './focus-scope/focus-scope.types';
+export * from './grid-navigation/grid-navigation';
+export * from './grid-navigation/grid-navigation.types';
 export * from './list-navigation/list-navigation';
 export * from './list-navigation/list-navigation.types';
 export * from './roving-focus/roving-focus';

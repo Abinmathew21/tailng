@@ -294,6 +294,20 @@ it('tailng cli integration: add writes multiselect source files', async (): Prom
     await pathExists(path.join(targetRoot, 'src/app/tailng-ui/multiselect/tng-multiselect-primitive.ts')),
   ).toBe(true);
 });
+
+it('tailng cli integration: add writes grid source files', async (): Promise<void> => {
+  const targetRoot = await createTargetRoot();
+
+  const exitCode = await runCli(['add', 'grid', '--cwd', targetRoot], {
+    registry: registryModule,
+  });
+
+  expect(exitCode).toBe(0);
+  expect(await pathExists(path.join(targetRoot, 'src/app/tailng-ui/grid/tng-grid.ts'))).toBe(true);
+  expect(
+    await pathExists(path.join(targetRoot, 'src/app/tailng-ui/grid/tng-grid-primitive.ts')),
+  ).toBe(true);
+});
 it('tailng cli integration: add writes avatar source files', async (): Promise<void> => {
   const targetRoot = await createTargetRoot();
 

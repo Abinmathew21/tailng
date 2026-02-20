@@ -14,6 +14,7 @@ export * from './lib/combobox/combobox.registry';
 export * from './lib/select/select.registry';
 export * from './lib/autocomplete/autocomplete.registry';
 export * from './lib/multiselect/multiselect.registry';
+export * from './lib/grid/grid.registry';
 export * from './lib/tag/tag.registry';
 export * from './lib/button/button.registry';
 export * from './lib/card/card.registry';

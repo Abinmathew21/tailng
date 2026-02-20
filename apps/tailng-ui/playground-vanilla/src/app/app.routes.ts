@@ -231,6 +231,13 @@ export const appRoutes: Route[] = [
       ),
   },
   {
+    path: 'grid',
+    loadComponent: () =>
+      import('./pages/components/grid-demo/grid-playground-page.component').then(
+        (module) => module.GridPlaygroundPageComponent,
+      ),
+  },
+  {
     path: '**',
     redirectTo: '',
   },
