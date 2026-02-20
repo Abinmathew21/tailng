@@ -14,6 +14,7 @@ import { navigationmenuRegistryItem } from './navigation-menu/navigation-menu.re
 import { toolbarRegistryItem } from './toolbar/toolbar.registry';
 import { tabsRegistryItem } from './tabs/tabs.registry';
 import { stepperRegistryItem } from './stepper/stepper.registry';
+import { togglegroupRegistryItem } from './toggle-group/toggle-group.registry';
 import { popoverRegistryItem } from './popover/popover.registry';
 import { progressBarRegistryItem } from './progress-bar/progress-bar.registry';
 import { progressSpinnerRegistryItem } from './progress-spinner/progress-spinner.registry';
@@ -41,6 +42,7 @@ export const tailngRegistry: readonly RegistryItem[] = [
   toolbarRegistryItem,
   tabsRegistryItem,
   stepperRegistryItem,
+  togglegroupRegistryItem,
   popoverRegistryItem,
   progressBarRegistryItem,
   progressSpinnerRegistryItem,

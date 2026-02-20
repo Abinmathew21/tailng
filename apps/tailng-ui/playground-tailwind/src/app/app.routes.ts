@@ -189,6 +189,13 @@ export const appRoutes: Route[] = [
       ),
   },
   {
+    path: 'toggle-group',
+    loadComponent: () =>
+      import('./pages/components/toggle-group-demo/toggle-group-playground-page.component').then(
+        (module) => module.ToggleGroupPlaygroundPageComponent,
+      ),
+  },
+  {
     path: '**',
     redirectTo: '',
   },

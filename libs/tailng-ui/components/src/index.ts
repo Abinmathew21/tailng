@@ -8,6 +8,7 @@ export * from './lib/navigation-menu/tng-navigation-menu.component';
 export * from './lib/toolbar/tng-toolbar.component';
 export * from './lib/tabs/tng-tabs.component';
 export * from './lib/stepper/tng-stepper.component';
+export * from './lib/toggle-group/tng-toggle-group.component';
 export * from './lib/tag/tng-tag.component';
 export * from './lib/button/tng-button.component';
 export * from './lib/card/tng-card.component';

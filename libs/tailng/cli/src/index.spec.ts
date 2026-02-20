@@ -210,6 +210,20 @@ it('tailng cli integration: add writes stepper source files', async (): Promise<
     await pathExists(path.join(targetRoot, 'src/app/tailng-ui/stepper/tng-stepper-primitive.ts')),
   ).toBe(true);
 });
+
+it('tailng cli integration: add writes toggle-group source files', async (): Promise<void> => {
+  const targetRoot = await createTargetRoot();
+
+  const exitCode = await runCli(['add', 'toggle-group', '--cwd', targetRoot], {
+    registry: registryModule,
+  });
+
+  expect(exitCode).toBe(0);
+  expect(await pathExists(path.join(targetRoot, 'src/app/tailng-ui/toggle-group/tng-toggle-group.ts'))).toBe(true);
+  expect(
+    await pathExists(path.join(targetRoot, 'src/app/tailng-ui/toggle-group/tng-toggle-group-primitive.ts')),
+  ).toBe(true);
+});
 it('tailng cli integration: add writes avatar source files', async (): Promise<void> => {
   const targetRoot = await createTargetRoot();
 
