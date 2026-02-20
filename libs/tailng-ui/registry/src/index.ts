@@ -25,6 +25,7 @@ export * from './lib/card/card.registry';
 export * from './lib/checkbox/checkbox.registry';
 export * from './lib/dialog/dialog.registry';
 export * from './lib/empty/empty.registry';
+export * from './lib/input-otp/input-otp.registry';
 export * from './lib/input/input.registry';
 export * from './lib/popover/popover.registry';
 export * from './lib/progress-bar/progress-bar.registry';

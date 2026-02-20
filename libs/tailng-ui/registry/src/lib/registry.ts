@@ -14,6 +14,7 @@ import { dropdownMenuRegistryItem } from './dropdown-menu/dropdown-menu.registry
 import { emptyRegistryItem } from './empty/empty.registry';
 import { gridRegistryItem } from './grid/grid.registry';
 import { inputRegistryItem } from './input/input.registry';
+import { inputOtpRegistryItem } from './input-otp/input-otp.registry';
 import { menuRegistryItem } from './menu/menu.registry';
 import { menubarRegistryItem } from './menubar/menubar.registry';
 import { multiselectRegistryItem } from './multiselect/multiselect.registry';
@@ -46,6 +47,7 @@ export const tailngRegistry: readonly RegistryItem[] = [
   dropdownMenuRegistryItem,
   emptyRegistryItem,
   inputRegistryItem,
+  inputOtpRegistryItem,
   menuRegistryItem,
   contextmenuRegistryItem,
   menubarRegistryItem,

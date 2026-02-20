@@ -25,6 +25,7 @@ export * from './lib/card/tng-card.component';
 export * from './lib/checkbox/tng-checkbox.component';
 export * from './lib/dialog/tng-dialog.component';
 export * from './lib/empty/tng-empty.component';
+export * from './lib/input-otp/tng-input-otp.component';
 export * from './lib/input/tng-input.component';
 export * from './lib/popover/tng-popover.component';
 export * from './lib/progress-bar/tng-progress-bar.component';

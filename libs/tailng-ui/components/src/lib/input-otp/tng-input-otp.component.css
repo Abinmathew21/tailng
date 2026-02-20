@@ -1,0 +1,25 @@
+:host {
+  display: inline-flex;
+}
+
+.tng-input-otp-root {
+  column-gap: 0.45rem;
+  display: inline-flex;
+}
+
+.tng-input-otp-slot {
+  background: var(--tng-semantic-background-surface, #fff);
+  border: 1px solid var(--tng-semantic-border-default, #cbd5e1);
+  border-radius: 0.5rem;
+  color: var(--tng-semantic-text-primary, #0f172a);
+  font-size: 1rem;
+  height: 2.4rem;
+  text-align: center;
+  width: 2.1rem;
+}
+
+.tng-input-otp-slot:focus-visible {
+  border-color: var(--tng-semantic-accent-brand, #2563eb);
+  outline: 2px solid var(--tng-semantic-accent-brand, #2563eb);
+  outline-offset: 1px;
+}

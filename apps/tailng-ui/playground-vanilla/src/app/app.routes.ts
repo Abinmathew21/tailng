@@ -98,6 +98,13 @@ export const appRoutes: Route[] = [
       ),
   },
   {
+    path: 'input-otp',
+    loadComponent: () =>
+      import('./pages/components/input-otp-demo/input-otp-playground-page.component').then(
+        (module) => module.InputOtpPlaygroundPageComponent,
+      ),
+  },
+  {
     path: 'radio',
     loadComponent: () =>
       import('./pages/primitives/radio-demo/radio-playground-page.component').then(

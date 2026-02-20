@@ -1,0 +1,15 @@
+<div tngInputOtp class="tng-input-otp-root" [length]="length()" (paste)="onSlotsPaste($event)">
+  @for (slot of slots(); track $index) {
+    <input
+      class="tng-input-otp-slot"
+      [attr.data-tng-otp-slot]="$index"
+      [value]="slot"
+      [attr.aria-label]="'OTP character ' + ($index + 1)"
+      inputmode="numeric"
+      maxlength="1"
+      type="text"
+      (input)="onSlotInput($index, $event)"
+      (keydown)="onSlotKeydown($index, $event)"
+    />
+  }
+</div>
