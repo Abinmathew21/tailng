@@ -196,6 +196,13 @@ export const appRoutes: Route[] = [
       ),
   },
   {
+    path: 'chips',
+    loadComponent: () =>
+      import('./pages/components/chips-demo/chips-playground-page.component').then(
+        (module) => module.ChipsPlaygroundPageComponent,
+      ),
+  },
+  {
     path: '**',
     redirectTo: '',
   },
