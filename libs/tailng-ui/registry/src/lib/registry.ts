@@ -4,6 +4,7 @@ import { buttonRegistryItem } from './button/button.registry';
 import { cardRegistryItem } from './card/card.registry';
 import { checkboxRegistryItem } from './checkbox/checkbox.registry';
 import { dialogRegistryItem } from './dialog/dialog.registry';
+import { dropdownMenuRegistryItem } from './dropdown-menu/dropdown-menu.registry';
 import { emptyRegistryItem } from './empty/empty.registry';
 import { inputRegistryItem } from './input/input.registry';
 import { menuRegistryItem } from './menu/menu.registry';
@@ -24,6 +25,7 @@ export const tailngRegistry: readonly RegistryItem[] = [
   cardRegistryItem,
   checkboxRegistryItem,
   dialogRegistryItem,
+  dropdownMenuRegistryItem,
   emptyRegistryItem,
   inputRegistryItem,
   menuRegistryItem,

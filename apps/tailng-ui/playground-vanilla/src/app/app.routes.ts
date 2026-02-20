@@ -35,6 +35,13 @@ export const appRoutes: Route[] = [
       ),
   },
   {
+    path: 'dropdown-menu',
+    loadComponent: () =>
+      import(
+        './pages/components/dropdown-menu-demo/dropdown-menu-playground-page.component'
+      ).then((module) => module.DropdownMenuPlaygroundPageComponent),
+  },
+  {
     path: 'avatar',
     loadComponent: () =>
       import('./pages/primitives/avatar-demo/avatar-playground-page.component').then(
