@@ -9,6 +9,7 @@ export * from './lib/toolbar/tng-toolbar';
 export * from './lib/tabs/tng-tabs';
 export * from './lib/stepper/tng-stepper';
 export * from './lib/toggle-group/tng-toggle-group';
+export * from './lib/button-toggle/tng-button-toggle';
 export * from './lib/chips/tng-chips';
 export * from './lib/combobox/tng-combobox';
 export * from './lib/select/tng-select';

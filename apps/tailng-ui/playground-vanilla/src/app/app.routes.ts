@@ -210,6 +210,13 @@ export const appRoutes: Route[] = [
       ),
   },
   {
+    path: 'button-toggle',
+    loadComponent: () =>
+      import('./pages/components/button-toggle-demo/button-toggle-playground-page.component').then(
+        (module) => module.ButtonTogglePlaygroundPageComponent,
+      ),
+  },
+  {
     path: 'switch',
     loadComponent: () =>
       import('./pages/components/switch-demo/switch-playground-page.component').then(

@@ -10,6 +10,8 @@ export * from './lib/toolbar/tng-toolbar.component';
 export * from './lib/tabs/tng-tabs.component';
 export * from './lib/stepper/tng-stepper.component';
 export * from './lib/toggle-group/tng-toggle-group.component';
+export * from './lib/button-toggle/tng-button-toggle.component';
+export * from './lib/button-toggle/tng-button-toggle-group.component';
 export * from './lib/chips/tng-chips.component';
 export * from './lib/combobox/tng-combobox.component';
 export * from './lib/select/tng-select.component';
