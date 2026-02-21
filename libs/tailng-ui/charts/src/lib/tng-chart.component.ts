@@ -1,14 +1,12 @@
 import {
-  AfterViewInit,
   booleanAttribute,
   Component,
   effect,
-  ElementRef,
   input,
   output,
   viewChild,
 } from '@angular/core';
-import type { OnDestroy } from '@angular/core';
+import type { AfterViewInit, ElementRef, OnDestroy } from '@angular/core';
 import type {
   TngChartInitOptions,
   TngChartInstance,
@@ -81,7 +79,11 @@ export class TngChart implements AfterViewInit, OnDestroy {
     this.updateResizeObservation(this.autoResize());
   });
 
-  public async ngAfterViewInit(): Promise<void> {
+  public ngAfterViewInit(): void {
+    void this.initializeChart();
+  }
+
+  private async initializeChart(): Promise<void> {
     const hostElement = this.hostRef()?.nativeElement;
     if (hostElement === undefined) {
       return;
@@ -89,7 +91,7 @@ export class TngChart implements AfterViewInit, OnDestroy {
 
     try {
       const runtime = await loadTngEchartsRuntime(this.runtimeLoader());
-      this.chart = this.initChart(runtime, hostElement);
+      this.chart = this.initChart(runtime);
       this.applyOption(this.option(), this.merge(), this.lazyUpdate());
       this.setLoading(this.loading());
       this.updateResizeObservation(this.autoResize());
@@ -140,14 +142,19 @@ export class TngChart implements AfterViewInit, OnDestroy {
     this.chart = null;
   }
 
-  private initChart(runtime: TngChartRuntime, host: HTMLElement): TngChartInstance {
+  private initChart(runtime: TngChartRuntime): TngChartInstance {
+    const hostElement = this.hostRef()?.nativeElement;
+    if (hostElement === undefined) {
+      throw new Error('Chart host element is not available.');
+    }
+
     const initOptions: TngChartInitOptions = {
       renderer: resolveTngChartRenderer(this.renderer()),
     };
-    return runtime.init(host, this.theme(), initOptions);
+    return runtime.init(hostElement, this.theme(), initOptions);
   }
 
-  private setLoading(loading: boolean): void {
+  private setLoading(loading: Readonly<boolean>): void {
     if (this.chart === null) {
       return;
     }
@@ -180,11 +187,9 @@ export class TngChart implements AfterViewInit, OnDestroy {
       return;
     }
 
-    if (this.resizeObserver === null) {
-      this.resizeObserver = new ResizeObserver((): void => {
-        chart.resize();
-      });
-    }
+    this.resizeObserver ??= new ResizeObserver((): void => {
+      chart.resize();
+    });
 
     this.resizeObserver.disconnect();
     this.resizeObserver.observe(hostElement);

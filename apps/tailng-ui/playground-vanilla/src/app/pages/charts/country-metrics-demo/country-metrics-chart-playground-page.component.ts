@@ -1,8 +1,11 @@
 import { Component, computed, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { TngChart, type TngChartOption } from '@tailng-ui/charts';
+import {
+  TngBarChart,
+  type TngBarChartInput,
+  type TngBarChartKind,
+} from '@tailng-ui/charts';
 
-type TngChartKind = 'bar' | 'line';
 type TngMetricKind = 'gdp' | 'landArea' | 'population';
 
 type TngCountryMetrics = Readonly<{
@@ -117,84 +120,30 @@ function createMetricSeriesData(
   return rows.map((row) => row.gdpTrillionUsd);
 }
 
-function createCountryMetricsChartOption(
-  metricKind: TngMetricKind,
-  chartKind: TngChartKind,
-): TngChartOption {
+function createCountryMetricsChartInput(metricKind: TngMetricKind): TngBarChartInput {
   const metricMeta = metricMetaByKind[metricKind];
   const seriesData = createMetricSeriesData(metricKind, countryMetrics);
   const countryLabels = countryMetrics.map((row) => row.country);
 
   return {
-    animationDuration: 320,
-    grid: {
-      bottom: 80,
-      left: 72,
-      right: 24,
-      top: 28,
-    },
-    legend: {
-      data: [metricMeta.label],
-      textStyle: {
-        color: '#cbd5e1',
-      },
-    },
-    tooltip: {
-      trigger: 'axis',
-      valueFormatter: (value: number): string => `${value.toLocaleString()} ${metricMeta.unit}`,
-    },
-    xAxis: {
-      axisLabel: {
-        color: '#cbd5e1',
-        interval: 0,
-        rotate: 28,
-      },
-      axisLine: {
-        lineStyle: {
-          color: '#334155',
-        },
-      },
-      data: countryLabels,
-      type: 'category',
-    },
-    yAxis: {
-      axisLabel: {
-        color: '#cbd5e1',
-      },
-      name: `${metricMeta.label} (${metricMeta.unit})`,
-      nameTextStyle: {
-        color: '#94a3b8',
-      },
-      splitLine: {
-        lineStyle: {
-          color: 'rgba(148, 163, 184, 0.25)',
-        },
-      },
-      type: 'value',
-    },
+    categories: countryLabels,
+    chartTitle: `${metricMeta.label} by Country`,
     series: [
       {
-        areaStyle: chartKind === 'line' ? { color: metricMeta.color, opacity: 0.12 } : undefined,
-        barMaxWidth: chartKind === 'bar' ? 44 : undefined,
-        itemStyle: {
-          borderRadius: chartKind === 'bar' ? [6, 6, 0, 0] : undefined,
-          color: metricMeta.color,
-        },
-        lineStyle: chartKind === 'line' ? { color: metricMeta.color, width: 3 } : undefined,
+        color: metricMeta.color,
         name: metricMeta.label,
-        smooth: chartKind === 'line',
-        symbol: chartKind === 'line' ? 'circle' : undefined,
-        symbolSize: chartKind === 'line' ? 8 : undefined,
-        type: chartKind,
-        data: seriesData,
+        values: seriesData,
       },
     ],
+    unitLabel: metricMeta.unit,
+    xAxisLabelRotation: 28,
+    yAxisLabel: metricMeta.label,
   };
 }
 
 @Component({
   selector: 'app-country-metrics-chart-playground-page',
-  imports: [RouterLink, TngChart],
+  imports: [RouterLink, TngBarChart],
   templateUrl: './country-metrics-chart-playground-page.component.html',
   styleUrl: './country-metrics-chart-playground-page.component.css',
 })
@@ -203,7 +152,7 @@ export class CountryMetricsChartPlaygroundPageComponent {
   protected readonly countries = countryMetrics;
   protected readonly metricKinds = metricKinds;
 
-  protected readonly selectedChartKind = signal<TngChartKind>('bar');
+  protected readonly selectedChartKind = signal<TngBarChartKind>('bar');
   protected readonly selectedMetricKind = signal<TngMetricKind>('population');
   protected readonly runtimeErrorMessage = signal<string | null>(null);
 
@@ -211,11 +160,11 @@ export class CountryMetricsChartPlaygroundPageComponent {
     return metricMetaByKind[this.selectedMetricKind()];
   });
 
-  protected readonly chartOption = computed<TngChartOption>(() => {
-    return createCountryMetricsChartOption(this.selectedMetricKind(), this.selectedChartKind());
+  protected readonly chartInput = computed<TngBarChartInput>(() => {
+    return createCountryMetricsChartInput(this.selectedMetricKind());
   });
 
-  protected onChartKindSelect(chartKind: TngChartKind): void {
+  protected onChartKindSelect(chartKind: TngBarChartKind): void {
     this.selectedChartKind.set(chartKind);
   }
 

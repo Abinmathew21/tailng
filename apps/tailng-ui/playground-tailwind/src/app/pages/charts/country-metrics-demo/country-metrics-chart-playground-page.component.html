@@ -12,7 +12,7 @@
       <h1 class="text-3xl font-semibold md:text-4xl">Country Metrics Chart Demo (Tailwind)</h1>
       <p class="max-w-3xl text-slate-300">
         Compare population, land area, and GDP across top countries. Switch between bar and line
-        view using the same `TngChart` host.
+        view using the same `TngBarChart` wrapper.
       </p>
     </header>
 
@@ -59,9 +59,10 @@
         class="rounded-xl border border-slate-700 bg-slate-950 p-3"
         [style.borderColor]="activeMetricMeta().color"
       >
-        <tng-chart
+        <tng-bar-chart
           class="block min-h-[26rem]"
-          [option]="chartOption()"
+          [data]="chartInput()"
+          [kind]="selectedChartKind()"
           (runtimeError)="onRuntimeError($event)"
         />
       </article>

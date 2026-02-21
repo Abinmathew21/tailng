@@ -7,7 +7,7 @@
       <h1 class="title">Country Metrics Chart Demo (Vanilla CSS)</h1>
       <p class="subtitle">
         Compare population, land area, and GDP across top countries. Switch between bar and line
-        view using the same `TngChart` host.
+        view using the same `TngBarChart` wrapper.
       </p>
     </header>
 
@@ -41,9 +41,10 @@
       </div>
 
       <article class="chart-shell" [style.borderColor]="activeMetricMeta().color">
-        <tng-chart
+        <tng-bar-chart
           class="chart-host"
-          [option]="chartOption()"
+          [data]="chartInput()"
+          [kind]="selectedChartKind()"
           (runtimeError)="onRuntimeError($event)"
         />
       </article>

@@ -25,7 +25,7 @@ export type TngChartInstance = Readonly<{
 
 export type TngChartRuntime = Readonly<{
   init: (
-    element: HTMLElement,
+    element: unknown,
     theme?: TngChartTheme,
     opts?: TngChartInitOptions,
   ) => TngChartInstance;

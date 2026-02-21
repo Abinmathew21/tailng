@@ -17,3 +17,13 @@ export {
   shouldAttachTngChartResizeObserver,
   TngChart,
 } from './lib/tng-chart.component';
+
+export type {
+  TngBarChartInput,
+  TngBarChartKind,
+  TngBarSeriesInput,
+} from './lib/series/bar/bar.types';
+
+export { createTngBarChartOption } from './lib/series/bar/bar.option-builder';
+
+export { TngBarChart } from './lib/series/bar/tng-bar-chart.component';
