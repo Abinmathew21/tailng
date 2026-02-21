@@ -34,26 +34,26 @@
       } @else {
         @for (group of groups(); track group.category) {
           <tng-accordion [title]="group.label" [defaultOpen]="true">
-            <div
-              role="listbox"
-              class="flex flex-col gap-0.5"
+            <ul
+              tngMenu
+              role="menu"
+              class="flex list-none flex-col gap-0.5 p-0 m-0"
               [attr.aria-label]="group.label + ' components'"
             >
               @for (item of group.items; track item.path) {
-                <div
-                  role="option"
-                  [attr.aria-selected]="isActive(item.path)"
+                <li
+                  role="menuitem"
                   tabindex="0"
                   (click)="onOptionSelect(item.path)"
-                  (keydown)="onOptionKeydown(item.path, $event)"
+                  (keydown)="onMenuKeydown(item.path, $event)"
                   class="cursor-pointer rounded py-1.5 px-3 text-[0.8125rem] text-tng-fg-secondary transition-colors duration-150 hover:bg-tng-bg-muted hover:text-tng-fg-primary focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-tng-focus-ring focus-visible:outline-offset-[-1px]"
                   [class.bg-tng-bg-muted]="isActive(item.path)"
                   [class.text-tng-accent-brand]="isActive(item.path)"
                 >
                   {{ item.title }}
-                </div>
+                </li>
               }
-            </div>
+            </ul>
           </tng-accordion>
         }
       }

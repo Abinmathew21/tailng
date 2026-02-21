@@ -24,6 +24,7 @@ import {
   TngBreadcrumbLink,
   TngBreadcrumbList,
   TngBreadcrumbSeparator,
+  TngMenu,
 } from '@tailng-ui/primitives';
 import { TngAccordion, TngToggle } from '@tailng-ui/components';
 import { TngIcon } from '@tailng-ui/icons';
@@ -78,6 +79,7 @@ function getUrlPath(url: string): string {
     TngBreadcrumbItem,
     TngBreadcrumbLink,
     TngBreadcrumbSeparator,
+    TngMenu,
   ],
   templateUrl: './playground-layout.component.html',
   styleUrl: './playground-layout.component.css',
@@ -241,7 +243,7 @@ export class PlaygroundLayoutComponent {
     this.router.navigateByUrl(path);
   }
 
-  protected onOptionKeydown(path: string, event: KeyboardEvent): void {
+  protected onMenuKeydown(path: string, event: KeyboardEvent): void {
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
       this.onOptionSelect(path);
