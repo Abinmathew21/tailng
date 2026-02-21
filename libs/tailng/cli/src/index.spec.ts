@@ -453,6 +453,29 @@ it('tailng cli integration: add writes copy source files', async (): Promise<voi
   ).toBe(true);
 });
 
+it('tailng cli integration: add writes code-block source files', async (): Promise<void> => {
+  const targetRoot = await createTargetRoot();
+
+  const exitCode = await runCli(['add', 'code-block', '--cwd', targetRoot], {
+    registry: registryModule,
+  });
+
+  expect(exitCode).toBe(0);
+  expect(
+    await pathExists(path.join(targetRoot, 'src/app/tailng-ui/code-block/tng-code-block.ts')),
+  ).toBe(true);
+  expect(
+    await pathExists(
+      path.join(targetRoot, 'src/app/tailng-ui/code-block/tng-code-block-primitive.ts'),
+    ),
+  ).toBe(true);
+  expect(
+    await pathExists(
+      path.join(targetRoot, 'src/app/tailng-ui/code-block/tng-code-highlighting.ts'),
+    ),
+  ).toBe(true);
+});
+
 it('tailng cli integration: add writes checkbox source files', async (): Promise<void> => {
   const targetRoot = await createTargetRoot();
 

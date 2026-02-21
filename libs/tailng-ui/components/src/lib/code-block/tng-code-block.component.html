@@ -1,0 +1,46 @@
+<section
+  tngCodeBlock
+  class="tng-code-block"
+  [attr.data-language]="languageLabel()"
+  [attr.data-wrap]="wrap() ? '' : null"
+>
+  @if (showHeader()) {
+    <header tngCodeBlockHeader class="tng-code-block__header">
+      <span class="tng-code-block__language">{{ languageLabel() }}</span>
+
+      @if (copy()) {
+        <button
+          type="button"
+          tngCopy
+          class="tng-code-block__copy-button"
+          [attr.data-copy-state]="copyButtonLabel()"
+          [tngCopyText]="normalizedCode()"
+          [tngCopyDisabled]="copyDisabled()"
+          (tngCopied)="onCopied($event)"
+          (tngCopyError)="onCopyError($event)"
+        >
+          {{ copyButtonLabel() }}
+        </button>
+      }
+    </header>
+  }
+
+  <div
+    tngCodeBlockBody
+    class="tng-code-block__body"
+    [class.tng-code-block__body--line-numbers]="showLineNumbers()"
+    [class.tng-code-block__body--wrap]="wrap()"
+  >
+    @if (showLineNumbers()) {
+      <ol tngCodeBlockGutter class="tng-code-block__gutter" aria-hidden="true">
+        @for (lineNumber of lineNumbers(); track lineNumber) {
+          <li class="tng-code-block__line-number">{{ lineNumber }}</li>
+        }
+      </ol>
+    }
+
+    <pre class="tng-code-block__pre" [attr.data-highlighting]="isHighlighting() ? 'pending' : 'ready'">
+<code tngCodeBlockCode class="tng-code-block__code" [innerHTML]="highlightedHtml()"></code>
+    </pre>
+  </div>
+</section>

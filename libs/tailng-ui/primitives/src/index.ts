@@ -4,6 +4,7 @@ export * from './lib/menu/tng-menu';
 export * from './lib/dropdown-menu/tng-dropdown-menu';
 export * from './lib/context-menu/tng-context-menu';
 export * from './lib/copy/tng-copy';
+export * from './lib/code-block/tng-code-block';
 export * from './lib/menubar/tng-menubar';
 export * from './lib/navigation-menu/tng-navigation-menu';
 export * from './lib/toolbar/tng-toolbar';

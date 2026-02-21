@@ -28,6 +28,13 @@ export const appRoutes: Route[] = [
       ),
   },
   {
+    path: 'code-block',
+    loadComponent: () =>
+      import('./pages/primitives/code-block-demo/code-block-playground-page.component').then(
+        (module) => module.CodeBlockPlaygroundPageComponent,
+      ),
+  },
+  {
     path: 'accordion',
     loadComponent: () =>
       import('./pages/components/accordion-demo/accordion-playground-page.component').then(

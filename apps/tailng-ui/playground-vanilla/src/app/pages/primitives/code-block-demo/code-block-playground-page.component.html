@@ -1,0 +1,45 @@
+<main class="page">
+  <section class="container">
+    <header class="hero">
+      <div class="links">
+        <a routerLink="/">Home</a>
+        <a routerLink="/copy">Copy Demo</a>
+      </div>
+      <h1 class="title">Code Block Demo (Plain CSS)</h1>
+      <p class="subtitle">
+        Adapter-based highlighting strategy with per-block selection. A custom
+        <code>keyword</code> adapter is registered on this page via
+        <code>provideTngCodeHighlighting(...)</code>.
+      </p>
+    </header>
+
+    <section class="card-grid">
+      <article class="card">
+        <h2>Adapter: plain (default)</h2>
+        <tng-code-block [code]="angularSnippet" language="ts" />
+      </article>
+
+      <article class="card">
+        <h2>Adapter: keyword (custom)</h2>
+        <tng-code-block [code]="angularSnippet" language="ts" adapter="keyword" />
+      </article>
+    </section>
+
+    <section class="card-grid">
+      <article class="card">
+        <h2>Highlight Off + No Line Numbers</h2>
+        <tng-code-block
+          [code]="htmlSnippet"
+          language="html"
+          highlightMode="off"
+          [showLineNumbers]="false"
+        />
+      </article>
+
+      <article class="card">
+        <h2>Wrapped Shell Example</h2>
+        <tng-code-block [code]="shellSnippet" language="bash" [wrap]="true" />
+      </article>
+    </section>
+  </section>
+</main>
