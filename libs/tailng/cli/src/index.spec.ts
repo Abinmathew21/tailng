@@ -337,6 +337,22 @@ it('tailng cli integration: add writes drawer source files', async (): Promise<v
   ).toBe(true);
 });
 
+it('tailng cli integration: sidenav alias resolves to drawer source files', async (): Promise<void> => {
+  const targetRoot = await createTargetRoot();
+
+  const exitCode = await runCli(['add', 'sidenav', '--cwd', targetRoot], {
+    registry: registryModule,
+  });
+
+  expect(exitCode).toBe(0);
+  expect(await pathExists(path.join(targetRoot, 'src/app/tailng-ui/drawer/tng-drawer.ts'))).toBe(
+    true,
+  );
+  expect(
+    await pathExists(path.join(targetRoot, 'src/app/tailng-ui/drawer/tng-drawer-primitive.ts')),
+  ).toBe(true);
+});
+
 it('tailng cli integration: add writes bottom-sheet source files', async (): Promise<void> => {
   const targetRoot = await createTargetRoot();
 
@@ -451,6 +467,29 @@ it('tailng cli integration: add writes progress-spinner source files', async ():
   const targetRoot = await createTargetRoot();
 
   const exitCode = await runCli(['add', 'progress-spinner', '--cwd', targetRoot], {
+    registry: registryModule,
+  });
+
+  expect(exitCode).toBe(0);
+  expect(
+    await pathExists(
+      path.join(targetRoot, 'src/app/tailng-ui/progress-spinner/tng-progress-spinner.ts'),
+    ),
+  ).toBe(true);
+  expect(
+    await pathExists(
+      path.join(
+        targetRoot,
+        'src/app/tailng-ui/progress-spinner/tng-progress-spinner-primitive.ts',
+      ),
+    ),
+  ).toBe(true);
+});
+
+it('tailng cli integration: spinner alias resolves to progress-spinner source files', async (): Promise<void> => {
+  const targetRoot = await createTargetRoot();
+
+  const exitCode = await runCli(['add', 'spinner', '--cwd', targetRoot], {
     registry: registryModule,
   });
 

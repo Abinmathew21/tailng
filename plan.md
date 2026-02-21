@@ -1,5 +1,13 @@
 # TailNG Angular ARIA Wrapper Plan
 
+## 0. Canonical Components (De-duplicated)
+
+- `accordion` covers `expansion-panel`
+- `drawer` covers `sidenav`, `sidebar`, `sheet`
+- `switch` covers `slide-toggle`
+- `progress-spinner` covers `spinner`
+- `toast` will cover `snackbar` and `sonner`
+
 ## 1. Public Import Contract
 
 | Component | Unstyled (npm) | Styled (npm) | Registry CLI |

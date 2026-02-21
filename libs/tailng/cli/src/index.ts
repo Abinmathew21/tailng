@@ -47,8 +47,20 @@ const usageText = [
   'Examples:',
   '  tailng list',
   '  tailng add button',
+  '  tailng add slide-toggle',
+  '  tailng add sidenav',
   '  tailng add button --cwd apps/tailng-ui/playground-vanilla --dry-run',
 ].join('\n');
+
+const componentAliases: Readonly<Record<string, string>> = Object.freeze({
+  'expansion-panel': 'accordion',
+  'side-nav': 'drawer',
+  sidebar: 'drawer',
+  sidenav: 'drawer',
+  sheet: 'drawer',
+  'slide-toggle': 'switch',
+  spinner: 'progress-spinner',
+});
 
 function isOptionExpectingValue(name: string): boolean {
   return name === 'cwd';
@@ -182,6 +194,27 @@ function writeHelp(message: string | null): void {
   }
 
   writeInfo(usageText);
+}
+
+function normalizeComponentName(name: string): string {
+  return name.trim().toLowerCase();
+}
+
+function resolveCanonicalComponentName(name: string): string {
+  const normalizedName = normalizeComponentName(name);
+  return componentAliases[normalizedName] ?? normalizedName;
+}
+
+function toAliasEntries(): readonly (readonly [alias: string, canonicalName: string])[] {
+  const aliasEntries = Object.entries(componentAliases) as readonly (readonly [string, string])[];
+  return [...aliasEntries].sort(
+    (
+      leftEntry: readonly [string, string],
+      rightEntry: readonly [string, string],
+    ): number => {
+      return leftEntry[0].localeCompare(rightEntry[0]);
+    },
+  );
 }
 
 function formatComponentNames(registry: RegistryModule): string {
@@ -343,6 +376,10 @@ function printImportHint(item: RegistryItem): void {
   writeInfo(importHint);
 }
 
+function printAliasResolution(requestedName: string, canonicalName: string): void {
+  writeInfo(`Alias "${requestedName}" resolved to canonical component "${canonicalName}".`);
+}
+
 function printExistingTargetsError(existingTargets: readonly WriteTarget[]): void {
   writeError('The following files already exist:');
   for (const target of existingTargets) {
@@ -400,7 +437,14 @@ async function writeTargets(targets: readonly WriteTarget[]): Promise<void> {
 }
 
 async function runAddCommand(command: AddCommand, registry: RegistryModule): Promise<number> {
-  const item = registry.getRegistryItem(command.componentName);
+  const requestedName = normalizeComponentName(command.componentName);
+  const canonicalName = resolveCanonicalComponentName(requestedName);
+
+  if (requestedName !== canonicalName) {
+    printAliasResolution(requestedName, canonicalName);
+  }
+
+  const item = registry.getRegistryItem(canonicalName);
   if (!item) {
     writeError(`Unknown component "${command.componentName}".`);
     writeError(`Available components: ${formatComponentNames(registry)}`);
@@ -441,6 +485,12 @@ function runListCommand(registry: RegistryModule): number {
   writeInfo('Available components:');
   for (const name of registry.listRegistryItemNames()) {
     writeInfo(`- ${name}`);
+  }
+
+  writeInfo('');
+  writeInfo('Aliases (resolved to canonical components):');
+  for (const [alias, canonicalName] of toAliasEntries()) {
+    writeInfo(`- ${alias} -> ${canonicalName}`);
   }
 
   return 0;

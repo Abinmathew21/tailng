@@ -320,6 +320,16 @@ Note:
 import { TngButton } from './tailng-ui/button';
 ```
 
+Canonical aliases supported by `tailng add`:
+
+- `slide-toggle` -> `switch`
+- `sidenav` -> `drawer`
+- `sidebar` -> `drawer`
+- `side-nav` -> `drawer`
+- `sheet` -> `drawer`
+- `expansion-panel` -> `accordion`
+- `spinner` -> `progress-spinner`
+
 ---
 
 ## 🏷 Component Guidelines

@@ -17,6 +17,7 @@ tailng list
 tailng add button --cwd apps/tailng-ui/playground-vanilla
 tailng add dialog --cwd apps/tailng-ui/playground-vanilla
 tailng add popover --cwd apps/tailng-ui/playground-vanilla
+tailng add slide-toggle --cwd apps/tailng-ui/playground-vanilla
 ```
 
 ## Options
@@ -24,3 +25,15 @@ tailng add popover --cwd apps/tailng-ui/playground-vanilla
 - `--cwd <path>` target project root (defaults to current working directory)
 - `--dry-run` print file operations without writing files
 - `--force` overwrite existing files
+
+## Canonical Names
+
+TailNG keeps one canonical component per pattern and resolves common aliases:
+
+- `slide-toggle` -> `switch`
+- `sidenav` -> `drawer`
+- `sidebar` -> `drawer`
+- `side-nav` -> `drawer`
+- `sheet` -> `drawer`
+- `expansion-panel` -> `accordion`
+- `spinner` -> `progress-spinner`
