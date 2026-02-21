@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import {
   TngCard,
   TngCardContent,
@@ -20,7 +19,6 @@ import {
 @Component({
   selector: 'app-card-playground-page',
   imports: [
-    RouterLink,
     TngCardPrimitive,
     TngCardHeaderPrimitive,
     TngCardTitlePrimitive,

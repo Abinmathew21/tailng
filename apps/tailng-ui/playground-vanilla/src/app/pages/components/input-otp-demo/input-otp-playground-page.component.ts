@@ -1,11 +1,10 @@
 import { Component, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { TngInputOtp } from '@tailng-ui/components';
 import { TngInputOtp as TngInputOtpPrimitive } from '@tailng-ui/primitives';
 
 @Component({
   selector: 'app-input-otp-playground-page',
-  imports: [RouterLink, TngInputOtpPrimitive, TngInputOtp],
+  imports: [TngInputOtpPrimitive, TngInputOtp],
   templateUrl: './input-otp-playground-page.component.html',
   styleUrl: './input-otp-playground-page.component.css',
 })

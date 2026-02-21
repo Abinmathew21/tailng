@@ -1,5 +1,4 @@
 import { Component, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { TngTooltip } from '@tailng-ui/components';
 import {
   TngTooltipContent as TngTooltipContentPrimitive,
@@ -11,7 +10,7 @@ const tooltipSides = Object.freeze(['top', 'right', 'bottom', 'left'] as const);
 
 @Component({
   selector: 'app-tooltip-playground-page',
-  imports: [RouterLink, TngTooltipTriggerPrimitive, TngTooltipContentPrimitive, TngTooltip],
+  imports: [TngTooltipTriggerPrimitive, TngTooltipContentPrimitive, TngTooltip],
   templateUrl: './tooltip-playground-page.component.html',
   styleUrl: './tooltip-playground-page.component.css',
 })

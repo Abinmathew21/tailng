@@ -1,5 +1,4 @@
 import { computed, Component, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import {
   createActiveDescendantController,
   resolveListNavigationKeyAction,
@@ -80,7 +79,7 @@ function isPrintableTypeaheadKey(key: string): boolean {
 
 @Component({
   selector: 'app-listbox-playground-page',
-  imports: [RouterLink],
+  imports: [],
   templateUrl: './listbox-playground-page.component.html',
   styleUrl: './listbox-playground-page.component.css',
 })

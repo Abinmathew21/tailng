@@ -1,5 +1,4 @@
 import { Component, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { TngCollapsible as TngCollapsibleComponent } from '@tailng-ui/components';
 import {
   TngCollapsible,
@@ -12,7 +11,6 @@ const primitiveContentId = 'tailng-collapsible-primitive-content';
 @Component({
   selector: 'app-collapsible-playground-page',
   imports: [
-    RouterLink,
     TngCollapsibleComponent,
     TngCollapsible,
     TngCollapsibleTrigger,

@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import {
   createTngCodeHighlighterAdapter,
   escapeTngCodeHtml,
@@ -26,7 +25,7 @@ const codeHighlightingConfig = resolveTngCodeHighlightingConfig({
 
 @Component({
   selector: 'app-code-block-playground-page',
-  imports: [RouterLink, TngCodeBlock],
+  imports: [TngCodeBlock],
   providers: [
     {
       provide: TNG_CODE_HIGHLIGHTING_CONFIG,

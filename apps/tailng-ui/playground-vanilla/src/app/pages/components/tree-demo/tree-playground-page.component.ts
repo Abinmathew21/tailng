@@ -1,5 +1,4 @@
 import { Component, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { TngTree, type TngTreeItem } from '@tailng-ui/components';
 import { TngTree as TngTreePrimitive } from '@tailng-ui/primitives';
 
@@ -76,7 +75,7 @@ function toSelectionLabel(nodeId: string | null): string {
 
 @Component({
   selector: 'app-tree-playground-page',
-  imports: [RouterLink, TngTreePrimitive, TngTree],
+  imports: [TngTreePrimitive, TngTree],
   templateUrl: './tree-playground-page.component.html',
   styleUrl: './tree-playground-page.component.css',
 })

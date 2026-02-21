@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { TngIcon } from '@tailng-ui/icons';
 
 type CountryPopulationRow = Readonly<{
@@ -111,7 +110,7 @@ const topPopulationCountries: readonly CountryPopulationRow[] = [
 
 @Component({
   selector: 'app-icon-playground-page',
-  imports: [RouterLink, TngIcon],
+  imports: [TngIcon],
   templateUrl: './icon-playground-page.component.html',
   styleUrl: './icon-playground-page.component.css',
 })

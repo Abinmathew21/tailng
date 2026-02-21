@@ -1,5 +1,4 @@
 import { Component, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import {
   TngButton,
   TngToast,
@@ -24,7 +23,7 @@ const toneTitleByTone: Readonly<Record<TngToastTone, string>> = Object.freeze({
 
 @Component({
   selector: 'app-toast-playground-page',
-  imports: [RouterLink, TngButton, TngToast],
+  imports: [TngButton, TngToast],
   templateUrl: './toast-playground-page.component.html',
   styleUrl: './toast-playground-page.component.css',
 })

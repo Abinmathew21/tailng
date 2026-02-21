@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { TngBreadcrumb as TngBreadcrumbComponent } from '@tailng-ui/components';
 import {
   TngBreadcrumb,
@@ -12,7 +11,6 @@ import {
 @Component({
   selector: 'app-breadcrumb-playground-page',
   imports: [
-    RouterLink,
     TngBreadcrumb,
     TngBreadcrumbList,
     TngBreadcrumbItem,
