@@ -45,5 +45,6 @@ export * from './lib/separator/separator.registry';
 export * from './lib/slider/slider.registry';
 export * from './lib/textarea/textarea.registry';
 export * from './lib/toast/toast.registry';
+export * from './lib/playground-items';
 export * from './lib/registry';
 export * from './lib/registry.types';
