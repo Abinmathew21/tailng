@@ -14,11 +14,13 @@ describe('switch registry item', () => {
     );
     expect(componentFile).toBeDefined();
     expect(componentFile?.content).toContain("selector: 'tng-switch'");
+    expect(componentFile?.content).toContain('resolveTngSwitchArrowKey');
 
     const primitiveFile = switchRegistryItem.files.find((file) =>
       file.path.endsWith('tailng-ui/switch/tng-switch-primitive.ts'),
     );
     expect(primitiveFile).toBeDefined();
     expect(primitiveFile?.content).toContain("selector: 'button[tngSwitch]'");
+    expect(primitiveFile?.content).toContain('resolveTngSwitchAriaRequired');
   });
 });

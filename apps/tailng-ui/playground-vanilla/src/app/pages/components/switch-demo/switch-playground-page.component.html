@@ -5,22 +5,54 @@
         <a routerLink="/">Home</a>
       </div>
       <h1 class="title">Switch Demo (Vanilla CSS)</h1>
-      <p class="subtitle">On/off control with accessible role and state attributes.</p>
+      <p class="subtitle">
+        Slide-style on/off control with <code>role="switch"</code> and <code>aria-checked</code>.
+      </p>
     </header>
 
     <section class="card">
       <h2>Primitives (`tngSwitch`)</h2>
-      <button tngSwitch class="primitive-shell">Primitive switch shell</button>
+      <button
+        tngSwitch
+        [checked]="primitiveChecked()"
+        ariaLabel="Toggle primitive wifi switch"
+        class="primitive-shell"
+        (click)="onPrimitiveSwitchToggle()"
+      >
+        Wi-Fi {{ primitiveChecked() ? 'on' : 'off' }}
+      </button>
     </section>
 
     <section class="card">
       <h2>Components (`tng-switch`)</h2>
-      <tng-switch
-        [checked]="notificationsEnabled()"
-        (checkedChange)="onNotificationsEnabledChange($event)"
-      >
-        Notifications {{ notificationsEnabled() ? 'enabled' : 'disabled' }}
-      </tng-switch>
+      <div class="switch-group">
+        <tng-switch
+          [checked]="notificationsEnabled()"
+          ariaLabel="Toggle notifications"
+          name="notifications"
+          (checkedChange)="onNotificationsEnabledChange($event)"
+        >
+          Notifications {{ notificationsEnabled() ? 'enabled' : 'disabled' }}
+        </tng-switch>
+
+        <tng-switch
+          [checked]="airplaneModeEnabled()"
+          ariaLabel="Toggle airplane mode"
+          name="airplane-mode"
+          (checkedChange)="onAirplaneModeChange($event)"
+        >
+          Airplane mode {{ airplaneModeEnabled() ? 'enabled' : 'disabled' }}
+        </tng-switch>
+
+        <tng-switch [checked]="true" [disabled]="true" ariaLabel="Bluetooth always on" name="bluetooth">
+          Bluetooth forced on (disabled)
+        </tng-switch>
+      </div>
+
+      <p class="hint">
+        Need icon-style pressed button instead?
+        <a routerLink="/toggle">Toggle Demo</a>.
+      </p>
     </section>
   </section>
 </main>

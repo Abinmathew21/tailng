@@ -58,6 +58,21 @@
   padding: 0.75rem;
 }
 
+.switch-group {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.hint {
+  color: #94a3b8;
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+.hint a {
+  color: #22d3ee;
+}
+
 @media (min-width: 768px) {
   .page {
     padding-inline: 2rem;
