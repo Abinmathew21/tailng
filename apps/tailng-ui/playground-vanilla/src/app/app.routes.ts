@@ -245,6 +245,13 @@ export const appRoutes: Route[] = [
       ),
   },
   {
+    path: 'toggle',
+    loadComponent: () =>
+      import('./pages/components/toggle-demo/toggle-playground-page.component').then(
+        (module) => module.TogglePlaygroundPageComponent,
+      ),
+  },
+  {
     path: 'slider',
     loadComponent: () =>
       import('./pages/components/slider-demo/slider-playground-page.component').then(

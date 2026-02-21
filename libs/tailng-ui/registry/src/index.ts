@@ -15,6 +15,7 @@ export * from './lib/chips/chips.registry';
 export * from './lib/combobox/combobox.registry';
 export * from './lib/select/select.registry';
 export * from './lib/switch/switch.registry';
+export * from './lib/toggle/toggle.registry';
 export * from './lib/autocomplete/autocomplete.registry';
 export * from './lib/multiselect/multiselect.registry';
 export * from './lib/collapsible/collapsible.registry';

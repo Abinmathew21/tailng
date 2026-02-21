@@ -1,0 +1,18 @@
+<button
+  tngToggle
+  class="tng-toggle-control"
+  [pressed]="pressed()"
+  [disabled]="disabled()"
+  [attr.aria-label]="getAriaLabel()"
+  (click)="onToggle()"
+>
+  @if (pressed()) {
+    <span class="tng-toggle-icon">
+      <ng-content select="[onIcon]">on</ng-content>
+    </span>
+  } @else {
+    <span class="tng-toggle-icon">
+      <ng-content select="[offIcon]">off</ng-content>
+    </span>
+  }
+</button>

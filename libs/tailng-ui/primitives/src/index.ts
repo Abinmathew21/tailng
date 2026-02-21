@@ -14,6 +14,7 @@ export * from './lib/chips/tng-chips';
 export * from './lib/combobox/tng-combobox';
 export * from './lib/select/tng-select';
 export * from './lib/switch/tng-switch';
+export * from './lib/toggle/tng-toggle';
 export * from './lib/autocomplete/tng-autocomplete';
 export * from './lib/breadcrumb/tng-breadcrumb';
 export * from './lib/collapsible/tng-collapsible';
