@@ -69,3 +69,18 @@ it('ignores selection delegate when enabledFeatures excludes selection-model', (
   expect(createSelection).not.toHaveBeenCalled();
   expect(model.getSelected()).toEqual(['alpha']);
 });
+
+it('uses tailng selection model when adapter mode is fallback-tailng', () => {
+  const createSelection = vi.fn<
+    (options: TngSelectionModelOptions<string>) => TngSelectionModel<string>
+  >(() => createSelectionMock());
+
+  const model = createSelectionModelAdapter({
+    adapterConfig: { mode: 'fallback-tailng' },
+    angularCdk: { createSelectionModel: createSelection },
+    selection: createSelectionOptions(),
+  });
+
+  expect(createSelection).not.toHaveBeenCalled();
+  expect(model.getSelected()).toEqual(['alpha']);
+});

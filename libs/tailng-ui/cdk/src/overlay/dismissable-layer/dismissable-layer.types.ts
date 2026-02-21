@@ -1,9 +1,11 @@
+import type { TngOverlayLayer } from '../layer-stack/layer-stack.types';
+
 export type TngDismissReason = 'escape' | 'outside';
 
 export type TngDismissableLayer = Readonly<{
-  id: string;
+  id: TngOverlayLayer['id'];
   onDismiss: (reason: TngDismissReason) => void;
-  priority?: number;
+  priority?: TngOverlayLayer['priority'];
 }>;
 
 export type TngDismissableLayerController = Readonly<{

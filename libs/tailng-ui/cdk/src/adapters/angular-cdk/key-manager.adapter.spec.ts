@@ -141,3 +141,44 @@ it('ignores delegates when enabledFeatures excludes a key-manager feature', () =
   expect(createRoving).not.toHaveBeenCalled();
   expect(roving.getActiveId()).toBe('a');
 });
+
+it('uses tailng controllers when adapter mode is fallback-tailng even with delegates', () => {
+  const createRoving = vi.fn<(options: TngRovingFocusOptions) => TngRovingFocusController>(() =>
+    createRovingFocusMock(),
+  );
+  const createActive = vi.fn<
+    (options: TngActiveDescendantOptions) => TngActiveDescendantController
+  >(() => createActiveDescendantMock());
+  const createTypeahead = vi.fn<(options: TngTypeaheadOptions) => TngTypeaheadController>(() =>
+    createTypeaheadMock(),
+  );
+
+  const delegates: TngAngularCdkKeyManagerDelegates = {
+    createActiveDescendantController: createActive,
+    createRovingFocusController: createRoving,
+    createTypeaheadController: createTypeahead,
+  };
+
+  const roving = createRovingFocusAdapter({
+    adapterConfig: { mode: 'fallback-tailng' },
+    angularCdk: delegates,
+    rovingFocus: createRovingFocusOptions(),
+  });
+  const active = createActiveDescendantAdapter({
+    activeDescendant: createActiveDescendantOptions(),
+    adapterConfig: { mode: 'fallback-tailng' },
+    angularCdk: delegates,
+  });
+  const typeahead = createTypeaheadAdapter({
+    adapterConfig: { mode: 'fallback-tailng' },
+    angularCdk: delegates,
+    typeahead: createTypeaheadOptions(),
+  });
+
+  expect(createRoving).not.toHaveBeenCalled();
+  expect(createActive).not.toHaveBeenCalled();
+  expect(createTypeahead).not.toHaveBeenCalled();
+  expect(roving.getActiveId()).toBe('a');
+  expect(active.getActiveId()).toBeNull();
+  expect(typeahead.getState().activeId).toBeNull();
+});

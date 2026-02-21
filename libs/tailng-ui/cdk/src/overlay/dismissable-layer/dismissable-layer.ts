@@ -3,37 +3,48 @@ import {
   type TngDismissableLayer,
   type TngDismissableLayerController,
 } from './dismissable-layer.types';
+import { createOverlayLayerStack } from '../layer-stack/layer-stack';
+import type { TngOverlayDismissReason } from '../layer-stack/layer-stack.types';
 
-function compareByPriority(
-  left: TngDismissableLayer,
-  right: TngDismissableLayer,
-): number {
-  return (left.priority ?? 0) - (right.priority ?? 0);
+function toOverlayDismissReason(reason: TngDismissReason): TngOverlayDismissReason {
+  return reason === 'escape' ? 'escape-key' : 'outside-pointer';
+}
+
+function toDismissReason(reason: TngOverlayDismissReason): TngDismissReason {
+  if (reason === 'escape-key') {
+    return 'escape';
+  }
+
+  return 'outside';
+}
+
+function toDismissableLayer(layer: TngDismissableLayer): Readonly<{
+  id: string;
+  onDismiss: (reason: TngOverlayDismissReason) => void;
+  priority?: number;
+}> {
+  return {
+    id: layer.id,
+    onDismiss: (reason: TngOverlayDismissReason): void => {
+      layer.onDismiss(toDismissReason(reason));
+    },
+    priority: layer.priority,
+  };
 }
 
 export function createDismissableLayerController(): TngDismissableLayerController {
-  const layers: TngDismissableLayer[] = [];
+  const stack = createOverlayLayerStack();
 
-  const register = (layer: TngDismissableLayer): void => {
-    layers.push(layer);
-    layers.sort(compareByPriority);
-  };
-
-  const unregister = (id: string): void => {
-    const index = layers.findIndex((layer) => layer.id === id);
-    if (index >= 0) {
-      layers.splice(index, 1);
-    }
-  };
-
-  const dismissTop = (reason: TngDismissReason): void => {
-    const topLayer = layers[layers.length - 1];
-    if (topLayer !== undefined) {
-      topLayer.onDismiss(reason);
-    }
-  };
-
-  const getLayerIds = (): readonly string[] => layers.map((layer) => layer.id);
-
-  return Object.freeze({ dismissTop, getLayerIds, register, unregister });
+  return Object.freeze({
+    dismissTop: (reason: TngDismissReason): void => {
+      stack.dismissTop(toOverlayDismissReason(reason));
+    },
+    getLayerIds: (): readonly string[] => stack.getLayerIds(),
+    register: (layer: TngDismissableLayer): void => {
+      stack.register(toDismissableLayer(layer));
+    },
+    unregister: (id: string): void => {
+      stack.unregister(id);
+    },
+  });
 }

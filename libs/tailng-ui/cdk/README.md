@@ -47,3 +47,10 @@ Behavior and accessibility primitives for TailNG UI.
   - Concrete selection-model delegate factory is available internally at
     `libs/tailng-ui/cdk/src/adapters/angular-cdk/selection-model.angular-cdk.ts`.
   - Missing delegates automatically fall back to TailNG implementations.
+
+## Phase 4 Consolidation
+
+- `dismissable-layer` remains available as a backward-compatible shim, internally delegating to
+  `layer-stack`.
+- Components continue to consume `@tailng-ui/cdk/*` contracts rather than importing
+  `@angular/cdk/*` directly.

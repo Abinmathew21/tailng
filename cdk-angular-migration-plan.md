@@ -116,9 +116,10 @@ TailNG public APIs stable (`@tailng-ui/cdk/*`).
 
 ## Phase 4: Consolidation
 
-- [ ] Remove duplicate `dismissable-layer` contract.
-- [ ] Confirm all components only consume `@tailng-ui/cdk/*`, never `@angular/cdk/*`.
-- [ ] Document final migration outcomes in `libs/tailng-ui/cdk/README.md`.
+- [x] Remove duplicate `dismissable-layer` contract
+      (legacy API now delegates to `layer-stack`).
+- [x] Confirm all components only consume `@tailng-ui/cdk/*`, never `@angular/cdk/*`.
+- [x] Document final migration outcomes in `libs/tailng-ui/cdk/README.md`.
 
 ## Validation Checklist
 
