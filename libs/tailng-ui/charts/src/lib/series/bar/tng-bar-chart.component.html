@@ -1,0 +1,11 @@
+<tng-chart
+  class="tng-bar-chart-host"
+  [option]="option()"
+  [loading]="loading()"
+  [merge]="merge()"
+  [renderer]="renderer()"
+  [runtimeLoader]="runtimeLoader()"
+  [theme]="theme()"
+  (ready)="ready.emit()"
+  (runtimeError)="runtimeError.emit($event)"
+/>

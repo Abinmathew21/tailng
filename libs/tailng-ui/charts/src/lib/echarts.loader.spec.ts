@@ -30,11 +30,11 @@ describe('loadTngEchartsRuntime', () => {
       init: (): null => null,
     };
 
-    await expect(loadTngEchartsRuntime(async () => runtime)).resolves.toEqual(runtime);
+    await expect(loadTngEchartsRuntime(() => Promise.resolve(runtime))).resolves.toEqual(runtime);
   });
 
   it('throws when custom loader returns invalid runtime', async () => {
-    await expect(loadTngEchartsRuntime(async () => ({ nope: true }))).rejects.toThrow(
+    await expect(loadTngEchartsRuntime(() => Promise.resolve({ nope: true }))).rejects.toThrow(
       'invalid module',
     );
   });
