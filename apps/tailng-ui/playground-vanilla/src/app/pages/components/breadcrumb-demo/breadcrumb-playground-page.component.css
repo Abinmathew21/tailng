@@ -51,6 +51,36 @@
   padding: 1rem;
 }
 
+.demo-breadcrumb-group {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.demo-breadcrumb-group p {
+  color: #cbd5e1;
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+.demo-breadcrumb-list {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.demo-breadcrumb-list a {
+  color: #67e8f9;
+  text-decoration: none;
+}
+
+.demo-breadcrumb-list [data-slot='breadcrumb-separator'] {
+  color: #64748b;
+}
+
 @media (min-width: 768px) {
   .page {
     padding-inline: 2rem;

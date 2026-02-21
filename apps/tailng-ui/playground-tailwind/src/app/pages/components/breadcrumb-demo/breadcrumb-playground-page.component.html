@@ -15,13 +15,25 @@
 
     <section class="space-y-3 rounded-2xl border border-slate-700 bg-slate-900 p-5">
       <h2 class="text-lg font-semibold">Primitives</h2>
-      <nav tngBreadcrumb aria-label="Breadcrumb">
-        <ol tngBreadcrumbList>
-          <li tngBreadcrumbItem><a tngBreadcrumbLink href="#">Home</a></li>
-          <span tngBreadcrumbSeparator>/</span>
-          <li tngBreadcrumbItem><a tngBreadcrumbLink href="#">Docs</a></li>
-          <span tngBreadcrumbSeparator>/</span>
-          <li tngBreadcrumbItem>Breadcrumb</li>
+      <nav tngBreadcrumb aria-label="Breadcrumb Slash" class="space-y-2">
+        <p class="text-sm text-slate-300">Slash separator</p>
+        <ol tngBreadcrumbList class="m-0 flex list-none flex-wrap items-center gap-2 p-0 text-sm">
+          <li tngBreadcrumbItem><a tngBreadcrumbLink class="text-cyan-300 no-underline" href="#">Home</a></li>
+          <li tngBreadcrumbSeparator class="text-slate-500">/</li>
+          <li tngBreadcrumbItem><a tngBreadcrumbLink class="text-cyan-300 no-underline" href="#">Docs</a></li>
+          <li tngBreadcrumbSeparator class="text-slate-500">/</li>
+          <li tngBreadcrumbItem class="text-slate-100">Breadcrumb</li>
+        </ol>
+      </nav>
+
+      <nav tngBreadcrumb aria-label="Breadcrumb Chevron" class="space-y-2">
+        <p class="text-sm text-slate-300">Chevron separator</p>
+        <ol tngBreadcrumbList class="m-0 flex list-none flex-wrap items-center gap-2 p-0 text-sm">
+          <li tngBreadcrumbItem><a tngBreadcrumbLink class="text-cyan-300 no-underline" href="#">Workspace</a></li>
+          <li tngBreadcrumbSeparator class="text-slate-500">›</li>
+          <li tngBreadcrumbItem><a tngBreadcrumbLink class="text-cyan-300 no-underline" href="#">Components</a></li>
+          <li tngBreadcrumbSeparator class="text-slate-500">›</li>
+          <li tngBreadcrumbItem class="text-slate-100">Breadcrumb</li>
         </ol>
       </nav>
     </section>
@@ -29,12 +41,12 @@
     <section class="space-y-3 rounded-2xl border border-slate-700 bg-slate-900 p-5">
       <h2 class="text-lg font-semibold">Component</h2>
       <tng-breadcrumb>
-        <ol tngBreadcrumbList>
-          <li tngBreadcrumbItem><a tngBreadcrumbLink href="#">Home</a></li>
-          <span tngBreadcrumbSeparator>/</span>
-          <li tngBreadcrumbItem><a tngBreadcrumbLink href="#">Playground</a></li>
-          <span tngBreadcrumbSeparator>/</span>
-          <li tngBreadcrumbItem>Breadcrumb Demo</li>
+        <ol tngBreadcrumbList class="m-0 flex list-none flex-wrap items-center gap-2 p-0 text-sm">
+          <li tngBreadcrumbItem><a tngBreadcrumbLink class="text-cyan-300 no-underline" href="#">Home</a></li>
+          <li tngBreadcrumbSeparator class="text-slate-500">/</li>
+          <li tngBreadcrumbItem><a tngBreadcrumbLink class="text-cyan-300 no-underline" href="#">Playground</a></li>
+          <li tngBreadcrumbSeparator class="text-slate-500">/</li>
+          <li tngBreadcrumbItem class="text-slate-100">Breadcrumb Demo</li>
         </ol>
       </tng-breadcrumb>
     </section>

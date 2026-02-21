@@ -10,12 +10,24 @@
 
     <section class="card">
       <h2>Primitives</h2>
-      <nav tngBreadcrumb aria-label="Breadcrumb">
-        <ol tngBreadcrumbList>
+      <nav tngBreadcrumb aria-label="Breadcrumb Slash" class="demo-breadcrumb-group">
+        <p>Slash separator</p>
+        <ol tngBreadcrumbList class="demo-breadcrumb-list">
           <li tngBreadcrumbItem><a tngBreadcrumbLink href="#">Home</a></li>
-          <span tngBreadcrumbSeparator>/</span>
+          <li tngBreadcrumbSeparator>/</li>
           <li tngBreadcrumbItem><a tngBreadcrumbLink href="#">Docs</a></li>
-          <span tngBreadcrumbSeparator>/</span>
+          <li tngBreadcrumbSeparator>/</li>
+          <li tngBreadcrumbItem>Breadcrumb</li>
+        </ol>
+      </nav>
+
+      <nav tngBreadcrumb aria-label="Breadcrumb Chevron" class="demo-breadcrumb-group">
+        <p>Chevron separator</p>
+        <ol tngBreadcrumbList class="demo-breadcrumb-list">
+          <li tngBreadcrumbItem><a tngBreadcrumbLink href="#">Workspace</a></li>
+          <li tngBreadcrumbSeparator>›</li>
+          <li tngBreadcrumbItem><a tngBreadcrumbLink href="#">Components</a></li>
+          <li tngBreadcrumbSeparator>›</li>
           <li tngBreadcrumbItem>Breadcrumb</li>
         </ol>
       </nav>
@@ -24,11 +36,11 @@
     <section class="card">
       <h2>Component</h2>
       <tng-breadcrumb>
-        <ol tngBreadcrumbList>
+        <ol tngBreadcrumbList class="demo-breadcrumb-list">
           <li tngBreadcrumbItem><a tngBreadcrumbLink href="#">Home</a></li>
-          <span tngBreadcrumbSeparator>/</span>
+          <li tngBreadcrumbSeparator>/</li>
           <li tngBreadcrumbItem><a tngBreadcrumbLink href="#">Playground</a></li>
-          <span tngBreadcrumbSeparator>/</span>
+          <li tngBreadcrumbSeparator>/</li>
           <li tngBreadcrumbItem>Breadcrumb Demo</li>
         </ol>
       </tng-breadcrumb>
