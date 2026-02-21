@@ -1,0 +1,8 @@
+:host {
+  display: block;
+}
+
+.tng-line-chart-host {
+  display: block;
+  min-height: inherit;
+}

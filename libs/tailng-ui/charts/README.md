@@ -53,6 +53,28 @@ export class BarChartDemoComponent {
 }
 ```
 
+### Line Wrapper
+
+```ts
+import { Component } from '@angular/core';
+import { TngLineChart, type TngLineChartInput } from '@tailng-ui/charts';
+
+@Component({
+  standalone: true,
+  selector: 'app-line-chart-demo',
+  imports: [TngLineChart],
+  template: `<tng-line-chart [data]="data" style="height:320px;display:block;" />`,
+})
+export class LineChartDemoComponent {
+  public readonly data: TngLineChartInput = {
+    categories: ['Q1', 'Q2', 'Q3', 'Q4'],
+    series: [{ name: 'Revenue', values: [18, 24, 21, 30], fillArea: true }],
+    unitLabel: 'USD million',
+    yAxisLabel: 'Revenue',
+  };
+}
+```
+
 ## Notes
 
 - `echarts` stays a peer dependency.

@@ -13,7 +13,7 @@
 > Below is the full built-in series set from Apache ECharts cheat sheet (core package).
 
 - [x] `bar` (Bar)
-- [ ] `line` (Line)
+- [x] `line` (Line)
 - [ ] `pie` (Pie)
 - [ ] `scatter` (Scatter)
 - [ ] `effectScatter` (Effect Scatter)
@@ -58,7 +58,7 @@
 
 ## Phase 1: First-Class Common Charts
 
-- [ ] Line chart preset API + demo.
+- [x] Line chart preset API + demo.
 - [x] Bar chart preset API + demo.
 - [ ] Pie chart preset API + demo.
 - [ ] Scatter chart preset API + demo.

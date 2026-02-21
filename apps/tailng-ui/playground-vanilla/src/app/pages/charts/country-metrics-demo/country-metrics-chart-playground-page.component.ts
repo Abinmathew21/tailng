@@ -4,6 +4,8 @@ import {
   TngBarChart,
   type TngBarChartInput,
   type TngBarChartKind,
+  TngLineChart,
+  type TngLineChartInput,
 } from '@tailng-ui/charts';
 
 type TngMetricKind = 'gdp' | 'landArea' | 'population';
@@ -20,6 +22,8 @@ type TngMetricMeta = Readonly<{
   label: string;
   unit: string;
 }>;
+
+type TngCountryMetricsChartInput = TngBarChartInput & TngLineChartInput;
 
 const countryMetrics = Object.freeze([
   {
@@ -120,7 +124,7 @@ function createMetricSeriesData(
   return rows.map((row) => row.gdpTrillionUsd);
 }
 
-function createCountryMetricsChartInput(metricKind: TngMetricKind): TngBarChartInput {
+function createCountryMetricsChartInput(metricKind: TngMetricKind): TngCountryMetricsChartInput {
   const metricMeta = metricMetaByKind[metricKind];
   const seriesData = createMetricSeriesData(metricKind, countryMetrics);
   const countryLabels = countryMetrics.map((row) => row.country);
@@ -143,7 +147,7 @@ function createCountryMetricsChartInput(metricKind: TngMetricKind): TngBarChartI
 
 @Component({
   selector: 'app-country-metrics-chart-playground-page',
-  imports: [RouterLink, TngBarChart],
+  imports: [RouterLink, TngBarChart, TngLineChart],
   templateUrl: './country-metrics-chart-playground-page.component.html',
   styleUrl: './country-metrics-chart-playground-page.component.css',
 })
@@ -160,7 +164,7 @@ export class CountryMetricsChartPlaygroundPageComponent {
     return metricMetaByKind[this.selectedMetricKind()];
   });
 
-  protected readonly chartInput = computed<TngBarChartInput>(() => {
+  protected readonly chartInput = computed<TngCountryMetricsChartInput>(() => {
     return createCountryMetricsChartInput(this.selectedMetricKind());
   });
 

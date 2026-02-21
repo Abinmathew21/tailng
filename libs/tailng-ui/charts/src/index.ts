@@ -27,3 +27,9 @@ export type {
 export { createTngBarChartOption } from './lib/series/bar/bar.option-builder';
 
 export { TngBarChart } from './lib/series/bar/tng-bar-chart.component';
+
+export type { TngLineChartInput, TngLineSeriesInput } from './lib/series/line/line.types';
+
+export { createTngLineChartOption } from './lib/series/line/line.option-builder';
+
+export { TngLineChart } from './lib/series/line/tng-line-chart.component';

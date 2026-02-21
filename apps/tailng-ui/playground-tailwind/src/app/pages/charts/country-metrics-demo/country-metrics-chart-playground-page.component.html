@@ -59,12 +59,20 @@
         class="rounded-xl border border-slate-700 bg-slate-950 p-3"
         [style.borderColor]="activeMetricMeta().color"
       >
-        <tng-bar-chart
-          class="block min-h-[26rem]"
-          [data]="chartInput()"
-          [kind]="selectedChartKind()"
-          (runtimeError)="onRuntimeError($event)"
-        />
+        @if (selectedChartKind() === 'bar') {
+          <tng-bar-chart
+            class="block min-h-[26rem]"
+            [data]="chartInput()"
+            [kind]="selectedChartKind()"
+            (runtimeError)="onRuntimeError($event)"
+          />
+        } @else {
+          <tng-line-chart
+            class="block min-h-[26rem]"
+            [data]="chartInput()"
+            (runtimeError)="onRuntimeError($event)"
+          />
+        }
       </article>
 
       @if (runtimeErrorMessage() !== null) {
