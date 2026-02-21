@@ -1,4 +1,5 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Component, computed, effect, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import {
   NavigationEnd,
@@ -15,7 +16,24 @@ import {
   TngBreadcrumbList,
   TngBreadcrumbSeparator,
 } from '@tailng-ui/primitives';
-import { TngAccordion } from '@tailng-ui/components';
+import { TngAccordion, TngToggle } from '@tailng-ui/components';
+import { TngIcon } from '@tailng-ui/icons';
+import {
+  createTheme,
+  darkSemanticTokens,
+  defaultThemePreset,
+  resolveToken,
+  toCssVars,
+} from '@tailng-ui/theme';
+import type { ThemeDefinition, ThemeSemanticTokens } from '@tailng-ui/theme';
+
+const SEMANTIC_COLLECTIONS: readonly (keyof ThemeSemanticTokens)[] = [
+  'background',
+  'foreground',
+  'border',
+  'accent',
+  'focus',
+];
 
 type TngPlaygroundItem = Readonly<{
   path: string;
@@ -124,6 +142,8 @@ function getUrlPath(url: string): string {
     RouterLinkActive,
     RouterOutlet,
     TngAccordion,
+    TngToggle,
+    TngIcon,
     TngBreadcrumb,
     TngBreadcrumbList,
     TngBreadcrumbItem,
@@ -134,9 +154,65 @@ function getUrlPath(url: string): string {
   styleUrl: './playground-layout.component.css',
 })
 export class PlaygroundLayoutComponent {
+  private readonly documentRef = inject(DOCUMENT);
   private readonly router = inject(Router);
 
   protected readonly searchQuery = signal('');
+  protected readonly darkMode = signal(false);
+
+  protected readonly activeTheme = computed<ThemeDefinition>(() => {
+    const mode = this.darkMode() ? 'dark' : 'light';
+    const semantic =
+      mode === 'dark' ? darkSemanticTokens : defaultThemePreset.tokens.semantic;
+    return createTheme(defaultThemePreset, {
+      meta: { mode },
+      tokens: { semantic },
+    });
+  });
+
+  public constructor() {
+    effect(() => {
+      this.applyThemeVariables(this.activeTheme());
+    });
+  }
+
+  protected onThemeModeChange(pressed: boolean): void {
+    this.darkMode.set(pressed);
+  }
+
+  private applyThemeVariables(theme: ThemeDefinition): void {
+    const style = this.documentRef.documentElement.style;
+    const cssVars = this.toResolvedCssVars(theme);
+    for (const [name, value] of Object.entries(cssVars)) {
+      style.setProperty(name, value);
+    }
+  }
+
+  private toResolvedCssVars(theme: ThemeDefinition): Record<string, string> {
+    const primitiveVars = toCssVars(theme, {
+      includePrimitives: true,
+      includeSemantic: false,
+    });
+    const semanticVars: Record<string, string> = {};
+    for (const collection of SEMANTIC_COLLECTIONS) {
+      const scale = theme.tokens.semantic[collection];
+      for (const key of Object.keys(scale)) {
+        semanticVars[`--tng-semantic-${collection}-${key}`] =
+          this.resolveTokenValue(theme, scale[key]);
+      }
+    }
+    return { ...primitiveVars, ...semanticVars };
+  }
+
+  private resolveTokenValue(
+    theme: ThemeDefinition,
+    tokenExpression: string,
+  ): string {
+    if (!tokenExpression.startsWith('{') || !tokenExpression.endsWith('}')) {
+      return tokenExpression;
+    }
+    return resolveToken(theme, tokenExpression) ?? tokenExpression;
+  }
 
   private readonly urlPath = toSignal(
     this.router.events.pipe(

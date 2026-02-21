@@ -17,16 +17,16 @@
       <h2>Components (`tng-toggle`)</h2>
       <div class="toggle-row">
         <tng-toggle
-          [pressed]="themeModeEnabled()"
-          pressedLabel="Disable dark mode"
-          unpressedLabel="Enable dark mode"
-          (pressedChange)="onThemeModeChange($event)"
+          [pressed]="componentPressed()"
+          pressedLabel="Notifications on"
+          unpressedLabel="Notifications off"
+          (pressedChange)="onComponentToggle($event)"
         >
-          <span offIcon>moon</span>
-          <span onIcon>sun</span>
+          <tng-icon icon="bell" offIcon></tng-icon>
+          <tng-icon icon="bell-off" onIcon></tng-icon>
         </tng-toggle>
         <span class="mode-text">
-          Dark mode {{ themeModeEnabled() ? 'enabled' : 'disabled' }}
+          Notifications {{ componentPressed() ? 'on' : 'off' }}
         </span>
       </div>
     </section>

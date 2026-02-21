@@ -49,23 +49,37 @@
 
   <div class="right-section">
     <header class="top-panel">
-      <h1 class="title">{{ pageTitle() }}</h1>
-      <nav tngBreadcrumb class="breadcrumb" aria-label="Breadcrumb">
-        <ol tngBreadcrumbList class="breadcrumb-list">
-          @for (crumb of breadcrumbs(); track $index; let last = $last) {
-            <li tngBreadcrumbItem>
-              @if (crumb.path) {
-                <a tngBreadcrumbLink [routerLink]="crumb.path">{{ crumb.label }}</a>
-              } @else {
-                <span>{{ crumb.label }}</span>
+      <div class="top-panel-content">
+        <div class="top-panel-heading">
+          <h1 class="title">{{ pageTitle() }}</h1>
+          <nav tngBreadcrumb class="breadcrumb" aria-label="Breadcrumb">
+            <ol tngBreadcrumbList class="breadcrumb-list">
+              @for (crumb of breadcrumbs(); track $index; let last = $last) {
+                <li tngBreadcrumbItem>
+                  @if (crumb.path) {
+                    <a tngBreadcrumbLink [routerLink]="crumb.path">{{ crumb.label }}</a>
+                  } @else {
+                    <span>{{ crumb.label }}</span>
+                  }
+                </li>
+                @if (!last) {
+                  <li tngBreadcrumbSeparator class="breadcrumb-sep">/</li>
+                }
               }
-            </li>
-            @if (!last) {
-              <li tngBreadcrumbSeparator class="breadcrumb-sep">/</li>
-            }
-          }
-        </ol>
-      </nav>
+            </ol>
+          </nav>
+        </div>
+        <tng-toggle
+          class="theme-toggle"
+          [pressed]="darkMode()"
+          pressedLabel="Switch to light mode"
+          unpressedLabel="Switch to dark mode"
+          (pressedChange)="onThemeModeChange($event)"
+        >
+          <tng-icon icon="moon" offIcon></tng-icon>
+          <tng-icon icon="sun" onIcon></tng-icon>
+        </tng-toggle>
+      </div>
     </header>
 
     <section class="container-panel">
