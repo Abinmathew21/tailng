@@ -77,6 +77,7 @@ TailNG is evolving toward a framework-agnostic component platform with:
 | `@tailng-ui/cdk` | Behavior primitives & utilities |
 | `@tailng-ui/theme` | Design tokens & Tailwind adapter |
 | `@tailng-ui/icons` | Icon wrappers |
+| `@tailng-ui/charts` | Apache ECharts Angular wrappers |
 
 ---
 
@@ -243,6 +244,12 @@ Run only `icons` tests:
 
 ```bash
 pnpm test:icons
+```
+
+Run only `charts` tests:
+
+```bash
+pnpm test:charts
 ```
 
 Run in watch mode:
