@@ -10,19 +10,50 @@
         </a>
       </div>
       <h1 class="text-3xl font-semibold md:text-4xl">Navigation Menu Demo (Tailwind)</h1>
-      <p class="max-w-2xl text-slate-300">Structured navigation list for sections and sub-sections.</p>
+      <p class="max-w-2xl text-slate-300">
+        Structured navigation list for sections and sub-sections.
+      </p>
     </header>
 
     <section class="space-y-3 rounded-2xl border border-slate-700 bg-slate-900 p-5">
       <h2 class="text-lg font-semibold">Primitives (`tngNavigationMenu`)</h2>
-      <div tngNavigationMenu class="rounded-xl border border-slate-700 bg-slate-950 p-4">
-        Primitive shell for navigation menu composition.
-      </div>
+      <nav
+        tngNavigationMenu
+        aria-label="Docs navigation"
+        class="rounded-xl border border-slate-700 bg-slate-950 p-4"
+      >
+        <ul class="grid gap-2 text-sm md:grid-cols-2">
+          <li class="rounded-md border border-slate-800 p-3">
+            <a class="font-medium text-cyan-300 no-underline" href="#">Getting Started</a>
+            <p class="mt-1 text-slate-300">Install and setup basics.</p>
+          </li>
+          <li class="rounded-md border border-slate-800 p-3">
+            <a class="font-medium text-cyan-300 no-underline" href="#">Theming</a>
+            <p class="mt-1 text-slate-300">Token and mode configuration.</p>
+          </li>
+          <li class="rounded-md border border-slate-800 p-3">
+            <a class="font-medium text-cyan-300 no-underline" href="#">Components</a>
+            <p class="mt-1 text-slate-300">Primitive and wrapper APIs.</p>
+          </li>
+        </ul>
+      </nav>
     </section>
 
     <section class="space-y-3 rounded-2xl border border-slate-700 bg-slate-900 p-5">
       <h2 class="text-lg font-semibold">Components (`tng-navigation-menu`)</h2>
-      <tng-navigation-menu>Navigation Menu component content slot.</tng-navigation-menu>
+      <tng-navigation-menu>
+        <nav aria-label="Playground navigation" class="grid gap-2 text-sm md:grid-cols-2">
+          <a href="#" class="rounded-md border border-slate-800 p-3 text-cyan-300 no-underline"
+            >Theme Playground</a
+          >
+          <a href="#" class="rounded-md border border-slate-800 p-3 text-cyan-300 no-underline"
+            >Button Playground</a
+          >
+          <a href="#" class="rounded-md border border-slate-800 p-3 text-cyan-300 no-underline"
+            >Dialog Playground</a
+          >
+        </nav>
+      </tng-navigation-menu>
     </section>
   </section>
 </main>

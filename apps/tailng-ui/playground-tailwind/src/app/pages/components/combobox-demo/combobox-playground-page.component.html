@@ -10,19 +10,55 @@
         </a>
       </div>
       <h1 class="text-3xl font-semibold md:text-4xl">Combobox Demo (Tailwind)</h1>
-      <p class="max-w-2xl text-slate-300">Text input combined with an options popup for guided selection.</p>
+      <p class="max-w-2xl text-slate-300">
+        Text input combined with an options popup for guided selection.
+      </p>
     </header>
 
     <section class="space-y-3 rounded-2xl border border-slate-700 bg-slate-900 p-5">
       <h2 class="text-lg font-semibold">Primitives (`tngCombobox`)</h2>
       <div tngCombobox class="rounded-xl border border-slate-700 bg-slate-950 p-4">
-        Primitive shell for combobox composition.
+        <label for="combobox-framework" class="mb-2 block text-sm text-slate-300">Framework</label>
+        <div class="flex gap-2">
+          <input
+            id="combobox-framework"
+            type="text"
+            role="combobox"
+            aria-expanded="true"
+            aria-controls="combo-options"
+            class="min-w-0 flex-1 rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-sm"
+            value="Angular"
+          />
+          <button type="button" class="rounded-md border border-slate-700 px-3 py-2 text-sm">
+            ▾
+          </button>
+        </div>
+        <ul
+          id="combo-options"
+          role="listbox"
+          class="mt-2 rounded-md border border-slate-700 bg-slate-900 p-1 text-sm"
+        >
+          <li role="option" aria-selected="true" class="rounded px-2 py-1 hover:bg-slate-800">
+            Angular
+          </li>
+          <li role="option" aria-selected="false" class="rounded px-2 py-1 hover:bg-slate-800">
+            React
+          </li>
+          <li role="option" aria-selected="false" class="rounded px-2 py-1 hover:bg-slate-800">
+            Vue
+          </li>
+        </ul>
       </div>
     </section>
 
     <section class="space-y-3 rounded-2xl border border-slate-700 bg-slate-900 p-5">
       <h2 class="text-lg font-semibold">Components (`tng-combobox`)</h2>
-      <tng-combobox>Combobox component content slot.</tng-combobox>
+      <tng-combobox>
+        <div class="space-y-2 text-sm">
+          <p class="text-slate-300">Owned combobox shell with room for trigger and options.</p>
+          <div class="rounded-md border border-slate-700 p-2">Selected: Tailwind</div>
+        </div>
+      </tng-combobox>
     </section>
   </section>
 </main>

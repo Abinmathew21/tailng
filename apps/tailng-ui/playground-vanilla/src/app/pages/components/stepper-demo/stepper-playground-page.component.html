@@ -10,12 +10,40 @@
 
     <section class="card">
       <h2>Primitives (`tngStepper`)</h2>
-      <div tngStepper class="primitive-shell">Primitive shell for stepper composition.</div>
+      <ol tngStepper class="demo-list">
+        <li class="demo-option-selected">
+          <span class="demo-step">1</span>
+          Project Details
+        </li>
+        <li>
+          <span class="demo-step">2</span>
+          Theme Setup
+        </li>
+        <li>
+          <span class="demo-step">3</span>
+          Publish
+        </li>
+      </ol>
     </section>
 
     <section class="card">
       <h2>Components (`tng-stepper`)</h2>
-      <tng-stepper>Stepper component content slot.</tng-stepper>
+      <tng-stepper>
+        <ol class="demo-list">
+          <li>
+            <span class="demo-step demo-step-done">✓</span>
+            Draft
+          </li>
+          <li class="demo-option-selected">
+            <span class="demo-step">2</span>
+            Review
+          </li>
+          <li>
+            <span class="demo-step">3</span>
+            Release
+          </li>
+        </ol>
+      </tng-stepper>
     </section>
   </section>
 </main>

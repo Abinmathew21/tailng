@@ -10,19 +10,70 @@
         </a>
       </div>
       <h1 class="text-3xl font-semibold md:text-4xl">Toggle Group Demo (Tailwind)</h1>
-      <p class="max-w-2xl text-slate-300">Grouped toggle controls with single or multiple selection modes.</p>
+      <p class="max-w-2xl text-slate-300">
+        Grouped toggle controls with single or multiple selection modes.
+      </p>
     </header>
 
     <section class="space-y-3 rounded-2xl border border-slate-700 bg-slate-900 p-5">
       <h2 class="text-lg font-semibold">Primitives (`tngToggleGroup`)</h2>
-      <div tngToggleGroup class="rounded-xl border border-slate-700 bg-slate-950 p-4">
-        Primitive shell for toggle group composition.
+      <div
+        tngToggleGroup
+        role="group"
+        aria-label="Text style"
+        class="flex flex-wrap gap-2 rounded-xl border border-slate-700 bg-slate-950 p-4"
+      >
+        <button
+          type="button"
+          aria-pressed="true"
+          class="rounded-md border border-cyan-500 px-3 py-1 text-sm"
+        >
+          Bold
+        </button>
+        <button
+          type="button"
+          aria-pressed="false"
+          class="rounded-md border border-slate-700 px-3 py-1 text-sm"
+        >
+          Italic
+        </button>
+        <button
+          type="button"
+          aria-pressed="false"
+          class="rounded-md border border-slate-700 px-3 py-1 text-sm"
+        >
+          Underline
+        </button>
       </div>
     </section>
 
     <section class="space-y-3 rounded-2xl border border-slate-700 bg-slate-900 p-5">
       <h2 class="text-lg font-semibold">Components (`tng-toggle-group`)</h2>
-      <tng-toggle-group>Toggle Group component content slot.</tng-toggle-group>
+      <tng-toggle-group>
+        <div role="group" aria-label="Alignment" class="flex flex-wrap gap-2 text-sm">
+          <button
+            type="button"
+            aria-pressed="false"
+            class="rounded-md border border-slate-700 px-3 py-1"
+          >
+            Left
+          </button>
+          <button
+            type="button"
+            aria-pressed="true"
+            class="rounded-md border border-cyan-500 px-3 py-1"
+          >
+            Center
+          </button>
+          <button
+            type="button"
+            aria-pressed="false"
+            class="rounded-md border border-slate-700 px-3 py-1"
+          >
+            Right
+          </button>
+        </div>
+      </tng-toggle-group>
     </section>
   </section>
 </main>

@@ -15,14 +15,52 @@
 
     <section class="space-y-3 rounded-2xl border border-slate-700 bg-slate-900 p-5">
       <h2 class="text-lg font-semibold">Primitives (`tngStepper`)</h2>
-      <div tngStepper class="rounded-xl border border-slate-700 bg-slate-950 p-4">
-        Primitive shell for stepper composition.
-      </div>
+      <ol tngStepper class="space-y-2 text-sm">
+        <li class="flex items-center gap-3 rounded-md border border-cyan-600 bg-cyan-950/30 p-2">
+          <span
+            class="inline-flex h-6 w-6 items-center justify-center rounded-full border border-cyan-500"
+            >1</span
+          >Project Details
+        </li>
+        <li class="flex items-center gap-3 rounded-md border border-slate-700 p-2">
+          <span
+            class="inline-flex h-6 w-6 items-center justify-center rounded-full border border-slate-600"
+            >2</span
+          >Theme Setup
+        </li>
+        <li class="flex items-center gap-3 rounded-md border border-slate-700 p-2">
+          <span
+            class="inline-flex h-6 w-6 items-center justify-center rounded-full border border-slate-600"
+            >3</span
+          >Publish
+        </li>
+      </ol>
     </section>
 
     <section class="space-y-3 rounded-2xl border border-slate-700 bg-slate-900 p-5">
       <h2 class="text-lg font-semibold">Components (`tng-stepper`)</h2>
-      <tng-stepper>Stepper component content slot.</tng-stepper>
+      <tng-stepper>
+        <ol class="space-y-2 text-sm text-slate-300">
+          <li class="flex items-center gap-3 rounded-md border border-slate-800 p-2">
+            <span
+              class="inline-flex h-6 w-6 items-center justify-center rounded-full border border-emerald-500 text-emerald-300"
+              >✓</span
+            >Draft
+          </li>
+          <li class="flex items-center gap-3 rounded-md border border-cyan-600 bg-cyan-950/30 p-2">
+            <span
+              class="inline-flex h-6 w-6 items-center justify-center rounded-full border border-cyan-500"
+              >2</span
+            >Review
+          </li>
+          <li class="flex items-center gap-3 rounded-md border border-slate-800 p-2">
+            <span
+              class="inline-flex h-6 w-6 items-center justify-center rounded-full border border-slate-700"
+              >3</span
+            >Release
+          </li>
+        </ol>
+      </tng-stepper>
     </section>
   </section>
 </main>

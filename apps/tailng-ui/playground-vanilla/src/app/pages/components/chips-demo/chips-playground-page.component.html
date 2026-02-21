@@ -10,12 +10,27 @@
 
     <section class="card">
       <h2>Primitives (`tngChips`)</h2>
-      <div tngChips class="primitive-shell">Primitive shell for chips composition.</div>
+      <div tngChips class="primitive-shell demo-row">
+        <button type="button" class="demo-chip">Angular</button>
+        <button type="button" class="demo-chip">CDK</button>
+        <button type="button" class="demo-chip">A11y</button>
+      </div>
     </section>
 
     <section class="card">
       <h2>Components (`tng-chips`)</h2>
-      <tng-chips>Chips component content slot.</tng-chips>
+      <tng-chips>
+        <div class="primitive-shell demo-row">
+          <span class="demo-chip">
+            Button
+            <button type="button" class="demo-chip-x">x</button>
+          </span>
+          <span class="demo-chip">
+            Dialog
+            <button type="button" class="demo-chip-x">x</button>
+          </span>
+        </div>
+      </tng-chips>
     </section>
   </section>
 </main>

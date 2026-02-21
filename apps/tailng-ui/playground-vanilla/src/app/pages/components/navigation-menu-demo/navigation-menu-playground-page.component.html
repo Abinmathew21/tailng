@@ -10,12 +10,33 @@
 
     <section class="card">
       <h2>Primitives (`tngNavigationMenu`)</h2>
-      <div tngNavigationMenu class="primitive-shell">Primitive shell for navigation menu composition.</div>
+      <nav tngNavigationMenu aria-label="Docs navigation" class="primitive-shell">
+        <ul class="demo-grid demo-grid-2 demo-list">
+          <li class="demo-panel">
+            <a href="#" class="demo-link">Getting Started</a>
+            <p class="demo-note">Install and setup basics.</p>
+          </li>
+          <li class="demo-panel">
+            <a href="#" class="demo-link">Theming</a>
+            <p class="demo-note">Token and mode configuration.</p>
+          </li>
+          <li class="demo-panel">
+            <a href="#" class="demo-link">Components</a>
+            <p class="demo-note">Primitive and wrapper APIs.</p>
+          </li>
+        </ul>
+      </nav>
     </section>
 
     <section class="card">
       <h2>Components (`tng-navigation-menu`)</h2>
-      <tng-navigation-menu>Navigation Menu component content slot.</tng-navigation-menu>
+      <tng-navigation-menu>
+        <nav aria-label="Playground navigation" class="primitive-shell demo-grid demo-grid-2">
+          <a href="#" class="demo-panel demo-link">Theme Playground</a>
+          <a href="#" class="demo-panel demo-link">Button Playground</a>
+          <a href="#" class="demo-panel demo-link">Dialog Playground</a>
+        </nav>
+      </tng-navigation-menu>
     </section>
   </section>
 </main>

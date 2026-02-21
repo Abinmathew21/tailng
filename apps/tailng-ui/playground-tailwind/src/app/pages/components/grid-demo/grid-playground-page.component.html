@@ -15,14 +15,50 @@
 
     <section class="space-y-3 rounded-2xl border border-slate-700 bg-slate-900 p-5">
       <h2 class="text-lg font-semibold">Primitives (`tngGrid`)</h2>
-      <div tngGrid class="rounded-xl border border-slate-700 bg-slate-950 p-4">
-        Primitive shell for grid composition.
+      <div
+        tngGrid
+        role="grid"
+        class="grid grid-cols-3 gap-2 rounded-xl border border-slate-700 bg-slate-950 p-4 text-sm"
+      >
+        <button role="gridcell" type="button" class="rounded-md border border-slate-700 p-2">
+          A1
+        </button>
+        <button role="gridcell" type="button" class="rounded-md border border-slate-700 p-2">
+          A2
+        </button>
+        <button role="gridcell" type="button" class="rounded-md border border-slate-700 p-2">
+          A3
+        </button>
+        <button role="gridcell" type="button" class="rounded-md border border-slate-700 p-2">
+          B1
+        </button>
+        <button role="gridcell" type="button" class="rounded-md border border-slate-700 p-2">
+          B2
+        </button>
+        <button role="gridcell" type="button" class="rounded-md border border-slate-700 p-2">
+          B3
+        </button>
       </div>
     </section>
 
     <section class="space-y-3 rounded-2xl border border-slate-700 bg-slate-900 p-5">
       <h2 class="text-lg font-semibold">Components (`tng-grid`)</h2>
-      <tng-grid>Grid component content slot.</tng-grid>
+      <tng-grid>
+        <div role="grid" class="grid grid-cols-3 gap-2 text-sm">
+          <div role="row" class="contents">
+            <div role="gridcell" class="rounded-md border border-slate-700 p-2">Token</div>
+            <div role="gridcell" class="rounded-md border border-slate-700 p-2">Value</div>
+            <div role="gridcell" class="rounded-md border border-slate-700 p-2">Scope</div>
+          </div>
+          <div role="row" class="contents text-slate-300">
+            <div role="gridcell" class="rounded-md border border-slate-800 p-2">
+              surface.primary
+            </div>
+            <div role="gridcell" class="rounded-md border border-slate-800 p-2">#0f172a</div>
+            <div role="gridcell" class="rounded-md border border-slate-800 p-2">dark</div>
+          </div>
+        </div>
+      </tng-grid>
     </section>
   </section>
 </main>
