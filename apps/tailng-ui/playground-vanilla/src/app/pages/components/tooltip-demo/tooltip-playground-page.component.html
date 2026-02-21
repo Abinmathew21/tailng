@@ -1,0 +1,88 @@
+<main class="page">
+  <section class="container">
+    <header class="hero">
+      <div class="links">
+        <a routerLink="/">Home</a>
+        <a routerLink="/popover">Popover Demo</a>
+      </div>
+      <h1 class="title">Tooltip Demo (Vanilla CSS)</h1>
+      <p class="subtitle">
+        Validate lightweight tooltip semantics for hover and focus, with primitive directives and
+        styled component wrapper.
+      </p>
+    </header>
+
+    <section class="card">
+      <h2>Primitives (`tngTooltipTrigger` + `tngTooltipContent`)</h2>
+      <p>Switch side and use hover/focus on the trigger to open the tooltip.</p>
+
+      <div class="side-picker">
+        @for (side of sides; track side) {
+          <button
+            type="button"
+            class="side-button"
+            [class.side-button--active]="primitiveSide() === side"
+            (click)="primitiveSide.set(side)"
+          >
+            {{ side }}
+          </button>
+        }
+      </div>
+
+      <div class="primitive-stage">
+        <button
+          tngTooltipTrigger
+          type="button"
+          class="primitive-trigger"
+          [describedBy]="primitiveTooltipId"
+          [open]="primitiveOpen()"
+          (blur)="primitiveOpen.set(false)"
+          (focus)="primitiveOpen.set(true)"
+          (mouseleave)="primitiveOpen.set(false)"
+          (mouseenter)="primitiveOpen.set(true)"
+        >
+          Primitive Trigger
+        </button>
+
+        <span
+          tngTooltipContent
+          class="primitive-content"
+          [id]="primitiveTooltipId"
+          [open]="primitiveOpen()"
+          [side]="primitiveSide()"
+        >
+          Primitive tooltip on {{ primitiveSide() }} side.
+        </span>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Components (`tng-tooltip`)</h2>
+      <p>Styled wrapper with built-in delay control and directional placement.</p>
+
+      <div class="component-grid">
+        @for (side of sides; track side) {
+          <article class="component-item">
+            <p class="component-title">Side: {{ side }}</p>
+            <tng-tooltip
+              [openDelay]="120"
+              [closeDelay]="80"
+              [side]="side"
+              [text]="'Tooltip placed on the ' + side + ' side.'"
+              [triggerLabel]="'Hover me (' + side + ')'"
+            />
+          </article>
+        }
+      </div>
+
+      <article class="component-item">
+        <p class="component-title">Disabled state</p>
+        <tng-tooltip
+          [disabled]="true"
+          text="This tooltip is disabled and does not open."
+          triggerLabel="Disabled Trigger"
+        />
+      </article>
+    </section>
+  </section>
+</main>

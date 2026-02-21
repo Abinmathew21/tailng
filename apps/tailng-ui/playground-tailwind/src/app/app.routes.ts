@@ -168,6 +168,13 @@ export const appRoutes: Route[] = [
       ),
   },
   {
+    path: 'tooltip',
+    loadComponent: () =>
+      import('./pages/components/tooltip-demo/tooltip-playground-page.component').then(
+        (module) => module.TooltipPlaygroundPageComponent,
+      ),
+  },
+  {
     path: 'icons',
     loadComponent: () =>
       import('./pages/icons/icon-demo/icon-playground-page.component').then(
