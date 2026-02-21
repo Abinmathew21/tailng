@@ -1,3 +1,12 @@
-<ul tngMenu class="tng-menu" [attr.aria-label]="ariaLabel()">
-  <ng-content />
-</ul>
+@if (open()) {
+  <ul
+    #panelRef
+    tngMenu
+    class="tng-menu tng-menu--panel"
+    [attr.aria-label]="ariaLabel()"
+    [id]="panelId"
+    tabindex="-1"
+  >
+    <ng-content />
+  </ul>
+}
