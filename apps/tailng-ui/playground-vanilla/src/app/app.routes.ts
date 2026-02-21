@@ -21,6 +21,20 @@ export const appRoutes: Route[] = [
       ),
   },
   {
+    path: 'copy',
+    loadComponent: () =>
+      import('./pages/primitives/copy-demo/copy-playground-page.component').then(
+        (module) => module.CopyPlaygroundPageComponent,
+      ),
+  },
+  {
+    path: 'code-block',
+    loadComponent: () =>
+      import('./pages/primitives/code-block-demo/code-block-playground-page.component').then(
+        (module) => module.CodeBlockPlaygroundPageComponent,
+      ),
+  },
+  {
     path: 'accordion',
     loadComponent: () =>
       import('./pages/components/accordion-demo/accordion-playground-page.component').then(
@@ -44,9 +58,9 @@ export const appRoutes: Route[] = [
   {
     path: 'dropdown-menu',
     loadComponent: () =>
-      import(
-        './pages/components/dropdown-menu-demo/dropdown-menu-playground-page.component'
-      ).then((module) => module.DropdownMenuPlaygroundPageComponent),
+      import('./pages/components/dropdown-menu-demo/dropdown-menu-playground-page.component').then(
+        (module) => module.DropdownMenuPlaygroundPageComponent,
+      ),
   },
   {
     path: 'avatar',
@@ -67,6 +81,13 @@ export const appRoutes: Route[] = [
     loadComponent: () =>
       import('./pages/primitives/tag-demo/tag-playground-page.component').then(
         (module) => module.TagPlaygroundPageComponent,
+      ),
+  },
+  {
+    path: 'badge',
+    loadComponent: () =>
+      import('./pages/primitives/badge-demo/badge-playground-page.component').then(
+        (module) => module.BadgePlaygroundPageComponent,
       ),
   },
   {
@@ -205,9 +226,9 @@ export const appRoutes: Route[] = [
   {
     path: 'navigation-menu',
     loadComponent: () =>
-      import('./pages/components/navigation-menu-demo/navigation-menu-playground-page.component').then(
-        (module) => module.NavigationMenuPlaygroundPageComponent,
-      ),
+      import(
+        './pages/components/navigation-menu-demo/navigation-menu-playground-page.component'
+      ).then((module) => module.NavigationMenuPlaygroundPageComponent),
   },
   {
     path: 'breadcrumb',

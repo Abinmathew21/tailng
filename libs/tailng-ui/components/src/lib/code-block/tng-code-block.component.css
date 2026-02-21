@@ -1,0 +1,115 @@
+:host {
+  display: block;
+}
+
+.tng-code-block {
+  background: var(--tng-code-block-bg, #0b1220);
+  border: 1px solid var(--tng-code-block-border, #263142);
+  border-radius: var(--tng-code-block-radius, 0.8rem);
+  color: var(--tng-code-block-fg, #dbe6f6);
+  display: grid;
+  overflow: hidden;
+}
+
+.tng-code-block__header {
+  align-items: center;
+  background: var(--tng-code-block-header-bg, rgba(15, 23, 42, 0.9));
+  border-bottom: 1px solid var(--tng-code-block-border, #263142);
+  display: flex;
+  justify-content: space-between;
+  min-height: 2.25rem;
+  padding: 0.35rem 0.65rem;
+}
+
+.tng-code-block__language {
+  color: var(--tng-code-block-language-fg, #93c5fd);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.tng-code-block__copy-button {
+  appearance: none;
+  background: var(--tng-code-block-copy-bg, transparent);
+  border: 1px solid var(--tng-code-block-copy-border, #334155);
+  border-radius: 0.55rem;
+  color: var(--tng-code-block-copy-fg, #cbd5e1);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.75rem;
+  font-weight: 600;
+  min-height: 1.85rem;
+  padding: 0 0.7rem;
+  transition: background-color 120ms ease, border-color 120ms ease, color 120ms ease, opacity 120ms ease;
+}
+
+.tng-code-block__copy-button[data-copy-state='Copied'] {
+  background: var(--tng-code-block-copy-success-bg, #166534);
+  border-color: var(--tng-code-block-copy-success-bg, #166534);
+  color: var(--tng-code-block-copy-success-fg, #f0fdf4);
+}
+
+.tng-code-block__copy-button[data-copy-state='Copy failed'] {
+  background: var(--tng-code-block-copy-error-bg, #b91c1c);
+  border-color: var(--tng-code-block-copy-error-bg, #b91c1c);
+  color: var(--tng-code-block-copy-error-fg, #fef2f2);
+}
+
+.tng-code-block__copy-button:focus-visible {
+  box-shadow: 0 0 0 3px var(--tng-code-block-focus-ring, rgba(96, 165, 250, 0.5));
+  outline: none;
+}
+
+.tng-code-block__copy-button:disabled,
+.tng-code-block__copy-button[data-copy-disabled] {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.tng-code-block__body {
+  display: grid;
+}
+
+.tng-code-block__body--line-numbers {
+  grid-template-columns: auto minmax(0, 1fr);
+}
+
+.tng-code-block__gutter {
+  background: var(--tng-code-block-gutter-bg, rgba(15, 23, 42, 0.65));
+  border-right: 1px solid var(--tng-code-block-border, #263142);
+  color: var(--tng-code-block-gutter-fg, #64748b);
+  list-style: none;
+  margin: 0;
+  min-width: 2.8rem;
+  padding: 0.75rem 0.45rem;
+  text-align: right;
+}
+
+.tng-code-block__line-number {
+  font-family: var(--tng-code-block-font-family, 'IBM Plex Mono', 'Fira Code', 'Menlo', monospace);
+  font-size: 0.78rem;
+  line-height: var(--tng-code-block-line-height, 1.6);
+}
+
+.tng-code-block__pre {
+  margin: 0;
+  overflow-x: auto;
+  padding: 0.75rem 0.9rem;
+}
+
+.tng-code-block__code {
+  color: inherit;
+  display: block;
+  font-family: var(--tng-code-block-font-family, 'IBM Plex Mono', 'Fira Code', 'Menlo', monospace);
+  font-size: var(--tng-code-block-font-size, 0.84rem);
+  line-height: var(--tng-code-block-line-height, 1.6);
+  min-height: 100%;
+  white-space: pre;
+}
+
+.tng-code-block__body--wrap .tng-code-block__code {
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+  word-break: break-word;
+}

@@ -1,0 +1,20 @@
+<button
+  tngCopy
+  class="tng-copy-button"
+  type="button"
+  [disabled]="disabled()"
+  [tngCopyText]="text()"
+  [tngCopyFrom]="from()"
+  [tngCopyIgnoreSelectors]="ignoreSelectors()"
+  [tngCopyDisabled]="disabled()"
+  [attr.data-appearance]="appearance()"
+  [attr.data-size]="size()"
+  [attr.data-state]="state()"
+  (click)="onHostClick()"
+  (tngCopied)="onPrimitiveCopied($event)"
+  (tngCopyError)="onPrimitiveCopyError($event)"
+>
+  {{ label() }}
+</button>
+
+<span class="tng-copy-live-region" aria-live="polite">{{ liveMessage() }}</span>

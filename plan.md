@@ -1,5 +1,9 @@
 # TailNG Angular ARIA Wrapper Plan
 
+## 0. Naming Decisions
+
+1. Use `plain-css` in user-facing names/docs (`playground-plain-css`) instead of `vanilla`.
+
 ## 0. Canonical Components (De-duplicated)
 
 - `accordion` covers `expansion-panel`

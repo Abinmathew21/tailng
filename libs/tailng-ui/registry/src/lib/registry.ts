@@ -1,6 +1,7 @@
 import { accordionRegistryItem } from './accordion/accordion.registry';
 import { autocompleteRegistryItem } from './autocomplete/autocomplete.registry';
 import { avatarRegistryItem } from './avatar/avatar.registry';
+import { badgeRegistryItem } from './badge/badge.registry';
 import { bottomsheetRegistryItem } from './bottom-sheet/bottom-sheet.registry';
 import { breadcrumbRegistryItem } from './breadcrumb/breadcrumb.registry';
 import { buttonRegistryItem } from './button/button.registry';
@@ -8,9 +9,11 @@ import { buttontoggleRegistryItem } from './button-toggle/button-toggle.registry
 import { cardRegistryItem } from './card/card.registry';
 import { checkboxRegistryItem } from './checkbox/checkbox.registry';
 import { chipsRegistryItem } from './chips/chips.registry';
+import { codeBlockRegistryItem } from './code-block/code-block.registry';
 import { collapsibleRegistryItem } from './collapsible/collapsible.registry';
 import { comboboxRegistryItem } from './combobox/combobox.registry';
 import { contextmenuRegistryItem } from './context-menu/context-menu.registry';
+import { copyRegistryItem } from './copy/copy.registry';
 import { dialogRegistryItem } from './dialog/dialog.registry';
 import { drawerRegistryItem } from './drawer/drawer.registry';
 import { dropdownMenuRegistryItem } from './dropdown-menu/dropdown-menu.registry';
@@ -47,6 +50,7 @@ import { treeRegistryItem } from './tree/tree.registry';
 export const tailngRegistry: readonly RegistryItem[] = [
   accordionRegistryItem,
   avatarRegistryItem,
+  badgeRegistryItem,
   breadcrumbRegistryItem,
   buttontoggleRegistryItem,
   tagRegistryItem,
@@ -61,6 +65,8 @@ export const tailngRegistry: readonly RegistryItem[] = [
   inputOtpRegistryItem,
   menuRegistryItem,
   contextmenuRegistryItem,
+  codeBlockRegistryItem,
+  copyRegistryItem,
   menubarRegistryItem,
   navigationmenuRegistryItem,
   toolbarRegistryItem,

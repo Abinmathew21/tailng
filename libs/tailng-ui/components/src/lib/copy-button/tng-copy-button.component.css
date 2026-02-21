@@ -1,0 +1,84 @@
+:host {
+  display: inline-flex;
+}
+
+.tng-copy-button {
+  align-items: center;
+  appearance: none;
+  border: 1px solid transparent;
+  border-radius: 0.6rem;
+  cursor: pointer;
+  display: inline-flex;
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 600;
+  justify-content: center;
+  line-height: 1;
+  transition:
+    background-color 120ms ease,
+    border-color 120ms ease,
+    color 120ms ease,
+    opacity 120ms ease;
+}
+
+.tng-copy-button[data-size='sm'] {
+  min-height: 2rem;
+  padding: 0 0.75rem;
+}
+
+.tng-copy-button[data-size='md'] {
+  min-height: 2.5rem;
+  padding: 0 1rem;
+}
+
+.tng-copy-button[data-appearance='solid'] {
+  background: var(--tng-semantic-accent-brand, #2563eb);
+  color: var(--tng-semantic-foreground-inverse, #f8fafc);
+}
+
+.tng-copy-button[data-appearance='outline'] {
+  background: transparent;
+  border-color: var(--tng-semantic-border-strong, #64748b);
+  color: var(--tng-semantic-foreground-primary, #0f172a);
+}
+
+.tng-copy-button[data-appearance='ghost'] {
+  background: transparent;
+  color: var(--tng-semantic-foreground-primary, #0f172a);
+}
+
+.tng-copy-button[data-state='copied'] {
+  background: var(--tng-semantic-accent-success, #16a34a);
+  border-color: transparent;
+  color: var(--tng-semantic-foreground-inverse, #f8fafc);
+}
+
+.tng-copy-button[data-state='error'] {
+  background: var(--tng-semantic-accent-danger, #dc2626);
+  border-color: transparent;
+  color: var(--tng-semantic-foreground-inverse, #f8fafc);
+}
+
+.tng-copy-button:focus-visible {
+  box-shadow: 0 0 0 3px var(--tng-semantic-focus-ring, #60a5fa);
+  outline: none;
+}
+
+.tng-copy-button:disabled,
+.tng-copy-button[data-copy-disabled] {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.tng-copy-live-region {
+  border: 0;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}

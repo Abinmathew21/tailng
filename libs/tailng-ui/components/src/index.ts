@@ -4,6 +4,32 @@ export * from './lib/breadcrumb/tng-breadcrumb.component';
 export * from './lib/menu/tng-menu.component';
 export * from './lib/dropdown-menu/tng-dropdown-menu.component';
 export * from './lib/context-menu/tng-context-menu.component';
+export * from './lib/copy-button/tng-copy-button.component';
+export * from './lib/code-block/tng-code-block.component';
+export {
+  TNG_CODE_HIGHLIGHTING_CONFIG,
+  TNG_CODE_HIGHLIGHTING_RESOLVER,
+  TNG_BUILTIN_CODE_HIGHLIGHTERS,
+  TNG_DEFAULT_CODE_HIGHLIGHTER_ID,
+  TngCodeHighlightingResolver,
+  createTngCodeHighlighterAdapter,
+  escapeTngCodeHtml,
+  highlightWithTngCodeHighlightingConfig,
+  normalizeTngCodeHighlighterId,
+  normalizeTngCodeLanguage,
+  provideTngCodeHighlighting,
+  resolveTngCodeHighlightingConfig,
+  tngPlainCodeHighlighterAdapter,
+} from './lib/code-block/highlighting';
+export type {
+  TngCodeHighlightInput,
+  TngCodeHighlightingResolverLike,
+  TngCodeHighlightRequest,
+  TngCodeHighlightResult,
+  TngCodeHighlighterAdapter,
+  TngProvideCodeHighlightingOptions,
+  TngResolvedCodeHighlightingConfig,
+} from './lib/code-block/highlighting';
 export * from './lib/menubar/tng-menubar.component';
 export * from './lib/navigation-menu/tng-navigation-menu.component';
 export * from './lib/toolbar/tng-toolbar.component';
@@ -28,6 +54,7 @@ export * from './lib/grid/tng-grid.component';
 export * from './lib/tree/tng-tree.component';
 export * from './lib/drawer/tng-drawer.component';
 export * from './lib/bottom-sheet/tng-bottom-sheet.component';
+export * from './lib/badge/tng-badge.component';
 export * from './lib/tag/tng-tag.component';
 export * from './lib/button/tng-button.component';
 export * from './lib/card/tng-card.component';
