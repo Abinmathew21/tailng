@@ -100,7 +100,8 @@ TailNG public APIs stable (`@tailng-ui/cdk/*`).
 
 - [x] Add overlay adapter delegate wiring for `portal`, `positioning`, `backdrop`,
       `outside-interaction`, and `scroll-lock` (feature-flagged, fallback-safe).
-- [ ] Migrate internals to concrete Angular CDK implementations behind these delegates.
+- [x] Migrate internals to concrete Angular CDK delegate implementations
+      (`libs/tailng-ui/cdk/src/adapters/angular-cdk/overlay.angular-cdk.ts`).
 - [ ] Update dialog/popover internals to use migrated overlay adapters.
 - [ ] Add regression tests for escape/outside click/stacked overlays.
 

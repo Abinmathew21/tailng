@@ -34,4 +34,6 @@ Behavior and accessibility primitives for TailNG UI.
   - Fallback to existing TailNG implementations by default.
   - In `prefer-angular-cdk` mode, adapter delegates can be injected for overlay features
     (`portal`, `positioning`, `outside-interaction`, `backdrop`, `scroll-lock`).
+  - Concrete overlay delegate factory is available internally at
+    `libs/tailng-ui/cdk/src/adapters/angular-cdk/overlay.angular-cdk.ts`.
   - Missing delegates automatically fall back to TailNG implementations.
