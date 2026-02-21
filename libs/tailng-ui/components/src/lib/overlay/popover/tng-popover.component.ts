@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 import type { OnDestroy } from '@angular/core';
 import { createTngIdFactory, type TngOverlayDismissReason } from '@tailng-ui/cdk';
-import { tngOverlayRuntime } from '../overlay/tng-overlay-runtime';
+import { tngOverlayRuntime } from '../tng-overlay-runtime';
 
 const createPopoverId = createTngIdFactory('tng-popover');
 

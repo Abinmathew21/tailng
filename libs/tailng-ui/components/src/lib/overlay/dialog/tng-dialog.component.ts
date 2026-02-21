@@ -16,7 +16,7 @@ import {
   type TngOverlayDismissReason,
 } from '@tailng-ui/cdk';
 import type { TngScrollLockDocument } from '@tailng-ui/cdk/overlay';
-import { tngOverlayRuntime } from '../overlay/tng-overlay-runtime';
+import { tngOverlayRuntime } from '../tng-overlay-runtime';
 
 const createDialogId = createTngIdFactory('tng-dialog');
 
