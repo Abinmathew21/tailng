@@ -10,19 +10,62 @@
         </a>
       </div>
       <h1 class="text-3xl font-semibold md:text-4xl">Autocomplete Demo (Tailwind)</h1>
-      <p class="max-w-2xl text-slate-300">Text input with dynamic suggestion list and keyboard navigation.</p>
+      <p class="max-w-2xl text-slate-300">
+        Text input with dynamic suggestion list and keyboard navigation.
+      </p>
     </header>
 
     <section class="space-y-3 rounded-2xl border border-slate-700 bg-slate-900 p-5">
       <h2 class="text-lg font-semibold">Primitives (`tngAutocomplete`)</h2>
       <div tngAutocomplete class="rounded-xl border border-slate-700 bg-slate-950 p-4">
-        Primitive shell for autocomplete composition.
+        <label for="autocomplete-framework" class="mb-2 block text-sm text-slate-300"
+          >Search framework</label
+        >
+        <input
+          id="autocomplete-framework"
+          type="text"
+          role="combobox"
+          aria-expanded="true"
+          aria-controls="autocomplete-list"
+          class="w-full rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-sm"
+          value="ang"
+        />
+        <ul
+          id="autocomplete-list"
+          role="listbox"
+          class="mt-2 rounded-md border border-slate-700 bg-slate-900 p-1 text-sm"
+        >
+          <li role="option" aria-selected="true" class="rounded px-2 py-1 hover:bg-slate-800">
+            Angular
+          </li>
+          <li role="option" aria-selected="false" class="rounded px-2 py-1 hover:bg-slate-800">
+            Angular CDK
+          </li>
+          <li role="option" aria-selected="false" class="rounded px-2 py-1 hover:bg-slate-800">
+            Angular Material
+          </li>
+        </ul>
       </div>
     </section>
 
     <section class="space-y-3 rounded-2xl border border-slate-700 bg-slate-900 p-5">
       <h2 class="text-lg font-semibold">Components (`tng-autocomplete`)</h2>
-      <tng-autocomplete>Autocomplete component content slot.</tng-autocomplete>
+      <tng-autocomplete>
+        <div class="space-y-2 text-sm">
+          <p class="text-slate-300">Owned wrapper around autocomplete structure.</p>
+          <ul role="listbox" class="rounded-md border border-slate-700 bg-slate-900 p-1">
+            <li role="option" aria-selected="false" class="rounded px-2 py-1 hover:bg-slate-800">
+              Button
+            </li>
+            <li role="option" aria-selected="false" class="rounded px-2 py-1 hover:bg-slate-800">
+              Checkbox
+            </li>
+            <li role="option" aria-selected="false" class="rounded px-2 py-1 hover:bg-slate-800">
+              Dialog
+            </li>
+          </ul>
+        </div>
+      </tng-autocomplete>
     </section>
   </section>
 </main>

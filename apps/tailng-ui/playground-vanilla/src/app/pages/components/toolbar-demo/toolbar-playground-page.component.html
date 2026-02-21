@@ -10,12 +10,23 @@
 
     <section class="card">
       <h2>Primitives (`tngToolbar`)</h2>
-      <div tngToolbar class="primitive-shell">Primitive shell for toolbar composition.</div>
+      <div tngToolbar role="toolbar" aria-label="Editor actions" class="primitive-shell demo-row">
+        <button type="button" class="demo-button">Bold</button>
+        <button type="button" class="demo-button">Italic</button>
+        <button type="button" class="demo-button">Underline</button>
+        <button type="button" class="demo-button">Link</button>
+      </div>
     </section>
 
     <section class="card">
       <h2>Components (`tng-toolbar`)</h2>
-      <tng-toolbar>Toolbar component content slot.</tng-toolbar>
+      <tng-toolbar>
+        <div role="toolbar" aria-label="Layout actions" class="primitive-shell demo-row">
+          <button type="button" class="demo-button">Left</button>
+          <button type="button" class="demo-button demo-button-active">Center</button>
+          <button type="button" class="demo-button">Right</button>
+        </div>
+      </tng-toolbar>
     </section>
   </section>
 </main>

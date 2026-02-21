@@ -10,12 +10,31 @@
 
     <section class="card">
       <h2>Primitives (`tngTabs`)</h2>
-      <div tngTabs class="primitive-shell">Primitive shell for tabs composition.</div>
+      <div tngTabs class="primitive-shell">
+        <div role="tablist" class="demo-row">
+          <button role="tab" type="button" aria-selected="true" class="demo-button">
+            Overview
+          </button>
+          <button role="tab" type="button" aria-selected="false" class="demo-button">API</button>
+          <button role="tab" type="button" aria-selected="false" class="demo-button">
+            Examples
+          </button>
+        </div>
+        <div role="tabpanel" class="demo-panel">Overview panel content preview.</div>
+      </div>
     </section>
 
     <section class="card">
       <h2>Components (`tng-tabs`)</h2>
-      <tng-tabs>Tabs component content slot.</tng-tabs>
+      <tng-tabs>
+        <div role="tablist" class="demo-row">
+          <button role="tab" type="button" aria-selected="true" class="demo-button">Usage</button>
+          <button role="tab" type="button" aria-selected="false" class="demo-button">
+            Accessibility
+          </button>
+        </div>
+        <div role="tabpanel" class="demo-panel">Usage tab panel with install and import notes.</div>
+      </tng-tabs>
     </section>
   </section>
 </main>

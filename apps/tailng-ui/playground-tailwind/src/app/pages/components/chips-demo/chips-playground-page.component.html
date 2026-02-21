@@ -10,19 +10,37 @@
         </a>
       </div>
       <h1 class="text-3xl font-semibold md:text-4xl">Chips Demo (Tailwind)</h1>
-      <p class="max-w-2xl text-slate-300">Compact item set for tags, filtering, and removable selections.</p>
+      <p class="max-w-2xl text-slate-300">
+        Compact item set for tags, filtering, and removable selections.
+      </p>
     </header>
 
     <section class="space-y-3 rounded-2xl border border-slate-700 bg-slate-900 p-5">
       <h2 class="text-lg font-semibold">Primitives (`tngChips`)</h2>
-      <div tngChips class="rounded-xl border border-slate-700 bg-slate-950 p-4">
-        Primitive shell for chips composition.
+      <div
+        tngChips
+        class="flex flex-wrap gap-2 rounded-xl border border-slate-700 bg-slate-950 p-4 text-sm"
+      >
+        <button type="button" class="rounded-full border border-slate-700 px-3 py-1">
+          Angular
+        </button>
+        <button type="button" class="rounded-full border border-slate-700 px-3 py-1">CDK</button>
+        <button type="button" class="rounded-full border border-slate-700 px-3 py-1">A11y</button>
       </div>
     </section>
 
     <section class="space-y-3 rounded-2xl border border-slate-700 bg-slate-900 p-5">
       <h2 class="text-lg font-semibold">Components (`tng-chips`)</h2>
-      <tng-chips>Chips component content slot.</tng-chips>
+      <tng-chips>
+        <div class="flex flex-wrap gap-2 text-sm">
+          <span class="rounded-full border border-cyan-600 px-3 py-1"
+            >Button <button type="button" class="ml-1 text-cyan-300">x</button></span
+          >
+          <span class="rounded-full border border-cyan-600 px-3 py-1"
+            >Dialog <button type="button" class="ml-1 text-cyan-300">x</button></span
+          >
+        </div>
+      </tng-chips>
     </section>
   </section>
 </main>

@@ -10,12 +10,36 @@
 
     <section class="card">
       <h2>Primitives (`tngTree`)</h2>
-      <div tngTree class="primitive-shell">Primitive shell for tree composition.</div>
+      <div tngTree class="primitive-shell">
+        <ul role="tree" class="demo-tree">
+          <li role="treeitem" aria-selected="false" aria-expanded="true">
+            <button type="button" class="demo-button">Design System</button>
+            <ul role="group">
+              <li role="treeitem" aria-selected="true">Tokens</li>
+              <li role="treeitem" aria-selected="false">Themes</li>
+            </ul>
+          </li>
+          <li role="treeitem" aria-selected="false" aria-expanded="false">
+            <button type="button" class="demo-button">Components</button>
+          </li>
+        </ul>
+      </div>
     </section>
 
     <section class="card">
       <h2>Components (`tng-tree`)</h2>
-      <tng-tree>Tree component content slot.</tng-tree>
+      <tng-tree>
+        <ul role="tree" class="demo-tree">
+          <li role="treeitem" aria-selected="false" aria-expanded="true">
+            <button type="button" class="demo-button">Workspace</button>
+            <ul role="group">
+              <li role="treeitem" aria-selected="false">Apps</li>
+              <li role="treeitem" aria-selected="false">Libraries</li>
+            </ul>
+          </li>
+          <li role="treeitem" aria-selected="false">Roadmap</li>
+        </ul>
+      </tng-tree>
     </section>
   </section>
 </main>

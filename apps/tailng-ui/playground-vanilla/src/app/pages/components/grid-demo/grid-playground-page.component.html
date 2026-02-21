@@ -10,12 +10,28 @@
 
     <section class="card">
       <h2>Primitives (`tngGrid`)</h2>
-      <div tngGrid class="primitive-shell">Primitive shell for grid composition.</div>
+      <div tngGrid role="grid" class="primitive-shell demo-grid demo-grid-3">
+        <button role="gridcell" type="button" class="demo-button">A1</button>
+        <button role="gridcell" type="button" class="demo-button">A2</button>
+        <button role="gridcell" type="button" class="demo-button">A3</button>
+        <button role="gridcell" type="button" class="demo-button">B1</button>
+        <button role="gridcell" type="button" class="demo-button">B2</button>
+        <button role="gridcell" type="button" class="demo-button">B3</button>
+      </div>
     </section>
 
     <section class="card">
       <h2>Components (`tng-grid`)</h2>
-      <tng-grid>Grid component content slot.</tng-grid>
+      <tng-grid>
+        <div role="grid" class="demo-grid demo-grid-3">
+          <div class="demo-panel">Token</div>
+          <div class="demo-panel">Value</div>
+          <div class="demo-panel">Scope</div>
+          <div class="demo-panel">surface.primary</div>
+          <div class="demo-panel">#0f172a</div>
+          <div class="demo-panel">dark</div>
+        </div>
+      </tng-grid>
     </section>
   </section>
 </main>

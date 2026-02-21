@@ -10,12 +10,37 @@
 
     <section class="card">
       <h2>Primitives (`tngAutocomplete`)</h2>
-      <div tngAutocomplete class="primitive-shell">Primitive shell for autocomplete composition.</div>
+      <div tngAutocomplete class="primitive-shell">
+        <label for="autocomplete-framework" class="demo-note">Search framework</label>
+        <input
+          id="autocomplete-framework"
+          type="text"
+          role="combobox"
+          aria-expanded="true"
+          aria-controls="autocomplete-list"
+          value="ang"
+          class="demo-input"
+        />
+        <ul id="autocomplete-list" role="listbox" class="demo-list demo-menu">
+          <li role="option" aria-selected="true">Angular</li>
+          <li role="option" aria-selected="false">Angular CDK</li>
+          <li role="option" aria-selected="false">Angular Material</li>
+        </ul>
+      </div>
     </section>
 
     <section class="card">
       <h2>Components (`tng-autocomplete`)</h2>
-      <tng-autocomplete>Autocomplete component content slot.</tng-autocomplete>
+      <tng-autocomplete>
+        <div class="primitive-shell">
+          <p class="demo-note">Owned wrapper around autocomplete structure.</p>
+          <ul role="listbox" class="demo-list demo-menu">
+            <li role="option" aria-selected="false">Button</li>
+            <li role="option" aria-selected="false">Checkbox</li>
+            <li role="option" aria-selected="false">Dialog</li>
+          </ul>
+        </div>
+      </tng-autocomplete>
     </section>
   </section>
 </main>

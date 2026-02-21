@@ -10,12 +10,24 @@
 
     <section class="card">
       <h2>Primitives (`tngMultiselect`)</h2>
-      <div tngMultiselect class="primitive-shell">Primitive shell for multiselect composition.</div>
+      <div tngMultiselect class="primitive-shell">
+        <ul role="listbox" aria-multiselectable="true" class="demo-list demo-menu">
+          <li role="option" aria-selected="true" class="demo-option-selected">Button</li>
+          <li role="option" aria-selected="false">Input</li>
+          <li role="option" aria-selected="true" class="demo-option-selected">Dialog</li>
+        </ul>
+      </div>
     </section>
 
     <section class="card">
       <h2>Components (`tng-multiselect`)</h2>
-      <tng-multiselect>Multiselect component content slot.</tng-multiselect>
+      <tng-multiselect>
+        <div class="primitive-shell demo-row">
+          <span class="demo-chip">Button</span>
+          <span class="demo-chip">Dialog</span>
+          <span class="demo-chip">Popover</span>
+        </div>
+      </tng-multiselect>
     </section>
   </section>
 </main>

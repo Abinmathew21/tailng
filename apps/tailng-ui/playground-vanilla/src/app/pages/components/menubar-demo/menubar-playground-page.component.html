@@ -10,12 +10,24 @@
 
     <section class="card">
       <h2>Primitives (`tngMenubar`)</h2>
-      <div tngMenubar class="primitive-shell">Primitive shell for menubar composition.</div>
+      <div tngMenubar role="menubar" class="primitive-shell demo-row">
+        <button role="menuitem" type="button" class="demo-button">File</button>
+        <button role="menuitem" type="button" class="demo-button">Edit</button>
+        <button role="menuitem" type="button" class="demo-button">View</button>
+      </div>
     </section>
 
     <section class="card">
       <h2>Components (`tng-menubar`)</h2>
-      <tng-menubar>Menubar component content slot.</tng-menubar>
+      <tng-menubar>
+        <div role="menubar" class="primitive-shell demo-row">
+          <button role="menuitem" type="button" class="demo-button">Project</button>
+          <button role="menuitem" type="button" class="demo-button demo-button-active">
+            Components
+          </button>
+          <button role="menuitem" type="button" class="demo-button">Help</button>
+        </div>
+      </tng-menubar>
     </section>
   </section>
 </main>

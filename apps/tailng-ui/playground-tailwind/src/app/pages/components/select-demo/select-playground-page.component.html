@@ -10,19 +10,51 @@
         </a>
       </div>
       <h1 class="text-3xl font-semibold md:text-4xl">Select Demo (Tailwind)</h1>
-      <p class="max-w-2xl text-slate-300">Single-choice dropdown pattern backed by listbox semantics.</p>
+      <p class="max-w-2xl text-slate-300">
+        Single-choice dropdown pattern backed by listbox semantics.
+      </p>
     </header>
 
     <section class="space-y-3 rounded-2xl border border-slate-700 bg-slate-900 p-5">
       <h2 class="text-lg font-semibold">Primitives (`tngSelect`)</h2>
       <div tngSelect class="rounded-xl border border-slate-700 bg-slate-950 p-4">
-        Primitive shell for select composition.
+        <button
+          type="button"
+          aria-haspopup="listbox"
+          aria-expanded="true"
+          class="w-full rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-left text-sm"
+        >
+          Selected: Compact
+        </button>
+        <ul role="listbox" class="mt-2 rounded-md border border-slate-700 bg-slate-900 p-1 text-sm">
+          <li role="option" aria-selected="false" class="rounded px-2 py-1 hover:bg-slate-800">
+            Comfortable
+          </li>
+          <li role="option" aria-selected="true" class="rounded bg-cyan-950/40 px-2 py-1">
+            Compact
+          </li>
+          <li role="option" aria-selected="false" class="rounded px-2 py-1 hover:bg-slate-800">
+            Dense
+          </li>
+        </ul>
       </div>
     </section>
 
     <section class="space-y-3 rounded-2xl border border-slate-700 bg-slate-900 p-5">
       <h2 class="text-lg font-semibold">Components (`tng-select`)</h2>
-      <tng-select>Select component content slot.</tng-select>
+      <tng-select>
+        <ul role="listbox" class="rounded-md border border-slate-700 bg-slate-900 p-1 text-sm">
+          <li role="option" aria-selected="false" class="rounded px-2 py-1 hover:bg-slate-800">
+            Primary
+          </li>
+          <li role="option" aria-selected="false" class="rounded px-2 py-1 hover:bg-slate-800">
+            Secondary
+          </li>
+          <li role="option" aria-selected="false" class="rounded px-2 py-1 hover:bg-slate-800">
+            Tertiary
+          </li>
+        </ul>
+      </tng-select>
     </section>
   </section>
 </main>

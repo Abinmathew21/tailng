@@ -24,7 +24,17 @@
     <section class="space-y-3 rounded-2xl border border-slate-700 bg-slate-900 p-5">
       <h2 class="text-lg font-semibold">Primitives (`tngDropdownMenu`)</h2>
       <div tngDropdownMenu class="rounded-xl border border-slate-700 bg-slate-950 p-4">
-        Primitive shell for custom dropdown composition.
+        <button type="button" class="rounded-md border border-slate-700 px-3 py-1.5 text-sm">
+          Open menu
+        </button>
+        <ul
+          role="menu"
+          class="mt-3 w-56 rounded-md border border-slate-700 bg-slate-900 p-1 text-sm"
+        >
+          <li role="menuitem" class="rounded px-2 py-1 hover:bg-slate-800">Profile</li>
+          <li role="menuitem" class="rounded px-2 py-1 hover:bg-slate-800">Settings</li>
+          <li role="menuitem" class="rounded px-2 py-1 hover:bg-slate-800">Sign out</li>
+        </ul>
       </div>
     </section>
 
@@ -33,6 +43,7 @@
       <tng-dropdown-menu label="Quick actions">
         <li role="menuitem" tabindex="0">Open</li>
         <li role="menuitem" tabindex="-1">Rename</li>
+        <li role="menuitem" tabindex="-1">Duplicate</li>
         <li role="menuitem" tabindex="-1">Delete</li>
       </tng-dropdown-menu>
     </section>

@@ -10,12 +10,32 @@
 
     <section class="card">
       <h2>Primitives (`tngBottomSheet`)</h2>
-      <div tngBottomSheet class="primitive-shell">Primitive shell for bottom sheet composition.</div>
+      <div class="primitive-shell demo-mobile-frame">
+        <div class="demo-panel">Mobile content behind sheet</div>
+        <div tngBottomSheet class="demo-panel">
+          <div class="demo-handle" aria-hidden="true"></div>
+          <p class="demo-note">Quick Actions</p>
+          <ul class="demo-list">
+            <li>Share</li>
+            <li>Duplicate</li>
+            <li>Archive</li>
+          </ul>
+        </div>
+      </div>
     </section>
 
     <section class="card">
       <h2>Components (`tng-bottom-sheet`)</h2>
-      <tng-bottom-sheet>Bottom Sheet component content slot.</tng-bottom-sheet>
+      <tng-bottom-sheet>
+        <div class="demo-panel">
+          <div class="demo-handle" aria-hidden="true"></div>
+          <p class="demo-note">Component wrapper with owned surface styling.</p>
+          <div class="demo-row">
+            <button type="button" class="demo-button">Install</button>
+            <button type="button" class="demo-button">Later</button>
+          </div>
+        </div>
+      </tng-bottom-sheet>
     </section>
   </section>
 </main>

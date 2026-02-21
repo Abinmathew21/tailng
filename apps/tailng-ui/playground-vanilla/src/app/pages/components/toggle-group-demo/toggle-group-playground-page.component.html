@@ -10,12 +10,26 @@
 
     <section class="card">
       <h2>Primitives (`tngToggleGroup`)</h2>
-      <div tngToggleGroup class="primitive-shell">Primitive shell for toggle group composition.</div>
+      <div tngToggleGroup role="group" aria-label="Text style" class="primitive-shell demo-row">
+        <button type="button" aria-pressed="true" class="demo-button demo-button-active">
+          Bold
+        </button>
+        <button type="button" aria-pressed="false" class="demo-button">Italic</button>
+        <button type="button" aria-pressed="false" class="demo-button">Underline</button>
+      </div>
     </section>
 
     <section class="card">
       <h2>Components (`tng-toggle-group`)</h2>
-      <tng-toggle-group>Toggle Group component content slot.</tng-toggle-group>
+      <tng-toggle-group>
+        <div role="group" aria-label="Alignment" class="primitive-shell demo-row">
+          <button type="button" aria-pressed="false" class="demo-button">Left</button>
+          <button type="button" aria-pressed="true" class="demo-button demo-button-active">
+            Center
+          </button>
+          <button type="button" aria-pressed="false" class="demo-button">Right</button>
+        </div>
+      </tng-toggle-group>
     </section>
   </section>
 </main>

@@ -15,14 +15,46 @@
 
     <section class="space-y-3 rounded-2xl border border-slate-700 bg-slate-900 p-5">
       <h2 class="text-lg font-semibold">Primitives (`tngMenubar`)</h2>
-      <div tngMenubar class="rounded-xl border border-slate-700 bg-slate-950 p-4">
-        Primitive shell for menubar composition.
+      <div
+        tngMenubar
+        role="menubar"
+        class="flex flex-wrap gap-2 rounded-xl border border-slate-700 bg-slate-950 p-4 text-sm"
+      >
+        <button role="menuitem" type="button" class="rounded-md border border-slate-700 px-3 py-1">
+          File
+        </button>
+        <button role="menuitem" type="button" class="rounded-md border border-slate-700 px-3 py-1">
+          Edit
+        </button>
+        <button role="menuitem" type="button" class="rounded-md border border-slate-700 px-3 py-1">
+          View
+        </button>
       </div>
     </section>
 
     <section class="space-y-3 rounded-2xl border border-slate-700 bg-slate-900 p-5">
       <h2 class="text-lg font-semibold">Components (`tng-menubar`)</h2>
-      <tng-menubar>Menubar component content slot.</tng-menubar>
+      <tng-menubar>
+        <div role="menubar" class="flex flex-wrap gap-2 text-sm">
+          <button
+            role="menuitem"
+            type="button"
+            class="rounded-md border border-slate-700 px-3 py-1"
+          >
+            Project
+          </button>
+          <button role="menuitem" type="button" class="rounded-md border border-cyan-500 px-3 py-1">
+            Components
+          </button>
+          <button
+            role="menuitem"
+            type="button"
+            class="rounded-md border border-slate-700 px-3 py-1"
+          >
+            Help
+          </button>
+        </div>
+      </tng-menubar>
     </section>
   </section>
 </main>

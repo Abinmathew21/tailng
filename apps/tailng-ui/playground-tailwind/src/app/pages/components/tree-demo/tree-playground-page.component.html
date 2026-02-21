@@ -10,19 +10,68 @@
         </a>
       </div>
       <h1 class="text-3xl font-semibold md:text-4xl">Tree Demo (Tailwind)</h1>
-      <p class="max-w-2xl text-slate-300">Hierarchical expandable list pattern for nested content.</p>
+      <p class="max-w-2xl text-slate-300">
+        Hierarchical expandable list pattern for nested content.
+      </p>
     </header>
 
     <section class="space-y-3 rounded-2xl border border-slate-700 bg-slate-900 p-5">
       <h2 class="text-lg font-semibold">Primitives (`tngTree`)</h2>
       <div tngTree class="rounded-xl border border-slate-700 bg-slate-950 p-4">
-        Primitive shell for tree composition.
+        <ul role="tree" class="space-y-1 text-sm">
+          <li
+            role="treeitem"
+            aria-selected="false"
+            aria-expanded="true"
+            class="rounded-md border border-slate-800 p-2"
+          >
+            <button type="button" class="w-full text-left font-medium">Design System</button>
+            <ul role="group" class="mt-2 space-y-1 pl-4">
+              <li role="treeitem" aria-selected="true" class="rounded-md px-2 py-1 text-slate-300">
+                Tokens
+              </li>
+              <li role="treeitem" aria-selected="false" class="rounded-md px-2 py-1 text-slate-300">
+                Themes
+              </li>
+            </ul>
+          </li>
+          <li
+            role="treeitem"
+            aria-selected="false"
+            aria-expanded="false"
+            class="rounded-md border border-slate-800 p-2"
+          >
+            <button type="button" class="w-full text-left font-medium">Components</button>
+          </li>
+        </ul>
       </div>
     </section>
 
     <section class="space-y-3 rounded-2xl border border-slate-700 bg-slate-900 p-5">
       <h2 class="text-lg font-semibold">Components (`tng-tree`)</h2>
-      <tng-tree>Tree component content slot.</tng-tree>
+      <tng-tree>
+        <ul role="tree" class="space-y-1 text-sm">
+          <li
+            role="treeitem"
+            aria-selected="false"
+            aria-expanded="true"
+            class="rounded-md border border-slate-800 p-2"
+          >
+            <button type="button" class="w-full text-left font-medium">Workspace</button>
+            <ul role="group" class="mt-2 space-y-1 pl-4">
+              <li role="treeitem" aria-selected="false" class="rounded-md px-2 py-1 text-slate-300">
+                Apps
+              </li>
+              <li role="treeitem" aria-selected="false" class="rounded-md px-2 py-1 text-slate-300">
+                Libraries
+              </li>
+            </ul>
+          </li>
+          <li role="treeitem" aria-selected="false" class="rounded-md border border-slate-800 p-2">
+            Roadmap
+          </li>
+        </ul>
+      </tng-tree>
     </section>
   </section>
 </main>
