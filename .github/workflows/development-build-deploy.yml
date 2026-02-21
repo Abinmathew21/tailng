@@ -1,9 +1,6 @@
 name: Development - Build and Deploy (Docs + Playgrounds)
 
 on:
-  push:
-    branches:
-      - development
   workflow_dispatch:
 
 permissions:
