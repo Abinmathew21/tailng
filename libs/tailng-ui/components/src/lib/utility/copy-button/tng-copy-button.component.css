@@ -32,35 +32,35 @@
 }
 
 .tng-copy-button[data-appearance='solid'] {
-  background: var(--tng-semantic-accent-brand, #2563eb);
-  color: var(--tng-semantic-foreground-inverse, #f8fafc);
+  background: var(--tng-semantic-accent-brand);
+  color: var(--tng-color-white);
 }
 
 .tng-copy-button[data-appearance='outline'] {
   background: transparent;
-  border-color: var(--tng-semantic-border-strong, #64748b);
-  color: var(--tng-semantic-foreground-primary, #0f172a);
+  border-color: var(--tng-semantic-border-strong);
+  color: var(--tng-semantic-foreground-primary);
 }
 
 .tng-copy-button[data-appearance='ghost'] {
   background: transparent;
-  color: var(--tng-semantic-foreground-primary, #0f172a);
+  color: var(--tng-semantic-foreground-primary);
 }
 
 .tng-copy-button[data-state='copied'] {
-  background: var(--tng-semantic-accent-success, #16a34a);
+  background: var(--tng-semantic-accent-success);
   border-color: transparent;
-  color: var(--tng-semantic-foreground-inverse, #f8fafc);
+  color: var(--tng-color-white);
 }
 
 .tng-copy-button[data-state='error'] {
-  background: var(--tng-semantic-accent-danger, #dc2626);
+  background: var(--tng-semantic-accent-danger);
   border-color: transparent;
-  color: var(--tng-semantic-foreground-inverse, #f8fafc);
+  color: var(--tng-color-white);
 }
 
 .tng-copy-button:focus-visible {
-  box-shadow: 0 0 0 3px var(--tng-semantic-focus-ring, #60a5fa);
+  box-shadow: 0 0 0 3px var(--tng-semantic-focus-ring);
   outline: none;
 }
 

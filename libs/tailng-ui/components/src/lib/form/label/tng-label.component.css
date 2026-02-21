@@ -4,7 +4,7 @@
 
 .tng-label {
   align-items: center;
-  color: var(--tng-semantic-text-primary, #0f172a);
+  color: var(--tng-semantic-foreground-primary);
   display: inline-flex;
   font-size: 0.875rem;
   font-weight: 600;
@@ -12,6 +12,6 @@
 }
 
 .tng-label-required {
-  color: var(--tng-semantic-accent-danger, #dc2626);
+  color: var(--tng-semantic-accent-danger);
   font-weight: 700;
 }

@@ -3,7 +3,12 @@
 }
 
 .tng-skeleton {
-  background: linear-gradient(90deg, #e2e8f0 0%, #cbd5e1 50%, #e2e8f0 100%);
+  background: linear-gradient(
+    90deg,
+    var(--tng-semantic-foreground-secondary) 0%,
+    var(--tng-semantic-border-subtle) 50%,
+    var(--tng-semantic-foreground-secondary) 100%
+  );
   background-size: 220% 100%;
 }
 

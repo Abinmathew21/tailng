@@ -3,10 +3,10 @@
 }
 
 .tng-tree-shell {
-  background: var(--tng-semantic-background-base, #ffffff);
-  border: 1px solid var(--tng-semantic-border-subtle, #cbd5e1);
+  background: var(--tng-semantic-background-base);
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 0.75rem;
-  color: var(--tng-semantic-foreground-primary, #0f172a);
+  color: var(--tng-semantic-foreground-primary);
   padding: 0.75rem;
 }
 
@@ -18,7 +18,7 @@
 
 .tng-tree-root:focus-visible {
   border-radius: 0.5rem;
-  box-shadow: 0 0 0 2px var(--tng-semantic-border-focus, #22d3ee);
+  box-shadow: 0 0 0 2px var(--tng-semantic-focus-ring);
 }
 
 .tng-tree-item {
@@ -34,11 +34,11 @@
 }
 
 .tng-tree-item-active {
-  background: color-mix(in srgb, var(--tng-semantic-border-focus, #22d3ee) 15%, transparent);
+  background: color-mix(in srgb, var(--tng-semantic-focus-ring) 15%, transparent);
 }
 
 .tng-tree-item-selected {
-  background: color-mix(in srgb, var(--tng-semantic-background-brand, #0891b2) 18%, transparent);
+  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 18%, transparent);
 }
 
 .tng-tree-item-disabled {
@@ -49,7 +49,7 @@
 .tng-tree-toggle {
   align-items: center;
   background: transparent;
-  border: 1px solid var(--tng-semantic-border-subtle, #cbd5e1);
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 0.35rem;
   color: inherit;
   cursor: pointer;
@@ -99,7 +99,7 @@
 }
 
 .tng-tree-description {
-  color: var(--tng-semantic-foreground-muted, #475569);
+  color: var(--tng-semantic-foreground-muted);
   font-size: 0.84rem;
   line-height: 1.3;
 }

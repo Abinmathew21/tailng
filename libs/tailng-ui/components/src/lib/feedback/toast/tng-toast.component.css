@@ -33,11 +33,11 @@
 
 .tng-toast-item {
   align-items: flex-start;
-  background: var(--tng-semantic-background-surface, rgb(15 23 42 / 0.96));
-  border: 1px solid var(--tng-semantic-border-default, rgb(148 163 184 / 0.55));
+  background: var(--tng-semantic-background-surface);
+  border: 1px solid var(--tng-semantic-border-default);
   border-radius: 0.85rem;
-  box-shadow: 0 16px 30px rgb(2 6 23 / 0.35);
-  color: var(--tng-semantic-text-primary, #f8fafc);
+  box-shadow: 0 16px 30px color-mix(in srgb, var(--tng-semantic-foreground-primary) 35%, transparent);
+  color: var(--tng-semantic-foreground-primary);
   display: grid;
   gap: 0.6rem;
   grid-template-columns: 1fr auto;
@@ -47,19 +47,19 @@
 }
 
 .tng-toast-item[data-tone='success'] {
-  border-color: rgb(52 211 153 / 0.6);
+  border-color: var(--tng-semantic-accent-success);
 }
 
 .tng-toast-item[data-tone='warning'] {
-  border-color: rgb(251 191 36 / 0.6);
+  border-color: var(--tng-semantic-accent-warning);
 }
 
 .tng-toast-item[data-tone='danger'] {
-  border-color: rgb(248 113 113 / 0.75);
+  border-color: var(--tng-semantic-accent-danger);
 }
 
 .tng-toast-item:focus-visible {
-  outline: 2px solid var(--tng-semantic-accent-brand, #38bdf8);
+  outline: 2px solid var(--tng-semantic-accent-brand);
   outline-offset: 2px;
 }
 
@@ -105,11 +105,11 @@
 }
 
 .tng-toast-close:hover {
-  background: rgb(148 163 184 / 0.2);
+  background: color-mix(in srgb, var(--tng-semantic-border-strong) 25%, transparent);
   opacity: 1;
 }
 
 .tng-toast-close:focus-visible {
-  outline: 2px solid var(--tng-semantic-accent-brand, #38bdf8);
+  outline: 2px solid var(--tng-semantic-accent-brand);
   outline-offset: 2px;
 }

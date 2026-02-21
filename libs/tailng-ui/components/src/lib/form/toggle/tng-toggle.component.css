@@ -4,10 +4,10 @@
 
 .tng-toggle-control {
   align-items: center;
-  background: var(--tng-semantic-background-surface, #e2e8f0);
-  border: 1px solid var(--tng-semantic-border-default, #94a3b8);
+  background: var(--tng-semantic-background-surface);
+  border: 1px solid var(--tng-semantic-border-strong);
   border-radius: 0.75rem;
-  color: var(--tng-semantic-text-primary, #0f172a);
+  color: var(--tng-semantic-foreground-primary);
   cursor: pointer;
   display: inline-flex;
   font-size: 0.875rem;
@@ -22,9 +22,9 @@
 }
 
 .tng-toggle-control[data-state='on'] {
-  background: var(--tng-semantic-accent-brand, #2563eb);
-  border-color: var(--tng-semantic-accent-brand, #2563eb);
-  color: var(--tng-semantic-text-on-accent, #f8fafc);
+  background: var(--tng-semantic-accent-brand);
+  border-color: var(--tng-semantic-accent-brand);
+  color: var(--tng-color-white);
 }
 
 .tng-toggle-control[data-disabled] {
@@ -33,7 +33,7 @@
 }
 
 .tng-toggle-control:focus-visible {
-  outline: 2px solid var(--tng-semantic-accent-brand, #2563eb);
+  outline: 2px solid var(--tng-semantic-focus-ring);
   outline-offset: 2px;
 }
 

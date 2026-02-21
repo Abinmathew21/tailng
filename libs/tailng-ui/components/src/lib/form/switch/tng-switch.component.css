@@ -4,7 +4,7 @@
 
 .tng-switch-root {
   align-items: center;
-  color: var(--tng-semantic-foreground-primary, #0f172a);
+  color: var(--tng-semantic-foreground-primary);
   column-gap: 0.65rem;
   display: inline-flex;
   font-size: 0.95rem;
@@ -18,7 +18,7 @@
 
 .tng-switch-control {
   align-items: center;
-  background: var(--tng-semantic-border-subtle, #cbd5e1);
+  background: var(--tng-semantic-border-subtle);
   border: 0;
   border-radius: 999px;
   cursor: pointer;
@@ -30,16 +30,16 @@
 }
 
 .tng-switch-control[data-state='checked'] {
-  background: var(--tng-semantic-accent-brand, #2563eb);
+  background: var(--tng-semantic-accent-brand);
 }
 
 .tng-switch-control:focus-visible {
-  outline: 2px solid var(--tng-semantic-accent-brand, #2563eb);
+  outline: 2px solid var(--tng-semantic-focus-ring);
   outline-offset: 2px;
 }
 
 .tng-switch-thumb {
-  background: var(--tng-color-white, #fff);
+  background: var(--tng-color-white);
   border-radius: 999px;
   box-shadow: 0 1px 2px color-mix(in srgb, var(--tng-semantic-background-canvas) 20%, transparent);
   display: block;

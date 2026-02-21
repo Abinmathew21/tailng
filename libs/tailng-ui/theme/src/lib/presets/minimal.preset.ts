@@ -25,6 +25,7 @@ export const minimalThemePreset: ThemeDefinition = {
       brandHover: '{color.neutral900}',
       danger: '{color.danger500}',
       success: '{color.success500}',
+      warning: '{color.warning500}',
     },
     focus: {
       ring: '{color.black}',

@@ -9,7 +9,7 @@
 }
 
 .tng-slider-control {
-  accent-color: var(--tng-semantic-accent-brand, #2563eb);
+  accent-color: var(--tng-semantic-accent-brand);
   width: 100%;
 }
 

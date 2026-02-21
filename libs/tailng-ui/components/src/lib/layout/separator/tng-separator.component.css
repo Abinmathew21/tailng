@@ -3,7 +3,7 @@
 }
 
 .tng-separator {
-  background: var(--tng-semantic-border-strong, #64748b);
+  background: var(--tng-semantic-border-strong);
   display: block;
 }
 

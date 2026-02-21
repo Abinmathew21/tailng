@@ -4,7 +4,7 @@
 
 .tng-button-toggle-group {
   align-items: center;
-  border: 1px solid var(--tng-semantic-border-primary, #cbd5e1);
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 0.85rem;
   display: inline-flex;
   flex-wrap: wrap;

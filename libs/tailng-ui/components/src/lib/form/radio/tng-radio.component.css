@@ -4,7 +4,7 @@
 
 .tng-radio-root {
   align-items: center;
-  color: var(--tng-semantic-foreground-primary, #0f172a);
+  color: var(--tng-semantic-foreground-primary);
   cursor: pointer;
   display: inline-flex;
   gap: 0.55rem;
@@ -17,14 +17,14 @@
 }
 
 .tng-radio-control {
-  accent-color: var(--tng-semantic-accent-brand, #2563eb);
+  accent-color: var(--tng-semantic-accent-brand);
   block-size: 1rem;
   inline-size: 1rem;
   margin: 0;
 }
 
 .tng-radio-control:focus-visible {
-  box-shadow: 0 0 0 3px var(--tng-semantic-focus-ring, #60a5fa);
+  box-shadow: 0 0 0 3px var(--tng-semantic-focus-ring);
   outline: none;
 }
 

@@ -9,10 +9,10 @@
 
 .tng-tooltip-trigger {
   align-items: center;
-  background: var(--tng-semantic-background-surface, #e2e8f0);
-  border: 1px solid var(--tng-semantic-border-default, #94a3b8);
+  background: var(--tng-semantic-background-surface);
+  border: 1px solid var(--tng-semantic-border-default);
   border-radius: 0.5rem;
-  color: var(--tng-semantic-text-primary, #0f172a);
+  color: var(--tng-semantic-foreground-primary);
   cursor: pointer;
   display: inline-flex;
   font-size: 0.75rem;
@@ -24,19 +24,19 @@
 }
 
 .tng-tooltip-trigger:focus-visible {
-  outline: 2px solid var(--tng-semantic-accent-brand, #2563eb);
+  outline: 2px solid var(--tng-semantic-accent-brand);
   outline-offset: 2px;
 }
 
 .tng-tooltip-trigger[data-state='open'] {
-  border-color: var(--tng-semantic-accent-brand, #2563eb);
+  border-color: var(--tng-semantic-accent-brand);
 }
 
 .tng-tooltip-content {
-  background: rgb(15 23 42 / 0.95);
-  border: 1px solid rgb(148 163 184 / 0.35);
+  background: var(--tng-semantic-background-surface);
+  border: 1px solid var(--tng-semantic-border-default);
   border-radius: 0.5rem;
-  color: #f8fafc;
+  color: var(--tng-semantic-foreground-primary);
   font-size: 0.75rem;
   left: 50%;
   max-width: 18rem;

@@ -120,13 +120,18 @@ function createMetricSeriesData(
   return rows.map((row) => row.gdpTrillionUsd);
 }
 
-function resolveTokenColor(doc: Document, tokenKey: string): string {
+function resolveTokenColor(doc: Document, tokenKey: string, seen = new Set<string>()): string {
+  if (seen.has(tokenKey)) return '';
+  seen.add(tokenKey);
   const el = doc.createElement('div');
-  el.style.color = `var(${tokenKey})`;
+  el.style.color = `var(${tokenKey}, var(--tng-semantic-foreground-secondary))`;
   doc.body.appendChild(el);
   const value = getComputedStyle(el).color;
   doc.body.removeChild(el);
-  return value || 'rgb(100, 116, 139)';
+  if (value && value !== 'rgba(0, 0, 0, 0)') return value;
+  return tokenKey === '--tng-semantic-foreground-secondary'
+    ? ''
+    : resolveTokenColor(doc, '--tng-semantic-foreground-secondary', seen);
 }
 
 @Component({

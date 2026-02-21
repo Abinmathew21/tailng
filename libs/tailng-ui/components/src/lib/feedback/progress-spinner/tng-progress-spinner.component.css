@@ -22,11 +22,11 @@
 }
 
 .tng-progress-spinner-track {
-  stroke: var(--tng-semantic-background-surface, #e2e8f0);
+  stroke: var(--tng-semantic-background-surface);
 }
 
 .tng-progress-spinner-indicator {
-  stroke: var(--tng-semantic-accent-brand, #2563eb);
+  stroke: var(--tng-semantic-accent-brand);
   transform: rotate(-90deg);
   transform-origin: center;
   transition: stroke-dashoffset 180ms ease;

@@ -8,10 +8,10 @@
 }
 
 .tng-input-otp-slot {
-  background: var(--tng-semantic-background-surface, #fff);
-  border: 1px solid var(--tng-semantic-border-default, #cbd5e1);
+  background: var(--tng-semantic-background-surface);
+  border: 1px solid var(--tng-semantic-border-default);
   border-radius: 0.5rem;
-  color: var(--tng-semantic-text-primary, #0f172a);
+  color: var(--tng-semantic-foreground-primary);
   font-size: 1rem;
   height: 2.4rem;
   text-align: center;
@@ -19,7 +19,7 @@
 }
 
 .tng-input-otp-slot:focus-visible {
-  border-color: var(--tng-semantic-accent-brand, #2563eb);
-  outline: 2px solid var(--tng-semantic-accent-brand, #2563eb);
+  border-color: var(--tng-semantic-accent-brand);
+  outline: 2px solid var(--tng-semantic-accent-brand);
   outline-offset: 1px;
 }

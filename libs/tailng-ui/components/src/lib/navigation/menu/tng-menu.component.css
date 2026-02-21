@@ -3,8 +3,8 @@
 }
 
 .tng-menu {
-  background: var(--tng-semantic-background-base, #ffffff);
-  border: 1px solid var(--tng-semantic-border-subtle, #cbd5e1);
+  background: var(--tng-semantic-background-base);
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 0.75rem;
   display: grid;
   gap: 0.25rem;
@@ -24,7 +24,7 @@
 .tng-menu :where([role='menuitem']) {
   align-items: center;
   border-radius: 0.5rem;
-  color: var(--tng-semantic-foreground-primary, #0f172a);
+  color: var(--tng-semantic-foreground-primary);
   cursor: pointer;
   display: flex;
   min-height: 2.25rem;
@@ -32,7 +32,7 @@
 }
 
 .tng-menu :where([role='menuitem']:focus-visible) {
-  background: var(--tng-semantic-background-muted, #e2e8f0);
-  outline: 2px solid var(--tng-semantic-focus-ring, #2563eb);
+  background: var(--tng-semantic-background-muted);
+  outline: 2px solid var(--tng-semantic-focus-ring);
   outline-offset: -2px;
 }

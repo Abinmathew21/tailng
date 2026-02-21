@@ -3,7 +3,7 @@
 }
 
 .tng-breadcrumb {
-  color: var(--tng-semantic-text-secondary, #475569);
+  color: var(--tng-semantic-foreground-secondary);
 }
 
 .tng-breadcrumb :is(ol, ul) {
@@ -17,7 +17,7 @@
 }
 
 .tng-breadcrumb a {
-  color: var(--tng-semantic-accent-brand, #2563eb);
+  color: var(--tng-semantic-accent-brand);
   text-decoration: none;
 }
 

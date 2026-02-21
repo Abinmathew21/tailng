@@ -4,7 +4,7 @@
 
 .tng-dialog-backdrop {
   align-items: center;
-  background: rgb(2 6 23 / 72%);
+  background: color-mix(in srgb, var(--tng-semantic-foreground-primary) 28%, transparent);
   display: flex;
   inset: 0;
   justify-content: center;
@@ -14,11 +14,11 @@
 }
 
 .tng-dialog-panel {
-  background: var(--tng-semantic-background-surface, #ffffff);
-  border: 1px solid var(--tng-semantic-border-strong, #64748b);
+  background: var(--tng-semantic-background-surface);
+  border: 1px solid var(--tng-semantic-border-strong);
   border-radius: 1rem;
-  box-shadow: 0 20px 45px rgb(15 23 42 / 35%);
-  color: var(--tng-semantic-foreground-primary, #0f172a);
+  box-shadow: 0 20px 45px color-mix(in srgb, var(--tng-semantic-foreground-primary) 35%, transparent);
+  color: var(--tng-semantic-foreground-primary);
   display: grid;
   gap: 1rem;
   max-height: calc(100vh - 2rem);
@@ -55,7 +55,7 @@
 }
 
 .tng-dialog-description {
-  color: var(--tng-semantic-foreground-muted, #475569);
+  color: var(--tng-semantic-foreground-muted);
   font-size: 0.92rem;
   line-height: 1.4;
   margin: 0;
@@ -65,7 +65,7 @@
   align-items: center;
   appearance: none;
   background: transparent;
-  border: 1px solid var(--tng-semantic-border-strong, #64748b);
+  border: 1px solid var(--tng-semantic-border-strong);
   border-radius: 999px;
   color: inherit;
   cursor: pointer;
@@ -79,7 +79,7 @@
 }
 
 .tng-dialog-close:focus-visible {
-  box-shadow: 0 0 0 3px var(--tng-semantic-focus-ring, #60a5fa);
+  box-shadow: 0 0 0 3px var(--tng-semantic-focus-ring);
   outline: none;
 }
 

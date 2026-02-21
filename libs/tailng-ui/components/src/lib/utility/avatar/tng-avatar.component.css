@@ -4,9 +4,9 @@
 
 .tng-avatar {
   align-items: center;
-  background: var(--tng-semantic-background-surface, #ffffff);
-  border: 1px solid var(--tng-semantic-border-strong, #64748b);
-  color: var(--tng-semantic-foreground-primary, #0f172a);
+  background: var(--tng-semantic-background-surface);
+  border: 1px solid var(--tng-semantic-border-strong);
+  color: var(--tng-semantic-foreground-primary);
   display: inline-flex;
   font-size: 0.75rem;
   font-weight: 700;

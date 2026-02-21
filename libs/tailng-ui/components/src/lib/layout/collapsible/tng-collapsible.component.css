@@ -3,7 +3,7 @@
 }
 
 .tng-collapsible {
-  border: 1px solid var(--tng-semantic-border-primary, #cbd5e1);
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 0.85rem;
   display: grid;
   overflow: hidden;
@@ -11,9 +11,9 @@
 
 .tng-collapsible-trigger {
   align-items: center;
-  background: var(--tng-semantic-surface-primary, #f8fafc);
+  background: var(--tng-semantic-background-surface);
   border: 0;
-  color: var(--tng-semantic-text-primary, #0f172a);
+  color: var(--tng-semantic-foreground-primary);
   cursor: pointer;
   display: flex;
   font: inherit;
@@ -30,8 +30,8 @@
 }
 
 .tng-collapsible-content {
-  background: var(--tng-semantic-surface-secondary, #e2e8f0);
-  color: var(--tng-semantic-text-primary, #0f172a);
+  background: var(--tng-semantic-background-muted);
+  color: var(--tng-semantic-foreground-primary);
   padding: 0.85rem 0.95rem;
 }
 

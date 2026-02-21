@@ -10,10 +10,10 @@
 
 .tng-dropdown-menu__trigger {
   align-items: center;
-  background: var(--tng-semantic-background-surface, #f8fafc);
-  border: 1px solid var(--tng-semantic-border-subtle, #cbd5e1);
+  background: var(--tng-semantic-background-surface);
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 0.6rem;
-  color: var(--tng-semantic-foreground-primary, #0f172a);
+  color: var(--tng-semantic-foreground-primary);
   cursor: pointer;
   display: inline-flex;
   font: inherit;
@@ -22,15 +22,15 @@
 }
 
 .tng-dropdown-menu__trigger:focus-visible {
-  outline: 2px solid var(--tng-semantic-focus-ring, #2563eb);
+  outline: 2px solid var(--tng-semantic-focus-ring);
   outline-offset: 1px;
 }
 
 .tng-dropdown-menu__panel {
-  background: var(--tng-semantic-background-base, #ffffff);
-  border: 1px solid var(--tng-semantic-border-subtle, #cbd5e1);
+  background: var(--tng-semantic-background-base);
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 0.75rem;
-  box-shadow: 0 16px 34px rgb(2 6 23 / 0.18);
+  box-shadow: 0 16px 34px color-mix(in srgb, var(--tng-semantic-foreground-primary) 18%, transparent);
   display: grid;
   gap: 0.25rem;
   list-style: none;
@@ -50,6 +50,6 @@
 }
 
 .tng-dropdown-menu__panel :where([role='menuitem']:hover, [role='menuitem']:focus-visible) {
-  background: var(--tng-semantic-background-muted, #e2e8f0);
+  background: var(--tng-semantic-background-muted);
   outline: none;
 }

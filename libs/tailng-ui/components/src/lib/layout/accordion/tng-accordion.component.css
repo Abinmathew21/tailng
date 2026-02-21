@@ -3,16 +3,16 @@
 }
 
 .tng-accordion {
-  border: 1px solid var(--tng-semantic-border-subtle, #cbd5e1);
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 0.75rem;
   overflow: hidden;
 }
 
 .tng-accordion__trigger {
   align-items: center;
-  background: var(--tng-semantic-background-surface, #f8fafc);
+  background: var(--tng-semantic-background-surface);
   border: 0;
-  color: var(--tng-semantic-foreground-primary, #0f172a);
+  color: var(--tng-semantic-foreground-primary);
   cursor: pointer;
   display: flex;
   font: inherit;
@@ -27,13 +27,13 @@
 }
 
 .tng-accordion__trigger:focus-visible {
-  outline: 2px solid var(--tng-semantic-focus-ring, #2563eb);
+  outline: 2px solid var(--tng-semantic-focus-ring);
   outline-offset: -2px;
 }
 
 .tng-accordion__panel {
-  background: var(--tng-semantic-background-base, #ffffff);
-  border-top: 1px solid var(--tng-semantic-border-subtle, #cbd5e1);
-  color: var(--tng-semantic-foreground-primary, #0f172a);
+  background: var(--tng-semantic-background-base);
+  border-top: 1px solid var(--tng-semantic-border-subtle);
+  color: var(--tng-semantic-foreground-primary);
   padding: 0.9rem 1rem;
 }

@@ -5,10 +5,10 @@
 
 .tng-textarea {
   appearance: none;
-  background: var(--tng-semantic-background-surface, #ffffff);
-  border: 1px solid var(--tng-semantic-border-strong, #64748b);
+  background: var(--tng-semantic-background-surface);
+  border: 1px solid var(--tng-semantic-border-strong);
   border-radius: 0.75rem;
-  color: var(--tng-semantic-foreground-primary, #0f172a);
+  color: var(--tng-semantic-foreground-primary);
   font: inherit;
   line-height: 1.35;
   padding: 0.7rem 0.85rem;
@@ -17,16 +17,16 @@
 }
 
 .tng-textarea::placeholder {
-  color: var(--tng-semantic-foreground-muted, #64748b);
+  color: var(--tng-semantic-foreground-muted);
 }
 
 .tng-textarea:focus-visible {
-  box-shadow: 0 0 0 3px var(--tng-semantic-focus-ring, #60a5fa);
+  box-shadow: 0 0 0 3px var(--tng-semantic-focus-ring);
   outline: none;
 }
 
 .tng-textarea[data-invalid] {
-  border-color: var(--tng-semantic-accent-danger, #dc2626);
+  border-color: var(--tng-semantic-accent-danger);
 }
 
 .tng-textarea:disabled,

@@ -11,4 +11,5 @@ export const colorPrimitives: TokenScale = {
   primary600: '#1d4ed8',
   danger500: '#dc2626',
   success500: '#16a34a',
+  warning500: '#f59e0b',
 };
