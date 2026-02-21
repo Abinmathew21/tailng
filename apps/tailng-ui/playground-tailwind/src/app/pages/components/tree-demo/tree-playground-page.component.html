@@ -10,68 +10,47 @@
         </a>
       </div>
       <h1 class="text-3xl font-semibold md:text-4xl">Tree Demo (Tailwind)</h1>
-      <p class="max-w-2xl text-slate-300">
-        Hierarchical expandable list pattern for nested content.
+      <p class="max-w-3xl text-slate-300">
+        Interactive tree with active-descendant navigation, branch toggles, and single selection.
       </p>
     </header>
 
-    <section class="space-y-3 rounded-2xl border border-slate-700 bg-slate-900 p-5">
-      <h2 class="text-lg font-semibold">Primitives (`tngTree`)</h2>
-      <div tngTree class="rounded-xl border border-slate-700 bg-slate-950 p-4">
-        <ul role="tree" class="space-y-1 text-sm">
-          <li
-            role="treeitem"
-            aria-selected="false"
-            aria-expanded="true"
-            class="rounded-md border border-slate-800 p-2"
-          >
-            <button type="button" class="w-full text-left font-medium">Design System</button>
-            <ul role="group" class="mt-2 space-y-1 pl-4">
-              <li role="treeitem" aria-selected="true" class="rounded-md px-2 py-1 text-slate-300">
-                Tokens
-              </li>
-              <li role="treeitem" aria-selected="false" class="rounded-md px-2 py-1 text-slate-300">
-                Themes
-              </li>
-            </ul>
-          </li>
-          <li
-            role="treeitem"
-            aria-selected="false"
-            aria-expanded="false"
-            class="rounded-md border border-slate-800 p-2"
-          >
-            <button type="button" class="w-full text-left font-medium">Components</button>
-          </li>
-        </ul>
+    <section class="space-y-4 rounded-2xl border border-slate-700 bg-slate-900 p-5">
+      <h2 class="text-lg font-semibold">Components (`tng-tree`)</h2>
+      <p class="text-sm text-slate-300">
+        Focus the tree and use keyboard controls to navigate and expand/collapse branches.
+      </p>
+
+      <tng-tree
+        [nodes]="treeNodes"
+        [defaultExpandedIds]="defaultExpandedIds"
+        [defaultSelectedId]="'tokens'"
+        [ariaLabel]="'TailNG repository tree'"
+        (selectedIdChange)="onSelectedIdChange($event)"
+      />
+
+      <div class="rounded-xl border border-cyan-500/40 bg-slate-950/60 px-3 py-2 text-sm text-cyan-200">
+        Selected node: <span class="font-semibold">{{ selectedLabel() }}</span>
       </div>
+
+      <ul class="grid gap-1 text-sm text-slate-300 md:grid-cols-2">
+        <li><span class="font-semibold text-cyan-300">ArrowUp / ArrowDown</span> move active node</li>
+        <li><span class="font-semibold text-cyan-300">ArrowRight</span> expand branch or enter child</li>
+        <li><span class="font-semibold text-cyan-300">ArrowLeft</span> collapse branch or move to parent</li>
+        <li><span class="font-semibold text-cyan-300">Home / End</span> jump to first/last visible node</li>
+        <li><span class="font-semibold text-cyan-300">Enter / Space</span> select active node</li>
+        <li><span class="font-semibold text-cyan-300">Type letters</span> typeahead search by node label</li>
+      </ul>
     </section>
 
     <section class="space-y-3 rounded-2xl border border-slate-700 bg-slate-900 p-5">
-      <h2 class="text-lg font-semibold">Components (`tng-tree`)</h2>
-      <tng-tree>
-        <ul role="tree" class="space-y-1 text-sm">
-          <li
-            role="treeitem"
-            aria-selected="false"
-            aria-expanded="true"
-            class="rounded-md border border-slate-800 p-2"
-          >
-            <button type="button" class="w-full text-left font-medium">Workspace</button>
-            <ul role="group" class="mt-2 space-y-1 pl-4">
-              <li role="treeitem" aria-selected="false" class="rounded-md px-2 py-1 text-slate-300">
-                Apps
-              </li>
-              <li role="treeitem" aria-selected="false" class="rounded-md px-2 py-1 text-slate-300">
-                Libraries
-              </li>
-            </ul>
-          </li>
-          <li role="treeitem" aria-selected="false" class="rounded-md border border-slate-800 p-2">
-            Roadmap
-          </li>
-        </ul>
-      </tng-tree>
+      <h2 class="text-lg font-semibold">Primitives (`tngTree`)</h2>
+      <p class="text-sm text-slate-300">
+        Primitive provides the shell hook; behavior is implemented by the component layer.
+      </p>
+      <div tngTree class="rounded-xl border border-slate-700 bg-slate-950 p-4 text-sm text-slate-300">
+        This shell can host custom tree markup if you need fully owned rendering.
+      </div>
     </section>
   </section>
 </main>

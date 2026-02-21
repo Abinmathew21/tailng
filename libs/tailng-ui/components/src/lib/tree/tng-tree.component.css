@@ -2,12 +2,104 @@
   display: block;
 }
 
-.tng-tree {
+.tng-tree-shell {
   background: var(--tng-semantic-background-base, #ffffff);
   border: 1px solid var(--tng-semantic-border-subtle, #cbd5e1);
   border-radius: 0.75rem;
   color: var(--tng-semantic-foreground-primary, #0f172a);
+  padding: 0.75rem;
+}
+
+.tng-tree-root {
+  display: grid;
+  gap: 0.125rem;
+  outline: none;
+}
+
+.tng-tree-root:focus-visible {
+  border-radius: 0.5rem;
+  box-shadow: 0 0 0 2px var(--tng-semantic-border-focus, #22d3ee);
+}
+
+.tng-tree-item {
+  --tng-tree-level: 0;
+  align-items: start;
+  border-radius: 0.5rem;
+  cursor: default;
   display: grid;
   gap: 0.5rem;
-  padding: 0.9rem 1rem;
+  grid-template-columns: auto minmax(0, 1fr);
+  padding: 0.35rem 0.5rem;
+  padding-inline-start: calc(0.5rem + (var(--tng-tree-level) * 1rem));
+}
+
+.tng-tree-item-active {
+  background: color-mix(in srgb, var(--tng-semantic-border-focus, #22d3ee) 15%, transparent);
+}
+
+.tng-tree-item-selected {
+  background: color-mix(in srgb, var(--tng-semantic-background-brand, #0891b2) 18%, transparent);
+}
+
+.tng-tree-item-disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.tng-tree-toggle {
+  align-items: center;
+  background: transparent;
+  border: 1px solid var(--tng-semantic-border-subtle, #cbd5e1);
+  border-radius: 0.35rem;
+  color: inherit;
+  cursor: pointer;
+  display: inline-flex;
+  font: inherit;
+  font-weight: 700;
+  height: 1.2rem;
+  justify-content: center;
+  line-height: 1;
+  margin-top: 0.05rem;
+  padding: 0;
+  width: 1.2rem;
+}
+
+.tng-tree-toggle:disabled {
+  cursor: not-allowed;
+}
+
+.tng-tree-toggle-placeholder {
+  border: 0;
+  font-size: 0.85rem;
+}
+
+.tng-tree-node {
+  background: transparent;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+  display: block;
+  font: inherit;
+  padding: 0;
+  text-align: left;
+  width: 100%;
+}
+
+.tng-tree-node:disabled {
+  cursor: not-allowed;
+}
+
+.tng-tree-text {
+  display: grid;
+  gap: 0.1rem;
+}
+
+.tng-tree-label {
+  font-weight: 600;
+}
+
+.tng-tree-description {
+  color: var(--tng-semantic-foreground-muted, #475569);
+  font-size: 0.84rem;
+  line-height: 1.3;
 }

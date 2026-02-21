@@ -5,41 +5,43 @@
         <a routerLink="/">Home</a>
       </div>
       <h1 class="title">Tree Demo (Vanilla CSS)</h1>
-      <p class="subtitle">Hierarchical expandable list pattern for nested content.</p>
+      <p class="subtitle">
+        Interactive tree with active-descendant navigation, branch toggles, and single selection.
+      </p>
     </header>
 
     <section class="card">
-      <h2>Primitives (`tngTree`)</h2>
-      <div tngTree class="primitive-shell">
-        <ul role="tree" class="demo-tree">
-          <li role="treeitem" aria-selected="false" aria-expanded="true">
-            <button type="button" class="demo-button">Design System</button>
-            <ul role="group">
-              <li role="treeitem" aria-selected="true">Tokens</li>
-              <li role="treeitem" aria-selected="false">Themes</li>
-            </ul>
-          </li>
-          <li role="treeitem" aria-selected="false" aria-expanded="false">
-            <button type="button" class="demo-button">Components</button>
-          </li>
-        </ul>
-      </div>
+      <h2>Components (`tng-tree`)</h2>
+      <p class="demo-note">
+        Focus the tree and use keyboard controls to navigate and expand/collapse branches.
+      </p>
+
+      <tng-tree
+        [nodes]="treeNodes"
+        [defaultExpandedIds]="defaultExpandedIds"
+        [defaultSelectedId]="'tokens'"
+        [ariaLabel]="'TailNG repository tree'"
+        (selectedIdChange)="onSelectedIdChange($event)"
+      />
+
+      <p class="demo-panel">
+        Selected node: <strong>{{ selectedLabel() }}</strong>
+      </p>
+
+      <ul class="demo-list">
+        <li><strong>ArrowUp / ArrowDown</strong> move active node</li>
+        <li><strong>ArrowRight</strong> expand branch or enter child</li>
+        <li><strong>ArrowLeft</strong> collapse branch or move to parent</li>
+        <li><strong>Home / End</strong> jump to first/last visible node</li>
+        <li><strong>Enter / Space</strong> select active node</li>
+        <li><strong>Type letters</strong> typeahead search by node label</li>
+      </ul>
     </section>
 
     <section class="card">
-      <h2>Components (`tng-tree`)</h2>
-      <tng-tree>
-        <ul role="tree" class="demo-tree">
-          <li role="treeitem" aria-selected="false" aria-expanded="true">
-            <button type="button" class="demo-button">Workspace</button>
-            <ul role="group">
-              <li role="treeitem" aria-selected="false">Apps</li>
-              <li role="treeitem" aria-selected="false">Libraries</li>
-            </ul>
-          </li>
-          <li role="treeitem" aria-selected="false">Roadmap</li>
-        </ul>
-      </tng-tree>
+      <h2>Primitives (`tngTree`)</h2>
+      <p class="demo-note">Primitive provides the shell hook; behavior is implemented by component layer.</p>
+      <div tngTree class="primitive-shell">This shell can host custom tree markup for fully owned rendering.</div>
     </section>
   </section>
 </main>

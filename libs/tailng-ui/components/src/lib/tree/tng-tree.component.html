@@ -1,3 +1,60 @@
-<section tngTree class="tng-tree" [attr.aria-label]="ariaLabel()">
-  <ng-content />
+<section tngTree class="tng-tree-shell">
+  <div
+    #rootRef
+    class="tng-tree-root"
+    role="tree"
+    tabindex="0"
+    [attr.aria-label]="ariaLabel()"
+    [attr.aria-activedescendant]="activeDescendantId()"
+    (focus)="onTreeFocus()"
+    (keydown)="onTreeKeydown($event)"
+  >
+    @if (visibleRows().length > 0) {
+      @for (row of visibleRows(); track row.id) {
+        <div
+          role="treeitem"
+          class="tng-tree-item"
+          [id]="toItemDomId(row.id)"
+          [style.--tng-tree-level]="row.depth"
+          [class.tng-tree-item-active]="activeDescendantId() === toItemDomId(row.id)"
+          [class.tng-tree-item-selected]="row.id === selectedId()"
+          [class.tng-tree-item-disabled]="row.disabled"
+          [attr.aria-level]="row.depth + 1"
+          [attr.aria-expanded]="row.hasChildren ? isExpanded(row.id) : null"
+          [attr.aria-selected]="row.disabled ? null : row.id === selectedId()"
+          [attr.aria-disabled]="row.disabled ? 'true' : null"
+        >
+          @if (row.hasChildren) {
+            <button
+              type="button"
+              class="tng-tree-toggle"
+              [disabled]="row.disabled"
+              [attr.aria-label]="isExpanded(row.id) ? 'Collapse branch' : 'Expand branch'"
+              (click)="onToggleClick(row.id, $event)"
+            >
+              {{ isExpanded(row.id) ? '-' : '+' }}
+            </button>
+          } @else {
+            <span class="tng-tree-toggle tng-tree-toggle-placeholder" aria-hidden="true">•</span>
+          }
+
+          <button
+            type="button"
+            class="tng-tree-node"
+            [disabled]="row.disabled"
+            (click)="onTreeItemClick(row.id)"
+          >
+            <span class="tng-tree-text">
+              <span class="tng-tree-label">{{ row.label }}</span>
+              @if (row.description !== null) {
+                <span class="tng-tree-description">{{ row.description }}</span>
+              }
+            </span>
+          </button>
+        </div>
+      }
+    } @else {
+      <ng-content />
+    }
+  </div>
 </section>
