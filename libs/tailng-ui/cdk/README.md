@@ -25,3 +25,10 @@ Behavior and accessibility primitives for TailNG UI.
 - Active descendant
 - Dismissable layer
 - Focus scope
+
+## Angular CDK Migration
+
+- Migration checklist: `cdk-angular-migration-plan.md` (repo root)
+- Internal adapter scaffold: `libs/tailng-ui/cdk/src/adapters/angular-cdk`
+- Current adapter behavior: fallback to existing TailNG implementations until Angular CDK
+  dependencies and concrete adapters are wired in.
