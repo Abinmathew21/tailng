@@ -1,21 +1,9 @@
 import { Component, input } from '@angular/core';
-import {
-  TngBreadcrumb as TngBreadcrumbPrimitive,
-  TngBreadcrumbItem as TngBreadcrumbItemPrimitive,
-  TngBreadcrumbLink as TngBreadcrumbLinkPrimitive,
-  TngBreadcrumbList as TngBreadcrumbListPrimitive,
-  TngBreadcrumbSeparator as TngBreadcrumbSeparatorPrimitive,
-} from '@tailng-ui/primitives';
+import { TngBreadcrumb as TngBreadcrumbPrimitive } from '@tailng-ui/primitives';
 
 @Component({
   selector: 'tng-breadcrumb',
-  imports: [
-    TngBreadcrumbPrimitive,
-    TngBreadcrumbListPrimitive,
-    TngBreadcrumbItemPrimitive,
-    TngBreadcrumbLinkPrimitive,
-    TngBreadcrumbSeparatorPrimitive,
-  ],
+  imports: [TngBreadcrumbPrimitive],
   templateUrl: './tng-breadcrumb.component.html',
   styleUrl: './tng-breadcrumb.component.css',
 })

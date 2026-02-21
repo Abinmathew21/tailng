@@ -52,23 +52,11 @@ export class TngBreadcrumbSeparatorPrimitive {
 `;
 
 const breadcrumbComponentTsTemplate = `import { Component, input } from '@angular/core';
-import {
-  TngBreadcrumbPrimitive,
-  TngBreadcrumbItemPrimitive,
-  TngBreadcrumbLinkPrimitive,
-  TngBreadcrumbListPrimitive,
-  TngBreadcrumbSeparatorPrimitive,
-} from './tng-breadcrumb-primitive';
+import { TngBreadcrumbPrimitive } from './tng-breadcrumb-primitive';
 
 @Component({
   selector: 'tng-breadcrumb',
-  imports: [
-    TngBreadcrumbPrimitive,
-    TngBreadcrumbListPrimitive,
-    TngBreadcrumbItemPrimitive,
-    TngBreadcrumbLinkPrimitive,
-    TngBreadcrumbSeparatorPrimitive,
-  ],
+  imports: [TngBreadcrumbPrimitive],
   templateUrl: './tng-breadcrumb.html',
   styleUrl: './tng-breadcrumb.css',
 })
