@@ -11,6 +11,7 @@
 
     <section class="card">
       <h2>Primitives (`tngMenu`)</h2>
+      <p>Primitive gives keyboard behavior for menuitems. It is intentionally untriggered.</p>
       <ul tngMenu class="menu-surface">
         <li role="menuitem" tabindex="0">Edit</li>
         <li role="menuitem" tabindex="-1">Duplicate</li>
@@ -19,12 +20,18 @@
     </section>
 
     <section class="card">
-      <h2>Components (`tng-menu`)</h2>
-      <tng-menu ariaLabel="File actions">
-        <li role="menuitem" tabindex="0">Create file</li>
-        <li role="menuitem" tabindex="-1">Rename file</li>
-        <li role="menuitem" tabindex="-1">Delete file</li>
-      </tng-menu>
+      <h2>Components (`tng-menu` + `tngMenuTriggerFor`)</h2>
+      <div class="menu-launcher">
+        <button type="button" class="menu-trigger" [tngMenuTriggerFor]="fileMenu">
+          Open file actions
+        </button>
+
+        <tng-menu #fileMenu="tngMenu" ariaLabel="File actions">
+          <li role="menuitem" tabindex="0">Create file</li>
+          <li role="menuitem" tabindex="-1">Rename file</li>
+          <li role="menuitem" tabindex="-1">Delete file</li>
+        </tng-menu>
+      </div>
     </section>
   </section>
 </main>

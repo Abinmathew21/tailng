@@ -1,5 +1,5 @@
 :host {
-  display: block;
+  display: contents;
 }
 
 .tng-menu {
@@ -12,6 +12,13 @@
   margin: 0;
   max-width: 18rem;
   padding: 0.4rem;
+}
+
+.tng-menu--panel {
+  inset-block-start: calc(100% + var(--tng-menu-offset, 0.4rem));
+  inset-inline-start: 0;
+  position: absolute;
+  z-index: var(--tng-menu-z-index, 200);
 }
 
 .tng-menu :where([role='menuitem']) {
