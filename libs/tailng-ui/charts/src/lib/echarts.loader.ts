@@ -1,6 +1,11 @@
 import type { TngChartRuntime, TngChartRuntimeLoader } from './chart.types';
 
-const runtimeModuleCandidates = Object.freeze(['echarts', 'echarts/core'] as const);
+type TngRuntimeModuleLoader = () => Promise<unknown>;
+
+const runtimeModuleLoaders: readonly TngRuntimeModuleLoader[] = Object.freeze([
+  async (): Promise<unknown> => import('echarts'),
+  async (): Promise<unknown> => import('echarts/core'),
+]);
 
 function hasInitMethod(candidate: unknown): candidate is Pick<TngChartRuntime, 'init'> {
   if (typeof candidate !== 'object' || candidate === null) {
@@ -20,10 +25,6 @@ function resolveModuleCandidate(candidate: unknown): unknown {
   return maybeDefault.default ?? candidate;
 }
 
-async function loadDynamicModule(moduleName: string): Promise<unknown> {
-  return import(/* @vite-ignore */ moduleName);
-}
-
 export function resolveTngEchartsModule(candidate: unknown): TngChartRuntime | null {
   const resolved = resolveModuleCandidate(candidate);
   return hasInitMethod(resolved) ? resolved : null;
@@ -40,9 +41,9 @@ export async function loadTngEchartsRuntime(
     throw new Error('Custom ECharts loader returned an invalid module.');
   }
 
-  for (const moduleName of runtimeModuleCandidates) {
+  for (const loadModule of runtimeModuleLoaders) {
     try {
-      const imported = await loadDynamicModule(moduleName);
+      const imported = await loadModule();
       const runtime = resolveTngEchartsModule(imported);
       if (runtime !== null) {
         return runtime;
@@ -53,6 +54,6 @@ export async function loadTngEchartsRuntime(
   }
 
   throw new Error(
-    'Unable to load ECharts runtime. Install "echarts" or provide a custom loader.',
+    'Unable to load ECharts runtime. Install "echarts", run install, or provide a custom loader.',
   );
 }
