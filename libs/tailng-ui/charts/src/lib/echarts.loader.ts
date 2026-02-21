@@ -1,8 +1,8 @@
-import type { TngEchartsModule, TngEchartsModuleLoader } from './chart.types';
+import type { TngChartRuntime, TngChartRuntimeLoader } from './chart.types';
 
 const runtimeModuleCandidates = Object.freeze(['echarts', 'echarts/core'] as const);
 
-function hasInitMethod(candidate: unknown): candidate is Pick<TngEchartsModule, 'init'> {
+function hasInitMethod(candidate: unknown): candidate is Pick<TngChartRuntime, 'init'> {
   if (typeof candidate !== 'object' || candidate === null) {
     return false;
   }
@@ -24,14 +24,14 @@ async function loadDynamicModule(moduleName: string): Promise<unknown> {
   return import(/* @vite-ignore */ moduleName);
 }
 
-export function resolveTngEchartsModule(candidate: unknown): TngEchartsModule | null {
+export function resolveTngEchartsModule(candidate: unknown): TngChartRuntime | null {
   const resolved = resolveModuleCandidate(candidate);
   return hasInitMethod(resolved) ? resolved : null;
 }
 
 export async function loadTngEchartsRuntime(
-  customLoader: TngEchartsModuleLoader | null = null,
-): Promise<TngEchartsModule> {
+  customLoader: TngChartRuntimeLoader | null = null,
+): Promise<TngChartRuntime> {
   if (customLoader !== null) {
     const loadedFromCustom = resolveTngEchartsModule(await customLoader());
     if (loadedFromCustom !== null) {
