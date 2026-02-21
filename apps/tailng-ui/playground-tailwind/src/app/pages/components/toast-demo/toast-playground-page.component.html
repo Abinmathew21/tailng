@@ -1,0 +1,109 @@
+<main class="min-h-screen bg-slate-950 px-4 py-8 text-slate-100 md:px-8">
+  <tng-toast
+    #toast
+    [mode]="selectedMode()"
+    [position]="selectedPosition()"
+    (dismissed)="onDismiss($event)"
+  />
+
+  <section class="mx-auto max-w-6xl space-y-6">
+    <header class="space-y-3">
+      <div class="flex flex-wrap items-center gap-3">
+        <a
+          routerLink="/"
+          class="rounded-lg border border-slate-700 px-3 py-1.5 text-sm text-slate-300"
+        >
+          Home
+        </a>
+        <a
+          routerLink="/tooltip"
+          class="rounded-lg border border-slate-700 px-3 py-1.5 text-sm text-slate-300"
+        >
+          Tooltip Demo
+        </a>
+      </div>
+      <h1 class="text-3xl font-semibold md:text-4xl">Toast Demo (Tailwind)</h1>
+      <p class="max-w-3xl text-slate-300">
+        Canonical notification component for both snackbar-style and toast-stack patterns.
+      </p>
+      <p class="text-sm text-cyan-200">
+        Registry aliases: <code>snackbar</code> and <code>sonner</code> both resolve to
+        <code>toast</code>.
+      </p>
+    </header>
+
+    <section class="space-y-4 rounded-2xl border border-slate-700 bg-slate-900 p-5">
+      <h2 class="text-lg font-semibold">Display Controls</h2>
+      <div class="grid gap-4 md:grid-cols-2">
+        <article class="space-y-2">
+          <p class="text-sm text-slate-300">Mode</p>
+          <div class="flex flex-wrap gap-2">
+            @for (mode of modes; track mode) {
+              <button
+                type="button"
+                class="rounded-lg border px-3 py-1.5 text-sm capitalize transition"
+                [class.border-cyan-500]="selectedMode() === mode"
+                [class.bg-cyan-600]="selectedMode() === mode"
+                [class.text-cyan-50]="selectedMode() === mode"
+                [class.border-slate-700]="selectedMode() !== mode"
+                [class.bg-slate-950]="selectedMode() !== mode"
+                [class.text-slate-200]="selectedMode() !== mode"
+                (click)="selectedMode.set(mode)"
+              >
+                {{ mode }}
+              </button>
+            }
+          </div>
+        </article>
+
+        <article class="space-y-2">
+          <p class="text-sm text-slate-300">Position</p>
+          <div class="flex flex-wrap gap-2">
+            @for (position of positions; track position) {
+              <button
+                type="button"
+                class="rounded-lg border px-3 py-1.5 text-sm capitalize transition"
+                [class.border-cyan-500]="selectedPosition() === position"
+                [class.bg-cyan-600]="selectedPosition() === position"
+                [class.text-cyan-50]="selectedPosition() === position"
+                [class.border-slate-700]="selectedPosition() !== position"
+                [class.bg-slate-950]="selectedPosition() !== position"
+                [class.text-slate-200]="selectedPosition() !== position"
+                (click)="selectedPosition.set(position)"
+              >
+                {{ position }}
+              </button>
+            }
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="space-y-4 rounded-2xl border border-slate-700 bg-slate-900 p-5">
+      <h2 class="text-lg font-semibold">Trigger Notifications</h2>
+      <div class="flex flex-wrap gap-3">
+        <tng-button (click)="showTone(toast, 'neutral')">Show Neutral</tng-button>
+        <tng-button tone="success" (click)="showTone(toast, 'success')">Show Success</tng-button>
+        <tng-button tone="neutral" (click)="showTone(toast, 'warning')">Show Warning</tng-button>
+        <tng-button tone="danger" (click)="showTone(toast, 'danger')">Show Danger</tng-button>
+      </div>
+      <p class="text-sm text-slate-300">
+        Danger notifications are pinned (`duration: 0`) to emulate persistent snackbar behavior.
+      </p>
+    </section>
+
+    <section class="space-y-3 rounded-2xl border border-slate-700 bg-slate-900 p-5">
+      <h2 class="text-lg font-semibold">Recent Dismissed IDs</h2>
+      @if (dismissEvents().length === 0) {
+        <p class="text-sm text-slate-300">No dismissed notifications yet.</p>
+      } @else {
+        <ul class="grid gap-2 text-sm text-slate-200">
+          @for (eventId of dismissEvents(); track eventId) {
+            <li class="rounded-lg border border-slate-700 bg-slate-950 px-3 py-2">{{ eventId }}</li>
+          }
+        </ul>
+      }
+    </section>
+  </section>
+
+</main>

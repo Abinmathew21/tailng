@@ -37,3 +37,5 @@ TailNG keeps one canonical component per pattern and resolves common aliases:
 - `sheet` -> `drawer`
 - `expansion-panel` -> `accordion`
 - `spinner` -> `progress-spinner`
+- `snackbar` -> `toast`
+- `sonner` -> `toast`

@@ -1,0 +1,86 @@
+<main class="page">
+  <tng-toast
+    #toast
+    [mode]="selectedMode()"
+    [position]="selectedPosition()"
+    (dismissed)="onDismiss($event)"
+  />
+
+  <section class="container">
+    <header class="hero">
+      <div class="links">
+        <a routerLink="/">Home</a>
+        <a routerLink="/tooltip">Tooltip Demo</a>
+      </div>
+      <h1 class="title">Toast Demo (Vanilla CSS)</h1>
+      <p class="subtitle">
+        Canonical notification component for both snackbar-style and toast-stack patterns.
+      </p>
+      <p class="hint">
+        Registry aliases: <code>snackbar</code> and <code>sonner</code> both resolve to
+        <code>toast</code>.
+      </p>
+    </header>
+
+    <section class="card">
+      <h2>Display Controls</h2>
+      <div class="control-grid">
+        <article class="control-block">
+          <p>Mode</p>
+          <div class="chips">
+            @for (mode of modes; track mode) {
+              <button
+                type="button"
+                class="chip"
+                [class.chip--active]="selectedMode() === mode"
+                (click)="selectedMode.set(mode)"
+              >
+                {{ mode }}
+              </button>
+            }
+          </div>
+        </article>
+
+        <article class="control-block">
+          <p>Position</p>
+          <div class="chips">
+            @for (position of positions; track position) {
+              <button
+                type="button"
+                class="chip"
+                [class.chip--active]="selectedPosition() === position"
+                (click)="selectedPosition.set(position)"
+              >
+                {{ position }}
+              </button>
+            }
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Trigger Notifications</h2>
+      <div class="actions">
+        <tng-button (click)="showTone(toast, 'neutral')">Show Neutral</tng-button>
+        <tng-button tone="success" (click)="showTone(toast, 'success')">Show Success</tng-button>
+        <tng-button tone="neutral" (click)="showTone(toast, 'warning')">Show Warning</tng-button>
+        <tng-button tone="danger" (click)="showTone(toast, 'danger')">Show Danger</tng-button>
+      </div>
+      <p>Danger notifications are pinned (`duration: 0`) to emulate persistent snackbar behavior.</p>
+    </section>
+
+    <section class="card">
+      <h2>Recent Dismissed IDs</h2>
+      @if (dismissEvents().length === 0) {
+        <p>No dismissed notifications yet.</p>
+      } @else {
+        <ul class="events">
+          @for (eventId of dismissEvents(); track eventId) {
+            <li>{{ eventId }}</li>
+          }
+        </ul>
+      }
+    </section>
+  </section>
+</main>

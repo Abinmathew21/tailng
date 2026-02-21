@@ -59,6 +59,8 @@ const componentAliases: Readonly<Record<string, string>> = Object.freeze({
   sidenav: 'drawer',
   sheet: 'drawer',
   'slide-toggle': 'switch',
+  snackbar: 'toast',
+  sonner: 'toast',
   spinner: 'progress-spinner',
 });
 

@@ -1,0 +1,115 @@
+:host {
+  display: contents;
+}
+
+.tng-toast-viewport {
+  display: grid;
+  gap: 0.65rem;
+  max-width: min(32rem, calc(100vw - 2rem));
+  pointer-events: none;
+  position: fixed;
+  z-index: 1200;
+}
+
+.tng-toast-viewport[data-position='top-left'] {
+  left: 1rem;
+  top: 1rem;
+}
+
+.tng-toast-viewport[data-position='top-right'] {
+  right: 1rem;
+  top: 1rem;
+}
+
+.tng-toast-viewport[data-position='bottom-left'] {
+  bottom: 1rem;
+  left: 1rem;
+}
+
+.tng-toast-viewport[data-position='bottom-right'] {
+  bottom: 1rem;
+  right: 1rem;
+}
+
+.tng-toast-item {
+  align-items: flex-start;
+  background: var(--tng-semantic-background-surface, rgb(15 23 42 / 0.96));
+  border: 1px solid var(--tng-semantic-border-default, rgb(148 163 184 / 0.55));
+  border-radius: 0.85rem;
+  box-shadow: 0 16px 30px rgb(2 6 23 / 0.35);
+  color: var(--tng-semantic-text-primary, #f8fafc);
+  display: grid;
+  gap: 0.6rem;
+  grid-template-columns: 1fr auto;
+  min-width: 14rem;
+  padding: 0.75rem 0.85rem;
+  pointer-events: auto;
+}
+
+.tng-toast-item[data-tone='success'] {
+  border-color: rgb(52 211 153 / 0.6);
+}
+
+.tng-toast-item[data-tone='warning'] {
+  border-color: rgb(251 191 36 / 0.6);
+}
+
+.tng-toast-item[data-tone='danger'] {
+  border-color: rgb(248 113 113 / 0.75);
+}
+
+.tng-toast-item:focus-visible {
+  outline: 2px solid var(--tng-semantic-accent-brand, #38bdf8);
+  outline-offset: 2px;
+}
+
+.tng-toast-viewport[data-mode='snackbar'] .tng-toast-item {
+  border-radius: 0.7rem;
+  max-width: 36rem;
+  min-width: min(22rem, calc(100vw - 2rem));
+}
+
+.tng-toast-body {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.tng-toast-title {
+  font-size: 0.83rem;
+  font-weight: 700;
+  line-height: 1.35;
+  margin: 0;
+}
+
+.tng-toast-message {
+  font-size: 0.79rem;
+  line-height: 1.45;
+  margin: 0;
+  opacity: 0.95;
+}
+
+.tng-toast-close {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  border-radius: 0.45rem;
+  color: inherit;
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 1.1rem;
+  height: 1.45rem;
+  justify-content: center;
+  line-height: 1;
+  opacity: 0.85;
+  width: 1.45rem;
+}
+
+.tng-toast-close:hover {
+  background: rgb(148 163 184 / 0.2);
+  opacity: 1;
+}
+
+.tng-toast-close:focus-visible {
+  outline: 2px solid var(--tng-semantic-accent-brand, #38bdf8);
+  outline-offset: 2px;
+}

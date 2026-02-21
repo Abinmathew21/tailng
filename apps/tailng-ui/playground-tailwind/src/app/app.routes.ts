@@ -175,6 +175,13 @@ export const appRoutes: Route[] = [
       ),
   },
   {
+    path: 'toast',
+    loadComponent: () =>
+      import('./pages/components/toast-demo/toast-playground-page.component').then(
+        (module) => module.ToastPlaygroundPageComponent,
+      ),
+  },
+  {
     path: 'icons',
     loadComponent: () =>
       import('./pages/icons/icon-demo/icon-playground-page.component').then(

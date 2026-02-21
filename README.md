@@ -329,6 +329,8 @@ Canonical aliases supported by `tailng add`:
 - `sheet` -> `drawer`
 - `expansion-panel` -> `accordion`
 - `spinner` -> `progress-spinner`
+- `snackbar` -> `toast`
+- `sonner` -> `toast`
 
 ---
 
