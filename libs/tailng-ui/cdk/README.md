@@ -23,7 +23,7 @@ Behavior and accessibility primitives for TailNG UI.
 - Typeahead
 - Roving focus
 - Active descendant
-- Dismissable layer
+- Layer stack
 - Focus scope
 
 ## Overlay Runtime
@@ -50,7 +50,6 @@ Behavior and accessibility primitives for TailNG UI.
 
 ## Phase 4 Consolidation
 
-- `dismissable-layer` remains available as a backward-compatible shim, internally delegating to
-  `layer-stack`.
+- Removed legacy `dismissable-layer` API in favor of the canonical `layer-stack` contract.
 - Components continue to consume `@tailng-ui/cdk/*` contracts rather than importing
   `@angular/cdk/*` directly.

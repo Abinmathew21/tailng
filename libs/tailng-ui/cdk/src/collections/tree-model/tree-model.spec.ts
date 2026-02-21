@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+import { expect, it } from 'vitest';
 import { createTreeModel } from './tree-model';
 
 const demoNodes = Object.freeze([
@@ -11,77 +11,75 @@ const demoNodes = Object.freeze([
   { id: 'grandchild-b2-1', parentId: 'child-b2' },
 ]);
 
-describe('createTreeModel', () => {
-  it('keeps only roots visible until expanded', () => {
-    const model = createTreeModel({ nodes: demoNodes });
-    expect(model.getState().visibleIds).toEqual(['root-a', 'root-b']);
+it('createTreeModel: keeps only roots visible until expanded', () => {
+  const model = createTreeModel({ nodes: demoNodes });
+  expect(model.getState().visibleIds).toEqual(['root-a', 'root-b']);
 
-    model.expand('root-a');
-    expect(model.getState().visibleIds).toEqual(['root-a', 'child-a1', 'child-a2', 'root-b']);
+  model.expand('root-a');
+  expect(model.getState().visibleIds).toEqual(['root-a', 'child-a1', 'child-a2', 'root-b']);
+});
+
+it('createTreeModel: supports toggle, expandAll, and collapseAll', () => {
+  const model = createTreeModel({ nodes: demoNodes });
+
+  model.toggle('root-b');
+  expect(model.getState().visibleIds).toEqual(['root-a', 'root-b', 'child-b1', 'child-b2']);
+
+  model.expandAll();
+  expect(model.getState().visibleIds).toEqual([
+    'root-a',
+    'child-a1',
+    'child-a2',
+    'root-b',
+    'child-b1',
+    'child-b2',
+    'grandchild-b2-1',
+  ]);
+
+  model.collapseAll();
+  expect(model.getState().visibleIds).toEqual(['root-a', 'root-b']);
+});
+
+it('createTreeModel: moves active id across visible and selectable items', () => {
+  const model = createTreeModel({
+    expandedIds: ['root-b'],
+    nodes: demoNodes,
   });
 
-  it('supports toggle, expandAll, and collapseAll', () => {
-    const model = createTreeModel({ nodes: demoNodes });
+  expect(model.getState().activeId).toBe('root-a');
 
-    model.toggle('root-b');
-    expect(model.getState().visibleIds).toEqual(['root-a', 'root-b', 'child-b1', 'child-b2']);
+  model.moveNext();
+  expect(model.getState().activeId).toBe('root-b');
 
-    model.expandAll();
-    expect(model.getState().visibleIds).toEqual([
-      'root-a',
-      'child-a1',
-      'child-a2',
-      'root-b',
-      'child-b1',
-      'child-b2',
-      'grandchild-b2-1',
-    ]);
+  model.moveNext();
+  expect(model.getState().activeId).toBe('child-b2');
+});
 
-    model.collapseAll();
-    expect(model.getState().visibleIds).toEqual(['root-a', 'root-b']);
+it('createTreeModel: ignores setting active id to hidden or disabled nodes', () => {
+  const model = createTreeModel({ nodes: demoNodes });
+
+  model.setActiveId('child-a1');
+  expect(model.getState().activeId).not.toBe('child-a1');
+
+  model.expand('root-b');
+  model.setActiveId('child-b1');
+  expect(model.getState().activeId).not.toBe('child-b1');
+});
+
+it('createTreeModel: reconciles expanded and active ids when nodes are replaced', () => {
+  const model = createTreeModel({
+    activeId: 'child-a1',
+    expandedIds: ['root-a'],
+    nodes: demoNodes,
   });
 
-  it('moves active id across visible and selectable items', () => {
-    const model = createTreeModel({
-      expandedIds: ['root-b'],
-      nodes: demoNodes,
-    });
+  model.setNodes(
+    Object.freeze([
+      { id: 'next-root' },
+      { id: 'next-child', parentId: 'next-root' },
+    ]),
+  );
 
-    expect(model.getState().activeId).toBe('root-a');
-
-    model.moveNext();
-    expect(model.getState().activeId).toBe('root-b');
-
-    model.moveNext();
-    expect(model.getState().activeId).toBe('child-b2');
-  });
-
-  it('ignores setting active id to hidden or disabled nodes', () => {
-    const model = createTreeModel({ nodes: demoNodes });
-
-    model.setActiveId('child-a1');
-    expect(model.getState().activeId).not.toBe('child-a1');
-
-    model.expand('root-b');
-    model.setActiveId('child-b1');
-    expect(model.getState().activeId).not.toBe('child-b1');
-  });
-
-  it('reconciles expanded and active ids when nodes are replaced', () => {
-    const model = createTreeModel({
-      activeId: 'child-a1',
-      expandedIds: ['root-a'],
-      nodes: demoNodes,
-    });
-
-    model.setNodes(
-      Object.freeze([
-        { id: 'next-root' },
-        { id: 'next-child', parentId: 'next-root' },
-      ]),
-    );
-
-    expect(model.getState().expandedIds).toEqual([]);
-    expect(model.getState().activeId).toBe('next-root');
-  });
+  expect(model.getState().expandedIds).toEqual([]);
+  expect(model.getState().activeId).toBe('next-root');
 });

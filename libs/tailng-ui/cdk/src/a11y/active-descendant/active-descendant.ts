@@ -32,6 +32,42 @@ function lastId(ids: readonly string[]): string | null {
   return ids[ids.length - 1] ?? null;
 }
 
+function edgeId(ids: readonly string[], delta: -1 | 1): string | null {
+  return delta > 0 ? firstId(ids) : lastId(ids);
+}
+
+function resolveMoveTarget(options: {
+  readonly activeId: string | null;
+  readonly delta: -1 | 1;
+  readonly enabledIds: readonly string[];
+  readonly loop: boolean;
+}): string | null {
+  const { activeId, delta, enabledIds, loop } = options;
+  if (enabledIds.length === 0) {
+    return null;
+  }
+
+  if (activeId === null) {
+    return edgeId(enabledIds, delta);
+  }
+
+  const currentIndex = enabledIds.indexOf(activeId);
+  if (currentIndex < 0) {
+    return edgeId(enabledIds, delta);
+  }
+
+  const nextIndex = currentIndex + delta;
+  if (nextIndex >= 0 && nextIndex < enabledIds.length) {
+    return enabledIds[nextIndex] ?? null;
+  }
+
+  if (!loop) {
+    return activeId;
+  }
+
+  return edgeId(enabledIds, delta);
+}
+
 class ActiveDescendantController implements TngActiveDescendantController {
   private activeId: string | null;
   private disabledIds: readonly string[];
@@ -123,22 +159,12 @@ class ActiveDescendantController implements TngActiveDescendantController {
       return this.activeId;
     }
 
-    const currentIndex = this.activeId === null ? -1 : enabledIds.indexOf(this.activeId);
-    if (currentIndex < 0) {
-      this.activeId = delta > 0 ? firstId(enabledIds) : lastId(enabledIds);
-      return this.activeId;
-    }
-
-    const nextIndex = currentIndex + delta;
-    if (nextIndex >= 0 && nextIndex < enabledIds.length) {
-      this.activeId = enabledIds[nextIndex] ?? null;
-      return this.activeId;
-    }
-
-    if (this.loop) {
-      this.activeId = delta > 0 ? firstId(enabledIds) : lastId(enabledIds);
-    }
-
+    this.activeId = resolveMoveTarget({
+      activeId: this.activeId,
+      delta,
+      enabledIds,
+      loop: this.loop,
+    });
     return this.activeId;
   }
 }

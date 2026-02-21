@@ -11,6 +11,10 @@ type TngNodeIndex = Readonly<{
   roots: readonly string[];
 }>;
 
+function freezeStringArray(values: readonly string[]): readonly string[] {
+  return Object.freeze([...values]);
+}
+
 function createNodeIndex(nodes: readonly TngTreeNode[]): TngNodeIndex {
   const byId = new Map<string, TngTreeNode>();
   const childrenByParent = new Map<string, string[]>();
@@ -32,205 +36,195 @@ function createNodeIndex(nodes: readonly TngTreeNode[]): TngNodeIndex {
     childrenByParent.set(parentId, parentChildren);
   }
 
-  return {
+  return Object.freeze({
     byId,
     childrenByParent,
-    roots,
-  };
+    roots: freezeStringArray(roots),
+  });
 }
 
 function toState(
   activeId: string | null,
-  expandedIds: ReadonlySet<string>,
+  expandedIds: readonly string[],
   visibleIds: readonly string[],
 ): TngTreeModelState {
   return Object.freeze({
     activeId,
-    expandedIds: Object.freeze(Array.from(expandedIds)),
-    visibleIds: Object.freeze([...visibleIds]),
+    expandedIds: freezeStringArray(expandedIds),
+    visibleIds: freezeStringArray(visibleIds),
   });
 }
 
-function resolveVisibleIds(
-  index: TngNodeIndex,
-  expandedIds: ReadonlySet<string>,
-): readonly string[] {
-  const visibleIds: string[] = [];
+class TreeModelController implements TngTreeModel {
+  private activeId: string | null;
+  private expandedIds: readonly string[];
+  private index: TngNodeIndex;
+  private visibleIds: readonly string[];
 
-  const visit = (id: string): void => {
-    visibleIds.push(id);
-    if (!expandedIds.has(id)) {
-      return;
-    }
-
-    const children = index.childrenByParent.get(id) ?? [];
-    for (const childId of children) {
-      visit(childId);
-    }
-  };
-
-  for (const rootId of index.roots) {
-    visit(rootId);
+  public constructor(options: TngTreeModelOptions) {
+    this.index = createNodeIndex(options.nodes);
+    this.expandedIds = this.sanitizeExpandedIds(options.expandedIds ?? []);
+    this.visibleIds = this.collectVisibleIds();
+    this.activeId = this.resolveInitialActiveId(options.activeId ?? null);
   }
 
-  return visibleIds;
-}
+  public collapse(id: string): TngTreeModelState {
+    if (!this.expandedIds.includes(id)) {
+      return this.getState();
+    }
 
-function isSelectable(node: TngTreeNode | undefined): boolean {
-  return node !== undefined && node.disabled !== true;
-}
-
-function resolveInitialActiveId(
-  candidateId: string | null | undefined,
-  index: TngNodeIndex,
-  visibleIds: readonly string[],
-): string | null {
-  if (
-    candidateId !== null &&
-    candidateId !== undefined &&
-    visibleIds.includes(candidateId) &&
-    isSelectable(index.byId.get(candidateId))
-  ) {
-    return candidateId;
+    this.expandedIds = freezeStringArray(this.expandedIds.filter((expandedId) => expandedId !== id));
+    return this.recompute();
   }
 
-  return visibleIds.find((id) => isSelectable(index.byId.get(id))) ?? null;
-}
+  public collapseAll(): TngTreeModelState {
+    this.expandedIds = Object.freeze([]);
+    return this.recompute();
+  }
 
-function resolveNextActiveId(
-  currentActiveId: string | null,
-  visibleIds: readonly string[],
-  index: TngNodeIndex,
-  direction: -1 | 1,
-): string | null {
-  if (visibleIds.length === 0) {
+  public expand(id: string): TngTreeModelState {
+    if (!this.index.byId.has(id) || !this.hasChildren(id) || this.expandedIds.includes(id)) {
+      return this.getState();
+    }
+
+    this.expandedIds = freezeStringArray([...this.expandedIds, id]);
+    return this.recompute();
+  }
+
+  public expandAll(): TngTreeModelState {
+    const nextExpanded: string[] = [];
+    for (const id of this.index.byId.keys()) {
+      if (this.hasChildren(id)) {
+        nextExpanded.push(id);
+      }
+    }
+
+    this.expandedIds = freezeStringArray(nextExpanded);
+    return this.recompute();
+  }
+
+  public getState(): TngTreeModelState {
+    return toState(this.activeId, this.expandedIds, this.visibleIds);
+  }
+
+  public moveNext(): TngTreeModelState {
+    this.activeId = this.resolveNextActiveId(1);
+    return this.getState();
+  }
+
+  public movePrev(): TngTreeModelState {
+    this.activeId = this.resolveNextActiveId(-1);
+    return this.getState();
+  }
+
+  public setActiveId(id: string | null): TngTreeModelState {
+    if (id !== null && (!this.visibleIds.includes(id) || !this.isSelectableId(id))) {
+      return this.getState();
+    }
+
+    this.activeId = id;
+    return this.getState();
+  }
+
+  public setNodes(nodes: readonly TngTreeNode[]): TngTreeModelState {
+    this.index = createNodeIndex(nodes);
+    this.expandedIds = this.sanitizeExpandedIds(this.expandedIds);
+    return this.recompute();
+  }
+
+  public toggle(id: string): TngTreeModelState {
+    return this.expandedIds.includes(id) ? this.collapse(id) : this.expand(id);
+  }
+
+  private collectVisibleIds(): readonly string[] {
+    const visibleIds: string[] = [];
+    const expandedSet = new Set(this.expandedIds);
+
+    const visit = (id: string): void => {
+      visibleIds.push(id);
+      if (!expandedSet.has(id)) {
+        return;
+      }
+
+      const children = this.index.childrenByParent.get(id) ?? [];
+      for (const childId of children) {
+        visit(childId);
+      }
+    };
+
+    for (const rootId of this.index.roots) {
+      visit(rootId);
+    }
+
+    return freezeStringArray(visibleIds);
+  }
+
+  private hasChildren(id: string): boolean {
+    return (this.index.childrenByParent.get(id)?.length ?? 0) > 0;
+  }
+
+  private isSelectableId(id: string): boolean {
+    const node = this.index.byId.get(id);
+    return node !== undefined && node.disabled !== true;
+  }
+
+  private recompute(): TngTreeModelState {
+    this.visibleIds = this.collectVisibleIds();
+    this.activeId = this.resolveInitialActiveId(this.activeId);
+    return this.getState();
+  }
+
+  private resolveInitialActiveId(candidateId: string | null): string | null {
+    if (
+      candidateId !== null &&
+      this.visibleIds.includes(candidateId) &&
+      this.isSelectableId(candidateId)
+    ) {
+      return candidateId;
+    }
+
+    for (const id of this.visibleIds) {
+      if (this.isSelectableId(id)) {
+        return id;
+      }
+    }
+
     return null;
   }
 
-  const currentIndex =
-    currentActiveId === null ? -1 : visibleIds.findIndex((id) => id === currentActiveId);
-  let candidateIndex = currentIndex + direction;
-
-  while (candidateIndex >= 0 && candidateIndex < visibleIds.length) {
-    const candidateId = visibleIds[candidateIndex];
-    if (isSelectable(index.byId.get(candidateId))) {
-      return candidateId;
+  private resolveNextActiveId(direction: -1 | 1): string | null {
+    if (this.visibleIds.length === 0) {
+      return null;
     }
-    candidateIndex += direction;
+
+    const currentIndex =
+      this.activeId === null ? -1 : this.visibleIds.findIndex((id) => id === this.activeId);
+    let candidateIndex = currentIndex + direction;
+    while (candidateIndex >= 0 && candidateIndex < this.visibleIds.length) {
+      const candidateId = this.visibleIds[candidateIndex];
+      if (candidateId !== undefined && this.isSelectableId(candidateId)) {
+        return candidateId;
+      }
+      candidateIndex += direction;
+    }
+
+    return this.activeId;
   }
 
-  return currentActiveId;
-}
+  private sanitizeExpandedIds(candidateIds: readonly string[]): readonly string[] {
+    const expandedIds: string[] = [];
+    for (const id of candidateIds) {
+      if (!this.index.byId.has(id) || !this.hasChildren(id) || expandedIds.includes(id)) {
+        continue;
+      }
 
-function hasChildren(id: string, index: TngNodeIndex): boolean {
-  return (index.childrenByParent.get(id)?.length ?? 0) > 0;
-}
-
-function sanitizeExpanded(
-  expandedIds: ReadonlySet<string>,
-  index: TngNodeIndex,
-): Set<string> {
-  const nextExpanded = new Set<string>();
-  for (const id of expandedIds) {
-    if (index.byId.has(id) && hasChildren(id, index)) {
-      nextExpanded.add(id);
+      expandedIds.push(id);
     }
+
+    return freezeStringArray(expandedIds);
   }
-  return nextExpanded;
 }
 
 export function createTreeModel(options: TngTreeModelOptions): TngTreeModel {
-  let index = createNodeIndex(options.nodes);
-  let expandedIds = sanitizeExpanded(new Set(options.expandedIds ?? []), index);
-  let visibleIds = resolveVisibleIds(index, expandedIds);
-  let activeId = resolveInitialActiveId(options.activeId ?? null, index, visibleIds);
-
-  const getState = (): TngTreeModelState => toState(activeId, expandedIds, visibleIds);
-
-  const recompute = (): TngTreeModelState => {
-    visibleIds = resolveVisibleIds(index, expandedIds);
-    activeId = resolveInitialActiveId(activeId, index, visibleIds);
-    return getState();
-  };
-
-  const setActiveId = (id: string | null): TngTreeModelState => {
-    if (
-      id !== null &&
-      (!visibleIds.includes(id) || !isSelectable(index.byId.get(id)))
-    ) {
-      return getState();
-    }
-
-    activeId = id;
-    return getState();
-  };
-
-  const expand = (id: string): TngTreeModelState => {
-    if (!index.byId.has(id) || !hasChildren(id, index)) {
-      return getState();
-    }
-
-    expandedIds = new Set(expandedIds);
-    expandedIds.add(id);
-    return recompute();
-  };
-
-  const collapse = (id: string): TngTreeModelState => {
-    if (!expandedIds.has(id)) {
-      return getState();
-    }
-
-    expandedIds = new Set(expandedIds);
-    expandedIds.delete(id);
-    return recompute();
-  };
-
-  const toggle = (id: string): TngTreeModelState => {
-    return expandedIds.has(id) ? collapse(id) : expand(id);
-  };
-
-  const expandAll = (): TngTreeModelState => {
-    const nextExpanded = new Set<string>();
-    for (const id of index.byId.keys()) {
-      if (hasChildren(id, index)) {
-        nextExpanded.add(id);
-      }
-    }
-    expandedIds = nextExpanded;
-    return recompute();
-  };
-
-  const collapseAll = (): TngTreeModelState => {
-    expandedIds = new Set<string>();
-    return recompute();
-  };
-
-  const setNodes = (nextNodes: readonly TngTreeNode[]): TngTreeModelState => {
-    index = createNodeIndex(nextNodes);
-    expandedIds = sanitizeExpanded(expandedIds, index);
-    return recompute();
-  };
-
-  const moveNext = (): TngTreeModelState => {
-    activeId = resolveNextActiveId(activeId, visibleIds, index, 1);
-    return getState();
-  };
-
-  const movePrev = (): TngTreeModelState => {
-    activeId = resolveNextActiveId(activeId, visibleIds, index, -1);
-    return getState();
-  };
-
-  return Object.freeze({
-    collapse,
-    collapseAll,
-    expand,
-    expandAll,
-    getState,
-    moveNext,
-    movePrev,
-    setActiveId,
-    setNodes,
-    toggle,
-  });
+  return new TreeModelController(options);
 }

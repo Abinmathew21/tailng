@@ -74,8 +74,8 @@ TailNG public APIs stable (`@tailng-ui/cdk/*`).
 - [ ] `overlay/layer-stack/layer-stack.ts`
       Decision: keep TailNG-owned (stack priority/dismiss policy).
 
-- [ ] `overlay/dismissable-layer/dismissable-layer.ts`
-      Decision: deprecate/remove after `layer-stack` is canonical to avoid duplicate stack contracts.
+- [x] `overlay/dismissable-layer/*`
+      Decision: removed; `layer-stack` is canonical to avoid duplicate stack contracts.
 
 ## Core Utilities
 
@@ -117,13 +117,13 @@ TailNG public APIs stable (`@tailng-ui/cdk/*`).
 ## Phase 4: Consolidation
 
 - [x] Remove duplicate `dismissable-layer` contract
-      (legacy API now delegates to `layer-stack`).
+      (contract removed; `layer-stack` is the single API).
 - [x] Confirm all components only consume `@tailng-ui/cdk/*`, never `@angular/cdk/*`.
 - [x] Document final migration outcomes in `libs/tailng-ui/cdk/README.md`.
 
 ## Validation Checklist
 
-- [ ] `pnpm nx run cdk:lint`
+- [x] `pnpm nx run cdk:lint`
 - [x] `pnpm test:cdk`
 - [ ] `pnpm nx run components:lint`
 - [x] `pnpm test:components`

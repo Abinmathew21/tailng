@@ -7,6 +7,13 @@ import {
   type TngGridNavigationOptions,
 } from './grid-navigation.types';
 
+type TngGridMovementActionType = Exclude<TngGridNavigationActionType, 'activate' | 'exit'>;
+
+type TngGridMoveBounds = Readonly<{
+  maxCol: number;
+  maxRow: number;
+}>;
+
 function createAction(
   type: TngGridNavigationActionType,
   preventDefault: boolean,
@@ -39,32 +46,69 @@ function hasDisallowedModifiers(event: TngGridNavigationKeyboardEvent): boolean 
 }
 
 function resolveHorizontalAction(
-  event: TngGridNavigationKeyboardEvent,
+  key: string,
   direction: 'ltr' | 'rtl',
-): TngGridNavigationAction | null {
-  if (event.key === 'ArrowLeft') {
-    return createAction(direction === 'rtl' ? 'move-right' : 'move-left', true);
+): TngGridNavigationActionType | null {
+  if (key === 'ArrowLeft') {
+    return direction === 'rtl' ? 'move-right' : 'move-left';
   }
 
-  if (event.key === 'ArrowRight') {
-    return createAction(direction === 'rtl' ? 'move-left' : 'move-right', true);
+  if (key === 'ArrowRight') {
+    return direction === 'rtl' ? 'move-left' : 'move-right';
   }
 
   return null;
 }
 
-function resolveHomeEndAction(
-  event: TngGridNavigationKeyboardEvent,
-): TngGridNavigationAction | null {
-  if (event.key === 'Home') {
-    return createAction(event.ctrlKey === true ? 'move-grid-start' : 'move-row-start', true);
+function resolveVerticalOrExitAction(key: string): TngGridNavigationActionType | null {
+  if (key === 'Tab') {
+    return 'exit';
   }
 
-  if (event.key === 'End') {
-    return createAction(event.ctrlKey === true ? 'move-grid-end' : 'move-row-end', true);
+  if (key === 'ArrowUp') {
+    return 'move-up';
+  }
+
+  if (key === 'ArrowDown') {
+    return 'move-down';
   }
 
   return null;
+}
+
+function resolveHomeEndActionType(
+  key: string,
+  withCtrl: boolean,
+): TngGridNavigationActionType | null {
+  if (key === 'Home') {
+    return withCtrl ? 'move-grid-start' : 'move-row-start';
+  }
+
+  if (key === 'End') {
+    return withCtrl ? 'move-grid-end' : 'move-row-end';
+  }
+
+  return null;
+}
+
+function resolveActivateAction(key: string): TngGridNavigationActionType | null {
+  if (key === 'Enter' || key === ' ' || key === 'Spacebar') {
+    return 'activate';
+  }
+
+  return null;
+}
+
+function resolveGridActionType(
+  event: TngGridNavigationKeyboardEvent,
+  direction: 'ltr' | 'rtl',
+): TngGridNavigationActionType | null {
+  return (
+    resolveVerticalOrExitAction(event.key) ??
+    resolveHorizontalAction(event.key, direction) ??
+    resolveHomeEndActionType(event.key, event.ctrlKey === true) ??
+    resolveActivateAction(event.key)
+  );
 }
 
 export function resolveGridNavigationKeyAction(
@@ -75,35 +119,12 @@ export function resolveGridNavigationKeyAction(
     return null;
   }
 
-  const direction = options.direction ?? 'ltr';
-
-  if (event.key === 'Tab') {
-    return createAction('exit', false);
+  const actionType = resolveGridActionType(event, options.direction ?? 'ltr');
+  if (actionType === null) {
+    return null;
   }
 
-  if (event.key === 'ArrowUp') {
-    return createAction('move-up', true);
-  }
-
-  if (event.key === 'ArrowDown') {
-    return createAction('move-down', true);
-  }
-
-  const horizontalAction = resolveHorizontalAction(event, direction);
-  if (horizontalAction !== null) {
-    return horizontalAction;
-  }
-
-  const homeEndAction = resolveHomeEndAction(event);
-  if (homeEndAction !== null) {
-    return homeEndAction;
-  }
-
-  if (event.key === 'Enter' || event.key === ' ' || event.key === 'Spacebar') {
-    return createAction('activate', true);
-  }
-
-  return null;
+  return createAction(actionType, actionType !== 'exit');
 }
 
 function sanitizeBounds(bounds: TngGridBounds): TngGridBounds {
@@ -113,37 +134,69 @@ function sanitizeBounds(bounds: TngGridBounds): TngGridBounds {
   };
 }
 
+function toMoveBounds(bounds: TngGridBounds): TngGridMoveBounds {
+  return Object.freeze({
+    maxCol: bounds.colCount - 1,
+    maxRow: bounds.rowCount - 1,
+  });
+}
+
+function sanitizePosition(
+  position: TngGridCellPosition,
+  bounds: TngGridMoveBounds,
+): TngGridCellPosition {
+  return {
+    col: clamp(position.col, 0, bounds.maxCol),
+    row: clamp(position.row, 0, bounds.maxRow),
+  };
+}
+
+const movementActionHandlers = Object.freeze({
+  'move-down': (position: TngGridCellPosition, bounds: TngGridMoveBounds): TngGridCellPosition => {
+    return { ...position, row: clamp(position.row + 1, 0, bounds.maxRow) };
+  },
+  'move-grid-end': (_position: TngGridCellPosition, bounds: TngGridMoveBounds): TngGridCellPosition => {
+    return { col: bounds.maxCol, row: bounds.maxRow };
+  },
+  'move-grid-start': (): TngGridCellPosition => {
+    return { col: 0, row: 0 };
+  },
+  'move-left': (position: TngGridCellPosition, bounds: TngGridMoveBounds): TngGridCellPosition => {
+    return { ...position, col: clamp(position.col - 1, 0, bounds.maxCol) };
+  },
+  'move-right': (position: TngGridCellPosition, bounds: TngGridMoveBounds): TngGridCellPosition => {
+    return { ...position, col: clamp(position.col + 1, 0, bounds.maxCol) };
+  },
+  'move-row-end': (position: TngGridCellPosition, bounds: TngGridMoveBounds): TngGridCellPosition => {
+    return { ...position, col: bounds.maxCol };
+  },
+  'move-row-start': (position: TngGridCellPosition): TngGridCellPosition => {
+    return { ...position, col: 0 };
+  },
+  'move-up': (position: TngGridCellPosition, bounds: TngGridMoveBounds): TngGridCellPosition => {
+    return { ...position, row: clamp(position.row - 1, 0, bounds.maxRow) };
+  },
+}) satisfies Readonly<
+  Record<
+    TngGridMovementActionType,
+    (position: TngGridCellPosition, bounds: TngGridMoveBounds) => TngGridCellPosition
+  >
+>;
+
+function isMovementActionType(actionType: TngGridNavigationActionType): actionType is TngGridMovementActionType {
+  return actionType !== 'activate' && actionType !== 'exit';
+}
+
 export function moveGridCell(
   position: TngGridCellPosition,
   actionType: TngGridNavigationActionType,
   boundsInput: TngGridBounds,
 ): TngGridCellPosition {
-  const bounds = sanitizeBounds(boundsInput);
-  const maxCol = bounds.colCount - 1;
-  const maxRow = bounds.rowCount - 1;
-  const start: TngGridCellPosition = {
-    col: clamp(position.col, 0, maxCol),
-    row: clamp(position.row, 0, maxRow),
-  };
-
-  switch (actionType) {
-    case 'move-up':
-      return { ...start, row: clamp(start.row - 1, 0, maxRow) };
-    case 'move-down':
-      return { ...start, row: clamp(start.row + 1, 0, maxRow) };
-    case 'move-left':
-      return { ...start, col: clamp(start.col - 1, 0, maxCol) };
-    case 'move-right':
-      return { ...start, col: clamp(start.col + 1, 0, maxCol) };
-    case 'move-row-start':
-      return { ...start, col: 0 };
-    case 'move-row-end':
-      return { ...start, col: maxCol };
-    case 'move-grid-start':
-      return { col: 0, row: 0 };
-    case 'move-grid-end':
-      return { col: maxCol, row: maxRow };
-    default:
-      return start;
+  const bounds = toMoveBounds(sanitizeBounds(boundsInput));
+  const start = sanitizePosition(position, bounds);
+  if (!isMovementActionType(actionType)) {
+    return start;
   }
+
+  return movementActionHandlers[actionType](start, bounds);
 }
