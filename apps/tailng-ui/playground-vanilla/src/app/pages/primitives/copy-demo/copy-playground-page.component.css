@@ -3,8 +3,8 @@
 }
 
 .page {
-  background: #020617;
-  color: #e2e8f0;
+  background: var(--tng-semantic-background-canvas);
+  color: var(--tng-semantic-foreground-primary);
   min-height: 100vh;
   padding: 2rem 1rem;
 }
@@ -28,9 +28,9 @@
 }
 
 .links a {
-  border: 1px solid #334155;
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 0.5rem;
-  color: #cbd5e1;
+  color: var(--tng-semantic-foreground-secondary);
   font-size: 0.875rem;
   padding: 0.45rem 0.7rem;
   text-decoration: none;
@@ -43,14 +43,14 @@
 }
 
 .subtitle {
-  color: #cbd5e1;
+  color: var(--tng-semantic-foreground-secondary);
   margin: 0;
   max-width: 42rem;
 }
 
 .card {
-  background: #0f172a;
-  border: 1px solid #334155;
+  background: var(--tng-semantic-background-surface);
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 1rem;
   display: grid;
   gap: 0.875rem;
@@ -70,8 +70,8 @@
 }
 
 .code-surface {
-  background: #020617;
-  border: 1px solid #334155;
+  background: var(--tng-semantic-background-canvas);
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 0.75rem;
   margin: 0;
   overflow-x: auto;
@@ -83,7 +83,7 @@
 }
 
 .line-number {
-  color: #64748b;
+  color: var(--tng-semantic-foreground-secondary);
   display: inline-block;
   margin-right: 0.5rem;
   min-width: 1.5rem;
@@ -93,9 +93,9 @@
 .copy-trigger {
   appearance: none;
   background: transparent;
-  border: 1px solid #475569;
+  border: 1px solid var(--tng-semantic-border-strong);
   border-radius: 0.6rem;
-  color: #e2e8f0;
+  color: var(--tng-semantic-foreground-primary);
   cursor: pointer;
   font: inherit;
   font-size: 0.875rem;
@@ -105,10 +105,10 @@
 }
 
 .status {
-  background: rgba(8, 145, 178, 0.15);
-  border: 1px solid rgba(8, 145, 178, 0.45);
+  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 15%, transparent);
+  border: 1px solid color-mix(in srgb, var(--tng-semantic-accent-brand) 45%, transparent);
   border-radius: 0.75rem;
-  color: #bae6fd;
+  color: var(--tng-color-neutral100);
   margin: 0;
   padding: 0.6rem 0.8rem;
 }

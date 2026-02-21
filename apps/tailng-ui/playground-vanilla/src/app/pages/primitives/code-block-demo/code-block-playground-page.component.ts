@@ -14,7 +14,7 @@ const keywordHighlighterAdapter = createTngCodeHighlighterAdapter('keyword', (in
   return Promise.resolve({
     html: escapedCode.replace(
       /\b(const|export|class|return)\b/g,
-      '<span style="color:#06b6d4;font-weight:700;">$1</span>',
+      '<span class="code-keyword">$1</span>',
     ),
   });
 });

@@ -11,8 +11,8 @@ type BadgeStyleMap = Readonly<Record<string, string>>;
 })
 export class BadgePlaygroundPageComponent {
   protected readonly customBadgeStyle: BadgeStyleMap = {
-    '--tng-badge-bg': '#0891b2',
-    '--tng-badge-fg': '#e0f2fe',
+    '--tng-badge-bg': 'var(--tng-semantic-accent-brand)',
+    '--tng-badge-fg': 'var(--tng-color-white)',
     '--tng-badge-size': '1.35rem',
     '--tng-badge-font-size': '0.75rem',
   };

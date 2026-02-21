@@ -10,8 +10,8 @@
 }
 
 .card {
-  background: #0f172a;
-  border: 1px solid #334155;
+  background: var(--tng-semantic-background-surface);
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 1rem;
   color: inherit;
   display: grid;
@@ -22,7 +22,7 @@
 }
 
 .card:hover {
-  border-color: #22d3ee;
+  border-color: var(--tng-semantic-accent-brand);
 }
 
 .card h2 {
@@ -31,13 +31,13 @@
 }
 
 .card p {
-  color: #cbd5e1;
+  color: var(--tng-semantic-foreground-secondary);
   font-size: 0.875rem;
   margin: 0;
 }
 
 .card span {
-  color: #67e8f9;
+  color: var(--tng-semantic-accent-brand);
   font-size: 0.875rem;
   font-weight: 600;
 }

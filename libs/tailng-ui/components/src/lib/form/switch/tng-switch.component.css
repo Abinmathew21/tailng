@@ -4,7 +4,7 @@
 
 .tng-switch-root {
   align-items: center;
-  color: var(--tng-semantic-text-primary, #0f172a);
+  color: var(--tng-semantic-foreground-primary, #0f172a);
   column-gap: 0.65rem;
   display: inline-flex;
   font-size: 0.95rem;
@@ -18,7 +18,7 @@
 
 .tng-switch-control {
   align-items: center;
-  background: var(--tng-semantic-background-muted, #cbd5e1);
+  background: var(--tng-semantic-border-subtle, #cbd5e1);
   border: 0;
   border-radius: 999px;
   cursor: pointer;
@@ -39,9 +39,9 @@
 }
 
 .tng-switch-thumb {
-  background: #fff;
+  background: var(--tng-color-white, #fff);
   border-radius: 999px;
-  box-shadow: 0 1px 2px rgb(15 23 42 / 0.2);
+  box-shadow: 0 1px 2px color-mix(in srgb, var(--tng-semantic-background-canvas) 20%, transparent);
   display: block;
   height: 1.25rem;
   transform: translateX(0);

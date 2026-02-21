@@ -3,8 +3,8 @@
 }
 
 .page {
-  background: #020617;
-  color: #e2e8f0;
+  background: var(--tng-semantic-background-canvas);
+  color: var(--tng-semantic-foreground-primary);
   min-height: 100vh;
   padding: 2rem 1rem;
 }
@@ -28,9 +28,9 @@
 }
 
 .links a {
-  border: 1px solid #334155;
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 0.5rem;
-  color: #cbd5e1;
+  color: var(--tng-semantic-foreground-secondary);
   font-size: 0.875rem;
   padding: 0.45rem 0.7rem;
   text-decoration: none;
@@ -43,21 +43,21 @@
 }
 
 .subtitle {
-  color: #cbd5e1;
+  color: var(--tng-semantic-foreground-secondary);
   margin: 0;
   max-width: 46rem;
 }
 
 .subtitle code {
-  background: #0f172a;
+  background: var(--tng-semantic-background-surface);
   border-radius: 0.25rem;
-  color: #67e8f9;
+  color: var(--tng-semantic-accent-brand);
   padding: 0.1rem 0.35rem;
 }
 
 .card {
-  background: #0f172a;
-  border: 1px solid #334155;
+  background: var(--tng-semantic-background-surface);
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 1rem;
   display: grid;
   gap: 0.875rem;
@@ -80,13 +80,13 @@
 }
 
 .ranking-table thead {
-  background: #1e293b;
-  color: #cbd5e1;
+  background: var(--tng-semantic-background-surface);
+  color: var(--tng-semantic-foreground-secondary);
 }
 
 .ranking-table th,
 .ranking-table td {
-  border-top: 1px solid #1e293b;
+  border-top: 1px solid var(--tng-semantic-background-surface);
   padding: 0.75rem 1rem;
   text-align: left;
 }
@@ -102,7 +102,7 @@
 }
 
 .rank {
-  color: #67e8f9;
+  color: var(--tng-semantic-accent-brand);
 }
 
 .country-cell {
@@ -122,7 +122,7 @@
 }
 
 .people-icon {
-  color: #67e8f9;
+  color: var(--tng-semantic-accent-brand);
   font-size: 1rem;
   line-height: 1;
 }

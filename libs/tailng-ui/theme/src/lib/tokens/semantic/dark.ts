@@ -2,6 +2,7 @@ import type { ThemeSemanticTokens } from '../../contracts/token.types';
 
 export const darkSemanticTokens: ThemeSemanticTokens = {
   background: {
+    base: '#1e293b',
     canvas: '{color.neutral900}',
     surface: '#1e293b',
   },

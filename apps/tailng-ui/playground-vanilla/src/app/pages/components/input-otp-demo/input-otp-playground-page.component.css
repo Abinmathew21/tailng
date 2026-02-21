@@ -3,8 +3,8 @@
 }
 
 .page {
-  background: #020617;
-  color: #e2e8f0;
+  background: var(--tng-semantic-background-canvas);
+  color: var(--tng-semantic-foreground-primary);
   min-height: 100vh;
   padding: 2rem 1rem;
 }
@@ -22,9 +22,9 @@
 }
 
 .links a {
-  border: 1px solid #334155;
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 0.5rem;
-  color: #cbd5e1;
+  color: var(--tng-semantic-foreground-secondary);
   font-size: 0.875rem;
   padding: 0.45rem 0.7rem;
   text-decoration: none;
@@ -37,14 +37,14 @@
 }
 
 .subtitle {
-  color: #cbd5e1;
+  color: var(--tng-semantic-foreground-secondary);
   margin: 0;
   max-width: 42rem;
 }
 
 .card {
-  background: #0f172a;
-  border: 1px solid #334155;
+  background: var(--tng-semantic-background-surface);
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 1rem;
   display: grid;
   gap: 0.875rem;
@@ -52,7 +52,7 @@
 }
 
 .primitive-shell {
-  border: 1px solid #334155;
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 0.85rem;
   padding: 0.75rem;
 }

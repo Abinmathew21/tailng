@@ -3,8 +3,8 @@
 }
 
 .page {
-  background: #020617;
-  color: #e2e8f0;
+  background: var(--tng-semantic-background-canvas);
+  color: var(--tng-semantic-foreground-primary);
   min-height: 100vh;
   padding: 2rem 1rem;
 }
@@ -28,9 +28,9 @@
 }
 
 .links a {
-  border: 1px solid #334155;
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 0.5rem;
-  color: #cbd5e1;
+  color: var(--tng-semantic-foreground-secondary);
   font-size: 0.875rem;
   padding: 0.45rem 0.7rem;
   text-decoration: none;
@@ -43,14 +43,14 @@
 }
 
 .subtitle {
-  color: #cbd5e1;
+  color: var(--tng-semantic-foreground-secondary);
   margin: 0;
   max-width: 42rem;
 }
 
 .card {
-  background: #0f172a;
-  border: 1px solid #334155;
+  background: var(--tng-semantic-background-surface);
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 1rem;
   display: grid;
   gap: 0.875rem;
@@ -58,7 +58,7 @@
 }
 
 .primitive-shell {
-  border: 1px solid #334155;
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 0.85rem;
   display: grid;
   gap: 0.625rem;
@@ -86,31 +86,31 @@
 }
 
 .demo-panel {
-  background: #020617;
-  border: 1px solid #334155;
+  background: var(--tng-semantic-background-canvas);
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 0.65rem;
-  color: #cbd5e1;
+  color: var(--tng-semantic-foreground-secondary);
   padding: 0.75rem;
 }
 
 .demo-note {
-  color: #cbd5e1;
+  color: var(--tng-semantic-foreground-secondary);
   font-size: 0.9rem;
   margin: 0;
 }
 
 .demo-button {
-  background: #020617;
-  border: 1px solid #334155;
+  background: var(--tng-semantic-background-canvas);
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 0.5rem;
-  color: #e2e8f0;
+  color: var(--tng-semantic-foreground-primary);
   cursor: pointer;
   font: inherit;
   padding: 0.45rem 0.7rem;
 }
 
 .demo-button-active {
-  border-color: #22d3ee;
+  border-color: var(--tng-semantic-accent-brand);
 }
 
 .demo-button-block {
@@ -119,10 +119,10 @@
 }
 
 .demo-input {
-  background: #020617;
-  border: 1px solid #334155;
+  background: var(--tng-semantic-background-canvas);
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 0.5rem;
-  color: #e2e8f0;
+  color: var(--tng-semantic-foreground-primary);
   flex: 1 1 auto;
   font: inherit;
   min-width: 12rem;
@@ -139,22 +139,22 @@
 
 .demo-menu > li,
 .demo-list > li {
-  border: 1px solid #334155;
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 0.45rem;
   padding: 0.45rem 0.6rem;
 }
 
 .demo-option-selected {
-  background: rgba(8, 145, 178, 0.2);
-  border-color: #0891b2;
+  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 20%, transparent);
+  border-color: var(--tng-semantic-accent-brand);
 }
 
 .demo-chip {
   align-items: center;
-  background: #020617;
-  border: 1px solid #334155;
+  background: var(--tng-semantic-background-canvas);
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 999px;
-  color: #e2e8f0;
+  color: var(--tng-semantic-foreground-primary);
   display: inline-flex;
   gap: 0.35rem;
   padding: 0.35rem 0.75rem;
@@ -163,7 +163,7 @@
 .demo-chip-x {
   background: transparent;
   border: 0;
-  color: #67e8f9;
+  color: var(--tng-semantic-accent-brand);
   cursor: pointer;
   font: inherit;
   line-height: 1;
@@ -171,7 +171,7 @@
 }
 
 .demo-link {
-  color: #67e8f9;
+  color: var(--tng-semantic-accent-brand);
   text-decoration: none;
 }
 
@@ -193,9 +193,9 @@
 
 .demo-step {
   align-items: center;
-  border: 1px solid #334155;
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 999px;
-  color: #cbd5e1;
+  color: var(--tng-semantic-foreground-secondary);
   display: inline-flex;
   height: 1.5rem;
   justify-content: center;
@@ -204,13 +204,13 @@
 }
 
 .demo-step-done {
-  border-color: #22c55e;
-  color: #86efac;
+  border-color: var(--tng-semantic-accent-success);
+  color: var(--tng-semantic-accent-success);
 }
 
 .demo-mobile-frame {
-  background: #020617;
-  border: 1px solid #334155;
+  background: var(--tng-semantic-background-canvas);
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 1rem;
   display: grid;
   gap: 0.75rem;
@@ -223,7 +223,7 @@
 }
 
 .demo-handle {
-  background: #64748b;
+  background: var(--tng-semantic-foreground-secondary);
   border-radius: 999px;
   height: 0.25rem;
   margin: 0 auto 0.5rem;

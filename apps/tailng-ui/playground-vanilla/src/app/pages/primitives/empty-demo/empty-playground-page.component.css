@@ -3,8 +3,8 @@
 }
 
 .page {
-  background: #020617;
-  color: #e2e8f0;
+  background: var(--tng-semantic-background-canvas);
+  color: var(--tng-semantic-foreground-primary);
   min-height: 100vh;
   padding: 2rem 1rem;
 }
@@ -28,9 +28,9 @@
 }
 
 .links a {
-  border: 1px solid #334155;
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 0.5rem;
-  color: #cbd5e1;
+  color: var(--tng-semantic-foreground-secondary);
   font-size: 0.875rem;
   padding: 0.45rem 0.7rem;
   text-decoration: none;
@@ -43,14 +43,14 @@
 }
 
 .subtitle {
-  color: #cbd5e1;
+  color: var(--tng-semantic-foreground-secondary);
   margin: 0;
   max-width: 42rem;
 }
 
 .card {
-  background: #0f172a;
-  border: 1px solid #334155;
+  background: var(--tng-semantic-background-surface);
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 1rem;
   display: grid;
   gap: 0.875rem;
@@ -62,7 +62,7 @@
 }
 
 .empty.primitive-empty {
-  border: 1px dashed #155e75;
+  border: 1px dashed var(--tng-semantic-accent-brand);
   border-radius: 0.85rem;
   display: grid;
   gap: 0.6rem;
@@ -72,7 +72,7 @@
 }
 
 .empty-icon {
-  color: #67e8f9;
+  color: var(--tng-semantic-accent-brand);
   font-size: 0.95rem;
   font-weight: 700;
   letter-spacing: 0.06em;
@@ -84,7 +84,7 @@
 }
 
 .empty-description {
-  color: #cbd5e1;
+  color: var(--tng-semantic-foreground-secondary);
   margin: 0;
   max-width: 30rem;
 }
@@ -106,16 +106,16 @@ button {
 }
 
 button.solid {
-  background: #06b6d4;
+  background: var(--tng-semantic-accent-brand);
   border: 0;
-  color: #082f49;
+  color: var(--tng-color-neutral900);
   font-weight: 700;
 }
 
 button.outline {
   background: transparent;
-  border: 1px solid #475569;
-  color: #cbd5e1;
+  border: 1px solid var(--tng-semantic-border-strong);
+  color: var(--tng-semantic-foreground-secondary);
 }
 
 @media (min-width: 768px) {

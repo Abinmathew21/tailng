@@ -1,4 +1,5 @@
-import { Component, computed, signal } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Component, computed, inject, signal } from '@angular/core';
 import {
   TngBarChart,
   type TngBarChartInput,
@@ -90,23 +91,19 @@ const countryMetrics = Object.freeze([
 const metricKinds = Object.freeze(['population', 'landArea', 'gdp'] as const);
 const chartKinds = Object.freeze(['bar', 'line'] as const);
 
-const metricMetaByKind: Readonly<Record<TngMetricKind, TngMetricMeta>> = Object.freeze({
-  gdp: {
-    color: '#eab308',
-    label: 'GDP',
-    unit: 'USD trillion',
-  },
-  landArea: {
-    color: '#10b981',
-    label: 'Land Area',
-    unit: 'thousand sq km',
-  },
-  population: {
-    color: '#06b6d4',
-    label: 'Population',
-    unit: 'millions',
-  },
+/** Colors resolved from theme tokens at runtime for chart (canvas requires computed values) */
+const CHART_TOKEN_KEYS: Readonly<Record<TngMetricKind, string>> = Object.freeze({
+  gdp: '--tng-semantic-border-strong',
+  landArea: '--tng-semantic-accent-success',
+  population: '--tng-semantic-accent-brand',
 });
+
+const metricMetaByKind: Readonly<Record<TngMetricKind, { label: string; unit: string }>> =
+  Object.freeze({
+    gdp: { label: 'GDP', unit: 'USD trillion' },
+    landArea: { label: 'Land Area', unit: 'thousand sq km' },
+    population: { label: 'Population', unit: 'millions' },
+  });
 
 function createMetricSeriesData(
   metricKind: TngMetricKind,
@@ -123,25 +120,13 @@ function createMetricSeriesData(
   return rows.map((row) => row.gdpTrillionUsd);
 }
 
-function createCountryMetricsChartInput(metricKind: TngMetricKind): TngCountryMetricsChartInput {
-  const metricMeta = metricMetaByKind[metricKind];
-  const seriesData = createMetricSeriesData(metricKind, countryMetrics);
-  const countryLabels = countryMetrics.map((row) => row.country);
-
-  return {
-    categories: countryLabels,
-    chartTitle: `${metricMeta.label} by Country`,
-    series: [
-      {
-        color: metricMeta.color,
-        name: metricMeta.label,
-        values: seriesData,
-      },
-    ],
-    unitLabel: metricMeta.unit,
-    xAxisLabelRotation: 28,
-    yAxisLabel: metricMeta.label,
-  };
+function resolveTokenColor(doc: Document, tokenKey: string): string {
+  const el = doc.createElement('div');
+  el.style.color = `var(${tokenKey})`;
+  doc.body.appendChild(el);
+  const value = getComputedStyle(el).color;
+  doc.body.removeChild(el);
+  return value || 'rgb(100, 116, 139)';
 }
 
 @Component({
@@ -151,6 +136,8 @@ function createCountryMetricsChartInput(metricKind: TngMetricKind): TngCountryMe
   styleUrl: './country-metrics-chart-playground-page.component.css',
 })
 export class CountryMetricsChartPlaygroundPageComponent {
+  private readonly doc = inject(DOCUMENT);
+
   protected readonly chartKinds = chartKinds;
   protected readonly countries = countryMetrics;
   protected readonly metricKinds = metricKinds;
@@ -160,11 +147,25 @@ export class CountryMetricsChartPlaygroundPageComponent {
   protected readonly runtimeErrorMessage = signal<string | null>(null);
 
   protected readonly activeMetricMeta = computed<TngMetricMeta>(() => {
-    return metricMetaByKind[this.selectedMetricKind()];
+    const kind = this.selectedMetricKind();
+    const meta = metricMetaByKind[kind];
+    const color = resolveTokenColor(this.doc, CHART_TOKEN_KEYS[kind]);
+    return { ...meta, color };
   });
 
   protected readonly chartInput = computed<TngCountryMetricsChartInput>(() => {
-    return createCountryMetricsChartInput(this.selectedMetricKind());
+    const kind = this.selectedMetricKind();
+    const meta = this.activeMetricMeta();
+    const seriesData = createMetricSeriesData(kind, countryMetrics);
+    const countryLabels = countryMetrics.map((row) => row.country);
+    return {
+      categories: countryLabels,
+      chartTitle: `${meta.label} by Country`,
+      series: [{ color: meta.color, name: meta.label, values: seriesData }],
+      unitLabel: meta.unit,
+      xAxisLabelRotation: 28,
+      yAxisLabel: meta.label,
+    };
   });
 
   protected onChartKindSelect(chartKind: TngBarChartKind): void {

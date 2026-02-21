@@ -3,8 +3,8 @@
 }
 
 .page {
-  background: #020617;
-  color: #e2e8f0;
+  background: var(--tng-semantic-background-canvas);
+  color: var(--tng-semantic-foreground-primary);
   min-height: 100vh;
   padding: 2rem 1rem;
 }
@@ -28,9 +28,9 @@
 }
 
 .links a {
-  border: 1px solid #334155;
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 0.5rem;
-  color: #cbd5e1;
+  color: var(--tng-semantic-foreground-secondary);
   font-size: 0.875rem;
   padding: 0.45rem 0.7rem;
   text-decoration: none;
@@ -43,14 +43,14 @@
 }
 
 .subtitle {
-  color: #cbd5e1;
+  color: var(--tng-semantic-foreground-secondary);
   margin: 0;
   max-width: 42rem;
 }
 
 .card-shell {
-  background: #0f172a;
-  border: 1px solid #334155;
+  background: var(--tng-semantic-background-surface);
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 1rem;
   display: grid;
   gap: 0.875rem;
@@ -62,8 +62,8 @@
 }
 
 .primitive-card {
-  background: rgb(8 47 73 / 0.35);
-  border: 1px solid #155e75;
+  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 35%, transparent);
+  border: 1px solid var(--tng-semantic-accent-brand);
   border-radius: 0.9rem;
   display: grid;
   gap: 1rem;
@@ -76,12 +76,12 @@
 }
 
 .primitive-header h3 {
-  color: #cffafe;
+  color: var(--tng-color-white);
   margin: 0;
 }
 
 .primitive-header p {
-  color: #a5f3fc;
+  color: var(--tng-semantic-foreground-secondary);
   font-size: 0.875rem;
   margin: 0;
 }
@@ -106,15 +106,15 @@
 }
 
 .solid {
-  background: #22d3ee;
-  color: #082f49;
+  background: var(--tng-semantic-accent-brand);
+  color: var(--tng-color-neutral900);
   font-weight: 600;
 }
 
 .outline {
   background: transparent;
-  border-color: #22d3ee;
-  color: #a5f3fc;
+  border-color: var(--tng-semantic-accent-brand);
+  color: var(--tng-semantic-foreground-secondary);
 }
 
 .component-grid {
@@ -123,12 +123,12 @@
 }
 
 tng-card-content p {
-  color: #cbd5e1;
+  color: var(--tng-semantic-foreground-secondary);
   margin: 0;
 }
 
 tng-card-content ul {
-  color: #cbd5e1;
+  color: var(--tng-semantic-foreground-secondary);
   margin: 0;
   padding-left: 1.2rem;
 }

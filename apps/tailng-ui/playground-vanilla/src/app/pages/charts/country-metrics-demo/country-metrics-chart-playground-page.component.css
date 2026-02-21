@@ -3,8 +3,8 @@
 }
 
 .page {
-  background: #020617;
-  color: #e2e8f0;
+  background: var(--tng-semantic-background-canvas);
+  color: var(--tng-semantic-foreground-primary);
   min-height: 100vh;
   padding: 2rem 1rem;
 }
@@ -22,9 +22,9 @@
 }
 
 .links a {
-  border: 1px solid #334155;
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 0.5rem;
-  color: #cbd5e1;
+  color: var(--tng-semantic-foreground-secondary);
   display: inline-flex;
   font-size: 0.875rem;
   padding: 0.45rem 0.7rem;
@@ -38,14 +38,14 @@
 }
 
 .subtitle {
-  color: #cbd5e1;
+  color: var(--tng-semantic-foreground-secondary);
   margin: 0;
   max-width: 58ch;
 }
 
 .panel {
-  background: #0f172a;
-  border: 1px solid #334155;
+  background: var(--tng-semantic-background-surface);
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 1rem;
   display: grid;
   gap: 0.875rem;
@@ -60,17 +60,17 @@
 }
 
 .control-label {
-  color: #cbd5e1;
+  color: var(--tng-semantic-foreground-secondary);
   font-size: 0.875rem;
   font-weight: 600;
   margin: 0;
 }
 
 .pill {
-  background: #020617;
-  border: 1px solid #334155;
+  background: var(--tng-semantic-background-canvas);
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 0.65rem;
-  color: #cbd5e1;
+  color: var(--tng-semantic-foreground-secondary);
   cursor: pointer;
   font-size: 0.82rem;
   padding: 0.35rem 0.75rem;
@@ -78,20 +78,20 @@
 }
 
 .pill--active {
-  background: #155e75;
-  border-color: #06b6d4;
-  color: #ecfeff;
+  background: var(--tng-semantic-accent-brand);
+  border-color: var(--tng-semantic-accent-brand);
+  color: var(--tng-color-white);
 }
 
 .pill--type-active {
-  background: #78350f;
-  border-color: #eab308;
-  color: #fef3c7;
+  background: color-mix(in srgb, var(--tng-semantic-foreground-secondary) 30%, transparent);
+  border-color: var(--tng-semantic-foreground-secondary);
+  color: var(--tng-color-neutral100);
 }
 
 .chart-shell {
-  background: #020617;
-  border: 1px solid #334155;
+  background: var(--tng-semantic-background-canvas);
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 0.9rem;
   padding: 0.75rem;
 }
@@ -102,10 +102,10 @@
 }
 
 .error-text {
-  background: rgb(127 29 29 / 0.25);
-  border: 1px solid rgb(220 38 38 / 0.55);
+  background: color-mix(in srgb, var(--tng-semantic-accent-danger) 25%, transparent);
+  border: 1px solid color-mix(in srgb, var(--tng-semantic-accent-danger) 55%, transparent);
   border-radius: 0.6rem;
-  color: #fecaca;
+  color: var(--tng-semantic-accent-danger);
   font-size: 0.875rem;
   margin: 0;
   padding: 0.45rem 0.65rem;
@@ -116,7 +116,7 @@ h2 {
 }
 
 .panel > p {
-  color: #cbd5e1;
+  color: var(--tng-semantic-foreground-secondary);
   font-size: 0.9rem;
   margin: 0;
 }
@@ -132,20 +132,20 @@ table {
 
 th,
 td {
-  border-bottom: 1px solid #1e293b;
+  border-bottom: 1px solid var(--tng-semantic-background-surface);
   font-size: 0.86rem;
   padding: 0.55rem 0.6rem;
   text-align: left;
 }
 
 th {
-  background: #020617;
-  color: #cbd5e1;
+  background: var(--tng-semantic-background-canvas);
+  color: var(--tng-semantic-foreground-secondary);
   font-weight: 600;
 }
 
 td {
-  color: #e2e8f0;
+  color: var(--tng-semantic-foreground-primary);
 }
 
 .numeric {
@@ -153,7 +153,7 @@ td {
 }
 
 tbody tr:hover {
-  background: rgb(15 23 42 / 0.7);
+  background: color-mix(in srgb, var(--tng-semantic-background-canvas) 70%, transparent);
 }
 
 @media (min-width: 768px) {

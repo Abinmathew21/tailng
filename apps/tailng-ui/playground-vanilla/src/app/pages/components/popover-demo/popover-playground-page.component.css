@@ -3,8 +3,8 @@
 }
 
 .page {
-  background: #020617;
-  color: #e2e8f0;
+  background: var(--tng-semantic-background-canvas);
+  color: var(--tng-semantic-foreground-primary);
   min-height: 100vh;
   padding: 2rem 1rem;
 }
@@ -27,9 +27,9 @@
 }
 
 .links a {
-  border: 1px solid #475569;
+  border: 1px solid var(--tng-semantic-border-strong);
   border-radius: 0.6rem;
-  color: #cbd5e1;
+  color: var(--tng-semantic-foreground-secondary);
   font-size: 0.9rem;
   padding: 0.35rem 0.7rem;
   text-decoration: none;
@@ -41,7 +41,7 @@
 }
 
 .subtitle {
-  color: #94a3b8;
+  color: var(--tng-semantic-border-strong);
   margin: 0;
   max-width: 62ch;
 }
@@ -53,8 +53,8 @@
 }
 
 .card {
-  background: #0f172a;
-  border: 1px solid #475569;
+  background: var(--tng-semantic-background-surface);
+  border: 1px solid var(--tng-semantic-border-strong);
   border-radius: 1rem;
   display: grid;
   gap: 0.8rem;
@@ -71,7 +71,7 @@
 }
 
 .summary p {
-  color: #cbd5e1;
+  color: var(--tng-semantic-foreground-secondary);
   margin: 0;
 }
 
@@ -81,10 +81,10 @@
 }
 
 .action-item {
-  background: #0f172a;
-  border: 1px solid #475569;
+  background: var(--tng-semantic-background-surface);
+  border: 1px solid var(--tng-semantic-border-strong);
   border-radius: 0.6rem;
-  color: #e2e8f0;
+  color: var(--tng-semantic-foreground-primary);
   cursor: pointer;
   display: grid;
   gap: 0.2rem;
@@ -93,8 +93,8 @@
 }
 
 .action-item:hover {
-  background: #1e293b;
-  border-color: #22d3ee;
+  background: var(--tng-semantic-background-surface);
+  border-color: var(--tng-semantic-accent-brand);
 }
 
 .action-title {
@@ -104,20 +104,20 @@
 }
 
 .action-detail {
-  color: #94a3b8;
+  color: var(--tng-semantic-border-strong);
   font-size: 0.76rem;
   margin: 0;
 }
 
 .details {
-  color: #cbd5e1;
+  color: var(--tng-semantic-foreground-secondary);
   display: grid;
   gap: 0.45rem;
   font-size: 0.84rem;
 }
 
 .details-title {
-  color: #67e8f9;
+  color: var(--tng-semantic-accent-brand);
   font-weight: 700;
   margin: 0;
 }

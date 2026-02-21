@@ -3,8 +3,8 @@
 }
 
 .page {
-  background: #020617;
-  color: #e2e8f0;
+  background: var(--tng-semantic-background-canvas);
+  color: var(--tng-semantic-foreground-primary);
   min-height: 100vh;
   padding: 2rem 1rem;
 }
@@ -28,9 +28,9 @@
 }
 
 .links a {
-  border: 1px solid #334155;
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 0.5rem;
-  color: #cbd5e1;
+  color: var(--tng-semantic-foreground-secondary);
   font-size: 0.875rem;
   padding: 0.45rem 0.7rem;
   text-decoration: none;
@@ -43,14 +43,14 @@
 }
 
 .subtitle {
-  color: #cbd5e1;
+  color: var(--tng-semantic-foreground-secondary);
   margin: 0;
   max-width: 42rem;
 }
 
 .card {
-  background: #0f172a;
-  border: 1px solid #334155;
+  background: var(--tng-semantic-background-surface);
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 1rem;
   display: grid;
   gap: 0.875rem;
@@ -82,24 +82,24 @@
 }
 
 .primitive.primary {
-  background: #06b6d4;
-  color: #082f49;
+  background: var(--tng-semantic-accent-brand);
+  color: var(--tng-color-neutral900);
 }
 
 .primitive.outline {
   background: transparent;
-  border-color: #22d3ee;
-  color: #67e8f9;
+  border-color: var(--tng-semantic-accent-brand);
+  color: var(--tng-semantic-accent-brand);
 }
 
 .primitive.success {
-  background: #10b981;
-  color: #052e16;
+  background: var(--tng-semantic-accent-success);
+  color: var(--tng-color-neutral900);
 }
 
 .primitive.disabled {
-  background: #334155;
-  color: #94a3b8;
+  background: var(--tng-semantic-border-subtle);
+  color: var(--tng-semantic-border-strong);
 }
 
 @media (min-width: 768px) {

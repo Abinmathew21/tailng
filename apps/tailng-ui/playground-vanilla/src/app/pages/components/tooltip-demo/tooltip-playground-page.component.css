@@ -3,8 +3,8 @@
 }
 
 .page {
-  background: #020617;
-  color: #e2e8f0;
+  background: var(--tng-semantic-background-canvas);
+  color: var(--tng-semantic-foreground-primary);
   min-height: 100vh;
   padding: 2rem 1rem;
 }
@@ -28,9 +28,9 @@
 }
 
 .links a {
-  border: 1px solid #334155;
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 0.5rem;
-  color: #cbd5e1;
+  color: var(--tng-semantic-foreground-secondary);
   font-size: 0.875rem;
   padding: 0.45rem 0.7rem;
   text-decoration: none;
@@ -43,14 +43,14 @@
 }
 
 .subtitle {
-  color: #cbd5e1;
+  color: var(--tng-semantic-foreground-secondary);
   margin: 0;
   max-width: 42rem;
 }
 
 .card {
-  background: #0f172a;
-  border: 1px solid #334155;
+  background: var(--tng-semantic-background-surface);
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 1rem;
   display: grid;
   gap: 0.875rem;
@@ -63,7 +63,7 @@
 }
 
 .card p {
-  color: #cbd5e1;
+  color: var(--tng-semantic-foreground-secondary);
   margin: 0;
 }
 
@@ -74,10 +74,10 @@
 }
 
 .side-button {
-  background: #020617;
-  border: 1px solid #334155;
+  background: var(--tng-semantic-background-canvas);
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 0.65rem;
-  color: #cbd5e1;
+  color: var(--tng-semantic-foreground-secondary);
   cursor: pointer;
   font-size: 0.82rem;
   padding: 0.35rem 0.75rem;
@@ -85,9 +85,9 @@
 }
 
 .side-button--active {
-  background: #155e75;
-  border-color: #22d3ee;
-  color: #ecfeff;
+  background: var(--tng-semantic-accent-brand);
+  border-color: var(--tng-semantic-accent-brand);
+  color: var(--tng-color-white);
 }
 
 .primitive-stage {
@@ -97,10 +97,10 @@
 }
 
 .primitive-trigger {
-  background: #020617;
-  border: 1px solid #334155;
+  background: var(--tng-semantic-background-canvas);
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 0.75rem;
-  color: #e2e8f0;
+  color: var(--tng-semantic-foreground-primary);
   cursor: pointer;
   font-size: 0.9rem;
   font-weight: 600;
@@ -108,16 +108,16 @@
 }
 
 .primitive-trigger:focus-visible {
-  outline: 2px solid #22d3ee;
+  outline: 2px solid var(--tng-semantic-accent-brand);
   outline-offset: 2px;
 }
 
 .primitive-content {
-  background: #0f172a;
-  border: 1px solid #475569;
+  background: var(--tng-semantic-background-surface);
+  border: 1px solid var(--tng-semantic-border-strong);
   border-radius: 0.6rem;
-  box-shadow: 0 12px 24px rgb(2 6 23 / 0.45);
-  color: #f8fafc;
+  box-shadow: 0 12px 24px color-mix(in srgb, var(--tng-semantic-background-canvas) 55%, transparent);
+  color: var(--tng-color-neutral50);
   font-size: 0.78rem;
   padding: 0.45rem 0.65rem;
 }
@@ -129,8 +129,8 @@
 }
 
 .component-item {
-  background: #020617;
-  border: 1px solid #334155;
+  background: var(--tng-semantic-background-canvas);
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 0.9rem;
   display: grid;
   gap: 0.65rem;
@@ -138,7 +138,7 @@
 }
 
 .component-title {
-  color: #cbd5e1;
+  color: var(--tng-semantic-foreground-secondary);
   font-size: 0.85rem;
   margin: 0;
   text-transform: capitalize;

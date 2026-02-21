@@ -3,8 +3,8 @@
 }
 
 .page {
-  background: #020617;
-  color: #e2e8f0;
+  background: var(--tng-semantic-background-canvas);
+  color: var(--tng-semantic-foreground-primary);
   min-height: 100vh;
   padding: 2rem 1rem;
 }
@@ -28,9 +28,9 @@
 }
 
 .links a {
-  border: 1px solid #334155;
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 0.5rem;
-  color: #cbd5e1;
+  color: var(--tng-semantic-foreground-secondary);
   font-size: 0.875rem;
   padding: 0.45rem 0.7rem;
   text-decoration: none;
@@ -43,14 +43,14 @@
 }
 
 .subtitle {
-  color: #cbd5e1;
+  color: var(--tng-semantic-foreground-secondary);
   margin: 0;
   max-width: 42rem;
 }
 
 .card {
-  background: #0f172a;
-  border: 1px solid #334155;
+  background: var(--tng-semantic-background-surface);
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 1rem;
   display: grid;
   gap: 0.875rem;
@@ -73,29 +73,29 @@
 }
 
 .hints li {
-  color: #cbd5e1;
+  color: var(--tng-semantic-foreground-secondary);
   font-size: 0.9rem;
 }
 
 .hints strong {
-  color: #67e8f9;
+  color: var(--tng-semantic-accent-brand);
 }
 
 .state-card {
-  background: #020617;
-  border: 1px solid #334155;
+  background: var(--tng-semantic-background-canvas);
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 0.75rem;
   padding: 0.85rem;
 }
 
 .state-card p {
-  color: #cbd5e1;
+  color: var(--tng-semantic-foreground-secondary);
   margin: 0.45rem 0 0;
 }
 
 .listbox {
-  background: #020617;
-  border: 1px solid #334155;
+  background: var(--tng-semantic-background-canvas);
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 0.75rem;
   display: grid;
   gap: 0.5rem;
@@ -104,13 +104,13 @@
 }
 
 .listbox:focus {
-  border-color: #22d3ee;
-  box-shadow: 0 0 0 2px rgb(34 211 238 / 0.4);
+  border-color: var(--tng-semantic-accent-brand);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--tng-semantic-accent-brand) 40%, transparent);
 }
 
 .option {
-  background: #0f172a;
-  border: 1px solid #334155;
+  background: var(--tng-semantic-background-surface);
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 0.65rem;
   cursor: pointer;
   padding: 0.75rem;
@@ -118,11 +118,11 @@
 }
 
 .option-active {
-  border-color: #22d3ee;
+  border-color: var(--tng-semantic-accent-brand);
 }
 
 .option-selected {
-  background: rgb(8 47 73 / 0.45);
+  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 45%, transparent);
 }
 
 .option-disabled {
@@ -136,7 +136,7 @@
 }
 
 .option-desc {
-  color: #cbd5e1;
+  color: var(--tng-semantic-foreground-secondary);
   font-size: 0.9rem;
   margin: 0.35rem 0 0;
 }

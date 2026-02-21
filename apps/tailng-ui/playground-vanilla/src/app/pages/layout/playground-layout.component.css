@@ -11,8 +11,8 @@
 
 /* Left panel — 100% height, fixed width */
 .left-panel {
-  background: var(--tng-semantic-background-surface, #0f172a);
-  border-inline-end: 1px solid var(--tng-semantic-border-subtle, #334155);
+  background: var(--tng-semantic-background-surface);
+  border-inline-end: 1px solid var(--tng-semantic-border-subtle);
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
@@ -23,7 +23,7 @@
 /* Logo section — top, acts as home link */
 .logo-section {
   align-items: center;
-  border-block-end: 1px solid #334155;
+  border-block-end: 1px solid var(--tng-semantic-border-subtle);
   color: inherit;
   cursor: pointer;
   display: flex;
@@ -35,15 +35,15 @@
 }
 
 .logo-section:hover {
-  background: var(--tng-semantic-background-surface, #1e293b);
+  background: var(--tng-semantic-background-surface);
 }
 
 .logo-section.active {
-  background: var(--tng-semantic-background-surface, #1e293b);
+  background: var(--tng-semantic-background-surface);
 }
 
 .logo-section.active .brand-name {
-  color: var(--tng-semantic-accent-brand, #67e8f9);
+  color: var(--tng-semantic-accent-brand);
 }
 
 .logo {
@@ -53,7 +53,7 @@
 }
 
 .brand-name {
-  color: var(--tng-semantic-foreground-primary, #e2e8f0);
+  color: var(--tng-semantic-foreground-primary);
   font-size: 1.25rem;
   font-weight: 700;
 }
@@ -65,21 +65,21 @@
 }
 
 .search-input {
-  background: var(--tng-semantic-background-canvas, #1e293b);
-  border: 1px solid var(--tng-semantic-border-subtle, #334155);
+  background: var(--tng-semantic-background-canvas);
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 0.5rem;
-  color: var(--tng-semantic-foreground-primary, #e2e8f0);
+  color: var(--tng-semantic-foreground-primary);
   font-size: 0.875rem;
   padding: 0.5rem 0.75rem;
   width: 100%;
 }
 
 .search-input::placeholder {
-  color: #64748b;
+  color: var(--tng-semantic-foreground-secondary);
 }
 
 .search-input:focus {
-  border-color: var(--tng-semantic-focus-ring, #67e8f9);
+  border-color: var(--tng-semantic-focus-ring);
   outline: none;
 }
 
@@ -95,7 +95,7 @@
 }
 
 .nav-empty {
-  color: #64748b;
+  color: var(--tng-semantic-foreground-secondary);
   font-size: 0.8125rem;
   margin: 0.5rem 0 0;
   padding: 0 0.25rem;
@@ -110,7 +110,7 @@
 
 .listbox-option {
   border-radius: 0.25rem;
-  color: var(--tng-semantic-foreground-secondary, #cbd5e1);
+  color: var(--tng-semantic-foreground-secondary);
   cursor: pointer;
   font-size: 0.8125rem;
   padding: 0.4rem 0.75rem;
@@ -118,8 +118,8 @@
 }
 
 .listbox-option:hover {
-  background: var(--tng-semantic-background-surface, #1e293b);
-  color: var(--tng-semantic-foreground-primary, #e2e8f0);
+  background: var(--tng-semantic-background-surface);
+  color: var(--tng-semantic-foreground-primary);
 }
 
 .listbox-option:focus {
@@ -127,19 +127,19 @@
 }
 
 .listbox-option:focus-visible {
-  outline: 2px solid var(--tng-semantic-focus-ring, #67e8f9);
+  outline: 2px solid var(--tng-semantic-focus-ring);
   outline-offset: -1px;
 }
 
 .listbox-option.active {
-  background: var(--tng-semantic-background-surface, #1e293b);
-  color: var(--tng-semantic-accent-brand, #67e8f9);
+  background: var(--tng-semantic-background-surface);
+  color: var(--tng-semantic-accent-brand);
 }
 
 /* Right section: top panel + container */
 .right-section {
-  background: var(--tng-semantic-background-canvas, #020617);
-  color: var(--tng-semantic-foreground-primary, #e2e8f0);
+  background: var(--tng-semantic-background-canvas);
+  color: var(--tng-semantic-foreground-primary);
   display: flex;
   flex: 1;
   flex-direction: column;
@@ -149,7 +149,7 @@
 
 /* Top panel — header */
 .top-panel {
-  border-block-end: 1px solid var(--tng-semantic-border-subtle, #334155);
+  border-block-end: 1px solid var(--tng-semantic-border-subtle);
   flex-shrink: 0;
   padding: 1.5rem 2rem;
 }
@@ -181,9 +181,9 @@
 .header-action-btn {
   align-items: center;
   background: transparent;
-  border: 1px solid var(--tng-semantic-border-subtle, #334155);
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 0.5rem;
-  color: var(--tng-semantic-foreground-primary, #e2e8f0);
+  color: var(--tng-semantic-foreground-primary);
   cursor: pointer;
   display: inline-flex;
   justify-content: center;
@@ -192,19 +192,19 @@
 }
 
 .header-action-btn:hover {
-  background: var(--tng-semantic-background-surface, #1e293b);
+  background: var(--tng-semantic-background-surface);
 }
 
 .header-action-btn:focus-visible {
-  outline: 2px solid var(--tng-semantic-focus-ring, #67e8f9);
+  outline: 2px solid var(--tng-semantic-focus-ring);
   outline-offset: 2px;
 }
 
 .theme-preset-panel {
-  background: var(--tng-semantic-background-surface, #1e293b);
-  border: 1px solid var(--tng-semantic-border-subtle, #334155);
+  background: var(--tng-semantic-background-surface);
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 0.5rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--tng-semantic-background-canvas) 70%, transparent);
   list-style: none;
   margin: 0.25rem 0 0 0;
   min-width: 8rem;
@@ -217,7 +217,7 @@
 
 .theme-preset-item {
   border-radius: 0.375rem;
-  color: var(--tng-semantic-foreground-primary, #e2e8f0);
+  color: var(--tng-semantic-foreground-primary);
   cursor: pointer;
   font-size: 0.875rem;
   padding: 0.5rem 0.75rem;
@@ -226,12 +226,12 @@
 
 .theme-preset-item:hover,
 .theme-preset-item:focus-visible {
-  background: var(--tng-semantic-background-canvas, #0f172a);
+  background: var(--tng-semantic-background-canvas);
   outline: none;
 }
 
 .theme-preset-item--active {
-  color: var(--tng-semantic-accent-brand, #67e8f9);
+  color: var(--tng-semantic-accent-brand);
   font-weight: 600;
 }
 
@@ -265,7 +265,7 @@
 }
 
 .breadcrumb-list a {
-  color: var(--tng-semantic-accent-brand, #67e8f9);
+  color: var(--tng-semantic-accent-brand);
   font-size: 0.875rem;
   text-decoration: none;
 }
@@ -275,12 +275,12 @@
 }
 
 .breadcrumb-list span {
-  color: var(--tng-semantic-foreground-secondary, #cbd5e1);
+  color: var(--tng-semantic-foreground-secondary);
   font-size: 0.875rem;
 }
 
 .breadcrumb-sep {
-  color: #64748b;
+  color: var(--tng-semantic-foreground-secondary);
   font-size: 0.875rem;
   pointer-events: none;
 }
