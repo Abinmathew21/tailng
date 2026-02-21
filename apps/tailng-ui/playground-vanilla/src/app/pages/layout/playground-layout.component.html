@@ -1,0 +1,75 @@
+<div class="layout">
+  <aside class="left-panel">
+    <a class="logo-section" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" aria-label="TailNG Home">
+      <img src="logo.svg" alt="" class="logo" />
+      <span class="brand-name">TailNG</span>
+    </a>
+
+    <div class="search-section">
+      <input
+        type="search"
+        class="search-input"
+        placeholder="Search components..."
+        [value]="searchQuery()"
+        (input)="onSearchInput($any($event.target).value)"
+        aria-label="Search components"
+      />
+    </div>
+
+    <nav class="nav" data-tng-accordion-group>
+      @if (groups().length === 0) {
+        <p class="nav-empty">No components match your search.</p>
+      } @else {
+        @for (group of groups(); track group.category) {
+          <tng-accordion [title]="group.label" [defaultOpen]="true">
+            <div
+              role="listbox"
+              class="listbox"
+              [attr.aria-label]="group.label + ' components'"
+            >
+              @for (item of group.items; track item.path) {
+                <div
+                  role="option"
+                  class="listbox-option"
+                  [class.active]="isActive(item.path)"
+                  [attr.aria-selected]="isActive(item.path)"
+                  tabindex="0"
+                  (click)="onOptionSelect(item.path)"
+                  (keydown)="onOptionKeydown(item.path, $event)"
+                >
+                  {{ item.title }}
+                </div>
+              }
+            </div>
+          </tng-accordion>
+        }
+      }
+    </nav>
+  </aside>
+
+  <div class="right-section">
+    <header class="top-panel">
+      <h1 class="title">{{ pageTitle() }}</h1>
+      <nav tngBreadcrumb class="breadcrumb" aria-label="Breadcrumb">
+        <ol tngBreadcrumbList class="breadcrumb-list">
+          @for (crumb of breadcrumbs(); track $index; let last = $last) {
+            <li tngBreadcrumbItem>
+              @if (crumb.path) {
+                <a tngBreadcrumbLink [routerLink]="crumb.path">{{ crumb.label }}</a>
+              } @else {
+                <span>{{ crumb.label }}</span>
+              }
+            </li>
+            @if (!last) {
+              <li tngBreadcrumbSeparator class="breadcrumb-sep">/</li>
+            }
+          }
+        </ol>
+      </nav>
+    </header>
+
+    <section class="container-panel">
+      <router-outlet />
+    </section>
+  </div>
+</div>

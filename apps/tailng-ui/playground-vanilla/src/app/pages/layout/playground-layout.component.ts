@@ -1,11 +1,42 @@
-import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component, computed, inject, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import {
+  NavigationEnd,
+  Router,
+  RouterLink,
+  RouterLinkActive,
+  RouterOutlet,
+} from '@angular/router';
+import { filter, map, startWith } from 'rxjs';
+import {
+  TngBreadcrumb,
+  TngBreadcrumbItem,
+  TngBreadcrumbLink,
+  TngBreadcrumbList,
+  TngBreadcrumbSeparator,
+} from '@tailng-ui/primitives';
+import { TngAccordion } from '@tailng-ui/components';
 
 type TngPlaygroundItem = Readonly<{
   path: string;
   title: string;
   description: string;
-  category: string;
+  category: TngPlaygroundCategory;
+}>;
+
+type TngPlaygroundCategory =
+  | 'navigation'
+  | 'form'
+  | 'layout'
+  | 'overlay'
+  | 'feedback'
+  | 'utility'
+  | 'other';
+
+type TngCategoryGroup = Readonly<{
+  category: TngPlaygroundCategory;
+  label: string;
+  items: readonly TngPlaygroundItem[];
 }>;
 
 const ALL_ITEMS: readonly TngPlaygroundItem[] = Object.freeze([
@@ -62,12 +93,122 @@ const ALL_ITEMS: readonly TngPlaygroundItem[] = Object.freeze([
   { path: '/bottom-sheet', title: 'Bottom Sheet', description: 'Partial-height overlay sheet.', category: 'layout' },
 ]);
 
+const CATEGORY_LABELS: Readonly<Record<TngPlaygroundCategory, string>> = {
+  navigation: 'Navigation',
+  form: 'Form',
+  layout: 'Layout',
+  overlay: 'Overlay',
+  feedback: 'Feedback',
+  utility: 'Utility',
+  other: 'Other',
+};
+
+const CATEGORY_ORDER: readonly TngPlaygroundCategory[] = [
+  'navigation',
+  'form',
+  'layout',
+  'overlay',
+  'feedback',
+  'utility',
+  'other',
+];
+
+function getUrlPath(url: string): string {
+  return url.split('?')[0].split('#')[0];
+}
+
 @Component({
-  selector: 'app-home-page',
-  imports: [RouterLink],
-  templateUrl: './home-page.component.html',
-  styleUrl: './home-page.component.css',
+  selector: 'app-playground-layout',
+  imports: [
+    RouterLink,
+    RouterLinkActive,
+    RouterOutlet,
+    TngAccordion,
+    TngBreadcrumb,
+    TngBreadcrumbList,
+    TngBreadcrumbItem,
+    TngBreadcrumbLink,
+    TngBreadcrumbSeparator,
+  ],
+  templateUrl: './playground-layout.component.html',
+  styleUrl: './playground-layout.component.css',
 })
-export class HomePageComponent {
-  protected readonly items = ALL_ITEMS;
+export class PlaygroundLayoutComponent {
+  private readonly router = inject(Router);
+
+  protected readonly searchQuery = signal('');
+
+  private readonly urlPath = toSignal(
+    this.router.events.pipe(
+      filter((e): e is NavigationEnd => e instanceof NavigationEnd),
+      map(() => getUrlPath(this.router.url)),
+      startWith(getUrlPath(this.router.url)),
+    ),
+    { initialValue: getUrlPath(this.router.url) },
+  );
+
+  protected readonly pageTitle = computed(() => {
+    const path = this.urlPath();
+    if (path === '' || path === '/') return 'Home';
+    const item = ALL_ITEMS.find((i) => i.path === path);
+    return item?.title ?? path.slice(1).replace(/-/g, ' ');
+  });
+
+  protected readonly breadcrumbs = computed((): readonly { label: string; path: string | null }[] => {
+    const path = this.urlPath();
+    if (path === '' || path === '/') {
+      return [{ label: 'Home', path: null }];
+    }
+    const item = ALL_ITEMS.find((i) => i.path === path);
+    const currentLabel = item?.title ?? path.slice(1).replace(/-/g, ' ');
+    return [
+      { label: 'Home', path: '/' },
+      { label: currentLabel, path: null },
+    ];
+  });
+
+  protected readonly groups = computed((): readonly TngCategoryGroup[] => {
+    const q = this.searchQuery().toLowerCase().trim();
+    const filtered =
+      q.length === 0
+        ? ALL_ITEMS
+        : ALL_ITEMS.filter(
+            (item) =>
+              item.title.toLowerCase().includes(q) ||
+              item.description.toLowerCase().includes(q) ||
+              item.path.toLowerCase().includes(q),
+          );
+
+    const byCategory = new Map<TngPlaygroundCategory, TngPlaygroundItem[]>();
+    for (const item of filtered) {
+      const list = byCategory.get(item.category) ?? [];
+      list.push(item);
+      byCategory.set(item.category, list);
+    }
+
+    return CATEGORY_ORDER.filter((cat) => (byCategory.get(cat)?.length ?? 0) > 0).map((category) => ({
+      category,
+      label: CATEGORY_LABELS[category],
+      items: Object.freeze(byCategory.get(category) ?? []),
+    }));
+  });
+
+  protected onSearchInput(value: string): void {
+    this.searchQuery.set(value);
+  }
+
+  protected onOptionSelect(path: string): void {
+    this.router.navigateByUrl(path);
+  }
+
+  protected onOptionKeydown(path: string, event: KeyboardEvent): void {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      this.onOptionSelect(path);
+    }
+  }
+
+  protected isActive(path: string): boolean {
+    return this.urlPath() === path;
+  }
 }

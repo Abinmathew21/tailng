@@ -32,7 +32,7 @@
 ## 2. Internal Structure (per component)
 
 - Primitives source: `/Users/prince/Tociva/Projects/tailng/tailng3/tailng3/libs/tailng-ui/primitives/src/lib/<component>/`
-- Components source: `/Users/prince/Tociva/Projects/tailng/tailng3/tailng3/libs/tailng-ui/components/src/lib/<component>/`
+- Components source: `/Users/prince/Tociva/Projects/tailng/tailng3/tailng3/libs/tailng-ui/components/src/lib/<category>/<component>/` (categories: navigation, form, layout, overlay, feedback, utility)
 - Registry source templates: `/Users/prince/Tociva/Projects/tailng/tailng3/tailng3/libs/tailng-ui/registry/src/lib/<component>/`
 - CLI wiring: `/Users/prince/Tociva/Projects/tailng/tailng3/tailng3/libs/tailng/cli/src/`
 - Barrel exports:
