@@ -1,5 +1,14 @@
 import { DOCUMENT } from '@angular/common';
-import { Component, computed, effect, inject, signal } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  HostListener,
+  computed,
+  effect,
+  inject,
+  signal,
+  viewChild,
+} from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import {
   NavigationEnd,
@@ -22,10 +31,18 @@ import {
   createTheme,
   darkSemanticTokens,
   defaultThemePreset,
+  minimalThemePreset,
   resolveToken,
   toCssVars,
 } from '@tailng-ui/theme';
 import type { ThemeDefinition, ThemeSemanticTokens } from '@tailng-ui/theme';
+
+type PresetId = 'default' | 'minimal';
+
+const PRESET_OPTIONS: readonly { id: PresetId; label: string }[] = [
+  { id: 'default', label: 'Default' },
+  { id: 'minimal', label: 'Minimal' },
+];
 
 const SEMANTIC_COLLECTIONS: readonly (keyof ThemeSemanticTokens)[] = [
   'background',
@@ -157,14 +174,19 @@ export class PlaygroundLayoutComponent {
   private readonly documentRef = inject(DOCUMENT);
   private readonly router = inject(Router);
 
+  protected readonly presetOptions = PRESET_OPTIONS;
   protected readonly searchQuery = signal('');
   protected readonly darkMode = signal(false);
+  protected readonly selectedPreset = signal<PresetId>('default');
+  protected readonly themeMenuOpen = signal(false);
+  private readonly themeMenuRef = viewChild<ElementRef<HTMLElement>>('themeMenuRef');
 
   protected readonly activeTheme = computed<ThemeDefinition>(() => {
+    const basePreset = this.getBasePreset(this.selectedPreset());
     const mode = this.darkMode() ? 'dark' : 'light';
     const semantic =
-      mode === 'dark' ? darkSemanticTokens : defaultThemePreset.tokens.semantic;
-    return createTheme(defaultThemePreset, {
+      mode === 'dark' ? darkSemanticTokens : basePreset.tokens.semantic;
+    return createTheme(basePreset, {
       meta: { mode },
       tokens: { semantic },
     });
@@ -178,6 +200,36 @@ export class PlaygroundLayoutComponent {
 
   protected onThemeModeChange(pressed: boolean): void {
     this.darkMode.set(pressed);
+  }
+
+  protected toggleThemeMenu(): void {
+    this.themeMenuOpen.update((open) => !open);
+  }
+
+  protected onPresetSelect(presetId: PresetId): void {
+    this.selectedPreset.set(presetId);
+    this.themeMenuOpen.set(false);
+  }
+
+  @HostListener('document:click', ['$event'])
+  protected onDocumentClick(event: Event): void {
+    if (!this.themeMenuOpen()) return;
+    const target = event.target;
+    if (!(target instanceof Node)) return;
+    const menuEl = this.themeMenuRef()?.nativeElement;
+    if (menuEl?.contains(target)) return;
+    this.themeMenuOpen.set(false);
+  }
+
+  @HostListener('document:keydown.escape')
+  protected onEscapeKeydown(): void {
+    if (this.themeMenuOpen()) {
+      this.themeMenuOpen.set(false);
+    }
+  }
+
+  private getBasePreset(preset: PresetId): ThemeDefinition {
+    return preset === 'minimal' ? minimalThemePreset : defaultThemePreset;
   }
 
   private applyThemeVariables(theme: ThemeDefinition): void {

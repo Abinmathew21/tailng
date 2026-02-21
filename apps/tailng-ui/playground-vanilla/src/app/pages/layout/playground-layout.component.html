@@ -69,16 +69,45 @@
             </ol>
           </nav>
         </div>
-        <tng-toggle
-          class="theme-toggle"
-          [pressed]="darkMode()"
-          pressedLabel="Switch to light mode"
-          unpressedLabel="Switch to dark mode"
-          (pressedChange)="onThemeModeChange($event)"
-        >
-          <tng-icon icon="moon" offIcon></tng-icon>
-          <tng-icon icon="sun" onIcon></tng-icon>
-        </tng-toggle>
+        <div class="header-actions">
+          <div class="theme-preset-menu" #themeMenuRef>
+            <button
+              type="button"
+              class="header-action-btn"
+              [attr.aria-expanded]="themeMenuOpen()"
+              [attr.aria-haspopup]="'menu'"
+              aria-label="Choose theme preset"
+              (click)="toggleThemeMenu()"
+            >
+              <tng-icon icon="palette"></tng-icon>
+            </button>
+            @if (themeMenuOpen()) {
+              <ul role="menu" class="theme-preset-panel">
+                @for (preset of presetOptions; track preset.id) {
+                  <li
+                    role="menuitem"
+                    tabindex="0"
+                    class="theme-preset-item"
+                    [class.theme-preset-item--active]="selectedPreset() === preset.id"
+                    (click)="onPresetSelect(preset.id); $event.stopPropagation()"
+                  >
+                    {{ preset.label }}
+                  </li>
+                }
+              </ul>
+            }
+          </div>
+          <tng-toggle
+            class="theme-toggle"
+            [pressed]="darkMode()"
+            pressedLabel="Switch to light mode"
+            unpressedLabel="Switch to dark mode"
+            (pressedChange)="onThemeModeChange($event)"
+          >
+            <tng-icon icon="moon" offIcon></tng-icon>
+            <tng-icon icon="sun" onIcon></tng-icon>
+          </tng-toggle>
+        </div>
       </div>
     </header>
 
