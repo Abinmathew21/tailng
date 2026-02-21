@@ -22,6 +22,19 @@ import {
 
 type TngOverlayAdapterOptions = Readonly<{
   adapterConfig?: TngAngularCdkAdapterConfig;
+  angularCdk?: TngAngularCdkOverlayDelegates;
+}>;
+
+export type TngAngularCdkOverlayDelegates = Readonly<{
+  computePosition?: (options: TngOverlayPositionOptions) => TngOverlayPositionResult;
+  createBackdropController?: (
+    options: TngOverlayBackdropControllerOptions,
+  ) => TngOverlayBackdropController;
+  createInteractionController?: (
+    options: TngOverlayInteractionOptions,
+  ) => TngOverlayInteractionController;
+  createPortalManager?: (options: TngPortalManagerOptions) => TngPortalManager;
+  createScrollLockManager?: (options: TngScrollLockOptions) => TngScrollLockManager;
 }>;
 
 export type TngOverlayLayerStackAdapterOptions = TngOverlayAdapterOptions;
@@ -57,17 +70,8 @@ export type TngOverlayBackdropAdapterOptions = Readonly<
 >;
 
 export function createOverlayLayerStackAdapter(
-  options: TngOverlayLayerStackAdapterOptions = {},
+  _options: TngOverlayLayerStackAdapterOptions = {},
 ): TngOverlayLayerStack {
-  const useAngularCdkPositioning = shouldUseAngularCdkFeature(
-    options.adapterConfig,
-    'overlay-positioning',
-  );
-  if (useAngularCdkPositioning) {
-    // Phase 1 scaffold: Angular CDK overlay stack orchestration lands in Phase 2.
-    return createOverlayLayerStack();
-  }
-
   return createOverlayLayerStack();
 }
 
@@ -78,9 +82,8 @@ export function createOverlayInteractionAdapter(
     options.adapterConfig,
     'overlay-outside-interaction',
   );
-  if (useAngularCdk) {
-    // Phase 1 scaffold: Angular CDK overlay interaction dispatch wiring lands in Phase 2.
-    return createOverlayInteractionController(options.interaction);
+  if (useAngularCdk && options.angularCdk?.createInteractionController !== undefined) {
+    return options.angularCdk.createInteractionController(options.interaction);
   }
 
   return createOverlayInteractionController(options.interaction);
@@ -90,9 +93,8 @@ export function computeOverlayPositionAdapter(
   options: TngOverlayPositionAdapterOptions,
 ): TngOverlayPositionResult {
   const useAngularCdk = shouldUseAngularCdkFeature(options.adapterConfig, 'overlay-positioning');
-  if (useAngularCdk) {
-    // Phase 1 scaffold: Angular CDK connected positioning strategy wiring lands in Phase 2.
-    return computeOverlayPosition(options.position);
+  if (useAngularCdk && options.angularCdk?.computePosition !== undefined) {
+    return options.angularCdk.computePosition(options.position);
   }
 
   return computeOverlayPosition(options.position);
@@ -100,9 +102,8 @@ export function computeOverlayPositionAdapter(
 
 export function createPortalAdapter(options: TngPortalAdapterOptions = {}): TngPortalManager {
   const useAngularCdk = shouldUseAngularCdkFeature(options.adapterConfig, 'overlay-portal');
-  if (useAngularCdk) {
-    // Phase 1 scaffold: Angular CDK Portal wiring lands in Phase 2.
-    return createPortalManager(options.portal ?? {});
+  if (useAngularCdk && options.angularCdk?.createPortalManager !== undefined) {
+    return options.angularCdk.createPortalManager(options.portal ?? {});
   }
 
   return createPortalManager(options.portal ?? {});
@@ -112,9 +113,8 @@ export function createScrollLockAdapter(
   options: TngScrollLockAdapterOptions = {},
 ): TngScrollLockManager {
   const useAngularCdk = shouldUseAngularCdkFeature(options.adapterConfig, 'overlay-scroll-lock');
-  if (useAngularCdk) {
-    // Phase 1 scaffold: Angular CDK block scroll strategy wiring lands in Phase 2.
-    return createScrollLockManager(options.scrollLock ?? {});
+  if (useAngularCdk && options.angularCdk?.createScrollLockManager !== undefined) {
+    return options.angularCdk.createScrollLockManager(options.scrollLock ?? {});
   }
 
   return createScrollLockManager(options.scrollLock ?? {});
@@ -124,9 +124,8 @@ export function createOverlayBackdropAdapter(
   options: TngOverlayBackdropAdapterOptions,
 ): TngOverlayBackdropController {
   const useAngularCdk = shouldUseAngularCdkFeature(options.adapterConfig, 'overlay-backdrop');
-  if (useAngularCdk) {
-    // Phase 1 scaffold: Angular CDK backdrop wiring lands in Phase 2.
-    return createOverlayBackdropController(options.backdrop);
+  if (useAngularCdk && options.angularCdk?.createBackdropController !== undefined) {
+    return options.angularCdk.createBackdropController(options.backdrop);
   }
 
   return createOverlayBackdropController(options.backdrop);

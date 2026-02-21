@@ -30,5 +30,8 @@ Behavior and accessibility primitives for TailNG UI.
 
 - Migration checklist: `cdk-angular-migration-plan.md` (repo root)
 - Internal adapter scaffold: `libs/tailng-ui/cdk/src/adapters/angular-cdk`
-- Current adapter behavior: fallback to existing TailNG implementations until Angular CDK
-  dependencies and concrete adapters are wired in.
+- Current adapter behavior:
+  - Fallback to existing TailNG implementations by default.
+  - In `prefer-angular-cdk` mode, adapter delegates can be injected for overlay features
+    (`portal`, `positioning`, `outside-interaction`, `backdrop`, `scroll-lock`).
+  - Missing delegates automatically fall back to TailNG implementations.
