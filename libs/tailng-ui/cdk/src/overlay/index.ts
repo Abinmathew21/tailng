@@ -1,7 +1,5 @@
 export * from './backdrop/backdrop';
 export * from './backdrop/backdrop.types';
-export * from './dismissable-layer/dismissable-layer';
-export * from './dismissable-layer/dismissable-layer.types';
 export * from './focus-handoff/focus-handoff';
 export * from './focus-handoff/focus-handoff.types';
 export * from './layer-stack/layer-stack';

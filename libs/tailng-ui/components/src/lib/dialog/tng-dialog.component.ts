@@ -10,9 +10,13 @@ import {
   viewChild,
 } from '@angular/core';
 import type { ElementRef, OnDestroy } from '@angular/core';
-import { createTngIdFactory } from '@tailng-ui/cdk/core';
-import { createScrollLockManager } from '@tailng-ui/cdk/overlay';
+import {
+  createOverlayScrollLockManager,
+  createTngIdFactory,
+  type TngOverlayDismissReason,
+} from '@tailng-ui/cdk';
 import type { TngScrollLockDocument } from '@tailng-ui/cdk/overlay';
+import { tngOverlayRuntime } from '../overlay/tng-overlay-runtime';
 
 const createDialogId = createTngIdFactory('tng-dialog');
 
@@ -34,14 +38,6 @@ type TngFocusTrapState = Readonly<{
 
 export type TngDialogCloseReason = 'backdrop' | 'close-button' | 'escape' | 'programmatic';
 export type TngDialogSize = 'lg' | 'md' | 'sm';
-
-function readEventTarget(event: unknown): Node | null {
-  if (!(event instanceof Event)) {
-    return null;
-  }
-
-  return event.target instanceof Node ? event.target : null;
-}
 
 function readKeyboardEvent(event: unknown): KeyboardEvent | null {
   return event instanceof KeyboardEvent ? event : null;
@@ -101,12 +97,16 @@ function toScrollLockDocument(documentRef: unknown): TngScrollLockDocument | nul
   return documentRef as unknown as TngScrollLockDocument;
 }
 
-function resolveGlobalDocument(): Document | null {
-  if (typeof document === 'undefined') {
-    return null;
+function toDialogCloseReason(reason: TngOverlayDismissReason): TngDialogCloseReason | null {
+  if (reason === 'escape-key') {
+    return 'escape';
   }
 
-  return document;
+  if (reason === 'outside-pointer') {
+    return 'backdrop';
+  }
+
+  return null;
 }
 
 @Component({
@@ -135,18 +135,15 @@ export class TngDialog implements OnDestroy {
   protected readonly panelId: string;
   protected readonly titleId: string;
 
-  private readonly documentRef = resolveGlobalDocument();
+  private readonly documentRef = typeof document === 'undefined' ? null : document;
   private readonly injector = inject(Injector);
   private readonly panelRef = viewChild<ElementRef<HTMLElement>>('panelRef');
-  private readonly scrollLock = createScrollLockManager({
+  private readonly scrollLock = createOverlayScrollLockManager({
     documentRef: toScrollLockDocument(this.documentRef),
   });
   private readonly instanceId = createDialogId();
-  private readonly documentPointerDownListener = (event: unknown): void => {
-    this.onDocumentPointerDown(event);
-  };
   private isActive = false;
-  private listenersAttached = false;
+  private isLayerRegistered = false;
   private restoreFocusElement: HTMLElement | null = null;
 
   private readonly openStateEffect = effect((): void => {
@@ -183,11 +180,6 @@ export class TngDialog implements OnDestroy {
       return;
     }
 
-    if (keyboardEvent.key === 'Escape') {
-      this.handleEscapeKey(event);
-      return;
-    }
-
     if (keyboardEvent.key === 'Tab') {
       this.trapTabNavigation(event);
     }
@@ -199,7 +191,7 @@ export class TngDialog implements OnDestroy {
     }
 
     this.isActive = true;
-    this.attachBackdropListener();
+    this.registerOverlayLayer();
     this.restoreFocusElement = resolveActiveElement(this.documentRef);
     this.scrollLock.acquire(this.instanceId);
     afterNextRender(
@@ -210,34 +202,64 @@ export class TngDialog implements OnDestroy {
     );
   }
 
-  private attachBackdropListener(): void {
-    if (this.listenersAttached || this.documentRef === null) {
-      return;
-    }
-
-    this.listenersAttached = true;
-    this.documentRef.addEventListener('pointerdown', this.documentPointerDownListener);
-  }
-
   private deactivateDialog(): void {
     if (!this.isActive) {
       return;
     }
 
     this.isActive = false;
-    this.detachBackdropListener();
+    this.unregisterOverlayLayer();
     this.scrollLock.release(this.instanceId);
     this.restoreFocusElement?.focus();
     this.restoreFocusElement = null;
   }
 
-  private detachBackdropListener(): void {
-    if (!this.listenersAttached || this.documentRef === null) {
+  private handleOverlayDismiss(reason: TngOverlayDismissReason): void {
+    const closeReason = toDialogCloseReason(reason);
+    if (closeReason === null) {
       return;
     }
 
-    this.listenersAttached = false;
-    this.documentRef.removeEventListener('pointerdown', this.documentPointerDownListener);
+    this.requestClose(closeReason);
+  }
+
+  private registerOverlayLayer(): void {
+    if (this.isLayerRegistered) {
+      return;
+    }
+
+    this.isLayerRegistered = true;
+    tngOverlayRuntime.registerLayer({
+      containsTarget: (target: unknown, path: readonly unknown[]): boolean => {
+        const panel = this.panelRef()?.nativeElement;
+        if (panel === undefined) {
+          return false;
+        }
+
+        if (path.includes(panel)) {
+          return true;
+        }
+
+        return target instanceof Node ? panel.contains(target) : false;
+      },
+      dismissOnEscape: this.closeOnEscape(),
+      dismissOnOutsidePointer: this.closeOnBackdrop(),
+      id: this.instanceId,
+      modal: true,
+      onDismiss: (reason: TngOverlayDismissReason): void => {
+        this.handleOverlayDismiss(reason);
+      },
+      priority: 100,
+    });
+  }
+
+  private unregisterOverlayLayer(): void {
+    if (!this.isLayerRegistered) {
+      return;
+    }
+
+    this.isLayerRegistered = false;
+    tngOverlayRuntime.unregisterLayer(this.instanceId);
   }
 
   private focusInitialElement(): void {
@@ -259,38 +281,6 @@ export class TngDialog implements OnDestroy {
     }
 
     panel.focus();
-  }
-
-  private handleEscapeKey(event: unknown): void {
-    const keyboardEvent = readKeyboardEvent(event);
-    if (keyboardEvent === null) {
-      return;
-    }
-
-    if (!this.closeOnEscape()) {
-      return;
-    }
-
-    keyboardEvent.preventDefault();
-    this.requestClose('escape');
-  }
-
-  private onDocumentPointerDown(event: unknown): void {
-    if (!this.closeOnBackdrop()) {
-      return;
-    }
-
-    const panel = this.panelRef()?.nativeElement;
-    const target = readEventTarget(event);
-    if (panel === undefined || target === null) {
-      return;
-    }
-
-    if (panel.contains(target)) {
-      return;
-    }
-
-    this.requestClose('backdrop');
   }
 
   private preventAndFocus(event: unknown, target: unknown): void {
