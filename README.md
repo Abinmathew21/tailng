@@ -204,10 +204,10 @@ Build static playground output for Cloudflare Pages:
 pnpm playground:seo
 ```
 
-Build static vanilla playground output for Cloudflare Pages:
+Build static plain-css playground output for Cloudflare Pages:
 
 ```bash
-pnpm playground:vanilla:seo
+pnpm playground:plain-css:seo
 ```
 
 ### Lint
@@ -277,9 +277,9 @@ Build and run the `tailng` CLI:
 ```bash
 pnpm build:tailng
 pnpm tailng -- list
-pnpm tailng -- add button --cwd apps/tailng-ui/playground-vanilla --dry-run
-pnpm tailng -- add dialog --cwd apps/tailng-ui/playground-vanilla --dry-run
-pnpm tailng -- add popover --cwd apps/tailng-ui/playground-vanilla --dry-run
+pnpm tailng -- add button --cwd apps/tailng-ui/playground-plain-css --dry-run
+pnpm tailng -- add dialog --cwd apps/tailng-ui/playground-plain-css --dry-run
+pnpm tailng -- add popover --cwd apps/tailng-ui/playground-plain-css --dry-run
 pnpm tailng -- add button --cwd apps/tailng-ui/playground-registry --dry-run
 ```
 

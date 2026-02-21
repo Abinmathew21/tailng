@@ -108,7 +108,7 @@
 ## Demo & Docs Plan
 
 - [ ] Tailwind playground charts page.
-- [ ] Vanilla playground charts page.
+- [ ] Plain-CSS playground charts page.
 - [ ] Docs page for install + quickstart + accessibility notes.
 - [ ] Examples for responsive resize, loading, empty/error state.
 - [ ] Examples for large dataset/performance mode.

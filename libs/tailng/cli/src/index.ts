@@ -49,7 +49,7 @@ const usageText = [
   '  tailng add button',
   '  tailng add slide-toggle',
   '  tailng add sidenav',
-  '  tailng add button --cwd apps/tailng-ui/playground-vanilla --dry-run',
+  '  tailng add button --cwd apps/tailng-ui/playground-plain-css --dry-run',
 ].join('\n');
 
 const componentAliases: Readonly<Record<string, string>> = Object.freeze({

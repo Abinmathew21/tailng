@@ -56,6 +56,6 @@ export class ExampleComponent {}`;
 </main>`;
 
   protected readonly shellSnippet = `pnpm nx run playground-tailwind:serve
-pnpm nx run playground-vanilla:serve
+pnpm nx run playground-plain-css:serve
 pnpm tailng -- add code-block --cwd apps/tailng-ui/playground-registry`;
 }

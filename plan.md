@@ -2,7 +2,7 @@
 
 ## 0. Naming Decisions
 
-1. Use `plain-css` in user-facing names/docs (`playground-plain-css`) instead of `vanilla`.
+1. Use `plain-css` in user-facing names/docs (`playground-plain-css`).
 
 ## 0. Canonical Components (De-duplicated)
 
@@ -66,6 +66,6 @@
 1. Primitive wrapper complete (ARIA delegated, no custom a11y engine).
 2. Styled component complete (theme hooks + variants only).
 3. Registry templates added (`npx tailng add <component>` works).
-4. Playground pages added in tailwind + vanilla apps.
+4. Playground pages added in tailwind + plain-css apps.
 5. Tests added for primitives, components, registry, CLI generation.
 6. `pnpm lint` and `pnpm test` pass with zero warnings.

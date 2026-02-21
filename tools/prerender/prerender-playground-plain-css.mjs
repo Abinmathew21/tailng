@@ -4,15 +4,15 @@ import http from 'node:http';
 import serveHandler from 'serve-handler';
 import puppeteer from 'puppeteer';
 
-const DIST_DIR = 'dist/apps/tailng-ui/playground-vanilla/browser';
-const ROUTES_FILE = 'apps/tailng-ui/playground-vanilla/prerender-routes.txt';
+const DIST_DIR = 'dist/apps/tailng-ui/playground-plain-css/browser';
+const ROUTES_FILE = 'apps/tailng-ui/playground-plain-css/prerender-routes.txt';
 const PORT = 4175;
 const HOST = '127.0.0.1';
 
 const indexHtmlPath = path.join(DIST_DIR, 'index.html');
 if (!fs.existsSync(indexHtmlPath)) {
   throw new Error(
-    `index.html not found at ${indexHtmlPath}. Run "pnpm run playground:vanilla:build" first.`,
+    `index.html not found at ${indexHtmlPath}. Run "pnpm run playground:plain-css:build" first.`,
   );
 }
 const indexHtml = fs.readFileSync(indexHtmlPath);

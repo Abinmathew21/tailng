@@ -1,25 +1,25 @@
 {
-  "name": "playground-vanilla",
+  "name": "playground-plain-css",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "prefix": "app",
-  "sourceRoot": "apps/tailng-ui/playground-vanilla/src",
+  "sourceRoot": "apps/tailng-ui/playground-plain-css/src",
   "tags": ["scope:tailng"],
   "targets": {
     "build": {
       "executor": "@angular/build:application",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/apps/tailng-ui/playground-vanilla",
-        "browser": "apps/tailng-ui/playground-vanilla/src/main.ts",
-        "tsConfig": "apps/tailng-ui/playground-vanilla/tsconfig.app.json",
+        "outputPath": "dist/apps/tailng-ui/playground-plain-css",
+        "browser": "apps/tailng-ui/playground-plain-css/src/main.ts",
+        "tsConfig": "apps/tailng-ui/playground-plain-css/tsconfig.app.json",
         "assets": [
           {
             "glob": "**/*",
-            "input": "apps/tailng-ui/playground-vanilla/public"
+            "input": "apps/tailng-ui/playground-plain-css/public"
           }
         ],
-        "styles": ["apps/tailng-ui/playground-vanilla/src/styles.css"]
+        "styles": ["apps/tailng-ui/playground-plain-css/src/styles.css"]
       },
       "configurations": {
         "production": {
@@ -51,10 +51,10 @@
       "executor": "@angular/build:dev-server",
       "configurations": {
         "production": {
-          "buildTarget": "playground-vanilla:build:production"
+          "buildTarget": "playground-plain-css:build:production"
         },
         "development": {
-          "buildTarget": "playground-vanilla:build:development"
+          "buildTarget": "playground-plain-css:build:development"
         }
       },
       "defaultConfiguration": "development"
@@ -66,8 +66,8 @@
       "continuous": true,
       "executor": "@nx/web:file-server",
       "options": {
-        "buildTarget": "playground-vanilla:build",
-        "staticFilePath": "dist/apps/tailng-ui/playground-vanilla/browser",
+        "buildTarget": "playground-plain-css:build",
+        "staticFilePath": "dist/apps/tailng-ui/playground-plain-css/browser",
         "spa": true
       }
     }

@@ -33,7 +33,7 @@ const treeNodes: readonly TngTreeItem[] = Object.freeze([
     parentId: 'components',
   },
   {
-    description: 'Docs, playground-tailwind, playground-vanilla.',
+    description: 'Docs, playground-tailwind, playground-plain-css.',
     id: 'apps',
     label: 'apps',
     parentId: 'workspace',
@@ -46,8 +46,8 @@ const treeNodes: readonly TngTreeItem[] = Object.freeze([
   },
   {
     description: 'Plain-css verification target.',
-    id: 'vanilla-app',
-    label: 'playground-vanilla',
+    id: 'plain-css-app',
+    label: 'playground-plain-css',
     parentId: 'apps',
   },
   {
