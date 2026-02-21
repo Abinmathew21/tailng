@@ -54,6 +54,10 @@ function toTypeaheadItems(options: readonly AssigneeOption[]): readonly TngTypea
   return options.map((option) => ({ id: option.id, text: option.label }));
 }
 
+function isPrintableTypeaheadKey(key: string): boolean {
+  return key.length === 1 && key.trim().length > 0;
+}
+
 function toOptionLabel(optionId: string | null): string {
   if (optionId === null) {
     return 'None';
@@ -188,6 +192,10 @@ export class DialogPlaygroundPageComponent {
   }
 
   private handleTypeahead(event: KeyboardEvent): void {
+    if (!isPrintableTypeaheadKey(event.key)) {
+      return;
+    }
+
     const state = this.typeahead.handleKey(event.key);
     if (state.activeId === null) {
       return;

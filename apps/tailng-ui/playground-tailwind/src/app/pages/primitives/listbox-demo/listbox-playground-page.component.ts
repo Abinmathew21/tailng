@@ -74,6 +74,10 @@ function toTypeaheadItems(options: readonly DemoOption[]): readonly TngTypeahead
   }));
 }
 
+function isPrintableTypeaheadKey(key: string): boolean {
+  return key.length === 1 && key.trim().length > 0;
+}
+
 @Component({
   selector: 'app-listbox-playground-page',
   imports: [RouterLink],
@@ -214,6 +218,10 @@ export class ListboxPlaygroundPageComponent {
   }
 
   private handleTypeahead(event: KeyboardEvent): void {
+    if (!isPrintableTypeaheadKey(event.key)) {
+      return;
+    }
+
     const previousActiveId = this.activeId();
     const state = this.typeahead.handleKey(event.key);
     if (state.activeId === null || state.activeId === previousActiveId) {
