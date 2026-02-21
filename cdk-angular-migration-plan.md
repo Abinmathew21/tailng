@@ -109,9 +109,10 @@ TailNG public APIs stable (`@tailng-ui/cdk/*`).
 
 ## Phase 3: A11y And Selection Migration
 
-- [ ] Migrate `active-descendant`, `roving-focus`, `typeahead`, `selection-model`.
-- [ ] Keep API compatibility tests at current TailNG contract level.
-- [ ] Add parity tests for arrow/home/end/typeahead behavior.
+- [x] Migrate `active-descendant`, `roving-focus`, `typeahead`, `selection-model`
+      behind adapter delegates.
+- [x] Keep API compatibility tests at current TailNG contract level.
+- [x] Add parity tests for arrow/home/end/typeahead behavior.
 
 ## Phase 4: Consolidation
 
@@ -122,7 +123,7 @@ TailNG public APIs stable (`@tailng-ui/cdk/*`).
 ## Validation Checklist
 
 - [ ] `pnpm nx run cdk:lint`
-- [ ] `pnpm test:cdk`
+- [x] `pnpm test:cdk`
 - [ ] `pnpm nx run components:lint`
-- [ ] `pnpm test:components`
+- [x] `pnpm test:components`
 - [ ] Dialog + popover demos pass keyboard and dismissal checks.

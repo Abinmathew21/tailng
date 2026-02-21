@@ -6,8 +6,15 @@ import {
   type TngSelectionModelOptions,
 } from '../../collections';
 
+export type TngAngularCdkSelectionModelDelegates = Readonly<{
+  createSelectionModel?: <TValue>(
+    options: TngSelectionModelOptions<TValue>,
+  ) => TngSelectionModel<TValue>;
+}>;
+
 export type TngSelectionModelAdapterOptions<TValue> = Readonly<{
   adapterConfig?: TngAngularCdkAdapterConfig;
+  angularCdk?: TngAngularCdkSelectionModelDelegates;
   selection: TngSelectionModelOptions<TValue>;
 }>;
 
@@ -16,9 +23,8 @@ export function createSelectionModelAdapter<TValue>(
 ): TngSelectionModel<TValue> {
   const useAngularCdk = shouldUseAngularCdkFeature(options.adapterConfig, 'selection-model');
 
-  if (useAngularCdk) {
-    // Phase 1 scaffold: Angular CDK SelectionModel wiring lands in Phase 3.
-    return createSelectionModel(options.selection);
+  if (useAngularCdk && options.angularCdk?.createSelectionModel !== undefined) {
+    return options.angularCdk.createSelectionModel(options.selection);
   }
 
   return createSelectionModel(options.selection);

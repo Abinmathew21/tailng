@@ -42,4 +42,8 @@ Behavior and accessibility primitives for TailNG UI.
     (`portal`, `positioning`, `outside-interaction`, `backdrop`, `scroll-lock`).
   - Concrete overlay delegate factory is available internally at
     `libs/tailng-ui/cdk/src/adapters/angular-cdk/overlay.angular-cdk.ts`.
+  - Concrete key-manager delegate factory is available internally at
+    `libs/tailng-ui/cdk/src/adapters/angular-cdk/key-manager.angular-cdk.ts`.
+  - Concrete selection-model delegate factory is available internally at
+    `libs/tailng-ui/cdk/src/adapters/angular-cdk/selection-model.angular-cdk.ts`.
   - Missing delegates automatically fall back to TailNG implementations.

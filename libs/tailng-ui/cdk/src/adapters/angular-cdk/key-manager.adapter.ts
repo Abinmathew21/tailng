@@ -16,6 +16,15 @@ import {
 
 type TngKeyManagerAdapterOptions = Readonly<{
   adapterConfig?: TngAngularCdkAdapterConfig;
+  angularCdk?: TngAngularCdkKeyManagerDelegates;
+}>;
+
+export type TngAngularCdkKeyManagerDelegates = Readonly<{
+  createActiveDescendantController?: (
+    options: TngActiveDescendantOptions,
+  ) => TngActiveDescendantController;
+  createRovingFocusController?: (options: TngRovingFocusOptions) => TngRovingFocusController;
+  createTypeaheadController?: (options: TngTypeaheadOptions) => TngTypeaheadController;
 }>;
 
 export type TngRovingFocusAdapterOptions = Readonly<
@@ -41,9 +50,8 @@ export function createRovingFocusAdapter(
 ): TngRovingFocusController {
   const useAngularCdk = shouldUseAngularCdkFeature(options.adapterConfig, 'roving-focus');
 
-  if (useAngularCdk) {
-    // Phase 1 scaffold: Angular CDK FocusKeyManager wiring lands in Phase 3.
-    return createRovingFocusController(options.rovingFocus);
+  if (useAngularCdk && options.angularCdk?.createRovingFocusController !== undefined) {
+    return options.angularCdk.createRovingFocusController(options.rovingFocus);
   }
 
   return createRovingFocusController(options.rovingFocus);
@@ -54,9 +62,8 @@ export function createActiveDescendantAdapter(
 ): TngActiveDescendantController {
   const useAngularCdk = shouldUseAngularCdkFeature(options.adapterConfig, 'active-descendant');
 
-  if (useAngularCdk) {
-    // Phase 1 scaffold: Angular CDK ActiveDescendantKeyManager wiring lands in Phase 3.
-    return createActiveDescendantController(options.activeDescendant);
+  if (useAngularCdk && options.angularCdk?.createActiveDescendantController !== undefined) {
+    return options.angularCdk.createActiveDescendantController(options.activeDescendant);
   }
 
   return createActiveDescendantController(options.activeDescendant);
@@ -67,9 +74,8 @@ export function createTypeaheadAdapter(
 ): TngTypeaheadController {
   const useAngularCdk = shouldUseAngularCdkFeature(options.adapterConfig, 'typeahead');
 
-  if (useAngularCdk) {
-    // Phase 1 scaffold: Angular CDK ListKeyManager typeahead wiring lands in Phase 3.
-    return createTypeaheadController(options.typeahead);
+  if (useAngularCdk && options.angularCdk?.createTypeaheadController !== undefined) {
+    return options.angularCdk.createTypeaheadController(options.typeahead);
   }
 
   return createTypeaheadController(options.typeahead);
