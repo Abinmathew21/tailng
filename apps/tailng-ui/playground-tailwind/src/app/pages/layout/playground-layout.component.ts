@@ -1,7 +1,6 @@
 import { DOCUMENT } from '@angular/common';
 import {
   Component,
-  ElementRef,
   HostListener,
   computed,
   effect,
@@ -9,6 +8,7 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
+import type { ElementRef } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import {
   NavigationEnd,
@@ -17,7 +17,8 @@ import {
   RouterLinkActive,
   RouterOutlet,
 } from '@angular/router';
-import { filter, map, startWith } from 'rxjs';
+import { TngAccordion, TngToggle } from '@tailng-ui/components';
+import { TngIcon } from '@tailng-ui/icons';
 import {
   TngBreadcrumb,
   TngBreadcrumbItem,
@@ -26,8 +27,14 @@ import {
   TngBreadcrumbSeparator,
   TngMenu,
 } from '@tailng-ui/primitives';
-import { TngAccordion, TngToggle } from '@tailng-ui/components';
-import { TngIcon } from '@tailng-ui/icons';
+import {
+  ALL_PLAYGROUND_ITEMS,
+  CATEGORY_LABELS,
+  CATEGORY_ORDER,
+  type TngCategoryGroup,
+  type TngPlaygroundCategory,
+  type TngPlaygroundItem,
+} from '@tailng-ui/registry';
 import {
   createTheme,
   darkSemanticTokens,
@@ -37,14 +44,7 @@ import {
   toCssVars,
 } from '@tailng-ui/theme';
 import type { ThemeDefinition, ThemeSemanticTokens } from '@tailng-ui/theme';
-import {
-  ALL_PLAYGROUND_ITEMS,
-  CATEGORY_LABELS,
-  CATEGORY_ORDER,
-  type TngCategoryGroup,
-  type TngPlaygroundCategory,
-  type TngPlaygroundItem,
-} from '@tailng-ui/registry';
+import { filter, map, startWith } from 'rxjs';
 
 type PresetId = 'default' | 'minimal';
 
@@ -240,7 +240,7 @@ export class PlaygroundLayoutComponent {
   }
 
   protected onOptionSelect(path: string): void {
-    this.router.navigateByUrl(path);
+    void this.router.navigateByUrl(path);
   }
 
   protected onMenuKeydown(path: string, event: KeyboardEvent): void {

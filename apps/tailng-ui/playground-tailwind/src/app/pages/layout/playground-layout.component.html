@@ -107,6 +107,8 @@
                     role="menuitem"
                     tabindex="0"
                     (click)="onPresetSelect(preset.id); $event.stopPropagation()"
+                    (keydown.enter)="onPresetSelect(preset.id); $event.stopPropagation()"
+                    (keydown.space)="onPresetSelect(preset.id); $event.stopPropagation()"
                     class="cursor-pointer rounded-md px-3 py-2 text-sm text-tng-fg-primary transition-colors duration-150 hover:bg-tng-bg-muted focus:bg-tng-bg-muted focus:outline-none"
                     [class.font-semibold]="selectedPreset() === preset.id"
                     [class.text-tng-accent-brand]="selectedPreset() === preset.id"

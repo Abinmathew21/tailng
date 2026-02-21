@@ -1,7 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { TngToggle } from '@tailng-ui/components';
-import { TngToggle as TngTogglePrimitive } from '@tailng-ui/primitives';
 import { TngIcon } from '@tailng-ui/icons';
+import { TngToggle as TngTogglePrimitive } from '@tailng-ui/primitives';
 
 @Component({
   selector: 'app-toggle-playground-page',

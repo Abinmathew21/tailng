@@ -1,6 +1,12 @@
 <div class="layout">
   <aside class="left-panel">
-    <a class="logo-section" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" aria-label="TailNG Home">
+    <a
+      class="logo-section"
+      routerLink="/"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      aria-label="TailNG Home"
+    >
       <img src="logo.svg" alt="" class="logo" />
       <span class="brand-name">TailNG</span>
     </a>
@@ -90,6 +96,8 @@
                     class="theme-preset-item"
                     [class.theme-preset-item--active]="selectedPreset() === preset.id"
                     (click)="onPresetSelect(preset.id); $event.stopPropagation()"
+                    (keydown.enter)="onPresetSelect(preset.id); $event.stopPropagation()"
+                    (keydown.space)="onPresetSelect(preset.id); $event.stopPropagation()"
                   >
                     {{ preset.label }}
                   </li>
