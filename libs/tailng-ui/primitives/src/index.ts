@@ -25,6 +25,7 @@ export * from './lib/tree/tng-tree';
 export * from './lib/drawer/tng-drawer';
 export * from './lib/bottom-sheet/tng-bottom-sheet';
 export * from './lib/input-otp/tng-input-otp';
+export * from './lib/badge/tng-badge';
 export * from './lib/tag/tng-tag';
 export * from './lib/button/tng-button';
 export * from './lib/card/tng-card';

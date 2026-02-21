@@ -90,7 +90,9 @@ it('tailng cli integration: add writes accordion source files', async (): Promis
     await pathExists(path.join(targetRoot, 'src/app/tailng-ui/accordion/tng-accordion.ts')),
   ).toBe(true);
   expect(
-    await pathExists(path.join(targetRoot, 'src/app/tailng-ui/accordion/tng-accordion-primitive.ts')),
+    await pathExists(
+      path.join(targetRoot, 'src/app/tailng-ui/accordion/tng-accordion-primitive.ts'),
+    ),
   ).toBe(true);
 });
 
@@ -126,7 +128,6 @@ it('tailng cli integration: add writes dropdown-menu source files', async (): Pr
   ).toBe(true);
 });
 
-
 it('tailng cli integration: add writes context-menu source files', async (): Promise<void> => {
   const targetRoot = await createTargetRoot();
 
@@ -135,9 +136,13 @@ it('tailng cli integration: add writes context-menu source files', async (): Pro
   });
 
   expect(exitCode).toBe(0);
-  expect(await pathExists(path.join(targetRoot, 'src/app/tailng-ui/context-menu/tng-context-menu.ts'))).toBe(true);
   expect(
-    await pathExists(path.join(targetRoot, 'src/app/tailng-ui/context-menu/tng-context-menu-primitive.ts')),
+    await pathExists(path.join(targetRoot, 'src/app/tailng-ui/context-menu/tng-context-menu.ts')),
+  ).toBe(true);
+  expect(
+    await pathExists(
+      path.join(targetRoot, 'src/app/tailng-ui/context-menu/tng-context-menu-primitive.ts'),
+    ),
   ).toBe(true);
 });
 
@@ -149,7 +154,9 @@ it('tailng cli integration: add writes menubar source files', async (): Promise<
   });
 
   expect(exitCode).toBe(0);
-  expect(await pathExists(path.join(targetRoot, 'src/app/tailng-ui/menubar/tng-menubar.ts'))).toBe(true);
+  expect(await pathExists(path.join(targetRoot, 'src/app/tailng-ui/menubar/tng-menubar.ts'))).toBe(
+    true,
+  );
   expect(
     await pathExists(path.join(targetRoot, 'src/app/tailng-ui/menubar/tng-menubar-primitive.ts')),
   ).toBe(true);
@@ -163,9 +170,15 @@ it('tailng cli integration: add writes navigation-menu source files', async (): 
   });
 
   expect(exitCode).toBe(0);
-  expect(await pathExists(path.join(targetRoot, 'src/app/tailng-ui/navigation-menu/tng-navigation-menu.ts'))).toBe(true);
   expect(
-    await pathExists(path.join(targetRoot, 'src/app/tailng-ui/navigation-menu/tng-navigation-menu-primitive.ts')),
+    await pathExists(
+      path.join(targetRoot, 'src/app/tailng-ui/navigation-menu/tng-navigation-menu.ts'),
+    ),
+  ).toBe(true);
+  expect(
+    await pathExists(
+      path.join(targetRoot, 'src/app/tailng-ui/navigation-menu/tng-navigation-menu-primitive.ts'),
+    ),
   ).toBe(true);
 });
 
@@ -177,7 +190,9 @@ it('tailng cli integration: add writes toolbar source files', async (): Promise<
   });
 
   expect(exitCode).toBe(0);
-  expect(await pathExists(path.join(targetRoot, 'src/app/tailng-ui/toolbar/tng-toolbar.ts'))).toBe(true);
+  expect(await pathExists(path.join(targetRoot, 'src/app/tailng-ui/toolbar/tng-toolbar.ts'))).toBe(
+    true,
+  );
   expect(
     await pathExists(path.join(targetRoot, 'src/app/tailng-ui/toolbar/tng-toolbar-primitive.ts')),
   ).toBe(true);
@@ -205,7 +220,9 @@ it('tailng cli integration: add writes stepper source files', async (): Promise<
   });
 
   expect(exitCode).toBe(0);
-  expect(await pathExists(path.join(targetRoot, 'src/app/tailng-ui/stepper/tng-stepper.ts'))).toBe(true);
+  expect(await pathExists(path.join(targetRoot, 'src/app/tailng-ui/stepper/tng-stepper.ts'))).toBe(
+    true,
+  );
   expect(
     await pathExists(path.join(targetRoot, 'src/app/tailng-ui/stepper/tng-stepper-primitive.ts')),
   ).toBe(true);
@@ -219,9 +236,13 @@ it('tailng cli integration: add writes toggle-group source files', async (): Pro
   });
 
   expect(exitCode).toBe(0);
-  expect(await pathExists(path.join(targetRoot, 'src/app/tailng-ui/toggle-group/tng-toggle-group.ts'))).toBe(true);
   expect(
-    await pathExists(path.join(targetRoot, 'src/app/tailng-ui/toggle-group/tng-toggle-group-primitive.ts')),
+    await pathExists(path.join(targetRoot, 'src/app/tailng-ui/toggle-group/tng-toggle-group.ts')),
+  ).toBe(true);
+  expect(
+    await pathExists(
+      path.join(targetRoot, 'src/app/tailng-ui/toggle-group/tng-toggle-group-primitive.ts'),
+    ),
   ).toBe(true);
 });
 
@@ -233,7 +254,9 @@ it('tailng cli integration: add writes chips source files', async (): Promise<vo
   });
 
   expect(exitCode).toBe(0);
-  expect(await pathExists(path.join(targetRoot, 'src/app/tailng-ui/chips/tng-chips.ts'))).toBe(true);
+  expect(await pathExists(path.join(targetRoot, 'src/app/tailng-ui/chips/tng-chips.ts'))).toBe(
+    true,
+  );
   expect(
     await pathExists(path.join(targetRoot, 'src/app/tailng-ui/chips/tng-chips-primitive.ts')),
   ).toBe(true);
@@ -247,7 +270,9 @@ it('tailng cli integration: add writes combobox source files', async (): Promise
   });
 
   expect(exitCode).toBe(0);
-  expect(await pathExists(path.join(targetRoot, 'src/app/tailng-ui/combobox/tng-combobox.ts'))).toBe(true);
+  expect(
+    await pathExists(path.join(targetRoot, 'src/app/tailng-ui/combobox/tng-combobox.ts')),
+  ).toBe(true);
   expect(
     await pathExists(path.join(targetRoot, 'src/app/tailng-ui/combobox/tng-combobox-primitive.ts')),
   ).toBe(true);
@@ -261,7 +286,9 @@ it('tailng cli integration: add writes select source files', async (): Promise<v
   });
 
   expect(exitCode).toBe(0);
-  expect(await pathExists(path.join(targetRoot, 'src/app/tailng-ui/select/tng-select.ts'))).toBe(true);
+  expect(await pathExists(path.join(targetRoot, 'src/app/tailng-ui/select/tng-select.ts'))).toBe(
+    true,
+  );
   expect(
     await pathExists(path.join(targetRoot, 'src/app/tailng-ui/select/tng-select-primitive.ts')),
   ).toBe(true);
@@ -275,9 +302,13 @@ it('tailng cli integration: add writes autocomplete source files', async (): Pro
   });
 
   expect(exitCode).toBe(0);
-  expect(await pathExists(path.join(targetRoot, 'src/app/tailng-ui/autocomplete/tng-autocomplete.ts'))).toBe(true);
   expect(
-    await pathExists(path.join(targetRoot, 'src/app/tailng-ui/autocomplete/tng-autocomplete-primitive.ts')),
+    await pathExists(path.join(targetRoot, 'src/app/tailng-ui/autocomplete/tng-autocomplete.ts')),
+  ).toBe(true);
+  expect(
+    await pathExists(
+      path.join(targetRoot, 'src/app/tailng-ui/autocomplete/tng-autocomplete-primitive.ts'),
+    ),
   ).toBe(true);
 });
 
@@ -289,9 +320,13 @@ it('tailng cli integration: add writes multiselect source files', async (): Prom
   });
 
   expect(exitCode).toBe(0);
-  expect(await pathExists(path.join(targetRoot, 'src/app/tailng-ui/multiselect/tng-multiselect.ts'))).toBe(true);
   expect(
-    await pathExists(path.join(targetRoot, 'src/app/tailng-ui/multiselect/tng-multiselect-primitive.ts')),
+    await pathExists(path.join(targetRoot, 'src/app/tailng-ui/multiselect/tng-multiselect.ts')),
+  ).toBe(true);
+  expect(
+    await pathExists(
+      path.join(targetRoot, 'src/app/tailng-ui/multiselect/tng-multiselect-primitive.ts'),
+    ),
   ).toBe(true);
 });
 
@@ -331,7 +366,9 @@ it('tailng cli integration: add writes drawer source files', async (): Promise<v
   });
 
   expect(exitCode).toBe(0);
-  expect(await pathExists(path.join(targetRoot, 'src/app/tailng-ui/drawer/tng-drawer.ts'))).toBe(true);
+  expect(await pathExists(path.join(targetRoot, 'src/app/tailng-ui/drawer/tng-drawer.ts'))).toBe(
+    true,
+  );
   expect(
     await pathExists(path.join(targetRoot, 'src/app/tailng-ui/drawer/tng-drawer-primitive.ts')),
   ).toBe(true);
@@ -345,9 +382,13 @@ it('tailng cli integration: add writes bottom-sheet source files', async (): Pro
   });
 
   expect(exitCode).toBe(0);
-  expect(await pathExists(path.join(targetRoot, 'src/app/tailng-ui/bottom-sheet/tng-bottom-sheet.ts'))).toBe(true);
   expect(
-    await pathExists(path.join(targetRoot, 'src/app/tailng-ui/bottom-sheet/tng-bottom-sheet-primitive.ts')),
+    await pathExists(path.join(targetRoot, 'src/app/tailng-ui/bottom-sheet/tng-bottom-sheet.ts')),
+  ).toBe(true);
+  expect(
+    await pathExists(
+      path.join(targetRoot, 'src/app/tailng-ui/bottom-sheet/tng-bottom-sheet-primitive.ts'),
+    ),
   ).toBe(true);
 });
 it('tailng cli integration: add writes avatar source files', async (): Promise<void> => {
@@ -377,6 +418,22 @@ it('tailng cli integration: add writes tag source files', async (): Promise<void
   expect(await pathExists(path.join(targetRoot, 'src/app/tailng-ui/tag/tng-tag.ts'))).toBe(true);
   expect(
     await pathExists(path.join(targetRoot, 'src/app/tailng-ui/tag/tng-tag-primitive.ts')),
+  ).toBe(true);
+});
+
+it('tailng cli integration: add writes badge source files', async (): Promise<void> => {
+  const targetRoot = await createTargetRoot();
+
+  const exitCode = await runCli(['add', 'badge', '--cwd', targetRoot], {
+    registry: registryModule,
+  });
+
+  expect(exitCode).toBe(0);
+  expect(await pathExists(path.join(targetRoot, 'src/app/tailng-ui/badge/tng-badge.ts'))).toBe(
+    true,
+  );
+  expect(
+    await pathExists(path.join(targetRoot, 'src/app/tailng-ui/badge/tng-badge-primitive.ts')),
   ).toBe(true);
 });
 
@@ -462,10 +519,7 @@ it('tailng cli integration: add writes progress-spinner source files', async ():
   ).toBe(true);
   expect(
     await pathExists(
-      path.join(
-        targetRoot,
-        'src/app/tailng-ui/progress-spinner/tng-progress-spinner-primitive.ts',
-      ),
+      path.join(targetRoot, 'src/app/tailng-ui/progress-spinner/tng-progress-spinner-primitive.ts'),
     ),
   ).toBe(true);
 });
@@ -482,7 +536,9 @@ it('tailng cli integration: add writes separator source files', async (): Promis
     await pathExists(path.join(targetRoot, 'src/app/tailng-ui/separator/tng-separator.ts')),
   ).toBe(true);
   expect(
-    await pathExists(path.join(targetRoot, 'src/app/tailng-ui/separator/tng-separator-primitive.ts')),
+    await pathExists(
+      path.join(targetRoot, 'src/app/tailng-ui/separator/tng-separator-primitive.ts'),
+    ),
   ).toBe(true);
 });
 
@@ -534,10 +590,7 @@ it('tailng cli integration: add writes popover source files', async (): Promise<
   expect(exitCode).toBe(0);
 
   const popoverTsPath = path.join(targetRoot, 'src/app/tailng-ui/popover/tng-popover.ts');
-  const primitivePath = path.join(
-    targetRoot,
-    'src/app/tailng-ui/popover/tng-popover-primitive.ts',
-  );
+  const primitivePath = path.join(targetRoot, 'src/app/tailng-ui/popover/tng-popover-primitive.ts');
   const htmlPath = path.join(targetRoot, 'src/app/tailng-ui/popover/tng-popover.html');
 
   expect(await pathExists(popoverTsPath)).toBe(true);

@@ -1,0 +1,61 @@
+<main class="page">
+  <section class="container">
+    <header class="hero">
+      <div class="links">
+        <a routerLink="/">Home</a>
+        <a routerLink="/tag">Tag Demo</a>
+      </div>
+      <h1 class="title">Badge Demo (Vanilla CSS)</h1>
+      <p class="subtitle">
+        Material-style notification badges anchored to host elements with per-instance class and
+        style overrides.
+      </p>
+    </header>
+
+    <section class="card">
+      <h2>Default</h2>
+      <div class="row">
+        <button type="button" [tngBadge]="7" class="host">Inbox</button>
+        <button type="button" [tngBadge]="103" [tngBadgeMax]="99" class="host">
+          Notifications
+        </button>
+        <button type="button" [tngBadge]="null" [tngBadgeDot]="true" class="host">Presence</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Tone, Position, and Micro Styling</h2>
+      <div class="row">
+        <button
+          type="button"
+          [tngBadge]="12"
+          tngBadgeTone="success"
+          tngBadgePosition="top-start"
+          class="host"
+        >
+          Deployments
+        </button>
+
+        <button
+          type="button"
+          [tngBadge]="3"
+          tngBadgeTone="warning"
+          tngBadgePosition="bottom-end"
+          class="host"
+        >
+          Warnings
+        </button>
+
+        <button
+          type="button"
+          [tngBadge]="9"
+          [tngBadgeClass]="'shadow ring'"
+          [tngBadgeStyle]="customBadgeStyle"
+          class="host"
+        >
+          Custom
+        </button>
+      </div>
+    </section>
+  </section>
+</main>

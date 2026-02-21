@@ -1,0 +1,430 @@
+import {
+  booleanAttribute,
+  Directive,
+  effect,
+  ElementRef,
+  inject,
+  input,
+  type OnDestroy,
+  Renderer2,
+} from '@angular/core';
+
+const badgePositions = ['bottom-end', 'bottom-start', 'top-end', 'top-start'] as const;
+const badgeSizes = ['lg', 'md', 'sm'] as const;
+const badgeTones = ['danger', 'info', 'neutral', 'success', 'warning'] as const;
+
+const badgePositionSet = new Set<TngBadgePosition>(badgePositions);
+const badgeSizeSet = new Set<TngBadgeSize>(badgeSizes);
+const badgeToneSet = new Set<TngBadgeTone>(badgeTones);
+
+const defaultBadgeMax = 99;
+const defaultBadgePosition: TngBadgePosition = 'top-end';
+const defaultBadgeSize: TngBadgeSize = 'md';
+const defaultBadgeTone: TngBadgeTone = 'danger';
+
+export type TngBadgePosition = (typeof badgePositions)[number];
+export type TngBadgeSize = (typeof badgeSizes)[number];
+export type TngBadgeStyleMap = Readonly<Record<string, number | string>>;
+export type TngBadgeTone = (typeof badgeTones)[number];
+
+type TngBadgeToneColors = Readonly<{
+  background: string;
+  foreground: string;
+}>;
+
+type TngResolvedBadgePlacement = Readonly<{
+  bottom: string | null;
+  left: string | null;
+  right: string | null;
+  top: string | null;
+  transform: string;
+}>;
+
+function isNonEmptyText(value: string): boolean {
+  return value.trim().length > 0;
+}
+
+function toNumber(value: number | string): number {
+  return typeof value === 'number' ? value : Number(value);
+}
+
+function toRoundedNonNegative(value: number): number {
+  return Math.max(0, Math.round(value));
+}
+
+export function normalizeTngBadgeMax(value: number): number {
+  if (!Number.isFinite(value)) {
+    return defaultBadgeMax;
+  }
+
+  return toRoundedNonNegative(value);
+}
+
+export function coerceTngBadgeMax(value: number | string): number {
+  return normalizeTngBadgeMax(toNumber(value));
+}
+
+export function coerceTngBadgePosition(value: string): TngBadgePosition {
+  if (badgePositionSet.has(value as TngBadgePosition)) {
+    return value as TngBadgePosition;
+  }
+
+  return defaultBadgePosition;
+}
+
+export function coerceTngBadgeSize(value: string): TngBadgeSize {
+  if (badgeSizeSet.has(value as TngBadgeSize)) {
+    return value as TngBadgeSize;
+  }
+
+  return defaultBadgeSize;
+}
+
+export function coerceTngBadgeTone(value: string): TngBadgeTone {
+  if (badgeToneSet.has(value as TngBadgeTone)) {
+    return value as TngBadgeTone;
+  }
+
+  return defaultBadgeTone;
+}
+
+export function resolveTngBadgeContent(
+  value: number | string | null | undefined,
+  max: number,
+  dot: boolean,
+): string {
+  if (dot || value === null || value === undefined) {
+    return '';
+  }
+
+  if (typeof value === 'number') {
+    if (!Number.isFinite(value)) {
+      return '';
+    }
+
+    const normalized = toRoundedNonNegative(value);
+    if (normalized > max) {
+      return `${max}+`;
+    }
+
+    return String(normalized);
+  }
+
+  return isNonEmptyText(value) ? value.trim() : '';
+}
+
+export function resolveTngBadgePlacement(position: TngBadgePosition): TngResolvedBadgePlacement {
+  if (position === 'top-start') {
+    return { bottom: null, left: '0', right: null, top: '0', transform: 'translate(-50%, -50%)' };
+  }
+
+  if (position === 'bottom-start') {
+    return { bottom: '0', left: '0', right: null, top: null, transform: 'translate(-50%, 50%)' };
+  }
+
+  if (position === 'bottom-end') {
+    return { bottom: '0', left: null, right: '0', top: null, transform: 'translate(50%, 50%)' };
+  }
+
+  return { bottom: null, left: null, right: '0', top: '0', transform: 'translate(50%, -50%)' };
+}
+
+export function toTngBadgeCssLength(value: number | string | null | undefined): string | null {
+  if (value === null || value === undefined) {
+    return null;
+  }
+
+  if (typeof value === 'number') {
+    if (!Number.isFinite(value)) {
+      return null;
+    }
+
+    return `${value}px`;
+  }
+
+  return isNonEmptyText(value) ? value.trim() : null;
+}
+
+function resolveTngBadgeToneColors(tone: TngBadgeTone): TngBadgeToneColors {
+  if (tone === 'success') {
+    return { background: '#16a34a', foreground: '#f0fdf4' };
+  }
+
+  if (tone === 'warning') {
+    return { background: '#d97706', foreground: '#fffbeb' };
+  }
+
+  if (tone === 'danger') {
+    return { background: '#dc2626', foreground: '#fef2f2' };
+  }
+
+  if (tone === 'neutral') {
+    return { background: '#334155', foreground: '#f8fafc' };
+  }
+
+  return { background: '#2563eb', foreground: '#eff6ff' };
+}
+
+function hasVisibleBadge(hidden: boolean, dot: boolean, content: string): boolean {
+  if (hidden) {
+    return false;
+  }
+
+  return dot || content.length > 0;
+}
+
+@Directive({
+  selector: '[tngBadge]',
+  exportAs: 'tngBadge',
+})
+export class TngBadge implements OnDestroy {
+  public readonly tngBadge = input<number | string | null | undefined>(null);
+  public readonly tngBadgeClass = input<string | null | undefined>(null);
+  public readonly tngBadgeStyle = input<TngBadgeStyleMap | null | undefined>(null);
+  public readonly tngBadgeDot = input<boolean, boolean | string>(false, {
+    transform: booleanAttribute,
+  });
+  public readonly tngBadgeHidden = input<boolean, boolean | string>(false, {
+    transform: booleanAttribute,
+  });
+  public readonly tngBadgeMax = input<number, number | string>(defaultBadgeMax, {
+    transform: coerceTngBadgeMax,
+  });
+  public readonly tngBadgeOffsetX = input<number | string | null | undefined>(null);
+  public readonly tngBadgeOffsetY = input<number | string | null | undefined>(null);
+  public readonly tngBadgePosition = input<TngBadgePosition, string>(defaultBadgePosition, {
+    transform: coerceTngBadgePosition,
+  });
+  public readonly tngBadgeSize = input<TngBadgeSize, string>(defaultBadgeSize, {
+    transform: coerceTngBadgeSize,
+  });
+  public readonly tngBadgeTone = input<TngBadgeTone, string>(defaultBadgeTone, {
+    transform: coerceTngBadgeTone,
+  });
+
+  private readonly hostElement = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
+  private readonly renderer = inject(Renderer2);
+  private badgeElement: HTMLElement | null = null;
+  private readonly customStyleKeys = new Set<string>();
+
+  public constructor() {
+    this.configureHost();
+    effect((): void => {
+      this.renderBadge();
+    });
+  }
+
+  public ngOnDestroy(): void {
+    this.destroyBadge();
+  }
+
+  private configureHost(): void {
+    this.renderer.addClass(this.hostElement, 'tng-badge-host');
+    this.renderer.setAttribute(this.hostElement, 'data-tng-badge-host', '');
+
+    if (this.hostElement.style.position.length === 0) {
+      this.renderer.setStyle(this.hostElement, 'position', 'relative');
+    }
+  }
+
+  private renderBadge(): void {
+    const content = resolveTngBadgeContent(this.tngBadge(), this.tngBadgeMax(), this.tngBadgeDot());
+    if (!hasVisibleBadge(this.tngBadgeHidden(), this.tngBadgeDot(), content)) {
+      this.destroyBadge();
+      return;
+    }
+
+    this.ensureBadgeElement();
+    this.patchBadgeClasses();
+    this.patchBadgeAttributes();
+    this.patchBadgePlacement();
+    this.patchBadgeVisualStyles();
+    this.patchBadgeCustomStyles();
+    this.patchBadgeContent(content);
+  }
+
+  private ensureBadgeElement(): HTMLElement {
+    if (this.badgeElement !== null) {
+      return this.badgeElement;
+    }
+
+    const badgeElement = this.renderer.createElement('span') as HTMLElement;
+    this.renderer.appendChild(this.hostElement, badgeElement);
+    this.badgeElement = badgeElement;
+    return badgeElement;
+  }
+
+  private destroyBadge(): void {
+    if (this.badgeElement === null) {
+      return;
+    }
+
+    this.renderer.removeChild(this.hostElement, this.badgeElement);
+    this.badgeElement = null;
+    this.customStyleKeys.clear();
+  }
+
+  private patchBadgeAttributes(): void {
+    if (this.badgeElement === null) {
+      return;
+    }
+
+    const badgeElement = this.badgeElement;
+    this.renderer.setAttribute(badgeElement, 'aria-hidden', 'true');
+    this.renderer.setAttribute(badgeElement, 'data-position', this.tngBadgePosition());
+    this.renderer.setAttribute(badgeElement, 'data-size', this.tngBadgeSize());
+    this.renderer.setAttribute(badgeElement, 'data-slot', 'badge');
+    this.renderer.setAttribute(badgeElement, 'data-tone', this.tngBadgeTone());
+
+    if (this.tngBadgeDot()) {
+      this.renderer.setAttribute(badgeElement, 'data-dot', '');
+      return;
+    }
+
+    this.renderer.removeAttribute(badgeElement, 'data-dot');
+  }
+
+  private patchBadgeClasses(): void {
+    if (this.badgeElement === null) {
+      return;
+    }
+
+    const badgeElement = this.badgeElement;
+    const className = this.tngBadgeClass() ?? '';
+    const normalizedClassName = className.trim();
+    const classes =
+      normalizedClassName.length > 0 ? `tng-badge ${normalizedClassName}` : 'tng-badge';
+    this.renderer.setAttribute(badgeElement, 'class', classes);
+  }
+
+  private patchBadgeContent(content: string): void {
+    if (this.badgeElement === null) {
+      return;
+    }
+
+    this.renderer.setProperty(this.badgeElement, 'textContent', content);
+  }
+
+  private patchBadgeCustomStyles(): void {
+    if (this.badgeElement === null) {
+      return;
+    }
+
+    const badgeElement = this.badgeElement;
+    const nextStyleKeys = new Set<string>();
+    const styleMap = this.tngBadgeStyle();
+    if (styleMap !== null && styleMap !== undefined) {
+      for (const [key, value] of Object.entries(styleMap)) {
+        this.renderer.setStyle(badgeElement, key, String(value));
+        nextStyleKeys.add(key);
+      }
+    }
+
+    for (const key of this.customStyleKeys) {
+      if (!nextStyleKeys.has(key)) {
+        this.renderer.removeStyle(badgeElement, key);
+      }
+    }
+
+    this.customStyleKeys.clear();
+    for (const key of nextStyleKeys) {
+      this.customStyleKeys.add(key);
+    }
+  }
+
+  private patchBadgePlacement(): void {
+    if (this.badgeElement === null) {
+      return;
+    }
+
+    const placement = resolveTngBadgePlacement(this.tngBadgePosition());
+    this.setNullableStyle('bottom', placement.bottom);
+    this.setNullableStyle('left', placement.left);
+    this.setNullableStyle('right', placement.right);
+    this.setNullableStyle('top', placement.top);
+
+    const offsetX = toTngBadgeCssLength(this.tngBadgeOffsetX()) ?? '0px';
+    const offsetY = toTngBadgeCssLength(this.tngBadgeOffsetY()) ?? '0px';
+    const transform = `${placement.transform} translate(${offsetX}, ${offsetY})`;
+    this.renderer.setStyle(this.badgeElement, 'transform', transform);
+  }
+
+  private patchBadgeVisualStyles(): void {
+    if (this.badgeElement === null) {
+      return;
+    }
+
+    const badgeElement = this.badgeElement;
+    const toneColors = resolveTngBadgeToneColors(this.tngBadgeTone());
+    const sharedStyles = this.resolveSharedStyles(toneColors);
+    for (const [property, value] of sharedStyles) {
+      this.renderer.setStyle(badgeElement, property, value);
+    }
+
+    if (this.tngBadgeDot()) {
+      this.patchDotStyles();
+      return;
+    }
+
+    this.patchContentStyles();
+  }
+
+  private patchContentStyles(): void {
+    if (this.badgeElement === null) {
+      return;
+    }
+
+    this.renderer.setStyle(this.badgeElement, 'height', 'var(--tng-badge-size, 1.125rem)');
+    this.renderer.setStyle(this.badgeElement, 'min-width', 'var(--tng-badge-size, 1.125rem)');
+    this.renderer.setStyle(
+      this.badgeElement,
+      'padding-inline',
+      'var(--tng-badge-padding-x, 0.3rem)',
+    );
+  }
+
+  private patchDotStyles(): void {
+    if (this.badgeElement === null) {
+      return;
+    }
+
+    this.renderer.setStyle(this.badgeElement, 'height', 'var(--tng-badge-dot-size, 0.625rem)');
+    this.renderer.setStyle(this.badgeElement, 'min-width', 'var(--tng-badge-dot-size, 0.625rem)');
+    this.renderer.setStyle(this.badgeElement, 'padding-inline', '0');
+  }
+
+  private resolveSharedStyles(
+    toneColors: TngBadgeToneColors,
+  ): readonly Readonly<[string, string]>[] {
+    return [
+      ['align-items', 'center'],
+      ['background', `var(--tng-badge-bg, ${toneColors.background})`],
+      ['border-radius', 'var(--tng-badge-radius, 9999px)'],
+      ['box-sizing', 'border-box'],
+      ['color', `var(--tng-badge-fg, ${toneColors.foreground})`],
+      ['display', 'inline-flex'],
+      ['font-size', 'var(--tng-badge-font-size, 0.7rem)'],
+      ['font-weight', 'var(--tng-badge-font-weight, 700)'],
+      ['inset', 'auto'],
+      ['justify-content', 'center'],
+      ['line-height', '1'],
+      ['pointer-events', 'none'],
+      ['position', 'absolute'],
+      ['white-space', 'nowrap'],
+      ['z-index', 'var(--tng-badge-z-index, 1)'],
+    ];
+  }
+
+  private setNullableStyle(property: string, value: string | null): void {
+    if (this.badgeElement === null) {
+      return;
+    }
+
+    if (value === null) {
+      this.renderer.removeStyle(this.badgeElement, property);
+      return;
+    }
+
+    this.renderer.setStyle(this.badgeElement, property, value);
+  }
+}
