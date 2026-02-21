@@ -1,0 +1,44 @@
+<main class="page">
+  <section class="container">
+    <header class="hero">
+      <div class="links">
+        <a routerLink="/">Home</a>
+      </div>
+      <h1 class="title">Toggle Demo (Vanilla CSS)</h1>
+      <p class="subtitle">
+        Icon-oriented toggle button using <code>aria-pressed</code> for on/off state.
+      </p>
+    </header>
+
+    <section class="card">
+      <h2>Primitives (`tngToggle`)</h2>
+      <button
+        tngToggle
+        [pressed]="primitivePressed()"
+        class="primitive-toggle"
+        [class.primitive-toggle--pressed]="primitivePressed()"
+        (click)="onPrimitiveToggle()"
+      >
+        {{ primitivePressed() ? 'ON' : 'OFF' }}
+      </button>
+    </section>
+
+    <section class="card">
+      <h2>Components (`tng-toggle`)</h2>
+      <div class="toggle-row">
+        <tng-toggle
+          [pressed]="themeModeEnabled()"
+          pressedLabel="Disable dark mode"
+          unpressedLabel="Enable dark mode"
+          (pressedChange)="onThemeModeChange($event)"
+        >
+          <span offIcon>moon</span>
+          <span onIcon>sun</span>
+        </tng-toggle>
+        <span class="mode-text">
+          Dark mode {{ themeModeEnabled() ? 'enabled' : 'disabled' }}
+        </span>
+      </div>
+    </section>
+  </section>
+</main>

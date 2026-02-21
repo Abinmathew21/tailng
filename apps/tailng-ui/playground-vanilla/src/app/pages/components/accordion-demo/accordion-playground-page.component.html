@@ -1,0 +1,32 @@
+<main class="page">
+  <section class="container">
+    <header class="hero">
+      <div class="links">
+        <a routerLink="/">Home</a>
+        <a routerLink="/dialog">Dialog Demo</a>
+      </div>
+      <h1 class="title">Accordion Demo (Vanilla CSS)</h1>
+      <p class="subtitle">Expand/collapse sections using primitive and owned component layers.</p>
+    </header>
+
+    <section class="card">
+      <h2>Primitives (`tngAccordion`)</h2>
+      <section tngAccordion class="primitive-shell">
+        <h3>Primitive container</h3>
+        <p>Use this as a semantic shell when building a fully custom accordion experience.</p>
+      </section>
+    </section>
+
+    <section class="card">
+      <h2>Components (`tng-accordion`)</h2>
+      <div class="stack">
+        <tng-accordion title="What is TailNG?">
+          TailNG is an accessibility-first Angular component system with copy-paste and package modes.
+        </tng-accordion>
+        <tng-accordion title="Does it support custom styling?">
+          Yes. Consumers can style at micro-level without framework coupling.
+        </tng-accordion>
+      </div>
+    </section>
+  </section>
+</main>

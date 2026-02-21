@@ -1,0 +1,45 @@
+<main class="page">
+  <section class="container">
+    <header class="hero">
+      <div class="links">
+        <a routerLink="/">Home</a>
+      </div>
+      <h1 class="title">Combobox Demo (Vanilla CSS)</h1>
+      <p class="subtitle">Text input combined with an options popup for guided selection.</p>
+    </header>
+
+    <section class="card">
+      <h2>Primitives (`tngCombobox`)</h2>
+      <div tngCombobox class="primitive-shell">
+        <label for="combobox-framework" class="demo-note">Framework</label>
+        <div class="demo-row">
+          <input
+            id="combobox-framework"
+            type="text"
+            role="combobox"
+            aria-expanded="true"
+            aria-controls="combo-options"
+            value="Angular"
+            class="demo-input"
+          />
+          <button type="button" class="demo-button">Toggle</button>
+        </div>
+        <ul id="combo-options" role="listbox" class="demo-list demo-menu">
+          <li role="option" aria-selected="true">Angular</li>
+          <li role="option" aria-selected="false">React</li>
+          <li role="option" aria-selected="false">Vue</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Components (`tng-combobox`)</h2>
+      <tng-combobox>
+        <div class="primitive-shell">
+          <p class="demo-note">Owned combobox shell with room for trigger and options.</p>
+          <div class="demo-panel">Selected: Tailwind</div>
+        </div>
+      </tng-combobox>
+    </section>
+  </section>
+</main>

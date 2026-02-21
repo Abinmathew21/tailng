@@ -1,0 +1,30 @@
+<main class="page">
+  <section class="container">
+    <header class="hero">
+      <div class="links">
+        <a routerLink="/">Home</a>
+        <a routerLink="/accordion">Accordion Demo</a>
+      </div>
+      <h1 class="title">Menu Demo (Vanilla CSS)</h1>
+      <p class="subtitle">Arrow/Home/End keyboard navigation over menuitem elements.</p>
+    </header>
+
+    <section class="card">
+      <h2>Primitives (`tngMenu`)</h2>
+      <ul tngMenu class="menu-surface">
+        <li role="menuitem" tabindex="0">Edit</li>
+        <li role="menuitem" tabindex="-1">Duplicate</li>
+        <li role="menuitem" tabindex="-1">Archive</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>Components (`tng-menu`)</h2>
+      <tng-menu ariaLabel="File actions">
+        <li role="menuitem" tabindex="0">Create file</li>
+        <li role="menuitem" tabindex="-1">Rename file</li>
+        <li role="menuitem" tabindex="-1">Delete file</li>
+      </tng-menu>
+    </section>
+  </section>
+</main>

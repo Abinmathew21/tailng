@@ -1,0 +1,63 @@
+<main class="page">
+  <section class="container">
+    <header class="hero">
+      <div class="links">
+        <a routerLink="/">Home</a>
+        <a routerLink="/theme">Theme Demo</a>
+        <a routerLink="/button">Button Demo</a>
+      </div>
+      <h1 class="title">Icon Demo (Vanilla CSS)</h1>
+      <p class="subtitle">
+        Top 10 countries by population, rendered with TailNG icon packs. Land area and nominal GDP
+        are shown as compact labels.
+      </p>
+    </header>
+
+    <section class="card table-card">
+      <div class="table-scroll">
+        <table class="ranking-table">
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>Country</th>
+              <th>Population</th>
+              <th>Land Area</th>
+              <th>Nominal GDP</th>
+              <th>People Signal</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (country of countries; track country.rank) {
+              <tr>
+                <td class="rank">#{{ country.rank }}</td>
+                <td>
+                  <div class="country-cell">
+                    <tng-icon
+                      [icon]="'flags:' + country.iso2"
+                      [label]="country.name + ' flag'"
+                      class="country-flag"
+                    />
+                    <span>{{ country.name }}</span>
+                  </div>
+                </td>
+                <td class="population">{{ country.populationLabel }}</td>
+                <td class="population">{{ country.landAreaLabel }}</td>
+                <td class="population">{{ country.gdpLabel }}</td>
+                <td>
+                  <span
+                    class="people-icons"
+                    [attr.aria-label]="'Relative rank signal for position ' + country.rank"
+                  >
+                    @for (marker of country.peopleMarkers; track marker) {
+                      <tng-icon icon="users-round" class="people-icon" />
+                    }
+                  </span>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </section>
+</main>

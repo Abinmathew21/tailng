@@ -1,0 +1,35 @@
+:host {
+  display: inline-flex;
+  width: min(22rem, 100%);
+}
+
+.tng-input {
+  appearance: none;
+  background: var(--tng-semantic-background-surface, #ffffff);
+  border: 1px solid var(--tng-semantic-border-strong, #64748b);
+  border-radius: 0.6rem;
+  color: var(--tng-semantic-foreground-primary, #0f172a);
+  font: inherit;
+  min-height: 2.5rem;
+  padding: 0 0.85rem;
+  width: 100%;
+}
+
+.tng-input::placeholder {
+  color: var(--tng-semantic-foreground-muted, #64748b);
+}
+
+.tng-input:focus-visible {
+  box-shadow: 0 0 0 3px var(--tng-semantic-focus-ring, #60a5fa);
+  outline: none;
+}
+
+.tng-input[data-invalid] {
+  border-color: var(--tng-semantic-accent-danger, #dc2626);
+}
+
+.tng-input:disabled,
+.tng-input[data-disabled] {
+  cursor: not-allowed;
+  opacity: 0.6;
+}

@@ -1,0 +1,161 @@
+:host {
+  display: block;
+}
+
+.page {
+  background: #020617;
+  color: #e2e8f0;
+  min-height: 100vh;
+  padding: 2rem 1rem;
+}
+
+.container {
+  margin: 0 auto;
+  max-width: 72rem;
+}
+
+.hero {
+  display: grid;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+
+.links a {
+  border: 1px solid #475569;
+  border-radius: 0.6rem;
+  color: #cbd5e1;
+  font-size: 0.9rem;
+  padding: 0.35rem 0.7rem;
+  text-decoration: none;
+}
+
+.title {
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
+  margin: 0;
+}
+
+.subtitle {
+  color: #94a3b8;
+  margin: 0;
+  max-width: 62ch;
+}
+
+.card {
+  background: #0f172a;
+  border: 1px solid #475569;
+  border-radius: 1rem;
+  padding: 1rem;
+}
+
+.toolbar {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+
+.toolbar p {
+  color: #cbd5e1;
+  font-size: 0.92rem;
+  margin: 0;
+}
+
+.toolbar strong {
+  color: #67e8f9;
+}
+
+.field-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+@media (min-width: 860px) {
+  .field-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.field {
+  color: #cbd5e1;
+  display: grid;
+  font-size: 0.9rem;
+  font-weight: 600;
+  gap: 0.5rem;
+}
+
+.listbox-card {
+  background: #020617;
+  border: 1px solid #475569;
+  border-radius: 0.8rem;
+  display: grid;
+  gap: 0.65rem;
+  padding: 0.8rem;
+}
+
+.listbox-card h2 {
+  font-size: 0.92rem;
+  margin: 0;
+}
+
+.listbox-card p {
+  color: #94a3b8;
+  font-size: 0.8rem;
+  margin: 0;
+}
+
+.listbox {
+  border: 1px solid #475569;
+  border-radius: 0.7rem;
+  display: grid;
+  gap: 0.5rem;
+  outline: none;
+  padding: 0.6rem;
+}
+
+.listbox:focus-visible {
+  box-shadow: 0 0 0 3px #22d3ee;
+}
+
+.listbox-option {
+  background: #0f172a;
+  border: 1px solid #475569;
+  border-radius: 0.6rem;
+  cursor: pointer;
+  display: grid;
+  gap: 0.3rem;
+  padding: 0.65rem;
+}
+
+.listbox-option.active {
+  border-color: #22d3ee;
+}
+
+.listbox-option.selected {
+  background: rgb(8 47 73 / 65%);
+}
+
+.option-title {
+  color: #e2e8f0;
+  font-size: 0.88rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.option-detail {
+  color: #94a3b8;
+  font-size: 0.78rem;
+  margin: 0;
+}
+
+.dialog-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  justify-content: flex-end;
+}

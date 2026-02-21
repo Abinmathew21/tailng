@@ -1,0 +1,32 @@
+<section
+  tngToastViewport
+  class="tng-toast-viewport"
+  [attr.data-mode]="mode()"
+  [attr.data-position]="position()"
+>
+  @for (toast of toasts(); track toast.id) {
+    <article
+      tngToastItem
+      class="tng-toast-item"
+      [tone]="toast.tone"
+      tabindex="0"
+      (keydown)="onToastKeydown(toast.id, $event)"
+    >
+      <div class="tng-toast-body">
+        @if (toast.title !== null) {
+          <p class="tng-toast-title">{{ toast.title }}</p>
+        }
+        <p class="tng-toast-message">{{ toast.message }}</p>
+      </div>
+
+      <button
+        type="button"
+        class="tng-toast-close"
+        aria-label="Dismiss notification"
+        (click)="dismiss(toast.id)"
+      >
+        &times;
+      </button>
+    </article>
+  }
+</section>

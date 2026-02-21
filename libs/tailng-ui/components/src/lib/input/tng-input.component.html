@@ -1,0 +1,14 @@
+<input
+  tngInput
+  class="tng-input"
+  [type]="type()"
+  [disabled]="disabled()"
+  [readonly]="readonly()"
+  [required]="required()"
+  [ariaDescribedBy]="ariaDescribedBy()"
+  [ariaInvalid]="ariaInvalid()"
+  [ariaRequired]="ariaRequired()"
+  [attr.placeholder]="placeholder()"
+  [value]="value() ?? ''"
+  (input)="onInput($event)"
+/>

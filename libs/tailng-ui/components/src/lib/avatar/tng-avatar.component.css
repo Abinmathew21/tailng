@@ -1,0 +1,73 @@
+:host {
+  display: inline-flex;
+}
+
+.tng-avatar {
+  align-items: center;
+  background: var(--tng-semantic-background-surface, #ffffff);
+  border: 1px solid var(--tng-semantic-border-strong, #64748b);
+  color: var(--tng-semantic-foreground-primary, #0f172a);
+  display: inline-flex;
+  font-size: 0.75rem;
+  font-weight: 700;
+  height: 2.5rem;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+  text-transform: uppercase;
+  width: 2.5rem;
+}
+
+.tng-avatar[data-shape='circle'] {
+  border-radius: 9999px;
+}
+
+.tng-avatar[data-shape='square'] {
+  border-radius: 0.75rem;
+}
+
+.tng-avatar[data-size='sm'] {
+  font-size: 0.625rem;
+  height: 2rem;
+  width: 2rem;
+}
+
+.tng-avatar[data-size='md'] {
+  font-size: 0.75rem;
+  height: 2.5rem;
+  width: 2.5rem;
+}
+
+.tng-avatar[data-size='lg'] {
+  font-size: 0.95rem;
+  height: 3rem;
+  width: 3rem;
+}
+
+.tng-avatar-image,
+.tng-avatar-fallback {
+  inset: 0;
+  position: absolute;
+}
+
+.tng-avatar-image {
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+
+.tng-avatar-image[hidden] {
+  display: none;
+}
+
+.tng-avatar-fallback {
+  align-items: center;
+  display: inline-flex;
+  justify-content: center;
+  letter-spacing: 0.03em;
+  width: 100%;
+}
+
+.tng-avatar-fallback[hidden] {
+  display: none;
+}

@@ -1,0 +1,18 @@
+<div tngDropdownMenu class="tng-dropdown-menu">
+  <button
+    type="button"
+    class="tng-dropdown-menu__trigger"
+    [disabled]="disabled()"
+    [attr.aria-expanded]="open()"
+    [attr.aria-haspopup]="'menu'"
+    (click)="toggleOpen()"
+  >
+    {{ label() }}
+  </button>
+
+  @if (open()) {
+    <ul role="menu" class="tng-dropdown-menu__panel">
+      <ng-content />
+    </ul>
+  }
+</div>

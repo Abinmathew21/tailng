@@ -1,0 +1,41 @@
+<main class="page">
+  <section class="container">
+    <header class="hero">
+      <div class="links">
+        <a routerLink="/">Home</a>
+      </div>
+      <h1 class="title">Select Demo (Vanilla CSS)</h1>
+      <p class="subtitle">Single-choice dropdown pattern backed by listbox semantics.</p>
+    </header>
+
+    <section class="card">
+      <h2>Primitives (`tngSelect`)</h2>
+      <div tngSelect class="primitive-shell">
+        <button
+          type="button"
+          aria-haspopup="listbox"
+          aria-expanded="true"
+          class="demo-button demo-button-block"
+        >
+          Selected: Compact
+        </button>
+        <ul role="listbox" class="demo-list demo-menu">
+          <li role="option" aria-selected="false">Comfortable</li>
+          <li role="option" aria-selected="true" class="demo-option-selected">Compact</li>
+          <li role="option" aria-selected="false">Dense</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Components (`tng-select`)</h2>
+      <tng-select>
+        <ul role="listbox" class="primitive-shell demo-list demo-menu">
+          <li role="option" aria-selected="false">Primary</li>
+          <li role="option" aria-selected="false">Secondary</li>
+          <li role="option" aria-selected="false">Tertiary</li>
+        </ul>
+      </tng-select>
+    </section>
+  </section>
+</main>

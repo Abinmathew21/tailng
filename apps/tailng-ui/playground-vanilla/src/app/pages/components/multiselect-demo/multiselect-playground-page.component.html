@@ -1,0 +1,33 @@
+<main class="page">
+  <section class="container">
+    <header class="hero">
+      <div class="links">
+        <a routerLink="/">Home</a>
+      </div>
+      <h1 class="title">Multiselect Demo (Vanilla CSS)</h1>
+      <p class="subtitle">Multiple-choice listbox selection surface with keyboard support.</p>
+    </header>
+
+    <section class="card">
+      <h2>Primitives (`tngMultiselect`)</h2>
+      <div tngMultiselect class="primitive-shell">
+        <ul role="listbox" aria-multiselectable="true" class="demo-list demo-menu">
+          <li role="option" aria-selected="true" class="demo-option-selected">Button</li>
+          <li role="option" aria-selected="false">Input</li>
+          <li role="option" aria-selected="true" class="demo-option-selected">Dialog</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Components (`tng-multiselect`)</h2>
+      <tng-multiselect>
+        <div class="primitive-shell demo-row">
+          <span class="demo-chip">Button</span>
+          <span class="demo-chip">Dialog</span>
+          <span class="demo-chip">Popover</span>
+        </div>
+      </tng-multiselect>
+    </section>
+  </section>
+</main>

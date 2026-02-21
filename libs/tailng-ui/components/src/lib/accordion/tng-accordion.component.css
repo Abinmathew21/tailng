@@ -1,0 +1,39 @@
+:host {
+  display: block;
+}
+
+.tng-accordion {
+  border: 1px solid var(--tng-semantic-border-subtle, #cbd5e1);
+  border-radius: 0.75rem;
+  overflow: hidden;
+}
+
+.tng-accordion__trigger {
+  align-items: center;
+  background: var(--tng-semantic-background-surface, #f8fafc);
+  border: 0;
+  color: var(--tng-semantic-foreground-primary, #0f172a);
+  cursor: pointer;
+  display: flex;
+  font: inherit;
+  justify-content: space-between;
+  padding: 0.8rem 1rem;
+  width: 100%;
+}
+
+.tng-accordion__trigger:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.tng-accordion__trigger:focus-visible {
+  outline: 2px solid var(--tng-semantic-focus-ring, #2563eb);
+  outline-offset: -2px;
+}
+
+.tng-accordion__panel {
+  background: var(--tng-semantic-background-base, #ffffff);
+  border-top: 1px solid var(--tng-semantic-border-subtle, #cbd5e1);
+  color: var(--tng-semantic-foreground-primary, #0f172a);
+  padding: 0.9rem 1rem;
+}

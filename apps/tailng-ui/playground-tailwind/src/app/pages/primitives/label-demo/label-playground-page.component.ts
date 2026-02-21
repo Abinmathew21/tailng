@@ -1,0 +1,18 @@
+import { Component, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { TngLabel as TngLabelComponent } from '@tailng-ui/components';
+import { TngLabel } from '@tailng-ui/primitives';
+
+@Component({
+  selector: 'app-label-playground-page',
+  imports: [RouterLink, TngLabelComponent, TngLabel],
+  templateUrl: './label-playground-page.component.html',
+  styleUrl: './label-playground-page.component.css',
+})
+export class LabelPlaygroundPageComponent {
+  public readonly componentRequired = signal(true);
+
+  public onToggleRequired(): void {
+    this.componentRequired.set(!this.componentRequired());
+  }
+}

@@ -1,0 +1,38 @@
+<main class="page">
+  <section class="container">
+    <header class="hero">
+      <div class="links">
+        <a routerLink="/">Home</a>
+        <a routerLink="/empty">Empty Demo</a>
+        <a routerLink="/progress-spinner">Progress Spinner Demo</a>
+      </div>
+      <h1 class="title">Progress Bar Demo (Vanilla CSS)</h1>
+      <p class="subtitle">Linear progress indicator with determinate and indeterminate states.</p>
+    </header>
+
+    <section class="card">
+      <h2>Primitives (`tngProgressBar`)</h2>
+      <div class="stack">
+        <div tngProgressBar [value]="completion" class="primitive-track">
+          <span
+            tngProgressBarIndicator
+            class="primitive-indicator"
+            [style.width.%]="completion"
+          ></span>
+        </div>
+        <div tngProgressBar [indeterminate]="true" class="primitive-track">
+          <span tngProgressBarIndicator class="primitive-indicator indeterminate"></span>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Components (`tng-progress-bar`)</h2>
+      <div class="stack">
+        <tng-progress-bar [value]="completion" ariaLabel="Upload progress"></tng-progress-bar>
+        <tng-progress-bar [value]="34"></tng-progress-bar>
+        <tng-progress-bar [indeterminate]="true" ariaLabel="Loading data"></tng-progress-bar>
+      </div>
+    </section>
+  </section>
+</main>

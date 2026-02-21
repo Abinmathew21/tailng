@@ -1,0 +1,16 @@
+<label class="tng-radio-root" [attr.data-disabled]="disabled() ? '' : null">
+  <input
+    tngRadio
+    class="tng-radio-control"
+    [checked]="checked()"
+    [disabled]="disabled()"
+    [required]="required()"
+    [name]="name()"
+    [value]="value()"
+    [ariaDescribedBy]="ariaDescribedBy()"
+    (change)="onChange($event)"
+  />
+  <span class="tng-radio-label">
+    <ng-content />
+  </span>
+</label>

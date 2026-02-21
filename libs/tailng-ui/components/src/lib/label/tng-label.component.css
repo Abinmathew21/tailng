@@ -1,0 +1,17 @@
+:host {
+  display: inline-flex;
+}
+
+.tng-label {
+  align-items: center;
+  color: var(--tng-semantic-text-primary, #0f172a);
+  display: inline-flex;
+  font-size: 0.875rem;
+  font-weight: 600;
+  gap: 0.3rem;
+}
+
+.tng-label-required {
+  color: var(--tng-semantic-accent-danger, #dc2626);
+  font-weight: 700;
+}

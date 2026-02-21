@@ -1,0 +1,22 @@
+<section tngCollapsible class="tng-collapsible" [open]="open()" [disabled]="disabled()">
+  <button
+    tngCollapsibleTrigger
+    class="tng-collapsible-trigger"
+    [open]="open()"
+    [disabled]="disabled()"
+    [contentId]="contentId()"
+    (click)="onToggle()"
+  >
+    <span class="tng-collapsible-title">{{ title() }}</span>
+    <span class="tng-collapsible-icon" aria-hidden="true">{{ open() ? '−' : '+' }}</span>
+  </button>
+
+  <div
+    tngCollapsibleContent
+    class="tng-collapsible-content"
+    [id]="contentId()"
+    [open]="open()"
+  >
+    <ng-content />
+  </div>
+</section>

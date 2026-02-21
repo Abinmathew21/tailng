@@ -1,0 +1,115 @@
+<main class="min-h-screen bg-slate-950 px-4 py-8 text-slate-100 md:px-8">
+  <section class="mx-auto max-w-6xl space-y-6">
+    <header class="space-y-3">
+      <div class="flex flex-wrap items-center gap-3">
+        <a routerLink="/" class="rounded-lg border border-slate-700 px-3 py-1.5 text-sm text-slate-300">Home</a>
+        <a
+          routerLink="/listbox"
+          class="rounded-lg border border-slate-700 px-3 py-1.5 text-sm text-slate-300"
+        >
+          ListBox Demo
+        </a>
+        <a
+          routerLink="/popover"
+          class="rounded-lg border border-slate-700 px-3 py-1.5 text-sm text-slate-300"
+        >
+          Popover Demo
+        </a>
+      </div>
+      <h1 class="text-3xl font-semibold md:text-4xl">Dialog Demo (Tailwind)</h1>
+      <p class="max-w-3xl text-slate-300">
+        Dialog content includes multiple interactive controls and an embedded ListBox to verify
+        keyboard flow (Tab, Arrow keys, Enter, and typeahead).
+      </p>
+    </header>
+
+    <section class="rounded-2xl border border-slate-700 bg-slate-900 p-5">
+      <div class="flex flex-wrap items-center gap-3">
+        <tng-button (click)="onDialogOpenChange(true)">Open Project Dialog</tng-button>
+        <p class="text-sm text-slate-300">
+          Selected assignee: <span class="font-semibold text-cyan-300">{{ selectedAssigneeLabel() }}</span>
+        </p>
+      </div>
+    </section>
+
+    <tng-dialog
+      title="Create Sprint Session"
+      description="Configure context, assignee, and notes before generating the planning workspace."
+      size="lg"
+      [open]="dialogOpen()"
+      (openChange)="onDialogOpenChange($event)"
+    >
+      <div class="grid gap-4 md:grid-cols-2">
+        <div class="grid gap-2 text-sm font-medium text-slate-300">
+          <p class="m-0">Project Name</p>
+          <tng-input
+            data-tng-dialog-initial-focus
+            [value]="projectName()"
+            placeholder="Enter project name"
+            (valueChange)="onProjectNameChange($event)"
+          />
+        </div>
+
+        <div class="grid gap-2 text-sm font-medium text-slate-300">
+          <p class="m-0">Sprint Notes</p>
+          <tng-textarea
+            [rows]="4"
+            [value]="notes()"
+            placeholder="Add sprint notes"
+            (valueChange)="onNotesChange($event)"
+          />
+        </div>
+      </div>
+
+      <tng-checkbox
+        [checked]="notificationsEnabled()"
+        (checkedChange)="onNotificationsChange($event)"
+      >
+        Notify team members when this session is created
+      </tng-checkbox>
+
+      <section class="space-y-2 rounded-xl border border-slate-700 bg-slate-950 p-3">
+        <h2 class="text-sm font-semibold text-slate-200">Assignee ListBox</h2>
+        <p class="text-xs text-slate-400">
+          Active: {{ activeAssigneeLabel() }} | Selected: {{ selectedAssigneeLabel() }}
+        </p>
+
+        <div
+          [id]="listboxId"
+          role="listbox"
+          tabindex="0"
+          class="space-y-2 rounded-lg border border-slate-700 p-2 outline-none focus:ring-2 focus:ring-cyan-400"
+          [attr.aria-activedescendant]="activeAssigneeId() ?? null"
+          (focus)="onListboxFocus()"
+          (keydown)="onListboxKeydown($event)"
+        >
+          @for (option of options; track option.id) {
+            <div
+              [id]="option.id"
+              role="option"
+              tabindex="-1"
+              class="cursor-pointer rounded-md border px-3 py-2 transition"
+              [class.border-cyan-400]="isAssigneeActive(option.id)"
+              [class.border-slate-700]="!isAssigneeActive(option.id)"
+              [class.bg-cyan-950/40]="isAssigneeSelected(option.id)"
+              [class.bg-slate-900]="!isAssigneeSelected(option.id)"
+              [attr.aria-selected]="isAssigneeSelected(option.id)"
+              (click)="onListboxOptionClick(option.id)"
+              (keydown)="onListboxOptionKeydown(option.id, $event)"
+            >
+              <p class="text-sm font-semibold">{{ option.label }}</p>
+              <p class="text-xs text-slate-400">{{ option.detail }}</p>
+            </div>
+          }
+        </div>
+      </section>
+
+      <div class="flex flex-wrap justify-end gap-3">
+        <tng-button appearance="ghost" tone="neutral" (click)="onDialogOpenChange(false)">
+          Cancel
+        </tng-button>
+        <tng-button tone="success" (click)="onDialogSubmit()">Create Session</tng-button>
+      </div>
+    </tng-dialog>
+  </section>
+</main>

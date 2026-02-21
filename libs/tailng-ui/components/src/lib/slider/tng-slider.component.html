@@ -1,0 +1,12 @@
+<div class="tng-slider-root" [attr.data-disabled]="disabled() ? '' : null">
+  <input
+    tngSlider
+    class="tng-slider-control"
+    [disabled]="disabled()"
+    [max]="max()"
+    [min]="min()"
+    [step]="step()"
+    [value]="value()"
+    (input)="onInput($event)"
+  />
+</div>

@@ -1,0 +1,32 @@
+<main class="page">
+  <section class="container">
+    <header class="hero">
+      <div class="links">
+        <a routerLink="/">Home</a>
+      </div>
+      <h1 class="title">Toolbar Demo (Vanilla CSS)</h1>
+      <p class="subtitle">Keyboard-friendly grouping surface for related action controls.</p>
+    </header>
+
+    <section class="card">
+      <h2>Primitives (`tngToolbar`)</h2>
+      <div tngToolbar role="toolbar" aria-label="Editor actions" class="primitive-shell demo-row">
+        <button type="button" class="demo-button">Bold</button>
+        <button type="button" class="demo-button">Italic</button>
+        <button type="button" class="demo-button">Underline</button>
+        <button type="button" class="demo-button">Link</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Components (`tng-toolbar`)</h2>
+      <tng-toolbar>
+        <div role="toolbar" aria-label="Layout actions" class="primitive-shell demo-row">
+          <button type="button" class="demo-button">Left</button>
+          <button type="button" class="demo-button demo-button-active">Center</button>
+          <button type="button" class="demo-button">Right</button>
+        </div>
+      </tng-toolbar>
+    </section>
+  </section>
+</main>

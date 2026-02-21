@@ -1,0 +1,34 @@
+<main class="page">
+  <section class="container">
+    <header class="hero">
+      <div class="links">
+        <a routerLink="/">Home</a>
+        <a routerLink="/menu">Menu Demo</a>
+      </div>
+      <h1 class="title">Dropdown Menu Demo (Vanilla CSS)</h1>
+      <p class="subtitle">Triggered action list with escape and outside click dismissal.</p>
+    </header>
+
+    <section class="card">
+      <h2>Primitives (`tngDropdownMenu`)</h2>
+      <div tngDropdownMenu class="primitive-shell">
+        <button type="button" class="demo-button">Open menu</button>
+        <ul role="menu" class="demo-list demo-menu">
+          <li role="menuitem">Profile</li>
+          <li role="menuitem">Settings</li>
+          <li role="menuitem">Sign out</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Components (`tng-dropdown-menu`)</h2>
+      <tng-dropdown-menu label="Quick actions">
+        <li role="menuitem" tabindex="0">Open</li>
+        <li role="menuitem" tabindex="-1">Rename</li>
+        <li role="menuitem" tabindex="-1">Duplicate</li>
+        <li role="menuitem" tabindex="-1">Delete</li>
+      </tng-dropdown-menu>
+    </section>
+  </section>
+</main>

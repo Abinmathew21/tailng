@@ -1,0 +1,42 @@
+<main class="page">
+  <section class="container">
+    <header class="hero">
+      <div class="links">
+        <a routerLink="/">Home</a>
+        <a routerLink="/theme">Theme Demo</a>
+        <a routerLink="/button">Button Demo</a>
+        <a routerLink="/card">Card Demo</a>
+      </div>
+      <h1 class="title">Avatar Demo (Vanilla CSS)</h1>
+      <p class="subtitle">
+        Avatar is not focusable by default and becomes interactive only when wrapped in button/link.
+      </p>
+    </header>
+
+    <section class="panel">
+      <h2>Primitives (`tngAvatar*`)</h2>
+      <div class="row">
+        <span tngAvatar class="primitive-avatar">
+          <img tngAvatarImage [src]="sampleImage" alt="User photo" class="img" />
+          <span tngAvatarFallback class="fallback hidden">TN</span>
+        </span>
+
+        <span tngAvatar class="primitive-avatar">
+          <img tngAvatarImage src="broken://avatar" alt="Broken avatar" class="img" />
+          <span tngAvatarFallback class="fallback">AV</span>
+        </span>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Component (`tng-avatar`)</h2>
+      <div class="row">
+        <tng-avatar [src]="sampleImage" fallback="Tail Ng"></tng-avatar>
+        <tng-avatar src="broken://avatar" fallback="Avatar User"></tng-avatar>
+        <tng-avatar fallback="Square User" shape="square"></tng-avatar>
+        <tng-avatar fallback="Small User" size="sm"></tng-avatar>
+        <tng-avatar fallback="Large User" size="lg"></tng-avatar>
+      </div>
+    </section>
+  </section>
+</main>

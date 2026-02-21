@@ -1,0 +1,34 @@
+<main class="page">
+  <section class="container">
+    <header class="hero">
+      <div class="links">
+        <a routerLink="/">Home</a>
+      </div>
+      <h1 class="title">Context Menu Demo (Vanilla CSS)</h1>
+      <p class="subtitle">Context-triggered action surface for pointer and keyboard workflows.</p>
+    </header>
+
+    <section class="card">
+      <h2>Primitives (`tngContextMenu`)</h2>
+      <div tngContextMenu class="primitive-shell">
+        <div class="demo-panel">Right-click target area</div>
+        <ul role="menu" class="demo-list demo-menu">
+          <li role="menuitem">Open</li>
+          <li role="menuitem">Rename</li>
+          <li role="menuitem">Delete</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Components (`tng-context-menu`)</h2>
+      <tng-context-menu>
+        <ul role="menu" class="primitive-shell demo-list demo-menu">
+          <li role="menuitem">Duplicate</li>
+          <li role="menuitem">Move to Folder</li>
+          <li role="menuitem">Archive</li>
+        </ul>
+      </tng-context-menu>
+    </section>
+  </section>
+</main>

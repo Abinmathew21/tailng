@@ -1,0 +1,10 @@
+<button
+  tngButtonToggle
+  class="tng-button-toggle"
+  [pressed]="pressed()"
+  [disabled]="disabled()"
+  [class.tng-button-toggle--pressed]="pressed()"
+  (click)="onToggle()"
+>
+  <ng-content />
+</button>

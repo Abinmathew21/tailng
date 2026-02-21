@@ -1,0 +1,30 @@
+<div class="tng-switch-root" [attr.data-disabled]="disabled() ? '' : null">
+  <button
+    tngSwitch
+    class="tng-switch-control"
+    [ariaLabel]="ariaLabel()"
+    [checked]="checked()"
+    [disabled]="disabled()"
+    [required]="required()"
+    (click)="onToggle()"
+    (keydown)="onKeydown($event)"
+  >
+    <span class="tng-switch-track">
+      <span class="tng-switch-thumb"></span>
+    </span>
+  </button>
+  <input
+    class="tng-switch-native-input"
+    type="checkbox"
+    [checked]="checked()"
+    [disabled]="disabled()"
+    [required]="required()"
+    [name]="name()"
+    [value]="value()"
+    tabindex="-1"
+    aria-hidden="true"
+  />
+  <span class="tng-switch-label">
+    <ng-content />
+  </span>
+</div>

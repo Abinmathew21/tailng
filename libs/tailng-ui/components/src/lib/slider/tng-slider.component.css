@@ -1,0 +1,19 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.tng-slider-root {
+  display: flex;
+  width: 100%;
+}
+
+.tng-slider-control {
+  accent-color: var(--tng-semantic-accent-brand, #2563eb);
+  width: 100%;
+}
+
+.tng-slider-root[data-disabled] {
+  cursor: not-allowed;
+  opacity: 0.65;
+}

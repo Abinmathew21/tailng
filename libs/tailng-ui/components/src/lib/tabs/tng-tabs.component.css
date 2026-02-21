@@ -1,0 +1,13 @@
+:host {
+  display: block;
+}
+
+.tng-tabs {
+  background: var(--tng-semantic-background-base, #ffffff);
+  border: 1px solid var(--tng-semantic-border-subtle, #cbd5e1);
+  border-radius: 0.75rem;
+  color: var(--tng-semantic-foreground-primary, #0f172a);
+  display: grid;
+  gap: 0.5rem;
+  padding: 0.9rem 1rem;
+}

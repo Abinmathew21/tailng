@@ -1,0 +1,582 @@
+<main class="min-h-screen bg-slate-950 px-4 py-8 text-slate-100 md:px-8">
+  <section class="mx-auto max-w-5xl space-y-6">
+    <header class="space-y-3">
+      <p class="text-sm font-semibold uppercase tracking-[0.2em] text-cyan-300">TailNG UI</p>
+      <h1 class="text-3xl font-semibold md:text-4xl">Playground Home (Tailwind)</h1>
+      <p class="max-w-2xl text-slate-300">
+        Choose a demo page to validate theme tokens and primitive/component behavior.
+      </p>
+    </header>
+
+    <section class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+      <a
+        routerLink="/theme"
+        class="group rounded-2xl border border-slate-700 bg-slate-900 p-5 transition hover:border-cyan-400"
+      >
+        <h2 class="text-xl font-semibold">Theme Demo</h2>
+        <p class="mt-2 text-sm text-slate-300">Switch presets/modes and inspect semantic tokens.</p>
+        <span class="mt-4 inline-block text-sm font-medium text-cyan-300 group-hover:text-cyan-200">
+          Open Theme Demo
+        </span>
+      </a>
+
+      <a
+        routerLink="/button"
+        class="group rounded-2xl border border-slate-700 bg-slate-900 p-5 transition hover:border-cyan-400"
+      >
+        <h2 class="text-xl font-semibold">Button Demo</h2>
+        <p class="mt-2 text-sm text-slate-300">
+          Test primitive behavior and owned component styles.
+        </p>
+        <span class="mt-4 inline-block text-sm font-medium text-cyan-300 group-hover:text-cyan-200">
+          Open Button Demo
+        </span>
+      </a>
+
+      <a
+        routerLink="/accordion"
+        class="group rounded-2xl border border-slate-700 bg-slate-900 p-5 transition hover:border-cyan-400"
+      >
+        <h2 class="text-xl font-semibold">Accordion Demo</h2>
+        <p class="mt-2 text-sm text-slate-300">
+          Expand/collapse panels with primitive shell and owned wrapper.
+        </p>
+        <span class="mt-4 inline-block text-sm font-medium text-cyan-300 group-hover:text-cyan-200">
+          Open Accordion Demo
+        </span>
+      </a>
+
+      <a
+        routerLink="/collapsible"
+        class="group rounded-2xl border border-slate-700 bg-slate-900 p-5 transition hover:border-cyan-400"
+      >
+        <h2 class="text-xl font-semibold">Collapsible Demo</h2>
+        <p class="mt-2 text-sm text-slate-300">
+          Single disclosure panel with accessible trigger/content semantics.
+        </p>
+        <span class="mt-4 inline-block text-sm font-medium text-cyan-300 group-hover:text-cyan-200">
+          Open Collapsible Demo
+        </span>
+      </a>
+
+      <a
+        routerLink="/menu"
+        class="group rounded-2xl border border-slate-700 bg-slate-900 p-5 transition hover:border-cyan-400"
+      >
+        <h2 class="text-xl font-semibold">Menu Demo</h2>
+        <p class="mt-2 text-sm text-slate-300">
+          Keyboard navigation for menuitem actions with primitive + wrapper APIs.
+        </p>
+        <span class="mt-4 inline-block text-sm font-medium text-cyan-300 group-hover:text-cyan-200">
+          Open Menu Demo
+        </span>
+      </a>
+
+      <a
+        routerLink="/dropdown-menu"
+        class="group rounded-2xl border border-slate-700 bg-slate-900 p-5 transition hover:border-cyan-400"
+      >
+        <h2 class="text-xl font-semibold">Dropdown Menu Demo</h2>
+        <p class="mt-2 text-sm text-slate-300">
+          Triggered menu panel with outside click and Escape dismissal.
+        </p>
+        <span class="mt-4 inline-block text-sm font-medium text-cyan-300 group-hover:text-cyan-200">
+          Open Dropdown Menu Demo
+        </span>
+      </a>
+
+      <a
+        routerLink="/avatar"
+        class="group rounded-2xl border border-slate-700 bg-slate-900 p-5 transition hover:border-cyan-400"
+      >
+        <h2 class="text-xl font-semibold">Avatar Demo</h2>
+        <p class="mt-2 text-sm text-slate-300">
+          User identity display with image + fallback initials.
+        </p>
+        <span class="mt-4 inline-block text-sm font-medium text-cyan-300 group-hover:text-cyan-200">
+          Open Avatar Demo
+        </span>
+      </a>
+
+      <a
+        routerLink="/card"
+        class="group rounded-2xl border border-slate-700 bg-slate-900 p-5 transition hover:border-cyan-400"
+      >
+        <h2 class="text-xl font-semibold">Card Demo</h2>
+        <p class="mt-2 text-sm text-slate-300">
+          Validate card primitives and styled wrapper composition.
+        </p>
+        <span class="mt-4 inline-block text-sm font-medium text-cyan-300 group-hover:text-cyan-200">
+          Open Card Demo
+        </span>
+      </a>
+
+      <a
+        routerLink="/tag"
+        class="group rounded-2xl border border-slate-700 bg-slate-900 p-5 transition hover:border-cyan-400"
+      >
+        <h2 class="text-xl font-semibold">Tag Demo</h2>
+        <p class="mt-2 text-sm text-slate-300">
+          Validate compact status/count labels in primitive and wrapper form.
+        </p>
+        <span class="mt-4 inline-block text-sm font-medium text-cyan-300 group-hover:text-cyan-200">
+          Open Tag Demo
+        </span>
+      </a>
+
+      <a
+        routerLink="/separator"
+        class="group rounded-2xl border border-slate-700 bg-slate-900 p-5 transition hover:border-cyan-400"
+      >
+        <h2 class="text-xl font-semibold">Separator Demo</h2>
+        <p class="mt-2 text-sm text-slate-300">
+          Horizontal and vertical dividers for grouping related content.
+        </p>
+        <span class="mt-4 inline-block text-sm font-medium text-cyan-300 group-hover:text-cyan-200">
+          Open Separator Demo
+        </span>
+      </a>
+
+      <a
+        routerLink="/empty"
+        class="group rounded-2xl border border-slate-700 bg-slate-900 p-5 transition hover:border-cyan-400"
+      >
+        <h2 class="text-xl font-semibold">Empty Demo</h2>
+        <p class="mt-2 text-sm text-slate-300">
+          Empty-state layout with icon/title/description/actions slots.
+        </p>
+        <span class="mt-4 inline-block text-sm font-medium text-cyan-300 group-hover:text-cyan-200">
+          Open Empty Demo
+        </span>
+      </a>
+
+      <a
+        routerLink="/progress-bar"
+        class="group rounded-2xl border border-slate-700 bg-slate-900 p-5 transition hover:border-cyan-400"
+      >
+        <h2 class="text-xl font-semibold">Progress Bar Demo</h2>
+        <p class="mt-2 text-sm text-slate-300">
+          Linear progress indicators with determinate and indeterminate states.
+        </p>
+        <span class="mt-4 inline-block text-sm font-medium text-cyan-300 group-hover:text-cyan-200">
+          Open Progress Bar Demo
+        </span>
+      </a>
+
+      <a
+        routerLink="/progress-spinner"
+        class="group rounded-2xl border border-slate-700 bg-slate-900 p-5 transition hover:border-cyan-400"
+      >
+        <h2 class="text-xl font-semibold">Progress Spinner Demo</h2>
+        <p class="mt-2 text-sm text-slate-300">
+          Circular loader with value-based and indeterminate rendering.
+        </p>
+        <span class="mt-4 inline-block text-sm font-medium text-cyan-300 group-hover:text-cyan-200">
+          Open Progress Spinner Demo
+        </span>
+      </a>
+
+      <a
+        routerLink="/skeleton"
+        class="group rounded-2xl border border-slate-700 bg-slate-900 p-5 transition hover:border-cyan-400"
+      >
+        <h2 class="text-xl font-semibold">Skeleton Demo</h2>
+        <p class="mt-2 text-sm text-slate-300">Loading placeholder blocks with optional shimmer animation.</p>
+        <span class="mt-4 inline-block text-sm font-medium text-cyan-300 group-hover:text-cyan-200">
+          Open Skeleton Demo
+        </span>
+      </a>
+
+      <a
+        routerLink="/input"
+        class="group rounded-2xl border border-slate-700 bg-slate-900 p-5 transition hover:border-cyan-400"
+      >
+        <h2 class="text-xl font-semibold">Input Demo</h2>
+        <p class="mt-2 text-sm text-slate-300">
+          Preview unstyled input primitive and owned wrapper.
+        </p>
+        <span class="mt-4 inline-block text-sm font-medium text-cyan-300 group-hover:text-cyan-200">
+          Open Input Demo
+        </span>
+      </a>
+
+      <a
+        routerLink="/label"
+        class="group rounded-2xl border border-slate-700 bg-slate-900 p-5 transition hover:border-cyan-400"
+      >
+        <h2 class="text-xl font-semibold">Label Demo</h2>
+        <p class="mt-2 text-sm text-slate-300">
+          Accessible form labels with optional required indicator semantics.
+        </p>
+        <span class="mt-4 inline-block text-sm font-medium text-cyan-300 group-hover:text-cyan-200">
+          Open Label Demo
+        </span>
+      </a>
+
+      <a
+        routerLink="/input-otp"
+        class="group rounded-2xl border border-slate-700 bg-slate-900 p-5 transition hover:border-cyan-400"
+      >
+        <h2 class="text-xl font-semibold">Input OTP Demo</h2>
+        <p class="mt-2 text-sm text-slate-300">Segmented one-time-password entry with paste support.</p>
+        <span class="mt-4 inline-block text-sm font-medium text-cyan-300 group-hover:text-cyan-200">
+          Open Input OTP Demo
+        </span>
+      </a>
+
+      <a
+        routerLink="/radio"
+        class="group rounded-2xl border border-slate-700 bg-slate-900 p-5 transition hover:border-cyan-400"
+      >
+        <h2 class="text-xl font-semibold">Radio Demo</h2>
+        <p class="mt-2 text-sm text-slate-300">
+          Validate grouped single-select behavior and wrappers.
+        </p>
+        <span class="mt-4 inline-block text-sm font-medium text-cyan-300 group-hover:text-cyan-200">
+          Open Radio Demo
+        </span>
+      </a>
+
+      <a
+        routerLink="/checkbox"
+        class="group rounded-2xl border border-slate-700 bg-slate-900 p-5 transition hover:border-cyan-400"
+      >
+        <h2 class="text-xl font-semibold">Checkbox Demo</h2>
+        <p class="mt-2 text-sm text-slate-300">
+          Validate checked/unchecked/mixed tri-state behavior.
+        </p>
+        <span class="mt-4 inline-block text-sm font-medium text-cyan-300 group-hover:text-cyan-200">
+          Open Checkbox Demo
+        </span>
+      </a>
+
+      <a
+        routerLink="/textarea"
+        class="group rounded-2xl border border-slate-700 bg-slate-900 p-5 transition hover:border-cyan-400"
+      >
+        <h2 class="text-xl font-semibold">Textarea Demo</h2>
+        <p class="mt-2 text-sm text-slate-300">
+          Validate multiline text input primitive and owned wrapper.
+        </p>
+        <span class="mt-4 inline-block text-sm font-medium text-cyan-300 group-hover:text-cyan-200">
+          Open Textarea Demo
+        </span>
+      </a>
+
+      <a
+        routerLink="/icons"
+        class="group rounded-2xl border border-slate-700 bg-slate-900 p-5 transition hover:border-cyan-400"
+      >
+        <h2 class="text-xl font-semibold">Icon Demo</h2>
+        <p class="mt-2 text-sm text-slate-300">
+          Top 10 countries by population with MIT flags and ranking markers.
+        </p>
+        <span class="mt-4 inline-block text-sm font-medium text-cyan-300 group-hover:text-cyan-200">
+          Open Icon Demo
+        </span>
+      </a>
+
+      <a
+        routerLink="/listbox"
+        class="group rounded-2xl border border-slate-700 bg-slate-900 p-5 transition hover:border-cyan-400"
+      >
+        <h2 class="text-xl font-semibold">ListBox Demo</h2>
+        <p class="mt-2 text-sm text-slate-300">
+          Validate CDK keyboard and multi-select behavior (Tab/Arrows/Space/Enter/typeahead).
+        </p>
+        <span class="mt-4 inline-block text-sm font-medium text-cyan-300 group-hover:text-cyan-200">
+          Open ListBox Demo
+        </span>
+      </a>
+
+      <a
+        routerLink="/dialog"
+        class="group rounded-2xl border border-slate-700 bg-slate-900 p-5 transition hover:border-cyan-400"
+      >
+        <h2 class="text-xl font-semibold">Dialog Demo</h2>
+        <p class="mt-2 text-sm text-slate-300">
+          Validate backdrop, focus-trap, and complex content including ListBox inside dialog.
+        </p>
+        <span class="mt-4 inline-block text-sm font-medium text-cyan-300 group-hover:text-cyan-200">
+          Open Dialog Demo
+        </span>
+      </a>
+
+      <a
+        routerLink="/popover"
+        class="group rounded-2xl border border-slate-700 bg-slate-900 p-5 transition hover:border-cyan-400"
+      >
+        <h2 class="text-xl font-semibold">Popover Demo</h2>
+        <p class="mt-2 text-sm text-slate-300">
+          Validate trigger semantics and outside/escape dismissal behavior.
+        </p>
+        <span class="mt-4 inline-block text-sm font-medium text-cyan-300 group-hover:text-cyan-200">
+          Open Popover Demo
+        </span>
+      </a>
+
+      <a
+        routerLink="/tooltip"
+        class="group rounded-2xl border border-slate-700 bg-slate-900 p-5 transition hover:border-cyan-400"
+      >
+        <h2 class="text-xl font-semibold">Tooltip Demo</h2>
+        <p class="mt-2 text-sm text-slate-300">
+          Hover/focus helper text with primitive directives and styled wrapper.
+        </p>
+        <span class="mt-4 inline-block text-sm font-medium text-cyan-300 group-hover:text-cyan-200">
+          Open Tooltip Demo
+        </span>
+      </a>
+
+      <a
+        routerLink="/toast"
+        class="group rounded-2xl border border-slate-700 bg-slate-900 p-5 transition hover:border-cyan-400"
+      >
+        <h2 class="text-xl font-semibold">Toast Demo</h2>
+        <p class="mt-2 text-sm text-slate-300">
+          Canonical notification system for both toast stack and snackbar mode.
+        </p>
+        <span class="mt-4 inline-block text-sm font-medium text-cyan-300 group-hover:text-cyan-200">
+          Open Toast Demo
+        </span>
+      </a>
+
+      <a
+        routerLink="/context-menu"
+        class="group rounded-2xl border border-slate-700 bg-slate-900 p-5 transition hover:border-cyan-400"
+      >
+        <h2 class="text-xl font-semibold">Context Menu Demo</h2>
+        <p class="mt-2 text-sm text-slate-300">Context-triggered action surface for pointer and keyboard workflows.</p>
+        <span class="mt-4 inline-block text-sm font-medium text-cyan-300 group-hover:text-cyan-200">
+          Open Context Menu Demo
+        </span>
+      </a>
+
+      <a
+        routerLink="/menubar"
+        class="group rounded-2xl border border-slate-700 bg-slate-900 p-5 transition hover:border-cyan-400"
+      >
+        <h2 class="text-xl font-semibold">Menubar Demo</h2>
+        <p class="mt-2 text-sm text-slate-300">Horizontal menu surface for top-level app actions.</p>
+        <span class="mt-4 inline-block text-sm font-medium text-cyan-300 group-hover:text-cyan-200">
+          Open Menubar Demo
+        </span>
+      </a>
+
+      <a
+        routerLink="/navigation-menu"
+        class="group rounded-2xl border border-slate-700 bg-slate-900 p-5 transition hover:border-cyan-400"
+      >
+        <h2 class="text-xl font-semibold">Navigation Menu Demo</h2>
+        <p class="mt-2 text-sm text-slate-300">Structured navigation list for sections and sub-sections.</p>
+        <span class="mt-4 inline-block text-sm font-medium text-cyan-300 group-hover:text-cyan-200">
+          Open Navigation Menu Demo
+        </span>
+      </a>
+
+      <a
+        routerLink="/breadcrumb"
+        class="group rounded-2xl border border-slate-700 bg-slate-900 p-5 transition hover:border-cyan-400"
+      >
+        <h2 class="text-xl font-semibold">Breadcrumb Demo</h2>
+        <p class="mt-2 text-sm text-slate-300">
+          Hierarchical navigation trail that reflects the current page path.
+        </p>
+        <span class="mt-4 inline-block text-sm font-medium text-cyan-300 group-hover:text-cyan-200">
+          Open Breadcrumb Demo
+        </span>
+      </a>
+
+      <a
+        routerLink="/toolbar"
+        class="group rounded-2xl border border-slate-700 bg-slate-900 p-5 transition hover:border-cyan-400"
+      >
+        <h2 class="text-xl font-semibold">Toolbar Demo</h2>
+        <p class="mt-2 text-sm text-slate-300">Keyboard-friendly grouping surface for related action controls.</p>
+        <span class="mt-4 inline-block text-sm font-medium text-cyan-300 group-hover:text-cyan-200">
+          Open Toolbar Demo
+        </span>
+      </a>
+
+      <a
+        routerLink="/tabs"
+        class="group rounded-2xl border border-slate-700 bg-slate-900 p-5 transition hover:border-cyan-400"
+      >
+        <h2 class="text-xl font-semibold">Tabs Demo</h2>
+        <p class="mt-2 text-sm text-slate-300">Tabbed container surface for switching between related content panels.</p>
+        <span class="mt-4 inline-block text-sm font-medium text-cyan-300 group-hover:text-cyan-200">
+          Open Tabs Demo
+        </span>
+      </a>
+
+      <a
+        routerLink="/stepper"
+        class="group rounded-2xl border border-slate-700 bg-slate-900 p-5 transition hover:border-cyan-400"
+      >
+        <h2 class="text-xl font-semibold">Stepper Demo</h2>
+        <p class="mt-2 text-sm text-slate-300">Ordered multi-step flow surface for guided tasks.</p>
+        <span class="mt-4 inline-block text-sm font-medium text-cyan-300 group-hover:text-cyan-200">
+          Open Stepper Demo
+        </span>
+      </a>
+
+      <a
+        routerLink="/toggle-group"
+        class="group rounded-2xl border border-slate-700 bg-slate-900 p-5 transition hover:border-cyan-400"
+      >
+        <h2 class="text-xl font-semibold">Toggle Group Demo</h2>
+        <p class="mt-2 text-sm text-slate-300">Grouped toggle controls with single or multiple selection modes.</p>
+        <span class="mt-4 inline-block text-sm font-medium text-cyan-300 group-hover:text-cyan-200">
+          Open Toggle Group Demo
+        </span>
+      </a>
+
+      <a
+        routerLink="/button-toggle"
+        class="group rounded-2xl border border-slate-700 bg-slate-900 p-5 transition hover:border-cyan-400"
+      >
+        <h2 class="text-xl font-semibold">Button Toggle Demo</h2>
+        <p class="mt-2 text-sm text-slate-300">
+          Toggleable button options supporting single and multi-select composition.
+        </p>
+        <span class="mt-4 inline-block text-sm font-medium text-cyan-300 group-hover:text-cyan-200">
+          Open Button Toggle Demo
+        </span>
+      </a>
+
+      <a
+        routerLink="/switch"
+        class="group rounded-2xl border border-slate-700 bg-slate-900 p-5 transition hover:border-cyan-400"
+      >
+        <h2 class="text-xl font-semibold">Switch Demo</h2>
+        <p class="mt-2 text-sm text-slate-300">Two-state on/off control with accessible switch semantics.</p>
+        <span class="mt-4 inline-block text-sm font-medium text-cyan-300 group-hover:text-cyan-200">
+          Open Switch Demo
+        </span>
+      </a>
+
+      <a
+        routerLink="/toggle"
+        class="group rounded-2xl border border-slate-700 bg-slate-900 p-5 transition hover:border-cyan-400"
+      >
+        <h2 class="text-xl font-semibold">Toggle Demo</h2>
+        <p class="mt-2 text-sm text-slate-300">
+          Icon-style pressed button for dark/light mode and similar binary actions.
+        </p>
+        <span class="mt-4 inline-block text-sm font-medium text-cyan-300 group-hover:text-cyan-200">
+          Open Toggle Demo
+        </span>
+      </a>
+
+      <a
+        routerLink="/slider"
+        class="group rounded-2xl border border-slate-700 bg-slate-900 p-5 transition hover:border-cyan-400"
+      >
+        <h2 class="text-xl font-semibold">Slider Demo</h2>
+        <p class="mt-2 text-sm text-slate-300">Range-based input for selecting a numeric value.</p>
+        <span class="mt-4 inline-block text-sm font-medium text-cyan-300 group-hover:text-cyan-200">
+          Open Slider Demo
+        </span>
+      </a>
+
+      <a
+        routerLink="/chips"
+        class="group rounded-2xl border border-slate-700 bg-slate-900 p-5 transition hover:border-cyan-400"
+      >
+        <h2 class="text-xl font-semibold">Chips Demo</h2>
+        <p class="mt-2 text-sm text-slate-300">Compact item set for tags, filtering, and removable selections.</p>
+        <span class="mt-4 inline-block text-sm font-medium text-cyan-300 group-hover:text-cyan-200">
+          Open Chips Demo
+        </span>
+      </a>
+
+      <a
+        routerLink="/combobox"
+        class="group rounded-2xl border border-slate-700 bg-slate-900 p-5 transition hover:border-cyan-400"
+      >
+        <h2 class="text-xl font-semibold">Combobox Demo</h2>
+        <p class="mt-2 text-sm text-slate-300">Text input combined with an options popup for guided selection.</p>
+        <span class="mt-4 inline-block text-sm font-medium text-cyan-300 group-hover:text-cyan-200">
+          Open Combobox Demo
+        </span>
+      </a>
+
+      <a
+        routerLink="/select"
+        class="group rounded-2xl border border-slate-700 bg-slate-900 p-5 transition hover:border-cyan-400"
+      >
+        <h2 class="text-xl font-semibold">Select Demo</h2>
+        <p class="mt-2 text-sm text-slate-300">Single-choice dropdown pattern backed by listbox semantics.</p>
+        <span class="mt-4 inline-block text-sm font-medium text-cyan-300 group-hover:text-cyan-200">
+          Open Select Demo
+        </span>
+      </a>
+
+      <a
+        routerLink="/autocomplete"
+        class="group rounded-2xl border border-slate-700 bg-slate-900 p-5 transition hover:border-cyan-400"
+      >
+        <h2 class="text-xl font-semibold">Autocomplete Demo</h2>
+        <p class="mt-2 text-sm text-slate-300">Text input with dynamic suggestion list and keyboard navigation.</p>
+        <span class="mt-4 inline-block text-sm font-medium text-cyan-300 group-hover:text-cyan-200">
+          Open Autocomplete Demo
+        </span>
+      </a>
+
+      <a
+        routerLink="/multiselect"
+        class="group rounded-2xl border border-slate-700 bg-slate-900 p-5 transition hover:border-cyan-400"
+      >
+        <h2 class="text-xl font-semibold">Multiselect Demo</h2>
+        <p class="mt-2 text-sm text-slate-300">Multiple-choice listbox selection surface with keyboard support.</p>
+        <span class="mt-4 inline-block text-sm font-medium text-cyan-300 group-hover:text-cyan-200">
+          Open Multiselect Demo
+        </span>
+      </a>
+
+      <a
+        routerLink="/grid"
+        class="group rounded-2xl border border-slate-700 bg-slate-900 p-5 transition hover:border-cyan-400"
+      >
+        <h2 class="text-xl font-semibold">Grid Demo</h2>
+        <p class="mt-2 text-sm text-slate-300">Two-dimensional keyboard-navigable grid surface.</p>
+        <span class="mt-4 inline-block text-sm font-medium text-cyan-300 group-hover:text-cyan-200">
+          Open Grid Demo
+        </span>
+      </a>
+
+      <a
+        routerLink="/tree"
+        class="group rounded-2xl border border-slate-700 bg-slate-900 p-5 transition hover:border-cyan-400"
+      >
+        <h2 class="text-xl font-semibold">Tree Demo</h2>
+        <p class="mt-2 text-sm text-slate-300">Hierarchical expandable list pattern for nested content.</p>
+        <span class="mt-4 inline-block text-sm font-medium text-cyan-300 group-hover:text-cyan-200">
+          Open Tree Demo
+        </span>
+      </a>
+
+      <a
+        routerLink="/drawer"
+        class="group rounded-2xl border border-slate-700 bg-slate-900 p-5 transition hover:border-cyan-400"
+      >
+        <h2 class="text-xl font-semibold">Drawer Demo</h2>
+        <p class="mt-2 text-sm text-slate-300">Slide-in overlay panel for supplemental content and actions.</p>
+        <span class="mt-4 inline-block text-sm font-medium text-cyan-300 group-hover:text-cyan-200">
+          Open Drawer Demo
+        </span>
+      </a>
+
+      <a
+        routerLink="/bottom-sheet"
+        class="group rounded-2xl border border-slate-700 bg-slate-900 p-5 transition hover:border-cyan-400"
+      >
+        <h2 class="text-xl font-semibold">Bottom Sheet Demo</h2>
+        <p class="mt-2 text-sm text-slate-300">Partial-height overlay sheet anchored from the bottom edge.</p>
+        <span class="mt-4 inline-block text-sm font-medium text-cyan-300 group-hover:text-cyan-200">
+          Open Bottom Sheet Demo
+        </span>
+      </a>
+    </section>
+  </section>
+</main>

@@ -1,0 +1,28 @@
+<span class="tng-tooltip-root" [attr.data-disabled]="disabled() ? '' : null">
+  <button
+    tngTooltipTrigger
+    class="tng-tooltip-trigger"
+    type="button"
+    [attr.aria-label]="ariaLabel()"
+    [describedBy]="tooltipId"
+    [disabled]="disabled()"
+    [open]="open()"
+    (blur)="onCloseIntent()"
+    (focus)="onOpenIntent()"
+    (keydown)="onTriggerKeydown($event)"
+    (mouseleave)="onCloseIntent()"
+    (mouseenter)="onOpenIntent()"
+  >
+    <ng-content select="[trigger]">{{ triggerLabel() }}</ng-content>
+  </button>
+
+  <span
+    tngTooltipContent
+    class="tng-tooltip-content"
+    [id]="tooltipId"
+    [open]="open()"
+    [side]="side()"
+  >
+    <ng-content>{{ text() }}</ng-content>
+  </span>
+</span>

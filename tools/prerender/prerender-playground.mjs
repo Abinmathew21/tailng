@@ -4,13 +4,16 @@ import http from 'node:http';
 import serveHandler from 'serve-handler';
 import puppeteer from 'puppeteer';
 
-const DIST_DIR = 'dist/apps/playground';
-const ROUTES_FILE = 'apps/playground/prerender-routes.txt';
+const DIST_DIR = 'dist/apps/tailng-ui/playground-tailwind/browser';
+const ROUTES_FILE = 'apps/tailng-ui/playground-tailwind/prerender-routes.txt';
 const PORT = 4174; // different from docs to avoid clashes locally
+const HOST = '127.0.0.1';
 
 const indexHtmlPath = path.join(DIST_DIR, 'index.html');
 if (!fs.existsSync(indexHtmlPath)) {
-  throw new Error(`index.html not found at ${indexHtmlPath}. Run "nx build playground" first.`);
+  throw new Error(
+    `index.html not found at ${indexHtmlPath}. Run "pnpm run playground:build" first.`,
+  );
 }
 const indexHtml = fs.readFileSync(indexHtmlPath);
 
@@ -53,7 +56,7 @@ const server = http.createServer((req, res) => {
   res.end(indexHtml);
 });
 
-await new Promise((resolve) => server.listen(PORT, resolve));
+await new Promise((resolve) => server.listen(PORT, HOST, resolve));
 
 const browser = await puppeteer.launch({
   headless: 'new',
@@ -62,7 +65,7 @@ const browser = await puppeteer.launch({
 const page = await browser.newPage();
 
 for (const route of routes) {
-  const url = `http://localhost:${PORT}${route}`;
+  const url = `http://${HOST}:${PORT}${route}`;
   await page.goto(url, { waitUntil: 'networkidle0' });
 
   const html = await page.content();

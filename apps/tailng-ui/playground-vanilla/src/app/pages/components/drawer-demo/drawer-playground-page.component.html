@@ -1,0 +1,45 @@
+<main class="page">
+  <section class="container">
+    <header class="hero">
+      <div class="links">
+        <a routerLink="/">Home</a>
+      </div>
+      <h1 class="title">Drawer Demo (Vanilla CSS)</h1>
+      <p class="subtitle">Slide-in overlay panel for supplemental content and actions.</p>
+    </header>
+
+    <section class="card">
+      <h2>Primitives (`tngDrawer`)</h2>
+      <div tngDrawer class="primitive-shell">
+        <div class="demo-grid demo-layout-drawer">
+          <aside class="demo-panel">
+            <p class="demo-note">Drawer Panel</p>
+            <ul class="demo-list">
+              <li>Overview</li>
+              <li>Analytics</li>
+              <li>Settings</li>
+            </ul>
+          </aside>
+          <div class="demo-panel">Main content area behind drawer.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Components (`tng-drawer`)</h2>
+      <tng-drawer>
+        <div class="demo-grid demo-layout-drawer">
+          <aside class="demo-panel">
+            <p class="demo-note">Navigation</p>
+            <ul class="demo-list">
+              <li>Profile</li>
+              <li>Billing</li>
+              <li>Security</li>
+            </ul>
+          </aside>
+          <div class="demo-panel">Drawer wrapper with owned styling.</div>
+        </div>
+      </tng-drawer>
+    </section>
+  </section>
+</main>

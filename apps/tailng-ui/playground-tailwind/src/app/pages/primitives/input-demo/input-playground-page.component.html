@@ -1,0 +1,78 @@
+<main class="min-h-screen bg-slate-950 px-4 py-8 text-slate-100 md:px-8">
+  <section class="mx-auto max-w-6xl space-y-6">
+    <header class="space-y-3">
+      <div class="flex flex-wrap items-center gap-3">
+        <a
+          routerLink="/"
+          class="rounded-lg border border-slate-700 px-3 py-1.5 text-sm text-slate-300"
+        >
+          Home
+        </a>
+        <a
+          routerLink="/button"
+          class="rounded-lg border border-slate-700 px-3 py-1.5 text-sm text-slate-300"
+        >
+          Button Demo
+        </a>
+        <a
+          routerLink="/radio"
+          class="rounded-lg border border-slate-700 px-3 py-1.5 text-sm text-slate-300"
+        >
+          Radio Demo
+        </a>
+        <a
+          routerLink="/checkbox"
+          class="rounded-lg border border-slate-700 px-3 py-1.5 text-sm text-slate-300"
+        >
+          Checkbox Demo
+        </a>
+        <a
+          routerLink="/textarea"
+          class="rounded-lg border border-slate-700 px-3 py-1.5 text-sm text-slate-300"
+        >
+          Textarea Demo
+        </a>
+      </div>
+      <h1 class="text-3xl font-semibold md:text-4xl">Input Demo (Tailwind)</h1>
+      <p class="max-w-2xl text-slate-300">
+        Compare raw primitive usage (`tngInput`) with owned `tng-input` styling.
+      </p>
+    </header>
+
+    <section class="space-y-3 rounded-2xl border border-slate-700 bg-slate-900 p-5">
+      <h2 class="text-lg font-semibold">Primitives (`tngInput`)</h2>
+      <div class="grid gap-3 sm:max-w-md">
+        <input
+          tngInput
+          type="text"
+          placeholder="Email"
+          class="rounded-lg border border-cyan-400 bg-slate-950 px-3 py-2"
+        />
+        <input
+          tngInput
+          type="search"
+          placeholder="Search docs"
+          [ariaInvalid]="true"
+          class="rounded-lg border border-rose-500 bg-slate-950 px-3 py-2"
+        />
+        <input
+          tngInput
+          type="password"
+          placeholder="Readonly token"
+          [readonly]="true"
+          value="tailng-secret"
+          class="rounded-lg border border-slate-600 bg-slate-900 px-3 py-2"
+        />
+      </div>
+    </section>
+
+    <section class="space-y-3 rounded-2xl border border-slate-700 bg-slate-900 p-5">
+      <h2 class="text-lg font-semibold">Components (`tng-input`)</h2>
+      <div class="grid gap-3 sm:max-w-md">
+        <tng-input placeholder="Project name" />
+        <tng-input type="email" placeholder="team@tailng.dev" [required]="true" />
+        <tng-input placeholder="Disabled input" [disabled]="true" value="Cannot edit" />
+      </div>
+    </section>
+  </section>
+</main>
