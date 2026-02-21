@@ -51,7 +51,7 @@
 ## Phase 0: Foundation
 
 - [x] Create publishable `@tailng-ui/charts` library.
-- [x] Add base `tng-echart` standalone component.
+- [x] Add base `tng-chart` standalone component.
 - [x] Add runtime lazy-loader API (`loadTngEchartsRuntime` + custom loader).
 - [x] Add core type contracts (`TngChartOption`, runtime types).
 - [x] Add base unit tests for loader + component helpers.
@@ -97,7 +97,7 @@
 
 ## Wrapper API Strategy
 
-- [ ] Keep one low-level primitive wrapper: `<tng-echart>`.
+- [ ] Keep one low-level primitive wrapper: `<tng-chart>`.
 - [ ] Add optional preset builders (pure functions) per chart type.
 - [ ] Keep config passthrough for full ECharts power (`option` not restricted).
 - [ ] Keep strict typing where stable; avoid over-constraining ECharts options.

@@ -3,12 +3,12 @@ import {
   resolveTngChartNotMerge,
   resolveTngChartRenderer,
   shouldAttachTngChartResizeObserver,
-  TngEchart,
-} from './tng-echart.component';
+  TngChart,
+} from './tng-chart.component';
 
-describe('tng-echart component', () => {
+describe('tng-chart component', () => {
   it('exports the chart component', () => {
-    expect(typeof TngEchart).toBe('function');
+    expect(typeof TngChart).toBe('function');
   });
 
   it('normalizes chart renderer input', () => {

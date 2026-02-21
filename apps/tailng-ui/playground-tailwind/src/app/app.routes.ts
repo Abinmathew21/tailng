@@ -357,6 +357,13 @@ export const appRoutes: Route[] = [
       ),
   },
   {
+    path: 'charts-country-metrics',
+    loadComponent: () =>
+      import(
+        './pages/charts/country-metrics-demo/country-metrics-chart-playground-page.component'
+      ).then((module) => module.CountryMetricsChartPlaygroundPageComponent),
+  },
+  {
     path: '**',
     redirectTo: '',
   },

@@ -1,0 +1,87 @@
+<main class="page">
+  <section class="container">
+    <header class="hero">
+      <div class="links">
+        <a routerLink="/">Home</a>
+      </div>
+      <h1 class="title">Country Metrics Chart Demo (Vanilla CSS)</h1>
+      <p class="subtitle">
+        Compare population, land area, and GDP across top countries. Switch between bar and line
+        view using the same `TngChart` host.
+      </p>
+    </header>
+
+    <section class="panel">
+      <div class="control-row">
+        <p class="control-label">Metric</p>
+        @for (metricKind of metricKinds; track metricKind) {
+          <button
+            type="button"
+            class="pill"
+            [class.pill--active]="selectedMetricKind() === metricKind"
+            (click)="onMetricSelect(metricKind)"
+          >
+            {{ metricKind }}
+          </button>
+        }
+      </div>
+
+      <div class="control-row">
+        <p class="control-label">Chart Type</p>
+        @for (chartKind of chartKinds; track chartKind) {
+          <button
+            type="button"
+            class="pill"
+            [class.pill--type-active]="selectedChartKind() === chartKind"
+            (click)="onChartKindSelect(chartKind)"
+          >
+            {{ chartKind }}
+          </button>
+        }
+      </div>
+
+      <article class="chart-shell" [style.borderColor]="activeMetricMeta().color">
+        <tng-chart
+          class="chart-host"
+          [option]="chartOption()"
+          (runtimeError)="onRuntimeError($event)"
+        />
+      </article>
+
+      @if (runtimeErrorMessage() !== null) {
+        <p class="error-text">Chart runtime error: {{ runtimeErrorMessage() }}</p>
+      }
+    </section>
+
+    <section class="panel">
+      <h2>Reference Dataset</h2>
+      <p>
+        Values are displayed in chart units: population (millions), land area (thousand sq km),
+        GDP (USD trillion).
+      </p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Country</th>
+              <th class="numeric">Population (M)</th>
+              <th class="numeric">Land Area (k sq km)</th>
+              <th class="numeric">GDP (USD T)</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (country of countries; track country.country) {
+              <tr>
+                <td>{{ country.country }}</td>
+                <td class="numeric">{{ country.populationMillions.toLocaleString() }}</td>
+                <td class="numeric">{{ country.landAreaThousandSqKm.toLocaleString() }}</td>
+                <td class="numeric">{{ country.gdpTrillionUsd.toLocaleString() }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </section>
+</main>

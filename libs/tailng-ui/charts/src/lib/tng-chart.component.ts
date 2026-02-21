@@ -10,13 +10,13 @@ import {
 } from '@angular/core';
 import type { OnDestroy } from '@angular/core';
 import type {
+  TngChartInitOptions,
+  TngChartInstance,
   TngChartOption,
   TngChartRenderer,
+  TngChartRuntime,
+  TngChartRuntimeLoader,
   TngChartTheme,
-  TngEchartInitOptions,
-  TngEchartInstance,
-  TngEchartsModule,
-  TngEchartsModuleLoader,
 } from './chart.types';
 import { loadTngEchartsRuntime } from './echarts.loader';
 
@@ -36,11 +36,11 @@ export function shouldAttachTngChartResizeObserver(
 }
 
 @Component({
-  selector: 'tng-echart',
-  templateUrl: './tng-echart.component.html',
-  styleUrl: './tng-echart.component.css',
+  selector: 'tng-chart',
+  templateUrl: './tng-chart.component.html',
+  styleUrl: './tng-chart.component.css',
 })
-export class TngEchart implements AfterViewInit, OnDestroy {
+export class TngChart implements AfterViewInit, OnDestroy {
   public readonly autoResize = input<boolean, boolean | string>(true, {
     transform: booleanAttribute,
   });
@@ -55,14 +55,14 @@ export class TngEchart implements AfterViewInit, OnDestroy {
   });
   public readonly option = input<TngChartOption | null>(null);
   public readonly renderer = input<string>('canvas');
-  public readonly runtimeLoader = input<TngEchartsModuleLoader | null>(null);
+  public readonly runtimeLoader = input<TngChartRuntimeLoader | null>(null);
   public readonly theme = input<TngChartTheme>(null);
 
   public readonly ready = output<void>();
   public readonly runtimeError = output<string>();
 
   private readonly hostRef = viewChild<ElementRef<HTMLElement>>('hostRef');
-  private chart: TngEchartInstance | null = null;
+  private chart: TngChartInstance | null = null;
   private resizeObserver: ResizeObserver | null = null;
   private readonly hasResizeObserverApi = typeof ResizeObserver !== 'undefined';
 
@@ -140,8 +140,8 @@ export class TngEchart implements AfterViewInit, OnDestroy {
     this.chart = null;
   }
 
-  private initChart(runtime: TngEchartsModule, host: HTMLElement): TngEchartInstance {
-    const initOptions: TngEchartInitOptions = {
+  private initChart(runtime: TngChartRuntime, host: HTMLElement): TngChartInstance {
+    const initOptions: TngChartInitOptions = {
       renderer: resolveTngChartRenderer(this.renderer()),
     };
     return runtime.init(host, this.theme(), initOptions);

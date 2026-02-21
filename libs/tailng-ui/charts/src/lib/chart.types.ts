@@ -4,29 +4,29 @@ export type TngChartTheme = Readonly<Record<string, unknown>> | string | null;
 
 export type TngChartRenderer = 'canvas' | 'svg';
 
-export type TngEchartsModuleLoader = () => Promise<unknown>;
+export type TngChartRuntimeLoader = () => Promise<unknown>;
 
-export type TngEchartSetOptionOptions = Readonly<{
+export type TngChartSetOptionOptions = Readonly<{
   lazyUpdate?: boolean;
   notMerge?: boolean;
 }>;
 
-export type TngEchartInitOptions = Readonly<{
+export type TngChartInitOptions = Readonly<{
   renderer?: TngChartRenderer;
 }>;
 
-export type TngEchartInstance = Readonly<{
+export type TngChartInstance = Readonly<{
   dispose: () => void;
   hideLoading?: () => void;
   resize: () => void;
-  setOption: (option: TngChartOption, opts?: TngEchartSetOptionOptions) => void;
+  setOption: (option: TngChartOption, opts?: TngChartSetOptionOptions) => void;
   showLoading?: () => void;
 }>;
 
-export type TngEchartsModule = Readonly<{
+export type TngChartRuntime = Readonly<{
   init: (
     element: HTMLElement,
     theme?: TngChartTheme,
-    opts?: TngEchartInitOptions,
-  ) => TngEchartInstance;
+    opts?: TngChartInitOptions,
+  ) => TngChartInstance;
 }>;

@@ -12,13 +12,13 @@ pnpm add @tailng-ui/charts echarts
 
 ```ts
 import { Component } from '@angular/core';
-import { TngEchart, type TngChartOption } from '@tailng-ui/charts';
+import { TngChart, type TngChartOption } from '@tailng-ui/charts';
 
 @Component({
   standalone: true,
   selector: 'app-chart-demo',
-  imports: [TngEchart],
-  template: `<tng-echart [option]="option" style="height:320px;display:block;" />`,
+  imports: [TngChart],
+  template: `<tng-chart [option]="option" style="height:320px;display:block;" />`,
 })
 export class ChartDemoComponent {
   public readonly option: TngChartOption = {

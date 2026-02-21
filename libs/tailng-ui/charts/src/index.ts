@@ -1,12 +1,12 @@
 export type {
+  TngChartInitOptions,
+  TngChartInstance,
   TngChartOption,
   TngChartRenderer,
+  TngChartRuntime,
+  TngChartRuntimeLoader,
+  TngChartSetOptionOptions,
   TngChartTheme,
-  TngEchartInitOptions,
-  TngEchartInstance,
-  TngEchartSetOptionOptions,
-  TngEchartsModule,
-  TngEchartsModuleLoader,
 } from './lib/chart.types';
 
 export { loadTngEchartsRuntime, resolveTngEchartsModule } from './lib/echarts.loader';
@@ -15,5 +15,5 @@ export {
   resolveTngChartNotMerge,
   resolveTngChartRenderer,
   shouldAttachTngChartResizeObserver,
-  TngEchart,
-} from './lib/tng-echart.component';
+  TngChart,
+} from './lib/tng-chart.component';
