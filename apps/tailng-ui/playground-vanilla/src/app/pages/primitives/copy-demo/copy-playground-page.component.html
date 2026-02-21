@@ -1,0 +1,55 @@
+<main class="page">
+  <section class="container">
+    <header class="hero">
+      <div class="links">
+        <a routerLink="/">Home</a>
+        <a routerLink="/button">Button Demo</a>
+      </div>
+      <h1 class="title">Copy Button Demo (Plain CSS)</h1>
+      <p class="subtitle">
+        Uses the <code>[tngCopy]</code> primitive and <code>&lt;tng-copy-button&gt;</code> wrapper.
+      </p>
+    </header>
+
+    <section class="card">
+      <h2>Wrapper: direct payload</h2>
+      <div class="row">
+        <tng-copy-button [text]="installCommand" (tngCopied)="onCopied($event)" />
+        <tng-copy-button
+          appearance="solid"
+          [text]="installCommand"
+          (tngCopied)="onCopied($event)"
+          (tngCopyError)="onCopyError($event)"
+        />
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Primitive: source element + ignore selectors</h2>
+      <p>
+        Line numbers are rendered but ignored during copy via
+        <code>tngCopyIgnoreSelectors</code>.
+      </p>
+
+      <pre #codeBlock class="code-surface">
+<span class="line"><span class="line-number" data-copy-ignore>1</span>pnpm nx run playground-tailwind:serve</span>
+<span class="line"><span class="line-number" data-copy-ignore>2</span>pnpm nx run playground-vanilla:serve</span>
+<span class="line"><span class="line-number" data-copy-ignore>3</span>pnpm tailng -- add copy --cwd apps/tailng-ui/playground-registry</span>
+</pre>
+
+      <button
+        type="button"
+        tngCopy
+        class="copy-trigger"
+        [tngCopyFrom]="codeBlock"
+        [tngCopyIgnoreSelectors]="['[data-copy-ignore]', '.line-number']"
+        (tngCopied)="onCopied($event)"
+        (tngCopyError)="onCopyError($event)"
+      >
+        Copy snippet without line numbers
+      </button>
+    </section>
+
+    <p class="status">{{ copyStatusMessage() }}</p>
+  </section>
+</main>

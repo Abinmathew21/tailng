@@ -437,6 +437,22 @@ it('tailng cli integration: add writes badge source files', async (): Promise<vo
   ).toBe(true);
 });
 
+it('tailng cli integration: add writes copy source files', async (): Promise<void> => {
+  const targetRoot = await createTargetRoot();
+
+  const exitCode = await runCli(['add', 'copy', '--cwd', targetRoot], {
+    registry: registryModule,
+  });
+
+  expect(exitCode).toBe(0);
+  expect(await pathExists(path.join(targetRoot, 'src/app/tailng-ui/copy/tng-copy-button.ts'))).toBe(
+    true,
+  );
+  expect(
+    await pathExists(path.join(targetRoot, 'src/app/tailng-ui/copy/tng-copy-primitive.ts')),
+  ).toBe(true);
+});
+
 it('tailng cli integration: add writes checkbox source files', async (): Promise<void> => {
   const targetRoot = await createTargetRoot();
 

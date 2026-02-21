@@ -21,6 +21,13 @@ export const appRoutes: Route[] = [
       ),
   },
   {
+    path: 'copy',
+    loadComponent: () =>
+      import('./pages/primitives/copy-demo/copy-playground-page.component').then(
+        (module) => module.CopyPlaygroundPageComponent,
+      ),
+  },
+  {
     path: 'accordion',
     loadComponent: () =>
       import('./pages/components/accordion-demo/accordion-playground-page.component').then(

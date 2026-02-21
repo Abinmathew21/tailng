@@ -12,6 +12,7 @@ import { chipsRegistryItem } from './chips/chips.registry';
 import { collapsibleRegistryItem } from './collapsible/collapsible.registry';
 import { comboboxRegistryItem } from './combobox/combobox.registry';
 import { contextmenuRegistryItem } from './context-menu/context-menu.registry';
+import { copyRegistryItem } from './copy/copy.registry';
 import { dialogRegistryItem } from './dialog/dialog.registry';
 import { drawerRegistryItem } from './drawer/drawer.registry';
 import { dropdownMenuRegistryItem } from './dropdown-menu/dropdown-menu.registry';
@@ -60,6 +61,7 @@ export const tailngRegistry: readonly RegistryItem[] = [
   inputOtpRegistryItem,
   menuRegistryItem,
   contextmenuRegistryItem,
+  copyRegistryItem,
   menubarRegistryItem,
   navigationmenuRegistryItem,
   toolbarRegistryItem,
