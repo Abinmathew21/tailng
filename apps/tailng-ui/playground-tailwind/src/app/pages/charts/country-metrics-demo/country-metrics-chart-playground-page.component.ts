@@ -1,5 +1,4 @@
 import { Component, computed, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import {
   TngBarChart,
   type TngBarChartInput,
@@ -147,7 +146,7 @@ function createCountryMetricsChartInput(metricKind: TngMetricKind): TngCountryMe
 
 @Component({
   selector: 'app-country-metrics-chart-playground-page',
-  imports: [RouterLink, TngBarChart, TngLineChart],
+  imports: [TngBarChart, TngLineChart],
   templateUrl: './country-metrics-chart-playground-page.component.html',
   styleUrl: './country-metrics-chart-playground-page.component.css',
 })

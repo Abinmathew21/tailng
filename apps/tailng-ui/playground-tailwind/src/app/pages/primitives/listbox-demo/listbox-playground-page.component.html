@@ -1,98 +1,58 @@
-<main class="min-h-screen bg-slate-950 px-4 py-8 text-slate-100 md:px-8">
-  <section class="mx-auto max-w-6xl space-y-6">
-    <header class="space-y-3">
-      <div class="flex flex-wrap items-center gap-3">
-        <a routerLink="/" class="rounded-lg border border-slate-700 px-3 py-1.5 text-sm text-slate-300">
-          Home
-        </a>
-        <a
-          routerLink="/theme"
-          class="rounded-lg border border-slate-700 px-3 py-1.5 text-sm text-slate-300"
-        >
-          Theme Demo
-        </a>
-        <a
-          routerLink="/button"
-          class="rounded-lg border border-slate-700 px-3 py-1.5 text-sm text-slate-300"
-        >
-          Button Demo
-        </a>
-        <a
-          routerLink="/icons"
-          class="rounded-lg border border-slate-700 px-3 py-1.5 text-sm text-slate-300"
-        >
-          Icon Demo
-        </a>
-      </div>
-      <h1 class="text-3xl font-semibold md:text-4xl">ListBox Demo (Tailwind)</h1>
-      <p class="max-w-3xl text-slate-300">
-        CDK-backed multi-select listbox with active-descendant focus, range selection, and
-        typeahead.
-      </p>
-    </header>
-
-    <section class="grid gap-4 rounded-2xl border border-slate-700 bg-slate-900 p-5 md:grid-cols-2">
-      <article class="space-y-2">
-        <h2 class="text-lg font-semibold">Keyboard Controls</h2>
-        <ul class="space-y-1 text-sm text-slate-300">
-          <li><span class="font-semibold text-cyan-300">Arrow Up/Down</span> move active option</li>
-          <li><span class="font-semibold text-cyan-300">Home/End</span> jump to first/last option</li>
-          <li><span class="font-semibold text-cyan-300">Space</span> toggle active selection</li>
-          <li><span class="font-semibold text-cyan-300">Enter</span> select only active option</li>
-          <li>
-            <span class="font-semibold text-cyan-300">Shift + Arrow</span> extend contiguous range
-          </li>
-          <li><span class="font-semibold text-cyan-300">Ctrl + A</span> select all enabled</li>
-          <li><span class="font-semibold text-cyan-300">Tab</span> leave listbox naturally</li>
-          <li><span class="font-semibold text-cyan-300">Type letters</span> typeahead jump</li>
+<div class="mx-auto max-w-[72rem] grid gap-5">
+  <section class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5 space-y-3">
+    <div class="grid gap-4 sm:grid-cols-2">
+      <article>
+        <h2 class="text-lg font-semibold mb-2">Keyboard Controls</h2>
+        <ul class="list-disc pl-5 grid gap-1 text-sm text-tng-fg-secondary m-0">
+          <li><strong class="text-tng-accent-brand">Arrow Up/Down</strong> move active option</li>
+          <li><strong class="text-tng-accent-brand">Home/End</strong> jump to first/last option</li>
+          <li><strong class="text-tng-accent-brand">Space</strong> toggle active selection</li>
+          <li><strong class="text-tng-accent-brand">Enter</strong> select only active option</li>
+          <li><strong class="text-tng-accent-brand">Shift + Arrow</strong> extend contiguous range</li>
+          <li><strong class="text-tng-accent-brand">Ctrl + A</strong> select all enabled</li>
+          <li><strong class="text-tng-accent-brand">Tab</strong> leave listbox naturally</li>
+          <li><strong class="text-tng-accent-brand">Type letters</strong> typeahead jump</li>
         </ul>
       </article>
 
-      <article class="space-y-2 rounded-xl border border-slate-700 bg-slate-950/60 p-4">
-        <h2 class="text-lg font-semibold">Live State</h2>
-        <p class="text-sm text-slate-300">
-          <span class="font-semibold text-slate-100">Active:</span> {{ activeLabel() }}
-        </p>
-        <p class="text-sm text-slate-300">
-          <span class="font-semibold text-slate-100">Selected:</span> {{ selectedLabel() }}
-        </p>
+      <article class="rounded-xl border border-tng-border-subtle bg-tng-bg-canvas p-3">
+        <h2 class="text-lg font-semibold mb-2">Live State</h2>
+        <p class="text-tng-fg-secondary mt-1 m-0"><strong>Active:</strong> {{ activeLabel() }}</p>
+        <p class="text-tng-fg-secondary mt-1 m-0"><strong>Selected:</strong> {{ selectedLabel() }}</p>
       </article>
-    </section>
-
-    <section class="rounded-2xl border border-slate-700 bg-slate-900 p-5">
-      <div
-        [id]="listboxId"
-        role="listbox"
-        tabindex="0"
-        aria-multiselectable="true"
-        [attr.aria-activedescendant]="activeId() ?? null"
-        class="space-y-2 rounded-xl border border-slate-700 bg-slate-950 p-3 outline-none focus:ring-2 focus:ring-cyan-400"
-        (focus)="onFocus()"
-        (keydown)="onKeydown($event)"
-      >
-        @for (option of options; track option.id) {
-          <div
-            [id]="option.id"
-            role="option"
-            class="rounded-lg border px-3 py-3 transition"
-            [class.border-slate-700]="!isActive(option.id)"
-            [class.border-cyan-400]="isActive(option.id)"
-            [class.bg-slate-900]="!isSelected(option.id)"
-            [class.bg-cyan-950/40]="isSelected(option.id)"
-            [class.opacity-50]="isDisabled(option.id)"
-            [class.cursor-not-allowed]="isDisabled(option.id)"
-            [class.cursor-pointer]="!isDisabled(option.id)"
-            [attr.aria-disabled]="isDisabled(option.id) ? 'true' : null"
-            [attr.aria-selected]="isSelected(option.id)"
-            tabindex="-1"
-            (click)="onOptionClick(option.id, $event)"
-            (keydown)="onOptionKeydown(option.id, $event)"
-          >
-            <p class="font-medium">{{ option.label }}</p>
-            <p class="mt-1 text-sm text-slate-300">{{ option.description }}</p>
-          </div>
-        }
-      </div>
-    </section>
+    </div>
   </section>
-</main>
+
+  <section class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5 space-y-3">
+    <div
+      [id]="listboxId"
+      role="listbox"
+      tabindex="0"
+      aria-multiselectable="true"
+      [attr.aria-activedescendant]="activeId() ?? null"
+      class="grid gap-2 rounded-xl border border-tng-border-subtle bg-tng-bg-canvas p-3 outline-none focus:border-tng-accent-brand focus:ring-2 focus:ring-tng-accent-brand/40"
+      (focus)="onFocus()"
+      (keydown)="onKeydown($event)"
+    >
+      @for (option of options; track option.id) {
+        <div
+          [id]="option.id"
+          role="option"
+          tabindex="-1"
+          class="cursor-pointer rounded-lg border border-tng-border-subtle bg-tng-bg-surface p-3 transition-colors"
+          [class.border-tng-accent-brand]="isActive(option.id)"
+          [class.bg-tng-accent-brand/45]="isSelected(option.id)"
+          [class.opacity-55]="isDisabled(option.id)"
+          [class.cursor-not-allowed]="isDisabled(option.id)"
+          [attr.aria-disabled]="isDisabled(option.id) ? 'true' : null"
+          [attr.aria-selected]="isSelected(option.id)"
+          (click)="onOptionClick(option.id, $event)"
+          (keydown)="onOptionKeydown(option.id, $event)"
+        >
+          <p class="font-semibold m-0">{{ option.label }}</p>
+          <p class="text-sm text-tng-fg-secondary mt-1 m-0">{{ option.description }}</p>
+        </div>
+      }
+    </div>
+  </section>
+</div>

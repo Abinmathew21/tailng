@@ -1,5 +1,4 @@
 import { computed, Component, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import {
   createActiveDescendantController,
   resolveListNavigationKeyAction,
@@ -68,7 +67,7 @@ function toOptionLabel(optionId: string | null): string {
 
 @Component({
   selector: 'app-dialog-playground-page',
-  imports: [RouterLink, TngButton, TngCheckbox, TngDialog, TngInput, TngTextarea],
+  imports: [TngButton, TngCheckbox, TngDialog, TngInput, TngTextarea],
   templateUrl: './dialog-playground-page.component.html',
   styleUrl: './dialog-playground-page.component.css',
 })

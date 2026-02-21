@@ -1,5 +1,4 @@
 import { Component, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { TngButtonToggle, TngButtonToggleGroup } from '@tailng-ui/components';
 import {
   TngButtonToggle as TngButtonTogglePrimitive,
@@ -24,7 +23,6 @@ function toggleSelection<TValue extends string>(
 @Component({
   selector: 'app-button-toggle-playground-page',
   imports: [
-    RouterLink,
     TngButtonToggle,
     TngButtonToggleGroup,
     TngButtonTogglePrimitive,

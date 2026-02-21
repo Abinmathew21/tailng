@@ -1,60 +1,23 @@
-<main class="min-h-screen bg-slate-950 px-4 py-8 text-slate-100 md:px-8">
-  <section class="mx-auto max-w-6xl space-y-6">
-    <header class="space-y-3">
-      <div class="flex flex-wrap items-center gap-3">
-        <a
-          routerLink="/"
-          class="rounded-lg border border-slate-700 px-3 py-1.5 text-sm text-slate-300"
-        >
-          Home
-        </a>
-      </div>
-      <h1 class="text-3xl font-semibold md:text-4xl">Menubar Demo (Tailwind)</h1>
-      <p class="max-w-2xl text-slate-300">Horizontal menu surface for top-level app actions.</p>
-    </header>
-
-    <section class="space-y-3 rounded-2xl border border-slate-700 bg-slate-900 p-5">
-      <h2 class="text-lg font-semibold">Primitives (`tngMenubar`)</h2>
-      <div
-        tngMenubar
-        role="menubar"
-        class="flex flex-wrap gap-2 rounded-xl border border-slate-700 bg-slate-950 p-4 text-sm"
-      >
-        <button role="menuitem" type="button" class="rounded-md border border-slate-700 px-3 py-1">
-          File
-        </button>
-        <button role="menuitem" type="button" class="rounded-md border border-slate-700 px-3 py-1">
-          Edit
-        </button>
-        <button role="menuitem" type="button" class="rounded-md border border-slate-700 px-3 py-1">
-          View
-        </button>
-      </div>
-    </section>
-
-    <section class="space-y-3 rounded-2xl border border-slate-700 bg-slate-900 p-5">
-      <h2 class="text-lg font-semibold">Components (`tng-menubar`)</h2>
-      <tng-menubar>
-        <div role="menubar" class="flex flex-wrap gap-2 text-sm">
-          <button
-            role="menuitem"
-            type="button"
-            class="rounded-md border border-slate-700 px-3 py-1"
-          >
-            Project
-          </button>
-          <button role="menuitem" type="button" class="rounded-md border border-cyan-500 px-3 py-1">
-            Components
-          </button>
-          <button
-            role="menuitem"
-            type="button"
-            class="rounded-md border border-slate-700 px-3 py-1"
-          >
-            Help
-          </button>
-        </div>
-      </tng-menubar>
-    </section>
+<div class="mx-auto max-w-[72rem] grid gap-5">
+  <section class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5 space-y-3">
+    <h2 class="text-lg font-semibold">Primitives (`tngMenubar`)</h2>
+    <div tngMenubar role="menubar" class="rounded-xl border border-tng-border-subtle px-4 py-3 text-tng-fg-primary flex flex-wrap gap-2">
+      <button role="menuitem" type="button" class="rounded-lg border border-tng-border-subtle bg-transparent px-4 py-2 text-sm font-medium text-tng-fg-primary">File</button>
+      <button role="menuitem" type="button" class="rounded-lg border border-tng-border-subtle bg-transparent px-4 py-2 text-sm font-medium text-tng-fg-primary">Edit</button>
+      <button role="menuitem" type="button" class="rounded-lg border border-tng-border-subtle bg-transparent px-4 py-2 text-sm font-medium text-tng-fg-primary">View</button>
+    </div>
   </section>
-</main>
+
+  <section class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5 space-y-3">
+    <h2 class="text-lg font-semibold">Components (`tng-menubar`)</h2>
+    <tng-menubar>
+      <div role="menubar" class="rounded-xl border border-tng-border-subtle px-4 py-3 text-tng-fg-primary flex flex-wrap gap-2">
+        <button role="menuitem" type="button" class="rounded-lg border border-tng-border-subtle bg-transparent px-4 py-2 text-sm font-medium text-tng-fg-primary">Project</button>
+        <button role="menuitem" type="button" class="rounded-lg border border-tng-accent-brand bg-tng-accent-brand px-4 py-2 text-sm font-medium text-tng-fg-inverse">
+          Components
+        </button>
+        <button role="menuitem" type="button" class="rounded-lg border border-tng-border-subtle bg-transparent px-4 py-2 text-sm font-medium text-tng-fg-primary">Help</button>
+      </div>
+    </tng-menubar>
+  </section>
+</div>

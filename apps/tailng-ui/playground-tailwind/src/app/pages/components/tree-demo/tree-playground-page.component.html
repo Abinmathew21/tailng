@@ -1,56 +1,37 @@
-<main class="min-h-screen bg-slate-950 px-4 py-8 text-slate-100 md:px-8">
-  <section class="mx-auto max-w-6xl space-y-6">
-    <header class="space-y-3">
-      <div class="flex flex-wrap items-center gap-3">
-        <a
-          routerLink="/"
-          class="rounded-lg border border-slate-700 px-3 py-1.5 text-sm text-slate-300"
-        >
-          Home
-        </a>
-      </div>
-      <h1 class="text-3xl font-semibold md:text-4xl">Tree Demo (Tailwind)</h1>
-      <p class="max-w-3xl text-slate-300">
-        Interactive tree with active-descendant navigation, branch toggles, and single selection.
-      </p>
-    </header>
+<div class="mx-auto max-w-[72rem] grid gap-5">
+  <section class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5 space-y-3">
+    <h2 class="text-lg font-semibold">Components (`tng-tree`)</h2>
+    <p class="text-sm text-tng-fg-secondary m-0">
+      Focus the tree and use keyboard controls to navigate and expand/collapse branches.
+    </p>
 
-    <section class="space-y-4 rounded-2xl border border-slate-700 bg-slate-900 p-5">
-      <h2 class="text-lg font-semibold">Components (`tng-tree`)</h2>
-      <p class="text-sm text-slate-300">
-        Focus the tree and use keyboard controls to navigate and expand/collapse branches.
-      </p>
+    <tng-tree
+      [nodes]="treeNodes"
+      [defaultExpandedIds]="defaultExpandedIds"
+      [defaultSelectedId]="'tokens'"
+      [ariaLabel]="'TailNG repository tree'"
+      (selectedIdChange)="onSelectedIdChange($event)"
+    />
 
-      <tng-tree
-        [nodes]="treeNodes"
-        [defaultExpandedIds]="defaultExpandedIds"
-        [defaultSelectedId]="'tokens'"
-        [ariaLabel]="'TailNG repository tree'"
-        (selectedIdChange)="onSelectedIdChange($event)"
-      />
+    <p class="rounded-lg border border-tng-border-subtle bg-tng-bg-canvas p-3 text-sm text-tng-fg-primary m-0">
+      Selected node: <strong class="text-tng-accent-brand">{{ selectedLabel() }}</strong>
+    </p>
 
-      <div class="rounded-xl border border-cyan-500/40 bg-slate-950/60 px-3 py-2 text-sm text-cyan-200">
-        Selected node: <span class="font-semibold">{{ selectedLabel() }}</span>
-      </div>
-
-      <ul class="grid gap-1 text-sm text-slate-300 md:grid-cols-2">
-        <li><span class="font-semibold text-cyan-300">ArrowUp / ArrowDown</span> move active node</li>
-        <li><span class="font-semibold text-cyan-300">ArrowRight</span> expand branch or enter child</li>
-        <li><span class="font-semibold text-cyan-300">ArrowLeft</span> collapse branch or move to parent</li>
-        <li><span class="font-semibold text-cyan-300">Home / End</span> jump to first/last visible node</li>
-        <li><span class="font-semibold text-cyan-300">Enter / Space</span> select active node</li>
-        <li><span class="font-semibold text-cyan-300">Type letters</span> typeahead search by node label</li>
-      </ul>
-    </section>
-
-    <section class="space-y-3 rounded-2xl border border-slate-700 bg-slate-900 p-5">
-      <h2 class="text-lg font-semibold">Primitives (`tngTree`)</h2>
-      <p class="text-sm text-slate-300">
-        Primitive provides the shell hook; behavior is implemented by the component layer.
-      </p>
-      <div tngTree class="rounded-xl border border-slate-700 bg-slate-950 p-4 text-sm text-slate-300">
-        This shell can host custom tree markup if you need fully owned rendering.
-      </div>
-    </section>
+    <ul class="list-disc pl-5 space-y-1 text-sm text-tng-fg-secondary m-0">
+      <li><strong class="text-tng-accent-brand">ArrowUp / ArrowDown</strong> move active node</li>
+      <li><strong class="text-tng-accent-brand">ArrowRight</strong> expand branch or enter child</li>
+      <li><strong class="text-tng-accent-brand">ArrowLeft</strong> collapse branch or move to parent</li>
+      <li><strong class="text-tng-accent-brand">Home / End</strong> jump to first/last visible node</li>
+      <li><strong class="text-tng-accent-brand">Enter / Space</strong> select active node</li>
+      <li><strong class="text-tng-accent-brand">Type letters</strong> typeahead search by node label</li>
+    </ul>
   </section>
-</main>
+
+  <section class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5 space-y-3">
+    <h2 class="text-lg font-semibold">Primitives (`tngTree`)</h2>
+    <p class="text-sm text-tng-fg-secondary m-0">Primitive provides the shell hook; behavior is implemented by component layer.</p>
+    <div tngTree class="rounded-xl border border-tng-border-subtle px-4 py-3 text-tng-fg-primary">
+      This shell can host custom tree markup for fully owned rendering.
+    </div>
+  </section>
+</div>

@@ -1,0 +1,139 @@
+<div class="flex h-full min-h-0">
+  <!-- Left sidebar -->
+  <aside
+    class="flex h-full w-72 flex-shrink-0 flex-col border-r border-tng-border-subtle bg-tng-bg-surface"
+  >
+    <!-- Logo -->
+    <a
+      routerLink="/"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      aria-label="TailNG Home"
+      class="flex flex-shrink-0 items-center gap-3 border-b border-tng-border-subtle px-5 py-4 text-inherit no-underline transition-colors duration-150 hover:bg-tng-bg-muted"
+    >
+      <img src="logo.svg" alt="" class="h-8 w-8 object-contain" />
+      <span class="brand-name text-xl font-bold text-tng-fg-primary [.active_&]:text-tng-accent-brand">TailNG</span>
+    </a>
+
+    <!-- Search -->
+    <div class="flex-shrink-0 px-4 py-3">
+      <input
+        type="search"
+        placeholder="Search components..."
+        [value]="searchQuery()"
+        (input)="onSearchInput($any($event.target).value)"
+        aria-label="Search components"
+        class="w-full rounded-lg border border-tng-border-subtle bg-tng-bg-canvas px-3 py-2 text-sm text-tng-fg-primary placeholder:text-tng-fg-secondary focus:border-tng-focus-ring focus:outline-none"
+      />
+    </div>
+
+    <!-- Nav -->
+    <nav class="flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto px-4 pb-4 pt-2" data-tng-accordion-group>
+      @if (groups().length === 0) {
+        <p class="px-1 pt-2 text-[0.8125rem] text-tng-fg-secondary">No components match your search.</p>
+      } @else {
+        @for (group of groups(); track group.category) {
+          <tng-accordion [title]="group.label" [defaultOpen]="true">
+            <div
+              role="listbox"
+              class="flex flex-col gap-0.5"
+              [attr.aria-label]="group.label + ' components'"
+            >
+              @for (item of group.items; track item.path) {
+                <div
+                  role="option"
+                  [attr.aria-selected]="isActive(item.path)"
+                  tabindex="0"
+                  (click)="onOptionSelect(item.path)"
+                  (keydown)="onOptionKeydown(item.path, $event)"
+                  class="cursor-pointer rounded py-1.5 px-3 text-[0.8125rem] text-tng-fg-secondary transition-colors duration-150 hover:bg-tng-bg-muted hover:text-tng-fg-primary focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-tng-focus-ring focus-visible:outline-offset-[-1px]"
+                  [class.bg-tng-bg-muted]="isActive(item.path)"
+                  [class.text-tng-accent-brand]="isActive(item.path)"
+                >
+                  {{ item.title }}
+                </div>
+              }
+            </div>
+          </tng-accordion>
+        }
+      }
+    </nav>
+  </aside>
+
+  <!-- Right: header + content -->
+  <div class="flex min-h-0 min-w-0 flex-1 flex-col bg-tng-bg-canvas text-tng-fg-primary">
+    <!-- Header -->
+    <header class="flex-shrink-0 border-b border-tng-border-subtle px-8 py-6">
+      <div class="flex flex-wrap items-start justify-between gap-4">
+        <div class="min-w-0 flex-1">
+          <h1 class="mb-2 text-[clamp(1.5rem,2vw+0.75rem,2rem)] leading-tight">{{ pageTitle() }}</h1>
+          <nav tngBreadcrumb class="block" aria-label="Breadcrumb">
+            <ol tngBreadcrumbList class="flex flex-wrap items-center gap-x-2 gap-y-1 p-0 m-0 list-none">
+              @for (crumb of breadcrumbs(); track $index; let last = $last) {
+                <li tngBreadcrumbItem class="flex items-center">
+                  @if (crumb.path) {
+                    <a tngBreadcrumbLink [routerLink]="crumb.path" class="text-sm text-tng-accent-brand no-underline hover:underline">{{ crumb.label }}</a>
+                  } @else {
+                    <span class="text-sm text-tng-fg-secondary">{{ crumb.label }}</span>
+                  }
+                </li>
+                @if (!last) {
+                  <li tngBreadcrumbSeparator class="pointer-events-none text-sm text-tng-fg-secondary">/</li>
+                }
+              }
+            </ol>
+          </nav>
+        </div>
+        <div class="flex flex-shrink-0 items-center gap-2">
+          <!-- Preset menu -->
+          <div class="relative" #themeMenuRef>
+            <button
+              type="button"
+              [attr.aria-expanded]="themeMenuOpen()"
+              [attr.aria-haspopup]="'menu'"
+              aria-label="Choose theme preset"
+              (click)="toggleThemeMenu()"
+              class="inline-flex items-center justify-center rounded-lg border border-tng-border-subtle p-2 text-tng-fg-primary transition-colors duration-150 hover:bg-tng-bg-muted focus:outline-none focus-visible:outline-2 focus-visible:outline-tng-focus-ring focus-visible:outline-offset-2"
+            >
+              <tng-icon icon="palette"></tng-icon>
+            </button>
+            @if (themeMenuOpen()) {
+              <ul
+                role="menu"
+                class="absolute right-0 top-full z-50 mt-1 min-w-32 list-none rounded-lg border border-tng-border-subtle bg-tng-bg-surface p-1 shadow-[0_4px_12px_rgba(0,0,0,0.15)]"
+              >
+                @for (preset of presetOptions; track preset.id) {
+                  <li
+                    role="menuitem"
+                    tabindex="0"
+                    (click)="onPresetSelect(preset.id); $event.stopPropagation()"
+                    class="cursor-pointer rounded-md px-3 py-2 text-sm text-tng-fg-primary transition-colors duration-150 hover:bg-tng-bg-muted focus:bg-tng-bg-muted focus:outline-none"
+                    [class.font-semibold]="selectedPreset() === preset.id"
+                    [class.text-tng-accent-brand]="selectedPreset() === preset.id"
+                  >
+                    {{ preset.label }}
+                  </li>
+                }
+              </ul>
+            }
+          </div>
+          <!-- Theme toggle -->
+          <tng-toggle
+            [pressed]="darkMode()"
+            pressedLabel="Switch to light mode"
+            unpressedLabel="Switch to dark mode"
+            (pressedChange)="onThemeModeChange($event)"
+          >
+            <tng-icon icon="moon" offIcon></tng-icon>
+            <tng-icon icon="sun" onIcon></tng-icon>
+          </tng-toggle>
+        </div>
+      </div>
+    </header>
+
+    <!-- Content -->
+    <section class="min-h-0 flex-1 overflow-y-auto px-8 py-6">
+      <router-outlet />
+    </section>
+  </div>
+</div>

@@ -1,74 +1,47 @@
-<main class="min-h-screen bg-slate-950 px-4 py-8 text-slate-100 md:px-8">
-  <section class="mx-auto max-w-6xl space-y-6">
-    <header class="space-y-3">
-      <div class="flex flex-wrap items-center gap-3">
-        <a routerLink="/" class="rounded-lg border border-slate-700 px-3 py-1.5 text-sm text-slate-300">Home</a>
-        <a
-          routerLink="/dialog"
-          class="rounded-lg border border-slate-700 px-3 py-1.5 text-sm text-slate-300"
-        >
-          Dialog Demo
-        </a>
-      </div>
-      <h1 class="text-3xl font-semibold md:text-4xl">Popover Demo (Tailwind)</h1>
-      <p class="max-w-3xl text-slate-300">
-        Validate trigger semantics, outside click handling, escape close, and composability with
-        TailNG buttons.
-      </p>
-    </header>
-
-    <section class="grid gap-4 rounded-2xl border border-slate-700 bg-slate-900 p-5 md:grid-cols-2">
-      <article class="space-y-3">
-        <h2 class="text-lg font-semibold">Quick Actions</h2>
-        <tng-popover
-          triggerLabel="Project Actions"
-          [open]="actionsPopoverOpen()"
-          (openChange)="onActionsPopoverChange($event)"
-        >
-          <div class="grid gap-2">
-            @for (action of actions; track action.id) {
-              <button
-                type="button"
-                class="rounded-md border border-slate-700 px-3 py-2 text-left text-sm transition hover:border-cyan-400 hover:bg-slate-800"
-                (click)="onActionPick(action.id)"
-              >
-                <p class="font-semibold text-slate-100">{{ action.label }}</p>
-                <p class="text-xs text-slate-400">{{ action.description }}</p>
-              </button>
-            }
-          </div>
-        </tng-popover>
-      </article>
-
-      <article class="space-y-3">
-        <h2 class="text-lg font-semibold">Release Info</h2>
-        <tng-popover
-          triggerLabel="View Details"
-          [open]="detailsPopoverOpen()"
-          (openChange)="onDetailsPopoverChange($event)"
-        >
-          <div class="space-y-2 text-sm text-slate-200">
-            <p class="font-semibold text-cyan-300">TailNG Overlay Readiness</p>
-            <ul class="space-y-1 text-slate-300">
-              <li>Dialog + backdrop integrated with keyboard close.</li>
-              <li>Popover supports outside pointer and escape dismiss.</li>
-              <li>ListBox now validated inside dialog content.</li>
-            </ul>
-          </div>
-        </tng-popover>
-      </article>
+<div class="mx-auto max-w-[72rem] grid gap-5">
+  <div class="grid gap-5 sm:grid-cols-2">
+    <section class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5 space-y-3">
+      <h2 class="text-lg font-semibold">Quick Actions</h2>
+      <tng-popover
+        triggerLabel="Project Actions"
+        [open]="actionsPopoverOpen()"
+        (openChange)="onActionsPopoverChange($event)"
+      >
+        <div class="space-y-1">
+          @for (action of actions; track action.id) {
+            <button type="button" class="block w-full rounded px-2 py-2 text-left text-sm hover:bg-tng-bg-muted" (click)="onActionPick(action.id)">
+              <p class="font-medium m-0">{{ action.label }}</p>
+              <p class="text-tng-fg-secondary text-xs m-0 mt-0.5">{{ action.description }}</p>
+            </button>
+          }
+        </div>
+      </tng-popover>
     </section>
 
-    <section class="rounded-2xl border border-slate-700 bg-slate-900 p-5">
-      <h2 class="text-lg font-semibold">Selected Action</h2>
-      <p class="mt-2 text-sm text-slate-300">
-        {{ selectedAction() ?? 'No action selected yet.' }}
-      </p>
-      <div class="mt-4">
-        <tng-button appearance="outline" tone="neutral" (click)="selectedAction.set(null)">
-          Clear Selection
-        </tng-button>
-      </div>
+    <section class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5 space-y-3">
+      <h2 class="text-lg font-semibold">Release Info</h2>
+      <tng-popover
+        triggerLabel="View Details"
+        [open]="detailsPopoverOpen()"
+        (openChange)="onDetailsPopoverChange($event)"
+      >
+        <div>
+          <p class="font-semibold m-0">TailNG Overlay Readiness</p>
+          <ul class="list-disc pl-5 mt-2 space-y-1 text-sm text-tng-fg-secondary">
+            <li>Dialog + backdrop integrated with keyboard close.</li>
+            <li>Popover supports outside pointer and escape dismiss.</li>
+            <li>ListBox now validated inside dialog content.</li>
+          </ul>
+        </div>
+      </tng-popover>
     </section>
+  </div>
+
+  <section class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5 space-y-3">
+    <h2 class="text-lg font-semibold">Selected Action</h2>
+    <p class="text-tng-fg-secondary m-0">{{ selectedAction() ?? 'No action selected yet.' }}</p>
+    <tng-button appearance="outline" tone="neutral" (click)="selectedAction.set(null)">
+      Clear Selection
+    </tng-button>
   </section>
-</main>
+</div>

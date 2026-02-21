@@ -1,11 +1,10 @@
 import { Component, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { TngSkeleton as TngSkeletonComponent } from '@tailng-ui/components';
 import { TngSkeleton } from '@tailng-ui/primitives';
 
 @Component({
   selector: 'app-skeleton-playground-page',
-  imports: [RouterLink, TngSkeleton, TngSkeletonComponent],
+  imports: [TngSkeleton, TngSkeletonComponent],
   templateUrl: './skeleton-playground-page.component.html',
   styleUrl: './skeleton-playground-page.component.css',
 })

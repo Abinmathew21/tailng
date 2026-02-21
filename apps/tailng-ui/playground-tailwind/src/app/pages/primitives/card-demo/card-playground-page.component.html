@@ -1,119 +1,64 @@
-<main class="min-h-screen bg-slate-950 px-4 py-8 text-slate-100 md:px-8">
-  <section class="mx-auto max-w-6xl space-y-6">
-    <header class="space-y-3">
-      <div class="flex flex-wrap items-center gap-3">
-        <a
-          routerLink="/"
-          class="rounded-lg border border-slate-700 px-3 py-1.5 text-sm text-slate-300"
-        >
-          Home
-        </a>
-        <a
-          routerLink="/theme"
-          class="rounded-lg border border-slate-700 px-3 py-1.5 text-sm text-slate-300"
-        >
-          Theme Demo
-        </a>
-        <a
-          routerLink="/icons"
-          class="rounded-lg border border-slate-700 px-3 py-1.5 text-sm text-slate-300"
-        >
-          Icon Demo
-        </a>
-        <a
-          routerLink="/button"
-          class="rounded-lg border border-slate-700 px-3 py-1.5 text-sm text-slate-300"
-        >
-          Button Demo
-        </a>
-        <a
-          routerLink="/input"
-          class="rounded-lg border border-slate-700 px-3 py-1.5 text-sm text-slate-300"
-        >
-          Input Demo
-        </a>
-      </div>
-      <h1 class="text-3xl font-semibold md:text-4xl">Card Demo (Tailwind)</h1>
-      <p class="max-w-2xl text-slate-300">
-        First example uses primitives (`tngCard*`) with your own CSS classes. Second example uses
-        owned wrappers (`tng-card*`).
-      </p>
-    </header>
-
-    <section class="space-y-3 rounded-2xl border border-slate-700 bg-slate-900 p-5">
-      <h2 class="text-lg font-semibold">Primitives (`tngCard*`)</h2>
-      <article tngCard class="grid gap-4 rounded-xl border border-cyan-700 bg-cyan-950/30 p-5">
-        <header tngCardHeader class="grid gap-1">
-          <h3 tngCardTitle class="text-xl font-semibold text-cyan-100">Release Summary</h3>
-          <p tngCardDescription class="text-sm text-cyan-200/80">
-            TailNG card primitives with custom utility classes.
-          </p>
-        </header>
-        <section tngCardContent class="text-sm text-slate-200">
-          <p>Build status: healthy, 0 lint warnings, all vitest suites passing.</p>
-        </section>
-        <footer tngCardFooter class="flex flex-wrap justify-end gap-2">
-          <button
-            type="button"
-            class="rounded-lg border border-cyan-400 px-3 py-1.5 text-sm font-semibold text-cyan-200"
-          >
-            View Logs
-          </button>
-          <button
-            type="button"
-            class="rounded-lg bg-cyan-400 px-3 py-1.5 text-sm font-semibold text-slate-950"
-          >
-            Deploy
-          </button>
-        </footer>
-      </article>
-    </section>
-
-    <section class="space-y-3 rounded-2xl border border-slate-700 bg-slate-900 p-5">
-      <h2 class="text-lg font-semibold">Components (`tng-card*`)</h2>
-      <div class="grid gap-4 md:grid-cols-2">
-        <tng-card>
-          <tng-card-header>
-            <tng-card-title>Design Tokens</tng-card-title>
-            <tng-card-description>
-              Card wrappers consume the same primitive slot directives.
-            </tng-card-description>
-          </tng-card-header>
-          <tng-card-content>
-            <p class="text-sm text-slate-300">
-              Update semantic surface, border, and foreground tokens to restyle every card globally.
-            </p>
-          </tng-card-content>
-          <tng-card-footer>
-            <button
-              type="button"
-              class="rounded-lg border border-slate-600 px-3 py-1.5 text-sm text-slate-300"
-            >
-              Cancel
-            </button>
-            <button
-              type="button"
-              class="rounded-lg bg-cyan-400 px-3 py-1.5 text-sm font-semibold text-slate-950"
-            >
-              Save
-            </button>
-          </tng-card-footer>
-        </tng-card>
-
-        <tng-card>
-          <tng-card-header>
-            <tng-card-title>Readonly Card</tng-card-title>
-            <tng-card-description>Useful for compact summary widgets.</tng-card-description>
-          </tng-card-header>
-          <tng-card-content>
-            <ul class="list-disc space-y-1 pl-5 text-sm text-slate-300">
-              <li>11 component test files green</li>
-              <li>Registry add command verified</li>
-              <li>Playground demos in tailwind + vanilla</li>
-            </ul>
-          </tng-card-content>
-        </tng-card>
-      </div>
-    </section>
+<div class="mx-auto max-w-[72rem] grid gap-5">
+  <section class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5 space-y-3">
+    <h2 class="text-lg font-semibold">Primitives (`tngCard*`)</h2>
+    <article tngCard class="rounded-xl border border-tng-accent-brand bg-tng-accent-brand/35 p-4 space-y-3">
+      <header tngCardHeader class="space-y-1">
+        <h3 tngCardTitle class="text-tng-fg-inverse m-0">Release Summary</h3>
+        <p tngCardDescription class="text-sm text-tng-fg-secondary m-0">TailNG card primitives with custom CSS.</p>
+      </header>
+      <section tngCardContent>
+        <p class="m-0">Build status: healthy, 0 lint warnings, all vitest suites passing.</p>
+      </section>
+      <footer tngCardFooter class="flex gap-2 justify-end">
+        <button type="button" class="rounded-lg border border-tng-accent-brand bg-transparent px-3 py-2 text-sm font-medium text-tng-fg-secondary">
+          View Logs
+        </button>
+        <button type="button" class="rounded-lg border-0 bg-tng-accent-brand px-3 py-2 text-sm font-semibold text-tng-fg-inverse">
+          Deploy
+        </button>
+      </footer>
+    </article>
   </section>
-</main>
+
+  <section class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5 space-y-3">
+    <h2 class="text-lg font-semibold">Components (`tng-card*`)</h2>
+    <div class="grid gap-4 sm:grid-cols-2">
+      <tng-card>
+        <tng-card-header>
+          <tng-card-title>Design Tokens</tng-card-title>
+          <tng-card-description>
+            Card wrappers consume the same primitive slot directives.
+          </tng-card-description>
+        </tng-card-header>
+        <tng-card-content>
+          <p class="text-tng-fg-secondary m-0">
+            Update semantic surface, border, and foreground tokens to restyle every card
+            globally.
+          </p>
+        </tng-card-content>
+        <tng-card-footer>
+          <button type="button" class="rounded-lg border border-tng-accent-brand bg-transparent px-3 py-2 text-sm font-medium text-tng-fg-secondary">
+            Cancel
+          </button>
+          <button type="button" class="rounded-lg border-0 bg-tng-accent-brand px-3 py-2 text-sm font-semibold text-tng-fg-inverse">
+            Save
+          </button>
+        </tng-card-footer>
+      </tng-card>
+
+      <tng-card>
+        <tng-card-header>
+          <tng-card-title>Readonly Card</tng-card-title>
+          <tng-card-description>Useful for compact summary widgets.</tng-card-description>
+        </tng-card-header>
+        <tng-card-content>
+          <ul class="m-0 pl-5">
+            <li>11 component test files green</li>
+            <li>Registry add command verified</li>
+            <li>Playground demos in tailwind + vanilla</li>
+          </ul>
+        </tng-card-content>
+      </tng-card>
+    </div>
+  </section>
+</div>
