@@ -102,8 +102,10 @@ TailNG public APIs stable (`@tailng-ui/cdk/*`).
       `outside-interaction`, and `scroll-lock` (feature-flagged, fallback-safe).
 - [x] Migrate internals to concrete Angular CDK delegate implementations
       (`libs/tailng-ui/cdk/src/adapters/angular-cdk/overlay.angular-cdk.ts`).
-- [ ] Update dialog/popover internals to use migrated overlay adapters.
-- [ ] Add regression tests for escape/outside click/stacked overlays.
+- [x] Update dialog/popover internals to use migrated overlay adapters
+      (`createOverlayRuntime` + `createOverlayScrollLockManager`).
+- [x] Add regression tests for escape/outside click/stacked overlays
+      (`libs/tailng-ui/cdk/src/runtime/overlay-runtime.spec.ts`).
 
 ## Phase 3: A11y And Selection Migration
 

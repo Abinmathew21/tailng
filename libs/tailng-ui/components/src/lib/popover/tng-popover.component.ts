@@ -11,7 +11,8 @@ import {
   viewChild,
 } from '@angular/core';
 import type { OnDestroy } from '@angular/core';
-import { createTngIdFactory } from '@tailng-ui/cdk/core';
+import { createTngIdFactory, type TngOverlayDismissReason } from '@tailng-ui/cdk';
+import { tngOverlayRuntime } from '../overlay/tng-overlay-runtime';
 
 const createPopoverId = createTngIdFactory('tng-popover');
 
@@ -24,31 +25,11 @@ const focusableSelector = [
   '[tabindex]:not([tabindex="-1"])',
 ].join(',');
 
-export type TngPopoverCloseReason = 'escape' | 'outside-pointer' | 'programmatic' | 'trigger-toggle';
-
-function readEventTarget(event: unknown): Node | null {
-  if (!(event instanceof Event)) {
-    return null;
-  }
-
-  return event.target instanceof Node ? event.target : null;
-}
-
-function readKeyboardEvent(event: unknown): KeyboardEvent | null {
-  return event instanceof KeyboardEvent ? event : null;
-}
-
-function resolveDocument(value: unknown): Document | null {
-  return value instanceof Document ? value : null;
-}
-
-function resolveGlobalDocument(): Document | null {
-  if (typeof document === 'undefined') {
-    return null;
-  }
-
-  return document;
-}
+export type TngPopoverCloseReason =
+  | 'escape'
+  | 'outside-pointer'
+  | 'programmatic'
+  | 'trigger-toggle';
 
 function resolveFocusableElements(container: unknown): readonly HTMLElement[] {
   if (!(container instanceof HTMLElement)) {
@@ -56,6 +37,18 @@ function resolveFocusableElements(container: unknown): readonly HTMLElement[] {
   }
 
   return Array.from(container.querySelectorAll<HTMLElement>(focusableSelector));
+}
+
+function toPopoverCloseReason(reason: TngOverlayDismissReason): TngPopoverCloseReason | null {
+  if (reason === 'escape-key') {
+    return 'escape';
+  }
+
+  if (reason === 'outside-pointer') {
+    return 'outside-pointer';
+  }
+
+  return null;
 }
 
 @Component({
@@ -81,27 +74,19 @@ export class TngPopover implements OnDestroy {
 
   protected readonly panelId: string;
 
-  private readonly documentRef = resolveDocument(resolveGlobalDocument());
   private readonly hostRef = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly injector = inject(Injector);
   private readonly panelRef = viewChild<ElementRef<HTMLElement>>('panelRef');
   private readonly instanceId = createPopoverId();
-  private listenersAttached = false;
-
-  private readonly documentKeydownListener = (event: unknown): void => {
-    this.onDocumentKeydown(event);
-  };
-  private readonly documentPointerDownListener = (event: unknown): void => {
-    this.onDocumentPointerDown(event);
-  };
+  private isLayerRegistered = false;
   private readonly openStateEffect = effect((): void => {
     if (this.open()) {
-      this.attachListeners();
+      this.registerOverlayLayer();
       this.focusInitialElement();
       return;
     }
 
-    this.detachListeners();
+    this.unregisterOverlayLayer();
   });
 
   public constructor() {
@@ -114,21 +99,7 @@ export class TngPopover implements OnDestroy {
 
   public ngOnDestroy(): void {
     this.openStateEffect.destroy();
-    this.detachListeners();
-  }
-
-  public onPanelKeydown(event: unknown): void {
-    const keyboardEvent = readKeyboardEvent(event);
-    if (keyboardEvent?.key !== 'Escape') {
-      return;
-    }
-
-    if (!this.closeOnEscape()) {
-      return;
-    }
-
-    keyboardEvent.preventDefault();
-    this.requestClose('escape');
+    this.unregisterOverlayLayer();
   }
 
   public onTriggerClick(): void {
@@ -140,24 +111,42 @@ export class TngPopover implements OnDestroy {
     this.openChange.emit(true);
   }
 
-  private attachListeners(): void {
-    if (this.listenersAttached || this.documentRef === null) {
+  private handleOverlayDismiss(reason: TngOverlayDismissReason): void {
+    const closeReason = toPopoverCloseReason(reason);
+    if (closeReason === null) {
       return;
     }
 
-    this.listenersAttached = true;
-    this.documentRef.addEventListener('keydown', this.documentKeydownListener);
-    this.documentRef.addEventListener('pointerdown', this.documentPointerDownListener);
+    this.requestClose(closeReason);
   }
 
-  private detachListeners(): void {
-    if (!this.listenersAttached || this.documentRef === null) {
+  private registerOverlayLayer(): void {
+    if (this.isLayerRegistered) {
       return;
     }
 
-    this.listenersAttached = false;
-    this.documentRef.removeEventListener('keydown', this.documentKeydownListener);
-    this.documentRef.removeEventListener('pointerdown', this.documentPointerDownListener);
+    this.isLayerRegistered = true;
+    tngOverlayRuntime.registerLayer({
+      containsTarget: (target: unknown): boolean => {
+        return target instanceof Node ? this.hostRef.nativeElement.contains(target) : false;
+      },
+      dismissOnEscape: this.closeOnEscape(),
+      dismissOnOutsidePointer: this.closeOnOutsidePointer(),
+      id: this.instanceId,
+      onDismiss: (reason: TngOverlayDismissReason): void => {
+        this.handleOverlayDismiss(reason);
+      },
+      priority: 110,
+    });
+  }
+
+  private unregisterOverlayLayer(): void {
+    if (!this.isLayerRegistered) {
+      return;
+    }
+
+    this.isLayerRegistered = false;
+    tngOverlayRuntime.unregisterLayer(this.instanceId);
   }
 
   private focusInitialElement(): void {
@@ -178,33 +167,6 @@ export class TngPopover implements OnDestroy {
       },
       { injector: this.injector },
     );
-  }
-
-  private onDocumentKeydown(event: unknown): void {
-    const keyboardEvent = readKeyboardEvent(event);
-    if (keyboardEvent?.key !== 'Escape') {
-      return;
-    }
-
-    if (!this.closeOnEscape()) {
-      return;
-    }
-
-    keyboardEvent.preventDefault();
-    this.requestClose('escape');
-  }
-
-  private onDocumentPointerDown(event: unknown): void {
-    if (!this.closeOnOutsidePointer()) {
-      return;
-    }
-
-    const target = readEventTarget(event);
-    if (target === null || this.hostRef.nativeElement.contains(target)) {
-      return;
-    }
-
-    this.requestClose('outside-pointer');
   }
 
   private requestClose(reason: TngPopoverCloseReason): void {

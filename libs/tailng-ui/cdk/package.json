@@ -24,6 +24,10 @@
     "./core": {
       "types": "./src/core/index.d.ts",
       "default": "./src/core/index.js"
+    },
+    "./runtime": {
+      "types": "./src/runtime/index.d.ts",
+      "default": "./src/runtime/index.js"
     }
   },
   "peerDependencies": {

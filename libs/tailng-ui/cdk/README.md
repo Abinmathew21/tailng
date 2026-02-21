@@ -26,6 +26,12 @@ Behavior and accessibility primitives for TailNG UI.
 - Dismissable layer
 - Focus scope
 
+## Overlay Runtime
+
+- `createOverlayRuntime(...)` centralizes stack + interaction orchestration using adapter wiring.
+- `createOverlayScrollLockManager(...)` routes scroll locking through overlay adapter policy.
+- Intended for component-level integration (for example dialog/popover) without exposing adapter internals directly.
+
 ## Angular CDK Migration
 
 - Migration checklist: `cdk-angular-migration-plan.md` (repo root)
