@@ -8,21 +8,39 @@ export function resolveTngSwitchDataState(checked: boolean): 'checked' | 'unchec
   return checked ? 'checked' : 'unchecked';
 }
 
+export function resolveTngSwitchAriaRequired(required: boolean): 'true' | null {
+  return required ? 'true' : null;
+}
+
 @Directive({
   selector: 'button[tngSwitch]',
   exportAs: 'tngSwitch',
 })
 export class TngSwitch {
+  public readonly ariaLabel = input<string | null>(null);
   public readonly checked = input<boolean, boolean | string>(false, {
     transform: booleanAttribute,
   });
   public readonly disabled = input<boolean, boolean | string>(false, {
     transform: booleanAttribute,
   });
+  public readonly required = input<boolean, boolean | string>(false, {
+    transform: booleanAttribute,
+  });
 
   @HostBinding('attr.aria-checked')
   protected get ariaCheckedAttr(): 'false' | 'true' {
     return resolveTngSwitchAriaChecked(this.checked());
+  }
+
+  @HostBinding('attr.aria-label')
+  protected get ariaLabelAttr(): string | null {
+    return this.ariaLabel();
+  }
+
+  @HostBinding('attr.aria-required')
+  protected get ariaRequiredAttr(): 'true' | null {
+    return resolveTngSwitchAriaRequired(this.required());
   }
 
   @HostBinding('attr.data-disabled')

@@ -10,9 +10,19 @@ import { TngSwitch as TngSwitchPrimitive } from '@tailng-ui/primitives';
   styleUrl: './switch-playground-page.component.css',
 })
 export class SwitchPlaygroundPageComponent {
+  protected readonly airplaneModeEnabled = signal(false);
+  protected readonly primitiveChecked = signal(false);
   protected readonly notificationsEnabled = signal(false);
+
+  protected onAirplaneModeChange(value: boolean): void {
+    this.airplaneModeEnabled.set(value);
+  }
 
   protected onNotificationsEnabledChange(value: boolean): void {
     this.notificationsEnabled.set(value);
+  }
+
+  protected onPrimitiveSwitchToggle(): void {
+    this.primitiveChecked.update((checked) => !checked);
   }
 }

@@ -10,21 +10,39 @@ export function resolveTngSwitchDataState(checked: boolean): 'checked' | 'unchec
   return checked ? 'checked' : 'unchecked';
 }
 
+export function resolveTngSwitchAriaRequired(required: boolean): 'true' | null {
+  return required ? 'true' : null;
+}
+
 @Directive({
   selector: 'button[tngSwitch]',
   exportAs: 'tngSwitch',
 })
 export class TngSwitchPrimitive {
+  public readonly ariaLabel = input<string | null>(null);
   public readonly checked = input<boolean, boolean | string>(false, {
     transform: booleanAttribute,
   });
   public readonly disabled = input<boolean, boolean | string>(false, {
     transform: booleanAttribute,
   });
+  public readonly required = input<boolean, boolean | string>(false, {
+    transform: booleanAttribute,
+  });
 
   @HostBinding('attr.aria-checked')
   protected get ariaCheckedAttr(): 'false' | 'true' {
     return resolveTngSwitchAriaChecked(this.checked());
+  }
+
+  @HostBinding('attr.aria-label')
+  protected get ariaLabelAttr(): string | null {
+    return this.ariaLabel();
+  }
+
+  @HostBinding('attr.aria-required')
+  protected get ariaRequiredAttr(): 'true' | null {
+    return resolveTngSwitchAriaRequired(this.required());
   }
 
   @HostBinding('attr.data-disabled')
@@ -56,8 +74,23 @@ export class TngSwitchPrimitive {
 const switchComponentTsTemplate = `import { booleanAttribute, Component, input, output } from '@angular/core';
 import { TngSwitchPrimitive } from './tng-switch-primitive';
 
+type TngSwitchKeyboardEvent = Readonly<Pick<KeyboardEvent, 'key'>> &
+  Readonly<{ preventDefault: () => void }>;
+
 export function toggleTngSwitchState(checked: boolean): boolean {
   return !checked;
+}
+
+export function resolveTngSwitchArrowKey(key: string): boolean | null {
+  if (key === 'ArrowLeft') {
+    return false;
+  }
+
+  if (key === 'ArrowRight') {
+    return true;
+  }
+
+  return null;
 }
 
 @Component({
@@ -67,14 +100,34 @@ export function toggleTngSwitchState(checked: boolean): boolean {
   styleUrl: './tng-switch.css',
 })
 export class TngSwitch {
+  public readonly ariaLabel = input<string | null>(null);
   public readonly checked = input<boolean, boolean | string>(false, {
     transform: booleanAttribute,
   });
   public readonly disabled = input<boolean, boolean | string>(false, {
     transform: booleanAttribute,
   });
+  public readonly name = input<string | null>(null);
+  public readonly required = input<boolean, boolean | string>(false, {
+    transform: booleanAttribute,
+  });
+  public readonly value = input<string>('on');
 
   public readonly checkedChange = output<boolean>();
+
+  public onKeydown(event: TngSwitchKeyboardEvent): void {
+    if (this.disabled()) {
+      return;
+    }
+
+    const nextValue = resolveTngSwitchArrowKey(event.key);
+    if (nextValue === null || nextValue === this.checked()) {
+      return;
+    }
+
+    event.preventDefault();
+    this.checkedChange.emit(nextValue);
+  }
 
   public onToggle(): void {
     if (this.disabled()) {
@@ -90,14 +143,28 @@ const switchTemplateHtml = `<div class="tng-switch-root" [attr.data-disabled]="d
   <button
     tngSwitch
     class="tng-switch-control"
+    [ariaLabel]="ariaLabel()"
     [checked]="checked()"
     [disabled]="disabled()"
+    [required]="required()"
     (click)="onToggle()"
+    (keydown)="onKeydown($event)"
   >
     <span class="tng-switch-track">
       <span class="tng-switch-thumb"></span>
     </span>
   </button>
+  <input
+    class="tng-switch-native-input"
+    type="checkbox"
+    [checked]="checked()"
+    [disabled]="disabled()"
+    [required]="required()"
+    [name]="name()"
+    [value]="value()"
+    tabindex="-1"
+    aria-hidden="true"
+  />
   <span class="tng-switch-label">
     <ng-content />
   </span>
@@ -161,6 +228,18 @@ const switchTemplateCss = `:host {
 
 .tng-switch-label {
   user-select: none;
+}
+
+.tng-switch-native-input {
+  block-size: 1px;
+  border: 0;
+  clip: rect(0 0 0 0);
+  inline-size: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  white-space: nowrap;
 }
 `;
 

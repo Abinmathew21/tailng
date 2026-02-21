@@ -51,26 +51,35 @@
   padding: 1rem;
 }
 
-.primitive-shell {
+.primitive-toggle {
+  align-items: center;
+  background: #020617;
   border: 1px solid #334155;
-  border-radius: 0.85rem;
+  border-radius: 0.75rem;
   color: #e2e8f0;
-  padding: 0.75rem;
+  display: inline-flex;
+  font-size: 0.75rem;
+  font-weight: 700;
+  height: 2.5rem;
+  justify-content: center;
+  width: 2.5rem;
 }
 
-.switch-group {
-  display: grid;
+.primitive-toggle--pressed {
+  background: #0e7490;
+  border-color: #22d3ee;
+  color: #ecfeff;
+}
+
+.toggle-row {
+  align-items: center;
+  display: inline-flex;
   gap: 0.75rem;
 }
 
-.hint {
-  color: #94a3b8;
+.mode-text {
+  color: #cbd5e1;
   font-size: 0.875rem;
-  margin: 0;
-}
-
-.hint a {
-  color: #22d3ee;
 }
 
 @media (min-width: 768px) {

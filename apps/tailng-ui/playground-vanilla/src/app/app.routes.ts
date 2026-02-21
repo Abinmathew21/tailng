@@ -182,6 +182,13 @@ export const appRoutes: Route[] = [
       ),
   },
   {
+    path: 'tooltip',
+    loadComponent: () =>
+      import('./pages/components/tooltip-demo/tooltip-playground-page.component').then(
+        (module) => module.TooltipPlaygroundPageComponent,
+      ),
+  },
+  {
     path: 'icons',
     loadComponent: () =>
       import('./pages/icons/icon-demo/icon-playground-page.component').then(
@@ -256,6 +263,13 @@ export const appRoutes: Route[] = [
     loadComponent: () =>
       import('./pages/components/switch-demo/switch-playground-page.component').then(
         (module) => module.SwitchPlaygroundPageComponent,
+      ),
+  },
+  {
+    path: 'toggle',
+    loadComponent: () =>
+      import('./pages/components/toggle-demo/toggle-playground-page.component').then(
+        (module) => module.TogglePlaygroundPageComponent,
       ),
   },
   {

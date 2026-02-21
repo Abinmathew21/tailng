@@ -1,0 +1,43 @@
+:host {
+  display: inline-flex;
+}
+
+.tng-toggle-control {
+  align-items: center;
+  background: var(--tng-semantic-background-surface, #e2e8f0);
+  border: 1px solid var(--tng-semantic-border-default, #94a3b8);
+  border-radius: 0.75rem;
+  color: var(--tng-semantic-text-primary, #0f172a);
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 0.875rem;
+  font-weight: 600;
+  height: 2.25rem;
+  justify-content: center;
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease,
+    color 150ms ease;
+  width: 2.25rem;
+}
+
+.tng-toggle-control[data-state='on'] {
+  background: var(--tng-semantic-accent-brand, #2563eb);
+  border-color: var(--tng-semantic-accent-brand, #2563eb);
+  color: var(--tng-semantic-text-on-accent, #f8fafc);
+}
+
+.tng-toggle-control[data-disabled] {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.tng-toggle-control:focus-visible {
+  outline: 2px solid var(--tng-semantic-accent-brand, #2563eb);
+  outline-offset: 2px;
+}
+
+.tng-toggle-icon {
+  display: inline-flex;
+  line-height: 1;
+}

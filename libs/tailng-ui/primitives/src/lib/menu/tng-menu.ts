@@ -1,12 +1,10 @@
 import { Directive, ElementRef, HostBinding, HostListener, inject } from '@angular/core';
 
 type MenuItemElement = HTMLElement;
-
-function getEnabledMenuItems(host: HTMLElement): readonly MenuItemElement[] {
-  return Array.from(host.querySelectorAll<MenuItemElement>('[role="menuitem"]')).filter(
-    (element) => element.getAttribute('aria-disabled') !== 'true',
-  );
-}
+type ReadonlyMenuItemElement = Readonly<MenuItemElement>;
+type TngMenuFocusAction = 'first' | 'last' | 'next' | 'prev';
+type TngMenuKeyboardEvent = Readonly<Pick<KeyboardEvent, 'key'>> &
+  Readonly<{ preventDefault: () => void }>;
 
 function getNextIndex(currentIndex: number, total: number): number {
   if (currentIndex < 0) {
@@ -24,6 +22,38 @@ function getPrevIndex(currentIndex: number, total: number): number {
   return currentIndex - 1 < 0 ? total - 1 : currentIndex - 1;
 }
 
+function resolveMenuFocusAction(key: string): TngMenuFocusAction | null {
+  switch (key) {
+    case 'ArrowDown':
+      return 'next';
+    case 'ArrowUp':
+      return 'prev';
+    case 'Home':
+      return 'first';
+    case 'End':
+      return 'last';
+    default:
+      return null;
+  }
+}
+
+function resolveFocusIndex(
+  action: TngMenuFocusAction,
+  currentIndex: number,
+  total: number,
+): number {
+  switch (action) {
+    case 'next':
+      return getNextIndex(currentIndex, total);
+    case 'prev':
+      return getPrevIndex(currentIndex, total);
+    case 'first':
+      return 0;
+    case 'last':
+      return total - 1;
+  }
+}
+
 @Directive({
   selector: '[tngMenu]',
   exportAs: 'tngMenu',
@@ -37,36 +67,40 @@ export class TngMenu {
   @HostBinding('attr.role')
   protected readonly role = 'menu' as const;
 
+  private getEnabledMenuItems(): readonly ReadonlyMenuItemElement[] {
+    const items = Array.from(this.hostRef.nativeElement.querySelectorAll<MenuItemElement>('[role="menuitem"]'));
+    const enabledItems: ReadonlyMenuItemElement[] = [];
+
+    for (const item of items) {
+      if (item.getAttribute('aria-disabled') !== 'true') {
+        enabledItems.push(item);
+      }
+    }
+
+    return enabledItems;
+  }
+
   @HostListener('keydown', ['$event'])
-  protected onKeydown(event: KeyboardEvent): void {
-    const items = getEnabledMenuItems(this.hostRef.nativeElement);
+  protected onKeydown(event: TngMenuKeyboardEvent): void {
+    const items = this.getEnabledMenuItems();
     if (items.length === 0) {
       return;
     }
 
-    const currentIndex = items.findIndex((item) => item === document.activeElement);
-
-    if (event.key === 'ArrowDown') {
-      event.preventDefault();
-      items[getNextIndex(currentIndex, items.length)]?.focus();
+    const action = resolveMenuFocusAction(event.key);
+    if (action === null) {
       return;
     }
 
-    if (event.key === 'ArrowUp') {
-      event.preventDefault();
-      items[getPrevIndex(currentIndex, items.length)]?.focus();
-      return;
+    let currentIndex = -1;
+    for (let index = 0; index < items.length; index += 1) {
+      if (items[index] === document.activeElement) {
+        currentIndex = index;
+        break;
+      }
     }
-
-    if (event.key === 'Home') {
-      event.preventDefault();
-      items[0]?.focus();
-      return;
-    }
-
-    if (event.key === 'End') {
-      event.preventDefault();
-      items[items.length - 1]?.focus();
-    }
+    const targetIndex = resolveFocusIndex(action, currentIndex, items.length);
+    event.preventDefault();
+    items[targetIndex]?.focus();
   }
 }

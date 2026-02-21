@@ -39,8 +39,10 @@ import { switchRegistryItem } from './switch/switch.registry';
 import { tabsRegistryItem } from './tabs/tabs.registry';
 import { tagRegistryItem } from './tag/tag.registry';
 import { textareaRegistryItem } from './textarea/textarea.registry';
+import { toggleRegistryItem } from './toggle/toggle.registry';
 import { togglegroupRegistryItem } from './toggle-group/toggle-group.registry';
 import { toolbarRegistryItem } from './toolbar/toolbar.registry';
+import { tooltipRegistryItem } from './tooltip/tooltip.registry';
 import { treeRegistryItem } from './tree/tree.registry';
 
 export const tailngRegistry: readonly RegistryItem[] = [
@@ -73,6 +75,8 @@ export const tailngRegistry: readonly RegistryItem[] = [
   comboboxRegistryItem,
   selectRegistryItem,
   switchRegistryItem,
+  toggleRegistryItem,
+  tooltipRegistryItem,
   autocompleteRegistryItem,
   multiselectRegistryItem,
   gridRegistryItem,
