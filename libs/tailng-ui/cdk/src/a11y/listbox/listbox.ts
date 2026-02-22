@@ -123,23 +123,53 @@ export function createListboxController<T>(
     if (disabled) return;
 
     switch (action.type) {
-      case 'move-next':
-        focusController.moveNext();
+      
+      case 'move-next': {
+        const active = focusController.getActiveId();
+      
+        if (active === null) {
+          // First navigation should go to first enabled item
+          const first = itemIds.find((id) => !disabledIds.includes(id));
+          if (first) focusController.setActiveId(first);
+        } else {
+          focusController.moveNext();
+        }
         break;
+      }
+      
+      case 'move-prev': {
+        const active = focusController.getActiveId();
+      
+        if (active === null) {
+          const first = itemIds.find((id) => !disabledIds.includes(id));
+          if (first) focusController.setActiveId(first);
+        } else {
+          focusController.movePrev();
+        }
+        break;
+      }
 
-      case 'move-prev':
-        focusController.movePrev();
+      case 'move-first': {
+        if (itemIds.length === 0) break;
+      
+        // set directly to first enabled
+        const first = itemIds.find((id) => !disabledIds.includes(id));
+        if (first) {
+          focusController.setActiveId(first);
+        }
         break;
-
-      case 'move-first':
-        focusController.setActiveId(focusController.getActiveId() ?? null);
-        focusController.movePrev(); // move to boundary logic handled inside controller via loop
+      }
+      
+      case 'move-last': {
+        if (itemIds.length === 0) break;
+      
+        const reversed = [...itemIds].reverse();
+        const last = reversed.find((id) => !disabledIds.includes(id));
+        if (last) {
+          focusController.setActiveId(last);
+        }
         break;
-
-      case 'move-last':
-        focusController.setActiveId(focusController.getActiveId() ?? null);
-        focusController.moveNext(); // boundary logic handled internally
-        break;
+      }
 
       case 'select-active': {
         const active = focusController.getActiveId();
@@ -194,28 +224,31 @@ export function createListboxController<T>(
   function handleClick(id: string, shiftKey?: boolean): void {
     if (disabled) return;
     if (disabledIds.includes(id)) return;
-
+  
     const anchor = selectionModel.getAnchor() ?? focusController.getActiveId();
-
+  
     focusController.setActiveId(id);
-
+  
     if (
       selectionMode === 'multiple' &&
       shiftKey === true &&
       anchor !== null
     ) {
+      // ✅ skip disabled during range selection
+      const enabledItemIds = itemIds.filter((x) => !disabledIds.includes(x));
+  
       selectionModel.selectRange(anchor, id, {
-        orderedValues: itemIds,
+        orderedValues: enabledItemIds,
         rangeMode: 'merge',
       });
       return;
     }
-
+  
     if (selectionMode === 'multiple') {
       selectionModel.toggle(id);
       return;
     }
-
+  
     selectionModel.select(id);
   }
 

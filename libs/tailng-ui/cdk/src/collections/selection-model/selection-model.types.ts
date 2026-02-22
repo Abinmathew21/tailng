@@ -1,6 +1,6 @@
 export type TngSelectionMode = 'multiple' | 'single';
 
-export type TngSelectionRangeMode = 'append' | 'replace';
+export type TngSelectionRangeMode = 'replace' | 'add' | 'extend' | 'merge';
 
 export type TngSelectionRangeOptions<TValue> = Readonly<{
   orderedValues: readonly TValue[];

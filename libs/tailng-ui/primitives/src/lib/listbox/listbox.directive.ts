@@ -26,6 +26,8 @@ export class TngListboxDirective<T> {
   direction = input<'ltr' | 'rtl'>('ltr');
   disabled = input<boolean>(false);
 
+  loop = input<boolean>(true);
+
   value = model<ListboxValue<T>>(null);
 
   private options = signal<{ id: string; value: T; disabled: boolean }[]>([]);
@@ -62,6 +64,9 @@ export class TngListboxDirective<T> {
         selectionMode: this.multiple() ? 'multiple' : 'single',
         orientation: this.orientation(),
         direction: this.direction(),
+        disabled: this.disabled(),
+
+        loop: this.loop(),
       });
   
       this.controller.set(ctrl);
@@ -96,10 +101,15 @@ export class TngListboxDirective<T> {
 
   unregisterOption(id: string): void {
     this.options.update((list) => list.filter((x) => x.id !== id));
-    this.controller()?.unregisterOption(id);
+  
+    const ctrl = this.controller();
+    if (!ctrl) return;
+  
+    ctrl.unregisterOption(id);
+  
+    this.syncExternalValueFromInternal(ctrl);
   }
 
-  // ✅ called by option directive when disabled changes
   updateOptionDisabled(id: string, disabled: boolean): void {
     let updated: { id: string; value: T; disabled: boolean } | undefined;
 
@@ -134,6 +144,13 @@ export class TngListboxDirective<T> {
 
   @HostListener('keydown', ['$event'])
   handleKeydown(event: KeyboardEvent) {
+    if (this.disabled()) {
+      // do nothing, don’t even set active
+      event.preventDefault();
+      event.stopPropagation();
+      return;
+    }
+
     const ctrl = this.controller();
     if (!ctrl) return;
 
@@ -141,6 +158,16 @@ export class TngListboxDirective<T> {
     if (action?.preventDefault) event.preventDefault();
 
     this.syncExternalValueFromInternal(ctrl);
+  }
+
+  @HostListener('focusin')
+  handleFocusIn() {
+    if (this.disabled()) return;
+
+    const ctrl = this.controller();
+    if (!ctrl) return;
+
+    ctrl.handleKeyDown({ key: 'Home' });
   }
 
   handleOptionClick(id: string, shiftKey?: boolean) {
@@ -154,7 +181,7 @@ export class TngListboxDirective<T> {
 
     ctrl.handleClick(id, shiftKey);
     this.syncExternalValueFromInternal(ctrl);
-  }
+  } 
 
   private syncExternalValueFromInternal(
     ctrl: ReturnType<typeof createListboxController<T>>,
