@@ -1,8 +1,10 @@
 import {
   type TngListNavigationAction,
   type TngListNavigationActionType,
+  type TngListNavigationActionResolver,
   type TngListNavigationKeyboardEvent,
   type TngListNavigationOptions,
+  type TngListNavigationBehavior,
 } from './list-navigation.types';
 
 const horizontalKeys = Object.freeze(['ArrowLeft', 'ArrowRight']);
@@ -12,12 +14,8 @@ type TngResolvedOptions = Readonly<{
   direction: 'ltr' | 'rtl';
   multiSelect: boolean;
   orientation: 'both' | 'horizontal' | 'vertical';
+  behavior: TngListNavigationBehavior;
 }>;
-
-type TngActionResolver = (
-  event: TngListNavigationKeyboardEvent,
-  options: TngResolvedOptions,
-) => TngListNavigationAction | null;
 
 function createAction(
   type: TngListNavigationActionType,
@@ -57,32 +55,18 @@ function resolveArrowActionType(
   key: string,
   direction: 'ltr' | 'rtl',
 ): TngListNavigationActionType {
-  if (key === 'ArrowDown') {
-    return 'move-next';
-  }
-
-  if (key === 'ArrowUp') {
-    return 'move-prev';
-  }
-
+  if (key === 'ArrowDown') return 'move-next';
+  if (key === 'ArrowUp') return 'move-prev';
   return resolveMoveActionForHorizontalKey(key, direction);
 }
 
 function hasDisallowedModifiers(event: TngListNavigationKeyboardEvent): boolean {
-  if (event.altKey === true || event.metaKey === true) {
-    return true;
-  }
-
-  if (event.ctrlKey === true && event.key !== 'a' && event.key !== 'A') {
-    return true;
-  }
-
+  if (event.altKey === true || event.metaKey === true) return true;
+  if (event.ctrlKey === true && event.key !== 'a' && event.key !== 'A') return true;
   return false;
 }
 
-function resolveSpaceAction(
-  multiSelect: boolean,
-): TngListNavigationAction {
+function resolveSpaceAction(multiSelect: boolean): TngListNavigationAction {
   return multiSelect
     ? createAction('toggle-active', true)
     : createAction('select-active', true);
@@ -93,14 +77,29 @@ function normalizeOptions(options: TngListNavigationOptions): TngResolvedOptions
     direction: options.direction ?? 'ltr',
     multiSelect: options.multiSelect ?? false,
     orientation: options.orientation ?? 'vertical',
+    behavior: options.behavior ?? 'listbox',
   };
 }
 
-function resolveTabAction(event: TngListNavigationKeyboardEvent): TngListNavigationAction | null {
+/**
+ * Default resolvers (public extension point).
+ * You can reuse, prepend, append, or replace these in consumers.
+ */
+export const defaultListNavigationResolvers: readonly TngListNavigationActionResolver[] =
+  Object.freeze([
+    resolveTabAction,
+    resolveSelectAllAction,
+    resolveBoundaryAction,
+    resolveArrowAction,
+    resolveActivationAction,
+  ]);
+
+function resolveTabAction(
+  event: TngListNavigationKeyboardEvent,
+): TngListNavigationAction | null {
   if (event.key === 'Tab') {
     return createAction('exit', false);
   }
-
   return null;
 }
 
@@ -108,14 +107,11 @@ function resolveSelectAllAction(
   event: TngListNavigationKeyboardEvent,
   options: TngResolvedOptions,
 ): TngListNavigationAction | null {
-  if (!options.multiSelect) {
-    return null;
-  }
+  if (!options.multiSelect) return null;
 
   if (event.ctrlKey === true && (event.key === 'a' || event.key === 'A')) {
     return createAction('select-all', true);
   }
-
   return null;
 }
 
@@ -124,13 +120,9 @@ function resolveBoundaryAction(
   options: TngResolvedOptions,
 ): TngListNavigationAction | null {
   const extendSelection = options.multiSelect && event.shiftKey === true;
-  if (event.key === 'Home') {
-    return createAction('move-first', true, extendSelection);
-  }
 
-  if (event.key === 'End') {
-    return createAction('move-last', true, extendSelection);
-  }
+  if (event.key === 'Home') return createAction('move-first', true, extendSelection);
+  if (event.key === 'End') return createAction('move-last', true, extendSelection);
 
   return null;
 }
@@ -139,9 +131,7 @@ function resolveArrowAction(
   event: TngListNavigationKeyboardEvent,
   options: TngResolvedOptions,
 ): TngListNavigationAction | null {
-  if (!canHandleArrowKey(event.key, options.orientation)) {
-    return null;
-  }
+  if (!canHandleArrowKey(event.key, options.orientation)) return null;
 
   return createAction(
     resolveArrowActionType(event.key, options.direction),
@@ -154,6 +144,10 @@ function resolveActivationAction(
   event: TngListNavigationKeyboardEvent,
   options: TngResolvedOptions,
 ): TngListNavigationAction | null {
+  // Currently identical across behaviors.
+  // Future: behavior-specific Enter/Space semantics can be introduced here
+  // without affecting callers (because behavior defaults to 'listbox').
+
   if (event.key === ' ' || event.key === 'Spacebar') {
     return resolveSpaceAction(options.multiSelect);
   }
@@ -165,31 +159,27 @@ function resolveActivationAction(
   return null;
 }
 
-const keyResolvers: readonly TngActionResolver[] = Object.freeze([
-  resolveTabAction,
-  resolveSelectAllAction,
-  resolveBoundaryAction,
-  resolveArrowAction,
-  resolveActivationAction,
-]);
-
 function resolveKeyAction(
   event: TngListNavigationKeyboardEvent,
   options: TngResolvedOptions,
+  resolvers: readonly TngListNavigationActionResolver[],
 ): TngListNavigationAction | null {
-  for (const resolver of keyResolvers) {
+  for (const resolver of resolvers) {
     const action = resolver(event, options);
-    if (action !== null) {
-      return action;
-    }
+    if (action !== null) return action;
   }
-
   return null;
 }
 
+/**
+ * Backward-compatible:
+ * - existing calls: resolveListNavigationKeyAction(event, options?)
+ * - new calls: resolveListNavigationKeyAction(event, options?, resolvers?)
+ */
 export function resolveListNavigationKeyAction(
   event: TngListNavigationKeyboardEvent,
   options: TngListNavigationOptions = {},
+  resolvers: readonly TngListNavigationActionResolver[] = defaultListNavigationResolvers,
 ): TngListNavigationAction | null {
   const normalizedOptions = normalizeOptions(options);
 
@@ -197,5 +187,5 @@ export function resolveListNavigationKeyAction(
     return null;
   }
 
-  return resolveKeyAction(event, normalizedOptions);
+  return resolveKeyAction(event, normalizedOptions, resolvers);
 }

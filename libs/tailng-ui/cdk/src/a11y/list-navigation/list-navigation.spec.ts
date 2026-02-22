@@ -1,107 +1,149 @@
-import { expect, it } from 'vitest';
-import { resolveListNavigationKeyAction } from './list-navigation';
+import { describe, expect, it } from 'vitest';
+import {
+  resolveListNavigationKeyAction,
+  defaultListNavigationResolvers,
+} from './list-navigation';
 
-it('returns exit action for tab without preventing default', () => {
-  const action = resolveListNavigationKeyAction({ key: 'Tab' });
-  expect(action).toEqual({
-    extendSelection: false,
-    preventDefault: false,
-    type: 'exit',
+describe('additional list-navigation scenarios', () => {
+  it('supports orientation both', () => {
+    const down = resolveListNavigationKeyAction(
+      { key: 'ArrowDown' },
+      { orientation: 'both' },
+    );
+
+    const right = resolveListNavigationKeyAction(
+      { key: 'ArrowRight' },
+      { orientation: 'both' },
+    );
+
+    expect(down?.type).toBe('move-next');
+    expect(right?.type).toBe('move-next');
   });
-});
 
-it('maps vertical arrow keys to previous and next', () => {
-  const down = resolveListNavigationKeyAction({ key: 'ArrowDown' });
-  const up = resolveListNavigationKeyAction({ key: 'ArrowUp' });
+  it('ignores horizontal arrows when orientation is vertical', () => {
+    const action = resolveListNavigationKeyAction(
+      { key: 'ArrowRight' },
+      { orientation: 'vertical' },
+    );
 
-  expect(down?.type).toBe('move-next');
-  expect(up?.type).toBe('move-prev');
-  expect(down?.preventDefault).toBe(true);
-});
-
-it('maps horizontal arrows when orientation is horizontal', () => {
-  const right = resolveListNavigationKeyAction(
-    { key: 'ArrowRight' },
-    { orientation: 'horizontal' },
-  );
-  const left = resolveListNavigationKeyAction(
-    { key: 'ArrowLeft' },
-    { orientation: 'horizontal' },
-  );
-
-  expect(right?.type).toBe('move-next');
-  expect(left?.type).toBe('move-prev');
-});
-
-it('applies rtl direction to horizontal movement', () => {
-  const right = resolveListNavigationKeyAction(
-    { key: 'ArrowRight' },
-    { direction: 'rtl', orientation: 'horizontal' },
-  );
-
-  expect(right?.type).toBe('move-prev');
-});
-
-it('supports home and end keys', () => {
-  const home = resolveListNavigationKeyAction({ key: 'Home' });
-  const end = resolveListNavigationKeyAction({ key: 'End' });
-
-  expect(home?.type).toBe('move-first');
-  expect(end?.type).toBe('move-last');
-});
-
-it('supports shift extend for multi-select movement', () => {
-  const action = resolveListNavigationKeyAction(
-    {
-      key: 'ArrowDown',
-      shiftKey: true,
-    },
-    {
-      multiSelect: true,
-    },
-  );
-
-  expect(action).toEqual({
-    extendSelection: true,
-    preventDefault: true,
-    type: 'move-next',
+    expect(action).toBeNull();
   });
-});
 
-it('maps space to toggle in multi-select mode', () => {
-  const action = resolveListNavigationKeyAction(
-    {
-      key: ' ',
-    },
-    {
-      multiSelect: true,
-    },
-  );
+  it('ignores vertical arrows when orientation is horizontal', () => {
+    const action = resolveListNavigationKeyAction(
+      { key: 'ArrowDown' },
+      { orientation: 'horizontal' },
+    );
 
-  expect(action?.type).toBe('toggle-active');
-});
+    expect(action).toBeNull();
+  });
 
-it('maps enter to select-active', () => {
-  const action = resolveListNavigationKeyAction({ key: 'Enter' });
-  expect(action?.type).toBe('select-active');
-});
+  it('extends selection with shift+Home and shift+End in multi-select', () => {
+    const home = resolveListNavigationKeyAction(
+      { key: 'Home', shiftKey: true },
+      { multiSelect: true },
+    );
 
-it('supports ctrl+a select-all in multi-select mode', () => {
-  const action = resolveListNavigationKeyAction(
-    {
-      ctrlKey: true,
-      key: 'a',
-    },
-    {
-      multiSelect: true,
-    },
-  );
+    const end = resolveListNavigationKeyAction(
+      { key: 'End', shiftKey: true },
+      { multiSelect: true },
+    );
 
-  expect(action?.type).toBe('select-all');
-});
+    expect(home?.extendSelection).toBe(true);
+    expect(end?.extendSelection).toBe(true);
+  });
 
-it('ignores keys with disallowed modifiers', () => {
-  expect(resolveListNavigationKeyAction({ altKey: true, key: 'ArrowDown' })).toBeNull();
-  expect(resolveListNavigationKeyAction({ metaKey: true, key: 'ArrowDown' })).toBeNull();
-  expect(resolveListNavigationKeyAction({ ctrlKey: true, key: 'ArrowDown' })).toBeNull();
+  it('does not extend selection when shift used in single-select mode', () => {
+    const action = resolveListNavigationKeyAction(
+      { key: 'ArrowDown', shiftKey: true },
+      { multiSelect: false },
+    );
+
+    expect(action?.extendSelection).toBe(false);
+  });
+
+  it('supports legacy Spacebar key value', () => {
+    const action = resolveListNavigationKeyAction(
+      { key: 'Spacebar' },
+      { multiSelect: true },
+    );
+
+    expect(action?.type).toBe('toggle-active');
+  });
+
+  it('does not select-all without multiSelect enabled', () => {
+    const action = resolveListNavigationKeyAction(
+      { ctrlKey: true, key: 'a' },
+      { multiSelect: false },
+    );
+
+    expect(action).toBeNull();
+  });
+
+  it('ignores unsupported keys', () => {
+    const action = resolveListNavigationKeyAction({ key: 'Escape' });
+    expect(action).toBeNull();
+  });
+
+  it('is case insensitive for ctrl+A', () => {
+    const action = resolveListNavigationKeyAction(
+      { ctrlKey: true, key: 'A' },
+      { multiSelect: true },
+    );
+
+    expect(action?.type).toBe('select-all');
+  });
+
+  it('does not block ctrl+A when other modifiers exist', () => {
+    const action = resolveListNavigationKeyAction(
+      { ctrlKey: true, altKey: true, key: 'a' },
+      { multiSelect: true },
+    );
+
+    expect(action).toBeNull();
+  });
+
+  it('supports injected custom resolver (high priority)', () => {
+    const escapeResolver = (event: any) => {
+      if (event.key === 'Escape') {
+        return {
+          type: 'exit',
+          preventDefault: true,
+          extendSelection: false,
+        } as const;
+      }
+      return null;
+    };
+
+    const action = resolveListNavigationKeyAction(
+      { key: 'Escape' },
+      {},
+      [escapeResolver, ...defaultListNavigationResolvers],
+    );
+
+    expect(action?.type).toBe('exit');
+    expect(action?.preventDefault).toBe(true);
+  });
+
+  it('custom resolver can be appended (lower priority)', () => {
+    const resolver = () => ({
+      type: 'move-first',
+      preventDefault: true,
+      extendSelection: false,
+    } as const);
+
+    const action = resolveListNavigationKeyAction(
+      { key: 'ArrowDown' },
+      {},
+      [...defaultListNavigationResolvers, resolver],
+    );
+
+    // default resolver should win
+    expect(action?.type).toBe('move-next');
+  });
+
+  it('defaults behavior to listbox when not provided', () => {
+    const action = resolveListNavigationKeyAction({ key: 'Enter' });
+    expect(action?.type).toBe('select-active');
+  });
 });

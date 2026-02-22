@@ -10,3 +10,4 @@ export * from './list-navigation/list-navigation';
 export * from './list-navigation/list-navigation.types';
 export * from './roving-focus/roving-focus';
 export * from './roving-focus/roving-focus.types';
+export * from './listbox';
