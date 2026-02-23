@@ -146,4 +146,31 @@ describe('additional list-navigation scenarios', () => {
     const action = resolveListNavigationKeyAction({ key: 'Enter' });
     expect(action?.type).toBe('select-active');
   });
+
+  it('supports Command+A (metaKey) for select-all in multi-select', () => {
+    const action = resolveListNavigationKeyAction(
+      { metaKey: true, key: 'a' },
+      { multiSelect: true },
+    );
+  
+    expect(action?.type).toBe('select-all');
+  });
+
+  it('is case insensitive for Command+A (metaKey)', () => {
+    const action = resolveListNavigationKeyAction(
+      { metaKey: true, key: 'A' },
+      { multiSelect: true },
+    );
+  
+    expect(action?.type).toBe('select-all');
+  });
+
+  it('does not allow unrelated metaKey shortcuts', () => {
+    const action = resolveListNavigationKeyAction(
+      { metaKey: true, key: 'ArrowDown' },
+      { multiSelect: true },
+    );
+  
+    expect(action).toBeNull();
+  });
 });

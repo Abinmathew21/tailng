@@ -61,8 +61,17 @@ function resolveArrowActionType(
 }
 
 function hasDisallowedModifiers(event: TngListNavigationKeyboardEvent): boolean {
-  if (event.altKey === true || event.metaKey === true) return true;
-  if (event.ctrlKey === true && event.key !== 'a' && event.key !== 'A') return true;
+  const isA = event.key === 'a' || event.key === 'A';
+
+  // alt should always bail (you can keep this strict)
+  if (event.altKey === true) return true;
+
+  // allow ⌘A, disallow other ⌘ combos
+  if (event.metaKey === true && !isA) return true;
+
+  // allow Ctrl+A, disallow other Ctrl combos
+  if (event.ctrlKey === true && !isA) return true;
+
   return false;
 }
 
@@ -109,9 +118,16 @@ function resolveSelectAllAction(
 ): TngListNavigationAction | null {
   if (!options.multiSelect) return null;
 
-  if (event.ctrlKey === true && (event.key === 'a' || event.key === 'A')) {
+  const isA = event.key === 'a' || event.key === 'A';
+  if (
+    isA &&
+    (event.ctrlKey === true || event.metaKey === true) &&
+    !event.altKey &&
+    !event.shiftKey
+  ) {
     return createAction('select-all', true);
   }
+
   return null;
 }
 
