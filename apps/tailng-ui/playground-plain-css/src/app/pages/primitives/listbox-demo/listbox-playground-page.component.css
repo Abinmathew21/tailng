@@ -150,3 +150,16 @@
     grid-template-columns: 1fr 1fr;
   }
 }
+
+.option[data-active] {
+  border-color: var(--tng-semantic-accent-brand);
+}
+
+.option[aria-selected="true"] {
+  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 45%, transparent);
+}
+
+.option[aria-disabled="true"] {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
