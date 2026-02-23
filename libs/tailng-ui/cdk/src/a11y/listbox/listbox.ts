@@ -232,8 +232,29 @@ export function createListboxController<T>(config: TngListboxConfig): TngListbox
     syncFocusController();
   }
 
+  function extendRangeToActive(previousActive: string | null): void {
+    if (selectionMode !== 'multiple') return;
+  
+    const active = focusController.getActiveId();
+    if (active === null) return;
+    if (disabledIds.includes(active)) return;
+  
+    const enabledItemIds = itemIds.filter((x) => !disabledIds.includes(x));
+  
+    const anchor =
+      selectionModel.getAnchor() ??
+      previousActive ??
+      active;
+  
+    selectionModel.selectRange(anchor, active, {
+      orderedValues: enabledItemIds,
+      rangeMode: 'merge',
+    });
+  }
+
   function applyNavigation(action: TngListNavigationAction): void {
     if (disabled) return;
+    const prevActive = focusController.getActiveId();
 
     switch (action.type) {
       case 'move-next': {
@@ -244,9 +265,13 @@ export function createListboxController<T>(config: TngListboxConfig): TngListbox
         } else {
           focusController.moveNext();
         }
+  
+        if (action.extendSelection) {
+          extendRangeToActive(prevActive);
+        }
         break;
       }
-
+  
       case 'move-prev': {
         const active = focusController.getActiveId();
         if (active === null) {
@@ -255,18 +280,30 @@ export function createListboxController<T>(config: TngListboxConfig): TngListbox
         } else {
           focusController.movePrev();
         }
+  
+        if (action.extendSelection) {
+          extendRangeToActive(prevActive);
+        }
         break;
       }
-
+  
       case 'move-first': {
         const first = itemIds.find((id) => !disabledIds.includes(id));
         if (first) focusController.setActiveId(first);
+  
+        if (action.extendSelection) {
+          extendRangeToActive(prevActive);
+        }
         break;
       }
-
+  
       case 'move-last': {
         const last = [...itemIds].reverse().find((id) => !disabledIds.includes(id));
         if (last) focusController.setActiveId(last);
+  
+        if (action.extendSelection) {
+          extendRangeToActive(prevActive);
+        }
         break;
       }
 

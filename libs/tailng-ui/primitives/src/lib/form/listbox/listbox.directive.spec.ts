@@ -107,8 +107,12 @@ class TestHostComponent {
   order = signal<readonly ('A' | 'B' | 'C' | 'X')[]>(['A', 'B', 'C']);
 }
 
-function keydown(el: HTMLElement, key: string, extras?: Partial<KeyboardEventInit>) {
-  el.dispatchEvent(new KeyboardEvent('keydown', { key, bubbles: true, ...extras }));
+function keydown(
+  el: HTMLElement,
+  key: string,
+  opts: Partial<KeyboardEventInit> = {},
+) {
+  el.dispatchEvent(new KeyboardEvent('keydown', { key, bubbles: true, ...opts }));
 }
 
 function pointerdown(el: HTMLElement, extras?: Partial<PointerEventInit>) {
@@ -934,5 +938,80 @@ describe('tngListbox + tngOption primitives', () => {
     keydown(host, 'ArrowUp');
     fixture.detectChanges();
     expect(host.getAttribute('aria-activedescendant')).toBe(optA.id);
+  });
+
+  it('shift+ArrowDown extends contiguous range in multiple mode', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [TestHostComponent],
+    }).createComponent(TestHostComponent);
+  
+    fixture.detectChanges();
+  
+    const hostCmp = fixture.componentInstance;
+    hostCmp.multiple.set(true);
+    hostCmp.value.set([] as readonly string[]);
+    fixture.detectChanges();
+  
+    const host = fixture.nativeElement.querySelector('[data-testid="lb"]') as HTMLElement;
+  
+    // ArrowDown -> active A (no selection yet)
+    keydown(host, 'ArrowDown');
+    fixture.detectChanges();
+  
+    // Shift+ArrowDown -> extend selection A..B
+    keydown(host, 'ArrowDown', { shiftKey: true });
+    fixture.detectChanges();
+  
+    expect(new Set(hostCmp.value() as readonly string[])).toEqual(new Set(['A', 'B']));
+  });
+  
+  it('shift+ArrowDown keeps extending range as you move', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [TestHostComponent],
+    }).createComponent(TestHostComponent);
+  
+    fixture.detectChanges();
+  
+    const hostCmp = fixture.componentInstance;
+    hostCmp.multiple.set(true);
+    hostCmp.value.set([] as readonly string[]);
+    fixture.detectChanges();
+  
+    const host = fixture.nativeElement.querySelector('[data-testid="lb"]') as HTMLElement;
+  
+    keydown(host, 'ArrowDown'); // A active
+    fixture.detectChanges();
+  
+    keydown(host, 'ArrowDown', { shiftKey: true }); // select A..B
+    fixture.detectChanges();
+  
+    keydown(host, 'ArrowDown', { shiftKey: true }); // select A..C
+    fixture.detectChanges();
+  
+    expect(new Set(hostCmp.value() as readonly string[])).toEqual(new Set(['A', 'B', 'C']));
+  });
+  
+  it('shift+ArrowDown range selection skips disabled options', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [TestHostComponent],
+    }).createComponent(TestHostComponent);
+  
+    fixture.detectChanges();
+  
+    const hostCmp = fixture.componentInstance;
+    hostCmp.multiple.set(true);
+    hostCmp.disableB.set(true);
+    hostCmp.value.set([] as readonly string[]);
+    fixture.detectChanges();
+  
+    const host = fixture.nativeElement.querySelector('[data-testid="lb"]') as HTMLElement;
+  
+    keydown(host, 'ArrowDown'); // A active
+    fixture.detectChanges();
+  
+    keydown(host, 'ArrowDown', { shiftKey: true }); // extend to C (B is disabled)
+    fixture.detectChanges();
+  
+    expect(new Set(hostCmp.value() as readonly string[])).toEqual(new Set(['A', 'C']));
   });
 }); 
