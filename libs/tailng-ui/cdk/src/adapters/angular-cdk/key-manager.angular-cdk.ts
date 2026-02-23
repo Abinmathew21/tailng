@@ -283,11 +283,37 @@ class AngularCdkActiveDescendantController implements TngActiveDescendantControl
   }
 
   private ensureActiveIdStillValid(): void {
-    if (this.activeId === null || this.canUseActiveId(this.activeId)) {
+    if (this.activeId === null) return;
+  
+    if (this.canUseActiveId(this.activeId)) return;
+  
+    // Try to reconcile like TailNG controller
+    const enabledIds = resolveEnabledIds(this.itemIds, this.disabledIds);
+  
+    if (enabledIds.length === 0) {
+      this.activeId = null;
       return;
     }
-
-    this.activeId = null;
+  
+    // If active not found, treat as -1
+    const currentIndex = enabledIds.indexOf(this.activeId);
+  
+    if (currentIndex < 0) {
+      // Move to boundary based on loop behavior
+      this.activeId = this.loop ? firstId(enabledIds) : firstId(enabledIds);
+      return;
+    }
+  
+    // Try next
+    const next = resolveMovedId({
+      currentIndex,
+      delta: 1,
+      enabledIds,
+      fallback: null,
+      loop: this.loop,
+    });
+  
+    this.activeId = next;
   }
 
   private getMoveState(): TngActiveMoveState {

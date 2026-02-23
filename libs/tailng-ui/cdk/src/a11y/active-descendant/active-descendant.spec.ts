@@ -123,7 +123,7 @@ it('createActiveDescendantController: clears active id when item list update rem
   expect(controller.getActiveId()).toBeNull();
 });
 
-it('createActiveDescendantController: clears active id when disabled update blocks it', () => {
+it('createActiveDescendantController: moves to next enabled when active becomes disabled', () => {
   const controller = createActiveDescendantController({
     hostId: 'listbox-1',
     itemIds: ['option-1', 'option-2'],
@@ -131,5 +131,7 @@ it('createActiveDescendantController: clears active id when disabled update bloc
   });
 
   controller.setDisabledIds(['option-2']);
-  expect(controller.getActiveId()).toBeNull();
+
+  // option-1 is next enabled
+  expect(controller.getActiveId()).toBe('option-1');
 });
