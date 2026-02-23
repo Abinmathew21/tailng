@@ -47,18 +47,29 @@ export class TngOptionDirective<T> implements AfterViewInit, OnDestroy {
   }
 
   @HostBinding('attr.aria-selected')
-  get ariaSelected() {
+  get ariaSelected(): 'true' | 'false' {
     return this.listbox.isSelected(this.id) ? 'true' : 'false';
   }
 
   @HostBinding('attr.aria-disabled')
-  get ariaDisabled() {
+  get ariaDisabled(): 'true' | null {
     return this.disabled() ? 'true' : null;
   }
 
+  // ✅ Tailwind-friendly state attributes (presence based)
   @HostBinding('attr.data-active')
-  get active() {
+  get dataActive(): '' | null {
     return this.listbox.isActive(this.id) ? '' : null;
+  }
+
+  @HostBinding('attr.data-selected')
+  get dataSelected(): '' | null {
+    return this.listbox.isSelected(this.id) ? '' : null;
+  }
+
+  @HostBinding('attr.data-disabled')
+  get dataDisabled(): '' | null {
+    return this.disabled() ? '' : null;
   }
 
   ngAfterViewInit() {
@@ -67,13 +78,7 @@ export class TngOptionDirective<T> implements AfterViewInit, OnDestroy {
 
     const text = this.el.nativeElement.textContent?.trim() ?? '';
     // pass text for typeahead
-    this.listbox.registerOption(
-      this.id,
-      value,
-      this.disabled(),
-      text,
-      this.el.nativeElement,
-    );
+    this.listbox.registerOption(this.id, value, this.disabled(), text, this.el.nativeElement);
 
     this.registered.set(true);
   }
@@ -92,7 +97,10 @@ export class TngOptionDirective<T> implements AfterViewInit, OnDestroy {
       return;
     }
     if (event.button !== 0) return;
+
+    // Prevent focus from moving / text selection, keep listbox behavior stable.
     event.preventDefault();
+
     this.listbox.handleOptionClick(this.id, event.shiftKey);
   }
 }

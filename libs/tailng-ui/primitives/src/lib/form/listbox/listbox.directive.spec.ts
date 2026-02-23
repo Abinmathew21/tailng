@@ -1014,4 +1014,92 @@ describe('tngListbox + tngOption primitives', () => {
   
     expect(new Set(hostCmp.value() as readonly string[])).toEqual(new Set(['A', 'C']));
   });
+
+  it('sets data-selected on selected options - for Tailwind data-variant styling', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [TestHostComponent],
+    }).createComponent(TestHostComponent);
+  
+    fixture.detectChanges();
+  
+    const optC = fixture.nativeElement.querySelector('[data-testid="opt-c"]') as HTMLElement;
+  
+    // select C (use your project helper)
+    pointerdown(optC, { button: 0 });
+    fixture.detectChanges();
+  
+    // data-selected should exist (attribute presence)
+    expect(optC.hasAttribute('data-selected')).toBe(true);
+  
+    // and aria-selected stays correct too
+    expect(optC.getAttribute('aria-selected')).toBe('true');
+  
+    // sanity: other option isn't selected
+    const optA = fixture.nativeElement.querySelector('[data-testid="opt-a"]') as HTMLElement;
+    expect(optA.hasAttribute('data-selected')).toBe(false);
+  });
+
+  it('sets data-active on the active option - for Tailwind data-variant styling', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [TestHostComponent],
+    }).createComponent(TestHostComponent);
+  
+    fixture.detectChanges();
+  
+    const host = fixture.nativeElement.querySelector('[data-testid="lb"]') as HTMLElement;
+    const optA = fixture.nativeElement.querySelector('[data-testid="opt-a"]') as HTMLElement;
+  
+    // move active to first enabled (A)
+    keydown(host, 'ArrowDown');
+    fixture.detectChanges();
+  
+    expect(host.getAttribute('aria-activedescendant')).toBe(optA.id);
+  
+    // data-active should exist on active option
+    expect(optA.hasAttribute('data-active')).toBe(true);
+  
+    // another option should not have it
+    const optB = fixture.nativeElement.querySelector('[data-testid="opt-b"]') as HTMLElement;
+    expect(optB.hasAttribute('data-active')).toBe(false);
+  });
+
+  it('sets data-disabled on disabled options - for Tailwind data-variant styling', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [TestHostComponent],
+    }).createComponent(TestHostComponent);
+  
+    fixture.detectChanges();
+    const hostCmp = fixture.componentInstance;
+  
+    hostCmp.disableB.set(true);
+    fixture.detectChanges();
+  
+    const optB = fixture.nativeElement.querySelector('[data-testid="opt-b"]') as HTMLElement;
+  
+    expect(optB.getAttribute('aria-disabled')).toBe('true');
+    expect(optB.hasAttribute('data-disabled')).toBe(true);
+  });
+
+  it('removes data-selected when an option is deselected - multiple toggle', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [TestHostComponent],
+    }).createComponent(TestHostComponent);
+  
+    fixture.detectChanges();
+    const hostCmp = fixture.componentInstance;
+  
+    hostCmp.multiple.set(true);
+    hostCmp.value.set([] as readonly string[]);
+    fixture.detectChanges();
+  
+    const optC = fixture.nativeElement.querySelector('[data-testid="opt-c"]') as HTMLElement;
+  
+    pointerdown(optC, { button: 0 });
+    fixture.detectChanges();
+    expect(optC.hasAttribute('data-selected')).toBe(true);
+  
+    pointerdown(optC, { button: 0 });
+    fixture.detectChanges();
+    expect(optC.hasAttribute('data-selected')).toBe(false);
+  });
 }); 
