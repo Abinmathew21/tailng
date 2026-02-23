@@ -17,20 +17,66 @@ import { Component, signal } from '@angular/core';
       [orientation]="orientation()"
       [direction]="direction()"
       [disabled]="listboxDisabled()"
+      [loop]="loop()"
       [value]="value()"
       (valueChange)="value.set($event)"
       tabindex="0"
       data-testid="lb"
-      [loop]="loop()"
     >
-      <div tngOption [tngValue]="'A'" data-testid="opt-a">A</div>
+      @for (k of order(); track k) {
+        @switch (k) {
+          @case ('A') {
+            @if (showA()) {
+              <div
+                tngOption
+                [tngValue]="'A'"
+                [disabled]="disableA()"
+                data-testid="opt-a"
+              >
+                A
+              </div>
+            }
+          }
 
-      @if (showB()) {
-        <div tngOption [tngValue]="'B'" [disabled]="disableB()" data-testid="opt-b">B</div>
-      }
+          @case ('B') {
+            @if (showB()) {
+              <div
+                tngOption
+                [tngValue]="'B'"
+                [disabled]="disableB()"
+                data-testid="opt-b"
+              >
+                B
+              </div>
+            }
+          }
 
-      @if (showC()) {
-        <div tngOption [tngValue]="'C'" data-testid="opt-c">C</div>
+          @case ('C') {
+            @if (showC()) {
+              <div
+                tngOption
+                [tngValue]="'C'"
+                [disabled]="disableC()"
+                data-testid="opt-c"
+              >
+                C
+              </div>
+            }
+          }
+
+          @case ('X') {
+            @if (showX()) {
+              <div
+                tngOption
+                [tngValue]="'X'"
+                [disabled]="disableX()"
+                data-testid="opt-x"
+              >
+                X
+              </div>
+            }
+          }
+        }
       }
     </div>
   `,
@@ -41,11 +87,24 @@ class TestHostComponent {
   direction = signal<'ltr' | 'rtl'>('ltr');
   listboxDisabled = signal(false);
   loop = signal(true);
-  disableB = signal(false);
+
+  // selection value
+  value = signal<string | readonly string[] | null>(null);
+
+  // show/hide options (DOM add/remove)
+  showA = signal(true);
   showB = signal(true);
   showC = signal(true);
+  showX = signal(false);
 
-  value = signal<string | readonly string[] | null>(null);
+  // disabled flags (dynamic disable/enable)
+  disableA = signal(false);
+  disableB = signal(false);
+  disableC = signal(false);
+  disableX = signal(false);
+
+  // dynamic order (reorder/insert)
+  order = signal<readonly ('A' | 'B' | 'C' | 'X')[]>(['A', 'B', 'C']);
 }
 
 function keydown(el: HTMLElement, key: string, extras?: Partial<KeyboardEventInit>) {
@@ -560,5 +619,312 @@ describe('tngListbox + tngOption primitives', () => {
   
     // stays on last
     expect(host.getAttribute('aria-activedescendant')).toBe(optC.id);
+  });
+
+  it('controlled: when external single value points to missing option, selection becomes null', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [TestHostComponent],
+    }).createComponent(TestHostComponent);
+
+    fixture.detectChanges();
+    const hostCmp = fixture.componentInstance;
+
+    // external sets a value that doesn't exist
+    hostCmp.value.set('Z' as any);
+    fixture.detectChanges();
+
+    // expected: listbox should drop it
+    expect(hostCmp.value()).toBeNull();
+  });
+
+  it('controlled: when external multi value includes missing option, it is filtered out', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [TestHostComponent],
+    }).createComponent(TestHostComponent);
+
+    fixture.detectChanges();
+    const hostCmp = fixture.componentInstance;
+
+    hostCmp.multiple.set(true);
+    fixture.detectChanges();
+
+    hostCmp.value.set(['A', 'Z'] as any);
+    fixture.detectChanges();
+
+    expect(new Set(hostCmp.value() as readonly string[])).toEqual(new Set(['A']));
+  });
+
+  it('controlled: when external multi value includes disabled option, disabled is removed - policy: no disabled selection', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [TestHostComponent],
+    }).createComponent(TestHostComponent);
+
+    fixture.detectChanges();
+    const hostCmp = fixture.componentInstance;
+
+    hostCmp.multiple.set(true);
+    hostCmp.disableB.set(true);
+    fixture.detectChanges();
+
+    hostCmp.value.set(['A', 'B'] as any);
+    fixture.detectChanges();
+
+    // policy: disabled can't be selected
+    expect(new Set(hostCmp.value() as readonly string[])).toEqual(new Set(['A']));
+  });
+
+  it('controlled: external value change updates selection but does not disturb current active id', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [TestHostComponent],
+    }).createComponent(TestHostComponent);
+
+    fixture.detectChanges();
+    const hostCmp = fixture.componentInstance;
+
+    // make active = B via keyboard
+    const host = fixture.nativeElement.querySelector('[data-testid="lb"]') as HTMLElement;
+    const optB = fixture.nativeElement.querySelector('[data-testid="opt-b"]') as HTMLElement;
+
+    keydown(host, 'ArrowDown');
+    fixture.detectChanges();
+    keydown(host, 'ArrowDown');
+    fixture.detectChanges();
+    expect(host.getAttribute('aria-activedescendant')).toBe(optB.id);
+
+    // now controlled selection changes externally
+    hostCmp.value.set('C' as any);
+    fixture.detectChanges();
+
+    // active should remain B, selection should become C (policy)
+    expect(host.getAttribute('aria-activedescendant')).toBe(optB.id);
+    expect(hostCmp.value()).toBe('C');
+  });
+
+
+  // ============================================================================
+  // 2) Dynamic list changes (insert before active, reorder, remove active option)
+  // ============================================================================
+
+  it('keeps the active id stable when a new option is inserted before it', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [TestHostComponent],
+    }).createComponent(TestHostComponent);
+
+    fixture.detectChanges();
+    const hostCmp = fixture.componentInstance;
+
+    const host = fixture.nativeElement.querySelector('[data-testid="lb"]') as HTMLElement;
+    const optB = fixture.nativeElement.querySelector('[data-testid="opt-b"]') as HTMLElement;
+
+    // active -> B
+    keydown(host, 'ArrowDown');
+    fixture.detectChanges();
+    keydown(host, 'ArrowDown');
+    fixture.detectChanges();
+    expect(host.getAttribute('aria-activedescendant')).toBe(optB.id);
+
+    // Insert X at the start
+    hostCmp.showX.set(true);
+    hostCmp.order.set(['X', 'A', 'B', 'C']);
+    fixture.detectChanges();
+
+    // Active should remain B (same id)
+    expect(host.getAttribute('aria-activedescendant')).toBe(optB.id);
+  });
+
+  it('navigation follows new DOM order after reorder', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [TestHostComponent],
+    }).createComponent(TestHostComponent);
+
+    fixture.detectChanges();
+    const hostCmp = fixture.componentInstance;
+
+    // reorder DOM to C, B, A
+    hostCmp.order.set(['C', 'B', 'A']);
+    fixture.detectChanges();
+
+    const host = fixture.nativeElement.querySelector('[data-testid="lb"]') as HTMLElement;
+    const optC = fixture.nativeElement.querySelector('[data-testid="opt-c"]') as HTMLElement;
+    const optB = fixture.nativeElement.querySelector('[data-testid="opt-b"]') as HTMLElement;
+
+    keydown(host, 'ArrowDown');
+    fixture.detectChanges();
+    expect(host.getAttribute('aria-activedescendant')).toBe(optC.id);
+
+    keydown(host, 'ArrowDown');
+    fixture.detectChanges();
+    expect(host.getAttribute('aria-activedescendant')).toBe(optB.id);
+  });
+
+  it('when the active option is removed from DOM, active moves to next enabled - or clears if none', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [TestHostComponent],
+    }).createComponent(TestHostComponent);
+
+    fixture.detectChanges();
+    const hostCmp = fixture.componentInstance;
+
+    const host = fixture.nativeElement.querySelector('[data-testid="lb"]') as HTMLElement;
+    const optB = fixture.nativeElement.querySelector('[data-testid="opt-b"]') as HTMLElement;
+    const optC = fixture.nativeElement.querySelector('[data-testid="opt-c"]') as HTMLElement;
+
+    // active -> B
+    keydown(host, 'ArrowDown');
+    fixture.detectChanges();
+    keydown(host, 'ArrowDown');
+    fixture.detectChanges();
+    expect(host.getAttribute('aria-activedescendant')).toBe(optB.id);
+
+    // remove B
+    hostCmp.showB.set(false);
+    hostCmp.order.set(['A', 'C']); // keep order consistent
+    fixture.detectChanges();
+
+    // Expect: active moves to next enabled (C) - this assumes your controller reconciles on unregister
+    // If your policy is "clear active", change expectation to null.
+    expect(host.getAttribute('aria-activedescendant')).toBe(optC.id);
+  });
+
+  it('focusin does not reset active if active is already set', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [TestHostComponent],
+    }).createComponent(TestHostComponent);
+
+    fixture.detectChanges();
+
+    const host = fixture.nativeElement.querySelector('[data-testid="lb"]') as HTMLElement;
+    const optB = fixture.nativeElement.querySelector('[data-testid="opt-b"]') as HTMLElement;
+
+    // active -> B
+    keydown(host, 'ArrowDown');
+    fixture.detectChanges();
+    keydown(host, 'ArrowDown');
+    fixture.detectChanges();
+    expect(host.getAttribute('aria-activedescendant')).toBe(optB.id);
+
+    // trigger focusin
+    host.dispatchEvent(new FocusEvent('focusin', { bubbles: true }));
+    fixture.detectChanges();
+
+    // should remain B (not jump to A)
+    expect(host.getAttribute('aria-activedescendant')).toBe(optB.id);
+  });
+
+  it('typeahead: typing "c" moves active to the first option starting with "c"', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [TestHostComponent],
+    }).createComponent(TestHostComponent);
+
+    fixture.detectChanges();
+
+    const host = fixture.nativeElement.querySelector('[data-testid="lb"]') as HTMLElement;
+    const optC = fixture.nativeElement.querySelector('[data-testid="opt-c"]') as HTMLElement;
+
+    keydown(host, 'c');
+    fixture.detectChanges();
+
+    expect(host.getAttribute('aria-activedescendant')).toBe(optC.id);
+  });
+
+  it('typeahead: skips disabled matches', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [TestHostComponent],
+    }).createComponent(TestHostComponent);
+
+    fixture.detectChanges();
+    const hostCmp = fixture.componentInstance;
+
+    hostCmp.disableC.set(true);
+    fixture.detectChanges();
+
+    const host = fixture.nativeElement.querySelector('[data-testid="lb"]') as HTMLElement;
+
+    keydown(host, 'c');
+    fixture.detectChanges();
+
+    // no enabled "c" match -> active stays null (or unchanged)
+    expect(host.getAttribute('aria-activedescendant')).toBeNull();
+  });
+
+  it.skip('calls scrollIntoView when active changes (optional)', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [TestHostComponent],
+    }).createComponent(TestHostComponent);
+
+    fixture.detectChanges();
+
+    const host = fixture.nativeElement.querySelector('[data-testid="lb"]') as HTMLElement;
+    const optA = fixture.nativeElement.querySelector('[data-testid="opt-a"]') as HTMLElement;
+
+    const spy = vi
+      .spyOn(optA as any, 'scrollIntoView')
+      .mockImplementation(() => {});
+
+    keydown(host, 'ArrowDown');
+    fixture.detectChanges();
+
+    expect(spy).toHaveBeenCalled();
+
+    spy.mockRestore();
+  });
+
+
+  // ============================================================================
+  // 6) Pointer down vs click (optional integration nuance)
+  //    If you ever switch to pointerdown selection, this test is useful.
+  // ============================================================================
+
+  it.skip('pointerdown can be used for selection without requiring click (optional)', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [TestHostComponent],
+    }).createComponent(TestHostComponent);
+
+    fixture.detectChanges();
+    const hostCmp = fixture.componentInstance;
+
+    hostCmp.value.set(null);
+    fixture.detectChanges();
+
+    const optA = fixture.nativeElement.querySelector('[data-testid="opt-a"]') as HTMLElement;
+
+    optA.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true }));
+    fixture.detectChanges();
+
+    expect(hostCmp.value()).toBe('A');
+  });
+
+
+  // ============================================================================
+  // 7) Loop + disabled corner: loop=true with only one enabled option
+  // ============================================================================
+
+  it('with loop=true and only one enabled option, navigation stays on that option', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [TestHostComponent],
+    }).createComponent(TestHostComponent);
+
+    fixture.detectChanges();
+    const hostCmp = fixture.componentInstance;
+
+    hostCmp.disableB.set(true);
+    hostCmp.disableC.set(true);
+    hostCmp.loop.set(true);
+    fixture.detectChanges();
+
+    const host = fixture.nativeElement.querySelector('[data-testid="lb"]') as HTMLElement;
+    const optA = fixture.nativeElement.querySelector('[data-testid="opt-a"]') as HTMLElement;
+
+    keydown(host, 'ArrowDown');
+    fixture.detectChanges();
+    expect(host.getAttribute('aria-activedescendant')).toBe(optA.id);
+
+    keydown(host, 'ArrowDown');
+    fixture.detectChanges();
+    expect(host.getAttribute('aria-activedescendant')).toBe(optA.id);
+
+    keydown(host, 'ArrowUp');
+    fixture.detectChanges();
+    expect(host.getAttribute('aria-activedescendant')).toBe(optA.id);
   });
 }); 

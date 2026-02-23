@@ -15,6 +15,8 @@ export type TngListboxOption<T> = Readonly<{
   id: string;
   value: T;
   disabled?: boolean;
+  // for typeahead
+  text?: string;
 }>;
 
 export type TngListboxConfig = Readonly<{
@@ -32,8 +34,10 @@ export type TngListboxController<T> = Readonly<{
 
   setOptionDisabled: (id: string, disabled: boolean) => void;
 
-  // ✅ NEW: force canonical order (DOM order from directive)
   setItemOrder: (ids: readonly string[]) => void;
+
+  setActiveId: (id: string | null) => void;
+  typeahead: (key: string) => boolean;
 
   handleKeyDown: (event: TngListNavigationKeyboardEvent) => TngListNavigationAction | null;
   handleClick: (id: string, shiftKey?: boolean) => void;
@@ -71,6 +75,42 @@ export function createListboxController<T>(config: TngListboxConfig): TngListbox
   let itemIds: string[] = [];
   let disabledIds: string[] = [];
 
+  const idToText = new Map<string, string>();
+
+  let typeaheadBuffer = '';
+  let typeaheadTimer: ReturnType<typeof setTimeout> | null = null;
+
+  function normalizeText(s: string): string {
+    return s.trim().toLowerCase();
+  }
+
+  function isEnabled(id: string): boolean {
+    return !disabledIds.includes(id);
+  }
+
+  function findTypeaheadMatch(prefix: string): string | null {
+    const p = normalizeText(prefix);
+    if (!p) return null;
+
+    // Start searching from the item after current active, then wrap.
+    const active = focusController.getActiveId();
+    const startIndex = active ? itemIds.indexOf(active) : -1;
+
+    const ordered = [
+      ...itemIds.slice(startIndex + 1),
+      ...itemIds.slice(0, Math.max(0, startIndex + 1)),
+    ];
+
+    for (const id of ordered) {
+      if (!isEnabled(id)) continue;
+      const text = idToText.get(id);
+      if (!text) continue;
+      if (normalizeText(text).startsWith(p)) return id;
+    }
+
+    return null;
+  }
+
   function syncFocusController(): void {
     focusController.setItemIds(itemIds);
     focusController.setDisabledIds(disabledIds);
@@ -79,7 +119,12 @@ export function createListboxController<T>(config: TngListboxConfig): TngListbox
   function registerOption(option: TngListboxOption<T>): void {
     idToValue.set(option.id, option.value);
 
-    // ✅ upsert without duplicating order
+    // capture label text for typeahead
+    if (typeof option.text === 'string') {
+      idToText.set(option.id, option.text);
+    }
+
+    // upsert without duplicating order
     if (!itemIds.includes(option.id)) {
       itemIds = [...itemIds, option.id];
     }
@@ -96,17 +141,78 @@ export function createListboxController<T>(config: TngListboxConfig): TngListbox
     syncFocusController();
   }
 
+  function resolveNextActiveAfterRemoval(options: {
+    removedIndex: number;
+    itemIds: readonly string[];
+    disabledIds: readonly string[];
+    loop: boolean;
+  }): string | null {
+    const { removedIndex, itemIds, disabledIds, loop } = options;
+  
+    if (itemIds.length === 0) return null;
+  
+    const isEnabled = (id: string) => !disabledIds.includes(id);
+  
+    // If we don't know where it was, just go to first enabled.
+    if (removedIndex < 0) {
+      return itemIds.find(isEnabled) ?? null;
+    }
+  
+    // Prefer "next" in the same position (since array shrank).
+    for (let i = removedIndex; i < itemIds.length; i++) {
+      const id = itemIds[i]!;
+      if (isEnabled(id)) return id;
+    }
+  
+    // If loop, wrap to start.
+    if (loop) {
+      for (let i = 0; i < removedIndex; i++) {
+        const id = itemIds[i]!;
+        if (isEnabled(id)) return id;
+      }
+    }
+  
+    // Fallback: previous enabled
+    for (let i = Math.min(removedIndex - 1, itemIds.length - 1); i >= 0; i--) {
+      const id = itemIds[i]!;
+      if (isEnabled(id)) return id;
+    }
+  
+    return null;
+  }
+
   function unregisterOption(id: string): void {
     idToValue.delete(id);
-
+    idToText.delete(id);
+  
+    const prevActive = focusController.getActiveId();
+    const wasActive = prevActive === id;
+  
+    // capture position in the *old* order (before removal)
+    const removedIndex = itemIds.indexOf(id);
+  
+    // remove from state
     itemIds = itemIds.filter((x) => x !== id);
     disabledIds = disabledIds.filter((x) => x !== id);
-
+  
     if (selectionModel.isSelected(id)) {
       selectionModel.deselect(id);
     }
-
+  
+    // sync first (this may clear active if it points to removed id)
     syncFocusController();
+  
+    // ✅ if the removed option was active, pick next enabled
+    if (wasActive) {
+      const nextActive = resolveNextActiveAfterRemoval({
+        removedIndex,
+        itemIds,
+        disabledIds,
+        loop,
+      });
+  
+      focusController.setActiveId(nextActive);
+    }
   }
 
   function setOptionDisabled(id: string, isDisabled: boolean): void {
@@ -272,19 +378,49 @@ export function createListboxController<T>(config: TngListboxConfig): TngListbox
   }
 
   function setItemOrder(ids: readonly string[]): void {
-    // keep only known ids and preserve uniqueness in the incoming order
+    // reorder only registered itemIds; keep uniqueness; preserve leftovers
+    const registered = new Set(itemIds);
+  
     const next: string[] = [];
     const seen = new Set<string>();
   
     for (const id of ids) {
       if (!id || seen.has(id)) continue;
-      if (!idToValue.has(id)) continue; // only options that exist
+      if (!registered.has(id)) continue;
       seen.add(id);
       next.push(id);
     }
   
+    // append any registered ids not present in DOM query result
+    for (const id of itemIds) {
+      if (!seen.has(id)) next.push(id);
+    }
+  
     itemIds = next;
     syncFocusController();
+  }
+
+  function setActiveId(id: string | null): void {
+    focusController.setActiveId(id);
+  }
+  
+  function typeahead(key: string): boolean {
+    // only single printable chars
+    if (!key || key.length !== 1) return false;
+  
+    // reset timer / buffer
+    if (typeaheadTimer) clearTimeout(typeaheadTimer);
+    typeaheadBuffer += key;
+    typeaheadTimer = setTimeout(() => {
+      typeaheadBuffer = '';
+      typeaheadTimer = null;
+    }, 500);
+  
+    const match = findTypeaheadMatch(typeaheadBuffer);
+    if (!match) return false;
+  
+    focusController.setActiveId(match);
+    return true;
   }
 
   return Object.freeze({
@@ -292,6 +428,8 @@ export function createListboxController<T>(config: TngListboxConfig): TngListbox
     unregisterOption,
     setOptionDisabled,
     setItemOrder,
+    setActiveId,
+    typeahead,
     handleKeyDown,
     handleClick,
     getActiveId,

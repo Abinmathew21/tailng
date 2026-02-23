@@ -1,12 +1,14 @@
 import {
   Directive,
+  ElementRef,
   HostBinding,
   HostListener,
   effect,
+  inject,
   input,
   model,
   signal,
-  untracked,
+  untracked
 } from '@angular/core';
 
 import { createListboxController } from '@tailng-ui/cdk';
@@ -28,7 +30,9 @@ export class TngListboxDirective<T> {
 
   value = model<ListboxValue<T>>(null);
 
-  private options = signal<{ id: string; value: T; disabled: boolean; el: HTMLElement }[]>([]);
+  private readonly el = inject(ElementRef<HTMLElement>);
+
+  private options = signal<{ id: string; value: T; disabled: boolean }[]>([]);
   private controller = signal<ReturnType<typeof createListboxController<T>> | null>(null);
 
   @HostBinding('attr.role')
@@ -64,81 +68,117 @@ export class TngListboxDirective<T> {
   
       this.controller.set(ctrl);
   
-      // ✅ re-register from stored options without tracking
       const opts = untracked(this.options);
-  
       for (const option of opts) {
-        ctrl.registerOption(option); // option includes { id, value, disabled, el } in your refactor
+        ctrl.registerOption(option);
       }
+    });
   
-      // ✅ CRITICAL: re-apply DOM order to the NEW controller
-      const orderedIds = opts
-        .slice()
-        .sort((a, b) => {
-          if (a.el === b.el) return 0;
-          const pos = a.el.compareDocumentPosition(b.el);
-          return pos & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1;
-        })
-        .map((o) => o.id);
-  
-      ctrl.setItemOrder(orderedIds);
+    effect(() => {
+      const isMulti = this.multiple();
+      const opts = this.options();   // track options (includes disabled)
+      const external = this.value(); // track external value
+    
+      // -------------------------
+      // Single mode
+      // -------------------------
+      if (!isMulti) {
+        if (external === null) return;
+    
+        const v = external as T;
+    
+        // policy: missing OR disabled => null
+        if (!this.isSelectableValue(v, opts)) {
+          this.value.set(null);
+        }
+        return;
+      }
+    
+      // -------------------------
+      // Multiple mode
+      // -------------------------
+      if (external === null) return;
+    
+      const arr = Array.isArray(external)
+        ? (external as readonly T[])
+        : ([external as T] as readonly T[]);
+    
+      // policy: drop missing + drop disabled
+      const filtered = arr.filter((v) => this.isSelectableValue(v, opts));
+    
+      // Only write back if changed (prevents loops)
+      if (filtered.length !== arr.length) {
+        this.value.set(filtered as readonly T[]);
+      }
     });
   }
 
-  private syncControllerOrder(): void {
-    const ctrl = this.controller();
-    if (!ctrl) return;
+  private findOptionByValue(
+    value: T,
+    opts: readonly { value: T; disabled: boolean }[],
+  ): { value: T; disabled: boolean } | undefined {
+    return opts.find((o) => Object.is(o.value, value));
+  }
   
-    const ordered = this.options()
-      .slice()
-      .sort((a, b) => {
-        if (a.el === b.el) return 0;
-        const pos = a.el.compareDocumentPosition(b.el);
-        // a before b => return -1
-        if (pos & Node.DOCUMENT_POSITION_FOLLOWING) return -1;
-        return 1;
-      })
-      .map((o) => o.id);
-  
-    ctrl.setItemOrder(ordered);
+  private isSelectableValue(
+    value: T,
+    opts: readonly { value: T; disabled: boolean }[],
+  ): boolean {
+    const opt = this.findOptionByValue(value, opts);
+    return !!opt && !opt.disabled; // ✅ policy: disabled can't be selected
   }
 
-  registerOption(id: string, value: T, disabled: boolean, el: HTMLElement): void {
+  private syncDomOrderToController(): void {
+    const ctrl = this.controller();
+    if (!ctrl) return;
+
+    const root = this.el.nativeElement;
+
+    // DOM order query
+    const optionEls = Array.from(root.querySelectorAll('[role="option"][id]')) as HTMLElement[];
+    const ids = optionEls.map((x) => x.id).filter(Boolean);
+
+    if (ids.length > 0) {
+      ctrl.setItemOrder(ids);
+    }
+  }
+
+  // ----------------------------
+  // Option registration
+  // ----------------------------
+
+  registerOption(id: string, value: T, disabled: boolean, text?: string): void {
     this.options.update((list) => {
       const idx = list.findIndex((x) => x.id === id);
-      if (idx === -1) return [...list, { id, value, disabled, el }];
+      if (idx === -1) return [...list, { id, value, disabled }];
       const copy = list.slice();
-      copy[idx] = { id, value, disabled, el };
+      copy[idx] = { id, value, disabled };
       return copy;
     });
   
     const ctrl = this.controller();
     if (!ctrl) return;
   
-    ctrl.registerOption({ id, value, disabled });
-  
-    // ✅ enforce DOM order after each registration/update
-    this.syncControllerOrder();
+    ctrl.unregisterOption(id);
+    ctrl.registerOption({ id, value, disabled, text });
   }
 
   unregisterOption(id: string): void {
     this.options.update((list) => list.filter((x) => x.id !== id));
-  
+
     const ctrl = this.controller();
     if (!ctrl) return;
-  
+
     ctrl.unregisterOption(id);
-  
-    // ✅ keep order consistent after removal too
-    this.syncControllerOrder();
-  
+
+    // keep external value in sync after removal (your earlier failing test)
     this.syncExternalValueFromInternal(ctrl);
+    // DOM order will be synced in afterRenderEffect()
   }
 
-  // ✅ called by option directive when disabled changes
   updateOptionDisabled(id: string, disabled: boolean): void {
     let exists = false;
-  
+
     this.options.update((list) =>
       list.map((o) => {
         if (o.id !== id) return o;
@@ -146,17 +186,19 @@ export class TngListboxDirective<T> {
         return { ...o, disabled };
       }),
     );
-  
+
     if (!exists) return;
-  
+
     const ctrl = this.controller();
     if (!ctrl) return;
-  
+
+    // ✅ use dedicated API (no unregister/register)
     ctrl.setOptionDisabled(id, disabled);
-  
-    // order doesn’t change, but harmless if you want:
-    // this.syncControllerOrder();
   }
+
+  // ----------------------------
+  // Events
+  // ----------------------------
 
   @HostListener('keydown', ['$event'])
   handleKeydown(event: KeyboardEvent) {
@@ -166,8 +208,24 @@ export class TngListboxDirective<T> {
       return;
     }
 
+    this.syncDomOrderToController();
+
     const ctrl = this.controller();
     if (!ctrl) return;
+
+    // typeahead (no ctrl/meta/alt)
+    if (
+      event.key.length === 1 &&
+      !event.ctrlKey &&
+      !event.metaKey &&
+      !event.altKey
+    ) {
+      const moved = ctrl.typeahead(event.key);
+      if (moved) {
+        event.preventDefault();
+        return; // typeahead does not select
+      }
+    }
 
     const action = ctrl.handleKeyDown(event);
     if (action?.preventDefault) event.preventDefault();
@@ -182,14 +240,22 @@ export class TngListboxDirective<T> {
     const ctrl = this.controller();
     if (!ctrl) return;
 
+    // If active is already set, don't reset it
+    if (ctrl.getActiveId() !== null) return;
+
+    // Only on first focus, initialize to first enabled (Home behavior)
     ctrl.handleKeyDown({ key: 'Home' });
   }
 
   handleOptionClick(id: string, shiftKey?: boolean) {
     if (this.disabled()) return;
 
+    this.syncDomOrderToController();
+
     const opt = this.options().find((o) => o.id === id);
     if (opt?.disabled) return;
+
+    this.syncDomOrderToController();
 
     const ctrl = this.controller();
     if (!ctrl) return;

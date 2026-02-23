@@ -25,7 +25,7 @@ export class TngOptionDirective<T> implements AfterViewInit, OnDestroy {
   tngValue = input<T | undefined>();
   disabled = input<boolean>(false);
 
-  private el = inject(ElementRef<HTMLElement>).nativeElement;
+  private el = inject(ElementRef<HTMLElement>);
   private listbox = inject(TNG_LISTBOX);
   private id = createId();
 
@@ -65,7 +65,10 @@ export class TngOptionDirective<T> implements AfterViewInit, OnDestroy {
     const value = this.tngValue();
     if (value === undefined) return;
 
-    this.listbox.registerOption(this.id, value, this.disabled(), this.el);
+    const text = this.el.nativeElement.textContent?.trim() ?? '';
+    // pass text for typeahead
+    this.listbox.registerOption(this.id, value, this.disabled(), text);
+    
     this.registered.set(true);
   }
 
