@@ -1,58 +1,101 @@
-<div class="mx-auto max-w-[72rem] grid gap-5">
-  <section class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5 space-y-3">
-    <div class="grid gap-4 sm:grid-cols-2">
-      <article>
-        <h2 class="text-lg font-semibold mb-2">Keyboard Controls</h2>
-        <ul class="list-disc pl-5 grid gap-1 text-sm text-tng-fg-secondary m-0">
+<main class="min-h-screen bg-tng-bg-canvas text-tng-fg-primary px-4 py-8">
+  <section class="mx-auto grid max-w-[72rem] gap-5">
+    <!-- Hints + State -->
+    <section
+      class="grid gap-4 rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5 md:grid-cols-2"
+    >
+      <article class="space-y-3">
+        <h2 class="text-lg font-semibold">Keyboard Controls</h2>
+
+        <ul class="m-0 grid list-disc gap-1 pl-5 text-sm text-tng-fg-secondary">
           <li><strong class="text-tng-accent-brand">Arrow Up/Down</strong> move active option</li>
           <li><strong class="text-tng-accent-brand">Home/End</strong> jump to first/last option</li>
           <li><strong class="text-tng-accent-brand">Space</strong> toggle active selection</li>
           <li><strong class="text-tng-accent-brand">Enter</strong> select only active option</li>
-          <li><strong class="text-tng-accent-brand">Shift + Arrow</strong> extend contiguous range</li>
-          <li><strong class="text-tng-accent-brand">Ctrl + A</strong> select all enabled</li>
+          <li><strong class="text-tng-accent-brand">Shift + Arrow</strong> extend contiguous range (multiple)</li>
+          <li><strong class="text-tng-accent-brand">Ctrl/Cmd + A</strong> select all enabled (multiple)</li>
           <li><strong class="text-tng-accent-brand">Tab</strong> leave listbox naturally</li>
           <li><strong class="text-tng-accent-brand">Type letters</strong> typeahead jump</li>
         </ul>
-      </article>
 
-      <article class="rounded-xl border border-tng-border-subtle bg-tng-bg-canvas p-3">
-        <h2 class="text-lg font-semibold mb-2">Live State</h2>
-        <p class="text-tng-fg-secondary mt-1 m-0"><strong>Active:</strong> {{ activeLabel() }}</p>
-        <p class="text-tng-fg-secondary mt-1 m-0"><strong>Selected:</strong> {{ selectedLabel() }}</p>
-      </article>
-    </div>
-  </section>
+        <div class="flex flex-wrap gap-2 pt-2">
+          <button
+            type="button"
+            class="inline-flex items-center gap-2 rounded-md border border-tng-border-subtle bg-tng-bg-canvas px-3 py-2 text-sm font-medium text-tng-fg-secondary transition hover:border-tng-accent-brand hover:text-tng-fg-primary disabled:opacity-50"
+            (click)="toggleMultiple()"
+          >
+            Mode: {{ multiple() ? 'Multiple' : 'Single' }}
+          </button>
 
-  <section class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5 space-y-3">
-    <div
-      [id]="listboxId"
-      role="listbox"
-      tabindex="0"
-      aria-multiselectable="true"
-      [attr.aria-activedescendant]="activeId() ?? null"
-      class="grid gap-2 rounded-xl border border-tng-border-subtle bg-tng-bg-canvas p-3 outline-none focus:border-tng-accent-brand focus:ring-2 focus:ring-tng-accent-brand/40"
-      (focus)="onFocus()"
-      (keydown)="onKeydown($event)"
-    >
-      @for (option of options; track option.id) {
-        <div
-          [id]="option.id"
-          role="option"
-          tabindex="-1"
-          class="cursor-pointer rounded-lg border border-tng-border-subtle bg-tng-bg-surface p-3 transition-colors"
-          [class.border-tng-accent-brand]="isActive(option.id)"
-          [class.bg-tng-accent-brand/45]="isSelected(option.id)"
-          [class.opacity-55]="isDisabled(option.id)"
-          [class.cursor-not-allowed]="isDisabled(option.id)"
-          [attr.aria-disabled]="isDisabled(option.id) ? 'true' : null"
-          [attr.aria-selected]="isSelected(option.id)"
-          (click)="onOptionClick(option.id, $event)"
-          (keydown)="onOptionKeydown(option.id, $event)"
-        >
-          <p class="font-semibold m-0">{{ option.label }}</p>
-          <p class="text-sm text-tng-fg-secondary mt-1 m-0">{{ option.description }}</p>
+          <button
+            type="button"
+            class="inline-flex items-center gap-2 rounded-md border border-tng-border-subtle bg-tng-bg-canvas px-3 py-2 text-sm font-medium text-tng-fg-secondary transition hover:border-tng-accent-brand hover:text-tng-fg-primary disabled:opacity-50"
+            (click)="clearSelection()"
+          >
+            Clear
+          </button>
+
+          <button
+            type="button"
+            class="inline-flex items-center gap-2 rounded-md border border-tng-border-subtle bg-tng-bg-canvas px-3 py-2 text-sm font-medium text-tng-fg-secondary transition hover:border-tng-accent-brand hover:text-tng-fg-primary disabled:opacity-50"
+            (click)="listboxDisabled.set(!listboxDisabled())"
+          >
+            {{ listboxDisabled() ? 'Enable' : 'Disable' }}
+          </button>
+
+          <button
+            type="button"
+            class="inline-flex items-center gap-2 rounded-md border border-tng-border-subtle bg-tng-bg-canvas px-3 py-2 text-sm font-medium text-tng-fg-secondary transition hover:border-tng-accent-brand hover:text-tng-fg-primary disabled:opacity-50"
+            (click)="loop.set(!loop())"
+          >
+            Loop: {{ loop() ? 'On' : 'Off' }}
+          </button>
         </div>
-      }
-    </div>
+      </article>
+
+      <article class="rounded-xl border border-tng-border-subtle bg-tng-bg-canvas p-4">
+        <h2 class="text-lg font-semibold">Live State</h2>
+        <p class="m-0 mt-2 text-sm text-tng-fg-secondary">
+          <strong class="text-tng-fg-primary">Selected:</strong> {{ selectedLabel() }}
+        </p>
+      </article>
+    </section>
+
+    <!-- Listbox -->
+    <section class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5">
+      <div
+        tngListbox
+        tabindex="0"
+        class="grid gap-2 rounded-xl border border-tng-border-subtle bg-tng-bg-canvas p-3 outline-none focus:border-tng-accent-brand focus:ring-2 focus:ring-tng-accent-brand/40"
+        [multiple]="multiple()"
+        [orientation]="orientation()"
+        [direction]="direction()"
+        [disabled]="listboxDisabled()"
+        [loop]="loop()"
+        [value]="value()"
+        (valueChange)="value.set($event)"
+      >
+        @for (option of options; track option.id) {
+          <div
+            tngOption
+            [tngValue]="option.id"
+            [disabled]="option.disabled === true"
+            [attr.data-testid]="'opt-' + option.id"
+            class="
+              rounded-lg border border-tng-border-subtle bg-tng-bg-surface p-3 transition-colors
+              data-[active]:border-tng-accent-brand data-[active]:ring-2 data-[active]:ring-tng-accent-brand/30
+              data-[selected]:bg-tng-accent-brand data-[selected]:text-tng-bg-canvas
+              data-[disabled]:opacity-55 data-[disabled]:cursor-not-allowed
+              cursor-pointer
+            "
+          >
+            <p class="m-0 font-semibold">{{ option.label }}</p>
+            <p class="m-0 mt-1 text-sm text-tng-fg-secondary data-[selected]:text-tng-bg-canvas/90">
+              {{ option.description }}
+            </p>
+          </div>
+        }
+      </div>
+    </section>
   </section>
-</div>
+</main>
