@@ -1,27 +1,13 @@
-import {
-  resolveListNavigationKeyAction,
-} from '../list-navigation/list-navigation';
-
+import { resolveListNavigationKeyAction } from '../list-navigation/list-navigation';
 import type {
   TngListNavigationKeyboardEvent,
   TngListNavigationAction,
 } from '../list-navigation/list-navigation.types';
 
-import {
-  createSelectionModel,
-} from '../../collections/selection-model/selection-model';
-
-import {
-  createActiveDescendantController,
-} from '../active-descendant/active-descendant';
-
-import type {
-  TngActiveDescendantController,
-} from '../active-descendant/active-descendant.types';
-
-import type {
-  TngSelectionMode,
-} from '../../collections/selection-model/selection-model.types';
+import { createSelectionModel } from '../../collections/selection-model/selection-model';
+import { createActiveDescendantController } from '../active-descendant/active-descendant';
+import type { TngActiveDescendantController } from '../active-descendant/active-descendant.types';
+import type { TngSelectionMode } from '../../collections/selection-model/selection-model.types';
 
 export type TngListboxSelectionMode = 'single' | 'multiple';
 
@@ -44,6 +30,11 @@ export type TngListboxController<T> = Readonly<{
   registerOption: (option: TngListboxOption<T>) => void;
   unregisterOption: (id: string) => void;
 
+  setOptionDisabled: (id: string, disabled: boolean) => void;
+
+  // ✅ NEW: force canonical order (DOM order from directive)
+  setItemOrder: (ids: readonly string[]) => void;
+
   handleKeyDown: (event: TngListNavigationKeyboardEvent) => TngListNavigationAction | null;
   handleClick: (id: string, shiftKey?: boolean) => void;
 
@@ -54,15 +45,11 @@ export type TngListboxController<T> = Readonly<{
   getOptionAttributes: (id: string) => Readonly<Record<string, unknown>>;
 }>;
 
-function toSelectionMode(
-  mode: TngListboxSelectionMode | undefined,
-): TngSelectionMode {
+function toSelectionMode(mode: TngListboxSelectionMode | undefined): TngSelectionMode {
   return mode === 'multiple' ? 'multiple' : 'single';
 }
 
-export function createListboxController<T>(
-  config: TngListboxConfig,
-): TngListboxController<T> {
+export function createListboxController<T>(config: TngListboxConfig): TngListboxController<T> {
   const {
     hostId,
     selectionMode: selectionModeInput,
@@ -74,20 +61,15 @@ export function createListboxController<T>(
 
   const selectionMode = toSelectionMode(selectionModeInput);
 
-  const selectionModel = createSelectionModel<string>({
-    mode: selectionMode,
-  });
+  const selectionModel = createSelectionModel<string>({ mode: selectionMode });
 
   const focusController: TngActiveDescendantController =
-    createActiveDescendantController({
-      hostId,
-      loop,
-    });
+    createActiveDescendantController({ hostId, loop });
 
   const idToValue = new Map<string, T>();
 
-  let disabledIds: string[] = [];
   let itemIds: string[] = [];
+  let disabledIds: string[] = [];
 
   function syncFocusController(): void {
     focusController.setItemIds(itemIds);
@@ -97,10 +79,18 @@ export function createListboxController<T>(
   function registerOption(option: TngListboxOption<T>): void {
     idToValue.set(option.id, option.value);
 
-    itemIds = [...itemIds, option.id];
+    // ✅ upsert without duplicating order
+    if (!itemIds.includes(option.id)) {
+      itemIds = [...itemIds, option.id];
+    }
 
-    if (option.disabled === true) {
+    const isDisabled = option.disabled === true;
+    const wasDisabled = disabledIds.includes(option.id);
+
+    if (isDisabled && !wasDisabled) {
       disabledIds = [...disabledIds, option.id];
+    } else if (!isDisabled && wasDisabled) {
+      disabledIds = disabledIds.filter((x) => x !== option.id);
     }
 
     syncFocusController();
@@ -119,16 +109,30 @@ export function createListboxController<T>(
     syncFocusController();
   }
 
+  function setOptionDisabled(id: string, isDisabled: boolean): void {
+    if (!itemIds.includes(id)) return;
+
+    const wasDisabled = disabledIds.includes(id);
+
+    if (isDisabled && !wasDisabled) {
+      disabledIds = [...disabledIds, id];
+    } else if (!isDisabled && wasDisabled) {
+      disabledIds = disabledIds.filter((x) => x !== id);
+    } else {
+      return;
+    }
+
+    // ✅ active-descendant will reconcile if active becomes disabled
+    syncFocusController();
+  }
+
   function applyNavigation(action: TngListNavigationAction): void {
     if (disabled) return;
 
     switch (action.type) {
-      
       case 'move-next': {
         const active = focusController.getActiveId();
-      
         if (active === null) {
-          // First navigation should go to first enabled item
           const first = itemIds.find((id) => !disabledIds.includes(id));
           if (first) focusController.setActiveId(first);
         } else {
@@ -136,10 +140,9 @@ export function createListboxController<T>(
         }
         break;
       }
-      
+
       case 'move-prev': {
         const active = focusController.getActiveId();
-      
         if (active === null) {
           const first = itemIds.find((id) => !disabledIds.includes(id));
           if (first) focusController.setActiveId(first);
@@ -150,30 +153,20 @@ export function createListboxController<T>(
       }
 
       case 'move-first': {
-        if (itemIds.length === 0) break;
-      
-        // set directly to first enabled
         const first = itemIds.find((id) => !disabledIds.includes(id));
-        if (first) {
-          focusController.setActiveId(first);
-        }
+        if (first) focusController.setActiveId(first);
         break;
       }
-      
+
       case 'move-last': {
-        if (itemIds.length === 0) break;
-      
-        const reversed = [...itemIds].reverse();
-        const last = reversed.find((id) => !disabledIds.includes(id));
-        if (last) {
-          focusController.setActiveId(last);
-        }
+        const last = [...itemIds].reverse().find((id) => !disabledIds.includes(id));
+        if (last) focusController.setActiveId(last);
         break;
       }
 
       case 'select-active': {
         const active = focusController.getActiveId();
-        if (active !== null) {
+        if (active !== null && !disabledIds.includes(active)) {
           selectionModel.select(active);
         }
         break;
@@ -181,7 +174,7 @@ export function createListboxController<T>(
 
       case 'toggle-active': {
         const active = focusController.getActiveId();
-        if (active !== null) {
+        if (active !== null && !disabledIds.includes(active)) {
           selectionModel.toggle(active);
         }
         break;
@@ -192,9 +185,7 @@ export function createListboxController<T>(
 
         selectionModel.clear();
         for (const id of itemIds) {
-          if (!disabledIds.includes(id)) {
-            selectionModel.select(id);
-          }
+          if (!disabledIds.includes(id)) selectionModel.select(id);
         }
         break;
       }
@@ -205,9 +196,7 @@ export function createListboxController<T>(
     }
   }
 
-  function handleKeyDown(
-    event: TngListNavigationKeyboardEvent,
-  ): TngListNavigationAction | null {
+  function handleKeyDown(event: TngListNavigationKeyboardEvent): TngListNavigationAction | null {
     const action = resolveListNavigationKeyAction(event, {
       orientation,
       direction,
@@ -224,31 +213,26 @@ export function createListboxController<T>(
   function handleClick(id: string, shiftKey?: boolean): void {
     if (disabled) return;
     if (disabledIds.includes(id)) return;
-  
+
     const anchor = selectionModel.getAnchor() ?? focusController.getActiveId();
-  
+
     focusController.setActiveId(id);
-  
-    if (
-      selectionMode === 'multiple' &&
-      shiftKey === true &&
-      anchor !== null
-    ) {
-      // ✅ skip disabled during range selection
+
+    if (selectionMode === 'multiple' && shiftKey === true && anchor !== null) {
       const enabledItemIds = itemIds.filter((x) => !disabledIds.includes(x));
-  
+
       selectionModel.selectRange(anchor, id, {
         orderedValues: enabledItemIds,
         rangeMode: 'merge',
       });
       return;
     }
-  
+
     if (selectionMode === 'multiple') {
       selectionModel.toggle(id);
       return;
     }
-  
+
     selectionModel.select(id);
   }
 
@@ -266,16 +250,12 @@ export function createListboxController<T>(
   function getHostAttributes(): Readonly<Record<string, string>> {
     return {
       role: 'listbox',
-      ...(selectionMode === 'multiple'
-        ? { 'aria-multiselectable': 'true' }
-        : {}),
+      ...(selectionMode === 'multiple' ? { 'aria-multiselectable': 'true' } : {}),
       ...focusController.getHostAttributes(),
     };
   }
 
-  function getOptionAttributes(
-    id: string,
-  ): Readonly<Record<string, unknown>> {
+  function getOptionAttributes(id: string): Readonly<Record<string, unknown>> {
     const isSelected = selectionModel.isSelected(id);
     const isDisabled = disabledIds.includes(id);
     const isActive = focusController.getActiveId() === id;
@@ -291,9 +271,27 @@ export function createListboxController<T>(
     };
   }
 
+  function setItemOrder(ids: readonly string[]): void {
+    // keep only known ids and preserve uniqueness in the incoming order
+    const next: string[] = [];
+    const seen = new Set<string>();
+  
+    for (const id of ids) {
+      if (!id || seen.has(id)) continue;
+      if (!idToValue.has(id)) continue; // only options that exist
+      seen.add(id);
+      next.push(id);
+    }
+  
+    itemIds = next;
+    syncFocusController();
+  }
+
   return Object.freeze({
     registerOption,
     unregisterOption,
+    setOptionDisabled,
+    setItemOrder,
     handleKeyDown,
     handleClick,
     getActiveId,

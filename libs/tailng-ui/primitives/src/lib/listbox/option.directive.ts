@@ -2,6 +2,7 @@
 import {
   AfterViewInit,
   Directive,
+  ElementRef,
   HostBinding,
   HostListener,
   OnDestroy,
@@ -24,6 +25,7 @@ export class TngOptionDirective<T> implements AfterViewInit, OnDestroy {
   tngValue = input<T | undefined>();
   disabled = input<boolean>(false);
 
+  private el = inject(ElementRef<HTMLElement>).nativeElement;
   private listbox = inject(TNG_LISTBOX);
   private id = createId();
 
@@ -63,8 +65,8 @@ export class TngOptionDirective<T> implements AfterViewInit, OnDestroy {
     const value = this.tngValue();
     if (value === undefined) return;
 
-    this.listbox.registerOption(this.id, value, this.disabled());
-    this.registered.set(true); // enables the effect
+    this.listbox.registerOption(this.id, value, this.disabled(), this.el);
+    this.registered.set(true);
   }
 
   ngOnDestroy() {
