@@ -67,8 +67,14 @@ export class TngOptionDirective<T> implements AfterViewInit, OnDestroy {
 
     const text = this.el.nativeElement.textContent?.trim() ?? '';
     // pass text for typeahead
-    this.listbox.registerOption(this.id, value, this.disabled(), text);
-    
+    this.listbox.registerOption(
+      this.id,
+      value,
+      this.disabled(),
+      text,
+      this.el.nativeElement,
+    );
+
     this.registered.set(true);
   }
 
@@ -78,14 +84,15 @@ export class TngOptionDirective<T> implements AfterViewInit, OnDestroy {
     // Angular will destroy directive + tear down effect automatically
   }
 
-  @HostListener('click', ['$event'])
-  onClick(event: MouseEvent) {
+  @HostListener('pointerdown', ['$event'])
+  onPointerDown(event: PointerEvent) {
     if (this.disabled()) {
       event.preventDefault();
       event.stopPropagation();
       return;
     }
-
+    if (event.button !== 0) return;
+    event.preventDefault();
     this.listbox.handleOptionClick(this.id, event.shiftKey);
   }
 }

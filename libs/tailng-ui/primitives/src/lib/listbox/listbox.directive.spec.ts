@@ -111,11 +111,21 @@ function keydown(el: HTMLElement, key: string, extras?: Partial<KeyboardEventIni
   el.dispatchEvent(new KeyboardEvent('keydown', { key, bubbles: true, ...extras }));
 }
 
-function focusin(el: HTMLElement) {
-  el.dispatchEvent(new FocusEvent('focusin', { bubbles: true }));
+function pointerdown(el: HTMLElement, extras?: Partial<PointerEventInit>) {
+  el.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, ...extras }));
 }
 
 describe('tngListbox + tngOption primitives', () => {
+  
+  beforeAll(() => {
+    if (!HTMLElement.prototype.scrollIntoView) {
+      Object.defineProperty(HTMLElement.prototype, 'scrollIntoView', {
+        value: vi.fn(),
+        writable: true,
+      });
+    }
+  });
+
   it('registers options and sets aria-activedescendant on ArrowDown', () => {
     const fixture = TestBed.configureTestingModule({
       imports: [
@@ -159,7 +169,7 @@ describe('tngListbox + tngOption primitives', () => {
     const hostCmp = fixture.componentInstance;
     const optC = fixture.nativeElement.querySelector('[data-testid="opt-c"]') as HTMLElement;
 
-    optC.click();
+    pointerdown(optC, { button: 0 });
     fixture.detectChanges();
 
     expect(hostCmp.value()).toBe('C');
@@ -174,28 +184,31 @@ describe('tngListbox + tngOption primitives', () => {
         TngOptionDirective,
       ],
     }).createComponent(TestHostComponent);
-
+  
     fixture.detectChanges();
-
+  
     const hostCmp = fixture.componentInstance;
     hostCmp.multiple.set(true);
     hostCmp.value.set([] as readonly string[]);
     fixture.detectChanges();
-
-    const optA = fixture.nativeElement.querySelector('[data-testid="opt-a"]') as HTMLElement;
+  
     const optC = fixture.nativeElement.querySelector('[data-testid="opt-c"]') as HTMLElement;
-
-    optA.click();
+  
+    pointerdown(optC, { button: 0 });
     fixture.detectChanges();
-    optC.click();
+  
+    // After first toggle → C selected
+    expect(new Set(hostCmp.value() as readonly string[]))
+      .toEqual(new Set(['C']));
+  
+    pointerdown(optC, { button: 0 });
     fixture.detectChanges();
-
-    const v = hostCmp.value();
-    expect(Array.isArray(v)).toBe(true);
-    expect(new Set(v as readonly string[])).toEqual(new Set(['A', 'C']));
-
-    expect(optA.getAttribute('aria-selected')).toBe('true');
-    expect(optC.getAttribute('aria-selected')).toBe('true');
+  
+    // After second toggle → C deselected
+    expect(new Set(hostCmp.value() as readonly string[]))
+      .toEqual(new Set([]));
+  
+    expect(optC.getAttribute('aria-selected')).toBe('false');
   });
 
   it('skips disabled options during navigation and does not select them on click', () => {
@@ -229,7 +242,7 @@ describe('tngListbox + tngOption primitives', () => {
     fixture.detectChanges();
     expect(host.getAttribute('aria-activedescendant')).toBe(optC.id);
 
-    optB.click();
+    pointerdown(optB, { button: 0 });
     fixture.detectChanges();
     expect(hostCmp.value()).toBeNull();
   });
@@ -349,18 +362,18 @@ describe('tngListbox + tngOption primitives', () => {
   
     const optA = fixture.nativeElement.querySelector('[data-testid="opt-a"]') as HTMLElement;
   
-    optA.click();
+    pointerdown(optA, { button: 0 });
     fixture.detectChanges();
   
     expect(hostCmp.value()).toEqual(['A']);
   
-    optA.click();
+    pointerdown(optA, { button: 0 });
     fixture.detectChanges();
   
     expect(hostCmp.value()).toEqual([]);
   });
 
-  it('selects a range with shift+click in multiple mode', () => {
+  it('selects a range with shift+pointerdown in multiple mode', () => {
     const fixture = TestBed.configureTestingModule({
       imports: [TestHostComponent],
     }).createComponent(TestHostComponent);
@@ -376,13 +389,14 @@ describe('tngListbox + tngOption primitives', () => {
     const optA = fixture.nativeElement.querySelector('[data-testid="opt-a"]') as HTMLElement;
     const optC = fixture.nativeElement.querySelector('[data-testid="opt-c"]') as HTMLElement;
   
-    optA.click();
+    pointerdown(optA, { button: 0 });
     fixture.detectChanges();
   
-    optC.dispatchEvent(new MouseEvent('click', { shiftKey: true, bubbles: true }));
+    pointerdown(optC, { button: 0, shiftKey: true });
     fixture.detectChanges();
   
-    expect(new Set(hostCmp.value() as string[])).toEqual(new Set(['A', 'B', 'C']));
+    expect(new Set(hostCmp.value() as string[]))
+      .toEqual(new Set(['A', 'B', 'C']));
   });
 
   it('range selection skips disabled options', () => {
@@ -402,10 +416,11 @@ describe('tngListbox + tngOption primitives', () => {
     const optA = fixture.nativeElement.querySelector('[data-testid="opt-a"]') as HTMLElement;
     const optC = fixture.nativeElement.querySelector('[data-testid="opt-c"]') as HTMLElement;
   
-    optA.click();
+    pointerdown(optA, { button: 0 });
     fixture.detectChanges();
   
-    optC.dispatchEvent(new MouseEvent('click', { shiftKey: true, bubbles: true }));
+    // shift range via pointerdown (not click)
+    pointerdown(optC, { button: 0, shiftKey: true });
     fixture.detectChanges();
   
     expect(new Set(hostCmp.value() as string[])).toEqual(new Set(['A', 'C']));
@@ -481,7 +496,7 @@ describe('tngListbox + tngOption primitives', () => {
     expect(host.getAttribute('aria-activedescendant')).toBeNull();
   
     // click should not select
-    optA.click();
+    pointerdown(optA, { button: 0 });
     fixture.detectChanges();
     expect(hostCmp.value()).toEqual([] as readonly string[]);
   
@@ -521,7 +536,7 @@ describe('tngListbox + tngOption primitives', () => {
     expect(host.getAttribute('aria-activedescendant')).toBe(optC.id);
   });
 
-  it('does not range-select on shift+click in single mode', () => {
+  it('does not range-select on shift+pointerdown in single mode', () => {
     const fixture = TestBed.configureTestingModule({
       imports: [TestHostComponent],
     }).createComponent(TestHostComponent);
@@ -536,14 +551,15 @@ describe('tngListbox + tngOption primitives', () => {
     const optA = fixture.nativeElement.querySelector('[data-testid="opt-a"]') as HTMLElement;
     const optC = fixture.nativeElement.querySelector('[data-testid="opt-c"]') as HTMLElement;
   
-    optA.click();
+    pointerdown(optA, { button: 0 });
     fixture.detectChanges();
     expect(hostCmp.value()).toBe('A');
   
-    optC.dispatchEvent(new MouseEvent('click', { shiftKey: true, bubbles: true }));
+    // shift selection via pointerdown
+    pointerdown(optC, { button: 0, shiftKey: true });
     fixture.detectChanges();
   
-    // should simply select C (not A..C)
+    // In single mode, shift has no meaning → just select C
     expect(hostCmp.value()).toBe('C');
   });
 
@@ -561,7 +577,7 @@ describe('tngListbox + tngOption primitives', () => {
   
     const optB = fixture.nativeElement.querySelector('[data-testid="opt-b"]') as HTMLElement;
   
-    optB.click();
+    pointerdown(optB, { button: 0 });
     fixture.detectChanges();
     expect(new Set(hostCmp.value() as readonly string[])).toEqual(new Set(['B']));
   
@@ -847,7 +863,7 @@ describe('tngListbox + tngOption primitives', () => {
     expect(host.getAttribute('aria-activedescendant')).toBeNull();
   });
 
-  it.skip('calls scrollIntoView when active changes (optional)', () => {
+  it('calls scrollIntoView when active changes', () => {
     const fixture = TestBed.configureTestingModule({
       imports: [TestHostComponent],
     }).createComponent(TestHostComponent);
@@ -857,9 +873,7 @@ describe('tngListbox + tngOption primitives', () => {
     const host = fixture.nativeElement.querySelector('[data-testid="lb"]') as HTMLElement;
     const optA = fixture.nativeElement.querySelector('[data-testid="opt-a"]') as HTMLElement;
 
-    const spy = vi
-      .spyOn(optA as any, 'scrollIntoView')
-      .mockImplementation(() => {});
+    const spy = vi.spyOn(optA, 'scrollIntoView');
 
     keydown(host, 'ArrowDown');
     fixture.detectChanges();
@@ -869,13 +883,7 @@ describe('tngListbox + tngOption primitives', () => {
     spy.mockRestore();
   });
 
-
-  // ============================================================================
-  // 6) Pointer down vs click (optional integration nuance)
-  //    If you ever switch to pointerdown selection, this test is useful.
-  // ============================================================================
-
-  it.skip('pointerdown can be used for selection without requiring click (optional)', () => {
+  it('pointerdown can be used for selection without requiring click (optional)', () => {
     const fixture = TestBed.configureTestingModule({
       imports: [TestHostComponent],
     }).createComponent(TestHostComponent);
