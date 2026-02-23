@@ -1102,4 +1102,116 @@ describe('tngListbox + tngOption primitives', () => {
     fixture.detectChanges();
     expect(optC.hasAttribute('data-selected')).toBe(false);
   });
+
+  it('controlled: external clear in multiple mode clears internal selection + data-selected', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [TestHostComponent],
+    }).createComponent(TestHostComponent);
+  
+    fixture.detectChanges();
+    const hostCmp = fixture.componentInstance;
+  
+    hostCmp.multiple.set(true);
+    hostCmp.value.set([] as readonly string[]);
+    fixture.detectChanges();
+  
+    const optA = fixture.nativeElement.querySelector('[data-testid="opt-a"]') as HTMLElement;
+    const optC = fixture.nativeElement.querySelector('[data-testid="opt-c"]') as HTMLElement;
+  
+    // select A and C via pointerdown
+    pointerdown(optA, { button: 0 });
+    fixture.detectChanges();
+    pointerdown(optC, { button: 0 });
+    fixture.detectChanges();
+  
+    expect(optA.getAttribute('aria-selected')).toBe('true');
+    expect(optC.getAttribute('aria-selected')).toBe('true');
+  
+    // now clear externally
+    hostCmp.value.set([] as readonly string[]);
+    fixture.detectChanges();
+  
+    // should reflect in UI
+    expect(optA.getAttribute('aria-selected')).toBe('false');
+    expect(optC.getAttribute('aria-selected')).toBe('false');
+  
+    // If you add data-selected binding:
+    expect(optA.hasAttribute('data-selected')).toBe(false);
+    expect(optC.hasAttribute('data-selected')).toBe(false);
+  });
+
+  it('controlled: external clear in single mode clears internal selection', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [TestHostComponent],
+    }).createComponent(TestHostComponent);
+  
+    fixture.detectChanges();
+    const hostCmp = fixture.componentInstance;
+  
+    hostCmp.multiple.set(false);
+    hostCmp.value.set(null);
+    fixture.detectChanges();
+  
+    const optC = fixture.nativeElement.querySelector('[data-testid="opt-c"]') as HTMLElement;
+  
+    // select C
+    pointerdown(optC, { button: 0 });
+    fixture.detectChanges();
+  
+    expect(hostCmp.value()).toBe('C');
+    expect(optC.getAttribute('aria-selected')).toBe('true');
+  
+    // now clear externally
+    hostCmp.value.set(null);
+    fixture.detectChanges();
+  
+    expect(hostCmp.value()).toBeNull();
+    expect(optC.getAttribute('aria-selected')).toBe('false');
+  });
+
+  it('controlled: external value sets selection (inbound)', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [TestHostComponent],
+    }).createComponent(TestHostComponent);
+  
+    fixture.detectChanges();
+    const hostCmp = fixture.componentInstance;
+  
+    hostCmp.multiple.set(false);
+    hostCmp.value.set(null);
+    fixture.detectChanges();
+  
+    const optB = fixture.nativeElement.querySelector('[data-testid="opt-b"]') as HTMLElement;
+  
+    // set externally
+    hostCmp.value.set('B' as any);
+    fixture.detectChanges();
+  
+    // UI should reflect external selection
+    expect(optB.getAttribute('aria-selected')).toBe('true');
+    expect(optB.hasAttribute('data-selected')).toBe(true); // once implemented
+  });
+
+  it('controlled: external multi value sets selection (inbound)', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [TestHostComponent],
+    }).createComponent(TestHostComponent);
+  
+    fixture.detectChanges();
+    const hostCmp = fixture.componentInstance;
+  
+    hostCmp.multiple.set(true);
+    hostCmp.value.set([] as readonly string[]);
+    fixture.detectChanges();
+  
+    const optA = fixture.nativeElement.querySelector('[data-testid="opt-a"]') as HTMLElement;
+    const optC = fixture.nativeElement.querySelector('[data-testid="opt-c"]') as HTMLElement;
+  
+    // set externally
+    hostCmp.value.set(['C', 'A'] as any);
+    fixture.detectChanges();
+  
+    expect(optA.getAttribute('aria-selected')).toBe('true');
+    expect(optC.getAttribute('aria-selected')).toBe('true');
+  });
 }); 

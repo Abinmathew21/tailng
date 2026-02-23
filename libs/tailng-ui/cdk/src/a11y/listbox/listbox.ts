@@ -47,6 +47,10 @@ export type TngListboxController<T> = Readonly<{
 
   getHostAttributes: () => Readonly<Record<string, string>>;
   getOptionAttributes: (id: string) => Readonly<Record<string, unknown>>;
+
+  getSelectedIds: () => readonly string[];
+  setSelectedIds: (ids: readonly string[]) => void;
+  clearSelection: () => void;
 }>;
 
 function toSelectionMode(mode: TngListboxSelectionMode | undefined): TngSelectionMode {
@@ -460,6 +464,23 @@ export function createListboxController<T>(config: TngListboxConfig): TngListbox
     return true;
   }
 
+  function getSelectedIds(): readonly string[] {
+    return selectionModel.getSelected();
+  }
+  
+  function clearSelection(): void {
+    selectionModel.clear();
+  }
+  
+  function setSelectedIds(ids: readonly string[]): void {
+    selectionModel.clear();
+    for (const id of ids) {
+      if (!itemIds.includes(id)) continue;
+      if (disabledIds.includes(id)) continue;
+      selectionModel.select(id);
+    }
+  }
+
   return Object.freeze({
     registerOption,
     unregisterOption,
@@ -473,5 +494,8 @@ export function createListboxController<T>(config: TngListboxConfig): TngListbox
     getSelectedValues,
     getHostAttributes,
     getOptionAttributes,
+    getSelectedIds,
+    setSelectedIds,
+    clearSelection,
   });
 }

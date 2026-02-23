@@ -124,6 +124,38 @@ export class TngListboxDirective<T> {
 
       el.scrollIntoView?.({ block: 'nearest' });
     });
+
+    effect(() => {
+      const ctrl = this.controller();
+      if (!ctrl) return;
+    
+      const opts = this.options();   // track option list
+      const external = this.value(); // track external value
+    
+      // convert external value -> option ids (skip missing/disabled)
+      const toIds = (v: ListboxValue<T>): string[] => {
+        if (v === null) return [];
+        const arr = Array.isArray(v) ? (v as readonly T[]) : ([v as T] as const);
+    
+        const ids: string[] = [];
+        for (const val of arr) {
+          const opt = opts.find((o) => Object.is(o.value, val));
+          if (!opt) continue;
+          if (opt.disabled) continue;
+          ids.push(opt.id);
+        }
+        return ids;
+      };
+    
+      const nextIds = toIds(external);
+    
+      if (nextIds.length === 0) {
+        ctrl.clearSelection();
+        return;
+      }
+    
+      ctrl.setSelectedIds(nextIds);
+    });
   }
 
   // ----------------------------------------------------
