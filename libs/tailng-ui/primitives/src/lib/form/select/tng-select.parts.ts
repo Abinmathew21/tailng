@@ -1,10 +1,9 @@
-import { DestroyRef, Directive, HostBinding, HostListener, inject } from '@angular/core';
+import { DestroyRef, Directive, ElementRef, HostBinding, HostListener, inject } from '@angular/core';
 import { TNG_SELECT } from './tng-select.tokens';
 import type { TngSelect } from './tng-select';
+import { TNG_SELECT_LISTBOX } from './tng-select.listbox.tokens';
+import type { TngSelectListboxApi } from './tng-select.listbox.types';
 import { createTngIdFactory } from '@tailng-ui/cdk';
-
-const createId = createTngIdFactory('tng-select-content');
-
 
 @Directive({
   selector: '[tngSelectTrigger]',
@@ -12,29 +11,114 @@ const createId = createTngIdFactory('tng-select-content');
   standalone: true,
 })
 export class TngSelectTrigger {
-  protected readonly select: TngSelect = inject(TNG_SELECT);
+  private readonly select = inject<TngSelect>(TNG_SELECT);
+  private readonly el = inject(ElementRef<HTMLElement>);
+  private readonly listbox = inject<TngSelectListboxApi>(TNG_SELECT_LISTBOX, { optional: true });
+
+  // snapshot: only true if author wrote tabindex in template
+  private readonly authorTabindex = this.el.nativeElement.getAttribute('tabindex') !== null;
 
   @HostBinding('attr.data-slot')
   protected readonly dataSlot: 'select-trigger' = 'select-trigger';
 
-  // ✅ open/close interaction (pointer-first)
+  @HostBinding('attr.role') protected readonly role: 'combobox' = 'combobox';
+  @HostBinding('attr.aria-haspopup') protected readonly haspopup: 'listbox' = 'listbox';
+
+  @HostBinding('attr.aria-expanded')
+  protected get ariaExpanded(): 'true' | 'false' {
+    return this.select.open() ? 'true' : 'false';
+  }
+
+  @HostBinding('attr.aria-disabled')
+  protected get ariaDisabled(): 'true' | null {
+    return this.select.disabled() ? 'true' : null;
+  }
+
+  @HostBinding('attr.aria-controls')
+  protected get ariaControls(): string | null {
+    if (!this.select.open()) return null;
+
+    // Prefer content id for mode-2 (works even without listbox present)
+    return this.select.getContentId() ?? this.select.getListboxId();
+  }
+
+  @HostBinding('attr.aria-activedescendant')
+  protected get ariaActiveDescendant(): string | null {
+    return this.select.open() ? this.select.getActiveDescendantId() : null;
+  }
+
+  // stable: never read hasAttribute('tabindex') here
+  @HostBinding('attr.tabindex')
+  protected get tabindex(): '0' | null {
+    const node = this.el.nativeElement;
+
+    const isNaturallyFocusable =
+      node instanceof HTMLButtonElement ||
+      node instanceof HTMLInputElement ||
+      node instanceof HTMLSelectElement ||
+      node instanceof HTMLTextAreaElement;
+
+    return isNaturallyFocusable || this.authorTabindex ? null : '0';
+  }
+
   @HostListener('pointerdown', ['$event'])
   protected onPointerDown(event: PointerEvent): void {
     if (this.select.disabled()) return;
-    if (event.button !== 0) return;
+    const btn = event.button ?? 0;
+    if (btn !== 0) return;
 
     event.preventDefault();
+    this.el.nativeElement.focus();
     this.select.toggle();
+
+    if (this.select.open()) {
+      this.listbox?.ensureActive();
+      this.select.setActiveDescendantId(this.listbox?.getActiveId() ?? null);
+    }
   }
 
-  // Optional: keyboard on trigger (Space/Enter)
   @HostListener('keydown', ['$event'])
   protected onKeydown(event: KeyboardEvent): void {
     if (this.select.disabled()) return;
 
-    if (event.key === 'Enter' || event.key === ' ') {
+    if (!this.select.open()) {
+      if (event.key === 'ArrowDown' || event.key === 'ArrowUp' || event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        this.select.openSelect();
+        this.listbox?.ensureActive(event.key === 'ArrowUp' ? 'last' : 'first');
+        this.select.setActiveDescendantId(this.listbox?.getActiveId() ?? null);
+      }
+      return;
+    }
+
+    // when open: route nav to listbox
+    if (event.key === 'Escape') {
+      if (event.defaultPrevented) return; // ✅ match old behavior
       event.preventDefault();
-      this.select.toggle();
+      event.stopPropagation();
+      this.select.close();
+      return;
+    }
+
+    if (event.key.length === 1 && !event.ctrlKey && !event.metaKey && !event.altKey) {
+      const moved = this.listbox?.typeahead(event.key) ?? false;
+      if (moved) {
+        this.select.setActiveDescendantId(this.listbox?.getActiveId() ?? null);
+        event.preventDefault();
+      }
+      return;
+    }
+
+    const moved = this.listbox?.handleKey(event.key, event.shiftKey) ?? false;
+    if (moved) {
+      this.select.setActiveDescendantId(this.listbox?.getActiveId() ?? null);
+      event.preventDefault();
+      return;
+    }
+
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      this.listbox?.commitActive();
     }
   }
 }
@@ -45,8 +129,6 @@ export class TngSelectTrigger {
   standalone: true,
 })
 export class TngSelectValue {
-  protected readonly select: TngSelect = inject(TNG_SELECT);
-
   @HostBinding('attr.data-slot')
   protected readonly dataSlot: 'select-value' = 'select-value';
 }
@@ -57,12 +139,9 @@ export class TngSelectValue {
   standalone: true,
 })
 export class TngSelectIcon {
-  protected readonly select: TngSelect = inject(TNG_SELECT);
-
   @HostBinding('attr.data-slot')
   protected readonly dataSlot: 'select-icon' = 'select-icon';
 }
-
 
 const createContentId = createTngIdFactory('tng-select-content');
 
@@ -72,19 +151,14 @@ const createContentId = createTngIdFactory('tng-select-content');
   standalone: true,
 })
 export class TngSelectContent {
-  protected readonly select: TngSelect = inject(TNG_SELECT);
+  private readonly select = inject<TngSelect>(TNG_SELECT);
   private readonly destroyRef = inject(DestroyRef);
 
   @HostBinding('attr.id')
-  protected readonly id = createContentId();
+  readonly id = createContentId();
 
   @HostBinding('attr.data-slot')
   protected readonly dataSlot: 'select-content' = 'select-content';
-
-  @HostBinding('attr.data-state')
-  protected get dataState(): 'open' | 'closed' {
-    return this.select.open() ? 'open' : 'closed';
-  }
 
   @HostBinding('attr.hidden')
   protected get hidden(): '' | null {
@@ -92,12 +166,11 @@ export class TngSelectContent {
   }
 
   constructor() {
-    // register our id with the select host so it can set aria-controls
     this.select.setContentId(this.id);
 
-    // ✅ cleanup: if content is destroyed/unmounted, clear aria-controls source
     this.destroyRef.onDestroy(() => {
-      this.select.clearContentId(this.id);
+      // be safe if content is conditionally destroyed in future
+      if (this.select.getContentId() === this.id) this.select.setContentId(null);
     });
   }
 }

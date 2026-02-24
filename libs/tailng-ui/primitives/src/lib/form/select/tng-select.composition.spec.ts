@@ -81,46 +81,66 @@ describe('tng-select composition', () => {
     expect(content.hasAttribute('hidden')).toBe(true);
   });
 
-  it('opens and closes via trigger keyboard (Enter/Space)', () => {
-    const fixture = TestBed.configureTestingModule({
-      imports: [HostComponent],
-    }).createComponent(HostComponent);
-
+  it('keyboard: Enter/Space opens; Escape closes', () => {
+    const fixture = TestBed.configureTestingModule({ imports: [HostComponent] }).createComponent(HostComponent);
     fixture.detectChanges();
-
+  
     const host = fixture.componentInstance;
     const trigger = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLElement;
-
+  
     keydown(trigger, { key: 'Enter' });
     fixture.detectChanges();
     expect(host.open()).toBe(true);
-
+  
+    // Space while open should NOT toggle-close in mode-2
     keydown(trigger, { key: ' ' });
+    fixture.detectChanges();
+    expect(host.open()).toBe(true);
+  
+    keydown(trigger, { key: 'Escape' });
     fixture.detectChanges();
     expect(host.open()).toBe(false);
   });
 
-  it('Escape closes when open (handled by tngSelect host)', () => {
+  it('keyboard: ArrowDown opens; Escape closes', () => {
+    const fixture = TestBed.configureTestingModule({ imports: [HostComponent] }).createComponent(HostComponent);
+    fixture.detectChanges();
+  
+    const host = fixture.componentInstance;
+    const trigger = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLElement;
+  
+    keydown(trigger, { key: 'ArrowDown' });
+    fixture.detectChanges();
+    expect(host.open()).toBe(true);
+  
+    keydown(trigger, { key: 'Escape' });
+    fixture.detectChanges();
+    expect(host.open()).toBe(false);
+  });
+
+  it('Escape closes when open - handled by trigger in mode-2', () => {
     const fixture = TestBed.configureTestingModule({
       imports: [HostComponent],
     }).createComponent(HostComponent);
-
+  
     fixture.detectChanges();
-
+  
     const host = fixture.componentInstance;
     const selectHost = fixture.nativeElement.querySelector('[data-testid="select"]') as HTMLElement;
+    const trigger = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLElement;
     const content = fixture.nativeElement.querySelector('[data-testid="content"]') as HTMLElement;
-
+  
     // open programmatically (controlled)
     host.open.set(true);
     fixture.detectChanges();
-
+  
     expect(selectHost.getAttribute('data-state')).toBe('open');
     expect(content.hasAttribute('hidden')).toBe(false);
-
-    keydown(selectHost, { key: 'Escape' });
+  
+    // Escape is listened on trigger in mode-2
+    keydown(trigger, { key: 'Escape' });
     fixture.detectChanges();
-
+  
     expect(selectHost.getAttribute('data-state')).toBe('closed');
     expect(content.hasAttribute('hidden')).toBe(true);
   });

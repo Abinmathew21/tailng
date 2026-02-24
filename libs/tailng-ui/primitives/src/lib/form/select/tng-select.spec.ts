@@ -3,7 +3,7 @@ import { Component, ViewChild, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { describe, expect, it } from 'vitest';
 import { TngSelect } from './tng-select';
-import { TngSelectContent } from './tng-select.parts'; // OR from './tng-select' if you moved it there
+import { TngSelectContent, TngSelectTrigger } from './tng-select.parts'; // OR from './tng-select' if you moved it there
 
 
 function dispatchKeydown(el: HTMLElement, eventInit: Partial<KeyboardEventInit> & { key: string }) {
@@ -23,30 +23,7 @@ function dispatchKeydown(el: HTMLElement, eventInit: Partial<KeyboardEventInit> 
 
 @Component({
   standalone: true,
-  imports: [TngSelect, TngSelectContent],
-  template: `
-    <button
-      tngSelect
-      #api="tngSelect"
-      [open]="open()"
-      (openChange)="open.set($event)"
-      [disabled]="disabled()"
-      data-testid="trigger"
-    >
-      Trigger
-    </button>
-  `,
-})
-class HostComponent {
-  @ViewChild('api', { static: true }) api!: TngSelect;
-
-  open = signal(false);
-  disabled = signal(false);
-}
-
-@Component({
-  standalone: true,
-  imports: [TngSelect, TngSelectContent],
+  imports: [TngSelect, TngSelectTrigger, TngSelectContent],
   template: `
     <div
       tngSelect
@@ -56,7 +33,30 @@ class HostComponent {
       [disabled]="disabled()"
       data-testid="select"
     >
-      <button type="button" data-testid="trigger">Trigger</button>
+      <button tngSelectTrigger data-testid="trigger">Trigger</button>
+      <div tngSelectContent data-testid="content"></div>
+    </div>
+  `,
+})
+class HostComponent {
+  @ViewChild('api', { static: true }) api!: TngSelect;
+  open = signal(false);
+  disabled = signal(false);
+}
+
+@Component({
+  standalone: true,
+  imports: [TngSelect, TngSelectTrigger, TngSelectContent],
+  template: `
+    <div
+      tngSelect
+      #api="tngSelect"
+      [open]="open()"
+      (openChange)="open.set($event)"
+      [disabled]="disabled()"
+      data-testid="select"
+    >
+      <button type="button" tngSelectTrigger data-testid="trigger">Trigger</button>
 
       <div tngSelectContent data-testid="content">Content</div>
     </div>
@@ -70,34 +70,38 @@ class HostWithContentComponent {
 }
 
 describe('tng-select primitive', () => {
-  it('sets data-slot="select" on the host', () => {
+  it('sets data-slot="select" on the select host', () => {
     const fixture = TestBed.configureTestingModule({
       imports: [HostComponent],
     }).createComponent(HostComponent);
-
+  
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLElement;
-
-    expect(el.getAttribute('data-slot')).toBe('select');
+  
+    const selectEl = fixture.nativeElement.querySelector('[data-testid="select"]') as HTMLElement;
+    expect(selectEl.getAttribute('data-slot')).toBe('select');
+  
+    const triggerEl = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLElement;
+    expect(triggerEl.getAttribute('data-slot')).toBe('select-trigger');
   });
 
   it('reflects open state via aria-expanded and data-state', () => {
-    const fixture = TestBed.configureTestingModule({
-      imports: [HostComponent],
-    }).createComponent(HostComponent);
-
+    const fixture = TestBed.configureTestingModule({ imports: [HostComponent] }).createComponent(HostComponent);
     fixture.detectChanges();
+  
     const host = fixture.componentInstance;
-    const el = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLElement;
-
-    expect(el.getAttribute('aria-expanded')).toBe('false');
-    expect(el.getAttribute('data-state')).toBe('closed');
-
+    const triggerEl = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLElement;
+    const selectEl = fixture.nativeElement.querySelector('[data-testid="select"]') as HTMLElement;
+  
+    // trigger owns aria-expanded in mode 2
+    expect(triggerEl.getAttribute('aria-expanded')).toBe('false');
+    // select host still owns data-state
+    expect(selectEl.getAttribute('data-state')).toBe('closed');
+  
     host.open.set(true);
     fixture.detectChanges();
-
-    expect(el.getAttribute('aria-expanded')).toBe('true');
-    expect(el.getAttribute('data-state')).toBe('open');
+  
+    expect(triggerEl.getAttribute('aria-expanded')).toBe('true');
+    expect(selectEl.getAttribute('data-state')).toBe('open');
   });
 
   it('reflects disabled state via aria-disabled', () => {
@@ -134,18 +138,18 @@ describe('tng-select primitive (behavior)', () => {
     const fixture = TestBed.configureTestingModule({
       imports: [HostComponent],
     }).createComponent(HostComponent);
-
+  
     fixture.detectChanges();
     const host = fixture.componentInstance;
-    const el = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLElement;
-
-    expect(el.getAttribute('data-state')).toBe('closed');
-
+  
+    const selectEl = fixture.nativeElement.querySelector('[data-testid="select"]') as HTMLElement;
+    expect(selectEl.getAttribute('data-state')).toBe('closed');
+  
     host.api.openSelect();
     fixture.detectChanges();
-
+  
     expect(host.open()).toBe(true);
-    expect(el.getAttribute('data-state')).toBe('open');
+    expect(selectEl.getAttribute('data-state')).toBe('open');
   });
 
   it('openSelect() does nothing when disabled', () => {
@@ -238,28 +242,24 @@ describe('tng-select primitive (behavior)', () => {
   });
 
   it('Escape is ignored when defaultPrevented is already true', () => {
-    const fixture = TestBed.configureTestingModule({
-      imports: [HostComponent],
-    }).createComponent(HostComponent);
-
+    const fixture = TestBed.configureTestingModule({ imports: [HostComponent] }).createComponent(HostComponent);
     fixture.detectChanges();
+  
     const host = fixture.componentInstance;
-    const el = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLElement;
-
-    host.open.set(true);
+    const trigger = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLElement;
+  
+    host.api.openSelect();
     fixture.detectChanges();
-
-    // Create a keydown event and pre-prevent it.
+  
     const event = new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true });
     event.preventDefault();
-
-    el.dispatchEvent(event);
+  
+    trigger.dispatchEvent(event);
     fixture.detectChanges();
-
-    // should remain open because handler bails out
-    expect(host.open()).toBe(true);
+  
+    expect(host.api.open()).toBe(true);
   });
-
+  
   it('wires aria-controls to the select content id only when open', () => {
     const fixture = TestBed.configureTestingModule({
       imports: [HostWithContentComponent],
@@ -269,27 +269,60 @@ describe('tng-select primitive (behavior)', () => {
   
     const host = fixture.componentInstance;
   
-    const selectEl = fixture.nativeElement.querySelector(
-      '[data-testid="select"]',
+    const triggerEl = fixture.nativeElement.querySelector(
+      '[data-testid="trigger"]',
     ) as HTMLElement;
   
     const contentEl = fixture.nativeElement.querySelector(
       '[data-testid="content"]',
     ) as HTMLElement;
   
-    // closed: aria-controls should be absent
-    expect(selectEl.getAttribute('aria-controls')).toBeNull();
+    // content should always have an id (mounted always)
+    const contentId = contentEl.getAttribute('id');
+    expect(contentId).toBeTruthy();
+  
+    // closed: aria-controls absent
+    expect(triggerEl.getAttribute('aria-controls')).toBeNull();
   
     host.open.set(true);
     fixture.detectChanges();
   
-    const contentId = contentEl.getAttribute('id');
-    expect(contentId).toBeTruthy();
-    expect(selectEl.getAttribute('aria-controls')).toBe(contentId);
+    // open: aria-controls points to content id
+    expect(triggerEl.getAttribute('aria-controls')).toBe(contentId);
   
     host.open.set(false);
     fixture.detectChanges();
   
-    expect(selectEl.getAttribute('aria-controls')).toBeNull();
+    expect(triggerEl.getAttribute('aria-controls')).toBeNull();
+  });
+
+  it('wires aria-controls to content id only when open (Mode 2: on trigger)', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [HostComponent],
+    }).createComponent(HostComponent);
+  
+    fixture.detectChanges();
+  
+    const host = fixture.componentInstance;
+    const triggerEl = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLElement;
+    const contentEl = fixture.nativeElement.querySelector('[data-testid="content"]') as HTMLElement;
+  
+    // content id should exist immediately (even when hidden)
+    const contentId = contentEl.getAttribute('id');
+    expect(contentId).toBeTruthy();
+  
+    // closed => aria-controls absent
+    expect(triggerEl.getAttribute('aria-controls')).toBeNull();
+  
+    host.open.set(true);
+    fixture.detectChanges();
+  
+    // open => aria-controls points to content id
+    expect(triggerEl.getAttribute('aria-controls')).toBe(contentId);
+  
+    host.open.set(false);
+    fixture.detectChanges();
+  
+    expect(triggerEl.getAttribute('aria-controls')).toBeNull();
   });
 });

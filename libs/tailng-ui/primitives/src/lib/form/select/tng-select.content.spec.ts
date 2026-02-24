@@ -49,26 +49,39 @@ describe('tng-select content primitive', () => {
 
     // Closed => hidden
     expect(content.hasAttribute('hidden')).toBe(true);
-    expect(content.getAttribute('data-state')).toBe('closed');
+    const trigger = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLElement;
+    const select = fixture.nativeElement.querySelector('[data-testid="select"]') as HTMLElement;
+
+    // Closed => hidden
+    expect(content.hasAttribute('hidden')).toBe(true);
+
+    // state lives on trigger + select host
+    expect(trigger.getAttribute('aria-expanded')).toBe('false');
+    expect(select.getAttribute('data-state')).toBe('closed');
   });
 
-  it('removes hidden when open and updates data-state', () => {
+  it('removes hidden when open and updates state', () => {
     const fixture = TestBed.configureTestingModule({
       imports: [HostComponent],
     }).createComponent(HostComponent);
-
+  
     fixture.detectChanges();
-
+  
     const host = fixture.componentInstance;
-    const content = fixture.nativeElement.querySelector(
-      '[data-testid="content"]',
-    ) as HTMLElement;
-
+  
+    const selectEl = fixture.nativeElement.querySelector('[data-testid="select"]') as HTMLElement;
+    const triggerEl = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLElement;
+    const content = fixture.nativeElement.querySelector('[data-testid="content"]') as HTMLElement;
+  
     host.open.set(true);
     fixture.detectChanges();
-
+  
+    // content behavior
     expect(content.hasAttribute('hidden')).toBe(false);
-    expect(content.getAttribute('data-state')).toBe('open');
+  
+    // state lives on trigger + select host
+    expect(triggerEl.getAttribute('aria-expanded')).toBe('true');
+    expect(selectEl.getAttribute('data-state')).toBe('open');
   });
 
   it('exposes slot attribute for Tailwind styling', () => {

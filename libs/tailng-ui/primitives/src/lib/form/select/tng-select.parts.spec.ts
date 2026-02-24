@@ -115,22 +115,24 @@ describe('tng-select parts (option B)', () => {
     expect(host.open()).toBe(false);
   });
 
-  it('trigger toggles open on Enter and Space', () => {
+  it('trigger opens on Enter/Space when closed; Space does not toggle closed when open', () => {
     const fixture = TestBed.configureTestingModule({
       imports: [HostComponent],
     }).createComponent(HostComponent);
-
+  
     fixture.detectChanges();
     const host = fixture.componentInstance;
     const trigger = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLElement;
-
+  
+    // closed -> Enter opens
     dispatchKeydown(trigger, 'Enter');
     fixture.detectChanges();
     expect(host.open()).toBe(true);
-
+  
+    // open -> Space should NOT toggle closed in Mode 2
     dispatchKeydown(trigger, ' ');
     fixture.detectChanges();
-    expect(host.open()).toBe(false);
+    expect(host.open()).toBe(true);
   });
 
   it('trigger does nothing when select is disabled', () => {

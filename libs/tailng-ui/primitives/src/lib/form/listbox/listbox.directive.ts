@@ -398,4 +398,40 @@ export class TngListboxDirective<T> {
   isActive(id: string): boolean {
     return this.activeId() === id;
   }
+
+  public getActiveId(): string | null {
+    return this.activeId();
+  }
+  
+  public ensureActive(pref: 'first' | 'last' = 'first'): void {
+    const ctrl = this.controller();
+    if (!ctrl) return;
+    if (ctrl.getActiveId() !== null) return;
+    ctrl.handleKeyDown({ key: pref === 'last' ? 'End' : 'Home' });
+    this.syncActiveFromController();
+  }
+  
+  public handleKeyFromCombobox(key: string, shiftKey?: boolean): boolean {
+    const ctrl = this.controller();
+    if (!ctrl) return false;
+    const action = ctrl.handleKeyDown({ key, shiftKey } as any);
+    this.syncActiveFromController();
+    if (action) this.syncExternalValueFromInternal(ctrl);
+    return !!action;
+  }
+  
+  public typeaheadFromCombobox(key: string): boolean {
+    const ctrl = this.controller();
+    if (!ctrl) return false;
+    const moved = ctrl.typeahead(key);
+    if (moved) this.syncActiveFromController();
+    return moved;
+  }
+  
+  public getActiveValue(): T | null | undefined {
+    const active = this.activeId();
+    if (!active) return null;
+    const opt = this.options().find(o => o.id === active);
+    return opt?.value;
+  }
 }

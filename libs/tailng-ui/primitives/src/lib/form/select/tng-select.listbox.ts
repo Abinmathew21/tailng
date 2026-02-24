@@ -1,7 +1,10 @@
-import { Directive, HostBinding, HostListener, inject } from '@angular/core';
+import { DestroyRef, Directive, HostBinding, HostListener, inject } from '@angular/core';
+import { createTngIdFactory } from '@tailng-ui/cdk';
 import { TngListboxDirective, TngOptionDirective } from '@tailng-ui/primitives';
 import { TNG_SELECT } from './tng-select.tokens';
 import type { TngSelect } from './tng-select';
+
+const createListboxId = createTngIdFactory('tng-select-listbox');
 
 @Directive({
   selector: '[tngSelectListbox]',
@@ -16,9 +19,22 @@ import type { TngSelect } from './tng-select';
 })
 export class TngSelectListbox<T> {
   private readonly select = inject<TngSelect<T>>(TNG_SELECT);
+  private readonly destroyRef = inject(DestroyRef);
 
   @HostBinding('attr.data-slot')
   protected readonly dataSlot: 'select-listbox' = 'select-listbox';
+
+  @HostBinding('attr.id')
+  protected readonly id = createListboxId();
+
+  constructor() {
+    // register listbox id so trigger can set aria-controls
+    this.select.setListboxId(this.id);
+
+    this.destroyRef.onDestroy(() => {
+      this.select.setListboxId(null);
+    });
+  }
 
   @HostListener('valueChange', ['$event'])
   protected onListboxValueChange(value: T | readonly T[] | null): void {
@@ -27,23 +43,20 @@ export class TngSelectListbox<T> {
     const next =
       value === null ? null : Array.isArray(value) ? (value[0] ?? null) : value;
 
-    // ✅ if nothing changed, do nothing (prevents "open → close" loops)
     if (Object.is(next, this.select.value())) return;
 
-    // ✅ when closed, just sync value — DON'T close (already closed)
     if (!this.select.open()) {
       this.select.value.set(next as T | null);
       return;
     }
 
-    // ✅ when open, treat valueChange as "commit" and close
     if (next === null) {
       this.select.value.set(null);
       this.select.close();
       return;
     }
 
-    this.select.selectValue(next); // sets value + closes
+    this.select.selectValue(next);
   }
 }
 

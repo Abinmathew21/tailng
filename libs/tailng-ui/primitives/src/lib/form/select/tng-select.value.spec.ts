@@ -88,26 +88,31 @@ describe('tng-select value primitive', () => {
     expect(content.hasAttribute('hidden')).toBe(true);
   });
 
-  it('keeps aria-expanded/data-state in sync when closing after selection', () => {
+  it('keeps aria-expanded (trigger) and data-state (host) in sync when closing after selection', () => {
     const fixture = TestBed.configureTestingModule({
       imports: [HostComponent],
     }).createComponent(HostComponent);
-
+  
     fixture.detectChanges();
-
-    const selectEl = fixture.nativeElement.querySelector('[data-testid="select"]') as HTMLElement;
-    const trigger = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLElement;
-
-    pointerdown(trigger);
+  
+    const selectHost = fixture.nativeElement.querySelector('[data-testid="select"]') as HTMLElement;
+    const triggerEl = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLElement;
+  
+    // open
+    pointerdown(triggerEl);
     fixture.detectChanges();
-    expect(selectEl.getAttribute('aria-expanded')).toBe('true');
-    expect(selectEl.getAttribute('data-state')).toBe('open');
-
+  
+    // aria-expanded is on trigger
+    expect(triggerEl.getAttribute('aria-expanded')).toBe('true');
+    // host still has data-state for styling
+    expect(selectHost.getAttribute('data-state')).toBe('open');
+  
+    // select option A
     const optA = fixture.nativeElement.querySelector('[data-testid="opt-a"]') as HTMLElement;
     pointerdown(optA);
     fixture.detectChanges();
-
-    expect(selectEl.getAttribute('aria-expanded')).toBe('false');
-    expect(selectEl.getAttribute('data-state')).toBe('closed');
+  
+    expect(triggerEl.getAttribute('aria-expanded')).toBe('false');
+    expect(selectHost.getAttribute('data-state')).toBe('closed');
   });
 });
