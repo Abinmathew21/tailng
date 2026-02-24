@@ -3,12 +3,14 @@ import { createTngIdFactory } from '@tailng-ui/cdk';
 import { TngListboxDirective, TngOptionDirective } from '@tailng-ui/primitives';
 import { TNG_SELECT } from './tng-select.tokens';
 import type { TngSelect } from './tng-select';
+import { TngSelectListboxApi } from './tng-select.listbox.types';
+import { TNG_SELECT_LISTBOX } from './tng-select.listbox.tokens';
 
 const createListboxId = createTngIdFactory('tng-select-listbox');
-
 @Directive({
   selector: '[tngSelectListbox]',
   standalone: true,
+  providers: [{ provide: TNG_SELECT_LISTBOX, useExisting: TngSelectListbox }],
   hostDirectives: [
     {
       directive: TngListboxDirective,
@@ -17,9 +19,10 @@ const createListboxId = createTngIdFactory('tng-select-listbox');
     },
   ],
 })
-export class TngSelectListbox<T> {
+export class TngSelectListbox<T> implements TngSelectListboxApi {
   private readonly select = inject<TngSelect<T>>(TNG_SELECT);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly listbox = inject(TngListboxDirective<T>, { self: true });
 
   @HostBinding('attr.data-slot')
   protected readonly dataSlot: 'select-listbox' = 'select-listbox';
@@ -28,13 +31,48 @@ export class TngSelectListbox<T> {
   protected readonly id = createListboxId();
 
   constructor() {
-    // register listbox id so trigger can set aria-controls
+    // register id
     this.select.setListboxId(this.id);
+
+    // register API into select (Mode-2 bridge)
+    this.select.setListboxApi(this);
 
     this.destroyRef.onDestroy(() => {
       this.select.setListboxId(null);
+      this.select.setListboxApi(null);
     });
   }
+
+  // ---------------- API ----------------
+
+  getHostId(): string | null {
+    return this.id ?? null;
+  }
+
+  getActiveId(): string | null {
+    return this.listbox.getActiveId();
+  }
+
+  ensureActive(pref?: 'first' | 'last'): void {
+    this.listbox.ensureActive(pref);
+  }
+
+  handleKey(key: string, shiftKey?: boolean): boolean {
+    return this.listbox.handleKeyFromCombobox(key, shiftKey);
+  }
+
+  typeahead(key: string): boolean {
+    return this.listbox.typeaheadFromCombobox(key);
+  }
+
+  commitActive(): void {
+    const value = this.listbox.getActiveValue();
+    if (value === undefined) return;
+
+    this.select.selectValue(value as T);
+  }
+
+  // ------------- selection sync -------------
 
   @HostListener('valueChange', ['$event'])
   protected onListboxValueChange(value: T | readonly T[] | null): void {

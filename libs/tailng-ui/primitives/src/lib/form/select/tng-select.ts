@@ -1,6 +1,7 @@
 // tng-select.ts
 import { Directive, HostBinding, input, model } from '@angular/core';
 import { TNG_SELECT } from './tng-select.tokens';
+import { TngSelectListboxApi } from './tng-select.listbox.types';
 
 @Directive({
   selector: '[tngSelect]',
@@ -17,6 +18,8 @@ export class TngSelect<T = unknown> {
   private _contentId: string | null = null;
   private _listboxId: string | null = null;
   private _activeId: string | null = null;
+
+  private _listboxApi: TngSelectListboxApi<T> | null = null;
 
   // ---- keep styling/state on host ----
   @HostBinding('attr.data-slot')
@@ -56,5 +59,13 @@ export class TngSelect<T = unknown> {
     if (this.disabled()) return;
     this.value.set(value);
     this.close();
+  }
+
+  public setListboxApi(api: TngSelectListboxApi<T> | null): void {
+    this._listboxApi = api;
+  }
+  
+  public getListboxApi(): TngSelectListboxApi<T> | null {
+    return this._listboxApi;
   }
 }

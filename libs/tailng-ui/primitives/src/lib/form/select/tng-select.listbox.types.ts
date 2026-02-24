@@ -1,4 +1,4 @@
-export type TngSelectListboxApi = Readonly<{
+export type TngSelectListboxApi<T = unknown> = Readonly<{
   getHostId: () => string | null;
   getActiveId: () => string | null;
 

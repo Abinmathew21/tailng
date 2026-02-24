@@ -1,9 +1,8 @@
 import { DestroyRef, Directive, ElementRef, HostBinding, HostListener, inject } from '@angular/core';
-import { TNG_SELECT } from './tng-select.tokens';
-import type { TngSelect } from './tng-select';
-import { TNG_SELECT_LISTBOX } from './tng-select.listbox.tokens';
-import type { TngSelectListboxApi } from './tng-select.listbox.types';
 import { createTngIdFactory } from '@tailng-ui/cdk';
+import type { TngSelect } from './tng-select';
+import { TNG_SELECT } from './tng-select.tokens';
+import { TngSelectListboxApi } from './tng-select.listbox.types';
 
 @Directive({
   selector: '[tngSelectTrigger]',
@@ -13,8 +12,10 @@ import { createTngIdFactory } from '@tailng-ui/cdk';
 export class TngSelectTrigger {
   private readonly select = inject<TngSelect>(TNG_SELECT);
   private readonly el = inject(ElementRef<HTMLElement>);
-  private readonly listbox = inject<TngSelectListboxApi>(TNG_SELECT_LISTBOX, { optional: true });
 
+  private get listbox(): TngSelectListboxApi<unknown> | null {
+    return this.select.getListboxApi();
+  }
   // snapshot: only true if author wrote tabindex in template
   private readonly authorTabindex = this.el.nativeElement.getAttribute('tabindex') !== null;
 

@@ -168,4 +168,23 @@ describe('tng-select composition', () => {
 
     expect(host.open()).toBe(false);
   });
+
+  it('returns focus to trigger when closed via Escape', () => {
+    const fixture = TestBed.configureTestingModule({ imports: [HostComponent] }).createComponent(HostComponent);
+    fixture.detectChanges();
+  
+    const trigger = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLElement;
+  
+    // open
+    pointerdown(trigger);
+    fixture.detectChanges();
+  
+    expect(document.activeElement).toBe(trigger);
+  
+    // close
+    keydown(trigger, { key: 'Escape' });
+    fixture.detectChanges();
+  
+    expect(document.activeElement).toBe(trigger);
+  });
 });
