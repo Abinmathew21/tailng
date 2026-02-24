@@ -60,7 +60,7 @@ function registerDialogHandlers(
   focus.registerLayer({
     initialFocusId: 'dialog-field',
     layerId: 'dialog',
-    members: ['dialog-field'],
+    members: () => ['dialog-field'],
     restoreFocus: true,
     trapFocus: true,
   });

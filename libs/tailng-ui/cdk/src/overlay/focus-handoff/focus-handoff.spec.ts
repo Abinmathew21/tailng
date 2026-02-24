@@ -1,12 +1,17 @@
 import { expect, it } from 'vitest';
 import { createOverlayFocusHandoffController } from './focus-handoff';
 
+function membersOf(ids: readonly string[]) {
+  // small helper to satisfy `members: () => readonly string[]`
+  return () => ids;
+}
+
 it('activates layer and resolves initial focus candidate', () => {
   const controller = createOverlayFocusHandoffController();
   controller.registerLayer({
     initialFocusId: 'field-2',
     layerId: 'dialog',
-    members: ['field-1', 'field-2'],
+    members: membersOf(['field-1', 'field-2']),
     trapFocus: true,
   });
 
@@ -18,7 +23,7 @@ it('restores trigger id on deactivate when restore focus is enabled', () => {
   const controller = createOverlayFocusHandoffController();
   controller.registerLayer({
     layerId: 'dialog',
-    members: ['field-1'],
+    members: membersOf(['field-1']),
     restoreFocus: true,
     trapFocus: true,
   });
@@ -31,12 +36,14 @@ it('resolves fallback candidate inside trapped focus scope', () => {
   const controller = createOverlayFocusHandoffController();
   controller.registerLayer({
     layerId: 'dialog',
-    members: ['field-1', 'field-2'],
+    members: membersOf(['field-1', 'field-2']),
     trapFocus: true,
   });
 
   controller.activateLayer('dialog');
   controller.recordFocus('dialog', 'field-2');
+
+  // while trapped, an outside candidate should resolve to the last-focused member
   expect(controller.resolveFocusCandidate('dialog', 'outside')).toBe('field-2');
 });
 
@@ -44,12 +51,12 @@ it('only top-most active layer keeps trap active', () => {
   const controller = createOverlayFocusHandoffController();
   controller.registerLayer({
     layerId: 'parent',
-    members: ['parent-field'],
+    members: membersOf(['parent-field']),
     trapFocus: true,
   });
   controller.registerLayer({
     layerId: 'child',
-    members: ['child-field'],
+    members: membersOf(['child-field']),
     trapFocus: true,
   });
 
@@ -65,7 +72,7 @@ it('unregister deactivates layer and is safe for unknown ids', () => {
   const controller = createOverlayFocusHandoffController();
   controller.registerLayer({
     layerId: 'dialog',
-    members: ['field-1'],
+    members: membersOf(['field-1']),
     trapFocus: true,
   });
 

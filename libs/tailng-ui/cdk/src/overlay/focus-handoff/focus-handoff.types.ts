@@ -1,7 +1,7 @@
 export type TngOverlayFocusLayerConfig = Readonly<{
   initialFocusId?: string | null;
   layerId: string;
-  members?: readonly string[];
+  members?: () => readonly string[];
   restoreFocus?: boolean;
   trapFocus?: boolean;
 }>;

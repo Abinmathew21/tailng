@@ -50,7 +50,7 @@ it('createFocusScope: records focus with and without member restrictions', () =>
   unrestrictedScope.recordFocus('field-1');
   expect(unrestrictedScope.getState().lastFocusedId).toBe('field-1');
 
-  const restrictedScope = createFocusScope({ members: ['field-1'] });
+  const restrictedScope = createFocusScope({ members: () => ['field-1'] });
   restrictedScope.recordFocus('outside');
   expect(restrictedScope.getState().lastFocusedId).toBeNull();
 
@@ -71,8 +71,10 @@ it('createFocusScope: registers and unregisters members with normalized ids', ()
 });
 
 it('createFocusScope: resolves focus candidates when trap is active', () => {
+  let members: readonly string[] = ['field-1', 'field-2'];
+
   const scope = createFocusScope({
-    members: ['field-1', 'field-2'],
+    members: () => members,
     trapFocus: true,
   });
 
@@ -82,17 +84,18 @@ it('createFocusScope: resolves focus candidates when trap is active', () => {
   expect(scope.resolveFocusCandidate('field-1')).toBe('field-1');
   expect(scope.resolveFocusCandidate('outside')).toBe('field-2');
 
-  scope.unregisterMember('field-2');
+  members = ['field-1'];
   expect(scope.resolveFocusCandidate('outside')).toBe('field-1');
 
-  scope.unregisterMember('field-1');
+  members = [];
   expect(scope.resolveFocusCandidate('outside')).toBe('outside');
+
   expect(scope.deactivate()).toBeNull();
 });
 
 it('createFocusScope: does not constrain focus when trap is inactive or has no members', () => {
   const inactiveScope = createFocusScope({
-    members: ['field-1'],
+    members: () => ['field-1'],
     trapFocus: true,
   });
   expect(inactiveScope.resolveFocusCandidate('outside')).toBe('outside');
@@ -105,11 +108,11 @@ it('createFocusScope: does not constrain focus when trap is inactive or has no m
 
 it('createFocusScope: allows only top-most nested scope to trap focus', () => {
   const parentScope = createFocusScope({
-    members: ['parent-field'],
+    members: () => ['parent-field'],
     trapFocus: true,
   });
   const childScope = createFocusScope({
-    members: ['child-field'],
+    members: () => ['child-field'],
     trapFocus: true,
   });
 
@@ -129,11 +132,11 @@ it('createFocusScope: allows only top-most nested scope to trap focus', () => {
 
 it('createFocusScope: re-activating a parent scope brings it back to top-most', () => {
   const parentScope = createFocusScope({
-    members: ['parent-field'],
+    members: () => ['parent-field'],
     trapFocus: true,
   });
   const childScope = createFocusScope({
-    members: ['child-field'],
+    members: () => ['child-field'],
     trapFocus: true,
   });
 
@@ -148,4 +151,23 @@ it('createFocusScope: re-activating a parent scope brings it back to top-most', 
   expect(parentScope.deactivate()).toBeNull();
   expect(childScope.isTrapActive()).toBe(true);
   expect(childScope.deactivate()).toBeNull();
+});
+
+it('createFocusScope: reads members lazily via getter', () => {
+  let members: readonly string[] = ['field-1', 'field-2'];
+
+  const scope = createFocusScope({
+    members: () => members,
+    trapFocus: true,
+  });
+
+  scope.activate();
+  scope.recordFocus('field-2');
+  expect(scope.resolveFocusCandidate('outside')).toBe('field-2');
+
+  // simulate DOM change / member removal
+  members = ['field-1'];
+  expect(scope.resolveFocusCandidate('outside')).toBe('field-1');
+
+  expect(scope.deactivate()).toBeNull();
 });

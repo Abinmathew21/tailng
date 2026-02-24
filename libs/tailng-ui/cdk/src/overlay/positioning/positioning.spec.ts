@@ -64,3 +64,30 @@ it('applies side and align offsets', () => {
   expect(result.x).toBe(270);
   expect(result.y).toBe(100);
 });
+
+it('handles overlay larger than viewport by clamping to min bound (no NaN / no inversion)', () => {
+  const result = computeOverlayPosition({
+    anchorRect: { height: 20, left: 50, top: 50, width: 20 },
+    collision: { flip: false, padding: 8, shift: true },
+    overlayRect: { height: 500, left: 0, top: 0, width: 500 }, // bigger than viewport
+    placement: { align: 'start', side: 'bottom' },
+    viewportRect: { height: 200, left: 0, top: 0, width: 200 },
+  });
+
+  // When overlay > viewport, we clamp to the minimum viable bound (padding)
+  expect(result.x).toBe(8);
+  expect(result.y).toBe(8);
+});
+
+it('flips left->right when left side overflows more than right', () => {
+  const result = computeOverlayPosition({
+    anchorRect: { height: 40, left: 5, top: 100, width: 40 }, // near left edge
+    collision: { flip: true, padding: 8, shift: false },
+    overlayRect: { height: 80, left: 0, top: 0, width: 120 },
+    placement: { side: 'left', align: 'center' },
+    viewportRect: { height: 600, left: 0, top: 0, width: 800 },
+  });
+
+  expect(result.side).toBe('right');
+  expect(result.x).toBe(45); // anchorRect.right(=45) + sideOffset(0)
+});

@@ -13,6 +13,7 @@ import { createOverlayLayerStack } from '../layer-stack/layer-stack';
 type TngFakeDomListeners = Readonly<{
   keydown: Set<(event: unknown) => void>;
   pointerdown: Set<(event: unknown) => void>;
+  focusin: Set<(event: unknown) => void>;
 }>;
 
 function createFakeDomDocument(): Readonly<{
@@ -22,9 +23,11 @@ function createFakeDomDocument(): Readonly<{
   const listeners: {
     keydown: Set<(event: unknown) => void>;
     pointerdown: Set<(event: unknown) => void>;
+    focusin: Set<(event: unknown) => void>;
   } = {
     keydown: new Set(),
     pointerdown: new Set(),
+    focusin: new Set(),
   };
 
   return {
@@ -52,6 +55,17 @@ it('dismisses top layer on escape', () => {
   expect(onDismiss).toHaveBeenCalledWith('escape-key');
 });
 
+it('does nothing on escape when defaultPrevented', () => {
+  const stack = createOverlayLayerStack();
+  const onDismiss = vi.fn();
+  stack.register({ id: 'layer', onDismiss });
+
+  const controller = createOverlayInteractionController({ layerStack: stack });
+  controller.handleKeydown({ key: 'Escape', defaultPrevented: true });
+
+  expect(onDismiss).not.toHaveBeenCalled();
+});
+
 it('dismisses top layer on outside pointer', () => {
   const stack = createOverlayLayerStack();
   const onDismiss = vi.fn();
@@ -66,6 +80,21 @@ it('dismisses top layer on outside pointer', () => {
   controller.handlePointerDown(event);
 
   expect(onDismiss).toHaveBeenCalledWith('outside-pointer');
+});
+
+it('does nothing on pointerdown when defaultPrevented', () => {
+  const stack = createOverlayLayerStack();
+  const onDismiss = vi.fn();
+  stack.register({
+    containsTarget: () => false,
+    id: 'layer',
+    onDismiss,
+  });
+
+  const controller = createOverlayInteractionController({ layerStack: stack });
+  controller.handlePointerDown({ target: 'outside', defaultPrevented: true });
+
+  expect(onDismiss).not.toHaveBeenCalled();
 });
 
 it('ignores inside pointer for top layer', () => {
@@ -120,4 +149,19 @@ it('uses composedPath when provided', () => {
   controller.handlePointerDown(event);
 
   expect(containsTarget).toHaveBeenCalledWith('outside', ['a', 'b']);
+});
+
+it('falls back to [target] when composedPath is missing/empty', () => {
+  const stack = createOverlayLayerStack();
+  const containsTarget = vi.fn(() => false);
+  stack.register({
+    containsTarget,
+    id: 'layer',
+    onDismiss: () => undefined,
+  });
+
+  const controller = createOverlayInteractionController({ layerStack: stack });
+  controller.handlePointerDown({ target: 'outside' });
+
+  expect(containsTarget).toHaveBeenCalledWith('outside', ['outside']);
 });

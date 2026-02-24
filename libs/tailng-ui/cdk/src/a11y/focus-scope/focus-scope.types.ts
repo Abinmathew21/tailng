@@ -9,7 +9,7 @@ export type TngFocusScopeState = Readonly<{
 }>;
 
 export type TngFocusScopeOptions = Readonly<{
-  members?: readonly string[];
+  members?: () => readonly string[];
   restoreFocus?: boolean;
   trapFocus?: boolean;
 }>;

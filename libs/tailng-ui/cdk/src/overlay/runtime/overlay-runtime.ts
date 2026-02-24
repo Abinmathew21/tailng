@@ -1,27 +1,27 @@
-import type { TngAngularCdkAdapterConfig } from '../adapters/angular-cdk/adapter.types';
+import type { TngAngularCdkAdapterConfig } from '../../adapters/angular-cdk/adapter.types';
 import {
   createOverlayInteractionAdapter,
   createOverlayLayerStackAdapter,
   createScrollLockAdapter,
   type TngAngularCdkOverlayDelegates,
-} from '../adapters/angular-cdk/overlay.adapter';
+} from '../../adapters/angular-cdk/overlay.adapter';
 import type {
   TngOverlayDismissReason,
   TngOverlayLayer,
   TngOverlayLayerStack,
-} from '../overlay/layer-stack/layer-stack.types';
-import { createOverlayInteractionDocument } from '../overlay/outside-interaction/outside-interaction';
+} from '../layer-stack/layer-stack.types';
+import { createOverlayInteractionDocument } from '../outside-interaction/outside-interaction';
 import type {
   TngOverlayInteractionController,
   TngOverlayInteractionDocument,
   TngOverlayInteractionDomDocument,
   TngOverlayKeyboardEvent,
   TngOverlayPointerEvent,
-} from '../overlay/outside-interaction/outside-interaction.types';
+} from '../outside-interaction/outside-interaction.types';
 import type {
   TngScrollLockManager,
   TngScrollLockOptions,
-} from '../overlay/scroll-lock/scroll-lock.types';
+} from '../scroll-lock/scroll-lock.types';
 
 type TngOverlayAdapterRuntimeOptions = Readonly<{
   adapterConfig?: TngAngularCdkAdapterConfig;

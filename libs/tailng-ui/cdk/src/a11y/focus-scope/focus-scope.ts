@@ -57,7 +57,13 @@ function normalizeMemberIds(ids: readonly string[] | undefined): readonly string
 class FocusScopeController implements TngFocusScopeController {
   private active = false;
   private lastFocusedId: string | null = null;
+
+  // manual registrations (kept)
   private readonly memberIds = new Set<string>();
+
+  // option B members getter (dynamic base members)
+  private readonly membersGetter: (() => readonly string[]) | undefined;
+
   private readonly restoreFocus: boolean;
   private restoreFocusTargetId: string | null = null;
   private readonly scopeId: string;
@@ -67,10 +73,7 @@ class FocusScopeController implements TngFocusScopeController {
     this.restoreFocus = options.restoreFocus ?? true;
     this.scopeId = createScopeId();
     this.trapFocus = options.trapFocus ?? false;
-
-    for (const memberId of normalizeMemberIds(options.members)) {
-      this.memberIds.add(memberId);
-    }
+    this.membersGetter = options.members;
   }
 
   public activate(restoreFocusTargetId?: string | null): void {
@@ -123,7 +126,8 @@ class FocusScopeController implements TngFocusScopeController {
       return;
     }
 
-    if (this.memberIds.size === 0 || this.memberIds.has(normalizedId)) {
+    const members = this.getMemberIdSet();
+    if (members.size === 0 || members.has(normalizedId)) {
       this.lastFocusedId = normalizedId;
     }
   }
@@ -133,18 +137,6 @@ class FocusScopeController implements TngFocusScopeController {
     if (normalizedId !== null) {
       this.memberIds.add(normalizedId);
     }
-  }
-
-  public resolveFocusCandidate(candidateId: string | null): string | null {
-    if (!this.isTrapActive() || this.memberIds.size === 0) {
-      return candidateId;
-    }
-
-    if (candidateId !== null && this.memberIds.has(candidateId)) {
-      return candidateId;
-    }
-
-    return this.getFallbackFocusCandidate();
   }
 
   public unregisterMember(id: string): void {
@@ -159,16 +151,60 @@ class FocusScopeController implements TngFocusScopeController {
     }
   }
 
-  private getFallbackFocusCandidate(): string | null {
-    if (this.lastFocusedId !== null && this.memberIds.has(this.lastFocusedId)) {
+  public resolveFocusCandidate(candidateId: string | null): string | null {
+    const members = this.getMemberIdSet();
+
+    if (!this.isTrapActive() || members.size === 0) {
+      return candidateId;
+    }
+
+    if (candidateId !== null && members.has(candidateId)) {
+      return candidateId;
+    }
+
+    return this.getFallbackFocusCandidate(members);
+  }
+
+  private getFallbackFocusCandidate(members: ReadonlySet<string>): string | null {
+    if (this.lastFocusedId !== null && members.has(this.lastFocusedId)) {
       return this.lastFocusedId;
     }
 
+    // stable order: base members first, then manual registrations
     return this.getMemberIds()[0] ?? null;
   }
 
   private getMemberIds(): readonly string[] {
-    return [...this.memberIds.values()];
+    const base = normalizeMemberIds(this.membersGetter?.());
+    if (base.length === 0 && this.memberIds.size === 0) {
+      return [];
+    }
+
+    // Dedup + stable order
+    const result: string[] = [];
+    const seen = new Set<string>();
+
+    for (const id of base) {
+      if (seen.has(id)) continue;
+      seen.add(id);
+      result.push(id);
+    }
+
+    for (const id of this.memberIds.values()) {
+      if (seen.has(id)) continue;
+      seen.add(id);
+      result.push(id);
+    }
+
+    return result;
+  }
+
+  private getMemberIdSet(): ReadonlySet<string> {
+    const ids = this.getMemberIds();
+    if (ids.length === 0) {
+      return new Set();
+    }
+    return new Set(ids);
   }
 }
 

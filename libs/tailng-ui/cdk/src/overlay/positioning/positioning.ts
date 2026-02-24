@@ -174,14 +174,10 @@ function resolveSide(context: TngPlacementContext): TngOverlaySide {
 }
 
 function clamp(value: number, min: number, max: number): number {
-  if (value < min) {
-    return min;
-  }
-
-  if (value > max) {
-    return max;
-  }
-
+  // important: overlay bigger than available space
+  if (max < min) return min; 
+  if (value < min) return min;
+  if (value > max) return max;
   return value;
 }
 

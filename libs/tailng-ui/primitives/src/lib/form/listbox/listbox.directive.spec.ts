@@ -107,6 +107,42 @@ class TestHostComponent {
   order = signal<readonly ('A' | 'B' | 'C' | 'X')[]>(['A', 'B', 'C']);
 }
 
+@Component({
+  standalone: true,
+  imports: [TngListboxDirective, TngOptionDirective],
+  template: `
+    <div
+      tngListbox
+      [multiple]="false"
+      [value]="value()"
+      (valueChange)="value.set($event)"
+      data-testid="listbox"
+    >
+      <div tngOption [tngValue]="'a'" data-testid="opt-a">A</div>
+      <div tngOption [tngValue]="'b'" data-testid="opt-b">B</div>
+      <div tngOption [tngValue]="'c'" data-testid="opt-c">C</div>
+    </div>
+  `,
+})
+class HostSingleControlled {
+  value = signal<string | null>(null);
+}
+
+@Component({
+  standalone: true,
+  imports: [TngListboxDirective, TngOptionDirective],
+  template: `
+    <div tngListbox [multiple]="false" [value]="value()" (valueChange)="value.set($event)">
+      <div tngOption [tngValue]="'a'" data-testid="opt-a">A</div>
+      <div tngOption [tngValue]="'b'" data-testid="opt-b">B</div>
+      <div tngOption [tngValue]="'c'" [disabled]="true" data-testid="opt-c">C</div>
+    </div>
+  `,
+})
+class HostSingleControlledDisabled {
+  value = signal<string | null>(null);
+}
+
 function keydown(
   el: HTMLElement,
   key: string,
@@ -115,8 +151,15 @@ function keydown(
   el.dispatchEvent(new KeyboardEvent('keydown', { key, bubbles: true, ...opts }));
 }
 
-function pointerdown(el: HTMLElement, extras?: Partial<PointerEventInit>) {
-  el.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, ...extras }));
+function pointerdown(el: HTMLElement, init: Partial<PointerEventInit> = {}): void {
+  el.dispatchEvent(
+    new PointerEvent('pointerdown', {
+      bubbles: true,
+      cancelable: true,
+      button: 0,
+      ...init,
+    }),
+  );
 }
 
 describe('tngListbox + tngOption primitives', () => {
@@ -1215,3 +1258,86 @@ describe('tngListbox + tngOption primitives', () => {
     expect(optC.getAttribute('aria-selected')).toBe('true');
   });
 }); 
+describe('tngListbox controlled sync', () => {
+  it('clears UI selection when external value becomes null', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [HostSingleControlled],
+    }).createComponent(HostSingleControlled);
+
+    fixture.detectChanges();
+
+    const host = fixture.componentInstance;
+    const optB = fixture.nativeElement.querySelector('[data-testid="opt-b"]') as HTMLElement;
+
+    // select B
+    pointerdown(optB);
+    fixture.detectChanges();
+    expect(optB.getAttribute('aria-selected')).toBe('true');
+    expect(optB.hasAttribute('data-selected')).toBe(true);
+
+    // external clear
+    host.value.set(null);
+    fixture.detectChanges();
+
+    expect(optB.getAttribute('aria-selected')).toBe('false');
+    expect(optB.hasAttribute('data-selected')).toBe(false);
+  });
+
+  it('selects correct option when external value changes', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [HostSingleControlled],
+    }).createComponent(HostSingleControlled);
+  
+    fixture.detectChanges();
+    const host = fixture.componentInstance;
+  
+    const optA = fixture.nativeElement.querySelector('[data-testid="opt-a"]') as HTMLElement;
+    const optC = fixture.nativeElement.querySelector('[data-testid="opt-c"]') as HTMLElement;
+  
+    host.value.set('c');
+    fixture.detectChanges();
+  
+    expect(optC.getAttribute('aria-selected')).toBe('true');
+    expect(optC.hasAttribute('data-selected')).toBe(true);
+  
+    expect(optA.getAttribute('aria-selected')).toBe('false');
+    expect(optA.hasAttribute('data-selected')).toBe(false);
+  });
+
+  it('does not select disabled option when external value points to it', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [HostSingleControlledDisabled],
+    }).createComponent(HostSingleControlledDisabled);
+  
+    fixture.detectChanges();
+    const host = fixture.componentInstance;
+  
+    const optC = fixture.nativeElement.querySelector('[data-testid="opt-c"]') as HTMLElement;
+  
+    host.value.set('c');
+    fixture.detectChanges();
+  
+    expect(optC.getAttribute('aria-disabled')).toBe('true');
+    expect(optC.getAttribute('aria-selected')).toBe('false');
+    expect(optC.hasAttribute('data-selected')).toBe(false);
+  });
+
+  it('does not thrash when setting external value repeatedly to same value', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [HostSingleControlled],
+    }).createComponent(HostSingleControlled);
+  
+    fixture.detectChanges();
+    const host = fixture.componentInstance;
+  
+    host.value.set('b');
+    fixture.detectChanges();
+  
+    // same again: should not cause any visible change / no instability
+    host.value.set('b');
+    fixture.detectChanges();
+  
+    const optB = fixture.nativeElement.querySelector('[data-testid="opt-b"]') as HTMLElement;
+    expect(optB.getAttribute('aria-selected')).toBe('true');
+  });
+});

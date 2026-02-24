@@ -1,6 +1,6 @@
 import { expect, it } from 'vitest';
 import { createOverlayRuntime, type TngOverlayRuntime } from './overlay-runtime';
-import type { TngOverlayDismissReason } from '../overlay/layer-stack/layer-stack.types';
+import type { TngOverlayDismissReason } from '../layer-stack/layer-stack.types';
 
 type TngDismissEvent = Readonly<{
   id: string;

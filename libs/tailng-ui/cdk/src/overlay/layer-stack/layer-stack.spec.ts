@@ -83,3 +83,74 @@ it('ignores unknown unregister and handles replace by id', () => {
   expect(firstDismiss).not.toHaveBeenCalled();
   expect(secondDismiss).toHaveBeenCalledWith('programmatic');
 });
+
+/**
+ * ✅ New: escape falls through if top layer opts out
+ */
+it('escape resolves the first eligible layer from top (skips dismissOnEscape=false)', () => {
+  const stack = createOverlayLayerStack();
+
+  stack.register({ id: 'dialog', onDismiss: () => undefined, dismissOnEscape: true });
+  stack.register({ id: 'tooltip', onDismiss: () => undefined, dismissOnEscape: false });
+
+  expect(stack.resolveEscapeDismissTarget()?.id).toBe('dialog');
+});
+
+/**
+ * ✅ New: outside pointer falls through if top layer opts out
+ */
+it('outside pointer resolves the first eligible layer from top (skips dismissOnOutsidePointer=false)', () => {
+  const stack = createOverlayLayerStack();
+
+  stack.register({
+    id: 'menu',
+    onDismiss: () => undefined,
+    dismissOnOutsidePointer: true,
+    containsTarget: (t) => t === 'inside-menu',
+  });
+
+  stack.register({
+    id: 'tooltip',
+    onDismiss: () => undefined,
+    dismissOnOutsidePointer: false,
+    containsTarget: (t) => t === 'inside-tooltip',
+  });
+
+  expect(stack.resolveOutsidePointerDismissTarget('outside', ['outside'])?.id).toBe('menu');
+});
+
+/**
+ * ✅ New: modal isolation — never dismiss layers under the top modal
+ */
+it('does not resolve dismiss targets below the top modal layer', () => {
+  const stack = createOverlayLayerStack();
+
+  stack.register({
+    id: 'base-popover',
+    onDismiss: () => undefined,
+    dismissOnEscape: true,
+    dismissOnOutsidePointer: true,
+  });
+
+  stack.register({
+    id: 'modal',
+    modal: true,
+    onDismiss: () => undefined,
+    dismissOnEscape: true,
+    dismissOnOutsidePointer: true,
+    containsTarget: (t) => t === 'inside-modal',
+  });
+
+  stack.register({
+    id: 'tooltip',
+    onDismiss: () => undefined,
+    dismissOnEscape: false,
+    dismissOnOutsidePointer: false,
+  });
+
+  // Escape should resolve modal (tooltip opts out)
+  expect(stack.resolveEscapeDismissTarget()?.id).toBe('modal');
+
+  // Outside pointer should resolve modal (tooltip opts out), NOT base-popover
+  expect(stack.resolveOutsidePointerDismissTarget('outside', ['outside'])?.id).toBe('modal');
+});

@@ -41,14 +41,8 @@ class OverlayLayerStack implements TngOverlayLayerStack {
   }
 
   public getTopModalLayer(): TngOverlayLayer | null {
-    for (let index = this.layers.length - 1; index >= 0; index -= 1) {
-      const entry = this.layers[index];
-      if (entry?.layer.modal === true) {
-        return entry.layer;
-      }
-    }
-
-    return null;
+    const entry = this.findTopModalEntry();
+    return entry?.layer ?? null;
   }
 
   public isTopLayer(id: string): boolean {
@@ -62,29 +56,60 @@ class OverlayLayerStack implements TngOverlayLayerStack {
     this.layers.sort(compareLayers);
   }
 
+  /**
+   * Escape should dismiss the first eligible layer from the top.
+   * If a tooltip/popover opts out of escape, we fall through to the next layer.
+   * Modal isolation: never consider layers under the top modal.
+   */
   public resolveEscapeDismissTarget(): TngOverlayLayer | null {
-    const topLayer = this.getTopLayer();
-    if (topLayer === null || topLayer.dismissOnEscape === false) {
-      return null;
+    const startIndex = this.resolveModalFloorIndex();
+
+    for (let index = this.layers.length - 1; index >= startIndex; index -= 1) {
+      const entry = this.layers[index];
+      const layer = entry?.layer;
+      if (!layer) continue;
+
+      if (layer.dismissOnEscape === false) {
+        continue;
+      }
+
+      return layer;
     }
 
-    return topLayer;
+    return null;
   }
 
+  /**
+   * Outside pointer should dismiss the first eligible layer from the top
+   * that does NOT contain the target/path.
+   *
+   * If the pointer is inside the top layer → dismiss nothing.
+   * If the top layer opts out of outside dismissal, fall through to the next layer.
+   * Modal isolation: never consider layers under the top modal.
+   */
   public resolveOutsidePointerDismissTarget(
     target: unknown,
     path: readonly unknown[],
   ): TngOverlayLayer | null {
-    const topLayer = this.getTopLayer();
-    if (topLayer === null) {
-      return null;
+    const startIndex = this.resolveModalFloorIndex();
+
+    for (let index = this.layers.length - 1; index >= startIndex; index -= 1) {
+      const entry = this.layers[index];
+      const layer = entry?.layer;
+      if (!layer) continue;
+
+      if (layer.containsTarget?.(target, path) === true) {
+        return null; // inside this top-most containing layer => no dismiss
+      }
+
+      if (layer.dismissOnOutsidePointer === false) {
+        continue;
+      }
+
+      return layer;
     }
 
-    if (topLayer.containsTarget?.(target, path) === true) {
-      return null;
-    }
-
-    return topLayer.dismissOnOutsidePointer === false ? null : topLayer;
+    return null;
   }
 
   public unregister(id: string): void {
@@ -97,6 +122,28 @@ class OverlayLayerStack implements TngOverlayLayerStack {
   private findLayerById(id: string): TngOverlayLayer | null {
     const index = findLayerIndexById(this.layers, id);
     return index >= 0 ? (this.layers[index]?.layer ?? null) : null;
+  }
+
+  private findTopModalEntry(): TngRegisteredLayer | null {
+    for (let index = this.layers.length - 1; index >= 0; index -= 1) {
+      const entry = this.layers[index];
+      if (entry?.layer.modal === true) {
+        return entry;
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Returns the lowest index we should consider for dismiss resolution.
+   * If there is a modal, never consider layers below it.
+   */
+  private resolveModalFloorIndex(): number {
+    const topModalEntry = this.findTopModalEntry();
+    if (topModalEntry === null) return 0;
+
+    const idx = this.layers.indexOf(topModalEntry);
+    return idx < 0 ? 0 : idx;
   }
 }
 

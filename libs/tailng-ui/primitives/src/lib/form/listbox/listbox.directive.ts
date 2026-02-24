@@ -114,6 +114,38 @@ export class TngListboxDirective<T> {
       }
     });
 
+    // External value -> controller selection (fixes "clearSelection doesn't clear UI")
+  effect(() => {
+    const ctrl = this.controller();
+    if (!ctrl) return;
+
+    const opts = this.options();
+    const external = this.value();
+
+    const toIds = (v: ListboxValue<T>): string[] => {
+      if (v === null) return [];
+      const arr = Array.isArray(v) ? (v as readonly T[]) : ([v as T] as const);
+
+      const ids: string[] = [];
+      for (const val of arr) {
+        const opt = opts.find((o) => Object.is(o.value, val));
+        if (!opt) continue;
+        if (opt.disabled) continue;
+        ids.push(opt.id);
+      }
+      return ids;
+    };
+
+    const nextIds = toIds(external);
+
+    if (nextIds.length === 0) {
+      ctrl.clearSelection();
+      return;
+    }
+
+    ctrl.setSelectedIds(nextIds);
+  });
+
     // Scroll when active changes
     effect(() => {
       const id = this.activeId();
