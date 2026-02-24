@@ -1,5 +1,5 @@
 // tng-select.ts
-import { Directive, HostBinding, input, model } from '@angular/core';
+import { Directive, ElementRef, HostBinding, inject, input, model } from '@angular/core';
 import { TNG_SELECT } from './tng-select.tokens';
 import { TngSelectListboxApi } from './tng-select.listbox.types';
 
@@ -10,6 +10,8 @@ import { TngSelectListboxApi } from './tng-select.listbox.types';
   providers: [{ provide: TNG_SELECT, useExisting: TngSelect }],
 })
 export class TngSelect<T = unknown> {
+  /** Host element of the select (the [tngSelect] element). Used by overlay for trigger lookup when portaled. */
+  readonly hostElement = inject(ElementRef<HTMLElement>).nativeElement;
   public readonly open = model<boolean>(false);
   public readonly disabled = input<boolean>(false);
   public readonly value = model<T | null>(null);
