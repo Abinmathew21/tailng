@@ -1,12 +1,11 @@
 import {
   Component,
   ContentChild,
-  HostBinding,
+  TemplateRef,
   computed,
   inject,
   input,
 } from '@angular/core';
-import { NgTemplateOutlet } from '@angular/common';
 
 import {
   TngSelect as TngSelectPrimitive,
@@ -19,18 +18,24 @@ import {
   TngSelectOption,
 } from '@tailng-ui/primitives';
 
-import {
-  TngSelectOptionTpl,
-  TngSelectTriggerTpl,
-} from './tng-select.slots';
+export type TngSelectGetValue<O, V> = (opt: O) => V;
+export type TngSelectGetLabel<O> = (opt: O) => string;
+export type TngSelectIsDisabled<O> = (opt: O) => boolean;
+export type TngSelectTrackBy<O> = (index: number, opt: O) => unknown;
+
+// Slot templates (optional)
+export type TngSelectValueContext<O, V> = {
+  $implicit: { value: V | null; option: O | null; label: string };
+};
+export type TngSelectOptionContext<O, V> = {
+  $implicit: { option: O; value: V; label: string; disabled: boolean; selected: boolean; active: boolean };
+};
 
 @Component({
   selector: 'tng-select',
   standalone: true,
   imports: [
-    NgTemplateOutlet,
-
-    // primitive parts
+    // primitives used in template
     TngSelectTrigger,
     TngSelectValue,
     TngSelectIcon,
@@ -39,103 +44,88 @@ import {
     TngSelectListbox,
     TngSelectOption,
   ],
+  // Attach primitive directive to host + re-expose its controlled API.
   hostDirectives: [
     {
       directive: TngSelectPrimitive,
-      inputs: ['open', 'value', 'disabled'],
+      inputs: [
+        'open',
+        'value',
+        'disabled',
+        'loading',
+        'invalid',
+        'labelId',
+        'descriptionId',
+        'errorId',
+      ],
       outputs: ['openChange', 'valueChange'],
     },
   ],
   templateUrl: './tng-select.component.html',
 })
 export class TngSelectComponent<O = unknown, V = unknown> {
-  private readonly primitive = inject(TngSelectPrimitive<V>);
+  // Access primitive instance for reading value/open state inside template.
+  // (This works because the primitive is attached via hostDirectives.)
+  protected readonly primitive = inject<TngSelectPrimitive<V>>(TngSelectPrimitive);
 
-  // ---- a11y / base config ----
-  readonly ariaLabel = input<string>('Select');
-
-  /** Placeholder shown when value is null or not found in options. */
+  // ----- data / accessors (recommended API) -----
+  readonly options = input<readonly O[]>([]);
   readonly placeholder = input<string>('Select…');
 
-  // ---- accessor API (power-user friendly) ----
-  readonly options = input<readonly O[]>([]);
-
-  /** Required: map option -> value (stored in primitive). */
-  readonly getOptionValue = input<(opt: O) => V>(
-    // default: assume option itself is value (works for primitives)
-    (opt: O) => opt as unknown as V,
+  readonly getOptionValue = input<TngSelectGetValue<O, V>>(
+    ((opt: any) => opt?.value) as TngSelectGetValue<O, V>,
   );
-
-  /** Required: map option -> display label. */
-  readonly getOptionLabel = input<(opt: O) => string>(
-    (opt: O) => String(opt),
+  readonly getOptionLabel = input<TngSelectGetLabel<O>>(
+    ((opt: any) => String(opt?.label ?? opt?.value ?? opt)) as TngSelectGetLabel<O>,
   );
-
-  /** Optional: compare values (defaults to Object.is). */
-  readonly compareWith = input<(a: V, b: V) => boolean>(
-    (a: V, b: V) => Object.is(a, b),
+  readonly isOptionDisabled = input<TngSelectIsDisabled<O>>(
+    ((opt: any) => !!opt?.disabled) as TngSelectIsDisabled<O>,
   );
+  readonly trackBy = input<TngSelectTrackBy<O>>((_, opt) => opt as unknown);
 
-  // ---- slots (optional) ----
-  @ContentChild(TngSelectTriggerTpl) triggerTpl?: TngSelectTriggerTpl<O, V>;
-  @ContentChild(TngSelectOptionTpl) optionTpl?: TngSelectOptionTpl<O, V>;
+  // ----- optional: icon text/slot (still headless) -----
+  readonly iconText = input<string>('▾');
 
-  @HostBinding('attr.aria-label')
-  protected get hostAriaLabel(): string {
-    return this.ariaLabel();
-  }
+  // ----- slots (optional) -----
+  @ContentChild('tngSelectValueTpl', { read: TemplateRef }) valueTpl?: TemplateRef<TngSelectValueContext<O, V>>;
+  @ContentChild('tngSelectOptionTpl', { read: TemplateRef }) optionTpl?: TemplateRef<TngSelectOptionContext<O, V>>;
 
-  // ---- derived state ----
-  readonly selectedOption = computed<O | null>(() => {
+  // ----- derived state for default rendering -----
+  protected readonly selectedOption = computed<O | null>(() => {
     const v = this.primitive.value();
-    if (v == null) return null;
+    if (v === null) return null;
 
-    const opts = this.options();
     const getV = this.getOptionValue();
-    const eq = this.compareWith();
-
-    for (const o of opts) {
-      if (eq(getV(o), v)) return o;
+    for (const opt of this.options()) {
+      if (Object.is(getV(opt), v)) return opt;
     }
     return null;
   });
 
-  readonly selectedLabel = computed(() => {
+  protected readonly selectedLabel = computed<string>(() => {
     const opt = this.selectedOption();
     return opt ? this.getOptionLabel()(opt) : this.placeholder();
   });
 
-  // Context builders (keep template clean)
-  triggerContext = computed(() => {
+  // Context helpers for templates
+  protected valueContext(): TngSelectValueContext<O, V> {
+    const v = this.primitive.value();
     const opt = this.selectedOption();
-    return {
-      value: this.primitive.value(),
-      option: opt,
-      label: this.selectedLabel(),
-      placeholder: this.placeholder(),
-      open: this.primitive.open(),
-      disabled: this.primitive.disabled(),
-    };
-  });
-
-  optionContext(opt: O) {
-    const getV = this.getOptionValue();
-    const getL = this.getOptionLabel();
-    const v = getV(opt);
-
-    // these attributes are set by primitives on the <li>,
-    // but we also provide booleans to slot templates.
-    // In most cases, consumers can rely on data-* styling hooks.
-    return {
-      $implicit: opt,
-      option: opt,
-      value: v,
-      label: getL(opt),
-      selected: this.primitive.value() != null && this.compareWith()(v, this.primitive.value() as V),
-      active: false,   // prefer data-active on the element for accuracy
-      disabled: false, // prefer data-disabled / [disabled] binding below
-    } as const;
+    const label = opt ? this.getOptionLabel()(opt) : this.placeholder();
+    return { $implicit: { value: v, option: opt, label } };
   }
 
-  trackByValue = (_: number, opt: O) => this.getOptionValue()(opt) as unknown as string;
+  protected optionContext(opt: O): TngSelectOptionContext<O, V> {
+    const v = this.getOptionValue()(opt);
+    const label = this.getOptionLabel()(opt);
+    const disabled = this.isOptionDisabled()(opt);
+    const selected = Object.is(this.primitive.value(), v);
+
+    // “active” styling is handled by listbox primitive via data-active on the element,
+    // but we include it in case the consumer’s template wants it.
+    // (We can’t reliably compute active here without reading listbox controller state.)
+    const active = false;
+
+    return { $implicit: { option: opt, value: v, label, disabled, selected, active } };
+  }
 }
