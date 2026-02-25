@@ -6,9 +6,10 @@ import {
   inject,
   input,
 } from '@angular/core';
+import { NgTemplateOutlet } from '@angular/common';
 
 import {
-  TngSelect as TngSelectPrimitive,
+  TngSelect,
   TngSelectTrigger,
   TngSelectValue,
   TngSelectIcon,
@@ -35,6 +36,7 @@ export type TngSelectOptionContext<O, V> = {
   selector: 'tng-select',
   standalone: true,
   imports: [
+    NgTemplateOutlet,
     // primitives used in template
     TngSelectTrigger,
     TngSelectValue,
@@ -47,7 +49,7 @@ export type TngSelectOptionContext<O, V> = {
   // Attach primitive directive to host + re-expose its controlled API.
   hostDirectives: [
     {
-      directive: TngSelectPrimitive,
+      directive: TngSelect,
       inputs: [
         'open',
         'value',
@@ -66,7 +68,7 @@ export type TngSelectOptionContext<O, V> = {
 export class TngSelectComponent<O = unknown, V = unknown> {
   // Access primitive instance for reading value/open state inside template.
   // (This works because the primitive is attached via hostDirectives.)
-  protected readonly primitive = inject<TngSelectPrimitive<V>>(TngSelectPrimitive);
+  protected readonly primitive = inject<TngSelect<V>>(TngSelect);
 
   // ----- data / accessors (recommended API) -----
   readonly options = input<readonly O[]>([]);

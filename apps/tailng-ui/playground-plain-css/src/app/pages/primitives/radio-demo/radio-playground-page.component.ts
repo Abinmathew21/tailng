@@ -1,12 +1,12 @@
 import { Component, signal } from '@angular/core';
-import { TngRadio } from '@tailng-ui/components';
+import { TngRadioComponent } from '@tailng-ui/components';
 import { TngRadio as TngRadioPrimitive } from '@tailng-ui/primitives';
 
 type BillingPlan = 'enterprise' | 'pro' | 'starter';
 
 @Component({
   selector: 'app-radio-playground-page',
-  imports: [TngRadioPrimitive, TngRadio],
+  imports: [TngRadioPrimitive, TngRadioComponent],
   templateUrl: './radio-playground-page.component.html',
   styleUrl: './radio-playground-page.component.css',
 })

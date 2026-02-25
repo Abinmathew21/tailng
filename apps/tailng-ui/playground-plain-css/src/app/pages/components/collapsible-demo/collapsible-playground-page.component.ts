@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { TngCollapsible as TngCollapsibleComponent } from '@tailng-ui/components';
+import { TngCollapsibleComponent } from '@tailng-ui/components';
 import {
   TngCollapsible,
   TngCollapsibleContent,

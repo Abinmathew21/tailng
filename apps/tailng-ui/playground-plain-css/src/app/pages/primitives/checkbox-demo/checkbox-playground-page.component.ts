@@ -1,10 +1,10 @@
 import { Component, signal } from '@angular/core';
-import { TngCheckbox } from '@tailng-ui/components';
+import { TngCheckboxComponent } from '@tailng-ui/components';
 import { TngCheckbox as TngCheckboxPrimitive } from '@tailng-ui/primitives';
 
 @Component({
   selector: 'app-checkbox-playground-page',
-  imports: [TngCheckboxPrimitive, TngCheckbox],
+  imports: [TngCheckboxPrimitive, TngCheckboxComponent],
   templateUrl: './checkbox-playground-page.component.html',
   styleUrl: './checkbox-playground-page.component.css',
 })

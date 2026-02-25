@@ -1,10 +1,10 @@
 import { Component, signal } from '@angular/core';
-import { TngSwitch } from '@tailng-ui/components';
+import { TngSwitchComponent } from '@tailng-ui/components';
 import { TngSwitch as TngSwitchPrimitive } from '@tailng-ui/primitives';
 
 @Component({
   selector: 'app-switch-playground-page',
-  imports: [TngSwitchPrimitive, TngSwitch],
+  imports: [TngSwitchPrimitive, TngSwitchComponent],
   templateUrl: './switch-playground-page.component.html',
   styleUrl: './switch-playground-page.component.css',
 })

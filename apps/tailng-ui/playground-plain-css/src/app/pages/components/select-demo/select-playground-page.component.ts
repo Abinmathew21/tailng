@@ -14,7 +14,7 @@ import {
 } from '@tailng-ui/primitives';
 
 // components layer
-import { TngSelect as TngSelectComponent } from '@tailng-ui/components';
+import { TngSelectComponent } from '@tailng-ui/components';
 
 type Opt = { value: string; label: string; disabled?: boolean };
 

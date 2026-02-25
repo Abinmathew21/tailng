@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { TngLabel as TngLabelComponent } from '@tailng-ui/components';
+import { TngLabelComponent } from '@tailng-ui/components';
 import { TngLabel } from '@tailng-ui/primitives';
 
 @Component({

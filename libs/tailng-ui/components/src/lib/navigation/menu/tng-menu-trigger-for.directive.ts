@@ -1,5 +1,5 @@
 import { Directive, ElementRef, HostBinding, HostListener, effect, inject, input } from '@angular/core';
-import type { TngMenu } from './tng-menu.component';
+import type { TngMenuComponent } from './tng-menu.component';
 
 type TngMenuTriggerKeyboardEvent = Readonly<Pick<KeyboardEvent, 'key'>> &
   Readonly<{ preventDefault: () => void }>;
@@ -13,7 +13,7 @@ function shouldOpenMenuForKey(key: string): boolean {
   exportAs: 'tngMenuTriggerFor',
 })
 export class TngMenuTriggerFor {
-  public readonly tngMenuTriggerFor = input.required<TngMenu>();
+  public readonly tngMenuTriggerFor = input.required<TngMenuComponent>();
 
   private readonly hostRef = inject<ElementRef<HTMLElement>>(ElementRef);
 
