@@ -17,7 +17,7 @@ import {
   RouterLinkActive,
   RouterOutlet,
 } from '@angular/router';
-import { TngAccordion, TngToggle } from '@tailng-ui/components';
+import { TngAccordionComponent, TngToggleComponent } from '@tailng-ui/components';
 import { TngIcon } from '@tailng-ui/icons';
 import {
   TngBreadcrumb,
@@ -71,8 +71,8 @@ function getUrlPath(url: string): string {
     RouterLink,
     RouterLinkActive,
     RouterOutlet,
-    TngAccordion,
-    TngToggle,
+    TngAccordionComponent,
+    TngToggleComponent,
     TngIcon,
     TngBreadcrumb,
     TngBreadcrumbList,

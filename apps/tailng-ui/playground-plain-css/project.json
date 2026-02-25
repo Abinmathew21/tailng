@@ -19,7 +19,10 @@
             "input": "apps/tailng-ui/playground-plain-css/public"
           }
         ],
-        "styles": ["apps/tailng-ui/playground-plain-css/src/styles.css"]
+        "styles": [
+          "apps/tailng-ui/playground-plain-css/src/styles.css",
+          "libs/tailng-ui/theme/src/lib/component-contracts/index.css"
+        ]
       },
       "configurations": {
         "production": {

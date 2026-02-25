@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { TngButton, TngPopover } from '@tailng-ui/components';
+import { TngButtonComponent, TngPopoverComponent } from '@tailng-ui/components';
 
 type TngQuickAction = Readonly<{
   description: string;
@@ -27,7 +27,7 @@ const quickActions: readonly TngQuickAction[] = Object.freeze([
 
 @Component({
   selector: 'app-popover-playground-page',
-  imports: [TngButton, TngPopover],
+  imports: [TngButtonComponent, TngPopoverComponent],
   templateUrl: './popover-playground-page.component.html',
   styleUrl: './popover-playground-page.component.css',
 })

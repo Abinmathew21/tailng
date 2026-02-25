@@ -1,0 +1,4 @@
+/* Select component contract entry */
+@layer tng.contracts {
+  @import "./select.css";
+}

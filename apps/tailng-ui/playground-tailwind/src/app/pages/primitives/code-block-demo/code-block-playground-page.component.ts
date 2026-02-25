@@ -5,7 +5,7 @@ import {
   resolveTngCodeHighlightingConfig,
   TNG_CODE_HIGHLIGHTING_CONFIG,
   TNG_CODE_HIGHLIGHTING_RESOLVER,
-  TngCodeBlock,
+  TngCodeBlockComponent,
   TngCodeHighlightingResolver,
 } from '@tailng-ui/components';
 
@@ -25,7 +25,7 @@ const codeHighlightingConfig = resolveTngCodeHighlightingConfig({
 
 @Component({
   selector: 'app-code-block-playground-page',
-  imports: [TngCodeBlock],
+  imports: [TngCodeBlockComponent],
   providers: [
     {
       provide: TNG_CODE_HIGHLIGHTING_CONFIG,

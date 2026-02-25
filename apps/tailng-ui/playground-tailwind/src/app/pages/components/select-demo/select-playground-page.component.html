@@ -1,31 +1,151 @@
-<div class="mx-auto max-w-[72rem] grid gap-5">
-  <section class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5 space-y-3">
-    <h2 class="text-lg font-semibold">Primitives (`tngSelect`)</h2>
-    <div tngSelect class="rounded-xl border border-tng-border-subtle px-4 py-3 text-tng-fg-primary">
-      <button
-        type="button"
-        aria-haspopup="listbox"
-        aria-expanded="true"
-        class="block w-full rounded-lg border border-tng-border-subtle bg-transparent px-4 py-2 text-left text-sm font-medium text-tng-fg-primary"
-      >
-        Selected: Compact
-      </button>
-      <ul role="listbox" class="mt-2 list-none p-0 m-0 space-y-1">
-        <li role="option" aria-selected="false" class="rounded px-2 py-1 hover:bg-tng-bg-muted cursor-pointer">Comfortable</li>
-        <li role="option" aria-selected="true" class="rounded px-2 py-1 bg-tng-accent-brand/45">Compact</li>
-        <li role="option" aria-selected="false" class="rounded px-2 py-1 hover:bg-tng-bg-muted cursor-pointer">Dense</li>
-      </ul>
-    </div>
-  </section>
+<main class="min-h-screen bg-tng-bg-canvas text-tng-fg-primary px-4 py-7">
+  <header class="mx-auto mb-4 max-w-[64rem] grid gap-1.5">
+    <h1 class="text-xl font-bold tracking-tight m-0 text-tng-fg-primary">
+      Select demo
+    </h1>
+    <p class="text-sm text-tng-fg-secondary m-0">
+      Primitives (headless) + Components wrapper. Includes a scroll-container case.
+    </p>
+  </header>
 
-  <section class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5 space-y-3">
-    <h2 class="text-lg font-semibold">Components (`tng-select`)</h2>
-    <tng-select>
-      <ul role="listbox" class="rounded-xl border border-tng-border-subtle px-4 py-3 text-tng-fg-primary list-none m-0 p-0 space-y-1">
-        <li role="option" aria-selected="false" class="rounded px-2 py-1 hover:bg-tng-bg-muted cursor-pointer">Primary</li>
-        <li role="option" aria-selected="false" class="rounded px-2 py-1 hover:bg-tng-bg-muted cursor-pointer">Secondary</li>
-        <li role="option" aria-selected="false" class="rounded px-2 py-1 hover:bg-tng-bg-muted cursor-pointer">Tertiary</li>
-      </ul>
-    </tng-select>
+  <section class="mx-auto max-w-[64rem] grid gap-4 md:grid-cols-3 md:items-start">
+    <!-- 1) Normal primitive select -->
+    <section class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-4 space-y-3">
+      <div class="grid gap-0.5">
+        <h2 class="text-[0.9375rem] font-semibold m-0 text-tng-fg-primary">
+          1) Primitive Select
+        </h2>
+        <p class="text-[0.8125rem] text-tng-fg-muted m-0">Default page flow</p>
+      </div>
+
+      <section
+        tngSelect
+        class="grid gap-2"
+        aria-label="Primitive select A"
+        #selA="tngSelect"
+      >
+        <button
+          #triggerA
+          tngSelectTrigger
+          type="button"
+          data-testid="trigger-a"
+        >
+          <span tngSelectValue>{{ labelFor(selA.value()) }}</span>
+          <span tngSelectIcon aria-hidden="true">▾</span>
+        </button>
+
+        <div tngSelectContent class="contents" data-testid="content-a">
+          <div tngSelectOverlay data-testid="overlay-a" [style.min-width.px]="triggerA.offsetWidth">
+            <ul tngSelectListbox>
+              @for (opt of options; track opt.value) {
+                <li
+                  tngSelectOption
+                  [tngValue]="opt.value"
+                  [disabled]="!!opt.disabled"
+                >
+                  {{ opt.label }}
+                </li>
+              }
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <div class="flex items-center gap-2 text-[0.8125rem] text-tng-fg-secondary">
+        <span class="inline-flex h-5 items-center rounded-full border border-tng-border-subtle bg-tng-bg-canvas px-2 text-[0.75rem] text-tng-fg-secondary">
+          value
+        </span>
+        <code class="font-mono text-[0.8125rem] text-tng-fg-secondary">{{ selA.value() }}</code>
+      </div>
+    </section>
+
+    <!-- 2) Primitive select inside a scroll view -->
+    <section class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-4 space-y-3">
+      <div class="grid gap-0.5">
+        <h2 class="text-[0.9375rem] font-semibold m-0 text-tng-fg-primary">
+          2) Primitive Select in scroll container
+        </h2>
+        <p class="text-[0.8125rem] text-tng-fg-muted m-0">Open, then scroll the container</p>
+      </div>
+
+      <div class="h-64 overflow-auto rounded-xl border border-dashed border-tng-border-subtle bg-tng-bg-canvas p-3">
+        <div class="flex h-36 items-center justify-center text-[0.8125rem] text-tng-fg-secondary">
+          Scroll down 👇
+        </div>
+
+        <section
+          tngSelect
+          class="grid gap-2"
+          aria-label="Primitive select B"
+          #selB="tngSelect"
+        >
+          <button
+            #triggerB
+            tngSelectTrigger
+            type="button"
+            data-testid="trigger-b"
+          >
+            <span tngSelectValue>{{ labelFor(selB.value()) }}</span>
+            <span tngSelectIcon aria-hidden="true">▾</span>
+          </button>
+
+          <div tngSelectContent class="contents" data-testid="content-b">
+            <div tngSelectOverlay data-testid="overlay-b" [style.min-width.px]="triggerB.offsetWidth">
+              <ul tngSelectListbox>
+                @for (opt of options; track opt.value) {
+                  <li
+                    tngSelectOption
+                    [tngValue]="opt.value"
+                    [disabled]="!!opt.disabled"
+                  >
+                    {{ opt.label }}
+                  </li>
+                }
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <div class="flex h-36 items-center justify-center text-[0.8125rem] text-tng-fg-secondary">
+          More content…
+        </div>
+        <div class="flex h-36 items-center justify-center text-[0.8125rem] text-tng-fg-secondary">
+          More content…
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2 text-[0.8125rem] text-tng-fg-secondary">
+        <span class="inline-flex h-5 items-center rounded-full border border-tng-border-subtle bg-tng-bg-canvas px-2 text-[0.75rem] text-tng-fg-secondary">
+          value
+        </span>
+        <code class="font-mono text-[0.8125rem] text-tng-fg-secondary">{{ selB.value() }}</code>
+      </div>
+    </section>
+
+    <!-- 3) Components layer wrapper -->
+    <section class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-4 space-y-3">
+      <div class="grid gap-0.5">
+        <h2 class="text-[0.9375rem] font-semibold m-0 text-tng-fg-primary">
+          3) Components Layer &lt;tng-select&gt;
+        </h2>
+        <p class="text-[0.8125rem] text-tng-fg-muted m-0">Options + value + change</p>
+      </div>
+
+      <tng-select
+        class="grid gap-2"
+        [options]="options"
+        [value]="valueC()"
+        (valueChange)="valueC.set(coerceSingle($event))"
+        placeholder="Select…"
+        data-testid="select-c"
+      />
+
+      <div class="flex items-center gap-2 text-[0.8125rem] text-tng-fg-secondary">
+        <span class="inline-flex h-5 items-center rounded-full border border-tng-border-subtle bg-tng-bg-canvas px-2 text-[0.75rem] text-tng-fg-secondary">
+          value
+        </span>
+        <code class="font-mono text-[0.8125rem] text-tng-fg-secondary">{{ valueC() }}</code>
+      </div>
+    </section>
   </section>
-</div>
+</main>

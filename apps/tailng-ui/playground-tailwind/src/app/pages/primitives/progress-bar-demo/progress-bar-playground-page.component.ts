@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { TngProgressBar } from '@tailng-ui/components';
+import { TngProgressBarComponent } from '@tailng-ui/components';
 import {
   TngProgressBar as TngProgressBarPrimitive,
   TngProgressBarIndicator as TngProgressBarIndicatorPrimitive,
@@ -7,7 +7,7 @@ import {
 
 @Component({
   selector: 'app-progress-bar-playground-page',
-  imports: [TngProgressBarPrimitive, TngProgressBarIndicatorPrimitive, TngProgressBar],
+  imports: [TngProgressBarPrimitive, TngProgressBarIndicatorPrimitive, TngProgressBarComponent],
   templateUrl: './progress-bar-playground-page.component.html',
   styleUrl: './progress-bar-playground-page.component.css',
 })

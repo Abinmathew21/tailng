@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { TngBadge } from '@tailng-ui/components';
+import { TngBadgeComponent } from '@tailng-ui/components';
 
 type BadgeStyleMap = Readonly<Record<string, string>>;
 
 @Component({
   selector: 'app-badge-playground-page',
-  imports: [TngBadge],
+  imports: [TngBadgeComponent],
   templateUrl: './badge-playground-page.component.html',
   styleUrl: './badge-playground-page.component.css',
 })

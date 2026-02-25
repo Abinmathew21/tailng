@@ -1,7 +1,7 @@
 import { Component, signal } from '@angular/core';
 import {
-  TngButton,
-  TngToast,
+  TngButtonComponent,
+  TngToastComponent,
   type TngToastMode,
   type TngToastPosition,
 } from '@tailng-ui/components';
@@ -23,7 +23,7 @@ const toneTitleByTone: Readonly<Record<TngToastTone, string>> = Object.freeze({
 
 @Component({
   selector: 'app-toast-playground-page',
-  imports: [TngButton, TngToast],
+  imports: [TngButtonComponent, TngToastComponent],
   templateUrl: './toast-playground-page.component.html',
   styleUrl: './toast-playground-page.component.css',
 })
@@ -40,7 +40,7 @@ export class ToastPlaygroundPageComponent {
     this.dismissEvents.update((events) => [id, ...events].slice(0, 6));
   }
 
-  protected showTone(toast: TngToast, tone: TngToastTone): void {
+  protected showTone(toast: TngToastComponent, tone: TngToastTone): void {
     this.toastCounter += 1;
     const toastLabel = `Notification ${this.toastCounter}`;
     toast.show(`${toastLabel}: TailNG ${tone} message for demo validation.`, {

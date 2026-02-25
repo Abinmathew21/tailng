@@ -10,6 +10,7 @@
     "preinstall": "npx only-allow pnpm",
     "nx": "nx",
     "build": "NX_DAEMON=false NX_ISOLATE_PLUGINS=false nx run-many -t build",
+    "build:theme": "NX_DAEMON=false NX_ISOLATE_PLUGINS=false nx build theme",
     "build:tailng": "NX_DAEMON=false NX_ISOLATE_PLUGINS=false nx run tailng-cli:build",
     "docs": "NX_DAEMON=false NX_ISOLATE_PLUGINS=false nx serve docs",
     "docs:build": "NX_DAEMON=false NX_ISOLATE_PLUGINS=false nx build docs",
@@ -98,7 +99,8 @@
     "vite": "^7.0.0",
     "vite-tsconfig-paths": "^6.1.1",
     "vitest": "4.0.9",
-    "zone.js": "0.16.0"
+    "zone.js": "0.16.0",
+    "@tailng-ui/theme": "workspace:*"
   },
   "nx": {
     "includedScripts": []

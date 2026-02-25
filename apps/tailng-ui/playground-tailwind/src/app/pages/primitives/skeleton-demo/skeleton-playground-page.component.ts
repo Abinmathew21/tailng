@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { TngSkeleton as TngSkeletonComponent } from '@tailng-ui/components';
+import { TngSkeletonComponent } from '@tailng-ui/components';
 import { TngSkeleton } from '@tailng-ui/primitives';
 
 @Component({

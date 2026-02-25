@@ -1,4 +1,9 @@
-/* You can add global styles to this file, and also import other style files */
+/* styles.css */
+
+/* ✅ canonical order (one place) */
+@layer tng.tokens, tng.contracts, tng.app;
+
+/* global base */
 html,
 body {
   height: 100%;

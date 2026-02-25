@@ -9,7 +9,7 @@ import {
   createTypeaheadController,
   type TngTypeaheadItem,
 } from '@tailng-ui/cdk/collections';
-import { TngButton, TngCheckbox, TngDialog, TngInput, TngTextarea } from '@tailng-ui/components';
+import { TngButtonComponent, TngCheckboxComponent, TngDialogComponent, TngInputComponent, TngTextareaComponent } from '@tailng-ui/components';
 
 type AssigneeOption = Readonly<{
   detail: string;
@@ -67,7 +67,7 @@ function toOptionLabel(optionId: string | null): string {
 
 @Component({
   selector: 'app-dialog-playground-page',
-  imports: [TngButton, TngCheckbox, TngDialog, TngInput, TngTextarea],
+  imports: [TngButtonComponent, TngCheckboxComponent, TngDialogComponent, TngInputComponent, TngTextareaComponent],
   templateUrl: './dialog-playground-page.component.html',
   styleUrl: './dialog-playground-page.component.css',
 })

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { TngAvatar } from '@tailng-ui/components';
+import { TngAvatarComponent } from '@tailng-ui/components';
 import {
   TngAvatar as TngAvatarPrimitive,
   TngAvatarFallback as TngAvatarFallbackPrimitive,
@@ -8,7 +8,7 @@ import {
 
 @Component({
   selector: 'app-avatar-playground-page',
-  imports: [TngAvatarPrimitive, TngAvatarImagePrimitive, TngAvatarFallbackPrimitive, TngAvatar],
+  imports: [TngAvatarPrimitive, TngAvatarImagePrimitive, TngAvatarFallbackPrimitive, TngAvatarComponent],
   templateUrl: './avatar-playground-page.component.html',
   styleUrl: './avatar-playground-page.component.css',
 })

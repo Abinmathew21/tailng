@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { TngTree, type TngTreeItem } from '@tailng-ui/components';
+import { TngTreeComponent, type TngTreeItem } from '@tailng-ui/components';
 import { TngTree as TngTreePrimitive } from '@tailng-ui/primitives';
 
 const treeNodes: readonly TngTreeItem[] = Object.freeze([
@@ -75,7 +75,7 @@ function toSelectionLabel(nodeId: string | null): string {
 
 @Component({
   selector: 'app-tree-playground-page',
-  imports: [TngTreePrimitive, TngTree],
+  imports: [TngTreePrimitive, TngTreeComponent],
   templateUrl: './tree-playground-page.component.html',
   styleUrl: './tree-playground-page.component.css',
 })

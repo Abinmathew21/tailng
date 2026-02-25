@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { TngButton } from '@tailng-ui/components';
+import { TngButtonComponent } from '@tailng-ui/components';
 import { TngButton as TngButtonPrimitive } from '@tailng-ui/primitives';
 
 @Component({
   selector: 'app-button-playground-page',
-  imports: [TngButtonPrimitive, TngButton],
+  imports: [TngButtonPrimitive, TngButtonComponent],
   templateUrl: './button-playground-page.component.html',
   styleUrl: './button-playground-page.component.css',
 })

@@ -8,9 +8,14 @@
     ".": {
       "types": "./src/index.d.ts",
       "default": "./src/index.js"
-    }
+    },
+    "./component-contracts/index.css": "./src/lib/component-contracts/index.css",
+    "./component-contracts/*": "./src/lib/component-contracts/*",
+    "./component-contracts/*/*": "./src/lib/component-contracts/*/*"
   },
-  "sideEffects": false,
+  "sideEffects": [
+    "**/*.css"
+  ],
   "dependencies": {
     "tslib": "^2.3.0"
   }

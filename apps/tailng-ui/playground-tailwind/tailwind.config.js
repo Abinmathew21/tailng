@@ -16,6 +16,7 @@ module.exports = {
         'tng-bg-muted': 'var(--tng-semantic-background-muted)',
         'tng-fg-primary': 'var(--tng-semantic-foreground-primary)',
         'tng-fg-secondary': 'var(--tng-semantic-foreground-secondary)',
+        'tng-fg-muted': 'var(--tng-semantic-foreground-muted)',
         'tng-border-subtle': 'var(--tng-semantic-border-subtle)',
         'tng-border-strong': 'var(--tng-semantic-border-strong)',
         'tng-accent-brand': 'var(--tng-semantic-accent-brand)',

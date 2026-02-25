@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { TngBreadcrumb as TngBreadcrumbComponent } from '@tailng-ui/components';
+import { TngBreadcrumbComponent } from '@tailng-ui/components';
 import {
   TngBreadcrumb,
   TngBreadcrumbItem,

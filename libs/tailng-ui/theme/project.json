@@ -27,7 +27,17 @@
         "main": "libs/tailng-ui/theme/src/index.ts",
         "tsConfig": "libs/tailng-ui/theme/tsconfig.lib.json",
         "assets": [
-          "libs/tailng-ui/theme/*.md"
+          "libs/tailng-ui/theme/*.md",
+          {
+            "input": "libs/tailng-ui/theme/src/lib/component-contracts",
+            "glob": "**/*.css",
+            "output": "component-contracts"
+          },
+          {
+            "input": "libs/tailng-ui/theme",
+            "glob": "package.json",
+            "output": "."
+          }
         ]
       }
     },

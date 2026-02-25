@@ -14,9 +14,9 @@ export const lightSemanticTokens: ThemeSemanticTokens = {
     inverse: '{color.white}',
   },
   border: {
-    default: '{color.neutral100}',
-    subtle: '{color.neutral100}',
-    strong: '{color.neutral500}',
+    default: '{color.neutral300}',
+    subtle: '{color.neutral200}',
+    strong: '{color.neutral400}',
   },
   accent: {
     brand: '{color.primary500}',

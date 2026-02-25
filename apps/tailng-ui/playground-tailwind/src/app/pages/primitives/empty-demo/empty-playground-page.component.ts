@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import {
-  TngEmpty,
-  TngEmptyActions,
-  TngEmptyDescription,
-  TngEmptyIcon,
-  TngEmptyTitle,
+  TngEmptyComponent,
+  TngEmptyActionsComponent,
+  TngEmptyDescriptionComponent,
+  TngEmptyIconComponent,
+  TngEmptyTitleComponent,
 } from '@tailng-ui/components';
 import {
   TngEmpty as TngEmptyPrimitive,
@@ -22,11 +22,11 @@ import {
     TngEmptyTitlePrimitive,
     TngEmptyDescriptionPrimitive,
     TngEmptyActionsPrimitive,
-    TngEmpty,
-    TngEmptyIcon,
-    TngEmptyTitle,
-    TngEmptyDescription,
-    TngEmptyActions,
+    TngEmptyComponent,
+    TngEmptyIconComponent,
+    TngEmptyTitleComponent,
+    TngEmptyDescriptionComponent,
+    TngEmptyActionsComponent,
   ],
   templateUrl: './empty-playground-page.component.html',
   styleUrl: './empty-playground-page.component.css',

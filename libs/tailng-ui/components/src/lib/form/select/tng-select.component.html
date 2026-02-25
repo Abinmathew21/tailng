@@ -1,7 +1,5 @@
-<!-- Host already has [tngSelect] attached via hostDirectives -->
-
-<button tngSelectTrigger type="button" data-slot="select-trigger">
-  <span tngSelectValue data-slot="select-value">
+<button tngSelectTrigger type="button">
+  <span tngSelectValue>
     @if (valueTpl) {
       <ng-container *ngTemplateOutlet="valueTpl; context: valueContext()" />
     } @else {
@@ -9,18 +7,17 @@
     }
   </span>
 
-  <span tngSelectIcon aria-hidden="true" data-slot="select-icon">
+  <span tngSelectIcon aria-hidden="true">
     {{ iconText() }}
   </span>
 </button>
 
-<div tngSelectContent data-slot="select-content">
-  <div tngSelectOverlay data-slot="select-overlay">
-    <ul tngSelectListbox data-slot="select-listbox">
+<div tngSelectContent>
+  <div tngSelectOverlay>
+    <ul tngSelectListbox>
       @for (opt of options(); track trackBy()($index, opt)) {
         <li
           tngSelectOption
-          data-slot="select-option"
           [tngValue]="getOptionValue()(opt)"
           [disabled]="isOptionDisabled()(opt)"
         >
