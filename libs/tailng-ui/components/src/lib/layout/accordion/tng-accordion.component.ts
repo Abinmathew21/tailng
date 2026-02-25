@@ -107,7 +107,7 @@ function resolveNextAccordionTrigger(
   templateUrl: './tng-accordion.component.html',
   styleUrl: './tng-accordion.component.css',
 })
-export class TngAccordion {
+export class TngAccordionComponent {
   public readonly defaultOpen = input<boolean, boolean | string>(false, {
     transform: booleanAttribute,
   });

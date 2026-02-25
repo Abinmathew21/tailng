@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { readTngTextareaEventValue, TngTextarea } from './tng-textarea.component';
+import { readTngTextareaEventValue, TngTextareaComponent } from './tng-textarea.component';
 
 describe('tng-textarea component', () => {
   it('exports the public TngTextarea symbol', () => {
-    expect(typeof TngTextarea).toBe('function');
+    expect(typeof TngTextareaComponent).toBe('function');
   });
 
   it('reads textarea value from DOM event targets', () => {

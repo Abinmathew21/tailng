@@ -66,7 +66,7 @@ function isTngAriaHasPopup(value: string): value is TngAriaHasPopup {
   templateUrl: './tng-button.component.html',
   styleUrl: './tng-button.component.css',
 })
-export class TngButton {
+export class TngButtonComponent {
   public readonly appearance = input<TngButtonAppearance>('solid');
   public readonly ariaControls = input<string | null>(null);
   public readonly ariaExpanded = input<boolean | null, NullableBooleanInput>(null, {

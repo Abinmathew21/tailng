@@ -37,7 +37,7 @@ export function toTngProgressSpinnerDashOffset(percent: number): number {
   templateUrl: './tng-progress-spinner.component.html',
   styleUrl: './tng-progress-spinner.component.css',
 })
-export class TngProgressSpinner {
+export class TngProgressSpinnerComponent {
   public readonly ariaLabel = input<string | null>(null);
   public readonly indeterminate = input<boolean, boolean | string>(false, {
     transform: booleanAttribute,

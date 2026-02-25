@@ -7,6 +7,6 @@ import { TngBottomSheet as TngBottomSheetPrimitive } from '@tailng-ui/primitives
   templateUrl: './tng-bottom-sheet.component.html',
   styleUrl: './tng-bottom-sheet.component.css',
 })
-export class TngBottomSheet {
+export class TngBottomSheetComponent {
   public readonly ariaLabel = input<string>('Bottom Sheet');
 }

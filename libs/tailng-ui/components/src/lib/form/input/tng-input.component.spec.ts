@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { readTngInputEventValue, TngInput } from './tng-input.component';
+import { readTngInputEventValue, TngInputComponent } from './tng-input.component';
 
 describe('tng-input component', () => {
   it('exports the public TngInput symbol', () => {
-    expect(typeof TngInput).toBe('function');
+    expect(typeof TngInputComponent).toBe('function');
   });
 
   it('reads input value from DOM event targets', () => {

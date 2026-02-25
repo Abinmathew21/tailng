@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { readTngSliderEventValue, TngSlider } from './tng-slider.component';
+import { readTngSliderEventValue, TngSliderComponent } from './tng-slider.component';
 
 describe('tng-slider component', () => {
   it('exports the slider component', () => {
-    expect(typeof TngSlider).toBe('function');
+    expect(typeof TngSliderComponent).toBe('function');
   });
 
   it('reads slider values from input events', () => {

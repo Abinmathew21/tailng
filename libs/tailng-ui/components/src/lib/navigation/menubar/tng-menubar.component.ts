@@ -7,6 +7,6 @@ import { TngMenubar as TngMenubarPrimitive } from '@tailng-ui/primitives';
   templateUrl: './tng-menubar.component.html',
   styleUrl: './tng-menubar.component.css',
 })
-export class TngMenubar {
+export class TngMenubarComponent {
   public readonly ariaLabel = input<string>('Menubar');
 }

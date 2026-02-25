@@ -2,12 +2,12 @@ import { describe, expect, it } from 'vitest';
 import {
   normalizeTngTooltipDelay,
   shouldCloseTngTooltipForKey,
-  TngTooltip,
+  TngTooltipComponent,
 } from './tng-tooltip.component';
 
 describe('tng-tooltip component', () => {
   it('exports the tooltip component', () => {
-    expect(typeof TngTooltip).toBe('function');
+    expect(typeof TngTooltipComponent).toBe('function');
   });
 
   it('normalizes invalid delay values', () => {

@@ -1,14 +1,14 @@
 import { describe, expect, it } from 'vitest';
-import { TngButtonToggleGroup } from './tng-button-toggle-group.component';
+import { TngButtonToggleGroupComponent } from './tng-button-toggle-group.component';
 import {
-  TngButtonToggle,
+  TngButtonToggleComponent,
   toggleTngButtonToggleState,
 } from './tng-button-toggle.component';
 
 describe('tng-button-toggle component', () => {
   it('exports button toggle components', () => {
-    expect(typeof TngButtonToggle).toBe('function');
-    expect(typeof TngButtonToggleGroup).toBe('function');
+    expect(typeof TngButtonToggleComponent).toBe('function');
+    expect(typeof TngButtonToggleGroupComponent).toBe('function');
   });
 
   it('toggles state', () => {

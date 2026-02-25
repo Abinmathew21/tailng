@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { resolveTngToggleAriaLabel, toggleTngToggleState, TngToggle } from './tng-toggle.component';
+import { resolveTngToggleAriaLabel, toggleTngToggleState, TngToggleComponent } from './tng-toggle.component';
 
 describe('tng-toggle component', () => {
   it('exports the toggle component', () => {
-    expect(typeof TngToggle).toBe('function');
+    expect(typeof TngToggleComponent).toBe('function');
   });
 
   it('toggles pressed state', () => {

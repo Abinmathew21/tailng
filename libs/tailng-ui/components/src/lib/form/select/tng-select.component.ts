@@ -48,7 +48,7 @@ import {
   ],
   templateUrl: './tng-select.component.html',
 })
-export class TngSelect<O = unknown, V = unknown> {
+export class TngSelectComponent<O = unknown, V = unknown> {
   private readonly primitive = inject(TngSelectPrimitive<V>);
 
   // ---- a11y / base config ----

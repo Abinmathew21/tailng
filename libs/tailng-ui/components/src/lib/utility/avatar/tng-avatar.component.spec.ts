@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { toTngAvatarFallbackText, TngAvatar } from './tng-avatar.component';
+import { toTngAvatarFallbackText, TngAvatarComponent } from './tng-avatar.component';
 
 describe('tng-avatar component', () => {
-  it('exports the public TngAvatar symbol', () => {
-    expect(typeof TngAvatar).toBe('function');
+  it('exports the public TngAvatarComponent symbol', () => {
+    expect(typeof TngAvatarComponent).toBe('function');
   });
 
   it('builds fallback initials from names', () => {

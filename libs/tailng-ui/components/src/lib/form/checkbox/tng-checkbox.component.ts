@@ -28,7 +28,7 @@ export function readTngCheckboxChange(event: unknown): TngCheckboxChange | null 
   templateUrl: './tng-checkbox.component.html',
   styleUrl: './tng-checkbox.component.css',
 })
-export class TngCheckbox {
+export class TngCheckboxComponent {
   public readonly ariaDescribedBy = input<string | null>(null);
   public readonly checked = input<boolean, boolean | string>(false, {
     transform: booleanAttribute,

@@ -65,7 +65,7 @@ export function shouldDismissTngToastForKey(key: string): boolean {
   templateUrl: './tng-toast.component.html',
   styleUrl: './tng-toast.component.css',
 })
-export class TngToast implements OnDestroy {
+export class TngToastComponent implements OnDestroy {
   private sequence = 0;
   private readonly timeoutByToastId = new Map<string, ReturnType<typeof setTimeout>>();
 

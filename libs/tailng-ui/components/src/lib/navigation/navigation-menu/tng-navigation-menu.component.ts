@@ -7,6 +7,6 @@ import { TngNavigationMenu as TngNavigationMenuPrimitive } from '@tailng-ui/prim
   templateUrl: './tng-navigation-menu.component.html',
   styleUrl: './tng-navigation-menu.component.css',
 })
-export class TngNavigationMenu {
+export class TngNavigationMenuComponent {
   public readonly ariaLabel = input<string>('Navigation Menu');
 }

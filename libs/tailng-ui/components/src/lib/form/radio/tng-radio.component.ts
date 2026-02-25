@@ -20,7 +20,7 @@ export function readTngRadioChecked(event: unknown): boolean | null {
   templateUrl: './tng-radio.component.html',
   styleUrl: './tng-radio.component.css',
 })
-export class TngRadio {
+export class TngRadioComponent {
   public readonly ariaDescribedBy = input<string | null>(null);
   public readonly checked = input<boolean, boolean | string>(false, {
     transform: booleanAttribute,

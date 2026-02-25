@@ -2,15 +2,15 @@ import { booleanAttribute, Component, computed, input, output } from '@angular/c
 import { createTngLineChartOption } from './line.option-builder';
 import type { TngLineChartInput } from './line.types';
 import type { TngChartRenderer, TngChartRuntimeLoader, TngChartTheme } from '../../chart.types';
-import { TngChart } from '../../tng-chart.component';
+import { TngChartComponent } from '../../tng-chart.component';
 
 @Component({
   selector: 'tng-line-chart',
-  imports: [TngChart],
+  imports: [TngChartComponent],
   templateUrl: './tng-line-chart.component.html',
   styleUrl: './tng-line-chart.component.css',
 })
-export class TngLineChart {
+export class TngLineChartComponent {
   public readonly data = input.required<TngLineChartInput>();
   public readonly loading = input<boolean, boolean | string>(false, {
     transform: booleanAttribute,

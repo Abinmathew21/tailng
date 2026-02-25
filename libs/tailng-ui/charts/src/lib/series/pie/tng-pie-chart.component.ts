@@ -2,15 +2,15 @@ import { booleanAttribute, Component, computed, input, output } from '@angular/c
 import { createTngPieChartOption } from './pie.option-builder';
 import type { TngPieChartInput } from './pie.types';
 import type { TngChartRenderer, TngChartRuntimeLoader, TngChartTheme } from '../../chart.types';
-import { TngChart } from '../../tng-chart.component';
+import { TngChartComponent } from '../../tng-chart.component';
 
 @Component({
   selector: 'tng-pie-chart',
-  imports: [TngChart],
+  imports: [TngChartComponent],
   templateUrl: './tng-pie-chart.component.html',
   styleUrl: './tng-pie-chart.component.css',
 })
-export class TngPieChart {
+export class TngPieChartComponent {
   public readonly data = input.required<TngPieChartInput>();
   public readonly loading = input<boolean, boolean | string>(false, {
     transform: booleanAttribute,

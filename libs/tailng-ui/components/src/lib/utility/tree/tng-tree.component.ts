@@ -228,7 +228,7 @@ function shouldPreventDefault(action: TngTreeKeyAction): boolean {
   templateUrl: './tng-tree.component.html',
   styleUrl: './tng-tree.component.css',
 })
-export class TngTree implements OnDestroy {
+export class TngTreeComponent implements OnDestroy {
   public readonly ariaLabel = input<string>('Tree');
   public readonly defaultExpandedIds = input<readonly string[]>([]);
   public readonly defaultSelectedId = input<string | null>(null);

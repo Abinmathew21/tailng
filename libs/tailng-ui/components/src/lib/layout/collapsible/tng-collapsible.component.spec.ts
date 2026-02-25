@@ -1,13 +1,13 @@
 import { describe, expect, it } from 'vitest';
 import {
-  TngCollapsible,
+  TngCollapsibleComponent,
   createTngCollapsibleContentId,
   toggleTngCollapsibleState,
 } from './tng-collapsible.component';
 
 describe('tng-collapsible component', () => {
   it('exports the component and generates content ids', () => {
-    expect(typeof TngCollapsible).toBe('function');
+    expect(typeof TngCollapsibleComponent).toBe('function');
 
     const firstId = createTngCollapsibleContentId();
     const secondId = createTngCollapsibleContentId();

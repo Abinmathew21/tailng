@@ -25,7 +25,7 @@ export function readTngSliderEventValue(event: unknown): number | null {
   templateUrl: './tng-slider.component.html',
   styleUrl: './tng-slider.component.css',
 })
-export class TngSlider {
+export class TngSliderComponent {
   public readonly disabled = input<boolean, boolean | string>(false, {
     transform: booleanAttribute,
   });

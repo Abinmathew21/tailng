@@ -2,12 +2,12 @@ import { describe, expect, it } from 'vitest';
 import {
   coerceTngButtonAriaHasPopup,
   coerceTngButtonNullableBoolean,
-  TngButton,
+  TngButtonComponent,
 } from './tng-button.component';
 
 describe('tng-button component', () => {
-  it('exports the public TngButton symbol', () => {
-    expect(typeof TngButton).toBe('function');
+  it('exports the public TngButtonComponent symbol', () => {
+    expect(typeof TngButtonComponent).toBe('function');
   });
 
   it('coerces nullable boolean inputs', () => {

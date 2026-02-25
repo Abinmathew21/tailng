@@ -7,6 +7,6 @@ import { TngStepper as TngStepperPrimitive } from '@tailng-ui/primitives';
   templateUrl: './tng-stepper.component.html',
   styleUrl: './tng-stepper.component.css',
 })
-export class TngStepper {
+export class TngStepperComponent {
   public readonly ariaLabel = input<string>('Stepper');
 }

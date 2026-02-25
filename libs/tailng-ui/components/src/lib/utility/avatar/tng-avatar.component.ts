@@ -59,7 +59,7 @@ export function toTngAvatarFallbackText(value: string | null | undefined): strin
   templateUrl: './tng-avatar.component.html',
   styleUrl: './tng-avatar.component.css',
 })
-export class TngAvatar {
+export class TngAvatarComponent {
   public readonly alt = input<string | null>('Avatar');
   public readonly fallback = input<string | null>(null);
   public readonly shape = input<TngAvatarShape>('circle');

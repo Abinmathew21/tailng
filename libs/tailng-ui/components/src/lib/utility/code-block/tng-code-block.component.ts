@@ -94,7 +94,7 @@ export function toTngCodeBlockLineNumbers(code: string): readonly number[] {
   templateUrl: './tng-code-block.component.html',
   styleUrl: './tng-code-block.component.css',
 })
-export class TngCodeBlock implements OnDestroy {
+export class TngCodeBlockComponent implements OnDestroy {
   public readonly adapter = input<string | null>(null);
   public readonly code = input<string>('');
   public readonly copy = input<boolean, boolean | string>(true, {

@@ -7,6 +7,6 @@ import { TngContextMenu as TngContextMenuPrimitive } from '@tailng-ui/primitives
   templateUrl: './tng-context-menu.component.html',
   styleUrl: './tng-context-menu.component.css',
 })
-export class TngContextMenu {
+export class TngContextMenuComponent {
   public readonly ariaLabel = input<string>('Context Menu');
 }

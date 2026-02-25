@@ -12,7 +12,7 @@ export function resolveTngSkeletonCssSize(value: string, fallback: string): stri
   templateUrl: './tng-skeleton.component.html',
   styleUrl: './tng-skeleton.component.css',
 })
-export class TngSkeleton {
+export class TngSkeletonComponent {
   public readonly animated = input<boolean, boolean | string>(true, {
     transform: booleanAttribute,
   });

@@ -3,13 +3,13 @@ import {
   coerceTngCodeBlockCopyResetDuration,
   coerceTngCodeBlockHighlightMode,
   normalizeTngCodeBlockCode,
-  TngCodeBlock,
+  TngCodeBlockComponent,
   toTngCodeBlockLineNumbers,
 } from './tng-code-block.component';
 
 describe('tng-code-block component', () => {
-  it('exports the public TngCodeBlock symbol', () => {
-    expect(typeof TngCodeBlock).toBe('function');
+  it('exports the public TngCodeBlockComponent symbol', () => {
+    expect(typeof TngCodeBlockComponent).toBe('function');
   });
 
   it('normalizes code and line numbers', () => {

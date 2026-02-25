@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { coerceTngCopyButtonResetDelay, TngCopyButton } from './tng-copy-button.component';
+import { coerceTngCopyButtonResetDelay, TngCopyButtonComponent } from './tng-copy-button.component';
 
 describe('tng-copy-button component', () => {
-  it('exports the public TngCopyButton symbol', () => {
-    expect(typeof TngCopyButton).toBe('function');
+  it('exports the public TngCopyButtonComponent symbol', () => {
+    expect(typeof TngCopyButtonComponent).toBe('function');
   });
 
   it('coerces reset delay values', () => {

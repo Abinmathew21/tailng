@@ -2,12 +2,12 @@ import { describe, expect, it } from 'vitest';
 import {
   resolveTngSwitchArrowKey,
   toggleTngSwitchState,
-  TngSwitch,
+  TngSwitchComponent,
 } from './tng-switch.component';
 
 describe('tng-switch component', () => {
   it('exports the switch component', () => {
-    expect(typeof TngSwitch).toBe('function');
+    expect(typeof TngSwitchComponent).toBe('function');
   });
 
   it('toggles checked state', () => {

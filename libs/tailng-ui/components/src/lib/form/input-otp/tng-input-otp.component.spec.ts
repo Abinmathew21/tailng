@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { applyTngOtpSlotValue, sanitizeTngOtpValue, TngInputOtp } from './tng-input-otp.component';
+import { applyTngOtpSlotValue, sanitizeTngOtpValue, TngInputOtpComponent } from './tng-input-otp.component';
 
 describe('tng-input-otp component', () => {
   it('exports the input-otp component', () => {
-    expect(typeof TngInputOtp).toBe('function');
+    expect(typeof TngInputOtpComponent).toBe('function');
   });
 
   it('sanitizes otp values to alphanumeric characters', () => {

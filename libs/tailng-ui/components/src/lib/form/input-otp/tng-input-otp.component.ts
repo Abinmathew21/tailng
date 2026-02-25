@@ -100,7 +100,7 @@ function shouldMoveBackForDelete(slots: readonly string[], index: number, key: s
   templateUrl: './tng-input-otp.component.html',
   styleUrl: './tng-input-otp.component.css',
 })
-export class TngInputOtp {
+export class TngInputOtpComponent {
   public readonly length = input<number, number | string>(6, {
     transform: (value: number | string): number =>
       normalizeTngOtpLength(typeof value === 'number' ? value : Number(value)),

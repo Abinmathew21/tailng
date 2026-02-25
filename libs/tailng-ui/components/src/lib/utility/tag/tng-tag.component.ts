@@ -11,7 +11,7 @@ type TngTagTone = 'danger' | 'info' | 'neutral' | 'success' | 'warning';
   templateUrl: './tng-tag.component.html',
   styleUrl: './tng-tag.component.css',
 })
-export class TngTag {
+export class TngTagComponent {
   public readonly appearance = input<TngTagAppearance>('soft');
   public readonly shape = input<TngTagShape>('pill');
   public readonly tone = input<TngTagTone>('neutral');

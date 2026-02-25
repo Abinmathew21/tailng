@@ -7,6 +7,6 @@ import { TngCombobox as TngComboboxPrimitive } from '@tailng-ui/primitives';
   templateUrl: './tng-combobox.component.html',
   styleUrl: './tng-combobox.component.css',
 })
-export class TngCombobox {
+export class TngComboboxComponent {
   public readonly ariaLabel = input<string>('Combobox');
 }

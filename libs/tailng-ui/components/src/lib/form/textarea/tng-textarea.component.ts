@@ -26,7 +26,7 @@ export function readTngTextareaEventValue(event: unknown): string | null {
   templateUrl: './tng-textarea.component.html',
   styleUrl: './tng-textarea.component.css',
 })
-export class TngTextarea {
+export class TngTextareaComponent {
   public readonly ariaDescribedBy = input<string | null>(null);
   public readonly ariaInvalid = input<boolean | null, NullableBooleanInput>(null, {
     transform: coerceTngTextareaNullableBoolean,

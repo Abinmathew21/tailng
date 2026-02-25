@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { readTngRadioChecked, TngRadio } from './tng-radio.component';
+import { readTngRadioChecked, TngRadioComponent } from './tng-radio.component';
 
 describe('tng-radio component', () => {
   it('exports the public TngRadio symbol', () => {
-    expect(typeof TngRadio).toBe('function');
+    expect(typeof TngRadioComponent).toBe('function');
   });
 
   it('reads checked state from a radio input event target', () => {

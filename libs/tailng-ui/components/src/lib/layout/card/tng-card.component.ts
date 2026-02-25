@@ -14,7 +14,7 @@ import {
   templateUrl: './tng-card.component.html',
   styleUrl: './tng-card.component.css',
 })
-export class TngCard {
+export class TngCardComponent {
 }
 
 @Component({
@@ -23,7 +23,7 @@ export class TngCard {
   templateUrl: './tng-card-header.component.html',
   styleUrl: './tng-card.component.css',
 })
-export class TngCardHeader {
+export class TngCardHeaderComponent {
 }
 
 @Component({
@@ -32,7 +32,7 @@ export class TngCardHeader {
   templateUrl: './tng-card-title.component.html',
   styleUrl: './tng-card.component.css',
 })
-export class TngCardTitle {
+export class TngCardTitleComponent {
 }
 
 @Component({
@@ -41,7 +41,7 @@ export class TngCardTitle {
   templateUrl: './tng-card-description.component.html',
   styleUrl: './tng-card.component.css',
 })
-export class TngCardDescription {
+export class TngCardDescriptionComponent {
 }
 
 @Component({
@@ -50,7 +50,7 @@ export class TngCardDescription {
   templateUrl: './tng-card-content.component.html',
   styleUrl: './tng-card.component.css',
 })
-export class TngCardContent {
+export class TngCardContentComponent {
 }
 
 @Component({
@@ -59,5 +59,5 @@ export class TngCardContent {
   templateUrl: './tng-card-footer.component.html',
   styleUrl: './tng-card.component.css',
 })
-export class TngCardFooter {
+export class TngCardFooterComponent {
 }

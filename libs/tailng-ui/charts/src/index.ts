@@ -15,7 +15,8 @@ export {
   resolveTngChartNotMerge,
   resolveTngChartRenderer,
   shouldAttachTngChartResizeObserver,
-  TngChart,
+  TngChartComponent,
+  TngChartComponent as TngChart,
 } from './lib/tng-chart.component';
 
 export type {
@@ -26,10 +27,10 @@ export type {
 
 export { createTngBarChartOption } from './lib/series/bar/bar.option-builder';
 
-export { TngBarChart } from './lib/series/bar/tng-bar-chart.component';
+export { TngBarChartComponent, TngBarChartComponent as TngBarChart } from './lib/series/bar/tng-bar-chart.component';
 
 export type { TngLineChartInput, TngLineSeriesInput } from './lib/series/line/line.types';
 
 export { createTngLineChartOption } from './lib/series/line/line.option-builder';
 
-export { TngLineChart } from './lib/series/line/tng-line-chart.component';
+export { TngLineChartComponent, TngLineChartComponent as TngLineChart } from './lib/series/line/tng-line-chart.component';

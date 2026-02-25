@@ -26,7 +26,7 @@ export function toggleTngCollapsibleState(open: boolean, disabled: boolean): boo
   templateUrl: './tng-collapsible.component.html',
   styleUrl: './tng-collapsible.component.css',
 })
-export class TngCollapsible {
+export class TngCollapsibleComponent {
   public readonly contentId = input<string>(createTngCollapsibleContentId());
   public readonly disabled = input<boolean, boolean | string>(false, {
     transform: booleanAttribute,

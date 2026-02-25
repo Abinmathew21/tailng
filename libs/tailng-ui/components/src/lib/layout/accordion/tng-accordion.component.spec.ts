@@ -2,12 +2,12 @@ import { describe, expect, it } from 'vitest';
 import {
   getEnabledAccordionTriggers,
   resolveAccordionTriggerTargetIndex,
-  TngAccordion,
+  TngAccordionComponent,
 } from './tng-accordion.component';
 
 describe('tng-accordion component', () => {
   it('exports the accordion component', () => {
-    expect(typeof TngAccordion).toBe('function');
+    expect(typeof TngAccordionComponent).toBe('function');
   });
 
   it('resolves roving target indices for arrow/home/end keys', () => {

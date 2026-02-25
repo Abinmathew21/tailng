@@ -38,7 +38,7 @@ export function shouldAttachTngChartResizeObserver(
   templateUrl: './tng-chart.component.html',
   styleUrl: './tng-chart.component.css',
 })
-export class TngChart implements AfterViewInit, OnDestroy {
+export class TngChartComponent implements AfterViewInit, OnDestroy {
   public readonly autoResize = input<boolean, boolean | string>(true, {
     transform: booleanAttribute,
   });

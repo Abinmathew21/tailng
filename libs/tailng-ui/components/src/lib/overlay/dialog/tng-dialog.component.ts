@@ -114,7 +114,7 @@ function toDialogCloseReason(reason: TngOverlayDismissReason): TngDialogCloseRea
   templateUrl: './tng-dialog.component.html',
   styleUrl: './tng-dialog.component.css',
 })
-export class TngDialog implements OnDestroy {
+export class TngDialogComponent implements OnDestroy {
   public readonly closeOnBackdrop = input<boolean, boolean | string>(true, {
     transform: booleanAttribute,
   });

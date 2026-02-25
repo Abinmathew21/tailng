@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { TngSkeleton, resolveTngSkeletonCssSize } from './tng-skeleton.component';
+import { TngSkeletonComponent, resolveTngSkeletonCssSize } from './tng-skeleton.component';
 
 describe('tng-skeleton component', () => {
   it('exports skeleton component', () => {
-    expect(typeof TngSkeleton).toBe('function');
+    expect(typeof TngSkeletonComponent).toBe('function');
   });
 
   it('resolves css size values', () => {

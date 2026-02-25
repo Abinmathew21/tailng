@@ -7,6 +7,6 @@ import { TngAutocomplete as TngAutocompletePrimitive } from '@tailng-ui/primitiv
   templateUrl: './tng-autocomplete.component.html',
   styleUrl: './tng-autocomplete.component.css',
 })
-export class TngAutocomplete {
+export class TngAutocompleteComponent {
   public readonly ariaLabel = input<string>('Autocomplete');
 }

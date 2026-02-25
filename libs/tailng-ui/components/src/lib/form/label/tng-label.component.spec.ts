@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { TngLabel, resolveTngLabelForAttr } from './tng-label.component';
+import { TngLabelComponent, resolveTngLabelForAttr } from './tng-label.component';
 
 describe('tng-label component', () => {
   it('exports label component', () => {
-    expect(typeof TngLabel).toBe('function');
+    expect(typeof TngLabelComponent).toBe('function');
   });
 
   it('resolves for attribute value', () => {

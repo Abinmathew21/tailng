@@ -7,6 +7,6 @@ import { TngTabs as TngTabsPrimitive } from '@tailng-ui/primitives';
   templateUrl: './tng-tabs.component.html',
   styleUrl: './tng-tabs.component.css',
 })
-export class TngTabs {
+export class TngTabsComponent {
   public readonly ariaLabel = input<string>('Tabs');
 }

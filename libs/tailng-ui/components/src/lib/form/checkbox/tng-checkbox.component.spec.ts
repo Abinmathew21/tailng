@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { readTngCheckboxChange, TngCheckbox } from './tng-checkbox.component';
+import { readTngCheckboxChange, TngCheckboxComponent } from './tng-checkbox.component';
 
 describe('tng-checkbox component', () => {
-  it('exports the public TngCheckbox symbol', () => {
-    expect(typeof TngCheckbox).toBe('function');
+  it('exports the public TngCheckboxComponent symbol', () => {
+    expect(typeof TngCheckboxComponent).toBe('function');
   });
 
   it('reads checked and indeterminate state from a checkbox event target', () => {

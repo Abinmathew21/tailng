@@ -10,7 +10,7 @@ import {
   templateUrl: './tng-separator.component.html',
   styleUrl: './tng-separator.component.css',
 })
-export class TngSeparator {
+export class TngSeparatorComponent {
   public readonly decorative = input<boolean, boolean | string>(true, {
     transform: booleanAttribute,
   });

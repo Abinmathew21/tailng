@@ -2,12 +2,12 @@ import { describe, expect, it } from 'vitest';
 import {
   toTngProgressSpinnerDashOffset,
   toTngProgressSpinnerPercent,
-  TngProgressSpinner,
+  TngProgressSpinnerComponent,
 } from './tng-progress-spinner.component';
 
 describe('tng-progress-spinner component', () => {
   it('exports the public TngProgressSpinner symbol', () => {
-    expect(typeof TngProgressSpinner).toBe('function');
+    expect(typeof TngProgressSpinnerComponent).toBe('function');
   });
 
   it('maps values to determinate spinner metrics', () => {

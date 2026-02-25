@@ -19,7 +19,7 @@ export function resolveTngToggleAriaLabel(
   templateUrl: './tng-toggle.component.html',
   styleUrl: './tng-toggle.component.css',
 })
-export class TngToggle {
+export class TngToggleComponent {
   public readonly pressed = input<boolean, boolean | string>(false, {
     transform: booleanAttribute,
   });

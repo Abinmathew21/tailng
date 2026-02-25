@@ -56,7 +56,7 @@ function toPopoverCloseReason(reason: TngOverlayDismissReason): TngPopoverCloseR
   templateUrl: './tng-popover.component.html',
   styleUrl: './tng-popover.component.css',
 })
-export class TngPopover implements OnDestroy {
+export class TngPopoverComponent implements OnDestroy {
   public readonly ariaLabel = input<string>('Popover');
   public readonly closeOnEscape = input<boolean, boolean | string>(true, {
     transform: booleanAttribute,

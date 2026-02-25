@@ -3,15 +3,15 @@ import { TNG_BAR_CHART_DEFAULT_KIND } from './bar.defaults';
 import { createTngBarChartOption } from './bar.option-builder';
 import type { TngBarChartInput, TngBarChartKind } from './bar.types';
 import type { TngChartRenderer, TngChartRuntimeLoader, TngChartTheme } from '../../chart.types';
-import { TngChart } from '../../tng-chart.component';
+import { TngChartComponent } from '../../tng-chart.component';
 
 @Component({
   selector: 'tng-bar-chart',
-  imports: [TngChart],
+  imports: [TngChartComponent],
   templateUrl: './tng-bar-chart.component.html',
   styleUrl: './tng-bar-chart.component.css',
 })
-export class TngBarChart {
+export class TngBarChartComponent {
   public readonly data = input.required<TngBarChartInput>();
   public readonly kind = input<TngBarChartKind>(TNG_BAR_CHART_DEFAULT_KIND);
   public readonly loading = input<boolean, boolean | string>(false, {

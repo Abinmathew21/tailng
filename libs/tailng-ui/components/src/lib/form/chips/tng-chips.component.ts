@@ -7,6 +7,6 @@ import { TngChips as TngChipsPrimitive } from '@tailng-ui/primitives';
   templateUrl: './tng-chips.component.html',
   styleUrl: './tng-chips.component.css',
 })
-export class TngChips {
+export class TngChipsComponent {
   public readonly ariaLabel = input<string>('Chips');
 }

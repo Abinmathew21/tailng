@@ -26,7 +26,7 @@ export function readTngInputEventValue(event: unknown): string | null {
   templateUrl: './tng-input.component.html',
   styleUrl: './tng-input.component.css',
 })
-export class TngInput {
+export class TngInputComponent {
   public readonly ariaDescribedBy = input<string | null>(null);
   public readonly ariaInvalid = input<boolean | null, NullableBooleanInput>(null, {
     transform: coerceTngInputNullableBoolean,

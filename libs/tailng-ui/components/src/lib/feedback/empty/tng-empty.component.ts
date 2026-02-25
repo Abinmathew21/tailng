@@ -15,7 +15,7 @@ type TngEmptyAlign = 'center' | 'start';
   templateUrl: './tng-empty.component.html',
   styleUrl: './tng-empty.component.css',
 })
-export class TngEmpty {
+export class TngEmptyComponent {
   public readonly align = input<TngEmptyAlign>('center');
 }
 
@@ -25,7 +25,7 @@ export class TngEmpty {
   templateUrl: './tng-empty-icon.component.html',
   styleUrl: './tng-empty.component.css',
 })
-export class TngEmptyIcon {}
+export class TngEmptyIconComponent {}
 
 @Component({
   selector: 'tng-empty-title',
@@ -33,7 +33,7 @@ export class TngEmptyIcon {}
   templateUrl: './tng-empty-title.component.html',
   styleUrl: './tng-empty.component.css',
 })
-export class TngEmptyTitle {}
+export class TngEmptyTitleComponent {}
 
 @Component({
   selector: 'tng-empty-description',
@@ -41,7 +41,7 @@ export class TngEmptyTitle {}
   templateUrl: './tng-empty-description.component.html',
   styleUrl: './tng-empty.component.css',
 })
-export class TngEmptyDescription {}
+export class TngEmptyDescriptionComponent {}
 
 @Component({
   selector: 'tng-empty-actions',
@@ -49,4 +49,4 @@ export class TngEmptyDescription {}
   templateUrl: './tng-empty-actions.component.html',
   styleUrl: './tng-empty.component.css',
 })
-export class TngEmptyActions {}
+export class TngEmptyActionsComponent {}

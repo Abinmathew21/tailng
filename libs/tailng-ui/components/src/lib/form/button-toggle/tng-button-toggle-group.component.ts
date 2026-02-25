@@ -7,6 +7,6 @@ import { TngButtonToggleGroup as TngButtonToggleGroupPrimitive } from '@tailng-u
   templateUrl: './tng-button-toggle-group.component.html',
   styleUrl: './tng-button-toggle-group.component.css',
 })
-export class TngButtonToggleGroup {
+export class TngButtonToggleGroupComponent {
   public readonly ariaLabel = input<string>('Button Toggle Group');
 }

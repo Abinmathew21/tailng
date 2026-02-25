@@ -11,7 +11,7 @@ export function toggleTngButtonToggleState(pressed: boolean): boolean {
   templateUrl: './tng-button-toggle.component.html',
   styleUrl: './tng-button-toggle.component.css',
 })
-export class TngButtonToggle {
+export class TngButtonToggleComponent {
   public readonly disabled = input<boolean, boolean | string>(false, {
     transform: booleanAttribute,
   });

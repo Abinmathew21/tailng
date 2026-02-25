@@ -15,7 +15,7 @@ import { TngDropdownMenu as TngDropdownMenuPrimitive } from '@tailng-ui/primitiv
   templateUrl: './tng-dropdown-menu.component.html',
   styleUrl: './tng-dropdown-menu.component.css',
 })
-export class TngDropdownMenu {
+export class TngDropdownMenuComponent {
   public readonly disabled = input<boolean, boolean | string>(false, {
     transform: booleanAttribute,
   });

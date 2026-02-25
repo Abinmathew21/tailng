@@ -7,6 +7,6 @@ import { TngGrid as TngGridPrimitive } from '@tailng-ui/primitives';
   templateUrl: './tng-grid.component.html',
   styleUrl: './tng-grid.component.css',
 })
-export class TngGrid {
+export class TngGridComponent {
   public readonly ariaLabel = input<string>('Grid');
 }

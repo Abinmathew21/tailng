@@ -4,12 +4,12 @@ import {
   normalizeTngToastMaxVisible,
   resolveTngToastNextSlice,
   shouldDismissTngToastForKey,
-  TngToast,
+  TngToastComponent,
 } from './tng-toast.component';
 
 describe('tng-toast component', () => {
   it('exports the toast component', () => {
-    expect(typeof TngToast).toBe('function');
+    expect(typeof TngToastComponent).toBe('function');
   });
 
   it('normalizes duration values', () => {

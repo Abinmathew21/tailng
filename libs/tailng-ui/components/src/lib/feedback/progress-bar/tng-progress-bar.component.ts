@@ -23,7 +23,7 @@ export function toTngProgressBarPercent(min: number, max: number, value: number)
   templateUrl: './tng-progress-bar.component.html',
   styleUrl: './tng-progress-bar.component.css',
 })
-export class TngProgressBar {
+export class TngProgressBarComponent {
   public readonly ariaLabel = input<string | null>(null);
   public readonly indeterminate = input<boolean, boolean | string>(false, {
     transform: booleanAttribute,

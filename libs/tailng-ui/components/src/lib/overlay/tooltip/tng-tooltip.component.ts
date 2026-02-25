@@ -30,7 +30,7 @@ export function shouldCloseTngTooltipForKey(key: string): boolean {
   templateUrl: './tng-tooltip.component.html',
   styleUrl: './tng-tooltip.component.css',
 })
-export class TngTooltip implements OnDestroy {
+export class TngTooltipComponent implements OnDestroy {
   private closeTimerId: ReturnType<typeof setTimeout> | null = null;
   private openTimerId: ReturnType<typeof setTimeout> | null = null;
 

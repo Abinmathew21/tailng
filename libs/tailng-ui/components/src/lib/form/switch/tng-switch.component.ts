@@ -26,7 +26,7 @@ export function resolveTngSwitchArrowKey(key: string): boolean | null {
   templateUrl: './tng-switch.component.html',
   styleUrl: './tng-switch.component.css',
 })
-export class TngSwitch {
+export class TngSwitchComponent {
   public readonly ariaLabel = input<string | null>(null);
   public readonly checked = input<boolean, boolean | string>(false, {
     transform: booleanAttribute,

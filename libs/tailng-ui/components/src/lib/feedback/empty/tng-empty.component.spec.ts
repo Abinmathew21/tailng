@@ -1,18 +1,18 @@
 import { describe, expect, it } from 'vitest';
 import {
-  TngEmpty,
-  TngEmptyActions,
-  TngEmptyDescription,
-  TngEmptyIcon,
-  TngEmptyTitle,
+  TngEmptyComponent,
+  TngEmptyActionsComponent,
+  TngEmptyDescriptionComponent,
+  TngEmptyIconComponent,
+  TngEmptyTitleComponent,
 } from './tng-empty.component';
 
 describe('tng-empty component', () => {
   it('exports all public empty components', () => {
-    expect(typeof TngEmpty).toBe('function');
-    expect(typeof TngEmptyIcon).toBe('function');
-    expect(typeof TngEmptyTitle).toBe('function');
-    expect(typeof TngEmptyDescription).toBe('function');
-    expect(typeof TngEmptyActions).toBe('function');
+    expect(typeof TngEmptyComponent).toBe('function');
+    expect(typeof TngEmptyIconComponent).toBe('function');
+    expect(typeof TngEmptyTitleComponent).toBe('function');
+    expect(typeof TngEmptyDescriptionComponent).toBe('function');
+    expect(typeof TngEmptyActionsComponent).toBe('function');
   });
 });

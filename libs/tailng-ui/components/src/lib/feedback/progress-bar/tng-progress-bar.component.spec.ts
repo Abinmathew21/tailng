@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { toTngProgressBarPercent, TngProgressBar } from './tng-progress-bar.component';
+import { toTngProgressBarPercent, TngProgressBarComponent } from './tng-progress-bar.component';
 
 describe('tng-progress-bar component', () => {
   it('exports the public TngProgressBar symbol', () => {
-    expect(typeof TngProgressBar).toBe('function');
+    expect(typeof TngProgressBarComponent).toBe('function');
   });
 
   it('maps values to percentage for the indicator width', () => {

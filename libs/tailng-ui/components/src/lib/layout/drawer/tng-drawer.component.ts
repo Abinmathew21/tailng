@@ -7,6 +7,6 @@ import { TngDrawer as TngDrawerPrimitive } from '@tailng-ui/primitives';
   templateUrl: './tng-drawer.component.html',
   styleUrl: './tng-drawer.component.css',
 })
-export class TngDrawer {
+export class TngDrawerComponent {
   public readonly ariaLabel = input<string>('Drawer');
 }

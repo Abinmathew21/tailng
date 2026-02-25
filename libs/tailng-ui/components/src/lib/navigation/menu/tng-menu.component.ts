@@ -42,7 +42,7 @@ function resolveFirstEnabledMenuItem(
   styleUrl: './tng-menu.component.css',
   exportAs: 'tngMenu',
 })
-export class TngMenu {
+export class TngMenuComponent {
   public readonly ariaLabel = input<string>('Menu');
   protected readonly open = signal(false);
   protected readonly panelId = createMenuPanelId();

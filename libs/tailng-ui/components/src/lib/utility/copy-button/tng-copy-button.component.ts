@@ -35,7 +35,7 @@ export function coerceTngCopyButtonResetDelay(value: number | string): number {
   templateUrl: './tng-copy-button.component.html',
   styleUrl: './tng-copy-button.component.css',
 })
-export class TngCopyButton implements OnDestroy {
+export class TngCopyButtonComponent implements OnDestroy {
   public readonly appearance = input<TngCopyButtonAppearance>('outline');
   public readonly copyLabel = input<string>('Copy');
   public readonly copiedLabel = input<string>('Copied');

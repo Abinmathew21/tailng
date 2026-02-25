@@ -7,6 +7,6 @@ import { TngToolbar as TngToolbarPrimitive } from '@tailng-ui/primitives';
   templateUrl: './tng-toolbar.component.html',
   styleUrl: './tng-toolbar.component.css',
 })
-export class TngToolbar {
+export class TngToolbarComponent {
   public readonly ariaLabel = input<string>('Toolbar');
 }

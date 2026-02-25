@@ -12,7 +12,7 @@ export function resolveTngLabelForAttr(forId: string): string | null {
   templateUrl: './tng-label.component.html',
   styleUrl: './tng-label.component.css',
 })
-export class TngLabel {
+export class TngLabelComponent {
   public readonly disabled = input<boolean, boolean | string>(false, {
     transform: booleanAttribute,
   });

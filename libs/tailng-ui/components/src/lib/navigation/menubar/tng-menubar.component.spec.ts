@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest';
-import { TngMenubar } from './tng-menubar.component';
+import { TngMenubarComponent } from './tng-menubar.component';
 
 describe('tng-menubar component', () => {
   it('exports the menubar component', () => {
-    expect(typeof TngMenubar).toBe('function');
+    expect(typeof TngMenubarComponent).toBe('function');
   });
 });

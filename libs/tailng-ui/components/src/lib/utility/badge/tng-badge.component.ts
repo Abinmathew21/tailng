@@ -5,4 +5,4 @@ import { TngBadge as TngBadgePrimitive } from '@tailng-ui/primitives';
   selector: '[tngBadge]',
   exportAs: 'tngBadge',
 })
-export class TngBadge extends TngBadgePrimitive {}
+export class TngBadgeComponent extends TngBadgePrimitive {}
