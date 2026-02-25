@@ -14,7 +14,7 @@ import {
 import { createListboxController } from '@tailng-ui/cdk';
 import { TNG_LISTBOX } from './tokens';
 
-type ListboxValue<T> = T | readonly T[] | null;
+export type ListboxValue<T> = T | readonly T[] | null;
 
 @Directive({
   selector: '[tngListbox]',

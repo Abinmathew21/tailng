@@ -117,16 +117,23 @@ export class TngSelectTrigger {
       return;
     }
 
-    // when open: route nav to listbox
     if (event.key === 'Escape') {
-      if (event.defaultPrevented) return; // ✅ match old behavior
+      if (event.defaultPrevented) return;
       event.preventDefault();
       event.stopPropagation();
       this.select.close();
       return;
     }
 
-    if (event.key.length === 1 && !event.ctrlKey && !event.metaKey && !event.altKey) {
+    // Space selects/commits active option when open (like Enter)
+    if (event.key === ' ' || event.key === 'Spacebar') {
+      event.preventDefault();
+      this.listbox?.commitActive();
+      return;
+    }
+
+    // exclude Space from typeahead
+    if (event.key.length === 1 && event.key !== ' ' && !event.ctrlKey && !event.metaKey && !event.altKey) {
       const moved = this.listbox?.typeahead(event.key) ?? false;
       if (moved) {
         this.select.setActiveDescendantId(this.listbox?.getActiveId() ?? null);
@@ -142,7 +149,8 @@ export class TngSelectTrigger {
       return;
     }
 
-    if (event.key === 'Enter') {
+    const isSpace = event.key === ' ' || event.key === 'Spacebar';
+    if (event.key === 'Enter' || isSpace) {
       event.preventDefault();
       this.listbox?.commitActive();
     }

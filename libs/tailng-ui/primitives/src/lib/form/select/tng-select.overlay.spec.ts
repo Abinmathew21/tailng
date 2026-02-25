@@ -282,4 +282,28 @@ describe('tng-select overlay primitive', () => {
   
     expect(host.api.open()).toBe(true);
   });
+
+  it('sets overlay min-width to trigger width when open', async () => {
+    const fixture = TestBed.configureTestingModule({ imports: [HostComponent] }).createComponent(HostComponent);
+    fixture.detectChanges();
+
+    const trigger = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLElement;
+    const overlay = fixture.nativeElement.querySelector('[data-testid="overlay"]') as HTMLElement;
+
+    vi.spyOn(trigger, 'getBoundingClientRect').mockReturnValue({
+      left: 100, top: 100, width: 240, height: 30,
+      right: 340, bottom: 130, x: 100, y: 100,
+      toJSON: () => ({}),
+    } as any);
+
+    // open
+    pointerdown(trigger);
+    fixture.detectChanges();
+
+    // flush overlay queueMicrotask
+    await Promise.resolve();
+
+    expect(overlay.parentElement).toBe(document.body);
+    expect(overlay.style.minWidth).toBe('240px');
+  });
 });

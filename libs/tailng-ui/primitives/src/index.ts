@@ -22,7 +22,17 @@ export * from './lib/form/listbox/option.directive';
 export * from './lib/form/listbox/tokens';
 export * from './lib/form/multiselect/tng-multiselect';
 export * from './lib/form/radio/tng-radio';
+
 export * from './lib/form/select/tng-select';
+// libs/tailng-ui/primitives/src/index.ts
+
+// existing exports...
+export * from './lib/form/select/tng-select';
+export * from './lib/form/select/tng-select.parts';
+export * from './lib/form/select/tng-select.overlay';
+export * from './lib/form/select/tng-select.listbox';
+export * from './lib/form/select/tng-select.listbox.types';
+
 export * from './lib/form/slider/tng-slider';
 export * from './lib/form/switch/tng-switch';
 export * from './lib/form/textarea/tng-textarea';

@@ -207,6 +207,10 @@ export class TngSelectOverlay {
       if (!trigger) return;
 
       const anchor = rectFromClientRect(trigger.getBoundingClientRect());
+
+      // enforce min-width = trigger width (but allow wider if content needs)
+      panel.style.minWidth = `${anchor.width}px`;
+
       const overlay = rectFromClientRect(panel.getBoundingClientRect());
       const viewport = viewportRect();
 
@@ -264,6 +268,7 @@ export class TngSelectOverlay {
     panel.style.left = '';
     panel.style.top = '';
     panel.style.zIndex = '';
+    panel.style.minWidth = '';
 
     this.teardownOutsidePointer();
   }

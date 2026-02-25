@@ -6,17 +6,6 @@ import { TngSelect } from './tng-select';
 import { TngSelectContent, TngSelectTrigger } from './tng-select.parts';
 import { TngSelectListbox, TngSelectOption } from './tng-select.listbox';
 
-function pointerdown(el: HTMLElement, init: Partial<PointerEventInit> = {}): void {
-  el.dispatchEvent(
-    new PointerEvent('pointerdown', {
-      bubbles: true,
-      cancelable: true,
-      button: 0,
-      ...init,
-    }),
-  );
-}
-
 function keydown(el: HTMLElement, init: Partial<KeyboardEventInit> & { key: string }): KeyboardEvent {
   const ev = new KeyboardEvent('keydown', { bubbles: true, cancelable: true, ...init });
   el.dispatchEvent(ev);
@@ -149,5 +138,76 @@ describe('tng-select trigger (keyboard)', () => {
     // which closes select via selectValue(next)
     expect(host.value()).toBeTruthy();
     expect(host.open()).toBe(false);
+  });
+  it('Space when open commits active selection', () => {
+    const fixture = TestBed
+      .configureTestingModule({ imports: [HostComponent] })
+      .createComponent(HostComponent);
+  
+    fixture.detectChanges();
+  
+    const host = fixture.componentInstance;
+    const trigger = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLElement;
+  
+    // Open with ArrowDown
+    keydown(trigger, { key: 'ArrowDown' });
+    fixture.detectChanges();
+  
+    expect(host.open()).toBe(true);
+  
+    const activeIdBefore = trigger.getAttribute('aria-activedescendant');
+    expect(activeIdBefore).toBeTruthy();
+  
+    // Press Space
+    keydown(trigger, { key: ' ' });
+    fixture.detectChanges();
+  
+    // Should close (commit selection)
+    expect(host.open()).toBe(false);
+  
+    // Value should now be the active option
+    expect(host.value()).toBe('comfortable'); // adjust expected value to your first option
+  });
+  it('Space prevents default when open', () => {
+    const fixture = TestBed
+      .configureTestingModule({ imports: [HostComponent] })
+      .createComponent(HostComponent);
+  
+    fixture.detectChanges();
+  
+    const trigger = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLElement;
+  
+    keydown(trigger, { key: 'ArrowDown' });
+    fixture.detectChanges();
+  
+    const event = new KeyboardEvent('keydown', { key: ' ' });
+    const preventSpy = vi.spyOn(event, 'preventDefault');
+  
+    trigger.dispatchEvent(event);
+    fixture.detectChanges();
+  
+    expect(preventSpy).toHaveBeenCalled();
+  });
+
+  it('Space when open commits active selection', () => {
+    const fixture = TestBed.configureTestingModule({ imports: [HostComponent] }).createComponent(HostComponent);
+    fixture.detectChanges();
+  
+    const host = fixture.componentInstance;
+    const trigger = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLElement;
+  
+    // open first (ArrowDown sets active)
+    keydown(trigger, { key: 'ArrowDown' });
+    fixture.detectChanges();
+  
+    expect(host.open()).toBe(true);
+  
+    // commit via Space
+    keydown(trigger, { key: ' ' });
+    fixture.detectChanges();
+  
+    // should have selected active + closed (single-select behavior)
+    expect(host.open()).toBe(false);
+    expect(host.value()).not.toBeNull();
   });
 });
