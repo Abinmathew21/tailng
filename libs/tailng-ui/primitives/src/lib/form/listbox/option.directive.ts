@@ -21,7 +21,7 @@ const createId = createTngIdFactory('tng-option');
   selector: '[tngOption]',
   standalone: true,
 })
-export class TngOptionDirective<T> implements AfterViewInit, OnDestroy {
+export class TngOptionDirective<T = unknown> implements AfterViewInit, OnDestroy {
   tngValue = input<T | undefined>();
   disabled = input<boolean>(false);
 

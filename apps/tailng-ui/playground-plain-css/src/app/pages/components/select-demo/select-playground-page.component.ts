@@ -1,6 +1,6 @@
 import { Component, computed, signal } from '@angular/core';
 
-// primitives (adjust the import path to match your barrel)
+// primitives
 import {
   TngSelect,
   TngSelectTrigger,
@@ -13,12 +13,16 @@ import {
   ListboxValue,
 } from '@tailng-ui/primitives';
 
+// components layer
+import { TngSelect as TngSelectComponent } from '@tailng-ui/components';
+
 type Opt = { value: string; label: string; disabled?: boolean };
 
 @Component({
   selector: 'app-select-playground-page',
   standalone: true,
   imports: [
+    // primitives
     TngSelect,
     TngSelectTrigger,
     TngSelectValue,
@@ -27,6 +31,9 @@ type Opt = { value: string; label: string; disabled?: boolean };
     TngSelectOverlay,
     TngSelectListbox,
     TngSelectOption,
+
+    // components wrapper
+    TngSelectComponent,
   ],
   templateUrl: './select-playground-page.component.html',
   styleUrl: './select-playground-page.component.css',
@@ -42,18 +49,33 @@ export class SelectPlaygroundPageComponent {
     return this.options.find(o => o.value === v)?.label ?? 'Select…';
   }
 
-  // controlled value
-  readonly value = signal<string | null>('compact');
+  // Demo A (normal)
+  readonly valueA = signal<string | null>('compact');
 
-  // label shown in trigger
-  readonly valueLabel = computed(() => {
-    const v = this.value();
-    return this.options.find(o => o.value === v)?.label ?? 'Select…';
-  });
+  // Demo B (inside scroll view)
+  readonly valueB = signal<string | null>('comfortable');
 
-  onValueChange(next: ListboxValue<string>) {
-    // ListboxValue is usually: T | readonly T[] | null
-    const v = next === null ? null : Array.isArray(next) ? (next[0] ?? null) : next;
-    this.value.set(v);
+  // Components demo (wrapper) – just to show it exists
+  readonly valueC = signal<string | null>('compact');
+
+  // If you want optional debug labels
+  readonly valueALabel = computed(() => this.labelFor(this.valueA()));
+  readonly valueBLabel = computed(() => this.labelFor(this.valueB()));
+  readonly valueCLabel = computed(() => this.labelFor(this.valueC()));
+
+  onValueChangeA(next: ListboxValue<string>) {
+    this.valueA.set(this.coerceSingle(next));
+  }
+
+  onValueChangeB(next: ListboxValue<string>) {
+    this.valueB.set(this.coerceSingle(next));
+  }
+
+  onValueChangeC(next: ListboxValue<string>) {
+    this.valueC.set(this.coerceSingle(next));
+  }
+
+  private coerceSingle(next: ListboxValue<string>): string | null {
+    return next === null ? null : Array.isArray(next) ? (next[0] ?? null) : next as string | null;
   }
 }

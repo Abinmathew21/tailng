@@ -1,4 +1,4 @@
-import { DestroyRef, Directive, HostBinding, HostListener, inject } from '@angular/core';
+import { DestroyRef, Directive, effect, HostBinding, HostListener, inject, untracked } from '@angular/core';
 import { createTngIdFactory } from '@tailng-ui/cdk';
 import { TngListboxDirective, TngOptionDirective } from '@tailng-ui/primitives';
 import { TNG_SELECT } from './tng-select.tokens';
@@ -19,7 +19,7 @@ const createListboxId = createTngIdFactory('tng-select-listbox');
     },
   ],
 })
-export class TngSelectListbox<T> implements TngSelectListboxApi {
+export class TngSelectListbox<T = unknown> implements TngSelectListboxApi<T> {
   private readonly select = inject<TngSelect<T>>(TNG_SELECT);
   private readonly destroyRef = inject(DestroyRef);
   private readonly listbox = inject(TngListboxDirective<T>, { self: true });
@@ -36,6 +36,26 @@ export class TngSelectListbox<T> implements TngSelectListboxApi {
 
     // register API into select (Mode-2 bridge)
     this.select.setListboxApi(this);
+
+    // controlled sync from Select -> Listbox
+    effect(() => {
+      const v = this.select.value();
+    
+      // avoid interfering during open interactions
+      if (this.select.open()) return;
+    
+      const current = untracked(this.listbox.value);
+      const currentSingle =
+        current === null
+          ? null
+          : Array.isArray(current)
+            ? (current[0] ?? null)
+            : current;
+    
+      if (Object.is(currentSingle, v)) return;
+    
+      this.listbox.value.set(v as T | null);
+    });
 
     this.destroyRef.onDestroy(() => {
       this.select.setListboxId(null);

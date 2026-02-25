@@ -1,1 +1,37 @@
-<ng-content />
+<button tngSelectTrigger type="button" data-slot="select-trigger">
+  <span tngSelectValue data-slot="select-value">
+    @if (triggerTpl?.tpl; as tpl) {
+      <ng-container
+        [ngTemplateOutlet]="tpl"
+        [ngTemplateOutletContext]="triggerContext()"
+      />
+    } @else {
+      {{ selectedLabel() }}
+    }
+  </span>
+
+  <span tngSelectIcon aria-hidden="true" data-slot="select-icon">▾</span>
+</button>
+
+<div tngSelectContent data-slot="select-content">
+  <div tngSelectOverlay data-slot="select-overlay">
+    <ul tngSelectListbox data-slot="select-listbox">
+      @for (opt of options(); track trackByValue($index, opt)) {
+        <li
+          tngSelectOption
+          data-slot="select-option"
+          [tngValue]="getOptionValue()(opt)"
+        >
+          @if (optionTpl?.tpl; as tpl) {
+            <ng-container
+              [ngTemplateOutlet]="tpl"
+              [ngTemplateOutletContext]="optionContext(opt)"
+            />
+          } @else {
+            {{ getOptionLabel()(opt) }}
+          }
+        </li>
+      }
+    </ul>
+  </div>
+</div>

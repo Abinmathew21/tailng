@@ -1,25 +1,119 @@
-<section tngSelect class="select-shell" aria-label="Primitive select" #sel="tngSelect">
-  <button tngSelectTrigger type="button" class="select-trigger" data-testid="trigger">
-    <span tngSelectValue class="select-value">{{ labelFor(sel.value()) }}</span>
-    <span tngSelectIcon class="select-icon" aria-hidden="true">▾</span>
-  </button>
+<main class="page">
+  <section class="grid">
 
-  <div tngSelectContent class="select-content" data-testid="content">
-    <div tngSelectOverlay class="select-overlay" data-testid="overlay">
-      <ul tngSelectListbox class="select-listbox" data-testid="listbox">
-        @for (opt of options; track opt.value) {
-          <li
-            tngSelectOption
-            class="select-option"
-            [tngValue]="opt.value"
-            [disabled]="!!opt.disabled"
-          >
-            {{ opt.label }}
-          </li>
-        }
-      </ul>
-    </div>
-  </div>
-</section>
+    <!-- 1) Normal primitive select -->
+    <section class="card">
+      <h2 class="title">1) Primitive Select (normal)</h2>
 
-<p>Current sel.value(): {{ sel.value() }}</p>
+      <section tngSelect class="select-shell" aria-label="Primitive select A" #selA="tngSelect">
+        <button tngSelectTrigger type="button" class="select-trigger" data-testid="trigger-a">
+          <span tngSelectValue class="select-value">{{ labelFor(selA.value()) }}</span>
+          <span tngSelectIcon class="select-icon" aria-hidden="true">▾</span>
+        </button>
+
+        <div tngSelectContent class="select-content" data-testid="content-a">
+          <div tngSelectOverlay class="select-overlay" data-testid="overlay-a">
+            <ul
+              tngSelectListbox
+              class="select-listbox"
+              data-testid="listbox-a"
+            >
+              @for (opt of options; track opt.value) {
+                <li
+                  tngSelectOption
+                  class="select-option"
+                  [tngValue]="opt.value"
+                  [disabled]="!!opt.disabled"
+                >
+                  {{ opt.label }}
+                </li>
+              }
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <p class="debug">Current selA.value(): <code>{{ selA.value() }}</code></p>
+    </section>
+
+    <!-- 2) Primitive select inside a scroll view -->
+    <section class="card">
+      <h2 class="title">2) Primitive Select (inside scroll container)</h2>
+
+      <div class="scroll-box">
+        <div class="scroll-spacer">Scroll down 👇</div>
+
+        <section tngSelect class="select-shell" aria-label="Primitive select B" #selB="tngSelect">
+          <button tngSelectTrigger type="button" class="select-trigger" data-testid="trigger-b">
+            <span tngSelectValue class="select-value">{{ labelFor(selB.value()) }}</span>
+            <span tngSelectIcon class="select-icon" aria-hidden="true">▾</span>
+          </button>
+
+          <div tngSelectContent class="select-content" data-testid="content-b">
+            <div tngSelectOverlay class="select-overlay" data-testid="overlay-b">
+              <ul
+                tngSelectListbox
+                class="select-listbox"
+                data-testid="listbox-b"
+              >
+                @for (opt of options; track opt.value) {
+                  <li
+                    tngSelectOption
+                    class="select-option"
+                    [tngValue]="opt.value"
+                    [disabled]="!!opt.disabled"
+                  >
+                    {{ opt.label }}
+                  </li>
+                }
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <div class="scroll-spacer">More content…</div>
+        <div class="scroll-spacer">More content…</div>
+      </div>
+
+      <p class="debug">Current selB.value(): <code>{{ selB.value() }}</code></p>
+      <p class="note">
+        Open the select, then scroll the container. The overlay should stay aligned (if reposition-on-scroll is wired).
+      </p>
+    </section>
+
+    <!-- 3) Components layer wrapper -->
+    <section class="card">
+      <h2 class="title">3) Components Layer (`&lt;tng-select&gt;` wrapper)</h2>
+
+      <tng-select>
+        <!-- still using primitives inside until the component grows -->
+        <section tngSelect class="select-shell" aria-label="Component wrapper demo" #selC="tngSelect">
+          <button tngSelectTrigger type="button" class="select-trigger" data-testid="trigger-c">
+            <span tngSelectValue class="select-value">{{ labelFor(selC.value()) }}</span>
+            <span tngSelectIcon class="select-icon" aria-hidden="true">▾</span>
+          </button>
+
+          <div tngSelectContent class="select-content" data-testid="content-c">
+            <div tngSelectOverlay class="select-overlay" data-testid="overlay-c">
+              <ul tngSelectListbox class="select-listbox" data-testid="listbox-c">
+                @for (opt of options; track opt.value) {
+                  <li
+                    tngSelectOption
+                    class="select-option"
+                    [tngValue]="opt.value"
+                    [disabled]="!!opt.disabled"
+                  >
+                    {{ opt.label }}
+                  </li>
+                }
+              </ul>
+            </div>
+          </div>
+        </section>
+      </tng-select>
+
+      <p class="debug">Current selC.value(): <code>{{ selC.value() }}</code></p>
+    </section>
+
+  </section>
+</main>

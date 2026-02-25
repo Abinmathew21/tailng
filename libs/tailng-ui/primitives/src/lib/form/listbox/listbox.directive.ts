@@ -28,7 +28,7 @@ export class TngListboxDirective<T> {
   disabled = input<boolean>(false);
   loop = input<boolean>(true);
 
-  value = model<ListboxValue<T>>(null);
+  readonly value = model<ListboxValue<T>>(null);
 
   private readonly el = inject(ElementRef<HTMLElement>);
 

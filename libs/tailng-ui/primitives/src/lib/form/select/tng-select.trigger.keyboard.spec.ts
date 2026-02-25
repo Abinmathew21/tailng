@@ -166,8 +166,9 @@ describe('tng-select trigger (keyboard)', () => {
     expect(host.open()).toBe(false);
   
     // Value should now be the active option
-    expect(host.value()).toBe('comfortable'); // adjust expected value to your first option
+    expect(host.value()).toBe('a');
   });
+
   it('Space prevents default when open', () => {
     const fixture = TestBed
       .configureTestingModule({ imports: [HostComponent] })

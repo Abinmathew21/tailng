@@ -69,6 +69,11 @@ export class TngSelectTrigger {
 
   @HostBinding('attr.aria-labelledby')
   protected get ariaLabelledby(): string | null {
+    const node = this.el.nativeElement;
+
+    // If author explicitly set aria-label, don't use aria-labelledby
+    if (node.hasAttribute('aria-label')) return null;
+
     return this.select.labelId();
   }
 
