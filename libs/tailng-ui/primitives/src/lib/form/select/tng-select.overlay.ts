@@ -53,6 +53,11 @@ export class TngSelectOverlay {
   private readonly elRef = inject(ElementRef<HTMLElement>);
   private readonly destroyRef = inject(DestroyRef);
 
+  private lastFocusedBeforeOpen: HTMLElement | null = null;
+  private removeResizeListener: (() => void) | null = null;
+  private removeScrollListener: (() => void) | null = null;
+  private resizeObserver: ResizeObserver | null = null;
+
   // ---- positioning knobs (optional) ----
   readonly placement = input<TngOverlayPlacement | undefined>(undefined);
   readonly offset = input<TngOverlayOffset | undefined>(undefined);
@@ -101,6 +106,73 @@ export class TngSelectOverlay {
     });
   }
 
+  private reposition(): void {
+    if (!this.select.open()) return;
+  
+    const panel = this.elRef.nativeElement;
+    const trigger = this.findTriggerEl();
+    if (!trigger) return;
+  
+    const anchor = rectFromClientRect(trigger.getBoundingClientRect());
+    const overlay = rectFromClientRect(panel.getBoundingClientRect());
+    const viewport = viewportRect();
+  
+    const result = computeOverlayPosition({
+      anchorRect: anchor,
+      overlayRect: overlay,
+      viewportRect: viewport,
+      placement: this.placement(),
+      offset: this.offset(),
+      collision: this.collision(),
+    });
+  
+    panel.style.left = `${result.x}px`;
+    panel.style.top = `${result.y}px`;
+  }
+
+  private setupRepositionListeners(): void {
+    let rafId: number | null = null;
+  
+    const schedule = () => {
+      if (rafId !== null) return;
+      rafId = requestAnimationFrame(() => {
+        rafId = null;
+        this.reposition();
+      });
+    };
+  
+    const onResize = () => schedule();
+    const onScroll = () => schedule();
+  
+    window.addEventListener('resize', onResize);
+    window.addEventListener('scroll', onScroll, true);
+  
+    this.removeResizeListener = () =>
+      window.removeEventListener('resize', onResize);
+  
+    this.removeScrollListener = () =>
+      window.removeEventListener('scroll', onScroll, true);
+  
+    if ('ResizeObserver' in window) {
+      this.resizeObserver = new ResizeObserver(() => schedule());
+  
+      const trigger = this.findTriggerEl();
+      if (trigger) this.resizeObserver.observe(trigger);
+  
+      this.resizeObserver.observe(this.elRef.nativeElement);
+    }
+  }
+
+  private teardownRepositionListeners(): void {
+    this.removeResizeListener?.();
+    this.removeScrollListener?.();
+    this.removeResizeListener = null;
+    this.removeScrollListener = null;
+  
+    this.resizeObserver?.disconnect();
+    this.resizeObserver = null;
+  }
+
   private findTriggerEl(): HTMLElement | null {
     // Mode-2 convention: trigger has data-slot="select-trigger"
     // Use select host element (not overlay.closest) so we work when overlay is portaled to body
@@ -109,6 +181,9 @@ export class TngSelectOverlay {
   }
 
   private mountToBodyAndPosition(): void {
+    this.lastFocusedBeforeOpen = document.activeElement as HTMLElement | null;
+    
+    this.setupRepositionListeners();
     const panel = this.elRef.nativeElement;
 
     // already mounted?
@@ -168,6 +243,22 @@ export class TngSelectOverlay {
       this.originalParent.appendChild(panel);
     }
 
+    this.teardownRepositionListeners();
+
+    if (this.lastFocusedBeforeOpen &&
+        document.contains(this.lastFocusedBeforeOpen)) {
+
+      // restore only if focus is currently inside overlay or nowhere
+      const active = document.activeElement as HTMLElement | null;
+      const panel = this.elRef.nativeElement;
+
+      if (!active || panel.contains(active)) {
+        this.lastFocusedBeforeOpen.focus();
+      }
+    }
+
+    this.restoreFocusOnClose();
+
     // cleanup inline positioning (optional)
     panel.style.position = '';
     panel.style.left = '';
@@ -203,5 +294,25 @@ export class TngSelectOverlay {
   private teardownOutsidePointer(): void {
     this.removeDocPointerListener?.();
     this.removeDocPointerListener = null;
+  }
+
+
+  private restoreFocusOnClose(): void {
+    const panel = this.elRef.nativeElement;
+    const active = document.activeElement as HTMLElement | null;
+
+    // If focus is currently inside the panel, bring it back to trigger
+    if (active && panel.contains(active)) {
+      const trigger = this.findTriggerEl();
+      trigger?.focus();
+      return;
+    }
+
+    // If focus is nowhere useful (body), also restore
+    if (document.activeElement === document.body) {
+      const trigger = this.findTriggerEl();
+      trigger?.focus();
+      return;
+    }
   }
 }

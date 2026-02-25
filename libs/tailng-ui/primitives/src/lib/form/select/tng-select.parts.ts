@@ -62,6 +62,31 @@ export class TngSelectTrigger {
     return isNaturallyFocusable || this.authorTabindex ? null : '0';
   }
 
+  @HostBinding('attr.aria-invalid')
+  protected get ariaInvalid(): 'true' | null {
+    return this.select.invalid() ? 'true' : null;
+  }
+
+  @HostBinding('attr.aria-labelledby')
+  protected get ariaLabelledby(): string | null {
+    return this.select.labelId();
+  }
+
+  @HostBinding('attr.aria-describedby')
+  protected get ariaDescribedby(): string | null {
+    const ids: string[] = [];
+
+    const desc = this.select.descriptionId();
+    if (desc) ids.push(desc);
+
+    if (this.select.invalid()) {
+      const err = this.select.errorId();
+      if (err) ids.push(err);
+    }
+
+    return ids.length ? ids.join(' ') : null;
+  }
+
   @HostListener('pointerdown', ['$event'])
   protected onPointerDown(event: PointerEvent): void {
     if (this.select.disabled()) return;
@@ -166,6 +191,11 @@ export class TngSelectContent {
     return this.select.open() ? null : '';
   }
 
+  @HostBinding('attr.aria-busy')
+  protected get ariaBusy(): 'true' | null {
+    return this.select.loading() ? 'true' : null;
+  }
+  
   constructor() {
     this.select.setContentId(this.id);
 

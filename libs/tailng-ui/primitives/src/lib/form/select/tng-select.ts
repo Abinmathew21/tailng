@@ -23,6 +23,13 @@ export class TngSelect<T = unknown> {
 
   private _listboxApi: TngSelectListboxApi<T> | null = null;
 
+  public readonly loading = input<boolean>(false);
+  public readonly invalid = input<boolean>(false);
+
+  public readonly labelId = input<string | null>(null);
+  public readonly descriptionId = input<string | null>(null);
+  public readonly errorId = input<string | null>(null);
+
   // ---- keep styling/state on host ----
   @HostBinding('attr.data-slot')
   protected readonly dataSlot: 'select' = 'select';
@@ -36,6 +43,16 @@ export class TngSelect<T = unknown> {
   @HostBinding('attr.data-disabled')
   protected get dataDisabled(): '' | null {
     return this.disabled() ? '' : null;
+  }
+
+  @HostBinding('attr.data-loading')
+  protected get dataLoading(): '' | null {
+    return this.loading() ? '' : null;
+  }
+
+  @HostBinding('attr.data-invalid')
+  protected get dataInvalid(): '' | null {
+    return this.invalid() ? '' : null;
   }
 
 
