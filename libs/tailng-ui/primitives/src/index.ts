@@ -24,10 +24,7 @@ export * from './lib/form/multiselect/tng-multiselect';
 export * from './lib/form/radio/tng-radio';
 
 export * from './lib/form/select/tng-select';
-// libs/tailng-ui/primitives/src/index.ts
-
-// existing exports...
-export * from './lib/form/select/tng-select';
+export { TNG_SELECT_FORCE_MULTIPLE } from './lib/form/select/tng-select.tokens';
 export * from './lib/form/select/tng-select.parts';
 export * from './lib/form/select/tng-select.overlay';
 export * from './lib/form/select/tng-select.listbox';

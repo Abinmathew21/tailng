@@ -1,3 +1,33 @@
-<section tngMultiselect class="tng-multiselect" [attr.aria-label]="ariaLabel()">
-  <ng-content />
-</section>
+<button tngSelectTrigger type="button">
+  <span tngSelectValue>
+    @if (valueTpl) {
+      <ng-container *ngTemplateOutlet="valueTpl; context: valueContext()" />
+    } @else {
+      {{ selectedLabel() }}
+    }
+  </span>
+
+  <span tngSelectIcon aria-hidden="true">
+    {{ iconText() }}
+  </span>
+</button>
+
+<div tngSelectContent>
+  <div tngSelectOverlay>
+    <ul tngSelectListbox [multiple]="primitive.multiple()">
+      @for (opt of options(); track trackBy()($index, opt)) {
+        <li
+          tngSelectOption
+          [tngValue]="getOptionValue()(opt)"
+          [disabled]="isOptionDisabled()(opt)"
+        >
+          @if (optionTpl) {
+            <ng-container *ngTemplateOutlet="optionTpl; context: optionContext(opt)" />
+          } @else {
+            {{ getOptionLabel()(opt) }}
+          }
+        </li>
+      }
+    </ul>
+  </div>
+</div>

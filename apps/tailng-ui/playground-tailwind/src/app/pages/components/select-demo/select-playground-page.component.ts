@@ -47,8 +47,12 @@ export class SelectPlaygroundPageComponent {
 
   readonly valueC = signal<string | null>('earth');
 
-  labelFor(v: string | null): string {
-    return this.options.find((o) => o.value === v)?.label ?? 'Select…';
+  labelFor(v: string | readonly string[] | null): string {
+    if (v === null) return 'Select…';
+    const arr = Array.isArray(v) ? v : [v];
+    if (arr.length === 0) return 'Select…';
+    const labels = arr.map((x) => this.options.find((o) => o.value === x)?.label).filter(Boolean);
+    return labels.length > 0 ? labels.join(', ') : 'Select…';
   }
 
   coerceSingle(next: ListboxValue<string>): string | null {

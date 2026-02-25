@@ -286,6 +286,9 @@ export class TngSelectOverlay {
       if (isInside(ev.target, panel)) return;
       if (trigger && isInside(ev.target, trigger)) return;
 
+      // multiselect: treat option clicks as inside (they may not be in panel if portaled differently)
+      if (this.select.multiple() && ev.target && (ev.target as Element).closest?.('[data-slot="select-option"]')) return;
+
       // outside => close
       this.select.close();
     };

@@ -17,7 +17,7 @@ export { TngInputOtpComponent} from './input-otp/tng-input-otp.component';
 export * from './label/tng-label.component';
 export { TngLabelComponent} from './label/tng-label.component';
 export * from './multiselect/tng-multiselect.component';
-export { TngMultiselectComponent} from './multiselect/tng-multiselect.component';
+export { TngMultiSelectComponent } from './multiselect/tng-multiselect.component';
 export * from './radio/tng-radio.component';
 export { TngRadioComponent} from './radio/tng-radio.component';
 export * from './select/tng-select.component';

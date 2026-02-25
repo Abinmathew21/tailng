@@ -1,25 +1,154 @@
 <main class="page">
-  <section class="container">
+  <header class="header">
+    <h1 class="h1">Multiselect demo</h1>
+    <p class="sub">
+      Select primitive with <code>[multiple]="true"</code>. Toggle options, stay open. Components wrapper.
+    </p>
+  </header>
+
+  <section class="grid">
+    <!-- 1) Primitive multiselect -->
     <section class="card">
-      <h2>Primitives (`tngMultiselect`)</h2>
-      <div tngMultiselect class="primitive-shell">
-        <ul role="listbox" aria-multiselectable="true" class="demo-list demo-menu">
-          <li role="option" aria-selected="true" class="demo-option-selected">Button</li>
-          <li role="option" aria-selected="false">Input</li>
-          <li role="option" aria-selected="true" class="demo-option-selected">Dialog</li>
-        </ul>
+      <div class="card__head">
+        <h2 class="h2">1) Primitive multiselect</h2>
+        <p class="muted">Default page flow</p>
+      </div>
+
+      <section
+        tngSelect
+        [multiple]="true"
+        [value]="valueMultiA()"
+        (valueChange)="valueMultiA.set(coerceMulti($event))"
+        class="select"
+        aria-label="Select planets"
+        #multiA="tngSelect"
+      >
+        <button
+          #triggerA
+          tngSelectTrigger
+          type="button"
+          class="select__trigger"
+          data-testid="trigger-multi-a"
+        >
+          <span tngSelectValue class="select__value">
+            {{ labelFor(multiA.value()) }}
+          </span>
+          <span tngSelectIcon class="select__icon" aria-hidden="true">▾</span>
+        </button>
+
+        <div tngSelectContent class="select__content" data-testid="content-multi-a">
+          <div
+            tngSelectOverlay
+            class="select__overlay"
+            data-testid="overlay-multi-a"
+            [style.minWidth.px]="triggerA.offsetWidth"
+          >
+            <ul tngSelectListbox [multiple]="multiA.multiple()" class="select__listbox" data-testid="listbox-multi-a">
+              @for (opt of options; track opt.value) {
+                <li
+                  tngSelectOption
+                  class="select__option"
+                  [tngValue]="opt.value"
+                  [disabled]="!!opt.disabled"
+                >
+                  {{ opt.label }}
+                </li>
+              }
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <div class="debug">
+        <span class="pill">value</span>
+        <code>{{ valueMultiA() }}</code>
       </div>
     </section>
 
+    <!-- 2) Primitive multiselect in scroll container -->
     <section class="card">
-      <h2>Components (`tng-multiselect`)</h2>
-      <tng-multiselect>
-        <div class="primitive-shell demo-row">
-          <span class="demo-chip">Button</span>
-          <span class="demo-chip">Dialog</span>
-          <span class="demo-chip">Popover</span>
-        </div>
-      </tng-multiselect>
+      <div class="card__head">
+        <h2 class="h2">2) Multiselect in scroll container</h2>
+        <p class="muted">Open, then scroll the container</p>
+      </div>
+
+      <div class="scroll">
+        <div class="scroll__spacer">Scroll down 👇</div>
+
+        <section
+          tngSelect
+          [multiple]="true"
+          [value]="valueMultiB()"
+          (valueChange)="valueMultiB.set(coerceMulti($event))"
+          class="select"
+          aria-label="Select planets (scroll)"
+          #multiB="tngSelect"
+        >
+          <button
+            #triggerB
+            tngSelectTrigger
+            type="button"
+            class="select__trigger"
+            data-testid="trigger-multi-b"
+          >
+            <span tngSelectValue class="select__value">
+              {{ labelFor(multiB.value()) }}
+            </span>
+            <span tngSelectIcon class="select__icon" aria-hidden="true">▾</span>
+          </button>
+
+          <div tngSelectContent class="select__content" data-testid="content-multi-b">
+            <div
+              tngSelectOverlay
+              class="select__overlay"
+              data-testid="overlay-multi-b"
+              [style.minWidth.px]="triggerB.offsetWidth"
+            >
+              <ul tngSelectListbox [multiple]="multiB.multiple()" class="select__listbox" data-testid="listbox-multi-b">
+                @for (opt of options; track opt.value) {
+                  <li
+                    tngSelectOption
+                    class="select__option"
+                    [tngValue]="opt.value"
+                    [disabled]="!!opt.disabled"
+                  >
+                    {{ opt.label }}
+                  </li>
+                }
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <div class="scroll__spacer">More content…</div>
+      </div>
+
+      <div class="debug">
+        <span class="pill">value</span>
+        <code>{{ valueMultiB() }}</code>
+      </div>
+    </section>
+
+    <!-- 3) Components layer -->
+    <section class="card">
+      <div class="card__head">
+        <h2 class="h2">3) Components layer &lt;tng-multiselect&gt;</h2>
+        <p class="muted">Options + value + change</p>
+      </div>
+
+      <tng-multiselect
+        class="component"
+        [options]="options"
+        [value]="valueMultiC()"
+        (valueChange)="valueMultiC.set(coerceMulti($event))"
+        placeholder="Select planets…"
+        data-testid="multiselect-c"
+      />
+
+      <div class="debug">
+        <span class="pill">value</span>
+        <code>{{ valueMultiC() }}</code>
+      </div>
     </section>
   </section>
 </main>

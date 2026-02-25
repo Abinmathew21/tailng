@@ -1,6 +1,6 @@
 // tng-select.ts
-import { Directive, ElementRef, HostBinding, inject, input, model } from '@angular/core';
-import { TNG_SELECT } from './tng-select.tokens';
+import { Directive, ElementRef, HostBinding, computed, inject, input, model } from '@angular/core';
+import { TNG_SELECT, TNG_SELECT_FORCE_MULTIPLE } from './tng-select.tokens';
 import { TngSelectListboxApi } from './tng-select.listbox.types';
 
 @Directive({
@@ -14,7 +14,12 @@ export class TngSelect<T = unknown> {
   readonly hostElement = inject(ElementRef<HTMLElement>).nativeElement;
   public readonly open = model<boolean>(false);
   public readonly disabled = input<boolean>(false);
-  public readonly value = model<T | null>(null);
+  private readonly _forceMultiple = inject(TNG_SELECT_FORCE_MULTIPLE, { optional: true });
+  readonly multipleInput = input<boolean>(false, { alias: 'multiple' });
+  /** Whether multiple options can be selected. */
+  public readonly multiple = computed(() => this._forceMultiple ?? this.multipleInput());
+  /** Value of the selected option(s). Single: T | null; multiple: readonly T[] | null. */
+  public readonly value = model<T | readonly T[] | null>(null);
 
   // ---- internal bridge state ----
   private _contentId: string | null = null;
@@ -74,8 +79,9 @@ export class TngSelect<T = unknown> {
     if (this.disabled()) return;
     this.open.set(!this.open());
   }
+  /** Select a value (single mode only). In multiple mode, use listbox valueChange. */
   public selectValue(value: T): void {
-    if (this.disabled()) return;
+    if (this.disabled() || this.multiple()) return;
     this.value.set(value);
     this.close();
   }

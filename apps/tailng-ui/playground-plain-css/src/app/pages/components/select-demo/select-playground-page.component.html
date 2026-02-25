@@ -35,7 +35,7 @@
             data-testid="overlay-a"
             [style.minWidth.px]="triggerA.offsetWidth"
           >
-            <ul tngSelectListbox class="select__listbox" data-testid="listbox-a">
+            <ul tngSelectListbox [multiple]="selA.multiple()" class="select__listbox" data-testid="listbox-a">
               @for (opt of options; track opt.value) {
                 <li
                   tngSelectOption
@@ -88,7 +88,7 @@
               data-testid="overlay-b"
               [style.minWidth.px]="triggerB.offsetWidth"
             >
-              <ul tngSelectListbox class="select__listbox" data-testid="listbox-b">
+              <ul tngSelectListbox [multiple]="selB.multiple()" class="select__listbox" data-testid="listbox-b">
                 @for (opt of options; track opt.value) {
                   <li
                     tngSelectOption

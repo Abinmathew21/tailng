@@ -26,7 +26,7 @@ export type TngSelectTrackBy<O> = (index: number, opt: O) => unknown;
 
 // Slot templates (optional)
 export type TngSelectValueContext<O, V> = {
-  $implicit: { value: V | null; option: O | null; label: string };
+  $implicit: { value: V | readonly V[] | null; option: O | null; label: string };
 };
 export type TngSelectOptionContext<O, V> = {
   $implicit: { option: O; value: V; label: string; disabled: boolean; selected: boolean; active: boolean };
