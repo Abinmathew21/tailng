@@ -42,7 +42,6 @@
             <ul
               tngAutocompleteListbox
               [value]="value()"
-              (valueChange)="onValueChange($event)"
               class="autocomplete__listbox"
             >
               @for (c of filteredOptions(); track c.code) {

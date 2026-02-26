@@ -97,8 +97,8 @@ export class TngAutocompleteListbox<T = unknown> implements TngAutocompleteListb
     }
 
     if (next === null) {
-      this.autocomplete.value.set(null);
-      this.autocomplete.close();
+      // When overlay is open, null usually means the previous selection dropped out of
+      // filtered options (user is typing to filter). Preserve value and stay open.
       return;
     }
 

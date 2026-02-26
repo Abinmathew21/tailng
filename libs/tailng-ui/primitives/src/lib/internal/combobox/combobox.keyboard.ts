@@ -25,6 +25,8 @@ export interface ComboboxKeyboardOptions {
   enableTypeahead?: boolean;
   /** Keys that open when closed. Default: ArrowDown, ArrowUp, Enter, Space. */
   keysToOpen?: readonly string[];
+  /** Keys that open when closed but must NOT preventDefault (e.g. Backspace/Delete so input can delete). */
+  keysToOpenNoPreventDefault?: readonly string[];
 }
 
 const DEFAULT_KEYS_TO_OPEN = [
@@ -49,12 +51,16 @@ export function handleComboboxKeydown(
   const {
     enableTypeahead = true,
     keysToOpen = DEFAULT_KEYS_TO_OPEN,
+    keysToOpenNoPreventDefault = [],
   } = options;
 
   // --- Closed state: ArrowDown/ArrowUp/Enter/Space open + set active ---
   if (!context.open) {
     if (keysToOpen.includes(event.key)) {
-      event.preventDefault();
+      const noPrevent = keysToOpenNoPreventDefault.includes(event.key);
+      if (!noPrevent) {
+        event.preventDefault();
+      }
       context.openSelect();
       ensureActiveAndSync(
         context.listbox,
@@ -66,6 +72,12 @@ export function handleComboboxKeydown(
   }
 
   // --- Open state ---
+
+  // Tab: close and allow browser to move focus (do not preventDefault)
+  if (event.key === 'Tab') {
+    context.close();
+    return;
+  }
 
   // Escape: close
   if (event.key === 'Escape') {

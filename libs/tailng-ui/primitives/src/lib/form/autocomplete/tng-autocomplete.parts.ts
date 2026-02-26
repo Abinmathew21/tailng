@@ -5,8 +5,8 @@ import type { TngAutocomplete } from './tng-autocomplete';
 import { TNG_AUTOCOMPLETE } from './tng-autocomplete.tokens';
 import type { TngAutocompleteListboxApi } from './tng-autocomplete.listbox.types';
 
-/** Keys that open autocomplete when closed. ArrowDown/Up only (input uses Enter/Space for typing/submit). */
-const AUTOCOMPLETE_KEYS_TO_OPEN = ['ArrowDown', 'ArrowUp'] as const;
+/** Keys that open autocomplete when closed. ArrowDown/Up + Backspace/Delete (user editing clears selection). */
+const AUTOCOMPLETE_KEYS_TO_OPEN = ['ArrowDown', 'ArrowUp', 'Backspace', 'Delete'] as const;
 
 @Directive({
   selector: '[tngAutocompleteTrigger]',
@@ -109,6 +109,22 @@ export class TngAutocompleteTrigger {
       }
     }
 
+    // When closed, typeable keys (a-z, 0-9, etc.) open overlay without preventDefault so input receives the char
+    if (
+      !this.autocomplete.open() &&
+      !this.autocomplete.disabled() &&
+      event.key.length === 1 &&
+      event.key !== ' ' &&
+      !event.ctrlKey &&
+      !event.metaKey &&
+      !event.altKey &&
+      !['Tab', 'Escape', 'Enter'].includes(event.key)
+    ) {
+      this.autocomplete.openSelect();
+      ensureActiveAndSync(this.listbox, (id) => this.autocomplete.setActiveDescendantId(id));
+      return;
+    }
+
     handleComboboxKeydown(event, {
       disabled: this.autocomplete.disabled(),
       open: this.autocomplete.open(),
@@ -119,6 +135,7 @@ export class TngAutocompleteTrigger {
     }, {
       enableTypeahead: false,
       keysToOpen: AUTOCOMPLETE_KEYS_TO_OPEN,
+      keysToOpenNoPreventDefault: ['Backspace', 'Delete'],
     });
   }
 }
