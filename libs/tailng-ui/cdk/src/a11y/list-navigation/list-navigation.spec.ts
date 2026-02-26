@@ -71,6 +71,15 @@ describe('additional list-navigation scenarios', () => {
     expect(action?.type).toBe('toggle-active');
   });
 
+  it('Enter toggles selection in multi-select (like Space)', () => {
+    const action = resolveListNavigationKeyAction(
+      { key: 'Enter' },
+      { multiSelect: true },
+    );
+
+    expect(action?.type).toBe('toggle-active');
+  });
+
   it('does not select-all without multiSelect enabled', () => {
     const action = resolveListNavigationKeyAction(
       { ctrlKey: true, key: 'a' },

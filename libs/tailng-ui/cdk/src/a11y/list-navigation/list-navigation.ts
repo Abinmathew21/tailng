@@ -169,7 +169,8 @@ function resolveActivationAction(
   }
 
   if (event.key === 'Enter') {
-    return createAction('select-active', true);
+    // multiselect: Enter toggles like Space; single: Enter selects
+    return options.multiSelect ? createAction('toggle-active', true) : createAction('select-active', true);
   }
 
   return null;

@@ -119,7 +119,8 @@ If no matching key is found, returns `null`.
 
   Key      Mode     Action
   -------- -------- ---------------
-  Enter    Any      select-active
+  Enter    Single   select-active
+  Enter    Multi    toggle-active
   Space    Single   select-active
   Space    Multi    toggle-active
   Ctrl+A   Multi    select-all
