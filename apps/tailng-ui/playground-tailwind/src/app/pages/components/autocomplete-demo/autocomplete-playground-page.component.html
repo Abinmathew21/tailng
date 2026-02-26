@@ -1,36 +1,73 @@
-<div class="mx-auto max-w-[72rem] grid gap-5">
-  <section class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5 space-y-3">
-    <h2 class="text-lg font-semibold">Primitives (`tngAutocomplete`)</h2>
-    <div tngAutocomplete class="rounded-xl border border-tng-border-subtle px-4 py-3 text-tng-fg-primary space-y-2">
-      <label for="autocomplete-framework" class="block text-sm text-tng-fg-secondary">Search framework</label>
-      <input
-        id="autocomplete-framework"
-        type="text"
-        role="combobox"
-        aria-expanded="true"
-        aria-controls="autocomplete-list"
-        value="ang"
-        class="w-full rounded-lg border border-tng-border-subtle bg-tng-bg-canvas px-3 py-2 text-sm text-tng-fg-primary"
-      />
-      <ul id="autocomplete-list" role="listbox" class="mt-2 rounded-lg border border-tng-border-subtle bg-tng-bg-canvas p-1 text-sm">
-        <li role="option" aria-selected="true" class="rounded px-2 py-1 hover:bg-tng-bg-muted">Angular</li>
-        <li role="option" aria-selected="false" class="rounded px-2 py-1 hover:bg-tng-bg-muted">Angular CDK</li>
-        <li role="option" aria-selected="false" class="rounded px-2 py-1 hover:bg-tng-bg-muted">Angular Material</li>
-      </ul>
-    </div>
-  </section>
+<main class="min-h-screen bg-tng-bg-canvas text-tng-fg-primary px-4 py-7">
+  <header class="mx-auto mb-4 max-w-[64rem] grid gap-1.5">
+    <h1 class="text-xl font-bold tracking-tight m-0 text-tng-fg-primary">
+      Autocomplete demo
+    </h1>
+    <p class="text-sm text-tng-fg-secondary m-0">
+      Primitive autocomplete with country list. Type to filter; Arrow keys, Enter, Escape.
+    </p>
+  </header>
 
-  <section class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5 space-y-3">
-    <h2 class="text-lg font-semibold">Components (`tng-autocomplete`)</h2>
-    <tng-autocomplete>
-      <div class="rounded-xl border border-tng-border-subtle px-4 py-3 text-tng-fg-primary space-y-2">
-        <p class="text-sm text-tng-fg-secondary">Owned wrapper around autocomplete structure.</p>
-        <ul role="listbox" class="rounded-lg border border-tng-border-subtle bg-tng-bg-canvas p-1">
-          <li role="option" aria-selected="false" class="rounded px-2 py-1 hover:bg-tng-bg-muted">Button</li>
-          <li role="option" aria-selected="false" class="rounded px-2 py-1 hover:bg-tng-bg-muted">Checkbox</li>
-          <li role="option" aria-selected="false" class="rounded px-2 py-1 hover:bg-tng-bg-muted">Dialog</li>
-        </ul>
+  <section class="mx-auto max-w-[64rem] grid gap-4 md:grid-cols-2 md:items-start">
+    <section class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-4 space-y-3">
+      <div class="grid gap-0.5">
+        <h2 class="text-[0.9375rem] font-semibold m-0 text-tng-fg-primary">
+          Country search
+        </h2>
+        <p class="text-[0.8125rem] text-tng-fg-muted m-0">Uses assets/country-list.json</p>
       </div>
-    </tng-autocomplete>
+
+      <section
+        tngAutocomplete
+        class="grid gap-2"
+        aria-label="Search country"
+        #ac="tngAutocomplete"
+        [open]="open()"
+        (openChange)="onOpenChange($event)"
+        [value]="value()"
+        (valueChange)="onValueChange($event)"
+      >
+        <input
+          #triggerRef
+          tngAutocompleteTrigger
+          type="text"
+          [value]="displayText()"
+          (input)="onInput($event)"
+          placeholder="Type to search…"
+          class="w-full rounded-lg border border-tng-border-subtle bg-tng-bg-canvas px-3 py-2 text-sm text-tng-fg-primary focus:outline-none focus:ring-2 focus:ring-tng-accent-brand focus:border-transparent"
+        />
+
+        <div tngAutocompleteContent class="contents">
+          <div
+            tngAutocompleteOverlay
+            class="rounded-lg border border-tng-border-subtle bg-tng-bg-surface shadow-lg max-h-60 overflow-auto"
+            [style.min-width.px]="triggerRef.offsetWidth"
+          >
+            <ul
+              tngAutocompleteListbox
+              [value]="value()"
+              (valueChange)="onValueChange($event)"
+              class="autocomplete-listbox"
+            >
+              @for (c of filteredOptions(); track c.code) {
+                <li tngAutocompleteOption [tngValue]="c.name" class="autocomplete-option">
+                  {{ c.name }}
+                </li>
+              }
+              @if (filteredOptions().length === 0) {
+                <li class="px-3 py-2 text-sm text-tng-fg-muted">No matches</li>
+              }
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <div class="flex items-center gap-2 text-[0.8125rem] text-tng-fg-secondary">
+        <span class="inline-flex h-5 items-center rounded-full border border-tng-border-subtle bg-tng-bg-canvas px-2 text-[0.75rem] text-tng-fg-secondary">
+          value
+        </span>
+        <code class="font-mono text-[0.8125rem] text-tng-fg-secondary">{{ value() }}</code>
+      </div>
+    </section>
   </section>
-</div>
+</main>

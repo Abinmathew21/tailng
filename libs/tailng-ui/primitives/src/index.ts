@@ -9,7 +9,7 @@ export * from './lib/navigation/tabs/tng-tabs';
 export * from './lib/navigation/toolbar/tng-toolbar';
 
 // Form
-export * from './lib/form/autocomplete/tng-autocomplete';
+export * from './lib/form/autocomplete';
 export * from './lib/form/button-toggle/tng-button-toggle';
 export * from './lib/form/checkbox/tng-checkbox';
 export * from './lib/form/chips/tng-chips';

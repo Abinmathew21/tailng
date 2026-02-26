@@ -1,0 +1,122 @@
+import { DestroyRef, Directive, effect, HostBinding, HostListener, inject, untracked } from '@angular/core';
+import { createTngIdFactory } from '@tailng-ui/cdk';
+import { normalizeToSingle } from '../../internal/combobox';
+import type { ListboxValue } from '../listbox/listbox.directive';
+import { TngListboxDirective, TngOptionDirective } from '@tailng-ui/primitives';
+import { TNG_AUTOCOMPLETE } from './tng-autocomplete.tokens';
+import type { TngAutocomplete } from './tng-autocomplete';
+import { TngAutocompleteListboxApi } from './tng-autocomplete.listbox.types';
+import { TNG_AUTOCOMPLETE_LISTBOX } from './tng-autocomplete.listbox.tokens';
+
+const createListboxId = createTngIdFactory('tng-autocomplete-listbox');
+
+@Directive({
+  selector: '[tngAutocompleteListbox]',
+  standalone: true,
+  providers: [{ provide: TNG_AUTOCOMPLETE_LISTBOX, useExisting: TngAutocompleteListbox }],
+  hostDirectives: [
+    {
+      directive: TngListboxDirective,
+      inputs: ['orientation', 'direction', 'disabled', 'loop', 'value'],
+      outputs: ['valueChange'],
+    },
+  ],
+})
+export class TngAutocompleteListbox<T = unknown> implements TngAutocompleteListboxApi<T> {
+  private readonly autocomplete = inject<TngAutocomplete<T>>(TNG_AUTOCOMPLETE);
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly listbox = inject(TngListboxDirective<T>, { self: true });
+
+  @HostBinding('attr.data-slot')
+  protected readonly dataSlot = 'autocomplete-listbox' as const;
+
+  @HostBinding('attr.id')
+  protected readonly id = createListboxId();
+
+  constructor() {
+    this.autocomplete.setListboxId(this.id);
+    this.autocomplete.setListboxApi(this);
+
+    effect(() => {
+      const v = this.autocomplete.value();
+      if (this.autocomplete.open()) return;
+
+      if (this.autocomplete._createJustEmitted) {
+        this.autocomplete._createJustEmitted = false;
+        return;
+      }
+
+      const current = untracked(this.listbox.value);
+      const currentSingle = normalizeToSingle(current);
+      if (Object.is(currentSingle, v)) return;
+      this.listbox.value.set(v as T | null);
+    });
+
+    this.destroyRef.onDestroy(() => {
+      this.autocomplete.setListboxId(null);
+      this.autocomplete.setListboxApi(null);
+    });
+  }
+
+  getHostId(): string | null {
+    return this.id ?? null;
+  }
+
+  getActiveId(): string | null {
+    return this.listbox.getActiveId();
+  }
+
+  ensureActive(pref?: 'first' | 'last'): void {
+    this.listbox.ensureActive(pref);
+  }
+
+  handleKey(key: string, shiftKey?: boolean): boolean {
+    return this.listbox.handleKeyFromCombobox(key, shiftKey);
+  }
+
+  typeahead(key: string): boolean {
+    return this.listbox.typeaheadFromCombobox(key);
+  }
+
+  commitActive(): void {
+    const value = this.listbox.getActiveValue();
+    if (value === undefined) return;
+    this.autocomplete.selectValue(value as T);
+  }
+
+  @HostListener('valueChange', ['$event'])
+  protected onListboxValueChange(value: T | readonly T[] | null): void {
+    if (this.autocomplete.disabled()) return;
+
+    const next = normalizeToSingle(value);
+    if (Object.is(next, this.autocomplete.value())) return;
+
+    if (!this.autocomplete.open()) {
+      this.autocomplete.value.set(next as T | null);
+      return;
+    }
+
+    if (next === null) {
+      this.autocomplete.value.set(null);
+      this.autocomplete.close();
+      return;
+    }
+
+    this.autocomplete.selectValue(next);
+  }
+}
+
+@Directive({
+  selector: '[tngAutocompleteOption]',
+  standalone: true,
+  hostDirectives: [
+    {
+      directive: TngOptionDirective,
+      inputs: ['tngValue', 'disabled'],
+    },
+  ],
+})
+export class TngAutocompleteOption<T> {
+  @HostBinding('attr.data-slot')
+  protected readonly dataSlot = 'autocomplete-option' as const;
+}

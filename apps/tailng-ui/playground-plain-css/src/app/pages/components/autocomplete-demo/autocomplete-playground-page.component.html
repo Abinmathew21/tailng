@@ -1,38 +1,67 @@
 <main class="page">
-  <section class="container">
-    <section class="card">
-      <h2>Primitives (`tngAutocomplete`)</h2>
-      <div tngAutocomplete class="primitive-shell">
-        <label for="autocomplete-framework" class="demo-note">Search framework</label>
-        <input
-          id="autocomplete-framework"
-          type="text"
-          role="combobox"
-          aria-expanded="true"
-          aria-controls="autocomplete-list"
-          value="ang"
-          class="demo-input"
-        />
-        <ul id="autocomplete-list" role="listbox" class="demo-list demo-menu">
-          <li role="option" aria-selected="true">Angular</li>
-          <li role="option" aria-selected="false">Angular CDK</li>
-          <li role="option" aria-selected="false">Angular Material</li>
-        </ul>
-      </div>
-    </section>
+  <header class="header">
+    <h1 class="h1">Autocomplete demo</h1>
+    <p class="sub">
+      Primitive autocomplete with country list. Type to filter; Arrow keys, Enter, Escape.
+    </p>
+  </header>
 
+  <section class="grid">
     <section class="card">
-      <h2>Components (`tng-autocomplete`)</h2>
-      <tng-autocomplete>
-        <div class="primitive-shell">
-          <p class="demo-note">Owned wrapper around autocomplete structure.</p>
-          <ul role="listbox" class="demo-list demo-menu">
-            <li role="option" aria-selected="false">Button</li>
-            <li role="option" aria-selected="false">Checkbox</li>
-            <li role="option" aria-selected="false">Dialog</li>
-          </ul>
+      <div class="card__head">
+        <h2 class="h2">Country search</h2>
+        <p class="muted">Uses assets/country-list.json</p>
+      </div>
+
+      <section
+        tngAutocomplete
+        class="autocomplete"
+        aria-label="Search country"
+        #ac="tngAutocomplete"
+        [open]="open()"
+        (openChange)="onOpenChange($event)"
+        [value]="value()"
+        (valueChange)="onValueChange($event)"
+      >
+        <input
+          #triggerRef
+          tngAutocompleteTrigger
+          type="text"
+          [value]="displayText()"
+          (input)="onInput($event)"
+          placeholder="Type to search…"
+          class="autocomplete__input"
+        />
+
+        <div tngAutocompleteContent class="autocomplete__content">
+          <div
+            tngAutocompleteOverlay
+            class="autocomplete__overlay"
+            [style.min-width.px]="triggerRef.offsetWidth"
+          >
+            <ul
+              tngAutocompleteListbox
+              [value]="value()"
+              (valueChange)="onValueChange($event)"
+              class="autocomplete__listbox"
+            >
+              @for (c of filteredOptions(); track c.code) {
+                <li tngAutocompleteOption [tngValue]="c.name" class="autocomplete__option">
+                  {{ c.name }}
+                </li>
+              }
+              @if (filteredOptions().length === 0) {
+                <li class="autocomplete__empty">No matches</li>
+              }
+            </ul>
+          </div>
         </div>
-      </tng-autocomplete>
+      </section>
+
+      <div class="debug">
+        <span class="pill">value</span>
+        <code>{{ value() }}</code>
+      </div>
     </section>
   </section>
 </main>
