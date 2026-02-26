@@ -36,6 +36,17 @@ function pointerdownElsewhere(): void {
   );
 }
 
+function pointerdown(el: HTMLElement | null): void {
+  expect(el, 'pointerdown target was null').toBeTruthy();
+  (el as HTMLElement).dispatchEvent(
+    new PointerEvent('pointerdown', {
+      bubbles: true,
+      cancelable: true,
+      button: 0,
+    })
+  );
+}
+
 function findOptionInBody(testId: string): HTMLElement | null {
   return document.body.querySelector(`[data-testid="${testId}"]`) as HTMLElement | null;
 }
@@ -162,7 +173,7 @@ class QueryHostComponent {
             data-testid="listbox"
           >
             @for (opt of filteredOptions(); track opt) {
-              <li tngAutocompleteOption [tngValue]="opt" data-testid="opt-{{ opt }}">{{ opt }}</li>
+              <li tngAutocompleteOption [tngValue]="opt" [attr.data-testid]="'opt-' + opt">{{ opt }}</li>
             }
           </ul>
         </div>
@@ -603,6 +614,51 @@ describe('tng-autocomplete query (Autocomplete-specific)', () => {
       expect(host.open()).toBe(true);
       expect(host.query()).toBe('Ax');
       expect(trigger.value).toBe('Ax');
+    });
+
+    it('re-clicking same option (India) when filtered to Indi closes overlay', async () => {
+      const fixture = TestBed.configureTestingModule({
+        imports: [FilteredQueryHostComponent],
+      }).createComponent(FilteredQueryHostComponent);
+
+      fixture.detectChanges();
+
+      const host = fixture.componentInstance;
+      const trigger = fixture.nativeElement.querySelector(
+        '[data-testid="trigger"]'
+      ) as HTMLInputElement;
+
+      await openAutocomplete(fixture, trigger);
+      inputValue(trigger, 'India');
+      fixture.detectChanges();
+      keydown(trigger, { key: 'Enter' });
+      fixture.detectChanges();
+
+      expect(host.value()).toBe('India');
+      expect(host.open()).toBe(false);
+
+      keydown(trigger, { key: 'Backspace' });
+      fixture.detectChanges();
+      inputValue(trigger, 'Indi');
+      fixture.detectChanges();
+
+      expect(host.open()).toBe(true);
+      expect(host.value()).toBe('India');
+      expect(host.query()).toBe('Indi');
+
+      await Promise.resolve();
+      await fixture.whenStable();
+      fixture.detectChanges();
+
+      const optIndia = findOptionInBody('opt-India');
+      expect(optIndia, 'opt-India should be in overlay').toBeTruthy();
+      pointerdown(optIndia);
+      fixture.detectChanges();
+      await Promise.resolve();
+      fixture.detectChanges();
+
+      expect(host.open()).toBe(false);
+      expect(host.value()).toBe('India');
     });
 
     it('typing after backspacing (filtered options change) keeps value and overlay open', async () => {

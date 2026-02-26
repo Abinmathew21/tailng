@@ -5,10 +5,12 @@ import { describe, expect, it } from 'vitest';
 import {
   TngAutocomplete,
   TngAutocompleteContent,
+  TngAutocompleteIcon,
   TngAutocompleteListbox,
   TngAutocompleteOption,
   TngAutocompleteOverlay,
   TngAutocompleteTrigger,
+  TngAutocompleteTriggerContainer,
 } from '../index';
 
 function keydown(el: HTMLElement, init: Partial<KeyboardEventInit> & { key: string }): void {
@@ -30,6 +32,10 @@ function pointerdown(el: HTMLElement, init: Partial<PointerEventInit> = {}): voi
       ...init,
     })
   );
+}
+
+function click(el: HTMLElement): void {
+  el.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, button: 0 }));
 }
 
 function findOverlay(): HTMLElement | null {
@@ -128,6 +134,57 @@ class WideContentHostComponent {
   value = signal<string | null>(null);
 }
 
+/** Trigger + icon in container; overlay should use container width for min-width. */
+@Component({
+  standalone: true,
+  imports: [
+    TngAutocomplete,
+    TngAutocompleteTrigger,
+    TngAutocompleteTriggerContainer,
+    TngAutocompleteIcon,
+    TngAutocompleteContent,
+    TngAutocompleteOverlay,
+    TngAutocompleteListbox,
+    TngAutocompleteOption,
+  ],
+  template: `
+    <div
+      tngAutocomplete
+      #api="tngAutocomplete"
+      [open]="open()"
+      (openChange)="open.set($event)"
+      [value]="value()"
+      (valueChange)="value.set($event)"
+      data-testid="autocomplete"
+    >
+      <div tngAutocompleteTriggerContainer data-testid="container" style="display: flex; width: 180px; align-items: center">
+        <input tngAutocompleteTrigger type="text" data-testid="trigger" style="flex: 1; min-width: 0" />
+        <span tngAutocompleteIcon data-testid="icon" style="flex-shrink: 0; padding: 4px">▾</span>
+      </div>
+
+      <div tngAutocompleteContent data-testid="content">
+        <div tngAutocompleteOverlay data-testid="overlay">
+          <ul
+            tngAutocompleteListbox
+            [value]="api.value()"
+            (valueChange)="api.value.set($event)"
+            data-testid="listbox"
+          >
+            <li tngAutocompleteOption [tngValue]="'a'" data-testid="opt-a">A</li>
+            <li tngAutocompleteOption [tngValue]="'b'" data-testid="opt-b">B</li>
+            <li tngAutocompleteOption [tngValue]="'c'" data-testid="opt-c">C</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  `,
+})
+class TriggerContainerHostComponent {
+  @ViewChild('api', { static: true }) api!: TngAutocomplete<string>;
+  open = signal(false);
+  value = signal<string | null>(null);
+}
+
 async function openAutocomplete(
   fixture: { detectChanges: () => void },
   trigger: HTMLElement
@@ -207,6 +264,75 @@ describe('tng-autocomplete.overlay', () => {
       const minWidth = overlay?.style.minWidth;
       expect(minWidth).toBeDefined();
       expect(parseFloat(minWidth || '0')).toBe(triggerRect.width);
+    });
+  });
+
+  describe('Trigger container (trigger + icon)', () => {
+    it('overlay min-width matches container width when trigger container is used', async () => {
+      const fixture = TestBed.configureTestingModule({
+        imports: [TriggerContainerHostComponent],
+      }).createComponent(TriggerContainerHostComponent);
+
+      fixture.detectChanges();
+
+      const container = fixture.nativeElement.querySelector('[data-testid="container"]') as HTMLElement;
+      const trigger = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLInputElement;
+      const containerRect = container.getBoundingClientRect();
+
+      await openAutocomplete(fixture, trigger);
+
+      await Promise.resolve();
+      fixture.detectChanges();
+
+      const overlay = findOverlay();
+      expect(overlay).toBeTruthy();
+      const minWidth = overlay?.style.minWidth;
+      expect(minWidth).toBeDefined();
+      expect(parseFloat(minWidth || '0')).toBe(containerRect.width);
+    });
+
+    it('pointerdown on icon does not close overlay', async () => {
+      const fixture = TestBed.configureTestingModule({
+        imports: [TriggerContainerHostComponent],
+      }).createComponent(TriggerContainerHostComponent);
+
+      fixture.detectChanges();
+
+      const host = fixture.componentInstance;
+      const trigger = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLInputElement;
+      const icon = fixture.nativeElement.querySelector('[data-testid="icon"]') as HTMLElement;
+
+      await openAutocomplete(fixture, trigger);
+      expect(host.open()).toBe(true);
+
+      pointerdown(icon);
+      fixture.detectChanges();
+      await Promise.resolve();
+      fixture.detectChanges();
+
+      expect(host.open()).toBe(true);
+    });
+
+    it('click on chevron icon opens overlay', async () => {
+      const fixture = TestBed.configureTestingModule({
+        imports: [TriggerContainerHostComponent],
+      }).createComponent(TriggerContainerHostComponent);
+
+      fixture.detectChanges();
+
+      const host = fixture.componentInstance;
+      const icon = fixture.nativeElement.querySelector('[data-testid="icon"]') as HTMLElement;
+
+      expect(host.open()).toBe(false);
+      expect(findOverlay()?.getAttribute('hidden')).toBe('');
+
+      click(icon);
+      fixture.detectChanges();
+      await Promise.resolve();
+      fixture.detectChanges();
+
+      expect(host.open()).toBe(true);
+      expect(findOverlay()?.getAttribute('hidden')).toBeNull();
     });
   });
 

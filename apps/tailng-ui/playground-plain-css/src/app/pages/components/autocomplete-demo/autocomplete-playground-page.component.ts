@@ -8,7 +8,9 @@ import {
 import {
   TngAutocomplete,
   TngAutocompleteTrigger,
+  TngAutocompleteTriggerContainer,
   TngAutocompleteContent,
+  TngAutocompleteIcon,
   TngAutocompleteOverlay,
   TngAutocompleteListbox,
   TngAutocompleteOption,
@@ -22,7 +24,9 @@ type Country = { code: string; name: string };
   imports: [
     TngAutocomplete,
     TngAutocompleteTrigger,
+    TngAutocompleteTriggerContainer,
     TngAutocompleteContent,
+    TngAutocompleteIcon,
     TngAutocompleteOverlay,
     TngAutocompleteListbox,
     TngAutocompleteOption,

@@ -81,6 +81,14 @@ export class TngAutocompleteOverlay {
     });
   }
 
+  /** Anchor for overlay: container (trigger+icon) if present, else the input trigger. */
+  private findAnchorEl(): HTMLElement | null {
+    const root = this.autocomplete.hostElement;
+    const container = root.querySelector('[data-slot="autocomplete-trigger-container"]') as HTMLElement | null;
+    if (container) return container;
+    return root.querySelector('[data-slot="autocomplete-trigger"]') as HTMLElement | null;
+  }
+
   private findTriggerEl(): HTMLElement | null {
     const root = this.autocomplete.hostElement;
     return root.querySelector('[data-slot="autocomplete-trigger"]') as HTMLElement | null;
@@ -89,9 +97,9 @@ export class TngAutocompleteOverlay {
   private reposition(): void {
     if (!this.autocomplete.open()) return;
     const panel = this.elRef.nativeElement;
-    const trigger = this.findTriggerEl();
-    if (!trigger) return;
-    const anchor = rectFromClientRect(trigger.getBoundingClientRect());
+    const anchorEl = this.findAnchorEl();
+    if (!anchorEl) return;
+    const anchor = rectFromClientRect(anchorEl.getBoundingClientRect());
     const overlay = rectFromClientRect(panel.getBoundingClientRect());
     const viewport = viewportRect();
     const result = computeOverlayPosition({
@@ -123,8 +131,8 @@ export class TngAutocompleteOverlay {
     this.removeScrollListener = () => window.removeEventListener('scroll', onScroll, true);
     if ('ResizeObserver' in window) {
       this.resizeObserver = new ResizeObserver(() => schedule());
-      const trigger = this.findTriggerEl();
-      if (trigger) this.resizeObserver.observe(trigger);
+      const anchorEl = this.findAnchorEl();
+      if (anchorEl) this.resizeObserver.observe(anchorEl);
       this.resizeObserver.observe(this.elRef.nativeElement);
     }
   }
@@ -143,9 +151,9 @@ export class TngAutocompleteOverlay {
     const onPointerDown = (ev: PointerEvent) => {
       if (!this.autocomplete.open()) return;
       const panel = this.elRef.nativeElement;
-      const trigger = this.findTriggerEl();
+      const anchorEl = this.findAnchorEl();
       if (isInside(ev.target, panel)) return;
-      if (trigger && isInside(ev.target, trigger)) return;
+      if (anchorEl && isInside(ev.target, anchorEl)) return;
       if (ev.target && (ev.target as Element).closest?.('[data-slot="autocomplete-option"]')) return;
       this.autocomplete.close();
     };
@@ -173,9 +181,9 @@ export class TngAutocompleteOverlay {
 
     queueMicrotask(() => {
       if (!this.autocomplete.open()) return;
-      const trigger = this.findTriggerEl();
-      if (!trigger) return;
-      const anchor = rectFromClientRect(trigger.getBoundingClientRect());
+      const anchorEl = this.findAnchorEl();
+      if (!anchorEl) return;
+      const anchor = rectFromClientRect(anchorEl.getBoundingClientRect());
       panel.style.minWidth = `${anchor.width}px`;
       const overlay = rectFromClientRect(panel.getBoundingClientRect());
       const viewport = viewportRect();

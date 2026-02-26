@@ -271,7 +271,7 @@ export class TngListboxDirective<T> {
     ctrl.unregisterOption(id);
 
     this.syncActiveFromController();
-    this.syncExternalValueFromInternal(ctrl);
+    this.syncExternalValueFromInternal(ctrl, false);
   }
 
   updateOptionDisabled(id: string, disabled: boolean): void {
@@ -333,7 +333,7 @@ export class TngListboxDirective<T> {
       event.preventDefault();
     }
 
-    this.syncExternalValueFromInternal(ctrl);
+    this.syncExternalValueFromInternal(ctrl, false);
   }
 
   @HostListener('focusin')
@@ -366,7 +366,7 @@ export class TngListboxDirective<T> {
     ctrl.handleClick(id, shiftKey);
 
     this.syncActiveFromController();
-    this.syncExternalValueFromInternal(ctrl);
+    this.syncExternalValueFromInternal(ctrl, true);
   }
 
   // ----------------------------------------------------
@@ -375,13 +375,20 @@ export class TngListboxDirective<T> {
 
   private syncExternalValueFromInternal(
     ctrl: ReturnType<typeof createListboxController<T>>,
+    fromClick: boolean,
   ) {
     const selected = ctrl.getSelectedValues();
 
     if (this.multiple()) {
       this.value.set([...selected] as readonly T[]);
     } else {
-      this.value.set(selected[0] ?? null);
+      const newVal = selected[0] ?? null;
+      const current = this.value();
+      this.value.set(newVal);
+      if (fromClick && Object.is(newVal, current)) {
+        this.value.set(null);
+        this.value.set(newVal);
+      }
     }
   }
 
@@ -416,7 +423,7 @@ export class TngListboxDirective<T> {
     if (!ctrl) return false;
     const action = ctrl.handleKeyDown({ key, shiftKey } as any);
     this.syncActiveFromController();
-    if (action) this.syncExternalValueFromInternal(ctrl);
+    if (action) this.syncExternalValueFromInternal(ctrl, false);
     return !!action;
   }
   

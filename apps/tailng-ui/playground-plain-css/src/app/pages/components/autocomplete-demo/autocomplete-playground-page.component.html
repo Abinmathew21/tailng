@@ -23,22 +23,20 @@
         [value]="value()"
         (valueChange)="onValueChange($event)"
       >
-        <input
-          #triggerRef
-          tngAutocompleteTrigger
-          type="text"
-          [value]="displayText()"
-          (input)="onInput($event)"
-          placeholder="Type to search…"
-          class="autocomplete__input"
-        />
+        <div tngAutocompleteTriggerContainer class="autocomplete__trigger-wrap">
+          <input
+            tngAutocompleteTrigger
+            type="text"
+            [value]="displayText()"
+            (input)="onInput($event)"
+            placeholder="Type to search…"
+            class="autocomplete__input"
+          />
+          <span tngAutocompleteIcon class="autocomplete__icon" aria-hidden="true">▾</span>
+        </div>
 
         <div tngAutocompleteContent class="autocomplete__content">
-          <div
-            tngAutocompleteOverlay
-            class="autocomplete__overlay"
-            [style.min-width.px]="triggerRef.offsetWidth"
-          >
+          <div tngAutocompleteOverlay class="autocomplete__overlay">
             <ul
               tngAutocompleteListbox
               [value]="value()"

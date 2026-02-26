@@ -120,7 +120,12 @@ export class TngSelectListbox<T = unknown> implements TngSelectListboxApi<T> {
     }
 
     const next = normalizeToSingle(value);
-    if (Object.is(next, this.select.value())) return;
+    if (Object.is(next, this.select.value())) {
+      if (this.select.open() && next !== null) {
+        this.select.selectValue(next as T);
+      }
+      return;
+    }
 
     if (!this.select.open()) {
       this.select.value.set(next as T | null);

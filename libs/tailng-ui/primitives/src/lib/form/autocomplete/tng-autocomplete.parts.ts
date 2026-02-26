@@ -140,6 +140,39 @@ export class TngAutocompleteTrigger {
   }
 }
 
+/** Wrapper for trigger + optional icon. When present, overlay uses this for width/position (full control width). */
+@Directive({
+  selector: '[tngAutocompleteTriggerContainer]',
+  exportAs: 'tngAutocompleteTriggerContainer',
+  standalone: true,
+})
+export class TngAutocompleteTriggerContainer {
+  @HostBinding('attr.data-slot')
+  protected readonly dataSlot = 'autocomplete-trigger-container' as const;
+}
+
+/** Slot for an icon (e.g. chevron) beside the trigger. Consumer provides markup. Matches Select's tngSelectIcon. */
+@Directive({
+  selector: '[tngAutocompleteIcon]',
+  exportAs: 'tngAutocompleteIcon',
+  standalone: true,
+})
+export class TngAutocompleteIcon {
+  private readonly autocomplete = inject<TngAutocomplete>(TNG_AUTOCOMPLETE);
+
+  @HostBinding('attr.data-slot')
+  protected readonly dataSlot = 'autocomplete-icon' as const;
+
+  @HostListener('click')
+  protected onClick(): void {
+    if (this.autocomplete.disabled()) return;
+    const trigger = this.autocomplete.hostElement.querySelector(
+      '[data-slot="autocomplete-trigger"]'
+    ) as HTMLElement | null;
+    trigger?.focus();
+  }
+}
+
 const createContentId = createTngIdFactory('tng-autocomplete-content');
 
 @Directive({

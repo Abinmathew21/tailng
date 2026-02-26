@@ -220,6 +220,31 @@ describe('tng-autocomplete.selection', () => {
       expect(host.value()).toBe('b');
       expect(host.open()).toBe(false);
     });
+
+    it('clicking already-selected option closes overlay (single mode)', async () => {
+      const fixture = TestBed.configureTestingModule({
+        imports: [PrimitiveHostComponent],
+      }).createComponent(PrimitiveHostComponent);
+      fixture.detectChanges();
+
+      const host = fixture.componentInstance;
+      const trigger = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLInputElement;
+
+      await openAutocomplete(fixture, trigger);
+      keydown(trigger, { key: 'Enter' });
+      fixture.detectChanges();
+
+      expect(host.value()).toBe('a');
+      expect(host.open()).toBe(false);
+
+      await openAutocomplete(fixture, trigger);
+      const optA = findOptionInBody('opt-a');
+      pointerdown(optA);
+      fixture.detectChanges();
+
+      expect(host.value()).toBe('a');
+      expect(host.open()).toBe(false);
+    });
   });
 
   describe('selecting object value works (reference equality)', () => {

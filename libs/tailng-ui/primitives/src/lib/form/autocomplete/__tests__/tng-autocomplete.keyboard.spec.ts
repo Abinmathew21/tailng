@@ -295,7 +295,7 @@ describe('tng-autocomplete keyboard (combobox logic)', () => {
 
       keydown(trigger, { key: 'ArrowDown' });
       fixture.detectChanges();
-      expect(trigger.getAttribute('aria-activedescendant')).toMatch(/opt-b|opt/);
+      expect(String(trigger.getAttribute('aria-activedescendant') ?? '')).toMatch(/opt-b|opt/);
 
       keydown(trigger, { key: 'Escape' });
       fixture.detectChanges();

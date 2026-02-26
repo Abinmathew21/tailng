@@ -89,7 +89,12 @@ export class TngAutocompleteListbox<T = unknown> implements TngAutocompleteListb
     if (this.autocomplete.disabled()) return;
 
     const next = normalizeToSingle(value);
-    if (Object.is(next, this.autocomplete.value())) return;
+    if (Object.is(next, this.autocomplete.value())) {
+      if (this.autocomplete.open() && next !== null) {
+        this.autocomplete.selectValue(next as T);
+      }
+      return;
+    }
 
     if (!this.autocomplete.open()) {
       this.autocomplete.value.set(next as T | null);

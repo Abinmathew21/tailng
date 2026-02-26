@@ -197,6 +197,33 @@ describe('tngSelectListbox primitive', () => {
       expect(content.hasAttribute('hidden')).toBe(true);
     });
 
+    it('clicking already-selected option closes overlay (single mode)', () => {
+      const fixture = TestBed.configureTestingModule({
+        imports: [HostComponent],
+      }).createComponent(HostComponent);
+
+      fixture.detectChanges();
+
+      const host = fixture.componentInstance;
+      const trigger = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLElement;
+      const content = fixture.nativeElement.querySelector('[data-testid="content"]') as HTMLElement;
+
+      host.value.set('b');
+      fixture.detectChanges();
+
+      pointerdown(trigger);
+      fixture.detectChanges();
+      expect(host.api.open()).toBe(true);
+
+      const optB = fixture.nativeElement.querySelector('[data-testid="opt-b"]') as HTMLElement;
+      pointerdown(optB);
+      fixture.detectChanges();
+
+      expect(host.value()).toBe('b');
+      expect(host.api.open()).toBe(false);
+      expect(content.hasAttribute('hidden')).toBe(true);
+    });
+
   });
 
   // ─────────────────────────────────────────────
