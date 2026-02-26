@@ -1,5 +1,6 @@
 import { DestroyRef, Directive, ElementRef, HostBinding, HostListener, inject } from '@angular/core';
 import { createTngIdFactory } from '@tailng-ui/cdk';
+import { ensureActiveAndSync, handleComboboxKeydown } from '../../internal/combobox';
 import type { TngSelect } from './tng-select';
 import { TNG_SELECT } from './tng-select.tokens';
 import { TngSelectListboxApi } from './tng-select.listbox.types';
@@ -103,62 +104,20 @@ export class TngSelectTrigger {
     this.select.toggle();
 
     if (this.select.open()) {
-      this.listbox?.ensureActive();
-      this.select.setActiveDescendantId(this.listbox?.getActiveId() ?? null);
+      ensureActiveAndSync(this.listbox, (id) => this.select.setActiveDescendantId(id));
     }
   }
 
   @HostListener('keydown', ['$event'])
   protected onKeydown(event: KeyboardEvent): void {
-    if (this.select.disabled()) return;
-
-    if (!this.select.open()) {
-      if (event.key === 'ArrowDown' || event.key === 'ArrowUp' || event.key === 'Enter' || event.key === ' ') {
-        event.preventDefault();
-        this.select.openSelect();
-        this.listbox?.ensureActive(event.key === 'ArrowUp' ? 'last' : 'first');
-        this.select.setActiveDescendantId(this.listbox?.getActiveId() ?? null);
-      }
-      return;
-    }
-
-    if (event.key === 'Escape') {
-      if (event.defaultPrevented) return;
-      event.preventDefault();
-      event.stopPropagation();
-      this.select.close();
-      return;
-    }
-
-    // Space selects/commits active option when open (like Enter)
-    if (event.key === ' ' || event.key === 'Spacebar') {
-      event.preventDefault();
-      this.listbox?.commitActive();
-      return;
-    }
-
-    // exclude Space from typeahead
-    if (event.key.length === 1 && event.key !== ' ' && !event.ctrlKey && !event.metaKey && !event.altKey) {
-      const moved = this.listbox?.typeahead(event.key) ?? false;
-      if (moved) {
-        this.select.setActiveDescendantId(this.listbox?.getActiveId() ?? null);
-        event.preventDefault();
-      }
-      return;
-    }
-
-    const moved = this.listbox?.handleKey(event.key, event.shiftKey) ?? false;
-    if (moved) {
-      this.select.setActiveDescendantId(this.listbox?.getActiveId() ?? null);
-      event.preventDefault();
-      return;
-    }
-
-    const isSpace = event.key === ' ' || event.key === 'Spacebar';
-    if (event.key === 'Enter' || isSpace) {
-      event.preventDefault();
-      this.listbox?.commitActive();
-    }
+    handleComboboxKeydown(event, {
+      disabled: this.select.disabled(),
+      open: this.select.open(),
+      openSelect: () => this.select.openSelect(),
+      close: () => this.select.close(),
+      listbox: this.listbox,
+      setActiveDescendantId: (id) => this.select.setActiveDescendantId(id),
+    });
   }
 }
 

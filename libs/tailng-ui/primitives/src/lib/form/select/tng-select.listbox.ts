@@ -1,5 +1,10 @@
 import { DestroyRef, Directive, effect, HostBinding, HostListener, inject, untracked } from '@angular/core';
 import { createTngIdFactory } from '@tailng-ui/cdk';
+import {
+  arraysEqual,
+  normalizeToArray,
+  normalizeToSingle,
+} from '../../internal/combobox';
 import type { ListboxValue } from '../listbox/listbox.directive';
 import { TngListboxDirective, TngOptionDirective } from '@tailng-ui/primitives';
 import { TNG_SELECT } from './tng-select.tokens';
@@ -48,18 +53,12 @@ export class TngSelectListbox<T = unknown> implements TngSelectListboxApi<T> {
 
       const current = untracked(this.listbox.value);
       if (isMulti) {
-        const arrV: readonly T[] | null = v === null ? null : (Array.isArray(v) ? v : [v]) as readonly T[] | null;
-        const arrCur = current === null ? null : Array.isArray(current) ? current : [current];
-        if (
-          arrV === null && arrCur === null ||
-          arrV !== null && arrCur !== null &&
-          arrV.length === arrCur.length &&
-          arrV.every((x, i) => Object.is(x, arrCur[i]))
-        ) return;
+        const arrV = normalizeToArray(v);
+        const arrCur = normalizeToArray(current);
+        if (arraysEqual(arrV, arrCur)) return;
         this.listbox.value.set(arrV as ListboxValue<T>);
       } else {
-        const currentSingle =
-          current === null ? null : Array.isArray(current) ? (current[0] ?? null) : current;
+        const currentSingle = normalizeToSingle(current);
         if (Object.is(currentSingle, v)) return;
         this.listbox.value.set(v as T | null);
       }
@@ -112,19 +111,15 @@ export class TngSelectListbox<T = unknown> implements TngSelectListboxApi<T> {
     const isMulti = this.select.multiple();
 
     if (isMulti) {
-      const next: readonly T[] | null = (value === null ? null : Array.isArray(value) ? value : [value]) as readonly T[] | null;
-      const cur = this.select.value();
-      if (
-        next === null && cur === null ||
-        next !== null && cur !== null && Array.isArray(cur) &&
-        next.length === cur.length && next.every((x, i) => Object.is(x, cur[i]))
-      ) return;
+      const next = normalizeToArray(value);
+      const cur = normalizeToArray(this.select.value());
+      if (arraysEqual(next, cur)) return;
       this.select.value.set(next);
       // multi-select: do not close on selection
       return;
     }
 
-    const next = value === null ? null : Array.isArray(value) ? (value[0] ?? null) : value;
+    const next = normalizeToSingle(value);
     if (Object.is(next, this.select.value())) return;
 
     if (!this.select.open()) {

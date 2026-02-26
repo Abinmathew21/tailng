@@ -1,11 +1,4 @@
-export type TngSelectListboxApi<T = unknown> = Readonly<{
-  getHostId: () => string | null;
-  getActiveId: () => string | null;
+import type { ComboboxListboxApi } from '../../internal/combobox';
 
-  ensureActive: (pref?: 'first' | 'last') => void;
-
-  handleKey: (key: string, shiftKey?: boolean) => boolean;
-  typeahead: (key: string) => boolean;
-
-  commitActive: () => void;
-}>;
+/** Select-specific alias. Uses shared ComboboxListboxApi from internal/combobox. */
+export type TngSelectListboxApi<T = unknown> = ComboboxListboxApi;
