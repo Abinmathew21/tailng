@@ -337,6 +337,36 @@ describe('tng-autocomplete.create (free-form mode)', () => {
     });
   });
 
+  describe('Space does NOT emit create (inserts into input for typing)', () => {
+    it('Space with no active option inserts into input, does NOT emit create', async () => {
+      const fixture = TestBed.configureTestingModule({
+        imports: [FreeFormHostComponent],
+      }).createComponent(FreeFormHostComponent);
+
+      fixture.detectChanges();
+
+      const host = fixture.componentInstance;
+      const trigger = fixture.nativeElement.querySelector(
+        '[data-testid="trigger"]'
+      ) as HTMLInputElement;
+
+      inputValue(trigger, 'z');
+      fixture.detectChanges();
+      focus(trigger);
+      fixture.detectChanges();
+      keydown(trigger, { key: 'ArrowDown' });
+      fixture.detectChanges();
+      expect(host.open()).toBe(true);
+      expect(host.api.getListboxApi()?.getActiveId()).toBeNull();
+
+      keydown(trigger, { key: ' ' });
+      fixture.detectChanges();
+
+      // Space does NOT emit create (we allow it to pass through to input for typing)
+      expect(host.createCalls).toHaveLength(0);
+    });
+  });
+
   describe('Strict mode blocks free-form create', () => {
     it('create is NOT emitted when strict=true', async () => {
       const fixture = TestBed.configureTestingModule({

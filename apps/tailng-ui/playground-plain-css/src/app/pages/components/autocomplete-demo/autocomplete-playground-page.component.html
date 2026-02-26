@@ -2,15 +2,16 @@
   <header class="header">
     <h1 class="h1">Autocomplete demo</h1>
     <p class="sub">
-      Primitive autocomplete with country list. Type to filter; Arrow keys, Enter, Escape.
+      Primitive autocomplete + Components wrapper. Contract styles via data-slot.
     </p>
   </header>
 
   <section class="grid">
+    <!-- 1) Primitive autocomplete -->
     <section class="card">
       <div class="card__head">
-        <h2 class="h2">Country search</h2>
-        <p class="muted">Uses assets/country-list.json</p>
+        <h2 class="h2">1) Primitive Autocomplete</h2>
+        <p class="muted">Country search via assets/country-list.json</p>
       </div>
 
       <section
@@ -23,32 +24,27 @@
         [value]="value()"
         (valueChange)="onValueChange($event)"
       >
-        <div tngAutocompleteTriggerContainer class="autocomplete__trigger-wrap">
+        <div tngAutocompleteTriggerContainer>
           <input
             tngAutocompleteTrigger
             type="text"
             [value]="displayText()"
             (input)="onInput($event)"
             placeholder="Type to search…"
-            class="autocomplete__input"
           />
-          <span tngAutocompleteIcon class="autocomplete__icon" aria-hidden="true">▾</span>
+          <span tngAutocompleteIcon aria-hidden="true">▾</span>
         </div>
 
-        <div tngAutocompleteContent class="autocomplete__content">
-          <div tngAutocompleteOverlay class="autocomplete__overlay">
-            <ul
-              tngAutocompleteListbox
-              [value]="value()"
-              class="autocomplete__listbox"
-            >
+        <div tngAutocompleteContent>
+          <div tngAutocompleteOverlay>
+            <ul tngAutocompleteListbox [value]="value()">
               @for (c of filteredOptions(); track c.code) {
-                <li tngAutocompleteOption [tngValue]="c.name" class="autocomplete__option">
+                <li tngAutocompleteOption [tngValue]="c.name">
                   {{ c.name }}
                 </li>
               }
               @if (filteredOptions().length === 0) {
-                <li class="autocomplete__empty">No matches</li>
+                <li data-slot="autocomplete-empty">No matches</li>
               }
             </ul>
           </div>
@@ -58,6 +54,30 @@
       <div class="debug">
         <span class="pill">value</span>
         <code>{{ value() }}</code>
+      </div>
+    </section>
+
+    <!-- 2) Components layer wrapper -->
+    <section class="card">
+      <div class="card__head">
+        <h2 class="h2">2) Components Layer &lt;tng-autocomplete&gt;</h2>
+        <p class="muted">Options + value + change. Same country list.</p>
+      </div>
+
+      <tng-autocomplete
+        class="component"
+        [options]="countries()"
+        [value]="valueC()"
+        (valueChange)="valueC.set($event)"
+        [getOptionValue]="getCountryValue"
+        [getOptionLabel]="getCountryLabel"
+        placeholder="Type to search…"
+        aria-label="Search country (component)"
+      />
+
+      <div class="debug">
+        <span class="pill">value</span>
+        <code>{{ valueC() }}</code>
       </div>
     </section>
   </section>

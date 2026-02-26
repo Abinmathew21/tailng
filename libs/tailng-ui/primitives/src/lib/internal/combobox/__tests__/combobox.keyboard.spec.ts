@@ -107,7 +107,7 @@ describe('combobox.keyboard (handleComboboxKeydown)', () => {
     });
   });
 
-  describe('open state - Space/Spacebar commit', () => {
+  describe('open state - Space/Spacebar commit (spaceCommits: true by default)', () => {
     it('Space commits active and prevents default', () => {
       const ctx = createContext({ open: true });
       const ev = createEvent(' ');
@@ -125,6 +125,16 @@ describe('combobox.keyboard (handleComboboxKeydown)', () => {
       handleComboboxKeydown(ev, ctx);
 
       expect(ctx.listbox!.commitActive).toHaveBeenCalledTimes(1);
+    });
+
+    it('spaceCommits: false - Space does NOT commit, allows input to receive it (AutoComplete typing)', () => {
+      const ctx = createContext({ open: true });
+      const ev = createEvent(' ');
+
+      handleComboboxKeydown(ev, ctx, { spaceCommits: false });
+
+      expect(ev.defaultPrevented).toBe(false);
+      expect(ctx.listbox!.commitActive).not.toHaveBeenCalled();
     });
   });
 

@@ -17,6 +17,8 @@ export interface ComboboxKeyboardContext {
   listbox: ComboboxListboxApi | null;
   /** Sync aria-activedescendant on the trigger (who owns it). */
   setActiveDescendantId: (id: string | null) => void;
+  /** When true (multiselect), Enter toggles options; we must not call commitActive again when handleKey already ran. */
+  multiSelect?: boolean;
 }
 
 /** Options to customize keyboard behavior (e.g. AutoComplete may disable typeahead). */
@@ -27,6 +29,11 @@ export interface ComboboxKeyboardOptions {
   keysToOpen?: readonly string[];
   /** Keys that open when closed but must NOT preventDefault (e.g. Backspace/Delete so input can delete). */
   keysToOpenNoPreventDefault?: readonly string[];
+  /**
+   * When true (default), Space commits the active option when open (Select behavior).
+   * When false (AutoComplete), Space inserts into input like normal typing (e.g. "United St" for filtering).
+   */
+  spaceCommits?: boolean;
 }
 
 const DEFAULT_KEYS_TO_OPEN = [
@@ -52,6 +59,7 @@ export function handleComboboxKeydown(
     enableTypeahead = true,
     keysToOpen = DEFAULT_KEYS_TO_OPEN,
     keysToOpenNoPreventDefault = [],
+    spaceCommits = true,
   } = options;
 
   // --- Closed state: ArrowDown/ArrowUp/Enter/Space open + set active ---
@@ -89,10 +97,12 @@ export function handleComboboxKeydown(
     return;
   }
 
-  // Space: commit active (like Enter)
+  // Space: when spaceCommits (Select) → commit; when !spaceCommits (AutoComplete) → return so input receives it
   if (event.key === ' ' || event.key === 'Spacebar') {
-    event.preventDefault();
-    context.listbox?.commitActive();
+    if (spaceCommits) {
+      event.preventDefault();
+      context.listbox?.commitActive();
+    }
     return;
   }
 
@@ -118,11 +128,16 @@ export function handleComboboxKeydown(
   if (moved) {
     syncActiveDescendant(context.listbox, context.setActiveDescendantId);
     event.preventDefault();
+    // Single-select: listbox did select-active. Still need commitActive to close overlay.
+    // Multi-select: listbox did toggle-active. Do NOT call commitActive—it would toggle again.
+    if (event.key === 'Enter' && !context.multiSelect) {
+      context.listbox?.commitActive();
+    }
     return;
   }
 
-  // Enter (or Space fallback): commit active
-  if (event.key === 'Enter' || event.key === ' ' || event.key === 'Spacebar') {
+  // Enter: listbox did not handle it (no active). Fallback: close if we have a selection.
+  if (event.key === 'Enter') {
     event.preventDefault();
     context.listbox?.commitActive();
   }

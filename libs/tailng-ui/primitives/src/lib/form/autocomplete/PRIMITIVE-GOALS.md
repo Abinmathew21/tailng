@@ -20,8 +20,8 @@ Defines what the Autocomplete primitive **owns** vs. what it **delegates** to th
 - `aria-haspopup="listbox"`
 
 ### Keyboard behavior mapping
-- **Closed**: ArrowDown/ArrowUp/Enter/Space → open + ensure active (first/last)
-- **Open**: Escape → close; Enter/Space → commit active
+- **Closed**: ArrowDown/ArrowUp/Backspace/Delete → open + ensure active (first/last)
+- **Open**: Escape → close; Enter → commit active; Space → inserts into input (typing, e.g. "United St")
 - **Open**: Arrow keys, Home, End → `handleKey` (listbox), sync activeDescendant
 - **Open**: Tab → close + move focus (or per spec)
 - Typeahead routing: optionally route single chars to listbox or leave to input (configurable)

@@ -329,7 +329,7 @@ describe('tng-autocomplete keyboard (combobox logic)', () => {
       expect(host.open()).toBe(false);
     });
 
-    it('Space commits active option when open', () => {
+    it('Space when open does NOT select - inserts into input like normal typing', () => {
       const fixture = TestBed.configureTestingModule({
         imports: [HostComponent],
       }).createComponent(HostComponent);
@@ -343,15 +343,14 @@ describe('tng-autocomplete keyboard (combobox logic)', () => {
 
       keydown(trigger, { key: 'ArrowDown' });
       fixture.detectChanges();
-
-      keydown(trigger, { key: 'ArrowDown' });
-      fixture.detectChanges();
+      expect(host.open()).toBe(true);
 
       keydown(trigger, { key: ' ' });
       fixture.detectChanges();
 
-      expect(host.value()).toBe('b');
-      expect(host.open()).toBe(false);
+      // Space should NOT commit; value stays null, overlay stays open
+      expect(host.value()).toBe(null);
+      expect(host.open()).toBe(true);
     });
 
     it('Tab does not commit active option (value unchanged)', () => {

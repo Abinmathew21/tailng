@@ -17,6 +17,11 @@ function keydown(el: HTMLElement, init: Partial<KeyboardEventInit> & { key: stri
   );
 }
 
+function inputValue(el: HTMLInputElement, value: string): void {
+  el.value = value;
+  el.dispatchEvent(new Event('input', { bubbles: true }));
+}
+
 function pointerdown(el: HTMLElement | null, init: Partial<PointerEventInit> = {}): void {
   expect(el, 'pointerdown target was null').toBeTruthy();
   (el as HTMLElement).dispatchEvent(
@@ -72,6 +77,72 @@ class PrimitiveHostComponent {
   @ViewChild('api', { static: true }) api!: TngAutocomplete<string>;
   open = signal(false);
   value = signal<string | null>(null);
+}
+
+/** Host with [value] binding on input (consumer display pattern). */
+@Component({
+  standalone: true,
+  imports: [
+    TngAutocomplete,
+    TngAutocompleteTrigger,
+    TngAutocompleteContent,
+    TngAutocompleteOverlay,
+    TngAutocompleteListbox,
+    TngAutocompleteOption,
+  ],
+  template: `
+    <div
+      tngAutocomplete
+      #api="tngAutocomplete"
+      [open]="open()"
+      (openChange)="open.set($event)"
+      [value]="value()"
+      (valueChange)="onValueChange($event)"
+      data-testid="autocomplete"
+    >
+      <input
+        tngAutocompleteTrigger
+        type="text"
+        [value]="displayText()"
+        (input)="onInput($event)"
+        placeholder="Type to search"
+        data-testid="trigger"
+      />
+
+      <div tngAutocompleteContent data-testid="content">
+        <div tngAutocompleteOverlay data-testid="overlay">
+          <ul
+            tngAutocompleteListbox
+            [value]="api.value()"
+            (valueChange)="api.value.set($event)"
+            data-testid="listbox"
+          >
+            <li tngAutocompleteOption [tngValue]="'a'" data-testid="opt-a">A</li>
+            <li tngAutocompleteOption [tngValue]="'b'" data-testid="opt-b">B</li>
+            <li tngAutocompleteOption [tngValue]="'c'" data-testid="opt-c">C</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  `,
+})
+class DisplayBindingHostComponent {
+  @ViewChild('api', { static: true }) api!: TngAutocomplete<string>;
+  open = signal(false);
+  value = signal<string | null>(null);
+  query = signal('');
+
+  displayText = () => (this.open() ? this.query() : this.value() ?? '');
+
+  onInput(ev: Event): void {
+    this.query.set((ev.target as HTMLInputElement).value);
+  }
+
+  onValueChange(v: string | readonly string[] | null): void {
+    const single = v === null ? null : Array.isArray(v) ? (v[0] ?? null) : v;
+    this.value.set(single);
+    this.query.set(single ?? '');
+  }
 }
 
 type Opt = Readonly<{ id: number; label: string }>;
@@ -183,6 +254,32 @@ function findOptionInBody(testId: string): HTMLElement | null {
 
 describe('tng-autocomplete.selection', () => {
   describe('selecting primitive value works', () => {
+    
+    it('after selecting via Enter, input displays the selected value', async () => {
+      const fixture = TestBed.configureTestingModule({
+        imports: [DisplayBindingHostComponent],
+      }).createComponent(DisplayBindingHostComponent);
+      fixture.detectChanges();
+
+      const host = fixture.componentInstance;
+      const trigger = fixture.nativeElement.querySelector(
+        '[data-testid="trigger"]'
+      ) as HTMLInputElement;
+
+      await openAutocomplete(fixture, trigger);
+
+      keydown(trigger, { key: 'ArrowDown' });
+      fixture.detectChanges();
+
+      keydown(trigger, { key: 'Enter' });
+      fixture.detectChanges();
+
+      expect(host.open()).toBe(false);
+      expect(host.value()).toBe('b');
+      expect(trigger.value).toBe('b');
+      expect(trigger.value).not.toBe('');
+    });
+
     it('selects via Enter and updates value + closes', async () => {
       const fixture = TestBed.configureTestingModule({
         imports: [PrimitiveHostComponent],
@@ -244,6 +341,60 @@ describe('tng-autocomplete.selection', () => {
 
       expect(host.value()).toBe('a');
       expect(host.open()).toBe(false);
+    });
+
+    it('Space when open inserts into input (does NOT select)', async () => {
+      const fixture = TestBed.configureTestingModule({
+        imports: [DisplayBindingHostComponent],
+      }).createComponent(DisplayBindingHostComponent);
+
+      fixture.detectChanges();
+
+      const host = fixture.componentInstance;
+      const trigger = fixture.nativeElement.querySelector(
+        '[data-testid="trigger"]'
+      ) as HTMLInputElement;
+
+      await openAutocomplete(fixture, trigger);
+
+      keydown(trigger, { key: ' ' });
+      // Simulate space inserted (test env does not perform default action like real browser)
+      inputValue(trigger, ' ');
+      fixture.detectChanges();
+
+      // Space inserts; value stays null, overlay stays open, query gets the space
+      expect(host.value()).toBe(null);
+      expect(host.open()).toBe(true);
+      expect(host.query()).toBe(' ');
+    });
+
+    it('Enter on already-selected option closes overlay', async () => {
+      const fixture = TestBed.configureTestingModule({
+        imports: [PrimitiveHostComponent],
+      }).createComponent(PrimitiveHostComponent);
+      fixture.detectChanges();
+
+      const host = fixture.componentInstance;
+      const trigger = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLInputElement;
+      const content = fixture.nativeElement.querySelector('[data-testid="content"]') as HTMLElement;
+
+      await openAutocomplete(fixture, trigger);
+      keydown(trigger, { key: 'Enter' });
+      fixture.detectChanges();
+      expect(host.value()).toBe('a');
+      expect(host.open()).toBe(false);
+
+      keydown(trigger, { key: 'ArrowDown' });
+      fixture.detectChanges();
+      expect(host.open()).toBe(true);
+      expect(content.hasAttribute('hidden')).toBeFalsy();
+
+      keydown(trigger, { key: 'Enter' });
+      fixture.detectChanges();
+
+      expect(host.value()).toBe('a');
+      expect(host.open()).toBe(false);
+      expect(content.hasAttribute('hidden')).toBe(true);
     });
   });
 

@@ -117,6 +117,7 @@ export class TngSelectTrigger {
       close: () => this.select.close(),
       listbox: this.listbox,
       setActiveDescendantId: (id) => this.select.setActiveDescendantId(id),
+      multiSelect: this.select.multiple(),
     });
   }
 }

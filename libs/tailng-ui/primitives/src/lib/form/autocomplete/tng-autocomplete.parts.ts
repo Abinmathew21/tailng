@@ -89,9 +89,10 @@ export class TngAutocompleteTrigger {
 
   @HostListener('keydown', ['$event'])
   protected onKeydown(event: KeyboardEvent): void {
-    // Free-form create: Enter/Space with no active option → emit create, close
+    // Free-form create: Enter (only) with no active option → emit create, close.
+    // Space is NOT used here so it can insert into input for typing (e.g. "United St").
     if (
-      (event.key === 'Enter' || event.key === ' ' || event.key === 'Spacebar') &&
+      event.key === 'Enter' &&
       this.autocomplete.open() &&
       !this.autocomplete.disabled() &&
       this.autocomplete.allowCreate() &&
@@ -136,6 +137,7 @@ export class TngAutocompleteTrigger {
       enableTypeahead: false,
       keysToOpen: AUTOCOMPLETE_KEYS_TO_OPEN,
       keysToOpenNoPreventDefault: ['Backspace', 'Delete'],
+      spaceCommits: false, // Space inserts into input for typing (e.g. "United St" for filtering)
     });
   }
 }

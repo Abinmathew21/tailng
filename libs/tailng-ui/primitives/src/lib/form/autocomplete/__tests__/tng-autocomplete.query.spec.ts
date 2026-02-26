@@ -187,7 +187,15 @@ class FilteredQueryHostComponent {
   value = signal<string | null>(null);
   query = signal('');
   strict = true;
-  readonly allOptions = ['Australia', 'Austria', 'India', 'Indonesia', 'Italy'];
+  readonly allOptions = [
+    'Australia',
+    'Austria',
+    'India',
+    'Indonesia',
+    'Italy',
+    'United States',
+    'United Kingdom',
+  ];
 
   readonly filteredOptions = computed(() => {
     const q = this.query().toLowerCase();
@@ -413,6 +421,33 @@ describe('tng-autocomplete query (Autocomplete-specific)', () => {
       expect(host.value()).toBe('b');
       expect(host.query()).toBe('B');
       expect(trigger.value).toBe('B');
+    });
+  });
+
+  describe('Space key inserts into input for filtering', () => {
+    it('query "United St" (with space) filters to United States', async () => {
+      const fixture = TestBed.configureTestingModule({
+        imports: [FilteredQueryHostComponent],
+      }).createComponent(FilteredQueryHostComponent);
+
+      fixture.detectChanges();
+
+      const host = fixture.componentInstance;
+      const trigger = fixture.nativeElement.querySelector(
+        '[data-testid="trigger"]'
+      ) as HTMLInputElement;
+
+      await openAutocomplete(fixture, trigger);
+
+      inputValue(trigger, 'United St');
+      fixture.detectChanges();
+
+      expect(host.query()).toBe('United St');
+      expect(host.value()).toBe(null);
+
+      const optUnitedStates = findOptionInBody('opt-United States');
+      expect(optUnitedStates).toBeTruthy();
+      expect(optUnitedStates?.textContent?.trim()).toBe('United States');
     });
   });
 

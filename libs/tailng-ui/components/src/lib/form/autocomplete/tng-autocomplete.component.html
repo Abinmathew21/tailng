@@ -1,3 +1,32 @@
-<section tngAutocomplete class="tng-autocomplete" [attr.aria-label]="ariaLabel()">
-  <ng-content />
-</section>
+<div tngAutocompleteTriggerContainer>
+  <input
+    tngAutocompleteTrigger
+    type="text"
+    [value]="displayText()"
+    (input)="onInput($event)"
+    [attr.placeholder]="placeholder()"
+    [attr.aria-label]="ariaLabel()"
+  />
+  <span tngAutocompleteIcon aria-hidden="true">
+    {{ iconText() }}
+  </span>
+</div>
+
+<div tngAutocompleteContent>
+  <div tngAutocompleteOverlay>
+    <ul tngAutocompleteListbox [value]="primitive.value()">
+      @for (opt of filteredOptions(); track trackBy()($index, opt)) {
+        <li
+          tngAutocompleteOption
+          [tngValue]="getOptionValue()(opt)"
+          [disabled]="isOptionDisabled()(opt)"
+        >
+          {{ getOptionLabel()(opt) }}
+        </li>
+      }
+      @if (filteredOptions().length === 0) {
+        <li data-slot="autocomplete-empty">No matches</li>
+      }
+    </ul>
+  </div>
+</div>

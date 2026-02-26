@@ -15,6 +15,7 @@ import {
   TngAutocompleteListbox,
   TngAutocompleteOption,
 } from '@tailng-ui/primitives';
+import { TngAutocompleteComponent } from '@tailng-ui/components';
 
 type Country = { code: string; name: string };
 
@@ -30,6 +31,7 @@ type Country = { code: string; name: string };
     TngAutocompleteOverlay,
     TngAutocompleteListbox,
     TngAutocompleteOption,
+    TngAutocompleteComponent,
   ],
   templateUrl: './autocomplete-playground-page.component.html',
   styleUrl: './autocomplete-playground-page.component.css',
@@ -38,7 +40,11 @@ export class AutocompletePlaygroundPageComponent implements OnInit {
   readonly countries = signal<Country[]>([]);
   readonly query = signal('');
   readonly value = signal<string | null>(null);
+  readonly valueC = signal<string | null>(null);
   readonly open = signal(false);
+
+  readonly getCountryValue = (c: Country) => c.name;
+  readonly getCountryLabel = (c: Country) => c.name;
 
   readonly filteredOptions = computed(() => {
     const q = this.query().toLowerCase().trim();
