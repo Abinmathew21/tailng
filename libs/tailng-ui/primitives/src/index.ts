@@ -13,6 +13,7 @@ export * from './lib/form/listbox/listbox.directive';
 export * from './lib/form/listbox/option.directive';
 export * from './lib/form/listbox/tokens';
 export * from './lib/form/autocomplete';
+export * from './lib/form/multi-autocomplete';
 export * from './lib/form/button-toggle/tng-button-toggle';
 export * from './lib/form/checkbox/tng-checkbox';
 export * from './lib/form/chips/tng-chips';

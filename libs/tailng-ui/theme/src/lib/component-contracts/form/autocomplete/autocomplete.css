@@ -6,7 +6,8 @@
     - semantic tokens drive light/dark
   */
 
-  :where([data-slot="autocomplete"]) {
+  :where([data-slot="autocomplete"]),
+  :where([data-slot="multi-autocomplete"]) {
     display: grid;
     gap: 0.5rem;
     min-width: 0;
@@ -43,7 +44,8 @@
 
   /* ---------------- Trigger container (input + icon) ---------------- */
 
-  :where([data-slot="autocomplete-trigger-container"]) {
+  :where([data-slot="autocomplete-trigger-container"]),
+  :where([data-slot="multi-autocomplete-trigger-container"]) {
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -59,20 +61,24 @@
   }
 
   :where([data-slot="autocomplete-trigger-container"]:has(:focus)),
-  :where([data-slot="autocomplete-trigger-container"]:has(:focus-visible)) {
+  :where([data-slot="autocomplete-trigger-container"]:has(:focus-visible)),
+  :where([data-slot="multi-autocomplete-trigger-container"]:has(:focus)),
+  :where([data-slot="multi-autocomplete-trigger-container"]:has(:focus-visible)) {
     outline: none;
     border-color: var(--tng-autocomplete-focus-ring);
     box-shadow: var(--tng-autocomplete-shadow-focus);
   }
 
-  :where([data-slot="autocomplete"][data-disabled]) :where([data-slot="autocomplete-trigger-container"]) {
+  :where([data-slot="autocomplete"][data-disabled]) :where([data-slot="autocomplete-trigger-container"]),
+  :where([data-slot="multi-autocomplete"][data-disabled]) :where([data-slot="multi-autocomplete-trigger-container"]) {
     opacity: 0.5;
     cursor: not-allowed;
   }
 
   /* ---------------- Trigger (input) ---------------- */
 
-  :where([data-slot="autocomplete-trigger"]) {
+  :where([data-slot="autocomplete-trigger"]),
+  :where([data-slot="multi-autocomplete-trigger"]) {
     flex: 1;
     min-width: 0;
 
@@ -89,11 +95,13 @@
     outline: none;
   }
 
-  :where([data-slot="autocomplete-trigger"])::placeholder {
+  :where([data-slot="autocomplete-trigger"])::placeholder,
+  :where([data-slot="multi-autocomplete-trigger"])::placeholder {
     color: var(--tng-autocomplete-muted);
   }
 
-  :where([data-slot="autocomplete-icon"]) {
+  :where([data-slot="autocomplete-icon"]),
+  :where([data-slot="multi-autocomplete-icon"]) {
     opacity: 0.6;
     line-height: 1;
     font-size: 0.75rem;
@@ -104,11 +112,13 @@
 
   /* ---------------- Content / Overlay ---------------- */
 
-  :where([data-slot="autocomplete-content"][hidden]) {
+  :where([data-slot="autocomplete-content"][hidden]),
+  :where([data-slot="multi-autocomplete-content"][hidden]) {
     display: none;
   }
 
-  :where([data-slot="autocomplete-overlay"]) {
+  :where([data-slot="autocomplete-overlay"]),
+  :where([data-slot="multi-autocomplete-overlay"]) {
     --tng-autocomplete-radius: 0.5rem;
     --tng-autocomplete-option-py: 0.5rem;
     --tng-autocomplete-option-px: 0.75rem;
@@ -132,7 +142,8 @@
 
   /* ---------------- Listbox ---------------- */
 
-  :where([data-slot="autocomplete-listbox"]) {
+  :where([data-slot="autocomplete-listbox"]),
+  :where([data-slot="multi-autocomplete-listbox"]) {
     list-style: none;
     margin: 0;
     padding: 0;
@@ -173,17 +184,21 @@
       border-color 120ms var(--tng-autocomplete-ease);
   }
 
-  :where([data-slot="autocomplete-option"]:hover):not([data-disabled]) {
+  :where([data-slot="autocomplete-option"]:hover):not([data-disabled]),
+  :where([data-slot="multi-autocomplete-option"]:hover):not([data-disabled]) {
     background: color-mix(in srgb, var(--tng-autocomplete-fg) 10%, transparent);
   }
 
-  :where([data-slot="autocomplete-option"][data-active]):not([data-disabled]) {
+  :where([data-slot="autocomplete-option"][data-active]):not([data-disabled]),
+  :where([data-slot="multi-autocomplete-option"][data-active]):not([data-disabled]) {
     background: color-mix(in srgb, var(--tng-autocomplete-fg) 12%, transparent);
     border-color: color-mix(in srgb, var(--tng-autocomplete-fg) 20%, transparent);
   }
 
   :where([data-slot="autocomplete-option"][data-selected]),
-  :where([data-slot="autocomplete-option"][aria-selected="true"]) {
+  :where([data-slot="autocomplete-option"][aria-selected="true"]),
+  :where([data-slot="multi-autocomplete-option"][data-selected]),
+  :where([data-slot="multi-autocomplete-option"][aria-selected="true"]) {
     background: color-mix(in srgb, var(--tng-autocomplete-brand) 18%, transparent);
     color: var(--tng-autocomplete-brand);
     font-weight: 500;
@@ -191,18 +206,22 @@
   }
 
   :where([data-slot="autocomplete-option"][data-selected][data-active]),
-  :where([data-slot="autocomplete-option"][aria-selected="true"][data-active]) {
+  :where([data-slot="autocomplete-option"][aria-selected="true"][data-active]),
+  :where([data-slot="multi-autocomplete-option"][data-selected][data-active]),
+  :where([data-slot="multi-autocomplete-option"][aria-selected="true"][data-active]) {
     background: color-mix(in srgb, var(--tng-autocomplete-brand) 24%, transparent);
     border-color: color-mix(in srgb, var(--tng-autocomplete-brand) 55%, transparent);
   }
 
-  :where([data-slot="autocomplete-option"]:focus-visible):not([data-disabled]) {
+  :where([data-slot="autocomplete-option"]:focus-visible):not([data-disabled]),
+  :where([data-slot="multi-autocomplete-option"]:focus-visible):not([data-disabled]) {
     outline: none;
     border-color: var(--tng-autocomplete-focus-ring);
     box-shadow: 0 0 0 2px color-mix(in srgb, var(--tng-autocomplete-focus-ring) 30%, transparent);
   }
 
-  :where([data-slot="autocomplete-option"][data-disabled]) {
+  :where([data-slot="autocomplete-option"][data-disabled]),
+  :where([data-slot="multi-autocomplete-option"][data-disabled]) {
     opacity: 0.45;
     cursor: not-allowed;
   }
@@ -216,13 +235,16 @@
     margin: 0;
   }
 
-  :where([data-slot="autocomplete"][data-invalid]) :where([data-slot="autocomplete-trigger-container"]) {
+  :where([data-slot="autocomplete"][data-invalid]) :where([data-slot="autocomplete-trigger-container"]),
+  :where([data-slot="multi-autocomplete"][data-invalid]) :where([data-slot="multi-autocomplete-trigger-container"]) {
     border-color: color-mix(in srgb, var(--tng-autocomplete-danger) 65%, var(--tng-autocomplete-border-strong));
   }
 
   @media (prefers-reduced-motion: reduce) {
     :where([data-slot="autocomplete-trigger-container"]),
-    :where([data-slot="autocomplete-option"]) {
+    :where([data-slot="multi-autocomplete-trigger-container"]),
+    :where([data-slot="autocomplete-option"]),
+    :where([data-slot="multi-autocomplete-option"]) {
       transition: none;
     }
   }
