@@ -204,3 +204,96 @@ describe('tng-multi-select primitive (behavior)', () => {
     expect(event.defaultPrevented).toBe(false);
   });
 });
+
+describe('tng-multi-select selection APIs', () => {
+  it('addSelectedItem adds item to value', () => {
+    const fixture = TestBed.configureTestingModule({ imports: [HostComponent] }).createComponent(HostComponent);
+    fixture.detectChanges();
+
+    const host = fixture.componentInstance;
+    host.api.addSelectedItem('a');
+    fixture.detectChanges();
+
+    expect(host.value()).toEqual(['a']);
+
+    host.api.addSelectedItem('b');
+    fixture.detectChanges();
+    expect(host.value()).toEqual(['a', 'b']);
+
+    host.api.addSelectedItem('a');
+    fixture.detectChanges();
+    expect(host.value()).toEqual(['a', 'b']);
+  });
+
+  it('removeSelectedItem removes item from value', () => {
+    const fixture = TestBed.configureTestingModule({ imports: [HostComponent] }).createComponent(HostComponent);
+    fixture.detectChanges();
+
+    const host = fixture.componentInstance;
+    host.value.set(['a', 'b']);
+    fixture.detectChanges();
+
+    host.api.removeSelectedItem('b');
+    fixture.detectChanges();
+    expect(host.value()).toEqual(['a']);
+
+    host.api.removeSelectedItem('x');
+    fixture.detectChanges();
+    expect(host.value()).toEqual(['a']);
+  });
+
+  it('toggleSelectedItem adds when not present, removes when present', () => {
+    const fixture = TestBed.configureTestingModule({ imports: [HostComponent] }).createComponent(HostComponent);
+    fixture.detectChanges();
+
+    const host = fixture.componentInstance;
+
+    host.api.toggleSelectedItem('a');
+    fixture.detectChanges();
+    expect(host.value()).toEqual(['a']);
+
+    host.api.toggleSelectedItem('b');
+    fixture.detectChanges();
+    expect(host.value()).toEqual(['a', 'b']);
+
+    host.api.toggleSelectedItem('a');
+    fixture.detectChanges();
+    expect(host.value()).toEqual(['b']);
+  });
+
+  it('clear empties value', () => {
+    const fixture = TestBed.configureTestingModule({ imports: [HostComponent] }).createComponent(HostComponent);
+    fixture.detectChanges();
+
+    const host = fixture.componentInstance;
+    host.value.set(['a', 'b']);
+    fixture.detectChanges();
+
+    host.api.clear();
+    fixture.detectChanges();
+    expect(host.value()).toEqual([]);
+  });
+
+  it('selection APIs do nothing when disabled', () => {
+    const fixture = TestBed.configureTestingModule({ imports: [HostComponent] }).createComponent(HostComponent);
+    fixture.detectChanges();
+
+    const host = fixture.componentInstance;
+    host.disabled.set(true);
+    fixture.detectChanges();
+
+    host.api.addSelectedItem('a');
+    fixture.detectChanges();
+    expect(host.value()).toEqual([]);
+
+    host.value.set(['a']);
+    fixture.detectChanges();
+    host.api.removeSelectedItem('a');
+    fixture.detectChanges();
+    expect(host.value()).toEqual(['a']);
+
+    host.api.clear();
+    fixture.detectChanges();
+    expect(host.value()).toEqual(['a']);
+  });
+});

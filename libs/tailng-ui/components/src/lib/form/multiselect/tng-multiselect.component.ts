@@ -25,7 +25,12 @@ export type TngMultiSelectIsDisabled<O> = (opt: O) => boolean;
 export type TngMultiSelectTrackBy<O> = (index: number, opt: O) => unknown;
 
 export type TngMultiSelectValueContext<O, V> = {
-  $implicit: { value: readonly V[]; options: readonly O[]; label: string };
+  $implicit: {
+    value: readonly V[];
+    options: readonly O[];
+    label: string;
+    removeItem: (item: V) => void;
+  };
 };
 export type TngMultiSelectOptionContext<O, V> = {
   $implicit: { option: O; value: V; label: string; disabled: boolean; selected: boolean; active: boolean };
@@ -106,7 +111,14 @@ export class TngMultiSelectComponent<O = unknown, V = unknown> {
     const opts = this.selectedOptions();
     const v = this.primitive.value() ?? [];
     const label = opts.length > 0 ? opts.map((o) => this.getOptionLabel()(o)).join(', ') : this.placeholder();
-    return { $implicit: { value: v, options: opts, label } };
+    return {
+      $implicit: {
+        value: v,
+        options: opts,
+        label,
+        removeItem: (item: V) => this.removeSelectedItem(item),
+      },
+    };
   }
 
   protected optionContext(opt: O): TngMultiSelectOptionContext<O, V> {
@@ -117,5 +129,25 @@ export class TngMultiSelectComponent<O = unknown, V = unknown> {
     const selected = v.some((x) => Object.is(x, optVal));
 
     return { $implicit: { option: opt, value: optVal, label, disabled, selected, active: false } };
+  }
+
+  /** Adds an item to the selection. Delegates to primitive. */
+  addSelectedItem(item: V): void {
+    this.primitive.addSelectedItem(item);
+  }
+
+  /** Removes an item from the selection. Delegates to primitive. */
+  removeSelectedItem(item: V): void {
+    this.primitive.removeSelectedItem(item);
+  }
+
+  /** Toggles an item in the selection. Delegates to primitive. */
+  toggleSelectedItem(item: V): void {
+    this.primitive.toggleSelectedItem(item);
+  }
+
+  /** Clears the selection. Delegates to primitive. */
+  clear(): void {
+    this.primitive.clear();
   }
 }

@@ -88,6 +88,41 @@ export class TngMultiSelect<T = unknown> implements TngSelectHostApi {
     this.open.set(!this.open());
   }
 
+  /** Adds an item to the selection if not already selected. */
+  public addSelectedItem(item: T): void {
+    if (this.disabled()) return;
+    const cur = this.value();
+    if (cur.some((v) => Object.is(v, item))) return;
+    this.value.set([...cur, item]);
+  }
+
+  /** Removes an item from the selection if currently selected. */
+  public removeSelectedItem(item: T): void {
+    if (this.disabled()) return;
+    const cur = this.value();
+    const idx = cur.findIndex((v) => Object.is(v, item));
+    if (idx < 0) return;
+    this.value.set([...cur.slice(0, idx), ...cur.slice(idx + 1)]);
+  }
+
+  /** Toggles an item in the selection (add if not present, remove if present). */
+  public toggleSelectedItem(item: T): void {
+    if (this.disabled()) return;
+    const cur = this.value();
+    const idx = cur.findIndex((v) => Object.is(v, item));
+    const next =
+      idx >= 0
+        ? [...cur.slice(0, idx), ...cur.slice(idx + 1)]
+        : [...cur, item];
+    this.value.set(next);
+  }
+
+  /** Clears the selection. */
+  public clear(): void {
+    if (this.disabled()) return;
+    this.value.set([]);
+  }
+
   public setListboxApi(api: TngMultiSelectListboxApi<T> | null): void {
     this._listboxApi = api;
   }
