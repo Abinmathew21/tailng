@@ -244,6 +244,31 @@ class EmptyListboxTaggingHostComponent {
 
 describe('tng-multi-autocomplete input-on-commit', () => {
   describe('Multi Autocomplete (tagging behavior)', () => {
+    describe('Typed text appears in input when overlay is open', () => {
+      it('inputValue updates query and [value] binding displays typed text in input', async () => {
+        const fixture = TestBed.configureTestingModule({
+          imports: [HostComponent],
+        }).createComponent(HostComponent);
+
+        fixture.detectChanges();
+        const host = fixture.componentInstance;
+        const trigger = fixture.nativeElement.querySelector(
+          '[data-testid="trigger"]'
+        ) as HTMLInputElement;
+
+        await openMultiAutocomplete(fixture, trigger);
+        inputValue(trigger, 'i');
+        fixture.detectChanges();
+        inputValue(trigger, 'in');
+        fixture.detectChanges();
+        inputValue(trigger, 'ind');
+        fixture.detectChanges();
+
+        expect(trigger.value).toBe('ind');
+        expect(host.api.query()).toBe('ind');
+      });
+    });
+
     describe('Enter on active option adds it and clears input', () => {
       it('after Enter commit, selectedValues includes option; input becomes empty; overlay stays open', async () => {
         const fixture = TestBed.configureTestingModule({
