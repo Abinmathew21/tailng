@@ -153,7 +153,8 @@
 
   /* ---------------- Options ---------------- */
 
-  :where([data-slot="autocomplete-option"]) {
+  :where([data-slot="autocomplete-option"]),
+  :where([data-slot="multi-autocomplete-option"]) {
     display: flex;
     align-items: center;
     width: 100%;

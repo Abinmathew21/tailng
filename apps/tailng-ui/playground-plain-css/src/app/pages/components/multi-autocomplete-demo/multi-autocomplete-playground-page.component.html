@@ -1,0 +1,127 @@
+<main class="page">
+  <header class="header">
+    <h1 class="h1">Multi Autocomplete demo</h1>
+    <p class="sub">
+      TngMultiAutocomplete primitive. Toggle options, stay open. Tags-style multi selection with search.
+    </p>
+  </header>
+
+  <section class="grid">
+    <!-- 1) Primitive multi-autocomplete -->
+    <section class="card">
+      <div class="card__head">
+        <h2 class="h2">1) Primitive multi-autocomplete</h2>
+        <p class="muted">Country search, multi-select from suggestions</p>
+      </div>
+
+      <section
+        tngMultiAutocomplete
+        class="autocomplete"
+        aria-label="Search countries"
+        #multiA="tngMultiAutocomplete"
+        [open]="openA()"
+        (openChange)="onOpenChangeA($event)"
+        [value]="valueMultiA()"
+        (valueChange)="onValueChangeA($event)"
+      >
+        <div tngMultiAutocompleteTriggerContainer>
+          <input
+            tngMultiAutocompleteTrigger
+            type="text"
+            [value]="displayTextA()"
+            (input)="onInputA($event)"
+            placeholder="Type to search…"
+            data-testid="trigger-multi-a"
+          />
+          <span tngMultiAutocompleteIcon aria-hidden="true">▾</span>
+        </div>
+
+        <div tngMultiAutocompleteContent data-testid="content-multi-a">
+          <div tngMultiAutocompleteOverlay data-testid="overlay-multi-a">
+            <ul tngMultiAutocompleteListbox [multiple]="true" data-testid="listbox-multi-a">
+              @for (c of filteredOptionsA(); track c.code) {
+                <li
+                  tngMultiAutocompleteOption
+                  [tngValue]="c.name"
+                  [attr.data-testid]="'opt-' + c.code"
+                >
+                  {{ c.name }}
+                </li>
+              }
+              @if (filteredOptionsA().length === 0) {
+                <li data-slot="autocomplete-empty">No matches</li>
+              }
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <div class="debug">
+        <span class="pill">value</span>
+        <code>{{ valueMultiA() }}</code>
+      </div>
+    </section>
+
+    <!-- 2) Primitive multi-autocomplete in scroll container -->
+    <section class="card">
+      <div class="card__head">
+        <h2 class="h2">2) Multi-autocomplete in scroll container</h2>
+        <p class="muted">Open, then scroll the container</p>
+      </div>
+
+      <div class="scroll">
+        <div class="scroll__spacer">Scroll down 👇</div>
+
+        <section
+          tngMultiAutocomplete
+          class="autocomplete"
+          aria-label="Search countries (scroll)"
+          #multiB="tngMultiAutocomplete"
+          [open]="openB()"
+          (openChange)="onOpenChangeB($event)"
+          [value]="valueMultiB()"
+          (valueChange)="onValueChangeB($event)"
+          data-testid="multi-autocomplete-b"
+        >
+          <div tngMultiAutocompleteTriggerContainer>
+            <input
+              tngMultiAutocompleteTrigger
+              type="text"
+              [value]="displayTextB()"
+              (input)="onInputB($event)"
+              placeholder="Type to search…"
+              data-testid="trigger-multi-b"
+            />
+            <span tngMultiAutocompleteIcon aria-hidden="true">▾</span>
+          </div>
+
+          <div tngMultiAutocompleteContent data-testid="content-multi-b">
+            <div tngMultiAutocompleteOverlay data-testid="overlay-multi-b">
+              <ul tngMultiAutocompleteListbox [multiple]="true" data-testid="listbox-multi-b">
+                @for (c of filteredOptionsB(); track c.code) {
+                  <li
+                    tngMultiAutocompleteOption
+                    [tngValue]="c.name"
+                    [attr.data-testid]="'opt-' + c.code"
+                  >
+                    {{ c.name }}
+                  </li>
+                }
+                @if (filteredOptionsB().length === 0) {
+                  <li data-slot="autocomplete-empty">No matches</li>
+                }
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <div class="scroll__spacer">More content…</div>
+      </div>
+
+      <div class="debug">
+        <span class="pill">value</span>
+        <code>{{ valueMultiB() }}</code>
+      </div>
+    </section>
+  </section>
+</main>
