@@ -331,13 +331,6 @@ export const appRoutes: Route[] = [
           ).then((module) => module.AutocompletePlaygroundPageComponent),
       },
       {
-        path: 'multi-autocomplete',
-        loadComponent: () =>
-          import(
-            './pages/components/multi-autocomplete-demo/multi-autocomplete-playground-page.component'
-          ).then((module) => module.MultiAutocompletePlaygroundPageComponent),
-      },
-      {
         path: 'multiselect',
         loadComponent: () =>
           import(

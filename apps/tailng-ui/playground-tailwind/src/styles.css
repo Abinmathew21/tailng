@@ -55,50 +55,41 @@
     @apply data-[disabled]:cursor-not-allowed data-[disabled]:opacity-45;
   }
 
-  /* tng-autocomplete & tng-multi-autocomplete */
-  [data-slot='autocomplete'],
-  [data-slot='multi-autocomplete'] {
+  /* tng-autocomplete */
+  [data-slot='autocomplete'] {
     @apply grid min-w-0 gap-2;
   }
 
-  [data-slot='autocomplete-trigger-container'],
-  [data-slot='multi-autocomplete-trigger-container'] {
+  [data-slot='autocomplete-trigger-container'] {
     @apply flex min-w-0 items-center gap-2 rounded-lg border border-tng-border-strong bg-tng-bg-canvas;
     @apply focus-within:border-tng-focus-ring focus-within:outline-none focus-within:ring-[3px] focus-within:ring-[color-mix(in_srgb,var(--tng-semantic-focus-ring)_35%,transparent)];
   }
 
-  [data-slot='autocomplete'][data-disabled] [data-slot='autocomplete-trigger-container'],
-  [data-slot='multi-autocomplete'][data-disabled] [data-slot='multi-autocomplete-trigger-container'] {
+  [data-slot='autocomplete'][data-disabled] [data-slot='autocomplete-trigger-container'] {
     @apply opacity-50 cursor-not-allowed;
   }
 
-  [data-slot='autocomplete-trigger'],
-  [data-slot='multi-autocomplete-trigger'] {
+  [data-slot='autocomplete-trigger'] {
     @apply flex-1 min-w-0 border-0 bg-transparent px-3 py-2.5 text-[0.875rem] text-tng-fg-primary outline-none placeholder:text-tng-fg-muted;
   }
 
-  [data-slot='autocomplete-icon'],
-  [data-slot='multi-autocomplete-icon'] {
+  [data-slot='autocomplete-icon'] {
     @apply shrink-0 pr-3 text-[0.75rem] leading-none opacity-60 text-tng-fg-muted;
   }
 
-  [data-slot='autocomplete-content'][hidden],
-  [data-slot='multi-autocomplete-content'][hidden] {
+  [data-slot='autocomplete-content'][hidden] {
     @apply hidden;
   }
 
-  [data-slot='autocomplete-overlay'],
-  [data-slot='multi-autocomplete-overlay'] {
+  [data-slot='autocomplete-overlay'] {
     @apply w-max max-w-[min(92vw,24rem)] max-h-60 overflow-auto rounded-xl border border-tng-border-subtle bg-tng-bg-surface p-1.5 shadow-lg min-w-[var(--tng-autocomplete-trigger-width,auto)];
   }
 
-  [data-slot='autocomplete-listbox'],
-  [data-slot='multi-autocomplete-listbox'] {
+  [data-slot='autocomplete-listbox'] {
     @apply m-0 flex list-none flex-col gap-1 p-0;
   }
 
-  [data-slot='autocomplete-option'],
-  [data-slot='multi-autocomplete-option'] {
+  [data-slot='autocomplete-option'] {
     @apply flex min-h-[2.25rem] w-full cursor-pointer items-center rounded-md border-2 border-transparent px-3 py-2 text-[0.875rem] leading-normal text-tng-fg-primary outline-none transition-colors;
     @apply hover:bg-[color-mix(in_srgb,var(--tng-semantic-foreground-primary)_10%,transparent)];
     @apply data-[active]:border-[color-mix(in_srgb,var(--tng-semantic-foreground-primary)_20%,transparent)] data-[active]:bg-[color-mix(in_srgb,var(--tng-semantic-foreground-primary)_12%,transparent)];
