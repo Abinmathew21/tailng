@@ -93,6 +93,7 @@ export class TngMultiAutocompleteListbox<T = unknown> implements TngMultiAutocom
     if (arraysEqual(next, cur.length > 0 ? cur : null)) return;
 
     this.multiAutocomplete.value.set(next && next.length > 0 ? [...next] : []);
+    this.multiAutocomplete.query.set('');
     // Multi: overlay stays open
   }
 }

@@ -1,6 +1,7 @@
 import {
   Directive,
   ElementRef,
+  effect,
   HostBinding,
   inject,
   input,
@@ -28,6 +29,8 @@ export class TngMultiAutocomplete<T = unknown> {
   public readonly disabled = input<boolean>(false);
   /** Values of selected options. Empty array = no selection. */
   public readonly value = model<readonly T[]>([]);
+  /** Search/filter query. Cleared on selection (multi UX: add chip, clear input, stay open). */
+  public readonly query = model<string>('');
   /** Allow free-form create when Enter with no active option. */
   public readonly allowCreate = input<boolean>(false);
   /** When true, blocks free-form create (strict = must select from list). */
@@ -71,6 +74,12 @@ export class TngMultiAutocomplete<T = unknown> {
   @HostBinding('attr.data-invalid')
   protected get dataInvalid(): '' | null {
     return this.invalid() ? '' : null;
+  }
+
+  constructor() {
+    effect(() => {
+      if (!this.open()) this.query.set('');
+    });
   }
 
   setContentId(id: string | null): void {

@@ -24,15 +24,29 @@
         [value]="valueMultiA()"
         (valueChange)="onValueChangeA($event)"
       >
-        <div tngMultiAutocompleteTriggerContainer>
-          <input
-            tngMultiAutocompleteTrigger
-            type="text"
-            [value]="displayTextA()"
-            (input)="onInputA($event)"
-            placeholder="Type to search…"
-            data-testid="trigger-multi-a"
-          />
+        <div tngMultiAutocompleteTriggerContainer class="autocomplete__trigger">
+          <div class="autocomplete__field">
+            @for (item of valueMultiA(); track item) {
+              <span class="chip">
+                {{ item }}
+                <button
+                  type="button"
+                  class="chip__close"
+                  [attr.aria-label]="'Remove ' + item"
+                  (click)="removeItemA(item); $event.preventDefault(); $event.stopPropagation()"
+                >
+                  ×
+                </button>
+              </span>
+            }
+            <input
+              tngMultiAutocompleteTrigger
+              type="text"
+              [value]="displayTextA()"
+              placeholder="Type to search…"
+              data-testid="trigger-multi-a"
+            />
+          </div>
           <span tngMultiAutocompleteIcon aria-hidden="true">▾</span>
         </div>
 
@@ -83,15 +97,29 @@
           (valueChange)="onValueChangeB($event)"
           data-testid="multi-autocomplete-b"
         >
-          <div tngMultiAutocompleteTriggerContainer>
-            <input
-              tngMultiAutocompleteTrigger
-              type="text"
-              [value]="displayTextB()"
-              (input)="onInputB($event)"
-              placeholder="Type to search…"
-              data-testid="trigger-multi-b"
-            />
+          <div tngMultiAutocompleteTriggerContainer class="autocomplete__trigger">
+            <div class="autocomplete__field">
+              @for (item of valueMultiB(); track item) {
+                <span class="chip">
+                  {{ item }}
+                  <button
+                    type="button"
+                    class="chip__close"
+                    [attr.aria-label]="'Remove ' + item"
+                    (click)="removeItemB(item); $event.preventDefault(); $event.stopPropagation()"
+                  >
+                    ×
+                  </button>
+                </span>
+              }
+              <input
+                tngMultiAutocompleteTrigger
+                type="text"
+                [value]="displayTextB()"
+                placeholder="Type to search…"
+                data-testid="trigger-multi-b"
+              />
+            </div>
             <span tngMultiAutocompleteIcon aria-hidden="true">▾</span>
           </div>
 

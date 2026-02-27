@@ -77,6 +77,12 @@ export class TngMultiAutocompleteTrigger {
     return ids.length ? ids.join(' ') : null;
   }
 
+  @HostListener('input', ['$event'])
+  protected onInput(event: Event): void {
+    const value = (event.target as HTMLInputElement)?.value ?? '';
+    this.multiAutocomplete.query.set(value);
+  }
+
   @HostListener('focus')
   protected onFocus(): void {
     if (this.multiAutocomplete.disabled()) return;
