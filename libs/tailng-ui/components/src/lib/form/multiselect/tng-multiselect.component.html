@@ -14,10 +14,10 @@
 
 <div tngSelectContent>
   <div tngSelectOverlay>
-    <ul tngSelectListbox [multiple]="primitive.multiple()">
+    <ul tngMultiSelectListbox [multiple]="true">
       @for (opt of options(); track trackBy()($index, opt)) {
         <li
-          tngSelectOption
+          tngMultiSelectOption
           [tngValue]="getOptionValue()(opt)"
           [disabled]="isOptionDisabled()(opt)"
         >

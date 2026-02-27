@@ -4,7 +4,7 @@
       Multiselect demo
     </h1>
     <p class="text-sm text-tng-fg-secondary m-0">
-      Select primitive with <code>[multiple]="true"</code>. Toggle options, stay open. Components wrapper.
+      TngMultiSelect primitive. Toggle options, stay open. Components wrapper.
     </p>
   </header>
 
@@ -19,13 +19,12 @@
       </div>
 
       <section
-        tngSelect
-        [multiple]="true"
+        tngMultiSelect
         [value]="valueMultiA()"
-        (valueChange)="valueMultiA.set(coerceMulti($event))"
+        (valueChange)="valueMultiA.set($event)"
         class="grid gap-2"
         aria-label="Select planets"
-        #multiA="tngSelect"
+        #multiA="tngMultiSelect"
       >
         <button
           #triggerA
@@ -39,10 +38,10 @@
 
         <div tngSelectContent class="contents" data-testid="content-multi-a">
           <div tngSelectOverlay data-testid="overlay-multi-a" [style.min-width.px]="triggerA.offsetWidth">
-            <ul tngSelectListbox [multiple]="multiA.multiple()">
+            <ul tngMultiSelectListbox [multiple]="true">
               @for (opt of options; track opt.value) {
                 <li
-                  tngSelectOption
+                  tngMultiSelectOption
                   [tngValue]="opt.value"
                   [disabled]="!!opt.disabled"
                 >
@@ -77,13 +76,12 @@
         </div>
 
         <section
-          tngSelect
-          [multiple]="true"
+          tngMultiSelect
           [value]="valueMultiB()"
-          (valueChange)="valueMultiB.set(coerceMulti($event))"
+          (valueChange)="valueMultiB.set($event)"
           class="grid gap-2"
           aria-label="Select planets (scroll)"
-          #multiB="tngSelect"
+          #multiB="tngMultiSelect"
         >
           <button
             #triggerB
@@ -97,10 +95,10 @@
 
           <div tngSelectContent class="contents" data-testid="content-multi-b">
             <div tngSelectOverlay data-testid="overlay-multi-b" [style.min-width.px]="triggerB.offsetWidth">
-              <ul tngSelectListbox [multiple]="multiB.multiple()">
+              <ul tngMultiSelectListbox [multiple]="true">
                 @for (opt of options; track opt.value) {
                   <li
-                    tngSelectOption
+                    tngMultiSelectOption
                     [tngValue]="opt.value"
                     [disabled]="!!opt.disabled"
                   >
@@ -138,7 +136,7 @@
         class="grid gap-2"
         [options]="options"
         [value]="valueMultiC()"
-        (valueChange)="valueMultiC.set(coerceMulti($event))"
+        (valueChange)="valueMultiC.set($event)"
         placeholder="Select planets…"
         data-testid="multiselect-c"
       />

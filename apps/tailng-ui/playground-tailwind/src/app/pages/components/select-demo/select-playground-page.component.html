@@ -36,7 +36,7 @@
 
         <div tngSelectContent class="contents" data-testid="content-a">
           <div tngSelectOverlay data-testid="overlay-a" [style.min-width.px]="triggerA.offsetWidth">
-            <ul tngSelectListbox [multiple]="selA.multiple()">
+            <ul tngSelectListbox>
               @for (opt of options; track opt.value) {
                 <li
                   tngSelectOption
@@ -91,7 +91,7 @@
 
           <div tngSelectContent class="contents" data-testid="content-b">
             <div tngSelectOverlay data-testid="overlay-b" [style.min-width.px]="triggerB.offsetWidth">
-              <ul tngSelectListbox [multiple]="selB.multiple()">
+              <ul tngSelectListbox>
                 @for (opt of options; track opt.value) {
                   <li
                     tngSelectOption

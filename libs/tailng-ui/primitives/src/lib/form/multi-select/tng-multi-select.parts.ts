@@ -1,5 +1,5 @@
 /**
- * Re-exports shared select parts. Single-select uses shared implementation.
+ * Re-exports shared select parts. Multi-select uses same trigger/content/overlay infra.
  */
 export {
   TngSelectTrigger,

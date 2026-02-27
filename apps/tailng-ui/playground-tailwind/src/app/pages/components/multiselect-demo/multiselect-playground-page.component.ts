@@ -1,15 +1,14 @@
 import { Component, signal } from '@angular/core';
 
 import {
-  TngSelect,
+  TngMultiSelect,
   TngSelectTrigger,
   TngSelectValue,
   TngSelectIcon,
   TngSelectContent,
   TngSelectOverlay,
-  TngSelectListbox,
-  TngSelectOption,
-  type ListboxValue,
+  TngMultiSelectListbox,
+  TngMultiSelectOption,
 } from '@tailng-ui/primitives';
 
 import { TngMultiSelectComponent } from '@tailng-ui/components';
@@ -20,14 +19,14 @@ type Opt = { value: string; label: string; disabled?: boolean };
   selector: 'app-multiselect-playground-page',
   standalone: true,
   imports: [
-    TngSelect,
+    TngMultiSelect,
     TngSelectTrigger,
     TngSelectValue,
     TngSelectIcon,
     TngSelectContent,
     TngSelectOverlay,
-    TngSelectListbox,
-    TngSelectOption,
+    TngMultiSelectListbox,
+    TngMultiSelectOption,
     TngMultiSelectComponent,
   ],
   templateUrl: './multiselect-playground-page.component.html',
@@ -49,17 +48,9 @@ export class MultiselectPlaygroundPageComponent {
   readonly valueMultiB = signal<readonly string[]>(['earth', 'mars']);
   readonly valueMultiC = signal<readonly string[]>(['venus', 'uranus']);
 
-  labelFor(v: string | readonly string[] | null): string {
-    if (v === null) return 'Select…';
-    const arr = Array.isArray(v) ? v : [v];
-    if (arr.length === 0) return 'Select…';
-    const labels = arr.map((x) => this.options.find((o) => o.value === x)?.label).filter(Boolean);
+  labelFor(v: readonly string[]): string {
+    if (!v?.length) return 'Select…';
+    const labels = v.map((x) => this.options.find((o) => o.value === x)?.label).filter(Boolean);
     return labels.length > 0 ? labels.join(', ') : 'Select…';
-  }
-
-  coerceMulti(next: ListboxValue<string>): readonly string[] {
-    if (next === null) return [];
-    const arr = Array.isArray(next) ? next : [next];
-    return [...arr];
   }
 }

@@ -1,29 +1,29 @@
 import { Directive, ElementRef, HostBinding, inject, input, model } from '@angular/core';
-import { TNG_SELECT } from './tng-select.tokens';
+import { TNG_MULTI_SELECT } from './tng-multi-select.tokens';
 import { TNG_SELECT_HOST } from '../_shared/select/tng-select.tokens.shared';
 import type { TngSelectHostApi } from '../_shared/select/tng-select.host-api';
-import { TngSelectListboxApi } from './tng-select.listbox.types';
+import { TngMultiSelectListboxApi } from './tng-multi-select.listbox.types';
 
 @Directive({
-  selector: '[tngSelect]',
-  exportAs: 'tngSelect',
+  selector: '[tngMultiSelect]',
+  exportAs: 'tngMultiSelect',
   standalone: true,
   providers: [
-    { provide: TNG_SELECT, useExisting: TngSelect },
-    { provide: TNG_SELECT_HOST, useExisting: TngSelect },
+    { provide: TNG_MULTI_SELECT, useExisting: TngMultiSelect },
+    { provide: TNG_SELECT_HOST, useExisting: TngMultiSelect },
   ],
 })
-export class TngSelect<T = unknown> implements TngSelectHostApi {
+export class TngMultiSelect<T = unknown> implements TngSelectHostApi {
   readonly hostElement = inject(ElementRef<HTMLElement>).nativeElement;
   public readonly open = model<boolean>(false);
   public readonly disabled = input<boolean>(false);
-  /** Value of the selected option. Single-select only. */
-  public readonly value = model<T | null>(null);
+  /** Values of selected options. Empty array = no selection. */
+  public readonly value = model<readonly T[]>([]);
 
   private _contentId: string | null = null;
   private _listboxId: string | null = null;
   private _activeId: string | null = null;
-  private _listboxApi: TngSelectListboxApi<T> | null = null;
+  private _listboxApi: TngMultiSelectListboxApi<T> | null = null;
 
   public readonly loading = input<boolean>(false);
   public readonly invalid = input<boolean>(false);
@@ -32,7 +32,7 @@ export class TngSelect<T = unknown> implements TngSelectHostApi {
   public readonly errorId = input<string | null>(null);
 
   @HostBinding('attr.data-slot')
-  protected readonly dataSlot: 'select' = 'select';
+  protected readonly dataSlot: 'multi-select' = 'multi-select';
 
   @HostBinding('attr.data-state')
   protected get dataState(): 'open' | 'closed' {
@@ -54,8 +54,8 @@ export class TngSelect<T = unknown> implements TngSelectHostApi {
     return this.invalid() ? '' : null;
   }
 
-  /** Single-select: always false. Satisfies TngSelectHostApi. */
-  public readonly multiple = (): boolean => false;
+  /** Multi-select: always true. Satisfies TngSelectHostApi. */
+  public readonly multiple = (): boolean => true;
 
   public setContentId(id: string | null): void {
     this._contentId = id;
@@ -88,16 +88,10 @@ export class TngSelect<T = unknown> implements TngSelectHostApi {
     this.open.set(!this.open());
   }
 
-  public selectValue(value: T): void {
-    if (this.disabled()) return;
-    this.value.set(value);
-    this.close();
-  }
-
-  public setListboxApi(api: TngSelectListboxApi<T> | null): void {
+  public setListboxApi(api: TngMultiSelectListboxApi<T> | null): void {
     this._listboxApi = api;
   }
-  public getListboxApi(): TngSelectListboxApi<T> | null {
+  public getListboxApi(): TngMultiSelectListboxApi<T> | null {
     return this._listboxApi;
   }
 }

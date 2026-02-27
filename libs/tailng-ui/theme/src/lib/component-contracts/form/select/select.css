@@ -6,7 +6,8 @@
     - semantic tokens drive light/dark
   */
 
-  :where([data-slot="select"]) {
+  :where([data-slot="select"]),
+  :where([data-slot="multi-select"]) {
     display: grid;
     gap: 0.5rem;
     min-width: 0;
@@ -84,7 +85,8 @@
     box-shadow: var(--tng-select-shadow-focus);
   }
 
-  :where([data-slot="select"][data-disabled]) :where([data-slot="select-trigger"]) {
+  :where([data-slot="select"][data-disabled]) :where([data-slot="select-trigger"]),
+  :where([data-slot="multi-select"][data-disabled]) :where([data-slot="select-trigger"]) {
     opacity: 0.5;
     cursor: not-allowed;
   }
@@ -146,7 +148,8 @@
 
   /* ---------------- Listbox ---------------- */
 
-  :where([data-slot="select-listbox"]) {
+  :where([data-slot="select-listbox"]),
+  :where([data-slot="multi-select-listbox"]) {
     list-style: none;
     margin: 0;
     padding: 0;
@@ -157,7 +160,8 @@
 
   /* ---------------- Options ---------------- */
 
-  :where([data-slot="select-option"]) {
+  :where([data-slot="select-option"]),
+  :where([data-slot="multi-select-option"]) {
     display: flex;
     align-items: center;
     width: 100%;
@@ -190,19 +194,23 @@
   }
 
   /* Hover */
-  :where([data-slot="select-option"]:hover):not([data-disabled]) {
+  :where([data-slot="select-option"]:hover):not([data-disabled]),
+  :where([data-slot="multi-select-option"]:hover):not([data-disabled]) {
     background: color-mix(in srgb, var(--tng-select-fg) 10%, transparent);
   }
 
   /* Active (keyboard focus) - visible highlight */
-  :where([data-slot="select-option"][data-active]):not([data-disabled]) {
+  :where([data-slot="select-option"][data-active]):not([data-disabled]),
+  :where([data-slot="multi-select-option"][data-active]):not([data-disabled]) {
     background: color-mix(in srgb, var(--tng-select-fg) 12%, transparent);
     border-color: color-mix(in srgb, var(--tng-select-fg) 20%, transparent);
   }
 
   /* Selected - distinct brand treatment (data-selected or aria-selected for portaled content) */
   :where([data-slot="select-option"][data-selected]),
-  :where([data-slot="select-option"][aria-selected="true"]) {
+  :where([data-slot="select-option"][aria-selected="true"]),
+  :where([data-slot="multi-select-option"][data-selected]),
+  :where([data-slot="multi-select-option"][aria-selected="true"]) {
     background: color-mix(in srgb, var(--tng-select-brand) 18%, transparent);
     color: var(--tng-select-brand);
     font-weight: 500;
@@ -211,30 +219,36 @@
 
   /* Selected + Active (keyboard focus on selected option) */
   :where([data-slot="select-option"][data-selected][data-active]),
-  :where([data-slot="select-option"][aria-selected="true"][data-active]) {
+  :where([data-slot="select-option"][aria-selected="true"][data-active]),
+  :where([data-slot="multi-select-option"][data-selected][data-active]),
+  :where([data-slot="multi-select-option"][aria-selected="true"][data-active]) {
     background: color-mix(in srgb, var(--tng-select-brand) 24%, transparent);
     border-color: color-mix(in srgb, var(--tng-select-brand) 55%, transparent);
   }
 
   /* Option focus-visible (when option receives focus directly) */
-  :where([data-slot="select-option"]:focus-visible):not([data-disabled]) {
+  :where([data-slot="select-option"]:focus-visible):not([data-disabled]),
+  :where([data-slot="multi-select-option"]:focus-visible):not([data-disabled]) {
     outline: none;
     border-color: var(--tng-select-focus-ring);
     box-shadow: 0 0 0 2px color-mix(in srgb, var(--tng-select-focus-ring) 30%, transparent);
   }
 
-  :where([data-slot="select-option"][data-disabled]) {
+  :where([data-slot="select-option"][data-disabled]),
+  :where([data-slot="multi-select-option"][data-disabled]) {
     opacity: 0.45;
     cursor: not-allowed;
   }
 
-  :where([data-slot="select"][data-invalid]) :where([data-slot="select-trigger"]) {
+  :where([data-slot="select"][data-invalid]) :where([data-slot="select-trigger"]),
+  :where([data-slot="multi-select"][data-invalid]) :where([data-slot="select-trigger"]) {
     border-color: color-mix(in srgb, var(--tng-select-danger) 65%, var(--tng-select-border-strong));
   }
 
   @media (prefers-reduced-motion: reduce) {
     :where([data-slot="select-trigger"]),
-    :where([data-slot="select-option"]) {
+    :where([data-slot="select-option"]),
+    :where([data-slot="multi-select-option"]) {
       transition: none;
     }
   }

@@ -74,7 +74,11 @@ export class TngAutocompleteComponent<O = unknown, V = unknown> {
   readonly isOptionDisabled = input<TngAutocompleteIsDisabled<O>>(
     ((opt: unknown) => !!(opt as { disabled?: boolean })?.disabled) as TngAutocompleteIsDisabled<O>,
   );
-  readonly trackBy = input<TngAutocompleteTrackBy<O>>((_, opt) => opt as unknown);
+  /** Default: track by value, id, or option (stable identity for async/replaced options). */
+  readonly trackBy = input<TngAutocompleteTrackBy<O>>((_, opt) => {
+    const o = opt as Record<string, unknown> | null | undefined;
+    return o?.['value'] ?? o?.['id'] ?? opt;
+  });
 
   readonly iconText = input<string>('▾');
 

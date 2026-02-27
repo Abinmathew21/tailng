@@ -60,7 +60,7 @@ function focus(el: HTMLElement): void {
             (valueChange)="api.value.set($event)"
             data-testid="listbox"
           >
-            @for (opt of options(); track opt) {
+            @for (opt of options(); track $index) {
               <li tngAutocompleteOption [tngValue]="opt" [attr.data-testid]="'opt-' + opt">{{ opt }}</li>
             }
           </ul>
@@ -113,7 +113,7 @@ class AsyncHostComponent {
             (valueChange)="api.value.set($event)"
             data-testid="listbox"
           >
-            @for (opt of options(); track opt) {
+            @for (opt of options(); track $index) {
               <li tngAutocompleteOption [tngValue]="opt" [attr.data-testid]="'opt-' + opt">{{ opt }}</li>
             }
             @if (options().length === 0) {

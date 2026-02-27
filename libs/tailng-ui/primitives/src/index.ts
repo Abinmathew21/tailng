@@ -21,10 +21,10 @@ export * from './lib/form/input/tng-input';
 export * from './lib/form/input-otp/tng-input-otp';
 export * from './lib/form/label/tng-label';
 export * from './lib/form/multiselect/tng-multiselect';
+export * from './lib/form/multi-select';
 export * from './lib/form/radio/tng-radio';
 
 export * from './lib/form/select/tng-select';
-export { TNG_SELECT_FORCE_MULTIPLE } from './lib/form/select/tng-select.tokens';
 export * from './lib/form/select/tng-select.parts';
 export * from './lib/form/select/tng-select.overlay';
 export * from './lib/form/select/tng-select.listbox';
