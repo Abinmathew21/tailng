@@ -52,7 +52,7 @@ describe('tng-autocomplete component', () => {
     expect(typeof TngAutocompleteComponent).toBe('function');
   });
 
-  it('Space when open does NOT select - inserts into input for typing (e.g. "United St")', async () => {
+  it('Space when open does NOT select - inserts into input for typing - e.g. "United St"', async () => {
     const fixture = TestBed.configureTestingModule({
       imports: [HostComponent],
     }).createComponent(HostComponent);

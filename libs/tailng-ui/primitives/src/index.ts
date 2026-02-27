@@ -8,7 +8,10 @@ export * from './lib/navigation/navigation-menu/tng-navigation-menu';
 export * from './lib/navigation/tabs/tng-tabs';
 export * from './lib/navigation/toolbar/tng-toolbar';
 
-// Form
+// Form (listbox first - autocomplete/select depend on it)
+export * from './lib/form/listbox/listbox.directive';
+export * from './lib/form/listbox/option.directive';
+export * from './lib/form/listbox/tokens';
 export * from './lib/form/autocomplete';
 export * from './lib/form/button-toggle/tng-button-toggle';
 export * from './lib/form/checkbox/tng-checkbox';
@@ -17,9 +20,6 @@ export * from './lib/form/combobox/tng-combobox';
 export * from './lib/form/input/tng-input';
 export * from './lib/form/input-otp/tng-input-otp';
 export * from './lib/form/label/tng-label';
-export * from './lib/form/listbox/listbox.directive';
-export * from './lib/form/listbox/option.directive';
-export * from './lib/form/listbox/tokens';
 export * from './lib/form/multiselect/tng-multiselect';
 export * from './lib/form/radio/tng-radio';
 
