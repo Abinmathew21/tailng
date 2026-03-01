@@ -86,8 +86,11 @@ export class TngAutocompleteTrigger {
 
       // ✅ Emit empty query (or current query) on open-on-focus.
       // This is the behavior your test expects.
-      const q = this.autocomplete.query();
-      this.autocomplete.queryChange.emit(q);
+      const input = this.el.nativeElement as HTMLInputElement;
+      const value = input?.value ?? '';
+
+      this.autocomplete.query.set(value);
+      this.autocomplete.queryChange.emit(value);
       
       ensureActiveAndSync(this.listbox, (id) => this.autocomplete.setActiveDescendantId(id));
     }
