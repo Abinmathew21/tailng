@@ -1,4 +1,4 @@
-import { DestroyRef, Directive, HostBinding, HostListener, inject } from '@angular/core';
+import { DestroyRef, Directive, effect, HostBinding, HostListener, inject, untracked } from '@angular/core';
 import { createTngIdFactory } from '@tailng-ui/cdk';
 import {
   TNG_LISTBOX_FORCE_TYPEAHEAD,
@@ -44,6 +44,21 @@ export class TngMultiAutocompleteListbox<T = unknown> implements TngMultiAutocom
   constructor() {
     this.multi.setListboxId(this.id);
     this.multi.setListboxApi(this);
+
+    // ✅ key bridge: external chips selection -> listbox.value (drives aria-selected UI)
+    effect(() => {
+      const v = this.multi.value();
+    
+      // read listbox.value without tracking (prevents re-trigger loops)
+      const current = untracked(this.listbox.value);
+      const currentArr = Array.isArray(current) ? current : current === null ? [] : [current];
+    
+      if (currentArr.length === v.length && v.every((val, i) => Object.is(val, currentArr[i]))) {
+        return;
+      }
+    
+      this.listbox.value.set([...v]);
+    });
 
     this.destroyRef.onDestroy(() => {
       this.multi.setListboxId(null);

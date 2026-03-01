@@ -371,11 +371,9 @@ export class TngListboxDirective<T> {
   isSelected(id: string): boolean {
     const ctrl = this.controller();
     if (!ctrl) return false;
-
-    const option = this.options().find((o) => o.id === id);
-    if (!option) return false;
-
-    return ctrl.getSelectedValues().includes(option.value);
+  
+    // ✅ selection truth is IDs, not value equality
+    return ctrl.getSelectedIds().includes(id);
   }
 
   isActive(id: string): boolean {
