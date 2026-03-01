@@ -38,7 +38,7 @@ export class TngAutocomplete<T = unknown> {
   private _contentId: string | null = null;
   private _listboxId: string | null = null;
   private _activeId: string | null = null;
-  private _listboxApi: TngAutocompleteListboxApi<T> | null = null;
+  private _listboxApi: TngAutocompleteListboxApi | null = null;
   /** Set by overlay before programmatic focus restore to prevent reopen-on-focus. */
   _restoringFocus = false;
   /** Set by trigger when create is emitted; listbox effect skips sync to avoid overwriting consumer value. */
@@ -49,6 +49,12 @@ export class TngAutocomplete<T = unknown> {
   public readonly labelId = input<string | null>(null);
   public readonly descriptionId = input<string | null>(null);
   public readonly errorId = input<string | null>(null);
+
+    /** Current input query (used for filtering). */
+  public readonly query = model<string>('');
+
+  /** Emitted when query changes (typing OR open-on-focus empty emit). */
+  public readonly queryChange = output<string>();
 
   @HostBinding('attr.data-slot')
   protected readonly dataSlot = 'autocomplete' as const;
@@ -93,11 +99,11 @@ export class TngAutocomplete<T = unknown> {
     this.close();
   }
 
-  setListboxApi(api: TngAutocompleteListboxApi<T> | null): void {
+  setListboxApi(api: TngAutocompleteListboxApi | null): void {
     this._listboxApi = api;
   }
 
-  getListboxApi(): TngAutocompleteListboxApi<T> | null {
+  getListboxApi(): TngAutocompleteListboxApi | null {
     return this._listboxApi;
   }
 }

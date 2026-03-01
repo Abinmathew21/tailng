@@ -1,19 +1,21 @@
 import { DestroyRef, Directive, effect, HostBinding, HostListener, inject, untracked } from '@angular/core';
 import { createTngIdFactory } from '@tailng-ui/cdk';
+import { TNG_LISTBOX_FORCE_TYPEAHEAD, TngListboxDirective, TngOptionDirective } from '@tailng-ui/primitives';
 import { normalizeToSingle } from '../../internal/combobox';
-import type { ListboxValue } from '../listbox/listbox.directive';
-import { TngListboxDirective, TngOptionDirective } from '@tailng-ui/primitives';
-import { TNG_AUTOCOMPLETE } from './tng-autocomplete.tokens';
 import type { TngAutocomplete } from './tng-autocomplete';
-import { TngAutocompleteListboxApi } from './tng-autocomplete.listbox.types';
 import { TNG_AUTOCOMPLETE_LISTBOX } from './tng-autocomplete.listbox.tokens';
+import { TngAutocompleteListboxApi } from './tng-autocomplete.listbox.types';
+import { TNG_AUTOCOMPLETE } from './tng-autocomplete.tokens';
 
 const createListboxId = createTngIdFactory('tng-autocomplete-listbox');
 
 @Directive({
   selector: '[tngAutocompleteListbox]',
   standalone: true,
-  providers: [{ provide: TNG_AUTOCOMPLETE_LISTBOX, useExisting: TngAutocompleteListbox }],
+  providers: [
+    { provide: TNG_AUTOCOMPLETE_LISTBOX, useExisting: TngAutocompleteListbox },
+    { provide: TNG_LISTBOX_FORCE_TYPEAHEAD, useValue: false }
+  ],
   hostDirectives: [
     {
       directive: TngListboxDirective,
@@ -22,7 +24,7 @@ const createListboxId = createTngIdFactory('tng-autocomplete-listbox');
     },
   ],
 })
-export class TngAutocompleteListbox<T = unknown> implements TngAutocompleteListboxApi<T> {
+export class TngAutocompleteListbox<T = unknown> implements TngAutocompleteListboxApi {
   private readonly autocomplete = inject<TngAutocomplete<T>>(TNG_AUTOCOMPLETE);
   private readonly destroyRef = inject(DestroyRef);
   private readonly listbox = inject(TngListboxDirective<T>, { self: true });
@@ -72,10 +74,6 @@ export class TngAutocompleteListbox<T = unknown> implements TngAutocompleteListb
 
   handleKey(key: string, shiftKey?: boolean): boolean {
     return this.listbox.handleKeyFromCombobox(key, shiftKey);
-  }
-
-  typeahead(key: string): boolean {
-    return this.listbox.typeaheadFromCombobox(key);
   }
 
   commitActive(): void {

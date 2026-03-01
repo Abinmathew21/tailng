@@ -115,7 +115,7 @@ export function handleComboboxKeydown(
     !event.metaKey &&
     !event.altKey
   ) {
-    const moved = context.listbox?.typeahead(event.key) ?? false;
+    const moved = context.listbox?.typeahead?.(event.key) ?? false;
     if (moved) {
       syncActiveDescendant(context.listbox, context.setActiveDescendantId);
       event.preventDefault();

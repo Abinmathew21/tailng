@@ -17,7 +17,7 @@ export class TngAutocompleteTrigger {
   private readonly autocomplete = inject<TngAutocomplete>(TNG_AUTOCOMPLETE);
   private readonly el = inject(ElementRef<HTMLElement>);
 
-  private get listbox(): TngAutocompleteListboxApi<unknown> | null {
+  private get listbox(): TngAutocompleteListboxApi | null {
     return this.autocomplete.getListboxApi();
   }
 
@@ -83,6 +83,12 @@ export class TngAutocompleteTrigger {
     if (this.autocomplete._restoringFocus) return;
     if (!this.autocomplete.open()) {
       this.autocomplete.openSelect();
+
+      // ✅ Emit empty query (or current query) on open-on-focus.
+      // This is the behavior your test expects.
+      const q = this.autocomplete.query();
+      this.autocomplete.queryChange.emit(q);
+      
       ensureActiveAndSync(this.listbox, (id) => this.autocomplete.setActiveDescendantId(id));
     }
   }
@@ -139,6 +145,13 @@ export class TngAutocompleteTrigger {
       keysToOpenNoPreventDefault: ['Backspace', 'Delete'],
       spaceCommits: false, // Space inserts into input for typing (e.g. "United St" for filtering)
     });
+  }
+
+  @HostListener('input', ['$event'])
+  protected onInput(event: Event): void {
+    const value = (event.target as HTMLInputElement)?.value ?? '';
+    this.autocomplete.query.set(value);
+    this.autocomplete.queryChange.emit(value);
   }
 }
 

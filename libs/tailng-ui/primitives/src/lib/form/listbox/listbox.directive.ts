@@ -28,6 +28,13 @@ export class TngListboxDirective<T> {
   disabled = input<boolean>(false);
   loop = input<boolean>(true);
 
+  /**
+   * Enable listbox typeahead (printable key moves active option by option text).
+   * Default true for Select compatibility.
+   * Autocomplete should set this to false (input owns typing/filtering).
+   */
+  typeahead = input<boolean>(true);
+
   readonly value = model<ListboxValue<T>>(null);
 
   private readonly el = inject(ElementRef<HTMLElement>);
@@ -114,37 +121,37 @@ export class TngListboxDirective<T> {
       }
     });
 
-    // External value -> controller selection (fixes "clearSelection doesn't clear UI")
-  effect(() => {
-    const ctrl = this.controller();
-    if (!ctrl) return;
+    // External value -> controller selection
+    effect(() => {
+      const ctrl = this.controller();
+      if (!ctrl) return;
 
-    const opts = this.options();
-    const external = this.value();
+      const opts = this.options();
+      const external = this.value();
 
-    const toIds = (v: ListboxValue<T>): string[] => {
-      if (v === null) return [];
-      const arr = Array.isArray(v) ? (v as readonly T[]) : ([v as T] as const);
+      const toIds = (v: ListboxValue<T>): string[] => {
+        if (v === null) return [];
+        const arr = Array.isArray(v) ? (v as readonly T[]) : ([v as T] as const);
 
-      const ids: string[] = [];
-      for (const val of arr) {
-        const opt = opts.find((o) => Object.is(o.value, val));
-        if (!opt) continue;
-        if (opt.disabled) continue;
-        ids.push(opt.id);
+        const ids: string[] = [];
+        for (const val of arr) {
+          const opt = opts.find((o) => Object.is(o.value, val));
+          if (!opt) continue;
+          if (opt.disabled) continue;
+          ids.push(opt.id);
+        }
+        return ids;
+      };
+
+      const nextIds = toIds(external);
+
+      if (nextIds.length === 0) {
+        ctrl.clearSelection();
+        return;
       }
-      return ids;
-    };
 
-    const nextIds = toIds(external);
-
-    if (nextIds.length === 0) {
-      ctrl.clearSelection();
-      return;
-    }
-
-    ctrl.setSelectedIds(nextIds);
-  });
+      ctrl.setSelectedIds(nextIds);
+    });
 
     // Scroll when active changes
     effect(() => {
@@ -155,38 +162,6 @@ export class TngListboxDirective<T> {
       if (!el) return;
 
       el.scrollIntoView?.({ block: 'nearest' });
-    });
-
-    effect(() => {
-      const ctrl = this.controller();
-      if (!ctrl) return;
-    
-      const opts = this.options();   // track option list
-      const external = this.value(); // track external value
-    
-      // convert external value -> option ids (skip missing/disabled)
-      const toIds = (v: ListboxValue<T>): string[] => {
-        if (v === null) return [];
-        const arr = Array.isArray(v) ? (v as readonly T[]) : ([v as T] as const);
-    
-        const ids: string[] = [];
-        for (const val of arr) {
-          const opt = opts.find((o) => Object.is(o.value, val));
-          if (!opt) continue;
-          if (opt.disabled) continue;
-          ids.push(opt.id);
-        }
-        return ids;
-      };
-    
-      const nextIds = toIds(external);
-    
-      if (nextIds.length === 0) {
-        ctrl.clearSelection();
-        return;
-      }
-    
-      ctrl.setSelectedIds(nextIds);
     });
   }
 
@@ -311,8 +286,9 @@ export class TngListboxDirective<T> {
     const ctrl = this.controller();
     if (!ctrl) return;
 
-    // Typeahead
+    // ✅ Typeahead (optional)
     if (
+      this.typeahead() &&
       event.key.length === 1 &&
       !event.ctrlKey &&
       !event.metaKey &&
@@ -409,7 +385,7 @@ export class TngListboxDirective<T> {
   public getActiveId(): string | null {
     return this.activeId();
   }
-  
+
   public ensureActive(pref: 'first' | 'last' = 'first'): void {
     const ctrl = this.controller();
     if (!ctrl) return;
@@ -417,7 +393,7 @@ export class TngListboxDirective<T> {
     ctrl.handleKeyDown({ key: pref === 'last' ? 'End' : 'Home' });
     this.syncActiveFromController();
   }
-  
+
   public handleKeyFromCombobox(key: string, shiftKey?: boolean): boolean {
     const ctrl = this.controller();
     if (!ctrl) return false;
@@ -426,7 +402,7 @@ export class TngListboxDirective<T> {
     if (action) this.syncExternalValueFromInternal(ctrl, false);
     return !!action;
   }
-  
+
   public typeaheadFromCombobox(key: string): boolean {
     const ctrl = this.controller();
     if (!ctrl) return false;
@@ -434,11 +410,11 @@ export class TngListboxDirective<T> {
     if (moved) this.syncActiveFromController();
     return moved;
   }
-  
+
   public getActiveValue(): T | null | undefined {
     const active = this.activeId();
     if (!active) return null;
-    const opt = this.options().find(o => o.id === active);
+    const opt = this.options().find((o) => o.id === active);
     return opt?.value;
   }
 }

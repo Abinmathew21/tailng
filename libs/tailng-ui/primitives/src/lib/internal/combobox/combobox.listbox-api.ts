@@ -14,8 +14,9 @@ export interface ComboboxListboxApi {
 
   /** Handle arrow keys, Home, End, etc. Returns true if focus/selection moved. */
   handleKey(key: string, shiftKey?: boolean): boolean;
-  /** Typeahead by character. Returns true if matched and moved. */
-  typeahead(key: string): boolean;
+
+  /** Typeahead by character. Optional (Autocomplete may omit). */
+  typeahead?: (key: string) => boolean;
 
   /** Commit/select the active option (Enter/Space semantics). */
   commitActive(): void;
