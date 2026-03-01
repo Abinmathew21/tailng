@@ -38,7 +38,7 @@ export class TngMultiAutocomplete<T = unknown> {
   private _contentId: string | null = null;
   private _listboxId: string | null = null;
   private _activeId: string | null = null;
-  private _listboxApi: TngMultiAutocompleteListboxApi<T> | null = null;
+  private _listboxApi: TngMultiAutocompleteListboxApi | null = null;
 
   // ---- host styling hooks ----
 
@@ -157,6 +157,11 @@ export class TngMultiAutocomplete<T = unknown> {
   getListboxId(): string | null {
     return this._listboxId;
   }
+  
+  /** Prefer listbox active id when available; otherwise fall back to cached id. */
+  getActiveId(): string | null {
+    return this._listboxApi?.getActiveId() ?? this._activeId;
+  }
 
   setActiveDescendantId(id: string | null): void {
     this._activeId = id;
@@ -166,11 +171,11 @@ export class TngMultiAutocomplete<T = unknown> {
     return this._activeId;
   }
 
-  setListboxApi(api: TngMultiAutocompleteListboxApi<T> | null): void {
+  setListboxApi(api: TngMultiAutocompleteListboxApi | null): void {
     this._listboxApi = api;
   }
 
-  getListboxApi(): TngMultiAutocompleteListboxApi<T> | null {
+  getListboxApi(): TngMultiAutocompleteListboxApi | null {
     return this._listboxApi;
   }
 }

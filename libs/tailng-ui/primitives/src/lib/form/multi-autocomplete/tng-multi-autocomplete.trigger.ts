@@ -1,10 +1,5 @@
-import {
-  Directive,
-  ElementRef,
-  HostBinding,
-  HostListener,
-  inject,
-} from '@angular/core';
+import { Directive, ElementRef, HostBinding, HostListener, inject } from '@angular/core';
+import type { TngMultiAutocompleteListboxApi } from './tng-multi-autocomplete.listbox.types';
 import { TNG_MULTI_AUTOCOMPLETE } from './tng-multi-autocomplete.tokens';
 import type { TngMultiAutocomplete } from './tng-multi-autocomplete';
 
@@ -17,13 +12,32 @@ export class TngMultiAutocompleteTrigger {
   private readonly multi = inject<TngMultiAutocomplete>(TNG_MULTI_AUTOCOMPLETE);
   private readonly el = inject(ElementRef<HTMLInputElement>);
 
+  private get listbox(): TngMultiAutocompleteListboxApi<unknown> | null {
+    return this.multi.getListboxApi();
+  }
+
   @HostBinding('attr.data-slot')
   protected readonly dataSlot = 'multi-autocomplete-trigger' as const;
+
+  @HostListener('focus')
+  protected onFocus(): void {
+    if (this.multi.disabled()) return;
+    if (!this.multi.open()) {
+      this.multi.openSelect();
+      this.listbox?.ensureActive('first');
+    }
+  }
 
   @HostListener('input', ['$event'])
   protected onInput(event: Event): void {
     const value = (event.target as HTMLInputElement | null)?.value ?? '';
     this.multi.query.set(value);
+
+    // typing should open (chips UX: always searchable)
+    if (!this.multi.disabled() && !this.multi.open()) {
+      this.multi.openSelect();
+      this.listbox?.ensureActive('first');
+    }
   }
 
   @HostListener('keydown', ['$event'])
@@ -33,8 +47,7 @@ export class TngMultiAutocompleteTrigger {
       if (this.multi.disabled()) return;
 
       const inputValue = this.el.nativeElement.value ?? '';
-      const hasText = inputValue.length > 0;
-      if (hasText) return;
+      if (inputValue.length > 0) return;
 
       const selected = this.multi.value();
       if (selected.length === 0) return;
@@ -42,6 +55,9 @@ export class TngMultiAutocompleteTrigger {
       event.preventDefault();
       event.stopPropagation();
       this.multi.removeLast();
+      return;
     }
+
+    // (Next step later): ArrowDown/Up navigation + Enter commitActive.
   }
 }
