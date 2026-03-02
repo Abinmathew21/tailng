@@ -45,7 +45,7 @@ function keydown(el: HTMLElement, key: string) {
         autocomplete="off"
       />
 
-      <ul tngMultiAutocompleteListbox [multiple]="true" data-testid="listbox">
+      <ul tngMultiAutocompleteListbox data-testid="listbox">
         <li tngMultiAutocompleteOption [tngValue]="'Apple'" data-testid="opt-a">Apple</li>
         <li tngMultiAutocompleteOption [tngValue]="'Banana'" data-testid="opt-b">Banana</li>
         <li tngMultiAutocompleteOption [tngValue]="'Cherry'" data-testid="opt-c">Cherry</li>

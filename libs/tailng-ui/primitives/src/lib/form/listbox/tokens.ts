@@ -7,3 +7,7 @@ export const TNG_LISTBOX =
 /** Optional override for listbox typeahead behavior. If provided, wins over the input(). */
 export const TNG_LISTBOX_FORCE_TYPEAHEAD =
   new InjectionToken<boolean>('TNG_LISTBOX_FORCE_TYPEAHEAD');
+
+  /** Optional override for listbox multiple behavior. If provided, wins over the input(). */
+  export const TNG_LISTBOX_FORCE_MULTIPLE =
+    new InjectionToken<boolean>('TNG_LISTBOX_FORCE_MULTIPLE');

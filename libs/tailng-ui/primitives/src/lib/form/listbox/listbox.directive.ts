@@ -3,6 +3,7 @@ import {
   ElementRef,
   HostBinding,
   HostListener,
+  computed,
   effect,
   inject,
   input,
@@ -12,7 +13,7 @@ import {
 } from '@angular/core';
 
 import { createListboxController } from '@tailng-ui/cdk';
-import { TNG_LISTBOX } from './tokens';
+import { TNG_LISTBOX, TNG_LISTBOX_FORCE_MULTIPLE } from './tokens';
 
 export type ListboxValue<T> = T | readonly T[] | null;
 
@@ -22,7 +23,11 @@ export type ListboxValue<T> = T | readonly T[] | null;
   providers: [{ provide: TNG_LISTBOX, useExisting: TngListboxDirective }],
 })
 export class TngListboxDirective<T> {
-  multiple = input<boolean>(false);
+  
+  private readonly _forceMultiple = inject(TNG_LISTBOX_FORCE_MULTIPLE, { optional: true });
+  readonly multipleInput = input<boolean>(false, { alias: 'multiple' });
+  readonly multiple = computed(() => this._forceMultiple ?? this.multipleInput());
+
   orientation = input<'vertical' | 'horizontal'>('vertical');
   direction = input<'ltr' | 'rtl'>('ltr');
   disabled = input<boolean>(false);
