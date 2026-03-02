@@ -1,4 +1,3 @@
-// libs/tailng-ui/primitives/src/lib/form/multi-autocomplete/tng-multi-autocomplete.trigger.ts
 import {
   Directive,
   ElementRef,
@@ -23,7 +22,6 @@ export class TngMultiAutocompleteTrigger {
   private readonly multi = inject<TngMultiAutocomplete>(TNG_MULTI_AUTOCOMPLETE);
   private readonly el = inject(ElementRef<HTMLInputElement>);
 
-  // Optional: only present when the consumer uses tngMultiAutocompleteListbox bridge
   private readonly listbox =
     inject<TngMultiAutocompleteListboxApi>(TNG_MULTI_AUTOCOMPLETE_LISTBOX, {
       optional: true,
@@ -32,7 +30,6 @@ export class TngMultiAutocompleteTrigger {
   @HostBinding('attr.data-slot')
   protected readonly dataSlot = 'multi-autocomplete-trigger' as const;
 
-  // (Optional but good) combobox a11y
   @HostBinding('attr.role')
   protected readonly role = 'combobox' as const;
 
@@ -67,11 +64,10 @@ export class TngMultiAutocompleteTrigger {
 
     if (!this.multi.open()) {
       this.multi.openSelect();
-      
-      // emit "current query" on open-on-focus (matches single autocomplete behavior)
+
+      // ✅ emit current query when opening (often empty, but supports prefilled cases)
       this.multi.queryChange.emit(this.multi.query());
 
-      // emit current input value (supports prefilled input value="...")
       this.listbox?.ensureActive('first');
     }
   }
@@ -80,6 +76,8 @@ export class TngMultiAutocompleteTrigger {
   protected onInput(event: Event): void {
     const value = (event.target as HTMLInputElement | null)?.value ?? '';
     this.multi.query.set(value);
+
+    // ✅ emit on typing
     this.multi.queryChange.emit(value);
   }
 
@@ -97,7 +95,7 @@ export class TngMultiAutocompleteTrigger {
       return;
     }
 
-    // Backspace removes last chip when input is empty (chips UX)
+    // Backspace removes last chip when input is empty
     if (event.key === 'Backspace') {
       const inputValue = this.el.nativeElement.value ?? '';
       if (inputValue.length > 0) return;
@@ -111,7 +109,7 @@ export class TngMultiAutocompleteTrigger {
       return;
     }
 
-    // Enter commits active option (toggles selection) and stays open
+    // Enter commits active option (toggle) and stays open
     if (event.key === 'Enter') {
       if (!this.multi.open()) return;
       if (!this.listbox) return;
@@ -119,17 +117,29 @@ export class TngMultiAutocompleteTrigger {
       event.preventDefault();
       event.stopPropagation();
       this.listbox.commitActive();
+      return;
+    }
 
-      // keep input + query consistent after selection
-      this.el.nativeElement.value = '';
-      this.multi.query.set('');
-      this.multi.queryChange.emit('');
+    // ArrowLeft from input → focus last chip if input empty
+    if (event.key === 'ArrowLeft') {
+      const inputValue = this.el.nativeElement.value ?? '';
+      if (inputValue.length > 0) return;
+
+      const chips = this.multi.hostElement.querySelectorAll(
+        '[data-slot="multi-autocomplete-chip"]'
+      );
+
+      if (chips.length === 0) return;
+
+      event.preventDefault();
+      event.stopPropagation();
+
+      (chips[chips.length - 1] as HTMLElement).focus();
       return;
     }
 
     // Navigation keys
     if (NAV_KEYS.has(event.key as any)) {
-      // when closed: open + ensureActive
       if (!this.multi.open()) {
         event.preventDefault();
         event.stopPropagation();
@@ -143,7 +153,6 @@ export class TngMultiAutocompleteTrigger {
         return;
       }
 
-      // when open: delegate to listbox
       if (this.listbox) {
         const handled = this.listbox.handleKey(event.key, event.shiftKey);
         if (handled) {
@@ -154,7 +163,6 @@ export class TngMultiAutocompleteTrigger {
       return;
     }
 
-    // NOTE: printable keys are intentionally NOT prevented here
-    // so the input stays editable and typing works normally.
+    // printable keys are NOT prevented (input stays editable)
   }
 }

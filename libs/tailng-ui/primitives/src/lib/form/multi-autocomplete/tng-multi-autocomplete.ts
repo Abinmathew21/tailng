@@ -5,7 +5,7 @@ import {
   inject,
   input,
   model,
-  output
+  output,
 } from '@angular/core';
 import { TNG_MULTI_AUTOCOMPLETE } from './tng-multi-autocomplete.tokens';
 import type { TngMultiAutocompleteListboxApi } from './tng-multi-autocomplete.listbox.types';
@@ -31,11 +31,12 @@ export class TngMultiAutocomplete<T = unknown> {
   /** Current input query (used for filtering). */
   readonly query = model<string>('');
 
+  /** Emits whenever query changes (focus-open emit, typing, selection-clear, etc.) */
+  readonly queryChange = output<string>();
+
   /** Optional states (styling/aria). */
   readonly loading = input<boolean>(false);
   readonly invalid = input<boolean>(false);
-
-  readonly queryChange = output<string>();
 
   // ---- internal bridge state ----
   private _contentId: string | null = null;
@@ -85,10 +86,9 @@ export class TngMultiAutocomplete<T = unknown> {
   }
 
   // =========================================================
-  // 🔹 Selection API (Basic Multi State Machine)
+  // Selection API
   // =========================================================
 
-  /** Add item if not already selected. */
   add(value: T): void {
     if (this.disabled()) return;
 
@@ -99,7 +99,6 @@ export class TngMultiAutocomplete<T = unknown> {
     this.value.set([...current, value]);
   }
 
-  /** Remove item if selected. */
   remove(value: T): void {
     if (this.disabled()) return;
 
@@ -111,7 +110,6 @@ export class TngMultiAutocomplete<T = unknown> {
     }
   }
 
-  /** Toggle item in selection. */
   toggle(value: T): void {
     if (this.disabled()) return;
 
@@ -125,13 +123,11 @@ export class TngMultiAutocomplete<T = unknown> {
     }
   }
 
-  /** Clear all selected values. */
   clear(): void {
     if (this.disabled()) return;
     this.value.set([]);
   }
 
-  /** Remove last selected value (Backspace when input empty). */
   removeLast(): void {
     if (this.disabled()) return;
 
@@ -142,13 +138,12 @@ export class TngMultiAutocomplete<T = unknown> {
   }
 
   // =========================================================
-  // 🔹 Listbox Bridge
+  // Listbox bridge
   // =========================================================
 
   setContentId(id: string | null): void {
     this._contentId = id;
   }
-
   getContentId(): string | null {
     return this._contentId;
   }
@@ -156,20 +151,13 @@ export class TngMultiAutocomplete<T = unknown> {
   setListboxId(id: string | null): void {
     this._listboxId = id;
   }
-
   getListboxId(): string | null {
     return this._listboxId;
-  }
-  
-  /** Prefer listbox active id when available; otherwise fall back to cached id. */
-  getActiveId(): string | null {
-    return this._listboxApi?.getActiveId() ?? this._activeId;
   }
 
   setActiveDescendantId(id: string | null): void {
     this._activeId = id;
   }
-
   getActiveDescendantId(): string | null {
     return this._activeId;
   }
@@ -177,7 +165,6 @@ export class TngMultiAutocomplete<T = unknown> {
   setListboxApi(api: TngMultiAutocompleteListboxApi | null): void {
     this._listboxApi = api;
   }
-
   getListboxApi(): TngMultiAutocompleteListboxApi | null {
     return this._listboxApi;
   }
