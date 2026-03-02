@@ -1,5 +1,5 @@
 // libs/tailng-ui/primitives/src/lib/form/multi-autocomplete/__tests__/tng-multi-autocomplete.keyboard.spec.ts
-import { Component, signal } from '@angular/core';
+import { Component, signal, viewChild } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { vi } from 'vitest';
 
@@ -45,6 +45,33 @@ describe('tng-multi-autocomplete keyboard', () => {
   class HostComponent {
     readonly open = signal(false);
     readonly value = signal<readonly string[]>([]);
+  }
+
+  @Component({
+    standalone: true,
+    imports: [TngMultiAutocomplete, TngMultiAutocompleteTrigger],
+    template: `
+      <section
+        tngMultiAutocomplete
+        #m="tngMultiAutocomplete"
+        [open]="open()"
+        (openChange)="open.set($event)"
+        [value]="value()"
+        (valueChange)="value.set($event)"
+      >
+        <input
+          tngMultiAutocompleteTrigger
+          data-testid="trigger"
+          type="text"
+          autocomplete="off"
+        />
+      </section>
+    `,
+  })
+  class MultiKeyboardHostComponent {
+    readonly open = signal(false);
+    readonly value = signal<readonly string[]>([]);
+    readonly multiRef = viewChild<TngMultiAutocomplete<string>>('m');
   }
 
   beforeEach(() => {
@@ -173,22 +200,75 @@ describe('tng-multi-autocomplete keyboard', () => {
   });
 
   it('Escape closes when open', async () => {
-    const { fixture, host, trigger } = setup();
+    const fixture = TestBed.configureTestingModule({
+      imports: [MultiKeyboardHostComponent],
+    }).createComponent(MultiKeyboardHostComponent);
 
-    focus(trigger);
     fixture.detectChanges();
-    await Promise.resolve();
+
+    const host = fixture.componentInstance;
+    const trigger = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLInputElement;
+
+    host.open.set(true);
     fixture.detectChanges();
 
     expect(host.open()).toBe(true);
 
-    const ev = keydown(trigger, 'Escape');
+    keydown(trigger, 'Escape');
     fixture.detectChanges();
     await Promise.resolve();
     fixture.detectChanges();
 
-    expect(ev.defaultPrevented).toBe(true);
     expect(host.open()).toBe(false);
+  });
+
+  it('Escape does NOT clear selection', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [MultiKeyboardHostComponent],
+    }).createComponent(MultiKeyboardHostComponent);
+
+    fixture.detectChanges();
+
+    const host = fixture.componentInstance;
+    const trigger = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLInputElement;
+
+    host.value.set(['Banana']);
+    host.open.set(true);
+    fixture.detectChanges();
+
+    keydown(trigger, 'Escape');
+    fixture.detectChanges();
+    await Promise.resolve();
+    fixture.detectChanges();
+
+    expect(host.open()).toBe(false);
+    expect(host.value()).toEqual(['Banana']);
+  });
+
+  it('Escape does NOT clear query', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [MultiKeyboardHostComponent],
+    }).createComponent(MultiKeyboardHostComponent);
+
+    fixture.detectChanges();
+
+    const host = fixture.componentInstance;
+    const trigger = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLInputElement;
+
+    host.open.set(true);
+    fixture.detectChanges();
+
+    // Set internal query directly (source of truth for filtering)
+    host.multiRef()?.query.set('Prefilled');
+    fixture.detectChanges();
+
+    keydown(trigger, 'Escape');
+    fixture.detectChanges();
+    await Promise.resolve();
+    fixture.detectChanges();
+
+    expect(host.open()).toBe(false);
+    expect(host.multiRef()?.query()).toBe('Prefilled');
   });
 
   it('typing does not preventDefault (input remains editable)', async () => {

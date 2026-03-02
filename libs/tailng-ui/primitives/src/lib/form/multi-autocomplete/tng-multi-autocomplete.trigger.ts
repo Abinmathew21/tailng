@@ -67,6 +67,11 @@ export class TngMultiAutocompleteTrigger {
 
     if (!this.multi.open()) {
       this.multi.openSelect();
+      
+      // emit "current query" on open-on-focus (matches single autocomplete behavior)
+      this.multi.queryChange.emit(this.multi.query());
+
+      // emit current input value (supports prefilled input value="...")
       this.listbox?.ensureActive('first');
     }
   }
@@ -75,6 +80,7 @@ export class TngMultiAutocompleteTrigger {
   protected onInput(event: Event): void {
     const value = (event.target as HTMLInputElement | null)?.value ?? '';
     this.multi.query.set(value);
+    this.multi.queryChange.emit(value);
   }
 
   @HostListener('keydown', ['$event'])
@@ -113,6 +119,11 @@ export class TngMultiAutocompleteTrigger {
       event.preventDefault();
       event.stopPropagation();
       this.listbox.commitActive();
+
+      // keep input + query consistent after selection
+      this.el.nativeElement.value = '';
+      this.multi.query.set('');
+      this.multi.queryChange.emit('');
       return;
     }
 

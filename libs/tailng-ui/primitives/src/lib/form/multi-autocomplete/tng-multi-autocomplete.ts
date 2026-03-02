@@ -5,6 +5,7 @@ import {
   inject,
   input,
   model,
+  output
 } from '@angular/core';
 import { TNG_MULTI_AUTOCOMPLETE } from './tng-multi-autocomplete.tokens';
 import type { TngMultiAutocompleteListboxApi } from './tng-multi-autocomplete.listbox.types';
@@ -33,6 +34,8 @@ export class TngMultiAutocomplete<T = unknown> {
   /** Optional states (styling/aria). */
   readonly loading = input<boolean>(false);
   readonly invalid = input<boolean>(false);
+
+  readonly queryChange = output<string>();
 
   // ---- internal bridge state ----
   private _contentId: string | null = null;

@@ -105,6 +105,7 @@ export class TngMultiAutocompleteListbox<T = unknown> implements TngMultiAutocom
     if (value === undefined) return;
     this.multi.toggle(value as T);
     this.multi.query.set('');
+    this.multi.queryChange.emit('');
   }
 
   @HostListener('valueChange', ['$event'])
@@ -114,6 +115,7 @@ export class TngMultiAutocompleteListbox<T = unknown> implements TngMultiAutocom
     const arr = value === null ? [] : Array.isArray(value) ? value : [value];
     this.multi.value.set([...arr] as readonly T[]);
     this.multi.query.set('');
+    this.multi.queryChange.emit('');
   }
 
   getValue?(): readonly T[] {
