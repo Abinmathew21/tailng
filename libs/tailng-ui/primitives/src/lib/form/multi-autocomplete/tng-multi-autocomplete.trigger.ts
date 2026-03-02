@@ -145,8 +145,42 @@ export class TngMultiAutocompleteTrigger {
     }
 
     // Home / End
-    if (event.key === 'Home' || event.key === 'End') {
-      // ✅ When open: Home/End are listbox navigation keys.
+    // Home
+    if (event.key === 'Home') {
+      const input = this.el.nativeElement;
+      const start = input.selectionStart ?? 0;
+      const end = input.selectionEnd ?? 0;
+
+      // Chip UX has priority over listbox navigation
+      if (start === 0 && end === 0) {
+        const chips = Array.from(
+          this.multi.hostElement.querySelectorAll('[data-slot="multi-autocomplete-chip"]'),
+        ) as HTMLElement[];
+
+        const firstChip = chips[0] ?? null;
+        if (firstChip) {
+          event.preventDefault();
+          event.stopPropagation();
+          firstChip.focus();
+          return;
+        }
+      }
+
+      // Otherwise delegate to listbox when open
+      if (this.multi.open()) {
+        const handled = this.listbox?.handleKey(event.key, event.shiftKey);
+        if (handled) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+      }
+
+      return;
+    }
+
+    // End
+    if (event.key === 'End') {
+      // When open → delegate to listbox
       if (this.multi.open()) {
         const handled = this.listbox?.handleKey(event.key, event.shiftKey);
         if (handled) {
@@ -156,28 +190,7 @@ export class TngMultiAutocompleteTrigger {
         return;
       }
 
-      // ✅ When closed: treat as caret keys, except for chip UX shortcuts.
-      // Home at caret-start -> focus first chip
-      if (event.key === 'Home') {
-        const input = this.el.nativeElement;
-        const start = input.selectionStart ?? 0;
-        const end = input.selectionEnd ?? 0;
-
-        if (start === 0 && end === 0) {
-          const chips = Array.from(
-            this.multi.hostElement.querySelectorAll('[data-slot="multi-autocomplete-chip"]'),
-          ) as HTMLElement[];
-
-          const firstChip = chips[0] ?? null;
-          if (firstChip) {
-            event.preventDefault();
-            event.stopPropagation();
-            firstChip.focus();
-          }
-        }
-      }
-
-      // End: let browser move caret to end (no preventDefault)
+      // When closed → let browser move caret
       return;
     }
     

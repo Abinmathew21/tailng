@@ -85,21 +85,31 @@ describe('tng-multi-autocomplete keyboard', () => {
   });
 
   function setup() {
+    const listbox: TngMultiAutocompleteListboxApi = {
+      getHostId: () => null,
+      getActiveId: vi.fn(() => null),
+      ensureActive: vi.fn(),
+      handleKey: vi.fn(() => true),
+      commitActive: vi.fn(),
+    };
+  
     const fixture = TestBed.configureTestingModule({
       imports: [HostComponent],
       providers: [{ provide: TNG_MULTI_AUTOCOMPLETE_LISTBOX, useValue: listbox }],
     }).createComponent(HostComponent);
-
+  
     fixture.detectChanges();
-
+  
     const host = fixture.componentInstance;
-    const trigger = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLInputElement;
-
-    return { fixture, host, trigger };
+    const trigger = fixture.nativeElement.querySelector(
+      '[data-testid="trigger"]',
+    ) as HTMLInputElement;
+  
+    return { fixture, host, trigger, listbox };
   }
 
   it('focus opens and ensuresActive(first)', async () => {
-    const { fixture, host, trigger } = setup();
+    const { fixture, host, trigger, listbox } = setup();
 
     expect(host.open()).toBe(false);
 
@@ -113,7 +123,7 @@ describe('tng-multi-autocomplete keyboard', () => {
   });
 
   it('ArrowDown when closed opens and ensuresActive(first)', async () => {
-    const { fixture, host, trigger } = setup();
+    const { fixture, host, trigger, listbox } = setup();
 
     expect(host.open()).toBe(false);
 
@@ -128,7 +138,7 @@ describe('tng-multi-autocomplete keyboard', () => {
   });
 
   it('ArrowUp when closed opens and ensuresActive(last)', async () => {
-    const { fixture, host, trigger } = setup();
+    const { fixture, host, trigger, listbox } = setup();
 
     expect(host.open()).toBe(false);
 
@@ -143,7 +153,7 @@ describe('tng-multi-autocomplete keyboard', () => {
   });
 
   it('ArrowDown when open delegates to listbox.handleKey', async () => {
-    const { fixture, host, trigger } = setup();
+    const { fixture, host, trigger, listbox } = setup();
 
     focus(trigger);
     fixture.detectChanges();
@@ -162,7 +172,7 @@ describe('tng-multi-autocomplete keyboard', () => {
   });
 
   it('Home/End when open delegate to listbox.handleKey', async () => {
-    const { fixture, trigger } = setup();
+    const { fixture, trigger, listbox } = setup();
 
     focus(trigger);
     fixture.detectChanges();
@@ -180,7 +190,7 @@ describe('tng-multi-autocomplete keyboard', () => {
   });
 
   it('Enter when open calls commitActive and stays open', async () => {
-    const { fixture, host, trigger } = setup();
+    const { fixture, host, trigger, listbox } = setup();
 
     focus(trigger);
     fixture.detectChanges();
@@ -196,7 +206,7 @@ describe('tng-multi-autocomplete keyboard', () => {
 
     expect(ev.defaultPrevented).toBe(true);
     expect(listbox.commitActive).toHaveBeenCalled();
-    expect(host.open()).toBe(true); // ✅ stays open
+    expect(host.open()).toBe(true);
   });
 
   it('Escape closes when open', async () => {
@@ -321,5 +331,83 @@ describe('tng-multi-autocomplete keyboard', () => {
 
     expect(ev.defaultPrevented).toBe(true);
     expect(host.value()).toEqual(['A', 'B']);
+  });
+
+  it('Home when closed does NOT delegate to listbox.handleKey', async () => {
+    const { fixture, trigger, listbox } = setup();
+  
+    // closed
+    expect(fixture.componentInstance.open()).toBe(false);
+  
+    // Home should be caret behavior when closed (no listbox delegation)
+    keydown(trigger, 'Home');
+    fixture.detectChanges();
+    await Promise.resolve();
+    fixture.detectChanges();
+  
+    expect(listbox.handleKey).not.toHaveBeenCalled();
+  });
+  
+  it('End when closed does NOT delegate to listbox.handleKey', async () => {
+    const { fixture, trigger, listbox } = setup();
+  
+    expect(fixture.componentInstance.open()).toBe(false);
+  
+    keydown(trigger, 'End');
+    fixture.detectChanges();
+    await Promise.resolve();
+    fixture.detectChanges();
+  
+    expect(listbox.handleKey).not.toHaveBeenCalled();
+  });
+  
+  it('Home when open delegates to listbox.handleKey (priority over chip focus)', async () => {
+    const { fixture, trigger, listbox } = setup();
+  
+    focus(trigger);
+    fixture.detectChanges();
+    await Promise.resolve();
+    fixture.detectChanges();
+  
+    // open -> listbox navigation
+    keydown(trigger, 'Home');
+    keydown(trigger, 'End');
+    fixture.detectChanges();
+    await Promise.resolve();
+    fixture.detectChanges();
+  
+    expect(listbox.handleKey).toHaveBeenCalledTimes(2);
+    expect(listbox.handleKey).toHaveBeenCalledWith('Home', false);
+    expect(listbox.handleKey).toHaveBeenCalledWith('End', false);
+  });
+  
+  it('Enter when closed does nothing (no commitActive)', async () => {
+    const { fixture, trigger, listbox } = setup();
+  
+    expect(fixture.componentInstance.open()).toBe(false);
+  
+    keydown(trigger, 'Enter');
+    fixture.detectChanges();
+    await Promise.resolve();
+    fixture.detectChanges();
+  
+    expect(listbox.commitActive).not.toHaveBeenCalled();
+  });
+  
+  it('Escape when closed does not preventDefault and does not change open', async () => {
+    const { fixture, trigger } = setup();
+  
+    expect(fixture.componentInstance.open()).toBe(false);
+  
+    const ev = new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true });
+    const preventSpy = vi.spyOn(ev, 'preventDefault');
+    trigger.dispatchEvent(ev);
+  
+    fixture.detectChanges();
+    await Promise.resolve();
+    fixture.detectChanges();
+  
+    expect(fixture.componentInstance.open()).toBe(false);
+    expect(preventSpy).not.toHaveBeenCalled();
   });
 });

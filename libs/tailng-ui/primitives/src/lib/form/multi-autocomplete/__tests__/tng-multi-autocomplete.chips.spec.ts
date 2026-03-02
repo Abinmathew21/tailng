@@ -40,11 +40,7 @@ class HostComponent {
 
 @Component({
   standalone: true,
-  imports: [
-    TngMultiAutocomplete,
-    TngMultiAutocompleteTrigger,
-    TngMultiAutocompleteChip,
-  ],
+  imports: [TngMultiAutocomplete, TngMultiAutocompleteTrigger, TngMultiAutocompleteChip],
   template: `
     <section
       tngMultiAutocomplete
@@ -52,7 +48,12 @@ class HostComponent {
       (valueChange)="value.set($event)"
     >
       @for (chip of value(); track chip) {
-        <span tngMultiAutocompleteChip data-testid="chip">
+        <span
+          tngMultiAutocompleteChip
+          [tngValue]="chip"
+          data-testid="chip"
+          tabindex="-1"
+        >
           {{ chip }}
         </span>
       }
@@ -612,4 +613,118 @@ describe('tng-multi-autocomplete chip Home/End navigation', () => {
 
     expect(document.activeElement).toBe(input);
   });
+});
+
+@Component({
+  standalone: true,
+  imports: [TngMultiAutocomplete, TngMultiAutocompleteTrigger, TngMultiAutocompleteChip],
+  template: `
+    <section tngMultiAutocomplete [value]="value()" (valueChange)="value.set($event)">
+      @for (item of value(); track item) {
+        <span
+          tngMultiAutocompleteChip
+          [tngValue]="item"
+          [attr.data-testid]="'chip-' + item"
+        >
+          {{ item }}
+        </span>
+      }
+      <input tngMultiAutocompleteTrigger data-testid="input" />
+    </section>
+  `,
+})
+class InputChipBoundaryHostComponent {
+  readonly value = signal<readonly string[]>(['a', 'b', 'c']);
+}
+
+describe('tng-multi-autocomplete input - chips boundary', () => {
+  it('ArrowLeft on input at caret-start focuses last chip', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [InputChipBoundaryHostComponent],
+    }).createComponent(InputChipBoundaryHostComponent);
+
+    fixture.detectChanges();
+
+    const input = fixture.nativeElement.querySelector('[data-testid="input"]') as HTMLInputElement;
+    const chipC = fixture.nativeElement.querySelector('[data-testid="chip-c"]') as HTMLElement;
+
+    input.focus();
+    input.setSelectionRange(0, 0);
+    fixture.detectChanges();
+
+    keydown(input, { key: 'ArrowLeft' });
+    fixture.detectChanges();
+    await Promise.resolve();
+    fixture.detectChanges();
+
+    expect(document.activeElement).toBe(chipC);
+  });
+
+  it('ArrowLeft on input when caret not at start does NOT focus chips', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [InputChipBoundaryHostComponent],
+    }).createComponent(InputChipBoundaryHostComponent);
+
+    fixture.detectChanges();
+
+    const input = fixture.nativeElement.querySelector('[data-testid="input"]') as HTMLInputElement;
+
+    input.focus();
+    // caret not at start
+    input.value = 'x';
+    input.setSelectionRange(1, 1);
+    fixture.detectChanges();
+
+    keydown(input, { key: 'ArrowLeft' });
+    fixture.detectChanges();
+    await Promise.resolve();
+    fixture.detectChanges();
+
+    expect(document.activeElement).toBe(input);
+  });
+
+  it('Home on input at caret-start focuses first chip', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [InputChipBoundaryHostComponent],
+    }).createComponent(InputChipBoundaryHostComponent);
+
+    fixture.detectChanges();
+
+    const input = fixture.nativeElement.querySelector('[data-testid="input"]') as HTMLInputElement;
+    const chipA = fixture.nativeElement.querySelector('[data-testid="chip-a"]') as HTMLElement;
+
+    input.focus();
+    input.setSelectionRange(0, 0);
+    fixture.detectChanges();
+
+    keydown(input, { key: 'Home' });
+    fixture.detectChanges();
+    await Promise.resolve();
+    fixture.detectChanges();
+
+    expect(document.activeElement).toBe(chipA);
+  });
+
+  it('End on input keeps focus on input (caret behavior)', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [InputChipBoundaryHostComponent],
+    }).createComponent(InputChipBoundaryHostComponent);
+
+    fixture.detectChanges();
+
+    const input = fixture.nativeElement.querySelector('[data-testid="input"]') as HTMLInputElement;
+
+    input.focus();
+    input.value = 'hello';
+    input.setSelectionRange(0, 0);
+    fixture.detectChanges();
+
+    keydown(input, { key: 'End' });
+    fixture.detectChanges();
+    await Promise.resolve();
+    fixture.detectChanges();
+
+    expect(document.activeElement).toBe(input);
+  });
+
 });
