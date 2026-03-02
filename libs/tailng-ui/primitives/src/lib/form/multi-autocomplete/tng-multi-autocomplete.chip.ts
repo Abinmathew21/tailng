@@ -4,6 +4,7 @@ import {
   HostBinding,
   HostListener,
   inject,
+  input,
 } from '@angular/core';
 
 import { TNG_MULTI_AUTOCOMPLETE } from './tng-multi-autocomplete.tokens';
@@ -15,9 +16,11 @@ import type { TngMultiAutocomplete } from './tng-multi-autocomplete';
   standalone: true,
 })
 export class TngMultiAutocompleteChip<T = unknown> {
-  private readonly multi =
-    inject<TngMultiAutocomplete<T>>(TNG_MULTI_AUTOCOMPLETE);
+  private readonly multi = inject<TngMultiAutocomplete<T>>(TNG_MULTI_AUTOCOMPLETE);
   private readonly el = inject(ElementRef<HTMLElement>);
+
+  /** The value represented by this chip (needed for Delete/Backspace remove). */
+  readonly tngValue = input<T | null>(null);
 
   @HostBinding('attr.data-slot')
   protected readonly dataSlot = 'multi-autocomplete-chip' as const;
@@ -31,38 +34,64 @@ export class TngMultiAutocompleteChip<T = unknown> {
 
   @HostListener('keydown', ['$event'])
   protected onKeydown(event: KeyboardEvent): void {
-    const chips = this.multi.hostElement.querySelectorAll(
-      '[data-slot="multi-autocomplete-chip"]'
-    );
+    const host = this.multi.hostElement;
 
-    const currentIndex = Array.from(chips).indexOf(
-      this.el.nativeElement
-    );
+    const chips = Array.from(
+      host.querySelectorAll('[data-slot="multi-autocomplete-chip"]'),
+    ) as HTMLElement[];
 
+    const currentIndex = chips.indexOf(this.el.nativeElement);
+    if (currentIndex < 0) return;
+
+    // ArrowLeft → previous chip (if any)
     if (event.key === 'ArrowLeft') {
       event.preventDefault();
       event.stopPropagation();
-
-      if (currentIndex > 0) {
-        (chips[currentIndex - 1] as HTMLElement).focus();
-      }
+      const prev = chips[currentIndex - 1];
+      prev?.focus();
       return;
     }
 
+    // ArrowRight → next chip else input trigger
     if (event.key === 'ArrowRight') {
       event.preventDefault();
       event.stopPropagation();
 
-      if (currentIndex < chips.length - 1) {
-        (chips[currentIndex + 1] as HTMLElement).focus();
-      } else {
-        // last chip → go back to input
-        const input = this.multi.hostElement.querySelector(
-          '[data-slot="multi-autocomplete-trigger"]'
-        ) as HTMLElement | null;
-
-        input?.focus();
+      const next = chips[currentIndex + 1];
+      if (next) {
+        next.focus();
+        return;
       }
+
+      const input = host.querySelector('[data-slot="multi-autocomplete-trigger"]') as HTMLElement | null;
+      input?.focus();
+      return;
+    }
+
+    // Delete / Backspace → remove this chip value
+    if (event.key === 'Delete' || event.key === 'Backspace') {
+      if (this.multi.disabled()) return;
+
+      const v = this.tngValue();
+      if (v == null) return;
+
+      event.preventDefault();
+      event.stopPropagation();
+
+      // Choose next focus target *before* removing
+      const prev = chips[currentIndex - 1] ?? null;
+      const next = chips[currentIndex + 1] ?? null;
+      const input = host.querySelector('[data-slot="multi-autocomplete-trigger"]') as HTMLElement | null;
+
+      // remove selected value
+      this.multi.remove(v);
+
+      // focus after DOM updates
+      queueMicrotask(() => {
+        (prev ?? next ?? input)?.focus?.();
+      });
+
+      return;
     }
   }
 }
