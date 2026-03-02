@@ -410,4 +410,52 @@ describe('tng-multi-autocomplete keyboard', () => {
     expect(fixture.componentInstance.open()).toBe(false);
     expect(preventSpy).not.toHaveBeenCalled();
   });
+
+  it('Home at caret-start prioritizes chip boundary over listbox navigation (when closed)', async () => {
+    const { fixture, host, trigger, listbox } = setup();
+  
+    // Focus opens overlay in your implementation → close it back for this test
+    focus(trigger);
+    fixture.detectChanges();
+    await Promise.resolve();
+    fixture.detectChanges();
+  
+    host.open.set(false);
+    fixture.detectChanges();
+    await Promise.resolve();
+    fixture.detectChanges();
+  
+    // caret at start
+    trigger.value = 'x';
+    trigger.setSelectionRange(0, 0);
+    fixture.detectChanges();
+  
+    keydown(trigger, 'Home');
+    fixture.detectChanges();
+    await Promise.resolve();
+    fixture.detectChanges();
+  
+    // listbox must NOT receive Home when closed (chip boundary case)
+    expect(listbox.handleKey).not.toHaveBeenCalled();
+  });
+
+  it('Home when open delegates to listbox.handleKey (even if caret-start)', async () => {
+    const { fixture, trigger, listbox } = setup();
+  
+    focus(trigger); // opens
+    fixture.detectChanges();
+    await Promise.resolve();
+    fixture.detectChanges();
+  
+    trigger.value = 'x';
+    trigger.setSelectionRange(0, 0);
+    fixture.detectChanges();
+  
+    keydown(trigger, 'Home');
+    fixture.detectChanges();
+    await Promise.resolve();
+    fixture.detectChanges();
+  
+    expect(listbox.handleKey).toHaveBeenCalledWith('Home', false);
+  });
 });
