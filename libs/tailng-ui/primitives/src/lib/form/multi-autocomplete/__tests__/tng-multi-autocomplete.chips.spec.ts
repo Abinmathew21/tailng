@@ -434,3 +434,182 @@ describe('tng-multi-autocomplete chip remove keys', () => {
     expect(fixture.componentInstance.value()).toEqual(['a', 'b']);
   });
 });
+
+describe('tng-multi-autocomplete input ↔ chips navigation', () => {
+  @Component({
+    standalone: true,
+    imports: [TngMultiAutocomplete, TngMultiAutocompleteTrigger, TngMultiAutocompleteChip],
+    template: `
+      <section tngMultiAutocomplete [value]="value()" (valueChange)="value.set($event)">
+        @for (item of value(); track item) {
+          <span
+            tngMultiAutocompleteChip
+            [tngValue]="item"
+            attr.data-testid="chip-{{ item }}"
+          >
+            {{ item }}
+          </span>
+        }
+        <input tngMultiAutocompleteTrigger data-testid="input" />
+      </section>
+    `,
+  })
+  class ChipNavHostComponent {
+    readonly value = signal<readonly string[]>(['a', 'b', 'c']);
+  }
+
+  it('ArrowLeft on input at caret-start focuses last chip', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [ChipNavHostComponent],
+    }).createComponent(ChipNavHostComponent);
+
+    fixture.detectChanges();
+
+    const input = fixture.nativeElement.querySelector('[data-testid="input"]') as HTMLInputElement;
+    const chipC = fixture.nativeElement.querySelector('[data-testid="chip-c"]') as HTMLElement;
+
+    focus(input);
+    input.value = 'ap';
+    input.setSelectionRange(0, 0);
+    fixture.detectChanges();
+
+    keydown(input, { key: 'ArrowLeft' });
+    fixture.detectChanges();
+    await Promise.resolve();
+    fixture.detectChanges();
+
+    expect(document.activeElement).toBe(chipC);
+  });
+
+  it('ArrowLeft on input when caret is NOT at start does not move focus', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [ChipNavHostComponent],
+    }).createComponent(ChipNavHostComponent);
+
+    fixture.detectChanges();
+
+    const input = fixture.nativeElement.querySelector('[data-testid="input"]') as HTMLInputElement;
+
+    focus(input);
+    input.value = 'ap';
+    input.setSelectionRange(1, 1);
+    fixture.detectChanges();
+
+    keydown(input, { key: 'ArrowLeft' });
+    fixture.detectChanges();
+    await Promise.resolve();
+    fixture.detectChanges();
+
+    expect(document.activeElement).toBe(input);
+  });
+
+  it('ArrowLeft on input at caret-start does nothing when there are no chips', async () => {
+    @Component({
+      standalone: true,
+      imports: [TngMultiAutocomplete, TngMultiAutocompleteTrigger, TngMultiAutocompleteChip],
+      template: `
+        <section tngMultiAutocomplete [value]="value()" (valueChange)="value.set($event)">
+          @for (item of value(); track item) {
+            <span
+              tngMultiAutocompleteChip
+              [tngValue]="item"
+              attr.data-testid="chip-{{ item }}"
+            >
+              {{ item }}
+            </span>
+          }
+          <input tngMultiAutocompleteTrigger data-testid="input" />
+        </section>
+      `,
+    })
+    class NoChipHostComponent {
+      readonly value = signal<readonly string[]>([]);
+    }
+
+    const fixture = TestBed.configureTestingModule({
+      imports: [NoChipHostComponent],
+    }).createComponent(NoChipHostComponent);
+
+    fixture.detectChanges();
+
+    const input = fixture.nativeElement.querySelector('[data-testid="input"]') as HTMLInputElement;
+
+    focus(input);
+    input.value = 'ap';
+    input.setSelectionRange(0, 0);
+    fixture.detectChanges();
+
+    keydown(input, { key: 'ArrowLeft' });
+    fixture.detectChanges();
+    await Promise.resolve();
+    fixture.detectChanges();
+
+    expect(document.activeElement).toBe(input);
+  });
+});
+
+describe('tng-multi-autocomplete chip Home/End navigation', () => {
+  @Component({
+    standalone: true,
+    imports: [TngMultiAutocomplete, TngMultiAutocompleteTrigger, TngMultiAutocompleteChip],
+    template: `
+      <section tngMultiAutocomplete [value]="value()" (valueChange)="value.set($event)">
+        @for (item of value(); track item) {
+          <span
+            tngMultiAutocompleteChip
+            [tngValue]="item"
+            attr.data-testid="chip-{{ item }}"
+          >
+            {{ item }}
+          </span>
+        }
+        <input tngMultiAutocompleteTrigger data-testid="input" />
+      </section>
+    `,
+  })
+  class ChipHomeEndHostComponent {
+    readonly value = signal<readonly string[]>(['a', 'b', 'c']);
+  }
+
+  it('Home focuses first chip', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [ChipHomeEndHostComponent],
+    }).createComponent(ChipHomeEndHostComponent);
+
+    fixture.detectChanges();
+
+    const chipB = fixture.nativeElement.querySelector('[data-testid="chip-b"]') as HTMLElement;
+    const chipA = fixture.nativeElement.querySelector('[data-testid="chip-a"]') as HTMLElement;
+
+    chipB.focus();
+    fixture.detectChanges();
+
+    keydown(chipB, { key: 'Home' });
+    fixture.detectChanges();
+    await Promise.resolve();
+    fixture.detectChanges();
+
+    expect(document.activeElement).toBe(chipA);
+  });
+
+  it('End focuses input', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [ChipHomeEndHostComponent],
+    }).createComponent(ChipHomeEndHostComponent);
+
+    fixture.detectChanges();
+
+    const chipB = fixture.nativeElement.querySelector('[data-testid="chip-b"]') as HTMLElement;
+    const input = fixture.nativeElement.querySelector('[data-testid="input"]') as HTMLInputElement;
+
+    chipB.focus();
+    fixture.detectChanges();
+
+    keydown(chipB, { key: 'End' });
+    fixture.detectChanges();
+    await Promise.resolve();
+    fixture.detectChanges();
+
+    expect(document.activeElement).toBe(input);
+  });
+});

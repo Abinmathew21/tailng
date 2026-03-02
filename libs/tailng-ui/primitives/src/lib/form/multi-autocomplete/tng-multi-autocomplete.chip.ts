@@ -93,5 +93,29 @@ export class TngMultiAutocompleteChip<T = unknown> {
 
       return;
     }
+
+    // Home → first chip
+    if (event.key === 'Home') {
+      event.preventDefault();
+      event.stopPropagation();
+
+      const first = chips[0] ?? null;
+      first?.focus();
+      return;
+    }
+
+    // End → last chip (if any) else input trigger
+        // End → input trigger (jump out of chips)
+    if (event.key === 'End') {
+      event.preventDefault();
+      event.stopPropagation();
+
+      const input = host.querySelector(
+        '[data-slot="multi-autocomplete-trigger"]',
+      ) as HTMLElement | null;
+
+      input?.focus();
+      return;
+    }
   }
 }
