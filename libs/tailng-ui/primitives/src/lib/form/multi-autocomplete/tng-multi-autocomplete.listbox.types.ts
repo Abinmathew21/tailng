@@ -4,8 +4,8 @@ export interface TngMultiAutocompleteListboxApi<T = unknown> {
   /** Host element id of the listbox (for aria-controls when content id not used). */
   getHostId(): string | null;
 
-  /** Currently active option id (for aria-activedescendant). */
-  getActiveId(): string | null;
+  /** Reactive (preferred) */
+  activeId?: () => string | null;
 
   /** Ensure an option is active; pref on open. */
   ensureActive(pref?: 'first' | 'last'): void;

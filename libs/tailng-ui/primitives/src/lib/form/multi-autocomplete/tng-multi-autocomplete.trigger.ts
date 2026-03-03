@@ -26,6 +26,9 @@ export class TngMultiAutocompleteTrigger {
     inject<TngMultiAutocompleteListboxApi>(TNG_MULTI_AUTOCOMPLETE_LISTBOX, {
       optional: true,
     });
+  
+  private composing = false;
+  private lastEmittedQuery: string | null = null;
 
   @HostBinding('attr.data-slot')
   protected readonly dataSlot = 'multi-autocomplete-trigger' as const;
@@ -55,7 +58,7 @@ export class TngMultiAutocompleteTrigger {
   @HostBinding('attr.aria-activedescendant')
   protected get ariaActiveDescendant(): string | null {
     if (!this.multi.open()) return null;
-    return this.listbox?.getActiveId() ?? this.multi.getActiveDescendantId();
+    return this.listbox?.activeId?.() ?? this.multi.getActiveDescendantId();
   }
 
   @HostListener('focus')
@@ -65,9 +68,10 @@ export class TngMultiAutocompleteTrigger {
     if (!this.multi.open()) {
       this.multi.openSelect();
 
-      // On open-on-focus, emit *actual* current input value (handles prefilled value="...")
       const q = this.el.nativeElement.value ?? '';
       this.multi.query.set(q);
+
+      this.lastEmittedQuery = q;
       this.multi.queryChange.emit(q);
 
       this.listbox?.ensureActive('first');
@@ -81,7 +85,13 @@ export class TngMultiAutocompleteTrigger {
     const value = (event.target as HTMLInputElement | null)?.value ?? '';
     this.multi.query.set(value);
 
-    // emit on typing
+    // Policy A: do not emit during IME composition
+    if (this.composing) return;
+
+    // Avoid double-emit (e.g., compositionend followed by input)
+    if (this.lastEmittedQuery === value) return;
+
+    this.lastEmittedQuery = value;
     this.multi.queryChange.emit(value);
   }
 
@@ -225,4 +235,26 @@ export class TngMultiAutocompleteTrigger {
 
     // printable keys are NOT prevented (input stays editable)
   }
+
+  @HostListener('compositionstart')
+  protected onCompositionStart(): void {
+    this.composing = true;
+  }
+
+  @HostListener('compositionend')
+  protected onCompositionEnd(): void {
+    this.composing = false;
+
+    if (this.multi.disabled()) return;
+
+    // Policy A: emit once with the final committed value
+    const q = this.el.nativeElement.value ?? '';
+    this.multi.query.set(q);
+
+    if (this.lastEmittedQuery !== q) {
+      this.lastEmittedQuery = q;
+      this.multi.queryChange.emit(q);
+    }
+  }
+
 }

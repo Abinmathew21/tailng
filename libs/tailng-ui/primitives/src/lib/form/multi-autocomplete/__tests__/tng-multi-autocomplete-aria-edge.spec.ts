@@ -161,7 +161,7 @@ describe('tng-multi-autocomplete ARIA edge behavior', () => {
 
     const listbox: TngMultiAutocompleteListboxApi = {
       getHostId: vi.fn(() => 'lb-1'),
-      getActiveId: vi.fn(() => active),
+      activeId: vi.fn(() => active),
       ensureActive: vi.fn(),
       handleKey: vi.fn(() => true),
       commitActive: vi.fn(),

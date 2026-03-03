@@ -59,7 +59,7 @@ describe('tng-multi-autocomplete ARIA', () => {
   function setup(listboxOverrides?: Partial<TngMultiAutocompleteListboxApi<string>>) {
     const listbox: TngMultiAutocompleteListboxApi<string> = {
       getHostId: vi.fn(() => 'lb-1'),
-      getActiveId: vi.fn(() => 'opt-1'),
+      activeId: vi.fn(() => 'opt-1'),
       ensureActive: vi.fn(),
       handleKey: vi.fn(() => true),
       commitActive: vi.fn(),
@@ -130,7 +130,7 @@ describe('tng-multi-autocomplete ARIA', () => {
 
   it('aria-activedescendant uses listbox active id when open', async () => {
     const { fixture, trigger } = setup({
-      getActiveId: vi.fn(() => 'opt-active-123'),
+      activeId: vi.fn(() => 'opt-active-123'),
     });
 
     expect(trigger.getAttribute('aria-activedescendant')).toBeNull();
@@ -165,6 +165,7 @@ describe('tng-multi-autocomplete ARIA', () => {
     blur(trigger);
     fixture.detectChanges();
   });
+
   it('aria-activedescendant is null when closed, uses listbox id when open', async () => {
     const { fixture, trigger, listbox } = setup();
   
@@ -175,7 +176,7 @@ describe('tng-multi-autocomplete ARIA', () => {
     await Promise.resolve();
     fixture.detectChanges();
   
-    expect(listbox.getActiveId).toHaveBeenCalled();
+    expect(listbox.activeId).toHaveBeenCalled();
     expect(trigger.getAttribute('aria-activedescendant')).toBe('opt-1');
   });
 
