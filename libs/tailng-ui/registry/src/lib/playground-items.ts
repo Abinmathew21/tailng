@@ -67,6 +67,12 @@ export const ALL_PLAYGROUND_ITEMS: readonly TngPlaygroundItem[] = Object.freeze(
   { path: '/combobox', title: 'Combobox', description: 'Text input with options popup.', category: 'form' },
   { path: '/select', title: 'Select', description: 'Single-choice dropdown.', category: 'form' },
   { path: '/autocomplete', title: 'Autocomplete', description: 'Dynamic suggestion list.', category: 'form' },
+  {
+    path: '/multi-autocomplete',
+    title: 'Multi Autocomplete',
+    description: 'Chips input with multi-select suggestions.',
+    category: 'form',
+  },
   { path: '/multiselect', title: 'Multiselect', description: 'Multiple-choice listbox.', category: 'form' },
   { path: '/grid', title: 'Grid', description: 'Keyboard-navigable grid.', category: 'layout' },
   { path: '/tree', title: 'Tree', description: 'Hierarchical expandable list.', category: 'layout' },

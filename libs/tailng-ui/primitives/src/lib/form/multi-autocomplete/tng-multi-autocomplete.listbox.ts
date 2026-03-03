@@ -13,6 +13,7 @@ import { createTngIdFactory } from '@tailng-ui/cdk';
 import {
   TNG_LISTBOX_FORCE_TYPEAHEAD,
   TNG_LISTBOX_FORCE_MULTIPLE,
+  TNG_LISTBOX_PRESERVE_VALUE_ON_UNREGISTER,
   TngListboxDirective,
   TngOptionDirective,
 } from '@tailng-ui/primitives';
@@ -32,7 +33,7 @@ const createListboxId = createTngIdFactory('tng-multi-autocomplete-listbox');
     // Multi-autocomplete typing happens in the input. Listbox must NOT typeahead.
     { provide: TNG_LISTBOX_FORCE_TYPEAHEAD, useValue: false },
     { provide: TNG_LISTBOX_FORCE_MULTIPLE, useValue: true },
-
+    { provide: TNG_LISTBOX_PRESERVE_VALUE_ON_UNREGISTER, useValue: true },
   ],
   hostDirectives: [
     {
@@ -76,6 +77,12 @@ export class TngMultiAutocompleteListbox<T = unknown> implements TngMultiAutocom
       }
 
       this.listbox.value.set([...v] as readonly T[]);
+
+      // External controlled value changes while closed should reset filtering state.
+      if (!this.multi.open()) {
+        this.multi.query.set('');
+        this.multi.queryChange.emit('');
+      }
     });
 
     this.destroyRef.onDestroy(() => {
@@ -104,6 +111,7 @@ export class TngMultiAutocompleteListbox<T = unknown> implements TngMultiAutocom
     const value = this.listbox.getActiveValue();
     if (value === undefined) return;
     this.multi.toggle(value as T);
+    this.listbox.setActiveId(null);
     this.multi.query.set('');
     this.multi.queryChange.emit('');
   }
@@ -113,7 +121,20 @@ export class TngMultiAutocompleteListbox<T = unknown> implements TngMultiAutocom
     if (this.multi.disabled()) return;
 
     const arr = value === null ? [] : Array.isArray(value) ? value : [value];
+
+    // Option unregister/re-register during filtering can cause listbox to emit a fresh
+    // array instance even when the logical selection did not change. Treat that as a
+    // no-op so typing does not clear the controlled query.
+    const current = this.multi.value();
+    if (
+      current.length === arr.length &&
+      arr.every((val, i) => Object.is(val, current[i]))
+    ) {
+      return;
+    }
+
     this.multi.value.set([...arr] as readonly T[]);
+    this.listbox.setActiveId(null);
     this.multi.query.set('');
     this.multi.queryChange.emit('');
   }

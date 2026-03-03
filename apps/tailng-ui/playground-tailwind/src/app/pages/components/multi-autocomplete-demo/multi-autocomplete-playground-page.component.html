@@ -1,0 +1,82 @@
+<main class="min-h-screen bg-tng-bg-canvas px-4 py-7 text-tng-fg-primary">
+  <header class="mx-auto mb-4 grid max-w-[64rem] gap-1.5">
+    <h1 class="m-0 text-xl font-bold tracking-tight text-tng-fg-primary">
+      Multi Autocomplete demo
+    </h1>
+    <p class="m-0 text-sm text-tng-fg-secondary">
+      Primitive multi-autocomplete. Filter countries, keep the popup open, and build a chips list.
+    </p>
+  </header>
+
+  <section class="mx-auto grid max-w-[64rem] gap-4">
+    <section class="space-y-3 rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-4">
+      <div class="grid gap-0.5">
+        <h2 class="m-0 text-[0.9375rem] font-semibold text-tng-fg-primary">
+          Country search (primitive)
+        </h2>
+        <p class="m-0 text-[0.8125rem] text-tng-fg-muted">
+          Type to filter, then click or press Enter to toggle countries.
+        </p>
+      </div>
+
+      <section
+        tngMultiAutocomplete
+        class="w-full max-w-[36rem]"
+        [open]="open()"
+        (openChange)="onOpenChange($event)"
+        [query]="query()"
+        (queryChange)="onQueryChange($event)"
+        [value]="value()"
+        (valueChange)="onValueChange($event)"
+      >
+        @for (item of value(); track item) {
+          <span tngMultiAutocompleteChip [tngValue]="item">
+            <span class="max-w-full overflow-hidden text-ellipsis whitespace-nowrap">
+              {{ item }}
+            </span>
+            <button
+              type="button"
+              class="inline-flex h-4 w-4 items-center justify-center rounded-full text-[0.6875rem] leading-none opacity-70 transition-opacity hover:opacity-100"
+              [attr.aria-label]="'Remove ' + item"
+              (click)="removeItem(item); $event.preventDefault(); $event.stopPropagation()"
+            >
+              ×
+            </button>
+          </span>
+        }
+
+        <input
+          tngMultiAutocompleteTrigger
+          class="min-w-[8rem]"
+          type="text"
+          [value]="query()"
+          aria-label="Search countries"
+          autocomplete="off"
+          placeholder="Type to search…"
+        />
+
+        <div tngMultiAutocompleteContent>
+          <div tngMultiAutocompleteOverlay>
+            <ul tngMultiAutocompleteListbox>
+              @for (country of filteredOptions(); track country.code) {
+                <li tngMultiAutocompleteOption [tngValue]="country.name">
+                  {{ country.name }}
+                </li>
+              }
+              @if (filteredOptions().length === 0) {
+                <li data-slot="multi-autocomplete-empty">No matches</li>
+              }
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <div class="flex items-center gap-2 text-[0.8125rem] text-tng-fg-secondary">
+        <span class="inline-flex h-5 items-center rounded-full border border-tng-border-subtle bg-tng-bg-canvas px-2 text-[0.75rem] text-tng-fg-secondary">
+          value
+        </span>
+        <code class="font-mono text-[0.8125rem] text-tng-fg-secondary">{{ value() }}</code>
+      </div>
+    </section>
+  </section>
+</main>

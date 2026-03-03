@@ -13,7 +13,12 @@ import {
 } from '@angular/core';
 
 import { createListboxController } from '@tailng-ui/cdk';
-import { TNG_LISTBOX, TNG_LISTBOX_FORCE_MULTIPLE } from './tokens';
+import type { TngListNavigationAction } from '@tailng-ui/cdk';
+import {
+  TNG_LISTBOX,
+  TNG_LISTBOX_FORCE_MULTIPLE,
+  TNG_LISTBOX_PRESERVE_VALUE_ON_UNREGISTER,
+} from './tokens';
 
 export type ListboxValue<T> = T | readonly T[] | null;
 
@@ -23,8 +28,9 @@ export type ListboxValue<T> = T | readonly T[] | null;
   providers: [{ provide: TNG_LISTBOX, useExisting: TngListboxDirective }],
 })
 export class TngListboxDirective<T> {
-  
   private readonly _forceMultiple = inject(TNG_LISTBOX_FORCE_MULTIPLE, { optional: true });
+  private readonly preserveValueOnUnregister =
+    inject(TNG_LISTBOX_PRESERVE_VALUE_ON_UNREGISTER, { optional: true }) ?? false;
   readonly multipleInput = input<boolean>(false, { alias: 'multiple' });
   readonly multiple = computed(() => this._forceMultiple ?? this.multipleInput());
 
@@ -107,7 +113,13 @@ export class TngListboxDirective<T> {
         if (external === null) return;
 
         const v = external as T;
-        if (!this.isSelectableValue(v, opts)) {
+        const opt = this.findOptionByValue(v, opts);
+
+        if (!opt && this.preserveValueOnUnregister) {
+          return;
+        }
+
+        if (!opt || opt.disabled) {
           this.value.set(null);
         }
         return;
@@ -119,7 +131,15 @@ export class TngListboxDirective<T> {
         ? (external as readonly T[])
         : ([external as T] as readonly T[]);
 
-      const filtered = arr.filter((v) => this.isSelectableValue(v, opts));
+      const filtered = arr.filter((v) => {
+        const opt = this.findOptionByValue(v, opts);
+
+        if (!opt) {
+          return this.preserveValueOnUnregister;
+        }
+
+        return !opt.disabled;
+      });
 
       if (filtered.length !== arr.length) {
         this.value.set(filtered as readonly T[]);
@@ -211,6 +231,17 @@ export class TngListboxDirective<T> {
     this.activeId.set(ctrl.getActiveId());
   }
 
+  private shouldSyncValueFromAction(action: TngListNavigationAction | null): boolean {
+    if (!action) return false;
+    if (action.extendSelection) return true;
+
+    return (
+      action.type === 'select-active' ||
+      action.type === 'toggle-active' ||
+      action.type === 'select-all'
+    );
+  }
+
   // ----------------------------------------------------
   // Option registration
   // ----------------------------------------------------
@@ -251,7 +282,10 @@ export class TngListboxDirective<T> {
     ctrl.unregisterOption(id);
 
     this.syncActiveFromController();
-    this.syncExternalValueFromInternal(ctrl, false);
+
+    if (!this.preserveValueOnUnregister) {
+      this.syncExternalValueFromInternal(ctrl, false);
+    }
   }
 
   updateOptionDisabled(id: string, disabled: boolean): void {
@@ -314,7 +348,9 @@ export class TngListboxDirective<T> {
       event.preventDefault();
     }
 
-    this.syncExternalValueFromInternal(ctrl, false);
+    if (this.shouldSyncValueFromAction(action)) {
+      this.syncExternalValueFromInternal(ctrl, false);
+    }
   }
 
   @HostListener('focusin')
@@ -361,7 +397,42 @@ export class TngListboxDirective<T> {
     const selected = ctrl.getSelectedValues();
 
     if (this.multiple()) {
-      this.value.set([...selected] as readonly T[]);
+      if (!this.preserveValueOnUnregister) {
+        this.value.set([...selected] as readonly T[]);
+        return;
+      }
+
+      const opts = this.options();
+      const current = this.value();
+      const currentArr =
+        current === null
+          ? ([] as readonly T[])
+          : Array.isArray(current)
+            ? (current as readonly T[])
+            : ([current as T] as const);
+
+      const next: T[] = [];
+
+      // Preserve hidden selections in their current order, and keep any currently
+      // visible selections that remain selected after the interaction.
+      for (const val of currentArr) {
+        const isHidden = !opts.some((opt) => Object.is(opt.value, val));
+        const isStillSelected = selected.some((entry) => Object.is(entry, val));
+
+        if (isHidden || isStillSelected) {
+          next.push(val);
+        }
+      }
+
+      // Append newly selected visible values that were not already present.
+      for (const val of selected) {
+        const alreadyPresent = currentArr.some((entry) => Object.is(entry, val));
+        if (!alreadyPresent) {
+          next.push(val);
+        }
+      }
+
+      this.value.set(next as readonly T[]);
     } else {
       const newVal = selected[0] ?? null;
       const current = this.value();
@@ -381,6 +452,18 @@ export class TngListboxDirective<T> {
     return ctrl.getSelectedIds().includes(id);
   }
 
+  isValueSelected(value: T): boolean {
+    const selected = this.value();
+
+    if (selected === null) return false;
+
+    if (Array.isArray(selected)) {
+      return selected.some((entry) => Object.is(entry, value));
+    }
+
+    return Object.is(selected, value);
+  }
+
   isActive(id: string): boolean {
     return this.activeId() === id;
   }
@@ -398,11 +481,15 @@ export class TngListboxDirective<T> {
   }
 
   public handleKeyFromCombobox(key: string, shiftKey?: boolean): boolean {
+    this.syncDomOrderToController();
+
     const ctrl = this.controller();
     if (!ctrl) return false;
     const action = ctrl.handleKeyDown({ key, shiftKey } as any);
     this.syncActiveFromController();
-    if (action) this.syncExternalValueFromInternal(ctrl, false);
+    if (this.shouldSyncValueFromAction(action)) {
+      this.syncExternalValueFromInternal(ctrl, false);
+    }
     return !!action;
   }
 
@@ -414,9 +501,16 @@ export class TngListboxDirective<T> {
     return moved;
   }
 
-  public getActiveValue(): T | null | undefined {
+  public setActiveId(id: string | null): void {
+    const ctrl = this.controller();
+    if (!ctrl) return;
+    ctrl.setActiveId(id);
+    this.syncActiveFromController();
+  }
+
+  public getActiveValue(): T | undefined {
     const active = this.activeId();
-    if (!active) return null;
+    if (!active) return undefined;
     const opt = this.options().find((o) => o.id === active);
     return opt?.value;
   }

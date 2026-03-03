@@ -48,7 +48,7 @@ export class TngOptionDirective<T = unknown> implements AfterViewInit, OnDestroy
 
   @HostBinding('attr.aria-selected')
   get ariaSelected(): 'true' | 'false' {
-    return this.listbox.isSelected(this.id) ? 'true' : 'false';
+    return this.isSelected() ? 'true' : 'false';
   }
 
   @HostBinding('attr.aria-disabled')
@@ -64,7 +64,7 @@ export class TngOptionDirective<T = unknown> implements AfterViewInit, OnDestroy
 
   @HostBinding('attr.data-selected')
   get dataSelected(): '' | null {
-    return this.listbox.isSelected(this.id) ? '' : null;
+    return this.isSelected() ? '' : null;
   }
 
   @HostBinding('attr.data-disabled')
@@ -102,5 +102,15 @@ export class TngOptionDirective<T = unknown> implements AfterViewInit, OnDestroy
     event.preventDefault();
 
     this.listbox.handleOptionClick(this.id, event.shiftKey);
+  }
+
+  private isSelected(): boolean {
+    if (this.listbox.isSelected(this.id)) return true;
+    if (this.disabled()) return false;
+
+    const value = this.tngValue();
+    if (value === undefined) return false;
+
+    return this.listbox.isValueSelected(value);
   }
 }

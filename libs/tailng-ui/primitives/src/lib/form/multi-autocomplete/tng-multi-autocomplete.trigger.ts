@@ -22,11 +22,15 @@ export class TngMultiAutocompleteTrigger {
   private readonly multi = inject<TngMultiAutocomplete>(TNG_MULTI_AUTOCOMPLETE);
   private readonly el = inject(ElementRef<HTMLInputElement>);
 
-  private readonly listbox =
+  private readonly injectedListbox =
     inject<TngMultiAutocompleteListboxApi>(TNG_MULTI_AUTOCOMPLETE_LISTBOX, {
       optional: true,
     });
-  
+
+  private get listbox(): TngMultiAutocompleteListboxApi | null {
+    return this.multi.getListboxApi() ?? this.injectedListbox ?? null;
+  }
+
   private composing = false;
   private lastEmittedQuery: string | null = null;
 

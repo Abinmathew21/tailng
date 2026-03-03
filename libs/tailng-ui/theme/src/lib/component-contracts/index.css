@@ -1,2 +1,3 @@
 @import "./form/select/select.css" layer(tng.contracts);
 @import "./form/autocomplete/autocomplete.css" layer(tng.contracts);
+@import "./form/multi-autocomplete/multi-autocomplete.css" layer(tng.contracts);

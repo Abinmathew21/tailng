@@ -44,7 +44,6 @@ export class TngMultiAutocomplete<T = unknown> {
   private _activeId: string | null = null;
   private _listboxApi: TngMultiAutocompleteListboxApi | null = null;
 
-
   // ---- host styling hooks ----
 
   @HostBinding('attr.data-slot')
