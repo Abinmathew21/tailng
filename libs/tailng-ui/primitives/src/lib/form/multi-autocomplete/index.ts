@@ -7,3 +7,5 @@ export * from './tng-multi-autocomplete.listbox.tokens';
 export * from './tng-multi-autocomplete.listbox.types';
 
 export * from './tng-multi-autocomplete.chip';
+export * from './tng-multi-autocomplete.content';
+export * from './tng-multi-autocomplete.overlay';

@@ -2,8 +2,10 @@ import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { describe, expect, it } from 'vitest';
 import { TngMultiAutocomplete } from '../tng-multi-autocomplete';
-import { TngMultiAutocompleteTrigger } from '../tng-multi-autocomplete.trigger';
 import { TngMultiAutocompleteChip } from '../tng-multi-autocomplete.chip';
+import { TNG_MULTI_AUTOCOMPLETE_LISTBOX } from '../tng-multi-autocomplete.listbox.tokens';
+import type { TngMultiAutocompleteListboxApi } from '../tng-multi-autocomplete.listbox.types';
+import { TngMultiAutocompleteTrigger } from '../tng-multi-autocomplete.trigger';
 
 function focus(el: HTMLElement) {
   el.dispatchEvent(new FocusEvent('focus'));
@@ -19,6 +21,7 @@ function keydown(el: HTMLElement, init: Partial<KeyboardEventInit>) {
     }),
   );
 }
+
 
 @Component({
   standalone: true,
@@ -727,4 +730,111 @@ describe('tng-multi-autocomplete input - chips boundary', () => {
     expect(document.activeElement).toBe(input);
   });
 
+});
+
+describe('tng-multi-autocomplete input - chips boundary', () => {
+  @Component({
+    standalone: true,
+    imports: [TngMultiAutocomplete, TngMultiAutocompleteTrigger, TngMultiAutocompleteChip],
+    template: `
+      <section tngMultiAutocomplete [value]="value()" (valueChange)="value.set($event)">
+        @for (item of value(); track item) {
+          <span
+            tngMultiAutocompleteChip
+            [tngValue]="item"
+            [attr.data-testid]="'chip-' + item"
+          >
+            {{ item }}
+          </span>
+        }
+        <input tngMultiAutocompleteTrigger [attr.data-testid]="'input'" />
+      </section>
+    `,
+  })
+  class InputChipBoundaryHostComponent {
+    readonly value = signal<readonly string[]>(['a', 'b', 'c']);
+  }
+
+  it('Home on input at caret-start focuses first chip (when closed)', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [InputChipBoundaryHostComponent],
+    }).createComponent(InputChipBoundaryHostComponent);
+
+    fixture.detectChanges();
+
+    const input = fixture.nativeElement.querySelector('[data-testid="input"]') as HTMLInputElement;
+    const chipA = fixture.nativeElement.querySelector('[data-testid="chip-a"]') as HTMLElement;
+
+    // IMPORTANT: keep closed by not firing focus-open logic.
+    // If your trigger opens on focus, use dispatchEvent only (no .focus()) OR set disabled/open binding in host.
+    input.dispatchEvent(new FocusEvent('focus'));
+    input.setSelectionRange(0, 0);
+    fixture.detectChanges();
+
+    keydown(input, { key: 'Home' });
+    fixture.detectChanges();
+    await Promise.resolve();
+    fixture.detectChanges();
+
+    expect(document.activeElement).toBe(chipA);
+  });
+  
+  it('Home at caret-start focuses first chip and does NOT delegate to listbox (closed)', async () => {
+    // Arrange: host with chips + trigger + listbox mock
+    const listbox = {
+      getHostId: vi.fn(() => 'lb-1'),
+      getActiveId: vi.fn(() => 'opt-1'),
+      ensureActive: vi.fn(),
+      handleKey: vi.fn(() => true),
+      commitActive: vi.fn(),
+    } satisfies TngMultiAutocompleteListboxApi<string>;
+  
+    @Component({
+      standalone: true,
+      imports: [TngMultiAutocomplete, TngMultiAutocompleteTrigger, TngMultiAutocompleteChip],
+      template: `
+        <section tngMultiAutocomplete [value]="value()" (valueChange)="value.set($event)">
+          @for (item of value(); track item) {
+            <span
+              tngMultiAutocompleteChip
+              [tngValue]="item"
+              [attr.data-testid]="'chip-' + item"
+            >
+              {{ item }}
+            </span>
+          }
+          <input tngMultiAutocompleteTrigger [attr.data-testid]="'input'" />
+        </section>
+      `,
+    })
+    class Host {
+      readonly value = signal<readonly string[]>(['a', 'b', 'c']);
+    }
+  
+    const fixture = TestBed.configureTestingModule({
+      imports: [Host],
+      providers: [{ provide: TNG_MULTI_AUTOCOMPLETE_LISTBOX, useValue: listbox }],
+    }).createComponent(Host);
+  
+    fixture.detectChanges();
+  
+    const input = fixture.nativeElement.querySelector('[data-testid="input"]') as HTMLInputElement;
+    const chipA = fixture.nativeElement.querySelector('[data-testid="chip-a"]') as HTMLElement;
+  
+    // keep CLOSED: do NOT dispatch FocusEvent('focus')
+    input.focus?.();
+    input.value = 'x';
+    input.setSelectionRange(0, 0);
+    fixture.detectChanges();
+  
+    // Act
+    keydown(input, { key: 'Home' });
+    fixture.detectChanges();
+    await Promise.resolve();
+    fixture.detectChanges();
+  
+    // Assert
+    expect(document.activeElement).toBe(chipA);
+    expect(listbox.handleKey).not.toHaveBeenCalled();
+  });
 });

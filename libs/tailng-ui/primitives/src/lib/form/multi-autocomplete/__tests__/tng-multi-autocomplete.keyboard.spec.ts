@@ -458,4 +458,36 @@ describe('tng-multi-autocomplete keyboard', () => {
   
     expect(listbox.handleKey).toHaveBeenCalledWith('Home', false);
   });
+
+  it('Enter when closed does nothing (no commitActive)', async () => {
+    const { fixture, trigger, listbox } = setup();
+  
+    expect(fixture.componentInstance.open()).toBe(false);
+  
+    keydown(trigger, 'Enter');
+    fixture.detectChanges();
+    await Promise.resolve();
+    fixture.detectChanges();
+  
+    expect(listbox.commitActive).not.toHaveBeenCalled();
+  });
+  
+  it('Home/End when open delegate to listbox.handleKey', async () => {
+    const { fixture, trigger, listbox } = setup();
+  
+    focus(trigger);
+    fixture.detectChanges();
+    await Promise.resolve();
+    fixture.detectChanges();
+  
+    keydown(trigger, 'Home');
+    keydown(trigger, 'End');
+  
+    fixture.detectChanges();
+    await Promise.resolve();
+    fixture.detectChanges();
+  
+    expect(listbox.handleKey).toHaveBeenCalledWith('Home', false);
+    expect(listbox.handleKey).toHaveBeenCalledWith('End', false);
+  });
 });

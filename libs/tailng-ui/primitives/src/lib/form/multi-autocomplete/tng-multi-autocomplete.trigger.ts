@@ -65,8 +65,10 @@ export class TngMultiAutocompleteTrigger {
     if (!this.multi.open()) {
       this.multi.openSelect();
 
-      // ✅ emit current query when opening (often empty, but supports prefilled cases)
-      this.multi.queryChange.emit(this.multi.query());
+      // On open-on-focus, emit *actual* current input value (handles prefilled value="...")
+      const q = this.el.nativeElement.value ?? '';
+      this.multi.query.set(q);
+      this.multi.queryChange.emit(q);
 
       this.listbox?.ensureActive('first');
     }
@@ -74,10 +76,12 @@ export class TngMultiAutocompleteTrigger {
 
   @HostListener('input', ['$event'])
   protected onInput(event: Event): void {
+    if (this.multi.disabled()) return;
+
     const value = (event.target as HTMLInputElement | null)?.value ?? '';
     this.multi.query.set(value);
 
-    // ✅ emit on typing
+    // emit on typing
     this.multi.queryChange.emit(value);
   }
 
