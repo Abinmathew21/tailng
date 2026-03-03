@@ -200,4 +200,52 @@ describe('tng-multi-autocomplete query behavior', () => {
     expect(host.queries.length).toBe(1);
     expect(host.queries[0]).toBe('Prefilled');
   });
+  
+  it('open-on-focus does NOT emit queryChange when disabled (prefilled)', async () => {
+    @Component({
+      standalone: true,
+      imports: [TngMultiAutocomplete, TngMultiAutocompleteTrigger],
+      template: `
+        <section
+          tngMultiAutocomplete
+          [disabled]="true"
+          [open]="open()"
+          (openChange)="open.set($event)"
+          (queryChange)="onQuery($event)"
+        >
+          <input
+            tngMultiAutocompleteTrigger
+            [attr.data-testid]="'trigger'"
+            value="Prefilled"
+          />
+        </section>
+      `,
+    })
+    class DisabledPrefilledHost {
+      readonly open = signal(false);
+      readonly queries: string[] = [];
+      onQuery(q: string) {
+        this.queries.push(q);
+      }
+    }
+  
+    const fixture = TestBed.configureTestingModule({
+      imports: [DisabledPrefilledHost],
+    }).createComponent(DisabledPrefilledHost);
+  
+    fixture.detectChanges();
+  
+    const host = fixture.componentInstance;
+    const trigger = fixture.nativeElement.querySelector(
+      '[data-testid="trigger"]',
+    ) as HTMLInputElement;
+  
+    trigger.dispatchEvent(new FocusEvent('focus'));
+    fixture.detectChanges();
+    await Promise.resolve();
+    fixture.detectChanges();
+  
+    expect(host.open()).toBe(false);
+    expect(host.queries.length).toBe(0);
+  });
 });
