@@ -37,6 +37,13 @@
   gap: 1rem;
 }
 
+@media (min-width: 56rem) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+  }
+}
+
 .card {
   background: var(--tng-semantic-background-surface);
   border: 1px solid var(--tng-semantic-border-subtle);
@@ -65,9 +72,11 @@
   color: var(--tng-semantic-foreground-muted);
 }
 
-.multi-autocomplete {
+.multi-autocomplete,
+.component {
   width: 100%;
   max-width: 36rem;
+  min-width: 0;
 }
 
 .chip__label {

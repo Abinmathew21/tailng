@@ -16,6 +16,8 @@ export * from './input-otp/tng-input-otp.component';
 export { TngInputOtpComponent} from './input-otp/tng-input-otp.component';
 export * from './label/tng-label.component';
 export { TngLabelComponent} from './label/tng-label.component';
+export * from './multi-autocomplete/tng-multi-autocomplete.component';
+export { TngMultiAutocompleteComponent } from './multi-autocomplete/tng-multi-autocomplete.component';
 export * from './multiselect/tng-multiselect.component';
 export { TngMultiSelectComponent } from './multiselect/tng-multiselect.component';
 export * from './radio/tng-radio.component';

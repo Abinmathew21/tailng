@@ -1,0 +1,13 @@
+:host {
+  display: block;
+}
+
+[data-slot='multi-autocomplete-chip'] button {
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  line-height: 1;
+  padding: 0;
+}

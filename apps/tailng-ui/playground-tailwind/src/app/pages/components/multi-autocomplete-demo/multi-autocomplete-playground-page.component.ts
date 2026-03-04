@@ -1,5 +1,6 @@
 import { Component, computed, OnInit, signal } from '@angular/core';
 
+import { TngMultiAutocompleteComponent } from '@tailng-ui/components';
 import {
   TngMultiAutocomplete,
   TngMultiAutocompleteChip,
@@ -23,6 +24,7 @@ type Country = { code: string; name: string };
     TngMultiAutocompleteOverlay,
     TngMultiAutocompleteListbox,
     TngMultiAutocompleteOption,
+    TngMultiAutocompleteComponent,
   ],
   templateUrl: './multi-autocomplete-playground-page.component.html',
   styleUrl: './multi-autocomplete-playground-page.component.css',
@@ -31,7 +33,11 @@ export class MultiAutocompletePlaygroundPageComponent implements OnInit {
   readonly countries = signal<Country[]>([]);
   readonly query = signal('');
   readonly value = signal<readonly string[]>([]);
+  readonly valueC = signal<readonly string[]>([]);
   readonly open = signal(false);
+
+  readonly getCountryValue = (c: Country) => c.name;
+  readonly getCountryLabel = (c: Country) => c.name;
 
   readonly filteredOptions = computed(() => {
     const q = this.query().toLowerCase().trim();

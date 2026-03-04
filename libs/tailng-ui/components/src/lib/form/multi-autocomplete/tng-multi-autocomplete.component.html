@@ -1,0 +1,48 @@
+@for (item of selectedItems(); track item.trackId) {
+  <span tngMultiAutocompleteChip [tngValue]="item.value">
+    @if (chipTpl) {
+      <ng-container *ngTemplateOutlet="chipTpl; context: chipContext(item)" />
+    } @else {
+      <span>{{ item.label }}</span>
+      <button
+        type="button"
+        [attr.aria-label]="'Remove ' + item.label"
+        (click)="removeSelectedItem(item.value); $event.preventDefault(); $event.stopPropagation()"
+      >
+        ×
+      </button>
+    }
+  </span>
+}
+
+<input
+  tngMultiAutocompleteTrigger
+  type="text"
+  [value]="primitive.query()"
+  [attr.placeholder]="placeholder()"
+  [attr.aria-label]="ariaLabel()"
+  autocomplete="off"
+/>
+
+<div tngMultiAutocompleteContent>
+  <div tngMultiAutocompleteOverlay>
+    <ul tngMultiAutocompleteListbox>
+      @for (opt of filteredOptions(); track trackBy()($index, opt)) {
+        <li
+          tngMultiAutocompleteOption
+          [tngValue]="getOptionValue()(opt)"
+          [disabled]="isOptionDisabled()(opt)"
+        >
+          @if (optionTpl) {
+            <ng-container *ngTemplateOutlet="optionTpl; context: optionContext(opt)" />
+          } @else {
+            {{ getOptionLabel()(opt) }}
+          }
+        </li>
+      }
+      @if (filteredOptions().length === 0) {
+        <li data-slot="multi-autocomplete-empty">{{ emptyText() }}</li>
+      }
+    </ul>
+  </div>
+</div>

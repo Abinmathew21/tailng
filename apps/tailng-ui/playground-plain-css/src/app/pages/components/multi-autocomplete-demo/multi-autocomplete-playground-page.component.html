@@ -2,15 +2,15 @@
   <header class="header">
     <h1 class="h1">Multi Autocomplete demo</h1>
     <p class="sub">
-      Primitive-only multi-autocomplete. Filter countries, keep the popup open, and build a chips list.
+      Primitive multi-autocomplete + Components wrapper. Contract styles via data-slot.
     </p>
   </header>
 
   <section class="grid">
     <section class="card">
       <div class="card__head">
-        <h2 class="h2">Primitive multi-autocomplete</h2>
-        <p class="muted">Type to filter, then click or press Enter to toggle a country.</p>
+        <h2 class="h2">1) Primitive Multi Autocomplete</h2>
+        <p class="muted">Type to filter, then click or press Enter to toggle countries.</p>
       </div>
 
       <section
@@ -41,7 +41,6 @@
           tngMultiAutocompleteTrigger
           type="text"
           [value]="query()"
-          (input)="logNativeInput($event)"
           aria-label="Search countries"
           autocomplete="off"
           placeholder="Type to search..."
@@ -51,12 +50,7 @@
           <div tngMultiAutocompleteOverlay>
             <ul tngMultiAutocompleteListbox>
               @for (country of filteredOptions(); track country.code) {
-                <li
-                  tngMultiAutocompleteOption
-                  [tngValue]="country.name"
-                  (pointerdown)="logOptionEvent('pointerdown', country.name)"
-                  (click)="logOptionEvent('click', country.name)"
-                >
+                <li tngMultiAutocompleteOption [tngValue]="country.name">
                   {{ country.name }}
                 </li>
               }
@@ -71,6 +65,29 @@
       <div class="debug">
         <span class="pill">value</span>
         <code>{{ value() }}</code>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="card__head">
+        <h2 class="h2">2) Components Layer &lt;tng-multi-autocomplete&gt;</h2>
+        <p class="muted">Options + value + change. Same country list.</p>
+      </div>
+
+      <tng-multi-autocomplete
+        class="component"
+        [options]="countries()"
+        [value]="valueC()"
+        (valueChange)="valueC.set($event)"
+        [getOptionValue]="getCountryValue"
+        [getOptionLabel]="getCountryLabel"
+        placeholder="Type to search…"
+        [ariaLabel]="'Search countries (component)'"
+      />
+
+      <div class="debug">
+        <span class="pill">value</span>
+        <code>{{ valueC() }}</code>
       </div>
     </section>
   </section>
