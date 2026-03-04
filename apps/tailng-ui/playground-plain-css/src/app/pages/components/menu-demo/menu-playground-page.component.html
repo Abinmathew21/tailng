@@ -1,28 +1,102 @@
 <main class="page">
   <section class="container">
+    <header class="hero">
+      <h1 class="title">Headless Menu</h1>
+      <p class="subtitle">
+        Primitive-only demo using <code>tngMenu</code>, <code>tngMenuItem</code>, and
+        <code>tngMenuTrigger</code>. The theme contract styles only the slot and ARIA attributes.
+      </p>
+    </header>
+
     <section class="card">
-      <h2>Primitives (`tngMenu`)</h2>
-      <p>Primitive gives keyboard behavior for menuitems. It is intentionally untriggered.</p>
-      <ul tngMenu class="menu-surface">
-        <li role="menuitem" tabindex="0">Edit</li>
-        <li role="menuitem" tabindex="-1">Duplicate</li>
-        <li role="menuitem" tabindex="-1">Archive</li>
-      </ul>
+      <h2>Action Menu</h2>
+      <p class="demo-note">
+        Open with click, <kbd>Enter</kbd>, <kbd>Space</kbd>, or arrow keys. Outside click closes
+        through the headless backdrop + dismiss handling.
+      </p>
+
+      <div class="launcher">
+        <div
+          tngMenu
+          #actionMenu="tngMenu"
+          aria-label="File actions"
+          (tngMenuSelect)="onActionSelect($event)"
+        >
+          <div tngMenuGroupLabel>File</div>
+          <button type="button" tngMenuItem tngMenuItemValue="Create file">Create file</button>
+          <button type="button" tngMenuItem tngMenuItemValue="Rename file">Rename file</button>
+          <button type="button" tngMenuItem tngMenuItemValue="Duplicate file">Duplicate file</button>
+          <div tngMenuSeparator></div>
+          <button type="button" tngMenuItem tngMenuItemValue="Move to archive">Move to archive</button>
+          <button type="button" tngMenuItem disabled>Publish (coming soon)</button>
+        </div>
+
+        <button type="button" [tngMenuTrigger]="actionMenu">Open file actions</button>
+        <div [tngMenuBackdrop]="actionMenu" [hidden]="!actionMenu.isOpen()"></div>
+      </div>
+
+      <p class="state-line">Last action: <strong>{{ lastAction() }}</strong></p>
     </section>
 
     <section class="card">
-      <h2>Components (`tng-menu` + `tngMenuTriggerFor`)</h2>
-      <div class="menu-launcher">
-        <button type="button" class="menu-trigger" [tngMenuTriggerFor]="fileMenu">
-          Open file actions
-        </button>
+      <h2>Selection States</h2>
+      <p class="demo-note">
+        This menu stays open after selection to show checkbox and radio variants implemented at the
+        primitive layer.
+      </p>
 
-        <tng-menu #fileMenu="tngMenu" ariaLabel="File actions">
-          <li role="menuitem" tabindex="0">Create file</li>
-          <li role="menuitem" tabindex="-1">Rename file</li>
-          <li role="menuitem" tabindex="-1">Delete file</li>
-        </tng-menu>
+      <div class="launcher">
+        <div
+          tngMenu
+          #preferencesMenu="tngMenu"
+          aria-label="View preferences"
+          [closeOnSelect]="false"
+          (tngMenuSelect)="onPreferenceSelect($event)"
+        >
+          <div tngMenuGroupLabel>Columns</div>
+          <button
+            type="button"
+            tngMenuItem
+            tngMenuItemRole="menuitemcheckbox"
+            tngMenuItemValue="Toggle status column"
+          >
+            Status column
+          </button>
+          <button
+            type="button"
+            tngMenuItem
+            tngMenuItemRole="menuitemcheckbox"
+            [tngMenuItemChecked]="true"
+            tngMenuItemValue="Toggle assignee column"
+          >
+            Assignee column
+          </button>
+          <div tngMenuSeparator></div>
+          <div tngMenuGroupLabel>Density</div>
+          <button
+            type="button"
+            tngMenuItem
+            tngMenuItemRole="menuitemradio"
+            [tngMenuItemChecked]="true"
+            tngMenuItemValue="Comfortable density"
+          >
+            Comfortable
+          </button>
+          <button
+            type="button"
+            tngMenuItem
+            tngMenuItemRole="menuitemradio"
+            tngMenuItemValue="Compact density"
+          >
+            Compact
+          </button>
+        </div>
+
+        <button type="button" [tngMenuTrigger]="preferencesMenu">Open view preferences</button>
+        <div [tngMenuBackdrop]="preferencesMenu" [hidden]="!preferencesMenu.isOpen()"></div>
       </div>
+
+      <p class="state-line">Last preference event: <strong>{{ lastPreference() }}</strong></p>
     </section>
   </section>
 </main>

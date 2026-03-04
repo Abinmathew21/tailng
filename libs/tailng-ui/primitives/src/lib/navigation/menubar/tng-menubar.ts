@@ -243,12 +243,14 @@ export class TngMenubarItem {
   }
 
   ngOnInit(): void {
+    this.syncHostId();
     this.lastOwnedMenu = this.ownedMenu();
     this.syncOwnedMenuLink();
     this.syncAriaExpanded();
   }
 
   ngDoCheck(): void {
+    this.syncHostId();
     const currentOwnedMenu = this.ownedMenu();
     if (currentOwnedMenu === this.lastOwnedMenu) {
       return;
@@ -316,6 +318,34 @@ export class TngMenubarItem {
       event.preventDefault();
       this.syncOwnedMenuLink();
       this.menubar.requestOpenMenu(this, event.key === 'ArrowDown' ? 'first' : event.key === 'ArrowUp' ? 'last' : 'none');
+      return;
+    }
+
+    if (event.key === 'Tab') {
+      if (ownedMenu?.isOpen()) {
+        if (this.handleTabFromOpenMenu(event.shiftKey)) {
+          event.preventDefault();
+        }
+        return;
+      }
+
+      const items = this.menubar.getEnabledItems();
+      const current = this.hostRef.nativeElement;
+      const currentIndex = items.indexOf(current);
+
+      if (currentIndex < 0 || items.length === 0) {
+        return;
+      }
+
+      const targetIndex = event.shiftKey ? currentIndex - 1 : currentIndex + 1;
+      const target = items[targetIndex];
+
+      if (target === undefined) {
+        return;
+      }
+
+      event.preventDefault();
+      target.focus();
       return;
     }
 
@@ -457,9 +487,11 @@ export class TngMenubarItem {
       return;
     }
 
+    this.syncHostId();
     ownedMenu.setTriggerElement(this.hostRef.nativeElement, () => this.syncMenuState());
     ownedMenu.setRestoreFocusOnOutsideClick(true);
     ownedMenu.setMenubarArrowHandler((key) => this.handleArrowFromOpenMenu(key));
+    ownedMenu.setMenubarTabHandler((shiftKey) => this.handleTabFromOpenMenu(shiftKey));
   }
 
   private syncAriaExpanded(): void {
@@ -475,5 +507,44 @@ export class TngMenubarItem {
   private syncMenuState(): void {
     this.syncAriaExpanded();
     this.menubar.syncOpenItem(this);
+  }
+
+  private handleTabFromOpenMenu(shiftKey: boolean): boolean {
+    const items = this.menubar.getEnabledItems();
+    const current = this.hostRef.nativeElement;
+    const currentIndex = items.indexOf(current);
+
+    if (currentIndex < 0 || items.length === 0) {
+      return false;
+    }
+
+    const targetIndex = shiftKey ? currentIndex - 1 : currentIndex + 1;
+    const target = items[targetIndex];
+
+    if (target === undefined || target === current) {
+      this.closeOwnedMenu(false);
+      return false;
+    }
+
+    const targetDirective = (target as HTMLElement & { click(): void });
+    const targetOwnsMenu = target.getAttribute('aria-haspopup') === 'menu';
+
+    if (targetOwnsMenu) {
+      target.focus();
+      targetDirective.click();
+      return true;
+    }
+
+    this.closeOwnedMenu(false);
+    target.focus();
+    return true;
+  }
+
+  private syncHostId(): void {
+    if (this.hostRef.nativeElement.id === this.id) {
+      return;
+    }
+
+    this.hostRef.nativeElement.id = this.id;
   }
 }

@@ -17,10 +17,11 @@ type TngMenuFocusAction = 'first' | 'last' | 'next' | 'prev';
 type TngMenuOpenFocusAction = 'first' | 'last' | 'none';
 type TngMenuSelectTrigger = 'keyboard' | 'pointer';
 type TngMenuItemRole = 'menuitem' | 'menuitemcheckbox' | 'menuitemradio';
-type TngMenuKeyboardEvent = Readonly<Pick<KeyboardEvent, 'key'>> &
+type TngMenuKeyboardEvent = Readonly<Pick<KeyboardEvent, 'key' | 'shiftKey'>> &
   Readonly<{ preventDefault: () => void }>;
 type TngMenuPointerEvent = Readonly<Pick<PointerEvent, 'target'>>;
 type TngMenubarArrowHandler = (key: 'ArrowRight' | 'ArrowLeft') => void;
+type TngMenubarTabHandler = (shiftKey: boolean) => boolean;
 
 export type TngMenuSelectEvent = Readonly<{
   value: unknown;
@@ -108,6 +109,7 @@ export class TngMenu {
   private outsidePointerdownCleanup: (() => void) | null = null;
   private typeaheadResetHandle: ReturnType<typeof setTimeout> | null = null;
   private menubarArrowHandler: TngMenubarArrowHandler | null = null;
+  private menubarTabHandler: TngMenubarTabHandler | null = null;
   private restoreFocusOnOutsideClick = false;
   private triggerStateSync: (() => void) | null = null;
   private triggerElement: HTMLElement | null = null;
@@ -156,14 +158,10 @@ export class TngMenu {
     return this.activeItemId;
   }
 
-  @HostBinding('attr.aria-labelledby')
-  protected get ariaLabelledby(): string | null {
-    return this.triggerElement?.id || null;
-  }
-
   setTriggerElement(triggerElement: HTMLElement, triggerStateSync?: () => void): void {
     this.triggerElement = triggerElement;
     this.triggerStateSync = triggerStateSync ?? this.triggerStateSync;
+    this.syncAriaLabelledby();
   }
 
   clearTriggerLink(triggerElement?: HTMLElement): void {
@@ -174,6 +172,8 @@ export class TngMenu {
     this.triggerElement = null;
     this.triggerStateSync = null;
     this.menubarArrowHandler = null;
+    this.menubarTabHandler = null;
+    this.syncAriaLabelledby();
   }
 
   setRestoreFocusOnOutsideClick(restoreFocusOnOutsideClick: boolean): void {
@@ -182,6 +182,10 @@ export class TngMenu {
 
   setMenubarArrowHandler(menubarArrowHandler: TngMenubarArrowHandler | null): void {
     this.menubarArrowHandler = menubarArrowHandler;
+  }
+
+  setMenubarTabHandler(menubarTabHandler: TngMenubarTabHandler | null): void {
+    this.menubarTabHandler = menubarTabHandler;
   }
 
   setParentMenu(parentMenu: TngMenu, parentMenuItem: TngMenuItem): void {
@@ -483,6 +487,17 @@ export class TngMenu {
     });
   }
 
+  private syncAriaLabelledby(): void {
+    const triggerId = this.triggerElement?.id;
+
+    if (triggerId === undefined || triggerId.length === 0) {
+      this.hostRef.nativeElement.removeAttribute('aria-labelledby');
+      return;
+    }
+
+    this.hostRef.nativeElement.setAttribute('aria-labelledby', triggerId);
+  }
+
   private detachOutsidePointerdownListener(): void {
     this.outsidePointerdownCleanup?.();
     this.outsidePointerdownCleanup = null;
@@ -605,6 +620,11 @@ export class TngMenu {
     }
 
     if (event.key === 'Tab') {
+      if (this.parentMenu === null && this.menubarTabHandler !== null && this.menubarTabHandler(event.shiftKey)) {
+        event.preventDefault();
+        return;
+      }
+
       this.close(false);
       return;
     }
@@ -688,6 +708,7 @@ export class TngMenuItem {
   }
 
   ngOnInit(): void {
+    this.syncHostId();
     this.lastCheckedInput = this.checked();
     this.syncOwnedSubmenuLink();
     this.syncSubmenuState();
@@ -831,9 +852,18 @@ export class TngMenuItem {
       return;
     }
 
+    this.syncHostId();
     submenu.setTriggerElement(this.hostRef.nativeElement, () => this.syncSubmenuState());
     submenu.setRestoreFocusOnOutsideClick(false);
     submenu.setParentMenu(this.menu, this);
+  }
+
+  private syncHostId(): void {
+    if (this.hostRef.nativeElement.id === this.id) {
+      return;
+    }
+
+    this.hostRef.nativeElement.id = this.id;
   }
 
   private syncSubmenuState(): void {
@@ -946,11 +976,13 @@ export class TngMenuTrigger {
   }
 
   ngOnInit(): void {
+    this.syncHostId();
     this.syncMenuLink();
     this.syncAriaExpanded();
   }
 
   ngDoCheck(): void {
+    this.syncHostId();
     this.syncMenuLink();
     this.syncAriaExpanded();
   }
@@ -1048,6 +1080,14 @@ export class TngMenuTrigger {
     }
 
     this.hostRef.nativeElement.setAttribute('aria-expanded', menu.isOpen() ? 'true' : 'false');
+  }
+
+  private syncHostId(): void {
+    if (this.hostRef.nativeElement.id === this.id) {
+      return;
+    }
+
+    this.hostRef.nativeElement.id = this.id;
   }
 
   private isDisabled(): boolean {

@@ -1,25 +1,84 @@
 <main class="page">
   <section class="container">
+    <header class="hero">
+      <h1 class="title">Headless Menubar</h1>
+      <p class="subtitle">
+        Primitive-only demo using <code>tngMenubar</code>, <code>tngMenubarItem</code>, and owned
+        <code>tngMenu</code> panels. Use arrow keys to move across the top level.
+      </p>
+    </header>
+
     <section class="card">
-      <h2>Primitives (`tngMenubar`)</h2>
-      <div tngMenubar role="menubar" class="primitive-shell demo-row">
-        <button role="menuitem" type="button" class="demo-button">File</button>
-        <button role="menuitem" type="button" class="demo-button">Edit</button>
-        <button role="menuitem" type="button" class="demo-button">View</button>
+      <h2>Application Menubar</h2>
+      <p class="demo-note">
+        Click or press <kbd>Enter</kbd>/<kbd>Space</kbd> to open a top-level menu. When one menu is
+        open, arrowing across top-level items transfers the open state.
+      </p>
+
+      <div class="menubar-stage">
+        <div tngMenubar aria-label="Workspace commands">
+          <div class="menubar-item-shell">
+            <div
+              tngMenu
+              #fileMenu="tngMenu"
+              aria-label="File menu"
+              (tngMenuSelect)="onCommandSelect($event)"
+            >
+              <div tngMenuGroupLabel>File</div>
+              <button type="button" tngMenuItem tngMenuItemValue="Create document">New</button>
+              <button type="button" tngMenuItem tngMenuItemValue="Open document">Open</button>
+              <button type="button" tngMenuItem tngMenuItemValue="Save document">Save</button>
+            </div>
+            <button type="button" tngMenubarItem [tngMenubarMenu]="fileMenu">File</button>
+          </div>
+
+          <div class="menubar-item-shell">
+            <div
+              tngMenu
+              #editMenu="tngMenu"
+              aria-label="Edit menu"
+              (tngMenuSelect)="onCommandSelect($event)"
+            >
+              <div tngMenuGroupLabel>Edit</div>
+              <button type="button" tngMenuItem tngMenuItemValue="Undo change">Undo</button>
+              <button type="button" tngMenuItem tngMenuItemValue="Redo change">Redo</button>
+              <div tngMenuSeparator></div>
+              <button type="button" tngMenuItem tngMenuItemValue="Find in page">Find</button>
+            </div>
+            <button type="button" tngMenubarItem [tngMenubarMenu]="editMenu">Edit</button>
+          </div>
+
+          <div class="menubar-item-shell">
+            <div
+              tngMenu
+              #viewMenu="tngMenu"
+              aria-label="View menu"
+              (tngMenuSelect)="onCommandSelect($event)"
+            >
+              <div tngMenuGroupLabel>View</div>
+              <button type="button" tngMenuItem tngMenuItemValue="Toggle sidebar">Toggle sidebar</button>
+              <button type="button" tngMenuItem tngMenuItemValue="Open command palette">
+                Command palette
+              </button>
+            </div>
+            <button type="button" tngMenubarItem [tngMenubarMenu]="viewMenu">View</button>
+          </div>
+
+          <button type="button" tngMenubarItem>Help</button>
+        </div>
       </div>
+
+      <p class="state-line">Last command: <strong>{{ lastCommand() }}</strong></p>
     </section>
 
     <section class="card">
-      <h2>Components (`tng-menubar`)</h2>
-      <tng-menubar>
-        <div role="menubar" class="primitive-shell demo-row">
-          <button role="menuitem" type="button" class="demo-button">Project</button>
-          <button role="menuitem" type="button" class="demo-button demo-button-active">
-            Components
-          </button>
-          <button role="menuitem" type="button" class="demo-button">Help</button>
-        </div>
-      </tng-menubar>
+      <h2>Keyboard Contract</h2>
+      <ul class="key-list">
+        <li><kbd>ArrowLeft</kbd> / <kbd>ArrowRight</kbd> moves across top-level items.</li>
+        <li><kbd>ArrowDown</kbd> opens an owned menu and focuses the first enabled item.</li>
+        <li><kbd>Escape</kbd> closes the menu and restores focus to the owning top-level item.</li>
+        <li><kbd>Home</kbd> / <kbd>End</kbd> jump to the first or last enabled top-level item.</li>
+      </ul>
     </section>
   </section>
 </main>

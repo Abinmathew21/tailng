@@ -13,27 +13,12 @@
   display: grid;
   gap: 1.25rem;
   margin: 0 auto;
-  max-width: 72rem;
+  max-width: 76rem;
 }
 
 .hero {
   display: grid;
-  gap: 0.75rem;
-}
-
-.links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-}
-
-.links a {
-  border: 1px solid var(--tng-semantic-border-subtle);
-  border-radius: 0.5rem;
-  color: var(--tng-semantic-foreground-secondary);
-  font-size: 0.875rem;
-  padding: 0.45rem 0.7rem;
-  text-decoration: none;
+  gap: 0.5rem;
 }
 
 .title {
@@ -53,59 +38,52 @@
   border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 1rem;
   display: grid;
-  gap: 0.875rem;
+  gap: 1rem;
   padding: 1rem;
 }
 
-.menu-surface {
-  border: 1px solid var(--tng-semantic-border-subtle);
-  border-radius: 0.85rem;
-  display: grid;
-  gap: 0.25rem;
-  list-style: none;
+.demo-note {
+  color: var(--tng-semantic-foreground-secondary);
   margin: 0;
-  max-width: 20rem;
-  padding: 0.45rem;
+  max-width: 44rem;
 }
 
-.menu-surface li {
-  border-radius: 0.5rem;
-  cursor: pointer;
-  min-height: 2.25rem;
-  padding: 0.45rem 0.65rem;
-}
-
-.menu-surface li:hover,
-.menu-surface li:focus-visible {
-  background: var(--tng-semantic-background-surface);
-  outline: none;
-}
-
-.menu-launcher {
-  display: inline-block;
+.launcher {
+  display: inline-flex;
+  align-items: flex-start;
+  min-height: 14rem;
   position: relative;
 }
 
-.menu-trigger {
-  background: var(--tng-semantic-background-surface);
-  border: 1px solid var(--tng-semantic-border-strong);
-  border-radius: 0.6rem;
-  color: var(--tng-semantic-foreground-primary);
-  cursor: pointer;
-  font: inherit;
-  font-size: 0.875rem;
-  font-weight: 600;
-  min-height: 2.25rem;
-  padding: 0 0.9rem;
+.state-line {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
 }
 
-.menu-trigger:hover,
-.menu-trigger:focus-visible {
-  background: var(--tng-semantic-border-subtle);
+h2,
+p {
+  margin-block: 0;
+}
+
+kbd {
+  background: var(--tng-semantic-background-canvas);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.35rem;
+  font: inherit;
+  font-size: 0.78rem;
+  padding: 0.08rem 0.28rem;
 }
 
 @media (min-width: 768px) {
   .page {
     padding-inline: 2rem;
+  }
+
+  .container {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .hero {
+    grid-column: 1 / -1;
   }
 }

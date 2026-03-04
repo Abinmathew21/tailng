@@ -1,0 +1,95 @@
+@layer tng.contracts {
+  /*
+    Menubar contract (vanilla CSS)
+    - low specificity via :where()
+    - slots + ARIA/state attributes only
+  */
+
+  :where([data-slot="menubar"]) {
+    display: inline-flex;
+    align-items: stretch;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    min-width: 0;
+
+    --tng-menubar-radius: 0.9rem;
+    --tng-menubar-padding: 0.3rem;
+    --tng-menubar-item-px: 0.85rem;
+    --tng-menubar-border: var(--tng-semantic-border-subtle, #e5e7eb);
+    --tng-menubar-border-strong: var(--tng-semantic-border-strong, #d1d5db);
+    --tng-menubar-surface: var(--tng-semantic-background-surface, #f8fafc);
+    --tng-menubar-bg: var(--tng-semantic-background-canvas, #ffffff);
+    --tng-menubar-fg: var(--tng-semantic-foreground-primary, #0f172a);
+    --tng-menubar-muted: var(--tng-semantic-foreground-secondary, #64748b);
+    --tng-menubar-brand: var(--tng-semantic-accent-brand, #2563eb);
+    --tng-menubar-focus-ring: var(--tng-semantic-focus-ring, var(--tng-menubar-brand));
+    --tng-menubar-shadow:
+      0 8px 22px -18px rgba(15, 23, 42, 0.26),
+      0 10px 32px -24px rgba(15, 23, 42, 0.18);
+    --tng-menubar-shadow-focus:
+      inset 0 0 0 1px color-mix(in srgb, var(--tng-menubar-focus-ring) 55%, transparent);
+    --tng-menubar-ease: cubic-bezier(0.4, 0, 0.2, 1);
+
+    padding: var(--tng-menubar-padding);
+
+    border: 1px solid var(--tng-menubar-border-strong);
+    border-radius: var(--tng-menubar-radius);
+    background: color-mix(in srgb, var(--tng-menubar-surface) 76%, var(--tng-menubar-bg));
+    color: var(--tng-menubar-fg);
+    box-shadow: var(--tng-menubar-shadow);
+  }
+
+  :where([data-slot="menubar-item"]) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2.35rem;
+
+    padding: 0 var(--tng-menubar-item-px);
+
+    border: 0;
+    border-radius: calc(var(--tng-menubar-radius) - 0.3rem);
+    background: transparent;
+    color: inherit;
+
+    appearance: none;
+    cursor: pointer;
+    font: inherit;
+    font-size: 0.875rem;
+    font-weight: 600;
+    line-height: 1.2;
+    text-decoration: none;
+    white-space: nowrap;
+
+    transition:
+      background-color 150ms var(--tng-menubar-ease),
+      color 150ms var(--tng-menubar-ease),
+      box-shadow 150ms var(--tng-menubar-ease);
+  }
+
+  :where([data-slot="menubar-item"]:hover):not([aria-disabled="true"]),
+  :where([data-slot="menubar-item"]:focus-visible):not([aria-disabled="true"]) {
+    outline: none;
+    background: color-mix(in srgb, var(--tng-menubar-brand) 10%, var(--tng-menubar-bg));
+  }
+
+  :where([data-slot="menubar-item"][tabindex="0"]):not([aria-disabled="true"]) {
+    box-shadow: var(--tng-menubar-shadow-focus);
+  }
+
+  :where([data-slot="menubar-item"][aria-expanded="true"]) {
+    background: color-mix(in srgb, var(--tng-menubar-brand) 14%, var(--tng-menubar-bg));
+    color: color-mix(in srgb, var(--tng-menubar-brand) 74%, var(--tng-menubar-fg));
+  }
+
+  :where([data-slot="menubar-item"][aria-disabled="true"]) {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :where([data-slot="menubar-item"]) {
+      transition: none;
+    }
+  }
+}

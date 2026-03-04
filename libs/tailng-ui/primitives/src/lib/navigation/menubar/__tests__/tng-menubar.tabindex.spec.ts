@@ -104,7 +104,7 @@ describe('tng-menubar roving tabindex contract', () => {
     expect(document.activeElement).toBe(view);
   });
 
-  it('does not trap Tab or Shift+Tab on a top-level item', () => {
+  it('allows Tab to leave the menubar at the end and Shift+Tab to leave at the start', () => {
     const fixture = TestBed.configureTestingModule({
       imports: [MenubarTabindexHostComponent],
     }).createComponent(MenubarTabindexHostComponent);
@@ -112,12 +112,15 @@ describe('tng-menubar roving tabindex contract', () => {
     fixture.detectChanges();
 
     const file = fixture.nativeElement.querySelector('[data-testid="item-file"]') as HTMLButtonElement;
+    const view = fixture.nativeElement.querySelector('[data-testid="item-view"]') as HTMLButtonElement;
 
     file.focus();
     fixture.detectChanges();
 
-    const tabEvent = keydown(file, 'Tab');
     const shiftTabEvent = keydown(file, 'Tab', true);
+    view.focus();
+    fixture.detectChanges();
+    const tabEvent = keydown(view, 'Tab');
     fixture.detectChanges();
 
     expect(tabEvent.defaultPrevented).toBe(false);
@@ -131,13 +134,13 @@ describe('tng-menubar roving tabindex contract', () => {
 
     fixture.detectChanges();
 
-    const file = fixture.nativeElement.querySelector('[data-testid="item-file"]') as HTMLButtonElement;
+    const view = fixture.nativeElement.querySelector('[data-testid="item-view"]') as HTMLButtonElement;
     const after = fixture.nativeElement.querySelector('[data-testid="after"]') as HTMLButtonElement;
 
-    file.focus();
+    view.focus();
     fixture.detectChanges();
 
-    const event = dispatchTabAndSimulateBrowserFocus(file, after);
+    const event = dispatchTabAndSimulateBrowserFocus(view, after);
     fixture.detectChanges();
 
     expect(event.defaultPrevented).toBe(false);
@@ -162,5 +165,47 @@ describe('tng-menubar roving tabindex contract', () => {
 
     expect(event.defaultPrevented).toBe(false);
     expect(document.activeElement).toBe(before);
+  });
+
+  it('moves focus to the next enabled top-level item on Tab', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [MenubarTabindexHostComponent],
+    }).createComponent(MenubarTabindexHostComponent);
+
+    fixture.detectChanges();
+
+    const file = fixture.nativeElement.querySelector('[data-testid="item-file"]') as HTMLButtonElement;
+    const view = fixture.nativeElement.querySelector('[data-testid="item-view"]') as HTMLButtonElement;
+
+    file.focus();
+    fixture.detectChanges();
+
+    const event = keydown(file, 'Tab');
+    fixture.detectChanges();
+
+    expect(event.defaultPrevented).toBe(true);
+    expect(document.activeElement).toBe(view);
+    expect(view.getAttribute('tabindex')).toBe('0');
+  });
+
+  it('moves focus to the previous enabled top-level item on Shift+Tab', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [MenubarTabindexHostComponent],
+    }).createComponent(MenubarTabindexHostComponent);
+
+    fixture.detectChanges();
+
+    const file = fixture.nativeElement.querySelector('[data-testid="item-file"]') as HTMLButtonElement;
+    const view = fixture.nativeElement.querySelector('[data-testid="item-view"]') as HTMLButtonElement;
+
+    view.focus();
+    fixture.detectChanges();
+
+    const event = keydown(view, 'Tab', true);
+    fixture.detectChanges();
+
+    expect(event.defaultPrevented).toBe(true);
+    expect(document.activeElement).toBe(file);
+    expect(file.getAttribute('tabindex')).toBe('0');
   });
 });

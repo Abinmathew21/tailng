@@ -341,7 +341,7 @@ describe('tng-menubar owned menu integration', () => {
     expect(document.activeElement).toBe(file);
   });
 
-  it('closes the owned menu on Tab without preventing default or restoring focus to the owning item', () => {
+  it('moves focus to the next top-level item on Tab and closes the current menu when that item has no menu', () => {
     const fixture = TestBed.configureTestingModule({
       imports: [MenubarMenuHostComponent],
     }).createComponent(MenubarMenuHostComponent);
@@ -349,6 +349,7 @@ describe('tng-menubar owned menu integration', () => {
     fixture.detectChanges();
 
     const file = fixture.nativeElement.querySelector('[data-testid="item-file"]') as HTMLButtonElement;
+    const edit = fixture.nativeElement.querySelector('[data-testid="item-edit"]') as HTMLButtonElement;
     const fileMenu = fixture.nativeElement.querySelector('[data-testid="file-menu"]') as HTMLElement;
 
     file.focus();
@@ -360,8 +361,8 @@ describe('tng-menubar owned menu integration', () => {
 
     expect(file.getAttribute('aria-expanded')).toBe('false');
     expect(fileMenu.getAttribute('data-state')).toBe('closed');
-    expect(event.defaultPrevented).toBe(false);
-    expect(document.activeElement).not.toBe(file);
+    expect(event.defaultPrevented).toBe(true);
+    expect(document.activeElement).toBe(edit);
   });
 
   it('closes the owned menu on Shift+Tab without preventing default or restoring focus to the owning item', () => {
@@ -584,6 +585,61 @@ describe('tng-menubar owned menu integration', () => {
     keydown(fileMenu, 'ArrowRight');
     fixture.detectChanges();
 
+    expect(file.getAttribute('aria-expanded')).toBe('false');
+    expect(fileMenu.getAttribute('data-state')).toBe('closed');
+    expect(edit.getAttribute('aria-expanded')).toBe('true');
+    expect(editMenu.getAttribute('data-state')).toBe('open');
+    expect(document.activeElement).toBe(editMenu);
+  });
+
+  it('switches to the next top-level item and opens its menu on Tab while a menubar menu is open', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [MenubarMultipleMenuHostComponent],
+    }).createComponent(MenubarMultipleMenuHostComponent);
+
+    fixture.detectChanges();
+
+    const file = fixture.nativeElement.querySelector('[data-testid="item-file"]') as HTMLButtonElement;
+    const edit = fixture.nativeElement.querySelector('[data-testid="item-edit"]') as HTMLButtonElement;
+    const fileMenu = fixture.nativeElement.querySelector('[data-testid="file-menu"]') as HTMLElement;
+    const editMenu = fixture.nativeElement.querySelector('[data-testid="edit-menu"]') as HTMLElement;
+
+    click(file);
+    fixture.detectChanges();
+
+    const event = keydown(fileMenu, 'Tab');
+    fixture.detectChanges();
+
+    expect(event.defaultPrevented).toBe(true);
+    expect(file.getAttribute('aria-expanded')).toBe('false');
+    expect(fileMenu.getAttribute('data-state')).toBe('closed');
+    expect(edit.getAttribute('aria-expanded')).toBe('true');
+    expect(editMenu.getAttribute('data-state')).toBe('open');
+    expect(document.activeElement).toBe(editMenu);
+  });
+
+  it('switches to the next top-level item and opens its menu on Tab when focus is on the owning item while its menu is open', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [MenubarMultipleMenuHostComponent],
+    }).createComponent(MenubarMultipleMenuHostComponent);
+
+    fixture.detectChanges();
+
+    const file = fixture.nativeElement.querySelector('[data-testid="item-file"]') as HTMLButtonElement;
+    const edit = fixture.nativeElement.querySelector('[data-testid="item-edit"]') as HTMLButtonElement;
+    const fileMenu = fixture.nativeElement.querySelector('[data-testid="file-menu"]') as HTMLElement;
+    const editMenu = fixture.nativeElement.querySelector('[data-testid="edit-menu"]') as HTMLElement;
+
+    click(file);
+    fixture.detectChanges();
+
+    file.focus();
+    fixture.detectChanges();
+
+    const event = keydown(file, 'Tab');
+    fixture.detectChanges();
+
+    expect(event.defaultPrevented).toBe(true);
     expect(file.getAttribute('aria-expanded')).toBe('false');
     expect(fileMenu.getAttribute('data-state')).toBe('closed');
     expect(edit.getAttribute('aria-expanded')).toBe('true');
