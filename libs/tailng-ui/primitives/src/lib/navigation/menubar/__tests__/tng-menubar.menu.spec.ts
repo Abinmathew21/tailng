@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, signal, viewChild } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
-import { TngMenu, TngMenuItem } from '../../menu/tng-menu';
+import { TngMenu, TngMenuItem, TngMenuSelectEvent } from '../../menu/tng-menu';
 import { TngMenubar, TngMenubarItem } from '../tng-menubar';
 
 function keydown(el: HTMLElement, key: string): KeyboardEvent {
@@ -38,6 +38,185 @@ function keydown(el: HTMLElement, key: string): KeyboardEvent {
   `,
 })
 class MenubarMenuHostComponent {}
+
+@Component({
+  standalone: true,
+  imports: [TngMenubar, TngMenubarItem, TngMenu, TngMenuItem],
+  template: `
+    <div tngMenubar data-testid="menubar">
+      <button
+        tngMenubarItem
+        [tngMenubarMenu]="fileMenu"
+        data-testid="item-file"
+      >
+        File
+      </button>
+      <button
+        tngMenubarItem
+        [tngMenubarMenu]="editMenu"
+        data-testid="item-edit"
+      >
+        Edit
+      </button>
+    </div>
+
+    <button type="button" data-testid="outside">Outside</button>
+
+    <div tngMenu #fileMenu="tngMenu" data-testid="file-menu">
+      <button tngMenuItem [tngMenuItemValue]="'new'" data-testid="file-new">New</button>
+    </div>
+
+    <div tngMenu #editMenu="tngMenu" data-testid="edit-menu">
+      <button tngMenuItem [tngMenuItemValue]="'cut'" data-testid="edit-cut">Cut</button>
+    </div>
+  `,
+})
+class MenubarMultipleMenuHostComponent {}
+
+@Component({
+  standalone: true,
+  imports: [TngMenubar, TngMenubarItem, TngMenu, TngMenuItem],
+  template: `
+    <button type="button" data-testid="before">Before</button>
+
+    <div tngMenubar data-testid="menubar">
+      <button
+        tngMenubarItem
+        [tngMenubarMenu]="fileMenu"
+        data-testid="item-file"
+      >
+        File
+      </button>
+    </div>
+
+    <input data-testid="after" />
+
+    <div tngMenu #fileMenu="tngMenu" data-testid="file-menu">
+      <button tngMenuItem [tngMenuItemValue]="'new'" data-testid="file-new">New</button>
+    </div>
+  `,
+})
+class MenubarTraversalHostComponent {}
+
+@Component({
+  standalone: true,
+  imports: [TngMenubar, TngMenubarItem, TngMenu, TngMenuItem],
+  template: `
+    <div tngMenubar data-testid="menubar">
+      <button
+        tngMenubarItem
+        [tngMenubarMenu]="fileMenu"
+        data-testid="item-file"
+      >
+        File
+      </button>
+    </div>
+
+    <div
+      tngMenu
+      #fileMenu="tngMenu"
+      (tngMenuSelect)="onSelect($event)"
+      data-testid="file-menu"
+    >
+      <button tngMenuItem [tngMenuItemValue]="'new'" data-testid="file-new">New</button>
+    </div>
+  `,
+})
+class MenubarSelectionDelegationHostComponent {
+  readonly events: TngMenuSelectEvent[] = [];
+
+  onSelect(event: TngMenuSelectEvent): void {
+    this.events.push(event);
+  }
+}
+
+@Component({
+  standalone: true,
+  imports: [TngMenubar, TngMenubarItem, TngMenu, TngMenuItem],
+  template: `
+    <div tngMenubar data-testid="menubar">
+      <button
+        tngMenubarItem
+        [tngMenubarMenu]="fileMenu() ?? null"
+        data-testid="item-file"
+      >
+        File
+      </button>
+    </div>
+
+    @if (showMenu()) {
+      <div tngMenu #fileMenuRef="tngMenu" data-testid="file-menu">
+        <button tngMenuItem [tngMenuItemValue]="'new'" data-testid="file-new">New</button>
+      </div>
+    }
+  `,
+})
+class MenubarTransientMenuHostComponent {
+  readonly showMenu = signal(true);
+  readonly fileMenu = viewChild<TngMenu>('fileMenuRef');
+}
+
+@Component({
+  standalone: true,
+  imports: [TngMenubar, TngMenubarItem, TngMenu, TngMenuItem],
+  template: `
+    <div tngMenubar data-testid="menubar">
+      <button
+        tngMenubarItem
+        [tngMenubarMenu]="fileMenu"
+        data-testid="item-file"
+      >
+        <span tabindex="0" data-testid="item-file-label">File</span>
+      </button>
+    </div>
+
+    <div tngMenu #fileMenu="tngMenu" data-testid="file-menu">
+      <button tngMenuItem [tngMenuItemValue]="'new'" data-testid="file-new">New</button>
+    </div>
+  `,
+})
+class MenubarNestedContentHostComponent {}
+
+function click(el: HTMLElement): MouseEvent {
+  const event = new MouseEvent('click', {
+    bubbles: true,
+    cancelable: true,
+  });
+
+  el.dispatchEvent(event);
+  return event;
+}
+
+function pointerdown(el: HTMLElement): PointerEvent {
+  const event = new PointerEvent('pointerdown', {
+    bubbles: true,
+    cancelable: true,
+    button: 0,
+  });
+
+  el.dispatchEvent(event);
+  return event;
+}
+
+function dispatchTabAndSimulateBrowserFocus(
+  source: HTMLElement,
+  nextFocusTarget: HTMLElement,
+  shiftKey = false,
+): KeyboardEvent {
+  const event = new KeyboardEvent('keydown', {
+    key: 'Tab',
+    shiftKey,
+    bubbles: true,
+    cancelable: true,
+  });
+
+  source.dispatchEvent(event);
+  if (!event.defaultPrevented) {
+    nextFocusTarget.focus();
+  }
+
+  return event;
+}
 
 describe('tng-menubar owned menu integration', () => {
   it('applies menu ownership aria attributes only to items that own a menu', () => {
@@ -117,5 +296,450 @@ describe('tng-menubar owned menu integration', () => {
     expect(fileMenu.getAttribute('data-state')).toBe('open');
     expect(document.activeElement).toBe(fileMenu);
     expect(fileMenu.getAttribute('aria-activedescendant')).toBe(firstItem.id);
+  });
+
+  it('opens the owned menu on ArrowUp and sets the last menu item active', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [MenubarMenuHostComponent],
+    }).createComponent(MenubarMenuHostComponent);
+
+    fixture.detectChanges();
+
+    const file = fixture.nativeElement.querySelector('[data-testid="item-file"]') as HTMLButtonElement;
+    const fileMenu = fixture.nativeElement.querySelector('[data-testid="file-menu"]') as HTMLElement;
+    const lastItem = fixture.nativeElement.querySelector('[data-testid="file-open"]') as HTMLButtonElement;
+
+    file.focus();
+    keydown(file, 'ArrowUp');
+    fixture.detectChanges();
+
+    expect(file.getAttribute('aria-expanded')).toBe('true');
+    expect(fileMenu.getAttribute('data-state')).toBe('open');
+    expect(document.activeElement).toBe(fileMenu);
+    expect(fileMenu.getAttribute('aria-activedescendant')).toBe(lastItem.id);
+  });
+
+  it('closes the owned menu on Escape and restores focus to the owning menubar item', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [MenubarMenuHostComponent],
+    }).createComponent(MenubarMenuHostComponent);
+
+    fixture.detectChanges();
+
+    const file = fixture.nativeElement.querySelector('[data-testid="item-file"]') as HTMLButtonElement;
+    const fileMenu = fixture.nativeElement.querySelector('[data-testid="file-menu"]') as HTMLElement;
+
+    file.focus();
+    keydown(file, 'Enter');
+    fixture.detectChanges();
+
+    keydown(fileMenu, 'Escape');
+    fixture.detectChanges();
+
+    expect(file.getAttribute('aria-expanded')).toBe('false');
+    expect(fileMenu.getAttribute('data-state')).toBe('closed');
+    expect(document.activeElement).toBe(file);
+  });
+
+  it('closes the owned menu on Tab without preventing default or restoring focus to the owning item', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [MenubarMenuHostComponent],
+    }).createComponent(MenubarMenuHostComponent);
+
+    fixture.detectChanges();
+
+    const file = fixture.nativeElement.querySelector('[data-testid="item-file"]') as HTMLButtonElement;
+    const fileMenu = fixture.nativeElement.querySelector('[data-testid="file-menu"]') as HTMLElement;
+
+    file.focus();
+    keydown(file, 'Enter');
+    fixture.detectChanges();
+
+    const event = keydown(fileMenu, 'Tab');
+    fixture.detectChanges();
+
+    expect(file.getAttribute('aria-expanded')).toBe('false');
+    expect(fileMenu.getAttribute('data-state')).toBe('closed');
+    expect(event.defaultPrevented).toBe(false);
+    expect(document.activeElement).not.toBe(file);
+  });
+
+  it('closes the owned menu on Shift+Tab without preventing default or restoring focus to the owning item', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [MenubarMenuHostComponent],
+    }).createComponent(MenubarMenuHostComponent);
+
+    fixture.detectChanges();
+
+    const file = fixture.nativeElement.querySelector('[data-testid="item-file"]') as HTMLButtonElement;
+    const fileMenu = fixture.nativeElement.querySelector('[data-testid="file-menu"]') as HTMLElement;
+
+    file.focus();
+    keydown(file, 'Enter');
+    fixture.detectChanges();
+
+    const event = new KeyboardEvent('keydown', {
+      key: 'Tab',
+      shiftKey: true,
+      bubbles: true,
+      cancelable: true,
+    });
+    fileMenu.dispatchEvent(event);
+    fixture.detectChanges();
+
+    expect(file.getAttribute('aria-expanded')).toBe('false');
+    expect(fileMenu.getAttribute('data-state')).toBe('closed');
+    expect(event.defaultPrevented).toBe(false);
+    expect(document.activeElement).not.toBe(file);
+  });
+
+  it('opens the owned menu on click and toggles it closed on a second click', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [MenubarMultipleMenuHostComponent],
+    }).createComponent(MenubarMultipleMenuHostComponent);
+
+    fixture.detectChanges();
+
+    const file = fixture.nativeElement.querySelector('[data-testid="item-file"]') as HTMLButtonElement;
+    const fileMenu = fixture.nativeElement.querySelector('[data-testid="file-menu"]') as HTMLElement;
+
+    click(file);
+    fixture.detectChanges();
+
+    expect(fileMenu.getAttribute('data-state')).toBe('open');
+    expect(file.getAttribute('aria-expanded')).toBe('true');
+    expect(document.activeElement).toBe(fileMenu);
+
+    file.focus();
+    click(file);
+    fixture.detectChanges();
+
+    expect(fileMenu.getAttribute('data-state')).toBe('closed');
+    expect(file.getAttribute('aria-expanded')).toBe('false');
+    expect(document.activeElement).toBe(file);
+  });
+
+  it('opening a second top-level item closes the previously open menubar menu', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [MenubarMultipleMenuHostComponent],
+    }).createComponent(MenubarMultipleMenuHostComponent);
+
+    fixture.detectChanges();
+
+    const file = fixture.nativeElement.querySelector('[data-testid="item-file"]') as HTMLButtonElement;
+    const edit = fixture.nativeElement.querySelector('[data-testid="item-edit"]') as HTMLButtonElement;
+    const fileMenu = fixture.nativeElement.querySelector('[data-testid="file-menu"]') as HTMLElement;
+    const editMenu = fixture.nativeElement.querySelector('[data-testid="edit-menu"]') as HTMLElement;
+
+    click(file);
+    fixture.detectChanges();
+    click(edit);
+    fixture.detectChanges();
+
+    expect(fileMenu.getAttribute('data-state')).toBe('closed');
+    expect(file.getAttribute('aria-expanded')).toBe('false');
+    expect(editMenu.getAttribute('data-state')).toBe('open');
+    expect(edit.getAttribute('aria-expanded')).toBe('true');
+    expect(document.activeElement).toBe(editMenu);
+  });
+
+  it('clicking outside closes a menubar-opened menu and restores focus to the owning item', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [MenubarMultipleMenuHostComponent],
+    }).createComponent(MenubarMultipleMenuHostComponent);
+
+    fixture.detectChanges();
+
+    const file = fixture.nativeElement.querySelector('[data-testid="item-file"]') as HTMLButtonElement;
+    const fileMenu = fixture.nativeElement.querySelector('[data-testid="file-menu"]') as HTMLElement;
+    const outside = fixture.nativeElement.querySelector('[data-testid="outside"]') as HTMLButtonElement;
+
+    click(file);
+    fixture.detectChanges();
+
+    pointerdown(outside);
+    fixture.detectChanges();
+
+    expect(fileMenu.getAttribute('data-state')).toBe('closed');
+    expect(file.getAttribute('aria-expanded')).toBe('false');
+    expect(document.activeElement).toBe(file);
+  });
+
+  it('pressing Escape on a menubar item with no open menu does not change focus or state', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [MenubarMultipleMenuHostComponent],
+    }).createComponent(MenubarMultipleMenuHostComponent);
+
+    fixture.detectChanges();
+
+    const file = fixture.nativeElement.querySelector('[data-testid="item-file"]') as HTMLButtonElement;
+    const fileMenu = fixture.nativeElement.querySelector('[data-testid="file-menu"]') as HTMLElement;
+
+    file.focus();
+    const event = keydown(file, 'Escape');
+    fixture.detectChanges();
+
+    expect(fileMenu.getAttribute('data-state')).toBe('closed');
+    expect(file.getAttribute('aria-expanded')).toBe('false');
+    expect(event.defaultPrevented).toBe(false);
+    expect(document.activeElement).toBe(file);
+  });
+
+  it('fails safely when open keys are pressed on a top-level item with no menu', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [MenubarMenuHostComponent],
+    }).createComponent(MenubarMenuHostComponent);
+
+    fixture.detectChanges();
+
+    const edit = fixture.nativeElement.querySelector('[data-testid="item-edit"]') as HTMLButtonElement;
+    const fileMenu = fixture.nativeElement.querySelector('[data-testid="file-menu"]') as HTMLElement;
+
+    const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => undefined);
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+
+    try {
+      edit.focus();
+
+      const enterEvent = keydown(edit, 'Enter');
+      const spaceEvent = keydown(edit, ' ');
+      const arrowDownEvent = keydown(edit, 'ArrowDown');
+      const arrowUpEvent = keydown(edit, 'ArrowUp');
+      fixture.detectChanges();
+
+      expect(fileMenu.getAttribute('data-state')).toBe('closed');
+      expect(edit.hasAttribute('aria-expanded')).toBe(false);
+      expect(enterEvent.defaultPrevented).toBe(false);
+      expect(spaceEvent.defaultPrevented).toBe(false);
+      expect(arrowDownEvent.defaultPrevented).toBe(false);
+      expect(arrowUpEvent.defaultPrevented).toBe(false);
+      expect(errorSpy).not.toHaveBeenCalled();
+      expect(warnSpy).not.toHaveBeenCalled();
+      expect(document.activeElement).toBe(edit);
+    } finally {
+      errorSpy.mockRestore();
+      warnSpy.mockRestore();
+    }
+  });
+
+  it('allows native Tab traversal to move focus to the next focusable element after a menubar menu closes', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [MenubarTraversalHostComponent],
+    }).createComponent(MenubarTraversalHostComponent);
+
+    fixture.detectChanges();
+
+    const file = fixture.nativeElement.querySelector('[data-testid="item-file"]') as HTMLButtonElement;
+    const fileMenu = fixture.nativeElement.querySelector('[data-testid="file-menu"]') as HTMLElement;
+    const after = fixture.nativeElement.querySelector('[data-testid="after"]') as HTMLInputElement;
+
+    click(file);
+    fixture.detectChanges();
+
+    const event = dispatchTabAndSimulateBrowserFocus(fileMenu, after);
+    fixture.detectChanges();
+
+    expect(event.defaultPrevented).toBe(false);
+    expect(fileMenu.getAttribute('data-state')).toBe('closed');
+    expect(document.activeElement).toBe(after);
+  });
+
+  it('allows native Shift+Tab traversal to move focus to the previous focusable element after a menubar menu closes', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [MenubarTraversalHostComponent],
+    }).createComponent(MenubarTraversalHostComponent);
+
+    fixture.detectChanges();
+
+    const file = fixture.nativeElement.querySelector('[data-testid="item-file"]') as HTMLButtonElement;
+    const fileMenu = fixture.nativeElement.querySelector('[data-testid="file-menu"]') as HTMLElement;
+    const before = fixture.nativeElement.querySelector('[data-testid="before"]') as HTMLButtonElement;
+
+    click(file);
+    fixture.detectChanges();
+
+    const event = dispatchTabAndSimulateBrowserFocus(fileMenu, before, true);
+    fixture.detectChanges();
+
+    expect(event.defaultPrevented).toBe(false);
+    expect(fileMenu.getAttribute('data-state')).toBe('closed');
+    expect(document.activeElement).toBe(before);
+  });
+
+  it('switches to the next top-level item and opens its menu on ArrowRight while a menubar menu is open', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [MenubarMultipleMenuHostComponent],
+    }).createComponent(MenubarMultipleMenuHostComponent);
+
+    fixture.detectChanges();
+
+    const file = fixture.nativeElement.querySelector('[data-testid="item-file"]') as HTMLButtonElement;
+    const edit = fixture.nativeElement.querySelector('[data-testid="item-edit"]') as HTMLButtonElement;
+    const fileMenu = fixture.nativeElement.querySelector('[data-testid="file-menu"]') as HTMLElement;
+    const editMenu = fixture.nativeElement.querySelector('[data-testid="edit-menu"]') as HTMLElement;
+
+    click(file);
+    fixture.detectChanges();
+
+    keydown(fileMenu, 'ArrowRight');
+    fixture.detectChanges();
+
+    expect(file.getAttribute('aria-expanded')).toBe('false');
+    expect(fileMenu.getAttribute('data-state')).toBe('closed');
+    expect(edit.getAttribute('aria-expanded')).toBe('true');
+    expect(editMenu.getAttribute('data-state')).toBe('open');
+    expect(document.activeElement).toBe(editMenu);
+  });
+
+  it('switches to the previous top-level item and opens its menu on ArrowLeft while a menubar menu is open', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [MenubarMultipleMenuHostComponent],
+    }).createComponent(MenubarMultipleMenuHostComponent);
+
+    fixture.detectChanges();
+
+    const file = fixture.nativeElement.querySelector('[data-testid="item-file"]') as HTMLButtonElement;
+    const edit = fixture.nativeElement.querySelector('[data-testid="item-edit"]') as HTMLButtonElement;
+    const fileMenu = fixture.nativeElement.querySelector('[data-testid="file-menu"]') as HTMLElement;
+    const editMenu = fixture.nativeElement.querySelector('[data-testid="edit-menu"]') as HTMLElement;
+
+    click(edit);
+    fixture.detectChanges();
+
+    keydown(editMenu, 'ArrowLeft');
+    fixture.detectChanges();
+
+    expect(edit.getAttribute('aria-expanded')).toBe('false');
+    expect(editMenu.getAttribute('data-state')).toBe('closed');
+    expect(file.getAttribute('aria-expanded')).toBe('true');
+    expect(fileMenu.getAttribute('data-state')).toBe('open');
+    expect(document.activeElement).toBe(fileMenu);
+  });
+
+  it('delegates selection to the owned menu instead of the menubar itself', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [MenubarSelectionDelegationHostComponent],
+    }).createComponent(MenubarSelectionDelegationHostComponent);
+
+    fixture.detectChanges();
+
+    const host = fixture.componentInstance;
+    const file = fixture.nativeElement.querySelector('[data-testid="item-file"]') as HTMLButtonElement;
+    const item = fixture.nativeElement.querySelector('[data-testid="file-new"]') as HTMLButtonElement;
+
+    click(file);
+    fixture.detectChanges();
+
+    expect(host.events).toEqual([]);
+
+    click(item);
+    fixture.detectChanges();
+
+    expect(host.events).toEqual([
+      {
+        value: 'new',
+        itemId: item.id,
+        trigger: 'pointer',
+      },
+    ]);
+  });
+
+  it('resets state correctly after rapid open and close interactions', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [MenubarMultipleMenuHostComponent],
+    }).createComponent(MenubarMultipleMenuHostComponent);
+
+    fixture.detectChanges();
+
+    const file = fixture.nativeElement.querySelector('[data-testid="item-file"]') as HTMLButtonElement;
+    const edit = fixture.nativeElement.querySelector('[data-testid="item-edit"]') as HTMLButtonElement;
+    const fileMenu = fixture.nativeElement.querySelector('[data-testid="file-menu"]') as HTMLElement;
+    const editMenu = fixture.nativeElement.querySelector('[data-testid="edit-menu"]') as HTMLElement;
+
+    click(file);
+    click(file);
+    click(file);
+    click(edit);
+    fixture.detectChanges();
+
+    expect(file.getAttribute('aria-expanded')).toBe('false');
+    expect(fileMenu.getAttribute('data-state')).toBe('closed');
+    expect(edit.getAttribute('aria-expanded')).toBe('true');
+    expect(editMenu.getAttribute('data-state')).toBe('open');
+
+    keydown(editMenu, 'Escape');
+    fixture.detectChanges();
+
+    expect(edit.getAttribute('aria-expanded')).toBe('false');
+    expect(editMenu.getAttribute('data-state')).toBe('closed');
+    expect(document.activeElement).toBe(edit);
+  });
+
+  it('does not leave stale aria-expanded after the owned menu is unmounted while open', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [MenubarTransientMenuHostComponent],
+    }).createComponent(MenubarTransientMenuHostComponent);
+
+    fixture.detectChanges();
+
+    const host = fixture.componentInstance;
+    const file = fixture.nativeElement.querySelector('[data-testid="item-file"]') as HTMLButtonElement;
+
+    click(file);
+    fixture.detectChanges();
+
+    expect(file.getAttribute('aria-expanded')).toBe('true');
+
+    host.showMenu.set(false);
+    fixture.detectChanges();
+
+    expect(file.hasAttribute('aria-expanded')).toBe(false);
+    expect(file.hasAttribute('aria-controls')).toBe(false);
+  });
+
+  it('removes the global pointerdown listener when the menubar host is destroyed with an open menu', () => {
+    const addSpy = vi.spyOn(document, 'addEventListener');
+    const removeSpy = vi.spyOn(document, 'removeEventListener');
+
+    try {
+      const fixture = TestBed.configureTestingModule({
+        imports: [MenubarMultipleMenuHostComponent],
+      }).createComponent(MenubarMultipleMenuHostComponent);
+
+      fixture.detectChanges();
+
+      const file = fixture.nativeElement.querySelector('[data-testid="item-file"]') as HTMLButtonElement;
+
+      click(file);
+      fixture.detectChanges();
+      fixture.destroy();
+
+      const pointerAddCalls = addSpy.mock.calls.filter(([type]) => type === 'pointerdown');
+      const pointerRemoveCalls = removeSpy.mock.calls.filter(([type]) => type === 'pointerdown');
+
+      expect(pointerAddCalls.length).toBeGreaterThan(0);
+      expect(pointerRemoveCalls.length).toBeGreaterThanOrEqual(pointerAddCalls.length);
+    } finally {
+      addSpy.mockRestore();
+      removeSpy.mockRestore();
+    }
+  });
+
+  it('opens the owned menu when keyboard interaction starts from nested focusable content inside the top-level item', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [MenubarNestedContentHostComponent],
+    }).createComponent(MenubarNestedContentHostComponent);
+
+    fixture.detectChanges();
+
+    const label = fixture.nativeElement.querySelector('[data-testid="item-file-label"]') as HTMLSpanElement;
+    const fileMenu = fixture.nativeElement.querySelector('[data-testid="file-menu"]') as HTMLElement;
+
+    label.focus();
+    keydown(label, 'Enter');
+    fixture.detectChanges();
+
+    expect(fileMenu.getAttribute('data-state')).toBe('open');
+    expect(document.activeElement).toBe(fileMenu);
   });
 });

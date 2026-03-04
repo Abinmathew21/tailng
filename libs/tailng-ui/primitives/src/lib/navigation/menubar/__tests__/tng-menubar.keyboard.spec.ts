@@ -25,6 +25,19 @@ class MenubarKeyboardHostComponent {}
   standalone: true,
   imports: [TngMenubar, TngMenubarItem],
   template: `
+    <div dir="rtl" tngMenubar data-testid="menubar">
+      <button tngMenubarItem data-testid="item-file">File</button>
+      <button tngMenubarItem data-testid="item-edit">Edit</button>
+      <button tngMenubarItem data-testid="item-view">View</button>
+    </div>
+  `,
+})
+class MenubarRtlHostComponent {}
+
+@Component({
+  standalone: true,
+  imports: [TngMenubar, TngMenubarItem],
+  template: `
     <div tngMenubar [loop]="loop()" data-testid="menubar">
       <button tngMenubarItem data-testid="item-file">File</button>
       <button tngMenubarItem data-testid="item-edit">Edit</button>
@@ -92,6 +105,33 @@ describe('tng-menubar keyboard navigation', () => {
     fixture.detectChanges();
 
     expect(document.activeElement).toBe(file);
+  });
+
+  it('mirrors ArrowLeft and ArrowRight behavior in RTL', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [MenubarRtlHostComponent],
+    }).createComponent(MenubarRtlHostComponent);
+
+    fixture.detectChanges();
+
+    const file = fixture.nativeElement.querySelector('[data-testid="item-file"]') as HTMLButtonElement;
+    const edit = fixture.nativeElement.querySelector('[data-testid="item-edit"]') as HTMLButtonElement;
+    const view = fixture.nativeElement.querySelector('[data-testid="item-view"]') as HTMLButtonElement;
+
+    edit.focus();
+    expect(document.activeElement).toBe(edit);
+
+    keydown(edit, 'ArrowRight');
+    fixture.detectChanges();
+    expect(document.activeElement).toBe(file);
+
+    keydown(file, 'ArrowLeft');
+    fixture.detectChanges();
+    expect(document.activeElement).toBe(edit);
+
+    keydown(edit, 'ArrowLeft');
+    fixture.detectChanges();
+    expect(document.activeElement).toBe(view);
   });
 
   it('does not wrap at the ends when loop is disabled', () => {
