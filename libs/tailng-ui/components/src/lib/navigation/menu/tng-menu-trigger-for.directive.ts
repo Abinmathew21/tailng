@@ -1,19 +1,32 @@
 import { Directive, ElementRef, HostBinding, HostListener, effect, inject, input } from '@angular/core';
-import type { TngMenuComponent } from './tng-menu.component';
+import { TngMenu } from '@tailng-ui/primitives';
 
 type TngMenuTriggerKeyboardEvent = Readonly<Pick<KeyboardEvent, 'key'>> &
   Readonly<{ preventDefault: () => void }>;
 
-function shouldOpenMenuForKey(key: string): boolean {
-  return key === 'ArrowDown' || key === 'Enter' || key === ' ';
+type TngMenuOpenFocusAction = 'none' | 'first' | 'last';
+
+function resolveFocusActionForOpenKey(key: string): TngMenuOpenFocusAction | null {
+  switch (key) {
+    case 'ArrowDown':
+      return 'first';
+    case 'ArrowUp':
+      return 'last';
+    case 'Enter':
+    case ' ':
+      return 'none';
+    default:
+      return null;
+  }
 }
 
 @Directive({
   selector: '[tngMenuTriggerFor]',
   exportAs: 'tngMenuTriggerFor',
+  standalone: true,
 })
 export class TngMenuTriggerFor {
-  public readonly tngMenuTriggerFor = input.required<TngMenuComponent>();
+  readonly tngMenuTriggerFor = input.required<TngMenu>();
 
   private readonly hostRef = inject<ElementRef<HTMLElement>>(ElementRef);
 
@@ -24,37 +37,58 @@ export class TngMenuTriggerFor {
     effect((onCleanup): void => {
       const menu = this.tngMenuTriggerFor();
       const trigger = this.hostRef.nativeElement;
-      menu.registerTrigger(trigger);
+      menu.setTriggerElement(trigger, () => this.syncAriaState());
+      menu.setRestoreFocusOnOutsideClick(false);
+      this.syncAriaState();
 
       onCleanup((): void => {
-        menu.unregisterTrigger(trigger);
+        menu.clearTriggerLink(trigger);
+        trigger.removeAttribute('aria-controls');
+        trigger.removeAttribute('aria-expanded');
       });
     });
   }
 
-  @HostBinding('attr.aria-controls')
-  protected get ariaControls(): string | null {
-    const menu = this.tngMenuTriggerFor();
-    return menu.isOpen() ? menu.getPanelId() : null;
-  }
-
-  @HostBinding('attr.aria-expanded')
-  protected get ariaExpanded(): boolean {
-    return this.tngMenuTriggerFor().isOpen();
-  }
-
   @HostListener('click')
   protected onClick(): void {
-    this.tngMenuTriggerFor().toggleMenu();
+    const menu = this.tngMenuTriggerFor();
+    if (menu.isDisabled()) {
+      return;
+    }
+
+    if (menu.isOpen()) {
+      menu.close(true);
+      return;
+    }
+
+    menu.open('none');
   }
 
   @HostListener('keydown', ['$event'])
   protected onKeydown(event: TngMenuTriggerKeyboardEvent): void {
-    if (!shouldOpenMenuForKey(event.key)) {
+    const menu = this.tngMenuTriggerFor();
+    if (menu.isDisabled()) {
       return;
     }
 
-    event.preventDefault();
-    this.tngMenuTriggerFor().openMenu();
+    const focusAction = resolveFocusActionForOpenKey(event.key);
+    if (focusAction !== null) {
+      event.preventDefault();
+      menu.open(focusAction);
+      return;
+    }
+
+    if (event.key === 'Escape' && menu.isOpen()) {
+      event.preventDefault();
+      menu.close(true);
+    }
+  }
+
+  private syncAriaState(): void {
+    const trigger = this.hostRef.nativeElement;
+    const menu = this.tngMenuTriggerFor();
+
+    trigger.setAttribute('aria-controls', menu.id);
+    trigger.setAttribute('aria-expanded', menu.isOpen() ? 'true' : 'false');
   }
 }

@@ -1,23 +1,539 @@
-<div class="mx-auto max-w-[72rem] grid gap-5">
-  <section class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5 space-y-3">
-    <h2 class="text-lg font-semibold">Primitives (`tngMenubar`)</h2>
-    <div tngMenubar role="menubar" class="rounded-xl border border-tng-border-subtle px-4 py-3 text-tng-fg-primary flex flex-wrap gap-2">
-      <button role="menuitem" type="button" class="rounded-lg border border-tng-border-subtle bg-transparent px-4 py-2 text-sm font-medium text-tng-fg-primary">File</button>
-      <button role="menuitem" type="button" class="rounded-lg border border-tng-border-subtle bg-transparent px-4 py-2 text-sm font-medium text-tng-fg-primary">Edit</button>
-      <button role="menuitem" type="button" class="rounded-lg border border-tng-border-subtle bg-transparent px-4 py-2 text-sm font-medium text-tng-fg-primary">View</button>
+<main class="mx-auto grid max-w-[76rem] gap-5 [&_[hidden]]:!hidden">
+  <header class="space-y-2">
+    <h1 class="text-2xl font-bold text-tng-fg-primary sm:text-3xl">Menubar</h1>
+    <p class="max-w-3xl text-sm text-tng-fg-secondary sm:text-base">
+      Headless primitive examples first, followed by component-wrapper examples using
+      <code>tngMenubar</code>, <code>tngMenubarItem</code>, and owned
+      <code>tngMenu</code> panels.
+    </p>
+  </header>
+
+  <div class="grid gap-5 lg:grid-cols-2">
+  <section class="h-full space-y-4 rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5">
+    <div class="space-y-1">
+      <h2 class="text-lg font-semibold text-tng-fg-primary">Headless Primitives: Application Menubar</h2>
+      <p class="max-w-3xl text-sm text-tng-fg-secondary">
+        Click or press
+        <kbd class="rounded-md border border-tng-border-subtle bg-[color-mix(in_srgb,var(--tng-semantic-background-canvas)_86%,var(--tng-semantic-background-surface))] px-1.5 py-0.5 text-[0.78rem]">Enter</kbd>
+        /
+        <kbd class="rounded-md border border-tng-border-subtle bg-[color-mix(in_srgb,var(--tng-semantic-background-canvas)_86%,var(--tng-semantic-background-surface))] px-1.5 py-0.5 text-[0.78rem]">Space</kbd>
+        to open a top-level menu. Arrowing across top-level items transfers the open state.
+      </p>
     </div>
+
+    <div class="relative grid min-h-60 content-start justify-items-start gap-3">
+      <div
+        tngMenubar
+        aria-label="Workspace commands"
+        class="inline-flex flex-wrap gap-1 rounded-2xl border border-tng-border-strong bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_78%,var(--tng-semantic-background-canvas))] p-1 text-tng-fg-primary shadow-[inset_0_1px_0_color-mix(in_srgb,var(--tng-semantic-background-canvas)_72%,transparent),0_10px_22px_-18px_color-mix(in_srgb,var(--tng-semantic-foreground-primary)_40%,transparent)]"
+      >
+        <div class="relative">
+          <div
+            tngMenu
+            #fileMenu="tngMenu"
+            aria-label="File menu"
+            (tngMenuSelect)="onCommandSelect($event)"
+            class="absolute left-0 top-[calc(100%+0.55rem)] z-50 grid min-w-56 max-w-[min(20rem,calc(100vw-2rem))] gap-1 rounded-xl border border-tng-border-subtle bg-tng-bg-canvas p-1.5 text-tng-fg-primary shadow-[0_16px_30px_-20px_color-mix(in_srgb,var(--tng-semantic-foreground-primary)_34%,transparent),0_8px_22px_-16px_color-mix(in_srgb,var(--tng-semantic-foreground-primary)_20%,transparent)]"
+          >
+            <div tngMenuGroupLabel class="px-2.5 pb-1 pt-1.5 text-[0.72rem] font-bold uppercase tracking-[0.08em] text-tng-fg-secondary">File</div>
+            <button
+              type="button"
+              tngMenuItem
+              tngMenuItemValue="Create document"
+              class="flex min-h-9 w-full items-center justify-between rounded-lg border-0 bg-transparent px-3 py-2 text-left text-sm text-tng-fg-primary transition-colors hover:bg-[color-mix(in_srgb,var(--tng-semantic-foreground-primary)_8%,transparent)] data-[active]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] data-[active]:font-semibold data-[active]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_74%,var(--tng-semantic-foreground-primary))] aria-[expanded=true]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] aria-[expanded=true]:font-semibold aria-[expanded=true]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_74%,var(--tng-semantic-foreground-primary))]"
+            >
+              New
+            </button>
+            <button
+              type="button"
+              tngMenuItem
+              tngMenuItemValue="Open document"
+              class="flex min-h-9 w-full items-center justify-between rounded-lg border-0 bg-transparent px-3 py-2 text-left text-sm text-tng-fg-primary transition-colors hover:bg-[color-mix(in_srgb,var(--tng-semantic-foreground-primary)_8%,transparent)] data-[active]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] data-[active]:font-semibold data-[active]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_74%,var(--tng-semantic-foreground-primary))] aria-[expanded=true]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] aria-[expanded=true]:font-semibold aria-[expanded=true]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_74%,var(--tng-semantic-foreground-primary))]"
+            >
+              Open
+            </button>
+            <button
+              type="button"
+              tngMenuItem
+              tngMenuItemValue="Save document"
+              class="flex min-h-9 w-full items-center justify-between rounded-lg border-0 bg-transparent px-3 py-2 text-left text-sm text-tng-fg-primary transition-colors hover:bg-[color-mix(in_srgb,var(--tng-semantic-foreground-primary)_8%,transparent)] data-[active]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] data-[active]:font-semibold data-[active]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_74%,var(--tng-semantic-foreground-primary))] aria-[expanded=true]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] aria-[expanded=true]:font-semibold aria-[expanded=true]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_74%,var(--tng-semantic-foreground-primary))]"
+            >
+              Save
+            </button>
+          </div>
+          <button
+            type="button"
+            tngMenubarItem
+            [tngMenubarMenu]="fileMenu"
+            class="inline-flex min-h-9 items-center rounded-xl bg-transparent px-4 text-[0.95rem] font-semibold leading-tight text-tng-fg-primary transition-colors hover:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_10%,var(--tng-semantic-background-canvas))] aria-[expanded=true]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] aria-[expanded=true]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_74%,var(--tng-semantic-foreground-primary))]"
+          >
+            File
+          </button>
+        </div>
+
+        <div class="relative">
+          <div
+            tngMenu
+            #editMenu="tngMenu"
+            aria-label="Edit menu"
+            (tngMenuSelect)="onCommandSelect($event)"
+            class="absolute left-0 top-[calc(100%+0.55rem)] z-50 grid min-w-56 max-w-[min(20rem,calc(100vw-2rem))] gap-1 rounded-xl border border-tng-border-subtle bg-tng-bg-canvas p-1.5 text-tng-fg-primary shadow-[0_16px_30px_-20px_color-mix(in_srgb,var(--tng-semantic-foreground-primary)_34%,transparent),0_8px_22px_-16px_color-mix(in_srgb,var(--tng-semantic-foreground-primary)_20%,transparent)]"
+          >
+            <div tngMenuGroupLabel class="px-2.5 pb-1 pt-1.5 text-[0.72rem] font-bold uppercase tracking-[0.08em] text-tng-fg-secondary">Edit</div>
+            <button
+              type="button"
+              tngMenuItem
+              tngMenuItemValue="Undo change"
+              class="flex min-h-9 w-full items-center justify-between rounded-lg border-0 bg-transparent px-3 py-2 text-left text-sm text-tng-fg-primary transition-colors hover:bg-[color-mix(in_srgb,var(--tng-semantic-foreground-primary)_8%,transparent)] data-[active]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] data-[active]:font-semibold data-[active]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_74%,var(--tng-semantic-foreground-primary))] aria-[expanded=true]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] aria-[expanded=true]:font-semibold aria-[expanded=true]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_74%,var(--tng-semantic-foreground-primary))]"
+            >
+              Undo
+            </button>
+            <button
+              type="button"
+              tngMenuItem
+              tngMenuItemValue="Redo change"
+              class="flex min-h-9 w-full items-center justify-between rounded-lg border-0 bg-transparent px-3 py-2 text-left text-sm text-tng-fg-primary transition-colors hover:bg-[color-mix(in_srgb,var(--tng-semantic-foreground-primary)_8%,transparent)] data-[active]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] data-[active]:font-semibold data-[active]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_74%,var(--tng-semantic-foreground-primary))] aria-[expanded=true]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] aria-[expanded=true]:font-semibold aria-[expanded=true]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_74%,var(--tng-semantic-foreground-primary))]"
+            >
+              Redo
+            </button>
+            <div tngMenuSeparator class="mx-1 my-1 h-px bg-[color-mix(in_srgb,var(--tng-semantic-border-subtle)_78%,transparent)]"></div>
+            <button
+              type="button"
+              tngMenuItem
+              tngMenuItemValue="Find in page"
+              class="flex min-h-9 w-full items-center justify-between rounded-lg border-0 bg-transparent px-3 py-2 text-left text-sm text-tng-fg-primary transition-colors hover:bg-[color-mix(in_srgb,var(--tng-semantic-foreground-primary)_8%,transparent)] data-[active]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] data-[active]:font-semibold data-[active]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_74%,var(--tng-semantic-foreground-primary))] aria-[expanded=true]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] aria-[expanded=true]:font-semibold aria-[expanded=true]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_74%,var(--tng-semantic-foreground-primary))]"
+            >
+              Find
+            </button>
+          </div>
+          <button
+            type="button"
+            tngMenubarItem
+            [tngMenubarMenu]="editMenu"
+            class="inline-flex min-h-9 items-center rounded-xl bg-transparent px-4 text-[0.95rem] font-semibold leading-tight text-tng-fg-primary transition-colors hover:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_10%,var(--tng-semantic-background-canvas))] aria-[expanded=true]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] aria-[expanded=true]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_74%,var(--tng-semantic-foreground-primary))]"
+          >
+            Edit
+          </button>
+        </div>
+
+        <div class="relative">
+          <div
+            tngMenu
+            #viewMenu="tngMenu"
+            aria-label="View menu"
+            (tngMenuSelect)="onCommandSelect($event)"
+            class="absolute left-0 top-[calc(100%+0.55rem)] z-50 grid min-w-56 max-w-[min(20rem,calc(100vw-2rem))] gap-1 rounded-xl border border-tng-border-subtle bg-tng-bg-canvas p-1.5 text-tng-fg-primary shadow-[0_16px_30px_-20px_color-mix(in_srgb,var(--tng-semantic-foreground-primary)_34%,transparent),0_8px_22px_-16px_color-mix(in_srgb,var(--tng-semantic-foreground-primary)_20%,transparent)]"
+          >
+            <div tngMenuGroupLabel class="px-2.5 pb-1 pt-1.5 text-[0.72rem] font-bold uppercase tracking-[0.08em] text-tng-fg-secondary">View</div>
+            <button
+              type="button"
+              tngMenuItem
+              tngMenuItemValue="Toggle sidebar"
+              class="flex min-h-9 w-full items-center justify-between rounded-lg border-0 bg-transparent px-3 py-2 text-left text-sm text-tng-fg-primary transition-colors hover:bg-[color-mix(in_srgb,var(--tng-semantic-foreground-primary)_8%,transparent)] data-[active]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] data-[active]:font-semibold data-[active]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_74%,var(--tng-semantic-foreground-primary))] aria-[expanded=true]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] aria-[expanded=true]:font-semibold aria-[expanded=true]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_74%,var(--tng-semantic-foreground-primary))]"
+            >
+              Toggle sidebar
+            </button>
+            <button
+              type="button"
+              tngMenuItem
+              tngMenuItemValue="Open command palette"
+              class="flex min-h-9 w-full items-center justify-between rounded-lg border-0 bg-transparent px-3 py-2 text-left text-sm text-tng-fg-primary transition-colors hover:bg-[color-mix(in_srgb,var(--tng-semantic-foreground-primary)_8%,transparent)] data-[active]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] data-[active]:font-semibold data-[active]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_74%,var(--tng-semantic-foreground-primary))] aria-[expanded=true]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] aria-[expanded=true]:font-semibold aria-[expanded=true]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_74%,var(--tng-semantic-foreground-primary))]"
+            >
+              Command palette
+            </button>
+          </div>
+          <button
+            type="button"
+            tngMenubarItem
+            [tngMenubarMenu]="viewMenu"
+            class="inline-flex min-h-9 items-center rounded-xl bg-transparent px-4 text-[0.95rem] font-semibold leading-tight text-tng-fg-primary transition-colors hover:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_10%,var(--tng-semantic-background-canvas))] aria-[expanded=true]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] aria-[expanded=true]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_74%,var(--tng-semantic-foreground-primary))]"
+          >
+            View
+          </button>
+        </div>
+
+        <button
+          type="button"
+          tngMenubarItem
+          class="inline-flex min-h-9 items-center rounded-xl bg-transparent px-4 text-[0.95rem] font-semibold leading-tight text-tng-fg-primary transition-colors hover:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_10%,var(--tng-semantic-background-canvas))] aria-[expanded=true]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] aria-[expanded=true]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_74%,var(--tng-semantic-foreground-primary))]"
+        >
+          Help
+        </button>
+      </div>
+    </div>
+
+    <p class="text-sm text-tng-fg-secondary">Last command: <strong>{{ lastCommand() }}</strong></p>
   </section>
 
-  <section class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5 space-y-3">
-    <h2 class="text-lg font-semibold">Components (`tng-menubar`)</h2>
-    <tng-menubar>
-      <div role="menubar" class="rounded-xl border border-tng-border-subtle px-4 py-3 text-tng-fg-primary flex flex-wrap gap-2">
-        <button role="menuitem" type="button" class="rounded-lg border border-tng-border-subtle bg-transparent px-4 py-2 text-sm font-medium text-tng-fg-primary">Project</button>
-        <button role="menuitem" type="button" class="rounded-lg border border-tng-accent-brand bg-tng-accent-brand px-4 py-2 text-sm font-medium text-tng-fg-inverse">
-          Components
-        </button>
-        <button role="menuitem" type="button" class="rounded-lg border border-tng-border-subtle bg-transparent px-4 py-2 text-sm font-medium text-tng-fg-primary">Help</button>
+  <section class="h-full space-y-4 rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5">
+    <div class="space-y-1">
+      <h2 class="text-lg font-semibold text-tng-fg-primary">Headless Primitives: Cascaded Menubar Menu</h2>
+      <p class="max-w-3xl text-sm text-tng-fg-secondary">
+        Nested submenu wiring with <code>[tngMenuItemSubmenu]</code>. Try
+        <kbd class="rounded-md border border-tng-border-subtle bg-[color-mix(in_srgb,var(--tng-semantic-background-canvas)_86%,var(--tng-semantic-background-surface))] px-1.5 py-0.5 text-[0.78rem]">ArrowDown</kbd>
+        +
+        <kbd class="rounded-md border border-tng-border-subtle bg-[color-mix(in_srgb,var(--tng-semantic-background-canvas)_86%,var(--tng-semantic-background-surface))] px-1.5 py-0.5 text-[0.78rem]">ArrowRight</kbd>
+        from the File menu.
+      </p>
+    </div>
+
+    <div class="relative grid min-h-[22rem] content-start justify-items-start gap-3">
+      <div
+        tngMenubar
+        aria-label="Project commands"
+        class="inline-flex flex-wrap gap-1 rounded-2xl border border-tng-border-strong bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_78%,var(--tng-semantic-background-canvas))] p-1 text-tng-fg-primary shadow-[inset_0_1px_0_color-mix(in_srgb,var(--tng-semantic-background-canvas)_72%,transparent),0_10px_22px_-18px_color-mix(in_srgb,var(--tng-semantic-foreground-primary)_40%,transparent)]"
+      >
+        <div class="relative">
+          <div
+            tngMenu
+            #fileCascadeMenu="tngMenu"
+            aria-label="File cascade menu"
+            (tngMenuSelect)="onCascadeCommandSelect($event)"
+            class="absolute left-0 top-[calc(100%+0.55rem)] z-50 grid min-w-56 max-w-[min(20rem,calc(100vw-2rem))] gap-1 rounded-xl border border-tng-border-subtle bg-tng-bg-canvas p-1.5 text-tng-fg-primary shadow-[0_16px_30px_-20px_color-mix(in_srgb,var(--tng-semantic-foreground-primary)_34%,transparent),0_8px_22px_-16px_color-mix(in_srgb,var(--tng-semantic-foreground-primary)_20%,transparent)]"
+          >
+            <div tngMenuGroupLabel class="px-2.5 pb-1 pt-1.5 text-[0.72rem] font-bold uppercase tracking-[0.08em] text-tng-fg-secondary">File</div>
+            <button
+              type="button"
+              tngMenuItem
+              tngMenuItemValue="Create project"
+              class="flex min-h-9 w-full items-center justify-between rounded-lg border-0 bg-transparent px-3 py-2 text-left text-sm text-tng-fg-primary transition-colors hover:bg-[color-mix(in_srgb,var(--tng-semantic-foreground-primary)_8%,transparent)] data-[active]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] data-[active]:font-semibold data-[active]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_74%,var(--tng-semantic-foreground-primary))] aria-[expanded=true]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] aria-[expanded=true]:font-semibold aria-[expanded=true]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_74%,var(--tng-semantic-foreground-primary))]"
+            >
+              Create project
+            </button>
+            <button
+              type="button"
+              tngMenuItem
+              [tngMenuItemSubmenu]="importCascadeMenu"
+              tngMenuItemValue="Import from source"
+              class="flex min-h-9 w-full items-center justify-between rounded-lg border-0 bg-transparent px-3 py-2 text-left text-sm text-tng-fg-primary transition-colors hover:bg-[color-mix(in_srgb,var(--tng-semantic-foreground-primary)_8%,transparent)] data-[active]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] data-[active]:font-semibold data-[active]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_74%,var(--tng-semantic-foreground-primary))] aria-[expanded=true]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] aria-[expanded=true]:font-semibold aria-[expanded=true]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_74%,var(--tng-semantic-foreground-primary))]"
+            >
+              Import from...
+            </button>
+            <div tngMenuSeparator class="mx-1 my-1 h-px bg-[color-mix(in_srgb,var(--tng-semantic-border-subtle)_78%,transparent)]"></div>
+            <button
+              type="button"
+              tngMenuItem
+              tngMenuItemValue="Archive project"
+              class="flex min-h-9 w-full items-center justify-between rounded-lg border-0 bg-transparent px-3 py-2 text-left text-sm text-tng-fg-primary transition-colors hover:bg-[color-mix(in_srgb,var(--tng-semantic-foreground-primary)_8%,transparent)] data-[active]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] data-[active]:font-semibold data-[active]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_74%,var(--tng-semantic-foreground-primary))] aria-[expanded=true]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] aria-[expanded=true]:font-semibold aria-[expanded=true]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_74%,var(--tng-semantic-foreground-primary))]"
+            >
+              Archive project
+            </button>
+
+            <div
+              tngMenu
+              #importCascadeMenu="tngMenu"
+              aria-label="Import source menu"
+              class="absolute left-[calc(100%+0.45rem)] top-[3rem] z-50 grid min-w-56 max-w-[min(20rem,calc(100vw-2rem))] gap-1 rounded-xl border border-tng-border-subtle bg-tng-bg-canvas p-1.5 text-tng-fg-primary shadow-[0_16px_30px_-20px_color-mix(in_srgb,var(--tng-semantic-foreground-primary)_34%,transparent),0_8px_22px_-16px_color-mix(in_srgb,var(--tng-semantic-foreground-primary)_20%,transparent)]"
+              (tngMenuSelect)="onCascadeCommandSelect($event)"
+            >
+              <button
+                type="button"
+                tngMenuItem
+                tngMenuItemValue="Import from CSV"
+                class="flex min-h-9 w-full items-center justify-between rounded-lg border-0 bg-transparent px-3 py-2 text-left text-sm text-tng-fg-primary transition-colors hover:bg-[color-mix(in_srgb,var(--tng-semantic-foreground-primary)_8%,transparent)] data-[active]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] data-[active]:font-semibold data-[active]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_74%,var(--tng-semantic-foreground-primary))] aria-[expanded=true]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] aria-[expanded=true]:font-semibold aria-[expanded=true]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_74%,var(--tng-semantic-foreground-primary))]"
+              >
+                CSV file
+              </button>
+              <button
+                type="button"
+                tngMenuItem
+                [tngMenuItemSubmenu]="gitCascadeMenu"
+                tngMenuItemValue="Import from git"
+                class="flex min-h-9 w-full items-center justify-between rounded-lg border-0 bg-transparent px-3 py-2 text-left text-sm text-tng-fg-primary transition-colors hover:bg-[color-mix(in_srgb,var(--tng-semantic-foreground-primary)_8%,transparent)] data-[active]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] data-[active]:font-semibold data-[active]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_74%,var(--tng-semantic-foreground-primary))] aria-[expanded=true]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] aria-[expanded=true]:font-semibold aria-[expanded=true]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_74%,var(--tng-semantic-foreground-primary))]"
+              >
+                Git repository
+              </button>
+            </div>
+
+            <div
+              tngMenu
+              #gitCascadeMenu="tngMenu"
+              aria-label="Git provider menu"
+              class="absolute left-[calc(100%+0.45rem)] top-[7.2rem] z-50 grid min-w-56 max-w-[min(20rem,calc(100vw-2rem))] gap-1 rounded-xl border border-tng-border-subtle bg-tng-bg-canvas p-1.5 text-tng-fg-primary shadow-[0_16px_30px_-20px_color-mix(in_srgb,var(--tng-semantic-foreground-primary)_34%,transparent),0_8px_22px_-16px_color-mix(in_srgb,var(--tng-semantic-foreground-primary)_20%,transparent)]"
+              (tngMenuSelect)="onCascadeCommandSelect($event)"
+            >
+              <button
+                type="button"
+                tngMenuItem
+                tngMenuItemValue="Import from GitHub"
+                class="flex min-h-9 w-full items-center justify-between rounded-lg border-0 bg-transparent px-3 py-2 text-left text-sm text-tng-fg-primary transition-colors hover:bg-[color-mix(in_srgb,var(--tng-semantic-foreground-primary)_8%,transparent)] data-[active]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] data-[active]:font-semibold data-[active]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_74%,var(--tng-semantic-foreground-primary))] aria-[expanded=true]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] aria-[expanded=true]:font-semibold aria-[expanded=true]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_74%,var(--tng-semantic-foreground-primary))]"
+              >
+                GitHub
+              </button>
+              <button
+                type="button"
+                tngMenuItem
+                tngMenuItemValue="Import from GitLab"
+                class="flex min-h-9 w-full items-center justify-between rounded-lg border-0 bg-transparent px-3 py-2 text-left text-sm text-tng-fg-primary transition-colors hover:bg-[color-mix(in_srgb,var(--tng-semantic-foreground-primary)_8%,transparent)] data-[active]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] data-[active]:font-semibold data-[active]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_74%,var(--tng-semantic-foreground-primary))] aria-[expanded=true]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] aria-[expanded=true]:font-semibold aria-[expanded=true]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_74%,var(--tng-semantic-foreground-primary))]"
+              >
+                GitLab
+              </button>
+            </div>
+          </div>
+          <button
+            type="button"
+            tngMenubarItem
+            [tngMenubarMenu]="fileCascadeMenu"
+            class="inline-flex min-h-9 items-center rounded-xl bg-transparent px-4 text-[0.95rem] font-semibold leading-tight text-tng-fg-primary transition-colors hover:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_10%,var(--tng-semantic-background-canvas))] aria-[expanded=true]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] aria-[expanded=true]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_74%,var(--tng-semantic-foreground-primary))]"
+          >
+            File
+          </button>
+        </div>
+
+        <div class="relative">
+          <div
+            tngMenu
+            #toolsCascadeMenu="tngMenu"
+            aria-label="Tools menu"
+            (tngMenuSelect)="onCascadeCommandSelect($event)"
+            class="absolute left-0 top-[calc(100%+0.55rem)] z-50 grid min-w-56 max-w-[min(20rem,calc(100vw-2rem))] gap-1 rounded-xl border border-tng-border-subtle bg-tng-bg-canvas p-1.5 text-tng-fg-primary shadow-[0_16px_30px_-20px_color-mix(in_srgb,var(--tng-semantic-foreground-primary)_34%,transparent),0_8px_22px_-16px_color-mix(in_srgb,var(--tng-semantic-foreground-primary)_20%,transparent)]"
+          >
+            <button
+              type="button"
+              tngMenuItem
+              tngMenuItemValue="Run lint"
+              class="flex min-h-9 w-full items-center justify-between rounded-lg border-0 bg-transparent px-3 py-2 text-left text-sm text-tng-fg-primary transition-colors hover:bg-[color-mix(in_srgb,var(--tng-semantic-foreground-primary)_8%,transparent)] data-[active]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] data-[active]:font-semibold data-[active]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_74%,var(--tng-semantic-foreground-primary))] aria-[expanded=true]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] aria-[expanded=true]:font-semibold aria-[expanded=true]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_74%,var(--tng-semantic-foreground-primary))]"
+            >
+              Run lint
+            </button>
+            <button
+              type="button"
+              tngMenuItem
+              tngMenuItemValue="Run tests"
+              class="flex min-h-9 w-full items-center justify-between rounded-lg border-0 bg-transparent px-3 py-2 text-left text-sm text-tng-fg-primary transition-colors hover:bg-[color-mix(in_srgb,var(--tng-semantic-foreground-primary)_8%,transparent)] data-[active]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] data-[active]:font-semibold data-[active]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_74%,var(--tng-semantic-foreground-primary))] aria-[expanded=true]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] aria-[expanded=true]:font-semibold aria-[expanded=true]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_74%,var(--tng-semantic-foreground-primary))]"
+            >
+              Run tests
+            </button>
+          </div>
+          <button
+            type="button"
+            tngMenubarItem
+            [tngMenubarMenu]="toolsCascadeMenu"
+            class="inline-flex min-h-9 items-center rounded-xl bg-transparent px-4 text-[0.95rem] font-semibold leading-tight text-tng-fg-primary transition-colors hover:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_10%,var(--tng-semantic-background-canvas))] aria-[expanded=true]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] aria-[expanded=true]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_74%,var(--tng-semantic-foreground-primary))]"
+          >
+            Tools
+          </button>
+        </div>
       </div>
-    </tng-menubar>
+    </div>
+
+    <p class="text-sm text-tng-fg-secondary">Last cascaded command: <strong>{{ lastCascadeCommand() }}</strong></p>
   </section>
-</div>
+
+  <section class="h-full space-y-4 rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5">
+    <div class="space-y-1">
+      <h2 class="text-lg font-semibold text-tng-fg-primary">Component Wrapper: tng-menubar + tng-menu</h2>
+      <p class="max-w-3xl text-sm text-tng-fg-secondary">
+        Wrapper demo using <code>&lt;tng-menubar&gt;</code> and <code>&lt;tng-menu&gt;</code>.
+      </p>
+    </div>
+
+    <div class="relative grid min-h-60 content-start justify-items-start gap-3">
+      <tng-menubar
+        ariaLabel="Wrapper commands"
+        class="inline-flex flex-wrap gap-1 rounded-2xl border border-tng-border-strong bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_78%,var(--tng-semantic-background-canvas))] p-1 text-tng-fg-primary shadow-[inset_0_1px_0_color-mix(in_srgb,var(--tng-semantic-background-canvas)_72%,transparent),0_10px_22px_-18px_color-mix(in_srgb,var(--tng-semantic-foreground-primary)_40%,transparent)]"
+      >
+        <div class="relative">
+          <tng-menu
+            #componentFileMenu="tngMenu"
+            ariaLabel="Wrapper file menu"
+            (tngMenuSelect)="onComponentCommandSelect($event)"
+            class="absolute left-0 top-[calc(100%+0.55rem)] z-50 grid min-w-56 max-w-[min(20rem,calc(100vw-2rem))] gap-1 rounded-xl border border-tng-border-subtle bg-tng-bg-canvas p-1.5 text-tng-fg-primary shadow-[0_16px_30px_-20px_color-mix(in_srgb,var(--tng-semantic-foreground-primary)_34%,transparent),0_8px_22px_-16px_color-mix(in_srgb,var(--tng-semantic-foreground-primary)_20%,transparent)]"
+          >
+            <div tngMenuGroupLabel class="px-2.5 pb-1 pt-1.5 text-[0.72rem] font-bold uppercase tracking-[0.08em] text-tng-fg-secondary">File</div>
+            <button
+              type="button"
+              tngMenuItem
+              tngMenuItemValue="Create wrapper file"
+              class="flex min-h-9 w-full items-center justify-between rounded-lg border-0 bg-transparent px-3 py-2 text-left text-sm text-tng-fg-primary transition-colors hover:bg-[color-mix(in_srgb,var(--tng-semantic-foreground-primary)_8%,transparent)] data-[active]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] data-[active]:font-semibold data-[active]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_74%,var(--tng-semantic-foreground-primary))] aria-[expanded=true]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] aria-[expanded=true]:font-semibold aria-[expanded=true]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_74%,var(--tng-semantic-foreground-primary))]"
+            >
+              New
+            </button>
+            <button
+              type="button"
+              tngMenuItem
+              tngMenuItemValue="Open wrapper file"
+              class="flex min-h-9 w-full items-center justify-between rounded-lg border-0 bg-transparent px-3 py-2 text-left text-sm text-tng-fg-primary transition-colors hover:bg-[color-mix(in_srgb,var(--tng-semantic-foreground-primary)_8%,transparent)] data-[active]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] data-[active]:font-semibold data-[active]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_74%,var(--tng-semantic-foreground-primary))] aria-[expanded=true]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] aria-[expanded=true]:font-semibold aria-[expanded=true]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_74%,var(--tng-semantic-foreground-primary))]"
+            >
+              Open
+            </button>
+            <button
+              type="button"
+              tngMenuItem
+              tngMenuItemValue="Save wrapper file"
+              class="flex min-h-9 w-full items-center justify-between rounded-lg border-0 bg-transparent px-3 py-2 text-left text-sm text-tng-fg-primary transition-colors hover:bg-[color-mix(in_srgb,var(--tng-semantic-foreground-primary)_8%,transparent)] data-[active]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] data-[active]:font-semibold data-[active]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_74%,var(--tng-semantic-foreground-primary))] aria-[expanded=true]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] aria-[expanded=true]:font-semibold aria-[expanded=true]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_74%,var(--tng-semantic-foreground-primary))]"
+            >
+              Save
+            </button>
+          </tng-menu>
+          <button
+            type="button"
+            tngMenubarItem
+            [tngMenubarMenu]="componentFileMenu"
+            class="inline-flex min-h-9 items-center rounded-xl bg-transparent px-4 text-[0.95rem] font-semibold leading-tight text-tng-fg-primary transition-colors hover:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_10%,var(--tng-semantic-background-canvas))] aria-[expanded=true]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] aria-[expanded=true]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_74%,var(--tng-semantic-foreground-primary))]"
+          >
+            File
+          </button>
+        </div>
+
+        <div class="relative">
+          <tng-menu
+            #componentEditMenu="tngMenu"
+            ariaLabel="Wrapper edit menu"
+            (tngMenuSelect)="onComponentCommandSelect($event)"
+            class="absolute left-0 top-[calc(100%+0.55rem)] z-50 grid min-w-56 max-w-[min(20rem,calc(100vw-2rem))] gap-1 rounded-xl border border-tng-border-subtle bg-tng-bg-canvas p-1.5 text-tng-fg-primary shadow-[0_16px_30px_-20px_color-mix(in_srgb,var(--tng-semantic-foreground-primary)_34%,transparent),0_8px_22px_-16px_color-mix(in_srgb,var(--tng-semantic-foreground-primary)_20%,transparent)]"
+          >
+            <button
+              type="button"
+              tngMenuItem
+              tngMenuItemValue="Undo wrapper change"
+              class="flex min-h-9 w-full items-center justify-between rounded-lg border-0 bg-transparent px-3 py-2 text-left text-sm text-tng-fg-primary transition-colors hover:bg-[color-mix(in_srgb,var(--tng-semantic-foreground-primary)_8%,transparent)] data-[active]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] data-[active]:font-semibold data-[active]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_74%,var(--tng-semantic-foreground-primary))] aria-[expanded=true]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] aria-[expanded=true]:font-semibold aria-[expanded=true]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_74%,var(--tng-semantic-foreground-primary))]"
+            >
+              Undo
+            </button>
+            <button
+              type="button"
+              tngMenuItem
+              tngMenuItemValue="Redo wrapper change"
+              class="flex min-h-9 w-full items-center justify-between rounded-lg border-0 bg-transparent px-3 py-2 text-left text-sm text-tng-fg-primary transition-colors hover:bg-[color-mix(in_srgb,var(--tng-semantic-foreground-primary)_8%,transparent)] data-[active]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] data-[active]:font-semibold data-[active]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_74%,var(--tng-semantic-foreground-primary))] aria-[expanded=true]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] aria-[expanded=true]:font-semibold aria-[expanded=true]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_74%,var(--tng-semantic-foreground-primary))]"
+            >
+              Redo
+            </button>
+          </tng-menu>
+          <button
+            type="button"
+            tngMenubarItem
+            [tngMenubarMenu]="componentEditMenu"
+            class="inline-flex min-h-9 items-center rounded-xl bg-transparent px-4 text-[0.95rem] font-semibold leading-tight text-tng-fg-primary transition-colors hover:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_10%,var(--tng-semantic-background-canvas))] aria-[expanded=true]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] aria-[expanded=true]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_74%,var(--tng-semantic-foreground-primary))]"
+          >
+            Edit
+          </button>
+        </div>
+
+        <button
+          type="button"
+          tngMenubarItem
+          class="inline-flex min-h-9 items-center rounded-xl bg-transparent px-4 text-[0.95rem] font-semibold leading-tight text-tng-fg-primary transition-colors hover:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_10%,var(--tng-semantic-background-canvas))] aria-[expanded=true]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] aria-[expanded=true]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_74%,var(--tng-semantic-foreground-primary))]"
+        >
+          Help
+        </button>
+      </tng-menubar>
+    </div>
+
+    <p class="text-sm text-tng-fg-secondary">Last component command: <strong>{{ lastComponentCommand() }}</strong></p>
+  </section>
+
+  <section class="h-full space-y-4 rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5">
+    <div class="space-y-1">
+      <h2 class="text-lg font-semibold text-tng-fg-primary">Component Wrapper: Cascaded Menubar Menu</h2>
+      <p class="max-w-3xl text-sm text-tng-fg-secondary">
+        Cascaded wrapper demo with submenu chains inside a <code>&lt;tng-menubar&gt;</code> owned
+        <code>&lt;tng-menu&gt;</code>.
+      </p>
+    </div>
+
+    <div class="relative grid min-h-[22rem] content-start justify-items-start gap-3">
+      <tng-menubar
+        ariaLabel="Wrapper cascaded commands"
+        class="inline-flex flex-wrap gap-1 rounded-2xl border border-tng-border-strong bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_78%,var(--tng-semantic-background-canvas))] p-1 text-tng-fg-primary shadow-[inset_0_1px_0_color-mix(in_srgb,var(--tng-semantic-background-canvas)_72%,transparent),0_10px_22px_-18px_color-mix(in_srgb,var(--tng-semantic-foreground-primary)_40%,transparent)]"
+      >
+        <div class="relative">
+          <tng-menu
+            #componentCascadeFileMenu="tngMenu"
+            ariaLabel="Wrapper cascaded file menu"
+            (tngMenuSelect)="onComponentCascadeCommandSelect($event)"
+            class="absolute left-0 top-[calc(100%+0.55rem)] z-50 grid min-w-56 max-w-[min(20rem,calc(100vw-2rem))] gap-1 rounded-xl border border-tng-border-subtle bg-tng-bg-canvas p-1.5 text-tng-fg-primary shadow-[0_16px_30px_-20px_color-mix(in_srgb,var(--tng-semantic-foreground-primary)_34%,transparent),0_8px_22px_-16px_color-mix(in_srgb,var(--tng-semantic-foreground-primary)_20%,transparent)]"
+          >
+            <button
+              type="button"
+              tngMenuItem
+              tngMenuItemValue="Create wrapper project"
+              class="flex min-h-9 w-full items-center justify-between rounded-lg border-0 bg-transparent px-3 py-2 text-left text-sm text-tng-fg-primary transition-colors hover:bg-[color-mix(in_srgb,var(--tng-semantic-foreground-primary)_8%,transparent)] data-[active]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] data-[active]:font-semibold data-[active]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_74%,var(--tng-semantic-foreground-primary))] aria-[expanded=true]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] aria-[expanded=true]:font-semibold aria-[expanded=true]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_74%,var(--tng-semantic-foreground-primary))]"
+            >
+              Create project
+            </button>
+            <button
+              type="button"
+              tngMenuItem
+              [tngMenuItemSubmenu]="componentCascadeImportMenu"
+              tngMenuItemValue="Import wrapper source"
+              class="flex min-h-9 w-full items-center justify-between rounded-lg border-0 bg-transparent px-3 py-2 text-left text-sm text-tng-fg-primary transition-colors hover:bg-[color-mix(in_srgb,var(--tng-semantic-foreground-primary)_8%,transparent)] data-[active]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] data-[active]:font-semibold data-[active]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_74%,var(--tng-semantic-foreground-primary))] aria-[expanded=true]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] aria-[expanded=true]:font-semibold aria-[expanded=true]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_74%,var(--tng-semantic-foreground-primary))]"
+            >
+              Import from...
+            </button>
+
+            <tng-menu
+              #componentCascadeImportMenu="tngMenu"
+              ariaLabel="Wrapper import source menu"
+              class="absolute left-[calc(100%+0.45rem)] top-[3rem] z-50 grid min-w-56 max-w-[min(20rem,calc(100vw-2rem))] gap-1 rounded-xl border border-tng-border-subtle bg-tng-bg-canvas p-1.5 text-tng-fg-primary shadow-[0_16px_30px_-20px_color-mix(in_srgb,var(--tng-semantic-foreground-primary)_34%,transparent),0_8px_22px_-16px_color-mix(in_srgb,var(--tng-semantic-foreground-primary)_20%,transparent)]"
+              (tngMenuSelect)="onComponentCascadeCommandSelect($event)"
+            >
+              <button
+                type="button"
+                tngMenuItem
+                tngMenuItemValue="Import wrapper CSV"
+                class="flex min-h-9 w-full items-center justify-between rounded-lg border-0 bg-transparent px-3 py-2 text-left text-sm text-tng-fg-primary transition-colors hover:bg-[color-mix(in_srgb,var(--tng-semantic-foreground-primary)_8%,transparent)] data-[active]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] data-[active]:font-semibold data-[active]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_74%,var(--tng-semantic-foreground-primary))] aria-[expanded=true]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] aria-[expanded=true]:font-semibold aria-[expanded=true]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_74%,var(--tng-semantic-foreground-primary))]"
+              >
+                CSV file
+              </button>
+              <button
+                type="button"
+                tngMenuItem
+                [tngMenuItemSubmenu]="componentCascadeGitMenu"
+                tngMenuItemValue="Import wrapper git"
+                class="flex min-h-9 w-full items-center justify-between rounded-lg border-0 bg-transparent px-3 py-2 text-left text-sm text-tng-fg-primary transition-colors hover:bg-[color-mix(in_srgb,var(--tng-semantic-foreground-primary)_8%,transparent)] data-[active]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] data-[active]:font-semibold data-[active]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_74%,var(--tng-semantic-foreground-primary))] aria-[expanded=true]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] aria-[expanded=true]:font-semibold aria-[expanded=true]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_74%,var(--tng-semantic-foreground-primary))]"
+              >
+                Git repository
+              </button>
+            </tng-menu>
+
+            <tng-menu
+              #componentCascadeGitMenu="tngMenu"
+              ariaLabel="Wrapper git provider menu"
+              class="absolute left-[calc(100%+0.45rem)] top-[7.2rem] z-50 grid min-w-56 max-w-[min(20rem,calc(100vw-2rem))] gap-1 rounded-xl border border-tng-border-subtle bg-tng-bg-canvas p-1.5 text-tng-fg-primary shadow-[0_16px_30px_-20px_color-mix(in_srgb,var(--tng-semantic-foreground-primary)_34%,transparent),0_8px_22px_-16px_color-mix(in_srgb,var(--tng-semantic-foreground-primary)_20%,transparent)]"
+              (tngMenuSelect)="onComponentCascadeCommandSelect($event)"
+            >
+              <button
+                type="button"
+                tngMenuItem
+                tngMenuItemValue="Import wrapper GitHub"
+                class="flex min-h-9 w-full items-center justify-between rounded-lg border-0 bg-transparent px-3 py-2 text-left text-sm text-tng-fg-primary transition-colors hover:bg-[color-mix(in_srgb,var(--tng-semantic-foreground-primary)_8%,transparent)] data-[active]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] data-[active]:font-semibold data-[active]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_74%,var(--tng-semantic-foreground-primary))] aria-[expanded=true]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] aria-[expanded=true]:font-semibold aria-[expanded=true]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_74%,var(--tng-semantic-foreground-primary))]"
+              >
+                GitHub
+              </button>
+              <button
+                type="button"
+                tngMenuItem
+                tngMenuItemValue="Import wrapper GitLab"
+                class="flex min-h-9 w-full items-center justify-between rounded-lg border-0 bg-transparent px-3 py-2 text-left text-sm text-tng-fg-primary transition-colors hover:bg-[color-mix(in_srgb,var(--tng-semantic-foreground-primary)_8%,transparent)] data-[active]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] data-[active]:font-semibold data-[active]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_74%,var(--tng-semantic-foreground-primary))] aria-[expanded=true]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] aria-[expanded=true]:font-semibold aria-[expanded=true]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_74%,var(--tng-semantic-foreground-primary))]"
+              >
+                GitLab
+              </button>
+            </tng-menu>
+          </tng-menu>
+          <button
+            type="button"
+            tngMenubarItem
+            [tngMenubarMenu]="componentCascadeFileMenu"
+            class="inline-flex min-h-9 items-center rounded-xl bg-transparent px-4 text-[0.95rem] font-semibold leading-tight text-tng-fg-primary transition-colors hover:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_10%,var(--tng-semantic-background-canvas))] aria-[expanded=true]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] aria-[expanded=true]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_74%,var(--tng-semantic-foreground-primary))]"
+          >
+            File
+          </button>
+        </div>
+
+        <button
+          type="button"
+          tngMenubarItem
+          class="inline-flex min-h-9 items-center rounded-xl bg-transparent px-4 text-[0.95rem] font-semibold leading-tight text-tng-fg-primary transition-colors hover:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_10%,var(--tng-semantic-background-canvas))] aria-[expanded=true]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] aria-[expanded=true]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_74%,var(--tng-semantic-foreground-primary))]"
+        >
+          Help
+        </button>
+      </tng-menubar>
+    </div>
+
+    <p class="text-sm text-tng-fg-secondary">
+      Last component cascaded command: <strong>{{ lastComponentCascadeCommand() }}</strong>
+    </p>
+  </section>
+  </div>
+</main>

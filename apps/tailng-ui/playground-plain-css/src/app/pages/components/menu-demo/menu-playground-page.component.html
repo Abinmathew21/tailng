@@ -3,13 +3,13 @@
     <header class="hero">
       <h1 class="title">Headless Menu</h1>
       <p class="subtitle">
-        Primitive-only demo using <code>tngMenu</code>, <code>tngMenuItem</code>, and
-        <code>tngMenuTrigger</code>. The theme contract styles only the slot and ARIA attributes.
+        Headless primitive examples first, followed by component-wrapper examples for the same menu
+        contract.
       </p>
     </header>
 
     <section class="card">
-      <h2>Action Menu</h2>
+      <h2>Headless Primitives: Action Menu</h2>
       <p class="demo-note">
         Open with click, <kbd>Enter</kbd>, <kbd>Space</kbd>, or arrow keys. Outside click closes
         through the headless backdrop + dismiss handling.
@@ -39,7 +39,7 @@
     </section>
 
     <section class="card">
-      <h2>Selection States</h2>
+      <h2>Headless Primitives: Selection States</h2>
       <p class="demo-note">
         This menu stays open after selection to show checkbox and radio variants implemented at the
         primitive layer.
@@ -100,7 +100,7 @@
     </section>
 
     <section class="card">
-      <h2>Cascaded Menu</h2>
+      <h2>Headless Primitives: Cascaded Menu</h2>
       <p class="demo-note">
         Headless submenu wiring with <code>[tngMenuItemSubmenu]</code>. Try
         <kbd>ArrowDown</kbd> + <kbd>ArrowRight</kbd> to open the nested level.
@@ -169,6 +169,96 @@
       </div>
 
       <p class="state-line">Last cascaded action: <strong>{{ lastCascadeAction() }}</strong></p>
+    </section>
+
+    <section class="card">
+      <h2>Component Wrapper: tng-menu + tngMenuTriggerFor</h2>
+      <p class="demo-note">
+        Wrapper demo using <code>&lt;tng-menu&gt;</code> with
+        <code>[tngMenuTriggerFor]</code>. Menu content still uses headless
+        <code>tngMenuItem</code> primitives.
+      </p>
+
+      <div class="launcher launcher--component">
+        <button type="button" [tngMenuTriggerFor]="componentActionsMenu">Open component actions</button>
+
+        <tng-menu
+          #componentActionsMenu="tngMenu"
+          ariaLabel="Component actions"
+          (tngMenuSelect)="onComponentSelect($event)"
+        >
+          <button type="button" tngMenuItem tngMenuItemValue="Create document">
+            Create document
+          </button>
+          <button type="button" tngMenuItem tngMenuItemValue="Rename document">
+            Rename document
+          </button>
+          <button type="button" tngMenuItem tngMenuItemValue="Delete document">
+            Delete document
+          </button>
+        </tng-menu>
+      </div>
+
+      <p class="state-line">Last component action: <strong>{{ lastComponentAction() }}</strong></p>
+    </section>
+
+    <section class="card">
+      <h2>Component Wrapper: Cascaded Menu</h2>
+      <p class="demo-note">
+        Cascaded wrapper demo using <code>&lt;tng-menu&gt;</code> with
+        <code>[tngMenuItemSubmenu]</code> on headless menu items.
+      </p>
+
+      <div class="launcher launcher--component-cascade">
+        <button type="button" [tngMenuTriggerFor]="componentWorkspaceMenu">Open component workspace actions</button>
+
+        <tng-menu
+          #componentWorkspaceMenu="tngMenu"
+          ariaLabel="Component workspace actions"
+          (tngMenuSelect)="onComponentCascadeSelect($event)"
+        >
+          <button type="button" tngMenuItem tngMenuItemValue="Create component board">Create board</button>
+          <button
+            type="button"
+            tngMenuItem
+            [tngMenuItemSubmenu]="componentImportSubmenu"
+            tngMenuItemValue="Import component source"
+          >
+            Import from...
+          </button>
+
+          <tng-menu
+            #componentImportSubmenu="tngMenu"
+            ariaLabel="Component import options"
+            class="submenu submenu--level-1"
+            (tngMenuSelect)="onComponentCascadeSelect($event)"
+          >
+            <button type="button" tngMenuItem tngMenuItemValue="Import component CSV">CSV file</button>
+            <button
+              type="button"
+              tngMenuItem
+              [tngMenuItemSubmenu]="componentGitSubmenu"
+              tngMenuItemValue="Import component git"
+            >
+              Git repository
+            </button>
+          </tng-menu>
+
+          <tng-menu
+            #componentGitSubmenu="tngMenu"
+            ariaLabel="Component git import options"
+            class="submenu submenu--level-2"
+            (tngMenuSelect)="onComponentCascadeSelect($event)"
+          >
+            <button type="button" tngMenuItem tngMenuItemValue="Import component GitHub">GitHub</button>
+            <button type="button" tngMenuItem tngMenuItemValue="Import component GitLab">GitLab</button>
+          </tng-menu>
+        </tng-menu>
+      </div>
+
+      <p class="state-line">
+        Last component cascaded action: <strong>{{ lastComponentCascadeAction() }}</strong>
+      </p>
     </section>
   </section>
 </main>

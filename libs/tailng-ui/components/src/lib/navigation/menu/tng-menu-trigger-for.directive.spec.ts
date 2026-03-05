@@ -1,8 +1,44 @@
+import { Component } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
 import { describe, expect, it } from 'vitest';
+import { TngMenuItem } from '@tailng-ui/primitives';
+import { TngMenuComponent } from './tng-menu.component';
 import { TngMenuTriggerFor } from './tng-menu-trigger-for.directive';
 
+@Component({
+  standalone: true,
+  imports: [TngMenuComponent, TngMenuItem, TngMenuTriggerFor],
+  template: `
+    <button type="button" [tngMenuTriggerFor]="menu" data-testid="trigger">Open</button>
+    <tng-menu #menu="tngMenu" ariaLabel="Actions" data-testid="menu">
+      <button type="button" tngMenuItem data-testid="item">Item</button>
+    </tng-menu>
+  `,
+})
+class HostComponent {}
+
 describe('tng-menu-trigger-for directive', () => {
-  it('exports the trigger directive', () => {
-    expect(typeof TngMenuTriggerFor).toBe('function');
+  it('opens and closes the target menu while syncing trigger aria state', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [HostComponent],
+    }).createComponent(HostComponent);
+
+    fixture.detectChanges();
+
+    const trigger = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLButtonElement;
+    const menu = fixture.nativeElement.querySelector('[data-testid="menu"]') as HTMLElement;
+
+    trigger.click();
+    fixture.detectChanges();
+
+    expect(trigger.getAttribute('aria-expanded')).toBe('true');
+    expect(trigger.getAttribute('aria-controls')).toBe(menu.id);
+    expect(menu.getAttribute('data-state')).toBe('open');
+
+    trigger.click();
+    fixture.detectChanges();
+
+    expect(trigger.getAttribute('aria-expanded')).toBe('false');
+    expect(menu.getAttribute('data-state')).toBe('closed');
   });
 });

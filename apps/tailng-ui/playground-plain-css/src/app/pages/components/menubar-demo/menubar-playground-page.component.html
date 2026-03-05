@@ -3,13 +3,14 @@
     <header class="hero">
       <h1 class="title">Headless Menubar</h1>
       <p class="subtitle">
-        Primitive-only demo using <code>tngMenubar</code>, <code>tngMenubarItem</code>, and owned
-        <code>tngMenu</code> panels. Use arrow keys to move across the top level.
+        Headless primitive examples first, followed by component-wrapper examples using
+        <code>tngMenubar</code>, <code>tngMenubarItem</code>, and owned <code>tngMenu</code>
+        panels.
       </p>
     </header>
 
     <section class="card">
-      <h2>Application Menubar</h2>
+      <h2>Headless Primitives: Application Menubar</h2>
       <p class="demo-note">
         Click or press <kbd>Enter</kbd>/<kbd>Space</kbd> to open a top-level menu. When one menu is
         open, arrowing across top-level items transfers the open state.
@@ -72,7 +73,7 @@
     </section>
 
     <section class="card">
-      <h2>Keyboard Contract</h2>
+      <h2>Headless Primitives: Keyboard Contract</h2>
       <ul class="key-list">
         <li><kbd>ArrowLeft</kbd> / <kbd>ArrowRight</kbd> moves across top-level items.</li>
         <li><kbd>ArrowDown</kbd> opens an owned menu and focuses the first enabled item.</li>
@@ -82,7 +83,7 @@
     </section>
 
     <section class="card">
-      <h2>Cascaded Menubar Menu</h2>
+      <h2>Headless Primitives: Cascaded Menubar Menu</h2>
       <p class="demo-note">
         Nested submenu wiring inside a menubar-owned menu using
         <code>[tngMenuItemSubmenu]</code>. Try <kbd>ArrowDown</kbd> + <kbd>ArrowRight</kbd> from
@@ -165,6 +166,112 @@
       </div>
 
       <p class="state-line">Last cascaded command: <strong>{{ lastCascadeCommand() }}</strong></p>
+    </section>
+
+    <section class="card">
+      <h2>Component Wrapper: tng-menubar + tng-menu</h2>
+      <p class="demo-note">
+        Wrapper demo using <code>&lt;tng-menubar&gt;</code> and <code>&lt;tng-menu&gt;</code>.
+        Keyboard handling still comes from the same headless primitives.
+      </p>
+
+      <div class="menubar-stage">
+        <tng-menubar ariaLabel="Wrapper commands">
+          <div class="menubar-item-shell">
+            <tng-menu
+              #componentFileMenu="tngMenu"
+              ariaLabel="Wrapper file menu"
+              (tngMenuSelect)="onComponentCommandSelect($event)"
+            >
+              <div tngMenuGroupLabel>File</div>
+              <button type="button" tngMenuItem tngMenuItemValue="Create wrapper file">New</button>
+              <button type="button" tngMenuItem tngMenuItemValue="Open wrapper file">Open</button>
+              <button type="button" tngMenuItem tngMenuItemValue="Save wrapper file">Save</button>
+            </tng-menu>
+            <button type="button" tngMenubarItem [tngMenubarMenu]="componentFileMenu">File</button>
+          </div>
+
+          <div class="menubar-item-shell">
+            <tng-menu
+              #componentEditMenu="tngMenu"
+              ariaLabel="Wrapper edit menu"
+              (tngMenuSelect)="onComponentCommandSelect($event)"
+            >
+              <button type="button" tngMenuItem tngMenuItemValue="Undo wrapper change">Undo</button>
+              <button type="button" tngMenuItem tngMenuItemValue="Redo wrapper change">Redo</button>
+            </tng-menu>
+            <button type="button" tngMenubarItem [tngMenubarMenu]="componentEditMenu">Edit</button>
+          </div>
+
+          <button type="button" tngMenubarItem>Help</button>
+        </tng-menubar>
+      </div>
+
+      <p class="state-line">Last component command: <strong>{{ lastComponentCommand() }}</strong></p>
+    </section>
+
+    <section class="card">
+      <h2>Component Wrapper: Cascaded Menubar Menu</h2>
+      <p class="demo-note">
+        Cascaded wrapper demo with submenu chains inside a <code>&lt;tng-menubar&gt;</code> owned
+        <code>&lt;tng-menu&gt;</code>.
+      </p>
+
+      <div class="menubar-stage menubar-stage--cascade">
+        <tng-menubar ariaLabel="Wrapper cascaded commands">
+          <div class="menubar-item-shell">
+            <tng-menu
+              #componentCascadeFileMenu="tngMenu"
+              ariaLabel="Wrapper cascaded file menu"
+              (tngMenuSelect)="onComponentCascadeCommandSelect($event)"
+            >
+              <button type="button" tngMenuItem tngMenuItemValue="Create wrapper project">Create project</button>
+              <button
+                type="button"
+                tngMenuItem
+                [tngMenuItemSubmenu]="componentCascadeImportMenu"
+                tngMenuItemValue="Import wrapper source"
+              >
+                Import from...
+              </button>
+
+              <tng-menu
+                #componentCascadeImportMenu="tngMenu"
+                ariaLabel="Wrapper import source menu"
+                class="submenu submenu--level-1"
+                (tngMenuSelect)="onComponentCascadeCommandSelect($event)"
+              >
+                <button type="button" tngMenuItem tngMenuItemValue="Import wrapper CSV">CSV file</button>
+                <button
+                  type="button"
+                  tngMenuItem
+                  [tngMenuItemSubmenu]="componentCascadeGitMenu"
+                  tngMenuItemValue="Import wrapper git"
+                >
+                  Git repository
+                </button>
+              </tng-menu>
+
+              <tng-menu
+                #componentCascadeGitMenu="tngMenu"
+                ariaLabel="Wrapper git provider menu"
+                class="submenu submenu--level-2"
+                (tngMenuSelect)="onComponentCascadeCommandSelect($event)"
+              >
+                <button type="button" tngMenuItem tngMenuItemValue="Import wrapper GitHub">GitHub</button>
+                <button type="button" tngMenuItem tngMenuItemValue="Import wrapper GitLab">GitLab</button>
+              </tng-menu>
+            </tng-menu>
+            <button type="button" tngMenubarItem [tngMenubarMenu]="componentCascadeFileMenu">File</button>
+          </div>
+
+          <button type="button" tngMenubarItem>Help</button>
+        </tng-menubar>
+      </div>
+
+      <p class="state-line">
+        Last component cascaded command: <strong>{{ lastComponentCascadeCommand() }}</strong>
+      </p>
     </section>
   </section>
 </main>

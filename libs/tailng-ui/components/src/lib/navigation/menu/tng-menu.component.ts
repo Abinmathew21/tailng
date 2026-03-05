@@ -1,137 +1,110 @@
-import {
-  Component,
-  ElementRef,
-  HostListener,
-  inject,
-  input,
-  signal,
-  viewChild,
-} from '@angular/core';
+import { Component, ElementRef, HostBinding, inject, input } from '@angular/core';
 import { TngMenu as TngMenuPrimitive } from '@tailng-ui/primitives';
 
-const menuPanelIdPrefix = 'tng-menu-panel-';
-
-let menuPanelIdSequence = 0;
-
-function createMenuPanelId(): string {
-  menuPanelIdSequence += 1;
-  return `${menuPanelIdPrefix}${menuPanelIdSequence}`;
-}
-
-function resolveFirstEnabledMenuItem(
-  panel: Readonly<HTMLUListElement> | undefined,
-): HTMLElement | null {
-  if (panel === undefined) {
-    return null;
-  }
-
-  const items = Array.from(panel.querySelectorAll<HTMLElement>('[role="menuitem"]'));
-  for (const item of items) {
-    if (item.getAttribute('aria-disabled') !== 'true') {
-      return item;
-    }
-  }
-
-  return null;
-}
+const MAX_FOCUS_SYNC_ATTEMPTS = 4;
 
 @Component({
   selector: 'tng-menu',
-  imports: [TngMenuPrimitive],
+  standalone: true,
+  hostDirectives: [
+    {
+      directive: TngMenuPrimitive,
+      inputs: ['loop', 'disabled', 'closeOnSelect', 'dismissOnOutsideClick', 'dismissOnFocusout'],
+      outputs: ['tngMenuOpened', 'tngMenuClosed', 'tngMenuSelect'],
+    },
+  ],
   templateUrl: './tng-menu.component.html',
   styleUrl: './tng-menu.component.css',
-  exportAs: 'tngMenu',
+  exportAs: 'tngMenuComponent',
 })
 export class TngMenuComponent {
-  public readonly ariaLabel = input<string>('Menu');
-  protected readonly open = signal(false);
-  protected readonly panelId = createMenuPanelId();
-
   private readonly hostRef = inject<ElementRef<HTMLElement>>(ElementRef);
-  private readonly panelRef = viewChild<ElementRef<HTMLUListElement>>('panelRef');
-  private readonly triggerElements = new Set<Readonly<HTMLElement>>();
+  private readonly primitive = inject<TngMenuPrimitive>(TngMenuPrimitive);
+  private lastOpenState = false;
+  private focusSyncQueued = false;
+  private focusSyncAttempts = 0;
 
-  public closeMenu(): void {
-    if (!this.open()) {
+  readonly ariaLabel = input<string>('Menu');
+
+  @HostBinding('attr.aria-label')
+  protected get hostAriaLabel(): string {
+    return this.ariaLabel();
+  }
+
+  ngDoCheck(): void {
+    const isOpen = this.primitive.isOpen();
+    if (!isOpen) {
+      this.lastOpenState = false;
+      this.focusSyncAttempts = 0;
+      this.focusSyncQueued = false;
       return;
     }
 
-    this.open.set(false);
+    const host = this.hostRef.nativeElement;
+    const activeElement = document.activeElement;
+    const deepestOpenSubmenu = this.getDeepestOpenSubmenu(host);
+    const hasFocusInDeepestOpenSubmenu =
+      deepestOpenSubmenu !== null &&
+      activeElement instanceof Node &&
+      deepestOpenSubmenu.contains(activeElement);
+    const hasFocusInsideHost = activeElement instanceof Node && host.contains(activeElement);
+
+    const shouldSyncFocusToHostOrDeepestSubmenu =
+      deepestOpenSubmenu !== null ? !hasFocusInDeepestOpenSubmenu : !hasFocusInsideHost;
+
+    if (
+      (!this.lastOpenState || shouldSyncFocusToHostOrDeepestSubmenu) &&
+      this.focusSyncAttempts < MAX_FOCUS_SYNC_ATTEMPTS
+    ) {
+      this.queueFocusSync();
+    }
+
+    this.lastOpenState = true;
   }
 
-  public getPanelId(): string {
-    return this.panelId;
-  }
-
-  public isOpen(): boolean {
-    return this.open();
-  }
-
-  public openMenu(): void {
-    if (this.open()) {
+  private queueFocusSync(): void {
+    if (this.focusSyncQueued) {
       return;
     }
 
-    this.open.set(true);
+    this.focusSyncQueued = true;
     queueMicrotask((): void => {
-      const panel = this.panelRef()?.nativeElement;
-      const firstMenuItem = resolveFirstEnabledMenuItem(panel);
-      if (firstMenuItem !== null) {
-        firstMenuItem.focus();
+      this.focusSyncQueued = false;
+
+      if (!this.primitive.isOpen()) {
         return;
       }
 
-      panel?.focus();
+      const host = this.hostRef.nativeElement;
+      const activeElement = document.activeElement;
+      const deepestOpenSubmenu = this.getDeepestOpenSubmenu(host);
+
+      if (deepestOpenSubmenu !== null) {
+        if (!(activeElement instanceof Node) || !deepestOpenSubmenu.contains(activeElement)) {
+          this.focusSyncAttempts += 1;
+          deepestOpenSubmenu.focus();
+        }
+        return;
+      }
+
+      if (activeElement instanceof Node && host.contains(activeElement)) {
+        return;
+      }
+
+      this.focusSyncAttempts += 1;
+      host.focus();
     });
   }
 
-  public registerTrigger(trigger: Readonly<HTMLElement>): void {
-    this.triggerElements.add(trigger);
-  }
+  private getDeepestOpenSubmenu(host: HTMLElement): HTMLElement | null {
+    const openNestedMenus = Array.from(
+      host.querySelectorAll<HTMLElement>('[data-slot="menu"][data-state="open"]'),
+    ).filter((menuElement) => menuElement !== host);
 
-  public toggleMenu(): void {
-    if (this.open()) {
-      this.closeMenu();
-      return;
+    if (openNestedMenus.length === 0) {
+      return null;
     }
 
-    this.openMenu();
-  }
-
-  public unregisterTrigger(trigger: Readonly<HTMLElement>): void {
-    this.triggerElements.delete(trigger);
-  }
-
-  @HostListener('document:click', ['$event'])
-  protected onDocumentClick(event: unknown): void {
-    if (!this.open()) {
-      return;
-    }
-
-    if (!(event instanceof Event)) {
-      return;
-    }
-
-    const target = event.target;
-    if (!(target instanceof Node)) {
-      return;
-    }
-
-    if (this.hostRef.nativeElement.contains(target)) {
-      return;
-    }
-
-    for (const trigger of this.triggerElements) {
-      if (trigger.contains(target)) {
-        return;
-      }
-    }
-
-    this.closeMenu();
-  }
-
-  @HostListener('document:keydown.escape')
-  protected onEscapeKeydown(): void {
-    this.closeMenu();
+    return openNestedMenus[openNestedMenus.length - 1] ?? null;
   }
 }

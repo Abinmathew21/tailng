@@ -356,6 +356,16 @@ export class TngMenu {
     }
   }
 
+  setActiveItem(item: TngMenuItem): void {
+    if (!this.openState || !item.isNavigable()) {
+      return;
+    }
+
+    this.activeItemId = item.getItemId();
+    this.syncOpenSubmenuWithActiveItem();
+    this.changeDetectorRef.detectChanges();
+  }
+
   setSelectedRadioItem(selectedItem: TngMenuItem): void {
     for (const item of this.itemsById.values()) {
       if (item.getRole() !== 'menuitemradio') {
@@ -468,15 +478,23 @@ export class TngMenu {
       return;
     }
 
-    if (this.hostRef.nativeElement.contains(target)) {
-      return;
-    }
-
-    if (this.triggerElement?.contains(target)) {
+    if (this.isTargetInsideOpenMenuTree(target)) {
       return;
     }
 
     this.close(this.restoreFocusOnOutsideClick);
+  }
+
+  private isTargetInsideOpenMenuTree(target: Node): boolean {
+    if (this.hostRef.nativeElement.contains(target)) {
+      return true;
+    }
+
+    if (this.triggerElement?.contains(target) === true) {
+      return true;
+    }
+
+    return this.openSubmenu?.isTargetInsideOpenMenuTree(target) ?? false;
   }
 
   @HostListener('focusout', ['$event'])
@@ -545,7 +563,10 @@ export class TngMenu {
 
     const targetIndex = resolveFocusIndex(action, currentIndex, items.length, this.loop());
     this.activeItemId = items[targetIndex]?.id ?? null;
+    this.syncOpenSubmenuWithActiveItem();
+  }
 
+  private syncOpenSubmenuWithActiveItem(): void {
     if (this.openSubmenu !== null && this.parentMenuItem?.getOwnedSubmenu() !== this.openSubmenu) {
       // no-op safeguard for submenu instances
     }
@@ -799,6 +820,12 @@ export class TngMenuItem {
   @HostListener('click', ['$event'])
   protected onClick(event: MouseEvent): void {
     if (this.shouldIgnoreNestedInteractiveClick(event)) {
+      return;
+    }
+
+    if (this.submenu() !== null) {
+      this.menu?.setActiveItem(this);
+      this.openOwnedSubmenu('first');
       return;
     }
 

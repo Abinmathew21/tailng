@@ -59,6 +59,14 @@
   min-height: 20rem;
 }
 
+.launcher--component {
+  min-height: 12rem;
+}
+
+.launcher--component-cascade {
+  min-height: 20rem;
+}
+
 .submenu[data-slot='menu'] {
   left: calc(100% + 0.45rem);
 }

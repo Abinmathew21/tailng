@@ -1,13 +1,1 @@
-:host {
-  display: block;
-}
-
-.tng-menubar {
-  background: var(--tng-semantic-background-base);
-  border: 1px solid var(--tng-semantic-border-subtle);
-  border-radius: 0.75rem;
-  color: var(--tng-semantic-foreground-primary);
-  display: grid;
-  gap: 0.5rem;
-  padding: 0.9rem 1rem;
-}
+:host {}

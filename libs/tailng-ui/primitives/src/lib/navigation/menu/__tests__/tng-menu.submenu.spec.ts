@@ -25,6 +25,17 @@ function click(el: HTMLElement): MouseEvent {
   return event;
 }
 
+function pointerdown(el: HTMLElement): PointerEvent {
+  const event = new PointerEvent('pointerdown', {
+    bubbles: true,
+    cancelable: true,
+    button: 0,
+  });
+
+  el.dispatchEvent(event);
+  return event;
+}
+
 @Component({
   standalone: true,
   imports: [TngMenu, TngMenuItem, TngMenuTrigger],
@@ -194,6 +205,33 @@ describe('tng-menu submenu behavior', () => {
 
     expect(submenuTrigger.getAttribute('aria-haspopup')).toBe('menu');
     expect(submenuTrigger.getAttribute('aria-controls')).toBe(submenu.id);
+    expect(submenuTrigger.getAttribute('aria-expanded')).toBe('true');
+    expect(submenu.getAttribute('data-state')).toBe('open');
+    expect(submenu.getAttribute('aria-activedescendant')).toBe(firstSubItem.id);
+    expect(document.activeElement).toBe(submenu);
+  });
+
+  it('opens a submenu on click from a submenu-trigger item without closing the parent menu', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [MenuSubmenuHostComponent],
+    }).createComponent(MenuSubmenuHostComponent);
+
+    fixture.detectChanges();
+
+    const trigger = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLButtonElement;
+    const menu = fixture.nativeElement.querySelector('[data-testid="menu"]') as HTMLElement;
+    const submenu = fixture.nativeElement.querySelector('[data-testid="submenu"]') as HTMLElement;
+    const submenuTrigger = fixture.nativeElement.querySelector('[data-testid="item-more"]') as HTMLButtonElement;
+    const firstSubItem = fixture.nativeElement.querySelector('[data-testid="sub-item-a"]') as HTMLButtonElement;
+
+    click(trigger);
+    fixture.detectChanges();
+
+    click(submenuTrigger);
+    fixture.detectChanges();
+
+    expect(menu.getAttribute('data-state')).toBe('open');
+    expect(menu.getAttribute('aria-activedescendant')).toBe(submenuTrigger.id);
     expect(submenuTrigger.getAttribute('aria-expanded')).toBe('true');
     expect(submenu.getAttribute('data-state')).toBe('open');
     expect(submenu.getAttribute('aria-activedescendant')).toBe(firstSubItem.id);
@@ -529,6 +567,79 @@ describe('tng-menu submenu behavior', () => {
     keydown(submenuLevel1, 'ArrowRight');
     keydown(submenuLevel2, 'ArrowRight');
     fixture.detectChanges();
+
+    click(level3LeafItem);
+    fixture.detectChanges();
+
+    expect(submenuLevel3.getAttribute('data-state')).toBe('closed');
+    expect(submenuLevel2.getAttribute('data-state')).toBe('closed');
+    expect(submenuLevel1.getAttribute('data-state')).toBe('closed');
+    expect(menu.getAttribute('data-state')).toBe('closed');
+  });
+
+  it('selecting a third-level item via pointerdown+click closes all menu levels', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [MenuThirdLevelSubmenuHostComponent],
+    }).createComponent(MenuThirdLevelSubmenuHostComponent);
+
+    fixture.detectChanges();
+
+    const trigger = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLButtonElement;
+    const menu = fixture.nativeElement.querySelector('[data-testid="menu"]') as HTMLElement;
+    const submenuLevel1 = fixture.nativeElement.querySelector('[data-testid="submenu-level-1"]') as HTMLElement;
+    const submenuLevel2 = fixture.nativeElement.querySelector('[data-testid="submenu-level-2"]') as HTMLElement;
+    const submenuLevel3 = fixture.nativeElement.querySelector('[data-testid="submenu-level-3"]') as HTMLElement;
+    const level3LeafItem = fixture.nativeElement.querySelector('[data-testid="sub3-item-leaf"]') as HTMLButtonElement;
+
+    click(trigger);
+    fixture.detectChanges();
+    keydown(menu, 'ArrowDown');
+    keydown(menu, 'ArrowRight');
+    keydown(submenuLevel1, 'ArrowRight');
+    keydown(submenuLevel2, 'ArrowRight');
+    fixture.detectChanges();
+
+    pointerdown(level3LeafItem);
+    click(level3LeafItem);
+    fixture.detectChanges();
+
+    expect(submenuLevel3.getAttribute('data-state')).toBe('closed');
+    expect(submenuLevel2.getAttribute('data-state')).toBe('closed');
+    expect(submenuLevel1.getAttribute('data-state')).toBe('closed');
+    expect(menu.getAttribute('data-state')).toBe('closed');
+  });
+
+  it('selecting an item from third-level submenu closes all levels when submenu chain was opened by click', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [MenuThirdLevelSubmenuHostComponent],
+    }).createComponent(MenuThirdLevelSubmenuHostComponent);
+
+    fixture.detectChanges();
+
+    const trigger = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLButtonElement;
+    const menu = fixture.nativeElement.querySelector('[data-testid="menu"]') as HTMLElement;
+    const submenuLevel1 = fixture.nativeElement.querySelector('[data-testid="submenu-level-1"]') as HTMLElement;
+    const submenuLevel2 = fixture.nativeElement.querySelector('[data-testid="submenu-level-2"]') as HTMLElement;
+    const submenuLevel3 = fixture.nativeElement.querySelector('[data-testid="submenu-level-3"]') as HTMLElement;
+    const rootMore = fixture.nativeElement.querySelector('[data-testid="root-item-more"]') as HTMLButtonElement;
+    const level1More = fixture.nativeElement.querySelector('[data-testid="sub1-item-more"]') as HTMLButtonElement;
+    const level2More = fixture.nativeElement.querySelector('[data-testid="sub2-item-more"]') as HTMLButtonElement;
+    const level3LeafItem = fixture.nativeElement.querySelector('[data-testid="sub3-item-leaf"]') as HTMLButtonElement;
+
+    click(trigger);
+    fixture.detectChanges();
+
+    click(rootMore);
+    fixture.detectChanges();
+    expect(submenuLevel1.getAttribute('data-state')).toBe('open');
+
+    click(level1More);
+    fixture.detectChanges();
+    expect(submenuLevel2.getAttribute('data-state')).toBe('open');
+
+    click(level2More);
+    fixture.detectChanges();
+    expect(submenuLevel3.getAttribute('data-state')).toBe('open');
 
     click(level3LeafItem);
     fixture.detectChanges();
