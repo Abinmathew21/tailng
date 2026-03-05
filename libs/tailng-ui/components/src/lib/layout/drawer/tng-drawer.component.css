@@ -1,8 +1,4 @@
 :host {
-  display: block;
-}
-
-.tng-drawer {
   background: var(--tng-semantic-background-base);
   border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 0.75rem;
@@ -10,4 +6,8 @@
   display: grid;
   gap: 0.5rem;
   padding: 0.9rem 1rem;
+}
+
+:host[hidden] {
+  display: none !important;
 }

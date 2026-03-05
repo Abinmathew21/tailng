@@ -1,37 +1,304 @@
 <main class="page">
   <section class="container">
+    <header class="hero">
+      <h1 class="title">Headless Drawer / Sidenav</h1>
+      <p class="subtitle">
+        Plain-CSS playground for <code>tngDrawerContainer</code>, <code>tngDrawer</code>,
+        <code>tngDrawerContent</code> and the <code>tngSidenav*</code> aliases.
+      </p>
+    </header>
+
     <section class="card">
-      <h2>Primitives (`tngDrawer`)</h2>
-      <div tngDrawer class="primitive-shell">
-        <div class="demo-grid demo-layout-drawer">
-          <aside class="demo-panel">
-            <p class="demo-note">Drawer Panel</p>
-            <ul class="demo-list">
-              <li>Overview</li>
-              <li>Analytics</li>
-              <li>Settings</li>
-            </ul>
-          </aside>
-          <div class="demo-panel">Main content area behind drawer.</div>
+      <h2>Headless Primitive: Single Drawer</h2>
+      <p class="demo-note">
+        Switch mode, direction and position, then open/close the drawer. Escape and outside
+        pointer-down dismiss are enabled.
+      </p>
+
+      <div class="control-grid">
+        <div class="control-group">
+          <span class="control-label">State</span>
+          <button class="demo-button" type="button" (click)="drawerOpen.set(true)">Open</button>
+          <button class="demo-button" type="button" (click)="drawerOpen.set(false)">Close</button>
+        </div>
+
+        <div class="control-group">
+          <span class="control-label">Mode</span>
+          <button
+            class="demo-button"
+            type="button"
+            [class.demo-button-active]="drawerMode() === 'overlay'"
+            (click)="drawerMode.set('overlay')"
+          >
+            Overlay
+          </button>
+          <button
+            class="demo-button"
+            type="button"
+            [class.demo-button-active]="drawerMode() === 'push'"
+            (click)="drawerMode.set('push')"
+          >
+            Push
+          </button>
+          <button
+            class="demo-button"
+            type="button"
+            [class.demo-button-active]="drawerMode() === 'side'"
+            (click)="drawerMode.set('side')"
+          >
+            Side
+          </button>
+        </div>
+
+        <div class="control-group">
+          <span class="control-label">Direction</span>
+          <button
+            class="demo-button"
+            type="button"
+            [class.demo-button-active]="drawerDirection() === 'ltr'"
+            (click)="drawerDirection.set('ltr')"
+          >
+            LTR
+          </button>
+          <button
+            class="demo-button"
+            type="button"
+            [class.demo-button-active]="drawerDirection() === 'rtl'"
+            (click)="drawerDirection.set('rtl')"
+          >
+            RTL
+          </button>
+        </div>
+
+        <div class="control-group">
+          <span class="control-label">Position</span>
+          <button
+            class="demo-button"
+            type="button"
+            [class.demo-button-active]="drawerPosition() === 'start'"
+            (click)="drawerPosition.set('start')"
+          >
+            Start
+          </button>
+          <button
+            class="demo-button"
+            type="button"
+            [class.demo-button-active]="drawerPosition() === 'end'"
+            (click)="drawerPosition.set('end')"
+          >
+            End
+          </button>
         </div>
       </div>
+
+      <section
+        tngDrawerContainer
+        class="drawer-stage"
+        [animate]="false"
+        [dir]="drawerDirection()"
+        [hasBackdrop]="false"
+        [lockScroll]="false"
+      >
+        <aside
+          tngDrawer
+          class="drawer-panel"
+          [opened]="drawerOpen()"
+          (openedChange)="drawerOpen.set($event)"
+          [mode]="drawerMode()"
+          [position]="drawerPosition()"
+          [backdrop]="false"
+          [closeOnOutsideClick]="true"
+          [closeOnEscape]="true"
+          [restoreFocus]="true"
+          [autoFocus]="'first-focusable'"
+          [trapFocus]="false"
+          [inertContent]="false"
+          [role]="'dialog'"
+        >
+          <h3>Project Navigation</h3>
+          <ul class="demo-list">
+            <li>Overview</li>
+            <li>Activity</li>
+            <li>Settings</li>
+          </ul>
+          <button class="demo-button demo-button-block" type="button" (click)="drawerOpen.set(false)">
+            Close Drawer
+          </button>
+        </aside>
+
+        <main tngDrawerContent class="drawer-content">
+          <h3>Main Workspace</h3>
+          <p class="demo-note">
+            Content offsets are driven by the primitive in <code>push</code>/<code>side</code> mode.
+          </p>
+          <button class="demo-button" type="button" (click)="drawerOpen.set(true)">Open Drawer</button>
+        </main>
+      </section>
     </section>
 
     <section class="card">
-      <h2>Components (`tng-drawer`)</h2>
-      <tng-drawer>
-        <div class="demo-grid demo-layout-drawer">
-          <aside class="demo-panel">
-            <p class="demo-note">Navigation</p>
-            <ul class="demo-list">
-              <li>Profile</li>
-              <li>Billing</li>
-              <li>Security</li>
-            </ul>
-          </aside>
-          <div class="demo-panel">Drawer wrapper with owned styling.</div>
+      <h2>Component Wrapper: &lt;tng-drawer&gt;</h2>
+      <p class="demo-note">
+        Wrapper demo using <code>&lt;tng-drawer&gt;</code> for the panel while container/content
+        remain headless. The wrapper forwards primitive inputs, outputs and imperative methods.
+      </p>
+
+      <div class="control-group">
+        <button class="demo-button" type="button" (click)="componentDrawerOpen.set(true)">Open</button>
+        <button class="demo-button" type="button" (click)="componentDrawerOpen.set(false)">Close</button>
+      </div>
+
+      <section tngDrawerContainer class="drawer-stage" [animate]="false" [hasBackdrop]="false">
+        <tng-drawer
+          class="drawer-panel"
+          ariaLabel="Component wrapper drawer"
+          [opened]="componentDrawerOpen()"
+          (openedChange)="componentDrawerOpen.set($event)"
+          [mode]="'overlay'"
+          [position]="'start'"
+          [backdrop]="false"
+          [closeOnOutsideClick]="true"
+          [closeOnEscape]="true"
+          [autoFocus]="'first-focusable'"
+          [trapFocus]="false"
+          [inertContent]="false"
+        >
+          <h3>Wrapper Drawer</h3>
+          <p class="demo-note">This panel is rendered by <code>&lt;tng-drawer&gt;</code>.</p>
+          <button
+            class="demo-button demo-button-block"
+            type="button"
+            (click)="componentDrawerOpen.set(false)"
+          >
+            Close Wrapper Drawer
+          </button>
+        </tng-drawer>
+
+        <main tngDrawerContent class="drawer-content">
+          <h3>Wrapper Content Region</h3>
+          <p class="demo-note">
+            Content region still uses <code>tngDrawerContent</code> and receives offset/inert
+            updates from the same primitive contract.
+          </p>
+        </main>
+      </section>
+    </section>
+
+    <section class="card">
+      <h2>Headless Primitive: Dual Drawers in One Container</h2>
+      <p class="demo-note">
+        Open start + end drawers together in push mode, or turn on <code>closeOthersOnOpen</code>
+        to enforce one-open-at-a-time.
+      </p>
+
+      <div class="control-grid">
+        <div class="control-group">
+          <span class="control-label">Coordination</span>
+          <button
+            class="demo-button"
+            type="button"
+            [class.demo-button-active]="dualDrawerCloseOthersOnOpen()"
+            (click)="dualDrawerCloseOthersOnOpen.set(!dualDrawerCloseOthersOnOpen())"
+          >
+            closeOthersOnOpen: {{ dualDrawerCloseOthersOnOpen() ? 'true' : 'false' }}
+          </button>
         </div>
-      </tng-drawer>
+
+        <div class="control-group">
+          <span class="control-label">Start</span>
+          <button class="demo-button" type="button" (click)="dualDrawerOpenStart.set(true)">Open</button>
+          <button class="demo-button" type="button" (click)="dualDrawerOpenStart.set(false)">Close</button>
+        </div>
+
+        <div class="control-group">
+          <span class="control-label">End</span>
+          <button class="demo-button" type="button" (click)="dualDrawerOpenEnd.set(true)">Open</button>
+          <button class="demo-button" type="button" (click)="dualDrawerOpenEnd.set(false)">Close</button>
+        </div>
+      </div>
+
+      <section
+        tngDrawerContainer
+        class="drawer-stage"
+        [animate]="false"
+        [dir]="'ltr'"
+        [closeOthersOnOpen]="dualDrawerCloseOthersOnOpen()"
+        [hasBackdrop]="false"
+      >
+        <aside
+          tngDrawer
+          class="drawer-panel"
+          [opened]="dualDrawerOpenStart()"
+          (openedChange)="dualDrawerOpenStart.set($event)"
+          [mode]="'push'"
+          [position]="'start'"
+          [backdrop]="false"
+          [closeOnOutsideClick]="true"
+        >
+          <h3>Start Drawer</h3>
+          <p class="demo-note">Build logs and local tasks.</p>
+        </aside>
+
+        <aside
+          tngDrawer
+          class="drawer-panel drawer-panel--end"
+          [opened]="dualDrawerOpenEnd()"
+          (openedChange)="dualDrawerOpenEnd.set($event)"
+          [mode]="'push'"
+          [position]="'end'"
+          [backdrop]="false"
+          [closeOnOutsideClick]="true"
+        >
+          <h3>End Drawer</h3>
+          <p class="demo-note">Inspector and diagnostics.</p>
+        </aside>
+
+        <main tngDrawerContent class="drawer-content">
+          <h3>Document Canvas</h3>
+          <p class="demo-note">
+            With both drawers open and <code>closeOthersOnOpen=false</code>, content margin is
+            applied on both sides.
+          </p>
+        </main>
+      </section>
+    </section>
+
+    <section class="card">
+      <h2>Alias Demo: Sidenav Primitives</h2>
+      <p class="demo-note">
+        <code>tngSidenavContainer</code>, <code>tngSidenav</code> and
+        <code>tngSidenavContent</code> are thin aliases over drawer primitives.
+      </p>
+
+      <div class="control-group">
+        <button class="demo-button" type="button" (click)="sidenavOpen.set(!sidenavOpen())">
+          {{ sidenavOpen() ? 'Hide' : 'Show' }} Sidenav
+        </button>
+      </div>
+
+      <section tngSidenavContainer class="drawer-stage" [animate]="false" [hasBackdrop]="false">
+        <aside
+          tngSidenav
+          class="drawer-panel"
+          [opened]="sidenavOpen()"
+          (openedChange)="sidenavOpen.set($event)"
+          [mode]="'side'"
+          [position]="'start'"
+          [backdrop]="false"
+        >
+          <h3>Sidenav</h3>
+          <ul class="demo-list">
+            <li>Dashboard</li>
+            <li>Reports</li>
+            <li>Billing</li>
+          </ul>
+        </aside>
+
+        <main tngSidenavContent class="drawer-content">
+          <h3>Content Area</h3>
+          <p class="demo-note">Alias behavior is identical to drawer behavior.</p>
+        </main>
+      </section>
     </section>
   </section>
 </main>

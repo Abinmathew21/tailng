@@ -1,35 +1,404 @@
-<div class="mx-auto max-w-[72rem] grid gap-5">
-  <section class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5 space-y-3">
-    <h2 class="text-lg font-semibold">Primitives (`tngDrawer`)</h2>
-    <div tngDrawer class="rounded-xl border border-tng-border-subtle px-4 py-3 text-tng-fg-primary">
-      <div class="grid gap-3 md:grid-cols-[200px_1fr]">
-        <aside class="rounded-lg border border-tng-border-subtle bg-tng-bg-canvas p-3">
-          <p class="text-sm text-tng-fg-secondary mb-2">Drawer Panel</p>
-          <ul class="list-none p-0 m-0 space-y-1 text-tng-fg-primary">
-            <li>Overview</li>
-            <li>Analytics</li>
-            <li>Settings</li>
-          </ul>
-        </aside>
-        <div class="rounded-lg border border-tng-border-subtle bg-tng-bg-canvas p-3">Main content area behind drawer.</div>
+<div class="mx-auto grid max-w-[76rem] gap-5">
+  <header class="space-y-2">
+    <h1 class="text-2xl font-bold text-tng-fg-primary sm:text-3xl">Drawer / Sidenav</h1>
+    <p class="max-w-3xl text-sm text-tng-fg-secondary sm:text-base">
+      Tailwind demo for <code>tngDrawerContainer</code>, <code>tngDrawer</code>,
+      <code>tngDrawerContent</code>, <code>tngSidenav*</code>, and wrapper
+      <code>&lt;tng-drawer&gt;</code>.
+    </p>
+  </header>
+
+  <section class="space-y-4 rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5">
+    <h2 class="text-lg font-semibold text-tng-fg-primary">Headless Primitive: Single Drawer</h2>
+    <p class="max-w-3xl text-sm text-tng-fg-secondary">
+      Toggle open state, mode, direction, and position. In push/side mode, content offset updates
+      are driven by the primitive.
+    </p>
+
+    <div class="grid gap-2 sm:grid-cols-2 xl:grid-cols-4">
+      <div class="flex flex-wrap items-center gap-2 rounded-xl border border-tng-border-subtle p-2">
+        <span class="text-xs text-tng-fg-secondary">State</span>
+        <button
+          type="button"
+          class="rounded-md border border-tng-border-subtle bg-tng-bg-canvas px-2.5 py-1 text-sm"
+          (click)="drawerOpen.set(true)"
+        >
+          Open
+        </button>
+        <button
+          type="button"
+          class="rounded-md border border-tng-border-subtle bg-tng-bg-canvas px-2.5 py-1 text-sm"
+          (click)="drawerOpen.set(false)"
+        >
+          Close
+        </button>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-2 rounded-xl border border-tng-border-subtle p-2">
+        <span class="text-xs text-tng-fg-secondary">Mode</span>
+        <button
+          type="button"
+          class="rounded-md border px-2.5 py-1 text-sm"
+          [class.border-tng-accent-brand]="drawerMode() === 'overlay'"
+          [class.text-tng-accent-brand]="drawerMode() === 'overlay'"
+          [class.border-tng-border-subtle]="drawerMode() !== 'overlay'"
+          (click)="drawerMode.set('overlay')"
+        >
+          Overlay
+        </button>
+        <button
+          type="button"
+          class="rounded-md border px-2.5 py-1 text-sm"
+          [class.border-tng-accent-brand]="drawerMode() === 'push'"
+          [class.text-tng-accent-brand]="drawerMode() === 'push'"
+          [class.border-tng-border-subtle]="drawerMode() !== 'push'"
+          (click)="drawerMode.set('push')"
+        >
+          Push
+        </button>
+        <button
+          type="button"
+          class="rounded-md border px-2.5 py-1 text-sm"
+          [class.border-tng-accent-brand]="drawerMode() === 'side'"
+          [class.text-tng-accent-brand]="drawerMode() === 'side'"
+          [class.border-tng-border-subtle]="drawerMode() !== 'side'"
+          (click)="drawerMode.set('side')"
+        >
+          Side
+        </button>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-2 rounded-xl border border-tng-border-subtle p-2">
+        <span class="text-xs text-tng-fg-secondary">Direction</span>
+        <button
+          type="button"
+          class="rounded-md border px-2.5 py-1 text-sm"
+          [class.border-tng-accent-brand]="drawerDirection() === 'ltr'"
+          [class.text-tng-accent-brand]="drawerDirection() === 'ltr'"
+          [class.border-tng-border-subtle]="drawerDirection() !== 'ltr'"
+          (click)="drawerDirection.set('ltr')"
+        >
+          LTR
+        </button>
+        <button
+          type="button"
+          class="rounded-md border px-2.5 py-1 text-sm"
+          [class.border-tng-accent-brand]="drawerDirection() === 'rtl'"
+          [class.text-tng-accent-brand]="drawerDirection() === 'rtl'"
+          [class.border-tng-border-subtle]="drawerDirection() !== 'rtl'"
+          (click)="drawerDirection.set('rtl')"
+        >
+          RTL
+        </button>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-2 rounded-xl border border-tng-border-subtle p-2">
+        <span class="text-xs text-tng-fg-secondary">Position</span>
+        <button
+          type="button"
+          class="rounded-md border px-2.5 py-1 text-sm"
+          [class.border-tng-accent-brand]="drawerPosition() === 'start'"
+          [class.text-tng-accent-brand]="drawerPosition() === 'start'"
+          [class.border-tng-border-subtle]="drawerPosition() !== 'start'"
+          (click)="drawerPosition.set('start')"
+        >
+          Start
+        </button>
+        <button
+          type="button"
+          class="rounded-md border px-2.5 py-1 text-sm"
+          [class.border-tng-accent-brand]="drawerPosition() === 'end'"
+          [class.text-tng-accent-brand]="drawerPosition() === 'end'"
+          [class.border-tng-border-subtle]="drawerPosition() !== 'end'"
+          (click)="drawerPosition.set('end')"
+        >
+          End
+        </button>
       </div>
     </div>
+
+    <section
+      tngDrawerContainer
+      class="relative min-h-[18rem] overflow-hidden rounded-xl border border-tng-border-subtle bg-tng-bg-canvas"
+      [animate]="false"
+      [dir]="drawerDirection()"
+      [hasBackdrop]="false"
+      [lockScroll]="false"
+    >
+      <aside
+        tngDrawer
+        [opened]="drawerOpen()"
+        (openedChange)="drawerOpen.set($event)"
+        [mode]="drawerMode()"
+        [position]="drawerPosition()"
+        [backdrop]="false"
+        [closeOnOutsideClick]="true"
+        [closeOnEscape]="true"
+        [restoreFocus]="true"
+        [autoFocus]="'first-focusable'"
+        [trapFocus]="false"
+        [inertContent]="false"
+        [role]="'dialog'"
+        class="[&[hidden]]:!hidden absolute inset-y-0 z-10 grid w-[min(18rem,88vw)] gap-3 border-r border-tng-border-subtle bg-tng-bg-surface p-4 shadow-2xl data-[effective-position=left]:left-0 data-[effective-position=right]:right-0 data-[effective-position=right]:border-l data-[effective-position=right]:border-r-0"
+      >
+        <h3 class="text-sm font-semibold text-tng-fg-primary">Project Navigation</h3>
+        <ul class="grid list-none gap-1 p-0 text-sm text-tng-fg-primary">
+          <li class="rounded-md border border-tng-border-subtle px-2 py-1">Overview</li>
+          <li class="rounded-md border border-tng-border-subtle px-2 py-1">Activity</li>
+          <li class="rounded-md border border-tng-border-subtle px-2 py-1">Settings</li>
+        </ul>
+        <button
+          type="button"
+          class="rounded-md border border-tng-border-subtle bg-tng-bg-canvas px-2.5 py-1 text-sm text-left"
+          (click)="drawerOpen.set(false)"
+        >
+          Close Drawer
+        </button>
+      </aside>
+
+      <main
+        tngDrawerContent
+        class="grid min-h-[18rem] gap-3 p-4 text-tng-fg-primary transition-[margin] duration-150"
+      >
+        <h3 class="text-sm font-semibold">Main Workspace</h3>
+        <p class="max-w-xl text-sm text-tng-fg-secondary">
+          Content margins are managed by the primitive for push/side modes.
+        </p>
+        <button
+          type="button"
+          class="w-fit rounded-md border border-tng-border-subtle bg-tng-bg-surface px-3 py-1.5 text-sm"
+          (click)="drawerOpen.set(true)"
+        >
+          Open Drawer
+        </button>
+      </main>
+    </section>
   </section>
 
-  <section class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5 space-y-3">
-    <h2 class="text-lg font-semibold">Components (`tng-drawer`)</h2>
-    <tng-drawer>
-      <div class="grid gap-3 md:grid-cols-[200px_1fr]">
-        <aside class="rounded-lg border border-tng-border-subtle bg-tng-bg-canvas p-3">
-          <p class="text-sm text-tng-fg-secondary mb-2">Navigation</p>
-          <ul class="list-none p-0 m-0 space-y-1 text-tng-fg-primary">
-            <li>Profile</li>
-            <li>Billing</li>
-            <li>Security</li>
-          </ul>
-        </aside>
-        <div class="rounded-lg border border-tng-border-subtle bg-tng-bg-canvas p-3">Drawer wrapper with owned styling.</div>
+  <section class="space-y-4 rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5">
+    <h2 class="text-lg font-semibold text-tng-fg-primary">Component Wrapper: &lt;tng-drawer&gt;</h2>
+    <p class="max-w-3xl text-sm text-tng-fg-secondary">
+      Wrapper demo with the same primitive contract exposed through <code>&lt;tng-drawer&gt;</code>.
+    </p>
+
+    <div class="flex flex-wrap gap-2">
+      <button
+        type="button"
+        class="rounded-md border border-tng-border-subtle bg-tng-bg-canvas px-2.5 py-1 text-sm"
+        (click)="componentDrawerOpen.set(true)"
+      >
+        Open
+      </button>
+      <button
+        type="button"
+        class="rounded-md border border-tng-border-subtle bg-tng-bg-canvas px-2.5 py-1 text-sm"
+        (click)="componentDrawerOpen.set(false)"
+      >
+        Close
+      </button>
+    </div>
+
+    <section
+      tngDrawerContainer
+      class="relative min-h-[16rem] overflow-hidden rounded-xl border border-tng-border-subtle bg-tng-bg-canvas"
+      [animate]="false"
+      [hasBackdrop]="false"
+    >
+      <tng-drawer
+        ariaLabel="Component wrapper drawer"
+        [opened]="componentDrawerOpen()"
+        (openedChange)="componentDrawerOpen.set($event)"
+        [mode]="'overlay'"
+        [position]="'start'"
+        [backdrop]="false"
+        [closeOnOutsideClick]="true"
+        [closeOnEscape]="true"
+        [autoFocus]="'first-focusable'"
+        [trapFocus]="false"
+        [inertContent]="false"
+        class="[&[hidden]]:!hidden absolute inset-y-0 left-0 z-10 grid w-[min(18rem,88vw)] gap-3 border-r border-tng-border-subtle bg-tng-bg-surface p-4 shadow-2xl"
+      >
+        <h3 class="text-sm font-semibold text-tng-fg-primary">Wrapper Drawer</h3>
+        <p class="text-sm text-tng-fg-secondary">
+          Rendered through <code>&lt;tng-drawer&gt;</code>.
+        </p>
+        <button
+          type="button"
+          class="rounded-md border border-tng-border-subtle bg-tng-bg-canvas px-2.5 py-1 text-sm text-left"
+          (click)="componentDrawerOpen.set(false)"
+        >
+          Close Wrapper Drawer
+        </button>
+      </tng-drawer>
+
+      <main
+        tngDrawerContent
+        class="grid min-h-[16rem] gap-3 p-4 text-tng-fg-primary transition-[margin] duration-150"
+      >
+        <h3 class="text-sm font-semibold">Wrapper Content Region</h3>
+        <p class="max-w-xl text-sm text-tng-fg-secondary">
+          Uses <code>tngDrawerContent</code>; offset/inert behavior still comes from primitives.
+        </p>
+      </main>
+    </section>
+  </section>
+
+  <section class="space-y-4 rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5">
+    <h2 class="text-lg font-semibold text-tng-fg-primary">Headless Primitive: Dual Drawers</h2>
+    <p class="max-w-3xl text-sm text-tng-fg-secondary">
+      Open start/end drawers together in push mode, or enable <code>closeOthersOnOpen</code> for
+      one-open-at-a-time behavior.
+    </p>
+
+    <div class="grid gap-2 sm:grid-cols-3">
+      <div class="flex flex-wrap items-center gap-2 rounded-xl border border-tng-border-subtle p-2">
+        <button
+          type="button"
+          class="rounded-md border px-2.5 py-1 text-sm"
+          [class.border-tng-accent-brand]="dualDrawerCloseOthersOnOpen()"
+          [class.text-tng-accent-brand]="dualDrawerCloseOthersOnOpen()"
+          [class.border-tng-border-subtle]="!dualDrawerCloseOthersOnOpen()"
+          (click)="dualDrawerCloseOthersOnOpen.set(!dualDrawerCloseOthersOnOpen())"
+        >
+          closeOthersOnOpen: {{ dualDrawerCloseOthersOnOpen() ? 'true' : 'false' }}
+        </button>
       </div>
-    </tng-drawer>
+
+      <div class="flex flex-wrap items-center gap-2 rounded-xl border border-tng-border-subtle p-2">
+        <span class="text-xs text-tng-fg-secondary">Start</span>
+        <button
+          type="button"
+          class="rounded-md border border-tng-border-subtle px-2.5 py-1 text-sm"
+          (click)="dualDrawerOpenStart.set(true)"
+        >
+          Open
+        </button>
+        <button
+          type="button"
+          class="rounded-md border border-tng-border-subtle px-2.5 py-1 text-sm"
+          (click)="dualDrawerOpenStart.set(false)"
+        >
+          Close
+        </button>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-2 rounded-xl border border-tng-border-subtle p-2">
+        <span class="text-xs text-tng-fg-secondary">End</span>
+        <button
+          type="button"
+          class="rounded-md border border-tng-border-subtle px-2.5 py-1 text-sm"
+          (click)="dualDrawerOpenEnd.set(true)"
+        >
+          Open
+        </button>
+        <button
+          type="button"
+          class="rounded-md border border-tng-border-subtle px-2.5 py-1 text-sm"
+          (click)="dualDrawerOpenEnd.set(false)"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+
+    <section
+      tngDrawerContainer
+      class="relative min-h-[16rem] overflow-hidden rounded-xl border border-tng-border-subtle bg-tng-bg-canvas"
+      [animate]="false"
+      [dir]="'ltr'"
+      [closeOthersOnOpen]="dualDrawerCloseOthersOnOpen()"
+      [hasBackdrop]="false"
+    >
+      <aside
+        tngDrawer
+        [opened]="dualDrawerOpenStart()"
+        (openedChange)="dualDrawerOpenStart.set($event)"
+        [mode]="'push'"
+        [position]="'start'"
+        [backdrop]="false"
+        [closeOnOutsideClick]="true"
+        class="[&[hidden]]:!hidden absolute inset-y-0 left-0 z-10 grid w-[min(16rem,80vw)] gap-2 border-r border-tng-border-subtle bg-tng-bg-surface p-4"
+      >
+        <h3 class="text-sm font-semibold text-tng-fg-primary">Start Drawer</h3>
+        <p class="text-sm text-tng-fg-secondary">Build logs and local tasks.</p>
+      </aside>
+
+      <aside
+        tngDrawer
+        [opened]="dualDrawerOpenEnd()"
+        (openedChange)="dualDrawerOpenEnd.set($event)"
+        [mode]="'push'"
+        [position]="'end'"
+        [backdrop]="false"
+        [closeOnOutsideClick]="true"
+        class="[&[hidden]]:!hidden absolute inset-y-0 right-0 z-10 grid w-[min(16rem,80vw)] gap-2 border-l border-tng-border-subtle bg-tng-bg-surface p-4"
+      >
+        <h3 class="text-sm font-semibold text-tng-fg-primary">End Drawer</h3>
+        <p class="text-sm text-tng-fg-secondary">Inspector and diagnostics.</p>
+      </aside>
+
+      <main
+        tngDrawerContent
+        class="grid min-h-[16rem] gap-3 p-4 text-tng-fg-primary transition-[margin] duration-150"
+      >
+        <h3 class="text-sm font-semibold">Document Canvas</h3>
+        <p class="max-w-xl text-sm text-tng-fg-secondary">
+          With both drawers open and <code>closeOthersOnOpen=false</code>, both side offsets are
+          applied.
+        </p>
+      </main>
+    </section>
+  </section>
+
+  <section class="space-y-4 rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5">
+    <h2 class="text-lg font-semibold text-tng-fg-primary">Alias Demo: Sidenav Primitives</h2>
+    <p class="max-w-3xl text-sm text-tng-fg-secondary">
+      <code>tngSidenavContainer</code>, <code>tngSidenav</code> and
+      <code>tngSidenavContent</code> are aliases over the drawer primitives.
+    </p>
+
+    <div class="flex flex-wrap gap-2">
+      <button
+        type="button"
+        class="rounded-md border border-tng-border-subtle bg-tng-bg-canvas px-2.5 py-1 text-sm"
+        (click)="sidenavOpen.set(!sidenavOpen())"
+      >
+        {{ sidenavOpen() ? 'Hide' : 'Show' }} Sidenav
+      </button>
+    </div>
+
+    <section
+      tngSidenavContainer
+      class="relative min-h-[16rem] overflow-hidden rounded-xl border border-tng-border-subtle bg-tng-bg-canvas"
+      [animate]="false"
+      [hasBackdrop]="false"
+    >
+      <aside
+        tngSidenav
+        [opened]="sidenavOpen()"
+        (openedChange)="sidenavOpen.set($event)"
+        [mode]="'side'"
+        [position]="'start'"
+        [backdrop]="false"
+        class="[&[hidden]]:!hidden absolute inset-y-0 left-0 z-10 grid w-[min(16rem,80vw)] gap-2 border-r border-tng-border-subtle bg-tng-bg-surface p-4"
+      >
+        <h3 class="text-sm font-semibold text-tng-fg-primary">Sidenav</h3>
+        <ul class="grid list-none gap-1 p-0 text-sm text-tng-fg-primary">
+          <li class="rounded-md border border-tng-border-subtle px-2 py-1">Dashboard</li>
+          <li class="rounded-md border border-tng-border-subtle px-2 py-1">Reports</li>
+          <li class="rounded-md border border-tng-border-subtle px-2 py-1">Billing</li>
+        </ul>
+      </aside>
+
+      <main
+        tngSidenavContent
+        class="grid min-h-[16rem] gap-3 p-4 text-tng-fg-primary transition-[margin] duration-150"
+      >
+        <h3 class="text-sm font-semibold">Content Area</h3>
+        <p class="max-w-xl text-sm text-tng-fg-secondary">
+          Alias behavior matches drawer behavior.
+        </p>
+      </main>
+    </section>
   </section>
 </div>
