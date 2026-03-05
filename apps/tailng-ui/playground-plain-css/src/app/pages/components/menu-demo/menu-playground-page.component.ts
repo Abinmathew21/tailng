@@ -25,6 +25,7 @@ import {
 export class MenuPlaygroundPageComponent {
   readonly lastAction = signal('No action yet');
   readonly lastPreference = signal('No preference selected yet');
+  readonly lastCascadeAction = signal('No cascaded action yet');
 
   onActionSelect(event: TngMenuSelectEvent): void {
     this.lastAction.set(String(event.value));
@@ -32,5 +33,9 @@ export class MenuPlaygroundPageComponent {
 
   onPreferenceSelect(event: TngMenuSelectEvent): void {
     this.lastPreference.set(String(event.value));
+  }
+
+  onCascadeSelect(event: TngMenuSelectEvent): void {
+    this.lastCascadeAction.set(String(event.value));
   }
 }

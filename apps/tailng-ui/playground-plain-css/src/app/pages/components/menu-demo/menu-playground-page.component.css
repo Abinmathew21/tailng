@@ -55,6 +55,22 @@
   position: relative;
 }
 
+.launcher--cascade {
+  min-height: 20rem;
+}
+
+.submenu[data-slot='menu'] {
+  left: calc(100% + 0.45rem);
+}
+
+.submenu--level-1[data-slot='menu'] {
+  top: 3rem;
+}
+
+.submenu--level-2[data-slot='menu'] {
+  top: 7.2rem;
+}
+
 .state-line {
   color: var(--tng-semantic-foreground-secondary);
   margin: 0;

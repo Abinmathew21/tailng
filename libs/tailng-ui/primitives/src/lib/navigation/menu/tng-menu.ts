@@ -17,7 +17,7 @@ type TngMenuFocusAction = 'first' | 'last' | 'next' | 'prev';
 type TngMenuOpenFocusAction = 'first' | 'last' | 'none';
 type TngMenuSelectTrigger = 'keyboard' | 'pointer';
 type TngMenuItemRole = 'menuitem' | 'menuitemcheckbox' | 'menuitemradio';
-type TngMenuKeyboardEvent = Readonly<Pick<KeyboardEvent, 'key' | 'shiftKey'>> &
+type TngMenuKeyboardEvent = Readonly<Pick<KeyboardEvent, 'key' | 'shiftKey' | 'target'>> &
   Readonly<{ preventDefault: () => void }>;
 type TngMenuPointerEvent = Readonly<Pick<PointerEvent, 'target'>>;
 type TngMenubarArrowHandler = (key: 'ArrowRight' | 'ArrowLeft') => void;
@@ -197,12 +197,26 @@ export class TngMenu {
     this.hostRef.nativeElement.focus();
   }
 
+  focusPanelAndMoveActiveItem(action: 'next' | 'prev'): void {
+    if (!this.openState) {
+      return;
+    }
+
+    this.moveActiveItem(action);
+    this.hostRef.nativeElement.focus();
+    this.changeDetectorRef.detectChanges();
+  }
+
   isOpen(): boolean {
     return this.openState;
   }
 
   isDisabled(): boolean {
     return this.disabled();
+  }
+
+  isItemActive(itemId: string): boolean {
+    return this.activeItemId === itemId;
   }
 
   registerItem(item: TngMenuItem): void {
@@ -268,10 +282,10 @@ export class TngMenu {
     }
 
     this.tngMenuOpened.emit();
-    this.hostRef.nativeElement.focus();
     this.triggerStateSync?.();
     this.attachOutsidePointerdownListener();
     this.changeDetectorRef.detectChanges();
+    this.hostRef.nativeElement.focus();
   }
 
   close(restoreFocus: boolean): void {
@@ -338,7 +352,7 @@ export class TngMenu {
     });
 
     if (this.closeOnSelect()) {
-      this.close(false);
+      this.closeSelfAndAncestorMenus(false);
     }
   }
 
@@ -363,6 +377,17 @@ export class TngMenu {
   notifySubmenuClosed(submenu: TngMenu): void {
     if (this.openSubmenu === submenu) {
       this.openSubmenu = null;
+    }
+  }
+
+  private closeSelfAndAncestorMenus(restoreFocusAtRoot: boolean): void {
+    let menuToClose: TngMenu | null = this;
+
+    while (menuToClose !== null) {
+      const nextAncestorMenu: TngMenu | null = menuToClose.parentMenu;
+      const shouldRestoreFocus = nextAncestorMenu === null && restoreFocusAtRoot;
+      menuToClose.close(shouldRestoreFocus);
+      menuToClose = nextAncestorMenu;
     }
   }
 
@@ -606,8 +631,22 @@ export class TngMenu {
     }
   }
 
+  private isEventFromNestedMenu(event: TngMenuKeyboardEvent): boolean {
+    const target = event.target;
+    if (!(target instanceof Element)) {
+      return false;
+    }
+
+    const closestMenu = target.closest<HTMLElement>('[data-slot="menu"]');
+    return closestMenu !== null && closestMenu !== this.hostRef.nativeElement;
+  }
+
   @HostListener('keydown', ['$event'])
   protected onKeydown(event: TngMenuKeyboardEvent): void {
+    if (this.isEventFromNestedMenu(event)) {
+      return;
+    }
+
     if (event.key === 'Escape') {
       event.preventDefault();
       if (this.parentMenu !== null) {
@@ -740,6 +779,11 @@ export class TngMenuItem {
     }
 
     return this.isChecked() ? 'true' : 'false';
+  }
+
+  @HostBinding('attr.data-active')
+  protected get dataActive(): '' | null {
+    return this.menu?.isItemActive(this.id) ? '' : null;
   }
 
   @HostBinding('attr.aria-haspopup')

@@ -1,12 +1,22 @@
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
 import { TngMenu, TngMenuItem, TngMenuTrigger } from '../tng-menu';
 
 function keydown(el: HTMLElement, key: string): KeyboardEvent {
   const event = new KeyboardEvent('keydown', {
     key,
+    bubbles: true,
+    cancelable: true,
+  });
+
+  el.dispatchEvent(event);
+  return event;
+}
+
+function click(el: HTMLElement): MouseEvent {
+  const event = new MouseEvent('click', {
     bubbles: true,
     cancelable: true,
   });
@@ -40,6 +50,122 @@ function keydown(el: HTMLElement, key: string): KeyboardEvent {
   `,
 })
 class MenuSubmenuHostComponent {}
+
+@Component({
+  standalone: true,
+  imports: [TngMenu, TngMenuItem, TngMenuTrigger],
+  template: `
+    <button type="button" [tngMenuTrigger]="menu" data-testid="trigger">Open</button>
+
+    <div tngMenu #menu="tngMenu" data-testid="menu">
+      <button tngMenuItem data-testid="item-a">Item A</button>
+      <button
+        tngMenuItem
+        [tngMenuItemSubmenu]="submenu"
+        data-testid="item-more"
+      >
+        More
+      </button>
+    </div>
+
+    <div tngMenu #submenu="tngMenu" data-testid="submenu">
+      <button
+        tngMenuItem
+        [tngMenuItemSubmenu]="submenuLevel2"
+        data-testid="sub-item-more"
+      >
+        More tools
+      </button>
+      <button tngMenuItem data-testid="sub-item-z">Sub Z</button>
+    </div>
+
+    <div tngMenu #submenuLevel2="tngMenu" data-testid="submenu-level-2">
+      <button tngMenuItem data-testid="sub2-item-a">Sub2 A</button>
+      <button tngMenuItem data-testid="sub2-item-b">Sub2 B</button>
+    </div>
+  `,
+})
+class MenuDeepSubmenuHostComponent {}
+
+@Component({
+  standalone: true,
+  imports: [TngMenu, TngMenuItem, TngMenuTrigger],
+  template: `
+    <button type="button" [tngMenuTrigger]="menu" data-testid="trigger">Open</button>
+
+    <div tngMenu #menu="tngMenu" data-testid="menu">
+      <button tngMenuItem data-testid="item-a">Item A</button>
+      <button
+        tngMenuItem
+        [tngMenuItemSubmenu]="submenu"
+        data-testid="item-more"
+      >
+        More
+      </button>
+      <button tngMenuItem data-testid="item-z">Item Z</button>
+
+      <div tngMenu #submenu="tngMenu" data-testid="submenu">
+        <button
+          tngMenuItem
+          [tngMenuItemSubmenu]="submenuLevel2"
+          data-testid="sub-item-more"
+        >
+          More tools
+        </button>
+        <button tngMenuItem data-testid="sub-item-z">Sub Z</button>
+      </div>
+
+      <div tngMenu #submenuLevel2="tngMenu" data-testid="submenu-level-2">
+        <button tngMenuItem data-testid="sub2-item-a">Sub2 A</button>
+        <button tngMenuItem data-testid="sub2-item-b">Sub2 B</button>
+      </div>
+    </div>
+  `,
+})
+class MenuNestedDeepSubmenuHostComponent {}
+
+@Component({
+  standalone: true,
+  imports: [TngMenu, TngMenuItem, TngMenuTrigger],
+  template: `
+    <button type="button" [tngMenuTrigger]="menu" data-testid="trigger">Open</button>
+
+    <div tngMenu #menu="tngMenu" data-testid="menu">
+      <button
+        tngMenuItem
+        [tngMenuItemSubmenu]="submenuLevel1"
+        data-testid="root-item-more"
+      >
+        Root more
+      </button>
+
+      <div tngMenu #submenuLevel1="tngMenu" data-testid="submenu-level-1">
+        <button
+          tngMenuItem
+          [tngMenuItemSubmenu]="submenuLevel2"
+          data-testid="sub1-item-more"
+        >
+          Sub1 more
+        </button>
+      </div>
+
+      <div tngMenu #submenuLevel2="tngMenu" data-testid="submenu-level-2">
+        <button
+          tngMenuItem
+          [tngMenuItemSubmenu]="submenuLevel3"
+          data-testid="sub2-item-more"
+        >
+          Sub2 more
+        </button>
+      </div>
+
+      <div tngMenu #submenuLevel3="tngMenu" data-testid="submenu-level-3">
+        <button tngMenuItem data-testid="sub3-item-leaf">Leaf action</button>
+      </div>
+    </div>
+  `,
+})
+class MenuThirdLevelSubmenuHostComponent {}
 
 describe('tng-menu submenu behavior', () => {
   it('opens a submenu on ArrowRight from the active submenu-trigger item', () => {
@@ -165,5 +291,251 @@ describe('tng-menu submenu behavior', () => {
     expect(submenu.getAttribute('data-state')).toBe('closed');
     expect(submenuTrigger.getAttribute('aria-expanded')).toBe('false');
     expect(document.activeElement).toBe(menu);
+  });
+
+  it('when second-level submenu is open, ArrowDown/ArrowUp navigate within that submenu without changing parent active items', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [MenuDeepSubmenuHostComponent],
+    }).createComponent(MenuDeepSubmenuHostComponent);
+
+    fixture.detectChanges();
+
+    const trigger = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLButtonElement;
+    const menu = fixture.nativeElement.querySelector('[data-testid="menu"]') as HTMLElement;
+    const submenu = fixture.nativeElement.querySelector('[data-testid="submenu"]') as HTMLElement;
+    const submenuLevel2 = fixture.nativeElement.querySelector('[data-testid="submenu-level-2"]') as HTMLElement;
+    const submenuTrigger = fixture.nativeElement.querySelector('[data-testid="item-more"]') as HTMLButtonElement;
+    const submenuLevel1Trigger = fixture.nativeElement.querySelector(
+      '[data-testid="sub-item-more"]',
+    ) as HTMLButtonElement;
+    const submenuLevel2ItemA = fixture.nativeElement.querySelector(
+      '[data-testid="sub2-item-a"]',
+    ) as HTMLButtonElement;
+    const submenuLevel2ItemB = fixture.nativeElement.querySelector(
+      '[data-testid="sub2-item-b"]',
+    ) as HTMLButtonElement;
+
+    trigger.click();
+    fixture.detectChanges();
+
+    keydown(menu, 'ArrowDown');
+    keydown(menu, 'ArrowDown');
+    keydown(menu, 'ArrowRight');
+    fixture.detectChanges();
+
+    expect(menu.getAttribute('aria-activedescendant')).toBe(submenuTrigger.id);
+    expect(submenu.getAttribute('aria-activedescendant')).toBe(submenuLevel1Trigger.id);
+
+    keydown(submenu, 'ArrowRight');
+    fixture.detectChanges();
+
+    expect(document.activeElement).toBe(submenuLevel2);
+    expect(submenuLevel2.getAttribute('aria-activedescendant')).toBe(submenuLevel2ItemA.id);
+
+    const parentActiveBefore = menu.getAttribute('aria-activedescendant');
+    const level1ActiveBefore = submenu.getAttribute('aria-activedescendant');
+
+    keydown(submenuLevel2, 'ArrowDown');
+    fixture.detectChanges();
+
+    expect(submenuLevel2.getAttribute('aria-activedescendant')).toBe(submenuLevel2ItemB.id);
+    expect(menu.getAttribute('aria-activedescendant')).toBe(parentActiveBefore);
+    expect(submenu.getAttribute('aria-activedescendant')).toBe(level1ActiveBefore);
+
+    keydown(submenuLevel2, 'ArrowUp');
+    fixture.detectChanges();
+
+    expect(submenuLevel2.getAttribute('aria-activedescendant')).toBe(submenuLevel2ItemA.id);
+    expect(menu.getAttribute('aria-activedescendant')).toBe(parentActiveBefore);
+    expect(submenu.getAttribute('aria-activedescendant')).toBe(level1ActiveBefore);
+  });
+
+  it('keeps parent and first-level active descendants stable while second-level submenu wraps with ArrowDown/ArrowUp', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [MenuDeepSubmenuHostComponent],
+    }).createComponent(MenuDeepSubmenuHostComponent);
+
+    fixture.detectChanges();
+
+    const trigger = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLButtonElement;
+    const menu = fixture.nativeElement.querySelector('[data-testid="menu"]') as HTMLElement;
+    const submenu = fixture.nativeElement.querySelector('[data-testid="submenu"]') as HTMLElement;
+    const submenuLevel2 = fixture.nativeElement.querySelector('[data-testid="submenu-level-2"]') as HTMLElement;
+    const submenuLevel2ItemA = fixture.nativeElement.querySelector(
+      '[data-testid="sub2-item-a"]',
+    ) as HTMLButtonElement;
+    const submenuLevel2ItemB = fixture.nativeElement.querySelector(
+      '[data-testid="sub2-item-b"]',
+    ) as HTMLButtonElement;
+
+    trigger.click();
+    fixture.detectChanges();
+
+    keydown(menu, 'ArrowDown');
+    keydown(menu, 'ArrowDown');
+    keydown(menu, 'ArrowRight');
+    keydown(submenu, 'ArrowRight');
+    fixture.detectChanges();
+
+    const parentActiveBefore = menu.getAttribute('aria-activedescendant');
+    const level1ActiveBefore = submenu.getAttribute('aria-activedescendant');
+
+    keydown(submenuLevel2, 'ArrowDown');
+    fixture.detectChanges();
+    expect(submenuLevel2.getAttribute('aria-activedescendant')).toBe(submenuLevel2ItemB.id);
+    expect(menu.getAttribute('aria-activedescendant')).toBe(parentActiveBefore);
+    expect(submenu.getAttribute('aria-activedescendant')).toBe(level1ActiveBefore);
+
+    keydown(submenuLevel2, 'ArrowDown');
+    fixture.detectChanges();
+    expect(submenuLevel2.getAttribute('aria-activedescendant')).toBe(submenuLevel2ItemA.id);
+    expect(menu.getAttribute('aria-activedescendant')).toBe(parentActiveBefore);
+    expect(submenu.getAttribute('aria-activedescendant')).toBe(level1ActiveBefore);
+
+    keydown(submenuLevel2, 'ArrowUp');
+    fixture.detectChanges();
+    expect(submenuLevel2.getAttribute('aria-activedescendant')).toBe(submenuLevel2ItemB.id);
+    expect(menu.getAttribute('aria-activedescendant')).toBe(parentActiveBefore);
+    expect(submenu.getAttribute('aria-activedescendant')).toBe(level1ActiveBefore);
+  });
+
+  it('does not let parent menu handle ArrowDown from second-level submenu when panels are nested in parent DOM', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [MenuNestedDeepSubmenuHostComponent],
+    }).createComponent(MenuNestedDeepSubmenuHostComponent);
+
+    fixture.detectChanges();
+
+    const trigger = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLButtonElement;
+    const menu = fixture.nativeElement.querySelector('[data-testid="menu"]') as HTMLElement;
+    const submenu = fixture.nativeElement.querySelector('[data-testid="submenu"]') as HTMLElement;
+    const submenuLevel2 = fixture.nativeElement.querySelector('[data-testid="submenu-level-2"]') as HTMLElement;
+    const submenuTrigger = fixture.nativeElement.querySelector('[data-testid="item-more"]') as HTMLButtonElement;
+    const submenuLevel2ItemA = fixture.nativeElement.querySelector(
+      '[data-testid="sub2-item-a"]',
+    ) as HTMLButtonElement;
+    const submenuLevel2ItemB = fixture.nativeElement.querySelector(
+      '[data-testid="sub2-item-b"]',
+    ) as HTMLButtonElement;
+
+    trigger.click();
+    fixture.detectChanges();
+
+    keydown(menu, 'ArrowDown');
+    keydown(menu, 'ArrowDown');
+    keydown(menu, 'ArrowRight');
+    keydown(submenu, 'ArrowRight');
+    fixture.detectChanges();
+
+    expect(submenuLevel2.getAttribute('data-state')).toBe('open');
+    expect(submenuLevel2.getAttribute('aria-activedescendant')).toBe(submenuLevel2ItemA.id);
+
+    const parentActiveBefore = menu.getAttribute('aria-activedescendant');
+
+    keydown(submenuLevel2, 'ArrowDown');
+    fixture.detectChanges();
+
+    expect(submenuLevel2.getAttribute('aria-activedescendant')).toBe(submenuLevel2ItemB.id);
+    expect(submenuLevel2.getAttribute('data-state')).toBe('open');
+    expect(menu.getAttribute('aria-activedescendant')).toBe(parentActiveBefore);
+    expect(submenuTrigger.getAttribute('aria-expanded')).toBe('true');
+  });
+
+  it('opens second-level submenu only after hidden is removed before focusing the panel', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [MenuNestedDeepSubmenuHostComponent],
+    }).createComponent(MenuNestedDeepSubmenuHostComponent);
+
+    fixture.detectChanges();
+
+    const trigger = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLButtonElement;
+    const menu = fixture.nativeElement.querySelector('[data-testid="menu"]') as HTMLElement;
+    const submenu = fixture.nativeElement.querySelector('[data-testid="submenu"]') as HTMLElement;
+    const submenuLevel2 = fixture.nativeElement.querySelector('[data-testid="submenu-level-2"]') as HTMLElement;
+
+    const hiddenStatesAtFocus: boolean[] = [];
+    const focusSpy = vi.spyOn(submenuLevel2, 'focus').mockImplementation(() => {
+      hiddenStatesAtFocus.push(submenuLevel2.hasAttribute('hidden'));
+    });
+
+    try {
+      trigger.click();
+      fixture.detectChanges();
+
+      keydown(menu, 'ArrowDown');
+      keydown(menu, 'ArrowDown');
+      keydown(menu, 'ArrowRight');
+      fixture.detectChanges();
+
+      keydown(submenu, 'ArrowRight');
+      fixture.detectChanges();
+    } finally {
+      focusSpy.mockRestore();
+    }
+
+    expect(hiddenStatesAtFocus.length).toBeGreaterThan(0);
+    expect(hiddenStatesAtFocus.at(-1)).toBe(false);
+  });
+
+  it('selecting an item from second-level submenu closes the entire cascade', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [MenuNestedDeepSubmenuHostComponent],
+    }).createComponent(MenuNestedDeepSubmenuHostComponent);
+
+    fixture.detectChanges();
+
+    const trigger = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLButtonElement;
+    const menu = fixture.nativeElement.querySelector('[data-testid="menu"]') as HTMLElement;
+    const submenu = fixture.nativeElement.querySelector('[data-testid="submenu"]') as HTMLElement;
+    const submenuLevel2 = fixture.nativeElement.querySelector('[data-testid="submenu-level-2"]') as HTMLElement;
+    const level2LeafItem = fixture.nativeElement.querySelector('[data-testid="sub2-item-a"]') as HTMLButtonElement;
+
+    click(trigger);
+    fixture.detectChanges();
+
+    keydown(menu, 'ArrowDown');
+    keydown(menu, 'ArrowDown');
+    keydown(menu, 'ArrowRight');
+    keydown(submenu, 'ArrowRight');
+    fixture.detectChanges();
+
+    click(level2LeafItem);
+    fixture.detectChanges();
+
+    expect(submenuLevel2.getAttribute('data-state')).toBe('closed');
+    expect(submenu.getAttribute('data-state')).toBe('closed');
+    expect(menu.getAttribute('data-state')).toBe('closed');
+  });
+
+  it('selecting an item from third-level submenu closes all menu levels', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [MenuThirdLevelSubmenuHostComponent],
+    }).createComponent(MenuThirdLevelSubmenuHostComponent);
+
+    fixture.detectChanges();
+
+    const trigger = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLButtonElement;
+    const menu = fixture.nativeElement.querySelector('[data-testid="menu"]') as HTMLElement;
+    const submenuLevel1 = fixture.nativeElement.querySelector('[data-testid="submenu-level-1"]') as HTMLElement;
+    const submenuLevel2 = fixture.nativeElement.querySelector('[data-testid="submenu-level-2"]') as HTMLElement;
+    const submenuLevel3 = fixture.nativeElement.querySelector('[data-testid="submenu-level-3"]') as HTMLElement;
+    const level3LeafItem = fixture.nativeElement.querySelector('[data-testid="sub3-item-leaf"]') as HTMLButtonElement;
+
+    click(trigger);
+    fixture.detectChanges();
+
+    keydown(menu, 'ArrowDown');
+    keydown(menu, 'ArrowRight');
+    keydown(submenuLevel1, 'ArrowRight');
+    keydown(submenuLevel2, 'ArrowRight');
+    fixture.detectChanges();
+
+    click(level3LeafItem);
+    fixture.detectChanges();
+
+    expect(submenuLevel3.getAttribute('data-state')).toBe('closed');
+    expect(submenuLevel2.getAttribute('data-state')).toBe('closed');
+    expect(submenuLevel1.getAttribute('data-state')).toBe('closed');
+    expect(menu.getAttribute('data-state')).toBe('closed');
   });
 });

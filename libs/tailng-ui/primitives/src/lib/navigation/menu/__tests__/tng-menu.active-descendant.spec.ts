@@ -88,7 +88,9 @@ describe('tng-menu active-descendant contract', () => {
     fixture.detectChanges();
 
     const menu = fixture.nativeElement.querySelector('[data-testid="menu"]') as HTMLDivElement;
+    const itemA = fixture.nativeElement.querySelector('[data-testid="item-a"]') as HTMLButtonElement;
     const itemB = fixture.nativeElement.querySelector('[data-testid="item-b"]') as HTMLButtonElement;
+    const itemC = fixture.nativeElement.querySelector('[data-testid="item-c"]') as HTMLButtonElement;
     const itemD = fixture.nativeElement.querySelector('[data-testid="item-d"]') as HTMLButtonElement;
 
     menu.focus();
@@ -98,12 +100,17 @@ describe('tng-menu active-descendant contract', () => {
     fixture.detectChanges();
 
     expect(menu.getAttribute('aria-activedescendant')).toBe(itemB.id);
+    expect(itemA.hasAttribute('data-active')).toBe(false);
+    expect(itemB.hasAttribute('data-active')).toBe(true);
+    expect(itemC.hasAttribute('data-active')).toBe(false);
     expect(document.activeElement).toBe(menu);
 
     keydown(menu, 'ArrowDown');
     fixture.detectChanges();
 
     expect(menu.getAttribute('aria-activedescendant')).toBe(itemD.id);
+    expect(itemB.hasAttribute('data-active')).toBe(false);
+    expect(itemD.hasAttribute('data-active')).toBe(true);
     expect(document.activeElement).toBe(menu);
   });
 

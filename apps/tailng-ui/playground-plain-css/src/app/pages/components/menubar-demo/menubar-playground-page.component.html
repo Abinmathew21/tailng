@@ -80,5 +80,91 @@
         <li><kbd>Home</kbd> / <kbd>End</kbd> jump to the first or last enabled top-level item.</li>
       </ul>
     </section>
+
+    <section class="card">
+      <h2>Cascaded Menubar Menu</h2>
+      <p class="demo-note">
+        Nested submenu wiring inside a menubar-owned menu using
+        <code>[tngMenuItemSubmenu]</code>. Try <kbd>ArrowDown</kbd> + <kbd>ArrowRight</kbd> from
+        the File menu.
+      </p>
+
+      <div class="menubar-stage menubar-stage--cascade">
+        <div tngMenubar aria-label="Project commands">
+          <div class="menubar-item-shell">
+            <div
+              tngMenu
+              #fileCascadeMenu="tngMenu"
+              aria-label="File cascade menu"
+              (tngMenuSelect)="onCascadeCommandSelect($event)"
+            >
+              <div tngMenuGroupLabel>File</div>
+              <button type="button" tngMenuItem tngMenuItemValue="Create project">Create project</button>
+              <button
+                type="button"
+                tngMenuItem
+                [tngMenuItemSubmenu]="importCascadeMenu"
+                tngMenuItemValue="Import from source"
+              >
+                Import from...
+              </button>
+              <div tngMenuSeparator></div>
+              <button type="button" tngMenuItem tngMenuItemValue="Archive project">
+                Archive project
+              </button>
+
+              <div
+                tngMenu
+                #importCascadeMenu="tngMenu"
+                aria-label="Import source menu"
+                class="submenu submenu--level-1"
+                (tngMenuSelect)="onCascadeCommandSelect($event)"
+              >
+                <button type="button" tngMenuItem tngMenuItemValue="Import from CSV">CSV file</button>
+                <button
+                  type="button"
+                  tngMenuItem
+                  [tngMenuItemSubmenu]="gitCascadeMenu"
+                  tngMenuItemValue="Import from git"
+                >
+                  Git repository
+                </button>
+              </div>
+
+              <div
+                tngMenu
+                #gitCascadeMenu="tngMenu"
+                aria-label="Git provider menu"
+                class="submenu submenu--level-2"
+                (tngMenuSelect)="onCascadeCommandSelect($event)"
+              >
+                <button type="button" tngMenuItem tngMenuItemValue="Import from GitHub">
+                  GitHub
+                </button>
+                <button type="button" tngMenuItem tngMenuItemValue="Import from GitLab">
+                  GitLab
+                </button>
+              </div>
+            </div>
+            <button type="button" tngMenubarItem [tngMenubarMenu]="fileCascadeMenu">File</button>
+          </div>
+
+          <div class="menubar-item-shell">
+            <div
+              tngMenu
+              #toolsCascadeMenu="tngMenu"
+              aria-label="Tools menu"
+              (tngMenuSelect)="onCascadeCommandSelect($event)"
+            >
+              <button type="button" tngMenuItem tngMenuItemValue="Run lint">Run lint</button>
+              <button type="button" tngMenuItem tngMenuItemValue="Run tests">Run tests</button>
+            </div>
+            <button type="button" tngMenubarItem [tngMenubarMenu]="toolsCascadeMenu">Tools</button>
+          </div>
+        </div>
+      </div>
+
+      <p class="state-line">Last cascaded command: <strong>{{ lastCascadeCommand() }}</strong></p>
+    </section>
   </section>
 </main>

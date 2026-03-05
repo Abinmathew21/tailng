@@ -22,6 +22,7 @@ export const tngMenuHostStates = {
 } as const;
 
 export const tngMenuItemStates = {
+  active: 'data-active',
   disabled: 'aria-disabled',
   checked: 'aria-checked',
   expanded: 'aria-expanded',

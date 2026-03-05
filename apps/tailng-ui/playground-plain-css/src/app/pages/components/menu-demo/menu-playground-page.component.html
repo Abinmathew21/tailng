@@ -98,5 +98,77 @@
 
       <p class="state-line">Last preference event: <strong>{{ lastPreference() }}</strong></p>
     </section>
+
+    <section class="card">
+      <h2>Cascaded Menu</h2>
+      <p class="demo-note">
+        Headless submenu wiring with <code>[tngMenuItemSubmenu]</code>. Try
+        <kbd>ArrowDown</kbd> + <kbd>ArrowRight</kbd> to open the nested level.
+      </p>
+
+      <div class="launcher launcher--cascade">
+        <div
+          tngMenu
+          #workspaceMenu="tngMenu"
+          aria-label="Workspace actions"
+          (tngMenuSelect)="onCascadeSelect($event)"
+        >
+          <div tngMenuGroupLabel>Workspace</div>
+          <button type="button" tngMenuItem tngMenuItemValue="Create board">Create board</button>
+          <button
+            type="button"
+            tngMenuItem
+            [tngMenuItemSubmenu]="importSubmenu"
+            tngMenuItemValue="Import from source"
+          >
+            Import from...
+          </button>
+          <div tngMenuSeparator></div>
+          <button type="button" tngMenuItem tngMenuItemValue="Archive workspace">
+            Archive workspace
+          </button>
+
+          <div
+            tngMenu
+            #importSubmenu="tngMenu"
+            aria-label="Import options"
+            class="submenu submenu--level-1"
+            (tngMenuSelect)="onCascadeSelect($event)"
+          >
+            <button type="button" tngMenuItem tngMenuItemValue="Import from CSV">
+              CSV file
+            </button>
+            <button
+              type="button"
+              tngMenuItem
+              [tngMenuItemSubmenu]="gitSubmenu"
+              tngMenuItemValue="Import from git"
+            >
+              Git repository
+            </button>
+          </div>
+
+          <div
+            tngMenu
+            #gitSubmenu="tngMenu"
+            aria-label="Git import options"
+            class="submenu submenu--level-2"
+            (tngMenuSelect)="onCascadeSelect($event)"
+          >
+            <button type="button" tngMenuItem tngMenuItemValue="Import from GitHub">
+              GitHub
+            </button>
+            <button type="button" tngMenuItem tngMenuItemValue="Import from GitLab">
+              GitLab
+            </button>
+          </div>
+        </div>
+
+        <button type="button" [tngMenuTrigger]="workspaceMenu">Open workspace actions</button>
+        <div [tngMenuBackdrop]="workspaceMenu" [hidden]="!workspaceMenu.isOpen()"></div>
+      </div>
+
+      <p class="state-line">Last cascaded action: <strong>{{ lastCascadeAction() }}</strong></p>
+    </section>
   </section>
 </main>

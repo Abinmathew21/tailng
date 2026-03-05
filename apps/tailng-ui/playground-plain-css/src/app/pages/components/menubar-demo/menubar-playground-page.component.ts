@@ -17,8 +17,13 @@ import {
 })
 export class MenubarPlaygroundPageComponent {
   readonly lastCommand = signal('No command yet');
+  readonly lastCascadeCommand = signal('No cascaded command yet');
 
   onCommandSelect(event: TngMenuSelectEvent): void {
     this.lastCommand.set(String(event.value));
+  }
+
+  onCascadeCommandSelect(event: TngMenuSelectEvent): void {
+    this.lastCascadeCommand.set(String(event.value));
   }
 }

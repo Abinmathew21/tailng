@@ -131,11 +131,21 @@
     background: color-mix(in srgb, var(--tng-menu-brand) 10%, var(--tng-menu-bg));
   }
 
+  :where([data-slot="menu-item"][data-active]):not([aria-disabled="true"]) {
+    background: color-mix(in srgb, var(--tng-menu-brand) 14%, var(--tng-menu-bg));
+    color: color-mix(in srgb, var(--tng-menu-brand) 74%, var(--tng-menu-fg));
+    font-weight: 600;
+  }
+
   :where([data-slot="menu-item"][aria-expanded="true"]),
   :where([data-slot="menu-item"][aria-checked="true"]) {
     background: color-mix(in srgb, var(--tng-menu-brand) 14%, var(--tng-menu-bg));
     color: color-mix(in srgb, var(--tng-menu-brand) 74%, var(--tng-menu-fg));
     font-weight: 600;
+  }
+
+  :where([data-slot="menu-item"][data-active][aria-checked="true"]) {
+    background: color-mix(in srgb, var(--tng-menu-brand) 18%, var(--tng-menu-bg));
   }
 
   :where([data-slot="menu-item"][aria-haspopup="menu"])::after {

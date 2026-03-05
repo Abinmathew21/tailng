@@ -310,6 +310,12 @@ export class TngMenubarItem {
   @HostListener('keydown', ['$event'])
   protected onKeydown(event: KeyboardEvent): void {
     const ownedMenu = this.ownedMenu();
+    if (!this.isDisabled() && ownedMenu?.isOpen() && event.key === 'Escape') {
+      event.preventDefault();
+      this.closeOwnedMenu(true);
+      return;
+    }
+
     if (
       !this.isDisabled() &&
       ownedMenu !== null &&
@@ -317,6 +323,12 @@ export class TngMenubarItem {
     ) {
       event.preventDefault();
       this.syncOwnedMenuLink();
+
+      if (ownedMenu.isOpen() && (event.key === 'ArrowDown' || event.key === 'ArrowUp')) {
+        ownedMenu.focusPanelAndMoveActiveItem(event.key === 'ArrowDown' ? 'next' : 'prev');
+        return;
+      }
+
       this.menubar.requestOpenMenu(this, event.key === 'ArrowDown' ? 'first' : event.key === 'ArrowUp' ? 'last' : 'none');
       return;
     }
@@ -346,6 +358,12 @@ export class TngMenubarItem {
 
       event.preventDefault();
       target.focus();
+      return;
+    }
+
+    if (ownedMenu?.isOpen() && (event.key === 'ArrowRight' || event.key === 'ArrowLeft')) {
+      event.preventDefault();
+      this.handleArrowFromOpenMenu(event.key);
       return;
     }
 
@@ -466,6 +484,13 @@ export class TngMenubarItem {
 
     const target = items[targetIndex];
     if (target === undefined || target === current) {
+      return;
+    }
+
+    const targetOwnsMenu = target.getAttribute('aria-haspopup') === 'menu';
+    if (!targetOwnsMenu) {
+      this.closeOwnedMenu(false);
+      target.focus();
       return;
     }
 
