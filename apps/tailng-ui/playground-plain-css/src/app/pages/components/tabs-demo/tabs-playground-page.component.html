@@ -1,32 +1,174 @@
 <main class="page">
   <section class="container">
-    <section class="card">
-      <h2>Primitives (`tngTabs`)</h2>
-      <div tngTabs class="primitive-shell">
-        <div role="tablist" class="demo-row">
-          <button role="tab" type="button" aria-selected="true" class="demo-button">
-            Overview
-          </button>
-          <button role="tab" type="button" aria-selected="false" class="demo-button">API</button>
-          <button role="tab" type="button" aria-selected="false" class="demo-button">
-            Examples
-          </button>
-        </div>
-        <div role="tabpanel" class="demo-panel">Overview panel content preview.</div>
-      </div>
+    <header class="hero">
+      <h1 class="title">Tabs + TabPanel</h1>
+      <p class="subtitle">
+        Plain-css playground for the headless Tabs primitives and the <code>&lt;tng-tabs&gt;</code>
+        wrapper component.
+      </p>
+    </header>
+
+    <section class="card-grid card-grid--single">
+      <article class="card">
+        <h2>Headless Primitives Only: Base Tabs Demo</h2>
+        <p class="demo-note">
+          Arrow keys move focus and selection together when <code>activation="auto"</code>.
+        </p>
+
+        <section
+          tngTabs
+          aria-label="Project workspace tabs"
+          class="tabs-shell"
+          (tabChange)="onHeadlessTabChange($event)"
+          (focusChange)="onHeadlessFocusChange($event)"
+        >
+          <div tngTabList class="tabs-list" ariaLabel="Project workspace sections">
+            <button type="button" tngTab value="overview" class="tab-trigger">Overview</button>
+            <button type="button" tngTab value="api" class="tab-trigger">API</button>
+            <button type="button" tngTab value="examples" class="tab-trigger">Examples</button>
+          </div>
+
+          <article tngTabPanel value="overview" class="tab-panel">
+            Overview panel with release notes and migration summary.
+          </article>
+          <article tngTabPanel value="api" class="tab-panel">
+            API panel with inputs, outputs, and keyboard behavior details.
+          </article>
+          <article tngTabPanel value="examples" class="tab-panel">
+            Examples panel with wiring patterns for controlled and uncontrolled usage.
+          </article>
+        </section>
+
+        <p class="state-line">Last selection: <strong>{{ headlessSelection() }}</strong></p>
+        <p class="state-line">Last focus: <strong>{{ headlessFocus() }}</strong></p>
+      </article>
     </section>
 
-    <section class="card">
-      <h2>Components (`tng-tabs`)</h2>
-      <tng-tabs>
-        <div role="tablist" class="demo-row">
-          <button role="tab" type="button" aria-selected="true" class="demo-button">Usage</button>
-          <button role="tab" type="button" aria-selected="false" class="demo-button">
-            Accessibility
+    <section class="card-grid">
+      <article class="card">
+        <h2>Headless Primitives: Controlled Value</h2>
+        <p class="demo-note">
+          The selected tab is controlled by host state via <code>[value]</code> and
+          <code>(valueChange)</code>.
+        </p>
+
+        <section
+          tngTabs
+          class="tabs-shell"
+          aria-label="Controlled account settings tabs"
+          [value]="controlledValue()"
+          (valueChange)="onControlledValueChange($event)"
+          (tabChange)="onControlledTabChange($event)"
+        >
+          <div tngTabList class="tabs-list" ariaLabel="Controlled account sections">
+            <button type="button" tngTab value="profile" class="tab-trigger">Profile</button>
+            <button type="button" tngTab value="security" class="tab-trigger">Security</button>
+            <button type="button" tngTab value="billing" class="tab-trigger">Billing</button>
+          </div>
+
+          <article tngTabPanel value="profile" class="tab-panel">
+            Profile settings with display name, avatar, and locale preferences.
+          </article>
+          <article tngTabPanel value="security" class="tab-panel">
+            Security settings with passkeys, MFA, and session controls.
+          </article>
+          <article tngTabPanel value="billing" class="tab-panel">
+            Billing settings with invoices, plan changes, and tax details.
+          </article>
+        </section>
+
+        <div class="chip-row">
+          <button
+            type="button"
+            class="control-chip"
+            [class.control-chip--active]="controlledValue() === 'profile'"
+            (click)="setControlledValue('profile')"
+          >
+            Set Profile
+          </button>
+          <button
+            type="button"
+            class="control-chip"
+            [class.control-chip--active]="controlledValue() === 'security'"
+            (click)="setControlledValue('security')"
+          >
+            Set Security
+          </button>
+          <button
+            type="button"
+            class="control-chip"
+            [class.control-chip--active]="controlledValue() === 'billing'"
+            (click)="setControlledValue('billing')"
+          >
+            Set Billing
           </button>
         </div>
-        <div role="tabpanel" class="demo-panel">Usage tab panel with install and import notes.</div>
-      </tng-tabs>
+
+        <p class="state-line">Controlled value: <strong>{{ controlledValue() }}</strong></p>
+        <p class="state-line">Last controlled change: <strong>{{ controlledSelection() }}</strong></p>
+      </article>
+
+      <article class="card">
+        <h2>Headless Primitives: Manual + Vertical</h2>
+        <p class="demo-note">
+          In <code>activation="manual"</code>, arrows move focus only; press
+          <kbd>Enter</kbd>/<kbd>Space</kbd> to select.
+        </p>
+
+        <section
+          tngTabs
+          class="tabs-shell tabs-shell--vertical"
+          aria-label="Manual vertical documentation tabs"
+          orientation="vertical"
+          activation="manual"
+          (tabChange)="onManualTabChange($event)"
+        >
+          <div tngTabList class="tabs-list tabs-list--vertical" ariaLabel="Documentation sections">
+            <button type="button" tngTab value="install" class="tab-trigger">Install</button>
+            <button type="button" tngTab value="api-reference" class="tab-trigger">API</button>
+            <button type="button" tngTab value="recipes" class="tab-trigger">Recipes</button>
+          </div>
+
+          <article tngTabPanel value="install" class="tab-panel">
+            Install steps for primitives, components, and theme packages.
+          </article>
+          <article tngTabPanel value="api-reference" class="tab-panel">
+            API reference with directive selectors and event contracts.
+          </article>
+          <article tngTabPanel value="recipes" class="tab-panel">
+            Recipes for controlled forms, dynamic tab lists, and lazy panels.
+          </article>
+        </section>
+
+        <p class="state-line">Last manual selection: <strong>{{ manualSelection() }}</strong></p>
+      </article>
+    </section>
+
+    <section class="card-grid card-grid--single">
+      <article class="card">
+        <h2>Component Wrapper: &lt;tng-tabs&gt; (Secondary Demo)</h2>
+        <p class="demo-note">
+          Wrapper for root structure and base styling while child tabs and panels stay headless.
+        </p>
+
+        <tng-tabs ariaLabel="Wrapper product tabs">
+          <div tngTabList class="tabs-list" ariaLabel="Wrapper product sections">
+            <button type="button" tngTab value="features" class="tab-trigger">Features</button>
+            <button type="button" tngTab value="a11y" class="tab-trigger">Accessibility</button>
+            <button type="button" tngTab value="testing" class="tab-trigger">Testing</button>
+          </div>
+
+          <article tngTabPanel value="features" class="tab-panel">
+            Feature overview for activation modes, orientation, and controlled state.
+          </article>
+          <article tngTabPanel value="a11y" class="tab-panel">
+            A11y details for ARIA roles, ids, and keyboard semantics.
+          </article>
+          <article tngTabPanel value="testing" class="tab-panel">
+            Testing setup with keyboard coverage and dynamic tab lifecycle checks.
+          </article>
+        </tng-tabs>
+      </article>
     </section>
   </section>
 </main>
