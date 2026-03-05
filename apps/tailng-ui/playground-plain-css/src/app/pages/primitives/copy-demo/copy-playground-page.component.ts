@@ -16,7 +16,20 @@ export class CopyPlaygroundPageComponent {
     this.copyStatusMessage.set(`Copied ${payload.length} characters.`);
   }
 
-  protected onCopyError(error: Error): void {
-    this.copyStatusMessage.set(error.message);
+  protected onCopyError(error: unknown): void {
+    if (error instanceof Error) {
+      this.copyStatusMessage.set(error.message);
+      return;
+    }
+
+    if (typeof error === 'object' && error !== null && 'error' in error) {
+      const nestedError = (error as { error: unknown }).error;
+      if (nestedError instanceof Error) {
+        this.copyStatusMessage.set(nestedError.message);
+        return;
+      }
+    }
+
+    this.copyStatusMessage.set('Copy failed.');
   }
 }

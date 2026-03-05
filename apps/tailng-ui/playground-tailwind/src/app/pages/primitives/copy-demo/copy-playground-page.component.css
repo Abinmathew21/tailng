@@ -1,9 +1,0 @@
-:host {
-  display: block;
-}
-
-.line-number {
-  display: inline-block;
-  min-width: 1.5rem;
-  text-align: right;
-}

@@ -43,6 +43,21 @@ function toRoundedPositiveNumber(value: number): number {
   return Math.max(0, Math.round(value));
 }
 
+function toNormalizedCopyError(value: unknown): Error {
+  if (value instanceof Error) {
+    return value;
+  }
+
+  if (typeof value === 'object' && value !== null && 'error' in value) {
+    const nested = (value as { error: unknown }).error;
+    if (nested instanceof Error) {
+      return nested;
+    }
+  }
+
+  return new Error('Copy failed.');
+}
+
 function shouldHighlight(mode: TngCodeBlockHighlightMode): boolean {
   return mode === 'auto' || mode === 'on';
 }
@@ -182,7 +197,7 @@ export class TngCodeBlockComponent implements OnDestroy {
 
   protected onCopyError(...args: readonly unknown[]): void {
     const [error] = args;
-    const normalizedError = error instanceof Error ? error : new Error('Copy failed.');
+    const normalizedError = toNormalizedCopyError(error);
     this.copyState.set('error');
     this.tngCopyError.emit(normalizedError);
     this.scheduleCopyStateReset();

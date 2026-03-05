@@ -16,6 +16,21 @@ type TngCopyButtonState = 'copied' | 'copying' | 'error' | 'idle';
 export type TngCopyButtonAppearance = 'ghost' | 'outline' | 'solid';
 export type TngCopyButtonSize = 'md' | 'sm';
 
+function toNormalizedCopyError(value: unknown): Error {
+  if (value instanceof Error) {
+    return value;
+  }
+
+  if (typeof value === 'object' && value !== null && 'error' in value) {
+    const nested = (value as { error: unknown }).error;
+    if (nested instanceof Error) {
+      return nested;
+    }
+  }
+
+  return new Error('Copy failed.');
+}
+
 function toRoundedPositiveNumber(value: number): number {
   return Math.max(0, Math.round(value));
 }
@@ -109,7 +124,7 @@ export class TngCopyButtonComponent implements OnDestroy {
 
   protected onPrimitiveCopyError(...args: readonly unknown[]): void {
     const [error] = args;
-    const normalizedError = error instanceof Error ? error : new Error('Copy failed.');
+    const normalizedError = toNormalizedCopyError(error);
     this.state.set('error');
     this.tngCopyError.emit(normalizedError);
     this.scheduleReset();

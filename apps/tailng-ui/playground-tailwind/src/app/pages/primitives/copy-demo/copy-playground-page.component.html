@@ -20,9 +20,9 @@
     </p>
 
     <pre #codeBlock class="rounded-xl border border-tng-border-subtle bg-tng-bg-canvas overflow-x-auto p-3 text-sm text-tng-fg-primary m-0">
-<span class="block"><span class="inline-block min-w-[1.5rem] text-right text-tng-fg-secondary mr-2" data-copy-ignore>1</span>pnpm nx run playground-tailwind:serve</span>
-<span class="block"><span class="inline-block min-w-[1.5rem] text-right text-tng-fg-secondary mr-2" data-copy-ignore>2</span>pnpm nx run playground-plain-css:serve</span>
-<span class="block"><span class="inline-block min-w-[1.5rem] text-right text-tng-fg-secondary mr-2" data-copy-ignore>3</span>pnpm tailng -- add copy --cwd apps/tailng-ui/playground-registry</span>
+<span class="block"><span class="line-number inline-block min-w-[1.5rem] text-right text-tng-fg-secondary mr-2" data-copy-ignore>1</span>pnpm nx run playground-tailwind:serve</span>
+<span class="block"><span class="line-number inline-block min-w-[1.5rem] text-right text-tng-fg-secondary mr-2" data-copy-ignore>2</span>pnpm nx run playground-plain-css:serve</span>
+<span class="block"><span class="line-number inline-block min-w-[1.5rem] text-right text-tng-fg-secondary mr-2" data-copy-ignore>3</span>pnpm tailng -- add copy --cwd apps/tailng-ui/playground-registry</span>
 </pre>
 
     <button
@@ -38,6 +38,52 @@
     </button>
     <p class="rounded-xl border border-tng-accent-brand/45 bg-tng-accent-brand/15 px-4 py-2.5 text-sm text-tng-fg-primary m-0">
       {{ copyStatusMessage() }}
+    </p>
+  </section>
+
+  <section class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5 space-y-3">
+    <h2 class="text-lg font-semibold">Primitive: tngCopyButton API</h2>
+    <p class="text-tng-fg-secondary">
+      This example uses <code class="rounded bg-tng-bg-muted px-1 py-0.5 text-sm">tngCopyButtonText</code>,
+      <code class="rounded bg-tng-bg-muted px-1 py-0.5 text-sm">tngCopyButtonTarget</code>,
+      and <code class="rounded bg-tng-bg-muted px-1 py-0.5 text-sm">tngCopyButtonSuccessDurationMs</code>.
+      Text takes precedence over target.
+    </p>
+
+    <p
+      id="tailwind-copy-target"
+      class="rounded-lg border border-dashed border-tng-border-subtle bg-tng-bg-canvas px-3 py-2 text-sm text-tng-fg-primary"
+    >
+      target fallback: pnpm nx run playground-tailwind:serve
+    </p>
+
+    <div class="flex flex-wrap gap-3">
+      <button
+        type="button"
+        tngCopy
+        class="rounded-lg border border-tng-border-strong bg-transparent px-4 py-2.5 text-sm font-semibold text-tng-fg-primary cursor-pointer"
+        [tngCopyButtonText]="dynamicCommand()"
+        [tngCopyButtonTarget]="'#tailwind-copy-target'"
+        [tngCopyButtonSuccessDurationMs]="900"
+        [tngCopyButtonAnnounce]="'auto'"
+        (tngCopy)="onAdvancedCopy($event)"
+        (tngCopySuccess)="onAdvancedCopySuccess($event)"
+        (tngCopyError)="onCopyError($event)"
+      >
+        Copy dynamic command
+      </button>
+
+      <button
+        type="button"
+        class="rounded-lg border border-tng-border-subtle bg-tng-bg-muted px-4 py-2.5 text-sm font-medium text-tng-fg-secondary cursor-pointer"
+        (click)="dynamicCommand.set('pnpm nx run components:build')"
+      >
+        Change dynamic text
+      </button>
+    </div>
+
+    <p class="rounded-xl border border-tng-border-subtle bg-tng-bg-canvas px-4 py-2.5 text-sm text-tng-fg-primary m-0">
+      {{ advancedStatus() }}
     </p>
   </section>
 </div>

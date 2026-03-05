@@ -26,7 +26,7 @@ describe('tng-copy primitive', () => {
     expect(resolveTngCopyPayload('pnpm add @tailng-ui/components', 'fallback')).toBe(
       'pnpm add @tailng-ui/components',
     );
-    expect(resolveTngCopyPayload('   ', 'from source')).toBe('from source');
+    expect(resolveTngCopyPayload('   ', 'from source')).toBeNull();
     expect(resolveTngCopyPayload(undefined, 'from source')).toBe('from source');
     expect(resolveTngCopyPayload(undefined, '   ')).toBeNull();
   });
