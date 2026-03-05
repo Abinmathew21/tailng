@@ -7,22 +7,67 @@ import {
 
 export type TngCodeHighlightInput = Readonly<{
   code: string;
+  includeLineWrappers?: boolean;
   language: string | null;
+  theme?: string | null;
 }>;
 
-export type TngCodeHighlightResult = Readonly<{
-  html: string;
+export type TngCodeHighlightToken = Readonly<{
+  className?: string | null;
+  content: string;
 }>;
+
+export type TngCodeHighlightTokenLine = readonly TngCodeHighlightToken[];
+
+export type TngCodeHighlightHtmlResult = Readonly<{
+  html: string;
+  kind: 'html';
+  language?: string | null;
+  trustedHtml?: boolean;
+}>;
+
+export type TngCodeHighlightLegacyHtmlResult = Readonly<{
+  html: string;
+  language?: string | null;
+  trustedHtml?: boolean;
+}>;
+
+export type TngCodeHighlightTokensResult = Readonly<{
+  kind: 'tokens';
+  language?: string | null;
+  tokens: readonly TngCodeHighlightTokenLine[];
+}>;
+
+export type TngCodeHighlightResult =
+  | TngCodeHighlightHtmlResult
+  | TngCodeHighlightLegacyHtmlResult
+  | TngCodeHighlightTokensResult;
+
+export type TngNormalizedCodeHighlightResult =
+  | Readonly<{
+      html: string;
+      kind: 'html';
+      language: string | null;
+      trustedHtml: boolean;
+    }>
+  | Readonly<{
+      kind: 'tokens';
+      language: string | null;
+      tokens: readonly TngCodeHighlightTokenLine[];
+    }>;
 
 export type TngCodeHighlightRequest = Readonly<{
   adapter: string | null | undefined;
   code: string;
+  includeLineWrappers?: boolean;
   language: string | null | undefined;
+  theme?: string | null | undefined;
 }>;
 
 export type TngCodeHighlighterAdapter = Readonly<{
-  highlight: (input: TngCodeHighlightInput) => Promise<TngCodeHighlightResult>;
+  highlight: (input: TngCodeHighlightInput) => Promise<TngCodeHighlightResult> | TngCodeHighlightResult;
   id: string;
+  supports?: (language: string | null) => boolean;
 }>;
 
 export type TngProvideCodeHighlightingOptions = Readonly<{
@@ -38,6 +83,9 @@ export type TngResolvedCodeHighlightingConfig = Readonly<{
 
 export type TngCodeHighlightingResolverLike = Readonly<{
   highlight: (request: TngCodeHighlightRequest) => Promise<string>;
+  highlightResult: (
+    request: TngCodeHighlightRequest,
+  ) => Promise<TngNormalizedCodeHighlightResult | null>;
 }>;
 
 const htmlEscapeAmpersand = /&/g;
@@ -135,6 +183,75 @@ function resolveAdapterFromRequest(
   return config.adapters[config.defaultAdapter];
 }
 
+function normalizeTokenLine(line: TngCodeHighlightTokenLine): readonly TngCodeHighlightToken[] {
+  return line
+    .filter((token) => typeof token.content === 'string')
+    .map((token) => ({ className: token.className ?? null, content: token.content }));
+}
+
+function normalizeHighlightResult(
+  result: TngCodeHighlightResult,
+  fallbackLanguage: string | null,
+): TngNormalizedCodeHighlightResult | null {
+  if ('kind' in result && result.kind === 'tokens') {
+    return {
+      kind: 'tokens',
+      language: normalizeTngCodeLanguage(result.language) ?? fallbackLanguage,
+      tokens: result.tokens.map((line) => normalizeTokenLine(line)),
+    };
+  }
+
+  if ('html' in result) {
+    const trustedHtml =
+      'trustedHtml' in result && (result.trustedHtml === true || result.trustedHtml === false)
+        ? result.trustedHtml
+        : false;
+
+    if ('kind' in result && result.kind !== 'html') {
+      return null;
+    }
+
+    return {
+      html: result.html,
+      kind: 'html',
+      language: normalizeTngCodeLanguage(result.language) ?? fallbackLanguage,
+      trustedHtml,
+    };
+  }
+
+  return null;
+}
+
+function tokenClassNameToAttributeValue(className: string | null | undefined): string {
+  if (className === null || className === undefined) {
+    return '';
+  }
+
+  return className
+    .trim()
+    .split(/\s+/)
+    .filter((token) => token.length > 0)
+    .join(' ');
+}
+
+function tokensToEscapedHtml(lines: readonly TngCodeHighlightTokenLine[]): string {
+  return lines
+    .map((line) =>
+      line
+        .map((token) => {
+          const escapedContent = escapeTngCodeHtml(token.content);
+          const normalizedClassName = tokenClassNameToAttributeValue(token.className);
+          if (normalizedClassName.length === 0) {
+            return escapedContent;
+          }
+
+          return `<span class="${escapeTngCodeHtml(normalizedClassName)}">${escapedContent}</span>`;
+        })
+        .join(''),
+    )
+    .join('\n');
+}
+
 export function normalizeTngCodeLanguage(value: string | null | undefined): string | null {
   if (value === null || value === undefined) {
     return null;
@@ -159,21 +276,25 @@ export function escapeTngCodeHtml(value: string): string {
 
 export function createTngCodeHighlighterAdapter(
   id: string,
-  highlight: (input: TngCodeHighlightInput) => Promise<TngCodeHighlightResult>,
+  highlight: (input: TngCodeHighlightInput) => Promise<TngCodeHighlightResult> | TngCodeHighlightResult,
+  supports?: (language: string | null) => boolean,
 ): TngCodeHighlighterAdapter {
   const adapterId = normalizeTngCodeHighlighterId(id);
   return Object.freeze({
     highlight,
     id: adapterId,
+    supports,
   });
 }
 
 export const tngPlainCodeHighlighterAdapter = createTngCodeHighlighterAdapter(
   TNG_DEFAULT_CODE_HIGHLIGHTER_ID,
-  (input: TngCodeHighlightInput): Promise<TngCodeHighlightResult> =>
-    Promise.resolve({
-      html: escapeTngCodeHtml(input.code),
-    }),
+  (input: TngCodeHighlightInput): TngCodeHighlightResult => ({
+    html: escapeTngCodeHtml(input.code),
+    kind: 'html',
+    language: input.language,
+    trustedHtml: false,
+  }),
 );
 
 export const TNG_BUILTIN_CODE_HIGHLIGHTERS: Readonly<Record<string, TngCodeHighlighterAdapter>> =
@@ -196,18 +317,41 @@ export function resolveTngCodeHighlightingConfig(
   };
 }
 
+export async function resolveTngCodeHighlightResult(
+  request: TngCodeHighlightRequest,
+  config: TngResolvedCodeHighlightingConfig,
+): Promise<TngNormalizedCodeHighlightResult | null> {
+  const adapter = resolveAdapterFromRequest(request, config);
+  const normalizedLanguage = normalizeTngCodeLanguage(request.language);
+
+  if (typeof adapter.supports === 'function' && !adapter.supports(normalizedLanguage)) {
+    return null;
+  }
+
+  const rawResult = await adapter.highlight({
+    code: request.code,
+    includeLineWrappers: request.includeLineWrappers ?? false,
+    language: normalizedLanguage,
+    theme: normalizeTngCodeLanguage(request.theme),
+  });
+
+  return normalizeHighlightResult(rawResult, normalizedLanguage);
+}
+
 export async function highlightWithTngCodeHighlightingConfig(
   request: TngCodeHighlightRequest,
   config: TngResolvedCodeHighlightingConfig,
 ): Promise<string> {
-  const adapter = resolveAdapterFromRequest(request, config);
-  const normalizedLanguage = normalizeTngCodeLanguage(request.language);
-  const result = await adapter.highlight({
-    code: request.code,
-    language: normalizedLanguage,
-  });
+  const resolvedResult = await resolveTngCodeHighlightResult(request, config);
+  if (resolvedResult === null) {
+    return escapeTngCodeHtml(request.code);
+  }
 
-  return result.html;
+  if (resolvedResult.kind === 'tokens') {
+    return tokensToEscapedHtml(resolvedResult.tokens);
+  }
+
+  return resolvedResult.html;
 }
 
 export const TNG_CODE_HIGHLIGHTING_CONFIG = new InjectionToken<TngResolvedCodeHighlightingConfig>(
@@ -258,5 +402,11 @@ export class TngCodeHighlightingResolver {
 
   public async highlight(request: TngCodeHighlightRequest): Promise<string> {
     return highlightWithTngCodeHighlightingConfig(request, this.config);
+  }
+
+  public async highlightResult(
+    request: TngCodeHighlightRequest,
+  ): Promise<TngNormalizedCodeHighlightResult | null> {
+    return resolveTngCodeHighlightResult(request, this.config);
   }
 }

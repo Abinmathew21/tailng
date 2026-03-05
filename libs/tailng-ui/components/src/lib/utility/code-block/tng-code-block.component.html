@@ -1,46 +1,84 @@
 <section
   tngCodeBlock
   class="tng-code-block"
-  [attr.data-language]="languageLabel()"
-  [attr.data-wrap]="wrap() ? '' : null"
+  [attr.data-has-copy]="dataHasCopy()"
+  [attr.data-has-title]="dataHasTitle()"
+  [attr.data-highlighted]="dataHighlighted()"
+  [attr.data-state]="renderState()"
+  [attr.data-variant]="variant()"
+  [attr.data-wrap]="dataWrap()"
 >
-  @if (showHeader()) {
-    <header tngCodeBlockHeader class="tng-code-block__header">
-      <span class="tng-code-block__language">{{ languageLabel() }}</span>
-
-      @if (copy()) {
-        <button
-          type="button"
-          tngCopy
-          class="tng-code-block__copy-button"
-          [attr.data-copy-state]="copyButtonLabel()"
-          [tngCopyText]="normalizedCode()"
-          [tngCopyDisabled]="copyDisabled()"
-          (tngCopied)="onCopied($event)"
-          (tngCopyError)="onCopyError($event)"
-        >
-          {{ copyButtonLabel() }}
-        </button>
+  @if (shouldRenderHeader()) {
+    <header tngCodeBlockHeader class="tng-code-block__header" data-slot="header">
+      @if (titleText(); as title) {
+        <h3 class="tng-code-block__title" data-slot="title">{{ title }}</h3>
       }
+
+      <div class="tng-code-block__actions" data-slot="actions">
+        @if (hasLanguageBadge()) {
+          <span class="tng-code-block__language" data-slot="language-badge">{{ languageLabel() }}</span>
+        }
+
+        @if (shouldShowCopyAction()) {
+          <button
+            type="button"
+            tngCopy
+            class="tng-code-block__copy-button"
+            data-slot="copy-button"
+            [attr.aria-label]="copyLabel()"
+            [attr.data-copy-state]="copyButtonLabel()"
+            [tngCopyButtonSuccessDurationMs]="effectiveCopyResetDuration()"
+            [tngCopyButtonText]="copyPayload()"
+            [tngCopyDisabled]="normalizedCode().length === 0"
+            (tngCopy)="onPrimitiveCopy($event)"
+            (tngCopyError)="onPrimitiveCopyError($event)"
+            (tngCopySuccess)="onPrimitiveCopySuccess($event)"
+          >
+            {{ copyButtonLabel() }}
+          </button>
+        }
+      </div>
     </header>
   }
 
   <div
     tngCodeBlockBody
     class="tng-code-block__body"
-    [class.tng-code-block__body--line-numbers]="showLineNumbers()"
+    data-slot="body"
+    [class.tng-code-block__body--line-numbers]="shouldRenderBodyLineNumbers()"
     [class.tng-code-block__body--wrap]="wrap()"
   >
-    @if (showLineNumbers()) {
-      <ol tngCodeBlockGutter class="tng-code-block__gutter" aria-hidden="true">
+    @if (shouldRenderBodyLineNumbers()) {
+      <ol tngCodeBlockGutter class="tng-code-block__gutter" aria-hidden="true" data-slot="line-numbers">
         @for (lineNumber of lineNumbers(); track lineNumber) {
           <li class="tng-code-block__line-number">{{ lineNumber }}</li>
         }
       </ol>
     }
 
-    <pre class="tng-code-block__pre" [attr.data-highlighting]="isHighlighting() ? 'pending' : 'ready'">
-<code tngCodeBlockCode class="tng-code-block__code" [innerHTML]="highlightedHtml()"></code>
+    <pre
+      class="tng-code-block__pre"
+      data-slot="pre"
+      [attr.data-highlighting]="isHighlighting() ? 'pending' : 'ready'"
+      [style.max-height]="maxHeightCssValue()"
+      [style.overflow-y]="maxHeightCssValue() ? 'auto' : null"
+    >
+<code tngCodeBlockCode class="tng-code-block__code" data-slot="code">
+  @for (line of renderedLines(); track line.lineNumber) {
+    <span
+      class="tng-code-block__line"
+      data-slot="line"
+      [attr.data-line-number]="line.lineNumber"
+      [class.tng-code-block__line--dim]="line.dimmed"
+      [class.tng-code-block__line--highlight]="line.highlighted"
+      [innerHTML]="line.html"
+    ></span>
+  }
+</code>
     </pre>
   </div>
+
+  @if (caption(); as caption) {
+    <p class="tng-code-block__caption" data-slot="caption">{{ caption }}</p>
+  }
 </section>

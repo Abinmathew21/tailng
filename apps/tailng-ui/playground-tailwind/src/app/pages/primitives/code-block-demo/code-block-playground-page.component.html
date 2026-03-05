@@ -1,30 +1,103 @@
-<div class="mx-auto max-w-[72rem] grid gap-5">
-  <div class="grid gap-5 sm:grid-cols-2">
-    <section class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5 space-y-3">
-      <h2 class="text-lg font-semibold">Adapter: plain (default)</h2>
-      <tng-code-block [code]="angularSnippet" language="ts" />
-    </section>
+<main class="mx-auto grid max-w-[72rem] gap-5 pb-8">
+  <header class="grid gap-2">
+    <h1 class="text-3xl font-bold tracking-tight text-tng-fg-primary">Code Block Examples</h1>
+    <p class="max-w-3xl text-sm text-tng-fg-secondary">
+      Tailwind playground examples for adapter modes, copy behavior, line tools, wrapping, and
+      HTML sanitization.
+    </p>
+  </header>
 
-    <section class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5 space-y-3">
-      <h2 class="text-lg font-semibold">Adapter: keyword (custom)</h2>
-      <tng-code-block [code]="angularSnippet" language="ts" adapter="keyword" />
-    </section>
-  </div>
+  <section class="grid gap-5 xl:grid-cols-2">
+    <article class="space-y-3 rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5">
+      <h2 class="text-base font-semibold text-tng-fg-primary">1) Plain Adapter (default)</h2>
+      <tng-code-block
+        [code]="angularSnippet"
+        language="ts"
+        title="example.component.ts"
+        caption="No custom adapter selected."
+      />
+    </article>
 
-  <div class="grid gap-5 sm:grid-cols-2">
-    <section class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5 space-y-3">
-      <h2 class="text-lg font-semibold">Highlight Off + No Line Numbers</h2>
+    <article class="space-y-3 rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5">
+      <h2 class="text-base font-semibold text-tng-fg-primary">2) Keyword Adapter (custom html)</h2>
+      <tng-code-block
+        [code]="angularSnippet"
+        language="ts"
+        adapter="keyword"
+        title="example.component.ts"
+        [copy]="true"
+        caption="Custom adapter wraps keywords with inline classes."
+      />
+    </article>
+  </section>
+
+  <section class="grid gap-5 xl:grid-cols-2">
+    <article class="space-y-3 rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5">
+      <h2 class="text-base font-semibold text-tng-fg-primary">3) Token Adapter + Line Focus</h2>
+      <tng-code-block
+        [code]="controlFlowSnippet"
+        language="ts"
+        adapter="tokens"
+        title="load-user.ts"
+        [lineNumbers]="true"
+        [startingLineNumber]="4"
+        [highlightLines]="highlightedTokenLines"
+        [focusLines]="true"
+        caption="Token output + highlighted ranges + dimmed non-highlighted lines."
+      />
+    </article>
+
+    <article class="space-y-3 rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5">
+      <h2 class="text-base font-semibold text-tng-fg-primary">4) Highlight Off (escaped plain text)</h2>
       <tng-code-block
         [code]="htmlSnippet"
         language="html"
-        highlightMode="off"
-        [showLineNumbers]="false"
+        [highlight]="false"
+        [lineNumbers]="true"
+        title="landing.html"
+        caption="Renders escaped plain text even when HTML-like markup exists."
       />
-    </section>
+    </article>
+  </section>
 
-    <section class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5 space-y-3">
-      <h2 class="text-lg font-semibold">Wrapped Shell Example</h2>
-      <tng-code-block [code]="shellSnippet" language="bash" [wrap]="true" />
-    </section>
-  </div>
-</div>
+  <section class="grid gap-5 xl:grid-cols-2">
+    <article class="space-y-3 rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5">
+      <h2 class="text-base font-semibold text-tng-fg-primary">5) Wrapped + Scrollable</h2>
+      <tng-code-block
+        [code]="longShellSnippet"
+        language="bash"
+        [wrap]="true"
+        [lineNumbers]="true"
+        [maxHeight]="190"
+        title="commands.sh"
+        caption="Large snippet with wrapping and max-height scroll."
+      />
+    </article>
+
+    <article class="space-y-3 rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5">
+      <h2 class="text-base font-semibold text-tng-fg-primary">6) Copy Override</h2>
+      <tng-code-block
+        [code]="shellSnippet"
+        language="bash"
+        title="install-and-run.sh"
+        [copy]="true"
+        [copyText]="copyInstallCommand"
+        caption="Displayed code differs from copied payload."
+      />
+    </article>
+  </section>
+
+  <section class="grid gap-5">
+    <article class="space-y-3 rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5">
+      <h2 class="text-base font-semibold text-tng-fg-primary">7) Sanitized HTML Adapter Output</h2>
+      <tng-code-block
+        [code]="unsafeHtmlSnippet"
+        language="ts"
+        adapter="unsafe-html"
+        title="sanitize-demo.ts"
+        sanitizeHtml="auto"
+        caption="Script tags and unsafe handlers are stripped by default."
+      />
+    </article>
+  </section>
+</main>

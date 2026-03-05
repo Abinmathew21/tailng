@@ -53,6 +53,10 @@
   gap: 1rem;
 }
 
+.card-grid--single {
+  grid-template-columns: minmax(0, 1fr);
+}
+
 .card {
   background: var(--tng-semantic-background-surface);
   border: 1px solid var(--tng-semantic-border-subtle);
@@ -64,6 +68,7 @@
 
 .card h2 {
   margin: 0;
+  font-size: 1rem;
 }
 
 :host ::ng-deep .code-keyword {
@@ -71,9 +76,23 @@
   font-weight: 700;
 }
 
+:host ::ng-deep .token-keyword {
+  color: var(--tng-semantic-accent-brand);
+  font-weight: 700;
+}
+
+:host ::ng-deep .token-number {
+  color: var(--tng-semantic-foreground-secondary);
+  font-weight: 600;
+}
+
 @media (min-width: 1280px) {
   .card-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .card-grid--single {
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 
