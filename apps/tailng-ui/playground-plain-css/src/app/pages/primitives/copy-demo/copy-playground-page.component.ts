@@ -1,10 +1,11 @@
 import { Component, signal } from '@angular/core';
 import { TngCopyButton } from '@tailng-ui/components';
+import { TngIcon } from '@tailng-ui/icons';
 import { TngCopy } from '@tailng-ui/primitives';
 
 @Component({
   selector: 'app-copy-playground-page',
-  imports: [TngCopy, TngCopyButton],
+  imports: [TngCopy, TngCopyButton, TngIcon],
   templateUrl: './copy-playground-page.component.html',
   styleUrl: './copy-playground-page.component.css',
 })

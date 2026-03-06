@@ -14,7 +14,16 @@
   (tngCopied)="onPrimitiveCopied($event)"
   (tngCopyError)="onPrimitiveCopyError($event)"
 >
-  {{ label() }}
+  @if (showIcon()) {
+    <span class="tng-copy-button__icon" aria-hidden="true">
+      @if (iconState() === 'copied') {
+        <ng-content select="[copiedIcon]">{{ copiedIconText() }}</ng-content>
+      } @else {
+        <ng-content select="[copyIcon]">{{ copyIconText() }}</ng-content>
+      }
+    </span>
+  }
+  <span class="tng-copy-button__label">{{ label() }}</span>
 </button>
 
 <span class="tng-copy-live-region" aria-live="polite">{{ liveMessage() }}</span>

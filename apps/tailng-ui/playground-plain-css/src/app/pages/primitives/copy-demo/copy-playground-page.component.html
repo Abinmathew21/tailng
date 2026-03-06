@@ -1,15 +1,76 @@
 <main class="page">
   <section class="container">
     <section class="card">
-      <h2>Wrapper: direct payload</h2>
-      <div class="row">
-        <tng-copy-button [text]="installCommand" (tngCopied)="onCopied($event)" />
-        <tng-copy-button
-          appearance="solid"
-          [text]="installCommand"
-          (tngCopied)="onCopied($event)"
-          (tngCopyError)="onCopyError($event)"
-        />
+      <h2>Wrapper: icon and text variants</h2>
+      <div class="variant-grid">
+        <div class="variant">
+          <p class="variant-title">1. Icon + text</p>
+          <div class="row">
+            <tng-copy-button [text]="installCommand" (tngCopied)="onCopied($event)" (tngCopyError)="onCopyError($event)">
+              <tng-icon copyIcon icon="copy" class="copy-icon"></tng-icon>
+              <tng-icon copiedIcon icon="check" class="copy-icon"></tng-icon>
+            </tng-copy-button>
+            <tng-copy-button
+              appearance="solid"
+              [text]="installCommand"
+              (tngCopied)="onCopied($event)"
+              (tngCopyError)="onCopyError($event)"
+            >
+              <tng-icon copyIcon icon="copy" class="copy-icon"></tng-icon>
+              <tng-icon copiedIcon icon="check" class="copy-icon"></tng-icon>
+            </tng-copy-button>
+          </div>
+        </div>
+
+        <div class="variant">
+          <p class="variant-title">2. Icons only</p>
+          <div class="row">
+            <tng-copy-button
+              copyLabel=""
+              copiedLabel=""
+              copyingLabel=""
+              errorLabel=""
+              [text]="installCommand"
+              (tngCopied)="onCopied($event)"
+              (tngCopyError)="onCopyError($event)"
+            >
+              <tng-icon copyIcon icon="copy" class="copy-icon"></tng-icon>
+              <tng-icon copiedIcon icon="check" class="copy-icon"></tng-icon>
+            </tng-copy-button>
+            <tng-copy-button
+              appearance="outline"
+              copyLabel=""
+              copiedLabel=""
+              copyingLabel=""
+              errorLabel=""
+              [text]="installCommand"
+              (tngCopied)="onCopied($event)"
+              (tngCopyError)="onCopyError($event)"
+            >
+              <tng-icon copyIcon icon="clipboard" class="copy-icon"></tng-icon>
+              <tng-icon copiedIcon icon="check-check" class="copy-icon"></tng-icon>
+            </tng-copy-button>
+          </div>
+        </div>
+
+        <div class="variant">
+          <p class="variant-title">3. Text only</p>
+          <div class="row">
+            <tng-copy-button
+              [showIcon]="false"
+              [text]="installCommand"
+              (tngCopied)="onCopied($event)"
+              (tngCopyError)="onCopyError($event)"
+            />
+            <tng-copy-button
+              appearance="solid"
+              [showIcon]="false"
+              [text]="installCommand"
+              (tngCopied)="onCopied($event)"
+              (tngCopyError)="onCopyError($event)"
+            />
+          </div>
+        </div>
       </div>
     </section>
 

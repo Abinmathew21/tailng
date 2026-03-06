@@ -69,6 +69,30 @@
   gap: 0.9rem;
 }
 
+.variant-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.variant {
+  border: 1px dashed var(--tng-semantic-border-subtle);
+  border-radius: 0.75rem;
+  display: grid;
+  gap: 0.65rem;
+  padding: 0.75rem;
+}
+
+.variant-title {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.copy-icon {
+  font-size: 1rem;
+}
+
 .code-surface {
   background: var(--tng-semantic-background-canvas);
   border: 1px solid var(--tng-semantic-border-subtle);

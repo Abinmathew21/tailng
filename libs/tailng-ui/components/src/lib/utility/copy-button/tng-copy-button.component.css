@@ -12,6 +12,7 @@
   font-family: inherit;
   font-size: 0.875rem;
   font-weight: 600;
+  gap: 0.45rem;
   justify-content: center;
   line-height: 1;
   transition:
@@ -23,12 +24,12 @@
 
 .tng-copy-button[data-size='sm'] {
   min-height: 2rem;
-  padding: 0 0.75rem;
+  padding: 0 0.7rem;
 }
 
 .tng-copy-button[data-size='md'] {
   min-height: 2.5rem;
-  padding: 0 1rem;
+  padding: 0 0.95rem;
 }
 
 .tng-copy-button[data-appearance='solid'] {
@@ -68,6 +69,18 @@
 .tng-copy-button[data-copy-disabled] {
   cursor: not-allowed;
   opacity: 0.55;
+}
+
+.tng-copy-button__icon {
+  align-items: center;
+  display: inline-flex;
+  font-size: 1em;
+  justify-content: center;
+  line-height: 1;
+}
+
+.tng-copy-button__label {
+  line-height: 1;
 }
 
 .tng-copy-live-region {

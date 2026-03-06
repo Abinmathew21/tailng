@@ -15,6 +15,7 @@ const defaultResetDelay = 1500;
 type TngCopyButtonState = 'copied' | 'copying' | 'error' | 'idle';
 export type TngCopyButtonAppearance = 'ghost' | 'outline' | 'solid';
 export type TngCopyButtonSize = 'md' | 'sm';
+type TngCopyButtonIconState = 'copied' | 'copy';
 
 function toNormalizedCopyError(value: unknown): Error {
   if (value instanceof Error) {
@@ -44,6 +45,14 @@ export function coerceTngCopyButtonResetDelay(value: number | string): number {
   return toRoundedPositiveNumber(numericValue);
 }
 
+export function resolveTngCopyButtonIconState(state: TngCopyButtonState): TngCopyButtonIconState {
+  if (state === 'copied') {
+    return 'copied';
+  }
+
+  return 'copy';
+}
+
 @Component({
   selector: 'tng-copy-button',
   imports: [TngCopy],
@@ -52,7 +61,9 @@ export function coerceTngCopyButtonResetDelay(value: number | string): number {
 })
 export class TngCopyButtonComponent implements OnDestroy {
   public readonly appearance = input<TngCopyButtonAppearance>('outline');
+  public readonly copiedIconText = input<string>('✓');
   public readonly copyLabel = input<string>('Copy');
+  public readonly copyIconText = input<string>('⧉');
   public readonly copiedLabel = input<string>('Copied');
   public readonly copyingLabel = input<string>('Copying...');
   public readonly disabled = input<boolean, boolean | string>(false, {
@@ -65,6 +76,9 @@ export class TngCopyButtonComponent implements OnDestroy {
     transform: coerceTngCopyButtonResetDelay,
   });
   public readonly size = input<TngCopyButtonSize>('md');
+  public readonly showIcon = input<boolean, boolean | string>(true, {
+    transform: booleanAttribute,
+  });
   public readonly text = input<string | null | undefined>(undefined);
 
   public readonly tngCopied = output<string>();
@@ -99,6 +113,10 @@ export class TngCopyButtonComponent implements OnDestroy {
 
     return this.copyLabel();
   });
+
+  protected readonly iconState = computed<TngCopyButtonIconState>(() =>
+    resolveTngCopyButtonIconState(this.state()),
+  );
 
   protected readonly state = signal<TngCopyButtonState>('idle');
 
