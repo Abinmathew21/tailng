@@ -1,124 +1,87 @@
 <main class="page">
   <section class="container">
+    <header class="hero">
+      <h1 class="title">Button Toggle</h1>
+      <p class="subtitle">
+        Headless primitive examples first, followed by component-wrapper examples using
+        <code>&lt;tng-button-toggle-group&gt;</code> and <code>&lt;tng-button-toggle&gt;</code>.
+      </p>
+    </header>
+
     <section class="card">
-      <h2>Primitives (`tngButtonToggle` / `tngButtonToggleGroup`)</h2>
+      <h2>Headless Primitives: <code>tngButtonToggleGroup</code> + <code>tngButtonToggle</code></h2>
+
       <div class="group-block">
         <p>Single-select alignment</p>
-        <div tngButtonToggleGroup class="button-row">
-          <button
-            tngButtonToggle
-            [pressed]="primitiveAlign() === 'left'"
-            class="demo-button"
-            [class.demo-button--pressed]="primitiveAlign() === 'left'"
-            (click)="onPrimitiveAlignChange('left')"
-          >
-            Left
-          </button>
-          <button
-            tngButtonToggle
-            [pressed]="primitiveAlign() === 'center'"
-            class="demo-button"
-            [class.demo-button--pressed]="primitiveAlign() === 'center'"
-            (click)="onPrimitiveAlignChange('center')"
-          >
-            Center
-          </button>
-          <button
-            tngButtonToggle
-            [pressed]="primitiveAlign() === 'right'"
-            class="demo-button"
-            [class.demo-button--pressed]="primitiveAlign() === 'right'"
-            (click)="onPrimitiveAlignChange('right')"
-          >
-            Right
-          </button>
+        <div
+          tngButtonToggleGroup
+          class="button-row"
+          [tngButtonToggleValue]="primitiveAlign()"
+          (valueChange)="onPrimitiveAlignChange($event)"
+        >
+          <button tngButtonToggle tngButtonToggleValue="left" class="demo-button">Left</button>
+          <button tngButtonToggle tngButtonToggleValue="center" class="demo-button">Center</button>
+          <button tngButtonToggle tngButtonToggleValue="right" class="demo-button">Right</button>
         </div>
       </div>
 
       <div class="group-block">
         <p>Multi-select text styles</p>
-        <div tngButtonToggleGroup class="button-row">
-          <button
-            tngButtonToggle
-            [pressed]="isSelected(primitiveStyles(), 'bold')"
-            class="demo-button"
-            [class.demo-button--pressed]="isSelected(primitiveStyles(), 'bold')"
-            (click)="onPrimitiveStyleToggle('bold')"
-          >
-            Bold
-          </button>
-          <button
-            tngButtonToggle
-            [pressed]="isSelected(primitiveStyles(), 'italic')"
-            class="demo-button"
-            [class.demo-button--pressed]="isSelected(primitiveStyles(), 'italic')"
-            (click)="onPrimitiveStyleToggle('italic')"
-          >
-            Italic
-          </button>
-          <button
-            tngButtonToggle
-            [pressed]="isSelected(primitiveStyles(), 'underline')"
-            class="demo-button"
-            [class.demo-button--pressed]="isSelected(primitiveStyles(), 'underline')"
-            (click)="onPrimitiveStyleToggle('underline')"
-          >
-            Underline
-          </button>
+        <div
+          tngButtonToggleGroup
+          class="button-row"
+          type="multiple"
+          [tngButtonToggleValues]="primitiveStyles()"
+          (valuesChange)="onPrimitiveStylesChange($event)"
+        >
+          <button tngButtonToggle tngButtonToggleValue="bold" class="demo-button">Bold</button>
+          <button tngButtonToggle tngButtonToggleValue="italic" class="demo-button">Italic</button>
+          <button tngButtonToggle tngButtonToggleValue="underline" class="demo-button">Underline</button>
         </div>
       </div>
+
+      <p class="state-line">
+        Primitive state:
+        <strong>align={{ primitiveAlign() }}</strong>,
+        <strong>styles={{ formatValues(primitiveStyles()) }}</strong>
+      </p>
     </section>
 
     <section class="card">
-      <h2>Components (`tng-button-toggle` / `tng-button-toggle-group`)</h2>
+      <h2>Component Wrappers: <code>&lt;tng-button-toggle-group&gt;</code> + <code>&lt;tng-button-toggle&gt;</code></h2>
 
       <div class="group-block">
         <p>Single-select alignment</p>
-        <tng-button-toggle-group ariaLabel="Text alignment">
-          <tng-button-toggle
-            [pressed]="componentAlign() === 'left'"
-            (pressedChange)="onComponentAlignToggle('left', $event)"
-          >
-            Left
-          </tng-button-toggle>
-          <tng-button-toggle
-            [pressed]="componentAlign() === 'center'"
-            (pressedChange)="onComponentAlignToggle('center', $event)"
-          >
-            Center
-          </tng-button-toggle>
-          <tng-button-toggle
-            [pressed]="componentAlign() === 'right'"
-            (pressedChange)="onComponentAlignToggle('right', $event)"
-          >
-            Right
-          </tng-button-toggle>
+        <tng-button-toggle-group
+          ariaLabel="Text alignment"
+          [tngButtonToggleValue]="componentAlign()"
+          (valueChange)="onComponentAlignChange($event)"
+        >
+          <tng-button-toggle value="left">Left</tng-button-toggle>
+          <tng-button-toggle value="center">Center</tng-button-toggle>
+          <tng-button-toggle value="right">Right</tng-button-toggle>
         </tng-button-toggle-group>
       </div>
 
       <div class="group-block">
         <p>Multi-select text styles</p>
-        <tng-button-toggle-group ariaLabel="Text styles">
-          <tng-button-toggle
-            [pressed]="isSelected(componentStyles(), 'bold')"
-            (pressedChange)="onComponentStyleToggle('bold', $event)"
-          >
-            Bold
-          </tng-button-toggle>
-          <tng-button-toggle
-            [pressed]="isSelected(componentStyles(), 'italic')"
-            (pressedChange)="onComponentStyleToggle('italic', $event)"
-          >
-            Italic
-          </tng-button-toggle>
-          <tng-button-toggle
-            [pressed]="isSelected(componentStyles(), 'underline')"
-            (pressedChange)="onComponentStyleToggle('underline', $event)"
-          >
-            Underline
-          </tng-button-toggle>
+        <tng-button-toggle-group
+          ariaLabel="Text styles"
+          type="multiple"
+          [tngButtonToggleValues]="componentStyles()"
+          (valuesChange)="onComponentStylesChange($event)"
+        >
+          <tng-button-toggle value="bold">Bold</tng-button-toggle>
+          <tng-button-toggle value="italic">Italic</tng-button-toggle>
+          <tng-button-toggle value="underline">Underline</tng-button-toggle>
         </tng-button-toggle-group>
       </div>
+
+      <p class="state-line">
+        Component state:
+        <strong>align={{ componentAlign() }}</strong>,
+        <strong>styles={{ formatValues(componentStyles()) }}</strong>
+      </p>
     </section>
   </section>
 </main>

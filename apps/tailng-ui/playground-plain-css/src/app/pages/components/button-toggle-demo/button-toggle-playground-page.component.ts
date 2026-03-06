@@ -3,21 +3,29 @@ import { TngButtonToggleComponent, TngButtonToggleGroupComponent } from '@tailng
 import {
   TngButtonToggle as TngButtonTogglePrimitive,
   TngButtonToggleGroup as TngButtonToggleGroupPrimitive,
+  type TngButtonToggleValue,
 } from '@tailng-ui/primitives';
 
 type AlignOption = 'center' | 'left' | 'right';
 type StyleOption = 'bold' | 'italic' | 'underline';
 
-function toggleSelection<TValue extends string>(
-  values: readonly TValue[],
-  value: TValue,
-  pressed: boolean,
-): readonly TValue[] {
-  if (pressed) {
-    return values.includes(value) ? values : [...values, value];
+function toAlignOption(value: TngButtonToggleValue | null): AlignOption {
+  if (value === 'center') {
+    return 'center';
   }
 
-  return values.filter((item) => item !== value);
+  if (value === 'right') {
+    return 'right';
+  }
+
+  return 'left';
+}
+
+function toStyleOptions(values: readonly TngButtonToggleValue[]): readonly StyleOption[] {
+  const allowedValues = new Set<StyleOption>(['bold', 'italic', 'underline']);
+  return values.filter((item): item is StyleOption =>
+    allowedValues.has(item as StyleOption),
+  );
 }
 
 @Component({
@@ -32,35 +40,32 @@ function toggleSelection<TValue extends string>(
   styleUrl: './button-toggle-playground-page.component.css',
 })
 export class ButtonTogglePlaygroundPageComponent {
-  public readonly componentAlign = signal<AlignOption>('left');
-  public readonly componentStyles = signal<readonly StyleOption[]>(['bold']);
   public readonly primitiveAlign = signal<AlignOption>('left');
   public readonly primitiveStyles = signal<readonly StyleOption[]>(['bold']);
+  public readonly componentAlign = signal<AlignOption>('left');
+  public readonly componentStyles = signal<readonly StyleOption[]>(['bold']);
 
-  public isSelected<TValue extends string>(values: readonly TValue[], value: TValue): boolean {
-    return values.includes(value);
+  public onPrimitiveAlignChange(value: TngButtonToggleValue | null): void {
+    this.primitiveAlign.set(toAlignOption(value));
   }
 
-  public onComponentAlignToggle(value: AlignOption, pressed: boolean): void {
-    if (!pressed) {
-      return;
+  public onPrimitiveStylesChange(values: readonly TngButtonToggleValue[]): void {
+    this.primitiveStyles.set(toStyleOptions(values));
+  }
+
+  public onComponentAlignChange(value: TngButtonToggleValue | null): void {
+    this.componentAlign.set(toAlignOption(value));
+  }
+
+  public onComponentStylesChange(values: readonly TngButtonToggleValue[]): void {
+    this.componentStyles.set(toStyleOptions(values));
+  }
+
+  public formatValues(values: readonly string[]): string {
+    if (values.length === 0) {
+      return 'none';
     }
 
-    this.componentAlign.set(value);
-  }
-
-  public onComponentStyleToggle(value: StyleOption, pressed: boolean): void {
-    const nextValues = toggleSelection(this.componentStyles(), value, pressed);
-    this.componentStyles.set(nextValues);
-  }
-
-  public onPrimitiveAlignChange(value: AlignOption): void {
-    this.primitiveAlign.set(value);
-  }
-
-  public onPrimitiveStyleToggle(value: StyleOption): void {
-    const isPressed = !this.primitiveStyles().includes(value);
-    const nextValues = toggleSelection(this.primitiveStyles(), value, isPressed);
-    this.primitiveStyles.set(nextValues);
+    return values.join(', ');
   }
 }

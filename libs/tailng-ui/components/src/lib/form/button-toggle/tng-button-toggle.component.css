@@ -24,10 +24,16 @@
   background: var(--tng-semantic-background-muted);
 }
 
+.tng-button-toggle[data-selected='true'],
 .tng-button-toggle--pressed {
   background: var(--tng-semantic-accent-brand);
   border-color: var(--tng-semantic-accent-brand);
   color: var(--tng-color-white);
+}
+
+.tng-button-toggle:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--tng-semantic-accent-brand) 55%, transparent);
+  outline-offset: 2px;
 }
 
 .tng-button-toggle:disabled {

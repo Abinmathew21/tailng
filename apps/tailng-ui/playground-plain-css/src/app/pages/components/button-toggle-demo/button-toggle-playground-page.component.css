@@ -21,15 +21,6 @@
   gap: 0.75rem;
 }
 
-.links a {
-  border: 1px solid var(--tng-semantic-border-subtle);
-  border-radius: 0.5rem;
-  color: var(--tng-semantic-foreground-secondary);
-  font-size: 0.875rem;
-  padding: 0.45rem 0.7rem;
-  text-decoration: none;
-}
-
 .title {
   font-size: clamp(1.875rem, 2vw + 1rem, 2.5rem);
   line-height: 1.1;
@@ -81,10 +72,25 @@
   padding: 0.35rem 0.65rem;
 }
 
-.demo-button--pressed {
+.demo-button[data-selected='true'] {
   background: var(--tng-semantic-accent-brand);
   border-color: var(--tng-semantic-accent-brand);
   color: var(--tng-color-neutral50);
+}
+
+.demo-button:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--tng-semantic-accent-brand) 55%, transparent);
+  outline-offset: 2px;
+}
+
+.state-line {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.state-line strong {
+  color: var(--tng-semantic-foreground-primary);
 }
 
 @media (min-width: 768px) {

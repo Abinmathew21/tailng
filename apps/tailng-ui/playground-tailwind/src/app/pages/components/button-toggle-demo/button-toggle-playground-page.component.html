@@ -1,155 +1,141 @@
-<div class="mx-auto max-w-[72rem] grid gap-5">
-  <section class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5 space-y-3">
-    <h2 class="text-lg font-semibold">Primitives (`tngButtonToggle` / `tngButtonToggleGroup`)</h2>
-    <div class="space-y-4">
-      <div>
-        <p class="text-sm text-tng-fg-secondary mb-2">Single-select alignment</p>
-        <div tngButtonToggleGroup class="flex flex-wrap gap-2">
-          <button
-            tngButtonToggle
-            [pressed]="primitiveAlign() === 'left'"
-            class="rounded-lg border px-4 py-2 text-sm font-medium transition"
-            [class.border-tng-accent-brand]="primitiveAlign() === 'left'"
-            [class.bg-tng-accent-brand]="primitiveAlign() === 'left'"
-            [class.text-tng-fg-inverse]="primitiveAlign() === 'left'"
-            [class.border-tng-border-subtle]="primitiveAlign() !== 'left'"
-            [class.bg-transparent]="primitiveAlign() !== 'left'"
-            [class.text-tng-fg-primary]="primitiveAlign() !== 'left'"
-            (click)="onPrimitiveAlignChange('left')"
+<main class="mx-auto grid max-w-[76rem] gap-5">
+  <header class="space-y-2">
+    <h1 class="text-2xl font-bold text-tng-fg-primary sm:text-3xl">Button Toggle</h1>
+    <p class="max-w-3xl text-sm text-tng-fg-secondary sm:text-base">
+      Headless primitive examples first, followed by component-wrapper examples using
+      <code>&lt;tng-button-toggle-group&gt;</code> and <code>&lt;tng-button-toggle&gt;</code>.
+    </p>
+  </header>
+
+  <div class="grid gap-5 lg:grid-cols-2">
+    <section class="h-full space-y-4 rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5">
+      <div class="space-y-1">
+        <h2 class="text-lg font-semibold text-tng-fg-primary">
+          Headless Primitives: <code>tngButtonToggleGroup</code> + <code>tngButtonToggle</code>
+        </h2>
+        <p class="text-sm text-tng-fg-secondary">
+          Use arrow keys to move focus. In single mode, one item stays selected by default.
+        </p>
+      </div>
+
+      <div class="space-y-4">
+        <div class="space-y-2">
+          <p class="text-sm text-tng-fg-secondary">Single-select alignment</p>
+          <div
+            tngButtonToggleGroup
+            class="flex flex-wrap gap-2"
+            [tngButtonToggleValue]="primitiveAlign()"
+            (valueChange)="onPrimitiveAlignChange($event)"
           >
-            Left
-          </button>
-          <button
-            tngButtonToggle
-            [pressed]="primitiveAlign() === 'center'"
-            class="rounded-lg border px-4 py-2 text-sm font-medium transition"
-            [class.border-tng-accent-brand]="primitiveAlign() === 'center'"
-            [class.bg-tng-accent-brand]="primitiveAlign() === 'center'"
-            [class.text-tng-fg-inverse]="primitiveAlign() === 'center'"
-            [class.border-tng-border-subtle]="primitiveAlign() !== 'center'"
-            [class.bg-transparent]="primitiveAlign() !== 'center'"
-            [class.text-tng-fg-primary]="primitiveAlign() !== 'center'"
-            (click)="onPrimitiveAlignChange('center')"
+            <button
+              tngButtonToggle
+              tngButtonToggleValue="left"
+              class="rounded-lg border border-tng-border-strong bg-transparent px-4 py-2 text-sm font-medium text-tng-fg-primary transition hover:bg-[color-mix(in_srgb,var(--tng-semantic-foreground-primary)_6%,transparent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_58%,transparent)] data-[selected=true]:border-tng-accent-brand data-[selected=true]:bg-tng-accent-brand data-[selected=true]:text-tng-fg-inverse"
+            >
+              Left
+            </button>
+            <button
+              tngButtonToggle
+              tngButtonToggleValue="center"
+              class="rounded-lg border border-tng-border-strong bg-transparent px-4 py-2 text-sm font-medium text-tng-fg-primary transition hover:bg-[color-mix(in_srgb,var(--tng-semantic-foreground-primary)_6%,transparent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_58%,transparent)] data-[selected=true]:border-tng-accent-brand data-[selected=true]:bg-tng-accent-brand data-[selected=true]:text-tng-fg-inverse"
+            >
+              Center
+            </button>
+            <button
+              tngButtonToggle
+              tngButtonToggleValue="right"
+              class="rounded-lg border border-tng-border-strong bg-transparent px-4 py-2 text-sm font-medium text-tng-fg-primary transition hover:bg-[color-mix(in_srgb,var(--tng-semantic-foreground-primary)_6%,transparent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_58%,transparent)] data-[selected=true]:border-tng-accent-brand data-[selected=true]:bg-tng-accent-brand data-[selected=true]:text-tng-fg-inverse"
+            >
+              Right
+            </button>
+          </div>
+        </div>
+
+        <div class="space-y-2">
+          <p class="text-sm text-tng-fg-secondary">Multi-select text styles</p>
+          <div
+            tngButtonToggleGroup
+            class="flex flex-wrap gap-2"
+            type="multiple"
+            [tngButtonToggleValues]="primitiveStyles()"
+            (valuesChange)="onPrimitiveStylesChange($event)"
           >
-            Center
-          </button>
-          <button
-            tngButtonToggle
-            [pressed]="primitiveAlign() === 'right'"
-            class="rounded-lg border px-4 py-2 text-sm font-medium transition"
-            [class.border-tng-accent-brand]="primitiveAlign() === 'right'"
-            [class.bg-tng-accent-brand]="primitiveAlign() === 'right'"
-            [class.text-tng-fg-inverse]="primitiveAlign() === 'right'"
-            [class.border-tng-border-subtle]="primitiveAlign() !== 'right'"
-            [class.bg-transparent]="primitiveAlign() !== 'right'"
-            [class.text-tng-fg-primary]="primitiveAlign() !== 'right'"
-            (click)="onPrimitiveAlignChange('right')"
-          >
-            Right
-          </button>
+            <button
+              tngButtonToggle
+              tngButtonToggleValue="bold"
+              class="rounded-lg border border-tng-border-strong bg-transparent px-4 py-2 text-sm font-medium text-tng-fg-primary transition hover:bg-[color-mix(in_srgb,var(--tng-semantic-foreground-primary)_6%,transparent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_58%,transparent)] data-[selected=true]:border-tng-accent-brand data-[selected=true]:bg-tng-accent-brand data-[selected=true]:text-tng-fg-inverse"
+            >
+              Bold
+            </button>
+            <button
+              tngButtonToggle
+              tngButtonToggleValue="italic"
+              class="rounded-lg border border-tng-border-strong bg-transparent px-4 py-2 text-sm font-medium text-tng-fg-primary transition hover:bg-[color-mix(in_srgb,var(--tng-semantic-foreground-primary)_6%,transparent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_58%,transparent)] data-[selected=true]:border-tng-accent-brand data-[selected=true]:bg-tng-accent-brand data-[selected=true]:text-tng-fg-inverse"
+            >
+              Italic
+            </button>
+            <button
+              tngButtonToggle
+              tngButtonToggleValue="underline"
+              class="rounded-lg border border-tng-border-strong bg-transparent px-4 py-2 text-sm font-medium text-tng-fg-primary transition hover:bg-[color-mix(in_srgb,var(--tng-semantic-foreground-primary)_6%,transparent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_58%,transparent)] data-[selected=true]:border-tng-accent-brand data-[selected=true]:bg-tng-accent-brand data-[selected=true]:text-tng-fg-inverse"
+            >
+              Underline
+            </button>
+          </div>
         </div>
       </div>
 
-      <div>
-        <p class="text-sm text-tng-fg-secondary mb-2">Multi-select text styles</p>
-        <div tngButtonToggleGroup class="flex flex-wrap gap-2">
-          <button
-            tngButtonToggle
-            [pressed]="isSelected(primitiveStyles(), 'bold')"
-            class="rounded-lg border px-4 py-2 text-sm font-medium transition"
-            [class.border-tng-accent-brand]="isSelected(primitiveStyles(), 'bold')"
-            [class.bg-tng-accent-brand]="isSelected(primitiveStyles(), 'bold')"
-            [class.text-tng-fg-inverse]="isSelected(primitiveStyles(), 'bold')"
-            [class.border-tng-border-subtle]="!isSelected(primitiveStyles(), 'bold')"
-            [class.bg-transparent]="!isSelected(primitiveStyles(), 'bold')"
-            [class.text-tng-fg-primary]="!isSelected(primitiveStyles(), 'bold')"
-            (click)="onPrimitiveStyleToggle('bold')"
+      <p class="text-sm text-tng-fg-secondary">
+        Primitive state:
+        <strong>align={{ primitiveAlign() }}</strong>,
+        <strong>styles={{ formatValues(primitiveStyles()) }}</strong>
+      </p>
+    </section>
+
+    <section class="h-full space-y-4 rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5">
+      <div class="space-y-1">
+        <h2 class="text-lg font-semibold text-tng-fg-primary">
+          Component Wrappers: <code>&lt;tng-button-toggle-group&gt;</code> + <code>&lt;tng-button-toggle&gt;</code>
+        </h2>
+        <p class="text-sm text-tng-fg-secondary">
+          Wrapper layer forwards to the same primitive behavior, including keyboard navigation.
+        </p>
+      </div>
+
+      <div class="space-y-4">
+        <div class="space-y-2">
+          <p class="text-sm text-tng-fg-secondary">Single-select alignment</p>
+          <tng-button-toggle-group
+            ariaLabel="Text alignment"
+            [tngButtonToggleValue]="componentAlign()"
+            (valueChange)="onComponentAlignChange($event)"
           >
-            Bold
-          </button>
-          <button
-            tngButtonToggle
-            [pressed]="isSelected(primitiveStyles(), 'italic')"
-            class="rounded-lg border px-4 py-2 text-sm font-medium transition"
-            [class.border-tng-accent-brand]="isSelected(primitiveStyles(), 'italic')"
-            [class.bg-tng-accent-brand]="isSelected(primitiveStyles(), 'italic')"
-            [class.text-tng-fg-inverse]="isSelected(primitiveStyles(), 'italic')"
-            [class.border-tng-border-subtle]="!isSelected(primitiveStyles(), 'italic')"
-            [class.bg-transparent]="!isSelected(primitiveStyles(), 'italic')"
-            [class.text-tng-fg-primary]="!isSelected(primitiveStyles(), 'italic')"
-            (click)="onPrimitiveStyleToggle('italic')"
+            <tng-button-toggle value="left">Left</tng-button-toggle>
+            <tng-button-toggle value="center">Center</tng-button-toggle>
+            <tng-button-toggle value="right">Right</tng-button-toggle>
+          </tng-button-toggle-group>
+        </div>
+
+        <div class="space-y-2">
+          <p class="text-sm text-tng-fg-secondary">Multi-select text styles</p>
+          <tng-button-toggle-group
+            ariaLabel="Text styles"
+            type="multiple"
+            [tngButtonToggleValues]="componentStyles()"
+            (valuesChange)="onComponentStylesChange($event)"
           >
-            Italic
-          </button>
-          <button
-            tngButtonToggle
-            [pressed]="isSelected(primitiveStyles(), 'underline')"
-            class="rounded-lg border px-4 py-2 text-sm font-medium transition"
-            [class.border-tng-accent-brand]="isSelected(primitiveStyles(), 'underline')"
-            [class.bg-tng-accent-brand]="isSelected(primitiveStyles(), 'underline')"
-            [class.text-tng-fg-inverse]="isSelected(primitiveStyles(), 'underline')"
-            [class.border-tng-border-subtle]="!isSelected(primitiveStyles(), 'underline')"
-            [class.bg-transparent]="!isSelected(primitiveStyles(), 'underline')"
-            [class.text-tng-fg-primary]="!isSelected(primitiveStyles(), 'underline')"
-            (click)="onPrimitiveStyleToggle('underline')"
-          >
-            Underline
-          </button>
+            <tng-button-toggle value="bold">Bold</tng-button-toggle>
+            <tng-button-toggle value="italic">Italic</tng-button-toggle>
+            <tng-button-toggle value="underline">Underline</tng-button-toggle>
+          </tng-button-toggle-group>
         </div>
       </div>
-    </div>
-  </section>
 
-  <section class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5 space-y-3">
-    <h2 class="text-lg font-semibold">Components (`tng-button-toggle` / `tng-button-toggle-group`)</h2>
-    <div class="space-y-4">
-      <div>
-        <p class="text-sm text-tng-fg-secondary mb-2">Single-select alignment</p>
-        <tng-button-toggle-group ariaLabel="Text alignment">
-          <tng-button-toggle
-            [pressed]="componentAlign() === 'left'"
-            (pressedChange)="onComponentAlignToggle('left', $event)"
-          >
-            Left
-          </tng-button-toggle>
-          <tng-button-toggle
-            [pressed]="componentAlign() === 'center'"
-            (pressedChange)="onComponentAlignToggle('center', $event)"
-          >
-            Center
-          </tng-button-toggle>
-          <tng-button-toggle
-            [pressed]="componentAlign() === 'right'"
-            (pressedChange)="onComponentAlignToggle('right', $event)"
-          >
-            Right
-          </tng-button-toggle>
-        </tng-button-toggle-group>
-      </div>
-
-      <div>
-        <p class="text-sm text-tng-fg-secondary mb-2">Multi-select text styles</p>
-        <tng-button-toggle-group ariaLabel="Text styles">
-          <tng-button-toggle
-            [pressed]="isSelected(componentStyles(), 'bold')"
-            (pressedChange)="onComponentStyleToggle('bold', $event)"
-          >
-            Bold
-          </tng-button-toggle>
-          <tng-button-toggle
-            [pressed]="isSelected(componentStyles(), 'italic')"
-            (pressedChange)="onComponentStyleToggle('italic', $event)"
-          >
-            Italic
-          </tng-button-toggle>
-          <tng-button-toggle
-            [pressed]="isSelected(componentStyles(), 'underline')"
-            (pressedChange)="onComponentStyleToggle('underline', $event)"
-          >
-            Underline
-          </tng-button-toggle>
-        </tng-button-toggle-group>
-      </div>
-    </div>
-  </section>
-</div>
+      <p class="text-sm text-tng-fg-secondary">
+        Component state:
+        <strong>align={{ componentAlign() }}</strong>,
+        <strong>styles={{ formatValues(componentStyles()) }}</strong>
+      </p>
+    </section>
+  </div>
+</main>
