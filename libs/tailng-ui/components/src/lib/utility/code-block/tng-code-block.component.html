@@ -63,18 +63,14 @@
       [style.max-height]="maxHeightCssValue()"
       [style.overflow-y]="maxHeightCssValue() ? 'auto' : null"
     >
-<code tngCodeBlockCode class="tng-code-block__code" data-slot="code">
-  @for (line of renderedLines(); track line.lineNumber) {
-    <span
+<code tngCodeBlockCode class="tng-code-block__code" data-slot="code">@for (line of renderedLines(); track line.lineNumber; let isLast = $last) {<span
       class="tng-code-block__line"
       data-slot="line"
       [attr.data-line-number]="line.lineNumber"
       [class.tng-code-block__line--dim]="line.dimmed"
       [class.tng-code-block__line--highlight]="line.highlighted"
       [innerHTML]="line.html"
-    ></span>
-  }
-</code>
+    ></span>@if (!isLast) {&#10;}}</code>
     </pre>
   </div>
 

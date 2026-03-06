@@ -1236,6 +1236,28 @@ describe('tng-code-block component', () => {
       expect(lineNumbers.length).toBe(lines.length);
     });
 
+    it('Keeps the first rendered line aligned with the first line number (no leading whitespace row)', async () => {
+      const { fixture } = await createSingleFixture({
+        init: (state) => {
+          state.lineNumbers = true;
+          state.startingLineNumber = 4;
+          state.code = 'import x from "x";\n\nconst y = 1;';
+        },
+      });
+
+      await flushRender(fixture);
+
+      const lineNumbers = Array.from(
+        queryCodeBlock(fixture).querySelectorAll('.tng-code-block__line-number'),
+      ).map((item) => item.textContent?.trim());
+      const lines = queryRenderedLines(fixture).map((line) => line.textContent ?? '');
+
+      expect(lineNumbers[0]).toBe('4');
+      expect(lines[0]).toBe('import x from "x";');
+      expect(lines[1]).toBe('');
+      expect(lines[2]).toBe('const y = 1;');
+    });
+
     it('Line numbers remain aligned when wrapping is enabled', async () => {
       const { fixture } = await createSingleFixture({
         init: (state) => {
