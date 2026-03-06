@@ -1,14 +1,79 @@
 <div class="mx-auto max-w-[72rem] grid gap-5">
   <section class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5 space-y-3">
-    <h2 class="text-lg font-semibold">Wrapper: direct payload</h2>
-    <div class="flex flex-wrap gap-3">
-      <tng-copy-button [text]="installCommand" (tngCopied)="onCopied($event)" />
-      <tng-copy-button
-        appearance="solid"
-        [text]="installCommand"
-        (tngCopied)="onCopied($event)"
-        (tngCopyError)="onCopyError($event)"
-      />
+    <h2 class="text-lg font-semibold">Wrapper: icon and text variants</h2>
+    <div class="grid gap-3">
+      <div class="grid gap-2 rounded-xl border border-dashed border-tng-border-subtle p-3">
+        <p class="text-sm font-semibold text-tng-fg-secondary m-0">1. Icon + text</p>
+        <div class="flex flex-wrap gap-3">
+          <tng-copy-button
+            [text]="installCommand"
+            (tngCopied)="onCopied($event)"
+            (tngCopyError)="onCopyError($event)"
+          >
+            <tng-icon copyIcon icon="copy" class="text-base"></tng-icon>
+            <tng-icon copiedIcon icon="check" class="text-base"></tng-icon>
+          </tng-copy-button>
+          <tng-copy-button
+            appearance="solid"
+            [text]="installCommand"
+            (tngCopied)="onCopied($event)"
+            (tngCopyError)="onCopyError($event)"
+          >
+            <tng-icon copyIcon icon="copy" class="text-base"></tng-icon>
+            <tng-icon copiedIcon icon="check" class="text-base"></tng-icon>
+          </tng-copy-button>
+        </div>
+      </div>
+
+      <div class="grid gap-2 rounded-xl border border-dashed border-tng-border-subtle p-3">
+        <p class="text-sm font-semibold text-tng-fg-secondary m-0">2. Icons only</p>
+        <div class="flex flex-wrap gap-3">
+          <tng-copy-button
+            copyLabel=""
+            copiedLabel=""
+            copyingLabel=""
+            errorLabel=""
+            [text]="installCommand"
+            (tngCopied)="onCopied($event)"
+            (tngCopyError)="onCopyError($event)"
+          >
+            <tng-icon copyIcon icon="copy" class="text-base"></tng-icon>
+            <tng-icon copiedIcon icon="check" class="text-base"></tng-icon>
+          </tng-copy-button>
+          <tng-copy-button
+            appearance="outline"
+            copyLabel=""
+            copiedLabel=""
+            copyingLabel=""
+            errorLabel=""
+            [text]="installCommand"
+            (tngCopied)="onCopied($event)"
+            (tngCopyError)="onCopyError($event)"
+          >
+            <tng-icon copyIcon icon="clipboard" class="text-base"></tng-icon>
+            <tng-icon copiedIcon icon="check-check" class="text-base"></tng-icon>
+          </tng-copy-button>
+        </div>
+      </div>
+
+      <div class="grid gap-2 rounded-xl border border-dashed border-tng-border-subtle p-3">
+        <p class="text-sm font-semibold text-tng-fg-secondary m-0">3. Text only</p>
+        <div class="flex flex-wrap gap-3">
+          <tng-copy-button
+            [showIcon]="false"
+            [text]="installCommand"
+            (tngCopied)="onCopied($event)"
+            (tngCopyError)="onCopyError($event)"
+          />
+          <tng-copy-button
+            appearance="solid"
+            [showIcon]="false"
+            [text]="installCommand"
+            (tngCopied)="onCopied($event)"
+            (tngCopyError)="onCopyError($event)"
+          />
+        </div>
+      </div>
     </div>
   </section>
 
