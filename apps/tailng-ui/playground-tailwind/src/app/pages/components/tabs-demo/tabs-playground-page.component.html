@@ -59,7 +59,7 @@
 
   <div class="grid gap-5 xl:grid-cols-2">
     <section
-      class="space-y-4 rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5 shadow-[inset_0_1px_0_color-mix(in_srgb,var(--tng-semantic-background-canvas)_70%,transparent)]"
+      class="min-w-0 space-y-4 rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5 shadow-[inset_0_1px_0_color-mix(in_srgb,var(--tng-semantic-background-canvas)_70%,transparent)]"
     >
       <div class="space-y-1">
         <h2 class="text-lg font-semibold text-tng-fg-primary">Headless Primitives: Controlled Value</h2>
@@ -196,6 +196,141 @@
       <p class="text-sm text-tng-fg-secondary">
         Last manual selection: <strong>{{ manualSelection() }}</strong>
       </p>
+    </section>
+  </div>
+
+  <div class="grid gap-5 xl:grid-cols-2">
+    <section
+      class="space-y-4 rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5 shadow-[inset_0_1px_0_color-mix(in_srgb,var(--tng-semantic-background-canvas)_70%,transparent)]"
+    >
+      <div class="space-y-1">
+        <h2 class="text-lg font-semibold text-tng-fg-primary">
+          Headless Primitives: Scrollable Strip + Auto Scroll Buttons
+        </h2>
+        <p class="text-sm text-tng-fg-secondary">
+          Uses <code>scrollButtons="auto"</code>, keeps one row with horizontal overflow, and shows
+          <code>&#x2039; / &#x203A;</code> only when needed.
+        </p>
+      </div>
+
+      <section
+        tngTabs
+        aria-label="Scrollable documentation tabs"
+        scrollButtons="auto"
+        class="grid min-w-0 gap-3"
+        (tabChange)="onOverflowTabChange($event)"
+      >
+        <div class="flex min-w-0 items-center gap-2">
+          <button
+            type="button"
+            tngTabsScrollButtonPrev
+            aria-label="Scroll tabs left"
+            class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-tng-border-subtle bg-tng-bg-canvas text-xl leading-none text-tng-fg-primary transition-colors hover:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_8%,var(--tng-semantic-background-canvas))] disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            &#x2039;
+          </button>
+
+          <div
+            tngTabList
+            class="flex min-w-0 flex-1 gap-2 overflow-x-auto whitespace-nowrap rounded-xl border border-tng-border-subtle p-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+            ariaLabel="Scrollable documentation sections"
+          >
+            @for (item of overflowTabs; track item.value) {
+              <button
+                type="button"
+                tngTab
+                [value]="item.value"
+                class="inline-flex min-h-9 shrink-0 items-center rounded-xl border border-tng-border-subtle bg-tng-bg-canvas px-3.5 py-2 text-sm font-semibold leading-tight text-tng-fg-primary transition-colors hover:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_8%,var(--tng-semantic-background-canvas))] focus-visible:outline-none data-[selected=true]:border-tng-accent-brand data-[selected=true]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] data-[focused=true]:ring-2 data-[focused=true]:ring-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_32%,transparent)] data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50"
+              >
+                {{ item.label }}
+              </button>
+            }
+          </div>
+
+          <button
+            type="button"
+            tngTabsScrollButtonNext
+            aria-label="Scroll tabs right"
+            class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-tng-border-subtle bg-tng-bg-canvas text-xl leading-none text-tng-fg-primary transition-colors hover:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_8%,var(--tng-semantic-background-canvas))] disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            &#x203A;
+          </button>
+        </div>
+
+        @for (item of overflowTabs; track item.value) {
+          <article
+            tngTabPanel
+            [value]="item.value"
+            class="rounded-xl border border-tng-border-subtle bg-tng-bg-canvas p-3 text-sm text-tng-fg-secondary"
+          >
+            {{ item.label }} panel content. Try wheel/trackpad scroll on the strip, then arrows to verify auto-scroll.
+          </article>
+        }
+      </section>
+
+      <p class="text-sm text-tng-fg-secondary">
+        Last overflow selection: <strong>{{ overflowSelection() }}</strong>
+      </p>
+    </section>
+
+    <section
+      class="min-w-0 space-y-4 rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5 shadow-[inset_0_1px_0_color-mix(in_srgb,var(--tng-semantic-background-canvas)_70%,transparent)]"
+    >
+      <div class="space-y-1">
+        <h2 class="text-lg font-semibold text-tng-fg-primary">Component Wrapper: Forced Scroll Buttons</h2>
+        <p class="text-sm text-tng-fg-secondary">
+          Wrapper demo with <code>scrollButtons="on"</code> keeps left/right icons always visible.
+        </p>
+      </div>
+
+      <tng-tabs ariaLabel="Wrapper overflow tabs" scrollButtons="on" class="grid min-w-0 gap-3">
+        <div class="flex min-w-0 items-center gap-2">
+          <button
+            type="button"
+            tngTabsScrollButtonPrev
+            aria-label="Scroll tabs left"
+            class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-tng-border-subtle bg-tng-bg-canvas text-xl leading-none text-tng-fg-primary transition-colors hover:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_8%,var(--tng-semantic-background-canvas))] disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            &#x2039;
+          </button>
+
+          <div
+            tngTabList
+            class="flex min-w-0 flex-1 gap-2 overflow-x-auto whitespace-nowrap rounded-xl border border-tng-border-subtle p-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+            ariaLabel="Wrapper overflow sections"
+          >
+            @for (item of overflowTabs; track item.value) {
+              <button
+                type="button"
+                tngTab
+                [value]="item.value"
+                class="inline-flex min-h-9 shrink-0 items-center rounded-xl border border-tng-border-subtle bg-tng-bg-canvas px-3.5 py-2 text-sm font-semibold leading-tight text-tng-fg-primary transition-colors hover:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_8%,var(--tng-semantic-background-canvas))] focus-visible:outline-none data-[selected=true]:border-tng-accent-brand data-[selected=true]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] data-[focused=true]:ring-2 data-[focused=true]:ring-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_32%,transparent)] data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50"
+              >
+                {{ item.label }}
+              </button>
+            }
+          </div>
+
+          <button
+            type="button"
+            tngTabsScrollButtonNext
+            aria-label="Scroll tabs right"
+            class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-tng-border-subtle bg-tng-bg-canvas text-xl leading-none text-tng-fg-primary transition-colors hover:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_8%,var(--tng-semantic-background-canvas))] disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            &#x203A;
+          </button>
+        </div>
+
+        @for (item of overflowTabs; track item.value) {
+          <article
+            tngTabPanel
+            [value]="item.value"
+            class="rounded-xl border border-tng-border-subtle bg-tng-bg-canvas p-3 text-sm text-tng-fg-secondary"
+          >
+            Wrapper panel for {{ item.label }}.
+          </article>
+        }
+      </tng-tabs>
     </section>
   </div>
 
