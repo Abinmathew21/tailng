@@ -12,7 +12,7 @@
     "build": "NX_DAEMON=false NX_ISOLATE_PLUGINS=false nx run-many -t build",
     "build:theme": "NX_DAEMON=false NX_ISOLATE_PLUGINS=false nx build theme",
     "build:tailng": "NX_DAEMON=false NX_ISOLATE_PLUGINS=false nx run tailng-cli:build",
-    "docs": "NX_DAEMON=false NX_ISOLATE_PLUGINS=false nx serve docs",
+    "docs:start": "NX_DAEMON=false NX_ISOLATE_PLUGINS=false nx serve docs",
     "docs:build": "NX_DAEMON=false NX_ISOLATE_PLUGINS=false nx build docs",
     "docs:prerender": "node tools/prerender/prerender-docs.mjs",
     "docs:seo": "pnpm run docs:build && pnpm run docs:prerender",

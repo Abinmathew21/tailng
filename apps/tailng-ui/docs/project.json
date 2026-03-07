@@ -19,7 +19,10 @@
             "input": "apps/tailng-ui/docs/public"
           }
         ],
-        "styles": ["apps/tailng-ui/docs/src/styles.css"]
+        "styles": [
+          "libs/tailng-ui/theme/src/lib/component-contracts/index.css",
+          "apps/tailng-ui/docs/src/styles.css"
+        ]
       },
       "configurations": {
         "production": {

@@ -1,2 +1,112 @@
-<app-nx-welcome></app-nx-welcome>
-<router-outlet></router-outlet>
+<main class="min-h-screen bg-tng-bg-canvas text-tng-fg-primary">
+  <div class="mx-auto flex w-full max-w-6xl flex-col gap-8 px-6 py-6 md:py-10">
+    <header class="flex flex-wrap items-start justify-between gap-4">
+      <div class="flex min-w-0 items-center gap-3">
+        <img src="logo.svg" alt="TailNG logo" class="h-11 w-11 rounded-xl border border-tng-border-subtle bg-tng-bg-surface p-2" />
+        <div class="min-w-0">
+          <p class="m-0 text-xs uppercase tracking-[0.14em] text-tng-fg-secondary">TailNG</p>
+          <h1 class="m-0 text-2xl font-semibold leading-tight md:text-3xl">tailng.dev</h1>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <div class="relative">
+          <button
+            type="button"
+            [tngMenuTriggerFor]="themePresetMenu"
+            class="inline-flex h-9 items-center gap-2 rounded-lg border border-tng-border-subtle bg-tng-bg-surface px-3 text-sm font-medium text-tng-fg-primary transition-colors hover:bg-tng-bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tng-focus-ring"
+          >
+            Theme: {{ selectedPresetLabel() }}
+            <span aria-hidden="true">▾</span>
+          </button>
+
+          <tng-menu
+            #themePresetMenu="tngMenu"
+            ariaLabel="Theme preset options"
+            class="left-auto right-0 z-40 min-w-72"
+          >
+            @for (preset of presetOptions; track preset.id) {
+              <button
+                type="button"
+                role="menuitemradio"
+                [attr.aria-checked]="isPresetSelected(preset.id) ? 'true' : 'false'"
+                tabindex="0"
+                (click)="onPresetSelect(preset.id); themePresetMenu.close(true)"
+                class="flex w-full cursor-pointer items-start justify-between rounded-lg border-0 bg-transparent px-3 py-2 text-left text-sm text-tng-fg-primary transition-colors hover:bg-tng-bg-muted focus:bg-tng-bg-muted focus:outline-none"
+                [class.bg-tng-bg-muted]="isPresetSelected(preset.id)"
+                [class.font-semibold]="isPresetSelected(preset.id)"
+                [class.text-tng-accent-brand]="isPresetSelected(preset.id)"
+              >
+                <span class="flex flex-col gap-0.5">
+                  <span>{{ preset.label }}</span>
+                  <span class="text-xs font-normal text-tng-fg-secondary">{{ preset.description }}</span>
+                </span>
+              </button>
+            }
+          </tng-menu>
+        </div>
+
+        <tng-toggle
+          [pressed]="darkMode()"
+          pressedLabel="Switch to light mode"
+          unpressedLabel="Switch to dark mode"
+          (pressedChange)="onThemeModeChange($event)"
+        >
+          <span offIcon aria-hidden="true">☀</span>
+          <span onIcon aria-hidden="true">🌙</span>
+        </tng-toggle>
+      </div>
+    </header>
+
+    <section class="grid gap-6 rounded-3xl border border-tng-border-subtle bg-tng-bg-surface p-6 md:grid-cols-[1.25fr_0.75fr] md:p-8">
+      <div class="space-y-4">
+        <p class="m-0 inline-flex w-fit rounded-full border border-tng-border-subtle bg-tng-bg-canvas px-3 py-1 text-xs font-semibold uppercase tracking-[0.13em] text-tng-fg-secondary">
+          Angular + Tailwind + Theme Tokens
+        </p>
+        <h2 class="m-0 text-3xl font-semibold leading-tight md:text-5xl">
+          Build beautiful, accessible interfaces with TailNG.
+        </h2>
+        <p class="m-0 max-w-2xl text-base text-tng-fg-secondary md:text-lg">
+          TailNG ships headless primitives, wrapper components, and a tokenized theme engine.
+          Compose production-grade UI while keeping behavior, accessibility, and style contracts aligned.
+        </p>
+      </div>
+
+      <aside class="grid gap-3 rounded-2xl border border-tng-border-subtle bg-tng-bg-canvas p-4">
+        <h3 class="m-0 text-sm font-semibold uppercase tracking-[0.12em] text-tng-fg-secondary">Quick Setup</h3>
+        <code class="overflow-x-auto rounded-lg border border-tng-border-subtle bg-tng-bg-surface px-3 py-2 text-sm text-tng-fg-primary">
+          pnpm add &#64;tailng-ui/primitives &#64;tailng-ui/components &#64;tailng-ui/theme
+        </code>
+        <p class="m-0 text-sm text-tng-fg-secondary">
+          Current mode:
+          <span class="font-semibold text-tng-fg-primary">{{ darkMode() ? 'Dark' : 'Light' }}</span>
+        </p>
+        <p class="m-0 text-sm text-tng-fg-secondary">
+          Current preset:
+          <span class="font-semibold text-tng-fg-primary">{{ selectedPresetLabel() }}</span>
+        </p>
+      </aside>
+    </section>
+
+    <section class="grid gap-4 md:grid-cols-3">
+      <article class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5">
+        <h3 class="m-0 text-lg font-semibold">Headless Foundations</h3>
+        <p class="mt-2 text-sm text-tng-fg-secondary">
+          Accessible primitives for menus, tabs, drawers, overlays, forms, and more.
+        </p>
+      </article>
+      <article class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5">
+        <h3 class="m-0 text-lg font-semibold">Component Wrappers</h3>
+        <p class="mt-2 text-sm text-tng-fg-secondary">
+          Productive wrappers built on top of the same primitives with predictable behavior.
+        </p>
+      </article>
+      <article class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5">
+        <h3 class="m-0 text-lg font-semibold">Token-Driven Theming</h3>
+        <p class="mt-2 text-sm text-tng-fg-secondary">
+          Switch modes and presets instantly through semantic tokens and CSS variable adapters.
+        </p>
+      </article>
+    </section>
+  </div>
+</main>

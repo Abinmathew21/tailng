@@ -183,7 +183,7 @@ pnpm dev:registry
 ### Run docs site
 
 ```bash
-pnpm docs
+pnpm docs:start
 ```
 
 Build static output for Cloudflare Pages:
