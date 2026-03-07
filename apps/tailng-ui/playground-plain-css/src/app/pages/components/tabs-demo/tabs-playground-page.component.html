@@ -144,6 +144,80 @@
       </article>
     </section>
 
+    <section class="card-grid">
+      <article class="card">
+        <h2>Headless Primitives: Scrollable Strip + Auto Scroll Buttons</h2>
+        <p class="demo-note">
+          Keeps one row, enables horizontal overflow, and shows <code>‹ / ›</code> only when the strip
+          overflows (<code>scrollButtons="auto"</code>). Arrow navigation and click auto-scroll the active tab into
+          view.
+        </p>
+
+        <section
+          tngTabs
+          class="tabs-shell tabs-shell--overflow"
+          aria-label="Scrollable documentation tabs"
+          scrollButtons="auto"
+          (tabChange)="onOverflowTabChange($event)"
+        >
+          <div class="tabs-strip">
+            <button type="button" tngTabsScrollButtonPrev class="tabs-scroll-control" aria-label="Scroll tabs left">
+              &#x2039;
+            </button>
+            <div tngTabList class="tabs-list tabs-list--overflow" ariaLabel="Scrollable documentation sections">
+              @for (item of overflowTabs; track item.value) {
+                <button type="button" tngTab [value]="item.value" class="tab-trigger">{{ item.label }}</button>
+              }
+            </div>
+            <button type="button" tngTabsScrollButtonNext class="tabs-scroll-control" aria-label="Scroll tabs right">
+              &#x203A;
+            </button>
+          </div>
+
+          @for (item of overflowTabs; track item.value) {
+            <article tngTabPanel [value]="item.value" class="tab-panel">
+              {{ item.label }} panel content. Try mouse wheel / trackpad on the tab strip, then use arrow keys to
+              verify focused tabs auto-scroll into view.
+            </article>
+          }
+        </section>
+
+        <p class="state-line">Last overflow selection: <strong>{{ overflowSelection() }}</strong></p>
+      </article>
+
+      <article class="card">
+        <h2>Component Wrapper: Forced Scroll Buttons</h2>
+        <p class="demo-note">
+          Wrapper demo with <code>scrollButtons="on"</code> to keep navigation buttons visible even before
+          interaction.
+        </p>
+
+        <tng-tabs class="tabs-shell tabs-shell--overflow" ariaLabel="Wrapper overflow tabs" scrollButtons="on">
+          <div class="tabs-strip">
+            <button type="button" tngTabsScrollButtonPrev class="tabs-scroll-control" aria-label="Scroll tabs left">
+              &#x2039;
+            </button>
+            <div tngTabList class="tabs-list tabs-list--overflow" ariaLabel="Wrapper overflow sections">
+              @for (item of overflowTabs; track item.value) {
+                <button type="button" tngTab [value]="item.value" class="tab-trigger">
+                  {{ item.label }}
+                </button>
+              }
+            </div>
+            <button type="button" tngTabsScrollButtonNext class="tabs-scroll-control" aria-label="Scroll tabs right">
+              &#x203A;
+            </button>
+          </div>
+
+          @for (item of overflowTabs; track item.value) {
+            <article tngTabPanel [value]="item.value" class="tab-panel">
+              Wrapper panel for {{ item.label }}.
+            </article>
+          }
+        </tng-tabs>
+      </article>
+    </section>
+
     <section class="card-grid card-grid--single">
       <article class="card">
         <h2>Component Wrapper: &lt;tng-tabs&gt; (Secondary Demo)</h2>

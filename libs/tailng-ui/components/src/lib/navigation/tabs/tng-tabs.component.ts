@@ -12,6 +12,7 @@ import { TngTabs as TngTabsPrimitive } from '@tailng-ui/primitives';
         'defaultValue',
         'activation',
         'orientation',
+        'scrollButtons',
         'loop',
         'dir',
         'disabled',

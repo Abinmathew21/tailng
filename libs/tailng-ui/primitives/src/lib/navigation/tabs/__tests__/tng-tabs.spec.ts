@@ -1,9 +1,16 @@
 import { Component, ViewChild, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { afterEach, describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import * as primitives from '../../../../index';
-import { TngTab, TngTabList, TngTabPanel, TngTabs } from '../tng-tabs';
+import {
+  TngTab,
+  TngTabList,
+  TngTabPanel,
+  TngTabs,
+  TngTabsScrollButtonNext,
+  TngTabsScrollButtonPrev,
+} from '../tng-tabs';
 
 interface TabConfig {
   readonly value: string;
@@ -52,13 +59,15 @@ function dispatchTabAndSimulateBrowserFocus(
 
 @Component({
   standalone: true,
-  imports: [TngTabs, TngTabList, TngTab, TngTabPanel],
+  imports: [TngTabs, TngTabList, TngTab, TngTabPanel, TngTabsScrollButtonPrev, TngTabsScrollButtonNext],
   template: `
     <section tngTabs data-testid="tabs">
+      <button type="button" tngTabsScrollButtonPrev data-testid="scroll-prev">⬅</button>
       <div tngTabList data-testid="tablist">
         <button tngTab data-testid="tab-alpha">Alpha</button>
         <button tngTab data-testid="tab-beta">Beta</button>
       </div>
+      <button type="button" tngTabsScrollButtonNext data-testid="scroll-next">➡</button>
 
       <section tngTabPanel data-testid="panel-alpha">Alpha panel</section>
       <section tngTabPanel data-testid="panel-beta">Beta panel</section>
@@ -69,10 +78,12 @@ class MinimalTabsHostComponent {}
 
 @Component({
   standalone: true,
-  imports: [TngTabs, TngTabList, TngTab, TngTabPanel],
+  imports: [TngTabs, TngTabList, TngTab, TngTabPanel, TngTabsScrollButtonPrev, TngTabsScrollButtonNext],
   template: `
     <section tngTabs data-testid="tabs">
+      <button type="button" tngTabsScrollButtonPrev data-testid="scroll-prev">⬅</button>
       <div tngTabList data-testid="tablist"></div>
+      <button type="button" tngTabsScrollButtonNext data-testid="scroll-next">➡</button>
     </section>
   `,
 })
@@ -80,7 +91,7 @@ class ZeroTabsHostComponent {}
 
 @Component({
   standalone: true,
-  imports: [TngTabs, TngTabList, TngTab, TngTabPanel],
+  imports: [TngTabs, TngTabList, TngTab, TngTabPanel, TngTabsScrollButtonPrev, TngTabsScrollButtonNext],
   template: `
     <button type="button" data-testid="before">Before</button>
 
@@ -93,6 +104,7 @@ class ZeroTabsHostComponent {}
         [defaultValue]="defaultValueAttr()"
         [activation]="activation()"
         [orientation]="orientation()"
+        [scrollButtons]="scrollButtons()"
         [loop]="loop()"
         [dir]="dir()"
         [keepAlive]="keepAlive()"
@@ -101,7 +113,10 @@ class ZeroTabsHostComponent {}
         (tabChange)="tabChanges.push($event)"
         (focusChange)="focusChanges.push($event)"
       >
-        <div tngTabList data-testid="tablist" tabindex="0">
+        <button type="button" tngTabsScrollButtonPrev data-testid="scroll-prev">
+          <span data-testid="scroll-prev-icon">◀</span>
+        </button>
+        <div tngTabList data-testid="tablist">
           @for (tab of tabs(); track tab.value) {
             @if (!tab.rogue) {
               <button
@@ -123,6 +138,9 @@ class ZeroTabsHostComponent {}
             }
           }
         </div>
+        <button type="button" tngTabsScrollButtonNext data-testid="scroll-next">
+          <span data-testid="scroll-next-icon">▶</span>
+        </button>
 
         @for (panel of panels(); track panel.value) {
           <section
@@ -160,6 +178,7 @@ class TabsHarnessHostComponent {
   readonly defaultValueAttr = signal<string | null>(null);
   readonly activation = signal<'auto' | 'manual'>('auto');
   readonly orientation = signal<'horizontal' | 'vertical'>('horizontal');
+  readonly scrollButtons = signal<'auto' | 'off' | 'on'>('off');
   readonly loop = signal(true);
   readonly dir = signal<'ltr' | 'rtl' | 'auto'>('ltr');
   readonly keepAlive = signal<boolean | undefined>(undefined);
@@ -186,22 +205,26 @@ class TabsHarnessHostComponent {
 
 @Component({
   standalone: true,
-  imports: [TngTabs, TngTabList, TngTab, TngTabPanel],
+  imports: [TngTabs, TngTabList, TngTab, TngTabPanel, TngTabsScrollButtonPrev, TngTabsScrollButtonNext],
   template: `
     <section tngTabs data-testid="tabs-a">
+      <button type="button" tngTabsScrollButtonPrev data-testid="a-scroll-prev">⬅</button>
       <div tngTabList data-testid="tablist-a">
         <button tngTab data-testid="a-tab-one">A One</button>
         <button tngTab data-testid="a-tab-two">A Two</button>
       </div>
+      <button type="button" tngTabsScrollButtonNext data-testid="a-scroll-next">➡</button>
       <section tngTabPanel data-testid="a-panel-one">A Panel One</section>
       <section tngTabPanel data-testid="a-panel-two">A Panel Two</section>
     </section>
 
     <section tngTabs data-testid="tabs-b">
+      <button type="button" tngTabsScrollButtonPrev data-testid="b-scroll-prev">⬅</button>
       <div tngTabList data-testid="tablist-b">
         <button tngTab data-testid="b-tab-one">B One</button>
         <button tngTab data-testid="b-tab-two">B Two</button>
       </div>
+      <button type="button" tngTabsScrollButtonNext data-testid="b-scroll-next">➡</button>
       <section tngTabPanel data-testid="b-panel-one">B Panel One</section>
       <section tngTabPanel data-testid="b-panel-two">B Panel Two</section>
     </section>
@@ -211,7 +234,7 @@ class TabsIsolationHostComponent {}
 
 @Component({
   standalone: true,
-  imports: [TngTabs, TngTabList, TngTab, TngTabPanel],
+  imports: [TngTabs, TngTabList, TngTab, TngTabPanel, TngTabsScrollButtonPrev, TngTabsScrollButtonNext],
   template: `
     <section
       tngTabs
@@ -220,11 +243,13 @@ class TabsIsolationHostComponent {}
       [activation]="activation"
       (tabChange)="tabChanges.push($event)"
     >
+      <button type="button" tngTabsScrollButtonPrev data-testid="scroll-prev">⬅</button>
       <div tngTabList data-testid="tablist">
         <button tngTab data-testid="tab-account" value="account">Account</button>
         <button tngTab data-testid="tab-security" value="security">Security</button>
         <button tngTab data-testid="tab-billing" value="billing" disabled>Billing</button>
       </div>
+      <button type="button" tngTabsScrollButtonNext data-testid="scroll-next">➡</button>
       <section tngTabPanel data-testid="panel-account" value="account">Account panel</section>
       <section tngTabPanel data-testid="panel-security" value="security">Security panel</section>
       <section tngTabPanel data-testid="panel-billing" value="billing">Billing panel</section>
@@ -252,19 +277,59 @@ function getPanels(fixture: { nativeElement: HTMLElement }): HTMLElement[] {
   return Array.from(fixture.nativeElement.querySelectorAll('[tngTabPanel]')) as HTMLElement[];
 }
 
+function setOverflowMetrics(
+  element: HTMLElement,
+  metrics: Readonly<{ clientWidth: number; scrollWidth: number }>,
+): void {
+  Object.defineProperty(element, 'clientWidth', {
+    configurable: true,
+    value: metrics.clientWidth,
+  });
+
+  Object.defineProperty(element, 'scrollWidth', {
+    configurable: true,
+    value: metrics.scrollWidth,
+  });
+}
+
+function spyOnScrollIntoView() {
+  const prototype = HTMLElement.prototype as unknown as {
+    scrollIntoView?: (options?: ScrollIntoViewOptions) => void;
+  };
+
+  if (typeof prototype.scrollIntoView !== 'function') {
+    Object.defineProperty(prototype, 'scrollIntoView', {
+      configurable: true,
+      writable: true,
+      value: () => undefined,
+    });
+  }
+
+  return vi
+    .spyOn(
+      prototype as {
+        scrollIntoView(options?: ScrollIntoViewOptions): void;
+      },
+      'scrollIntoView',
+    )
+    .mockImplementation(() => undefined);
+}
+
 describe('tng-tabs primitives', () => {
   afterEach(() => {
     TestBed.resetTestingModule();
   });
 
   describe('A) Exports & basic structure', () => {
-    it('exports the tabs primitives (tng-tabs, tng-tab-list, tng-tab, tng-tab-panel)', () => {
+    it('exports the tabs primitives (tng-tabs, tng-tab-list, tng-tab, tng-tab-panel, scroll controls)', () => {
       const exported = primitives as Record<string, unknown>;
 
       expect(typeof exported['TngTabs']).toBe('function');
       expect(typeof exported['TngTabList']).toBe('function');
       expect(typeof exported['TngTab']).toBe('function');
       expect(typeof exported['TngTabPanel']).toBe('function');
+      expect(typeof exported['TngTabsScrollButtonPrev']).toBe('function');
+      expect(typeof exported['TngTabsScrollButtonNext']).toBe('function');
     });
 
     it('renders a valid tabs structure without requiring optional inputs', () => {
@@ -325,6 +390,18 @@ describe('tng-tabs primitives', () => {
 
       const tablist = getByTestId<HTMLElement>(fixture, 'tablist');
       expect(tablist.getAttribute('role')).toBe('tablist');
+    });
+
+    it('keeps tablist out of sequential tab order (tabindex=-1)', () => {
+      const fixture = TestBed.configureTestingModule({
+        imports: [TabsHarnessHostComponent],
+      }).createComponent(TabsHarnessHostComponent);
+
+      fixture.detectChanges();
+
+      const tablist = getByTestId<HTMLElement>(fixture, 'tablist');
+      expect(tablist.getAttribute('tabindex')).toBe('-1');
+      expect(tablist.tabIndex).toBe(-1);
     });
 
     it('applies role="tab" on each tab', () => {
@@ -647,18 +724,20 @@ describe('tng-tabs primitives', () => {
       expect(document.activeElement).toBe(account);
     });
 
-    it('focus does not jump to other tabs when focusing tablist container', () => {
+    it('focusing the tablist container redirects focus to the current tab stop', () => {
       const fixture = TestBed.configureTestingModule({
         imports: [TabsHarnessHostComponent],
       }).createComponent(TabsHarnessHostComponent);
 
+      fixture.componentInstance.valueAttr.set('security');
       fixture.detectChanges();
 
       const tablist = getByTestId<HTMLElement>(fixture, 'tablist');
+      const security = getByTestId<HTMLButtonElement>(fixture, 'tab-security');
       tablist.focus();
       fixture.detectChanges();
 
-      expect(document.activeElement).toBe(tablist);
+      expect(document.activeElement).toBe(security);
     });
 
     it('does not set tabindex=0 on disabled tabs', () => {
@@ -1834,6 +1913,187 @@ describe('tng-tabs primitives', () => {
         fixture.destroy();
         document.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowLeft', bubbles: true }));
       }).not.toThrow();
+    });
+  });
+
+  describe('P) Overflow strip + scroll affordances', () => {
+    it('auto-scrolls focused tab into view with nearest alignment when roving focus changes by Arrow keys', () => {
+      const fixture = TestBed.configureTestingModule({
+        imports: [TabsHarnessHostComponent],
+      }).createComponent(TabsHarnessHostComponent);
+
+      fixture.detectChanges();
+
+      const tablist = getByTestId<HTMLElement>(fixture, 'tablist');
+      setOverflowMetrics(tablist, { clientWidth: 180, scrollWidth: 840 });
+
+      const account = getByTestId<HTMLButtonElement>(fixture, 'tab-account');
+      const security = getByTestId<HTMLButtonElement>(fixture, 'tab-security');
+      const scrollIntoViewSpy = spyOnScrollIntoView();
+
+      account.focus();
+      fixture.detectChanges();
+
+      keydown(account, 'ArrowRight');
+      fixture.detectChanges();
+
+      expect(scrollIntoViewSpy).toHaveBeenCalled();
+      const [options] = scrollIntoViewSpy.mock.calls.at(-1) ?? [];
+      expect(options).toEqual(
+        expect.objectContaining({
+          block: 'nearest',
+          inline: 'nearest',
+        }),
+      );
+      expect(scrollIntoViewSpy.mock.instances.at(-1)).toBe(security);
+    });
+
+    it('auto-scrolls selected tab into view when selection changes by pointer', () => {
+      const fixture = TestBed.configureTestingModule({
+        imports: [TabsHarnessHostComponent],
+      }).createComponent(TabsHarnessHostComponent);
+
+      fixture.detectChanges();
+
+      const tablist = getByTestId<HTMLElement>(fixture, 'tablist');
+      setOverflowMetrics(tablist, { clientWidth: 180, scrollWidth: 840 });
+
+      const teams = getByTestId<HTMLButtonElement>(fixture, 'tab-teams');
+      const scrollIntoViewSpy = spyOnScrollIntoView();
+
+      click(teams);
+      fixture.detectChanges();
+
+      expect(scrollIntoViewSpy).toHaveBeenCalled();
+      const [options] = scrollIntoViewSpy.mock.calls.at(-1) ?? [];
+      expect(options).toEqual(
+        expect.objectContaining({
+          block: 'nearest',
+          inline: 'nearest',
+        }),
+      );
+      expect(scrollIntoViewSpy.mock.instances.some((instance) => instance === teams)).toBe(true);
+    });
+
+    it('shows previous/next scroll controls when overflow is present and scrollButtons="auto"', () => {
+      const fixture = TestBed.configureTestingModule({
+        imports: [TabsHarnessHostComponent],
+      }).createComponent(TabsHarnessHostComponent);
+
+      fixture.detectChanges();
+
+      const tablist = getByTestId<HTMLElement>(fixture, 'tablist');
+      const prevButton = getByTestId<HTMLButtonElement>(fixture, 'scroll-prev');
+      const nextButton = getByTestId<HTMLButtonElement>(fixture, 'scroll-next');
+
+      expect(prevButton.hasAttribute('hidden')).toBe(true);
+      expect(nextButton.hasAttribute('hidden')).toBe(true);
+
+      fixture.componentInstance.scrollButtons.set('auto');
+      setOverflowMetrics(tablist, { clientWidth: 180, scrollWidth: 840 });
+      fixture.detectChanges();
+
+      expect(prevButton.hasAttribute('hidden')).toBe(false);
+      expect(nextButton.hasAttribute('hidden')).toBe(false);
+      expect(prevButton.hasAttribute('disabled')).toBe(true);
+      expect(nextButton.hasAttribute('disabled')).toBe(false);
+    });
+
+    it('clicking scroll controls moves the tab strip and updates disabled state', () => {
+      const fixture = TestBed.configureTestingModule({
+        imports: [TabsHarnessHostComponent],
+      }).createComponent(TabsHarnessHostComponent);
+
+      fixture.detectChanges();
+
+      const tablist = getByTestId<HTMLElement>(fixture, 'tablist');
+      fixture.componentInstance.scrollButtons.set('auto');
+      setOverflowMetrics(tablist, { clientWidth: 180, scrollWidth: 840 });
+      tablist.scrollLeft = 0;
+      fixture.detectChanges();
+
+      const prevButton = getByTestId<HTMLButtonElement>(fixture, 'scroll-prev');
+      const nextButton = getByTestId<HTMLButtonElement>(fixture, 'scroll-next');
+
+      expect(prevButton.hasAttribute('disabled')).toBe(true);
+      expect(nextButton.hasAttribute('disabled')).toBe(false);
+
+      click(nextButton);
+      fixture.detectChanges();
+
+      expect(tablist.scrollLeft).toBeGreaterThan(0);
+      expect(prevButton.hasAttribute('disabled')).toBe(false);
+
+      tablist.scrollLeft = tablist.scrollWidth - tablist.clientWidth;
+      tablist.dispatchEvent(new Event('scroll', { bubbles: true }));
+      fixture.detectChanges();
+
+      expect(nextButton.hasAttribute('disabled')).toBe(true);
+    });
+
+    it('supports consumer-provided icon markup inside scroll control directives', () => {
+      const fixture = TestBed.configureTestingModule({
+        imports: [TabsHarnessHostComponent],
+      }).createComponent(TabsHarnessHostComponent);
+
+      fixture.detectChanges();
+
+      const prevIcon = getByTestId<HTMLElement>(fixture, 'scroll-prev-icon');
+      const nextIcon = getByTestId<HTMLElement>(fixture, 'scroll-next-icon');
+
+      expect(prevIcon.textContent?.trim()).toBe('◀');
+      expect(nextIcon.textContent?.trim()).toBe('▶');
+    });
+
+    it('supports horizontal wheel/trackpad scrolling on overflowing tab strips', () => {
+      const fixture = TestBed.configureTestingModule({
+        imports: [TabsHarnessHostComponent],
+      }).createComponent(TabsHarnessHostComponent);
+
+      fixture.detectChanges();
+
+      const tablist = getByTestId<HTMLElement>(fixture, 'tablist');
+      setOverflowMetrics(tablist, { clientWidth: 180, scrollWidth: 840 });
+      tablist.scrollLeft = 0;
+
+      const wheelEvent = new WheelEvent('wheel', {
+        bubbles: true,
+        cancelable: true,
+        deltaY: 96,
+      });
+
+      tablist.dispatchEvent(wheelEvent);
+      fixture.detectChanges();
+
+      expect(tablist.scrollLeft).toBeGreaterThan(0);
+    });
+
+    it('Shift+Tab from the last focused tab moves focus to the previous scroll control', () => {
+      const fixture = TestBed.configureTestingModule({
+        imports: [TabsHarnessHostComponent],
+      }).createComponent(TabsHarnessHostComponent);
+
+      fixture.componentInstance.valueAttr.set('teams');
+      fixture.componentInstance.scrollButtons.set('on');
+      fixture.detectChanges();
+
+      const tablist = getByTestId<HTMLElement>(fixture, 'tablist');
+      setOverflowMetrics(tablist, { clientWidth: 180, scrollWidth: 840 });
+      tablist.scrollLeft = 120;
+      tablist.dispatchEvent(new Event('scroll', { bubbles: true }));
+      fixture.detectChanges();
+
+      const teams = getByTestId<HTMLButtonElement>(fixture, 'tab-teams');
+      const prevButton = getByTestId<HTMLButtonElement>(fixture, 'scroll-prev');
+
+      expect(prevButton.hasAttribute('disabled')).toBe(false);
+
+      teams.focus();
+      const event = dispatchTabAndSimulateBrowserFocus(teams, prevButton, true);
+      fixture.detectChanges();
+
+      expect(event.defaultPrevented).toBe(false);
+      expect(document.activeElement).toBe(prevButton);
     });
   });
 });

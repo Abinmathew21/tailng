@@ -12,6 +12,7 @@ import { createTngIdFactory } from '@tailng-ui/cdk';
 type TngTabsDirection = 'ltr' | 'rtl' | 'auto';
 type TngTabsOrientation = 'horizontal' | 'vertical';
 type TngTabsActivationMode = 'auto' | 'manual';
+type TngTabsScrollButtonsMode = 'auto' | 'off' | 'on';
 type TngTabsFocusMove = 'next' | 'prev' | 'first' | 'last';
 type TngTabsFocusTrigger = 'pointer' | 'keyboard' | 'programmatic';
 type TngTabsSelectionTrigger = 'pointer' | 'keyboard' | 'programmatic';
@@ -75,6 +76,18 @@ function normalizeOrientationInput(value: unknown): TngTabsOrientation {
 
 function normalizeActivationInput(value: unknown): TngTabsActivationMode {
   return value === 'manual' ? 'manual' : 'auto';
+}
+
+function normalizeScrollButtonsInput(value: unknown): TngTabsScrollButtonsMode {
+  if (value === 'auto' || value === 'on' || value === 'off') {
+    return value;
+  }
+
+  if (value === '' || value === true || value === 'true') {
+    return 'auto';
+  }
+
+  return 'off';
 }
 
 function normalizeOptionalValueInput(value: unknown): TngTabsValue | null | undefined {
@@ -152,6 +165,9 @@ export class TngTabs {
   private readonly hostRef = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly tabs = new Set<TngTab>();
   private readonly panels = new Set<TngTabPanel>();
+  private tabList: TngTabList | null = null;
+  private scrollPrevControl: TngTabsScrollButtonPrev | null = null;
+  private scrollNextControl: TngTabsScrollButtonNext | null = null;
   private uncontrolledValue: TngTabsValue | null = null;
   private focusedValue: TngTabsValue | null = null;
   private hasUserSelection = false;
@@ -168,6 +184,9 @@ export class TngTabs {
   });
   readonly orientation = input<TngTabsOrientation, unknown>('horizontal', {
     transform: normalizeOrientationInput,
+  });
+  readonly scrollButtons = input<TngTabsScrollButtonsMode, unknown>('off', {
+    transform: normalizeScrollButtonsInput,
   });
   readonly loop = input<boolean, unknown>(true, {
     transform: normalizeBooleanInput,
@@ -306,6 +325,113 @@ export class TngTabs {
     this.syncStateFromRegistry();
   }
 
+  registerScrollPrevControl(control: TngTabsScrollButtonPrev): void {
+    this.scrollPrevControl = control;
+  }
+
+  unregisterScrollPrevControl(control: TngTabsScrollButtonPrev): void {
+    if (this.scrollPrevControl === control) {
+      this.scrollPrevControl = null;
+    }
+  }
+
+  registerScrollNextControl(control: TngTabsScrollButtonNext): void {
+    this.scrollNextControl = control;
+  }
+
+  unregisterScrollNextControl(control: TngTabsScrollButtonNext): void {
+    if (this.scrollNextControl === control) {
+      this.scrollNextControl = null;
+    }
+  }
+
+  registerTabList(tabList: TngTabList): void {
+    this.tabList = tabList;
+  }
+
+  unregisterTabList(tabList: TngTabList): void {
+    if (this.tabList !== tabList) {
+      return;
+    }
+
+    this.tabList = null;
+  }
+
+  onTabListScrolled(): void {}
+
+  onTabListFocused(): void {
+    if (this.disabled()) {
+      return;
+    }
+
+    const enabledTabs = this.getEnabledTabs();
+    if (enabledTabs.length === 0) {
+      return;
+    }
+
+    const currentTabStopValue = this.resolveCurrentTabStopValue(enabledTabs);
+    const currentTab =
+      this.findEnabledTabByValue(currentTabStopValue, enabledTabs) ??
+      enabledTabs[0] ??
+      null;
+    if (currentTab === null) {
+      return;
+    }
+
+    currentTab.focusSelf();
+  }
+
+  handleTabListWheel(event: WheelEvent): void {
+    if (this.orientation() !== 'horizontal') {
+      return;
+    }
+
+    if (!this.isTabListOverflowing()) {
+      return;
+    }
+
+    const dominantDelta = Math.abs(event.deltaX) > Math.abs(event.deltaY) ? event.deltaX : event.deltaY;
+    if (dominantDelta === 0) {
+      return;
+    }
+
+    event.preventDefault();
+    this.scrollTabListBy(dominantDelta);
+  }
+
+  isScrollButtonHidden(): boolean {
+    return !this.shouldShowScrollButtons();
+  }
+
+  isScrollButtonDisabled(direction: 'next' | 'prev'): boolean {
+    if (this.isScrollButtonHidden()) {
+      return true;
+    }
+
+    const tabListElement = this.getTabListElement();
+    if (tabListElement === null) {
+      return true;
+    }
+
+    const maxScrollLeft = Math.max(0, tabListElement.scrollWidth - tabListElement.clientWidth);
+    if (direction === 'prev') {
+      return tabListElement.scrollLeft <= 0;
+    }
+
+    return tabListElement.scrollLeft >= maxScrollLeft;
+  }
+
+  onScrollButtonClick(direction: 'next' | 'prev', event: MouseEvent): void {
+    if (this.isScrollButtonDisabled(direction)) {
+      event.preventDefault();
+      return;
+    }
+
+    const delta = direction === 'prev' ? -this.resolveTabListScrollStep() : this.resolveTabListScrollStep();
+    this.scrollTabListBy(delta);
+    event.preventDefault();
+  }
+
   getTabIndex(tab: TngTab): string {
     if (this.disabled() || tab.isDisabledInContext()) {
       return '-1';
@@ -408,6 +534,7 @@ export class TngTabs {
     }
 
     this.setFocusedValue(tab.getValue(), trigger);
+    this.scrollTabIntoView(tab);
   }
 
   requestSelection(tab: TngTab, trigger: TngTabsSelectionTrigger): void {
@@ -434,6 +561,7 @@ export class TngTabs {
       trigger,
     });
 
+    this.scrollTabIntoView(tab);
     this.syncStateFromRegistry();
   }
 
@@ -841,6 +969,73 @@ export class TngTabs {
       }) ?? null
     );
   }
+
+  private getTabListElement(): HTMLElement | null {
+    return this.tabList?.getHostElement() ?? null;
+  }
+
+  private isTabListOverflowing(): boolean {
+    const tabListElement = this.getTabListElement();
+    if (tabListElement === null) {
+      return false;
+    }
+
+    return tabListElement.scrollWidth > tabListElement.clientWidth;
+  }
+
+  private shouldShowScrollButtons(): boolean {
+    if (this.scrollPrevControl === null && this.scrollNextControl === null) {
+      return false;
+    }
+
+    const mode = this.scrollButtons();
+    if (mode === 'on') {
+      return true;
+    }
+
+    if (mode !== 'auto') {
+      return false;
+    }
+
+    return this.isTabListOverflowing();
+  }
+
+  private resolveTabListScrollStep(): number {
+    const tabListElement = this.getTabListElement();
+    if (tabListElement === null) {
+      return 120;
+    }
+
+    return Math.max(80, Math.round(tabListElement.clientWidth * 0.7));
+  }
+
+  private scrollTabListBy(delta: number): void {
+    const tabListElement = this.getTabListElement();
+    if (tabListElement === null || delta === 0) {
+      return;
+    }
+
+    tabListElement.scrollLeft += delta;
+  }
+
+  private scrollTabIntoView(tab: TngTab): void {
+    if (!this.isTabListOverflowing()) {
+      return;
+    }
+
+    const host = tab.getHostElement();
+    const scrollIntoView = host.scrollIntoView as
+      | ((options?: ScrollIntoViewOptions) => void)
+      | undefined;
+    if (typeof scrollIntoView !== 'function') {
+      return;
+    }
+
+    scrollIntoView.call(host, {
+      block: 'nearest',
+      inline: 'nearest',
+    });
+  }
 }
 
 @Directive({
@@ -849,6 +1044,7 @@ export class TngTabs {
   standalone: true,
 })
 export class TngTabList {
+  private readonly hostRef = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly tabs = inject(TngTabs, { host: true });
 
   readonly ariaLabel = input<string | null | undefined, unknown>(undefined, {
@@ -866,6 +1062,9 @@ export class TngTabList {
   @HostBinding('attr.role')
   protected readonly role = 'tablist' as const;
 
+  @HostBinding('attr.tabindex')
+  protected readonly tabIndex = '-1' as const;
+
   @HostBinding('attr.aria-orientation')
   protected get ariaOrientation(): TngTabsOrientation {
     return this.tabs.orientation();
@@ -879,6 +1078,123 @@ export class TngTabList {
   @HostBinding('attr.aria-labelledby')
   protected get hostAriaLabelledby(): string | null {
     return this.ariaLabelledby() ?? null;
+  }
+
+  constructor() {
+    this.tabs.registerTabList(this);
+  }
+
+  ngOnDestroy(): void {
+    this.tabs.unregisterTabList(this);
+  }
+
+  @HostListener('wheel', ['$event'])
+  protected onWheel(event: WheelEvent): void {
+    this.tabs.handleTabListWheel(event);
+  }
+
+  @HostListener('scroll')
+  protected onScroll(): void {
+    this.tabs.onTabListScrolled();
+  }
+
+  @HostListener('focus')
+  protected onFocus(): void {
+    this.tabs.onTabListFocused();
+  }
+
+  getHostElement(): HTMLElement {
+    return this.hostRef.nativeElement;
+  }
+}
+
+@Directive({
+  selector: '[tngTabsScrollButtonPrev]',
+  exportAs: 'tngTabsScrollButtonPrev',
+  standalone: true,
+})
+export class TngTabsScrollButtonPrev {
+  private readonly tabs = inject(TngTabs, { host: true });
+
+  @HostBinding('attr.data-slot')
+  protected readonly dataSlot = 'tabs-scroll-button-prev' as const;
+
+  @HostBinding('attr.hidden')
+  protected get hidden(): '' | null {
+    return this.tabs.isScrollButtonHidden() ? '' : null;
+  }
+
+  @HostBinding('attr.disabled')
+  protected get disabled(): '' | null {
+    return this.tabs.isScrollButtonDisabled('prev') ? '' : null;
+  }
+
+  @HostBinding('attr.aria-disabled')
+  protected get ariaDisabled(): 'true' | null {
+    return this.tabs.isScrollButtonDisabled('prev') ? 'true' : null;
+  }
+
+  @HostBinding('attr.data-disabled')
+  protected get dataDisabled(): 'true' | 'false' {
+    return this.tabs.isScrollButtonDisabled('prev') ? 'true' : 'false';
+  }
+
+  constructor() {
+    this.tabs.registerScrollPrevControl(this);
+  }
+
+  ngOnDestroy(): void {
+    this.tabs.unregisterScrollPrevControl(this);
+  }
+
+  @HostListener('click', ['$event'])
+  protected onClick(event: MouseEvent): void {
+    this.tabs.onScrollButtonClick('prev', event);
+  }
+}
+
+@Directive({
+  selector: '[tngTabsScrollButtonNext]',
+  exportAs: 'tngTabsScrollButtonNext',
+  standalone: true,
+})
+export class TngTabsScrollButtonNext {
+  private readonly tabs = inject(TngTabs, { host: true });
+
+  @HostBinding('attr.data-slot')
+  protected readonly dataSlot = 'tabs-scroll-button-next' as const;
+
+  @HostBinding('attr.hidden')
+  protected get hidden(): '' | null {
+    return this.tabs.isScrollButtonHidden() ? '' : null;
+  }
+
+  @HostBinding('attr.disabled')
+  protected get disabled(): '' | null {
+    return this.tabs.isScrollButtonDisabled('next') ? '' : null;
+  }
+
+  @HostBinding('attr.aria-disabled')
+  protected get ariaDisabled(): 'true' | null {
+    return this.tabs.isScrollButtonDisabled('next') ? 'true' : null;
+  }
+
+  @HostBinding('attr.data-disabled')
+  protected get dataDisabled(): 'true' | 'false' {
+    return this.tabs.isScrollButtonDisabled('next') ? 'true' : 'false';
+  }
+
+  constructor() {
+    this.tabs.registerScrollNextControl(this);
+  }
+
+  ngOnDestroy(): void {
+    this.tabs.unregisterScrollNextControl(this);
+  }
+
+  @HostListener('click', ['$event'])
+  protected onClick(event: MouseEvent): void {
+    this.tabs.onScrollButtonClick('next', event);
   }
 }
 

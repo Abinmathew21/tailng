@@ -79,9 +79,61 @@
   gap: 0.5rem;
 }
 
+.tabs-list--overflow {
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  width: 100%;
+}
+
+.tabs-list--overflow::-webkit-scrollbar {
+  display: none;
+}
+
 .tabs-list--vertical {
   align-items: stretch;
   flex-direction: column;
+}
+
+.tabs-shell--overflow {
+  gap: 0.6rem;
+}
+
+.tabs-strip {
+  align-items: center;
+  display: grid;
+  gap: 0.45rem;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  min-width: 0;
+}
+
+.tabs-shell--overflow .tab-trigger {
+  white-space: nowrap;
+}
+
+.tabs-shell--overflow [data-slot='tabs-scroll-button-prev'],
+.tabs-shell--overflow [data-slot='tabs-scroll-button-next'] {
+  align-items: center;
+  background: var(--tng-semantic-background-canvas);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 999px;
+  color: var(--tng-semantic-foreground-primary);
+  cursor: pointer;
+  display: inline-flex;
+  height: 1.8rem;
+  justify-content: center;
+  line-height: 1;
+  padding: 0;
+  width: 1.8rem;
+  flex-shrink: 0;
+}
+
+.tabs-shell--overflow [data-slot='tabs-scroll-button-prev']:disabled,
+.tabs-shell--overflow [data-slot='tabs-scroll-button-next']:disabled {
+  cursor: default;
+  opacity: 0.45;
 }
 
 .tab-trigger {
