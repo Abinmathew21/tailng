@@ -67,7 +67,7 @@ it('tailng cli integration: add writes all button source files', async (): Promi
   expect(exitCode).toBe(0);
 
   const buttonTsPath = path.join(targetRoot, 'src/app/tailng-ui/button/tng-button.ts');
-  const primitivePath = path.join(targetRoot, 'src/app/tailng-ui/button/tng-button-primitive.ts');
+  const primitivePath = path.join(targetRoot, 'src/app/tailng-ui/button/tng-press-primitive.ts');
   const indexPath = path.join(targetRoot, 'src/app/tailng-ui/button/index.ts');
 
   expect(await pathExists(buttonTsPath)).toBe(true);
@@ -79,7 +79,7 @@ it('tailng cli integration: add writes all button source files', async (): Promi
 
   const indexContent = await readFile(indexPath, 'utf8');
   expect(indexContent).toContain("export * from './tng-button';");
-  expect(indexContent).toContain("export * from './tng-button-primitive';");
+  expect(indexContent).toContain("export * from './tng-press-primitive';");
 });
 
 it('tailng cli integration: add writes accordion source files', async (): Promise<void> => {

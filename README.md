@@ -316,7 +316,7 @@ Note:
 - `--dry-run` shows `CREATE`, `SKIP`, or `OVERWRITE` behavior.
 - `--cwd` should point to the app root where files must be generated.
 - `tailng add <component-name>` follows shadcn-style source copy. Example for `button`:
-  - `src/app/tailng-ui/button/tng-button-primitive.ts`
+  - `src/app/tailng-ui/button/tng-press-primitive.ts`
   - `src/app/tailng-ui/button/tng-button.ts`
   - `src/app/tailng-ui/button/tng-button.html`
   - `src/app/tailng-ui/button/tng-button.css`

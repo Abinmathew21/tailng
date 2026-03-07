@@ -12,7 +12,7 @@ const buttonPrimitiveTsTemplate = `import {
 
 type ButtonHostElement = HTMLAnchorElement | HTMLButtonElement;
 type NullableBooleanInput = boolean | null | string | undefined;
-export type TngAriaHasPopup =
+export type TngPressAriaHasPopup =
   | 'dialog'
   | 'false'
   | 'grid'
@@ -20,9 +20,9 @@ export type TngAriaHasPopup =
   | 'menu'
   | 'tree'
   | 'true';
-export type TngButtonType = 'button' | 'reset' | 'submit';
+export type TngPressType = 'button' | 'reset' | 'submit';
 
-const validAriaHasPopupValues: readonly TngAriaHasPopup[] = [
+const validAriaHasPopupValues: readonly TngPressAriaHasPopup[] = [
   'dialog',
   'false',
   'grid',
@@ -32,7 +32,7 @@ const validAriaHasPopupValues: readonly TngAriaHasPopup[] = [
   'true',
 ];
 
-export function coerceTngButtonNullableBoolean(value: NullableBooleanInput): boolean | null {
+export function coerceTngPressNullableBoolean(value: NullableBooleanInput): boolean | null {
   if (value === undefined || value === null) {
     return null;
   }
@@ -48,9 +48,9 @@ export function coerceTngButtonNullableBoolean(value: NullableBooleanInput): boo
   return null;
 }
 
-export function coerceTngButtonAriaHasPopup(
+export function coerceTngPressAriaHasPopup(
   value: boolean | null | string | undefined,
-): TngAriaHasPopup | null {
+): TngPressAriaHasPopup | null {
   if (value === undefined || value === null) {
     return null;
   }
@@ -64,7 +64,7 @@ export function coerceTngButtonAriaHasPopup(
   }
 
   const normalized = value.trim().toLowerCase();
-  if (!isTngAriaHasPopup(normalized)) {
+  if (!isTngPressAriaHasPopup(normalized)) {
     return null;
   }
 
@@ -75,8 +75,8 @@ function isActivationKey(key: string): boolean {
   return key === ' ' || key === 'Enter';
 }
 
-function isTngAriaHasPopup(value: string): value is TngAriaHasPopup {
-  return validAriaHasPopupValues.includes(value as TngAriaHasPopup);
+function isTngPressAriaHasPopup(value: string): value is TngPressAriaHasPopup {
+  return validAriaHasPopupValues.includes(value as TngPressAriaHasPopup);
 }
 
 function normalizeStringValue(value: string | null | undefined): string | null {
@@ -97,27 +97,27 @@ function toAriaBoolean(value: boolean | null): 'false' | 'true' | null {
 }
 
 @Directive({
-  selector: 'a[tngButton], button[tngButton]',
-  exportAs: 'tngButton',
+  selector: 'a[tngPress], button[tngPress]',
+  exportAs: 'tngPress',
 })
-export class TngButtonPrimitive {
+export class TngPressPrimitive {
   public readonly ariaControls = input<string | null>(null);
   public readonly ariaExpanded = input<boolean | null, NullableBooleanInput>(null, {
-    transform: coerceTngButtonNullableBoolean,
+    transform: coerceTngPressNullableBoolean,
   });
   public readonly ariaHasPopup = input<
-    TngAriaHasPopup | null,
+    TngPressAriaHasPopup | null,
     boolean | null | string | undefined
   >(null, {
-    transform: coerceTngButtonAriaHasPopup,
+    transform: coerceTngPressAriaHasPopup,
   });
   public readonly ariaPressed = input<boolean | null, NullableBooleanInput>(null, {
-    transform: coerceTngButtonNullableBoolean,
+    transform: coerceTngPressNullableBoolean,
   });
   public readonly disabled = input<boolean, boolean | string>(false, {
     transform: booleanAttribute,
   });
-  public readonly type = input<TngButtonType>('button');
+  public readonly type = input<TngPressType>('button');
 
   private readonly hostRef = inject<ElementRef<ButtonHostElement>>(ElementRef);
 
@@ -141,7 +141,7 @@ export class TngButtonPrimitive {
   }
 
   @HostBinding('attr.aria-haspopup')
-  protected get ariaHasPopupAttr(): TngAriaHasPopup | null {
+  protected get ariaHasPopupAttr(): TngPressAriaHasPopup | null {
     return this.ariaHasPopup();
   }
 
@@ -183,7 +183,7 @@ export class TngButtonPrimitive {
   }
 
   @HostBinding('attr.type')
-  protected get typeAttr(): TngButtonType | null {
+  protected get typeAttr(): TngPressType | null {
     return this.isNativeButton() ? this.type() : null;
   }
 
@@ -253,11 +253,11 @@ export class TngButtonPrimitive {
 
 const buttonComponentTsTemplate = `import { booleanAttribute, Component, input } from '@angular/core';
 import {
-  coerceTngButtonAriaHasPopup,
-  coerceTngButtonNullableBoolean,
-  TngButtonPrimitive,
-} from './tng-button-primitive';
-import type { TngAriaHasPopup, TngButtonType } from './tng-button-primitive';
+  coerceTngPressAriaHasPopup,
+  coerceTngPressNullableBoolean,
+  TngPressPrimitive,
+} from './tng-press-primitive';
+import type { TngPressAriaHasPopup, TngPressType } from './tng-press-primitive';
 
 type NullableBooleanInput = boolean | null | string | undefined;
 export type TngButtonAppearance = 'ghost' | 'outline' | 'solid';
@@ -266,7 +266,7 @@ export type TngButtonTone = 'danger' | 'neutral' | 'primary' | 'success';
 
 @Component({
   selector: 'tng-button',
-  imports: [TngButtonPrimitive],
+  imports: [TngPressPrimitive],
   templateUrl: './tng-button.html',
   styleUrl: './tng-button.css',
 })
@@ -274,28 +274,28 @@ export class TngButton {
   public readonly appearance = input<TngButtonAppearance>('solid');
   public readonly ariaControls = input<string | null>(null);
   public readonly ariaExpanded = input<boolean | null, NullableBooleanInput>(null, {
-    transform: coerceTngButtonNullableBoolean,
+    transform: coerceTngPressNullableBoolean,
   });
   public readonly ariaHasPopup = input<
-    TngAriaHasPopup | null,
+    TngPressAriaHasPopup | null,
     boolean | null | string | undefined
   >(null, {
-    transform: coerceTngButtonAriaHasPopup,
+    transform: coerceTngPressAriaHasPopup,
   });
   public readonly ariaPressed = input<boolean | null, NullableBooleanInput>(null, {
-    transform: coerceTngButtonNullableBoolean,
+    transform: coerceTngPressNullableBoolean,
   });
   public readonly disabled = input<boolean, boolean | string>(false, {
     transform: booleanAttribute,
   });
   public readonly size = input<TngButtonSize>('md');
   public readonly tone = input<TngButtonTone>('primary');
-  public readonly type = input<TngButtonType>('button');
+  public readonly type = input<TngPressType>('button');
 }
 `;
 
 const buttonTemplateHtml = `<button
-  tngButton
+  tngPress
   class="tng-button"
   [type]="type()"
   [disabled]="disabled()"
@@ -390,7 +390,7 @@ const buttonTemplateCss = `:host {
 `;
 
 const buttonIndexTsTemplate = `export * from './tng-button';
-export * from './tng-button-primitive';
+export * from './tng-press-primitive';
 `;
 
 export const buttonRegistryItem: RegistryItem = {
@@ -399,7 +399,7 @@ export const buttonRegistryItem: RegistryItem = {
   files: [
     {
       content: buttonPrimitiveTsTemplate,
-      path: 'src/app/tailng-ui/button/tng-button-primitive.ts',
+      path: 'src/app/tailng-ui/button/tng-press-primitive.ts',
     },
     {
       content: buttonComponentTsTemplate,

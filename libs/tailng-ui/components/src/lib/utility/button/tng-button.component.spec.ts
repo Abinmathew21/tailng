@@ -1,9 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import {
-  coerceTngButtonAriaHasPopup,
-  coerceTngButtonNullableBoolean,
-  TngButtonComponent,
-} from './tng-button.component';
+import { coerceTngPressAriaHasPopup, coerceTngPressNullableBoolean } from '@tailng-ui/primitives';
+import { TngButtonComponent } from './tng-button.component';
 
 describe('tng-button component', () => {
   it('exports the public TngButtonComponent symbol', () => {
@@ -11,18 +8,18 @@ describe('tng-button component', () => {
   });
 
   it('coerces nullable boolean inputs', () => {
-    expect(coerceTngButtonNullableBoolean(undefined)).toBeNull();
-    expect(coerceTngButtonNullableBoolean('')).toBe(true);
-    expect(coerceTngButtonNullableBoolean('true')).toBe(true);
-    expect(coerceTngButtonNullableBoolean('false')).toBe(false);
-    expect(coerceTngButtonNullableBoolean('x')).toBeNull();
+    expect(coerceTngPressNullableBoolean(undefined)).toBeNull();
+    expect(coerceTngPressNullableBoolean('')).toBe(true);
+    expect(coerceTngPressNullableBoolean('true')).toBe(true);
+    expect(coerceTngPressNullableBoolean('false')).toBe(false);
+    expect(coerceTngPressNullableBoolean('x')).toBeNull();
   });
 
   it('coerces aria-haspopup inputs', () => {
-    expect(coerceTngButtonAriaHasPopup(undefined)).toBeNull();
-    expect(coerceTngButtonAriaHasPopup(true)).toBe('true');
-    expect(coerceTngButtonAriaHasPopup(false)).toBe('false');
-    expect(coerceTngButtonAriaHasPopup(' listbox ')).toBe('listbox');
-    expect(coerceTngButtonAriaHasPopup('noop')).toBeNull();
+    expect(coerceTngPressAriaHasPopup(undefined)).toBeNull();
+    expect(coerceTngPressAriaHasPopup(true)).toBe('true');
+    expect(coerceTngPressAriaHasPopup(false)).toBe('false');
+    expect(coerceTngPressAriaHasPopup(' listbox ')).toBe('listbox');
+    expect(coerceTngPressAriaHasPopup('noop')).toBeNull();
   });
 });

@@ -13,16 +13,16 @@ describe('button registry item', () => {
       file.path.endsWith('tailng-ui/button/tng-button.ts'),
     );
     expect(tsFile).toBeDefined();
-    expect(tsFile?.content).toContain("from './tng-button-primitive';");
-    expect(tsFile?.content).toContain('coerceTngButtonAriaHasPopup');
-    expect(tsFile?.content).toContain('coerceTngButtonNullableBoolean');
+    expect(tsFile?.content).toContain("from './tng-press-primitive';");
+    expect(tsFile?.content).toContain('coerceTngPressAriaHasPopup');
+    expect(tsFile?.content).toContain('coerceTngPressNullableBoolean');
     expect(tsFile?.content).toContain("selector: 'tng-button'");
 
     const primitiveFile = buttonRegistryItem.files.find((file) =>
-      file.path.endsWith('tailng-ui/button/tng-button-primitive.ts'),
+      file.path.endsWith('tailng-ui/button/tng-press-primitive.ts'),
     );
     expect(primitiveFile).toBeDefined();
-    expect(primitiveFile?.content).toContain('export class TngButtonPrimitive');
+    expect(primitiveFile?.content).toContain('export class TngPressPrimitive');
 
     const indexFile = buttonRegistryItem.files.find((file) =>
       file.path.endsWith('tailng-ui/button/index.ts'),

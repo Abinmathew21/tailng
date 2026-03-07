@@ -61,7 +61,7 @@ export * from './lib/feedback/toast/tng-toast';
 // Utility
 export * from './lib/utility/avatar/tng-avatar';
 export * from './lib/utility/badge/tng-badge';
-export * from './lib/utility/button/tng-button';
+export * from './lib/utility/press/tng-press';
 export * from './lib/utility/code-block/tng-code-block';
 export * from './lib/utility/copy/tng-copy';
 export * from './lib/utility/tag/tng-tag';

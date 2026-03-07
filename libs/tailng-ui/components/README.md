@@ -12,7 +12,7 @@ Owned, installable components built on top of `@tailng-ui/primitives`.
 
 ## TngButton
 
-`TngButton` provides a styled wrapper over the `tngButton` primitive behavior.
+`TngButton` provides a styled wrapper over the `tngPress` primitive behavior.
 
 ```ts
 import { Component } from '@angular/core';
