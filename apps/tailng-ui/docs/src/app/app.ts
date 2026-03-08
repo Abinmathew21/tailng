@@ -1,5 +1,6 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, computed, effect, inject, signal } from '@angular/core';
+import { RouterLink, RouterOutlet } from '@angular/router';
 import { TngMenuComponent, TngMenuTriggerFor, TngSwitchComponent } from '@tailng-ui/components';
 import { TngIcon } from '@tailng-ui/icons';
 import {
@@ -21,15 +22,14 @@ type ThemePresetOption = Readonly<{
   description: string;
 }>;
 
+type NavItem = Readonly<{
+  label: string;
+  route: string;
+}>;
+
 type LinkItem = Readonly<{
   label: string;
   href: string;
-}>;
-
-type ContentCard = Readonly<{
-  title: string;
-  description: string;
-  href?: string;
 }>;
 
 const presetOptions: readonly ThemePresetOption[] = [
@@ -47,195 +47,12 @@ const presetOptions: readonly ThemePresetOption[] = [
   },
 ];
 
-const primaryNavigation: readonly LinkItem[] = [
-  { label: 'Components', href: '#packages' },
-  { label: 'Primitives', href: '#packages' },
-  { label: 'CDK', href: '#packages' },
-  { label: 'Theme', href: '#theme' },
-  { label: 'Icons', href: '#explore' },
-];
-
-const packageCards: readonly ContentCard[] = [
-  {
-    title: 'CDK',
-    description:
-      'Low-level utilities for interaction, behavior, structure, focus management, overlays, and shared UI mechanics.',
-    href: '#packages',
-  },
-  {
-    title: 'Primitives',
-    description:
-      'Headless accessible foundations for menus, popovers, dialogs, tabs, switches, drawers, and more.',
-    href: '#packages',
-  },
-  {
-    title: 'Components',
-    description:
-      'Reusable UI components with sensible structure and minimal styling, ready for real product development.',
-    href: '#packages',
-  },
-  {
-    title: 'Icons',
-    description: 'A consistent icon set designed to fit naturally into TailNG apps and docs.',
-    href: '#explore',
-  },
-  {
-    title: 'Theme',
-    description: 'Tokens, visual foundations, presets, and mode-aware styling for product interfaces.',
-    href: '#theme',
-  },
-  {
-    title: 'Install',
-    description:
-      'Selective adoption inspired by shadcn-like workflows, so teams can own exactly what they ship.',
-    href: '#install',
-  },
-];
-
-const principles: readonly ContentCard[] = [
-  {
-    title: 'Accessibility first',
-    description:
-      'Strong interaction patterns, semantics, keyboard support, and ARIA behavior are the baseline.',
-  },
-  {
-    title: 'Ownable by teams',
-    description:
-      'UI code stays understandable, adaptable, and maintainable for product teams over time.',
-  },
-  {
-    title: 'Layered architecture',
-    description:
-      'Adopt CDK, primitives, components, icons, and themes at the level that fits your project.',
-  },
-  {
-    title: 'Angular-native',
-    description: 'Built for modern Angular patterns with a signal-first mindset and predictable APIs.',
-  },
-  {
-    title: 'Styling flexibility',
-    description:
-      'TailNG supports branding and custom design systems without forcing one rigid visual identity.',
-  },
-  {
-    title: 'Practical by default',
-    description: 'Designed for real dashboards, forms, overlays, tables, and product workflows.',
-  },
-];
-
-const whyTailng: readonly ContentCard[] = [
-  {
-    title: 'Modular adoption',
-    description:
-      'Start with components, go lower with primitives, and build deeper with CDK only when needed.',
-  },
-  {
-    title: 'Better ownership',
-    description:
-      'The architecture encourages clarity so teams can understand and evolve the UI they ship.',
-  },
-  {
-    title: 'Accessibility that matters',
-    description:
-      'Focus behavior, keyboard interactions, and semantics are treated as core product quality.',
-  },
-  {
-    title: 'Design-system friendly',
-    description:
-      'TailNG fits branded ecosystems instead of forcing a fixed visual identity on every product.',
-  },
-  {
-    title: 'Flexible install path',
-    description:
-      'Choose package installation or selective ownership patterns based on how your team works.',
-  },
-];
-
-const installOptions: readonly ContentCard[] = [
-  {
-    title: 'Use components',
-    description: 'Start with ready-to-use building blocks for forms, overlays, navigation, and data UI.',
-  },
-  {
-    title: 'Use primitives',
-    description: 'Build your own presentation layer on top of accessible behavior contracts.',
-  },
-  {
-    title: 'Use CDK',
-    description: 'Compose advanced product patterns with lower-level behavior foundations.',
-  },
-  {
-    title: 'Use selective install',
-    description: 'Adopt only the modules your team wants to own and evolve.',
-  },
-];
-
-const themeHighlights: readonly ContentCard[] = [
-  {
-    title: 'Theme tokens',
-    description:
-      'Define reusable values for color, spacing, typography, borders, and surfaces across the product.',
-  },
-  {
-    title: 'Presets and customization',
-    description: 'Start from a preset, then adapt TailNG to match your internal system language.',
-  },
-  {
-    title: 'Dark and light support',
-    description: 'Support modern UI expectations with clean mode-aware visual behavior.',
-  },
-  {
-    title: 'Styling without lock-in',
-    description: 'Works with vanilla CSS, utility workflows, and design-system conventions.',
-  },
-];
-
-const exploreLinks: readonly ContentCard[] = [
-  {
-    title: 'Docs',
-    description: 'Read usage guides, architecture decisions, and package-level documentation.',
-  },
-  {
-    title: 'Components',
-    description: 'Browse ready-made UI building blocks for common product needs.',
-  },
-  {
-    title: 'Primitives',
-    description: 'Explore accessible headless interaction patterns for custom UI development.',
-  },
-  {
-    title: 'CDK',
-    description: 'See the low-level behavioral foundations that power the system.',
-  },
-  {
-    title: 'Theme',
-    description: 'Understand tokens, presets, and mode-aware styling foundations.',
-  },
-  {
-    title: 'Icons',
-    description: 'Browse icon usage patterns for interface consistency.',
-  },
-  {
-    title: 'Install',
-    description: 'Choose the best adoption path for your application or design system.',
-  },
-];
-
-const footerProductLinks: readonly LinkItem[] = [
-  { label: 'Docs', href: '#explore' },
-  { label: 'Components', href: '#packages' },
-  { label: 'Primitives', href: '#packages' },
-  { label: 'CDK', href: '#packages' },
-  { label: 'Theme', href: '#theme' },
-  { label: 'Icons', href: '#explore' },
-];
-
-const footerResourceLinks: readonly LinkItem[] = [
-  { label: 'Install', href: '#install' },
-  { label: 'GitHub', href: 'https://github.com' },
-  { label: 'npm', href: 'https://www.npmjs.com' },
-  { label: 'Changelog', href: '#explore' },
-  { label: 'News', href: '#explore' },
+const primaryNavigation: readonly NavItem[] = [
+  { label: 'Components', route: '/components' },
+  { label: 'Primitives', route: '/primitives' },
+  { label: 'CDK', route: '/cdk' },
+  { label: 'Theme', route: '/theme' },
+  { label: 'Icons', route: '/icons' },
 ];
 
 const npmPackageLinks: readonly LinkItem[] = [
@@ -247,13 +64,6 @@ const npmPackageLinks: readonly LinkItem[] = [
   { label: 'tailng', href: 'https://www.npmjs.com/package/tailng' },
 ];
 
-const footerCommunityLinks: readonly LinkItem[] = [
-  { label: 'Contributing', href: '#explore' },
-  { label: 'License', href: '#explore' },
-  { label: 'Accessibility', href: '#principles' },
-  { label: 'Discussions', href: 'https://github.com' },
-];
-
 const semanticCollections: readonly (keyof ThemeSemanticTokens)[] = [
   'background',
   'foreground',
@@ -263,44 +73,29 @@ const semanticCollections: readonly (keyof ThemeSemanticTokens)[] = [
 ];
 
 @Component({
-  imports: [TngMenuComponent, TngMenuTriggerFor, TngSwitchComponent, TngIcon],
+  imports: [
+    RouterOutlet,
+    RouterLink,
+    TngMenuComponent,
+    TngMenuTriggerFor,
+    TngSwitchComponent,
+    TngIcon,
+  ],
   selector: 'app-root',
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
 export class App {
   private readonly documentRef = inject(DOCUMENT);
-  public readonly currentYear = new Date().getFullYear();
 
   public readonly darkMode = signal(false);
   public readonly presetOptions = presetOptions;
   public readonly selectedPreset = signal<ThemePresetId>('default');
   public readonly primaryNavigation = primaryNavigation;
-  public readonly packageCards = packageCards;
-  public readonly principles = principles;
-  public readonly whyTailng = whyTailng;
-  public readonly installOptions = installOptions;
-  public readonly themeHighlights = themeHighlights;
-  public readonly exploreLinks = exploreLinks;
   public readonly npmPackageLinks = npmPackageLinks;
-  public readonly footerProductLinks = footerProductLinks;
-  public readonly footerResourceLinks = footerResourceLinks;
-  public readonly footerCommunityLinks = footerCommunityLinks;
 
   public readonly effectiveMode = computed<'light' | 'dark'>(() =>
     this.darkMode() ? 'dark' : 'light',
-  );
-
-  public readonly effectiveModeLabel = computed((): string =>
-    this.effectiveMode() === 'dark' ? 'Dark' : 'Light',
-  );
-
-  public readonly selectedPresetLabel = computed((): string =>
-    this.getPresetOption(this.selectedPreset()).label,
-  );
-
-  public readonly selectedPresetIcon = computed((): string =>
-    this.getPresetOption(this.selectedPreset()).icon,
   );
 
   private readonly activeTheme = computed<ThemeDefinition>(() => {
@@ -333,20 +128,6 @@ export class App {
 
   private getBasePreset(preset: ThemePresetId): ThemeDefinition {
     return preset === 'minimal' ? minimalThemePreset : defaultThemePreset;
-  }
-
-  private getPresetOption(preset: ThemePresetId): ThemePresetOption {
-    const resolved = presetOptions.find((option) => option.id === preset);
-    if (resolved !== undefined) {
-      return resolved;
-    }
-
-    return {
-      id: 'default',
-      icon: 'palette',
-      label: 'Default',
-      description: 'Balanced spacing and expressive accents.',
-    };
   }
 
   private applyThemeVariables(theme: ThemeDefinition): void {
