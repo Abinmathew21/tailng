@@ -1,5 +1,16 @@
 export * from './breadcrumb/tng-breadcrumb.component';
 export { TngBreadcrumbComponent as TngBreadcrumb } from './breadcrumb/tng-breadcrumb.component';
+export * from './breadcrumb/tng-breadcrumb-item.component';
+export { TngBreadcrumbItemComponent as TngBreadcrumbItem } from './breadcrumb/tng-breadcrumb-item.component';
+export * from './breadcrumb/tng-breadcrumb-link.component';
+export { TngBreadcrumbLinkComponent as TngBreadcrumbLink } from './breadcrumb/tng-breadcrumb-link.component';
+export * from './breadcrumb/tng-breadcrumb-list.component';
+export { TngBreadcrumbListComponent as TngBreadcrumbList } from './breadcrumb/tng-breadcrumb-list.component';
+export * from './breadcrumb/tng-breadcrumb-separator.component';
+export {
+  TngBreadcrumbSeparatorComponent as TngBreadcrumbSeparator,
+} from './breadcrumb/tng-breadcrumb-separator.component';
+export * from './breadcrumb/tng-breadcrumb-separator-template.directive';
 export * from './context-menu/tng-context-menu.component';
 export { TngContextMenuComponent as TngContextMenu } from './context-menu/tng-context-menu.component';
 export * from './dropdown-menu/tng-dropdown-menu.component';

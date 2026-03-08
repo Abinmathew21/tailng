@@ -1,3 +1,5 @@
-<nav tngBreadcrumb class="tng-breadcrumb" [attr.aria-label]="ariaLabel()">
-  <ng-content />
+<nav tngBreadcrumb class="tng-breadcrumb" [attr.aria-label]="resolvedAriaLabel()">
+  <tng-breadcrumb-list>
+    <ng-content />
+  </tng-breadcrumb-list>
 </nav>

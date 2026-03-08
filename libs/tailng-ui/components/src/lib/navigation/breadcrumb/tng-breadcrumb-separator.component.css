@@ -1,0 +1,10 @@
+:host {
+  display: inline-flex;
+}
+
+.tng-breadcrumb-separator {
+  color: var(--tng-semantic-foreground-secondary);
+  display: inline-flex;
+  opacity: 0.7;
+  user-select: none;
+}

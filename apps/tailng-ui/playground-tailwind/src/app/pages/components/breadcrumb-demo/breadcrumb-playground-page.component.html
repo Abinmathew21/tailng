@@ -24,9 +24,65 @@
     </nav>
   </section>
 
+  <section class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5 space-y-4">
+    <h2 class="text-lg font-semibold">Component Wrapper</h2>
+
+    <div class="space-y-2">
+      <p class="text-sm text-tng-fg-secondary m-0">Basic wrapper API with current item</p>
+      <tng-breadcrumb ariaLabel="Breadcrumb Wrapper Basic" class="block rounded-xl border border-tng-border-subtle p-3">
+        <tng-breadcrumb-item href="#">Home</tng-breadcrumb-item>
+        <tng-breadcrumb-item href="#">Playground</tng-breadcrumb-item>
+        <tng-breadcrumb-item [current]="true">Breadcrumb Demo</tng-breadcrumb-item>
+      </tng-breadcrumb>
+    </div>
+
+    <div class="space-y-2">
+      <p class="text-sm text-tng-fg-secondary m-0">Custom separator + disabled item</p>
+      <tng-breadcrumb ariaLabel="Breadcrumb Wrapper Custom" separator="›" class="block rounded-xl border border-tng-border-subtle p-3">
+        <tng-breadcrumb-item href="#">Workspace</tng-breadcrumb-item>
+        <tng-breadcrumb-item href="#">Docs</tng-breadcrumb-item>
+        <tng-breadcrumb-item href="#" [disabled]="true">Restricted</tng-breadcrumb-item>
+        <tng-breadcrumb-item [current]="true">Breadcrumb</tng-breadcrumb-item>
+      </tng-breadcrumb>
+    </div>
+
+    <div class="space-y-2">
+      <p class="text-sm text-tng-fg-secondary m-0">Collapsed middle crumbs (maxItems=4)</p>
+      <tng-breadcrumb
+        ariaLabel="Breadcrumb Wrapper Collapsed"
+        [maxItems]="4"
+        [itemsBeforeCollapse]="1"
+        [itemsAfterCollapse]="2"
+        collapseLabel="More levels"
+        class="block rounded-xl border border-tng-border-subtle p-3"
+      >
+        <ng-template tngBreadcrumbSeparatorTemplate>
+          <span class="text-tng-fg-secondary">/</span>
+        </ng-template>
+
+        <tng-breadcrumb-item href="#">Home</tng-breadcrumb-item>
+        <tng-breadcrumb-item href="#">Catalog</tng-breadcrumb-item>
+        <tng-breadcrumb-item href="#">Products</tng-breadcrumb-item>
+        <tng-breadcrumb-item href="#">Shoes</tng-breadcrumb-item>
+        <tng-breadcrumb-item [current]="true">Running</tng-breadcrumb-item>
+      </tng-breadcrumb>
+    </div>
+
+    <div class="space-y-2">
+      <p class="text-sm text-tng-fg-secondary m-0">Current crumb as link (optional contract)</p>
+      <tng-breadcrumb ariaLabel="Breadcrumb Wrapper Current Link" class="block rounded-xl border border-tng-border-subtle p-3">
+        <tng-breadcrumb-item href="#">Home</tng-breadcrumb-item>
+        <tng-breadcrumb-item href="#" [current]="true" [currentAsLink]="true">Docs</tng-breadcrumb-item>
+      </tng-breadcrumb>
+    </div>
+  </section>
+
   <section class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5 space-y-3">
-    <h2 class="text-lg font-semibold">Component</h2>
-    <tng-breadcrumb>
+    <h2 class="text-lg font-semibold">Component + Primitive Composition</h2>
+    <p class="text-sm text-tng-fg-secondary m-0">
+      Wrapper container with primitive list/item directives for full markup control.
+    </p>
+    <tng-breadcrumb ariaLabel="Breadcrumb Hybrid">
       <ol tngBreadcrumbList class="flex flex-wrap items-center gap-x-2 gap-y-1 p-0 m-0 list-none">
         <li tngBreadcrumbItem><a tngBreadcrumbLink href="#" class="text-tng-accent-brand no-underline hover:underline">Home</a></li>
         <li tngBreadcrumbSeparator class="text-tng-fg-secondary">/</li>

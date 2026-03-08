@@ -1,0 +1,14 @@
+<a
+  tngBreadcrumbLink
+  class="tng-breadcrumb-link"
+  [attr.aria-current]="current() ? 'page' : null"
+  [attr.aria-disabled]="disabled() ? 'true' : null"
+  [attr.href]="href()"
+  [attr.rel]="rel()"
+  [attr.tabindex]="disabled() ? '-1' : null"
+  [attr.target]="target()"
+  [routerLink]="routerLink()"
+  (click)="onClick($event)"
+>
+  <ng-content />
+</a>

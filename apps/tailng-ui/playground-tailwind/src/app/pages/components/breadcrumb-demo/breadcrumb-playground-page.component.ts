@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
-import { TngBreadcrumbComponent } from '@tailng-ui/components';
+import {
+  TngBreadcrumbComponent,
+  TngBreadcrumbItemComponent,
+  TngBreadcrumbSeparatorTemplateDirective,
+} from '@tailng-ui/components';
 import {
   TngBreadcrumb,
   TngBreadcrumbItem,
@@ -17,6 +21,8 @@ import {
     TngBreadcrumbLink,
     TngBreadcrumbSeparator,
     TngBreadcrumbComponent,
+    TngBreadcrumbItemComponent,
+    TngBreadcrumbSeparatorTemplateDirective,
   ],
   templateUrl: './breadcrumb-playground-page.component.html',
   styleUrl: './breadcrumb-playground-page.component.css',

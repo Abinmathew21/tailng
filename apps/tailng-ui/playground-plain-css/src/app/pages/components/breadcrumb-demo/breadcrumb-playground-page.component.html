@@ -26,8 +26,65 @@
     </section>
 
     <section class="card">
-      <h2>Component</h2>
-      <tng-breadcrumb>
+      <h2>Component Wrapper</h2>
+
+      <div class="demo-breadcrumb-group">
+        <p>Basic wrapper API with current item</p>
+        <tng-breadcrumb ariaLabel="Breadcrumb Wrapper Basic">
+          <tng-breadcrumb-item href="#">Home</tng-breadcrumb-item>
+          <tng-breadcrumb-item href="#">Playground</tng-breadcrumb-item>
+          <tng-breadcrumb-item [current]="true">Breadcrumb Demo</tng-breadcrumb-item>
+        </tng-breadcrumb>
+      </div>
+
+      <div class="demo-breadcrumb-group">
+        <p>Custom separator + disabled item</p>
+        <tng-breadcrumb ariaLabel="Breadcrumb Wrapper Custom" separator="›">
+          <tng-breadcrumb-item href="#">Workspace</tng-breadcrumb-item>
+          <tng-breadcrumb-item href="#">Docs</tng-breadcrumb-item>
+          <tng-breadcrumb-item href="#" [disabled]="true">Restricted</tng-breadcrumb-item>
+          <tng-breadcrumb-item [current]="true">Breadcrumb</tng-breadcrumb-item>
+        </tng-breadcrumb>
+      </div>
+
+      <div class="demo-breadcrumb-group">
+        <p>Collapsed middle crumbs (maxItems=4)</p>
+        <tng-breadcrumb
+          ariaLabel="Breadcrumb Wrapper Collapsed"
+          [maxItems]="4"
+          [itemsBeforeCollapse]="1"
+          [itemsAfterCollapse]="2"
+          collapseLabel="More levels"
+        >
+          <ng-template tngBreadcrumbSeparatorTemplate>
+            <span class="demo-custom-separator">/</span>
+          </ng-template>
+
+          <tng-breadcrumb-item href="#">Home</tng-breadcrumb-item>
+          <tng-breadcrumb-item href="#">Catalog</tng-breadcrumb-item>
+          <tng-breadcrumb-item href="#">Products</tng-breadcrumb-item>
+          <tng-breadcrumb-item href="#">Shoes</tng-breadcrumb-item>
+          <tng-breadcrumb-item [current]="true">Running</tng-breadcrumb-item>
+        </tng-breadcrumb>
+      </div>
+
+      <div class="demo-breadcrumb-group">
+        <p>Current crumb as link (optional contract)</p>
+        <tng-breadcrumb ariaLabel="Breadcrumb Wrapper Current Link">
+          <tng-breadcrumb-item href="#">Home</tng-breadcrumb-item>
+          <tng-breadcrumb-item href="#" [current]="true" [currentAsLink]="true">
+            Docs
+          </tng-breadcrumb-item>
+        </tng-breadcrumb>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Component + Primitive Composition</h2>
+      <p class="section-note">
+        Wrapper container with primitive list/item directives for full markup control.
+      </p>
+      <tng-breadcrumb ariaLabel="Breadcrumb Hybrid">
         <ol tngBreadcrumbList class="demo-breadcrumb-list">
           <li tngBreadcrumbItem><a tngBreadcrumbLink href="#">Home</a></li>
           <li tngBreadcrumbSeparator>/</li>

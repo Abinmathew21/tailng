@@ -1,0 +1,54 @@
+<ng-template #projectedContent>
+  <ng-content />
+</ng-template>
+
+<li
+  tngBreadcrumbItem
+  class="tng-breadcrumb-item"
+  [attr.data-current]="isResolvedCurrent() ? 'true' : null"
+  [attr.data-disabled]="disabled() ? 'true' : null"
+  [hidden]="displayMode() === 'hidden'"
+>
+  @switch (displayMode()) {
+    @case ('ellipsis') {
+      <span class="tng-breadcrumb-item-ellipsis" [attr.aria-label]="collapseLabel()" aria-hidden="true">…</span>
+    }
+    @default {
+      @if (shouldRenderLink()) {
+        @if (hasRouterLink()) {
+          <a
+            tngBreadcrumbLink
+            class="tng-breadcrumb-item-link"
+            [attr.aria-current]="isResolvedCurrent() ? 'page' : null"
+            [attr.aria-disabled]="disabled() ? 'true' : null"
+          [attr.tabindex]="disabled() ? '-1' : null"
+          [routerLink]="routerLink()"
+          (click)="onLinkClick($event)"
+          >
+            <ng-container [ngTemplateOutlet]="projectedContent" />
+          </a>
+        } @else {
+          <a
+            tngBreadcrumbLink
+            class="tng-breadcrumb-item-link"
+            [attr.aria-current]="isResolvedCurrent() ? 'page' : null"
+            [attr.aria-disabled]="disabled() ? 'true' : null"
+            [attr.href]="href()"
+            [attr.tabindex]="disabled() ? '-1' : null"
+            (click)="onLinkClick($event)"
+          >
+            <ng-container [ngTemplateOutlet]="projectedContent" />
+          </a>
+        }
+      } @else {
+        <span class="tng-breadcrumb-item-text" [attr.aria-current]="isResolvedCurrent() ? 'page' : null">
+          <ng-container [ngTemplateOutlet]="projectedContent" />
+        </span>
+      }
+    }
+  }
+
+  @if (showSeparator()) {
+    <tng-breadcrumb-separator [symbol]="separator()" [template]="separatorTemplate()" />
+  }
+</li>

@@ -1,0 +1,19 @@
+:host {
+  display: inline-flex;
+}
+
+.tng-breadcrumb-link {
+  color: var(--tng-semantic-accent-brand);
+  text-decoration: none;
+}
+
+.tng-breadcrumb-link:hover {
+  text-decoration: underline;
+}
+
+.tng-breadcrumb-link[aria-disabled='true'] {
+  color: var(--tng-semantic-foreground-secondary);
+  cursor: default;
+  pointer-events: none;
+  text-decoration: none;
+}

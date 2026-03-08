@@ -1,0 +1,7 @@
+<span tngBreadcrumbSeparator class="tng-breadcrumb-separator" tabindex="-1">
+  @if (template(); as separatorTemplate) {
+    <ng-container [ngTemplateOutlet]="separatorTemplate" />
+  } @else {
+    {{ symbol() }}
+  }
+</span>
