@@ -1,111 +1,474 @@
 <main class="min-h-screen bg-tng-bg-canvas text-tng-fg-primary">
-  <div class="mx-auto flex w-full max-w-6xl flex-col gap-8 px-6 py-6 md:py-10">
-    <header class="flex flex-wrap items-start justify-between gap-4">
-      <div class="flex min-w-0 items-center gap-3">
-        <img src="logo.svg" alt="TailNG logo" class="h-11 w-11 rounded-xl border border-tng-border-subtle bg-tng-bg-surface p-2" />
-        <div class="min-w-0">
-          <p class="m-0 text-xs uppercase tracking-[0.14em] text-tng-fg-secondary">TailNG</p>
-          <h1 class="m-0 text-2xl font-semibold leading-tight md:text-3xl">tailng.dev</h1>
-        </div>
-      </div>
+  <div class="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+    <header
+      class="sticky top-0 z-50 border-b border-tng-border-subtle bg-[color-mix(in_srgb,var(--tng-semantic-background-canvas)_90%,transparent)] backdrop-blur"
+    >
+      <div class="flex h-16 items-center justify-between gap-4">
+        <div class="flex min-w-0 items-center gap-5">
+          <a href="#home" class="flex min-w-0 items-center gap-2 no-underline">
+            <img
+              src="logo.svg"
+              alt="TailNG logo"
+              class="h-9 w-9"
+            />
+            <span class="truncate text-base font-semibold text-tng-fg-primary">TailNG</span>
+          </a>
 
-      <div class="flex items-center gap-2">
-        <div class="relative">
-          <button
-            type="button"
-            [tngMenuTriggerFor]="themePresetMenu"
-            class="inline-flex h-9 items-center gap-2 rounded-lg border border-tng-border-subtle bg-tng-bg-surface px-3 text-sm font-medium text-tng-fg-primary transition-colors hover:bg-tng-bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tng-focus-ring"
-          >
-            Theme: {{ selectedPresetLabel() }}
-            <span aria-hidden="true">▾</span>
-          </button>
-
-          <tng-menu
-            #themePresetMenu="tngMenu"
-            ariaLabel="Theme preset options"
-            class="left-auto right-0 z-40 min-w-72"
-          >
-            @for (preset of presetOptions; track preset.id) {
-              <button
-                type="button"
-                role="menuitemradio"
-                [attr.aria-checked]="isPresetSelected(preset.id) ? 'true' : 'false'"
-                tabindex="0"
-                (click)="onPresetSelect(preset.id); themePresetMenu.close(true)"
-                class="flex w-full cursor-pointer items-start justify-between rounded-lg border-0 bg-transparent px-3 py-2 text-left text-sm text-tng-fg-primary transition-colors hover:bg-tng-bg-muted focus:bg-tng-bg-muted focus:outline-none"
-                [class.bg-tng-bg-muted]="isPresetSelected(preset.id)"
-                [class.font-semibold]="isPresetSelected(preset.id)"
-                [class.text-tng-accent-brand]="isPresetSelected(preset.id)"
+          <nav class="hidden items-center gap-1 lg:flex">
+            @for (item of primaryNavigation; track item.label) {
+              <a
+                [href]="item.href"
+                class="rounded-md px-3 py-2 text-sm font-medium text-tng-fg-secondary no-underline transition-colors hover:bg-tng-bg-muted hover:text-tng-fg-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tng-focus-ring"
               >
-                <span class="flex flex-col gap-0.5">
-                  <span>{{ preset.label }}</span>
-                  <span class="text-xs font-normal text-tng-fg-secondary">{{ preset.description }}</span>
-                </span>
-              </button>
+                {{ item.label }}
+              </a>
             }
-          </tng-menu>
+          </nav>
         </div>
 
-        <tng-switch
-          [checked]="darkMode()"
-          [ariaLabel]="darkMode() ? 'Switch to light mode' : 'Switch to dark mode'"
-          (checkedChange)="onThemeModeChange($event)"
-        >
-          <span offIcon aria-hidden="true">☀</span>
-          <span onIcon aria-hidden="true">🌙</span>
-        </tng-switch>
+        <div class="flex items-center gap-2">
+          <div class="relative hidden sm:block">
+            <button
+              id="docs-theme-preset-trigger"
+              type="button"
+              [tngMenuTriggerFor]="themeMenu"
+              aria-label="Theme preset"
+              class="inline-flex h-9 w-9 items-center justify-center rounded-md text-tng-fg-secondary transition-colors hover:text-tng-fg-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tng-focus-ring"
+            >
+              <tng-icon icon="palette" class="h-4 w-4" />
+            </button>
+
+            <tng-menu #themeMenu="tngMenu" ariaLabel="Theme presets" class="left-auto right-0 z-50 min-w-72">
+              @for (preset of presetOptions; track preset.id) {
+                <button
+                  type="button"
+                  role="menuitemradio"
+                  [attr.aria-checked]="isPresetSelected(preset.id) ? 'true' : 'false'"
+                  tabindex="0"
+                  (click)="onPresetSelect(preset.id); themeMenu.close(true)"
+                  class="flex w-full cursor-pointer items-start justify-between rounded-lg border-0 bg-transparent px-3 py-2 text-left text-sm text-tng-fg-primary transition-colors hover:bg-tng-bg-muted focus:bg-tng-bg-muted focus:outline-none"
+                  [class.bg-tng-bg-muted]="isPresetSelected(preset.id)"
+                  [class.font-semibold]="isPresetSelected(preset.id)"
+                  [class.text-tng-accent-brand]="isPresetSelected(preset.id)"
+                >
+                  <span class="flex items-start gap-2">
+                    <tng-icon [icon]="preset.icon" class="mt-0.5 h-4 w-4 shrink-0" />
+                    <span class="flex flex-col gap-0.5">
+                      <span>{{ preset.label }}</span>
+                      <span class="text-xs font-normal text-tng-fg-secondary">{{ preset.description }}</span>
+                    </span>
+                  </span>
+                  @if (isPresetSelected(preset.id)) {
+                    <tng-icon icon="check" class="h-4 w-4 shrink-0" />
+                  }
+                  @if (!isPresetSelected(preset.id)) {
+                    <span class="h-4 w-4 shrink-0"></span>
+                  }
+                </button>
+              }
+            </tng-menu>
+          </div>
+
+          <tng-switch
+            class="docs-mode-switch hidden md:inline-flex"
+            [checked]="darkMode()"
+            [ariaLabel]="darkMode() ? 'Switch to light mode' : 'Switch to dark mode'"
+            (checkedChange)="onModeSwitchChange($event)"
+          >
+            <span offIcon aria-hidden="true">
+              <tng-icon icon="sun" class="h-4 w-4 text-amber-600" />
+            </span>
+            <span onIcon aria-hidden="true">
+              <tng-icon icon="moon" class="h-4 w-4 text-slate-700" />
+            </span>
+          </tng-switch>
+
+          <a
+            href="https://github.com"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="GitHub"
+            class="hidden h-9 w-9 items-center justify-center rounded-md border border-transparent text-tng-fg-secondary no-underline transition-colors hover:border-tng-border-subtle hover:bg-tng-bg-muted hover:text-tng-fg-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tng-focus-ring md:inline-flex"
+          >
+            <tng-icon icon="github" class="h-4 w-4" />
+          </a>
+          <div class="relative hidden md:block">
+            <button
+              id="docs-npm-packages-trigger"
+              type="button"
+              [tngMenuTriggerFor]="npmPackagesMenu"
+              aria-label="npm packages"
+              class="inline-flex h-9 w-9 items-center justify-center rounded-md border border-transparent text-tng-fg-secondary transition-colors hover:border-tng-border-subtle hover:bg-tng-bg-muted hover:text-tng-fg-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tng-focus-ring"
+            >
+              <svg
+                aria-hidden="true"
+                viewBox="0 0 256 256"
+                class="h-5 w-6"
+                xmlns="http://www.w3.org/2000/svg"
+                preserveAspectRatio="xMinYMin meet"
+              >
+                <rect x="0" y="0" width="256" height="256" fill="#CB3837"></rect>
+                <path
+                  d="M48 48h160v160h-32V80h-48v128H48V48zm32 128h32V80H80v96z"
+                  fill="#ffffff"
+                ></path>
+              </svg>
+            </button>
+
+            <tng-menu #npmPackagesMenu="tngMenu" ariaLabel="TailNG npm packages" class="left-auto right-0 z-50 min-w-80">
+              @for (pkg of npmPackageLinks; track pkg.label) {
+                <a
+                  role="menuitem"
+                  tabindex="0"
+                  [href]="pkg.href"
+                  target="_blank"
+                  rel="noreferrer"
+                  (click)="npmPackagesMenu.close(true)"
+                  class="flex w-full cursor-pointer items-center justify-between rounded-lg border-0 bg-transparent px-3 py-2 text-left text-sm text-tng-fg-primary no-underline transition-colors hover:bg-tng-bg-muted focus:bg-tng-bg-muted focus:outline-none"
+                >
+                  <span class="font-mono text-xs sm:text-sm">{{ pkg.label }}</span>
+                  <tng-icon icon="external-link" class="h-4 w-4 shrink-0 text-tng-fg-secondary" />
+                </a>
+              }
+            </tng-menu>
+          </div>
+        </div>
       </div>
     </header>
 
-    <section class="grid gap-6 rounded-3xl border border-tng-border-subtle bg-tng-bg-surface p-6 md:grid-cols-[1.25fr_0.75fr] md:p-8">
-      <div class="space-y-4">
-        <p class="m-0 inline-flex w-fit rounded-full border border-tng-border-subtle bg-tng-bg-canvas px-3 py-1 text-xs font-semibold uppercase tracking-[0.13em] text-tng-fg-secondary">
-          Angular + Tailwind + Theme Tokens
+    <section id="home" class="grid gap-6 border-b border-tng-border-subtle py-12 md:grid-cols-[1.2fr_0.8fr] md:py-16">
+      <div class="space-y-5">
+        <p
+          class="m-0 inline-flex w-fit rounded-full border border-tng-border-subtle bg-tng-bg-surface px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-tng-fg-secondary"
+        >
+          Angular UI System
         </p>
-        <h2 class="m-0 text-3xl font-semibold leading-tight md:text-5xl">
-          Build beautiful, accessible interfaces with TailNG.
-        </h2>
-        <p class="m-0 max-w-2xl text-base text-tng-fg-secondary md:text-lg">
-          TailNG ships headless primitives, wrapper components, and a tokenized theme engine.
-          Compose production-grade UI while keeping behavior, accessibility, and style contracts aligned.
+        <h1 class="m-0 max-w-3xl text-[clamp(2rem,4vw,3.5rem)] font-semibold leading-tight">
+          Accessible Angular UI, built to be owned.
+        </h1>
+        <p class="m-0 max-w-3xl text-base text-tng-fg-secondary md:text-lg">
+          TailNG is a layered Angular UI system with CDK utilities, headless primitives, reusable
+          components, icons, theming, and a selective install model built for accessibility,
+          flexibility, and real product teams.
         </p>
+
+        <div class="flex flex-wrap items-center gap-3">
+          <a
+            href="#install"
+            class="inline-flex h-10 items-center rounded-md border border-tng-accent-brand bg-tng-accent-brand px-4 text-sm font-semibold text-tng-fg-inverse no-underline transition-colors hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tng-focus-ring"
+          >
+            Get Started
+          </a>
+          <a
+            href="#packages"
+            class="inline-flex h-10 items-center rounded-md border border-tng-border-subtle bg-tng-bg-surface px-4 text-sm font-semibold text-tng-fg-primary no-underline transition-colors hover:bg-tng-bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tng-focus-ring"
+          >
+            Browse Components
+          </a>
+          <a
+            href="https://github.com"
+            target="_blank"
+            rel="noreferrer"
+            class="text-sm font-medium text-tng-accent-brand no-underline hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tng-focus-ring"
+          >
+            View on GitHub
+          </a>
+        </div>
+
       </div>
 
-      <aside class="grid gap-3 rounded-2xl border border-tng-border-subtle bg-tng-bg-canvas p-4">
-        <h3 class="m-0 text-sm font-semibold uppercase tracking-[0.12em] text-tng-fg-secondary">Quick Setup</h3>
-        <code class="overflow-x-auto rounded-lg border border-tng-border-subtle bg-tng-bg-surface px-3 py-2 text-sm text-tng-fg-primary">
-          pnpm add &#64;tailng-ui/primitives &#64;tailng-ui/components &#64;tailng-ui/theme
-        </code>
-        <p class="m-0 text-sm text-tng-fg-secondary">
-          Current mode:
-          <span class="font-semibold text-tng-fg-primary">{{ darkMode() ? 'Dark' : 'Light' }}</span>
+      <aside class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5">
+        <h2 class="m-0 text-sm font-semibold uppercase tracking-[0.12em] text-tng-fg-secondary">
+          Built in layers
+        </h2>
+        <ul class="mt-4 grid gap-2">
+          <li class="rounded-lg border border-tng-border-subtle bg-tng-bg-canvas px-3 py-2 text-sm">
+            CDK — low-level behavior and interaction foundations
+          </li>
+          <li class="rounded-lg border border-tng-border-subtle bg-tng-bg-canvas px-3 py-2 text-sm">
+            Primitives — headless accessible building blocks
+          </li>
+          <li class="rounded-lg border border-tng-border-subtle bg-tng-bg-canvas px-3 py-2 text-sm">
+            Components — styled, reusable UI components
+          </li>
+          <li class="rounded-lg border border-tng-border-subtle bg-tng-bg-canvas px-3 py-2 text-sm">
+            Icons — consistent visual symbols
+          </li>
+          <li class="rounded-lg border border-tng-border-subtle bg-tng-bg-canvas px-3 py-2 text-sm">
+            Theme — tokens, presets, and visual foundations
+          </li>
+          <li class="rounded-lg border border-tng-border-subtle bg-tng-bg-canvas px-3 py-2 text-sm">
+            Install — selective, ownable adoption
+          </li>
+        </ul>
+        <p class="mt-4 mb-0 text-sm text-tng-fg-secondary">
+          Adopt only what you need. TailNG is designed to scale from small apps to full design
+          systems.
         </p>
-        <p class="m-0 text-sm text-tng-fg-secondary">
-          Current preset:
-          <span class="font-semibold text-tng-fg-primary">{{ selectedPresetLabel() }}</span>
+        <p class="mt-2 mb-0 text-sm text-tng-fg-secondary">
+          Mode:
+          <span class="font-semibold text-tng-fg-primary">{{ effectiveModeLabel() }}</span>
         </p>
       </aside>
     </section>
 
-    <section class="grid gap-4 md:grid-cols-3">
-      <article class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5">
-        <h3 class="m-0 text-lg font-semibold">Headless Foundations</h3>
-        <p class="mt-2 text-sm text-tng-fg-secondary">
-          Accessible primitives for menus, tabs, drawers, overlays, forms, and more.
+    <section id="packages" class="space-y-4 border-b border-tng-border-subtle py-12">
+      <p class="m-0 text-xs font-semibold uppercase tracking-[0.12em] text-tng-fg-secondary">Packages</p>
+      <h2 class="m-0 text-2xl font-semibold md:text-3xl">A layered system, not a monolith</h2>
+      <p class="m-0 max-w-3xl text-sm text-tng-fg-secondary md:text-base">
+        TailNG is organized so teams can adopt the right level of abstraction, from low-level
+        interaction building blocks to polished UI components.
+      </p>
+
+      <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+        @for (card of packageCards; track card.title) {
+          <article class="rounded-xl border border-tng-border-subtle bg-tng-bg-surface p-4">
+            <h3 class="m-0 text-base font-semibold">{{ card.title }}</h3>
+            <p class="mt-2 text-sm text-tng-fg-secondary">{{ card.description }}</p>
+            @if (card.href) {
+              <a
+                [href]="card.href"
+                class="mt-3 inline-flex text-sm font-medium text-tng-accent-brand no-underline hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tng-focus-ring"
+              >
+                Explore
+              </a>
+            }
+          </article>
+        }
+      </div>
+    </section>
+
+    <section class="border-b border-tng-border-subtle py-12">
+      <div class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface px-6 py-8 text-center">
+        <p class="m-0 text-2xl font-semibold md:text-3xl">Strong foundations. Flexible UI.</p>
+        <p class="mt-2 text-sm text-tng-fg-secondary md:text-base">
+          TailNG is built for teams that care about accessibility, ownership, and practical
+          architecture.
         </p>
+      </div>
+    </section>
+
+    <section id="principles" class="space-y-4 border-b border-tng-border-subtle py-12">
+      <p class="m-0 text-xs font-semibold uppercase tracking-[0.12em] text-tng-fg-secondary">Principles</p>
+      <h2 class="m-0 text-2xl font-semibold md:text-3xl">Built on clear product principles</h2>
+      <p class="m-0 max-w-3xl text-sm text-tng-fg-secondary md:text-base">
+        TailNG is shaped by a small set of decisions that keep the system practical, scalable, and
+        developer-friendly.
+      </p>
+
+      <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+        @for (principle of principles; track principle.title) {
+          <article class="rounded-xl border border-tng-border-subtle bg-tng-bg-surface p-4">
+            <h3 class="m-0 text-base font-semibold">{{ principle.title }}</h3>
+            <p class="mt-2 text-sm text-tng-fg-secondary">{{ principle.description }}</p>
+          </article>
+        }
+      </div>
+    </section>
+
+    <section id="why" class="space-y-4 border-b border-tng-border-subtle py-12">
+      <p class="m-0 text-xs font-semibold uppercase tracking-[0.12em] text-tng-fg-secondary">Why TailNG</p>
+      <h2 class="m-0 text-2xl font-semibold md:text-3xl">
+        A better fit for Angular teams that want control
+      </h2>
+      <p class="m-0 max-w-3xl text-sm text-tng-fg-secondary md:text-base">
+        TailNG is for teams that want accessible UI foundations, modular adoption, and a design
+        system that stays understandable over time.
+      </p>
+
+      <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+        @for (value of whyTailng; track value.title) {
+          <article class="rounded-xl border border-tng-border-subtle bg-tng-bg-surface p-4">
+            <h3 class="m-0 text-base font-semibold">{{ value.title }}</h3>
+            <p class="mt-2 text-sm text-tng-fg-secondary">{{ value.description }}</p>
+          </article>
+        }
+      </div>
+    </section>
+
+    <section id="install" class="space-y-4 border-b border-tng-border-subtle py-12">
+      <p class="m-0 text-xs font-semibold uppercase tracking-[0.12em] text-tng-fg-secondary">Install</p>
+      <h2 class="m-0 text-2xl font-semibold md:text-3xl">Start at the level that works for your team</h2>
+      <p class="m-0 max-w-3xl text-sm text-tng-fg-secondary md:text-base">
+        TailNG is built for selective adoption. Use ready-made components, start from headless
+        primitives, or compose your own system on CDK foundations.
+      </p>
+
+      <article class="rounded-xl border border-tng-border-subtle bg-tng-bg-surface p-4">
+        <div class="flex items-start gap-3">
+          <span
+            class="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-md border border-tng-border-subtle bg-tng-bg-canvas text-tng-fg-secondary"
+          >
+            <tng-icon icon="terminal" class="h-4 w-4" />
+          </span>
+          <div class="min-w-0">
+            <h3 class="m-0 text-base font-semibold">Quick start</h3>
+            <p class="mt-1 text-sm text-tng-fg-secondary">
+              Choose the level that fits your team. Start with components, go lower with
+              primitives, or build from CDK foundations.
+            </p>
+            <code
+              class="mt-3 block overflow-x-auto rounded-lg border border-tng-border-subtle bg-tng-bg-canvas px-3 py-2 text-xs text-tng-fg-primary sm:text-sm"
+            >
+              pnpm add &#64;tailng-ui/components &#64;tailng-ui/primitives &#64;tailng-ui/cdk &#64;tailng-ui/theme
+            </code>
+          </div>
+        </div>
       </article>
-      <article class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5">
-        <h3 class="m-0 text-lg font-semibold">Component Wrappers</h3>
-        <p class="mt-2 text-sm text-tng-fg-secondary">
-          Productive wrappers built on top of the same primitives with predictable behavior.
-        </p>
-      </article>
-      <article class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5">
-        <h3 class="m-0 text-lg font-semibold">Token-Driven Theming</h3>
-        <p class="mt-2 text-sm text-tng-fg-secondary">
-          Switch modes and presets instantly through semantic tokens and CSS variable adapters.
-        </p>
-      </article>
+
+      <div class="grid gap-4 lg:grid-cols-[1.2fr_0.8fr]">
+        <article class="rounded-xl border border-tng-border-subtle bg-tng-bg-surface p-4">
+          <h3 class="m-0 text-base font-semibold">Multiple adoption paths</h3>
+          <p class="mt-2 text-sm text-tng-fg-secondary">
+            Not every team works the same way. Some want fast delivery with wrappers. Others want
+            headless behavior with full styling control.
+          </p>
+          <ul class="mt-3 grid gap-2 text-sm text-tng-fg-secondary">
+            <li>Use components for faster delivery</li>
+            <li>Use primitives for accessible headless patterns</li>
+            <li>Use CDK for lower-level behavior</li>
+            <li>Add theme and icons where needed</li>
+            <li>Adopt selectively instead of installing everything</li>
+          </ul>
+        </article>
+
+        <article class="rounded-xl border border-tng-border-subtle bg-tng-bg-surface p-4">
+          <h3 class="m-0 text-base font-semibold">Quick start options</h3>
+          <div class="mt-3 grid gap-3">
+            @for (option of installOptions; track option.title) {
+              <div class="rounded-lg border border-tng-border-subtle bg-tng-bg-canvas p-3">
+                <p class="m-0 text-sm font-semibold">{{ option.title }}</p>
+                <p class="mt-1 text-sm text-tng-fg-secondary">{{ option.description }}</p>
+              </div>
+            }
+          </div>
+          <p class="mt-3 mb-0 text-sm text-tng-fg-secondary">
+            TailNG is designed for incremental adoption, not all-or-nothing migration.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section id="theme" class="space-y-4 border-b border-tng-border-subtle py-12">
+      <p class="m-0 text-xs font-semibold uppercase tracking-[0.12em] text-tng-fg-secondary">Theme</p>
+      <h2 class="m-0 text-2xl font-semibold md:text-3xl">A visual foundation that stays flexible</h2>
+      <p class="m-0 max-w-3xl text-sm text-tng-fg-secondary md:text-base">
+        TailNG supports tokens, mode-aware UI, and a styling model that works for vanilla CSS,
+        utility-driven workflows, and design-system conventions.
+      </p>
+
+      <div class="grid gap-4 md:grid-cols-2">
+        @for (highlight of themeHighlights; track highlight.title) {
+          <article class="rounded-xl border border-tng-border-subtle bg-tng-bg-surface p-4">
+            <h3 class="m-0 text-base font-semibold">{{ highlight.title }}</h3>
+            <p class="mt-2 text-sm text-tng-fg-secondary">{{ highlight.description }}</p>
+          </article>
+        }
+      </div>
+      <p class="m-0 text-sm text-tng-fg-secondary">
+        Flexible theming should support product ownership, not complicate it.
+      </p>
+    </section>
+
+    <section id="explore" class="space-y-4 py-12">
+      <p class="m-0 text-xs font-semibold uppercase tracking-[0.12em] text-tng-fg-secondary">Explore</p>
+      <h2 class="m-0 text-2xl font-semibold md:text-3xl">Go directly to the layer you need</h2>
+      <p class="m-0 max-w-3xl text-sm text-tng-fg-secondary md:text-base">
+        TailNG is organized to help developers move quickly from architecture understanding to
+        practical implementation.
+      </p>
+
+      <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+        @for (entry of exploreLinks; track entry.title) {
+          <a
+            href="#packages"
+            class="rounded-xl border border-tng-border-subtle bg-tng-bg-surface p-4 text-inherit no-underline transition-colors hover:bg-tng-bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tng-focus-ring"
+          >
+            <h3 class="m-0 text-base font-semibold">{{ entry.title }}</h3>
+            <p class="mt-2 text-sm text-tng-fg-secondary">{{ entry.description }}</p>
+          </a>
+        }
+      </div>
     </section>
   </div>
+
+  <footer class="border-t border-tng-border-subtle bg-tng-bg-surface">
+    <div class="mx-auto grid w-full max-w-7xl gap-8 px-4 py-10 sm:px-6 lg:grid-cols-[1.2fr_1fr_1fr_1fr] lg:px-8">
+      <section class="space-y-2">
+        <div class="flex items-center gap-2">
+          <img
+            src="logo.svg"
+            alt="TailNG logo"
+            class="h-7 w-7 rounded-md border border-tng-border-subtle bg-tng-bg-canvas p-1"
+          />
+          <p class="m-0 text-sm font-semibold">TailNG</p>
+        </div>
+        <p class="m-0 text-sm text-tng-fg-secondary">
+          Accessible Angular UI with layered architecture, flexible styling, and practical adoption
+          paths.
+        </p>
+      </section>
+
+      <section class="space-y-2">
+        <h2 class="m-0 text-sm font-semibold">Product</h2>
+        <ul class="grid gap-1">
+          @for (item of footerProductLinks; track item.label) {
+            <li>
+              <a
+                [href]="item.href"
+                class="text-sm text-tng-fg-secondary no-underline hover:text-tng-fg-primary hover:underline"
+              >
+                {{ item.label }}
+              </a>
+            </li>
+          }
+        </ul>
+      </section>
+
+      <section class="space-y-2">
+        <h2 class="m-0 text-sm font-semibold">Resources</h2>
+        <ul class="grid gap-1">
+          @for (item of footerResourceLinks; track item.label) {
+            <li>
+              <a
+                [href]="item.href"
+                [attr.target]="item.href.startsWith('http') ? '_blank' : null"
+                [attr.rel]="item.href.startsWith('http') ? 'noreferrer' : null"
+                class="text-sm text-tng-fg-secondary no-underline hover:text-tng-fg-primary hover:underline"
+              >
+                {{ item.label }}
+              </a>
+            </li>
+          }
+        </ul>
+      </section>
+
+      <section class="space-y-2">
+        <h2 class="m-0 text-sm font-semibold">Community</h2>
+        <ul class="grid gap-1">
+          @for (item of footerCommunityLinks; track item.label) {
+            <li>
+              <a
+                [href]="item.href"
+                [attr.target]="item.href.startsWith('http') ? '_blank' : null"
+                [attr.rel]="item.href.startsWith('http') ? 'noreferrer' : null"
+                class="text-sm text-tng-fg-secondary no-underline hover:text-tng-fg-primary hover:underline"
+              >
+                {{ item.label }}
+              </a>
+            </li>
+          }
+        </ul>
+      </section>
+    </div>
+
+    <div class="border-t border-tng-border-subtle">
+      <div
+        class="mx-auto flex w-full max-w-7xl flex-col gap-1 px-4 py-4 text-sm text-tng-fg-secondary sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8"
+      >
+        <span>© {{ currentYear }} TailNG</span>
+        <span>Built for modern Angular teams.</span>
+      </div>
+    </div>
+  </footer>
 </main>

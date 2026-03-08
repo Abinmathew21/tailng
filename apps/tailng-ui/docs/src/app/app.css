@@ -2,3 +2,12 @@
   display: block;
   min-height: 100vh;
 }
+
+:host ::ng-deep .docs-mode-switch .tng-switch-control {
+  border: 1px solid var(--tng-semantic-border-strong);
+  background: var(--tng-semantic-background-surface);
+}
+
+:host ::ng-deep .docs-mode-switch .tng-switch-control[data-state='checked'] {
+  border-color: color-mix(in srgb, var(--tng-semantic-accent-brand) 70%, black);
+}
