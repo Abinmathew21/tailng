@@ -4,6 +4,7 @@ import {
   coerceTngBadgePosition,
   coerceTngBadgeSize,
   coerceTngBadgeTone,
+  coerceTngBadgeVariant,
   normalizeTngBadgeMax,
   resolveTngBadgeContent,
   resolveTngBadgePlacement,
@@ -30,6 +31,8 @@ describe('tng-badge primitive', () => {
     expect(coerceTngBadgeSize('invalid')).toBe('md');
     expect(coerceTngBadgeTone('success')).toBe('success');
     expect(coerceTngBadgeTone('invalid')).toBe('danger');
+    expect(coerceTngBadgeVariant('soft')).toBe('soft');
+    expect(coerceTngBadgeVariant('invalid')).toBe('solid');
 
     expect(resolveTngBadgePlacement('top-end')).toEqual({
       bottom: null,
@@ -45,6 +48,7 @@ describe('tng-badge primitive', () => {
     expect(resolveTngBadgeContent(9, 99, false)).toBe('9');
     expect(resolveTngBadgeContent('  ', 99, false)).toBe('');
     expect(resolveTngBadgeContent('new', 99, false)).toBe('new');
+    expect(resolveTngBadgeContent('  new  ', 99, false)).toBe('  new  ');
     expect(resolveTngBadgeContent(12, 99, true)).toBe('');
 
     expect(toTngBadgeCssLength(8)).toBe('8px');

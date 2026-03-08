@@ -1,18 +1,86 @@
 <main class="page">
   <section class="container">
+    <section class="hero">
+      <h1 class="title">Badge (Primitive)</h1>
+      <p class="subtitle">
+        `tngBadge` supports count/status/dot modes, placement, offsets, tone, size, and variant state hooks.
+      </p>
+    </section>
+
     <section class="card">
-      <h2>Default</h2>
+      <h2>Count, Status, and Dot</h2>
       <div class="row">
         <button type="button" [tngBadge]="7" class="host">Inbox</button>
+        <button type="button" [tngBadge]="0" class="host">Queued jobs</button>
         <button type="button" [tngBadge]="103" [tngBadgeMax]="99" class="host">
           Notifications
         </button>
+        <button type="button" [tngBadge]="'BETA'" class="host">Release channel</button>
         <button type="button" [tngBadge]="null" [tngBadgeDot]="true" class="host">Presence</button>
       </div>
     </section>
 
     <section class="card">
-      <h2>Tone, Position, and Micro Styling</h2>
+      <h2>Tone and Size</h2>
+      <div class="grid">
+        <button type="button" [tngBadge]="2" tngBadgeTone="success" tngBadgeSize="sm" class="host">
+          Success / sm
+        </button>
+        <button type="button" [tngBadge]="14" tngBadgeTone="info" tngBadgeSize="md" class="host">
+          Info / md
+        </button>
+        <button type="button" [tngBadge]="3" tngBadgeTone="warning" tngBadgeSize="lg" class="host">
+          Warning / lg
+        </button>
+        <button type="button" [tngBadge]="1" tngBadgeTone="danger" tngBadgeSize="sm" class="host">
+          Danger / sm
+        </button>
+        <button type="button" [tngBadge]="8" tngBadgeTone="neutral" tngBadgeSize="md" class="host">
+          Neutral / md
+        </button>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Variant and State Hooks</h2>
+      <div class="row">
+        <button
+          type="button"
+          [tngBadge]="9"
+          tngBadgeVariant="solid"
+          [tngBadgeStyle]="solidVariantStyle"
+          class="host"
+        >
+          Solid
+        </button>
+        <button
+          type="button"
+          [tngBadge]="9"
+          tngBadgeVariant="soft"
+          [tngBadgeStyle]="softVariantStyle"
+          class="host"
+        >
+          Soft
+        </button>
+        <button
+          type="button"
+          [tngBadge]="9"
+          tngBadgeVariant="outline"
+          [tngBadgeStyle]="outlineVariantStyle"
+          class="host"
+        >
+          Outline
+        </button>
+        <button type="button" [tngBadge]="5" [tngBadgeDisabled]="true" class="host">Disabled state</button>
+        <button type="button" [tngBadge]="5" [tngBadgeHidden]="true" class="host">Hidden badge</button>
+      </div>
+      <p class="note">
+        `tngBadgeVariant` and `tngBadgeDisabled` expose `data-variant` and `data-disabled` hooks for theming.
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>Placement, Offset, and Micro Styling</h2>
       <div class="row">
         <button
           type="button"
@@ -38,10 +106,12 @@
           type="button"
           [tngBadge]="9"
           [tngBadgeClass]="'shadow ring'"
+          [tngBadgeOffsetX]="6"
+          [tngBadgeOffsetY]="-4"
           [tngBadgeStyle]="customBadgeStyle"
           class="host"
         >
-          Custom
+          Custom + offset
         </button>
       </div>
     </section>

@@ -1,43 +1,188 @@
-<div class="mx-auto max-w-[72rem] grid gap-5">
-  <section class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5 space-y-3">
-    <h2 class="text-lg font-semibold">Default</h2>
+<div class="mx-auto grid max-w-[72rem] gap-5">
+  <section class="space-y-3">
+    <h1 class="text-[clamp(1.875rem,2vw+1rem,2.5rem)] leading-tight">Badge (Primitive)</h1>
+    <p class="max-w-[44rem] text-sm text-tng-fg-secondary">
+      `tngBadge` supports count/status/dot modes, placement, offsets, tone, size, and variant state hooks.
+    </p>
+  </section>
+
+  <section class="space-y-3 rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5">
+    <h2 class="text-lg font-semibold">Count, Status, and Dot</h2>
     <div class="flex flex-wrap gap-3">
-      <button type="button" [tngBadge]="7">Inbox</button>
-      <button type="button" [tngBadge]="103" [tngBadgeMax]="99">
+      <button
+        type="button"
+        [tngBadge]="7"
+        class="inline-flex min-h-10 min-w-36 items-center rounded-lg border border-tng-border-subtle bg-tng-bg-canvas px-4 py-2 text-sm font-medium text-tng-fg-primary"
+      >
+        Inbox
+      </button>
+      <button
+        type="button"
+        [tngBadge]="0"
+        class="inline-flex min-h-10 min-w-36 items-center rounded-lg border border-tng-border-subtle bg-tng-bg-canvas px-4 py-2 text-sm font-medium text-tng-fg-primary"
+      >
+        Queued jobs
+      </button>
+      <button
+        type="button"
+        [tngBadge]="103"
+        [tngBadgeMax]="99"
+        class="inline-flex min-h-10 min-w-36 items-center rounded-lg border border-tng-border-subtle bg-tng-bg-canvas px-4 py-2 text-sm font-medium text-tng-fg-primary"
+      >
         Notifications
       </button>
-      <button type="button" [tngBadge]="null" [tngBadgeDot]="true">Presence</button>
+      <button
+        type="button"
+        [tngBadge]="'BETA'"
+        class="inline-flex min-h-10 min-w-36 items-center rounded-lg border border-tng-border-subtle bg-tng-bg-canvas px-4 py-2 text-sm font-medium text-tng-fg-primary"
+      >
+        Release channel
+      </button>
+      <button
+        type="button"
+        [tngBadge]="null"
+        [tngBadgeDot]="true"
+        class="inline-flex min-h-10 min-w-36 items-center rounded-lg border border-tng-border-subtle bg-tng-bg-canvas px-4 py-2 text-sm font-medium text-tng-fg-primary"
+      >
+        Presence
+      </button>
     </div>
   </section>
 
-  <section class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5 space-y-3">
-    <h2 class="text-lg font-semibold">Tone, Position, and Micro Styling</h2>
+  <section class="space-y-3 rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5">
+    <h2 class="text-lg font-semibold">Tone and Size</h2>
+    <div class="grid gap-3 [grid-template-columns:repeat(auto-fit,minmax(11.5rem,1fr))]">
+      <button
+        type="button"
+        [tngBadge]="2"
+        tngBadgeTone="success"
+        tngBadgeSize="sm"
+        class="inline-flex min-h-10 items-center rounded-lg border border-tng-border-subtle bg-tng-bg-canvas px-4 py-2 text-sm font-medium text-tng-fg-primary"
+      >
+        Success / sm
+      </button>
+      <button
+        type="button"
+        [tngBadge]="14"
+        tngBadgeTone="info"
+        tngBadgeSize="md"
+        class="inline-flex min-h-10 items-center rounded-lg border border-tng-border-subtle bg-tng-bg-canvas px-4 py-2 text-sm font-medium text-tng-fg-primary"
+      >
+        Info / md
+      </button>
+      <button
+        type="button"
+        [tngBadge]="3"
+        tngBadgeTone="warning"
+        tngBadgeSize="lg"
+        class="inline-flex min-h-10 items-center rounded-lg border border-tng-border-subtle bg-tng-bg-canvas px-4 py-2 text-sm font-medium text-tng-fg-primary"
+      >
+        Warning / lg
+      </button>
+      <button
+        type="button"
+        [tngBadge]="1"
+        tngBadgeTone="danger"
+        tngBadgeSize="sm"
+        class="inline-flex min-h-10 items-center rounded-lg border border-tng-border-subtle bg-tng-bg-canvas px-4 py-2 text-sm font-medium text-tng-fg-primary"
+      >
+        Danger / sm
+      </button>
+      <button
+        type="button"
+        [tngBadge]="8"
+        tngBadgeTone="neutral"
+        tngBadgeSize="md"
+        class="inline-flex min-h-10 items-center rounded-lg border border-tng-border-subtle bg-tng-bg-canvas px-4 py-2 text-sm font-medium text-tng-fg-primary"
+      >
+        Neutral / md
+      </button>
+    </div>
+  </section>
+
+  <section class="space-y-3 rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5">
+    <h2 class="text-lg font-semibold">Variant and State Hooks</h2>
+    <div class="flex flex-wrap gap-3">
+      <button
+        type="button"
+        [tngBadge]="9"
+        tngBadgeVariant="solid"
+        [tngBadgeStyle]="solidVariantStyle"
+        class="inline-flex min-h-10 min-w-36 items-center rounded-lg border border-tng-border-subtle bg-tng-bg-canvas px-4 py-2 text-sm font-medium text-tng-fg-primary"
+      >
+        Solid
+      </button>
+      <button
+        type="button"
+        [tngBadge]="9"
+        tngBadgeVariant="soft"
+        [tngBadgeStyle]="softVariantStyle"
+        class="inline-flex min-h-10 min-w-36 items-center rounded-lg border border-tng-border-subtle bg-tng-bg-canvas px-4 py-2 text-sm font-medium text-tng-fg-primary"
+      >
+        Soft
+      </button>
+      <button
+        type="button"
+        [tngBadge]="9"
+        tngBadgeVariant="outline"
+        [tngBadgeStyle]="outlineVariantStyle"
+        class="inline-flex min-h-10 min-w-36 items-center rounded-lg border border-tng-border-subtle bg-tng-bg-canvas px-4 py-2 text-sm font-medium text-tng-fg-primary"
+      >
+        Outline
+      </button>
+      <button
+        type="button"
+        [tngBadge]="5"
+        [tngBadgeDisabled]="true"
+        class="inline-flex min-h-10 min-w-36 items-center rounded-lg border border-tng-border-subtle bg-tng-bg-canvas px-4 py-2 text-sm font-medium text-tng-fg-primary"
+      >
+        Disabled state
+      </button>
+      <button
+        type="button"
+        [tngBadge]="5"
+        [tngBadgeHidden]="true"
+        class="inline-flex min-h-10 min-w-36 items-center rounded-lg border border-tng-border-subtle bg-tng-bg-canvas px-4 py-2 text-sm font-medium text-tng-fg-primary"
+      >
+        Hidden badge
+      </button>
+    </div>
+    <p class="text-sm text-tng-fg-secondary">
+      `tngBadgeVariant` and `tngBadgeDisabled` expose `data-variant` and `data-disabled` hooks for theming.
+    </p>
+  </section>
+
+  <section class="space-y-3 rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5">
+    <h2 class="text-lg font-semibold">Placement, Offset, and Micro Styling</h2>
     <div class="flex flex-wrap gap-3">
       <button
         type="button"
         [tngBadge]="12"
         tngBadgeTone="success"
         tngBadgePosition="top-start"
+        class="inline-flex min-h-10 min-w-36 items-center rounded-lg border border-tng-border-subtle bg-tng-bg-canvas px-4 py-2 text-sm font-medium text-tng-fg-primary"
       >
         Deployments
       </button>
-
       <button
         type="button"
         [tngBadge]="3"
         tngBadgeTone="warning"
         tngBadgePosition="bottom-end"
+        class="inline-flex min-h-10 min-w-36 items-center rounded-lg border border-tng-border-subtle bg-tng-bg-canvas px-4 py-2 text-sm font-medium text-tng-fg-primary"
       >
         Warnings
       </button>
-
       <button
         type="button"
         [tngBadge]="9"
         [tngBadgeClass]="'shadow ring'"
+        [tngBadgeOffsetX]="6"
+        [tngBadgeOffsetY]="-4"
         [tngBadgeStyle]="customBadgeStyle"
+        class="inline-flex min-h-10 min-w-36 items-center rounded-lg border border-tng-border-subtle bg-tng-bg-canvas px-4 py-2 text-sm font-medium text-tng-fg-primary"
       >
-        Custom
+        Custom + offset
       </button>
     </div>
   </section>

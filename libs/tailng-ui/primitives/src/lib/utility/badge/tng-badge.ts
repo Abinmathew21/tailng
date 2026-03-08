@@ -12,20 +12,24 @@ import {
 const badgePositions = ['bottom-end', 'bottom-start', 'top-end', 'top-start'] as const;
 const badgeSizes = ['lg', 'md', 'sm'] as const;
 const badgeTones = ['danger', 'info', 'neutral', 'success', 'warning'] as const;
+const badgeVariants = ['outline', 'soft', 'solid'] as const;
 
 const badgePositionSet = new Set<TngBadgePosition>(badgePositions);
 const badgeSizeSet = new Set<TngBadgeSize>(badgeSizes);
 const badgeToneSet = new Set<TngBadgeTone>(badgeTones);
+const badgeVariantSet = new Set<TngBadgeVariant>(badgeVariants);
 
 const defaultBadgeMax = 99;
 const defaultBadgePosition: TngBadgePosition = 'top-end';
 const defaultBadgeSize: TngBadgeSize = 'md';
 const defaultBadgeTone: TngBadgeTone = 'danger';
+const defaultBadgeVariant: TngBadgeVariant = 'solid';
 
 export type TngBadgePosition = (typeof badgePositions)[number];
 export type TngBadgeSize = (typeof badgeSizes)[number];
 export type TngBadgeStyleMap = Readonly<Record<string, number | string>>;
 export type TngBadgeTone = (typeof badgeTones)[number];
+export type TngBadgeVariant = (typeof badgeVariants)[number];
 
 type TngBadgeToneColors = Readonly<{
   background: string;
@@ -88,6 +92,14 @@ export function coerceTngBadgeTone(value: string): TngBadgeTone {
   return defaultBadgeTone;
 }
 
+export function coerceTngBadgeVariant(value: string): TngBadgeVariant {
+  if (badgeVariantSet.has(value as TngBadgeVariant)) {
+    return value as TngBadgeVariant;
+  }
+
+  return defaultBadgeVariant;
+}
+
 export function resolveTngBadgeContent(
   value: number | string | null | undefined,
   max: number,
@@ -110,7 +122,7 @@ export function resolveTngBadgeContent(
     return String(normalized);
   }
 
-  return isNonEmptyText(value) ? value.trim() : '';
+  return isNonEmptyText(value) ? value : '';
 }
 
 export function resolveTngBadgePlacement(position: TngBadgePosition): TngResolvedBadgePlacement {
@@ -180,6 +192,9 @@ function hasVisibleBadge(hidden: boolean, dot: boolean, content: string): boolea
 export class TngBadge implements OnDestroy {
   public readonly tngBadge = input<number | string | null | undefined>(null);
   public readonly tngBadgeClass = input<string | null | undefined>(null);
+  public readonly tngBadgeDisabled = input<boolean, boolean | string>(false, {
+    transform: booleanAttribute,
+  });
   public readonly tngBadgeStyle = input<TngBadgeStyleMap | null | undefined>(null);
   public readonly tngBadgeDot = input<boolean, boolean | string>(false, {
     transform: booleanAttribute,
@@ -200,6 +215,9 @@ export class TngBadge implements OnDestroy {
   });
   public readonly tngBadgeTone = input<TngBadgeTone, string>(defaultBadgeTone, {
     transform: coerceTngBadgeTone,
+  });
+  public readonly tngBadgeVariant = input<TngBadgeVariant, string>(defaultBadgeVariant, {
+    transform: coerceTngBadgeVariant,
   });
 
   private readonly hostElement = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
@@ -271,10 +289,18 @@ export class TngBadge implements OnDestroy {
 
     const badgeElement = this.badgeElement;
     this.renderer.setAttribute(badgeElement, 'aria-hidden', 'true');
+    this.renderer.setAttribute(badgeElement, 'data-placement', this.tngBadgePosition());
     this.renderer.setAttribute(badgeElement, 'data-position', this.tngBadgePosition());
     this.renderer.setAttribute(badgeElement, 'data-size', this.tngBadgeSize());
     this.renderer.setAttribute(badgeElement, 'data-slot', 'badge');
     this.renderer.setAttribute(badgeElement, 'data-tone', this.tngBadgeTone());
+    this.renderer.setAttribute(badgeElement, 'data-variant', this.tngBadgeVariant());
+
+    if (this.tngBadgeDisabled()) {
+      this.renderer.setAttribute(badgeElement, 'data-disabled', '');
+    } else {
+      this.renderer.removeAttribute(badgeElement, 'data-disabled');
+    }
 
     if (this.tngBadgeDot()) {
       this.renderer.setAttribute(badgeElement, 'data-dot', '');
@@ -405,7 +431,6 @@ export class TngBadge implements OnDestroy {
       ['display', 'inline-flex'],
       ['font-size', 'var(--tng-badge-font-size, 0.7rem)'],
       ['font-weight', 'var(--tng-badge-font-weight, 700)'],
-      ['inset', 'auto'],
       ['justify-content', 'center'],
       ['line-height', '1'],
       ['pointer-events', 'none'],
