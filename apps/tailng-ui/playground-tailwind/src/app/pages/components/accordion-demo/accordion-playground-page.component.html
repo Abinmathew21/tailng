@@ -1,23 +1,163 @@
-<div class="mx-auto max-w-[72rem] grid gap-5">
-  <section class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5 space-y-3">
-    <h2 class="text-lg font-semibold">Primitives (`tngAccordion`)</h2>
-    <section tngAccordion class="rounded-xl border border-tng-border-subtle px-4 py-3 text-tng-fg-primary">
-      <h3 class="font-medium">Primitive container</h3>
-      <p class="mt-2 text-sm text-tng-fg-secondary">
-        Use this as a semantic shell when building a fully custom accordion experience.
-      </p>
-    </section>
-  </section>
+<div class="mx-auto grid max-w-[72rem] gap-5">
+  <section class="space-y-3 rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5">
+    <h2 class="text-lg font-semibold">Accordion Examples (Tailwind)</h2>
+    <p class="max-w-[60rem] text-sm text-tng-fg-secondary">
+      Headless primitives first, then component wrappers. Try ArrowUp/ArrowDown, Home/End, Enter, and Space.
+    </p>
 
-  <section class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5 space-y-3">
-    <h2 class="text-lg font-semibold">Components (`tng-accordion`)</h2>
-    <div class="grid gap-3">
-      <tng-accordion title="What is TailNG?">
-        TailNG is an accessibility-first Angular component system with copy-paste and package modes.
-      </tng-accordion>
-      <tng-accordion title="Does it support custom styling?">
-        Yes. Consumers can style at micro-level without framework coupling.
-      </tng-accordion>
+    <div class="grid gap-4 md:grid-cols-2">
+      <article class="space-y-3 rounded-xl border border-tng-border-subtle bg-tng-bg-canvas p-4">
+        <h3 class="text-sm font-semibold text-tng-fg-primary">Headless Primitive: Single</h3>
+        <section tngAccordion class="overflow-hidden rounded-xl border border-tng-border-subtle" [defaultValue]="'architecture'" [collapsible]="true">
+          <article tngAccordionItem value="architecture" class="border-b border-tng-border-subtle last:border-b-0">
+            <button
+              tngAccordionTrigger
+              type="button"
+              class="grid w-full grid-cols-[1fr_auto] items-center bg-tng-bg-surface px-4 py-3 text-left text-sm font-medium text-tng-fg-primary transition-colors duration-150 hover:bg-tng-bg-muted focus:outline-none focus-visible:ring-2 focus-visible:ring-tng-focus-ring"
+            >
+              Architecture
+              <span aria-hidden="true" class="text-tng-fg-secondary transition-transform duration-200 ease-out [button[data-state='open']_&]:rotate-180">⌄</span>
+            </button>
+            <div
+              tngAccordionPanel
+              class="border-t border-tng-border-subtle bg-tng-bg-canvas px-4 py-3 text-sm text-tng-fg-secondary transition-all duration-200 ease-out [div[hidden]&]:pointer-events-none [div[hidden]&]:max-h-0 [div[hidden]&]:opacity-0 [div[hidden]&]:py-0"
+            >
+              Uses root/item/trigger/panel directives with roving focus and ARIA linkage.
+            </div>
+          </article>
+
+          <article tngAccordionItem value="theming" class="border-b border-tng-border-subtle last:border-b-0">
+            <button
+              tngAccordionTrigger
+              type="button"
+              class="grid w-full grid-cols-[1fr_auto] items-center bg-tng-bg-surface px-4 py-3 text-left text-sm font-medium text-tng-fg-primary transition-colors duration-150 hover:bg-tng-bg-muted focus:outline-none focus-visible:ring-2 focus-visible:ring-tng-focus-ring"
+            >
+              Theming
+              <span aria-hidden="true" class="text-tng-fg-secondary transition-transform duration-200 ease-out [button[data-state='open']_&]:rotate-180">⌄</span>
+            </button>
+            <div
+              tngAccordionPanel
+              class="border-t border-tng-border-subtle bg-tng-bg-canvas px-4 py-3 text-sm text-tng-fg-secondary transition-all duration-200 ease-out [div[hidden]&]:pointer-events-none [div[hidden]&]:max-h-0 [div[hidden]&]:opacity-0 [div[hidden]&]:py-0"
+            >
+              Theme via semantic tokens and utility classes with no framework-coupled style contract.
+            </div>
+          </article>
+        </section>
+      </article>
+
+      <article class="space-y-3 rounded-xl border border-tng-border-subtle bg-tng-bg-canvas p-4">
+        <h3 class="text-sm font-semibold text-tng-fg-primary">Headless Primitive: Multiple + Lazy</h3>
+        <section tngAccordion class="overflow-hidden rounded-xl border border-tng-border-subtle" type="multiple" [defaultValue]="['api', 'events']" lazy>
+          <article tngAccordionItem value="api" class="border-b border-tng-border-subtle last:border-b-0">
+            <button
+              tngAccordionTrigger
+              type="button"
+              class="grid w-full grid-cols-[1fr_auto] items-center bg-tng-bg-surface px-4 py-3 text-left text-sm font-medium text-tng-fg-primary transition-colors duration-150 hover:bg-tng-bg-muted focus:outline-none focus-visible:ring-2 focus-visible:ring-tng-focus-ring"
+            >
+              API surface
+              <span aria-hidden="true" class="text-tng-fg-secondary transition-transform duration-200 ease-out [button[data-state='open']_&]:rotate-180">⌄</span>
+            </button>
+            <div
+              tngAccordionPanel
+              class="border-t border-tng-border-subtle bg-tng-bg-canvas px-4 py-3 text-sm text-tng-fg-secondary transition-all duration-200 ease-out [div[hidden]&]:pointer-events-none [div[hidden]&]:max-h-0 [div[hidden]&]:opacity-0 [div[hidden]&]:py-0"
+            >
+              Supports single/multiple modes, controlled/uncontrolled values, and disabled items.
+            </div>
+          </article>
+
+          <article tngAccordionItem value="events" class="border-b border-tng-border-subtle last:border-b-0">
+            <button
+              tngAccordionTrigger
+              type="button"
+              class="grid w-full grid-cols-[1fr_auto] items-center bg-tng-bg-surface px-4 py-3 text-left text-sm font-medium text-tng-fg-primary transition-colors duration-150 hover:bg-tng-bg-muted focus:outline-none focus-visible:ring-2 focus-visible:ring-tng-focus-ring"
+            >
+              Events
+              <span aria-hidden="true" class="text-tng-fg-secondary transition-transform duration-200 ease-out [button[data-state='open']_&]:rotate-180">⌄</span>
+            </button>
+            <div
+              tngAccordionPanel
+              class="border-t border-tng-border-subtle bg-tng-bg-canvas px-4 py-3 text-sm text-tng-fg-secondary transition-all duration-200 ease-out [div[hidden]&]:pointer-events-none [div[hidden]&]:max-h-0 [div[hidden]&]:opacity-0 [div[hidden]&]:py-0"
+            >
+              Emits value/value[] updates with trigger metadata and lifecycle events.
+            </div>
+          </article>
+
+          <article tngAccordionItem value="disabled" class="border-b border-tng-border-subtle last:border-b-0" disabled>
+            <button
+              tngAccordionTrigger
+              type="button"
+              class="grid w-full grid-cols-[1fr_auto] items-center bg-tng-bg-surface px-4 py-3 text-left text-sm font-medium text-tng-fg-primary transition-colors duration-150 hover:bg-tng-bg-muted focus:outline-none focus-visible:ring-2 focus-visible:ring-tng-focus-ring"
+            >
+              Disabled section
+              <span aria-hidden="true" class="text-tng-fg-secondary transition-transform duration-200 ease-out [button[data-state='open']_&]:rotate-180">⌄</span>
+            </button>
+            <div
+              tngAccordionPanel
+              class="border-t border-tng-border-subtle bg-tng-bg-canvas px-4 py-3 text-sm text-tng-fg-secondary transition-all duration-200 ease-out [div[hidden]&]:pointer-events-none [div[hidden]&]:max-h-0 [div[hidden]&]:opacity-0 [div[hidden]&]:py-0"
+            >
+              This section remains collapsed.
+            </div>
+          </article>
+        </section>
+      </article>
+
+      <article class="space-y-3 rounded-xl border border-tng-border-subtle bg-tng-bg-canvas p-4">
+        <h3 class="text-sm font-semibold text-tng-fg-primary">Component Wrapper: Single</h3>
+        <tng-accordion [defaultValue]="'what-is-tailng'">
+          <tng-accordion-item value="what-is-tailng">
+            <tng-accordion-trigger>
+              What is TailNG?
+              <span aria-hidden="true" class="text-tng-fg-secondary transition-transform duration-200 ease-out [tng-accordion-trigger[data-state='open']_&]:rotate-180">⌄</span>
+            </tng-accordion-trigger>
+            <tng-accordion-panel>
+              TailNG is an accessibility-first Angular component system with copy-paste and package modes.
+            </tng-accordion-panel>
+          </tng-accordion-item>
+
+          <tng-accordion-item value="custom-styling">
+            <tng-accordion-trigger>
+              Does it support custom styling?
+              <span aria-hidden="true" class="text-tng-fg-secondary transition-transform duration-200 ease-out [tng-accordion-trigger[data-state='open']_&]:rotate-180">⌄</span>
+            </tng-accordion-trigger>
+            <tng-accordion-panel>
+              Yes. Consumers can style at micro-level without framework coupling.
+            </tng-accordion-panel>
+          </tng-accordion-item>
+        </tng-accordion>
+      </article>
+
+      <article class="space-y-3 rounded-xl border border-tng-border-subtle bg-tng-bg-canvas p-4">
+        <h3 class="text-sm font-semibold text-tng-fg-primary">Component Wrapper: Multiple + Non-collapsible</h3>
+        <tng-accordion type="multiple" [defaultValue]="['performance']" [collapsible]="false">
+          <tng-accordion-item value="performance">
+            <tng-accordion-trigger>
+              Performance
+              <span aria-hidden="true" class="text-tng-fg-secondary transition-transform duration-200 ease-out [tng-accordion-trigger[data-state='open']_&]:rotate-180">⌄</span>
+            </tng-accordion-trigger>
+            <tng-accordion-panel>
+              Keyboard navigation and state sync stay in primitives while wrappers keep appearance concerns.
+            </tng-accordion-panel>
+          </tng-accordion-item>
+
+          <tng-accordion-item value="testing">
+            <tng-accordion-trigger>
+              Testing strategy
+              <span aria-hidden="true" class="text-tng-fg-secondary transition-transform duration-200 ease-out [tng-accordion-trigger[data-state='open']_&]:rotate-180">⌄</span>
+            </tng-accordion-trigger>
+            <tng-accordion-panel>
+              Primitive tests cover A–N behavior blocks; wrapper tests validate API forwarding and composition.
+            </tng-accordion-panel>
+          </tng-accordion-item>
+
+          <tng-accordion-item value="roadmap" disabled>
+            <tng-accordion-trigger>
+              Roadmap (disabled)
+              <span aria-hidden="true" class="text-tng-fg-secondary transition-transform duration-200 ease-out [tng-accordion-trigger[data-state='open']_&]:rotate-180">⌄</span>
+            </tng-accordion-trigger>
+            <tng-accordion-panel>Future section.</tng-accordion-panel>
+          </tng-accordion-item>
+        </tng-accordion>
+      </article>
     </div>
   </section>
 </div>

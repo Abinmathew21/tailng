@@ -1,5 +1,10 @@
 export * from './accordion/tng-accordion.component';
-export { TngAccordionComponent } from './accordion/tng-accordion.component';
+export {
+  TngAccordionComponent,
+  TngAccordionItemComponent,
+  TngAccordionTriggerComponent,
+  TngAccordionPanelComponent,
+} from './accordion/tng-accordion.component';
 export * from './bottom-sheet/tng-bottom-sheet.component';
 export { TngBottomSheetComponent } from './bottom-sheet/tng-bottom-sheet.component';
 export {

@@ -27,26 +27,31 @@
         <p class="nav-empty">No components match your search.</p>
       } @else {
         @for (group of groups(); track group.category) {
-          <tng-accordion [title]="group.label" [defaultOpen]="true">
-            <ul
-              tngMenu
-              role="menu"
-              class="nav-menu"
-              [attr.aria-label]="group.label + ' components'"
-            >
-              @for (item of group.items; track item.path) {
-                <li
-                  role="menuitem"
-                  class="nav-menu-item"
-                  [class.nav-menu-item--active]="isActive(item.path)"
-                  tabindex="0"
-                  (click)="onOptionSelect(item.path)"
-                  (keydown)="onMenuKeydown(item.path, $event)"
+          <tng-accordion [defaultValue]="group.category">
+            <tng-accordion-item [value]="group.category">
+              <tng-accordion-trigger>{{ group.label }}</tng-accordion-trigger>
+              <tng-accordion-panel>
+                <ul
+                  tngMenu
+                  role="menu"
+                  class="nav-menu"
+                  [attr.aria-label]="group.label + ' components'"
                 >
-                  {{ item.title }}
-                </li>
-              }
-            </ul>
+                  @for (item of group.items; track item.path) {
+                    <li
+                      role="menuitem"
+                      class="nav-menu-item"
+                      [class.nav-menu-item--active]="isActive(item.path)"
+                      tabindex="0"
+                      (click)="onOptionSelect(item.path)"
+                      (keydown)="onMenuKeydown(item.path, $event)"
+                    >
+                      {{ item.title }}
+                    </li>
+                  }
+                </ul>
+              </tng-accordion-panel>
+            </tng-accordion-item>
           </tng-accordion>
         }
       }

@@ -1,173 +1,149 @@
-import { booleanAttribute, Component, effect, ElementRef, inject, input, signal } from '@angular/core';
-import { createDisclosureController } from '@tailng-ui/cdk';
-import { createTngIdFactory } from '@tailng-ui/cdk/core';
-import { TngAccordion as TngAccordionPrimitive } from '@tailng-ui/primitives';
-
-const accordionIdFactory = createTngIdFactory('tng-accordion-panel');
-const accordionTriggerIdFactory = createTngIdFactory('tng-accordion-trigger');
-const accordionTriggerSelector = '[data-tng-accordion-trigger]';
-const accordionNavigationKeys = new Set(['ArrowDown', 'ArrowUp', 'Home', 'End']);
-
-type TngAccordionTriggerElement = HTMLButtonElement;
-type TngAccordionGroupRoot = Document | Element;
-
-function hasModifierKey(event: Readonly<Pick<KeyboardEvent, 'altKey' | 'ctrlKey' | 'metaKey'>>): boolean {
-  return event.altKey || event.ctrlKey || event.metaKey;
-}
-
-function isAccordionGroupRoot(value: unknown): value is TngAccordionGroupRoot {
-  return value instanceof Document || value instanceof Element;
-}
-
-function isEnabledAccordionTrigger(value: unknown): value is TngAccordionTriggerElement {
-  return value instanceof HTMLButtonElement && !value.disabled;
-}
-
-function resolveAccordionTrigger(eventTarget: unknown): TngAccordionTriggerElement | null {
-  if (eventTarget instanceof HTMLButtonElement) {
-    return eventTarget;
-  }
-
-  return null;
-}
-
-function getAccordionGroupRoot(host: unknown): TngAccordionGroupRoot | null {
-  if (!(host instanceof HTMLElement)) {
-    return null;
-  }
-
-  const explicitGroup = host.closest('[data-tng-accordion-group]');
-  if (explicitGroup !== null) {
-    return explicitGroup;
-  }
-
-  return host.parentElement ?? host.ownerDocument;
-}
-
-export function getEnabledAccordionTriggers(groupRoot: unknown): readonly TngAccordionTriggerElement[] {
-  if (!isAccordionGroupRoot(groupRoot)) {
-    return [];
-  }
-
-  return Array.from(groupRoot.querySelectorAll<TngAccordionTriggerElement>(accordionTriggerSelector)).filter(
-    isEnabledAccordionTrigger,
-  );
-}
-
-export function resolveAccordionTriggerTargetIndex(
-  currentIndex: number,
-  total: number,
-  key: string,
-): number | null {
-  if (total <= 0 || currentIndex < 0 || currentIndex >= total) {
-    return null;
-  }
-
-  const targetIndexResolver: Readonly<Record<string, (index: number, count: number) => number>> = {
-    ArrowDown: (index, count) => (index + 1 >= count ? 0 : index + 1),
-    ArrowUp: (index, count) => (index - 1 < 0 ? count - 1 : index - 1),
-    End: (_index, count) => count - 1,
-    Home: () => 0,
-  };
-
-  return targetIndexResolver[key]?.(currentIndex, total) ?? null;
-}
-
-function resolveNextAccordionTrigger(
-  hostElement: unknown,
-  currentTarget: unknown,
-  key: string,
-): TngAccordionTriggerElement | null {
-  if (!(currentTarget instanceof HTMLButtonElement)) {
-    return null;
-  }
-
-  const groupRoot = getAccordionGroupRoot(hostElement);
-  if (groupRoot === null) {
-    return null;
-  }
-
-  const triggers = getEnabledAccordionTriggers(groupRoot);
-  if (triggers.length <= 1) {
-    return null;
-  }
-
-  const currentIndex = triggers.indexOf(currentTarget);
-  const nextIndex = resolveAccordionTriggerTargetIndex(currentIndex, triggers.length, key);
-  if (nextIndex === null || nextIndex === currentIndex) {
-    return null;
-  }
-
-  return triggers[nextIndex] ?? null;
-}
+import { Component, HostBinding, input } from '@angular/core';
+import {
+  TngAccordion as TngAccordionPrimitive,
+  TngAccordionItem as TngAccordionItemPrimitive,
+  TngAccordionPanel as TngAccordionPanelPrimitive,
+  TngAccordionTrigger as TngAccordionTriggerPrimitive,
+} from '@tailng-ui/primitives';
 
 @Component({
   selector: 'tng-accordion',
-  imports: [TngAccordionPrimitive],
+  standalone: true,
+  hostDirectives: [
+    {
+      directive: TngAccordionPrimitive,
+      inputs: ['type', 'value', 'defaultValue', 'collapsible', 'disabled', 'loop', 'lazy', 'keepAlive'],
+      outputs: ['valueChange', 'valuesChange', 'expandedChange', 'openStart', 'opened', 'closeStart', 'closed'],
+    },
+  ],
   templateUrl: './tng-accordion.component.html',
   styleUrl: './tng-accordion.component.css',
+  exportAs: 'tngAccordionComponent',
 })
 export class TngAccordionComponent {
-  public readonly defaultOpen = input<boolean, boolean | string>(false, {
-    transform: booleanAttribute,
-  });
-  public readonly disabled = input<boolean, boolean | string>(false, {
-    transform: booleanAttribute,
-  });
-  public readonly title = input<string>('Accordion');
+  readonly ariaLabel = input<string>('Accordion');
 
-  protected readonly open = signal(false);
-  protected readonly panelId = accordionIdFactory();
-  protected readonly triggerId = accordionTriggerIdFactory();
-
-  private readonly hostRef = inject<ElementRef<HTMLElement>>(ElementRef);
-  private readonly disclosure = createDisclosureController();
-
-  public constructor() {
-    effect(() => {
-      this.disclosure.setDisabled(this.disabled());
-      this.syncOpenState();
-    });
-
-    effect(() => {
-      if (this.defaultOpen()) {
-        this.disclosure.open();
-      } else {
-        this.disclosure.close();
-      }
-      this.syncOpenState();
-    });
-  }
-
-  protected onToggle(): void {
-    this.disclosure.toggle();
-    this.syncOpenState();
-  }
-
-  protected onTriggerKeydown(event: unknown): void {
-    if (!(event instanceof KeyboardEvent)) {
-      return;
-    }
-
-    if (hasModifierKey(event) || !accordionNavigationKeys.has(event.key)) {
-      return;
-    }
-
-    const currentTarget = resolveAccordionTrigger(event.currentTarget);
-    if (currentTarget === null) {
-      return;
-    }
-
-    const nextTrigger = resolveNextAccordionTrigger(this.hostRef.nativeElement, currentTarget, event.key);
-    if (nextTrigger === null) {
-      return;
-    }
-
-    event.preventDefault();
-    nextTrigger.focus();
-  }
-
-  private syncOpenState(): void {
-    this.open.set(this.disclosure.isOpen());
+  @HostBinding('attr.aria-label')
+  protected get hostAriaLabel(): string {
+    return this.ariaLabel();
   }
 }
+
+@Component({
+  selector: 'tng-accordion-item',
+  standalone: true,
+  hostDirectives: [
+    {
+      directive: TngAccordionItemPrimitive,
+      inputs: ['value', 'disabled'],
+    },
+  ],
+  template: '<section class="tng-accordion__item"><ng-content /></section>',
+  styles: `
+    :host {
+      display: block;
+      border-top: 1px solid var(--tng-semantic-border-subtle);
+    }
+
+    :host(:first-child) {
+      border-top: 0;
+    }
+
+    .tng-accordion__item {
+      display: block;
+    }
+  `,
+  exportAs: 'tngAccordionItemComponent',
+})
+export class TngAccordionItemComponent {}
+
+@Component({
+  selector: 'tng-accordion-trigger',
+  standalone: true,
+  hostDirectives: [TngAccordionTriggerPrimitive],
+  template: '<span class="tng-accordion__trigger-content"><ng-content /></span>',
+  styles: `
+    :host {
+      align-items: center;
+      background: var(--tng-semantic-background-surface);
+      border: 0;
+      color: var(--tng-semantic-foreground-primary);
+      cursor: pointer;
+      display: flex;
+      font: inherit;
+      gap: 0.5rem;
+      justify-content: space-between;
+      min-height: 2.75rem;
+      padding: 0.8rem 1rem;
+      user-select: none;
+      width: 100%;
+    }
+
+    :host([data-disabled='true']) {
+      cursor: not-allowed;
+      opacity: 0.55;
+    }
+
+    :host(:focus-visible) {
+      outline: 2px solid var(--tng-semantic-focus-ring);
+      outline-offset: -2px;
+    }
+
+    .tng-accordion__trigger-content {
+      align-items: center;
+      display: inline-flex;
+      flex: 1 1 auto;
+      justify-content: space-between;
+      width: 100%;
+    }
+  `,
+  exportAs: 'tngAccordionTriggerComponent',
+})
+export class TngAccordionTriggerComponent {}
+
+@Component({
+  selector: 'tng-accordion-panel',
+  standalone: true,
+  hostDirectives: [TngAccordionPanelPrimitive],
+  template: '<section class="tng-accordion__panel"><ng-content /></section>',
+  styles: `
+    :host {
+      display: grid;
+      grid-template-rows: 1fr;
+      opacity: 1;
+      transition:
+        grid-template-rows 180ms ease,
+        opacity 180ms ease;
+    }
+
+    :host([hidden]) {
+      display: grid !important;
+      grid-template-rows: 0fr;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .tng-accordion__panel {
+      background: var(--tng-semantic-background-base);
+      border-top: 1px solid var(--tng-semantic-border-subtle);
+      color: var(--tng-semantic-foreground-primary);
+      display: block;
+      min-height: 0;
+      overflow: hidden;
+      padding: 0.9rem 1rem;
+      transform: translateY(0);
+      transition:
+        border-color 180ms ease,
+        padding-block 180ms ease,
+        transform 180ms ease;
+    }
+
+    :host([hidden]) .tng-accordion__panel {
+      border-top-color: transparent;
+      padding-block: 0;
+      transform: translateY(-4px);
+    }
+  `,
+  exportAs: 'tngAccordionPanelComponent',
+})
+export class TngAccordionPanelComponent {}

@@ -7,33 +7,3 @@
   border-radius: 0.75rem;
   overflow: hidden;
 }
-
-.tng-accordion__trigger {
-  align-items: center;
-  background: var(--tng-semantic-background-surface);
-  border: 0;
-  color: var(--tng-semantic-foreground-primary);
-  cursor: pointer;
-  display: flex;
-  font: inherit;
-  justify-content: space-between;
-  padding: 0.8rem 1rem;
-  width: 100%;
-}
-
-.tng-accordion__trigger:disabled {
-  cursor: not-allowed;
-  opacity: 0.55;
-}
-
-.tng-accordion__trigger:focus-visible {
-  outline: 2px solid var(--tng-semantic-focus-ring);
-  outline-offset: -2px;
-}
-
-.tng-accordion__panel {
-  background: var(--tng-semantic-background-base);
-  border-top: 1px solid var(--tng-semantic-border-subtle);
-  color: var(--tng-semantic-foreground-primary);
-  padding: 0.9rem 1rem;
-}

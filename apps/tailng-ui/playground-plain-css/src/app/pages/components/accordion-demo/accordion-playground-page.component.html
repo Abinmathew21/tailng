@@ -1,22 +1,127 @@
 <main class="page">
   <section class="container">
     <section class="card">
-      <h2>Primitives (`tngAccordion`)</h2>
-      <section tngAccordion class="primitive-shell">
-        <h3>Primitive container</h3>
-        <p>Use this as a semantic shell when building a fully custom accordion experience.</p>
-      </section>
-    </section>
+      <h2>Accordion Examples (Plain CSS)</h2>
+      <p class="subtitle">
+        Headless primitives first, then component wrappers. Use keyboard arrows, Home/End, Enter, and Space.
+      </p>
 
-    <section class="card">
-      <h2>Components (`tng-accordion`)</h2>
-      <div class="stack">
-        <tng-accordion title="What is TailNG?">
-          TailNG is an accessibility-first Angular component system with copy-paste and package modes.
-        </tng-accordion>
-        <tng-accordion title="Does it support custom styling?">
-          Yes. Consumers can style at micro-level without framework coupling.
-        </tng-accordion>
+      <div class="example-grid">
+        <article class="example-card">
+          <h3>Headless Primitive: Single</h3>
+          <section tngAccordion class="primitive-accordion" [defaultValue]="'architecture'" [collapsible]="true">
+            <article tngAccordionItem value="architecture" class="primitive-item">
+              <button tngAccordionTrigger type="button" class="primitive-trigger">
+                Architecture
+                <span aria-hidden="true" class="primitive-chevron">⌄</span>
+              </button>
+              <div tngAccordionPanel class="primitive-panel">
+                Uses root/item/trigger/panel directives with roving focus and ARIA linkage.
+              </div>
+            </article>
+
+            <article tngAccordionItem value="theming" class="primitive-item">
+              <button tngAccordionTrigger type="button" class="primitive-trigger">
+                Theming
+                <span aria-hidden="true" class="primitive-chevron">⌄</span>
+              </button>
+              <div tngAccordionPanel class="primitive-panel">
+                Theme via semantic CSS vars; no framework-specific styling contract required.
+              </div>
+            </article>
+          </section>
+        </article>
+
+        <article class="example-card">
+          <h3>Headless Primitive: Multiple + Lazy</h3>
+          <section tngAccordion class="primitive-accordion" type="multiple" [defaultValue]="['api', 'events']" lazy>
+            <article tngAccordionItem value="api" class="primitive-item">
+              <button tngAccordionTrigger type="button" class="primitive-trigger">
+                API surface
+                <span aria-hidden="true" class="primitive-chevron">⌄</span>
+              </button>
+              <div tngAccordionPanel class="primitive-panel">
+                Supports single/multiple modes, controlled and uncontrolled states, and disabled items.
+              </div>
+            </article>
+
+            <article tngAccordionItem value="events" class="primitive-item">
+              <button tngAccordionTrigger type="button" class="primitive-trigger">
+                Events
+                <span aria-hidden="true" class="primitive-chevron">⌄</span>
+              </button>
+              <div tngAccordionPanel class="primitive-panel">
+                Emits value/value[] updates plus expanded event metadata and open/close lifecycle events.
+              </div>
+            </article>
+
+            <article tngAccordionItem value="disabled" class="primitive-item" disabled>
+              <button tngAccordionTrigger type="button" class="primitive-trigger">
+                Disabled section
+                <span aria-hidden="true" class="primitive-chevron">⌄</span>
+              </button>
+              <div tngAccordionPanel class="primitive-panel">This should not open.</div>
+            </article>
+          </section>
+        </article>
+
+        <article class="example-card">
+          <h3>Component Wrapper: Single</h3>
+          <tng-accordion [defaultValue]="'what-is-tailng'">
+            <tng-accordion-item value="what-is-tailng">
+              <tng-accordion-trigger>
+                What is TailNG?
+                <span aria-hidden="true" class="wrapper-chevron">⌄</span>
+              </tng-accordion-trigger>
+              <tng-accordion-panel>
+                TailNG is an accessibility-first Angular component system with copy-paste and package modes.
+              </tng-accordion-panel>
+            </tng-accordion-item>
+
+            <tng-accordion-item value="custom-styling">
+              <tng-accordion-trigger>
+                Does it support custom styling?
+                <span aria-hidden="true" class="wrapper-chevron">⌄</span>
+              </tng-accordion-trigger>
+              <tng-accordion-panel>
+                Yes. Consumers can style at micro-level without framework coupling.
+              </tng-accordion-panel>
+            </tng-accordion-item>
+          </tng-accordion>
+        </article>
+
+        <article class="example-card">
+          <h3>Component Wrapper: Multiple + Non-collapsible</h3>
+          <tng-accordion type="multiple" [defaultValue]="['performance']" [collapsible]="false">
+            <tng-accordion-item value="performance">
+              <tng-accordion-trigger>
+                Performance
+                <span aria-hidden="true" class="wrapper-chevron">⌄</span>
+              </tng-accordion-trigger>
+              <tng-accordion-panel>
+                Keyboard navigation and state sync are handled in primitives while wrappers keep styling concerns.
+              </tng-accordion-panel>
+            </tng-accordion-item>
+
+            <tng-accordion-item value="testing">
+              <tng-accordion-trigger>
+                Testing strategy
+                <span aria-hidden="true" class="wrapper-chevron">⌄</span>
+              </tng-accordion-trigger>
+              <tng-accordion-panel>
+                Primitive test suite covers A–N behavior blocks; wrapper tests cover wiring and output forwarding.
+              </tng-accordion-panel>
+            </tng-accordion-item>
+
+            <tng-accordion-item value="roadmap" disabled>
+              <tng-accordion-trigger>
+                Roadmap (disabled)
+                <span aria-hidden="true" class="wrapper-chevron">⌄</span>
+              </tng-accordion-trigger>
+              <tng-accordion-panel>Future section.</tng-accordion-panel>
+            </tng-accordion-item>
+          </tng-accordion>
+        </article>
       </div>
     </section>
   </section>
