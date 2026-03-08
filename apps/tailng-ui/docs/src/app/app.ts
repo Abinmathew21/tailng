@@ -1,6 +1,6 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, computed, effect, inject, signal } from '@angular/core';
-import { TngMenuComponent, TngMenuTriggerFor, TngToggleComponent } from '@tailng-ui/components';
+import { TngMenuComponent, TngMenuTriggerFor, TngSwitchComponent } from '@tailng-ui/components';
 import {
   createTheme,
   darkSemanticTokens,
@@ -41,7 +41,7 @@ const semanticCollections: readonly (keyof ThemeSemanticTokens)[] = [
 ];
 
 @Component({
-  imports: [TngMenuComponent, TngMenuTriggerFor, TngToggleComponent],
+  imports: [TngMenuComponent, TngMenuTriggerFor, TngSwitchComponent],
   selector: 'app-root',
   templateUrl: './app.html',
   styleUrl: './app.css',

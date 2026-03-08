@@ -63,6 +63,16 @@
   gap: 0.75rem;
 }
 
+.subheading {
+  font-size: 1rem;
+  margin: 0.25rem 0 0;
+}
+
+.icon-only-group {
+  align-items: center;
+  display: flex;
+}
+
 .hint {
   color: var(--tng-semantic-border-strong);
   font-size: 0.875rem;

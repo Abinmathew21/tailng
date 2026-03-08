@@ -46,15 +46,14 @@
           </tng-menu>
         </div>
 
-        <tng-toggle
-          [pressed]="darkMode()"
-          pressedLabel="Switch to light mode"
-          unpressedLabel="Switch to dark mode"
-          (pressedChange)="onThemeModeChange($event)"
+        <tng-switch
+          [checked]="darkMode()"
+          [ariaLabel]="darkMode() ? 'Switch to light mode' : 'Switch to dark mode'"
+          (checkedChange)="onThemeModeChange($event)"
         >
           <span offIcon aria-hidden="true">☀</span>
           <span onIcon aria-hidden="true">🌙</span>
-        </tng-toggle>
+        </tng-switch>
       </div>
     </header>
 

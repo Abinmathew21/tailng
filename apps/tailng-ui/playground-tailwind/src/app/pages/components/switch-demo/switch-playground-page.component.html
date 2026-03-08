@@ -38,9 +38,17 @@
       </tng-switch>
     </div>
 
-    <p class="text-sm text-tng-fg-secondary m-0">
-      Need icon-style pressed button instead?
-      <a routerLink="/toggle" class="text-tng-accent-brand hover:underline">Toggle Demo</a>.
-    </p>
+    <h3 class="text-sm font-semibold text-tng-fg-secondary">Icon-Only</h3>
+    <div class="flex items-center gap-3">
+      <tng-switch
+        [checked]="darkModeEnabled()"
+        [ariaLabel]="darkModeEnabled() ? 'Switch to light mode' : 'Switch to dark mode'"
+        name="theme-mode"
+        (checkedChange)="onDarkModeChange($event)"
+      >
+        <span offIcon aria-hidden="true">☀️</span>
+        <span onIcon aria-hidden="true">🌙</span>
+      </tng-switch>
+    </div>
   </section>
 </div>

@@ -10,6 +10,7 @@ import { TngSwitch as TngSwitchPrimitive } from '@tailng-ui/primitives';
 })
 export class SwitchPlaygroundPageComponent {
   protected readonly airplaneModeEnabled = signal(false);
+  protected readonly darkModeEnabled = signal(false);
   protected readonly primitiveChecked = signal(false);
   protected readonly notificationsEnabled = signal(false);
 
@@ -19,6 +20,10 @@ export class SwitchPlaygroundPageComponent {
 
   protected onNotificationsEnabledChange(value: boolean): void {
     this.notificationsEnabled.set(value);
+  }
+
+  protected onDarkModeChange(value: boolean): void {
+    this.darkModeEnabled.set(value);
   }
 
   protected onPrimitiveSwitchToggle(): void {

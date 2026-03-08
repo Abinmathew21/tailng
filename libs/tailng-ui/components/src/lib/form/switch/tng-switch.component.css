@@ -39,11 +39,13 @@
 }
 
 .tng-switch-thumb {
+  align-items: center;
   background: var(--tng-color-white);
   border-radius: 999px;
   box-shadow: 0 1px 2px color-mix(in srgb, var(--tng-semantic-background-canvas) 20%, transparent);
-  display: block;
+  display: inline-flex;
   height: 1.25rem;
+  justify-content: center;
   transform: translateX(0);
   transition: transform 150ms ease;
   width: 1.25rem;
@@ -55,6 +57,17 @@
 
 .tng-switch-label {
   user-select: none;
+}
+
+.tng-switch-label:empty {
+  display: none;
+}
+
+.tng-switch-icon {
+  align-items: center;
+  display: inline-flex;
+  font-size: 0.7rem;
+  line-height: 1;
 }
 
 .tng-switch-native-input {
