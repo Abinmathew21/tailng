@@ -1,3 +1,11 @@
-<article tngCard class="tng-card">
+<article
+  tngCard
+  class="tng-card"
+  [attr.data-padding]="padding()"
+  [attr.data-tone]="tone()"
+  [attr.data-variant]="variant()"
+  [attr.data-elevated]="elevated() ? '' : null"
+  [attr.data-interactive]="interactive() ? '' : null"
+>
   <ng-content />
 </article>

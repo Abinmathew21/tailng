@@ -14,6 +14,10 @@ export {
   TngCardDescriptionComponent,
   TngCardContentComponent,
   TngCardFooterComponent,
+  TngCardMediaComponent,
+  TngCardActionsComponent,
+  TngCardDividerComponent,
+  TngCardLinkComponent,
 } from './card/tng-card.component';
 export * from './collapsible/tng-collapsible.component';
 export { TngCollapsibleComponent } from './collapsible/tng-collapsible.component';

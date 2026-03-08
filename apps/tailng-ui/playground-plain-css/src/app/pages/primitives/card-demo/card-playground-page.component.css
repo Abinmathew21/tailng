@@ -62,7 +62,7 @@
 }
 
 .primitive-card {
-  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 35%, transparent);
+  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 30%, transparent);
   border: 1px solid var(--tng-semantic-accent-brand);
   border-radius: 0.9rem;
   display: grid;
@@ -90,7 +90,29 @@
   margin: 0;
 }
 
+.primitive-media {
+  background:
+    radial-gradient(circle at 18% 24%, color-mix(in srgb, var(--tng-semantic-accent-brand) 65%, white), transparent 54%),
+    linear-gradient(120deg, color-mix(in srgb, var(--tng-semantic-accent-brand) 40%, black), color-mix(in srgb, var(--tng-semantic-accent-brand) 15%, black));
+  border: 1px solid color-mix(in srgb, var(--tng-semantic-accent-brand) 45%, transparent);
+  border-radius: 0.75rem;
+  min-height: 7rem;
+}
+
+.primitive-divider {
+  border: 0;
+  border-top: 1px solid color-mix(in srgb, var(--tng-semantic-accent-brand) 40%, transparent);
+  margin: 0;
+}
+
+.primitive-actions {
+  display: flex;
+  gap: 0.6rem;
+  justify-content: flex-start;
+}
+
 .primitive-footer {
+  align-items: center;
   display: flex;
   gap: 0.6rem;
   justify-content: flex-end;
@@ -117,6 +139,17 @@
   color: var(--tng-semantic-foreground-secondary);
 }
 
+.inline-link {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 0.875rem;
+  text-decoration: none;
+}
+
+.inline-link:focus-visible,
+.inline-link:hover {
+  text-decoration: underline;
+}
+
 .component-grid {
   display: grid;
   gap: 1rem;
@@ -131,6 +164,21 @@ tng-card-content ul {
   color: var(--tng-semantic-foreground-secondary);
   margin: 0;
   padding-left: 1.2rem;
+}
+
+.media-fill {
+  background:
+    radial-gradient(circle at 24% 30%, color-mix(in srgb, var(--tng-semantic-accent-brand) 50%, white), transparent 56%),
+    linear-gradient(125deg, color-mix(in srgb, var(--tng-semantic-accent-brand) 35%, black), color-mix(in srgb, var(--tng-semantic-accent-brand) 8%, black));
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.7rem;
+  min-height: 8rem;
+}
+
+.link-content {
+  align-items: flex-start;
+  display: grid;
+  gap: 0.65rem;
 }
 
 @media (min-width: 768px) {

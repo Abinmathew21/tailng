@@ -53,3 +53,39 @@ export class TngCardFooter {
   @HostBinding('attr.data-slot')
   protected readonly dataSlot = 'card-footer' as const;
 }
+
+@Directive({
+  selector: '[tngCardMedia]',
+  exportAs: 'tngCardMedia',
+})
+export class TngCardMedia {
+  @HostBinding('attr.data-slot')
+  protected readonly dataSlot = 'card-media' as const;
+}
+
+@Directive({
+  selector: '[tngCardActions]',
+  exportAs: 'tngCardActions',
+})
+export class TngCardActions {
+  @HostBinding('attr.data-slot')
+  protected readonly dataSlot = 'card-actions' as const;
+}
+
+@Directive({
+  selector: '[tngCardDivider]',
+  exportAs: 'tngCardDivider',
+})
+export class TngCardDivider {
+  @HostBinding('attr.data-slot')
+  protected readonly dataSlot = 'card-divider' as const;
+}
+
+@Directive({
+  selector: '[tngCardLink]',
+  exportAs: 'tngCardLink',
+})
+export class TngCardLink {
+  @HostBinding('attr.data-slot')
+  protected readonly dataSlot = 'card-link' as const;
+}

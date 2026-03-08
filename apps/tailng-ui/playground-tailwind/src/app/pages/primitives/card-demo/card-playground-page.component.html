@@ -1,62 +1,165 @@
-<div class="mx-auto max-w-[72rem] grid gap-5">
-  <section class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5 space-y-3">
+<div class="mx-auto grid max-w-[72rem] gap-5">
+  <section class="space-y-3">
+    <h1 class="text-[clamp(1.875rem,2vw+1rem,2.5rem)] leading-tight">Card</h1>
+    <p class="max-w-[48rem] text-sm text-tng-fg-secondary">
+      Headless primitives first, then component wrappers with variant, tone, padding, interactive, elevated, and optional media/actions/divider/link helpers.
+    </p>
+  </section>
+
+  <section class="space-y-3 rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5">
     <h2 class="text-lg font-semibold">Primitives (`tngCard*`)</h2>
-    <article tngCard class="rounded-xl border border-tng-accent-brand bg-tng-accent-brand/35 p-4 space-y-3">
-      <header tngCardHeader class="space-y-1">
-        <h3 tngCardTitle class="text-tng-fg-inverse m-0">Release Summary</h3>
-        <p tngCardDescription class="text-sm text-tng-fg-secondary m-0">TailNG card primitives with custom CSS.</p>
+    <article
+      tngCard
+      class="grid gap-4 rounded-xl border border-tng-accent-brand bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_30%,transparent)] p-4"
+    >
+      <header tngCardHeader class="grid gap-1">
+        <h3 tngCardTitle class="m-0 text-tng-fg-inverse">Release Summary</h3>
+        <p tngCardDescription class="m-0 text-sm text-tng-fg-secondary">
+          Headless card primitives with custom page-level styling.
+        </p>
       </header>
-      <section tngCardContent>
+
+      <div
+        tngCardMedia
+        aria-hidden="true"
+        class="min-h-28 rounded-xl border border-tng-accent-brand/50 bg-[radial-gradient(circle_at_18%_24%,color-mix(in_srgb,var(--tng-semantic-accent-brand)_65%,white),transparent_54%),linear-gradient(120deg,color-mix(in_srgb,var(--tng-semantic-accent-brand)_40%,black),color-mix(in_srgb,var(--tng-semantic-accent-brand)_15%,black))]"
+      ></div>
+
+      <section tngCardContent class="grid gap-2">
         <p class="m-0">Build status: healthy, 0 lint warnings, all vitest suites passing.</p>
+        <p class="m-0">Use primitives when you want complete control over markup and style hooks.</p>
       </section>
-      <footer tngCardFooter class="flex gap-2 justify-end">
-        <button type="button" class="rounded-lg border border-tng-accent-brand bg-transparent px-3 py-2 text-sm font-medium text-tng-fg-secondary">
-          View Logs
+
+      <hr
+        tngCardDivider
+        aria-hidden="true"
+        class="m-0 border-0 border-t border-tng-accent-brand/40"
+      />
+
+      <div tngCardActions data-align="start" class="flex justify-start gap-2">
+        <button
+          type="button"
+          class="rounded-lg border border-tng-accent-brand bg-transparent px-3 py-2 text-sm font-medium text-tng-fg-secondary"
+        >
+          Preview
         </button>
-        <button type="button" class="rounded-lg border-0 bg-tng-accent-brand px-3 py-2 text-sm font-semibold text-tng-fg-inverse">
-          Deploy
+        <button
+          type="button"
+          class="rounded-lg border-0 bg-tng-accent-brand px-3 py-2 text-sm font-semibold text-tng-fg-inverse"
+        >
+          Publish
+        </button>
+      </div>
+
+      <footer tngCardFooter class="flex items-center justify-end gap-2">
+        <a tngCardLink href="#" class="text-sm text-tng-fg-primary no-underline hover:underline focus-visible:underline">
+          Open Details
+        </a>
+        <button
+          type="button"
+          class="rounded-lg border border-tng-accent-brand bg-transparent px-3 py-2 text-sm font-medium text-tng-fg-secondary"
+        >
+          View Logs
         </button>
       </footer>
     </article>
   </section>
 
-  <section class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5 space-y-3">
-    <h2 class="text-lg font-semibold">Components (`tng-card*`)</h2>
+  <section class="space-y-3 rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5">
+    <h2 class="text-lg font-semibold">Components (`tng-card*`) - Variants and State</h2>
     <div class="grid gap-4 sm:grid-cols-2">
-      <tng-card>
+      <tng-card variant="solid" tone="primary" padding="md" [interactive]="true" [elevated]="true">
         <tng-card-header>
-          <tng-card-title>Design Tokens</tng-card-title>
+          <tng-card-title>Launch Checklist</tng-card-title>
           <tng-card-description>
-            Card wrappers consume the same primitive slot directives.
+            Interactive + elevated card with tone and footer actions.
           </tng-card-description>
         </tng-card-header>
         <tng-card-content>
-          <p class="text-tng-fg-secondary m-0">
-            Update semantic surface, border, and foreground tokens to restyle every card
-            globally.
+          <p class="m-0 text-tng-fg-secondary">
+            Validate route smoke tests, check keyboard behavior, and verify docs examples before release.
           </p>
         </tng-card-content>
         <tng-card-footer>
-          <button type="button" class="rounded-lg border border-tng-accent-brand bg-transparent px-3 py-2 text-sm font-medium text-tng-fg-secondary">
-            Cancel
+          <button
+            type="button"
+            class="rounded-lg border border-tng-accent-brand bg-transparent px-3 py-2 text-sm font-medium text-tng-fg-secondary"
+          >
+            Back
           </button>
-          <button type="button" class="rounded-lg border-0 bg-tng-accent-brand px-3 py-2 text-sm font-semibold text-tng-fg-inverse">
-            Save
+          <button
+            type="button"
+            class="rounded-lg border-0 bg-tng-accent-brand px-3 py-2 text-sm font-semibold text-tng-fg-inverse"
+          >
+            Ship
           </button>
         </tng-card-footer>
       </tng-card>
 
-      <tng-card>
+      <tng-card variant="outline" tone="success" padding="sm">
         <tng-card-header>
-          <tng-card-title>Readonly Card</tng-card-title>
-          <tng-card-description>Useful for compact summary widgets.</tng-card-description>
+          <tng-card-title>Readonly Metrics</tng-card-title>
+          <tng-card-description>
+            Compact card with smaller padding and neutral interaction behavior.
+          </tng-card-description>
         </tng-card-header>
         <tng-card-content>
-          <ul class="m-0 pl-5">
-            <li>11 component test files green</li>
-            <li>Registry add command verified</li>
-            <li>Playground demos in tailwind + plain-css</li>
+          <ul class="m-0 pl-5 text-tng-fg-secondary">
+            <li>30 card component tests passing</li>
+            <li>Exports verified in layout index</li>
+            <li>Optional wrappers available</li>
           </ul>
+        </tng-card-content>
+      </tng-card>
+    </div>
+  </section>
+
+  <section class="space-y-3 rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5">
+    <h2 class="text-lg font-semibold">Components - Optional Wrappers</h2>
+    <div class="grid gap-4 sm:grid-cols-2">
+      <tng-card variant="outline" tone="info" padding="lg">
+        <tng-card-media>
+          <div
+            aria-hidden="true"
+            class="min-h-32 rounded-xl border border-tng-border-subtle bg-[radial-gradient(circle_at_24%_30%,color-mix(in_srgb,var(--tng-semantic-accent-brand)_50%,white),transparent_56%),linear-gradient(125deg,color-mix(in_srgb,var(--tng-semantic-accent-brand)_35%,black),color-mix(in_srgb,var(--tng-semantic-accent-brand)_8%,black))]"
+          ></div>
+        </tng-card-media>
+        <tng-card-header>
+          <tng-card-title>Media + Divider + Actions</tng-card-title>
+          <tng-card-description>Composable wrappers for richer card layouts.</tng-card-description>
+        </tng-card-header>
+        <tng-card-content>
+          <p class="m-0 text-tng-fg-secondary">Actions container supports alignment with consistent spacing.</p>
+        </tng-card-content>
+        <tng-card-divider></tng-card-divider>
+        <tng-card-actions align="start">
+          <button
+            type="button"
+            class="rounded-lg border border-tng-accent-brand bg-transparent px-3 py-2 text-sm font-medium text-tng-fg-secondary"
+          >
+            Details
+          </button>
+          <button
+            type="button"
+            class="rounded-lg border-0 bg-tng-accent-brand px-3 py-2 text-sm font-semibold text-tng-fg-inverse"
+          >
+            Start
+          </button>
+        </tng-card-actions>
+      </tng-card>
+
+      <tng-card variant="ghost" tone="neutral" padding="md" [interactive]="true">
+        <tng-card-header>
+          <tng-card-title>Card Link</tng-card-title>
+          <tng-card-description>
+            Use `tng-card-link` instead of making the full card a button.
+          </tng-card-description>
+        </tng-card-header>
+        <tng-card-content class="grid items-start gap-2">
+          <tng-card-link href="#" ariaLabel="Open card link demo">Open details</tng-card-link>
+          <tng-card-link href="#" [disabled]="true" ariaLabel="Disabled card link">
+            Disabled link
+          </tng-card-link>
         </tng-card-content>
       </tng-card>
     </div>

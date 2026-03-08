@@ -1,0 +1,13 @@
+<a
+  tngCardLink
+  class="tng-card-link"
+  [attr.href]="disabled() ? null : href()"
+  [attr.aria-label]="ariaLabel()"
+  [attr.aria-disabled]="disabled() ? 'true' : null"
+  [attr.tabindex]="disabled() ? -1 : null"
+  [attr.target]="target()"
+  [attr.rel]="rel()"
+  (click)="onClick($event)"
+>
+  <ng-content />
+</a>

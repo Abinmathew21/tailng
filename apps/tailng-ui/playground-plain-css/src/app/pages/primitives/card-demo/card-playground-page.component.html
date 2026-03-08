@@ -1,55 +1,113 @@
 <main class="page">
   <section class="container">
+    <section class="hero">
+      <h1 class="title">Card</h1>
+      <p class="subtitle">
+        Headless primitives first, then component wrappers with variant, tone, padding, interactive, elevated, and optional media/actions/divider/link helpers.
+      </p>
+    </section>
+
     <section class="card-shell">
       <h2>Primitives (`tngCard*`)</h2>
       <article tngCard class="primitive-card">
         <header tngCardHeader class="primitive-header">
           <h3 tngCardTitle>Release Summary</h3>
-          <p tngCardDescription>TailNG card primitives with custom CSS.</p>
+          <p tngCardDescription>Headless card primitives with custom page-level CSS.</p>
         </header>
+
+        <div tngCardMedia class="primitive-media" aria-hidden="true"></div>
+
         <section tngCardContent class="primitive-content">
           <p>Build status: healthy, 0 lint warnings, all vitest suites passing.</p>
+          <p>Use primitives when you want complete control over markup and style hooks.</p>
         </section>
+
+        <hr tngCardDivider class="primitive-divider" aria-hidden="true" />
+
+        <div tngCardActions class="primitive-actions" data-align="start">
+          <button type="button" class="outline">Preview</button>
+          <button type="button" class="solid">Publish</button>
+        </div>
+
         <footer tngCardFooter class="primitive-footer">
+          <a tngCardLink href="#" class="inline-link">Open Details</a>
           <button type="button" class="outline">View Logs</button>
-          <button type="button" class="solid">Deploy</button>
         </footer>
       </article>
     </section>
 
     <section class="card-shell">
-      <h2>Components (`tng-card*`)</h2>
+      <h2>Components (`tng-card*`) - Variants and State</h2>
       <div class="component-grid">
-        <tng-card>
+        <tng-card variant="solid" tone="primary" padding="md" [interactive]="true" [elevated]="true">
           <tng-card-header>
-            <tng-card-title>Design Tokens</tng-card-title>
+            <tng-card-title>Launch Checklist</tng-card-title>
             <tng-card-description>
-              Card wrappers consume the same primitive slot directives.
+              Interactive + elevated card with tone and footer actions.
             </tng-card-description>
           </tng-card-header>
           <tng-card-content>
             <p>
-              Update semantic surface, border, and foreground tokens to restyle every card
-              globally.
+              Validate route smoke tests, check keyboard behavior, and verify docs examples before release.
             </p>
           </tng-card-content>
           <tng-card-footer>
-            <button type="button" class="outline">Cancel</button>
-            <button type="button" class="solid">Save</button>
+            <button type="button" class="outline">Back</button>
+            <button type="button" class="solid">Ship</button>
           </tng-card-footer>
         </tng-card>
 
-        <tng-card>
+        <tng-card variant="outline" tone="success" padding="sm">
           <tng-card-header>
-            <tng-card-title>Readonly Card</tng-card-title>
-            <tng-card-description>Useful for compact summary widgets.</tng-card-description>
+            <tng-card-title>Readonly Metrics</tng-card-title>
+            <tng-card-description>
+              Compact card with smaller padding and neutral interaction behavior.
+            </tng-card-description>
           </tng-card-header>
           <tng-card-content>
             <ul>
-              <li>11 component test files green</li>
-              <li>Registry add command verified</li>
-              <li>Playground demos in tailwind + plain-css</li>
+              <li>30 card component tests passing</li>
+              <li>Exports verified in layout index</li>
+              <li>Optional wrappers available</li>
             </ul>
+          </tng-card-content>
+        </tng-card>
+      </div>
+    </section>
+
+    <section class="card-shell">
+      <h2>Components - Optional Wrappers</h2>
+      <div class="component-grid">
+        <tng-card variant="outline" tone="info" padding="lg">
+          <tng-card-media>
+            <div class="media-fill" aria-hidden="true"></div>
+          </tng-card-media>
+          <tng-card-header>
+            <tng-card-title>Media + Divider + Actions</tng-card-title>
+            <tng-card-description>Composable wrappers for richer card layouts.</tng-card-description>
+          </tng-card-header>
+          <tng-card-content>
+            <p>Actions container supports alignment with consistent spacing.</p>
+          </tng-card-content>
+          <tng-card-divider></tng-card-divider>
+          <tng-card-actions align="start">
+            <button type="button" class="outline">Details</button>
+            <button type="button" class="solid">Start</button>
+          </tng-card-actions>
+        </tng-card>
+
+        <tng-card variant="ghost" tone="neutral" padding="md" [interactive]="true">
+          <tng-card-header>
+            <tng-card-title>Card Link</tng-card-title>
+            <tng-card-description>
+              Use `tng-card-link` instead of making the full card a button.
+            </tng-card-description>
+          </tng-card-header>
+          <tng-card-content class="link-content">
+            <tng-card-link href="#" ariaLabel="Open card link demo">Open details</tng-card-link>
+            <tng-card-link href="#" [disabled]="true" ariaLabel="Disabled card link">
+              Disabled link
+            </tng-card-link>
           </tng-card-content>
         </tng-card>
       </div>
