@@ -1,0 +1,107 @@
+import { Component } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { describe, expect, it } from 'vitest';
+
+import {
+  TngInput,
+  TngInputGroup,
+  TngInputLeading,
+  TngInputTrailing,
+} from '../tng-input';
+
+@Component({
+  standalone: true,
+  imports: [TngInputGroup, TngInput, TngInputLeading, TngInputTrailing],
+  template: `
+    <tng-input-group>
+      @if (showLeading) {
+        <span tngInputLeading>Leading</span>
+      }
+
+      <input tngInput />
+
+      @if (showTrailing) {
+        <span tngInputTrailing>Trailing</span>
+      }
+    </tng-input-group>
+  `,
+})
+class GroupSlotsHostComponent {
+  public showLeading = false;
+  public showTrailing = false;
+}
+
+describe('tngInputGroup primitive — slot markers', () => {
+  it('exports the tngInputLeading directive', async () => {
+    expect(TngInputLeading).toBeTruthy();
+  });
+
+  it('exports the tngInputTrailing directive', async () => {
+    expect(TngInputTrailing).toBeTruthy();
+  });
+
+  it('detects presence of a leading slot and sets data-has-leading on the group', async () => {
+    await TestBed.configureTestingModule({ imports: [GroupSlotsHostComponent] }).compileComponents();
+
+    const fixture = TestBed.createComponent(GroupSlotsHostComponent);
+    fixture.componentInstance.showLeading = true;
+    fixture.detectChanges();
+
+    const host = fixture.debugElement.query(By.css('tng-input-group')).nativeElement as HTMLElement;
+
+    expect(host.getAttribute('data-has-leading')).toBe('');
+    expect(host.querySelector('[data-slot="input-group-leading"]')).toBeTruthy();
+    expect(host.querySelector('[data-slot="input-leading"]')).toBeTruthy();
+  });
+
+  it('detects presence of a trailing slot and sets data-has-trailing on the group', async () => {
+    await TestBed.configureTestingModule({ imports: [GroupSlotsHostComponent] }).compileComponents();
+
+    const fixture = TestBed.createComponent(GroupSlotsHostComponent);
+    fixture.componentInstance.showTrailing = true;
+    fixture.detectChanges();
+
+    const host = fixture.debugElement.query(By.css('tng-input-group')).nativeElement as HTMLElement;
+
+    expect(host.getAttribute('data-has-trailing')).toBe('');
+    expect(host.querySelector('[data-slot="input-group-trailing"]')).toBeTruthy();
+    expect(host.querySelector('[data-slot="input-trailing"]')).toBeTruthy();
+  });
+
+  it('removing leading content at runtime clears data-has-leading', async () => {
+    await TestBed.configureTestingModule({ imports: [GroupSlotsHostComponent] }).compileComponents();
+
+    const fixture = TestBed.createComponent(GroupSlotsHostComponent);
+    fixture.componentInstance.showLeading = true;
+    fixture.detectChanges();
+
+    let host = fixture.debugElement.query(By.css('tng-input-group')).nativeElement as HTMLElement;
+    expect(host.getAttribute('data-has-leading')).toBe('');
+
+    fixture.componentInstance.showLeading = false;
+    fixture.changeDetectorRef.detectChanges(); // avoids NG0100 in some setups
+
+    host = fixture.debugElement.query(By.css('tng-input-group')).nativeElement as HTMLElement;
+    expect(host.hasAttribute('data-has-leading')).toBe(false);
+    expect(host.querySelector('[data-slot="input-group-leading"]')).toBeNull();
+  });
+
+  it('removing trailing content at runtime clears data-has-trailing', async () => {
+    await TestBed.configureTestingModule({ imports: [GroupSlotsHostComponent] }).compileComponents();
+
+    const fixture = TestBed.createComponent(GroupSlotsHostComponent);
+    fixture.componentInstance.showTrailing = true;
+    fixture.detectChanges();
+
+    let host = fixture.debugElement.query(By.css('tng-input-group')).nativeElement as HTMLElement;
+    expect(host.getAttribute('data-has-trailing')).toBe('');
+
+    fixture.componentInstance.showTrailing = false;
+    fixture.changeDetectorRef.detectChanges();
+
+    host = fixture.debugElement.query(By.css('tng-input-group')).nativeElement as HTMLElement;
+    expect(host.hasAttribute('data-has-trailing')).toBe(false);
+    expect(host.querySelector('[data-slot="input-group-trailing"]')).toBeNull();
+  });
+});

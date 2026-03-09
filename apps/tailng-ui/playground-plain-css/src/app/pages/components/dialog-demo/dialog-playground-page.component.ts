@@ -1,4 +1,4 @@
-import { computed, Component, signal } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 import {
   createActiveDescendantController,
   resolveListNavigationKeyAction,
@@ -9,7 +9,7 @@ import {
   createTypeaheadController,
   type TngTypeaheadItem,
 } from '@tailng-ui/cdk/collections';
-import { TngButtonComponent, TngCheckboxComponent, TngDialogComponent, TngInputComponent, TngTextareaComponent } from '@tailng-ui/components';
+import { TngButtonComponent, TngCheckboxComponent, TngDialogComponent, TngTextareaComponent } from '@tailng-ui/components';
 
 type AssigneeOption = Readonly<{
   detail: string;
@@ -67,7 +67,7 @@ function toOptionLabel(optionId: string | null): string {
 
 @Component({
   selector: 'app-dialog-playground-page',
-  imports: [TngButtonComponent, TngCheckboxComponent, TngDialogComponent, TngInputComponent, TngTextareaComponent],
+  imports: [TngButtonComponent, TngCheckboxComponent, TngDialogComponent, TngTextareaComponent],
   templateUrl: './dialog-playground-page.component.html',
   styleUrl: './dialog-playground-page.component.css',
 })

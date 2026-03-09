@@ -1,88 +1,156 @@
-:host {
-  display: block;
-}
-
 .page {
-  background: var(--tng-semantic-background-canvas);
-  color: var(--tng-semantic-foreground-primary);
-  min-height: 100vh;
-  padding: 2rem 1rem;
+  padding: 2rem;
 }
 
+/* ✅ 2-column layout */
 .container {
-  display: grid;
-  gap: 1.25rem;
+  max-width: 1100px;
   margin: 0 auto;
-  max-width: 72rem;
-}
-
-.hero {
   display: grid;
-  gap: 0.75rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.25rem;
+  align-items: start;
 }
 
-.links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-}
-
-.links a {
-  border: 1px solid var(--tng-semantic-border-subtle);
-  border-radius: 0.5rem;
-  color: var(--tng-semantic-foreground-secondary);
-  font-size: 0.875rem;
-  padding: 0.45rem 0.7rem;
-  text-decoration: none;
-}
-
-.title {
-  font-size: clamp(1.875rem, 2vw + 1rem, 2.5rem);
-  line-height: 1.1;
-  margin: 0;
-}
-
-.subtitle {
-  color: var(--tng-semantic-foreground-secondary);
-  margin: 0;
-  max-width: 42rem;
-}
-
-.card {
-  background: var(--tng-semantic-background-surface);
-  border: 1px solid var(--tng-semantic-border-subtle);
-  border-radius: 1rem;
-  display: grid;
-  gap: 0.875rem;
-  padding: 1rem;
-}
-
-.card h2 {
-  margin: 0;
-}
-
-.stack {
-  display: grid;
-  gap: 0.75rem;
-  max-width: 22rem;
-}
-
-.primitive-input {
-  background: var(--tng-semantic-background-canvas);
-  border: 1px solid var(--tng-semantic-accent-brand);
-  border-radius: 0.6rem;
-  color: var(--tng-semantic-foreground-primary);
-  font: inherit;
-  min-height: 2.5rem;
-  padding: 0 0.85rem;
-}
-
-.primitive-input.invalid {
-  border-color: var(--tng-semantic-accent-danger);
-}
-
-@media (min-width: 768px) {
-  .page {
-    padding-inline: 2rem;
+/* ✅ mobile: 1 column */
+@media (max-width: 900px) {
+  .container {
+    grid-template-columns: 1fr;
   }
+}
+
+/* Optional: keep cards from stretching weirdly */
+.card {
+  border: 1px solid var(--tng-semantic-border-subtle, #e5e7eb);
+  border-radius: 0.75rem;
+  padding: 1rem;
+  background: var(--tng-semantic-background-surface, #fff);
+  color: var(--tng-semantic-foreground-primary, #111827);
+}
+
+/* ✅ prevent “inputs outside card” due to width + padding */
+.page,
+.page * {
+  box-sizing: border-box;
+}
+
+/* (keep your existing stack/field/demo styles below as-is) */
+
+/* -------------------------------------------------- */
+/* A) Direct primitive attachment demo                 */
+/* -------------------------------------------------- */
+.demo-input {
+  appearance: none;
+  border: 1px solid var(--tng-semantic-border-strong, #d1d5db);
+  border-radius: 0.6rem;
+  padding: 0 0.85rem;
+  min-height: 2.5rem;
+  width: 100%;
+  font: inherit;
+
+  background: var(--tng-semantic-background-surface, #fff);
+  color: var(--tng-semantic-foreground-primary, #111827);
+}
+
+.demo-textarea {
+  padding: 0.6rem 0.85rem;
+  min-height: 6rem;
+}
+
+/* Use primitive hook (tngInput directive sets data-invalid) */
+.demo-input[data-invalid] {
+  border-color: var(--tng-semantic-accent-danger, #ef4444);
+}
+
+/* Optional: disabled visual hook from primitive */
+.demo-input[data-disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Optional: focus ring for direct inputs (browser-driven) */
+.demo-input:focus-visible {
+  outline: 3px solid var(--tng-semantic-focus-ring, rgba(59, 130, 246, 0.25));
+  outline-offset: 2px;
+}
+
+/* -------------------------------------------------- */
+/* B) Group + slot demo shell (consumer styling)       */
+/* -------------------------------------------------- */
+.demo-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+
+  border: 1px solid var(--tng-semantic-border-strong, #d1d5db);
+  border-radius: 0.6rem;
+  padding: 0 0.75rem;
+  min-height: 2.5rem;
+
+  background: var(--tng-semantic-background-surface, #fff);
+  color: var(--tng-semantic-foreground-primary, #111827);
+}
+
+/* Optional: react to primitive state hooks */
+.demo-group[data-disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.demo-group[data-invalid] {
+  border-color: var(--tng-semantic-accent-danger, #ef4444);
+}
+
+/* Focus ring on group (driven by primitive focus tracking) */
+.demo-group[data-focused] {
+  outline: 3px solid var(--tng-semantic-focus-ring, rgba(59, 130, 246, 0.25));
+  outline-offset: 2px;
+}
+
+/* Adornments */
+.adornment {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.8;
+  white-space: nowrap;
+
+  color: var(--tng-semantic-foreground-secondary, currentColor);
+}
+
+/* The actual input inside the group */
+.demo-control {
+  appearance: none;
+  border: 0;
+  outline: none;
+  font: inherit;
+
+  width: 100%;
+  min-width: 0;
+  background: transparent;
+  color: inherit;
+}
+
+/* Optional placeholder tone (works for both direct + group controls) */
+.demo-input::placeholder,
+.demo-control::placeholder {
+  color: var(--tng-semantic-foreground-muted, rgba(17, 24, 39, 0.6));
+}
+
+/* Trailing button example */
+.icon-btn {
+  border: 0;
+  background: transparent;
+  color: inherit;
+
+  font: inherit;
+  padding: 0.25rem 0.35rem;
+  border-radius: 0.4rem;
+  cursor: pointer;
+}
+
+.icon-btn:focus-visible {
+  outline: 2px solid var(--tng-semantic-focus-ring, rgba(59, 130, 246, 0.25));
+  outline-offset: 2px;
 }

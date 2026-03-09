@@ -1,10 +1,16 @@
 import { Component } from '@angular/core';
-import { TngInputComponent } from '@tailng-ui/components';
-import { TngInput as TngInputPrimitive } from '@tailng-ui/primitives';
+
+import {
+  TngInput as TngInputPrimitive,
+  TngInputGroup,
+  TngInputLeading,
+  TngInputTrailing,
+} from '@tailng-ui/primitives';
 
 @Component({
   selector: 'app-input-playground-page',
-  imports: [TngInputPrimitive, TngInputComponent],
+  standalone: true,
+  imports: [TngInputPrimitive, TngInputGroup, TngInputLeading, TngInputTrailing],
   templateUrl: './input-playground-page.component.html',
   styleUrl: './input-playground-page.component.css',
 })

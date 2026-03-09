@@ -1,33 +1,123 @@
 <main class="page">
   <section class="container">
+    <!-- --------------------------------------------- -->
+    <!-- A) Direct primitive attachment -->
+    <!-- --------------------------------------------- -->
     <section class="card">
-      <h2>Primitives (`tngInput`)</h2>
+      <h2>Primitive: direct attachment (`tngInput`)</h2>
+
       <div class="stack">
-        <input tngInput type="text" placeholder="Email" class="primitive-input" />
-        <input
-          tngInput
-          type="search"
-          placeholder="Search docs"
-          [ariaInvalid]="true"
-          class="primitive-input invalid"
-        />
-        <input
-          tngInput
-          type="password"
-          placeholder="Readonly token"
-          [readonly]="true"
-          value="tailng-secret"
-          class="primitive-input"
-        />
+        <label class="field">
+          <span class="label">Email</span>
+          <input tngInput type="email" placeholder="team@tailng.dev" class="demo-input" />
+        </label>
+
+        <label class="field">
+          <span class="label">Search (ariaInvalid)</span>
+          <input
+            tngInput
+            type="search"
+            placeholder="Search docs"
+            [ariaInvalid]="true"
+            class="demo-input"
+          />
+        </label>
+
+        <label class="field">
+          <span class="label">Readonly token</span>
+          <input
+            tngInput
+            type="password"
+            placeholder="Readonly token"
+            [readonly]="true"
+            [value]="'tailng-secret'"
+            class="demo-input"
+          />
+        </label>
+
+        <label class="field">
+          <span class="label">Textarea</span>
+          <textarea
+            tngInput
+            rows="3"
+            placeholder="Write notes…"
+            class="demo-input demo-textarea"
+          ></textarea>
+        </label>
       </div>
     </section>
 
+    <!-- --------------------------------------------- -->
+    <!-- B) Group + leading/trailing slots -->
+    <!-- --------------------------------------------- -->
     <section class="card">
-      <h2>Components (`tng-input`)</h2>
+      <h2>Primitive: group (`tngInputGroup`) + slots</h2>
+
       <div class="stack">
-        <tng-input placeholder="Project name" />
-        <tng-input type="email" placeholder="team@tailng.dev" [required]="true" />
-        <tng-input placeholder="Disabled input" [disabled]="true" value="Cannot edit" />
+        <div class="field">
+          <span class="label">Search with leading + trailing</span>
+
+          <tng-input-group class="demo-group">
+            <span tngInputLeading class="adornment" aria-hidden="true">🔎</span>
+
+            <input tngInput type="search" placeholder="Search primitives" class="demo-control" />
+
+            <span tngInputTrailing class="adornment" aria-hidden="true">⌘K</span>
+          </tng-input-group>
+
+          <p class="hint">
+            Leading/trailing are just projected content — focusability is consumer-owned.
+          </p>
+        </div>
+
+        <div class="field">
+          <span class="label">Email with @ prefix</span>
+
+          <tng-input-group class="demo-group">
+            <span tngInputLeading class="adornment" aria-hidden="true">@</span>
+            <input tngInput type="email" placeholder="name" class="demo-control" />
+          </tng-input-group>
+        </div>
+
+        <div class="field">
+          <span class="label">Disabled control (group reflects data-disabled)</span>
+
+          <tng-input-group class="demo-group">
+            <span tngInputLeading class="adornment" aria-hidden="true">⛔</span>
+            <input tngInput placeholder="Disabled" [disabled]="true" class="demo-control" />
+          </tng-input-group>
+        </div>
+
+        <div class="field">
+          <span class="label">Invalid via ariaInvalid (group reflects data-invalid)</span>
+
+          <tng-input-group class="demo-group">
+            <span tngInputLeading class="adornment" aria-hidden="true">!</span>
+            <input tngInput placeholder="Invalid" [ariaInvalid]="true" class="demo-control" />
+          </tng-input-group>
+
+          <p class="hint">
+            For reliable tests in jsdom, prefer <code>[ariaInvalid]="true"</code> over native
+            <code>:invalid</code>.
+          </p>
+        </div>
+
+        <div class="field">
+          <span class="label">Trailing action (consumer-owned focus)</span>
+
+          <tng-input-group class="demo-group">
+            <input tngInput type="search" placeholder="Search…" class="demo-control" />
+
+            <!-- focusable trailing: this WILL be an extra tab stop, by design -->
+            <button tngInputTrailing type="button" class="icon-btn" aria-label="Clear">
+              ✕
+            </button>
+          </tng-input-group>
+
+          <p class="hint">
+            If you project a button, it becomes tabbable — primitives don’t block that.
+          </p>
+        </div>
       </div>
     </section>
   </section>

@@ -1,60 +1,48 @@
-import { booleanAttribute, Component, input, output } from '@angular/core';
-import {
-  coerceTngInputNullableBoolean,
-  TngInput as TngInputPrimitive,
-} from '@tailng-ui/primitives';
-import type { TngInputType } from '@tailng-ui/primitives';
+import { Component, HostBinding, input } from '@angular/core';
+import { TngInputGroup } from '@tailng-ui/primitives';
 
-type NullableBooleanInput = boolean | null | string | undefined;
-
-export function readTngInputEventValue(event: unknown): string | null {
-  if (!(event instanceof Event)) {
-    return null;
-  }
-
-  const target = event.target;
-  if (!(target instanceof HTMLInputElement)) {
-    return null;
-  }
-
-  return target.value;
-}
+export type TngInputAppearance = 'outline' | 'solid' | 'ghost';
+export type TngInputSize = 'sm' | 'md' | 'lg';
+export type TngInputTone = 'neutral' | 'primary' | 'success' | 'danger';
 
 @Component({
   selector: 'tng-input',
-  imports: [TngInputPrimitive],
+  standalone: true,
+  imports: [TngInputGroup],
   templateUrl: './tng-input.component.html',
   styleUrl: './tng-input.component.css',
 })
 export class TngInputComponent {
-  public readonly ariaDescribedBy = input<string | null>(null);
-  public readonly ariaInvalid = input<boolean | null, NullableBooleanInput>(null, {
-    transform: coerceTngInputNullableBoolean,
-  });
-  public readonly ariaRequired = input<boolean | null, NullableBooleanInput>(null, {
-    transform: coerceTngInputNullableBoolean,
-  });
-  public readonly disabled = input<boolean, boolean | string>(false, {
-    transform: booleanAttribute,
-  });
-  public readonly placeholder = input<string | null>(null);
-  public readonly readonly = input<boolean, boolean | string>(false, {
-    transform: booleanAttribute,
-  });
-  public readonly required = input<boolean, boolean | string>(false, {
-    transform: booleanAttribute,
-  });
-  public readonly type = input<TngInputType>('text');
-  public readonly value = input<string | null>(null);
+  public readonly appearance = input<TngInputAppearance>('outline');
+  public readonly size = input<TngInputSize>('md');
+  public readonly tone = input<TngInputTone>('neutral');
 
-  public readonly valueChange = output<string>();
+  /**
+   * If true, the wrapper and group stretch to full width.
+   * If false, the wrapper behaves like an inline-sized control.
+   */
+  public readonly fullWidth = input<boolean>(true);
 
-  public onInput(event: unknown): void {
-    const value = readTngInputEventValue(event);
-    if (value === null) {
-      return;
-    }
+  @HostBinding('attr.data-slot')
+  protected readonly dataSlot = 'input-field' as const;
 
-    this.valueChange.emit(value);
+  @HostBinding('attr.data-appearance')
+  protected get dataAppearance(): TngInputAppearance {
+    return this.appearance();
+  }
+
+  @HostBinding('attr.data-size')
+  protected get dataSize(): TngInputSize {
+    return this.size();
+  }
+
+  @HostBinding('attr.data-tone')
+  protected get dataTone(): TngInputTone {
+    return this.tone();
+  }
+
+  @HostBinding('attr.data-full-width')
+  protected get dataFullWidth(): '' | null {
+    return this.fullWidth() ? '' : null;
   }
 }

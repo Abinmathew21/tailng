@@ -1,35 +1,117 @@
 :host {
   display: inline-flex;
-  width: min(22rem, 100%);
+  max-width: 100%;
 }
 
+:host([data-full-width]) {
+  width: 100%;
+}
+
+/* Group host (primitive) — shell + state live here */
 .tng-input {
-  appearance: none;
+  align-items: center;
+  display: inline-flex;
+  gap: 0;
+  max-width: 100%;
+
   background: var(--tng-semantic-background-surface);
   border: 1px solid var(--tng-semantic-border-strong);
   border-radius: 0.6rem;
   color: var(--tng-semantic-foreground-primary);
-  font: inherit;
+
   min-height: 2.5rem;
   padding: 0 0.85rem;
+}
+
+/* Width behavior */
+:host([data-full-width]) .tng-input {
   width: 100%;
 }
 
-.tng-input::placeholder {
+:host(:not([data-full-width])) .tng-input {
+  width: auto;
+}
+
+/* --- Layout: slots + control wrappers (rendered by primitive) --- */
+.tng-input > [data-slot='input-group-leading'],
+.tng-input > [data-slot='input-group-trailing'] {
+  align-items: center;
+  display: inline-flex;
+  flex: 0 0 auto;
+}
+
+.tng-input > [data-slot='input-group-control'] {
+  align-items: center;
+  display: inline-flex;
+  flex: 1 1 auto;
+  min-width: 0; /* important for text overflow in flex */
+}
+
+/* --- Control base (input/textarea with tngInput directive) --- */
+.tng-input [data-slot='input'] {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  color: inherit;
+  font: inherit;
+  min-width: 0;
+  outline: none;
+  width: 100%;
+}
+
+.tng-input [data-slot='input']::placeholder {
   color: var(--tng-semantic-foreground-muted);
 }
 
-.tng-input:focus-visible {
+/* --- State hooks from primitive --- */
+.tng-input[data-focused] {
   box-shadow: 0 0 0 3px var(--tng-semantic-focus-ring);
-  outline: none;
 }
 
 .tng-input[data-invalid] {
   border-color: var(--tng-semantic-accent-danger);
 }
 
-.tng-input:disabled,
 .tng-input[data-disabled] {
   cursor: not-allowed;
   opacity: 0.6;
+}
+
+.tng-input[data-readonly] {
+  opacity: 0.9;
+}
+
+/* --- Variants --- */
+:host([data-appearance='solid']) .tng-input {
+  background: var(
+    --tng-semantic-background-surface-strong,
+    var(--tng-semantic-background-surface)
+  );
+}
+
+:host([data-appearance='ghost']) .tng-input {
+  background: transparent;
+  border-color: transparent;
+}
+
+/* --- Sizes --- */
+:host([data-size='sm']) .tng-input {
+  border-radius: 0.5rem;
+  min-height: 2.125rem;
+  padding: 0 0.65rem;
+}
+
+:host([data-size='lg']) .tng-input {
+  border-radius: 0.75rem;
+  min-height: 3rem;
+  padding: 0 1rem;
+}
+
+/* --- Tones (minimal) --- */
+:host([data-tone='danger']) .tng-input[data-focused] {
+  box-shadow: 0 0 0 3px var(--tng-semantic-focus-ring-danger, var(--tng-semantic-focus-ring));
+}
+
+:host([data-tone='danger']) .tng-input[data-invalid] {
+  border-color: var(--tng-semantic-accent-danger);
 }
