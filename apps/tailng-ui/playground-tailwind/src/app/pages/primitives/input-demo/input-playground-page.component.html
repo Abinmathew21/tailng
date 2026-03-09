@@ -1,32 +1,171 @@
-<div class="mx-auto max-w-[72rem] grid gap-5">
-  <section class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5 space-y-3">
-    <h2 class="text-lg font-semibold">Primitives (`tngInput`)</h2>
-    <div class="grid gap-3 sm:max-w-md">
-      <input tngInput type="text" placeholder="Email" class="rounded-lg border border-tng-border-subtle bg-tng-bg-canvas px-3 py-2 text-tng-fg-primary" />
-      <input
-        tngInput
-        type="search"
-        placeholder="Search docs"
-        [ariaInvalid]="true"
-        class="rounded-lg border border-tng-accent-danger bg-tng-bg-canvas px-3 py-2 text-tng-fg-primary"
-      />
-      <input
-        tngInput
-        type="password"
-        placeholder="Readonly token"
-        [readonly]="true"
-        value="tailng-secret"
-        class="rounded-lg border border-tng-border-subtle bg-tng-bg-canvas px-3 py-2 text-tng-fg-primary"
-      />
-    </div>
-  </section>
+<main class="min-h-screen bg-tng-bg-canvas text-tng-fg-primary px-4 py-7">
+  <header class="mx-auto mb-4 max-w-[72rem] grid gap-1.5">
+    <h1 class="m-0 text-xl font-bold tracking-tight text-tng-fg-primary">Input demo</h1>
+    <p class="m-0 text-sm text-tng-fg-secondary">
+      Headless primitives first, followed by the component wrapper.
+    </p>
+  </header>
 
-  <section class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5 space-y-3">
-    <h2 class="text-lg font-semibold">Components (`tng-input`)</h2>
-    <div class="grid gap-3 sm:max-w-md">
-      <tng-input placeholder="Project name" />
-      <tng-input type="email" placeholder="team@tailng.dev" [required]="true" />
-      <tng-input placeholder="Disabled input" [disabled]="true" value="Cannot edit" />
-    </div>
+  <section class="mx-auto max-w-[72rem] grid gap-5 md:grid-cols-3 md:items-start">
+    <section class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5 space-y-3">
+      <div class="grid gap-0.5">
+        <h2 class="m-0 text-[0.9375rem] font-semibold text-tng-fg-primary">
+          1) Headless: direct <code>tngInput</code>
+        </h2>
+        <p class="m-0 text-[0.8125rem] text-tng-fg-muted">Attach behavior directly to native controls.</p>
+      </div>
+
+      <div class="grid gap-3">
+        <label class="grid gap-1.5">
+          <span class="text-[0.8125rem] text-tng-fg-secondary">Email</span>
+          <input
+            tngInput
+            type="email"
+            placeholder="team@tailng.dev"
+            class="w-full rounded-lg border border-tng-border-strong bg-tng-bg-canvas px-3 py-2 text-sm text-tng-fg-primary outline-none ring-0 placeholder:text-tng-fg-muted"
+          />
+        </label>
+
+        <label class="grid gap-1.5">
+          <span class="text-[0.8125rem] text-tng-fg-secondary">Search (invalid via ariaInvalid)</span>
+          <input
+            tngInput
+            type="search"
+            placeholder="Search docs"
+            [ariaInvalid]="true"
+            class="w-full rounded-lg border border-tng-accent-danger bg-tng-bg-canvas px-3 py-2 text-sm text-tng-fg-primary outline-none ring-0 placeholder:text-tng-fg-muted"
+          />
+        </label>
+
+        <label class="grid gap-1.5">
+          <span class="text-[0.8125rem] text-tng-fg-secondary">Readonly token</span>
+          <input
+            tngInput
+            type="password"
+            [readonly]="true"
+            [value]="'tailng-secret'"
+            class="w-full rounded-lg border border-tng-border-strong bg-tng-bg-canvas px-3 py-2 text-sm text-tng-fg-primary outline-none ring-0 placeholder:text-tng-fg-muted"
+          />
+        </label>
+
+        <label class="grid gap-1.5">
+          <span class="text-[0.8125rem] text-tng-fg-secondary">Textarea</span>
+          <textarea
+            tngInput
+            rows="3"
+            placeholder="Write notes..."
+            class="w-full rounded-lg border border-tng-border-strong bg-tng-bg-canvas px-3 py-2 text-sm text-tng-fg-primary outline-none ring-0 placeholder:text-tng-fg-muted"
+          ></textarea>
+        </label>
+      </div>
+    </section>
+
+    <section class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5 space-y-3">
+      <div class="grid gap-0.5">
+        <h2 class="m-0 text-[0.9375rem] font-semibold text-tng-fg-primary">
+          2) Headless: <code>tngInputGroup</code> + slots
+        </h2>
+        <p class="m-0 text-[0.8125rem] text-tng-fg-muted">Compose leading/trailing content with state hooks.</p>
+      </div>
+
+      <div class="grid gap-3">
+        <label class="grid gap-1.5">
+          <span class="text-[0.8125rem] text-tng-fg-secondary">Search with leading + trailing</span>
+          <tng-input-group
+            class="inline-flex min-h-10 w-full items-center gap-2 rounded-lg border border-tng-border-strong bg-tng-bg-canvas px-3 text-sm text-tng-fg-primary data-[focused]:ring-2 data-[focused]:ring-tng-accent-brand/35 data-[invalid]:border-tng-accent-danger data-[disabled]:cursor-not-allowed data-[disabled]:opacity-60"
+          >
+            <span tngInputLeading class="inline-flex shrink-0 items-center text-tng-fg-muted" aria-hidden="true">🔎</span>
+            <input
+              tngInput
+              type="search"
+              placeholder="Search primitives"
+              class="min-w-0 w-full border-0 bg-transparent p-0 text-sm text-inherit outline-none placeholder:text-tng-fg-muted"
+            />
+            <span tngInputTrailing class="inline-flex shrink-0 items-center text-tng-fg-muted" aria-hidden="true">⌘K</span>
+          </tng-input-group>
+        </label>
+
+        <label class="grid gap-1.5">
+          <span class="text-[0.8125rem] text-tng-fg-secondary">Disabled control</span>
+          <tng-input-group
+            class="inline-flex min-h-10 w-full items-center gap-2 rounded-lg border border-tng-border-strong bg-tng-bg-canvas px-3 text-sm text-tng-fg-primary data-[focused]:ring-2 data-[focused]:ring-tng-accent-brand/35 data-[invalid]:border-tng-accent-danger data-[disabled]:cursor-not-allowed data-[disabled]:opacity-60"
+          >
+            <span tngInputLeading class="inline-flex shrink-0 items-center text-tng-fg-muted" aria-hidden="true">⛔</span>
+            <input
+              tngInput
+              placeholder="Disabled"
+              [disabled]="true"
+              class="min-w-0 w-full border-0 bg-transparent p-0 text-sm text-inherit outline-none placeholder:text-tng-fg-muted"
+            />
+          </tng-input-group>
+        </label>
+
+        <label class="grid gap-1.5">
+          <span class="text-[0.8125rem] text-tng-fg-secondary">Trailing action (consumer-owned focus)</span>
+          <tng-input-group
+            class="inline-flex min-h-10 w-full items-center gap-2 rounded-lg border border-tng-border-strong bg-tng-bg-canvas px-3 text-sm text-tng-fg-primary data-[focused]:ring-2 data-[focused]:ring-tng-accent-brand/35 data-[invalid]:border-tng-accent-danger data-[disabled]:cursor-not-allowed data-[disabled]:opacity-60"
+          >
+            <input
+              tngInput
+              type="search"
+              placeholder="Search..."
+              class="min-w-0 w-full border-0 bg-transparent p-0 text-sm text-inherit outline-none placeholder:text-tng-fg-muted"
+            />
+            <button
+              tngInputTrailing
+              type="button"
+              aria-label="Clear"
+              class="inline-flex h-7 w-7 items-center justify-center rounded-md border border-tng-border-subtle bg-tng-bg-surface text-tng-fg-secondary outline-none transition hover:text-tng-fg-primary focus:ring-2 focus:ring-tng-accent-brand/35"
+            >
+              ✕
+            </button>
+          </tng-input-group>
+        </label>
+      </div>
+    </section>
+
+    <section class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5 space-y-3">
+      <div class="grid gap-0.5">
+        <h2 class="m-0 text-[0.9375rem] font-semibold text-tng-fg-primary">
+          3) Component wrapper: <code>&lt;tng-input&gt;</code>
+        </h2>
+        <p class="m-0 text-[0.8125rem] text-tng-fg-muted">Styled wrapper over the same headless primitives.</p>
+      </div>
+
+      <div class="grid gap-3">
+        <label class="grid gap-1.5">
+          <span class="text-[0.8125rem] text-tng-fg-secondary">Default wrapper</span>
+          <tng-input>
+            <input tngInput type="email" placeholder="hello@tailng.dev" />
+          </tng-input>
+        </label>
+
+        <label class="grid gap-1.5">
+          <span class="text-[0.8125rem] text-tng-fg-secondary">Solid + large with slots</span>
+          <tng-input appearance="solid" size="lg">
+            <span tngInputLeading class="inline-flex shrink-0 items-center text-tng-fg-muted" aria-hidden="true">#</span>
+            <input tngInput type="text" placeholder="Issue number" />
+            <span tngInputTrailing class="inline-flex shrink-0 items-center text-tng-fg-muted" aria-hidden="true">v1</span>
+          </tng-input>
+        </label>
+
+        <label class="grid gap-1.5">
+          <span class="text-[0.8125rem] text-tng-fg-secondary">Danger tone + invalid</span>
+          <tng-input tone="danger">
+            <span tngInputLeading class="inline-flex shrink-0 items-center text-tng-fg-muted" aria-hidden="true">!</span>
+            <input tngInput type="text" placeholder="Validation error" [ariaInvalid]="true" />
+          </tng-input>
+        </label>
+
+        <label class="grid gap-1.5">
+          <span class="text-[0.8125rem] text-tng-fg-secondary">Non-full-width (compact)</span>
+          <div class="flex">
+            <tng-input [fullWidth]="false" size="sm">
+              <input tngInput type="search" placeholder="Compact search" />
+            </tng-input>
+          </div>
+        </label>
+      </div>
+    </section>
   </section>
-</div>
+</main>

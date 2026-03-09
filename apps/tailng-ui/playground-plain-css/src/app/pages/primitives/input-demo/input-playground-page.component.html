@@ -120,5 +120,50 @@
         </div>
       </div>
     </section>
+
+    <!-- --------------------------------------------- -->
+    <!-- C) Components wrapper -->
+    <!-- --------------------------------------------- -->
+    <section class="card">
+      <h2>Component: wrapper (`&lt;tng-input&gt;`)</h2>
+
+      <div class="stack">
+        <div class="field">
+          <span class="label">Default wrapper</span>
+          <tng-input>
+            <input tngInput type="email" placeholder="hello@tailng.dev" />
+          </tng-input>
+        </div>
+
+        <div class="field">
+          <span class="label">Leading + trailing with wrapper tokens</span>
+
+          <tng-input appearance="solid" size="lg">
+            <span tngInputLeading class="adornment" aria-hidden="true">#</span>
+            <input tngInput type="text" placeholder="Issue number" />
+            <span tngInputTrailing class="adornment" aria-hidden="true">v1</span>
+          </tng-input>
+        </div>
+
+        <div class="field">
+          <span class="label">Danger tone + invalid state</span>
+
+          <tng-input tone="danger">
+            <span tngInputLeading class="adornment" aria-hidden="true">!</span>
+            <input tngInput type="text" placeholder="Validation error" [ariaInvalid]="true" />
+          </tng-input>
+        </div>
+
+        <div class="field">
+          <span class="label">Non-full-width wrapper</span>
+
+          <div class="inline-row">
+            <tng-input [fullWidth]="false" size="sm">
+              <input tngInput type="search" placeholder="Compact search" />
+            </tng-input>
+          </div>
+        </div>
+      </div>
+    </section>
   </section>
 </main>

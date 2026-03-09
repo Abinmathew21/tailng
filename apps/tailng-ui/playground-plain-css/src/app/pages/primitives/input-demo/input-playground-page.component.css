@@ -154,3 +154,8 @@
   outline: 2px solid var(--tng-semantic-focus-ring, rgba(59, 130, 246, 0.25));
   outline-offset: 2px;
 }
+
+.inline-row {
+  display: flex;
+  gap: 0.75rem;
+}
