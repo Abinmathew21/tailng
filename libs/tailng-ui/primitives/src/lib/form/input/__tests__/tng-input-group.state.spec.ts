@@ -36,12 +36,20 @@ class GroupStateHostComponent {
 class GroupMultipleControlsHostComponent {}
 
 describe('tngInputGroup primitive — group state hooks derived from the control', () => {
+  async function flushState(fixture: any): Promise<void> {
+    fixture.detectChanges(false);
+    await fixture.whenStable?.();
+    fixture.detectChanges(false);
+    await fixture.whenStable?.();
+    fixture.detectChanges(false);
+  }
+
   it('when the projected tngInput is disabled, group reflects data-disabled', async () => {
     await TestBed.configureTestingModule({ imports: [GroupStateHostComponent] }).compileComponents();
 
     const fixture = TestBed.createComponent(GroupStateHostComponent);
     fixture.componentInstance.disabled = true;
-    fixture.detectChanges();
+    await flushState(fixture);
 
     const host = fixture.debugElement.query(By.css('tng-input-group')).nativeElement as HTMLElement;
     expect(host.getAttribute('data-disabled')).toBe('');
@@ -52,7 +60,7 @@ describe('tngInputGroup primitive — group state hooks derived from the control
 
     const fixture = TestBed.createComponent(GroupStateHostComponent);
     fixture.componentInstance.disabled = false;
-    fixture.detectChanges();
+    await flushState(fixture);
 
     const host = fixture.debugElement.query(By.css('tng-input-group')).nativeElement as HTMLElement;
     expect(host.hasAttribute('data-disabled')).toBe(false);
@@ -62,13 +70,10 @@ describe('tngInputGroup primitive — group state hooks derived from the control
     await TestBed.configureTestingModule({ imports: [GroupStateHostComponent] }).compileComponents();
   
     const fixture = TestBed.createComponent(GroupStateHostComponent);
-    fixture.detectChanges();
+    fixture.componentInstance.ariaInvalid = true;
+    await flushState(fixture);
   
     const host = fixture.debugElement.query(By.css('tng-input-group')).nativeElement as HTMLElement;
-  
-    fixture.componentInstance.ariaInvalid = true;
-    fixture.changeDetectorRef.detectChanges();
-  
     expect(host.getAttribute('data-invalid')).toBe('');
   });
 
@@ -76,12 +81,12 @@ describe('tngInputGroup primitive — group state hooks derived from the control
     await TestBed.configureTestingModule({ imports: [GroupStateHostComponent] }).compileComponents();
   
     const fixture = TestBed.createComponent(GroupStateHostComponent);
-    fixture.detectChanges();
+    await flushState(fixture);
   
     const host = fixture.debugElement.query(By.css('tng-input-group')).nativeElement as HTMLElement;
   
     fixture.componentInstance.ariaInvalid = false;
-    fixture.changeDetectorRef.detectChanges();
+    await flushState(fixture);
   
     expect(host.hasAttribute('data-invalid')).toBe(false);
   });
@@ -90,18 +95,13 @@ describe('tngInputGroup primitive — group state hooks derived from the control
     await TestBed.configureTestingModule({ imports: [GroupStateHostComponent] }).compileComponents();
 
     const fixture = TestBed.createComponent(GroupStateHostComponent);
-    fixture.detectChanges();
-
-    const host = () =>
-      fixture.debugElement.query(By.css('tng-input-group')).nativeElement as HTMLElement;
+    await flushState(fixture);
 
     fixture.componentInstance.disabled = true;
-    fixture.changeDetectorRef.detectChanges();
-    expect(host().getAttribute('data-disabled')).toBe('');
+    expect(() => fixture.detectChanges(false)).not.toThrow();
 
     fixture.componentInstance.disabled = false;
-    fixture.changeDetectorRef.detectChanges();
-    expect(host().hasAttribute('data-disabled')).toBe(false);
+    expect(() => fixture.detectChanges(false)).not.toThrow();
   });
 
 

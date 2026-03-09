@@ -1,5 +1,7 @@
 import { Component, HostBinding, input } from '@angular/core';
-import { TngInputGroup } from '@tailng-ui/primitives';
+import { booleanAttribute } from '@angular/core';
+
+import { TngInputGroup, TngInputLeading, TngInputTrailing } from '@tailng-ui/primitives';
 
 export type TngInputAppearance = 'outline' | 'solid' | 'ghost';
 export type TngInputSize = 'sm' | 'md' | 'lg';
@@ -8,7 +10,7 @@ export type TngInputTone = 'neutral' | 'primary' | 'success' | 'danger';
 @Component({
   selector: 'tng-input',
   standalone: true,
-  imports: [TngInputGroup],
+  imports: [TngInputGroup, TngInputLeading, TngInputTrailing],
   templateUrl: './tng-input.component.html',
   styleUrl: './tng-input.component.css',
 })
@@ -17,14 +19,13 @@ export class TngInputComponent {
   public readonly size = input<TngInputSize>('md');
   public readonly tone = input<TngInputTone>('neutral');
 
-  /**
-   * If true, the wrapper and group stretch to full width.
-   * If false, the wrapper behaves like an inline-sized control.
-   */
-  public readonly fullWidth = input<boolean>(true);
+  /** Default true so forms look consistent out-of-the-box */
+  public readonly fullWidth = input<boolean, boolean | string>(true, {
+    transform: booleanAttribute,
+  });
 
   @HostBinding('attr.data-slot')
-  protected readonly dataSlot = 'input-field' as const;
+  protected readonly dataSlot = 'input-wrapper' as const;
 
   @HostBinding('attr.data-appearance')
   protected get dataAppearance(): TngInputAppearance {

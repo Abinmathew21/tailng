@@ -1,5 +1,13 @@
 <tng-input-group class="tng-input">
-  <ng-content select="[tngInputLeading]"></ng-content>
-  <ng-content select="input[tngInput], textarea[tngInput]"></ng-content>
-  <ng-content select="[tngInputTrailing]"></ng-content>
+  <span tngInputLeading class="tng-input-slot-proxy" data-tng-input-leading-proxy>
+    <ng-content select="[tngInputLeading]"></ng-content>
+  </span>
+
+  <span class="tng-input-control-proxy" data-tng-input-control-proxy>
+    <ng-content select="input[tngInput], textarea[tngInput]"></ng-content>
+  </span>
+
+  <span tngInputTrailing class="tng-input-slot-proxy" data-tng-input-trailing-proxy>
+    <ng-content select="[tngInputTrailing]"></ng-content>
+  </span>
 </tng-input-group>

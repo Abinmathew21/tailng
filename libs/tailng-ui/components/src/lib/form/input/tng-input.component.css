@@ -7,47 +7,34 @@
   width: 100%;
 }
 
-/* Group host (primitive) — shell + state live here */
+/* the group host */
 .tng-input {
   align-items: center;
   display: inline-flex;
-  gap: 0;
-  max-width: 100%;
-
-  background: var(--tng-semantic-background-surface);
-  border: 1px solid var(--tng-semantic-border-strong);
-  border-radius: 0.6rem;
-  color: var(--tng-semantic-foreground-primary);
-
-  min-height: 2.5rem;
-  padding: 0 0.85rem;
-}
-
-/* Width behavior */
-:host([data-full-width]) .tng-input {
   width: 100%;
 }
 
+/* allow intrinsic width if consumer wants */
 :host(:not([data-full-width])) .tng-input {
   width: auto;
 }
 
-/* --- Layout: slots + control wrappers (rendered by primitive) --- */
-.tng-input > [data-slot='input-group-leading'],
-.tng-input > [data-slot='input-group-trailing'] {
+/* ----- slot wrappers (rendered by primitive group) ----- */
+.tng-input [data-slot='input-group-leading'],
+.tng-input [data-slot='input-group-trailing'] {
   align-items: center;
   display: inline-flex;
   flex: 0 0 auto;
 }
 
-.tng-input > [data-slot='input-group-control'] {
+.tng-input [data-slot='input-group-control'] {
   align-items: center;
   display: inline-flex;
   flex: 1 1 auto;
-  min-width: 0; /* important for text overflow in flex */
+  min-width: 0;
 }
 
-/* --- Control base (input/textarea with tngInput directive) --- */
+/* ----- control base ----- */
 .tng-input [data-slot='input'] {
   appearance: none;
   background: transparent;
@@ -59,55 +46,61 @@
   width: 100%;
 }
 
-.tng-input [data-slot='input']::placeholder {
-  color: var(--tng-semantic-foreground-muted);
+/* ----- shell belongs to group host (primitive) ----- */
+.tng-input[data-slot='input-group'] {
+  background: var(--tng-semantic-background-surface);
+  border: 1px solid var(--tng-semantic-border-strong);
+  border-radius: 0.6rem;
+  color: var(--tng-semantic-foreground-primary);
+  min-height: 2.5rem;
+  padding: 0 0.85rem;
 }
 
-/* --- State hooks from primitive --- */
+/* focus ring on group (driven by primitive) */
 .tng-input[data-focused] {
   box-shadow: 0 0 0 3px var(--tng-semantic-focus-ring);
 }
 
+/* invalid state (driven by primitive) */
 .tng-input[data-invalid] {
   border-color: var(--tng-semantic-accent-danger);
 }
 
+/* disabled state (driven by primitive) */
 .tng-input[data-disabled] {
   cursor: not-allowed;
   opacity: 0.6;
 }
 
-.tng-input[data-readonly] {
-  opacity: 0.9;
+/* placeholder styling */
+.tng-input [data-slot='input']::placeholder {
+  color: var(--tng-semantic-foreground-muted);
 }
 
-/* --- Variants --- */
-:host([data-appearance='solid']) .tng-input {
-  background: var(
-    --tng-semantic-background-surface-strong,
-    var(--tng-semantic-background-surface)
-  );
+/* ---- variants (wrapper inputs -> host attrs) ---- */
+:host([data-appearance='solid']) .tng-input[data-slot='input-group'] {
+  background: var(--tng-semantic-background-surface-strong, var(--tng-semantic-background-surface));
 }
 
-:host([data-appearance='ghost']) .tng-input {
+:host([data-appearance='ghost']) .tng-input[data-slot='input-group'] {
   background: transparent;
   border-color: transparent;
 }
 
-/* --- Sizes --- */
-:host([data-size='sm']) .tng-input {
+/* ---- sizes ---- */
+:host([data-size='sm']) .tng-input[data-slot='input-group'] {
   border-radius: 0.5rem;
   min-height: 2.125rem;
   padding: 0 0.65rem;
 }
 
-:host([data-size='lg']) .tng-input {
+:host([data-size='lg']) .tng-input[data-slot='input-group'] {
   border-radius: 0.75rem;
   min-height: 3rem;
   padding: 0 1rem;
 }
 
-/* --- Tones (minimal) --- */
+/* ---- tones (minimal example) ---- */
 :host([data-tone='danger']) .tng-input[data-focused] {
   box-shadow: 0 0 0 3px var(--tng-semantic-focus-ring-danger, var(--tng-semantic-focus-ring));
 }
