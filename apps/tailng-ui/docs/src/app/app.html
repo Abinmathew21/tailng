@@ -1,143 +1,165 @@
 <main class="min-h-screen bg-tng-bg-canvas text-tng-fg-primary">
-  <div class="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-    <header
-      class="sticky top-0 z-50 border-b border-tng-border-subtle bg-[color-mix(in_srgb,var(--tng-semantic-background-canvas)_90%,transparent)] backdrop-blur"
-    >
-      <div class="flex h-16 items-center justify-between gap-4">
-        <div class="flex min-w-0 items-center gap-5">
-          <a routerLink="/" class="flex min-w-0 items-center gap-2 no-underline">
-            <img src="logo.svg" alt="TailNG logo" class="h-9 w-9" />
-            <span class="truncate text-base font-semibold text-tng-fg-primary">TailNG</span>
-          </a>
+  <header
+    class="sticky top-0 z-50 border-b border-tng-border-subtle bg-[color-mix(in_srgb,var(--tng-semantic-background-canvas)_90%,transparent)] backdrop-blur"
+  >
+    <div class="flex h-16 items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
+      <div class="flex min-w-0 items-center gap-5">
+        <a routerLink="/" class="flex min-w-0 items-center gap-2 no-underline">
+          <img src="logo.svg" alt="TailNG logo" class="h-9 w-9" />
+          <span class="truncate text-base font-semibold text-tng-fg-primary">TailNG</span>
+        </a>
 
-          <nav class="hidden items-center gap-1 lg:flex">
-            @for (item of primaryNavigation; track item.label) {
-              <a
-                [routerLink]="item.route"
-                class="rounded-md px-3 py-2 text-sm font-medium text-tng-fg-secondary no-underline transition-colors hover:bg-tng-bg-muted hover:text-tng-fg-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tng-focus-ring"
+        <nav class="hidden items-center gap-1 lg:flex">
+          @for (item of primaryNavigation; track item.label) {
+            <a
+              [routerLink]="item.route"
+              class="rounded-md px-3 py-2 text-sm font-medium text-tng-fg-secondary no-underline transition-colors hover:bg-tng-bg-muted hover:text-tng-fg-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tng-focus-ring"
+            >
+              {{ item.label }}
+            </a>
+          }
+        </nav>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <div class="relative hidden sm:block">
+          <button
+            id="docs-theme-preset-trigger"
+            type="button"
+            [tngMenuTriggerFor]="themeMenu"
+            aria-label="Theme preset"
+            class="inline-flex h-9 w-9 items-center justify-center rounded-md text-tng-fg-secondary transition-colors hover:text-tng-fg-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tng-focus-ring"
+          >
+            <tng-icon icon="palette" class="h-4 w-4" />
+          </button>
+
+          <tng-menu
+            #themeMenu="tngMenu"
+            ariaLabel="Theme presets"
+            class="docs-theme-menu left-auto right-0 z-50 min-w-72"
+            (tngMenuSelect)="onThemePresetMenuSelect($event)"
+          >
+            @for (preset of presetOptions; track preset.id) {
+              <button
+                type="button"
+                tngMenuItem
+                [tngMenuItemRole]="'menuitemradio'"
+                [tngMenuItemChecked]="isPresetSelected(preset.id)"
+                [tngMenuItemValue]="preset.id"
+                class="flex w-full cursor-pointer items-start justify-between rounded-lg border-0 bg-transparent px-3 py-2 text-left text-sm text-tng-fg-primary transition-colors hover:bg-tng-bg-muted focus:bg-tng-bg-muted focus:outline-none"
+                [class.text-tng-accent-brand]="isPresetSelected(preset.id)"
               >
-                {{ item.label }}
+                <span class="flex items-start gap-2">
+                  <tng-icon [icon]="preset.icon" class="mt-0.5 h-4 w-4 shrink-0" />
+                  <span class="flex flex-col gap-0.5">
+                    <span>{{ preset.label }}</span>
+                    <span class="text-xs font-normal text-tng-fg-secondary">{{ preset.description }}</span>
+                  </span>
+                </span>
+                @if (isPresetSelected(preset.id)) {
+                  <tng-icon icon="check" class="h-4 w-4 shrink-0" />
+                }
+                @if (!isPresetSelected(preset.id)) {
+                  <span class="h-4 w-4 shrink-0"></span>
+                }
+              </button>
+            }
+          </tng-menu>
+        </div>
+
+        <tng-switch
+          class="docs-mode-switch hidden md:inline-flex"
+          [checked]="darkMode()"
+          [ariaLabel]="darkMode() ? 'Switch to light mode' : 'Switch to dark mode'"
+          (checkedChange)="onModeSwitchChange($event)"
+        >
+          <span offIcon aria-hidden="true">
+            <tng-icon icon="sun" class="h-4 w-4 text-amber-600" />
+          </span>
+          <span onIcon aria-hidden="true">
+            <tng-icon icon="moon" class="h-4 w-4 text-slate-700" />
+          </span>
+        </tng-switch>
+
+        <a
+          href="https://github.com/tailng/tailng-ui"
+          target="_blank"
+          rel="noreferrer"
+          aria-label="GitHub"
+          class="hidden h-9 w-9 items-center justify-center rounded-md border border-transparent text-tng-fg-secondary no-underline transition-colors hover:border-tng-border-subtle hover:bg-tng-bg-muted hover:text-tng-fg-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tng-focus-ring md:inline-flex"
+        >
+          <tng-icon icon="github" class="h-4 w-4" />
+        </a>
+
+        <div class="relative hidden md:block">
+          <button
+            id="docs-npm-packages-trigger"
+            type="button"
+            [tngMenuTriggerFor]="npmPackagesMenu"
+            aria-label="npm packages"
+            class="inline-flex h-9 w-9 items-center justify-center rounded-md border border-transparent text-tng-fg-secondary transition-colors hover:border-tng-border-subtle hover:bg-tng-bg-muted hover:text-tng-fg-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tng-focus-ring"
+          >
+            <svg
+              aria-hidden="true"
+              viewBox="0 0 256 256"
+              class="h-5 w-6"
+              xmlns="http://www.w3.org/2000/svg"
+              preserveAspectRatio="xMinYMin meet"
+            >
+              <rect x="0" y="0" width="256" height="256" fill="#CB3837"></rect>
+              <path
+                d="M48 48h160v160h-32V80h-48v128H48V48zm32 128h32V80H80v96z"
+                fill="#ffffff"
+              ></path>
+            </svg>
+          </button>
+
+          <tng-menu
+            #npmPackagesMenu="tngMenu"
+            ariaLabel="TailNG npm packages"
+            class="left-auto right-0 z-50 min-w-80"
+            (tngMenuSelect)="onNpmMenuSelect($event)"
+          >
+            @for (pkg of npmPackageLinks; track pkg.label) {
+              <a
+                tngMenuItem
+                [tngMenuItemValue]="pkg.label"
+                [href]="pkg.href"
+                target="_blank"
+                rel="noreferrer"
+                class="flex w-full cursor-pointer items-center justify-between rounded-lg border-0 bg-transparent px-3 py-2 text-left text-sm text-tng-fg-primary no-underline transition-colors hover:bg-tng-bg-muted focus:bg-tng-bg-muted focus:outline-none"
+              >
+                <span class="font-mono text-xs sm:text-sm">{{ pkg.label }}</span>
+                <tng-icon icon="external-link" class="h-4 w-4 shrink-0 text-tng-fg-secondary" />
               </a>
             }
-          </nav>
-        </div>
-
-        <div class="flex items-center gap-2">
-          <div class="relative hidden sm:block">
-            <button
-              id="docs-theme-preset-trigger"
-              type="button"
-              [tngMenuTriggerFor]="themeMenu"
-              aria-label="Theme preset"
-              class="inline-flex h-9 w-9 items-center justify-center rounded-md text-tng-fg-secondary transition-colors hover:text-tng-fg-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tng-focus-ring"
-            >
-              <tng-icon icon="palette" class="h-4 w-4" />
-            </button>
-
-            <tng-menu #themeMenu="tngMenu" ariaLabel="Theme presets" class="left-auto right-0 z-50 min-w-72">
-              @for (preset of presetOptions; track preset.id) {
-                <button
-                  type="button"
-                  role="menuitemradio"
-                  [attr.aria-checked]="isPresetSelected(preset.id) ? 'true' : 'false'"
-                  tabindex="0"
-                  (click)="onPresetSelect(preset.id); themeMenu.close(true)"
-                  class="flex w-full cursor-pointer items-start justify-between rounded-lg border-0 bg-transparent px-3 py-2 text-left text-sm text-tng-fg-primary transition-colors hover:bg-tng-bg-muted focus:bg-tng-bg-muted focus:outline-none"
-                  [class.bg-tng-bg-muted]="isPresetSelected(preset.id)"
-                  [class.font-semibold]="isPresetSelected(preset.id)"
-                  [class.text-tng-accent-brand]="isPresetSelected(preset.id)"
-                >
-                  <span class="flex items-start gap-2">
-                    <tng-icon [icon]="preset.icon" class="mt-0.5 h-4 w-4 shrink-0" />
-                    <span class="flex flex-col gap-0.5">
-                      <span>{{ preset.label }}</span>
-                      <span class="text-xs font-normal text-tng-fg-secondary">{{ preset.description }}</span>
-                    </span>
-                  </span>
-                  @if (isPresetSelected(preset.id)) {
-                    <tng-icon icon="check" class="h-4 w-4 shrink-0" />
-                  }
-                  @if (!isPresetSelected(preset.id)) {
-                    <span class="h-4 w-4 shrink-0"></span>
-                  }
-                </button>
-              }
-            </tng-menu>
-          </div>
-
-          <tng-switch
-            class="docs-mode-switch hidden md:inline-flex"
-            [checked]="darkMode()"
-            [ariaLabel]="darkMode() ? 'Switch to light mode' : 'Switch to dark mode'"
-            (checkedChange)="onModeSwitchChange($event)"
-          >
-            <span offIcon aria-hidden="true">
-              <tng-icon icon="sun" class="h-4 w-4 text-amber-600" />
-            </span>
-            <span onIcon aria-hidden="true">
-              <tng-icon icon="moon" class="h-4 w-4 text-slate-700" />
-            </span>
-          </tng-switch>
-
-          <a
-            href="https://github.com/tailng/tailng-ui"
-            target="_blank"
-            rel="noreferrer"
-            aria-label="GitHub"
-            class="hidden h-9 w-9 items-center justify-center rounded-md border border-transparent text-tng-fg-secondary no-underline transition-colors hover:border-tng-border-subtle hover:bg-tng-bg-muted hover:text-tng-fg-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tng-focus-ring md:inline-flex"
-          >
-            <tng-icon icon="github" class="h-4 w-4" />
-          </a>
-
-          <div class="relative hidden md:block">
-            <button
-              id="docs-npm-packages-trigger"
-              type="button"
-              [tngMenuTriggerFor]="npmPackagesMenu"
-              aria-label="npm packages"
-              class="inline-flex h-9 w-9 items-center justify-center rounded-md border border-transparent text-tng-fg-secondary transition-colors hover:border-tng-border-subtle hover:bg-tng-bg-muted hover:text-tng-fg-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tng-focus-ring"
-            >
-              <svg
-                aria-hidden="true"
-                viewBox="0 0 256 256"
-                class="h-5 w-6"
-                xmlns="http://www.w3.org/2000/svg"
-                preserveAspectRatio="xMinYMin meet"
-              >
-                <rect x="0" y="0" width="256" height="256" fill="#CB3837"></rect>
-                <path
-                  d="M48 48h160v160h-32V80h-48v128H48V48zm32 128h32V80H80v96z"
-                  fill="#ffffff"
-                ></path>
-              </svg>
-            </button>
-
-            <tng-menu
-              #npmPackagesMenu="tngMenu"
-              ariaLabel="TailNG npm packages"
-              class="left-auto right-0 z-50 min-w-80"
-            >
-              @for (pkg of npmPackageLinks; track pkg.label) {
-                <a
-                  role="menuitem"
-                  tabindex="0"
-                  [href]="pkg.href"
-                  target="_blank"
-                  rel="noreferrer"
-                  (click)="npmPackagesMenu.close(true)"
-                  class="flex w-full cursor-pointer items-center justify-between rounded-lg border-0 bg-transparent px-3 py-2 text-left text-sm text-tng-fg-primary no-underline transition-colors hover:bg-tng-bg-muted focus:bg-tng-bg-muted focus:outline-none"
-                >
-                  <span class="font-mono text-xs sm:text-sm">{{ pkg.label }}</span>
-                  <tng-icon icon="external-link" class="h-4 w-4 shrink-0 text-tng-fg-secondary" />
-                </a>
-              }
-            </tng-menu>
-          </div>
+          </tng-menu>
         </div>
       </div>
-    </header>
+    </div>
+  </header>
 
-    <section class="py-8">
+  <div
+    [class.mx-auto]="!componentsDocsLayout()"
+    [class.max-w-7xl]="!componentsDocsLayout()"
+    [class.px-4]="!componentsDocsLayout()"
+    [class.sm:px-6]="!componentsDocsLayout()"
+    [class.lg:px-8]="!componentsDocsLayout()"
+    class="w-full"
+  >
+    @if (breadcrumbs().length > 1 && !componentsDocsLayout()) {
+      <section class="py-3">
+        <tng-breadcrumb ariaLabel="Current page path" separator="›">
+          @for (crumb of breadcrumbs(); track $index) {
+            <tng-breadcrumb-item [current]="crumb.current" [routerLink]="crumb.url">
+              {{ crumb.label }}
+            </tng-breadcrumb-item>
+          }
+        </tng-breadcrumb>
+      </section>
+    }
+
+    <section [class.py-8]="!componentsDocsLayout()">
       <router-outlet />
     </section>
   </div>

@@ -11,3 +11,18 @@
 :host ::ng-deep .docs-mode-switch .tng-switch-control[data-state='checked'] {
   border-color: color-mix(in srgb, var(--tng-semantic-accent-brand) 70%, black);
 }
+
+:host ::ng-deep .docs-theme-menu [data-slot='menu-item'][aria-checked='true']:not([data-active]) {
+  background: transparent;
+  color: var(--tng-semantic-accent-brand);
+  font-weight: 600;
+}
+
+:host ::ng-deep .docs-theme-menu [data-slot='menu-item'][data-active] {
+  background: color-mix(
+    in srgb,
+    var(--tng-semantic-accent-brand) 16%,
+    var(--tng-semantic-background-surface)
+  );
+  box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--tng-semantic-accent-brand) 40%, transparent);
+}

@@ -1,8 +1,17 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, computed, effect, inject, signal } from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
-import { TngMenuComponent, TngMenuTriggerFor, TngSwitchComponent } from '@tailng-ui/components';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router';
+import {
+  TngBreadcrumbComponent,
+  TngBreadcrumbItemComponent,
+  TngMenuComponent,
+  TngMenuTriggerFor,
+  TngSwitchComponent,
+} from '@tailng-ui/components';
+import { TngMenuItem, TngMenuSelectEvent } from '@tailng-ui/primitives';
 import { TngIcon } from '@tailng-ui/icons';
+import { filter } from 'rxjs/operators';
 import {
   createTheme,
   darkSemanticTokens,
@@ -30,6 +39,12 @@ type NavItem = Readonly<{
 type LinkItem = Readonly<{
   label: string;
   href: string;
+}>;
+
+type BreadcrumbItem = Readonly<{
+  current: boolean;
+  label: string;
+  url: string | null;
 }>;
 
 const presetOptions: readonly ThemePresetOption[] = [
@@ -76,8 +91,11 @@ const semanticCollections: readonly (keyof ThemeSemanticTokens)[] = [
   imports: [
     RouterOutlet,
     RouterLink,
+    TngBreadcrumbComponent,
+    TngBreadcrumbItemComponent,
     TngMenuComponent,
     TngMenuTriggerFor,
+    TngMenuItem,
     TngSwitchComponent,
     TngIcon,
   ],
@@ -87,12 +105,18 @@ const semanticCollections: readonly (keyof ThemeSemanticTokens)[] = [
 })
 export class App {
   private readonly documentRef = inject(DOCUMENT);
+  private readonly router = inject(Router);
 
   public readonly darkMode = signal(false);
   public readonly presetOptions = presetOptions;
   public readonly selectedPreset = signal<ThemePresetId>('default');
   public readonly primaryNavigation = primaryNavigation;
   public readonly npmPackageLinks = npmPackageLinks;
+  public readonly currentUrl = signal<string>(this.router.url);
+  public readonly breadcrumbs = signal<readonly BreadcrumbItem[]>(this.buildBreadcrumbs(this.router.url));
+  public readonly componentsDocsLayout = computed<boolean>(() =>
+    this.currentUrl().startsWith('/components'),
+  );
 
   public readonly effectiveMode = computed<'light' | 'dark'>(() =>
     this.darkMode() ? 'dark' : 'light',
@@ -112,14 +136,48 @@ export class App {
     effect((): void => {
       this.applyThemeVariables(this.activeTheme());
     });
+
+    this.router.events
+      .pipe(
+        filter((event): event is NavigationEnd => event instanceof NavigationEnd),
+        takeUntilDestroyed(),
+      )
+      .subscribe((event) => {
+        this.currentUrl.set(event.urlAfterRedirects);
+        this.breadcrumbs.set(this.buildBreadcrumbs(event.urlAfterRedirects));
+      });
   }
 
   public onPresetSelect(preset: ThemePresetId): void {
     this.selectedPreset.set(preset);
   }
 
+  public onThemePresetMenuSelect(event: TngMenuSelectEvent): void {
+    const value = event.value;
+    if (value === 'default' || value === 'minimal') {
+      this.onPresetSelect(value);
+    }
+  }
+
   public onModeSwitchChange(checked: boolean): void {
     this.darkMode.set(checked);
+  }
+
+  public onNpmMenuSelect(event: TngMenuSelectEvent): void {
+    if (event.trigger !== 'keyboard') {
+      return;
+    }
+
+    if (typeof event.value !== 'string') {
+      return;
+    }
+
+    const selectedPackage = this.npmPackageLinks.find((pkg) => pkg.label === event.value);
+    if (selectedPackage === undefined) {
+      return;
+    }
+
+    this.documentRef.defaultView?.open(selectedPackage.href, '_blank', 'noopener,noreferrer');
   }
 
   public isPresetSelected(preset: ThemePresetId): boolean {
@@ -162,5 +220,63 @@ export class App {
     }
 
     return resolveToken(theme, tokenExpression) ?? tokenExpression;
+  }
+
+  private buildBreadcrumbs(rawUrl: string): readonly BreadcrumbItem[] {
+    const urlTree = this.router.parseUrl(rawUrl);
+    const primarySegments = urlTree.root.children['primary']?.segments ?? [];
+    if (primarySegments.length === 0) {
+      return [{ current: true, label: 'Home', url: null }];
+    }
+
+    const crumbs: BreadcrumbItem[] = [{ current: false, label: 'Home', url: '/' }];
+    let currentPath = '';
+    for (const segment of primarySegments) {
+      if (segment.path.length === 0) {
+        continue;
+      }
+
+      currentPath = `${currentPath}/${segment.path}`;
+      crumbs.push({
+        current: false,
+        label: this.formatSegmentLabel(segment.path),
+        url: currentPath,
+      });
+    }
+
+    if (crumbs.length > 0) {
+      const lastCrumb = crumbs[crumbs.length - 1];
+      crumbs[crumbs.length - 1] = {
+        ...lastCrumb,
+        current: true,
+        url: null,
+      };
+    }
+
+    return crumbs;
+  }
+
+  private formatSegmentLabel(rawSegment: string): string {
+    const decodedSegment = decodeURIComponent(rawSegment);
+    const normalized = decodedSegment.replace(/[-_]+/g, ' ').trim();
+    if (normalized.length === 0) {
+      return decodedSegment;
+    }
+
+    return normalized
+      .split(/\s+/g)
+      .filter((word) => word.length > 0)
+      .map((word) => this.toTitleWord(word))
+      .join(' ');
+  }
+
+  private toTitleWord(word: string): string {
+    const uppercaseTokenWords = new Set(['api', 'cdk', 'css', 'html', 'http', 'id', 'json', 'ui', 'url']);
+    const lowerWord = word.toLowerCase();
+    if (uppercaseTokenWords.has(lowerWord)) {
+      return lowerWord.toUpperCase();
+    }
+
+    return `${word.charAt(0).toUpperCase()}${word.slice(1)}`;
   }
 }
