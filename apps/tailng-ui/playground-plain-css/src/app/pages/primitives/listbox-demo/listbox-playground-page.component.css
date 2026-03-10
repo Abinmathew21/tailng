@@ -93,6 +93,11 @@
   margin: 0.45rem 0 0;
 }
 
+.listbox-grid {
+  display: grid;
+  gap: 1.25rem;
+}
+
 .listbox {
   background: var(--tng-semantic-background-canvas);
   border: 1px solid var(--tng-semantic-border-subtle);
@@ -148,6 +153,10 @@
 
   .hints-grid {
     grid-template-columns: 1fr 1fr;
+  }
+
+  .listbox-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 

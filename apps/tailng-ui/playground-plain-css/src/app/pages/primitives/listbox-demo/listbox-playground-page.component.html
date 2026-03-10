@@ -39,36 +39,69 @@
 
       <article class="state-card">
         <h2>Live State</h2>
-        <p><strong>Selected:</strong> {{ selectedLabel() }}</p>
+        <p><strong>Listbox A:</strong> {{ selectedLabelA() }}</p>
+        <p><strong>Listbox B:</strong> {{ selectedLabelB() }}</p>
       </article>
     </section>
 
-    <section class="card">
-      <div
-        tngListbox
-        tabindex="0"
-        class="listbox"
-        [multiple]="multiple()"
-        [orientation]="orientation()"
-        [direction]="direction()"
-        [disabled]="listboxDisabled()"
-        [loop]="loop()"
-        [value]="value()"
-        (valueChange)="value.set($event)"
-      >
-        @for (option of options; track option.id) {
-          <div
-            tngOption
-            class="option"
-            [tngValue]="option.id"
-            [disabled]="option.disabled === true"
-            [attr.data-testid]="'opt-' + option.id"
-          >
-            <p class="option-title">{{ option.label }}</p>
-            <p class="option-desc">{{ option.description }}</p>
-          </div>
-        }
-      </div>
+    <section class="listbox-grid">
+      <section class="card">
+        <h2>Listbox A</h2>
+        <div
+          tngListbox
+          tabindex="0"
+          class="listbox"
+          [multiple]="multiple()"
+          [orientation]="orientation()"
+          [direction]="direction()"
+          [disabled]="listboxDisabled()"
+          [loop]="loop()"
+          [value]="valueA()"
+          (valueChange)="valueA.set($event)"
+        >
+          @for (option of options; track option.id) {
+            <div
+              tngOption
+              class="option"
+              [tngValue]="option.id"
+              [disabled]="option.disabled === true"
+              [attr.data-testid]="'opt-a-' + option.id"
+            >
+              <p class="option-title">{{ option.label }}</p>
+              <p class="option-desc">{{ option.description }}</p>
+            </div>
+          }
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Listbox B</h2>
+        <div
+          tngListbox
+          tabindex="0"
+          class="listbox"
+          [multiple]="multiple()"
+          [orientation]="orientation()"
+          [direction]="direction()"
+          [disabled]="listboxDisabled()"
+          [loop]="loop()"
+          [value]="valueB()"
+          (valueChange)="valueB.set($event)"
+        >
+          @for (option of options; track option.id) {
+            <div
+              tngOption
+              class="option"
+              [tngValue]="option.id"
+              [disabled]="option.disabled === true"
+              [attr.data-testid]="'opt-b-' + option.id"
+            >
+              <p class="option-title">{{ option.label }}</p>
+              <p class="option-desc">{{ option.description }}</p>
+            </div>
+          }
+        </div>
+      </section>
     </section>
   </section>
 </main>

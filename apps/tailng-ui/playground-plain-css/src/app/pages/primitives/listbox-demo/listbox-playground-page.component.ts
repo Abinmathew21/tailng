@@ -1,5 +1,5 @@
 import { Component, computed, signal } from '@angular/core';
-import { TngListboxDirective, TngOptionDirective } from '@tailng-ui/primitives'; // adjust path
+import { TngListboxDirective, TngOptionDirective } from '@tailng-ui/primitives';
 
 type DemoOption = Readonly<{
   description: string;
@@ -66,7 +66,8 @@ export class ListboxPlaygroundPageComponent {
   // Controlled value (what listbox writes to)
   // - single: string | null
   // - multiple: readonly string[]
-  public readonly value = signal<string | readonly string[] | null>([]);
+  public readonly valueA = signal<string | readonly string[] | null>([]);
+  public readonly valueB = signal<string | readonly string[] | null>([]);
 
   public readonly activeLabel = computed((): string => {
     // In primitives, activeId is internal to directive, so we only show selected state here.
@@ -74,21 +75,14 @@ export class ListboxPlaygroundPageComponent {
     return 'See active highlight';
   });
 
-  public readonly selectedLabel = computed((): string => {
-    const current = this.value();
+  public readonly selectedLabelA = computed((): string => {
+    const current = this.valueA();
+    return this.toSelectedLabel(current);
+  });
 
-    const ids: readonly string[] =
-      current === null
-        ? []
-        : Array.isArray(current)
-          ? current
-          : [current];
-
-    const labels = ids
-      .map((id) => optionById.get(id)?.label)
-      .filter((label): label is string => label !== undefined);
-
-    return labels.length === 0 ? 'None' : labels.join(', ');
+  public readonly selectedLabelB = computed((): string => {
+    const current = this.valueB();
+    return this.toSelectedLabel(current);
   });
 
   public toggleMultiple(): void {
@@ -96,10 +90,24 @@ export class ListboxPlaygroundPageComponent {
     this.multiple.set(next);
 
     // reset controlled value shape when mode changes
-    this.value.set(next ? ([] as readonly string[]) : null);
+    this.valueA.set(next ? ([] as readonly string[]) : null);
+    this.valueB.set(next ? ([] as readonly string[]) : null);
   }
 
   public clearSelection(): void {
-    this.value.set(this.multiple() ? ([] as readonly string[]) : null);
+    const empty = this.multiple() ? ([] as readonly string[]) : null;
+    this.valueA.set(empty);
+    this.valueB.set(empty);
+  }
+
+  private toSelectedLabel(current: string | readonly string[] | null): string {
+    const ids: readonly string[] =
+      current === null ? [] : Array.isArray(current) ? current : [current];
+
+    const labels = ids
+      .map((id) => optionById.get(id)?.label)
+      .filter((label): label is string => label !== undefined);
+
+    return labels.length === 0 ? 'None' : labels.join(', ');
   }
 }

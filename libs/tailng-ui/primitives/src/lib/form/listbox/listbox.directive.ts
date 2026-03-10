@@ -369,6 +369,21 @@ export class TngListboxDirective<T> {
     this.syncActiveFromController();
   }
 
+  @HostListener('focusout', ['$event'])
+  handleFocusOut(event: FocusEvent) {
+    const nextTarget = event.relatedTarget;
+    if (nextTarget instanceof Node && this.el.nativeElement.contains(nextTarget)) {
+      return;
+    }
+
+    const ctrl = this.controller();
+    if (!ctrl) return;
+    if (ctrl.getActiveId() === null) return;
+
+    ctrl.setActiveId(null);
+    this.syncActiveFromController();
+  }
+
   handleOptionClick(id: string, shiftKey?: boolean) {
     if (this.disabled()) return;
 
