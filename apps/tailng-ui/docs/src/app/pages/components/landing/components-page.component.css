@@ -35,6 +35,11 @@
   padding: 1rem;
 }
 
+:host ::ng-deep .components-docs-content > * > tng-card > .tng-card {
+  border: 0;
+  box-shadow: none;
+}
+
 .components-docs-breadcrumb {
   margin-bottom: 0.75rem;
 }

@@ -72,6 +72,7 @@
     "@swc-node/register": "~1.11.1",
     "@swc/core": "~1.15.5",
     "@swc/helpers": "~0.5.18",
+    "@tailng-ui/theme": "workspace:*",
     "@types/node": "20.19.9",
     "@typescript-eslint/utils": "^8.40.0",
     "@vitest/coverage-v8": "4.0.9",
@@ -91,6 +92,7 @@
     "puppeteer": "^24.1.0",
     "rxjs": "~7.8.2",
     "serve-handler": "^6.1.6",
+    "shiki": "^4.0.2",
     "tailwindcss": "^3.0.2",
     "tslib": "^2.3.0",
     "typescript": "~5.9.2",
@@ -99,8 +101,7 @@
     "vite": "^7.0.0",
     "vite-tsconfig-paths": "^6.1.1",
     "vitest": "4.0.9",
-    "zone.js": "0.16.0",
-    "@tailng-ui/theme": "workspace:*"
+    "zone.js": "0.16.0"
   },
   "nx": {
     "includedScripts": []

@@ -1,13 +1,15 @@
 <tng-card variant="outline" padding="lg">
   <tng-card-header>
     <div class="grid gap-1 pb-2">
-      <h1 class="m-0 text-3xl font-semibold">Components</h1>
+      <h1 class="m-0 text-3xl font-semibold">Quick start with Components</h1>
       <p class="m-0 max-w-3xl text-sm text-tng-fg-secondary md:text-base">
-        Structured component documentation with categorized navigation. Start with setup guides and
-        then expand into implementation, accessibility, and release workflows.
+        Install the packages, wire up the theme, and render your first TailNG component in a few
+        minutes.
       </p>
     </div>
-    <div class="mb-1 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.08em] text-tng-fg-secondary">
+    <div
+      class="mb-1 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.08em] text-tng-fg-secondary"
+    >
       <tng-icon icon="book-open" class="h-4 w-4" />
       <span>{{ groupTitle() }}</span>
     </div>
@@ -15,20 +17,95 @@
     <tng-card-description>{{ item().description }}</tng-card-description>
   </tng-card-header>
   <tng-card-content>
-    <section
-      class="grid gap-4 rounded-xl border border-dashed border-tng-border-subtle bg-tng-bg-base p-6 text-sm text-tng-fg-secondary"
-    >
-      <div class="inline-flex w-fit items-center gap-2 rounded-full border border-tng-border-subtle bg-tng-bg-surface px-2.5 py-1 text-xs font-semibold uppercase tracking-[0.08em]">
-        <tng-icon icon="hammer" class="h-3.5 w-3.5" />
-        In progress
+    <section class="grid gap-6 text-sm text-tng-fg-secondary md:text-base">
+      <div class="grid gap-2">
+        <p class="m-0 text-xs font-semibold uppercase tracking-[0.12em] text-tng-fg-secondary">
+          1. Install the core packages
+        </p>
+        <p class="m-0">
+          Add the TailNG Components layer and its peer dependencies to your workspace. This example
+          uses <code class="font-mono text-xs md:text-sm">pnpm</code>, but you can use
+          <code class="font-mono text-xs md:text-sm">npm</code> or
+          <code class="font-mono text-xs md:text-sm">yarn</code> with the same packages.
+        </p>
+        <tng-code-block
+          [code]="quickStartInstallCode"
+          adapter="shiki"
+          language="bash"
+          [theme]="codeBlockTheme()"
+          [sanitizeHtml]="false"
+          [wrap]="true"
+          title="Install TailNG packages"
+          [lineNumbers]="false"
+        ></tng-code-block>
       </div>
-      <p class="m-0">
-        Detailed documentation for <strong class="text-tng-fg-primary">{{ item().title }}</strong>
-        is under active authoring.
-      </p>
-      <p class="m-0">
-        This page will include API references, examples, accessibility notes, and migration tips.
-      </p>
+
+      <div class="grid gap-2">
+        <p class="m-0 text-xs font-semibold uppercase tracking-[0.12em] text-tng-fg-secondary">
+          2. Register the TailNG theme
+        </p>
+        <p class="m-0">
+          TailNG ships theme tokens and presets so your components share a consistent visual
+          foundation. Register the theme provider once near the root of your Angular app.
+        </p>
+        <tng-code-block
+          [code]="quickStartThemeConfigCode"
+          adapter="shiki"
+          language="ts"
+          [theme]="codeBlockTheme()"
+          [sanitizeHtml]="false"
+          [wrap]="true"
+          title="Configure theme providers"
+        ></tng-code-block>
+      </div>
+
+      <div class="grid gap-2">
+        <p class="m-0 text-xs font-semibold uppercase tracking-[0.12em] text-tng-fg-secondary">
+          3. Import a component and render it
+        </p>
+        <p class="m-0">
+          TailNG Components are standalone. Import them directly into your feature component and use
+          them in the template.
+        </p>
+        <tng-code-block
+          [code]="quickStartButtonExampleCode"
+          adapter="shiki"
+          language="ts"
+          [theme]="codeBlockTheme()"
+          [sanitizeHtml]="false"
+          [wrap]="true"
+          title="Use a TailNG button"
+        ></tng-code-block>
+      </div>
+
+      <div class="grid gap-2">
+        <p class="m-0 text-xs font-semibold uppercase tracking-[0.12em] text-tng-fg-secondary">
+          4. Try a simple form input
+        </p>
+        <p class="m-0">
+          Combine layout and input components to build real product UI quickly. This example uses
+          <code class="font-mono text-xs md:text-sm">tng-input</code> with leading adornments.
+        </p>
+        <tng-code-block
+          [code]="quickStartInputExampleCode"
+          adapter="shiki"
+          language="html"
+          [theme]="codeBlockTheme()"
+          [sanitizeHtml]="false"
+          [wrap]="true"
+          title="Compose an input field"
+        ></tng-code-block>
+      </div>
+
+      <div class="grid gap-2">
+        <p class="m-0 text-xs font-semibold uppercase tracking-[0.12em] text-tng-fg-secondary">
+          Next steps
+        </p>
+        <p class="m-0">
+          From here, you can explore the full component catalog, wire up more advanced primitives,
+          or deepen your theme configuration as your product needs grow.
+        </p>
+      </div>
     </section>
   </tng-card-content>
 </tng-card>

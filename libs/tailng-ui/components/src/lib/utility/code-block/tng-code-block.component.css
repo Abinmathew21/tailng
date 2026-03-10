@@ -123,6 +123,7 @@
 .tng-code-block__pre {
   margin: 0;
   overflow-x: auto;
+  overflow-y: hidden;
   padding: 0.75rem 0.9rem;
 }
 
