@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router';
+import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import {
   TngAccordionComponent,
   TngAccordionItemComponent,
@@ -8,8 +8,13 @@ import {
   TngAccordionTriggerComponent,
   TngDrawerComponent,
 } from '@tailng-ui/components';
-import { TngDrawerContainer, TngDrawerContent } from '@tailng-ui/primitives';
 import { TngIcon } from '@tailng-ui/icons';
+import {
+  TngDrawerContainer,
+  TngDrawerContent,
+  TngListboxDirective,
+  TngOptionDirective,
+} from '@tailng-ui/primitives';
 import { filter, map, startWith } from 'rxjs/operators';
 import {
   buildComponentsDocHref,
@@ -20,7 +25,6 @@ import {
 @Component({
   selector: 'app-components-page',
   imports: [
-    RouterLink,
     RouterOutlet,
     TngAccordionComponent,
     TngAccordionItemComponent,
@@ -29,6 +33,8 @@ import {
     TngDrawerContainer,
     TngDrawerContent,
     TngDrawerComponent,
+    TngListboxDirective,
+    TngOptionDirective,
     TngIcon,
   ],
   templateUrl: './components-page.component.html',
@@ -50,6 +56,26 @@ export class ComponentsPageComponent {
 
   public itemHref(groupId: ComponentsDocsCategoryId, itemSlug: string): string {
     return buildComponentsDocHref(groupId, itemSlug);
+  }
+
+  public activeGroupItemHref(groupId: ComponentsDocsCategoryId): string | null {
+    const current = this.normalizeUrl(this.currentUrl());
+    const group = this.navGroups.find((entry) => entry.id === groupId);
+
+    if (!group) {
+      return null;
+    }
+
+    const activeItem = group.items.find((item) => this.itemHref(groupId, item.slug) === current);
+    return activeItem ? this.itemHref(groupId, activeItem.slug) : null;
+  }
+
+  public onNavListboxValueChange(value: string | readonly string[] | null): void {
+    if (typeof value !== 'string' || value.length === 0) {
+      return;
+    }
+
+    void this.router.navigateByUrl(value);
   }
 
   public isItemActive(groupId: ComponentsDocsCategoryId, itemSlug: string): boolean {

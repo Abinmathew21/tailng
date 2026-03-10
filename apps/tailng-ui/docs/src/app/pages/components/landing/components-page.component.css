@@ -33,6 +33,23 @@
   padding: 1rem;
 }
 
+.components-docs-nav-listbox:focus-visible {
+  outline: none;
+}
+
+.components-docs-nav-option {
+  cursor: pointer;
+}
+
+.components-docs-nav-option[data-active] {
+  border-color: var(--tng-semantic-focus-ring);
+  box-shadow: inset 0 0 0 1px var(--tng-semantic-focus-ring);
+}
+
+.components-docs-nav-option[data-active]:not([data-selected]) {
+  background: var(--tng-semantic-background-muted);
+}
+
 @media (max-width: 960px) {
   .components-docs-stage {
     grid-template-columns: 1fr;

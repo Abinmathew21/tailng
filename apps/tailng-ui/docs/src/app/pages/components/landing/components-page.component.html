@@ -20,7 +20,9 @@
       [allowBodyScroll]="true"
     >
       <div class="mb-3 grid gap-1 border-b border-tng-border-subtle pb-3">
-        <p class="m-0 text-xs font-semibold uppercase tracking-[0.1em] text-tng-fg-secondary">Navigation</p>
+        <p class="m-0 text-xs font-semibold uppercase tracking-[0.1em] text-tng-fg-secondary">
+          Navigation
+        </p>
         <p class="m-0 text-sm text-tng-fg-secondary">Categorized component documentation map</p>
       </div>
 
@@ -46,27 +48,38 @@
               </span>
             </tng-accordion-trigger>
             <tng-accordion-panel>
-              <nav class="grid gap-1.5 py-1" [attr.aria-label]="group.title + ' links'">
+              <div
+                tngListbox
+                class="components-docs-nav-listbox grid gap-1.5 py-1"
+                [attr.aria-label]="group.title + ' links'"
+                [value]="activeGroupItemHref(group.id)"
+                [typeahead]="false"
+                [loop]="false"
+                tabindex="0"
+                (valueChange)="onNavListboxValueChange($event)"
+              >
                 @for (item of group.items; track item.id) {
-                  <a
-                    [routerLink]="itemHref(group.id, item.slug)"
-                    class="inline-flex min-h-9 w-full items-center justify-between rounded-lg border border-transparent px-3 py-2 text-left text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tng-focus-ring"
+                  <div
+                    tngOption
+                    [tngValue]="itemHref(group.id, item.slug)"
+                    class="components-docs-nav-option inline-flex min-h-9 w-full items-center justify-between rounded-lg border border-transparent px-3 py-2 text-left text-sm transition-colors"
                     [class.border-tng-border-subtle]="!isItemActive(group.id, item.slug)"
                     [class.bg-tng-bg-base]="!isItemActive(group.id, item.slug)"
                     [class.text-tng-fg-primary]="!isItemActive(group.id, item.slug)"
                     [class.hover:bg-tng-bg-muted]="!isItemActive(group.id, item.slug)"
                     [class.border-tng-accent-brand]="isItemActive(group.id, item.slug)"
-                    [class.bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_12%,var(--tng-semantic-background-base))]]="isItemActive(group.id, item.slug)"
+                    [class.bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_12%,var(--tng-semantic-background-base))]]="
+                      isItemActive(group.id, item.slug)
+                    "
                     [class.text-tng-accent-brand]="isItemActive(group.id, item.slug)"
-                    [attr.aria-current]="isItemActive(group.id, item.slug) ? 'page' : null"
                   >
                     <span class="truncate">{{ item.title }}</span>
                     @if (isItemActive(group.id, item.slug)) {
                       <tng-icon icon="chevron-right" class="h-4 w-4 shrink-0" />
                     }
-                  </a>
+                  </div>
                 }
-              </nav>
+              </div>
             </tng-accordion-panel>
           </tng-accordion-item>
         }
