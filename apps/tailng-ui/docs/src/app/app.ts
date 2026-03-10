@@ -9,18 +9,19 @@ import {
   TngMenuTriggerFor,
   TngSwitchComponent,
 } from '@tailng-ui/components';
-import { TngMenuItem, TngMenuSelectEvent } from '@tailng-ui/primitives';
 import { TngIcon } from '@tailng-ui/icons';
-import { filter } from 'rxjs/operators';
+import { TngMenuItem, type TngMenuSelectEvent } from '@tailng-ui/primitives';
 import {
   createTheme,
   darkSemanticTokens,
   defaultThemePreset,
   minimalThemePreset,
   resolveToken,
+  type ThemeDefinition,
+  type ThemeSemanticTokens,
   toCssVars,
 } from '@tailng-ui/theme';
-import type { ThemeDefinition, ThemeSemanticTokens } from '@tailng-ui/theme';
+import { filter } from 'rxjs/operators';
 
 type ThemePresetId = 'default' | 'minimal';
 
@@ -79,6 +80,13 @@ const npmPackageLinks: readonly LinkItem[] = [
   { label: 'tailng', href: 'https://www.npmjs.com/package/tailng' },
 ];
 
+const footerResourceLinks: readonly LinkItem[] = [
+  { label: 'GitHub Repository', href: 'https://github.com/tailng/tailng-ui' },
+  { label: 'Issue Tracker', href: 'https://github.com/tailng/tailng-ui/issues' },
+  { label: 'Project README', href: 'https://github.com/tailng/tailng-ui/blob/main/README.md' },
+  { label: 'MIT License', href: 'https://opensource.org/license/mit' },
+];
+
 const semanticCollections: readonly (keyof ThemeSemanticTokens)[] = [
   'background',
   'foreground',
@@ -112,8 +120,12 @@ export class App {
   public readonly selectedPreset = signal<ThemePresetId>('default');
   public readonly primaryNavigation = primaryNavigation;
   public readonly npmPackageLinks = npmPackageLinks;
+  public readonly footerResourceLinks = footerResourceLinks;
+  public readonly currentYear = new Date().getFullYear();
   public readonly currentUrl = signal<string>(this.router.url);
-  public readonly breadcrumbs = signal<readonly BreadcrumbItem[]>(this.buildBreadcrumbs(this.router.url));
+  public readonly breadcrumbs = signal<readonly BreadcrumbItem[]>(
+    this.buildBreadcrumbs(this.router.url),
+  );
   public readonly componentsDocsLayout = computed<boolean>(() =>
     this.currentUrl().startsWith('/components'),
   );
@@ -207,7 +219,10 @@ export class App {
     for (const collection of semanticCollections) {
       const scale = theme.tokens.semantic[collection];
       for (const key of Object.keys(scale)) {
-        semanticVars[`--tng-semantic-${collection}-${key}`] = this.resolveTokenValue(theme, scale[key]);
+        semanticVars[`--tng-semantic-${collection}-${key}`] = this.resolveTokenValue(
+          theme,
+          scale[key],
+        );
       }
     }
 
@@ -271,7 +286,17 @@ export class App {
   }
 
   private toTitleWord(word: string): string {
-    const uppercaseTokenWords = new Set(['api', 'cdk', 'css', 'html', 'http', 'id', 'json', 'ui', 'url']);
+    const uppercaseTokenWords = new Set([
+      'api',
+      'cdk',
+      'css',
+      'html',
+      'http',
+      'id',
+      'json',
+      'ui',
+      'url',
+    ]);
     const lowerWord = word.toLowerCase();
     if (uppercaseTokenWords.has(lowerWord)) {
       return lowerWord.toUpperCase();

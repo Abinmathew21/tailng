@@ -5,6 +5,7 @@
 .input-docs-page {
   display: grid;
   gap: 1rem;
+  padding-inline: 1.5rem;
 }
 
 :host ::ng-deep .input-docs-tabs .tng-tabs {
@@ -56,6 +57,10 @@
 }
 
 @media (max-width: 760px) {
+  .input-docs-page {
+    padding-inline: 1rem;
+  }
+
   :host ::ng-deep .input-docs-tabs [data-slot='tab-list'] {
     flex-wrap: wrap;
   }

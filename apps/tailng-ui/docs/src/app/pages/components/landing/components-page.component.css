@@ -18,8 +18,8 @@
 .components-docs-drawer {
   align-content: start;
   align-self: stretch;
+  background: transparent;
   border: 0;
-  border-right: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 0;
   box-shadow: none;
   grid-auto-rows: max-content;
@@ -45,7 +45,6 @@
 }
 
 .components-docs-search {
-  border-bottom: 1px solid var(--tng-semantic-border-subtle);
   margin-bottom: 0.35rem;
   padding-inline: 0.1rem;
 }
