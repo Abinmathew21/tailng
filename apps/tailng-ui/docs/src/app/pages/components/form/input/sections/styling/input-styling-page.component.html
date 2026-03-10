@@ -1,25 +1,54 @@
 <article class="input-styling">
-  <h2 class="input-styling-title">Styling</h2>
+  <h2 class="input-styling-title">Styling contract</h2>
   <p class="input-styling-lead">
-    Input styling is token-driven. Override semantic variables globally or at component scope.
+    Input styling is slot/state driven. You can style without relying on internal class names.
   </p>
 
   <section class="input-styling-block">
-    <h3>Common tokens</h3>
-    <ul>
-      <li><code>--tng-semantic-background-surface</code> for control background.</li>
-      <li><code>--tng-semantic-border-subtle</code> for default border.</li>
-      <li><code>--tng-semantic-focus-ring</code> for focus-visible state.</li>
-      <li><code>--tng-semantic-accent-brand</code> for active/highlighted accents.</li>
+    <h3>Selectors and state hooks</h3>
+    <ul class="input-styling-list">
+      <li>
+        <strong>Slots:</strong> <code>data-slot="input"</code>,
+        <code>data-slot="input-group"</code>, <code>data-slot="input-group-leading"</code>,
+        <code>data-slot="input-group-control"</code>,
+        <code>data-slot="input-group-trailing"</code>
+      </li>
+      <li>
+        <strong>State hooks:</strong> <code>data-disabled</code>, <code>data-invalid</code>,
+        <code>data-readonly</code>, <code>data-focused</code>, <code>data-has-leading</code>,
+        <code>data-has-trailing</code>
+      </li>
+      <li>
+        <strong>Common tokens:</strong> <code>--tng-semantic-background-surface</code>,
+        <code>--tng-semantic-border-subtle</code>, <code>--tng-semantic-focus-ring</code>,
+        <code>--tng-semantic-accent-brand</code>
+      </li>
     </ul>
   </section>
 
   <section class="input-styling-block">
+    <h3>Consumer styling contract</h3>
+    <tng-code-block
+      [code]="stylingContractCode"
+      adapter="shiki"
+      language="css"
+      title="Slot and state styling"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section class="input-styling-block">
     <h3>Scoped override example</h3>
-    <pre><code>.account-form &#123;
-  --tng-semantic-accent-brand: #0f766e;
-  --tng-semantic-focus-ring: rgba(15, 118, 110, 0.35);
-  --tng-semantic-border-subtle: #99f6e4;
-&#125;</code></pre>
+    <tng-code-block
+      [code]="scopedOverrideCode"
+      adapter="shiki"
+      language="css"
+      title="Scoped token overrides"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
   </section>
 </article>

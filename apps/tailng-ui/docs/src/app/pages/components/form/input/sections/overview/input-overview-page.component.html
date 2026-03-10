@@ -1,31 +1,185 @@
-<article class="input-section">
-  <h2 class="input-section-title">Overview</h2>
-  <p class="input-section-lead">
-    TailNG Input provides a semantic form field container with labels, hints, validation state, and
-    adornment slots while keeping behavior accessible by default.
+<article class="input-overview">
+  <h2 class="input-overview-title">Input</h2>
+  <p class="input-overview-lead">
+    Inputs in TailNG are built as headless primitives that attach to native form controls and expose
+    consistent slot markers and state hooks for styling.
   </p>
+  <p class="input-overview-lead">You can use them in two ways:</p>
+  <ol class="input-overview-steps">
+    <li>
+      <strong>Direct attachment:</strong> <code>tngInput</code> on an <code>&lt;input&gt;</code> or
+      <code>&lt;textarea&gt;</code>
+    </li>
+    <li>
+      <strong>Grouped composition:</strong> <code>tngInputGroup</code> with optional
+      leading/trailing content using slot directives
+    </li>
+  </ol>
 
-  <section class="input-section-block">
-    <h3>What it covers</h3>
-    <ul>
-      <li>Label + helper text layout through <code>tng-input</code>.</li>
+  <section class="input-overview-block">
+    <h3>What you get</h3>
+    <ul class="input-overview-list">
       <li>
-        Control directive for <code>input</code> and <code>textarea</code> via
-        <code>tngInput</code>.
+        <strong>Native-first behavior</strong>
+        <ul>
+          <li>Uses real <code>&lt;input&gt;</code> and <code>&lt;textarea&gt;</code>.</li>
+          <li>
+            Preserves standard browser behavior (typing, composition events, Enter submit, native
+            validation).
+          </li>
+        </ul>
       </li>
       <li>
-        Leading/trailing adornments using <code>tngInputLeading</code> and
-        <code>tngInputTrailing</code>.
+        <strong>Styling contract</strong>
+        <ul>
+          <li>Styling is driven by <code>data-slot</code> markers and state data attributes.</li>
+          <li>No required classes.</li>
+          <li>No DOM/tag assumptions beyond slot names.</li>
+        </ul>
       </li>
-      <li>Accessible invalid/required wiring through ARIA-aware bindings.</li>
+      <li>
+        <strong>Accessibility pass-through</strong>
+        <ul>
+          <li>
+            Supports <code>aria-label</code>, <code>aria-labelledby</code>,
+            <code>aria-describedby</code>, <code>aria-required</code>, <code>aria-invalid</code>.
+          </li>
+          <li><code>aria-invalid</code> is emitted only when invalid.</li>
+        </ul>
+      </li>
     </ul>
   </section>
 
-  <section class="input-section-block">
-    <h3>When to use</h3>
+  <section class="input-overview-block">
+    <h3>Installation</h3>
+    <p>Import only the primitives you need.</p>
+    <tng-code-block
+      [code]="primitivesImportCode"
+      adapter="shiki"
+      language="ts"
+      title="Primitives import"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <section class="input-overview-block">
+    <h3>Basic usage</h3>
+    <h4>1) Direct primitive attachment (simplest)</h4>
+    <p>Use this when you do not need leading/trailing adornments.</p>
+    <tng-code-block
+      [code]="directAttachmentCode"
+      adapter="shiki"
+      language="html"
+      title="Direct tngInput usage"
+      [lineNumbers]="false"
+    ></tng-code-block>
+
+    <h4>2) Grouped input with leading/trailing slots</h4>
+    <p>Use this for icons, prefixes/suffixes, clear buttons, and helper affordances.</p>
+    <tng-code-block
+      [code]="groupedInputCode"
+      adapter="shiki"
+      language="html"
+      title="tngInputGroup composition"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <section class="input-overview-block">
+    <h3>Structure</h3>
     <p>
-      Use Input for all single-line and multiline text collection where consistent spacing, state
-      styles, and accessibility should be standardized across the product.
+      Detailed API bindings are documented in the <strong>API</strong> tab. Styling slot/state
+      contract is documented in the <strong>Styling</strong> tab.
     </p>
+  </section>
+
+  <section class="input-overview-block">
+    <h3>Accessibility guidance</h3>
+    <ul class="input-overview-list">
+      <li>Mark decorative leading/trailing content as <code>aria-hidden="true"</code>.</li>
+      <li>
+        Projected interactive elements (for example trailing clear button) are valid tab stops by
+        design.
+      </li>
+    </ul>
+  </section>
+
+  <section class="input-overview-block">
+    <h3>Validation patterns</h3>
+    <h4>Recommended for unit tests (jsdom)</h4>
+    <tng-code-block
+      [code]="ariaInvalidTestCode"
+      adapter="shiki"
+      language="html"
+      title="Stable invalid test input"
+      [lineNumbers]="false"
+    ></tng-code-block>
+    <h4>Native browser validation path</h4>
+    <tng-code-block
+      [code]="nativeValidationCode"
+      adapter="shiki"
+      language="html"
+      title="Native required validation"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <section class="input-overview-block">
+    <h3>Examples</h3>
+    <h4>Search with keyboard hint (non-focusable)</h4>
+    <tng-code-block
+      [code]="searchWithHintCode"
+      adapter="shiki"
+      language="html"
+      title="Search + hint"
+      [lineNumbers]="false"
+    ></tng-code-block>
+    <h4>Search with clear button (focusable trailing)</h4>
+    <tng-code-block
+      [code]="searchWithClearButtonCode"
+      adapter="shiki"
+      language="html"
+      title="Search + clear action"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <section class="input-overview-block">
+    <h3>Common pitfalls</h3>
+    <p><strong>"My group warns: found 0 controls"</strong></p>
+    <p>Ensure the projected control includes <code>tngInput</code>.</p>
+    <div class="pitfall-grid">
+      <div>
+        <p class="pitfall-label">Correct</p>
+        <tng-code-block
+          [code]="pitfallCorrectCode"
+          adapter="shiki"
+          language="html"
+          [lineNumbers]="false"
+        ></tng-code-block>
+      </div>
+      <div>
+        <p class="pitfall-label">Incorrect</p>
+        <tng-code-block
+          [code]="pitfallIncorrectCode"
+          adapter="shiki"
+          language="html"
+          [lineNumbers]="false"
+        ></tng-code-block>
+      </div>
+    </div>
+    <p>
+      Slot wrappers are conditional. Add <code>tngInputLeading</code>/<code>tngInputTrailing</code>
+      in tests, and run change detection after projection updates.
+    </p>
+  </section>
+
+  <section class="input-overview-block">
+    <h3>Testing notes</h3>
+    <ul class="input-overview-list">
+      <li>Use <code>[ariaInvalid]="true"</code> for stable invalid-state tests in jsdom.</li>
+      <li>Do not rely solely on <code>:invalid</code> unless test runtime supports it.</li>
+      <li>Group warning checks are dev-mode only and run asynchronously (microtask timing).</li>
+    </ul>
   </section>
 </article>

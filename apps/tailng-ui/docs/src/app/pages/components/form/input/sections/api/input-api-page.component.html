@@ -1,49 +1,111 @@
 <article class="input-api">
-  <h2 class="input-api-title">API</h2>
-  <p class="input-api-lead">Core bindings for the Input wrapper and input control directive.</p>
+  <h2 class="input-api-title">API reference</h2>
+  <p class="input-api-lead">
+    Inputs in TailNG are primitive-first. Attach directives to native controls and style through
+    slot/state attributes.
+  </p>
 
-  <div class="input-api-table-wrapper">
-    <table class="input-api-table">
-      <thead>
-        <tr>
-          <th>Binding</th>
-          <th>Type</th>
-          <th>Default</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><code>label</code></td>
-          <td><code>string</code></td>
-          <td><code>''</code></td>
-          <td>Visible field label rendered above the control.</td>
-        </tr>
-        <tr>
-          <td><code>hint</code></td>
-          <td><code>string</code></td>
-          <td><code>''</code></td>
-          <td>Helper text rendered under the field.</td>
-        </tr>
-        <tr>
-          <td><code>required</code></td>
-          <td><code>boolean</code></td>
-          <td><code>false</code></td>
-          <td>Marks the field as required and updates ARIA metadata.</td>
-        </tr>
-        <tr>
-          <td><code>invalid</code></td>
-          <td><code>boolean</code></td>
-          <td><code>false</code></td>
-          <td>Forces invalid visual and semantic state.</td>
-        </tr>
-        <tr>
-          <td><code>disabled</code></td>
-          <td><code>boolean</code></td>
-          <td><code>false</code></td>
-          <td>Disables field interaction and updates aria-disabled.</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  <section class="input-api-block">
+    <h3><code>tngInput</code> (directive)</h3>
+    <p>Attach to <code>input[tngInput]</code> or <code>textarea[tngInput]</code>.</p>
+    <tng-code-block
+      [code]="directiveAttachCode"
+      adapter="shiki"
+      language="html"
+      title="Directive attachment"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+
+    <h4>Inputs</h4>
+    <div class="api-grid">
+      <article class="api-item">
+        <h5><code>ariaLabel</code></h5>
+        <p class="api-type"><code>string | null</code></p>
+        <p>Reflects to <code>aria-label</code>. Empty/whitespace values are omitted.</p>
+      </article>
+      <article class="api-item">
+        <h5><code>ariaLabelledby</code></h5>
+        <p class="api-type"><code>string | null</code></p>
+        <p>Reflects to <code>aria-labelledby</code>. Empty/whitespace values are omitted.</p>
+      </article>
+      <article class="api-item">
+        <h5><code>ariaDescribedBy</code></h5>
+        <p class="api-type"><code>string | null</code></p>
+        <p>Reflects to <code>aria-describedby</code>. Empty/whitespace values are omitted.</p>
+      </article>
+      <article class="api-item">
+        <h5><code>ariaInvalid</code></h5>
+        <p class="api-type"><code>boolean | null | '' | 'true' | 'false'</code></p>
+        <p>
+          Override invalid state. If <code>null</code>, it falls back to native
+          <code>:invalid</code> when available.
+        </p>
+      </article>
+      <article class="api-item">
+        <h5><code>ariaRequired</code></h5>
+        <p class="api-type"><code>boolean | null | '' | 'true' | 'false'</code></p>
+        <p>If <code>required=true</code>, required ARIA is forced to true.</p>
+      </article>
+      <article class="api-item">
+        <h5><code>disabled</code>, <code>readonly</code>, <code>required</code></h5>
+        <p class="api-type"><code>boolean | '' | string</code></p>
+        <p>Boolean coercion with native attribute reflection and state hooks.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="input-api-block">
+    <h3>Output attributes (directive adds)</h3>
+    <ul class="input-api-list">
+      <li><strong>Slot:</strong> <code>data-slot="input"</code> on the host control.</li>
+      <li>
+        <strong>State hooks:</strong> <code>data-disabled</code>, <code>data-readonly</code>,
+        <code>data-invalid</code>.
+      </li>
+      <li>
+        <strong>ARIA:</strong> <code>aria-invalid="true"</code> only when invalid;
+        <code>aria-required="true"</code> when required.
+      </li>
+      <li>
+        <strong>ID:</strong> keeps consumer <code>id</code>, otherwise generates
+        <code>tng-input-...</code>.
+      </li>
+    </ul>
+  </section>
+
+  <section class="input-api-block">
+    <h3><code>tngInputGroup</code> (component)</h3>
+    <p>
+      Wraps a single projected <code>tngInput</code> control with optional
+      <code>tngInputLeading</code>/<code>tngInputTrailing</code> slots.
+    </p>
+    <tng-code-block
+      [code]="groupTemplateCode"
+      adapter="shiki"
+      language="html"
+      title="Grouped composition"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+    <ul class="input-api-list">
+      <li>Renders wrappers only when slot content exists.</li>
+      <li>Tracks focus and emits <code>data-focused</code> on group host.</li>
+      <li>
+        Reflects control state as group-level hooks: <code>data-disabled</code>,
+        <code>data-invalid</code>, <code>data-readonly</code>.
+      </li>
+      <li>Contract: expects exactly one projected <code>tngInput</code> control.</li>
+    </ul>
+  </section>
+
+  <section class="input-api-block">
+    <h3>Slot directives</h3>
+    <ul class="input-api-list">
+      <li><code>tngInputLeading</code> adds <code>data-slot="input-leading"</code>.</li>
+      <li><code>tngInputTrailing</code> adds <code>data-slot="input-trailing"</code>.</li>
+    </ul>
+  </section>
 </article>
