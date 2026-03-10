@@ -1,0 +1,41 @@
+<section class="docs-example-tabs-section">
+  <h3>{{ heading() }}</h3>
+  @if (description() !== '') {
+    <p>{{ description() }}</p>
+  }
+
+  <tng-tabs
+    [ariaLabel]="ariaLabel()"
+    [defaultValue]="resolvedDefaultValue()"
+    class="docs-example-tabs-section-tabs grid gap-3"
+  >
+    <div
+      tngTabList
+      class="docs-example-tabs-section-tab-list flex flex-wrap gap-2"
+      [ariaLabel]="tabListAriaLabel()"
+    >
+      @for (variant of variants(); track variant.value()) {
+        <button
+          type="button"
+          tngTab
+          [value]="variant.value()"
+          class="docs-example-tabs-section-tab-trigger"
+        >
+          {{ variant.label() }}
+        </button>
+      }
+    </div>
+
+    @for (variant of variants(); track variant.value()) {
+      <section tngTabPanel [value]="variant.value()">
+        <app-docs-example-panel
+          [title]="variant.panelTitle()"
+          [codeTabs]="variant.codeTabs()"
+          [codeBlockTheme]="codeBlockTheme()"
+        >
+          <ng-container [ngTemplateOutlet]="variant.templateRef" />
+        </app-docs-example-panel>
+      </section>
+    }
+  </tng-tabs>
+</section>

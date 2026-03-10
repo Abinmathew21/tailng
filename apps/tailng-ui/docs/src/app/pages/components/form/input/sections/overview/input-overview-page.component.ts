@@ -1,28 +1,22 @@
-import { DOCUMENT } from '@angular/common';
+import { DOCUMENT, NgTemplateOutlet } from '@angular/common';
 import { Component, inject, signal, type OnDestroy } from '@angular/core';
-import { TngCodeBlockComponent, TngTabsComponent } from '@tailng-ui/components';
-import { TngIcon } from '@tailng-ui/icons';
-import { TngInput, TngInputGroup, TngTab, TngTabList, TngTabPanel } from '@tailng-ui/primitives';
-
-type ExampleVariant = 'headless' | 'plain-css' | 'tailwind-css';
-
-const defaultExampleCodeVisibility: Record<ExampleVariant, boolean> = Object.freeze({
-  headless: false,
-  'plain-css': false,
-  'tailwind-css': false,
-});
+import { TngCodeBlockComponent } from '@tailng-ui/components';
+import { TngInput, TngInputGroup } from '@tailng-ui/primitives';
+import { type DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
+import {
+  DocsExampleTabsSectionComponent,
+  DocsExampleVariantDirective,
+} from '../../../../../../shared/example-tabs-section/docs-example-tabs-section.component';
 
 @Component({
   selector: 'app-input-overview-page',
   imports: [
+    NgTemplateOutlet,
     TngCodeBlockComponent,
-    TngTabsComponent,
-    TngTabList,
-    TngTab,
-    TngTabPanel,
+    DocsExampleTabsSectionComponent,
+    DocsExampleVariantDirective,
     TngInputGroup,
     TngInput,
-    TngIcon,
   ],
   templateUrl: './input-overview-page.component.html',
   styleUrl: './input-overview-page.component.css',
@@ -33,9 +27,6 @@ export class InputOverviewPageComponent implements OnDestroy {
   public readonly codeBlockTheme = signal<'github-dark' | 'github-light'>(
     this.resolveCodeBlockTheme(),
   );
-  public readonly exampleCodeVisibility = signal<Record<ExampleVariant, boolean>>({
-    ...defaultExampleCodeVisibility,
-  });
   private readonly colorSchemeObserver = this.observeCodeThemeChanges();
 
   protected readonly primitivesImportCode = [
@@ -311,17 +302,77 @@ export class InputOverviewPageComponent implements OnDestroy {
 
   protected readonly tailwindExampleCssCode =
     '/* No custom CSS required. Styles are applied with Tailwind utility classes in the template. */';
+  protected readonly headlessExampleCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
+    {
+      value: 'html',
+      label: 'HTML',
+      language: 'html',
+      title: 'headless-input-example.component.html',
+      code: this.headlessExampleHtmlCode,
+    },
+    {
+      value: 'ts',
+      label: 'TS',
+      language: 'ts',
+      title: 'headless-input-example.component.ts',
+      code: this.headlessExampleTsCode,
+    },
+    {
+      value: 'css',
+      label: 'CSS',
+      language: 'css',
+      title: 'headless-input-example.component.css',
+      code: this.headlessExampleCssCode,
+    },
+  ]);
 
-  public toggleExampleCodePanel(variant: ExampleVariant): void {
-    this.exampleCodeVisibility.update((state) => ({
-      ...state,
-      [variant]: !state[variant],
-    }));
-  }
+  protected readonly plainCssExampleCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
+    {
+      value: 'html',
+      label: 'HTML',
+      language: 'html',
+      title: 'plain-css-input-example.component.html',
+      code: this.plainCssExampleHtmlCode,
+    },
+    {
+      value: 'ts',
+      label: 'TS',
+      language: 'ts',
+      title: 'plain-css-input-example.component.ts',
+      code: this.plainCssExampleTsCode,
+    },
+    {
+      value: 'css',
+      label: 'CSS',
+      language: 'css',
+      title: 'plain-css-input-example.component.css',
+      code: this.plainCssExampleCssCode,
+    },
+  ]);
 
-  public isExampleCodePanelVisible(variant: ExampleVariant): boolean {
-    return this.exampleCodeVisibility()[variant];
-  }
+  protected readonly tailwindExampleCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
+    {
+      value: 'html',
+      label: 'HTML',
+      language: 'html',
+      title: 'tailwind-input-example.component.html',
+      code: this.tailwindExampleHtmlCode,
+    },
+    {
+      value: 'ts',
+      label: 'TS',
+      language: 'ts',
+      title: 'tailwind-input-example.component.ts',
+      code: this.tailwindExampleTsCode,
+    },
+    {
+      value: 'css',
+      label: 'CSS',
+      language: 'css',
+      title: 'tailwind-input-example.component.css',
+      code: this.tailwindExampleCssCode,
+    },
+  ]);
 
   public ngOnDestroy(): void {
     this.colorSchemeObserver?.disconnect();

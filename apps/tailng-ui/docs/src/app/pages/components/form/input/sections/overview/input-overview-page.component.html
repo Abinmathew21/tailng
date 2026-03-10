@@ -50,408 +50,74 @@
     </ul>
   </section>
 
-  <section class="input-overview-block">
-    <h3>Simple examples</h3>
-    <p>Compare the same Input structure across headless, plain CSS, and Tailwind CSS styles.</p>
-    <tng-tabs
-      ariaLabel="Input style examples"
-      [defaultValue]="'headless'"
-      class="input-overview-examples-tabs grid gap-3"
+  <app-docs-example-tabs-section
+    class="input-overview-block"
+    heading="Simple examples"
+    description="Compare the same Input structure across headless, plain CSS, and Tailwind CSS styles."
+    ariaLabel="Input style examples"
+    tabListAriaLabel="Input example style variants"
+    defaultValue="headless"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="headless"
+      label="Headless"
+      panelTitle="Basic Inputs (Headless)"
+      [codeTabs]="headlessExampleCodeTabs"
     >
-      <div
-        tngTabList
-        class="input-overview-examples-tabs-list flex flex-wrap gap-2"
-        ariaLabel="Input example style variants"
-      >
-        <button type="button" tngTab value="headless" class="input-overview-examples-tab-trigger">
-          Headless
-        </button>
-        <button type="button" tngTab value="plain-css" class="input-overview-examples-tab-trigger">
-          Plain-CSS
-        </button>
-        <button
-          type="button"
-          tngTab
-          value="tailwind-css"
-          class="input-overview-examples-tab-trigger"
+      <ng-container [ngTemplateOutlet]="basicInputPreviewTemplate" />
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+      panelTitle="Basic Inputs (Plain CSS)"
+      [codeTabs]="plainCssExampleCodeTabs"
+    >
+      <ng-container [ngTemplateOutlet]="basicInputPreviewTemplate" />
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Basic Inputs (Tailwind CSS)"
+      [codeTabs]="tailwindExampleCodeTabs"
+    >
+      <ng-container [ngTemplateOutlet]="basicInputPreviewTemplate" />
+    </ng-template>
+  </app-docs-example-tabs-section>
+
+  <ng-template #basicInputPreviewTemplate>
+    <div class="input-overview-example-fields">
+      <label class="input-overview-example-field-surface">
+        <span class="input-overview-example-field-label"
+          >What is the most abundant gas in air?</span
         >
-          Tailwind CSS
-        </button>
-      </div>
-
-      <section
-        tngTabPanel
-        value="headless"
-        class="input-overview-example-panel input-overview-example-panel--headless"
-      >
-        <header class="input-overview-example-header">
-          <h4 class="input-overview-example-title">Basic Inputs</h4>
-          <div class="input-overview-example-actions">
-            <button
-              type="button"
-              class="input-overview-example-action"
-              aria-label="Copy example link"
-            >
-              <tng-icon icon="link" class="h-5 w-5" />
-            </button>
-            <button
-              type="button"
-              class="input-overview-example-action"
-              aria-label="View source code"
-              [attr.aria-expanded]="isExampleCodePanelVisible('headless') ? 'true' : 'false'"
-              [attr.data-active]="isExampleCodePanelVisible('headless') ? '' : null"
-              (click)="toggleExampleCodePanel('headless')"
-            >
-              <tng-icon icon="code" class="h-5 w-5" />
-            </button>
-            <button
-              type="button"
-              class="input-overview-example-action"
-              aria-label="Open full example"
-            >
-              <tng-icon icon="external-link" class="h-5 w-5" />
-            </button>
-          </div>
-        </header>
-
-        @if (isExampleCodePanelVisible('headless')) {
-          <tng-tabs
-            ariaLabel="Headless input example source files"
-            [defaultValue]="'html'"
-            class="input-overview-code-tabs grid gap-2"
-          >
-            <div
-              tngTabList
-              class="input-overview-code-tabs-list flex flex-wrap gap-2"
-              ariaLabel="Headless source code tabs"
-            >
-              <button type="button" tngTab value="html" class="input-overview-code-tab-trigger">
-                HTML
-              </button>
-              <button type="button" tngTab value="ts" class="input-overview-code-tab-trigger">
-                TS
-              </button>
-              <button type="button" tngTab value="css" class="input-overview-code-tab-trigger">
-                CSS
-              </button>
-            </div>
-
-            <section tngTabPanel value="html" class="input-overview-code-panel">
-              <tng-code-block
-                [code]="headlessExampleHtmlCode"
-                adapter="shiki"
-                language="html"
-                title="headless-input-example.component.html"
-                [theme]="codeBlockTheme()"
-                [sanitizeHtml]="false"
-                [wrap]="true"
-                [lineNumbers]="false"
-              ></tng-code-block>
-            </section>
-            <section tngTabPanel value="ts" class="input-overview-code-panel">
-              <tng-code-block
-                [code]="headlessExampleTsCode"
-                adapter="shiki"
-                language="ts"
-                title="headless-input-example.component.ts"
-                [theme]="codeBlockTheme()"
-                [sanitizeHtml]="false"
-                [wrap]="true"
-                [lineNumbers]="false"
-              ></tng-code-block>
-            </section>
-            <section tngTabPanel value="css" class="input-overview-code-panel">
-              <tng-code-block
-                [code]="headlessExampleCssCode"
-                adapter="shiki"
-                language="css"
-                title="headless-input-example.component.css"
-                [theme]="codeBlockTheme()"
-                [sanitizeHtml]="false"
-                [wrap]="true"
-                [lineNumbers]="false"
-              ></tng-code-block>
-            </section>
-          </tng-tabs>
-        }
-
-        <div class="input-overview-example-fields">
-          <label class="input-overview-example-field-surface">
-            <span class="input-overview-example-field-label"
-              >What is the most abundant gas in air?</span
-            >
-            <div tngInputGroup class="input-overview-example-shell">
-              <input
-                tngInput
-                type="text"
-                value="Nitrogen"
-                aria-label="What is the most abundant gas in air?"
-              />
-            </div>
-          </label>
-
-          <label
-            class="input-overview-example-field-surface input-overview-example-field-surface--textarea"
-          >
-            <span class="input-overview-example-field-label">Science fact</span>
-            <div tngInputGroup class="input-overview-example-shell">
-              <textarea tngInput rows="3" aria-label="Science fact">
-Water boils at 100 degree celcius at sea level.</textarea
-              >
-            </div>
-          </label>
+        <div tngInputGroup class="input-overview-example-shell">
+          <input
+            tngInput
+            type="text"
+            value="Nitrogen"
+            aria-label="What is the most abundant gas in air?"
+          />
         </div>
-      </section>
+      </label>
 
-      <section
-        tngTabPanel
-        value="plain-css"
-        class="input-overview-example-panel input-overview-example-panel--plain"
+      <label
+        class="input-overview-example-field-surface input-overview-example-field-surface--textarea"
       >
-        <header class="input-overview-example-header">
-          <h4 class="input-overview-example-title">Basic Inputs</h4>
-          <div class="input-overview-example-actions">
-            <button
-              type="button"
-              class="input-overview-example-action"
-              aria-label="Copy example link"
-            >
-              <tng-icon icon="link" class="h-5 w-5" />
-            </button>
-            <button
-              type="button"
-              class="input-overview-example-action"
-              aria-label="View source code"
-              [attr.aria-expanded]="isExampleCodePanelVisible('plain-css') ? 'true' : 'false'"
-              [attr.data-active]="isExampleCodePanelVisible('plain-css') ? '' : null"
-              (click)="toggleExampleCodePanel('plain-css')"
-            >
-              <tng-icon icon="code" class="h-5 w-5" />
-            </button>
-            <button
-              type="button"
-              class="input-overview-example-action"
-              aria-label="Open full example"
-            >
-              <tng-icon icon="external-link" class="h-5 w-5" />
-            </button>
-          </div>
-        </header>
-
-        @if (isExampleCodePanelVisible('plain-css')) {
-          <tng-tabs
-            ariaLabel="Plain CSS input example source files"
-            [defaultValue]="'html'"
-            class="input-overview-code-tabs grid gap-2"
-          >
-            <div
-              tngTabList
-              class="input-overview-code-tabs-list flex flex-wrap gap-2"
-              ariaLabel="Plain CSS source code tabs"
-            >
-              <button type="button" tngTab value="html" class="input-overview-code-tab-trigger">
-                HTML
-              </button>
-              <button type="button" tngTab value="ts" class="input-overview-code-tab-trigger">
-                TS
-              </button>
-              <button type="button" tngTab value="css" class="input-overview-code-tab-trigger">
-                CSS
-              </button>
-            </div>
-
-            <section tngTabPanel value="html" class="input-overview-code-panel">
-              <tng-code-block
-                [code]="plainCssExampleHtmlCode"
-                adapter="shiki"
-                language="html"
-                title="plain-css-input-example.component.html"
-                [theme]="codeBlockTheme()"
-                [sanitizeHtml]="false"
-                [wrap]="true"
-                [lineNumbers]="false"
-              ></tng-code-block>
-            </section>
-            <section tngTabPanel value="ts" class="input-overview-code-panel">
-              <tng-code-block
-                [code]="plainCssExampleTsCode"
-                adapter="shiki"
-                language="ts"
-                title="plain-css-input-example.component.ts"
-                [theme]="codeBlockTheme()"
-                [sanitizeHtml]="false"
-                [wrap]="true"
-                [lineNumbers]="false"
-              ></tng-code-block>
-            </section>
-            <section tngTabPanel value="css" class="input-overview-code-panel">
-              <tng-code-block
-                [code]="plainCssExampleCssCode"
-                adapter="shiki"
-                language="css"
-                title="plain-css-input-example.component.css"
-                [theme]="codeBlockTheme()"
-                [sanitizeHtml]="false"
-                [wrap]="true"
-                [lineNumbers]="false"
-              ></tng-code-block>
-            </section>
-          </tng-tabs>
-        }
-
-        <div class="input-overview-example-fields">
-          <label class="input-overview-example-field-surface">
-            <span class="input-overview-example-field-label"
-              >What is the most abundant gas in air?</span
-            >
-            <div tngInputGroup class="input-overview-example-shell">
-              <input
-                tngInput
-                type="text"
-                value="Nitrogen"
-                aria-label="What is the most abundant gas in air?"
-              />
-            </div>
-          </label>
-
-          <label
-            class="input-overview-example-field-surface input-overview-example-field-surface--textarea"
-          >
-            <span class="input-overview-example-field-label">Science fact</span>
-            <div tngInputGroup class="input-overview-example-shell">
-              <textarea tngInput rows="3" aria-label="Science fact">
+        <span class="input-overview-example-field-label">Science fact</span>
+        <div tngInputGroup class="input-overview-example-shell">
+          <textarea tngInput rows="3" aria-label="Science fact">
 Water boils at 100 degree celcius at sea level.</textarea
-              >
-            </div>
-          </label>
-        </div>
-      </section>
-
-      <section
-        tngTabPanel
-        value="tailwind-css"
-        class="input-overview-example-panel input-overview-example-panel--tailwind"
-      >
-        <header class="input-overview-example-header">
-          <h4 class="input-overview-example-title">Basic Inputs</h4>
-          <div class="input-overview-example-actions">
-            <button
-              type="button"
-              class="input-overview-example-action"
-              aria-label="Copy example link"
-            >
-              <tng-icon icon="link" class="h-5 w-5" />
-            </button>
-            <button
-              type="button"
-              class="input-overview-example-action"
-              aria-label="View source code"
-              [attr.aria-expanded]="isExampleCodePanelVisible('tailwind-css') ? 'true' : 'false'"
-              [attr.data-active]="isExampleCodePanelVisible('tailwind-css') ? '' : null"
-              (click)="toggleExampleCodePanel('tailwind-css')"
-            >
-              <tng-icon icon="code" class="h-5 w-5" />
-            </button>
-            <button
-              type="button"
-              class="input-overview-example-action"
-              aria-label="Open full example"
-            >
-              <tng-icon icon="external-link" class="h-5 w-5" />
-            </button>
-          </div>
-        </header>
-
-        @if (isExampleCodePanelVisible('tailwind-css')) {
-          <tng-tabs
-            ariaLabel="Tailwind CSS input example source files"
-            [defaultValue]="'html'"
-            class="input-overview-code-tabs grid gap-2"
           >
-            <div
-              tngTabList
-              class="input-overview-code-tabs-list flex flex-wrap gap-2"
-              ariaLabel="Tailwind CSS source code tabs"
-            >
-              <button type="button" tngTab value="html" class="input-overview-code-tab-trigger">
-                HTML
-              </button>
-              <button type="button" tngTab value="ts" class="input-overview-code-tab-trigger">
-                TS
-              </button>
-              <button type="button" tngTab value="css" class="input-overview-code-tab-trigger">
-                CSS
-              </button>
-            </div>
-
-            <section tngTabPanel value="html" class="input-overview-code-panel">
-              <tng-code-block
-                [code]="tailwindExampleHtmlCode"
-                adapter="shiki"
-                language="html"
-                title="tailwind-input-example.component.html"
-                [theme]="codeBlockTheme()"
-                [sanitizeHtml]="false"
-                [wrap]="true"
-                [lineNumbers]="false"
-              ></tng-code-block>
-            </section>
-            <section tngTabPanel value="ts" class="input-overview-code-panel">
-              <tng-code-block
-                [code]="tailwindExampleTsCode"
-                adapter="shiki"
-                language="ts"
-                title="tailwind-input-example.component.ts"
-                [theme]="codeBlockTheme()"
-                [sanitizeHtml]="false"
-                [wrap]="true"
-                [lineNumbers]="false"
-              ></tng-code-block>
-            </section>
-            <section tngTabPanel value="css" class="input-overview-code-panel">
-              <tng-code-block
-                [code]="tailwindExampleCssCode"
-                adapter="shiki"
-                language="css"
-                title="tailwind-input-example.component.css"
-                [theme]="codeBlockTheme()"
-                [sanitizeHtml]="false"
-                [wrap]="true"
-                [lineNumbers]="false"
-              ></tng-code-block>
-            </section>
-          </tng-tabs>
-        }
-
-        <div class="input-overview-example-fields">
-          <label class="input-overview-example-field-surface">
-            <span class="input-overview-example-field-label"
-              >What is the most abundant gas in air?</span
-            >
-            <div tngInputGroup class="input-overview-example-shell">
-              <input
-                tngInput
-                type="text"
-                value="Nitrogen"
-                aria-label="What is the most abundant gas in air?"
-              />
-            </div>
-          </label>
-
-          <label
-            class="input-overview-example-field-surface input-overview-example-field-surface--textarea"
-          >
-            <span class="input-overview-example-field-label">Science fact</span>
-            <div tngInputGroup class="input-overview-example-shell">
-              <textarea tngInput rows="3" aria-label="Science fact">
-Water boils at 100 degree celcius at sea level.</textarea
-              >
-            </div>
-          </label>
         </div>
-      </section>
-    </tng-tabs>
-  </section>
+      </label>
+    </div>
+  </ng-template>
 
   <section class="input-overview-block">
     <h3>Installation</h3>
