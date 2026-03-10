@@ -395,6 +395,10 @@ export class TngListboxDirective<T> {
     const ctrl = this.controller();
     if (!ctrl) return;
 
+    // Pointer selection should transfer keyboard focus to this listbox so
+    // subsequent Arrow keys continue from the clicked list.
+    this.el.nativeElement.focus();
+
     ctrl.handleClick(id, shiftKey);
 
     this.syncActiveFromController();

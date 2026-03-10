@@ -58,6 +58,17 @@ function keydown(
   return event;
 }
 
+function pointerdown(el: HTMLElement, init: Partial<PointerEventInit> = {}): void {
+  el.dispatchEvent(
+    new PointerEvent('pointerdown', {
+      bubbles: true,
+      cancelable: true,
+      button: 0,
+      ...init,
+    }),
+  );
+}
+
 function dispatchTabAndSimulateBrowserFocus(
   source: HTMLElement,
   target: HTMLElement,
@@ -123,5 +134,60 @@ describe('tng-listbox tab focus handoff', () => {
     expect(document.activeElement).toBe(listboxB);
     expect(listboxA.getAttribute('aria-activedescendant')).toBeNull();
     expect(optionA2.hasAttribute('data-active')).toBe(false);
+  });
+
+  it('moves active to the next option on ArrowDown after selecting an item by click', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [HostTwoListboxesTabFocusComponent],
+    }).createComponent(HostTwoListboxesTabFocusComponent);
+
+    fixture.detectChanges();
+
+    const hostCmp = fixture.componentInstance;
+    const listboxA = fixture.nativeElement.querySelector('[data-testid="lb-a"]') as HTMLElement;
+    const optionA1 = fixture.nativeElement.querySelector('[data-testid="opt-a1"]') as HTMLElement;
+    const optionA2 = fixture.nativeElement.querySelector('[data-testid="opt-a2"]') as HTMLElement;
+
+    pointerdown(optionA1, { button: 0 });
+    fixture.detectChanges();
+
+    expect(hostCmp.valueA()).toBe('a1');
+
+    listboxA.focus();
+    listboxA.dispatchEvent(new FocusEvent('focusin', { bubbles: true }));
+    keydown(listboxA, 'ArrowDown');
+    fixture.detectChanges();
+
+    expect(listboxA.getAttribute('aria-activedescendant')).toBe(optionA2.id);
+    expect(optionA2.hasAttribute('data-active')).toBe(true);
+  });
+
+  it('moves keyboard focus to clicked listbox so next ArrowDown affects that listbox', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [HostTwoListboxesTabFocusComponent],
+    }).createComponent(HostTwoListboxesTabFocusComponent);
+
+    fixture.detectChanges();
+
+    const listboxA = fixture.nativeElement.querySelector('[data-testid="lb-a"]') as HTMLElement;
+    const listboxB = fixture.nativeElement.querySelector('[data-testid="lb-b"]') as HTMLElement;
+    const optionA1 = fixture.nativeElement.querySelector('[data-testid="opt-a1"]') as HTMLElement;
+    const optionA2 = fixture.nativeElement.querySelector('[data-testid="opt-a2"]') as HTMLElement;
+
+    listboxB.focus();
+    listboxB.dispatchEvent(new FocusEvent('focusin', { bubbles: true }));
+    fixture.detectChanges();
+
+    pointerdown(optionA1, { button: 0 });
+    fixture.detectChanges();
+
+    const activeBeforeArrow = document.activeElement as HTMLElement | null;
+    expect(activeBeforeArrow).toBe(listboxA);
+
+    keydown(activeBeforeArrow!, 'ArrowDown');
+    fixture.detectChanges();
+
+    expect(listboxA.getAttribute('aria-activedescendant')).toBe(optionA2.id);
+    expect(optionA2.hasAttribute('data-active')).toBe(true);
   });
 });
