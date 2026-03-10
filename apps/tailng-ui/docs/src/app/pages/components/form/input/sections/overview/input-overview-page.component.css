@@ -1,0 +1,42 @@
+:host {
+  display: block;
+}
+
+.input-section {
+  display: grid;
+  gap: 1rem;
+}
+
+.input-section-title {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.input-section-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.input-section-block {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.9rem;
+  color: var(--tng-semantic-foreground-secondary);
+  padding: 1rem 1.1rem;
+}
+
+.input-section-block h3 {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1rem;
+  margin: 0 0 0.55rem;
+}
+
+.input-section-block p {
+  margin: 0;
+}
+
+.input-section-block ul {
+  margin: 0;
+  padding-left: 1.1rem;
+}

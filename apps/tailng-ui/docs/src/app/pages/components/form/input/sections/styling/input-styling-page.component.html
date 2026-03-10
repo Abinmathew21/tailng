@@ -1,0 +1,25 @@
+<article class="input-styling">
+  <h2 class="input-styling-title">Styling</h2>
+  <p class="input-styling-lead">
+    Input styling is token-driven. Override semantic variables globally or at component scope.
+  </p>
+
+  <section class="input-styling-block">
+    <h3>Common tokens</h3>
+    <ul>
+      <li><code>--tng-semantic-background-surface</code> for control background.</li>
+      <li><code>--tng-semantic-border-subtle</code> for default border.</li>
+      <li><code>--tng-semantic-focus-ring</code> for focus-visible state.</li>
+      <li><code>--tng-semantic-accent-brand</code> for active/highlighted accents.</li>
+    </ul>
+  </section>
+
+  <section class="input-styling-block">
+    <h3>Scoped override example</h3>
+    <pre><code>.account-form &#123;
+  --tng-semantic-accent-brand: #0f766e;
+  --tng-semantic-focus-ring: rgba(15, 118, 110, 0.35);
+  --tng-semantic-border-subtle: #99f6e4;
+&#125;</code></pre>
+  </section>
+</article>

@@ -1,0 +1,40 @@
+<article class="input-examples">
+  <h2 class="input-examples-title">Examples</h2>
+  <p class="input-examples-lead">
+    Input examples with different tones, sizes, and adornment slots.
+  </p>
+
+  <div class="input-examples-grid">
+    <section class="input-example-card">
+      <h3>Search field</h3>
+      <tng-input>
+        <span tngInputLeading aria-hidden="true">
+          <tng-icon icon="search" class="input-example-icon" />
+        </span>
+        <input tngInput type="search" placeholder="Search components..." />
+      </tng-input>
+    </section>
+
+    <section class="input-example-card">
+      <h3>Primary tone</h3>
+      <tng-input tone="primary">
+        <input tngInput type="text" placeholder="Workspace name" />
+        <span tngInputTrailing class="input-example-meta">.tailng</span>
+      </tng-input>
+    </section>
+
+    <section class="input-example-card">
+      <h3>Danger state</h3>
+      <tng-input tone="danger">
+        <input tngInput type="email" value="invalid@email" aria-invalid="true" />
+      </tng-input>
+    </section>
+
+    <section class="input-example-card">
+      <h3>Large input</h3>
+      <tng-input size="lg">
+        <input tngInput type="text" placeholder="Large input size" />
+      </tng-input>
+    </section>
+  </div>
+</article>

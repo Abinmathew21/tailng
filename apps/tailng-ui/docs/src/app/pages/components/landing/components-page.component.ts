@@ -141,7 +141,10 @@ export class ComponentsPageComponent {
 
   public activeGroupItemHref(group: ComponentsDocsGroup): string | null {
     const current = this.normalizeUrl(this.currentUrl());
-    const activeItem = group.items.find((item) => this.itemHref(group.id, item.slug) === current);
+    const activeItem = group.items.find((item) => {
+      const itemUrl = this.itemHref(group.id, item.slug);
+      return this.isMatchingItemPath(current, itemUrl);
+    });
     return activeItem ? this.itemHref(group.id, activeItem.slug) : null;
   }
 
@@ -154,7 +157,10 @@ export class ComponentsPageComponent {
   }
 
   public isItemActive(groupId: ComponentsDocsCategoryId, itemSlug: string): boolean {
-    return this.normalizeUrl(this.currentUrl()) === this.itemHref(groupId, itemSlug);
+    return this.isMatchingItemPath(
+      this.normalizeUrl(this.currentUrl()),
+      this.itemHref(groupId, itemSlug),
+    );
   }
 
   public onNavSearchInput(event: Event): void {
@@ -204,5 +210,13 @@ export class ComponentsPageComponent {
     }
 
     return normalized;
+  }
+
+  private isMatchingItemPath(currentUrl: string, itemUrl: string): boolean {
+    if (currentUrl === itemUrl) {
+      return true;
+    }
+
+    return currentUrl.startsWith(`${itemUrl}/`);
   }
 }

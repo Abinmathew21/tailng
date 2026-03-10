@@ -1,0 +1,52 @@
+:host {
+  display: block;
+}
+
+.input-styling {
+  display: grid;
+  gap: 1rem;
+}
+
+.input-styling-title {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.input-styling-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.input-styling-block {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.9rem;
+  color: var(--tng-semantic-foreground-secondary);
+  padding: 1rem 1.1rem;
+}
+
+.input-styling-block h3 {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1rem;
+  margin: 0 0 0.5rem;
+}
+
+.input-styling-block ul {
+  margin: 0;
+  padding-left: 1.1rem;
+}
+
+.input-styling-block pre {
+  background: color-mix(in srgb, var(--tng-semantic-background-surface) 86%, #0f172a 14%);
+  border-radius: 0.75rem;
+  margin: 0;
+  overflow: auto;
+  padding: 0.75rem 0.85rem;
+}
+
+.input-styling-block code {
+  color: var(--tng-semantic-foreground-primary);
+  font-family: 'IBM Plex Mono', 'Fira Code', 'Menlo', monospace;
+  font-size: 0.82rem;
+}

@@ -1,0 +1,20 @@
+<section class="input-docs-page">
+  <tng-tabs
+    class="input-docs-tabs"
+    ariaLabel="Input documentation sections"
+    [activation]="'manual'"
+    [value]="activeSection()"
+    (valueChange)="onSectionChange($event)"
+  >
+    <div tngTabList class="input-docs-tab-list" ariaLabel="Input documentation tabs">
+      <button type="button" tngTab value="overview" class="input-docs-tab-trigger">Overview</button>
+      <button type="button" tngTab value="api" class="input-docs-tab-trigger">API</button>
+      <button type="button" tngTab value="styling" class="input-docs-tab-trigger">Styling</button>
+      <button type="button" tngTab value="examples" class="input-docs-tab-trigger">Examples</button>
+    </div>
+  </tng-tabs>
+
+  <section class="input-docs-content">
+    <router-outlet />
+  </section>
+</section>

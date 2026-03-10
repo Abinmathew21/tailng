@@ -1,0 +1,55 @@
+:host {
+  display: block;
+}
+
+.input-api {
+  display: grid;
+  gap: 1rem;
+}
+
+.input-api-title {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.input-api-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.input-api-table-wrapper {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.9rem;
+  overflow: auto;
+}
+
+.input-api-table {
+  border-collapse: collapse;
+  min-width: 42rem;
+  width: 100%;
+}
+
+.input-api-table th,
+.input-api-table td {
+  border-bottom: 1px solid var(--tng-semantic-border-subtle);
+  font-size: 0.9rem;
+  padding: 0.7rem 0.85rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.input-api-table th {
+  background: color-mix(in srgb, var(--tng-semantic-background-surface) 90%, transparent);
+  color: var(--tng-semantic-foreground-primary);
+  font-weight: 600;
+}
+
+.input-api-table td {
+  color: var(--tng-semantic-foreground-secondary);
+}
+
+.input-api-table tbody tr:last-child td {
+  border-bottom: 0;
+}

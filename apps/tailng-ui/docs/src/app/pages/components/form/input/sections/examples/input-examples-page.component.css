@@ -1,0 +1,52 @@
+:host {
+  display: block;
+}
+
+.input-examples {
+  display: grid;
+  gap: 1rem;
+}
+
+.input-examples-title {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.input-examples-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.input-examples-grid {
+  display: grid;
+  gap: 0.85rem;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+}
+
+.input-example-card {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.9rem;
+  display: grid;
+  gap: 0.65rem;
+  padding: 0.9rem;
+}
+
+.input-example-card h3 {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.input-example-icon {
+  color: var(--tng-semantic-foreground-secondary);
+  height: 1rem;
+  width: 1rem;
+}
+
+.input-example-meta {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.8rem;
+}
