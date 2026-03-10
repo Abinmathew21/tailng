@@ -16,11 +16,13 @@
 }
 
 .components-docs-drawer {
+  align-content: start;
   align-self: stretch;
   border: 0;
   border-right: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 0;
   box-shadow: none;
+  grid-auto-rows: max-content;
   min-height: 100%;
   padding: 0.85rem;
   width: min(22rem, 88vw);
@@ -31,6 +33,70 @@
   display: block;
   min-height: 100%;
   padding: 1rem;
+}
+
+.components-docs-breadcrumb {
+  margin-bottom: 0.75rem;
+}
+
+.components-docs-search {
+  border-bottom: 1px solid var(--tng-semantic-border-subtle);
+  margin-bottom: 0.35rem;
+  padding-inline: 0.1rem;
+}
+
+.components-docs-search-input {
+  --tng-semantic-background-surface: var(--tng-semantic-background-base);
+  --tng-semantic-border-strong: var(--tng-semantic-border-subtle);
+  --tng-semantic-focus-ring: color-mix(in srgb, var(--tng-semantic-accent-brand) 28%, transparent);
+
+  display: block;
+  width: 100%;
+}
+
+.components-docs-search-icon {
+  align-items: center;
+  color: var(--tng-semantic-foreground-muted);
+  display: inline-flex;
+  transition: color 160ms ease;
+}
+
+.components-docs-search-input:focus-within .components-docs-search-icon {
+  color: var(--tng-semantic-accent-brand);
+}
+
+.components-docs-search-control {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 0.94rem;
+  line-height: 1.35;
+  min-width: 0;
+  outline: none;
+  width: 100%;
+}
+
+.components-docs-search-control::placeholder {
+  color: var(--tng-semantic-foreground-muted);
+  opacity: 1;
+}
+
+.components-docs-search-control:focus {
+  border: 0;
+  box-shadow: none;
+  outline: none;
+}
+
+.components-docs-search-control::-webkit-search-decoration,
+.components-docs-search-control::-webkit-search-cancel-button,
+.components-docs-search-control::-webkit-search-results-button,
+.components-docs-search-control::-webkit-search-results-decoration {
+  -webkit-appearance: none;
+  appearance: none;
+  display: none;
 }
 
 .components-docs-nav-listbox:focus-visible {
@@ -48,6 +114,10 @@
 
 .components-docs-nav-option[data-active]:not([data-selected]) {
   background: var(--tng-semantic-background-muted);
+}
+
+.components-docs-empty-search {
+  background: var(--tng-semantic-background-base);
 }
 
 @media (max-width: 960px) {

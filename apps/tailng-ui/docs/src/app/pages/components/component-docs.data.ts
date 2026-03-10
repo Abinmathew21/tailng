@@ -59,6 +59,12 @@ export const COMPONENTS_FORM_GROUP: ComponentsDocsGroup = {
   subtitle: 'Input and selection components',
   items: [
     {
+      id: 'input',
+      slug: 'input',
+      title: 'Input',
+      description: 'Text input fields, adornments, validation messaging, and layout patterns.',
+    },
+    {
       id: 'listbox',
       slug: 'listbox',
       title: 'ListBox',
