@@ -65,6 +65,251 @@
   margin-bottom: 0.35rem;
 }
 
+.input-overview-examples-tabs-list {
+  align-items: flex-end;
+  border-bottom: 1px solid var(--tng-semantic-border-subtle);
+  column-gap: 0.8rem;
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: 0.25rem;
+}
+
+:host ::ng-deep .input-overview-examples-tabs .tng-tabs {
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  gap: 0.75rem;
+  padding: 0;
+}
+
+.input-overview-examples-tab-trigger {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  color: var(--tng-semantic-foreground-secondary);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: -1px;
+  min-height: 2.25rem;
+  padding: 0.25rem 0.5rem;
+  transition:
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.input-overview-examples-tab-trigger:is(:hover, :focus-visible, [data-focused='true']) {
+  color: var(--tng-semantic-foreground-primary);
+  outline: none;
+}
+
+.input-overview-examples-tab-trigger:focus-visible {
+  outline: none;
+  outline-offset: 0;
+}
+
+.input-overview-examples-tab-trigger[data-selected='true'] {
+  border-bottom-color: var(--tng-semantic-accent-brand);
+  color: var(--tng-semantic-accent-brand);
+}
+
+.input-overview-example-panel {
+  background: color-mix(in srgb, var(--tng-semantic-background-base) 90%, transparent);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.9rem;
+  display: grid;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.input-overview-example-panel[hidden] {
+  display: none !important;
+}
+
+.input-overview-example-header {
+  align-items: center;
+  display: flex;
+  gap: 0.75rem;
+  justify-content: space-between;
+}
+
+.input-overview-example-title {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.input-overview-example-actions {
+  align-items: center;
+  display: inline-flex;
+  gap: 0.25rem;
+}
+
+.input-overview-example-action {
+  align-items: center;
+  appearance: none;
+  background: transparent;
+  border: 0;
+  border-radius: 0.5rem;
+  color: var(--tng-semantic-foreground-secondary);
+  cursor: pointer;
+  display: inline-flex;
+  justify-content: center;
+  min-height: 2rem;
+  min-width: 2rem;
+  padding: 0.25rem;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.input-overview-example-action:hover {
+  background: color-mix(in srgb, var(--tng-semantic-background-muted) 62%, transparent);
+  color: var(--tng-semantic-foreground-primary);
+}
+
+.input-overview-example-action[data-active] {
+  background: color-mix(in srgb, var(--tng-semantic-background-muted) 62%, transparent);
+  color: var(--tng-semantic-foreground-primary);
+}
+
+.input-overview-example-action:focus-visible {
+  outline: 2px solid var(--tng-semantic-focus-ring);
+  outline-offset: 1px;
+}
+
+.input-overview-code-tabs-list {
+  align-items: flex-end;
+  border-bottom: 1px solid var(--tng-semantic-border-subtle);
+  column-gap: 0.7rem;
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: 0.25rem;
+}
+
+:host ::ng-deep .input-overview-code-tabs .tng-tabs {
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  gap: 0.5rem;
+  padding: 0;
+}
+
+.input-overview-code-tab-trigger {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  color: var(--tng-semantic-foreground-secondary);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 700;
+  margin-bottom: -1px;
+  min-height: 2.05rem;
+  padding: 0.2rem 0.45rem;
+  text-transform: uppercase;
+  transition:
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.input-overview-code-tab-trigger:is(:hover, :focus-visible, [data-focused='true']) {
+  color: var(--tng-semantic-foreground-primary);
+  outline: none;
+}
+
+.input-overview-code-tab-trigger[data-selected='true'] {
+  border-bottom-color: var(--tng-semantic-accent-brand);
+  color: var(--tng-semantic-accent-brand);
+}
+
+.input-overview-code-panel[hidden] {
+  display: none !important;
+}
+
+.input-overview-example-fields {
+  display: grid;
+  gap: 1rem;
+  max-width: 30rem;
+  width: min(100%, 30rem);
+}
+
+.input-overview-example-field-surface {
+  background: color-mix(in srgb, var(--tng-semantic-background-surface) 92%, transparent);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.85rem;
+  display: grid;
+  gap: 0.45rem;
+  padding: 0.75rem 0.8rem;
+}
+
+.input-overview-example-field-label {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  line-height: 1.2;
+}
+
+.input-overview-example-shell[data-slot='input-group'] {
+  background: var(--tng-semantic-background-base);
+  border: 1px solid var(--tng-semantic-border-strong);
+  border-radius: 0.65rem;
+  min-height: 2.4rem;
+  padding: 0 0.7rem;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.input-overview-example-shell [data-slot='input'] {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 0.98rem;
+  font-weight: 500;
+  line-height: 1.35;
+  outline: none;
+  padding: 0;
+}
+
+.input-overview-example-shell [data-slot='input']:focus,
+.input-overview-example-shell [data-slot='input']:focus-visible {
+  outline: none;
+}
+
+.input-overview-example-shell [data-slot='input']::placeholder {
+  color: var(--tng-semantic-foreground-muted);
+}
+
+.input-overview-example-field-surface--textarea
+  .input-overview-example-shell[data-slot='input-group'] {
+  align-items: flex-start;
+  min-height: auto;
+  padding: 0.55rem 0.7rem;
+}
+
+.input-overview-example-field-surface--textarea .input-overview-example-shell [data-slot='input'] {
+  font-size: 0.94rem;
+  line-height: 1.45;
+  min-height: 4.2rem;
+  resize: vertical;
+}
+
+.input-overview-example-shell[data-focused] {
+  border-color: color-mix(
+    in srgb,
+    var(--tng-semantic-accent-brand) 55%,
+    var(--tng-semantic-border-strong)
+  );
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--tng-semantic-accent-brand) 20%, transparent);
+}
+
 .pitfall-grid {
   display: grid;
   gap: 0.65rem;
@@ -77,4 +322,16 @@
   font-weight: 600;
   margin: 0 0 0.35rem;
   text-transform: uppercase;
+}
+
+@media (max-width: 760px) {
+  .input-overview-example-shell [data-slot='input'] {
+    font-size: 0.92rem;
+  }
+
+  .input-overview-example-field-surface--textarea
+    .input-overview-example-shell
+    [data-slot='input'] {
+    font-size: 0.9rem;
+  }
 }
