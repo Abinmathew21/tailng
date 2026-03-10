@@ -20,18 +20,20 @@ import {
   type ComponentsDocsRouteData,
 } from '../../component-docs.data';
 
-const fallbackItem = COMPONENTS_GETTING_STARTED_GROUP.items[0];
-if (fallbackItem === undefined) {
-  throw new Error('Components getting-started docs are empty.');
+const plainCssItem = COMPONENTS_GETTING_STARTED_GROUP.items.find(
+  (item) => item.slug === 'plain-css-setup',
+);
+if (plainCssItem === undefined) {
+  throw new Error('Missing "plain-css-setup" in components getting-started docs group.');
 }
 
 const fallbackData: ComponentsDocsRouteData = toComponentsDocsRouteData(
   COMPONENTS_GETTING_STARTED_GROUP,
-  fallbackItem,
+  plainCssItem,
 );
 
 @Component({
-  selector: 'app-getting-started-landing-page',
+  selector: 'app-plain-css-setup-page',
   imports: [
     TngCardComponent,
     TngCardHeaderComponent,
@@ -45,10 +47,10 @@ const fallbackData: ComponentsDocsRouteData = toComponentsDocsRouteData(
     TngTabPanel,
     TngIcon,
   ],
-  templateUrl: './getting-started-landing-page.component.html',
-  styleUrl: './getting-started-landing-page.component.css',
+  templateUrl: './plain-css-setup-page.component.html',
+  styleUrl: './plain-css-setup-page.component.css',
 })
-export class GettingStartedLandingPageComponent implements OnDestroy {
+export class PlainCssSetupPageComponent implements OnDestroy {
   private readonly route = inject(ActivatedRoute);
   private readonly documentRef = inject(DOCUMENT);
   private readonly routeData = toSignal(
@@ -65,14 +67,14 @@ export class GettingStartedLandingPageComponent implements OnDestroy {
   );
   private readonly colorSchemeObserver = this.observeCodeThemeChanges();
 
-  protected readonly quickStartInstallPnpmCode =
+  protected readonly installPnpmCode =
     'pnpm add @tailng-ui/components @tailng-ui/primitives @tailng-ui/cdk @tailng-ui/theme @tailng-ui/icons';
-  protected readonly quickStartInstallNpmCode =
+  protected readonly installNpmCode =
     'npm install @tailng-ui/components @tailng-ui/primitives @tailng-ui/cdk @tailng-ui/theme @tailng-ui/icons';
-  protected readonly quickStartInstallYarnCode =
+  protected readonly installYarnCode =
     'yarn add @tailng-ui/components @tailng-ui/primitives @tailng-ui/cdk @tailng-ui/theme @tailng-ui/icons';
 
-  protected readonly quickStartThemeConfigCode = [
+  protected readonly providerCode = [
     "import { ApplicationConfig } from '@angular/core';",
     "import { provideRouter } from '@angular/router';",
     "import { provideTailngTheme } from '@tailng-ui/theme';",
@@ -87,27 +89,47 @@ export class GettingStartedLandingPageComponent implements OnDestroy {
     '',
   ].join('\n');
 
-  protected readonly quickStartButtonExampleCode = [
-    "import { Component } from '@angular/core';",
-    "import { TngButtonComponent } from '@tailng-ui/components';",
+  protected readonly globalStylesCode = [
+    '/* src/styles.css */',
+    "@import '@tailng-ui/theme/component-contracts/index.css';",
     '',
-    '@Component({',
-    "  selector: 'app-quick-start-example',",
-    '  standalone: true,',
-    '  imports: [TngButtonComponent],',
-    '  template: `',
-    '    <button tngButton variant="primary">Save changes</button>',
-    '  `,',
-    '})',
-    'export class QuickStartExampleComponent {}',
+    ':root {',
+    '  --tng-semantic-background-canvas: #ffffff;',
+    '  --tng-semantic-background-surface: #f8fafc;',
+    '  --tng-semantic-background-base: #ffffff;',
+    '  --tng-semantic-foreground-primary: #0f172a;',
+    '  --tng-semantic-foreground-secondary: #475569;',
+    '  --tng-semantic-border-subtle: #cbd5e1;',
+    '  --tng-semantic-border-strong: #94a3b8;',
+    '  --tng-semantic-accent-brand: #2563eb;',
+    '  --tng-semantic-focus-ring: rgba(37, 99, 235, 0.35);',
+    '}',
     '',
   ].join('\n');
 
-  protected readonly quickStartInputExampleCode = [
-    '<tng-input label="Email" hint="We\\\'ll never share this." required>',
-    '  <span tngInputLeading aria-hidden="true">@</span>',
-    '  <input tngInput type="email" placeholder="you@example.com" />',
-    '</tng-input>',
+  protected readonly componentMarkupCode = [
+    '<section class="demo-stack">',
+    '  <tng-input label="Project name">',
+    '    <input tngInput placeholder="TailNG docs" />',
+    '  </tng-input>',
+    '',
+    '  <tng-button class="demo-primary-action">Create project</tng-button>',
+    '</section>',
+    '',
+  ].join('\n');
+
+  protected readonly componentStylesCode = [
+    '/* src/app/app.css */',
+    '.demo-stack {',
+    '  display: grid;',
+    '  gap: 0.75rem;',
+    '  max-width: 22rem;',
+    '}',
+    '',
+    '.demo-primary-action {',
+    '  --tng-semantic-accent-brand: #0f766e;',
+    '  --tng-semantic-focus-ring: rgba(15, 118, 110, 0.35);',
+    '}',
     '',
   ].join('\n');
 

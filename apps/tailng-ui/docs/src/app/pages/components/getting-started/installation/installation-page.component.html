@@ -1,0 +1,239 @@
+<tng-card variant="outline" padding="lg">
+  <tng-card-header>
+    <div class="grid gap-1 pb-2">
+      <h1 class="m-0 text-3xl font-semibold">Installation</h1>
+      <p class="m-0 max-w-3xl text-sm text-tng-fg-secondary md:text-base">
+        Add TailNG packages to your Angular workspace. Choose the layer that fits your project and
+        your preferred package manager.
+      </p>
+    </div>
+    <div
+      class="mb-1 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.08em] text-tng-fg-secondary"
+    >
+      <tng-icon icon="book-open" class="h-4 w-4" />
+      <span>{{ groupTitle() }}</span>
+    </div>
+    <tng-card-title>{{ item().title }}</tng-card-title>
+    <tng-card-description>{{ item().description }}</tng-card-description>
+  </tng-card-header>
+  <tng-card-content>
+    <section class="grid gap-6 text-sm text-tng-fg-secondary md:text-base">
+      <div class="grid gap-2">
+        <p class="m-0 text-xs font-semibold uppercase tracking-[0.12em] text-tng-fg-secondary">
+          Core packages (recommended)
+        </p>
+        <p class="m-0">
+          For most apps, install the Components layer plus primitives, CDK, theme, and icons. These
+          are the packages used across the docs and playgrounds.
+        </p>
+        <tng-tabs
+          ariaLabel="Package manager install commands"
+          [defaultValue]="'pnpm'"
+          class="grid gap-3"
+        >
+          <div
+            tngTabList
+            class="installation-tabs-list flex flex-wrap gap-2"
+            ariaLabel="Package manager"
+          >
+            <button
+              type="button"
+              tngTab
+              value="pnpm"
+              class="installation-tab-trigger"
+            >
+              pnpm
+            </button>
+            <button
+              type="button"
+              tngTab
+              value="npm"
+              class="installation-tab-trigger"
+            >
+              npm
+            </button>
+            <button
+              type="button"
+              tngTab
+              value="yarn"
+              class="installation-tab-trigger"
+            >
+              yarn
+            </button>
+          </div>
+          <div tngTabPanel value="pnpm" class="min-w-0">
+            <tng-code-block
+              [code]="installPnpmCode"
+              adapter="shiki"
+              language="bash"
+              [theme]="codeBlockTheme()"
+              [sanitizeHtml]="false"
+              [wrap]="true"
+              title="pnpm"
+              [lineNumbers]="false"
+            ></tng-code-block>
+          </div>
+          <div tngTabPanel value="npm" class="min-w-0">
+            <tng-code-block
+              [code]="installNpmCode"
+              adapter="shiki"
+              language="bash"
+              [theme]="codeBlockTheme()"
+              [sanitizeHtml]="false"
+              [wrap]="true"
+              title="npm"
+              [lineNumbers]="false"
+            ></tng-code-block>
+          </div>
+          <div tngTabPanel value="yarn" class="min-w-0">
+            <tng-code-block
+              [code]="installYarnCode"
+              adapter="shiki"
+              language="bash"
+              [theme]="codeBlockTheme()"
+              [sanitizeHtml]="false"
+              [wrap]="true"
+              title="yarn"
+              [lineNumbers]="false"
+            ></tng-code-block>
+          </div>
+        </tng-tabs>
+      </div>
+
+      <div class="grid gap-2">
+        <p class="m-0 text-xs font-semibold uppercase tracking-[0.12em] text-tng-fg-secondary">
+          Minimal install (components + theme)
+        </p>
+        <p class="m-0">
+          If you only need styled components and theming, you can add just
+          <code class="font-mono text-xs md:text-sm">@tailng-ui/components</code> and
+          <code class="font-mono text-xs md:text-sm">@tailng-ui/theme</code>. Primitives and CDK are
+          peer dependencies of many components; add them when you use features that require them.
+        </p>
+        <tng-tabs
+          ariaLabel="Components and theme only – package manager"
+          [defaultValue]="'pnpm'"
+          class="grid gap-3"
+        >
+          <div
+            tngTabList
+            class="installation-tabs-list flex flex-wrap gap-2"
+            ariaLabel="Package manager"
+          >
+            <button type="button" tngTab value="pnpm" class="installation-tab-trigger">pnpm</button>
+            <button type="button" tngTab value="npm" class="installation-tab-trigger">npm</button>
+            <button type="button" tngTab value="yarn" class="installation-tab-trigger">yarn</button>
+          </div>
+          <div tngTabPanel value="pnpm" class="min-w-0">
+            <tng-code-block
+              [code]="installComponentsOnlyPnpmCode"
+              adapter="shiki"
+              language="bash"
+              [theme]="codeBlockTheme()"
+              [sanitizeHtml]="false"
+              [wrap]="true"
+              title="pnpm"
+              [lineNumbers]="false"
+            ></tng-code-block>
+          </div>
+          <div tngTabPanel value="npm" class="min-w-0">
+            <tng-code-block
+              [code]="installComponentsOnlyNpmCode"
+              adapter="shiki"
+              language="bash"
+              [theme]="codeBlockTheme()"
+              [sanitizeHtml]="false"
+              [wrap]="true"
+              title="npm"
+              [lineNumbers]="false"
+            ></tng-code-block>
+          </div>
+          <div tngTabPanel value="yarn" class="min-w-0">
+            <tng-code-block
+              [code]="installComponentsOnlyYarnCode"
+              adapter="shiki"
+              language="bash"
+              [theme]="codeBlockTheme()"
+              [sanitizeHtml]="false"
+              [wrap]="true"
+              title="yarn"
+              [lineNumbers]="false"
+            ></tng-code-block>
+          </div>
+        </tng-tabs>
+      </div>
+
+      <div class="grid gap-2">
+        <p class="m-0 text-xs font-semibold uppercase tracking-[0.12em] text-tng-fg-secondary">
+          With icons
+        </p>
+        <p class="m-0">
+          To use the TailNG icon set in buttons, menus, and other components, add
+          <code class="font-mono text-xs md:text-sm">@tailng-ui/icons</code>.
+        </p>
+        <tng-tabs
+          ariaLabel="Full set including icons – package manager"
+          [defaultValue]="'pnpm'"
+          class="grid gap-3"
+        >
+          <div
+            tngTabList
+            class="installation-tabs-list flex flex-wrap gap-2"
+            ariaLabel="Package manager"
+          >
+            <button type="button" tngTab value="pnpm" class="installation-tab-trigger">pnpm</button>
+            <button type="button" tngTab value="npm" class="installation-tab-trigger">npm</button>
+            <button type="button" tngTab value="yarn" class="installation-tab-trigger">yarn</button>
+          </div>
+          <div tngTabPanel value="pnpm" class="min-w-0">
+            <tng-code-block
+              [code]="installWithIconsPnpmCode"
+              adapter="shiki"
+              language="bash"
+              [theme]="codeBlockTheme()"
+              [sanitizeHtml]="false"
+              [wrap]="true"
+              title="pnpm"
+              [lineNumbers]="false"
+            ></tng-code-block>
+          </div>
+          <div tngTabPanel value="npm" class="min-w-0">
+            <tng-code-block
+              [code]="installWithIconsNpmCode"
+              adapter="shiki"
+              language="bash"
+              [theme]="codeBlockTheme()"
+              [sanitizeHtml]="false"
+              [wrap]="true"
+              title="npm"
+              [lineNumbers]="false"
+            ></tng-code-block>
+          </div>
+          <div tngTabPanel value="yarn" class="min-w-0">
+            <tng-code-block
+              [code]="installWithIconsYarnCode"
+              adapter="shiki"
+              language="bash"
+              [theme]="codeBlockTheme()"
+              [sanitizeHtml]="false"
+              [wrap]="true"
+              title="yarn"
+              [lineNumbers]="false"
+            ></tng-code-block>
+          </div>
+        </tng-tabs>
+      </div>
+
+      <div class="grid gap-2">
+        <p class="m-0 text-xs font-semibold uppercase tracking-[0.12em] text-tng-fg-secondary">
+          Peer dependencies
+        </p>
+        <p class="m-0">
+          TailNG Components and primitives target modern Angular (v19+). Ensure your workspace uses
+          a compatible Angular version. No additional global styles or polyfills are required beyond
+          your existing Angular and theme setup.
+        </p>
+      </div>
+    </section>
+  </tng-card-content>
+</tng-card>

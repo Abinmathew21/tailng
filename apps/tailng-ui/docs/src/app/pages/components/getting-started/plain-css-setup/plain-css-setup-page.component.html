@@ -1,10 +1,9 @@
 <tng-card variant="outline" padding="lg">
   <tng-card-header>
     <div class="grid gap-1 pb-2">
-      <h1 class="m-0 text-3xl font-semibold">Quick start with Components</h1>
+      <h1 class="m-0 text-3xl font-semibold">{{ item().title }}</h1>
       <p class="m-0 max-w-3xl text-sm text-tng-fg-secondary md:text-base">
-        Install the packages, wire up the theme, and render your first TailNG component in a few
-        minutes.
+        Build TailNG UI with semantic tokens and plain CSS only. No Tailwind dependency required.
       </p>
     </div>
     <div
@@ -16,64 +15,67 @@
     <tng-card-title>{{ item().title }}</tng-card-title>
     <tng-card-description>{{ item().description }}</tng-card-description>
   </tng-card-header>
+
   <tng-card-content>
     <section class="grid gap-6 text-sm text-tng-fg-secondary md:text-base">
       <div class="grid gap-2">
         <p class="m-0 text-xs font-semibold uppercase tracking-[0.12em] text-tng-fg-secondary">
-          1. Install the core packages
+          1. Install TailNG packages
         </p>
         <p class="m-0">
-          Add the TailNG Components layer and its peer dependencies to your workspace. Choose your
-          package manager below.
+          Add the component, primitives, cdk, theme, and icons packages to your workspace.
         </p>
         <tng-tabs
-          ariaLabel="Install TailNG packages – package manager"
+          ariaLabel="Package manager install commands"
           [defaultValue]="'pnpm'"
           class="grid gap-3"
         >
           <div
             tngTabList
-            class="quick-start-tabs-list flex flex-wrap gap-2"
+            class="installation-tabs-list flex flex-wrap gap-2"
             ariaLabel="Package manager"
           >
-            <button type="button" tngTab value="pnpm" class="quick-start-tab-trigger">pnpm</button>
-            <button type="button" tngTab value="npm" class="quick-start-tab-trigger">npm</button>
-            <button type="button" tngTab value="yarn" class="quick-start-tab-trigger">yarn</button>
+            <button type="button" tngTab value="pnpm" class="installation-tab-trigger">pnpm</button>
+            <button type="button" tngTab value="npm" class="installation-tab-trigger">npm</button>
+            <button type="button" tngTab value="yarn" class="installation-tab-trigger">yarn</button>
           </div>
+
           <div tngTabPanel value="pnpm" class="min-w-0">
             <tng-code-block
-              [code]="quickStartInstallPnpmCode"
+              [code]="installPnpmCode"
               adapter="shiki"
               language="bash"
               [theme]="codeBlockTheme()"
               [sanitizeHtml]="false"
               [wrap]="true"
-              title="pnpm"
               [lineNumbers]="false"
+              title="pnpm"
             ></tng-code-block>
           </div>
+
           <div tngTabPanel value="npm" class="min-w-0">
             <tng-code-block
-              [code]="quickStartInstallNpmCode"
+              [code]="installNpmCode"
               adapter="shiki"
               language="bash"
               [theme]="codeBlockTheme()"
               [sanitizeHtml]="false"
               [wrap]="true"
-              title="npm"
               [lineNumbers]="false"
+              title="npm"
             ></tng-code-block>
           </div>
+
           <div tngTabPanel value="yarn" class="min-w-0">
             <tng-code-block
-              [code]="quickStartInstallYarnCode"
+              [code]="installYarnCode"
               adapter="shiki"
               language="bash"
               [theme]="codeBlockTheme()"
               [sanitizeHtml]="false"
               [wrap]="true"
-              title="yarn"
               [lineNumbers]="false"
+              title="yarn"
             ></tng-code-block>
           </div>
         </tng-tabs>
@@ -81,69 +83,66 @@
 
       <div class="grid gap-2">
         <p class="m-0 text-xs font-semibold uppercase tracking-[0.12em] text-tng-fg-secondary">
-          2. Register the TailNG theme
+          2. Register theme providers
         </p>
         <p class="m-0">
-          TailNG ships theme tokens and presets so your components share a consistent visual
-          foundation. Register the theme provider once near the root of your Angular app.
+          Register the TailNG theme provider once in your Angular app configuration.
         </p>
         <tng-code-block
-          [code]="quickStartThemeConfigCode"
+          [code]="providerCode"
           adapter="shiki"
           language="ts"
           [theme]="codeBlockTheme()"
           [sanitizeHtml]="false"
           [wrap]="true"
-          title="Configure theme providers"
+          title="Configure app providers"
         ></tng-code-block>
       </div>
 
       <div class="grid gap-2">
         <p class="m-0 text-xs font-semibold uppercase tracking-[0.12em] text-tng-fg-secondary">
-          3. Import a component and render it
+          3. Add global semantic tokens
         </p>
         <p class="m-0">
-          TailNG Components are standalone. Import them directly into your feature component and use
-          them in the template.
+          Import TailNG component contracts and define your token values in
+          <code class="font-mono text-xs md:text-sm">styles.css</code>.
         </p>
         <tng-code-block
-          [code]="quickStartButtonExampleCode"
+          [code]="globalStylesCode"
           adapter="shiki"
-          language="ts"
+          language="css"
           [theme]="codeBlockTheme()"
           [sanitizeHtml]="false"
           [wrap]="true"
-          title="Use a TailNG button"
+          title="Define global tokens"
         ></tng-code-block>
       </div>
 
       <div class="grid gap-2">
         <p class="m-0 text-xs font-semibold uppercase tracking-[0.12em] text-tng-fg-secondary">
-          4. Try a simple form input
+          4. Compose components with plain CSS
         </p>
         <p class="m-0">
-          Combine layout and input components to build real product UI quickly. This example uses
-          <code class="font-mono text-xs md:text-sm">tng-input</code> with leading adornments.
+          Use TailNG components directly and tune styling at micro-level with CSS variables.
         </p>
         <tng-code-block
-          [code]="quickStartInputExampleCode"
+          [code]="componentMarkupCode"
           adapter="shiki"
           language="html"
           [theme]="codeBlockTheme()"
           [sanitizeHtml]="false"
           [wrap]="true"
-          title="Compose an input field"
+          title="Component markup"
         ></tng-code-block>
-      </div>
-
-      <div class="grid gap-2">
-        <p class="m-0 text-xs font-semibold uppercase tracking-[0.12em] text-tng-fg-secondary">
-          Next steps
-        </p>
-        <p class="m-0">
-          From here, you can explore the full component catalog, wire up more advanced primitives,
-          or deepen your theme configuration as your product needs grow.
-        </p>
+        <tng-code-block
+          [code]="componentStylesCode"
+          adapter="shiki"
+          language="css"
+          [theme]="codeBlockTheme()"
+          [sanitizeHtml]="false"
+          [wrap]="true"
+          title="Component styles"
+        ></tng-code-block>
       </div>
     </section>
   </tng-card-content>

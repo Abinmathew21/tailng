@@ -27,6 +27,11 @@ export const appRoutes: Route[] = [
     loadChildren: () => import('./pages/icons/routes').then((m) => m.ICONS_ROUTES),
   },
   {
+    path: 'plain-css-setup',
+    pathMatch: 'full',
+    redirectTo: 'components/getting-started/plain-css-setup',
+  },
+  {
     path: '**',
     redirectTo: '',
   },

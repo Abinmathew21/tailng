@@ -2,11 +2,11 @@
   display: block;
 }
 
-.quick-start-tabs-list {
+.installation-tabs-list {
   border-bottom: 1px solid var(--tng-semantic-border-subtle);
 }
 
-.quick-start-tab-trigger {
+.installation-tab-trigger {
   appearance: none;
   background: transparent;
   border: 0;
@@ -22,17 +22,17 @@
   transition: border-color 0.15s ease, color 0.15s ease;
 }
 
-.quick-start-tab-trigger:hover {
+.installation-tab-trigger:hover {
   color: var(--tng-semantic-foreground-primary);
 }
 
-.quick-start-tab-trigger:focus-visible {
+.installation-tab-trigger:focus-visible {
   outline: none;
   outline-offset: 2px;
   outline: 2px solid var(--tng-semantic-focus-ring);
 }
 
-.quick-start-tab-trigger[data-selected='true'] {
+.installation-tab-trigger[data-selected='true'] {
   border-bottom-color: var(--tng-semantic-accent-brand);
   color: var(--tng-semantic-accent-brand);
 }

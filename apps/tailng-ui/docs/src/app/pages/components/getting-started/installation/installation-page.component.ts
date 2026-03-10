@@ -1,5 +1,5 @@
 import { DOCUMENT } from '@angular/common';
-import { computed, Component, inject, signal, type OnDestroy } from '@angular/core';
+import { Component, computed, inject, signal, type OnDestroy } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
 import {
@@ -20,18 +20,16 @@ import {
   type ComponentsDocsRouteData,
 } from '../../component-docs.data';
 
-const fallbackItem = COMPONENTS_GETTING_STARTED_GROUP.items[0];
-if (fallbackItem === undefined) {
-  throw new Error('Components getting-started docs are empty.');
-}
-
+const installationItem = COMPONENTS_GETTING_STARTED_GROUP.items.find(
+  (item) => item.slug === 'installation',
+)!;
 const fallbackData: ComponentsDocsRouteData = toComponentsDocsRouteData(
   COMPONENTS_GETTING_STARTED_GROUP,
-  fallbackItem,
+  installationItem,
 );
 
 @Component({
-  selector: 'app-getting-started-landing-page',
+  selector: 'app-installation-page',
   imports: [
     TngCardComponent,
     TngCardHeaderComponent,
@@ -45,10 +43,10 @@ const fallbackData: ComponentsDocsRouteData = toComponentsDocsRouteData(
     TngTabPanel,
     TngIcon,
   ],
-  templateUrl: './getting-started-landing-page.component.html',
-  styleUrl: './getting-started-landing-page.component.css',
+  templateUrl: './installation-page.component.html',
+  styleUrl: './installation-page.component.css',
 })
-export class GettingStartedLandingPageComponent implements OnDestroy {
+export class InstallationPageComponent implements OnDestroy {
   private readonly route = inject(ActivatedRoute);
   private readonly documentRef = inject(DOCUMENT);
   private readonly routeData = toSignal(
@@ -60,56 +58,30 @@ export class GettingStartedLandingPageComponent implements OnDestroy {
 
   public readonly item = computed(() => this.routeData().item);
   public readonly groupTitle = computed(() => this.routeData().groupTitle);
+
   public readonly codeBlockTheme = signal<'github-dark' | 'github-light'>(
     this.resolveCodeBlockTheme(),
   );
   private readonly colorSchemeObserver = this.observeCodeThemeChanges();
 
-  protected readonly quickStartInstallPnpmCode =
+  protected readonly installPnpmCode =
     'pnpm add @tailng-ui/components @tailng-ui/primitives @tailng-ui/cdk @tailng-ui/theme @tailng-ui/icons';
-  protected readonly quickStartInstallNpmCode =
+  protected readonly installNpmCode =
     'npm install @tailng-ui/components @tailng-ui/primitives @tailng-ui/cdk @tailng-ui/theme @tailng-ui/icons';
-  protected readonly quickStartInstallYarnCode =
+  protected readonly installYarnCode =
     'yarn add @tailng-ui/components @tailng-ui/primitives @tailng-ui/cdk @tailng-ui/theme @tailng-ui/icons';
-
-  protected readonly quickStartThemeConfigCode = [
-    "import { ApplicationConfig } from '@angular/core';",
-    "import { provideRouter } from '@angular/router';",
-    "import { provideTailngTheme } from '@tailng-ui/theme';",
-    "import { routes } from './app.routes';",
-    '',
-    'export const appConfig: ApplicationConfig = {',
-    '  providers: [',
-    '    provideRouter(routes),',
-    '    provideTailngTheme(),',
-    '  ],',
-    '};',
-    '',
-  ].join('\n');
-
-  protected readonly quickStartButtonExampleCode = [
-    "import { Component } from '@angular/core';",
-    "import { TngButtonComponent } from '@tailng-ui/components';",
-    '',
-    '@Component({',
-    "  selector: 'app-quick-start-example',",
-    '  standalone: true,',
-    '  imports: [TngButtonComponent],',
-    '  template: `',
-    '    <button tngButton variant="primary">Save changes</button>',
-    '  `,',
-    '})',
-    'export class QuickStartExampleComponent {}',
-    '',
-  ].join('\n');
-
-  protected readonly quickStartInputExampleCode = [
-    '<tng-input label="Email" hint="We\\\'ll never share this." required>',
-    '  <span tngInputLeading aria-hidden="true">@</span>',
-    '  <input tngInput type="email" placeholder="you@example.com" />',
-    '</tng-input>',
-    '',
-  ].join('\n');
+  protected readonly installComponentsOnlyPnpmCode =
+    'pnpm add @tailng-ui/components @tailng-ui/theme';
+  protected readonly installComponentsOnlyNpmCode =
+    'npm install @tailng-ui/components @tailng-ui/theme';
+  protected readonly installComponentsOnlyYarnCode =
+    'yarn add @tailng-ui/components @tailng-ui/theme';
+  protected readonly installWithIconsPnpmCode =
+    'pnpm add @tailng-ui/components @tailng-ui/primitives @tailng-ui/cdk @tailng-ui/theme @tailng-ui/icons';
+  protected readonly installWithIconsNpmCode =
+    'npm install @tailng-ui/components @tailng-ui/primitives @tailng-ui/cdk @tailng-ui/theme @tailng-ui/icons';
+  protected readonly installWithIconsYarnCode =
+    'yarn add @tailng-ui/components @tailng-ui/primitives @tailng-ui/cdk @tailng-ui/theme @tailng-ui/icons';
 
   public ngOnDestroy(): void {
     this.colorSchemeObserver?.disconnect();
