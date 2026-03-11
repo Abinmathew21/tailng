@@ -19,60 +19,134 @@
     ></tng-code-block>
 
     <h4>Inputs</h4>
-    <div class="api-grid">
-      <article class="api-item">
-        <h5><code>ariaLabel</code></h5>
-        <p class="api-type"><code>string | null</code></p>
-        <p>Reflects to <code>aria-label</code>. Empty/whitespace values are omitted.</p>
-      </article>
-      <article class="api-item">
-        <h5><code>ariaLabelledby</code></h5>
-        <p class="api-type"><code>string | null</code></p>
-        <p>Reflects to <code>aria-labelledby</code>. Empty/whitespace values are omitted.</p>
-      </article>
-      <article class="api-item">
-        <h5><code>ariaDescribedBy</code></h5>
-        <p class="api-type"><code>string | null</code></p>
-        <p>Reflects to <code>aria-describedby</code>. Empty/whitespace values are omitted.</p>
-      </article>
-      <article class="api-item">
-        <h5><code>ariaInvalid</code></h5>
-        <p class="api-type"><code>boolean | null | '' | 'true' | 'false'</code></p>
-        <p>
-          Override invalid state. If <code>null</code>, it falls back to native
-          <code>:invalid</code> when available.
-        </p>
-      </article>
-      <article class="api-item">
-        <h5><code>ariaRequired</code></h5>
-        <p class="api-type"><code>boolean | null | '' | 'true' | 'false'</code></p>
-        <p>If <code>required=true</code>, required ARIA is forced to true.</p>
-      </article>
-      <article class="api-item">
-        <h5><code>disabled</code>, <code>readonly</code>, <code>required</code></h5>
-        <p class="api-type"><code>boolean | '' | string</code></p>
-        <p>Boolean coercion with native attribute reflection and state hooks.</p>
-      </article>
+    <div class="input-api-table-wrap">
+      <table class="input-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Property</th>
+            <th scope="col">Type</th>
+            <th scope="col">Default</th>
+            <th scope="col">Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>ariaLabel</code></td>
+            <td><code>string | null</code></td>
+            <td><code>null</code></td>
+            <td>Reflects to <code>aria-label</code>. Empty/whitespace values are omitted.</td>
+          </tr>
+          <tr>
+            <td><code>ariaLabelledby</code></td>
+            <td><code>string | null</code></td>
+            <td><code>null</code></td>
+            <td>Reflects to <code>aria-labelledby</code>. Empty/whitespace values are omitted.</td>
+          </tr>
+          <tr>
+            <td><code>ariaDescribedBy</code></td>
+            <td><code>string | null</code></td>
+            <td><code>null</code></td>
+            <td>Reflects to <code>aria-describedby</code>. Empty/whitespace values are omitted.</td>
+          </tr>
+          <tr>
+            <td><code>ariaInvalid</code></td>
+            <td><code>boolean | null | '' | 'true' | 'false'</code></td>
+            <td><code>null</code></td>
+            <td>
+              Overrides invalid state. <code>null</code> falls back to native <code>:invalid</code>.
+            </td>
+          </tr>
+          <tr>
+            <td><code>ariaRequired</code></td>
+            <td><code>boolean | null | '' | 'true' | 'false'</code></td>
+            <td><code>null</code></td>
+            <td>Sets ARIA required state. If <code>required=true</code>, this is forced true.</td>
+          </tr>
+          <tr>
+            <td><code>disabled</code></td>
+            <td><code>boolean | '' | string</code></td>
+            <td><code>false</code></td>
+            <td>
+              Boolean coercion. Reflects native disabled state and adds <code>data-disabled</code>.
+            </td>
+          </tr>
+          <tr>
+            <td><code>readonly</code></td>
+            <td><code>boolean | '' | string</code></td>
+            <td><code>false</code></td>
+            <td>
+              Boolean coercion. Reflects native readonly state and adds <code>data-readonly</code>.
+            </td>
+          </tr>
+          <tr>
+            <td><code>required</code></td>
+            <td><code>boolean | '' | string</code></td>
+            <td><code>false</code></td>
+            <td>
+              Boolean coercion. Reflects native required state and drives required ARIA output.
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-  </section>
 
-  <section class="input-api-block">
-    <h3>Output attributes (directive adds)</h3>
-    <ul class="input-api-list">
-      <li><strong>Slot:</strong> <code>data-slot="input"</code> on the host control.</li>
-      <li>
-        <strong>State hooks:</strong> <code>data-disabled</code>, <code>data-readonly</code>,
-        <code>data-invalid</code>.
-      </li>
-      <li>
-        <strong>ARIA:</strong> <code>aria-invalid="true"</code> only when invalid;
-        <code>aria-required="true"</code> when required.
-      </li>
-      <li>
-        <strong>ID:</strong> keeps consumer <code>id</code>, otherwise generates
-        <code>tng-input-...</code>.
-      </li>
-    </ul>
+    <h4>Output attributes</h4>
+    <div class="input-api-table-wrap">
+      <table class="input-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Attribute</th>
+            <th scope="col">Applied on</th>
+            <th scope="col">When set</th>
+            <th scope="col">Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>data-slot="input"</code></td>
+            <td>Host control</td>
+            <td>Always</td>
+            <td>Stable slot marker for styling contract.</td>
+          </tr>
+          <tr>
+            <td><code>data-disabled</code></td>
+            <td>Host control</td>
+            <td>When disabled</td>
+            <td>State hook for disabled styling.</td>
+          </tr>
+          <tr>
+            <td><code>data-readonly</code></td>
+            <td>Host control</td>
+            <td>When readonly</td>
+            <td>State hook for readonly styling.</td>
+          </tr>
+          <tr>
+            <td><code>data-invalid</code></td>
+            <td>Host control</td>
+            <td>When invalid</td>
+            <td>Set from <code>ariaInvalid</code> override or native validity.</td>
+          </tr>
+          <tr>
+            <td><code>aria-invalid="true"</code></td>
+            <td>Host control</td>
+            <td>When invalid</td>
+            <td>Only emitted when true.</td>
+          </tr>
+          <tr>
+            <td><code>aria-required="true"</code></td>
+            <td>Host control</td>
+            <td>When required</td>
+            <td>Set when <code>required=true</code> or <code>ariaRequired=true</code>.</td>
+          </tr>
+          <tr>
+            <td><code>id</code></td>
+            <td>Host control</td>
+            <td>Always</td>
+            <td>Respects consumer id, otherwise auto-generates <code>tng-input-...</code>.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </section>
 
   <section class="input-api-block">
@@ -90,22 +164,74 @@
       [wrap]="true"
       [sanitizeHtml]="false"
     ></tng-code-block>
-    <ul class="input-api-list">
-      <li>Renders wrappers only when slot content exists.</li>
-      <li>Tracks focus and emits <code>data-focused</code> on group host.</li>
-      <li>
-        Reflects control state as group-level hooks: <code>data-disabled</code>,
-        <code>data-invalid</code>, <code>data-readonly</code>.
-      </li>
-      <li>Contract: expects exactly one projected <code>tngInput</code> control.</li>
-    </ul>
+    <div class="input-api-table-wrap">
+      <table class="input-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Feature</th>
+            <th scope="col">Type</th>
+            <th scope="col">Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Projected control contract</td>
+            <td><code>tngInput</code> projection rule</td>
+            <td>Expects exactly one projected <code>tngInput</code> control.</td>
+          </tr>
+          <tr>
+            <td>Conditional wrappers</td>
+            <td>Render behavior</td>
+            <td>
+              Leading/control/trailing wrappers render only when matching slot content exists.
+            </td>
+          </tr>
+          <tr>
+            <td><code>data-focused</code></td>
+            <td>State attribute</td>
+            <td>Applied on group host while any projected element is focused.</td>
+          </tr>
+          <tr>
+            <td>
+              <code>data-disabled</code>, <code>data-invalid</code>, <code>data-readonly</code>
+            </td>
+            <td>Mirrored state attributes</td>
+            <td>
+              Reflected from the projected control onto group host for container-level styling.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </section>
 
   <section class="input-api-block">
     <h3>Slot directives</h3>
-    <ul class="input-api-list">
-      <li><code>tngInputLeading</code> adds <code>data-slot="input-leading"</code>.</li>
-      <li><code>tngInputTrailing</code> adds <code>data-slot="input-trailing"</code>.</li>
-    </ul>
+    <div class="input-api-table-wrap">
+      <table class="input-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Directive</th>
+            <th scope="col">Applies to</th>
+            <th scope="col">Adds</th>
+            <th scope="col">Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>tngInputLeading</code></td>
+            <td>Projected leading element</td>
+            <td><code>data-slot="input-leading"</code></td>
+            <td>Marks prefix/adornment content before the control.</td>
+          </tr>
+          <tr>
+            <td><code>tngInputTrailing</code></td>
+            <td>Projected trailing element</td>
+            <td><code>data-slot="input-trailing"</code></td>
+            <td>Marks suffix/action content after the control.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </section>
 </article>
