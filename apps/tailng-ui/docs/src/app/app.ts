@@ -64,7 +64,7 @@ const presetOptions: readonly ThemePresetOption[] = [
 
 const primaryNavigation: readonly NavItem[] = [
   { label: 'Components', route: '/components' },
-  { label: 'Primitives', route: '/primitives' },
+  { label: 'Headless', route: '/headless' },
   { label: 'CDK', route: '/cdk' },
   { label: 'Theme', route: '/theme' },
   { label: 'Icons', route: '/icons' },
@@ -125,7 +125,7 @@ export class App {
     this.buildBreadcrumbs(this.router.url),
   );
   public readonly componentsDocsLayout = computed<boolean>(() =>
-    this.currentUrl().startsWith('/components'),
+    this.currentUrl().startsWith('/components') || this.currentUrl().startsWith('/headless'),
   );
 
   public readonly effectiveMode = computed<'light' | 'dark'>(() =>

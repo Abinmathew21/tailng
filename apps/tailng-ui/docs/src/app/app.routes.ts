@@ -11,8 +11,21 @@ export const appRoutes: Route[] = [
     loadChildren: () => import('./pages/components/routes').then((m) => m.COMPONENTS_ROUTES),
   },
   {
+    path: 'headless',
+    loadChildren: () => import('./pages/headless/routes').then((m) => m.HEADLESS_ROUTES),
+  },
+  {
+    path: 'primitives/:group/:item',
+    redirectTo: 'headless/:group/:item',
+  },
+  {
+    path: 'primitives/:group',
+    redirectTo: 'headless/:group',
+  },
+  {
     path: 'primitives',
-    loadChildren: () => import('./pages/primitives/routes').then((m) => m.PRIMITIVES_ROUTES),
+    pathMatch: 'full',
+    redirectTo: 'headless',
   },
   {
     path: 'cdk',

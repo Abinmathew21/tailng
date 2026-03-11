@@ -1,0 +1,48 @@
+import { computed, Component, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { ActivatedRoute } from '@angular/router';
+import {
+  TngCardComponent,
+  TngCardContentComponent,
+  TngCardDescriptionComponent,
+  TngCardHeaderComponent,
+  TngCardTitleComponent,
+} from '@tailng-ui/components';
+import { TngIcon } from '@tailng-ui/icons';
+import { map } from 'rxjs/operators';
+import {
+  HEADLESS_FORM_GROUP,
+  toHeadlessDocsRouteData,
+  type HeadlessDocsRouteData,
+} from '../../headless-docs.data';
+
+const fallbackData: HeadlessDocsRouteData = toHeadlessDocsRouteData(
+  HEADLESS_FORM_GROUP,
+  HEADLESS_FORM_GROUP.items[0]!,
+);
+
+@Component({
+  selector: 'app-headless-form-landing-page',
+  imports: [
+    TngCardComponent,
+    TngCardHeaderComponent,
+    TngCardTitleComponent,
+    TngCardDescriptionComponent,
+    TngCardContentComponent,
+    TngIcon,
+  ],
+  templateUrl: './form-landing-page.component.html',
+  styleUrl: './form-landing-page.component.css',
+})
+export class FormLandingPageComponent {
+  private readonly route = inject(ActivatedRoute);
+  private readonly routeData = toSignal(
+    this.route.data.pipe(
+      map((data) => (data as HeadlessDocsRouteData | undefined) ?? fallbackData),
+    ),
+    { initialValue: fallbackData },
+  );
+
+  public readonly item = computed(() => this.routeData().item);
+  public readonly groupTitle = computed(() => this.routeData().groupTitle);
+}

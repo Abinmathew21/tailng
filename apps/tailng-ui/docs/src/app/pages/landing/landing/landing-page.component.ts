@@ -25,10 +25,10 @@ const packageCards: readonly ContentCard[] = [
     href: '/cdk',
   },
   {
-    title: 'Primitives',
+    title: 'Headless',
     description:
       'Headless accessible foundations for menus, popovers, dialogs, tabs, switches, drawers, and more.',
-    href: '/primitives',
+    href: '/headless',
   },
   {
     title: 'Components',
@@ -66,7 +66,7 @@ const principles: readonly ContentCard[] = [
   },
   {
     title: 'Layered architecture',
-    description: 'Adopt CDK, primitives, components, icons, and themes at the level that fits your project.',
+    description: 'Adopt CDK, headless patterns, components, icons, and themes at the level that fits your project.',
   },
   {
     title: 'Angular-native',
@@ -86,7 +86,7 @@ const whyTailng: readonly ContentCard[] = [
   {
     title: 'Modular adoption',
     description:
-      'Start with components, go lower with primitives, and build deeper with CDK only when needed.',
+      'Start with components, go lower with headless patterns, and build deeper with CDK only when needed.',
   },
   {
     title: 'Better ownership',
@@ -112,7 +112,7 @@ const installOptions: readonly ContentCard[] = [
     description: 'Start with ready-to-use building blocks for forms, overlays, navigation, and data UI.',
   },
   {
-    title: 'Use primitives',
+    title: 'Use headless',
     description: 'Build your own presentation layer on top of accessible behavior contracts.',
   },
   {
@@ -152,9 +152,9 @@ const exploreLinks: readonly RouteCard[] = [
     route: '/components',
   },
   {
-    title: 'Primitives',
+    title: 'Headless',
     description: 'Explore accessible headless interaction patterns for custom UI development.',
-    route: '/primitives',
+    route: '/headless',
   },
   {
     title: 'CDK',

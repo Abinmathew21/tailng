@@ -22,12 +22,17 @@ const publish = (dir) => {
 
   console.log(`Publishing ${name}@${version} with tag ${npmTag}`);
 
-  const cmd = [
+  const cmdParts = [
     "npm publish",
     "--access public",
     `--tag ${npmTag.trim()}`,
-    "--provenance",
-  ].join(" ");
+  ];
+  
+  if (process.env.CI === "true") {
+    cmdParts.push("--provenance");
+  }
+  
+  const cmd = cmdParts.join(" ");
 
   if (process.env.DRY_RUN === "true") {
     console.log(`DRY_RUN=true, skipping: ${cmd}`);
@@ -38,7 +43,10 @@ const publish = (dir) => {
 };
 
 // Publish in dependency order
-if (has("cdk")) publish("dist/libs/cdk");
-if (has("theme")) publish("dist/libs/theme");
-if (has("icons")) publish("dist/libs/icons");
-if (has("ui")) publish("dist/libs/ui");
+if (has("cdk")) publish("dist/libs/tailng-ui/cdk");
+if (has("theme")) publish("dist/libs/tailng-ui/theme");
+if (has("icons")) publish("dist/libs/tailng-ui/icons");
+if (has("primitives")) publish("dist/libs/tailng-ui/primitives");
+if (has("components")) publish("dist/libs/tailng-ui/components");
+if (has("registry")) publish("dist/libs/tailng-ui/registry");
+if (has("charts")) publish("dist/libs/tailng-ui/charts");

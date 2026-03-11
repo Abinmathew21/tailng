@@ -1,0 +1,32 @@
+<tng-card variant="outline" padding="lg">
+  <tng-card-header>
+    <div class="grid gap-1 pb-2">
+      <h1 class="m-0 text-3xl font-semibold">Plain CSS Setup</h1>
+      <p class="m-0 max-w-3xl text-sm text-tng-fg-secondary md:text-base">
+        Build primitive-based UI with semantic tokens and plain CSS, without requiring Tailwind.
+      </p>
+    </div>
+    <div
+      class="mb-1 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.08em] text-tng-fg-secondary"
+    >
+      <tng-icon icon="book-open" class="h-4 w-4" />
+      <span>{{ groupTitle() }}</span>
+    </div>
+    <tng-card-title>{{ item().title }}</tng-card-title>
+    <tng-card-description>{{ item().description }}</tng-card-description>
+  </tng-card-header>
+  <tng-card-content>
+    <section
+      class="grid gap-4 rounded-xl border border-dashed border-tng-border-subtle bg-tng-bg-base p-6 text-sm text-tng-fg-secondary"
+    >
+      <ol class="m-0 grid gap-2 pl-5">
+        @for (step of cssSetupSteps; track step) {
+          <li>{{ step }}</li>
+        }
+      </ol>
+      <p class="m-0">
+        Full token examples and primitive composition snippets will be published in this section.
+      </p>
+    </section>
+  </tng-card-content>
+</tng-card>

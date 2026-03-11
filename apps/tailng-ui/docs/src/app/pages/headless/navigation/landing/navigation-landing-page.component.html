@@ -1,0 +1,39 @@
+<tng-card variant="outline" padding="lg">
+  <tng-card-header>
+    <div class="grid gap-1 pb-2">
+      <h1 class="m-0 text-3xl font-semibold">Headless</h1>
+      <p class="m-0 max-w-3xl text-sm text-tng-fg-secondary md:text-base">
+        Headless documentation with categorized navigation. Start with setup guidance,
+        then drill into behavior contracts, keyboard rules, and composition patterns.
+      </p>
+    </div>
+    <div
+      class="mb-1 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.08em] text-tng-fg-secondary"
+    >
+      <tng-icon icon="book-open" class="h-4 w-4" />
+      <span>{{ groupTitle() }}</span>
+    </div>
+    <tng-card-title>{{ item().title }}</tng-card-title>
+    <tng-card-description>{{ item().description }}</tng-card-description>
+  </tng-card-header>
+  <tng-card-content>
+    <section
+      class="grid gap-4 rounded-xl border border-dashed border-tng-border-subtle bg-tng-bg-base p-6 text-sm text-tng-fg-secondary"
+    >
+      <div
+        class="inline-flex w-fit items-center gap-2 rounded-full border border-tng-border-subtle bg-tng-bg-surface px-2.5 py-1 text-xs font-semibold uppercase tracking-[0.08em]"
+      >
+        <tng-icon icon="hammer" class="h-3.5 w-3.5" />
+        In progress
+      </div>
+      <p class="m-0">
+        Detailed documentation for <strong class="text-tng-fg-primary">{{ item().title }}</strong>
+        is under active authoring.
+      </p>
+      <p class="m-0">
+        This page will include interaction behavior, accessibility guidance, API contracts, and
+        implementation notes.
+      </p>
+    </section>
+  </tng-card-content>
+</tng-card>

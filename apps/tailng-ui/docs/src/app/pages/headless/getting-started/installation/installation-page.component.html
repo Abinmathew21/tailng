@@ -1,0 +1,30 @@
+<tng-card variant="outline" padding="lg">
+  <tng-card-header>
+    <div class="grid gap-1 pb-2">
+      <h1 class="m-0 text-3xl font-semibold">Primitive Installation</h1>
+      <p class="m-0 max-w-3xl text-sm text-tng-fg-secondary md:text-base">
+        Install TailNG primitive layers first, then compose your own UI wrappers and theme tokens.
+      </p>
+    </div>
+    <div
+      class="mb-1 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.08em] text-tng-fg-secondary"
+    >
+      <tng-icon icon="book-open" class="h-4 w-4" />
+      <span>{{ groupTitle() }}</span>
+    </div>
+    <tng-card-title>{{ item().title }}</tng-card-title>
+    <tng-card-description>{{ item().description }}</tng-card-description>
+  </tng-card-header>
+  <tng-card-content>
+    <section
+      class="grid gap-4 rounded-xl border border-dashed border-tng-border-subtle bg-tng-bg-base p-6 text-sm text-tng-fg-secondary"
+    >
+      <p class="m-0 text-xs font-semibold uppercase tracking-[0.12em]">Recommended install command</p>
+      <pre class="m-0 overflow-x-auto rounded-lg border border-tng-border-subtle bg-tng-bg-surface p-3 text-xs text-tng-fg-primary"><code>{{ installCommand }}</code></pre>
+      <p class="m-0">
+        Add only the primitive packages you need; keep UI styling in your app-level component
+        layer.
+      </p>
+    </section>
+  </tng-card-content>
+</tng-card>
