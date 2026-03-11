@@ -1,6 +1,7 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, computed, inject, signal, type OnDestroy } from '@angular/core';
 import { TngToggleComponent, TngToggleGroupComponent } from '@tailng-ui/components';
+import { TngIcon } from '@tailng-ui/icons';
 import {
   DocsExamplePanelComponent,
   type DocsExampleCodeTab,
@@ -8,7 +9,7 @@ import {
 
 @Component({
   selector: 'app-toggle-examples-page',
-  imports: [DocsExamplePanelComponent, TngToggleComponent, TngToggleGroupComponent],
+  imports: [DocsExamplePanelComponent, TngToggleComponent, TngToggleGroupComponent, TngIcon],
   templateUrl: './toggle-examples-page.component.html',
   styleUrl: './toggle-examples-page.component.css',
 })
@@ -74,14 +75,24 @@ export class ToggleExamplesPageComponent implements OnDestroy {
       language: 'html',
       title: 'view-mode-toggle-group-example.component.html',
       code: [
-        '<tng-toggle-group ariaLabel="View mode toggles">',
-        '  <tng-toggle [pressed]="compactMode()" (pressedChange)="compactMode.set($event)">',
-        '    <span offIcon>compact</span>',
-        '    <span onIcon>compact</span>',
+        '<tng-toggle-group ariaLabel="View mode toggles" class="toggle-example-group">',
+        '  <tng-toggle',
+        '    [pressed]="compactMode()"',
+        '    pressedLabel="Disable compact view"',
+        '    unpressedLabel="Enable compact view"',
+        '    (pressedChange)="compactMode.set($event)"',
+        '  >',
+        '    <tng-icon icon="grid" offIcon class="h-4 w-4"></tng-icon>',
+        '    <tng-icon icon="grid" onIcon class="h-4 w-4"></tng-icon>',
         '  </tng-toggle>',
-        '  <tng-toggle [pressed]="listMode()" (pressedChange)="listMode.set($event)">',
-        '    <span offIcon>list</span>',
-        '    <span onIcon>list</span>',
+        '  <tng-toggle',
+        '    [pressed]="listMode()"',
+        '    pressedLabel="Disable list view"',
+        '    unpressedLabel="Enable list view"',
+        '    (pressedChange)="listMode.set($event)"',
+        '  >',
+        '    <tng-icon icon="list" offIcon class="h-4 w-4"></tng-icon>',
+        '    <tng-icon icon="list" onIcon class="h-4 w-4"></tng-icon>',
         '  </tng-toggle>',
         '</tng-toggle-group>',
         '',

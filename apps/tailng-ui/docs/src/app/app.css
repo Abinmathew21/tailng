@@ -3,13 +3,12 @@
   min-height: 100vh;
 }
 
-:host ::ng-deep .docs-mode-switch .tng-switch-control {
-  border: 1px solid var(--tng-semantic-border-strong);
-  background: var(--tng-semantic-background-surface);
+:host .docs-mode-toggle[data-mode='light'] {
+  color: color-mix(in srgb, #d97706 70%, var(--tng-semantic-foreground-secondary));
 }
 
-:host ::ng-deep .docs-mode-switch .tng-switch-control[data-state='checked'] {
-  border-color: color-mix(in srgb, var(--tng-semantic-accent-brand) 70%, black);
+:host .docs-mode-toggle[data-mode='dark'] {
+  color: color-mix(in srgb, #94a3b8 70%, var(--tng-semantic-foreground-primary));
 }
 
 :host ::ng-deep .docs-theme-menu [data-slot='menu-item'][aria-checked='true']:not([data-active]) {

@@ -39,14 +39,24 @@
   gap: 1rem;
 }
 
+.toggle-examples-grid > * {
+  min-width: 0;
+}
+
 .toggle-example-description {
   color: var(--tng-semantic-foreground-secondary);
   margin: 0;
+  overflow-wrap: anywhere;
 }
 
 .toggle-example-stack {
   display: grid;
   gap: 0.65rem;
+  min-width: 0;
+}
+
+.toggle-example-group > tng-toggle + tng-toggle {
+  margin-inline-start: 0.55rem;
 }
 
 .toggle-example-toolbar {

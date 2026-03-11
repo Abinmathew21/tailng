@@ -7,7 +7,6 @@ import {
   TngBreadcrumbItemComponent,
   TngMenuComponent,
   TngMenuTriggerFor,
-  TngSwitchComponent,
 } from '@tailng-ui/components';
 import { TngIcon } from '@tailng-ui/icons';
 import { TngMenuItem, type TngMenuSelectEvent } from '@tailng-ui/primitives';
@@ -104,7 +103,6 @@ const semanticCollections: readonly (keyof ThemeSemanticTokens)[] = [
     TngMenuComponent,
     TngMenuTriggerFor,
     TngMenuItem,
-    TngSwitchComponent,
     TngIcon,
   ],
   selector: 'app-root',
@@ -115,7 +113,7 @@ export class App {
   private readonly documentRef = inject(DOCUMENT);
   private readonly router = inject(Router);
 
-  public readonly darkMode = signal(false);
+  public readonly darkMode = signal(true);
   public readonly presetOptions = presetOptions;
   public readonly selectedPreset = signal<ThemePresetId>('default');
   public readonly primaryNavigation = primaryNavigation;
@@ -171,8 +169,8 @@ export class App {
     }
   }
 
-  public onModeSwitchChange(checked: boolean): void {
-    this.darkMode.set(checked);
+  public toggleMode(): void {
+    this.darkMode.update((current) => !current);
   }
 
   public onNpmMenuSelect(event: TngMenuSelectEvent): void {

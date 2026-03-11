@@ -68,19 +68,20 @@
           </tng-menu>
         </div>
 
-        <tng-switch
-          class="docs-mode-switch hidden md:inline-flex"
-          [checked]="darkMode()"
-          [ariaLabel]="darkMode() ? 'Switch to light mode' : 'Switch to dark mode'"
-          (checkedChange)="onModeSwitchChange($event)"
+        <button
+          type="button"
+          class="docs-mode-toggle hidden h-9 w-9 items-center justify-center rounded-md border border-transparent text-tng-fg-secondary transition-colors hover:border-tng-border-subtle hover:bg-tng-bg-muted hover:text-tng-fg-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tng-focus-ring md:inline-flex"
+          [attr.aria-label]="darkMode() ? 'Switch to light mode' : 'Switch to dark mode'"
+          [attr.aria-pressed]="darkMode()"
+          [attr.data-mode]="darkMode() ? 'dark' : 'light'"
+          (click)="toggleMode()"
         >
-          <span offIcon aria-hidden="true">
-            <tng-icon icon="sun" class="h-4 w-4 text-amber-600" />
-          </span>
-          <span onIcon aria-hidden="true">
-            <tng-icon icon="moon" class="h-4 w-4 text-slate-700" />
-          </span>
-        </tng-switch>
+          @if (darkMode()) {
+            <tng-icon icon="moon" class="h-4 w-4" />
+          } @else {
+            <tng-icon icon="sun" class="h-4 w-4" />
+          }
+        </button>
 
         <a
           href="https://github.com/tailng/tailng-ui"

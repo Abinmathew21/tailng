@@ -38,14 +38,24 @@
           controlled.
         </p>
         <div class="toggle-example-stack">
-          <tng-toggle-group ariaLabel="View mode toggles">
-            <tng-toggle [pressed]="compactMode()" (pressedChange)="compactMode.set($event)">
-              <span offIcon>compact</span>
-              <span onIcon>compact</span>
+          <tng-toggle-group ariaLabel="View mode toggles" class="toggle-example-group">
+            <tng-toggle
+              [pressed]="compactMode()"
+              pressedLabel="Disable compact view"
+              unpressedLabel="Enable compact view"
+              (pressedChange)="compactMode.set($event)"
+            >
+              <tng-icon icon="grid" offIcon class="h-4 w-4"></tng-icon>
+              <tng-icon icon="grid" onIcon class="h-4 w-4"></tng-icon>
             </tng-toggle>
-            <tng-toggle [pressed]="listMode()" (pressedChange)="listMode.set($event)">
-              <span offIcon>list</span>
-              <span onIcon>list</span>
+            <tng-toggle
+              [pressed]="listMode()"
+              pressedLabel="Disable list view"
+              unpressedLabel="Enable list view"
+              (pressedChange)="listMode.set($event)"
+            >
+              <tng-icon icon="list" offIcon class="h-4 w-4"></tng-icon>
+              <tng-icon icon="list" onIcon class="h-4 w-4"></tng-icon>
             </tng-toggle>
           </tng-toggle-group>
         </div>
