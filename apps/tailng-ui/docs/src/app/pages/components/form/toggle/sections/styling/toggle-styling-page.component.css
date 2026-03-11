@@ -97,3 +97,40 @@
   display: inline-flex;
   gap: 0.55rem;
 }
+
+.toolbar-toggle {
+  align-items: center;
+  appearance: none;
+  background: var(--tng-semantic-background-surface);
+  border: 1px solid var(--tng-semantic-border-strong);
+  border-radius: 0.65rem;
+  color: var(--tng-semantic-foreground-primary);
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 0.86rem;
+  font-weight: 600;
+  justify-content: center;
+  min-height: 2rem;
+  min-width: 5.5rem;
+  padding: 0.35rem 0.8rem;
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease,
+    color 150ms ease;
+}
+
+.toolbar-toggle[data-state='on'] {
+  background: var(--tng-semantic-accent-brand);
+  border-color: var(--tng-semantic-accent-brand);
+  color: var(--tng-color-white);
+}
+
+.toolbar-toggle[data-disabled] {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.toolbar-toggle:focus-visible {
+  outline: 2px solid var(--tng-semantic-focus-ring);
+  outline-offset: 2px;
+}

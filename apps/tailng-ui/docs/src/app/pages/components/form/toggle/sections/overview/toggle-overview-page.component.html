@@ -71,9 +71,23 @@
       [codeTabs]="headlessCodeTabs"
     >
       <div class="toggle-preview-stack">
-        <button tngToggle [pressed]="true">Bold</button>
-        <button tngToggle [pressed]="false">Italic</button>
-        <button tngToggle [disabled]="true">Disabled</button>
+        <button
+          tngToggle
+          class="toggle-preview-control"
+          [pressed]="headlessBold()"
+          (pressedChange)="headlessBold.set($event)"
+        >
+          Bold
+        </button>
+        <button
+          tngToggle
+          class="toggle-preview-control"
+          [pressed]="headlessItalic()"
+          (pressedChange)="headlessItalic.set($event)"
+        >
+          Italic
+        </button>
+        <button tngToggle class="toggle-preview-control" [disabled]="true">Disabled</button>
       </div>
     </ng-template>
 
@@ -85,11 +99,21 @@
       [codeTabs]="plainCssCodeTabs"
     >
       <div class="plain-toggle-card">
-        <tng-toggle [pressed]="true" pressedLabel="Disable bold" unpressedLabel="Enable bold">
+        <tng-toggle
+          [pressed]="plainBold()"
+          pressedLabel="Disable bold"
+          unpressedLabel="Enable bold"
+          (pressedChange)="plainBold.set($event)"
+        >
           <span offIcon>B</span>
           <span onIcon>B</span>
         </tng-toggle>
-        <tng-toggle [pressed]="false" pressedLabel="Disable italic" unpressedLabel="Enable italic">
+        <tng-toggle
+          [pressed]="plainItalic()"
+          pressedLabel="Disable italic"
+          unpressedLabel="Enable italic"
+          (pressedChange)="plainItalic.set($event)"
+        >
           <span offIcon>I</span>
           <span onIcon>I</span>
         </tng-toggle>
@@ -104,16 +128,26 @@
       panelTitle="Tailwind toggle stack"
       [codeTabs]="tailwindCodeTabs"
     >
-      <div class="grid gap-3 rounded-xl border border-slate-300 bg-white/80 p-4">
-        <tng-toggle [pressed]="true" class="text-slate-900">
+      <div
+        class="grid gap-3 rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+      >
+        <tng-toggle
+          [pressed]="tailwindGrid()"
+          class="text-slate-900 dark:text-slate-100"
+          (pressedChange)="tailwindGrid.set($event)"
+        >
           <span offIcon>grid</span>
           <span onIcon>grid</span>
         </tng-toggle>
-        <tng-toggle [pressed]="false" class="text-slate-900">
+        <tng-toggle
+          [pressed]="tailwindList()"
+          class="text-slate-900 dark:text-slate-100"
+          (pressedChange)="tailwindList.set($event)"
+        >
           <span offIcon>list</span>
           <span onIcon>list</span>
         </tng-toggle>
-        <tng-toggle [disabled]="true" class="text-slate-900">disabled</tng-toggle>
+        <tng-toggle [disabled]="true" class="text-slate-900 dark:text-slate-100">disabled</tng-toggle>
       </div>
     </ng-template>
   </app-docs-example-tabs-section>
