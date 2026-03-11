@@ -65,6 +65,18 @@ export const COMPONENTS_FORM_GROUP: ComponentsDocsGroup = {
       description: 'Text input fields, adornments, validation messaging, and layout patterns.',
     },
     {
+      id: 'checkbox',
+      slug: 'checkbox',
+      title: 'Checkbox',
+      description: 'Binary and tri-state selection patterns with headless and styled usage.',
+    },
+    {
+      id: 'toggle',
+      slug: 'toggle',
+      title: 'Toggle',
+      description: 'Pressed button semantics for compact on/off actions and toolbar commands.',
+    },
+    {
       id: 'listbox',
       slug: 'listbox',
       title: 'ListBox',
@@ -157,7 +169,10 @@ export const COMPONENTS_DOCS_GROUPS: readonly ComponentsDocsGroup[] = Object.fre
 ]);
 
 const defaultGroup = COMPONENTS_GETTING_STARTED_GROUP;
-const defaultItem = defaultGroup.items[0]!;
+const defaultItem = defaultGroup.items[0];
+if (defaultItem === undefined) {
+  throw new Error('Components docs default item is missing.');
+}
 
 export const DEFAULT_COMPONENTS_DOCS_SEGMENT = `${defaultGroup.id}/${defaultItem.slug}`;
 

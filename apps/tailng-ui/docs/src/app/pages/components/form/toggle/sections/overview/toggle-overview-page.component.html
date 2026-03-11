@@ -1,0 +1,129 @@
+<article class="toggle-overview">
+  <h2 class="toggle-overview-title">Toggle overview</h2>
+  <p class="toggle-overview-lead">
+    TailNG toggle provides pressed-button semantics through a headless directive
+    (<code>tngToggle</code>) and a styled wrapper (<code>tng-toggle</code>).
+  </p>
+
+  <section class="toggle-overview-block">
+    <h3>Imports</h3>
+    <p>Use primitives for full ownership, or use the styled component for fast adoption.</p>
+    <tng-code-block
+      [code]="primitiveImportCode"
+      adapter="shiki"
+      language="ts"
+      title="Primitive import"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+    <tng-code-block
+      [code]="componentImportCode"
+      adapter="shiki"
+      language="ts"
+      title="Styled component import"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <section class="toggle-overview-block">
+    <h3>Usage patterns</h3>
+    <tng-code-block
+      [code]="primitiveUsageCode"
+      adapter="shiki"
+      language="html"
+      title="Primitive usage"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+    <tng-code-block
+      [code]="componentUsageCode"
+      adapter="shiki"
+      language="html"
+      title="Styled usage"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <app-docs-example-tabs-section
+    class="toggle-overview-block"
+    heading="Style variants"
+    description="Same toggle behavior rendered with headless markup, plain CSS shell, and Tailwind utility styles."
+    ariaLabel="Toggle style variants"
+    tabListAriaLabel="Toggle style tabs"
+    defaultValue="headless"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="headless"
+      label="Headless"
+      panelTitle="Headless toggle stack"
+      [codeTabs]="headlessCodeTabs"
+    >
+      <div class="toggle-preview-stack">
+        <button tngToggle [pressed]="true">Bold</button>
+        <button tngToggle [pressed]="false">Italic</button>
+        <button tngToggle [disabled]="true">Disabled</button>
+      </div>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+      panelTitle="Plain CSS toggle stack"
+      [codeTabs]="plainCssCodeTabs"
+    >
+      <div class="plain-toggle-card">
+        <tng-toggle [pressed]="true" pressedLabel="Disable bold" unpressedLabel="Enable bold">
+          <span offIcon>B</span>
+          <span onIcon>B</span>
+        </tng-toggle>
+        <tng-toggle [pressed]="false" pressedLabel="Disable italic" unpressedLabel="Enable italic">
+          <span offIcon>I</span>
+          <span onIcon>I</span>
+        </tng-toggle>
+        <tng-toggle [disabled]="true">Disabled</tng-toggle>
+      </div>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Tailwind toggle stack"
+      [codeTabs]="tailwindCodeTabs"
+    >
+      <div class="grid gap-3 rounded-xl border border-slate-300 bg-white/80 p-4">
+        <tng-toggle [pressed]="true" class="text-slate-900">
+          <span offIcon>grid</span>
+          <span onIcon>grid</span>
+        </tng-toggle>
+        <tng-toggle [pressed]="false" class="text-slate-900">
+          <span offIcon>list</span>
+          <span onIcon>list</span>
+        </tng-toggle>
+        <tng-toggle [disabled]="true" class="text-slate-900">disabled</tng-toggle>
+      </div>
+    </ng-template>
+  </app-docs-example-tabs-section>
+
+  <section class="toggle-overview-block">
+    <h3>Accessibility baseline</h3>
+    <ul class="toggle-overview-list">
+      <li><code>aria-pressed</code> reflects the active state for assistive technologies.</li>
+      <li>Native button semantics preserve keyboard support for Enter, Space, and Tab flow.</li>
+      <li>State hooks are exposed via <code>data-state</code> and focus data attributes.</li>
+    </ul>
+  </section>
+</article>

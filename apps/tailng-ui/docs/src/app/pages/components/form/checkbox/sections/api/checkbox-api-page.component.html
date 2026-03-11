@@ -1,0 +1,196 @@
+<article class="checkbox-api">
+  <h2 class="checkbox-api-title">API reference</h2>
+  <p class="checkbox-api-lead">
+    Checkbox exposes a primitive directive for headless behavior and a styled wrapper with
+    ControlValueAccessor support.
+  </p>
+
+  <section class="checkbox-api-block">
+    <h3><code>tngCheckbox</code> (directive)</h3>
+    <p>Attach on native <code>input[type="checkbox"]</code>.</p>
+    <tng-code-block
+      [code]="primitiveAttachmentCode"
+      adapter="shiki"
+      language="html"
+      title="Primitive attachment"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+
+    <div class="checkbox-api-table-wrap">
+      <table class="checkbox-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Input</th>
+            <th scope="col">Type</th>
+            <th scope="col">Default</th>
+            <th scope="col">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>checked</code></td>
+            <td><code>boolean | '' | string</code></td>
+            <td><code>false</code></td>
+            <td>Marks checkbox checked state.</td>
+          </tr>
+          <tr>
+            <td><code>indeterminate</code></td>
+            <td><code>boolean | '' | string</code></td>
+            <td><code>false</code></td>
+            <td>Tri-state mixed mode support.</td>
+          </tr>
+          <tr>
+            <td><code>disabled</code></td>
+            <td><code>boolean | '' | string</code></td>
+            <td><code>false</code></td>
+            <td>Blocks interaction and applies disabled attributes.</td>
+          </tr>
+          <tr>
+            <td><code>readonly</code></td>
+            <td><code>boolean | '' | string</code></td>
+            <td><code>false</code></td>
+            <td>Keeps focusability while blocking toggles.</td>
+          </tr>
+          <tr>
+            <td><code>required</code></td>
+            <td><code>boolean | '' | string</code></td>
+            <td><code>false</code></td>
+            <td>Reflects native required attribute.</td>
+          </tr>
+          <tr>
+            <td><code>invalid</code></td>
+            <td><code>boolean | null | '' | 'true' | 'false'</code></td>
+            <td><code>null</code></td>
+            <td>Explicit invalid state override for styling and ARIA.</td>
+          </tr>
+          <tr>
+            <td><code>ariaInvalid</code></td>
+            <td><code>boolean | null | '' | 'true' | 'false'</code></td>
+            <td><code>null</code></td>
+            <td>Alternative ARIA invalid override.</td>
+          </tr>
+          <tr>
+            <td><code>name</code>, <code>value</code></td>
+            <td><code>string | null</code></td>
+            <td><code>null</code></td>
+            <td>Native form submission support.</td>
+          </tr>
+          <tr>
+            <td><code>ariaDescribedBy</code></td>
+            <td><code>string | null</code></td>
+            <td><code>null</code></td>
+            <td>Links helper or error text.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="checkbox-api-table-wrap">
+      <table class="checkbox-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Output Attribute</th>
+            <th scope="col">When set</th>
+            <th scope="col">Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>aria-checked</code></td>
+            <td>Always</td>
+            <td>Exposes <code>true</code>, <code>false</code>, or <code>mixed</code>.</td>
+          </tr>
+          <tr>
+            <td><code>data-state</code></td>
+            <td>Always</td>
+            <td>Unified state key: <code>checked | unchecked | mixed</code>.</td>
+          </tr>
+          <tr>
+            <td><code>data-checked</code>, <code>data-unchecked</code>, <code>data-mixed</code></td>
+            <td>State-specific</td>
+            <td>Convenient styling hooks.</td>
+          </tr>
+          <tr>
+            <td>
+              <code>data-disabled</code>, <code>data-readonly</code>, <code>data-invalid</code>
+            </td>
+            <td>When active</td>
+            <td>State hooks for visual contracts.</td>
+          </tr>
+          <tr>
+            <td><code>data-focused</code>, <code>data-focus-visible</code></td>
+            <td>During focus lifecycle</td>
+            <td>Keyboard/pointer aware focus styling.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="checkbox-api-block">
+    <h3><code>tng-checkbox</code> (styled component)</h3>
+    <p>Wrapper over primitive behavior with output events and Angular forms support.</p>
+    <tng-code-block
+      [code]="componentAttachmentCode"
+      adapter="shiki"
+      language="html"
+      title="Styled attachment"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+
+    <div class="checkbox-api-table-wrap">
+      <table class="checkbox-api-table">
+        <thead>
+          <tr>
+            <th scope="col">API</th>
+            <th scope="col">Type</th>
+            <th scope="col">Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Inputs</td>
+            <td>
+              <code>checked</code>, <code>indeterminate</code>, <code>disabled</code>,
+              <code>readonly</code>, <code>required</code>, <code>invalid</code>, <code>name</code>,
+              <code>value</code>, <code>ariaDescribedBy</code>
+            </td>
+            <td>Forwarded to primitive and root wrapper state.</td>
+          </tr>
+          <tr>
+            <td>Outputs</td>
+            <td><code>checkedChange</code>, <code>indeterminateChange</code></td>
+            <td>Emits on user changes when not readonly/disabled.</td>
+          </tr>
+          <tr>
+            <td>Forms</td>
+            <td><code>ControlValueAccessor</code></td>
+            <td>
+              Supports <code>formControl</code>, <code>formControlName</code>, and
+              <code>ngModel</code>.
+            </td>
+          </tr>
+          <tr>
+            <td>Model type</td>
+            <td><code>boolean | 'mixed'</code></td>
+            <td>Tri-state value can flow through forms for advanced workflows.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <tng-code-block
+      [code]="reactiveFormCode"
+      adapter="shiki"
+      language="ts"
+      title="Reactive forms"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+</article>

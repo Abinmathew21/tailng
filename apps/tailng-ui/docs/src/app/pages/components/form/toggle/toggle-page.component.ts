@@ -1,0 +1,93 @@
+import { computed, Component, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { TngTabsComponent } from '@tailng-ui/components';
+import { TngTab, TngTabList } from '@tailng-ui/primitives';
+import { filter, map, startWith } from 'rxjs/operators';
+
+type ToggleDocSectionId = 'api' | 'examples' | 'overview' | 'styling';
+
+const toggleDocSectionIds: readonly ToggleDocSectionId[] = [
+  'overview',
+  'api',
+  'styling',
+  'examples',
+] as const;
+
+const defaultToggleDocSection: ToggleDocSectionId = 'overview';
+
+function isToggleDocSectionId(value: string): value is ToggleDocSectionId {
+  return toggleDocSectionIds.includes(value as ToggleDocSectionId);
+}
+
+@Component({
+  selector: 'app-toggle-page',
+  imports: [RouterOutlet, TngTabsComponent, TngTabList, TngTab],
+  templateUrl: './toggle-page.component.html',
+  styleUrl: './toggle-page.component.css',
+})
+export class TogglePageComponent {
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly currentUrl = toSignal(
+    this.router.events.pipe(
+      filter((event): event is NavigationEnd => event instanceof NavigationEnd),
+      map((event) => event.urlAfterRedirects),
+      startWith(this.router.url),
+    ),
+    { initialValue: this.router.url },
+  );
+
+  public readonly activeSection = computed<ToggleDocSectionId>(() => {
+    const section = this.resolveSectionFromUrl(this.currentUrl());
+    return section ?? defaultToggleDocSection;
+  });
+
+  public onSectionChange(value: string | number | null): void {
+    if (typeof value !== 'string' || !isToggleDocSectionId(value)) {
+      return;
+    }
+
+    if (value === this.activeSection()) {
+      return;
+    }
+
+    void this.router.navigate([value], { relativeTo: this.route });
+  }
+
+  private resolveSectionFromUrl(rawUrl: string): ToggleDocSectionId | null {
+    const path = this.normalizeUrl(rawUrl);
+    const segments = path.split('/').filter((segment) => segment.length > 0);
+    if (segments.length < 4) {
+      return null;
+    }
+
+    const section = segments[3];
+    if (section === undefined || !isToggleDocSectionId(section)) {
+      return null;
+    }
+
+    return section;
+  }
+
+  private normalizeUrl(rawUrl: string): string {
+    const queryIndex = rawUrl.indexOf('?');
+    const hashIndex = rawUrl.indexOf('#');
+    let endIndex = rawUrl.length;
+
+    if (queryIndex >= 0) {
+      endIndex = Math.min(endIndex, queryIndex);
+    }
+
+    if (hashIndex >= 0) {
+      endIndex = Math.min(endIndex, hashIndex);
+    }
+
+    const normalized = rawUrl.slice(0, endIndex);
+    if (normalized.length > 1 && normalized.endsWith('/')) {
+      return normalized.slice(0, -1);
+    }
+
+    return normalized;
+  }
+}

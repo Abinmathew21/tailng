@@ -1,0 +1,132 @@
+<article class="checkbox-overview">
+  <h2 class="checkbox-overview-title">Checkbox overview</h2>
+  <p class="checkbox-overview-lead">
+    TailNG checkbox supports binary and tri-state selection with a headless primitive
+    (<code>tngCheckbox</code>) and a styled wrapper (<code>tng-checkbox</code>).
+  </p>
+
+  <section class="checkbox-overview-block">
+    <h3>Imports</h3>
+    <p>Use primitives for full ownership, or use the styled component for fast adoption.</p>
+    <tng-code-block
+      [code]="primitiveImportCode"
+      adapter="shiki"
+      language="ts"
+      title="Primitive import"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+    <tng-code-block
+      [code]="componentImportCode"
+      adapter="shiki"
+      language="ts"
+      title="Styled component import"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <section class="checkbox-overview-block">
+    <h3>Usage patterns</h3>
+    <tng-code-block
+      [code]="primitiveUsageCode"
+      adapter="shiki"
+      language="html"
+      title="Primitive usage"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+    <tng-code-block
+      [code]="componentUsageCode"
+      adapter="shiki"
+      language="html"
+      title="Styled usage"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <app-docs-example-tabs-section
+    class="checkbox-overview-block"
+    heading="Style variants"
+    description="Same checkbox behavior rendered with headless markup, plain CSS shell, and Tailwind utility styles."
+    ariaLabel="Checkbox style variants"
+    tabListAriaLabel="Checkbox style tabs"
+    defaultValue="headless"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="headless"
+      label="Headless"
+      panelTitle="Headless checkbox stack"
+      [codeTabs]="headlessCodeTabs"
+    >
+      <div class="checkbox-preview-stack">
+        <label class="checkbox-row">
+          <input tngCheckbox [checked]="true" />
+          <span>Email notifications</span>
+        </label>
+        <label class="checkbox-row">
+          <input tngCheckbox [indeterminate]="true" />
+          <span>Weekly digest (mixed)</span>
+        </label>
+        <label class="checkbox-row">
+          <input tngCheckbox [readonly]="true" [checked]="true" />
+          <span>Readonly legal acknowledgement</span>
+        </label>
+      </div>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+      panelTitle="Plain CSS checkbox stack"
+      [codeTabs]="plainCssCodeTabs"
+    >
+      <div class="plain-checkbox-card">
+        <tng-checkbox [checked]="true">Email notifications</tng-checkbox>
+        <tng-checkbox [indeterminate]="true">Weekly digest (mixed)</tng-checkbox>
+        <tng-checkbox [readonly]="true" [checked]="true"
+          >Readonly legal acknowledgement</tng-checkbox
+        >
+      </div>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Tailwind checkbox stack"
+      [codeTabs]="tailwindCodeTabs"
+    >
+      <div class="grid gap-3 rounded-xl border border-slate-300 bg-white/80 p-4">
+        <tng-checkbox [checked]="true" class="text-slate-900">Email notifications</tng-checkbox>
+        <tng-checkbox [indeterminate]="true" class="text-slate-900"
+          >Weekly digest (mixed)</tng-checkbox
+        >
+        <tng-checkbox [readonly]="true" [checked]="true" class="text-slate-900"
+          >Readonly legal acknowledgement</tng-checkbox
+        >
+      </div>
+    </ng-template>
+  </app-docs-example-tabs-section>
+
+  <section class="checkbox-overview-block">
+    <h3>Accessibility baseline</h3>
+    <ul class="checkbox-overview-list">
+      <li>Tri-state uses <code>aria-checked="mixed"</code> automatically.</li>
+      <li>Readonly stays focusable, but toggling is blocked for keyboard and pointer.</li>
+      <li>State hooks are exposed via <code>data-*</code> attributes for styling.</li>
+    </ul>
+  </section>
+</article>

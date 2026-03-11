@@ -1,0 +1,62 @@
+:host {
+  display: block;
+}
+
+.toggle-examples {
+  display: grid;
+  gap: 1rem;
+}
+
+.toggle-examples-title {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.toggle-examples-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.toggle-examples-block {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.9rem;
+  color: var(--tng-semantic-foreground-secondary);
+  display: grid;
+  gap: 0.7rem;
+  padding: 1rem;
+}
+
+.toggle-examples-block h3 {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1rem;
+  margin: 0;
+}
+
+.toggle-examples-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.toggle-example-description {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.toggle-example-stack {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.toggle-example-toolbar {
+  display: inline-flex;
+  gap: 0.55rem;
+}
+
+.toggle-example-summary {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.82rem;
+  margin: 0;
+  text-transform: lowercase;
+}

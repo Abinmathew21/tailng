@@ -1,0 +1,72 @@
+:host {
+  display: block;
+}
+
+.checkbox-examples {
+  display: grid;
+  gap: 1rem;
+}
+
+.checkbox-examples-title {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.checkbox-examples-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.checkbox-examples-block {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.9rem;
+  color: var(--tng-semantic-foreground-secondary);
+  display: grid;
+  gap: 0.7rem;
+  padding: 1rem;
+}
+
+.checkbox-examples-block h3 {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1rem;
+  margin: 0;
+}
+
+.checkbox-examples-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.checkbox-example-description {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.checkbox-example-stack {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.checkbox-example-stack--tri-state {
+  background: color-mix(in srgb, var(--tng-semantic-background-base) 95%, transparent);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.75rem;
+  padding: 0.75rem 0.9rem;
+}
+
+.checkbox-example-children {
+  border-left: 2px solid var(--tng-semantic-border-subtle);
+  display: grid;
+  gap: 0.55rem;
+  margin-left: 0.35rem;
+  padding-left: 0.7rem;
+}
+
+.checkbox-example-summary {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.82rem;
+  margin: 0;
+  text-transform: lowercase;
+}

@@ -1,0 +1,76 @@
+<article class="checkbox-examples">
+  <h2 class="checkbox-examples-title">Examples</h2>
+  <p class="checkbox-examples-lead">
+    Production-focused checkbox patterns for consent, tri-state selection, and validation.
+  </p>
+
+  <section class="checkbox-examples-block">
+    <h3>Professional scenarios</h3>
+
+    <div class="checkbox-examples-grid">
+      <app-docs-example-panel
+        title="Consent and readonly policy"
+        [codeTabs]="consentCodeTabs"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <p class="checkbox-example-description">
+          Distinguish editable consent from readonly legal confirmation.
+        </p>
+        <div class="checkbox-example-stack">
+          <tng-checkbox [checked]="true">I confirm release notes are reviewed.</tng-checkbox>
+          <tng-checkbox [readonly]="true" [checked]="true"
+            >Legal policy accepted (readonly).</tng-checkbox
+          >
+        </div>
+      </app-docs-example-panel>
+
+      <app-docs-example-panel
+        title="Tri-state select-all"
+        [codeTabs]="triStateCodeTabs"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <p class="checkbox-example-description">
+          Parent checkbox tracks child completion using <code>checked</code> and
+          <code>indeterminate</code>.
+        </p>
+        <div class="checkbox-example-stack checkbox-example-stack--tri-state">
+          <tng-checkbox
+            [checked]="allRowsChecked()"
+            [indeterminate]="someRowsChecked()"
+            (checkedChange)="onSelectAllChange($event)"
+          >
+            Select all deployment checks
+          </tng-checkbox>
+
+          <div class="checkbox-example-children">
+            @for (row of rows; track row) {
+              <tng-checkbox
+                [checked]="isRowChecked(row)"
+                (checkedChange)="onRowChange(row, $event)"
+              >
+                {{ row }}
+              </tng-checkbox>
+            }
+          </div>
+
+          <p class="checkbox-example-summary">selected: {{ statusSummary() }}</p>
+        </div>
+      </app-docs-example-panel>
+
+      <app-docs-example-panel
+        title="Validation emphasis"
+        [codeTabs]="validationCodeTabs"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <p class="checkbox-example-description">
+          Use <code>invalid</code> to highlight mandatory checks before release.
+        </p>
+        <div class="checkbox-example-stack">
+          <tng-checkbox [invalid]="true"
+            >Security review is required before production deploy.</tng-checkbox
+          >
+        </div>
+      </app-docs-example-panel>
+    </div>
+  </section>
+</article>

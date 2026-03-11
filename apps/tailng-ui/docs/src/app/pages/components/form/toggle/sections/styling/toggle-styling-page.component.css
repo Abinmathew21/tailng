@@ -1,0 +1,99 @@
+:host {
+  display: block;
+}
+
+.toggle-styling {
+  display: grid;
+  gap: 1rem;
+}
+
+.toggle-styling-title {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.toggle-styling-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.toggle-styling-block {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.9rem;
+  color: var(--tng-semantic-foreground-secondary);
+  display: grid;
+  gap: 0.7rem;
+  padding: 1rem;
+}
+
+.toggle-styling-block h3 {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1rem;
+  margin: 0;
+}
+
+.toggle-styling-table-wrap {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.75rem;
+  overflow-x: auto;
+}
+
+.toggle-styling-table {
+  border-collapse: collapse;
+  min-width: 35rem;
+  width: 100%;
+}
+
+.toggle-styling-table thead th {
+  background: color-mix(in srgb, var(--tng-semantic-background-surface) 88%, transparent);
+  border-bottom: 1px solid var(--tng-semantic-border-subtle);
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  padding: 0.7rem 0.75rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.toggle-styling-table tbody td {
+  border-bottom: 1px solid var(--tng-semantic-border-subtle);
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.86rem;
+  line-height: 1.45;
+  padding: 0.68rem 0.75rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.toggle-styling-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.toggle-styling-table tbody tr:nth-child(even) td {
+  background: color-mix(
+    in srgb,
+    var(--tng-semantic-background-base) 94%,
+    var(--tng-semantic-foreground-primary) 6%
+  );
+}
+
+.toggle-preview-stack,
+.settings-panel {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.settings-panel {
+  background: var(--tng-semantic-background-surface);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.8rem;
+  padding: 0.9rem 1rem;
+}
+
+.toolbar-row {
+  display: inline-flex;
+  gap: 0.55rem;
+}

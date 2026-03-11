@@ -1,4 +1,39 @@
-import { Directive, HostBinding, booleanAttribute, input } from '@angular/core';
+import {
+  Directive,
+  ElementRef,
+  HostBinding,
+  HostListener,
+  booleanAttribute,
+  inject,
+  input,
+} from '@angular/core';
+
+type NullableBooleanInput = '' | 'false' | 'true' | boolean | null | undefined;
+
+function normalizeStringValue(value: string | null | undefined): string | null {
+  if (value === undefined || value === null) {
+    return null;
+  }
+
+  const normalized = value.trim();
+  return normalized.length > 0 ? normalized : null;
+}
+
+export function coerceTngCheckboxNullableBoolean(value: NullableBooleanInput): boolean | null {
+  if (value === undefined || value === null) {
+    return null;
+  }
+
+  if (value === '' || value === true || value === 'true') {
+    return true;
+  }
+
+  if (value === false || value === 'false') {
+    return false;
+  }
+
+  return null;
+}
 
 export function resolveTngCheckboxAriaChecked(
   checked: boolean,
@@ -22,13 +57,19 @@ export function resolveTngCheckboxDataState(
   return checked ? 'checked' : 'unchecked';
 }
 
-function normalizeStringValue(value: string | null | undefined): string | null {
-  if (value === undefined || value === null) {
-    return null;
+export function resolveTngCheckboxInvalidState(
+  invalid: boolean | null,
+  ariaInvalid: boolean | null,
+): boolean {
+  if (invalid !== null) {
+    return invalid;
   }
 
-  const normalized = value.trim();
-  return normalized.length > 0 ? normalized : null;
+  if (ariaInvalid !== null) {
+    return ariaInvalid;
+  }
+
+  return false;
 }
 
 @Directive({
@@ -36,17 +77,30 @@ function normalizeStringValue(value: string | null | undefined): string | null {
   exportAs: 'tngCheckbox',
 })
 export class TngCheckbox {
+  private readonly elementRef = inject<ElementRef<HTMLInputElement>>(ElementRef);
+  private focused = false;
+  private focusVisible = false;
+
   public readonly ariaDescribedBy = input<string | null>(null);
+  public readonly ariaInvalid = input<boolean | null, NullableBooleanInput>(null, {
+    transform: coerceTngCheckboxNullableBoolean,
+  });
   public readonly checked = input<boolean, boolean | string>(false, {
     transform: booleanAttribute,
   });
   public readonly disabled = input<boolean, boolean | string>(false, {
     transform: booleanAttribute,
   });
+  public readonly invalid = input<boolean | null, NullableBooleanInput>(null, {
+    transform: coerceTngCheckboxNullableBoolean,
+  });
   public readonly indeterminate = input<boolean, boolean | string>(false, {
     transform: booleanAttribute,
   });
   public readonly name = input<string | null>(null);
+  public readonly readonly = input<boolean, boolean | string>(false, {
+    transform: booleanAttribute,
+  });
   public readonly required = input<boolean, boolean | string>(false, {
     transform: booleanAttribute,
   });
@@ -73,14 +127,64 @@ export class TngCheckbox {
     return normalizeStringValue(this.ariaDescribedBy());
   }
 
+  @HostBinding('attr.aria-invalid')
+  protected get ariaInvalidAttr(): 'true' | null {
+    return this.isInvalid() ? 'true' : null;
+  }
+
+  @HostBinding('attr.aria-readonly')
+  protected get ariaReadonlyAttr(): 'true' | null {
+    return this.readonly() ? 'true' : null;
+  }
+
+  @HostBinding('attr.data-checked')
+  protected get dataCheckedAttr(): '' | null {
+    return this.checked() && !this.indeterminate() ? '' : null;
+  }
+
   @HostBinding('attr.data-disabled')
   protected get dataDisabledAttr(): '' | null {
     return this.disabled() ? '' : null;
   }
 
+  @HostBinding('attr.data-focused')
+  protected get dataFocusedAttr(): '' | null {
+    return this.focused ? '' : null;
+  }
+
+  @HostBinding('attr.data-focus-visible')
+  protected get dataFocusVisibleAttr(): '' | null {
+    return this.focusVisible ? '' : null;
+  }
+
+  @HostBinding('attr.data-invalid')
+  protected get dataInvalidAttr(): '' | null {
+    return this.isInvalid() ? '' : null;
+  }
+
+  @HostBinding('attr.data-mixed')
+  protected get dataMixedAttr(): '' | null {
+    return this.indeterminate() ? '' : null;
+  }
+
+  @HostBinding('attr.data-readonly')
+  protected get dataReadonlyAttr(): '' | null {
+    return this.readonly() ? '' : null;
+  }
+
+  @HostBinding('attr.data-required')
+  protected get dataRequiredAttr(): '' | null {
+    return this.required() ? '' : null;
+  }
+
   @HostBinding('attr.data-state')
   protected get dataStateAttr(): 'checked' | 'mixed' | 'unchecked' {
     return resolveTngCheckboxDataState(this.checked(), this.indeterminate());
+  }
+
+  @HostBinding('attr.data-unchecked')
+  protected get dataUncheckedAttr(): '' | null {
+    return !this.checked() && !this.indeterminate() ? '' : null;
   }
 
   @HostBinding('attr.disabled')
@@ -106,5 +210,32 @@ export class TngCheckbox {
   @HostBinding('attr.value')
   protected get valueAttr(): string | null {
     return normalizeStringValue(this.value());
+  }
+
+  @HostListener('blur')
+  public onBlur(): void {
+    this.focused = false;
+    this.focusVisible = false;
+  }
+
+  @HostListener('focus')
+  public onFocus(): void {
+    this.focused = true;
+    this.focusVisible = this.elementRef.nativeElement.matches(':focus-visible');
+  }
+
+  @HostListener('change')
+  public onReadonlyChange(): void {
+    if (!this.readonly() || this.disabled()) {
+      return;
+    }
+
+    const hostElement = this.elementRef.nativeElement;
+    hostElement.checked = this.checked();
+    hostElement.indeterminate = this.indeterminate();
+  }
+
+  private isInvalid(): boolean {
+    return resolveTngCheckboxInvalidState(this.invalid(), this.ariaInvalid());
   }
 }

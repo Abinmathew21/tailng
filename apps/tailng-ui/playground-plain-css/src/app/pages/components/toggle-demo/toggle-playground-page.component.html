@@ -2,15 +2,30 @@
   <section class="container">
     <section class="card">
       <h2>Primitives (`tngToggle`)</h2>
-      <button
-        tngToggle
-        [pressed]="primitivePressed()"
-        class="primitive-toggle"
-        [class.primitive-toggle--pressed]="primitivePressed()"
-        (click)="onPrimitiveToggle()"
-      >
-        {{ primitivePressed() ? 'ON' : 'OFF' }}
-      </button>
+      <div class="toggle-row">
+        <button
+          tngToggle
+          [pressed]="primitivePressed()"
+          class="primitive-toggle"
+          [class.primitive-toggle--pressed]="primitivePressed()"
+          (click)="onPrimitiveToggle()"
+        >
+          {{ primitivePressed() ? 'ON' : 'OFF' }}
+        </button>
+        <span class="mode-text">Controlled: {{ primitivePressed() ? 'on' : 'off' }}</span>
+      </div>
+
+      <div class="toggle-row">
+        <button
+          tngToggle
+          [defaultPressed]="true"
+          class="primitive-toggle"
+          (pressedChange)="onPrimitiveUncontrolledChange($event)"
+        >
+          U
+        </button>
+        <span class="mode-text">Uncontrolled defaultPressed: {{ primitiveUncontrolled() }}</span>
+      </div>
     </section>
 
     <section class="card">
@@ -29,6 +44,27 @@
           Notifications {{ componentPressed() ? 'on' : 'off' }}
         </span>
       </div>
+
+      <tng-toggle-group ariaLabel="View mode toggles" class="toggle-group-row">
+        <tng-toggle
+          [pressed]="gridMode()"
+          pressedLabel="Disable grid mode"
+          unpressedLabel="Enable grid mode"
+          (pressedChange)="onGridToggle($event)"
+        >
+          <tng-icon icon="grid" offIcon></tng-icon>
+          <tng-icon icon="grid" onIcon></tng-icon>
+        </tng-toggle>
+        <tng-toggle
+          [pressed]="listMode()"
+          pressedLabel="Disable list mode"
+          unpressedLabel="Enable list mode"
+          (pressedChange)="onListToggle($event)"
+        >
+          <tng-icon icon="list" offIcon></tng-icon>
+          <tng-icon icon="list" onIcon></tng-icon>
+        </tng-toggle>
+      </tng-toggle-group>
     </section>
   </section>
 </main>

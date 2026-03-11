@@ -1,20 +1,37 @@
 <div class="mx-auto max-w-[72rem] grid gap-5">
   <section class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5 space-y-3">
     <h2 class="text-lg font-semibold">Primitives (`tngToggle`)</h2>
-    <button
-      tngToggle
-      [pressed]="primitivePressed()"
-      class="inline-flex h-10 w-10 items-center justify-center rounded-xl border px-4 py-2 text-sm font-semibold transition"
-      [class.border-tng-accent-brand]="primitivePressed()"
-      [class.bg-tng-accent-brand]="primitivePressed()"
-      [class.text-tng-fg-inverse]="primitivePressed()"
-      [class.border-tng-border-subtle]="!primitivePressed()"
-      [class.bg-transparent]="!primitivePressed()"
-      [class.text-tng-fg-primary]="!primitivePressed()"
-      (click)="onPrimitiveToggle()"
-    >
-      {{ primitivePressed() ? 'ON' : 'OFF' }}
-    </button>
+    <div class="flex items-center gap-3">
+      <button
+        tngToggle
+        [pressed]="primitivePressed()"
+        class="inline-flex h-10 w-10 items-center justify-center rounded-xl border px-4 py-2 text-sm font-semibold transition"
+        [class.border-tng-accent-brand]="primitivePressed()"
+        [class.bg-tng-accent-brand]="primitivePressed()"
+        [class.text-tng-fg-inverse]="primitivePressed()"
+        [class.border-tng-border-subtle]="!primitivePressed()"
+        [class.bg-transparent]="!primitivePressed()"
+        [class.text-tng-fg-primary]="!primitivePressed()"
+        (click)="onPrimitiveToggle()"
+      >
+        {{ primitivePressed() ? 'ON' : 'OFF' }}
+      </button>
+      <span class="text-sm text-tng-fg-secondary">Controlled: {{ primitivePressed() }}</span>
+    </div>
+
+    <div class="flex items-center gap-3">
+      <button
+        tngToggle
+        [defaultPressed]="true"
+        class="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-tng-border-subtle text-sm font-semibold text-tng-fg-primary transition"
+        (pressedChange)="onPrimitiveUncontrolledChange($event)"
+      >
+        U
+      </button>
+      <span class="text-sm text-tng-fg-secondary"
+        >Uncontrolled defaultPressed: {{ primitiveUncontrolled() }}</span
+      >
+    </div>
   </section>
 
   <section class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5 space-y-3">
@@ -33,5 +50,26 @@
         Dark mode {{ themeModeEnabled() ? 'enabled' : 'disabled' }}
       </span>
     </div>
+
+    <tng-toggle-group ariaLabel="View mode toggles" class="inline-flex items-center gap-2">
+      <tng-toggle
+        [pressed]="gridMode()"
+        pressedLabel="Disable grid mode"
+        unpressedLabel="Enable grid mode"
+        (pressedChange)="onGridModeChange($event)"
+      >
+        <tng-icon icon="grid" offIcon></tng-icon>
+        <tng-icon icon="grid" onIcon></tng-icon>
+      </tng-toggle>
+      <tng-toggle
+        [pressed]="listMode()"
+        pressedLabel="Disable list mode"
+        unpressedLabel="Enable list mode"
+        (pressedChange)="onListModeChange($event)"
+      >
+        <tng-icon icon="list" offIcon></tng-icon>
+        <tng-icon icon="list" onIcon></tng-icon>
+      </tng-toggle>
+    </tng-toggle-group>
   </section>
 </div>

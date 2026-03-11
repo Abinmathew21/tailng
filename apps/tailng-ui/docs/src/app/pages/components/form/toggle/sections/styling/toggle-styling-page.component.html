@@ -1,0 +1,135 @@
+<article class="toggle-styling">
+  <h2 class="toggle-styling-title">Styling contract</h2>
+  <p class="toggle-styling-lead">
+    Style against toggle state hooks and semantic tokens. Do not depend on internal DOM beyond the
+    documented attributes.
+  </p>
+
+  <section class="toggle-styling-block">
+    <h3>CSS contract table</h3>
+    <div class="toggle-styling-table-wrap">
+      <table class="toggle-styling-table">
+        <thead>
+          <tr>
+            <th scope="col">Selector</th>
+            <th scope="col">Applied on</th>
+            <th scope="col">Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>[data-state="on"]</code></td>
+            <td>Primitive button</td>
+            <td>Pressed state styling.</td>
+          </tr>
+          <tr>
+            <td><code>[data-disabled]</code></td>
+            <td>Primitive button + wrapper root</td>
+            <td>Muted visuals and not-allowed cursor behavior.</td>
+          </tr>
+          <tr>
+            <td><code>[data-state="off"]</code></td>
+            <td>Primitive button</td>
+            <td>Unpressed state styling.</td>
+          </tr>
+          <tr>
+            <td><code>[data-focused]</code>, <code>[data-focus-visible]</code></td>
+            <td>Primitive button</td>
+            <td>Focus and keyboard-focus visual differentiation.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="toggle-styling-table-wrap">
+      <table class="toggle-styling-table">
+        <thead>
+          <tr>
+            <th scope="col">Token</th>
+            <th scope="col">Typical use</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>--tng-semantic-accent-brand</code></td>
+            <td>Pressed toggle background and border.</td>
+          </tr>
+          <tr>
+            <td><code>--tng-semantic-focus-ring</code></td>
+            <td>Focus-visible ring color.</td>
+          </tr>
+          <tr>
+            <td><code>--tng-semantic-border-subtle</code></td>
+            <td>Container borders around toggle groups.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <app-docs-example-tabs-section
+    class="toggle-styling-block"
+    heading="User scenario style examples"
+    description="Use the same behavior contract with different styling systems."
+    ariaLabel="Toggle styling examples"
+    tabListAriaLabel="Toggle styling variants"
+    defaultValue="headless"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="headless"
+      label="Headless"
+      panelTitle="Release policy checklist"
+      [codeTabs]="headlessCodeTabs"
+    >
+      <div class="toggle-preview-stack">
+        <div class="toolbar-row">
+          <button tngToggle [pressed]="true">Bold</button>
+          <button tngToggle [pressed]="false">Italic</button>
+          <button tngToggle [disabled]="true">Disabled</button>
+        </div>
+      </div>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+      panelTitle="Release policy checklist"
+      [codeTabs]="plainCssCodeTabs"
+    >
+      <div class="settings-panel">
+        <tng-toggle [pressed]="true" pressedLabel="Disable bold" unpressedLabel="Enable bold">
+          <span offIcon>B</span>
+          <span onIcon>B</span>
+        </tng-toggle>
+        <tng-toggle [pressed]="false" pressedLabel="Disable italic" unpressedLabel="Enable italic">
+          <span offIcon>I</span>
+          <span onIcon>I</span>
+        </tng-toggle>
+        <tng-toggle [disabled]="true">Disabled</tng-toggle>
+      </div>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Release policy checklist"
+      [codeTabs]="tailwindCodeTabs"
+    >
+      <div class="grid gap-3 rounded-xl border border-slate-300 bg-white/80 p-4">
+        <tng-toggle [pressed]="true" class="text-slate-900">
+          <span offIcon>grid</span>
+          <span onIcon>grid</span>
+        </tng-toggle>
+        <tng-toggle [pressed]="false" class="text-slate-900">
+          <span offIcon>list</span>
+          <span onIcon>list</span>
+        </tng-toggle>
+        <tng-toggle [disabled]="true" class="text-slate-900">disabled</tng-toggle>
+      </div>
+    </ng-template>
+  </app-docs-example-tabs-section>
+</article>

@@ -1,5 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { readTngCheckboxChange, TngCheckboxComponent } from './tng-checkbox.component';
+import {
+  coerceTngCheckboxModelValue,
+  readTngCheckboxChange,
+  TngCheckboxComponent,
+} from './tng-checkbox.component';
 
 describe('tng-checkbox component', () => {
   it('exports the public TngCheckboxComponent symbol', () => {
@@ -26,5 +30,24 @@ describe('tng-checkbox component', () => {
     Object.defineProperty(badEvent, 'target', { value: document.createElement('div') });
 
     expect(readTngCheckboxChange(badEvent)).toBeNull();
+  });
+
+  it('coerces model values for CVA writeValue', () => {
+    expect(coerceTngCheckboxModelValue(true)).toEqual({
+      checked: true,
+      indeterminate: false,
+    });
+    expect(coerceTngCheckboxModelValue('mixed')).toEqual({
+      checked: false,
+      indeterminate: true,
+    });
+    expect(coerceTngCheckboxModelValue(false)).toEqual({
+      checked: false,
+      indeterminate: false,
+    });
+    expect(coerceTngCheckboxModelValue('other')).toEqual({
+      checked: false,
+      indeterminate: false,
+    });
   });
 });

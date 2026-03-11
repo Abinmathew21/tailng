@@ -16,6 +16,10 @@
   opacity: 0.65;
 }
 
+.tng-checkbox-root[data-readonly] {
+  cursor: default;
+}
+
 .tng-checkbox-control {
   accent-color: var(--tng-semantic-accent-brand);
   block-size: 1rem;
@@ -26,6 +30,10 @@
 .tng-checkbox-control:focus-visible {
   box-shadow: 0 0 0 3px var(--tng-semantic-focus-ring);
   outline: none;
+}
+
+.tng-checkbox-control[data-invalid] {
+  accent-color: var(--tng-semantic-accent-danger);
 }
 
 .tng-checkbox-label {

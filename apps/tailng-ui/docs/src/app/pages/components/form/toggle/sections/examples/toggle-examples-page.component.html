@@ -1,0 +1,77 @@
+<article class="toggle-examples">
+  <h2 class="toggle-examples-title">Examples</h2>
+  <p class="toggle-examples-lead">
+    Product-ready toggle patterns for rich text toolbars, view mode controls, and disabled states.
+  </p>
+
+  <section class="toggle-examples-block">
+    <h3>Professional scenarios</h3>
+
+    <div class="toggle-examples-grid">
+      <app-docs-example-panel
+        title="Toolbar formatting actions"
+        [codeTabs]="toolbarCodeTabs"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <p class="toggle-example-description">
+          Independent pressed states for compact formatting commands.
+        </p>
+        <div class="toggle-example-stack toggle-example-toolbar">
+          <tng-toggle [pressed]="bold()" (pressedChange)="bold.set($event)">
+            <span offIcon>B</span>
+            <span onIcon>B</span>
+          </tng-toggle>
+          <tng-toggle [pressed]="italic()" (pressedChange)="italic.set($event)">
+            <span offIcon>I</span>
+            <span onIcon>I</span>
+          </tng-toggle>
+        </div>
+      </app-docs-example-panel>
+
+      <app-docs-example-panel
+        title="Grouped view controls"
+        [codeTabs]="modeCodeTabs"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <p class="toggle-example-description">
+          Group semantics provide a labeled region while each toggle remains independently
+          controlled.
+        </p>
+        <div class="toggle-example-stack">
+          <tng-toggle-group ariaLabel="View mode toggles">
+            <tng-toggle [pressed]="compactMode()" (pressedChange)="compactMode.set($event)">
+              <span offIcon>compact</span>
+              <span onIcon>compact</span>
+            </tng-toggle>
+            <tng-toggle [pressed]="listMode()" (pressedChange)="listMode.set($event)">
+              <span offIcon>list</span>
+              <span onIcon>list</span>
+            </tng-toggle>
+          </tng-toggle-group>
+        </div>
+      </app-docs-example-panel>
+
+      <app-docs-example-panel
+        title="Disabled fallback action"
+        [codeTabs]="disabledCodeTabs"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <p class="toggle-example-description">
+          Keep the primary action interactive while showing unavailable commands as disabled.
+        </p>
+        <div class="toggle-example-stack toggle-example-toolbar">
+          <tng-toggle
+            [pressed]="notificationsEnabled()"
+            (pressedChange)="notificationsEnabled.set($event)"
+          >
+            <span offIcon>🔔</span>
+            <span onIcon>🔕</span>
+          </tng-toggle>
+          <tng-toggle [disabled]="true">Disabled</tng-toggle>
+        </div>
+      </app-docs-example-panel>
+    </div>
+
+    <p class="toggle-example-summary">active states: {{ summary() }}</p>
+  </section>
+</article>

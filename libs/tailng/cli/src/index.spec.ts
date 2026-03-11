@@ -250,6 +250,22 @@ it('tailng cli integration: add writes toggle-group source files', async (): Pro
   ).toBe(true);
 });
 
+it('tailng cli integration: add writes toggle source files', async (): Promise<void> => {
+  const targetRoot = await createTargetRoot();
+
+  const exitCode = await runCli(['add', 'toggle', '--cwd', targetRoot], {
+    registry: registryModule,
+  });
+
+  expect(exitCode).toBe(0);
+  expect(await pathExists(path.join(targetRoot, 'src/app/tailng-ui/toggle/tng-toggle.ts'))).toBe(
+    true,
+  );
+  expect(
+    await pathExists(path.join(targetRoot, 'src/app/tailng-ui/toggle/tng-toggle-primitive.ts')),
+  ).toBe(true);
+});
+
 it('tailng cli integration: add writes chips source files', async (): Promise<void> => {
   const targetRoot = await createTargetRoot();
 

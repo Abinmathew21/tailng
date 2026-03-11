@@ -1,23 +1,38 @@
 import { Component, signal } from '@angular/core';
-import { TngToggleComponent } from '@tailng-ui/components';
+import { TngToggleComponent, TngToggleGroupComponent } from '@tailng-ui/components';
 import { TngIcon } from '@tailng-ui/icons';
 import { TngToggle as TngTogglePrimitive } from '@tailng-ui/primitives';
 
 @Component({
   selector: 'app-toggle-playground-page',
-  imports: [TngIcon, TngTogglePrimitive, TngToggleComponent],
+  imports: [TngIcon, TngTogglePrimitive, TngToggleComponent, TngToggleGroupComponent],
   templateUrl: './toggle-playground-page.component.html',
   styleUrl: './toggle-playground-page.component.css',
 })
 export class TogglePlaygroundPageComponent {
   protected readonly primitivePressed = signal(false);
+  protected readonly primitiveUncontrolled = signal(true);
   protected readonly themeModeEnabled = signal(false);
+  protected readonly gridMode = signal(true);
+  protected readonly listMode = signal(false);
 
   protected onPrimitiveToggle(): void {
     this.primitivePressed.update((pressed) => !pressed);
   }
 
+  protected onPrimitiveUncontrolledChange(pressed: boolean): void {
+    this.primitiveUncontrolled.set(pressed);
+  }
+
   protected onThemeModeChange(pressed: boolean): void {
     this.themeModeEnabled.set(pressed);
+  }
+
+  protected onGridModeChange(pressed: boolean): void {
+    this.gridMode.set(pressed);
+  }
+
+  protected onListModeChange(pressed: boolean): void {
+    this.listMode.set(pressed);
   }
 }

@@ -1,12 +1,17 @@
 <button
   tngToggle
   class="tng-toggle-control"
-  [pressed]="pressed()"
-  [disabled]="disabled()"
-  [attr.aria-label]="getAriaLabel()"
-  (click)="onToggle()"
+  [tngToggleValue]="value()"
+  [pressed]="resolvedPressed()"
+  [defaultPressed]="defaultPressed()"
+  [disabled]="resolvedDisabled()"
+  [ariaLabel]="getAriaLabel()"
+  [ariaLabelledby]="ariaLabelledby()"
+  [ariaDescribedBy]="ariaDescribedBy()"
+  (pressedChange)="onPrimitivePressedChange($event)"
+  (blur)="onBlur()"
 >
-  @if (pressed()) {
+  @if (resolvedPressed()) {
     <span class="tng-toggle-icon">
       <ng-content select="[onIcon]">on</ng-content>
     </span>
