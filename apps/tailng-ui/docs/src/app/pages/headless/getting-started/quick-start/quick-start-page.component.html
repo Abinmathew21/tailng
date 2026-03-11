@@ -1,10 +1,10 @@
 <tng-card variant="outline" padding="lg">
   <tng-card-header>
     <div class="grid gap-1 pb-2">
-      <h1 class="m-0 text-3xl font-semibold">Headless Quick Start</h1>
+      <h1 class="m-0 text-3xl font-semibold">Headless — Quick Start</h1>
       <p class="m-0 max-w-3xl text-sm text-tng-fg-secondary md:text-base">
-        Use this page to bootstrap your first headless primitive flow with predictable keyboard and
-        accessibility behavior.
+        TailNG headless components are behavior-only primitives: they handle accessibility,
+        keyboard and pointer behavior, and state while you own the markup and styling.
       </p>
     </div>
     <div
@@ -16,18 +16,321 @@
     <tng-card-title>{{ item().title }}</tng-card-title>
     <tng-card-description>{{ item().description }}</tng-card-description>
   </tng-card-header>
+
   <tng-card-content>
-    <section
-      class="grid gap-4 rounded-xl border border-dashed border-tng-border-subtle bg-tng-bg-base p-6 text-sm text-tng-fg-secondary"
-    >
-      <ol class="m-0 grid gap-2 pl-5">
-        @for (checklistItem of quickStartChecklist; track checklistItem) {
-          <li>{{ checklistItem }}</li>
-        }
-      </ol>
-      <p class="m-0">
-        Detailed examples and runnable snippets for quick start are being authored.
-      </p>
+    <section class="grid gap-8 text-sm text-tng-fg-secondary md:text-base">
+      <section class="grid gap-3">
+        <h2 class="m-0 text-xl font-semibold text-tng-fg-primary">What is Headless?</h2>
+        <p class="m-0">
+          Primitives live in
+          <code class="font-mono text-xs md:text-sm">&#64;tailng-ui/primitives</code>
+          and expose interaction behavior through directives and data attributes
+          (for example <code class="font-mono text-xs md:text-sm">tngCheckbox</code>,
+          <code class="font-mono text-xs md:text-sm">tngToggle</code>,
+          <code class="font-mono text-xs md:text-sm">tngAccordion</code>).
+        </p>
+        <p class="m-0">
+          Styled components in
+          <code class="font-mono text-xs md:text-sm">&#64;tailng-ui/components</code>
+          are built on these primitives. You can use them directly or copy and own source via CLI.
+        </p>
+      </section>
+
+      <section class="grid gap-4">
+        <h2 class="m-0 text-xl font-semibold text-tng-fg-primary">1. Install TailNG</h2>
+
+        <div class="grid gap-2">
+          <p class="m-0 font-semibold text-tng-fg-primary">Option A — Primitives only (headless)</p>
+          <tng-tabs
+            ariaLabel="Install headless packages"
+            [defaultValue]="'pnpm'"
+            class="grid gap-3"
+          >
+            <div tngTabList class="quick-start-tabs-list flex flex-wrap gap-2" ariaLabel="Package manager">
+              <button type="button" tngTab value="pnpm" class="quick-start-tab-trigger">pnpm</button>
+              <button type="button" tngTab value="npm" class="quick-start-tab-trigger">npm</button>
+              <button type="button" tngTab value="yarn" class="quick-start-tab-trigger">yarn</button>
+            </div>
+
+            <div tngTabPanel value="pnpm" class="min-w-0">
+              <tng-code-block
+                [code]="installHeadlessPnpmCode"
+                adapter="shiki"
+                language="bash"
+                [theme]="codeBlockTheme()"
+                [sanitizeHtml]="false"
+                [wrap]="true"
+                [lineNumbers]="false"
+                title="pnpm"
+              ></tng-code-block>
+            </div>
+            <div tngTabPanel value="npm" class="min-w-0">
+              <tng-code-block
+                [code]="installHeadlessNpmCode"
+                adapter="shiki"
+                language="bash"
+                [theme]="codeBlockTheme()"
+                [sanitizeHtml]="false"
+                [wrap]="true"
+                [lineNumbers]="false"
+                title="npm"
+              ></tng-code-block>
+            </div>
+            <div tngTabPanel value="yarn" class="min-w-0">
+              <tng-code-block
+                [code]="installHeadlessYarnCode"
+                adapter="shiki"
+                language="bash"
+                [theme]="codeBlockTheme()"
+                [sanitizeHtml]="false"
+                [wrap]="true"
+                [lineNumbers]="false"
+                title="yarn"
+              ></tng-code-block>
+            </div>
+          </tng-tabs>
+          <p class="m-0">
+            If you are building headless UI only, this is the required runtime install.
+          </p>
+        </div>
+
+        <div class="grid gap-2">
+          <p class="m-0 font-semibold text-tng-fg-primary">Option B — Full set (headless + styled + theme + icons)</p>
+          <tng-tabs
+            ariaLabel="Install full TailNG set"
+            [defaultValue]="'pnpm'"
+            class="grid gap-3"
+          >
+            <div tngTabList class="quick-start-tabs-list flex flex-wrap gap-2" ariaLabel="Package manager">
+              <button type="button" tngTab value="pnpm" class="quick-start-tab-trigger">pnpm</button>
+              <button type="button" tngTab value="npm" class="quick-start-tab-trigger">npm</button>
+              <button type="button" tngTab value="yarn" class="quick-start-tab-trigger">yarn</button>
+            </div>
+
+            <div tngTabPanel value="pnpm" class="min-w-0">
+              <tng-code-block
+                [code]="installFullPnpmCode"
+                adapter="shiki"
+                language="bash"
+                [theme]="codeBlockTheme()"
+                [sanitizeHtml]="false"
+                [wrap]="true"
+                [lineNumbers]="false"
+                title="pnpm"
+              ></tng-code-block>
+            </div>
+            <div tngTabPanel value="npm" class="min-w-0">
+              <tng-code-block
+                [code]="installFullNpmCode"
+                adapter="shiki"
+                language="bash"
+                [theme]="codeBlockTheme()"
+                [sanitizeHtml]="false"
+                [wrap]="true"
+                [lineNumbers]="false"
+                title="npm"
+              ></tng-code-block>
+            </div>
+            <div tngTabPanel value="yarn" class="min-w-0">
+              <tng-code-block
+                [code]="installFullYarnCode"
+                adapter="shiki"
+                language="bash"
+                [theme]="codeBlockTheme()"
+                [sanitizeHtml]="false"
+                [wrap]="true"
+                [lineNumbers]="false"
+                title="yarn"
+              ></tng-code-block>
+            </div>
+          </tng-tabs>
+          <p class="m-0">
+            <code class="font-mono text-xs md:text-sm">&#64;tailng-ui/cdk</code> is required by
+            headless primitives. Add
+            <code class="font-mono text-xs md:text-sm">&#64;tailng-ui/theme</code> if you use
+            TailNG theme tokens, and
+            <code class="font-mono text-xs md:text-sm">&#64;tailng-ui/icons</code> if you use the
+            icon set.
+          </p>
+        </div>
+      </section>
+
+      <section class="grid gap-4">
+        <h2 class="m-0 text-xl font-semibold text-tng-fg-primary">2. Include components in your project</h2>
+        <p class="m-0">
+          You do not need to install
+          <code class="font-mono text-xs md:text-sm">&#64;tailng-ui/registry</code> directly.
+          The registry package is consumed by the
+          <code class="font-mono text-xs md:text-sm">tailng</code> CLI for copy/source workflows.
+        </p>
+
+        <div class="grid gap-3">
+          <p class="m-0 font-semibold text-tng-fg-primary">
+            Option A — Copy source into your app (shadcn-style, ownable)
+          </p>
+          <tng-code-block
+            [code]="cliSetupCode"
+            adapter="shiki"
+            language="bash"
+            [theme]="codeBlockTheme()"
+            [sanitizeHtml]="false"
+            [wrap]="true"
+            [lineNumbers]="false"
+            title="CLI setup"
+          ></tng-code-block>
+          <tng-code-block
+            [code]="cliAddComponentCode"
+            adapter="shiki"
+            language="bash"
+            [theme]="codeBlockTheme()"
+            [sanitizeHtml]="false"
+            [wrap]="true"
+            [lineNumbers]="false"
+            title="Add components"
+          ></tng-code-block>
+          <tng-code-block
+            [code]="cliOptionsCode"
+            adapter="shiki"
+            language="bash"
+            [theme]="codeBlockTheme()"
+            [sanitizeHtml]="false"
+            [wrap]="true"
+            [lineNumbers]="false"
+            title="CLI options"
+          ></tng-code-block>
+          <tng-code-block
+            [code]="generatedImportCode"
+            adapter="shiki"
+            language="ts"
+            [theme]="codeBlockTheme()"
+            [sanitizeHtml]="false"
+            [wrap]="true"
+            [lineNumbers]="false"
+            title="Import generated source"
+          ></tng-code-block>
+        </div>
+
+        <div class="grid gap-3">
+          <p class="m-0 font-semibold text-tng-fg-primary">Option B — Use npm packages directly</p>
+          <p class="m-0">
+            Import primitives (and optionally styled components) from package exports and register
+            them in standalone components or NgModules.
+          </p>
+          <tng-code-block
+            [code]="packageDirectImportCode"
+            adapter="shiki"
+            language="ts"
+            [theme]="codeBlockTheme()"
+            [sanitizeHtml]="false"
+            [wrap]="true"
+            [lineNumbers]="false"
+            title="Direct package imports"
+          ></tng-code-block>
+        </div>
+      </section>
+
+      <section class="grid gap-4">
+        <h2 class="m-0 text-xl font-semibold text-tng-fg-primary">3. Example: using headless primitives</h2>
+        <tng-code-block
+          [code]="checkboxExampleCode"
+          adapter="shiki"
+          language="ts"
+          [theme]="codeBlockTheme()"
+          [sanitizeHtml]="false"
+          [wrap]="true"
+          title="Checkbox (headless)"
+        ></tng-code-block>
+
+        <tng-code-block
+          [code]="toggleExampleCode"
+          adapter="shiki"
+          language="ts"
+          [theme]="codeBlockTheme()"
+          [sanitizeHtml]="false"
+          [wrap]="true"
+          title="Toggle (headless)"
+        ></tng-code-block>
+
+        <tng-code-block
+          [code]="accordionExampleCode"
+          adapter="shiki"
+          language="ts"
+          [theme]="codeBlockTheme()"
+          [sanitizeHtml]="false"
+          [wrap]="true"
+          title="Accordion (headless)"
+        ></tng-code-block>
+
+        <p class="m-0">
+          Style via data attributes (for example
+          <code class="font-mono text-xs md:text-sm">[data-state="open"]</code>,
+          <code class="font-mono text-xs md:text-sm">[data-checked]</code>) or your own classes.
+        </p>
+      </section>
+
+      <section class="grid gap-3">
+        <h2 class="m-0 text-xl font-semibold text-tng-fg-primary">4. Theme (optional)</h2>
+        <p class="m-0">
+          If you use
+          <code class="font-mono text-xs md:text-sm">&#64;tailng-ui/theme</code>, register
+          <code class="font-mono text-xs md:text-sm">provideTailngTheme()</code> in your app
+          configuration.
+        </p>
+        <tng-code-block
+          [code]="themeProviderCode"
+          adapter="shiki"
+          language="ts"
+          [theme]="codeBlockTheme()"
+          [sanitizeHtml]="false"
+          [wrap]="true"
+          [lineNumbers]="false"
+          title="app.config.ts"
+        ></tng-code-block>
+      </section>
+
+      <section class="grid gap-3">
+        <h2 class="m-0 text-xl font-semibold text-tng-fg-primary">5. CLI component aliases</h2>
+        <div class="alias-table-wrap overflow-x-auto rounded-lg border border-tng-border-subtle">
+          <table class="alias-table w-full border-collapse text-left text-sm">
+            <thead class="bg-tng-bg-surface text-tng-fg-primary">
+              <tr>
+                <th class="px-3 py-2 font-semibold">You write</th>
+                <th class="px-3 py-2 font-semibold">Resolves to</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (row of aliasRows; track row.write) {
+                <tr>
+                  <td class="border-t border-tng-border-subtle px-3 py-2 font-mono text-xs md:text-sm">
+                    {{ row.write }}
+                  </td>
+                  <td class="border-t border-tng-border-subtle px-3 py-2 font-mono text-xs md:text-sm">
+                    {{ row.resolvesTo }}
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="grid gap-3">
+        <h2 class="m-0 text-xl font-semibold text-tng-fg-primary">6. List available components</h2>
+        <p class="m-0">
+          Use this command to see all valid values for
+          <code class="font-mono text-xs md:text-sm">tailng add &lt;component-name&gt;</code>.
+        </p>
+        <tng-code-block
+          [code]="listComponentsCode"
+          adapter="shiki"
+          language="bash"
+          [theme]="codeBlockTheme()"
+          [sanitizeHtml]="false"
+          [wrap]="true"
+          [lineNumbers]="false"
+          title="List components"
+        ></tng-code-block>
+      </section>
     </section>
   </tng-card-content>
 </tng-card>
