@@ -48,6 +48,24 @@ export const COMPONENTS_FORM_TOGGLE_ROUTES: Routes = [
           ),
       },
       {
+        path: 'ownable-install',
+        data: {
+          componentName: 'Toggle',
+          componentSymbol: 'TngToggle',
+          primitiveSymbol: 'TngTogglePrimitive',
+          registrySlug: 'toggle',
+          usageCode: [
+            '<tng-toggle [pressed]="isGrid" (pressedChange)="isGrid = $event">',
+            '  Grid view',
+            '</tng-toggle>',
+            '',
+          ].join('\n'),
+        },
+        loadComponent: () =>
+          import('../../../../shared/ownable-install-section/docs-ownable-install-section.component')
+            .then((module) => module.DocsOwnableInstallSectionComponent),
+      },
+      {
         path: '**',
         redirectTo: 'overview',
       },

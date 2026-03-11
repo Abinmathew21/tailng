@@ -48,6 +48,26 @@ export const COMPONENTS_FORM_INPUT_ROUTES: Routes = [
           ),
       },
       {
+        path: 'ownable-install',
+        data: {
+          componentName: 'Input',
+          componentSymbol: 'TngInput',
+          primitiveSymbol: 'TngInputPrimitive',
+          registrySlug: 'input',
+          usageCode: [
+            '<tng-input',
+            '  type="email"',
+            '  placeholder="name@company.com"',
+            '  [ariaLabel]="\'Email address\'"',
+            '></tng-input>',
+            '',
+          ].join('\n'),
+        },
+        loadComponent: () =>
+          import('../../../../shared/ownable-install-section/docs-ownable-install-section.component')
+            .then((module) => module.DocsOwnableInstallSectionComponent),
+      },
+      {
         path: '**',
         redirectTo: 'overview',
       },

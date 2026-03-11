@@ -1,0 +1,80 @@
+<article class="docs-ownable-install">
+  <h2 class="docs-ownable-install-title">Ownable Install</h2>
+  <p class="docs-ownable-install-lead">
+    Install <code>{{ componentName }}</code> from the TailNG registry with the shadcn-like
+    flow. This copies source files into your app so your team can own and evolve the implementation
+    locally.
+  </p>
+
+  <section class="docs-ownable-install-block">
+    <h3>Install from registry</h3>
+    <p>Run from your Angular workspace root.</p>
+    <tng-tabs ariaLabel="Ownable install command" [defaultValue]="'pnpm'" class="docs-ownable-tabs">
+      <div tngTabList class="docs-ownable-tab-list" ariaLabel="Package manager">
+        <button type="button" tngTab value="pnpm" class="docs-ownable-tab-trigger">pnpm</button>
+        <button type="button" tngTab value="npx" class="docs-ownable-tab-trigger">npx</button>
+      </div>
+      <div tngTabPanel value="pnpm" class="docs-ownable-tab-panel">
+        <tng-code-block
+          [code]="installPnpmCode"
+          adapter="shiki"
+          language="bash"
+          title="pnpm"
+          [theme]="codeBlockTheme()"
+          [lineNumbers]="false"
+          [wrap]="true"
+          [sanitizeHtml]="false"
+        ></tng-code-block>
+      </div>
+      <div tngTabPanel value="npx" class="docs-ownable-tab-panel">
+        <tng-code-block
+          [code]="installNpxCode"
+          adapter="shiki"
+          language="bash"
+          title="npx"
+          [theme]="codeBlockTheme()"
+          [lineNumbers]="false"
+          [wrap]="true"
+          [sanitizeHtml]="false"
+        ></tng-code-block>
+      </div>
+    </tng-tabs>
+  </section>
+
+  <section class="docs-ownable-install-block">
+    <h3>Generated files</h3>
+    <p>
+      The command scaffolds local files under <code>src/app/tailng-ui/{{ registrySlug }}</code>.
+    </p>
+    <ul class="docs-ownable-files-list">
+      <li *ngFor="let file of generatedFiles">
+        <code>{{ file }}</code>
+      </li>
+    </ul>
+  </section>
+
+  <section class="docs-ownable-install-block">
+    <h3>Import in your feature module/component</h3>
+    <tng-code-block
+      [code]="importCode"
+      adapter="shiki"
+      language="ts"
+      title="Imports"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+    <h3>Usage</h3>
+    <tng-code-block
+      [code]="usageCode"
+      adapter="shiki"
+      language="html"
+      title="Template usage"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+</article>

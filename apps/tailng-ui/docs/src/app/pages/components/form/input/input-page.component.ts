@@ -5,13 +5,14 @@ import { TngTabsComponent } from '@tailng-ui/components';
 import { TngTab, TngTabList } from '@tailng-ui/primitives';
 import { filter, map, startWith } from 'rxjs/operators';
 
-type InputDocSectionId = 'api' | 'examples' | 'overview' | 'styling';
+type InputDocSectionId = 'api' | 'examples' | 'overview' | 'ownable-install' | 'styling';
 
 const inputDocSectionIds: readonly InputDocSectionId[] = [
   'overview',
   'api',
   'styling',
   'examples',
+  'ownable-install',
 ] as const;
 
 const defaultInputDocSection: InputDocSectionId = 'overview';
