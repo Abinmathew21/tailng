@@ -128,6 +128,23 @@ function setsEqual(a: ReadonlySet<TngAccordionValue>, b: ReadonlySet<TngAccordio
   return true;
 }
 
+function compareElementsByDomPosition(a: HTMLElement, b: HTMLElement): number {
+  if (a === b) {
+    return 0;
+  }
+
+  const relativePosition = a.compareDocumentPosition(b);
+  if (relativePosition & Node.DOCUMENT_POSITION_FOLLOWING) {
+    return -1;
+  }
+
+  if (relativePosition & Node.DOCUMENT_POSITION_PRECEDING) {
+    return 1;
+  }
+
+  return 0;
+}
+
 @Directive({
   selector: '[tngAccordion]',
   exportAs: 'tngAccordion',
@@ -197,6 +214,26 @@ export class TngAccordion {
 
   ngDoCheck(): void {
     this.syncStateFromInputs('check');
+  }
+
+  @HostListener('keydown', ['$event'])
+  protected onHostKeydown(event: KeyboardEvent): void {
+    if (event.key !== 'Tab' || event.altKey || event.ctrlKey || event.metaKey) {
+      return;
+    }
+
+    const eventTarget = event.target;
+    if (!(eventTarget instanceof HTMLElement)) {
+      return;
+    }
+
+    if (!this.getHostElement().contains(eventTarget)) {
+      return;
+    }
+
+    if (this.onTabWithinAccordion(eventTarget, event.shiftKey)) {
+      event.preventDefault();
+    }
   }
 
   ngOnDestroy(): void {
@@ -282,6 +319,31 @@ export class TngAccordion {
     if (this.moveFocus(item, action)) {
       event.preventDefault();
     }
+  }
+
+  onTabWithinAccordion(source: HTMLElement, shiftKey: boolean): boolean {
+    if (!this.shouldHandleCustomTabNavigation()) {
+      return false;
+    }
+
+    const sequence = this.getCustomTabSequence();
+    if (sequence.length === 0) {
+      return false;
+    }
+
+    const currentIndex = this.findSequenceIndex(sequence, source);
+    if (currentIndex < 0) {
+      return false;
+    }
+
+    const nextIndex = shiftKey ? currentIndex - 1 : currentIndex + 1;
+    const target = sequence[nextIndex] ?? null;
+    if (target === null) {
+      return false;
+    }
+
+    target.focus();
+    return true;
   }
 
   isPanelMounted(item: TngAccordionItem): boolean {
@@ -642,6 +704,80 @@ export class TngAccordion {
     return this.getOrderedItems().filter((item) => !this.isItemDisabled(item));
   }
 
+  private shouldHandleCustomTabNavigation(): boolean {
+    return this.getEnabledItems().some((item) => {
+      const triggerElement = item.getTriggerElement();
+      return triggerElement !== null && !(triggerElement instanceof HTMLButtonElement);
+    });
+  }
+
+  private getCustomTabSequence(): readonly HTMLElement[] {
+    const host = this.getHostElement();
+    const sequence = new Set<HTMLElement>();
+
+    for (const item of this.getEnabledItems()) {
+      const triggerElement = item.getTriggerElement();
+      if (triggerElement === null || this.isInHiddenSubtree(triggerElement)) {
+        continue;
+      }
+      sequence.add(triggerElement);
+    }
+
+    const candidates = host.querySelectorAll<HTMLElement>(
+      'a[href],area[href],button,input,select,textarea,[tabindex],[contenteditable="true"]',
+    );
+
+    for (let index = 0; index < candidates.length; index += 1) {
+      const candidate = candidates.item(index);
+      if (candidate === null) {
+        continue;
+      }
+
+      if (!host.contains(candidate) || this.isInHiddenSubtree(candidate) || !this.isNaturallyTabbable(candidate)) {
+        continue;
+      }
+      sequence.add(candidate);
+    }
+
+    return Array.from(sequence).sort(compareElementsByDomPosition);
+  }
+
+  private findSequenceIndex(sequence: readonly HTMLElement[], source: HTMLElement): number {
+    const directIndex = sequence.indexOf(source);
+    if (directIndex >= 0) {
+      return directIndex;
+    }
+
+    return sequence.findIndex((candidate) => candidate.contains(source));
+  }
+
+  private isInHiddenSubtree(element: HTMLElement): boolean {
+    return element.closest('[hidden]') !== null;
+  }
+
+  private isNaturallyTabbable(element: HTMLElement): boolean {
+    if (element.hasAttribute('disabled')) {
+      return false;
+    }
+
+    const tabIndexAttr = element.getAttribute('tabindex');
+    if (tabIndexAttr !== null) {
+      const parsed = Number(tabIndexAttr);
+      return Number.isFinite(parsed) && parsed >= 0;
+    }
+
+    if (element instanceof HTMLAnchorElement || element instanceof HTMLAreaElement) {
+      return element.hasAttribute('href');
+    }
+
+    return (
+      element instanceof HTMLButtonElement ||
+      element instanceof HTMLInputElement ||
+      element instanceof HTMLSelectElement ||
+      element instanceof HTMLTextAreaElement
+    );
+  }
+
   private resolveCurrentFocusableItem(): TngAccordionItem | null {
     const enabledItems = this.getEnabledItems();
     if (enabledItems.length === 0) {
@@ -759,6 +895,10 @@ export class TngAccordionItem {
     return this.trigger?.getTriggerId() ?? null;
   }
 
+  getTriggerElement(): HTMLElement | null {
+    return this.trigger?.getHostElement() ?? null;
+  }
+
   getPanelId(): string | null {
     return this.panel?.getPanelId() ?? null;
   }
@@ -873,6 +1013,10 @@ export class TngAccordionTrigger {
 
   focusSelf(): void {
     this.hostRef.nativeElement.focus();
+  }
+
+  getHostElement(): HTMLElement {
+    return this.hostRef.nativeElement;
   }
 
   private resolveTriggerId(): string {

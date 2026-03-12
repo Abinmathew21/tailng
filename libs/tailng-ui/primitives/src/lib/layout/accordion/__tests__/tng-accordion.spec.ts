@@ -223,6 +223,86 @@ class NestedAccordionHostComponent {}
 })
 class AccordionIsolationHostComponent {}
 
+@Component({
+  standalone: true,
+  imports: [TngAccordion, TngAccordionItem, TngAccordionTrigger, TngAccordionPanel],
+  template: `
+    <section tngAccordion data-testid="text-only-accordion">
+      <article tngAccordionItem value="one">
+        <div tngAccordionTrigger data-testid="text-trigger-one">Section one</div>
+        <div tngAccordionPanel data-testid="text-panel-one">Section one content</div>
+      </article>
+      <article tngAccordionItem value="two">
+        <div tngAccordionTrigger data-testid="text-trigger-two">Section two</div>
+        <div tngAccordionPanel data-testid="text-panel-two">Section two content</div>
+      </article>
+      <article tngAccordionItem value="three">
+        <div tngAccordionTrigger data-testid="text-trigger-three">Section three</div>
+        <div tngAccordionPanel data-testid="text-panel-three">Section three content</div>
+      </article>
+    </section>
+  `,
+})
+class AccordionTextOnlyHostComponent {}
+
+@Component({
+  standalone: true,
+  imports: [TngAccordion, TngAccordionItem, TngAccordionTrigger, TngAccordionPanel],
+  template: `
+    <section tngAccordion data-testid="section-item-accordion">
+      <article tngAccordionItem value="one">
+        <div tngAccordionTrigger data-testid="section-trigger-one">Section one</div>
+        <button type="button" data-testid="section-item-one">Section one action</button>
+        <div tngAccordionPanel data-testid="section-panel-one">Section one content</div>
+      </article>
+      <article tngAccordionItem value="two">
+        <div tngAccordionTrigger data-testid="section-trigger-two">Section two</div>
+        <button type="button" data-testid="section-item-two">Section two action</button>
+        <div tngAccordionPanel data-testid="section-panel-two">Section two content</div>
+      </article>
+      <article tngAccordionItem value="three">
+        <div tngAccordionTrigger data-testid="section-trigger-three">Section three</div>
+        <button type="button" data-testid="section-item-three">Section three action</button>
+        <div tngAccordionPanel data-testid="section-panel-three">Section three content</div>
+      </article>
+    </section>
+  `,
+})
+class AccordionSectionItemTabHostComponent {}
+
+@Component({
+  standalone: true,
+  imports: [TngAccordion, TngAccordionItem, TngAccordionTrigger, TngAccordionPanel],
+  template: `
+    <section
+      tngAccordion
+      data-testid="section-panel-item-accordion"
+      type="multiple"
+      [defaultValue]="['one', 'three']"
+    >
+      <article tngAccordionItem value="one">
+        <div tngAccordionTrigger data-testid="panel-trigger-one">Section one</div>
+        <div tngAccordionPanel data-testid="panel-one">
+          <button type="button" data-testid="panel-item-one">Section one action</button>
+        </div>
+      </article>
+      <article tngAccordionItem value="two">
+        <div tngAccordionTrigger data-testid="panel-trigger-two">Section two</div>
+        <div tngAccordionPanel data-testid="panel-two">
+          <button type="button" data-testid="panel-item-two">Section two action</button>
+        </div>
+      </article>
+      <article tngAccordionItem value="three">
+        <div tngAccordionTrigger data-testid="panel-trigger-three">Section three</div>
+        <div tngAccordionPanel data-testid="panel-three">
+          <button type="button" data-testid="panel-item-three">Section three action</button>
+        </div>
+      </article>
+    </section>
+  `,
+})
+class AccordionPanelItemTabHostComponent {}
+
 describe('tng-accordion primitives blocks A-N', () => {
   afterEach(() => {
     TestBed.resetTestingModule();
@@ -797,6 +877,77 @@ describe('tng-accordion primitives blocks A-N', () => {
 
       expect(tabEvent.defaultPrevented).toBe(false);
       expect(shiftTabEvent.defaultPrevented).toBe(false);
+    });
+
+    it('tabs through text-only accordion sections in DOM order', () => {
+      const fixture = TestBed.configureTestingModule({
+        imports: [AccordionTextOnlyHostComponent],
+      }).createComponent(AccordionTextOnlyHostComponent);
+      fixture.detectChanges();
+
+      const first = getByTestId<HTMLElement>(fixture, 'text-trigger-one');
+      const second = getByTestId<HTMLElement>(fixture, 'text-trigger-two');
+      const third = getByTestId<HTMLElement>(fixture, 'text-trigger-three');
+
+      first.focus();
+      keydown(first, 'Tab');
+      expect(document.activeElement).toBe(second);
+
+      keydown(second, 'Tab');
+      expect(document.activeElement).toBe(third);
+    });
+
+    it('tabs from each section trigger into its section item, then to the next section trigger', () => {
+      const fixture = TestBed.configureTestingModule({
+        imports: [AccordionSectionItemTabHostComponent],
+      }).createComponent(AccordionSectionItemTabHostComponent);
+      fixture.detectChanges();
+
+      const triggerOne = getByTestId<HTMLElement>(fixture, 'section-trigger-one');
+      const itemOne = getByTestId<HTMLButtonElement>(fixture, 'section-item-one');
+      const triggerTwo = getByTestId<HTMLElement>(fixture, 'section-trigger-two');
+      const itemTwo = getByTestId<HTMLButtonElement>(fixture, 'section-item-two');
+      const triggerThree = getByTestId<HTMLElement>(fixture, 'section-trigger-three');
+
+      triggerOne.focus();
+      keydown(triggerOne, 'Tab');
+      expect(document.activeElement).toBe(itemOne);
+
+      keydown(itemOne, 'Tab');
+      expect(document.activeElement).toBe(triggerTwo);
+
+      keydown(triggerTwo, 'Tab');
+      expect(document.activeElement).toBe(itemTwo);
+
+      keydown(itemTwo, 'Tab');
+      expect(document.activeElement).toBe(triggerThree);
+    });
+
+    it('skips closed section items while tabbing between section triggers', () => {
+      const fixture = TestBed.configureTestingModule({
+        imports: [AccordionPanelItemTabHostComponent],
+      }).createComponent(AccordionPanelItemTabHostComponent);
+      fixture.detectChanges();
+
+      const triggerOne = getByTestId<HTMLElement>(fixture, 'panel-trigger-one');
+      const itemOne = getByTestId<HTMLButtonElement>(fixture, 'panel-item-one');
+      const triggerTwo = getByTestId<HTMLElement>(fixture, 'panel-trigger-two');
+      const triggerThree = getByTestId<HTMLElement>(fixture, 'panel-trigger-three');
+      const panelTwo = getByTestId<HTMLElement>(fixture, 'panel-two');
+      const itemTwo = getByTestId<HTMLButtonElement>(fixture, 'panel-item-two');
+
+      expect(panelTwo.hasAttribute('hidden')).toBe(true);
+      expect(itemTwo.closest('[hidden]')).not.toBeNull();
+
+      triggerOne.focus();
+      keydown(triggerOne, 'Tab');
+      expect(document.activeElement).toBe(itemOne);
+
+      keydown(itemOne, 'Tab');
+      expect(document.activeElement).toBe(triggerTwo);
+
+      keydown(triggerTwo, 'Tab');
+      expect(document.activeElement).toBe(triggerThree);
     });
   });
 
