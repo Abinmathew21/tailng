@@ -5,61 +5,197 @@
   </p>
 
   <section class="stepper-examples-block">
-    <h3>Checkout progression</h3>
-    <ol tngStepper class="stepper-example-list" aria-label="Checkout progress">
-      <li class="stepper-example-item is-complete"><span class="dot">✓</span> Cart</li>
-      <li class="stepper-example-item is-current"><span class="dot">2</span> Shipping</li>
-      <li class="stepper-example-item"><span class="dot">3</span> Payment</li>
-    </ol>
-    <tng-code-block
-      [code]="checkoutCode"
-      adapter="shiki"
-      language="html"
-      title="checkout-stepper-example.component.html"
-      [lineNumbers]="false"
-      [wrap]="true"
-      [sanitizeHtml]="false"
-    ></tng-code-block>
+    <app-docs-example-tabs-section
+      heading="Checkout progression variants"
+      description="Cart, Shipping, and Payment steps with consistent current/completed state treatment."
+      ariaLabel="Checkout stepper variants"
+      tabListAriaLabel="Checkout stepper styles"
+      defaultValue="headless"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="headless"
+        label="Headless"
+        panelTitle="Headless checkout progression"
+        [codeTabs]="checkoutHeadlessCodeTabs"
+      >
+        <div class="stepper-example-shell stepper-example-shell--headless">
+          <ol tngStepper class="stepper-example-list" aria-label="Checkout progress">
+            <li class="stepper-example-item is-complete"><span class="dot">✓</span> Cart</li>
+            <li class="stepper-example-item is-current"><span class="dot">2</span> Shipping</li>
+            <li class="stepper-example-item"><span class="dot">3</span> Payment</li>
+          </ol>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Plain CSS checkout progression"
+        [codeTabs]="checkoutPlainCodeTabs"
+      >
+        <div class="stepper-example-shell stepper-example-shell--plain">
+          <tng-stepper ariaLabel="Checkout progress">
+            <ol class="stepper-example-list">
+              <li class="stepper-example-item is-complete"><span class="dot">✓</span> Cart</li>
+              <li class="stepper-example-item is-current"><span class="dot">2</span> Shipping</li>
+              <li class="stepper-example-item"><span class="dot">3</span> Payment</li>
+            </ol>
+          </tng-stepper>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Tailwind checkout progression"
+        [codeTabs]="checkoutTailwindCodeTabs"
+      >
+        <div
+          class="stepper-example-shell rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+        >
+          <tng-stepper ariaLabel="Checkout progress">
+            <ol class="stepper-example-list">
+              <li class="stepper-example-item is-complete"><span class="dot">✓</span> Cart</li>
+              <li class="stepper-example-item is-current"><span class="dot">2</span> Shipping</li>
+              <li class="stepper-example-item"><span class="dot">3</span> Payment</li>
+            </ol>
+          </tng-stepper>
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
   </section>
 
   <section class="stepper-examples-block">
-    <h3>Release pipeline</h3>
-    <tng-stepper ariaLabel="Release flow">
-      <ol class="stepper-example-list">
-        <li class="stepper-example-item is-complete"><span class="dot">✓</span> Draft</li>
-        <li class="stepper-example-item is-complete"><span class="dot">✓</span> Review</li>
-        <li class="stepper-example-item is-current"><span class="dot">3</span> Publish</li>
-      </ol>
-    </tng-stepper>
-    <tng-code-block
-      [code]="releaseCode"
-      adapter="shiki"
-      language="html"
-      title="release-stepper-example.component.html"
-      [lineNumbers]="false"
-      [wrap]="true"
-      [sanitizeHtml]="false"
-    ></tng-code-block>
+    <app-docs-example-tabs-section
+      heading="Release pipeline variants"
+      description="Draft and Review complete states with a current Publish stage."
+      ariaLabel="Release pipeline stepper variants"
+      tabListAriaLabel="Release pipeline stepper styles"
+      defaultValue="headless"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="headless"
+        label="Headless"
+        panelTitle="Headless release pipeline"
+        [codeTabs]="releaseHeadlessCodeTabs"
+      >
+        <div class="stepper-example-shell stepper-example-shell--headless">
+          <ol tngStepper class="stepper-example-list" aria-label="Release flow">
+            <li class="stepper-example-item is-complete"><span class="dot">✓</span> Draft</li>
+            <li class="stepper-example-item is-complete"><span class="dot">✓</span> Review</li>
+            <li class="stepper-example-item is-current"><span class="dot">3</span> Publish</li>
+          </ol>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Plain CSS release pipeline"
+        [codeTabs]="releasePlainCodeTabs"
+      >
+        <div class="stepper-example-shell stepper-example-shell--plain">
+          <tng-stepper ariaLabel="Release flow">
+            <ol class="stepper-example-list">
+              <li class="stepper-example-item is-complete"><span class="dot">✓</span> Draft</li>
+              <li class="stepper-example-item is-complete"><span class="dot">✓</span> Review</li>
+              <li class="stepper-example-item is-current"><span class="dot">3</span> Publish</li>
+            </ol>
+          </tng-stepper>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Tailwind release pipeline"
+        [codeTabs]="releaseTailwindCodeTabs"
+      >
+        <div
+          class="stepper-example-shell rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+        >
+          <tng-stepper ariaLabel="Release flow">
+            <ol class="stepper-example-list">
+              <li class="stepper-example-item is-complete"><span class="dot">✓</span> Draft</li>
+              <li class="stepper-example-item is-complete"><span class="dot">✓</span> Review</li>
+              <li class="stepper-example-item is-current"><span class="dot">3</span> Publish</li>
+            </ol>
+          </tng-stepper>
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
   </section>
 
   <section class="stepper-examples-block">
-    <h3>Error surface</h3>
-    <tng-stepper ariaLabel="Onboarding">
-      <ol class="stepper-example-list">
-        <li class="stepper-example-item is-complete"><span class="dot">✓</span> Profile</li>
-        <li class="stepper-example-item is-error"><span class="dot">2</span> Billing</li>
-        <li class="stepper-example-item"><span class="dot">3</span> Team invite</li>
-      </ol>
-    </tng-stepper>
-    <tng-code-block
-      [code]="errorCode"
-      adapter="shiki"
-      language="html"
-      title="error-stepper-example.component.html"
-      [lineNumbers]="false"
-      [wrap]="true"
-      [sanitizeHtml]="false"
-    ></tng-code-block>
+    <app-docs-example-tabs-section
+      heading="Error surface variants"
+      description="Billing step exposes error state while neighboring steps remain complete/upcoming."
+      ariaLabel="Error surface stepper variants"
+      tabListAriaLabel="Error surface stepper styles"
+      defaultValue="headless"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="headless"
+        label="Headless"
+        panelTitle="Headless error surface"
+        [codeTabs]="errorHeadlessCodeTabs"
+      >
+        <div class="stepper-example-shell stepper-example-shell--headless">
+          <ol tngStepper class="stepper-example-list" aria-label="Onboarding">
+            <li class="stepper-example-item is-complete"><span class="dot">✓</span> Profile</li>
+            <li class="stepper-example-item is-error"><span class="dot">2</span> Billing</li>
+            <li class="stepper-example-item"><span class="dot">3</span> Team invite</li>
+          </ol>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Plain CSS error surface"
+        [codeTabs]="errorPlainCodeTabs"
+      >
+        <div class="stepper-example-shell stepper-example-shell--plain">
+          <tng-stepper ariaLabel="Onboarding">
+            <ol class="stepper-example-list">
+              <li class="stepper-example-item is-complete"><span class="dot">✓</span> Profile</li>
+              <li class="stepper-example-item is-error"><span class="dot">2</span> Billing</li>
+              <li class="stepper-example-item"><span class="dot">3</span> Team invite</li>
+            </ol>
+          </tng-stepper>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Tailwind error surface"
+        [codeTabs]="errorTailwindCodeTabs"
+      >
+        <div
+          class="stepper-example-shell rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+        >
+          <tng-stepper ariaLabel="Onboarding">
+            <ol class="stepper-example-list">
+              <li class="stepper-example-item is-complete"><span class="dot">✓</span> Profile</li>
+              <li class="stepper-example-item is-error"><span class="dot">2</span> Billing</li>
+              <li class="stepper-example-item"><span class="dot">3</span> Team invite</li>
+            </ol>
+          </tng-stepper>
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
   </section>
 </article>
-

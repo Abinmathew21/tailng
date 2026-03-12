@@ -1,0 +1,67 @@
+<article class="multiselect-styling">
+  <h2 class="multiselect-styling-title">Styling contract</h2>
+  <p class="multiselect-styling-lead">
+    MultiSelect styling should target public slots and state attributes for predictable custom
+    skins.
+  </p>
+
+  <section class="multiselect-styling-block">
+    <h3>CSS contract table</h3>
+    <div class="multiselect-styling-table-wrap">
+      <table class="multiselect-styling-table">
+        <thead>
+          <tr>
+            <th scope="col">Selector</th>
+            <th scope="col">Applied on</th>
+            <th scope="col">Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>[data-slot=&quot;multi-select&quot;]</code></td>
+            <td>Root host</td>
+            <td>State container and token overrides.</td>
+          </tr>
+          <tr>
+            <td><code>[data-slot=&quot;select-trigger&quot;]</code></td>
+            <td>Trigger control</td>
+            <td>Trigger surface and focus ring.</td>
+          </tr>
+          <tr>
+            <td><code>[data-slot=&quot;select-overlay&quot;]</code></td>
+            <td>Portaled overlay</td>
+            <td>Panel border, radius, and elevation.</td>
+          </tr>
+          <tr>
+            <td><code>[data-slot=&quot;multi-select-listbox&quot;]</code></td>
+            <td>Listbox host</td>
+            <td>Option stack spacing and scrolling behavior.</td>
+          </tr>
+          <tr>
+            <td><code>[data-slot=&quot;multi-select-option&quot;][data-active]</code></td>
+            <td>Option host</td>
+            <td>Keyboard active highlight.</td>
+          </tr>
+          <tr>
+            <td><code>[data-slot=&quot;multi-select-option&quot;][data-selected]</code></td>
+            <td>Option host</td>
+            <td>Committed selection styling.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="multiselect-styling-block">
+    <h3>Example style contract</h3>
+    <tng-code-block
+      [code]="stylingExampleCode"
+      adapter="shiki"
+      language="css"
+      title="multiselect.contract.css"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+</article>

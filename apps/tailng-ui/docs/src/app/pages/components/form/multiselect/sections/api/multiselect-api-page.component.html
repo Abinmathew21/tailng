@@ -1,0 +1,110 @@
+<article class="multiselect-api">
+  <h2 class="multiselect-api-title">API reference</h2>
+  <p class="multiselect-api-lead">
+    MultiSelect exposes composable primitives and a wrapper component for array-based value models.
+  </p>
+
+  <section class="multiselect-api-block">
+    <h3><code>tngMultiSelect</code> + parts (primitive)</h3>
+    <tng-code-block
+      [code]="primitiveAttachmentCode"
+      adapter="shiki"
+      language="html"
+      title="Primitive attachment"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+
+    <div class="multiselect-api-table-wrap">
+      <table class="multiselect-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Directive / model</th>
+            <th scope="col">Type</th>
+            <th scope="col">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>tngMultiSelect</code></td>
+            <td><code>open</code>, <code>openChange</code></td>
+            <td>Controlled overlay visibility.</td>
+          </tr>
+          <tr>
+            <td><code>tngMultiSelect</code></td>
+            <td><code>value</code>, <code>valueChange</code></td>
+            <td><code>readonly T[]</code> selected values.</td>
+          </tr>
+          <tr>
+            <td><code>tngMultiSelect</code></td>
+            <td><code>addSelectedItem</code>, <code>removeSelectedItem</code>, <code>toggleSelectedItem</code>, <code>clear</code></td>
+            <td>Imperative selection helpers.</td>
+          </tr>
+          <tr>
+            <td><code>tngMultiSelectListbox</code></td>
+            <td><code>orientation</code>, <code>direction</code>, <code>loop</code></td>
+            <td>Keyboard traversal configuration.</td>
+          </tr>
+          <tr>
+            <td><code>tngMultiSelectOption</code></td>
+            <td><code>tngValue</code>, <code>disabled</code></td>
+            <td>Option identity and disabled state.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="multiselect-api-block">
+    <h3><code>tng-multiselect</code> (styled component)</h3>
+    <tng-code-block
+      [code]="wrapperUsageCode"
+      adapter="shiki"
+      language="html"
+      title="Wrapper usage"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+
+    <div class="multiselect-api-table-wrap">
+      <table class="multiselect-api-table">
+        <thead>
+          <tr>
+            <th scope="col">API</th>
+            <th scope="col">Type</th>
+            <th scope="col">Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>options</code></td>
+            <td><code>readonly O[]</code></td>
+            <td>Option source used for rendering and label mapping.</td>
+          </tr>
+          <tr>
+            <td><code>getOptionValue</code></td>
+            <td><code>(option: O) =&gt; V</code></td>
+            <td>Maps options into selected value payloads.</td>
+          </tr>
+          <tr>
+            <td><code>getOptionLabel</code></td>
+            <td><code>(option: O) =&gt; string</code></td>
+            <td>Maps options into trigger/option labels.</td>
+          </tr>
+          <tr>
+            <td><code>isOptionDisabled</code></td>
+            <td><code>(option: O) =&gt; boolean</code></td>
+            <td>Disables options at render time.</td>
+          </tr>
+          <tr>
+            <td>Forwarded primitive model</td>
+            <td><code>open</code>, <code>value</code>, <code>openChange</code>, <code>valueChange</code></td>
+            <td>Exposed through host directive wiring.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</article>

@@ -13,6 +13,7 @@
       adapter="shiki"
       language="ts"
       title="Primitive import"
+      [theme]="codeBlockTheme()"
       [lineNumbers]="false"
       [wrap]="true"
       [sanitizeHtml]="false"
@@ -22,6 +23,7 @@
       adapter="shiki"
       language="ts"
       title="Component import"
+      [theme]="codeBlockTheme()"
       [lineNumbers]="false"
       [wrap]="true"
       [sanitizeHtml]="false"
@@ -29,72 +31,95 @@
   </section>
 
   <section class="stepper-overview-block">
-    <h3>Usage patterns</h3>
-    <p>
-      The primitive only attaches semantics and state hooks. Consumers provide markup, state
-      classes, and connectors.
-    </p>
-    <tng-code-block
-      [code]="primitiveUsageCode"
-      adapter="shiki"
-      language="html"
-      title="Primitive usage"
-      [lineNumbers]="false"
-      [wrap]="true"
-      [sanitizeHtml]="false"
-    ></tng-code-block>
-    <tng-code-block
-      [code]="componentUsageCode"
-      adapter="shiki"
-      language="html"
-      title="Component usage"
-      [lineNumbers]="false"
-      [wrap]="true"
-      [sanitizeHtml]="false"
-    ></tng-code-block>
-  </section>
-
-  <section class="stepper-overview-block">
-    <h3>Live preview</h3>
-    <div class="stepper-preview-grid">
-      <section class="stepper-preview-card">
-        <p class="stepper-preview-title">Headless (`tngStepper`)</p>
-        <ol tngStepper class="stepper-preview-list" aria-label="Checkout progress">
-          <li class="stepper-preview-item is-current">
-            <span class="stepper-preview-dot">1</span>
-            Shipping details
-          </li>
-          <li class="stepper-preview-item">
-            <span class="stepper-preview-dot">2</span>
-            Payment method
-          </li>
-          <li class="stepper-preview-item">
-            <span class="stepper-preview-dot">3</span>
-            Confirmation
-          </li>
-        </ol>
-      </section>
-
-      <section class="stepper-preview-card">
-        <p class="stepper-preview-title">Component (`tng-stepper`)</p>
-        <tng-stepper ariaLabel="Release pipeline">
-          <ol class="stepper-preview-list">
-            <li class="stepper-preview-item is-complete">
-              <span class="stepper-preview-dot">✓</span>
-              Draft
-            </li>
+    <app-docs-example-tabs-section
+      heading="Progress indicator variants"
+      description="Same stepper semantics rendered through headless markup, plain CSS wrappers, and Tailwind utility shells."
+      ariaLabel="Stepper progress indicator variants"
+      tabListAriaLabel="Stepper styles"
+      defaultValue="headless"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="headless"
+        label="Headless"
+        panelTitle="Headless progress stepper"
+        [codeTabs]="headlessCodeTabs"
+      >
+        <div class="stepper-preview-shell stepper-preview-shell--headless">
+          <ol tngStepper class="stepper-preview-list" aria-label="Checkout progress">
             <li class="stepper-preview-item is-current">
+              <span class="stepper-preview-dot">1</span>
+              Shipping details
+            </li>
+            <li class="stepper-preview-item">
               <span class="stepper-preview-dot">2</span>
-              Review
+              Payment method
             </li>
             <li class="stepper-preview-item">
               <span class="stepper-preview-dot">3</span>
-              Publish
+              Confirmation
             </li>
           </ol>
-        </tng-stepper>
-      </section>
-    </div>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Plain CSS progress stepper"
+        [codeTabs]="plainCssCodeTabs"
+      >
+        <div class="stepper-preview-shell stepper-preview-shell--plain">
+          <tng-stepper ariaLabel="Release pipeline">
+            <ol class="stepper-preview-list">
+              <li class="stepper-preview-item is-complete">
+                <span class="stepper-preview-dot">✓</span>
+                Draft
+              </li>
+              <li class="stepper-preview-item is-current">
+                <span class="stepper-preview-dot">2</span>
+                Review
+              </li>
+              <li class="stepper-preview-item">
+                <span class="stepper-preview-dot">3</span>
+                Publish
+              </li>
+            </ol>
+          </tng-stepper>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Tailwind progress stepper"
+        [codeTabs]="tailwindCodeTabs"
+      >
+        <div
+          class="stepper-preview-shell rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+        >
+          <tng-stepper ariaLabel="Release pipeline">
+            <ol class="stepper-preview-list">
+              <li class="stepper-preview-item is-complete">
+                <span class="stepper-preview-dot">✓</span>
+                Draft
+              </li>
+              <li class="stepper-preview-item is-current">
+                <span class="stepper-preview-dot">2</span>
+                Review
+              </li>
+              <li class="stepper-preview-item">
+                <span class="stepper-preview-dot">3</span>
+                Publish
+              </li>
+            </ol>
+          </tng-stepper>
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
   </section>
 
   <section class="stepper-overview-block">
@@ -106,4 +131,3 @@
     </ul>
   </section>
 </article>
-

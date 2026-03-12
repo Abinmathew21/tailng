@@ -1,0 +1,136 @@
+:host {
+  display: block;
+}
+
+.multiselect-examples {
+  display: grid;
+  gap: 1rem;
+}
+
+.multiselect-examples-title {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.multiselect-examples-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.multiselect-examples-block {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.9rem;
+  color: var(--tng-semantic-foreground-secondary);
+  display: grid;
+  gap: 0.7rem;
+  padding: 1rem;
+}
+
+.multiselect-examples-block h3 {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1rem;
+  margin: 0;
+}
+
+.multiselect-example-description {
+  margin: 0;
+}
+
+.multiselect-preview-shell {
+  display: grid;
+  gap: 0.65rem;
+  max-width: 31rem;
+  width: 100%;
+}
+
+.multiselect-preview-shell--headless {
+  background: color-mix(in srgb, var(--tng-semantic-background-surface) 84%, transparent);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.8rem;
+  padding: 0.9rem 1rem;
+}
+
+.multiselect-preview-shell--plain {
+  background: var(--tng-semantic-background-surface);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.8rem;
+  padding: 0.9rem 1rem;
+}
+
+.multiselect-preview-control {
+  --tng-select-radius: 0.78rem;
+  --tng-select-trigger-py: 0.58rem;
+  --tng-select-trigger-px: 0.88rem;
+  --tng-select-option-py: 0.5rem;
+  --tng-select-option-px: 0.72rem;
+  --tng-select-border-strong: color-mix(
+    in srgb,
+    var(--tng-semantic-border-subtle) 72%,
+    var(--tng-semantic-foreground-primary)
+  );
+  --tng-select-focus-ring: color-mix(
+    in srgb,
+    var(--tng-semantic-accent-brand) 88%,
+    var(--tng-semantic-background-canvas)
+  );
+}
+
+:host ::ng-deep .multiselect-preview-control [data-slot='select-trigger'] {
+  min-height: 2.65rem;
+}
+
+:host ::ng-deep .multiselect-preview-control [data-slot='select-icon'] {
+  align-items: center;
+  color: var(--tng-semantic-foreground-secondary);
+  display: inline-flex;
+  flex: 0 0 0.9rem;
+  font-size: 0.82rem;
+  inline-size: 0.9rem;
+  justify-content: center;
+  margin-inline-end: 0.125rem;
+  opacity: 0.82;
+}
+
+:host ::ng-deep .multiselect-preview-control [data-slot='select-overlay'] {
+  max-height: 14rem;
+  overflow: auto;
+}
+
+:host ::ng-deep .multiselect-preview-control [data-slot='multi-select-option'] {
+  font-weight: 500;
+}
+
+.multiselect-preview-summary {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.82rem;
+  margin: 0;
+}
+
+.multiselect-dual-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.multiselect-dual-card {
+  background: var(--tng-semantic-background-surface);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.75rem;
+  display: grid;
+  gap: 0.65rem;
+  min-width: 0;
+  padding: 0.9rem;
+}
+
+.multiselect-dual-card h4 {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+@media (min-width: 64rem) {
+  .multiselect-dual-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

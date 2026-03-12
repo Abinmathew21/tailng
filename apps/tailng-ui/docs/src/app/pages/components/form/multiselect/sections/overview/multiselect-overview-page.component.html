@@ -1,0 +1,141 @@
+<article class="multiselect-overview">
+  <h2 class="multiselect-overview-title">MultiSelect overview</h2>
+  <p class="multiselect-overview-lead">
+    TailNG MultiSelect keeps overlays open while users toggle multiple options. This overview
+    compares headless primitives with plain CSS and Tailwind wrapper usage.
+  </p>
+
+  <section class="multiselect-overview-block">
+    <h3>Imports</h3>
+    <tng-code-block
+      [code]="primitiveImportCode"
+      adapter="shiki"
+      language="ts"
+      title="Primitive import"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+    <tng-code-block
+      [code]="componentImportCode"
+      adapter="shiki"
+      language="ts"
+      title="Styled component import"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section class="multiselect-overview-block">
+    <app-docs-example-tabs-section
+      heading="Planet multi-select variants"
+      description="Toggle multiple planets with Enter or click while keeping the panel open."
+      ariaLabel="Multiselect planet style variants"
+      tabListAriaLabel="Multiselect styles"
+      defaultValue="headless"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="headless"
+        label="Headless"
+        panelTitle="Headless planet multiselect"
+        [codeTabs]="headlessCodeTabs"
+      >
+        <div class="multiselect-preview-shell multiselect-preview-shell--headless">
+          <section
+            tngMultiSelect
+            class="multiselect-preview-control multiselect-preview-control--headless"
+            #headlessApi="tngMultiSelect"
+            [value]="headlessValue()"
+            (valueChange)="onHeadlessValueChange($event)"
+          >
+            <button #headlessTrigger tngSelectTrigger type="button" aria-label="Headless planet multi-select">
+              <span tngSelectValue>{{ resolveLabels(headlessValue()) }}</span>
+              <span tngSelectIcon aria-hidden="true">▾</span>
+            </button>
+
+            <div tngSelectContent>
+              <div tngSelectOverlay [style.minWidth.px]="headlessTrigger.offsetWidth">
+                <ul tngMultiSelectListbox [multiple]="true" [value]="headlessApi.value()">
+                  @for (option of options; track option.value) {
+                    <li
+                      tngMultiSelectOption
+                      [tngValue]="option.value"
+                      [disabled]="option.disabled === true"
+                    >
+                      {{ option.label }}
+                    </li>
+                  }
+                </ul>
+              </div>
+            </div>
+          </section>
+          <p class="multiselect-preview-summary">selected: {{ headlessSummary() }}</p>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Plain CSS planet multiselect"
+        [codeTabs]="plainCssCodeTabs"
+      >
+        <div class="multiselect-preview-shell multiselect-preview-shell--plain">
+          <tng-multiselect
+            class="multiselect-preview-control multiselect-preview-control--plain"
+            [options]="options"
+            [value]="plainValue()"
+            (valueChange)="onPlainValueChange($event)"
+            [getOptionValue]="getPlanetValue"
+            [getOptionLabel]="getPlanetLabel"
+            placeholder="Select planets"
+            aria-label="Plain CSS planet multiselect"
+          ></tng-multiselect>
+          <p class="multiselect-preview-summary">selected: {{ plainSummary() }}</p>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Tailwind planet multiselect"
+        [codeTabs]="tailwindCodeTabs"
+      >
+        <div
+          class="multiselect-preview-shell rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+        >
+          <tng-multiselect
+            class="multiselect-preview-control multiselect-preview-control--tailwind"
+            [options]="options"
+            [value]="tailwindValue()"
+            (valueChange)="onTailwindValueChange($event)"
+            [getOptionValue]="getPlanetValue"
+            [getOptionLabel]="getPlanetLabel"
+            placeholder="Select planets"
+            aria-label="Tailwind planet multiselect"
+          ></tng-multiselect>
+          <p class="multiselect-preview-summary">selected: {{ tailwindSummary() }}</p>
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section class="multiselect-overview-block">
+    <h3>Behavior baseline</h3>
+    <ul class="multiselect-overview-list">
+      <li><code>tngMultiSelect</code> models values as <code>readonly T[]</code>.</li>
+      <li><code>Enter</code> toggles the active option without closing the overlay.</li>
+      <li>Trigger and overlay contracts reuse shared select parts for consistent styling.</li>
+      <li>
+        Option state hooks are exposed through <code>data-active</code>, <code>data-selected</code>,
+        and <code>data-disabled</code>.
+      </li>
+    </ul>
+  </section>
+</article>

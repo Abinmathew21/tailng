@@ -28,10 +28,25 @@
   padding: 1rem;
 }
 
-.stepper-examples-block h3 {
-  color: var(--tng-semantic-foreground-primary);
-  font-size: 1rem;
-  margin: 0;
+.stepper-example-shell {
+  display: grid;
+  gap: 0.65rem;
+  max-width: 36rem;
+  width: 100%;
+}
+
+.stepper-example-shell--headless {
+  background: color-mix(in srgb, var(--tng-semantic-background-surface) 84%, transparent);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.8rem;
+  padding: 0.9rem 1rem;
+}
+
+.stepper-example-shell--plain {
+  background: var(--tng-semantic-background-surface);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.8rem;
+  padding: 0.9rem 1rem;
 }
 
 .stepper-example-list {
@@ -80,4 +95,3 @@
   min-width: 1.35rem;
   padding-inline: 0.3rem;
 }
-
