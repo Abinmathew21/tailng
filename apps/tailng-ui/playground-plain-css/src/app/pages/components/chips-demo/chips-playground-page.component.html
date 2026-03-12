@@ -2,27 +2,64 @@
   <section class="container">
     <section class="card">
       <h2>Primitives (`tngChips`)</h2>
-      <div tngChips class="primitive-shell demo-row">
-        <button type="button" class="demo-chip">Angular</button>
-        <button type="button" class="demo-chip">CDK</button>
-        <button type="button" class="demo-chip">A11y</button>
+      <p class="demo-note">
+        Headless chips with `tngChip` + `tngChipRemove`. Click or press Enter/Space on remove.
+      </p>
+      <div
+        tngChips
+        class="primitive-shell demo-row"
+        tngChipsAriaLabel="Primitive selected tags"
+        [tngChipsValues]="primitiveValues()"
+        (valuesChange)="onPrimitiveValuesChange($event)"
+      >
+        @for (item of primitiveValues(); track item) {
+          <span tngChip [tngChipValue]="item" [tngChipLabel]="item" class="demo-chip">
+            <span>{{ item }}</span>
+            <button tngChipRemove type="button" class="demo-chip-x"></button>
+          </span>
+        }
       </div>
+      @if (primitiveValues().length === 0) {
+        <p class="demo-note">No primitive chips left.</p>
+      }
     </section>
 
     <section class="card">
       <h2>Components (`tng-chips`)</h2>
-      <tng-chips>
+      <p class="demo-note">
+        Styled wrapper with the same primitives projected inside. State stays controlled.
+      </p>
+      <tng-chips
+        ariaLabel="Component selected tags"
+        [values]="componentValues()"
+        (valuesChange)="onComponentValuesChange($event)"
+      >
         <div class="primitive-shell demo-row">
-          <span class="demo-chip">
-            Button
-            <button type="button" class="demo-chip-x">x</button>
-          </span>
-          <span class="demo-chip">
-            Dialog
-            <button type="button" class="demo-chip-x">x</button>
-          </span>
+          @for (item of componentValues(); track item) {
+            <span tngChip [tngChipValue]="item" [tngChipLabel]="item" class="demo-chip">
+              <span>{{ item }}</span>
+              <button tngChipRemove type="button" class="demo-chip-x"></button>
+            </span>
+          }
         </div>
       </tng-chips>
+      @if (componentValues().length === 0) {
+        <p class="demo-note">No component chips left.</p>
+      }
+    </section>
+
+    <section class="card">
+      <h2>Disabled chips</h2>
+      <div tngChips class="primitive-shell demo-row" tngChipsAriaLabel="Disabled chip sample">
+        <span tngChip tngChipValue="Readonly" tngChipLabel="Readonly" [tngChipDisabled]="true" class="demo-chip">
+          <span>Readonly</span>
+          <button tngChipRemove type="button" class="demo-chip-x"></button>
+        </span>
+        <span tngChip tngChipValue="Active" tngChipLabel="Active" class="demo-chip">
+          <span>Active</span>
+          <button tngChipRemove type="button" class="demo-chip-x"></button>
+        </span>
+      </div>
     </section>
   </section>
 </main>

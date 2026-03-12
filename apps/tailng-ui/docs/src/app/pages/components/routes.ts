@@ -22,6 +22,10 @@ export const COMPONENTS_ROUTES: Routes = [
         loadChildren: () => import('./form/routes').then((m) => m.COMPONENTS_FORM_ROUTES),
       },
       {
+        path: 'layout',
+        loadChildren: () => import('./layout/routes').then((m) => m.COMPONENTS_LAYOUT_ROUTES),
+      },
+      {
         path: 'utility',
         loadChildren: () =>
           import('./utility/routes').then((m) => m.COMPONENTS_UTILITY_ROUTES),

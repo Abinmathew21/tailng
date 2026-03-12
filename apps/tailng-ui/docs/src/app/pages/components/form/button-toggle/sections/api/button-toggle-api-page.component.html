@@ -1,0 +1,67 @@
+<article class="button-toggle-api">
+  <h2 class="button-toggle-api-title">API reference</h2>
+  <p class="button-toggle-api-lead">
+    Button Toggle provides group and item primitives with a styled wrapper API aligned to the same
+    interaction model.
+  </p>
+
+  <section class="button-toggle-api-block">
+    <h3><code>tngButtonToggleGroup</code> + <code>tngButtonToggle</code></h3>
+    <tng-code-block
+      [code]="primitiveAttachmentCode"
+      adapter="shiki"
+      language="html"
+      title="Primitive attachment"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+
+    <div class="button-toggle-api-table-wrap">
+      <table class="button-toggle-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Group API</th>
+            <th scope="col">Type</th>
+            <th scope="col">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>type</code></td>
+            <td><code>'single' | 'multiple'</code></td>
+            <td>Selection strategy.</td>
+          </tr>
+          <tr>
+            <td><code>tngButtonToggleValue</code>, <code>tngButtonToggleValues</code></td>
+            <td><code>T | null</code>, <code>readonly T[]</code></td>
+            <td>Controlled selected values.</td>
+          </tr>
+          <tr>
+            <td><code>valueChange</code>, <code>valuesChange</code></td>
+            <td>Output events</td>
+            <td>Selection updates.</td>
+          </tr>
+          <tr>
+            <td><code>orientation</code>, <code>dir</code>, <code>loop</code></td>
+            <td>Behavior config</td>
+            <td>Keyboard focus traversal.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="button-toggle-api-block">
+    <h3><code>tng-button-toggle-group</code> + <code>tng-button-toggle</code></h3>
+    <tng-code-block
+      [code]="componentAttachmentCode"
+      adapter="shiki"
+      language="html"
+      title="Component attachment"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+</article>

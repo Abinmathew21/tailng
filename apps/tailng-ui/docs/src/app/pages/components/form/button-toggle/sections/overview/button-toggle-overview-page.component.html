@@ -1,0 +1,158 @@
+<article class="button-toggle-overview">
+  <h2 class="button-toggle-overview-title">Button Toggle overview</h2>
+  <p class="button-toggle-overview-lead">
+    Button Toggle composes selectable buttons in single or multiple mode for toolbars, filters, and
+    compact state controls.
+  </p>
+
+  <section class="button-toggle-overview-block">
+    <h3>Imports</h3>
+    <p>Use primitives for full ownership, or use the styled components for fast adoption.</p>
+    <tng-code-block
+      [code]="primitiveImportCode"
+      adapter="shiki"
+      language="ts"
+      title="Primitive import"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+    <tng-code-block
+      [code]="componentImportCode"
+      adapter="shiki"
+      language="ts"
+      title="Styled component import"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section class="button-toggle-overview-block">
+    <h3>Usage patterns</h3>
+    <tng-code-block
+      [code]="primitiveUsageCode"
+      adapter="shiki"
+      language="html"
+      title="Primitive usage"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+    <tng-code-block
+      [code]="componentUsageCode"
+      adapter="shiki"
+      language="html"
+      title="Component usage"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <app-docs-example-tabs-section
+    class="button-toggle-overview-block"
+    heading="Style variants"
+    description="Same button-toggle behavior rendered with headless markup, plain CSS shell, and Tailwind utility styles."
+    ariaLabel="Button Toggle style variants"
+    tabListAriaLabel="Button Toggle style tabs"
+    defaultValue="headless"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="headless"
+      label="Headless"
+      panelTitle="Headless alignment toggles"
+      [codeTabs]="headlessCodeTabs"
+    >
+      <section
+        tngButtonToggleGroup
+        class="button-toggle-preview-group"
+        [tngButtonToggleValue]="headlessAlign()"
+        (valueChange)="onHeadlessAlignChange($event)"
+      >
+        <button tngButtonToggle tngButtonToggleValue="left" class="button-toggle-preview-item">
+          Left
+        </button>
+        <button tngButtonToggle tngButtonToggleValue="center" class="button-toggle-preview-item">
+          Center
+        </button>
+        <button tngButtonToggle tngButtonToggleValue="right" class="button-toggle-preview-item">
+          Right
+        </button>
+      </section>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+      panelTitle="Plain CSS density toggles"
+      [codeTabs]="plainCssCodeTabs"
+    >
+      <div class="plain-button-toggle-card">
+        <div class="button-toggle-wrapper-row" role="group" aria-label="Density toggles">
+          <tng-button-toggle
+            [pressed]="plainView() === 'compact'"
+            (pressedChange)="onDensityPressed('compact', $event)"
+            >Compact</tng-button-toggle
+          >
+          <tng-button-toggle
+            [pressed]="plainView() === 'comfortable'"
+            (pressedChange)="onDensityPressed('comfortable', $event)"
+            >Comfortable</tng-button-toggle
+          >
+          <tng-button-toggle
+            [pressed]="plainView() === 'spacious'"
+            (pressedChange)="onDensityPressed('spacious', $event)"
+            >Spacious</tng-button-toggle
+          >
+        </div>
+      </div>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Tailwind filter toggles"
+      [codeTabs]="tailwindCodeTabs"
+    >
+      <div
+        class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+      >
+        <div class="button-toggle-wrapper-row" role="group" aria-label="Feature filter toggles">
+          <tng-button-toggle
+            [pressed]="tailwindFilters().includes('a11y')"
+            (pressedChange)="onFilterPressed('a11y', $event)"
+            >Accessibility</tng-button-toggle
+          >
+          <tng-button-toggle
+            [pressed]="tailwindFilters().includes('signals')"
+            (pressedChange)="onFilterPressed('signals', $event)"
+            >Signals</tng-button-toggle
+          >
+          <tng-button-toggle
+            [pressed]="tailwindFilters().includes('dx')"
+            (pressedChange)="onFilterPressed('dx', $event)"
+            >DX</tng-button-toggle
+          >
+        </div>
+      </div>
+    </ng-template>
+  </app-docs-example-tabs-section>
+
+  <section class="button-toggle-overview-block">
+    <h3>Accessibility baseline</h3>
+    <ul class="button-toggle-overview-list">
+      <li>Single mode uses <code>radiogroup/radio</code> semantics; multiple mode uses pressed buttons.</li>
+      <li>Arrow keys move focus across enabled items; Home and End jump to first and last.</li>
+      <li>State hooks are exposed through <code>data-selected</code>, <code>data-state</code>, and focus attributes.</li>
+    </ul>
+  </section>
+</article>

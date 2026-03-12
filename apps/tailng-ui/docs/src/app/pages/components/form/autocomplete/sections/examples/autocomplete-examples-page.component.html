@@ -1,0 +1,334 @@
+<article class="autocomplete-examples">
+  <h2 class="autocomplete-examples-title">Examples</h2>
+  <p class="autocomplete-examples-lead">
+    Fully interactive examples with headless primitives, plain CSS wrappers, and Tailwind wrappers.
+  </p>
+
+  <section class="autocomplete-examples-block">
+    <h3>Playground parity demo</h3>
+    <p class="autocomplete-example-description">
+      The same side-by-side pattern as the plain CSS playground: primitive autocomplete + wrapper
+      component.
+    </p>
+
+    <div class="autocomplete-demo-grid">
+      <section class="autocomplete-demo-card">
+        <div class="autocomplete-demo-card__head">
+          <h4>1) Primitive Autocomplete</h4>
+          <p>Country search via docs local options.</p>
+        </div>
+
+        <section
+          tngAutocomplete
+          class="autocomplete-preview-control autocomplete-preview-control--headless"
+          #compareApi="tngAutocomplete"
+          [open]="compareOpen()"
+          (openChange)="onCompareOpenChange($event)"
+          [value]="compareValue()"
+          (valueChange)="onCompareValueChange($event)"
+        >
+          <div tngAutocompleteTriggerContainer>
+            <input
+              tngAutocompleteTrigger
+              type="text"
+              [value]="compareDisplayText()"
+              (input)="onCompareInput($event)"
+              placeholder="Type to search..."
+              aria-label="Primitive country filter"
+            />
+            <span tngAutocompleteIcon aria-hidden="true">▾</span>
+          </div>
+
+          <div tngAutocompleteContent>
+            <div tngAutocompleteOverlay>
+              <ul tngAutocompleteListbox [value]="compareApi.value()">
+                @for (country of compareFilteredCountries(); track country.code) {
+                  <li tngAutocompleteOption [tngValue]="country.code">
+                    {{ country.label }}
+                  </li>
+                }
+                @if (compareFilteredCountries().length === 0) {
+                  <li data-slot="autocomplete-empty">No matches</li>
+                }
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <div class="autocomplete-debug">
+          <span class="autocomplete-pill">value</span>
+          <code>{{ compareSummary() }}</code>
+        </div>
+      </section>
+
+      <section class="autocomplete-demo-card">
+        <div class="autocomplete-demo-card__head">
+          <h4>2) Components Layer &lt;tng-autocomplete&gt;</h4>
+          <p>Options + value + change. Same country list.</p>
+        </div>
+
+        <tng-autocomplete
+          class="autocomplete-preview-control autocomplete-preview-control--plain"
+          [options]="countries"
+          [value]="compareComponentValue()"
+          (valueChange)="onCompareComponentValueChange($event)"
+          [getOptionValue]="getCountryValue"
+          [getOptionLabel]="getCountryLabel"
+          placeholder="Type to search..."
+          ariaLabel="Component country filter"
+        ></tng-autocomplete>
+
+        <div class="autocomplete-debug">
+          <span class="autocomplete-pill">value</span>
+          <code>{{ compareComponentSummary() }}</code>
+        </div>
+      </section>
+    </div>
+  </section>
+
+  <section class="autocomplete-examples-block">
+    <app-docs-example-tabs-section
+      heading="Country filter variants"
+      description="Type Ind to narrow results to India and Indonesia, then commit with Enter or click."
+      ariaLabel="Autocomplete country filter examples"
+      tabListAriaLabel="Country filter style variants"
+      defaultValue="headless"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="headless"
+        label="Headless"
+        panelTitle="Headless country filter"
+        [codeTabs]="countryHeadlessCodeTabs"
+      >
+        <div class="autocomplete-preview-shell autocomplete-preview-shell--headless">
+          <div
+            tngAutocomplete
+            class="autocomplete-preview-control autocomplete-preview-control--headless"
+            #countryHeadlessApi="tngAutocomplete"
+            [open]="countryHeadlessOpen()"
+            (openChange)="onCountryHeadlessOpenChange($event)"
+            [value]="countryHeadlessValue()"
+            (valueChange)="onCountryHeadlessValueChange($event)"
+          >
+            <div tngAutocompleteTriggerContainer>
+              <input
+                tngAutocompleteTrigger
+                type="text"
+                [value]="countryHeadlessDisplayText()"
+                (input)="onCountryHeadlessInput($event)"
+                placeholder="Type Ind to filter countries"
+                aria-label="Headless country filter"
+              />
+              <span tngAutocompleteIcon aria-hidden="true">▾</span>
+            </div>
+
+            <div tngAutocompleteContent>
+              <div tngAutocompleteOverlay>
+                <ul tngAutocompleteListbox [value]="countryHeadlessApi.value()">
+                  @for (country of countryHeadlessFiltered(); track country.code) {
+                    <li tngAutocompleteOption [tngValue]="country.code">
+                      {{ country.label }}
+                    </li>
+                  }
+                  @if (countryHeadlessFiltered().length === 0) {
+                    <li data-slot="autocomplete-empty">No matches</li>
+                  }
+                </ul>
+              </div>
+            </div>
+          </div>
+          <p class="autocomplete-preview-summary">selected: {{ countryHeadlessSummary() }}</p>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Plain CSS country filter"
+        [codeTabs]="countryPlainCodeTabs"
+      >
+        <div class="autocomplete-preview-shell autocomplete-preview-shell--plain">
+          <tng-autocomplete
+            class="autocomplete-preview-control autocomplete-preview-control--plain"
+            [options]="countries"
+            [value]="countryPlainValue()"
+            (valueChange)="onCountryPlainValueChange($event)"
+            [getOptionValue]="getCountryValue"
+            [getOptionLabel]="getCountryLabel"
+            placeholder="Type Ind to filter countries"
+            ariaLabel="Plain CSS country filter"
+          ></tng-autocomplete>
+          <p class="autocomplete-preview-summary">selected: {{ countryPlainSummary() }}</p>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Tailwind country filter"
+        [codeTabs]="countryTailwindCodeTabs"
+      >
+        <div
+          class="autocomplete-preview-shell rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+        >
+          <tng-autocomplete
+            class="autocomplete-preview-control autocomplete-preview-control--tailwind"
+            [options]="countries"
+            [value]="countryTailwindValue()"
+            (valueChange)="onCountryTailwindValueChange($event)"
+            [getOptionValue]="getCountryValue"
+            [getOptionLabel]="getCountryLabel"
+            placeholder="Type Ind to filter countries"
+            ariaLabel="Tailwind country filter"
+          ></tng-autocomplete>
+          <p class="autocomplete-preview-summary">selected: {{ countryTailwindSummary() }}</p>
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section class="autocomplete-examples-block">
+    <app-docs-example-tabs-section
+      heading="Repository search variants"
+      description="Search repository names and commit a result with keyboard or pointer interaction."
+      ariaLabel="Autocomplete repository search examples"
+      tabListAriaLabel="Repository filter style variants"
+      defaultValue="headless"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="headless"
+        label="Headless"
+        panelTitle="Headless repository search"
+        [codeTabs]="repositoryHeadlessCodeTabs"
+      >
+        <div class="autocomplete-preview-shell autocomplete-preview-shell--headless">
+          <div
+            tngAutocomplete
+            class="autocomplete-preview-control autocomplete-preview-control--headless"
+            #repositoryHeadlessApi="tngAutocomplete"
+            [open]="repositoryHeadlessOpen()"
+            (openChange)="onRepositoryHeadlessOpenChange($event)"
+            [value]="repositoryHeadlessValue()"
+            (valueChange)="onRepositoryHeadlessValueChange($event)"
+          >
+            <div tngAutocompleteTriggerContainer>
+              <input
+                tngAutocompleteTrigger
+                type="text"
+                [value]="repositoryHeadlessDisplayText()"
+                (input)="onRepositoryHeadlessInput($event)"
+                placeholder="Search repository"
+                aria-label="Headless repository search"
+              />
+              <span tngAutocompleteIcon aria-hidden="true">▾</span>
+            </div>
+
+            <div tngAutocompleteContent>
+              <div tngAutocompleteOverlay>
+                <ul tngAutocompleteListbox [value]="repositoryHeadlessApi.value()">
+                  @for (repository of repositoryHeadlessFiltered(); track repository.id) {
+                    <li tngAutocompleteOption [tngValue]="repository.id">
+                      {{ repository.name }}
+                    </li>
+                  }
+                  @if (repositoryHeadlessFiltered().length === 0) {
+                    <li data-slot="autocomplete-empty">No matches</li>
+                  }
+                </ul>
+              </div>
+            </div>
+          </div>
+          <p class="autocomplete-preview-summary">selected: {{ repositoryHeadlessSummary() }}</p>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Plain CSS repository search"
+        [codeTabs]="repositoryPlainCodeTabs"
+      >
+        <div class="autocomplete-preview-shell autocomplete-preview-shell--plain">
+          <tng-autocomplete
+            class="autocomplete-preview-control autocomplete-preview-control--plain"
+            [options]="repositories"
+            [value]="repositoryPlainValue()"
+            (valueChange)="onRepositoryPlainValueChange($event)"
+            [getOptionValue]="getRepositoryValue"
+            [getOptionLabel]="getRepositoryLabel"
+            placeholder="Search repository"
+            ariaLabel="Plain CSS repository search"
+          ></tng-autocomplete>
+          <p class="autocomplete-preview-summary">selected: {{ repositoryPlainSummary() }}</p>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Tailwind repository search"
+        [codeTabs]="repositoryTailwindCodeTabs"
+      >
+        <div
+          class="autocomplete-preview-shell rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+        >
+          <tng-autocomplete
+            class="autocomplete-preview-control autocomplete-preview-control--tailwind"
+            [options]="repositories"
+            [value]="repositoryTailwindValue()"
+            (valueChange)="onRepositoryTailwindValueChange($event)"
+            [getOptionValue]="getRepositoryValue"
+            [getOptionLabel]="getRepositoryLabel"
+            placeholder="Search repository"
+            ariaLabel="Tailwind repository search"
+          ></tng-autocomplete>
+          <p class="autocomplete-preview-summary">selected: {{ repositoryTailwindSummary() }}</p>
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section class="autocomplete-examples-block">
+    <h3>State presentation</h3>
+    <p class="autocomplete-example-description">
+      Disabled and invalid states are forwarded from the wrapper to primitive state hooks.
+    </p>
+    <div class="autocomplete-state-grid">
+      <div class="autocomplete-preview-shell autocomplete-preview-shell--plain">
+        <tng-autocomplete
+          class="autocomplete-preview-control"
+          [options]="countries"
+          [value]="countryPlainValue()"
+          [getOptionValue]="getCountryValue"
+          [getOptionLabel]="getCountryLabel"
+          placeholder="Disabled country filter"
+          ariaLabel="Disabled country filter"
+          [disabled]="true"
+        ></tng-autocomplete>
+        <p class="autocomplete-preview-summary">disabled: true</p>
+      </div>
+
+      <div class="autocomplete-preview-shell autocomplete-preview-shell--plain">
+        <tng-autocomplete
+          class="autocomplete-preview-control"
+          [options]="countries"
+          [value]="countryTailwindValue()"
+          [getOptionValue]="getCountryValue"
+          [getOptionLabel]="getCountryLabel"
+          placeholder="Invalid country filter"
+          ariaLabel="Invalid country filter"
+          [invalid]="true"
+        ></tng-autocomplete>
+        <p class="autocomplete-preview-summary">invalid: true</p>
+      </div>
+    </div>
+  </section>
+</article>

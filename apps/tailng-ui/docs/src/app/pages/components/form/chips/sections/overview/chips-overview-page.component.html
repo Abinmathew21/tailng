@@ -1,0 +1,52 @@
+<article class="chips-overview">
+  <h2 class="chips-overview-title">Chips overview</h2>
+  <p class="chips-overview-lead">
+    Chips are compact tokens that represent selected values. TailNG ships a headless remove flow
+    (<code>tngChips</code>, <code>tngChip</code>, <code>tngChipRemove</code>) and a minimal
+    <code>&lt;tng-chips&gt;</code> wrapper.
+  </p>
+
+  <section class="chips-overview-block">
+    <h3>Imports</h3>
+    <tng-code-block
+      [code]="primitiveImportCode"
+      adapter="shiki"
+      language="ts"
+      title="Primitive imports"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+    <tng-code-block
+      [code]="componentImportCode"
+      adapter="shiki"
+      language="ts"
+      title="Styled wrapper imports"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section class="chips-overview-block">
+    <h3>Usage patterns</h3>
+    <tng-code-block
+      [code]="primitiveUsageCode"
+      adapter="shiki"
+      language="html"
+      title="Headless usage"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+    <tng-code-block
+      [code]="componentUsageCode"
+      adapter="shiki"
+      language="html"
+      title="Component wrapper usage"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+</article>

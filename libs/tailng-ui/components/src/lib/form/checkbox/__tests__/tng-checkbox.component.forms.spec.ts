@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TestBed } from '@angular/core/testing';
 import { describe, expect, it } from 'vitest';
 
@@ -33,6 +33,19 @@ class ReactiveFormControlNameHostComponent {
   public readonly form = new FormGroup({
     consent: new FormControl<TngCheckboxModelValue>(false, { nonNullable: true }),
   });
+}
+
+@Component({
+  standalone: true,
+  imports: [FormsModule, TngCheckboxComponent],
+  template: `
+    <tng-checkbox data-testid="ng-model" name="consent" [(ngModel)]="value">
+      NgModel checkbox
+    </tng-checkbox>
+  `,
+})
+class NgModelHostComponent {
+  public value: TngCheckboxModelValue = false;
 }
 
 function queryInputByTestId(
@@ -111,5 +124,23 @@ describe('tng-checkbox component forms integration', () => {
     expect(host.form.controls.consent.value).toBe(false);
   });
 
-  it.todo('works with ngModel');
+  it('works with ngModel', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [NgModelHostComponent],
+    }).createComponent(NgModelHostComponent);
+
+    fixture.detectChanges();
+    const host = fixture.componentInstance;
+    const input = queryInputByTestId(fixture, 'ng-model');
+
+    expect(host.value).toBe(false);
+    expect(input.checked).toBe(false);
+
+    input.checked = true;
+    input.indeterminate = false;
+    input.dispatchEvent(new Event('change', { bubbles: true }));
+    fixture.detectChanges();
+
+    expect(host.value).toBe(true);
+  });
 });

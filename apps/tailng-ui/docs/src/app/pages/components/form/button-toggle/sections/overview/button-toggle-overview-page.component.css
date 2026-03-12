@@ -1,0 +1,89 @@
+:host {
+  display: block;
+}
+
+.button-toggle-overview {
+  display: grid;
+  gap: 1rem;
+}
+
+.button-toggle-overview-title {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.button-toggle-overview-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.button-toggle-overview-block {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.9rem;
+  color: var(--tng-semantic-foreground-secondary);
+  display: grid;
+  gap: 0.7rem;
+  padding: 1rem;
+}
+
+.button-toggle-overview-block h3 {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1rem;
+  margin: 0;
+}
+
+.button-toggle-preview-group {
+  align-items: center;
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+.button-toggle-preview-item {
+  align-items: center;
+  background: var(--tng-semantic-background-surface);
+  border: 1px solid var(--tng-semantic-border-strong);
+  border-radius: 0.65rem;
+  color: var(--tng-semantic-foreground-primary);
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 0.875rem;
+  font-weight: 600;
+  justify-content: center;
+  min-height: 2.15rem;
+  min-width: 5.5rem;
+  padding: 0.4rem 0.9rem;
+  transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease;
+}
+
+.button-toggle-preview-item[data-selected='true'],
+.button-toggle-preview-item[data-state='on'] {
+  background: var(--tng-semantic-accent-brand);
+  border-color: var(--tng-semantic-accent-brand);
+  color: var(--tng-color-white);
+}
+
+.plain-button-toggle-card {
+  background: var(--tng-semantic-background-surface);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.8rem;
+  display: grid;
+  gap: 0.75rem;
+  padding: 0.9rem 1rem;
+}
+
+.button-toggle-wrapper-row {
+  align-items: center;
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+.button-toggle-overview-list {
+  display: grid;
+  gap: 0.45rem;
+  margin: 0;
+  padding-inline-start: 1.2rem;
+}

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { describe, expect, it } from 'vitest';
 
 import { TngInputComponent } from '../tng-input.component';
 import { TngInput, TngInputLeading, TngInputTrailing } from '@tailng-ui/primitives';

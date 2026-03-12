@@ -1,12 +1,34 @@
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it } from 'vitest';
 import { TngAutocompleteComponent } from './tng-autocomplete.component';
 
 function keydown(el: HTMLElement, init: Partial<KeyboardEventInit> & { key: string }): void {
   el.dispatchEvent(
     new KeyboardEvent('keydown', { bubbles: true, cancelable: true, ...init })
   );
+}
+
+function pointerdown(el: HTMLElement): void {
+  el.dispatchEvent(
+    new PointerEvent('pointerdown', { bubbles: true, cancelable: true, button: 0 })
+  );
+}
+
+function inputText(el: HTMLInputElement, value: string): void {
+  el.value = value;
+  el.dispatchEvent(new Event('input', { bubbles: true, cancelable: true }));
+}
+
+function getOpenOverlay(): HTMLElement {
+  const overlays = Array.from(document.body.querySelectorAll('[data-slot="autocomplete-overlay"]'));
+  const openOverlay = overlays.find((overlay) => overlay.getAttribute('hidden') === null) as
+    | HTMLElement
+    | undefined;
+  if (openOverlay === undefined) {
+    throw new Error('Expected an open autocomplete overlay.');
+  }
+  return openOverlay;
 }
 
 type Option = { value: string; label: string };
@@ -48,8 +70,54 @@ async function openAutocomplete(
 }
 
 describe('tng-autocomplete component', () => {
+  afterEach(() => {
+    TestBed.resetTestingModule();
+  });
+
   it('exports the autocomplete component', () => {
     expect(typeof TngAutocompleteComponent).toBe('function');
+  });
+
+  it('keeps placeholder as hint-only text when no option is selected', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [HostComponent],
+    }).createComponent(HostComponent);
+
+    fixture.detectChanges();
+
+    const trigger = fixture.nativeElement.querySelector(
+      '[data-slot="autocomplete-trigger"]'
+    ) as HTMLInputElement;
+
+    expect(trigger.placeholder).toBe('Type to search');
+    expect(trigger.value).toBe('');
+  });
+
+  it('typing after Escape does not prefix placeholder text into the input value', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [HostComponent],
+    }).createComponent(HostComponent);
+
+    fixture.detectChanges();
+
+    const trigger = fixture.nativeElement.querySelector(
+      '[data-slot="autocomplete-trigger"]'
+    ) as HTMLInputElement;
+
+    await openAutocomplete(fixture, trigger);
+    keydown(trigger, { key: 'Escape' });
+    fixture.detectChanges();
+    await Promise.resolve();
+    fixture.detectChanges();
+
+    keydown(trigger, { key: 'o' });
+    inputText(trigger, 'o');
+    fixture.detectChanges();
+    await Promise.resolve();
+    fixture.detectChanges();
+
+    expect(trigger.value).toBe('o');
+    expect(trigger.value.startsWith('Type to search')).toBe(false);
   });
 
   it('Space when open does NOT select - inserts into input for typing - e.g. "United St"', async () => {
@@ -95,4 +163,69 @@ describe('tng-autocomplete component', () => {
     expect(host.value()).toBe('a');
     expect(trigger.value).toBe('Option A');
   });
+
+  it('typing filters options and shows empty state when no option matches', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [HostComponent],
+    }).createComponent(HostComponent);
+
+    fixture.detectChanges();
+
+    const trigger = fixture.nativeElement.querySelector(
+      '[data-slot="autocomplete-trigger"]'
+    ) as HTMLInputElement;
+
+    await openAutocomplete(fixture, trigger);
+
+    const allOptions = () =>
+      Array.from(getOpenOverlay().querySelectorAll('[data-slot="autocomplete-option"]')) as HTMLElement[];
+    const emptyState = () => getOpenOverlay().querySelector('[data-slot="autocomplete-empty"]');
+
+    expect(allOptions().map((el) => el.textContent?.trim())).toEqual(['Option A', 'Option B', 'Option C']);
+
+    inputText(trigger, 'Option B');
+    fixture.detectChanges();
+    await Promise.resolve();
+    fixture.detectChanges();
+
+    expect(allOptions().map((el) => el.textContent?.trim())).toEqual(['Option B']);
+    expect(emptyState()).toBeNull();
+
+    inputText(trigger, 'zzz');
+    fixture.detectChanges();
+    await Promise.resolve();
+    fixture.detectChanges();
+
+    expect(allOptions().length).toBe(0);
+    expect(emptyState()).toBeTruthy();
+    expect(emptyState()?.textContent).toContain('No matches');
+  });
+
+  it('pointer-selecting an option selects it, closes overlay, and updates trigger text', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [HostComponent],
+    }).createComponent(HostComponent);
+
+    fixture.detectChanges();
+
+    const host = fixture.componentInstance;
+    const trigger = fixture.nativeElement.querySelector(
+      '[data-slot="autocomplete-trigger"]'
+    ) as HTMLInputElement;
+
+    await openAutocomplete(fixture, trigger);
+
+    const optionB = getOpenOverlay().querySelectorAll('[data-slot="autocomplete-option"]')[1] as HTMLElement;
+    expect(optionB?.textContent?.trim()).toBe('Option B');
+
+    pointerdown(optionB);
+    fixture.detectChanges();
+    await Promise.resolve();
+    fixture.detectChanges();
+
+    expect(host.value()).toBe('b');
+    expect(trigger.value).toBe('Option B');
+    expect(trigger.getAttribute('aria-expanded')).toBe('false');
+  });
+
 });

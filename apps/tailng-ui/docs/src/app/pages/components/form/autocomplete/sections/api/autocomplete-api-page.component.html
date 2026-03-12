@@ -1,0 +1,110 @@
+<article class="autocomplete-api">
+  <h2 class="autocomplete-api-title">API reference</h2>
+  <p class="autocomplete-api-lead">
+    Autocomplete exposes a headless primitive stack and a component wrapper with option mapping.
+  </p>
+
+  <section class="autocomplete-api-block">
+    <h3><code>tngAutocomplete</code> + parts (primitive)</h3>
+    <tng-code-block
+      [code]="primitiveAttachmentCode"
+      adapter="shiki"
+      language="html"
+      title="Primitive attachment"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+
+    <div class="autocomplete-api-table-wrap">
+      <table class="autocomplete-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Input / model</th>
+            <th scope="col">Type</th>
+            <th scope="col">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>open</code></td>
+            <td><code>boolean</code></td>
+            <td>Overlay open state.</td>
+          </tr>
+          <tr>
+            <td><code>value</code></td>
+            <td><code>T | null</code></td>
+            <td>Selected option value.</td>
+          </tr>
+          <tr>
+            <td><code>query</code></td>
+            <td><code>string</code></td>
+            <td>Current trigger text used for filtering.</td>
+          </tr>
+          <tr>
+            <td><code>disabled</code>, <code>loading</code>, <code>invalid</code></td>
+            <td><code>boolean</code></td>
+            <td>State hooks reflected on attributes and ARIA.</td>
+          </tr>
+          <tr>
+            <td><code>openChange</code>, <code>valueChange</code>, <code>queryChange</code></td>
+            <td>Output events</td>
+            <td>Emitted on interaction commits and query updates.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="autocomplete-api-block">
+    <h3><code>tng-autocomplete</code> (styled component)</h3>
+    <tng-code-block
+      [code]="componentAttachmentCode"
+      adapter="shiki"
+      language="html"
+      title="Styled attachment"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+
+    <div class="autocomplete-api-table-wrap">
+      <table class="autocomplete-api-table">
+        <thead>
+          <tr>
+            <th scope="col">API</th>
+            <th scope="col">Type</th>
+            <th scope="col">Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>options</code></td>
+            <td><code>readonly O[]</code></td>
+            <td>Option source for rendering and filtering.</td>
+          </tr>
+          <tr>
+            <td><code>getOptionValue</code></td>
+            <td><code>(option: O) =&gt; V</code></td>
+            <td>Maps options to committed value model.</td>
+          </tr>
+          <tr>
+            <td><code>getOptionLabel</code></td>
+            <td><code>(option: O) =&gt; string</code></td>
+            <td>Maps options to display/filter label.</td>
+          </tr>
+          <tr>
+            <td><code>isOptionDisabled</code></td>
+            <td><code>(option: O) =&gt; boolean</code></td>
+            <td>Disables specific options.</td>
+          </tr>
+          <tr>
+            <td>Forwarded primitive model</td>
+            <td><code>open</code>, <code>value</code>, <code>openChange</code>, <code>valueChange</code></td>
+            <td>Exposed through host directive wiring.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</article>

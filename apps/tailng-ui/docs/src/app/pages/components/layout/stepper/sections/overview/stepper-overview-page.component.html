@@ -1,0 +1,109 @@
+<article class="stepper-overview">
+  <h2 class="stepper-overview-title">Stepper overview</h2>
+  <p class="stepper-overview-lead">
+    Stepper provides a lightweight structure for ordered progress indicators. Use the headless
+    primitive for complete control or the wrapper component for quick adoption.
+  </p>
+
+  <section class="stepper-overview-block">
+    <h3>Imports</h3>
+    <p>Select the layer that matches your ownership model.</p>
+    <tng-code-block
+      [code]="primitiveImportCode"
+      adapter="shiki"
+      language="ts"
+      title="Primitive import"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+    <tng-code-block
+      [code]="componentImportCode"
+      adapter="shiki"
+      language="ts"
+      title="Component import"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section class="stepper-overview-block">
+    <h3>Usage patterns</h3>
+    <p>
+      The primitive only attaches semantics and state hooks. Consumers provide markup, state
+      classes, and connectors.
+    </p>
+    <tng-code-block
+      [code]="primitiveUsageCode"
+      adapter="shiki"
+      language="html"
+      title="Primitive usage"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+    <tng-code-block
+      [code]="componentUsageCode"
+      adapter="shiki"
+      language="html"
+      title="Component usage"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section class="stepper-overview-block">
+    <h3>Live preview</h3>
+    <div class="stepper-preview-grid">
+      <section class="stepper-preview-card">
+        <p class="stepper-preview-title">Headless (`tngStepper`)</p>
+        <ol tngStepper class="stepper-preview-list" aria-label="Checkout progress">
+          <li class="stepper-preview-item is-current">
+            <span class="stepper-preview-dot">1</span>
+            Shipping details
+          </li>
+          <li class="stepper-preview-item">
+            <span class="stepper-preview-dot">2</span>
+            Payment method
+          </li>
+          <li class="stepper-preview-item">
+            <span class="stepper-preview-dot">3</span>
+            Confirmation
+          </li>
+        </ol>
+      </section>
+
+      <section class="stepper-preview-card">
+        <p class="stepper-preview-title">Component (`tng-stepper`)</p>
+        <tng-stepper ariaLabel="Release pipeline">
+          <ol class="stepper-preview-list">
+            <li class="stepper-preview-item is-complete">
+              <span class="stepper-preview-dot">✓</span>
+              Draft
+            </li>
+            <li class="stepper-preview-item is-current">
+              <span class="stepper-preview-dot">2</span>
+              Review
+            </li>
+            <li class="stepper-preview-item">
+              <span class="stepper-preview-dot">3</span>
+              Publish
+            </li>
+          </ol>
+        </tng-stepper>
+      </section>
+    </div>
+  </section>
+
+  <section class="stepper-overview-block">
+    <h3>Accessibility baseline</h3>
+    <ul class="stepper-overview-list">
+      <li>Current step should expose <code>aria-current="step"</code>.</li>
+      <li>Step triggers should remain keyboard-focusable in document order.</li>
+      <li>Optional, error, and completed states should be announced in accessible labels.</li>
+    </ul>
+  </section>
+</article>
+

@@ -1,26 +1,114 @@
-<div class="mx-auto max-w-[72rem] grid gap-5">
-  <section class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5 space-y-3">
+<div class="mx-auto grid max-w-[72rem] gap-5">
+  <section class="space-y-3 rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5">
     <h2 class="text-lg font-semibold">Primitives (`tngChips`)</h2>
-    <div tngChips class="rounded-xl border border-tng-border-subtle px-4 py-3 text-tng-fg-primary flex flex-wrap gap-2">
-      <button type="button" class="rounded-lg border border-tng-border-subtle px-3 py-1.5 text-sm font-medium text-tng-fg-primary">Angular</button>
-      <button type="button" class="rounded-lg border border-tng-border-subtle px-3 py-1.5 text-sm font-medium text-tng-fg-primary">CDK</button>
-      <button type="button" class="rounded-lg border border-tng-border-subtle px-3 py-1.5 text-sm font-medium text-tng-fg-primary">A11y</button>
+    <p class="text-sm text-tng-fg-secondary">
+      Headless chips with `tngChip` + `tngChipRemove`. Remove via click or keyboard.
+    </p>
+    <div
+      tngChips
+      class="flex flex-wrap gap-2 rounded-xl border border-tng-border-subtle px-4 py-3 text-tng-fg-primary"
+      tngChipsAriaLabel="Primitive selected tags"
+      [tngChipsValues]="primitiveValues()"
+      (valuesChange)="onPrimitiveValuesChange($event)"
+    >
+      @for (item of primitiveValues(); track item) {
+        <span
+          tngChip
+          [tngChipValue]="item"
+          [tngChipLabel]="item"
+          class="inline-flex items-center gap-2 rounded-full border border-tng-border-subtle bg-tng-bg-canvas px-3 py-1.5 text-sm"
+        >
+          <span>{{ item }}</span>
+          <button
+            tngChipRemove
+            type="button"
+            class="inline-flex h-5 w-5 items-center justify-center rounded-full text-tng-fg-secondary hover:text-tng-fg-primary disabled:cursor-not-allowed disabled:opacity-40"
+          >
+            ×
+          </button>
+        </span>
+      }
     </div>
+    @if (primitiveValues().length === 0) {
+      <p class="text-sm text-tng-fg-secondary">No primitive chips left.</p>
+    }
   </section>
 
-  <section class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5 space-y-3">
+  <section class="space-y-3 rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5">
     <h2 class="text-lg font-semibold">Components (`tng-chips`)</h2>
-    <tng-chips>
-      <div class="rounded-xl border border-tng-border-subtle px-4 py-3 text-tng-fg-primary flex flex-wrap gap-2">
-        <span class="inline-flex items-center gap-1 rounded-lg border border-tng-border-subtle px-3 py-1.5 text-sm">
-          Button
-          <button type="button" class="text-tng-fg-secondary hover:text-tng-fg-primary">x</button>
-        </span>
-        <span class="inline-flex items-center gap-1 rounded-lg border border-tng-border-subtle px-3 py-1.5 text-sm">
-          Dialog
-          <button type="button" class="text-tng-fg-secondary hover:text-tng-fg-primary">x</button>
-        </span>
+    <p class="text-sm text-tng-fg-secondary">
+      Styled wrapper with projected primitives and controlled value updates.
+    </p>
+    <tng-chips
+      ariaLabel="Component selected tags"
+      [values]="componentValues()"
+      (valuesChange)="onComponentValuesChange($event)"
+    >
+      <div
+        class="flex flex-wrap gap-2 rounded-xl border border-tng-border-subtle px-4 py-3 text-tng-fg-primary"
+      >
+        @for (item of componentValues(); track item) {
+          <span
+            tngChip
+            [tngChipValue]="item"
+            [tngChipLabel]="item"
+            class="inline-flex items-center gap-2 rounded-full border border-tng-border-subtle bg-tng-bg-canvas px-3 py-1.5 text-sm"
+          >
+            <span>{{ item }}</span>
+            <button
+              tngChipRemove
+              type="button"
+              class="inline-flex h-5 w-5 items-center justify-center rounded-full text-tng-fg-secondary hover:text-tng-fg-primary disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              ×
+            </button>
+          </span>
+        }
       </div>
     </tng-chips>
+    @if (componentValues().length === 0) {
+      <p class="text-sm text-tng-fg-secondary">No component chips left.</p>
+    }
+  </section>
+
+  <section class="space-y-3 rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5">
+    <h2 class="text-lg font-semibold">Disabled chips</h2>
+    <div
+      tngChips
+      class="flex flex-wrap gap-2 rounded-xl border border-tng-border-subtle px-4 py-3 text-tng-fg-primary"
+      tngChipsAriaLabel="Disabled chip sample"
+    >
+      <span
+        tngChip
+        tngChipValue="Readonly"
+        tngChipLabel="Readonly"
+        [tngChipDisabled]="true"
+        class="inline-flex items-center gap-2 rounded-full border border-tng-border-subtle bg-tng-bg-canvas px-3 py-1.5 text-sm opacity-55"
+      >
+        <span>Readonly</span>
+        <button
+          tngChipRemove
+          type="button"
+          class="inline-flex h-5 w-5 items-center justify-center rounded-full text-tng-fg-secondary disabled:cursor-not-allowed disabled:opacity-40"
+        >
+          ×
+        </button>
+      </span>
+      <span
+        tngChip
+        tngChipValue="Active"
+        tngChipLabel="Active"
+        class="inline-flex items-center gap-2 rounded-full border border-tng-border-subtle bg-tng-bg-canvas px-3 py-1.5 text-sm"
+      >
+        <span>Active</span>
+        <button
+          tngChipRemove
+          type="button"
+          class="inline-flex h-5 w-5 items-center justify-center rounded-full text-tng-fg-secondary hover:text-tng-fg-primary disabled:cursor-not-allowed disabled:opacity-40"
+        >
+          ×
+        </button>
+      </span>
+    </div>
   </section>
 </div>

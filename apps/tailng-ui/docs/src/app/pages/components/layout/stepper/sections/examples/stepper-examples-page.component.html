@@ -1,0 +1,65 @@
+<article class="stepper-examples">
+  <h2 class="stepper-examples-title">Examples</h2>
+  <p class="stepper-examples-lead">
+    Reusable stepper layouts for checkout, release workflows, and validation fallback paths.
+  </p>
+
+  <section class="stepper-examples-block">
+    <h3>Checkout progression</h3>
+    <ol tngStepper class="stepper-example-list" aria-label="Checkout progress">
+      <li class="stepper-example-item is-complete"><span class="dot">✓</span> Cart</li>
+      <li class="stepper-example-item is-current"><span class="dot">2</span> Shipping</li>
+      <li class="stepper-example-item"><span class="dot">3</span> Payment</li>
+    </ol>
+    <tng-code-block
+      [code]="checkoutCode"
+      adapter="shiki"
+      language="html"
+      title="checkout-stepper-example.component.html"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section class="stepper-examples-block">
+    <h3>Release pipeline</h3>
+    <tng-stepper ariaLabel="Release flow">
+      <ol class="stepper-example-list">
+        <li class="stepper-example-item is-complete"><span class="dot">✓</span> Draft</li>
+        <li class="stepper-example-item is-complete"><span class="dot">✓</span> Review</li>
+        <li class="stepper-example-item is-current"><span class="dot">3</span> Publish</li>
+      </ol>
+    </tng-stepper>
+    <tng-code-block
+      [code]="releaseCode"
+      adapter="shiki"
+      language="html"
+      title="release-stepper-example.component.html"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section class="stepper-examples-block">
+    <h3>Error surface</h3>
+    <tng-stepper ariaLabel="Onboarding">
+      <ol class="stepper-example-list">
+        <li class="stepper-example-item is-complete"><span class="dot">✓</span> Profile</li>
+        <li class="stepper-example-item is-error"><span class="dot">2</span> Billing</li>
+        <li class="stepper-example-item"><span class="dot">3</span> Team invite</li>
+      </ol>
+    </tng-stepper>
+    <tng-code-block
+      [code]="errorCode"
+      adapter="shiki"
+      language="html"
+      title="error-stepper-example.component.html"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+</article>
+

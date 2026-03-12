@@ -109,7 +109,7 @@ export class TngAutocompleteComponent<O = unknown, V = unknown> {
 
   protected readonly selectedLabel = computed<string>(() => {
     const opt = this.selectedOption();
-    return opt ? this.getOptionLabel()(opt) : this.placeholder();
+    return opt ? this.getOptionLabel()(opt) : '';
   });
 
   protected readonly filteredOptions = computed<readonly O[]>(() => {

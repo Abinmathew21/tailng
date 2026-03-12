@@ -68,6 +68,10 @@ function queryNativeInput(host: HTMLElement): HTMLInputElement {
   return input;
 }
 
+function click(el: HTMLElement): void {
+  el.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, button: 0 }));
+}
+
 describe('tng-checkbox component behavior', () => {
   it('renders projected label content', () => {
     const fixture = TestBed.configureTestingModule({
@@ -138,6 +142,39 @@ describe('tng-checkbox component behavior', () => {
 
     expect(host.checkedChanges).toEqual([true, false]);
     expect(host.indeterminateChanges).toEqual([false, true]);
+  });
+
+  it('emits checkedChange on direct input click interaction', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [CheckboxComponentHostComponent],
+    }).createComponent(CheckboxComponentHostComponent);
+
+    fixture.detectChanges();
+
+    const host = fixture.componentInstance;
+    const input = queryNativeInput(queryCheckboxHost(fixture));
+
+    click(input);
+    fixture.detectChanges();
+
+    expect(host.checkedChanges).toEqual([true]);
+  });
+
+  it('emits checkedChange when clicking projected label text', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [CheckboxComponentHostComponent],
+    }).createComponent(CheckboxComponentHostComponent);
+
+    fixture.detectChanges();
+
+    const host = fixture.componentInstance;
+    const label = queryCheckboxHost(fixture).querySelector('.tng-checkbox-label') as HTMLElement | null;
+    expect(label).toBeTruthy();
+
+    click(label!);
+    fixture.detectChanges();
+
+    expect(host.checkedChanges).toEqual([true]);
   });
 
   it('does not emit change events when readonly=true', () => {

@@ -1,3 +1,10 @@
-<section tngChips class="tng-chips" [attr.aria-label]="ariaLabel()">
+<section
+  tngChips
+  class="tng-chips"
+  [tngChipsAriaLabel]="ariaLabel()"
+  [tngChipsDisabled]="disabled()"
+  [tngChipsValues]="values()"
+  [tngChipsDefaultValues]="defaultValues()"
+>
   <ng-content />
 </section>

@@ -237,6 +237,94 @@ class FilteredQueryHostComponent {
     TngAutocompleteOption,
   ],
   template: `
+    <div
+      tngAutocomplete
+      #api="tngAutocomplete"
+      [open]="open()"
+      (openChange)="onOpenChange($event)"
+      [value]="value()"
+      (valueChange)="onValueChange($event)"
+      data-testid="autocomplete"
+    >
+      <input
+        tngAutocompleteTrigger
+        type="text"
+        data-testid="trigger"
+        placeholder="Type to filter"
+        [value]="displayText()"
+        (input)="onInput($event)"
+      />
+
+      <div tngAutocompleteContent data-testid="content">
+        <div tngAutocompleteOverlay data-testid="overlay">
+          <ul
+            tngAutocompleteListbox
+            [value]="api.value()"
+            (valueChange)="onValueChange($event)"
+            data-testid="listbox"
+          >
+            @for (opt of filteredOptions(); track opt) {
+              <li tngAutocompleteOption [tngValue]="opt" [attr.data-testid]="'ph-opt-' + opt.toLowerCase()">
+                {{ opt }}
+              </li>
+            }
+          </ul>
+        </div>
+      </div>
+    </div>
+  `,
+})
+class PlaceholderHintHostComponent {
+  @ViewChild('api', { static: true }) api!: TngAutocomplete<string>;
+
+  open = signal(false);
+  value = signal<string | null>(null);
+  query = signal('');
+
+  readonly allOptions = ['India', 'Indonesia', 'Canada'];
+
+  readonly filteredOptions = computed(() => {
+    const q = this.query().trim().toLowerCase();
+    if (q === '') {
+      return this.allOptions;
+    }
+
+    return this.allOptions.filter((option) => option.toLowerCase().includes(q));
+  });
+
+  readonly displayText = computed(() => {
+    return this.open() ? this.query() : (this.value() ?? '');
+  });
+
+  onInput(ev: Event): void {
+    this.query.set((ev.target as HTMLInputElement).value);
+  }
+
+  onValueChange(v: string | readonly string[] | null): void {
+    const single = v === null ? null : Array.isArray(v) ? (v[0] ?? null) : v;
+    this.value.set(single);
+    this.query.set(single ?? '');
+  }
+
+  onOpenChange(open: boolean): void {
+    this.open.set(open);
+    if (!open) {
+      this.query.set(this.value() ?? '');
+    }
+  }
+}
+
+@Component({
+  standalone: true,
+  imports: [
+    TngAutocomplete,
+    TngAutocompleteTrigger,
+    TngAutocompleteContent,
+    TngAutocompleteOverlay,
+    TngAutocompleteListbox,
+    TngAutocompleteOption,
+  ],
+  template: `
     <div>
       <input type="text" data-testid="prev" placeholder="Before" />
       <div
@@ -313,6 +401,63 @@ describe('tng-autocomplete query (Autocomplete-specific)', () => {
       inputValue(trigger, 'xy');
       fixture.detectChanges();
       expect(host.query()).toBe('xy');
+    });
+  });
+
+  describe('placeholder hint behavior', () => {
+    it('keeps placeholder as hint only after Escape close and typing query does not prefix placeholder text', async () => {
+      const fixture = TestBed.configureTestingModule({
+        imports: [PlaceholderHintHostComponent],
+      }).createComponent(PlaceholderHintHostComponent);
+
+      fixture.detectChanges();
+
+      const host = fixture.componentInstance;
+      const trigger = fixture.nativeElement.querySelector(
+        '[data-testid="trigger"]'
+      ) as HTMLInputElement;
+
+      expect(trigger.placeholder).toBe('Type to filter');
+      expect(trigger.value).toBe('');
+
+      await openAutocomplete(fixture, trigger);
+      expect(host.open()).toBe(true);
+
+      keydown(trigger, { key: 'Escape' });
+      fixture.detectChanges();
+      await Promise.resolve();
+      fixture.detectChanges();
+
+      expect(host.open()).toBe(false);
+      expect(host.value()).toBeNull();
+      expect(trigger.placeholder).toBe('Type to filter');
+      expect(trigger.value).toBe('');
+
+      keydown(trigger, { key: 'i' });
+      inputValue(trigger, 'i');
+      fixture.detectChanges();
+      await Promise.resolve();
+      fixture.detectChanges();
+
+      keydown(trigger, { key: 'n' });
+      inputValue(trigger, 'in');
+      fixture.detectChanges();
+      await Promise.resolve();
+      fixture.detectChanges();
+
+      keydown(trigger, { key: 'd' });
+      inputValue(trigger, 'ind');
+      fixture.detectChanges();
+      await Promise.resolve();
+      fixture.detectChanges();
+
+      expect(host.open()).toBe(true);
+      expect(host.query()).toBe('ind');
+      expect(trigger.value).toBe('ind');
+
+      expect(findOptionInBody('ph-opt-india')).toBeTruthy();
+      expect(findOptionInBody('ph-opt-indonesia')).toBeTruthy();
+      expect(findOptionInBody('ph-opt-canada')).toBeNull();
     });
   });
 

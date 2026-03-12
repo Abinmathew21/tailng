@@ -1,0 +1,42 @@
+:host {
+  display: block;
+}
+
+.chips-docs-page {
+  display: grid;
+  gap: 1rem;
+}
+
+.chips-docs-tabs {
+  background: var(--tng-semantic-background-surface);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.85rem;
+  padding: 0.5rem;
+}
+
+.chips-docs-tab-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.chips-docs-tab-trigger {
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 0.65rem;
+  color: var(--tng-semantic-foreground-secondary);
+  cursor: pointer;
+  font: inherit;
+  font-weight: 600;
+  padding: 0.4rem 0.8rem;
+}
+
+.chips-docs-tab-trigger[data-selected='true'] {
+  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 18%, transparent);
+  border-color: color-mix(in srgb, var(--tng-semantic-accent-brand) 50%, transparent);
+  color: var(--tng-semantic-foreground-primary);
+}
+
+.chips-docs-content {
+  display: block;
+}

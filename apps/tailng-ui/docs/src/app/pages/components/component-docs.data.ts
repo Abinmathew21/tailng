@@ -1,4 +1,9 @@
-export type ComponentsDocsCategoryId = 'getting-started' | 'form' | 'utility' | 'navigation';
+export type ComponentsDocsCategoryId =
+  | 'getting-started'
+  | 'form'
+  | 'layout'
+  | 'utility'
+  | 'navigation';
 
 export type ComponentsDocsItem = Readonly<{
   id: string;
@@ -77,6 +82,12 @@ export const COMPONENTS_FORM_GROUP: ComponentsDocsGroup = {
       description: 'Pressed button semantics for compact on/off actions and toolbar commands.',
     },
     {
+      id: 'button-toggle',
+      slug: 'button-toggle',
+      title: 'Button Toggle',
+      description: 'Single and multiple pressed-button groups for toolbars and view switches.',
+    },
+    {
       id: 'listbox',
       slug: 'listbox',
       title: 'ListBox',
@@ -111,6 +122,20 @@ export const COMPONENTS_FORM_GROUP: ComponentsDocsGroup = {
       slug: 'chips',
       title: 'Chips',
       description: 'Tokenized input and removable item chip usage patterns.',
+    },
+  ],
+};
+
+export const COMPONENTS_LAYOUT_GROUP: ComponentsDocsGroup = {
+  id: 'layout',
+  title: 'Layout',
+  subtitle: 'Workflow and structural layout components',
+  items: [
+    {
+      id: 'stepper',
+      slug: 'stepper',
+      title: 'Stepper',
+      description: 'Ordered multi-step workflow surfaces for guided completion flows.',
     },
   ],
 };
@@ -164,6 +189,7 @@ export const COMPONENTS_NAVIGATION_GROUP: ComponentsDocsGroup = {
 export const COMPONENTS_DOCS_GROUPS: readonly ComponentsDocsGroup[] = Object.freeze([
   COMPONENTS_GETTING_STARTED_GROUP,
   COMPONENTS_FORM_GROUP,
+  COMPONENTS_LAYOUT_GROUP,
   COMPONENTS_UTILITY_GROUP,
   COMPONENTS_NAVIGATION_GROUP,
 ]);

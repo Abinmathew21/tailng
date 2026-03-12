@@ -19,8 +19,27 @@ const toggleItem = group.items.find((item) => item.slug === 'toggle');
 if (toggleItem === undefined) {
   throw new Error('Missing "toggle" in components form docs group.');
 }
+const buttonToggleItem = group.items.find((item) => item.slug === 'button-toggle');
+if (buttonToggleItem === undefined) {
+  throw new Error('Missing "button-toggle" in components form docs group.');
+}
+const autocompleteItem = group.items.find((item) => item.slug === 'autocomplete');
+if (autocompleteItem === undefined) {
+  throw new Error('Missing "autocomplete" in components form docs group.');
+}
+const chipsItem = group.items.find((item) => item.slug === 'chips');
+if (chipsItem === undefined) {
+  throw new Error('Missing "chips" in components form docs group.');
+}
 
-const landingSlugs = new Set([inputItem.slug, checkboxItem.slug, toggleItem.slug]);
+const landingSlugs = new Set([
+  inputItem.slug,
+  checkboxItem.slug,
+  toggleItem.slug,
+  buttonToggleItem.slug,
+  autocompleteItem.slug,
+  chipsItem.slug,
+]);
 
 export const COMPONENTS_FORM_ROUTES: Routes = [
   {
@@ -42,6 +61,23 @@ export const COMPONENTS_FORM_ROUTES: Routes = [
     path: toggleItem.slug,
     loadChildren: () =>
       import('./toggle/routes').then((module) => module.COMPONENTS_FORM_TOGGLE_ROUTES),
+  },
+  {
+    path: buttonToggleItem.slug,
+    loadChildren: () =>
+      import('./button-toggle/routes').then(
+        (module) => module.COMPONENTS_FORM_BUTTON_TOGGLE_ROUTES,
+      ),
+  },
+  {
+    path: autocompleteItem.slug,
+    loadChildren: () =>
+      import('./autocomplete/routes').then((module) => module.COMPONENTS_FORM_AUTOCOMPLETE_ROUTES),
+  },
+  {
+    path: chipsItem.slug,
+    loadChildren: () =>
+      import('./chips/routes').then((module) => module.COMPONENTS_FORM_CHIPS_ROUTES),
   },
   ...group.items
     .filter((item) => !landingSlugs.has(item.slug))

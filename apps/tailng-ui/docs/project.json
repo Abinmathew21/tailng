@@ -20,8 +20,8 @@
           }
         ],
         "styles": [
-          "libs/tailng-ui/theme/src/lib/component-contracts/index.css",
-          "apps/tailng-ui/docs/src/styles.css"
+          "apps/tailng-ui/docs/src/styles.css",
+          "libs/tailng-ui/theme/src/lib/component-contracts/index.css"
         ]
       },
       "configurations": {

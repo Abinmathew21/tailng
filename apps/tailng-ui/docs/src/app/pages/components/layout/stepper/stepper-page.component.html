@@ -1,0 +1,24 @@
+<section class="stepper-docs-page">
+  <tng-tabs
+    class="stepper-docs-tabs"
+    ariaLabel="Stepper documentation sections"
+    [activation]="'manual'"
+    [value]="activeSection()"
+    (valueChange)="onSectionChange($event)"
+  >
+    <div tngTabList class="stepper-docs-tab-list" ariaLabel="Stepper documentation tabs">
+      <button type="button" tngTab value="overview" class="stepper-docs-tab-trigger">Overview</button>
+      <button type="button" tngTab value="api" class="stepper-docs-tab-trigger">API</button>
+      <button type="button" tngTab value="styling" class="stepper-docs-tab-trigger">Styling</button>
+      <button type="button" tngTab value="examples" class="stepper-docs-tab-trigger">Examples</button>
+      <button type="button" tngTab value="ownable-install" class="stepper-docs-tab-trigger">
+        Ownable Install
+      </button>
+    </div>
+  </tng-tabs>
+
+  <section class="stepper-docs-content">
+    <router-outlet />
+  </section>
+</section>
+

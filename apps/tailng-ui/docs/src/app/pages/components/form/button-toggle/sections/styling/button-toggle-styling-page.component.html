@@ -1,0 +1,50 @@
+<article class="button-toggle-styling">
+  <h2 class="button-toggle-styling-title">Styling contract</h2>
+  <p class="button-toggle-styling-lead">
+    Button Toggle styling should target state attributes on the group and item slots.
+  </p>
+
+  <section class="button-toggle-styling-block">
+    <div class="button-toggle-styling-table-wrap">
+      <table class="button-toggle-styling-table">
+        <thead>
+          <tr>
+            <th scope="col">Selector</th>
+            <th scope="col">Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>[data-slot='button-toggle-group']</code></td>
+            <td>Group layout and container spacing.</td>
+          </tr>
+          <tr>
+            <td><code>[data-slot='button-toggle'][data-selected='true']</code></td>
+            <td>Pressed/selected visual style.</td>
+          </tr>
+          <tr>
+            <td><code>[data-slot='button-toggle'][data-focused='true']</code></td>
+            <td>Focus ring and keyboard emphasis.</td>
+          </tr>
+          <tr>
+            <td><code>[data-slot='button-toggle'][data-disabled='true']</code></td>
+            <td>Disabled visual treatment.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="button-toggle-styling-block">
+    <h3>Example styling</h3>
+    <tng-code-block
+      [code]="stylingCode"
+      adapter="shiki"
+      language="css"
+      title="button-toggle.contract.css"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+</article>

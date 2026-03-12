@@ -1,0 +1,128 @@
+:host {
+  display: block;
+}
+
+.autocomplete-overview {
+  display: grid;
+  gap: 1rem;
+}
+
+.autocomplete-overview-title {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.autocomplete-overview-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.autocomplete-overview-block {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.9rem;
+  color: var(--tng-semantic-foreground-secondary);
+  display: grid;
+  gap: 0.7rem;
+  padding: 1rem;
+}
+
+.autocomplete-overview-block h3 {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1rem;
+  margin: 0;
+}
+
+.autocomplete-preview-shell {
+  display: grid;
+  gap: 0.65rem;
+  max-width: 28rem;
+  padding-inline: 0.35rem;
+}
+
+.autocomplete-preview-shell--headless {
+  background: color-mix(in srgb, var(--tng-semantic-background-surface) 84%, transparent);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.8rem;
+  padding: 0.9rem 1rem;
+}
+
+.autocomplete-preview-shell--plain {
+  background: var(--tng-semantic-background-surface);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.8rem;
+  padding: 0.9rem 1rem;
+}
+
+.autocomplete-preview-control {
+  --tng-autocomplete-radius: 0.78rem;
+  --tng-autocomplete-trigger-py: 0.58rem;
+  --tng-autocomplete-trigger-px: 0.88rem;
+  --tng-autocomplete-option-py: 0.5rem;
+  --tng-autocomplete-option-px: 0.72rem;
+  --tng-autocomplete-border-strong: color-mix(
+    in srgb,
+    var(--tng-semantic-border-subtle) 72%,
+    var(--tng-semantic-foreground-primary)
+  );
+  --tng-autocomplete-focus-ring: color-mix(
+    in srgb,
+    var(--tng-semantic-accent-brand) 88%,
+    var(--tng-semantic-background-canvas)
+  );
+}
+
+:host ::ng-deep .autocomplete-preview-control [data-slot='autocomplete-trigger-container'] {
+  min-height: 2.65rem;
+  padding-inline-start: var(--tng-autocomplete-trigger-px);
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    background-color 0.15s ease;
+}
+
+:host ::ng-deep .autocomplete-preview-control [data-slot='autocomplete-trigger'] {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 0.98rem;
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+:host ::ng-deep .autocomplete-preview-control [data-slot='autocomplete-icon'] {
+  align-items: center;
+  color: var(--tng-semantic-foreground-secondary);
+  display: inline-flex;
+  flex: 0 0 0.9rem;
+  font-size: 0.82rem;
+  inline-size: 0.9rem;
+  justify-content: center;
+  margin-inline-end: 1rem;
+  opacity: 0.82;
+  transform-origin: center;
+}
+
+:host ::ng-deep .autocomplete-preview-control [data-slot='autocomplete-option'] {
+  font-weight: 500;
+}
+
+.autocomplete-preview-control--headless {
+  --tng-autocomplete-bg: color-mix(
+    in srgb,
+    var(--tng-semantic-background-base) 92%,
+    var(--tng-semantic-background-canvas)
+  );
+}
+
+.autocomplete-preview-summary {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.82rem;
+  margin: 0;
+}
+
+.autocomplete-overview-list {
+  display: grid;
+  gap: 0.45rem;
+  margin: 0;
+  padding-inline-start: 1.1rem;
+}

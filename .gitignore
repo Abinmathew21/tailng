@@ -55,3 +55,5 @@ vitest.config.*.timestamp*
 # TailNG registry playground generated files (from `tailng add ...`)
 apps/tailng-ui/playground-registry/src/app/*-demo/
 apps/tailng-ui/playground-registry/src/app/tailng-ui/
+
+.codex-npmrc

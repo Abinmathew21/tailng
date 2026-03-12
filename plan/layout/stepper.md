@@ -1,176 +1,280 @@
 # Stepper
 
-Headless stepper primitive for multi-step linear flows (e.g. wizards, checkout).
+Headless stepper primitive for multi-step flows such as checkout, onboarding, and form wizards.
 
 ## Overview
 
-Stepper is a headless layout component that shows steps in a linear flow. Each step can show label, optional description, and completion state; the current step is indicated. Steps may be clickable for navigation; layout can be horizontal or vertical. It composes with form sections or route-based step content.
+Stepper is a headless layout primitive that models ordered progress through a list of steps.
+It should expose state, navigation behavior, and accessibility semantics while leaving rendering and styling to consumers.
 
-This component exposes step structure, current index, completion state, and optional navigation behavior while leaving visual design to the consumer.
+## Locked decisions (v1)
+
+- Pattern: list-based stepper semantics (not tabs pattern).
+- Root structure: container + ordered list of step triggers.
+- Current step marker: `aria-current="step"` on exactly one trigger.
+- Navigation mode:
+  - `linear=false`: user can activate any enabled step.
+  - `linear=true`: user can only activate current or previous completed steps.
+- Focus model: roving `tabindex` across step triggers.
+- Value model: `value` is a unique step id (`string | number`), not array index.
+- State precedence for `data-state`:
+  - `disabled` wins over all.
+  - `error` wins over `completed`.
+  - `current` wins over `completed`.
+  - `completed` wins over `upcoming`.
 
 ## Supported states
 
-- Current step index (active step)
-- Per step: completed, optional, disabled, error (optional)
-- Orientation: horizontal | vertical
-- Linear vs. non-linear (whether user can jump to any step or must go in order)
+- Root:
+  - `orientation`: `horizontal | vertical`
+  - `linear`: `true | false`
+  - `data-orientation`
+  - `data-linear`
+- Per step:
+  - `current`
+  - `completed`
+  - `optional`
+  - `disabled`
+  - `error`
+  - `upcoming`
+  - `data-state`
+  - `data-optional`
+  - `data-step-index`
 
 ## Common use cases
 
 - Checkout or signup wizard
 - Multi-step forms
-- Linear onboarding
-- Route-based steps with back/next
-- Optional step labels and connectors
-
-## Headless component goals
-
-- Provide accessible stepper semantics (role, aria-current, step position)
-- Support horizontal and vertical layout
-- Support current step, completed, optional (and optionally error) state
-- Support keyboard and pointer navigation between steps
-- Compose with form or route content per step
+- Guided onboarding
+- Route-driven progressive flows
+- Review/confirm workflows with back navigation
 
 ## Required headless features
 
 ### Core behavior
 
-- Stepper root with list of steps
-- Step item: label, optional description, state (current, completed, optional, disabled, error)
-- Controlled current step (index or value)
-- Optional: step change output for navigation
-- Linear vs. non-linear mode (optional)
+- Stepper root with ordered step registration.
+- Step item with label, optional description, and state.
+- Controlled API via `value` + `valueChange`.
+- Uncontrolled API via `defaultValue`.
+- Disabled step support.
+- Optional/completed/error state support.
+- Linear and non-linear activation policies.
 
 ### Accessibility
 
-- Root: role="group" or list semantics; aria-label
-- Step: aria-current="step" for current; aria-selected or similar where applicable
-- Step position and total (e.g. "Step 2 of 4") for screen readers
-- Optional step state announced (completed, optional)
+- Root has an accessible name via `aria-label` or `aria-labelledby`.
+- Current step trigger has `aria-current="step"`.
+- Trigger exposes position text for AT (for example `Step 2 of 5` in accessible label/description).
+- Disabled trigger exposes `aria-disabled="true"`.
+- Optional state is announced in accessible text.
+- Error state is announced in accessible text.
 
 ### Interaction
 
-- Click on step (if not linear or if allowed) to navigate
-- Keyboard: Tab to focus steps; Enter/Space to activate; arrows optional for step focus
-- Disabled steps not clickable
+- Pointer click activates focused/clicked step when allowed.
+- `Enter`/`Space` activates focused step when allowed.
+- Disabled steps are never activatable.
+- In linear mode, blocked future steps do not activate.
 
 ### Composition
 
-- Stepper root
-- Step item (trigger/indicator + optional label/description)
-- Step content (projected per step or external)
-- Optional connector between steps
-
-### State exposure
-
-- data-state (current, completed, optional, disabled, error) per step
-- data-orientation on root
-- data-step-index or similar
-
-## Suggested primitives / parts
-
 - `StepperRoot`
-- `StepperStep` / `StepperItem`
-- `StepperTrigger` (clickable step indicator)
-- `StepperLabel`, `StepperDescription`
-- `StepperConnector` (optional)
+- `StepperItem`
+- `StepperTrigger`
+- `StepperLabel`
+- `StepperDescription`
+- `StepperPanel` (optional, if content is managed inside stepper)
+- `StepperConnector` (presentational hook)
 
 ## Suggested APIs
 
 ### Stepper root
 
-- `value?: number | string` (current step index or id)
-- `defaultValue?: number | string`
-- `valueChange?: (value: number | string) => void`
+- `value?: string | number`
+- `defaultValue?: string | number`
+- `valueChange?: (value: string | number) => void`
 - `orientation?: 'horizontal' | 'vertical'`
-- `linear?: boolean` (must complete in order)
+- `linear?: boolean`
+- `loopFocus?: boolean` (default `true`)
 - `ariaLabel?: string`
+- `ariaLabelledby?: string`
 
-### Stepper step
+### Step item
 
-- `value: number | string` (step id or index)
+- `value: string | number` (required, unique)
 - `completed?: boolean`
 - `optional?: boolean`
 - `disabled?: boolean`
 - `error?: boolean`
-- `label`, `description` (optional)
+- `label?: string`
+- `description?: string`
 
 ### Angular API contract (required)
 
-- Stepper root: inputs value, defaultValue, orientation, linear; output valueChange
-- Step: inputs value, completed, optional, disabled, error, label, description
-- Step trigger should be focusable and keyboard activatable
+- Root inputs: `value`, `defaultValue`, `orientation`, `linear`, `loopFocus`, `ariaLabel`, `ariaLabelledby`
+- Root output: `valueChange`
+- Step inputs: `value`, `completed`, `optional`, `disabled`, `error`, `label`, `description`
+- Trigger is focusable and keyboard activatable
 
-## Keyboard interaction
+## Keyboard interaction (locked)
 
-- Tab: move focus between step triggers and step content
-- Enter / Space: activate step (navigate to that step if allowed)
-- Arrows (optional): move focus between step indicators in orientation direction
+- `Tab`:
+  - Enters trigger row on current step trigger (or last focused trigger).
+  - Leaves trigger row to next tabbable element (do not trap focus).
+- `Shift+Tab`:
+  - Moves out naturally in reverse order.
+- Horizontal orientation:
+  - LTR: `ArrowRight` next enabled trigger, `ArrowLeft` previous enabled trigger.
+  - RTL: `ArrowRight` previous enabled trigger, `ArrowLeft` next enabled trigger.
+- Vertical orientation:
+  - `ArrowDown` next enabled trigger, `ArrowUp` previous enabled trigger.
+- `Home` focuses first enabled trigger.
+- `End` focuses last enabled trigger.
+- `Enter`/`Space` activates focused trigger if allowed by linear/disabled rules.
 
-## Accessibility notes
+## Linear mode policy (locked)
 
-- aria-current="step" on the current step
-- Expose step position and total (e.g. "Step 2 of 4") for AT
-- Completed and optional state should be clear to screen readers
+- Step ids are in visual order as registered.
+- If `linear=true`:
+  - Activating a future step is blocked unless marked completed by consumer policy.
+  - Current and prior completed steps are activatable.
+  - Blocked activation must not emit `valueChange`.
+- If `linear=false`:
+  - Any enabled step is activatable.
+
+## Dynamic behavior policy (locked)
+
+- If selected step is removed:
+  - Move to nearest enabled previous step.
+  - If none, move to nearest enabled next step.
+  - If none, no selection.
+- If selected step becomes disabled:
+  - Move using same nearest-enabled rule.
+- Adding/reordering steps does not reset selection when selected `value` still exists.
+- Duplicate `value` registration is invalid and should warn in dev mode.
+
+## Data attributes contract
+
+- Root:
+  - `data-slot="stepper"`
+  - `data-orientation="horizontal|vertical"`
+  - `data-linear`
+- Item/trigger:
+  - `data-slot="stepper-trigger"`
+  - `data-state="current|completed|upcoming|disabled|error"`
+  - `data-optional`
+  - `data-step-index="<number>"`
 
 ## Open design decisions
 
-- Step identification: index vs. string id
-- Whether step content is projected inside stepper or managed externally (e.g. by route)
-- Connector as primitive or purely presentational
+- Whether `StepperPanel` belongs in primitive v1 or wrapper/component layer.
+- Whether connectors should be explicit primitive parts or pure styling hooks.
+- Whether linear policy should support an explicit `canActivate(step)` guard callback in v1.
 
 ## Test checklist
 
-### Rendering
+### A) Rendering and structure
 
-- [ ] Renders stepper root with correct orientation
-- [ ] Renders all steps with labels/state
-- [ ] Renders current step with aria-current
-- [ ] Renders completed, optional, disabled, error states
-- [ ] Applies data attributes (data-state, data-orientation)
+- [ ] Renders root and ordered step triggers.
+- [ ] Applies orientation attributes correctly.
+- [ ] Exactly one step is current when value is set.
+- [ ] Optional/completed/error/disabled states render correct hooks.
 
-### Accessibility
+### B) Accessibility
 
-- [ ] Root has aria-label
-- [ ] Current step has aria-current="step"
-- [ ] Step position/total exposed for AT
-- [ ] Step triggers are focusable
+- [ ] Root has accessible name (`aria-label` or `aria-labelledby`).
+- [ ] Current step has `aria-current="step"`.
+- [ ] Non-current steps do not have `aria-current`.
+- [ ] Disabled steps expose `aria-disabled`.
+- [ ] Position text (step X of Y) is exposed for AT.
+- [ ] Optional/error/completed state text is announced.
 
-### Keyboard and pointer
+### C) Focus and roving tabindex
 
-- [ ] Tab focuses step triggers and content
-- [ ] Enter/Space activate step when allowed
-- [ ] Click navigates to step when allowed
-- [ ] Disabled steps not activatable
+- [ ] Only one trigger is tabbable (`tabindex=0`), others `-1`.
+- [ ] Tab enters on current or last-focused trigger.
+- [ ] Arrow keys move focus among enabled triggers.
+- [ ] Home/End move focus to first/last enabled.
+- [ ] Disabled triggers are skipped by roving focus.
 
-### Controlled behavior
+### D) Activation behavior
 
-- [ ] Supports controlled value (current step)
-- [ ] Emits valueChange when step changes
-- [ ] Does not change step without controlled update when controlled
+- [ ] Click activates step when allowed.
+- [ ] Enter activates focused step when allowed.
+- [ ] Space activates focused step when allowed.
+- [ ] Disabled step never activates via click/keyboard.
 
-### Data attributes
+### E) Linear mode behavior
 
-- [ ] Applies data-state, data-orientation, data-step-index (or equivalent)
+- [ ] In linear mode, future incomplete step activation is blocked.
+- [ ] In linear mode, previous completed steps are activatable.
+- [ ] Blocked activation does not emit `valueChange`.
+- [ ] In non-linear mode, any enabled step activates.
+
+### F) Controlled behavior
+
+- [ ] Controlled `value` drives current step.
+- [ ] User activation emits `valueChange` with next step value.
+- [ ] Controlled step does not visually change until host updates input.
+
+### G) Uncontrolled behavior
+
+- [ ] Uses `defaultValue` as initial current step.
+- [ ] Without `value/defaultValue`, selects first enabled step.
+- [ ] Uncontrolled activation updates internal current step.
+
+### H) Dynamic children
+
+- [ ] Removing current step selects nearest enabled fallback.
+- [ ] Disabling current step selects nearest enabled fallback.
+- [ ] Reordering steps preserves selection by `value`.
+- [ ] Duplicate values trigger dev warning.
+
+### I) Orientation and RTL
+
+- [ ] Horizontal LTR arrow behavior is correct.
+- [ ] Horizontal RTL arrow behavior is reversed correctly.
+- [ ] Vertical arrow behavior uses Up/Down only.
+
+### J) Data attributes
+
+- [ ] Root `data-orientation` and `data-linear` update reactively.
+- [ ] Trigger `data-state` reflects state transitions.
+- [ ] `data-step-index` reflects DOM order changes.
+
+### K) Integration (if panels are included)
+
+- [ ] Active panel tracks current step.
+- [ ] Inactive panels hidden correctly.
+- [ ] Panel linkage (`aria-controls` / `aria-labelledby`) is valid.
+
+### L) Edge cases
+
+- [ ] Zero-step scenario does not throw.
+- [ ] Single-step scenario maintains stable focus and selection.
+- [ ] Invalid controlled `value` falls back predictably.
+- [ ] Rapid updates do not produce expression-changed errors.
 
 ## Implementation Steps
 
-1. [ ] Headless component created in `primitives` (minimal root may exist; full stepper TBD)
-2. [ ] Test cases created for headless
-3. [ ] Headless example page added/updated in playground - plain CSS app
-4. [ ] Headless example page added/updated in playground - Tailwind app
-5. [ ] Minimum style `<tng-stepper>` component created in `components`
-6. [ ] Test cases created for `<tng-stepper>`
-7. [ ] Component example page added/updated in playground - plain CSS app
-8. [ ] Component example page added/updated in playground - Tailwind app
-9. [ ] Docs added/updated in docs project - Overview section
-10. [ ] Docs added/updated in docs project - API section
-11. [ ] Docs added/updated in docs project - Styling section
-12. [ ] Docs added/updated in docs project - Example section
-13. [ ] Registry templates added in `registry` for copy-paste mode (`tailng add stepper`)
-14. [ ] `tailng-cli` command generation added for stepper artifacts
-15. [ ] CLI integration tests added for `tailng add stepper`
+1. [x] Headless primitive created in `primitives`
+2. [x] Headless tests added in `__tests__`
+3. [x] Plain CSS playground demo added
+4. [x] Tailwind playground demo added
+5. [x] Styled `<tng-stepper>` wrapper created in `components`
+6. [x] Wrapper tests added in `components/__tests__`
+7. [x] Plain CSS wrapper demo added
+8. [x] Tailwind wrapper demo added
+9. [x] Docs overview page added/updated
+10. [x] Docs API page added/updated
+11. [x] Docs styling page added/updated
+12. [x] Docs examples page added/updated
+13. [x] Registry templates added (`tailng add stepper`)
+14. [x] CLI generator wired for stepper
+15. [x] CLI integration tests added
 
 ## Links
 
-- Playground: `/stepper`
+- Docs route: `/components/layout/stepper`
+- Playground route: `/stepper`

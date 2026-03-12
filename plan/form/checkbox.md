@@ -274,29 +274,29 @@ This behavior is predictable and aligns with common product expectations.
 
 ### Rendering
 
-- [ ] Renders an unchecked checkbox by default
-- [ ] Renders a checked checkbox when `checked=true`
-- [ ] Renders a mixed checkbox when `checked='mixed'`
-- [ ] Renders disabled state correctly
-- [ ] Renders readonly state correctly
-- [ ] Renders required state correctly
-- [ ] Renders invalid state correctly
-- [ ] Renders associated label text correctly
+- [x] Renders an unchecked checkbox by default
+- [x] Renders a checked checkbox when `checked=true`
+- [x] Renders a mixed checkbox when `checked='mixed'`
+- [x] Renders disabled state correctly
+- [x] Renders readonly state correctly
+- [x] Renders required state correctly
+- [x] Renders invalid state correctly
+- [x] Renders associated label text correctly
 - [ ] Renders associated description correctly
 - [ ] Renders associated error message correctly
 
 ### Accessibility
 
 - [ ] Exposes correct checkbox role when custom root is used
-- [ ] Exposes `aria-checked='false'` for unchecked state
-- [ ] Exposes `aria-checked='true'` for checked state
-- [ ] Exposes `aria-checked='mixed'` for mixed state
+- [x] Exposes `aria-checked='false'` for unchecked state
+- [x] Exposes `aria-checked='true'` for checked state
+- [x] Exposes `aria-checked='mixed'` for mixed state
 - [ ] Exposes `aria-disabled` when disabled
-- [ ] Exposes `aria-readonly` when readonly
+- [x] Exposes `aria-readonly` when readonly
 - [ ] Exposes `aria-required` when required
-- [ ] Exposes `aria-invalid` when invalid
+- [x] Exposes `aria-invalid` when invalid
 - [ ] Computes accessible name from label correctly
-- [ ] Associates description through `aria-describedby`
+- [x] Associates description through `aria-describedby`
 - [ ] Associates error message through `aria-describedby`
 
 ### Keyboard interaction
@@ -311,16 +311,16 @@ This behavior is predictable and aligns with common product expectations.
 
 ### Pointer and label interaction
 
-- [ ] Toggles on direct click
-- [ ] Toggles when clicking the label
+- [x] Toggles on direct click
+- [x] Toggles when clicking the label
 - [ ] Does not toggle on click when disabled
 - [ ] Does not toggle on click when readonly
 
 ### Controlled behavior
 
-- [ ] Supports controlled checked state
-- [ ] Calls `checkedChange` with `true`
-- [ ] Calls `checkedChange` with `false`
+- [x] Supports controlled checked state
+- [x] Calls `checkedChange` with `true`
+- [x] Calls `checkedChange` with `false`
 - [ ] Calls `checkedChange` with `'mixed'` where supported
 - [ ] Does not change visual state without controlled prop update
 
@@ -360,23 +360,23 @@ This behavior is predictable and aligns with common product expectations.
 
 ### Data attributes
 
-- [ ] Applies `data-checked` in checked state
-- [ ] Applies `data-unchecked` in unchecked state
-- [ ] Applies `data-mixed` in mixed state
-- [ ] Applies `data-disabled` in disabled state
-- [ ] Applies `data-readonly` in readonly state
-- [ ] Applies `data-invalid` in invalid state
-- [ ] Applies `data-required` in required state
-- [ ] Applies `data-focused` on focus
-- [ ] Applies `data-focus-visible` on keyboard focus
+- [x] Applies `data-checked` in checked state
+- [x] Applies `data-unchecked` in unchecked state
+- [x] Applies `data-mixed` in mixed state
+- [x] Applies `data-disabled` in disabled state
+- [x] Applies `data-readonly` in readonly state
+- [x] Applies `data-invalid` in invalid state
+- [x] Applies `data-required` in required state
+- [x] Applies `data-focused` on focus
+- [x] Applies `data-focus-visible` on keyboard focus
 
 ### Angular forms integration
 
-- [ ] Works with `formControl`
-- [ ] Works with `formControlName`
-- [ ] Works with `ngModel`
-- [ ] Propagates touched state correctly (`onTouched`)
-- [ ] Propagates disabled state from Angular forms API
+- [x] Works with `formControl`
+- [x] Works with `formControlName`
+- [x] Works with `ngModel`
+- [x] Propagates touched state correctly (`onTouched`)
+- [x] Propagates disabled state from Angular forms API
 - [ ] Group integration works with reactive forms arrays/models
 
 ## Implementation Steps
