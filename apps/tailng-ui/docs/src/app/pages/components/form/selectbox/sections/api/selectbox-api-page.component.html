@@ -1,0 +1,83 @@
+<article class="selectbox-api">
+  <h2 class="selectbox-api-title">API reference</h2>
+  <p class="selectbox-api-lead">
+    SelectBox exposes composable primitives and a styled wrapper. Choose primitives for full markup
+    ownership, or use <code>&lt;tng-select&gt;</code> for faster integration.
+  </p>
+
+  <section class="selectbox-api-block">
+    <h3>Primitive directives</h3>
+    <tng-code-block
+      [code]="primitiveAttachmentCode"
+      adapter="shiki"
+      language="html"
+      title="Primitive attachment"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+
+    <div class="selectbox-api-table-wrap">
+      <table class="selectbox-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Directive</th>
+            <th scope="col">API</th>
+            <th scope="col">Type</th>
+            <th scope="col">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>tngSelect</code></td>
+            <td><code>open</code>, <code>openChange</code></td>
+            <td><code>boolean</code></td>
+            <td>Controlled overlay visibility.</td>
+          </tr>
+          <tr>
+            <td><code>tngSelect</code></td>
+            <td><code>value</code>, <code>valueChange</code></td>
+            <td><code>T | null</code></td>
+            <td>Single selected value model.</td>
+          </tr>
+          <tr>
+            <td><code>tngSelect</code></td>
+            <td><code>disabled</code>, <code>invalid</code>, <code>loading</code></td>
+            <td><code>boolean</code></td>
+            <td>Global interaction and state flags.</td>
+          </tr>
+          <tr>
+            <td><code>tngSelectListbox</code></td>
+            <td><code>orientation</code>, <code>direction</code>, <code>loop</code></td>
+            <td><code>'vertical' | 'horizontal'</code>, <code>'ltr' | 'rtl'</code>, <code>boolean</code></td>
+            <td>Keyboard traversal behavior for options.</td>
+          </tr>
+          <tr>
+            <td><code>tngSelectOption</code></td>
+            <td><code>tngValue</code>, <code>disabled</code></td>
+            <td><code>T</code>, <code>boolean</code></td>
+            <td>Option identity and disabled state.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="selectbox-api-block">
+    <h3>Styled wrapper <code>&lt;tng-select&gt;</code></h3>
+    <p>
+      Wrapper inputs include <code>options</code>, <code>getOptionValue</code>,
+      <code>getOptionLabel</code>, <code>isOptionDisabled</code>, and all forwarded primitive
+      models like <code>value</code>/<code>valueChange</code>.
+    </p>
+    <tng-code-block
+      [code]="wrapperUsageCode"
+      adapter="shiki"
+      language="html"
+      title="Wrapper usage"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+</article>

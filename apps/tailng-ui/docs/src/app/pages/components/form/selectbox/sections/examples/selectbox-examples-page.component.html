@@ -1,0 +1,167 @@
+<article class="selectbox-examples">
+  <h2 class="selectbox-examples-title">Examples</h2>
+  <p class="selectbox-examples-lead">
+    Interactive select patterns for status assignment and dual-select keyboard handoff.
+  </p>
+
+  <section class="selectbox-examples-block">
+    <app-docs-example-tabs-section
+      heading="Status select variants"
+      description="Open with click or Arrow keys, then commit a value with Enter or pointer selection."
+      ariaLabel="Selectbox status variants"
+      tabListAriaLabel="Selectbox style variants"
+      defaultValue="headless"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="headless"
+        label="Headless"
+        panelTitle="Headless status select"
+        [codeTabs]="headlessCodeTabs"
+      >
+        <div class="selectbox-preview-shell selectbox-preview-shell--headless">
+          <section
+            tngSelect
+            class="selectbox-preview-control selectbox-preview-control--headless"
+            #headlessApi="tngSelect"
+            [value]="headlessValue()"
+            (valueChange)="onHeadlessValueChange($event)"
+          >
+            <button #headlessTrigger tngSelectTrigger type="button" aria-label="Headless status select">
+              <span tngSelectValue>{{ resolveLabel(headlessValue(), 'Select status') }}</span>
+              <span tngSelectIcon aria-hidden="true">▾</span>
+            </button>
+
+            <div tngSelectContent>
+              <div tngSelectOverlay [style.minWidth.px]="headlessTrigger.offsetWidth">
+                <ul tngSelectListbox [value]="headlessApi.value()">
+                  @for (option of statusOptions; track option.value) {
+                    <li
+                      tngSelectOption
+                      [tngValue]="option.value"
+                      [disabled]="option.disabled === true"
+                    >
+                      {{ option.label }}
+                    </li>
+                  }
+                </ul>
+              </div>
+            </div>
+          </section>
+          <p class="selectbox-preview-summary">selected: {{ headlessSummary() }}</p>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Plain CSS status select"
+        [codeTabs]="plainCssCodeTabs"
+      >
+        <div class="selectbox-preview-shell selectbox-preview-shell--plain">
+          <tng-select
+            class="selectbox-preview-control selectbox-preview-control--plain"
+            [options]="statusOptions"
+            [value]="plainValue()"
+            (valueChange)="onPlainValueChange($event)"
+            [getOptionValue]="getStatusValue"
+            [getOptionLabel]="getStatusLabel"
+            placeholder="Select status"
+            aria-label="Plain CSS status select"
+          ></tng-select>
+          <p class="selectbox-preview-summary">selected: {{ plainSummary() }}</p>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Tailwind status select"
+        [codeTabs]="tailwindCodeTabs"
+      >
+        <div
+          class="selectbox-preview-shell rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+        >
+          <tng-select
+            class="selectbox-preview-control selectbox-preview-control--tailwind"
+            [options]="statusOptions"
+            [value]="tailwindValue()"
+            (valueChange)="onTailwindValueChange($event)"
+            [getOptionValue]="getStatusValue"
+            [getOptionLabel]="getStatusLabel"
+            placeholder="Select status"
+            aria-label="Tailwind status select"
+          ></tng-select>
+          <p class="selectbox-preview-summary">selected: {{ tailwindSummary() }}</p>
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section class="selectbox-examples-block">
+    <h3>Dual select keyboard handoff</h3>
+    <p class="selectbox-example-description">
+      <code>Tab</code> moves focus between trigger controls while each listbox keeps its own roving
+      active state.
+    </p>
+
+    <div class="selectbox-dual-grid">
+      <section class="selectbox-dual-card">
+        <h4>Owner A</h4>
+        <section
+          tngSelect
+          class="selectbox-preview-control"
+          #ownerAApi="tngSelect"
+          [value]="ownerAValue()"
+          (valueChange)="onOwnerAValueChange($event)"
+        >
+          <button #ownerATrigger tngSelectTrigger type="button" aria-label="Owner A select">
+            <span tngSelectValue>{{ resolveLabel(ownerAValue(), 'Select owner') }}</span>
+            <span tngSelectIcon aria-hidden="true">▾</span>
+          </button>
+
+          <div tngSelectContent>
+            <div tngSelectOverlay [style.minWidth.px]="ownerATrigger.offsetWidth">
+              <ul tngSelectListbox [value]="ownerAApi.value()">
+                @for (option of ownerOptions; track option.value) {
+                  <li tngSelectOption [tngValue]="option.value">{{ option.label }}</li>
+                }
+              </ul>
+            </div>
+          </div>
+        </section>
+        <p class="selectbox-preview-summary">selected: {{ ownerASummary() }}</p>
+      </section>
+
+      <section class="selectbox-dual-card">
+        <h4>Owner B</h4>
+        <section
+          tngSelect
+          class="selectbox-preview-control"
+          #ownerBApi="tngSelect"
+          [value]="ownerBValue()"
+          (valueChange)="onOwnerBValueChange($event)"
+        >
+          <button #ownerBTrigger tngSelectTrigger type="button" aria-label="Owner B select">
+            <span tngSelectValue>{{ resolveLabel(ownerBValue(), 'Select owner') }}</span>
+            <span tngSelectIcon aria-hidden="true">▾</span>
+          </button>
+
+          <div tngSelectContent>
+            <div tngSelectOverlay [style.minWidth.px]="ownerBTrigger.offsetWidth">
+              <ul tngSelectListbox [value]="ownerBApi.value()">
+                @for (option of ownerOptions; track option.value) {
+                  <li tngSelectOption [tngValue]="option.value">{{ option.label }}</li>
+                }
+              </ul>
+            </div>
+          </div>
+        </section>
+        <p class="selectbox-preview-summary">selected: {{ ownerBSummary() }}</p>
+      </section>
+    </div>
+  </section>
+</article>

@@ -1,0 +1,62 @@
+<article class="selectbox-styling">
+  <h2 class="selectbox-styling-title">Styling contract</h2>
+  <p class="selectbox-styling-lead">
+    Select styling should target public slot and state attributes, so custom skins remain stable
+    across internal implementation updates.
+  </p>
+
+  <section class="selectbox-styling-block">
+    <h3>CSS contract table</h3>
+    <div class="selectbox-styling-table-wrap">
+      <table class="selectbox-styling-table">
+        <thead>
+          <tr>
+            <th scope="col">Selector</th>
+            <th scope="col">Applied on</th>
+            <th scope="col">Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>[data-slot=&quot;select&quot;]</code></td>
+            <td>Select host</td>
+            <td>Local token overrides and state container.</td>
+          </tr>
+          <tr>
+            <td><code>[data-slot=&quot;select-trigger&quot;]</code></td>
+            <td>Trigger control</td>
+            <td>Trigger shape, focus ring, and typography.</td>
+          </tr>
+          <tr>
+            <td><code>[data-slot=&quot;select-overlay&quot;]</code></td>
+            <td>Portaled overlay</td>
+            <td>Surface, border, and elevation styling.</td>
+          </tr>
+          <tr>
+            <td><code>[data-slot=&quot;select-option&quot;][data-active]</code></td>
+            <td>Option host</td>
+            <td>Keyboard-active option highlight.</td>
+          </tr>
+          <tr>
+            <td><code>[data-slot=&quot;select-option&quot;][data-selected]</code></td>
+            <td>Option host</td>
+            <td>Committed value treatment.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="selectbox-styling-block">
+    <h3>Example style contract</h3>
+    <tng-code-block
+      [code]="stylingExampleCode"
+      adapter="shiki"
+      language="css"
+      title="selectbox.contract.css"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+</article>
