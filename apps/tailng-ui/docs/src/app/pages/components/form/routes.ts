@@ -23,6 +23,10 @@ const buttonToggleItem = group.items.find((item) => item.slug === 'button-toggle
 if (buttonToggleItem === undefined) {
   throw new Error('Missing "button-toggle" in components form docs group.');
 }
+const listboxItem = group.items.find((item) => item.slug === 'listbox');
+if (listboxItem === undefined) {
+  throw new Error('Missing "listbox" in components form docs group.');
+}
 const autocompleteItem = group.items.find((item) => item.slug === 'autocomplete');
 if (autocompleteItem === undefined) {
   throw new Error('Missing "autocomplete" in components form docs group.');
@@ -41,6 +45,7 @@ const landingSlugs = new Set([
   checkboxItem.slug,
   toggleItem.slug,
   buttonToggleItem.slug,
+  listboxItem.slug,
   autocompleteItem.slug,
   multiAutocompleteItem.slug,
   chipsItem.slug,
@@ -73,6 +78,11 @@ export const COMPONENTS_FORM_ROUTES: Routes = [
       import('./button-toggle/routes').then(
         (module) => module.COMPONENTS_FORM_BUTTON_TOGGLE_ROUTES,
       ),
+  },
+  {
+    path: listboxItem.slug,
+    loadChildren: () =>
+      import('./listbox/routes').then((module) => module.COMPONENTS_FORM_LISTBOX_ROUTES),
   },
   {
     path: autocompleteItem.slug,

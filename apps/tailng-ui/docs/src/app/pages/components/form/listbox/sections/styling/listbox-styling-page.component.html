@@ -1,0 +1,62 @@
+<article class="listbox-styling">
+  <h2 class="listbox-styling-title">Styling contract</h2>
+  <p class="listbox-styling-lead">
+    Style listbox states through public attributes and option hooks instead of relying on internal
+    DOM assumptions.
+  </p>
+
+  <section class="listbox-styling-block">
+    <h3>CSS contract table</h3>
+    <div class="listbox-styling-table-wrap">
+      <table class="listbox-styling-table">
+        <thead>
+          <tr>
+            <th scope="col">Selector</th>
+            <th scope="col">Applied on</th>
+            <th scope="col">Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>[tngListbox]</code></td>
+            <td>Listbox host</td>
+            <td>Container layout and focus ring.</td>
+          </tr>
+          <tr>
+            <td><code>[tngOption]</code></td>
+            <td>Option host</td>
+            <td>Typography, spacing, and surface states.</td>
+          </tr>
+          <tr>
+            <td><code>[tngOption][data-active]</code></td>
+            <td>Option host</td>
+            <td>Keyboard-active visual state.</td>
+          </tr>
+          <tr>
+            <td><code>[tngOption][data-selected]</code></td>
+            <td>Option host</td>
+            <td>Selected item styling.</td>
+          </tr>
+          <tr>
+            <td><code>[tngOption][data-disabled]</code></td>
+            <td>Option host</td>
+            <td>Disabled affordance and interaction cue.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="listbox-styling-block">
+    <h3>Example style contract</h3>
+    <tng-code-block
+      [code]="stylingExampleCode"
+      adapter="shiki"
+      language="css"
+      title="listbox.contract.css"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+</article>

@@ -1,0 +1,155 @@
+<article class="listbox-overview">
+  <h2 class="listbox-overview-title">ListBox overview</h2>
+  <p class="listbox-overview-lead">
+    TailNG ListBox is currently shipped as headless primitives. Use
+    <code>tngListbox</code> + <code>tngOption</code> to own markup and styling while keeping
+    keyboard, focus, and selection behavior consistent.
+  </p>
+
+  <section class="listbox-overview-block">
+    <h3>Imports</h3>
+    <tng-code-block
+      [code]="primitiveImportCode"
+      adapter="shiki"
+      language="ts"
+      title="Primitive import"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section class="listbox-overview-block">
+    <h3>Usage baseline</h3>
+    <tng-code-block
+      [code]="primitiveUsageCode"
+      adapter="shiki"
+      language="html"
+      title="Listbox primitive usage"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section class="listbox-overview-block">
+    <app-docs-example-tabs-section
+      heading="Listbox variants"
+      description="Same primitive behavior rendered with headless markup, plain CSS shell, and Tailwind utilities."
+      ariaLabel="Listbox style variants"
+      tabListAriaLabel="Listbox styles"
+      defaultValue="headless"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="headless"
+        label="Headless"
+        panelTitle="Headless listbox"
+        [codeTabs]="headlessCodeTabs"
+      >
+        <div class="listbox-preview-shell listbox-preview-shell--headless">
+          <div
+            tngListbox
+            tabindex="0"
+            class="listbox-preview listbox-preview--headless"
+            [multiple]="true"
+            [value]="headlessValue()"
+            (valueChange)="onHeadlessValueChange($event)"
+          >
+            @for (option of options; track option.id) {
+              <div
+                tngOption
+                class="listbox-option"
+                [tngValue]="option.id"
+                [disabled]="option.disabled === true"
+              >
+                <p class="listbox-option__title">{{ option.label }}</p>
+                <p class="listbox-option__description">{{ option.description }}</p>
+              </div>
+            }
+          </div>
+          <p class="listbox-preview-summary">selected: {{ headlessSummary() }}</p>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Plain CSS listbox"
+        [codeTabs]="plainCssCodeTabs"
+      >
+        <div class="listbox-preview-shell listbox-preview-shell--plain">
+          <div
+            tngListbox
+            tabindex="0"
+            class="listbox-preview listbox-preview--plain"
+            [multiple]="true"
+            [value]="plainValue()"
+            (valueChange)="onPlainValueChange($event)"
+          >
+            @for (option of options; track option.id) {
+              <div
+                tngOption
+                class="listbox-option"
+                [tngValue]="option.id"
+                [disabled]="option.disabled === true"
+              >
+                <p class="listbox-option__title">{{ option.label }}</p>
+                <p class="listbox-option__description">{{ option.description }}</p>
+              </div>
+            }
+          </div>
+          <p class="listbox-preview-summary">selected: {{ plainSummary() }}</p>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Tailwind listbox"
+        [codeTabs]="tailwindCodeTabs"
+      >
+        <div
+          class="listbox-preview-shell rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+        >
+          <div
+            tngListbox
+            tabindex="0"
+            class="listbox-preview listbox-preview--tailwind"
+            [multiple]="true"
+            [value]="tailwindValue()"
+            (valueChange)="onTailwindValueChange($event)"
+          >
+            @for (option of options; track option.id) {
+              <div
+                tngOption
+                class="listbox-option"
+                [tngValue]="option.id"
+                [disabled]="option.disabled === true"
+              >
+                <p class="listbox-option__title">{{ option.label }}</p>
+                <p class="listbox-option__description">{{ option.description }}</p>
+              </div>
+            }
+          </div>
+          <p class="listbox-preview-summary">selected: {{ tailwindSummary() }}</p>
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section class="listbox-overview-block">
+    <h3>Behavior baseline</h3>
+    <ul class="listbox-overview-list">
+      <li>Arrow keys drive active option roving inside the focused listbox.</li>
+      <li><code>Space</code> toggles active selection and <code>Enter</code> commits selection.</li>
+      <li>Typeahead is enabled by default for printable keys.</li>
+      <li>State hooks are exposed through <code>data-active</code>, <code>data-selected</code>, and <code>data-disabled</code>.</li>
+    </ul>
+  </section>
+</article>

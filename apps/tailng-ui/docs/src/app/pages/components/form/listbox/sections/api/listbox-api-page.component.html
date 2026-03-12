@@ -1,0 +1,95 @@
+<article class="listbox-api">
+  <h2 class="listbox-api-title">API reference</h2>
+  <p class="listbox-api-lead">
+    ListBox exposes headless directives for host and option behavior. Use this contract when
+    building custom layouts.
+  </p>
+
+  <section class="listbox-api-block">
+    <h3><code>tngListbox</code> + <code>tngOption</code></h3>
+    <tng-code-block
+      [code]="primitiveAttachmentCode"
+      adapter="shiki"
+      language="html"
+      title="Primitive attachment"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+
+    <div class="listbox-api-table-wrap">
+      <table class="listbox-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Directive</th>
+            <th scope="col">API</th>
+            <th scope="col">Type</th>
+            <th scope="col">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>tngListbox</code></td>
+            <td><code>multiple</code></td>
+            <td><code>boolean</code></td>
+            <td>Switches single vs multiple selection behavior.</td>
+          </tr>
+          <tr>
+            <td><code>tngListbox</code></td>
+            <td><code>orientation</code></td>
+            <td><code>'vertical' | 'horizontal'</code></td>
+            <td>Arrow-key axis for navigation.</td>
+          </tr>
+          <tr>
+            <td><code>tngListbox</code></td>
+            <td><code>direction</code></td>
+            <td><code>'ltr' | 'rtl'</code></td>
+            <td>Horizontal key mapping direction.</td>
+          </tr>
+          <tr>
+            <td><code>tngListbox</code></td>
+            <td><code>disabled</code>, <code>loop</code>, <code>typeahead</code></td>
+            <td><code>boolean</code></td>
+            <td>Global interactivity and keyboard traversal behavior.</td>
+          </tr>
+          <tr>
+            <td><code>tngListbox</code></td>
+            <td><code>value</code>, <code>valueChange</code></td>
+            <td><code>T | readonly T[] | null</code></td>
+            <td>Selection model and output updates.</td>
+          </tr>
+          <tr>
+            <td><code>tngOption</code></td>
+            <td><code>tngValue</code></td>
+            <td><code>T</code></td>
+            <td>Option value committed to the listbox model.</td>
+          </tr>
+          <tr>
+            <td><code>tngOption</code></td>
+            <td><code>disabled</code></td>
+            <td><code>boolean</code></td>
+            <td>Skips option from keyboard and selection interactions.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="listbox-api-block">
+    <h3>Wrapper status</h3>
+    <p>
+      A dedicated <code>tng-listbox</code> component wrapper is not yet part of
+      <code>@tailng-ui/components</code>. For wrapped combobox experiences, use
+      <code>tng-select</code> or <code>tng-multiselect</code>.
+    </p>
+    <tng-code-block
+      [code]="wrapperStatusCode"
+      adapter="shiki"
+      language="ts"
+      title="Wrapper status"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+</article>

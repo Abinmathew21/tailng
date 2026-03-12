@@ -1,0 +1,33 @@
+<section class="listbox-docs-page">
+  <tng-tabs
+    class="listbox-docs-tabs"
+    ariaLabel="ListBox documentation sections"
+    [activation]="'manual'"
+    [value]="activeSection()"
+    (valueChange)="onSectionChange($event)"
+  >
+    <div
+      tngTabList
+      class="listbox-docs-tab-list"
+      ariaLabel="ListBox documentation tabs"
+    >
+      <button type="button" tngTab value="overview" class="listbox-docs-tab-trigger">
+        Overview
+      </button>
+      <button type="button" tngTab value="api" class="listbox-docs-tab-trigger">API</button>
+      <button type="button" tngTab value="styling" class="listbox-docs-tab-trigger">
+        Styling
+      </button>
+      <button type="button" tngTab value="examples" class="listbox-docs-tab-trigger">
+        Examples
+      </button>
+      <button type="button" tngTab value="ownable-install" class="listbox-docs-tab-trigger">
+        Ownable Install
+      </button>
+    </div>
+  </tng-tabs>
+
+  <section class="listbox-docs-content">
+    <router-outlet />
+  </section>
+</section>
