@@ -1,0 +1,40 @@
+<section class="multi-autocomplete-docs-page">
+  <tng-tabs
+    class="multi-autocomplete-docs-tabs"
+    ariaLabel="Multi autocomplete documentation sections"
+    [activation]="'manual'"
+    [value]="activeSection()"
+    (valueChange)="onSectionChange($event)"
+  >
+    <div
+      tngTabList
+      class="multi-autocomplete-docs-tab-list"
+      ariaLabel="Multi autocomplete documentation tabs"
+    >
+      <button type="button" tngTab value="overview" class="multi-autocomplete-docs-tab-trigger">
+        Overview
+      </button>
+      <button type="button" tngTab value="api" class="multi-autocomplete-docs-tab-trigger">
+        API
+      </button>
+      <button type="button" tngTab value="styling" class="multi-autocomplete-docs-tab-trigger">
+        Styling
+      </button>
+      <button type="button" tngTab value="examples" class="multi-autocomplete-docs-tab-trigger">
+        Examples
+      </button>
+      <button
+        type="button"
+        tngTab
+        value="ownable-install"
+        class="multi-autocomplete-docs-tab-trigger"
+      >
+        Ownable Install
+      </button>
+    </div>
+  </tng-tabs>
+
+  <section class="multi-autocomplete-docs-content">
+    <router-outlet />
+  </section>
+</section>

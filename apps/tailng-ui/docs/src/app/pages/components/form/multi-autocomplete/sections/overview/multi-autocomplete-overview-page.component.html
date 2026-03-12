@@ -1,0 +1,146 @@
+<article class="multi-autocomplete-overview">
+  <h2 class="multi-autocomplete-overview-title">MultiAutocomplete overview</h2>
+  <p class="multi-autocomplete-overview-lead">
+    TailNG multi-autocomplete supports keyboard-first multi selection with chips. This overview
+    compares headless, plain CSS, and Tailwind rendering.
+  </p>
+
+  <section class="multi-autocomplete-overview-block">
+    <h3>Imports</h3>
+    <tng-code-block
+      [code]="primitiveImportCode"
+      adapter="shiki"
+      language="ts"
+      title="Primitive import"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+    <tng-code-block
+      [code]="componentImportCode"
+      adapter="shiki"
+      language="ts"
+      title="Styled component import"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section class="multi-autocomplete-overview-block">
+    <app-docs-example-tabs-section
+      heading="Country tags variants"
+      description="Type Ind to filter, then select multiple countries with Enter or click."
+      ariaLabel="Multi-autocomplete country tags variants"
+      tabListAriaLabel="Multi-autocomplete styles"
+      defaultValue="headless"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="headless"
+        label="Headless"
+        panelTitle="Headless country tags"
+        [codeTabs]="headlessCodeTabs"
+      >
+        <section
+          tngMultiAutocomplete
+          class="multi-autocomplete-preview-control multi-autocomplete-preview-control--headless"
+          #headlessApi="tngMultiAutocomplete"
+          [open]="headlessOpen()"
+          (openChange)="headlessOpen.set($event)"
+          [query]="headlessQuery()"
+          (queryChange)="onHeadlessQueryChange($event)"
+          [value]="headlessValue()"
+          (valueChange)="onHeadlessValueChange($event)"
+        >
+          @for (code of headlessValue(); track code) {
+            <span tngMultiAutocompleteChip [tngValue]="code">{{ resolveCountryLabel(code) }}</span>
+          }
+
+          <input
+            tngMultiAutocompleteTrigger
+            type="text"
+            [value]="headlessQuery()"
+            (input)="onHeadlessInput($event)"
+            placeholder="Type Ind to filter countries"
+            aria-label="Headless country tags"
+          />
+
+          <div tngMultiAutocompleteContent>
+            <div tngMultiAutocompleteOverlay>
+              <ul tngMultiAutocompleteListbox [value]="headlessApi.value()">
+                @for (country of headlessFilteredCountries(); track country.code) {
+                  <li tngMultiAutocompleteOption [tngValue]="country.code">
+                    {{ country.label }}
+                  </li>
+                }
+                @if (headlessFilteredCountries().length === 0) {
+                  <li data-slot="multi-autocomplete-empty">No matches</li>
+                }
+              </ul>
+            </div>
+          </div>
+        </section>
+        <p class="multi-autocomplete-preview-summary">selected: {{ headlessSelectedSummary() }}</p>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Plain CSS country tags"
+        [codeTabs]="plainCssCodeTabs"
+      >
+        <div class="multi-autocomplete-preview-shell multi-autocomplete-preview-shell--plain">
+          <tng-multi-autocomplete
+            class="multi-autocomplete-preview-control"
+            [options]="countries()"
+            [value]="plainValue()"
+            (valueChange)="onPlainValueChange($event)"
+            [getOptionValue]="getCountryValue"
+            [getOptionLabel]="getCountryLabel"
+            placeholder="Type Ind to filter countries"
+            ariaLabel="Plain CSS country tags"
+          ></tng-multi-autocomplete>
+          <p class="multi-autocomplete-preview-summary">selected: {{ plainSelectedSummary() }}</p>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Tailwind country tags"
+        [codeTabs]="tailwindCodeTabs"
+      >
+        <div
+          class="multi-autocomplete-preview-shell rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+        >
+          <tng-multi-autocomplete
+            class="multi-autocomplete-preview-control"
+            [options]="countries()"
+            [value]="tailwindValue()"
+            (valueChange)="onTailwindValueChange($event)"
+            [getOptionValue]="getCountryValue"
+            [getOptionLabel]="getCountryLabel"
+            placeholder="Type Ind to filter countries"
+            ariaLabel="Tailwind country tags"
+          ></tng-multi-autocomplete>
+          <p class="multi-autocomplete-preview-summary">selected: {{ tailwindSelectedSummary() }}</p>
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section class="multi-autocomplete-overview-block">
+    <h3>Behavior baseline</h3>
+    <ul class="multi-autocomplete-overview-list">
+      <li>Input query drives filtering while selected chips remain visible and removable.</li>
+      <li>Enter or click toggles the active option in the selected values array.</li>
+      <li>Backspace on an empty input removes the last selected chip.</li>
+    </ul>
+  </section>
+</article>

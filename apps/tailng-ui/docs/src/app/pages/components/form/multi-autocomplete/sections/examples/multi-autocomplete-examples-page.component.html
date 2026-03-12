@@ -1,0 +1,150 @@
+<article class="multi-autocomplete-examples">
+  <h2 class="multi-autocomplete-examples-title">Examples</h2>
+  <p class="multi-autocomplete-examples-lead">
+    Interactive examples with headless primitives, plain CSS wrappers, and Tailwind wrappers.
+  </p>
+
+  <section class="multi-autocomplete-examples-block">
+    <app-docs-example-tabs-section
+      heading="Country tags variants"
+      description="Select multiple countries and verify chip state across style variants."
+      ariaLabel="Multi-autocomplete country tags examples"
+      tabListAriaLabel="Country tags style variants"
+      defaultValue="headless"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="headless"
+        label="Headless"
+        panelTitle="Headless country tags"
+        [codeTabs]="headlessCodeTabs"
+      >
+        <section
+          tngMultiAutocomplete
+          class="multi-autocomplete-preview-control multi-autocomplete-preview-control--headless"
+          #headlessApi="tngMultiAutocomplete"
+          [open]="headlessOpen()"
+          (openChange)="headlessOpen.set($event)"
+          [query]="headlessQuery()"
+          (queryChange)="onHeadlessQueryChange($event)"
+          [value]="headlessValue()"
+          (valueChange)="onHeadlessValueChange($event)"
+        >
+          @for (code of headlessValue(); track code) {
+            <span tngMultiAutocompleteChip [tngValue]="code">{{ resolveCountryLabel(code) }}</span>
+          }
+
+          <input
+            tngMultiAutocompleteTrigger
+            type="text"
+            [value]="headlessQuery()"
+            (input)="onHeadlessInput($event)"
+            placeholder="Type Ind to filter countries"
+            aria-label="Headless country tags"
+          />
+
+          <div tngMultiAutocompleteContent>
+            <div tngMultiAutocompleteOverlay>
+              <ul tngMultiAutocompleteListbox [value]="headlessApi.value()">
+                @for (country of headlessFilteredCountries(); track country.code) {
+                  <li tngMultiAutocompleteOption [tngValue]="country.code">
+                    {{ country.label }}
+                  </li>
+                }
+                @if (headlessFilteredCountries().length === 0) {
+                  <li data-slot="multi-autocomplete-empty">No matches</li>
+                }
+              </ul>
+            </div>
+          </div>
+        </section>
+        <p class="multi-autocomplete-preview-summary">selected: {{ headlessSummary() }}</p>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Plain CSS country tags"
+        [codeTabs]="plainCodeTabs"
+      >
+        <div class="multi-autocomplete-preview-shell multi-autocomplete-preview-shell--plain">
+          <tng-multi-autocomplete
+            class="multi-autocomplete-preview-control"
+            [options]="countries"
+            [value]="plainValue()"
+            (valueChange)="onPlainValueChange($event)"
+            [getOptionValue]="getCountryValue"
+            [getOptionLabel]="getCountryLabel"
+            placeholder="Type Ind to filter countries"
+            ariaLabel="Plain CSS country tags"
+          ></tng-multi-autocomplete>
+          <p class="multi-autocomplete-preview-summary">selected: {{ plainSummary() }}</p>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Tailwind country tags"
+        [codeTabs]="tailwindCodeTabs"
+      >
+        <div
+          class="multi-autocomplete-preview-shell rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+        >
+          <tng-multi-autocomplete
+            class="multi-autocomplete-preview-control"
+            [options]="countries"
+            [value]="tailwindValue()"
+            (valueChange)="onTailwindValueChange($event)"
+            [getOptionValue]="getCountryValue"
+            [getOptionLabel]="getCountryLabel"
+            placeholder="Type Ind to filter countries"
+            ariaLabel="Tailwind country tags"
+          ></tng-multi-autocomplete>
+          <p class="multi-autocomplete-preview-summary">selected: {{ tailwindSummary() }}</p>
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section class="multi-autocomplete-examples-block">
+    <h3>State variants</h3>
+    <p class="multi-autocomplete-example-description">
+      Disabled and invalid examples for regression checks.
+    </p>
+
+    <div class="multi-autocomplete-state-grid">
+      <div class="multi-autocomplete-preview-shell multi-autocomplete-preview-shell--plain">
+        <tng-multi-autocomplete
+          class="multi-autocomplete-preview-control"
+          [options]="countries"
+          [value]="disabledValue()"
+          [disabled]="true"
+          [getOptionValue]="getCountryValue"
+          [getOptionLabel]="getCountryLabel"
+          placeholder="Disabled country tags"
+          ariaLabel="Disabled country tags"
+        ></tng-multi-autocomplete>
+        <p class="multi-autocomplete-preview-summary">disabled: true</p>
+      </div>
+
+      <div class="multi-autocomplete-preview-shell multi-autocomplete-preview-shell--plain">
+        <tng-multi-autocomplete
+          class="multi-autocomplete-preview-control"
+          [options]="countries"
+          [value]="invalidValue()"
+          (valueChange)="onInvalidValueChange($event)"
+          [invalid]="true"
+          [getOptionValue]="getCountryValue"
+          [getOptionLabel]="getCountryLabel"
+          placeholder="Invalid country tags"
+          ariaLabel="Invalid country tags"
+        ></tng-multi-autocomplete>
+        <p class="multi-autocomplete-preview-summary">selected: {{ invalidSummary() }}</p>
+      </div>
+    </div>
+  </section>
+</article>
