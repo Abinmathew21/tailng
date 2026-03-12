@@ -103,6 +103,14 @@ export class TngMultiAutocompleteTrigger {
   protected onKeydown(event: KeyboardEvent): void {
     if (this.multi.disabled()) return;
 
+    // Tab should leave the widget and close any open overlay.
+    if (event.key === 'Tab') {
+      if (this.multi.open()) {
+        this.multi.close();
+      }
+      return;
+    }
+
     // Escape closes overlay (no selection changes)
     if (event.key === 'Escape') {
       if (this.multi.open()) {
@@ -238,6 +246,26 @@ export class TngMultiAutocompleteTrigger {
     }
 
     // printable keys are NOT prevented (input stays editable)
+  }
+
+  @HostListener('focusout', ['$event'])
+  protected onFocusOut(event: FocusEvent): void {
+    if (!this.multi.open()) return;
+
+    const next = event.relatedTarget as Node | null;
+    if (next && this.multi.hostElement.contains(next)) {
+      return;
+    }
+
+    // Some focus transitions report null relatedTarget. Re-check after DOM focus settles.
+    queueMicrotask(() => {
+      const active = this.el.nativeElement.ownerDocument.activeElement;
+      if (active && this.multi.hostElement.contains(active)) {
+        return;
+      }
+
+      this.multi.close();
+    });
   }
 
   @HostListener('compositionstart')
