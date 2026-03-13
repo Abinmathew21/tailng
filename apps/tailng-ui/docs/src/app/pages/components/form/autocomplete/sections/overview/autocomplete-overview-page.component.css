@@ -106,6 +106,27 @@
   font-weight: 500;
 }
 
+.autocomplete-country-option {
+  column-gap: 0.5rem;
+}
+
+.autocomplete-country-flag {
+  inline-size: 1.15rem;
+  block-size: auto;
+  border-radius: 0.18rem;
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--tng-semantic-border-subtle) 80%, transparent);
+  flex-shrink: 0;
+}
+
+.autocomplete-country-trigger-flag {
+  inline-size: 1.15rem;
+  block-size: auto;
+  border-radius: 0.18rem;
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--tng-semantic-border-subtle) 80%, transparent);
+  flex-shrink: 0;
+  margin-inline-start: 0.5rem;
+}
+
 .autocomplete-preview-control--headless {
   --tng-autocomplete-bg: color-mix(
     in srgb,

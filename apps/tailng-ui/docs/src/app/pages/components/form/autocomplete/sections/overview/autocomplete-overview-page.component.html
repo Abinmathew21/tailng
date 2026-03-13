@@ -56,6 +56,14 @@
             (valueChange)="onHeadlessValueChange($event)"
           >
             <div tngAutocompleteTriggerContainer>
+              @if (headlessValue()) {
+                <img
+                  class="autocomplete-country-trigger-flag"
+                  [src]="getCountryFlagUrl(headlessValue()!)"
+                  [alt]="headlessSelectedLabel() + ' flag'"
+                  loading="lazy"
+                />
+              }
               <input
                 tngAutocompleteTrigger
                 type="text"
@@ -71,8 +79,18 @@
               <div tngAutocompleteOverlay>
                 <ul tngAutocompleteListbox [value]="headlessApi.value()">
                   @for (country of headlessFilteredCountries(); track country.code) {
-                    <li tngAutocompleteOption [tngValue]="country.code">
-                      {{ country.label }}
+                    <li
+                      tngAutocompleteOption
+                      [tngValue]="country.code"
+                      class="autocomplete-country-option"
+                    >
+                      <img
+                        class="autocomplete-country-flag"
+                        [src]="getCountryFlagUrl(country.code)"
+                        [alt]="country.label + ' flag'"
+                        loading="lazy"
+                      />
+                      <span>{{ country.label }}</span>
                     </li>
                   }
                   @if (headlessFilteredCountries().length === 0) {
@@ -104,7 +122,18 @@
             placeholder="Type Ind to filter countries"
             ariaLabel="Plain CSS country filter"
           ></tng-autocomplete>
-          <p class="autocomplete-preview-summary">selected: {{ plainSelectedLabel() }}</p>
+          <p class="autocomplete-preview-summary">
+            selected:
+            @if (plainValue()) {
+              <img
+                class="autocomplete-country-flag"
+                [src]="getCountryFlagUrl(plainValue()!)"
+                [alt]="plainSelectedLabel() + ' flag'"
+                loading="lazy"
+              />
+            }
+            {{ plainSelectedLabel() }}
+          </p>
         </div>
       </ng-template>
 
@@ -128,7 +157,18 @@
             placeholder="Type Ind to filter countries"
             ariaLabel="Tailwind country filter"
           ></tng-autocomplete>
-          <p class="autocomplete-preview-summary">selected: {{ tailwindSelectedLabel() }}</p>
+          <p class="autocomplete-preview-summary">
+            selected:
+            @if (tailwindValue()) {
+              <img
+                class="autocomplete-country-flag"
+                [src]="getCountryFlagUrl(tailwindValue()!)"
+                [alt]="tailwindSelectedLabel() + ' flag'"
+                loading="lazy"
+              />
+            }
+            {{ tailwindSelectedLabel() }}
+          </p>
         </div>
       </ng-template>
     </app-docs-example-tabs-section>

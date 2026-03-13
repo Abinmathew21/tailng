@@ -342,6 +342,9 @@ export class AutocompleteOverviewPageComponent implements OnDestroy, OnInit {
     return this.countriesByCode().get(code)?.label ?? null;
   }
 
+  protected readonly getCountryFlagUrl = (code: string): string =>
+    `https://cdn.jsdelivr.net/npm/flag-icons@7.5.0/flags/4x3/${code.toLowerCase()}.svg`;
+
   private observeCodeThemeChanges(): MutationObserver | null {
     const mutationObserverCtor = this.documentRef.defaultView?.MutationObserver;
     if (mutationObserverCtor === undefined) {
