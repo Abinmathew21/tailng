@@ -1,0 +1,144 @@
+<article class="copybutton-overview">
+  <h2 class="copybutton-overview-title">CopyButton overview</h2>
+  <p class="copybutton-overview-lead">
+    CopyButton combines the headless <code>tngCopy</code> primitive with a styled
+    <code>&lt;tng-copy-button&gt;</code> wrapper for fast clipboard UX.
+  </p>
+
+  <section class="copybutton-overview-block">
+    <h3>Imports</h3>
+    <p>Use the primitive for full ownership, or use the component for built-in copy states.</p>
+    <tng-code-block
+      [code]="primitiveImportCode"
+      adapter="shiki"
+      language="ts"
+      title="Primitive import"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+    <tng-code-block
+      [code]="componentImportCode"
+      adapter="shiki"
+      language="ts"
+      title="Styled component import"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <section class="copybutton-overview-block">
+    <h3>Usage patterns</h3>
+    <tng-code-block
+      [code]="primitiveUsageCode"
+      adapter="shiki"
+      language="html"
+      title="Primitive usage"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+    <tng-code-block
+      [code]="componentUsageCode"
+      adapter="shiki"
+      language="html"
+      title="Styled usage"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <app-docs-example-tabs-section
+    class="copybutton-overview-block"
+    heading="Style variants"
+    description="Same copy interaction rendered as headless markup, plain CSS wrapper usage, and Tailwind utility shell."
+    ariaLabel="CopyButton style variants"
+    tabListAriaLabel="CopyButton style tabs"
+    defaultValue="headless"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="headless"
+      label="Headless"
+      panelTitle="Headless copy trigger"
+      [codeTabs]="headlessCodeTabs"
+    >
+      <div class="copy-overview-shell copy-overview-shell--headless">
+        <button
+          type="button"
+          tngCopy
+          class="copy-headless-trigger"
+          [tngCopyText]="command"
+          (tngCopied)="onHeadlessCopied($event)"
+          (tngCopyError)="onCopyError($event, 'headless')"
+        >
+          Copy install command
+        </button>
+        <p class="copy-overview-status">{{ headlessStatus() }}</p>
+      </div>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+      panelTitle="Plain CSS copy button"
+      [codeTabs]="plainCssCodeTabs"
+    >
+      <div class="copy-overview-shell copy-overview-shell--plain">
+        <tng-copy-button
+          [text]="command"
+          (tngCopied)="onPlainCopied($event)"
+          (tngCopyError)="onCopyError($event, 'plain')"
+        >
+          <tng-icon copyIcon icon="copy" class="h-4 w-4"></tng-icon>
+          <tng-icon copiedIcon icon="check" class="h-4 w-4"></tng-icon>
+        </tng-copy-button>
+        <p class="copy-overview-status">{{ plainStatus() }}</p>
+      </div>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Tailwind copy button"
+      [codeTabs]="tailwindCodeTabs"
+    >
+      <div
+        class="grid gap-3 rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+      >
+        <tng-copy-button
+          appearance="solid"
+          [text]="command"
+          class="text-slate-900 dark:text-slate-100"
+          (tngCopied)="onTailwindCopied($event)"
+          (tngCopyError)="onCopyError($event, 'tailwind')"
+        >
+          <tng-icon copyIcon icon="copy" class="h-4 w-4"></tng-icon>
+          <tng-icon copiedIcon icon="check" class="h-4 w-4"></tng-icon>
+        </tng-copy-button>
+        <p class="m-0 text-sm text-slate-600 dark:text-slate-300">{{ tailwindStatus() }}</p>
+      </div>
+    </ng-template>
+  </app-docs-example-tabs-section>
+
+  <section class="copybutton-overview-block">
+    <h3>Accessibility baseline</h3>
+    <ul class="copybutton-overview-list">
+      <li>Use a native button host to preserve Enter/Space activation and tab semantics.</li>
+      <li>State is exposed for styling through <code>data-state</code> on the wrapper component.</li>
+      <li>
+        Copy completion messaging is sent to an internal <code>aria-live="polite"</code> region for
+        assistive feedback.
+      </li>
+    </ul>
+  </section>
+</article>

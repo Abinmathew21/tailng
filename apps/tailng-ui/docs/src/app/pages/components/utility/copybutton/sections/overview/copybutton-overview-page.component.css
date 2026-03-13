@@ -1,0 +1,100 @@
+:host {
+  display: block;
+}
+
+.copybutton-overview {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.copybutton-overview-title {
+  font-size: clamp(1.45rem, 1.05rem + 1.3vw, 1.95rem);
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.copybutton-overview-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+  max-width: 70ch;
+}
+
+.copybutton-overview-block {
+  background: color-mix(in srgb, var(--tng-semantic-background-surface) 88%, transparent);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 1rem;
+  display: grid;
+  gap: 0.9rem;
+  padding: 1.2rem;
+}
+
+.copybutton-overview-block h3 {
+  font-size: 1.05rem;
+  font-weight: 650;
+  margin: 0;
+}
+
+.copybutton-overview-block p {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.copy-overview-shell {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.copy-overview-shell--headless {
+  background: var(--tng-semantic-background-base);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.85rem;
+  padding: 1rem;
+}
+
+.copy-overview-shell--plain {
+  background: var(--tng-semantic-background-surface);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.85rem;
+  padding: 1rem;
+}
+
+.copy-headless-trigger {
+  align-items: center;
+  appearance: none;
+  background: transparent;
+  border: 1px solid var(--tng-semantic-border-strong);
+  border-radius: 0.6rem;
+  color: var(--tng-semantic-foreground-primary);
+  cursor: pointer;
+  display: inline-flex;
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 600;
+  justify-content: center;
+  min-height: 2.4rem;
+  padding: 0 0.95rem;
+  width: fit-content;
+}
+
+.copy-headless-trigger:focus-visible {
+  box-shadow: 0 0 0 3px var(--tng-semantic-focus-ring);
+  outline: none;
+}
+
+.copy-overview-status {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.copybutton-overview-list {
+  display: grid;
+  gap: 0.55rem;
+  margin: 0;
+  padding-inline-start: 1.1rem;
+}
+
+.copybutton-overview-list code {
+  font-size: 0.84em;
+}

@@ -1,0 +1,29 @@
+<section class="copybutton-docs-page">
+  <tng-tabs
+    class="copybutton-docs-tabs"
+    ariaLabel="CopyButton documentation sections"
+    [activation]="'manual'"
+    [value]="activeSection()"
+    (valueChange)="onSectionChange($event)"
+  >
+    <div tngTabList class="copybutton-docs-tab-list" ariaLabel="CopyButton documentation tabs">
+      <button type="button" tngTab value="overview" class="copybutton-docs-tab-trigger">
+        Overview
+      </button>
+      <button type="button" tngTab value="api" class="copybutton-docs-tab-trigger">API</button>
+      <button type="button" tngTab value="styling" class="copybutton-docs-tab-trigger">
+        Styling
+      </button>
+      <button type="button" tngTab value="examples" class="copybutton-docs-tab-trigger">
+        Examples
+      </button>
+      <button type="button" tngTab value="ownable-install" class="copybutton-docs-tab-trigger">
+        Ownable Install
+      </button>
+    </div>
+  </tng-tabs>
+
+  <section class="copybutton-docs-content">
+    <router-outlet />
+  </section>
+</section>
