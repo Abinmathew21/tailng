@@ -38,14 +38,50 @@
   margin: 0;
 }
 
-.input-examples-grid {
+.input-example-preview {
   display: grid;
-  gap: 0.9rem;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.65rem;
+  width: min(100%, 32rem);
 }
 
-:host ::ng-deep app-docs-example-panel .docs-example-panel {
-  height: 100%;
+.input-example-validation-stack {
+  display: grid;
+  gap: 0.5rem;
+}
+
+:host ::ng-deep .input-example-headless-shell[data-slot='input-group'] {
+  border: 1px solid var(--tng-semantic-border-strong);
+  border-radius: 0.78rem;
+  cursor: text;
+  min-height: 2.65rem;
+  padding-inline: 0.88rem;
+}
+
+:host ::ng-deep .input-example-headless-shell [data-slot='input-group-leading'],
+:host ::ng-deep .input-example-headless-shell [data-slot='input-group-trailing'] {
+  align-items: center;
+  color: var(--tng-semantic-foreground-secondary);
+  display: inline-flex;
+}
+
+:host ::ng-deep .input-example-headless-shell [data-slot='input-group-leading'] {
+  margin-right: 0.45rem;
+}
+
+:host ::ng-deep .input-example-headless-shell [data-slot='input-group-trailing'] {
+  margin-left: 0.45rem;
+}
+
+:host ::ng-deep .input-example-headless-shell [data-slot='input'] {
+  background: transparent;
+  border: 0 !important;
+  border-radius: 0;
+  box-shadow: none !important;
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 0.98rem;
+  line-height: 1.35;
+  outline: none !important;
+  padding: 0;
 }
 
 .input-example-control {
@@ -112,13 +148,6 @@
   color: var(--tng-semantic-foreground-muted);
 }
 
-.input-example-description {
-  color: var(--tng-semantic-foreground-secondary);
-  font-size: 0.88rem;
-  line-height: 1.45;
-  margin: 0 0 0.2rem;
-}
-
 .input-example-stacked {
   display: grid;
   gap: 0.65rem;
@@ -146,10 +175,4 @@
 
 .input-example-helper--danger {
   color: var(--tng-semantic-accent-danger);
-}
-
-@media (max-width: 1024px) {
-  .input-examples-grid {
-    grid-template-columns: 1fr;
-  }
 }

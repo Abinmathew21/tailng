@@ -28,25 +28,16 @@
   padding: 1rem;
 }
 
-.checkbox-examples-block h3 {
-  color: var(--tng-semantic-foreground-primary);
-  font-size: 1rem;
-  margin: 0;
-}
-
-.checkbox-examples-grid {
-  display: grid;
-  gap: 1rem;
-}
-
-.checkbox-example-description {
-  color: var(--tng-semantic-foreground-secondary);
-  margin: 0;
-}
-
 .checkbox-example-stack {
   display: grid;
   gap: 0.65rem;
+}
+
+.checkbox-example-stack--plain {
+  background: var(--tng-semantic-background-surface);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.75rem;
+  padding: 0.75rem 0.9rem;
 }
 
 .checkbox-example-stack--tri-state {
@@ -54,6 +45,13 @@
   border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 0.75rem;
   padding: 0.75rem 0.9rem;
+}
+
+.checkbox-row {
+  align-items: center;
+  color: var(--tng-semantic-foreground-primary);
+  display: inline-flex;
+  gap: 0.55rem;
 }
 
 .checkbox-example-children {

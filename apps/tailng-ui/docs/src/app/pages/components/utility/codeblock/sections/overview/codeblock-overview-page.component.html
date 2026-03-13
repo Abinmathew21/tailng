@@ -1,0 +1,125 @@
+<article class="codeblock-overview">
+  <h2 class="codeblock-overview-title">Codeblock overview</h2>
+  <p class="codeblock-overview-lead">
+    Codeblock renders source snippets with optional highlighting adapters, copy integration, line
+    numbers, and focusable line ranges.
+  </p>
+
+  <section class="codeblock-overview-block">
+    <h3>Imports</h3>
+    <tng-code-block
+      [code]="primitiveImportCode"
+      adapter="shiki"
+      language="ts"
+      title="Primitive imports"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+    <tng-code-block
+      [code]="componentImportCode"
+      adapter="shiki"
+      language="ts"
+      title="Component import"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section class="codeblock-overview-block">
+    <app-docs-example-tabs-section
+      heading="Live preview variants"
+      description="Render the same code sample in Headless, Plain-CSS, and Tailwind style layers."
+      ariaLabel="Codeblock overview variants"
+      tabListAriaLabel="Codeblock overview styles"
+      defaultValue="headless"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="headless"
+        label="Headless"
+        panelTitle="Headless codeblock"
+        [codeTabs]="headlessCodeTabs"
+      >
+        <div class="codeblock-preview-shell codeblock-preview-shell--headless">
+          <tng-code-block
+            title="load-user.ts"
+            adapter="shiki"
+            language="ts"
+            [code]="usageCode"
+            [theme]="codeBlockTheme()"
+            [lineNumbers]="true"
+            [startingLineNumber]="4"
+            [wrap]="true"
+            [sanitizeHtml]="false"
+            caption="Headless-style shell with component."
+          ></tng-code-block>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Plain CSS codeblock"
+        [codeTabs]="plainCssCodeTabs"
+      >
+        <div class="codeblock-preview-shell codeblock-preview-shell--plain">
+          <tng-code-block
+            title="load-user.ts"
+            language="ts"
+            [code]="usageCode"
+            [theme]="codeBlockTheme()"
+            [lineNumbers]="true"
+            [startingLineNumber]="4"
+            [copy]="true"
+            caption="Plain CSS wrapper using component defaults."
+          ></tng-code-block>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Tailwind CSS codeblock"
+        [codeTabs]="tailwindCodeTabs"
+      >
+        <div
+          class="codeblock-preview-shell rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+        >
+          <tng-code-block
+            title="load-user.ts"
+            variant="ghost"
+            language="ts"
+            [code]="usageCode"
+            [theme]="codeBlockTheme()"
+            [lineNumbers]="true"
+            [startingLineNumber]="4"
+            [highlightLines]="[6, [10, 12]]"
+            [focusLines]="true"
+            [wrap]="true"
+            [copy]="true"
+            caption="Tailwind shell + focused line ranges."
+          ></tng-code-block>
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section class="codeblock-overview-block">
+    <h3>Accessibility baseline</h3>
+    <ul class="codeblock-overview-list">
+      <li>Keep a visible title or caption for code context when the snippet is standalone.</li>
+      <li>Use <code>copyLabel</code> and <code>copiedLabel</code> for explicit assistive text.</li>
+      <li>
+        Use <code>lineNumbers</code> and <code>highlightLines</code> to improve orientation during
+        walkthroughs.
+      </li>
+    </ul>
+  </section>
+</article>

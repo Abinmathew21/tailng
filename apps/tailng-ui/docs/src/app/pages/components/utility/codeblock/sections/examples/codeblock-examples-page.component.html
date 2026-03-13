@@ -1,0 +1,175 @@
+<article class="codeblock-examples">
+  <h2 class="codeblock-examples-title">Examples</h2>
+  <p class="codeblock-examples-lead">
+    Utility examples rendered with separate Headless, Plain-CSS, and Tailwind style layers.
+  </p>
+
+  <section class="codeblock-examples-block">
+    <app-docs-example-tabs-section
+      heading="Style-layer examples"
+      description="Same snippet rendered in Headless, Plain-CSS, and Tailwind wrappers."
+      ariaLabel="Codeblock style-layer examples"
+      tabListAriaLabel="Codeblock style layers"
+      defaultValue="headless"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="headless"
+        label="Headless"
+        panelTitle="Headless codeblock example"
+        [codeTabs]="headlessCodeTabs"
+      >
+        <div class="codeblock-example-shell codeblock-example-shell--headless">
+          <tng-code-block
+            title="config.ts"
+            adapter="shiki"
+            language="ts"
+            [code]="snippet"
+            [theme]="codeBlockTheme()"
+            [lineNumbers]="true"
+            [wrap]="true"
+            [sanitizeHtml]="false"
+            caption="Headless-style shell with component."
+          ></tng-code-block>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Plain CSS codeblock example"
+        [codeTabs]="plainCssCodeTabs"
+      >
+        <div class="codeblock-example-shell codeblock-example-shell--plain">
+          <tng-code-block
+            title="config.ts"
+            variant="compact"
+            language="ts"
+            [code]="snippet"
+            [theme]="codeBlockTheme()"
+            [lineNumbers]="true"
+            [copy]="true"
+          ></tng-code-block>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Tailwind CSS codeblock example"
+        [codeTabs]="tailwindCodeTabs"
+      >
+        <div
+          class="codeblock-example-shell rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+        >
+          <tng-code-block
+            title="config.ts"
+            variant="ghost"
+            language="ts"
+            [code]="snippet"
+            [theme]="codeBlockTheme()"
+            [lineNumbers]="true"
+            [highlightLines]="[[7, 8]]"
+            [focusLines]="true"
+            [wrap]="true"
+            [copy]="true"
+          ></tng-code-block>
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section class="codeblock-examples-block">
+    <app-docs-example-tabs-section
+      heading="Shiki adapter rendering"
+      description="Use adapter=&quot;shiki&quot; to enable tokenized syntax rendering with theme-aware output."
+      ariaLabel="Shiki adapter variants"
+      tabListAriaLabel="Shiki adapter styles"
+      defaultValue="headless"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="headless"
+        label="Headless"
+        panelTitle="Headless shiki rendering"
+        [codeTabs]="shikiHeadlessCodeTabs"
+      >
+        <div class="codeblock-example-shell">
+          <tng-code-block
+            title="load-profile.ts"
+            language="ts"
+            adapter="shiki"
+            [theme]="codeBlockTheme()"
+            [code]="shikiSnippet"
+            [lineNumbers]="true"
+            [sanitizeHtml]="false"
+            [startingLineNumber]="10"
+            [highlightLines]="[14, [18, 20]]"
+            [focusLines]="true"
+            [wrap]="true"
+            [copy]="true"
+            caption="Shiki adapter + line focus + copy flow."
+          ></tng-code-block>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Plain CSS shiki rendering"
+        [codeTabs]="shikiPlainCodeTabs"
+      >
+        <div class="codeblock-example-shell codeblock-example-shell--plain">
+          <tng-code-block
+            title="load-profile.ts"
+            language="ts"
+            adapter="shiki"
+            [theme]="codeBlockTheme()"
+            [code]="shikiSnippet"
+            [lineNumbers]="true"
+            [startingLineNumber]="10"
+            [sanitizeHtml]="false"
+            [highlightLines]="[14, [18, 20]]"
+            [focusLines]="true"
+            [wrap]="true"
+            [copy]="true"
+            caption="Shiki adapter + line focus + copy flow."
+          ></tng-code-block>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Tailwind shiki rendering"
+        [codeTabs]="shikiTailwindCodeTabs"
+      >
+        <div
+          class="codeblock-example-shell rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+        >
+          <tng-code-block
+            title="load-profile.ts"
+            language="ts"
+            adapter="shiki"
+            [theme]="codeBlockTheme()"
+            [code]="shikiSnippet"
+            [lineNumbers]="true"
+            [startingLineNumber]="10"
+            [sanitizeHtml]="false"
+            [highlightLines]="[14, [18, 20]]"
+            [focusLines]="true"
+            [wrap]="true"
+            [copy]="true"
+            caption="Shiki adapter + line focus + copy flow."
+          ></tng-code-block>
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+</article>

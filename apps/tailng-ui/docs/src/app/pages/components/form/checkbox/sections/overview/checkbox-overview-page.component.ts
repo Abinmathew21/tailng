@@ -52,7 +52,58 @@ export class CheckboxOverviewPageComponent implements OnDestroy {
     '',
   ].join('\n');
 
+  protected readonly headlessExampleTsCode = [
+    "import { Component } from '@angular/core';",
+    "import { TngCheckbox } from '@tailng-ui/primitives';",
+    '',
+    '@Component({',
+    "  selector: 'app-checkbox-headless-example',",
+    '  standalone: true,',
+    '  imports: [TngCheckbox],',
+    "  templateUrl: './checkbox-headless-example.component.html',",
+    "  styleUrl: './checkbox-headless-example.component.css',",
+    '})',
+    'export class CheckboxHeadlessExampleComponent {}',
+    '',
+  ].join('\n');
+
+  protected readonly plainCssExampleTsCode = [
+    "import { Component } from '@angular/core';",
+    "import { TngCheckboxComponent } from '@tailng-ui/components';",
+    '',
+    '@Component({',
+    "  selector: 'app-checkbox-plain-css-example',",
+    '  standalone: true,',
+    '  imports: [TngCheckboxComponent],',
+    "  templateUrl: './checkbox-plain-css-example.component.html',",
+    "  styleUrl: './checkbox-plain-css-example.component.css',",
+    '})',
+    'export class CheckboxPlainCssExampleComponent {}',
+    '',
+  ].join('\n');
+
+  protected readonly tailwindExampleTsCode = [
+    "import { Component } from '@angular/core';",
+    "import { TngCheckboxComponent } from '@tailng-ui/components';",
+    '',
+    '@Component({',
+    "  selector: 'app-checkbox-tailwind-example',",
+    '  standalone: true,',
+    '  imports: [TngCheckboxComponent],',
+    "  templateUrl: './checkbox-tailwind-example.component.html',",
+    '})',
+    'export class CheckboxTailwindExampleComponent {}',
+    '',
+  ].join('\n');
+
   protected readonly headlessCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
+    {
+      value: 'ts',
+      label: 'TS',
+      language: 'ts',
+      title: 'checkbox-headless-example.component.ts',
+      code: this.headlessExampleTsCode,
+    },
     {
       value: 'html',
       label: 'HTML',
@@ -96,6 +147,13 @@ export class CheckboxOverviewPageComponent implements OnDestroy {
 
   protected readonly plainCssCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
     {
+      value: 'ts',
+      label: 'TS',
+      language: 'ts',
+      title: 'checkbox-plain-css-example.component.ts',
+      code: this.plainCssExampleTsCode,
+    },
+    {
       value: 'html',
       label: 'HTML',
       language: 'html',
@@ -129,6 +187,13 @@ export class CheckboxOverviewPageComponent implements OnDestroy {
   ]);
 
   protected readonly tailwindCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
+    {
+      value: 'ts',
+      label: 'TS',
+      language: 'ts',
+      title: 'checkbox-tailwind-example.component.ts',
+      code: this.tailwindExampleTsCode,
+    },
     {
       value: 'html',
       label: 'HTML',

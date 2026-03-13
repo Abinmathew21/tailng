@@ -1,0 +1,70 @@
+<article class="codeblock-styling">
+  <h2 class="codeblock-styling-title">Styling contract</h2>
+  <p class="codeblock-styling-lead">
+    Style codeblock through documented slots and state attributes instead of internal DOM coupling.
+  </p>
+
+  <section class="codeblock-styling-block">
+    <h3>Slot contract table</h3>
+    <div class="codeblock-styling-table-wrap">
+      <table class="codeblock-styling-table">
+        <thead>
+          <tr>
+            <th scope="col">Selector</th>
+            <th scope="col">Applied on</th>
+            <th scope="col">Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>[data-slot='header']</code></td>
+            <td>Header row</td>
+            <td>Title, language badge, and action alignment.</td>
+          </tr>
+          <tr>
+            <td><code>[data-slot='line-numbers']</code></td>
+            <td>Gutter list</td>
+            <td>Line-number width, contrast, and typography.</td>
+          </tr>
+          <tr>
+            <td><code>[data-slot='code']</code></td>
+            <td><code>&lt;code&gt;</code> container</td>
+            <td>Font family, text sizing, and wrapping behavior.</td>
+          </tr>
+          <tr>
+            <td><code>[data-slot='line']</code></td>
+            <td>Individual rendered line</td>
+            <td>Per-line active/dim/highlighted styles.</td>
+          </tr>
+          <tr>
+            <td><code>[data-slot='copy-button']</code></td>
+            <td>Copy action</td>
+            <td>Button surface, focus ring, and success/error feedback.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="codeblock-styling-block">
+    <h3>State attributes</h3>
+    <ul class="codeblock-styling-list">
+      <li><code>data-state="idle|highlighting|highlighted|error"</code> on root.</li>
+      <li><code>data-highlighted="true|false"</code> and <code>data-wrap="true|false"</code>.</li>
+      <li><code>data-has-copy</code> and <code>data-has-title</code> for layout conditionals.</li>
+    </ul>
+  </section>
+
+  <section class="codeblock-styling-block">
+    <h3>Example style contract</h3>
+    <tng-code-block
+      [code]="stylingExampleCode"
+      adapter="shiki"
+      language="css"
+      title="codeblock.contract.css"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+</article>

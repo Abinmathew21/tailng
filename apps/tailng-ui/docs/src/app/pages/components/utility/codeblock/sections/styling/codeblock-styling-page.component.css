@@ -1,0 +1,67 @@
+:host {
+  display: block;
+}
+
+.codeblock-styling {
+  display: grid;
+  gap: 1rem;
+}
+
+.codeblock-styling-title {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.codeblock-styling-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.codeblock-styling-block {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.9rem;
+  color: var(--tng-semantic-foreground-secondary);
+  display: grid;
+  gap: 0.8rem;
+  padding: 1rem;
+}
+
+.codeblock-styling-block h3 {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1rem;
+  margin: 0;
+}
+
+.codeblock-styling-table-wrap {
+  overflow-x: auto;
+}
+
+.codeblock-styling-table {
+  border-collapse: collapse;
+  min-width: 40rem;
+  width: 100%;
+}
+
+.codeblock-styling-table th,
+.codeblock-styling-table td {
+  border-bottom: 1px solid var(--tng-semantic-border-subtle);
+  font-size: 0.9rem;
+  line-height: 1.45;
+  padding: 0.6rem 0.55rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.codeblock-styling-table th {
+  color: var(--tng-semantic-foreground-primary);
+  font-weight: 700;
+}
+
+.codeblock-styling-list {
+  display: grid;
+  gap: 0.45rem;
+  margin: 0;
+  padding-inline-start: 1.1rem;
+}

@@ -1,0 +1,121 @@
+<article class="codeblock-api">
+  <h2 class="codeblock-api-title">API reference</h2>
+  <p class="codeblock-api-lead">
+    Codeblock exposes primitive slot directives and a styled component API for highlight, copy, and
+    line controls.
+  </p>
+
+  <section class="codeblock-api-block">
+    <h3><code>tngCodeBlock</code> primitive parts</h3>
+    <tng-code-block
+      [code]="primitiveAttachmentCode"
+      adapter="shiki"
+      language="html"
+      title="Primitive attachment"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+
+    <div class="codeblock-api-table-wrap">
+      <table class="codeblock-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Directive</th>
+            <th scope="col">Host</th>
+            <th scope="col">Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>tngCodeBlock</code></td>
+            <td>Root container</td>
+            <td>Sets <code>data-slot="code-block"</code> for contract styling.</td>
+          </tr>
+          <tr>
+            <td><code>tngCodeBlockHeader</code></td>
+            <td>Header container</td>
+            <td>Title/action region slot marker.</td>
+          </tr>
+          <tr>
+            <td><code>tngCodeBlockBody</code></td>
+            <td>Body wrapper</td>
+            <td>Main body slot marker for gutter + code layout.</td>
+          </tr>
+          <tr>
+            <td><code>tngCodeBlockGutter</code></td>
+            <td>Line-number list</td>
+            <td>Line-number slot marker.</td>
+          </tr>
+          <tr>
+            <td><code>tngCodeBlockCode</code></td>
+            <td><code>&lt;code&gt;</code></td>
+            <td>Code content slot marker for typography + tokens.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="codeblock-api-block">
+    <h3><code>tng-code-block</code> component inputs</h3>
+    <tng-code-block
+      [code]="componentAttachmentCode"
+      adapter="shiki"
+      language="html"
+      title="Component attachment"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+
+    <div class="codeblock-api-table-wrap">
+      <table class="codeblock-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Input / output</th>
+            <th scope="col">Type</th>
+            <th scope="col">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>code</code></td>
+            <td><code>string</code></td>
+            <td>Source content rendered in the block.</td>
+          </tr>
+          <tr>
+            <td><code>language</code>, <code>theme</code>, <code>adapter</code></td>
+            <td><code>string | null</code></td>
+            <td>Highlighting adapter selection and metadata.</td>
+          </tr>
+          <tr>
+            <td><code>lineNumbers</code>, <code>startingLineNumber</code></td>
+            <td><code>boolean | 'auto'</code>, <code>number</code></td>
+            <td>Line-number rendering and offset.</td>
+          </tr>
+          <tr>
+            <td><code>highlightLines</code>, <code>focusLines</code></td>
+            <td><code>Array&lt;number | [number, number]&gt;</code>, <code>boolean</code></td>
+            <td>Line emphasis and non-highlighted dimming.</td>
+          </tr>
+          <tr>
+            <td><code>copy</code>, <code>copyLabel</code>, <code>copiedLabel</code></td>
+            <td><code>boolean | 'auto'</code>, <code>string</code>, <code>string</code></td>
+            <td>Clipboard action visibility and feedback labels.</td>
+          </tr>
+          <tr>
+            <td><code>copy</code>, <code>copySuccess</code>, <code>copyError</code></td>
+            <td>Outputs</td>
+            <td>Proxy events from the copy primitive.</td>
+          </tr>
+          <tr>
+            <td><code>renderStateChange</code></td>
+            <td><code>&#123; state, error? &#125;</code></td>
+            <td>Render lifecycle updates (<code>idle</code>, <code>highlighting</code>, <code>highlighted</code>, <code>error</code>).</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</article>

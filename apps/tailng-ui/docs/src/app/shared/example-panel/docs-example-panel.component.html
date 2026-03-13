@@ -55,9 +55,9 @@
           <tng-code-block
             [code]="tab.code"
             adapter="shiki"
-            [language]="tab.language"
+            [language]="tab.language || 'text'"
             [title]="tab.title"
-            [theme]="codeBlockTheme()"
+            [theme]="codeBlockTheme() || 'github-light'"
             [sanitizeHtml]="false"
             [wrap]="true"
             [lineNumbers]="false"
