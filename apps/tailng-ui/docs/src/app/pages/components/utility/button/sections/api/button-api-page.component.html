@@ -1,0 +1,136 @@
+<article class="button-api">
+  <h2 class="button-api-title">API reference</h2>
+  <p class="button-api-lead">
+    <code>&lt;tng-button&gt;</code> wraps <code>tngPress</code>. Use the wrapper for visual tokens,
+    or use the primitive directly for headless control.
+  </p>
+
+  <section class="button-api-block">
+    <h3>Wrapper inputs (&lt;tng-button&gt;)</h3>
+    <div class="button-api-table-wrap">
+      <table class="button-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Input</th>
+            <th scope="col">Type</th>
+            <th scope="col">Default</th>
+            <th scope="col">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>appearance</code></td>
+            <td><code>'solid' | 'outline' | 'ghost'</code></td>
+            <td><code>'solid'</code></td>
+            <td>Visual style variant.</td>
+          </tr>
+          <tr>
+            <td><code>tone</code></td>
+            <td><code>'primary' | 'neutral' | 'success' | 'danger'</code></td>
+            <td><code>'primary'</code></td>
+            <td>Semantic color treatment.</td>
+          </tr>
+          <tr>
+            <td><code>size</code></td>
+            <td><code>'sm' | 'md' | 'lg'</code></td>
+            <td><code>'md'</code></td>
+            <td>Control height and horizontal padding.</td>
+          </tr>
+          <tr>
+            <td><code>type</code></td>
+            <td><code>'button' | 'submit' | 'reset'</code></td>
+            <td><code>'button'</code></td>
+            <td>Native button type forwarding.</td>
+          </tr>
+          <tr>
+            <td><code>disabled</code></td>
+            <td><code>boolean</code></td>
+            <td><code>false</code></td>
+            <td>Disables interaction and sets disabled host state.</td>
+          </tr>
+          <tr>
+            <td><code>ariaPressed</code></td>
+            <td><code>boolean | null</code></td>
+            <td><code>null</code></td>
+            <td>Pressed-state semantics for toggle behavior.</td>
+          </tr>
+          <tr>
+            <td><code>ariaExpanded</code></td>
+            <td><code>boolean | null</code></td>
+            <td><code>null</code></td>
+            <td>Expanded state for disclosure/menu triggers.</td>
+          </tr>
+          <tr>
+            <td><code>ariaHasPopup</code></td>
+            <td><code>TngPressAriaHasPopup | null</code></td>
+            <td><code>null</code></td>
+            <td>Popup relationship hint (menu, dialog, listbox, etc.).</td>
+          </tr>
+          <tr>
+            <td><code>ariaControls</code></td>
+            <td><code>string | null</code></td>
+            <td><code>null</code></td>
+            <td>ID reference for controlled content.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="button-api-block">
+    <h3>Primitive inputs (<code>tngPress</code>)</h3>
+    <div class="button-api-table-wrap">
+      <table class="button-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Input</th>
+            <th scope="col">Type</th>
+            <th scope="col">Default</th>
+            <th scope="col">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>type</code></td>
+            <td><code>'button' | 'submit' | 'reset'</code></td>
+            <td><code>'button'</code></td>
+            <td>Applied when host is a native <code>button</code>.</td>
+          </tr>
+          <tr>
+            <td><code>disabled</code></td>
+            <td><code>boolean</code></td>
+            <td><code>false</code></td>
+            <td>Blocks click/keyboard activation and adds disabled semantics.</td>
+          </tr>
+          <tr>
+            <td><code>ariaPressed</code>, <code>ariaExpanded</code></td>
+            <td><code>boolean | null</code></td>
+            <td><code>null</code></td>
+            <td>Nullable coercion to ARIA boolean attributes.</td>
+          </tr>
+          <tr>
+            <td><code>ariaHasPopup</code></td>
+            <td><code>'menu' | 'dialog' | ... | 'true' | 'false'</code></td>
+            <td><code>null</code></td>
+            <td>Normalized allowed values only.</td>
+          </tr>
+          <tr>
+            <td><code>ariaControls</code></td>
+            <td><code>string | null</code></td>
+            <td><code>null</code></td>
+            <td>Trimmed to null when empty/whitespace.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="button-api-block">
+    <h3>Behavior notes</h3>
+    <ul>
+      <li>Anchor hosts without <code>href</code> get <code>role="button"</code> and keyboard activation.</li>
+      <li>Disabled anchors expose <code>aria-disabled</code> and are removed from tab order.</li>
+      <li>Wrapper component emits native <code>click</code> events from the internal button host.</li>
+    </ul>
+  </section>
+</article>

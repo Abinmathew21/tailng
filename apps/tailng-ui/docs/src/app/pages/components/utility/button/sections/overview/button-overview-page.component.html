@@ -1,0 +1,130 @@
+<article class="button-overview">
+  <h2 class="button-overview-title">Button overview</h2>
+  <p class="button-overview-lead">
+    Use <code>tngPress</code> for headless semantics or <code>&lt;tng-button&gt;</code> when you
+    want a ready visual contract with tone, appearance, and size inputs.
+  </p>
+
+  <section class="button-overview-block">
+    <h3>Imports</h3>
+    <p>Primitive and wrapper are available independently depending on ownership needs.</p>
+    <tng-code-block
+      [code]="primitiveImportCode"
+      adapter="shiki"
+      language="ts"
+      title="Primitive import"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+    <tng-code-block
+      [code]="componentImportCode"
+      adapter="shiki"
+      language="ts"
+      title="Wrapper import"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <section class="button-overview-block">
+    <h3>Usage patterns</h3>
+    <tng-code-block
+      [code]="primitiveUsageCode"
+      adapter="shiki"
+      language="html"
+      title="Primitive usage"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+    <tng-code-block
+      [code]="componentUsageCode"
+      adapter="shiki"
+      language="html"
+      title="Wrapper usage"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <app-docs-example-tabs-section
+    class="button-overview-block"
+    heading="Style variants"
+    description="Same press behavior rendered through headless, plain CSS wrapper, and Tailwind shells."
+    ariaLabel="Button style variants"
+    tabListAriaLabel="Button style tabs"
+    defaultValue="headless"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="headless"
+      label="Headless"
+      panelTitle="Headless press buttons"
+      [codeTabs]="headlessCodeTabs"
+    >
+      <div class="button-overview-stack">
+        <button tngPress type="button" class="button-headless" (click)="increment('headless')">
+          Headless action
+        </button>
+        <button tngPress type="button" class="button-headless button-headless--ghost" [disabled]="true">
+          Disabled
+        </button>
+      </div>
+      <p class="button-overview-status">clicked: {{ headlessCount() }}</p>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+      panelTitle="Wrapper button (plain CSS)"
+      [codeTabs]="plainCssCodeTabs"
+    >
+      <div class="button-overview-stack">
+        <tng-button tone="primary" appearance="solid" (click)="increment('plain')">Save</tng-button>
+        <tng-button tone="neutral" appearance="outline" [disabled]="true">Disabled</tng-button>
+      </div>
+      <p class="button-overview-status">clicked: {{ plainCount() }}</p>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Wrapper button (tailwind)"
+      [codeTabs]="tailwindCodeTabs"
+    >
+      <div
+        class="flex flex-wrap gap-3 rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+      >
+        <tng-button tone="success" appearance="solid" class="text-slate-900 dark:text-slate-100" (click)="increment('tailwind')">
+          <tng-icon icon="check" class="h-4 w-4"></tng-icon>
+          Publish
+        </tng-button>
+        <tng-button tone="neutral" appearance="ghost" class="text-slate-900 dark:text-slate-100">
+          Secondary
+        </tng-button>
+      </div>
+      <p class="button-overview-status">clicked: {{ tailwindCount() }}</p>
+    </ng-template>
+  </app-docs-example-tabs-section>
+
+  <section class="button-overview-block">
+    <h3>Accessibility baseline</h3>
+    <ul class="button-overview-list">
+      <li><code>tngPress</code> normalizes keyboard activation for anchors without <code>href</code>.</li>
+      <li><code>disabled</code> maps to native button disabled, and to ARIA semantics for anchors.</li>
+      <li>
+        Wrapper buttons expose visual state through stable data attributes for theme-driven styling.
+      </li>
+    </ul>
+  </section>
+</article>

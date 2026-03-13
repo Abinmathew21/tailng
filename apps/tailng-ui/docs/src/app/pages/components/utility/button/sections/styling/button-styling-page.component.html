@@ -1,0 +1,70 @@
+<article class="button-styling">
+  <h2 class="button-styling-title">Styling contract</h2>
+  <p class="button-styling-lead">
+    Style wrapper and headless hosts through stable data attributes instead of targeting internal
+    element structure.
+  </p>
+
+  <section class="button-styling-block">
+    <h3>Wrapper state hooks</h3>
+    <div class="button-styling-table-wrap">
+      <table class="button-styling-table">
+        <thead>
+          <tr>
+            <th scope="col">Attribute</th>
+            <th scope="col">Values</th>
+            <th scope="col">Usage</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>data-appearance</code></td>
+            <td><code>solid | outline | ghost</code></td>
+            <td>Selects visual button style.</td>
+          </tr>
+          <tr>
+            <td><code>data-tone</code></td>
+            <td><code>primary | neutral | success | danger</code></td>
+            <td>Maps semantic color intent.</td>
+          </tr>
+          <tr>
+            <td><code>data-size</code></td>
+            <td><code>sm | md | lg</code></td>
+            <td>Controls component dimensions.</td>
+          </tr>
+          <tr>
+            <td><code>data-disabled</code></td>
+            <td><code>""</code> when disabled</td>
+            <td>Use for styling disabled affordance.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="button-styling-block">
+    <h3>Primitive host behavior</h3>
+    <ul class="button-styling-list">
+      <li>On anchors, <code>aria-disabled="true"</code> is set when disabled.</li>
+      <li>Anchors without <code>href</code> get <code>role="button"</code> automatically.</li>
+      <li>
+        Keyboard activation on anchor hosts is normalized for <code>Enter</code> and
+        <code>Space</code>.
+      </li>
+    </ul>
+  </section>
+
+  <section class="button-styling-block">
+    <h3>Contract CSS snippet</h3>
+    <tng-code-block
+      [code]="contractCss"
+      adapter="shiki"
+      language="css"
+      title="button.contract.css"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+</article>

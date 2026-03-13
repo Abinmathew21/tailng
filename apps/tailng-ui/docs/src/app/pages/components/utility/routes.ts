@@ -20,7 +20,12 @@ if (copybuttonItem === undefined) {
   throw new Error('Missing "copybutton" in components utility docs group.');
 }
 
-const utilityLandingSlugs = new Set([codeblockItem.slug, copybuttonItem.slug]);
+const buttonItem = group.items.find((item) => item.slug === 'button');
+if (buttonItem === undefined) {
+  throw new Error('Missing "button" in components utility docs group.');
+}
+
+const utilityLandingSlugs = new Set([codeblockItem.slug, copybuttonItem.slug, buttonItem.slug]);
 
 export const COMPONENTS_UTILITY_ROUTES: Routes = [
   {
@@ -39,6 +44,11 @@ export const COMPONENTS_UTILITY_ROUTES: Routes = [
       import('./copybutton/routes').then(
         (module) => module.COMPONENTS_UTILITY_COPYBUTTON_ROUTES,
       ),
+  },
+  {
+    path: buttonItem.slug,
+    loadChildren: () =>
+      import('./button/routes').then((module) => module.COMPONENTS_UTILITY_BUTTON_ROUTES),
   },
   ...group.items
     .filter((item) => !utilityLandingSlugs.has(item.slug))

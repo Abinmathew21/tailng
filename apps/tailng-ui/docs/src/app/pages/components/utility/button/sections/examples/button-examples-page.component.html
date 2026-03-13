@@ -1,0 +1,151 @@
+<article class="button-examples">
+  <h2 class="button-examples-title">Examples</h2>
+  <p class="button-examples-lead">
+    Common product patterns with the same behavior shown across headless, plain CSS, and Tailwind
+    visual layers.
+  </p>
+
+  <app-docs-example-tabs-section
+    class="button-examples-block"
+    heading="Example 1: Action row"
+    description="Primary and secondary actions with disabled fallback state."
+    ariaLabel="Button action row variants"
+    tabListAriaLabel="Action row style tabs"
+    defaultValue="headless"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="headless"
+      label="Headless"
+      panelTitle="Action row (headless)"
+      [codeTabs]="actionHeadlessTabs"
+    >
+      <div class="button-example-row">
+        <button tngPress type="button" class="button-headless" (click)="increment('headless')">
+          Save draft
+        </button>
+        <button tngPress type="button" class="button-headless button-headless--ghost">Cancel</button>
+      </div>
+      <p class="button-example-status">clicked: {{ headlessActionCount() }}</p>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+      panelTitle="Action row (plain CSS)"
+      [codeTabs]="actionPlainTabs"
+    >
+      <div class="button-example-row">
+        <tng-button tone="primary" appearance="solid" (click)="increment('plain')">Save draft</tng-button>
+        <tng-button tone="neutral" appearance="outline">Cancel</tng-button>
+        <tng-button tone="danger" appearance="ghost" [disabled]="true">Delete</tng-button>
+      </div>
+      <p class="button-example-status">clicked: {{ plainActionCount() }}</p>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Action row (tailwind)"
+      [codeTabs]="actionTailwindTabs"
+    >
+      <div
+        class="flex flex-wrap gap-3 rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+      >
+        <tng-button tone="success" appearance="solid" class="text-slate-900 dark:text-slate-100" (click)="increment('tailwind')">
+          <tng-icon icon="check" class="h-4 w-4"></tng-icon>
+          Publish
+        </tng-button>
+        <tng-button tone="neutral" appearance="outline" class="text-slate-900 dark:text-slate-100">Preview</tng-button>
+      </div>
+      <p class="button-example-status">clicked: {{ tailwindActionCount() }}</p>
+    </ng-template>
+  </app-docs-example-tabs-section>
+
+  <app-docs-example-tabs-section
+    class="button-examples-block"
+    heading="Example 2: Menu trigger semantics"
+    description="Use aria controls to expose disclosure state for assistive technologies."
+    ariaLabel="Button menu trigger variants"
+    tabListAriaLabel="Menu trigger style tabs"
+    defaultValue="headless"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="headless"
+      label="Headless"
+      panelTitle="Menu trigger (headless)"
+      [codeTabs]="menuHeadlessTabs"
+    >
+      <button
+        tngPress
+        type="button"
+        class="button-headless"
+        [ariaHasPopup]="'menu'"
+        [ariaExpanded]="headlessMenuOpen()"
+        [ariaControls]="'headless-button-menu'"
+        (click)="toggleMenu('headless')"
+      >
+        Open menu
+      </button>
+      <div id="headless-button-menu" class="button-menu-surface" [hidden]="!headlessMenuOpen()">
+        Headless menu content
+      </div>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+      panelTitle="Menu trigger (plain CSS)"
+      [codeTabs]="menuPlainTabs"
+    >
+      <tng-button
+        tone="neutral"
+        appearance="outline"
+        [ariaHasPopup]="'menu'"
+        [ariaExpanded]="plainMenuOpen()"
+        [ariaControls]="'plain-button-menu'"
+        (click)="toggleMenu('plain')"
+      >
+        Actions
+      </tng-button>
+      <div id="plain-button-menu" class="button-menu-surface" [hidden]="!plainMenuOpen()">
+        Wrapper menu content
+      </div>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Menu trigger (tailwind)"
+      [codeTabs]="menuTailwindTabs"
+    >
+      <div class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">
+        <tng-button
+          tone="neutral"
+          appearance="ghost"
+          class="text-slate-900 dark:text-slate-100"
+          [ariaHasPopup]="'menu'"
+          [ariaExpanded]="tailwindMenuOpen()"
+          [ariaControls]="'tailwind-button-menu'"
+          (click)="toggleMenu('tailwind')"
+        >
+          Open menu
+        </tng-button>
+        <div
+          id="tailwind-button-menu"
+          class="mt-3 rounded-lg border border-slate-300 p-3 text-sm text-slate-700 dark:border-slate-700 dark:text-slate-200"
+          [hidden]="!tailwindMenuOpen()"
+        >
+          Tailwind menu content
+        </div>
+      </div>
+    </ng-template>
+  </app-docs-example-tabs-section>
+</article>

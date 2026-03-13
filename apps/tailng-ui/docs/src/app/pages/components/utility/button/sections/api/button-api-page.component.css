@@ -1,0 +1,73 @@
+:host {
+  display: block;
+}
+
+.button-api {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.button-api-title {
+  font-size: clamp(1.45rem, 1.05rem + 1.3vw, 1.95rem);
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.button-api-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+  max-width: 70ch;
+}
+
+.button-api-block {
+  background: color-mix(in srgb, var(--tng-semantic-background-surface) 88%, transparent);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 1rem;
+  display: grid;
+  gap: 0.9rem;
+  padding: 1.2rem;
+}
+
+.button-api-block h3 {
+  font-size: 1.05rem;
+  font-weight: 650;
+  margin: 0;
+}
+
+.button-api-table-wrap {
+  overflow-x: auto;
+}
+
+.button-api-table {
+  border-collapse: collapse;
+  min-width: 42rem;
+  width: 100%;
+}
+
+.button-api-table th,
+.button-api-table td {
+  border-bottom: 1px solid var(--tng-semantic-border-subtle);
+  padding: 0.7rem 0.6rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.button-api-table th {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.button-api-table code {
+  font-size: 0.84em;
+}
+
+.button-api-block ul {
+  display: grid;
+  gap: 0.55rem;
+  margin: 0;
+  padding-inline-start: 1.1rem;
+}
