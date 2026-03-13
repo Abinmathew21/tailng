@@ -1,0 +1,168 @@
+:host {
+  display: block;
+}
+
+.menu-overview {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.menu-overview-title {
+  font-size: clamp(1.45rem, 1.05rem + 1.3vw, 1.95rem);
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.menu-overview-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+  max-width: 70ch;
+}
+
+.menu-overview-block {
+  background: color-mix(in srgb, var(--tng-semantic-background-surface) 88%, transparent);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 1rem;
+  display: grid;
+  gap: 0.9rem;
+  padding: 1.2rem;
+}
+
+.menu-overview-block h3 {
+  font-size: 1.05rem;
+  font-weight: 650;
+  margin: 0;
+}
+
+.menu-overview-block p {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.menu-stage {
+  align-content: start;
+  display: grid;
+  gap: 0.68rem;
+  justify-items: start;
+  min-height: 12rem;
+  position: relative;
+}
+
+.menu-trigger-shell {
+  position: relative;
+}
+
+.menu-trigger {
+  background: color-mix(in srgb, var(--tng-semantic-background-surface) 86%, transparent);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.72rem;
+  color: var(--tng-semantic-foreground-primary);
+  cursor: pointer;
+  font-size: 0.92rem;
+  font-weight: 600;
+  min-height: 2.15rem;
+  padding: 0.45rem 0.9rem;
+  transition:
+    background-color 130ms ease,
+    border-color 130ms ease,
+    color 130ms ease;
+}
+
+.menu-trigger:is(:hover, :focus-visible) {
+  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 10%, transparent);
+  border-color: color-mix(in srgb, var(--tng-semantic-accent-brand) 38%, var(--tng-semantic-border-subtle));
+  outline: none;
+}
+
+.menu-trigger[aria-expanded='true'] {
+  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 15%, transparent);
+  color: color-mix(
+    in srgb,
+    var(--tng-semantic-accent-brand) 74%,
+    var(--tng-semantic-foreground-primary)
+  );
+}
+
+.menu-panel {
+  background: var(--tng-semantic-background-canvas);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.82rem;
+  left: 0;
+  min-width: 14.2rem;
+  padding: 0.48rem;
+  position: absolute;
+  top: calc(100% + 0.48rem);
+  z-index: 20;
+}
+
+.menu-panel[data-state='open'] {
+  display: grid;
+  gap: 0.22rem;
+}
+
+.menu-panel[hidden] {
+  display: none !important;
+}
+
+.menu-panel [tngMenuItem] {
+  background: transparent;
+  border: 0;
+  border-radius: 0.6rem;
+  color: var(--tng-semantic-foreground-primary);
+  cursor: pointer;
+  font-size: 0.88rem;
+  font-weight: 550;
+  min-height: 2rem;
+  padding: 0.42rem 0.68rem;
+  text-align: left;
+  transition:
+    background-color 120ms ease,
+    color 120ms ease;
+}
+
+.menu-panel [tngMenuItem]:hover {
+  background: color-mix(in srgb, var(--tng-semantic-foreground-primary) 8%, transparent);
+}
+
+.menu-panel [tngMenuItem][data-active],
+.menu-panel [tngMenuItem][aria-expanded='true'] {
+  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 16%, transparent);
+  color: color-mix(
+    in srgb,
+    var(--tng-semantic-accent-brand) 72%,
+    var(--tng-semantic-foreground-primary)
+  );
+}
+
+.menu-group-label {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 0.2rem 0.45rem;
+  text-transform: uppercase;
+}
+
+.menu-separator {
+  background: color-mix(in srgb, var(--tng-semantic-border-subtle) 84%, transparent);
+  height: 1px;
+  margin: 0.2rem 0.35rem;
+}
+
+.menu-overview-state {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.menu-overview-list {
+  display: grid;
+  gap: 0.55rem;
+  margin: 0;
+  padding-inline-start: 1.1rem;
+}
+
+.menu-overview-list code {
+  font-size: 0.84em;
+}

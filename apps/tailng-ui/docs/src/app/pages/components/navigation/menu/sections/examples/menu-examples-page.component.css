@@ -1,0 +1,168 @@
+:host {
+  display: block;
+}
+
+.menu-examples {
+  display: grid;
+  gap: 1rem;
+}
+
+.menu-examples-title {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.menu-examples-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.menu-examples-block {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.9rem;
+  color: var(--tng-semantic-foreground-secondary);
+  display: grid;
+  gap: 0.7rem;
+  padding: 1rem;
+}
+
+.menu-examples-block h3 {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1rem;
+  margin: 0;
+}
+
+.menu-example-description {
+  margin: 0;
+}
+
+.menu-example-stage {
+  align-content: start;
+  display: grid;
+  gap: 0.7rem;
+  justify-items: start;
+  min-height: 12.2rem;
+  position: relative;
+}
+
+.menu-example-stage--cascade {
+  min-height: 15.2rem;
+}
+
+.menu-example-trigger-shell {
+  position: relative;
+}
+
+.menu-example-trigger {
+  background: color-mix(in srgb, var(--tng-semantic-background-surface) 86%, transparent);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.72rem;
+  color: var(--tng-semantic-foreground-primary);
+  cursor: pointer;
+  font-size: 0.92rem;
+  font-weight: 600;
+  min-height: 2.15rem;
+  padding: 0.45rem 0.9rem;
+  transition:
+    background-color 130ms ease,
+    border-color 130ms ease,
+    color 130ms ease;
+}
+
+.menu-example-trigger:is(:hover, :focus-visible) {
+  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 10%, transparent);
+  border-color: color-mix(in srgb, var(--tng-semantic-accent-brand) 38%, var(--tng-semantic-border-subtle));
+  outline: none;
+}
+
+.menu-example-trigger[aria-expanded='true'] {
+  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 15%, transparent);
+  color: color-mix(
+    in srgb,
+    var(--tng-semantic-accent-brand) 74%,
+    var(--tng-semantic-foreground-primary)
+  );
+}
+
+.menu-example-panel {
+  background: var(--tng-semantic-background-canvas);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.82rem;
+  box-shadow: 0 16px 30px -22px color-mix(in srgb, var(--tng-semantic-foreground-primary) 35%, transparent);
+  left: 0;
+  min-width: 14.2rem;
+  padding: 0.48rem;
+  position: absolute;
+  top: calc(100% + 0.48rem);
+  z-index: 20;
+}
+
+.menu-example-panel[data-state='open'] {
+  display: grid;
+  gap: 0.22rem;
+}
+
+.menu-example-panel[hidden] {
+  display: none !important;
+}
+
+.menu-example-panel--submenu {
+  left: calc(100% + 0.45rem);
+}
+
+.menu-example-panel--level-1 {
+  top: 2.66rem;
+}
+
+.menu-example-panel [tngMenuItem] {
+  background: transparent;
+  border: 0;
+  border-radius: 0.6rem;
+  color: var(--tng-semantic-foreground-primary);
+  cursor: pointer;
+  font-size: 0.88rem;
+  font-weight: 550;
+  min-height: 2rem;
+  padding: 0.42rem 0.68rem;
+  text-align: left;
+  transition:
+    background-color 120ms ease,
+    color 120ms ease;
+}
+
+.menu-example-panel [tngMenuItem]:hover {
+  background: color-mix(in srgb, var(--tng-semantic-foreground-primary) 8%, transparent);
+}
+
+.menu-example-panel [tngMenuItem][data-active],
+.menu-example-panel [tngMenuItem][aria-expanded='true'] {
+  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 16%, transparent);
+  color: color-mix(
+    in srgb,
+    var(--tng-semantic-accent-brand) 72%,
+    var(--tng-semantic-foreground-primary)
+  );
+}
+
+.menu-example-group-label {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 0.2rem 0.45rem;
+  text-transform: uppercase;
+}
+
+.menu-example-separator {
+  background: color-mix(in srgb, var(--tng-semantic-border-subtle) 84%, transparent);
+  height: 1px;
+  margin: 0.2rem 0.35rem;
+}
+
+.menu-example-state {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.84rem;
+  margin: 0;
+}

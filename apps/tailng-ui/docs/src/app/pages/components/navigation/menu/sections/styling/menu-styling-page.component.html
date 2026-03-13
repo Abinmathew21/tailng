@@ -1,0 +1,67 @@
+<article class="menu-styling">
+  <h2 class="menu-styling-title">Styling contract</h2>
+  <p class="menu-styling-lead">
+    Menu styling is based on public directives and state attributes, so you can control visual
+    language without depending on private DOM structure.
+  </p>
+
+  <section class="menu-styling-block">
+    <h3>CSS contract table</h3>
+    <div class="menu-styling-table-wrap">
+      <table class="menu-styling-table">
+        <thead>
+          <tr>
+            <th scope="col">Selector</th>
+            <th scope="col">Applied on</th>
+            <th scope="col">Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>[tngMenu][data-state='open']</code></td>
+            <td>Menu panel host</td>
+            <td>Visible panel surface, border, spacing, and layout.</td>
+          </tr>
+          <tr>
+            <td><code>[tngMenuItem]</code></td>
+            <td>Command item</td>
+            <td>Typography, spacing, and pointer affordance.</td>
+          </tr>
+          <tr>
+            <td><code>[tngMenuItem][data-active]</code></td>
+            <td>Command item</td>
+            <td>Keyboard-active state for arrow traversal.</td>
+          </tr>
+          <tr>
+            <td><code>[tngMenuItem][aria-expanded='true']</code></td>
+            <td>Command item</td>
+            <td>Submenu-open indicator for nested menus.</td>
+          </tr>
+          <tr>
+            <td><code>[tngMenuItem][aria-disabled='true']</code></td>
+            <td>Command item</td>
+            <td>Disabled visual state.</td>
+          </tr>
+          <tr>
+            <td><code>[tngMenuGroupLabel]</code>, <code>[tngMenuSeparator]</code></td>
+            <td>Menu sub-elements</td>
+            <td>Group labels and visual separators between command sets.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="menu-styling-block">
+    <h3>Example style contract</h3>
+    <tng-code-block
+      [code]="stylingContractCode"
+      adapter="shiki"
+      language="css"
+      title="menu.contract.css"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+</article>

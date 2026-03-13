@@ -1,0 +1,163 @@
+<article class="menu-overview">
+  <h2 class="menu-overview-title">Menu overview</h2>
+  <p class="menu-overview-lead">
+    Menu provides command surfaces with keyboard traversal, outside-click dismissal, and optional
+    nested submenu flows.
+  </p>
+
+  <section class="menu-overview-block">
+    <h3>Imports</h3>
+    <p>Choose primitives for full ownership, or wrappers for a faster composition path.</p>
+    <tng-code-block
+      [code]="primitiveImportCode"
+      adapter="shiki"
+      language="ts"
+      title="Primitive imports"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+    <tng-code-block
+      [code]="componentImportCode"
+      adapter="shiki"
+      language="ts"
+      title="Wrapper imports"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <section class="menu-overview-block">
+    <h3>Usage patterns</h3>
+    <tng-code-block
+      [code]="primitiveUsageCode"
+      adapter="shiki"
+      language="html"
+      title="Primitive usage"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+    <tng-code-block
+      [code]="componentUsageCode"
+      adapter="shiki"
+      language="html"
+      title="Wrapper usage"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <app-docs-example-tabs-section
+    class="menu-overview-block"
+    heading="Style variants"
+    description="Same menu behavior rendered through headless directives, plain CSS wrappers, and Tailwind utility shells."
+    ariaLabel="Menu style variants"
+    tabListAriaLabel="Menu style tabs"
+    defaultValue="headless"
+    [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="headless"
+        label="Headless"
+        panelTitle="Headless action menu"
+        [codeTabs]="headlessCodeTabs"
+      >
+        <div class="menu-stage">
+          <div class="menu-trigger-shell">
+            <button type="button" [tngMenuTrigger]="headlessMenu" class="menu-trigger">Actions</button>
+            <div
+              tngMenu
+              #headlessMenu="tngMenu"
+              aria-label="Headless actions menu"
+              class="menu-panel"
+              (tngMenuSelect)="onHeadlessSelect($event)"
+            >
+              <div tngMenuGroupLabel class="menu-group-label">Actions</div>
+              <button type="button" tngMenuItem tngMenuItemValue="Duplicate item">Duplicate</button>
+              <button type="button" tngMenuItem tngMenuItemValue="Move item">Move</button>
+              <div tngMenuSeparator class="menu-separator"></div>
+              <button type="button" tngMenuItem tngMenuItemValue="Archive item">Archive</button>
+            </div>
+          </div>
+        </div>
+        <p class="menu-overview-state">last command: {{ headlessCommand() }}</p>
+      </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+        panelTitle="Wrapper menu (plain CSS)"
+        [codeTabs]="plainCssCodeTabs"
+      >
+        <div class="menu-stage">
+          <div class="menu-trigger-shell">
+            <button type="button" [tngMenuTriggerFor]="plainMenu" class="menu-trigger">Options</button>
+            <tng-menu
+              #plainMenu="tngMenu"
+              ariaLabel="Plain CSS options menu"
+              class="menu-panel"
+              (tngMenuSelect)="onPlainSelect($event)"
+            >
+              <div tngMenuGroupLabel class="menu-group-label">Options</div>
+              <button type="button" tngMenuItem tngMenuItemValue="Pin item">Pin</button>
+              <button type="button" tngMenuItem tngMenuItemValue="Mute notifications">Mute</button>
+              <button type="button" tngMenuItem tngMenuItemValue="Remove item">Remove</button>
+            </tng-menu>
+          </div>
+        </div>
+        <p class="menu-overview-state">last command: {{ plainCommand() }}</p>
+      </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Wrapper menu (tailwind shell)"
+      [codeTabs]="tailwindCodeTabs"
+    >
+      <div class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">
+        <div class="menu-stage">
+          <div class="menu-trigger-shell">
+            <button
+              type="button"
+              [tngMenuTriggerFor]="tailwindMenu"
+              class="menu-trigger rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-800 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100"
+            >
+              Open menu
+            </button>
+            <tng-menu
+              #tailwindMenu="tngMenu"
+              ariaLabel="Tailwind menu"
+              class="menu-panel"
+              (tngMenuSelect)="onTailwindSelect($event)"
+            >
+              <button type="button" tngMenuItem tngMenuItemValue="Export report">Export report</button>
+              <button type="button" tngMenuItem tngMenuItemValue="Share link">Share link</button>
+              <button type="button" tngMenuItem tngMenuItemValue="Copy path">Copy path</button>
+            </tng-menu>
+          </div>
+        </div>
+      </div>
+      <p class="menu-overview-state">last command: {{ tailwindCommand() }}</p>
+    </ng-template>
+  </app-docs-example-tabs-section>
+
+  <section class="menu-overview-block">
+    <h3>Keyboard baseline</h3>
+    <ul class="menu-overview-list">
+      <li><code>ArrowDown</code>/<code>ArrowUp</code> traverses enabled options.</li>
+      <li><code>Home</code>/<code>End</code> jumps to first and last option.</li>
+      <li><code>Enter</code>/<code>Space</code> selects the active option.</li>
+      <li><code>Escape</code> closes the panel and restores focus to the trigger.</li>
+    </ul>
+  </section>
+</article>

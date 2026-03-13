@@ -1,0 +1,252 @@
+<article class="menu-examples">
+  <h2 class="menu-examples-title">Examples</h2>
+  <p class="menu-examples-lead">
+    Reference patterns for trigger wiring, command groups, and nested submenu behavior.
+  </p>
+
+  <section class="menu-examples-block">
+    <app-docs-example-tabs-section
+      heading="Action menu variants"
+      description="Open with click or Enter/Space, then traverse options with Arrow keys."
+      ariaLabel="Menu variant examples"
+      tabListAriaLabel="Menu variant tabs"
+      defaultValue="headless"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="headless"
+        label="Headless"
+        panelTitle="Headless action menu"
+        [codeTabs]="headlessCodeTabs"
+      >
+        <div class="menu-example-stage">
+          <div class="menu-example-trigger-shell">
+            <button type="button" [tngMenuTrigger]="headlessMenu" class="menu-example-trigger">Actions</button>
+            <div
+              tngMenu
+              #headlessMenu="tngMenu"
+              aria-label="Headless actions menu"
+              class="menu-example-panel"
+              (tngMenuSelect)="onHeadlessSelect($event)"
+            >
+              <div tngMenuGroupLabel class="menu-example-group-label">Actions</div>
+              <button type="button" tngMenuItem tngMenuItemValue="Duplicate file">Duplicate</button>
+              <button type="button" tngMenuItem tngMenuItemValue="Move file">Move</button>
+              <div tngMenuSeparator class="menu-example-separator"></div>
+              <button type="button" tngMenuItem tngMenuItemValue="Archive file">Archive</button>
+            </div>
+          </div>
+        </div>
+        <p class="menu-example-state">last command: {{ headlessCommand() }}</p>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Wrapper action menu (plain CSS)"
+        [codeTabs]="plainCssCodeTabs"
+      >
+        <div class="menu-example-stage">
+          <div class="menu-example-trigger-shell">
+            <button type="button" [tngMenuTriggerFor]="plainMenu" class="menu-example-trigger">Options</button>
+            <tng-menu
+              #plainMenu="tngMenu"
+              ariaLabel="Plain options menu"
+              class="menu-example-panel"
+              (tngMenuSelect)="onPlainSelect($event)"
+            >
+              <div tngMenuGroupLabel class="menu-example-group-label">Options</div>
+              <button type="button" tngMenuItem tngMenuItemValue="Pin item">Pin</button>
+              <button type="button" tngMenuItem tngMenuItemValue="Mute notifications">Mute</button>
+              <button type="button" tngMenuItem tngMenuItemValue="Remove item">Remove</button>
+            </tng-menu>
+          </div>
+        </div>
+        <p class="menu-example-state">last command: {{ plainCommand() }}</p>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Wrapper action menu (tailwind shell)"
+        [codeTabs]="tailwindCodeTabs"
+      >
+        <div class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">
+          <div class="menu-example-stage">
+            <div class="menu-example-trigger-shell">
+              <button
+                type="button"
+                [tngMenuTriggerFor]="tailwindMenu"
+                class="menu-example-trigger rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-800 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100"
+              >
+                Open menu
+              </button>
+              <tng-menu
+                #tailwindMenu="tngMenu"
+                ariaLabel="Tailwind actions menu"
+                class="menu-example-panel"
+                (tngMenuSelect)="onTailwindSelect($event)"
+              >
+                <button type="button" tngMenuItem tngMenuItemValue="Export report">Export report</button>
+                <button type="button" tngMenuItem tngMenuItemValue="Share link">Share link</button>
+                <button type="button" tngMenuItem tngMenuItemValue="Copy path">Copy path</button>
+              </tng-menu>
+            </div>
+          </div>
+        </div>
+        <p class="menu-example-state">last command: {{ tailwindCommand() }}</p>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section class="menu-examples-block">
+    <app-docs-example-tabs-section
+      heading="Cascaded submenu example"
+      description="Nested submenu wiring with [tngMenuItemSubmenu]. Use ArrowRight on the active parent option to enter deeper levels."
+      ariaLabel="Cascaded submenu variants"
+      tabListAriaLabel="Cascaded submenu style tabs"
+      defaultValue="headless"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="headless"
+        label="Headless"
+        panelTitle="Headless cascaded menu"
+        [codeTabs]="cascadeHeadlessCodeTabs"
+      >
+        <div class="menu-example-stage menu-example-stage--cascade">
+          <div class="menu-example-trigger-shell">
+            <button type="button" [tngMenuTrigger]="cascadeHeadlessRootMenu" class="menu-example-trigger">
+              Import
+            </button>
+            <div
+              tngMenu
+              #cascadeHeadlessRootMenu="tngMenu"
+              aria-label="Import root menu"
+              class="menu-example-panel"
+              (tngMenuSelect)="onCascadeHeadlessSelect($event)"
+            >
+              <button type="button" tngMenuItem tngMenuItemValue="Import from CSV">CSV file</button>
+              <button
+                type="button"
+                tngMenuItem
+                [tngMenuItemSubmenu]="cascadeHeadlessGitMenu"
+                tngMenuItemValue="Import from git"
+              >
+                Git repository
+              </button>
+
+              <div
+                tngMenu
+                #cascadeHeadlessGitMenu="tngMenu"
+                aria-label="Git submenu"
+                class="menu-example-panel menu-example-panel--submenu menu-example-panel--level-1"
+                (tngMenuSelect)="onCascadeHeadlessSelect($event)"
+              >
+                <button type="button" tngMenuItem tngMenuItemValue="Import from GitHub">GitHub</button>
+                <button type="button" tngMenuItem tngMenuItemValue="Import from GitLab">GitLab</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="menu-example-state">last cascaded command: {{ cascadeHeadlessCommand() }}</p>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Wrapper cascaded menu (plain CSS)"
+        [codeTabs]="cascadePlainCodeTabs"
+      >
+        <div class="menu-example-stage menu-example-stage--cascade">
+          <div class="menu-example-trigger-shell">
+            <button type="button" [tngMenuTriggerFor]="cascadePlainRootMenu" class="menu-example-trigger">
+              Import
+            </button>
+            <tng-menu
+              #cascadePlainRootMenu="tngMenu"
+              ariaLabel="Import root menu"
+              class="menu-example-panel"
+              (tngMenuSelect)="onCascadePlainSelect($event)"
+            >
+              <button type="button" tngMenuItem tngMenuItemValue="Import from CSV">CSV file</button>
+              <button
+                type="button"
+                tngMenuItem
+                [tngMenuItemSubmenu]="cascadePlainGitMenu"
+                tngMenuItemValue="Import from git"
+              >
+                Git repository
+              </button>
+
+              <tng-menu
+                #cascadePlainGitMenu="tngMenu"
+                ariaLabel="Git submenu"
+                class="menu-example-panel menu-example-panel--submenu menu-example-panel--level-1"
+                (tngMenuSelect)="onCascadePlainSelect($event)"
+              >
+                <button type="button" tngMenuItem tngMenuItemValue="Import from GitHub">GitHub</button>
+                <button type="button" tngMenuItem tngMenuItemValue="Import from GitLab">GitLab</button>
+              </tng-menu>
+            </tng-menu>
+          </div>
+        </div>
+        <p class="menu-example-state">last cascaded command: {{ cascadePlainCommand() }}</p>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Wrapper cascaded menu (tailwind shell)"
+        [codeTabs]="cascadeTailwindCodeTabs"
+      >
+        <div class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">
+          <div class="menu-example-stage menu-example-stage--cascade">
+            <div class="menu-example-trigger-shell">
+              <button
+                type="button"
+                [tngMenuTriggerFor]="cascadeTailwindRootMenu"
+                class="menu-example-trigger rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-800 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100"
+              >
+                Import
+              </button>
+              <tng-menu
+                #cascadeTailwindRootMenu="tngMenu"
+                ariaLabel="Import root menu"
+                class="menu-example-panel"
+                (tngMenuSelect)="onCascadeTailwindSelect($event)"
+              >
+                <button type="button" tngMenuItem tngMenuItemValue="Import from CSV">CSV file</button>
+                <button
+                  type="button"
+                  tngMenuItem
+                  [tngMenuItemSubmenu]="cascadeTailwindGitMenu"
+                  tngMenuItemValue="Import from git"
+                >
+                  Git repository
+                </button>
+
+                <tng-menu
+                  #cascadeTailwindGitMenu="tngMenu"
+                  ariaLabel="Git submenu"
+                  class="menu-example-panel menu-example-panel--submenu menu-example-panel--level-1"
+                  (tngMenuSelect)="onCascadeTailwindSelect($event)"
+                >
+                  <button type="button" tngMenuItem tngMenuItemValue="Import from GitHub">GitHub</button>
+                  <button type="button" tngMenuItem tngMenuItemValue="Import from GitLab">GitLab</button>
+                </tng-menu>
+              </tng-menu>
+            </div>
+          </div>
+        </div>
+        <p class="menu-example-state">last cascaded command: {{ cascadeTailwindCommand() }}</p>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+</article>

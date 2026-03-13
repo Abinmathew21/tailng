@@ -1,0 +1,109 @@
+<article class="menu-api">
+  <h2 class="menu-api-title">API reference</h2>
+  <p class="menu-api-lead">
+    Menu docs cover wrapper APIs (<code>tng-menu</code>, <code>tngMenuTriggerFor</code>) and
+    headless primitives for custom markup ownership.
+  </p>
+
+  <section class="menu-api-block">
+    <h3>Wrapper APIs</h3>
+    <div class="menu-api-table-wrap">
+      <table class="menu-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Element / Directive</th>
+            <th scope="col">Input / Output</th>
+            <th scope="col">Type</th>
+            <th scope="col">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>&lt;tng-menu&gt;</code></td>
+            <td><code>ariaLabel</code></td>
+            <td><code>string</code></td>
+            <td>Accessible label for the menu panel.</td>
+          </tr>
+          <tr>
+            <td><code>&lt;tng-menu&gt;</code></td>
+            <td><code>loop</code>, <code>disabled</code>, <code>closeOnSelect</code></td>
+            <td><code>boolean</code></td>
+            <td>Controls focus traversal, interaction lock, and auto-close behavior.</td>
+          </tr>
+          <tr>
+            <td><code>&lt;tng-menu&gt;</code></td>
+            <td><code>dismissOnOutsideClick</code>, <code>dismissOnFocusout</code></td>
+            <td><code>boolean</code></td>
+            <td>Dismiss policy for pointer and focus transitions.</td>
+          </tr>
+          <tr>
+            <td><code>&lt;tng-menu&gt;</code></td>
+            <td><code>tngMenuOpened</code>, <code>tngMenuClosed</code>, <code>tngMenuSelect</code></td>
+            <td><code>EventEmitter</code></td>
+            <td>Menu lifecycle and selection outputs.</td>
+          </tr>
+          <tr>
+            <td><code>[tngMenuTriggerFor]</code></td>
+            <td><code>tngMenuTriggerFor</code></td>
+            <td><code>TngMenu</code></td>
+            <td>Connects a trigger element to a wrapper menu instance.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="menu-api-block">
+    <h3>Primitive directives</h3>
+    <div class="menu-api-table-wrap">
+      <table class="menu-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Directive</th>
+            <th scope="col">Purpose</th>
+            <th scope="col">Key inputs</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>tngMenu</code></td>
+            <td>Panel state, keyboard traversal, typeahead, and dismissal.</td>
+            <td><code>loop</code>, <code>disabled</code>, <code>closeOnSelect</code></td>
+          </tr>
+          <tr>
+            <td><code>tngMenuTrigger</code></td>
+            <td>Headless trigger wiring to open and close menus.</td>
+            <td><code>[tngMenuTrigger]</code></td>
+          </tr>
+          <tr>
+            <td><code>tngMenuItem</code></td>
+            <td>Selectable command with optional checkbox/radio/submenu semantics.</td>
+            <td>
+              <code>tngMenuItemValue</code>, <code>tngMenuItemRole</code>,
+              <code>tngMenuItemChecked</code>, <code>[tngMenuItemSubmenu]</code>
+            </td>
+          </tr>
+          <tr>
+            <td><code>tngMenuGroupLabel</code>, <code>tngMenuSeparator</code></td>
+            <td>Grouping and visual separation inside menus.</td>
+            <td>-</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="menu-api-block">
+    <h3>Keyboard contract (high level)</h3>
+    <ul>
+      <li><code>ArrowDown</code>/<code>ArrowUp</code> moves active item through enabled options.</li>
+      <li><code>Home</code>/<code>End</code> jumps to first and last item.</li>
+      <li><code>Enter</code>/<code>Space</code> selects active option.</li>
+      <li><code>Escape</code> closes current menu and returns focus to trigger.</li>
+      <li>
+        <code>ArrowRight</code>/<code>ArrowLeft</code> traverses submenu levels or menubar-owned
+        menu handoff.
+      </li>
+    </ul>
+  </section>
+</article>

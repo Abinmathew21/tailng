@@ -1,0 +1,45 @@
+import { Component } from '@angular/core';
+import { TngCodeBlockComponent } from '@tailng-ui/components';
+
+@Component({
+  selector: 'app-menu-styling-page',
+  imports: [TngCodeBlockComponent],
+  templateUrl: './menu-styling-page.component.html',
+  styleUrls: ['./menu-styling-page.component.css'],
+})
+export class MenuStylingPageComponent {
+  protected readonly stylingContractCode = [
+    '[tngMenu][data-state="open"] {',
+    '  background: var(--tng-semantic-background-canvas);',
+    '  border: 1px solid var(--tng-semantic-border-subtle);',
+    '  border-radius: 0.75rem;',
+    '  display: grid;',
+    '  gap: 0.25rem;',
+    '  min-width: 14rem;',
+    '  padding: 0.45rem;',
+    '}',
+    '',
+    '[tngMenuItem] {',
+    '  border-radius: 0.55rem;',
+    '  min-height: 2rem;',
+    '  padding: 0.42rem 0.65rem;',
+    '}',
+    '',
+    '[tngMenuItem][data-active],',
+    '[tngMenuItem][aria-expanded="true"] {',
+    '  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 15%, transparent);',
+    '}',
+    '',
+    '[tngMenuItem][aria-disabled="true"] {',
+    '  opacity: 0.55;',
+    '}',
+    '',
+    '[tngMenuGroupLabel] {',
+    '  font-size: 0.72rem;',
+    '  font-weight: 700;',
+    '  letter-spacing: 0.08em;',
+    '  text-transform: uppercase;',
+    '}',
+    '',
+  ].join('\n');
+}
