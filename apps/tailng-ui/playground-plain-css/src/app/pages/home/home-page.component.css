@@ -36,6 +36,28 @@
   margin: 0;
 }
 
+.card .status {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.card .status-row {
+  border-radius: 0.25rem;
+  font-size: 0.8125rem;
+  padding: 0.25rem 0.5rem;
+}
+
+.card .status-row--done {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.card .status-row--pending {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
 .card span {
   color: var(--tng-semantic-accent-brand);
   font-size: 0.875rem;

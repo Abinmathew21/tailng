@@ -3,6 +3,14 @@
     <a class="card" [routerLink]="item.path">
       <h2>{{ item.title }}</h2>
       <p>{{ item.description }}</p>
+      <div class="status">
+        <div class="status-row" [class.status-row--done]="item.headless" [class.status-row--pending]="!item.headless">Headless</div>
+        <div class="status-row" [class.status-row--done]="item.component" [class.status-row--pending]="!item.component">Component</div>
+        <div class="status-row" [class.status-row--done]="item.registry" [class.status-row--pending]="!item.registry">Registry</div>
+        <div class="status-row" [class.status-row--done]="item.plain" [class.status-row--pending]="!item.plain">Plain CSS</div>
+        <div class="status-row" [class.status-row--done]="item.tailwind" [class.status-row--pending]="!item.tailwind">Tailwind</div>
+        <div class="status-row" [class.status-row--done]="item.stackblitz" [class.status-row--pending]="!item.stackblitz">Stackblitz</div>
+      </div>
       <span>Open Demo</span>
     </a>
   }
