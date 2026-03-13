@@ -9,12 +9,14 @@
     <tng-drawer
       class="components-docs-drawer"
       ariaLabel="Components docs navigation"
+      tabindex="-1"
       [opened]="true"
       [mode]="'overlay'"
       [position]="'start'"
       [backdrop]="false"
       [closeOnOutsideClick]="false"
       [closeOnEscape]="false"
+      [autoFocus]="'none'"
       [trapFocus]="false"
       [inertContent]="false"
       [allowBodyScroll]="true"
@@ -28,6 +30,7 @@
             tngInput
             class="components-docs-search-control"
             type="search"
+            autofocus
             placeholder="Search component docs..."
             aria-label="Search component docs navigation"
             autocomplete="off"
@@ -39,6 +42,7 @@
 
       @if (filteredNavGroups().length > 0) {
         <tng-accordion
+          tabindex="-1"
           [type]="'multiple'"
           [defaultValue]="defaultExpandedGroups"
           [collapsible]="true"
