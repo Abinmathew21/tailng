@@ -304,18 +304,18 @@ export class InputOverviewPageComponent implements OnDestroy {
     '/* No custom CSS required. Styles are applied with Tailwind utility classes in the template. */';
   protected readonly headlessExampleCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
     {
-      value: 'html',
-      label: 'HTML',
-      language: 'html',
-      title: 'headless-input-example.component.html',
-      code: this.headlessExampleHtmlCode,
-    },
-    {
       value: 'ts',
       label: 'TS',
       language: 'ts',
       title: 'headless-input-example.component.ts',
       code: this.headlessExampleTsCode,
+    },
+    {
+      value: 'html',
+      label: 'HTML',
+      language: 'html',
+      title: 'headless-input-example.component.html',
+      code: this.headlessExampleHtmlCode,
     },
     {
       value: 'css',
@@ -328,18 +328,18 @@ export class InputOverviewPageComponent implements OnDestroy {
 
   protected readonly plainCssExampleCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
     {
-      value: 'html',
-      label: 'HTML',
-      language: 'html',
-      title: 'plain-css-input-example.component.html',
-      code: this.plainCssExampleHtmlCode,
-    },
-    {
       value: 'ts',
       label: 'TS',
       language: 'ts',
       title: 'plain-css-input-example.component.ts',
       code: this.plainCssExampleTsCode,
+    },
+    {
+      value: 'html',
+      label: 'HTML',
+      language: 'html',
+      title: 'plain-css-input-example.component.html',
+      code: this.plainCssExampleHtmlCode,
     },
     {
       value: 'css',
@@ -352,18 +352,18 @@ export class InputOverviewPageComponent implements OnDestroy {
 
   protected readonly tailwindExampleCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
     {
-      value: 'html',
-      label: 'HTML',
-      language: 'html',
-      title: 'tailwind-input-example.component.html',
-      code: this.tailwindExampleHtmlCode,
-    },
-    {
       value: 'ts',
       label: 'TS',
       language: 'ts',
       title: 'tailwind-input-example.component.ts',
       code: this.tailwindExampleTsCode,
+    },
+    {
+      value: 'html',
+      label: 'HTML',
+      language: 'html',
+      title: 'tailwind-input-example.component.html',
+      code: this.tailwindExampleHtmlCode,
     },
     {
       value: 'css',

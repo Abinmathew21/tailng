@@ -12,14 +12,13 @@
   align-items: stretch;
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
-  height: calc(100dvh - 4rem);
-  min-height: 42rem;
-  overflow: hidden;
+  min-height: calc(100dvh - 4rem);
+  overflow: visible;
 }
 
 .headless-docs-drawer {
   align-content: stretch;
-  align-self: stretch;
+  align-self: start;
   background: transparent;
   border: 0;
   border-radius: 0;
@@ -27,9 +26,12 @@
   display: grid;
   gap: 0.25rem;
   grid-template-rows: auto minmax(0, 1fr);
+  height: calc(100dvh - 4rem);
   min-height: 0;
   overflow: hidden;
   padding: 0.85rem;
+  position: sticky;
+  top: 4rem;
   width: min(22rem, 88vw);
 }
 
@@ -45,7 +47,7 @@
   align-self: stretch;
   display: block;
   min-height: 0;
-  overflow-y: auto;
+  overflow: visible;
   padding: 1rem;
 }
 
@@ -150,8 +152,11 @@
     border-bottom: 1px solid var(--tng-semantic-border-subtle);
     border-right: 0;
     display: block;
+    height: auto;
     min-height: auto;
     overflow: visible;
+    position: static;
+    top: auto;
     width: 100%;
   }
 
