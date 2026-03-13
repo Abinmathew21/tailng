@@ -5,6 +5,11 @@ import {
 } from '../component-docs.data';
 
 const group = COMPONENTS_NAVIGATION_GROUP;
+const menubarItem = group.items.find((item) => item.slug === 'menubar');
+if (menubarItem === undefined) {
+  throw new Error('Missing "menubar" in components navigation docs group.');
+}
+const landingItems = group.items.filter((item) => item.slug !== menubarItem.slug);
 
 export const COMPONENTS_NAVIGATION_ROUTES: Routes = [
   {
@@ -12,7 +17,12 @@ export const COMPONENTS_NAVIGATION_ROUTES: Routes = [
     pathMatch: 'full',
     redirectTo: group.items[0]!.slug,
   },
-  ...group.items.map((item) => ({
+  {
+    path: menubarItem.slug,
+    loadChildren: () =>
+      import('./menubar/routes').then((module) => module.COMPONENTS_NAVIGATION_MENUBAR_ROUTES),
+  },
+  ...landingItems.map((item) => ({
     path: item.slug,
     data: toComponentsDocsRouteData(group, item),
     loadComponent: () =>

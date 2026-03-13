@@ -1,0 +1,72 @@
+<article class="menubar-styling">
+  <h2 class="menubar-styling-title">Styling contract</h2>
+  <p class="menubar-styling-lead">
+    Menubar and menu are fully styleable through public directives and state attributes; no
+    internal wrapper selectors are required.
+  </p>
+
+  <section class="menubar-styling-block">
+    <h3>CSS contract table</h3>
+    <div class="menubar-styling-table-wrap">
+      <table class="menubar-styling-table">
+        <thead>
+          <tr>
+            <th scope="col">Selector</th>
+            <th scope="col">Applied on</th>
+            <th scope="col">Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>[tngMenubar]</code></td>
+            <td>Menubar host</td>
+            <td>Top-level command strip layout and focus grouping.</td>
+          </tr>
+          <tr>
+            <td><code>[tngMenubarItem]</code></td>
+            <td>Top-level trigger</td>
+            <td>Trigger spacing, typography, hover/focus states.</td>
+          </tr>
+          <tr>
+            <td><code>[tngMenubarItem][aria-expanded='true']</code></td>
+            <td>Top-level trigger</td>
+            <td>Current open menu trigger state.</td>
+          </tr>
+          <tr>
+            <td><code>[tngMenu][data-state='open']</code></td>
+            <td>Menu panel host</td>
+            <td>Open panel surface, positioning, and elevation.</td>
+          </tr>
+          <tr>
+            <td><code>[tngMenuItem][data-active]</code></td>
+            <td>Menu option</td>
+            <td>Keyboard-active option styling.</td>
+          </tr>
+          <tr>
+            <td><code>[tngMenuItem][aria-disabled='true']</code></td>
+            <td>Menu option</td>
+            <td>Disabled affordance and interaction cue.</td>
+          </tr>
+          <tr>
+            <td><code>[tngMenuGroupLabel]</code>, <code>[tngMenuSeparator]</code></td>
+            <td>Menu sub-elements</td>
+            <td>Section labels and dividers inside long command menus.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="menubar-styling-block">
+    <h3>Example style contract</h3>
+    <tng-code-block
+      [code]="stylingContractCode"
+      adapter="shiki"
+      language="css"
+      title="menubar.contract.css"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+</article>

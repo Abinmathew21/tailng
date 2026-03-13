@@ -1,0 +1,165 @@
+:host {
+  display: block;
+}
+
+.menubar-overview {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.menubar-overview-title {
+  font-size: clamp(1.45rem, 1.05rem + 1.3vw, 1.95rem);
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.menubar-overview-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+  max-width: 70ch;
+}
+
+.menubar-overview-block {
+  background: color-mix(in srgb, var(--tng-semantic-background-surface) 88%, transparent);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 1rem;
+  display: grid;
+  gap: 0.9rem;
+  padding: 1.2rem;
+}
+
+.menubar-overview-block h3 {
+  font-size: 1.05rem;
+  font-weight: 650;
+  margin: 0;
+}
+
+.menubar-overview-block p {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.menubar-stage {
+  align-content: start;
+  display: grid;
+  gap: 0.75rem;
+  justify-items: start;
+  min-height: 14rem;
+  position: relative;
+}
+
+.menubar-stage [tngMenubar] {
+  align-items: center;
+  background: color-mix(in srgb, var(--tng-semantic-background-surface) 88%, transparent);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.9rem;
+  display: inline-flex;
+  gap: 0.45rem;
+  min-height: 2.7rem;
+  padding: 0.32rem;
+}
+
+.menubar-stage [tngMenubarItem] {
+  background: transparent;
+  border: 0;
+  border-radius: 0.62rem;
+  color: var(--tng-semantic-foreground-primary);
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.15;
+  min-height: 2.05rem;
+  min-width: 3.3rem;
+  padding: 0.46rem 0.9rem;
+  transition:
+    background-color 130ms ease,
+    color 130ms ease,
+    box-shadow 130ms ease;
+}
+
+.menubar-stage [tngMenubarItem]:is(:hover, :focus-visible) {
+  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 10%, transparent);
+  outline: none;
+}
+
+.menubar-stage [tngMenubarItem][tabindex='0'] {
+  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 13%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--tng-semantic-accent-brand) 42%, transparent);
+  color: color-mix(
+    in srgb,
+    var(--tng-semantic-accent-brand) 72%,
+    var(--tng-semantic-foreground-primary)
+  );
+}
+
+.menubar-stage [tngMenubarItem][aria-expanded='true'] {
+  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 16%, transparent);
+  color: color-mix(
+    in srgb,
+    var(--tng-semantic-accent-brand) 74%,
+    var(--tng-semantic-foreground-primary)
+  );
+}
+
+.menubar-item-shell {
+  position: relative;
+}
+
+.menubar-stage [tngMenu][data-state='open'] {
+  background: var(--tng-semantic-background-canvas);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.82rem;
+  box-shadow: 0 16px 30px -22px color-mix(in srgb, var(--tng-semantic-foreground-primary) 35%, transparent);
+  display: grid;
+  gap: 0.24rem;
+  min-width: 13.5rem;
+  padding: 0.48rem;
+}
+
+.menubar-stage [tngMenuItem] {
+  background: transparent;
+  border: 0;
+  border-radius: 0.62rem;
+  color: var(--tng-semantic-foreground-primary);
+  cursor: pointer;
+  font-size: 0.92rem;
+  font-weight: 550;
+  min-height: 2.05rem;
+  padding: 0.45rem 0.68rem;
+  text-align: left;
+  transition:
+    background-color 120ms ease,
+    color 120ms ease;
+}
+
+.menubar-stage [tngMenuItem]:hover {
+  background: color-mix(in srgb, var(--tng-semantic-foreground-primary) 8%, transparent);
+}
+
+.menubar-stage [tngMenuItem][data-active],
+.menubar-stage [tngMenuItem][aria-expanded='true'] {
+  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 16%, transparent);
+  color: color-mix(
+    in srgb,
+    var(--tng-semantic-accent-brand) 72%,
+    var(--tng-semantic-foreground-primary)
+  );
+}
+
+.menubar-overview-state {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.menubar-overview-list {
+  display: grid;
+  gap: 0.55rem;
+  margin: 0;
+  padding-inline-start: 1.1rem;
+}
+
+.menubar-overview-list code {
+  font-size: 0.84em;
+}

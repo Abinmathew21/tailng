@@ -1,0 +1,51 @@
+import { Component } from '@angular/core';
+import { TngCodeBlockComponent } from '@tailng-ui/components';
+
+@Component({
+  selector: 'app-menubar-styling-page',
+  imports: [TngCodeBlockComponent],
+  templateUrl: './menubar-styling-page.component.html',
+  styleUrls: ['./menubar-styling-page.component.css'],
+})
+export class MenubarStylingPageComponent {
+  protected readonly stylingContractCode = [
+    '[tngMenubar] {',
+    '  display: inline-flex;',
+    '  gap: 0.35rem;',
+    '  padding: 0.35rem;',
+    '}',
+    '',
+    '[tngMenubarItem] {',
+    '  border-radius: 0.7rem;',
+    '  padding: 0.5rem 0.9rem;',
+    '}',
+    '',
+    '[tngMenubarItem][aria-expanded="true"] {',
+    '  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 14%, transparent);',
+    '}',
+    '',
+    '[tngMenu][data-state="open"] {',
+    '  border: 1px solid var(--tng-semantic-border-subtle);',
+    '  border-radius: 0.75rem;',
+    '  min-width: 14rem;',
+    '  padding: 0.4rem;',
+    '  position: absolute;',
+    '}',
+    '',
+    '[tngMenuItem] {',
+    '  border-radius: 0.55rem;',
+    '  min-height: 2.1rem;',
+    '  padding: 0.4rem 0.65rem;',
+    '}',
+    '',
+    '[tngMenuItem][data-active],',
+    '[tngMenuItem][aria-expanded="true"] {',
+    '  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 15%, transparent);',
+    '}',
+    '',
+    '[tngMenuItem][aria-disabled="true"] {',
+    '  opacity: 0.55;',
+    '}',
+    '',
+  ].join('\n');
+}

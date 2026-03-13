@@ -1,0 +1,102 @@
+<article class="menubar-api">
+  <h2 class="menubar-api-title">API reference</h2>
+  <p class="menubar-api-lead">
+    Menubar docs cover wrapper components (<code>tng-menubar</code>/<code>tng-menu</code>) and
+    headless directives for full ownership.
+  </p>
+
+  <section class="menubar-api-block">
+    <h3>Wrapper APIs</h3>
+    <div class="menubar-api-table-wrap">
+      <table class="menubar-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Element</th>
+            <th scope="col">Input / Output</th>
+            <th scope="col">Type</th>
+            <th scope="col">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>&lt;tng-menubar&gt;</code></td>
+            <td><code>ariaLabel</code></td>
+            <td><code>string</code></td>
+            <td>Accessible label for the menubar region.</td>
+          </tr>
+          <tr>
+            <td><code>&lt;tng-menubar&gt;</code></td>
+            <td><code>loop</code></td>
+            <td><code>boolean</code></td>
+            <td>Wrap focus movement between first/last top-level items.</td>
+          </tr>
+          <tr>
+            <td><code>&lt;tng-menu&gt;</code></td>
+            <td><code>ariaLabel</code></td>
+            <td><code>string</code></td>
+            <td>Accessible label for the menu panel.</td>
+          </tr>
+          <tr>
+            <td><code>&lt;tng-menu&gt;</code></td>
+            <td><code>loop</code>, <code>disabled</code>, <code>closeOnSelect</code></td>
+            <td><code>boolean</code></td>
+            <td>Configures item navigation and close behavior.</td>
+          </tr>
+          <tr>
+            <td><code>&lt;tng-menu&gt;</code></td>
+            <td><code>tngMenuOpened</code>, <code>tngMenuClosed</code>, <code>tngMenuSelect</code></td>
+            <td><code>EventEmitter</code></td>
+            <td>Lifecycle and selection events for menu interaction.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="menubar-api-block">
+    <h3>Primitive directives</h3>
+    <div class="menubar-api-table-wrap">
+      <table class="menubar-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Directive</th>
+            <th scope="col">Purpose</th>
+            <th scope="col">Key inputs</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>tngMenubar</code></td>
+            <td>Top-level command bar semantics and roving focus.</td>
+            <td><code>loop</code></td>
+          </tr>
+          <tr>
+            <td><code>tngMenubarItem</code></td>
+            <td>Focusable menubar item and owned menu link.</td>
+            <td><code>[tngMenubarMenu]</code></td>
+          </tr>
+          <tr>
+            <td><code>tngMenu</code></td>
+            <td>Menu panel with keyboard traversal and typeahead.</td>
+            <td><code>loop</code>, <code>disabled</code>, <code>closeOnSelect</code></td>
+          </tr>
+          <tr>
+            <td><code>tngMenuItem</code></td>
+            <td>Selectable option in menu panel.</td>
+            <td><code>tngMenuItemValue</code>, <code>disabled</code>, <code>[tngMenuItemSubmenu]</code></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="menubar-api-block">
+    <h3>Keyboard contract (high level)</h3>
+    <ul>
+      <li><code>ArrowRight</code>/<code>ArrowLeft</code> moves across top-level items.</li>
+      <li><code>ArrowDown</code> opens a menu and focuses the first enabled item.</li>
+      <li><code>Home</code>/<code>End</code> jump to first/last top-level item.</li>
+      <li><code>Escape</code> closes open menus and restores focus to the owning item.</li>
+    </ul>
+  </section>
+</article>

@@ -1,0 +1,171 @@
+:host {
+  display: block;
+}
+
+.menubar-examples {
+  display: grid;
+  gap: 1rem;
+}
+
+.menubar-examples-title {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.menubar-examples-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.menubar-examples-block {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.9rem;
+  color: var(--tng-semantic-foreground-secondary);
+  display: grid;
+  gap: 0.7rem;
+  padding: 1rem;
+}
+
+.menubar-examples-block h3 {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1rem;
+  margin: 0;
+}
+
+.menubar-example-description {
+  margin: 0;
+}
+
+.menubar-example-stage {
+  align-content: start;
+  display: grid;
+  justify-items: start;
+  position: relative;
+}
+
+.menubar-example-stage--short {
+  min-height: 14.5rem;
+}
+
+.menubar-example-stage--cascade {
+  min-height: 22rem;
+}
+
+.menubar-shell {
+  background: color-mix(in srgb, var(--tng-semantic-background-surface) 88%, transparent);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.95rem;
+  display: inline-flex;
+  gap: 0.22rem;
+  padding: 0.3rem;
+}
+
+.menubar-item-shell {
+  position: relative;
+}
+
+.menubar-shell [tngMenubarItem] {
+  background: transparent;
+  border: 0;
+  border-radius: 0.68rem;
+  color: var(--tng-semantic-foreground-primary);
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  min-height: 2.15rem;
+  padding: 0.45rem 0.85rem;
+  transition: background-color 120ms ease;
+}
+
+.menubar-shell [tngMenubarItem]:is(:hover, :focus-visible) {
+  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 9%, transparent);
+  outline: none;
+}
+
+.menubar-shell [tngMenubarItem][aria-expanded='true'] {
+  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 16%, transparent);
+  color: color-mix(
+    in srgb,
+    var(--tng-semantic-accent-brand) 72%,
+    var(--tng-semantic-foreground-primary)
+  );
+}
+
+.menubar-example-menu {
+  background: var(--tng-semantic-background-canvas);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.76rem;
+  display: grid;
+  gap: 0.2rem;
+  left: 0;
+  min-width: 13.8rem;
+  padding: 0.45rem;
+  position: absolute;
+  top: calc(100% + 0.45rem);
+  z-index: 30;
+}
+
+.menubar-example-menu--submenu {
+  left: calc(100% + 0.42rem);
+}
+
+.menubar-example-menu--level-1 {
+  top: 2.7rem;
+}
+
+.menubar-example-menu--level-2 {
+  top: 5.5rem;
+}
+
+.menubar-example-group {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 0.25rem 0.45rem;
+  text-transform: uppercase;
+}
+
+.menubar-example-separator {
+  background: color-mix(in srgb, var(--tng-semantic-border-subtle) 84%, transparent);
+  height: 1px;
+  margin: 0.2rem 0.35rem;
+}
+
+.menubar-example-menu [tngMenuItem] {
+  background: transparent;
+  border: 0;
+  border-radius: 0.58rem;
+  color: var(--tng-semantic-foreground-primary);
+  cursor: pointer;
+  display: flex;
+  font-size: 0.86rem;
+  font-weight: 550;
+  justify-content: space-between;
+  min-height: 2rem;
+  padding: 0.4rem 0.62rem;
+  text-align: left;
+  transition: background-color 120ms ease;
+}
+
+.menubar-example-menu [tngMenuItem]:hover {
+  background: color-mix(in srgb, var(--tng-semantic-foreground-primary) 8%, transparent);
+}
+
+.menubar-example-menu [tngMenuItem][data-active],
+.menubar-example-menu [tngMenuItem][aria-expanded='true'] {
+  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 16%, transparent);
+  color: color-mix(
+    in srgb,
+    var(--tng-semantic-accent-brand) 72%,
+    var(--tng-semantic-foreground-primary)
+  );
+}
+
+.menubar-example-state {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.84rem;
+  margin: 0;
+}

@@ -1,0 +1,174 @@
+<article class="menubar-overview">
+  <h2 class="menubar-overview-title">Menubar overview</h2>
+  <p class="menubar-overview-lead">
+    Menubar composes top-level command items and owned menus with keyboard-first navigation,
+    focus transfer, and submenu support.
+  </p>
+
+  <section class="menubar-overview-block">
+    <h3>Imports</h3>
+    <p>Use primitives for full markup ownership, or wrappers for faster composition.</p>
+    <tng-code-block
+      [code]="primitiveImportCode"
+      adapter="shiki"
+      language="ts"
+      title="Primitive imports"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+    <tng-code-block
+      [code]="componentImportCode"
+      adapter="shiki"
+      language="ts"
+      title="Wrapper imports"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <section class="menubar-overview-block">
+    <h3>Usage patterns</h3>
+    <tng-code-block
+      [code]="primitiveUsageCode"
+      adapter="shiki"
+      language="html"
+      title="Primitive usage"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+    <tng-code-block
+      [code]="componentUsageCode"
+      adapter="shiki"
+      language="html"
+      title="Wrapper usage"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <app-docs-example-tabs-section
+    class="menubar-overview-block"
+    heading="Style variants"
+    description="Same menubar behavior rendered through headless directives, plain CSS wrappers, and Tailwind utility shells."
+    ariaLabel="Menubar style variants"
+    tabListAriaLabel="Menubar style tabs"
+    defaultValue="headless"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="headless"
+      label="Headless"
+      panelTitle="Headless application menubar"
+      [codeTabs]="headlessCodeTabs"
+    >
+      <div class="menubar-stage">
+        <div tngMenubar aria-label="Headless workspace commands">
+          <div class="menubar-item-shell">
+            <div tngMenu #headlessFileMenu="tngMenu" aria-label="File menu" (tngMenuSelect)="onHeadlessCommandSelect($event)">
+              <div tngMenuGroupLabel>File</div>
+              <button type="button" tngMenuItem tngMenuItemValue="Create document">New</button>
+              <button type="button" tngMenuItem tngMenuItemValue="Open document">Open</button>
+              <button type="button" tngMenuItem tngMenuItemValue="Save document">Save</button>
+            </div>
+            <button type="button" tngMenubarItem [tngMenubarMenu]="headlessFileMenu">File</button>
+          </div>
+
+          <div class="menubar-item-shell">
+            <div tngMenu #headlessEditMenu="tngMenu" aria-label="Edit menu" (tngMenuSelect)="onHeadlessCommandSelect($event)">
+              <div tngMenuGroupLabel>Edit</div>
+              <button type="button" tngMenuItem tngMenuItemValue="Undo change">Undo</button>
+              <button type="button" tngMenuItem tngMenuItemValue="Redo change">Redo</button>
+              <div tngMenuSeparator></div>
+              <button type="button" tngMenuItem tngMenuItemValue="Find in page">Find</button>
+            </div>
+            <button type="button" tngMenubarItem [tngMenubarMenu]="headlessEditMenu">Edit</button>
+          </div>
+
+          <button type="button" tngMenubarItem>Help</button>
+        </div>
+      </div>
+      <p class="menubar-overview-state">last command: {{ headlessCommand() }}</p>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+      panelTitle="Wrapper menubar (plain CSS)"
+      [codeTabs]="plainCssCodeTabs"
+    >
+      <div class="menubar-stage">
+        <tng-menubar ariaLabel="Wrapper workspace commands">
+          <div class="menubar-item-shell">
+            <tng-menu #plainFileMenu="tngMenu" ariaLabel="File menu" (tngMenuSelect)="onPlainCommandSelect($event)">
+              <div tngMenuGroupLabel>File</div>
+              <button type="button" tngMenuItem tngMenuItemValue="Create wrapper document">New</button>
+              <button type="button" tngMenuItem tngMenuItemValue="Open wrapper document">Open</button>
+            </tng-menu>
+            <button type="button" tngMenubarItem [tngMenubarMenu]="plainFileMenu">File</button>
+          </div>
+
+          <div class="menubar-item-shell">
+            <tng-menu #plainViewMenu="tngMenu" ariaLabel="View menu" (tngMenuSelect)="onPlainCommandSelect($event)">
+              <button type="button" tngMenuItem tngMenuItemValue="Toggle sidebar">Toggle sidebar</button>
+              <button type="button" tngMenuItem tngMenuItemValue="Open command palette">Command palette</button>
+            </tng-menu>
+            <button type="button" tngMenubarItem [tngMenubarMenu]="plainViewMenu">View</button>
+          </div>
+
+          <button type="button" tngMenubarItem>Help</button>
+        </tng-menubar>
+      </div>
+      <p class="menubar-overview-state">last command: {{ plainCommand() }}</p>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Wrapper menubar (tailwind)"
+      [codeTabs]="tailwindCodeTabs"
+    >
+      <div class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">
+        <div class="menubar-stage">
+          <tng-menubar ariaLabel="Tailwind workspace commands">
+            <div class="menubar-item-shell">
+              <tng-menu #tailwindFileMenu="tngMenu" ariaLabel="File menu" (tngMenuSelect)="onTailwindCommandSelect($event)">
+                <button type="button" tngMenuItem tngMenuItemValue="Create release">New release</button>
+                <button type="button" tngMenuItem tngMenuItemValue="Publish release">Publish</button>
+              </tng-menu>
+              <button type="button" tngMenubarItem [tngMenubarMenu]="tailwindFileMenu">File</button>
+            </div>
+
+            <div class="menubar-item-shell">
+              <tng-menu #tailwindToolsMenu="tngMenu" ariaLabel="Tools menu" (tngMenuSelect)="onTailwindCommandSelect($event)">
+                <button type="button" tngMenuItem tngMenuItemValue="Run lint">Run lint</button>
+                <button type="button" tngMenuItem tngMenuItemValue="Run tests">Run tests</button>
+              </tng-menu>
+              <button type="button" tngMenubarItem [tngMenubarMenu]="tailwindToolsMenu">Tools</button>
+            </div>
+          </tng-menubar>
+        </div>
+      </div>
+      <p class="menubar-overview-state">last command: {{ tailwindCommand() }}</p>
+    </ng-template>
+  </app-docs-example-tabs-section>
+
+  <section class="menubar-overview-block">
+    <h3>Keyboard baseline</h3>
+    <ul class="menubar-overview-list">
+      <li><code>ArrowLeft</code>/<code>ArrowRight</code> move focus across top-level items.</li>
+      <li><code>ArrowDown</code> opens owned menus and enters menu item traversal.</li>
+      <li><code>Escape</code> closes menus and restores focus to their owning menubar item.</li>
+    </ul>
+  </section>
+</article>
