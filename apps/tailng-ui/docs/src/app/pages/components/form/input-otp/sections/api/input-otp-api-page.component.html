@@ -1,0 +1,96 @@
+<article class="input-otp-api">
+  <h2 class="input-otp-api-title">API reference</h2>
+  <p class="input-otp-api-lead">
+    Input OTP ships as a primitive directive for state hooks and a wrapper component for complete
+    slot behavior, paste handling, and form integration.
+  </p>
+
+  <section class="input-otp-api-block">
+    <h3><code>tngInputOtp</code> primitive</h3>
+    <tng-code-block
+      [code]="primitiveAttachmentCode"
+      adapter="shiki"
+      language="html"
+      title="Primitive attachment"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+
+    <div class="input-otp-api-table-wrap">
+      <table class="input-otp-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Directive</th>
+            <th scope="col">API</th>
+            <th scope="col">Type</th>
+            <th scope="col">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>tngInputOtp</code></td>
+            <td><code>length</code></td>
+            <td><code>number</code> (1..12)</td>
+            <td>Total OTP slot count exposed through host state hooks.</td>
+          </tr>
+          <tr>
+            <td><code>tngInputOtp</code></td>
+            <td><code>value</code></td>
+            <td><code>string</code></td>
+            <td>Combined OTP value used to derive <code>data-empty/partial/complete</code>.</td>
+          </tr>
+          <tr>
+            <td><code>tngInputOtp</code></td>
+            <td><code>activeIndex</code></td>
+            <td><code>number | null</code></td>
+            <td>Marks the active slot through <code>data-active</code>.</td>
+          </tr>
+          <tr>
+            <td><code>tngInputOtp</code></td>
+            <td>
+              <code>disabled</code>, <code>readonly</code>, <code>required</code>,
+              <code>invalid</code>, <code>focused</code>, <code>focusVisible</code>
+            </td>
+            <td><code>boolean</code></td>
+            <td>Maps interaction and validation state into data attributes for styling.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="input-otp-api-block">
+    <h3><code>&lt;tng-input-otp&gt;</code> wrapper</h3>
+    <p>
+      Wrapper component handles slot rendering, keyboard traversal, paste distribution, hidden input
+      submission, and emits <code>valueChange</code> + <code>complete</code>.
+    </p>
+    <tng-code-block
+      [code]="wrapperAttachmentCode"
+      adapter="shiki"
+      language="html"
+      title="Wrapper usage"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section class="input-otp-api-block">
+    <h3>Angular forms integration</h3>
+    <p>
+      The wrapper implements <code>ControlValueAccessor</code> and works with
+      <code>formControl</code>, <code>formControlName</code>, and <code>ngModel</code>.
+    </p>
+    <tng-code-block
+      [code]="formsCode"
+      adapter="shiki"
+      language="ts"
+      title="Reactive forms wiring"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+</article>

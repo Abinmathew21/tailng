@@ -279,130 +279,130 @@ Recommended readonly behavior:
 
 ### Rendering
 
-- [ ] Renders configured number of slots
-- [ ] Renders empty slots by default
-- [ ] Renders filled slots from controlled value
-- [ ] Renders filled slots from default value
-- [ ] Renders disabled state correctly
-- [ ] Renders readonly state correctly
-- [ ] Renders required state correctly
-- [ ] Renders invalid state correctly
+- [x] Renders configured number of slots
+- [x] Renders empty slots by default
+- [x] Renders filled slots from controlled value
+- [x] Renders filled slots from default value
+- [x] Renders disabled state correctly
+- [x] Renders readonly state correctly
+- [x] Renders required state correctly
+- [x] Renders invalid state correctly
 - [ ] Renders associated label text correctly
 - [ ] Renders associated description correctly
 - [ ] Renders associated error message correctly
 
 ### Accessibility
 
-- [ ] Exposes accessible name correctly
-- [ ] Associates description through `aria-describedby`
+- [x] Exposes accessible name correctly
+- [x] Associates description through `aria-describedby`
 - [ ] Associates error message through `aria-describedby`
-- [ ] Exposes invalid state correctly
-- [ ] Exposes required state correctly
-- [ ] Maintains logical focus order across slots
+- [x] Exposes invalid state correctly
+- [x] Exposes required state correctly
+- [x] Maintains logical focus order across slots
 - [ ] Supports autocomplete hint where configured
 
 ### Keyboard interaction
 
 - [ ] Focuses first relevant slot with Tab
-- [ ] Moves to next slot after valid character entry
-- [ ] Moves to previous slot with ArrowLeft
-- [ ] Moves to next slot with ArrowRight
-- [ ] Clears current slot with Delete
-- [ ] Clears current slot with Backspace
-- [ ] Moves backward on Backspace when current slot is empty
-- [ ] Moves to first slot with Home
-- [ ] Moves to last relevant slot with End
+- [x] Moves to next slot after valid character entry
+- [x] Moves to previous slot with ArrowLeft
+- [x] Moves to next slot with ArrowRight
+- [x] Clears current slot with Delete
+- [x] Clears current slot with Backspace
+- [x] Moves backward on Backspace when current slot is empty
+- [x] Moves to first slot with Home
+- [x] Moves to last relevant slot with End
 - [ ] Does not trap Tab inside the control
-- [ ] Does not accept invalid character input when validation is active
-- [ ] Does not allow editing when disabled
-- [ ] Does not allow editing when readonly
+- [x] Does not accept invalid character input when validation is active
+- [x] Does not allow editing when disabled
+- [x] Does not allow editing when readonly
 - [ ] Retains focus-visible state after keyboard focus
 
 ### Typing behavior
 
-- [ ] Accepts numeric input in numeric mode
-- [ ] Rejects alphabetic input in numeric mode
-- [ ] Accepts alphanumeric input in alphanumeric mode
-- [ ] Replaces existing character in focused slot
-- [ ] Updates combined value correctly after each entry
-- [ ] Marks control as complete when all slots are filled
-- [ ] Marks control as partial when some slots are filled
-- [ ] Marks control as empty when all slots are cleared
+- [x] Accepts numeric input in numeric mode
+- [x] Rejects alphabetic input in numeric mode
+- [x] Accepts alphanumeric input in alphanumeric mode
+- [x] Replaces existing character in focused slot
+- [x] Updates combined value correctly after each entry
+- [x] Marks control as complete when all slots are filled
+- [x] Marks control as partial when some slots are filled
+- [x] Marks control as empty when all slots are cleared
 
 ### Paste behavior
 
-- [ ] Pastes full valid code from first slot
-- [ ] Pastes full valid code from middle slot
-- [ ] Distributes pasted characters across remaining slots
-- [ ] Trims pasted content beyond configured length
-- [ ] Filters invalid pasted characters when validation is active
-- [ ] Updates combined value correctly after paste
-- [ ] Moves focus to next empty slot after partial paste
-- [ ] Moves focus to last slot when paste completes the control
+- [x] Pastes full valid code from first slot
+- [x] Pastes full valid code from middle slot
+- [x] Distributes pasted characters across remaining slots
+- [x] Trims pasted content beyond configured length
+- [x] Filters invalid pasted characters when validation is active
+- [x] Updates combined value correctly after paste
+- [x] Moves focus to next empty slot after partial paste
+- [x] Moves focus to last slot when paste completes the control
 
 ### Controlled behavior
 
-- [ ] Supports controlled value state
-- [ ] Calls `valueChange` after typing
-- [ ] Calls `valueChange` after paste
-- [ ] Does not change visual state without controlled prop update
+- [x] Supports controlled value state
+- [x] Calls `valueChange` after typing
+- [x] Calls `valueChange` after paste
+- [x] Does not change visual state without controlled prop update
 
 ### Uncontrolled behavior
 
-- [ ] Supports `defaultValue`
-- [ ] Updates internal state on typing
-- [ ] Updates internal state on paste
-- [ ] Resets to initial uncontrolled value on form reset
+- [x] Supports `defaultValue`
+- [x] Updates internal state on typing
+- [x] Updates internal state on paste
+- [x] Resets to initial uncontrolled value on form reset
 
 ### Angular forms integration
 
-- [ ] Works with ControlValueAccessor
-- [ ] Works with `formControl`
-- [ ] Works with `formControlName`
-- [ ] Works with `ngModel` if supported
-- [ ] Marks control as touched on blur
-- [ ] Syncs disabled state from Angular forms
+- [x] Works with ControlValueAccessor
+- [x] Works with `formControl`
+- [x] Works with `formControlName`
+- [x] Works with `ngModel` if supported
+- [x] Marks control as touched on blur
+- [x] Syncs disabled state from Angular forms
 - [ ] Preserves dirty/pristine behavior correctly
 - [ ] Exposes validation state correctly to Angular forms consumers
 
 ### Form integration
 
-- [ ] Submits combined value when complete
-- [ ] Submits partial combined value when partially filled if form is submitted
-- [ ] Preserves name for native form submission
-- [ ] Resets to initial state on form reset
-- [ ] Works with hidden input strategy when custom root is used
+- [x] Submits combined value when complete
+- [x] Submits partial combined value when partially filled if form is submitted
+- [x] Preserves name for native form submission
+- [x] Resets to initial state on form reset
+- [x] Works with hidden input strategy when custom root is used
 
 ### Data attributes
 
-- [ ] Applies `data-empty` when no slots are filled
-- [ ] Applies `data-partial` when some slots are filled
-- [ ] Applies `data-complete` when all slots are filled
-- [ ] Applies `data-disabled` in disabled state
-- [ ] Applies `data-readonly` in readonly state
-- [ ] Applies `data-invalid` in invalid state
-- [ ] Applies `data-required` in required state
-- [ ] Applies `data-focused` on focus
-- [ ] Applies `data-focus-visible` on keyboard focus
-- [ ] Applies `data-active` on active slot
+- [x] Applies `data-empty` when no slots are filled
+- [x] Applies `data-partial` when some slots are filled
+- [x] Applies `data-complete` when all slots are filled
+- [x] Applies `data-disabled` in disabled state
+- [x] Applies `data-readonly` in readonly state
+- [x] Applies `data-invalid` in invalid state
+- [x] Applies `data-required` in required state
+- [x] Applies `data-focused` on focus
+- [x] Applies `data-focus-visible` on keyboard focus
+- [x] Applies `data-active` on active slot
 
 ## Implementation Steps
 
-- [ ] Headless component created in `primitives`
-- [ ] Test cases created for headless
-- [ ] Headless example page added/updated in playground - plain CSS app
-- [ ] Headless example page added/updated in playground - Tailwind app
-- [ ] Minimum style `<tng-input-otp>` component created in `components`
-- [ ] Test cases created for `<tng-input-otp>`
-- [ ] Component example page added/updated in playground - plain CSS app
-- [ ] Component example page added/updated in playground - Tailwind app
-- [ ] Docs added/updated in docs project - Overview section
-- [ ] Docs added/updated in docs project - API section
-- [ ] Docs added/updated in docs project - Styling section
-- [ ] Docs added/updated in docs project - Example section
-- [ ] Registry templates added in registry
-- [ ] `tailng add input-otp` command generation added
-- [ ] CLI integration tests added for `tailng add input-otp`
+- [x] Headless component created in `primitives`
+- [x] Test cases created for headless
+- [x] Headless example page added/updated in playground - plain CSS app
+- [x] Headless example page added/updated in playground - Tailwind app
+- [x] Minimum style `<tng-input-otp>` component created in `components`
+- [x] Test cases created for `<tng-input-otp>`
+- [x] Component example page added/updated in playground - plain CSS app
+- [x] Component example page added/updated in playground - Tailwind app
+- [x] Docs added/updated in docs project - Overview section
+- [x] Docs added/updated in docs project - API section
+- [x] Docs added/updated in docs project - Styling section
+- [x] Docs added/updated in docs project - Example section
+- [x] Registry templates added in registry
+- [x] `tailng add input-otp` command generation added
+- [x] CLI integration tests added for `tailng add input-otp`
 
 ## Links
 

@@ -1,20 +1,66 @@
 <main class="page">
   <section class="container">
-    <section class="card">
-      <h2>Primitives (`tngInputOtp`)</h2>
-      <div tngInputOtp class="primitive-shell">Primitive OTP group shell.</div>
-    </section>
+    <header class="hero">
+      <h1 class="title">Input OTP demo</h1>
+      <p class="subtitle">
+        Headless primitive wiring and the styled wrapper side-by-side for verification code flows.
+      </p>
+      <div class="actions">
+        <button type="button" class="reset-button" (click)="onResetAll()">Reset examples</button>
+      </div>
+    </header>
 
-    <section class="card">
-      <h2>Components (`tng-input-otp`)</h2>
-      <tng-input-otp
-        [value]="otpValue()"
-        [length]="6"
-        (valueChange)="onOtpValueChange($event)"
-        (complete)="onComplete($event)"
-      />
-      <p>Value: {{ otpValue() || '—' }}</p>
-      <p>Completed: {{ completionValue() || '—' }}</p>
-    </section>
+    <div class="grid">
+      <section class="card">
+        <h2>1) Headless primitive (`tngInputOtp`)</h2>
+        <p class="muted">Custom slot rendering with primitive state hooks and manual input handling.</p>
+
+        <div
+          tngInputOtp
+          class="otp-shell"
+          data-headless-otp
+          [length]="length"
+          [value]="headlessValue()"
+          [activeIndex]="headlessActiveIndex()"
+        >
+          @for (slot of headlessSlots(); track $index) {
+            <input
+              class="otp-slot"
+              [attr.data-tng-otp-slot]="$index"
+              [value]="slot"
+              [tabIndex]="headlessActiveIndex() === $index ? 0 : -1"
+              maxlength="1"
+              inputmode="numeric"
+              autocomplete="one-time-code"
+              [attr.aria-label]="'Headless OTP character ' + ($index + 1) + ' of ' + length"
+              (focus)="onHeadlessSlotFocus($index)"
+              (input)="onHeadlessSlotInput($index, $event)"
+              (keydown)="onHeadlessSlotKeydown($index, $event)"
+              (paste)="onHeadlessPaste($index, $event)"
+            />
+          }
+        </div>
+
+        <p class="summary">value: {{ headlessValue() || '—' }}</p>
+        <p class="summary">state: {{ headlessStatus() }}</p>
+      </section>
+
+      <section class="card">
+        <h2>2) Wrapper component (`tng-input-otp`)</h2>
+        <p class="muted">Drop-in wrapper with keyboard, paste, and Angular forms-friendly value contract.</p>
+
+        <tng-input-otp
+          [length]="6"
+          [value]="componentValue()"
+          [name]="'verificationCode'"
+          [required]="true"
+          (valueChange)="onComponentValueChange($event)"
+          (complete)="onComponentComplete($event)"
+        />
+
+        <p class="summary">value: {{ componentValue() || '—' }}</p>
+        <p class="summary">completed: {{ componentCompletion() || '—' }}</p>
+      </section>
+    </div>
   </section>
 </main>

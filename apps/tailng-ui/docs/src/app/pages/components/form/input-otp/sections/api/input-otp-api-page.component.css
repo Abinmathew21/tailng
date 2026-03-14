@@ -1,0 +1,63 @@
+:host {
+  display: block;
+}
+
+.input-otp-api {
+  display: grid;
+  gap: 1rem;
+}
+
+.input-otp-api-title {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.input-otp-api-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.input-otp-api-block {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.9rem;
+  color: var(--tng-semantic-foreground-secondary);
+  display: grid;
+  gap: 0.7rem;
+  padding: 1rem;
+}
+
+.input-otp-api-block h3 {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1rem;
+  margin: 0;
+}
+
+.input-otp-api-block p {
+  margin: 0;
+}
+
+.input-otp-api-table-wrap {
+  overflow-x: auto;
+}
+
+.input-otp-api-table {
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  min-width: 34rem;
+  width: 100%;
+}
+
+.input-otp-api-table th,
+.input-otp-api-table td {
+  border-bottom: 1px solid var(--tng-semantic-border-subtle);
+  padding: 0.625rem 0.5rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.input-otp-api-table th {
+  color: var(--tng-semantic-foreground-primary);
+  font-weight: 600;
+}

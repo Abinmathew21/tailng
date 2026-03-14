@@ -1,20 +1,75 @@
-<div class="mx-auto max-w-[72rem] grid gap-5">
-  <section class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5 space-y-3">
-    <h2 class="text-lg font-semibold">Primitives (`tngInputOtp`)</h2>
-    <div tngInputOtp class="rounded-xl border border-tng-border-subtle px-4 py-3 text-tng-fg-primary">
-      Primitive OTP group shell.
+<div class="mx-auto grid max-w-[76rem] gap-5">
+  <header class="grid gap-2 rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5">
+    <h1 class="text-3xl font-semibold tracking-tight text-tng-fg-primary">Input OTP demo</h1>
+    <p class="max-w-3xl text-sm text-tng-fg-secondary">
+      Compare a primitive-only implementation with the styled wrapper while keeping the same OTP
+      value contract.
+    </p>
+    <div>
+      <button
+        type="button"
+        class="rounded-md border border-tng-border-subtle bg-tng-bg-base px-3 py-1.5 text-sm text-tng-fg-primary transition hover:border-tng-accent-brand"
+        (click)="onResetAll()"
+      >
+        Reset examples
+      </button>
     </div>
-  </section>
+  </header>
 
-  <section class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5 space-y-3">
-    <h2 class="text-lg font-semibold">Components (`tng-input-otp`)</h2>
-    <tng-input-otp
-      [value]="otpValue()"
-      [length]="6"
-      (valueChange)="onOtpValueChange($event)"
-      (complete)="onComplete($event)"
-    />
-    <p class="text-sm text-tng-fg-secondary m-0">Value: {{ otpValue() || '—' }}</p>
-    <p class="text-sm text-tng-fg-secondary m-0">Completed: {{ completionValue() || '—' }}</p>
-  </section>
+  <div class="grid gap-4 lg:grid-cols-2">
+    <section class="grid gap-3 rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5">
+      <h2 class="text-lg font-semibold text-tng-fg-primary">1) Headless primitive (`tngInputOtp`)</h2>
+      <p class="text-sm text-tng-fg-secondary">
+        Custom slot rendering with primitive state hooks and manual input distribution.
+      </p>
+
+      <div
+        tngInputOtp
+        class="inline-flex items-center gap-2 rounded-xl border border-tng-border-subtle bg-tng-bg-base px-3 py-2"
+        data-headless-otp
+        [length]="length"
+        [value]="headlessValue()"
+        [activeIndex]="headlessActiveIndex()"
+      >
+        @for (slot of headlessSlots(); track $index) {
+          <input
+            class="h-11 w-10 rounded-lg border border-tng-border-subtle bg-tng-bg-surface text-center text-base font-semibold text-tng-fg-primary outline-none transition focus:border-tng-accent-brand focus:ring-2 focus:ring-tng-accent-brand/30"
+            [attr.data-tng-otp-slot]="$index"
+            [value]="slot"
+            [tabIndex]="headlessActiveIndex() === $index ? 0 : -1"
+            maxlength="1"
+            inputmode="numeric"
+            autocomplete="one-time-code"
+            [attr.aria-label]="'Headless OTP character ' + ($index + 1) + ' of ' + length"
+            (focus)="onHeadlessSlotFocus($index)"
+            (input)="onHeadlessSlotInput($index, $event)"
+            (keydown)="onHeadlessSlotKeydown($index, $event)"
+            (paste)="onHeadlessPaste($index, $event)"
+          />
+        }
+      </div>
+
+      <p class="text-sm text-tng-fg-secondary">value: {{ headlessValue() || '—' }}</p>
+      <p class="text-sm text-tng-fg-secondary">state: {{ headlessStatus() }}</p>
+    </section>
+
+    <section class="grid gap-3 rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5">
+      <h2 class="text-lg font-semibold text-tng-fg-primary">2) Wrapper component (`tng-input-otp`)</h2>
+      <p class="text-sm text-tng-fg-secondary">
+        Built-in keyboard and paste behavior with straightforward valueChange + complete outputs.
+      </p>
+
+      <tng-input-otp
+        [length]="6"
+        [value]="componentValue()"
+        [name]="'verificationCode'"
+        [required]="true"
+        (valueChange)="onComponentValueChange($event)"
+        (complete)="onComponentComplete($event)"
+      />
+
+      <p class="text-sm text-tng-fg-secondary">value: {{ componentValue() || '—' }}</p>
+      <p class="text-sm text-tng-fg-secondary">completed: {{ componentCompletion() || '—' }}</p>
+    </section>
+  </div>
 </div>

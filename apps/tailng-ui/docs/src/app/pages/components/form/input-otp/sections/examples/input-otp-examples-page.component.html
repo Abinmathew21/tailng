@@ -1,0 +1,97 @@
+<article class="input-otp-examples">
+  <h2 class="input-otp-examples-title">Examples</h2>
+  <p class="input-otp-examples-lead">
+    Input OTP examples share the same segmented verification flow across headless markup, plain CSS,
+    and Tailwind utility shells.
+  </p>
+
+  <section class="input-otp-examples-block">
+    <app-docs-example-tabs-section
+      heading="Verification OTP patterns"
+      description="Type digits, use Arrow keys for slot traversal, and paste full codes from any active slot."
+      ariaLabel="Input OTP examples"
+      tabListAriaLabel="Input OTP example variants"
+      defaultValue="headless"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="headless"
+        label="Headless"
+        panelTitle="Headless OTP examples"
+        [codeTabs]="headlessCodeTabs"
+      >
+        <section class="otp-example-shell otp-example-shell--headless">
+          <div
+            tngInputOtp
+            class="otp-example-root"
+            data-headless-otp
+            [length]="length"
+            [value]="headlessValue()"
+            [activeIndex]="headlessActiveIndex()"
+          >
+            @for (slot of headlessSlots(); track $index) {
+              <input
+                class="otp-example-slot"
+                [attr.data-tng-otp-slot]="$index"
+                [value]="slot"
+                [tabIndex]="headlessActiveIndex() === $index ? 0 : -1"
+                maxlength="1"
+                inputmode="numeric"
+                autocomplete="one-time-code"
+                (focus)="onHeadlessSlotFocus($index)"
+                (input)="onHeadlessSlotInput($index, $event)"
+                (keydown)="onHeadlessSlotKeydown($index, $event)"
+                (paste)="onHeadlessPaste($index, $event)"
+              />
+            }
+          </div>
+          <p class="otp-example-summary">value: {{ headlessValue() || '—' }}</p>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Plain CSS OTP examples"
+        [codeTabs]="plainCssCodeTabs"
+      >
+        <section class="otp-example-shell otp-example-shell--plain">
+          <tng-input-otp
+            [length]="6"
+            [value]="plainValue()"
+            [name]="'plainExampleOtp'"
+            (valueChange)="onPlainValueChange($event)"
+            (complete)="onPlainComplete($event)"
+          ></tng-input-otp>
+          <p class="otp-example-summary">value: {{ plainValue() || '—' }}</p>
+          <p class="otp-example-summary">complete event: {{ plainComplete() || '—' }}</p>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Tailwind OTP examples"
+        [codeTabs]="tailwindCodeTabs"
+      >
+        <section
+          class="otp-example-shell rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+        >
+          <tng-input-otp
+            [length]="6"
+            [value]="tailwindValue()"
+            [name]="'tailwindExampleOtp'"
+            [mask]="true"
+            (valueChange)="onTailwindValueChange($event)"
+            (complete)="onTailwindComplete($event)"
+          ></tng-input-otp>
+          <p class="otp-example-summary">value: {{ tailwindValue() || '—' }}</p>
+          <p class="otp-example-summary">complete event: {{ tailwindComplete() || '—' }}</p>
+        </section>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+</article>

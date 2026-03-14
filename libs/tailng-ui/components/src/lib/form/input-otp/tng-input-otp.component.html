@@ -1,15 +1,60 @@
-<div tngInputOtp class="tng-input-otp-root" [length]="length()" (paste)="onSlotsPaste($event)">
+<div
+  tngInputOtp
+  class="tng-input-otp-root"
+  [id]="rootId()"
+  [length]="length()"
+  [value]="currentValue()"
+  [disabled]="disabled()"
+  [readonly]="readonly()"
+  [required]="required()"
+  [invalid]="invalid()"
+  [focused]="focused()"
+  [focusVisible]="focusVisible()"
+  [activeIndex]="activeIndex()"
+  [attr.aria-label]="ariaLabel()"
+  [attr.aria-labelledby]="ariaLabelledby()"
+  [attr.aria-describedby]="ariaDescribedby()"
+  [attr.aria-invalid]="invalid() ? 'true' : null"
+  [attr.aria-required]="required() ? 'true' : null"
+  [attr.aria-disabled]="disabled() ? 'true' : null"
+  [attr.aria-readonly]="readonly() ? 'true' : null"
+>
   @for (slot of slots(); track $index) {
     <input
       class="tng-input-otp-slot"
+      [attr.id]="rootId() + '-slot-' + $index"
       [attr.data-tng-otp-slot]="$index"
-      [value]="slot"
-      [attr.aria-label]="'OTP character ' + ($index + 1)"
-      inputmode="numeric"
+      [tabIndex]="isSlotTabbable($index) ? 0 : -1"
+      [value]="slotValue($index)"
+      [attr.placeholder]="slotPlaceholder($index)"
+      [type]="slotInputType()"
+      [inputMode]="resolvedInputMode()"
+      [attr.autocomplete]="$index === 0 ? autocomplete() : 'off'"
+      [attr.aria-label]="slotAriaLabel($index)"
+      [readonly]="readonly()"
+      [disabled]="disabled()"
+      [required]="required()"
+      [attr.aria-invalid]="invalid() ? 'true' : null"
       maxlength="1"
-      type="text"
-      (input)="onSlotInput($index, $event)"
+      (mousedown)="onSlotPointerDown()"
+      (focus)="onSlotFocus($index, $event)"
+      (blur)="onSlotBlur($event)"
       (keydown)="onSlotKeydown($index, $event)"
+      (input)="onSlotInput($index, $event)"
+      (paste)="onSlotPaste($index, $event)"
     />
   }
+
+  <input
+    class="tng-input-otp-hidden-input"
+    type="text"
+    [value]="currentValue()"
+    [attr.name]="name()"
+    [attr.form]="form()"
+    [disabled]="disabled()"
+    [readonly]="readonly()"
+    [required]="required()"
+    [attr.aria-hidden]="'true'"
+    tabindex="-1"
+  />
 </div>

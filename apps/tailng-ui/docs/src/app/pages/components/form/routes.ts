@@ -11,6 +11,10 @@ const inputItem = group.items.find((item) => item.slug === 'input');
 if (inputItem === undefined) {
   throw new Error('Missing "input" in components form docs group.');
 }
+const inputOtpItem = group.items.find((item) => item.slug === 'input-otp');
+if (inputOtpItem === undefined) {
+  throw new Error('Missing "input-otp" in components form docs group.');
+}
 const labelItem = group.items.find((item) => item.slug === 'label');
 if (labelItem === undefined) {
   throw new Error('Missing "label" in components form docs group.');
@@ -54,6 +58,7 @@ if (chipsItem === undefined) {
 
 const landingSlugs = new Set([
   inputItem.slug,
+  inputOtpItem.slug,
   labelItem.slug,
   checkboxItem.slug,
   toggleItem.slug,
@@ -76,6 +81,11 @@ export const COMPONENTS_FORM_ROUTES: Routes = [
     path: inputItem.slug,
     loadChildren: () =>
       import('./input/routes').then((module) => module.COMPONENTS_FORM_INPUT_ROUTES),
+  },
+  {
+    path: inputOtpItem.slug,
+    loadChildren: () =>
+      import('./input-otp/routes').then((module) => module.COMPONENTS_FORM_INPUT_OTP_ROUTES),
   },
   {
     path: labelItem.slug,

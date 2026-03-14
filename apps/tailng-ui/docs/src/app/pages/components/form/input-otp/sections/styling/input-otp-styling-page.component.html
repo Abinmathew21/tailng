@@ -1,0 +1,27 @@
+<article class="input-otp-styling">
+  <h2 class="input-otp-styling-title">Styling</h2>
+  <p class="input-otp-styling-lead">
+    Style OTP layouts through primitive data attributes and wrapper slot classes. Keep focus,
+    invalid, and completion feedback visible in your product theme.
+  </p>
+
+  <section class="input-otp-styling-block">
+    <h3>Recommended hooks</h3>
+    <ul>
+      <li><code>[data-slot="input-otp"]</code> for root-level spacing and surface styles.</li>
+      <li><code>[data-empty]</code>, <code>[data-partial]</code>, <code>[data-complete]</code> for state feedback.</li>
+      <li><code>[data-active]</code> and <code>[data-focus-visible]</code> for active-slot highlighting.</li>
+      <li><code>[data-invalid]</code> + <code>[data-required]</code> for validation affordance.</li>
+    </ul>
+
+    <tng-code-block
+      [code]="stylingExampleCode"
+      adapter="shiki"
+      language="css"
+      title="OTP state styling"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+</article>

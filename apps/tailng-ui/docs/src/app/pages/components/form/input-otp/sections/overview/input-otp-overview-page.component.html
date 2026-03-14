@@ -1,0 +1,133 @@
+<article class="input-otp-overview">
+  <h2 class="input-otp-overview-title">Input OTP overview</h2>
+  <p class="input-otp-overview-lead">
+    Input OTP captures verification codes through segmented slots while preserving a single string
+    value contract for forms and APIs.
+  </p>
+
+  <section class="input-otp-overview-block">
+    <h3>Imports</h3>
+    <p>Use the primitive for headless ownership or the wrapper for ready behavior + styling.</p>
+    <tng-code-block
+      [code]="primitiveImportCode"
+      adapter="shiki"
+      language="ts"
+      title="Primitive import"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+    <tng-code-block
+      [code]="componentImportCode"
+      adapter="shiki"
+      language="ts"
+      title="Component import"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section class="input-otp-overview-block">
+    <app-docs-example-tabs-section
+      heading="Verification code variants"
+      description="Use the same OTP contract in headless markup, plain CSS wrappers, and Tailwind utility shells."
+      ariaLabel="Input OTP style variants"
+      tabListAriaLabel="Input OTP variant tabs"
+      defaultValue="headless"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="headless"
+        label="Headless"
+        panelTitle="Headless OTP stack"
+        [codeTabs]="headlessCodeTabs"
+      >
+        <section class="otp-preview-shell otp-preview-shell--headless">
+          <div
+            tngInputOtp
+            class="otp-preview-root"
+            data-headless-otp
+            [length]="length"
+            [value]="headlessValue()"
+            [activeIndex]="headlessActiveIndex()"
+          >
+            @for (slot of headlessSlots(); track $index) {
+              <input
+                class="otp-preview-slot"
+                [attr.data-tng-otp-slot]="$index"
+                [value]="slot"
+                [tabIndex]="headlessActiveIndex() === $index ? 0 : -1"
+                maxlength="1"
+                inputmode="numeric"
+                autocomplete="one-time-code"
+                [attr.aria-label]="'Headless OTP character ' + ($index + 1) + ' of ' + length"
+                (focus)="onHeadlessSlotFocus($index)"
+                (input)="onHeadlessSlotInput($index, $event)"
+                (keydown)="onHeadlessSlotKeydown($index, $event)"
+                (paste)="onHeadlessPaste($index, $event)"
+              />
+            }
+          </div>
+
+          <p class="otp-preview-summary">value: {{ headlessValue() || '—' }}</p>
+          <p class="otp-preview-summary">state: {{ headlessState() }}</p>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Plain CSS OTP stack"
+        [codeTabs]="plainCssCodeTabs"
+      >
+        <section class="otp-preview-shell otp-preview-shell--plain">
+          <tng-input-otp
+            [length]="6"
+            [value]="plainValue()"
+            [name]="'plainOtp'"
+            (valueChange)="onPlainValueChange($event)"
+            (complete)="onPlainComplete($event)"
+          ></tng-input-otp>
+          <p class="otp-preview-summary">value: {{ plainValue() || '—' }}</p>
+          <p class="otp-preview-summary">complete event: {{ plainComplete() || '—' }}</p>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Tailwind OTP stack"
+        [codeTabs]="tailwindCodeTabs"
+      >
+        <section
+          class="otp-preview-shell rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+        >
+          <tng-input-otp
+            [length]="6"
+            [value]="tailwindValue()"
+            [name]="'tailwindOtp'"
+            (valueChange)="onTailwindValueChange($event)"
+            (complete)="onTailwindComplete($event)"
+          ></tng-input-otp>
+          <p class="otp-preview-summary">value: {{ tailwindValue() || '—' }}</p>
+          <p class="otp-preview-summary">complete event: {{ tailwindComplete() || '—' }}</p>
+        </section>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section class="input-otp-overview-block">
+    <h3>Behavior baseline</h3>
+    <ul class="input-otp-overview-list">
+      <li>Typing inserts one character per slot and auto-advances.</li>
+      <li>Paste distributes valid characters from the active slot to the remaining slots.</li>
+      <li>Backspace/Delete remove characters predictably while preserving a single string value.</li>
+    </ul>
+  </section>
+</article>

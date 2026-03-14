@@ -1,0 +1,93 @@
+:host {
+  display: block;
+}
+
+.input-otp-overview {
+  display: grid;
+  gap: 1rem;
+}
+
+.input-otp-overview-title {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.input-otp-overview-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.input-otp-overview-block {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.9rem;
+  color: var(--tng-semantic-foreground-secondary);
+  display: grid;
+  gap: 0.8rem;
+  padding: 1rem;
+}
+
+.input-otp-overview-block h3 {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1rem;
+  margin: 0;
+}
+
+.input-otp-overview-block p {
+  margin: 0;
+}
+
+.otp-preview-shell {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.85rem;
+  display: grid;
+  gap: 0.7rem;
+  max-width: 32rem;
+  padding: 0.95rem;
+}
+
+.otp-preview-shell--headless {
+  background: color-mix(in srgb, var(--tng-semantic-background-muted) 30%, transparent);
+}
+
+.otp-preview-shell--plain {
+  background: color-mix(in srgb, var(--tng-semantic-background-muted) 35%, transparent);
+}
+
+.otp-preview-root {
+  align-items: center;
+  display: inline-flex;
+  gap: 0.5rem;
+}
+
+.otp-preview-slot {
+  appearance: none;
+  background: var(--tng-semantic-background-canvas);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.55rem;
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1rem;
+  font-weight: 600;
+  block-size: 2.45rem;
+  inline-size: 2.3rem;
+  text-align: center;
+}
+
+.otp-preview-slot:focus-visible {
+  border-color: var(--tng-semantic-accent-brand);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--tng-semantic-accent-brand) 30%, transparent);
+  outline: none;
+}
+
+.otp-preview-summary {
+  font-size: 0.82rem;
+  margin: 0;
+}
+
+.input-otp-overview-list {
+  display: grid;
+  gap: 0.45rem;
+  margin: 0;
+  padding-left: 1.1rem;
+}

@@ -71,6 +71,12 @@ export const COMPONENTS_FORM_GROUP: ComponentsDocsGroup = {
       description: 'Text input fields, adornments, validation messaging, and layout patterns.',
     },
     {
+      id: 'input-otp',
+      slug: 'input-otp',
+      title: 'Input OTP',
+      description: 'Segmented one-time-password input with keyboard, paste, and form integration.',
+    },
+    {
       id: 'label',
       slug: 'label',
       title: 'Label',
