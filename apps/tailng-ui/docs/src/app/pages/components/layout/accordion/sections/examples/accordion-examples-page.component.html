@@ -1,0 +1,179 @@
+<article class="accordion-examples">
+  <h2 class="accordion-examples-title">Examples</h2>
+  <p class="accordion-examples-lead">
+    Production-friendly accordion patterns for FAQ groups, settings clusters, and disabled sections.
+  </p>
+
+  <section class="accordion-examples-block">
+    <app-docs-example-tabs-section
+      heading="Single-mode FAQ"
+      description="One panel open at a time with predictable trigger/panel linkage."
+      ariaLabel="Single mode accordion variants"
+      tabListAriaLabel="Single mode accordion styles"
+      defaultValue="headless"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="headless"
+        label="Headless"
+        panelTitle="Headless single-mode FAQ"
+        [codeTabs]="faqHeadlessCodeTabs"
+      >
+        <section tngAccordion class="accordion-example-shell accordion-example-shell--headless" [defaultValue]="'license'">
+          <article tngAccordionItem value="license" class="accordion-example-item">
+            <button tngAccordionTrigger type="button" class="accordion-example-trigger">License</button>
+            <div tngAccordionPanel class="accordion-example-panel">MIT with optional enterprise add-ons.</div>
+          </article>
+          <article tngAccordionItem value="support" class="accordion-example-item">
+            <button tngAccordionTrigger type="button" class="accordion-example-trigger">Support window</button>
+            <div tngAccordionPanel class="accordion-example-panel">Community and commercial channels.</div>
+          </article>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Plain CSS single-mode FAQ"
+        [codeTabs]="faqPlainCodeTabs"
+      >
+        <div class="accordion-example-shell accordion-example-shell--plain">
+          <tng-accordion ariaLabel="Project FAQ" [defaultValue]="'timeline'">
+            <tng-accordion-item value="timeline">
+              <tng-accordion-trigger class="accordion-example-trigger">Timeline</tng-accordion-trigger>
+              <tng-accordion-panel class="accordion-example-panel">Roadmap and release cadence.</tng-accordion-panel>
+            </tng-accordion-item>
+            <tng-accordion-item value="governance">
+              <tng-accordion-trigger class="accordion-example-trigger">Governance</tng-accordion-trigger>
+              <tng-accordion-panel class="accordion-example-panel">Contribution and review policy.</tng-accordion-panel>
+            </tng-accordion-item>
+          </tng-accordion>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Tailwind single-mode FAQ"
+        [codeTabs]="faqTailwindCodeTabs"
+      >
+        <div
+          class="accordion-example-shell rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+        >
+          <tng-accordion ariaLabel="Project FAQ" [defaultValue]="'release'">
+            <tng-accordion-item value="release">
+              <tng-accordion-trigger class="accordion-example-trigger font-medium text-slate-900 dark:text-slate-100"
+                >Release model</tng-accordion-trigger
+              >
+              <tng-accordion-panel class="accordion-example-panel text-slate-700 dark:text-slate-300"
+                >Weekly patch and monthly minor cadence.</tng-accordion-panel
+              >
+            </tng-accordion-item>
+            <tng-accordion-item value="quality">
+              <tng-accordion-trigger class="accordion-example-trigger font-medium text-slate-900 dark:text-slate-100"
+                >Quality gates</tng-accordion-trigger
+              >
+              <tng-accordion-panel class="accordion-example-panel text-slate-700 dark:text-slate-300"
+                >Tests and lint pass before merge.</tng-accordion-panel
+              >
+            </tng-accordion-item>
+          </tng-accordion>
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section class="accordion-examples-block">
+    <app-docs-example-tabs-section
+      heading="Multiple mode settings"
+      description="Allow multiple panels to stay open while preserving keyboard traversal semantics."
+      ariaLabel="Multiple mode accordion variants"
+      tabListAriaLabel="Multiple mode accordion styles"
+      defaultValue="headless"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="headless"
+        label="Headless"
+        panelTitle="Headless multiple-mode settings"
+        [codeTabs]="settingsHeadlessCodeTabs"
+      >
+        <section
+          tngAccordion
+          type="multiple"
+          class="accordion-example-shell accordion-example-shell--headless"
+          [defaultValue]="['alerts']"
+        >
+          <article tngAccordionItem value="alerts" class="accordion-example-item">
+            <button tngAccordionTrigger type="button" class="accordion-example-trigger">Alerts</button>
+            <div tngAccordionPanel class="accordion-example-panel">PagerDuty, email, and Slack routing.</div>
+          </article>
+          <article tngAccordionItem value="audits" class="accordion-example-item">
+            <button tngAccordionTrigger type="button" class="accordion-example-trigger">Audits</button>
+            <div tngAccordionPanel class="accordion-example-panel">Retention and export scheduling.</div>
+          </article>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Plain CSS multiple-mode settings"
+        [codeTabs]="settingsPlainCodeTabs"
+      >
+        <div class="accordion-example-shell accordion-example-shell--plain">
+          <tng-accordion type="multiple" [defaultValue]="['alerts']" ariaLabel="System settings">
+            <tng-accordion-item value="alerts">
+              <tng-accordion-trigger class="accordion-example-trigger">Alerts</tng-accordion-trigger>
+              <tng-accordion-panel class="accordion-example-panel">PagerDuty, email, and Slack routing.</tng-accordion-panel>
+            </tng-accordion-item>
+            <tng-accordion-item value="audits">
+              <tng-accordion-trigger class="accordion-example-trigger">Audits</tng-accordion-trigger>
+              <tng-accordion-panel class="accordion-example-panel">Retention and export scheduling.</tng-accordion-panel>
+            </tng-accordion-item>
+            <tng-accordion-item value="billing" disabled>
+              <tng-accordion-trigger class="accordion-example-trigger">Billing (disabled)</tng-accordion-trigger>
+              <tng-accordion-panel class="accordion-example-panel">Disabled sections stay locked.</tng-accordion-panel>
+            </tng-accordion-item>
+          </tng-accordion>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Tailwind multiple-mode settings"
+        [codeTabs]="settingsTailwindCodeTabs"
+      >
+        <div
+          class="accordion-example-shell rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+        >
+          <tng-accordion type="multiple" [defaultValue]="['alerts']" ariaLabel="System settings">
+            <tng-accordion-item value="alerts">
+              <tng-accordion-trigger class="accordion-example-trigger font-medium text-slate-900 dark:text-slate-100"
+                >Alerts</tng-accordion-trigger
+              >
+              <tng-accordion-panel class="accordion-example-panel text-slate-700 dark:text-slate-300"
+                >PagerDuty, email, and Slack routing.</tng-accordion-panel
+              >
+            </tng-accordion-item>
+            <tng-accordion-item value="audits">
+              <tng-accordion-trigger class="accordion-example-trigger font-medium text-slate-900 dark:text-slate-100"
+                >Audits</tng-accordion-trigger
+              >
+              <tng-accordion-panel class="accordion-example-panel text-slate-700 dark:text-slate-300"
+                >Retention and export scheduling.</tng-accordion-panel
+              >
+            </tng-accordion-item>
+          </tng-accordion>
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+</article>

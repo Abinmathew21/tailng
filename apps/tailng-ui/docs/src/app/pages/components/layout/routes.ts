@@ -12,6 +12,11 @@ if (collapsibleItem === undefined) {
   throw new Error('Missing "collapsible" in components layout docs group.');
 }
 
+const accordionItem = group.items.find((item) => item.slug === 'accordion');
+if (accordionItem === undefined) {
+  throw new Error('Missing "accordion" in components layout docs group.');
+}
+
 const stepperItem = group.items.find((item) => item.slug === 'stepper');
 if (stepperItem === undefined) {
   throw new Error('Missing "stepper" in components layout docs group.');
@@ -29,6 +34,14 @@ export const COMPONENTS_LAYOUT_ROUTES: Routes = [
     loadChildren: () =>
       import('./collapsible/routes').then(
         (module) => module.COMPONENTS_LAYOUT_COLLAPSIBLE_ROUTES,
+      ),
+  },
+  {
+    path: accordionItem.slug,
+    data: toComponentsDocsRouteData(group, accordionItem),
+    loadChildren: () =>
+      import('./accordion/routes').then(
+        (module) => module.COMPONENTS_LAYOUT_ACCORDION_ROUTES,
       ),
   },
   {

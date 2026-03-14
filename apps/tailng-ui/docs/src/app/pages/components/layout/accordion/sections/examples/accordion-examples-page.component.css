@@ -1,0 +1,93 @@
+:host {
+  display: block;
+}
+
+.accordion-examples {
+  display: grid;
+  gap: 1rem;
+}
+
+.accordion-examples-title {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.accordion-examples-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.accordion-examples-block {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.9rem;
+  color: var(--tng-semantic-foreground-secondary);
+  display: grid;
+  gap: 0.85rem;
+  padding: 1rem;
+}
+
+.accordion-example-shell {
+  display: grid;
+  gap: 0.65rem;
+  max-width: 36rem;
+  width: 100%;
+}
+
+.accordion-example-shell--headless {
+  background: color-mix(in srgb, var(--tng-semantic-background-surface) 84%, transparent);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.8rem;
+  padding: 0.75rem;
+}
+
+.accordion-example-shell--plain {
+  background: var(--tng-semantic-background-surface);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.8rem;
+  padding: 0.75rem;
+}
+
+.accordion-example-item {
+  border-bottom: 1px solid var(--tng-semantic-border-subtle);
+}
+
+.accordion-example-item:last-child {
+  border-bottom: 0;
+}
+
+.accordion-example-trigger {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  color: var(--tng-semantic-foreground-primary);
+  cursor: pointer;
+  display: flex;
+  font: inherit;
+  justify-content: space-between;
+  min-height: 2.6rem;
+  padding: 0.5rem 0.7rem;
+  text-align: left;
+  width: 100%;
+}
+
+.accordion-example-trigger:focus-visible {
+  border-radius: 0.55rem;
+  outline: 2px solid var(--tng-semantic-focus-ring);
+  outline-offset: -2px;
+}
+
+.accordion-example-panel {
+  color: var(--tng-semantic-foreground-secondary);
+  line-height: 1.45;
+  padding: 0 0.7rem 0.72rem;
+}
+
+:host ::ng-deep tng-accordion-trigger[data-state='open'] {
+  color: var(--tng-semantic-accent-brand);
+}
+
+:host ::ng-deep tng-accordion-item[data-disabled='true'] {
+  opacity: 0.68;
+}

@@ -89,7 +89,7 @@ export const ALL_PLAYGROUND_ITEMS: readonly TngPlaygroundItem[] = Object.freeze(
     registry: true,
     registryTest: false,
     stackblitz: false,
-    docs: false,
+    docs: true,
   },
   { path: '/collapsible', title: 'Collapsible', description: 'Single disclosure panel.', category: 'layout',
     headless: true,

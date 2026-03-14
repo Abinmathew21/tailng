@@ -144,66 +144,66 @@ This component should expose behavior, accessibility, and state for styling; ani
 
 ### Rendering
 
-- [ ] Renders accordion root with correct data-type
-- [ ] Renders items with trigger and panel
-- [ ] Renders open/closed state per item
-- [ ] Renders disabled state correctly
-- [ ] Applies data-state, data-disabled, data-slot
+- [x] Renders accordion root with correct data-type
+- [x] Renders items with trigger and panel
+- [x] Renders open/closed state per item
+- [x] Renders disabled state correctly
+- [x] Applies data-state, data-disabled, data-slot
 
 ### Accessibility
 
-- [ ] Trigger has aria-expanded matching open state
-- [ ] Trigger has aria-controls pointing to panel id
-- [ ] Panel has role="region" and aria-labelledby
-- [ ] Only one trigger in tab order; arrows move focus
-- [ ] Disabled trigger has aria-disabled
+- [x] Trigger has aria-expanded matching open state
+- [x] Trigger has aria-controls pointing to panel id
+- [x] Panel has role="region" and aria-labelledby
+- [x] Only one trigger in tab order; arrows move focus
+- [x] Disabled trigger has aria-disabled
 
 ### Keyboard interaction
 
-- [ ] Arrow Down/Up (or Right/Left) move focus between triggers
-- [ ] Enter/Space toggle focused item
-- [ ] Does not toggle when item disabled
-- [ ] Loop wraps when loop=true
-- [ ] Home/End when implemented
+- [x] Arrow Down/Up (or Right/Left) move focus between triggers
+- [x] Enter/Space toggle focused item
+- [x] Does not toggle when item disabled
+- [x] Loop wraps when loop=true
+- [x] Home/End when implemented
 
 ### Pointer interaction
 
-- [ ] Click on trigger toggles item
-- [ ] Does not toggle when disabled
-- [ ] In single type, opening one closes others (when designed)
+- [x] Click on trigger toggles item
+- [x] Does not toggle when disabled
+- [x] In single type, opening one closes others (when designed)
 
 ### Controlled behavior
 
-- [ ] Supports controlled value (single and multiple)
-- [ ] Emits valueChange / expandedChange
-- [ ] Does not change open state without controlled update
+- [x] Supports controlled value (single and multiple)
+- [x] Emits valueChange / expandedChange
+- [x] Does not change open state without controlled update
 
 ### Uncontrolled behavior
 
-- [ ] Supports defaultValue and updates on user interaction
-- [ ] Single type: only one open; multiple type: multiple open
+- [x] Supports defaultValue and updates on user interaction
+- [x] Single type: only one open; multiple type: multiple open
 
 ### Data attributes
 
-- [ ] Applies data-type, data-state, data-disabled, data-slot on root, item, trigger, panel
+- [x] Applies data-type, data-state, data-disabled, data-slot on root, item, trigger, panel
 
 ## Implementation Steps
 
 1. [x] Headless component created in `primitives`
 2. [x] Test cases created for headless
-3. [ ] Headless example page added/updated in playground - plain CSS app
-4. [ ] Headless example page added/updated in playground - Tailwind app
+3. [x] Headless example page added/updated in playground - plain CSS app
+4. [x] Headless example page added/updated in playground - Tailwind app
 5. [x] Minimum style `<tng-accordion>` component created in `components`
-6. [ ] Test cases created for `<tng-accordion>`
-7. [ ] Component example page added/updated in playground - plain CSS app
-8. [ ] Component example page added/updated in playground - Tailwind app
-9. [ ] Docs added/updated in docs project - Overview section
-10. [ ] Docs added/updated in docs project - API section
-11. [ ] Docs added/updated in docs project - Styling section
-12. [ ] Docs added/updated in docs project - Example section
-13. [ ] Registry templates added in `registry` for copy-paste mode (`tailng add accordion`)
-14. [ ] `tailng-cli` command generation added for accordion artifacts
-15. [ ] CLI integration tests added for `tailng add accordion`
+6. [x] Test cases created for `<tng-accordion>`
+7. [x] Component example page added/updated in playground - plain CSS app
+8. [x] Component example page added/updated in playground - Tailwind app
+9. [x] Docs added/updated in docs project - Overview section
+10. [x] Docs added/updated in docs project - API section
+11. [x] Docs added/updated in docs project - Styling section
+12. [x] Docs added/updated in docs project - Example section
+13. [x] Registry templates added in `registry` for copy-paste mode (`tailng add accordion`)
+14. [x] `tailng-cli` command generation added for accordion artifacts
+15. [x] CLI integration tests added for `tailng add accordion`
 
 ## Links
 

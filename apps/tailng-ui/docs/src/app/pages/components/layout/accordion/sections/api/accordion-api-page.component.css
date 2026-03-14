@@ -1,0 +1,87 @@
+:host {
+  display: block;
+}
+
+.accordion-api {
+  display: grid;
+  gap: 1rem;
+}
+
+.accordion-api-title {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.accordion-api-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.accordion-api-block {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.9rem;
+  color: var(--tng-semantic-foreground-secondary);
+  display: grid;
+  gap: 0.8rem;
+  padding: 1rem;
+}
+
+.accordion-api-block h3 {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1rem;
+  margin: 0;
+}
+
+.accordion-api-block p {
+  margin: 0;
+}
+
+.accordion-api-table-wrap {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.75rem;
+  overflow: auto;
+}
+
+.accordion-api-table {
+  border-collapse: collapse;
+  min-width: 40rem;
+  width: 100%;
+}
+
+.accordion-api-table thead th {
+  background: var(--tng-semantic-background-muted);
+  border-bottom: 1px solid var(--tng-semantic-border-subtle);
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 0.68rem 0.8rem;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.accordion-api-table tbody td {
+  border-bottom: 1px solid var(--tng-semantic-border-subtle);
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.88rem;
+  line-height: 1.4;
+  padding: 0.68rem 0.8rem;
+  vertical-align: top;
+}
+
+.accordion-api-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.accordion-api-table code {
+  font-size: 0.8rem;
+}
+
+@media (max-width: 760px) {
+  .accordion-api-table {
+    min-width: 32rem;
+  }
+}
+

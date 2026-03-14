@@ -138,6 +138,12 @@ export const COMPONENTS_LAYOUT_GROUP: ComponentsDocsGroup = {
       description: 'Expandable disclosure regions with headless and styled integration paths.',
     },
     {
+      id: 'accordion',
+      slug: 'accordion',
+      title: 'Accordion',
+      description: 'Single and multi-expand panel groups with keyboard navigation and aria wiring.',
+    },
+    {
       id: 'stepper',
       slug: 'stepper',
       title: 'Stepper',

@@ -1,0 +1,193 @@
+<article class="accordion-api">
+  <h2 class="accordion-api-title">API reference</h2>
+  <p class="accordion-api-lead">
+    Accordion ships as headless directives and styled wrappers. The core behavior contract lives in
+    <code>tngAccordion</code>, while wrappers forward the same interaction model.
+  </p>
+
+  <section class="accordion-api-block">
+    <h3>Primitive composition</h3>
+    <p>
+      Use root, item, trigger, and panel directives together. This gives full styling control while
+      preserving accessibility and keyboard behavior.
+    </p>
+    <tng-code-block
+      [code]="primitiveAttachmentCode"
+      adapter="shiki"
+      language="html"
+      title="Headless accordion"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+
+    <div class="accordion-api-table-wrap">
+      <table class="accordion-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Directive</th>
+            <th scope="col">Selector</th>
+            <th scope="col">Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>TngAccordion</code></td>
+            <td><code>[tngAccordion]</code></td>
+            <td>Owns expanded values, focus movement, and keyboard/pointer interactions.</td>
+          </tr>
+          <tr>
+            <td><code>TngAccordionItem</code></td>
+            <td><code>[tngAccordionItem]</code></td>
+            <td>Registers a value/disabled item boundary under the root.</td>
+          </tr>
+          <tr>
+            <td><code>TngAccordionTrigger</code></td>
+            <td><code>[tngAccordionTrigger]</code></td>
+            <td>Applies trigger ARIA state and keyboard handling.</td>
+          </tr>
+          <tr>
+            <td><code>TngAccordionPanel</code></td>
+            <td><code>[tngAccordionPanel]</code></td>
+            <td>Exposes <code>role="region"</code> with trigger association and mount policy.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="accordion-api-block">
+    <h3>Wrapper composition</h3>
+    <p>
+      <code>tng-accordion</code> and subcomponents are thin wrappers over the same primitive
+      behavior contract.
+    </p>
+    <tng-code-block
+      [code]="componentAttachmentCode"
+      adapter="shiki"
+      language="html"
+      title="Component wrapper"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+
+    <div class="accordion-api-table-wrap">
+      <table class="accordion-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Input</th>
+            <th scope="col">Type</th>
+            <th scope="col">Default</th>
+            <th scope="col">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>type</code></td>
+            <td><code>'single' | 'multiple'</code></td>
+            <td><code>'single'</code></td>
+            <td>Single allows one expanded item; multiple allows many.</td>
+          </tr>
+          <tr>
+            <td><code>defaultValue</code></td>
+            <td><code>string | number | readonly (string | number)[] | null</code></td>
+            <td><code>undefined</code></td>
+            <td>Initial uncontrolled selection.</td>
+          </tr>
+          <tr>
+            <td><code>value</code></td>
+            <td><code>string | number | readonly (string | number)[] | null</code></td>
+            <td><code>undefined</code></td>
+            <td>Controlled selection source.</td>
+          </tr>
+          <tr>
+            <td><code>collapsible</code></td>
+            <td><code>boolean</code></td>
+            <td><code>true</code></td>
+            <td>When single-mode, allows closing the active item.</td>
+          </tr>
+          <tr>
+            <td><code>disabled</code></td>
+            <td><code>boolean</code></td>
+            <td><code>false</code></td>
+            <td>Disables interactions for the full accordion.</td>
+          </tr>
+          <tr>
+            <td><code>loop</code></td>
+            <td><code>boolean</code></td>
+            <td><code>true</code></td>
+            <td>Arrow key traversal wraps from end to start and vice versa.</td>
+          </tr>
+          <tr>
+            <td><code>lazy</code></td>
+            <td><code>boolean</code></td>
+            <td><code>false</code></td>
+            <td>Mount panels only after first expansion.</td>
+          </tr>
+          <tr>
+            <td><code>keepAlive</code></td>
+            <td><code>boolean</code></td>
+            <td><code>true</code></td>
+            <td>Keep previously mounted panels in DOM when collapsed.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="accordion-api-block">
+    <h3>Outputs</h3>
+    <p>
+      Listen to state changes from either primitives or wrapper components.
+    </p>
+    <tng-code-block
+      [code]="eventsCode"
+      adapter="shiki"
+      language="html"
+      title="Outputs"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+
+    <div class="accordion-api-table-wrap">
+      <table class="accordion-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Output</th>
+            <th scope="col">Payload</th>
+            <th scope="col">When it fires</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>valueChange</code></td>
+            <td><code>value | value[] | null</code></td>
+            <td>Selection changes from user or imperative toggles.</td>
+          </tr>
+          <tr>
+            <td><code>valuesChange</code></td>
+            <td><code>readonly value[]</code></td>
+            <td>Multiple-mode selection updates.</td>
+          </tr>
+          <tr>
+            <td><code>expandedChange</code></td>
+            <td><code>&#123; value, expanded, previousValues, values, trigger &#125;</code></td>
+            <td>Normalized event with previous/next values and trigger source.</td>
+          </tr>
+          <tr>
+            <td><code>openStart</code>/<code>opened</code></td>
+            <td><code>value</code></td>
+            <td>Open lifecycle phases.</td>
+          </tr>
+          <tr>
+            <td><code>closeStart</code>/<code>closed</code></td>
+            <td><code>value</code></td>
+            <td>Close lifecycle phases.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</article>

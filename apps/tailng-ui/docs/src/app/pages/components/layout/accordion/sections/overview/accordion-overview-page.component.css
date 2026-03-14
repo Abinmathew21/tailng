@@ -1,0 +1,124 @@
+:host {
+  display: block;
+}
+
+.accordion-overview {
+  display: grid;
+  gap: 1rem;
+}
+
+.accordion-overview-title {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.accordion-overview-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.accordion-overview-block {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.9rem;
+  color: var(--tng-semantic-foreground-secondary);
+  display: grid;
+  gap: 0.7rem;
+  padding: 1rem;
+}
+
+.accordion-overview-block h3 {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1rem;
+  margin: 0;
+}
+
+.accordion-overview-block p {
+  margin: 0;
+}
+
+.accordion-preview-shell {
+  display: grid;
+  gap: 0.65rem;
+  max-width: 36rem;
+  width: 100%;
+}
+
+.accordion-preview-shell--headless {
+  background: color-mix(in srgb, var(--tng-semantic-background-surface) 84%, transparent);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.8rem;
+  padding: 0.75rem;
+}
+
+.accordion-preview-shell--plain {
+  background: var(--tng-semantic-background-surface);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.8rem;
+  padding: 0.75rem;
+}
+
+.accordion-preview-item {
+  border-bottom: 1px solid var(--tng-semantic-border-subtle);
+}
+
+.accordion-preview-item:last-child {
+  border-bottom: 0;
+}
+
+.accordion-preview-trigger {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  color: var(--tng-semantic-foreground-primary);
+  cursor: pointer;
+  display: flex;
+  font: inherit;
+  font-weight: 600;
+  justify-content: space-between;
+  min-height: 2.7rem;
+  padding: 0.55rem 0.7rem;
+  text-align: left;
+  width: 100%;
+}
+
+.accordion-preview-trigger:focus-visible {
+  border-radius: 0.55rem;
+  outline: 2px solid var(--tng-semantic-focus-ring);
+  outline-offset: -2px;
+}
+
+.accordion-preview-trigger[data-state='open'] .accordion-preview-chevron {
+  transform: rotate(180deg);
+}
+
+.accordion-preview-chevron {
+  color: var(--tng-semantic-foreground-secondary);
+  transition: transform 160ms ease;
+}
+
+.accordion-preview-panel {
+  color: var(--tng-semantic-foreground-secondary);
+  line-height: 1.45;
+  padding: 0 0.7rem 0.75rem;
+}
+
+:host ::ng-deep tng-accordion-trigger[data-state='open'] .accordion-preview-chevron {
+  transform: rotate(180deg);
+}
+
+:host ::ng-deep tng-accordion-trigger[data-state='open'] {
+  color: var(--tng-semantic-foreground-primary);
+}
+
+:host ::ng-deep tng-accordion-panel .accordion-preview-panel {
+  color: var(--tng-semantic-foreground-secondary);
+}
+
+.accordion-overview-list {
+  display: grid;
+  gap: 0.45rem;
+  margin: 0;
+  padding-left: 1rem;
+}
