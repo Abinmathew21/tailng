@@ -25,7 +25,8 @@ export function resolveTngProgressSpinnerRange(
 }> {
   const resolvedMin = normalizeTngProgressSpinnerMin(min);
   const resolvedMax = Math.max(normalizeTngProgressSpinnerMax(max), resolvedMin);
-  const resolvedValue = Math.min(Math.max(value, resolvedMin), resolvedMax);
+  const normalizedValue = normalizeFiniteNumber(value, resolvedMin);
+  const resolvedValue = Math.min(Math.max(normalizedValue, resolvedMin), resolvedMax);
 
   return Object.freeze({
     max: resolvedMax,

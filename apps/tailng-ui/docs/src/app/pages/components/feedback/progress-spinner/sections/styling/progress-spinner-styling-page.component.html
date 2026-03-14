@@ -1,0 +1,26 @@
+<article class="progress-spinner-styling">
+  <h2 class="progress-spinner-styling-title">Styling contract</h2>
+  <p class="progress-spinner-styling-lead">
+    Progress Spinner exposes stable hooks for the root slot and spinner circles so design systems
+    can tune size, stroke, and motion.
+  </p>
+
+  <section class="progress-spinner-styling-block">
+    <h3>Slot and class hooks</h3>
+    <p>
+      Use <code>[data-slot="progress-spinner"]</code> for root sizing and
+      <code>.tng-progress-spinner-track</code>/<code>.tng-progress-spinner-indicator</code> for
+      circle styling.
+    </p>
+    <tng-code-block
+      [code]="cssContractCode"
+      adapter="shiki"
+      language="css"
+      title="Recommended CSS contract"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+</article>

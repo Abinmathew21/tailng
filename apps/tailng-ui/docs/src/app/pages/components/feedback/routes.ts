@@ -18,8 +18,12 @@ const progressBarItem = group.items.find((item) => item.slug === 'progress-bar')
 if (progressBarItem === undefined) {
   throw new Error('Missing "progress-bar" in components feedback docs group.');
 }
+const progressSpinnerItem = group.items.find((item) => item.slug === 'progress-spinner');
+if (progressSpinnerItem === undefined) {
+  throw new Error('Missing "progress-spinner" in components feedback docs group.');
+}
 
-const feedbackLandingSlugs = new Set([emptyItem.slug, progressBarItem.slug]);
+const feedbackLandingSlugs = new Set([emptyItem.slug, progressBarItem.slug, progressSpinnerItem.slug]);
 
 export const COMPONENTS_FEEDBACK_ROUTES: Routes = [
   {
@@ -37,6 +41,13 @@ export const COMPONENTS_FEEDBACK_ROUTES: Routes = [
     loadChildren: () =>
       import('./progress-bar/routes').then(
         (module) => module.COMPONENTS_FEEDBACK_PROGRESS_BAR_ROUTES,
+      ),
+  },
+  {
+    path: progressSpinnerItem.slug,
+    loadChildren: () =>
+      import('./progress-spinner/routes').then(
+        (module) => module.COMPONENTS_FEEDBACK_PROGRESS_SPINNER_ROUTES,
       ),
   },
   ...group.items

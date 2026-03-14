@@ -182,6 +182,12 @@ export const COMPONENTS_FEEDBACK_GROUP: ComponentsDocsGroup = {
       title: 'Progress Bar',
       description: 'Linear determinate and indeterminate loading states with aria semantics.',
     },
+    {
+      id: 'progress-spinner',
+      slug: 'progress-spinner',
+      title: 'Progress Spinner',
+      description: 'Circular determinate and indeterminate loading states with aria semantics.',
+    },
   ],
 };
 

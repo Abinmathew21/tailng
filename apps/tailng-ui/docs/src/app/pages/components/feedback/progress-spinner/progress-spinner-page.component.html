@@ -1,0 +1,29 @@
+<section class="progress-spinner-docs-page">
+  <tng-tabs
+    class="progress-spinner-docs-tabs"
+    ariaLabel="Progress spinner documentation sections"
+    [activation]="'manual'"
+    [value]="activeSection()"
+    (valueChange)="onSectionChange($event)"
+  >
+    <div tngTabList class="progress-spinner-docs-tab-list" ariaLabel="Progress spinner documentation tabs">
+      <button type="button" tngTab value="overview" class="progress-spinner-docs-tab-trigger">
+        Overview
+      </button>
+      <button type="button" tngTab value="api" class="progress-spinner-docs-tab-trigger">API</button>
+      <button type="button" tngTab value="styling" class="progress-spinner-docs-tab-trigger">
+        Styling
+      </button>
+      <button type="button" tngTab value="examples" class="progress-spinner-docs-tab-trigger">
+        Examples
+      </button>
+      <button type="button" tngTab value="ownable-install" class="progress-spinner-docs-tab-trigger">
+        Ownable Install
+      </button>
+    </div>
+  </tng-tabs>
+
+  <section class="progress-spinner-docs-content">
+    <router-outlet />
+  </section>
+</section>
