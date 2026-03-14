@@ -1,0 +1,129 @@
+<article class="separator-overview">
+  <h2 class="separator-overview-title">Separator overview</h2>
+  <p class="separator-overview-lead">
+    Separator provides a lightweight visual divider for grouped content. Use the headless primitive
+    for custom markup or the wrapper component for a themed default line.
+  </p>
+
+  <section class="separator-overview-block">
+    <h3>Imports</h3>
+    <p>Select the layer that matches your ownership model.</p>
+    <tng-code-block
+      [code]="primitiveImportCode"
+      adapter="shiki"
+      language="ts"
+      title="Primitive import"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+    <tng-code-block
+      [code]="componentImportCode"
+      adapter="shiki"
+      language="ts"
+      title="Component import"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section class="separator-overview-block">
+    <app-docs-example-tabs-section
+      heading="Separator variants"
+      description="Use the same horizontal/vertical contract in headless markup, plain CSS shells, and Tailwind utility wrappers."
+      ariaLabel="Separator variants"
+      tabListAriaLabel="Separator style variants"
+      defaultValue="headless"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="headless"
+        label="Headless"
+        panelTitle="Headless separator stack"
+        [codeTabs]="headlessCodeTabs"
+      >
+        <section class="separator-preview-shell separator-preview-shell--headless">
+          <div class="separator-row">
+            <span>Profile</span>
+            <div tngSeparator orientation="vertical" class="separator-preview-vertical"></div>
+            <span>Security</span>
+            <div tngSeparator orientation="vertical" class="separator-preview-vertical"></div>
+            <span>Billing</span>
+          </div>
+
+          <div tngSeparator class="separator-preview-horizontal"></div>
+
+          <div class="separator-row separator-row--stacked">
+            <span>Activity stream</span>
+            <div tngSeparator [decorative]="false" class="separator-preview-horizontal"></div>
+            <span>Deployment log</span>
+          </div>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Plain CSS separator stack"
+        [codeTabs]="plainCssCodeTabs"
+      >
+        <section class="separator-preview-shell separator-preview-shell--plain">
+          <div class="separator-row">
+            <span>Overview</span>
+            <tng-separator orientation="vertical" class="separator-preview-vertical"></tng-separator>
+            <span>Incidents</span>
+            <tng-separator orientation="vertical" class="separator-preview-vertical"></tng-separator>
+            <span>Alerts</span>
+          </div>
+
+          <tng-separator class="separator-preview-horizontal"></tng-separator>
+
+          <p class="separator-preview-text">
+            Apply wrapper-level spacing and let <code>&lt;tng-separator&gt;</code> provide the
+            visual line contract.
+          </p>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Tailwind separator stack"
+        [codeTabs]="tailwindCodeTabs"
+      >
+        <section
+          class="separator-preview-shell rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+        >
+          <div class="flex items-center gap-3 text-sm text-slate-700 dark:text-slate-200">
+            <span>Deployments</span>
+            <tng-separator orientation="vertical" class="self-stretch min-h-5"></tng-separator>
+            <span>Environments</span>
+            <tng-separator orientation="vertical" class="self-stretch min-h-5"></tng-separator>
+            <span>Audit trail</span>
+          </div>
+
+          <tng-separator class="my-3"></tng-separator>
+
+          <p class="m-0 text-sm text-slate-600 dark:text-slate-300">
+            Tailwind utilities handle shell spacing while separator remains the same component.
+          </p>
+        </section>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section class="separator-overview-block">
+    <h3>Accessibility baseline</h3>
+    <ul class="separator-overview-list">
+      <li>Keep <code>decorative</code> true for purely visual separators.</li>
+      <li>Set <code>[decorative]="false"</code> for structural separators that should be announced.</li>
+      <li>Use <code>orientation="vertical"</code> only when the line is visually vertical.</li>
+    </ul>
+  </section>
+</article>

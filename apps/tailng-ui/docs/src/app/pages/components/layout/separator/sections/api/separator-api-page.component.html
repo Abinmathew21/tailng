@@ -1,0 +1,99 @@
+<article class="separator-api">
+  <h2 class="separator-api-title">API reference</h2>
+  <p class="separator-api-lead">
+    Separator is a non-interactive divider primitive with a thin wrapper component. The API surface
+    is intentionally small: orientation and decorative semantics.
+  </p>
+
+  <section class="separator-api-block">
+    <h3><code>tngSeparator</code> (directive)</h3>
+    <p>
+      Attach on any block element to render a horizontal or vertical divider with semantic control.
+    </p>
+    <tng-code-block
+      [code]="primitiveAttachmentCode"
+      adapter="shiki"
+      language="html"
+      title="Primitive attachment"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+
+    <div class="separator-api-table-wrap">
+      <table class="separator-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Input</th>
+            <th scope="col">Type</th>
+            <th scope="col">Default</th>
+            <th scope="col">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>orientation</code></td>
+            <td><code>'horizontal' | 'vertical'</code></td>
+            <td><code>'horizontal'</code></td>
+            <td>Controls visual line axis and semantic <code>aria-orientation</code> when semantic.</td>
+          </tr>
+          <tr>
+            <td><code>decorative</code></td>
+            <td><code>boolean</code></td>
+            <td><code>true</code></td>
+            <td>
+              When <code>true</code>, applies <code>aria-hidden="true"</code>. When
+              <code>false</code>, applies <code>role="separator"</code>.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="separator-api-block">
+    <h3><code>tng-separator</code> (component)</h3>
+    <p>
+      Wrapper component that renders an inner element with <code>tngSeparator</code> and forwards
+      the same inputs.
+    </p>
+    <tng-code-block
+      [code]="componentAttachmentCode"
+      adapter="shiki"
+      language="html"
+      title="Component usage"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+
+    <div class="separator-api-table-wrap">
+      <table class="separator-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Surface</th>
+            <th scope="col">Value</th>
+            <th scope="col">Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Root hook</td>
+            <td><code>data-slot="separator"</code></td>
+            <td>Stable CSS selector for both primitive and wrapper usage.</td>
+          </tr>
+          <tr>
+            <td>Orientation hook</td>
+            <td><code>data-orientation="horizontal|vertical"</code></td>
+            <td>Drive horizontal/vertical dimensions in custom CSS.</td>
+          </tr>
+          <tr>
+            <td>Semantic mode</td>
+            <td><code>role="separator"</code> + <code>aria-orientation</code></td>
+            <td>Expose meaningful structure to assistive technologies.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</article>

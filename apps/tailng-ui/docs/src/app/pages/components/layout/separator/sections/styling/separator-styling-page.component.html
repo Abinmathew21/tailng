@@ -1,0 +1,62 @@
+<article class="separator-styling">
+  <h2 class="separator-styling-title">Styling contract</h2>
+  <p class="separator-styling-lead">
+    Separator exposes a compact styling contract built around slot and orientation data attributes.
+    Theme at the token level and keep context-specific spacing in container styles.
+  </p>
+
+  <section class="separator-styling-block">
+    <h3>State hooks</h3>
+    <div class="separator-styling-table-wrap">
+      <table class="separator-styling-table">
+        <thead>
+          <tr>
+            <th scope="col">Hook</th>
+            <th scope="col">Where</th>
+            <th scope="col">Use</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>data-slot="separator"</code></td>
+            <td>Primitive + wrapper root</td>
+            <td>Base color, thickness, and shared motion tokens.</td>
+          </tr>
+          <tr>
+            <td><code>data-orientation="horizontal"</code></td>
+            <td>Root</td>
+            <td>Horizontal width/height rules.</td>
+          </tr>
+          <tr>
+            <td><code>data-orientation="vertical"</code></td>
+            <td>Root</td>
+            <td>Vertical width/min-height rules.</td>
+          </tr>
+          <tr>
+            <td><code>aria-hidden="true"</code></td>
+            <td>Decorative mode</td>
+            <td>Confirms divider is presentational only.</td>
+          </tr>
+          <tr>
+            <td><code>role="separator"</code></td>
+            <td>Semantic mode</td>
+            <td>Announces meaningful separation to assistive tech.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="separator-styling-block">
+    <h3>CSS starter</h3>
+    <tng-code-block
+      [code]="cssContractCode"
+      adapter="shiki"
+      language="css"
+      title="Separator CSS contract"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+</article>

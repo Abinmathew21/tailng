@@ -1,0 +1,132 @@
+<article class="separator-examples">
+  <h2 class="separator-examples-title">Examples</h2>
+  <p class="separator-examples-lead">
+    Production separator patterns for toolbars, command strips, and grouped list content.
+  </p>
+
+  <section class="separator-examples-block">
+    <app-docs-example-tabs-section
+      heading="Toolbar grouping"
+      description="Use vertical separators to partition dense command bars without extra wrapper components."
+      ariaLabel="Separator toolbar examples"
+      tabListAriaLabel="Separator toolbar styles"
+      defaultValue="headless"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="headless"
+        label="Headless"
+        panelTitle="Headless toolbar separators"
+        [codeTabs]="toolbarHeadlessCodeTabs"
+      >
+        <div class="toolbar-shell toolbar-shell--headless">
+          <button type="button">Grid</button>
+          <div tngSeparator orientation="vertical" class="toolbar-separator"></div>
+          <button type="button">List</button>
+          <div tngSeparator orientation="vertical" class="toolbar-separator"></div>
+          <button type="button">Calendar</button>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Plain CSS toolbar separators"
+        [codeTabs]="toolbarPlainCodeTabs"
+      >
+        <div class="toolbar-shell toolbar-shell--plain">
+          <button type="button">All</button>
+          <tng-separator orientation="vertical" class="toolbar-separator"></tng-separator>
+          <button type="button">Running</button>
+          <tng-separator orientation="vertical" class="toolbar-separator"></tng-separator>
+          <button type="button">Archived</button>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Tailwind toolbar separators"
+        [codeTabs]="toolbarTailwindCodeTabs"
+      >
+        <div class="rounded-xl border border-slate-300 bg-slate-50 p-3 dark:border-slate-700 dark:bg-slate-900/60">
+          <div class="flex items-center gap-3 text-sm text-slate-700 dark:text-slate-200">
+            <button type="button" class="rounded-md px-2 py-1 hover:bg-slate-200 dark:hover:bg-slate-700">
+              Pipelines
+            </button>
+            <tng-separator orientation="vertical" class="self-stretch min-h-5"></tng-separator>
+            <button type="button" class="rounded-md px-2 py-1 hover:bg-slate-200 dark:hover:bg-slate-700">
+              Jobs
+            </button>
+            <tng-separator orientation="vertical" class="self-stretch min-h-5"></tng-separator>
+            <button type="button" class="rounded-md px-2 py-1 hover:bg-slate-200 dark:hover:bg-slate-700">
+              Artifacts
+            </button>
+          </div>
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section class="separator-examples-block">
+    <app-docs-example-tabs-section
+      heading="List grouping"
+      description="Mix decorative and semantic separators to structure dense monitoring timelines."
+      ariaLabel="Separator list examples"
+      tabListAriaLabel="Separator list styles"
+      defaultValue="headless"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="headless"
+        label="Headless"
+        panelTitle="Headless list separators"
+        [codeTabs]="listHeadlessCodeTabs"
+      >
+        <section class="list-shell list-shell--headless">
+          <div class="list-row">Failed jobs</div>
+          <div tngSeparator [decorative]="false" class="list-separator"></div>
+          <div class="list-row">Queued jobs</div>
+          <div tngSeparator class="list-separator"></div>
+          <div class="list-row">Completed jobs</div>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Plain CSS list separators"
+        [codeTabs]="listPlainCodeTabs"
+      >
+        <section class="list-shell list-shell--plain">
+          <div class="list-row">Design review</div>
+          <tng-separator></tng-separator>
+          <div class="list-row">QA signoff</div>
+          <tng-separator></tng-separator>
+          <div class="list-row">Release freeze</div>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Tailwind list separators"
+        [codeTabs]="listTailwindCodeTabs"
+      >
+        <section class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">
+          <div class="py-2 text-sm text-slate-700 dark:text-slate-200">Canary rollout</div>
+          <tng-separator></tng-separator>
+          <div class="py-2 text-sm text-slate-700 dark:text-slate-200">Regional promotion</div>
+          <tng-separator></tng-separator>
+          <div class="py-2 text-sm text-slate-700 dark:text-slate-200">Post-release checks</div>
+        </section>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+</article>

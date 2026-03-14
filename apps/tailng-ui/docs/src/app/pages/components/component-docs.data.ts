@@ -155,6 +155,12 @@ export const COMPONENTS_LAYOUT_GROUP: ComponentsDocsGroup = {
       title: 'Card',
       description: 'Grouped content surfaces with optional media, actions, and footer composition.',
     },
+    {
+      id: 'separator',
+      slug: 'separator',
+      title: 'Separator',
+      description: 'Horizontal and vertical dividers for visual or semantic content grouping.',
+    },
   ],
 };
 

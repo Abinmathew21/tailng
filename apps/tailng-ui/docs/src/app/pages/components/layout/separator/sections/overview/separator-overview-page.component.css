@@ -1,0 +1,105 @@
+:host {
+  display: block;
+}
+
+.separator-overview {
+  display: grid;
+  gap: 1rem;
+}
+
+.separator-overview-title {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.separator-overview-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.separator-overview-block {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.9rem;
+  color: var(--tng-semantic-foreground-secondary);
+  display: grid;
+  gap: 0.8rem;
+  padding: 1rem;
+}
+
+.separator-overview-block h3 {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1rem;
+  margin: 0;
+}
+
+.separator-overview-block p {
+  margin: 0;
+}
+
+.separator-preview-shell {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.85rem;
+  display: grid;
+  gap: 0.85rem;
+  padding: 1rem;
+}
+
+.separator-preview-shell--headless {
+  background: color-mix(in srgb, var(--tng-semantic-background-muted) 30%, transparent);
+}
+
+.separator-preview-shell--headless [data-slot='separator'] {
+  background: var(--tng-semantic-border-strong);
+  display: block;
+}
+
+.separator-preview-shell--headless [data-slot='separator'][data-orientation='horizontal'] {
+  block-size: 1px;
+  inline-size: 100%;
+}
+
+.separator-preview-shell--headless [data-slot='separator'][data-orientation='vertical'] {
+  align-self: stretch;
+  inline-size: 1px;
+  min-block-size: 1rem;
+}
+
+.separator-preview-shell--plain {
+  background: color-mix(in srgb, var(--tng-semantic-background-muted) 35%, transparent);
+}
+
+.separator-row {
+  align-items: center;
+  color: var(--tng-semantic-foreground-primary);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+
+.separator-row--stacked {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.separator-preview-horizontal {
+  width: 100%;
+}
+
+.separator-preview-vertical {
+  align-self: stretch;
+  min-height: 1rem;
+}
+
+.separator-preview-text {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.9rem;
+}
+
+.separator-overview-list {
+  display: grid;
+  gap: 0.45rem;
+  margin: 0;
+  padding-left: 1.1rem;
+}

@@ -88,40 +88,40 @@ This component exposes orientation and decorative state for styling; it has no i
 
 ### Rendering
 
-- [ ] Renders with horizontal orientation by default
-- [ ] Renders with vertical orientation when `orientation='vertical'`
-- [ ] Applies `data-orientation` correctly
-- [ ] Renders as decorative (no role) when `decorative=true`
-- [ ] Renders as semantic separator (role, aria-orientation) when `decorative=false`
+- [x] Renders with horizontal orientation by default
+- [x] Renders with vertical orientation when `orientation='vertical'`
+- [x] Applies `data-orientation` correctly
+- [x] Renders as decorative (no role) when `decorative=true`
+- [x] Renders as semantic separator (role, aria-orientation) when `decorative=false`
 
 ### Accessibility
 
-- [ ] Sets `aria-hidden="true"` when decorative
-- [ ] Sets `role="separator"` when not decorative
-- [ ] Sets `aria-orientation` when not decorative and matches orientation
+- [x] Sets `aria-hidden="true"` when decorative
+- [x] Sets `role="separator"` when not decorative
+- [x] Sets `aria-orientation` when not decorative and matches orientation
 
 ### Data attributes
 
-- [ ] Applies `data-orientation` for styling
-- [ ] Applies `data-slot="separator"` where used
+- [x] Applies `data-orientation` for styling
+- [x] Applies `data-slot="separator"` where used
 
 ## Implementation Steps
 
 1. [x] Headless component created in `primitives`
-2. [ ] Test cases created for headless
-3. [ ] Headless example page added/updated in playground - plain CSS app
-4. [ ] Headless example page added/updated in playground - Tailwind app
-5. [ ] Minimum style `<tng-separator>` component created in `components`
-6. [ ] Test cases created for `<tng-separator>`
-7. [ ] Component example page added/updated in playground - plain CSS app
-8. [ ] Component example page added/updated in playground - Tailwind app
-9. [ ] Docs added/updated in docs project - Overview section
-10. [ ] Docs added/updated in docs project - API section
-11. [ ] Docs added/updated in docs project - Styling section
-12. [ ] Docs added/updated in docs project - Example section
-13. [ ] Registry templates added in `registry` for copy-paste mode (`tailng add separator`)
-14. [ ] `tailng-cli` command generation added for separator artifacts
-15. [ ] CLI integration tests added for `tailng add separator`
+2. [x] Test cases created for headless
+3. [x] Headless example page added/updated in playground - plain CSS app
+4. [x] Headless example page added/updated in playground - Tailwind app
+5. [x] Minimum style `<tng-separator>` component created in `components`
+6. [x] Test cases created for `<tng-separator>`
+7. [x] Component example page added/updated in playground - plain CSS app
+8. [x] Component example page added/updated in playground - Tailwind app
+9. [x] Docs added/updated in docs project - Overview section
+10. [x] Docs added/updated in docs project - API section
+11. [x] Docs added/updated in docs project - Styling section
+12. [x] Docs added/updated in docs project - Example section
+13. [x] Registry templates added in `registry` for copy-paste mode (`tailng add separator`)
+14. [x] `tailng-cli` command generation added for separator artifacts
+15. [x] CLI integration tests added for `tailng add separator`
 
 ## Links
 
