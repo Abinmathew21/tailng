@@ -17,6 +17,15 @@ function normalizeOptionalString(value: string | null | undefined): string | nul
   return normalized.length > 0 ? normalized : null;
 }
 
+function normalizeAvatarAlt(value: string | null | undefined): string | null {
+  if (value === undefined || value === null) {
+    return null;
+  }
+
+  const normalized = value.trim();
+  return normalized.length > 0 ? normalized : '';
+}
+
 function normalizeFallbackText(value: string): string {
   return value.length > 0 ? value : '?';
 }
@@ -71,7 +80,7 @@ export class TngAvatarComponent {
     toTngAvatarFallbackText(this.fallback()),
   );
   protected readonly resolvedAlt = computed<string | null>(() =>
-    normalizeOptionalString(this.alt()),
+    normalizeAvatarAlt(this.alt()),
   );
   protected readonly resolvedSrc = computed<string | null>(() =>
     normalizeOptionalString(this.src()),

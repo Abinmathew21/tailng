@@ -132,6 +132,12 @@ export const COMPONENTS_LAYOUT_GROUP: ComponentsDocsGroup = {
   subtitle: 'Workflow and structural layout components',
   items: [
     {
+      id: 'collapsible',
+      slug: 'collapsible',
+      title: 'Collapsible',
+      description: 'Expandable disclosure regions with headless and styled integration paths.',
+    },
+    {
       id: 'stepper',
       slug: 'stepper',
       title: 'Stepper',
@@ -145,6 +151,18 @@ export const COMPONENTS_UTILITY_GROUP: ComponentsDocsGroup = {
   title: 'Utility',
   subtitle: 'General-purpose interface utilities',
   items: [
+    {
+      id: 'avatar',
+      slug: 'avatar',
+      title: 'Avatar',
+      description: 'Identity surfaces with fallback handling, shape, and size variants.',
+    },
+    {
+      id: 'badge',
+      slug: 'badge',
+      title: 'Badge',
+      description: 'Count, dot, and placement badges for notifications and status overlays.',
+    },
     {
       id: 'codeblock',
       slug: 'codeblock',

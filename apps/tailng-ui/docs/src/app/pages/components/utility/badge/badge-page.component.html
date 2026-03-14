@@ -1,0 +1,29 @@
+<section class="badge-docs-page">
+  <tng-tabs
+    class="badge-docs-tabs"
+    ariaLabel="Badge documentation sections"
+    [activation]="'manual'"
+    [value]="activeSection()"
+    (valueChange)="onSectionChange($event)"
+  >
+    <div tngTabList class="badge-docs-tab-list" ariaLabel="Badge documentation tabs">
+      <button type="button" tngTab value="overview" class="badge-docs-tab-trigger">
+        Overview
+      </button>
+      <button type="button" tngTab value="api" class="badge-docs-tab-trigger">API</button>
+      <button type="button" tngTab value="styling" class="badge-docs-tab-trigger">
+        Styling
+      </button>
+      <button type="button" tngTab value="examples" class="badge-docs-tab-trigger">
+        Examples
+      </button>
+      <button type="button" tngTab value="ownable-install" class="badge-docs-tab-trigger">
+        Ownable Install
+      </button>
+    </div>
+  </tng-tabs>
+
+  <section class="badge-docs-content">
+    <router-outlet />
+  </section>
+</section>

@@ -1,0 +1,69 @@
+:host {
+  display: block;
+}
+
+.badge-styling {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.badge-styling-title {
+  font-size: clamp(1.45rem, 1.05rem + 1.3vw, 1.95rem);
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.badge-styling-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+  max-width: 70ch;
+}
+
+.badge-styling-block {
+  background: color-mix(in srgb, var(--tng-semantic-background-surface) 88%, transparent);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 1rem;
+  display: grid;
+  gap: 0.9rem;
+  padding: 1.2rem;
+}
+
+.badge-styling-block h3 {
+  font-size: 1.05rem;
+  font-weight: 650;
+  margin: 0;
+}
+
+.badge-styling-table-wrap {
+  overflow-x: auto;
+}
+
+.badge-styling-table {
+  border-collapse: collapse;
+  min-width: 38rem;
+  width: 100%;
+}
+
+.badge-styling-table th,
+.badge-styling-table td {
+  border-bottom: 1px solid var(--tng-semantic-border-subtle);
+  padding: 0.7rem 0.6rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.badge-styling-table th {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.badge-styling-list {
+  display: grid;
+  gap: 0.55rem;
+  margin: 0;
+  padding-inline-start: 1.1rem;
+}

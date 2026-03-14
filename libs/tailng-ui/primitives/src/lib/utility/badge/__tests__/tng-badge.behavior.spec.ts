@@ -1,7 +1,7 @@
 /* eslint-disable max-lines-per-function */
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { afterEach, describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import {
   type TngBadgePosition,
   TngBadge,
@@ -96,6 +96,24 @@ class MinimalBadgeHostComponent {
   standalone: true,
   imports: [TngBadge],
   template: `
+    <button
+      type="button"
+      data-testid="host"
+      aria-label="Inbox notifications"
+      [tngBadge]="badge()"
+    >
+      Inbox
+    </button>
+  `,
+})
+class AccessibleBadgeHostComponent {
+  public readonly badge = signal<number | string | null | undefined>(3);
+}
+
+@Component({
+  standalone: true,
+  imports: [TngBadge],
+  template: `
     <span data-testid="inline-host" [tngBadge]="inlineValue()">Inline host</span>
     <div data-testid="block-host" [tngBadge]="blockValue()">Block host</div>
   `,
@@ -118,8 +136,76 @@ class MultipleBadgeHostComponent {
   public readonly second = signal<number | string>('NEW');
 }
 
-describe('tng-badge primitive behavior blocks A-L', () => {
+type RectSize = Readonly<{
+  height: number;
+  width: number;
+}>;
+
+type MutableRectSize = {
+  height: number;
+  width: number;
+};
+
+function createRect(size: RectSize): DOMRect {
+  return {
+    bottom: size.height,
+    height: size.height,
+    left: 0,
+    right: size.width,
+    toJSON: () => ({}),
+    top: 0,
+    width: size.width,
+    x: 0,
+    y: 0,
+  } as DOMRect;
+}
+
+function mockElementRect(element: Element, sizeRef: MutableRectSize): void {
+  vi.spyOn(element, 'getBoundingClientRect').mockImplementation(() => createRect(sizeRef));
+}
+
+type ResizeObserverCallback = ConstructorParameters<typeof ResizeObserver>[0];
+
+class MockResizeObserver {
+  public static instances: MockResizeObserver[] = [];
+
+  private readonly targets = new Set<Element>();
+
+  public readonly disconnect = vi.fn((): void => {
+    this.targets.clear();
+  });
+
+  public readonly observe = vi.fn((target: Element): void => {
+    this.targets.add(target);
+  });
+
+  public readonly unobserve = vi.fn((target: Element): void => {
+    this.targets.delete(target);
+  });
+
+  public constructor(private readonly callback: ResizeObserverCallback) {
+    MockResizeObserver.instances.push(this);
+  }
+
+  public trigger(target: Element): void {
+    if (!this.targets.has(target)) {
+      return;
+    }
+
+    const entry = { target } as ResizeObserverEntry;
+    this.callback([entry], this as unknown as ResizeObserver);
+  }
+}
+
+describe('tng-badge primitive behavior blocks A-M', () => {
+  const globalWithResizeObserver = globalThis as unknown as {
+    ResizeObserver?: typeof ResizeObserver;
+  };
+  const originalResizeObserver = globalWithResizeObserver.ResizeObserver;
+
   afterEach(() => {
+    MockResizeObserver.instances = [];
+    globalWithResizeObserver.ResizeObserver = originalResizeObserver;
     TestBed.resetTestingModule();
   });
 
@@ -311,6 +397,24 @@ describe('tng-badge primitive behavior blocks A-L', () => {
   });
 
   describe('F) Accessibility & ARIA behavior', () => {
+    it('marks generated badge as decorative via aria-hidden', () => {
+      const fixture = TestBed.configureTestingModule({ imports: [MinimalBadgeHostComponent] })
+        .createComponent(MinimalBadgeHostComponent);
+      fixture.detectChanges();
+
+      const badge = getBadge(getByTestId<HTMLElement>(fixture, 'host'));
+      expect(badge.getAttribute('aria-hidden')).toBe('true');
+    });
+
+    it('preserves consumer-provided host accessible labeling', () => {
+      const fixture = TestBed.configureTestingModule({ imports: [AccessibleBadgeHostComponent] })
+        .createComponent(AccessibleBadgeHostComponent);
+      fixture.detectChanges();
+
+      const host = getByTestId<HTMLElement>(fixture, 'host');
+      expect(host.getAttribute('aria-label')).toBe('Inbox notifications');
+    });
+
     it('does not add ARIA role or aria-live by default', () => {
       const fixture = TestBed.configureTestingModule({ imports: [MinimalBadgeHostComponent] })
         .createComponent(MinimalBadgeHostComponent);
@@ -431,6 +535,50 @@ describe('tng-badge primitive behavior blocks A-L', () => {
     });
   });
 
+  describe('J) Visibility & hidden behavior', () => {
+    it('renders badge when count is positive and hidden=false', () => {
+      const fixture = TestBed.configureTestingModule({ imports: [BadgeHarnessHostComponent] })
+        .createComponent(BadgeHarnessHostComponent);
+      fixture.componentInstance.badge.set(5);
+      fixture.componentInstance.hidden.set(false);
+      fixture.detectChanges();
+
+      expect(getBadge(getByTestId<HTMLElement>(fixture, 'host')).textContent).toBe('5');
+    });
+
+    it('renders dot badge when dot=true even if value is null', () => {
+      const fixture = TestBed.configureTestingModule({ imports: [BadgeHarnessHostComponent] })
+        .createComponent(BadgeHarnessHostComponent);
+      fixture.componentInstance.badge.set(null);
+      fixture.componentInstance.dot.set(true);
+      fixture.componentInstance.hidden.set(false);
+      fixture.detectChanges();
+
+      const badge = getBadge(getByTestId<HTMLElement>(fixture, 'host'));
+      expect(badge.hasAttribute('data-dot')).toBe(true);
+      expect(badge.textContent).toBe('');
+    });
+
+    it('removes badge when hidden=true and restores it when hidden toggles back to false', () => {
+      const fixture = TestBed.configureTestingModule({ imports: [BadgeHarnessHostComponent] })
+        .createComponent(BadgeHarnessHostComponent);
+      const host = getByTestId<HTMLElement>(fixture, 'host');
+
+      fixture.componentInstance.badge.set(7);
+      fixture.componentInstance.hidden.set(false);
+      fixture.detectChanges();
+      expect(getBadge(host).textContent).toBe('7');
+
+      fixture.componentInstance.hidden.set(true);
+      fixture.detectChanges();
+      expect(queryBadge(host)).toBeNull();
+
+      fixture.componentInstance.hidden.set(false);
+      fixture.detectChanges();
+      expect(getBadge(host).textContent).toBe('7');
+    });
+  });
+
   describe('K) Multiple badges and isolation', () => {
     it('keeps badges isolated across multiple hosts on the same page', () => {
       const fixture = TestBed.configureTestingModule({ imports: [MultipleBadgeHostComponent] })
@@ -509,6 +657,115 @@ describe('tng-badge primitive behavior blocks A-L', () => {
       fixture.detectChanges();
 
       expect(() => fixture.destroy()).not.toThrow();
+    });
+  });
+
+  describe('M) Positioning runtime behavior (optional)', () => {
+    it('repositions badge metrics when the anchor host resizes (ResizeObserver path)', () => {
+      globalWithResizeObserver.ResizeObserver = MockResizeObserver as unknown as typeof ResizeObserver;
+
+      const fixture = TestBed.configureTestingModule({ imports: [MinimalBadgeHostComponent] })
+        .createComponent(MinimalBadgeHostComponent);
+      fixture.detectChanges();
+
+      const host = getByTestId<HTMLElement>(fixture, 'host');
+      const badge = getBadge(host);
+      const hostRect: MutableRectSize = { width: 120, height: 32 };
+      const badgeRect: MutableRectSize = { width: 18, height: 18 };
+      mockElementRect(host, hostRect);
+      mockElementRect(badge, badgeRect);
+
+      const observer = MockResizeObserver.instances.at(-1);
+      if (observer === undefined) {
+        throw new Error('Expected ResizeObserver instance.');
+      }
+
+      hostRect.width = 240;
+      hostRect.height = 56;
+      observer.trigger(host);
+
+      expect(badge.style.getPropertyValue('--tng-badge-anchor-width')).toBe('240px');
+      expect(badge.style.getPropertyValue('--tng-badge-anchor-height')).toBe('56px');
+    });
+
+    it('repositions badge metrics when the badge element resizes (ResizeObserver path)', () => {
+      globalWithResizeObserver.ResizeObserver = MockResizeObserver as unknown as typeof ResizeObserver;
+
+      const fixture = TestBed.configureTestingModule({ imports: [MinimalBadgeHostComponent] })
+        .createComponent(MinimalBadgeHostComponent);
+      fixture.detectChanges();
+
+      const host = getByTestId<HTMLElement>(fixture, 'host');
+      const badge = getBadge(host);
+      const hostRect: MutableRectSize = { width: 100, height: 30 };
+      const badgeRect: MutableRectSize = { width: 16, height: 16 };
+      mockElementRect(host, hostRect);
+      mockElementRect(badge, badgeRect);
+
+      const observer = MockResizeObserver.instances.at(-1);
+      if (observer === undefined) {
+        throw new Error('Expected ResizeObserver instance.');
+      }
+
+      badgeRect.width = 28;
+      badgeRect.height = 24;
+      observer.trigger(badge);
+
+      expect(badge.style.getPropertyValue('--tng-badge-self-width')).toBe('28px');
+      expect(badge.style.getPropertyValue('--tng-badge-self-height')).toBe('24px');
+    });
+
+    it('repositions badge metrics on window resize when ResizeObserver is unavailable', () => {
+      globalWithResizeObserver.ResizeObserver = undefined;
+
+      const fixture = TestBed.configureTestingModule({ imports: [MinimalBadgeHostComponent] })
+        .createComponent(MinimalBadgeHostComponent);
+      fixture.detectChanges();
+
+      const host = getByTestId<HTMLElement>(fixture, 'host');
+      const badge = getBadge(host);
+      const hostRect: MutableRectSize = { width: 110, height: 26 };
+      const badgeRect: MutableRectSize = { width: 14, height: 14 };
+      mockElementRect(host, hostRect);
+      mockElementRect(badge, badgeRect);
+
+      hostRect.width = 188;
+      hostRect.height = 44;
+      window.dispatchEvent(new Event('resize'));
+
+      expect(badge.style.getPropertyValue('--tng-badge-anchor-width')).toBe('188px');
+      expect(badge.style.getPropertyValue('--tng-badge-anchor-height')).toBe('44px');
+    });
+
+    it('disconnects runtime observers and stops repositioning after destroy', () => {
+      globalWithResizeObserver.ResizeObserver = MockResizeObserver as unknown as typeof ResizeObserver;
+
+      const fixture = TestBed.configureTestingModule({ imports: [MinimalBadgeHostComponent] })
+        .createComponent(MinimalBadgeHostComponent);
+      fixture.detectChanges();
+
+      const host = getByTestId<HTMLElement>(fixture, 'host');
+      const badge = getBadge(host);
+      const hostRect: MutableRectSize = { width: 128, height: 30 };
+      const badgeRect: MutableRectSize = { width: 17, height: 17 };
+      mockElementRect(host, hostRect);
+      mockElementRect(badge, badgeRect);
+
+      const observer = MockResizeObserver.instances.at(-1);
+      if (observer === undefined) {
+        throw new Error('Expected ResizeObserver instance.');
+      }
+
+      observer.trigger(host);
+      const beforeDestroyWidth = badge.style.getPropertyValue('--tng-badge-anchor-width');
+      expect(beforeDestroyWidth).toBe('128px');
+
+      fixture.destroy();
+      expect(observer.disconnect).toHaveBeenCalledTimes(1);
+
+      hostRect.width = 222;
+      observer.trigger(host);
+      expect(badge.style.getPropertyValue('--tng-badge-anchor-width')).toBe('128px');
     });
   });
 });

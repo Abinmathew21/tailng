@@ -121,23 +121,30 @@ This component should expose count/dot, position, size, visibility (hidden), and
 
 ### Rendering
 
-- [ ] Renders badge when count > 0 or dot=true and not hidden
-- [ ] Hides or shows "0" when count=0 per design
-- [ ] Applies max (e.g. 99+) when count > max
-- [ ] Renders dot (no number) when dot=true
-- [ ] Positions correctly (top-end, etc.) with optional offset
+- [x] Renders badge when count > 0 or dot=true and not hidden
+- [x] Hides or shows "0" when count=0 per design
+- [x] Applies max (e.g. 99+) when count > max
+- [x] Renders dot (no number) when dot=true
+- [x] Positions correctly (top-end, etc.) with optional offset
 - [ ] Applies data-position, data-size, data-dot, data-disabled, data-hidden
-- [ ] Respects tngBadgeHidden
+- [x] Respects tngBadgeHidden
 
 ### Accessibility
 
 - [ ] Badge or host has accessible label when badge conveys info
-- [ ] Decorative badge has aria-hidden
+- [x] Decorative badge has aria-hidden
 - [ ] Count announced or readable by AT when meaningful
 
 ### Data attributes
 
 - [ ] Applies data-placement/data-position, data-size, data-variant, data-tone, data-dot, data-disabled, data-hidden
+
+### J) Positioning runtime behavior (optional)
+
+- [x] Repositions badge when the anchor host resizes (ResizeObserver path, if supported)
+- [x] Repositions badge when the badge element itself resizes (if supported)
+- [x] Repositions badge on window resize (fallback path when ResizeObserver is unavailable)
+- [x] Disconnects runtime observers/listeners and stops repositioning after destroy
 
 ## Implementation Steps
 
@@ -146,7 +153,7 @@ This component should expose count/dot, position, size, visibility (hidden), and
 3. [ ] Headless example page added/updated in playground - plain CSS app
 4. [ ] Headless example page added/updated in playground - Tailwind app
 5. [x] Minimum style badge component/directive in `components`
-6. [ ] Test cases created for badge component
+6. [x] Test cases created for badge component
 7. [ ] Component example page added/updated in playground - plain CSS app
 8. [ ] Component example page added/updated in playground - Tailwind app
 9. [ ] Docs added/updated in docs project - Overview section

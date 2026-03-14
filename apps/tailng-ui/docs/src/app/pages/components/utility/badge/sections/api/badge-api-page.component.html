@@ -1,0 +1,115 @@
+<article class="badge-api">
+  <h2 class="badge-api-title">API reference</h2>
+  <p class="badge-api-lead">
+    <code>tngBadge</code> is an attribute directive that renders an anchored badge bubble inside
+    the host element. It supports counts, status dots, placement, size, tone, and variant hooks.
+  </p>
+
+  <section class="badge-api-block">
+    <h3>Directive inputs</h3>
+    <div class="badge-api-table-wrap">
+      <table class="badge-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Input</th>
+            <th scope="col">Type</th>
+            <th scope="col">Default</th>
+            <th scope="col">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>tngBadge</code></td>
+            <td><code>number | string | null | undefined</code></td>
+            <td><code>null</code></td>
+            <td>Primary badge content value.</td>
+          </tr>
+          <tr>
+            <td><code>tngBadgeDot</code></td>
+            <td><code>boolean</code></td>
+            <td><code>false</code></td>
+            <td>When true, renders dot-only mode and hides text content.</td>
+          </tr>
+          <tr>
+            <td><code>tngBadgeMax</code></td>
+            <td><code>number</code></td>
+            <td><code>99</code></td>
+            <td>Numeric cap. Values above max render as <code>{{ '{' }}max{{ '}' }}+</code>.</td>
+          </tr>
+          <tr>
+            <td><code>tngBadgeHidden</code></td>
+            <td><code>boolean</code></td>
+            <td><code>false</code></td>
+            <td>Temporarily disables rendering without changing the value.</td>
+          </tr>
+          <tr>
+            <td><code>tngBadgePosition</code></td>
+            <td><code>'top-end' | 'top-start' | 'bottom-end' | 'bottom-start'</code></td>
+            <td><code>'top-end'</code></td>
+            <td>Anchor corner used for badge placement.</td>
+          </tr>
+          <tr>
+            <td><code>tngBadgeSize</code></td>
+            <td><code>'sm' | 'md' | 'lg'</code></td>
+            <td><code>'md'</code></td>
+            <td>Size data hook for badge spacing/typography contracts.</td>
+          </tr>
+          <tr>
+            <td><code>tngBadgeTone</code></td>
+            <td><code>'danger' | 'info' | 'neutral' | 'success' | 'warning'</code></td>
+            <td><code>'danger'</code></td>
+            <td>Semantic tone hook and default color pair.</td>
+          </tr>
+          <tr>
+            <td><code>tngBadgeVariant</code></td>
+            <td><code>'solid' | 'soft' | 'outline'</code></td>
+            <td><code>'solid'</code></td>
+            <td>Variant hook for contract-level styling.</td>
+          </tr>
+          <tr>
+            <td><code>tngBadgeOffsetX</code></td>
+            <td><code>number | string | null | undefined</code></td>
+            <td><code>null</code></td>
+            <td>Horizontal offset, for example <code>4</code> or <code>'0.25rem'</code>.</td>
+          </tr>
+          <tr>
+            <td><code>tngBadgeOffsetY</code></td>
+            <td><code>number | string | null | undefined</code></td>
+            <td><code>null</code></td>
+            <td>Vertical offset.</td>
+          </tr>
+          <tr>
+            <td><code>tngBadgeClass</code></td>
+            <td><code>string | null | undefined</code></td>
+            <td><code>null</code></td>
+            <td>Appends class names to generated badge node.</td>
+          </tr>
+          <tr>
+            <td><code>tngBadgeStyle</code></td>
+            <td><code>Record&lt;string, string | number&gt; | null | undefined</code></td>
+            <td><code>null</code></td>
+            <td>Inline style map merged onto the badge node.</td>
+          </tr>
+          <tr>
+            <td><code>tngBadgeDisabled</code></td>
+            <td><code>boolean</code></td>
+            <td><code>false</code></td>
+            <td>Adds <code>data-disabled</code> hook on the badge node.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="badge-api-block">
+    <h3>Outputs and methods</h3>
+    <p>
+      <code>tngBadge</code> does not emit custom outputs and does not expose imperative methods.
+      Badge rendering updates reactively from bound inputs.
+    </p>
+    <p>
+      The directive is exported as <code>tngBadge</code> and applies host hooks including
+      <code>class="tng-badge-host"</code> and <code>data-tng-badge-host</code>.
+    </p>
+  </section>
+</article>

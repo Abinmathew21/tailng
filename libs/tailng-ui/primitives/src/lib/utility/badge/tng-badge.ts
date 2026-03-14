@@ -44,6 +44,8 @@ type TngResolvedBadgePlacement = Readonly<{
   transform: string;
 }>;
 
+type ResizeObserverConstructor = new (callback: ResizeObserverCallback) => ResizeObserver;
+
 function isNonEmptyText(value: string): boolean {
   return value.trim().length > 0;
 }
@@ -185,6 +187,20 @@ function hasVisibleBadge(hidden: boolean, dot: boolean, content: string): boolea
   return dot || content.length > 0;
 }
 
+function resolveResizeObserverConstructor(): ResizeObserverConstructor | null {
+  const globalObject = globalThis as { ResizeObserver?: ResizeObserverConstructor };
+  const resizeObserver = globalObject.ResizeObserver;
+  return typeof resizeObserver === 'function' ? resizeObserver : null;
+}
+
+function toCssPixelLength(value: number): string {
+  if (!Number.isFinite(value)) {
+    return '0px';
+  }
+
+  return `${Math.max(0, value)}px`;
+}
+
 @Directive({
   selector: '[tngBadge]',
   exportAs: 'tngBadge',
@@ -224,6 +240,8 @@ export class TngBadge implements OnDestroy {
   private readonly renderer = inject(Renderer2);
   private badgeElement: HTMLElement | null = null;
   private readonly customStyleKeys = new Set<string>();
+  private resizeObserver: ResizeObserver | null = null;
+  private removeWindowResizeListener: (() => void) | null = null;
 
   public constructor() {
     this.configureHost();
@@ -253,11 +271,13 @@ export class TngBadge implements OnDestroy {
     }
 
     this.ensureBadgeElement();
+    this.beginRuntimePositionTracking();
     this.patchBadgeClasses();
     this.patchBadgeAttributes();
     this.patchBadgePlacement();
     this.patchBadgeVisualStyles();
     this.patchBadgeCustomStyles();
+    this.patchBadgeRuntimeMetrics();
     this.patchBadgeContent(content);
   }
 
@@ -273,6 +293,8 @@ export class TngBadge implements OnDestroy {
   }
 
   private destroyBadge(): void {
+    this.endRuntimePositionTracking();
+
     if (this.badgeElement === null) {
       return;
     }
@@ -375,6 +397,19 @@ export class TngBadge implements OnDestroy {
     this.renderer.setStyle(this.badgeElement, 'transform', transform);
   }
 
+  private patchBadgeRuntimeMetrics(): void {
+    if (this.badgeElement === null) {
+      return;
+    }
+
+    const hostRect = this.hostElement.getBoundingClientRect();
+    const badgeRect = this.badgeElement.getBoundingClientRect();
+    this.badgeElement.style.setProperty('--tng-badge-anchor-width', toCssPixelLength(hostRect.width));
+    this.badgeElement.style.setProperty('--tng-badge-anchor-height', toCssPixelLength(hostRect.height));
+    this.badgeElement.style.setProperty('--tng-badge-self-width', toCssPixelLength(badgeRect.width));
+    this.badgeElement.style.setProperty('--tng-badge-self-height', toCssPixelLength(badgeRect.height));
+  }
+
   private patchBadgeVisualStyles(): void {
     if (this.badgeElement === null) {
       return;
@@ -451,5 +486,51 @@ export class TngBadge implements OnDestroy {
     }
 
     this.renderer.setStyle(this.badgeElement, property, value);
+  }
+
+  private beginRuntimePositionTracking(): void {
+    if (this.badgeElement === null) {
+      return;
+    }
+
+    const resizeObserverConstructor = resolveResizeObserverConstructor();
+    if (resizeObserverConstructor !== null) {
+      if (this.resizeObserver === null) {
+        this.resizeObserver = new resizeObserverConstructor(() => {
+          this.syncRuntimePositioning();
+        });
+      }
+
+      this.resizeObserver.observe(this.hostElement);
+      this.resizeObserver.observe(this.badgeElement);
+      return;
+    }
+
+    if (this.removeWindowResizeListener === null) {
+      this.removeWindowResizeListener = this.renderer.listen('window', 'resize', () => {
+        this.syncRuntimePositioning();
+      });
+    }
+  }
+
+  private endRuntimePositionTracking(): void {
+    if (this.resizeObserver !== null) {
+      this.resizeObserver.disconnect();
+      this.resizeObserver = null;
+    }
+
+    if (this.removeWindowResizeListener !== null) {
+      this.removeWindowResizeListener();
+      this.removeWindowResizeListener = null;
+    }
+  }
+
+  private syncRuntimePositioning(): void {
+    if (this.badgeElement === null) {
+      return;
+    }
+
+    this.patchBadgePlacement();
+    this.patchBadgeRuntimeMetrics();
   }
 }

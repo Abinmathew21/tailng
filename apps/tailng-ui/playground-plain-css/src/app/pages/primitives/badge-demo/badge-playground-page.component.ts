@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { TngBadge } from '@tailng-ui/components';
+import type { TngBadgePosition } from '@tailng-ui/primitives';
 
 type BadgeStyleMap = Readonly<Record<string, string>>;
 
@@ -31,4 +32,40 @@ export class BadgePlaygroundPageComponent {
     '--tng-badge-bg': 'var(--tng-semantic-background-surface)',
     '--tng-badge-fg': 'var(--tng-semantic-foreground-primary)',
   };
+
+  protected readonly runtimeBadgeCount = signal(12);
+  protected readonly runtimeBadgeDot = signal(false);
+  protected readonly runtimeBadgeHidden = signal(false);
+  protected readonly runtimeBadgePosition = signal<TngBadgePosition>('top-end');
+  protected readonly runtimeHostWidth = signal(176);
+  protected readonly runtimeHostHeight = signal(56);
+
+  protected setRuntimeBadgePosition(position: TngBadgePosition): void {
+    this.runtimeBadgePosition.set(position);
+  }
+
+  protected updateRuntimeBadgeCount(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    this.runtimeBadgeCount.set(Number(input.value));
+  }
+
+  protected updateRuntimeHostWidth(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    this.runtimeHostWidth.set(Number(input.value));
+  }
+
+  protected updateRuntimeHostHeight(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    this.runtimeHostHeight.set(Number(input.value));
+  }
+
+  protected toggleRuntimeDot(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    this.runtimeBadgeDot.set(input.checked);
+  }
+
+  protected toggleRuntimeHidden(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    this.runtimeBadgeHidden.set(input.checked);
+  }
 }

@@ -186,4 +186,126 @@
       </button>
     </div>
   </section>
+
+  <section class="space-y-3 rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5">
+    <h2 class="text-lg font-semibold">Runtime Repositioning</h2>
+    <p class="text-sm text-tng-fg-secondary">
+      Resize the host and change badge settings to verify runtime positioning updates.
+    </p>
+
+    <div class="grid gap-3 [grid-template-columns:repeat(auto-fit,minmax(11.5rem,1fr))]">
+      <label class="grid gap-1.5">
+        <span class="text-sm text-tng-fg-secondary">Count: {{ runtimeBadgeCount() }}</span>
+        <input
+          type="range"
+          min="0"
+          max="150"
+          [value]="runtimeBadgeCount()"
+          (input)="updateRuntimeBadgeCount($event)"
+          class="w-full accent-[var(--tng-semantic-accent-brand)]"
+        />
+      </label>
+
+      <label class="grid gap-1.5">
+        <span class="text-sm text-tng-fg-secondary">Host width: {{ runtimeHostWidth() }}px</span>
+        <input
+          type="range"
+          min="120"
+          max="320"
+          [value]="runtimeHostWidth()"
+          (input)="updateRuntimeHostWidth($event)"
+          class="w-full accent-[var(--tng-semantic-accent-brand)]"
+        />
+      </label>
+
+      <label class="grid gap-1.5">
+        <span class="text-sm text-tng-fg-secondary">Host height: {{ runtimeHostHeight() }}px</span>
+        <input
+          type="range"
+          min="40"
+          max="120"
+          [value]="runtimeHostHeight()"
+          (input)="updateRuntimeHostHeight($event)"
+          class="w-full accent-[var(--tng-semantic-accent-brand)]"
+        />
+      </label>
+
+      <label class="inline-flex min-h-9 items-center gap-2 text-sm text-tng-fg-secondary">
+        <input type="checkbox" [checked]="runtimeBadgeDot()" (change)="toggleRuntimeDot($event)" />
+        Dot mode
+      </label>
+
+      <label class="inline-flex min-h-9 items-center gap-2 text-sm text-tng-fg-secondary">
+        <input type="checkbox" [checked]="runtimeBadgeHidden()" (change)="toggleRuntimeHidden($event)" />
+        Hidden
+      </label>
+    </div>
+
+    <div class="flex flex-wrap items-center gap-2.5">
+      <span class="text-sm text-tng-fg-secondary">Position</span>
+      <div class="flex flex-wrap gap-2">
+        <button
+          type="button"
+          class="inline-flex min-h-8 items-center rounded-full border px-3 text-xs font-medium transition-colors"
+          [class.border-tng-border-subtle]="runtimeBadgePosition() !== 'top-start'"
+          [class.text-tng-fg-secondary]="runtimeBadgePosition() !== 'top-start'"
+          [class.border-[color:var(--tng-semantic-accent-brand)]]="runtimeBadgePosition() === 'top-start'"
+          [class.text-[color:var(--tng-semantic-accent-brand)]]="runtimeBadgePosition() === 'top-start'"
+          (click)="setRuntimeBadgePosition('top-start')"
+        >
+          top-start
+        </button>
+        <button
+          type="button"
+          class="inline-flex min-h-8 items-center rounded-full border px-3 text-xs font-medium transition-colors"
+          [class.border-tng-border-subtle]="runtimeBadgePosition() !== 'top-end'"
+          [class.text-tng-fg-secondary]="runtimeBadgePosition() !== 'top-end'"
+          [class.border-[color:var(--tng-semantic-accent-brand)]]="runtimeBadgePosition() === 'top-end'"
+          [class.text-[color:var(--tng-semantic-accent-brand)]]="runtimeBadgePosition() === 'top-end'"
+          (click)="setRuntimeBadgePosition('top-end')"
+        >
+          top-end
+        </button>
+        <button
+          type="button"
+          class="inline-flex min-h-8 items-center rounded-full border px-3 text-xs font-medium transition-colors"
+          [class.border-tng-border-subtle]="runtimeBadgePosition() !== 'bottom-start'"
+          [class.text-tng-fg-secondary]="runtimeBadgePosition() !== 'bottom-start'"
+          [class.border-[color:var(--tng-semantic-accent-brand)]]="runtimeBadgePosition() === 'bottom-start'"
+          [class.text-[color:var(--tng-semantic-accent-brand)]]="runtimeBadgePosition() === 'bottom-start'"
+          (click)="setRuntimeBadgePosition('bottom-start')"
+        >
+          bottom-start
+        </button>
+        <button
+          type="button"
+          class="inline-flex min-h-8 items-center rounded-full border px-3 text-xs font-medium transition-colors"
+          [class.border-tng-border-subtle]="runtimeBadgePosition() !== 'bottom-end'"
+          [class.text-tng-fg-secondary]="runtimeBadgePosition() !== 'bottom-end'"
+          [class.border-[color:var(--tng-semantic-accent-brand)]]="runtimeBadgePosition() === 'bottom-end'"
+          [class.text-[color:var(--tng-semantic-accent-brand)]]="runtimeBadgePosition() === 'bottom-end'"
+          (click)="setRuntimeBadgePosition('bottom-end')"
+        >
+          bottom-end
+        </button>
+      </div>
+    </div>
+
+    <div
+      class="flex min-h-36 items-center justify-center rounded-xl border border-dashed border-tng-border-subtle bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_80%,transparent)] p-4"
+    >
+      <button
+        type="button"
+        class="inline-flex min-w-0 items-center justify-center rounded-lg border border-tng-border-subtle bg-tng-bg-canvas px-4 py-2 text-sm font-medium text-tng-fg-primary"
+        [style.width.px]="runtimeHostWidth()"
+        [style.height.px]="runtimeHostHeight()"
+        [tngBadge]="runtimeBadgeCount()"
+        [tngBadgeDot]="runtimeBadgeDot()"
+        [tngBadgeHidden]="runtimeBadgeHidden()"
+        [tngBadgePosition]="runtimeBadgePosition()"
+      >
+        Runtime host
+      </button>
+    </div>
+  </section>
 </div>

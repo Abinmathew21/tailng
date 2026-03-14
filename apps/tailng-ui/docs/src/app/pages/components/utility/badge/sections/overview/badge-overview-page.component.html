@@ -1,0 +1,200 @@
+<article class="badge-overview">
+  <h2 class="badge-overview-title">Badge overview</h2>
+  <p class="badge-overview-lead">
+    Badge is a lightweight overlay primitive for notification counts and status dots. Use
+    <code>tngBadge</code> directly for headless control or from <code>@tailng-ui/components</code>
+    for wrapper-level integration.
+  </p>
+
+  <section class="badge-overview-block">
+    <h3>Imports</h3>
+    <p>Choose primitive or component package based on ownership level.</p>
+    <tng-code-block
+      [code]="primitiveImportCode"
+      adapter="shiki"
+      language="ts"
+      title="Primitive import"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+    <tng-code-block
+      [code]="componentImportCode"
+      adapter="shiki"
+      language="ts"
+      title="Component import"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <section class="badge-overview-block">
+    <h3>Usage patterns</h3>
+    <tng-code-block
+      [code]="primitiveUsageCode"
+      adapter="shiki"
+      language="html"
+      title="Headless usage"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+    <tng-code-block
+      [code]="componentUsageCode"
+      adapter="shiki"
+      language="html"
+      title="Component wrapper usage"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <app-docs-example-tabs-section
+    class="badge-overview-block"
+    heading="Style variants"
+    description="Same badge behavior rendered with Headless, Plain-CSS, and Tailwind CSS variant shells."
+    ariaLabel="Badge style variants"
+    tabListAriaLabel="Badge style tabs"
+    defaultValue="headless"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="headless"
+      label="Headless"
+      panelTitle="Headless notification row"
+      [codeTabs]="headlessCodeTabs"
+    >
+      <div class="badge-preview-shell badge-preview-shell--headless">
+        <div class="badge-preview-row">
+          <button type="button" class="badge-host" [tngBadge]="headlessCount()">Inbox</button>
+          <button type="button" class="badge-host" [tngBadge]="headlessCount() * 12" [tngBadgeMax]="99">
+            Alerts
+          </button>
+          <button type="button" class="badge-host" [tngBadge]="null" [tngBadgeDot]="headlessDot()">
+            Presence
+          </button>
+        </div>
+        <div class="badge-preview-controls">
+          <button type="button" class="badge-control" (click)="increment('headless')">+1 count</button>
+          <button type="button" class="badge-control" (click)="toggleDot('headless')">Toggle dot</button>
+          <button type="button" class="badge-control" (click)="reset('headless')">Reset</button>
+        </div>
+        <p class="badge-preview-status">{{ status('headless') }}</p>
+      </div>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+      panelTitle="Wrapper badge row (plain CSS)"
+      [codeTabs]="plainCssCodeTabs"
+    >
+      <div class="badge-preview-shell badge-preview-shell--plain">
+        <div class="badge-preview-row">
+          <button type="button" class="badge-host" [tngBadge]="plainCount()" tngBadgeTone="info">Inbox</button>
+          <button
+            type="button"
+            class="badge-host"
+            [tngBadge]="plainCount() * 8"
+            [tngBadgeMax]="99"
+            tngBadgeTone="warning"
+          >
+            Queue
+          </button>
+          <button type="button" class="badge-host" [tngBadge]="null" [tngBadgeDot]="plainDot()" tngBadgeTone="success">
+            Presence
+          </button>
+        </div>
+        <div class="badge-preview-controls">
+          <button type="button" class="badge-control" (click)="increment('plain')">+1 count</button>
+          <button type="button" class="badge-control" (click)="toggleDot('plain')">Toggle dot</button>
+          <button type="button" class="badge-control" (click)="reset('plain')">Reset</button>
+        </div>
+        <p class="badge-preview-status">{{ status('plain') }}</p>
+      </div>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Wrapper badge row (Tailwind)"
+      [codeTabs]="tailwindCodeTabs"
+    >
+      <div
+        class="grid gap-3 rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+      >
+        <div class="flex flex-wrap gap-3">
+          <button
+            type="button"
+            [tngBadge]="tailwindCount()"
+            class="inline-flex min-h-10 min-w-28 items-center rounded-lg border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-900 dark:border-slate-600 dark:text-slate-100"
+          >
+            Inbox
+          </button>
+          <button
+            type="button"
+            [tngBadge]="tailwindCount() * 11"
+            [tngBadgeMax]="99"
+            tngBadgeTone="danger"
+            class="inline-flex min-h-10 min-w-28 items-center rounded-lg border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-900 dark:border-slate-600 dark:text-slate-100"
+          >
+            Alerts
+          </button>
+          <button
+            type="button"
+            [tngBadge]="null"
+            [tngBadgeDot]="tailwindDot()"
+            tngBadgeTone="success"
+            class="inline-flex min-h-10 min-w-28 items-center rounded-lg border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-900 dark:border-slate-600 dark:text-slate-100"
+          >
+            Presence
+          </button>
+        </div>
+
+        <div class="flex flex-wrap gap-2">
+          <button
+            type="button"
+            class="inline-flex min-h-8 items-center rounded-md border border-slate-400 px-3 text-xs font-semibold text-slate-700 dark:border-slate-500 dark:text-slate-200"
+            (click)="increment('tailwind')"
+          >
+            +1 count
+          </button>
+          <button
+            type="button"
+            class="inline-flex min-h-8 items-center rounded-md border border-slate-400 px-3 text-xs font-semibold text-slate-700 dark:border-slate-500 dark:text-slate-200"
+            (click)="toggleDot('tailwind')"
+          >
+            Toggle dot
+          </button>
+          <button
+            type="button"
+            class="inline-flex min-h-8 items-center rounded-md border border-slate-400 px-3 text-xs font-semibold text-slate-700 dark:border-slate-500 dark:text-slate-200"
+            (click)="reset('tailwind')"
+          >
+            Reset
+          </button>
+        </div>
+
+        <p class="m-0 text-sm text-slate-600 dark:text-slate-300">{{ status('tailwind') }}</p>
+      </div>
+    </ng-template>
+  </app-docs-example-tabs-section>
+
+  <section class="badge-overview-block">
+    <h3>Accessibility baseline</h3>
+    <ul class="badge-overview-list">
+      <li>Badge bubble is decorative by default and marked with <code>aria-hidden="true"</code>.</li>
+      <li>Provide meaningful host labeling (for example <code>aria-label="Inbox notifications"</code>).</li>
+      <li>Use dot mode for presence/status cues when numeric counts are not required.</li>
+    </ul>
+  </section>
+</article>

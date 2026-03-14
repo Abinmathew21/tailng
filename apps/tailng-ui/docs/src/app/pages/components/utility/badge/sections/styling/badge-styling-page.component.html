@@ -1,0 +1,82 @@
+<article class="badge-styling">
+  <h2 class="badge-styling-title">Styling contract</h2>
+  <p class="badge-styling-lead">
+    Badge styling is driven by stable class and data hooks, so contracts can be themed without
+    depending on internal structure beyond the generated badge node.
+  </p>
+
+  <section class="badge-styling-block">
+    <h3>State and variant hooks</h3>
+    <div class="badge-styling-table-wrap">
+      <table class="badge-styling-table">
+        <thead>
+          <tr>
+            <th scope="col">Attribute</th>
+            <th scope="col">Values</th>
+            <th scope="col">Usage</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>data-slot</code></td>
+            <td><code>badge</code></td>
+            <td>Stable selector for the generated badge bubble element.</td>
+          </tr>
+          <tr>
+            <td><code>data-position</code></td>
+            <td><code>top-end | top-start | bottom-end | bottom-start</code></td>
+            <td>Placement hook for custom transforms and alignment tweaks.</td>
+          </tr>
+          <tr>
+            <td><code>data-size</code></td>
+            <td><code>sm | md | lg</code></td>
+            <td>Size scale hook.</td>
+          </tr>
+          <tr>
+            <td><code>data-tone</code></td>
+            <td><code>danger | info | neutral | success | warning</code></td>
+            <td>Semantic tone hook.</td>
+          </tr>
+          <tr>
+            <td><code>data-variant</code></td>
+            <td><code>solid | soft | outline</code></td>
+            <td>Variant hook for filled, soft, and outlined treatments.</td>
+          </tr>
+          <tr>
+            <td><code>data-dot</code></td>
+            <td><code>present / absent</code></td>
+            <td>Applied when dot mode is active.</td>
+          </tr>
+          <tr>
+            <td><code>data-disabled</code></td>
+            <td><code>present / absent</code></td>
+            <td>Applied when <code>tngBadgeDisabled</code> is true.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="badge-styling-block">
+    <h3>Class hooks</h3>
+    <ul class="badge-styling-list">
+      <li><code>.tng-badge-host</code> is applied to every host carrying <code>tngBadge</code>.</li>
+      <li><code>.tng-badge</code> is applied to the generated bubble node.</li>
+      <li><code>data-tng-badge-host</code> is set on the host for parent-level styling.</li>
+    </ul>
+  </section>
+
+  <section class="badge-styling-block">
+    <h3>Example contract overrides</h3>
+    <tng-code-block
+      [code]="contractCss"
+      adapter="shiki"
+      language="css"
+      title="badge.contract.css"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+</article>

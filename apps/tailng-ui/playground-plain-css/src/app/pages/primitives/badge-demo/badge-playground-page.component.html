@@ -115,5 +115,114 @@
         </button>
       </div>
     </section>
+
+    <section class="card">
+      <h2>Runtime Repositioning</h2>
+      <p class="note">
+        Resize the host and change badge settings to verify runtime positioning updates.
+      </p>
+
+      <div class="runtime-controls">
+        <label class="runtime-field">
+          <span>Count: {{ runtimeBadgeCount() }}</span>
+          <input
+            type="range"
+            min="0"
+            max="150"
+            [value]="runtimeBadgeCount()"
+            (input)="updateRuntimeBadgeCount($event)"
+          />
+        </label>
+
+        <label class="runtime-field">
+          <span>Host width: {{ runtimeHostWidth() }}px</span>
+          <input
+            type="range"
+            min="120"
+            max="320"
+            [value]="runtimeHostWidth()"
+            (input)="updateRuntimeHostWidth($event)"
+          />
+        </label>
+
+        <label class="runtime-field">
+          <span>Host height: {{ runtimeHostHeight() }}px</span>
+          <input
+            type="range"
+            min="40"
+            max="120"
+            [value]="runtimeHostHeight()"
+            (input)="updateRuntimeHostHeight($event)"
+          />
+        </label>
+
+        <label class="runtime-check">
+          <input type="checkbox" [checked]="runtimeBadgeDot()" (change)="toggleRuntimeDot($event)" />
+          Dot mode
+        </label>
+
+        <label class="runtime-check">
+          <input
+            type="checkbox"
+            [checked]="runtimeBadgeHidden()"
+            (change)="toggleRuntimeHidden($event)"
+          />
+          Hidden
+        </label>
+      </div>
+
+      <div class="runtime-position-row">
+        <span class="runtime-position-label">Position</span>
+        <div class="runtime-position-options">
+          <button
+            type="button"
+            class="runtime-position-btn"
+            [class.runtime-position-btn--active]="runtimeBadgePosition() === 'top-start'"
+            (click)="setRuntimeBadgePosition('top-start')"
+          >
+            top-start
+          </button>
+          <button
+            type="button"
+            class="runtime-position-btn"
+            [class.runtime-position-btn--active]="runtimeBadgePosition() === 'top-end'"
+            (click)="setRuntimeBadgePosition('top-end')"
+          >
+            top-end
+          </button>
+          <button
+            type="button"
+            class="runtime-position-btn"
+            [class.runtime-position-btn--active]="runtimeBadgePosition() === 'bottom-start'"
+            (click)="setRuntimeBadgePosition('bottom-start')"
+          >
+            bottom-start
+          </button>
+          <button
+            type="button"
+            class="runtime-position-btn"
+            [class.runtime-position-btn--active]="runtimeBadgePosition() === 'bottom-end'"
+            (click)="setRuntimeBadgePosition('bottom-end')"
+          >
+            bottom-end
+          </button>
+        </div>
+      </div>
+
+      <div class="runtime-stage">
+        <button
+          type="button"
+          class="host host--runtime"
+          [style.width.px]="runtimeHostWidth()"
+          [style.height.px]="runtimeHostHeight()"
+          [tngBadge]="runtimeBadgeCount()"
+          [tngBadgeDot]="runtimeBadgeDot()"
+          [tngBadgeHidden]="runtimeBadgeHidden()"
+          [tngBadgePosition]="runtimeBadgePosition()"
+        >
+          Runtime host
+        </button>
+      </div>
+    </section>
   </section>
 </main>

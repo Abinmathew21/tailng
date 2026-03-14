@@ -10,9 +10,19 @@ if (defaultItem === undefined) {
   throw new Error('Components utility docs are empty.');
 }
 
+const avatarItem = group.items.find((item) => item.slug === 'avatar');
+if (avatarItem === undefined) {
+  throw new Error('Missing "avatar" in components utility docs group.');
+}
+
 const codeblockItem = group.items.find((item) => item.slug === 'codeblock');
 if (codeblockItem === undefined) {
   throw new Error('Missing "codeblock" in components utility docs group.');
+}
+
+const badgeItem = group.items.find((item) => item.slug === 'badge');
+if (badgeItem === undefined) {
+  throw new Error('Missing "badge" in components utility docs group.');
 }
 
 const copybuttonItem = group.items.find((item) => item.slug === 'copybutton');
@@ -25,13 +35,29 @@ if (buttonItem === undefined) {
   throw new Error('Missing "button" in components utility docs group.');
 }
 
-const utilityLandingSlugs = new Set([codeblockItem.slug, copybuttonItem.slug, buttonItem.slug]);
+const utilityLandingSlugs = new Set([
+  avatarItem.slug,
+  badgeItem.slug,
+  codeblockItem.slug,
+  copybuttonItem.slug,
+  buttonItem.slug,
+]);
 
 export const COMPONENTS_UTILITY_ROUTES: Routes = [
   {
     path: '',
     pathMatch: 'full',
     redirectTo: defaultItem.slug,
+  },
+  {
+    path: avatarItem.slug,
+    loadChildren: () =>
+      import('./avatar/routes').then((module) => module.COMPONENTS_UTILITY_AVATAR_ROUTES),
+  },
+  {
+    path: badgeItem.slug,
+    loadChildren: () =>
+      import('./badge/routes').then((module) => module.COMPONENTS_UTILITY_BADGE_ROUTES),
   },
   {
     path: codeblockItem.slug,
