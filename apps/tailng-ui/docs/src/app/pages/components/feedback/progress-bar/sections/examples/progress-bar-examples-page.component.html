@@ -1,0 +1,174 @@
+<article class="progress-bar-examples">
+  <h2 class="progress-bar-examples-title">Examples</h2>
+  <p class="progress-bar-examples-lead">
+    Pair determinate and indeterminate states to communicate progress and loading intent clearly.
+  </p>
+
+  <section class="progress-bar-examples-block">
+    <app-docs-example-tabs-section
+      heading="Upload and quality metrics"
+      description="Track completion of known-duration tasks with determinate values."
+      ariaLabel="Progress upload examples"
+      tabListAriaLabel="Progress upload style variants"
+      defaultValue="headless"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="headless"
+        label="Headless"
+        panelTitle="Headless metric bars"
+        [codeTabs]="uploadHeadlessTabs"
+      >
+        <section class="progress-example-shell progress-example-shell--headless">
+          <div class="progress-example-row">
+            <span>Upload progress</span>
+            <div class="progress-example-track" tngProgressBar [value]="uploadProgress">
+              <span
+                class="progress-example-indicator"
+                tngProgressBarIndicator
+                [style.width.%]="uploadProgress"
+              ></span>
+            </div>
+          </div>
+          <div class="progress-example-row">
+            <span>Test coverage</span>
+            <div class="progress-example-track" tngProgressBar [value]="testCoverageProgress">
+              <span
+                class="progress-example-indicator"
+                tngProgressBarIndicator
+                [style.width.%]="testCoverageProgress"
+              ></span>
+            </div>
+          </div>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Wrapper metric bars"
+        [codeTabs]="uploadPlainTabs"
+      >
+        <section class="progress-example-shell progress-example-shell--plain">
+          <div class="progress-example-row">
+            <span>Upload progress</span>
+            <tng-progress-bar [value]="uploadProgress" ariaLabel="Upload progress"></tng-progress-bar>
+          </div>
+          <div class="progress-example-row">
+            <span>Test coverage</span>
+            <tng-progress-bar [value]="testCoverageProgress" ariaLabel="Test coverage"></tng-progress-bar>
+          </div>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Tailwind metric bars"
+        [codeTabs]="uploadTailwindTabs"
+      >
+        <section
+          class="grid gap-3 rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+        >
+          <div class="grid gap-1 text-sm">
+            <span class="text-slate-700 dark:text-slate-200">Upload progress</span>
+            <tng-progress-bar [value]="uploadProgress" ariaLabel="Upload progress"></tng-progress-bar>
+          </div>
+          <div class="grid gap-1 text-sm">
+            <span class="text-slate-700 dark:text-slate-200">Test coverage</span>
+            <tng-progress-bar [value]="testCoverageProgress" ariaLabel="Test coverage"></tng-progress-bar>
+          </div>
+        </section>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section class="progress-bar-examples-block">
+    <app-docs-example-tabs-section
+      heading="Loading and rollout state"
+      description="Use indeterminate when duration is unknown, then switch to determinate rollout progress."
+      ariaLabel="Progress loading examples"
+      tabListAriaLabel="Progress loading style variants"
+      defaultValue="headless"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="headless"
+        label="Headless"
+        panelTitle="Headless loading bars"
+        [codeTabs]="loadingHeadlessTabs"
+      >
+        <section class="progress-example-shell progress-example-shell--headless">
+          <div class="progress-example-row">
+            <span>Preparing release</span>
+            <div
+              class="progress-example-track"
+              tngProgressBar
+              [indeterminate]="true"
+              aria-label="Preparing release"
+            >
+              <span
+                class="progress-example-indicator progress-example-indicator--indeterminate"
+                tngProgressBarIndicator
+              ></span>
+            </div>
+          </div>
+          <div class="progress-example-row">
+            <span>Rollout</span>
+            <div class="progress-example-track" tngProgressBar [value]="releaseProgress">
+              <span
+                class="progress-example-indicator"
+                tngProgressBarIndicator
+                [style.width.%]="releaseProgress"
+              ></span>
+            </div>
+          </div>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Wrapper loading bars"
+        [codeTabs]="loadingPlainTabs"
+      >
+        <section class="progress-example-shell progress-example-shell--plain">
+          <div class="progress-example-row">
+            <span>Preparing release</span>
+            <tng-progress-bar [indeterminate]="true" ariaLabel="Preparing release"></tng-progress-bar>
+          </div>
+          <div class="progress-example-row">
+            <span>Rollout</span>
+            <tng-progress-bar [value]="releaseProgress" ariaLabel="Release rollout"></tng-progress-bar>
+          </div>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Tailwind loading bars"
+        [codeTabs]="loadingTailwindTabs"
+      >
+        <section
+          class="grid gap-3 rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+        >
+          <div class="grid gap-1 text-sm">
+            <span class="text-slate-700 dark:text-slate-200">Preparing release</span>
+            <tng-progress-bar [indeterminate]="true" ariaLabel="Preparing release"></tng-progress-bar>
+          </div>
+          <div class="grid gap-1 text-sm">
+            <span class="text-slate-700 dark:text-slate-200">Rollout</span>
+            <tng-progress-bar [value]="releaseProgress" ariaLabel="Release rollout"></tng-progress-bar>
+          </div>
+        </section>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+</article>

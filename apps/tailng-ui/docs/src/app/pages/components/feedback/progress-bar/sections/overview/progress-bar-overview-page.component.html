@@ -1,0 +1,113 @@
+<article class="progress-bar-overview">
+  <h2 class="progress-bar-overview-title">Progress Bar overview</h2>
+  <p class="progress-bar-overview-lead">
+    Progress Bar supports determinate and indeterminate linear loading states with semantic
+    <code>progressbar</code> attributes.
+  </p>
+
+  <section class="progress-bar-overview-block">
+    <h3>Imports</h3>
+    <p>Pick primitives for full control or wrappers for default contract styles.</p>
+    <tng-code-block
+      [code]="primitiveImportCode"
+      adapter="shiki"
+      language="ts"
+      title="Primitive import"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+    <tng-code-block
+      [code]="componentImportCode"
+      adapter="shiki"
+      language="ts"
+      title="Component import"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section class="progress-bar-overview-block">
+    <app-docs-example-tabs-section
+      heading="Progress variants"
+      description="Use the same semantics in headless markup, plain CSS wrappers, and Tailwind utility shells."
+      ariaLabel="Progress bar style variants"
+      tabListAriaLabel="Progress bar style tabs"
+      defaultValue="headless"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="headless"
+        label="Headless"
+        panelTitle="Headless progress bar"
+        [codeTabs]="headlessCodeTabs"
+      >
+        <section class="progress-preview-shell progress-preview-shell--headless">
+          <div tngProgressBar [min]="0" [max]="100" [value]="completion" class="progress-preview-track">
+            <span
+              tngProgressBarIndicator
+              class="progress-preview-indicator"
+              [style.width.%]="completion"
+            ></span>
+          </div>
+          <div
+            tngProgressBar
+            [indeterminate]="true"
+            aria-label="Loading report"
+            class="progress-preview-track"
+          >
+            <span
+              tngProgressBarIndicator
+              class="progress-preview-indicator progress-preview-indicator--indeterminate"
+            ></span>
+          </div>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Wrapper progress bar (plain CSS)"
+        [codeTabs]="plainCssCodeTabs"
+      >
+        <section class="progress-preview-shell progress-preview-shell--plain">
+          <tng-progress-bar [value]="completion" ariaLabel="Upload progress"></tng-progress-bar>
+          <tng-progress-bar [value]="34"></tng-progress-bar>
+          <tng-progress-bar [indeterminate]="true" ariaLabel="Loading data"></tng-progress-bar>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Wrapper progress bar (Tailwind)"
+        [codeTabs]="tailwindCodeTabs"
+      >
+        <section
+          class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+        >
+          <div class="grid gap-3">
+            <tng-progress-bar [value]="completion" ariaLabel="Deploy progress"></tng-progress-bar>
+            <tng-progress-bar [value]="48"></tng-progress-bar>
+            <tng-progress-bar [indeterminate]="true" ariaLabel="Syncing"></tng-progress-bar>
+          </div>
+        </section>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section class="progress-bar-overview-block">
+    <h3>Accessibility baseline</h3>
+    <ul class="progress-bar-overview-list">
+      <li>Set a meaningful label with <code>ariaLabel</code> when the context is not obvious.</li>
+      <li>Use determinate mode when a numeric completion value is available.</li>
+      <li>Use indeterminate mode for unknown duration loading states.</li>
+    </ul>
+  </section>
+</article>

@@ -176,6 +176,12 @@ export const COMPONENTS_FEEDBACK_GROUP: ComponentsDocsGroup = {
       title: 'Empty',
       description: 'Empty-state layout with icon, title, description, and action composition.',
     },
+    {
+      id: 'progress-bar',
+      slug: 'progress-bar',
+      title: 'Progress Bar',
+      description: 'Linear determinate and indeterminate loading states with aria semantics.',
+    },
   ],
 };
 

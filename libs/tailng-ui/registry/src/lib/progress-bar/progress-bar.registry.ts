@@ -25,7 +25,8 @@ export function resolveTngProgressBarRange(
 }> {
   const resolvedMin = normalizeTngProgressBarMin(min);
   const resolvedMax = Math.max(normalizeTngProgressBarMax(max), resolvedMin);
-  const resolvedValue = Math.min(Math.max(value, resolvedMin), resolvedMax);
+  const normalizedValue = normalizeFiniteNumber(value, resolvedMin);
+  const resolvedValue = Math.min(Math.max(normalizedValue, resolvedMin), resolvedMax);
 
   return Object.freeze({
     max: resolvedMax,

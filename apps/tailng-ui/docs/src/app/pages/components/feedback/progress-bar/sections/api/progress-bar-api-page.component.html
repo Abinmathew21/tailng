@@ -1,0 +1,77 @@
+<article class="progress-bar-api">
+  <h2 class="progress-bar-api-title">API reference</h2>
+  <p class="progress-bar-api-lead">
+    Progress Bar exposes a minimal contract: range values, indeterminate mode, and semantic
+    accessibility attributes.
+  </p>
+
+  <section class="progress-bar-api-block">
+    <h3><code>tngProgressBar</code> and <code>tngProgressBarIndicator</code></h3>
+    <p>Use primitive directives when you want full control over surrounding markup and motion.</p>
+    <tng-code-block
+      [code]="primitiveAttachmentCode"
+      adapter="shiki"
+      language="html"
+      title="Primitive usage"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+
+    <div class="progress-bar-api-table-wrap">
+      <table class="progress-bar-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Input</th>
+            <th scope="col">Type</th>
+            <th scope="col">Default</th>
+            <th scope="col">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>min</code></td>
+            <td><code>number</code></td>
+            <td><code>0</code></td>
+            <td>Lower bound used to clamp <code>value</code>.</td>
+          </tr>
+          <tr>
+            <td><code>max</code></td>
+            <td><code>number</code></td>
+            <td><code>100</code></td>
+            <td>Upper bound used to clamp <code>value</code>; never falls below <code>min</code>.</td>
+          </tr>
+          <tr>
+            <td><code>value</code></td>
+            <td><code>number</code></td>
+            <td><code>0</code></td>
+            <td>Current determinate progress value.</td>
+          </tr>
+          <tr>
+            <td><code>indeterminate</code></td>
+            <td><code>boolean</code></td>
+            <td><code>false</code></td>
+            <td>Hides <code>aria-valuenow</code>/<code>aria-valuemin</code>/<code>aria-valuemax</code>.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="progress-bar-api-block">
+    <h3><code>tng-progress-bar</code> wrapper</h3>
+    <p>
+      Wrapper component uses the same inputs and adds <code>ariaLabel</code> plus default indicator
+      width calculation.
+    </p>
+    <tng-code-block
+      [code]="componentAttachmentCode"
+      adapter="shiki"
+      language="html"
+      title="Component usage"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+</article>

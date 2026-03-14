@@ -1,0 +1,125 @@
+import { Component, signal } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
+import { afterEach, describe, expect, it } from 'vitest';
+import { toTngProgressBarPercent, TngProgressBarComponent } from '../tng-progress-bar.component';
+
+function getByTestId<T extends Element>(
+  fixture: { nativeElement: HTMLElement },
+  testId: string,
+): T {
+  const element = fixture.nativeElement.querySelector(`[data-testid="${testId}"]`);
+  if (element === null) {
+    throw new Error(`Expected element for data-testid="${testId}".`);
+  }
+
+  return element as T;
+}
+
+function getRequired<T extends Element>(root: ParentNode, selector: string): T {
+  const element = root.querySelector(selector);
+  if (!(element instanceof Element)) {
+    throw new Error(`Expected selector "${selector}" to resolve.`);
+  }
+
+  return element as T;
+}
+
+@Component({
+  standalone: true,
+  imports: [TngProgressBarComponent],
+  template: `
+    <tng-progress-bar
+      data-testid="progress-host"
+      [ariaLabel]="ariaLabel()"
+      [indeterminate]="indeterminate()"
+      [max]="max()"
+      [min]="min()"
+      [value]="value()"
+    ></tng-progress-bar>
+  `,
+})
+class ProgressBarComponentHostComponent {
+  public readonly ariaLabel = signal<string | null>('Upload progress');
+  public readonly indeterminate = signal(false);
+  public readonly max = signal(100);
+  public readonly min = signal(0);
+  public readonly value = signal(60);
+}
+
+describe('tng-progress-bar component', () => {
+  afterEach(() => {
+    TestBed.resetTestingModule();
+  });
+
+  it('exports the public TngProgressBar symbol', () => {
+    expect(typeof TngProgressBarComponent).toBe('function');
+  });
+
+  it('maps values to percentage for the indicator width', () => {
+    expect(toTngProgressBarPercent(0, 100, 25)).toBe(25);
+    expect(toTngProgressBarPercent(50, 150, 100)).toBe(50);
+    expect(toTngProgressBarPercent(100, 200, 50)).toBe(0);
+    expect(toTngProgressBarPercent(0, 0, 10)).toBe(100);
+  });
+
+  it('renders determinate progress semantics and indicator width', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [ProgressBarComponentHostComponent],
+    }).createComponent(ProgressBarComponentHostComponent);
+    fixture.detectChanges();
+
+    const host = getByTestId<HTMLElement>(fixture, 'progress-host');
+    const root = getRequired<HTMLElement>(host, '[data-slot="progress-bar"]');
+    const indicator = getRequired<HTMLElement>(host, '[data-slot="progress-bar-indicator"]');
+
+    expect(root.getAttribute('role')).toBe('progressbar');
+    expect(root.getAttribute('aria-label')).toBe('Upload progress');
+    expect(root.getAttribute('aria-valuemin')).toBe('0');
+    expect(root.getAttribute('aria-valuemax')).toBe('100');
+    expect(root.getAttribute('aria-valuenow')).toBe('60');
+    expect(root.hasAttribute('data-indeterminate')).toBe(false);
+    expect(indicator.style.width).toBe('60%');
+  });
+
+  it('switches to indeterminate mode without aria range values', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [ProgressBarComponentHostComponent],
+    }).createComponent(ProgressBarComponentHostComponent);
+    fixture.detectChanges();
+
+    fixture.componentInstance.indeterminate.set(true);
+    fixture.detectChanges();
+
+    const host = getByTestId<HTMLElement>(fixture, 'progress-host');
+    const root = getRequired<HTMLElement>(host, '[data-slot="progress-bar"]');
+    const indicator = getRequired<HTMLElement>(host, '[data-slot="progress-bar-indicator"]');
+
+    expect(root.getAttribute('aria-valuemin')).toBeNull();
+    expect(root.getAttribute('aria-valuemax')).toBeNull();
+    expect(root.getAttribute('aria-valuenow')).toBeNull();
+    expect(root.hasAttribute('data-indeterminate')).toBe(true);
+    expect(indicator.hasAttribute('data-indeterminate')).toBe(true);
+    expect(indicator.style.width).toBe('40%');
+  });
+
+  it('recomputes indicator width using clamped range values', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [ProgressBarComponentHostComponent],
+    }).createComponent(ProgressBarComponentHostComponent);
+    fixture.detectChanges();
+
+    fixture.componentInstance.min.set(80);
+    fixture.componentInstance.max.set(20);
+    fixture.componentInstance.value.set(120);
+    fixture.detectChanges();
+
+    const host = getByTestId<HTMLElement>(fixture, 'progress-host');
+    const root = getRequired<HTMLElement>(host, '[data-slot="progress-bar"]');
+    const indicator = getRequired<HTMLElement>(host, '[data-slot="progress-bar-indicator"]');
+
+    expect(root.getAttribute('aria-valuemin')).toBe('80');
+    expect(root.getAttribute('aria-valuemax')).toBe('80');
+    expect(root.getAttribute('aria-valuenow')).toBe('80');
+    expect(indicator.style.width).toBe('100%');
+  });
+});

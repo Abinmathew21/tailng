@@ -1,0 +1,29 @@
+<section class="progress-bar-docs-page">
+  <tng-tabs
+    class="progress-bar-docs-tabs"
+    ariaLabel="Progress bar documentation sections"
+    [activation]="'manual'"
+    [value]="activeSection()"
+    (valueChange)="onSectionChange($event)"
+  >
+    <div tngTabList class="progress-bar-docs-tab-list" ariaLabel="Progress bar documentation tabs">
+      <button type="button" tngTab value="overview" class="progress-bar-docs-tab-trigger">
+        Overview
+      </button>
+      <button type="button" tngTab value="api" class="progress-bar-docs-tab-trigger">API</button>
+      <button type="button" tngTab value="styling" class="progress-bar-docs-tab-trigger">
+        Styling
+      </button>
+      <button type="button" tngTab value="examples" class="progress-bar-docs-tab-trigger">
+        Examples
+      </button>
+      <button type="button" tngTab value="ownable-install" class="progress-bar-docs-tab-trigger">
+        Ownable Install
+      </button>
+    </div>
+  </tng-tabs>
+
+  <section class="progress-bar-docs-content">
+    <router-outlet />
+  </section>
+</section>
