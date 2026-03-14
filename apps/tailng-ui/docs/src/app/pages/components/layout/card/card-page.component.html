@@ -1,0 +1,24 @@
+<section class="card-docs-page">
+  <tng-tabs
+    class="card-docs-tabs"
+    ariaLabel="Card documentation sections"
+    [activation]="'manual'"
+    [value]="activeSection()"
+    (valueChange)="onSectionChange($event)"
+  >
+    <div tngTabList class="card-docs-tab-list" ariaLabel="Card documentation tabs">
+      <button type="button" tngTab value="overview" class="card-docs-tab-trigger">Overview</button>
+      <button type="button" tngTab value="api" class="card-docs-tab-trigger">API</button>
+      <button type="button" tngTab value="styling" class="card-docs-tab-trigger">Styling</button>
+      <button type="button" tngTab value="examples" class="card-docs-tab-trigger">Examples</button>
+      <button type="button" tngTab value="ownable-install" class="card-docs-tab-trigger">
+        Ownable Install
+      </button>
+    </div>
+  </tng-tabs>
+
+  <section class="card-docs-content">
+    <router-outlet />
+  </section>
+</section>
+

@@ -104,40 +104,40 @@ This component exposes structure and slots only; it has no interactive behavior 
 
 ### Rendering
 
-- [ ] Renders card root with correct element/semantics
-- [ ] Renders header, title, description when used
-- [ ] Renders content and footer when used
-- [ ] Renders media and actions when used
-- [ ] Renders divider and link when used
-- [ ] Applies data-slot (or equivalent) for each part
+- [x] Renders card root with correct element/semantics
+- [x] Renders header, title, description when used
+- [x] Renders content and footer when used
+- [x] Renders media and actions when used
+- [x] Renders divider and link when used
+- [x] Applies data-slot (or equivalent) for each part
 
 ### Accessibility
 
-- [ ] Card root uses appropriate semantic element
-- [ ] Card title has correct heading level or aria
-- [ ] Card link is focusable and keyboard activatable when present
+- [x] Card root uses appropriate semantic element
+- [x] Card title has correct heading level or aria
+- [x] Card link is focusable and keyboard activatable when present
 
 ### Data attributes
 
-- [ ] Applies expected data attributes for styling (e.g. data-slot per part)
+- [x] Applies expected data attributes for styling (e.g. data-slot per part)
 
 ## Implementation Steps
 
 1. [x] Headless component created in `primitives`
-2. [ ] Test cases created for headless
-3. [ ] Headless example page added/updated in playground - plain CSS app
-4. [ ] Headless example page added/updated in playground - Tailwind app
+2. [x] Test cases created for headless
+3. [x] Headless example page added/updated in playground - plain CSS app
+4. [x] Headless example page added/updated in playground - Tailwind app
 5. [x] Minimum style `<tng-card>` component created in `components`
-6. [ ] Test cases created for `<tng-card>`
-7. [ ] Component example page added/updated in playground - plain CSS app
-8. [ ] Component example page added/updated in playground - Tailwind app
-9. [ ] Docs added/updated in docs project - Overview section
-10. [ ] Docs added/updated in docs project - API section
-11. [ ] Docs added/updated in docs project - Styling section
-12. [ ] Docs added/updated in docs project - Example section
-13. [ ] Registry templates added in `registry` for copy-paste mode (`tailng add card`)
-14. [ ] `tailng-cli` command generation added for card artifacts
-15. [ ] CLI integration tests added for `tailng add card`
+6. [x] Test cases created for `<tng-card>`
+7. [x] Component example page added/updated in playground - plain CSS app
+8. [x] Component example page added/updated in playground - Tailwind app
+9. [x] Docs added/updated in docs project - Overview section
+10. [x] Docs added/updated in docs project - API section
+11. [x] Docs added/updated in docs project - Styling section
+12. [x] Docs added/updated in docs project - Example section
+13. [x] Registry templates added in `registry` for copy-paste mode (`tailng add card`)
+14. [x] `tailng-cli` command generation added for card artifacts
+15. [x] CLI integration tests added for `tailng add card`
 
 ## Links
 

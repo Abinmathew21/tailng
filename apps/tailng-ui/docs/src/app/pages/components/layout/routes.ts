@@ -22,6 +22,11 @@ if (stepperItem === undefined) {
   throw new Error('Missing "stepper" in components layout docs group.');
 }
 
+const cardItem = group.items.find((item) => item.slug === 'card');
+if (cardItem === undefined) {
+  throw new Error('Missing "card" in components layout docs group.');
+}
+
 export const COMPONENTS_LAYOUT_ROUTES: Routes = [
   {
     path: '',
@@ -49,5 +54,11 @@ export const COMPONENTS_LAYOUT_ROUTES: Routes = [
     data: toComponentsDocsRouteData(group, stepperItem),
     loadChildren: () =>
       import('./stepper/routes').then((module) => module.COMPONENTS_LAYOUT_STEPPER_ROUTES),
+  },
+  {
+    path: cardItem.slug,
+    data: toComponentsDocsRouteData(group, cardItem),
+    loadChildren: () =>
+      import('./card/routes').then((module) => module.COMPONENTS_LAYOUT_CARD_ROUTES),
   },
 ];

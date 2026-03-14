@@ -1,0 +1,215 @@
+<article class="card-examples">
+  <h2 class="card-examples-title">Examples</h2>
+  <p class="card-examples-lead">
+    Production-oriented card patterns for profile summaries and action queues.
+  </p>
+
+  <section class="card-examples-block">
+    <app-docs-example-tabs-section
+      heading="Media profile card"
+      description="Image/media slot with content summary and footer actions."
+      ariaLabel="Media profile card variants"
+      tabListAriaLabel="Media profile card styles"
+      defaultValue="headless"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="headless"
+        label="Headless"
+        panelTitle="Headless media profile card"
+        [codeTabs]="mediaHeadlessCodeTabs"
+      >
+        <article tngCard class="card-example card-example--headless">
+          <div tngCardMedia class="card-example__media">
+            <div class="card-example__media-placeholder" aria-hidden="true">AV</div>
+          </div>
+          <header tngCardHeader>
+            <h3 tngCardTitle>Ava Mathews</h3>
+            <p tngCardDescription>Design systems engineer</p>
+          </header>
+          <section tngCardContent>
+            <p>Building reusable interaction patterns across product teams.</p>
+          </section>
+          <footer tngCardFooter>
+            <div tngCardActions>
+              <button type="button" class="card-example__button">Message</button>
+              <button type="button" class="card-example__button card-example__button--primary">
+                Follow
+              </button>
+            </div>
+          </footer>
+        </article>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Plain CSS media profile card"
+        [codeTabs]="mediaPlainCodeTabs"
+      >
+        <div class="card-example-shell card-example-shell--plain">
+          <tng-card variant="outline" tone="neutral" interactive>
+            <tng-card-media class="card-example__media">
+              <div class="card-example__media-placeholder" aria-hidden="true">AV</div>
+            </tng-card-media>
+            <tng-card-header>
+              <tng-card-title>Ava Mathews</tng-card-title>
+              <tng-card-description>Design systems engineer</tng-card-description>
+            </tng-card-header>
+            <tng-card-content>
+              <p>Building reusable interaction patterns across product teams.</p>
+            </tng-card-content>
+            <tng-card-footer>
+              <tng-card-actions>
+                <button type="button" class="card-example__button">Message</button>
+                <button type="button" class="card-example__button card-example__button--primary">
+                  Follow
+                </button>
+              </tng-card-actions>
+            </tng-card-footer>
+          </tng-card>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Tailwind media profile card"
+        [codeTabs]="mediaTailwindCodeTabs"
+      >
+        <div
+          class="card-example-shell rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+        >
+          <tng-card variant="outline" tone="primary" padding="lg" interactive>
+            <tng-card-media class="card-example__media">
+              <div class="card-example__media-placeholder" aria-hidden="true">AV</div>
+            </tng-card-media>
+            <tng-card-header>
+              <tng-card-title>Ava Mathews</tng-card-title>
+              <tng-card-description>Design systems engineer</tng-card-description>
+            </tng-card-header>
+            <tng-card-content>
+              <p class="text-sm text-slate-600 dark:text-slate-300">
+                Building reusable interaction patterns across product teams.
+              </p>
+            </tng-card-content>
+            <tng-card-footer>
+              <tng-card-actions>
+                <button type="button" class="card-example__button">Message</button>
+                <button type="button" class="card-example__button card-example__button--primary">
+                  Follow
+                </button>
+              </tng-card-actions>
+            </tng-card-footer>
+          </tng-card>
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section class="card-examples-block">
+    <app-docs-example-tabs-section
+      heading="Action queue card"
+      description="Divider + inline link + aligned action group for operational workflows."
+      ariaLabel="Action queue card variants"
+      tabListAriaLabel="Action queue card styles"
+      defaultValue="headless"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="headless"
+        label="Headless"
+        panelTitle="Headless action queue card"
+        [codeTabs]="actionHeadlessCodeTabs"
+      >
+        <article tngCard class="card-example card-example--headless">
+          <header tngCardHeader>
+            <h3 tngCardTitle>Billing reminder</h3>
+            <p tngCardDescription>Invoice #3912 is due in 2 days.</p>
+          </header>
+          <section tngCardContent>
+            <p>Assign owner and send reminder before due date.</p>
+          </section>
+          <hr tngCardDivider />
+          <footer tngCardFooter class="card-example__footer">
+            <a tngCardLink href="#invoice">Open invoice</a>
+            <div tngCardActions>
+              <button type="button" class="card-example__button">Snooze</button>
+              <button type="button" class="card-example__button card-example__button--primary">
+                Assign owner
+              </button>
+            </div>
+          </footer>
+        </article>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Plain CSS action queue card"
+        [codeTabs]="actionPlainCodeTabs"
+      >
+        <div class="card-example-shell card-example-shell--plain">
+          <tng-card variant="outline" tone="warning" padding="md">
+            <tng-card-header>
+              <tng-card-title>Billing reminder</tng-card-title>
+              <tng-card-description>Invoice #3912 is due in 2 days.</tng-card-description>
+            </tng-card-header>
+            <tng-card-content>
+              <p>Assign owner and send reminder before due date.</p>
+            </tng-card-content>
+            <tng-card-divider></tng-card-divider>
+            <tng-card-footer class="card-example__footer">
+              <tng-card-link href="#invoice">Open invoice</tng-card-link>
+              <tng-card-actions>
+                <button type="button" class="card-example__button">Snooze</button>
+                <button type="button" class="card-example__button card-example__button--primary">
+                  Assign owner
+                </button>
+              </tng-card-actions>
+            </tng-card-footer>
+          </tng-card>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Tailwind action queue card"
+        [codeTabs]="actionTailwindCodeTabs"
+      >
+        <div
+          class="card-example-shell rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+        >
+          <tng-card variant="outline" tone="warning" padding="md" interactive>
+            <tng-card-header>
+              <tng-card-title>Billing reminder</tng-card-title>
+              <tng-card-description>Invoice #3912 is due in 2 days.</tng-card-description>
+            </tng-card-header>
+            <tng-card-content>
+              <p class="text-sm text-slate-600 dark:text-slate-300">
+                Assign owner and send reminder before due date.
+              </p>
+            </tng-card-content>
+            <tng-card-divider></tng-card-divider>
+            <tng-card-footer class="card-example__footer">
+              <tng-card-link href="#invoice">Open invoice</tng-card-link>
+              <tng-card-actions>
+                <button type="button" class="card-example__button">Snooze</button>
+                <button type="button" class="card-example__button card-example__button--primary">
+                  Assign owner
+                </button>
+              </tng-card-actions>
+            </tng-card-footer>
+          </tng-card>
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+</article>

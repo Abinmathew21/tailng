@@ -149,7 +149,7 @@ export const ALL_PLAYGROUND_ITEMS: readonly TngPlaygroundItem[] = Object.freeze(
     registry: true,
     registryTest: false,
     stackblitz: false,
-    docs: false,
+    docs: true,
   },
   { path: '/tag', title: 'Tag', description: 'Compact status/count labels.', category: 'utility',
     headless: true,

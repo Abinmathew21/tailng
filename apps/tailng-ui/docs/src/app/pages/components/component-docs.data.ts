@@ -149,6 +149,12 @@ export const COMPONENTS_LAYOUT_GROUP: ComponentsDocsGroup = {
       title: 'Stepper',
       description: 'Ordered multi-step workflow surfaces for guided completion flows.',
     },
+    {
+      id: 'card',
+      slug: 'card',
+      title: 'Card',
+      description: 'Grouped content surfaces with optional media, actions, and footer composition.',
+    },
   ],
 };
 

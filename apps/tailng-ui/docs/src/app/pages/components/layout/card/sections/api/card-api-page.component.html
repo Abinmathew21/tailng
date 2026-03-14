@@ -1,0 +1,179 @@
+<article class="card-api">
+  <h2 class="card-api-title">API reference</h2>
+  <p class="card-api-lead">
+    Card is a structural surface primitive with optional wrapper components for consistent visual
+    defaults.
+  </p>
+
+  <section class="card-api-block">
+    <h3><code>tngCard</code> and slot directives (primitives)</h3>
+    <p>
+      Attach directives to semantic elements to define the card structure while keeping full markup
+      ownership.
+    </p>
+    <tng-code-block
+      [code]="primitiveAttachmentCode"
+      adapter="shiki"
+      language="html"
+      title="Primitive attachment"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+
+    <div class="card-api-table-wrap">
+      <table class="card-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Directive</th>
+            <th scope="col">Selector</th>
+            <th scope="col">Data slot</th>
+            <th scope="col">Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>TngCard</code></td>
+            <td><code>[tngCard]</code></td>
+            <td><code>card</code></td>
+            <td>Root container for grouped content.</td>
+          </tr>
+          <tr>
+            <td><code>TngCardHeader</code></td>
+            <td><code>[tngCardHeader]</code></td>
+            <td><code>card-header</code></td>
+            <td>Top metadata section.</td>
+          </tr>
+          <tr>
+            <td><code>TngCardTitle</code></td>
+            <td><code>[tngCardTitle]</code></td>
+            <td><code>card-title</code></td>
+            <td>Primary heading hook.</td>
+          </tr>
+          <tr>
+            <td><code>TngCardDescription</code></td>
+            <td><code>[tngCardDescription]</code></td>
+            <td><code>card-description</code></td>
+            <td>Supporting summary text.</td>
+          </tr>
+          <tr>
+            <td><code>TngCardContent</code></td>
+            <td><code>[tngCardContent]</code></td>
+            <td><code>card-content</code></td>
+            <td>Main body region.</td>
+          </tr>
+          <tr>
+            <td><code>TngCardFooter</code></td>
+            <td><code>[tngCardFooter]</code></td>
+            <td><code>card-footer</code></td>
+            <td>Footer container for meta/actions.</td>
+          </tr>
+          <tr>
+            <td><code>TngCardMedia</code></td>
+            <td><code>[tngCardMedia]</code></td>
+            <td><code>card-media</code></td>
+            <td>Image/video slot wrapper.</td>
+          </tr>
+          <tr>
+            <td><code>TngCardActions</code></td>
+            <td><code>[tngCardActions]</code></td>
+            <td><code>card-actions</code></td>
+            <td>Action row alignment hook.</td>
+          </tr>
+          <tr>
+            <td><code>TngCardDivider</code></td>
+            <td><code>[tngCardDivider]</code></td>
+            <td><code>card-divider</code></td>
+            <td>Separator hook between sections.</td>
+          </tr>
+          <tr>
+            <td><code>TngCardLink</code></td>
+            <td><code>[tngCardLink]</code></td>
+            <td><code>card-link</code></td>
+            <td>Focusable link hook inside card surfaces.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="card-api-block">
+    <h3><code>tng-card</code> wrappers (components)</h3>
+    <p>
+      Wrapper components apply baseline styles while preserving primitive slot contracts and
+      composition.
+    </p>
+    <tng-code-block
+      [code]="componentAttachmentCode"
+      adapter="shiki"
+      language="html"
+      title="Component attachment"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+
+    <div class="card-api-table-wrap">
+      <table class="card-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Surface</th>
+            <th scope="col">Input</th>
+            <th scope="col">Type</th>
+            <th scope="col">Default</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>tng-card</code></td>
+            <td><code>variant</code></td>
+            <td><code>'ghost' | 'outline' | 'solid'</code></td>
+            <td><code>'solid'</code></td>
+          </tr>
+          <tr>
+            <td><code>tng-card</code></td>
+            <td><code>tone</code></td>
+            <td><code>'neutral' | 'primary' | 'success' | 'warning' | 'danger' | 'info'</code></td>
+            <td><code>'neutral'</code></td>
+          </tr>
+          <tr>
+            <td><code>tng-card</code></td>
+            <td><code>padding</code></td>
+            <td><code>'none' | 'sm' | 'md' | 'lg'</code></td>
+            <td><code>'md'</code></td>
+          </tr>
+          <tr>
+            <td><code>tng-card</code></td>
+            <td><code>interactive</code></td>
+            <td><code>boolean</code></td>
+            <td><code>false</code></td>
+          </tr>
+          <tr>
+            <td><code>tng-card</code></td>
+            <td><code>elevated</code></td>
+            <td><code>boolean</code></td>
+            <td><code>false</code></td>
+          </tr>
+          <tr>
+            <td><code>tng-card-actions</code></td>
+            <td><code>align</code></td>
+            <td><code>'start' | 'end'</code></td>
+            <td><code>'end'</code></td>
+          </tr>
+          <tr>
+            <td><code>tng-card-link</code></td>
+            <td><code>href</code></td>
+            <td><code>string | null</code></td>
+            <td><code>'#'</code></td>
+          </tr>
+          <tr>
+            <td><code>tng-card-link</code></td>
+            <td><code>disabled</code></td>
+            <td><code>boolean</code></td>
+            <td><code>false</code></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</article>

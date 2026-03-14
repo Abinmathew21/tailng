@@ -1,0 +1,155 @@
+<article class="card-overview">
+  <h2 class="card-overview-title">Card overview</h2>
+  <p class="card-overview-lead">
+    Card provides structural sections for grouped content. Build fully custom markup with the
+    headless primitives or move faster with <code>&lt;tng-card&gt;</code> wrappers.
+  </p>
+
+  <section class="card-overview-block">
+    <h3>Imports</h3>
+    <p>Select the layer that matches your ownership model.</p>
+    <tng-code-block
+      [code]="primitiveImportCode"
+      adapter="shiki"
+      language="ts"
+      title="Primitive import"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+    <tng-code-block
+      [code]="componentImportCode"
+      adapter="shiki"
+      language="ts"
+      title="Component import"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section class="card-overview-block">
+    <app-docs-example-tabs-section
+      heading="Status card variants"
+      description="Same card structure rendered through headless directives, plain CSS wrappers, and Tailwind utility shells."
+      ariaLabel="Card status variants"
+      tabListAriaLabel="Card style variants"
+      defaultValue="headless"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="headless"
+        label="Headless"
+        panelTitle="Headless release status card"
+        [codeTabs]="headlessCodeTabs"
+      >
+        <article tngCard class="card-preview card-preview--headless">
+          <header tngCardHeader class="card-preview__header">
+            <h3 tngCardTitle>Release status</h3>
+            <p tngCardDescription>Production rollout is complete and monitoring is stable.</p>
+          </header>
+
+          <section tngCardContent class="card-preview__content">
+            <ul>
+              <li>Latency is below 120ms across all regions.</li>
+              <li>Error rate remained under 0.2% for the last hour.</li>
+            </ul>
+          </section>
+
+          <footer tngCardFooter class="card-preview__footer">
+            <div tngCardActions>
+              <button type="button" class="card-preview__button">View report</button>
+              <button type="button" class="card-preview__button card-preview__button--primary">
+                Promote
+              </button>
+            </div>
+          </footer>
+        </article>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Plain CSS release status card"
+        [codeTabs]="plainCssCodeTabs"
+      >
+        <div class="card-preview-shell card-preview-shell--plain">
+          <tng-card variant="outline" tone="info" padding="md">
+            <tng-card-header>
+              <tng-card-title>Release status</tng-card-title>
+              <tng-card-description>
+                Production rollout is complete and monitoring is stable.
+              </tng-card-description>
+            </tng-card-header>
+
+            <tng-card-content>
+              <ul>
+                <li>Latency is below 120ms across all regions.</li>
+                <li>Error rate remained under 0.2% for the last hour.</li>
+              </ul>
+            </tng-card-content>
+
+            <tng-card-footer>
+              <tng-card-actions>
+                <button type="button" class="card-preview__button">View report</button>
+                <button type="button" class="card-preview__button card-preview__button--primary">
+                  Promote
+                </button>
+              </tng-card-actions>
+            </tng-card-footer>
+          </tng-card>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Tailwind release status card"
+        [codeTabs]="tailwindCodeTabs"
+      >
+        <div
+          class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+        >
+          <tng-card variant="outline" tone="primary" padding="lg" interactive>
+            <tng-card-header>
+              <tng-card-title>Release status</tng-card-title>
+              <tng-card-description>
+                Production rollout is complete and monitoring is stable.
+              </tng-card-description>
+            </tng-card-header>
+
+            <tng-card-content>
+              <ul class="space-y-2 pl-4">
+                <li>Latency is below 120ms across all regions.</li>
+                <li>Error rate remained under 0.2% for the last hour.</li>
+              </ul>
+            </tng-card-content>
+
+            <tng-card-footer>
+              <tng-card-actions>
+                <button type="button" class="card-preview__button">View report</button>
+                <button type="button" class="card-preview__button card-preview__button--primary">
+                  Promote
+                </button>
+              </tng-card-actions>
+            </tng-card-footer>
+          </tng-card>
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section class="card-overview-block">
+    <h3>Accessibility baseline</h3>
+    <ul class="card-overview-list">
+      <li>Use semantic regions (<code>article</code>, <code>header</code>, <code>footer</code>) when possible.</li>
+      <li>Keep actionable controls inside the card keyboard reachable in natural tab order.</li>
+      <li>Use one primary action per card to avoid conflicting intent.</li>
+    </ul>
+  </section>
+</article>
