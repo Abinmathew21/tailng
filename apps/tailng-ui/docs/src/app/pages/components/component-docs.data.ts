@@ -2,6 +2,7 @@ export type ComponentsDocsCategoryId =
   | 'getting-started'
   | 'form'
   | 'layout'
+  | 'feedback'
   | 'utility'
   | 'navigation';
 
@@ -164,6 +165,20 @@ export const COMPONENTS_LAYOUT_GROUP: ComponentsDocsGroup = {
   ],
 };
 
+export const COMPONENTS_FEEDBACK_GROUP: ComponentsDocsGroup = {
+  id: 'feedback',
+  title: 'Feedback',
+  subtitle: 'Status, empty, and progress communication patterns',
+  items: [
+    {
+      id: 'empty',
+      slug: 'empty',
+      title: 'Empty',
+      description: 'Empty-state layout with icon, title, description, and action composition.',
+    },
+  ],
+};
+
 export const COMPONENTS_UTILITY_GROUP: ComponentsDocsGroup = {
   id: 'utility',
   title: 'Utility',
@@ -232,6 +247,7 @@ export const COMPONENTS_DOCS_GROUPS: readonly ComponentsDocsGroup[] = Object.fre
   COMPONENTS_GETTING_STARTED_GROUP,
   COMPONENTS_FORM_GROUP,
   COMPONENTS_LAYOUT_GROUP,
+  COMPONENTS_FEEDBACK_GROUP,
   COMPONENTS_UTILITY_GROUP,
   COMPONENTS_NAVIGATION_GROUP,
 ]);

@@ -40,6 +40,8 @@
   border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 0.85rem;
   padding: 0.95rem;
+}
+
 .badge-example-row {
   display: flex;
   flex-wrap: wrap;

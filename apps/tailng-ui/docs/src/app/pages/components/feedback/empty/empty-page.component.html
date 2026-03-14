@@ -1,0 +1,23 @@
+<section class="empty-docs-page">
+  <tng-tabs
+    class="empty-docs-tabs"
+    ariaLabel="Empty documentation sections"
+    [activation]="'manual'"
+    [value]="activeSection()"
+    (valueChange)="onSectionChange($event)"
+  >
+    <div tngTabList class="empty-docs-tab-list" ariaLabel="Empty documentation tabs">
+      <button type="button" tngTab value="overview" class="empty-docs-tab-trigger">Overview</button>
+      <button type="button" tngTab value="api" class="empty-docs-tab-trigger">API</button>
+      <button type="button" tngTab value="styling" class="empty-docs-tab-trigger">Styling</button>
+      <button type="button" tngTab value="examples" class="empty-docs-tab-trigger">Examples</button>
+      <button type="button" tngTab value="ownable-install" class="empty-docs-tab-trigger">
+        Ownable Install
+      </button>
+    </div>
+  </tng-tabs>
+
+  <section class="empty-docs-content">
+    <router-outlet />
+  </section>
+</section>

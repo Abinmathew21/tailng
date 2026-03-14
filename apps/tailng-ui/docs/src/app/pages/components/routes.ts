@@ -26,6 +26,11 @@ export const COMPONENTS_ROUTES: Routes = [
         loadChildren: () => import('./layout/routes').then((m) => m.COMPONENTS_LAYOUT_ROUTES),
       },
       {
+        path: 'feedback',
+        loadChildren: () =>
+          import('./feedback/routes').then((m) => m.COMPONENTS_FEEDBACK_ROUTES),
+      },
+      {
         path: 'utility',
         loadChildren: () =>
           import('./utility/routes').then((m) => m.COMPONENTS_UTILITY_ROUTES),

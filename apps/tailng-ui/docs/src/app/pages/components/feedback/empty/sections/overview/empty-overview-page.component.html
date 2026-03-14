@@ -1,0 +1,123 @@
+<article class="empty-overview">
+  <h2 class="empty-overview-title">Empty overview</h2>
+  <p class="empty-overview-lead">
+    Empty provides a composable status layout for no-data and no-results states with icon, title,
+    description, and optional actions.
+  </p>
+
+  <section class="empty-overview-block">
+    <h3>Imports</h3>
+    <p>Use primitives for full markup ownership or wrapper components for a styled baseline.</p>
+    <tng-code-block
+      [code]="primitiveImportCode"
+      adapter="shiki"
+      language="ts"
+      title="Primitive imports"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+    <tng-code-block
+      [code]="componentImportCode"
+      adapter="shiki"
+      language="ts"
+      title="Wrapper imports"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section class="empty-overview-block">
+    <app-docs-example-tabs-section
+      heading="Empty state variants"
+      description="Render the same semantic structure using headless directives, plain CSS wrappers, or Tailwind utility shells."
+      ariaLabel="Empty state variants"
+      tabListAriaLabel="Empty style variants"
+      defaultValue="headless"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="headless"
+        label="Headless"
+        panelTitle="Headless empty state"
+        [codeTabs]="headlessCodeTabs"
+      >
+        <section tngEmpty class="empty-preview empty-preview--headless">
+          <div tngEmptyIcon class="empty-preview-icon">📭</div>
+          <h3 tngEmptyTitle class="empty-preview-title">No invoices yet</h3>
+          <p tngEmptyDescription class="empty-preview-description">
+            Generate your first invoice to start tracking billing workflows.
+          </p>
+          <div tngEmptyActions class="empty-preview-actions">
+            <button type="button" class="empty-preview-button">Create invoice</button>
+          </div>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Wrapper empty state (plain CSS)"
+        [codeTabs]="plainCssCodeTabs"
+      >
+        <section class="empty-preview-shell empty-preview-shell--plain">
+          <tng-empty align="start">
+            <tng-empty-icon>🔍</tng-empty-icon>
+            <tng-empty-title>No matching projects</tng-empty-title>
+            <tng-empty-description>
+              Adjust filters or clear search criteria to discover more projects.
+            </tng-empty-description>
+            <tng-empty-actions>
+              <button type="button" class="empty-preview-button empty-preview-button--subtle">
+                Clear filters
+              </button>
+              <button type="button" class="empty-preview-button">Create project</button>
+            </tng-empty-actions>
+          </tng-empty>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Wrapper empty state (Tailwind)"
+        [codeTabs]="tailwindCodeTabs"
+      >
+        <section
+          class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+        >
+          <tng-empty>
+            <tng-empty-icon>🗂️</tng-empty-icon>
+            <tng-empty-title>Nothing in this board</tng-empty-title>
+            <tng-empty-description>
+              Add your first card to begin planning this sprint.
+            </tng-empty-description>
+            <tng-empty-actions>
+              <button
+                type="button"
+                class="rounded-md border border-slate-400 px-3 py-1 text-sm font-medium text-slate-700 dark:border-slate-500 dark:text-slate-200"
+              >
+                Add card
+              </button>
+            </tng-empty-actions>
+          </tng-empty>
+        </section>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section class="empty-overview-block">
+    <h3>Accessibility baseline</h3>
+    <ul class="empty-overview-list">
+      <li>Use informative titles and descriptions that explain the empty condition.</li>
+      <li>Keep action labels specific (<code>Create project</code> instead of generic <code>Go</code>).</li>
+      <li>Preserve a clear reading order: icon, title, description, then actions.</li>
+    </ul>
+  </section>
+</article>

@@ -1,0 +1,26 @@
+<article class="empty-styling">
+  <h2 class="empty-styling-title">Styling contract</h2>
+  <p class="empty-styling-lead">
+    Empty exposes predictable slot hooks so teams can apply their own visual language without
+    changing behavior code.
+  </p>
+
+  <section class="empty-styling-block">
+    <h3>Slot hooks</h3>
+    <p>
+      Style the same selectors for both headless primitives and wrapper components:
+      <code>empty</code>, <code>empty-icon</code>, <code>empty-title</code>,
+      <code>empty-description</code>, and <code>empty-actions</code>.
+    </p>
+    <tng-code-block
+      [code]="cssContractCode"
+      adapter="shiki"
+      language="css"
+      title="Recommended CSS contract"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+</article>
