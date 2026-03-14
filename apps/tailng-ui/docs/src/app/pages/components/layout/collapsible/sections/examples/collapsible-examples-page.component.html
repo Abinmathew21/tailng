@@ -1,0 +1,285 @@
+<article class="collapsible-examples">
+  <h2 class="collapsible-examples-title">Examples</h2>
+  <p class="collapsible-examples-lead">
+    Reusable collapsible layouts for checkout, release workflows, and validation fallback paths.
+  </p>
+
+  <section class="collapsible-examples-block">
+    <app-docs-example-tabs-section
+      heading="Checkout progression variants"
+      description="Cart, Shipping, and Payment steps with consistent current/completed state treatment."
+      ariaLabel="Checkout collapsible variants"
+      tabListAriaLabel="Checkout collapsible styles"
+      defaultValue="headless"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="headless"
+        label="Headless"
+        panelTitle="Headless checkout progression"
+        [codeTabs]="checkoutHeadlessCodeTabs"
+      >
+        <div class="collapsible-example-shell collapsible-example-shell--headless">
+          <section tngCollapsible class="collapsible-example-headless" [open]="checkoutHeadlessOpen()">
+            <button
+              tngCollapsibleTrigger
+              class="collapsible-example-trigger"
+              [open]="checkoutHeadlessOpen()"
+              [contentId]="checkoutHeadlessContentId"
+              (click)="onCheckoutHeadlessOpenChange(!checkoutHeadlessOpen())"
+            >
+              Checkout progress
+            </button>
+
+            <ol
+              tngCollapsibleContent
+              class="collapsible-example-list"
+              [id]="checkoutHeadlessContentId"
+              [open]="checkoutHeadlessOpen()"
+              aria-label="Checkout progress"
+            >
+              <li class="collapsible-example-item is-complete"><span class="dot">✓</span> Cart</li>
+              <li class="collapsible-example-item is-current"><span class="dot">2</span> Shipping</li>
+              <li class="collapsible-example-item"><span class="dot">3</span> Payment</li>
+            </ol>
+          </section>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Plain CSS checkout progression"
+        [codeTabs]="checkoutPlainCodeTabs"
+      >
+        <div class="collapsible-example-shell collapsible-example-shell--plain">
+          <tng-collapsible
+            title="Checkout progress"
+            ariaLabel="Checkout progress"
+            [open]="checkoutPlainOpen()"
+            (openChange)="onCheckoutPlainOpenChange($event)"
+          >
+            <ol class="collapsible-example-list">
+              <li class="collapsible-example-item is-complete"><span class="dot">✓</span> Cart</li>
+              <li class="collapsible-example-item is-current"><span class="dot">2</span> Shipping</li>
+              <li class="collapsible-example-item"><span class="dot">3</span> Payment</li>
+            </ol>
+          </tng-collapsible>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Tailwind checkout progression"
+        [codeTabs]="checkoutTailwindCodeTabs"
+      >
+        <div
+          class="collapsible-example-shell rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+        >
+          <tng-collapsible
+            title="Checkout progress"
+            ariaLabel="Checkout progress"
+            [open]="checkoutTailwindOpen()"
+            (openChange)="onCheckoutTailwindOpenChange($event)"
+          >
+            <ol class="collapsible-example-list">
+              <li class="collapsible-example-item is-complete"><span class="dot">✓</span> Cart</li>
+              <li class="collapsible-example-item is-current"><span class="dot">2</span> Shipping</li>
+              <li class="collapsible-example-item"><span class="dot">3</span> Payment</li>
+            </ol>
+          </tng-collapsible>
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section class="collapsible-examples-block">
+    <app-docs-example-tabs-section
+      heading="Release pipeline variants"
+      description="Draft and Review complete states with a current Publish stage."
+      ariaLabel="Release pipeline collapsible variants"
+      tabListAriaLabel="Release pipeline collapsible styles"
+      defaultValue="headless"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="headless"
+        label="Headless"
+        panelTitle="Headless release pipeline"
+        [codeTabs]="releaseHeadlessCodeTabs"
+      >
+        <div class="collapsible-example-shell collapsible-example-shell--headless">
+          <section tngCollapsible class="collapsible-example-headless" [open]="releaseHeadlessOpen()">
+            <button
+              tngCollapsibleTrigger
+              class="collapsible-example-trigger"
+              [open]="releaseHeadlessOpen()"
+              [contentId]="releaseHeadlessContentId"
+              (click)="onReleaseHeadlessOpenChange(!releaseHeadlessOpen())"
+            >
+              Release flow
+            </button>
+
+            <ol
+              tngCollapsibleContent
+              class="collapsible-example-list"
+              [id]="releaseHeadlessContentId"
+              [open]="releaseHeadlessOpen()"
+              aria-label="Release flow"
+            >
+              <li class="collapsible-example-item is-complete"><span class="dot">✓</span> Draft</li>
+              <li class="collapsible-example-item is-complete"><span class="dot">✓</span> Review</li>
+              <li class="collapsible-example-item is-current"><span class="dot">3</span> Publish</li>
+            </ol>
+          </section>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Plain CSS release pipeline"
+        [codeTabs]="releasePlainCodeTabs"
+      >
+        <div class="collapsible-example-shell collapsible-example-shell--plain">
+          <tng-collapsible
+            title="Release flow"
+            ariaLabel="Release flow"
+            [open]="releasePlainOpen()"
+            (openChange)="onReleasePlainOpenChange($event)"
+          >
+            <ol class="collapsible-example-list">
+              <li class="collapsible-example-item is-complete"><span class="dot">✓</span> Draft</li>
+              <li class="collapsible-example-item is-complete"><span class="dot">✓</span> Review</li>
+              <li class="collapsible-example-item is-current"><span class="dot">3</span> Publish</li>
+            </ol>
+          </tng-collapsible>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Tailwind release pipeline"
+        [codeTabs]="releaseTailwindCodeTabs"
+      >
+        <div
+          class="collapsible-example-shell rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+        >
+          <tng-collapsible
+            title="Release flow"
+            ariaLabel="Release flow"
+            [open]="releaseTailwindOpen()"
+            (openChange)="onReleaseTailwindOpenChange($event)"
+          >
+            <ol class="collapsible-example-list">
+              <li class="collapsible-example-item is-complete"><span class="dot">✓</span> Draft</li>
+              <li class="collapsible-example-item is-complete"><span class="dot">✓</span> Review</li>
+              <li class="collapsible-example-item is-current"><span class="dot">3</span> Publish</li>
+            </ol>
+          </tng-collapsible>
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section class="collapsible-examples-block">
+    <app-docs-example-tabs-section
+      heading="Error surface variants"
+      description="Billing step exposes error state while neighboring steps remain complete/upcoming."
+      ariaLabel="Error surface collapsible variants"
+      tabListAriaLabel="Error surface collapsible styles"
+      defaultValue="headless"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="headless"
+        label="Headless"
+        panelTitle="Headless error surface"
+        [codeTabs]="errorHeadlessCodeTabs"
+      >
+        <div class="collapsible-example-shell collapsible-example-shell--headless">
+          <section tngCollapsible class="collapsible-example-headless" [open]="errorHeadlessOpen()">
+            <button
+              tngCollapsibleTrigger
+              class="collapsible-example-trigger"
+              [open]="errorHeadlessOpen()"
+              [contentId]="errorHeadlessContentId"
+              (click)="onErrorHeadlessOpenChange(!errorHeadlessOpen())"
+            >
+              Onboarding
+            </button>
+
+            <ol
+              tngCollapsibleContent
+              class="collapsible-example-list"
+              [id]="errorHeadlessContentId"
+              [open]="errorHeadlessOpen()"
+              aria-label="Onboarding"
+            >
+              <li class="collapsible-example-item is-complete"><span class="dot">✓</span> Profile</li>
+              <li class="collapsible-example-item is-error"><span class="dot">2</span> Billing</li>
+              <li class="collapsible-example-item"><span class="dot">3</span> Team invite</li>
+            </ol>
+          </section>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Plain CSS error surface"
+        [codeTabs]="errorPlainCodeTabs"
+      >
+        <div class="collapsible-example-shell collapsible-example-shell--plain">
+          <tng-collapsible
+            title="Onboarding"
+            ariaLabel="Onboarding"
+            [open]="errorPlainOpen()"
+            (openChange)="onErrorPlainOpenChange($event)"
+          >
+            <ol class="collapsible-example-list">
+              <li class="collapsible-example-item is-complete"><span class="dot">✓</span> Profile</li>
+              <li class="collapsible-example-item is-error"><span class="dot">2</span> Billing</li>
+              <li class="collapsible-example-item"><span class="dot">3</span> Team invite</li>
+            </ol>
+          </tng-collapsible>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Tailwind error surface"
+        [codeTabs]="errorTailwindCodeTabs"
+      >
+        <div
+          class="collapsible-example-shell rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+        >
+          <tng-collapsible
+            title="Onboarding"
+            ariaLabel="Onboarding"
+            [open]="errorTailwindOpen()"
+            (openChange)="onErrorTailwindOpenChange($event)"
+          >
+            <ol class="collapsible-example-list">
+              <li class="collapsible-example-item is-complete"><span class="dot">✓</span> Profile</li>
+              <li class="collapsible-example-item is-error"><span class="dot">2</span> Billing</li>
+              <li class="collapsible-example-item"><span class="dot">3</span> Team invite</li>
+            </ol>
+          </tng-collapsible>
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+</article>

@@ -17,7 +17,6 @@ const primitiveContentId = 'tailng-collapsible-primitive-content';
     TngCollapsibleContent,
   ],
   templateUrl: './collapsible-playground-page.component.html',
-  styleUrl: './collapsible-playground-page.component.css',
 })
 export class CollapsiblePlaygroundPageComponent {
   public readonly componentDisabled = signal(false);

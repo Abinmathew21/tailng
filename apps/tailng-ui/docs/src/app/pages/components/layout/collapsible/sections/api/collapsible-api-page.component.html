@@ -1,0 +1,92 @@
+<article class="collapsible-api">
+  <h2 class="collapsible-api-title">API reference</h2>
+  <p class="collapsible-api-lead">
+    Collapsible currently provides a structural primitive directive and a styled wrapper component.
+    Behavioral navigation APIs are planned for the next iteration.
+  </p>
+
+  <section class="collapsible-api-block">
+    <h3><code>tngCollapsible</code> (directive)</h3>
+    <p>
+      Attach on a container element (<code>ol</code>, <code>section</code>, etc.) to expose
+      collapsible slot semantics.
+    </p>
+    <tng-code-block
+      [code]="primitiveAttachmentCode"
+      adapter="shiki"
+      language="html"
+      title="Primitive attachment"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+
+    <div class="collapsible-api-table-wrap">
+      <table class="collapsible-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Surface</th>
+            <th scope="col">Value</th>
+            <th scope="col">Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Host attribute</td>
+            <td><code>data-slot="collapsible"</code></td>
+            <td>Stable styling and query hook.</td>
+          </tr>
+          <tr>
+            <td>Selector</td>
+            <td><code>[tngCollapsible]</code></td>
+            <td>Attach collapsible semantics without imposing markup.</td>
+          </tr>
+          <tr>
+            <td>Export alias</td>
+            <td><code>tngCollapsible</code></td>
+            <td>Reference directive instance from templates if needed.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="collapsible-api-block">
+    <h3><code>tng-collapsible</code> (component)</h3>
+    <p>
+      Wrapper that applies a baseline shell and forwards <code>ariaLabel</code> to the collapsible
+      host.
+    </p>
+    <tng-code-block
+      [code]="componentAttachmentCode"
+      adapter="shiki"
+      language="html"
+      title="Component attachment"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+
+    <div class="collapsible-api-table-wrap">
+      <table class="collapsible-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Input</th>
+            <th scope="col">Type</th>
+            <th scope="col">Default</th>
+            <th scope="col">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>ariaLabel</code></td>
+            <td><code>string</code></td>
+            <td><code>'Collapsible'</code></td>
+            <td>Sets accessible label on the underlying collapsible host.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</article>
+

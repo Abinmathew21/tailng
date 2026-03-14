@@ -1,0 +1,24 @@
+<section class="collapsible-docs-page">
+  <tng-tabs
+    class="collapsible-docs-tabs"
+    ariaLabel="Collapsible documentation sections"
+    [activation]="'manual'"
+    [value]="activeSection()"
+    (valueChange)="onSectionChange($event)"
+  >
+    <div tngTabList class="collapsible-docs-tab-list" ariaLabel="Collapsible documentation tabs">
+      <button type="button" tngTab value="overview" class="collapsible-docs-tab-trigger">Overview</button>
+      <button type="button" tngTab value="api" class="collapsible-docs-tab-trigger">API</button>
+      <button type="button" tngTab value="styling" class="collapsible-docs-tab-trigger">Styling</button>
+      <button type="button" tngTab value="examples" class="collapsible-docs-tab-trigger">Examples</button>
+      <button type="button" tngTab value="ownable-install" class="collapsible-docs-tab-trigger">
+        Ownable Install
+      </button>
+    </div>
+  </tng-tabs>
+
+  <section class="collapsible-docs-content">
+    <router-outlet />
+  </section>
+</section>
+

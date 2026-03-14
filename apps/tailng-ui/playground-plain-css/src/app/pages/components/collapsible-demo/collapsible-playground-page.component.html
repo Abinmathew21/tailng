@@ -1,53 +1,69 @@
 <main class="page">
   <section class="container">
-    <section class="card">
-      <h2>Primitives (`tngCollapsible`)</h2>
-      <div class="controls">
-        <button class="control-button" (click)="onTogglePrimitiveDisabled()">
-          {{ primitiveDisabled() ? 'Enable' : 'Disable' }} Primitive
-        </button>
-      </div>
-      <section tngCollapsible [open]="primitiveOpen()" [disabled]="primitiveDisabled()">
-        <button
-          tngCollapsibleTrigger
-          class="primitive-trigger"
-          [open]="primitiveOpen()"
-          [disabled]="primitiveDisabled()"
-          [contentId]="primitiveContentId"
-          (click)="onTogglePrimitive()"
-        >
-          Primitive Trigger
-        </button>
-        <div
-          tngCollapsibleContent
-          class="primitive-content"
-          [id]="primitiveContentId"
-          [open]="primitiveOpen()"
-        >
-          Primitive content region. Use Enter/Space on the trigger button to toggle visibility.
-        </div>
-      </section>
-    </section>
+    <header class="hero">
+      <h1 class="title">Collapsible Demo</h1>
+      <p class="subtitle">
+        Compare headless primitive wiring and the component wrapper with the same open/disabled
+        control flow.
+      </p>
+    </header>
 
-    <section class="card">
-      <h2>Component (`tng-collapsible`)</h2>
-      <div class="controls">
-        <button class="control-button" (click)="onToggleComponentDisabled()">
-          {{ componentDisabled() ? 'Enable' : 'Disable' }} Component
-        </button>
-      </div>
-      <tng-collapsible
-        title="Release Checklist"
-        [open]="componentOpen()"
-        [disabled]="componentDisabled()"
-        (openChange)="onComponentOpenChange($event)"
-      >
-        <ul class="content-list">
-          <li>Run lint and Vitest in affected projects.</li>
-          <li>Validate demo pages in both tailwind and plain-css apps.</li>
-          <li>Commit with component-scoped change set.</li>
-        </ul>
-      </tng-collapsible>
+    <section class="demo-grid">
+      <article class="card">
+        <h2>Primitives (`tngCollapsible`)</h2>
+        <p class="card-note">Behavior-only primitive with explicit trigger/content wiring.</p>
+        <div class="controls">
+          <button class="control-button" (click)="onTogglePrimitiveDisabled()">
+            {{ primitiveDisabled() ? 'Enable' : 'Disable' }} Primitive
+          </button>
+          <span class="state-pill">{{ primitiveOpen() ? 'Open' : 'Closed' }}</span>
+          <span class="state-pill">{{ primitiveDisabled() ? 'Disabled' : 'Enabled' }}</span>
+        </div>
+        <section tngCollapsible [open]="primitiveOpen()" [disabled]="primitiveDisabled()">
+          <button
+            tngCollapsibleTrigger
+            class="primitive-trigger"
+            [open]="primitiveOpen()"
+            [disabled]="primitiveDisabled()"
+            [contentId]="primitiveContentId"
+            (click)="onTogglePrimitive()"
+          >
+            Deployment checks
+          </button>
+          <div
+            tngCollapsibleContent
+            class="primitive-content"
+            [id]="primitiveContentId"
+            [open]="primitiveOpen()"
+          >
+            Primitive content region. Use Enter/Space on the trigger button to toggle visibility.
+          </div>
+        </section>
+      </article>
+
+      <article class="card">
+        <h2>Components (`tng-collapsible`)</h2>
+        <p class="card-note">Styled wrapper that forwards the same accessibility contract.</p>
+        <div class="controls">
+          <button class="control-button" (click)="onToggleComponentDisabled()">
+            {{ componentDisabled() ? 'Enable' : 'Disable' }} Component
+          </button>
+          <span class="state-pill">{{ componentOpen() ? 'Open' : 'Closed' }}</span>
+          <span class="state-pill">{{ componentDisabled() ? 'Disabled' : 'Enabled' }}</span>
+        </div>
+        <tng-collapsible
+          title="Release Checklist"
+          [open]="componentOpen()"
+          [disabled]="componentDisabled()"
+          (openChange)="onComponentOpenChange($event)"
+        >
+          <ul class="content-list">
+            <li>Run lint and Vitest in affected projects.</li>
+            <li>Validate demo pages in both tailwind and plain-css apps.</li>
+            <li>Commit with component-scoped change set.</li>
+          </ul>
+        </tng-collapsible>
+      </article>
     </section>
   </section>
 </main>

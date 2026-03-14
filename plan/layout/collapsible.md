@@ -125,34 +125,34 @@ This component should expose behavior, accessibility, and state for styling; ani
 ### Rendering
 
 - [ ] Renders closed by default when `defaultOpen` is false
-- [ ] Renders open when `open=true` or `defaultOpen=true`
-- [ ] Renders trigger as button with correct type
-- [ ] Renders content with id for aria-controls
-- [ ] Renders disabled state correctly on trigger
+- [x] Renders open when `open=true` or `defaultOpen=true`
+- [x] Renders trigger as button with correct type
+- [x] Renders content with id for aria-controls
+- [x] Renders disabled state correctly on trigger
 
 ### Accessibility
 
-- [ ] Trigger has `aria-expanded` matching open state
-- [ ] Trigger has `aria-controls` pointing to content id
-- [ ] Trigger has `aria-disabled` or disabled attribute when disabled
-- [ ] Content is hidden or removed when closed (no duplicate focus targets)
+- [x] Trigger has `aria-expanded` matching open state
+- [x] Trigger has `aria-controls` pointing to content id
+- [x] Trigger has `aria-disabled` or disabled attribute when disabled
+- [x] Content is hidden or removed when closed (no duplicate focus targets)
 
 ### Keyboard interaction
 
-- [ ] Enter toggles open/closed
-- [ ] Space toggles open/closed
-- [ ] Does not toggle when disabled
+- [x] Enter toggles open/closed
+- [x] Space toggles open/closed
+- [x] Does not toggle when disabled
 
 ### Pointer interaction
 
-- [ ] Click on trigger toggles state
-- [ ] Does not toggle when disabled
+- [x] Click on trigger toggles state
+- [x] Does not toggle when disabled
 
 ### Controlled behavior
 
-- [ ] Supports controlled open state
+- [x] Supports controlled open state
 - [ ] Emits openChange when toggled
-- [ ] Does not change visual state without controlled prop update
+- [x] Does not change visual state without controlled prop update
 
 ### Uncontrolled behavior
 
@@ -160,13 +160,13 @@ This component should expose behavior, accessibility, and state for styling; ani
 
 ### Data attributes
 
-- [ ] Applies `data-state="open" | "closed"` on root and trigger
-- [ ] Applies `data-disabled` when disabled
+- [x] Applies `data-state="open" | "closed"` on root and trigger
+- [x] Applies `data-disabled` when disabled
 
 ## Implementation Steps
 
 1. [x] Headless component created in `primitives`
-2. [ ] Test cases created for headless (controlled, uncontrolled, keyboard, a11y)
+2. [x] Test cases created for headless (controlled, uncontrolled, keyboard, a11y)
 3. [ ] Headless example page added/updated in playground - plain CSS app
 4. [ ] Headless example page added/updated in playground - Tailwind app
 5. [x] Minimum style `<tng-collapsible>` component created in `components`

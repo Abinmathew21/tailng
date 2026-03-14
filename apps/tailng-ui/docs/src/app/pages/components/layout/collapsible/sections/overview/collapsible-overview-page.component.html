@@ -1,0 +1,161 @@
+<article class="collapsible-overview">
+  <h2 class="collapsible-overview-title">Collapsible overview</h2>
+  <p class="collapsible-overview-lead">
+    Collapsible provides a lightweight structure for ordered progress indicators. Use the headless
+    primitive for complete control or the wrapper component for quick adoption.
+  </p>
+
+  <section class="collapsible-overview-block">
+    <h3>Imports</h3>
+    <p>Select the layer that matches your ownership model.</p>
+    <tng-code-block
+      [code]="primitiveImportCode"
+      adapter="shiki"
+      language="ts"
+      title="Primitive import"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+    <tng-code-block
+      [code]="componentImportCode"
+      adapter="shiki"
+      language="ts"
+      title="Component import"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section class="collapsible-overview-block">
+    <app-docs-example-tabs-section
+      heading="Progress indicator variants"
+      description="Same collapsible semantics rendered through headless markup, plain CSS wrappers, and Tailwind utility shells."
+      ariaLabel="Collapsible progress indicator variants"
+      tabListAriaLabel="Collapsible styles"
+      defaultValue="headless"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="headless"
+        label="Headless"
+        panelTitle="Headless progress collapsible"
+        [codeTabs]="headlessCodeTabs"
+      >
+        <div class="collapsible-preview-shell collapsible-preview-shell--headless">
+          <section tngCollapsible class="collapsible-preview-headless" [open]="headlessOpen()">
+            <button
+              tngCollapsibleTrigger
+              class="collapsible-preview-trigger"
+              [open]="headlessOpen()"
+              [contentId]="headlessContentId"
+              (click)="onHeadlessOpenChange(!headlessOpen())"
+            >
+              Checkout progress
+            </button>
+
+            <ol
+              tngCollapsibleContent
+              class="collapsible-preview-list"
+              [id]="headlessContentId"
+              [open]="headlessOpen()"
+              aria-label="Checkout progress"
+            >
+              <li class="collapsible-preview-item is-current">
+                <span class="collapsible-preview-dot">1</span>
+                Shipping details
+              </li>
+              <li class="collapsible-preview-item">
+                <span class="collapsible-preview-dot">2</span>
+                Payment method
+              </li>
+              <li class="collapsible-preview-item">
+                <span class="collapsible-preview-dot">3</span>
+                Confirmation
+              </li>
+            </ol>
+          </section>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Plain CSS progress collapsible"
+        [codeTabs]="plainCssCodeTabs"
+      >
+        <div class="collapsible-preview-shell collapsible-preview-shell--plain">
+          <tng-collapsible
+            title="Release pipeline"
+            ariaLabel="Release pipeline"
+            [open]="plainCssOpen()"
+            (openChange)="onPlainCssOpenChange($event)"
+          >
+            <ol class="collapsible-preview-list">
+              <li class="collapsible-preview-item is-complete">
+                <span class="collapsible-preview-dot">✓</span>
+                Draft
+              </li>
+              <li class="collapsible-preview-item is-current">
+                <span class="collapsible-preview-dot">2</span>
+                Review
+              </li>
+              <li class="collapsible-preview-item">
+                <span class="collapsible-preview-dot">3</span>
+                Publish
+              </li>
+            </ol>
+          </tng-collapsible>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Tailwind progress collapsible"
+        [codeTabs]="tailwindCodeTabs"
+      >
+        <div
+          class="collapsible-preview-shell rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+        >
+          <tng-collapsible
+            title="Release pipeline"
+            ariaLabel="Release pipeline"
+            [open]="tailwindOpen()"
+            (openChange)="onTailwindOpenChange($event)"
+          >
+            <ol class="collapsible-preview-list">
+              <li class="collapsible-preview-item is-complete">
+                <span class="collapsible-preview-dot">✓</span>
+                Draft
+              </li>
+              <li class="collapsible-preview-item is-current">
+                <span class="collapsible-preview-dot">2</span>
+                Review
+              </li>
+              <li class="collapsible-preview-item">
+                <span class="collapsible-preview-dot">3</span>
+                Publish
+              </li>
+            </ol>
+          </tng-collapsible>
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section class="collapsible-overview-block">
+    <h3>Accessibility baseline</h3>
+    <ul class="collapsible-overview-list">
+      <li>Current step should expose <code>aria-current="step"</code>.</li>
+      <li>Step triggers should remain keyboard-focusable in document order.</li>
+      <li>Optional, error, and completed states should be announced in accessible labels.</li>
+    </ul>
+  </section>
+</article>
