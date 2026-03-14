@@ -1,0 +1,64 @@
+<article class="skeleton-api">
+  <h2 class="skeleton-api-title">API reference</h2>
+  <p class="skeleton-api-lead">
+    Skeleton exposes simple decorative loading controls: animation, rounding, and wrapper sizing.
+  </p>
+
+  <section class="skeleton-api-block">
+    <h3><code>tngSkeleton</code> primitive</h3>
+    <p>Attach to any block element to expose skeleton state attributes and semantics.</p>
+    <tng-code-block
+      [code]="primitiveAttachmentCode"
+      adapter="shiki"
+      language="html"
+      title="Primitive usage"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+
+    <div class="skeleton-api-table-wrap">
+      <table class="skeleton-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Input</th>
+            <th scope="col">Type</th>
+            <th scope="col">Default</th>
+            <th scope="col">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>animated</code></td>
+            <td><code>boolean</code></td>
+            <td><code>true</code></td>
+            <td>Toggles shimmer animation hook via <code>data-animated</code>.</td>
+          </tr>
+          <tr>
+            <td><code>rounded</code></td>
+            <td><code>boolean</code></td>
+            <td><code>true</code></td>
+            <td>Toggles corner radius hook via <code>data-rounded</code>.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="skeleton-api-block">
+    <h3><code>tng-skeleton</code> wrapper</h3>
+    <p>
+      Wrapper component reuses primitive semantics and adds <code>width</code> and
+      <code>height</code> inputs.
+    </p>
+    <tng-code-block
+      [code]="componentAttachmentCode"
+      adapter="shiki"
+      language="html"
+      title="Component usage"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+</article>

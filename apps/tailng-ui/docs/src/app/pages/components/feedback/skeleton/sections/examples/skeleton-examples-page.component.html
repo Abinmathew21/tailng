@@ -1,0 +1,119 @@
+<article class="skeleton-examples">
+  <h2 class="skeleton-examples-title">Examples</h2>
+  <p class="skeleton-examples-lead">
+    Compose skeleton placeholders for text stacks and richer card layouts while content is loading.
+  </p>
+
+  <section class="skeleton-examples-block">
+    <app-docs-example-tabs-section
+      heading="Text content placeholder"
+      description="Use multiple line skeletons to mirror typographic rhythm."
+      ariaLabel="Skeleton text examples"
+      tabListAriaLabel="Skeleton text style variants"
+      defaultValue="headless"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="headless"
+        label="Headless"
+        panelTitle="Headless text stack"
+        [codeTabs]="textHeadlessTabs"
+      >
+        <section class="skeleton-example-shell skeleton-example-shell--headless">
+          <div tngSkeleton class="skeleton-example-line skeleton-example-line--title"></div>
+          <div tngSkeleton class="skeleton-example-line"></div>
+          <div tngSkeleton class="skeleton-example-line skeleton-example-line--short"></div>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Wrapper text stack"
+        [codeTabs]="textPlainTabs"
+      >
+        <section class="skeleton-example-shell skeleton-example-shell--plain">
+          <tng-skeleton width="56%" height="1.1rem"></tng-skeleton>
+          <tng-skeleton width="100%" height="0.9rem"></tng-skeleton>
+          <tng-skeleton width="68%" height="0.9rem"></tng-skeleton>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Tailwind text stack"
+        [codeTabs]="textTailwindTabs"
+      >
+        <section
+          class="grid gap-2 rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+        >
+          <tng-skeleton width="56%" height="1.1rem"></tng-skeleton>
+          <tng-skeleton width="100%" height="0.9rem"></tng-skeleton>
+          <tng-skeleton width="68%" height="0.9rem"></tng-skeleton>
+        </section>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section class="skeleton-examples-block">
+    <app-docs-example-tabs-section
+      heading="Card/media placeholder"
+      description="Combine avatar, title, text, and media blocks for card loading states."
+      ariaLabel="Skeleton card examples"
+      tabListAriaLabel="Skeleton card style variants"
+      defaultValue="headless"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="headless"
+        label="Headless"
+        panelTitle="Headless card placeholder"
+        [codeTabs]="cardHeadlessTabs"
+      >
+        <section class="skeleton-card-shell">
+          <div tngSkeleton class="skeleton-card-avatar"></div>
+          <div tngSkeleton class="skeleton-card-line skeleton-card-line--title"></div>
+          <div tngSkeleton class="skeleton-card-line"></div>
+          <div tngSkeleton [rounded]="false" class="skeleton-card-media"></div>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Wrapper card placeholder"
+        [codeTabs]="cardPlainTabs"
+      >
+        <section class="skeleton-card-shell">
+          <tng-skeleton width="2.75rem" height="2.75rem"></tng-skeleton>
+          <tng-skeleton width="58%" height="1rem"></tng-skeleton>
+          <tng-skeleton width="100%" height="0.9rem"></tng-skeleton>
+          <tng-skeleton width="100%" height="6rem" [rounded]="false"></tng-skeleton>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Tailwind card placeholder"
+        [codeTabs]="cardTailwindTabs"
+      >
+        <section
+          class="grid gap-2 rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+        >
+          <tng-skeleton width="2.75rem" height="2.75rem"></tng-skeleton>
+          <tng-skeleton width="58%" height="1rem"></tng-skeleton>
+          <tng-skeleton width="100%" height="0.9rem"></tng-skeleton>
+          <tng-skeleton width="100%" height="6rem" [rounded]="false"></tng-skeleton>
+        </section>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+</article>

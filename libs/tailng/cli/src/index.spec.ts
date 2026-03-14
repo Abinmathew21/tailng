@@ -647,6 +647,22 @@ it('tailng cli integration: spinner alias resolves to progress-spinner source fi
   ).toBe(true);
 });
 
+it('tailng cli integration: add writes skeleton source files', async (): Promise<void> => {
+  const targetRoot = await createTargetRoot();
+
+  const exitCode = await runCli(['add', 'skeleton', '--cwd', targetRoot], {
+    registry: registryModule,
+  });
+
+  expect(exitCode).toBe(0);
+  expect(await pathExists(path.join(targetRoot, 'src/app/tailng-ui/skeleton/tng-skeleton.ts'))).toBe(
+    true,
+  );
+  expect(
+    await pathExists(path.join(targetRoot, 'src/app/tailng-ui/skeleton/tng-skeleton-primitive.ts')),
+  ).toBe(true);
+});
+
 it('tailng cli integration: snackbar alias resolves to toast source files', async (): Promise<void> => {
   const targetRoot = await createTargetRoot();
 

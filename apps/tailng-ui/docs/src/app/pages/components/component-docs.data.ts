@@ -168,7 +168,7 @@ export const COMPONENTS_LAYOUT_GROUP: ComponentsDocsGroup = {
 export const COMPONENTS_FEEDBACK_GROUP: ComponentsDocsGroup = {
   id: 'feedback',
   title: 'Feedback',
-  subtitle: 'Status, empty, and progress communication patterns',
+  subtitle: 'Status, empty, progress, and loading placeholder patterns',
   items: [
     {
       id: 'empty',
@@ -187,6 +187,12 @@ export const COMPONENTS_FEEDBACK_GROUP: ComponentsDocsGroup = {
       slug: 'progress-spinner',
       title: 'Progress Spinner',
       description: 'Circular determinate and indeterminate loading states with aria semantics.',
+    },
+    {
+      id: 'skeleton',
+      slug: 'skeleton',
+      title: 'Skeleton',
+      description: 'Decorative placeholder blocks for loading layouts and content scaffolding.',
     },
   ],
 };

@@ -23,6 +23,9 @@ export class TngSkeleton {
   @HostBinding('attr.aria-hidden')
   protected readonly ariaHiddenAttr = 'true' as const;
 
+  @HostBinding('attr.role')
+  protected readonly roleAttr = 'presentation' as const;
+
   @HostBinding('attr.data-animated')
   protected get dataAnimatedAttr(): 'false' | 'true' {
     return resolveTngSkeletonDataAnimated(this.animated());

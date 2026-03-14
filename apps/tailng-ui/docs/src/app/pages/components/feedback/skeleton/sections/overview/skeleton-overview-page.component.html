@@ -1,0 +1,96 @@
+<article class="skeleton-overview">
+  <h2 class="skeleton-overview-title">Skeleton overview</h2>
+  <p class="skeleton-overview-lead">
+    Skeleton provides decorative placeholders that mimic content layout during loading and reduce
+    perceived wait.
+  </p>
+
+  <section class="skeleton-overview-block">
+    <h3>Imports</h3>
+    <p>Use primitives for full control or wrapper component for default sizing inputs.</p>
+    <tng-code-block
+      [code]="primitiveImportCode"
+      adapter="shiki"
+      language="ts"
+      title="Primitive import"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+    <tng-code-block
+      [code]="componentImportCode"
+      adapter="shiki"
+      language="ts"
+      title="Component import"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section class="skeleton-overview-block">
+    <app-docs-example-tabs-section
+      heading="Placeholder variants"
+      description="Use the same loading skeleton layout in headless markup, plain CSS wrappers, and Tailwind utility shells."
+      ariaLabel="Skeleton style variants"
+      tabListAriaLabel="Skeleton style tabs"
+      defaultValue="headless"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="headless"
+        label="Headless"
+        panelTitle="Headless skeleton stack"
+        [codeTabs]="headlessCodeTabs"
+      >
+        <section class="skeleton-preview-shell skeleton-preview-shell--headless">
+          <div tngSkeleton class="skeleton-preview-line skeleton-preview-line--title"></div>
+          <div tngSkeleton class="skeleton-preview-line"></div>
+          <div tngSkeleton class="skeleton-preview-line skeleton-preview-line--short"></div>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Wrapper skeleton stack (plain CSS)"
+        [codeTabs]="plainCssCodeTabs"
+      >
+        <section class="skeleton-preview-shell skeleton-preview-shell--plain">
+          <tng-skeleton width="58%" height="1.1rem"></tng-skeleton>
+          <tng-skeleton width="100%" height="0.9rem"></tng-skeleton>
+          <tng-skeleton width="72%" height="0.9rem"></tng-skeleton>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Wrapper skeleton stack (Tailwind)"
+        [codeTabs]="tailwindCodeTabs"
+      >
+        <section
+          class="grid gap-2 rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+        >
+          <tng-skeleton width="58%" height="1.1rem"></tng-skeleton>
+          <tng-skeleton width="100%" height="0.9rem"></tng-skeleton>
+          <tng-skeleton width="72%" height="0.9rem"></tng-skeleton>
+        </section>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section class="skeleton-overview-block">
+    <h3>Accessibility baseline</h3>
+    <ul class="skeleton-overview-list">
+      <li>Skeleton placeholders are decorative and default to <code>aria-hidden="true"</code>.</li>
+      <li>Use nearby text or live regions for actual loading status communication.</li>
+      <li>Disable shimmer with <code>[animated]="false"</code> where motion should be reduced.</li>
+    </ul>
+  </section>
+</article>

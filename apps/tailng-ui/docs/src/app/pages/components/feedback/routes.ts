@@ -22,8 +22,17 @@ const progressSpinnerItem = group.items.find((item) => item.slug === 'progress-s
 if (progressSpinnerItem === undefined) {
   throw new Error('Missing "progress-spinner" in components feedback docs group.');
 }
+const skeletonItem = group.items.find((item) => item.slug === 'skeleton');
+if (skeletonItem === undefined) {
+  throw new Error('Missing "skeleton" in components feedback docs group.');
+}
 
-const feedbackLandingSlugs = new Set([emptyItem.slug, progressBarItem.slug, progressSpinnerItem.slug]);
+const feedbackLandingSlugs = new Set([
+  emptyItem.slug,
+  progressBarItem.slug,
+  progressSpinnerItem.slug,
+  skeletonItem.slug,
+]);
 
 export const COMPONENTS_FEEDBACK_ROUTES: Routes = [
   {
@@ -49,6 +58,11 @@ export const COMPONENTS_FEEDBACK_ROUTES: Routes = [
       import('./progress-spinner/routes').then(
         (module) => module.COMPONENTS_FEEDBACK_PROGRESS_SPINNER_ROUTES,
       ),
+  },
+  {
+    path: skeletonItem.slug,
+    loadChildren: () =>
+      import('./skeleton/routes').then((module) => module.COMPONENTS_FEEDBACK_SKELETON_ROUTES),
   },
   ...group.items
     .filter((item) => !feedbackLandingSlugs.has(item.slug))

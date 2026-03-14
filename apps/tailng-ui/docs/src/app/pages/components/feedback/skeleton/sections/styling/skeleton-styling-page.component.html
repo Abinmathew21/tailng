@@ -1,0 +1,24 @@
+<article class="skeleton-styling">
+  <h2 class="skeleton-styling-title">Styling contract</h2>
+  <p class="skeleton-styling-lead">
+    Skeleton exposes stable hooks so design systems can style shimmer, radius, and motion behavior.
+  </p>
+
+  <section class="skeleton-styling-block">
+    <h3>Slot and state hooks</h3>
+    <p>
+      Use <code>[data-slot="skeleton"]</code> as the base selector. Then branch by
+      <code>data-animated</code> and <code>data-rounded</code>.
+    </p>
+    <tng-code-block
+      [code]="cssContractCode"
+      adapter="shiki"
+      language="css"
+      title="Recommended CSS contract"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+</article>
