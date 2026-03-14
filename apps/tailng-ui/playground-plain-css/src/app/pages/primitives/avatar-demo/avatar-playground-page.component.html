@@ -1,29 +1,78 @@
 <main class="page">
   <section class="container">
-    <section class="panel">
-      <h2>Primitives (`tngAvatar*`)</h2>
-      <div class="row">
-        <span tngAvatar class="primitive-avatar">
-          <img tngAvatarImage [src]="sampleImage" alt="User photo" class="img" />
-          <span tngAvatarFallback class="fallback hidden">TN</span>
-        </span>
+    <header class="hero">
+      <h1 class="title">Avatar Demo</h1>
+      <p class="subtitle">
+        Headless primitives and the <code>tng-avatar</code> component wrapper, including image
+        load/error fallback behavior.
+      </p>
+    </header>
 
-        <span tngAvatar class="primitive-avatar">
-          <img tngAvatarImage src="broken://avatar" alt="Broken avatar" class="img" />
-          <span tngAvatarFallback class="fallback">AV</span>
-        </span>
-      </div>
+    <section class="controls">
+      <button class="control-button" (click)="useValidSources()">Use Valid Image</button>
+      <button class="control-button" (click)="useBrokenSources()">Use Broken Image</button>
+      <button class="control-button" (click)="useNoHeadlessSource()">Headless: No Source</button>
+      <span class="state-pill">Headless: {{ showHeadlessFallback() ? 'fallback' : 'image' }}</span>
+    </section>
+
+    <section class="demo-grid">
+      <article class="panel">
+        <h2>Primitives (`tngAvatar*`)</h2>
+        <p class="panel-note">
+          Primitive layer is fully headless. Fallback visibility is controlled by your state logic.
+        </p>
+        <div class="row">
+          <span tngAvatar class="primitive-avatar" data-size="md" data-shape="circle">
+            <img
+              tngAvatarImage
+              [attr.src]="headlessSrc()"
+              [attr.hidden]="showHeadlessFallback() ? '' : null"
+              alt="Headless profile"
+              class="img"
+              (error)="onHeadlessError()"
+              (load)="onHeadlessLoad()"
+            />
+            <span
+              tngAvatarFallback
+              class="fallback"
+              [attr.hidden]="showHeadlessFallback() ? null : ''"
+            >
+              TN
+            </span>
+          </span>
+
+          <span tngAvatar class="primitive-avatar primitive-avatar-square" data-size="md" data-shape="square">
+            <img tngAvatarImage [attr.hidden]="''" alt="" class="img" />
+            <span tngAvatarFallback class="fallback" aria-hidden="true">🧩</span>
+          </span>
+
+          <span tngAvatar class="primitive-avatar primitive-avatar-sm" data-size="sm" data-shape="circle">
+            <img tngAvatarImage [attr.hidden]="''" alt="" class="img" />
+            <span tngAvatarFallback class="fallback">SM</span>
+          </span>
+        </div>
+      </article>
+
+      <article class="panel">
+        <h2>Component (`tng-avatar`)</h2>
+        <p class="panel-note">Styled wrapper with built-in src/fallback visibility handling.</p>
+        <div class="row">
+          <tng-avatar [src]="componentSrc()" fallback="Tail Ng"></tng-avatar>
+          <tng-avatar [src]="componentSrc()" fallback="Square User" shape="square"></tng-avatar>
+          <tng-avatar [src]="componentSrc()" fallback="Small User" size="sm"></tng-avatar>
+          <tng-avatar [src]="componentSrc()" fallback="Large User" size="lg"></tng-avatar>
+          <tng-avatar [src]="null" fallback="No Image"></tng-avatar>
+        </div>
+      </article>
     </section>
 
     <section class="panel">
-      <h2>Component (`tng-avatar`)</h2>
-      <div class="row">
-        <tng-avatar [src]="sampleImage" fallback="Tail Ng"></tng-avatar>
-        <tng-avatar src="broken://avatar" fallback="Avatar User"></tng-avatar>
-        <tng-avatar fallback="Square User" shape="square"></tng-avatar>
-        <tng-avatar fallback="Small User" size="sm"></tng-avatar>
-        <tng-avatar fallback="Large User" size="lg"></tng-avatar>
-      </div>
+      <h2>Accessibility Notes</h2>
+      <ul class="notes-list">
+        <li>Use meaningful <code>alt</code> when the avatar conveys identity.</li>
+        <li>Use <code>alt=""</code> for decorative avatars.</li>
+        <li>Provide readable fallback text (initials or icon) when source is missing/broken.</li>
+      </ul>
     </section>
   </section>
 </main>

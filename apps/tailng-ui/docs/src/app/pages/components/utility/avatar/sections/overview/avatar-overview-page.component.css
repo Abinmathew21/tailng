@@ -1,0 +1,141 @@
+:host {
+  display: block;
+}
+
+.avatar-overview {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.avatar-overview-title {
+  font-size: clamp(1.45rem, 1.05rem + 1.3vw, 1.95rem);
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.avatar-overview-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+  max-width: 70ch;
+}
+
+.avatar-overview-block {
+  background: color-mix(in srgb, var(--tng-semantic-background-surface) 88%, transparent);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 1rem;
+  display: grid;
+  gap: 0.9rem;
+  padding: 1.2rem;
+}
+
+.avatar-overview-block h3 {
+  font-size: 1.05rem;
+  font-weight: 650;
+  margin: 0;
+}
+
+.avatar-overview-block p {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.avatar-preview-shell {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.avatar-preview-shell--headless,
+.avatar-preview-shell--plain {
+  background: var(--tng-semantic-background-base);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.85rem;
+  padding: 0.95rem;
+}
+
+.avatar-preview-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.avatar-control {
+  appearance: none;
+  background: transparent;
+  border: 1px solid var(--tng-semantic-border-strong);
+  border-radius: 0.55rem;
+  color: var(--tng-semantic-foreground-primary);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 650;
+  min-height: 2rem;
+  padding: 0 0.7rem;
+}
+
+.avatar-control:focus-visible {
+  box-shadow: 0 0 0 3px var(--tng-semantic-focus-ring);
+  outline: none;
+}
+
+.avatar-preview-row {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.avatar-headless-host {
+  background: var(--tng-semantic-background-surface);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 9999px;
+  display: inline-flex;
+  height: 2.75rem;
+  overflow: hidden;
+  position: relative;
+  width: 2.75rem;
+}
+
+.avatar-headless-host--square {
+  border-radius: 0.75rem;
+}
+
+.avatar-headless-host--sm {
+  height: 2rem;
+  width: 2rem;
+}
+
+.avatar-headless-image {
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+
+.avatar-headless-fallback {
+  align-items: center;
+  color: var(--tng-semantic-foreground-primary);
+  display: inline-flex;
+  font-size: 0.78rem;
+  font-weight: 700;
+  inset: 0;
+  justify-content: center;
+  letter-spacing: 0.03em;
+  position: absolute;
+}
+
+.avatar-preview-status {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.avatar-overview-list {
+  display: grid;
+  gap: 0.55rem;
+  margin: 0;
+  padding-inline-start: 1.1rem;
+}
+
+.avatar-overview-list code {
+  font-size: 0.84em;
+}

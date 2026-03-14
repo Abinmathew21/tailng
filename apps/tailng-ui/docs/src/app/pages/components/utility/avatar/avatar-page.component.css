@@ -1,0 +1,72 @@
+:host {
+  display: block;
+}
+
+.avatar-docs-page {
+  display: grid;
+  gap: 1rem;
+  padding-inline: 1.5rem;
+}
+
+:host ::ng-deep .avatar-docs-tabs .tng-tabs {
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  gap: 0;
+  padding: 0;
+}
+
+:host ::ng-deep .avatar-docs-tabs [data-slot='tab-list'] {
+  border-bottom: 1px solid var(--tng-semantic-border-subtle);
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 0;
+  width: 100%;
+}
+
+:host ::ng-deep .avatar-docs-tabs [data-slot='tab'] {
+  background: transparent;
+  border: 0 solid transparent;
+  border-bottom: 3px solid transparent;
+  border-radius: 0;
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 0.9rem;
+  font-weight: 700;
+  min-height: 3rem;
+  min-width: 8.5rem;
+  padding: 0.5rem 1.6rem;
+  text-transform: uppercase;
+}
+
+:host
+  ::ng-deep
+  .avatar-docs-tabs
+  [data-slot='tab']:is(:hover, :focus-visible, [data-focused='true']) {
+  background: color-mix(in srgb, var(--tng-semantic-background-muted) 62%, transparent);
+  outline: none;
+}
+
+:host ::ng-deep .avatar-docs-tabs [data-slot='tab'][data-selected='true'] {
+  border-bottom-color: var(--tng-semantic-accent-brand);
+  color: var(--tng-semantic-foreground-primary);
+}
+
+.avatar-docs-content {
+  display: block;
+  min-height: 16rem;
+}
+
+@media (max-width: 760px) {
+  .avatar-docs-page {
+    padding-inline: 1rem;
+  }
+
+  :host ::ng-deep .avatar-docs-tabs [data-slot='tab-list'] {
+    flex-wrap: wrap;
+  }
+
+  :host ::ng-deep .avatar-docs-tabs [data-slot='tab'] {
+    min-width: 6.75rem;
+    padding-inline: 1rem;
+  }
+}

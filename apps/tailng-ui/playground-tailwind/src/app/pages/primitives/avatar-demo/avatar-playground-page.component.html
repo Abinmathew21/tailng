@@ -1,27 +1,126 @@
-<div class="mx-auto max-w-[72rem] grid gap-5">
-  <section class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5 space-y-3">
-    <h2 class="text-lg font-semibold">Primitives (`tngAvatar*`)</h2>
-    <div class="flex flex-wrap items-center gap-4">
-      <span tngAvatar class="relative inline-flex h-11 w-11 items-center justify-center overflow-hidden rounded-full border border-tng-border-subtle bg-tng-bg-surface">
-        <img tngAvatarImage [src]="sampleImage" alt="User photo" class="h-full w-full object-cover" />
-        <span tngAvatarFallback class="absolute inset-0 hidden items-center justify-center text-sm font-bold text-tng-fg-primary">TN</span>
-      </span>
+<main class="mx-auto grid max-w-[72rem] gap-4">
+  <header class="grid gap-2">
+    <h1 class="m-0 text-3xl font-bold tracking-tight text-tng-fg-primary">Avatar Demo</h1>
+    <p class="m-0 max-w-[50rem] text-sm text-tng-fg-secondary">
+      Headless primitives and the <code>tng-avatar</code> component wrapper, including image
+      load/error fallback behavior.
+    </p>
+  </header>
 
-      <span tngAvatar class="relative inline-flex h-11 w-11 items-center justify-center overflow-hidden rounded-full border border-tng-border-subtle bg-tng-bg-surface">
-        <img tngAvatarImage src="broken://avatar" alt="Broken avatar" class="h-full w-full object-cover" />
-        <span tngAvatarFallback class="absolute inset-0 flex items-center justify-center text-sm font-bold text-tng-fg-primary">AV</span>
-      </span>
-    </div>
+  <section class="flex flex-wrap items-center gap-2">
+    <button
+      type="button"
+      class="rounded-lg border border-tng-border-subtle bg-tng-bg-surface px-3 py-2 text-sm font-semibold text-tng-fg-primary transition-colors hover:bg-tng-bg-muted focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tng-focus-ring"
+      (click)="useValidSources()"
+    >
+      Use Valid Image
+    </button>
+    <button
+      type="button"
+      class="rounded-lg border border-tng-border-subtle bg-tng-bg-surface px-3 py-2 text-sm font-semibold text-tng-fg-primary transition-colors hover:bg-tng-bg-muted focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tng-focus-ring"
+      (click)="useBrokenSources()"
+    >
+      Use Broken Image
+    </button>
+    <button
+      type="button"
+      class="rounded-lg border border-tng-border-subtle bg-tng-bg-surface px-3 py-2 text-sm font-semibold text-tng-fg-primary transition-colors hover:bg-tng-bg-muted focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tng-focus-ring"
+      (click)="useNoHeadlessSource()"
+    >
+      Headless: No Source
+    </button>
+    <span
+      class="ml-auto inline-flex items-center rounded-full border border-tng-border-subtle bg-tng-bg-surface px-3 py-1.5 text-xs font-semibold text-tng-fg-secondary"
+    >
+      Headless: {{ showHeadlessFallback() ? 'fallback' : 'image' }}
+    </span>
   </section>
 
-  <section class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5 space-y-3">
-    <h2 class="text-lg font-semibold">Component (`tng-avatar`)</h2>
-    <div class="flex flex-wrap items-center gap-4">
-      <tng-avatar [src]="sampleImage" fallback="Tail Ng"></tng-avatar>
-      <tng-avatar src="broken://avatar" fallback="Avatar User"></tng-avatar>
-      <tng-avatar fallback="Square User" shape="square"></tng-avatar>
-      <tng-avatar fallback="Small User" size="sm"></tng-avatar>
-      <tng-avatar fallback="Large User" size="lg"></tng-avatar>
-    </div>
+  <section class="grid gap-4 md:grid-cols-2">
+    <article class="grid gap-3 rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-4">
+      <h2 class="m-0 text-lg font-semibold text-tng-fg-primary">Primitives (<code>tngAvatar*</code>)</h2>
+      <p class="m-0 text-sm text-tng-fg-secondary">
+        Primitive layer is fully headless. Fallback visibility is controlled by your state logic.
+      </p>
+      <div class="flex flex-wrap items-center gap-3">
+        <span
+          tngAvatar
+          data-size="md"
+          data-shape="circle"
+          class="relative inline-flex h-11 w-11 overflow-hidden rounded-full border border-tng-border-subtle bg-tng-bg-surface"
+        >
+          <img
+            tngAvatarImage
+            [attr.src]="headlessSrc()"
+            [attr.hidden]="showHeadlessFallback() ? '' : null"
+            alt="Headless profile"
+            class="h-full w-full object-cover"
+            (error)="onHeadlessError()"
+            (load)="onHeadlessLoad()"
+          />
+          <span
+            tngAvatarFallback
+            [attr.hidden]="showHeadlessFallback() ? null : ''"
+            class="absolute inset-0 inline-flex items-center justify-center text-sm font-bold text-tng-fg-primary"
+          >
+            TN
+          </span>
+        </span>
+
+        <span
+          tngAvatar
+          data-size="md"
+          data-shape="square"
+          class="relative inline-flex h-11 w-11 overflow-hidden rounded-xl border border-tng-border-subtle bg-tng-bg-surface"
+        >
+          <img tngAvatarImage [attr.hidden]="''" alt="" class="h-full w-full object-cover" />
+          <span
+            tngAvatarFallback
+            aria-hidden="true"
+            class="absolute inset-0 inline-flex items-center justify-center text-sm font-bold text-tng-fg-primary"
+          >
+            🧩
+          </span>
+        </span>
+
+        <span
+          tngAvatar
+          data-size="sm"
+          data-shape="circle"
+          class="relative inline-flex h-8 w-8 overflow-hidden rounded-full border border-tng-border-subtle bg-tng-bg-surface"
+        >
+          <img tngAvatarImage [attr.hidden]="''" alt="" class="h-full w-full object-cover" />
+          <span
+            tngAvatarFallback
+            class="absolute inset-0 inline-flex items-center justify-center text-xs font-bold text-tng-fg-primary"
+          >
+            SM
+          </span>
+        </span>
+      </div>
+    </article>
+
+    <article class="grid gap-3 rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-4">
+      <h2 class="m-0 text-lg font-semibold text-tng-fg-primary">Component (<code>tng-avatar</code>)</h2>
+      <p class="m-0 text-sm text-tng-fg-secondary">
+        Styled wrapper with built-in source/fallback visibility handling.
+      </p>
+      <div class="flex flex-wrap items-center gap-3">
+        <tng-avatar [src]="componentSrc()" fallback="Tail Ng"></tng-avatar>
+        <tng-avatar [src]="componentSrc()" fallback="Square User" shape="square"></tng-avatar>
+        <tng-avatar [src]="componentSrc()" fallback="Small User" size="sm"></tng-avatar>
+        <tng-avatar [src]="componentSrc()" fallback="Large User" size="lg"></tng-avatar>
+        <tng-avatar [src]="null" fallback="No Image"></tng-avatar>
+      </div>
+    </article>
   </section>
-</div>
+
+  <section class="grid gap-2 rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-4">
+    <h2 class="m-0 text-lg font-semibold text-tng-fg-primary">Accessibility Notes</h2>
+    <ul class="m-0 list-disc pl-5 text-sm text-tng-fg-secondary">
+      <li>Use meaningful <code>alt</code> when the avatar conveys identity.</li>
+      <li>Use <code>alt=""</code> for decorative avatars.</li>
+      <li>Provide readable fallback text (initials or icon) when source is missing or broken.</li>
+    </ul>
+  </section>
+</main>

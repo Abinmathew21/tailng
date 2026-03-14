@@ -1,0 +1,74 @@
+<article class="avatar-examples">
+  <h2 class="avatar-examples-title">Examples</h2>
+  <p class="avatar-examples-lead">
+    Practical avatar patterns with the same behavior shown across headless markup, plain CSS
+    wrapper usage, and Tailwind utility shells.
+  </p>
+
+  <app-docs-example-tabs-section
+    class="avatar-examples-block"
+    heading="Example 1: Team roster"
+    description="Render identity badges with fallback initials and size/shape variation."
+    ariaLabel="Avatar roster variants"
+    tabListAriaLabel="Avatar roster style tabs"
+    defaultValue="headless"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="headless"
+      label="Headless"
+      panelTitle="Roster (headless)"
+      [codeTabs]="rosterHeadlessTabs"
+    >
+      <div class="avatar-example-shell avatar-example-shell--headless">
+        <div class="avatar-roster">
+          <span tngAvatar class="avatar-headless-host">
+            <img tngAvatarImage [attr.src]="sampleImage" alt="Alex" class="avatar-headless-image" />
+            <span tngAvatarFallback class="avatar-headless-fallback" [attr.hidden]="''">AL</span>
+          </span>
+          <span tngAvatar class="avatar-headless-host">
+            <img tngAvatarImage [attr.hidden]="''" alt="" class="avatar-headless-image" />
+            <span tngAvatarFallback class="avatar-headless-fallback">TN</span>
+          </span>
+          <span tngAvatar class="avatar-headless-host avatar-headless-host--square">
+            <img tngAvatarImage [attr.src]="sampleImage" alt="Square" class="avatar-headless-image" />
+            <span tngAvatarFallback class="avatar-headless-fallback" [attr.hidden]="''">SQ</span>
+          </span>
+        </div>
+      </div>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+      panelTitle="Roster (plain CSS)"
+      [codeTabs]="rosterPlainTabs"
+    >
+      <div class="avatar-example-shell avatar-example-shell--plain">
+        <div class="avatar-roster">
+          <tng-avatar [src]="sampleImage" fallback="Alex"></tng-avatar>
+          <tng-avatar [src]="null" fallback="Tail Ng"></tng-avatar>
+          <tng-avatar [src]="sampleImage" fallback="Square" shape="square"></tng-avatar>
+        </div>
+      </div>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Roster (Tailwind)"
+      [codeTabs]="rosterTailwindTabs"
+    >
+      <div
+        class="flex flex-wrap items-center gap-3 rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+      >
+        <tng-avatar [src]="sampleImage" fallback="Alex" size="lg"></tng-avatar>
+        <tng-avatar [src]="null" fallback="TN"></tng-avatar>
+        <tng-avatar [src]="sampleImage" fallback="SQ" shape="square" size="sm"></tng-avatar>
+      </div>
+    </ng-template>
+  </app-docs-example-tabs-section>
+</article>

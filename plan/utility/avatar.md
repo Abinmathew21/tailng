@@ -116,31 +116,31 @@ This component should expose structure (root, image, fallback) and optional size
 
 ### Rendering
 
-- [ ] Renders root with data-slot and data-size, data-shape
-- [ ] Renders image when src provided and loaded
-- [ ] Renders fallback when no src or image error
-- [ ] Hides fallback when image loads successfully
-- [ ] Applies data-slot on image and fallback
+- [x] Renders root with data-slot and data-size, data-shape
+- [x] Renders image when src provided and loaded
+- [x] Renders fallback when no src or image error
+- [x] Hides fallback when image loads successfully
+- [x] Applies data-slot on image and fallback
 
 ### Accessibility
 
-- [ ] Image has alt (or alt="" when decorative)
+- [x] Image has alt (or alt="" when decorative)
 - [ ] Fallback has sufficient contrast when visible
-- [ ] When avatar is focusable, has accessible name
+- [x] When avatar is focusable, has accessible name
 
 ### Data attributes
 
-- [ ] Applies data-slot, data-size, data-shape
+- [x] Applies data-slot, data-size, data-shape
 - [ ] Optional data-state for loaded/loading/error
 
 ## Implementation Steps
 
 1. [x] Headless component created in `primitives`
-2. [ ] Test cases created for headless
+2. [x] Test cases created for headless
 3. [ ] Headless example page added/updated in playground - plain CSS app
 4. [ ] Headless example page added/updated in playground - Tailwind app
 5. [x] Minimum style `<tng-avatar>` component created in `components`
-6. [ ] Test cases created for `<tng-avatar>`
+6. [x] Test cases created for `<tng-avatar>`
 7. [ ] Component example page added/updated in playground - plain CSS app
 8. [ ] Component example page added/updated in playground - Tailwind app
 9. [ ] Docs added/updated in docs project - Overview section

@@ -1,0 +1,62 @@
+<article class="avatar-styling">
+  <h2 class="avatar-styling-title">Styling contract</h2>
+  <p class="avatar-styling-lead">
+    Avatar exposes stable state hooks for shape, size, and fallback presentation without coupling
+    to internal markup structure.
+  </p>
+
+  <section class="avatar-styling-block">
+    <h3>State and variant hooks</h3>
+    <div class="avatar-styling-table-wrap">
+      <table class="avatar-styling-table">
+        <thead>
+          <tr>
+            <th scope="col">Attribute</th>
+            <th scope="col">Values</th>
+            <th scope="col">Usage</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>data-shape</code></td>
+            <td><code>circle | square</code></td>
+            <td>Controls host border radius profile.</td>
+          </tr>
+          <tr>
+            <td><code>data-size</code></td>
+            <td><code>sm | md | lg</code></td>
+            <td>Controls control dimensions and fallback text scale.</td>
+          </tr>
+          <tr>
+            <td><code>data-slot</code></td>
+            <td><code>avatar | avatar-image | avatar-fallback</code></td>
+            <td>Targets host/image/fallback styling hooks.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="avatar-styling-block">
+    <h3>Common selectors</h3>
+    <ul class="avatar-styling-list">
+      <li><code>[data-slot='avatar']</code> for frame/border/background overrides.</li>
+      <li><code>[data-slot='avatar-image']</code> for object-fit/filter/opacity controls.</li>
+      <li><code>[data-slot='avatar-fallback']</code> for initials typography and badges.</li>
+    </ul>
+  </section>
+
+  <section class="avatar-styling-block">
+    <h3>Example contract overrides</h3>
+    <tng-code-block
+      [code]="contractCss"
+      adapter="shiki"
+      language="css"
+      title="avatar.contract.css"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+</article>
