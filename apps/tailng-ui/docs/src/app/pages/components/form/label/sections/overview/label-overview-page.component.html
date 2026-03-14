@@ -1,0 +1,118 @@
+<article class="label-overview">
+  <h2 class="label-overview-title">Label overview</h2>
+  <p class="label-overview-lead">
+    Label wires accessible names to controls and keeps click-to-focus behavior native. Use
+    <code>label[tngLabel]</code> for headless markup or <code>&lt;tng-label&gt;</code> for a themed
+    wrapper.
+  </p>
+
+  <section class="label-overview-block">
+    <h3>Imports</h3>
+    <p>Pick the layer that matches your ownership model.</p>
+    <tng-code-block
+      [code]="primitiveImportCode"
+      adapter="shiki"
+      language="ts"
+      title="Primitive import"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+    <tng-code-block
+      [code]="componentImportCode"
+      adapter="shiki"
+      language="ts"
+      title="Component import"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section class="label-overview-block">
+    <app-docs-example-tabs-section
+      heading="Label variants"
+      description="Use the same accessible association contract in headless markup, plain CSS wrappers, and Tailwind utility shells."
+      ariaLabel="Label variants"
+      tabListAriaLabel="Label style variants"
+      defaultValue="headless"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="headless"
+        label="Headless"
+        panelTitle="Headless label stack"
+        [codeTabs]="headlessCodeTabs"
+      >
+        <section class="label-preview-shell label-preview-shell--headless">
+          <div class="label-preview-field">
+            <label tngLabel for="headless-email">Email address</label>
+            <input id="headless-email" type="email" placeholder="hello@tailng.dev" />
+          </div>
+
+          <div class="label-preview-field label-preview-field--inline">
+            <label tngLabel [required]="true" for="headless-terms">
+              Accept terms
+              <span class="label-preview-required" aria-hidden="true">*</span>
+            </label>
+            <input id="headless-terms" type="checkbox" aria-required="true" />
+          </div>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Plain CSS label stack"
+        [codeTabs]="plainCssCodeTabs"
+      >
+        <section class="label-preview-shell label-preview-shell--plain">
+          <div class="label-preview-field">
+            <tng-label forId="plain-display-name" [required]="true">Display name</tng-label>
+            <input
+              id="plain-display-name"
+              type="text"
+              placeholder="TailNG Team"
+              aria-required="true"
+            />
+          </div>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Tailwind label stack"
+        [codeTabs]="tailwindCodeTabs"
+      >
+        <section
+          class="label-preview-shell rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+        >
+          <div class="grid gap-2">
+            <tng-label forId="tailwind-label-email" [required]="true">Work email</tng-label>
+            <input
+              id="tailwind-label-email"
+              type="email"
+              aria-required="true"
+              class="rounded-lg border border-slate-300 bg-white px-3 py-2 text-slate-900 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100"
+            />
+          </div>
+        </section>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section class="label-overview-block">
+    <h3>Accessibility baseline</h3>
+    <ul class="label-overview-list">
+      <li>Associate labels with controls via explicit <code>for/id</code> or wrapping markup.</li>
+      <li>Keep required semantics on the control with <code>aria-required</code>.</li>
+      <li>Avoid interactive children inside the label text region.</li>
+    </ul>
+  </section>
+</article>

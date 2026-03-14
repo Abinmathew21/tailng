@@ -1,0 +1,66 @@
+:host {
+  display: block;
+}
+
+.label-api {
+  display: grid;
+  gap: 1rem;
+}
+
+.label-api-title {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.label-api-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.label-api-block {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.9rem;
+  display: grid;
+  gap: 0.8rem;
+  padding: 1rem;
+}
+
+.label-api-block h3 {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1rem;
+  margin: 0;
+}
+
+.label-api-table-wrap {
+  overflow-x: auto;
+}
+
+.label-api-table {
+  border-collapse: collapse;
+  min-width: 38rem;
+  width: 100%;
+}
+
+.label-api-table th,
+.label-api-table td {
+  border-bottom: 1px solid var(--tng-semantic-border-subtle);
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.92rem;
+  padding: 0.6rem 0.7rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.label-api-table th {
+  color: var(--tng-semantic-foreground-primary);
+  font-weight: 700;
+}
+
+.label-api-list {
+  display: grid;
+  gap: 0.45rem;
+  margin: 0;
+  padding-left: 1.1rem;
+}

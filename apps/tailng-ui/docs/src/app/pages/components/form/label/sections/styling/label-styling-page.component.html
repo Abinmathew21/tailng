@@ -1,0 +1,30 @@
+<article class="label-styling">
+  <h2 class="label-styling-title">Styling contract</h2>
+  <p class="label-styling-lead">
+    Label keeps styling intentionally small and exposes predictable data attributes for your design
+    system.
+  </p>
+
+  <section class="label-styling-block">
+    <h3>State hooks</h3>
+    <ul class="label-styling-list">
+      <li><code>data-slot="label"</code> base hook for typography and spacing.</li>
+      <li><code>data-required</code> hook when required indicator is active.</li>
+      <li><code>data-disabled</code> hook for reduced emphasis states.</li>
+    </ul>
+  </section>
+
+  <section class="label-styling-block">
+    <h3>Suggested CSS baseline</h3>
+    <tng-code-block
+      [code]="stylingSnippet"
+      adapter="shiki"
+      language="css"
+      title="label.tokens.css"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+</article>

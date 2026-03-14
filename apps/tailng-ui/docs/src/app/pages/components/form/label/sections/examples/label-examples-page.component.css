@@ -1,0 +1,70 @@
+:host {
+  display: block;
+}
+
+.label-examples {
+  display: grid;
+  gap: 1rem;
+}
+
+.label-examples-title {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.label-examples-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.label-examples-block {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.9rem;
+  display: grid;
+  gap: 0.8rem;
+  padding: 1rem;
+}
+
+.label-example-grid {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.label-example-grid--headless {
+  background: color-mix(in srgb, var(--tng-semantic-background-muted) 30%, transparent);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.8rem;
+  padding: 1rem;
+}
+
+.label-example-grid--headless [data-slot='label'] {
+  color: var(--tng-semantic-foreground-primary);
+  display: inline-flex;
+  font-weight: 600;
+  gap: 0.35rem;
+}
+
+.label-example-grid--plain {
+  background: color-mix(in srgb, var(--tng-semantic-background-muted) 35%, transparent);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.8rem;
+  padding: 1rem;
+}
+
+.label-example-grid input {
+  background: var(--tng-semantic-background-canvas);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.6rem;
+  color: var(--tng-semantic-foreground-primary);
+  font: inherit;
+  min-height: 2.5rem;
+  padding: 0.45rem 0.7rem;
+}
+
+.label-example-grid--headless input[type='checkbox'] {
+  accent-color: var(--tng-semantic-accent-brand);
+  min-height: auto;
+  padding: 0;
+}

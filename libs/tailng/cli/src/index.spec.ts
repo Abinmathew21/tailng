@@ -553,6 +553,25 @@ it('tailng cli integration: add writes checkbox source files', async (): Promise
   ).toBe(true);
 });
 
+it('tailng cli integration: add writes label source files', async (): Promise<void> => {
+  const targetRoot = await createTargetRoot();
+
+  const exitCode = await runCli(['add', 'label', '--cwd', targetRoot], {
+    registry: registryModule,
+  });
+
+  expect(exitCode).toBe(0);
+  expect(await pathExists(path.join(targetRoot, 'src/app/tailng-ui/label/tng-label.ts'))).toBe(
+    true,
+  );
+  expect(
+    await pathExists(path.join(targetRoot, 'src/app/tailng-ui/label/tng-label-primitive.ts')),
+  ).toBe(true);
+  expect(await pathExists(path.join(targetRoot, 'src/app/tailng-ui/label/tng-label.html'))).toBe(
+    true,
+  );
+});
+
 it('tailng cli integration: add writes card source files', async (): Promise<void> => {
   const targetRoot = await createTargetRoot();
 

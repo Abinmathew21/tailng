@@ -1,0 +1,70 @@
+<article class="label-examples">
+  <h2 class="label-examples-title">Examples</h2>
+  <p class="label-examples-lead">
+    Use label with explicit <code>for/id</code> association or wrapped controls. The primitive and
+    wrapper keep native click behavior intact.
+  </p>
+
+  <section class="label-examples-block">
+    <app-docs-example-tabs-section
+      heading="Association patterns"
+      description="Render the same pattern in headless markup, plain CSS wrappers, and Tailwind utility shells."
+      ariaLabel="Label association examples"
+      tabListAriaLabel="Label example variants"
+      defaultValue="headless"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="headless"
+        label="Headless"
+        panelTitle="Headless label associations"
+        [codeTabs]="headlessCodeTabs"
+      >
+        <div class="label-example-grid label-example-grid--headless">
+          <label tngLabel for="ex-email">Email</label>
+          <input id="ex-email" type="email" placeholder="you@tailng.dev" />
+
+          <label tngLabel>
+            <input type="checkbox" />
+            Notify me on release
+          </label>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Plain CSS label associations"
+        [codeTabs]="plainCssCodeTabs"
+      >
+        <div class="label-example-grid label-example-grid--plain">
+          <tng-label forId="plain-project-name" [required]="true">Project name</tng-label>
+          <input id="plain-project-name" type="text" aria-required="true" placeholder="Nova" />
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Tailwind label associations"
+        [codeTabs]="tailwindCodeTabs"
+      >
+        <div class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">
+          <div class="grid gap-2">
+            <tng-label forId="tailwind-env" [required]="true">Environment</tng-label>
+            <input
+              id="tailwind-env"
+              type="text"
+              aria-required="true"
+              placeholder="Production"
+              class="rounded-lg border border-slate-300 bg-white px-3 py-2 text-slate-900 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100"
+            />
+          </div>
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+</article>

@@ -1,0 +1,105 @@
+:host {
+  display: block;
+}
+
+.label-overview {
+  display: grid;
+  gap: 1rem;
+}
+
+.label-overview-title {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.label-overview-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.label-overview-block {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.9rem;
+  color: var(--tng-semantic-foreground-secondary);
+  display: grid;
+  gap: 0.8rem;
+  padding: 1rem;
+}
+
+.label-overview-block h3 {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1rem;
+  margin: 0;
+}
+
+.label-overview-block p {
+  margin: 0;
+}
+
+.label-preview-shell {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.85rem;
+  display: grid;
+  gap: 0.85rem;
+  padding: 1rem;
+}
+
+.label-preview-shell--headless {
+  background: color-mix(in srgb, var(--tng-semantic-background-muted) 30%, transparent);
+}
+
+.label-preview-shell--headless [data-slot='label'] {
+  color: var(--tng-semantic-foreground-primary);
+  display: inline-flex;
+  font-weight: 600;
+  gap: 0.35rem;
+}
+
+.label-preview-shell--headless [data-slot='label'][data-required] {
+  color: color-mix(in srgb, var(--tng-semantic-foreground-primary) 85%, var(--tng-semantic-accent-danger));
+}
+
+.label-preview-shell--plain {
+  background: color-mix(in srgb, var(--tng-semantic-background-muted) 35%, transparent);
+}
+
+.label-preview-field {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.label-preview-field--inline {
+  align-items: center;
+  grid-template-columns: auto auto;
+  justify-content: start;
+}
+
+.label-preview-required {
+  color: var(--tng-semantic-accent-danger);
+  font-weight: 700;
+}
+
+.label-preview-field input {
+  background: var(--tng-semantic-background-canvas);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.6rem;
+  color: var(--tng-semantic-foreground-primary);
+  font: inherit;
+  min-height: 2.5rem;
+  padding: 0.45rem 0.7rem;
+}
+
+.label-preview-field--inline input[type='checkbox'] {
+  accent-color: var(--tng-semantic-accent-brand);
+  min-height: auto;
+  padding: 0;
+}
+
+.label-overview-list {
+  display: grid;
+  gap: 0.45rem;
+  margin: 0;
+  padding-left: 1.1rem;
+}

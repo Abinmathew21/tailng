@@ -71,6 +71,12 @@ export const COMPONENTS_FORM_GROUP: ComponentsDocsGroup = {
       description: 'Text input fields, adornments, validation messaging, and layout patterns.',
     },
     {
+      id: 'label',
+      slug: 'label',
+      title: 'Label',
+      description: 'Accessible label semantics for explicit and wrapped control association.',
+    },
+    {
       id: 'checkbox',
       slug: 'checkbox',
       title: 'Checkbox',

@@ -118,46 +118,46 @@ This component should expose label element (or directive) and association (for/i
 
 ### Rendering
 
-- [ ] Renders label element with correct text
-- [ ] for attribute matches control id when used
-- [ ] When wrapping, control is descendant
-- [ ] Optional required indicator shown when required=true
-- [ ] Applies data-slot; optional data-required
+- [x] Renders label element with correct text
+- [x] for attribute matches control id when used
+- [x] When wrapping, control is descendant
+- [x] Optional required indicator shown when required=true
+- [x] Applies data-slot; optional data-required
 
 ### Accessibility
 
-- [ ] Clicking label focuses control (when for/id or wrap)
-- [ ] Clicking label toggles checkbox/radio when associated
-- [ ] Screen reader announces label as name of control
-- [ ] Only one label per control in DOM
+- [x] Clicking label focuses control (when for/id or wrap)
+- [x] Clicking label toggles checkbox/radio when associated
+- [x] Screen reader announces label as name of control
+- [x] Only one label per control in DOM
 
 ### Association
 
-- [ ] for and control id match when explicit association
-- [ ] Wrapped control gets implicit association
-- [ ] Control has aria-labelledby or is labelled by label (native)
+- [x] for and control id match when explicit association
+- [x] Wrapped control gets implicit association
+- [x] Control has aria-labelledby or is labelled by label (native)
 
 ### Data attributes
 
-- [ ] data-slot="label"; optional data-required
+- [x] data-slot="label"; optional data-required
 
 ## Implementation Steps
 
-1. [ ] Headless component created in `primitives` (or label is component/directive in components)
-2. [ ] Test cases created for headless
-3. [ ] Headless example page added/updated in playground - plain CSS app
-4. [ ] Headless example page added/updated in playground - Tailwind app
-5. [ ] Minimum style label component/directive created in `components`
-6. [ ] Test cases created for label
-7. [ ] Component example page added/updated in playground - plain CSS app
-8. [ ] Component example page added/updated in playground - Tailwind app
-9. [ ] Docs added/updated in docs project - Overview section
-10. [ ] Docs added/updated in docs project - API section
-11. [ ] Docs added/updated in docs project - Styling section
-12. [ ] Docs added/updated in docs project - Example section
-13. [ ] Registry templates added in `registry` for copy-paste mode (`tailng add label`)
-14. [ ] `tailng-cli` command generation added for label artifacts
-15. [ ] CLI integration tests added for `tailng add label`
+1. [x] Headless component created in `primitives` (or label is component/directive in components)
+2. [x] Test cases created for headless
+3. [x] Headless example page added/updated in playground - plain CSS app
+4. [x] Headless example page added/updated in playground - Tailwind app
+5. [x] Minimum style label component/directive created in `components`
+6. [x] Test cases created for label
+7. [x] Component example page added/updated in playground - plain CSS app
+8. [x] Component example page added/updated in playground - Tailwind app
+9. [x] Docs added/updated in docs project - Overview section
+10. [x] Docs added/updated in docs project - API section
+11. [x] Docs added/updated in docs project - Styling section
+12. [x] Docs added/updated in docs project - Example section
+13. [x] Registry templates added in `registry` for copy-paste mode (`tailng add label`)
+14. [x] `tailng-cli` command generation added for label artifacts
+15. [x] CLI integration tests added for `tailng add label`
 
 ## Links
 

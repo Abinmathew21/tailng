@@ -1,4 +1,10 @@
-<label tngLabel class="tng-label" [disabled]="disabled()" [attr.for]="resolveForAttr()">
+<label
+  tngLabel
+  class="tng-label"
+  [disabled]="disabled()"
+  [required]="required()"
+  [attr.for]="resolveForAttr()"
+>
   <span class="tng-label-text">
     <ng-content />
   </span>
