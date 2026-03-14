@@ -1,0 +1,29 @@
+<section class="tag-docs-page">
+  <tng-tabs
+    class="tag-docs-tabs"
+    ariaLabel="Tag documentation sections"
+    [activation]="'manual'"
+    [value]="activeSection()"
+    (valueChange)="onSectionChange($event)"
+  >
+    <div tngTabList class="tag-docs-tab-list" ariaLabel="Tag documentation tabs">
+      <button type="button" tngTab value="overview" class="tag-docs-tab-trigger">
+        Overview
+      </button>
+      <button type="button" tngTab value="api" class="tag-docs-tab-trigger">API</button>
+      <button type="button" tngTab value="styling" class="tag-docs-tab-trigger">
+        Styling
+      </button>
+      <button type="button" tngTab value="examples" class="tag-docs-tab-trigger">
+        Examples
+      </button>
+      <button type="button" tngTab value="ownable-install" class="tag-docs-tab-trigger">
+        Ownable Install
+      </button>
+    </div>
+  </tng-tabs>
+
+  <section class="tag-docs-content">
+    <router-outlet />
+  </section>
+</section>

@@ -61,6 +61,12 @@
   margin: 0;
 }
 
+.meta {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
 .row {
   display: flex;
   flex-wrap: wrap;
@@ -73,24 +79,85 @@
   display: inline-flex;
   font-size: 0.75rem;
   font-weight: 700;
+  gap: 0.35rem;
   line-height: 1;
-  min-height: 1.5rem;
+  min-height: 1.65rem;
   padding: 0 0.6rem;
 }
 
-.primitive.info {
+.tone-info {
   background: var(--tng-semantic-accent-brand);
   color: var(--tng-color-white);
 }
 
-.primitive.success {
+.tone-success {
   background: var(--tng-semantic-accent-success);
   color: var(--tng-color-white);
 }
 
-.primitive.danger {
+.tone-danger {
   background: var(--tng-semantic-accent-danger);
   color: var(--tng-color-white);
+}
+
+.tone-warning {
+  background: var(--tng-semantic-foreground-secondary);
+  color: var(--tng-semantic-background-canvas);
+}
+
+.tone-neutral {
+  background: var(--tng-semantic-background-muted);
+  color: var(--tng-semantic-foreground-primary);
+}
+
+.primitive-icon,
+.component-icon {
+  font-size: 0.68em;
+}
+
+.primitive-close {
+  align-items: center;
+  appearance: none;
+  background: transparent;
+  border: 0;
+  border-radius: 9999px;
+  color: currentColor;
+  cursor: pointer;
+  display: inline-flex;
+  font: inherit;
+  height: 1rem;
+  justify-content: center;
+  margin-inline-start: 0.1rem;
+  padding: 0;
+  width: 1rem;
+}
+
+.primitive-close:focus-visible {
+  box-shadow: 0 0 0 2px var(--tng-semantic-focus-ring);
+  outline: none;
+}
+
+.reset {
+  align-items: center;
+  appearance: none;
+  background: transparent;
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.6rem;
+  color: var(--tng-semantic-foreground-secondary);
+  cursor: pointer;
+  display: inline-flex;
+  font: inherit;
+  font-size: 0.86rem;
+  font-weight: 600;
+  justify-content: center;
+  min-height: 2.25rem;
+  padding-inline: 0.95rem;
+  width: fit-content;
+}
+
+.reset:focus-visible {
+  box-shadow: 0 0 0 3px var(--tng-semantic-focus-ring);
+  outline: none;
 }
 
 @media (min-width: 768px) {

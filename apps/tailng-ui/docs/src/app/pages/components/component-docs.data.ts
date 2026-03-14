@@ -164,6 +164,12 @@ export const COMPONENTS_UTILITY_GROUP: ComponentsDocsGroup = {
       description: 'Count, dot, and placement badges for notifications and status overlays.',
     },
     {
+      id: 'tag',
+      slug: 'tag',
+      title: 'Tag',
+      description: 'Compact label chips with optional icon and removable close action.',
+    },
+    {
       id: 'codeblock',
       slug: 'codeblock',
       title: 'Codeblock',

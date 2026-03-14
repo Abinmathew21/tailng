@@ -25,6 +25,11 @@ if (badgeItem === undefined) {
   throw new Error('Missing "badge" in components utility docs group.');
 }
 
+const tagItem = group.items.find((item) => item.slug === 'tag');
+if (tagItem === undefined) {
+  throw new Error('Missing "tag" in components utility docs group.');
+}
+
 const copybuttonItem = group.items.find((item) => item.slug === 'copybutton');
 if (copybuttonItem === undefined) {
   throw new Error('Missing "copybutton" in components utility docs group.');
@@ -38,6 +43,7 @@ if (buttonItem === undefined) {
 const utilityLandingSlugs = new Set([
   avatarItem.slug,
   badgeItem.slug,
+  tagItem.slug,
   codeblockItem.slug,
   copybuttonItem.slug,
   buttonItem.slug,
@@ -58,6 +64,11 @@ export const COMPONENTS_UTILITY_ROUTES: Routes = [
     path: badgeItem.slug,
     loadChildren: () =>
       import('./badge/routes').then((module) => module.COMPONENTS_UTILITY_BADGE_ROUTES),
+  },
+  {
+    path: tagItem.slug,
+    loadChildren: () =>
+      import('./tag/routes').then((module) => module.COMPONENTS_UTILITY_TAG_ROUTES),
   },
   {
     path: codeblockItem.slug,

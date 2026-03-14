@@ -1,0 +1,187 @@
+<article class="tag-examples">
+  <h2 class="tag-examples-title">Examples</h2>
+  <p class="tag-examples-lead">
+    Common tag patterns rendered with Headless, Plain-CSS, and Tailwind CSS layers.
+  </p>
+
+  <app-docs-example-tabs-section
+    class="tag-examples-block"
+    heading="Example 1: Removable filter chips"
+    description="Chip-like filter tags with optional icon and remove control."
+    ariaLabel="Tag filter variants"
+    tabListAriaLabel="Tag filter style tabs"
+    defaultValue="headless"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="headless"
+      label="Headless"
+      panelTitle="Filter chips (headless)"
+      [codeTabs]="filterHeadlessTabs"
+    >
+      <div class="tag-example-shell tag-example-shell--headless">
+        <div class="tag-example-row">
+          @for (tag of filterHeadless(); track tag.id) {
+            <span
+              tngTag
+              [tngTagLabel]="tag.label"
+              [tngTagRemovable]="true"
+              (tngTagRemoved)="removeFilter('headless', tag.id)"
+              class="tag-chip"
+              [attr.data-tone]="tag.tone"
+            >
+              <span tngTagIcon aria-hidden="true" class="tag-chip-icon">●</span>
+              {{ tag.label }}
+              <button tngTagClose type="button" class="tag-chip-close">
+                <span aria-hidden="true">×</span>
+              </button>
+            </span>
+          }
+        </div>
+        <button type="button" class="tag-control" (click)="resetFilters('headless')">Reset filters</button>
+      </div>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+      panelTitle="Filter chips (plain CSS)"
+      [codeTabs]="filterPlainTabs"
+    >
+      <div class="tag-example-shell tag-example-shell--plain">
+        <div class="tag-example-row">
+          @for (tag of filterPlain(); track tag.id) {
+            <tng-tag
+              [tone]="tag.tone"
+              [label]="tag.label"
+              [removable]="true"
+              (removed)="removeFilter('plain', tag.id)"
+            >
+              <span tngTagIcon aria-hidden="true" class="tag-chip-icon">●</span>
+              {{ tag.label }}
+            </tng-tag>
+          }
+        </div>
+        <button type="button" class="tag-control" (click)="resetFilters('plain')">Reset filters</button>
+      </div>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Filter chips (Tailwind)"
+      [codeTabs]="filterTailwindTabs"
+    >
+      <div
+        class="grid gap-3 rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+      >
+        <div class="flex flex-wrap gap-3">
+          @for (tag of filterTailwind(); track tag.id) {
+            <tng-tag
+              [tone]="tag.tone"
+              [label]="tag.label"
+              [removable]="true"
+              class="text-slate-900 dark:text-slate-100"
+              (removed)="removeFilter('tailwind', tag.id)"
+            >
+              <span tngTagIcon aria-hidden="true" class="text-[0.7em]">●</span>
+              {{ tag.label }}
+            </tng-tag>
+          }
+        </div>
+        <button
+          type="button"
+          class="inline-flex w-fit min-h-8 items-center rounded-md border border-slate-400 px-3 text-xs font-semibold text-slate-700 dark:border-slate-500 dark:text-slate-200"
+          (click)="resetFilters('tailwind')"
+        >
+          Reset filters
+        </button>
+      </div>
+    </ng-template>
+  </app-docs-example-tabs-section>
+
+  <app-docs-example-tabs-section
+    class="tag-examples-block"
+    heading="Example 2: Status tags"
+    description="Static and semantically toned tags for release/status indicators."
+    ariaLabel="Tag status variants"
+    tabListAriaLabel="Tag status style tabs"
+    defaultValue="headless"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="headless"
+      label="Headless"
+      panelTitle="Status tags (headless)"
+      [codeTabs]="statusHeadlessTabs"
+    >
+      <div class="tag-example-shell tag-example-shell--headless">
+        <div class="tag-example-row">
+          @for (tag of statusHeadless(); track tag.id) {
+            <span tngTag class="tag-chip" [attr.data-tone]="tag.tone">
+              {{ tag.label }}
+            </span>
+          }
+        </div>
+        <button type="button" class="tag-control" (click)="resetStatuses('headless')">Reset statuses</button>
+      </div>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+      panelTitle="Status tags (plain CSS)"
+      [codeTabs]="statusPlainTabs"
+    >
+      <div class="tag-example-shell tag-example-shell--plain">
+        <div class="tag-example-row">
+          @for (tag of statusPlain(); track tag.id) {
+            <tng-tag
+              [tone]="tag.tone"
+              [appearance]="tag.tone === 'warning' ? 'outline' : (tag.tone === 'success' ? 'solid' : 'soft')"
+            >
+              {{ tag.label }}
+            </tng-tag>
+          }
+        </div>
+        <button type="button" class="tag-control" (click)="resetStatuses('plain')">Reset statuses</button>
+      </div>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Status tags (Tailwind)"
+      [codeTabs]="statusTailwindTabs"
+    >
+      <div
+        class="grid gap-3 rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+      >
+        <div class="flex flex-wrap gap-3">
+          @for (tag of statusTailwind(); track tag.id) {
+            <tng-tag
+              [tone]="tag.tone"
+              [appearance]="tag.tone === 'warning' ? 'outline' : (tag.tone === 'success' ? 'solid' : 'soft')"
+              class="text-slate-900 dark:text-slate-100"
+            >
+              {{ tag.label }}
+            </tng-tag>
+          }
+        </div>
+        <button
+          type="button"
+          class="inline-flex w-fit min-h-8 items-center rounded-md border border-slate-400 px-3 text-xs font-semibold text-slate-700 dark:border-slate-500 dark:text-slate-200"
+          (click)="resetStatuses('tailwind')"
+        >
+          Reset statuses
+        </button>
+      </div>
+    </ng-template>
+  </app-docs-example-tabs-section>
+</article>

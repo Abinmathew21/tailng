@@ -1,0 +1,95 @@
+<article class="tag-styling">
+  <h2 class="tag-styling-title">Styling contract</h2>
+  <p class="tag-styling-lead">
+    Tag exposes stable slot and state hooks so teams can theme headless and wrapper usage without
+    relying on brittle DOM selectors.
+  </p>
+
+  <section class="tag-styling-block">
+    <h3>Slot and state hooks</h3>
+    <div class="tag-styling-table-wrap">
+      <table class="tag-styling-table">
+        <thead>
+          <tr>
+            <th scope="col">Attribute</th>
+            <th scope="col">Values</th>
+            <th scope="col">Usage</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>data-slot</code></td>
+            <td><code>tag | tag-icon | tag-close</code></td>
+            <td>Stable slot selectors for root/icon/close parts.</td>
+          </tr>
+          <tr>
+            <td><code>data-disabled</code></td>
+            <td><code>present / absent</code></td>
+            <td>Applied when tag removal should be disabled.</td>
+          </tr>
+          <tr>
+            <td><code>data-removable</code></td>
+            <td><code>present / absent</code></td>
+            <td>Applied on root when removable mode is enabled.</td>
+          </tr>
+          <tr>
+            <td><code>data-focused</code></td>
+            <td><code>present / absent</code></td>
+            <td>Applied on close trigger while focused.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="tag-styling-block">
+    <h3>Wrapper data hooks</h3>
+    <div class="tag-styling-table-wrap">
+      <table class="tag-styling-table">
+        <thead>
+          <tr>
+            <th scope="col">Attribute</th>
+            <th scope="col">Values</th>
+            <th scope="col">Usage</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>data-tone</code></td>
+            <td><code>neutral | info | success | warning | danger</code></td>
+            <td>Semantic color system.</td>
+          </tr>
+          <tr>
+            <td><code>data-appearance</code></td>
+            <td><code>soft | solid | outline</code></td>
+            <td>Variant style mode.</td>
+          </tr>
+          <tr>
+            <td><code>data-shape</code></td>
+            <td><code>pill | rounded</code></td>
+            <td>Corner style mode.</td>
+          </tr>
+          <tr>
+            <td><code>data-size</code></td>
+            <td><code>sm | md</code></td>
+            <td>Tag sizing preset.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="tag-styling-block">
+    <h3>Example contract overrides</h3>
+    <tng-code-block
+      [code]="contractCss"
+      adapter="shiki"
+      language="css"
+      title="tag.contract.css"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+</article>

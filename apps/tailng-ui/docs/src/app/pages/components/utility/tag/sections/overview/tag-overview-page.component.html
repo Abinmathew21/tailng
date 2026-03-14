@@ -1,0 +1,181 @@
+<article class="tag-overview">
+  <h2 class="tag-overview-title">Tag overview</h2>
+  <p class="tag-overview-lead">
+    Tag is a compact label primitive with optional icon and close action. Use
+    <code>tngTag</code> directly for headless control or <code>&lt;tng-tag&gt;</code> for
+    reusable styled wrappers.
+  </p>
+
+  <section class="tag-overview-block">
+    <h3>Imports</h3>
+    <p>Choose primitive or component package based on ownership level.</p>
+    <tng-code-block
+      [code]="primitiveImportCode"
+      adapter="shiki"
+      language="ts"
+      title="Primitive import"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+    <tng-code-block
+      [code]="componentImportCode"
+      adapter="shiki"
+      language="ts"
+      title="Component import"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <section class="tag-overview-block">
+    <h3>Usage patterns</h3>
+    <tng-code-block
+      [code]="primitiveUsageCode"
+      adapter="shiki"
+      language="html"
+      title="Headless usage"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+    <tng-code-block
+      [code]="componentUsageCode"
+      adapter="shiki"
+      language="html"
+      title="Component wrapper usage"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <app-docs-example-tabs-section
+    class="tag-overview-block"
+    heading="Style variants"
+    description="Same removable tag behavior rendered with Headless, Plain-CSS, and Tailwind CSS wrappers."
+    ariaLabel="Tag style variants"
+    tabListAriaLabel="Tag style tabs"
+    defaultValue="headless"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="headless"
+      label="Headless"
+      panelTitle="Headless removable tags"
+      [codeTabs]="headlessCodeTabs"
+    >
+      <div class="tag-preview-shell tag-preview-shell--headless">
+        <div class="tag-preview-row">
+          @for (tag of headlessTags(); track tag.id) {
+            <span
+              tngTag
+              class="tag-chip"
+              [attr.data-tone]="tag.tone"
+              [tngTagLabel]="tag.label"
+              [tngTagRemovable]="true"
+              (tngTagRemoved)="removeTag('headless', tag.id)"
+            >
+              <span tngTagIcon aria-hidden="true" class="tag-chip-icon">●</span>
+              {{ tag.label }}
+              <button tngTagClose class="tag-chip-close" type="button">
+                <span aria-hidden="true">×</span>
+              </button>
+            </span>
+          }
+        </div>
+        <div class="tag-preview-controls">
+          <button type="button" class="tag-control" (click)="reset('headless')">Reset</button>
+        </div>
+        <p class="tag-preview-status">{{ summary('headless') || 'No tags' }}</p>
+      </div>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+      panelTitle="Wrapper tags (plain CSS)"
+      [codeTabs]="plainCodeTabs"
+    >
+      <div class="tag-preview-shell tag-preview-shell--plain">
+        <div class="tag-preview-row">
+          @for (tag of plainTags(); track tag.id) {
+            <tng-tag
+              [tone]="tag.tone"
+              [label]="tag.label"
+              [removable]="true"
+              (removed)="removeTag('plain', tag.id)"
+            >
+              <span tngTagIcon aria-hidden="true" class="tag-chip-icon">●</span>
+              {{ tag.label }}
+            </tng-tag>
+          }
+        </div>
+        <div class="tag-preview-controls">
+          <button type="button" class="tag-control" (click)="reset('plain')">Reset</button>
+        </div>
+        <p class="tag-preview-status">{{ summary('plain') || 'No tags' }}</p>
+      </div>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Wrapper tags (Tailwind)"
+      [codeTabs]="tailwindCodeTabs"
+    >
+      <div
+        class="grid gap-3 rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+      >
+        <div class="flex flex-wrap gap-3">
+          @for (tag of tailwindTags(); track tag.id) {
+            <tng-tag
+              [tone]="tag.tone"
+              [label]="tag.label"
+              [removable]="true"
+              class="text-slate-900 dark:text-slate-100"
+              (removed)="removeTag('tailwind', tag.id)"
+            >
+              <span tngTagIcon aria-hidden="true" class="text-[0.7em]">●</span>
+              {{ tag.label }}
+            </tng-tag>
+          }
+        </div>
+        <div class="flex flex-wrap gap-2">
+          <button
+            type="button"
+            class="inline-flex min-h-8 items-center rounded-md border border-slate-400 px-3 text-xs font-semibold text-slate-700 dark:border-slate-500 dark:text-slate-200"
+            (click)="reset('tailwind')"
+          >
+            Reset
+          </button>
+        </div>
+        <p class="m-0 text-sm text-slate-600 dark:text-slate-300">{{ summary('tailwind') || 'No tags' }}</p>
+      </div>
+    </ng-template>
+  </app-docs-example-tabs-section>
+
+  <section class="tag-overview-block">
+    <h3>Accessibility baseline</h3>
+    <ul class="tag-overview-list">
+      <li>
+        Use <code>tngTagClose</code> on a real <code>&lt;button&gt;</code> for keyboard and pointer activation.
+      </li>
+      <li>
+        Set <code>tngTagLabel</code> or <code>label</code> so close controls get clear
+        <code>aria-label</code> text.
+      </li>
+      <li>
+        Keep disabled tags non-removable to avoid inconsistent state transitions.
+      </li>
+    </ul>
+  </section>
+</article>

@@ -1,9 +1,28 @@
 <span
   tngTag
   class="tng-tag"
+  [tngTagDisabled]="disabled()"
+  [tngTagLabel]="label()"
+  [tngTagRemovable]="removable()"
   [attr.data-appearance]="appearance()"
+  [attr.data-size]="size()"
   [attr.data-shape]="shape()"
   [attr.data-tone]="tone()"
+  (tngTagRemoved)="onRemoved()"
 >
-  <ng-content />
+  <ng-content select="[tngTagIcon]" />
+  <span class="tng-tag__content">
+    <ng-content />
+  </span>
+  @if (removable()) {
+    <button
+      tngTagClose
+      class="tng-tag__close"
+      [tngTagCloseAriaLabel]="closeAriaLabel()"
+      [disabled]="disabled()"
+      type="button"
+    >
+      <span class="tng-tag__close-glyph" aria-hidden="true">×</span>
+    </button>
+  }
 </span>

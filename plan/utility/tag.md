@@ -117,41 +117,41 @@ This component should expose structure and optional removable behavior while lea
 
 ### Rendering
 
-- [ ] Renders root with content (text, optional icon)
-- [ ] Renders close button when removable
-- [ ] Renders disabled state when supported
-- [ ] Applies data-slot, data-disabled, optional data-variant
+- [x] Renders root with content (text, optional icon)
+- [x] Renders close button when removable
+- [x] Renders disabled state when supported
+- [x] Applies data-slot, data-disabled, optional data-variant
 
 ### Accessibility
 
-- [ ] Close button has accessible name
-- [ ] Close button is focusable and keyboard activatable
-- [ ] Tag text has sufficient contrast
+- [x] Close button has accessible name
+- [x] Close button is focusable and keyboard activatable
+- [x] Tag text has sufficient contrast
 
 ### Interaction
 
-- [ ] Click on close removes or emits
-- [ ] Disabled prevents close when applicable
+- [x] Click on close removes or emits
+- [x] Disabled prevents close when applicable
 
 ### Data attributes
 
-- [ ] Applies data-slot, data-disabled
-- [ ] Optional data-removable, data-variant
+- [x] Applies data-slot, data-disabled
+- [x] Optional data-removable, data-variant
 
 ## Implementation Steps
 
 1. [x] Headless component created in `primitives`
-2. [ ] Test cases created for headless
-3. [ ] Headless example page added/updated in playground - plain CSS app
-4. [ ] Headless example page added/updated in playground - Tailwind app
+2. [x] Test cases created for headless
+3. [x] Headless example page added/updated in playground - plain CSS app
+4. [x] Headless example page added/updated in playground - Tailwind app
 5. [x] Minimum style `<tng-tag>` component created in `components`
-6. [ ] Test cases created for `<tng-tag>`
-7. [ ] Component example page added/updated in playground - plain CSS app
-8. [ ] Component example page added/updated in playground - Tailwind app
-9. [ ] Docs added/updated in docs project - Overview section
-10. [ ] Docs added/updated in docs project - API section
-11. [ ] Docs added/updated in docs project - Styling section
-12. [ ] Docs added/updated in docs project - Example section
+6. [x] Test cases created for `<tng-tag>`
+7. [x] Component example page added/updated in playground - plain CSS app
+8. [x] Component example page added/updated in playground - Tailwind app
+9. [x] Docs added/updated in docs project - Overview section
+10. [x] Docs added/updated in docs project - API section
+11. [x] Docs added/updated in docs project - Styling section
+12. [x] Docs added/updated in docs project - Example section
 13. [ ] Registry templates added in `registry` for copy-paste mode (`tailng add tag`)
 14. [ ] `tailng-cli` command generation added for tag artifacts
 15. [ ] CLI integration tests added for `tailng add tag`

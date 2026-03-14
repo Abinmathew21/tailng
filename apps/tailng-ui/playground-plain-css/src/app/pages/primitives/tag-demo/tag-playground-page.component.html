@@ -1,26 +1,66 @@
 <main class="page">
   <section class="container">
     <section class="card">
-      <h2>Primitives (`tngTag`)</h2>
+      <h2>Headless primitives (`tngTag`)</h2>
+      <p class="meta">Root + icon + close button. Removal is handled by consumer state.</p>
+
       <div class="row">
-        <span tngTag class="primitive info">New</span>
-        <span tngTag class="primitive success">Success</span>
-        <span tngTag class="primitive danger">Failed</span>
+        @for (tag of headlessTags(); track tag.id) {
+          <span
+            tngTag
+            class="primitive"
+            [class]="'primitive tone-' + tag.tone"
+            [tngTagLabel]="tag.label"
+            [tngTagRemovable]="true"
+            (tngTagRemoved)="removeHeadlessTag(tag.id)"
+          >
+            <span tngTagIcon aria-hidden="true" class="primitive-icon">●</span>
+            {{ tag.label }}
+            <button tngTagClose class="primitive-close" type="button">
+              <span aria-hidden="true">×</span>
+            </button>
+          </span>
+        }
       </div>
+
+      <div class="row">
+        <span tngTag class="primitive tone-neutral" [tngTagDisabled]="true" [tngTagRemovable]="true">
+          <span tngTagIcon aria-hidden="true" class="primitive-icon">●</span>
+          Disabled
+          <button tngTagClose class="primitive-close" type="button"><span aria-hidden="true">×</span></button>
+        </span>
+      </div>
+
+      <p class="meta">Last headless removed: {{ lastHeadlessRemoved() }}</p>
     </section>
 
     <section class="card">
-      <h2>Components (`tng-tag`)</h2>
+      <h2>Component wrapper (`tng-tag`)</h2>
+      <p class="meta">Styled wrapper with tone, appearance, and optional removable control.</p>
       <div class="row">
-        <tng-tag tone="neutral">Neutral</tng-tag>
-        <tng-tag tone="info">Info</tng-tag>
-        <tng-tag tone="success">Success</tng-tag>
-        <tng-tag tone="warning">Warning</tng-tag>
-        <tng-tag tone="danger">Danger</tng-tag>
-        <tng-tag appearance="outline" tone="info">Outline</tng-tag>
-        <tng-tag appearance="solid" tone="success">Solid</tng-tag>
-        <tng-tag shape="rounded">Rounded</tng-tag>
+        @for (tag of componentTags(); track tag.id) {
+          <tng-tag
+            [label]="tag.label"
+            [tone]="tag.tone"
+            [removable]="true"
+            (removed)="removeComponentTag(tag.id)"
+          >
+            <span tngTagIcon aria-hidden="true" class="component-icon">●</span>
+            {{ tag.label }}
+          </tng-tag>
+        }
       </div>
+
+      <div class="row">
+        <tng-tag tone="warning" appearance="outline">Outline</tng-tag>
+        <tng-tag tone="success" appearance="solid">Solid</tng-tag>
+        <tng-tag tone="info" shape="rounded">Rounded</tng-tag>
+        <tng-tag tone="neutral" [disabled]="true" [removable]="true" label="Locked">
+          Locked
+        </tng-tag>
+      </div>
+      <p class="meta">Last component removed: {{ lastComponentRemoved() }}</p>
     </section>
+    <button type="button" class="reset" (click)="resetAll()">Reset examples</button>
   </section>
 </main>

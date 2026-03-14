@@ -1,30 +1,99 @@
-<div class="mx-auto max-w-[72rem] grid gap-5">
-  <section class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5 space-y-3">
-    <h2 class="text-lg font-semibold">Primitives (`tngTag`)</h2>
+<div class="mx-auto grid max-w-[72rem] gap-5">
+  <section class="space-y-3 rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5">
+    <h2 class="text-lg font-semibold">Headless primitives (`tngTag`)</h2>
+    <p class="m-0 text-sm text-tng-fg-secondary">
+      Root + icon + close button. State updates are handled by consumer logic.
+    </p>
+
     <div class="flex flex-wrap gap-3">
-      <span tngTag class="rounded-md border border-tng-accent-brand bg-tng-accent-brand/20 px-3 py-1 text-sm font-medium text-tng-accent-brand">
-        New
-      </span>
-      <span tngTag class="rounded-md border border-tng-accent-success bg-tng-accent-success/20 px-3 py-1 text-sm font-medium text-tng-accent-success">
-        Success
-      </span>
-      <span tngTag class="rounded-md border border-tng-accent-danger bg-tng-accent-danger/20 px-3 py-1 text-sm font-medium text-tng-accent-danger">
-        Failed
+      @for (tag of headlessTags(); track tag.id) {
+        <span
+          tngTag
+          [tngTagLabel]="tag.label"
+          [tngTagRemovable]="true"
+          (tngTagRemoved)="removeHeadlessTag(tag.id)"
+          class="inline-flex min-h-7 items-center gap-1 rounded-full border px-3 text-xs font-semibold"
+          [class.border-tng-accent-brand]="tag.tone === 'info'"
+          [class.text-tng-accent-brand]="tag.tone === 'info'"
+          [class.bg-tng-accent-brand/20]="tag.tone === 'info'"
+          [class.border-tng-accent-success]="tag.tone === 'success'"
+          [class.text-tng-accent-success]="tag.tone === 'success'"
+          [class.bg-tng-accent-success/20]="tag.tone === 'success'"
+          [class.border-amber-500]="tag.tone === 'warning'"
+          [class.text-amber-500]="tag.tone === 'warning'"
+          [class.bg-amber-500/15]="tag.tone === 'warning'"
+          [class.border-tng-accent-danger]="tag.tone === 'danger'"
+          [class.text-tng-accent-danger]="tag.tone === 'danger'"
+          [class.bg-tng-accent-danger/20]="tag.tone === 'danger'"
+          [class.border-tng-border-strong]="tag.tone === 'neutral'"
+          [class.text-tng-fg-primary]="tag.tone === 'neutral'"
+          [class.bg-tng-bg-muted]="tag.tone === 'neutral'"
+        >
+          <span tngTagIcon aria-hidden="true" class="text-[0.7em]">●</span>
+          {{ tag.label }}
+          <button
+            tngTagClose
+            type="button"
+            class="inline-flex h-4 w-4 items-center justify-center rounded-full text-[0.9em] leading-none transition-colors hover:bg-black/10 dark:hover:bg-white/10"
+          >
+            <span aria-hidden="true">×</span>
+          </button>
+        </span>
+      }
+    </div>
+
+    <div class="flex flex-wrap gap-3">
+      <span
+        tngTag
+        [tngTagDisabled]="true"
+        [tngTagRemovable]="true"
+        class="inline-flex min-h-7 items-center gap-1 rounded-full border border-tng-border-strong bg-tng-bg-muted px-3 text-xs font-semibold text-tng-fg-primary"
+      >
+        <span tngTagIcon aria-hidden="true" class="text-[0.7em]">●</span>
+        Disabled
+        <button tngTagClose type="button" class="inline-flex h-4 w-4 items-center justify-center rounded-full text-[0.9em] leading-none">
+          <span aria-hidden="true">×</span>
+        </button>
       </span>
     </div>
+
+    <p class="m-0 text-sm text-tng-fg-secondary">Last headless removed: {{ lastHeadlessRemoved() }}</p>
   </section>
 
-  <section class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5 space-y-3">
-    <h2 class="text-lg font-semibold">Components (`tng-tag`)</h2>
+  <section class="space-y-3 rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5">
+    <h2 class="text-lg font-semibold">Component wrapper (`tng-tag`)</h2>
+    <p class="m-0 text-sm text-tng-fg-secondary">
+      Styled wrapper with tone, appearance, and optional removable button.
+    </p>
     <div class="flex flex-wrap gap-3">
-      <tng-tag tone="neutral">Neutral</tng-tag>
-      <tng-tag tone="info">Info</tng-tag>
-      <tng-tag tone="success">Success</tng-tag>
-      <tng-tag tone="warning">Warning</tng-tag>
-      <tng-tag tone="danger">Danger</tng-tag>
-      <tng-tag appearance="outline" tone="info">Outline</tng-tag>
-      <tng-tag appearance="solid" tone="success">Solid</tng-tag>
-      <tng-tag shape="rounded">Rounded</tng-tag>
+      @for (tag of componentTags(); track tag.id) {
+        <tng-tag
+          [label]="tag.label"
+          [tone]="tag.tone"
+          [removable]="true"
+          (removed)="removeComponentTag(tag.id)"
+        >
+          <span tngTagIcon aria-hidden="true" class="text-[0.7em]">●</span>
+          {{ tag.label }}
+        </tng-tag>
+      }
     </div>
+
+    <div class="flex flex-wrap gap-3">
+      <tng-tag tone="warning" appearance="outline">Outline</tng-tag>
+      <tng-tag tone="success" appearance="solid">Solid</tng-tag>
+      <tng-tag tone="info" shape="rounded">Rounded</tng-tag>
+      <tng-tag tone="neutral" [disabled]="true" [removable]="true" label="Locked">Locked</tng-tag>
+    </div>
+
+    <p class="m-0 text-sm text-tng-fg-secondary">Last component removed: {{ lastComponentRemoved() }}</p>
   </section>
+
+  <button
+    type="button"
+    class="inline-flex w-fit items-center justify-center rounded-lg border border-tng-border-subtle px-4 py-2 text-sm font-semibold text-tng-fg-secondary transition-colors hover:bg-tng-bg-muted"
+    (click)="resetAll()"
+  >
+    Reset examples
+  </button>
 </div>

@@ -1,0 +1,73 @@
+import type { Routes } from '@angular/router';
+import { COMPONENTS_UTILITY_GROUP, toComponentsDocsRouteData } from '../../component-docs.data';
+
+const group = COMPONENTS_UTILITY_GROUP;
+const tagItem = group.items.find((item) => item.slug === 'tag');
+if (tagItem === undefined) {
+  throw new Error('Missing "tag" in components utility docs group.');
+}
+
+export const COMPONENTS_UTILITY_TAG_ROUTES: Routes = [
+  {
+    path: '',
+    data: toComponentsDocsRouteData(group, tagItem),
+    loadComponent: () =>
+      import('./tag-page.component').then((module) => module.TagPageComponent),
+    children: [
+      {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'overview',
+      },
+      {
+        path: 'overview',
+        loadComponent: () =>
+          import('./sections/overview/tag-overview-page.component').then(
+            (module) => module.TagOverviewPageComponent,
+          ),
+      },
+      {
+        path: 'api',
+        loadComponent: () =>
+          import('./sections/api/tag-api-page.component').then(
+            (module) => module.TagApiPageComponent,
+          ),
+      },
+      {
+        path: 'styling',
+        loadComponent: () =>
+          import('./sections/styling/tag-styling-page.component').then(
+            (module) => module.TagStylingPageComponent,
+          ),
+      },
+      {
+        path: 'examples',
+        loadComponent: () =>
+          import('./sections/examples/tag-examples-page.component').then(
+            (module) => module.TagExamplesPageComponent,
+          ),
+      },
+      {
+        path: 'ownable-install',
+        data: {
+          componentName: 'Tag',
+          componentSymbol: 'TngTag',
+          primitiveSymbol: 'TngTag',
+          registrySlug: 'tag',
+          usageCode: [
+            '<tng-tag tone="success" [removable]="true" label="Stable">Stable</tng-tag>',
+            '',
+          ].join('\n'),
+        },
+        loadComponent: () =>
+          import('../../../../shared/ownable-install-section/docs-ownable-install-section.component').then(
+            (module) => module.DocsOwnableInstallSectionComponent,
+          ),
+      },
+      {
+        path: '**',
+        redirectTo: 'overview',
+      },
+    ],
+  },
+];

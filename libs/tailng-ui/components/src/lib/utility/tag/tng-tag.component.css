@@ -6,12 +6,71 @@
   align-items: center;
   border: 1px solid transparent;
   display: inline-flex;
-  font-size: 0.75rem;
+  font-size: 0.78rem;
   font-weight: 600;
-  gap: 0.25rem;
+  gap: 0.3rem;
   line-height: 1;
-  min-height: 1.5rem;
-  padding: 0 0.5rem;
+  min-height: 1.55rem;
+  padding: 0 0.55rem;
+}
+
+.tng-tag[data-size='sm'] {
+  font-size: 0.72rem;
+  min-height: 1.35rem;
+  padding: 0 0.45rem;
+}
+
+.tng-tag[data-size='md'] {
+  font-size: 0.78rem;
+  min-height: 1.55rem;
+  padding: 0 0.55rem;
+}
+
+.tng-tag[data-disabled] {
+  opacity: 0.62;
+}
+
+.tng-tag__content {
+  align-items: center;
+  display: inline-flex;
+}
+
+.tng-tag [data-slot='tag-icon'] {
+  align-items: center;
+  display: inline-flex;
+  flex: 0 0 auto;
+}
+
+.tng-tag__close {
+  align-items: center;
+  appearance: none;
+  background: transparent;
+  border: 0;
+  border-radius: 9999px;
+  color: currentColor;
+  cursor: pointer;
+  display: inline-flex;
+  flex: 0 0 auto;
+  font: inherit;
+  height: 1rem;
+  justify-content: center;
+  margin-inline-start: 0.1rem;
+  padding: 0;
+  width: 1rem;
+}
+
+.tng-tag__close:focus-visible {
+  box-shadow: 0 0 0 2px var(--tng-semantic-focus-ring);
+  outline: none;
+}
+
+.tng-tag__close[data-disabled] {
+  cursor: not-allowed;
+}
+
+.tng-tag__close-glyph {
+  font-size: 0.85em;
+  line-height: 1;
 }
 
 .tng-tag[data-shape='pill'] {
