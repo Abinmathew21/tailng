@@ -1,0 +1,150 @@
+<article class="popover-examples">
+  <h2 class="popover-examples-title">Examples</h2>
+  <p class="popover-examples-lead">
+    Production popover flows for confirmations and action menus across headless, plain CSS, and
+    Tailwind shells.
+  </p>
+
+  <app-docs-example-tabs-section
+    class="popover-examples-block"
+    heading="Confirmation workflow"
+    description="Open a popover, choose an action, and capture close outcomes in local state."
+    ariaLabel="Popover examples"
+    tabListAriaLabel="Popover example style tabs"
+    defaultValue="headless"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="headless"
+      label="Headless"
+      panelTitle="Headless destructive confirmation"
+      [codeTabs]="headlessCodeTabs"
+    >
+      <section
+        tngPopover
+        #headlessPopover="tngPopover"
+        class="popover-example-stage"
+        [open]="headlessOpen()"
+        (openChange)="onHeadlessOpenChange($event)"
+        (closed)="onHeadlessClosed($event)"
+      >
+        <button type="button" class="popover-example-trigger" [tngPopoverTrigger]="headlessPopover">
+          Delete release branch
+        </button>
+
+        <section tngPopoverPanel class="popover-example-panel">
+          <h3 class="popover-example-title">Delete release branch?</h3>
+          <p class="popover-example-copy">
+            This action removes branch automation and cannot be undone.
+          </p>
+          <div class="popover-action-row">
+            <button
+              type="button"
+              tngPopoverClose
+              [tngPopoverClose]="'programmatic'"
+              class="popover-example-secondary"
+              (click)="onHeadlessCancel()"
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              tngPopoverClose
+              [tngPopoverClose]="'programmatic'"
+              class="popover-example-danger"
+              (click)="onHeadlessDelete()"
+            >
+              Delete
+            </button>
+          </div>
+        </section>
+      </section>
+      <p class="popover-example-state">result: {{ headlessResult() }}</p>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+      panelTitle="Wrapper publish popover"
+      [codeTabs]="plainCodeTabs"
+    >
+      <div class="popover-example-stage">
+        <tng-popover
+          triggerLabel="Publish snapshot"
+          [open]="plainOpen()"
+          (openChange)="onPlainOpenChange($event)"
+          (closed)="onPlainClosed($event)"
+        >
+          <p class="popover-example-copy">Publishing creates a signed artifact and notifies QA.</p>
+          <div class="popover-action-row">
+            <button
+              type="button"
+              tngPopoverClose
+              [tngPopoverClose]="'programmatic'"
+              class="popover-example-secondary"
+              (click)="onPlainCancel()"
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              tngPopoverClose
+              [tngPopoverClose]="'programmatic'"
+              class="popover-example-primary"
+              (click)="onPlainApprove()"
+            >
+              Publish
+            </button>
+          </div>
+        </tng-popover>
+      </div>
+      <p class="popover-example-state">result: {{ plainResult() }}</p>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Wrapper deployment popover"
+      [codeTabs]="tailwindCodeTabs"
+    >
+      <div class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">
+        <div class="popover-example-stage">
+          <tng-popover
+            triggerLabel="Approve deployment"
+            [open]="tailwindOpen()"
+            (openChange)="onTailwindOpenChange($event)"
+            (closed)="onTailwindClosed($event)"
+          >
+            <p class="m-0 text-sm text-slate-700 dark:text-slate-300">
+              Rollout will start in us-east and eu-west.
+            </p>
+            <div class="mt-3 flex flex-wrap justify-end gap-2">
+              <button
+                type="button"
+                tngPopoverClose
+                [tngPopoverClose]="'programmatic'"
+                class="rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-700 dark:border-slate-600 dark:text-slate-200"
+                (click)="onTailwindCancel()"
+              >
+                Hold
+              </button>
+              <button
+                type="button"
+                tngPopoverClose
+                [tngPopoverClose]="'programmatic'"
+                class="rounded-lg border border-emerald-600 bg-emerald-600 px-3 py-2 text-sm font-semibold text-white"
+                (click)="onTailwindApprove()"
+              >
+                Approve
+              </button>
+            </div>
+          </tng-popover>
+        </div>
+      </div>
+      <p class="popover-example-state">result: {{ tailwindResult() }}</p>
+    </ng-template>
+  </app-docs-example-tabs-section>
+</article>

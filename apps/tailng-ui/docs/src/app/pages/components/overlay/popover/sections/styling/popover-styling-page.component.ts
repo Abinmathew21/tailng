@@ -1,0 +1,52 @@
+import { Component } from '@angular/core';
+import { TngCodeBlockComponent } from '@tailng-ui/components';
+
+@Component({
+  selector: 'app-popover-styling-page',
+  imports: [TngCodeBlockComponent],
+  templateUrl: './popover-styling-page.component.html',
+  styleUrl: './popover-styling-page.component.css',
+})
+export class PopoverStylingPageComponent {
+  protected readonly stylingContractCode = [
+    '[data-slot="popover"] {',
+    '  position: relative;',
+    '}',
+    '',
+    '[data-slot="popover-trigger"] {',
+    '  border-radius: 0.65rem;',
+    '  min-height: 2.25rem;',
+    '  padding-inline: 0.85rem;',
+    '}',
+    '',
+    '[data-slot="popover-panel"] {',
+    '  position: absolute;',
+    '  top: calc(100% + 0.45rem);',
+    '  left: 0;',
+    '  background: var(--tng-semantic-background-surface);',
+    '  border: 1px solid var(--tng-semantic-border-strong);',
+    '  border-radius: 0.9rem;',
+    '  display: grid;',
+    '  gap: 0.75rem;',
+    '  min-width: 16rem;',
+    '  max-width: min(24rem, 90vw);',
+    '  padding: 1rem;',
+    '  box-shadow: 0 22px 42px color-mix(in srgb, var(--tng-semantic-foreground-primary) 22%, transparent);',
+    '  z-index: 50;',
+    '}',
+    '',
+    '[data-slot="popover-panel"][data-side="top"] {',
+    '  bottom: calc(100% + 0.45rem);',
+    '  top: auto;',
+    '}',
+    '',
+    '[data-slot="popover-close"] {',
+    '  border-radius: 0.6rem;',
+    '  min-height: 2rem;',
+    '}',
+    '',
+    '[data-slot="popover-panel"][hidden] {',
+    '  display: none !important;',
+    '}',
+  ].join('\n');
+}

@@ -46,6 +46,10 @@
   z-index: 60;
 }
 
+.tng-popover-panel[hidden] {
+  display: none !important;
+}
+
 .tng-popover-panel:focus-visible {
   box-shadow: 0 0 0 3px var(--tng-semantic-focus-ring);
   outline: none;

@@ -14,8 +14,12 @@ const dialogItem = group.items.find((item) => item.slug === 'dialog');
 if (dialogItem === undefined) {
   throw new Error('Missing "dialog" in components overlay docs group.');
 }
+const popoverItem = group.items.find((item) => item.slug === 'popover');
+if (popoverItem === undefined) {
+  throw new Error('Missing "popover" in components overlay docs group.');
+}
 
-const landingItems = group.items.filter((item) => item.slug !== dialogItem.slug);
+const landingItems = group.items.filter((item) => item.slug !== dialogItem.slug && item.slug !== popoverItem.slug);
 
 export const COMPONENTS_OVERLAY_ROUTES: Routes = [
   {
@@ -27,6 +31,11 @@ export const COMPONENTS_OVERLAY_ROUTES: Routes = [
     path: dialogItem.slug,
     loadChildren: () =>
       import('./dialog/routes').then((module) => module.COMPONENTS_OVERLAY_DIALOG_ROUTES),
+  },
+  {
+    path: popoverItem.slug,
+    loadChildren: () =>
+      import('./popover/routes').then((module) => module.COMPONENTS_OVERLAY_POPOVER_ROUTES),
   },
   ...landingItems.map((item) => ({
     path: item.slug,

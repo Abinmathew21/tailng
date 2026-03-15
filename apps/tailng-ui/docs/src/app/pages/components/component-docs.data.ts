@@ -202,6 +202,12 @@ export const COMPONENTS_OVERLAY_GROUP: ComponentsDocsGroup = {
       title: 'Dialog',
       description: 'Modal panel with backdrop dismissal, focus trap, and close reason outputs.',
     },
+    {
+      id: 'popover',
+      slug: 'popover',
+      title: 'Popover',
+      description: 'Anchored floating panel with trigger semantics and outside/Escape dismissal.',
+    },
   ],
 };
 

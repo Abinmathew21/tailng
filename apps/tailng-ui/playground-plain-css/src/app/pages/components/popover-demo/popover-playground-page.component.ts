@@ -35,11 +35,21 @@ export class PopoverPlaygroundPageComponent {
   public readonly actions = quickActions;
   public readonly actionsPopoverOpen = signal(false);
   public readonly detailsPopoverOpen = signal(false);
+  public readonly lastInteraction = signal('No interaction yet.');
   public readonly selectedAction = signal<string | null>(null);
 
   public onActionPick(actionId: string): void {
     this.selectedAction.set(actionId);
     this.actionsPopoverOpen.set(false);
+    this.lastInteraction.set(`Selected: ${actionId}`);
+  }
+
+  public onClearSelection(): void {
+    const selectedAction = this.selectedAction();
+    this.selectedAction.set(null);
+    this.actionsPopoverOpen.set(false);
+    this.detailsPopoverOpen.set(false);
+    this.lastInteraction.set(selectedAction === null ? 'Selection was already clear.' : 'Selection cleared.');
   }
 
   public onActionsPopoverChange(isOpen: boolean): void {

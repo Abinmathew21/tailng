@@ -75,6 +75,11 @@
   margin: 0;
 }
 
+.interaction {
+  color: var(--tng-semantic-accent-brand) !important;
+  font-size: 0.86rem;
+}
+
 .action-list {
   display: grid;
   gap: 0.45rem;

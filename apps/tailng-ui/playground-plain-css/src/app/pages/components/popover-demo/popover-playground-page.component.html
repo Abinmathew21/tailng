@@ -41,7 +41,8 @@
     <section class="card summary">
       <h2>Selected Action</h2>
       <p>{{ selectedAction() ?? 'No action selected yet.' }}</p>
-      <tng-button appearance="outline" tone="neutral" (click)="selectedAction.set(null)">
+      <p class="interaction">{{ lastInteraction() }}</p>
+      <tng-button appearance="outline" tone="neutral" (click)="onClearSelection()">
         Clear Selection
       </tng-button>
     </section>

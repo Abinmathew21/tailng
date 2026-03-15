@@ -139,47 +139,47 @@ This component should expose open state, trigger/panel association, positioning,
 
 ### Rendering
 
-- [ ] Renders trigger and panel
-- [ ] Panel has id for aria-controls
-- [ ] Panel is hidden when closed (or unmounted)
-- [ ] Panel is visible when open
-- [ ] Applies data-open, data-side (if used), data-slot
+- [x] Renders trigger and panel
+- [x] Panel has id for aria-controls
+- [x] Panel is hidden when closed (or unmounted)
+- [x] Panel is visible when open
+- [x] Applies data-open, data-side (if used), data-slot
 
 ### Accessibility
 
-- [ ] Trigger has aria-expanded matching open state
-- [ ] Trigger has aria-controls pointing to panel id
-- [ ] Trigger has aria-haspopup when appropriate
-- [ ] Escape closes and optionally restores focus to trigger
-- [ ] Optional: focus moves into panel on open
+- [x] Trigger has aria-expanded matching open state
+- [x] Trigger has aria-controls pointing to panel id
+- [x] Trigger has aria-haspopup when appropriate
+- [x] Escape closes and optionally restores focus to trigger
+- [x] Optional: focus moves into panel on open
 
 ### Pointer and keyboard
 
-- [ ] Click trigger toggles open/closed
-- [ ] Click outside closes when configured
-- [ ] Escape closes
-- [ ] Disabled trigger does not open
+- [x] Click trigger toggles open/closed
+- [x] Click outside closes when configured
+- [x] Escape closes
+- [x] Disabled trigger does not open
 
 ### Controlled / uncontrolled
 
-- [ ] Supports controlled open state
-- [ ] Emits openChange / closed with reason
-- [ ] Supports defaultOpen and updates on toggle/close
+- [x] Supports controlled open state
+- [x] Emits openChange / closed with reason
+- [x] Supports defaultOpen and updates on toggle/close
 
 ### Data attributes
 
-- [ ] Applies data-open, data-disabled, data-slot on trigger and panel
+- [x] Applies data-open, data-disabled, data-slot on trigger and panel
 
 ## Implementation Steps
 
-1. [ ] Headless component created in `primitives` (or popover implemented as component with clear API)
-2. [ ] Test cases created for headless
+1. [x] Headless component created in `primitives` (or popover implemented as component with clear API)
+2. [x] Test cases created for headless
 3. [ ] Headless example page added/updated in playground - plain CSS app
 4. [ ] Headless example page added/updated in playground - Tailwind app
 5. [x] Minimum style `<tng-popover>` component created in `components`
-6. [ ] Test cases created for `<tng-popover>`
-7. [ ] Component example page added/updated in playground - plain CSS app
-8. [ ] Component example page added/updated in playground - Tailwind app
+6. [x] Test cases created for `<tng-popover>`
+7. [x] Component example page added/updated in playground - plain CSS app
+8. [x] Component example page added/updated in playground - Tailwind app
 9. [ ] Docs added/updated in docs project - Overview section
 10. [ ] Docs added/updated in docs project - API section
 11. [ ] Docs added/updated in docs project - Styling section

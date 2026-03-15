@@ -1,25 +1,31 @@
-<div class="tng-popover-root">
+<div
+  tngPopover
+  #popoverRef="tngPopover"
+  class="tng-popover-root"
+  [open]="open()"
+  [defaultOpen]="defaultOpen()"
+  [disabled]="disabled()"
+  [closeOnEscape]="closeOnEscape()"
+  [closeOnOutsidePointer]="closeOnOutsidePointer()"
+  [restoreFocus]="restoreFocus()"
+  [autoFocus]="autoFocus()"
+  [side]="side()"
+  [align]="align()"
+  [panelRole]="panelRole()"
+  [ariaLabel]="ariaLabel()"
+  [ariaHasPopup]="ariaHasPopup()"
+  (openChange)="openChange.emit($event)"
+  (closed)="closed.emit($event)"
+>
   <button
     type="button"
     class="tng-popover-trigger"
-    aria-haspopup="dialog"
-    [attr.aria-expanded]="open()"
-    [attr.aria-controls]="open() ? panelId : null"
-    (click)="onTriggerClick()"
+    [tngPopoverTrigger]="popoverRef"
   >
     {{ triggerLabel() }}
   </button>
 
-  @if (open()) {
-    <section
-      #panelRef
-      [id]="panelId"
-      role="dialog"
-      class="tng-popover-panel"
-      [attr.aria-label]="ariaLabel()"
-      tabindex="-1"
-    >
-      <ng-content />
-    </section>
-  }
+  <section tngPopoverPanel class="tng-popover-panel">
+    <ng-content />
+  </section>
 </div>

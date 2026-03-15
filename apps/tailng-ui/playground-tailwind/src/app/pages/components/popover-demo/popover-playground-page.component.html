@@ -40,7 +40,8 @@
   <section class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5 space-y-3">
     <h2 class="text-lg font-semibold">Selected Action</h2>
     <p class="text-tng-fg-secondary m-0">{{ selectedAction() ?? 'No action selected yet.' }}</p>
-    <tng-button appearance="outline" tone="neutral" (click)="selectedAction.set(null)">
+    <p class="m-0 text-sm font-medium text-tng-accent-brand">{{ lastInteraction() }}</p>
+    <tng-button appearance="outline" tone="neutral" (click)="onClearSelection()">
       Clear Selection
     </tng-button>
   </section>
