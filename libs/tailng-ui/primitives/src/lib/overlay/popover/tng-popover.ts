@@ -14,18 +14,17 @@ import {
   output,
   signal,
 } from '@angular/core';
-import { createTngIdFactory } from '@tailng-ui/cdk';
+import {
+  createOverlayFocusHandoffController,
+  createOverlayRuntime,
+  resolveFocusableElements,
+  createTngIdFactory,
+} from '@tailng-ui/cdk';
+import type { TngOverlayDismissReason, TngOverlayInteractionDomDocument } from '@tailng-ui/cdk/overlay';
 
+const createPopoverId = createTngIdFactory('tng-popover');
 const createPopoverPanelId = createTngIdFactory('tng-popover-panel');
-
-const focusableSelector = [
-  'a[href]',
-  'button:not([disabled])',
-  'input:not([disabled])',
-  'select:not([disabled])',
-  'textarea:not([disabled])',
-  '[tabindex]:not([tabindex="-1"])',
-].join(',');
+const createPopoverFocusableId = createTngIdFactory('tng-popover-focusable');
 
 type OptionalBooleanInput = boolean | null | string | undefined;
 
@@ -48,26 +47,24 @@ function isPopoverCloseReason(value: string): value is TngPopoverCloseReason {
   return value === 'escape' || value === 'outside-pointer' || value === 'programmatic' || value === 'trigger-toggle';
 }
 
-function readKeyboardEvent(event: unknown): KeyboardEvent | null {
-  return event instanceof KeyboardEvent ? event : null;
-}
-
-export function readPopoverEventTarget(event: unknown): Node | null {
-  if (event === null || typeof event !== 'object') {
-    return null;
+function mapOverlayDismissReason(reason: TngOverlayDismissReason): TngPopoverCloseReason {
+  if (reason === 'escape-key') {
+    return 'escape';
   }
 
-  const eventTarget = (event as Event).target;
-  return eventTarget instanceof Node ? eventTarget : null;
-}
-
-export function resolvePopoverGlobalDocument(): Document | null {
-  if (typeof document === 'undefined') {
-    return null;
+  if (reason === 'outside-pointer') {
+    return 'outside-pointer';
   }
 
-  return document;
+  return 'programmatic';
 }
+
+const popoverGlobalDocument = typeof document === 'undefined' ? null : document;
+const popoverOverlayInteractionDocument = popoverGlobalDocument as TngOverlayInteractionDomDocument | null;
+const popoverOverlayRuntime = createOverlayRuntime({
+  documentRef: popoverOverlayInteractionDocument,
+});
+const popoverFocusHandoff = createOverlayFocusHandoffController();
 
 export function resolvePopoverActiveElement(documentRef: unknown): HTMLElement | null {
   if (!(documentRef instanceof Document)) {
@@ -79,11 +76,7 @@ export function resolvePopoverActiveElement(documentRef: unknown): HTMLElement |
 }
 
 export function resolvePopoverFocusableElements(container: unknown): readonly HTMLElement[] {
-  if (!(container instanceof HTMLElement)) {
-    return [];
-  }
-
-  return Array.from(container.querySelectorAll<HTMLElement>(focusableSelector));
+  return resolveFocusableElements(container);
 }
 
 export function resolvePopoverMarkedInitialElement(container: unknown): HTMLElement | null {
@@ -169,7 +162,8 @@ export class TngPopover implements OnDestroy, OnInit {
 
   private readonly hostRef = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly injector = inject(Injector);
-  private readonly documentRef = resolvePopoverGlobalDocument();
+  private readonly documentRef = popoverGlobalDocument;
+  private readonly instanceId = createPopoverId();
   private readonly uncontrolledOpen = signal(false);
   private readonly openStateEffect = effect((): void => {
     if (!this.initialized) {
@@ -184,20 +178,13 @@ export class TngPopover implements OnDestroy, OnInit {
     this.deactivatePopover();
   });
 
-  private readonly onDocumentKeydown = (event: KeyboardEvent): void => {
-    this.handleDocumentKeydown(event);
-  };
-
-  private readonly onDocumentPointerdown = (event: PointerEvent): void => {
-    this.handleDocumentPointerdown(event);
-  };
-
   private initialized = false;
   private isActive = false;
+  private isFocusLayerRegistered = false;
+  private isOverlayLayerRegistered = false;
   private panelElement: HTMLElement | null = null;
   private panelElementId: string | null = null;
   private triggerElement: HTMLElement | null = null;
-  private restoreFocusElement: HTMLElement | null = null;
 
   @HostBinding('attr.data-slot')
   protected readonly dataSlot = 'popover';
@@ -252,7 +239,6 @@ export class TngPopover implements OnDestroy, OnInit {
       return;
     }
 
-    this.restoreFocusElement = resolvePopoverActiveElement(this.documentRef);
     this.setOpenState(true);
   }
 
@@ -286,7 +272,6 @@ export class TngPopover implements OnDestroy, OnInit {
 
     this.closed.emit(reason);
     this.setOpenState(false);
-    this.restoreFocusToTrigger();
   }
 
   public registerTrigger(trigger: HTMLElement): void {
@@ -326,12 +311,9 @@ export class TngPopover implements OnDestroy, OnInit {
     }
 
     this.isActive = true;
-
-    if (this.documentRef !== null) {
-      this.documentRef.addEventListener('keydown', this.onDocumentKeydown, true);
-      this.documentRef.addEventListener('pointerdown', this.onDocumentPointerdown, true);
-    }
-
+    this.registerFocusLayer();
+    this.activateFocusLayer();
+    this.registerOverlayLayer();
     this.focusInitialElement();
   }
 
@@ -341,11 +323,9 @@ export class TngPopover implements OnDestroy, OnInit {
     }
 
     this.isActive = false;
-
-    if (this.documentRef !== null) {
-      this.documentRef.removeEventListener('keydown', this.onDocumentKeydown, true);
-      this.documentRef.removeEventListener('pointerdown', this.onDocumentPointerdown, true);
-    }
+    this.deactivateFocusLayer();
+    this.unregisterFocusLayer();
+    this.unregisterOverlayLayer();
   }
 
   private focusInitialElement(): void {
@@ -365,64 +345,29 @@ export class TngPopover implements OnDestroy, OnInit {
         }
 
         if (this.autoFocus() === 'panel') {
-          panel.focus();
+          this.focusElement(panel);
           return;
         }
 
         const focusTarget = resolvePopoverMarkedInitialElement(panel) ?? resolvePopoverFocusableElements(panel)[0] ?? panel;
-        focusTarget.focus();
+        this.focusElement(focusTarget);
       },
       { injector: this.injector },
     );
   }
 
-  private restoreFocusToTrigger(): void {
-    if (!this.restoreFocus()) {
+  public recordFocusedElement(target: unknown): void {
+    if (!(target instanceof HTMLElement) || !this.isOpen()) {
       return;
     }
 
-    afterNextRender(
-      (): void => {
-        const target = this.triggerElement ?? this.restoreFocusElement;
-        if (target === null || !target.isConnected) {
-          return;
-        }
-
-        target.focus();
-      },
-      { injector: this.injector },
-    );
-  }
-
-  private handleDocumentKeydown(event: unknown): void {
-    if (!this.isOpen() || !this.closeOnEscape()) {
+    const panel = this.panelElement;
+    if (panel === null || !panel.contains(target)) {
       return;
     }
 
-    const keyboardEvent = readKeyboardEvent(event);
-    if (keyboardEvent === null || keyboardEvent.key !== 'Escape') {
-      return;
-    }
-
-    keyboardEvent.preventDefault();
-    this.requestClose('escape');
-  }
-
-  private handleDocumentPointerdown(event: unknown): void {
-    if (!this.isOpen() || !this.closeOnOutsidePointer()) {
-      return;
-    }
-
-    const target = readPopoverEventTarget(event);
-    if (target === null) {
-      return;
-    }
-
-    if (this.hostRef.nativeElement.contains(target)) {
-      return;
-    }
-
-    this.requestClose('outside-pointer');
+    const targetId = this.ensureElementId(target);
+    popoverFocusHandoff.recordFocus(this.instanceId, targetId);
   }
 
   private setOpenState(next: boolean): void {
@@ -439,6 +384,157 @@ export class TngPopover implements OnDestroy, OnInit {
 
   private isControlled(): boolean {
     return this.openInput() !== undefined;
+  }
+
+  private shouldCloseFromEscape(): boolean {
+    return this.isOpen() && this.closeOnEscape();
+  }
+
+  private shouldCloseFromOutsidePointer(): boolean {
+    return this.isOpen() && this.closeOnOutsidePointer();
+  }
+
+  private activateFocusLayer(): void {
+    const activeElement = resolvePopoverActiveElement(this.documentRef);
+    const restoreFocusTargetId = activeElement === null ? null : this.ensureElementId(activeElement);
+    popoverFocusHandoff.activateLayer(this.instanceId, restoreFocusTargetId);
+  }
+
+  private deactivateFocusLayer(): void {
+    const restoreFocusTargetId = popoverFocusHandoff.deactivateLayer(this.instanceId);
+    if (!this.restoreFocus() || restoreFocusTargetId === null) {
+      return;
+    }
+
+    const restoreFocusTarget = this.resolveElementById(restoreFocusTargetId) ?? this.triggerElement;
+    restoreFocusTarget?.focus();
+  }
+
+  private registerFocusLayer(): void {
+    if (this.isFocusLayerRegistered) {
+      return;
+    }
+
+    popoverFocusHandoff.registerLayer({
+      layerId: this.instanceId,
+      members: (): readonly string[] => {
+        const panel = this.panelElement;
+        if (panel === null) {
+          return [];
+        }
+
+        return this.resolveFocusableMemberIds(panel);
+      },
+      restoreFocus: this.restoreFocus(),
+      trapFocus: false,
+    });
+    this.isFocusLayerRegistered = true;
+  }
+
+  private unregisterFocusLayer(): void {
+    if (!this.isFocusLayerRegistered) {
+      return;
+    }
+
+    popoverFocusHandoff.unregisterLayer(this.instanceId);
+    this.isFocusLayerRegistered = false;
+  }
+
+  private registerOverlayLayer(): void {
+    const hostElement = this.hostRef.nativeElement;
+    popoverOverlayRuntime.registerLayer({
+      containsTarget: (target: unknown, path: readonly unknown[]): boolean => {
+        if (target instanceof Node && hostElement.contains(target)) {
+          return true;
+        }
+
+        return path.includes(hostElement);
+      },
+      dismissOnEscape: this.shouldCloseFromEscape(),
+      dismissOnOutsidePointer: this.shouldCloseFromOutsidePointer(),
+      id: this.instanceId,
+      onDismiss: (reason: TngOverlayDismissReason): void => {
+        if (reason === 'escape-key' && !this.shouldCloseFromEscape()) {
+          return;
+        }
+
+        if (reason === 'outside-pointer' && !this.shouldCloseFromOutsidePointer()) {
+          return;
+        }
+
+        this.requestClose(mapOverlayDismissReason(reason));
+      },
+    });
+
+    this.isOverlayLayerRegistered = true;
+  }
+
+  private unregisterOverlayLayer(): void {
+    if (!this.isOverlayLayerRegistered) {
+      return;
+    }
+
+    popoverOverlayRuntime.unregisterLayer(this.instanceId);
+    this.isOverlayLayerRegistered = false;
+  }
+
+  private focusElement(target: HTMLElement): void {
+    const targetId = this.ensureElementId(target);
+    const resolvedTargetId = popoverFocusHandoff.resolveFocusCandidate(this.instanceId, targetId);
+    if (resolvedTargetId === null) {
+      return;
+    }
+
+    const resolvedTarget = this.resolveElementById(resolvedTargetId);
+    if (resolvedTarget === null) {
+      return;
+    }
+
+    resolvedTarget.focus();
+    popoverFocusHandoff.recordFocus(this.instanceId, resolvedTargetId);
+  }
+
+  private resolveFocusableMemberIds(panel: HTMLElement): readonly string[] {
+    const focusableElements = resolvePopoverFocusableElements(panel);
+    const memberIds: string[] = [];
+    const seenIds = new Set<string>();
+
+    const registerMember = (element: HTMLElement): void => {
+      const id = this.ensureElementId(element);
+      if (seenIds.has(id)) {
+        return;
+      }
+
+      seenIds.add(id);
+      memberIds.push(id);
+    };
+
+    registerMember(panel);
+    for (const element of focusableElements) {
+      registerMember(element);
+    }
+
+    return memberIds;
+  }
+
+  private ensureElementId(element: HTMLElement): string {
+    const existingId = element.id.trim();
+    if (existingId.length > 0) {
+      return existingId;
+    }
+
+    const generatedId = createPopoverFocusableId();
+    element.id = generatedId;
+    return generatedId;
+  }
+
+  private resolveElementById(id: string): HTMLElement | null {
+    if (this.documentRef === null) {
+      return null;
+    }
+
+    const element = this.documentRef.getElementById(id);
+    return element instanceof HTMLElement ? element : null;
   }
 }
 
@@ -571,6 +667,11 @@ export class TngPopoverPanel implements OnDestroy, OnInit {
 
   public ngOnDestroy(): void {
     this.popover.unregisterPanel(this.hostRef.nativeElement);
+  }
+
+  @HostListener('focusin', ['$event.target'])
+  protected onFocusIn(target: EventTarget | null): void {
+    this.popover.recordFocusedElement(target);
   }
 }
 

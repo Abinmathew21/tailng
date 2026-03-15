@@ -19,6 +19,8 @@ import {
   createModalIsolationManager,
   createOverlayRuntime,
   createOverlayScrollLockManager,
+  resolveFirstFocusableElement,
+  resolveFocusableElements,
   createTngIdFactory,
 } from '@tailng-ui/cdk';
 import type {
@@ -34,15 +36,6 @@ const createDialogPanelId = createTngIdFactory('tng-dialog-panel');
 const createDialogTitleId = createTngIdFactory('tng-dialog-title');
 const createDialogDescriptionId = createTngIdFactory('tng-dialog-description');
 const createDialogFocusableId = createTngIdFactory('tng-dialog-focusable');
-
-const focusableSelector = [
-  'a[href]',
-  'button:not([disabled])',
-  'input:not([disabled])',
-  'select:not([disabled])',
-  'textarea:not([disabled])',
-  '[tabindex]:not([tabindex="-1"])',
-].join(',');
 
 export type TngDialogAutoFocus = 'dialog' | 'first-focusable' | 'none';
 export type TngDialogCloseReason = 'backdrop' | 'close-button' | 'escape' | 'programmatic';
@@ -66,14 +59,6 @@ function toScrollLockDocument(documentRef: unknown): TngScrollLockDocument | nul
   return documentRef as unknown as TngScrollLockDocument;
 }
 
-function toOverlayInteractionDocument(documentRef: unknown): TngOverlayInteractionDomDocument | null {
-  if (!(documentRef instanceof Document)) {
-    return null;
-  }
-
-  return documentRef as unknown as TngOverlayInteractionDomDocument;
-}
-
 function toModalIsolationDocument(documentRef: unknown): TngModalIsolationDocument | null {
   if (!(documentRef instanceof Document)) {
     return null;
@@ -90,14 +75,6 @@ function toModalIsolationElement(elementRef: unknown): TngModalIsolationElement 
   return elementRef as unknown as TngModalIsolationElement;
 }
 
-function resolveGlobalDocument(): Document | null {
-  if (typeof document === 'undefined') {
-    return null;
-  }
-
-  return document;
-}
-
 function mapOverlayDismissReason(reason: TngOverlayDismissReason): TngDialogCloseReason {
   if (reason === 'escape-key') {
     return 'escape';
@@ -110,9 +87,10 @@ function mapOverlayDismissReason(reason: TngOverlayDismissReason): TngDialogClos
   return 'programmatic';
 }
 
-const dialogGlobalDocument = resolveGlobalDocument();
+const dialogGlobalDocument = typeof document === 'undefined' ? null : document;
+const dialogOverlayInteractionDocument = dialogGlobalDocument as TngOverlayInteractionDomDocument | null;
 const dialogOverlayRuntime = createOverlayRuntime({
-  documentRef: toOverlayInteractionDocument(dialogGlobalDocument),
+  documentRef: dialogOverlayInteractionDocument,
 });
 const dialogModalIsolation = createModalIsolationManager({
   documentRef: toModalIsolationDocument(dialogGlobalDocument),
@@ -129,19 +107,7 @@ export function resolveTngDialogActiveElement(documentRef: unknown): HTMLElement
 }
 
 export function resolveTngDialogFocusableElements(container: unknown): readonly HTMLElement[] {
-  if (!(container instanceof HTMLElement)) {
-    return [];
-  }
-
-  const candidates = Array.from(container.querySelectorAll<HTMLElement>(focusableSelector));
-  const focusableElements: HTMLElement[] = [];
-  for (const candidate of candidates) {
-    if (!candidate.hasAttribute('disabled')) {
-      focusableElements.push(candidate);
-    }
-  }
-
-  return focusableElements;
+  return resolveFocusableElements(container);
 }
 
 export function resolveTngDialogMarkedInitialElement(container: unknown): HTMLElement | null {
@@ -166,7 +132,7 @@ function readKeyboardEvent(event: unknown): KeyboardEvent | null {
 }
 
 function resolveFirstFocusableWithin(container: unknown): HTMLElement | null {
-  return resolveTngDialogFocusableElements(container)[0] ?? null;
+  return resolveFirstFocusableElement(container);
 }
 
 function isDialogCloseReason(value: string): value is TngDialogCloseReason {

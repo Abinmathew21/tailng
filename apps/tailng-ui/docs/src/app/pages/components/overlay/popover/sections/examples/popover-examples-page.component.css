@@ -36,6 +36,11 @@
   position: relative;
 }
 
+.popover-example-anchor {
+  display: inline-block;
+  position: relative;
+}
+
 .popover-example-trigger,
 .popover-example-secondary,
 .popover-example-primary,
@@ -74,9 +79,14 @@
   box-shadow: 0 22px 44px color-mix(in srgb, #020617 26%, transparent);
   display: grid;
   gap: 0.72rem;
-  max-width: min(30rem, 100%);
+  left: 0;
+  max-width: min(30rem, calc(100vw - 3rem));
+  min-width: 16rem;
   padding: 1rem;
-  width: 100%;
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  width: min(30rem, 100%);
+  z-index: 70;
 }
 
 .popover-example-panel[hidden] {

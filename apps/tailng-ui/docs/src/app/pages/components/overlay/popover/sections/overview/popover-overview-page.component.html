@@ -115,6 +115,7 @@
     >
       <div class="popover-stage">
         <tng-popover
+          #plainPopover
           triggerLabel="Project actions"
           [open]="plainOpen()"
           (openChange)="onPlainOpenChange($event)"
@@ -122,10 +123,10 @@
         >
           <p class="popover-body-copy">Use wrapper defaults for trigger wiring and dismissal behavior.</p>
           <div class="popover-preview-actions">
-            <button type="button" tngPopoverClose [tngPopoverClose]="'programmatic'" class="popover-action-ghost">
+            <button type="button" class="popover-action-ghost" (click)="plainPopover.close()">
               Close
             </button>
-            <button type="button" tngPopoverClose [tngPopoverClose]="'programmatic'" class="popover-action-primary">
+            <button type="button" class="popover-action-primary" (click)="plainPopover.close()">
               Apply
             </button>
           </div>
@@ -144,6 +145,7 @@
       <div class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">
         <div class="popover-stage">
           <tng-popover
+            #tailwindPopover
             triggerLabel="Tailwind actions"
             [open]="tailwindOpen()"
             (openChange)="onTailwindOpenChange($event)"
@@ -155,17 +157,15 @@
             <div class="mt-3 flex flex-wrap justify-end gap-2">
               <button
                 type="button"
-                tngPopoverClose
-                [tngPopoverClose]="'programmatic'"
                 class="rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-700 dark:border-slate-600 dark:text-slate-200"
+                (click)="tailwindPopover.close()"
               >
                 Hold
               </button>
               <button
                 type="button"
-                tngPopoverClose
-                [tngPopoverClose]="'programmatic'"
                 class="rounded-lg border border-sky-600 bg-sky-600 px-3 py-2 text-sm font-semibold text-white"
+                (click)="tailwindPopover.close()"
               >
                 Apply
               </button>

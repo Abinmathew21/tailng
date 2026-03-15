@@ -29,36 +29,38 @@
         (openChange)="onHeadlessOpenChange($event)"
         (closed)="onHeadlessClosed($event)"
       >
-        <button type="button" class="popover-example-trigger" [tngPopoverTrigger]="headlessPopover">
-          Delete release branch
-        </button>
+        <div class="popover-example-anchor">
+          <button type="button" class="popover-example-trigger" [tngPopoverTrigger]="headlessPopover">
+            Delete release branch
+          </button>
 
-        <section tngPopoverPanel class="popover-example-panel">
-          <h3 class="popover-example-title">Delete release branch?</h3>
-          <p class="popover-example-copy">
-            This action removes branch automation and cannot be undone.
-          </p>
-          <div class="popover-action-row">
-            <button
-              type="button"
-              tngPopoverClose
-              [tngPopoverClose]="'programmatic'"
-              class="popover-example-secondary"
-              (click)="onHeadlessCancel()"
-            >
-              Cancel
-            </button>
-            <button
-              type="button"
-              tngPopoverClose
-              [tngPopoverClose]="'programmatic'"
-              class="popover-example-danger"
-              (click)="onHeadlessDelete()"
-            >
-              Delete
-            </button>
-          </div>
-        </section>
+          <section tngPopoverPanel class="popover-example-panel">
+            <h3 class="popover-example-title">Delete release branch?</h3>
+            <p class="popover-example-copy">
+              This action removes branch automation and cannot be undone.
+            </p>
+            <div class="popover-action-row">
+              <button
+                type="button"
+                tngPopoverClose
+                [tngPopoverClose]="'programmatic'"
+                class="popover-example-secondary"
+                (click)="onHeadlessCancel()"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                tngPopoverClose
+                [tngPopoverClose]="'programmatic'"
+                class="popover-example-danger"
+                (click)="onHeadlessDelete()"
+              >
+                Delete
+              </button>
+            </div>
+          </section>
+        </div>
       </section>
       <p class="popover-example-state">result: {{ headlessResult() }}</p>
     </ng-template>
@@ -72,6 +74,7 @@
     >
       <div class="popover-example-stage">
         <tng-popover
+          #plainPopover
           triggerLabel="Publish snapshot"
           [open]="plainOpen()"
           (openChange)="onPlainOpenChange($event)"
@@ -81,19 +84,15 @@
           <div class="popover-action-row">
             <button
               type="button"
-              tngPopoverClose
-              [tngPopoverClose]="'programmatic'"
               class="popover-example-secondary"
-              (click)="onPlainCancel()"
+              (click)="onPlainCancel(); plainPopover.close()"
             >
               Cancel
             </button>
             <button
               type="button"
-              tngPopoverClose
-              [tngPopoverClose]="'programmatic'"
               class="popover-example-primary"
-              (click)="onPlainApprove()"
+              (click)="onPlainApprove(); plainPopover.close()"
             >
               Publish
             </button>
@@ -113,6 +112,7 @@
       <div class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">
         <div class="popover-example-stage">
           <tng-popover
+            #tailwindPopover
             triggerLabel="Approve deployment"
             [open]="tailwindOpen()"
             (openChange)="onTailwindOpenChange($event)"
@@ -124,19 +124,15 @@
             <div class="mt-3 flex flex-wrap justify-end gap-2">
               <button
                 type="button"
-                tngPopoverClose
-                [tngPopoverClose]="'programmatic'"
                 class="rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-700 dark:border-slate-600 dark:text-slate-200"
-                (click)="onTailwindCancel()"
+                (click)="onTailwindCancel(); tailwindPopover.close()"
               >
                 Hold
               </button>
               <button
                 type="button"
-                tngPopoverClose
-                [tngPopoverClose]="'programmatic'"
                 class="rounded-lg border border-emerald-600 bg-emerald-600 px-3 py-2 text-sm font-semibold text-white"
-                (click)="onTailwindApprove()"
+                (click)="onTailwindApprove(); tailwindPopover.close()"
               >
                 Approve
               </button>

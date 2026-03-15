@@ -2,6 +2,7 @@ export * from './active-descendant/active-descendant';
 export * from './active-descendant/active-descendant.types';
 export * from './disclosure/disclosure';
 export * from './disclosure/disclosure.types';
+export * from './focusable/focusable';
 export * from './focus-scope/focus-scope';
 export * from './focus-scope/focus-scope.types';
 export * from './grid-navigation/grid-navigation';

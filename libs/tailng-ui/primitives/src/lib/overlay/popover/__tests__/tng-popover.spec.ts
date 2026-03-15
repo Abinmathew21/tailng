@@ -126,6 +126,48 @@ class ControlledPopoverHarnessComponent {
   readonly closeReasons: TngPopoverCloseReason[] = [];
 }
 
+@Component({
+  standalone: true,
+  imports: [TngPopover, TngPopoverTrigger, TngPopoverPanel],
+  template: `
+    <section
+      tngPopover
+      #firstPopover="tngPopover"
+      data-testid="first-root"
+      [defaultOpen]="true"
+      [autoFocus]="'none'"
+      [restoreFocus]="false"
+      (closed)="firstCloseReasons.push($event)"
+    >
+      <button type="button" [tngPopoverTrigger]="firstPopover" data-testid="first-trigger">First</button>
+      <section tngPopoverPanel data-testid="first-panel">
+        <button type="button">First panel action</button>
+      </section>
+    </section>
+
+    <section
+      tngPopover
+      #secondPopover="tngPopover"
+      data-testid="second-root"
+      [defaultOpen]="true"
+      [autoFocus]="'none'"
+      [restoreFocus]="false"
+      (closed)="secondCloseReasons.push($event)"
+    >
+      <button type="button" [tngPopoverTrigger]="secondPopover" data-testid="second-trigger">Second</button>
+      <section tngPopoverPanel data-testid="second-panel">
+        <button type="button">Second panel action</button>
+      </section>
+    </section>
+
+    <button type="button" data-testid="outside">Outside</button>
+  `,
+})
+class StackedPopoverHarnessComponent {
+  readonly firstCloseReasons: TngPopoverCloseReason[] = [];
+  readonly secondCloseReasons: TngPopoverCloseReason[] = [];
+}
+
 describe('tng-popover primitive behavior', () => {
   afterEach(() => {
     TestBed.resetTestingModule();
@@ -323,5 +365,60 @@ describe('tng-popover primitive behavior', () => {
     expect(fixture.componentInstance.openChanges).toEqual([false]);
     expect(fixture.componentInstance.open()).toBe(true);
     expect(getByTestId<HTMLElement>(fixture, 'panel').getAttribute('hidden')).toBeNull();
+  });
+
+  it('Escape dismisses only the top-most popover layer first', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [StackedPopoverHarnessComponent],
+    }).createComponent(StackedPopoverHarnessComponent);
+
+    await settle(fixture);
+
+    const firstPanel = getByTestId<HTMLElement>(fixture, 'first-panel');
+    const secondPanel = getByTestId<HTMLElement>(fixture, 'second-panel');
+    expect(firstPanel.getAttribute('hidden')).toBeNull();
+    expect(secondPanel.getAttribute('hidden')).toBeNull();
+
+    const firstEscape = keydown(document, 'Escape');
+    await settle(fixture);
+
+    expect(firstEscape.defaultPrevented).toBe(true);
+    expect(fixture.componentInstance.secondCloseReasons).toEqual(['escape']);
+    expect(fixture.componentInstance.firstCloseReasons).toEqual([]);
+    expect(secondPanel.getAttribute('hidden')).toBe('');
+    expect(firstPanel.getAttribute('hidden')).toBeNull();
+
+    const secondEscape = keydown(document, 'Escape');
+    await settle(fixture);
+
+    expect(secondEscape.defaultPrevented).toBe(true);
+    expect(fixture.componentInstance.firstCloseReasons).toEqual(['escape']);
+    expect(firstPanel.getAttribute('hidden')).toBe('');
+  });
+
+  it('outside pointer dismisses only the top-most popover layer first', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [StackedPopoverHarnessComponent],
+    }).createComponent(StackedPopoverHarnessComponent);
+
+    await settle(fixture);
+
+    const firstPanel = getByTestId<HTMLElement>(fixture, 'first-panel');
+    const secondPanel = getByTestId<HTMLElement>(fixture, 'second-panel');
+    const outside = getByTestId<HTMLButtonElement>(fixture, 'outside');
+
+    pointerdown(outside);
+    await settle(fixture);
+
+    expect(fixture.componentInstance.secondCloseReasons).toEqual(['outside-pointer']);
+    expect(fixture.componentInstance.firstCloseReasons).toEqual([]);
+    expect(secondPanel.getAttribute('hidden')).toBe('');
+    expect(firstPanel.getAttribute('hidden')).toBeNull();
+
+    pointerdown(outside);
+    await settle(fixture);
+
+    expect(fixture.componentInstance.firstCloseReasons).toEqual(['outside-pointer']);
+    expect(firstPanel.getAttribute('hidden')).toBe('');
   });
 });
