@@ -50,7 +50,19 @@
   background: var(--tng-semantic-background-surface);
   border: 1px solid var(--tng-semantic-border-strong);
   border-radius: 1rem;
+  display: grid;
+  gap: 0.9rem;
   padding: 1rem;
+}
+
+.section-title {
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.section-subtitle {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
 }
 
 .toolbar {
@@ -58,6 +70,28 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0.8rem;
+}
+
+.primitive-trigger,
+.primitive-ghost,
+.primitive-primary {
+  border-radius: 0.7rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  min-height: 2.1rem;
+  padding: 0.45rem 0.9rem;
+}
+
+.primitive-trigger {
+  background: color-mix(in srgb, var(--tng-semantic-background-canvas) 76%, transparent);
+  border: 1px solid var(--tng-semantic-border-strong);
+  color: var(--tng-semantic-foreground-primary);
+}
+
+.primitive-trigger:is(:hover, :focus-visible) {
+  border-color: var(--tng-semantic-accent-brand);
+  outline: none;
 }
 
 .toolbar p {
@@ -68,6 +102,60 @@
 
 .toolbar strong {
   color: var(--tng-semantic-accent-brand);
+}
+
+.primitive-backdrop {
+  align-items: center;
+  background: color-mix(in srgb, #020817 56%, transparent);
+  display: grid;
+  inset: 0;
+  justify-items: center;
+  padding: 1.2rem;
+  position: fixed;
+  z-index: 90;
+}
+
+.primitive-backdrop[hidden] {
+  display: none !important;
+}
+
+.primitive-panel {
+  background: var(--tng-semantic-background-surface);
+  border: 1px solid var(--tng-semantic-border-strong);
+  border-radius: 1rem;
+  box-shadow: 0 26px 44px color-mix(in srgb, #020817 24%, transparent);
+  display: grid;
+  gap: 0.7rem;
+  max-width: min(34rem, 100%);
+  padding: 1rem;
+  width: 100%;
+}
+
+.primitive-panel[hidden] {
+  display: none !important;
+}
+
+.primitive-title {
+  font-size: 1.06rem;
+  margin: 0;
+}
+
+.primitive-description,
+.primitive-copy {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.primitive-ghost {
+  background: transparent;
+  border: 1px solid var(--tng-semantic-border-strong);
+  color: var(--tng-semantic-foreground-primary);
+}
+
+.primitive-primary {
+  background: var(--tng-semantic-accent-brand);
+  border: 1px solid var(--tng-semantic-accent-brand);
+  color: var(--tng-semantic-background-canvas);
 }
 
 .field-grid {

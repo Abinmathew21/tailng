@@ -10,6 +10,17 @@ import {
   type TngTypeaheadItem,
 } from '@tailng-ui/cdk/collections';
 import { TngButtonComponent, TngCheckboxComponent, TngDialogComponent, TngTextareaComponent } from '@tailng-ui/components';
+import {
+  TngDialog,
+  TngDialogActions,
+  TngDialogBackdrop,
+  TngDialogClose,
+  TngDialogDescription,
+  TngDialogPanel,
+  TngDialogTitle,
+  TngDialogTrigger,
+  type TngDialogCloseReason,
+} from '@tailng-ui/primitives';
 
 type AssigneeOption = Readonly<{
   detail: string;
@@ -67,13 +78,28 @@ function toOptionLabel(optionId: string | null): string {
 
 @Component({
   selector: 'app-dialog-playground-page',
-  imports: [TngButtonComponent, TngCheckboxComponent, TngDialogComponent, TngTextareaComponent],
+  imports: [
+    TngDialog,
+    TngDialogActions,
+    TngDialogBackdrop,
+    TngDialogClose,
+    TngDialogComponent,
+    TngDialogDescription,
+    TngDialogPanel,
+    TngDialogTitle,
+    TngDialogTrigger,
+    TngButtonComponent,
+    TngCheckboxComponent,
+    TngTextareaComponent,
+  ],
   templateUrl: './dialog-playground-page.component.html',
   styleUrl: './dialog-playground-page.component.css',
 })
 export class DialogPlaygroundPageComponent {
   public readonly activeAssigneeId = signal<string | null>(null);
   public readonly dialogOpen = signal(false);
+  public readonly primitiveCloseReason = signal<TngDialogCloseReason | null>(null);
+  public readonly primitiveDialogOpen = signal(false);
   public readonly listboxId = listboxId;
   public readonly notes = signal(
     'Need to validate overlays with keyboard + screen-reader behavior before release.',
@@ -129,6 +155,14 @@ export class DialogPlaygroundPageComponent {
 
   public onDialogOpenChange(isOpen: boolean): void {
     this.dialogOpen.set(isOpen);
+  }
+
+  public onPrimitiveClose(reason: TngDialogCloseReason): void {
+    this.primitiveCloseReason.set(reason);
+  }
+
+  public onPrimitiveOpenChange(isOpen: boolean): void {
+    this.primitiveDialogOpen.set(isOpen);
   }
 
   public onDialogSubmit(): void {

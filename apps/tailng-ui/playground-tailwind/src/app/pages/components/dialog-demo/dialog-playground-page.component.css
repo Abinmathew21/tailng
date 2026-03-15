@@ -1,3 +1,8 @@
 :host {
   display: block;
 }
+
+.dialog-primitive-backdrop[hidden],
+.dialog-primitive-panel[hidden] {
+  display: none !important;
+}

@@ -2,6 +2,7 @@ export type ComponentsDocsCategoryId =
   | 'getting-started'
   | 'form'
   | 'layout'
+  | 'overlay'
   | 'feedback'
   | 'utility'
   | 'navigation';
@@ -190,6 +191,20 @@ export const COMPONENTS_LAYOUT_GROUP: ComponentsDocsGroup = {
   ],
 };
 
+export const COMPONENTS_OVERLAY_GROUP: ComponentsDocsGroup = {
+  id: 'overlay',
+  title: 'Overlay',
+  subtitle: 'Modal and floating layer surfaces',
+  items: [
+    {
+      id: 'dialog',
+      slug: 'dialog',
+      title: 'Dialog',
+      description: 'Modal panel with backdrop dismissal, focus trap, and close reason outputs.',
+    },
+  ],
+};
+
 export const COMPONENTS_FEEDBACK_GROUP: ComponentsDocsGroup = {
   id: 'feedback',
   title: 'Feedback',
@@ -290,6 +305,7 @@ export const COMPONENTS_DOCS_GROUPS: readonly ComponentsDocsGroup[] = Object.fre
   COMPONENTS_GETTING_STARTED_GROUP,
   COMPONENTS_FORM_GROUP,
   COMPONENTS_LAYOUT_GROUP,
+  COMPONENTS_OVERLAY_GROUP,
   COMPONENTS_FEEDBACK_GROUP,
   COMPONENTS_UTILITY_GROUP,
   COMPONENTS_NAVIGATION_GROUP,

@@ -1,90 +1,157 @@
-<div class="mx-auto max-w-[72rem] grid gap-5">
-  <section class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5 space-y-3">
+<div class="mx-auto grid max-w-[72rem] gap-5">
+  <section class="space-y-3 rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5">
+    <h2 class="text-lg font-semibold text-tng-fg-primary">1) Headless Primitive Dialog</h2>
+    <p class="m-0 text-sm text-tng-fg-secondary">
+      Headless <code class="font-mono text-xs">tngDialog</code> wiring with backdrop, panel, and action slots.
+    </p>
+    <div class="flex flex-wrap items-center gap-3">
+      <button
+        type="button"
+        class="rounded-lg border border-tng-border-subtle bg-tng-bg-canvas px-4 py-2 text-sm font-semibold text-tng-fg-primary transition hover:border-tng-accent-brand hover:text-tng-accent-brand"
+        [tngDialogTrigger]="primitiveDialog"
+      >
+        Open Primitive Dialog
+      </button>
+      <p class="m-0 text-sm text-tng-fg-secondary">
+        open: <strong class="text-tng-accent-brand">{{ primitiveDialogOpen() ? 'true' : 'false' }}</strong>
+        | close reason:
+        <strong class="text-tng-accent-brand">{{ primitiveCloseReason() ?? 'none' }}</strong>
+      </p>
+    </div>
+
+    <section
+      tngDialog
+      #primitiveDialog="tngDialog"
+      [open]="primitiveDialogOpen()"
+      (openChange)="onPrimitiveOpenChange($event)"
+      (closed)="onPrimitiveClose($event)"
+    >
+      <div
+        tngDialogBackdrop
+        class="dialog-primitive-backdrop fixed inset-0 z-40 grid place-items-center bg-slate-950/55 p-4"
+      >
+        <section
+          tngDialogPanel
+          class="dialog-primitive-panel grid w-full max-w-lg gap-3 rounded-xl border border-tng-border-subtle bg-tng-bg-surface p-5 shadow-2xl"
+        >
+          <h2 tngDialogTitle class="m-0 text-lg font-semibold text-tng-fg-primary">Headless Review Dialog</h2>
+          <p tngDialogDescription class="m-0 text-sm text-tng-fg-secondary">
+            Dialog primitives manage focus, escape dismissal, and state attributes.
+          </p>
+          <p class="m-0 text-sm text-tng-fg-secondary">
+            Use this layer when your app owns markup and visual tokens entirely.
+          </p>
+          <div tngDialogActions class="flex flex-wrap justify-end gap-3">
+            <button
+              type="button"
+              tngDialogClose
+              class="rounded-lg border border-tng-border-subtle px-4 py-2 text-sm font-semibold text-tng-fg-primary"
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              tngDialogClose
+              [tngDialogClose]="'programmatic'"
+              data-tng-dialog-initial-focus
+              class="rounded-lg border border-tng-accent-brand bg-tng-accent-brand px-4 py-2 text-sm font-semibold text-tng-bg-canvas"
+            >
+              Confirm
+            </button>
+          </div>
+        </section>
+      </div>
+    </section>
+  </section>
+
+  <section class="space-y-3 rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5">
+    <h2 class="text-lg font-semibold text-tng-fg-primary">2) Component Wrapper &lt;tng-dialog&gt;</h2>
+    <p class="m-0 text-sm text-tng-fg-secondary">Same modal behavior with wrapper defaults and projected content.</p>
     <div class="flex flex-wrap items-center gap-3">
       <tng-button (click)="onDialogOpenChange(true)">Open Project Dialog</tng-button>
-      <p class="text-sm text-tng-fg-secondary m-0">
+      <p class="m-0 text-sm text-tng-fg-secondary">
         Selected assignee: <strong class="text-tng-accent-brand">{{ selectedAssigneeLabel() }}</strong>
       </p>
     </div>
-  </section>
 
-  <tng-dialog
-    title="Create Sprint Session"
-    description="Configure context, assignee, and notes before generating the planning workspace."
-    size="lg"
-    [open]="dialogOpen()"
-    (openChange)="onDialogOpenChange($event)"
-  >
-    <div class="grid gap-4 md:grid-cols-2">
-      <div class="grid gap-2 text-sm font-medium text-tng-fg-secondary">
-        <p class="m-0">Project Name</p>
-        <!-- <tng-input
-          data-tng-dialog-initial-focus
-          [value]="projectName()"
-          placeholder="Enter project name"
-          (valueChange)="onProjectNameChange($event)"
-        /> -->
-      </div>
-
-      <div class="grid gap-2 text-sm font-medium text-tng-fg-secondary">
-        <p class="m-0">Sprint Notes</p>
-        <tng-textarea
-          [rows]="4"
-          [value]="notes()"
-          placeholder="Add sprint notes"
-          (valueChange)="onNotesChange($event)"
-        />
-      </div>
-    </div>
-
-    <tng-checkbox
-      [checked]="notificationsEnabled()"
-      (checkedChange)="onNotificationsChange($event)"
+    <tng-dialog
+      title="Create Sprint Session"
+      description="Configure context, assignee, and notes before generating the planning workspace."
+      size="lg"
+      [open]="dialogOpen()"
+      (openChange)="onDialogOpenChange($event)"
     >
-      Notify team members when this session is created
-    </tng-checkbox>
+      <div class="grid gap-4 md:grid-cols-2">
+        <div class="grid gap-2 text-sm font-medium text-tng-fg-secondary">
+          <p class="m-0">Project Name</p>
+          <!-- <tng-input
+            data-tng-dialog-initial-focus
+            [value]="projectName()"
+            placeholder="Enter project name"
+            (valueChange)="onProjectNameChange($event)"
+          /> -->
+        </div>
 
-    <section class="space-y-2 rounded-xl border border-tng-border-subtle px-4 py-3">
-      <h2 class="text-sm font-semibold text-tng-fg-primary">Assignee ListBox</h2>
-      <p class="text-xs text-tng-fg-secondary m-0">
-        Active: {{ activeAssigneeLabel() }} | Selected: {{ selectedAssigneeLabel() }}
-      </p>
-
-      <div
-        [id]="listboxId"
-        role="listbox"
-        tabindex="0"
-        class="space-y-2 rounded-lg border border-tng-border-subtle p-2 outline-none focus:border-tng-accent-brand focus:ring-2 focus:ring-tng-accent-brand/40"
-        [attr.aria-activedescendant]="activeAssigneeId() ?? null"
-        (focus)="onListboxFocus()"
-        (keydown)="onListboxKeydown($event)"
-      >
-        @for (option of options; track option.id) {
-          <div
-            [id]="option.id"
-            role="option"
-            tabindex="-1"
-            class="cursor-pointer rounded-md border px-3 py-2 transition"
-            [class.border-tng-accent-brand]="isAssigneeActive(option.id)"
-            [class.border-tng-border-subtle]="!isAssigneeActive(option.id)"
-            [class.bg-tng-accent-brand/45]="isAssigneeSelected(option.id)"
-            [class.bg-transparent]="!isAssigneeSelected(option.id)"
-            [attr.aria-selected]="isAssigneeSelected(option.id)"
-            (click)="onListboxOptionClick(option.id)"
-            (keydown)="onListboxOptionKeydown(option.id, $event)"
-          >
-            <p class="text-sm font-semibold m-0">{{ option.label }}</p>
-            <p class="text-xs text-tng-fg-secondary m-0 mt-1">{{ option.detail }}</p>
-          </div>
-        }
+        <div class="grid gap-2 text-sm font-medium text-tng-fg-secondary">
+          <p class="m-0">Sprint Notes</p>
+          <tng-textarea
+            [rows]="4"
+            [value]="notes()"
+            placeholder="Add sprint notes"
+            (valueChange)="onNotesChange($event)"
+          />
+        </div>
       </div>
-    </section>
 
-    <div class="flex flex-wrap justify-end gap-3">
-      <tng-button appearance="ghost" tone="neutral" (click)="onDialogOpenChange(false)">
-        Cancel
-      </tng-button>
-      <tng-button tone="success" (click)="onDialogSubmit()">Create Session</tng-button>
-    </div>
-  </tng-dialog>
+      <tng-checkbox
+        [checked]="notificationsEnabled()"
+        (checkedChange)="onNotificationsChange($event)"
+      >
+        Notify team members when this session is created
+      </tng-checkbox>
+
+      <section class="space-y-2 rounded-xl border border-tng-border-subtle px-4 py-3">
+        <h2 class="text-sm font-semibold text-tng-fg-primary">Assignee ListBox</h2>
+        <p class="m-0 text-xs text-tng-fg-secondary">
+          Active: {{ activeAssigneeLabel() }} | Selected: {{ selectedAssigneeLabel() }}
+        </p>
+
+        <div
+          [id]="listboxId"
+          role="listbox"
+          tabindex="0"
+          class="space-y-2 rounded-lg border border-tng-border-subtle p-2 outline-none focus:border-tng-accent-brand focus:ring-2 focus:ring-tng-accent-brand/40"
+          [attr.aria-activedescendant]="activeAssigneeId() ?? null"
+          (focus)="onListboxFocus()"
+          (keydown)="onListboxKeydown($event)"
+        >
+          @for (option of options; track option.id) {
+            <div
+              [id]="option.id"
+              role="option"
+              tabindex="-1"
+              class="cursor-pointer rounded-md border px-3 py-2 transition"
+              [class.border-tng-accent-brand]="isAssigneeActive(option.id)"
+              [class.border-tng-border-subtle]="!isAssigneeActive(option.id)"
+              [class.bg-tng-accent-brand/45]="isAssigneeSelected(option.id)"
+              [class.bg-transparent]="!isAssigneeSelected(option.id)"
+              [attr.aria-selected]="isAssigneeSelected(option.id)"
+              (click)="onListboxOptionClick(option.id)"
+              (keydown)="onListboxOptionKeydown(option.id, $event)"
+            >
+              <p class="m-0 text-sm font-semibold">{{ option.label }}</p>
+              <p class="m-0 mt-1 text-xs text-tng-fg-secondary">{{ option.detail }}</p>
+            </div>
+          }
+        </div>
+      </section>
+
+      <div class="flex flex-wrap justify-end gap-3">
+        <tng-button appearance="ghost" tone="neutral" (click)="onDialogOpenChange(false)">
+          Cancel
+        </tng-button>
+        <tng-button tone="success" (click)="onDialogSubmit()">Create Session</tng-button>
+      </div>
+    </tng-dialog>
+  </section>
 </div>

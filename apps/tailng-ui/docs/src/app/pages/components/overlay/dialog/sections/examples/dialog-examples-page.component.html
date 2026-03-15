@@ -1,0 +1,131 @@
+<article class="dialog-examples">
+  <h2 class="dialog-examples-title">Examples</h2>
+  <p class="dialog-examples-lead">
+    Production dialog flows for confirmation prompts and deployment approvals across headless,
+    plain CSS, and Tailwind shells.
+  </p>
+
+  <app-docs-example-tabs-section
+    class="dialog-examples-block"
+    heading="Confirmation workflow"
+    description="Open a dialog, choose an action, and capture close outcomes in local state."
+    ariaLabel="Dialog examples"
+    tabListAriaLabel="Dialog example style tabs"
+    defaultValue="headless"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="headless"
+      label="Headless"
+      panelTitle="Headless destructive confirmation"
+      [codeTabs]="headlessCodeTabs"
+    >
+      <div class="dialog-example-stage">
+        <button type="button" class="dialog-example-trigger" [tngDialogTrigger]="headlessDialog">
+          Delete release branch
+        </button>
+
+        <section
+          tngDialog
+          #headlessDialog="tngDialog"
+          [open]="headlessOpen()"
+          (openChange)="onHeadlessOpenChange($event)"
+          (closed)="onHeadlessClosed($event)"
+        >
+          <div tngDialogBackdrop class="dialog-example-backdrop">
+            <section tngDialogPanel class="dialog-example-panel">
+              <h3 tngDialogTitle class="dialog-example-title">Delete release branch?</h3>
+              <p tngDialogDescription class="dialog-example-copy">
+                This action removes branch automation and cannot be undone.
+              </p>
+              <div tngDialogActions class="dialog-action-row">
+                <button type="button" tngDialogClose class="dialog-example-secondary">Cancel</button>
+                <button type="button" tngDialogClose [tngDialogClose]="'programmatic'" class="dialog-example-danger">
+                  Delete
+                </button>
+              </div>
+            </section>
+          </div>
+        </section>
+      </div>
+      <p class="dialog-example-state">result: {{ headlessResult() }}</p>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+      panelTitle="Wrapper publish dialog"
+      [codeTabs]="plainCodeTabs"
+    >
+      <div class="dialog-example-stage">
+        <button type="button" class="dialog-example-trigger" (click)="plainOpen.set(true)">
+          Publish snapshot
+        </button>
+
+        <tng-dialog
+          title="Publish snapshot"
+          description="Promote this build to the staging environment?"
+          [open]="plainOpen()"
+          (openChange)="plainOpen.set($event)"
+        >
+          <p class="dialog-example-copy">Publishing creates a signed artifact and notifies QA.</p>
+          <div class="dialog-action-row">
+            <button type="button" class="dialog-example-secondary" (click)="onPlainCancel()">Cancel</button>
+            <button type="button" class="dialog-example-primary" (click)="onPlainApprove()">Publish</button>
+          </div>
+        </tng-dialog>
+      </div>
+      <p class="dialog-example-state">result: {{ plainResult() }}</p>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Wrapper deployment dialog"
+      [codeTabs]="tailwindCodeTabs"
+    >
+      <div class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">
+        <div class="dialog-example-stage">
+          <button
+            type="button"
+            class="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-800 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100"
+            (click)="tailwindOpen.set(true)"
+          >
+            Approve deployment
+          </button>
+
+          <tng-dialog
+            title="Approve deployment"
+            description="Proceed with production rollout for version 2.7.0?"
+            [open]="tailwindOpen()"
+            (openChange)="tailwindOpen.set($event)"
+          >
+            <p class="m-0 text-sm text-slate-700 dark:text-slate-300">
+              Rollout will start in us-east and eu-west.
+            </p>
+            <div class="mt-3 flex flex-wrap justify-end gap-2">
+              <button
+                type="button"
+                class="rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-700 dark:border-slate-600 dark:text-slate-200"
+                (click)="onTailwindCancel()"
+              >
+                Hold
+              </button>
+              <button
+                type="button"
+                class="rounded-lg border border-emerald-600 bg-emerald-600 px-3 py-2 text-sm font-semibold text-white"
+                (click)="onTailwindApprove()"
+              >
+                Approve
+              </button>
+            </div>
+          </tng-dialog>
+        </div>
+      </div>
+      <p class="dialog-example-state">result: {{ tailwindResult() }}</p>
+    </ng-template>
+  </app-docs-example-tabs-section>
+</article>

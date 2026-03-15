@@ -1,0 +1,267 @@
+import { Component, signal } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
+import { afterEach, describe, expect, it } from 'vitest';
+import { TngDialogComponent, type TngDialogCloseReason, type TngDialogSize } from '../tng-dialog.component';
+
+function getByTestId<T extends Element>(fixture: { nativeElement: HTMLElement }, testId: string): T {
+  const element = fixture.nativeElement.querySelector(`[data-testid="${testId}"]`) as T | null;
+  if (element === null) {
+    throw new Error(`Expected element [data-testid="${testId}"] to exist.`);
+  }
+
+  return element;
+}
+
+function findPanel(fixture: { nativeElement: HTMLElement }): HTMLElement | null {
+  return fixture.nativeElement.querySelector('.tng-dialog-panel');
+}
+
+function findBackdrop(fixture: { nativeElement: HTMLElement }): HTMLElement | null {
+  return fixture.nativeElement.querySelector('.tng-dialog-backdrop');
+}
+
+function keydown(target: EventTarget, key: string, init: Partial<KeyboardEventInit> = {}): KeyboardEvent {
+  const event = new KeyboardEvent('keydown', {
+    bubbles: true,
+    cancelable: true,
+    key,
+    shiftKey: init.shiftKey ?? false,
+  });
+  target.dispatchEvent(event);
+  return event;
+}
+
+function pointerdown(target: EventTarget): PointerEvent {
+  const event = new PointerEvent('pointerdown', {
+    bubbles: true,
+    cancelable: true,
+    button: 0,
+  });
+  target.dispatchEvent(event);
+  return event;
+}
+
+async function settle(fixture: { detectChanges(): void; whenStable(): Promise<unknown> }): Promise<void> {
+  fixture.detectChanges();
+  await fixture.whenStable();
+  fixture.detectChanges();
+}
+
+@Component({
+  standalone: true,
+  imports: [TngDialogComponent],
+  template: `
+    <button type="button" data-testid="trigger" (click)="open.set(true)">Open</button>
+
+    <tng-dialog
+      [open]="open()"
+      [title]="title()"
+      [description]="description()"
+      [closeOnBackdrop]="closeOnBackdrop()"
+      [closeOnEscape]="closeOnEscape()"
+      [size]="size()"
+      (openChange)="onOpenChange($event)"
+      (closed)="closedReasons.push($event)"
+    >
+      <button type="button" data-testid="inside-first" data-tng-dialog-initial-focus>
+        First action
+      </button>
+      <button type="button" data-testid="inside-last">Last action</button>
+    </tng-dialog>
+
+    <button type="button" data-testid="after">After</button>
+  `,
+})
+class ManagedDialogHostComponent {
+  readonly open = signal(false);
+  readonly title = signal('Create Session');
+  readonly description = signal('Configure project, owner, and notes.');
+  readonly closeOnBackdrop = signal(true);
+  readonly closeOnEscape = signal(true);
+  readonly size = signal<TngDialogSize>('md');
+  readonly syncOpenOnChange = signal(true);
+
+  readonly openChanges: boolean[] = [];
+  readonly closedReasons: TngDialogCloseReason[] = [];
+
+  onOpenChange(next: boolean): void {
+    this.openChanges.push(next);
+    if (this.syncOpenOnChange()) {
+      this.open.set(next);
+    }
+  }
+}
+
+@Component({
+  standalone: true,
+  imports: [TngDialogComponent],
+  template: `
+    <tng-dialog [open]="open()" (openChange)="openChanges.push($event)" (closed)="closedReasons.push($event)">
+      <button type="button" data-testid="inside">Inside</button>
+    </tng-dialog>
+  `,
+})
+class ControlledNoSyncHostComponent {
+  readonly open = signal(true);
+  readonly openChanges: boolean[] = [];
+  readonly closedReasons: TngDialogCloseReason[] = [];
+}
+
+describe('tng-dialog component behavior', () => {
+  afterEach(() => {
+    TestBed.resetTestingModule();
+  });
+
+  it('does not render backdrop/panel when open=false', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [ManagedDialogHostComponent],
+    }).createComponent(ManagedDialogHostComponent);
+
+    await settle(fixture);
+
+    expect(findBackdrop(fixture)).toBeNull();
+    expect(findPanel(fixture)).toBeNull();
+  });
+
+  it('renders aria semantics when open=true', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [ManagedDialogHostComponent],
+    }).createComponent(ManagedDialogHostComponent);
+    fixture.componentInstance.open.set(true);
+
+    await settle(fixture);
+
+    const panel = findPanel(fixture);
+    expect(panel).not.toBeNull();
+    expect(panel?.getAttribute('role')).toBe('dialog');
+    expect(panel?.getAttribute('aria-modal')).toBe('true');
+    expect(panel?.getAttribute('aria-labelledby')).toContain('tng-dialog');
+    expect(panel?.getAttribute('aria-describedby')).toContain('tng-dialog');
+  });
+
+  it('close button emits close-button and closes when host syncs openChange', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [ManagedDialogHostComponent],
+    }).createComponent(ManagedDialogHostComponent);
+    fixture.componentInstance.open.set(true);
+
+    await settle(fixture);
+
+    const closeButton = fixture.nativeElement.querySelector('.tng-dialog-close') as HTMLButtonElement | null;
+    expect(closeButton).not.toBeNull();
+    closeButton?.click();
+    await settle(fixture);
+
+    expect(fixture.componentInstance.closedReasons).toEqual(['close-button']);
+    expect(fixture.componentInstance.openChanges).toContain(false);
+    expect(findPanel(fixture)).toBeNull();
+  });
+
+  it('Escape closes and restores focus to trigger when enabled', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [ManagedDialogHostComponent],
+    }).createComponent(ManagedDialogHostComponent);
+
+    await settle(fixture);
+
+    const trigger = getByTestId<HTMLButtonElement>(fixture, 'trigger');
+    trigger.focus();
+    trigger.click();
+    await settle(fixture);
+
+    const event = keydown(document, 'Escape');
+    await settle(fixture);
+
+    expect(event.defaultPrevented).toBe(true);
+    expect(fixture.componentInstance.closedReasons).toEqual(['escape']);
+    expect(document.activeElement).toBe(trigger);
+  });
+
+  it('does not close on Escape when closeOnEscape=false', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [ManagedDialogHostComponent],
+    }).createComponent(ManagedDialogHostComponent);
+    fixture.componentInstance.open.set(true);
+    fixture.componentInstance.closeOnEscape.set(false);
+
+    await settle(fixture);
+
+    keydown(document, 'Escape');
+    await settle(fixture);
+
+    expect(fixture.componentInstance.closedReasons).toEqual([]);
+    expect(findPanel(fixture)).not.toBeNull();
+  });
+
+  it('backdrop pointerdown closes when closeOnBackdrop=true', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [ManagedDialogHostComponent],
+    }).createComponent(ManagedDialogHostComponent);
+    fixture.componentInstance.open.set(true);
+
+    await settle(fixture);
+
+    const backdrop = findBackdrop(fixture);
+    expect(backdrop).not.toBeNull();
+    pointerdown(backdrop as HTMLElement);
+    await settle(fixture);
+
+    expect(fixture.componentInstance.closedReasons).toEqual(['backdrop']);
+    expect(findPanel(fixture)).toBeNull();
+  });
+
+  it('traps Tab focus inside panel', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [ManagedDialogHostComponent],
+    }).createComponent(ManagedDialogHostComponent);
+    fixture.componentInstance.open.set(true);
+
+    await settle(fixture);
+
+    const close = fixture.nativeElement.querySelector('.tng-dialog-close') as HTMLButtonElement | null;
+    const last = getByTestId<HTMLButtonElement>(fixture, 'inside-last');
+    expect(close).not.toBeNull();
+
+    last.focus();
+    const forward = keydown(last, 'Tab');
+    await settle(fixture);
+    expect(forward.defaultPrevented).toBe(true);
+    expect(document.activeElement).toBe(close);
+
+    close?.focus();
+    const backward = keydown(close as HTMLButtonElement, 'Tab', { shiftKey: true });
+    await settle(fixture);
+    expect(backward.defaultPrevented).toBe(true);
+    expect(document.activeElement).toBe(last);
+  });
+
+  it('applies size state on panel', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [ManagedDialogHostComponent],
+    }).createComponent(ManagedDialogHostComponent);
+    fixture.componentInstance.open.set(true);
+    fixture.componentInstance.size.set('lg');
+
+    await settle(fixture);
+
+    expect(findPanel(fixture)?.getAttribute('data-size')).toBe('lg');
+  });
+
+  it('controlled mode emits close events but stays open until host updates input', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [ControlledNoSyncHostComponent],
+    }).createComponent(ControlledNoSyncHostComponent);
+
+    await settle(fixture);
+
+    const closeButton = fixture.nativeElement.querySelector('.tng-dialog-close') as HTMLButtonElement | null;
+    expect(closeButton).not.toBeNull();
+    closeButton?.click();
+    await settle(fixture);
+
+    expect(fixture.componentInstance.closedReasons).toEqual(['close-button']);
+    expect(fixture.componentInstance.openChanges).toEqual([false]);
+    expect(fixture.componentInstance.open()).toBe(true);
+    expect(findPanel(fixture)).not.toBeNull();
+  });
+});

@@ -152,55 +152,55 @@ This component should expose open state, focus trap, restore focus on close, and
 
 ### Rendering
 
-- [ ] Renders dialog panel when open
-- [ ] Renders backdrop when open
-- [ ] Renders title and description when provided
-- [ ] Renders content and actions
-- [ ] Applies data-open, data-size (if used), data-slot
+- [x] Renders dialog panel when open
+- [x] Renders backdrop when open
+- [x] Renders title and description when provided
+- [x] Renders content and actions
+- [x] Applies data-open, data-size (if used), data-slot
 
 ### Accessibility
 
-- [ ] Panel has role="dialog" and aria-modal="true"
-- [ ] Panel has aria-labelledby (title id) and optional aria-describedby
-- [ ] Focus moves into dialog on open (first focusable or initial-focus element)
-- [ ] Tab stays within dialog when open
-- [ ] Escape closes and restores focus when dismissible
-- [ ] Focus restored to trigger (or previous focus) on close
+- [x] Panel has role="dialog" and aria-modal="true"
+- [x] Panel has aria-labelledby (title id) and optional aria-describedby
+- [x] Focus moves into dialog on open (first focusable or initial-focus element)
+- [x] Tab stays within dialog when open
+- [x] Escape closes and restores focus when dismissible
+- [x] Focus restored to trigger (or previous focus) on close
 
 ### Keyboard and pointer
 
-- [ ] Escape closes when closeOnEscape
-- [ ] Backdrop click closes when closeOnBackdropClick
-- [ ] Disabled prevents open
-- [ ] Close button closes with correct reason
+- [x] Escape closes when closeOnEscape
+- [x] Backdrop click closes when closeOnBackdropClick
+- [x] Disabled prevents open
+- [x] Close button closes with correct reason
 
 ### Controlled / uncontrolled
 
-- [ ] Supports controlled open state
-- [ ] Emits openChange / closed with reason
-- [ ] Supports defaultOpen and updates on close
+- [x] Supports controlled open state
+- [x] Emits openChange / closed with reason
+- [x] Supports defaultOpen and updates on close
 
 ### Data attributes
 
-- [ ] Applies data-open, data-disabled, data-slot on parts
+- [x] Applies data-open, data-disabled, data-slot on parts
 
 ## Implementation Steps
 
-1. [ ] Headless component created in `primitives` (or dialog implemented as component with clear API)
-2. [ ] Test cases created for headless
-3. [ ] Headless example page added/updated in playground - plain CSS app
-4. [ ] Headless example page added/updated in playground - Tailwind app
+1. [x] Headless component created in `primitives` (or dialog implemented as component with clear API)
+2. [x] Test cases created for headless
+3. [x] Headless example page added/updated in playground - plain CSS app
+4. [x] Headless example page added/updated in playground - Tailwind app
 5. [x] Minimum style `<tng-dialog>` component created in `components`
-6. [ ] Test cases created for `<tng-dialog>`
-7. [ ] Component example page added/updated in playground - plain CSS app
-8. [ ] Component example page added/updated in playground - Tailwind app
-9. [ ] Docs added/updated in docs project - Overview section
-10. [ ] Docs added/updated in docs project - API section
-11. [ ] Docs added/updated in docs project - Styling section
-12. [ ] Docs added/updated in docs project - Example section
-13. [ ] Registry templates added in `registry` for copy-paste mode (`tailng add dialog`)
-14. [ ] `tailng-cli` command generation added for dialog artifacts
-15. [ ] CLI integration tests added for `tailng add dialog`
+6. [x] Test cases created for `<tng-dialog>`
+7. [x] Component example page added/updated in playground - plain CSS app
+8. [x] Component example page added/updated in playground - Tailwind app
+9. [x] Docs added/updated in docs project - Overview section
+10. [x] Docs added/updated in docs project - API section
+11. [x] Docs added/updated in docs project - Styling section
+12. [x] Docs added/updated in docs project - Example section
+13. [x] Registry templates added in `registry` for copy-paste mode (`tailng add dialog`)
+14. [x] `tailng-cli` command generation added for dialog artifacts
+15. [x] CLI integration tests added for `tailng add dialog`
 
 ## Links
 

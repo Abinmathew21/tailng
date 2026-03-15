@@ -49,6 +49,7 @@ export * from './lib/layout/stepper/tng-stepper';
 export * from './lib/layout/tree/tng-tree';
 
 // Overlay
+export * from './lib/overlay/dialog/tng-dialog';
 export * from './lib/overlay/tooltip/tng-tooltip';
 
 // Feedback

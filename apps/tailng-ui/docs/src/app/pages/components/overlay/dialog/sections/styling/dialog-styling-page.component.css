@@ -1,0 +1,42 @@
+:host {
+  display: block;
+}
+
+.dialog-styling {
+  display: grid;
+  gap: 1rem;
+}
+
+.dialog-styling-title {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.dialog-styling-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.dialog-styling-block {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.9rem;
+  color: var(--tng-semantic-foreground-secondary);
+  display: grid;
+  gap: 0.7rem;
+  padding: 1rem;
+}
+
+.dialog-styling-block h3 {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1rem;
+  margin: 0;
+}
+
+.dialog-styling-block ul {
+  display: grid;
+  gap: 0.45rem;
+  margin: 0;
+  padding-inline-start: 1.1rem;
+}

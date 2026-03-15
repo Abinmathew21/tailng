@@ -1,0 +1,123 @@
+:host {
+  display: block;
+}
+
+.dialog-examples {
+  display: grid;
+  gap: 1rem;
+}
+
+.dialog-examples-title {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.dialog-examples-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.dialog-examples-block {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.95rem;
+  display: grid;
+  gap: 0.8rem;
+  padding: 1rem;
+}
+
+.dialog-example-stage {
+  align-content: start;
+  display: grid;
+  gap: 0.7rem;
+  justify-items: start;
+  min-height: 10rem;
+  position: relative;
+}
+
+.dialog-example-trigger,
+.dialog-example-secondary,
+.dialog-example-primary,
+.dialog-example-danger {
+  border-radius: 0.68rem;
+  cursor: pointer;
+  font-size: 0.88rem;
+  font-weight: 600;
+  min-height: 2.05rem;
+  padding: 0.42rem 0.86rem;
+}
+
+.dialog-example-trigger,
+.dialog-example-secondary {
+  background: color-mix(in srgb, var(--tng-semantic-background-canvas) 80%, transparent);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  color: var(--tng-semantic-foreground-primary);
+}
+
+.dialog-example-primary {
+  background: var(--tng-semantic-accent-brand);
+  border: 1px solid var(--tng-semantic-accent-brand);
+  color: var(--tng-semantic-background-canvas);
+}
+
+.dialog-example-danger {
+  background: color-mix(in srgb, #dc2626 88%, var(--tng-semantic-accent-brand));
+  border: 1px solid color-mix(in srgb, #dc2626 88%, transparent);
+  color: #fff;
+}
+
+.dialog-example-backdrop {
+  align-items: center;
+  background: color-mix(in srgb, #020617 58%, transparent);
+  display: grid;
+  inset: 0;
+  justify-items: center;
+  padding: 1rem;
+  position: fixed;
+  z-index: 45;
+}
+
+.dialog-example-backdrop[hidden] {
+  display: none !important;
+}
+
+.dialog-example-panel {
+  background: var(--tng-semantic-background-surface);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.95rem;
+  box-shadow: 0 22px 44px color-mix(in srgb, #020617 26%, transparent);
+  display: grid;
+  gap: 0.72rem;
+  max-width: min(30rem, 100%);
+  padding: 1rem;
+  width: 100%;
+}
+
+.dialog-example-panel[hidden] {
+  display: none !important;
+}
+
+.dialog-example-title {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1rem;
+  margin: 0;
+}
+
+.dialog-example-copy {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.dialog-action-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  justify-content: flex-end;
+}
+
+.dialog-example-state {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.9rem;
+  margin: 0;
+}

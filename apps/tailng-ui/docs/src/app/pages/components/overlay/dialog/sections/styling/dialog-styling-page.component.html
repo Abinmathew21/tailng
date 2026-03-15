@@ -1,0 +1,29 @@
+<article class="dialog-styling">
+  <h2 class="dialog-styling-title">Styling contract</h2>
+  <p class="dialog-styling-lead">
+    Dialog primitives expose stable slot and state attributes so teams can style panel, backdrop,
+    and close controls without DOM guessing.
+  </p>
+
+  <section class="dialog-styling-block">
+    <h3>Core data attributes</h3>
+    <ul>
+      <li><code>[data-slot="dialog"]</code> with <code>data-open</code>, <code>data-state</code>, and <code>data-size</code>.</li>
+      <li><code>[data-slot="dialog-backdrop"]</code> for fixed overlay surface and click-dismiss target.</li>
+      <li><code>[data-slot="dialog-panel"]</code> for modal panel dimensions, layout, and elevation.</li>
+      <li><code>[data-slot="dialog-close"]</code> and <code>[data-slot="dialog-actions"]</code> for action wiring.</li>
+    </ul>
+  </section>
+
+  <section class="dialog-styling-block">
+    <h3>Reference CSS</h3>
+    <tng-code-block
+      [code]="stylingContractCode"
+      language="css"
+      title="dialog-styling.css"
+      [wrap]="true"
+      [lineNumbers]="true"
+      [copy]="true"
+    ></tng-code-block>
+  </section>
+</article>

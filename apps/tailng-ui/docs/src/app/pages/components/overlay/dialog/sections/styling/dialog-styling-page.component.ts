@@ -1,0 +1,43 @@
+import { Component } from '@angular/core';
+import { TngCodeBlockComponent } from '@tailng-ui/components';
+
+@Component({
+  selector: 'app-dialog-styling-page',
+  imports: [TngCodeBlockComponent],
+  templateUrl: './dialog-styling-page.component.html',
+  styleUrl: './dialog-styling-page.component.css',
+})
+export class DialogStylingPageComponent {
+  protected readonly stylingContractCode = [
+    '[tngDialog][data-open="true"] {',
+    '  --dialog-backdrop: rgb(2 6 23 / 56%);',
+    '}',
+    '',
+    '[data-slot="dialog-backdrop"] {',
+    '  align-items: center;',
+    '  background: var(--dialog-backdrop);',
+    '  display: grid;',
+    '  inset: 0;',
+    '  position: fixed;',
+    '}',
+    '',
+    '[data-slot="dialog-panel"] {',
+    '  background: var(--tng-semantic-background-surface);',
+    '  border: 1px solid var(--tng-semantic-border-subtle);',
+    '  border-radius: 0.9rem;',
+    '  display: grid;',
+    '  gap: 0.75rem;',
+    '  max-width: 34rem;',
+    '  padding: 1rem;',
+    '}',
+    '',
+    '[data-slot="dialog-panel"][data-size="lg"] {',
+    '  max-width: 42rem;',
+    '}',
+    '',
+    '[data-slot="dialog-close"] {',
+    '  border-radius: 0.6rem;',
+    '  min-height: 2rem;',
+    '}',
+  ].join('\n');
+}

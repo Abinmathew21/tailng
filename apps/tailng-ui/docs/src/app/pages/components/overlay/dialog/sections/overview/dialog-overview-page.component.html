@@ -1,0 +1,196 @@
+<article class="dialog-overview">
+  <h2 class="dialog-overview-title">Dialog overview</h2>
+  <p class="dialog-overview-lead">
+    Dialog provides modal overlays with backdrop dismissal, focus trapping, and close reason
+    outputs for Escape, backdrop, and explicit actions.
+  </p>
+
+  <section class="dialog-overview-block">
+    <h3>Imports</h3>
+    <p>Choose primitives for full markup ownership, or wrapper components for quicker delivery.</p>
+    <tng-code-block
+      [code]="primitiveImportCode"
+      adapter="shiki"
+      language="ts"
+      title="Primitive imports"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+    <tng-code-block
+      [code]="componentImportCode"
+      adapter="shiki"
+      language="ts"
+      title="Wrapper imports"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <section class="dialog-overview-block">
+    <h3>Usage patterns</h3>
+    <tng-code-block
+      [code]="primitiveUsageCode"
+      adapter="shiki"
+      language="html"
+      title="Primitive usage"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+    <tng-code-block
+      [code]="componentUsageCode"
+      adapter="shiki"
+      language="html"
+      title="Wrapper usage"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <app-docs-example-tabs-section
+    class="dialog-overview-block"
+    heading="Style variants"
+    description="Same dialog behavior rendered through headless primitives, plain CSS wrappers, and Tailwind utility shells."
+    ariaLabel="Dialog style variants"
+    tabListAriaLabel="Dialog style tabs"
+    defaultValue="headless"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="headless"
+      label="Headless"
+      panelTitle="Headless confirmation dialog"
+      [codeTabs]="headlessCodeTabs"
+    >
+      <div class="dialog-stage">
+        <button type="button" class="dialog-trigger" [tngDialogTrigger]="headlessDialog">
+          Open headless dialog
+        </button>
+
+        <section
+          tngDialog
+          #headlessDialog="tngDialog"
+          [open]="headlessOpen()"
+          (openChange)="onHeadlessOpenChange($event)"
+          (closed)="onHeadlessClose($event)"
+        >
+          <div tngDialogBackdrop class="dialog-preview-backdrop">
+            <section tngDialogPanel class="dialog-preview-panel">
+              <h3 tngDialogTitle class="dialog-preview-title">Ship this release?</h3>
+              <p tngDialogDescription class="dialog-preview-description">
+                Focus stays trapped inside the panel until close.
+              </p>
+              <div tngDialogActions class="dialog-preview-actions">
+                <button type="button" tngDialogClose class="dialog-action-ghost">Cancel</button>
+                <button
+                  type="button"
+                  tngDialogClose
+                  [tngDialogClose]="'programmatic'"
+                  data-tng-dialog-initial-focus
+                  class="dialog-action-primary"
+                >
+                  Confirm
+                </button>
+              </div>
+            </section>
+          </div>
+        </section>
+      </div>
+      <p class="dialog-overview-state">last close reason: {{ headlessCloseReason() }}</p>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+      panelTitle="Wrapper dialog (plain CSS)"
+      [codeTabs]="plainCssCodeTabs"
+    >
+      <div class="dialog-stage">
+        <button type="button" class="dialog-trigger" (click)="plainOpen.set(true)">
+          Open wrapper dialog
+        </button>
+        <tng-dialog
+          title="Review changes"
+          description="Wrapper provides panel, backdrop, and close affordance out of the box."
+          [open]="plainOpen()"
+          (openChange)="onPlainOpenChange($event)"
+          (closed)="onPlainClose($event)"
+        >
+          <p class="dialog-body-copy">Use the wrapper when your team wants quick defaults.</p>
+          <div class="dialog-preview-actions">
+            <button type="button" class="dialog-action-ghost" (click)="plainOpen.set(false)">Cancel</button>
+            <button type="button" class="dialog-action-primary" (click)="plainOpen.set(false)">Apply</button>
+          </div>
+        </tng-dialog>
+      </div>
+      <p class="dialog-overview-state">last close reason: {{ plainCloseReason() }}</p>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Wrapper dialog (tailwind shell)"
+      [codeTabs]="tailwindCodeTabs"
+    >
+      <div class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">
+        <div class="dialog-stage">
+          <button
+            type="button"
+            class="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-800 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100"
+            (click)="tailwindOpen.set(true)"
+          >
+            Open tailwind dialog
+          </button>
+          <tng-dialog
+            title="Tailwind review"
+            description="Combine wrapper behavior with utility classes for local theming."
+            [open]="tailwindOpen()"
+            (openChange)="onTailwindOpenChange($event)"
+            (closed)="onTailwindClose($event)"
+          >
+            <p class="m-0 text-sm text-slate-700 dark:text-slate-300">
+              Use utility classes directly in projected content.
+            </p>
+            <div class="mt-3 flex flex-wrap justify-end gap-2">
+              <button
+                type="button"
+                class="rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-700 dark:border-slate-600 dark:text-slate-200"
+                (click)="tailwindOpen.set(false)"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                class="rounded-lg border border-sky-600 bg-sky-600 px-3 py-2 text-sm font-semibold text-white"
+                (click)="tailwindOpen.set(false)"
+              >
+                Approve
+              </button>
+            </div>
+          </tng-dialog>
+        </div>
+      </div>
+      <p class="dialog-overview-state">last close reason: {{ tailwindCloseReason() }}</p>
+    </ng-template>
+  </app-docs-example-tabs-section>
+
+  <section class="dialog-overview-block">
+    <h3>Keyboard baseline</h3>
+    <ul class="dialog-overview-list">
+      <li><code>Tab</code>/<code>Shift+Tab</code> cycles focus inside the dialog panel.</li>
+      <li><code>Escape</code> closes when dismissal is enabled.</li>
+      <li>Backdrop pointer down closes when <code>closeOnBackdropClick</code> is enabled.</li>
+      <li>Focus returns to the trigger when <code>restoreFocus</code> is active.</li>
+    </ul>
+  </section>
+</article>

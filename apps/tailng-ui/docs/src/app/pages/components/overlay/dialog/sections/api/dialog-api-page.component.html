@@ -1,0 +1,102 @@
+<article class="dialog-api">
+  <h2 class="dialog-api-title">API reference</h2>
+  <p class="dialog-api-lead">
+    Dialog docs cover headless primitives (<code>tngDialog*</code>) and the wrapper
+    <code>&lt;tng-dialog&gt;</code> component.
+  </p>
+
+  <section class="dialog-api-block">
+    <h3>Wrapper APIs</h3>
+    <div class="dialog-api-table-wrap">
+      <table class="dialog-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Element</th>
+            <th scope="col">Input / Output</th>
+            <th scope="col">Type</th>
+            <th scope="col">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>&lt;tng-dialog&gt;</code></td>
+            <td><code>open</code>, <code>openChange</code></td>
+            <td><code>boolean</code></td>
+            <td>Controlled open state for wrapper dialog instances.</td>
+          </tr>
+          <tr>
+            <td><code>&lt;tng-dialog&gt;</code></td>
+            <td><code>title</code>, <code>description</code></td>
+            <td><code>string</code></td>
+            <td>Accessible heading and description text rendered in the wrapper header.</td>
+          </tr>
+          <tr>
+            <td><code>&lt;tng-dialog&gt;</code></td>
+            <td><code>size</code></td>
+            <td><code>'sm' | 'md' | 'lg'</code></td>
+            <td>Panel size styling hook.</td>
+          </tr>
+          <tr>
+            <td><code>&lt;tng-dialog&gt;</code></td>
+            <td><code>closeOnEscape</code>, <code>closeOnBackdrop</code></td>
+            <td><code>boolean</code></td>
+            <td>Dismiss policy for keyboard and backdrop interactions.</td>
+          </tr>
+          <tr>
+            <td><code>&lt;tng-dialog&gt;</code></td>
+            <td><code>closed</code></td>
+            <td><code>'escape' | 'backdrop' | 'close-button' | 'programmatic'</code></td>
+            <td>Close reason payload for analytics and custom workflows.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="dialog-api-block">
+    <h3>Primitive directives</h3>
+    <div class="dialog-api-table-wrap">
+      <table class="dialog-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Directive</th>
+            <th scope="col">Purpose</th>
+            <th scope="col">Key inputs</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>tngDialog</code></td>
+            <td>Root modal state, focus trap, and dismissal logic.</td>
+            <td><code>open</code>, <code>defaultOpen</code>, <code>trapFocus</code>, <code>restoreFocus</code></td>
+          </tr>
+          <tr>
+            <td><code>tngDialogBackdrop</code>, <code>tngDialogPanel</code></td>
+            <td>Backdrop dismissal target and panel semantics/ARIA wiring.</td>
+            <td><code>closeOnBackdropClick</code>, <code>ariaLabel*</code></td>
+          </tr>
+          <tr>
+            <td><code>tngDialogTrigger</code>, <code>tngDialogClose</code></td>
+            <td>Open and close controls with reason emission.</td>
+            <td><code>[tngDialogTrigger]</code>, <code>[tngDialogClose]</code></td>
+          </tr>
+          <tr>
+            <td><code>tngDialogTitle</code>, <code>tngDialogDescription</code>, <code>tngDialogActions</code></td>
+            <td>Structured slots and IDs for accessible dialog labeling.</td>
+            <td>-</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="dialog-api-block">
+    <h3>Keyboard contract (high level)</h3>
+    <ul>
+      <li><code>Tab</code>/<code>Shift+Tab</code> wraps within dialog focusables when trapping is enabled.</li>
+      <li><code>Escape</code> closes when <code>closeOnEscape</code> and <code>dismissible</code> are true.</li>
+      <li>Focus restores to the prior active element when <code>restoreFocus</code> is enabled.</li>
+      <li>Backdrop pointer down closes only when target is the backdrop host.</li>
+    </ul>
+  </section>
+</article>

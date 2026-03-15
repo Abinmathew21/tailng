@@ -21,7 +21,7 @@
     "format": "prettier . --check",
     "format:check": "NX_DAEMON=false NX_ISOLATE_PLUGINS=false nx format:check",
     "format:write": "prettier . --write",
-    "playground:tailwind": "NX_DAEMON=false NX_ISOLATE_PLUGINS=false nx serve playground-tailwind",
+    "playground:tailwind": "NX_DAEMON=false NX_ISOLATE_PLUGINS=false nx serve playground-tailwind --port 4201",
     "playground:vanilla": "NX_DAEMON=false NX_ISOLATE_PLUGINS=false nx serve playground-plain-css --port 4202",
     "playground:build": "NX_DAEMON=false NX_ISOLATE_PLUGINS=false nx build playground-tailwind",
     "playground:prerender": "node tools/prerender/prerender-playground.mjs",
