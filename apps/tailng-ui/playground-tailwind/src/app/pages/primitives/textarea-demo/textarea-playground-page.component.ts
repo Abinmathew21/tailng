@@ -1,10 +1,10 @@
 import { Component, signal } from '@angular/core';
 import { TngTextareaComponent } from '@tailng-ui/components';
-import { TngTextarea as TngTextareaPrimitive } from '@tailng-ui/primitives';
+import { TngInput } from '@tailng-ui/primitives';
 
 @Component({
   selector: 'app-textarea-playground-page',
-  imports: [TngTextareaPrimitive, TngTextareaComponent],
+  imports: [TngInput, TngTextareaComponent],
   templateUrl: './textarea-playground-page.component.html',
   styleUrl: './textarea-playground-page.component.css',
 })

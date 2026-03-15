@@ -1,6 +1,8 @@
 <textarea
-  tngTextarea
+  tngInput
   class="tng-textarea"
+  [style.resize]="resize()"
+  [attr.data-resize]="resize()"
   [rows]="rows()"
   [disabled]="disabled()"
   [readonly]="readonly()"

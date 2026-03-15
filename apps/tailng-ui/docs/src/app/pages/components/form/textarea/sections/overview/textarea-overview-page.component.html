@@ -1,0 +1,119 @@
+<article class="textarea-overview">
+  <h2 class="textarea-overview-title">Textarea overview</h2>
+  <p class="textarea-overview-lead">
+    Textarea in TailNG is now input-first. Use <code>textarea[tngInput]</code> for headless control,
+    then layer <code>&lt;tng-textarea&gt;</code> when you want the default component shell.
+  </p>
+
+  <section class="textarea-overview-block">
+    <h3>Imports</h3>
+    <p>Choose the primitive or styled layer based on ownership needs.</p>
+    <tng-code-block
+      [code]="primitiveImportCode"
+      adapter="shiki"
+      language="ts"
+      title="Primitive imports"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+    <tng-code-block
+      [code]="componentImportCode"
+      adapter="shiki"
+      language="ts"
+      title="Component import"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section class="textarea-overview-block">
+    <app-docs-example-tabs-section
+      heading="Textarea variants"
+      description="Use the same multiline input contract in headless markup, plain CSS wrappers, and Tailwind utility shells."
+      ariaLabel="Textarea variants"
+      tabListAriaLabel="Textarea style variants"
+      defaultValue="headless"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="headless"
+        label="Headless"
+        panelTitle="Headless textarea stack"
+        [codeTabs]="headlessCodeTabs"
+      >
+        <section class="textarea-preview-shell textarea-preview-shell--headless">
+          <label class="textarea-preview-label" for="textarea-overview-headless">Release notes</label>
+          <div tngInputGroup class="textarea-preview-field-shell">
+            <textarea
+              id="textarea-overview-headless"
+              tngInput
+              rows="4"
+              placeholder="Write release notes"
+              [value]="headlessValue()"
+              (input)="onHeadlessInput($event)"
+            ></textarea>
+          </div>
+          <p class="textarea-preview-value">value: {{ headlessValue() || 'empty' }}</p>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Plain CSS textarea stack"
+        [codeTabs]="plainCssCodeTabs"
+      >
+        <section class="textarea-preview-shell textarea-preview-shell--plain">
+          <label class="textarea-preview-label">Team summary</label>
+          <tng-textarea
+            [rows]="4"
+            [placeholder]="'Summarize this sprint'"
+            [value]="plainValue()"
+            (valueChange)="onPlainValueChange($event)"
+          ></tng-textarea>
+          <p class="textarea-preview-value">value: {{ plainValue() || 'empty' }}</p>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Tailwind textarea stack"
+        [codeTabs]="tailwindCodeTabs"
+      >
+        <section
+          class="textarea-preview-shell rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+        >
+          <label class="textarea-preview-label">Customer update</label>
+          <tng-textarea
+            [rows]="4"
+            [placeholder]="'Write a customer-facing summary'"
+            [value]="tailwindValue()"
+            (valueChange)="onTailwindValueChange($event)"
+          ></tng-textarea>
+          <p class="textarea-preview-value">value: {{ tailwindValue() || 'empty' }}</p>
+        </section>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section class="textarea-overview-block">
+    <h3>Behavior baseline</h3>
+    <ul class="textarea-overview-list">
+      <li>Uses native <code>&lt;textarea&gt;</code> behavior for input, selection, and IME composition.</li>
+      <li><code>rows</code> is normalized to at least <code>1</code>.</li>
+      <li><code>resize</code> accepts <code>vertical</code>, <code>horizontal</code>, <code>both</code>, or <code>none</code>.</li>
+      <li>
+        Legacy <code>textarea[tngTextarea]</code> remains as a compatibility alias while
+        <code>textarea[tngInput]</code> is the preferred primitive path.
+      </li>
+    </ul>
+  </section>
+</article>

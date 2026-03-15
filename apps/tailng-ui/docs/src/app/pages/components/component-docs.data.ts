@@ -71,6 +71,13 @@ export const COMPONENTS_FORM_GROUP: ComponentsDocsGroup = {
       description: 'Text input fields, adornments, validation messaging, and layout patterns.',
     },
     {
+      id: 'textarea',
+      slug: 'textarea',
+      title: 'Textarea',
+      description:
+        'Multiline text input patterns with input-first primitives and styled textarea wrappers.',
+    },
+    {
       id: 'input-otp',
       slug: 'input-otp',
       title: 'Input OTP',

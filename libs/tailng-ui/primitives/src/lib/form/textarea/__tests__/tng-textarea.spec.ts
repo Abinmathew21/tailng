@@ -1,5 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { coerceTngTextareaNullableBoolean, normalizeTngTextareaRows } from '../tng-textarea';
+import {
+  coerceTngTextareaNullableBoolean,
+  normalizeTngTextareaResize,
+  normalizeTngTextareaRows,
+} from '../tng-textarea';
 
 describe('tng-textarea primitive helpers', () => {
   it('coerces nullable boolean values consistently', () => {
@@ -15,5 +19,14 @@ describe('tng-textarea primitive helpers', () => {
     expect(normalizeTngTextareaRows(0)).toBe(1);
     expect(normalizeTngTextareaRows(1.9)).toBe(1);
     expect(normalizeTngTextareaRows(6)).toBe(6);
+  });
+
+  it('normalizes resize values to supported CSS modes', () => {
+    expect(normalizeTngTextareaResize(undefined)).toBe('vertical');
+    expect(normalizeTngTextareaResize('none')).toBe('none');
+    expect(normalizeTngTextareaResize('horizontal')).toBe('horizontal');
+    expect(normalizeTngTextareaResize('both')).toBe('both');
+    expect(normalizeTngTextareaResize('VERTICAL')).toBe('vertical');
+    expect(normalizeTngTextareaResize('invalid')).toBe('vertical');
   });
 });

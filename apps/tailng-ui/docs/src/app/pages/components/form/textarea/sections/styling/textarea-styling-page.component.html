@@ -1,0 +1,31 @@
+<article class="textarea-styling">
+  <h2 class="textarea-styling-title">Styling contract</h2>
+  <p class="textarea-styling-lead">
+    Textarea styling follows the same input-group slot contract so one token system can style both
+    single-line and multiline fields.
+  </p>
+
+  <section class="textarea-styling-block">
+    <h3>State hooks</h3>
+    <ul class="textarea-styling-list">
+      <li><code>data-slot="input-group"</code> on the group shell.</li>
+      <li><code>data-slot="input"</code> on the native textarea.</li>
+      <li><code>data-focused</code> on the group while focus is inside.</li>
+      <li><code>data-resize="..."</code> for resize mode tokenization.</li>
+    </ul>
+  </section>
+
+  <section class="textarea-styling-block">
+    <h3>Suggested CSS baseline</h3>
+    <tng-code-block
+      [code]="stylingSnippet"
+      adapter="shiki"
+      language="css"
+      title="textarea.tokens.css"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+</article>

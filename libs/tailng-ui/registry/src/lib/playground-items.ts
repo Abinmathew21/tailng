@@ -305,7 +305,7 @@ export const ALL_PLAYGROUND_ITEMS: readonly TngPlaygroundItem[] = Object.freeze(
     registry: true,
     registryTest: false,
     stackblitz: false,
-    docs: false,
+    docs: true,
   },
   { path: '/icons', title: 'Icon', description: 'Icon library with Lucide integration.', category: 'utility',
     headless: false,

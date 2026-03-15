@@ -1,8 +1,10 @@
 import { booleanAttribute, Component, input, output } from '@angular/core';
 import {
-  coerceTngTextareaNullableBoolean,
+  coerceTngInputNullableBoolean,
+  normalizeTngTextareaResize,
   normalizeTngTextareaRows,
-  TngTextarea as TngTextareaPrimitive,
+  TngInput,
+  type TngTextareaResize,
 } from '@tailng-ui/primitives';
 
 type NullableBooleanInput = boolean | null | string | undefined;
@@ -22,17 +24,17 @@ export function readTngTextareaEventValue(event: unknown): string | null {
 
 @Component({
   selector: 'tng-textarea',
-  imports: [TngTextareaPrimitive],
+  imports: [TngInput],
   templateUrl: './tng-textarea.component.html',
   styleUrl: './tng-textarea.component.css',
 })
 export class TngTextareaComponent {
   public readonly ariaDescribedBy = input<string | null>(null);
   public readonly ariaInvalid = input<boolean | null, NullableBooleanInput>(null, {
-    transform: coerceTngTextareaNullableBoolean,
+    transform: coerceTngInputNullableBoolean,
   });
   public readonly ariaRequired = input<boolean | null, NullableBooleanInput>(null, {
-    transform: coerceTngTextareaNullableBoolean,
+    transform: coerceTngInputNullableBoolean,
   });
   public readonly disabled = input<boolean, boolean | string>(false, {
     transform: booleanAttribute,
@@ -47,6 +49,9 @@ export class TngTextareaComponent {
   public readonly rows = input<number, number | string>(3, {
     transform: (value: number | string): number =>
       normalizeTngTextareaRows(typeof value === 'number' ? value : Number(value)),
+  });
+  public readonly resize = input<TngTextareaResize, TngTextareaResize | string>('vertical', {
+    transform: normalizeTngTextareaResize,
   });
   public readonly value = input<string | null>(null);
 

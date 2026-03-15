@@ -1,0 +1,99 @@
+<article class="textarea-api">
+  <h2 class="textarea-api-title">API reference</h2>
+  <p class="textarea-api-lead">
+    Textarea supports both the preferred input-first primitive (<code>textarea[tngInput]</code>)
+    and the styled wrapper (<code>&lt;tng-textarea&gt;</code>).
+  </p>
+
+  <section class="textarea-api-block">
+    <h3>Primitive: <code>textarea[tngInput]</code></h3>
+    <div class="textarea-api-table-wrap">
+      <table class="textarea-api-table">
+        <thead>
+          <tr>
+            <th>Input</th>
+            <th>Type</th>
+            <th>Default</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>rows</code></td>
+            <td><code>number</code></td>
+            <td><code>3</code></td>
+            <td>Normalized to a minimum of <code>1</code>.</td>
+          </tr>
+          <tr>
+            <td><code>resize</code></td>
+            <td><code>'vertical' | 'horizontal' | 'both' | 'none'</code></td>
+            <td><code>'vertical'</code></td>
+            <td>Applied to both <code>style.resize</code> and <code>data-resize</code>.</td>
+          </tr>
+          <tr>
+            <td><code>disabled</code>, <code>readonly</code>, <code>required</code></td>
+            <td><code>boolean</code></td>
+            <td><code>false</code></td>
+            <td>Forwarded as native textarea attributes.</td>
+          </tr>
+          <tr>
+            <td><code>ariaInvalid</code>, <code>ariaRequired</code></td>
+            <td><code>boolean | null</code></td>
+            <td><code>null</code></td>
+            <td>ARIA pass-through follows nullable coercion rules.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="textarea-api-block">
+    <h3>Component: <code>&lt;tng-textarea&gt;</code></h3>
+    <div class="textarea-api-table-wrap">
+      <table class="textarea-api-table">
+        <thead>
+          <tr>
+            <th>Input / Output</th>
+            <th>Type</th>
+            <th>Default</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>value</code></td>
+            <td><code>string | null</code></td>
+            <td><code>null</code></td>
+            <td>Controlled value for the inner native textarea.</td>
+          </tr>
+          <tr>
+            <td><code>valueChange</code></td>
+            <td><code>EventEmitter&lt;string&gt;</code></td>
+            <td>—</td>
+            <td>Emits on input events when the value changes.</td>
+          </tr>
+          <tr>
+            <td><code>placeholder</code></td>
+            <td><code>string | null</code></td>
+            <td><code>null</code></td>
+            <td>Maps to native <code>placeholder</code>.</td>
+          </tr>
+          <tr>
+            <td><code>rows</code>, <code>resize</code></td>
+            <td><code>number</code>, <code>resize enum</code></td>
+            <td><code>3</code>, <code>vertical</code></td>
+            <td>Forwarded to primitive-backed textarea contract.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="textarea-api-block">
+    <h3>Compatibility alias</h3>
+    <p>
+      <code>textarea[tngTextarea]</code> is still exported for backward compatibility and delegates
+      to the same underlying behavior as <code>textarea[tngInput]</code>.
+    </p>
+  </section>
+</article>

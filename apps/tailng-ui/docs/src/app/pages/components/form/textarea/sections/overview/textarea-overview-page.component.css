@@ -1,0 +1,92 @@
+:host {
+  display: block;
+}
+
+.textarea-overview {
+  display: grid;
+  gap: 1rem;
+}
+
+.textarea-overview-title {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.textarea-overview-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.textarea-overview-block {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.95rem;
+  display: grid;
+  gap: 0.85rem;
+  padding: 1rem;
+}
+
+.textarea-overview-block h3 {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1rem;
+  margin: 0;
+}
+
+.textarea-preview-shell {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.textarea-preview-label {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.textarea-preview-field-shell[data-slot='input-group'] {
+  align-items: flex-start;
+  border: 1px solid var(--tng-semantic-border-strong);
+  border-radius: 0.75rem;
+  min-height: 7.8rem;
+  padding: 0.65rem 0.8rem;
+}
+
+.textarea-preview-field-shell [data-slot='input'] {
+  border: 0;
+  box-shadow: none;
+  min-height: 6.2rem;
+  outline: none;
+  padding: 0;
+  resize: vertical;
+}
+
+.textarea-preview-shell--plain {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.85rem;
+  padding: 0.9rem;
+}
+
+:host ::ng-deep .textarea-preview-shell tng-textarea,
+:host ::ng-deep .textarea-preview-shell .tng-textarea {
+  inline-size: 100%;
+}
+
+.textarea-preview-value {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.78rem;
+  margin: 0;
+}
+
+.textarea-overview-list {
+  color: var(--tng-semantic-foreground-secondary);
+  display: grid;
+  gap: 0.45rem;
+  margin: 0;
+  padding-left: 1.1rem;
+}
+
+.textarea-overview-list code {
+  color: var(--tng-semantic-foreground-primary);
+}

@@ -78,7 +78,7 @@ This component should expose textarea directive (or wrapper with slots), resize 
 ## Suggested primitives / parts
 
 - `TextareaRoot` (optional wrapper; like input root)
-- `TextareaControl` (e.g. textarea[tngTextarea])
+- `TextareaControl` (preferred: textarea[tngInput]; compatibility alias: textarea[tngTextarea])
 - `TextareaLabel`, `TextareaHint` (optional)
 - Optional: TextareaCount (character count)
 
@@ -100,7 +100,8 @@ This component should expose textarea directive (or wrapper with slots), resize 
 
 ### Angular API contract (required)
 
-- tngTextarea directive on textarea: ARIA, id, resize, rows, cols
+- Prefer `tngInput` on textarea for shared ARIA/state behavior parity with input
+- Optional `tngTextarea` compatibility alias on textarea for rows/resize ergonomics
 - Optional tng-textarea component with label/hint/count like input
 - ControlValueAccessor for form integration
 - Optional character count component/directive when maxlength set
