@@ -14,13 +14,26 @@ import {
   output,
   signal,
 } from '@angular/core';
-import { createOverlayScrollLockManager, createTngIdFactory } from '@tailng-ui/cdk';
-import type { TngScrollLockDocument } from '@tailng-ui/cdk/overlay';
+import {
+  createOverlayFocusHandoffController,
+  createModalIsolationManager,
+  createOverlayRuntime,
+  createOverlayScrollLockManager,
+  createTngIdFactory,
+} from '@tailng-ui/cdk';
+import type {
+  TngModalIsolationDocument,
+  TngModalIsolationElement,
+  TngOverlayDismissReason,
+  TngOverlayInteractionDomDocument,
+  TngScrollLockDocument,
+} from '@tailng-ui/cdk/overlay';
 
 const createDialogId = createTngIdFactory('tng-dialog');
 const createDialogPanelId = createTngIdFactory('tng-dialog-panel');
 const createDialogTitleId = createTngIdFactory('tng-dialog-title');
 const createDialogDescriptionId = createTngIdFactory('tng-dialog-description');
+const createDialogFocusableId = createTngIdFactory('tng-dialog-focusable');
 
 const focusableSelector = [
   'a[href]',
@@ -36,12 +49,6 @@ export type TngDialogCloseReason = 'backdrop' | 'close-button' | 'escape' | 'pro
 export type TngDialogSize = 'lg' | 'md' | 'sm';
 
 type OptionalBooleanInput = boolean | null | string | undefined;
-type TngDialogFocusTrapState = Readonly<{
-  activeElement: HTMLElement | null;
-  first: HTMLElement;
-  last: HTMLElement;
-  panel: HTMLElement;
-}>;
 
 function normalizeOptionalBooleanInput(value: OptionalBooleanInput): boolean | undefined {
   if (value === null || value === undefined) {
@@ -58,6 +65,59 @@ function toScrollLockDocument(documentRef: unknown): TngScrollLockDocument | nul
 
   return documentRef as unknown as TngScrollLockDocument;
 }
+
+function toOverlayInteractionDocument(documentRef: unknown): TngOverlayInteractionDomDocument | null {
+  if (!(documentRef instanceof Document)) {
+    return null;
+  }
+
+  return documentRef as unknown as TngOverlayInteractionDomDocument;
+}
+
+function toModalIsolationDocument(documentRef: unknown): TngModalIsolationDocument | null {
+  if (!(documentRef instanceof Document)) {
+    return null;
+  }
+
+  return documentRef as unknown as TngModalIsolationDocument;
+}
+
+function toModalIsolationElement(elementRef: unknown): TngModalIsolationElement | null {
+  if (!(elementRef instanceof HTMLElement)) {
+    return null;
+  }
+
+  return elementRef as unknown as TngModalIsolationElement;
+}
+
+function resolveGlobalDocument(): Document | null {
+  if (typeof document === 'undefined') {
+    return null;
+  }
+
+  return document;
+}
+
+function mapOverlayDismissReason(reason: TngOverlayDismissReason): TngDialogCloseReason {
+  if (reason === 'escape-key') {
+    return 'escape';
+  }
+
+  if (reason === 'outside-pointer') {
+    return 'backdrop';
+  }
+
+  return 'programmatic';
+}
+
+const dialogGlobalDocument = resolveGlobalDocument();
+const dialogOverlayRuntime = createOverlayRuntime({
+  documentRef: toOverlayInteractionDocument(dialogGlobalDocument),
+});
+const dialogModalIsolation = createModalIsolationManager({
+  documentRef: toModalIsolationDocument(dialogGlobalDocument),
+});
+const dialogFocusHandoff = createOverlayFocusHandoffController();
 
 export function resolveTngDialogActiveElement(documentRef: unknown): HTMLElement | null {
   if (!(documentRef instanceof Document)) {
@@ -162,7 +222,8 @@ export class TngDialog implements OnDestroy, OnInit {
   public readonly openChange = output<boolean>();
   public readonly closed = output<TngDialogCloseReason>();
 
-  private readonly documentRef = typeof document === 'undefined' ? null : document;
+  private readonly hostRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  private readonly documentRef = dialogGlobalDocument;
   private readonly injector = inject(Injector);
   private readonly instanceId = createDialogId();
   private readonly scrollLock = createOverlayScrollLockManager({
@@ -183,17 +244,14 @@ export class TngDialog implements OnDestroy, OnInit {
     this.deactivateDialog();
   });
 
-  private readonly onDocumentKeydown = (event: KeyboardEvent): void => {
-    this.handleDocumentKeydown(event);
-  };
-
   private initialized = false;
   private isActive = false;
+  private isFocusLayerRegistered = false;
+  private isOverlayLayerRegistered = false;
   private panelElement: HTMLElement | null = null;
   private panelElementId: string | null = null;
   private registeredTitleId: string | null = null;
   private registeredDescriptionId: string | null = null;
-  private restoreFocusElement: HTMLElement | null = null;
 
   @HostBinding('attr.data-slot')
   protected readonly dataSlot = 'dialog';
@@ -232,6 +290,7 @@ export class TngDialog implements OnDestroy, OnInit {
   public ngOnDestroy(): void {
     this.openStateEffect.destroy();
     this.deactivateDialog();
+    this.unregisterFocusLayer();
   }
 
   public isOpen(): boolean {
@@ -354,21 +413,72 @@ export class TngDialog implements OnDestroy, OnInit {
       return;
     }
 
+    const keyboardEvent = readKeyboardEvent(event);
+    if (keyboardEvent === null || keyboardEvent.key !== 'Tab') {
+      return;
+    }
+
     const panel = this.panelElement;
     if (panel === null) {
       return;
     }
 
-    const focusState = this.resolveFocusTrapState(panel);
-    if (focusState === null) {
+    if (!dialogFocusHandoff.isTrapActive(this.instanceId)) {
       return;
     }
 
-    if (this.focusEdgeWhenOutsidePanel(event, focusState)) {
+    const focusableMemberIds = this.resolveFocusableMemberIds(panel);
+    const firstMemberId = focusableMemberIds[0];
+    if (firstMemberId === undefined) {
+      return;
+    }
+    const lastMemberId = focusableMemberIds[focusableMemberIds.length - 1] ?? firstMemberId;
+
+    const activeElement = resolveTngDialogActiveElement(this.documentRef);
+    const activeElementId = activeElement === null ? null : this.ensureElementId(activeElement);
+
+    let candidateId: string | null = null;
+    if (activeElement === null || !panel.contains(activeElement)) {
+      candidateId = keyboardEvent.shiftKey ? lastMemberId : firstMemberId;
+    } else if (activeElementId === firstMemberId && keyboardEvent.shiftKey) {
+      candidateId = lastMemberId;
+    } else if (activeElementId === lastMemberId && !keyboardEvent.shiftKey) {
+      candidateId = firstMemberId;
+    } else {
+      if (activeElementId !== null) {
+        dialogFocusHandoff.recordFocus(this.instanceId, activeElementId);
+      }
+
       return;
     }
 
-    this.wrapTabAtEdges(event, focusState);
+    const resolvedId = dialogFocusHandoff.resolveFocusCandidate(this.instanceId, candidateId);
+    if (resolvedId === null) {
+      return;
+    }
+
+    const nextFocusTarget = this.resolveElementById(resolvedId);
+    if (nextFocusTarget === null) {
+      return;
+    }
+
+    keyboardEvent.preventDefault();
+    nextFocusTarget.focus();
+    dialogFocusHandoff.recordFocus(this.instanceId, resolvedId);
+  }
+
+  public recordFocusedElement(target: unknown): void {
+    if (!(target instanceof HTMLElement) || !this.isOpen()) {
+      return;
+    }
+
+    const panel = this.panelElement;
+    if (panel === null || !panel.contains(target)) {
+      return;
+    }
+
+    const targetId = this.ensureElementId(target);
+    dialogFocusHandoff.recordFocus(this.instanceId, targetId);
   }
 
   private activateDialog(): void {
@@ -378,13 +488,14 @@ export class TngDialog implements OnDestroy, OnInit {
 
     this.isActive = true;
 
-    this.restoreFocusElement = this.restoreFocus() ? resolveTngDialogActiveElement(this.documentRef) : null;
-
     if (this.lockScroll()) {
       this.scrollLock.acquire(this.instanceId);
     }
 
-    this.documentRef?.addEventListener('keydown', this.onDocumentKeydown, true);
+    this.registerFocusLayer();
+    this.activateFocusLayer();
+    this.registerOverlayLayer();
+    this.activateModalIsolation();
 
     afterNextRender(
       (): void => {
@@ -401,17 +512,14 @@ export class TngDialog implements OnDestroy, OnInit {
 
     this.isActive = false;
 
-    this.documentRef?.removeEventListener('keydown', this.onDocumentKeydown, true);
-
     if (this.lockScroll()) {
       this.scrollLock.release(this.instanceId);
     }
 
-    if (this.restoreFocus() && this.restoreFocusElement !== null) {
-      this.restoreFocusElement.focus();
-    }
-
-    this.restoreFocusElement = null;
+    this.deactivateFocusLayer();
+    this.unregisterFocusLayer();
+    this.unregisterOverlayLayer();
+    this.deactivateModalIsolation();
   }
 
   private focusInitialElement(): void {
@@ -448,53 +556,8 @@ export class TngDialog implements OnDestroy, OnInit {
     panel.focus();
   }
 
-  private focusEdgeWhenOutsidePanel(event: unknown, focusState: TngDialogFocusTrapState): boolean {
-    const activeElement = focusState.activeElement;
-    if (activeElement !== null && focusState.panel.contains(activeElement)) {
-      return false;
-    }
-
-    const keyboardEvent = readKeyboardEvent(event);
-    if (keyboardEvent === null) {
-      return true;
-    }
-
-    const edge = keyboardEvent.shiftKey ? focusState.last : focusState.first;
-    keyboardEvent.preventDefault();
-    edge.focus();
-    return true;
-  }
-
-  private handleDocumentKeydown(event: KeyboardEvent): void {
-    if (!this.isOpen() || event.key !== 'Escape') {
-      return;
-    }
-
-    if (!this.shouldCloseFromEscape()) {
-      return;
-    }
-
-    event.preventDefault();
-    this.requestClose('escape');
-  }
-
   private isControlled(): boolean {
     return this.openInput() !== undefined;
-  }
-
-  private resolveFocusTrapState(panel: HTMLElement): TngDialogFocusTrapState | null {
-    const focusableElements = resolveTngDialogFocusableElements(panel);
-    const first = focusableElements[0];
-    if (first === undefined) {
-      return null;
-    }
-
-    return {
-      activeElement: resolveTngDialogActiveElement(this.documentRef),
-      first,
-      last: focusableElements[focusableElements.length - 1] ?? first,
-      panel,
-    };
   }
 
   private setOpenState(nextOpen: boolean): void {
@@ -521,23 +584,131 @@ export class TngDialog implements OnDestroy, OnInit {
     return this.isOpen() && this.dismissible() && this.closeOnEscape();
   }
 
-  private wrapTabAtEdges(event: unknown, focusState: TngDialogFocusTrapState): void {
-    const keyboardEvent = readKeyboardEvent(event);
-    if (keyboardEvent === null) {
+  private activateModalIsolation(): void {
+    const hostElement = toModalIsolationElement(this.hostRef.nativeElement);
+    if (hostElement === null) {
       return;
     }
 
-    const activeElement = focusState.activeElement;
-    if (activeElement === focusState.first && keyboardEvent.shiftKey) {
-      keyboardEvent.preventDefault();
-      focusState.last.focus();
+    dialogModalIsolation.activate(this.instanceId, hostElement);
+  }
+
+  private deactivateModalIsolation(): void {
+    dialogModalIsolation.deactivate(this.instanceId);
+  }
+
+  private registerOverlayLayer(): void {
+    const hostElement = this.hostRef.nativeElement;
+    dialogOverlayRuntime.registerLayer({
+      containsTarget: (target: unknown, path: readonly unknown[]): boolean => {
+        if (target instanceof Node && hostElement.contains(target)) {
+          return true;
+        }
+
+        return path.includes(hostElement);
+      },
+      dismissOnEscape: this.shouldCloseFromEscape(),
+      dismissOnOutsidePointer: false,
+      id: this.instanceId,
+      modal: true,
+      onDismiss: (reason: TngOverlayDismissReason): void => {
+        if (reason === 'escape-key' && !this.shouldCloseFromEscape()) {
+          return;
+        }
+
+        if (reason === 'outside-pointer' && !this.shouldCloseFromBackdrop()) {
+          return;
+        }
+
+        this.requestClose(mapOverlayDismissReason(reason));
+      },
+    });
+
+    this.isOverlayLayerRegistered = true;
+  }
+
+  private unregisterOverlayLayer(): void {
+    if (!this.isOverlayLayerRegistered) {
       return;
     }
 
-    if (activeElement === focusState.last && !keyboardEvent.shiftKey) {
-      keyboardEvent.preventDefault();
-      focusState.first.focus();
+    dialogOverlayRuntime.unregisterLayer(this.instanceId);
+    this.isOverlayLayerRegistered = false;
+  }
+
+  private activateFocusLayer(): void {
+    const activeElement = resolveTngDialogActiveElement(this.documentRef);
+    const restoreFocusTargetId = activeElement === null ? null : this.ensureElementId(activeElement);
+    dialogFocusHandoff.activateLayer(this.instanceId, restoreFocusTargetId);
+  }
+
+  private deactivateFocusLayer(): void {
+    const restoreFocusTargetId = dialogFocusHandoff.deactivateLayer(this.instanceId);
+    if (!this.restoreFocus() || restoreFocusTargetId === null) {
+      return;
     }
+
+    const restoreFocusTarget = this.resolveElementById(restoreFocusTargetId);
+    restoreFocusTarget?.focus();
+  }
+
+  private registerFocusLayer(): void {
+    if (this.isFocusLayerRegistered) {
+      return;
+    }
+
+    dialogFocusHandoff.registerLayer({
+      layerId: this.instanceId,
+      members: (): readonly string[] => {
+        const panel = this.panelElement;
+        if (panel === null) {
+          return [];
+        }
+
+        return this.resolveFocusableMemberIds(panel);
+      },
+      restoreFocus: this.restoreFocus(),
+      trapFocus: this.trapFocus(),
+    });
+    this.isFocusLayerRegistered = true;
+  }
+
+  private unregisterFocusLayer(): void {
+    if (!this.isFocusLayerRegistered) {
+      return;
+    }
+
+    dialogFocusHandoff.unregisterLayer(this.instanceId);
+    this.isFocusLayerRegistered = false;
+  }
+
+  private resolveFocusableMemberIds(panel: HTMLElement): readonly string[] {
+    const focusableElements = resolveTngDialogFocusableElements(panel);
+    if (focusableElements.length === 0) {
+      return [];
+    }
+
+    return focusableElements.map((element) => this.ensureElementId(element));
+  }
+
+  private ensureElementId(element: HTMLElement): string {
+    const existingId = element.id.trim();
+    if (existingId.length > 0) {
+      return existingId;
+    }
+
+    const generatedId = createDialogFocusableId();
+    element.id = generatedId;
+    return generatedId;
+  }
+
+  private resolveElementById(id: string): HTMLElement | null {
+    if (this.documentRef === null) {
+      return null;
+    }
+
+    const element = this.documentRef.getElementById(id);
+    return element instanceof HTMLElement ? element : null;
   }
 }
 
@@ -621,6 +792,11 @@ export class TngDialogPanel implements OnDestroy, OnInit {
     if (event.key === 'Tab') {
       this.dialog.trapTabNavigation(event);
     }
+  }
+
+  @HostListener('focusin', ['$event.target'])
+  protected onFocusIn(target: unknown): void {
+    this.dialog.recordFocusedElement(target);
   }
 }
 

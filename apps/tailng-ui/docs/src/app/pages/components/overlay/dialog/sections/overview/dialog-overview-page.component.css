@@ -73,9 +73,16 @@
   color: var(--tng-semantic-background-canvas);
 }
 
-.dialog-trigger:is(:hover, :focus-visible),
-.dialog-action-ghost:is(:hover, :focus-visible),
-.dialog-action-primary:is(:hover, :focus-visible) {
+.dialog-trigger:is(:hover),
+.dialog-action-ghost:is(:hover),
+.dialog-action-primary:is(:hover) {
+  outline: none;
+}
+
+.dialog-trigger:focus-visible,
+.dialog-action-ghost:focus-visible,
+.dialog-action-primary:focus-visible {
+  box-shadow: 0 0 0 3px var(--tng-semantic-focus-ring);
   outline: none;
 }
 
