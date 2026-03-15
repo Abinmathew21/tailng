@@ -267,14 +267,14 @@ Recommended readonly behavior:
 
 - [ ] Exposes correct radiogroup role when custom group root is used
 - [ ] Exposes correct radio role when custom item root is used
-- [ ] Exposes `aria-checked='true'` on selected item
-- [ ] Exposes `aria-checked='false'` on unselected items
-- [ ] Exposes `aria-disabled` when disabled
-- [ ] Exposes `aria-readonly` when readonly
-- [ ] Exposes `aria-required` when required
-- [ ] Exposes `aria-invalid` when invalid
+- [x] Exposes `aria-checked='true'` on selected item
+- [x] Exposes `aria-checked='false'` on unselected items
+- [x] Exposes `aria-disabled` when disabled
+- [x] Exposes `aria-readonly` when readonly
+- [x] Exposes `aria-required` when required
+- [x] Exposes `aria-invalid` when invalid
 - [ ] Computes accessible name from group label correctly
-- [ ] Associates description through `aria-describedby`
+- [x] Associates description through `aria-describedby`
 - [ ] Associates error message through `aria-describedby`
 
 ### Keyboard interaction
@@ -341,31 +341,31 @@ Recommended readonly behavior:
 
 ### Data attributes
 
-- [ ] Applies `data-checked` on selected item
-- [ ] Applies `data-unchecked` on unselected item
-- [ ] Applies `data-disabled` in disabled state
-- [ ] Applies `data-readonly` in readonly state
-- [ ] Applies `data-invalid` in invalid state
-- [ ] Applies `data-required` in required state
-- [ ] Applies `data-focused` on focus
-- [ ] Applies `data-focus-visible` on keyboard focus
+- [x] Applies `data-checked` on selected item
+- [x] Applies `data-unchecked` on unselected item
+- [x] Applies `data-disabled` in disabled state
+- [x] Applies `data-readonly` in readonly state
+- [x] Applies `data-invalid` in invalid state
+- [x] Applies `data-required` in required state
+- [x] Applies `data-focused` on focus
+- [x] Applies `data-focus-visible` on keyboard focus
 
 ## Implementation Steps
 
-- [ ] Headless component created in `primitives`
-- [ ] Test cases created for headless
-- [ ] Headless example page added/updated in playground - plain CSS app
-- [ ] Headless example page added/updated in playground - Tailwind app
-- [ ] Minimum style `<tng-radio>` component created in `components`
-- [ ] Test cases created for `<tng-radio>`
-- [ ] Component example page added/updated in playground - plain CSS app
-- [ ] Component example page added/updated in playground - Tailwind app
-- [ ] Docs added/updated in docs project - Overview section
-- [ ] Docs added/updated in docs project - API section
-- [ ] Docs added/updated in docs project - Styling section
-- [ ] Docs added/updated in docs project - Example section
-- [ ] Registry templates added in registry
-- [ ] `tailng add radio` command generation added
+- [x] Headless component created in `primitives`
+- [x] Test cases created for headless
+- [x] Headless example page added/updated in playground - plain CSS app
+- [x] Headless example page added/updated in playground - Tailwind app
+- [x] Minimum style `<tng-radio>` component created in `components`
+- [x] Test cases created for `<tng-radio>`
+- [x] Component example page added/updated in playground - plain CSS app
+- [x] Component example page added/updated in playground - Tailwind app
+- [x] Docs added/updated in docs project - Overview section
+- [x] Docs added/updated in docs project - API section
+- [x] Docs added/updated in docs project - Styling section
+- [x] Docs added/updated in docs project - Example section
+- [x] Registry templates added in registry
+- [x] `tailng add radio` command generation added
 - [ ] CLI integration tests added for `tailng add radio`
 
 ## Links

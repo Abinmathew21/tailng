@@ -1,10 +1,18 @@
-<label class="tng-radio-root" [attr.data-disabled]="disabled() ? '' : null">
+<label
+  class="tng-radio-root"
+  [attr.data-disabled]="disabled() ? '' : null"
+  [attr.data-invalid]="invalid() ? '' : null"
+  [attr.data-readonly]="readonly() ? '' : null"
+>
   <input
     tngRadio
     class="tng-radio-control"
+    [ariaInvalid]="ariaInvalid()"
     [checked]="checked()"
     [disabled]="disabled()"
+    [invalid]="invalid()"
     [required]="required()"
+    [readonly]="readonly()"
     [name]="name()"
     [value]="value()"
     [ariaDescribedBy]="ariaDescribedBy()"

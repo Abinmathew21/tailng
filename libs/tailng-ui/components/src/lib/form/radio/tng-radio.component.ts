@@ -14,6 +14,10 @@ export function readTngRadioChecked(event: unknown): boolean | null {
   return target.checked;
 }
 
+export function shouldEmitTngRadioCheckedChange(disabled: boolean, readonly: boolean): boolean {
+  return !disabled && !readonly;
+}
+
 @Component({
   selector: 'tng-radio',
   imports: [TngRadioPrimitive],
@@ -22,13 +26,22 @@ export function readTngRadioChecked(event: unknown): boolean | null {
 })
 export class TngRadioComponent {
   public readonly ariaDescribedBy = input<string | null>(null);
+  public readonly ariaInvalid = input<boolean, boolean | string>(false, {
+    transform: booleanAttribute,
+  });
   public readonly checked = input<boolean, boolean | string>(false, {
     transform: booleanAttribute,
   });
   public readonly disabled = input<boolean, boolean | string>(false, {
     transform: booleanAttribute,
   });
+  public readonly invalid = input<boolean, boolean | string>(false, {
+    transform: booleanAttribute,
+  });
   public readonly name = input<string | null>(null);
+  public readonly readonly = input<boolean, boolean | string>(false, {
+    transform: booleanAttribute,
+  });
   public readonly required = input<boolean, boolean | string>(false, {
     transform: booleanAttribute,
   });
@@ -39,6 +52,10 @@ export class TngRadioComponent {
   public onChange(event: unknown): void {
     const checked = readTngRadioChecked(event);
     if (checked === null) {
+      return;
+    }
+
+    if (!shouldEmitTngRadioCheckedChange(this.disabled(), this.readonly())) {
       return;
     }
 

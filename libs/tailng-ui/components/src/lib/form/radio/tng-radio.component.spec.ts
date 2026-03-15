@@ -1,5 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { readTngRadioChecked, TngRadioComponent } from './tng-radio.component';
+import {
+  readTngRadioChecked,
+  shouldEmitTngRadioCheckedChange,
+  TngRadioComponent,
+} from './tng-radio.component';
 
 describe('tng-radio component', () => {
   it('exports the public TngRadio symbol', () => {
@@ -22,5 +26,17 @@ describe('tng-radio component', () => {
     Object.defineProperty(badEvent, 'target', { value: document.createElement('div') });
 
     expect(readTngRadioChecked(badEvent)).toBeNull();
+  });
+
+  it('returns null for non-event values passed to the event parser', () => {
+    expect(readTngRadioChecked(undefined)).toBeNull();
+    expect(readTngRadioChecked('change')).toBeNull();
+  });
+
+  it('guards checkedChange emission for disabled and readonly radio wrappers', () => {
+    expect(shouldEmitTngRadioCheckedChange(false, false)).toBe(true);
+    expect(shouldEmitTngRadioCheckedChange(true, false)).toBe(false);
+    expect(shouldEmitTngRadioCheckedChange(false, true)).toBe(false);
+    expect(shouldEmitTngRadioCheckedChange(true, true)).toBe(false);
   });
 });

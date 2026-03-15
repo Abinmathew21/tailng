@@ -1,0 +1,139 @@
+<article class="radio-styling">
+  <h2 class="radio-styling-title">Styling contract</h2>
+  <p class="radio-styling-lead">
+    Style against documented radio state hooks and semantic tokens rather than internal DOM shape.
+  </p>
+
+  <section class="radio-styling-block">
+    <h3>CSS contract table</h3>
+    <div class="radio-styling-table-wrap">
+      <table class="radio-styling-table">
+        <thead>
+          <tr>
+            <th scope="col">Selector</th>
+            <th scope="col">Applied on</th>
+            <th scope="col">Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>[data-state="checked"]</code></td>
+            <td>Primitive input</td>
+            <td>Checked visual treatment.</td>
+          </tr>
+          <tr>
+            <td><code>[data-checked]</code>, <code>[data-unchecked]</code></td>
+            <td>Primitive input</td>
+            <td>Convenience state hooks.</td>
+          </tr>
+          <tr>
+            <td><code>[data-disabled]</code>, <code>[data-readonly]</code></td>
+            <td>Primitive input + wrapper root</td>
+            <td>Interaction-state styling.</td>
+          </tr>
+          <tr>
+            <td><code>[data-invalid]</code></td>
+            <td>Primitive input + wrapper root</td>
+            <td>Error emphasis and validation styling.</td>
+          </tr>
+          <tr>
+            <td><code>[data-focused]</code>, <code>[data-focus-visible]</code></td>
+            <td>Primitive input</td>
+            <td>Focus and keyboard focus differentiation.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="radio-styling-table-wrap">
+      <table class="radio-styling-table">
+        <thead>
+          <tr>
+            <th scope="col">Token</th>
+            <th scope="col">Typical use</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>--tng-semantic-accent-brand</code></td>
+            <td>Checked accent color.</td>
+          </tr>
+          <tr>
+            <td><code>--tng-semantic-accent-danger</code></td>
+            <td>Invalid radio outline emphasis.</td>
+          </tr>
+          <tr>
+            <td><code>--tng-semantic-focus-ring</code></td>
+            <td>Focus-visible ring color.</td>
+          </tr>
+          <tr>
+            <td><code>--tng-semantic-border-subtle</code></td>
+            <td>Radio group container borders.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <app-docs-example-tabs-section
+    class="radio-styling-block"
+    heading="User scenario style examples"
+    description="Use the same behavior contract with headless markup, plain CSS shell, and Tailwind utility wrappers."
+    ariaLabel="Radio styling examples"
+    tabListAriaLabel="Radio styling variants"
+    defaultValue="headless"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="headless"
+      label="Headless"
+      panelTitle="Release target selection"
+      [codeTabs]="headlessCodeTabs"
+    >
+      <fieldset class="radio-preview-stack">
+        <legend class="radio-preview-legend">Release target</legend>
+        <label class="radio-row">
+          <input tngRadio [checked]="true" name="styling-headless-target" />
+          <span>Production release</span>
+        </label>
+        <label class="radio-row">
+          <input tngRadio [invalid]="true" name="styling-headless-target" />
+          <span>Needs compliance approval</span>
+        </label>
+      </fieldset>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+      panelTitle="Release target selection"
+      [codeTabs]="plainCssCodeTabs"
+    >
+      <div class="settings-panel">
+        <tng-radio [checked]="true" name="styling-plain-target">Production release</tng-radio>
+        <tng-radio [invalid]="true" name="styling-plain-target"
+          >Needs compliance approval</tng-radio
+        >
+      </div>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Release target selection"
+      [codeTabs]="tailwindCodeTabs"
+    >
+      <div class="grid gap-3 rounded-xl border border-slate-300 bg-white/80 p-4 dark:border-slate-700 dark:bg-slate-900/60">
+        <tng-radio [checked]="true" name="styling-tailwind-target" class="text-slate-900 dark:text-slate-100"
+          >Production release</tng-radio
+        >
+        <tng-radio [invalid]="true" name="styling-tailwind-target" class="text-slate-900 dark:text-slate-100"
+          >Needs compliance approval</tng-radio
+        >
+      </div>
+    </ng-template>
+  </app-docs-example-tabs-section>
+</article>

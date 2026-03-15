@@ -1,0 +1,192 @@
+<article class="radio-overview">
+  <h2 class="radio-overview-title">Radio overview</h2>
+  <p class="radio-overview-lead">
+    TailNG radio supports native single-selection behavior with a headless primitive
+    (<code>tngRadio</code>) and a styled wrapper (<code>tng-radio</code>).
+  </p>
+
+  <section class="radio-overview-block">
+    <h3>Imports</h3>
+    <p>Use primitives for full ownership, or wrappers for a themed default shell.</p>
+    <tng-code-block
+      [code]="primitiveImportCode"
+      adapter="shiki"
+      language="ts"
+      title="Primitive import"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+    <tng-code-block
+      [code]="componentImportCode"
+      adapter="shiki"
+      language="ts"
+      title="Styled component import"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <section class="radio-overview-block">
+    <h3>Usage patterns</h3>
+    <tng-code-block
+      [code]="primitiveUsageCode"
+      adapter="shiki"
+      language="html"
+      title="Primitive usage"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+    <tng-code-block
+      [code]="componentUsageCode"
+      adapter="shiki"
+      language="html"
+      title="Styled usage"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <app-docs-example-tabs-section
+    class="radio-overview-block"
+    heading="Style variants"
+    description="Same radio behavior rendered with headless markup, plain CSS shell, and Tailwind utility styles."
+    ariaLabel="Radio style variants"
+    tabListAriaLabel="Radio style tabs"
+    defaultValue="headless"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="headless"
+      label="Headless"
+      panelTitle="Headless billing plan"
+      [codeTabs]="headlessCodeTabs"
+    >
+      <fieldset class="radio-preview-stack">
+        <legend class="radio-preview-legend">Billing plan</legend>
+        <label class="radio-row">
+          <input
+            tngRadio
+            name="headless-overview-plan"
+            [checked]="headlessPlan() === 'starter'"
+            (change)="onHeadlessPlanChange('starter', $event)"
+          />
+          <span>Starter</span>
+        </label>
+        <label class="radio-row">
+          <input
+            tngRadio
+            name="headless-overview-plan"
+            [checked]="headlessPlan() === 'pro'"
+            (change)="onHeadlessPlanChange('pro', $event)"
+          />
+          <span>Pro</span>
+        </label>
+        <label class="radio-row">
+          <input
+            tngRadio
+            name="headless-overview-plan"
+            [checked]="headlessPlan() === 'enterprise'"
+            (change)="onHeadlessPlanChange('enterprise', $event)"
+          />
+          <span>Enterprise</span>
+        </label>
+        <p class="radio-selected">selected: {{ headlessPlan() }}</p>
+      </fieldset>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+      panelTitle="Plain CSS billing plan"
+      [codeTabs]="plainCssCodeTabs"
+    >
+      <div class="plain-radio-card">
+        <tng-radio
+          name="plain-overview-plan"
+          value="starter"
+          [checked]="plainCssPlan() === 'starter'"
+          (checkedChange)="onPlainCssPlanChange('starter', $event)"
+        >
+          Starter
+        </tng-radio>
+        <tng-radio
+          name="plain-overview-plan"
+          value="pro"
+          [checked]="plainCssPlan() === 'pro'"
+          (checkedChange)="onPlainCssPlanChange('pro', $event)"
+        >
+          Pro
+        </tng-radio>
+        <tng-radio
+          name="plain-overview-plan"
+          value="enterprise"
+          [checked]="plainCssPlan() === 'enterprise'"
+          (checkedChange)="onPlainCssPlanChange('enterprise', $event)"
+        >
+          Enterprise
+        </tng-radio>
+        <p class="radio-selected">selected: {{ plainCssPlan() }}</p>
+      </div>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Tailwind billing plan"
+      [codeTabs]="tailwindCodeTabs"
+    >
+      <div
+        class="grid gap-3 rounded-xl border border-slate-300 bg-white/80 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+      >
+        <tng-radio
+          name="tailwind-overview-plan"
+          value="starter"
+          class="text-slate-900 dark:text-slate-100"
+          [checked]="tailwindPlan() === 'starter'"
+          (checkedChange)="onTailwindPlanChange('starter', $event)"
+        >
+          Starter
+        </tng-radio>
+        <tng-radio
+          name="tailwind-overview-plan"
+          value="pro"
+          class="text-slate-900 dark:text-slate-100"
+          [checked]="tailwindPlan() === 'pro'"
+          (checkedChange)="onTailwindPlanChange('pro', $event)"
+        >
+          Pro
+        </tng-radio>
+        <tng-radio
+          name="tailwind-overview-plan"
+          value="enterprise"
+          class="text-slate-900 dark:text-slate-100"
+          [checked]="tailwindPlan() === 'enterprise'"
+          (checkedChange)="onTailwindPlanChange('enterprise', $event)"
+        >
+          Enterprise
+        </tng-radio>
+        <p class="text-sm text-slate-700 dark:text-slate-300 m-0">selected: {{ tailwindPlan() }}</p>
+      </div>
+    </ng-template>
+  </app-docs-example-tabs-section>
+
+  <section class="radio-overview-block">
+    <h3>Accessibility baseline</h3>
+    <ul class="radio-overview-list">
+      <li>Native radio semantics are preserved for screen reader compatibility.</li>
+      <li>Keyboard arrow navigation is inherited from native grouped radio behavior.</li>
+      <li>State hooks expose <code>data-state</code>, <code>data-checked</code>, and readonly/invalid attributes.</li>
+    </ul>
+  </section>
+</article>

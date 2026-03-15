@@ -27,6 +27,10 @@ const toggleItem = group.items.find((item) => item.slug === 'toggle');
 if (toggleItem === undefined) {
   throw new Error('Missing "toggle" in components form docs group.');
 }
+const radioItem = group.items.find((item) => item.slug === 'radio');
+if (radioItem === undefined) {
+  throw new Error('Missing "radio" in components form docs group.');
+}
 const buttonToggleItem = group.items.find((item) => item.slug === 'button-toggle');
 if (buttonToggleItem === undefined) {
   throw new Error('Missing "button-toggle" in components form docs group.');
@@ -62,6 +66,7 @@ const landingSlugs = new Set([
   labelItem.slug,
   checkboxItem.slug,
   toggleItem.slug,
+  radioItem.slug,
   buttonToggleItem.slug,
   listboxItem.slug,
   autocompleteItem.slug,
@@ -101,6 +106,11 @@ export const COMPONENTS_FORM_ROUTES: Routes = [
     path: toggleItem.slug,
     loadChildren: () =>
       import('./toggle/routes').then((module) => module.COMPONENTS_FORM_TOGGLE_ROUTES),
+  },
+  {
+    path: radioItem.slug,
+    loadChildren: () =>
+      import('./radio/routes').then((module) => module.COMPONENTS_FORM_RADIO_ROUTES),
   },
   {
     path: buttonToggleItem.slug,

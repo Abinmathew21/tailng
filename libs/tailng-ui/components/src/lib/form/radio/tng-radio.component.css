@@ -16,11 +16,20 @@
   opacity: 0.65;
 }
 
+.tng-radio-root[data-readonly] {
+  cursor: default;
+}
+
 .tng-radio-control {
   accent-color: var(--tng-semantic-accent-brand);
   block-size: 1rem;
   inline-size: 1rem;
   margin: 0;
+}
+
+.tng-radio-root[data-invalid] .tng-radio-control {
+  outline: 1px solid var(--tng-semantic-accent-danger);
+  outline-offset: 1px;
 }
 
 .tng-radio-control:focus-visible {

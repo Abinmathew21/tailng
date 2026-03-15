@@ -1,0 +1,85 @@
+:host {
+  display: block;
+}
+
+.radio-overview {
+  display: grid;
+  gap: 1rem;
+}
+
+.radio-overview-title {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.radio-overview-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.radio-overview-block {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.9rem;
+  color: var(--tng-semantic-foreground-secondary);
+  display: grid;
+  gap: 0.7rem;
+  padding: 1rem;
+}
+
+.radio-overview-block h3 {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1rem;
+  margin: 0;
+}
+
+.radio-overview-block p {
+  margin: 0;
+}
+
+.radio-overview-list {
+  display: grid;
+  gap: 0.45rem;
+  margin: 0;
+  padding-left: 1rem;
+}
+
+.radio-preview-stack,
+.plain-radio-card {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.radio-preview-stack {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.8rem;
+  padding: 0.8rem 0.95rem;
+}
+
+.radio-preview-legend {
+  color: var(--tng-semantic-foreground-primary);
+  font-weight: 600;
+  margin: 0 0 0.25rem;
+  padding: 0;
+}
+
+.radio-row {
+  align-items: center;
+  color: var(--tng-semantic-foreground-primary);
+  display: inline-flex;
+  gap: 0.55rem;
+}
+
+.plain-radio-card {
+  background: var(--tng-semantic-background-surface);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.8rem;
+  padding: 0.9rem 1rem;
+}
+
+.radio-selected {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.9rem;
+  margin: 0;
+}

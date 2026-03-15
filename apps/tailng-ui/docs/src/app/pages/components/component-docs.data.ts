@@ -95,6 +95,12 @@ export const COMPONENTS_FORM_GROUP: ComponentsDocsGroup = {
       description: 'Pressed button semantics for compact on/off actions and toolbar commands.',
     },
     {
+      id: 'radio',
+      slug: 'radio',
+      title: 'Radio',
+      description: 'Single-choice grouped selection with native semantics and keyboard behavior.',
+    },
+    {
       id: 'button-toggle',
       slug: 'button-toggle',
       title: 'Button Toggle',

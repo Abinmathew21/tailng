@@ -1,0 +1,135 @@
+<article class="radio-api">
+  <h2 class="radio-api-title">API reference</h2>
+  <p class="radio-api-lead">
+    Radio exposes a primitive directive for native input behavior and a styled wrapper for quick
+    themed adoption.
+  </p>
+
+  <section class="radio-api-block">
+    <h3><code>tngRadio</code> (directive)</h3>
+    <p>Attach to <code>input[type="radio"]</code> and rely on native group semantics via shared name.</p>
+    <tng-code-block
+      [code]="primitiveAttachmentCode"
+      adapter="shiki"
+      language="html"
+      title="Primitive attachment"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+
+    <div class="radio-api-table-wrap">
+      <table class="radio-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Input</th>
+            <th scope="col">Type</th>
+            <th scope="col">Default</th>
+            <th scope="col">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>checked</code></td>
+            <td><code>boolean | '' | string</code></td>
+            <td><code>false</code></td>
+            <td>Checked state for controlled usage.</td>
+          </tr>
+          <tr>
+            <td><code>disabled</code></td>
+            <td><code>boolean | '' | string</code></td>
+            <td><code>false</code></td>
+            <td>Blocks user interaction.</td>
+          </tr>
+          <tr>
+            <td><code>readonly</code></td>
+            <td><code>boolean | '' | string</code></td>
+            <td><code>false</code></td>
+            <td>Keeps focusable semantics while preventing value change.</td>
+          </tr>
+          <tr>
+            <td><code>required</code></td>
+            <td><code>boolean | '' | string</code></td>
+            <td><code>false</code></td>
+            <td>Reflects native required attribute.</td>
+          </tr>
+          <tr>
+            <td><code>invalid</code>, <code>ariaInvalid</code></td>
+            <td><code>boolean | null | '' | 'true' | 'false'</code></td>
+            <td><code>null</code></td>
+            <td>Validation state hooks for ARIA and styling.</td>
+          </tr>
+          <tr>
+            <td><code>name</code>, <code>value</code></td>
+            <td><code>string | null</code></td>
+            <td><code>null</code></td>
+            <td>Native form submission semantics.</td>
+          </tr>
+          <tr>
+            <td><code>ariaDescribedBy</code></td>
+            <td><code>string | null</code></td>
+            <td><code>null</code></td>
+            <td>Associates helper/error text.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <tng-code-block
+      [code]="helperCode"
+      adapter="shiki"
+      language="html"
+      title="Helper text association"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section class="radio-api-block">
+    <h3><code>tng-radio</code> (styled component)</h3>
+    <p>Styled wrapper forwarding primitive behavior and emitting <code>checkedChange</code>.</p>
+    <tng-code-block
+      [code]="componentAttachmentCode"
+      adapter="shiki"
+      language="html"
+      title="Styled attachment"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+
+    <div class="radio-api-table-wrap">
+      <table class="radio-api-table">
+        <thead>
+          <tr>
+            <th scope="col">API</th>
+            <th scope="col">Type</th>
+            <th scope="col">Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Inputs</td>
+            <td>
+              <code>checked</code>, <code>disabled</code>, <code>readonly</code>,
+              <code>required</code>, <code>invalid</code>, <code>ariaInvalid</code>, <code>name</code>,
+              <code>value</code>, <code>ariaDescribedBy</code>
+            </td>
+            <td>Forwarded to the primitive input and wrapper state hooks.</td>
+          </tr>
+          <tr>
+            <td>Output</td>
+            <td><code>checkedChange: boolean</code></td>
+            <td>Emits only when interaction is allowed (not disabled/readonly).</td>
+          </tr>
+          <tr>
+            <td>Form behavior</td>
+            <td>Native radio semantics</td>
+            <td>Use shared <code>name</code> for mutually-exclusive groups.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</article>
