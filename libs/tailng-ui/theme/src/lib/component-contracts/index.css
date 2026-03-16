@@ -3,4 +3,4 @@
 @import "./form/multi-autocomplete/multi-autocomplete.css" layer(tng.contracts);
 @import "./form/input/input.css" layer(tng.contracts);
 @import "./navigation/menu/menu.css" layer(tng.contracts);
-@import "./navigation/menubar/menubar.css" layer(tng.contracts);
+@import "./navigation/menubar/menubar.css" layer(tng.contracts);@import "./layout/tree/tree.css" layer(tng.contracts);

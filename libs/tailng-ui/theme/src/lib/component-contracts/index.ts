@@ -4,3 +4,4 @@ export { buttonStyleContract } from './button.contract';
 
 export * from './form';
 export * from './navigation';
+export * from './layout';

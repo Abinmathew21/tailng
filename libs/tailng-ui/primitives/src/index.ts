@@ -47,6 +47,9 @@ export * from './lib/layout/grid/tng-grid';
 export * from './lib/layout/separator/tng-separator';
 export * from './lib/layout/stepper/tng-stepper';
 export * from './lib/layout/tree/tng-tree';
+export * from './lib/layout/tree/tng-tree-item';
+export * from './lib/layout/tree/tng-tree-group';
+export * from './lib/layout/tree/tng-tree-indicator';
 
 // Overlay
 export * from './lib/overlay/dialog/tng-dialog';

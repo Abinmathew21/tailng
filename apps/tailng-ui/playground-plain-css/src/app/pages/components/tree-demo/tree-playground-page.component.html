@@ -31,7 +31,39 @@
     <section class="card">
       <h2>Primitives (`tngTree`)</h2>
       <p class="demo-note">Primitive provides the shell hook; behavior is implemented by component layer.</p>
-      <div tngTree class="primitive-shell">This shell can host custom tree markup for fully owned rendering.</div>
+      <div tngTree [selectionMode]="'single'" class="primitive-shell" (valueChange)="onSelectedIdChange($event)">
+        <div tngTreeItem [value]="'workspace'" class="primitive-item" [defaultExpanded]="true">
+          <span tngTreeIndicator class="primitive-indicator">📂</span> tailng-ui
+
+          <div tngTreeGroup class="primitive-group">
+            <div tngTreeItem [value]="'libs'" class="primitive-item" [defaultExpanded]="true">
+              <span tngTreeIndicator class="primitive-indicator">📂</span> libs
+              
+              <div tngTreeGroup class="primitive-group">
+                <div tngTreeItem [value]="'components'" class="primitive-item">
+                  <span tngTreeIndicator class="primitive-indicator">📄</span> tailng-ui
+                </div>
+                <div tngTreeItem [value]="'primitives'" class="primitive-item">
+                  <span tngTreeIndicator class="primitive-indicator">📄</span> primitives
+                </div>
+              </div>
+            </div>
+
+            <div tngTreeItem [value]="'apps'" class="primitive-item" [defaultExpanded]="true">
+              <span tngTreeIndicator class="primitive-indicator">📂</span> apps
+              
+              <div tngTreeGroup class="primitive-group">
+                <div tngTreeItem [value]="'tailwind-app'" class="primitive-item">
+                  <span tngTreeIndicator class="primitive-indicator">📄</span> playground-tailwind
+                </div>
+                <div tngTreeItem [value]="'plain-css-app'" class="primitive-item">
+                  <span tngTreeIndicator class="primitive-indicator">📄</span> playground-plain-css
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
   </section>
 </main>
