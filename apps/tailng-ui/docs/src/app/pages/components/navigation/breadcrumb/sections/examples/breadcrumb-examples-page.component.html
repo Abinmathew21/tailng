@@ -1,0 +1,133 @@
+<article class="breadcrumb-examples">
+  <h2 class="breadcrumb-examples-title">Examples</h2>
+  <p class="breadcrumb-examples-lead">
+    Production breadcrumb paths often require collapse handling and mixed current/disabled states
+    across headless and wrapper compositions.
+  </p>
+
+  <app-docs-example-tabs-section
+    class="breadcrumb-example-block"
+    heading="Collapsed long path"
+    description="Show first and trailing segments while collapsing middle items when path depth grows."
+    ariaLabel="Collapsed breadcrumb examples"
+    tabListAriaLabel="Collapsed breadcrumb variants"
+    defaultValue="headless"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="headless"
+      label="Headless"
+      panelTitle="Headless collapsed path"
+      [codeTabs]="collapseHeadlessCodeTabs"
+    >
+      <nav tngBreadcrumb aria-label="Headless collapsed breadcrumb" class="example-headless-nav">
+        <ol tngBreadcrumbList class="example-headless-list">
+          <li tngBreadcrumbItem><a tngBreadcrumbLink href="#">Home</a></li>
+          <li tngBreadcrumbSeparator>/</li>
+          <li tngBreadcrumbItem><span aria-hidden="true">…</span></li>
+          <li tngBreadcrumbSeparator>/</li>
+          <li tngBreadcrumbItem><a tngBreadcrumbLink href="#">Shoes</a></li>
+          <li tngBreadcrumbSeparator>/</li>
+          <li tngBreadcrumbItem><span aria-current="page">Running</span></li>
+        </ol>
+      </nav>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+      panelTitle="Wrapper collapsed path (plain CSS)"
+      [codeTabs]="collapsePlainCodeTabs"
+    >
+      <div class="example-shell">
+        <tng-breadcrumb ariaLabel="Catalog path" [maxItems]="4" [itemsBeforeCollapse]="1" [itemsAfterCollapse]="2">
+          <tng-breadcrumb-item href="#">Home</tng-breadcrumb-item>
+          <tng-breadcrumb-item href="#">Catalog</tng-breadcrumb-item>
+          <tng-breadcrumb-item href="#">Products</tng-breadcrumb-item>
+          <tng-breadcrumb-item href="#">Shoes</tng-breadcrumb-item>
+          <tng-breadcrumb-item [current]="true">Running</tng-breadcrumb-item>
+        </tng-breadcrumb>
+      </div>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Wrapper collapsed path (Tailwind shell)"
+      [codeTabs]="collapseTailwindCodeTabs"
+    >
+      <div class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">
+        <tng-breadcrumb ariaLabel="Tailwind catalog path" separator="›" [maxItems]="4">
+          <tng-breadcrumb-item href="#">Home</tng-breadcrumb-item>
+          <tng-breadcrumb-item href="#">Catalog</tng-breadcrumb-item>
+          <tng-breadcrumb-item href="#">Products</tng-breadcrumb-item>
+          <tng-breadcrumb-item href="#">Shoes</tng-breadcrumb-item>
+          <tng-breadcrumb-item [current]="true">Running</tng-breadcrumb-item>
+        </tng-breadcrumb>
+      </div>
+    </ng-template>
+  </app-docs-example-tabs-section>
+
+  <app-docs-example-tabs-section
+    class="breadcrumb-example-block"
+    heading="Current-link and disabled segments"
+    description="Mix disabled ancestors and optional current-as-link behavior when products require it."
+    ariaLabel="Current and disabled breadcrumb examples"
+    tabListAriaLabel="Current and disabled variants"
+    defaultValue="headless"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="headless"
+      label="Headless"
+      panelTitle="Headless current-link"
+      [codeTabs]="currentHeadlessCodeTabs"
+    >
+      <nav tngBreadcrumb aria-label="Headless current-link breadcrumb" class="example-headless-nav">
+        <ol tngBreadcrumbList class="example-headless-list">
+          <li tngBreadcrumbItem><a tngBreadcrumbLink href="#">Home</a></li>
+          <li tngBreadcrumbSeparator>/</li>
+          <li tngBreadcrumbItem><a tngBreadcrumbLink href="#">Docs</a></li>
+          <li tngBreadcrumbSeparator>/</li>
+          <li tngBreadcrumbItem><a tngBreadcrumbLink aria-current="page" href="#">Breadcrumb</a></li>
+        </ol>
+      </nav>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+      panelTitle="Wrapper disabled segment (plain CSS)"
+      [codeTabs]="currentPlainCodeTabs"
+    >
+      <div class="example-shell">
+        <tng-breadcrumb ariaLabel="Access path">
+          <tng-breadcrumb-item href="#">Home</tng-breadcrumb-item>
+          <tng-breadcrumb-item href="#" [disabled]="true">Restricted</tng-breadcrumb-item>
+          <tng-breadcrumb-item href="#" [current]="true" [currentAsLink]="true">Docs</tng-breadcrumb-item>
+        </tng-breadcrumb>
+      </div>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Wrapper disabled segment (Tailwind shell)"
+      [codeTabs]="currentTailwindCodeTabs"
+    >
+      <div class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">
+        <tng-breadcrumb ariaLabel="Billing path">
+          <tng-breadcrumb-item href="#">Workspace</tng-breadcrumb-item>
+          <tng-breadcrumb-item href="#" [disabled]="true">Restricted</tng-breadcrumb-item>
+          <tng-breadcrumb-item [current]="true">Billing</tng-breadcrumb-item>
+        </tng-breadcrumb>
+      </div>
+    </ng-template>
+  </app-docs-example-tabs-section>
+</article>

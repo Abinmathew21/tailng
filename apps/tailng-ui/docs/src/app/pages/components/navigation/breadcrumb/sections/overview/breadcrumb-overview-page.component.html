@@ -1,0 +1,107 @@
+<article class="breadcrumb-overview">
+  <h2 class="breadcrumb-overview-title">Breadcrumb overview</h2>
+  <p class="breadcrumb-overview-lead">
+    Breadcrumb communicates hierarchy from root to current location. Use primitives for full markup
+    ownership or wrapper components for collapsed-path and current-item defaults.
+  </p>
+
+  <section class="breadcrumb-overview-block">
+    <h3>Imports</h3>
+    <tng-code-block
+      [code]="primitiveImportCode"
+      adapter="shiki"
+      language="ts"
+      title="Primitive imports"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+    <tng-code-block
+      [code]="componentImportCode"
+      adapter="shiki"
+      language="ts"
+      title="Wrapper imports"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <app-docs-example-tabs-section
+    class="breadcrumb-overview-block"
+    heading="Style variants"
+    description="Same breadcrumb contract rendered through headless primitives, plain CSS wrappers, and Tailwind utility shells."
+    ariaLabel="Breadcrumb style variants"
+    tabListAriaLabel="Breadcrumb style tabs"
+    defaultValue="headless"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="headless"
+      label="Headless"
+      panelTitle="Headless path trail"
+      [codeTabs]="headlessCodeTabs"
+    >
+      <nav tngBreadcrumb aria-label="Headless breadcrumb path" class="demo-headless-nav">
+        <ol tngBreadcrumbList class="demo-headless-list">
+          <li tngBreadcrumbItem>
+            <a tngBreadcrumbLink href="#">Home</a>
+          </li>
+          <li tngBreadcrumbSeparator>/</li>
+          <li tngBreadcrumbItem>
+            <a tngBreadcrumbLink href="#">Docs</a>
+          </li>
+          <li tngBreadcrumbSeparator>/</li>
+          <li tngBreadcrumbItem>
+            <span aria-current="page">Breadcrumb</span>
+          </li>
+        </ol>
+      </nav>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+      panelTitle="Wrapper trail (plain CSS)"
+      [codeTabs]="plainCssCodeTabs"
+    >
+      <div class="demo-shell">
+        <tng-breadcrumb ariaLabel="Release path">
+          <tng-breadcrumb-item href="#">Home</tng-breadcrumb-item>
+          <tng-breadcrumb-item href="#">Releases</tng-breadcrumb-item>
+          <tng-breadcrumb-item [current]="true">v2.6</tng-breadcrumb-item>
+        </tng-breadcrumb>
+      </div>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Wrapper trail (Tailwind shell)"
+      [codeTabs]="tailwindCodeTabs"
+    >
+      <div class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">
+        <tng-breadcrumb ariaLabel="Tailwind path" separator="›">
+          <tng-breadcrumb-item href="#">Docs</tng-breadcrumb-item>
+          <tng-breadcrumb-item href="#">Navigation</tng-breadcrumb-item>
+          <tng-breadcrumb-item [current]="true">Breadcrumb</tng-breadcrumb-item>
+        </tng-breadcrumb>
+      </div>
+    </ng-template>
+  </app-docs-example-tabs-section>
+
+  <section class="breadcrumb-overview-block">
+    <h3>Keyboard and accessibility baseline</h3>
+    <ul class="breadcrumb-overview-list">
+      <li>Linked items remain native anchors and are reachable through <code>Tab</code>.</li>
+      <li>Current item exposes <code>aria-current="page"</code>.</li>
+      <li>Decorative separators are rendered with <code>aria-hidden="true"</code>.</li>
+      <li>Collapsed mode preserves first and current segments by default.</li>
+    </ul>
+  </section>
+</article>

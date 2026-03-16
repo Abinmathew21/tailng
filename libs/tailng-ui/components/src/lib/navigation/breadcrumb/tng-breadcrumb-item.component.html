@@ -5,8 +5,11 @@
 <li
   tngBreadcrumbItem
   class="tng-breadcrumb-item"
+  [attr.data-collapsed]="displayMode() === 'ellipsis' ? 'true' : null"
   [attr.data-current]="isResolvedCurrent() ? 'true' : null"
   [attr.data-disabled]="disabled() ? 'true' : null"
+  [attr.data-focused]="isFocused() ? 'true' : null"
+  [attr.data-focus-visible]="isFocusVisible() ? 'true' : null"
   [hidden]="displayMode() === 'hidden'"
 >
   @switch (displayMode()) {

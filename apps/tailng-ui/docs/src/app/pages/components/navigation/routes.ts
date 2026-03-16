@@ -5,6 +5,10 @@ import {
 } from '../component-docs.data';
 
 const group = COMPONENTS_NAVIGATION_GROUP;
+const breadcrumbItem = group.items.find((item) => item.slug === 'breadcrumb');
+if (breadcrumbItem === undefined) {
+  throw new Error('Missing "breadcrumb" in components navigation docs group.');
+}
 const menubarItem = group.items.find((item) => item.slug === 'menubar');
 if (menubarItem === undefined) {
   throw new Error('Missing "menubar" in components navigation docs group.');
@@ -19,6 +23,7 @@ if (contextMenuItem === undefined) {
 }
 const landingItems = group.items.filter(
   (item) =>
+    item.slug !== breadcrumbItem.slug &&
     item.slug !== menubarItem.slug &&
     item.slug !== menuItem.slug &&
     item.slug !== contextMenuItem.slug,
@@ -29,6 +34,11 @@ export const COMPONENTS_NAVIGATION_ROUTES: Routes = [
     path: '',
     pathMatch: 'full',
     redirectTo: group.items[0]!.slug,
+  },
+  {
+    path: breadcrumbItem.slug,
+    loadChildren: () =>
+      import('./breadcrumb/routes').then((module) => module.COMPONENTS_NAVIGATION_BREADCRUMB_ROUTES),
   },
   {
     path: menubarItem.slug,

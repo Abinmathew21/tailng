@@ -1,0 +1,77 @@
+import type { Routes } from '@angular/router';
+import { COMPONENTS_NAVIGATION_GROUP, toComponentsDocsRouteData } from '../../component-docs.data';
+
+const group = COMPONENTS_NAVIGATION_GROUP;
+const breadcrumbItem = group.items.find((item) => item.slug === 'breadcrumb');
+if (breadcrumbItem === undefined) {
+  throw new Error('Missing "breadcrumb" in components navigation docs group.');
+}
+
+export const COMPONENTS_NAVIGATION_BREADCRUMB_ROUTES: Routes = [
+  {
+    path: '',
+    data: toComponentsDocsRouteData(group, breadcrumbItem),
+    loadComponent: () =>
+      import('./breadcrumb-page.component').then((module) => module.BreadcrumbPageComponent),
+    children: [
+      {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'overview',
+      },
+      {
+        path: 'overview',
+        loadComponent: () =>
+          import('./sections/overview/breadcrumb-overview-page.component').then(
+            (module) => module.BreadcrumbOverviewPageComponent,
+          ),
+      },
+      {
+        path: 'api',
+        loadComponent: () =>
+          import('./sections/api/breadcrumb-api-page.component').then(
+            (module) => module.BreadcrumbApiPageComponent,
+          ),
+      },
+      {
+        path: 'styling',
+        loadComponent: () =>
+          import('./sections/styling/breadcrumb-styling-page.component').then(
+            (module) => module.BreadcrumbStylingPageComponent,
+          ),
+      },
+      {
+        path: 'examples',
+        loadComponent: () =>
+          import('./sections/examples/breadcrumb-examples-page.component').then(
+            (module) => module.BreadcrumbExamplesPageComponent,
+          ),
+      },
+      {
+        path: 'ownable-install',
+        data: {
+          componentName: 'Breadcrumb',
+          componentSymbol: 'TngBreadcrumbComponent',
+          primitiveSymbol: 'TngBreadcrumb',
+          registrySlug: 'breadcrumb',
+          usageCode: [
+            '<tng-breadcrumb ariaLabel="Navigation path" separator="›">',
+            '  <tng-breadcrumb-item href="/">Home</tng-breadcrumb-item>',
+            '  <tng-breadcrumb-item href="/docs">Docs</tng-breadcrumb-item>',
+            '  <tng-breadcrumb-item [current]="true">Breadcrumb</tng-breadcrumb-item>',
+            '</tng-breadcrumb>',
+            '',
+          ].join('\n'),
+        },
+        loadComponent: () =>
+          import('../../../../shared/ownable-install-section/docs-ownable-install-section.component').then(
+            (module) => module.DocsOwnableInstallSectionComponent,
+          ),
+      },
+      {
+        path: '**',
+        redirectTo: 'overview',
+      },
+    ],
+  },
+];

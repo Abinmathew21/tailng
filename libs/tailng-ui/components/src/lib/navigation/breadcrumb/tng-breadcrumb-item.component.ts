@@ -1,5 +1,14 @@
 import { NgTemplateOutlet } from '@angular/common';
-import { booleanAttribute, Component, input, signal, type TemplateRef } from '@angular/core';
+import {
+  booleanAttribute,
+  Component,
+  ElementRef,
+  HostListener,
+  inject,
+  input,
+  signal,
+  type TemplateRef,
+} from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
   TngBreadcrumbItem as TngBreadcrumbItemPrimitive,
@@ -23,6 +32,9 @@ export type TngBreadcrumbItemDisplayMode = 'ellipsis' | 'hidden' | 'visible';
   styleUrl: './tng-breadcrumb-item.component.css',
 })
 export class TngBreadcrumbItemComponent {
+  private readonly hostRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  private keyboardModality = false;
+
   public readonly stateChanges = new Subject<void>();
   public readonly current = input(false, { transform: booleanAttribute });
   public readonly currentAsLink = input(false, { transform: booleanAttribute });
@@ -30,6 +42,8 @@ export class TngBreadcrumbItemComponent {
   public readonly href = input<string | null>(null);
   public readonly routerLink = input<string | readonly (number | string)[] | null>(null);
 
+  protected readonly isFocused = signal(false);
+  protected readonly isFocusVisible = signal(false);
   protected readonly displayMode = signal<TngBreadcrumbItemDisplayMode>('visible');
   protected readonly collapseLabel = signal('More');
   protected readonly isResolvedCurrent = signal(false);
@@ -101,5 +115,49 @@ export class TngBreadcrumbItemComponent {
 
     event.preventDefault();
     event.stopImmediatePropagation();
+  }
+
+  @HostListener('keydown')
+  protected onKeydown(): void {
+    this.keyboardModality = true;
+  }
+
+  @HostListener('pointerdown')
+  protected onPointerdown(): void {
+    this.keyboardModality = false;
+  }
+
+  @HostListener('mousedown')
+  protected onMousedown(): void {
+    this.keyboardModality = false;
+  }
+
+  @HostListener('touchstart')
+  protected onTouchstart(): void {
+    this.keyboardModality = false;
+  }
+
+  @HostListener('focusin', ['$event'])
+  protected onFocusin(event: FocusEvent): void {
+    this.isFocused.set(true);
+
+    const target = event.target;
+    if (target instanceof HTMLElement) {
+      this.isFocusVisible.set(target.matches(':focus-visible') || this.keyboardModality);
+      return;
+    }
+
+    this.isFocusVisible.set(this.keyboardModality);
+  }
+
+  @HostListener('focusout', ['$event'])
+  protected onFocusout(event: FocusEvent): void {
+    const relatedTarget = event.relatedTarget;
+    if (relatedTarget instanceof Node && this.hostRef.nativeElement.contains(relatedTarget)) {
+      return;
+    }
+
+    this.isFocused.set(false);
+    this.isFocusVisible.set(false);
   }
 }

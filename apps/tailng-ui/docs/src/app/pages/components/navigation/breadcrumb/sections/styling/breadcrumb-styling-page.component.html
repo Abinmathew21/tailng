@@ -1,0 +1,38 @@
+<article class="breadcrumb-styling">
+  <h2 class="breadcrumb-styling-title">Styling contract</h2>
+  <p class="breadcrumb-styling-lead">
+    Breadcrumb primitives expose stable slot attributes so teams can style either pure headless
+    markup or wrapper components with the same selectors.
+  </p>
+
+  <section class="breadcrumb-styling-block">
+    <h3>Primitive slot selectors</h3>
+    <ul>
+      <li><code>[data-slot="breadcrumb"]</code> for the root navigation container.</li>
+      <li><code>[data-slot="breadcrumb-list"]</code> for the ordered list track.</li>
+      <li><code>[data-slot="breadcrumb-item"]</code> for each item wrapper.</li>
+      <li><code>[data-slot="breadcrumb-link"]</code> for linked ancestor segments.</li>
+      <li><code>[data-slot="breadcrumb-separator"]</code> for decorative separators.</li>
+    </ul>
+  </section>
+
+  <section class="breadcrumb-styling-block">
+    <h3>Wrapper state hooks</h3>
+    <ul>
+      <li><code>[data-current="true"]</code> on the resolved current page segment.</li>
+      <li><code>[data-disabled="true"]</code> when an item is presentational but non-interactive.</li>
+      <li><code>[data-collapsed="true"]</code> on the rendered ellipsis marker in collapsed mode.</li>
+      <li><code>[data-focused="true"]</code> and <code>[data-focus-visible="true"]</code> during focus transitions.</li>
+    </ul>
+  </section>
+
+  <section class="breadcrumb-styling-block">
+    <h3>Practical guidance</h3>
+    <ul>
+      <li>Keep separators decorative (<code>aria-hidden</code>) and non-focusable.</li>
+      <li>Use stronger contrast for the current segment than ancestor links.</li>
+      <li>In collapsed mode, preserve first and current items for orientation.</li>
+      <li>Avoid wrapping every segment to new lines unless your IA requires it on mobile.</li>
+    </ul>
+  </section>
+</article>

@@ -34,6 +34,10 @@
   font-weight: 500;
 }
 
+.tng-breadcrumb-item[data-focus-visible='true'] .tng-breadcrumb-item-link {
+  text-decoration: underline;
+}
+
 .tng-breadcrumb-item-ellipsis {
   color: var(--tng-semantic-foreground-secondary);
   user-select: none;

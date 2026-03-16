@@ -150,6 +150,24 @@ it('tailng cli integration: add writes context-menu source files', async (): Pro
   ).toBe(true);
 });
 
+it('tailng cli integration: add writes breadcrumb source files', async (): Promise<void> => {
+  const targetRoot = await createTargetRoot();
+
+  const exitCode = await runCli(['add', 'breadcrumb', '--cwd', targetRoot], {
+    registry: registryModule,
+  });
+
+  expect(exitCode).toBe(0);
+  expect(
+    await pathExists(path.join(targetRoot, 'src/app/tailng-ui/breadcrumb/tng-breadcrumb.ts')),
+  ).toBe(true);
+  expect(
+    await pathExists(
+      path.join(targetRoot, 'src/app/tailng-ui/breadcrumb/tng-breadcrumb-primitive.ts'),
+    ),
+  ).toBe(true);
+});
+
 it('tailng cli integration: add writes menubar source files', async (): Promise<void> => {
   const targetRoot = await createTargetRoot();
 

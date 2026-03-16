@@ -306,6 +306,12 @@ export const COMPONENTS_NAVIGATION_GROUP: ComponentsDocsGroup = {
   subtitle: 'Menu surfaces and hierarchical actions',
   items: [
     {
+      id: 'breadcrumb',
+      slug: 'breadcrumb',
+      title: 'Breadcrumb',
+      description: 'Hierarchical path navigation with optional collapse and current-page semantics.',
+    },
+    {
       id: 'menubar',
       slug: 'menubar',
       title: 'Menubar',

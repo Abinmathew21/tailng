@@ -371,6 +371,21 @@ describe('tng-breadcrumb component behavior blocks A-L', () => {
       expect(anchor?.getAttribute('href')).toBe('/home');
     });
 
+    it('activates linked breadcrumb items on click without disabled prevention', () => {
+      const fixture = TestBed.configureTestingModule({
+        imports: [BreadcrumbHarnessComponent],
+      }).createComponent(BreadcrumbHarnessComponent);
+      fixture.detectChanges();
+
+      const homeLink = getByTestId<HTMLElement>(fixture, 'crumb-home').querySelector('a');
+      if (!(homeLink instanceof HTMLElement)) {
+        throw new Error('Expected enabled breadcrumb link.');
+      }
+
+      const clickEvent = click(homeLink);
+      expect(clickEvent.defaultPrevented).toBe(false);
+    });
+
     it('renders a non-link breadcrumb item as plain text when no link is provided', () => {
       const fixture = TestBed.configureTestingModule({
         imports: [BreadcrumbHarnessComponent],
@@ -684,6 +699,26 @@ describe('tng-breadcrumb component behavior blocks A-L', () => {
       expect(getNav(fixture).querySelectorAll('.tng-breadcrumb-item-ellipsis').length).toBe(1);
     });
 
+    it('applies data-collapsed on the ellipsis item when collapse mode is active', () => {
+      const fixture = TestBed.configureTestingModule({
+        imports: [BreadcrumbHarnessComponent],
+      }).createComponent(BreadcrumbHarnessComponent);
+
+      fixture.componentInstance.maxItems.set(4);
+      fixture.componentInstance.crumbs.set([
+        { id: 'home', label: 'Home', href: '/home' },
+        { id: 'catalog', label: 'Catalog', href: '/catalog' },
+        { id: 'mens', label: 'Mens', href: '/mens' },
+        { id: 'shoes', label: 'Shoes', href: '/shoes' },
+        { id: 'running', label: 'Running', current: true },
+      ]);
+      fixture.detectChanges();
+
+      const collapsedItem = getNav(fixture).querySelector('li[data-collapsed="true"]');
+      expect(collapsedItem).toBeTruthy();
+      expect(collapsedItem?.querySelector('.tng-breadcrumb-item-ellipsis')).toBeTruthy();
+    });
+
     it('preserves first crumb and last itemsAfterCollapse crumbs when collapsed', () => {
       const fixture = TestBed.configureTestingModule({
         imports: [BreadcrumbHarnessComponent],
@@ -912,6 +947,21 @@ describe('tng-breadcrumb component behavior blocks A-L', () => {
       expect(tabEvent.defaultPrevented).toBe(false);
     });
 
+    it('does not block Enter on focused enabled link items', () => {
+      const fixture = TestBed.configureTestingModule({
+        imports: [BreadcrumbHarnessComponent],
+      }).createComponent(BreadcrumbHarnessComponent);
+      fixture.detectChanges();
+
+      const homeLink = getByTestId<HTMLElement>(fixture, 'crumb-home').querySelector('a');
+      if (!(homeLink instanceof HTMLElement)) {
+        throw new Error('Expected enabled breadcrumb link.');
+      }
+
+      const enterEvent = keydown(homeLink, 'Enter');
+      expect(enterEvent.defaultPrevented).toBe(false);
+    });
+
     it('supports long labels without breaking DOM structure', () => {
       const fixture = TestBed.configureTestingModule({
         imports: [BreadcrumbHarnessComponent],
@@ -965,6 +1015,49 @@ describe('tng-breadcrumb component behavior blocks A-L', () => {
       expect(consoleErrorSpy).not.toHaveBeenCalled();
 
       consoleErrorSpy.mockRestore();
+    });
+  });
+
+  describe('M) Focus state hooks', () => {
+    it('applies data-focused while a breadcrumb link has focus', () => {
+      const fixture = TestBed.configureTestingModule({
+        imports: [BreadcrumbHarnessComponent],
+      }).createComponent(BreadcrumbHarnessComponent);
+      fixture.detectChanges();
+
+      const homeLink = getByTestId<HTMLElement>(fixture, 'crumb-home').querySelector('a');
+      const homeItem = getByTestId<HTMLElement>(fixture, 'crumb-home').querySelector('li');
+      const afterLink = getByTestId<HTMLElement>(fixture, 'after-link');
+      if (!(homeLink instanceof HTMLElement) || !(homeItem instanceof HTMLElement)) {
+        throw new Error('Expected breadcrumb home item and link.');
+      }
+
+      homeLink.dispatchEvent(new FocusEvent('focusin', { bubbles: true }));
+      fixture.detectChanges();
+      expect(homeItem.getAttribute('data-focused')).toBe('true');
+
+      homeLink.dispatchEvent(new FocusEvent('focusout', { bubbles: true, relatedTarget: afterLink }));
+      fixture.detectChanges();
+      expect(homeItem.getAttribute('data-focused')).toBeNull();
+    });
+
+    it('applies data-focus-visible after keyboard-driven focus', () => {
+      const fixture = TestBed.configureTestingModule({
+        imports: [BreadcrumbHarnessComponent],
+      }).createComponent(BreadcrumbHarnessComponent);
+      fixture.detectChanges();
+
+      const homeLink = getByTestId<HTMLElement>(fixture, 'crumb-home').querySelector('a');
+      const homeItem = getByTestId<HTMLElement>(fixture, 'crumb-home').querySelector('li');
+      if (!(homeLink instanceof HTMLElement) || !(homeItem instanceof HTMLElement)) {
+        throw new Error('Expected breadcrumb home item and link.');
+      }
+
+      homeLink.dispatchEvent(new KeyboardEvent('keydown', { bubbles: true, key: 'Tab' }));
+      homeLink.dispatchEvent(new FocusEvent('focusin', { bubbles: true }));
+      fixture.detectChanges();
+
+      expect(homeItem.getAttribute('data-focus-visible')).toBe('true');
     });
   });
 });

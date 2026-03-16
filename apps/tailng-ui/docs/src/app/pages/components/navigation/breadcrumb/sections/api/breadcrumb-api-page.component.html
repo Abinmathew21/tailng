@@ -1,0 +1,102 @@
+<article class="breadcrumb-api">
+  <h2 class="breadcrumb-api-title">API reference</h2>
+  <p class="breadcrumb-api-lead">
+    Breadcrumb combines minimal headless directives and a wrapper component that adds collapse,
+    separator, and current-item resolution.
+  </p>
+
+  <section class="breadcrumb-api-block">
+    <h3>Wrapper APIs</h3>
+    <div class="breadcrumb-api-table-wrap">
+      <table class="breadcrumb-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Element</th>
+            <th scope="col">Input</th>
+            <th scope="col">Type</th>
+            <th scope="col">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>&lt;tng-breadcrumb&gt;</code></td>
+            <td><code>ariaLabel</code></td>
+            <td><code>string | null</code></td>
+            <td>Accessible label for the breadcrumb navigation landmark.</td>
+          </tr>
+          <tr>
+            <td><code>&lt;tng-breadcrumb&gt;</code></td>
+            <td><code>separator</code></td>
+            <td><code>string</code></td>
+            <td>Separator symbol rendered between visible breadcrumb items.</td>
+          </tr>
+          <tr>
+            <td><code>&lt;tng-breadcrumb&gt;</code></td>
+            <td><code>maxItems</code>, <code>itemsBeforeCollapse</code>, <code>itemsAfterCollapse</code></td>
+            <td><code>number | null</code></td>
+            <td>Collapse controls for long breadcrumb paths.</td>
+          </tr>
+          <tr>
+            <td><code>&lt;tng-breadcrumb-item&gt;</code></td>
+            <td><code>href</code>, <code>routerLink</code></td>
+            <td><code>string | string[] | null</code></td>
+            <td>Link target; item becomes text-only when both are absent.</td>
+          </tr>
+          <tr>
+            <td><code>&lt;tng-breadcrumb-item&gt;</code></td>
+            <td><code>current</code>, <code>currentAsLink</code>, <code>disabled</code></td>
+            <td><code>boolean</code></td>
+            <td>Current-page semantics, optional current-link, and disabled behavior.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="breadcrumb-api-block">
+    <h3>Primitive directives</h3>
+    <div class="breadcrumb-api-table-wrap">
+      <table class="breadcrumb-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Directive</th>
+            <th scope="col">Purpose</th>
+            <th scope="col">State hooks</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>tngBreadcrumb</code></td>
+            <td>Root navigation landmark slot.</td>
+            <td><code>data-slot="breadcrumb"</code></td>
+          </tr>
+          <tr>
+            <td><code>tngBreadcrumbList</code></td>
+            <td>Ordered list slot for breadcrumb items.</td>
+            <td><code>data-slot="breadcrumb-list"</code></td>
+          </tr>
+          <tr>
+            <td><code>tngBreadcrumbItem</code>, <code>tngBreadcrumbLink</code></td>
+            <td>Item and link slots for owner-controlled rendering.</td>
+            <td><code>data-slot="breadcrumb-item|breadcrumb-link"</code></td>
+          </tr>
+          <tr>
+            <td><code>tngBreadcrumbSeparator</code></td>
+            <td>Decorative separator slot rendered with <code>aria-hidden</code>.</td>
+            <td><code>data-slot="breadcrumb-separator"</code></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="breadcrumb-api-block">
+    <h3>Data attributes from wrapper items</h3>
+    <ul>
+      <li><code>data-current="true"</code> on resolved current item.</li>
+      <li><code>data-disabled="true"</code> on disabled items.</li>
+      <li><code>data-collapsed="true"</code> on ellipsis collapse marker item.</li>
+      <li><code>data-focused="true"</code> and <code>data-focus-visible="true"</code> during keyboard focus.</li>
+    </ul>
+  </section>
+</article>
