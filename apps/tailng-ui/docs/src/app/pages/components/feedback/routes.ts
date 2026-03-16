@@ -10,6 +10,10 @@ if (defaultItem === undefined) {
   throw new Error('Components feedback docs are empty.');
 }
 
+const toastItem = group.items.find((item) => item.slug === 'toast');
+if (toastItem === undefined) {
+  throw new Error('Missing "toast" in components feedback docs group.');
+}
 const emptyItem = group.items.find((item) => item.slug === 'empty');
 if (emptyItem === undefined) {
   throw new Error('Missing "empty" in components feedback docs group.');
@@ -28,6 +32,7 @@ if (skeletonItem === undefined) {
 }
 
 const feedbackLandingSlugs = new Set([
+  toastItem.slug,
   emptyItem.slug,
   progressBarItem.slug,
   progressSpinnerItem.slug,
@@ -39,6 +44,11 @@ export const COMPONENTS_FEEDBACK_ROUTES: Routes = [
     path: '',
     pathMatch: 'full',
     redirectTo: defaultItem.slug,
+  },
+  {
+    path: toastItem.slug,
+    loadChildren: () =>
+      import('./toast/routes').then((module) => module.COMPONENTS_FEEDBACK_TOAST_ROUTES),
   },
   {
     path: emptyItem.slug,

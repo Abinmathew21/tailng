@@ -1,0 +1,26 @@
+<article class="toast-styling">
+  <h2 class="toast-styling-title">Styling contract</h2>
+  <p class="toast-styling-lead">
+    Toast exposes stable viewport/item hooks so you can theme notification surfaces without touching
+    internal implementation details.
+  </p>
+
+  <section class="toast-styling-block">
+    <h3>Slot and state hooks</h3>
+    <p>
+      Use <code>[data-slot="toast-viewport"]</code> as the layout anchor and
+      <code>[data-slot="toast-item"]</code> for message cards. Branch by
+      <code>data-tone</code> and <code>data-state</code> to style semantic variants.
+    </p>
+    <tng-code-block
+      [code]="cssContractCode"
+      adapter="shiki"
+      language="css"
+      title="Recommended CSS contract"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+</article>

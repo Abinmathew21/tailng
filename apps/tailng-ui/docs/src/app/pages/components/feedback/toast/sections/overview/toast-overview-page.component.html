@@ -1,0 +1,131 @@
+<article class="toast-overview">
+  <h2 class="toast-overview-title">Toast overview</h2>
+  <p class="toast-overview-lead">
+    Toast renders short-lived notification messages in a fixed viewport. Use tone, position, and
+    duration to model confirmations, warnings, and persistent error notices.
+  </p>
+
+  <section class="toast-overview-block">
+    <h3>Imports</h3>
+    <p>Use primitive directives for headless structure or the wrapper component for runtime APIs.</p>
+    <tng-code-block
+      [code]="primitiveImportCode"
+      adapter="shiki"
+      language="ts"
+      title="Primitive import"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+    <tng-code-block
+      [code]="componentImportCode"
+      adapter="shiki"
+      language="ts"
+      title="Component import"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section class="toast-overview-block">
+    <app-docs-example-tabs-section
+      heading="Style variants"
+      description="Use headless primitives for custom trigger/visibility wiring, or component wrappers for built-in runtime queue handling."
+      ariaLabel="Toast style variants"
+      tabListAriaLabel="Toast style tabs"
+      defaultValue="headless"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="headless"
+        label="Headless"
+        panelTitle="Headless toast primitives"
+        [codeTabs]="headlessCodeTabs"
+      >
+        <section class="toast-preview-static">
+          <button type="button" class="toast-headless-trigger" (click)="showHeadlessToast()">
+            Show headless toast
+          </button>
+
+          <section tngToastViewport class="toast-headless-viewport">
+            @for (toast of headlessToasts(); track toast.id) {
+              <article tngToastItem [tone]="toast.tone" class="toast-preview-static-item">
+                <div class="toast-preview-static-content">
+                  <strong>{{ toast.title }}</strong>
+                  <p>{{ toast.message }}</p>
+                </div>
+
+                <button
+                  type="button"
+                  class="toast-headless-dismiss"
+                  (click)="dismissHeadlessToast(toast.id)"
+                >
+                  Dismiss
+                </button>
+              </article>
+            }
+          </section>
+
+          <p class="toast-headless-status">active toasts: {{ headlessToasts().length }}</p>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Wrapper toast controls (plain CSS)"
+        [codeTabs]="plainCssCodeTabs"
+      >
+        <tng-toast #plainToast position="bottom-right"></tng-toast>
+        <section class="toast-preview-controls toast-preview-controls--plain">
+          <tng-button (click)="showDemoToast(plainToast, 'neutral')">Show info</tng-button>
+          <tng-button tone="success" (click)="showDemoToast(plainToast, 'success')">
+            Show success
+          </tng-button>
+          <tng-button tone="neutral" (click)="showDemoToast(plainToast, 'warning')">
+            Show warning
+          </tng-button>
+          <tng-button tone="danger" (click)="showDemoToast(plainToast, 'danger')">
+            Show error
+          </tng-button>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Wrapper toast controls (Tailwind)"
+        [codeTabs]="tailwindCodeTabs"
+      >
+        <tng-toast #tailwindToast position="bottom-right"></tng-toast>
+        <section
+          class="flex flex-wrap gap-2 rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+        >
+          <tng-button (click)="showDemoToast(tailwindToast, 'neutral')">Show info</tng-button>
+          <tng-button tone="success" (click)="showDemoToast(tailwindToast, 'success')">
+            Show success
+          </tng-button>
+          <tng-button tone="danger" (click)="showDemoToast(tailwindToast, 'danger')">
+            Show error
+          </tng-button>
+        </section>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section class="toast-overview-block">
+    <h3>Accessibility baseline</h3>
+    <ul class="toast-overview-list">
+      <li>Neutral and success tones announce with <code>role="status"</code>.</li>
+      <li>Warning and danger tones announce with <code>role="alert"</code>.</li>
+      <li>Support keyboard dismissal with Escape and keep a visible close button.</li>
+      <li>Use <code>duration: 0</code> only for messages that require explicit acknowledgment.</li>
+    </ul>
+  </section>
+</article>

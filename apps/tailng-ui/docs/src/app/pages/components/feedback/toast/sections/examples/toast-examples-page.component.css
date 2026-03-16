@@ -1,0 +1,157 @@
+:host {
+  display: block;
+}
+
+.toast-examples {
+  display: grid;
+  gap: 1.25rem;
+  padding-bottom: 2rem;
+}
+
+.toast-examples-title {
+  font-size: clamp(1.55rem, 1.5vw + 1rem, 2rem);
+  font-weight: 700;
+  margin: 0;
+}
+
+.toast-examples-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  line-height: 1.55;
+  margin: 0;
+  max-inline-size: 66ch;
+}
+
+.toast-examples-block {
+  background: color-mix(in srgb, var(--tng-semantic-background-surface) 92%, transparent);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 1rem;
+  display: grid;
+  gap: 0.85rem;
+  padding: 1rem;
+}
+
+.toast-headless-stack {
+  background: color-mix(in srgb, var(--tng-semantic-background-canvas) 72%, transparent);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.95rem;
+  display: grid;
+  gap: 0.75rem;
+  min-height: 13.5rem;
+  padding: 0.95rem;
+  position: relative;
+}
+
+.toast-headless-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+.toast-headless-trigger,
+.toast-headless-dismiss {
+  align-items: center;
+  appearance: none;
+  background: color-mix(in srgb, var(--tng-semantic-background-canvas) 86%, transparent);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.72rem;
+  color: var(--tng-semantic-foreground-primary);
+  cursor: pointer;
+  display: inline-flex;
+  font: inherit;
+  font-weight: 650;
+  justify-content: center;
+  justify-self: start;
+  min-height: 2.1rem;
+  padding: 0.42rem 0.78rem;
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
+}
+
+.toast-headless-trigger:hover {
+  background: color-mix(in srgb, var(--tng-semantic-background-muted) 55%, transparent);
+  border-color: color-mix(in srgb, var(--tng-semantic-accent-brand) 34%, var(--tng-semantic-border-subtle));
+}
+
+.toast-headless-trigger--warning {
+  border-color: color-mix(
+    in srgb,
+    var(--tng-semantic-accent-warning) 58%,
+    var(--tng-semantic-border-subtle)
+  );
+}
+
+.toast-headless-trigger--danger {
+  border-color: color-mix(in srgb, var(--tng-semantic-accent-danger) 58%, var(--tng-semantic-border-subtle));
+}
+
+.toast-headless-trigger:focus-visible,
+.toast-headless-dismiss:focus-visible {
+  outline: 2px solid var(--tng-semantic-accent-brand);
+  outline-offset: 2px;
+}
+
+.toast-headless-viewport {
+  display: grid;
+  gap: 0.65rem;
+  inset-inline-end: 0.95rem;
+  pointer-events: none;
+  position: absolute;
+  top: 4.2rem;
+  width: min(24rem, calc(100% - 1.9rem));
+  z-index: 2;
+}
+
+.toast-headless-item {
+  background: var(--tng-semantic-background-surface);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.85rem;
+  display: grid;
+  gap: 0.35rem;
+  pointer-events: auto;
+  padding: 0.75rem 0.85rem;
+}
+
+.toast-headless-item strong {
+  font-size: 0.83rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.toast-headless-item p {
+  color: var(--tng-semantic-foreground-secondary);
+  line-height: 1.45;
+  margin: 0;
+}
+
+.toast-headless-item[data-tone='success'] {
+  border-color: color-mix(in srgb, var(--tng-semantic-accent-success) 75%, transparent);
+}
+
+.toast-headless-item[data-tone='warning'] {
+  border-color: color-mix(in srgb, var(--tng-semantic-accent-warning) 72%, transparent);
+}
+
+.toast-headless-item[data-tone='danger'] {
+  border-color: color-mix(in srgb, var(--tng-semantic-accent-danger) 72%, transparent);
+}
+
+.toast-headless-dismiss {
+  min-height: 1.9rem;
+  padding: 0.35rem 0.68rem;
+}
+
+.toast-headless-dismiss:hover {
+  background: color-mix(in srgb, var(--tng-semantic-background-muted) 60%, transparent);
+}
+
+.toast-demo-actions {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.95rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  padding: 0.95rem;
+}

@@ -1,0 +1,113 @@
+<article class="toast-api">
+  <h2 class="toast-api-title">API reference</h2>
+  <p class="toast-api-lead">
+    Toast ships primitive viewport/item directives and a wrapper component with runtime show/dismiss
+    methods, queue limits, and tone-aware accessibility semantics.
+  </p>
+
+  <section class="toast-api-block">
+    <h3><code>tngToastViewport</code> + <code>tngToastItem</code> primitives</h3>
+    <p>
+      Use primitives when you need full markup control. Tone and open state map to role, live
+      politeness, and visibility attributes.
+    </p>
+    <tng-code-block
+      [code]="primitiveAttachmentCode"
+      adapter="shiki"
+      language="html"
+      title="Primitive usage"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+
+    <div class="toast-api-table-wrap">
+      <table class="toast-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Primitive input</th>
+            <th scope="col">Type</th>
+            <th scope="col">Default</th>
+            <th scope="col">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>[tone]</code> on <code>tngToastItem</code></td>
+            <td><code>'neutral' | 'success' | 'warning' | 'danger'</code></td>
+            <td><code>'neutral'</code></td>
+            <td>Maps to <code>role</code>, <code>aria-live</code>, and <code>data-tone</code>.</td>
+          </tr>
+          <tr>
+            <td><code>[open]</code> on <code>tngToastItem</code></td>
+            <td><code>boolean</code></td>
+            <td><code>true</code></td>
+            <td>Controls <code>hidden</code> and <code>data-state</code> (<code>open</code>/<code>closed</code>).</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="toast-api-block">
+    <h3><code>&lt;tng-toast&gt;</code> wrapper</h3>
+    <p>
+      Wrapper component manages queue state, auto-dismiss timers, Escape dismissal, and emits
+      <code>dismissed</code> when items close.
+    </p>
+    <tng-code-block
+      [code]="componentAttachmentCode"
+      adapter="shiki"
+      language="html"
+      title="Wrapper usage"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+
+    <div class="toast-api-table-wrap">
+      <table class="toast-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Wrapper input/output</th>
+            <th scope="col">Type</th>
+            <th scope="col">Default</th>
+            <th scope="col">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>[duration]</code></td>
+            <td><code>number</code></td>
+            <td><code>4000</code></td>
+            <td>Fallback auto-dismiss duration in milliseconds.</td>
+          </tr>
+          <tr>
+            <td><code>[maxVisible]</code></td>
+            <td><code>number</code></td>
+            <td><code>4</code></td>
+            <td>Keeps only the latest N toasts visible.</td>
+          </tr>
+          <tr>
+            <td><code>[mode]</code></td>
+            <td><code>'toast' | 'snackbar'</code></td>
+            <td><code>'toast'</code></td>
+            <td>Exposes layout hint via <code>data-mode</code>.</td>
+          </tr>
+          <tr>
+            <td><code>[position]</code></td>
+            <td><code>'top-right' | 'top-left' | 'bottom-right' | 'bottom-left'</code></td>
+            <td><code>'bottom-right'</code></td>
+            <td>Controls fixed viewport anchor corner.</td>
+          </tr>
+          <tr>
+            <td><code>(dismissed)</code></td>
+            <td><code>EventEmitter&lt;string&gt;</code></td>
+            <td>—</td>
+            <td>Emits the toast id after dismissal.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</article>

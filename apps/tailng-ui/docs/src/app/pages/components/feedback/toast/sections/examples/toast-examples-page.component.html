@@ -1,0 +1,182 @@
+<article class="toast-examples">
+  <h2 class="toast-examples-title">Examples</h2>
+  <p class="toast-examples-lead">
+    Use toast streams for non-blocking confirmations and escalation notifications. Keep destructive
+    failures persistent until users acknowledge them.
+  </p>
+
+  <section class="toast-examples-block">
+    <app-docs-example-tabs-section
+      heading="Activity stream notifications"
+      description="Informational and success events are best suited for auto-dismiss toast messages."
+      ariaLabel="Toast stream examples"
+      tabListAriaLabel="Toast stream style variants"
+      defaultValue="headless"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="headless"
+        label="Headless"
+        panelTitle="Headless toast stream"
+        [codeTabs]="streamHeadlessTabs"
+      >
+        <section class="toast-headless-stack">
+          <section class="toast-headless-actions">
+            <button
+              type="button"
+              class="toast-headless-trigger"
+              (click)="showHeadlessStreamToast('neutral')"
+            >
+              Show info toast
+            </button>
+            <button
+              type="button"
+              class="toast-headless-trigger"
+              (click)="showHeadlessStreamToast('success')"
+            >
+              Show success toast
+            </button>
+          </section>
+
+          <section tngToastViewport class="toast-headless-viewport">
+            @for (toast of streamHeadlessToasts(); track toast.id) {
+              <article tngToastItem [tone]="toast.tone" class="toast-headless-item">
+                <strong>{{ toast.title }}</strong>
+                <p>{{ toast.message }}</p>
+              </article>
+            }
+          </section>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Wrapper toast stream (plain CSS)"
+        [codeTabs]="streamPlainTabs"
+      >
+        <tng-toast #streamPlainToast position="bottom-right"></tng-toast>
+        <section class="toast-demo-actions">
+          <tng-button (click)="showTone(streamPlainToast, 'neutral')">Show info</tng-button>
+          <tng-button tone="success" (click)="showTone(streamPlainToast, 'success')">
+            Show success
+          </tng-button>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Wrapper toast stream (Tailwind)"
+        [codeTabs]="streamTailwindTabs"
+      >
+        <tng-toast #streamTailwindToast position="bottom-right"></tng-toast>
+        <section
+          class="flex flex-wrap gap-2 rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+        >
+          <tng-button (click)="showTone(streamTailwindToast, 'neutral')">Show info</tng-button>
+          <tng-button tone="success" (click)="showTone(streamTailwindToast, 'success')">
+            Show success
+          </tng-button>
+        </section>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section class="toast-examples-block">
+    <app-docs-example-tabs-section
+      heading="Escalation notifications"
+      description="Warnings and errors should be assertive; persistent errors should require explicit dismissal."
+      ariaLabel="Toast escalation examples"
+      tabListAriaLabel="Toast escalation style variants"
+      defaultValue="headless"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="headless"
+        label="Headless"
+        panelTitle="Headless escalation stack"
+        [codeTabs]="escalationHeadlessTabs"
+      >
+        <section class="toast-headless-stack">
+          <section class="toast-headless-actions">
+            <button
+              type="button"
+              class="toast-headless-trigger toast-headless-trigger--warning"
+              (click)="showHeadlessEscalationToast('warning')"
+            >
+              Show warning toast
+            </button>
+            <button
+              type="button"
+              class="toast-headless-trigger toast-headless-trigger--danger"
+              (click)="showHeadlessEscalationToast('danger')"
+            >
+              Show persistent error
+            </button>
+          </section>
+
+          <section tngToastViewport class="toast-headless-viewport">
+            @for (toast of escalationHeadlessToasts(); track toast.id) {
+              <article tngToastItem [tone]="toast.tone" class="toast-headless-item">
+                <strong>{{ toast.title }}</strong>
+                <p>{{ toast.message }}</p>
+                @if (toast.tone === 'danger') {
+                  <button
+                    type="button"
+                    class="toast-headless-dismiss"
+                    (click)="dismissHeadlessToast('escalation', toast.id)"
+                  >
+                    Dismiss
+                  </button>
+                }
+              </article>
+            }
+          </section>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Wrapper escalation controls (plain CSS)"
+        [codeTabs]="escalationPlainTabs"
+      >
+        <tng-toast #escalationPlainToast position="bottom-right"></tng-toast>
+        <section class="toast-demo-actions">
+          <tng-button tone="neutral" (click)="showTone(escalationPlainToast, 'warning')">
+            Show warning
+          </tng-button>
+          <tng-button tone="danger" (click)="showTone(escalationPlainToast, 'danger')">
+            Show persistent error
+          </tng-button>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Wrapper escalation controls (Tailwind)"
+        [codeTabs]="escalationTailwindTabs"
+      >
+        <tng-toast #escalationTailwindToast position="bottom-right"></tng-toast>
+        <section
+          class="flex flex-wrap gap-2 rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+        >
+          <tng-button tone="neutral" (click)="showTone(escalationTailwindToast, 'warning')">
+            Show warning
+          </tng-button>
+          <tng-button tone="danger" (click)="showTone(escalationTailwindToast, 'danger')">
+            Show persistent error
+          </tng-button>
+        </section>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+</article>

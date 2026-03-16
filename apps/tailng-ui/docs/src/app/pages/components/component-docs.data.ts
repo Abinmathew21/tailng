@@ -223,6 +223,13 @@ export const COMPONENTS_FEEDBACK_GROUP: ComponentsDocsGroup = {
   subtitle: 'Status, empty, progress, and loading placeholder patterns',
   items: [
     {
+      id: 'toast',
+      slug: 'toast',
+      title: 'Toast',
+      description:
+        'Stacked notification toasts with auto-dismiss timing, dismiss actions, and tone semantics.',
+    },
+    {
       id: 'empty',
       slug: 'empty',
       title: 'Empty',

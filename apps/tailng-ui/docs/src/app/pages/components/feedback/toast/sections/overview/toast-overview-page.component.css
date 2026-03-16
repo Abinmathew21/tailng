@@ -1,0 +1,207 @@
+:host {
+  display: block;
+}
+
+.toast-overview {
+  display: grid;
+  gap: 1.25rem;
+  padding-bottom: 2rem;
+}
+
+.toast-overview-title {
+  font-size: clamp(1.65rem, 1.8vw + 1rem, 2.1rem);
+  font-weight: 700;
+  line-height: 1.15;
+  margin: 0;
+}
+
+.toast-overview-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 1rem;
+  line-height: 1.55;
+  margin: 0;
+  max-inline-size: 64ch;
+}
+
+.toast-overview-block {
+  background: color-mix(in srgb, var(--tng-semantic-background-surface) 92%, transparent);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 1rem;
+  display: grid;
+  gap: 0.9rem;
+  padding: 1.1rem;
+}
+
+.toast-overview-block h3 {
+  font-size: 1.15rem;
+  margin: 0;
+}
+
+.toast-overview-block > p {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.toast-overview-list {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0;
+  padding-inline-start: 1.1rem;
+}
+
+.toast-preview-static {
+  background: color-mix(in srgb, var(--tng-semantic-background-canvas) 72%, transparent);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.95rem;
+  display: grid;
+  gap: 0.65rem;
+  min-height: 13rem;
+  padding: 0.95rem;
+}
+
+.toast-preview-static-item {
+  background: var(--tng-semantic-background-surface);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.85rem;
+  display: grid;
+  gap: 0.35rem;
+  padding: 0.75rem 0.85rem;
+}
+
+.toast-preview-static-item strong {
+  font-size: 0.83rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.toast-preview-static-item p {
+  color: var(--tng-semantic-foreground-secondary);
+  line-height: 1.45;
+  margin: 0;
+}
+
+.toast-preview-static-content {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.toast-headless-viewport {
+  display: grid;
+  gap: 0.65rem;
+  pointer-events: none;
+  position: fixed;
+  right: 1.25rem;
+  top: 5rem;
+  width: min(24rem, calc(100vw - 2rem));
+  z-index: 1200;
+}
+
+.toast-headless-trigger,
+.toast-headless-dismiss {
+  -webkit-font-smoothing: antialiased;
+  align-items: center;
+  appearance: none;
+  background: transparent;
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.7rem;
+  color: var(--tng-semantic-foreground-primary);
+  cursor: pointer;
+  display: inline-flex;
+  gap: 0.35rem;
+  justify-content: center;
+  font: inherit;
+  font-weight: 650;
+  letter-spacing: 0.01em;
+  justify-self: start;
+  min-height: 2rem;
+  padding: 0.42rem 0.78rem;
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease,
+    box-shadow 150ms ease,
+    filter 150ms ease,
+    transform 150ms ease;
+}
+
+.toast-headless-trigger {
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--tng-semantic-accent-brand) 96%, white 4%),
+    color-mix(in srgb, var(--tng-semantic-accent-brand) 88%, black 12%)
+  );
+  border: 1px solid
+    color-mix(in srgb, var(--tng-semantic-accent-brand) 78%, black 22%);
+  box-shadow:
+    0 1px 0 color-mix(in srgb, white 28%, transparent) inset,
+    0 6px 14px color-mix(in srgb, var(--tng-semantic-accent-brand) 24%, transparent);
+  color: white;
+  font-size: 0.925rem;
+  font-weight: 600;
+  line-height: 1.15;
+  min-height: 2.125rem;
+  padding: 0.42rem 0.9rem;
+  border-radius: 0.45rem;
+  transition:
+    background 160ms ease,
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    transform 120ms ease;
+}
+
+.toast-headless-trigger:hover {
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--tng-semantic-accent-brand) 92%, white 8%),
+    color-mix(in srgb, var(--tng-semantic-accent-brand) 82%, black 18%)
+  );
+  border-color: color-mix(in srgb, var(--tng-semantic-accent-brand) 72%, black 28%);
+  box-shadow:
+    0 1px 0 color-mix(in srgb, white 32%, transparent) inset,
+    0 10px 20px color-mix(in srgb, var(--tng-semantic-accent-brand) 28%, transparent);
+}
+
+.toast-headless-trigger:active {
+  transform: translateY(1px);
+  box-shadow:
+    0 1px 0 color-mix(in srgb, white 20%, transparent) inset,
+    0 4px 10px color-mix(in srgb, var(--tng-semantic-accent-brand) 18%, transparent);
+}
+
+.toast-headless-dismiss {
+  align-self: start;
+  background: color-mix(in srgb, var(--tng-semantic-background-canvas) 84%, transparent);
+  font-size: 0.86rem;
+  font-weight: 600;
+  min-height: 1.9rem;
+  padding: 0.35rem 0.68rem;
+}
+
+.toast-headless-dismiss:hover {
+  background: color-mix(in srgb, var(--tng-semantic-background-muted) 55%, transparent);
+}
+
+.toast-headless-trigger:focus-visible,
+.toast-headless-dismiss:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--tng-semantic-accent-brand) 82%, #ffffff);
+  outline-offset: 2px;
+}
+
+.toast-headless-status {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.84rem;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.toast-preview-controls {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.95rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  padding: 0.95rem;
+}
+
+.toast-preview-controls--plain {
+  background: color-mix(in srgb, var(--tng-semantic-background-canvas) 70%, transparent);
+}

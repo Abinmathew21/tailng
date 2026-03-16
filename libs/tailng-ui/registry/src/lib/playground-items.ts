@@ -389,7 +389,7 @@ export const ALL_PLAYGROUND_ITEMS: readonly TngPlaygroundItem[] = Object.freeze(
     registry: true,
     registryTest: false,
     stackblitz: false,
-    docs: false,
+    docs: true,
   },
   { path: '/context-menu', title: 'Context Menu', description: 'Context-triggered actions.', category: 'navigation',
     headless: true,
