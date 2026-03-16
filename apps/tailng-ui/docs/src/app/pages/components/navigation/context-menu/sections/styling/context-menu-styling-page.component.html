@@ -1,0 +1,67 @@
+<article class="context-menu-styling">
+  <h2 class="context-menu-styling-title">Styling contract</h2>
+  <p class="context-menu-styling-lead">
+    Context Menu styling relies on public primitives and state attributes so custom themes can style
+    target affordances and menu surfaces without private DOM coupling.
+  </p>
+
+  <section class="context-menu-styling-block">
+    <h3>CSS contract table</h3>
+    <div class="context-menu-styling-table-wrap">
+      <table class="context-menu-styling-table">
+        <thead>
+          <tr>
+            <th scope="col">Selector</th>
+            <th scope="col">Applied on</th>
+            <th scope="col">Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>[tngContextMenuTrigger]</code></td>
+            <td>Context target surface</td>
+            <td>Right-click affordance and focus ring styling.</td>
+          </tr>
+          <tr>
+            <td><code>[tngMenu][tngContextMenu][data-state='open']</code></td>
+            <td>Context menu panel</td>
+            <td>Panel visibility, border, spacing, and background surface.</td>
+          </tr>
+          <tr>
+            <td><code>[tngMenuItem]</code></td>
+            <td>Action item</td>
+            <td>Typography, spacing, and pointer affordance for actions.</td>
+          </tr>
+          <tr>
+            <td><code>[tngMenuItem][data-active]</code></td>
+            <td>Action item</td>
+            <td>Keyboard-active state from arrow traversal.</td>
+          </tr>
+          <tr>
+            <td><code>[tngMenuItem][aria-expanded='true']</code></td>
+            <td>Submenu trigger item</td>
+            <td>Expanded state for nested context menus.</td>
+          </tr>
+          <tr>
+            <td><code>[tngMenuItem][aria-disabled='true']</code></td>
+            <td>Disabled action item</td>
+            <td>Dimmed visual affordance for non-interactive actions.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="context-menu-styling-block">
+    <h3>Example style contract</h3>
+    <tng-code-block
+      [code]="stylingContractCode"
+      adapter="shiki"
+      language="css"
+      title="context-menu.contract.css"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+</article>

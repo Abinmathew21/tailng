@@ -297,19 +297,19 @@ Recommended behavior:
 
 ### Rendering
 
-- [ ] Renders target integration correctly
+- [x] Renders target integration correctly
 - [ ] Renders menu content only when open
-- [ ] Renders standard items correctly
+- [x] Renders standard items correctly
 - [ ] Renders checkbox items correctly
 - [ ] Renders radio items correctly
 - [ ] Renders labels correctly
 - [ ] Renders separators correctly
 - [ ] Renders submenu trigger correctly
-- [ ] Renders disabled state correctly
+- [x] Renders disabled state correctly
 
 ### Accessibility
 
-- [ ] Exposes correct `role='menu'` on content
+- [x] Exposes correct `role='menu'` on content
 - [ ] Exposes correct `role='menuitem'` on standard items
 - [ ] Exposes correct `role='menuitemcheckbox'` on checkbox items
 - [ ] Exposes correct `role='menuitemradio'` on radio items
@@ -321,22 +321,22 @@ Recommended behavior:
 
 ### Open and close behavior
 
-- [ ] Opens on `contextmenu` event
-- [ ] Opens on keyboard context-menu shortcut where supported
-- [ ] Does not open when target is disabled
-- [ ] Closes on Escape
-- [ ] Closes on outside interaction
-- [ ] Restores focus correctly when configured
+- [x] Opens on `contextmenu` event
+- [x] Opens on keyboard context-menu shortcut where supported
+- [x] Does not open when target is disabled
+- [x] Closes on Escape
+- [x] Closes on outside interaction
+- [x] Restores focus correctly when configured
 - [ ] Emits `openChange` on open
 - [ ] Emits `openChange` on close
 
 ### Keyboard interaction
 
-- [ ] Moves to next item with ArrowDown
+- [x] Moves to next item with ArrowDown
 - [ ] Moves to previous item with ArrowUp
 - [ ] Moves to first enabled item with Home
 - [ ] Moves to last enabled item with End
-- [ ] Activates item with Enter
+- [x] Activates item with Enter
 - [ ] Activates item with Space where appropriate
 - [ ] Opens submenu with ArrowRight
 - [ ] Closes submenu with ArrowLeft
@@ -345,10 +345,10 @@ Recommended behavior:
 ### Pointer interaction
 
 - [ ] Positions menu at pointer location on right-click
-- [ ] Activates item on pointer selection
+- [x] Activates item on pointer selection
 - [ ] Opens submenu on pointer interaction where supported
-- [ ] Closes menu after action selection by default
-- [ ] Keeps menu open when item behavior requires it
+- [x] Closes menu after action selection by default
+- [x] Keeps menu open when item behavior requires it
 
 ### Controlled behavior
 
@@ -375,9 +375,9 @@ Recommended behavior:
 ### Angular integration
 
 - [ ] Works with signal-based open state binding
-- [ ] Works with Angular template composition patterns
-- [ ] Emits Angular-style outputs consistently
-- [ ] Preserves projected content behavior correctly
+- [x] Works with Angular template composition patterns
+- [x] Emits Angular-style outputs consistently
+- [x] Preserves projected content behavior correctly
 - [ ] Works in SSR-safe rendering scenarios where supported
 
 ### Data attributes
@@ -394,21 +394,21 @@ Recommended behavior:
 
 ## Implementation Steps
 
-- [ ] Headless component created in `primitives`
-- [ ] Test cases created for headless
-- [ ] Headless example page added/updated in playground - plain CSS app
-- [ ] Headless example page added/updated in playground - Tailwind app
-- [ ] Minimum style `<tng-context-menu>` component created in `components`
-- [ ] Test cases created for `<tng-context-menu>`
-- [ ] Component example page added/updated in playground - plain CSS app
-- [ ] Component example page added/updated in playground - Tailwind app
-- [ ] Docs added/updated in docs project - Overview section
-- [ ] Docs added/updated in docs project - API section
-- [ ] Docs added/updated in docs project - Styling section
-- [ ] Docs added/updated in docs project - Example section
-- [ ] Registry templates added in registry
-- [ ] `tailng add context-menu` command generation added
-- [ ] CLI integration tests added for `tailng add context-menu`
+- [x] Headless component created in `primitives`
+- [x] Test cases created for headless
+- [x] Headless example page added/updated in playground - plain CSS app
+- [x] Headless example page added/updated in playground - Tailwind app
+- [x] Minimum style `<tng-context-menu>` component created in `components`
+- [x] Test cases created for `<tng-context-menu>`
+- [x] Component example page added/updated in playground - plain CSS app
+- [x] Component example page added/updated in playground - Tailwind app
+- [x] Docs added/updated in docs project - Overview section
+- [x] Docs added/updated in docs project - API section
+- [x] Docs added/updated in docs project - Styling section
+- [x] Docs added/updated in docs project - Example section
+- [x] Registry templates added in registry
+- [x] `tailng add context-menu` command generation added
+- [x] CLI integration tests added for `tailng add context-menu`
 
 ## Links
 

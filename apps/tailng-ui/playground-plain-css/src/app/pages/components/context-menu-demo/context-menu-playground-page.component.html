@@ -1,26 +1,81 @@
 <main class="page">
   <section class="container">
+    <header class="hero">
+      <h1 class="title">Context Menu</h1>
+      <p class="subtitle">
+        Right-click or press <kbd>Shift + F10</kbd>/<kbd>ContextMenu</kbd> to open contextual actions.
+      </p>
+    </header>
+
     <section class="card">
-      <h2>Primitives (`tngContextMenu`)</h2>
-      <div tngContextMenu class="primitive-shell">
-        <div class="demo-panel">Right-click target area</div>
-        <ul role="menu" class="demo-list demo-menu">
-          <li role="menuitem">Open</li>
-          <li role="menuitem">Rename</li>
-          <li role="menuitem">Delete</li>
-        </ul>
+      <h2>Headless Primitives (`tngContextMenu` + `tngMenu`)</h2>
+      <p class="demo-note">
+        Full ownership of target and panel markup with primitive directives.
+      </p>
+
+      <div class="context-stage">
+        <div class="context-shell">
+          <div
+            class="context-target"
+            tabindex="0"
+            [tngContextMenuTrigger]="headlessMenu"
+          >
+            Right-click this asset card for headless actions.
+          </div>
+
+          <div
+            tngMenu
+            tngContextMenu
+            #headlessMenu="tngContextMenu"
+            aria-label="Headless context actions"
+            class="context-panel"
+            (tngMenuSelect)="onHeadlessSelect($event)"
+          >
+            <div tngMenuGroupLabel class="context-label">Asset actions</div>
+            <button type="button" tngMenuItem tngMenuItemValue="Open details">Open details</button>
+            <button type="button" tngMenuItem tngMenuItemValue="Rename asset">Rename</button>
+            <button type="button" tngMenuItem tngMenuItemValue="Duplicate asset">Duplicate</button>
+            <div tngMenuSeparator class="context-separator"></div>
+            <button type="button" tngMenuItem tngMenuItemValue="Archive asset">Archive</button>
+          </div>
+        </div>
       </div>
+
+      <p class="state-line">Last headless action: <strong>{{ lastHeadlessAction() }}</strong></p>
     </section>
 
     <section class="card">
-      <h2>Components (`tng-context-menu`)</h2>
-      <tng-context-menu>
-        <ul role="menu" class="primitive-shell demo-list demo-menu">
-          <li role="menuitem">Duplicate</li>
-          <li role="menuitem">Move to Folder</li>
-          <li role="menuitem">Archive</li>
-        </ul>
-      </tng-context-menu>
+      <h2>Component Wrapper (`tng-context-menu`)</h2>
+      <p class="demo-note">
+        Styled wrapper panel with the same primitive trigger contract.
+      </p>
+
+      <div class="context-stage">
+        <div class="context-shell">
+          <div
+            class="context-target context-target--wrapper"
+            tabindex="0"
+            [tngContextMenuTrigger]="componentMenu"
+          >
+            Right-click this release row for wrapper actions.
+          </div>
+
+          <tng-context-menu
+            #componentMenu="tngContextMenu"
+            ariaLabel="Component context actions"
+            class="context-panel"
+            (tngMenuSelect)="onComponentSelect($event)"
+          >
+            <div tngMenuGroupLabel class="context-label">Release</div>
+            <button type="button" tngMenuItem tngMenuItemValue="Promote release">Promote</button>
+            <button type="button" tngMenuItem tngMenuItemValue="Rollback release">Rollback</button>
+            <div tngMenuSeparator class="context-separator"></div>
+            <button type="button" tngMenuItem tngMenuItemValue="Delete release">Delete</button>
+          </tng-context-menu>
+        </div>
+      </div>
+
+      <p class="state-line">Last wrapper action: <strong>{{ lastComponentAction() }}</strong></p>
     </section>
   </section>
 </main>

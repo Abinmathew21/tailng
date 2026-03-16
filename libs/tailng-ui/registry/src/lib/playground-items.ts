@@ -401,7 +401,7 @@ export const ALL_PLAYGROUND_ITEMS: readonly TngPlaygroundItem[] = Object.freeze(
     registry: true,
     registryTest: false,
     stackblitz: false,
-    docs: false,
+    docs: true,
   },
   { path: '/menubar', title: 'Menubar', description: 'Horizontal menu surface.', category: 'navigation',
     headless: true,

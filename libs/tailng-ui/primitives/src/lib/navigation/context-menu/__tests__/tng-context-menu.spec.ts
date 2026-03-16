@@ -1,6 +1,6 @@
 import { Component, ViewChild, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { describe, expect, it, vi } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { TngMenu, TngMenuItem, TngMenuSelectEvent, TngMenuTrigger } from '../../menu/tng-menu';
 import { TngContextMenu, TngContextMenuTrigger } from '../tng-context-menu';
@@ -355,6 +355,10 @@ class ContextMenuListenerTeardownHostComponent {
 class ContextMenuMixedTriggersHostComponent {}
 
 describe('tng-context-menu primitive', () => {
+  afterEach(() => {
+    TestBed.resetTestingModule();
+  });
+
   it('exports the context-menu primitives', () => {
     expect(typeof TngContextMenu).toBe('function');
     expect(typeof TngContextMenuTrigger).toBe('function');

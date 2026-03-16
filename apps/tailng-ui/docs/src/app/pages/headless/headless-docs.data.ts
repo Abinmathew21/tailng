@@ -158,6 +158,12 @@ export const HEADLESS_NAVIGATION_GROUP: HeadlessDocsGroup = {
       title: 'Menu',
       description: 'Menu, submenu, trigger, and item behavior contracts with keyboard support.',
     },
+    {
+      id: 'context-menu',
+      slug: 'context-menu',
+      title: 'Context Menu',
+      description: 'Context-triggered menu behavior for right-click and keyboard surface actions.',
+    },
   ],
 };
 

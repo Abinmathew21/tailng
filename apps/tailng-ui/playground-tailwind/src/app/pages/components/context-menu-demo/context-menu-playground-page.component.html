@@ -1,24 +1,90 @@
-<div class="mx-auto max-w-[72rem] grid gap-5">
-  <section class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5 space-y-3">
-    <h2 class="text-lg font-semibold">Primitives (`tngContextMenu`)</h2>
-    <div tngContextMenu class="rounded-xl border border-tng-border-subtle px-4 py-3 text-tng-fg-primary">
-      <div class="rounded-lg border border-tng-border-subtle bg-tng-bg-canvas p-3 mb-2">Right-click target area</div>
-      <ul role="menu" class="list-none p-0 m-0 space-y-1">
-        <li role="menuitem" class="rounded px-2 py-1 cursor-pointer hover:bg-tng-bg-muted">Open</li>
-        <li role="menuitem" class="rounded px-2 py-1 cursor-pointer hover:bg-tng-bg-muted">Rename</li>
-        <li role="menuitem" class="rounded px-2 py-1 cursor-pointer hover:bg-tng-bg-muted">Delete</li>
-      </ul>
+<div class="mx-auto grid max-w-[76rem] gap-5">
+  <header class="grid gap-2">
+    <h1 class="text-4xl font-bold tracking-tight text-tng-fg-primary">Context Menu</h1>
+    <p class="max-w-[46rem] text-sm text-tng-fg-secondary">
+      Right-click or press <kbd class="rounded border border-tng-border-subtle px-1 py-0.5 text-xs">Shift + F10</kbd>
+      to open contextual commands.
+    </p>
+  </header>
+
+  <section class="grid gap-3 rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5">
+    <h2 class="text-lg font-semibold text-tng-fg-primary">Headless Primitives (`tngContextMenu` + `tngMenu`)</h2>
+    <p class="text-sm text-tng-fg-secondary">Use primitives for full control over the target and panel structure.</p>
+
+    <div class="grid min-h-56">
+      <div class="relative grid self-start content-start justify-items-start gap-3">
+        <div
+          class="w-full max-w-[30rem] cursor-context-menu rounded-xl border border-tng-border-subtle bg-tng-bg-canvas px-4 py-3 text-sm text-tng-fg-secondary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tng-accent-brand"
+          tabindex="0"
+          [tngContextMenuTrigger]="headlessMenu"
+        >
+          Right-click this asset card for headless actions.
+        </div>
+
+        <div
+          tngMenu
+          tngContextMenu
+          #headlessMenu="tngContextMenu"
+          aria-label="Headless context actions"
+          class="absolute left-0 top-[calc(100%+0.25rem)] z-20 min-w-56 rounded-xl border border-tng-border-subtle bg-tng-bg-canvas p-2 shadow-lg"
+          (tngMenuSelect)="onHeadlessSelect($event)"
+        >
+          <div tngMenuGroupLabel class="px-2 pb-1 text-[0.7rem] font-bold uppercase tracking-[0.11em] text-tng-fg-secondary">Asset actions</div>
+          <button type="button" tngMenuItem tngMenuItemValue="Open details" class="block w-full rounded-lg px-3 py-2 text-left text-sm text-tng-fg-primary hover:bg-tng-bg-muted">
+            Open details
+          </button>
+          <button type="button" tngMenuItem tngMenuItemValue="Rename asset" class="block w-full rounded-lg px-3 py-2 text-left text-sm text-tng-fg-primary hover:bg-tng-bg-muted">
+            Rename
+          </button>
+          <button type="button" tngMenuItem tngMenuItemValue="Duplicate asset" class="block w-full rounded-lg px-3 py-2 text-left text-sm text-tng-fg-primary hover:bg-tng-bg-muted">
+            Duplicate
+          </button>
+          <div tngMenuSeparator class="my-1 h-px bg-tng-border-subtle"></div>
+          <button type="button" tngMenuItem tngMenuItemValue="Archive asset" class="block w-full rounded-lg px-3 py-2 text-left text-sm text-tng-fg-primary hover:bg-tng-bg-muted">
+            Archive
+          </button>
+        </div>
+      </div>
     </div>
+
+    <p class="text-sm text-tng-fg-secondary">Last headless action: <strong class="text-tng-fg-primary">{{ lastHeadlessAction() }}</strong></p>
   </section>
 
-  <section class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5 space-y-3">
-    <h2 class="text-lg font-semibold">Components (`tng-context-menu`)</h2>
-    <tng-context-menu>
-      <ul role="menu" class="rounded-xl border border-tng-border-subtle px-4 py-3 text-tng-fg-primary space-y-1 list-none m-0 p-0">
-        <li role="menuitem" tabindex="0" class="rounded px-2 py-1 cursor-pointer hover:bg-tng-bg-muted">Duplicate</li>
-        <li role="menuitem" tabindex="-1" class="rounded px-2 py-1 cursor-pointer hover:bg-tng-bg-muted">Move to Folder</li>
-        <li role="menuitem" tabindex="-1" class="rounded px-2 py-1 cursor-pointer hover:bg-tng-bg-muted">Archive</li>
-      </ul>
-    </tng-context-menu>
+  <section class="grid gap-3 rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5">
+    <h2 class="text-lg font-semibold text-tng-fg-primary">Component Wrapper (`tng-context-menu`)</h2>
+    <p class="text-sm text-tng-fg-secondary">Wrapper panel styling with the same primitive trigger directive.</p>
+
+    <div class="grid min-h-56">
+      <div class="relative grid self-start content-start justify-items-start gap-3">
+        <div
+          class="w-full max-w-[30rem] cursor-context-menu rounded-xl border border-tng-border-subtle bg-tng-bg-canvas px-4 py-3 text-sm font-medium text-tng-fg-secondary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tng-accent-brand"
+          tabindex="0"
+          [tngContextMenuTrigger]="componentMenu"
+        >
+          Right-click this release row for wrapper actions.
+        </div>
+
+        <tng-context-menu
+          #componentMenu="tngContextMenu"
+          ariaLabel="Component context actions"
+          class="absolute left-0 top-[calc(100%+0.25rem)] z-20 shadow-lg"
+          (tngMenuSelect)="onComponentSelect($event)"
+        >
+          <div tngMenuGroupLabel class="px-2 pb-1 text-[0.7rem] font-bold uppercase tracking-[0.11em] text-tng-fg-secondary">Release</div>
+          <button type="button" tngMenuItem tngMenuItemValue="Promote release" class="block w-full rounded-lg px-3 py-2 text-left text-sm text-tng-fg-primary hover:bg-tng-bg-muted">
+            Promote
+          </button>
+          <button type="button" tngMenuItem tngMenuItemValue="Rollback release" class="block w-full rounded-lg px-3 py-2 text-left text-sm text-tng-fg-primary hover:bg-tng-bg-muted">
+            Rollback
+          </button>
+          <div tngMenuSeparator class="my-1 h-px bg-tng-border-subtle"></div>
+          <button type="button" tngMenuItem tngMenuItemValue="Delete release" class="block w-full rounded-lg px-3 py-2 text-left text-sm text-tng-fg-primary hover:bg-tng-bg-muted">
+            Delete
+          </button>
+        </tng-context-menu>
+      </div>
+    </div>
+
+    <p class="text-sm text-tng-fg-secondary">Last wrapper action: <strong class="text-tng-fg-primary">{{ lastComponentAction() }}</strong></p>
   </section>
 </div>

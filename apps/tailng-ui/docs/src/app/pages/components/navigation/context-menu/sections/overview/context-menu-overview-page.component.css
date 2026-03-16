@@ -2,70 +2,59 @@
   display: block;
 }
 
-.page {
-  background: var(--tng-semantic-background-canvas);
-  color: var(--tng-semantic-foreground-primary);
-  min-height: 100vh;
-  padding: 2rem 1rem;
-}
-
-.container {
+.context-menu-overview {
   display: grid;
-  gap: 1.25rem;
-  margin: 0 auto;
-  max-width: 76rem;
+  gap: 1.5rem;
 }
 
-.hero {
-  display: grid;
-  gap: 0.5rem;
-}
-
-.title {
-  font-size: clamp(1.875rem, 2vw + 1rem, 2.5rem);
-  line-height: 1.1;
+.context-menu-overview-title {
+  font-size: clamp(1.45rem, 1.05rem + 1.3vw, 1.95rem);
+  font-weight: 700;
+  line-height: 1.2;
   margin: 0;
 }
 
-.subtitle {
+.context-menu-overview-lead {
   color: var(--tng-semantic-foreground-secondary);
   margin: 0;
-  max-width: 42rem;
+  max-width: 70ch;
 }
 
-.card {
-  background: var(--tng-semantic-background-surface);
+.context-menu-overview-block {
+  background: color-mix(in srgb, var(--tng-semantic-background-surface) 88%, transparent);
   border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 1rem;
   display: grid;
-  gap: 0.95rem;
-  padding: 1rem;
+  gap: 0.9rem;
+  padding: 1.2rem;
 }
 
-.card h2 {
+.context-menu-overview-block h3 {
+  font-size: 1.05rem;
+  font-weight: 650;
   margin: 0;
 }
 
-.demo-note {
+.context-menu-overview-block p {
   color: var(--tng-semantic-foreground-secondary);
   margin: 0;
 }
 
-.context-stage {
-  display: grid;
-  min-height: 13.5rem;
-}
-
-.context-shell {
-  align-self: start;
+.context-menu-stage {
   align-content: start;
   display: grid;
-  gap: 0.65rem;
   justify-items: start;
+  min-height: 13rem;
   position: relative;
 }
 
-.context-target {
+.context-menu-shell {
+  display: grid;
+  gap: 0.65rem;
+  position: relative;
+}
+
+.context-menu-target {
   background: color-mix(in srgb, var(--tng-semantic-background-canvas) 92%, transparent);
   border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 0.8rem;
@@ -77,28 +66,28 @@
   width: min(28rem, 100%);
 }
 
-.context-target:focus-visible {
-  border-color: color-mix(in srgb, var(--tng-semantic-accent-brand) 42%, var(--tng-semantic-border-subtle));
+.context-menu-target:focus-visible {
+  border-color: color-mix(in srgb, var(--tng-semantic-accent-brand) 40%, var(--tng-semantic-border-subtle));
   outline: 2px solid color-mix(in srgb, var(--tng-semantic-accent-brand) 28%, transparent);
   outline-offset: 2px;
 }
 
-.context-target--wrapper {
+.context-menu-target--wrapper {
   font-weight: 550;
 }
 
-.context-panel {
+.context-menu-panel {
   left: 0;
   position: absolute;
-  top: calc(100% + 0.4rem);
-  z-index: 25;
+  top: calc(100% + 0.42rem);
+  z-index: 20;
 }
 
-.context-panel[hidden] {
+.context-menu-panel[hidden] {
   display: none !important;
 }
 
-.context-panel [tngMenuItem] {
+.context-menu-panel [tngMenuItem] {
   background: transparent;
   border: 0;
   border-radius: 0.62rem;
@@ -115,42 +104,48 @@
   width: 100%;
 }
 
-.context-panel [tngMenuItem]:hover {
+.context-menu-panel [tngMenuItem]:hover {
   background: color-mix(in srgb, var(--tng-semantic-foreground-primary) 8%, transparent);
 }
 
-.context-panel [tngMenuItem][data-active],
-.context-panel [tngMenuItem][aria-expanded='true'] {
+.context-menu-panel [tngMenuItem][data-active],
+.context-menu-panel [tngMenuItem][aria-expanded='true'] {
   background: color-mix(in srgb, var(--tng-semantic-accent-brand) 16%, transparent);
   color: color-mix(
     in srgb,
-    var(--tng-semantic-accent-brand) 70%,
+    var(--tng-semantic-accent-brand) 72%,
     var(--tng-semantic-foreground-primary)
   );
 }
 
-.context-label {
+.context-menu-label {
   color: var(--tng-semantic-foreground-secondary);
   font-size: 0.72rem;
   font-weight: 700;
-  letter-spacing: 0.09em;
+  letter-spacing: 0.08em;
   padding: 0.2rem 0.45rem;
   text-transform: uppercase;
 }
 
-.context-separator {
+.context-menu-separator {
   background: color-mix(in srgb, var(--tng-semantic-border-subtle) 84%, transparent);
   height: 1px;
-  margin: 0.2rem 0.3rem;
+  margin: 0.2rem 0.35rem;
 }
 
-.state-line {
+.context-menu-overview-state {
   color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.9rem;
   margin: 0;
 }
 
-@media (min-width: 768px) {
-  .page {
-    padding-inline: 2rem;
-  }
+.context-menu-overview-list {
+  display: grid;
+  gap: 0.55rem;
+  margin: 0;
+  padding-inline-start: 1.1rem;
+}
+
+.context-menu-overview-list code {
+  font-size: 0.84em;
 }

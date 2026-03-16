@@ -1,0 +1,29 @@
+<section class="context-menu-docs-page">
+  <tng-tabs
+    class="context-menu-docs-tabs"
+    ariaLabel="Context menu documentation sections"
+    [activation]="'manual'"
+    [value]="activeSection()"
+    (valueChange)="onSectionChange($event)"
+  >
+    <div tngTabList class="context-menu-docs-tab-list" ariaLabel="Context menu documentation tabs">
+      <button type="button" tngTab value="overview" class="context-menu-docs-tab-trigger">
+        Overview
+      </button>
+      <button type="button" tngTab value="api" class="context-menu-docs-tab-trigger">API</button>
+      <button type="button" tngTab value="styling" class="context-menu-docs-tab-trigger">
+        Styling
+      </button>
+      <button type="button" tngTab value="examples" class="context-menu-docs-tab-trigger">
+        Examples
+      </button>
+      <button type="button" tngTab value="ownable-install" class="context-menu-docs-tab-trigger">
+        Ownable Install
+      </button>
+    </div>
+  </tng-tabs>
+
+  <section class="context-menu-docs-content">
+    <router-outlet />
+  </section>
+</section>

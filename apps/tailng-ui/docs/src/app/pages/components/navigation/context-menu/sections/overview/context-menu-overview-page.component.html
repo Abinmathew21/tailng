@@ -1,0 +1,171 @@
+<article class="context-menu-overview">
+  <h2 class="context-menu-overview-title">Context Menu overview</h2>
+  <p class="context-menu-overview-lead">
+    Context Menu layers right-click and keyboard context actions on top of menu primitives while
+    keeping the trigger surface fully owner-controlled.
+  </p>
+
+  <section class="context-menu-overview-block">
+    <h3>Imports</h3>
+    <p>Use primitives for headless control, or the wrapper for default panel styling.</p>
+    <tng-code-block
+      [code]="primitiveImportCode"
+      adapter="shiki"
+      language="ts"
+      title="Primitive imports"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+    <tng-code-block
+      [code]="componentImportCode"
+      adapter="shiki"
+      language="ts"
+      title="Wrapper imports"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <section class="context-menu-overview-block">
+    <h3>Usage patterns</h3>
+    <tng-code-block
+      [code]="primitiveUsageCode"
+      adapter="shiki"
+      language="html"
+      title="Headless usage"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+    <tng-code-block
+      [code]="componentUsageCode"
+      adapter="shiki"
+      language="html"
+      title="Wrapper usage"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <app-docs-example-tabs-section
+    class="context-menu-overview-block"
+    heading="Style variants"
+    description="Same context-menu behavior rendered through headless primitives, plain CSS wrappers, and Tailwind utility shells."
+    ariaLabel="Context menu style variants"
+    tabListAriaLabel="Context menu style tabs"
+    defaultValue="headless"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="headless"
+      label="Headless"
+      panelTitle="Headless surface actions"
+      [codeTabs]="headlessCodeTabs"
+    >
+      <div class="context-menu-stage">
+        <div class="context-menu-shell">
+          <div class="context-menu-target" tabindex="0" [tngContextMenuTrigger]="headlessMenu">
+            Right-click this table row for headless actions.
+          </div>
+          <div
+            tngMenu
+            tngContextMenu
+            #headlessMenu="tngContextMenu"
+            aria-label="Headless row actions"
+            class="context-menu-panel"
+            (tngMenuSelect)="onHeadlessSelect($event)"
+          >
+            <div tngMenuGroupLabel class="context-menu-label">Row actions</div>
+            <button type="button" tngMenuItem tngMenuItemValue="Open details">Open details</button>
+            <button type="button" tngMenuItem tngMenuItemValue="Rename row">Rename</button>
+            <div tngMenuSeparator class="context-menu-separator"></div>
+            <button type="button" tngMenuItem tngMenuItemValue="Archive row">Archive</button>
+          </div>
+        </div>
+      </div>
+      <p class="context-menu-overview-state">last command: {{ headlessCommand() }}</p>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+      panelTitle="Wrapper actions (plain CSS)"
+      [codeTabs]="plainCssCodeTabs"
+    >
+      <div class="context-menu-stage">
+        <div class="context-menu-shell">
+          <div class="context-menu-target context-menu-target--wrapper" tabindex="0" [tngContextMenuTrigger]="plainMenu">
+            Right-click this release item for wrapper actions.
+          </div>
+          <tng-context-menu
+            #plainMenu="tngContextMenu"
+            ariaLabel="Release actions"
+            class="context-menu-panel"
+            (tngMenuSelect)="onPlainSelect($event)"
+          >
+            <div tngMenuGroupLabel class="context-menu-label">Release</div>
+            <button type="button" tngMenuItem tngMenuItemValue="Promote release">Promote</button>
+            <button type="button" tngMenuItem tngMenuItemValue="Rollback release">Rollback</button>
+            <div tngMenuSeparator class="context-menu-separator"></div>
+            <button type="button" tngMenuItem tngMenuItemValue="Delete release">Delete</button>
+          </tng-context-menu>
+        </div>
+      </div>
+      <p class="context-menu-overview-state">last command: {{ plainCommand() }}</p>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Wrapper actions (Tailwind shell)"
+      [codeTabs]="tailwindCodeTabs"
+    >
+      <div
+        class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+      >
+        <div class="context-menu-stage">
+          <div class="context-menu-shell">
+            <div
+              class="context-menu-target rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-700 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200"
+              tabindex="0"
+              [tngContextMenuTrigger]="tailwindMenu"
+            >
+              Right-click this card for Tailwind shell actions.
+            </div>
+            <tng-context-menu
+              #tailwindMenu="tngContextMenu"
+              ariaLabel="Tailwind context actions"
+              class="context-menu-panel"
+              (tngMenuSelect)="onTailwindSelect($event)"
+            >
+              <button type="button" tngMenuItem tngMenuItemValue="Open asset">Open</button>
+              <button type="button" tngMenuItem tngMenuItemValue="Copy link">Copy link</button>
+              <button type="button" tngMenuItem tngMenuItemValue="Share asset">Share</button>
+            </tng-context-menu>
+          </div>
+        </div>
+      </div>
+      <p class="context-menu-overview-state">last command: {{ tailwindCommand() }}</p>
+    </ng-template>
+  </app-docs-example-tabs-section>
+
+  <section class="context-menu-overview-block">
+    <h3>Keyboard baseline</h3>
+    <ul class="context-menu-overview-list">
+      <li><code>Shift + F10</code> or <code>ContextMenu</code> opens from focused target.</li>
+      <li><code>ArrowDown</code>/<code>ArrowUp</code> traverses enabled actions.</li>
+      <li><code>Enter</code>/<code>Space</code> activates the highlighted action.</li>
+      <li><code>Escape</code> closes the menu and restores focus to the trigger target.</li>
+    </ul>
+  </section>
+</article>

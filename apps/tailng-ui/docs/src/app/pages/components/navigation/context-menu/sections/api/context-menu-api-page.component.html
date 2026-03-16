@@ -1,0 +1,98 @@
+<article class="context-menu-api">
+  <h2 class="context-menu-api-title">API reference</h2>
+  <p class="context-menu-api-lead">
+    Context Menu composes menu primitives with a dedicated trigger directive for right-click and
+    keyboard context invocation.
+  </p>
+
+  <section class="context-menu-api-block">
+    <h3>Wrapper APIs</h3>
+    <div class="context-menu-api-table-wrap">
+      <table class="context-menu-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Element / Directive</th>
+            <th scope="col">Input / Output</th>
+            <th scope="col">Type</th>
+            <th scope="col">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>&lt;tng-context-menu&gt;</code></td>
+            <td><code>ariaLabel</code></td>
+            <td><code>string</code></td>
+            <td>Accessible label for the context panel.</td>
+          </tr>
+          <tr>
+            <td><code>&lt;tng-context-menu&gt;</code></td>
+            <td><code>loop</code>, <code>disabled</code>, <code>closeOnSelect</code></td>
+            <td><code>boolean</code></td>
+            <td>Forwards core menu traversal, disable state, and select-close behavior.</td>
+          </tr>
+          <tr>
+            <td><code>&lt;tng-context-menu&gt;</code></td>
+            <td><code>dismissOnOutsideClick</code>, <code>dismissOnFocusout</code></td>
+            <td><code>boolean</code></td>
+            <td>Dismiss policy applied to the hosted menu panel.</td>
+          </tr>
+          <tr>
+            <td><code>&lt;tng-context-menu&gt;</code></td>
+            <td><code>tngMenuOpened</code>, <code>tngMenuClosed</code>, <code>tngMenuSelect</code></td>
+            <td><code>EventEmitter</code></td>
+            <td>Lifecycle and selection outputs from the underlying menu primitive.</td>
+          </tr>
+          <tr>
+            <td><code>[tngContextMenuTrigger]</code></td>
+            <td><code>tngContextMenuTrigger</code></td>
+            <td><code>TngContextMenu</code></td>
+            <td>Binds a target element to a context-menu instance.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="context-menu-api-block">
+    <h3>Primitive directives</h3>
+    <div class="context-menu-api-table-wrap">
+      <table class="context-menu-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Directive</th>
+            <th scope="col">Purpose</th>
+            <th scope="col">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>tngContextMenu</code></td>
+            <td>Connects context trigger semantics to a menu panel host.</td>
+            <td>Applied together with <code>tngMenu</code> on the menu surface.</td>
+          </tr>
+          <tr>
+            <td><code>tngContextMenuTrigger</code></td>
+            <td>Listens for <code>contextmenu</code>, <code>Shift + F10</code>, and <code>ContextMenu</code>.</td>
+            <td>Sets <code>aria-haspopup</code>, <code>aria-controls</code>, and <code>aria-expanded</code>.</td>
+          </tr>
+          <tr>
+            <td><code>tngMenu</code>, <code>tngMenuItem</code></td>
+            <td>Menu state, keyboard traversal, selection, submenu composition.</td>
+            <td>Shared primitive contract with menu and menubar docs.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="context-menu-api-block">
+    <h3>Keyboard contract (high level)</h3>
+    <ul>
+      <li><code>Shift + F10</code> or <code>ContextMenu</code> opens for focused target.</li>
+      <li><code>ArrowDown</code>/<code>ArrowUp</code> moves active action.</li>
+      <li><code>Home</code>/<code>End</code> jumps to first and last enabled actions.</li>
+      <li><code>Enter</code>/<code>Space</code> activates highlighted action.</li>
+      <li><code>Escape</code> closes the active context panel and restores trigger focus.</li>
+    </ul>
+  </section>
+</article>

@@ -1,0 +1,111 @@
+<article class="context-menu-examples">
+  <h2 class="context-menu-examples-title">Examples</h2>
+  <p class="context-menu-examples-lead">
+    Production context-menu flows for file rows, deployments, and operational surfaces across
+    headless, plain CSS, and Tailwind shells.
+  </p>
+
+  <app-docs-example-tabs-section
+    class="context-menu-examples-block"
+    heading="Operational context actions"
+    description="Right-click any target surface to open actions and commit commands with click or keyboard."
+    ariaLabel="Context menu operational examples"
+    tabListAriaLabel="Context menu operational tabs"
+    defaultValue="headless"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="headless"
+      label="Headless"
+      panelTitle="Headless file actions"
+      [codeTabs]="headlessCodeTabs"
+    >
+      <div class="context-menu-stage">
+        <div class="context-menu-shell">
+          <div class="context-menu-target" tabindex="0" [tngContextMenuTrigger]="headlessMenu">
+            Right-click file row for headless actions.
+          </div>
+          <div
+            tngMenu
+            tngContextMenu
+            #headlessMenu="tngContextMenu"
+            aria-label="Headless file actions"
+            class="context-menu-panel"
+            (tngMenuSelect)="onHeadlessSelect($event)"
+          >
+            <div tngMenuGroupLabel class="context-menu-label">File actions</div>
+            <button type="button" tngMenuItem tngMenuItemValue="Copy file path">Copy path</button>
+            <button type="button" tngMenuItem tngMenuItemValue="Open in terminal">Open terminal</button>
+            <div tngMenuSeparator class="context-menu-separator"></div>
+            <button type="button" tngMenuItem tngMenuItemValue="Move to archive">Archive</button>
+          </div>
+        </div>
+      </div>
+      <p class="context-menu-examples-state">last action: {{ headlessAction() }}</p>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+      panelTitle="Wrapper deployment actions"
+      [codeTabs]="plainCodeTabs"
+    >
+      <div class="context-menu-stage">
+        <div class="context-menu-shell">
+          <div class="context-menu-target context-menu-target--wrapper" tabindex="0" [tngContextMenuTrigger]="plainMenu">
+            Right-click deployment row for wrapper actions.
+          </div>
+          <tng-context-menu
+            #plainMenu="tngContextMenu"
+            ariaLabel="Deployment actions"
+            class="context-menu-panel"
+            (tngMenuSelect)="onPlainSelect($event)"
+          >
+            <div tngMenuGroupLabel class="context-menu-label">Deployment</div>
+            <button type="button" tngMenuItem tngMenuItemValue="Retry deployment">Retry</button>
+            <button type="button" tngMenuItem tngMenuItemValue="Rollback deployment">Rollback</button>
+            <button type="button" tngMenuItem tngMenuItemValue="View logs">View logs</button>
+          </tng-context-menu>
+        </div>
+      </div>
+      <p class="context-menu-examples-state">last action: {{ plainAction() }}</p>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Wrapper node actions (Tailwind)"
+      [codeTabs]="tailwindCodeTabs"
+    >
+      <div
+        class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+      >
+        <div class="context-menu-stage">
+          <div class="context-menu-shell">
+            <div
+              class="context-menu-target rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-700 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200"
+              tabindex="0"
+              [tngContextMenuTrigger]="tailwindMenu"
+            >
+              Right-click node card for Tailwind-shell actions.
+            </div>
+            <tng-context-menu
+              #tailwindMenu="tngContextMenu"
+              ariaLabel="Node actions"
+              class="context-menu-panel"
+              (tngMenuSelect)="onTailwindSelect($event)"
+            >
+              <button type="button" tngMenuItem tngMenuItemValue="Inspect node">Inspect</button>
+              <button type="button" tngMenuItem tngMenuItemValue="Copy node id">Copy ID</button>
+              <button type="button" tngMenuItem tngMenuItemValue="Delete node">Delete node</button>
+            </tng-context-menu>
+          </div>
+        </div>
+      </div>
+      <p class="context-menu-examples-state">last action: {{ tailwindAction() }}</p>
+    </ng-template>
+  </app-docs-example-tabs-section>
+</article>

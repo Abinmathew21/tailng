@@ -317,6 +317,12 @@ export const COMPONENTS_NAVIGATION_GROUP: ComponentsDocsGroup = {
       title: 'Menu',
       description: 'Contextual menu interactions, keyboard flow, and submenu behavior.',
     },
+    {
+      id: 'context-menu',
+      slug: 'context-menu',
+      title: 'Context Menu',
+      description: 'Right-click and keyboard context actions anchored to element surfaces.',
+    },
   ],
 };
 

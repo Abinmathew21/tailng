@@ -1,0 +1,59 @@
+:host {
+  display: block;
+}
+
+.context-menu-api {
+  display: grid;
+  gap: 1rem;
+}
+
+.context-menu-api-title {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.context-menu-api-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.context-menu-api-block {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.9rem;
+  color: var(--tng-semantic-foreground-secondary);
+  display: grid;
+  gap: 0.7rem;
+  padding: 1rem;
+}
+
+.context-menu-api-block h3 {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1rem;
+  margin: 0;
+}
+
+.context-menu-api-table-wrap {
+  overflow-x: auto;
+}
+
+.context-menu-api-table {
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  min-width: 34rem;
+  width: 100%;
+}
+
+.context-menu-api-table th,
+.context-menu-api-table td {
+  border-bottom: 1px solid var(--tng-semantic-border-subtle);
+  padding: 0.625rem 0.5rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.context-menu-api-table th {
+  color: var(--tng-semantic-foreground-primary);
+  font-weight: 600;
+}
