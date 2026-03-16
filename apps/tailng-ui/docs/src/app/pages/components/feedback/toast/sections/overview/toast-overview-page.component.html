@@ -33,7 +33,7 @@
   <section class="toast-overview-block">
     <app-docs-example-tabs-section
       heading="Style variants"
-      description="Use headless primitives for custom trigger/visibility wiring, or component wrappers for built-in runtime queue handling."
+      description="Use headless primitives for custom trigger/visibility wiring, or component wrappers for built-in runtime queue handling with optional action buttons."
       ariaLabel="Toast style variants"
       tabListAriaLabel="Toast style tabs"
       defaultValue="headless"
@@ -93,6 +93,12 @@
           <tng-button tone="danger" (click)="showDemoToast(plainToast, 'danger')">
             Show error
           </tng-button>
+          <tng-button tone="success" (click)="showActionToast(plainToast, 'undo')">
+            Show undo toast
+          </tng-button>
+          <tng-button tone="neutral" (click)="showActionToast(plainToast, 'retry')">
+            Show retry snackbar
+          </tng-button>
         </section>
       </ng-template>
 
@@ -114,9 +120,20 @@
           <tng-button tone="danger" (click)="showDemoToast(tailwindToast, 'danger')">
             Show error
           </tng-button>
+          <tng-button tone="success" (click)="showActionToast(tailwindToast, 'undo')">
+            Show undo toast
+          </tng-button>
+          <tng-button tone="neutral" (click)="showActionToast(tailwindToast, 'retry')">
+            Show retry snackbar
+          </tng-button>
         </section>
       </ng-template>
     </app-docs-example-tabs-section>
+    @if (actionEvents().length === 0) {
+      <p class="toast-action-status">No action callbacks yet.</p>
+    } @else {
+      <p class="toast-action-status">Latest action: {{ actionEvents()[0] }}</p>
+    }
   </section>
 
   <section class="toast-overview-block">

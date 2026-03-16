@@ -1,22 +1,33 @@
 <section
   tngToastViewport
+  #viewportRef
   class="tng-toast-viewport"
   [attr.data-mode]="mode()"
   [attr.data-position]="position()"
+  (focusin)="onViewportFocusin($event)"
 >
   @for (toast of toasts(); track toast.id) {
     <article
       tngToastItem
       class="tng-toast-item"
+      [attr.data-toast-id]="toast.id"
       [tone]="toast.tone"
       tabindex="0"
-      (keydown)="onToastKeydown(toast.id, $event)"
     >
       <div class="tng-toast-body">
         @if (toast.title !== null) {
           <p class="tng-toast-title">{{ toast.title }}</p>
         }
         <p class="tng-toast-message">{{ toast.message }}</p>
+        @if (toast.action !== null) {
+          <button
+            type="button"
+            class="tng-toast-action"
+            (click)="onActionClick(toast)"
+          >
+            {{ toast.action.label }}
+          </button>
+        }
       </div>
 
       <button

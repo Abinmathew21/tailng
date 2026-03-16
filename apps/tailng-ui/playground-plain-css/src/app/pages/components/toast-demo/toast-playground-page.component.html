@@ -53,6 +53,23 @@
         <tng-button tone="danger" (click)="showTone(toast, 'danger')">Show Danger</tng-button>
       </div>
       <p>Danger notifications are pinned (`duration: 0`) to emulate persistent snackbar behavior.</p>
+
+      <h3>Interactive Actions</h3>
+      <div class="actions">
+        <tng-button tone="success" (click)="showUndoAction(toast)">Show Undo Toast</tng-button>
+        <tng-button tone="neutral" (click)="showRetryAction(toast)">
+          Show Retry Snackbar
+        </tng-button>
+      </div>
+      @if (actionEvents().length === 0) {
+        <p>No action callbacks yet.</p>
+      } @else {
+        <ul class="events">
+          @for (eventText of actionEvents(); track eventText) {
+            <li>{{ eventText }}</li>
+          }
+        </ul>
+      }
     </section>
 
     <section class="card">

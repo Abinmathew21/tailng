@@ -30,6 +30,7 @@ const toneTitleByTone: Readonly<Record<TngToastTone, string>> = Object.freeze({
 export class ToastPlaygroundPageComponent {
   private toastCounter = 0;
 
+  protected readonly actionEvents = signal<readonly string[]>([]);
   protected readonly dismissEvents = signal<readonly string[]>([]);
   protected readonly modes = toastModes;
   protected readonly positions = toastPositions;
@@ -47,6 +48,37 @@ export class ToastPlaygroundPageComponent {
       duration: tone === 'danger' ? 0 : 4200,
       title: toneTitleByTone[tone],
       tone,
+    });
+  }
+
+  protected showUndoAction(toast: TngToastComponent): void {
+    this.toastCounter += 1;
+    toast.show(`Draft #${this.toastCounter} saved successfully.`, {
+      action: {
+        label: 'Undo',
+        onSelect: (id): void => {
+          this.actionEvents.update((events) => [`Undo selected for ${id}`, ...events].slice(0, 6));
+        },
+      },
+      duration: 5200,
+      title: 'Saved',
+      tone: 'success',
+    });
+  }
+
+  protected showRetryAction(toast: TngToastComponent): void {
+    this.toastCounter += 1;
+    toast.show(`Publish run #${this.toastCounter} failed.`, {
+      action: {
+        dismissOnSelect: false,
+        label: 'Retry',
+        onSelect: (id): void => {
+          this.actionEvents.update((events) => [`Retry selected for ${id}`, ...events].slice(0, 6));
+        },
+      },
+      duration: 0,
+      title: 'Action required',
+      tone: 'warning',
     });
   }
 }

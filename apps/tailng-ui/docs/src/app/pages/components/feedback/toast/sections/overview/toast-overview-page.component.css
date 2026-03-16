@@ -205,3 +205,9 @@
 .toast-preview-controls--plain {
   background: color-mix(in srgb, var(--tng-semantic-background-canvas) 70%, transparent);
 }
+
+.toast-action-status {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.84rem;
+  margin: 0;
+}

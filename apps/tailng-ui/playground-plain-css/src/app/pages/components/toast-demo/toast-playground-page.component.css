@@ -68,6 +68,11 @@
   margin: 0;
 }
 
+.card h3 {
+  font-size: 0.95rem;
+  margin: 0.25rem 0 0;
+}
+
 .card p {
   color: var(--tng-semantic-foreground-secondary);
   margin: 0;

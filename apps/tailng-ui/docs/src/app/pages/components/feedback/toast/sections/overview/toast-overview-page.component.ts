@@ -50,6 +50,7 @@ export class ToastOverviewPageComponent implements OnDestroy {
   public readonly codeBlockTheme = signal<'github-dark' | 'github-light'>(
     this.resolveCodeBlockTheme(),
   );
+  protected readonly actionEvents = signal<readonly string[]>([]);
   protected readonly headlessToasts = signal<readonly HeadlessToastRecord[]>([]);
 
   protected readonly primitiveImportCode = [
@@ -173,6 +174,8 @@ export class ToastOverviewPageComponent implements OnDestroy {
         '<div class="controls">',
         '  <tng-button (click)="showDemoToast(toast, \'success\')">Show success</tng-button>',
         '  <tng-button tone="danger" (click)="showDemoToast(toast, \'danger\')">Show error</tng-button>',
+        '  <tng-button tone="success" (click)="showActionToast(toast, \'undo\')">Show undo toast</tng-button>',
+        '  <tng-button tone="neutral" (click)="showActionToast(toast, \'retry\')">Show retry snackbar</tng-button>',
         '</div>',
         '',
       ].join('\n'),
@@ -212,6 +215,8 @@ export class ToastOverviewPageComponent implements OnDestroy {
         '  <tng-button (click)="showDemoToast(toast, \'neutral\')">Show info</tng-button>',
         '  <tng-button tone="success" (click)="showDemoToast(toast, \'success\')">Show success</tng-button>',
         '  <tng-button tone="danger" (click)="showDemoToast(toast, \'danger\')">Show error</tng-button>',
+        '  <tng-button tone="success" (click)="showActionToast(toast, \'undo\')">Show undo toast</tng-button>',
+        '  <tng-button tone="neutral" (click)="showActionToast(toast, \'retry\')">Show retry snackbar</tng-button>',
         '</div>',
         '',
       ].join('\n'),
@@ -231,6 +236,37 @@ export class ToastOverviewPageComponent implements OnDestroy {
       duration: tone === 'danger' ? 0 : 4200,
       title: toneTitleByTone[tone],
       tone,
+    });
+  }
+
+  protected showActionToast(toast: TngToastComponent, kind: 'retry' | 'undo'): void {
+    this.previewCounter += 1;
+    if (kind === 'undo') {
+      toast.show(`Saved draft #${this.previewCounter}`, {
+        action: {
+          label: 'Undo',
+          onSelect: (id): void => {
+            this.actionEvents.update((events) => [`Undo selected for ${id}`, ...events].slice(0, 6));
+          },
+        },
+        duration: 5200,
+        title: 'Saved',
+        tone: 'success',
+      });
+      return;
+    }
+
+    toast.show(`Publish run #${this.previewCounter} requires another attempt.`, {
+      action: {
+        dismissOnSelect: false,
+        label: 'Retry',
+        onSelect: (id): void => {
+          this.actionEvents.update((events) => [`Retry selected for ${id}`, ...events].slice(0, 6));
+        },
+      },
+      duration: 0,
+      title: 'Action required',
+      tone: 'warning',
     });
   }
 

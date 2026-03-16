@@ -155,3 +155,9 @@
   gap: 0.55rem;
   padding: 0.95rem;
 }
+
+.toast-action-status {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.84rem;
+  margin: 0;
+}

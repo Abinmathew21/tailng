@@ -63,6 +63,9 @@
           <tng-button tone="success" (click)="showTone(streamPlainToast, 'success')">
             Show success
           </tng-button>
+          <tng-button tone="success" (click)="showActionToast(streamPlainToast, 'undo')">
+            Show undo toast
+          </tng-button>
         </section>
       </ng-template>
 
@@ -81,9 +84,15 @@
           <tng-button tone="success" (click)="showTone(streamTailwindToast, 'success')">
             Show success
           </tng-button>
+          <tng-button tone="success" (click)="showActionToast(streamTailwindToast, 'undo')">
+            Show undo toast
+          </tng-button>
         </section>
       </ng-template>
     </app-docs-example-tabs-section>
+    @if (wrapperActionEvents().length > 0) {
+      <p class="toast-action-status">Latest action: {{ wrapperActionEvents()[0] }}</p>
+    }
   </section>
 
   <section class="toast-examples-block">
@@ -155,6 +164,9 @@
           <tng-button tone="danger" (click)="showTone(escalationPlainToast, 'danger')">
             Show persistent error
           </tng-button>
+          <tng-button tone="neutral" (click)="showActionToast(escalationPlainToast, 'retry')">
+            Show retry snackbar
+          </tng-button>
         </section>
       </ng-template>
 
@@ -175,8 +187,14 @@
           <tng-button tone="danger" (click)="showTone(escalationTailwindToast, 'danger')">
             Show persistent error
           </tng-button>
+          <tng-button tone="neutral" (click)="showActionToast(escalationTailwindToast, 'retry')">
+            Show retry snackbar
+          </tng-button>
         </section>
       </ng-template>
     </app-docs-example-tabs-section>
+    @if (wrapperActionEvents().length > 0) {
+      <p class="toast-action-status">Latest action: {{ wrapperActionEvents()[0] }}</p>
+    }
   </section>
 </article>

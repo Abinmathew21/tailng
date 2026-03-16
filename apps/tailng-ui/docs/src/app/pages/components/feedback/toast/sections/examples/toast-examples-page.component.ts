@@ -49,6 +49,7 @@ export class ToastExamplesPageComponent implements OnDestroy {
   public readonly codeBlockTheme = signal<'github-dark' | 'github-light'>(
     this.resolveCodeBlockTheme(),
   );
+  protected readonly wrapperActionEvents = signal<readonly string[]>([]);
   protected readonly streamHeadlessToasts = signal<readonly HeadlessToast[]>([]);
   protected readonly escalationHeadlessToasts = signal<readonly HeadlessToast[]>([]);
 
@@ -134,6 +135,7 @@ export class ToastExamplesPageComponent implements OnDestroy {
         '<div class="toast-demo-actions">',
         '  <tng-button (click)="showTone(toast, \'neutral\')">Show info</tng-button>',
         '  <tng-button tone="success" (click)="showTone(toast, \'success\')">Show success</tng-button>',
+        '  <tng-button tone="success" (click)="showActionToast(toast, \'undo\')">Show undo toast</tng-button>',
         '</div>',
         '',
       ].join('\n'),
@@ -172,6 +174,7 @@ export class ToastExamplesPageComponent implements OnDestroy {
         '<div class="flex flex-wrap gap-2 rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">',
         '  <tng-button (click)="showTone(toast, \'neutral\')">Show info</tng-button>',
         '  <tng-button tone="success" (click)="showTone(toast, \'success\')">Show success</tng-button>',
+        '  <tng-button tone="success" (click)="showActionToast(toast, \'undo\')">Show undo toast</tng-button>',
         '</div>',
         '',
       ].join('\n'),
@@ -263,6 +266,7 @@ export class ToastExamplesPageComponent implements OnDestroy {
         '<div class="toast-demo-actions">',
         '  <tng-button tone="neutral" (click)="showTone(toast, \'warning\')">Show warning</tng-button>',
         '  <tng-button tone="danger" (click)="showTone(toast, \'danger\')">Show persistent error</tng-button>',
+        '  <tng-button tone="neutral" (click)="showActionToast(toast, \'retry\')">Show retry snackbar</tng-button>',
         '</div>',
         '',
       ].join('\n'),
@@ -301,6 +305,7 @@ export class ToastExamplesPageComponent implements OnDestroy {
         '<div class="flex flex-wrap gap-2 rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">',
         '  <tng-button tone="neutral" (click)="showTone(toast, \'warning\')">Show warning</tng-button>',
         '  <tng-button tone="danger" (click)="showTone(toast, \'danger\')">Show persistent error</tng-button>',
+        '  <tng-button tone="neutral" (click)="showActionToast(toast, \'retry\')">Show retry snackbar</tng-button>',
         '</div>',
         '',
       ].join('\n'),
@@ -320,6 +325,37 @@ export class ToastExamplesPageComponent implements OnDestroy {
       duration: tone === 'danger' ? 0 : 4200,
       title: toneTitleByTone[tone],
       tone,
+    });
+  }
+
+  protected showActionToast(toast: TngToastComponent, kind: 'retry' | 'undo'): void {
+    this.demoCounter += 1;
+    if (kind === 'undo') {
+      toast.show(`Autosave snapshot #${this.demoCounter} committed.`, {
+        action: {
+          label: 'Undo',
+          onSelect: (id): void => {
+            this.wrapperActionEvents.update((events) => [`Undo selected for ${id}`, ...events].slice(0, 8));
+          },
+        },
+        duration: 5200,
+        title: 'Saved',
+        tone: 'success',
+      });
+      return;
+    }
+
+    toast.show(`Retry required for build check #${this.demoCounter}.`, {
+      action: {
+        dismissOnSelect: false,
+        label: 'Retry',
+        onSelect: (id): void => {
+          this.wrapperActionEvents.update((events) => [`Retry selected for ${id}`, ...events].slice(0, 8));
+        },
+      },
+      duration: 0,
+      title: 'Action required',
+      tone: 'warning',
     });
   }
 
