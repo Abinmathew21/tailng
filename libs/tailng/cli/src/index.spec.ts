@@ -813,6 +813,28 @@ it('tailng cli integration: add writes popover source files', async (): Promise<
   expect(popoverTsContent).toContain("from './tng-popover-primitive';");
 });
 
+it('tailng cli integration: add writes tooltip source files', async (): Promise<void> => {
+  const targetRoot = await createTargetRoot();
+
+  const exitCode = await runCli(['add', 'tooltip', '--cwd', targetRoot], {
+    registry: registryModule,
+  });
+
+  expect(exitCode).toBe(0);
+
+  const tooltipTsPath = path.join(targetRoot, 'src/app/tailng-ui/tooltip/tng-tooltip.ts');
+  const primitivePath = path.join(targetRoot, 'src/app/tailng-ui/tooltip/tng-tooltip-primitive.ts');
+  const htmlPath = path.join(targetRoot, 'src/app/tailng-ui/tooltip/tng-tooltip.html');
+
+  expect(await pathExists(tooltipTsPath)).toBe(true);
+  expect(await pathExists(primitivePath)).toBe(true);
+  expect(await pathExists(htmlPath)).toBe(true);
+
+  const tooltipTsContent = await readFile(tooltipTsPath, 'utf8');
+  expect(tooltipTsContent).toContain("selector: 'tng-tooltip'");
+  expect(tooltipTsContent).toContain("from './tng-tooltip-primitive';");
+});
+
 it('tailng cli integration: returns non-zero when files already exist without --force', async (): Promise<void> => {
   const targetRoot = await createTargetRoot();
 

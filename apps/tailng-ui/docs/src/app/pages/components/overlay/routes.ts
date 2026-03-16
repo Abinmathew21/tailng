@@ -18,8 +18,17 @@ const popoverItem = group.items.find((item) => item.slug === 'popover');
 if (popoverItem === undefined) {
   throw new Error('Missing "popover" in components overlay docs group.');
 }
+const tooltipItem = group.items.find((item) => item.slug === 'tooltip');
+if (tooltipItem === undefined) {
+  throw new Error('Missing "tooltip" in components overlay docs group.');
+}
 
-const landingItems = group.items.filter((item) => item.slug !== dialogItem.slug && item.slug !== popoverItem.slug);
+const landingItems = group.items.filter(
+  (item) =>
+    item.slug !== dialogItem.slug &&
+    item.slug !== popoverItem.slug &&
+    item.slug !== tooltipItem.slug,
+);
 
 export const COMPONENTS_OVERLAY_ROUTES: Routes = [
   {
@@ -36,6 +45,11 @@ export const COMPONENTS_OVERLAY_ROUTES: Routes = [
     path: popoverItem.slug,
     loadChildren: () =>
       import('./popover/routes').then((module) => module.COMPONENTS_OVERLAY_POPOVER_ROUTES),
+  },
+  {
+    path: tooltipItem.slug,
+    loadChildren: () =>
+      import('./tooltip/routes').then((module) => module.COMPONENTS_OVERLAY_TOOLTIP_ROUTES),
   },
   ...landingItems.map((item) => ({
     path: item.slug,

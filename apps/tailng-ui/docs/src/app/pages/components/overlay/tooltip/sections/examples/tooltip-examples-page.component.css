@@ -1,0 +1,86 @@
+:host {
+  display: block;
+}
+
+.tooltip-examples {
+  display: grid;
+  gap: 1rem;
+}
+
+.tooltip-examples-title {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.tooltip-examples-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.tooltip-examples-block {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.95rem;
+  display: grid;
+  gap: 0.8rem;
+  padding: 1rem;
+}
+
+.tooltip-example-stage {
+  align-content: start;
+  display: grid;
+  gap: 0.7rem;
+  justify-items: start;
+  min-height: 8.5rem;
+}
+
+.tooltip-example-shell {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.95rem;
+  padding: 1rem;
+}
+
+.tooltip-example-anchor {
+  display: inline-flex;
+  position: relative;
+}
+
+.tooltip-example-trigger {
+  align-items: center;
+  background: color-mix(in srgb, var(--tng-semantic-background-canvas) 80%, transparent);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.68rem;
+  color: var(--tng-semantic-foreground-primary);
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 0.9rem;
+  font-weight: 600;
+  justify-content: center;
+  min-height: 2.1rem;
+  padding: 0.45rem 0.9rem;
+}
+
+.tooltip-example-note {
+  background: var(--tng-semantic-background-surface);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.7rem;
+  box-shadow: 0 20px 36px color-mix(in srgb, #020617 24%, transparent);
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 0.82rem;
+  padding: 0.45rem 0.62rem;
+  pointer-events: none;
+  position: fixed;
+  white-space: nowrap;
+  z-index: 70;
+}
+
+.tooltip-example-note[hidden] {
+  display: none !important;
+}
+
+.tooltip-example-state {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.9rem;
+  margin: 0;
+}

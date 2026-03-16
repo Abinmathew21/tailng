@@ -1,0 +1,120 @@
+:host {
+  display: block;
+}
+
+.tooltip-overview {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.tooltip-overview-title {
+  font-size: clamp(1.45rem, 1.05rem + 1.3vw, 1.95rem);
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.tooltip-overview-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+  max-width: 70ch;
+}
+
+.tooltip-overview-block {
+  background: color-mix(in srgb, var(--tng-semantic-background-surface) 88%, transparent);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 1rem;
+  display: grid;
+  gap: 0.9rem;
+  padding: 1.2rem;
+}
+
+.tooltip-overview-block h3 {
+  font-size: 1.05rem;
+  font-weight: 650;
+  margin: 0;
+}
+
+.tooltip-overview-block p {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.tooltip-stage {
+  align-content: start;
+  display: grid;
+  gap: 0.7rem;
+  justify-items: start;
+  min-height: 8rem;
+}
+
+.tooltip-shell {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.95rem;
+  padding: 1rem;
+}
+
+.tooltip-anchor {
+  display: inline-flex;
+  position: relative;
+}
+
+.tooltip-trigger {
+  align-items: center;
+  background: color-mix(in srgb, var(--tng-semantic-background-canvas) 80%, transparent);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.7rem;
+  color: var(--tng-semantic-foreground-primary);
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 0.88rem;
+  font-weight: 600;
+  justify-content: center;
+  min-height: 2.15rem;
+  padding: 0.45rem 0.9rem;
+}
+
+.tooltip-trigger[data-state='open'] {
+  border-color: var(--tng-semantic-accent-brand);
+}
+
+.tooltip-trigger:focus-visible {
+  outline: 2px solid var(--tng-semantic-accent-brand);
+  outline-offset: 2px;
+}
+
+.tooltip-preview {
+  background: var(--tng-semantic-background-surface);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.7rem;
+  box-shadow: 0 20px 36px color-mix(in srgb, #020617 24%, transparent);
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 0.82rem;
+  max-width: min(24rem, calc(100vw - 3rem));
+  padding: 0.45rem 0.62rem;
+  pointer-events: none;
+  position: fixed;
+  white-space: nowrap;
+  z-index: 70;
+}
+
+.tooltip-preview[hidden] {
+  display: none !important;
+}
+
+.tooltip-overview-state {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.tooltip-overview-list {
+  display: grid;
+  gap: 0.55rem;
+  margin: 0;
+  padding-inline-start: 1.1rem;
+}
+
+.tooltip-overview-list code {
+  font-size: 0.84em;
+}

@@ -4,7 +4,6 @@
 
 .tng-tooltip-root {
   display: inline-flex;
-  position: relative;
 }
 
 .tng-tooltip-trigger {
@@ -38,35 +37,12 @@
   border-radius: 0.5rem;
   color: var(--tng-semantic-foreground-primary);
   font-size: 0.75rem;
-  left: 50%;
   max-width: 18rem;
   padding: 0.45rem 0.6rem;
   pointer-events: none;
-  position: absolute;
-  transform: translateX(-50%);
+  position: fixed;
   white-space: nowrap;
   z-index: 20;
-}
-
-.tng-tooltip-content[data-side='top'] {
-  bottom: calc(100% + 0.5rem);
-}
-
-.tng-tooltip-content[data-side='bottom'] {
-  top: calc(100% + 0.5rem);
-}
-
-.tng-tooltip-content[data-side='left'] {
-  left: auto;
-  right: calc(100% + 0.5rem);
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-.tng-tooltip-content[data-side='right'] {
-  left: calc(100% + 0.5rem);
-  top: 50%;
-  transform: translateY(-50%);
 }
 
 .tng-tooltip-content[data-state='closed'] {

@@ -127,61 +127,61 @@ This component should expose open state, trigger/content association, accessibil
 
 ### Rendering
 
-- [ ] Renders trigger and content
-- [ ] Content has role="tooltip" and id
-- [ ] Content is hidden when closed (hidden attribute or visibility)
-- [ ] Content shows when open
-- [ ] Applies data-state, data-side, data-disabled, data-slot
+- [x] Renders trigger and content
+- [x] Content has role="tooltip" and id
+- [x] Content is hidden when closed (hidden attribute or visibility)
+- [x] Content shows when open
+- [x] Applies data-state, data-side, data-disabled, data-slot
 
 ### Accessibility
 
-- [ ] When open, trigger has aria-describedby pointing to content id
-- [ ] When closed, trigger has no aria-describedby (or null)
-- [ ] Content has role="tooltip"
-- [ ] Focus on trigger opens tooltip when not disabled
-- [ ] Blur from trigger closes tooltip
+- [x] When open, trigger has aria-describedby pointing to content id
+- [x] When closed, trigger has no aria-describedby (or null)
+- [x] Content has role="tooltip"
+- [x] Focus on trigger opens tooltip when not disabled
+- [x] Blur from trigger closes tooltip
 
 ### Hover and focus
 
-- [ ] Hover enter opens tooltip (with delay if configured)
-- [ ] Hover leave closes tooltip (with delay if configured)
-- [ ] Focus trigger opens tooltip
-- [ ] Blur trigger closes tooltip
-- [ ] Disabled prevents tooltip from showing
+- [x] Hover enter opens tooltip (with delay if configured)
+- [x] Hover leave closes tooltip (with delay if configured)
+- [x] Focus trigger opens tooltip
+- [x] Blur trigger closes tooltip
+- [x] Disabled prevents tooltip from showing
 
 ### Controlled behavior
 
 - [ ] Supports controlled open state
-- [ ] Emits openChange when opening/closing
+- [x] Emits openChange when opening/closing
 - [ ] Does not change visibility without controlled update when controlled
 
 ### Uncontrolled behavior
 
-- [ ] Opens/closes from hover and focus when uncontrolled
+- [x] Opens/closes from hover and focus when uncontrolled
 
 ### Data attributes
 
-- [ ] Applies data-state="open" | "closed" on trigger and content
-- [ ] Applies data-disabled on trigger
-- [ ] Applies data-side on content
+- [x] Applies data-state="open" | "closed" on trigger and content
+- [x] Applies data-disabled on trigger
+- [x] Applies data-side on content
 
 ## Implementation Steps
 
 1. [x] Headless component created in `primitives`
-2. [ ] Test cases created for headless
-3. [ ] Headless example page added/updated in playground - plain CSS app
-4. [ ] Headless example page added/updated in playground - Tailwind app
-5. [ ] Minimum style `<tng-tooltip>` component created in `components`
-6. [ ] Test cases created for `<tng-tooltip>`
-7. [ ] Component example page added/updated in playground - plain CSS app
-8. [ ] Component example page added/updated in playground - Tailwind app
-9. [ ] Docs added/updated in docs project - Overview section
-10. [ ] Docs added/updated in docs project - API section
-11. [ ] Docs added/updated in docs project - Styling section
-12. [ ] Docs added/updated in docs project - Example section
-13. [ ] Registry templates added in `registry` for copy-paste mode (`tailng add tooltip`)
-14. [ ] `tailng-cli` command generation added for tooltip artifacts
-15. [ ] CLI integration tests added for `tailng add tooltip`
+2. [x] Test cases created for headless
+3. [x] Headless example page added/updated in playground - plain CSS app
+4. [x] Headless example page added/updated in playground - Tailwind app
+5. [x] Minimum style `<tng-tooltip>` component created in `components`
+6. [x] Test cases created for `<tng-tooltip>`
+7. [x] Component example page added/updated in playground - plain CSS app
+8. [x] Component example page added/updated in playground - Tailwind app
+9. [x] Docs added/updated in docs project - Overview section
+10. [x] Docs added/updated in docs project - API section
+11. [x] Docs added/updated in docs project - Styling section
+12. [x] Docs added/updated in docs project - Example section
+13. [x] Registry templates added in `registry` for copy-paste mode (`tailng add tooltip`)
+14. [x] `tailng-cli` command generation added for tooltip artifacts
+15. [x] CLI integration tests added for `tailng add tooltip`
 
 ## Links
 

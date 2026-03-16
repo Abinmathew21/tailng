@@ -208,6 +208,12 @@ export const COMPONENTS_OVERLAY_GROUP: ComponentsDocsGroup = {
       title: 'Popover',
       description: 'Anchored floating panel with trigger semantics and outside/Escape dismissal.',
     },
+    {
+      id: 'tooltip',
+      slug: 'tooltip',
+      title: 'Tooltip',
+      description: 'Hover/focus helper text with trigger/content association and side placement hooks.',
+    },
   ],
 };
 

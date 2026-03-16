@@ -16,11 +16,11 @@ import {
 } from '@angular/core';
 import {
   createOverlayFocusHandoffController,
-  createOverlayRuntime,
   resolveFocusableElements,
   createTngIdFactory,
 } from '@tailng-ui/cdk';
-import type { TngOverlayDismissReason, TngOverlayInteractionDomDocument } from '@tailng-ui/cdk/overlay';
+import type { TngOverlayDismissReason } from '@tailng-ui/cdk/overlay';
+import { tngPrimitiveOverlayRuntime } from '../tng-overlay-runtime';
 
 const createPopoverId = createTngIdFactory('tng-popover');
 const createPopoverPanelId = createTngIdFactory('tng-popover-panel');
@@ -60,10 +60,6 @@ function mapOverlayDismissReason(reason: TngOverlayDismissReason): TngPopoverClo
 }
 
 const popoverGlobalDocument = typeof document === 'undefined' ? null : document;
-const popoverOverlayInteractionDocument = popoverGlobalDocument as TngOverlayInteractionDomDocument | null;
-const popoverOverlayRuntime = createOverlayRuntime({
-  documentRef: popoverOverlayInteractionDocument,
-});
 const popoverFocusHandoff = createOverlayFocusHandoffController();
 
 export function resolvePopoverActiveElement(documentRef: unknown): HTMLElement | null {
@@ -442,7 +438,7 @@ export class TngPopover implements OnDestroy, OnInit {
 
   private registerOverlayLayer(): void {
     const hostElement = this.hostRef.nativeElement;
-    popoverOverlayRuntime.registerLayer({
+    tngPrimitiveOverlayRuntime.registerLayer({
       containsTarget: (target: unknown, path: readonly unknown[]): boolean => {
         if (target instanceof Node && hostElement.contains(target)) {
           return true;
@@ -474,7 +470,7 @@ export class TngPopover implements OnDestroy, OnInit {
       return;
     }
 
-    popoverOverlayRuntime.unregisterLayer(this.instanceId);
+    tngPrimitiveOverlayRuntime.unregisterLayer(this.instanceId);
     this.isOverlayLayerRegistered = false;
   }
 

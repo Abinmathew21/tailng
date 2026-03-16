@@ -17,7 +17,6 @@ import {
 import {
   createOverlayFocusHandoffController,
   createModalIsolationManager,
-  createOverlayRuntime,
   createOverlayScrollLockManager,
   resolveFirstFocusableElement,
   resolveFocusableElements,
@@ -27,9 +26,9 @@ import type {
   TngModalIsolationDocument,
   TngModalIsolationElement,
   TngOverlayDismissReason,
-  TngOverlayInteractionDomDocument,
   TngScrollLockDocument,
 } from '@tailng-ui/cdk/overlay';
+import { tngPrimitiveOverlayRuntime } from '../tng-overlay-runtime';
 
 const createDialogId = createTngIdFactory('tng-dialog');
 const createDialogPanelId = createTngIdFactory('tng-dialog-panel');
@@ -88,10 +87,6 @@ function mapOverlayDismissReason(reason: TngOverlayDismissReason): TngDialogClos
 }
 
 const dialogGlobalDocument = typeof document === 'undefined' ? null : document;
-const dialogOverlayInteractionDocument = dialogGlobalDocument as TngOverlayInteractionDomDocument | null;
-const dialogOverlayRuntime = createOverlayRuntime({
-  documentRef: dialogOverlayInteractionDocument,
-});
 const dialogModalIsolation = createModalIsolationManager({
   documentRef: toModalIsolationDocument(dialogGlobalDocument),
 });
@@ -565,7 +560,7 @@ export class TngDialog implements OnDestroy, OnInit {
 
   private registerOverlayLayer(): void {
     const hostElement = this.hostRef.nativeElement;
-    dialogOverlayRuntime.registerLayer({
+    tngPrimitiveOverlayRuntime.registerLayer({
       containsTarget: (target: unknown, path: readonly unknown[]): boolean => {
         if (target instanceof Node && hostElement.contains(target)) {
           return true;
@@ -598,7 +593,7 @@ export class TngDialog implements OnDestroy, OnInit {
       return;
     }
 
-    dialogOverlayRuntime.unregisterLayer(this.instanceId);
+    tngPrimitiveOverlayRuntime.unregisterLayer(this.instanceId);
     this.isOverlayLayerRegistered = false;
   }
 

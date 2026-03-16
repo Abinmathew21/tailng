@@ -1,0 +1,97 @@
+<article class="tooltip-api">
+  <h2 class="tooltip-api-title">API reference</h2>
+  <p class="tooltip-api-lead">
+    Tooltip docs cover the headless primitive directives (<code>tngTooltipTrigger</code>,
+    <code>tngTooltipContent</code>) and the wrapper component
+    (<code>&lt;tng-tooltip&gt;</code>).
+  </p>
+
+  <section class="tooltip-api-block">
+    <h3>Wrapper component: &lt;tng-tooltip&gt;</h3>
+    <div class="tooltip-api-table-wrap">
+      <table class="tooltip-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Input / Output</th>
+            <th scope="col">Type</th>
+            <th scope="col">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>triggerLabel</code></td>
+            <td><code>string</code></td>
+            <td>Fallback trigger text rendered by the built-in button.</td>
+          </tr>
+          <tr>
+            <td><code>text</code></td>
+            <td><code>string</code></td>
+            <td>Fallback tooltip message when no projected content is provided.</td>
+          </tr>
+          <tr>
+            <td><code>side</code></td>
+            <td><code>'top' | 'right' | 'bottom' | 'left'</code></td>
+            <td>Placement hint exposed through <code>data-side</code> on tooltip content.</td>
+          </tr>
+          <tr>
+            <td><code>openDelay</code>, <code>closeDelay</code></td>
+            <td><code>number</code></td>
+            <td>Delay in milliseconds before open/close transitions are applied.</td>
+          </tr>
+          <tr>
+            <td><code>disabled</code></td>
+            <td><code>boolean</code></td>
+            <td>Disables hover/focus interactions and keeps tooltip closed.</td>
+          </tr>
+          <tr>
+            <td><code>ariaLabel</code></td>
+            <td><code>string | null</code></td>
+            <td>Accessible label for the built-in trigger button.</td>
+          </tr>
+          <tr>
+            <td><code>openChange</code></td>
+            <td><code>boolean</code></td>
+            <td>Emits each time wrapper state changes from open to closed (and vice versa).</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="tooltip-api-block">
+    <h3>Primitive directives</h3>
+    <div class="tooltip-api-table-wrap">
+      <table class="tooltip-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Directive</th>
+            <th scope="col">Purpose</th>
+            <th scope="col">Key inputs</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>tngTooltipTrigger</code></td>
+            <td>Applies trigger semantics, state/data hooks, and optional aria-describedby wiring.</td>
+            <td><code>open</code>, <code>disabled</code>, <code>describedBy</code></td>
+          </tr>
+          <tr>
+            <td><code>tngTooltipContent</code></td>
+            <td>Applies tooltip role/id, visibility state, and side placement hook.</td>
+            <td><code>id</code> (required), <code>open</code>, <code>side</code></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="tooltip-api-block">
+    <h3>Keyboard and focus baseline</h3>
+    <ul>
+      <li><code>Tab</code> to a trigger opens the tooltip for keyboard users.</li>
+      <li><code>Blur</code> closes the tooltip and removes <code>aria-describedby</code>.</li>
+      <li>Tooltip content stays non-interactive and should remain outside the tab order.</li>
+      <li>Use <code>Escape</code> handling in headless templates if your UX requires it.</li>
+    </ul>
+  </section>
+</article>

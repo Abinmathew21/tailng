@@ -1,0 +1,40 @@
+<article class="tooltip-styling">
+  <h2 class="tooltip-styling-title">Styling contract</h2>
+  <p class="tooltip-styling-lead">
+    Tooltip primitives expose slot and state hooks so teams can style trigger and floating content
+    without relying on internal DOM structure.
+  </p>
+
+  <section class="tooltip-styling-block">
+    <h3>Core data attributes</h3>
+    <ul>
+      <li>
+        <code>[data-slot="tooltip-trigger"]</code> exposes <code>data-state</code>, optional
+        <code>data-disabled</code>, and <code>aria-describedby</code> when open.
+      </li>
+      <li>
+        <code>[data-slot="tooltip-content"]</code> carries <code>role="tooltip"</code>,
+        <code>data-state</code>, <code>data-side</code>, and <code>[hidden]</code> while closed.
+      </li>
+      <li>
+        <code>data-side</code> supports <code>top</code>, <code>right</code>, <code>bottom</code>,
+        and <code>left</code> placement styles.
+      </li>
+      <li>
+        Tooltip content should keep <code>pointer-events: none</code> and remain non-interactive.
+      </li>
+    </ul>
+  </section>
+
+  <section class="tooltip-styling-block">
+    <h3>Reference CSS</h3>
+    <tng-code-block
+      [code]="stylingContractCode"
+      language="css"
+      title="tooltip-styling.css"
+      [wrap]="true"
+      [lineNumbers]="true"
+      [copy]="true"
+    ></tng-code-block>
+  </section>
+</article>

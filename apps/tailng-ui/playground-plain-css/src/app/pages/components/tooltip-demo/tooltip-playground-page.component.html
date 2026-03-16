@@ -1,8 +1,16 @@
 <main class="page">
   <section class="container">
+    <header class="hero">
+      <h1 class="title">Tooltip demo</h1>
+      <p class="subtitle">
+        Headless trigger/content directives and the <code>&lt;tng-tooltip&gt;</code> wrapper.
+        Hover or focus each trigger to preview tooltip behavior.
+      </p>
+    </header>
+
     <section class="card">
-      <h2>Primitives (`tngTooltipTrigger` + `tngTooltipContent`)</h2>
-      <p>Switch side and use hover/focus on the trigger to open the tooltip.</p>
+      <h2>1) Headless primitives</h2>
+      <p>Use <code>[tngTooltip]</code> + <code>tngTooltipTrigger</code> + <code>tngTooltipContent</code>.</p>
 
       <div class="side-picker">
         @for (side of sides; track side) {
@@ -17,50 +25,99 @@
         }
       </div>
 
-      <div class="primitive-stage">
-        <button
-          tngTooltipTrigger
-          type="button"
-          class="primitive-trigger"
-          [describedBy]="primitiveTooltipId"
-          [open]="primitiveOpen()"
-          (blur)="primitiveOpen.set(false)"
-          (focus)="primitiveOpen.set(true)"
-          (mouseleave)="primitiveOpen.set(false)"
-          (mouseenter)="primitiveOpen.set(true)"
-        >
-          Primitive Trigger
-        </button>
+      <div class="examples-grid">
+        <article class="example-box">
+          <h3 class="example-title">Action hint</h3>
+          <div
+            tngTooltip
+            class="primitive-stage"
+            [side]="primitiveSide()"
+            [openDelay]="0"
+            [closeDelay]="0"
+          >
+            <button
+              tngTooltipTrigger
+              type="button"
+              class="primitive-trigger"
+            >
+              Delete release branch
+            </button>
 
-        <span
-          tngTooltipContent
-          class="primitive-content"
-          [id]="primitiveTooltipId"
-          [open]="primitiveOpen()"
-          [side]="primitiveSide()"
-        >
-          Primitive tooltip on {{ primitiveSide() }} side.
-        </span>
+            <span
+              tngTooltipContent
+              class="primitive-content"
+              [id]="primitiveTooltipId"
+            >
+              Permanently removes branch automation.
+            </span>
+          </div>
+          <p class="meta">side: <strong>{{ primitiveSide() }}</strong></p>
+        </article>
+
+        <article class="example-box">
+          <h3 class="example-title">Icon-only trigger</h3>
+          <div
+            tngTooltip
+            class="primitive-stage primitive-stage--icon"
+            [side]="'right'"
+            [openDelay]="0"
+            [closeDelay]="0"
+          >
+            <button
+              tngTooltipTrigger
+              type="button"
+              class="icon-trigger"
+              aria-label="Pinned notes"
+            >
+              ?
+            </button>
+
+            <span
+              tngTooltipContent
+              class="primitive-content"
+              [id]="iconTooltipId"
+            >
+              Shortcut: press <kbd>?</kbd> to open help.
+            </span>
+          </div>
+          <p class="meta">mode: <strong>root-managed</strong></p>
+        </article>
       </div>
     </section>
 
     <section class="card">
-      <h2>Components (`tng-tooltip`)</h2>
-      <p>Styled wrapper with built-in delay control and directional placement.</p>
+      <h2>2) Wrapper component</h2>
+      <p>
+        Use <code>&lt;tng-tooltip&gt;</code> for built-in trigger/content structure with delay and
+        side inputs.
+      </p>
 
       <div class="component-grid">
-        @for (side of sides; track side) {
-          <article class="component-item">
-            <p class="component-title">Side: {{ side }}</p>
-            <tng-tooltip
-              [openDelay]="120"
-              [closeDelay]="80"
-              [side]="side"
-              [text]="'Tooltip placed on the ' + side + ' side.'"
-              [triggerLabel]="'Hover me (' + side + ')'"
-            />
-          </article>
-        }
+        <article class="component-item">
+          <p class="component-title">Default delay</p>
+          <tng-tooltip
+            [openDelay]="140"
+            [closeDelay]="90"
+            [side]="'top'"
+            text="Review checklist before triggering deployment."
+            triggerLabel="Deployment checklist"
+            (openChange)="defaultWrapperOpen.set($event)"
+          />
+          <p class="meta">openChange: <strong>{{ defaultWrapperOpen() ? 'open' : 'closed' }}</strong></p>
+        </article>
+
+        <article class="component-item">
+          <p class="component-title">Fast response</p>
+          <tng-tooltip
+            [openDelay]="0"
+            [closeDelay]="0"
+            [side]="'right'"
+            text="Immediate tooltip without transition delay."
+            triggerLabel="Immediate tooltip"
+            (openChange)="fastWrapperOpen.set($event)"
+          />
+          <p class="meta">openChange: <strong>{{ fastWrapperOpen() ? 'open' : 'closed' }}</strong></p>
+        </article>
       </div>
 
       <article class="component-item">

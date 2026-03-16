@@ -6,6 +6,8 @@ export * from './layer-stack/layer-stack';
 export * from './layer-stack/layer-stack.types';
 export * from './modal-isolation/modal-isolation';
 export * from './modal-isolation/modal-isolation.types';
+export * from './open-close-delay/open-close-delay';
+export * from './open-close-delay/open-close-delay.types';
 export * from './outside-interaction/outside-interaction';
 export * from './outside-interaction/outside-interaction.types';
 export * from './portal/portal';

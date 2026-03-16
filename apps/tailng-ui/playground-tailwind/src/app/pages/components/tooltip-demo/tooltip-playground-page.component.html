@@ -1,7 +1,24 @@
-<div class="mx-auto max-w-[72rem] grid gap-5">
-  <section class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5 space-y-3">
-    <h2 class="text-lg font-semibold">Primitives (`tngTooltipTrigger` + `tngTooltipContent`)</h2>
-    <p class="text-sm text-tng-fg-secondary">Switch side and use hover/focus on the trigger to open the tooltip.</p>
+<div class="mx-auto grid max-w-[72rem] gap-5">
+  <section class="space-y-3">
+    <h1 class="text-3xl font-semibold text-tng-fg-primary">Tooltip demo</h1>
+    <p class="max-w-3xl text-sm text-tng-fg-secondary">
+      Headless trigger/content directives and wrapper component examples with hover, focus, delay,
+      side placement, and disabled behavior.
+    </p>
+  </section>
+
+  <section class="space-y-4 rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5">
+    <header class="space-y-2">
+      <h2 class="text-lg font-semibold text-tng-fg-primary">1) Headless primitives</h2>
+      <p class="text-sm text-tng-fg-secondary">
+        Use <code class="rounded-md border border-tng-border-subtle bg-tng-bg-muted px-1.5 py-0.5 text-xs">[tngTooltip]</code>
+        +
+        <code class="rounded-md border border-tng-border-subtle bg-tng-bg-muted px-1.5 py-0.5 text-xs">tngTooltipTrigger</code>
+        +
+        <code class="rounded-md border border-tng-border-subtle bg-tng-bg-muted px-1.5 py-0.5 text-xs">tngTooltipContent</code>
+        with primitive-owned runtime behavior.
+      </p>
+    </header>
 
     <div class="flex flex-wrap gap-2">
       @for (side of sides; track side) {
@@ -21,58 +38,113 @@
       }
     </div>
 
-    <div class="relative inline-block">
-      <button
-        tngTooltipTrigger
-        type="button"
-        class="rounded-lg border border-tng-border-subtle bg-transparent px-4 py-2 text-sm font-medium text-tng-fg-primary"
-        [describedBy]="primitiveTooltipId"
-        [open]="primitiveOpen()"
-        (blur)="primitiveOpen.set(false)"
-        (focus)="primitiveOpen.set(true)"
-        (mouseleave)="primitiveOpen.set(false)"
-        (mouseenter)="primitiveOpen.set(true)"
-      >
-        Primitive Trigger
-      </button>
+    <div class="grid gap-4 md:grid-cols-2">
+      <article class="space-y-3 rounded-xl border border-tng-border-subtle bg-tng-bg-canvas p-4">
+        <h3 class="text-sm font-semibold text-tng-fg-primary">Action hint</h3>
+        <div
+          tngTooltip
+          class="relative inline-flex min-h-[6rem]"
+          [side]="primitiveSide()"
+          [openDelay]="0"
+          [closeDelay]="0"
+        >
+          <button
+            tngTooltipTrigger
+            type="button"
+            class="rounded-lg border border-tng-border-subtle bg-transparent px-4 py-2 text-sm font-medium text-tng-fg-primary outline-none focus-visible:ring-2 focus-visible:ring-tng-accent-brand"
+          >
+            Delete release branch
+          </button>
 
-      <span
-        tngTooltipContent
-        class="absolute z-50 rounded-lg border border-tng-border-subtle bg-tng-bg-surface px-3 py-2 text-sm text-tng-fg-primary shadow-lg"
-        [id]="primitiveTooltipId"
-        [open]="primitiveOpen()"
-        [side]="primitiveSide()"
-      >
-        Primitive tooltip on {{ primitiveSide() }} side.
-      </span>
+          <span
+            tngTooltipContent
+            class="pointer-events-none z-50 rounded-lg border border-tng-border-subtle bg-tng-bg-surface px-3 py-2 text-xs text-tng-fg-primary shadow-lg"
+            [id]="primitiveTooltipId"
+          >
+            Permanently removes branch automation.
+          </span>
+        </div>
+        <p class="text-xs text-tng-fg-secondary">side: <span class="font-semibold text-tng-fg-primary">{{ primitiveSide() }}</span></p>
+      </article>
+
+      <article class="space-y-3 rounded-xl border border-tng-border-subtle bg-tng-bg-canvas p-4">
+        <h3 class="text-sm font-semibold text-tng-fg-primary">Icon-only trigger</h3>
+        <div
+          tngTooltip
+          class="relative inline-flex min-h-[6rem] items-center"
+          [side]="'right'"
+          [openDelay]="0"
+          [closeDelay]="0"
+        >
+          <button
+            tngTooltipTrigger
+            type="button"
+            aria-label="Pinned notes"
+            class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-tng-border-subtle bg-transparent text-base font-semibold text-tng-fg-primary outline-none focus-visible:ring-2 focus-visible:ring-tng-accent-brand"
+          >
+            ?
+          </button>
+
+          <span
+            tngTooltipContent
+            class="pointer-events-none z-50 whitespace-nowrap rounded-lg border border-tng-border-subtle bg-tng-bg-surface px-3 py-2 text-xs text-tng-fg-primary shadow-lg"
+            [id]="iconTooltipId"
+          >
+            Shortcut: press ? to open help.
+          </span>
+        </div>
+        <p class="text-xs text-tng-fg-secondary">mode: <span class="font-semibold text-tng-fg-primary">root-managed</span></p>
+      </article>
     </div>
   </section>
 
-  <section class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5 space-y-3">
-    <h2 class="text-lg font-semibold">Components (`tng-tooltip`)</h2>
-    <p class="text-sm text-tng-fg-secondary">Styled wrapper with built-in delay control and directional placement.</p>
+  <section class="space-y-4 rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5">
+    <header class="space-y-2">
+      <h2 class="text-lg font-semibold text-tng-fg-primary">2) Wrapper component</h2>
+      <p class="text-sm text-tng-fg-secondary">
+        Use <code class="rounded-md border border-tng-border-subtle bg-tng-bg-muted px-1.5 py-0.5 text-xs">&lt;tng-tooltip&gt;</code>
+        for built-in trigger/content structure.
+      </p>
+    </header>
 
-    <div class="grid gap-4 sm:grid-cols-2">
-      @for (side of sides; track side) {
-        <article>
-          <p class="text-sm font-medium text-tng-fg-primary mb-2">Side: {{ side }}</p>
-          <tng-tooltip
-            [openDelay]="120"
-            [closeDelay]="80"
-            [side]="side"
-            [text]="'Tooltip placed on the ' + side + ' side.'"
-            [triggerLabel]="'Hover me (' + side + ')'"
-          />
-        </article>
-      }
+    <div class="grid gap-4 md:grid-cols-2">
+      <article class="space-y-3 rounded-xl border border-tng-border-subtle bg-tng-bg-canvas p-4">
+        <h3 class="text-sm font-semibold text-tng-fg-primary">Default delay</h3>
+        <tng-tooltip
+          [openDelay]="140"
+          [closeDelay]="90"
+          [side]="'top'"
+          text="Review checklist before triggering deployment."
+          triggerLabel="Deployment checklist"
+          (openChange)="defaultWrapperOpen.set($event)"
+        />
+        <p class="text-xs text-tng-fg-secondary">
+          openChange: <span class="font-semibold text-tng-fg-primary">{{ defaultWrapperOpen() ? 'open' : 'closed' }}</span>
+        </p>
+      </article>
+
+      <article class="space-y-3 rounded-xl border border-tng-border-subtle bg-tng-bg-canvas p-4">
+        <h3 class="text-sm font-semibold text-tng-fg-primary">Fast response</h3>
+        <tng-tooltip
+          [openDelay]="0"
+          [closeDelay]="0"
+          [side]="'right'"
+          text="Immediate tooltip without transition delay."
+          triggerLabel="Immediate tooltip"
+          (openChange)="fastWrapperOpen.set($event)"
+        />
+        <p class="text-xs text-tng-fg-secondary">
+          openChange: <span class="font-semibold text-tng-fg-primary">{{ fastWrapperOpen() ? 'open' : 'closed' }}</span>
+        </p>
+      </article>
     </div>
 
-    <article>
-      <p class="text-sm font-medium text-tng-fg-primary mb-2">Disabled state</p>
+    <article class="space-y-3 rounded-xl border border-tng-border-subtle bg-tng-bg-canvas p-4">
+      <h3 class="text-sm font-semibold text-tng-fg-primary">Disabled state</h3>
       <tng-tooltip
         [disabled]="true"
         text="This tooltip is disabled and does not open."
-        triggerLabel="Disabled Trigger"
+        triggerLabel="Disabled trigger"
       />
     </article>
   </section>
