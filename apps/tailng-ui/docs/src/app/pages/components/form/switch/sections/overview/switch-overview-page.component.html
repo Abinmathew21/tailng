@@ -1,0 +1,102 @@
+<article class="switch-overview">
+  <h2 class="switch-overview-title">Switch overview</h2>
+  <p class="switch-overview-lead">
+    Switch provides a two-state on/off toggle. Use the headless primitive for full ownership, or the
+    styled component for fast adoption.
+  </p>
+
+  <section class="switch-overview-block">
+    <h3>Imports</h3>
+    <p>Select the layer that matches your ownership model.</p>
+    <tng-code-block
+      [code]="primitiveImportCode"
+      adapter="shiki"
+      language="ts"
+      title="Primitive import"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+    <tng-code-block
+      [code]="componentImportCode"
+      adapter="shiki"
+      language="ts"
+      title="Component import"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section class="switch-overview-block">
+    <app-docs-example-tabs-section
+      heading="Switch variants"
+      description="Same switch semantics rendered through headless markup, plain CSS wrappers, and Tailwind utility shells."
+      ariaLabel="Switch toggle variants"
+      tabListAriaLabel="Switch styles"
+      defaultValue="headless"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="headless"
+        label="Headless"
+        panelTitle="Headless switch toggle"
+        [codeTabs]="headlessCodeTabs"
+      >
+        <div class="switch-preview-shell switch-preview-shell--headless">
+          <div class="switch-row">
+            <button
+              tngSwitch
+              class="switch-track"
+              [checked]="headlessChecked()"
+              ariaLabel="Enable notifications"
+              (click)="onHeadlessToggle()"
+            >
+              <span class="switch-thumb"></span>
+            </button>
+            <span class="switch-label">Enable notifications</span>
+          </div>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Plain CSS switch toggle"
+        [codeTabs]="plainCssCodeTabs"
+      >
+        <div class="switch-preview-shell switch-preview-shell--plain">
+          <tng-switch
+            [checked]="plainCssChecked()"
+            (checkedChange)="plainCssChecked.set($event)"
+          >
+            Dark mode
+          </tng-switch>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Tailwind switch toggle"
+        [codeTabs]="tailwindCodeTabs"
+      >
+        <div
+          class="switch-preview-shell rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+        >
+          <tng-switch
+            [checked]="tailwindChecked()"
+            (checkedChange)="tailwindChecked.set($event)"
+          >
+            Auto-deploy
+          </tng-switch>
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+</article>

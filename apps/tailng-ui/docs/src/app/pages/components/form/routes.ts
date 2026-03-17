@@ -63,6 +63,10 @@ const chipsItem = group.items.find((item) => item.slug === 'chips');
 if (chipsItem === undefined) {
   throw new Error('Missing "chips" in components form docs group.');
 }
+const switchItem = group.items.find((item) => item.slug === 'switch');
+if (switchItem === undefined) {
+  throw new Error('Missing "switch" in components form docs group.');
+}
 
 const landingSlugs = new Set([
   inputItem.slug,
@@ -79,6 +83,7 @@ const landingSlugs = new Set([
   selectboxItem.slug,
   multiselectItem.slug,
   chipsItem.slug,
+  switchItem.slug,
 ]);
 
 export const COMPONENTS_FORM_ROUTES: Routes = [
@@ -160,6 +165,11 @@ export const COMPONENTS_FORM_ROUTES: Routes = [
     path: chipsItem.slug,
     loadChildren: () =>
       import('./chips/routes').then((module) => module.COMPONENTS_FORM_CHIPS_ROUTES),
+  },
+  {
+    path: switchItem.slug,
+    loadChildren: () =>
+      import('./switch/routes').then((module) => module.COMPONENTS_FORM_SWITCH_ROUTES),
   },
   ...group.items
     .filter((item) => !landingSlugs.has(item.slug))

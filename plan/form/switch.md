@@ -151,21 +151,22 @@ This component should expose behavior, accessibility, and state while leaving vi
 ## Implementation Steps
 
 1. [x] Headless component created in `primitives`
-2. [ ] Test cases created for headless
-3. [ ] Headless example page added/updated in playground - plain CSS app
-4. [ ] Headless example page added/updated in playground - Tailwind app
-5. [ ] Minimum style `<tng-switch>` component created in `components`
-6. [ ] Test cases created for `<tng-switch>`
-7. [ ] Component example page added/updated in playground - plain CSS app
-8. [ ] Component example page added/updated in playground - Tailwind app
-9. [ ] Docs added/updated in docs project - Overview section
-10. [ ] Docs added/updated in docs project - API section
-11. [ ] Docs added/updated in docs project - Styling section
-12. [ ] Docs added/updated in docs project - Example section
-13. [ ] Registry templates added in `registry` for copy-paste mode (`tailng add switch`)
+2. [x] Test cases created for headless
+3. [x] Headless example page added/updated in playground - plain CSS app
+4. [x] Headless example page added/updated in playground - Tailwind app
+5. [x] Minimum style `<tng-switch>` component created in `components`
+6. [x] Test cases created for `<tng-switch>`
+7. [x] Component example page added/updated in playground - plain CSS app
+8. [x] Component example page added/updated in playground - Tailwind app
+9. [x] Docs added/updated in docs project - Overview section
+10. [x] Docs added/updated in docs project - API section
+11. [x] Docs added/updated in docs project - Styling section
+12. [x] Docs added/updated in docs project - Example section
+13. [x] Registry templates added in `registry` for copy-paste mode (`tailng add switch`)
 14. [ ] `tailng-cli` command generation added for switch artifacts
 15. [ ] CLI integration tests added for `tailng add switch`
 
 ## Links
 
+- Docs route: `/components/form/switch`
 - Playground: `/switch`

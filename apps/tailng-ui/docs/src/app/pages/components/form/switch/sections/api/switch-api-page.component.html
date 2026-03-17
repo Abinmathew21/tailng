@@ -1,0 +1,165 @@
+<article class="switch-api">
+  <h2 class="switch-api-title">API reference</h2>
+  <p class="switch-api-lead">
+    Switch exposes a primitive directive for headless behavior and a styled wrapper with label,
+    hidden input, and arrow-key support.
+  </p>
+
+  <section class="switch-api-block">
+    <h3><code>tngSwitch</code> (directive)</h3>
+    <p>Attach on <code>button</code>. Sets <code>role="switch"</code> automatically.</p>
+    <tng-code-block
+      [code]="primitiveAttachmentCode"
+      adapter="shiki"
+      language="html"
+      title="Primitive attachment"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+
+    <div class="switch-api-table-wrap">
+      <table class="switch-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Input</th>
+            <th scope="col">Type</th>
+            <th scope="col">Default</th>
+            <th scope="col">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>checked</code></td>
+            <td><code>boolean | '' | string</code></td>
+            <td><code>false</code></td>
+            <td>Current on/off state.</td>
+          </tr>
+          <tr>
+            <td><code>disabled</code></td>
+            <td><code>boolean | '' | string</code></td>
+            <td><code>false</code></td>
+            <td>Blocks interaction and applies disabled attributes.</td>
+          </tr>
+          <tr>
+            <td><code>required</code></td>
+            <td><code>boolean | '' | string</code></td>
+            <td><code>false</code></td>
+            <td>Sets <code>aria-required</code>.</td>
+          </tr>
+          <tr>
+            <td><code>ariaLabel</code></td>
+            <td><code>string | null</code></td>
+            <td><code>null</code></td>
+            <td>Accessible name when no visible label is present.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="switch-api-table-wrap">
+      <table class="switch-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Output Attribute</th>
+            <th scope="col">When set</th>
+            <th scope="col">Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>role="switch"</code></td>
+            <td>Always</td>
+            <td>ARIA switch role.</td>
+          </tr>
+          <tr>
+            <td><code>aria-checked</code></td>
+            <td>Always</td>
+            <td><code>"true"</code> or <code>"false"</code>.</td>
+          </tr>
+          <tr>
+            <td><code>data-state</code></td>
+            <td>Always</td>
+            <td><code>checked</code> or <code>unchecked</code>.</td>
+          </tr>
+          <tr>
+            <td><code>data-disabled</code></td>
+            <td>When disabled</td>
+            <td>Styling hook for disabled state.</td>
+          </tr>
+          <tr>
+            <td><code>data-slot="switch"</code></td>
+            <td>Always</td>
+            <td>Theme contract anchor.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="switch-api-block">
+    <h3><code>tng-switch</code> (styled component)</h3>
+    <p>Wrapper with track/thumb, hidden native input for form submission, and arrow-key toggling.</p>
+    <tng-code-block
+      [code]="componentAttachmentCode"
+      adapter="shiki"
+      language="html"
+      title="Styled attachment"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+
+    <div class="switch-api-table-wrap">
+      <table class="switch-api-table">
+        <thead>
+          <tr>
+            <th scope="col">API</th>
+            <th scope="col">Type</th>
+            <th scope="col">Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Inputs</td>
+            <td>
+              <code>checked</code>, <code>disabled</code>, <code>required</code>,
+              <code>name</code>, <code>value</code>, <code>ariaLabel</code>
+            </td>
+            <td>Forwarded to primitive and hidden input.</td>
+          </tr>
+          <tr>
+            <td>Outputs</td>
+            <td><code>checkedChange</code></td>
+            <td>Emits on toggle when not disabled.</td>
+          </tr>
+          <tr>
+            <td>Keyboard</td>
+            <td>Space, ArrowLeft, ArrowRight</td>
+            <td>Space toggles; ArrowLeft unchecks; ArrowRight checks.</td>
+          </tr>
+          <tr>
+            <td>Content</td>
+            <td><code>ng-content</code></td>
+            <td>Projected as visible label text.</td>
+          </tr>
+          <tr>
+            <td>Icon slots</td>
+            <td><code>[onIcon]</code>, <code>[offIcon]</code></td>
+            <td>Optional projected icons shown inside the thumb.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <tng-code-block
+      [code]="reactiveFormCode"
+      adapter="shiki"
+      language="ts"
+      title="Reactive forms"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+</article>

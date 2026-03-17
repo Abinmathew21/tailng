@@ -1,0 +1,148 @@
+<article class="switch-examples">
+  <h2 class="switch-examples-title">Switch examples</h2>
+  <p class="switch-examples-lead">
+    Real-world usage patterns for the switch component across all styling layers.
+  </p>
+
+  <app-docs-example-tabs-section
+    class="switch-examples-block"
+    heading="Settings panel"
+    description="Multiple switches grouped in a settings context."
+    ariaLabel="Switch settings examples"
+    tabListAriaLabel="Switch settings variants"
+    defaultValue="headless"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="headless"
+      label="Headless"
+      panelTitle="Headless settings panel"
+      [codeTabs]="settingsHeadlessCodeTabs"
+    >
+      <div class="switch-settings">
+        <div class="switch-row">
+          <button
+            tngSwitch
+            class="switch-track"
+            [checked]="headlessNotifications()"
+            ariaLabel="Push notifications"
+            (click)="onToggleHeadlessNotifications()"
+          >
+            <span class="switch-thumb"></span>
+          </button>
+          <span class="switch-label">Push notifications</span>
+        </div>
+        <div class="switch-row">
+          <button
+            tngSwitch
+            class="switch-track"
+            [checked]="headlessDarkMode()"
+            ariaLabel="Dark mode"
+            (click)="onToggleHeadlessDarkMode()"
+          >
+            <span class="switch-thumb"></span>
+          </button>
+          <span class="switch-label">Dark mode</span>
+        </div>
+      </div>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+      panelTitle="Plain CSS settings panel"
+      [codeTabs]="settingsPlainCssCodeTabs"
+    >
+      <div class="switch-settings switch-settings--plain">
+        <tng-switch
+          [checked]="plainCssNotifications()"
+          (checkedChange)="plainCssNotifications.set($event)"
+        >
+          Push notifications
+        </tng-switch>
+        <tng-switch
+          [checked]="plainCssDarkMode()"
+          (checkedChange)="plainCssDarkMode.set($event)"
+        >
+          Dark mode
+        </tng-switch>
+      </div>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Tailwind settings panel"
+      [codeTabs]="settingsTailwindCodeTabs"
+    >
+      <div class="grid gap-3 rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">
+        <tng-switch
+          [checked]="tailwindNotifications()"
+          (checkedChange)="tailwindNotifications.set($event)"
+        >
+          Push notifications
+        </tng-switch>
+        <tng-switch
+          [checked]="tailwindDarkMode()"
+          (checkedChange)="tailwindDarkMode.set($event)"
+        >
+          Dark mode
+        </tng-switch>
+      </div>
+    </ng-template>
+  </app-docs-example-tabs-section>
+
+  <app-docs-example-tabs-section
+    class="switch-examples-block"
+    heading="Disabled state"
+    description="Switch locked in checked state, not interactive."
+    ariaLabel="Switch disabled examples"
+    tabListAriaLabel="Switch disabled variants"
+    defaultValue="headless"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="headless"
+      label="Headless"
+      panelTitle="Headless disabled switch"
+      [codeTabs]="disabledHeadlessCodeTabs"
+    >
+      <div class="switch-row">
+        <button
+          tngSwitch
+          class="switch-track"
+          [checked]="true"
+          [disabled]="true"
+          ariaLabel="Locked on"
+        >
+          <span class="switch-thumb"></span>
+        </button>
+        <span class="switch-label switch-label--disabled">Locked on (disabled)</span>
+      </div>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+      panelTitle="Plain CSS disabled switch"
+      [codeTabs]="disabledPlainCssCodeTabs"
+    >
+      <tng-switch [checked]="true" [disabled]="true">Locked on (disabled)</tng-switch>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Tailwind disabled switch"
+      [codeTabs]="disabledTailwindCodeTabs"
+    >
+      <tng-switch [checked]="true" [disabled]="true">Locked on (disabled)</tng-switch>
+    </ng-template>
+  </app-docs-example-tabs-section>
+</article>

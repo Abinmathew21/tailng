@@ -1,0 +1,136 @@
+<article class="switch-styling">
+  <h2 class="switch-styling-title">Styling contract</h2>
+  <p class="switch-styling-lead">
+    Style against switch state hooks and semantic tokens. Do not depend on internal DOM beyond the
+    documented attributes.
+  </p>
+
+  <section class="switch-styling-block">
+    <h3>CSS contract table</h3>
+    <div class="switch-styling-table-wrap">
+      <table class="switch-styling-table">
+        <thead>
+          <tr>
+            <th scope="col">Selector</th>
+            <th scope="col">Applied on</th>
+            <th scope="col">Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>[data-state="checked"]</code></td>
+            <td>Primitive button</td>
+            <td>Checked track styling (e.g. brand color).</td>
+          </tr>
+          <tr>
+            <td><code>[data-state="unchecked"]</code></td>
+            <td>Primitive button</td>
+            <td>Unchecked track styling (e.g. muted background).</td>
+          </tr>
+          <tr>
+            <td><code>[data-disabled]</code></td>
+            <td>Primitive button + wrapper root</td>
+            <td>Muted visuals and not-allowed cursor.</td>
+          </tr>
+          <tr>
+            <td><code>[data-slot="switch"]</code></td>
+            <td>Primitive button</td>
+            <td>Theme contract anchor for track element.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="switch-styling-table-wrap">
+      <table class="switch-styling-table">
+        <thead>
+          <tr>
+            <th scope="col">Token</th>
+            <th scope="col">Typical use</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>--tng-semantic-accent-brand</code></td>
+            <td>Checked track background.</td>
+          </tr>
+          <tr>
+            <td><code>--tng-semantic-border-subtle</code></td>
+            <td>Unchecked track background.</td>
+          </tr>
+          <tr>
+            <td><code>--tng-semantic-focus-ring</code></td>
+            <td>Focus-visible ring color.</td>
+          </tr>
+          <tr>
+            <td><code>--tng-color-white</code></td>
+            <td>Thumb background.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <app-docs-example-tabs-section
+    class="switch-styling-block"
+    heading="Styling examples"
+    description="Same switch behavior contract with different styling systems."
+    ariaLabel="Switch styling examples"
+    tabListAriaLabel="Switch styling variants"
+    defaultValue="headless"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="headless"
+      label="Headless"
+      panelTitle="Headless switch styling"
+      [codeTabs]="headlessCodeTabs"
+    >
+      <div class="switch-preview-stack">
+        <div class="switch-row">
+          <button
+            tngSwitch
+            class="switch-track"
+            [checked]="headlessChecked()"
+            ariaLabel="Notifications"
+            (click)="onHeadlessToggle()"
+          >
+            <span class="switch-thumb"></span>
+          </button>
+          <span class="switch-label">Notifications</span>
+        </div>
+      </div>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+      panelTitle="Plain CSS switch styling"
+      [codeTabs]="plainCssCodeTabs"
+    >
+      <div class="settings-panel">
+        <tng-switch [checked]="plainCssChecked()" (checkedChange)="plainCssChecked.set($event)">
+          Release notifications
+        </tng-switch>
+        <tng-switch [checked]="false" [disabled]="true">Disabled switch</tng-switch>
+      </div>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Tailwind switch styling"
+      [codeTabs]="tailwindCodeTabs"
+    >
+      <div class="grid gap-3 rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">
+        <tng-switch [checked]="tailwindChecked()" (checkedChange)="tailwindChecked.set($event)">
+          Release notifications
+        </tng-switch>
+        <tng-switch [checked]="false" [disabled]="true">Disabled switch</tng-switch>
+      </div>
+    </ng-template>
+  </app-docs-example-tabs-section>
+</article>

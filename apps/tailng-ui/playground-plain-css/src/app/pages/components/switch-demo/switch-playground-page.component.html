@@ -1,7 +1,7 @@
 <main class="page">
   <section class="container">
     <section class="card">
-      <h2>Primitives (`tngSwitch`)</h2>
+      <h2>Primitives — minimal (`tngSwitch`)</h2>
       <button
         tngSwitch
         [checked]="primitiveChecked()"
@@ -11,6 +11,53 @@
       >
         Wi-Fi {{ primitiveChecked() ? 'on' : 'off' }}
       </button>
+    </section>
+
+    <section class="card">
+      <h2>Primitives — polished (`tngSwitch`)</h2>
+      <p class="hint">
+        Full track + thumb switch built entirely on the headless primitive with custom CSS.
+      </p>
+      <div class="headless-switch-group">
+        <label class="headless-switch-row">
+          <button
+            tngSwitch
+            class="h-switch-track"
+            [checked]="headlessWifi()"
+            ariaLabel="Toggle Wi-Fi"
+            (click)="onHeadlessToggle(headlessWifi)"
+          >
+            <span class="h-switch-thumb"></span>
+          </button>
+          <span class="h-switch-label">Wi-Fi</span>
+        </label>
+
+        <label class="headless-switch-row">
+          <button
+            tngSwitch
+            class="h-switch-track"
+            [checked]="headlessBluetooth()"
+            ariaLabel="Toggle Bluetooth"
+            (click)="onHeadlessToggle(headlessBluetooth)"
+          >
+            <span class="h-switch-thumb"></span>
+          </button>
+          <span class="h-switch-label">Bluetooth</span>
+        </label>
+
+        <label class="headless-switch-row">
+          <button
+            tngSwitch
+            class="h-switch-track"
+            [checked]="headlessDnd()"
+            ariaLabel="Toggle Do Not Disturb"
+            (click)="onHeadlessToggle(headlessDnd)"
+          >
+            <span class="h-switch-thumb"></span>
+          </button>
+          <span class="h-switch-label">Do Not Disturb</span>
+        </label>
+      </div>
     </section>
 
     <section class="card">

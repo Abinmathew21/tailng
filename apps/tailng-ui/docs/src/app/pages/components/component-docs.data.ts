@@ -150,6 +150,12 @@ export const COMPONENTS_FORM_GROUP: ComponentsDocsGroup = {
       title: 'Chips',
       description: 'Tokenized input and removable item chip usage patterns.',
     },
+    {
+      id: 'switch',
+      slug: 'switch',
+      title: 'Switch',
+      description: 'Two-state on/off toggle with track/thumb rendering and arrow-key support.',
+    },
   ],
 };
 

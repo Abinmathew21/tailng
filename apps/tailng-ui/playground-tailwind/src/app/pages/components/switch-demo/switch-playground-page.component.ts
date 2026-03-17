@@ -14,6 +14,10 @@ export class SwitchPlaygroundPageComponent {
   protected readonly primitiveChecked = signal(false);
   protected readonly notificationsEnabled = signal(false);
 
+  protected readonly headlessWifi = signal(true);
+  protected readonly headlessBluetooth = signal(false);
+  protected readonly headlessDnd = signal(false);
+
   protected onAirplaneModeChange(value: boolean): void {
     this.airplaneModeEnabled.set(value);
   }
@@ -28,5 +32,9 @@ export class SwitchPlaygroundPageComponent {
 
   protected onPrimitiveSwitchToggle(): void {
     this.primitiveChecked.update((checked) => !checked);
+  }
+
+  protected onHeadlessToggle(sig: typeof this.headlessWifi): void {
+    sig.update((v) => !v);
   }
 }
