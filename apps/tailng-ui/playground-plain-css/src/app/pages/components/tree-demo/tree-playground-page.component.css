@@ -208,6 +208,53 @@
   color: var(--tng-semantic-accent-success);
 }
 
+/* ── headless tree ── */
+
+.headless-tree {
+  cursor: pointer;
+  font-size: 0.875rem;
+  line-height: 1.75rem;
+}
+
+.headless-tree [data-slot='tree-item'] {
+  outline: none;
+}
+
+.headless-tree [data-slot='tree-item'][data-expanded='false'] > [data-slot='tree-group'] {
+  display: none;
+}
+
+.headless-tree [data-slot='tree-group'] {
+  border-left: 1px solid var(--tng-semantic-border-subtle);
+  margin-left: 1.25rem;
+  padding-left: 0.75rem;
+}
+
+.headless-tree .tree-row {
+  align-items: center;
+  border-radius: 0.25rem;
+  display: inline-flex;
+  padding: 0 0.25rem;
+  transition: background-color 0.15s ease;
+}
+
+.headless-tree .primitive-indicator {
+  display: inline-block;
+  font-size: 0.75rem;
+  margin-right: 0.25rem;
+  text-align: center;
+  width: 1rem;
+}
+
+.headless-tree [data-slot='tree-item'][data-selected='true'] > .tree-row {
+  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 12%, transparent);
+  color: var(--tng-semantic-accent-brand);
+}
+
+.headless-tree [data-slot='tree-item']:focus-visible > .tree-row {
+  box-shadow: 0 0 0 2px var(--tng-semantic-focus-ring);
+}
+
 .demo-mobile-frame {
   background: var(--tng-semantic-background-canvas);
   border: 1px solid var(--tng-semantic-border-subtle);

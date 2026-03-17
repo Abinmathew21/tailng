@@ -1,6 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { TngTreeComponent, type TngTreeItem } from '@tailng-ui/components';
-import { TngTree as TngTreePrimitive } from '@tailng-ui/primitives';
+import { TngTree as TngTreePrimitive, TngTreeItem as TngTreeItemDirective, TngTreeGroup, TngTreeIndicator } from '@tailng-ui/primitives';
+import type { TngTreeValue } from '@tailng-ui/primitives';
 
 const treeNodes: readonly TngTreeItem[] = Object.freeze([
   {
@@ -75,7 +76,7 @@ function toSelectionLabel(nodeId: string | null): string {
 
 @Component({
   selector: 'app-tree-playground-page',
-  imports: [TngTreePrimitive, TngTreeComponent],
+  imports: [TngTreePrimitive, TngTreeComponent, TngTreeItemDirective, TngTreeGroup, TngTreeIndicator],
   templateUrl: './tree-playground-page.component.html',
   styleUrl: './tree-playground-page.component.css',
 })
@@ -84,7 +85,8 @@ export class TreePlaygroundPageComponent {
   public readonly selectedLabel = signal(toSelectionLabel('tokens'));
   public readonly treeNodes = treeNodes;
 
-  public onSelectedIdChange(nodeId: string | null): void {
-    this.selectedLabel.set(toSelectionLabel(nodeId));
+  public onSelectedIdChange(nodeId: TngTreeValue | readonly TngTreeValue[] | null): void {
+    const id: TngTreeValue | null = Array.isArray(nodeId) ? (nodeId[0] ?? null) : nodeId;
+    this.selectedLabel.set(toSelectionLabel(id != null ? String(id) : null));
   }
 }

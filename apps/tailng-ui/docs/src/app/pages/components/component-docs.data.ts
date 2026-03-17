@@ -335,6 +335,12 @@ export const COMPONENTS_NAVIGATION_GROUP: ComponentsDocsGroup = {
       title: 'Context Menu',
       description: 'Right-click and keyboard context actions anchored to element surfaces.',
     },
+    {
+      id: 'tree',
+      slug: 'tree',
+      title: 'Tree',
+      description: 'Hierarchical data navigation with keyboard support, selection, and expand/collapse.',
+    },
   ],
 };
 

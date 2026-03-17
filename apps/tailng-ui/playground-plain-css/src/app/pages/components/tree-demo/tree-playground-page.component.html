@@ -1,6 +1,66 @@
 <main class="page">
   <section class="container">
     <section class="card">
+      <h2>Primitives (`tngTree`)</h2>
+      <p class="demo-note">
+        Fully owned tree markup using headless primitives with custom CSS.
+      </p>
+
+      <div
+        tngTree
+        [selectionMode]="'single'"
+        class="primitive-shell headless-tree"
+        (valueChange)="onSelectedIdChange($event)"
+      >
+        <div tngTreeItem [value]="'workspace'" [defaultExpanded]="true" class="primitive-item">
+          <span class="tree-row">
+            <span tngTreeIndicator class="primitive-indicator">📂</span>tailng-ui
+          </span>
+
+          <div tngTreeGroup class="primitive-group">
+            <div tngTreeItem [value]="'libs'" [defaultExpanded]="true" class="primitive-item">
+              <span class="tree-row">
+                <span tngTreeIndicator class="primitive-indicator">📂</span>libs
+              </span>
+
+              <div tngTreeGroup class="primitive-group">
+                <div tngTreeItem [value]="'components'" class="primitive-item">
+                  <span class="tree-row">
+                    <span tngTreeIndicator class="primitive-indicator">📄</span>tailng-ui
+                  </span>
+                </div>
+                <div tngTreeItem [value]="'primitives'" class="primitive-item">
+                  <span class="tree-row">
+                    <span tngTreeIndicator class="primitive-indicator">📄</span>primitives
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div tngTreeItem [value]="'apps'" [defaultExpanded]="true" class="primitive-item">
+              <span class="tree-row">
+                <span tngTreeIndicator class="primitive-indicator">📂</span>apps
+              </span>
+
+              <div tngTreeGroup class="primitive-group">
+                <div tngTreeItem [value]="'tailwind-app'" class="primitive-item">
+                  <span class="tree-row">
+                    <span tngTreeIndicator class="primitive-indicator">📄</span>playground-tailwind
+                  </span>
+                </div>
+                <div tngTreeItem [value]="'plain-css-app'" class="primitive-item">
+                  <span class="tree-row">
+                    <span tngTreeIndicator class="primitive-indicator">📄</span>playground-plain-css
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
       <h2>Components (`tng-tree`)</h2>
       <p class="demo-note">
         Focus the tree and use keyboard controls to navigate and expand/collapse branches.
@@ -26,44 +86,6 @@
         <li><strong>Enter / Space</strong> select active node</li>
         <li><strong>Type letters</strong> typeahead search by node label</li>
       </ul>
-    </section>
-
-    <section class="card">
-      <h2>Primitives (`tngTree`)</h2>
-      <p class="demo-note">Primitive provides the shell hook; behavior is implemented by component layer.</p>
-      <div tngTree [selectionMode]="'single'" class="primitive-shell" (valueChange)="onSelectedIdChange($event)">
-        <div tngTreeItem [value]="'workspace'" class="primitive-item" [defaultExpanded]="true">
-          <span tngTreeIndicator class="primitive-indicator">📂</span> tailng-ui
-
-          <div tngTreeGroup class="primitive-group">
-            <div tngTreeItem [value]="'libs'" class="primitive-item" [defaultExpanded]="true">
-              <span tngTreeIndicator class="primitive-indicator">📂</span> libs
-              
-              <div tngTreeGroup class="primitive-group">
-                <div tngTreeItem [value]="'components'" class="primitive-item">
-                  <span tngTreeIndicator class="primitive-indicator">📄</span> tailng-ui
-                </div>
-                <div tngTreeItem [value]="'primitives'" class="primitive-item">
-                  <span tngTreeIndicator class="primitive-indicator">📄</span> primitives
-                </div>
-              </div>
-            </div>
-
-            <div tngTreeItem [value]="'apps'" class="primitive-item" [defaultExpanded]="true">
-              <span tngTreeIndicator class="primitive-indicator">📂</span> apps
-              
-              <div tngTreeGroup class="primitive-group">
-                <div tngTreeItem [value]="'tailwind-app'" class="primitive-item">
-                  <span tngTreeIndicator class="primitive-indicator">📄</span> playground-tailwind
-                </div>
-                <div tngTreeItem [value]="'plain-css-app'" class="primitive-item">
-                  <span tngTreeIndicator class="primitive-indicator">📄</span> playground-plain-css
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
     </section>
   </section>
 </main>

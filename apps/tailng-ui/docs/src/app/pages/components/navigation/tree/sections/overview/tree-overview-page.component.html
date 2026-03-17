@@ -1,0 +1,156 @@
+<article class="tree-overview">
+  <h2 class="tree-overview-title">Tree overview</h2>
+  <p class="tree-overview-lead">
+    Tree provides keyboard-navigable hierarchical data views with expand/collapse, single selection,
+    and typeahead. Use the headless primitives for full control or the wrapper component for quick adoption.
+  </p>
+
+  <section class="tree-overview-block">
+    <h3>Imports</h3>
+    <p>Select the layer that matches your ownership model.</p>
+    <tng-code-block
+      [code]="primitiveImportCode"
+      adapter="shiki"
+      language="ts"
+      title="Primitive import"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+    <tng-code-block
+      [code]="componentImportCode"
+      adapter="shiki"
+      language="ts"
+      title="Component import"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section class="tree-overview-block">
+    <app-docs-example-tabs-section
+      heading="File tree variants"
+      description="Same tree structure rendered through headless markup, plain CSS wrappers, and Tailwind utility shells."
+      ariaLabel="Tree file browser variants"
+      tabListAriaLabel="Tree styles"
+      defaultValue="headless"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="headless"
+        label="Headless"
+        panelTitle="Headless file tree"
+        [codeTabs]="headlessCodeTabs"
+      >
+        <div class="tree-preview-shell tree-preview-shell--headless">
+          <div
+            tngTree
+            [selectionMode]="'single'"
+            class="tree-preview-primitive"
+            aria-label="Project files"
+          >
+            <div tngTreeItem [value]="'src'" [defaultExpanded]="true">
+              <span class="tree-row">
+                <span tngTreeIndicator class="tree-preview-indicator">📂</span>src
+              </span>
+              <div tngTreeGroup class="tree-preview-group">
+                <div tngTreeItem [value]="'components'" [defaultExpanded]="true">
+                  <span class="tree-row">
+                    <span tngTreeIndicator class="tree-preview-indicator">📂</span>components
+                  </span>
+                  <div tngTreeGroup class="tree-preview-group">
+                    <div tngTreeItem [value]="'button'">
+                      <span class="tree-row">
+                        <span tngTreeIndicator class="tree-preview-indicator">📄</span>button.ts
+                      </span>
+                    </div>
+                    <div tngTreeItem [value]="'input'">
+                      <span class="tree-row">
+                        <span tngTreeIndicator class="tree-preview-indicator">📄</span>input.ts
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div tngTreeItem [value]="'utils'" [defaultExpanded]="false">
+                  <span class="tree-row">
+                    <span tngTreeIndicator class="tree-preview-indicator">📂</span>utils
+                  </span>
+                  <div tngTreeGroup class="tree-preview-group">
+                    <div tngTreeItem [value]="'helpers'">
+                      <span class="tree-row">
+                        <span tngTreeIndicator class="tree-preview-indicator">📄</span>helpers.ts
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div tngTreeItem [value]="'readme'">
+                  <span class="tree-row">
+                    <span tngTreeIndicator class="tree-preview-indicator">📄</span>README.md
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Plain CSS file tree"
+        [codeTabs]="plainCssCodeTabs"
+      >
+        <div class="tree-preview-shell tree-preview-shell--plain">
+          <tng-tree
+            [nodes]="overviewNodes"
+            [defaultExpandedIds]="defaultExpandedIds"
+            [ariaLabel]="'Project files'"
+          />
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Tailwind file tree"
+        [codeTabs]="tailwindCodeTabs"
+      >
+        <div class="tree-preview-shell tree-preview-shell--plain">
+          <tng-tree
+            [nodes]="overviewNodes"
+            [defaultExpandedIds]="defaultExpandedIds"
+            [ariaLabel]="'Project files'"
+          />
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section class="tree-overview-block">
+    <h3>Keyboard navigation</h3>
+    <ul class="tree-overview-list">
+      <li><strong>ArrowUp / ArrowDown</strong> — move active node within visible rows.</li>
+      <li><strong>ArrowRight</strong> — expand a collapsed branch or move to its first child.</li>
+      <li><strong>ArrowLeft</strong> — collapse an expanded branch or move to its parent.</li>
+      <li><strong>Enter / Space</strong> — select the active node.</li>
+      <li><strong>Home / End</strong> — jump to the first or last visible node.</li>
+      <li><strong>Type letters</strong> — typeahead search by node label.</li>
+    </ul>
+  </section>
+
+  <section class="tree-overview-block">
+    <h3>Accessibility baseline</h3>
+    <ul class="tree-overview-list">
+      <li>Root container exposes <code>role="tree"</code> with <code>aria-label</code>.</li>
+      <li>Each node uses <code>role="treeitem"</code> with <code>aria-expanded</code> for branches.</li>
+      <li>Selection state is tracked via <code>aria-selected</code>.</li>
+      <li>Disabled nodes surface <code>aria-disabled="true"</code>.</li>
+    </ul>
+  </section>
+</article>

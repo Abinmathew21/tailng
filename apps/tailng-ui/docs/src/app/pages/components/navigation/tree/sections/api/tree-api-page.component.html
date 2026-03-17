@@ -1,0 +1,361 @@
+<article class="tree-api">
+  <h2 class="tree-api-title">API reference</h2>
+  <p class="tree-api-lead">
+    Tree ships as headless primitives for full ownership and a styled wrapper component for quick adoption.
+  </p>
+
+  <section class="tree-api-block">
+    <h3><code>tngTree</code> (directive)</h3>
+    <p>Root container that orchestrates keyboard navigation, roving focus, and selection state.</p>
+    <tng-code-block
+      [code]="primitiveUsageCode"
+      adapter="shiki"
+      language="html"
+      title="Primitive usage"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+
+    <div class="tree-api-table-wrap">
+      <table class="tree-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Input</th>
+            <th scope="col">Type</th>
+            <th scope="col">Default</th>
+            <th scope="col">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>selectionMode</code></td>
+            <td><code>'single' | 'multiple' | 'none'</code></td>
+            <td><code>'none'</code></td>
+            <td>Controls item selection behavior.</td>
+          </tr>
+          <tr>
+            <td><code>orientation</code></td>
+            <td><code>'vertical' | 'horizontal'</code></td>
+            <td><code>'vertical'</code></td>
+            <td>Sets <code>aria-orientation</code> and key mapping direction.</td>
+          </tr>
+          <tr>
+            <td><code>value</code></td>
+            <td><code>TngTreeValue | TngTreeValue[] | null</code></td>
+            <td><code>undefined</code></td>
+            <td>Controlled selection value.</td>
+          </tr>
+          <tr>
+            <td><code>defaultValue</code></td>
+            <td><code>TngTreeValue | TngTreeValue[] | null</code></td>
+            <td><code>undefined</code></td>
+            <td>Initial uncontrolled selection.</td>
+          </tr>
+          <tr>
+            <td><code>disabled</code></td>
+            <td><code>boolean</code></td>
+            <td><code>false</code></td>
+            <td>Disables the entire tree.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="tree-api-table-wrap">
+      <table class="tree-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Output</th>
+            <th scope="col">Type</th>
+            <th scope="col">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>valueChange</code></td>
+            <td><code>TngTreeValue | TngTreeValue[] | null</code></td>
+            <td>Emits when selection changes.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="tree-api-table-wrap">
+      <table class="tree-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Host attribute</th>
+            <th scope="col">Value</th>
+            <th scope="col">Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>data-slot</code></td>
+            <td><code>"tree"</code></td>
+            <td>Stable styling hook.</td>
+          </tr>
+          <tr>
+            <td><code>role</code></td>
+            <td><code>"tree"</code></td>
+            <td>ARIA tree role.</td>
+          </tr>
+          <tr>
+            <td><code>aria-orientation</code></td>
+            <td><code>"vertical" | "horizontal"</code></td>
+            <td>Reflects <code>orientation</code> input.</td>
+          </tr>
+          <tr>
+            <td><code>aria-multiselectable</code></td>
+            <td><code>"true" | null</code></td>
+            <td>Set when <code>selectionMode</code> is <code>'multiple'</code>.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="tree-api-block">
+    <h3><code>tngTreeItem</code> (directive)</h3>
+    <p>Individual node inside the tree. Manages expansion state and selection.</p>
+
+    <div class="tree-api-table-wrap">
+      <table class="tree-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Input</th>
+            <th scope="col">Type</th>
+            <th scope="col">Default</th>
+            <th scope="col">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>value</code></td>
+            <td><code>TngTreeValue</code></td>
+            <td>—</td>
+            <td>Required. Unique identifier for this node.</td>
+          </tr>
+          <tr>
+            <td><code>expanded</code></td>
+            <td><code>boolean | undefined</code></td>
+            <td><code>undefined</code></td>
+            <td>Controlled expansion state.</td>
+          </tr>
+          <tr>
+            <td><code>defaultExpanded</code></td>
+            <td><code>boolean</code></td>
+            <td><code>false</code></td>
+            <td>Initial uncontrolled expansion.</td>
+          </tr>
+          <tr>
+            <td><code>disabled</code></td>
+            <td><code>boolean</code></td>
+            <td><code>false</code></td>
+            <td>Disables this node.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="tree-api-table-wrap">
+      <table class="tree-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Output</th>
+            <th scope="col">Type</th>
+            <th scope="col">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>expandedChange</code></td>
+            <td><code>boolean</code></td>
+            <td>Emits when expanded state toggles.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="tree-api-table-wrap">
+      <table class="tree-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Host attribute</th>
+            <th scope="col">Value</th>
+            <th scope="col">Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>data-slot</code></td>
+            <td><code>"tree-item"</code></td>
+            <td>Stable styling hook.</td>
+          </tr>
+          <tr>
+            <td><code>data-expanded</code></td>
+            <td><code>"true" | "false"</code></td>
+            <td>Expansion state for CSS selectors.</td>
+          </tr>
+          <tr>
+            <td><code>data-selected</code></td>
+            <td><code>"true" | "false"</code></td>
+            <td>Selection state for CSS selectors.</td>
+          </tr>
+          <tr>
+            <td><code>data-disabled</code></td>
+            <td><code>"true" | "false"</code></td>
+            <td>Disabled state for CSS selectors.</td>
+          </tr>
+          <tr>
+            <td><code>aria-expanded</code></td>
+            <td><code>"true" | "false" | null</code></td>
+            <td>Set on branch nodes only.</td>
+          </tr>
+          <tr>
+            <td><code>aria-selected</code></td>
+            <td><code>"true" | "false" | null</code></td>
+            <td>Set when selection mode is not <code>'none'</code>.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="tree-api-block">
+    <h3><code>tngTreeGroup</code> (directive)</h3>
+    <p>Wraps child items of a branch node. Registers itself as a child group on the parent <code>tngTreeItem</code>.</p>
+    <div class="tree-api-table-wrap">
+      <table class="tree-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Host attribute</th>
+            <th scope="col">Value</th>
+            <th scope="col">Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>data-slot</code></td>
+            <td><code>"tree-group"</code></td>
+            <td>Stable styling hook.</td>
+          </tr>
+          <tr>
+            <td><code>role</code></td>
+            <td><code>"group"</code></td>
+            <td>ARIA group role.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="tree-api-block">
+    <h3><code>tngTreeIndicator</code> (directive)</h3>
+    <p>
+      Disclosure indicator that toggles expand/collapse when clicked. Reflects the parent item's
+      expansion state via <code>data-expanded</code>.
+    </p>
+    <div class="tree-api-table-wrap">
+      <table class="tree-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Host attribute</th>
+            <th scope="col">Value</th>
+            <th scope="col">Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>data-slot</code></td>
+            <td><code>"tree-indicator"</code></td>
+            <td>Stable styling hook.</td>
+          </tr>
+          <tr>
+            <td><code>data-expanded</code></td>
+            <td><code>"true" | "false"</code></td>
+            <td>Mirrors parent item's expansion state.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="tree-api-block">
+    <h3><code>tng-tree</code> (component)</h3>
+    <p>
+      Styled wrapper that accepts flat node data and renders a complete tree with expand/collapse
+      toggles, keyboard navigation, selection, typeahead, and depth indentation.
+    </p>
+    <tng-code-block
+      [code]="componentUsageCode"
+      adapter="shiki"
+      language="html"
+      title="Component usage"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+
+    <div class="tree-api-table-wrap">
+      <table class="tree-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Input</th>
+            <th scope="col">Type</th>
+            <th scope="col">Default</th>
+            <th scope="col">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>nodes</code></td>
+            <td><code>TngTreeItem[]</code></td>
+            <td><code>[]</code></td>
+            <td>
+              Flat array of <code>{{ '{' }} id, label, parentId?, description?, disabled? {{ '}' }}</code>.
+            </td>
+          </tr>
+          <tr>
+            <td><code>ariaLabel</code></td>
+            <td><code>string</code></td>
+            <td><code>'Tree'</code></td>
+            <td>Accessible label for the tree root.</td>
+          </tr>
+          <tr>
+            <td><code>defaultExpandedIds</code></td>
+            <td><code>string[]</code></td>
+            <td><code>[]</code></td>
+            <td>Node IDs expanded on first render.</td>
+          </tr>
+          <tr>
+            <td><code>defaultSelectedId</code></td>
+            <td><code>string | null</code></td>
+            <td><code>null</code></td>
+            <td>Node ID selected on first render.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="tree-api-table-wrap">
+      <table class="tree-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Output</th>
+            <th scope="col">Type</th>
+            <th scope="col">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>selectedIdChange</code></td>
+            <td><code>string | null</code></td>
+            <td>Emits the selected node ID.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</article>

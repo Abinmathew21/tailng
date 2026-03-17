@@ -1,5 +1,65 @@
 <div class="mx-auto max-w-[72rem] grid gap-5">
   <section class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5 space-y-3">
+    <h2 class="text-lg font-semibold">Primitives (`tngTree`)</h2>
+    <p class="text-sm text-tng-fg-secondary m-0">
+      Fully owned tree markup using headless primitives with Tailwind utilities.
+    </p>
+
+    <div
+      tngTree
+      [selectionMode]="'single'"
+      class="rounded-xl border border-tng-border-subtle p-3 text-sm leading-7 text-tng-fg-primary"
+      (valueChange)="onSelectedIdChange($event)"
+    >
+      <div tngTreeItem [value]="'workspace'" [defaultExpanded]="true" class="cursor-pointer">
+        <span class="tree-row">
+          <span tngTreeIndicator class="mr-1 inline-block w-4 text-center text-xs">📂</span>tailng-ui
+        </span>
+
+        <div tngTreeGroup class="ml-5 border-l border-tng-border-subtle pl-3">
+          <div tngTreeItem [value]="'libs'" [defaultExpanded]="true" class="cursor-pointer">
+            <span class="tree-row">
+              <span tngTreeIndicator class="mr-1 inline-block w-4 text-center text-xs">📂</span>libs
+            </span>
+
+            <div tngTreeGroup class="ml-5 border-l border-tng-border-subtle pl-3">
+              <div tngTreeItem [value]="'components'" class="cursor-pointer">
+                <span class="tree-row">
+                  <span tngTreeIndicator class="mr-1 inline-block w-4 text-center text-xs">📄</span>tailng-ui
+                </span>
+              </div>
+              <div tngTreeItem [value]="'primitives'" class="cursor-pointer">
+                <span class="tree-row">
+                  <span tngTreeIndicator class="mr-1 inline-block w-4 text-center text-xs">📄</span>primitives
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div tngTreeItem [value]="'apps'" [defaultExpanded]="true" class="cursor-pointer">
+            <span class="tree-row">
+              <span tngTreeIndicator class="mr-1 inline-block w-4 text-center text-xs">📂</span>apps
+            </span>
+
+            <div tngTreeGroup class="ml-5 border-l border-tng-border-subtle pl-3">
+              <div tngTreeItem [value]="'tailwind-app'" class="cursor-pointer">
+                <span class="tree-row">
+                  <span tngTreeIndicator class="mr-1 inline-block w-4 text-center text-xs">📄</span>playground-tailwind
+                </span>
+              </div>
+              <div tngTreeItem [value]="'plain-css-app'" class="cursor-pointer">
+                <span class="tree-row">
+                  <span tngTreeIndicator class="mr-1 inline-block w-4 text-center text-xs">📄</span>playground-plain-css
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5 space-y-3">
     <h2 class="text-lg font-semibold">Components (`tng-tree`)</h2>
     <p class="text-sm text-tng-fg-secondary m-0">
       Focus the tree and use keyboard controls to navigate and expand/collapse branches.
@@ -27,11 +87,4 @@
     </ul>
   </section>
 
-  <section class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5 space-y-3">
-    <h2 class="text-lg font-semibold">Primitives (`tngTree`)</h2>
-    <p class="text-sm text-tng-fg-secondary m-0">Primitive provides the shell hook; behavior is implemented by component layer.</p>
-    <div tngTree class="rounded-xl border border-tng-border-subtle px-4 py-3 text-tng-fg-primary">
-      This shell can host custom tree markup for fully owned rendering.
-    </div>
-  </section>
 </div>

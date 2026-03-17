@@ -1,0 +1,112 @@
+:host {
+  display: block;
+}
+
+.tree-overview {
+  display: grid;
+  gap: 1rem;
+}
+
+.tree-overview-title {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.tree-overview-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.tree-overview-block {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.9rem;
+  color: var(--tng-semantic-foreground-secondary);
+  display: grid;
+  gap: 0.7rem;
+  padding: 1rem;
+}
+
+.tree-overview-block h3 {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1rem;
+  margin: 0;
+}
+
+.tree-overview-block p {
+  margin: 0;
+}
+
+.tree-preview-shell {
+  display: grid;
+  gap: 0.65rem;
+  max-width: 34rem;
+  width: 100%;
+}
+
+.tree-preview-shell--headless {
+  background: color-mix(in srgb, var(--tng-semantic-background-surface) 84%, transparent);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.8rem;
+  padding: 0.9rem 1rem;
+}
+
+.tree-preview-shell--plain {
+  background: var(--tng-semantic-background-surface);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.8rem;
+  padding: 0.9rem 1rem;
+}
+
+.tree-preview-primitive {
+  cursor: pointer;
+  font-size: 0.875rem;
+  line-height: 1.75rem;
+}
+
+.tree-preview-primitive [data-slot='tree-item'] {
+  outline: none;
+}
+
+.tree-preview-primitive [data-slot='tree-item'][data-expanded='false'] > [data-slot='tree-group'] {
+  display: none;
+}
+
+.tree-preview-primitive [data-slot='tree-item'] > .tree-row {
+  align-items: center;
+  border-radius: 0.25rem;
+  display: inline-flex;
+  padding: 0 0.25rem;
+  transition: background-color 0.15s ease;
+}
+
+.tree-preview-primitive [data-slot='tree-item'][data-selected='true'] > .tree-row {
+  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 12%, transparent);
+  color: var(--tng-semantic-accent-brand);
+}
+
+.tree-preview-primitive [data-slot='tree-item']:focus-visible > .tree-row {
+  box-shadow: 0 0 0 2px var(--tng-semantic-focus-ring);
+}
+
+.tree-preview-group {
+  border-left: 1px solid var(--tng-semantic-border-subtle);
+  margin-left: 1.25rem;
+  padding-left: 0.75rem;
+}
+
+.tree-preview-indicator {
+  display: inline-block;
+  font-size: 0.75rem;
+  margin-right: 0.25rem;
+  text-align: center;
+  width: 1rem;
+}
+
+.tree-overview-list {
+  display: grid;
+  gap: 0.45rem;
+  margin: 0;
+  padding-left: 1rem;
+}

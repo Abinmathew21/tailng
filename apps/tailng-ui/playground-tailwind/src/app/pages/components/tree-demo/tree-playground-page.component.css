@@ -1,3 +1,23 @@
 :host {
-  display: block;
+  @apply block;
+}
+
+[data-slot='tree-item'][data-expanded='false'] > [data-slot='tree-group'] {
+  @apply hidden;
+}
+
+[data-slot='tree-item'] {
+  @apply outline-none;
+}
+
+[data-slot='tree-item'] > .tree-row {
+  @apply inline-flex items-center rounded px-1 transition-colors duration-150;
+}
+
+[data-slot='tree-item'][data-selected='true'] > .tree-row {
+  @apply bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_12%,transparent)] text-tng-accent-brand;
+}
+
+[data-slot='tree-item']:focus-visible > .tree-row {
+  @apply shadow-[0_0_0_2px_var(--tng-semantic-focus-ring)];
 }

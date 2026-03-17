@@ -1,0 +1,23 @@
+<section class="tree-docs-page">
+  <tng-tabs
+    class="tree-docs-tabs"
+    ariaLabel="Tree documentation sections"
+    [activation]="'manual'"
+    [value]="activeSection()"
+    (valueChange)="onSectionChange($event)"
+  >
+    <div tngTabList class="tree-docs-tab-list" ariaLabel="Tree documentation tabs">
+      <button type="button" tngTab value="overview" class="tree-docs-tab-trigger">Overview</button>
+      <button type="button" tngTab value="api" class="tree-docs-tab-trigger">API</button>
+      <button type="button" tngTab value="styling" class="tree-docs-tab-trigger">Styling</button>
+      <button type="button" tngTab value="examples" class="tree-docs-tab-trigger">Examples</button>
+      <button type="button" tngTab value="ownable-install" class="tree-docs-tab-trigger">
+        Ownable Install
+      </button>
+    </div>
+  </tng-tabs>
+
+  <section class="tree-docs-content">
+    <router-outlet />
+  </section>
+</section>

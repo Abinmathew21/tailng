@@ -509,7 +509,7 @@ export const ALL_PLAYGROUND_ITEMS: readonly TngPlaygroundItem[] = Object.freeze(
     registry: true,
     registryTest: false,
     stackblitz: false,
-    docs: false,
+    docs: true,
   },
   { path: '/toggle', title: 'Toggle', description: 'Icon-style pressed button.', category: 'form',
     headless: true,

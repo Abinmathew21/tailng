@@ -236,15 +236,21 @@ export class TngTree implements OnDestroy {
     }
 
     const modelId = this.resolveModelId(item);
-    if (item.canExpand()) {
-      item.setExpanded(!item.isExpanded());
-      this.rebuildModel(modelId);
-      return;
-    }
-
     if (modelId !== null) {
       this.applyModelState(this.model.setActiveId(modelId));
     }
+  }
+
+  onIndicatorClicked(item: TngTreeItem): void {
+    if (this.isItemDisabled(item)) return;
+
+    if (item.canExpand()) {
+      item.setExpanded(!item.isExpanded());
+      const modelId = this.resolveModelId(item);
+      this.rebuildModel(modelId);
+    }
+
+    item.focusHost();
   }
 
   private isControlled(): boolean {
