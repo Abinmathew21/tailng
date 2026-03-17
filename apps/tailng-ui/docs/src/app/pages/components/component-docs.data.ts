@@ -189,6 +189,12 @@ export const COMPONENTS_LAYOUT_GROUP: ComponentsDocsGroup = {
       description: 'Grouped content surfaces with optional media, actions, and footer composition.',
     },
     {
+      id: 'drawer',
+      slug: 'drawer',
+      title: 'Drawer',
+      description: 'Slide-in overlay panel with position, mode, focus trap, and backdrop support.',
+    },
+    {
       id: 'separator',
       slug: 'separator',
       title: 'Separator',

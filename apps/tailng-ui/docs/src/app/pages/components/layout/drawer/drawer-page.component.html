@@ -1,0 +1,23 @@
+<section class="drawer-docs-page">
+  <tng-tabs
+    class="drawer-docs-tabs"
+    ariaLabel="Drawer documentation sections"
+    [activation]="'manual'"
+    [value]="activeSection()"
+    (valueChange)="onSectionChange($event)"
+  >
+    <div tngTabList class="drawer-docs-tab-list" ariaLabel="Drawer documentation tabs">
+      <button type="button" tngTab value="overview" class="drawer-docs-tab-trigger">Overview</button>
+      <button type="button" tngTab value="api" class="drawer-docs-tab-trigger">API</button>
+      <button type="button" tngTab value="styling" class="drawer-docs-tab-trigger">Styling</button>
+      <button type="button" tngTab value="examples" class="drawer-docs-tab-trigger">Examples</button>
+      <button type="button" tngTab value="ownable-install" class="drawer-docs-tab-trigger">
+        Ownable Install
+      </button>
+    </div>
+  </tng-tabs>
+
+  <section class="drawer-docs-content">
+    <router-outlet />
+  </section>
+</section>

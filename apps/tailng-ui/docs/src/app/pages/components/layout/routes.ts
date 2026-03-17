@@ -27,6 +27,11 @@ if (cardItem === undefined) {
   throw new Error('Missing "card" in components layout docs group.');
 }
 
+const drawerItem = group.items.find((item) => item.slug === 'drawer');
+if (drawerItem === undefined) {
+  throw new Error('Missing "drawer" in components layout docs group.');
+}
+
 const separatorItem = group.items.find((item) => item.slug === 'separator');
 if (separatorItem === undefined) {
   throw new Error('Missing "separator" in components layout docs group.');
@@ -65,6 +70,12 @@ export const COMPONENTS_LAYOUT_ROUTES: Routes = [
     data: toComponentsDocsRouteData(group, cardItem),
     loadChildren: () =>
       import('./card/routes').then((module) => module.COMPONENTS_LAYOUT_CARD_ROUTES),
+  },
+  {
+    path: drawerItem.slug,
+    data: toComponentsDocsRouteData(group, drawerItem),
+    loadChildren: () =>
+      import('./drawer/routes').then((module) => module.COMPONENTS_LAYOUT_DRAWER_ROUTES),
   },
   {
     path: separatorItem.slug,

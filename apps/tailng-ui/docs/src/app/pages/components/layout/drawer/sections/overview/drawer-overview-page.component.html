@@ -1,0 +1,165 @@
+<article class="drawer-overview">
+  <h2 class="drawer-overview-title">Drawer overview</h2>
+  <p class="drawer-overview-lead">
+    Drawer provides a slide-in panel from the start or end side. Use the headless primitives for
+    full control over layout and animation, or the styled component for quick integration.
+  </p>
+
+  <section class="drawer-overview-block">
+    <h3>Imports</h3>
+    <p>Select the layer that matches your ownership model.</p>
+    <tng-code-block
+      [code]="primitiveImportCode"
+      adapter="shiki"
+      language="ts"
+      title="Primitive import"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+    <tng-code-block
+      [code]="componentImportCode"
+      adapter="shiki"
+      language="ts"
+      title="Component import"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section class="drawer-overview-block">
+    <app-docs-example-tabs-section
+      heading="Drawer variants"
+      description="Same drawer semantics rendered through headless markup, plain CSS wrappers, and Tailwind utility shells."
+      ariaLabel="Drawer example variants"
+      tabListAriaLabel="Drawer styles"
+      defaultValue="headless"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="headless"
+        label="Headless"
+        panelTitle="Headless drawer"
+        [codeTabs]="headlessCodeTabs"
+      >
+        <div class="drawer-preview-shell drawer-preview-shell--headless">
+          <section tngDrawerContainer class="drawer-preview-container" [animate]="false">
+            <aside
+              tngDrawer
+              class="drawer-preview-panel"
+              [opened]="headlessOpen()"
+              (openedChange)="headlessOpen.set($event)"
+              [backdrop]="false"
+              mode="side"
+            >
+              <nav class="drawer-preview-nav">
+                <p class="drawer-preview-nav-title">Navigation</p>
+                <ul class="drawer-preview-nav-list">
+                  <li>Dashboard</li>
+                  <li>Settings</li>
+                  <li>Profile</li>
+                </ul>
+                <button type="button" class="drawer-preview-close" (click)="headlessOpen.set(false)">Close</button>
+              </nav>
+            </aside>
+            <main tngDrawerContent class="drawer-preview-content">
+              <button type="button" class="drawer-preview-trigger" (click)="onToggleHeadless()">
+                {{ headlessOpen() ? 'Close' : 'Open' }} drawer
+              </button>
+              <p>Main content area</p>
+            </main>
+          </section>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Plain CSS drawer"
+        [codeTabs]="plainCssCodeTabs"
+      >
+        <div class="drawer-preview-shell drawer-preview-shell--plain">
+          <section tngDrawerContainer class="drawer-preview-container" [animate]="false">
+            <tng-drawer
+              [opened]="plainCssOpen()"
+              (openedChange)="plainCssOpen.set($event)"
+              [backdrop]="false"
+              mode="side"
+            >
+              <nav class="drawer-preview-nav">
+                <p class="drawer-preview-nav-title">Navigation</p>
+                <ul class="drawer-preview-nav-list">
+                  <li>Dashboard</li>
+                  <li>Settings</li>
+                </ul>
+              </nav>
+            </tng-drawer>
+            <main tngDrawerContent class="drawer-preview-content">
+              <button type="button" class="drawer-preview-trigger" (click)="onTogglePlainCss()">
+                {{ plainCssOpen() ? 'Close' : 'Open' }} drawer
+              </button>
+              <p>Main content area</p>
+            </main>
+          </section>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Tailwind drawer"
+        [codeTabs]="tailwindCodeTabs"
+      >
+        <div class="drawer-preview-shell drawer-preview-shell--plain">
+          <section tngDrawerContainer class="drawer-preview-container" [animate]="false">
+            <tng-drawer
+              [opened]="tailwindOpen()"
+              (openedChange)="tailwindOpen.set($event)"
+              [backdrop]="false"
+              mode="side"
+            >
+              <nav class="drawer-preview-nav">
+                <p class="drawer-preview-nav-title">Navigation</p>
+                <ul class="drawer-preview-nav-list">
+                  <li>Dashboard</li>
+                  <li>Settings</li>
+                </ul>
+              </nav>
+            </tng-drawer>
+            <main tngDrawerContent class="drawer-preview-content">
+              <button type="button" class="drawer-preview-trigger" (click)="onToggleTailwind()">
+                {{ tailwindOpen() ? 'Close' : 'Open' }} drawer
+              </button>
+              <p>Main content area</p>
+            </main>
+          </section>
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section class="drawer-overview-block">
+    <h3>Keyboard interaction</h3>
+    <ul class="drawer-overview-list">
+      <li><code>Escape</code> closes the drawer when <code>closeOnEscape</code> is enabled.</li>
+      <li><code>Tab</code> cycles focus within the drawer when focus trap is active.</li>
+      <li>Focus is restored to the trigger element on close.</li>
+    </ul>
+  </section>
+
+  <section class="drawer-overview-block">
+    <h3>Accessibility baseline</h3>
+    <ul class="drawer-overview-list">
+      <li>Drawer panel supports role <code>"dialog"</code>, <code>"navigation"</code>, <code>"complementary"</code>, or <code>"region"</code>.</li>
+      <li>Focus trap keeps Tab navigation within the open drawer.</li>
+      <li>Main content can be marked inert when the overlay drawer is open.</li>
+      <li>RTL layout resolves <code>"start"</code>/<code>"end"</code> positions correctly.</li>
+    </ul>
+  </section>
+</article>

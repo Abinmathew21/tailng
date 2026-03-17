@@ -1,0 +1,139 @@
+:host {
+  display: block;
+}
+
+.drawer-examples {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.drawer-examples-title {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.drawer-example-block {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.9rem;
+  color: var(--tng-semantic-foreground-secondary);
+  display: grid;
+  gap: 0.7rem;
+  padding: 1rem;
+}
+
+.drawer-example-block h3 {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1.05rem;
+  margin: 0;
+}
+
+.drawer-example-block > p {
+  margin: 0;
+}
+
+.drawer-example-shell {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.8rem;
+  overflow: hidden;
+}
+
+.drawer-example-container {
+  display: flex;
+  min-height: 14rem;
+  position: relative;
+}
+
+.drawer-example-panel {
+  background: var(--tng-semantic-background-canvas);
+  border-right: 1px solid var(--tng-semantic-border-subtle);
+  min-width: 11rem;
+  padding: 0.75rem;
+}
+
+.drawer-example-panel[hidden] {
+  display: none;
+}
+
+.drawer-example-panel--end {
+  border-left: 1px solid var(--tng-semantic-border-subtle);
+  border-right: none;
+  order: 1;
+}
+
+.drawer-example-nav {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.drawer-example-nav-heading {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.drawer-example-nav-links {
+  display: grid;
+  font-size: 0.85rem;
+  gap: 0.2rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.drawer-example-nav-link {
+  border-radius: 0.4rem;
+  color: var(--tng-semantic-foreground-secondary);
+  cursor: pointer;
+  padding: 0.3rem 0.5rem;
+}
+
+.drawer-example-nav-link:hover {
+  background: color-mix(in srgb, var(--tng-semantic-background-muted) 60%, transparent);
+}
+
+.drawer-example-nav-link.is-active {
+  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 12%, transparent);
+  color: var(--tng-semantic-accent-brand);
+}
+
+.drawer-example-content {
+  display: grid;
+  flex: 1;
+  gap: 0.5rem;
+  padding: 0.75rem;
+}
+
+.drawer-example-content p {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+.drawer-example-btn {
+  background: var(--tng-semantic-background-canvas);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.5rem;
+  color: var(--tng-semantic-foreground-primary);
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  justify-self: start;
+  padding: 0.35rem 0.7rem;
+}
+
+.drawer-example-btn:hover {
+  border-color: var(--tng-semantic-accent-brand);
+}
+
+.drawer-example-details {
+  display: grid;
+  font-size: 0.85rem;
+  gap: 0.35rem;
+}
+
+.drawer-example-details p {
+  margin: 0;
+}

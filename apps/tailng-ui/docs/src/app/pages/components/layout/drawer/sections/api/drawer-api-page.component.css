@@ -1,0 +1,67 @@
+:host {
+  display: block;
+}
+
+.drawer-api {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.drawer-api-title {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.drawer-api-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.drawer-api-section {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.9rem;
+  display: grid;
+  gap: 0.7rem;
+  padding: 1rem;
+}
+
+.drawer-api-section h3 {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1.05rem;
+  margin: 0;
+}
+
+.drawer-api-section h4 {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 0.9rem;
+  margin: 0.5rem 0 0;
+}
+
+.drawer-api-table {
+  border-collapse: collapse;
+  font-size: 0.85rem;
+  width: 100%;
+}
+
+.drawer-api-table th,
+.drawer-api-table td {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  padding: 0.45rem 0.65rem;
+  text-align: left;
+}
+
+.drawer-api-table th {
+  background: color-mix(in srgb, var(--tng-semantic-background-muted) 50%, transparent);
+  color: var(--tng-semantic-foreground-primary);
+  font-weight: 600;
+}
+
+.drawer-api-table td {
+  color: var(--tng-semantic-foreground-secondary);
+}
+
+.drawer-api-table code {
+  font-size: 0.82rem;
+}

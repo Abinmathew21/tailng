@@ -1,0 +1,144 @@
+:host {
+  display: block;
+}
+
+.drawer-overview {
+  display: grid;
+  gap: 1rem;
+}
+
+.drawer-overview-title {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.drawer-overview-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.drawer-overview-block {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.9rem;
+  color: var(--tng-semantic-foreground-secondary);
+  display: grid;
+  gap: 0.7rem;
+  padding: 1rem;
+}
+
+.drawer-overview-block h3 {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1rem;
+  margin: 0;
+}
+
+.drawer-overview-block p {
+  margin: 0;
+}
+
+.drawer-preview-shell {
+  display: grid;
+  max-width: 42rem;
+  width: 100%;
+}
+
+.drawer-preview-shell--headless {
+  background: color-mix(in srgb, var(--tng-semantic-background-surface) 84%, transparent);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.8rem;
+  overflow: hidden;
+}
+
+.drawer-preview-shell--plain {
+  background: var(--tng-semantic-background-surface);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.8rem;
+  overflow: hidden;
+}
+
+.drawer-preview-container {
+  display: flex;
+  min-height: 12rem;
+  position: relative;
+}
+
+.drawer-preview-panel {
+  background: var(--tng-semantic-background-canvas);
+  border-right: 1px solid var(--tng-semantic-border-subtle);
+  min-width: 10rem;
+  padding: 0.75rem;
+}
+
+.drawer-preview-panel[hidden] {
+  display: none;
+}
+
+.drawer-preview-nav {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.drawer-preview-nav-title {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.drawer-preview-nav-list {
+  color: var(--tng-semantic-foreground-secondary);
+  display: grid;
+  font-size: 0.85rem;
+  gap: 0.25rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.drawer-preview-close {
+  background: transparent;
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.5rem;
+  color: var(--tng-semantic-foreground-primary);
+  cursor: pointer;
+  font-size: 0.8rem;
+  padding: 0.3rem 0.6rem;
+}
+
+.drawer-preview-content {
+  display: grid;
+  flex: 1;
+  gap: 0.5rem;
+  padding: 0.75rem;
+}
+
+.drawer-preview-content p {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+.drawer-preview-trigger {
+  background: var(--tng-semantic-background-canvas);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.5rem;
+  color: var(--tng-semantic-foreground-primary);
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  justify-self: start;
+  padding: 0.35rem 0.7rem;
+}
+
+.drawer-preview-trigger:hover {
+  border-color: var(--tng-semantic-accent-brand);
+}
+
+.drawer-overview-list {
+  display: grid;
+  gap: 0.45rem;
+  margin: 0;
+  padding-left: 1rem;
+}

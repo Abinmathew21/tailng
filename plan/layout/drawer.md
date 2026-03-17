@@ -172,16 +172,16 @@ This component should expose open state, position, mode, focus management, and a
 
 1. [x] Headless component created in `primitives`
 2. [x] Test cases created for headless (behavior spec)
-3. [ ] Headless example page added/updated in playground - plain CSS app
-4. [ ] Headless example page added/updated in playground - Tailwind app
+3. [x] Headless example page added/updated in playground - plain CSS app
+4. [x] Headless example page added/updated in playground - Tailwind app
 5. [x] Minimum style `<tng-drawer>` component created in `components`
-6. [ ] Test cases created for `<tng-drawer>`
-7. [ ] Component example page added/updated in playground - plain CSS app
-8. [ ] Component example page added/updated in playground - Tailwind app
-9. [ ] Docs added/updated in docs project - Overview section
-10. [ ] Docs added/updated in docs project - API section
-11. [ ] Docs added/updated in docs project - Styling section
-12. [ ] Docs added/updated in docs project - Example section
+6. [x] Test cases created for `<tng-drawer>`
+7. [x] Component example page added/updated in playground - plain CSS app
+8. [x] Component example page added/updated in playground - Tailwind app
+9. [x] Docs added/updated in docs project - Overview section
+10. [x] Docs added/updated in docs project - API section
+11. [x] Docs added/updated in docs project - Styling section
+12. [x] Docs added/updated in docs project - Example section
 13. [ ] Registry templates added in `registry` for copy-paste mode (`tailng add drawer`)
 14. [ ] `tailng-cli` command generation added for drawer artifacts
 15. [ ] CLI integration tests added for `tailng add drawer`

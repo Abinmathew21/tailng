@@ -1,0 +1,446 @@
+<article class="drawer-api">
+  <h2 class="drawer-api-title">API reference</h2>
+  <p class="drawer-api-lead">
+    Drawer provides a container directive (<code>tngDrawerContainer</code>), drawer directive
+    (<code>tngDrawer</code>), content directive (<code>tngDrawerContent</code>), and a styled
+    wrapper component (<code>&lt;tng-drawer&gt;</code>).
+  </p>
+
+  <section class="drawer-api-section">
+    <h3><code>[tngDrawerContainer]</code> directive</h3>
+    <p>
+      Attach on a wrapper element that hosts one or more drawers and the main content. Manages
+      backdrop, scroll lock, and coordination between multiple drawers.
+    </p>
+
+    <h4>Inputs</h4>
+    <table class="drawer-api-table">
+      <thead>
+        <tr>
+          <th scope="col">Input</th>
+          <th scope="col">Type</th>
+          <th scope="col">Default</th>
+          <th scope="col">Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>hasBackdrop</code></td>
+          <td><code>'auto' | boolean</code></td>
+          <td><code>'auto'</code></td>
+          <td>Show backdrop when any overlay drawer is open.</td>
+        </tr>
+        <tr>
+          <td><code>closeOthersOnOpen</code></td>
+          <td><code>boolean</code></td>
+          <td><code>true</code></td>
+          <td>Close other drawers when one opens.</td>
+        </tr>
+        <tr>
+          <td><code>animate</code></td>
+          <td><code>boolean</code></td>
+          <td><code>true</code></td>
+          <td>Enable open/close animations.</td>
+        </tr>
+        <tr>
+          <td><code>lockScroll</code></td>
+          <td><code>'auto' | boolean</code></td>
+          <td><code>'auto'</code></td>
+          <td>Lock body scroll when overlay drawer is open.</td>
+        </tr>
+        <tr>
+          <td><code>dir</code></td>
+          <td><code>'ltr' | 'rtl' | 'auto'</code></td>
+          <td><code>'auto'</code></td>
+          <td>Layout direction for start/end positioning.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h4>Host attributes</h4>
+    <table class="drawer-api-table">
+      <thead>
+        <tr>
+          <th scope="col">Attribute</th>
+          <th scope="col">Value</th>
+          <th scope="col">Purpose</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>data-slot</code></td>
+          <td><code>"drawer-container"</code></td>
+          <td>Stable styling and query hook.</td>
+        </tr>
+        <tr>
+          <td><code>data-direction</code></td>
+          <td>Resolved direction</td>
+          <td>Current layout direction.</td>
+        </tr>
+        <tr>
+          <td><code>data-content-count</code></td>
+          <td>Number</td>
+          <td>Number of drawer content slots.</td>
+        </tr>
+        <tr>
+          <td><code>data-content-conflict</code></td>
+          <td>Present when conflict</td>
+          <td>Indicates push/side mode conflict.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="drawer-api-section">
+    <h3><code>[tngDrawer]</code> directive</h3>
+    <p>
+      Attach on the drawer panel element. Controls open state, mode, position, focus trap, and
+      accessibility.
+    </p>
+
+    <h4>Inputs</h4>
+    <table class="drawer-api-table">
+      <thead>
+        <tr>
+          <th scope="col">Input</th>
+          <th scope="col">Type</th>
+          <th scope="col">Default</th>
+          <th scope="col">Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>opened</code></td>
+          <td><code>boolean</code></td>
+          <td>—</td>
+          <td>Controlled open state.</td>
+        </tr>
+        <tr>
+          <td><code>defaultOpened</code></td>
+          <td><code>boolean</code></td>
+          <td><code>false</code></td>
+          <td>Initial uncontrolled open state.</td>
+        </tr>
+        <tr>
+          <td><code>mode</code></td>
+          <td><code>'overlay' | 'push' | 'side'</code></td>
+          <td><code>'overlay'</code></td>
+          <td>How drawer overlays or displaces content.</td>
+        </tr>
+        <tr>
+          <td><code>position</code></td>
+          <td><code>'start' | 'end'</code></td>
+          <td><code>'start'</code></td>
+          <td>Side of the viewport.</td>
+        </tr>
+        <tr>
+          <td><code>disabled</code></td>
+          <td><code>boolean</code></td>
+          <td><code>false</code></td>
+          <td>Disable drawer interactions.</td>
+        </tr>
+        <tr>
+          <td><code>backdrop</code></td>
+          <td><code>'auto' | boolean</code></td>
+          <td><code>'auto'</code></td>
+          <td>Show backdrop (overlay mode).</td>
+        </tr>
+        <tr>
+          <td><code>closeOnOutsideClick</code></td>
+          <td><code>boolean | undefined</code></td>
+          <td>—</td>
+          <td>Close on backdrop click; undefined inherits from container.</td>
+        </tr>
+        <tr>
+          <td><code>closeOnEscape</code></td>
+          <td><code>boolean</code></td>
+          <td><code>true</code></td>
+          <td>Close on Escape key.</td>
+        </tr>
+        <tr>
+          <td><code>restoreFocus</code></td>
+          <td><code>boolean</code></td>
+          <td><code>true</code></td>
+          <td>Restore focus to trigger on close.</td>
+        </tr>
+        <tr>
+          <td><code>autoFocus</code></td>
+          <td><code>'drawer' | 'first-focusable' | 'none'</code></td>
+          <td><code>'drawer'</code></td>
+          <td>Focus target when opening.</td>
+        </tr>
+        <tr>
+          <td><code>trapFocus</code></td>
+          <td><code>'auto' | boolean</code></td>
+          <td><code>'auto'</code></td>
+          <td>Trap focus inside drawer when open.</td>
+        </tr>
+        <tr>
+          <td><code>role</code></td>
+          <td><code>'navigation' | 'dialog' | 'complementary' | 'region'</code></td>
+          <td><code>'navigation'</code></td>
+          <td>ARIA role for the drawer.</td>
+        </tr>
+        <tr>
+          <td><code>inertContent</code></td>
+          <td><code>boolean</code></td>
+          <td><code>false</code></td>
+          <td>Make main content inert when open.</td>
+        </tr>
+        <tr>
+          <td><code>allowBodyScroll</code></td>
+          <td><code>boolean</code></td>
+          <td><code>false</code></td>
+          <td>Allow body scroll when overlay drawer is open.</td>
+        </tr>
+        <tr>
+          <td><code>swipeToClose</code></td>
+          <td><code>boolean</code></td>
+          <td><code>false</code></td>
+          <td>Close on swipe gesture (touch).</td>
+        </tr>
+        <tr>
+          <td><code>fixedInViewport</code></td>
+          <td><code>boolean</code></td>
+          <td><code>false</code></td>
+          <td>Fix drawer within viewport bounds.</td>
+        </tr>
+        <tr>
+          <td><code>fixedTopGap</code></td>
+          <td><code>number</code></td>
+          <td><code>0</code></td>
+          <td>Gap from top when fixed in viewport.</td>
+        </tr>
+        <tr>
+          <td><code>fixedBottomGap</code></td>
+          <td><code>number</code></td>
+          <td><code>0</code></td>
+          <td>Gap from bottom when fixed in viewport.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h4>Outputs</h4>
+    <table class="drawer-api-table">
+      <thead>
+        <tr>
+          <th scope="col">Output</th>
+          <th scope="col">Payload</th>
+          <th scope="col">When it fires</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>openedChange</code></td>
+          <td><code>boolean</code></td>
+          <td>Open state changes.</td>
+        </tr>
+        <tr>
+          <td><code>tngDrawerOpened</code></td>
+          <td>—</td>
+          <td>After drawer finishes opening.</td>
+        </tr>
+        <tr>
+          <td><code>tngDrawerClosed</code></td>
+          <td>—</td>
+          <td>After drawer finishes closing.</td>
+        </tr>
+        <tr>
+          <td><code>openStart</code></td>
+          <td>—</td>
+          <td>When open animation begins.</td>
+        </tr>
+        <tr>
+          <td><code>closeStart</code></td>
+          <td>—</td>
+          <td>When close animation begins.</td>
+        </tr>
+        <tr>
+          <td><code>backdropClick</code></td>
+          <td>—</td>
+          <td>When backdrop is clicked.</td>
+        </tr>
+        <tr>
+          <td><code>positionChange</code></td>
+          <td><code>'start' | 'end'</code></td>
+          <td>When position changes.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h4>Host attributes</h4>
+    <table class="drawer-api-table">
+      <thead>
+        <tr>
+          <th scope="col">Attribute</th>
+          <th scope="col">Value</th>
+          <th scope="col">Purpose</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>data-slot</code></td>
+          <td><code>"drawer"</code></td>
+          <td>Stable styling and query hook.</td>
+        </tr>
+        <tr>
+          <td><code>data-state</code></td>
+          <td>open/closed</td>
+          <td>Current open state.</td>
+        </tr>
+        <tr>
+          <td><code>data-position</code></td>
+          <td>start/end</td>
+          <td>Current position.</td>
+        </tr>
+        <tr>
+          <td><code>data-mode</code></td>
+          <td>overlay/push/side</td>
+          <td>Current mode.</td>
+        </tr>
+        <tr>
+          <td><code>data-side</code></td>
+          <td>left/right</td>
+          <td>Resolved side for RTL.</td>
+        </tr>
+        <tr>
+          <td><code>data-disabled</code></td>
+          <td>Present when disabled</td>
+          <td>Disabled state.</td>
+        </tr>
+        <tr>
+          <td><code>hidden</code></td>
+          <td>Present when closed</td>
+          <td>Visibility for closed state.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="drawer-api-section">
+    <h3><code>[tngDrawerContent]</code> directive</h3>
+    <p>
+      Attach on the main content element. Receives offset from the container in push/side mode
+      when drawers are open.
+    </p>
+
+    <h4>Host attributes</h4>
+    <table class="drawer-api-table">
+      <thead>
+        <tr>
+          <th scope="col">Attribute</th>
+          <th scope="col">Value</th>
+          <th scope="col">Purpose</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>data-slot</code></td>
+          <td><code>"drawer-content"</code></td>
+          <td>Stable styling and query hook.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="drawer-api-section">
+    <h3><code>&lt;tng-drawer&gt;</code> component</h3>
+    <p>
+      Styled wrapper that uses <code>tngDrawer</code> via host directives. Exposes all primitive
+      inputs/outputs plus component-specific API.
+    </p>
+
+    <h4>Inputs</h4>
+    <table class="drawer-api-table">
+      <thead>
+        <tr>
+          <th scope="col">Input</th>
+          <th scope="col">Type</th>
+          <th scope="col">Default</th>
+          <th scope="col">Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>ariaLabel</code></td>
+          <td><code>string</code></td>
+          <td><code>'Drawer'</code></td>
+          <td>Accessible label for the drawer.</td>
+        </tr>
+        <tr>
+          <td colspan="4" style="color: var(--tng-semantic-foreground-secondary);">
+            Plus all primitive inputs from <code>tngDrawer</code>: <code>opened</code>,
+            <code>defaultOpened</code>, <code>mode</code>, <code>position</code>, <code>disabled</code>,
+            <code>backdrop</code>, <code>closeOnOutsideClick</code>, <code>closeOnEscape</code>,
+            <code>restoreFocus</code>, <code>autoFocus</code>, <code>trapFocus</code>, <code>role</code>,
+            <code>inertContent</code>, <code>allowBodyScroll</code>, <code>swipeToClose</code>,
+            <code>fixedInViewport</code>, <code>fixedTopGap</code>, <code>fixedBottomGap</code>.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h4>Outputs</h4>
+    <table class="drawer-api-table">
+      <thead>
+        <tr>
+          <th scope="col">Output</th>
+          <th scope="col">Payload</th>
+          <th scope="col">When it fires</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td colspan="3" style="color: var(--tng-semantic-foreground-secondary);">
+            All primitive outputs from <code>tngDrawer</code>: <code>openedChange</code>,
+            <code>tngDrawerOpened</code>, <code>tngDrawerClosed</code>, <code>openStart</code>,
+            <code>closeStart</code>, <code>backdropClick</code>, <code>positionChange</code>.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h4>Methods</h4>
+    <table class="drawer-api-table">
+      <thead>
+        <tr>
+          <th scope="col">Method</th>
+          <th scope="col">Signature</th>
+          <th scope="col">Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>open()</code></td>
+          <td><code>() => void</code></td>
+          <td>Opens the drawer.</td>
+        </tr>
+        <tr>
+          <td><code>close()</code></td>
+          <td><code>() => void</code></td>
+          <td>Closes the drawer.</td>
+        </tr>
+        <tr>
+          <td><code>toggle(force?)</code></td>
+          <td><code>(force?: boolean) => void</code></td>
+          <td>Toggles open state; optional <code>force</code> to set explicitly.</td>
+        </tr>
+        <tr>
+          <td><code>isOpen()</code></td>
+          <td><code>() => boolean</code></td>
+          <td>Returns current open state.</td>
+        </tr>
+        <tr>
+          <td><code>setRestoreFocusFallback(target)</code></td>
+          <td><code>(target: HTMLElement | null) => void</code></td>
+          <td>Sets fallback element for focus restore when trigger is unavailable.</td>
+        </tr>
+        <tr>
+          <td><code>setRestoreFocusTarget(target)</code></td>
+          <td><code>(target: HTMLElement | null) => void</code></td>
+          <td>Sets explicit target for focus restore on close.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+</article>

@@ -1,0 +1,92 @@
+<article class="drawer-styling">
+  <h2 class="drawer-styling-title">Drawer styling</h2>
+  <p class="drawer-styling-lead">
+    Drawer exposes data attributes on each primitive for targeted styling. The styled
+    <code>&lt;tng-drawer&gt;</code> component applies sensible defaults.
+  </p>
+
+  <section class="drawer-styling-block">
+    <h3>Primitive data hooks</h3>
+    <table class="drawer-styling-table">
+      <thead>
+        <tr>
+          <th>Selector</th>
+          <th>Attribute</th>
+          <th>Values</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>[tngDrawerContainer]</code></td>
+          <td><code>data-slot</code></td>
+          <td><code>"drawer-container"</code></td>
+        </tr>
+        <tr>
+          <td><code>[tngDrawerContainer]</code></td>
+          <td><code>data-direction</code></td>
+          <td><code>"ltr"</code> | <code>"rtl"</code></td>
+        </tr>
+        <tr>
+          <td><code>[tngDrawer]</code></td>
+          <td><code>data-slot</code></td>
+          <td><code>"drawer"</code></td>
+        </tr>
+        <tr>
+          <td><code>[tngDrawer]</code></td>
+          <td><code>data-state</code></td>
+          <td><code>"open"</code> | <code>"closed"</code></td>
+        </tr>
+        <tr>
+          <td><code>[tngDrawer]</code></td>
+          <td><code>data-position</code></td>
+          <td><code>"start"</code> | <code>"end"</code></td>
+        </tr>
+        <tr>
+          <td><code>[tngDrawer]</code></td>
+          <td><code>data-mode</code></td>
+          <td><code>"overlay"</code> | <code>"push"</code> | <code>"side"</code></td>
+        </tr>
+        <tr>
+          <td><code>[tngDrawer]</code></td>
+          <td><code>data-side</code></td>
+          <td><code>"left"</code> | <code>"right"</code></td>
+        </tr>
+        <tr>
+          <td><code>[tngDrawer]</code></td>
+          <td><code>data-disabled</code></td>
+          <td>Present when disabled</td>
+        </tr>
+        <tr>
+          <td><code>[tngDrawerContent]</code></td>
+          <td><code>data-slot</code></td>
+          <td><code>"drawer-content"</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="drawer-styling-block">
+    <h3>Component CSS classes</h3>
+    <p>
+      The <code>&lt;tng-drawer&gt;</code> component renders on the <code>:host</code> element with
+      semantic token defaults for background, border, and padding. Override styles via
+      <code>::ng-deep</code> or custom CSS targeting <code>data-slot</code> / <code>data-state</code>
+      attributes.
+    </p>
+  </section>
+
+  <section class="drawer-styling-block">
+    <h3>Starter CSS</h3>
+    <p>Baseline styles for building a drawer layout from the headless primitives.</p>
+    <tng-code-block
+      [code]="starterCss"
+      adapter="shiki"
+      language="css"
+      title="drawer.css"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+</article>

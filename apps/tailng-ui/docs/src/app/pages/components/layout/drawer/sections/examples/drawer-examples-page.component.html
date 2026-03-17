@@ -1,0 +1,101 @@
+<article class="drawer-examples">
+  <h2 class="drawer-examples-title">Drawer examples</h2>
+
+  <section class="drawer-example-block">
+    <h3>Side navigation</h3>
+    <p>Persistent side drawer used as a navigation panel. Content shifts when the drawer opens or closes.</p>
+    <div class="drawer-example-shell">
+      <section tngDrawerContainer class="drawer-example-container" [animate]="false">
+        <aside
+          tngDrawer
+          class="drawer-example-panel"
+          [opened]="sideNavOpen()"
+          (openedChange)="sideNavOpen.set($event)"
+          mode="side"
+          position="start"
+          [backdrop]="false"
+        >
+          <nav class="drawer-example-nav">
+            <p class="drawer-example-nav-heading">App Menu</p>
+            <ul class="drawer-example-nav-links">
+              <li class="drawer-example-nav-link is-active">Dashboard</li>
+              <li class="drawer-example-nav-link">Analytics</li>
+              <li class="drawer-example-nav-link">Settings</li>
+              <li class="drawer-example-nav-link">Users</li>
+            </ul>
+          </nav>
+        </aside>
+        <main tngDrawerContent class="drawer-example-content">
+          <button type="button" class="drawer-example-btn" (click)="onToggleSideNav()">
+            {{ sideNavOpen() ? 'Hide' : 'Show' }} nav
+          </button>
+          <p>Dashboard content goes here.</p>
+        </main>
+      </section>
+    </div>
+  </section>
+
+  <section class="drawer-example-block">
+    <h3>End details panel</h3>
+    <p>A detail panel that opens from the end side using the styled component wrapper.</p>
+    <div class="drawer-example-shell">
+      <section tngDrawerContainer class="drawer-example-container" [animate]="false">
+        <tng-drawer
+          [opened]="endPanelOpen()"
+          (openedChange)="endPanelOpen.set($event)"
+          position="end"
+          mode="side"
+          [backdrop]="false"
+          ariaLabel="Details panel"
+          class="drawer-example-panel drawer-example-panel--end"
+        >
+          <div class="drawer-example-details">
+            <p class="drawer-example-nav-heading">Item Details</p>
+            <p>Name: Widget Pro</p>
+            <p>Status: Active</p>
+            <p>Category: Tools</p>
+          </div>
+        </tng-drawer>
+        <main tngDrawerContent class="drawer-example-content">
+          <button type="button" class="drawer-example-btn" (click)="onToggleEndPanel()">
+            {{ endPanelOpen() ? 'Hide' : 'Show' }} details
+          </button>
+          <p>Select an item to view its details in the side panel.</p>
+        </main>
+      </section>
+    </div>
+  </section>
+
+  <section class="drawer-example-block">
+    <h3>Push mode</h3>
+    <p>The drawer pushes the main content area aside instead of overlaying it.</p>
+    <div class="drawer-example-shell">
+      <section tngDrawerContainer class="drawer-example-container" [animate]="false">
+        <aside
+          tngDrawer
+          class="drawer-example-panel"
+          [opened]="pushDrawerOpen()"
+          (openedChange)="pushDrawerOpen.set($event)"
+          mode="push"
+          position="start"
+          [backdrop]="false"
+        >
+          <nav class="drawer-example-nav">
+            <p class="drawer-example-nav-heading">Filters</p>
+            <ul class="drawer-example-nav-links">
+              <li class="drawer-example-nav-link">Price range</li>
+              <li class="drawer-example-nav-link">Category</li>
+              <li class="drawer-example-nav-link">Rating</li>
+            </ul>
+          </nav>
+        </aside>
+        <main tngDrawerContent class="drawer-example-content">
+          <button type="button" class="drawer-example-btn" (click)="onTogglePushDrawer()">
+            {{ pushDrawerOpen() ? 'Hide' : 'Show' }} filters
+          </button>
+          <p>Product listing content.</p>
+        </main>
+      </section>
+    </div>
+  </section>
+</article>
