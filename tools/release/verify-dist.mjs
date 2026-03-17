@@ -5,9 +5,12 @@ const has = (t) => ("," + targets + ",").includes("," + t + ",");
 
 const required = [
   ["cdk", "dist/libs/cdk"],
+  ["primitives", "dist/libs/primitives"],
+  ["components", "dist/libs/components"],
   ["theme", "dist/libs/theme"],
   ["icons", "dist/libs/icons"],
-  ["ui", "dist/libs/ui"],
+  ["registry", "dist/libs/registry"],
+  ["charts", "dist/libs/charts"],
 ];
 
 for (const [k, dir] of required) {

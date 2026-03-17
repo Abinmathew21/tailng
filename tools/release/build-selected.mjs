@@ -1,13 +1,25 @@
 import { execSync } from "node:child_process";
 
-const targets = process.argv[2] ?? "";
-const has = (t) => ("," + targets + ",").includes("," + t + ",");
+const targets = (process.argv[2] ?? "").trim();
+const selected = new Set(
+  targets
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean),
+);
 
 const run = (cmd) => execSync(cmd, { stdio: "inherit" });
+const wants = (t) => selected.has(t);
 
-run("yarn nx reset");
+run("pnpm nx reset");
 
-if (has("cdk")) run("yarn nx build cdk --skip-nx-cache");
-if (has("theme")) run("yarn nx build theme --skip-nx-cache");
-if (has("icons")) run("yarn nx build icons --skip-nx-cache");
-if (has("ui")) run("yarn nx build ui --skip-nx-cache");
+if (wants("cdk")) run("pnpm nx build cdk --skip-nx-cache");
+if (wants("primitives")) run("pnpm nx build primitives --skip-nx-cache");
+if (wants("components")) run("pnpm nx build components --skip-nx-cache");
+if (wants("theme")) run("pnpm nx build theme --skip-nx-cache");
+if (wants("icons")) run("pnpm nx build icons --skip-nx-cache");
+if (wants("registry")) run("pnpm nx build registry --skip-nx-cache");
+if (wants("charts")) run("pnpm nx build charts --skip-nx-cache");
+
+// CLI (keeps your historical target name)
+if (wants("cli")) run("pnpm nx run tailng-cli:build --skip-nx-cache");

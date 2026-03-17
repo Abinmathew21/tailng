@@ -39,12 +39,13 @@ function listFiles(dir, predicate) {
 /**
  * Per-package sanity thresholds
  * - cdk entrypoints can be tiny but valid (e.g., 1–2 directives/utilities)
- * - ui bundles should never be tiny if they contain real implementations
+ * - components bundles should never be tiny if they contain real implementations
  */
 const THRESHOLDS = {
   cdk: { minMjs: 700, minDts: 150 },
   icons: { minMjs: 900, minDts: 150 },
-  ui: { minMjs: 1500, minDts: 200, uiFormControlsMin: 20_000 },
+  primitives: { minMjs: 1200, minDts: 150 },
+  components: { minMjs: 1800, minDts: 200, componentsFormControlsMin: 20_000 },
   // theme is asset-only checks
 };
 
@@ -103,32 +104,32 @@ function assertThemePackage() {
   if (!exists(tailwindPreset)) fail(`theme: missing tailwind/tailng.preset.cjs in dist: ${tailwindPreset}`);
 }
 
-function assertUiSpecific() {
-  const root = libDist("ui");
+function assertComponentsSpecific() {
+  const root = libDist("components");
 
   // strongest check for the historically problematic bundle
   const candidates = [
-    path.join(root, "fesm2022", "tailng-ui-ui-form-controls.mjs"),
+    path.join(root, "fesm2022", "tailng-ui-components-form-controls.mjs"),
   ].filter(exists);
 
   // If naming differs in future, fall back to pattern search
   const fallback =
     candidates.length === 0
-      ? listFiles(path.join(root, "fesm2022"), (f) => f.endsWith("ui-form-controls.mjs"))
+      ? listFiles(path.join(root, "fesm2022"), (f) => f.endsWith("components-form-controls.mjs"))
       : [];
 
   const files = candidates.length ? candidates : fallback;
 
   if (files.length === 0) {
-    warn(`ui: could not find form-controls bundle by name; skipping strict uiFormControlsMin check`);
+    warn(`components: could not find form-controls bundle by name; skipping strict componentsFormControlsMin check`);
     return;
   }
 
-  const min = THRESHOLDS.ui.uiFormControlsMin;
+  const min = THRESHOLDS.components.componentsFormControlsMin;
   for (const f of files) {
     const size = stat(f).size;
     if (size < min) {
-      fail(`ui: form-controls bundle too small (${size} bytes). Likely stub output: ${path.relative(root, f)}`);
+      fail(`components: form-controls bundle too small (${size} bytes). Likely stub output: ${path.relative(root, f)}`);
     }
   }
 }
@@ -168,9 +169,10 @@ const wants = (t) => selected.has(t);
 
 if (wants("cdk")) assertCdkPackage();
 if (wants("icons")) assertAngularPackage("icons", THRESHOLDS.icons);
-if (wants("ui")) {
-  assertAngularPackage("ui", THRESHOLDS.ui);
-  assertUiSpecific();
+if (wants("primitives")) assertAngularPackage("primitives", THRESHOLDS.primitives);
+if (wants("components")) {
+  assertAngularPackage("components", THRESHOLDS.components);
+  assertComponentsSpecific();
 }
 if (wants("theme")) assertThemePackage();
 

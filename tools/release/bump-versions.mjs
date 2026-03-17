@@ -47,10 +47,14 @@ const writeJson = (p, j) => fs.writeFileSync(p, JSON.stringify(j, null, 2) + "\n
 
 // 2) bump selected libs versions
 const libs = [
-  ["cdk", "libs/cdk/package.json", "@tailng-ui/cdk"],
-  ["theme", "libs/theme/package.json", "@tailng-ui/theme"],
-  ["icons", "libs/icons/package.json", "@tailng-ui/icons"],
-  ["ui", "libs/ui/package.json", "@tailng-ui/ui"],
+  ["cdk", "libs/tailng-ui/cdk/package.json", "@tailng-ui/cdk"],
+  ["primitives", "libs/tailng-ui/primitives/package.json", "@tailng-ui/primitives"],
+  ["components", "libs/tailng-ui/components/package.json", "@tailng-ui/components"],
+  ["theme", "libs/tailng-ui/theme/package.json", "@tailng-ui/theme"],
+  ["icons", "libs/tailng-ui/icons/package.json", "@tailng-ui/icons"],
+  ["registry", "libs/tailng-ui/registry/package.json", "@tailng-ui/registry"],
+  ["charts", "libs/tailng-ui/charts/package.json", "@tailng-ui/charts"],
+  ["cli", "libs/tailng/cli/package.json", "@tailng/cli"],
 ];
 
 for (const [key, path, label] of libs) {
@@ -62,18 +66,40 @@ for (const [key, path, label] of libs) {
   console.log(`[pkg] ${label} -> ${next}`);
 }
 
-// 3) align ui peerDeps (only if ui selected)
-if (has("ui")) {
-  const uiPath = "libs/ui/package.json";
-  const ui = readJson(uiPath);
+// 3) align primitives peerDeps (only if primitives selected)
+// primitives depends on cdk
+if (has("primitives")) {
+  const primitivesPath = "libs/tailng-ui/primitives/package.json";
+  const primitives = readJson(primitivesPath);
 
-  const cdkV = readJson("libs/cdk/package.json").version;
-  const iconsV = readJson("libs/icons/package.json").version;
+  const cdkV = readJson("libs/tailng-ui/cdk/package.json").version;
 
-  ui.peerDependencies ||= {};
-  if (ui.peerDependencies["@tailng-ui/cdk"]) ui.peerDependencies["@tailng-ui/cdk"] = `^${cdkV}`;
-  if (ui.peerDependencies["@tailng-ui/icons"]) ui.peerDependencies["@tailng-ui/icons"] = `^${iconsV}`;
+  primitives.peerDependencies ||= {};
 
-  writeJson(uiPath, ui);
-  console.log(`[peerDeps] ui: cdk=^${cdkV}, icons=^${iconsV}`);
+  // Only rewrite keys that already exist (avoid introducing new constraints silently)
+  if (primitives.peerDependencies["@tailng-ui/cdk"]) {
+    primitives.peerDependencies["@tailng-ui/cdk"] = `^${cdkV}`;
+  }
+
+  writeJson(primitivesPath, primitives);
+  console.log(`[peerDeps] primitives: cdk=^${cdkV}`);
+}
+
+// 4) align components peerDeps (only if components selected)
+// components depends on primitives
+if (has("components")) {
+  const componentsPath = "libs/tailng-ui/components/package.json";
+  const components = readJson(componentsPath);
+
+  const primitivesV = readJson("libs/tailng-ui/primitives/package.json").version;
+
+  components.peerDependencies ||= {};
+
+  // Only rewrite keys that already exist (avoid introducing new constraints silently)
+  if (components.peerDependencies["@tailng-ui/primitives"]) {
+    components.peerDependencies["@tailng-ui/primitives"] = `^${primitivesV}`;
+  }
+
+  writeJson(componentsPath, components);
+  console.log(`[peerDeps] components: primitives=^${primitivesV}`);
 }

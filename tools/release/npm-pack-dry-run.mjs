@@ -10,7 +10,8 @@ const selected = targets
 
 const dist = path.resolve("dist", "libs");
 
-const isLib = (t) => ["cdk", "ui", "icons", "theme"].includes(t);
+const isLib = (t) =>
+  ["cdk", "primitives", "components", "icons", "theme", "registry", "charts"].includes(t);
 
 for (const t of selected) {
   if (!isLib(t)) continue;

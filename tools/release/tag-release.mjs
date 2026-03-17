@@ -1,17 +1,66 @@
 import { execSync } from "node:child_process";
 import fs from "node:fs";
 
-const root = JSON.parse(fs.readFileSync("package.json", "utf8"));
-const tag = `v${root.version}`;
+function run(cmd) {
+  execSync(cmd, { stdio: "inherit" });
+}
 
+function runSilent(cmd) {
+  try {
+    execSync(cmd, { stdio: "ignore" });
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+function fail(msg) {
+  console.error(`tag-release: ${msg}`);
+  process.exit(1);
+}
+
+const envFile = process.env.GITHUB_ENV;
+if (!envFile) {
+  fail("GITHUB_ENV is not set (this script is intended to run inside GitHub Actions)");
+}
+
+const root = JSON.parse(fs.readFileSync("package.json", "utf8"));
+const version = String(root.version ?? "").trim();
+if (!version) {
+  fail("Root package.json has no version");
+}
+
+const tag = `v${version}`;
+
+// Ensure we have an up-to-date view of tags (local CI clones can be shallow).
+run("git fetch --tags --force");
+
+const hasLocalTag = runSilent(`git rev-parse -q --verify "refs/tags/${tag}"`);
+
+if (!hasLocalTag) {
+  // Create an annotated tag.
+  run(`git tag -a "${tag}" -m "Release ${tag}"`);
+  console.log(`[tag] created ${tag}`);
+} else {
+  console.log(`[tag] ${tag} already exists locally`);
+}
+
+// Push the tag. If it already exists on origin, this will be a no-op / fail.
+// Treat "already exists" as success.
 try {
-  execSync(`git rev-parse "${tag}"`, { stdio: "ignore" });
-  console.log(`[tag] ${tag} already exists, skipping tag creation`);
-} catch {
-  execSync(`git tag -a "${tag}" -m "Release ${tag}"`, { stdio: "inherit" });
-  execSync(`git push origin "${tag}"`, { stdio: "inherit" });
+  run(`git push origin "${tag}"`);
+  console.log(`[tag] pushed ${tag} to origin`);
+} catch (err) {
+  // If the tag already exists remotely, pushing can fail with non-zero.
+  // Re-check by fetching and verifying; if it exists, proceed.
+  run("git fetch --tags --force");
+  const existsAfter = runSilent(`git rev-parse -q --verify "refs/tags/${tag}"`);
+  if (!existsAfter) {
+    throw err;
+  }
+  console.log(`[tag] ${tag} already exists on origin; continuing`);
 }
 
 // Export for later steps
-fs.appendFileSync(process.env.GITHUB_ENV, `ROOT_VERSION=${root.version}\n`);
-fs.appendFileSync(process.env.GITHUB_ENV, `ROOT_TAG=${tag}\n`);
+fs.appendFileSync(envFile, `ROOT_VERSION=${version}\n`);
+fs.appendFileSync(envFile, `ROOT_TAG=${tag}\n`);

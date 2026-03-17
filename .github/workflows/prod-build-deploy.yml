@@ -1,110 +1,196 @@
-name: Production - Build and Deploy (Docs + Playgrounds)
+name: "PROD - Release & Deploy (Tailng)"
 
 on:
   workflow_dispatch:
+    inputs:
+      targets:
+        description: "Comma list (remove what you don’t want): cdk,primitives,components,registry,theme,icons,charts,cli,docs"
+        required: true
+        default: "cdk,primitives,components,registry,theme,icons,charts,cli,docs"
+      release_type:
+        description: "minor: 2.1.0 -> 2.2.0 | major: 2.x -> 3.0.0"
+        required: true
+        type: choice
+        options: [minor, major]
+      npm_tag:
+        description: "npm dist-tag"
+        required: true
+        default: "latest"
 
 permissions:
-  contents: read
-
-concurrency:
-  group: production-deploy-${{ github.ref }}
-  cancel-in-progress: true
+  contents: write
+  id-token: write
 
 jobs:
-  verify:
-    name: Verify (lint + test)
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout source
-        uses: actions/checkout@v4
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 10.30.0
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22.10.0
-          cache: pnpm
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Lint
-        run: pnpm lint
-
-      - name: Test
-        run: pnpm test
-
-  deploy:
-    name: Deploy ${{ matrix.target.name }}
+  release:
     runs-on: ubuntu-latest
     environment: production
-    needs:
-      - verify
-    strategy:
-      fail-fast: false
-      matrix:
-        target:
-          - name: docs
-            build_script: docs:seo
-            dist: dist/apps/tailng-ui/docs/browser
-            project_var: CF_DOCS_PROJECT_NAME
-          - name: playground-tailwind
-            build_script: playground:seo
-            dist: dist/apps/tailng-ui/playground-tailwind/browser
-            project_var: CF_PLAYGROUND_TAILWIND_PROJECT_NAME
-          - name: playground-plain-css
-            build_script: playground:plain-css:seo
-            dist: dist/apps/tailng-ui/playground-plain-css/browser
-            project_var: CF_PLAYGROUND_PLAIN_CSS_PROJECT_NAME
 
     steps:
-      - name: Checkout source
-        uses: actions/checkout@v4
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 10.30.0
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22.10.0
-          cache: pnpm
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Validate Cloudflare project variable
+      # ------------------------------------
+      # MAIN BRANCH SAFETY
+      # ------------------------------------
+      - name: Ensure running on main branch
         run: |
-          if [ -z "${{ vars[matrix.target.project_var] }}" ]; then
-            echo "Missing variable: ${{ matrix.target.project_var }}"
+          if [ "${GITHUB_REF_NAME}" != "main" ]; then
+            echo "This workflow must be run from main branch"
             exit 1
           fi
 
-      - name: Install browser for prerender
-        run: pnpm exec puppeteer browsers install chrome
+      # ------------------------------------
+      # CHECKOUT (uses built-in GITHUB_TOKEN)
+      # ------------------------------------
+      - name: Checkout source
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+          # token defaults to GITHUB_TOKEN; explicit is fine too:
+          # token: ${{ github.token }}
 
-      - name: Build and prerender
-        run: pnpm run ${{ matrix.target.build_script }}
+      # ------------------------------------
+      # NODE AND PNPM (Node 20 for reliable ng-packagr output)
+      # ------------------------------------
+      - name: Setup Node 20 LTS
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: "https://registry.npmjs.org"
+          cache: 'pnpm'
 
-      - name: Write deployment info
+      # IMPORTANT: upgrade npm for Trusted Publishing + provenance
+      - name: Upgrade npm
         run: |
-          mkdir -p ${{ matrix.target.dist }}
-          echo "branch=${GITHUB_REF_NAME}" > ${{ matrix.target.dist }}/info.txt
-          echo "commit=$(git rev-parse --short HEAD)" >> ${{ matrix.target.dist }}/info.txt
-          echo "time=$(date -u +"%Y-%m-%dT%H:%M:%SZ")" >> ${{ matrix.target.dist }}/info.txt
+          npm i -g npm@latest
+          npm --version
 
-      - name: Deploy to Cloudflare Pages
+      - name: Enable Corepack and pnpm
         run: |
-          pnpm dlx wrangler pages deploy "${{ matrix.target.dist }}" \
-            --project-name "${{ vars[matrix.target.project_var] }}" \
+          corepack enable
+          corepack prepare pnpm@latest --activate
+          pnpm --version
+          which pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # ------------------------------------
+      # TESTS (only for selected targets)
+      # ------------------------------------
+      - name: Test cdk if selected
+        run: node tools/release/run-if.mjs "${{ inputs.targets }}" cdk "pnpm run test:cdk"
+
+      - name: Test primitives if selected
+        run: node tools/release/run-if.mjs "${{ inputs.targets }}" primitives "pnpm run test:primitives"
+
+      - name: Test components if selected
+        run: node tools/release/run-if.mjs "${{ inputs.targets }}" components "pnpm run test:components"
+
+      - name: Test icons if selected
+        run: node tools/release/run-if.mjs "${{ inputs.targets }}" icons "pnpm run test:icons"
+
+      - name: Test registry if selected
+        run: node tools/release/run-if.mjs "${{ inputs.targets }}" registry "pnpm run test:registry"
+
+      - name: Test charts if selected
+        run: node tools/release/run-if.mjs "${{ inputs.targets }}" charts "pnpm run test:charts"
+
+      - name: Test theme if selected
+        run: node tools/release/run-if.mjs "${{ inputs.targets }}" theme "pnpm run test:theme"
+
+      - name: Test cli if selected
+        run: node tools/release/run-if.mjs "${{ inputs.targets }}" cli "pnpm run test:cli"
+        
+      - name: Validate inputs
+        run: node tools/release/validate-inputs.mjs "${{ inputs.targets }}" "${{ inputs.release_type }}"
+
+      - name: Export TARGETS
+        run: echo "TARGETS=,${{ inputs.targets }}," >> $GITHUB_ENV
+
+      # GIT IDENTITY
+      - name: Set Git user
+        run: |
+          git config --global user.email "prince.francis@tociva.com"
+          git config --global user.name "Tociva Technologies"
+
+      # VERSION BUMP
+      - name: Bump versions
+        run: node tools/release/bump-versions.mjs \
+          "${{ inputs.targets }}" \
+          "${{ inputs.release_type }}"
+
+      # ------------------------------------
+      # COMMIT VERSION CHANGES
+      # ------------------------------------
+      - name: Commit and push version changes
+        run: |
+          git add package.json libs/**/package.json || true
+          git commit -m "chore(release): ${{ inputs.release_type }} (${{ inputs.targets }}) [skip ci]" || echo "Nothing to commit"
+          git push origin HEAD:${GITHUB_REF_NAME}
+
+      # ------------------------------------
+      # DOCS
+      # ------------------------------------
+      - name: Build docs if selected
+        run: node tools/release/run-if.mjs "${{ inputs.targets }}" docs "pnpm docs:seo"
+
+      - name: Deploy docs to Cloudflare Pages
+        if: contains(env.TARGETS, ',docs,')
+        run: |
+          pnpm dlx wrangler pages deploy dist/apps/docs \
+            --project-name ${{ vars.CF_DOCS_PROJECT_NAME }} \
             --branch main
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+
+      # ------------------------------------
+      # BUILD PACKAGES
+      # ------------------------------------
+      - name: Build selected packages
+        run: node tools/release/build-selected.mjs "${{ inputs.targets }}"
+
+      - name: Verify build output
+        run: node tools/release/verify-dist.mjs "${{ inputs.targets }}"
+
+      # ------------------------------------
+      # STRONGLY RECOMMENDED: SANITY CHECK (prevent publishing stub bundles)
+      # ------------------------------------
+      - name: Sanity check built bundles
+        run: node tools/release/assert-bundles.mjs "${{ inputs.targets }}"
+
+      # ------------------------------------
+      # OPTIONAL BUT USEFUL: npm pack dry-run per target
+      # ------------------------------------
+      - name: npm pack dry-run (selected targets)
+        run: node tools/release/npm-pack-dry-run.mjs "${{ inputs.targets }}"
+      
+      # ------------------------------------
+      # PUBLISH (npm Trusted Publishing via OIDC)
+      # ------------------------------------
+      - name: Publish selected packages
+        run: node tools/release/publish-selected.mjs \
+          "${{ inputs.targets }}" \
+          "${{ inputs.npm_tag }}"
+
+      # ------------------------------------
+      # TAG AND RELEASE
+      # ------------------------------------
+      - name: Tag release
+        run: node tools/release/tag-release.mjs
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ env.ROOT_TAG }}
+          name: Release ${{ env.ROOT_TAG }}
+          body: |
+            Release Details
+            Version: ${{ env.ROOT_VERSION }}
+            Release Type: ${{ inputs.release_type }}
+            Targets: ${{ inputs.targets }}
+            npm Tag: ${{ inputs.npm_tag }}
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
