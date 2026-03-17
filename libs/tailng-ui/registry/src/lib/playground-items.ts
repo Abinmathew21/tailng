@@ -633,7 +633,7 @@ export const ALL_PLAYGROUND_ITEMS: readonly TngPlaygroundItem[] = Object.freeze(
     registry: true,
     registryTest: false,
     stackblitz: false,
-    docs: false,
+    docs: true,
   },
   { path: '/drawer', title: 'Drawer', description: 'Slide-in overlay panel.', category: 'layout',
     headless: true,

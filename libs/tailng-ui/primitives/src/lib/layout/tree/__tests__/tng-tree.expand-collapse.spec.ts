@@ -7,15 +7,27 @@ describe('tng-tree primitive expand/collapse behavior', () => {
     TestBed.resetTestingModule();
   });
 
-  it('toggles expanded state when an expandable item is clicked', () => {
+  it('toggles expanded state when the indicator is clicked', () => {
+    const fixture = createTreeHarnessFixture();
+    const rootA = getItem(fixture, 'root-a');
+    const indicator = rootA.querySelector('[data-slot="tree-indicator"]') as HTMLElement;
+
+    expect(rootA.getAttribute('aria-expanded')).toBe('false');
+
+    clickElement(indicator);
+    fixture.detectChanges();
+    expect(rootA.getAttribute('aria-expanded')).toBe('true');
+
+    clickElement(indicator);
+    fixture.detectChanges();
+    expect(rootA.getAttribute('aria-expanded')).toBe('false');
+  });
+
+  it('clicking the item label does not toggle expansion', () => {
     const fixture = createTreeHarnessFixture();
     const rootA = getItem(fixture, 'root-a');
 
     expect(rootA.getAttribute('aria-expanded')).toBe('false');
-
-    clickElement(rootA);
-    fixture.detectChanges();
-    expect(rootA.getAttribute('aria-expanded')).toBe('true');
 
     clickElement(rootA);
     fixture.detectChanges();
@@ -48,17 +60,20 @@ describe('tng-tree primitive expand/collapse behavior', () => {
     expect(document.activeElement).toBe(rootA);
   });
 
-  it('toggles expansion from Enter/Space on focused expandable item', () => {
-    const fixture = createTreeHarnessFixture();
+  it('Enter/Space selects without toggling expansion', () => {
+    const fixture = createTreeHarnessFixture({ selectionMode: 'single' });
     const rootA = getItem(fixture, 'root-a');
 
     rootA.focus();
     fixture.detectChanges();
 
+    expect(rootA.getAttribute('aria-expanded')).toBe('false');
+
     const enterEvent = dispatchKeydown(rootA, 'Enter');
     fixture.detectChanges();
     expect(enterEvent.defaultPrevented).toBe(true);
-    expect(rootA.getAttribute('aria-expanded')).toBe('true');
+    expect(rootA.getAttribute('aria-expanded')).toBe('false');
+    expect(rootA.getAttribute('data-selected')).toBe('true');
 
     const spaceEvent = dispatchKeydown(rootA, ' ');
     fixture.detectChanges();
