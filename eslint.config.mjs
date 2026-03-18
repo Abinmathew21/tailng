@@ -199,6 +199,11 @@ export default [
       '@typescript-eslint/prefer-readonly-parameter-types': 'off',
       '@typescript-eslint/explicit-function-return-type': 'off',
     },
+  },{
+    files: ['tools/**/*.mjs'],
+    rules: {
+      'no-undef': 'off',
+    },
   },
 
   {
@@ -208,7 +213,6 @@ export default [
       'max-params': ['warn', 4],
     },
   },
-
   {
     files: [
       '**/vitest.config.ts',
