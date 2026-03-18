@@ -1,9 +1,11 @@
 {
   "name": "@tailng-ui/primitives",
   "version": "0.2.0",
+  "dependencies": {
+    "@tailng-ui/cdk": "workspace:^"
+  },
   "peerDependencies": {
     "@angular/core": "^21.1.0",
-    "@tailng-ui/cdk": "^0.2.0",
     "tslib": "^2.3.0"
   },
   "sideEffects": false

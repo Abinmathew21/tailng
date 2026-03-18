@@ -209,11 +209,8 @@ importers:
       '@angular/core':
         specifier: ^21.1.0
         version: 21.1.1(@angular/compiler@21.1.1)(rxjs@7.8.2)(zone.js@0.16.0)
-      '@tailng-ui/cdk':
-        specifier: workspace:*
-        version: link:../cdk
       '@tailng-ui/primitives':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../primitives
       tslib:
         specifier: ^2.3.0
@@ -240,7 +237,7 @@ importers:
         specifier: ^21.1.0
         version: 21.1.1(@angular/compiler@21.1.1)(rxjs@7.8.2)(zone.js@0.16.0)
       '@tailng-ui/cdk':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../cdk
       tslib:
         specifier: ^2.3.0

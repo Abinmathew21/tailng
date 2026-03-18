@@ -1,4 +1,5 @@
-import { Component, ElementRef, ViewChild, signal } from '@angular/core';
+import type { ElementRef} from '@angular/core';
+import { Component, ViewChild, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import {
@@ -134,34 +135,34 @@ async function settleMicrotasks(fixture: { detectChanges: () => void }): Promise
   `,
 })
 class ButtonCopyHostComponent {
-  readonly text = signal<TngCopyButtonTextInput>(undefined);
-  readonly target = signal<TngCopyFromTarget>(null);
-  readonly format = signal<TngCopyFormat>('text/plain');
-  readonly successDurationMs = signal(defaultTngCopySuccessDurationMs);
-  readonly disabled = signal(false);
-  readonly hotkey = signal<string | null>(null);
-  readonly announce = signal<TngCopyAnnounce>('auto');
-  readonly successMessage = signal('Copied to clipboard');
-  readonly errorMessage = signal('Copy failed');
+  public readonly text = signal<TngCopyButtonTextInput>(undefined);
+  public readonly target = signal<TngCopyFromTarget>(null);
+  public readonly format = signal<TngCopyFormat>('text/plain');
+  public readonly successDurationMs = signal(defaultTngCopySuccessDurationMs);
+  public readonly disabled = signal(false);
+  public readonly hotkey = signal<string | null>(null);
+  public readonly announce = signal<TngCopyAnnounce>('auto');
+  public readonly successMessage = signal('Copied to clipboard');
+  public readonly errorMessage = signal('Copy failed');
 
-  readonly legacyText = signal<string | null | undefined>(undefined);
-  readonly legacyTarget = signal<TngCopyFromTarget>(null);
-  readonly ignoreSelectors = signal<readonly string[] | string | null | undefined>(undefined);
-  readonly legacyDisabled = signal(false);
+  public readonly legacyText = signal<string | null | undefined>(undefined);
+  public readonly legacyTarget = signal<TngCopyFromTarget>(null);
+  public readonly ignoreSelectors = signal<readonly string[] | string | null | undefined>(undefined);
+  public readonly legacyDisabled = signal(false);
 
-  readonly sourceText = signal('Source text');
-  readonly sourceInputText = signal('Textarea value');
+  public readonly sourceText = signal('Source text');
+  public readonly sourceInputText = signal('Textarea value');
 
-  readonly copyEvents: TngCopyEvent[] = [];
-  readonly successEvents: TngCopySuccessEvent[] = [];
-  readonly errorEvents: TngCopyErrorEvent[] = [];
-  readonly copiedEvents: string[] = [];
-  readonly announcements: string[] = [];
+  public readonly copyEvents: TngCopyEvent[] = [];
+  public readonly successEvents: TngCopySuccessEvent[] = [];
+  public readonly errorEvents: TngCopyErrorEvent[] = [];
+  public readonly copiedEvents: string[] = [];
+  public readonly announcements: string[] = [];
 
-  @ViewChild('trigger', { static: true }) triggerRef!: ElementRef<HTMLButtonElement>;
-  @ViewChild('source', { static: true }) sourceRef!: ElementRef<HTMLElement>;
-  @ViewChild('sourceInput', { static: true }) sourceInputRef!: ElementRef<HTMLTextAreaElement>;
-  @ViewChild(TngCopy, { static: true }) copyDirective!: TngCopy;
+  @ViewChild('trigger', { static: true }) public triggerRef!: ElementRef<HTMLButtonElement>;
+  @ViewChild('source', { static: true }) public sourceRef!: ElementRef<HTMLElement>;
+  @ViewChild('sourceInput', { static: true }) public sourceInputRef!: ElementRef<HTMLTextAreaElement>;
+  @ViewChild(TngCopy, { static: true }) public copyDirective!: TngCopy;
 }
 
 @Component({
@@ -191,23 +192,23 @@ class ButtonCopyHostComponent {
   `,
 })
 class DivCopyHostComponent {
-  readonly text = signal<TngCopyButtonTextInput>(undefined);
-  readonly target = signal<TngCopyFromTarget>(null);
-  readonly disabled = signal(false);
-  readonly hotkey = signal<string | null>(null);
-  readonly announce = signal<TngCopyAnnounce>('auto');
-  readonly successMessage = signal('Copied to clipboard');
-  readonly errorMessage = signal('Copy failed');
-  readonly sourceText = signal('Div source');
+  public readonly text = signal<TngCopyButtonTextInput>(undefined);
+  public readonly target = signal<TngCopyFromTarget>(null);
+  public readonly disabled = signal(false);
+  public readonly hotkey = signal<string | null>(null);
+  public readonly announce = signal<TngCopyAnnounce>('auto');
+  public readonly successMessage = signal('Copied to clipboard');
+  public readonly errorMessage = signal('Copy failed');
+  public readonly sourceText = signal('Div source');
 
-  readonly copyEvents: TngCopyEvent[] = [];
-  readonly successEvents: TngCopySuccessEvent[] = [];
-  readonly errorEvents: TngCopyErrorEvent[] = [];
-  readonly announcements: string[] = [];
+  public readonly copyEvents: TngCopyEvent[] = [];
+  public readonly successEvents: TngCopySuccessEvent[] = [];
+  public readonly errorEvents: TngCopyErrorEvent[] = [];
+  public readonly announcements: string[] = [];
 
-  @ViewChild('trigger', { static: true }) triggerRef!: ElementRef<HTMLElement>;
-  @ViewChild('source', { static: true }) sourceRef!: ElementRef<HTMLElement>;
-  @ViewChild(TngCopy, { static: true }) copyDirective!: TngCopy;
+  @ViewChild('trigger', { static: true }) public triggerRef!: ElementRef<HTMLElement>;
+  @ViewChild('source', { static: true }) public sourceRef!: ElementRef<HTMLElement>;
+  @ViewChild(TngCopy, { static: true }) public copyDirective!: TngCopy;
 }
 
 @Component({
@@ -237,14 +238,14 @@ class DivCopyHostComponent {
   `,
 })
 class MultiCopyHostComponent {
-  readonly firstText = signal('First payload');
-  readonly secondText = signal('Second payload');
-  readonly firstSuccess: TngCopySuccessEvent[] = [];
-  readonly secondSuccess: TngCopySuccessEvent[] = [];
+  public readonly firstText = signal('First payload');
+  public readonly secondText = signal('Second payload');
+  public readonly firstSuccess: TngCopySuccessEvent[] = [];
+  public readonly secondSuccess: TngCopySuccessEvent[] = [];
 
-  @ViewChild('first', { static: true }) firstRef!: ElementRef<HTMLButtonElement>;
-  @ViewChild('second', { static: true }) secondRef!: ElementRef<HTMLButtonElement>;
-  @ViewChild(TngCopy, { static: false }) firstDirective?: TngCopy;
+  @ViewChild('first', { static: true }) public firstRef!: ElementRef<HTMLButtonElement>;
+  @ViewChild('second', { static: true }) public secondRef!: ElementRef<HTMLButtonElement>;
+  @ViewChild(TngCopy, { static: false }) public firstDirective?: TngCopy;
 }
 
 describe('tng-copy primitive behavior blocks A-M', () => {
