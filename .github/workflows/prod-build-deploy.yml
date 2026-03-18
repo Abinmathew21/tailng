@@ -4,9 +4,9 @@ on:
   workflow_dispatch:
     inputs:
       targets:
-        description: "Comma list (remove what you don’t want): cdk,primitives,components,registry,theme,icons,charts,cli,docs"
+        description: "Comma list (remove what you don’t want): cdk,primitives,components,registry,theme,icons,charts,cli"
         required: true
-        default: "cdk,primitives,components,registry,theme,icons,charts,cli,docs"
+        default: "cdk,primitives,components,registry,theme,icons,charts,cli"
       release_type:
         description: "minor: 2.1.0 -> 2.2.0 | major: 2.x -> 3.0.0"
         required: true
@@ -138,64 +138,6 @@ jobs:
           git add package.json libs/**/package.json || true
           git commit -m "chore(release): ${{ inputs.release_type }} (${{ inputs.targets }}) [skip ci]" || echo "Nothing to commit"
           git push origin HEAD:${GITHUB_REF_NAME}
-
-      # ------------------------------------
-      # DOCS (Node 22 + Puppeteer Chrome)
-      # ------------------------------------
-      - name: Setup Node 22 for docs (docs only)
-        if: contains(env.TARGETS, ',docs,')
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          registry-url: "https://registry.npmjs.org"
-
-      - name: Enable Corepack and pnpm (docs only)
-        if: contains(env.TARGETS, ',docs,')
-        run: |
-          corepack enable
-          corepack prepare pnpm@latest --activate
-          pnpm --version
-
-      - name: Cache Puppeteer browsers (docs only)
-        if: contains(env.TARGETS, ',docs,')
-        uses: actions/cache@v4
-        with:
-          path: /home/runner/.cache/puppeteer
-          key: ${{ runner.os }}-puppeteer-${{ hashFiles('pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-puppeteer-
-
-      - name: Install Chrome for Puppeteer (docs only)
-        if: contains(env.TARGETS, ',docs,')
-        run: pnpm dlx puppeteer@24.37.4 browsers install chrome
-
-      - name: Build docs if selected
-        run: node tools/release/run-if.mjs "${{ inputs.targets }}" docs "pnpm docs:seo"
-
-      - name: Deploy docs to Cloudflare Pages
-        if: contains(env.TARGETS, ',docs,')
-        run: |
-          pnpm dlx wrangler pages deploy dist/apps/docs \
-            --project-name ${{ vars.CF_DOCS_PROJECT_NAME }} \
-            --branch main
-        env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
-
-      # ------------------------------------
-      # BACK TO NODE 20 FOR PACKAGE BUILDS
-      # ------------------------------------
-      - name: Setup Node 20 LTS for package builds
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          registry-url: "https://registry.npmjs.org"
-
-      - name: Enable Corepack and pnpm (builds)
-        run: |
-          corepack enable
-          corepack prepare pnpm@latest --activate
-          pnpm --version
 
       # ------------------------------------
       # BUILD PACKAGES
