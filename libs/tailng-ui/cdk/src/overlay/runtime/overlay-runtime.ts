@@ -30,14 +30,18 @@ type TngOverlayAdapterRuntimeOptions = Readonly<{
 
 export type TngOverlayRuntimeOptions = Readonly<
   TngOverlayAdapterRuntimeOptions & {
+    /**
+     * Optional document reference for outside-interaction listeners.
+     * In non-browser environments, omit this to disable document listeners.
+     */
     documentRef?: TngOverlayInteractionDomDocument | null;
   }
 >;
 
 export type TngOverlayRuntime = Readonly<{
   clearLayers: () => void;
-  dispatchKeydown: (event: TngOverlayKeyboardEvent) => void;
-  dispatchPointerDown: (event: TngOverlayPointerEvent) => void;
+  dispatchKeydown: (event: Readonly<TngOverlayKeyboardEvent>) => void;
+  dispatchPointerDown: (event: Readonly<TngOverlayPointerEvent>) => void;
   dismissById: (id: string, reason: TngOverlayDismissReason) => void;
   getLayerIds: () => readonly string[];
   isTopLayer: (id: string) => boolean;
@@ -48,10 +52,7 @@ export type TngOverlayRuntime = Readonly<{
 function toInteractionDocument(
   documentRef: TngOverlayInteractionDomDocument | null | undefined,
 ): TngOverlayInteractionDocument | null {
-  if (documentRef === null || documentRef === undefined) {
-    return null;
-  }
-
+  if (documentRef == null) return null;
   return createOverlayInteractionDocument(documentRef);
 }
 
@@ -60,7 +61,7 @@ class OverlayRuntime implements TngOverlayRuntime {
   private readonly layerStack: TngOverlayLayerStack;
   private readonly registeredLayerIds = new Set<string>();
 
-  public constructor(private readonly options: TngOverlayRuntimeOptions) {
+  public constructor(private readonly options: Readonly<TngOverlayRuntimeOptions>) {
     this.layerStack = createOverlayLayerStackAdapter({
       adapterConfig: options.adapterConfig,
       angularCdk: options.angularCdk,
@@ -81,11 +82,11 @@ class OverlayRuntime implements TngOverlayRuntime {
     }
   }
 
-  public dispatchKeydown(event: TngOverlayKeyboardEvent): void {
+  public dispatchKeydown(event: Readonly<TngOverlayKeyboardEvent>): void {
     this.interaction.handleKeydown(event);
   }
 
-  public dispatchPointerDown(event: TngOverlayPointerEvent): void {
+  public dispatchPointerDown(event: Readonly<TngOverlayPointerEvent>): void {
     this.interaction.handlePointerDown(event);
   }
 
@@ -133,13 +134,15 @@ class OverlayRuntime implements TngOverlayRuntime {
   }
 }
 
-export function createOverlayRuntime(options: TngOverlayRuntimeOptions = {}): TngOverlayRuntime {
+export function createOverlayRuntime(
+  options: Readonly<TngOverlayRuntimeOptions> = {},
+): TngOverlayRuntime {
   return new OverlayRuntime(options);
 }
 
 export function createOverlayScrollLockManager(
   options: Readonly<TngScrollLockOptions> = {},
-  runtimeOptions: TngOverlayAdapterRuntimeOptions = {},
+  runtimeOptions: Readonly<TngOverlayAdapterRuntimeOptions> = {},
 ): TngScrollLockManager {
   return createScrollLockAdapter({
     adapterConfig: runtimeOptions.adapterConfig,

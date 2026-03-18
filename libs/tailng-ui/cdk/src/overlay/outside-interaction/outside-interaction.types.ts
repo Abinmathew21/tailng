@@ -13,27 +13,39 @@ export type TngOverlayPointerEvent = Readonly<{
   target: unknown;
 }>;
 
-export type TngOverlayInteractionDocument = Readonly<{
-  addKeydownListener: (listener: (event: TngOverlayKeyboardEvent) => void) => void;
-  addPointerDownListener: (listener: (event: TngOverlayPointerEvent) => void) => void;
-  addFocusInListener: (listener: (event: TngOverlayFocusEvent) => void) => void;
-
-  removeKeydownListener: (listener: (event: TngOverlayKeyboardEvent) => void) => void;
-  removePointerDownListener: (listener: (event: TngOverlayPointerEvent) => void) => void;
-  removeFocusInListener: (listener: (event: TngOverlayFocusEvent) => void) => void;
+export type TngOverlayFocusEvent = Readonly<{
+  composedPath?: () => readonly unknown[];
+  defaultPrevented?: boolean;
+  preventDefault?: () => void;
+  target: unknown;
 }>;
+
+export type TngOverlayKeydownListener = (event: TngOverlayKeyboardEvent) => void;
+export type TngOverlayPointerDownListener = (event: TngOverlayPointerEvent) => void;
+export type TngOverlayFocusInListener = (event: TngOverlayFocusEvent) => void;
+export type TngOverlayInteractionDomEventType = 'keydown' | 'pointerdown' | 'focusin';
 
 export type TngOverlayInteractionDomDocument = Readonly<{
   addEventListener: (
-    type: 'keydown' | 'pointerdown' | 'focusin',
+    type: TngOverlayInteractionDomEventType,
     listener: (event: unknown) => void,
-    options?: boolean | AddEventListenerOptions,
+    options?: boolean,
   ) => void;
+
   removeEventListener: (
-    type: 'keydown' | 'pointerdown' | 'focusin',
+    type: TngOverlayInteractionDomEventType,
     listener: (event: unknown) => void,
-    options?: boolean | EventListenerOptions,
+    options?: boolean,
   ) => void;
+}>;
+export type TngOverlayInteractionDocument = Readonly<{
+  addKeydownListener: (listener: TngOverlayKeydownListener) => void;
+  addPointerDownListener: (listener: TngOverlayPointerDownListener) => void;
+  addFocusInListener: (listener: TngOverlayFocusInListener) => void;
+
+  removeKeydownListener: (listener: TngOverlayKeydownListener) => void;
+  removePointerDownListener: (listener: TngOverlayPointerDownListener) => void;
+  removeFocusInListener: (listener: TngOverlayFocusInListener) => void;
 }>;
 
 export type TngOverlayInteractionOptions = Readonly<{
@@ -44,15 +56,8 @@ export type TngOverlayInteractionOptions = Readonly<{
 export type TngOverlayInteractionController = Readonly<{
   handleKeydown: (event: TngOverlayKeyboardEvent) => void;
   handlePointerDown: (event: TngOverlayPointerEvent) => void;
+  handleFocusIn: (event: TngOverlayFocusEvent) => void;
   isStarted: () => boolean;
   start: () => void;
   stop: () => void;
-}>;
-
-// outside-interaction.types.ts
-export type TngOverlayFocusEvent = Readonly<{
-  composedPath?: () => readonly unknown[];
-  defaultPrevented?: boolean;
-  preventDefault?: () => void;
-  target: unknown;
 }>;

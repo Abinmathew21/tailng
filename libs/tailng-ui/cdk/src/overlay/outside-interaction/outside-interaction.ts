@@ -1,19 +1,20 @@
-// outside-interaction.ts
-import {
-  type TngOverlayInteractionController,
-  type TngOverlayInteractionDocument,
-  type TngOverlayInteractionDomDocument,
-  type TngOverlayInteractionOptions,
-  type TngOverlayKeyboardEvent,
-  type TngOverlayPointerEvent,
-  type TngOverlayFocusEvent,
+import type {
+  TngOverlayInteractionController,
+  TngOverlayInteractionDocument,
+  TngOverlayInteractionOptions,
+  TngOverlayKeyboardEvent,
+  TngOverlayPointerEvent,
+  TngOverlayFocusEvent,
+  TngOverlayInteractionDomDocument,
 } from './outside-interaction.types';
 
 function isDefaultPrevented(event: Readonly<{ defaultPrevented?: boolean }>): boolean {
   return event.defaultPrevented === true;
 }
 
-function toEventPath(event: { composedPath?: () => readonly unknown[]; target: unknown }): readonly unknown[] {
+function toEventPath(
+  event: Readonly<{ composedPath?: () => readonly unknown[]; target: unknown }>,
+): readonly unknown[] {
   const path = event.composedPath?.();
   if (path !== undefined && path.length > 0) {
     return path;
@@ -27,9 +28,11 @@ class OverlayInteractionController implements TngOverlayInteractionController {
   private readonly keydownListener = (event: TngOverlayKeyboardEvent): void => {
     this.handleKeydown(event);
   };
+
   private readonly pointerDownListener = (event: TngOverlayPointerEvent): void => {
     this.handlePointerDown(event);
   };
+
   private readonly focusInListener = (event: TngOverlayFocusEvent): void => {
     this.handleFocusIn(event);
   };
@@ -106,10 +109,12 @@ class OverlayDomInteractionDocument implements TngOverlayInteractionDocument {
     (event: TngOverlayKeyboardEvent) => void,
     (event: unknown) => void
   >();
+
   private readonly pointerDownListenerMap = new Map<
     (event: TngOverlayPointerEvent) => void,
     (event: unknown) => void
   >();
+
   private readonly focusInListenerMap = new Map<
     (event: TngOverlayFocusEvent) => void,
     (event: unknown) => void
@@ -121,7 +126,6 @@ class OverlayDomInteractionDocument implements TngOverlayInteractionDocument {
     const domListener = (event: unknown): void => listener(event as TngOverlayKeyboardEvent);
     this.keydownListenerMap.set(listener, domListener);
 
-    // keydown usually fine in bubble, but you can use capture if you want
     this.documentRef.addEventListener('keydown', domListener);
   }
 
@@ -129,7 +133,7 @@ class OverlayDomInteractionDocument implements TngOverlayInteractionDocument {
     const domListener = (event: unknown): void => listener(event as TngOverlayPointerEvent);
     this.pointerDownListenerMap.set(listener, domListener);
 
-    // ✅ capture recommended; see section 2
+    // capture recommended for outside interactions
     this.documentRef.addEventListener('pointerdown', domListener, true);
   }
 
@@ -137,13 +141,13 @@ class OverlayDomInteractionDocument implements TngOverlayInteractionDocument {
     const domListener = (event: unknown): void => listener(event as TngOverlayFocusEvent);
     this.focusInListenerMap.set(listener, domListener);
 
-    // ✅ focusin bubbles, but capture is reliable for early dismiss decisions
     this.documentRef.addEventListener('focusin', domListener, true);
   }
 
   public removeKeydownListener(listener: (event: TngOverlayKeyboardEvent) => void): void {
     const domListener = this.keydownListenerMap.get(listener);
     if (domListener === undefined) return;
+
     this.keydownListenerMap.delete(listener);
     this.documentRef.removeEventListener('keydown', domListener);
   }
@@ -151,6 +155,7 @@ class OverlayDomInteractionDocument implements TngOverlayInteractionDocument {
   public removePointerDownListener(listener: (event: TngOverlayPointerEvent) => void): void {
     const domListener = this.pointerDownListenerMap.get(listener);
     if (domListener === undefined) return;
+
     this.pointerDownListenerMap.delete(listener);
     this.documentRef.removeEventListener('pointerdown', domListener, true);
   }
@@ -158,6 +163,7 @@ class OverlayDomInteractionDocument implements TngOverlayInteractionDocument {
   public removeFocusInListener(listener: (event: TngOverlayFocusEvent) => void): void {
     const domListener = this.focusInListenerMap.get(listener);
     if (domListener === undefined) return;
+
     this.focusInListenerMap.delete(listener);
     this.documentRef.removeEventListener('focusin', domListener, true);
   }
@@ -169,6 +175,9 @@ export function createOverlayInteractionController(
   return new OverlayInteractionController(options);
 }
 
+/**
+ * Edge-only helper: convert a real DOM `document` into the adapter interface.
+ */
 export function createOverlayInteractionDocument(
   documentRef: TngOverlayInteractionDomDocument,
 ): TngOverlayInteractionDocument {

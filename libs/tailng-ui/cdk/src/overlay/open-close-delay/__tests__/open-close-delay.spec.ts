@@ -2,18 +2,20 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import {
   createOverlayOpenCloseDelayController,
   normalizeOverlayOpenCloseDelay,
-} from './open-close-delay';
+} from '../open-close-delay';
 
-describe('overlay open-close delay controller', () => {
-  afterEach(() => {
-    vi.useRealTimers();
-  });
-
+describe('overlay open-close delay controller — normalize', () => {
   it('normalizes invalid delay values to zero', () => {
     expect(normalizeOverlayOpenCloseDelay(-1)).toBe(0);
     expect(normalizeOverlayOpenCloseDelay(Number.NaN)).toBe(0);
     expect(normalizeOverlayOpenCloseDelay(0)).toBe(0);
     expect(normalizeOverlayOpenCloseDelay(125)).toBe(125);
+  });
+});
+
+describe('overlay open-close delay controller — immediate', () => {
+  afterEach(() => {
+    vi.useRealTimers();
   });
 
   it('applies immediate state transitions when delay is zero', () => {
@@ -26,6 +28,12 @@ describe('overlay open-close delay controller', () => {
     controller.requestClose(0);
 
     expect(states).toEqual([true, false]);
+  });
+});
+
+describe('overlay open-close delay controller — cancellation + lifecycle', () => {
+  afterEach(() => {
+    vi.useRealTimers();
   });
 
   it('cancels pending open when close is requested', () => {

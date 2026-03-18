@@ -136,6 +136,27 @@ class ActiveDescendantController implements TngActiveDescendantController {
     this.reconcileActiveAfterInvalidation(prev);
   }
 
+  private findNextEnabledId(fromIndex: number): string | null {
+    for (const it of this.items.slice(fromIndex + 1)) {
+      if (!it.disabled) return it.id;
+    }
+    return null;
+  }
+
+  private findPrevEnabledId(fromIndex: number): string | null {
+    for (const it of this.items.slice(0, fromIndex).reverse()) {
+      if (!it.disabled) return it.id;
+    }
+    return null;
+  }
+
+  private findFirstEnabledId(): string | null {
+    for (const it of this.items) {
+      if (!it.disabled) return it.id;
+    }
+    return null;
+  }
+
   private reconcileActiveAfterInvalidation(prevActive: string): void {
     const idx = this.items.findIndex((x) => x.id === prevActive);
 
@@ -146,32 +167,26 @@ class ActiveDescendantController implements TngActiveDescendantController {
     }
 
     // Prefer next enabled (DOM order)
-    for (let i = idx + 1; i < this.items.length; i++) {
-      const it = this.items[i]!;
-      if (!it.disabled) {
-        this.activeId = it.id;
-        return;
-      }
+    const next = this.findNextEnabledId(idx);
+    if (next !== null) {
+      this.activeId = next;
+      return;
     }
 
     // If loop=true, wrap to start
     if (this.loop) {
-      for (let i = 0; i < idx; i++) {
-        const it = this.items[i]!;
-        if (!it.disabled) {
-          this.activeId = it.id;
-          return;
-        }
+      const wrapped = this.findFirstEnabledId();
+      if (wrapped !== null) {
+        this.activeId = wrapped;
+        return;
       }
     }
 
     // Otherwise fallback to previous enabled
-    for (let i = idx - 1; i >= 0; i--) {
-      const it = this.items[i]!;
-      if (!it.disabled) {
-        this.activeId = it.id;
-        return;
-      }
+    const prev = this.findPrevEnabledId(idx);
+    if (prev !== null) {
+      this.activeId = prev;
+      return;
     }
 
     // No enabled items

@@ -21,7 +21,7 @@ export type TngListboxOption<TValue> = Readonly<{
   disabled?: boolean;
 }>;
 
-export type TngListboxConfig<TValue> = Readonly<{
+export type TngListboxConfig = Readonly<{
   /**
    * Defaults to 'single'.
    */
@@ -68,20 +68,30 @@ export type TngListboxConfig<TValue> = Readonly<{
   disabled?: boolean;
 }>;
 
-export type TngListboxState = Readonly<{
-  disabled: boolean;
-  activeId: string | null;
-  orderedIds: readonly string[];
-  disabledIds: ReadonlySet<string>;
-}>;
+export type TngListboxState = {
+  readonly disabled: boolean;
+  readonly activeId: string | null;
+  readonly orderedIds: readonly string[];
+  readonly disabledIds: readonly string[];
+};
 
 export type TngListboxAction =
-  | Readonly<{ type: 'register-option'; option: { id: string; disabled: boolean } }>
-  | Readonly<{ type: 'unregister-option'; id: string }>
-  | Readonly<{ type: 'set-disabled'; disabled: boolean }>
-  | Readonly<{ type: 'set-active'; id: string | null }>
-  | Readonly<{ type: 'nav'; action: TngListNavigationAction; event: TngListNavigationKeyboardEvent }>
-  | Readonly<{ type: 'click-option'; id: string; extendSelection: boolean }>;
+  | {
+      readonly type: 'register-option';
+      readonly option: {
+        readonly id: string;
+        readonly disabled: boolean;
+      };
+    }
+  | { readonly type: 'unregister-option'; readonly id: string }
+  | { readonly type: 'set-disabled'; readonly disabled: boolean }
+  | { readonly type: 'set-active'; readonly id: string | null }
+  | {
+      readonly type: 'nav';
+      readonly action: TngListNavigationAction;
+      readonly event: Readonly<TngListNavigationKeyboardEvent>;
+    }
+  | { readonly type: 'click-option'; readonly id: string; readonly extendSelection: boolean };
 
 export type TngListboxOutputs<TValue> = Readonly<{
   /**
@@ -103,12 +113,12 @@ export type TngListboxFocusAdapter = Readonly<{
   /**
    * Returns host attributes related to focus strategy (e.g. tabindex, aria-activedescendant).
    */
-  getHostAttributes(params: { activeId: string | null; disabled: boolean }): TngDomAttributes;
+  getHostAttributes(params: Readonly<{ activeId: string | null; disabled: boolean }>): TngDomAttributes;
 
   /**
    * Returns option attributes related to focus strategy (e.g. tabindex for roving).
    */
-  getOptionAttributes(params: { id: string; isActive: boolean; disabled: boolean }): TngDomAttributes;
+  getOptionAttributes(params: Readonly<{ id: string; isActive: boolean; disabled: boolean }>): TngDomAttributes;
 }>;
 
 export type TngListboxController<TValue> = Readonly<{

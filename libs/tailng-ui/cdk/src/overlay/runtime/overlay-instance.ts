@@ -1,88 +1,115 @@
-import { computeOverlayPosition } from '../positioning/positioning';
-import type { TngOverlayLayer, TngOverlayDismissReason } from '../layer-stack/layer-stack.types';
 import type { TngOverlayInstance, TngOverlayInstanceOptions } from './overlay-instance.types';
+import type { TngOverlayDismissReason, TngOverlayLayer } from '../layer-stack/layer-stack.types';
+
+import { computeOverlayPosition } from '../positioning/positioning';
+
+function createLayer(
+  options: TngOverlayInstanceOptions,
+  close: (reason: TngOverlayDismissReason) => void,
+): TngOverlayLayer {
+  return {
+    id: options.id,
+    modal: options.modal ?? false,
+    priority: options.priority,
+    dismissOnEscape: options.dismissOnEscape ?? true,
+    dismissOnOutsidePointer: options.dismissOnOutsidePointer ?? true,
+    containsTarget: options.floating.containsTarget,
+    onDismiss: (reason: TngOverlayDismissReason) => close(reason),
+  };
+}
+
+function applyOverlayPosition(options: TngOverlayInstanceOptions): void {
+  const result = computeOverlayPosition({
+    anchorRect: options.anchor.getRect(),
+    overlayRect: options.floating.getRect(),
+    viewportRect: options.getViewportRect(),
+    placement: options.placement,
+    offset: options.offset,
+    collision: options.collision,
+    direction: options.direction,
+  });
+
+  options.floating.applyPosition(result);
+}
+
+type TngOverlayStateAccess = Readonly<{
+  isOpen: () => boolean;
+  isDestroyed: () => boolean;
+  setOpen: (value: boolean) => void;
+  setDestroyed: (value: boolean) => void;
+}>;
+
+function ensureAlive(state: TngOverlayStateAccess, id: string): void {
+  if (state.isDestroyed()) {
+    throw new Error(`Overlay instance "${id}" is destroyed.`);
+  }
+}
+
+function updatePositionIfOpen(state: TngOverlayStateAccess, options: TngOverlayInstanceOptions): void {
+  if (!state.isOpen()) return;
+  applyOverlayPosition(options);
+}
+
+function closeIfOpen(
+  state: TngOverlayStateAccess,
+  options: TngOverlayInstanceOptions,
+  reason: TngOverlayDismissReason,
+): void {
+  if (!state.isOpen()) return;
+  state.setOpen(false);
+  options.runtime.unregisterLayer(options.id);
+  options.onOpenChange?.(false, reason);
+}
+
+function openIfClosed(
+  state: TngOverlayStateAccess,
+  options: TngOverlayInstanceOptions,
+  layer: TngOverlayLayer,
+): void {
+  if (state.isOpen()) return;
+  state.setOpen(true);
+  options.runtime.registerLayer(layer);
+  updatePositionIfOpen(state, options);
+  options.onOpenChange?.(true, 'programmatic');
+}
 
 export function createOverlayInstance(options: TngOverlayInstanceOptions): TngOverlayInstance {
   let open = false;
   let destroyed = false;
 
-  const dismissOnEscape = options.dismissOnEscape ?? true;
-  const dismissOnOutsidePointer = options.dismissOnOutsidePointer ?? true;
+  const state: TngOverlayStateAccess = Object.freeze({
+    isOpen: () => open,
+    isDestroyed: () => destroyed,
+    setOpen: (value: boolean) => (open = value),
+    setDestroyed: (value: boolean) => (destroyed = value),
+  });
 
-  const layer: TngOverlayLayer = {
-    id: options.id,
-    modal: options.modal ?? false,
-    priority: options.priority,
-    dismissOnEscape,
-    dismissOnOutsidePointer,
-    containsTarget: options.floating.containsTarget,
-    onDismiss: (reason: TngOverlayDismissReason) => {
-      closeInternal(reason);
-    },
-  };
-
-  function ensureAlive(): void {
-    if (destroyed) throw new Error(`Overlay instance "${options.id}" is destroyed.`);
-  }
-
-  function updatePosition(): void {
-    if (!open) return;
-
-    const result = computeOverlayPosition({
-      anchorRect: options.anchor.getRect(),
-      overlayRect: options.floating.getRect(),
-      viewportRect: options.getViewportRect(),
-      placement: options.placement,
-      offset: options.offset,
-      collision: options.collision,
-      direction: options.direction,
-    });
-
-    options.floating.applyPosition(result);
-  }
-
-  function openInternal(): void {
-    if (open) return;
-    open = true;
-
-    options.runtime.registerLayer(layer);
-    updatePosition();
-    options.onOpenChange?.(true, 'programmatic');
-  }
-
-  function closeInternal(reason: TngOverlayDismissReason): void {
-    if (!open) return;
-    open = false;
-
-    options.runtime.unregisterLayer(options.id);
-    options.onOpenChange?.(false, reason);
-  }
-
-  function destroy(): void {
-    if (destroyed) return;
-    destroyed = true;
-    closeInternal('programmatic');
-  }
+  const close = (reason: TngOverlayDismissReason): void => closeIfOpen(state, options, reason);
+  const layer = createLayer(options, close);
 
   return Object.freeze({
     isOpen: () => open,
     open: () => {
-      ensureAlive();
-      openInternal();
+      ensureAlive(state, options.id);
+      openIfClosed(state, options, layer);
     },
     close: (reason: TngOverlayDismissReason = 'programmatic') => {
-      ensureAlive();
-      closeInternal(reason);
+      ensureAlive(state, options.id);
+      close(reason);
     },
     toggle: () => {
-      ensureAlive();
-      if (open) closeInternal('programmatic');
-      else openInternal();
+      ensureAlive(state, options.id);
+      if (open) close('programmatic');
+      else openIfClosed(state, options, layer);
     },
     updatePosition: () => {
-      ensureAlive();
-      updatePosition();
+      ensureAlive(state, options.id);
+      updatePositionIfOpen(state, options);
     },
-    destroy,
+    destroy: () => {
+      if (destroyed) return;
+      state.setDestroyed(true);
+      close('programmatic');
+    },
   });
 }

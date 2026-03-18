@@ -1,0 +1,6 @@
+{
+  "eslint.useFlatConfig": true,
+  "eslint.workingDirectories": [{ "mode": "auto" }],
+  "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact", "html"],
+  "eslint.runtime": "/Users/prince/.nvm/versions/node/v22.12.0/bin/node"
+}

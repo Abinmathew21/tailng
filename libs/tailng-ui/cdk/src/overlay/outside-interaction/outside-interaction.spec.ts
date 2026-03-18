@@ -1,46 +1,53 @@
 import { expect, it, vi } from 'vitest';
-import {
-  createOverlayInteractionController,
-  createOverlayInteractionDocument,
-} from './outside-interaction';
+import { createOverlayInteractionController } from './outside-interaction';
 import type {
-  TngOverlayInteractionDomDocument,
+  TngOverlayInteractionDocument,
   TngOverlayKeyboardEvent,
   TngOverlayPointerEvent,
+  TngOverlayFocusEvent,
 } from './outside-interaction.types';
 import { createOverlayLayerStack } from '../layer-stack/layer-stack';
 
-type TngFakeDomListeners = Readonly<{
-  keydown: Set<(event: unknown) => void>;
-  pointerdown: Set<(event: unknown) => void>;
-  focusin: Set<(event: unknown) => void>;
+type TngFakeInteractionListeners = Readonly<{
+  keydown: Set<(event: TngOverlayKeyboardEvent) => void>;
+  pointerdown: Set<(event: TngOverlayPointerEvent) => void>;
+  focusin: Set<(event: TngOverlayFocusEvent) => void>;
 }>;
 
-function createFakeDomDocument(): Readonly<{
-  documentRef: TngOverlayInteractionDomDocument;
-  listeners: TngFakeDomListeners;
+function createFakeInteractionDocument(): Readonly<{
+  documentRef: TngOverlayInteractionDocument;
+  listeners: TngFakeInteractionListeners;
 }> {
-  const listeners: {
-    keydown: Set<(event: unknown) => void>;
-    pointerdown: Set<(event: unknown) => void>;
-    focusin: Set<(event: unknown) => void>;
-  } = {
-    keydown: new Set(),
-    pointerdown: new Set(),
-    focusin: new Set(),
+  const listeners = {
+    keydown: new Set<(event: TngOverlayKeyboardEvent) => void>(),
+    pointerdown: new Set<(event: TngOverlayPointerEvent) => void>(),
+    focusin: new Set<(event: TngOverlayFocusEvent) => void>(),
+  } as const;
+
+  const documentRef: TngOverlayInteractionDocument = {
+    addKeydownListener: (listener) => {
+      listeners.keydown.add(listener);
+    },
+    removeKeydownListener: (listener) => {
+      listeners.keydown.delete(listener);
+    },
+
+    addPointerDownListener: (listener) => {
+      listeners.pointerdown.add(listener);
+    },
+    removePointerDownListener: (listener) => {
+      listeners.pointerdown.delete(listener);
+    },
+
+    addFocusInListener: (listener) => {
+      listeners.focusin.add(listener);
+    },
+    removeFocusInListener: (listener) => {
+      listeners.focusin.delete(listener);
+    },
   };
 
-  return {
-    documentRef: {
-      addEventListener: (type, listener): void => {
-        listeners[type].add(listener);
-      },
-      removeEventListener: (type, listener): void => {
-        listeners[type].delete(listener);
-      },
-    },
-    listeners,
-  };
+  return { documentRef, listeners };
 }
 
 it('dismisses top layer on escape', () => {
@@ -112,24 +119,26 @@ it('ignores inside pointer for top layer', () => {
   expect(onDismiss).not.toHaveBeenCalled();
 });
 
-it('start and stop attach listeners through document adapter', () => {
+it('start and stop attach listeners through interaction document adapter', () => {
   const stack = createOverlayLayerStack();
-  const fakeDocument = createFakeDomDocument();
-  const interactionDocument = createOverlayInteractionDocument(fakeDocument.documentRef);
+  const fake = createFakeInteractionDocument();
+
   const controller = createOverlayInteractionController({
-    documentRef: interactionDocument,
+    documentRef: fake.documentRef,
     layerStack: stack,
   });
 
   controller.start();
   expect(controller.isStarted()).toBe(true);
-  expect(fakeDocument.listeners.keydown.size).toBe(1);
-  expect(fakeDocument.listeners.pointerdown.size).toBe(1);
+  expect(fake.listeners.keydown.size).toBe(1);
+  expect(fake.listeners.pointerdown.size).toBe(1);
+  expect(fake.listeners.focusin.size).toBe(1);
 
   controller.stop();
   expect(controller.isStarted()).toBe(false);
-  expect(fakeDocument.listeners.keydown.size).toBe(0);
-  expect(fakeDocument.listeners.pointerdown.size).toBe(0);
+  expect(fake.listeners.keydown.size).toBe(0);
+  expect(fake.listeners.pointerdown.size).toBe(0);
+  expect(fake.listeners.focusin.size).toBe(0);
 });
 
 it('uses composedPath when provided', () => {

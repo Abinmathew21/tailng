@@ -165,7 +165,7 @@ class FocusScopeController implements TngFocusScopeController {
     return this.getFallbackFocusCandidate(members);
   }
 
-  private getFallbackFocusCandidate(members: ReadonlySet<string>): string | null {
+  private getFallbackFocusCandidate(members: Readonly<Set<string>>): string | null {
     if (this.lastFocusedId !== null && members.has(this.lastFocusedId)) {
       return this.lastFocusedId;
     }
@@ -199,10 +199,10 @@ class FocusScopeController implements TngFocusScopeController {
     return result;
   }
 
-  private getMemberIdSet(): ReadonlySet<string> {
+  private getMemberIdSet(): Readonly<Set<string>> {
     const ids = this.getMemberIds();
     if (ids.length === 0) {
-      return new Set();
+      return new Set<string>();
     }
     return new Set(ids);
   }

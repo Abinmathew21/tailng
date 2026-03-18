@@ -82,7 +82,7 @@ class DrawerHostComponent {
   standalone: true,
   imports: [TngDrawerComponent, TngDrawerContainer, TngDrawerContent],
   template: `
-    <section tngDrawerContainer [animate]="false">
+    <section tngDrawerContainer [animate]="false" [closeOthersOnOpen]="false">
       <tng-drawer
         #drawerStart="tngDrawerComponent"
         data-testid="drawer-start"

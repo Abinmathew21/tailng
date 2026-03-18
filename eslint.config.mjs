@@ -189,6 +189,17 @@ export default [
       'unused-imports/no-unused-vars': 'error',
     },
   },
+  {
+    files: ['**/*.spec.ts', '**/*.test.ts', '**/__tests__/**/*.ts'],
+    rules: {
+      'max-lines-per-function': 'off',
+      complexity: 'off',
+      'max-params': 'off',
+      '@typescript-eslint/prefer-readonly': 'off',
+      '@typescript-eslint/prefer-readonly-parameter-types': 'off',
+      '@typescript-eslint/explicit-function-return-type': 'off',
+    },
+  },
 
   {
     files: ['apps/**/*.ts'],
@@ -215,6 +226,7 @@ export default [
       'import/no-default-export': 'off',
     },
   },
+  
 
   prettier,
 ];

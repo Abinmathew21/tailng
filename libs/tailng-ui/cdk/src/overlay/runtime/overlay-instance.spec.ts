@@ -1,6 +1,6 @@
 import { expect, it, vi } from 'vitest';
-import { createOverlayRuntime } from './overlay-runtime';
 import { createOverlayInstance } from './overlay-instance';
+import { createOverlayRuntime } from './overlay-runtime';
 import type { TngOverlayRect } from '../positioning/positioning.types';
 
 function rect(partial: Partial<TngOverlayRect>): TngOverlayRect {
