@@ -1,4 +1,5 @@
-import { Component, ElementRef, ViewChild, signal } from '@angular/core';
+import type { ElementRef} from '@angular/core';
+import { Component, ViewChild, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { afterEach, describe, expect, it } from 'vitest';
 import { TngPress, type TngPressType } from '../tng-press';

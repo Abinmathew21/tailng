@@ -8,6 +8,7 @@ import {
   input,
   output,
 } from '@angular/core';
+import type { TngKeyboardEvent, TngMouseEvent } from '@tailng-ui/cdk';
 
 function normalizeString(value: string | null | undefined): string | null {
   if (value === undefined || value === null) {
@@ -104,7 +105,7 @@ export class TngTagClose {
   });
 
   @HostListener('click', ['$event'])
-  protected onClick(event: MouseEvent): void {
+  protected onClick(event: TngMouseEvent): void {
     if (this.suppressNextClick) {
       this.suppressNextClick = false;
       event.preventDefault();
@@ -129,7 +130,7 @@ export class TngTagClose {
   }
 
   @HostListener('keydown', ['$event'])
-  protected onKeydown(event: KeyboardEvent): void {
+  protected onKeydown(event: TngKeyboardEvent): void {
     if (event.key !== 'Enter' && event.key !== ' ') {
       return;
     }

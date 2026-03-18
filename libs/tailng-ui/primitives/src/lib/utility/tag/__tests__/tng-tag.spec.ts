@@ -18,8 +18,10 @@ function getByTestId<T extends Element>(
 function queryByTestId<T extends Element>(
   fixture: { nativeElement: HTMLElement },
   testId: string,
+  ctor: new (...args: unknown[]) => T,
 ): T | null {
-  return fixture.nativeElement.querySelector(`[data-testid="${testId}"]`) as T | null;
+  const el = fixture.nativeElement.querySelector(`[data-testid="${testId}"]`);
+  return el instanceof ctor ? el : null;
 }
 
 function dispatchEvent(target: EventTarget, type: string): Event {
@@ -129,7 +131,7 @@ describe('tng-tag primitives', () => {
     fixture.componentInstance.showClose.set(false);
     fixture.detectChanges();
 
-    expect(queryByTestId(fixture, 'tag-close')).toBeNull();
+    expect(queryByTestId(fixture, 'tag-close', HTMLButtonElement)).toBeNull();
   });
 
   it('uses default accessible label on close button when explicit label is not provided', () => {
