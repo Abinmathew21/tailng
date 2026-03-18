@@ -1,10 +1,11 @@
+import type {
+  OnDestroy,
+  OnInit} from '@angular/core';
 import {
   Directive,
   ElementRef,
   HostBinding,
   HostListener,
-  OnDestroy,
-  OnInit,
   afterNextRender,
   booleanAttribute,
   effect,
@@ -358,7 +359,7 @@ export class TngPopover implements OnDestroy, OnInit {
     }
 
     const panel = this.panelElement;
-    if (panel === null || !panel.contains(target)) {
+    if (!panel?.contains(target)) {
       return;
     }
 

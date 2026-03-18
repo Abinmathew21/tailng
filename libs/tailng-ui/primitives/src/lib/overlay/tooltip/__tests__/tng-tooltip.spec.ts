@@ -1,6 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { afterEach, describe, expect, it, vi } from 'vitest';
+import { TngPopover, TngPopoverPanel, TngPopoverTrigger } from '../../popover/tng-popover';
 import {
   normalizeTngTooltipDelay,
   resolveTngTooltipAriaDescribedBy,
@@ -12,15 +13,14 @@ import {
   type TngTooltipSide,
   TngTooltipTrigger,
 } from '../tng-tooltip';
-import { TngPopover, TngPopoverPanel, TngPopoverTrigger } from '../../popover/tng-popover';
 
 function getByTestId<T extends Element>(fixture: { nativeElement: HTMLElement }, testId: string): T {
-  const element = fixture.nativeElement.querySelector(`[data-testid="${testId}"]`) as T | null;
+  const element = fixture.nativeElement.querySelector(`[data-testid="${testId}"]`);
   if (element === null) {
     throw new Error(`Expected element [data-testid="${testId}"] to exist.`);
   }
 
-  return element;
+  return element as T;
 }
 
 function createRect(left: number, top: number, width: number, height: number): DOMRect {
@@ -68,10 +68,10 @@ function createRect(left: number, top: number, width: number, height: number): D
   `,
 })
 class TooltipHarnessComponent {
-  readonly open = signal(false);
-  readonly disabled = signal(false);
-  readonly side = signal<TngTooltipSide>('top');
-  readonly tooltipId = signal('tooltip-harness');
+  public readonly open = signal(false);
+  public readonly disabled = signal(false);
+  public readonly side = signal<TngTooltipSide>('top');
+  public readonly tooltipId = signal('tooltip-harness');
 }
 
 @Component({
@@ -92,11 +92,11 @@ class TooltipHarnessComponent {
   `,
 })
 class TooltipRootHarnessComponent {
-  readonly openDelay = signal(0);
-  readonly closeDelay = signal(0);
-  readonly disabled = signal(false);
-  readonly side = signal<TngTooltipSide>('bottom');
-  readonly tooltipId = signal('tooltip-root-harness');
+  public readonly openDelay = signal(0);
+  public readonly closeDelay = signal(0);
+  public readonly disabled = signal(false);
+  public readonly side = signal<TngTooltipSide>('bottom');
+  public readonly tooltipId = signal('tooltip-root-harness');
 }
 
 @Component({
