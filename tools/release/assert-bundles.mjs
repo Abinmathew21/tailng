@@ -10,7 +10,27 @@ const selected = new Set(
 );
 
 const DIST = path.resolve("dist");
-const libDist = (name) => path.join(DIST, "libs", name);
+
+// Nx outputs libraries under dist/libs/<scope>/<project>
+// e.g. dist/libs/tailng-ui/cdk, dist/libs/tailng/cli
+const TAILNG_UI_LIBS = new Set([
+  "cdk",
+  "primitives",
+  "components",
+  "theme",
+  "icons",
+  "registry",
+  "charts",
+]);
+
+const libDist = (name) => {
+  if (TAILNG_UI_LIBS.has(name)) {
+    return path.join(DIST, "libs", "tailng-ui", name);
+  }
+
+  // fallback for other scopes (e.g. dist/libs/tailng/cli)
+  return path.join(DIST, "libs", "tailng", name);
+};
 
 const exists = (p) => fs.existsSync(p);
 const stat = (p) => fs.statSync(p);
