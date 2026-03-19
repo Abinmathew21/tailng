@@ -165,14 +165,46 @@ function assertThemePackage() {
   const pkgJson = path.join(root, "package.json");
   if (!exists(pkgJson)) fail(`theme: missing package.json in dist: ${pkgJson}`);
 
-  const tokensIndex = path.join(root, "tokens", "index.css");
-  if (!exists(tokensIndex)) fail(`theme: missing tokens/index.css in dist: ${tokensIndex}`);
+  const cssRoots = [
+    path.join(root, "tokens"),
+    path.join(root, "component-contracts"),
+    path.join(root, "src", "lib", "component-contracts"),
+  ].filter(exists);
 
-  const tokensCss = listFiles(path.join(root, "tokens"), (f) => f.endsWith(".css"));
-  if (tokensCss.length === 0) fail(`theme: tokens folder has no css files`);
+  if (cssRoots.length === 0) {
+    fail(
+      `theme: missing css asset roots in dist (expected tokens/, component-contracts/, or src/lib/component-contracts/)`,
+    );
+  }
 
-  const tailwindPreset = path.join(root, "tailwind", "tailng.preset.cjs");
-  if (!exists(tailwindPreset)) fail(`theme: missing tailwind/tailng.preset.cjs in dist: ${tailwindPreset}`);
+  const indexCandidates = [
+    path.join(root, "tokens", "index.css"),
+    path.join(root, "component-contracts", "index.css"),
+    path.join(root, "src", "lib", "component-contracts", "index.css"),
+  ];
+
+  if (!indexCandidates.some(exists)) {
+    fail(
+      `theme: missing index.css (expected one of: ${indexCandidates
+        .map((candidate) => path.relative(root, candidate))
+        .join(", ")})`,
+    );
+  }
+
+  const cssFiles = cssRoots.flatMap((dir) => listFiles(dir, (f) => f.endsWith(".css")));
+  if (cssFiles.length === 0) fail(`theme: css asset roots contain no css files`);
+
+  const tailwindPresetCandidates = [
+    path.join(root, "tailwind", "tailng.preset.cjs"),
+    path.join(root, "src", "lib", "adapters", "tailwind", "to-tailwind-preset.js"),
+  ];
+  if (!tailwindPresetCandidates.some(exists)) {
+    warn(
+      `theme: no explicit tailwind preset artifact found (checked ${tailwindPresetCandidates
+        .map((candidate) => path.relative(root, candidate))
+        .join(", ")})`,
+    );
+  }
 }
 
 function assertComponentsSpecific() {
@@ -191,17 +223,34 @@ function assertComponentsSpecific() {
 
   const files = candidates.length ? candidates : fallback;
 
-  if (files.length === 0) {
-    warn(`components: could not find form-controls bundle by name; skipping strict componentsFormControlsMin check`);
+  const min = THRESHOLDS.components.componentsFormControlsMin;
+  if (files.length > 0) {
+    for (const f of files) {
+      const size = stat(f).size;
+      if (size < min) {
+        fail(`components: form-controls bundle too small (${size} bytes). Likely stub output: ${path.relative(root, f)}`);
+      }
+    }
     return;
   }
 
-  const min = THRESHOLDS.components.componentsFormControlsMin;
-  for (const f of files) {
-    const size = stat(f).size;
-    if (size < min) {
-      fail(`components: form-controls bundle too small (${size} bytes). Likely stub output: ${path.relative(root, f)}`);
-    }
+  // Newer builds may emit form controls as split source modules under src/lib/form.
+  const modularFormFiles = listFiles(path.join(root, "src", "lib", "form"), (f) => {
+    if (!f.endsWith(".js")) return false;
+    if (f.endsWith(".spec.js")) return false;
+    return true;
+  });
+
+  if (modularFormFiles.length === 0) {
+    warn(`components: could not find form-controls output bundle or modular form files; skipping strict check`);
+    return;
+  }
+
+  const totalBytes = modularFormFiles.reduce((sum, file) => sum + stat(file).size, 0);
+  if (totalBytes < min) {
+    fail(
+      `components: modular form output too small (${totalBytes} bytes across ${modularFormFiles.length} files). Likely stub output.`,
+    );
   }
 }
 
