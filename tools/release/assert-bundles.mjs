@@ -56,6 +56,48 @@ function listFiles(dir, predicate) {
   return out;
 }
 
+function resolveTypesFiles(root) {
+  const candidates = [
+    path.join(root, "types"),
+    path.join(root, "src"),
+    root,
+  ];
+
+  for (const dir of candidates) {
+    if (!exists(dir)) continue;
+
+    const dts = listFiles(dir, (f) => f.endsWith(".d.ts"));
+    if (dts.length > 0) {
+      return { baseDir: dir, files: dts };
+    }
+  }
+
+  return { baseDir: root, files: [] };
+}
+
+function resolveFesmFiles(root) {
+  const candidates = [
+    path.join(root, "fesm2022"),
+    path.join(root, "esm2022"),
+    path.join(root, "fesm2015"),
+    path.join(root, "esm2015"),
+    path.join(root, "bundles"),
+    path.join(root, "src"),
+    root,
+  ];
+
+  for (const dir of candidates) {
+    if (!exists(dir)) continue;
+
+    const mjs = listFiles(dir, (f) => f.endsWith(".mjs") || f.endsWith(".js"));
+    if (mjs.length > 0) {
+      return { baseDir: dir, files: mjs };
+    }
+  }
+
+  return { baseDir: root, files: [] };
+}
+
 /**
  * Per-package sanity thresholds
  * - cdk entrypoints can be tiny but valid (e.g., 1–2 directives/utilities)
@@ -76,33 +118,29 @@ function assertAngularPackage(name, opts) {
   const pkgJson = path.join(root, "package.json");
   if (!exists(pkgJson)) fail(`Missing ${name} package.json in dist: ${pkgJson}`);
 
-  // Types
-  const typesDir = path.join(root, "types");
-  if (!exists(typesDir)) fail(`${name}: missing types folder: ${typesDir}`);
+  // Types (ng-packagr may emit `types/`, or put d.ts under `src/`, or at root)
+  const types = resolveTypesFiles(root);
+  if (types.files.length === 0) {
+    fail(`${name}: no .d.ts files found (expected under types/, src/, or package root)`);
+  }
 
-  const dtsFiles = listFiles(typesDir, (f) => f.endsWith(".d.ts"));
-  if (dtsFiles.length === 0) fail(`${name}: no .d.ts files under ${typesDir}`);
-
-  for (const f of dtsFiles) {
+  for (const f of types.files) {
     const size = stat(f).size;
     if (size < opts.minDts) {
       warn(`${name}: small d.ts: ${path.relative(root, f)} (${size} bytes)`);
     }
   }
 
-  // FESM
-  const fesmDir = path.join(root, "fesm2022");
-  if (!exists(fesmDir)) fail(`${name}: missing fesm2022 folder: ${fesmDir}`);
+  // JS bundles (ng-packagr usually emits fesm2022/, but some builds may place JS under esm*/bundles/src)
+  const fesm = resolveFesmFiles(root);
+  if (fesm.files.length === 0) {
+    fail(`${name}: no .mjs/.js files found (expected under fesm2022/, esm2022/, bundles/, src/, or package root)`);
+  }
 
-  const mjsFiles = listFiles(fesmDir, (f) => f.endsWith(".mjs"));
-  if (mjsFiles.length === 0) fail(`${name}: no .mjs files under ${fesmDir}`);
-
-  for (const f of mjsFiles) {
+  for (const f of fesm.files) {
     const size = stat(f).size;
     if (size < opts.minMjs) {
-      fail(
-        `${name}: suspiciously small bundle: ${path.relative(root, f)} (${size} bytes)`
-      );
+      fail(`${name}: suspiciously small bundle: ${path.relative(root, f)} (${size} bytes)`);
     }
   }
 }
@@ -161,17 +199,13 @@ function assertCdkPackage() {
   const pkgJson = path.join(root, "package.json");
   if (!exists(pkgJson)) fail(`cdk: missing package.json in dist`);
 
-  const typesDir = path.join(root, "types");
-  if (!exists(typesDir)) fail(`cdk: missing types folder`);
+  const types = resolveTypesFiles(root);
+  if (types.files.length === 0) fail(`cdk: no .d.ts files found (expected under types/, src/, or package root)`);
 
-  const dtsFiles = listFiles(typesDir, (f) => f.endsWith(".d.ts"));
-  if (dtsFiles.length === 0) fail(`cdk: no .d.ts files found`);
+  const fesm = resolveFesmFiles(root);
+  if (fesm.files.length === 0) fail(`cdk: no .mjs/.js files found (expected under fesm2022/, esm2022/, bundles/, src/, or package root)`);
 
-  const fesmDir = path.join(root, "fesm2022");
-  if (!exists(fesmDir)) fail(`cdk: missing fesm2022 folder`);
-
-  const mjsFiles = listFiles(fesmDir, (f) => f.endsWith(".mjs"));
-  if (mjsFiles.length === 0) fail(`cdk: no .mjs files found`);
+  const mjsFiles = fesm.files;
 
   // Require at least ONE non-trivial bundle (guards against total stub publish)
   const hasRealBundle = mjsFiles.some((f) => stat(f).size > 700);
