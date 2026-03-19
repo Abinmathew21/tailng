@@ -1,6 +1,10 @@
 {
   "name": "@tailng-ui/charts",
   "version": "0.1.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tailng/tailng-ui"
+  },
   "peerDependencies": {
     "@angular/core": "^21.1.0",
     "echarts": "^5.0.0",

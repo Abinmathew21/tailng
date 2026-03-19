@@ -1,6 +1,10 @@
 {
   "name": "@tailng-ui/registry",
   "version": "0.1.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tailng/tailng-ui"
+  },
   "peerDependencies": {
     "tslib": "^2.3.0"
   },
