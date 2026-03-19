@@ -19,17 +19,15 @@
   ],
   "targets": {
     "build": {
-      "executor": "@nx/js:tsc",
+      "executor": "nx:run-commands",
+      "dependsOn": [
+        "^build"
+      ],
       "outputs": [
-        "{options.outputPath}"
+        "{workspaceRoot}/dist/libs/tailng-ui/primitives"
       ],
       "options": {
-        "outputPath": "dist/libs/tailng-ui/primitives",
-        "main": "libs/tailng-ui/primitives/src/index.ts",
-        "tsConfig": "libs/tailng-ui/primitives/tsconfig.lib.json",
-        "assets": [
-          "libs/tailng-ui/primitives/*.md"
-        ]
+        "command": "node tools/build/build-primitives.mjs"
       }
     },
     "nx-release-publish": {
