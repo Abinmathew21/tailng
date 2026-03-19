@@ -1,52 +1,104 @@
+# @tailng-ui/icons
+
+Icon abstraction layer for TailNG UI, with built-in `lucide` support, custom pack registration, and a consistent `<tng-icon>` API for Angular 21+.
+
 <div align="center">
   <img
     src="https://raw.githubusercontent.com/tailng/tailng-ui/main/apps/tailng-ui/docs/src/assets/logo.svg"
-    width="96"
+    width="120"
     alt="TailNG logo"
   />
+
+  <h1>@tailng-ui/icons</h1>
+
+  <p>
+    <strong>Scalability of Angular. Simplicity of Tailwind.</strong>
+  </p>
+
+  <p>
+    Icon pack abstraction and rendering utilities powered by <code>@ng-icons/core</code>.
+  </p>
+
+  <p>
+    <a href="https://github.com/tailng/tailng-ui">GitHub</a>
+    ·
+    <a href="https://tailng.dev">Documentation</a>
+  </p>
 </div>
 
-# @tailng-ui/icons
+[![PROD - Release & Deploy (Tailng)](https://github.com/tailng/tailng-ui/actions/workflows/prod-build-deploy.yml/badge.svg)](https://github.com/tailng/tailng-ui/actions/workflows/prod-build-deploy.yml)
+[![NPM Version](https://img.shields.io/npm/v/@tailng-ui/icons.svg)](https://www.npmjs.com/package/@tailng-ui/icons)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Icon abstraction layer for TailNG.
-`tng-icon` is rendered using `@ng-icons/core` internally.
+`@tailng-ui/icons` provides the `TngIcon` component and icon-pack utilities such as `provideTngIcons(...)` and `createTngIconPack(...)`.
 
-## Contract
+## Installation
 
-- Built-in packs are always available internally: `lucide`.
-- Zero-config default pack is `lucide`.
-- `defaultPack` is optional in `provideTngIcons`.
-- Custom packs can be added without re-registering built-in packs.
-- Built-ins are sourced from `@ng-icons/lucide` via generated loaders (no inline SVG constants).
-- No implicit icon aliases are provided. Use the real icon names from each pack.
-- Pack name `lucide` is reserved unless `allowBuiltinOverride: true`.
-- Built-in pack references are normalized case-insensitively:
-  - `Lucide:bell` resolves as `lucide:bell`
+### pnpm
 
-## Usage
-
-### Zero config
-
-```html
-<tng-icon icon="bell" />
+```bash
+pnpm add @tailng-ui/icons
 ```
 
-This resolves to `lucide:bell`.
+### yarn
+
+```bash
+yarn add @tailng-ui/icons
+```
+
+### npm
+
+```bash
+npm install @tailng-ui/icons
+```
+
+Peer dependencies:
+
+- `@angular/core` `^21.1.0`
+- `tslib` `^2.3.0`
+
+## Quick start
+
+```ts
+import { ApplicationConfig } from '@angular/core';
+import { provideTngIcons } from '@tailng-ui/icons';
+
+export const appConfig: ApplicationConfig = {
+  providers: [provideTngIcons()],
+};
+```
+
+```ts
+import { Component } from '@angular/core';
+import { TngIcon } from '@tailng-ui/icons';
+
+@Component({
+  standalone: true,
+  imports: [TngIcon],
+  template: `<tng-icon icon="bell" />`,
+})
+export class ExampleComponent {}
+```
+
+With zero config, `icon="bell"` resolves to `lucide:bell`.
+
+## Core contract
+
+- Built-in pack `lucide` is available by default.
+- Default pack is `lucide` unless overridden.
+- `defaultPack` is optional in `provideTngIcons(...)`.
+- Custom packs can be added without re-registering built-ins.
+- Built-ins are loaded via generated loaders from `@ng-icons/lucide`.
+- No implicit aliases are provided; use canonical icon names.
+- Pack name `lucide` is reserved unless `allowBuiltinOverride: true`.
+- Built-in pack references normalize case-insensitively (for example `Lucide:bell` => `lucide:bell`).
+
+## Custom packs
 
 ### Custom default pack + extra packs
 
 ```ts
 import { createTngIconPack, provideTngIcons } from '@tailng-ui/icons';
-
-export const appConfig = {
-  providers: [
-    provideTngIcons({
-      // Optional: if omitted, default is "lucide"
-      defaultPack: 'customPack1',
-      packs: [customPack1, customPack2],
-    }),
-  ],
-};
 
 const customPack1 = createTngIconPack('customPack1', {
   bell: async () => '<svg viewBox="0 0 24 24"></svg>',
@@ -55,6 +107,15 @@ const customPack1 = createTngIconPack('customPack1', {
 const customPack2 = createTngIconPack('customPack2', {
   check: async () => '<svg viewBox="0 0 24 24"></svg>',
 });
+
+export const appConfig = {
+  providers: [
+    provideTngIcons({
+      defaultPack: 'customPack1',
+      packs: [customPack1, customPack2],
+    }),
+  ],
+};
 ```
 
 ### Add Bootstrap as custom pack
@@ -72,8 +133,19 @@ export const appConfig = {
 };
 ```
 
-## Regenerate Built-In Loader Maps
+## Development
+
+Regenerate built-in loader maps:
 
 ```bash
 pnpm icons:generate
 ```
+
+## Documentation
+
+- Package docs: [https://tailng.dev](https://tailng.dev)
+- Repository: [https://github.com/tailng/tailng-ui](https://github.com/tailng/tailng-ui)
+
+## License
+
+See the repository license at the root of the monorepo.

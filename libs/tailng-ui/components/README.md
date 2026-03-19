@@ -1,26 +1,104 @@
+# @tailng-ui/components
+
+Ready-to-use styled Angular components for TailNG UI, built on top of `@tailng-ui/primitives` with accessibility-first behavior and clean APIs.
+
 <div align="center">
   <img
     src="https://raw.githubusercontent.com/tailng/tailng-ui/main/apps/tailng-ui/docs/src/assets/logo.svg"
-    width="96"
+    width="120"
     alt="TailNG logo"
   />
+
+  <h1>@tailng-ui/components</h1>
+
+  <p>
+    <strong>Scalability of Angular. Simplicity of Tailwind.</strong>
+  </p>
+
+  <p>
+    Installable component wrappers for Angular 21+ applications and design systems.
+  </p>
+
+  <p>
+    <a href="https://github.com/tailng/tailng-ui">GitHub</a>
+    ·
+    <a href="https://tailng.dev">Documentation</a>
+  </p>
 </div>
 
-# @tailng-ui/components
+[![PROD - Release & Deploy (Tailng)](https://github.com/tailng/tailng-ui/actions/workflows/prod-build-deploy.yml/badge.svg)](https://github.com/tailng/tailng-ui/actions/workflows/prod-build-deploy.yml)
+[![NPM Version](https://img.shields.io/npm/v/@tailng-ui/components.svg)](https://www.npmjs.com/package/@tailng-ui/components)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Owned, installable components built on top of `@tailng-ui/primitives`.
+`@tailng-ui/components` provides styled components across navigation, form, layout, overlay, feedback, and utility categories.
 
-## TngButton
+## Installation
 
-`TngButton` provides a styled wrapper over the `tngPress` primitive behavior.
+### pnpm
+
+```bash
+pnpm add @tailng-ui/components @tailng-ui/primitives
+```
+
+### yarn
+
+```bash
+yarn add @tailng-ui/components @tailng-ui/primitives
+```
+
+### npm
+
+```bash
+npm install @tailng-ui/components @tailng-ui/primitives
+```
+
+Peer dependencies:
+
+- `@angular/core` `^21.1.0`
+- `tslib` `^2.3.0`
+
+## Quick example
 
 ```ts
 import { Component } from '@angular/core';
 import { TngButton } from '@tailng-ui/components';
 
 @Component({
+  standalone: true,
   imports: [TngButton],
   template: `<tng-button tone="success">Continue</tng-button>`,
 })
 export class ExampleComponent {}
 ```
+
+## What you get
+
+- **Styled wrappers** over TailNG primitives with production-ready defaults.
+- **Accessible behavior** inherited from headless primitive contracts.
+- **Composable APIs** that remain flexible for app-specific customization.
+- **Consistent package surface** across component groups.
+
+## Package surface
+
+The root package exports component groups:
+
+- `navigation`
+- `form`
+- `layout`
+- `overlay`
+- `feedback`
+- `utility`
+
+## When to use components vs primitives
+
+- Use `@tailng-ui/components` when you want ready-made styled building blocks.
+- Use `@tailng-ui/primitives` when you need full control over markup and styling.
+
+## Documentation
+
+- Package docs: [https://tailng.dev](https://tailng.dev)
+- Repository: [https://github.com/tailng/tailng-ui](https://github.com/tailng/tailng-ui)
+
+## License
+
+See the repository license at the root of the monorepo.
