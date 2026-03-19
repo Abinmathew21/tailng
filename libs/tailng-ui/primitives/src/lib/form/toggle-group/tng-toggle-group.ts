@@ -44,6 +44,7 @@ function normalizeStringArray(value: readonly string[] | null | undefined): read
 @Directive({
   selector: '[tngToggleGroup]',
   exportAs: 'tngToggleGroup',
+  standalone: true,
 })
 export class TngToggleGroup implements OnInit {
   private readonly internalSingleValue = signal<string | null>(null);

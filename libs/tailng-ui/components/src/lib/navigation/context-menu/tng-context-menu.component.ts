@@ -5,6 +5,7 @@ import {
 } from '@tailng-ui/primitives';
 
 @Component({
+  standalone: true,
   selector: 'tng-context-menu',
   hostDirectives: [
     {

@@ -36,6 +36,7 @@ function normalizeOptionalBooleanInput(value: OptionalBooleanInput): boolean | u
 }
 
 @Component({
+  standalone: true,
   selector: 'tng-popover',
   imports: [TngPopoverPrimitive, TngPopoverTrigger, TngPopoverPanel],
   templateUrl: './tng-popover.component.html',

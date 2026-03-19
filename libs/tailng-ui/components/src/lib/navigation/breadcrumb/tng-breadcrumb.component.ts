@@ -16,6 +16,7 @@ import { TngBreadcrumbListComponent } from './tng-breadcrumb-list.component';
 import { TngBreadcrumbSeparatorTemplateDirective } from './tng-breadcrumb-separator-template.directive';
 
 @Component({
+  standalone: true,
   selector: 'tng-breadcrumb',
   imports: [TngBreadcrumbPrimitive, TngBreadcrumbListComponent],
   templateUrl: './tng-breadcrumb.component.html',

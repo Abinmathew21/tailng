@@ -20,6 +20,7 @@ export function readTngSliderEventValue(event: unknown): number | null {
 }
 
 @Component({
+  standalone: true,
   selector: 'tng-slider',
   imports: [TngSliderPrimitive],
   templateUrl: './tng-slider.component.html',

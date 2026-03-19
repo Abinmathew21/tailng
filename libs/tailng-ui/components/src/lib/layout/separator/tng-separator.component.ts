@@ -5,6 +5,7 @@ import {
 } from '@tailng-ui/primitives';
 
 @Component({
+  standalone: true,
   selector: 'tng-separator',
   imports: [TngSeparatorPrimitive],
   templateUrl: './tng-separator.component.html',

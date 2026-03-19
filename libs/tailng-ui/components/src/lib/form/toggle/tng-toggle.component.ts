@@ -50,6 +50,7 @@ function injectParentToggleGroup(): TngToggleGroupPrimitive | null {
 }
 
 @Component({
+  standalone: true,
   selector: 'tng-toggle',
   imports: [TngTogglePrimitive],
   templateUrl: './tng-toggle.component.html',

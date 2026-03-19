@@ -11,6 +11,7 @@ export function resolveTngSkeletonDataRounded(rounded: boolean): 'false' | 'true
 @Directive({
   selector: '[tngSkeleton]',
   exportAs: 'tngSkeleton',
+  standalone: true,
 })
 export class TngSkeleton {
   public readonly animated = input<boolean, boolean | string>(true, {

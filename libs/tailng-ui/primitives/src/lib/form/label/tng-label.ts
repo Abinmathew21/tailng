@@ -3,6 +3,7 @@ import { Directive, HostBinding, booleanAttribute, input } from '@angular/core';
 @Directive({
   selector: 'label[tngLabel]',
   exportAs: 'tngLabel',
+  standalone: true,
 })
 export class TngLabel {
   public readonly disabled = input<boolean, boolean | string>(false, {

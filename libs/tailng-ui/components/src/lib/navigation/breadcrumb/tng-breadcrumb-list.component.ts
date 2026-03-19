@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { TngBreadcrumbList as TngBreadcrumbListPrimitive } from '@tailng-ui/primitives';
 
 @Component({
+  standalone: true,
   selector: 'tng-breadcrumb-list',
   imports: [TngBreadcrumbListPrimitive],
   templateUrl: './tng-breadcrumb-list.component.html',

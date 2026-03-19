@@ -20,6 +20,7 @@ export function normalizeTngSliderStep(value: number): number {
 @Directive({
   selector: 'input[tngSlider]',
   exportAs: 'tngSlider',
+  standalone: true,
 })
 export class TngSlider {
   public readonly disabled = input<boolean, boolean | string>(false, {

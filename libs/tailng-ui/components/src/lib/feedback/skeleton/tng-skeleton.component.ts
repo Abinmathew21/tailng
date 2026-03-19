@@ -7,6 +7,7 @@ export function resolveTngSkeletonCssSize(value: string, fallback: string): stri
 }
 
 @Component({
+  standalone: true,
   selector: 'tng-skeleton',
   imports: [TngSkeletonPrimitive],
   templateUrl: './tng-skeleton.component.html',

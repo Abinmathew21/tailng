@@ -23,6 +23,7 @@ export function readTngTextareaEventValue(event: unknown): string | null {
 }
 
 @Component({
+  standalone: true,
   selector: 'tng-textarea',
   imports: [TngInput],
   templateUrl: './tng-textarea.component.html',

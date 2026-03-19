@@ -22,6 +22,7 @@ function normalizeString(value: string | null | undefined): string | null {
 @Directive({
   selector: '[tngTag]',
   exportAs: 'tngTag',
+  standalone: true,
 })
 export class TngTag {
   public readonly disabled = input<boolean, boolean | string>(false, {
@@ -83,6 +84,7 @@ export class TngTag {
 @Directive({
   selector: '[tngTagIcon]',
   exportAs: 'tngTagIcon',
+  standalone: true,
 })
 export class TngTagIcon {
   @HostBinding('attr.data-slot')
@@ -92,6 +94,7 @@ export class TngTagIcon {
 @Directive({
   selector: '[tngTagClose]',
   exportAs: 'tngTagClose',
+  standalone: true,
 })
 export class TngTagClose {
   private readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);

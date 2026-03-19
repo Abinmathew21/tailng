@@ -10,6 +10,7 @@ import {
 import { TngDropdownMenu as TngDropdownMenuPrimitive } from '@tailng-ui/primitives';
 
 @Component({
+  standalone: true,
   selector: 'tng-dropdown-menu',
   imports: [TngDropdownMenuPrimitive],
   templateUrl: './tng-dropdown-menu.component.html',

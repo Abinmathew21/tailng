@@ -7,6 +7,7 @@ export function resolveTngLabelForAttr(forId: string): string | null {
 }
 
 @Component({
+  standalone: true,
   selector: 'tng-label',
   imports: [TngLabelPrimitive],
   templateUrl: './tng-label.component.html',

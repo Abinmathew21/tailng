@@ -36,6 +36,7 @@ export function resolveTngProgressBarRange(
 @Directive({
   selector: '[tngProgressBar]',
   exportAs: 'tngProgressBar',
+  standalone: true,
 })
 export class TngProgressBar {
   public readonly indeterminate = input<boolean, boolean | string>(false, {
@@ -104,6 +105,7 @@ export class TngProgressBar {
 @Directive({
   selector: '[tngProgressBarIndicator]',
   exportAs: 'tngProgressBarIndicator',
+  standalone: true,
 })
 export class TngProgressBarIndicator {
   @HostBinding('attr.data-slot')

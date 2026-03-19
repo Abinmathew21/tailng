@@ -75,6 +75,7 @@ export function resolveTngCheckboxInvalidState(
 @Directive({
   selector: 'input[tngCheckbox]',
   exportAs: 'tngCheckbox',
+  standalone: true,
 })
 export class TngCheckbox {
   private readonly elementRef = inject<ElementRef<HTMLInputElement>>(ElementRef);

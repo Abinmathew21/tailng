@@ -63,6 +63,7 @@ export function toTngAvatarFallbackText(value: string | null | undefined): strin
 }
 
 @Component({
+  standalone: true,
   selector: 'tng-avatar',
   imports: [TngAvatarPrimitive, TngAvatarImagePrimitive, TngAvatarFallbackPrimitive],
   templateUrl: './tng-avatar.component.html',

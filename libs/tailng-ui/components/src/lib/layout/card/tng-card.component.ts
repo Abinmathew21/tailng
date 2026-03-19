@@ -65,6 +65,7 @@ function coerceCardActionsAlign(value: string): TngCardActionsAlign {
 }
 
 @Component({
+  standalone: true,
   selector: 'tng-card',
   imports: [TngCardPrimitive],
   templateUrl: './tng-card.component.html',
@@ -89,6 +90,7 @@ export class TngCardComponent {
 }
 
 @Component({
+  standalone: true,
   selector: 'tng-card-header',
   imports: [TngCardHeaderPrimitive],
   templateUrl: './tng-card-header.component.html',
@@ -98,6 +100,7 @@ export class TngCardHeaderComponent {
 }
 
 @Component({
+  standalone: true,
   selector: 'tng-card-title',
   imports: [TngCardTitlePrimitive],
   templateUrl: './tng-card-title.component.html',
@@ -107,6 +110,7 @@ export class TngCardTitleComponent {
 }
 
 @Component({
+  standalone: true,
   selector: 'tng-card-description',
   imports: [TngCardDescriptionPrimitive],
   templateUrl: './tng-card-description.component.html',
@@ -116,6 +120,7 @@ export class TngCardDescriptionComponent {
 }
 
 @Component({
+  standalone: true,
   selector: 'tng-card-content',
   imports: [TngCardContentPrimitive],
   templateUrl: './tng-card-content.component.html',
@@ -125,6 +130,7 @@ export class TngCardContentComponent {
 }
 
 @Component({
+  standalone: true,
   selector: 'tng-card-footer',
   imports: [TngCardFooterPrimitive],
   templateUrl: './tng-card-footer.component.html',
@@ -134,6 +140,7 @@ export class TngCardFooterComponent {
 }
 
 @Component({
+  standalone: true,
   selector: 'tng-card-media',
   imports: [TngCardMediaPrimitive],
   templateUrl: './tng-card-media.component.html',
@@ -143,6 +150,7 @@ export class TngCardMediaComponent {
 }
 
 @Component({
+  standalone: true,
   selector: 'tng-card-actions',
   imports: [TngCardActionsPrimitive],
   templateUrl: './tng-card-actions.component.html',
@@ -155,6 +163,7 @@ export class TngCardActionsComponent {
 }
 
 @Component({
+  standalone: true,
   selector: 'tng-card-divider',
   imports: [TngCardDividerPrimitive],
   templateUrl: './tng-card-divider.component.html',
@@ -164,6 +173,7 @@ export class TngCardDividerComponent {
 }
 
 @Component({
+  standalone: true,
   selector: 'tng-card-link',
   imports: [TngCardLinkPrimitive],
   templateUrl: './tng-card-link.component.html',

@@ -41,6 +41,7 @@ export function resolveTngOtpState(length: number, value: string): TngOtpComplet
 @Directive({
   selector: '[tngInputOtp]',
   exportAs: 'tngInputOtp',
+  standalone: true,
 })
 export class TngInputOtp {
   public readonly length = input<number, number | string>(6, {

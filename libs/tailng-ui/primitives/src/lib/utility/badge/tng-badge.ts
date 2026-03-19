@@ -204,6 +204,7 @@ function toCssPixelLength(value: number): string {
 @Directive({
   selector: '[tngBadge]',
   exportAs: 'tngBadge',
+  standalone: true,
 })
 export class TngBadge implements OnDestroy {
   public readonly tngBadge = input<number | string | null | undefined>(null);

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { TngToggleGroup as TngToggleGroupPrimitive } from '@tailng-ui/primitives';
 
 @Component({
+  standalone: true,
   selector: 'tng-toggle-group',
   templateUrl: './tng-toggle-group.component.html',
   styleUrl: './tng-toggle-group.component.css',

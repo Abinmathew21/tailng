@@ -3,6 +3,7 @@ import { Directive, HostBinding } from '@angular/core';
 @Directive({
   selector: '[tngEmpty]',
   exportAs: 'tngEmpty',
+  standalone: true,
 })
 export class TngEmpty {
   @HostBinding('attr.data-slot')
@@ -12,6 +13,7 @@ export class TngEmpty {
 @Directive({
   selector: '[tngEmptyIcon]',
   exportAs: 'tngEmptyIcon',
+  standalone: true,
 })
 export class TngEmptyIcon {
   @HostBinding('attr.data-slot')
@@ -21,6 +23,7 @@ export class TngEmptyIcon {
 @Directive({
   selector: '[tngEmptyTitle]',
   exportAs: 'tngEmptyTitle',
+  standalone: true,
 })
 export class TngEmptyTitle {
   @HostBinding('attr.data-slot')
@@ -30,6 +33,7 @@ export class TngEmptyTitle {
 @Directive({
   selector: '[tngEmptyDescription]',
   exportAs: 'tngEmptyDescription',
+  standalone: true,
 })
 export class TngEmptyDescription {
   @HostBinding('attr.data-slot')
@@ -39,6 +43,7 @@ export class TngEmptyDescription {
 @Directive({
   selector: '[tngEmptyActions]',
   exportAs: 'tngEmptyActions',
+  standalone: true,
 })
 export class TngEmptyActions {
   @HostBinding('attr.data-slot')

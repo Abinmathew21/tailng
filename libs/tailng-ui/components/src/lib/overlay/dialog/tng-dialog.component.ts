@@ -110,6 +110,7 @@ function toDialogCloseReason(reason: TngOverlayDismissReason): TngDialogCloseRea
 }
 
 @Component({
+  standalone: true,
   selector: 'tng-dialog',
   templateUrl: './tng-dialog.component.html',
   styleUrl: './tng-dialog.component.css',

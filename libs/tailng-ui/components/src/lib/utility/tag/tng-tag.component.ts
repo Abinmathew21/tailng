@@ -10,6 +10,7 @@ type TngTagSize = 'md' | 'sm';
 type TngTagTone = 'danger' | 'info' | 'neutral' | 'success' | 'warning';
 
 @Component({
+  standalone: true,
   selector: 'tng-tag',
   imports: [TngTagPrimitive, TngTagClosePrimitive],
   templateUrl: './tng-tag.component.html',

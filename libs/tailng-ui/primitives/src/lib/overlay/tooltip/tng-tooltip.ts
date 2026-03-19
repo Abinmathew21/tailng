@@ -91,6 +91,7 @@ export function shouldCloseTngTooltipForKey(key: string): boolean {
 @Directive({
   selector: '[tngTooltip]',
   exportAs: 'tngTooltip',
+  standalone: true,
 })
 export class TngTooltip implements OnDestroy, OnInit {
   private readonly generatedContentId = createTooltipContentId();
@@ -487,6 +488,7 @@ export class TngTooltip implements OnDestroy, OnInit {
 @Directive({
   selector: '[tngTooltipTrigger]',
   exportAs: 'tngTooltipTrigger',
+  standalone: true,
 })
 export class TngTooltipTrigger implements OnDestroy, OnInit {
   private readonly hostRef = inject<ElementRef<HTMLElement>>(ElementRef);
@@ -567,6 +569,7 @@ export class TngTooltipTrigger implements OnDestroy, OnInit {
 @Directive({
   selector: '[tngTooltipContent]',
   exportAs: 'tngTooltipContent',
+  standalone: true,
 })
 export class TngTooltipContent implements OnDestroy, OnInit {
   private readonly generatedId = createTooltipContentId();

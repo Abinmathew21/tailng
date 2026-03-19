@@ -32,6 +32,7 @@ export function toTngProgressSpinnerDashOffset(percent: number): number {
 }
 
 @Component({
+  standalone: true,
   selector: 'tng-progress-spinner',
   imports: [TngProgressSpinnerPrimitive],
   templateUrl: './tng-progress-spinner.component.html',

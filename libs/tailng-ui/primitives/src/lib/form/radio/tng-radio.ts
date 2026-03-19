@@ -57,6 +57,7 @@ export function resolveTngRadioInvalidState(
 @Directive({
   selector: 'input[tngRadio]',
   exportAs: 'tngRadio',
+  standalone: true,
 })
 export class TngRadio {
   private readonly elementRef = inject<ElementRef<HTMLInputElement>>(ElementRef);

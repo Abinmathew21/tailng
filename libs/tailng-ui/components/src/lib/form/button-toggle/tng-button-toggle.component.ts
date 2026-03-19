@@ -34,6 +34,7 @@ function normalizeOptionalButtonToggleValue(
 }
 
 @Component({
+  standalone: true,
   selector: 'tng-button-toggle',
   imports: [TngButtonTogglePrimitive],
   templateUrl: './tng-button-toggle.component.html',

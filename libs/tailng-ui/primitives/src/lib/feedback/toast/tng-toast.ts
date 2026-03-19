@@ -21,6 +21,7 @@ export function resolveTngToastRole(tone: TngToastTone): 'alert' | 'status' {
 @Directive({
   selector: '[tngToastViewport]',
   exportAs: 'tngToastViewport',
+  standalone: true,
 })
 export class TngToastViewport {
   @HostBinding('attr.data-slot')
@@ -30,6 +31,7 @@ export class TngToastViewport {
 @Directive({
   selector: '[tngToastItem]',
   exportAs: 'tngToastItem',
+  standalone: true,
 })
 export class TngToastItem {
   public readonly open = input<boolean, boolean | string>(true, {

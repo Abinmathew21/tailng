@@ -54,6 +54,7 @@ export function resolveTngCopyButtonIconState(state: TngCopyButtonState): TngCop
 }
 
 @Component({
+  standalone: true,
   selector: 'tng-copy-button',
   imports: [TngCopy],
   templateUrl: './tng-copy-button.component.html',

@@ -97,6 +97,7 @@ function toAriaBoolean(value: boolean | null): 'false' | 'true' | null {
 @Directive({
   selector: 'a[tngPress], button[tngPress]',
   exportAs: 'tngPress',
+  standalone: true,
 })
 export class TngPress {
   public readonly ariaControls = input<string | null>(null);

@@ -2,6 +2,7 @@ import { Component, booleanAttribute, contentChildren, effect, input, output } f
 import { TngChip, TngChips as TngChipsPrimitive } from '@tailng-ui/primitives';
 
 @Component({
+  standalone: true,
   selector: 'tng-chips',
   imports: [TngChipsPrimitive],
   templateUrl: './tng-chips.component.html',
