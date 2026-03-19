@@ -25,7 +25,6 @@ function pointerdown(el: HTMLElement | null, init: Partial<PointerEventInit> = {
 }
 
 @Component({
-  standalone: true,
   imports: [
     TngMultiSelect,
     TngSelectTrigger,

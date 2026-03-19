@@ -73,7 +73,6 @@ export class ButtonOverviewPageComponent implements OnDestroy {
         "import { TngPress } from '@tailng-ui/primitives';",
         '',
         '@Component({',
-        '  standalone: true,',
         '  imports: [TngPress],',
         '})',
         'export class ButtonOverviewHeadlessComponent {',

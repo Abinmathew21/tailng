@@ -25,7 +25,6 @@ function queryRequired<T extends Element>(root: ParentNode, selector: string): T
 }
 
 @Component({
-  standalone: true,
   imports: [TngLabelComponent],
   template: `
     <tng-label

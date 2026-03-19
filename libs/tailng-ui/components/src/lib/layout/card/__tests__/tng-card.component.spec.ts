@@ -67,7 +67,6 @@ function getCardLinkAnchor(linkHost: HTMLElement): HTMLAnchorElement {
 }
 
 @Component({
-  standalone: true,
   imports: [
     TngCardComponent,
     TngCardHeaderComponent,
@@ -214,7 +213,6 @@ class CardHarnessHostComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngCardComponent],
   template: `
     <tng-card data-testid="plain-card">
@@ -229,7 +227,6 @@ class CardPlainProjectionHostComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [
     TngCardComponent,
     TngCardContentComponent,
@@ -265,7 +262,6 @@ class CardPlainProjectionHostComponent {
 class CardIsolationHostComponent {}
 
 @Component({
-  standalone: true,
   imports: [TngCardComponent, TngCardContentComponent, TngPress],
   template: `
     <tng-card data-testid="press-card">

@@ -6,7 +6,6 @@ import { TngListboxDirective } from '../listbox.directive';
 import { TngOptionDirective } from '../option.directive';
 
 @Component({
-  standalone: true,
   imports: [TngListboxDirective, TngOptionDirective],
   template: `
     <div class="stack">

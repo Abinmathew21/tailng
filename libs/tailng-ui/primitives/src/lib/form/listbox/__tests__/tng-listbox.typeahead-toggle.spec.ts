@@ -14,7 +14,6 @@ function dispatchKey(el: HTMLElement, key: string): void {
 }
 
 @Component({
-  standalone: true,
   imports: [TngListboxDirective, TngOptionDirective],
   template: `
     <ul tngListbox data-testid="listbox">
@@ -27,7 +26,6 @@ function dispatchKey(el: HTMLElement, key: string): void {
 class TypeaheadDefaultHostComponent {}
 
 @Component({
-  standalone: true,
   imports: [TngListboxDirective, TngOptionDirective],
   template: `
     <ul tngListbox [typeahead]="false" data-testid="listbox">
@@ -40,7 +38,6 @@ class TypeaheadDefaultHostComponent {}
 class TypeaheadDisabledHostComponent {}
 
 @Component({
-  standalone: true,
   imports: [TngListboxDirective, TngOptionDirective],
   template: `
     <ul tngListbox data-testid="lb">
@@ -53,7 +50,6 @@ class TypeaheadDisabledHostComponent {}
 class TypeaheadEnabledHost {}
 
 @Component({
-  standalone: true,
   imports: [TngListboxDirective, TngOptionDirective],
   template: `
     <ul tngListbox [typeahead]="false" data-testid="lb">

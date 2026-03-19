@@ -11,7 +11,6 @@ import { describe, expect, it } from 'vitest';
 import { TngToggleComponent } from '../tng-toggle.component';
 
 @Component({
-  standalone: true,
   imports: [ReactiveFormsModule, TngToggleComponent],
   template: `
     <tng-toggle data-testid="reactive-control" [formControl]="control">
@@ -24,7 +23,6 @@ class ReactiveFormControlHostComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [ReactiveFormsModule, TngToggleComponent],
   template: `
     <form [formGroup]="form">
@@ -41,7 +39,6 @@ class ReactiveFormControlNameHostComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [ReactiveFormsModule, TngToggleComponent],
   template: `
     <tng-toggle data-testid="validated-control" [formControl]="control">

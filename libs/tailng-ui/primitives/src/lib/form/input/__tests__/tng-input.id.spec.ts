@@ -7,7 +7,6 @@ import { TngInput } from '../tng-input';
 import { provideTngUniqueId } from '../../_shared/id'; // adjust path to your shared id provider
 
 @Component({
-  standalone: true,
   imports: [TngInput],
   template: `<input tngInput [attr.id]="id" />`,
 })
@@ -16,7 +15,6 @@ class IdHostComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngInput],
   template: `
     <input tngInput />

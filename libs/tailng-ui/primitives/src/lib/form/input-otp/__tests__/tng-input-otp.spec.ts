@@ -22,7 +22,6 @@ function getByTestId<T extends Element>(
 }
 
 @Component({
-  standalone: true,
   imports: [TngInputOtp],
   template: `
     <div

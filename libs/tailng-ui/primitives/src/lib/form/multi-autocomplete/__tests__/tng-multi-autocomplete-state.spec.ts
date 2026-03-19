@@ -4,7 +4,6 @@ import { describe, expect, it } from 'vitest';
 import { TngMultiAutocomplete } from '../tng-multi-autocomplete';
 
 @Component({
-  standalone: true,
   imports: [TngMultiAutocomplete],
   template: `<section tngMultiAutocomplete data-testid="host"></section>`,
 })
@@ -82,7 +81,6 @@ describe('tng-multi-autocomplete.state', () => {
 
   it('openSelect() does nothing when disabled', () => {
     @Component({
-      standalone: true,
       imports: [TngMultiAutocomplete],
       template: `<section tngMultiAutocomplete [disabled]="true"></section>`,
     })

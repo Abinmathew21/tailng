@@ -27,7 +27,6 @@ function keydown(el: HTMLElement, init: Partial<KeyboardEventInit> & { key: stri
 }
 
 @Component({
-  standalone: true,
   imports: [TngSelect, TngSelectTrigger, TngSelectContent],
   template: `
     <button

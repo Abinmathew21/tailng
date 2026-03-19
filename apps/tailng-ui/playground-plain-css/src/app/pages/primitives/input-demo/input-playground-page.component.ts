@@ -10,7 +10,6 @@ import {
 
 @Component({
   selector: 'app-input-playground-page',
-  standalone: true,
   imports: [
     TngInputPrimitive,
     TngInputGroup,

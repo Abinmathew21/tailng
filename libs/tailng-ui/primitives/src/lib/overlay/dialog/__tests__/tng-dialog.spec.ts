@@ -52,7 +52,6 @@ async function settle(fixture: { detectChanges(): void; whenStable(): Promise<un
 }
 
 @Component({
-  standalone: true,
   imports: [
     TngDialog,
     TngDialogBackdrop,
@@ -125,7 +124,6 @@ class UncontrolledDialogHarnessComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngDialog, TngDialogBackdrop, TngDialogPanel, TngDialogClose],
   template: `
     <section

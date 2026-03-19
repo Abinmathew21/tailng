@@ -29,7 +29,6 @@ function keydown(el: HTMLElement, key: string): KeyboardEvent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngMenu, TngMenuItem, TngMenuTrigger, TngContextMenu, TngContextMenuTrigger],
   template: `
     <button type="button" [tngMenuTrigger]="menuA" data-testid="trigger-a">Open A</button>

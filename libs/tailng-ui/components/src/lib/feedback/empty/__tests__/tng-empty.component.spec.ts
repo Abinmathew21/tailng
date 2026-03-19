@@ -35,7 +35,6 @@ function getSlotValue(partHost: ParentNode, expectedSlotSelector: string): strin
 }
 
 @Component({
-  standalone: true,
   imports: [
     TngEmptyComponent,
     TngEmptyIconComponent,

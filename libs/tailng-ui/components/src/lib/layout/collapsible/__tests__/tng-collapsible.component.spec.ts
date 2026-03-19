@@ -52,7 +52,6 @@ function keyboardActivate(
 }
 
 @Component({
-  standalone: true,
   imports: [TngCollapsibleComponent],
   template: `
     <tng-collapsible

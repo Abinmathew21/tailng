@@ -6,7 +6,6 @@ import { describe, expect, it } from 'vitest';
 import { TngInput } from '../tng-input'; // adjust relative path if needed
 
 @Component({
-  standalone: true,
   imports: [TngInput],
   template: `
     <input
@@ -35,7 +34,6 @@ class NativeAttrHostComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngInput],
   template: `
     <input tngInput disabled readonly required />

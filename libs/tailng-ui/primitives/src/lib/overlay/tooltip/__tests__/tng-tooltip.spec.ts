@@ -38,7 +38,6 @@ function createRect(left: number, top: number, width: number, height: number): D
 }
 
 @Component({
-  standalone: true,
   imports: [TngTooltipTrigger, TngTooltipContent],
   template: `
     <button
@@ -75,7 +74,6 @@ class TooltipHarnessComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngTooltip, TngTooltipTrigger, TngTooltipContent],
   template: `
     <span
@@ -100,7 +98,6 @@ class TooltipRootHarnessComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngTooltip, TngTooltipTrigger, TngTooltipContent],
   template: `
     <span tngTooltip data-testid="root" [openDelay]="0" [closeDelay]="0">
@@ -112,7 +109,6 @@ class TooltipRootHarnessComponent {
 class TooltipRootAutoIdHarnessComponent {}
 
 @Component({
-  standalone: true,
   imports: [TngTooltip, TngTooltipTrigger, TngTooltipContent],
   template: `
     <span tngTooltip [openDelay]="0" [closeDelay]="0">
@@ -129,7 +125,6 @@ class TooltipRootAutoIdHarnessComponent {}
 class TooltipTwoRootHarnessComponent {}
 
 @Component({
-  standalone: true,
   imports: [TngTooltip, TngTooltipTrigger, TngTooltipContent, TngPopover, TngPopoverTrigger, TngPopoverPanel],
   template: `
     <span tngTooltip [openDelay]="0" [closeDelay]="0">

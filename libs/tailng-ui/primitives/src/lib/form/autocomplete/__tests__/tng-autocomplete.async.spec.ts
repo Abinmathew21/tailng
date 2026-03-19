@@ -25,7 +25,6 @@ function focus(el: HTMLElement): void {
 }
 
 @Component({
-  standalone: true,
   imports: [
     TngAutocomplete,
     TngAutocompleteTrigger,
@@ -78,7 +77,6 @@ class AsyncHostComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [
     TngAutocomplete,
     TngAutocompleteTrigger,

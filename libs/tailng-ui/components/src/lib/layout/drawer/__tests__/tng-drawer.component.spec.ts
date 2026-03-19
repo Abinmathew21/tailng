@@ -36,7 +36,6 @@ function pressKey(target: EventTarget, key: string): KeyboardEvent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngDrawerComponent, TngDrawerContainer, TngDrawerContent],
   template: `
     <section tngDrawerContainer [animate]="false" [dir]="dir()">
@@ -79,7 +78,6 @@ class DrawerHostComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngDrawerComponent, TngDrawerContainer, TngDrawerContent],
   template: `
     <section tngDrawerContainer [animate]="false" [closeOthersOnOpen]="false">
@@ -118,7 +116,6 @@ class DualDrawerHostComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngDrawerComponent, TngDrawerContainer, TngDrawerContent],
   template: `
     <section tngDrawerContainer [animate]="false">

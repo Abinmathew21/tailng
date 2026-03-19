@@ -32,7 +32,6 @@ function queryToastItems(fixture: { nativeElement: HTMLElement }): HTMLElement[]
 }
 
 @Component({
-  standalone: true,
   imports: [TngToastComponent],
   template: `
     <button type="button" data-testid="before-toast-focus">Before toast focus</button>

@@ -23,7 +23,6 @@ function blur(el: HTMLElement) {
 }
 
 @Component({
-  standalone: true,
   imports: [
     TngMultiAutocomplete,
     TngMultiAutocompleteTrigger,

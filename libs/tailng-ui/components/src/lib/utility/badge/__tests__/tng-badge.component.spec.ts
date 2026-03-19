@@ -25,7 +25,6 @@ function getBadge(host: HTMLElement): HTMLSpanElement {
 }
 
 @Component({
-  standalone: true,
   imports: [TngBadgeComponent],
   template: `
     <button

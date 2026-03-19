@@ -78,7 +78,6 @@ function keydown(element: HTMLElement, key: string, shiftKey = false): KeyboardE
 }
 
 @Component({
-  standalone: true,
   imports: [
     TngBreadcrumbComponent,
     TngBreadcrumbItemComponent,
@@ -140,7 +139,6 @@ class BreadcrumbHarnessComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngBreadcrumbComponent, TngBreadcrumbItemComponent],
   template: `
     <tng-breadcrumb data-testid="breadcrumb-one" [ariaLabel]="firstLabel()">
@@ -160,7 +158,6 @@ class MultipleBreadcrumbHarnessComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngBreadcrumbComponent, TngBreadcrumbItemComponent],
   template: `
     @if (show()) {

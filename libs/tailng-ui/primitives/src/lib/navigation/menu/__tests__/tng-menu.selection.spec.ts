@@ -25,7 +25,6 @@ function click(el: HTMLElement): MouseEvent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngMenu, TngMenuItem, TngMenuTrigger],
   template: `
     <button type="button" [tngMenuTrigger]="menu" data-testid="trigger">Open</button>
@@ -51,7 +50,6 @@ class MenuSelectionHostComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngMenu, TngMenuItem, TngMenuTrigger],
   template: `
     <button type="button" [tngMenuTrigger]="menu" data-testid="trigger">Open</button>
@@ -77,7 +75,6 @@ class MenuSelectionNoCloseHostComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngMenu, TngMenuItem, TngMenuTrigger],
   template: `
     <button type="button" [tngMenuTrigger]="menu" data-testid="trigger">Open</button>
@@ -102,7 +99,6 @@ class MenuSelectionPadHostComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngMenu, TngMenuItem, TngMenuTrigger],
   template: `
     <button type="button" [tngMenuTrigger]="menu" data-testid="trigger">Open</button>
@@ -135,7 +131,6 @@ class MenuKeyboardDisabledSelectionHostComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngMenu, TngMenuItem, TngMenuTrigger],
   template: `
     <button type="button" [tngMenuTrigger]="menu" data-testid="trigger">Open</button>

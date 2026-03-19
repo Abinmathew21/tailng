@@ -3,7 +3,6 @@ import { type ComponentFixture, TestBed } from '@angular/core/testing';
 import { type TngTreeOrientation, TngTree, TngTreeGroup, TngTreeIndicator, TngTreeItem, type TngTreeSelectionMode, type TngTreeValue } from '../index';
 
 @Component({
-  standalone: true,
   imports: [TngTree, TngTreeItem, TngTreeGroup, TngTreeIndicator],
   template: `
     <button data-testid="before" type="button">Before</button>

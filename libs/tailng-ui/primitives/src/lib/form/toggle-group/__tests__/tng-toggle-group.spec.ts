@@ -6,7 +6,6 @@ import { TngToggle } from '../../toggle/tng-toggle';
 import { TngToggleGroup } from '../tng-toggle-group';
 
 @Component({
-  standalone: true,
   imports: [TngToggleGroup, TngToggle],
   template: `
     <section

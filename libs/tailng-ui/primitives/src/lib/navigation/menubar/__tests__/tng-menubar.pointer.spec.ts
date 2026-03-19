@@ -34,7 +34,6 @@ function mouseenter(el: HTMLElement): void {
 }
 
 @Component({
-  standalone: true,
   imports: [TngMenubar, TngMenubarItem, TngMenu, TngMenuItem],
   template: `
     <div tngMenubar data-testid="menubar">

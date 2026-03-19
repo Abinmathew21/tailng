@@ -8,7 +8,6 @@ function keydown(el: HTMLElement, key: string): void {
 }
 
 @Component({
-  standalone: true,
   imports: [TngMenubar, TngMenubarItem],
   template: `
     <div tngMenubar data-testid="menubar">
@@ -20,7 +19,6 @@ function keydown(el: HTMLElement, key: string): void {
 class MenubarHostComponent {}
 
 @Component({
-  standalone: true,
   imports: [TngMenubar, TngMenubarItem],
   template: `
     <div tngMenubar data-testid="menubar">

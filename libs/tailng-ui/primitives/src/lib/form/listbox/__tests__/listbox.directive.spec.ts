@@ -8,7 +8,6 @@ import { TngOptionDirective } from '../option.directive';
 import { Component, signal } from '@angular/core';
 
 @Component({
-  standalone: true,
   imports: [TngListboxDirective, TngOptionDirective],
   template: `
     <div
@@ -108,7 +107,6 @@ class TestHostComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngListboxDirective, TngOptionDirective],
   template: `
     <div
@@ -129,7 +127,6 @@ class HostSingleControlled {
 }
 
 @Component({
-  standalone: true,
   imports: [TngListboxDirective, TngOptionDirective],
   template: `
     <div tngListbox [multiple]="false" [value]="value()" (valueChange)="value.set($event)">

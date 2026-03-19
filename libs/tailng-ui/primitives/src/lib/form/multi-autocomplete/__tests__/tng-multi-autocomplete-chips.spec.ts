@@ -24,7 +24,6 @@ function keydown(el: HTMLElement, init: Partial<KeyboardEventInit>) {
 
 
 @Component({
-  standalone: true,
   imports: [TngMultiAutocomplete, TngMultiAutocompleteTrigger],
   template: `
     <section
@@ -42,7 +41,6 @@ class HostComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngMultiAutocomplete, TngMultiAutocompleteTrigger, TngMultiAutocompleteChip],
   template: `
     <section
@@ -75,7 +73,6 @@ class ChipNavHostComponent {
 
 
 @Component({
-  standalone: true,
   imports: [TngMultiAutocomplete, TngMultiAutocompleteTrigger, TngMultiAutocompleteChip],
   template: `
     <section tngMultiAutocomplete [value]="value()" (valueChange)="value.set($event)">
@@ -98,7 +95,6 @@ class ChipHostComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngMultiAutocomplete, TngMultiAutocompleteTrigger, TngMultiAutocompleteChip],
   template: `
     <section
@@ -240,7 +236,6 @@ describe('tng-multi-autocomplete chip directive', () => {
 
   it('Deleting the last remaining chip focuses the input trigger', async () => {
     @Component({
-      standalone: true,
       imports: [TngMultiAutocomplete, TngMultiAutocompleteTrigger, TngMultiAutocompleteChip],
       template: `
         <section tngMultiAutocomplete [value]="value()" (valueChange)="value.set($event)">
@@ -344,7 +339,6 @@ describe('tng-multi-autocomplete chip remove keys', () => {
 
   it('Delete on last remaining chip focuses input', async () => {
     @Component({
-      standalone: true,
       imports: [TngMultiAutocomplete, TngMultiAutocompleteTrigger, TngMultiAutocompleteChip],
       template: `
         <section
@@ -393,7 +387,6 @@ describe('tng-multi-autocomplete chip remove keys', () => {
 
   it('Delete does nothing when disabled', async () => {
     @Component({
-      standalone: true,
       imports: [TngMultiAutocomplete, TngMultiAutocompleteTrigger, TngMultiAutocompleteChip],
       template: `
         <section
@@ -441,7 +434,6 @@ describe('tng-multi-autocomplete chip remove keys', () => {
 
 describe('tng-multi-autocomplete input ↔ chips navigation', () => {
   @Component({
-    standalone: true,
     imports: [TngMultiAutocomplete, TngMultiAutocompleteTrigger, TngMultiAutocompleteChip],
     template: `
       <section tngMultiAutocomplete [value]="value()" (valueChange)="value.set($event)">
@@ -509,7 +501,6 @@ describe('tng-multi-autocomplete input ↔ chips navigation', () => {
 
   it('ArrowLeft on input at caret-start does nothing when there are no chips', async () => {
     @Component({
-      standalone: true,
       imports: [TngMultiAutocomplete, TngMultiAutocompleteTrigger, TngMultiAutocompleteChip],
       template: `
         <section tngMultiAutocomplete [value]="value()" (valueChange)="value.set($event)">
@@ -554,7 +545,6 @@ describe('tng-multi-autocomplete input ↔ chips navigation', () => {
 
 describe('tng-multi-autocomplete chip Home/End navigation', () => {
   @Component({
-    standalone: true,
     imports: [TngMultiAutocomplete, TngMultiAutocompleteTrigger, TngMultiAutocompleteChip],
     template: `
       <section tngMultiAutocomplete [value]="value()" (valueChange)="value.set($event)">
@@ -619,7 +609,6 @@ describe('tng-multi-autocomplete chip Home/End navigation', () => {
 });
 
 @Component({
-  standalone: true,
   imports: [TngMultiAutocomplete, TngMultiAutocompleteTrigger, TngMultiAutocompleteChip],
   template: `
     <section tngMultiAutocomplete [value]="value()" (valueChange)="value.set($event)">
@@ -734,7 +723,6 @@ describe('tng-multi-autocomplete input - chips boundary', () => {
 
 describe('tng-multi-autocomplete input - chips boundary', () => {
   @Component({
-    standalone: true,
     imports: [TngMultiAutocomplete, TngMultiAutocompleteTrigger, TngMultiAutocompleteChip],
     template: `
       <section tngMultiAutocomplete [value]="value()" (valueChange)="value.set($event)">
@@ -790,7 +778,6 @@ describe('tng-multi-autocomplete input - chips boundary', () => {
     } satisfies TngMultiAutocompleteListboxApi<string>;
   
     @Component({
-      standalone: true,
       imports: [TngMultiAutocomplete, TngMultiAutocompleteTrigger, TngMultiAutocompleteChip],
       template: `
         <section tngMultiAutocomplete [value]="value()" (valueChange)="value.set($event)">

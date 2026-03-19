@@ -4,7 +4,6 @@ import { describe, expect, it } from 'vitest';
 import { TngMenu } from '../tng-menu';
 
 @Component({
-  standalone: true,
   imports: [TngMenu],
   template: `
     <div tngMenu data-testid="menu"></div>
@@ -13,7 +12,6 @@ import { TngMenu } from '../tng-menu';
 class MenuHostComponent {}
 
 @Component({
-  standalone: true,
   imports: [TngMenu],
   template: `
     <div tngMenu tabindex="0" data-testid="menu"></div>
@@ -22,7 +20,6 @@ class MenuHostComponent {}
 class MenuTabindexHostComponent {}
 
 @Component({
-  standalone: true,
   imports: [TngMenu],
   template: `
     <div tngMenu id="custom-menu-id" data-testid="menu"></div>
@@ -31,7 +28,6 @@ class MenuTabindexHostComponent {}
 class MenuCustomIdHostComponent {}
 
 @Component({
-  standalone: true,
   imports: [TngMenu],
   template: `
     <div tngMenu #menu="tngMenu" data-testid="menu"></div>
@@ -42,7 +38,6 @@ class ProgrammaticMenuHostComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngMenu],
   template: `
     <button type="button" data-testid="before">Before</button>
@@ -56,7 +51,6 @@ class ProgrammaticDisabledMenuHostComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngMenu],
   template: `
     <div

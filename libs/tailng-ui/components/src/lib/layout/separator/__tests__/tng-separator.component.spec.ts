@@ -25,7 +25,6 @@ function getInnerSeparator(host: HTMLElement): HTMLElement {
 }
 
 @Component({
-  standalone: true,
   imports: [TngSeparatorComponent],
   template: `
     <tng-separator

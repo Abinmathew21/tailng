@@ -10,7 +10,6 @@ function dispatchClick(target: HTMLElement): MouseEvent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngPress],
   template: `
     <a

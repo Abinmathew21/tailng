@@ -24,7 +24,6 @@ function click(element: HTMLElement): MouseEvent {
 }
 
 @Component({
-  standalone: true,
   imports: [
     TngAccordionComponent,
     TngAccordionItemComponent,

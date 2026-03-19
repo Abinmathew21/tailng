@@ -28,7 +28,6 @@ function dispatchInput(input: HTMLInputElement) {
 }
 
 @Component({
-  standalone: true,
   imports: [TngMultiAutocomplete, TngMultiAutocompleteTrigger],
   template: `
     <section

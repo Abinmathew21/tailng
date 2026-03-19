@@ -24,7 +24,6 @@ function getByTestId<TElement extends Element>(
 }
 
 @Component({
-  standalone: true,
   imports: [TngToastViewport, TngToastItem],
   template: `
     <section tngToastViewport data-testid="viewport">

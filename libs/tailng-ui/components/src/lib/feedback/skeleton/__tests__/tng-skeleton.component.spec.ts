@@ -25,7 +25,6 @@ function getRequired<T extends Element>(root: ParentNode, selector: string): T {
 }
 
 @Component({
-  standalone: true,
   imports: [TngSkeletonComponent],
   template: `
     <tng-skeleton

@@ -27,7 +27,6 @@ function focus(el: HTMLElement): void {
 }
 
 @Component({
-  standalone: true,
   imports: [
     TngAutocomplete,
     TngAutocompleteTrigger,
@@ -102,7 +101,6 @@ class FreeFormHostComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [
     TngAutocomplete,
     TngAutocompleteTrigger,
@@ -175,7 +173,6 @@ class StrictModeHostComponent {
 
 /** Empty listbox – always no active option. */
 @Component({
-  standalone: true,
   imports: [
     TngAutocomplete,
     TngAutocompleteTrigger,

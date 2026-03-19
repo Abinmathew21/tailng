@@ -29,7 +29,6 @@ function keydown(el: HTMLElement, init: Partial<KeyboardEventInit> = {}): void {
 }
 
 @Component({
-  standalone: true,
   imports: [TngSelect, TngSelectTrigger, TngSelectContent, TngSelectOverlay],
   template: `
     <button data-testid="outside">Outside</button>

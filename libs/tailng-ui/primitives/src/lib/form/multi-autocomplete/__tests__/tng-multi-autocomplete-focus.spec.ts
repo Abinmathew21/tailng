@@ -24,7 +24,6 @@ function keydown(el: HTMLElement, init: Partial<KeyboardEventInit>) {
 }
 
 @Component({
-  standalone: true,
   imports: [TngMultiAutocomplete, TngMultiAutocompleteTrigger, TngMultiAutocompleteChip],
   template: `
     <section tngMultiAutocomplete [value]="value()" (valueChange)="value.set($event)">
@@ -95,7 +94,6 @@ describe('tng-multi-autocomplete focus management', () => {
 
   it('Delete on last remaining chip focuses input', async () => {
     @Component({
-      standalone: true,
       imports: [TngMultiAutocomplete, TngMultiAutocompleteTrigger, TngMultiAutocompleteChip],
       template: `
         <section tngMultiAutocomplete [value]="value()" (valueChange)="value.set($event)">

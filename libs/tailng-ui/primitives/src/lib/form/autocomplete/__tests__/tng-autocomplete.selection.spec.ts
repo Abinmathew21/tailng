@@ -35,7 +35,6 @@ function pointerdown(el: HTMLElement | null, init: Partial<PointerEventInit> = {
 }
 
 @Component({
-  standalone: true,
   imports: [
     TngAutocomplete,
     TngAutocompleteTrigger,
@@ -81,7 +80,6 @@ class PrimitiveHostComponent {
 
 /** Host with [value] binding on input (consumer display pattern). */
 @Component({
-  standalone: true,
   imports: [
     TngAutocomplete,
     TngAutocompleteTrigger,
@@ -148,7 +146,6 @@ class DisplayBindingHostComponent {
 type Opt = Readonly<{ id: number; label: string }>;
 
 @Component({
-  standalone: true,
   imports: [
     TngAutocomplete,
     TngAutocompleteTrigger,
@@ -196,7 +193,6 @@ class ObjectHostComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [
     TngAutocomplete,
     TngAutocompleteTrigger,

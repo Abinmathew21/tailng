@@ -21,7 +21,6 @@ function keydown(el: HTMLElement, key: string) {
 }
 
 @Component({
-  standalone: true,
   imports: [
     TngAutocomplete,
     TngAutocompleteTrigger,

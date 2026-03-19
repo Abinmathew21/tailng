@@ -41,7 +41,6 @@ function pointerdown(el: HTMLElement): PointerEvent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngMenu, TngMenuItem, TngContextMenu, TngContextMenuTrigger],
   template: `
     <div
@@ -70,7 +69,6 @@ class ContextMenuHostComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngContextMenuTrigger],
   template: `
     <div
@@ -87,7 +85,6 @@ class MissingContextMenuHostComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngMenu, TngMenuItem, TngContextMenu, TngContextMenuTrigger],
   template: `
     @if (showTarget()) {
@@ -115,7 +112,6 @@ class ContextMenuTargetTeardownHostComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngMenu, TngMenuItem, TngContextMenu, TngContextMenuTrigger],
   template: `
     <div
@@ -141,7 +137,6 @@ class ContextMenuPanelTeardownHostComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngMenu, TngMenuItem, TngContextMenu, TngContextMenuTrigger],
   template: `
     <div
@@ -173,7 +168,6 @@ class ContextMenuSelectionHostComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngMenu, TngMenuItem, TngContextMenu, TngContextMenuTrigger],
   template: `
     <div
@@ -205,7 +199,6 @@ class ContextMenuSelectionNoCloseHostComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngMenu, TngMenuItem, TngContextMenu, TngContextMenuTrigger],
   template: `
     <div
@@ -233,7 +226,6 @@ class ContextMenuSelectionNoCloseHostComponent {
 class ContextMenuAriaHostComponent {}
 
 @Component({
-  standalone: true,
   imports: [TngMenu, TngMenuItem, TngContextMenu, TngContextMenuTrigger],
   template: `
     <div
@@ -258,7 +250,6 @@ class ContextMenuAriaHostComponent {}
 class DisabledLinkedContextMenuHostComponent {}
 
 @Component({
-  standalone: true,
   imports: [TngMenu, TngMenuItem, TngContextMenu, TngContextMenuTrigger],
   template: `
     <div
@@ -283,7 +274,6 @@ class DisabledLinkedContextMenuHostComponent {}
 class DisabledContextTargetHostComponent {}
 
 @Component({
-  standalone: true,
   imports: [TngMenu, TngMenuItem, TngContextMenu, TngContextMenuTrigger],
   template: `
     <div tabindex="0" [tngContextMenuTrigger]="menuA" data-testid="target-a">Target A</div>
@@ -304,7 +294,6 @@ class MultipleContextTargetsHostComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngMenu, TngMenuItem, TngContextMenu, TngContextMenuTrigger],
   template: `
     @if (showTarget()) {
@@ -332,7 +321,6 @@ class ContextMenuListenerTeardownHostComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngMenu, TngMenuItem, TngMenuTrigger, TngContextMenu, TngContextMenuTrigger],
   template: `
     <button type="button" [tngMenuTrigger]="regularMenu" data-testid="regular-trigger">

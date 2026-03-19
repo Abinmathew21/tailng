@@ -32,7 +32,6 @@ function focusout(el: HTMLElement, relatedTarget: EventTarget | null): void {
 }
 
 @Component({
-  standalone: true,
   imports: [TngMenu, TngMenuItem, TngMenuTrigger],
   template: `
     <button type="button" [tngMenuTrigger]="menu" data-testid="trigger">Open</button>
@@ -49,7 +48,6 @@ function focusout(el: HTMLElement, relatedTarget: EventTarget | null): void {
 class MenuDismissHostComponent {}
 
 @Component({
-  standalone: true,
   imports: [TngMenu, TngMenuItem, TngMenuTrigger],
   template: `
     <button type="button" [tngMenuTrigger]="menu" data-testid="trigger">Open</button>
@@ -65,7 +63,6 @@ class MenuDismissHostComponent {}
 class MenuDismissDisabledHostComponent {}
 
 @Component({
-  standalone: true,
   imports: [TngMenu, TngMenuItem, TngMenuTrigger],
   template: `
     <button type="button" [tngMenuTrigger]="menu" data-testid="trigger">Open</button>
@@ -81,7 +78,6 @@ class MenuDismissDisabledHostComponent {}
 class MenuFocusoutDismissHostComponent {}
 
 @Component({
-  standalone: true,
   imports: [TngMenu, TngMenuBackdrop, TngMenuItem, TngMenuTrigger],
   template: `
     <button type="button" [tngMenuTrigger]="menu" data-testid="trigger">Open</button>

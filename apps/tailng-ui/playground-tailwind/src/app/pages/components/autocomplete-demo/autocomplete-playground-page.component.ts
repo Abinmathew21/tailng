@@ -21,7 +21,6 @@ type Country = { code: string; name: string };
 
 @Component({
   selector: 'app-autocomplete-playground-page',
-  standalone: true,
   imports: [
     TngAutocomplete,
     TngAutocompleteTrigger,

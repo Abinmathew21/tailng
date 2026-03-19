@@ -9,7 +9,6 @@ function keydown(el: HTMLElement, key: string): void {
 }
 
 @Component({
-  standalone: true,
   imports: [TngMenubar, TngMenubarItem],
   template: `
     <div tngMenubar data-testid="menubar-a">

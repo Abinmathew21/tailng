@@ -19,7 +19,6 @@ function keydown(element: HTMLElement, key: string): KeyboardEvent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngCollapsible, TngCollapsibleTrigger, TngCollapsibleContent],
   template: `
     <section tngCollapsible data-testid="root" [open]="open()" [disabled]="disabled()">
@@ -69,7 +68,6 @@ class CollapsibleHarnessComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngCollapsible, TngCollapsibleTrigger, TngCollapsibleContent],
   template: `
     <section tngCollapsible data-testid="root" [open]="open()">
@@ -93,7 +91,6 @@ class PassiveCollapsibleHostComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngCollapsible, TngCollapsibleTrigger, TngCollapsibleContent],
   template: `
     <section tngCollapsible data-testid="root-default"></section>

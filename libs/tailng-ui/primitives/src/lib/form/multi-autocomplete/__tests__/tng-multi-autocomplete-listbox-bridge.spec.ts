@@ -22,7 +22,6 @@ function pointerDown(el: HTMLElement) {
 }
 
 @Component({
-  standalone: true,
   imports: [
     TngMultiAutocomplete,
     TngMultiAutocompleteTrigger,

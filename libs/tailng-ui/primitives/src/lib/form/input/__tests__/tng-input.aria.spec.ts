@@ -6,7 +6,6 @@ import { describe, expect, it } from 'vitest';
 import { TngInput } from '../tng-input';
 
 @Component({
-  standalone: true,
   imports: [TngInput],
   template: `
     <input

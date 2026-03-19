@@ -29,7 +29,6 @@ function getRequired<T extends Element>(root: ParentNode, selector: string): T {
 }
 
 @Component({
-  standalone: true,
   imports: [TngProgressSpinnerComponent],
   template: `
     <tng-progress-spinner

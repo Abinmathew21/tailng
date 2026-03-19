@@ -48,7 +48,6 @@ function dispatchTabAndSimulateBrowserFocus(
 }
 
 @Component({
-  standalone: true,
   imports: [
     TngMultiAutocomplete,
     TngMultiAutocompleteTrigger,

@@ -7,7 +7,6 @@ import { TngInputComponent } from '../tng-input.component';
 import { TngInput, TngInputLeading, TngInputTrailing } from '@tailng-ui/primitives';
 
 @Component({
-  standalone: true,
   // Only import TngInputComponent here.
   // It already imports TngInputGroup internally.
   // We only need primitives for the projected content.
@@ -107,7 +106,6 @@ describe('tng-input (styled) — accessibility basics', () => {
 
   it('does not override ARIA attributes on the projected control by default', async () => {
     @Component({
-      standalone: true,
       imports: [TngInputComponent, TngInput],
       template: `
         <tng-input>

@@ -29,7 +29,6 @@ function getByTestId<T extends HTMLElement>(fixture: { nativeElement: HTMLElemen
 }
 
 @Component({
-  standalone: true,
   imports: [TngChips, TngChip, TngChipRemove],
   template: `
     <div

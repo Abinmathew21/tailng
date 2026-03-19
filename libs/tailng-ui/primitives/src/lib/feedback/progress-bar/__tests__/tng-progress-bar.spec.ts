@@ -20,7 +20,6 @@ function getByTestId<T extends Element>(
 }
 
 @Component({
-  standalone: true,
   imports: [TngProgressBar, TngProgressBarIndicator],
   template: `
     <div

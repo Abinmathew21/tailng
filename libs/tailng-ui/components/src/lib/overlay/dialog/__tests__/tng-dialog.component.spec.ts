@@ -48,7 +48,6 @@ async function settle(fixture: { detectChanges(): void; whenStable(): Promise<un
 }
 
 @Component({
-  standalone: true,
   imports: [TngDialogComponent],
   template: `
     <button type="button" data-testid="trigger" (click)="open.set(true)">Open</button>
@@ -93,7 +92,6 @@ class ManagedDialogHostComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngDialogComponent],
   template: `
     <tng-dialog [open]="open()" (openChange)="openChanges.push($event)" (closed)="closedReasons.push($event)">

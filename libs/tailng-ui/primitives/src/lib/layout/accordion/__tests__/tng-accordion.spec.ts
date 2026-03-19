@@ -69,7 +69,6 @@ function dispatchTabAndSimulateBrowserFocus(
 }
 
 @Component({
-  standalone: true,
   imports: [TngAccordion, TngAccordionItem, TngAccordionTrigger, TngAccordionPanel],
   template: `
     <button type="button" data-testid="before">Before</button>
@@ -159,14 +158,12 @@ class AccordionHarnessHostComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngAccordion],
   template: `<section tngAccordion data-testid="empty-accordion"></section>`,
 })
 class EmptyAccordionHostComponent {}
 
 @Component({
-  standalone: true,
   imports: [TngAccordion, TngAccordionItem, TngAccordionTrigger, TngAccordionPanel],
   template: `
     <section tngAccordion data-testid="outer">
@@ -195,7 +192,6 @@ class EmptyAccordionHostComponent {}
 class NestedAccordionHostComponent {}
 
 @Component({
-  standalone: true,
   imports: [TngAccordion, TngAccordionItem, TngAccordionTrigger, TngAccordionPanel],
   template: `
     <section tngAccordion data-testid="accordion-a">
@@ -224,7 +220,6 @@ class NestedAccordionHostComponent {}
 class AccordionIsolationHostComponent {}
 
 @Component({
-  standalone: true,
   imports: [TngAccordion, TngAccordionItem, TngAccordionTrigger, TngAccordionPanel],
   template: `
     <section tngAccordion data-testid="text-only-accordion">
@@ -246,7 +241,6 @@ class AccordionIsolationHostComponent {}
 class AccordionTextOnlyHostComponent {}
 
 @Component({
-  standalone: true,
   imports: [TngAccordion, TngAccordionItem, TngAccordionTrigger, TngAccordionPanel],
   template: `
     <section tngAccordion data-testid="section-item-accordion">
@@ -271,7 +265,6 @@ class AccordionTextOnlyHostComponent {}
 class AccordionSectionItemTabHostComponent {}
 
 @Component({
-  standalone: true,
   imports: [TngAccordion, TngAccordionItem, TngAccordionTrigger, TngAccordionPanel],
   template: `
     <section

@@ -42,7 +42,6 @@ function chipTexts(root: HTMLElement): string[] {
 }
 
 @Component({
-  standalone: true,
   imports: [
     TngMultiAutocomplete,
     TngMultiAutocompleteChip,

@@ -6,7 +6,6 @@ import { TngMenu, TngMenuItem } from '../../menu/tng-menu';
 import { TngMenubar, TngMenubarItem } from '../tng-menubar';
 
 @Component({
-  standalone: true,
   imports: [TngMenubar, TngMenubarItem, TngMenu, TngMenuItem],
   template: `
     <div tngMenubar data-testid="menubar">

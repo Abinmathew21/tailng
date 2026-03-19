@@ -17,7 +17,6 @@ import {
 
 @Directive({
   selector: 'ng-template[appDocsExampleVariant]',
-  standalone: true,
 })
 export class DocsExampleVariantDirective {
   public readonly value = input.required<string>();
@@ -29,7 +28,6 @@ export class DocsExampleVariantDirective {
 
 @Component({
   selector: 'app-docs-example-tabs-section',
-  standalone: true,
   imports: [
     NgTemplateOutlet,
     TngTabsComponent,

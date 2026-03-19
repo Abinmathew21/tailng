@@ -25,7 +25,6 @@ function keydown(el: HTMLElement, key: string) {
 }
 
 @Component({
-  standalone: true,
   imports: [
     TngAutocomplete,
     TngAutocompleteTrigger,
@@ -78,7 +77,6 @@ class OpenQueryHostComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [
     TngAutocomplete,
     TngAutocompleteTrigger,

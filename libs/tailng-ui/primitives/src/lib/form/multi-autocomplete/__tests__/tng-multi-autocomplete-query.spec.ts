@@ -22,7 +22,6 @@ function keydown(el: HTMLElement, key: string) {
 }
 
 @Component({
-  standalone: true,
   imports: [
     TngMultiAutocomplete,
     TngMultiAutocompleteTrigger,
@@ -162,7 +161,6 @@ describe('tng-multi-autocomplete query behavior', () => {
 
   it('open-on-focus emits current query (prefilled)', async () => {
     @Component({
-      standalone: true,
       imports: [TngMultiAutocomplete, TngMultiAutocompleteTrigger],
       template: `
         <section
@@ -203,7 +201,6 @@ describe('tng-multi-autocomplete query behavior', () => {
   
   it('open-on-focus does NOT emit queryChange when disabled (prefilled)', async () => {
     @Component({
-      standalone: true,
       imports: [TngMultiAutocomplete, TngMultiAutocompleteTrigger],
       template: `
         <section

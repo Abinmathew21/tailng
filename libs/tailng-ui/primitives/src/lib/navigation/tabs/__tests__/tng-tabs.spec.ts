@@ -58,7 +58,6 @@ function dispatchTabAndSimulateBrowserFocus(
 }
 
 @Component({
-  standalone: true,
   imports: [TngTabs, TngTabList, TngTab, TngTabPanel, TngTabsScrollButtonPrev, TngTabsScrollButtonNext],
   template: `
     <section tngTabs data-testid="tabs">
@@ -77,7 +76,6 @@ function dispatchTabAndSimulateBrowserFocus(
 class MinimalTabsHostComponent {}
 
 @Component({
-  standalone: true,
   imports: [TngTabs, TngTabList, TngTab, TngTabPanel, TngTabsScrollButtonPrev, TngTabsScrollButtonNext],
   template: `
     <section tngTabs data-testid="tabs">
@@ -90,7 +88,6 @@ class MinimalTabsHostComponent {}
 class ZeroTabsHostComponent {}
 
 @Component({
-  standalone: true,
   imports: [TngTabs, TngTabList, TngTab, TngTabPanel, TngTabsScrollButtonPrev, TngTabsScrollButtonNext],
   template: `
     <button type="button" data-testid="before">Before</button>
@@ -204,7 +201,6 @@ class TabsHarnessHostComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngTabs, TngTabList, TngTab, TngTabPanel, TngTabsScrollButtonPrev, TngTabsScrollButtonNext],
   template: `
     <section tngTabs data-testid="tabs-a">
@@ -233,7 +229,6 @@ class TabsHarnessHostComponent {
 class TabsIsolationHostComponent {}
 
 @Component({
-  standalone: true,
   imports: [TngTabs, TngTabList, TngTab, TngTabPanel, TngTabsScrollButtonPrev, TngTabsScrollButtonNext],
   template: `
     <section

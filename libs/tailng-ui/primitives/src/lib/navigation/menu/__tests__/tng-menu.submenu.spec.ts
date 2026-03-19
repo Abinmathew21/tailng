@@ -37,7 +37,6 @@ function pointerdown(el: HTMLElement): PointerEvent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngMenu, TngMenuItem, TngMenuTrigger],
   template: `
     <button type="button" [tngMenuTrigger]="menu" data-testid="trigger">Open</button>
@@ -63,7 +62,6 @@ function pointerdown(el: HTMLElement): PointerEvent {
 class MenuSubmenuHostComponent {}
 
 @Component({
-  standalone: true,
   imports: [TngMenu, TngMenuItem, TngMenuTrigger],
   template: `
     <button type="button" [tngMenuTrigger]="menu" data-testid="trigger">Open</button>
@@ -99,7 +97,6 @@ class MenuSubmenuHostComponent {}
 class MenuDeepSubmenuHostComponent {}
 
 @Component({
-  standalone: true,
   imports: [TngMenu, TngMenuItem, TngMenuTrigger],
   template: `
     <button type="button" [tngMenuTrigger]="menu" data-testid="trigger">Open</button>
@@ -136,7 +133,6 @@ class MenuDeepSubmenuHostComponent {}
 class MenuNestedDeepSubmenuHostComponent {}
 
 @Component({
-  standalone: true,
   imports: [TngMenu, TngMenuItem, TngMenuTrigger],
   template: `
     <button type="button" [tngMenuTrigger]="menu" data-testid="trigger">Open</button>

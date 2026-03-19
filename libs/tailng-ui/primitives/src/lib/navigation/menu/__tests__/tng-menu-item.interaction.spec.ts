@@ -26,7 +26,6 @@ function keydown(el: HTMLElement, key: string): KeyboardEvent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngMenu, TngMenuItem],
   template: `
     <div
@@ -68,7 +67,6 @@ class MenuItemInteractionHostComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngMenu, TngMenuItem],
   template: `
     <div

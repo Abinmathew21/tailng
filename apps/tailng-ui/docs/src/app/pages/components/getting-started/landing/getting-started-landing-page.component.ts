@@ -93,7 +93,6 @@ export class GettingStartedLandingPageComponent implements OnDestroy {
     '',
     '@Component({',
     "  selector: 'app-quick-start-example',",
-    '  standalone: true,',
     '  imports: [TngButtonComponent],',
     '  template: `',
     '    <button tngButton variant="primary">Save changes</button>',

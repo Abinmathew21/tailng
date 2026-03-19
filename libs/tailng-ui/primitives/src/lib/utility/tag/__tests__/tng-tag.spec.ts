@@ -41,7 +41,6 @@ function dispatchKeyboard(target: EventTarget, key: string): KeyboardEvent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngTag, TngTagIcon, TngTagClose],
   template: `
     <span

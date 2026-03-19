@@ -43,7 +43,6 @@ function findOverlay(): HTMLElement | null {
 }
 
 @Component({
-  standalone: true,
   imports: [
     TngAutocomplete,
     TngAutocompleteTrigger,
@@ -89,7 +88,6 @@ class HostComponent {
 
 /** Overlay with wide content to test min-width vs grow. */
 @Component({
-  standalone: true,
   imports: [
     TngAutocomplete,
     TngAutocompleteTrigger,
@@ -136,7 +134,6 @@ class WideContentHostComponent {
 
 /** Trigger + icon in container; overlay should use container width for min-width. */
 @Component({
-  standalone: true,
   imports: [
     TngAutocomplete,
     TngAutocompleteTrigger,

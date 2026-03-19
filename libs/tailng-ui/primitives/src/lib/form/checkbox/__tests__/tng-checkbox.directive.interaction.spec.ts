@@ -5,7 +5,6 @@ import { describe, expect, it, vi } from 'vitest';
 import { TngCheckbox } from '../tng-checkbox';
 
 @Component({
-  standalone: true,
   imports: [TngCheckbox],
   template: `
     <input

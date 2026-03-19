@@ -15,7 +15,6 @@ type Country = { code: string; name: string };
 
 @Component({
   selector: 'app-multi-autocomplete-playground-page',
-  standalone: true,
   imports: [
     TngMultiAutocomplete,
     TngMultiAutocompleteChip,

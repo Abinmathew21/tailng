@@ -22,7 +22,6 @@ function getByTestId<T extends Element>(
 }
 
 @Component({
-  standalone: true,
   imports: [TngEmpty, TngEmptyIcon, TngEmptyTitle, TngEmptyDescription, TngEmptyActions],
   template: `
     <section tngEmpty #emptyRef="tngEmpty" data-testid="empty">Root</section>

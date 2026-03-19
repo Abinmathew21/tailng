@@ -58,7 +58,6 @@ function findBackdrop(fixture: { nativeElement: HTMLElement }): HTMLElement | nu
 }
 
 @Component({
-  standalone: true,
   imports: [TngDrawerContainer, TngDrawer, TngDrawerContent],
   template: `
     <button data-testid="before">Before</button>
@@ -156,7 +155,6 @@ class DrawerHostComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngDrawerContainer, TngDrawer, TngDrawerContent],
   template: `
     <section tngDrawerContainer [closeOthersOnOpen]="closeOthersOnOpen()" [dir]="dir()" [animate]="false">
@@ -194,7 +192,6 @@ class MultiDrawerHostComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [NgIf, TngDrawerContainer, TngDrawer, TngDrawerContent],
   template: `
     <section *ngIf="showContainer()" tngDrawerContainer [animate]="false" data-testid="container">

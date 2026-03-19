@@ -5,7 +5,6 @@ import { describe, expect, it } from 'vitest';
 import { TngTabsComponent } from './tng-tabs.component';
 
 @Component({
-  standalone: true,
   imports: [TngTabsComponent, TngTabList, TngTab, TngTabPanel],
   template: `
     <tng-tabs ariaLabel="Project tabs" data-testid="tabs">

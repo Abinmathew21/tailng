@@ -22,7 +22,6 @@ function keydown(el: HTMLElement, key: string): void {
 }
 
 @Component({
-  standalone: true,
   imports: [
     TngSelect,
     TngSelectTrigger,

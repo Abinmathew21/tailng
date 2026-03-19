@@ -6,7 +6,6 @@ import { TngToggle } from '@tailng-ui/primitives';
 import { TngToggleGroupComponent } from '../tng-toggle-group.component';
 
 @Component({
-  standalone: true,
   imports: [TngToggleGroupComponent, TngToggle],
   template: `
     <tng-toggle-group

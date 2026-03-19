@@ -22,7 +22,6 @@ function dispatchKeydown(el: HTMLElement, eventInit: Partial<KeyboardEventInit> 
 }
 
 @Component({
-  standalone: true,
   imports: [TngSelect, TngSelectTrigger, TngSelectContent],
   template: `
     <div
@@ -45,7 +44,6 @@ class HostComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngSelect, TngSelectTrigger, TngSelectContent],
   template: `
     <div

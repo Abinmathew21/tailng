@@ -39,7 +39,6 @@ function click(el: HTMLElement): MouseEvent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngButtonToggleGroup, TngButtonToggle],
   template: `
     <section tngButtonToggleGroup data-testid="group">
@@ -51,7 +50,6 @@ function click(el: HTMLElement): MouseEvent {
 class MinimalButtonToggleHostComponent {}
 
 @Component({
-  standalone: true,
   imports: [TngButtonToggleGroup, TngButtonToggle],
   template: `
     <section tngButtonToggleGroup data-testid="group"></section>
@@ -60,7 +58,6 @@ class MinimalButtonToggleHostComponent {}
 class ZeroToggleHostComponent {}
 
 @Component({
-  standalone: true,
   imports: [TngButtonToggleGroup, TngButtonToggle],
   template: `
     <section tngButtonToggleGroup data-testid="group" tngButtonToggleDefaultValue="strike">
@@ -73,7 +70,6 @@ class ZeroToggleHostComponent {}
 class ButtonToggleSingleDefaultHostComponent {}
 
 @Component({
-  standalone: true,
   imports: [TngButtonToggleGroup, TngButtonToggle],
   template: `
     <button type="button" data-testid="before">Before</button>
@@ -164,7 +160,6 @@ class ButtonToggleHarnessHostComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngButtonToggleGroup, TngButtonToggle],
   template: `
     <section tngButtonToggleGroup data-testid="group-a">
@@ -186,7 +181,6 @@ class ButtonToggleHarnessHostComponent {
 class ButtonToggleIsolationHostComponent {}
 
 @Component({
-  standalone: true,
   imports: [TngButtonToggleGroup, TngButtonToggle],
   template: `
     <section
@@ -210,7 +204,6 @@ class ButtonToggleProgrammaticHostComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngButtonToggleGroup, TngButtonToggle],
   template: `
     <section tngButtonToggleGroup data-testid="group">
@@ -226,7 +219,6 @@ class ButtonToggleProgrammaticHostComponent {
 class ButtonToggleNestedContentHostComponent {}
 
 @Component({
-  standalone: true,
   imports: [TngButtonToggleGroup, TngButtonToggle],
   template: `
     <section tngButtonToggleGroup data-testid="group-a">

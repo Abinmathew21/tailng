@@ -20,7 +20,6 @@ function keydown(el: HTMLElement, key: string, init: Partial<KeyboardEventInit> 
 }
 
 @Component({
-  standalone: true,
   imports: [TngSelect, TngSelectTrigger],
   template: `
     <div tngSelect data-testid="root" [disabled]="disabled">

@@ -6,7 +6,6 @@ import { TngMenuComponent } from './tng-menu.component';
 import { TngMenuTriggerFor } from './tng-menu-trigger-for.directive';
 
 @Component({
-  standalone: true,
   imports: [TngMenuComponent, TngMenuItem, TngMenuTriggerFor],
   template: `
     <button type="button" [tngMenuTriggerFor]="menu" data-testid="trigger">Open</button>

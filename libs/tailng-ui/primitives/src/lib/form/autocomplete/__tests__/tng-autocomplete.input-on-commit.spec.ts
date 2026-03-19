@@ -50,7 +50,6 @@ function getLabel(value: string | null): string {
 }
 
 @Component({
-  standalone: true,
   imports: [
     TngAutocomplete,
     TngAutocompleteTrigger,
@@ -123,7 +122,6 @@ class StrictHostComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [
     TngAutocomplete,
     TngAutocompleteTrigger,

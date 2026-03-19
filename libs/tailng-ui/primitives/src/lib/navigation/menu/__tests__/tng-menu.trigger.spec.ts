@@ -15,7 +15,6 @@ function pointerdown(el: HTMLElement): PointerEvent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngMenu, TngMenuItem, TngMenuTrigger],
   template: `
     <button type="button" [tngMenuTrigger]="menu" data-testid="trigger">
@@ -34,7 +33,6 @@ function pointerdown(el: HTMLElement): PointerEvent {
 class MenuTriggerHostComponent {}
 
 @Component({
-  standalone: true,
   imports: [TngMenu, TngMenuItem, TngMenuTrigger],
   template: `
     <button type="button" [tngMenuTrigger]="menu" data-testid="trigger">
@@ -52,7 +50,6 @@ class ProgrammaticMenuTriggerHostComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngMenu, TngMenuItem, TngMenuTrigger],
   template: `
     <button
@@ -72,7 +69,6 @@ class ProgrammaticMenuTriggerHostComponent {
 class DisabledMenuTriggerHostComponent {}
 
 @Component({
-  standalone: true,
   imports: [TngMenu, TngMenuItem, TngMenuTrigger],
   template: `
     <button type="button" [tngMenuTrigger]="menu" data-testid="trigger">
@@ -87,7 +83,6 @@ class DisabledMenuTriggerHostComponent {}
 class DisabledLinkedMenuTriggerHostComponent {}
 
 @Component({
-  standalone: true,
   imports: [TngMenu, TngMenuItem, TngMenuTrigger],
   template: `
     <button type="button" data-testid="before">Before</button>
@@ -127,7 +122,6 @@ function dispatchTabAndSimulateBrowserFocus(
 }
 
 @Component({
-  standalone: true,
   imports: [TngMenuTrigger],
   template: `
     <button
@@ -144,7 +138,6 @@ class MissingMenuTriggerHostComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngMenu, TngMenuItem, TngMenuTrigger],
   template: `
     <button type="button" [tngMenuTrigger]="menu" data-testid="trigger">
@@ -161,7 +154,6 @@ class MissingMenuTriggerHostComponent {
 class FirstDisabledMenuTriggerHostComponent {}
 
 @Component({
-  standalone: true,
   imports: [TngMenu, TngMenuItem, TngMenuTrigger],
   template: `
     <span id="hint">Hint</span>
@@ -183,7 +175,6 @@ class FirstDisabledMenuTriggerHostComponent {}
 class AriaPreservingMenuTriggerHostComponent {}
 
 @Component({
-  standalone: true,
   imports: [TngMenu, TngMenuItem, TngMenuTrigger],
   template: `
     <button type="button" [tngMenuTrigger]="menuRef()" data-testid="trigger">
@@ -211,7 +202,6 @@ class DynamicLinkedMenuTriggerHostComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngMenu, TngMenuItem, TngMenuTrigger],
   template: `
     <button type="button" [tngMenuTrigger]="menu" data-testid="trigger-a">
@@ -230,7 +220,6 @@ class DynamicLinkedMenuTriggerHostComponent {
 class SharedMenuTriggersHostComponent {}
 
 @Component({
-  standalone: true,
   imports: [TngMenu, TngMenuItem, TngMenuTrigger],
   template: `
     <button type="button" [tngMenuTrigger]="menuA" data-testid="trigger-a">
@@ -253,7 +242,6 @@ class SharedMenuTriggersHostComponent {}
 class MultipleMenuTriggersHostComponent {}
 
 @Component({
-  standalone: true,
   imports: [TngMenu, TngMenuItem, TngMenuTrigger],
   template: `
     <button type="button" [tngMenuTrigger]="menu" data-testid="trigger">
@@ -279,7 +267,6 @@ class TriggerIdempotenceHostComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngMenu, TngMenuItem, TngMenuTrigger],
   template: `
     @if (showPrimary()) {
@@ -305,7 +292,6 @@ class TriggerReplacementHostComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngMenu, TngMenuItem, TngMenuTrigger],
   template: `
     @if (showTrigger()) {

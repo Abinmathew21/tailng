@@ -8,7 +8,6 @@ import {
 } from '../tng-press';
 
 @Component({
-  standalone: true,
   imports: [TngPress],
   template: `<button tngPress disabled="" type="button">Coercion host</button>`,
 })

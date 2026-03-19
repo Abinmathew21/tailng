@@ -56,21 +56,18 @@ function click(target: HTMLElement): MouseEvent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngSwitchComponent],
   template: `<tng-switch data-testid="default-switch">Projected label</tng-switch>`,
 })
 class DefaultSwitchHostComponent {}
 
 @Component({
-  standalone: true,
   imports: [TngSwitchComponent],
   template: `<tng-switch data-testid="no-icon-switch">Label only</tng-switch>`,
 })
 class NoIconSwitchHostComponent {}
 
 @Component({
-  standalone: true,
   imports: [TngSwitchComponent],
   template: `
     <tng-switch data-testid="checked-attr" checked="">Checked attr</tng-switch>
@@ -81,7 +78,6 @@ class NoIconSwitchHostComponent {}
 class CoercionSwitchHostComponent {}
 
 @Component({
-  standalone: true,
   imports: [TngSwitchComponent],
   template: `
     <tng-switch

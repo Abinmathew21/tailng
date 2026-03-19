@@ -46,7 +46,6 @@ async function settle(fixture: { detectChanges(): void; whenStable(): Promise<un
 }
 
 @Component({
-  standalone: true,
   imports: [TngPopoverComponent],
   template: `
     <tng-popover
@@ -80,7 +79,6 @@ class UncontrolledPopoverHostComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngPopoverComponent],
   template: `
     <tng-popover

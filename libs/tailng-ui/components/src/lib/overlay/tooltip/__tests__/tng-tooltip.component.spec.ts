@@ -36,7 +36,6 @@ async function settle(fixture: { detectChanges(): void; whenStable(): Promise<un
 }
 
 @Component({
-  standalone: true,
   imports: [TngTooltipComponent],
   template: `
     <tng-tooltip

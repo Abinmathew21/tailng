@@ -13,7 +13,6 @@ function keydown(el: HTMLElement, key: string) {
 }
 
 @Component({
-  standalone: true,
   imports: [TngMultiAutocomplete, TngMultiAutocompleteTrigger, TngMultiAutocompleteChip],
   template: `
     <section

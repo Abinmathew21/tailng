@@ -21,7 +21,6 @@ function keydown(
 }
 
 @Component({
-  standalone: true,
   imports: [
     TngAutocomplete,
     TngAutocompleteTrigger,
@@ -73,7 +72,6 @@ class HostComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngAutocomplete, TngAutocompleteTrigger],
   template: `
     <div

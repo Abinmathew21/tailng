@@ -22,7 +22,6 @@ function getByTestId<T extends Element>(
 }
 
 @Component({
-  standalone: true,
   imports: [TngBreadcrumb, TngBreadcrumbList, TngBreadcrumbItem, TngBreadcrumbLink, TngBreadcrumbSeparator],
   template: `
     <nav tngBreadcrumb #breadcrumbRef="tngBreadcrumb" data-testid="breadcrumb-root" aria-label="Breadcrumb">

@@ -6,21 +6,18 @@ import { describe, expect, it } from 'vitest';
 import { TngInput } from '../tng-input'; // adjust relative path if needed
 
 @Component({
-  standalone: true,
   imports: [TngInput],
   template: `<input tngInput />`,
 })
 class InputHostComponent {}
 
 @Component({
-  standalone: true,
   imports: [TngInput],
   template: `<textarea tngInput></textarea>`,
 })
 class TextareaHostComponent {}
 
 @Component({
-  standalone: true,
   // Intentionally NOT importing TngInput here
   template: `<input />`,
 })

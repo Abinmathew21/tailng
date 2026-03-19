@@ -13,7 +13,6 @@ export type DocsExampleCodeTab = Readonly<{
 
 @Component({
   selector: 'app-docs-example-panel',
-  standalone: true,
   imports: [TngCodeBlockComponent, TngTabsComponent, TngTabList, TngTab, TngTabPanel, TngIcon],
   templateUrl: './docs-example-panel.component.html',
   styleUrl: './docs-example-panel.component.css',

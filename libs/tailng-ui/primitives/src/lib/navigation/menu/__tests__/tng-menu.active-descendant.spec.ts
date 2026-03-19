@@ -9,7 +9,6 @@ function keydown(el: HTMLElement, key: string): void {
 }
 
 @Component({
-  standalone: true,
   imports: [TngMenu, TngMenuItem],
   template: `
     <div tngMenu tabindex="0" data-testid="menu">
@@ -23,7 +22,6 @@ function keydown(el: HTMLElement, key: string): void {
 class MenuActiveDescendantHostComponent {}
 
 @Component({
-  standalone: true,
   imports: [TngMenu, TngMenuItem],
   template: `
     <div tngMenu [loop]="loop()" tabindex="0" data-testid="menu">
@@ -39,7 +37,6 @@ class MenuLoopConfigHostComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngMenu, TngMenuItem],
   template: `
     <div tngMenu tabindex="0" data-testid="menu">
@@ -51,7 +48,6 @@ class MenuLoopConfigHostComponent {
 class MenuAllDisabledHostComponent {}
 
 @Component({
-  standalone: true,
   imports: [TngMenu],
   template: `
     <div tngMenu tabindex="0" data-testid="menu"></div>

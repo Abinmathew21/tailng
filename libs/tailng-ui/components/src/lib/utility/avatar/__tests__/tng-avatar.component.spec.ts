@@ -49,7 +49,6 @@ function dispatchEvent(target: EventTarget, type: string): Event {
 }
 
 @Component({
-  standalone: true,
   imports: [TngAvatarComponent],
   template: `
     <tng-avatar

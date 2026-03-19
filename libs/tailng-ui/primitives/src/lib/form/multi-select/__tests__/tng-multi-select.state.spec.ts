@@ -18,7 +18,6 @@ function dispatchKeydown(el: HTMLElement, eventInit: Partial<KeyboardEventInit> 
 }
 
 @Component({
-  standalone: true,
   imports: [TngMultiSelect, TngSelectTrigger, TngSelectContent, TngMultiSelectListbox, TngMultiSelectOption],
   template: `
     <div

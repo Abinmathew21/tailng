@@ -48,7 +48,6 @@ const optionById: ReadonlyMap<string, DemoOption> = new Map(
 
 @Component({
   selector: 'app-listbox-playground-page',
-  standalone: true,
   imports: [TngListboxDirective, TngOptionDirective],
   templateUrl: './listbox-playground-page.component.html',
   styleUrl: './listbox-playground-page.component.css',

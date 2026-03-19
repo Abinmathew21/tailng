@@ -5,7 +5,6 @@ import { describe, expect, it, vi } from 'vitest';
 import { TngToggle } from '../tng-toggle';
 
 @Component({
-  standalone: true,
   imports: [TngToggle],
   template: `
     <button

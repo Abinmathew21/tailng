@@ -4,7 +4,6 @@ import { describe, expect, it } from 'vitest';
 import { TngStepperComponent } from '../tng-stepper.component';
 
 @Component({
-  standalone: true,
   imports: [TngStepperComponent],
   template: `
     <tng-stepper [ariaLabel]="ariaLabel()" data-testid="wrapper">
@@ -20,7 +19,6 @@ class StepperWrapperHostComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngStepperComponent],
   template: `
     <tng-stepper data-testid="wrapper-default">

@@ -63,7 +63,6 @@ function click(element: HTMLElement): void {
 }
 
 @Component({
-  standalone: true,
   imports: [TngTreeComponent],
   template: `
     <tng-tree
@@ -89,7 +88,6 @@ class TreeTestHost {
 }
 
 @Component({
-  standalone: true,
   imports: [TngTreeComponent],
   template: `<tng-tree data-testid="default-tree" />`,
 })

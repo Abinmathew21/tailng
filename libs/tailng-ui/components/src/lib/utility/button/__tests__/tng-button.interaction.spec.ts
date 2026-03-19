@@ -4,7 +4,6 @@ import { afterEach, describe, expect, it } from 'vitest';
 import { TngButtonComponent } from '../tng-button.component';
 
 @Component({
-  standalone: true,
   imports: [TngButtonComponent],
   template: `
     <tng-button data-testid="host-button" (click)="onClick()">Clear Selection</tng-button>

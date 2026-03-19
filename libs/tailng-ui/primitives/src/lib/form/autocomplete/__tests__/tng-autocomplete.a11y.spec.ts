@@ -16,7 +16,6 @@ function focus(el: HTMLElement): void {
 }
 
 @Component({
-  standalone: true,
   imports: [
     TngAutocomplete,
     TngAutocompleteTrigger,

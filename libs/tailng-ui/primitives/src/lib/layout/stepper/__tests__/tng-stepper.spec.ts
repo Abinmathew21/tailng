@@ -4,7 +4,6 @@ import { afterEach, describe, expect, it } from 'vitest';
 import { TngStepper } from '../tng-stepper';
 
 @Component({
-  standalone: true,
   imports: [TngStepper],
   template: `<ol tngStepper #stepper="tngStepper" data-testid="stepper"></ol>`,
 })
@@ -13,7 +12,6 @@ class StepperHostComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngStepper],
   template: `<section tngStepper data-testid="stepper-section"></section>`,
 })

@@ -25,7 +25,6 @@ function getRequired<T extends Element>(root: ParentNode, selector: string): T {
 }
 
 @Component({
-  standalone: true,
   imports: [TngProgressBarComponent],
   template: `
     <tng-progress-bar

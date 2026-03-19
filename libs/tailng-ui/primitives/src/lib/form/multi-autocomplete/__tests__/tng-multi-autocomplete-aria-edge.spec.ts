@@ -13,7 +13,6 @@ function dispatchFocus(el: HTMLElement) {
 }
 
 @Component({
-  standalone: true,
   imports: [TngMultiAutocomplete, TngMultiAutocompleteTrigger],
   template: `
     <section tngMultiAutocomplete #m="tngMultiAutocomplete" [open]="open()" (openChange)="open.set($event)">

@@ -12,7 +12,6 @@ function click(el: HTMLElement): void {
 }
 
 @Component({
-  standalone: true,
   imports: [TngButtonToggleComponent],
   template: `
     <tng-button-toggle [pressed]="pressed()" (pressedChange)="pressed.set($event)">
@@ -25,7 +24,6 @@ class StandaloneToggleHostComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngButtonToggleComponent, TngButtonToggleGroupComponent],
   template: `
     <tng-button-toggle-group
@@ -43,7 +41,6 @@ class StandaloneToggleHostComponent {
 class GroupToggleHostComponent {}
 
 @Component({
-  standalone: true,
   imports: [TngButtonToggleComponent, TngButtonToggleGroupComponent],
   template: `
     <tng-button-toggle-group [type]="'single'" [value]="'left'">

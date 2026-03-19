@@ -5,7 +5,6 @@ import { describe, expect, it, vi } from 'vitest';
 import { TngMenu, TngMenuItem, TngMenuTrigger } from '../tng-menu';
 
 @Component({
-  standalone: true,
   imports: [TngMenu, TngMenuItem, TngMenuTrigger],
   template: `
     @if (showTrigger()) {
@@ -22,7 +21,6 @@ class MenuTriggerTeardownHostComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngMenu, TngMenuItem, TngMenuTrigger],
   template: `
     <button type="button" [tngMenuTrigger]="menu" data-testid="trigger">Open</button>

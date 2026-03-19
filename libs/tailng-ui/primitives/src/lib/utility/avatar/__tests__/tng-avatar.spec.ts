@@ -16,7 +16,6 @@ function getByTestId<T extends Element>(
 }
 
 @Component({
-  standalone: true,
   imports: [TngAvatar, TngAvatarImage, TngAvatarFallback],
   template: `
     <div

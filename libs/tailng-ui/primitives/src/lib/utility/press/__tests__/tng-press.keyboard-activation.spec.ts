@@ -11,7 +11,6 @@ function dispatchKeydown(target: EventTarget, key: string): KeyboardEvent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngPress],
   template: `
     <a #anchorNoHref tngPress (click)="anchorNoHrefClicks.set(anchorNoHrefClicks() + 1)"

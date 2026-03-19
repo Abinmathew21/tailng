@@ -25,7 +25,6 @@ function dispatchWindowScroll(): void {
 }
 
 @Component({
-  standalone: true,
   imports: [
     TngSelect,
     TngSelectTrigger,

@@ -17,7 +17,6 @@ type Opt = { value: string; label: string; disabled?: boolean };
 
 @Component({
   selector: 'app-multiselect-playground-page',
-  standalone: true,
   imports: [
     TngMultiSelect,
     TngSelectTrigger,

@@ -5,7 +5,6 @@ import { afterEach, describe, expect, it } from 'vitest';
 import { TngPress } from '../tng-press';
 
 @Component({
-  standalone: true,
   imports: [TngPress],
   template: `
     <button #buttonHost tngPress class="consumer-btn alpha" data-track="button">Button</button>

@@ -4,7 +4,6 @@ import { afterEach, describe, expect, it } from 'vitest';
 import { TngPress, type TngPressAriaHasPopup } from '../tng-press';
 
 @Component({
-  standalone: true,
   imports: [TngPress],
   template: `
     <button

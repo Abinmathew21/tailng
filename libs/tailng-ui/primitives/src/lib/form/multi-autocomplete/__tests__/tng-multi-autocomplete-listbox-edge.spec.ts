@@ -18,7 +18,6 @@ function inputText(input: HTMLInputElement, value: string) {
 }
 
 @Component({
-  standalone: true,
   imports: [
     TngMultiAutocomplete,
     TngMultiAutocompleteTrigger,

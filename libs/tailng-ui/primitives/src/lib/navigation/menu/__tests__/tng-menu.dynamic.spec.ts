@@ -15,7 +15,6 @@ function keydown(el: HTMLElement, key: string): void {
 }
 
 @Component({
-  standalone: true,
   imports: [TngMenu, TngMenuItem],
   template: `
     <div tngMenu #menu="tngMenu" data-testid="menu">
@@ -48,7 +47,6 @@ class MenuDynamicHostComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngMenu, TngMenuItem],
   template: `
     <div tngMenu #menu="tngMenu" data-testid="menu">

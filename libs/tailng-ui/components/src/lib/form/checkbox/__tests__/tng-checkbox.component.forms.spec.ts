@@ -6,7 +6,6 @@ import { describe, expect, it } from 'vitest';
 import { TngCheckboxComponent, type TngCheckboxModelValue } from '../tng-checkbox.component';
 
 @Component({
-  standalone: true,
   imports: [ReactiveFormsModule, TngCheckboxComponent],
   template: `
     <tng-checkbox data-testid="reactive-control" [formControl]="control">
@@ -19,7 +18,6 @@ class ReactiveFormControlHostComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [ReactiveFormsModule, TngCheckboxComponent],
   template: `
     <form [formGroup]="form">
@@ -36,7 +34,6 @@ class ReactiveFormControlNameHostComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [FormsModule, TngCheckboxComponent],
   template: `
     <tng-checkbox data-testid="ng-model" name="consent" [(ngModel)]="value">

@@ -17,7 +17,6 @@ function keydown(el: HTMLElement, key: string): KeyboardEvent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngMenubar, TngMenubarItem, TngMenu, TngMenuItem],
   template: `
     <div tngMenubar data-testid="menubar">
@@ -40,7 +39,6 @@ function keydown(el: HTMLElement, key: string): KeyboardEvent {
 class MenubarMenuHostComponent {}
 
 @Component({
-  standalone: true,
   imports: [TngMenubar, TngMenubarItem, TngMenu, TngMenuItem],
   template: `
     <div tngMenubar data-testid="menubar">
@@ -64,7 +62,6 @@ class MenubarMenuHostComponent {}
 class MenubarDisabledFirstItemHostComponent {}
 
 @Component({
-  standalone: true,
   imports: [TngMenubar, TngMenubarItem, TngMenu, TngMenuItem],
   template: `
     <div tngMenubar data-testid="menubar">
@@ -98,7 +95,6 @@ class MenubarDisabledFirstItemHostComponent {}
 class MenubarMultipleMenuHostComponent {}
 
 @Component({
-  standalone: true,
   imports: [TngMenubar, TngMenubarItem, TngMenu, TngMenuItem],
   template: `
     <button type="button" data-testid="before">Before</button>
@@ -123,7 +119,6 @@ class MenubarMultipleMenuHostComponent {}
 class MenubarTraversalHostComponent {}
 
 @Component({
-  standalone: true,
   imports: [TngMenubar, TngMenubarItem, TngMenu, TngMenuItem],
   template: `
     <div tngMenubar data-testid="menubar">
@@ -155,7 +150,6 @@ class MenubarSelectionDelegationHostComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngMenubar, TngMenubarItem, TngMenu, TngMenuItem],
   template: `
     <div tngMenubar data-testid="menubar">
@@ -181,7 +175,6 @@ class MenubarTransientMenuHostComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngMenubar, TngMenubarItem, TngMenu, TngMenuItem],
   template: `
     <div tngMenubar data-testid="menubar">

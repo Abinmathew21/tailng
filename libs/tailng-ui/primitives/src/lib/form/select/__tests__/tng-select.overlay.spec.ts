@@ -20,7 +20,6 @@ function pointerdown(el: HTMLElement, init: Partial<PointerEventInit> = {}): voi
 }
 
 @Component({
-  standalone: true,
   imports: [TngSelect, TngSelectTrigger, TngSelectContent, TngSelectOverlay],
   template: `
     <div
@@ -47,7 +46,6 @@ class HostComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [
     TngSelect,
     TngSelectTrigger,

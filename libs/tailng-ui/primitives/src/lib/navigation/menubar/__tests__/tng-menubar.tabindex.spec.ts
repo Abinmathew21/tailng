@@ -5,7 +5,6 @@ import { describe, expect, it } from 'vitest';
 import { TngMenubar, TngMenubarItem } from '../tng-menubar';
 
 @Component({
-  standalone: true,
   imports: [TngMenubar, TngMenubarItem],
   template: `
     <button type="button" data-testid="before">Before</button>

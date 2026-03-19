@@ -4,7 +4,6 @@ import { afterEach, describe, expect, it } from 'vitest';
 import { TngDrawer, TngDrawerContainer, TngDrawerContent } from '../tng-drawer';
 
 @Component({
-  standalone: true,
   imports: [TngDrawerContainer, TngDrawer, TngDrawerContent],
   template: `
     <section tngDrawerContainer data-testid="container">
@@ -16,7 +15,6 @@ import { TngDrawer, TngDrawerContainer, TngDrawerContent } from '../tng-drawer';
 class SingleDrawerLayoutHostComponent {}
 
 @Component({
-  standalone: true,
   imports: [TngDrawerContainer, TngDrawer, TngDrawerContent],
   template: `
     <section tngDrawerContainer data-testid="container">
@@ -29,7 +27,6 @@ class SingleDrawerLayoutHostComponent {}
 class MultiDrawerLayoutHostComponent {}
 
 @Component({
-  standalone: true,
   imports: [TngDrawer],
   template: `
     <aside tngDrawer data-testid="drawer"></aside>
@@ -38,7 +35,6 @@ class MultiDrawerLayoutHostComponent {}
 class DrawerWithoutContainerHostComponent {}
 
 @Component({
-  standalone: true,
   imports: [TngDrawerContainer, TngDrawerContent],
   template: `
     <section tngDrawerContainer data-testid="container">

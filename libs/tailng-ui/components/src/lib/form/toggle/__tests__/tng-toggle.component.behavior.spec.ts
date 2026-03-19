@@ -5,7 +5,6 @@ import { describe, expect, it } from 'vitest';
 import { TngToggleComponent } from '../tng-toggle.component';
 
 @Component({
-  standalone: true,
   imports: [TngToggleComponent],
   template: `
     <span id="toggle-label">Theme mode</span>

@@ -37,7 +37,6 @@ function getBadge(host: HTMLElement): HTMLSpanElement {
 }
 
 @Component({
-  standalone: true,
   imports: [TngBadge],
   template: `
     <button
@@ -84,7 +83,6 @@ class BadgeHarnessHostComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngBadge],
   template: `<button type="button" data-testid="host" [tngBadge]="badge()">Inbox</button>`,
 })
@@ -93,7 +91,6 @@ class MinimalBadgeHostComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngBadge],
   template: `
     <button
@@ -111,7 +108,6 @@ class AccessibleBadgeHostComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngBadge],
   template: `
     <span data-testid="inline-host" [tngBadge]="inlineValue()">Inline host</span>
@@ -124,7 +120,6 @@ class InlineAndBlockBadgeHostComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngBadge],
   template: `
     <button type="button" data-testid="host-a" [tngBadge]="first()">A</button>

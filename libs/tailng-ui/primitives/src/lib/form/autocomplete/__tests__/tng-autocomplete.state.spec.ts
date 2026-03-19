@@ -9,7 +9,6 @@ import {
 import type { TngAutocompleteListboxApi } from '../tng-autocomplete.listbox.types';
 
 @Component({
-  standalone: true,
   imports: [TngAutocomplete, TngAutocompleteTrigger, TngAutocompleteContent],
   template: `
     <div

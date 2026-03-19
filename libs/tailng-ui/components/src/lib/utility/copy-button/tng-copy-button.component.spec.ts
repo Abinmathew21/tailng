@@ -10,14 +10,12 @@ import {
 } from './tng-copy-button.component';
 
 @Component({
-  standalone: true,
   imports: [TngCopyButtonComponent],
   template: `<tng-copy-button data-testid="copy-button" text="pnpm add @tailng-ui/components" />`,
 })
 class TngCopyButtonDefaultIconHostComponent {}
 
 @Component({
-  standalone: true,
   imports: [TngCopyButtonComponent],
   template: `
     <tng-copy-button data-testid="copy-button" text="pnpm add @tailng-ui/components">

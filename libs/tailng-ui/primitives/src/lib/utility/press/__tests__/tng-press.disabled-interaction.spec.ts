@@ -16,7 +16,6 @@ function dispatchKeydown(target: EventTarget, key: string): KeyboardEvent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngPress],
   template: `
     <section #container (click)="parentClickCount.set(parentClickCount() + 1)">

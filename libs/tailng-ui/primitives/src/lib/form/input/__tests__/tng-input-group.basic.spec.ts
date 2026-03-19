@@ -6,7 +6,6 @@ import { describe, expect, it } from 'vitest';
 import { TngInput, TngInputGroup } from '../tng-input';
 
 @Component({
-  standalone: true,
   imports: [TngInputGroup, TngInput],
   template: `
     <tng-input-group class="consumer-class" data-x="123">
@@ -17,7 +16,6 @@ import { TngInput, TngInputGroup } from '../tng-input';
 class GroupOnlyInputHostComponent {}
 
 @Component({
-  standalone: true,
   imports: [TngInputGroup, TngInput],
   template: `
     <tng-input-group>

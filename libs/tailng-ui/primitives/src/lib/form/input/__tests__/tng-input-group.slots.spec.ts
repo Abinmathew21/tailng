@@ -11,7 +11,6 @@ import {
 } from '../tng-input';
 
 @Component({
-  standalone: true,
   imports: [TngInputGroup, TngInput, TngInputLeading, TngInputTrailing],
   template: `
     <tng-input-group>

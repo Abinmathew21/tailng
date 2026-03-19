@@ -49,7 +49,6 @@ function queryTagRoot(host: HTMLElement): HTMLElement {
 }
 
 @Component({
-  standalone: true,
   imports: [TngTagComponent, TngTagIcon],
   template: `
     <tng-tag

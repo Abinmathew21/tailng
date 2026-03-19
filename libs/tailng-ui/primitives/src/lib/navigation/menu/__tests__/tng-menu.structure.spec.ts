@@ -32,7 +32,6 @@ function click(el: HTMLElement): MouseEvent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngMenu, TngMenuItem, TngMenuSeparator, TngMenuGroupLabel],
   template: `
     <div

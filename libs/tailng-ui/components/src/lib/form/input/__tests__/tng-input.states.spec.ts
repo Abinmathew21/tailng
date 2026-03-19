@@ -6,7 +6,6 @@ import { TngInputComponent } from '../tng-input.component';
 import { TngInput, TngInputLeading, TngInputTrailing } from '@tailng-ui/primitives';
 
 @Component({
-  standalone: true,
   imports: [TngInputComponent, TngInput, TngInputLeading, TngInputTrailing],
   template: `
     <tng-input>

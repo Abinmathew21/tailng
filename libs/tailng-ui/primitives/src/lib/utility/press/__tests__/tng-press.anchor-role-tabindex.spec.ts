@@ -4,7 +4,6 @@ import { afterEach, describe, expect, it } from 'vitest';
 import { TngPress } from '../tng-press';
 
 @Component({
-  standalone: true,
   imports: [TngPress],
   template: `
     <a #anchorNoHref tngPress [disabled]="anchorNoHrefDisabled()">No href</a>

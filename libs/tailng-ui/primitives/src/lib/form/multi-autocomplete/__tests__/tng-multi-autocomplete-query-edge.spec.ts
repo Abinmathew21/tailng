@@ -22,7 +22,6 @@ function pasteText(el: HTMLInputElement, value: string) {
 }
 
 @Component({
-  standalone: true,
   imports: [TngMultiAutocomplete, TngMultiAutocompleteTrigger],
   template: `
     <section
@@ -86,7 +85,6 @@ describe('tng-multi-autocomplete query edge behavior', () => {
 
   it('Escape when open closes but does not emit queryChange (no side effects)', async () => {
     @Component({
-      standalone: true,
       imports: [TngMultiAutocomplete, TngMultiAutocompleteTrigger],
       template: `
         <section
@@ -132,7 +130,6 @@ describe('tng-multi-autocomplete query edge behavior', () => {
 
   it('open-on-focus emits current query; for prefilled input value it emits the input.value', async () => {
     @Component({
-      standalone: true,
       imports: [TngMultiAutocomplete, TngMultiAutocompleteTrigger],
       template: `
         <section

@@ -31,7 +31,6 @@ function dispatchKeydown(el: HTMLElement, key: string): void {
 }
 
 @Component({
-  standalone: true,
   imports: [TngSelect, TngSelectTrigger, TngSelectValue, TngSelectIcon, TngSelectContent],
   template: `
     <button
@@ -59,7 +58,6 @@ class HostComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngSelectTrigger],
   template: `<span tngSelectTrigger data-testid="trigger">Trigger</span>`,
 })

@@ -20,7 +20,6 @@ type Opt = { value: string; label: string; disabled?: boolean };
 
 @Component({
   selector: 'app-select-playground-page',
-  standalone: true,
   imports: [
     // primitives
     TngSelect,

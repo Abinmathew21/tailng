@@ -100,7 +100,6 @@ async function settleMicrotasks(fixture: { detectChanges: () => void }): Promise
 }
 
 @Component({
-  standalone: true,
   imports: [TngCopy],
   template: `
     <button
@@ -166,7 +165,6 @@ class ButtonCopyHostComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngCopy],
   template: `
     <div
@@ -212,7 +210,6 @@ class DivCopyHostComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngCopy],
   template: `
     <button

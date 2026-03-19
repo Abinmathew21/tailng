@@ -27,7 +27,6 @@ describe('tng-multi-autocomplete keyboard', () => {
   let listbox: TngMultiAutocompleteListboxApi<string>;
 
   @Component({
-    standalone: true,
     imports: [TngMultiAutocomplete, TngMultiAutocompleteTrigger],
     template: `
       <section
@@ -48,7 +47,6 @@ describe('tng-multi-autocomplete keyboard', () => {
   }
 
   @Component({
-    standalone: true,
     imports: [TngMultiAutocomplete, TngMultiAutocompleteTrigger],
     template: `
       <section

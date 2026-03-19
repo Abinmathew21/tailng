@@ -5,7 +5,6 @@ import { describe, expect, it } from 'vitest';
 import { TngCheckboxComponent } from '../tng-checkbox.component';
 
 @Component({
-  standalone: true,
   imports: [TngCheckboxComponent],
   template: `
     <tng-checkbox

@@ -46,7 +46,6 @@ async function settle(fixture: { detectChanges(): void; whenStable(): Promise<un
 }
 
 @Component({
-  standalone: true,
   imports: [TngPopover, TngPopoverTrigger, TngPopoverPanel, TngPopoverClose],
   template: `
     <button type="button" data-testid="before">Before</button>
@@ -101,7 +100,6 @@ class UncontrolledPopoverHarnessComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngPopover, TngPopoverTrigger, TngPopoverPanel],
   template: `
     <section
@@ -127,7 +125,6 @@ class ControlledPopoverHarnessComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngPopover, TngPopoverTrigger, TngPopoverPanel],
   template: `
     <section

@@ -4,7 +4,6 @@ import { describe, expect, it } from 'vitest';
 import { TngSelectComponent } from './tng-select.component';
 
 @Component({
-  standalone: true,
   imports: [TngSelectComponent],
   template: `
     <tng-select [ariaLabel]="'Choose item'" data-testid="host">

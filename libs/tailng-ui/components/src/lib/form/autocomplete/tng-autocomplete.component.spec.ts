@@ -34,7 +34,6 @@ function getOpenOverlay(): HTMLElement {
 type Option = { value: string; label: string };
 
 @Component({
-  standalone: true,
   imports: [TngAutocompleteComponent],
   template: `
     <tng-autocomplete

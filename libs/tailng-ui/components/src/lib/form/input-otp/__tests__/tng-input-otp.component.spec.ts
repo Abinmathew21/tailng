@@ -67,7 +67,6 @@ function pasteText(target: HTMLInputElement, value: string): ClipboardEvent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngInputOtpComponent],
   template: `
     <tng-input-otp
@@ -116,7 +115,6 @@ class UncontrolledOtpHostComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngInputOtpComponent],
   template: `
     <tng-input-otp
@@ -142,7 +140,6 @@ class ControlledOtpHostComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [ReactiveFormsModule, TngInputOtpComponent],
   template: `
     <form [formGroup]="form">
@@ -157,7 +154,6 @@ class ReactiveFormsOtpHostComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [FormsModule, TngInputOtpComponent],
   template: `<tng-input-otp data-testid="otp" name="otp" [(ngModel)]="value"></tng-input-otp>`,
 })
@@ -166,7 +162,6 @@ class NgModelOtpHostComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngInputOtpComponent],
   template: `
     <form data-testid="form">
@@ -177,7 +172,6 @@ class NgModelOtpHostComponent {
 class ResetOtpHostComponent {}
 
 @Component({
-  standalone: true,
   imports: [TngInputOtpComponent],
   template: `
     <form data-testid="form">

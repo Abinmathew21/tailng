@@ -45,7 +45,6 @@ function pointerdown(el: HTMLElement): PointerEvent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngContextMenuComponent, TngContextMenuTrigger, TngMenuItem],
   template: `
     <div

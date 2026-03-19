@@ -5,7 +5,6 @@ import { TngMenuComponent } from './tng-menu.component';
 import { TngMenuItem } from '@tailng-ui/primitives';
 
 @Component({
-  standalone: true,
   imports: [TngMenuComponent, TngMenuItem],
   template: `
     <tng-menu ariaLabel="Actions" data-testid="menu">

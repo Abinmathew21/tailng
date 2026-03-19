@@ -6,7 +6,6 @@ import { TngSelect } from '../tng-select';
 import { TngSelectContent, TngSelectTrigger } from '../tng-select.parts';
 
 @Component({
-  standalone: true,
   imports: [TngSelect, TngSelectTrigger, TngSelectContent],
   template: `
     <button

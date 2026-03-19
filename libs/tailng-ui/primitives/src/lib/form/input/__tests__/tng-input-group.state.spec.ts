@@ -6,7 +6,6 @@ import { describe, expect, it } from 'vitest';
 import { TngInput, TngInputGroup } from '../tng-input';
 
 @Component({
-  standalone: true,
   imports: [TngInputGroup, TngInput],
   template: `
     <tng-input-group>
@@ -24,7 +23,6 @@ class GroupStateHostComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngInputGroup, TngInput],
   template: `
     <tng-input-group>

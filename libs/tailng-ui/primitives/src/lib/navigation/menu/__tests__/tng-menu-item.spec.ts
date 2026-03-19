@@ -5,7 +5,6 @@ import { describe, expect, it } from 'vitest';
 import { TngMenuItem } from '../tng-menu';
 
 @Component({
-  standalone: true,
   imports: [TngMenuItem],
   template: `
     <div data-testid="menu">

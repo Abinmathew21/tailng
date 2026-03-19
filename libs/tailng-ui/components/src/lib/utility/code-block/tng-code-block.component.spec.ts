@@ -29,7 +29,6 @@ import {
 } from './tng-code-block.component';
 
 @Component({
-  standalone: true,
   imports: [TngCodeBlockComponent],
   template: `
     <button type="button" data-testid="before-btn">Before</button>
@@ -118,7 +117,6 @@ class CodeBlockHostComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [TngCodeBlockComponent],
   template: `
     <tng-code-block

@@ -6,7 +6,6 @@ import { TngMenuGroupLabel, TngMenubarItem, TngMenuItem, TngMenuSeparator } from
 import { TngMenuComponent } from '../menu/tng-menu.component';
 
 @Component({
-  standalone: true,
   imports: [TngMenubarComponent, TngMenubarItem],
   template: `
     <tng-menubar ariaLabel="Workspace actions" data-testid="menubar">
@@ -33,7 +32,6 @@ function flushMicrotask(): Promise<void> {
 }
 
 @Component({
-  standalone: true,
   imports: [TngMenubarComponent, TngMenubarItem, TngMenuComponent, TngMenuItem],
   template: `
     <tng-menubar ariaLabel="Wrapper commands" data-testid="menubar">
@@ -76,7 +74,6 @@ function flushMicrotask(): Promise<void> {
 class CascadedWrapperHostComponent {}
 
 @Component({
-  standalone: true,
   imports: [
     TngMenubarComponent,
     TngMenubarItem,

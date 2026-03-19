@@ -8,7 +8,6 @@ import { TngInput, TngInputLeading, TngInputTrailing } from '@tailng-ui/primitiv
 import { TngInputComponent } from '../tng-input.component';
 
 @Component({
-  standalone: true,
   imports: [TngInputComponent, TngInput],
   template: `
     <tng-input>
@@ -19,7 +18,6 @@ import { TngInputComponent } from '../tng-input.component';
 class StyledSmokeHostComponent {}
 
 @Component({
-  standalone: true,
   imports: [TngInputComponent, TngInput, TngInputLeading, TngInputTrailing],
   template: `
     <tng-input>

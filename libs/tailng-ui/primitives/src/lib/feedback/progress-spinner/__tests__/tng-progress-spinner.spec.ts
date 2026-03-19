@@ -19,7 +19,6 @@ function getByTestId<T extends Element>(
 }
 
 @Component({
-  standalone: true,
   imports: [TngProgressSpinner],
   template: `
     <span
