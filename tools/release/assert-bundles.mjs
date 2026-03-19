@@ -137,10 +137,23 @@ function assertAngularPackage(name, opts) {
     fail(`${name}: no .mjs/.js files found (expected under fesm2022/, esm2022/, bundles/, src/, or package root)`);
   }
 
-  for (const f of fesm.files) {
-    const size = stat(f).size;
+  const bundleSizes = fesm.files.map((f) => ({ file: f, size: stat(f).size }));
+
+  // Many packages have tiny entrypoints (e.g. src/index.js) that just re-export.
+  // Treat those as warnings, but ensure there is at least one non-trivial JS bundle.
+  const hasRealBundle = bundleSizes.some(({ size }) => size >= opts.minMjs);
+
+  if (!hasRealBundle) {
+    fail(
+      `${name}: all JS bundles are tiny (min ${opts.minMjs} bytes). Sizes: ${bundleSizes
+        .map(({ file, size }) => `${path.relative(root, file)}=${size}`)
+        .join(', ')}`,
+    );
+  }
+
+  for (const { file, size } of bundleSizes) {
     if (size < opts.minMjs) {
-      fail(`${name}: suspiciously small bundle: ${path.relative(root, f)} (${size} bytes)`);
+      warn(`${name}: small bundle entry: ${path.relative(root, file)} (${size} bytes)`);
     }
   }
 }
@@ -205,17 +218,24 @@ function assertCdkPackage() {
   const fesm = resolveFesmFiles(root);
   if (fesm.files.length === 0) fail(`cdk: no .mjs/.js files found (expected under fesm2022/, esm2022/, bundles/, src/, or package root)`);
 
-  const mjsFiles = fesm.files;
+  const bundleSizes = fesm.files.map((f) => ({ file: f, size: stat(f).size }));
 
-  // Require at least ONE non-trivial bundle (guards against total stub publish)
-  const hasRealBundle = mjsFiles.some((f) => stat(f).size > 700);
+  // Require at least one non-trivial bundle (guards against total stub publish)
+  const min = THRESHOLDS.cdk.minMjs;
+  const hasRealBundle = bundleSizes.some(({ size }) => size >= min);
 
   if (!hasRealBundle) {
     fail(
-      `cdk: all bundles are tiny — this looks like a broken build (sizes: ${mjsFiles
-        .map((f) => stat(f).size)
-        .join(", ")})`
+      `cdk: all JS bundles are tiny (min ${min} bytes). Sizes: ${bundleSizes
+        .map(({ file, size }) => `${path.relative(root, file)}=${size}`)
+        .join(', ')}`,
     );
+  }
+
+  for (const { file, size } of bundleSizes) {
+    if (size < min) {
+      warn(`cdk: small bundle entry: ${path.relative(root, file)} (${size} bytes)`);
+    }
   }
 }
 
