@@ -1,14 +1,21 @@
 import '@angular/compiler';
-import { readFileSync } from 'node:fs';
-import { dirname, resolve } from 'node:path';
-import { fileURLToPath } from 'node:url';
 import { Component } from '@angular/core';
 import type { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { describe, expect, it, vi, afterEach } from 'vitest';
 
 import type { TngCopyErrorEvent, TngCopyEvent, TngCopySuccessEvent } from '@tailng-ui/primitives';
+import { readFileSync } from 'node:fs';
+import { dirname, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { describe, expect, it, vi, afterEach } from 'vitest';
+import {
+  createTngCodeHighlighterAdapter,
+  resolveTngCodeHighlightingConfig,
+  TNG_CODE_HIGHLIGHTING_CONFIG,
+  type TngCodeHighlightInput,
+  type TngCodeHighlightResult,
+} from './highlighting';
 import {
   coerceTngCodeBlockCopyResetDuration,
   coerceTngCodeBlockHighlightMode,
@@ -20,13 +27,6 @@ import {
   type TngCodeBlockRenderStateChange,
   type TngCodeBlockSanitizeHtml,
 } from './tng-code-block.component';
-import {
-  createTngCodeHighlighterAdapter,
-  resolveTngCodeHighlightingConfig,
-  TNG_CODE_HIGHLIGHTING_CONFIG,
-  type TngCodeHighlightInput,
-  type TngCodeHighlightResult,
-} from './highlighting';
 
 @Component({
   standalone: true,
@@ -254,7 +254,7 @@ function queryCodeBlockHost(fixture: ComponentFixture<unknown>, id = 'code-block
 
 function queryCodeBlock(fixture: ComponentFixture<unknown>, id = 'code-block'): HTMLElement {
   const host = queryCodeBlockHost(fixture, id);
-  return host.querySelector('.tng-code-block') as HTMLElement;
+  return host.querySelector('.tng-code-block')!;
 }
 
 function queryPre(fixture: ComponentFixture<unknown>, id = 'code-block'): HTMLElement {
@@ -262,7 +262,7 @@ function queryPre(fixture: ComponentFixture<unknown>, id = 'code-block'): HTMLEl
 }
 
 function queryCode(fixture: ComponentFixture<unknown>, id = 'code-block'): HTMLElement {
-  return queryCodeBlock(fixture, id).querySelector('code') as HTMLElement;
+  return queryCodeBlock(fixture, id).querySelector('code')!;
 }
 
 function queryRenderedLines(fixture: ComponentFixture<unknown>, id = 'code-block'): readonly HTMLElement[] {
@@ -283,11 +283,10 @@ function normalizeRenderedText(value: string | null): string {
 
 function mockClipboardWriteText(impl: (text: string) => Promise<void>) {
   const writeText = vi.fn(impl);
+
   Object.defineProperty(globalThis.navigator, 'clipboard', {
     configurable: true,
-    value: {
-      writeText,
-    },
+    get: () => ({ writeText }),
   });
 
   return writeText;
@@ -295,7 +294,7 @@ function mockClipboardWriteText(impl: (text: string) => Promise<void>) {
 
 describe('tng-code-block component', () => {
   describe('A) Exports & basic structure', () => {
-    it('Exports the code-block component', async () => {
+    it('Exports the code-block component', () => {
       expect(typeof TngCodeBlockComponent).toBe('function');
     });
 
@@ -438,7 +437,7 @@ describe('tng-code-block component', () => {
 
     it('Defaults wrap=false and does not apply wrapping styles unless enabled', async () => {
       const { fixture } = await createSingleFixture();
-      const body = queryCodeBlock(fixture).querySelector('.tng-code-block__body') as HTMLElement;
+      const body = queryCodeBlock(fixture).querySelector('.tng-code-block__body')!;
       expect(body.classList.contains('tng-code-block__body--wrap')).toBe(false);
       expect(queryCodeBlock(fixture).getAttribute('data-wrap')).toBe('false');
     });
@@ -664,7 +663,7 @@ describe('tng-code-block component', () => {
       });
 
       await flushRender(fixture);
-      expect(captured?.includeLineWrappers).toBe(true);
+      expect((captured as unknown as TngCodeHighlightInput)?.includeLineWrappers).toBe(true);
     });
 
     it('Requests includeLineWrappers=false when no per-line features are enabled', async () => {
@@ -685,7 +684,7 @@ describe('tng-code-block component', () => {
       });
 
       await flushRender(fixture);
-      expect(captured?.includeLineWrappers).toBe(false);
+      expect((captured as unknown as TngCodeHighlightInput)?.includeLineWrappers).toBe(false);
     });
 
     it('Falls back to plain text when adapter throws and emits error render state', async () => {
@@ -939,7 +938,7 @@ describe('tng-code-block component', () => {
     });
 
     it('Cancels stale async highlight results when a newer highlight request starts', async () => {
-      const resolves: Array<(result: TngCodeHighlightResult) => void> = [];
+      const resolves: ((result: TngCodeHighlightResult) => void)[] = [];
       const adapter = createTngCodeHighlighterAdapter('async', (input) =>
         new Promise<TngCodeHighlightResult>((resolve) => {
           resolves.push((result) => {
@@ -1129,7 +1128,7 @@ describe('tng-code-block component', () => {
 
       await flushRender(fixture);
 
-      const body = queryCodeBlock(fixture).querySelector('.tng-code-block__body') as HTMLElement;
+      const body = queryCodeBlock(fixture).querySelector('.tng-code-block__body')!;
       expect(body.classList.contains('tng-code-block__body--wrap')).toBe(true);
       expect(queryCodeBlock(fixture).getAttribute('data-wrap')).toBe('true');
     });
@@ -1143,7 +1142,7 @@ describe('tng-code-block component', () => {
 
       await flushRender(fixture);
 
-      const body = queryCodeBlock(fixture).querySelector('.tng-code-block__body') as HTMLElement;
+      const body = queryCodeBlock(fixture).querySelector('.tng-code-block__body')!;
       expect(body.classList.contains('tng-code-block__body--wrap')).toBe(false);
     });
 
@@ -1269,7 +1268,7 @@ describe('tng-code-block component', () => {
 
       await flushRender(fixture);
 
-      const body = queryCodeBlock(fixture).querySelector('.tng-code-block__body') as HTMLElement;
+      const body = queryCodeBlock(fixture).querySelector('.tng-code-block__body')!;
       const lineNumbers = queryCodeBlock(fixture).querySelectorAll('.tng-code-block__line-number');
       const lines = queryRenderedLines(fixture);
 
@@ -1295,7 +1294,7 @@ describe('tng-code-block component', () => {
       });
 
       await flushRender(fixture);
-      expect(captured?.includeLineWrappers).toBe(false);
+      expect((captured as unknown as TngCodeHighlightInput)?.includeLineWrappers).toBe(false);
     });
   });
 
@@ -1439,7 +1438,7 @@ describe('tng-code-block component', () => {
     });
 
     it('Copy action copies raw code by default (not highlighted HTML)', async () => {
-      const writeText = mockClipboardWriteText(async () => undefined);
+      const writeText = mockClipboardWriteText(async () => Promise.resolve());
       const adapter = createTngCodeHighlighterAdapter('html', () => ({
         kind: 'html',
         html: '<span class="token">highlighted</span>',
@@ -1481,7 +1480,7 @@ describe('tng-code-block component', () => {
 
     it('Copy success sets copied UI state for the configured duration', async () => {
       vi.useFakeTimers();
-      mockClipboardWriteText(async () => undefined);
+      mockClipboardWriteText(async () => Promise.resolve());
 
       const { fixture } = await createSingleFixture({
         init: (state) => {
@@ -1495,6 +1494,8 @@ describe('tng-code-block component', () => {
       const button = queryCopyButton(fixture);
       button?.click();
       await flushRender(fixture);
+      await Promise.resolve(); // allow awaited clipboard promise to resolve
+      await flushRender(fixture);
 
       expect(button?.textContent?.trim()).toBe('Copied');
 
@@ -1505,7 +1506,7 @@ describe('tng-code-block component', () => {
     });
 
     it('Emits copy events (copy, copySuccess, copyError) from the code-block when integrated', async () => {
-      const writeText = mockClipboardWriteText(async () => {
+      const writeText = mockClipboardWriteText(() => {
         throw new Error('clipboard denied');
       });
 
@@ -1615,7 +1616,7 @@ describe('tng-code-block component', () => {
 
       await flushRender(fixture);
 
-      const badge = queryCodeBlock(fixture).querySelector('.tng-code-block__language') as HTMLElement;
+      const badge = queryCodeBlock(fixture).querySelector('.tng-code-block__language')!;
       expect(badge).toBeTruthy();
       expect(badge.getAttribute('tabindex')).toBeNull();
     });
@@ -1767,7 +1768,7 @@ describe('tng-code-block component', () => {
     });
 
     it('Destroying a CodeBlock during an in-flight highlight does not log errors or update DOM after destroy', async () => {
-      const resolves: Array<(result: TngCodeHighlightResult) => void> = [];
+      const resolves: ((result: TngCodeHighlightResult) => void)[] = [];
       const adapter = createTngCodeHighlighterAdapter('deferred', () =>
         new Promise<TngCodeHighlightResult>((resolve) => {
           resolves.push(resolve);

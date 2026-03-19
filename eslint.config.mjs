@@ -198,8 +198,12 @@ export default [
       '@typescript-eslint/prefer-readonly': 'off',
       '@typescript-eslint/prefer-readonly-parameter-types': 'off',
       '@typescript-eslint/explicit-function-return-type': 'off',
+      '@typescript-eslint/no-unsafe-call': 'off',
+      '@typescript-eslint/no-unsafe-member-access': 'off',
+      '@typescript-eslint/no-non-null-assertion': 'off',
     },
-  },{
+  },
+  {
     files: ['tools/**/*.mjs'],
     rules: {
       'no-undef': 'off',

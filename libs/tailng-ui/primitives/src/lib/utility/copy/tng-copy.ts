@@ -28,20 +28,29 @@ export type TngCopyButtonTextInput = string | (() => string) | Signal<string> | 
 export type TngCopyButtonTrigger = 'keyboard' | 'pointer' | 'programmatic';
 export type TngCopyButtonStatus = 'copying' | 'error' | 'idle' | 'success';
 export type TngCopyFormat = 'text/html' | 'text/plain';
+export type TngCopyFormatInput = TngCopyFormat | null | undefined;
 export type TngCopyMethod = 'clipboard' | 'execCommand';
-export type TngCopyAnnounce = boolean | 'auto';
+export type TngCopyAnnounce = 'auto' | boolean;
 
-export interface TngCopyEvent {
+export type TngCopyAnnounceInput =
+  | TngCopyAnnounce
+  | ''          // boolean attribute style
+  | 'true'
+  | 'false'
+  | null
+  | undefined;
+
+export type TngCopyEvent = {
   text: string;
   trigger: TngCopyButtonTrigger;
 }
 
-export interface TngCopySuccessEvent {
+export type TngCopySuccessEvent = {
   method: TngCopyMethod;
   text: string;
 }
 
-export interface TngCopyErrorEvent {
+export type TngCopyErrorEvent = {
   error: unknown;
 }
 
@@ -299,43 +308,52 @@ function resolveExplicitText(
   }
 }
 
-function eventMatchesHotkey(event: KeyboardEvent, hotkey: string): boolean {
+type TngHotkeyModifiers = Readonly<{
+  ctrl: boolean;
+  meta: boolean;
+  alt: boolean;
+  shift: boolean;
+  key: string;
+}>;
+
+function parseHotkey(hotkey: string): TngHotkeyModifiers | null {
   const tokens = hotkey
     .split('+')
-    .map((token) => token.trim().toLowerCase())
-    .filter((token) => token.length > 0);
+    .map((t) => t.trim().toLowerCase())
+    .filter(Boolean);
 
-  if (tokens.length === 0) {
-    return false;
-  }
+  if (tokens.length === 0) return null;
 
-  const keyToken = tokens[tokens.length - 1];
-  const modifierTokens = tokens.slice(0, -1);
-  const modifierSet = new Set(modifierTokens);
-  const isMacPlatform = /mac|iphone|ipad|ipod/i.test(globalThis.navigator?.platform ?? '');
+  const key = tokens[tokens.length - 1];
+  const mods = new Set(tokens.slice(0, -1));
 
-  const expectsCtrl = modifierSet.has('ctrl') || (modifierSet.has('mod') && !isMacPlatform);
-  const expectsMeta = modifierSet.has('meta') || (modifierSet.has('mod') && isMacPlatform);
-  const expectsAlt = modifierSet.has('alt');
-  const expectsShift = modifierSet.has('shift');
+  const isMac = /mac|iphone|ipad|ipod/i.test(globalThis.navigator?.platform ?? '');
+  const modCtrl = mods.has('ctrl') || (mods.has('mod') && !isMac);
+  const modMeta = mods.has('meta') || (mods.has('mod') && isMac);
 
-  if (event.ctrlKey !== expectsCtrl) {
-    return false;
-  }
+  return {
+    ctrl: modCtrl,
+    meta: modMeta,
+    alt: mods.has('alt'),
+    shift: mods.has('shift'),
+    key,
+  };
+}
 
-  if (event.metaKey !== expectsMeta) {
-    return false;
-  }
+export function eventMatchesHotkey(event: KeyboardEvent, hotkey: string): boolean {
+  const parsed = parseHotkey(hotkey);
+  if (!parsed) return false;
 
-  if (event.altKey !== expectsAlt) {
-    return false;
-  }
+  const checks: readonly (readonly [boolean, boolean])[] = [
+    [event.ctrlKey, parsed.ctrl],
+    [event.metaKey, parsed.meta],
+    [event.altKey, parsed.alt],
+    [event.shiftKey, parsed.shift],
+  ];
 
-  if (event.shiftKey !== expectsShift) {
-    return false;
-  }
+  if (checks.some(([actual, expected]) => actual !== expected)) return false;
 
-  return normalizeKey(event.key) === normalizeKey(keyToken);
+  return normalizeKey(event.key) === normalizeKey(parsed.key);
 }
 
 function coerceTngCopySuccessDuration(value: number | string): number {
@@ -347,28 +365,19 @@ function coerceTngCopySuccessDuration(value: number | string): number {
   return toRoundedPositiveNumber(numericValue);
 }
 
-function coerceTngCopyAnnounce(value: TngCopyAnnounce | string | null | undefined): TngCopyAnnounce {
-  if (value === undefined || value === null || value === 'auto') {
-    return 'auto';
-  }
+export function coerceTngCopyAnnounce(value: TngCopyAnnounceInput): TngCopyAnnounce {
 
-  if (value === '' || value === true || value === 'true') {
-    return true;
-  }
+  if (value === true || value === false) return value;
+  if (value === null || value === undefined) return 'auto';
 
-  if (value === false || value === 'false') {
-    return false;
-  }
-
+  const v = String(value).trim().toLowerCase();
+  if (v === '' || v === 'true') return true;
+  if (v === 'false') return false;
   return 'auto';
 }
 
-function coerceTngCopyFormat(value: TngCopyFormat | string | null | undefined): TngCopyFormat {
-  if (value === 'text/html') {
-    return 'text/html';
-  }
-
-  return 'text/plain';
+export function coerceTngCopyFormat(value: TngCopyFormatInput): TngCopyFormat {
+  return value === 'text/html' ? 'text/html' : 'text/plain';
 }
 
 export function normalizeTngCopyIgnoreSelectors(
@@ -400,42 +409,69 @@ export function resolveTngCopyPayload(
   return null;
 }
 
+type TngClipboardLike = Readonly<{
+  write?: (items: readonly unknown[]) => Promise<void>;
+  writeText?: (text: string) => Promise<void>;
+}>;
+
+function canWriteHtml(
+  clipboardApi: TngClipboardLike,
+): clipboardApi is Readonly<{ write: (items: readonly unknown[]) => Promise<void> }> {
+  return (
+    typeof clipboardApi.write === 'function' &&
+    typeof ClipboardItem !== 'undefined' &&
+    typeof Blob !== 'undefined'
+  );
+}
+
+async function tryWriteTngClipboard(params: Readonly<{
+  format: TngCopyFormat;
+  text: string;
+  plainText: string;
+}>): Promise<TngCopyMethod | null> {
+  const { format, text, plainText } = params;
+
+  const clipboardApi = globalThis.navigator?.clipboard as unknown as TngClipboardLike | undefined;
+  if (clipboardApi === undefined) {
+    return null;
+  }
+
+  if (format === 'text/html' && canWriteHtml(clipboardApi)) {
+    const clipboardItem = new ClipboardItem({
+      'text/html': new Blob([text], { type: 'text/html' }),
+      'text/plain': new Blob([plainText], { type: 'text/plain' }),
+    });
+    await clipboardApi.write([clipboardItem]);
+    return 'clipboard';
+  }
+
+  if (typeof clipboardApi.writeText === 'function') {
+    await clipboardApi.writeText(plainText);
+    return 'clipboard';
+  }
+
+  return null;
+}
+
 export async function writeTngClipboardText(
   text: string,
   ownerDocument: unknown,
   format: TngCopyFormat = 'text/plain',
 ): Promise<TngCopyMethod> {
-  const clipboardApi = globalThis.navigator?.clipboard;
   const plainText = format === 'text/html' ? toPlainTextFromHtml(text, ownerDocument) : text;
+
   let clipboardError: unknown = null;
 
-  if (clipboardApi !== undefined) {
-    try {
-      if (
-        format === 'text/html' &&
-        typeof clipboardApi.write === 'function' &&
-        typeof ClipboardItem !== 'undefined' &&
-        typeof Blob !== 'undefined'
-      ) {
-        const clipboardItem = new ClipboardItem({
-          'text/html': new Blob([text], { type: 'text/html' }),
-          'text/plain': new Blob([plainText], { type: 'text/plain' }),
-        });
-        await clipboardApi.write([clipboardItem]);
-        return 'clipboard';
-      }
-
-      if (typeof clipboardApi.writeText === 'function') {
-        await clipboardApi.writeText(plainText);
-        return 'clipboard';
-      }
-    } catch (error) {
-      clipboardError = error;
+  try {
+    const result = await tryWriteTngClipboard({ format, text, plainText });
+    if (result !== null) {
+      return result;
     }
+  } catch (error) {
+    clipboardError = error;
   }
 
-  const didCopy = copyWithExecCommand(plainText, ownerDocument);
-  if (didCopy) {
+  if (copyWithExecCommand(plainText, ownerDocument)) {
     return 'execCommand';
   }
 

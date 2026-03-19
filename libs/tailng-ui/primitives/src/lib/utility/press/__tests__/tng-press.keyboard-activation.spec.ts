@@ -14,7 +14,10 @@ function dispatchKeydown(target: EventTarget, key: string): KeyboardEvent {
   standalone: true,
   imports: [TngPress],
   template: `
-    <a #anchorNoHref tngPress (click)="anchorNoHrefClicks.set(anchorNoHrefClicks() + 1)">No href</a>
+    <a #anchorNoHref tngPress (click)="anchorNoHrefClicks.set(anchorNoHrefClicks() + 1)"
+    (keydown)="void 0"
+    tabindex="0"
+    >No href</a>
     <a #anchorWithHref href="/docs" tngPress (click)="anchorWithHrefClicks.set(anchorWithHrefClicks() + 1)">
       With href
     </a>
