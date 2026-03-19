@@ -10,12 +10,32 @@ const selected = targets
 
 const dist = path.resolve("dist", "libs");
 
-const isLib = (t) =>
-  ["cdk", "primitives", "components", "icons", "theme", "registry", "charts"].includes(t);
+const TAILNG_UI = "tailng-ui";
+const TAILNG = "tailng";
+
+const resolveDistDir = (target) => {
+  // Nx outputs TailNG UI libs under dist/libs/tailng-ui/<name>
+  if (["cdk", "primitives", "components", "icons", "theme", "registry", "charts"].includes(target)) {
+    return path.join(dist, TAILNG_UI, target);
+  }
+
+  // TailNG org packages (if selected)
+  if (["cli"].includes(target)) {
+    return path.join(dist, TAILNG, target);
+  }
+
+  return null;
+};
+
+const isPackTarget = (t) =>
+  ["cdk", "primitives", "components", "icons", "theme", "registry", "charts", "cli"].includes(t);
 
 for (const t of selected) {
-  if (!isLib(t)) continue;
-  const dir = path.join(dist, t);
+  if (!isPackTarget(t)) continue;
+
+  const dir = resolveDistDir(t);
+  if (dir === null) continue;
+
   if (!fs.existsSync(dir)) {
     console.error(`npm-pack-dry-run: missing dist folder ${dir}`);
     process.exit(1);

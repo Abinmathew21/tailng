@@ -2,11 +2,28 @@ import { execSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 
-const targets =
+const targets = (
   process.env.TARGETS?.replace(/^,|,$/g, "") ??
-  (process.argv[2] ?? "");
+  (process.argv[2] ?? "")
+)
+  .split(",")
+  .map((s) => s.trim())
+  .filter(Boolean)
+  .join(",");
 
 const npmTag = (process.argv[3] ?? "latest").trim();
+
+if (!targets) {
+  console.error("publish-selected: targets is empty");
+  process.exit(1);
+}
+
+if (/(\s)/.test(targets)) {
+  console.error(
+    `publish-selected: targets must be comma-separated without spaces. Received: "${targets}"`,
+  );
+  process.exit(1);
+}
 
 // NOTE: targets are expected to be comma-separated with no spaces.
 const has = (t) => ("," + targets + ",").includes("," + t + ",");
@@ -28,7 +45,7 @@ function fail(msg) {
 }
 
 function assertNoWorkspaceProtocols(pkg, dir) {
-  const fields = ["dependencies", "peerDependencies", "optionalDependencies"]; 
+  const fields = ["dependencies", "peerDependencies", "optionalDependencies"];
   for (const field of fields) {
     const deps = pkg[field];
     if (!deps) continue;
@@ -80,16 +97,16 @@ const publish = (dir) => {
 };
 
 // Target -> dist directory mapping (publish from dist output)
+// Nx outputs in this repo are under dist/libs/tailng-ui/* (and dist/libs/tailng/* for cli).
 const DIST_DIR = {
-  cdk: "dist/libs/cdk",
-  primitives: "dist/libs/primitives",
-  components: "dist/libs/components",
-  icons: "dist/libs/icons",
-  theme: "dist/libs/theme",
-  registry: "dist/libs/registry",
-  charts: "dist/libs/charts",
-  // cli dist output path can vary by workspace; enable only when confirmed.
-  // cli: "dist/libs/cli",
+  cdk: "dist/libs/tailng-ui/cdk",
+  primitives: "dist/libs/tailng-ui/primitives",
+  components: "dist/libs/tailng-ui/components",
+  icons: "dist/libs/tailng-ui/icons",
+  theme: "dist/libs/tailng-ui/theme",
+  registry: "dist/libs/tailng-ui/registry",
+  charts: "dist/libs/tailng-ui/charts",
+  cli: "dist/libs/tailng/cli",
 };
 
 // Publish in dependency order:
@@ -97,20 +114,27 @@ const DIST_DIR = {
 // - components depends on primitives
 // - others are effectively independent (icons/theme are often peer deps)
 const ORDER = [
+  // dependency order
   "cdk",
-  "icons",
   "primitives",
   "components",
+
+  // mostly independent
+  "icons",
   "theme",
   "registry",
   "charts",
-  // "cli",
+  "cli",
 ];
 
 for (const t of ORDER) {
   if (!has(t)) continue;
+
   const dir = DIST_DIR[t];
-  if (!dir) continue;
+  if (!dir) {
+    fail(`No dist mapping for target '${t}'. Update DIST_DIR.`);
+  }
+
   publish(dir);
 }
 
