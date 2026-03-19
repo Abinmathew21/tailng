@@ -8,7 +8,6 @@ const createContentId = createTngIdFactory('tng-multi-autocomplete-content');
 @Directive({
   selector: '[tngMultiAutocompleteContent]',
   exportAs: 'tngMultiAutocompleteContent',
-  standalone: true,
 })
 export class TngMultiAutocompleteContent {
   private readonly multi = inject<TngMultiAutocomplete>(TNG_MULTI_AUTOCOMPLETE);

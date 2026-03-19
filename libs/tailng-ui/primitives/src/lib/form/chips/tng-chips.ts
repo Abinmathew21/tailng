@@ -48,7 +48,6 @@ function removeFirstOccurrence(values: readonly unknown[], target: unknown): rea
 @Directive({
   selector: '[tngChips]',
   exportAs: 'tngChips',
-  standalone: true,
 })
 export class TngChips implements OnInit {
   private readonly internalValues = signal<readonly unknown[]>([]);
@@ -132,7 +131,6 @@ export class TngChips implements OnInit {
 @Directive({
   selector: '[tngChip]',
   exportAs: 'tngChip',
-  standalone: true,
 })
 export class TngChip {
   private readonly chips = inject(TngChips, { optional: true });
@@ -214,7 +212,6 @@ export class TngChip {
 @Directive({
   selector: '[tngChipRemove]',
   exportAs: 'tngChipRemove',
-  standalone: true,
 })
 export class TngChipRemove {
   private readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);

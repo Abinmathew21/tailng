@@ -17,7 +17,6 @@ export function toggleTngCollapsibleState(open: boolean, disabled: boolean): boo
 }
 
 @Component({
-  standalone: true,
   selector: 'tng-collapsible',
   imports: [
     TngCollapsiblePrimitive,

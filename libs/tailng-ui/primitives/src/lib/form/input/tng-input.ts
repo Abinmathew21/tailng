@@ -61,7 +61,6 @@ function hasProjectedContent(element: HTMLElement): boolean {
 @Directive({
   selector: 'input[tngInput], textarea[tngInput]',
   exportAs: 'tngInput',
-  standalone: true,
 })
 export class TngInput {
   private readonly elementRef = inject(ElementRef<HTMLInputElement | HTMLTextAreaElement>);
@@ -189,7 +188,6 @@ export class TngInput {
 @Directive({
   selector: '[tngInputLeading]',
   exportAs: 'tngInputLeading',
-  standalone: true,
 })
 export class TngInputLeading {
   readonly hostElement = inject(ElementRef<HTMLElement>).nativeElement;
@@ -201,7 +199,6 @@ export class TngInputLeading {
 @Directive({
   selector: '[tngInputTrailing]',
   exportAs: 'tngInputTrailing',
-  standalone: true,
 })
 export class TngInputTrailing {
   readonly hostElement = inject(ElementRef<HTMLElement>).nativeElement;
@@ -213,7 +210,6 @@ export class TngInputTrailing {
 @Component({
   selector: 'tng-input-group, [tngInputGroup]',
   exportAs: 'tngInputGroup',
-  standalone: true,
   template: `
     @if (hasLeadingSlot()) {
       <span class="tng-input-group-leading" data-slot="input-group-leading">

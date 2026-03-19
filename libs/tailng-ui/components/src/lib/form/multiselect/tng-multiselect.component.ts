@@ -38,7 +38,6 @@ export type TngMultiSelectOptionContext<O, V> = {
 
 @Component({
   selector: 'tng-multiselect',
-  standalone: true,
   imports: [
     NgTemplateOutlet,
     TngSelectTrigger,

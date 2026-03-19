@@ -11,7 +11,6 @@ const AUTOCOMPLETE_KEYS_TO_OPEN = ['ArrowDown', 'ArrowUp', 'Backspace', 'Delete'
 @Directive({
   selector: '[tngAutocompleteTrigger]',
   exportAs: 'tngAutocompleteTrigger',
-  standalone: true,
 })
 export class TngAutocompleteTrigger {
   private readonly autocomplete = inject<TngAutocomplete>(TNG_AUTOCOMPLETE);
@@ -162,7 +161,6 @@ export class TngAutocompleteTrigger {
 @Directive({
   selector: '[tngAutocompleteTriggerContainer]',
   exportAs: 'tngAutocompleteTriggerContainer',
-  standalone: true,
 })
 export class TngAutocompleteTriggerContainer {
   @HostBinding('attr.data-slot')
@@ -173,7 +171,6 @@ export class TngAutocompleteTriggerContainer {
 @Directive({
   selector: '[tngAutocompleteIcon]',
   exportAs: 'tngAutocompleteIcon',
-  standalone: true,
 })
 export class TngAutocompleteIcon {
   private readonly autocomplete = inject<TngAutocomplete>(TNG_AUTOCOMPLETE);
@@ -196,7 +193,6 @@ const createContentId = createTngIdFactory('tng-autocomplete-content');
 @Directive({
   selector: '[tngAutocompleteContent]',
   exportAs: 'tngAutocompleteContent',
-  standalone: true,
 })
 export class TngAutocompleteContent {
   private readonly autocomplete = inject<TngAutocomplete>(TNG_AUTOCOMPLETE);

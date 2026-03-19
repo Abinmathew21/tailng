@@ -19,7 +19,6 @@ export function shouldEmitTngRadioCheckedChange(disabled: boolean, readonly: boo
 }
 
 @Component({
-  standalone: true,
   selector: 'tng-radio',
   imports: [TngRadioPrimitive],
   templateUrl: './tng-radio.component.html',

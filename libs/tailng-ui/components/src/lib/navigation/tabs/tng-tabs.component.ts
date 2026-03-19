@@ -3,7 +3,6 @@ import { TngTabs as TngTabsPrimitive } from '@tailng-ui/primitives';
 
 @Component({
   selector: 'tng-tabs',
-  standalone: true,
   hostDirectives: [
     {
       directive: TngTabsPrimitive,

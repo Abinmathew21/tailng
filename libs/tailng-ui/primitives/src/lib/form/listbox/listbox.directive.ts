@@ -24,7 +24,6 @@ export type ListboxValue<T> = T | readonly T[] | null;
 
 @Directive({
   selector: '[tngListbox]',
-  standalone: true,
   providers: [{ provide: TNG_LISTBOX, useExisting: TngListboxDirective }],
 })
 export class TngListboxDirective<T> {

@@ -25,7 +25,6 @@ export type TngAutocompleteTrackBy<O> = (index: number, opt: O) => unknown;
 
 @Component({
   selector: 'tng-autocomplete',
-  standalone: true,
   imports: [
     TngAutocompleteTrigger,
     TngAutocompleteTriggerContainer,

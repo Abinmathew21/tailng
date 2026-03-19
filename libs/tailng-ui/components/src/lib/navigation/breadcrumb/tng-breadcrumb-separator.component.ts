@@ -3,7 +3,6 @@ import { Component, input, type TemplateRef } from '@angular/core';
 import { TngBreadcrumbSeparator as TngBreadcrumbSeparatorPrimitive } from '@tailng-ui/primitives';
 
 @Component({
-  standalone: true,
   selector: 'tng-breadcrumb-separator',
   imports: [NgTemplateOutlet, TngBreadcrumbSeparatorPrimitive],
   templateUrl: './tng-breadcrumb-separator.component.html',

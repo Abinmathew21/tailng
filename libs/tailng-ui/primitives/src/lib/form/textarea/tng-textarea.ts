@@ -38,7 +38,6 @@ export function normalizeTngTextareaResize(value: unknown): TngTextareaResize {
 @Directive({
   selector: 'textarea[tngTextarea]',
   exportAs: 'tngTextarea',
-  standalone: true,
   hostDirectives: [
     {
       directive: TngInput,

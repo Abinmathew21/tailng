@@ -10,7 +10,6 @@ const TYPEAHEAD_RESET_MS = 500;
 @Directive({
   selector: '[tngMenubar]',
   exportAs: 'tngMenubar',
-  standalone: true,
 })
 export class TngMenubar {
   private readonly hostRef = inject<ElementRef<HTMLElement>>(ElementRef);
@@ -196,7 +195,6 @@ export class TngMenubar {
 @Directive({
   selector: '[tngMenubarItem]',
   exportAs: 'tngMenubarItem',
-  standalone: true,
 })
 export class TngMenubarItem {
   private readonly hostRef = inject<ElementRef<HTMLElement>>(ElementRef);

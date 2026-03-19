@@ -3,7 +3,6 @@ import { TngDrawer as TngDrawerPrimitive } from '@tailng-ui/primitives';
 
 @Component({
   selector: 'tng-drawer',
-  standalone: true,
   hostDirectives: [
     {
       directive: TngDrawerPrimitive,

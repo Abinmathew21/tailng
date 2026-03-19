@@ -38,7 +38,6 @@ type TngDrawerCloseReason = 'imperative' | 'outside' | 'escape' | 'tab' | 'destr
 @Directive({
   selector: '[tngDrawerContainer]',
   exportAs: 'tngDrawerContainer',
-  standalone: true,
 })
 export class TngDrawerContainer {
   private readonly documentRef = inject(DOCUMENT, { optional: true });
@@ -257,7 +256,6 @@ export class TngDrawerContainer {
 @Directive({
   selector: '[tngDrawer]',
   exportAs: 'tngDrawer',
-  standalone: true,
 })
 export class TngDrawer {
   private readonly documentRef = inject(DOCUMENT, { optional: true });
@@ -1122,7 +1120,6 @@ export class TngDrawer {
 @Directive({
   selector: '[tngDrawerContent]',
   exportAs: 'tngDrawerContent',
-  standalone: true,
 })
 export class TngDrawerContent {
   private readonly hostRef = inject<ElementRef<HTMLElement>>(ElementRef);
@@ -1184,7 +1181,6 @@ export class TngDrawerContent {
 @Directive({
   selector: '[tngSidenavContainer]',
   exportAs: 'tngSidenavContainer',
-  standalone: true,
   providers: [
     {
       provide: TngDrawerContainer,
@@ -1197,7 +1193,6 @@ export class TngSidenavContainer extends TngDrawerContainer {}
 @Directive({
   selector: '[tngSidenav]',
   exportAs: 'tngSidenav',
-  standalone: true,
   providers: [
     {
       provide: TngDrawer,
@@ -1210,7 +1205,6 @@ export class TngSidenav extends TngDrawer {}
 @Directive({
   selector: '[tngSidenavContent]',
   exportAs: 'tngSidenavContent',
-  standalone: true,
   providers: [
     {
       provide: TngDrawerContent,

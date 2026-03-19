@@ -7,7 +7,6 @@ import { TngMultiSelectListboxApi } from './tng-multi-select.listbox.types';
 @Directive({
   selector: '[tngMultiSelect]',
   exportAs: 'tngMultiSelect',
-  standalone: true,
   providers: [
     { provide: TNG_MULTI_SELECT, useExisting: TngMultiSelect },
     { provide: TNG_SELECT_HOST, useExisting: TngMultiSelect },

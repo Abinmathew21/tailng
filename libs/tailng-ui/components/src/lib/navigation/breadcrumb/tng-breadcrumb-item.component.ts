@@ -20,7 +20,6 @@ import { TngBreadcrumbSeparatorComponent } from './tng-breadcrumb-separator.comp
 export type TngBreadcrumbItemDisplayMode = 'ellipsis' | 'hidden' | 'visible';
 
 @Component({
-  standalone: true,
   selector: 'tng-breadcrumb-item',
   imports: [
     RouterLink,

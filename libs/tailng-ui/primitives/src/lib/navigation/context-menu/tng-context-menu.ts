@@ -22,7 +22,6 @@ const createContextMenuTriggerId = createTngIdFactory('tng-context-menu-trigger'
 @Directive({
   selector: '[tngContextMenu]',
   exportAs: 'tngContextMenu',
-  standalone: true,
 })
 export class TngContextMenu {
   private readonly menu = inject(TngMenu, { optional: true, host: true });
@@ -99,7 +98,6 @@ export class TngContextMenu {
 @Directive({
   selector: '[tngContextMenuTrigger]',
   exportAs: 'tngContextMenuTrigger',
-  standalone: true,
 })
 export class TngContextMenuTrigger {
   private readonly hostRef = inject<ElementRef<HTMLElement>>(ElementRef);

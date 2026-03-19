@@ -96,7 +96,6 @@ export function resolvePopoverMarkedInitialElement(container: unknown): HTMLElem
 @Directive({
   selector: '[tngPopover]',
   exportAs: 'tngPopover',
-  standalone: true,
 })
 export class TngPopover implements OnDestroy, OnInit {
   public readonly openInput = input<boolean | undefined, OptionalBooleanInput>(undefined, {
@@ -538,7 +537,6 @@ export class TngPopover implements OnDestroy, OnInit {
 @Directive({
   selector: '[tngPopoverTrigger]',
   exportAs: 'tngPopoverTrigger',
-  standalone: true,
 })
 export class TngPopoverTrigger implements OnDestroy, OnInit {
   private readonly hostRef = inject<ElementRef<HTMLElement>>(ElementRef);
@@ -602,7 +600,6 @@ export class TngPopoverTrigger implements OnDestroy, OnInit {
 @Directive({
   selector: '[tngPopoverPanel], [tngPopoverContent]',
   exportAs: 'tngPopoverPanel',
-  standalone: true,
 })
 export class TngPopoverPanel implements OnDestroy, OnInit {
   private readonly popover = inject(TngPopover);
@@ -675,7 +672,6 @@ export class TngPopoverPanel implements OnDestroy, OnInit {
 @Directive({
   selector: '[tngPopoverClose]',
   exportAs: 'tngPopoverClose',
-  standalone: true,
 })
 export class TngPopoverClose {
   private readonly popover = inject(TngPopover);

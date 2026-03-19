@@ -159,7 +159,6 @@ function isFocusableInteractiveElement(element: Element): boolean {
 @Directive({
   selector: '[tngTabs]',
   exportAs: 'tngTabs',
-  standalone: true,
 })
 export class TngTabs {
   private readonly hostRef = inject<ElementRef<HTMLElement>>(ElementRef);
@@ -1041,7 +1040,6 @@ export class TngTabs {
 @Directive({
   selector: '[tngTabList]',
   exportAs: 'tngTabList',
-  standalone: true,
 })
 export class TngTabList {
   private readonly hostRef = inject<ElementRef<HTMLElement>>(ElementRef);
@@ -1111,7 +1109,6 @@ export class TngTabList {
 @Directive({
   selector: '[tngTabsScrollButtonPrev]',
   exportAs: 'tngTabsScrollButtonPrev',
-  standalone: true,
 })
 export class TngTabsScrollButtonPrev {
   private readonly tabs = inject(TngTabs, { host: true });
@@ -1156,7 +1153,6 @@ export class TngTabsScrollButtonPrev {
 @Directive({
   selector: '[tngTabsScrollButtonNext]',
   exportAs: 'tngTabsScrollButtonNext',
-  standalone: true,
 })
 export class TngTabsScrollButtonNext {
   private readonly tabs = inject(TngTabs, { host: true });
@@ -1201,7 +1197,6 @@ export class TngTabsScrollButtonNext {
 @Directive({
   selector: '[tngTab]',
   exportAs: 'tngTab',
-  standalone: true,
 })
 export class TngTab {
   private readonly hostRef = inject<ElementRef<HTMLElement>>(ElementRef);
@@ -1393,7 +1388,6 @@ export class TngTab {
 @Directive({
   selector: '[tngTabPanel]',
   exportAs: 'tngTabPanel',
-  standalone: true,
 })
 export class TngTabPanel {
   private readonly hostRef = inject<ElementRef<HTMLElement>>(ElementRef);

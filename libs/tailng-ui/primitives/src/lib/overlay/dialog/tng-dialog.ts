@@ -137,7 +137,6 @@ function isDialogCloseReason(value: string): value is TngDialogCloseReason {
 @Directive({
   selector: '[tngDialog]',
   exportAs: 'tngDialog',
-  standalone: true,
 })
 export class TngDialog implements OnDestroy, OnInit {
   public readonly openInput = input<boolean | undefined, OptionalBooleanInput>(undefined, {
@@ -676,7 +675,6 @@ export class TngDialog implements OnDestroy, OnInit {
 @Directive({
   selector: '[tngDialogPanel]',
   exportAs: 'tngDialogPanel',
-  standalone: true,
 })
 export class TngDialogPanel implements OnDestroy, OnInit {
   private readonly dialog = inject(TngDialog);
@@ -764,7 +762,6 @@ export class TngDialogPanel implements OnDestroy, OnInit {
 @Directive({
   selector: '[tngDialogBackdrop]',
   exportAs: 'tngDialogBackdrop',
-  standalone: true,
 })
 export class TngDialogBackdrop {
   private readonly dialog = inject(TngDialog);
@@ -796,7 +793,6 @@ export class TngDialogBackdrop {
 @Directive({
   selector: '[tngDialogTrigger]',
   exportAs: 'tngDialogTrigger',
-  standalone: true,
 })
 export class TngDialogTrigger {
   private readonly parentDialog = inject(TngDialog, { optional: true });
@@ -849,7 +845,6 @@ export class TngDialogTrigger {
 @Directive({
   selector: '[tngDialogTitle]',
   exportAs: 'tngDialogTitle',
-  standalone: true,
 })
 export class TngDialogTitle implements OnDestroy, OnInit {
   private readonly dialog = inject(TngDialog);
@@ -878,7 +873,6 @@ export class TngDialogTitle implements OnDestroy, OnInit {
 @Directive({
   selector: '[tngDialogDescription]',
   exportAs: 'tngDialogDescription',
-  standalone: true,
 })
 export class TngDialogDescription implements OnDestroy, OnInit {
   private readonly dialog = inject(TngDialog);
@@ -907,7 +901,6 @@ export class TngDialogDescription implements OnDestroy, OnInit {
 @Directive({
   selector: '[tngDialogContent]',
   exportAs: 'tngDialogContent',
-  standalone: true,
 })
 export class TngDialogContent {
   @HostBinding('attr.data-slot')
@@ -917,7 +910,6 @@ export class TngDialogContent {
 @Directive({
   selector: '[tngDialogActions]',
   exportAs: 'tngDialogActions',
-  standalone: true,
 })
 export class TngDialogActions {
   @HostBinding('attr.data-slot')
@@ -927,7 +919,6 @@ export class TngDialogActions {
 @Directive({
   selector: '[tngDialogClose]',
   exportAs: 'tngDialogClose',
-  standalone: true,
 })
 export class TngDialogClose {
   private readonly dialog = inject(TngDialog);

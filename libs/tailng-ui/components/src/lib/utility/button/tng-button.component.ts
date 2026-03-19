@@ -12,7 +12,6 @@ export type TngButtonSize = 'lg' | 'md' | 'sm';
 export type TngButtonTone = 'danger' | 'neutral' | 'primary' | 'success';
 
 @Component({
-  standalone: true,
   selector: 'tng-button',
   imports: [TngPressPrimitive],
   templateUrl: './tng-button.component.html',

@@ -7,7 +7,6 @@ import { TngSelectListboxApi } from './tng-select.listbox.types';
 @Directive({
   selector: '[tngSelect]',
   exportAs: 'tngSelect',
-  standalone: true,
   providers: [
     { provide: TNG_SELECT, useExisting: TngSelect },
     { provide: TNG_SELECT_HOST, useExisting: TngSelect },

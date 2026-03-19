@@ -21,7 +21,6 @@ import {
 @Directive({
   selector: '[tngTreeItem]',
   exportAs: 'tngTreeItem',
-  standalone: true,
 })
 export class TngTreeItem implements OnInit, OnDestroy {
   private readonly hostRef = inject<ElementRef<HTMLElement>>(ElementRef);

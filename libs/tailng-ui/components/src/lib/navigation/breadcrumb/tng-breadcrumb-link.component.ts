@@ -3,7 +3,6 @@ import { RouterLink } from '@angular/router';
 import { TngBreadcrumbLink as TngBreadcrumbLinkPrimitive } from '@tailng-ui/primitives';
 
 @Component({
-  standalone: true,
   selector: 'tng-breadcrumb-link',
   imports: [RouterLink, TngBreadcrumbLinkPrimitive],
   templateUrl: './tng-breadcrumb-link.component.html',

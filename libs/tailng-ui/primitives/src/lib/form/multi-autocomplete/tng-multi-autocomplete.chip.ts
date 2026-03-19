@@ -13,7 +13,6 @@ import type { TngMultiAutocomplete } from './tng-multi-autocomplete';
 @Directive({
   selector: '[tngMultiAutocompleteChip]',
   exportAs: 'tngMultiAutocompleteChip',
-  standalone: true,
 })
 export class TngMultiAutocompleteChip<T = unknown> {
   private readonly multi = inject<TngMultiAutocomplete<T>>(TNG_MULTI_AUTOCOMPLETE);

@@ -17,7 +17,6 @@ export function shouldCloseTngTooltipForKey(key: string): boolean {
 }
 
 @Component({
-  standalone: true,
   selector: 'tng-tooltip',
   imports: [TngTooltipPrimitive, TngTooltipTriggerPrimitive, TngTooltipContentPrimitive],
   templateUrl: './tng-tooltip.component.html',

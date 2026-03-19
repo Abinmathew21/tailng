@@ -27,7 +27,6 @@ const createListboxId = createTngIdFactory('tng-multi-autocomplete-listbox');
 
 @Directive({
   selector: '[tngMultiAutocompleteListbox]',
-  standalone: true,
   providers: [
     { provide: TNG_MULTI_AUTOCOMPLETE_LISTBOX, useExisting: TngMultiAutocompleteListbox },
     // Multi-autocomplete typing happens in the input. Listbox must NOT typeahead.
@@ -148,7 +147,6 @@ export class TngMultiAutocompleteListbox<T = unknown> implements TngMultiAutocom
 
 @Directive({
   selector: '[tngMultiAutocompleteOption]',
-  standalone: true,
   hostDirectives: [
     {
       directive: TngOptionDirective,

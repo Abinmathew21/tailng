@@ -148,7 +148,6 @@ function compareElementsByDomPosition(a: HTMLElement, b: HTMLElement): number {
 @Directive({
   selector: '[tngAccordion]',
   exportAs: 'tngAccordion',
-  standalone: true,
 })
 export class TngAccordion {
   private readonly hostRef = inject<ElementRef<HTMLElement>>(ElementRef);
@@ -808,7 +807,6 @@ export class TngAccordion {
 @Directive({
   selector: '[tngAccordionItem]',
   exportAs: 'tngAccordionItem',
-  standalone: true,
 })
 export class TngAccordionItem {
   private readonly root = inject(TngAccordion, { optional: true, host: true });
@@ -915,7 +913,6 @@ export class TngAccordionItem {
 @Directive({
   selector: '[tngAccordionTrigger]',
   exportAs: 'tngAccordionTrigger',
-  standalone: true,
 })
 export class TngAccordionTrigger {
   private readonly item = inject(TngAccordionItem, { optional: true, host: true });
@@ -1065,7 +1062,6 @@ export class TngAccordionTrigger {
 @Directive({
   selector: '[tngAccordionPanel]',
   exportAs: 'tngAccordionPanel',
-  standalone: true,
 })
 export class TngAccordionPanel {
   private readonly item = inject(TngAccordionItem, { optional: true, host: true });

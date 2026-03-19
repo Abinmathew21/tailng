@@ -223,7 +223,6 @@ function shouldPreventDefault(action: TngTreeKeyAction): boolean {
 }
 
 @Component({
-  standalone: true,
   selector: 'tng-tree',
   imports: [TngTreePrimitive],
   templateUrl: './tng-tree.component.html',

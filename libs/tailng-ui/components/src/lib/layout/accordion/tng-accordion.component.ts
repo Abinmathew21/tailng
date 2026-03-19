@@ -8,7 +8,6 @@ import {
 
 @Component({
   selector: 'tng-accordion',
-  standalone: true,
   hostDirectives: [
     {
       directive: TngAccordionPrimitive,
@@ -31,7 +30,6 @@ export class TngAccordionComponent {
 
 @Component({
   selector: 'tng-accordion-item',
-  standalone: true,
   hostDirectives: [
     {
       directive: TngAccordionItemPrimitive,
@@ -59,7 +57,6 @@ export class TngAccordionItemComponent {}
 
 @Component({
   selector: 'tng-accordion-trigger',
-  standalone: true,
   hostDirectives: [TngAccordionTriggerPrimitive],
   template: '<span class="tng-accordion__trigger-content"><ng-content /></span>',
   styles: `
@@ -103,7 +100,6 @@ export class TngAccordionTriggerComponent {}
 
 @Component({
   selector: 'tng-accordion-panel',
-  standalone: true,
   hostDirectives: [TngAccordionPanelPrimitive],
   template: '<section class="tng-accordion__panel"><ng-content /></section>',
   styles: `

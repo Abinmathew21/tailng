@@ -51,7 +51,6 @@ export function resolveTngToggleDataState(pressed: boolean): 'off' | 'on' {
 @Directive({
   selector: 'button[tngToggle]',
   exportAs: 'tngToggle',
-  standalone: true,
 })
 export class TngToggle implements OnInit {
   private readonly elementRef = inject<ElementRef<HTMLButtonElement>>(ElementRef);

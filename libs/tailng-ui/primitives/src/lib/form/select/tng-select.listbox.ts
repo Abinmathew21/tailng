@@ -10,7 +10,6 @@ import { TNG_SELECT_LISTBOX } from './tng-select.listbox.tokens';
 const createListboxId = createTngIdFactory('tng-select-listbox');
 @Directive({
   selector: '[tngSelectListbox]',
-  standalone: true,
   providers: [{ provide: TNG_SELECT_LISTBOX, useExisting: TngSelectListbox }],
   hostDirectives: [
     {
@@ -113,7 +112,6 @@ export class TngSelectListbox<T = unknown> implements TngSelectListboxApi<T> {
 
 @Directive({
   selector: '[tngSelectOption]',
-  standalone: true,
   hostDirectives: [
     {
       directive: TngOptionDirective,

@@ -52,7 +52,6 @@ type SelectedItem<O, V> = {
 
 @Component({
   selector: 'tng-multi-autocomplete',
-  standalone: true,
   imports: [
     NgTemplateOutlet,
     TngMultiAutocompleteChip,

@@ -21,7 +21,6 @@ export function resolveTngSwitchArrowKey(key: string): boolean | null {
 }
 
 @Component({
-  standalone: true,
   selector: 'tng-switch',
   imports: [TngSwitchPrimitive],
   templateUrl: './tng-switch.component.html',

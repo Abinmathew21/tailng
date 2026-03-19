@@ -16,7 +16,6 @@ const NAV_KEYS = new Set(['ArrowDown', 'ArrowUp'] as const);
 @Directive({
   selector: '[tngMultiAutocompleteTrigger]',
   exportAs: 'tngMultiAutocompleteTrigger',
-  standalone: true,
 })
 export class TngMultiAutocompleteTrigger {
   private readonly multi = inject<TngMultiAutocomplete>(TNG_MULTI_AUTOCOMPLETE);

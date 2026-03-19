@@ -12,7 +12,6 @@ const createListboxId = createTngIdFactory('tng-multi-select-listbox');
 
 @Directive({
   selector: '[tngMultiSelectListbox]',
-  standalone: true,
   providers: [{ provide: TNG_MULTI_SELECT_LISTBOX, useExisting: TngMultiSelectListbox }],
   hostDirectives: [
     {
@@ -94,7 +93,6 @@ export class TngMultiSelectListbox<T = unknown> implements TngMultiSelectListbox
 
 @Directive({
   selector: '[tngMultiSelectOption]',
-  standalone: true,
   hostDirectives: [
     {
       directive: TngOptionDirective,

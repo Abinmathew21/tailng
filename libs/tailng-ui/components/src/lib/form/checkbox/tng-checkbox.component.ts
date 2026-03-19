@@ -50,7 +50,6 @@ const noControlChange = (_value: TngCheckboxModelValue): void => undefined;
 const noControlTouch = (): void => undefined;
 
 @Component({
-  standalone: true,
   selector: 'tng-checkbox',
   imports: [TngCheckboxPrimitive],
   templateUrl: './tng-checkbox.component.html',

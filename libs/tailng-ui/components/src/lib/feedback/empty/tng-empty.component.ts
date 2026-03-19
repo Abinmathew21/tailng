@@ -10,7 +10,6 @@ import {
 type TngEmptyAlign = 'center' | 'start';
 
 @Component({
-  standalone: true,
   selector: 'tng-empty',
   imports: [TngEmptyPrimitive],
   templateUrl: './tng-empty.component.html',
@@ -21,7 +20,6 @@ export class TngEmptyComponent {
 }
 
 @Component({
-  standalone: true,
   selector: 'tng-empty-icon',
   imports: [TngEmptyIconPrimitive],
   templateUrl: './tng-empty-icon.component.html',
@@ -30,7 +28,6 @@ export class TngEmptyComponent {
 export class TngEmptyIconComponent {}
 
 @Component({
-  standalone: true,
   selector: 'tng-empty-title',
   imports: [TngEmptyTitlePrimitive],
   templateUrl: './tng-empty-title.component.html',
@@ -39,7 +36,6 @@ export class TngEmptyIconComponent {}
 export class TngEmptyTitleComponent {}
 
 @Component({
-  standalone: true,
   selector: 'tng-empty-description',
   imports: [TngEmptyDescriptionPrimitive],
   templateUrl: './tng-empty-description.component.html',
@@ -48,7 +44,6 @@ export class TngEmptyTitleComponent {}
 export class TngEmptyDescriptionComponent {}
 
 @Component({
-  standalone: true,
   selector: 'tng-empty-actions',
   imports: [TngEmptyActionsPrimitive],
   templateUrl: './tng-empty-actions.component.html',

@@ -11,7 +11,6 @@ export function resolveTngCollapsibleDataState(open: boolean): 'closed' | 'open'
 @Directive({
   selector: '[tngCollapsible]',
   exportAs: 'tngCollapsible',
-  standalone: true,
 })
 export class TngCollapsible {
   public readonly disabled = input<boolean, boolean | string>(false, {
@@ -38,7 +37,6 @@ export class TngCollapsible {
 @Directive({
   selector: 'button[tngCollapsibleTrigger]',
   exportAs: 'tngCollapsibleTrigger',
-  standalone: true,
 })
 export class TngCollapsibleTrigger {
   public readonly contentId = input<string>('');
@@ -85,7 +83,6 @@ export class TngCollapsibleTrigger {
 @Directive({
   selector: '[tngCollapsibleContent]',
   exportAs: 'tngCollapsibleContent',
-  standalone: true,
 })
 export class TngCollapsibleContent {
   public readonly open = input<boolean, boolean | string>(false, {

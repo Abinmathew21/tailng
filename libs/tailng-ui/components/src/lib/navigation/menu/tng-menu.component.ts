@@ -5,7 +5,6 @@ const MAX_FOCUS_SYNC_ATTEMPTS = 4;
 
 @Component({
   selector: 'tng-menu',
-  standalone: true,
   hostDirectives: [
     {
       directive: TngMenuPrimitive,

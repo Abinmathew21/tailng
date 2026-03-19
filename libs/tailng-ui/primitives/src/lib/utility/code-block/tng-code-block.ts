@@ -3,7 +3,6 @@ import { Directive, HostBinding } from '@angular/core';
 @Directive({
   selector: '[tngCodeBlock]',
   exportAs: 'tngCodeBlock',
-  standalone: true,
 })
 export class TngCodeBlock {
   @HostBinding('attr.data-slot')
@@ -13,7 +12,6 @@ export class TngCodeBlock {
 @Directive({
   selector: '[tngCodeBlockHeader]',
   exportAs: 'tngCodeBlockHeader',
-  standalone: true,
 })
 export class TngCodeBlockHeader {
   @HostBinding('attr.data-slot')
@@ -23,7 +21,6 @@ export class TngCodeBlockHeader {
 @Directive({
   selector: '[tngCodeBlockBody]',
   exportAs: 'tngCodeBlockBody',
-  standalone: true,
 })
 export class TngCodeBlockBody {
   @HostBinding('attr.data-slot')
@@ -33,7 +30,6 @@ export class TngCodeBlockBody {
 @Directive({
   selector: '[tngCodeBlockGutter]',
   exportAs: 'tngCodeBlockGutter',
-  standalone: true,
 })
 export class TngCodeBlockGutter {
   @HostBinding('attr.data-slot')
@@ -43,7 +39,6 @@ export class TngCodeBlockGutter {
 @Directive({
   selector: '[tngCodeBlockCode]',
   exportAs: 'tngCodeBlockCode',
-  standalone: true,
 })
 export class TngCodeBlockCode {
   @HostBinding('attr.data-slot')

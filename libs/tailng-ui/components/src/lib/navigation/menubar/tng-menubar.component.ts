@@ -3,7 +3,6 @@ import { TngMenubar as TngMenubarPrimitive } from '@tailng-ui/primitives';
 
 @Component({
   selector: 'tng-menubar',
-  standalone: true,
   hostDirectives: [
     {
       directive: TngMenubarPrimitive,

@@ -33,7 +33,6 @@ function isInside(target: EventTarget | null, container: HTMLElement): boolean {
 @Directive({
   selector: '[tngAutocompleteOverlay]',
   exportAs: 'tngAutocompleteOverlay',
-  standalone: true,
 })
 export class TngAutocompleteOverlay {
   private readonly autocomplete = inject<TngAutocomplete>(TNG_AUTOCOMPLETE);

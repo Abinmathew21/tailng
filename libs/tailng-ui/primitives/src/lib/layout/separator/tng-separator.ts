@@ -5,7 +5,6 @@ export type TngSeparatorOrientation = 'horizontal' | 'vertical';
 @Directive({
   selector: '[tngSeparator]',
   exportAs: 'tngSeparator',
-  standalone: true,
 })
 export class TngSeparator {
   public readonly decorative = input<boolean, boolean | string>(true, {

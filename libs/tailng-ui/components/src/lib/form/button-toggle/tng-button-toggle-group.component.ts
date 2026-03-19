@@ -60,7 +60,6 @@ function normalizeOptionalButtonToggleValues(
 }
 
 @Component({
-  standalone: true,
   selector: 'tng-button-toggle-group',
   imports: [TngButtonToggleGroupPrimitive],
   templateUrl: './tng-button-toggle-group.component.html',

@@ -2,7 +2,6 @@ import { Component, input } from '@angular/core';
 import { TngCombobox as TngComboboxPrimitive } from '@tailng-ui/primitives';
 
 @Component({
-  standalone: true,
   selector: 'tng-combobox',
   imports: [TngComboboxPrimitive],
   templateUrl: './tng-combobox.component.html',

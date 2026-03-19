@@ -160,7 +160,6 @@ function clampOtpIndex(index: number, length: number): number {
 
 @Component({
   selector: 'tng-input-otp',
-  standalone: true,
   imports: [TngInputOtpPrimitive],
   templateUrl: './tng-input-otp.component.html',
   styleUrl: './tng-input-otp.component.css',

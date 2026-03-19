@@ -2,7 +2,6 @@ import { Component, input } from '@angular/core';
 import { TngStepper as TngStepperPrimitive } from '@tailng-ui/primitives';
 
 @Component({
-  standalone: true,
   selector: 'tng-stepper',
   imports: [TngStepperPrimitive],
   templateUrl: './tng-stepper.component.html',

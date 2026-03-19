@@ -11,7 +11,6 @@ export type TngSelectTriggerTplContext<O, V> = Readonly<{
 
 @Directive({
   selector: 'ng-template[tngSelectTriggerTpl]',
-  standalone: true,
 })
 export class TngSelectTriggerTpl<O = unknown, V = unknown> {
   readonly tpl = inject(TemplateRef<TngSelectTriggerTplContext<O, V>>);
@@ -29,7 +28,6 @@ export type TngSelectOptionTplContext<O, V> = Readonly<{
 
 @Directive({
   selector: 'ng-template[tngSelectOptionTpl]',
-  standalone: true,
 })
 export class TngSelectOptionTpl<O = unknown, V = unknown> {
   readonly tpl = inject(TemplateRef<TngSelectOptionTplContext<O, V>>);

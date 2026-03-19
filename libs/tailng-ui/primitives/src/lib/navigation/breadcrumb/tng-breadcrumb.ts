@@ -3,7 +3,6 @@ import { Directive, HostBinding } from '@angular/core';
 @Directive({
   selector: '[tngBreadcrumb]',
   exportAs: 'tngBreadcrumb',
-  standalone: true,
 })
 export class TngBreadcrumb {
   @HostBinding('attr.data-slot')
@@ -13,7 +12,6 @@ export class TngBreadcrumb {
 @Directive({
   selector: '[tngBreadcrumbList]',
   exportAs: 'tngBreadcrumbList',
-  standalone: true,
 })
 export class TngBreadcrumbList {
   @HostBinding('attr.data-slot')
@@ -23,7 +21,6 @@ export class TngBreadcrumbList {
 @Directive({
   selector: '[tngBreadcrumbItem]',
   exportAs: 'tngBreadcrumbItem',
-  standalone: true,
 })
 export class TngBreadcrumbItem {
   @HostBinding('attr.data-slot')
@@ -33,7 +30,6 @@ export class TngBreadcrumbItem {
 @Directive({
   selector: '[tngBreadcrumbLink]',
   exportAs: 'tngBreadcrumbLink',
-  standalone: true,
 })
 export class TngBreadcrumbLink {
   @HostBinding('attr.data-slot')
@@ -43,7 +39,6 @@ export class TngBreadcrumbLink {
 @Directive({
   selector: '[tngBreadcrumbSeparator]',
   exportAs: 'tngBreadcrumbSeparator',
-  standalone: true,
 })
 export class TngBreadcrumbSeparator {
   @HostBinding('attr.aria-hidden')

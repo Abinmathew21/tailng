@@ -7,7 +7,6 @@ import { TNG_SELECT_HOST } from './tng-select.tokens.shared';
 @Directive({
   selector: '[tngSelectTrigger]',
   exportAs: 'tngSelectTrigger',
-  standalone: true,
 })
 export class TngSelectTrigger {
   private readonly host = inject<TngSelectHostApi>(TNG_SELECT_HOST);
@@ -112,7 +111,6 @@ export class TngSelectTrigger {
 @Directive({
   selector: '[tngSelectValue]',
   exportAs: 'tngSelectValue',
-  standalone: true,
 })
 export class TngSelectValue {
   @HostBinding('attr.data-slot')
@@ -122,7 +120,6 @@ export class TngSelectValue {
 @Directive({
   selector: '[tngSelectIcon]',
   exportAs: 'tngSelectIcon',
-  standalone: true,
 })
 export class TngSelectIcon {
   @HostBinding('attr.data-slot')
@@ -134,7 +131,6 @@ const createContentId = createTngIdFactory('tng-select-content');
 @Directive({
   selector: '[tngSelectContent]',
   exportAs: 'tngSelectContent',
-  standalone: true,
 })
 export class TngSelectContent {
   private readonly host = inject<TngSelectHostApi>(TNG_SELECT_HOST);

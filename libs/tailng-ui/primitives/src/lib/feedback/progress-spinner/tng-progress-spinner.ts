@@ -36,7 +36,6 @@ export function resolveTngProgressSpinnerRange(
 @Directive({
   selector: '[tngProgressSpinner]',
   exportAs: 'tngProgressSpinner',
-  standalone: true,
 })
 export class TngProgressSpinner {
   public readonly indeterminate = input<boolean, boolean | string>(false, {

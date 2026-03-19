@@ -184,7 +184,6 @@ export function resolveTngButtonToggleDataState(pressed: boolean): 'off' | 'on' 
 @Directive({
   selector: '[tngButtonToggleGroup]',
   exportAs: 'tngButtonToggleGroup',
-  standalone: true,
 })
 export class TngButtonToggleGroup {
   private readonly hostRef = inject<ElementRef<HTMLElement>>(ElementRef);
@@ -1219,7 +1218,6 @@ export class TngButtonToggleGroup {
 @Directive({
   selector: 'button[tngButtonToggle]',
   exportAs: 'tngButtonToggle',
-  standalone: true,
 })
 export class TngButtonToggle {
   private readonly hostRef = inject<ElementRef<HTMLButtonElement>>(ElementRef);

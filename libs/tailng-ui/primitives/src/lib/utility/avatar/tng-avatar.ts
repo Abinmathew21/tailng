@@ -3,7 +3,6 @@ import { Directive, HostBinding } from '@angular/core';
 @Directive({
   selector: '[tngAvatar]',
   exportAs: 'tngAvatar',
-  standalone: true,
 })
 export class TngAvatar {
   @HostBinding('attr.data-slot')
@@ -13,7 +12,6 @@ export class TngAvatar {
 @Directive({
   selector: 'img[tngAvatarImage]',
   exportAs: 'tngAvatarImage',
-  standalone: true,
 })
 export class TngAvatarImage {
   @HostBinding('attr.data-slot')
@@ -23,7 +21,6 @@ export class TngAvatarImage {
 @Directive({
   selector: '[tngAvatarFallback]',
   exportAs: 'tngAvatarFallback',
-  standalone: true,
 })
 export class TngAvatarFallback {
   @HostBinding('attr.data-slot')

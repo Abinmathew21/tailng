@@ -328,7 +328,6 @@ export function toTngCodeBlockLineNumbers(
 }
 
 @Component({
-  standalone: true,
   selector: 'tng-code-block',
   imports: [
     TngCodeBlockPrimitive,

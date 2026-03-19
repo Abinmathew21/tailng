@@ -11,7 +11,6 @@ import { TngTreeItem } from './tng-tree-item';
 @Directive({
   selector: '[tngTreeGroup]',
   exportAs: 'tngTreeGroup',
-  standalone: true,
 })
 export class TngTreeGroup implements OnInit, OnDestroy {
   public readonly parentItem = inject(TngTreeItem, { optional: true, skipSelf: true });

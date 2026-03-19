@@ -97,7 +97,6 @@ const TYPEAHEAD_RESET_MS = 500;
 @Directive({
   selector: '[tngMenu]',
   exportAs: 'tngMenu',
-  standalone: true,
 })
 export class TngMenu {
   private static openRootMenu: TngMenu | null = null;
@@ -737,7 +736,6 @@ export class TngMenu {
 @Directive({
   selector: '[tngMenuItem]',
   exportAs: 'tngMenuItem',
-  standalone: true,
 })
 export class TngMenuItem {
   private readonly hostRef = inject<ElementRef<HTMLElement>>(ElementRef);
@@ -973,7 +971,6 @@ export class TngMenuItem {
 @Directive({
   selector: '[tngMenuSeparator]',
   exportAs: 'tngMenuSeparator',
-  standalone: true,
 })
 export class TngMenuSeparator {
   @HostBinding('attr.data-slot')
@@ -986,7 +983,6 @@ export class TngMenuSeparator {
 @Directive({
   selector: '[tngMenuGroupLabel]',
   exportAs: 'tngMenuGroupLabel',
-  standalone: true,
 })
 export class TngMenuGroupLabel {
   @HostBinding('attr.data-slot')
@@ -999,7 +995,6 @@ export class TngMenuGroupLabel {
 @Directive({
   selector: '[tngMenuBackdrop]',
   exportAs: 'tngMenuBackdrop',
-  standalone: true,
 })
 export class TngMenuBackdrop {
   readonly menu = input<TngMenu | null>(null, {
@@ -1021,7 +1016,6 @@ export class TngMenuBackdrop {
 @Directive({
   selector: '[tngMenuTrigger]',
   exportAs: 'tngMenuTrigger',
-  standalone: true,
 })
 export class TngMenuTrigger {
   private readonly hostRef = inject<ElementRef<HTMLElement>>(ElementRef);

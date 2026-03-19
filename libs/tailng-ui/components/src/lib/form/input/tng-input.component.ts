@@ -9,7 +9,6 @@ export type TngInputTone = 'neutral' | 'primary' | 'success' | 'danger';
 
 @Component({
   selector: 'tng-input',
-  standalone: true,
   imports: [TngInputGroup, TngInputLeading, TngInputTrailing],
   templateUrl: './tng-input.component.html',
   styleUrl: './tng-input.component.css',

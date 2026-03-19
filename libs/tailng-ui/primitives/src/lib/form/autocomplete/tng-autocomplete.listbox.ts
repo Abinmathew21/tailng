@@ -11,7 +11,6 @@ const createListboxId = createTngIdFactory('tng-autocomplete-listbox');
 
 @Directive({
   selector: '[tngAutocompleteListbox]',
-  standalone: true,
   providers: [
     { provide: TNG_AUTOCOMPLETE_LISTBOX, useExisting: TngAutocompleteListbox },
     { provide: TNG_LISTBOX_FORCE_TYPEAHEAD, useValue: false }
@@ -111,7 +110,6 @@ export class TngAutocompleteListbox<T = unknown> implements TngAutocompleteListb
 
 @Directive({
   selector: '[tngAutocompleteOption]',
-  standalone: true,
   hostDirectives: [
     {
       directive: TngOptionDirective,

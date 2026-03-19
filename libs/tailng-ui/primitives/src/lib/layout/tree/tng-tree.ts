@@ -83,7 +83,6 @@ function resolveHorizontalTreeKeyAction(event: KeyboardEvent): TngTreeHorizontal
 @Directive({
   selector: '[tngTree]',
   exportAs: 'tngTree',
-  standalone: true,
 })
 export class TngTree implements OnDestroy {
   private readonly hostRef = inject<ElementRef<HTMLElement>>(ElementRef);

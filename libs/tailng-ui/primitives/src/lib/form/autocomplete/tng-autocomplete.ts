@@ -18,7 +18,6 @@ export interface TngAutocompleteCreateEvent {
 @Directive({
   selector: '[tngAutocomplete]',
   exportAs: 'tngAutocomplete',
-  standalone: true,
   providers: [{ provide: TNG_AUTOCOMPLETE, useExisting: TngAutocomplete }],
 })
 export class TngAutocomplete<T = unknown> {

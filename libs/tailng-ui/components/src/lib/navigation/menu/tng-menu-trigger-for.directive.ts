@@ -23,7 +23,6 @@ function resolveFocusActionForOpenKey(key: string): TngMenuOpenFocusAction | nul
 @Directive({
   selector: '[tngMenuTriggerFor]',
   exportAs: 'tngMenuTriggerFor',
-  standalone: true,
 })
 export class TngMenuTriggerFor {
   readonly tngMenuTriggerFor = input.required<TngMenu>();

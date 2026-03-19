@@ -34,7 +34,6 @@ export type TngSelectOptionContext<O, V> = {
 
 @Component({
   selector: 'tng-select',
-  standalone: true,
   imports: [
     NgTemplateOutlet,
     // primitives used in template

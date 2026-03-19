@@ -39,7 +39,6 @@ function isInside(target: EventTarget | null, container: HTMLElement): boolean {
 @Directive({
   selector: '[tngSelectOverlay]',
   exportAs: 'tngSelectOverlay',
-  standalone: true,
 })
 export class TngSelectOverlay {
   private readonly host = inject<TngSelectHostApi>(TNG_SELECT_HOST);

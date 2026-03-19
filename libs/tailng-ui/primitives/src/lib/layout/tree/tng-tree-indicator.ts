@@ -10,7 +10,6 @@ import { TngTreeItem } from './tng-tree-item';
 @Directive({
   selector: '[tngTreeIndicator]',
   exportAs: 'tngTreeIndicator',
-  standalone: true,
 })
 export class TngTreeIndicator {
   private readonly item = inject(TngTreeItem, { optional: true });

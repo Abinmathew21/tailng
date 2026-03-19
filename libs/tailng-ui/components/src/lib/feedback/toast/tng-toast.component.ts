@@ -117,7 +117,6 @@ function normalizeTngToastAction(
 }
 
 @Component({
-  standalone: true,
   selector: 'tng-toast',
   imports: [TngToastItemPrimitive, TngToastViewportPrimitive],
   templateUrl: './tng-toast.component.html',

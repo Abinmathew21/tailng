@@ -15,7 +15,6 @@ export function resolveTngSwitchAriaRequired(required: boolean): 'true' | null {
 @Directive({
   selector: 'button[tngSwitch]',
   exportAs: 'tngSwitch',
-  standalone: true,
 })
 export class TngSwitch {
   public readonly ariaLabel = input<string | null>(null);

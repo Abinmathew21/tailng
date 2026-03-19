@@ -13,7 +13,6 @@ import type { TngMultiAutocompleteListboxApi } from './tng-multi-autocomplete.li
 @Directive({
   selector: '[tngMultiAutocomplete]',
   exportAs: 'tngMultiAutocomplete',
-  standalone: true,
   providers: [{ provide: TNG_MULTI_AUTOCOMPLETE, useExisting: TngMultiAutocomplete }],
 })
 export class TngMultiAutocomplete<T = unknown> {

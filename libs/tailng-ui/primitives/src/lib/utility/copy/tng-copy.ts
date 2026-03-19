@@ -484,7 +484,6 @@ export async function writeTngClipboardText(
 @Directive({
   selector: '[tngCopy], [tngCopyButton]',
   exportAs: 'tngCopy',
-  standalone: true,
 })
 export class TngCopy {
   public readonly tngCopy = output<TngCopyEvent>();

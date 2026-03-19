@@ -18,7 +18,6 @@ export function toTngProgressBarPercent(min: number, max: number, value: number)
 }
 
 @Component({
-  standalone: true,
   selector: 'tng-progress-bar',
   imports: [TngProgressBarPrimitive, TngProgressBarIndicator],
   templateUrl: './tng-progress-bar.component.html',

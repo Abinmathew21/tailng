@@ -2,7 +2,6 @@ import { Component, input } from '@angular/core';
 import { TngNavigationMenu as TngNavigationMenuPrimitive } from '@tailng-ui/primitives';
 
 @Component({
-  standalone: true,
   selector: 'tng-navigation-menu',
   imports: [TngNavigationMenuPrimitive],
   templateUrl: './tng-navigation-menu.component.html',

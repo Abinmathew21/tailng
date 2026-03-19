@@ -1,7 +1,6 @@
 import { Directive, TemplateRef } from '@angular/core';
 
 @Directive({
-  standalone: true,
   selector: 'ng-template[tngBreadcrumbSeparatorTemplate]',
   exportAs: 'tngBreadcrumbSeparatorTemplate',
 })
