@@ -28,17 +28,16 @@ export type TngCopyButtonTextInput = string | (() => string) | Signal<string> | 
 export type TngCopyButtonTrigger = 'keyboard' | 'pointer' | 'programmatic';
 export type TngCopyButtonStatus = 'copying' | 'error' | 'idle' | 'success';
 export type TngCopyFormat = 'text/html' | 'text/plain';
-export type TngCopyFormatInput = TngCopyFormat | null | undefined;
+
+/**
+ * Accept string because template/attribute bindings commonly arrive as strings.
+ * Keeping this broad also avoids `no-redundant-type-constituents` (string + literals).
+ */
+export type TngCopyFormatInput = string | null | undefined;
 export type TngCopyMethod = 'clipboard' | 'execCommand';
 export type TngCopyAnnounce = 'auto' | boolean;
 
-export type TngCopyAnnounceInput =
-  | TngCopyAnnounce
-  | ''          // boolean attribute style
-  | 'true'
-  | 'false'
-  | null
-  | undefined;
+export type TngCopyAnnounceInput = string | boolean | null | undefined;
 
 export type TngCopyEvent = {
   text: string;
@@ -366,7 +365,6 @@ function coerceTngCopySuccessDuration(value: number | string): number {
 }
 
 export function coerceTngCopyAnnounce(value: TngCopyAnnounceInput): TngCopyAnnounce {
-
   if (value === true || value === false) return value;
   if (value === null || value === undefined) return 'auto';
 
@@ -377,7 +375,8 @@ export function coerceTngCopyAnnounce(value: TngCopyAnnounceInput): TngCopyAnnou
 }
 
 export function coerceTngCopyFormat(value: TngCopyFormatInput): TngCopyFormat {
-  return value === 'text/html' ? 'text/html' : 'text/plain';
+  const v = value === null || value === undefined ? '' : String(value).trim().toLowerCase();
+  return v === 'text/html' ? 'text/html' : 'text/plain';
 }
 
 export function normalizeTngCopyIgnoreSelectors(
@@ -490,10 +489,9 @@ export class TngCopy {
   public readonly tngCopy = output<TngCopyEvent>();
   public readonly tngCopyButtonText = input<TngCopyButtonTextInput>(undefined);
   public readonly tngCopyButtonTarget = input<TngCopyFromTarget>(null);
-  public readonly tngCopyButtonFormat = input<TngCopyFormat, TngCopyFormat | string | null | undefined>(
-    'text/plain',
-    { transform: coerceTngCopyFormat },
-  );
+  public readonly tngCopyButtonFormat = input<TngCopyFormat, TngCopyFormatInput>('text/plain', {
+    transform: coerceTngCopyFormat,
+  });
   public readonly tngCopyButtonSuccessDurationMs = input<number, number | string>(
     defaultTngCopySuccessDurationMs,
     { transform: coerceTngCopySuccessDuration },
@@ -502,10 +500,9 @@ export class TngCopy {
     transform: booleanAttribute,
   });
   public readonly tngCopyButtonHotkey = input<string | null>(null);
-  public readonly tngCopyButtonAnnounce = input<TngCopyAnnounce, TngCopyAnnounce | string | null | undefined>(
-    'auto',
-    { transform: coerceTngCopyAnnounce },
-  );
+  public readonly tngCopyButtonAnnounce = input<TngCopyAnnounce, TngCopyAnnounceInput>('auto', {
+    transform: coerceTngCopyAnnounce,
+  });
   public readonly tngCopyButtonSuccessMessage = input<string>(defaultTngCopySuccessAnnouncement);
   public readonly tngCopyButtonErrorMessage = input<string>(defaultTngCopyErrorAnnouncement);
   public readonly tngCopyDisabled = input<boolean, boolean | string>(false, {
@@ -525,7 +522,7 @@ export class TngCopy {
   public readonly tngCopyAnnounced = output<string>();
   public readonly status = signal<TngCopyButtonStatus>('idle');
   public readonly lastCopiedText = signal<string | null>(null);
-  public readonly error = signal<unknown | null>(null);
+  public readonly error = signal<Error | null>(null);
 
   private readonly hostElement = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
   private readonly destroyRef = inject(DestroyRef);
@@ -691,6 +688,28 @@ export class TngCopy {
     this.announce(this.tngCopyButtonErrorMessage(), trigger);
   }
 
+  private async doCopy(text: string, trigger: TngCopyButtonTrigger): Promise<boolean> {
+    try {
+      const method = await writeTngClipboardText(
+        text,
+        this.hostElement.ownerDocument,
+        this.tngCopyButtonFormat(),
+      );
+      this.status.set('success');
+      this.lastCopiedText.set(text);
+      this.tngCopied.emit(text);
+      this.tngCopySuccess.emit({ text, method });
+      this.announce(this.tngCopyButtonSuccessMessage(), trigger);
+      this.scheduleSuccessReset();
+      return true;
+    } catch (error) {
+      this.emitError(toCopyError(error), trigger);
+      return false;
+    } finally {
+      this.copying = false;
+    }
+  }
+
   private async tryCopy(trigger: TngCopyButtonTrigger): Promise<boolean> {
     if (this.copying) {
       return false;
@@ -722,26 +741,28 @@ export class TngCopy {
     }
 
     this.tngCopy.emit({ text: resolvedPayload.text, trigger });
+    const result = await this.doCopy(resolvedPayload.text, trigger);
+    return result;
 
-    try {
-      const method = await writeTngClipboardText(
-        resolvedPayload.text,
-        this.hostElement.ownerDocument,
-        this.tngCopyButtonFormat(),
-      );
-      this.status.set('success');
-      this.lastCopiedText.set(resolvedPayload.text);
-      this.tngCopied.emit(resolvedPayload.text);
-      this.tngCopySuccess.emit({ text: resolvedPayload.text, method });
-      this.announce(this.tngCopyButtonSuccessMessage(), trigger);
-      this.scheduleSuccessReset();
-      return true;
-    } catch (error) {
-      this.emitError(toCopyError(error), trigger);
-      return false;
-    } finally {
-      this.copying = false;
+    
+  }
+
+  private findSourceText(): string | null {
+    const configuredTarget = this.tngCopyButtonTarget() ?? this.tngCopyFrom();
+    const hasConfiguredTarget =
+      configuredTarget !== undefined &&
+      configuredTarget !== null &&
+      !(typeof configuredTarget === 'string' && configuredTarget.trim().length === 0);
+
+    const sourceElement = resolveSourceElement(configuredTarget, this.hostElement.ownerDocument);
+    if (hasConfiguredTarget && sourceElement === null) {
+      throw new Error('Copy target was not found.');
     }
+    const sourceText =
+      sourceElement === null
+        ? null
+        : extractTextFromSourceElement(sourceElement, this.tngCopyIgnoreSelectors());
+    return sourceText;
   }
 
   private resolvePayload(): { error: Error | null; text: string | null } {
@@ -754,22 +775,11 @@ export class TngCopy {
     const directText =
       explicitTextResult.value !== undefined ? explicitTextResult.value : fallbackText;
 
-    const configuredTarget = this.tngCopyButtonTarget() ?? this.tngCopyFrom();
-    const hasConfiguredTarget =
-      configuredTarget !== undefined &&
-      configuredTarget !== null &&
-      !(typeof configuredTarget === 'string' && configuredTarget.trim().length === 0);
-
-    const sourceElement = resolveSourceElement(configuredTarget, this.hostElement.ownerDocument);
-    if (hasConfiguredTarget && sourceElement === null) {
-      return { error: new Error('Copy target was not found.'), text: null };
+    try {
+      const sourceText = this.findSourceText();
+      return { error: null, text: resolveTngCopyPayload(directText, sourceText) };
+    } catch (error) {
+      return { error: toCopyError(error), text: null };
     }
-
-    const sourceText =
-      sourceElement === null
-        ? null
-        : extractTextFromSourceElement(sourceElement, this.tngCopyIgnoreSelectors());
-
-    return { error: null, text: resolveTngCopyPayload(directText, sourceText) };
   }
 }
