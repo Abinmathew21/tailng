@@ -68,17 +68,31 @@ export class TailwindSetupPageComponent implements OnDestroy {
   private readonly colorSchemeObserver = this.observeCodeThemeChanges();
 
   protected readonly installPnpmCode = [
-    'pnpm add @tailng-ui/components @tailng-ui/primitives @tailng-ui/cdk @tailng-ui/theme @tailng-ui/icons',
+    '## Headless behavior and accessibility primitives',
+    'pnpm add @tailng-ui/primitives',
+    '## Or if you need components',
+    'pnpm add @tailng-ui/components',
+    '## Tailwind CSS',
+    'pnpm add @tailng-ui/theme @tailng-ui/icons',
     'pnpm add -D tailwindcss postcss autoprefixer',
-    '',
   ].join('\n');
   protected readonly installNpmCode = [
-    'npm install @tailng-ui/components @tailng-ui/primitives @tailng-ui/cdk @tailng-ui/theme @tailng-ui/icons',
+    '## Headless behavior and accessibility primitives',
+    'npm install @tailng-ui/primitives',
+    '## Or if you need components',
+    'npm install @tailng-ui/components',
+    '## Tailwind CSS',
+    'npm install @tailng-ui/theme @tailng-ui/icons',
     'npm install -D tailwindcss postcss autoprefixer',
     '',
   ].join('\n');
   protected readonly installYarnCode = [
-    'yarn add @tailng-ui/components @tailng-ui/primitives @tailng-ui/cdk @tailng-ui/theme @tailng-ui/icons',
+    '## Headless behavior and accessibility primitives',
+    'yarn add @tailng-ui/primitives',
+    '## Or if you need components',
+    'yarn add @tailng-ui/components',
+    '## Tailwind CSS',
+    'yarn add @tailng-ui/theme @tailng-ui/icons',
     'yarn add -D tailwindcss postcss autoprefixer',
     '',
   ].join('\n');
@@ -86,13 +100,13 @@ export class TailwindSetupPageComponent implements OnDestroy {
   protected readonly providerCode = [
     "import { ApplicationConfig } from '@angular/core';",
     "import { provideRouter } from '@angular/router';",
-    "import { provideTailngTheme } from '@tailng-ui/theme';",
+    "import { defaultDarkThemePreset, provideTailngTheme } from '@tailng-ui/theme';",
     "import { routes } from './app.routes';",
     '',
     'export const appConfig: ApplicationConfig = {',
     '  providers: [',
     '    provideRouter(routes),',
-    '    provideTailngTheme(),',
+    '    provideTailngTheme({ theme: defaultDarkThemePreset }),',
     '  ],',
     '};',
     '',

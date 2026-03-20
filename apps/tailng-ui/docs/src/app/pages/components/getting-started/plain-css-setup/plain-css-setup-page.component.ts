@@ -68,22 +68,44 @@ export class PlainCssSetupPageComponent implements OnDestroy {
   private readonly colorSchemeObserver = this.observeCodeThemeChanges();
 
   protected readonly installPnpmCode =
-    'pnpm add @tailng-ui/components @tailng-ui/primitives @tailng-ui/cdk @tailng-ui/theme @tailng-ui/icons';
+    [
+      '## Headless behavior and accessibility primitives',
+      'pnpm add @tailng-ui/primitives',
+      '## Or if you need components',
+      'pnpm add @tailng-ui/components',
+      '## Optional',
+      'pnpm add @tailng-ui/theme @tailng-ui/icons',
+      'pnpm add @tailng-ui/icons',
+    ].join('\n');
   protected readonly installNpmCode =
-    'npm install @tailng-ui/components @tailng-ui/primitives @tailng-ui/cdk @tailng-ui/theme @tailng-ui/icons';
+    [
+      '## Headless behavior and accessibility primitives',
+      'npm install @tailng-ui/primitives',
+      '## Or if you need components',
+      'npm install @tailng-ui/components',
+      '## Optional',
+      'npm install @tailng-ui/theme @tailng-ui/icons',
+    ].join('\n');
   protected readonly installYarnCode =
-    'yarn add @tailng-ui/components @tailng-ui/primitives @tailng-ui/cdk @tailng-ui/theme @tailng-ui/icons';
+    [
+      '## Headless behavior and accessibility primitives',
+      'yarn add @tailng-ui/primitives',
+      '## Or if you need components',
+      'yarn add @tailng-ui/components',
+      '## Optional',
+      'yarn add @tailng-ui/theme @tailng-ui/icons',
+    ].join('\n');
 
   protected readonly providerCode = [
     "import { ApplicationConfig } from '@angular/core';",
     "import { provideRouter } from '@angular/router';",
-    "import { provideTailngTheme } from '@tailng-ui/theme';",
+    "import { defaultDarkThemePreset, provideTailngTheme } from '@tailng-ui/theme';",
     "import { routes } from './app.routes';",
     '',
     'export const appConfig: ApplicationConfig = {',
     '  providers: [',
     '    provideRouter(routes),',
-    '    provideTailngTheme(),',
+    '    provideTailngTheme({ theme: defaultDarkThemePreset }),',
     '  ],',
     '};',
     '',
