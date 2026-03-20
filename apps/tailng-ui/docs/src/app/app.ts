@@ -237,31 +237,37 @@ export class App {
     preset: ThemePresetId,
     mode: 'light' | 'dark',
   ): ThemeDefinition {
-    if (preset === 'minimal') {
-      return mode === 'dark' ? minimalDarkThemePreset : minimalThemePreset;
-    }
-
-    if (preset === 'slate') {
-      return mode === 'dark' ? slateDarkThemePreset : slateThemePreset;
-    }
-
-    if (preset === 'nexus') {
-      return mode === 'dark' ? nexusDarkThemePreset : nexusThemePreset;
-    }
-
-    if (preset === 'prism') {
-      return mode === 'dark' ? prismDarkThemePreset : prismThemePreset;
-    }
-
-    if (preset === 'atlas') {
-      return mode === 'dark' ? atlasDarkThemePreset : atlasThemePreset;
-    }
-
-    if (preset === 'sterling') {
-      return mode === 'dark' ? sterlingDarkThemePreset : sterlingThemePreset;
-    }
-
-    return mode === 'dark' ? defaultDarkThemePreset : defaultThemePreset;
+    const presets: Partial<
+      Record<ThemePresetId, { light: ThemeDefinition; dark: ThemeDefinition }>
+    > = {
+      minimal: {
+        light: minimalThemePreset,
+        dark: minimalDarkThemePreset,
+      },
+      slate: {
+        light: slateThemePreset,
+        dark: slateDarkThemePreset,
+      },
+      nexus: {
+        light: nexusThemePreset,
+        dark: nexusDarkThemePreset,
+      },
+      prism: {
+        light: prismThemePreset,
+        dark: prismDarkThemePreset,
+      },
+      atlas: {
+        light: atlasThemePreset,
+        dark: atlasDarkThemePreset,
+      },
+      sterling: {
+        light: sterlingThemePreset,
+        dark: sterlingDarkThemePreset,
+      },
+    };
+  
+    return presets[preset]?.[mode]
+      ?? (mode === 'dark' ? defaultDarkThemePreset : defaultThemePreset);
   }
 
   private buildBreadcrumbs(rawUrl: string): readonly BreadcrumbItem[] {
