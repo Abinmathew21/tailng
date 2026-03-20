@@ -5,9 +5,9 @@ import http from 'node:http';
 import serveHandler from 'serve-handler';
 import puppeteer from 'puppeteer';
 
-const DIST_DIR = 'dist/apps/tailng-ui/docs/browser';
-const ROUTES_FILE = 'apps/tailng-ui/docs/prerender-routes.txt';
-const PORT = 4173;
+const DIST_DIR = 'dist/apps/tailng-ui/playground-tailwind/browser';
+const ROUTES_FILE = 'apps/tailng-ui/playground-tailwind/prerender-routes.txt';
+const PORT = 4174; // different from docs to avoid clashes locally
 const HOST = '127.0.0.1';
 const NAVIGATION_TIMEOUT_MS = Number(process.env.PUPPETEER_PRERENDER_NAV_TIMEOUT_MS ?? 120000);
 const LAUNCH_TIMEOUT_MS = Number(process.env.PUPPETEER_PRERENDER_LAUNCH_TIMEOUT_MS ?? 120000);
@@ -60,7 +60,6 @@ const resolveChromeExecutablePath = () => {
     }
   }
 
-  // Fallback to headless-shell if full Chrome app is unavailable.
   const shellRoot = path.join(cacheDir, 'chrome-headless-shell');
   if (fs.existsSync(shellRoot)) {
     const entries = sortEntriesByVersion(
@@ -81,7 +80,9 @@ const resolveChromeExecutablePath = () => {
 
 const indexHtmlPath = path.join(DIST_DIR, 'index.html');
 if (!fs.existsSync(indexHtmlPath)) {
-  throw new Error(`index.html not found at ${indexHtmlPath}. Run "pnpm run docs:build" first.`);
+  throw new Error(
+    `index.html not found at ${indexHtmlPath}. Run "pnpm run playground:build" first.`,
+  );
 }
 const indexHtml = fs.readFileSync(indexHtmlPath);
 
@@ -118,7 +119,7 @@ const server = http.createServer((req, res) => {
     return serveHandler(req, res, { public: DIST_DIR });
   }
 
-  // SPA fallback
+  // SPA fallback: always serve index.html for routes
   res.statusCode = 200;
   res.setHeader('Content-Type', 'text/html; charset=utf-8');
   res.end(indexHtml);
@@ -139,46 +140,18 @@ const page = await browser.newPage();
 page.setDefaultNavigationTimeout(NAVIGATION_TIMEOUT_MS);
 page.setDefaultTimeout(NAVIGATION_TIMEOUT_MS);
 
-/* ---------------------------------------------
- * PATCH: absolutize known build assets
- * ------------------------------------------- */
-const absolutizeAssets = (html) =>
-  html
-    // stylesheet
-    .replace(/href=["'](styles\.css(?:\?[^"']*)?)["']/g, 'href="/$1"')
-
-    // main entry
-    .replace(/src=["'](main\.js(?:\?[^"']*)?)["']/g, 'src="/$1"')
-
-    // Vite / Rollup chunks (modulepreload + script)
-    .replace(/href=["'](chunk-[^"']+\.js(?:\?[^"']*)?)["']/g, 'href="/$1"')
-    .replace(/src=["'](chunk-[^"']+\.js(?:\?[^"']*)?)["']/g, 'src="/$1"')
-
-    // other root-level build assets (fonts, maps, images, etc.)
-    .replace(
-      /href=["']([^"']+\.(?:css|js|map|woff2?|ttf|svg|png|jpe?g|webp)(?:\?[^"']*)?)["']/g,
-      (m, v) =>
-        v.startsWith('/') || v.startsWith('http') || v.startsWith('//')
-          ? m
-          : `href="/${v}"`
-    );
-
 for (const route of routes) {
   const url = `http://${HOST}:${PORT}${route}`;
   console.log(`prerendering ${route}`);
   try {
     await page.goto(url, { waitUntil: 'networkidle2', timeout: NAVIGATION_TIMEOUT_MS });
   } catch (err) {
-    // Some SPA routes keep connections open; retry with a less strict wait.
     console.warn(`goto failed for ${route} (${err?.message ?? String(err)}). Retrying...`);
     await page.goto(url, { waitUntil: 'domcontentloaded', timeout: NAVIGATION_TIMEOUT_MS });
   }
-  // Give Angular a moment to finish bootstrapping/rendering.
   await sleep(POST_GOTO_WAIT_MS);
 
-  let html = await page.content();
-
-  html = absolutizeAssets(html);
+  const html = await page.content();
 
   const dir = path.join(DIST_DIR, route === '/' ? '' : route);
   fs.mkdirSync(dir, { recursive: true });

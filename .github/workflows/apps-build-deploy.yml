@@ -1,4 +1,4 @@
-name: Development - Build and Deploy (Docs + Playgrounds)
+name: Apps - Build and Deploy (Docs + Playgrounds)
 
 on:
   workflow_dispatch:
@@ -53,12 +53,12 @@ jobs:
             build_script: docs:seo
             dist: dist/apps/tailng-ui/docs/browser
             project_var: CF_DOCS_PROJECT_NAME
-          - name: playground-tailwind
-            build_script: playground:seo
+          - name: tailwind
+            build_script: tailwind:seo
             dist: dist/apps/tailng-ui/playground-tailwind/browser
             project_var: CF_PLAYGROUND_TAILWIND_PROJECT_NAME
-          - name: playground-plain-css
-            build_script: playground:plain-css:seo
+          - name: vanilla
+            build_script: vanilla:seo
             dist: dist/apps/tailng-ui/playground-plain-css/browser
             project_var: CF_PLAYGROUND_PLAIN_CSS_PROJECT_NAME
 
