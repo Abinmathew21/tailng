@@ -42,7 +42,7 @@ jobs:
   deploy:
     name: Deploy ${{ matrix.target.name }}
     runs-on: ubuntu-latest
-    environment: development
+    environment: production
     needs:
       - verify
     strategy:
@@ -56,11 +56,11 @@ jobs:
           - name: tailwind
             build_script: tailwind:seo
             dist: dist/apps/tailng-ui/playground-tailwind/browser
-            project_var: CF_PLAYGROUND_TAILWIND_PROJECT_NAME
+            project_var: CF_TAILWIND_PROJECT_NAME
           - name: vanilla
             build_script: vanilla:seo
             dist: dist/apps/tailng-ui/playground-plain-css/browser
-            project_var: CF_PLAYGROUND_PLAIN_CSS_PROJECT_NAME
+            project_var: CF_VANILLA_PROJECT_NAME
 
     steps:
       - name: Checkout source
