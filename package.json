@@ -11,6 +11,7 @@
     "nx": "nx",
     "build": "NX_DAEMON=false NX_ISOLATE_PLUGINS=false nx run-many -t build",
     "build:theme": "NX_DAEMON=false NX_ISOLATE_PLUGINS=false nx build theme",
+    "theme:build": "NX_DAEMON=false NX_ISOLATE_PLUGINS=false nx build theme",
     "build:tailng": "NX_DAEMON=false NX_ISOLATE_PLUGINS=false nx run tailng-cli:build",
     "docs:start": "NX_DAEMON=false NX_ISOLATE_PLUGINS=false nx serve docs",
     "docs:build": "NX_DAEMON=false NX_ISOLATE_PLUGINS=false nx build docs",
