@@ -48,7 +48,12 @@ jobs:
           cache: pnpm
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --frozen-lockfile --force --prefer-offline=false
+        env:
+          NPM_CONFIG_OPTIONAL: "true"
+
+      - name: Verify Rollup native package
+        run: node -e "require('@rollup/rollup-linux-x64-gnu'); console.log('rollup native package present')"
 
       - name: Validate Cloudflare project variable
         run: |
