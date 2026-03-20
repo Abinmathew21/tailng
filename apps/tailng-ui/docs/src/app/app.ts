@@ -11,18 +11,33 @@ import {
 import { TngIcon } from '@tailng-ui/icons';
 import { TngMenuItem, type TngMenuSelectEvent } from '@tailng-ui/primitives';
 import {
-  createTheme,
-  darkSemanticTokens,
+  applyTailngTheme,
+  atlasDarkThemePreset,
+  atlasThemePreset,
+  defaultDarkThemePreset,
   defaultThemePreset,
+  minimalDarkThemePreset,
   minimalThemePreset,
-  resolveToken,
+  nexusDarkThemePreset,
+  nexusThemePreset,
+  prismDarkThemePreset,
+  prismThemePreset,
+  slateDarkThemePreset,
+  slateThemePreset,
+  sterlingDarkThemePreset,
+  sterlingThemePreset,
   type ThemeDefinition,
-  type ThemeSemanticTokens,
-  toCssVars,
 } from '@tailng-ui/theme';
 import { filter } from 'rxjs/operators';
 
-type ThemePresetId = 'default' | 'minimal';
+type ThemePresetId =
+  | 'default'
+  | 'minimal'
+  | 'slate'
+  | 'nexus'
+  | 'prism'
+  | 'atlas'
+  | 'sterling';
 
 type ThemePresetOption = Readonly<{
   id: ThemePresetId;
@@ -60,6 +75,36 @@ const presetOptions: readonly ThemePresetOption[] = [
     label: 'Minimal',
     description: 'Low-contrast, compact, content-first.',
   },
+  {
+    id: 'slate',
+    icon: 'square',
+    label: 'Slate',
+    description: 'Clean and understated, ideal for a polished interface with timeless neutral character.',
+  },
+  {
+    id: 'nexus',
+    icon: 'palette',
+    label: 'Nexus',
+    description: 'Modern and dynamic, perfect for a connected design language across product experiences.',
+  },
+  {
+    id: 'prism',
+    icon: 'swatch-book',
+    label: 'Prism',
+    description: 'Crisp and expressive, suited for a theme that balances clarity with visual sophistication.',
+  },
+  {
+    id: 'atlas',
+    icon: 'square',
+    label: 'Atlas',
+    description: 'Solid and confident, fitting for a reliable theme with strong product presence.',
+  },
+  {
+    id: 'sterling',
+    icon: 'palette',
+    label: 'Sterling',
+    description: 'Sophisticated and premium, great for a theme that emphasizes excellence and trust.',
+  },
 ];
 
 const primaryNavigation: readonly NavItem[] = [
@@ -84,14 +129,6 @@ const footerResourceLinks: readonly LinkItem[] = [
   { label: 'Issue Tracker', href: 'https://github.com/tailng/tailng-ui/issues' },
   { label: 'Project README', href: 'https://github.com/tailng/tailng-ui/blob/main/README.md' },
   { label: 'MIT License', href: 'https://opensource.org/license/mit' },
-];
-
-const semanticCollections: readonly (keyof ThemeSemanticTokens)[] = [
-  'background',
-  'foreground',
-  'border',
-  'accent',
-  'focus',
 ];
 
 @Component({
@@ -133,18 +170,12 @@ export class App {
   );
 
   private readonly activeTheme = computed<ThemeDefinition>(() => {
-    const mode = this.effectiveMode();
-    const basePreset = this.getBasePreset(this.selectedPreset());
-    const semanticTokens = mode === 'dark' ? darkSemanticTokens : basePreset.tokens.semantic;
-    return createTheme(basePreset, {
-      meta: { mode },
-      tokens: { semantic: semanticTokens },
-    });
+    return this.getPresetByMode(this.selectedPreset(), this.effectiveMode());
   });
 
   public constructor() {
     effect((): void => {
-      this.applyThemeVariables(this.activeTheme());
+      applyTailngTheme(this.activeTheme());
     });
 
     this.router.events
@@ -164,7 +195,15 @@ export class App {
 
   public onThemePresetMenuSelect(event: TngMenuSelectEvent): void {
     const value = event.value;
-    if (value === 'default' || value === 'minimal') {
+    if (
+      value === 'default' ||
+      value === 'minimal' ||
+      value === 'slate' ||
+      value === 'nexus' ||
+      value === 'prism' ||
+      value === 'atlas' ||
+      value === 'sterling'
+    ) {
       this.onPresetSelect(value);
     }
   }
@@ -194,45 +233,35 @@ export class App {
     return this.selectedPreset() === preset;
   }
 
-  private getBasePreset(preset: ThemePresetId): ThemeDefinition {
-    return preset === 'minimal' ? minimalThemePreset : defaultThemePreset;
-  }
-
-  private applyThemeVariables(theme: ThemeDefinition): void {
-    const style = this.documentRef.documentElement.style;
-    const cssVars = this.toResolvedCssVars(theme);
-    for (const [name, value] of Object.entries(cssVars)) {
-      style.setProperty(name, value);
-    }
-    style.setProperty('color-scheme', theme.meta.mode);
-  }
-
-  private toResolvedCssVars(theme: ThemeDefinition): Record<string, string> {
-    const primitiveVars = toCssVars(theme, {
-      includePrimitives: true,
-      includeSemantic: false,
-    });
-
-    const semanticVars: Record<string, string> = {};
-    for (const collection of semanticCollections) {
-      const scale = theme.tokens.semantic[collection];
-      for (const key of Object.keys(scale)) {
-        semanticVars[`--tng-semantic-${collection}-${key}`] = this.resolveTokenValue(
-          theme,
-          scale[key],
-        );
-      }
+  private getPresetByMode(
+    preset: ThemePresetId,
+    mode: 'light' | 'dark',
+  ): ThemeDefinition {
+    if (preset === 'minimal') {
+      return mode === 'dark' ? minimalDarkThemePreset : minimalThemePreset;
     }
 
-    return { ...primitiveVars, ...semanticVars };
-  }
-
-  private resolveTokenValue(theme: ThemeDefinition, tokenExpression: string): string {
-    if (!tokenExpression.startsWith('{') || !tokenExpression.endsWith('}')) {
-      return tokenExpression;
+    if (preset === 'slate') {
+      return mode === 'dark' ? slateDarkThemePreset : slateThemePreset;
     }
 
-    return resolveToken(theme, tokenExpression) ?? tokenExpression;
+    if (preset === 'nexus') {
+      return mode === 'dark' ? nexusDarkThemePreset : nexusThemePreset;
+    }
+
+    if (preset === 'prism') {
+      return mode === 'dark' ? prismDarkThemePreset : prismThemePreset;
+    }
+
+    if (preset === 'atlas') {
+      return mode === 'dark' ? atlasDarkThemePreset : atlasThemePreset;
+    }
+
+    if (preset === 'sterling') {
+      return mode === 'dark' ? sterlingDarkThemePreset : sterlingThemePreset;
+    }
+
+    return mode === 'dark' ? defaultDarkThemePreset : defaultThemePreset;
   }
 
   private buildBreadcrumbs(rawUrl: string): readonly BreadcrumbItem[] {

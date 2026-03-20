@@ -66,11 +66,11 @@ export class GettingStartedLandingPageComponent implements OnDestroy {
   private readonly colorSchemeObserver = this.observeCodeThemeChanges();
 
   protected readonly quickStartInstallPnpmCode =
-    'pnpm add @tailng-ui/components @tailng-ui/primitives @tailng-ui/cdk @tailng-ui/theme @tailng-ui/icons';
+    'pnpm add @tailng-ui/components @tailng-ui/theme @tailng-ui/icons';
   protected readonly quickStartInstallNpmCode =
-    'npm install @tailng-ui/components @tailng-ui/primitives @tailng-ui/cdk @tailng-ui/theme @tailng-ui/icons';
+    'npm install @tailng-ui/components @tailng-ui/theme @tailng-ui/icons';
   protected readonly quickStartInstallYarnCode =
-    'yarn add @tailng-ui/components @tailng-ui/primitives @tailng-ui/cdk @tailng-ui/theme @tailng-ui/icons';
+    'yarn add @tailng-ui/components @tailng-ui/theme @tailng-ui/icons';
 
   protected readonly quickStartThemeConfigCode = [
     "import { ApplicationConfig } from '@angular/core';",

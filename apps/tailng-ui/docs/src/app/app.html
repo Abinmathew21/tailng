@@ -1,6 +1,6 @@
 <main class="flex min-h-screen flex-col bg-tng-bg-canvas text-tng-fg-primary">
   <header
-    class="sticky top-0 z-50 border-b border-tng-border-subtle bg-[color-mix(in_srgb,var(--tng-semantic-background-canvas)_90%,transparent)] backdrop-blur"
+    class="sticky top-0 z-50 border-b border-tng-border-subtle bg-tng-bg-canvas backdrop-blur"
   >
     <div class="flex h-16 items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
       <div class="flex min-w-0 items-center gap-5">
@@ -36,7 +36,7 @@
           <tng-menu
             #themeMenu="tngMenu"
             ariaLabel="Theme presets"
-            class="docs-theme-menu left-auto right-0 z-50 min-w-72"
+            class="left-auto right-0 z-50 min-w-72"
             (tngMenuSelect)="onThemePresetMenuSelect($event)"
           >
             @for (preset of presetOptions; track preset.id) {
@@ -73,7 +73,6 @@
           class="docs-mode-toggle hidden h-9 w-9 items-center justify-center rounded-md border border-transparent text-tng-fg-secondary transition-colors hover:border-tng-border-subtle hover:bg-tng-bg-muted hover:text-tng-fg-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tng-focus-ring md:inline-flex"
           [attr.aria-label]="darkMode() ? 'Switch to light mode' : 'Switch to dark mode'"
           [attr.aria-pressed]="darkMode()"
-          [attr.data-mode]="darkMode() ? 'dark' : 'light'"
           (click)="toggleMode()"
         >
           @if (darkMode()) {
@@ -167,7 +166,7 @@
   </div>
 
   <footer
-    class="border-t border-tng-border-subtle bg-[color-mix(in_srgb,var(--tng-semantic-background-canvas)_90%,transparent)]"
+    class="border-t border-tng-border-subtle bg-tng-bg-canvas"
   >
     <div class="mx-auto flex w-full max-w-7xl flex-col gap-8 px-4 py-10 sm:px-6 lg:px-8">
       <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
