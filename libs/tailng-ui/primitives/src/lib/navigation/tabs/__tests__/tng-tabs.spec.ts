@@ -258,6 +258,24 @@ class TabsProgrammaticHostComponent {
   @ViewChild('tabs', { static: true }) tabs!: TngTabs;
 }
 
+@Component({
+  imports: [TngTabs, TngTabList, TngTab, TngTabPanel],
+  template: `
+    <section tngTabs [value]="tabsValue" data-testid="tabs">
+      <div tngTabList data-testid="tablist">
+        <button tngTab value="account" data-testid="tab-account">Account</button>
+        <button tngTab value="security" data-testid="tab-security">Security</button>
+      </div>
+
+      <section tngTabPanel value="account" data-testid="panel-account">Account panel</section>
+      <section tngTabPanel value="security" data-testid="panel-security">Security panel</section>
+    </section>
+  `,
+})
+class TabsInvalidValueHostComponent {
+  tabsValue: unknown = { section: 'security' };
+}
+
 function getByTestId<T extends HTMLElement>(fixture: { nativeElement: HTMLElement }, id: string): T {
   const element = fixture.nativeElement.querySelector(`[data-testid="${id}"]`) as T | null;
   expect(element).not.toBeNull();
@@ -668,6 +686,20 @@ describe('tng-tabs primitives', () => {
       expect(host.valueChanges).toHaveLength(0);
       expect(host.tabChanges).toHaveLength(0);
     });
+
+    it('ignores unsupported explicit value inputs instead of stringifying objects', () => {
+      const fixture = TestBed.configureTestingModule({
+        imports: [TabsInvalidValueHostComponent],
+      }).createComponent(TabsInvalidValueHostComponent);
+
+      fixture.detectChanges();
+
+      const account = getByTestId<HTMLButtonElement>(fixture, 'tab-account');
+      const security = getByTestId<HTMLButtonElement>(fixture, 'tab-security');
+
+      expect(account.getAttribute('aria-selected')).toBe('true');
+      expect(security.getAttribute('aria-selected')).toBe('false');
+    });
   });
 
   describe('D) Roving tabindex & focus entry', () => {
@@ -733,6 +765,63 @@ describe('tng-tabs primitives', () => {
       fixture.detectChanges();
 
       expect(document.activeElement).toBe(security);
+    });
+
+    it('clears data-focused from the last focused tab when focus leaves the tablist', () => {
+      const fixture = TestBed.configureTestingModule({
+        imports: [TabsHarnessHostComponent],
+      }).createComponent(TabsHarnessHostComponent);
+
+      fixture.componentInstance.activation.set('manual');
+      fixture.detectChanges();
+
+      const account = getByTestId<HTMLButtonElement>(fixture, 'tab-account');
+      const security = getByTestId<HTMLButtonElement>(fixture, 'tab-security');
+      const after = getByTestId<HTMLButtonElement>(fixture, 'after');
+
+      account.focus();
+      keydown(account, 'ArrowRight');
+      fixture.detectChanges();
+
+      expect(document.activeElement).toBe(security);
+      expect(security.getAttribute('data-focused')).toBe('true');
+
+      dispatchTabAndSimulateBrowserFocus(security, after);
+      fixture.detectChanges();
+
+      expect(document.activeElement).toBe(after);
+      expect(security.getAttribute('data-focused')).toBe('false');
+    });
+
+    it('preserves the roving tab stop after focus leaves so re-entry returns to the last focused tab', () => {
+      const fixture = TestBed.configureTestingModule({
+        imports: [TabsHarnessHostComponent],
+      }).createComponent(TabsHarnessHostComponent);
+
+      fixture.componentInstance.activation.set('manual');
+      fixture.detectChanges();
+
+      const account = getByTestId<HTMLButtonElement>(fixture, 'tab-account');
+      const security = getByTestId<HTMLButtonElement>(fixture, 'tab-security');
+      const tablist = getByTestId<HTMLElement>(fixture, 'tablist');
+      const after = getByTestId<HTMLButtonElement>(fixture, 'after');
+
+      account.focus();
+      keydown(account, 'ArrowRight');
+      fixture.detectChanges();
+
+      dispatchTabAndSimulateBrowserFocus(security, after);
+      fixture.detectChanges();
+
+      expect(security.getAttribute('data-focused')).toBe('false');
+      expect(security.getAttribute('tabindex')).toBe('0');
+
+      tablist.focus();
+      fixture.detectChanges();
+
+      expect(document.activeElement).toBe(security);
+      expect(security.getAttribute('data-focused')).toBe('true');
+      expect(account.getAttribute('aria-selected')).toBe('true');
     });
 
     it('does not set tabindex=0 on disabled tabs', () => {

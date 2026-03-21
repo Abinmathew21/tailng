@@ -1,3 +1,6 @@
+import type { DoCheck, OnDestroy
+, OnInit
+} from '@angular/core';
 import {
   Directive,
   ElementRef,
@@ -5,7 +8,7 @@ import {
   HostListener,
   inject,
   input,
-  output,
+  output
 } from '@angular/core';
 import { createTngIdFactory } from '@tailng-ui/cdk';
 
@@ -103,7 +106,7 @@ function normalizeOptionalValueInput(value: unknown): TngTabsValue | null | unde
     return value;
   }
 
-  return String(value);
+  return undefined;
 }
 
 function normalizeOptionalStringInput(value: unknown): string | null | undefined {
@@ -115,7 +118,15 @@ function normalizeOptionalStringInput(value: unknown): string | null | undefined
     return null;
   }
 
-  return String(value);
+  if (typeof value === 'string') {
+    return value;
+  }
+
+  if (typeof value === 'number' || typeof value === 'boolean' || typeof value === 'bigint') {
+    return String(value);
+  }
+
+  return undefined;
 }
 
 function valuesEqual(a: TngTabsValue | null, b: TngTabsValue | null): boolean {
@@ -123,11 +134,14 @@ function valuesEqual(a: TngTabsValue | null, b: TngTabsValue | null): boolean {
 }
 
 function compareByDomPosition(
-  aElement: HTMLElement,
-  bElement: HTMLElement,
-  aOrder: number,
-  bOrder: number,
+  elements:{aElement: HTMLElement,
+    bElement: HTMLElement,},
+  orders:{aOrder: number,
+    bOrder: number,},
 ): number {
+  const { aElement, bElement } = elements;
+  const { aOrder, bOrder } = orders;
+
   if (aElement === bElement) {
     return 0;
   }
@@ -160,7 +174,7 @@ function isFocusableInteractiveElement(element: Element): boolean {
   selector: '[tngTabs]',
   exportAs: 'tngTabs',
 })
-export class TngTabs {
+export class TngTabs implements DoCheck {
   private readonly hostRef = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly tabs = new Set<TngTab>();
   private readonly panels = new Set<TngTabPanel>();
@@ -169,43 +183,44 @@ export class TngTabs {
   private scrollNextControl: TngTabsScrollButtonNext | null = null;
   private uncontrolledValue: TngTabsValue | null = null;
   private focusedValue: TngTabsValue | null = null;
+  private domFocusedValue: TngTabsValue | null = null;
   private hasUserSelection = false;
   private initialized = false;
 
-  readonly value = input<TngTabsValue | null | undefined, unknown>(undefined, {
+  public readonly value = input<TngTabsValue | null | undefined, unknown>(undefined, {
     transform: normalizeOptionalValueInput,
   });
-  readonly defaultValue = input<TngTabsValue | null | undefined, unknown>(undefined, {
+  public readonly defaultValue = input<TngTabsValue | null | undefined, unknown>(undefined, {
     transform: normalizeOptionalValueInput,
   });
-  readonly activation = input<TngTabsActivationMode, unknown>('auto', {
+  public readonly activation = input<TngTabsActivationMode, unknown>('auto', {
     transform: normalizeActivationInput,
   });
-  readonly orientation = input<TngTabsOrientation, unknown>('horizontal', {
+  public readonly orientation = input<TngTabsOrientation, unknown>('horizontal', {
     transform: normalizeOrientationInput,
   });
-  readonly scrollButtons = input<TngTabsScrollButtonsMode, unknown>('off', {
+  public readonly scrollButtons = input<TngTabsScrollButtonsMode, unknown>('off', {
     transform: normalizeScrollButtonsInput,
   });
-  readonly loop = input<boolean, unknown>(true, {
+  public readonly loop = input<boolean, unknown>(true, {
     transform: normalizeBooleanInput,
   });
-  readonly dir = input<TngTabsDirection, unknown>('auto', {
+  public readonly dir = input<TngTabsDirection, unknown>('auto', {
     transform: normalizeDirectionInput,
   });
-  readonly disabled = input<boolean, unknown>(false, {
+  public readonly disabled = input<boolean, unknown>(false, {
     transform: normalizeBooleanInput,
   });
-  readonly lazy = input<boolean | undefined, unknown>(undefined, {
+  public readonly lazy = input<boolean | undefined, unknown>(undefined, {
     transform: normalizeOptionalBooleanInput,
   });
-  readonly keepAlive = input<boolean | undefined, unknown>(undefined, {
+  public readonly keepAlive = input<boolean | undefined, unknown>(undefined, {
     transform: normalizeOptionalBooleanInput,
   });
 
-  readonly valueChange = output<TngTabsValue | null>();
-  readonly tabChange = output<TngTabChangeEvent>();
-  readonly focusChange = output<TngTabsFocusChangeEvent>();
+  public readonly valueChange = output<TngTabsValue | null>();
+  public readonly tabChange = output<TngTabChangeEvent>();
+  public readonly focusChange = output<TngTabsFocusChangeEvent>();
 
   @HostBinding('attr.data-slot')
   protected readonly dataSlot = 'tabs' as const;
@@ -225,23 +240,23 @@ export class TngTabs {
     return this.disabled() ? 'true' : 'false';
   }
 
-  ngDoCheck(): void {
+  public ngDoCheck(): void {
     this.syncStateFromRegistry();
   }
 
-  isDisabled(): boolean {
+  public isDisabled(): boolean {
     return this.disabled();
   }
 
-  isKeepAliveEnabled(): boolean {
+  public isKeepAliveEnabled(): boolean {
     return this.keepAlive() ?? true;
   }
 
-  isLazyEnabled(): boolean {
+  public isLazyEnabled(): boolean {
     return this.lazy() ?? false;
   }
 
-  select(value: TngTabsValue): void {
+  public select(value: TngTabsValue): void {
     const targetTab = this.findEnabledTabByValue(value);
     if (targetTab === null) {
       return;
@@ -250,7 +265,7 @@ export class TngTabs {
     this.requestSelection(targetTab, 'programmatic');
   }
 
-  focus(value: TngTabsValue): void {
+  public focus(value: TngTabsValue): void {
     const targetTab = this.findEnabledTabByValue(value);
     if (targetTab === null) {
       return;
@@ -262,19 +277,19 @@ export class TngTabs {
     }
   }
 
-  next(): void {
+  public next(): void {
     this.moveFocusFromCurrentTab('next', 'programmatic');
   }
 
-  prev(): void {
+  public prev(): void {
     this.moveFocusFromCurrentTab('prev', 'programmatic');
   }
 
-  registerTab(tab: TngTab): void {
+  public registerTab(tab: TngTab): void {
     this.tabs.add(tab);
   }
 
-  unregisterTab(tab: TngTab): void {
+  public unregisterTab(tab: TngTab): void {
     const orderedTabs = this.getOrderedTabs();
     const removedIndex = orderedTabs.indexOf(tab);
     const removedValue = tab.getValue();
@@ -293,62 +308,74 @@ export class TngTabs {
       this.focusedValue = nextFocusedValue;
     }
 
+    if (this.domFocusedValue !== null && valuesEqual(this.domFocusedValue, removedValue)) {
+      this.domFocusedValue = null;
+    }
+
     this.syncStateFromRegistry();
   }
 
-  notifyTabMutated(tab: TngTab): void {
+  private notifySelectedValueChanged(tab: TngTab): void {
     const selectedValue = this.getEffectiveSelectedValue();
     if (selectedValue !== null && valuesEqual(selectedValue, tab.getValue()) && tab.isDisabledInContext()) {
       const replacement = this.resolveNeighborForDisabledTab(tab);
       this.applyLifecycleSelection(replacement);
     }
+  }
+
+  public notifyTabMutated(tab: TngTab): void {
+    this.notifySelectedValueChanged(tab);
 
     const focusedValue = this.resolveCurrentTabStopValue();
     if (focusedValue !== null && valuesEqual(focusedValue, tab.getValue()) && tab.isDisabledInContext()) {
       this.focusedValue = this.resolveNeighborForDisabledTab(tab);
     }
 
+    if (this.domFocusedValue !== null && valuesEqual(this.domFocusedValue, tab.getValue()) && tab.isDisabledInContext()) {
+      this.domFocusedValue = null;
+    }
+
     this.syncStateFromRegistry();
   }
 
-  registerPanel(panel: TngTabPanel): void {
+  public registerPanel(panel: TngTabPanel): void {
     this.panels.add(panel);
   }
 
-  unregisterPanel(panel: TngTabPanel): void {
+  public unregisterPanel(panel: TngTabPanel): void {
     this.panels.delete(panel);
     this.syncStateFromRegistry();
   }
 
-  notifyPanelMutated(): void {
+  public notifyPanelMutated(): void {
     this.syncStateFromRegistry();
   }
 
-  registerScrollPrevControl(control: TngTabsScrollButtonPrev): void {
+  public registerScrollPrevControl(control: TngTabsScrollButtonPrev): void {
     this.scrollPrevControl = control;
   }
 
-  unregisterScrollPrevControl(control: TngTabsScrollButtonPrev): void {
+  public unregisterScrollPrevControl(control: TngTabsScrollButtonPrev): void {
     if (this.scrollPrevControl === control) {
       this.scrollPrevControl = null;
     }
   }
 
-  registerScrollNextControl(control: TngTabsScrollButtonNext): void {
+  public registerScrollNextControl(control: TngTabsScrollButtonNext): void {
     this.scrollNextControl = control;
   }
 
-  unregisterScrollNextControl(control: TngTabsScrollButtonNext): void {
+  public unregisterScrollNextControl(control: TngTabsScrollButtonNext): void {
     if (this.scrollNextControl === control) {
       this.scrollNextControl = null;
     }
   }
 
-  registerTabList(tabList: TngTabList): void {
+  public registerTabList(tabList: TngTabList): void {
     this.tabList = tabList;
   }
 
-  unregisterTabList(tabList: TngTabList): void {
+  public unregisterTabList(tabList: TngTabList): void {
     if (this.tabList !== tabList) {
       return;
     }
@@ -356,9 +383,9 @@ export class TngTabs {
     this.tabList = null;
   }
 
-  onTabListScrolled(): void {}
+  public onTabListScrolled(): void {}
 
-  onTabListFocused(): void {
+  public onTabListFocused(): void {
     if (this.disabled()) {
       return;
     }
@@ -380,7 +407,7 @@ export class TngTabs {
     currentTab.focusSelf();
   }
 
-  handleTabListWheel(event: WheelEvent): void {
+  public handleTabListWheel(event: WheelEvent): void {
     if (this.orientation() !== 'horizontal') {
       return;
     }
@@ -398,11 +425,11 @@ export class TngTabs {
     this.scrollTabListBy(dominantDelta);
   }
 
-  isScrollButtonHidden(): boolean {
+  public isScrollButtonHidden(): boolean {
     return !this.shouldShowScrollButtons();
   }
 
-  isScrollButtonDisabled(direction: 'next' | 'prev'): boolean {
+  public isScrollButtonDisabled(direction: 'next' | 'prev'): boolean {
     if (this.isScrollButtonHidden()) {
       return true;
     }
@@ -420,7 +447,7 @@ export class TngTabs {
     return tabListElement.scrollLeft >= maxScrollLeft;
   }
 
-  onScrollButtonClick(direction: 'next' | 'prev', event: MouseEvent): void {
+  public onScrollButtonClick(direction: 'next' | 'prev', event: MouseEvent): void {
     if (this.isScrollButtonDisabled(direction)) {
       event.preventDefault();
       return;
@@ -431,7 +458,7 @@ export class TngTabs {
     event.preventDefault();
   }
 
-  getTabIndex(tab: TngTab): string {
+  public getTabIndex(tab: TngTab): string {
     if (this.disabled() || tab.isDisabledInContext()) {
       return '-1';
     }
@@ -444,7 +471,7 @@ export class TngTabs {
     return valuesEqual(tabStop, tab.getValue()) ? '0' : '-1';
   }
 
-  isTabSelected(tab: TngTab): boolean {
+  public isTabSelected(tab: TngTab): boolean {
     const selectedValue = this.getEffectiveSelectedValue();
     if (selectedValue === null) {
       return false;
@@ -453,12 +480,11 @@ export class TngTabs {
     return valuesEqual(selectedValue, tab.getValue());
   }
 
-  isTabFocused(tab: TngTab): boolean {
-    const tabStop = this.resolveCurrentTabStopValue();
-    return tabStop !== null && valuesEqual(tabStop, tab.getValue());
+  public isTabFocused(tab: TngTab): boolean {
+    return this.domFocusedValue !== null && valuesEqual(this.domFocusedValue, tab.getValue());
   }
 
-  getPanelIdForTab(tab: TngTab): string | null {
+  public getPanelIdForTab(tab: TngTab): string | null {
     const explicitPanelId = tab.getExplicitPanelId();
     if (explicitPanelId !== null) {
       return explicitPanelId;
@@ -479,7 +505,7 @@ export class TngTabs {
     return panels[tabIndex]?.getPanelId() ?? null;
   }
 
-  getTabIdForPanel(panel: TngTabPanel): string | null {
+  public getTabIdForPanel(panel: TngTabPanel): string | null {
     const explicitLabelledById = panel.getExplicitLabelledById();
     if (explicitLabelledById !== null) {
       return explicitLabelledById;
@@ -500,7 +526,7 @@ export class TngTabs {
     return tabs[panelIndex]?.getItemId() ?? null;
   }
 
-  isPanelActive(panel: TngTabPanel): boolean {
+  public isPanelActive(panel: TngTabPanel): boolean {
     const selectedValue = this.getEffectiveSelectedValue();
     if (selectedValue === null) {
       return false;
@@ -509,7 +535,7 @@ export class TngTabs {
     return valuesEqual(selectedValue, panel.getValue());
   }
 
-  isPanelMounted(panel: TngTabPanel): boolean {
+  public isPanelMounted(panel: TngTabPanel): boolean {
     if (this.isPanelActive(panel)) {
       panel.markActivated();
       return true;
@@ -527,16 +553,32 @@ export class TngTabs {
     return panel.hasActivated();
   }
 
-  onTabFocused(tab: TngTab, trigger: TngTabsFocusTrigger): void {
+  public onTabFocused(tab: TngTab, trigger: TngTabsFocusTrigger): void {
     if (this.disabled() || tab.isDisabledInContext()) {
       return;
     }
 
     this.setFocusedValue(tab.getValue(), trigger);
+    this.domFocusedValue = tab.getValue();
     this.scrollTabIntoView(tab);
   }
 
-  requestSelection(tab: TngTab, trigger: TngTabsSelectionTrigger): void {
+  public onTabListFocusOut(event: FocusEvent): void {
+    const nextTarget = event.relatedTarget;
+    if (!(nextTarget instanceof Element)) {
+      this.domFocusedValue = null;
+      return;
+    }
+
+    const tabListElement = this.getTabListElement();
+    if (tabListElement?.contains(nextTarget)) {
+      return;
+    }
+
+    this.domFocusedValue = null;
+  }
+
+  public requestSelection(tab: TngTab, trigger: TngTabsSelectionTrigger): void {
     if (this.disabled() || tab.isDisabledInContext()) {
       return;
     }
@@ -564,17 +606,21 @@ export class TngTabs {
     this.syncStateFromRegistry();
   }
 
-  handleTabKeydown(tab: TngTab, event: KeyboardEvent): void {
-    if (this.disabled() || tab.isDisabledInContext()) {
-      return;
-    }
-
+  private hanlsFocusMove(tab: TngTab, event: KeyboardEvent): void {
     const focusMove = this.resolveFocusMove(event.key);
     if (focusMove !== null) {
       event.preventDefault();
       this.moveFocusByAction(tab, focusMove, 'keyboard');
       return;
     }
+  }
+
+  public handleTabKeydown(tab: TngTab, event: KeyboardEvent): void {
+    if (this.disabled() || tab.isDisabledInContext()) {
+      return;
+    }
+
+    this.hanlsFocusMove(tab, event);
 
     if (event.key !== 'Enter' && event.key !== ' ' && event.key !== 'Spacebar') {
       return;
@@ -758,7 +804,7 @@ export class TngTabs {
 
   private getSelectedValue(): TngTabsValue | null {
     if (this.isControlled()) {
-      return this.value() as TngTabsValue;
+      return this.value()!;
     }
 
     return this.uncontrolledValue;
@@ -794,40 +840,48 @@ export class TngTabs {
     return enabledTabs[0]?.getValue() ?? null;
   }
 
-  private syncStateFromRegistry(): void {
-    const enabledTabs = this.getEnabledTabs();
-
-    if (!this.initialized) {
-      this.initialized = true;
-      if (!this.isControlled()) {
-        const defaultValue = this.defaultValue();
-        if (defaultValue !== undefined && defaultValue !== null) {
-          this.uncontrolledValue = this.findEnabledTabByValue(defaultValue, enabledTabs)?.getValue() ?? null;
-        } else {
-          this.uncontrolledValue = enabledTabs[0]?.getValue() ?? null;
-        }
+  private syncStateHandleUnInitialized(enabledTabs: TngTab[]): void {
+    if (!this.isControlled()) {
+      const defaultValue = this.defaultValue();
+      if (defaultValue !== undefined && defaultValue !== null) {
+        this.uncontrolledValue = this.findEnabledTabByValue(defaultValue, enabledTabs)?.getValue() ?? null;
+      } else {
+        this.uncontrolledValue = enabledTabs[0]?.getValue() ?? null;
       }
     }
+  }
+
+  private syncStateFromRegistry(): void {
+    const enabledTabs = this.getEnabledTabs();
+    if (!this.initialized) {
+      this.initialized = true;
+      this.syncStateHandleUnInitialized(enabledTabs);
+    }
+    
 
     if (enabledTabs.length === 0) {
       if (!this.isControlled()) {
         this.uncontrolledValue = null;
       }
       this.focusedValue = null;
+      this.domFocusedValue = null;
       return;
     }
 
     if (!this.isControlled()) {
       const defaultValue = this.defaultValue();
+    
       if (!this.hasUserSelection && defaultValue !== undefined && defaultValue !== null) {
         const defaultTab = this.findEnabledTabByValue(defaultValue, enabledTabs);
+    
         if (defaultTab !== null) {
           this.uncontrolledValue = defaultTab.getValue();
-        } else if (this.uncontrolledValue === null) {
-          this.uncontrolledValue = enabledTabs[0]?.getValue() ?? null;
+        } else {
+          this.uncontrolledValue ??= enabledTabs[0]?.getValue() ?? null;
         }
       } else {
         const current = this.uncontrolledValue;
+    
         if (current === null || this.findEnabledTabByValue(current, enabledTabs) === null) {
           this.uncontrolledValue = enabledTabs[0]?.getValue() ?? null;
         }
@@ -900,10 +954,10 @@ export class TngTabs {
     const tabs = Array.from(this.tabs);
     tabs.sort((a, b) =>
       compareByDomPosition(
-        a.getHostElement(),
-        b.getHostElement(),
-        a.getRegistrationOrder(),
-        b.getRegistrationOrder(),
+        {aElement: a.getHostElement(),
+          bElement: b.getHostElement(),},
+        {aOrder: a.getRegistrationOrder(),
+          bOrder: b.getRegistrationOrder(),},
       ),
     );
     return tabs;
@@ -917,10 +971,10 @@ export class TngTabs {
     const panels = Array.from(this.panels);
     panels.sort((a, b) =>
       compareByDomPosition(
-        a.getHostElement(),
-        b.getHostElement(),
-        a.getRegistrationOrder(),
-        b.getRegistrationOrder(),
+        {aElement: a.getHostElement(),
+          bElement: b.getHostElement(),},
+        {aOrder: a.getRegistrationOrder(),
+          bOrder: b.getRegistrationOrder(),},
       ),
     );
     return panels;
@@ -1041,16 +1095,14 @@ export class TngTabs {
   selector: '[tngTabList]',
   exportAs: 'tngTabList',
 })
-export class TngTabList {
+export class TngTabList implements OnDestroy {
   private readonly hostRef = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly tabs = inject(TngTabs, { host: true });
 
-  readonly ariaLabel = input<string | null | undefined, unknown>(undefined, {
-    alias: 'ariaLabel',
+  public readonly ariaLabel = input<string | null | undefined, unknown>(undefined, {
     transform: normalizeOptionalStringInput,
   });
-  readonly ariaLabelledby = input<string | null | undefined, unknown>(undefined, {
-    alias: 'ariaLabelledby',
+  public readonly ariaLabelledby = input<string | null | undefined, unknown>(undefined, {
     transform: normalizeOptionalStringInput,
   });
 
@@ -1078,11 +1130,11 @@ export class TngTabList {
     return this.ariaLabelledby() ?? null;
   }
 
-  constructor() {
+  public constructor() {
     this.tabs.registerTabList(this);
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.tabs.unregisterTabList(this);
   }
 
@@ -1096,12 +1148,17 @@ export class TngTabList {
     this.tabs.onTabListScrolled();
   }
 
+  @HostListener('focusout', ['$event'])
+  protected onFocusout(event: FocusEvent): void {
+    this.tabs.onTabListFocusOut(event);
+  }
+
   @HostListener('focus')
   protected onFocus(): void {
     this.tabs.onTabListFocused();
   }
 
-  getHostElement(): HTMLElement {
+  public getHostElement(): HTMLElement {
     return this.hostRef.nativeElement;
   }
 }
@@ -1110,7 +1167,7 @@ export class TngTabList {
   selector: '[tngTabsScrollButtonPrev]',
   exportAs: 'tngTabsScrollButtonPrev',
 })
-export class TngTabsScrollButtonPrev {
+export class TngTabsScrollButtonPrev implements OnDestroy {
   private readonly tabs = inject(TngTabs, { host: true });
 
   @HostBinding('attr.data-slot')
@@ -1136,11 +1193,11 @@ export class TngTabsScrollButtonPrev {
     return this.tabs.isScrollButtonDisabled('prev') ? 'true' : 'false';
   }
 
-  constructor() {
+  public constructor() {
     this.tabs.registerScrollPrevControl(this);
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.tabs.unregisterScrollPrevControl(this);
   }
 
@@ -1154,7 +1211,7 @@ export class TngTabsScrollButtonPrev {
   selector: '[tngTabsScrollButtonNext]',
   exportAs: 'tngTabsScrollButtonNext',
 })
-export class TngTabsScrollButtonNext {
+export class TngTabsScrollButtonNext implements OnDestroy {
   private readonly tabs = inject(TngTabs, { host: true });
 
   @HostBinding('attr.data-slot')
@@ -1180,11 +1237,11 @@ export class TngTabsScrollButtonNext {
     return this.tabs.isScrollButtonDisabled('next') ? 'true' : 'false';
   }
 
-  constructor() {
+  public constructor() {
     this.tabs.registerScrollNextControl(this);
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.tabs.unregisterScrollNextControl(this);
   }
 
@@ -1198,7 +1255,7 @@ export class TngTabsScrollButtonNext {
   selector: '[tngTab]',
   exportAs: 'tngTab',
 })
-export class TngTab {
+export class TngTab implements DoCheck, OnDestroy, OnInit {
   private readonly hostRef = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly tabs = inject(TngTabs, { host: true });
   private resolvedId = createTabId();
@@ -1206,16 +1263,15 @@ export class TngTab {
   private lastKnownValue: TngTabsValue | null = null;
   private lastKnownDisabled = false;
 
-  readonly valueInput = input<TngTabsValue | null | undefined, unknown>(undefined, {
+  public readonly valueInput = input<TngTabsValue | null | undefined, unknown>(undefined, {
     alias: 'value',
     transform: normalizeOptionalValueInput,
   });
-  readonly disabledInput = input<boolean, unknown>(false, {
+  public readonly disabledInput = input<boolean, unknown>(false, {
     alias: 'disabled',
     transform: normalizeBooleanInput,
   });
-  readonly panelId = input<string | null | undefined, unknown>(undefined, {
-    alias: 'panelId',
+  public readonly panelId = input<string | null | undefined, unknown>(undefined, {
     transform: normalizeOptionalStringInput,
   });
 
@@ -1270,17 +1326,17 @@ export class TngTab {
     return this.isDisabledInContext() ? 'true' : 'false';
   }
 
-  constructor() {
+  public constructor() {
     this.tabs.registerTab(this);
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.syncResolvedIdFromHost();
     this.lastKnownValue = this.getValue();
     this.lastKnownDisabled = this.isDisabledInContext();
   }
 
-  ngDoCheck(): void {
+  public ngDoCheck(): void {
     const idChanged = this.syncResolvedIdFromHost();
     const currentValue = this.getValue();
     const currentDisabled = this.isDisabledInContext();
@@ -1296,7 +1352,7 @@ export class TngTab {
     }
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.tabs.unregisterTab(this);
   }
 
@@ -1332,19 +1388,19 @@ export class TngTab {
     this.tabs.handleTabKeydown(this, event);
   }
 
-  getRegistrationOrder(): number {
+  public getRegistrationOrder(): number {
     return this.registrationOrder;
   }
 
-  getHostElement(): HTMLElement {
+  public getHostElement(): HTMLElement {
     return this.hostRef.nativeElement;
   }
 
-  getItemId(): string {
+  public getItemId(): string {
     return this.resolvedId;
   }
 
-  getValue(): TngTabsValue {
+  public getValue(): TngTabsValue {
     const explicitValue = this.valueInput();
     if (explicitValue !== undefined && explicitValue !== null) {
       return explicitValue;
@@ -1358,11 +1414,11 @@ export class TngTab {
     return this.resolvedId;
   }
 
-  getExplicitPanelId(): string | null {
+  public getExplicitPanelId(): string | null {
     return this.panelId() ?? null;
   }
 
-  isDisabledInContext(): boolean {
+  public isDisabledInContext(): boolean {
     if (this.tabs.isDisabled()) {
       return true;
     }
@@ -1370,7 +1426,7 @@ export class TngTab {
     return this.disabledInput();
   }
 
-  focusSelf(): void {
+  public focusSelf(): void {
     this.hostRef.nativeElement.focus();
   }
 
@@ -1389,7 +1445,7 @@ export class TngTab {
   selector: '[tngTabPanel]',
   exportAs: 'tngTabPanel',
 })
-export class TngTabPanel {
+export class TngTabPanel implements DoCheck, OnDestroy, OnInit {
   private readonly hostRef = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly tabs = inject(TngTabs, { host: true });
   private resolvedId = createPanelId();
@@ -1399,16 +1455,14 @@ export class TngTabPanel {
   private anchor: Comment | null = null;
   private lastKnownValue: TngTabsValue | null = null;
 
-  readonly valueInput = input<TngTabsValue | null | undefined, unknown>(undefined, {
+  public readonly valueInput = input<TngTabsValue | null | undefined, unknown>(undefined, {
     alias: 'value',
     transform: normalizeOptionalValueInput,
   });
-  readonly labelledById = input<string | null | undefined, unknown>(undefined, {
-    alias: 'labelledById',
+  public readonly labelledById = input<string | null | undefined, unknown>(undefined, {
     transform: normalizeOptionalStringInput,
   });
-  readonly unmountOnExit = input<boolean, unknown>(false, {
-    alias: 'unmountOnExit',
+  public readonly unmountOnExit = input<boolean, unknown>(false, {
     transform: normalizeBooleanInput,
   });
 
@@ -1443,17 +1497,17 @@ export class TngTabPanel {
     return this.tabs.isPanelActive(this) ? 'true' : 'false';
   }
 
-  constructor() {
+  public constructor() {
     this.tabs.registerPanel(this);
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.syncResolvedIdFromHost();
     this.lastKnownValue = this.getValue();
     this.syncMountState();
   }
 
-  ngDoCheck(): void {
+  public ngDoCheck(): void {
     const idChanged = this.syncResolvedIdFromHost();
     const currentValue = this.getValue();
     if (idChanged || !valuesEqual(this.lastKnownValue, currentValue)) {
@@ -1464,24 +1518,24 @@ export class TngTabPanel {
     this.syncMountState();
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.tabs.unregisterPanel(this);
     this.removeAnchor();
   }
 
-  getRegistrationOrder(): number {
+  public getRegistrationOrder(): number {
     return this.registrationOrder;
   }
 
-  getHostElement(): HTMLElement {
+  public getHostElement(): HTMLElement {
     return this.hostRef.nativeElement;
   }
 
-  getPanelId(): string {
+  public getPanelId(): string {
     return this.resolvedId;
   }
 
-  getValue(): TngTabsValue {
+  public getValue(): TngTabsValue {
     const explicitValue = this.valueInput();
     if (explicitValue !== undefined && explicitValue !== null) {
       return explicitValue;
@@ -1495,15 +1549,15 @@ export class TngTabPanel {
     return this.resolvedId;
   }
 
-  getExplicitLabelledById(): string | null {
+  public getExplicitLabelledById(): string | null {
     return this.labelledById() ?? null;
   }
 
-  hasActivated(): boolean {
+  public hasActivated(): boolean {
     return this.activated;
   }
 
-  markActivated(): void {
+  public markActivated(): void {
     this.activated = true;
   }
 
