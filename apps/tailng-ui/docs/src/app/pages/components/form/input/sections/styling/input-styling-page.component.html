@@ -135,9 +135,24 @@
             <td><code>--tng-semantic-accent-danger</code></td>
             <td>Invalid/error state border or text.</td>
           </tr>
+          <tr>
+            <td><code>--tng-input-inline-gap</code></td>
+            <td>
+              Internal spacing between leading/trailing slot content and the main control area.
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>
+
+    <h4>Layout note</h4>
+    <p>
+      <code>tng-input</code> now applies a shared inline gap between
+      <code>[data-slot="input-group-leading"]</code>, <code>[data-slot="input-group-control"]</code>,
+      and <code>[data-slot="input-group-trailing"]</code>. Override
+      <code>--tng-input-inline-gap</code> on the wrapper when a compact search field or a wider
+      utility input needs a different adornment rhythm.
+    </p>
   </section>
 
   <app-docs-example-tabs-section
