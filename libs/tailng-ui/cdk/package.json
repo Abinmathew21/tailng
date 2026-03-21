@@ -1,6 +1,7 @@
 {
   "name": "@tailng-ui/cdk",
   "version": "0.13.0",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/tailng/tailng-ui"
