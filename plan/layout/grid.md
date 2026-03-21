@@ -160,12 +160,12 @@ This component should expose structure, keyboard navigation (roving tabindex or 
 
 ## Implementation Steps
 
-1. [ ] Headless component created in `primitives` (minimal root exists; full grid behavior TBD)
-2. [ ] Test cases created for headless
+1. [x] Headless component created in `primitives` (minimal root exists; full grid behavior TBD)
+2. [x] Test cases created for headless
 3. [ ] Headless example page added/updated in playground - plain CSS app
 4. [ ] Headless example page added/updated in playground - Tailwind app
-5. [ ] Minimum style `<tng-grid>` component created in `components`
-6. [ ] Test cases created for `<tng-grid>`
+5. [x] Minimum style `<tng-grid>` component created in `components`
+6. [x] Test cases created for `<tng-grid>`
 7. [ ] Component example page added/updated in playground - plain CSS app
 8. [ ] Component example page added/updated in playground - Tailwind app
 9. [ ] Docs added/updated in docs project - Overview section

@@ -24,7 +24,11 @@ export { TngCollapsibleComponent } from './collapsible/tng-collapsible.component
 export * from './drawer/tng-drawer.component';
 export { TngDrawerComponent } from './drawer/tng-drawer.component';
 export * from './grid/tng-grid.component';
-export { TngGridComponent } from './grid/tng-grid.component';
+export {
+  TngGridCellComponent,
+  TngGridComponent,
+  TngGridRowComponent,
+} from './grid/tng-grid.component';
 export * from './separator/tng-separator.component';
 export { TngSeparatorComponent } from './separator/tng-separator.component';
 export * from './stepper/tng-stepper.component';

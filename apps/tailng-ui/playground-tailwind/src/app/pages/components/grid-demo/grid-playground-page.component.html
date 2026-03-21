@@ -1,27 +1,221 @@
-<div class="mx-auto max-w-[72rem] grid gap-5">
-  <section class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5 space-y-3">
-    <h2 class="text-lg font-semibold">Primitives (`tngGrid`)</h2>
-    <div tngGrid role="grid" class="rounded-xl border border-tng-border-subtle px-4 py-3 text-tng-fg-primary grid grid-cols-3 gap-2">
-      <button role="gridcell" type="button" class="rounded-lg border border-tng-border-subtle bg-transparent px-4 py-2 text-sm font-medium text-tng-fg-primary">A1</button>
-      <button role="gridcell" type="button" class="rounded-lg border border-tng-border-subtle bg-transparent px-4 py-2 text-sm font-medium text-tng-fg-primary">A2</button>
-      <button role="gridcell" type="button" class="rounded-lg border border-tng-border-subtle bg-transparent px-4 py-2 text-sm font-medium text-tng-fg-primary">A3</button>
-      <button role="gridcell" type="button" class="rounded-lg border border-tng-border-subtle bg-transparent px-4 py-2 text-sm font-medium text-tng-fg-primary">B1</button>
-      <button role="gridcell" type="button" class="rounded-lg border border-tng-border-subtle bg-transparent px-4 py-2 text-sm font-medium text-tng-fg-primary">B2</button>
-      <button role="gridcell" type="button" class="rounded-lg border border-tng-border-subtle bg-transparent px-4 py-2 text-sm font-medium text-tng-fg-primary">B3</button>
-    </div>
-  </section>
+<main class="min-h-screen bg-tng-bg-canvas px-4 py-8 text-tng-fg-primary md:px-8">
+  <section class="mx-auto grid max-w-[76rem] gap-6">
+    <header class="grid gap-3">
+      <h1 class="text-4xl font-black tracking-tight md:text-5xl">Grid</h1>
+      <p class="max-w-3xl text-lg text-tng-fg-secondary">
+        Two-dimensional keyboard navigation with single-tab-stop focus, disabled-cell skipping, and optional
+        selection. Use Arrow keys, Home/End, and Enter to move through the board.
+      </p>
+    </header>
 
-  <section class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5 space-y-3">
-    <h2 class="text-lg font-semibold">Components (`tng-grid`)</h2>
-    <tng-grid>
-      <div role="grid" class="grid grid-cols-3 gap-2">
-        <div class="rounded-lg border border-tng-border-subtle bg-tng-bg-canvas p-3 text-tng-fg-primary">Token</div>
-        <div class="rounded-lg border border-tng-border-subtle bg-tng-bg-canvas p-3 text-tng-fg-primary">Value</div>
-        <div class="rounded-lg border border-tng-border-subtle bg-tng-bg-canvas p-3 text-tng-fg-primary">Scope</div>
-        <div class="rounded-lg border border-tng-border-subtle bg-tng-bg-canvas p-3 text-tng-fg-primary">surface.primary</div>
-        <div class="rounded-lg border border-tng-border-subtle bg-tng-bg-canvas p-3 text-tng-fg-primary">--tng-semantic-background-surface</div>
-        <div class="rounded-lg border border-tng-border-subtle bg-tng-bg-canvas p-3 text-tng-fg-primary">dark</div>
+    <section
+      class="grid gap-4 rounded-[1.5rem] border border-tng-border-subtle bg-[color:color-mix(in_srgb,var(--tng-semantic-background-surface)_90%,var(--tng-semantic-background-canvas)_10%)] p-5 shadow-[0_18px_40px_color-mix(in_srgb,var(--tng-semantic-foreground-primary)_6%,transparent)]"
+    >
+      <div class="flex flex-wrap items-start justify-between gap-3">
+        <div class="grid gap-2">
+          <h2 class="text-2xl font-bold">Headless Primitives</h2>
+          <p class="max-w-3xl text-sm text-tng-fg-secondary">
+            Release board using native buttons. Wrap is enabled and the blocked QA slot is disabled.
+          </p>
+        </div>
       </div>
-    </tng-grid>
+
+      <div class="rounded-2xl border border-tng-border-subtle bg-tng-bg-canvas/60 p-4">
+        <div
+          tngGrid
+          class="grid gap-3"
+          [ariaLabel]="'Release board'"
+          [wrap]="true"
+          selectionMode="single"
+          (valueChange)="onPrimitiveSelectionChange($event)"
+        >
+          <div tngGridRow class="grid grid-cols-1 gap-3 sm:grid-cols-3">
+            <button
+              tngGridCell
+              type="button"
+              class="grid min-h-[5.5rem] w-full gap-1 rounded-2xl border border-tng-border-subtle bg-[linear-gradient(180deg,color-mix(in_srgb,var(--tng-semantic-background-surface)_74%,var(--tng-semantic-background-canvas)_26%),color-mix(in_srgb,var(--tng-semantic-background-surface)_86%,var(--tng-semantic-background-canvas)_14%))] px-4 py-4 text-left outline-none transition duration-150 hover:-translate-y-px hover:border-tng-accent-brand data-[selected]:border-tng-accent-brand data-[selected]:bg-[linear-gradient(180deg,color-mix(in_srgb,var(--tng-semantic-accent-brand)_16%,var(--tng-semantic-background-surface)_84%),color-mix(in_srgb,var(--tng-semantic-accent-brand)_22%,var(--tng-semantic-background-canvas)_78%))] data-[focus-visible]:border-tng-accent-brand data-[focus-visible]:ring-2 data-[focus-visible]:ring-tng-accent-brand/20 data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50"
+              cellRole="columnheader"
+              [rowIndex]="0"
+              [colIndex]="0"
+            >
+              <span class="text-base font-bold">Mon</span>
+              <span class="text-sm text-tng-fg-secondary">Headers</span>
+            </button>
+            <button
+              tngGridCell
+              type="button"
+              class="grid min-h-[5.5rem] w-full gap-1 rounded-2xl border border-tng-border-subtle bg-[linear-gradient(180deg,color-mix(in_srgb,var(--tng-semantic-background-surface)_74%,var(--tng-semantic-background-canvas)_26%),color-mix(in_srgb,var(--tng-semantic-background-surface)_86%,var(--tng-semantic-background-canvas)_14%))] px-4 py-4 text-left outline-none transition duration-150 hover:-translate-y-px hover:border-tng-accent-brand data-[selected]:border-tng-accent-brand data-[selected]:bg-[linear-gradient(180deg,color-mix(in_srgb,var(--tng-semantic-accent-brand)_16%,var(--tng-semantic-background-surface)_84%),color-mix(in_srgb,var(--tng-semantic-accent-brand)_22%,var(--tng-semantic-background-canvas)_78%))] data-[focus-visible]:border-tng-accent-brand data-[focus-visible]:ring-2 data-[focus-visible]:ring-tng-accent-brand/20 data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50"
+              cellRole="columnheader"
+              [rowIndex]="0"
+              [colIndex]="1"
+            >
+              <span class="text-base font-bold">Tue</span>
+              <span class="text-sm text-tng-fg-secondary">Headers</span>
+            </button>
+            <button
+              tngGridCell
+              type="button"
+              class="grid min-h-[5.5rem] w-full gap-1 rounded-2xl border border-tng-border-subtle bg-[linear-gradient(180deg,color-mix(in_srgb,var(--tng-semantic-background-surface)_74%,var(--tng-semantic-background-canvas)_26%),color-mix(in_srgb,var(--tng-semantic-background-surface)_86%,var(--tng-semantic-background-canvas)_14%))] px-4 py-4 text-left outline-none transition duration-150 hover:-translate-y-px hover:border-tng-accent-brand data-[selected]:border-tng-accent-brand data-[selected]:bg-[linear-gradient(180deg,color-mix(in_srgb,var(--tng-semantic-accent-brand)_16%,var(--tng-semantic-background-surface)_84%),color-mix(in_srgb,var(--tng-semantic-accent-brand)_22%,var(--tng-semantic-background-canvas)_78%))] data-[focus-visible]:border-tng-accent-brand data-[focus-visible]:ring-2 data-[focus-visible]:ring-tng-accent-brand/20 data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50"
+              cellRole="columnheader"
+              [rowIndex]="0"
+              [colIndex]="2"
+            >
+              <span class="text-base font-bold">Wed</span>
+              <span class="text-sm text-tng-fg-secondary">Headers</span>
+            </button>
+          </div>
+
+          <div tngGridRow class="grid grid-cols-1 gap-3 sm:grid-cols-3">
+            <button
+              tngGridCell
+              type="button"
+              class="grid min-h-[5.5rem] w-full gap-1 rounded-2xl border border-tng-border-subtle bg-tng-bg-surface px-4 py-4 text-left outline-none transition duration-150 hover:-translate-y-px hover:border-tng-accent-brand data-[selected]:border-tng-accent-brand data-[selected]:bg-[linear-gradient(180deg,color-mix(in_srgb,var(--tng-semantic-accent-brand)_16%,var(--tng-semantic-background-surface)_84%),color-mix(in_srgb,var(--tng-semantic-accent-brand)_22%,var(--tng-semantic-background-canvas)_78%))] data-[focus-visible]:border-tng-accent-brand data-[focus-visible]:ring-2 data-[focus-visible]:ring-tng-accent-brand/20 data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50"
+              [rowIndex]="1"
+              [colIndex]="0"
+            >
+              <span class="text-base font-bold">Deploy</span>
+              <span class="text-sm text-tng-fg-secondary">08:30 UTC</span>
+            </button>
+            <button
+              tngGridCell
+              type="button"
+              class="grid min-h-[5.5rem] w-full gap-1 rounded-2xl border border-tng-border-subtle bg-tng-bg-surface px-4 py-4 text-left outline-none transition duration-150 hover:-translate-y-px hover:border-tng-accent-brand data-[selected]:border-tng-accent-brand data-[selected]:bg-[linear-gradient(180deg,color-mix(in_srgb,var(--tng-semantic-accent-brand)_16%,var(--tng-semantic-background-surface)_84%),color-mix(in_srgb,var(--tng-semantic-accent-brand)_22%,var(--tng-semantic-background-canvas)_78%))] data-[focus-visible]:border-tng-accent-brand data-[focus-visible]:ring-2 data-[focus-visible]:ring-tng-accent-brand/20 data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50"
+              [disabled]="true"
+              [rowIndex]="1"
+              [colIndex]="1"
+            >
+              <span class="text-base font-bold">QA</span>
+              <span class="text-sm text-tng-fg-secondary">Blocked</span>
+            </button>
+            <button
+              tngGridCell
+              type="button"
+              class="grid min-h-[5.5rem] w-full gap-1 rounded-2xl border border-tng-border-subtle bg-tng-bg-surface px-4 py-4 text-left outline-none transition duration-150 hover:-translate-y-px hover:border-tng-accent-brand data-[selected]:border-tng-accent-brand data-[selected]:bg-[linear-gradient(180deg,color-mix(in_srgb,var(--tng-semantic-accent-brand)_16%,var(--tng-semantic-background-surface)_84%),color-mix(in_srgb,var(--tng-semantic-accent-brand)_22%,var(--tng-semantic-background-canvas)_78%))] data-[focus-visible]:border-tng-accent-brand data-[focus-visible]:ring-2 data-[focus-visible]:ring-tng-accent-brand/20 data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50"
+              [rowIndex]="1"
+              [colIndex]="2"
+            >
+              <span class="text-base font-bold">Docs</span>
+              <span class="text-sm text-tng-fg-secondary">Ready</span>
+            </button>
+          </div>
+
+          <div tngGridRow class="grid grid-cols-1 gap-3 sm:grid-cols-3">
+            <button
+              tngGridCell
+              type="button"
+              class="grid min-h-[5.5rem] w-full gap-1 rounded-2xl border border-tng-border-subtle bg-tng-bg-surface px-4 py-4 text-left outline-none transition duration-150 hover:-translate-y-px hover:border-tng-accent-brand data-[selected]:border-tng-accent-brand data-[selected]:bg-[linear-gradient(180deg,color-mix(in_srgb,var(--tng-semantic-accent-brand)_16%,var(--tng-semantic-background-surface)_84%),color-mix(in_srgb,var(--tng-semantic-accent-brand)_22%,var(--tng-semantic-background-canvas)_78%))] data-[focus-visible]:border-tng-accent-brand data-[focus-visible]:ring-2 data-[focus-visible]:ring-tng-accent-brand/20 data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50"
+              [rowIndex]="2"
+              [colIndex]="0"
+            >
+              <span class="text-base font-bold">Audit</span>
+              <span class="text-sm text-tng-fg-secondary">12:00 UTC</span>
+            </button>
+            <button
+              tngGridCell
+              type="button"
+              class="grid min-h-[5.5rem] w-full gap-1 rounded-2xl border border-tng-border-subtle bg-tng-bg-surface px-4 py-4 text-left outline-none transition duration-150 hover:-translate-y-px hover:border-tng-accent-brand data-[selected]:border-tng-accent-brand data-[selected]:bg-[linear-gradient(180deg,color-mix(in_srgb,var(--tng-semantic-accent-brand)_16%,var(--tng-semantic-background-surface)_84%),color-mix(in_srgb,var(--tng-semantic-accent-brand)_22%,var(--tng-semantic-background-canvas)_78%))] data-[focus-visible]:border-tng-accent-brand data-[focus-visible]:ring-2 data-[focus-visible]:ring-tng-accent-brand/20 data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50"
+              [rowIndex]="2"
+              [colIndex]="1"
+            >
+              <span class="text-base font-bold">Review</span>
+              <span class="text-sm text-tng-fg-secondary">13:30 UTC</span>
+            </button>
+            <button
+              tngGridCell
+              type="button"
+              class="grid min-h-[5.5rem] w-full gap-1 rounded-2xl border border-tng-border-subtle bg-tng-bg-surface px-4 py-4 text-left outline-none transition duration-150 hover:-translate-y-px hover:border-tng-accent-brand data-[selected]:border-tng-accent-brand data-[selected]:bg-[linear-gradient(180deg,color-mix(in_srgb,var(--tng-semantic-accent-brand)_16%,var(--tng-semantic-background-surface)_84%),color-mix(in_srgb,var(--tng-semantic-accent-brand)_22%,var(--tng-semantic-background-canvas)_78%))] data-[focus-visible]:border-tng-accent-brand data-[focus-visible]:ring-2 data-[focus-visible]:ring-tng-accent-brand/20 data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50"
+              [rowIndex]="2"
+              [colIndex]="2"
+            >
+              <span class="text-base font-bold">Release</span>
+              <span class="text-sm text-tng-fg-secondary">16:00 UTC</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <p class="text-sm text-tng-fg-secondary">
+        Selected primitive cell:
+        <strong class="font-bold text-tng-fg-primary">{{
+          describeSelection(primitiveCards, primitiveSelection())
+        }}</strong>
+      </p>
+    </section>
+
+    <section
+      class="grid gap-4 rounded-[1.5rem] border border-tng-border-subtle bg-[color:color-mix(in_srgb,var(--tng-semantic-background-surface)_90%,var(--tng-semantic-background-canvas)_10%)] p-5 shadow-[0_18px_40px_color-mix(in_srgb,var(--tng-semantic-foreground-primary)_6%,transparent)]"
+    >
+      <div class="flex flex-wrap items-start justify-between gap-3">
+        <div class="grid gap-2">
+          <h2 class="text-2xl font-bold">Component Wrapper</h2>
+          <p class="max-w-3xl text-sm text-tng-fg-secondary">
+            Styled board using grid row and grid cell wrappers. Selection feedback still comes from the same headless
+            grid primitive.
+          </p>
+        </div>
+      </div>
+
+      <div class="rounded-2xl border border-tng-border-subtle bg-tng-bg-canvas/60 p-4">
+        <tng-grid
+          class="grid gap-3"
+          [ariaLabel]="'Operations capacity planner'"
+          [wrap]="true"
+          selectionMode="single"
+          (valueChange)="onComponentSelectionChange($event)"
+        >
+          <tng-grid-row class="grid-cols-1 gap-3 sm:grid-cols-3">
+            <tng-grid-cell class="grid min-h-[5.5rem] gap-1 rounded-2xl border border-tng-border-subtle px-4 py-4 text-left" cellRole="columnheader" [rowIndex]="0" [colIndex]="0">
+              <span class="text-base font-bold">North</span>
+              <span class="text-sm text-tng-fg-secondary">Region</span>
+            </tng-grid-cell>
+            <tng-grid-cell class="grid min-h-[5.5rem] gap-1 rounded-2xl border border-tng-border-subtle px-4 py-4 text-left" cellRole="columnheader" [rowIndex]="0" [colIndex]="1">
+              <span class="text-base font-bold">Central</span>
+              <span class="text-sm text-tng-fg-secondary">Region</span>
+            </tng-grid-cell>
+            <tng-grid-cell class="grid min-h-[5.5rem] gap-1 rounded-2xl border border-tng-border-subtle px-4 py-4 text-left" cellRole="columnheader" [rowIndex]="0" [colIndex]="2">
+              <span class="text-base font-bold">South</span>
+              <span class="text-sm text-tng-fg-secondary">Region</span>
+            </tng-grid-cell>
+          </tng-grid-row>
+
+          <tng-grid-row class="grid-cols-1 gap-3 sm:grid-cols-3">
+            <tng-grid-cell class="grid min-h-[5.5rem] gap-1 rounded-2xl px-4 py-4 text-left" [rowIndex]="1" [colIndex]="0">
+              <span class="text-base font-bold">Capacity</span>
+              <span class="text-sm text-tng-fg-secondary">74%</span>
+            </tng-grid-cell>
+            <tng-grid-cell class="grid min-h-[5.5rem] gap-1 rounded-2xl px-4 py-4 text-left" [rowIndex]="1" [colIndex]="1">
+              <span class="text-base font-bold">Incidents</span>
+              <span class="text-sm text-tng-fg-secondary">2 open</span>
+            </tng-grid-cell>
+            <tng-grid-cell class="grid min-h-[5.5rem] gap-1 rounded-2xl px-4 py-4 text-left" [rowIndex]="1" [colIndex]="2">
+              <span class="text-base font-bold">Approvals</span>
+              <span class="text-sm text-tng-fg-secondary">5 pending</span>
+            </tng-grid-cell>
+          </tng-grid-row>
+
+          <tng-grid-row class="grid-cols-1 gap-3 sm:grid-cols-3">
+            <tng-grid-cell class="grid min-h-[5.5rem] gap-1 rounded-2xl px-4 py-4 text-left" [rowIndex]="2" [colIndex]="0">
+              <span class="text-base font-bold">Backlog</span>
+              <span class="text-sm text-tng-fg-secondary">18 items</span>
+            </tng-grid-cell>
+            <tng-grid-cell class="grid min-h-[5.5rem] gap-1 rounded-2xl px-4 py-4 text-left" [disabled]="true" [rowIndex]="2" [colIndex]="1">
+              <span class="text-base font-bold">Freeze</span>
+              <span class="text-sm text-tng-fg-secondary">Tonight</span>
+            </tng-grid-cell>
+            <tng-grid-cell class="grid min-h-[5.5rem] gap-1 rounded-2xl bg-[linear-gradient(180deg,color-mix(in_srgb,var(--tng-semantic-accent-success)_14%,var(--tng-semantic-background-surface)_86%),color-mix(in_srgb,var(--tng-semantic-accent-success)_20%,var(--tng-semantic-background-canvas)_80%))] px-4 py-4 text-left" [rowIndex]="2" [colIndex]="2">
+              <span class="text-base font-bold">Ship</span>
+              <span class="text-sm text-tng-fg-secondary">Green</span>
+            </tng-grid-cell>
+          </tng-grid-row>
+        </tng-grid>
+      </div>
+
+      <p class="text-sm text-tng-fg-secondary">
+        Selected component cell:
+        <strong class="font-bold text-tng-fg-primary">{{
+          describeSelection(componentCards, componentSelection())
+        }}</strong>
+      </p>
+    </section>
   </section>
-</div>
+</main>

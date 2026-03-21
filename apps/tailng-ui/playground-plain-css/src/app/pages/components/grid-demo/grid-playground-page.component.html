@@ -1,29 +1,183 @@
 <main class="page">
   <section class="container">
+    <header class="hero">
+      <h1 class="title">Grid</h1>
+      <p class="subtitle">
+        Two-dimensional keyboard navigation with single-tab-stop focus, disabled-cell skipping, and optional
+        selection. Use Arrow keys, Home/End, and Enter to move through the board.
+      </p>
+    </header>
+
     <section class="card">
-      <h2>Primitives (`tngGrid`)</h2>
-      <div tngGrid role="grid" class="primitive-shell demo-grid demo-grid-3">
-        <button role="gridcell" type="button" class="demo-button">A1</button>
-        <button role="gridcell" type="button" class="demo-button">A2</button>
-        <button role="gridcell" type="button" class="demo-button">A3</button>
-        <button role="gridcell" type="button" class="demo-button">B1</button>
-        <button role="gridcell" type="button" class="demo-button">B2</button>
-        <button role="gridcell" type="button" class="demo-button">B3</button>
+      <div class="card-header">
+        <div>
+          <h2>Headless Primitives (`tngGrid` + `tngGridRow` + `tngGridCell`)</h2>
+          <p class="demo-note">
+            Release board using native buttons. Wrap is enabled and the blocked QA slot is disabled.
+          </p>
+        </div>
       </div>
+
+      <div class="grid-shell">
+        <div
+          tngGrid
+          class="grid-board"
+          [ariaLabel]="'Release board'"
+          [wrap]="true"
+          selectionMode="single"
+          (valueChange)="onPrimitiveSelectionChange($event)"
+        >
+          <div tngGridRow class="grid-row">
+            <button
+              tngGridCell
+              type="button"
+              class="primitive-cell primitive-cell-header"
+              cellRole="columnheader"
+              [rowIndex]="0"
+              [colIndex]="0"
+            >
+              <span class="cell-label">Mon</span>
+              <span class="cell-meta">Headers</span>
+            </button>
+            <button
+              tngGridCell
+              type="button"
+              class="primitive-cell primitive-cell-header"
+              cellRole="columnheader"
+              [rowIndex]="0"
+              [colIndex]="1"
+            >
+              <span class="cell-label">Tue</span>
+              <span class="cell-meta">Headers</span>
+            </button>
+            <button
+              tngGridCell
+              type="button"
+              class="primitive-cell primitive-cell-header"
+              cellRole="columnheader"
+              [rowIndex]="0"
+              [colIndex]="2"
+            >
+              <span class="cell-label">Wed</span>
+              <span class="cell-meta">Headers</span>
+            </button>
+          </div>
+
+          <div tngGridRow class="grid-row">
+            <button tngGridCell type="button" class="primitive-cell" [rowIndex]="1" [colIndex]="0">
+              <span class="cell-label">Deploy</span>
+              <span class="cell-meta">08:30 UTC</span>
+            </button>
+            <button
+              tngGridCell
+              type="button"
+              class="primitive-cell"
+              [disabled]="true"
+              [rowIndex]="1"
+              [colIndex]="1"
+            >
+              <span class="cell-label">QA</span>
+              <span class="cell-meta">Blocked</span>
+            </button>
+            <button tngGridCell type="button" class="primitive-cell" [rowIndex]="1" [colIndex]="2">
+              <span class="cell-label">Docs</span>
+              <span class="cell-meta">Ready</span>
+            </button>
+          </div>
+
+          <div tngGridRow class="grid-row">
+            <button tngGridCell type="button" class="primitive-cell" [rowIndex]="2" [colIndex]="0">
+              <span class="cell-label">Audit</span>
+              <span class="cell-meta">12:00 UTC</span>
+            </button>
+            <button tngGridCell type="button" class="primitive-cell" [rowIndex]="2" [colIndex]="1">
+              <span class="cell-label">Review</span>
+              <span class="cell-meta">13:30 UTC</span>
+            </button>
+            <button tngGridCell type="button" class="primitive-cell" [rowIndex]="2" [colIndex]="2">
+              <span class="cell-label">Release</span>
+              <span class="cell-meta">16:00 UTC</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <p class="selection-note">
+        Selected primitive cell:
+        <strong>{{ describeSelection(primitiveCards, primitiveSelection()) }}</strong>
+      </p>
     </section>
 
     <section class="card">
-      <h2>Components (`tng-grid`)</h2>
-      <tng-grid>
-        <div role="grid" class="demo-grid demo-grid-3">
-          <div class="demo-panel">Token</div>
-          <div class="demo-panel">Value</div>
-          <div class="demo-panel">Scope</div>
-          <div class="demo-panel">surface.primary</div>
-          <div class="demo-panel">--tng-semantic-background-surface</div>
-          <div class="demo-panel">dark</div>
+      <div class="card-header">
+        <div>
+          <h2>Component Wrapper (`&lt;tng-grid&gt;`)</h2>
+          <p class="demo-note">
+            Styled board using grid row and grid cell wrappers. Selection feedback still comes from the same headless
+            grid primitive.
+          </p>
         </div>
-      </tng-grid>
+      </div>
+
+      <div class="grid-shell">
+        <tng-grid
+          class="component-grid"
+          [ariaLabel]="'Operations capacity planner'"
+          [wrap]="true"
+          selectionMode="single"
+          (valueChange)="onComponentSelectionChange($event)"
+        >
+          <tng-grid-row class="grid-row">
+            <tng-grid-cell class="component-cell" cellRole="columnheader" [rowIndex]="0" [colIndex]="0">
+              <span class="cell-label">North</span>
+              <span class="cell-meta">Region</span>
+            </tng-grid-cell>
+            <tng-grid-cell class="component-cell" cellRole="columnheader" [rowIndex]="0" [colIndex]="1">
+              <span class="cell-label">Central</span>
+              <span class="cell-meta">Region</span>
+            </tng-grid-cell>
+            <tng-grid-cell class="component-cell" cellRole="columnheader" [rowIndex]="0" [colIndex]="2">
+              <span class="cell-label">South</span>
+              <span class="cell-meta">Region</span>
+            </tng-grid-cell>
+          </tng-grid-row>
+
+          <tng-grid-row class="grid-row">
+            <tng-grid-cell class="component-cell" [rowIndex]="1" [colIndex]="0">
+              <span class="cell-label">Capacity</span>
+              <span class="cell-meta">74%</span>
+            </tng-grid-cell>
+            <tng-grid-cell class="component-cell" [rowIndex]="1" [colIndex]="1">
+              <span class="cell-label">Incidents</span>
+              <span class="cell-meta">2 open</span>
+            </tng-grid-cell>
+            <tng-grid-cell class="component-cell" [rowIndex]="1" [colIndex]="2">
+              <span class="cell-label">Approvals</span>
+              <span class="cell-meta">5 pending</span>
+            </tng-grid-cell>
+          </tng-grid-row>
+
+          <tng-grid-row class="grid-row">
+            <tng-grid-cell class="component-cell" [rowIndex]="2" [colIndex]="0">
+              <span class="cell-label">Backlog</span>
+              <span class="cell-meta">18 items</span>
+            </tng-grid-cell>
+            <tng-grid-cell class="component-cell" [disabled]="true" [rowIndex]="2" [colIndex]="1">
+              <span class="cell-label">Freeze</span>
+              <span class="cell-meta">Tonight</span>
+            </tng-grid-cell>
+            <tng-grid-cell class="component-cell component-cell-accent" [rowIndex]="2" [colIndex]="2">
+              <span class="cell-label">Ship</span>
+              <span class="cell-meta">Green</span>
+            </tng-grid-cell>
+          </tng-grid-row>
+        </tng-grid>
+      </div>
+
+      <p class="selection-note">
+        Selected component cell:
+        <strong>{{ describeSelection(componentCards, componentSelection()) }}</strong>
+      </p>
     </section>
   </section>
 </main>

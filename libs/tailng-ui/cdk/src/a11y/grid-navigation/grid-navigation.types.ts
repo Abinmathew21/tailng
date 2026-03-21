@@ -37,3 +37,15 @@ export type TngGridBounds = Readonly<{
   colCount: number;
   rowCount: number;
 }>;
+
+export type TngGridNavigableCell = Readonly<
+  TngGridCellPosition & {
+    disabled?: boolean;
+  }
+>;
+
+export type TngGridCellResolutionOptions = Readonly<{
+  bounds: TngGridBounds;
+  cells: readonly TngGridNavigableCell[];
+  wrap?: boolean;
+}>;
