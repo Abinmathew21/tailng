@@ -11,6 +11,7 @@
 .tng-input {
   align-items: center;
   display: inline-flex;
+  gap: var(--tng-input-inline-gap, 0.55rem);
   width: 100%;
 }
 
@@ -89,12 +90,16 @@
 
 /* ---- sizes ---- */
 :host([data-size='sm']) .tng-input[data-slot='input-group'] {
+  --tng-input-inline-gap: 0.45rem;
+
   border-radius: 0.5rem;
   min-height: 2.125rem;
   padding: 0 0.65rem;
 }
 
 :host([data-size='lg']) .tng-input[data-slot='input-group'] {
+  --tng-input-inline-gap: 0.65rem;
+
   border-radius: 0.75rem;
   min-height: 3rem;
   padding: 0 1rem;

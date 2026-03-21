@@ -68,7 +68,8 @@
 .components-docs-search-input {
   --tng-semantic-background-surface: var(--tng-semantic-background-base);
   --tng-semantic-border-strong: var(--tng-semantic-border-subtle);
-  --tng-semantic-focus-ring: color-mix(in srgb, var(--tng-semantic-accent-brand) 28%, transparent);
+  --tng-semantic-focus-ring: color-mix(in srgb, var(--tng-semantic-accent-brand) 22%, transparent);
+  --tng-input-inline-gap: 0.55rem;
 
   display: block;
   width: 100%;
@@ -78,6 +79,7 @@
   align-items: center;
   color: var(--tng-semantic-foreground-muted);
   display: inline-flex;
+  transform: translateY(2px);
   transition: color 160ms ease;
 }
 
