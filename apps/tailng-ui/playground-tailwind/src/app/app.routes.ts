@@ -198,6 +198,13 @@ export const appRoutes: Route[] = [
           ).then((module) => module.PopoverPlaygroundPageComponent),
       },
       {
+        path: 'datepicker',
+        loadComponent: () =>
+          import(
+            './pages/components/datepicker-demo/datepicker-playground-page.component'
+          ).then((module) => module.DatepickerPlaygroundPageComponent),
+      },
+      {
         path: 'tooltip',
         loadComponent: () =>
           import(

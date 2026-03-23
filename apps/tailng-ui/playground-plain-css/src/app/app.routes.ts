@@ -345,6 +345,13 @@ export const appRoutes: Route[] = [
           ).then((module) => module.MultiselectPlaygroundPageComponent),
       },
       {
+        path: 'datepicker',
+        loadComponent: () =>
+          import(
+            './pages/components/datepicker-demo/datepicker-playground-page.component'
+          ).then((module) => module.DatepickerPlaygroundPageComponent),
+      },
+      {
         path: 'grid',
         loadComponent: () =>
           import(

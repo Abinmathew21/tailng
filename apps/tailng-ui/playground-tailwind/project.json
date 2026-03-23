@@ -19,7 +19,10 @@
             "input": "apps/tailng-ui/playground-tailwind/public"
           }
         ],
-        "styles": ["apps/tailng-ui/playground-tailwind/src/styles.css"]
+        "styles": [
+          "apps/tailng-ui/playground-tailwind/src/styles.css",
+          "libs/tailng-ui/theme/src/lib/component-contracts/form/datepicker/datepicker.css"
+        ]
       },
       "configurations": {
         "production": {

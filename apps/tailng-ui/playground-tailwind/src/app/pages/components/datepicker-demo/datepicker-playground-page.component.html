@@ -1,0 +1,936 @@
+<main class="min-h-screen bg-tng-bg-canvas px-4 py-8 text-tng-fg-primary md:px-8">
+  <section class="mx-auto grid max-w-[76rem] gap-6">
+    <header class="grid gap-3">
+      <h1 class="text-4xl font-black tracking-tight md:text-5xl">Datepicker</h1>
+      <p class="max-w-3xl text-lg text-tng-fg-secondary">
+        Headless datepicker with editable input and a custom overlay period label. The input keeps its own format while
+        the popup header is driven by the adapter's <code class="rounded bg-tng-bg-surface px-1.5 py-0.5 text-sm">month-year</code>
+        token.
+      </p>
+    </header>
+
+    <section
+      class="grid gap-4 rounded-[1.5rem] border border-tng-border-subtle bg-[color:color-mix(in_srgb,var(--tng-semantic-background-surface)_90%,var(--tng-semantic-background-canvas)_10%)] p-5 shadow-[0_18px_40px_color-mix(in_srgb,var(--tng-semantic-foreground-primary)_6%,transparent)]"
+    >
+      <div class="flex flex-wrap items-start justify-between gap-3">
+        <div class="grid gap-2">
+          <h2 class="text-2xl font-bold">Custom overlay display format</h2>
+          <p class="max-w-3xl text-sm text-tng-fg-secondary">
+            This example keeps the editable input in <code>MM-DD-YYYY</code> while the overlay header uses
+            <code>APR • 2024</code>.
+          </p>
+        </div>
+
+        <div
+          class="grid min-w-[12rem] gap-1 rounded-full border border-tng-border-subtle bg-tng-bg-canvas/80 px-4 py-2"
+        >
+          <span class="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-tng-fg-secondary">Selected</span>
+          <strong class="text-sm font-bold text-tng-fg-primary">{{ selectedSummary() }}</strong>
+        </div>
+      </div>
+
+      <div
+        class="grid max-w-[30rem] gap-3"
+        [attr.aria-describedby]="outputs().getHostAttributes()['aria-describedby']"
+        [attr.aria-label]="outputs().getHostAttributes()['aria-label']"
+        [attr.aria-labelledby]="outputs().getHostAttributes()['aria-labelledby']"
+        [attr.data-disabled]="outputs().getHostAttributes()['data-disabled']"
+        [attr.data-open]="outputs().getHostAttributes()['data-open']"
+        [attr.data-slot]="outputs().getHostAttributes()['data-slot']"
+        [attr.data-view]="outputs().getHostAttributes()['data-view']"
+        [attr.dir]="outputs().getHostAttributes()['dir']"
+        [attr.role]="outputs().getHostAttributes()['role']"
+      >
+        <div class="grid gap-1" data-slot="datepicker-field">
+          <span class="text-[0.72rem] font-semibold uppercase tracking-[0.16em] text-tng-fg-secondary">Date input</span>
+
+          <div class="relative">
+            <div
+              #headlessAnchorShell
+              class="flex w-full overflow-hidden"
+              data-slot="datepicker-input-shell"
+              [attr.data-invalid]="outputs().validationError !== null ? 'true' : null"
+              [attr.data-open]="outputs().getTriggerAttributes()['data-open']"
+            >
+              <input
+                class="min-h-full w-full text-lg"
+                data-slot="datepicker-input"
+                type="text"
+                inputmode="numeric"
+                placeholder="MM-DD-YYYY"
+                aria-label="Editable custom display date input"
+                [value]="outputs().inputText"
+                [attr.aria-invalid]="outputs().validationError !== null ? 'true' : null"
+                (blur)="onInputBlur()"
+                (click)="onInputClick()"
+                (input)="onInputChange($event)"
+                (keydown)="onInputKeydown($event)"
+              />
+
+              <button
+                #triggerButton
+                type="button"
+                class="flex min-w-[3.6rem] items-center justify-center gap-2 px-4"
+                [attr.aria-label]="'Open calendar for ' + selectedSummary()"
+                [attr.aria-controls]="outputs().getTriggerAttributes()['aria-controls']"
+                [attr.aria-expanded]="outputs().getTriggerAttributes()['aria-expanded']"
+                [attr.aria-haspopup]="outputs().getTriggerAttributes()['aria-haspopup']"
+                [attr.data-open]="outputs().getTriggerAttributes()['data-open']"
+                [attr.data-slot]="outputs().getTriggerAttributes()['data-slot']"
+                (click)="onTriggerClick()"
+                (keydown)="onTriggerKeydown($event)"
+              >
+                <tng-icon icon="calendar-days" class="text-base" aria-hidden="true" />
+                <span class="text-xs" aria-hidden="true">▾</span>
+              </button>
+            </div>
+
+            <section
+              [tngDatepickerOverlay]="controller"
+              [tngDatepickerOverlayAnchor]="headlessAnchorShell"
+              class="grid w-full gap-4"
+              [attr.aria-labelledby]="outputs().getOverlayAttributes()['aria-labelledby']"
+              [attr.aria-modal]="outputs().getOverlayAttributes()['aria-modal']"
+              [attr.data-open]="outputs().getOverlayAttributes()['data-open']"
+              [attr.data-position]="outputs().getOverlayAttributes()['data-position']"
+              [attr.data-slot]="outputs().getOverlayAttributes()['data-slot']"
+              [attr.id]="outputs().getOverlayAttributes()['id']"
+              [attr.role]="outputs().getOverlayAttributes()['role']"
+              (keydown)="onOverlayKeydown($event)"
+            >
+                <header class="grid gap-3" data-slot="datepicker-header">
+                  <div class="grid grid-cols-[auto_1fr_auto] items-center gap-3">
+                    <button
+                      type="button"
+                      class="flex h-10 w-10 items-center justify-center text-xl"
+                      data-slot="datepicker-nav-button"
+                      (click)="pageBackward()"
+                    >
+                      ‹
+                    </button>
+
+                    <div class="grid gap-0.5">
+                      <p class="text-[0.72rem] font-semibold uppercase tracking-[0.16em] text-tng-fg-secondary">
+                        Custom header format
+                      </p>
+                      <h3
+                        class="text-xl font-black tracking-tight"
+                        [attr.id]="outputs().getGridAttributes()['aria-labelledby']"
+                      >
+                        {{ outputs().labelMonthYear }}
+                      </h3>
+                    </div>
+
+                    <button
+                      type="button"
+                      class="flex h-10 w-10 items-center justify-center text-xl"
+                      data-slot="datepicker-nav-button"
+                      (click)="pageForward()"
+                    >
+                      ›
+                    </button>
+                  </div>
+
+                  <div class="flex gap-[var(--tng-datepicker-grid-gap,0.24rem)]" data-slot="datepicker-view-switcher" role="tablist" aria-label="Calendar view">
+                    <button
+                      type="button"
+                      class="rounded-full border border-tng-border-subtle bg-tng-bg-canvas px-4 py-2 text-sm font-semibold text-tng-fg-primary transition-colors hover:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_8%,var(--tng-semantic-background-canvas))] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color-mix(in_srgb,var(--tng-semantic-focus-ring)_18%,transparent)] data-[active=true]:border-tng-accent-brand data-[active=true]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))]"
+                      data-slot="datepicker-view-chip"
+                      [attr.data-active]="isDayView() ? 'true' : null"
+                      (click)="onViewChange('day')"
+                    >
+                      Days
+                    </button>
+                    <button
+                      type="button"
+                      class="rounded-full border border-tng-border-subtle bg-tng-bg-canvas px-4 py-2 text-sm font-semibold text-tng-fg-primary transition-colors hover:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_8%,var(--tng-semantic-background-canvas))] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color-mix(in_srgb,var(--tng-semantic-focus-ring)_18%,transparent)] data-[active=true]:border-tng-accent-brand data-[active=true]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))]"
+                      data-slot="datepicker-view-chip"
+                      [attr.data-active]="isMonthView() ? 'true' : null"
+                      (click)="onViewChange('month')"
+                    >
+                      Months
+                    </button>
+                    <button
+                      type="button"
+                      class="rounded-full border border-tng-border-subtle bg-tng-bg-canvas px-4 py-2 text-sm font-semibold text-tng-fg-primary transition-colors hover:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_8%,var(--tng-semantic-background-canvas))] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color-mix(in_srgb,var(--tng-semantic-focus-ring)_18%,transparent)] data-[active=true]:border-tng-accent-brand data-[active=true]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))]"
+                      data-slot="datepicker-view-chip"
+                      [attr.data-active]="isYearView() ? 'true' : null"
+                      (click)="onViewChange('year')"
+                    >
+                      Years
+                    </button>
+                  </div>
+                </header>
+
+                @if (isDayView()) {
+                  <div class="grid gap-[var(--tng-datepicker-overlay-gap,0.48rem)]">
+                    <div class="grid grid-cols-7 gap-[var(--tng-datepicker-grid-gap,0.24rem)]" data-slot="datepicker-weekdays" aria-hidden="true">
+                      @for (label of outputs().weekdayLabels; track label) {
+                        <span class="py-0.5 text-[0.69rem] tracking-[0.03em]" data-slot="datepicker-weekday">
+                          {{ label }}
+                        </span>
+                      }
+                    </div>
+
+                    <div
+                      class="grid grid-cols-7 gap-[var(--tng-datepicker-grid-gap,0.24rem)]"
+                      [attr.aria-activedescendant]="outputs().getGridAttributes()['aria-activedescendant']"
+                      [attr.aria-labelledby]="outputs().getGridAttributes()['aria-labelledby']"
+                      [attr.data-slot]="outputs().getGridAttributes()['data-slot']"
+                      [attr.id]="outputs().getGridAttributes()['id']"
+                      [attr.role]="outputs().getGridAttributes()['role']"
+                      (keydown)="onGridKeydown($event)"
+                    >
+                      @for (cell of outputs().cells; track cell.id) {
+                        <button
+                          type="button"
+                          class="font-semibold"
+                          [disabled]="cell.disabled"
+                          [attr.aria-current]="cell.today ? 'date' : null"
+                          [attr.aria-disabled]="cell.disabled ? 'true' : null"
+                          [attr.aria-selected]="cell.selected ? 'true' : 'false'"
+                          [attr.data-active]="cell.active ? 'true' : null"
+                          [attr.data-disabled]="outputs().getCellAttributes(cell)['data-disabled']"
+                          [attr.data-focus-visible]="cell.focusVisible ? 'true' : null"
+                          [attr.data-in-month]="outputs().getCellAttributes(cell)['data-in-month']"
+                          [attr.data-selected]="outputs().getCellAttributes(cell)['data-selected']"
+                          [attr.data-slot]="outputs().getCellAttributes(cell)['data-slot']"
+                          [attr.id]="cell.id"
+                          [attr.role]="'gridcell'"
+                          [attr.tabindex]="outputs().getCellAttributes(cell)['tabindex']"
+                          (click)="onDayCellClick(cell)"
+                        >
+                          {{ cell.label }}
+                        </button>
+                      }
+                    </div>
+                  </div>
+                }
+
+                @if (isMonthView()) {
+                  <div class="grid grid-cols-3 gap-[var(--tng-datepicker-grid-gap,0.24rem)]" data-slot="datepicker-grid" role="grid" (keydown)="onMonthKeydown($event)">
+                    @for (option of outputs().monthOptions; track option.id) {
+                      <button
+                        type="button"
+                        class="font-semibold"
+                        [disabled]="option.disabled"
+                        [attr.aria-disabled]="outputs().getMonthAttributes(option)['aria-disabled']"
+                        [attr.aria-selected]="outputs().getMonthAttributes(option)['aria-selected']"
+                        [attr.data-active]="outputs().getMonthAttributes(option)['data-active']"
+                        [attr.data-disabled]="outputs().getMonthAttributes(option)['data-disabled']"
+                        [attr.data-focus-visible]="outputs().getMonthAttributes(option)['data-focus-visible']"
+                        [attr.data-selected]="outputs().getMonthAttributes(option)['data-selected']"
+                        [attr.data-slot]="outputs().getMonthAttributes(option)['data-slot']"
+                        [attr.id]="option.id"
+                        [attr.role]="outputs().getMonthAttributes(option)['role']"
+                        [attr.tabindex]="outputs().getMonthAttributes(option)['tabindex']"
+                        (click)="onMonthOptionClick(option)"
+                      >
+                        {{ option.label }}
+                      </button>
+                    }
+                  </div>
+                }
+
+                @if (isYearView()) {
+                  <div class="grid grid-cols-4 gap-[var(--tng-datepicker-grid-gap,0.24rem)]" data-slot="datepicker-grid" role="grid" (keydown)="onYearKeydown($event)">
+                    @for (option of outputs().yearOptions; track option.id) {
+                      <button
+                        type="button"
+                        class="font-semibold"
+                        [disabled]="option.disabled"
+                        [attr.aria-disabled]="outputs().getYearAttributes(option)['aria-disabled']"
+                        [attr.aria-selected]="outputs().getYearAttributes(option)['aria-selected']"
+                        [attr.data-active]="outputs().getYearAttributes(option)['data-active']"
+                        [attr.data-disabled]="outputs().getYearAttributes(option)['data-disabled']"
+                        [attr.data-focus-visible]="outputs().getYearAttributes(option)['data-focus-visible']"
+                        [attr.data-selected]="outputs().getYearAttributes(option)['data-selected']"
+                        [attr.data-slot]="outputs().getYearAttributes(option)['data-slot']"
+                        [attr.id]="option.id"
+                        [attr.role]="outputs().getYearAttributes(option)['role']"
+                        [attr.tabindex]="outputs().getYearAttributes(option)['tabindex']"
+                        (click)="onYearOptionClick(option)"
+                      >
+                        {{ option.label }}
+                      </button>
+                    }
+                  </div>
+                }
+
+                <footer class="flex items-center justify-between gap-3" data-slot="datepicker-footer">
+                  <button
+                    type="button"
+                    class="font-semibold"
+                    data-slot="datepicker-action"
+                    (click)="restoreToday()"
+                  >
+                    Jump to today
+                  </button>
+
+                  <div class="flex gap-[var(--tng-datepicker-grid-gap,0.24rem)]">
+                    <button
+                      type="button"
+                      class="font-semibold"
+                      data-slot="datepicker-action"
+                      (click)="clear()"
+                    >
+                      Clear
+                    </button>
+                    <button
+                      type="button"
+                      class="font-semibold"
+                      data-slot="datepicker-action"
+                      data-variant="primary"
+                      (click)="close()"
+                    >
+                      Done
+                    </button>
+                  </div>
+                </footer>
+            </section>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-3 text-sm text-tng-fg-secondary">
+          <span>Input keeps <code class="rounded bg-tng-bg-surface px-1.5 py-0.5 text-xs">MM-DD-YYYY</code>.</span>
+          <span>
+            Overlay header uses
+            <code class="rounded bg-tng-bg-surface px-1.5 py-0.5 text-xs">adapter.format(date, 'month-year')</code>.
+          </span>
+          @if (outputs().validationError !== null) {
+            <strong class="text-red-600">Invalid date input</strong>
+          }
+        </div>
+
+        <div class="flex flex-wrap gap-4 text-sm text-tng-fg-secondary">
+          <span>Active date: <strong class="text-tng-fg-primary">{{ activeSummary() }}</strong></span>
+          <span>View: <strong class="text-tng-fg-primary">{{ outputs().view }}</strong></span>
+          <span>Open: <strong class="text-tng-fg-primary">{{ outputs().open ? 'yes' : 'no' }}</strong></span>
+        </div>
+      </div>
+    </section>
+
+    <section
+      class="grid gap-4 rounded-[1.5rem] border border-tng-border-subtle bg-[color:color-mix(in_srgb,var(--tng-semantic-background-surface)_90%,var(--tng-semantic-background-canvas)_10%)] p-5 shadow-[0_18px_40px_color-mix(in_srgb,var(--tng-semantic-foreground-primary)_6%,transparent)]"
+    >
+      <div class="flex flex-wrap items-start justify-between gap-3">
+        <div class="grid gap-2">
+          <h2 class="text-2xl font-bold">Bounded selection window</h2>
+          <p class="max-w-3xl text-sm text-tng-fg-secondary">
+            This example applies <code>minDate</code> and <code>maxDate</code> so only
+            <code>04-10-2024</code> through <code>04-25-2024</code> can be selected.
+          </p>
+        </div>
+
+        <div
+          class="grid min-w-[12rem] gap-1 rounded-full border border-tng-border-subtle bg-tng-bg-canvas/80 px-4 py-2"
+        >
+          <span class="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-tng-fg-secondary">Selected</span>
+          <strong class="text-sm font-bold text-tng-fg-primary">{{ boundedSelectedSummary() }}</strong>
+        </div>
+      </div>
+
+      <div
+        class="grid max-w-[30rem] gap-3"
+        [attr.aria-describedby]="boundedOutputs().getHostAttributes()['aria-describedby']"
+        [attr.aria-label]="boundedOutputs().getHostAttributes()['aria-label']"
+        [attr.aria-labelledby]="boundedOutputs().getHostAttributes()['aria-labelledby']"
+        [attr.data-disabled]="boundedOutputs().getHostAttributes()['data-disabled']"
+        [attr.data-open]="boundedOutputs().getHostAttributes()['data-open']"
+        [attr.data-slot]="boundedOutputs().getHostAttributes()['data-slot']"
+        [attr.data-view]="boundedOutputs().getHostAttributes()['data-view']"
+        [attr.dir]="boundedOutputs().getHostAttributes()['dir']"
+        [attr.role]="boundedOutputs().getHostAttributes()['role']"
+      >
+        <div class="grid gap-1" data-slot="datepicker-field">
+          <span class="text-[0.72rem] font-semibold uppercase tracking-[0.16em] text-tng-fg-secondary">Date input</span>
+
+          <div class="relative">
+            <div
+              #boundedAnchorShell
+              class="flex w-full overflow-hidden"
+              data-slot="datepicker-input-shell"
+              [attr.data-invalid]="boundedOutputs().validationError !== null ? 'true' : null"
+              [attr.data-open]="boundedOutputs().getTriggerAttributes()['data-open']"
+            >
+              <input
+                class="min-h-full w-full text-lg"
+                data-slot="datepicker-input"
+                type="text"
+                inputmode="numeric"
+                placeholder="MM-DD-YYYY"
+                aria-label="Editable bounded date input"
+                [value]="boundedOutputs().inputText"
+                [attr.aria-invalid]="boundedOutputs().validationError !== null ? 'true' : null"
+                (blur)="onBoundedInputBlur()"
+                (click)="onBoundedInputClick()"
+                (input)="onBoundedInputChange($event)"
+                (keydown)="onBoundedInputKeydown($event)"
+              />
+
+              <button
+                #boundedTriggerButton
+                type="button"
+                class="flex min-w-[3.6rem] items-center justify-center gap-2 px-4"
+                [attr.aria-label]="'Open bounded calendar for ' + boundedSelectedSummary()"
+                [attr.aria-controls]="boundedOutputs().getTriggerAttributes()['aria-controls']"
+                [attr.aria-expanded]="boundedOutputs().getTriggerAttributes()['aria-expanded']"
+                [attr.aria-haspopup]="boundedOutputs().getTriggerAttributes()['aria-haspopup']"
+                [attr.data-open]="boundedOutputs().getTriggerAttributes()['data-open']"
+                [attr.data-slot]="boundedOutputs().getTriggerAttributes()['data-slot']"
+                (click)="onBoundedTriggerClick()"
+                (keydown)="onBoundedTriggerKeydown($event)"
+              >
+                <tng-icon icon="calendar-days" class="text-base" aria-hidden="true" />
+                <span class="text-xs" aria-hidden="true">▾</span>
+              </button>
+            </div>
+
+            <section
+              [tngDatepickerOverlay]="boundedController"
+              [tngDatepickerOverlayAnchor]="boundedAnchorShell"
+              class="grid w-full gap-4"
+              [attr.aria-labelledby]="boundedOutputs().getOverlayAttributes()['aria-labelledby']"
+              [attr.aria-modal]="boundedOutputs().getOverlayAttributes()['aria-modal']"
+              [attr.data-open]="boundedOutputs().getOverlayAttributes()['data-open']"
+              [attr.data-position]="boundedOutputs().getOverlayAttributes()['data-position']"
+              [attr.data-slot]="boundedOutputs().getOverlayAttributes()['data-slot']"
+              [attr.id]="boundedOutputs().getOverlayAttributes()['id']"
+              [attr.role]="boundedOutputs().getOverlayAttributes()['role']"
+              (keydown)="onBoundedOverlayKeydown($event)"
+            >
+                <header class="grid gap-3" data-slot="datepicker-header">
+                  <div class="grid grid-cols-[auto_1fr_auto] items-center gap-3">
+                    <button
+                      type="button"
+                      class="flex h-10 w-10 items-center justify-center text-xl"
+                      data-slot="datepicker-nav-button"
+                      (click)="boundedPageBackward()"
+                    >
+                      ‹
+                    </button>
+
+                    <div class="grid gap-0.5">
+                      <p class="text-[0.72rem] font-semibold uppercase tracking-[0.16em] text-tng-fg-secondary">
+                        Allowed window
+                      </p>
+                      <h3
+                        class="text-xl font-black tracking-tight"
+                        [attr.id]="boundedOutputs().getGridAttributes()['aria-labelledby']"
+                      >
+                        {{ boundedOutputs().labelMonthYear }}
+                      </h3>
+                    </div>
+
+                    <button
+                      type="button"
+                      class="flex h-10 w-10 items-center justify-center text-xl"
+                      data-slot="datepicker-nav-button"
+                      (click)="boundedPageForward()"
+                    >
+                      ›
+                    </button>
+                  </div>
+
+                  <div class="flex gap-[var(--tng-datepicker-grid-gap,0.24rem)]" data-slot="datepicker-view-switcher" role="tablist" aria-label="Calendar view">
+                    <button
+                      type="button"
+                      class="rounded-full border border-tng-border-subtle bg-tng-bg-canvas px-4 py-2 text-sm font-semibold text-tng-fg-primary transition-colors hover:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_8%,var(--tng-semantic-background-canvas))] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color-mix(in_srgb,var(--tng-semantic-focus-ring)_18%,transparent)] data-[active=true]:border-tng-accent-brand data-[active=true]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))]"
+                      data-slot="datepicker-view-chip"
+                      [attr.data-active]="isBoundedDayView() ? 'true' : null"
+                      (click)="onBoundedViewChange('day')"
+                    >
+                      Days
+                    </button>
+                    <button
+                      type="button"
+                      class="rounded-full border border-tng-border-subtle bg-tng-bg-canvas px-4 py-2 text-sm font-semibold text-tng-fg-primary transition-colors hover:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_8%,var(--tng-semantic-background-canvas))] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color-mix(in_srgb,var(--tng-semantic-focus-ring)_18%,transparent)] data-[active=true]:border-tng-accent-brand data-[active=true]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))]"
+                      data-slot="datepicker-view-chip"
+                      [attr.data-active]="isBoundedMonthView() ? 'true' : null"
+                      (click)="onBoundedViewChange('month')"
+                    >
+                      Months
+                    </button>
+                    <button
+                      type="button"
+                      class="rounded-full border border-tng-border-subtle bg-tng-bg-canvas px-4 py-2 text-sm font-semibold text-tng-fg-primary transition-colors hover:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_8%,var(--tng-semantic-background-canvas))] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color-mix(in_srgb,var(--tng-semantic-focus-ring)_18%,transparent)] data-[active=true]:border-tng-accent-brand data-[active=true]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))]"
+                      data-slot="datepicker-view-chip"
+                      [attr.data-active]="isBoundedYearView() ? 'true' : null"
+                      (click)="onBoundedViewChange('year')"
+                    >
+                      Years
+                    </button>
+                  </div>
+                </header>
+
+                @if (isBoundedDayView()) {
+                  <div class="grid gap-[var(--tng-datepicker-overlay-gap,0.48rem)]">
+                    <div class="grid grid-cols-7 gap-[var(--tng-datepicker-grid-gap,0.24rem)]" data-slot="datepicker-weekdays" aria-hidden="true">
+                      @for (label of boundedOutputs().weekdayLabels; track label) {
+                        <span class="py-0.5 text-[0.69rem] tracking-[0.03em]" data-slot="datepicker-weekday">
+                          {{ label }}
+                        </span>
+                      }
+                    </div>
+
+                    <div
+                      class="grid grid-cols-7 gap-[var(--tng-datepicker-grid-gap,0.24rem)]"
+                      [attr.aria-activedescendant]="boundedOutputs().getGridAttributes()['aria-activedescendant']"
+                      [attr.aria-labelledby]="boundedOutputs().getGridAttributes()['aria-labelledby']"
+                      [attr.data-slot]="boundedOutputs().getGridAttributes()['data-slot']"
+                      [attr.id]="boundedOutputs().getGridAttributes()['id']"
+                      [attr.role]="boundedOutputs().getGridAttributes()['role']"
+                      (keydown)="onBoundedGridKeydown($event)"
+                    >
+                      @for (cell of boundedOutputs().cells; track cell.id) {
+                        <button
+                          type="button"
+                          class="font-semibold"
+                          [disabled]="cell.disabled"
+                          [attr.aria-current]="cell.today ? 'date' : null"
+                          [attr.aria-disabled]="cell.disabled ? 'true' : null"
+                          [attr.aria-selected]="cell.selected ? 'true' : 'false'"
+                          [attr.data-active]="cell.active ? 'true' : null"
+                          [attr.data-disabled]="boundedOutputs().getCellAttributes(cell)['data-disabled']"
+                          [attr.data-focus-visible]="cell.focusVisible ? 'true' : null"
+                          [attr.data-in-month]="boundedOutputs().getCellAttributes(cell)['data-in-month']"
+                          [attr.data-selected]="boundedOutputs().getCellAttributes(cell)['data-selected']"
+                          [attr.data-slot]="boundedOutputs().getCellAttributes(cell)['data-slot']"
+                          [attr.id]="cell.id"
+                          [attr.role]="'gridcell'"
+                          [attr.tabindex]="boundedOutputs().getCellAttributes(cell)['tabindex']"
+                          (click)="onBoundedDayCellClick(cell)"
+                        >
+                          {{ cell.label }}
+                        </button>
+                      }
+                    </div>
+                  </div>
+                }
+
+                @if (isBoundedMonthView()) {
+                  <div class="grid grid-cols-3 gap-[var(--tng-datepicker-grid-gap,0.24rem)]" data-slot="datepicker-grid" role="grid" (keydown)="onBoundedMonthKeydown($event)">
+                    @for (option of boundedOutputs().monthOptions; track option.id) {
+                      <button
+                        type="button"
+                        class="font-semibold"
+                        [disabled]="option.disabled"
+                        [attr.aria-disabled]="boundedOutputs().getMonthAttributes(option)['aria-disabled']"
+                        [attr.aria-selected]="boundedOutputs().getMonthAttributes(option)['aria-selected']"
+                        [attr.data-active]="boundedOutputs().getMonthAttributes(option)['data-active']"
+                        [attr.data-disabled]="boundedOutputs().getMonthAttributes(option)['data-disabled']"
+                        [attr.data-focus-visible]="boundedOutputs().getMonthAttributes(option)['data-focus-visible']"
+                        [attr.data-selected]="boundedOutputs().getMonthAttributes(option)['data-selected']"
+                        [attr.data-slot]="boundedOutputs().getMonthAttributes(option)['data-slot']"
+                        [attr.id]="option.id"
+                        [attr.role]="boundedOutputs().getMonthAttributes(option)['role']"
+                        [attr.tabindex]="boundedOutputs().getMonthAttributes(option)['tabindex']"
+                        (click)="onBoundedMonthOptionClick(option)"
+                      >
+                        {{ option.label }}
+                      </button>
+                    }
+                  </div>
+                }
+
+                @if (isBoundedYearView()) {
+                  <div class="grid grid-cols-4 gap-[var(--tng-datepicker-grid-gap,0.24rem)]" data-slot="datepicker-grid" role="grid" (keydown)="onBoundedYearKeydown($event)">
+                    @for (option of boundedOutputs().yearOptions; track option.id) {
+                      <button
+                        type="button"
+                        class="font-semibold"
+                        [disabled]="option.disabled"
+                        [attr.aria-disabled]="boundedOutputs().getYearAttributes(option)['aria-disabled']"
+                        [attr.aria-selected]="boundedOutputs().getYearAttributes(option)['aria-selected']"
+                        [attr.data-active]="boundedOutputs().getYearAttributes(option)['data-active']"
+                        [attr.data-disabled]="boundedOutputs().getYearAttributes(option)['data-disabled']"
+                        [attr.data-focus-visible]="boundedOutputs().getYearAttributes(option)['data-focus-visible']"
+                        [attr.data-selected]="boundedOutputs().getYearAttributes(option)['data-selected']"
+                        [attr.data-slot]="boundedOutputs().getYearAttributes(option)['data-slot']"
+                        [attr.id]="option.id"
+                        [attr.role]="boundedOutputs().getYearAttributes(option)['role']"
+                        [attr.tabindex]="boundedOutputs().getYearAttributes(option)['tabindex']"
+                        (click)="onBoundedYearOptionClick(option)"
+                      >
+                        {{ option.label }}
+                      </button>
+                    }
+                  </div>
+                }
+
+                <footer class="flex items-center justify-between gap-3" data-slot="datepicker-footer">
+                  <button
+                    type="button"
+                    class="font-semibold"
+                    data-slot="datepicker-action"
+                    (click)="restoreBoundedToday()"
+                  >
+                    Jump to today
+                  </button>
+
+                  <div class="flex gap-[var(--tng-datepicker-grid-gap,0.24rem)]">
+                    <button
+                      type="button"
+                      class="font-semibold"
+                      data-slot="datepicker-action"
+                      (click)="clearBounded()"
+                    >
+                      Clear
+                    </button>
+                    <button
+                      type="button"
+                      class="font-semibold"
+                      data-slot="datepicker-action"
+                      data-variant="primary"
+                      (click)="closeBounded()"
+                    >
+                      Done
+                    </button>
+                  </div>
+                </footer>
+            </section>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-3 text-sm text-tng-fg-secondary">
+          <span>Selectable range is locked to <code class="rounded bg-tng-bg-surface px-1.5 py-0.5 text-xs">04-10-2024</code> through <code class="rounded bg-tng-bg-surface px-1.5 py-0.5 text-xs">04-25-2024</code>.</span>
+          <span>Month and year views reflect the same bounds.</span>
+          @if (boundedOutputs().validationError !== null) {
+            <strong class="text-red-600">Invalid or out-of-range date input</strong>
+          }
+        </div>
+
+        <div class="flex flex-wrap gap-4 text-sm text-tng-fg-secondary">
+          <span>Active date: <strong class="text-tng-fg-primary">{{ boundedActiveSummary() }}</strong></span>
+          <span>View: <strong class="text-tng-fg-primary">{{ boundedOutputs().view }}</strong></span>
+          <span>Open: <strong class="text-tng-fg-primary">{{ boundedOutputs().open ? 'yes' : 'no' }}</strong></span>
+        </div>
+      </div>
+    </section>
+
+    <section
+      class="grid gap-4 rounded-[1.5rem] border border-tng-border-subtle bg-[color:color-mix(in_srgb,var(--tng-semantic-background-surface)_90%,var(--tng-semantic-background-canvas)_10%)] p-5 shadow-[0_18px_40px_color-mix(in_srgb,var(--tng-semantic-foreground-primary)_6%,transparent)]"
+    >
+      <div class="flex flex-wrap items-start justify-between gap-3">
+        <div class="grid gap-2">
+          <h2 class="text-2xl font-bold">Material-style flow</h2>
+          <p class="max-w-3xl text-sm text-tng-fg-secondary">
+            Click the header period to open years, choose a year to drill into months, then pick a month to return to
+            days.
+          </p>
+        </div>
+
+        <div
+          class="grid min-w-[12rem] gap-1 rounded-full border border-tng-border-subtle bg-tng-bg-canvas/80 px-4 py-2"
+        >
+          <span class="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-tng-fg-secondary">Selected</span>
+          <strong class="text-sm font-bold text-tng-fg-primary">{{ materialSelectedSummary() }}</strong>
+        </div>
+      </div>
+
+      <div
+        class="grid max-w-[30rem] gap-3"
+        [attr.aria-describedby]="materialOutputs().getHostAttributes()['aria-describedby']"
+        [attr.aria-label]="materialOutputs().getHostAttributes()['aria-label']"
+        [attr.aria-labelledby]="materialOutputs().getHostAttributes()['aria-labelledby']"
+        [attr.data-disabled]="materialOutputs().getHostAttributes()['data-disabled']"
+        [attr.data-open]="materialOutputs().getHostAttributes()['data-open']"
+        [attr.data-slot]="materialOutputs().getHostAttributes()['data-slot']"
+        [attr.data-view]="materialOutputs().getHostAttributes()['data-view']"
+        [attr.dir]="materialOutputs().getHostAttributes()['dir']"
+        [attr.role]="materialOutputs().getHostAttributes()['role']"
+      >
+        <div class="grid gap-1" data-slot="datepicker-field">
+          <span class="text-[0.72rem] font-semibold uppercase tracking-[0.16em] text-tng-fg-secondary">Date input</span>
+
+          <div class="relative">
+            <div
+              #materialAnchorShell
+              class="flex w-full overflow-hidden"
+              data-slot="datepicker-input-shell"
+              [attr.data-invalid]="materialOutputs().validationError !== null ? 'true' : null"
+              [attr.data-open]="materialOutputs().getTriggerAttributes()['data-open']"
+            >
+              <input
+                class="min-h-full w-full text-lg"
+                data-slot="datepicker-input"
+                type="text"
+                inputmode="numeric"
+                placeholder="MM-DD-YYYY"
+                aria-label="Editable material-style date input"
+                [value]="materialOutputs().inputText"
+                [attr.aria-invalid]="materialOutputs().validationError !== null ? 'true' : null"
+                (blur)="onMaterialInputBlur()"
+                (click)="onMaterialInputClick()"
+                (input)="onMaterialInputChange($event)"
+                (keydown)="onMaterialInputKeydown($event)"
+              />
+
+              <button
+                #materialTriggerButton
+                type="button"
+                class="flex min-w-[3.6rem] items-center justify-center gap-2 px-4"
+                [attr.aria-label]="'Open calendar for ' + materialSelectedSummary()"
+                [attr.aria-controls]="materialOutputs().getTriggerAttributes()['aria-controls']"
+                [attr.aria-expanded]="materialOutputs().getTriggerAttributes()['aria-expanded']"
+                [attr.aria-haspopup]="materialOutputs().getTriggerAttributes()['aria-haspopup']"
+                [attr.data-open]="materialOutputs().getTriggerAttributes()['data-open']"
+                [attr.data-slot]="materialOutputs().getTriggerAttributes()['data-slot']"
+                (click)="onMaterialTriggerClick()"
+                (keydown)="onMaterialTriggerKeydown($event)"
+              >
+                <tng-icon icon="calendar-days" class="text-base" aria-hidden="true" />
+                <span class="text-xs" aria-hidden="true">▾</span>
+              </button>
+            </div>
+
+            <section
+              [tngDatepickerOverlay]="materialController"
+              [tngDatepickerOverlayAnchor]="materialAnchorShell"
+              class="grid w-full gap-4"
+              [attr.aria-labelledby]="materialOutputs().getOverlayAttributes()['aria-labelledby']"
+              [attr.aria-modal]="materialOutputs().getOverlayAttributes()['aria-modal']"
+              [attr.data-open]="materialOutputs().getOverlayAttributes()['data-open']"
+              [attr.data-position]="materialOutputs().getOverlayAttributes()['data-position']"
+              [attr.data-slot]="materialOutputs().getOverlayAttributes()['data-slot']"
+              [attr.id]="materialOutputs().getOverlayAttributes()['id']"
+              [attr.role]="materialOutputs().getOverlayAttributes()['role']"
+              (keydown)="onMaterialOverlayKeydown($event)"
+            >
+                <header class="grid gap-3" data-slot="datepicker-header">
+                  <div class="grid grid-cols-[auto_1fr_auto] items-start gap-3">
+                    <button
+                      type="button"
+                      class="flex h-10 w-10 items-center justify-center text-xl"
+                      data-slot="datepicker-nav-button"
+                      (click)="materialPageBackward()"
+                    >
+                      ‹
+                    </button>
+
+                    <button
+                      type="button"
+                      class="grid justify-items-start gap-0.5 px-1 py-0.5 text-left"
+                      data-slot="datepicker-period-button"
+                      (click)="onMaterialHeaderPeriodClick()"
+                    >
+                      <span class="text-[0.72rem] font-semibold uppercase tracking-[0.16em] text-tng-fg-secondary">
+                        {{ materialPeriodEyebrow() }}
+                      </span>
+                      <span class="text-xl font-black tracking-tight text-tng-fg-primary">
+                        {{ materialPeriodLabel() }}
+                      </span>
+                    </button>
+
+                    <button
+                      type="button"
+                      class="flex h-10 w-10 items-center justify-center text-xl"
+                      data-slot="datepicker-nav-button"
+                      (click)="materialPageForward()"
+                    >
+                      ›
+                    </button>
+                  </div>
+                </header>
+
+                @if (isMaterialDayView()) {
+                  <div class="grid gap-[var(--tng-datepicker-overlay-gap,0.48rem)]">
+                    <div class="grid grid-cols-7 gap-[var(--tng-datepicker-grid-gap,0.24rem)]" data-slot="datepicker-weekdays" aria-hidden="true">
+                      @for (label of materialOutputs().weekdayLabels; track label) {
+                        <span class="py-0.5 text-[0.69rem] tracking-[0.03em]" data-slot="datepicker-weekday">
+                          {{ label }}
+                        </span>
+                      }
+                    </div>
+
+                    <div
+                      class="grid grid-cols-7 gap-[var(--tng-datepicker-grid-gap,0.24rem)]"
+                      [attr.aria-activedescendant]="materialOutputs().getGridAttributes()['aria-activedescendant']"
+                      [attr.aria-labelledby]="materialOutputs().getGridAttributes()['aria-labelledby']"
+                      [attr.data-slot]="materialOutputs().getGridAttributes()['data-slot']"
+                      [attr.id]="materialOutputs().getGridAttributes()['id']"
+                      [attr.role]="materialOutputs().getGridAttributes()['role']"
+                      (keydown)="onMaterialGridKeydown($event)"
+                    >
+                      @for (cell of materialOutputs().cells; track cell.id) {
+                        <button
+                          type="button"
+                          class="font-semibold"
+                          [disabled]="cell.disabled"
+                          [attr.aria-current]="cell.today ? 'date' : null"
+                          [attr.aria-disabled]="cell.disabled ? 'true' : null"
+                          [attr.aria-selected]="cell.selected ? 'true' : 'false'"
+                          [attr.data-active]="cell.active ? 'true' : null"
+                          [attr.data-disabled]="materialOutputs().getCellAttributes(cell)['data-disabled']"
+                          [attr.data-focus-visible]="cell.focusVisible ? 'true' : null"
+                          [attr.data-in-month]="materialOutputs().getCellAttributes(cell)['data-in-month']"
+                          [attr.data-selected]="materialOutputs().getCellAttributes(cell)['data-selected']"
+                          [attr.data-slot]="materialOutputs().getCellAttributes(cell)['data-slot']"
+                          [attr.id]="cell.id"
+                          [attr.role]="'gridcell'"
+                          [attr.tabindex]="materialOutputs().getCellAttributes(cell)['tabindex']"
+                          (click)="onMaterialDayCellClick(cell)"
+                        >
+                          {{ cell.label }}
+                        </button>
+                      }
+                    </div>
+                  </div>
+                }
+
+                @if (isMaterialMonthView()) {
+                  <div class="grid grid-cols-3 gap-[var(--tng-datepicker-grid-gap,0.24rem)]" data-slot="datepicker-grid" role="grid" (keydown)="onMaterialMonthKeydown($event)">
+                    @for (option of materialOutputs().monthOptions; track option.id) {
+                      <button
+                        type="button"
+                        class="font-semibold"
+                        [disabled]="option.disabled"
+                        [attr.aria-disabled]="materialOutputs().getMonthAttributes(option)['aria-disabled']"
+                        [attr.aria-selected]="materialOutputs().getMonthAttributes(option)['aria-selected']"
+                        [attr.data-active]="materialOutputs().getMonthAttributes(option)['data-active']"
+                        [attr.data-disabled]="materialOutputs().getMonthAttributes(option)['data-disabled']"
+                        [attr.data-focus-visible]="materialOutputs().getMonthAttributes(option)['data-focus-visible']"
+                        [attr.data-selected]="materialOutputs().getMonthAttributes(option)['data-selected']"
+                        [attr.data-slot]="materialOutputs().getMonthAttributes(option)['data-slot']"
+                        [attr.id]="option.id"
+                        [attr.role]="materialOutputs().getMonthAttributes(option)['role']"
+                        [attr.tabindex]="materialOutputs().getMonthAttributes(option)['tabindex']"
+                        (click)="onMaterialMonthOptionClick(option)"
+                      >
+                        {{ option.label }}
+                      </button>
+                    }
+                  </div>
+                }
+
+                @if (isMaterialYearView()) {
+                  <div class="grid grid-cols-4 gap-[var(--tng-datepicker-grid-gap,0.24rem)]" data-slot="datepicker-grid" role="grid" (keydown)="onMaterialYearKeydown($event)">
+                    @for (option of materialOutputs().yearOptions; track option.id) {
+                      <button
+                        type="button"
+                        class="font-semibold"
+                        [disabled]="option.disabled"
+                        [attr.aria-disabled]="materialOutputs().getYearAttributes(option)['aria-disabled']"
+                        [attr.aria-selected]="materialOutputs().getYearAttributes(option)['aria-selected']"
+                        [attr.data-active]="materialOutputs().getYearAttributes(option)['data-active']"
+                        [attr.data-disabled]="materialOutputs().getYearAttributes(option)['data-disabled']"
+                        [attr.data-focus-visible]="materialOutputs().getYearAttributes(option)['data-focus-visible']"
+                        [attr.data-selected]="materialOutputs().getYearAttributes(option)['data-selected']"
+                        [attr.data-slot]="materialOutputs().getYearAttributes(option)['data-slot']"
+                        [attr.id]="option.id"
+                        [attr.role]="materialOutputs().getYearAttributes(option)['role']"
+                        [attr.tabindex]="materialOutputs().getYearAttributes(option)['tabindex']"
+                        (click)="onMaterialYearOptionClick(option)"
+                      >
+                        {{ option.label }}
+                      </button>
+                    }
+                  </div>
+                }
+
+                <footer class="flex items-center justify-between gap-3" data-slot="datepicker-footer">
+                  <button
+                    type="button"
+                    class="font-semibold"
+                    data-slot="datepicker-action"
+                    (click)="restoreMaterialToday()"
+                  >
+                    Jump to today
+                  </button>
+
+                  <div class="flex gap-[var(--tng-datepicker-grid-gap,0.24rem)]">
+                    <button
+                      type="button"
+                      class="font-semibold"
+                      data-slot="datepicker-action"
+                      (click)="clearMaterial()"
+                    >
+                      Clear
+                    </button>
+                    <button
+                      type="button"
+                      class="font-semibold"
+                      data-slot="datepicker-action"
+                      data-variant="primary"
+                      (click)="closeMaterial()"
+                    >
+                      Done
+                    </button>
+                  </div>
+                </footer>
+            </section>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-3 text-sm text-tng-fg-secondary">
+          <span>Click the period header to open <code class="rounded bg-tng-bg-surface px-1.5 py-0.5 text-xs">Years</code>.</span>
+          <span>Year pick drills into <code class="rounded bg-tng-bg-surface px-1.5 py-0.5 text-xs">Months</code>, then month pick returns to <code class="rounded bg-tng-bg-surface px-1.5 py-0.5 text-xs">Days</code>.</span>
+          @if (materialOutputs().validationError !== null) {
+            <strong class="text-red-600">Invalid date input</strong>
+          }
+        </div>
+
+        <div class="flex flex-wrap gap-4 text-sm text-tng-fg-secondary">
+          <span>Active date: <strong class="text-tng-fg-primary">{{ materialActiveSummary() }}</strong></span>
+          <span>View: <strong class="text-tng-fg-primary">{{ materialOutputs().view }}</strong></span>
+          <span>Open: <strong class="text-tng-fg-primary">{{ materialOutputs().open ? 'yes' : 'no' }}</strong></span>
+        </div>
+      </div>
+    </section>
+
+    <section
+      class="grid gap-4 rounded-[1.5rem] border border-tng-border-subtle bg-[color:color-mix(in_srgb,var(--tng-semantic-background-surface)_90%,var(--tng-semantic-background-canvas)_10%)] p-5 shadow-[0_18px_40px_color-mix(in_srgb,var(--tng-semantic-foreground-primary)_6%,transparent)]"
+    >
+      <div class="grid gap-2">
+        <h2 class="text-2xl font-bold">Component wrappers</h2>
+        <p class="max-w-3xl text-sm text-tng-fg-secondary">
+          These examples use the default <code>tng-datepicker</code> component instead of wiring the headless controller
+          manually. They demonstrate the built-in Material-style flow and adapter-driven formatting.
+        </p>
+      </div>
+
+      <div class="grid gap-4 rounded-[1.25rem] border border-tng-border-subtle bg-tng-bg-canvas/70 p-4 md:grid-cols-[minmax(0,18rem)_minmax(0,1fr)] md:items-start md:gap-6">
+        <div class="grid gap-2">
+          <span class="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-tng-fg-secondary">Default wrapper</span>
+          <h3 class="text-xl font-black tracking-tight text-tng-fg-primary">`&lt;tng-datepicker&gt;`</h3>
+          <p class="text-sm text-tng-fg-secondary">
+            Click the centered period label to jump into years, pick a year to drill into months, then choose a month
+            to return to days.
+          </p>
+        </div>
+
+        <div class="grid justify-items-start">
+          <tng-datepicker
+            [fullWidth]="false"
+            defaultValue="2024-04-22"
+            today="2024-04-18"
+            minDate="2024-04-01"
+            maxDate="2026-03-31"
+          />
+        </div>
+      </div>
+
+      <div class="grid gap-4 rounded-[1.25rem] border border-tng-border-subtle bg-tng-bg-canvas/70 p-4 md:grid-cols-[minmax(0,18rem)_minmax(0,1fr)] md:items-start md:gap-6">
+        <div class="grid gap-2">
+          <span class="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-tng-fg-secondary">Custom adapter</span>
+          <h3 class="text-xl font-black tracking-tight text-tng-fg-primary">Input + overlay formats</h3>
+          <p class="text-sm text-tng-fg-secondary">
+            This wrapper passes a custom adapter into <code>tng-datepicker</code>. The input shows
+            <code>DD.MM.YYYY</code>, while the overlay period label switches to <code>2024 · APR</code>.
+          </p>
+        </div>
+
+        <div class="grid justify-items-start">
+          <tng-datepicker
+            [adapter]="wrapperFormatAdapter"
+            [fullWidth]="false"
+            defaultValue="2024-04-22"
+            today="2024-04-18"
+            minDate="2024-04-01"
+            maxDate="2026-03-31"
+          />
+        </div>
+      </div>
+    </section>
+  </section>
+</main>

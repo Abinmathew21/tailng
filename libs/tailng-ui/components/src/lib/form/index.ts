@@ -10,6 +10,8 @@ export * from './chips/tng-chips.component';
 export { TngChipsComponent} from './chips/tng-chips.component';
 export * from './combobox/tng-combobox.component';
 export { TngComboboxComponent} from './combobox/tng-combobox.component';
+export * from './datepicker/tng-datepicker.component';
+export { TngDatepickerComponent } from './datepicker/tng-datepicker.component';
 export * from './input/tng-input.component';
 export { TngInputComponent} from './input/tng-input.component';
 export * from './input-otp';

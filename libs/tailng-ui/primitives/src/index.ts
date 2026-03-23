@@ -17,6 +17,7 @@ export * from './lib/form/button-toggle/tng-button-toggle';
 export * from './lib/form/checkbox/tng-checkbox';
 export * from './lib/form/chips/tng-chips';
 export * from './lib/form/combobox/tng-combobox';
+export * from './lib/form/datepicker';
 export * from './lib/form/input/tng-input';
 export * from './lib/form/input-otp/tng-input-otp';
 export * from './lib/form/label/tng-label';

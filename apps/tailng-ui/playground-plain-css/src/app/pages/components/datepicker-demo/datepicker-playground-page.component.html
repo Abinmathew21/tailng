@@ -1,0 +1,1083 @@
+<main class="page">
+  <section class="container">
+    <header class="hero">
+      <h1 class="title">Datepicker</h1>
+      <p class="subtitle">
+        Headless datepicker controller wired into plain HTML. Disabled weekends, month/year switching, outside click
+        dismissal, and restore-focus all come from the primitive.
+      </p>
+    </header>
+
+    <section class="card">
+      <div class="card-header">
+        <div>
+          <h2>Headless controller (`createDatepickerController`)</h2>
+          <p class="demo-note">
+            Open the calendar, move with Arrow keys, switch views, and select a weekday. Weekends are disabled.
+          </p>
+        </div>
+        <div class="selection-pill">
+          <span class="selection-label">Selected</span>
+          <strong>{{ selectedSummary() }}</strong>
+        </div>
+      </div>
+
+      <div
+        class="field-stack"
+        [attr.aria-describedby]="outputs().getHostAttributes()['aria-describedby']"
+        [attr.aria-label]="outputs().getHostAttributes()['aria-label']"
+        [attr.aria-labelledby]="outputs().getHostAttributes()['aria-labelledby']"
+        [attr.data-disabled]="outputs().getHostAttributes()['data-disabled']"
+        [attr.data-open]="outputs().getHostAttributes()['data-open']"
+        [attr.data-slot]="outputs().getHostAttributes()['data-slot']"
+        [attr.data-view]="outputs().getHostAttributes()['data-view']"
+        [attr.dir]="outputs().getHostAttributes()['dir']"
+        [attr.role]="outputs().getHostAttributes()['role']"
+      >
+        <div class="manual-input-field" data-slot="datepicker-field">
+          <span class="manual-input-label">Date input</span>
+
+          <div class="input-anchor">
+            <div
+              #headlessAnchorShell
+              class="input-shell"
+              data-slot="datepicker-input-shell"
+              [attr.data-invalid]="outputs().validationError !== null ? 'true' : null"
+              [attr.data-open]="outputs().getTriggerAttributes()['data-open']"
+            >
+              <input
+                class="manual-input"
+                data-slot="datepicker-input"
+                type="text"
+                inputmode="numeric"
+                placeholder="MM-DD-YYYY"
+                aria-label="Editable date input"
+                [value]="outputs().inputText"
+                [attr.aria-invalid]="outputs().validationError !== null ? 'true' : null"
+                (blur)="onInputBlur()"
+                (click)="onInputClick()"
+                (input)="onInputChange($event)"
+                (keydown)="onInputKeydown($event)"
+              />
+
+              <button
+                #triggerButton
+                type="button"
+                class="trigger"
+                [attr.aria-label]="'Open calendar for ' + selectedSummary()"
+                [attr.aria-controls]="outputs().getTriggerAttributes()['aria-controls']"
+                [attr.aria-expanded]="outputs().getTriggerAttributes()['aria-expanded']"
+                [attr.aria-haspopup]="outputs().getTriggerAttributes()['aria-haspopup']"
+                [attr.data-open]="outputs().getTriggerAttributes()['data-open']"
+                [attr.data-slot]="outputs().getTriggerAttributes()['data-slot']"
+                (click)="onTriggerClick()"
+                (keydown)="onTriggerKeydown($event)"
+              >
+                <tng-icon icon="calendar-days" class="trigger-calendar-icon" aria-hidden="true" />
+                <span class="trigger-icon" aria-hidden="true">▾</span>
+              </button>
+            </div>
+
+            <section
+              [tngDatepickerOverlay]="controller"
+              [tngDatepickerOverlayAnchor]="headlessAnchorShell"
+              class="overlay"
+              [attr.aria-labelledby]="outputs().getOverlayAttributes()['aria-labelledby']"
+              [attr.aria-modal]="outputs().getOverlayAttributes()['aria-modal']"
+              [attr.data-open]="outputs().getOverlayAttributes()['data-open']"
+              [attr.data-position]="outputs().getOverlayAttributes()['data-position']"
+              [attr.data-slot]="outputs().getOverlayAttributes()['data-slot']"
+              [attr.id]="outputs().getOverlayAttributes()['id']"
+              [attr.role]="outputs().getOverlayAttributes()['role']"
+              (keydown)="onOverlayKeydown($event)"
+            >
+                <header class="overlay-header" data-slot="datepicker-header">
+                  <div class="header-group">
+                    <button type="button" class="nav-button" data-slot="datepicker-nav-button" (click)="pageBackward()">‹</button>
+                    <div class="header-copy">
+                      <p class="header-eyebrow">Current month</p>
+                      <h3 class="header-title" [attr.id]="outputs().getGridAttributes()['aria-labelledby']">{{ outputs().labelMonthYear }}</h3>
+                    </div>
+                    <button type="button" class="nav-button" data-slot="datepicker-nav-button" (click)="pageForward()">›</button>
+                  </div>
+
+                  <div class="view-switcher" data-slot="datepicker-view-switcher" role="tablist" aria-label="Calendar view">
+                    <button
+                      type="button"
+                      class="view-chip"
+                      data-slot="datepicker-view-chip"
+                      [attr.data-active]="isDayView() ? 'true' : null"
+                      (click)="onViewChange('day')"
+                    >
+                      Days
+                    </button>
+                    <button
+                      type="button"
+                      class="view-chip"
+                      data-slot="datepicker-view-chip"
+                      [attr.data-active]="isMonthView() ? 'true' : null"
+                      (click)="onViewChange('month')"
+                    >
+                      Months
+                    </button>
+                    <button
+                      type="button"
+                      class="view-chip"
+                      data-slot="datepicker-view-chip"
+                      [attr.data-active]="isYearView() ? 'true' : null"
+                      (click)="onViewChange('year')"
+                    >
+                      Years
+                    </button>
+                  </div>
+                </header>
+
+                @if (isDayView()) {
+                  <div class="calendar-grid-shell">
+                    <div class="weekday-row" data-slot="datepicker-weekdays" aria-hidden="true">
+                      @for (label of outputs().weekdayLabels; track label) {
+                        <span class="weekday-label" data-slot="datepicker-weekday">{{ label }}</span>
+                      }
+                    </div>
+
+                    <div
+                      class="day-grid"
+                      [attr.aria-activedescendant]="outputs().getGridAttributes()['aria-activedescendant']"
+                      [attr.aria-labelledby]="outputs().getGridAttributes()['aria-labelledby']"
+                      [attr.data-slot]="outputs().getGridAttributes()['data-slot']"
+                      [attr.id]="outputs().getGridAttributes()['id']"
+                      [attr.role]="outputs().getGridAttributes()['role']"
+                      (keydown)="onGridKeydown($event)"
+                    >
+                      @for (cell of outputs().cells; track cell.id) {
+                        <button
+                          type="button"
+                          class="day-cell"
+                          [class.day-cell-active]="cell.active"
+                          [class.day-cell-disabled]="cell.disabled"
+                          [class.day-cell-focus-visible]="cell.focusVisible"
+                          [class.day-cell-in-month]="cell.inMonth"
+                          [class.day-cell-outside]="!cell.inMonth"
+                          [class.day-cell-selected]="cell.selected"
+                          [class.day-cell-today]="cell.today"
+                          [disabled]="cell.disabled"
+                          [attr.aria-current]="cell.today ? 'date' : null"
+                          [attr.aria-disabled]="cell.disabled ? 'true' : null"
+                          [attr.aria-selected]="cell.selected ? 'true' : 'false'"
+                          [attr.data-active]="cell.active ? 'true' : null"
+                          [attr.data-disabled]="outputs().getCellAttributes(cell)['data-disabled']"
+                          [attr.data-focus-visible]="cell.focusVisible ? 'true' : null"
+                          [attr.data-in-month]="outputs().getCellAttributes(cell)['data-in-month']"
+                          [attr.data-selected]="outputs().getCellAttributes(cell)['data-selected']"
+                          [attr.data-slot]="outputs().getCellAttributes(cell)['data-slot']"
+                          [attr.id]="cell.id"
+                          [attr.role]="'gridcell'"
+                          [attr.tabindex]="outputs().getCellAttributes(cell)['tabindex']"
+                          (click)="onDayCellClick(cell)"
+                        >
+                          <span class="day-number">{{ cell.label }}</span>
+                        </button>
+                      }
+                    </div>
+                  </div>
+                }
+
+                @if (isMonthView()) {
+                  <div class="picker-grid picker-grid-month" data-slot="datepicker-grid" role="grid" (keydown)="onMonthKeydown($event)">
+                    @for (option of outputs().monthOptions; track option.id) {
+                      <button
+                        type="button"
+                        class="picker-cell"
+                        [class.picker-cell-active]="option.active"
+                        [class.picker-cell-disabled]="option.disabled"
+                        [class.picker-cell-focus-visible]="option.focusVisible"
+                        [class.picker-cell-selected]="option.selected"
+                        [disabled]="option.disabled"
+                        [attr.aria-disabled]="outputs().getMonthAttributes(option)['aria-disabled']"
+                        [attr.aria-selected]="outputs().getMonthAttributes(option)['aria-selected']"
+                        [attr.data-active]="outputs().getMonthAttributes(option)['data-active']"
+                        [attr.data-disabled]="outputs().getMonthAttributes(option)['data-disabled']"
+                        [attr.data-focus-visible]="outputs().getMonthAttributes(option)['data-focus-visible']"
+                        [attr.data-selected]="outputs().getMonthAttributes(option)['data-selected']"
+                        [attr.data-slot]="outputs().getMonthAttributes(option)['data-slot']"
+                        [attr.id]="option.id"
+                        [attr.role]="outputs().getMonthAttributes(option)['role']"
+                        [attr.tabindex]="outputs().getMonthAttributes(option)['tabindex']"
+                        (click)="onMonthOptionClick(option)"
+                      >
+                        {{ option.label }}
+                      </button>
+                    }
+                  </div>
+                }
+
+                @if (isYearView()) {
+                  <div class="picker-grid picker-grid-year" data-slot="datepicker-grid" role="grid" (keydown)="onYearKeydown($event)">
+                    @for (option of outputs().yearOptions; track option.id) {
+                      <button
+                        type="button"
+                        class="picker-cell"
+                        [class.picker-cell-active]="option.active"
+                        [class.picker-cell-disabled]="option.disabled"
+                        [class.picker-cell-focus-visible]="option.focusVisible"
+                        [class.picker-cell-selected]="option.selected"
+                        [disabled]="option.disabled"
+                        [attr.aria-disabled]="outputs().getYearAttributes(option)['aria-disabled']"
+                        [attr.aria-selected]="outputs().getYearAttributes(option)['aria-selected']"
+                        [attr.data-active]="outputs().getYearAttributes(option)['data-active']"
+                        [attr.data-disabled]="outputs().getYearAttributes(option)['data-disabled']"
+                        [attr.data-focus-visible]="outputs().getYearAttributes(option)['data-focus-visible']"
+                        [attr.data-selected]="outputs().getYearAttributes(option)['data-selected']"
+                        [attr.data-slot]="outputs().getYearAttributes(option)['data-slot']"
+                        [attr.id]="option.id"
+                        [attr.role]="outputs().getYearAttributes(option)['role']"
+                        [attr.tabindex]="outputs().getYearAttributes(option)['tabindex']"
+                        (click)="onYearOptionClick(option)"
+                      >
+                        {{ option.label }}
+                      </button>
+                    }
+                  </div>
+                }
+
+                <footer class="overlay-footer" data-slot="datepicker-footer">
+                  <button type="button" class="footer-button" data-slot="datepicker-action" (click)="restoreToday()">Jump to today</button>
+                  <div class="footer-actions">
+                    <button type="button" class="footer-button" data-slot="datepicker-action" (click)="clear()">Clear</button>
+                    <button type="button" class="footer-button" data-slot="datepicker-action" data-variant="primary" (click)="close()">Done</button>
+                  </div>
+                </footer>
+            </section>
+          </div>
+        </div>
+
+        <div class="manual-input-hint">
+          <span>Edit the input using <code>MM-DD-YYYY</code>.</span>
+          <span>Press <kbd>Enter</kbd> or blur the field to commit.</span>
+          @if (outputs().validationError !== null) {
+            <strong class="validation-error">Invalid date input</strong>
+          }
+        </div>
+
+        <div class="state-row">
+          <span>Active date: <strong>{{ activeSummary() }}</strong></span>
+          <span>View: <strong>{{ outputs().view }}</strong></span>
+          <span>Open: <strong>{{ outputs().open ? 'yes' : 'no' }}</strong></span>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="card-header">
+        <div>
+          <h2>Material-style orchestration (`showYearsPanel`, `showMonthsPanel`, `showDaysPanel`)</h2>
+          <p class="demo-note">
+            Click the period label in the popup header to open years, pick a year to drill into months, then choose a
+            month to return to days.
+          </p>
+        </div>
+        <div class="selection-pill">
+          <span class="selection-label">Selected</span>
+          <strong>{{ materialSelectedSummary() }}</strong>
+        </div>
+      </div>
+
+      <div
+        class="field-stack"
+        [attr.aria-describedby]="materialOutputs().getHostAttributes()['aria-describedby']"
+        [attr.aria-label]="materialOutputs().getHostAttributes()['aria-label']"
+        [attr.aria-labelledby]="materialOutputs().getHostAttributes()['aria-labelledby']"
+        [attr.data-disabled]="materialOutputs().getHostAttributes()['data-disabled']"
+        [attr.data-open]="materialOutputs().getHostAttributes()['data-open']"
+        [attr.data-slot]="materialOutputs().getHostAttributes()['data-slot']"
+        [attr.data-view]="materialOutputs().getHostAttributes()['data-view']"
+        [attr.dir]="materialOutputs().getHostAttributes()['dir']"
+        [attr.role]="materialOutputs().getHostAttributes()['role']"
+      >
+        <div class="manual-input-field" data-slot="datepicker-field">
+          <span class="manual-input-label">Date input</span>
+
+          <div class="input-anchor">
+            <div
+              #materialAnchorShell
+              class="input-shell"
+              data-slot="datepicker-input-shell"
+              [attr.data-invalid]="materialOutputs().validationError !== null ? 'true' : null"
+              [attr.data-open]="materialOutputs().getTriggerAttributes()['data-open']"
+            >
+              <input
+                class="manual-input"
+                data-slot="datepicker-input"
+                type="text"
+                inputmode="numeric"
+                placeholder="MM-DD-YYYY"
+                aria-label="Editable material-style date input"
+                [value]="materialOutputs().inputText"
+                [attr.aria-invalid]="materialOutputs().validationError !== null ? 'true' : null"
+                (blur)="onMaterialInputBlur()"
+                (click)="onMaterialInputClick()"
+                (input)="onMaterialInputChange($event)"
+                (keydown)="onMaterialInputKeydown($event)"
+              />
+
+              <button
+                #materialTriggerButton
+                type="button"
+                class="trigger"
+                [attr.aria-label]="'Open calendar for ' + materialSelectedSummary()"
+                [attr.aria-controls]="materialOutputs().getTriggerAttributes()['aria-controls']"
+                [attr.aria-expanded]="materialOutputs().getTriggerAttributes()['aria-expanded']"
+                [attr.aria-haspopup]="materialOutputs().getTriggerAttributes()['aria-haspopup']"
+                [attr.data-open]="materialOutputs().getTriggerAttributes()['data-open']"
+                [attr.data-slot]="materialOutputs().getTriggerAttributes()['data-slot']"
+                (click)="onMaterialTriggerClick()"
+                (keydown)="onMaterialTriggerKeydown($event)"
+              >
+                <tng-icon icon="calendar-days" class="trigger-calendar-icon" aria-hidden="true" />
+                <span class="trigger-icon" aria-hidden="true">▾</span>
+              </button>
+            </div>
+
+            <section
+              [tngDatepickerOverlay]="materialController"
+              [tngDatepickerOverlayAnchor]="materialAnchorShell"
+              class="overlay"
+              [attr.aria-labelledby]="materialOutputs().getOverlayAttributes()['aria-labelledby']"
+              [attr.aria-modal]="materialOutputs().getOverlayAttributes()['aria-modal']"
+              [attr.data-open]="materialOutputs().getOverlayAttributes()['data-open']"
+              [attr.data-position]="materialOutputs().getOverlayAttributes()['data-position']"
+              [attr.data-slot]="materialOutputs().getOverlayAttributes()['data-slot']"
+              [attr.id]="materialOutputs().getOverlayAttributes()['id']"
+              [attr.role]="materialOutputs().getOverlayAttributes()['role']"
+              (keydown)="onMaterialOverlayKeydown($event)"
+            >
+                <header class="overlay-header overlay-header-material" data-slot="datepicker-header">
+                  <div class="header-group header-group-material">
+                    <button type="button" class="nav-button" data-slot="datepicker-nav-button" (click)="materialPageBackward()">‹</button>
+
+                    <button type="button" class="period-button" data-slot="datepicker-period-button" (click)="onMaterialHeaderPeriodClick()">
+                      <span class="period-button-eyebrow">{{ materialPeriodEyebrow() }}</span>
+                      <span class="period-button-title">{{ materialPeriodLabel() }}</span>
+                    </button>
+
+                    <button type="button" class="nav-button" data-slot="datepicker-nav-button" (click)="materialPageForward()">›</button>
+                  </div>
+                </header>
+
+                @if (isMaterialDayView()) {
+                  <div class="calendar-grid-shell">
+                    <div class="weekday-row" data-slot="datepicker-weekdays" aria-hidden="true">
+                      @for (label of materialOutputs().weekdayLabels; track label) {
+                        <span class="weekday-label" data-slot="datepicker-weekday">{{ label }}</span>
+                      }
+                    </div>
+
+                    <div
+                      class="day-grid"
+                      [attr.aria-activedescendant]="materialOutputs().getGridAttributes()['aria-activedescendant']"
+                      [attr.aria-labelledby]="materialOutputs().getGridAttributes()['aria-labelledby']"
+                      [attr.data-slot]="materialOutputs().getGridAttributes()['data-slot']"
+                      [attr.id]="materialOutputs().getGridAttributes()['id']"
+                      [attr.role]="materialOutputs().getGridAttributes()['role']"
+                      (keydown)="onMaterialGridKeydown($event)"
+                    >
+                      @for (cell of materialOutputs().cells; track cell.id) {
+                        <button
+                          type="button"
+                          class="day-cell"
+                          [class.day-cell-active]="cell.active"
+                          [class.day-cell-disabled]="cell.disabled"
+                          [class.day-cell-focus-visible]="cell.focusVisible"
+                          [class.day-cell-in-month]="cell.inMonth"
+                          [class.day-cell-outside]="!cell.inMonth"
+                          [class.day-cell-selected]="cell.selected"
+                          [class.day-cell-today]="cell.today"
+                          [disabled]="cell.disabled"
+                          [attr.aria-current]="cell.today ? 'date' : null"
+                          [attr.aria-disabled]="cell.disabled ? 'true' : null"
+                          [attr.aria-selected]="cell.selected ? 'true' : 'false'"
+                          [attr.data-active]="cell.active ? 'true' : null"
+                          [attr.data-disabled]="materialOutputs().getCellAttributes(cell)['data-disabled']"
+                          [attr.data-focus-visible]="cell.focusVisible ? 'true' : null"
+                          [attr.data-in-month]="materialOutputs().getCellAttributes(cell)['data-in-month']"
+                          [attr.data-selected]="materialOutputs().getCellAttributes(cell)['data-selected']"
+                          [attr.data-slot]="materialOutputs().getCellAttributes(cell)['data-slot']"
+                          [attr.id]="cell.id"
+                          [attr.role]="'gridcell'"
+                          [attr.tabindex]="materialOutputs().getCellAttributes(cell)['tabindex']"
+                          (click)="onMaterialDayCellClick(cell)"
+                        >
+                          <span class="day-number">{{ cell.label }}</span>
+                        </button>
+                      }
+                    </div>
+                  </div>
+                }
+
+                @if (isMaterialMonthView()) {
+                  <div class="picker-grid picker-grid-month" data-slot="datepicker-grid" role="grid" (keydown)="onMaterialMonthKeydown($event)">
+                    @for (option of materialOutputs().monthOptions; track option.id) {
+                      <button
+                        type="button"
+                        class="picker-cell"
+                        [class.picker-cell-active]="option.active"
+                        [class.picker-cell-disabled]="option.disabled"
+                        [class.picker-cell-focus-visible]="option.focusVisible"
+                        [class.picker-cell-selected]="option.selected"
+                        [disabled]="option.disabled"
+                        [attr.aria-disabled]="materialOutputs().getMonthAttributes(option)['aria-disabled']"
+                        [attr.aria-selected]="materialOutputs().getMonthAttributes(option)['aria-selected']"
+                        [attr.data-active]="materialOutputs().getMonthAttributes(option)['data-active']"
+                        [attr.data-disabled]="materialOutputs().getMonthAttributes(option)['data-disabled']"
+                        [attr.data-focus-visible]="materialOutputs().getMonthAttributes(option)['data-focus-visible']"
+                        [attr.data-selected]="materialOutputs().getMonthAttributes(option)['data-selected']"
+                        [attr.data-slot]="materialOutputs().getMonthAttributes(option)['data-slot']"
+                        [attr.id]="option.id"
+                        [attr.role]="materialOutputs().getMonthAttributes(option)['role']"
+                        [attr.tabindex]="materialOutputs().getMonthAttributes(option)['tabindex']"
+                        (click)="onMaterialMonthOptionClick(option)"
+                      >
+                        {{ option.label }}
+                      </button>
+                    }
+                  </div>
+                }
+
+                @if (isMaterialYearView()) {
+                  <div class="picker-grid picker-grid-year" data-slot="datepicker-grid" role="grid" (keydown)="onMaterialYearKeydown($event)">
+                    @for (option of materialOutputs().yearOptions; track option.id) {
+                      <button
+                        type="button"
+                        class="picker-cell"
+                        [class.picker-cell-active]="option.active"
+                        [class.picker-cell-disabled]="option.disabled"
+                        [class.picker-cell-focus-visible]="option.focusVisible"
+                        [class.picker-cell-selected]="option.selected"
+                        [disabled]="option.disabled"
+                        [attr.aria-disabled]="materialOutputs().getYearAttributes(option)['aria-disabled']"
+                        [attr.aria-selected]="materialOutputs().getYearAttributes(option)['aria-selected']"
+                        [attr.data-active]="materialOutputs().getYearAttributes(option)['data-active']"
+                        [attr.data-disabled]="materialOutputs().getYearAttributes(option)['data-disabled']"
+                        [attr.data-focus-visible]="materialOutputs().getYearAttributes(option)['data-focus-visible']"
+                        [attr.data-selected]="materialOutputs().getYearAttributes(option)['data-selected']"
+                        [attr.data-slot]="materialOutputs().getYearAttributes(option)['data-slot']"
+                        [attr.id]="option.id"
+                        [attr.role]="materialOutputs().getYearAttributes(option)['role']"
+                        [attr.tabindex]="materialOutputs().getYearAttributes(option)['tabindex']"
+                        (click)="onMaterialYearOptionClick(option)"
+                      >
+                        {{ option.label }}
+                      </button>
+                    }
+                  </div>
+                }
+
+                <footer class="overlay-footer" data-slot="datepicker-footer">
+                  <button type="button" class="footer-button" data-slot="datepicker-action" (click)="restoreMaterialToday()">Jump to today</button>
+                  <div class="footer-actions">
+                    <button type="button" class="footer-button" data-slot="datepicker-action" (click)="clearMaterial()">Clear</button>
+                    <button type="button" class="footer-button" data-slot="datepicker-action" data-variant="primary" (click)="closeMaterial()">Done</button>
+                  </div>
+                </footer>
+            </section>
+          </div>
+        </div>
+
+        <div class="manual-input-hint">
+          <span>Header period click opens <code>Years</code>.</span>
+          <span>Year pick drills into <code>Months</code>, month pick returns to <code>Days</code>.</span>
+          @if (materialOutputs().validationError !== null) {
+            <strong class="validation-error">Invalid date input</strong>
+          }
+        </div>
+
+        <div class="state-row">
+          <span>Active date: <strong>{{ materialActiveSummary() }}</strong></span>
+          <span>View: <strong>{{ materialOutputs().view }}</strong></span>
+          <span>Open: <strong>{{ materialOutputs().open ? 'yes' : 'no' }}</strong></span>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="card-header">
+        <div>
+          <h2>Bounded selection window (`minDate`, `maxDate`)</h2>
+          <p class="demo-note">
+            This example disables every date before <code>04-10-2024</code> and after <code>04-25-2024</code>. The
+            bounds also propagate into month and year availability.
+          </p>
+        </div>
+        <div class="selection-pill">
+          <span class="selection-label">Selected</span>
+          <strong>{{ boundedSelectedSummary() }}</strong>
+        </div>
+      </div>
+
+      <div
+        class="field-stack"
+        [attr.aria-describedby]="boundedOutputs().getHostAttributes()['aria-describedby']"
+        [attr.aria-label]="boundedOutputs().getHostAttributes()['aria-label']"
+        [attr.aria-labelledby]="boundedOutputs().getHostAttributes()['aria-labelledby']"
+        [attr.data-disabled]="boundedOutputs().getHostAttributes()['data-disabled']"
+        [attr.data-open]="boundedOutputs().getHostAttributes()['data-open']"
+        [attr.data-slot]="boundedOutputs().getHostAttributes()['data-slot']"
+        [attr.data-view]="boundedOutputs().getHostAttributes()['data-view']"
+        [attr.dir]="boundedOutputs().getHostAttributes()['dir']"
+        [attr.role]="boundedOutputs().getHostAttributes()['role']"
+      >
+        <div class="manual-input-field" data-slot="datepicker-field">
+          <span class="manual-input-label">Date input</span>
+
+          <div class="input-anchor">
+            <div
+              #boundedAnchorShell
+              class="input-shell"
+              data-slot="datepicker-input-shell"
+              [attr.data-invalid]="boundedOutputs().validationError !== null ? 'true' : null"
+              [attr.data-open]="boundedOutputs().getTriggerAttributes()['data-open']"
+            >
+              <input
+                class="manual-input"
+                data-slot="datepicker-input"
+                type="text"
+                inputmode="numeric"
+                placeholder="MM-DD-YYYY"
+                aria-label="Editable bounded date input"
+                [value]="boundedOutputs().inputText"
+                [attr.aria-invalid]="boundedOutputs().validationError !== null ? 'true' : null"
+                (blur)="onBoundedInputBlur()"
+                (click)="onBoundedInputClick()"
+                (input)="onBoundedInputChange($event)"
+                (keydown)="onBoundedInputKeydown($event)"
+              />
+
+              <button
+                #boundedTriggerButton
+                type="button"
+                class="trigger"
+                [attr.aria-label]="'Open bounded calendar for ' + boundedSelectedSummary()"
+                [attr.aria-controls]="boundedOutputs().getTriggerAttributes()['aria-controls']"
+                [attr.aria-expanded]="boundedOutputs().getTriggerAttributes()['aria-expanded']"
+                [attr.aria-haspopup]="boundedOutputs().getTriggerAttributes()['aria-haspopup']"
+                [attr.data-open]="boundedOutputs().getTriggerAttributes()['data-open']"
+                [attr.data-slot]="boundedOutputs().getTriggerAttributes()['data-slot']"
+                (click)="onBoundedTriggerClick()"
+                (keydown)="onBoundedTriggerKeydown($event)"
+              >
+                <tng-icon icon="calendar-days" class="trigger-calendar-icon" aria-hidden="true" />
+                <span class="trigger-icon" aria-hidden="true">▾</span>
+              </button>
+            </div>
+
+            <section
+              [tngDatepickerOverlay]="boundedController"
+              [tngDatepickerOverlayAnchor]="boundedAnchorShell"
+              class="overlay"
+              [attr.aria-labelledby]="boundedOutputs().getOverlayAttributes()['aria-labelledby']"
+              [attr.aria-modal]="boundedOutputs().getOverlayAttributes()['aria-modal']"
+              [attr.data-open]="boundedOutputs().getOverlayAttributes()['data-open']"
+              [attr.data-position]="boundedOutputs().getOverlayAttributes()['data-position']"
+              [attr.data-slot]="boundedOutputs().getOverlayAttributes()['data-slot']"
+              [attr.id]="boundedOutputs().getOverlayAttributes()['id']"
+              [attr.role]="boundedOutputs().getOverlayAttributes()['role']"
+              (keydown)="onBoundedOverlayKeydown($event)"
+            >
+                  <header class="overlay-header" data-slot="datepicker-header">
+                    <div class="header-group">
+                      <button type="button" class="nav-button" data-slot="datepicker-nav-button" (click)="boundedPageBackward()">‹</button>
+                      <div class="header-copy">
+                        <p class="header-eyebrow">Allowed window</p>
+                        <h3 class="header-title" [attr.id]="boundedOutputs().getGridAttributes()['aria-labelledby']">
+                          {{ boundedOutputs().labelMonthYear }}
+                        </h3>
+                      </div>
+                      <button type="button" class="nav-button" data-slot="datepicker-nav-button" (click)="boundedPageForward()">›</button>
+                    </div>
+
+                    <div class="view-switcher" data-slot="datepicker-view-switcher" role="tablist" aria-label="Calendar view">
+                      <button
+                        type="button"
+                        class="view-chip"
+                        data-slot="datepicker-view-chip"
+                        [attr.data-active]="isBoundedDayView() ? 'true' : null"
+                        (click)="onBoundedViewChange('day')"
+                      >
+                        Days
+                      </button>
+                      <button
+                        type="button"
+                        class="view-chip"
+                        data-slot="datepicker-view-chip"
+                        [attr.data-active]="isBoundedMonthView() ? 'true' : null"
+                        (click)="onBoundedViewChange('month')"
+                      >
+                        Months
+                      </button>
+                      <button
+                        type="button"
+                        class="view-chip"
+                        data-slot="datepicker-view-chip"
+                        [attr.data-active]="isBoundedYearView() ? 'true' : null"
+                        (click)="onBoundedViewChange('year')"
+                      >
+                        Years
+                      </button>
+                    </div>
+                  </header>
+
+                  @if (isBoundedDayView()) {
+                    <div class="calendar-grid-shell">
+                      <div class="weekday-row" data-slot="datepicker-weekdays" aria-hidden="true">
+                        @for (label of boundedOutputs().weekdayLabels; track label) {
+                          <span class="weekday-label" data-slot="datepicker-weekday">{{ label }}</span>
+                        }
+                      </div>
+
+                      <div
+                        class="day-grid"
+                        [attr.aria-activedescendant]="boundedOutputs().getGridAttributes()['aria-activedescendant']"
+                        [attr.aria-labelledby]="boundedOutputs().getGridAttributes()['aria-labelledby']"
+                        [attr.data-slot]="boundedOutputs().getGridAttributes()['data-slot']"
+                        [attr.id]="boundedOutputs().getGridAttributes()['id']"
+                        [attr.role]="boundedOutputs().getGridAttributes()['role']"
+                        (keydown)="onBoundedGridKeydown($event)"
+                      >
+                        @for (cell of boundedOutputs().cells; track cell.id) {
+                          <button
+                            type="button"
+                            class="day-cell"
+                            [class.day-cell-active]="cell.active"
+                            [class.day-cell-disabled]="cell.disabled"
+                            [class.day-cell-focus-visible]="cell.focusVisible"
+                            [class.day-cell-in-month]="cell.inMonth"
+                            [class.day-cell-outside]="!cell.inMonth"
+                            [class.day-cell-selected]="cell.selected"
+                            [class.day-cell-today]="cell.today"
+                            [disabled]="cell.disabled"
+                            [attr.aria-current]="cell.today ? 'date' : null"
+                            [attr.aria-disabled]="cell.disabled ? 'true' : null"
+                            [attr.aria-selected]="cell.selected ? 'true' : 'false'"
+                            [attr.data-active]="cell.active ? 'true' : null"
+                            [attr.data-disabled]="boundedOutputs().getCellAttributes(cell)['data-disabled']"
+                            [attr.data-focus-visible]="cell.focusVisible ? 'true' : null"
+                            [attr.data-in-month]="boundedOutputs().getCellAttributes(cell)['data-in-month']"
+                            [attr.data-selected]="boundedOutputs().getCellAttributes(cell)['data-selected']"
+                            [attr.data-slot]="boundedOutputs().getCellAttributes(cell)['data-slot']"
+                            [attr.id]="cell.id"
+                            [attr.role]="'gridcell'"
+                            [attr.tabindex]="boundedOutputs().getCellAttributes(cell)['tabindex']"
+                            (click)="onBoundedDayCellClick(cell)"
+                          >
+                            <span class="day-number">{{ cell.label }}</span>
+                          </button>
+                        }
+                      </div>
+                    </div>
+                  }
+
+                  @if (isBoundedMonthView()) {
+                    <div class="picker-grid picker-grid-month" data-slot="datepicker-grid" role="grid" (keydown)="onBoundedMonthKeydown($event)">
+                      @for (option of boundedOutputs().monthOptions; track option.id) {
+                        <button
+                          type="button"
+                          class="picker-cell"
+                          [class.picker-cell-active]="option.active"
+                          [class.picker-cell-disabled]="option.disabled"
+                          [class.picker-cell-focus-visible]="option.focusVisible"
+                          [class.picker-cell-selected]="option.selected"
+                          [disabled]="option.disabled"
+                          [attr.aria-disabled]="boundedOutputs().getMonthAttributes(option)['aria-disabled']"
+                          [attr.aria-selected]="boundedOutputs().getMonthAttributes(option)['aria-selected']"
+                          [attr.data-active]="boundedOutputs().getMonthAttributes(option)['data-active']"
+                          [attr.data-disabled]="boundedOutputs().getMonthAttributes(option)['data-disabled']"
+                          [attr.data-focus-visible]="boundedOutputs().getMonthAttributes(option)['data-focus-visible']"
+                          [attr.data-selected]="boundedOutputs().getMonthAttributes(option)['data-selected']"
+                          [attr.data-slot]="boundedOutputs().getMonthAttributes(option)['data-slot']"
+                          [attr.id]="option.id"
+                          [attr.role]="boundedOutputs().getMonthAttributes(option)['role']"
+                          [attr.tabindex]="boundedOutputs().getMonthAttributes(option)['tabindex']"
+                          (click)="onBoundedMonthOptionClick(option)"
+                        >
+                          {{ option.label }}
+                        </button>
+                      }
+                    </div>
+                  }
+
+                  @if (isBoundedYearView()) {
+                    <div class="picker-grid picker-grid-year" data-slot="datepicker-grid" role="grid" (keydown)="onBoundedYearKeydown($event)">
+                      @for (option of boundedOutputs().yearOptions; track option.id) {
+                        <button
+                          type="button"
+                          class="picker-cell"
+                          [class.picker-cell-active]="option.active"
+                          [class.picker-cell-disabled]="option.disabled"
+                          [class.picker-cell-focus-visible]="option.focusVisible"
+                          [class.picker-cell-selected]="option.selected"
+                          [disabled]="option.disabled"
+                          [attr.aria-disabled]="boundedOutputs().getYearAttributes(option)['aria-disabled']"
+                          [attr.aria-selected]="boundedOutputs().getYearAttributes(option)['aria-selected']"
+                          [attr.data-active]="boundedOutputs().getYearAttributes(option)['data-active']"
+                          [attr.data-disabled]="boundedOutputs().getYearAttributes(option)['data-disabled']"
+                          [attr.data-focus-visible]="boundedOutputs().getYearAttributes(option)['data-focus-visible']"
+                          [attr.data-selected]="boundedOutputs().getYearAttributes(option)['data-selected']"
+                          [attr.data-slot]="boundedOutputs().getYearAttributes(option)['data-slot']"
+                          [attr.id]="option.id"
+                          [attr.role]="boundedOutputs().getYearAttributes(option)['role']"
+                          [attr.tabindex]="boundedOutputs().getYearAttributes(option)['tabindex']"
+                          (click)="onBoundedYearOptionClick(option)"
+                        >
+                          {{ option.label }}
+                        </button>
+                      }
+                    </div>
+                  }
+
+                  <footer class="overlay-footer" data-slot="datepicker-footer">
+                    <button type="button" class="footer-button" data-slot="datepicker-action" (click)="restoreBoundedToday()">Jump to today</button>
+                    <div class="footer-actions">
+                      <button type="button" class="footer-button" data-slot="datepicker-action" (click)="clearBounded()">Clear</button>
+                      <button type="button" class="footer-button" data-slot="datepicker-action" data-variant="primary" (click)="closeBounded()">Done</button>
+                    </div>
+                  </footer>
+            </section>
+          </div>
+        </div>
+
+        <div class="manual-input-hint">
+          <span>Selectable range: <code>04-10-2024</code> to <code>04-25-2024</code>.</span>
+          <span>Dates outside the window are disabled in day, month, and year views.</span>
+          @if (boundedOutputs().validationError !== null) {
+            <strong class="validation-error">Invalid or out-of-range date input</strong>
+          }
+        </div>
+
+        <div class="state-row">
+          <span>Active date: <strong>{{ boundedActiveSummary() }}</strong></span>
+          <span>View: <strong>{{ boundedOutputs().view }}</strong></span>
+          <span>Open: <strong>{{ boundedOutputs().open ? 'yes' : 'no' }}</strong></span>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="card-header">
+        <div>
+          <h2>Custom overlay display format (`adapter.format('month-year')`)</h2>
+          <p class="demo-note">
+            This example keeps the editable input in <code>MM-DD-YYYY</code> while the popup header uses a custom
+            month-year display token.
+          </p>
+        </div>
+        <div class="selection-pill">
+          <span class="selection-label">Selected</span>
+          <strong>{{ displaySelectedSummary() }}</strong>
+        </div>
+      </div>
+
+      <div
+        class="field-stack"
+        [attr.aria-describedby]="displayOutputs().getHostAttributes()['aria-describedby']"
+        [attr.aria-label]="displayOutputs().getHostAttributes()['aria-label']"
+        [attr.aria-labelledby]="displayOutputs().getHostAttributes()['aria-labelledby']"
+        [attr.data-disabled]="displayOutputs().getHostAttributes()['data-disabled']"
+        [attr.data-open]="displayOutputs().getHostAttributes()['data-open']"
+        [attr.data-slot]="displayOutputs().getHostAttributes()['data-slot']"
+        [attr.data-view]="displayOutputs().getHostAttributes()['data-view']"
+        [attr.dir]="displayOutputs().getHostAttributes()['dir']"
+        [attr.role]="displayOutputs().getHostAttributes()['role']"
+      >
+        <div class="manual-input-field" data-slot="datepicker-field">
+          <span class="manual-input-label">Date input</span>
+
+          <div class="input-anchor">
+            <div
+              #displayAnchorShell
+              class="input-shell"
+              data-slot="datepicker-input-shell"
+              [attr.data-invalid]="displayOutputs().validationError !== null ? 'true' : null"
+              [attr.data-open]="displayOutputs().getTriggerAttributes()['data-open']"
+            >
+              <input
+                class="manual-input"
+                data-slot="datepicker-input"
+                type="text"
+                inputmode="numeric"
+                placeholder="MM-DD-YYYY"
+                aria-label="Editable custom display date input"
+                [value]="displayOutputs().inputText"
+                [attr.aria-invalid]="displayOutputs().validationError !== null ? 'true' : null"
+                (blur)="onDisplayInputBlur()"
+                (click)="onDisplayInputClick()"
+                (input)="onDisplayInputChange($event)"
+                (keydown)="onDisplayInputKeydown($event)"
+              />
+
+              <button
+                #displayTriggerButton
+                type="button"
+                class="trigger"
+                [attr.aria-label]="'Open calendar for ' + displaySelectedSummary()"
+                [attr.aria-controls]="displayOutputs().getTriggerAttributes()['aria-controls']"
+                [attr.aria-expanded]="displayOutputs().getTriggerAttributes()['aria-expanded']"
+                [attr.aria-haspopup]="displayOutputs().getTriggerAttributes()['aria-haspopup']"
+                [attr.data-open]="displayOutputs().getTriggerAttributes()['data-open']"
+                [attr.data-slot]="displayOutputs().getTriggerAttributes()['data-slot']"
+                (click)="onDisplayTriggerClick()"
+                (keydown)="onDisplayTriggerKeydown($event)"
+              >
+                <tng-icon icon="calendar-days" class="trigger-calendar-icon" aria-hidden="true" />
+                <span class="trigger-icon" aria-hidden="true">▾</span>
+              </button>
+            </div>
+
+            <section
+              [tngDatepickerOverlay]="displayController"
+              [tngDatepickerOverlayAnchor]="displayAnchorShell"
+              class="overlay"
+              [attr.aria-labelledby]="displayOutputs().getOverlayAttributes()['aria-labelledby']"
+              [attr.aria-modal]="displayOutputs().getOverlayAttributes()['aria-modal']"
+              [attr.data-open]="displayOutputs().getOverlayAttributes()['data-open']"
+              [attr.data-position]="displayOutputs().getOverlayAttributes()['data-position']"
+              [attr.data-slot]="displayOutputs().getOverlayAttributes()['data-slot']"
+              [attr.id]="displayOutputs().getOverlayAttributes()['id']"
+              [attr.role]="displayOutputs().getOverlayAttributes()['role']"
+              (keydown)="onDisplayOverlayKeydown($event)"
+            >
+                  <header class="overlay-header" data-slot="datepicker-header">
+                    <div class="header-group">
+                      <button type="button" class="nav-button" data-slot="datepicker-nav-button" (click)="displayPageBackward()">‹</button>
+                      <div class="header-copy">
+                        <p class="header-eyebrow">Custom header format</p>
+                        <h3 class="header-title" [attr.id]="displayOutputs().getGridAttributes()['aria-labelledby']">
+                          {{ displayOutputs().labelMonthYear }}
+                        </h3>
+                      </div>
+                      <button type="button" class="nav-button" data-slot="datepicker-nav-button" (click)="displayPageForward()">›</button>
+                    </div>
+
+                    <div class="view-switcher" data-slot="datepicker-view-switcher" role="tablist" aria-label="Calendar view">
+                      <button
+                        type="button"
+                        class="view-chip"
+                        data-slot="datepicker-view-chip"
+                        [attr.data-active]="isDisplayDayView() ? 'true' : null"
+                        (click)="onDisplayViewChange('day')"
+                      >
+                        Days
+                      </button>
+                      <button
+                        type="button"
+                        class="view-chip"
+                        data-slot="datepicker-view-chip"
+                        [attr.data-active]="isDisplayMonthView() ? 'true' : null"
+                        (click)="onDisplayViewChange('month')"
+                      >
+                        Months
+                      </button>
+                      <button
+                        type="button"
+                        class="view-chip"
+                        data-slot="datepicker-view-chip"
+                        [attr.data-active]="isDisplayYearView() ? 'true' : null"
+                        (click)="onDisplayViewChange('year')"
+                      >
+                        Years
+                      </button>
+                    </div>
+                  </header>
+
+                  @if (isDisplayDayView()) {
+                    <div class="calendar-grid-shell">
+                      <div class="weekday-row" data-slot="datepicker-weekdays" aria-hidden="true">
+                        @for (label of displayOutputs().weekdayLabels; track label) {
+                          <span class="weekday-label" data-slot="datepicker-weekday">{{ label }}</span>
+                        }
+                      </div>
+
+                      <div
+                        class="day-grid"
+                        [attr.aria-activedescendant]="displayOutputs().getGridAttributes()['aria-activedescendant']"
+                        [attr.aria-labelledby]="displayOutputs().getGridAttributes()['aria-labelledby']"
+                        [attr.data-slot]="displayOutputs().getGridAttributes()['data-slot']"
+                        [attr.id]="displayOutputs().getGridAttributes()['id']"
+                        [attr.role]="displayOutputs().getGridAttributes()['role']"
+                        (keydown)="onDisplayGridKeydown($event)"
+                      >
+                        @for (cell of displayOutputs().cells; track cell.id) {
+                          <button
+                            type="button"
+                            class="day-cell"
+                            [class.day-cell-active]="cell.active"
+                            [class.day-cell-disabled]="cell.disabled"
+                            [class.day-cell-focus-visible]="cell.focusVisible"
+                            [class.day-cell-in-month]="cell.inMonth"
+                            [class.day-cell-outside]="!cell.inMonth"
+                            [class.day-cell-selected]="cell.selected"
+                            [class.day-cell-today]="cell.today"
+                            [disabled]="cell.disabled"
+                            [attr.aria-current]="cell.today ? 'date' : null"
+                            [attr.aria-disabled]="cell.disabled ? 'true' : null"
+                            [attr.aria-selected]="cell.selected ? 'true' : 'false'"
+                            [attr.data-active]="cell.active ? 'true' : null"
+                            [attr.data-disabled]="displayOutputs().getCellAttributes(cell)['data-disabled']"
+                            [attr.data-focus-visible]="cell.focusVisible ? 'true' : null"
+                            [attr.data-in-month]="displayOutputs().getCellAttributes(cell)['data-in-month']"
+                            [attr.data-selected]="displayOutputs().getCellAttributes(cell)['data-selected']"
+                            [attr.data-slot]="displayOutputs().getCellAttributes(cell)['data-slot']"
+                            [attr.id]="cell.id"
+                            [attr.role]="'gridcell'"
+                            [attr.tabindex]="displayOutputs().getCellAttributes(cell)['tabindex']"
+                            (click)="onDisplayDayCellClick(cell)"
+                          >
+                            <span class="day-number">{{ cell.label }}</span>
+                          </button>
+                        }
+                      </div>
+                    </div>
+                  }
+
+                  @if (isDisplayMonthView()) {
+                    <div class="picker-grid picker-grid-month" data-slot="datepicker-grid" role="grid" (keydown)="onDisplayMonthKeydown($event)">
+                      @for (option of displayOutputs().monthOptions; track option.id) {
+                        <button
+                          type="button"
+                          class="picker-cell"
+                          [class.picker-cell-active]="option.active"
+                          [class.picker-cell-disabled]="option.disabled"
+                          [class.picker-cell-focus-visible]="option.focusVisible"
+                          [class.picker-cell-selected]="option.selected"
+                          [disabled]="option.disabled"
+                          [attr.aria-disabled]="displayOutputs().getMonthAttributes(option)['aria-disabled']"
+                          [attr.aria-selected]="displayOutputs().getMonthAttributes(option)['aria-selected']"
+                          [attr.data-active]="displayOutputs().getMonthAttributes(option)['data-active']"
+                          [attr.data-disabled]="displayOutputs().getMonthAttributes(option)['data-disabled']"
+                          [attr.data-focus-visible]="displayOutputs().getMonthAttributes(option)['data-focus-visible']"
+                          [attr.data-selected]="displayOutputs().getMonthAttributes(option)['data-selected']"
+                          [attr.data-slot]="displayOutputs().getMonthAttributes(option)['data-slot']"
+                          [attr.id]="option.id"
+                          [attr.role]="displayOutputs().getMonthAttributes(option)['role']"
+                          [attr.tabindex]="displayOutputs().getMonthAttributes(option)['tabindex']"
+                          (click)="onDisplayMonthOptionClick(option)"
+                        >
+                          {{ option.label }}
+                        </button>
+                      }
+                    </div>
+                  }
+
+                  @if (isDisplayYearView()) {
+                    <div class="picker-grid picker-grid-year" data-slot="datepicker-grid" role="grid" (keydown)="onDisplayYearKeydown($event)">
+                      @for (option of displayOutputs().yearOptions; track option.id) {
+                        <button
+                          type="button"
+                          class="picker-cell"
+                          [class.picker-cell-active]="option.active"
+                          [class.picker-cell-disabled]="option.disabled"
+                          [class.picker-cell-focus-visible]="option.focusVisible"
+                          [class.picker-cell-selected]="option.selected"
+                          [disabled]="option.disabled"
+                          [attr.aria-disabled]="displayOutputs().getYearAttributes(option)['aria-disabled']"
+                          [attr.aria-selected]="displayOutputs().getYearAttributes(option)['aria-selected']"
+                          [attr.data-active]="displayOutputs().getYearAttributes(option)['data-active']"
+                          [attr.data-disabled]="displayOutputs().getYearAttributes(option)['data-disabled']"
+                          [attr.data-focus-visible]="displayOutputs().getYearAttributes(option)['data-focus-visible']"
+                          [attr.data-selected]="displayOutputs().getYearAttributes(option)['data-selected']"
+                          [attr.data-slot]="displayOutputs().getYearAttributes(option)['data-slot']"
+                          [attr.id]="option.id"
+                          [attr.role]="displayOutputs().getYearAttributes(option)['role']"
+                          [attr.tabindex]="displayOutputs().getYearAttributes(option)['tabindex']"
+                          (click)="onDisplayYearOptionClick(option)"
+                        >
+                          {{ option.label }}
+                        </button>
+                      }
+                    </div>
+                  }
+
+                  <footer class="overlay-footer" data-slot="datepicker-footer">
+                    <button type="button" class="footer-button" data-slot="datepicker-action" (click)="restoreDisplayToday()">Jump to today</button>
+                    <div class="footer-actions">
+                      <button type="button" class="footer-button" data-slot="datepicker-action" (click)="clearDisplay()">Clear</button>
+                      <button type="button" class="footer-button" data-slot="datepicker-action" data-variant="primary" (click)="closeDisplay()">Done</button>
+                    </div>
+                  </footer>
+            </section>
+          </div>
+        </div>
+
+        <div class="manual-input-hint">
+          <span>Input keeps <code>MM-DD-YYYY</code>.</span>
+          <span>Overlay header uses adapter token <code>month-year</code> as <code>APR • 2024</code>.</span>
+          @if (displayOutputs().validationError !== null) {
+            <strong class="validation-error">Invalid date input</strong>
+          }
+        </div>
+
+        <div class="state-row">
+          <span>Active date: <strong>{{ displayActiveSummary() }}</strong></span>
+          <span>View: <strong>{{ displayOutputs().view }}</strong></span>
+          <span>Open: <strong>{{ displayOutputs().open ? 'yes' : 'no' }}</strong></span>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="card-header">
+        <div>
+          <h2>Component wrappers</h2>
+          <p class="demo-note">
+            These examples use the component layer instead of wiring the headless controller manually.
+            <code>tng-datepicker</code> uses the Material-style drill-down flow by default and accepts custom adapters
+            for input and overlay formatting.
+          </p>
+        </div>
+      </div>
+
+      <div class="component-grid">
+        <article class="component-card">
+          <div class="component-copy">
+            <span class="component-kicker">Default wrapper</span>
+            <h3 class="component-title">`&lt;tng-datepicker&gt;`</h3>
+            <p class="component-note">
+              Click the header period to jump into the year panel, then drill back down through month to day.
+            </p>
+          </div>
+
+          <div class="component-preview">
+            <tng-datepicker
+              [fullWidth]="false"
+              defaultValue="2024-04-22"
+              today="2024-04-18"
+              minDate="2024-04-01"
+              maxDate="2026-03-31"
+            />
+          </div>
+        </article>
+
+        <article class="component-card">
+          <div class="component-copy">
+            <span class="component-kicker">Custom adapter</span>
+            <h3 class="component-title">Input + overlay formats</h3>
+            <p class="component-note">
+              This wrapper passes a custom adapter into <code>tng-datepicker</code>. The input shows
+              <code>DD.MM.YYYY</code>, while the overlay period label switches to <code>2024 · APR</code>.
+            </p>
+          </div>
+
+          <div class="component-preview">
+            <tng-datepicker
+              [adapter]="wrapperFormatAdapter"
+              [fullWidth]="false"
+              defaultValue="2024-04-22"
+              today="2024-04-18"
+              minDate="2024-04-01"
+              maxDate="2026-03-31"
+            />
+          </div>
+        </article>
+      </div>
+    </section>
+  </section>
+</main>
