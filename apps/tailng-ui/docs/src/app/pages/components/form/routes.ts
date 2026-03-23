@@ -11,6 +11,10 @@ const inputItem = group.items.find((item) => item.slug === 'input');
 if (inputItem === undefined) {
   throw new Error('Missing "input" in components form docs group.');
 }
+const datepickerItem = group.items.find((item) => item.slug === 'datepicker');
+if (datepickerItem === undefined) {
+  throw new Error('Missing "datepicker" in components form docs group.');
+}
 const textareaItem = group.items.find((item) => item.slug === 'textarea');
 if (textareaItem === undefined) {
   throw new Error('Missing "textarea" in components form docs group.');
@@ -70,6 +74,7 @@ if (switchItem === undefined) {
 
 const landingSlugs = new Set([
   inputItem.slug,
+  datepickerItem.slug,
   textareaItem.slug,
   inputOtpItem.slug,
   labelItem.slug,
@@ -96,6 +101,11 @@ export const COMPONENTS_FORM_ROUTES: Routes = [
     path: inputItem.slug,
     loadChildren: () =>
       import('./input/routes').then((module) => module.COMPONENTS_FORM_INPUT_ROUTES),
+  },
+  {
+    path: datepickerItem.slug,
+    loadChildren: () =>
+      import('./datepicker/routes').then((module) => module.COMPONENTS_FORM_DATEPICKER_ROUTES),
   },
   {
     path: textareaItem.slug,

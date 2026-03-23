@@ -72,6 +72,13 @@ export const COMPONENTS_FORM_GROUP: ComponentsDocsGroup = {
       description: 'Text input fields, adornments, validation messaging, and layout patterns.',
     },
     {
+      id: 'datepicker',
+      slug: 'datepicker',
+      title: 'Datepicker',
+      description:
+        'Material-style date selection with editable input, adapter formatting, and bounded calendar views.',
+    },
+    {
       id: 'textarea',
       slug: 'textarea',
       title: 'Textarea',

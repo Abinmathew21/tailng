@@ -138,6 +138,10 @@
     box-shadow: var(--tng-datepicker-shadow);
   }
 
+  :where([data-slot='datepicker-overlay'][hidden]) {
+    display: none !important;
+  }
+
   :where([data-slot='datepicker-header']) {
     display: grid;
     gap: 0.65rem;

@@ -80,6 +80,7 @@
         [attr.hidden]="outputs().open ? null : ''"
         [attr.id]="outputs().getOverlayAttributes()['id']"
         [attr.role]="outputs().getOverlayAttributes()['role']"
+        [style.display]="outputs().open ? null : 'none'"
         (keydown)="onOverlayKeydown($event)"
       >
           <header class="tng-datepicker-header tng-datepicker-header-material" data-slot="datepicker-header">

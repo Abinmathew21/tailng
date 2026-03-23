@@ -229,6 +229,19 @@ describe('tng-datepicker component behavior', () => {
     expect(input.value).toBe('04-22-2024');
   });
 
+  it('keeps the overlay hidden by default until the trigger opens it', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [UncontrolledDatepickerHostComponent],
+    }).createComponent(UncontrolledDatepickerHostComponent);
+
+    await settle(fixture);
+
+    const overlay = getRequired<HTMLElement>(fixture, '[data-slot="datepicker-overlay"]');
+    expect(overlay.getAttribute('hidden')).toBe('');
+    expect(overlay.style.display).toBe('none');
+    expect(fixture.componentInstance.openChanges).toEqual([]);
+  });
+
   it('opens the overlay from the trigger and emits openChange', async () => {
     const fixture = TestBed.configureTestingModule({
       imports: [UncontrolledDatepickerHostComponent],

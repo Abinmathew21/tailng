@@ -1,0 +1,29 @@
+<section class="datepicker-docs-page">
+  <tng-tabs
+    class="datepicker-docs-tabs"
+    ariaLabel="Datepicker documentation sections"
+    [activation]="'manual'"
+    [value]="activeSection()"
+    (valueChange)="onSectionChange($event)"
+  >
+    <div tngTabList class="datepicker-docs-tab-list" ariaLabel="Datepicker documentation tabs">
+      <button type="button" tngTab value="overview" class="datepicker-docs-tab-trigger">
+        Overview
+      </button>
+      <button type="button" tngTab value="api" class="datepicker-docs-tab-trigger">API</button>
+      <button type="button" tngTab value="styling" class="datepicker-docs-tab-trigger">
+        Styling
+      </button>
+      <button type="button" tngTab value="examples" class="datepicker-docs-tab-trigger">
+        Examples
+      </button>
+      <button type="button" tngTab value="ownable-install" class="datepicker-docs-tab-trigger">
+        Ownable Install
+      </button>
+    </div>
+  </tng-tabs>
+
+  <section class="datepicker-docs-content">
+    <router-outlet />
+  </section>
+</section>

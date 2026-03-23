@@ -1,0 +1,143 @@
+:host {
+  display: block;
+}
+
+.datepicker-overview {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.datepicker-overview-title {
+  font-size: 1.9rem;
+  font-weight: 800;
+  margin: 0;
+}
+
+.datepicker-overview-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 1rem;
+  line-height: 1.65;
+  margin: 0;
+  max-width: 56rem;
+}
+
+.datepicker-overview-block {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.datepicker-overview-block h3 {
+  margin: 0;
+}
+
+.datepicker-overview-block p {
+  line-height: 1.65;
+  margin: 0;
+  max-width: 58rem;
+}
+
+.datepicker-overview-example-preview {
+  display: grid;
+  gap: 0.85rem;
+  justify-items: start;
+}
+
+.datepicker-overview-example-control,
+.datepicker-overview-headless {
+  display: block;
+  inline-size: min(100%, 18.5rem);
+  max-inline-size: 18.5rem;
+}
+
+.datepicker-overview-headless-field {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.datepicker-overview-headless-anchor {
+  position: relative;
+}
+
+.datepicker-overview-headless-shell {
+  display: flex;
+  min-inline-size: 0;
+}
+
+.datepicker-overview-headless-input {
+  min-inline-size: 0;
+}
+
+.datepicker-overview-headless-trigger,
+.datepicker-overview-headless-nav,
+.datepicker-overview-headless-period,
+.datepicker-overview-headless-cell,
+.datepicker-overview-headless-picker-cell {
+  font: inherit;
+}
+
+.datepicker-overview-headless-trigger-icon {
+  height: 1rem;
+  width: 1rem;
+}
+
+.datepicker-overview-headless-trigger-chevron,
+.datepicker-overview-headless-period-chevron {
+  font-size: 0.75rem;
+  line-height: 1;
+}
+
+.datepicker-overview-headless-header {
+  display: grid;
+  gap: 0.42rem;
+}
+
+.datepicker-overview-headless-header-row {
+  align-items: center;
+  display: grid;
+  gap: 0.4rem;
+  grid-template-columns: 1.9rem minmax(0, 1fr) 1.9rem;
+}
+
+.datepicker-overview-headless-period {
+  align-items: center;
+  display: inline-flex;
+  gap: 0.24rem;
+  justify-content: center;
+  min-inline-size: 0;
+  width: 100%;
+}
+
+.datepicker-overview-headless-period-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.datepicker-overview-headless-weekdays,
+.datepicker-overview-headless-day-grid {
+  display: grid;
+  gap: var(--tng-datepicker-grid-gap);
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+
+.datepicker-overview-headless-picker-grid {
+  display: grid;
+  gap: var(--tng-datepicker-grid-gap);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.datepicker-overview-headless-weekdays [data-slot='datepicker-weekday'] {
+  text-align: center;
+}
+
+.datepicker-overview-list {
+  display: grid;
+  gap: 0.55rem;
+  margin: 0;
+  max-width: 58rem;
+  padding-left: 1.2rem;
+}
+
+.datepicker-overview-list li {
+  line-height: 1.6;
+}

@@ -1,0 +1,755 @@
+<article class="datepicker-examples">
+  <h2 class="datepicker-examples-title">Examples</h2>
+  <p class="datepicker-examples-lead">
+    Each scenario is shown as three implementation styles: headless controller orchestration,
+    the stock plain-CSS wrapper, and the same wrapper dropped into a utility-first shell.
+  </p>
+
+  <section class="datepicker-examples-block">
+    <app-docs-example-tabs-section
+      heading="Default wrapper"
+      description="Stock material-style datepicker with editable input, centered clickable period label, and bounded navigation."
+      ariaLabel="Default wrapper datepicker variants"
+      tabListAriaLabel="Default wrapper example styles"
+      defaultValue="headless"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="headless"
+        label="Headless"
+        panelTitle="Default wrapper (Headless)"
+        [codeTabs]="defaultHeadlessCodeTabs"
+      >
+        <div class="datepicker-example-preview">
+          <section
+            class="datepicker-headless-demo"
+            [attr.aria-describedby]="defaultHeadlessOutputs().getHostAttributes()['aria-describedby']"
+            [attr.aria-label]="defaultHeadlessOutputs().getHostAttributes()['aria-label']"
+            [attr.aria-labelledby]="defaultHeadlessOutputs().getHostAttributes()['aria-labelledby']"
+            [attr.data-disabled]="defaultHeadlessOutputs().getHostAttributes()['data-disabled']"
+            [attr.data-open]="defaultHeadlessOutputs().getHostAttributes()['data-open']"
+            [attr.data-slot]="defaultHeadlessOutputs().getHostAttributes()['data-slot']"
+            [attr.data-view]="defaultHeadlessOutputs().getHostAttributes()['data-view']"
+            [attr.dir]="defaultHeadlessOutputs().getHostAttributes()['dir']"
+            [attr.role]="defaultHeadlessOutputs().getHostAttributes()['role']"
+          >
+            <div class="datepicker-headless-field" data-slot="datepicker-field">
+              <div class="datepicker-headless-anchor">
+                <div
+                  #defaultHeadlessAnchorShell
+                  class="datepicker-headless-shell"
+                  data-slot="datepicker-input-shell"
+                  [attr.data-invalid]="defaultHeadlessOutputs().validationError !== null ? 'true' : null"
+                  [attr.data-open]="defaultHeadlessOutputs().getTriggerAttributes()['data-open']"
+                >
+                  <input
+                    class="datepicker-headless-input"
+                    data-slot="datepicker-input"
+                    type="text"
+                    inputmode="numeric"
+                    placeholder="MM-DD-YYYY"
+                    aria-label="Headless invoice date"
+                    [value]="defaultHeadlessOutputs().inputText"
+                    [attr.aria-invalid]="defaultHeadlessOutputs().validationError !== null ? 'true' : null"
+                    (blur)="onHeadlessInputBlur(defaultHeadlessController)"
+                    (click)="onHeadlessInputClick(defaultHeadlessController)"
+                    (input)="onHeadlessInputChange(defaultHeadlessController, $event)"
+                    (keydown)="onHeadlessInputKeydown(defaultHeadlessController, $event)"
+                  />
+
+                  <button
+                    #defaultHeadlessTrigger
+                    type="button"
+                    class="datepicker-headless-trigger"
+                    [attr.aria-label]="'Open calendar'"
+                    [attr.aria-controls]="defaultHeadlessOutputs().getTriggerAttributes()['aria-controls']"
+                    [attr.aria-expanded]="defaultHeadlessOutputs().getTriggerAttributes()['aria-expanded']"
+                    [attr.aria-haspopup]="defaultHeadlessOutputs().getTriggerAttributes()['aria-haspopup']"
+                    [attr.data-open]="defaultHeadlessOutputs().getTriggerAttributes()['data-open']"
+                    [attr.data-slot]="defaultHeadlessOutputs().getTriggerAttributes()['data-slot']"
+                    (click)="onHeadlessTriggerClick(defaultHeadlessController)"
+                    (keydown)="onHeadlessTriggerKeydown(defaultHeadlessController, $event)"
+                  >
+                    <tng-icon icon="calendar-days" class="datepicker-headless-trigger-icon" />
+                    <span class="datepicker-headless-trigger-chevron" aria-hidden="true">▾</span>
+                  </button>
+                </div>
+
+                <section
+                  [tngDatepickerOverlay]="defaultHeadlessController"
+                  [tngDatepickerOverlayAnchor]="defaultHeadlessAnchorShell"
+                  class="datepicker-headless-overlay"
+                  [attr.aria-labelledby]="defaultHeadlessOutputs().getOverlayAttributes()['aria-labelledby']"
+                  [attr.aria-modal]="defaultHeadlessOutputs().getOverlayAttributes()['aria-modal']"
+                  [attr.data-open]="defaultHeadlessOutputs().getOverlayAttributes()['data-open']"
+                  [attr.data-position]="defaultHeadlessOutputs().getOverlayAttributes()['data-position']"
+                  [attr.data-slot]="defaultHeadlessOutputs().getOverlayAttributes()['data-slot']"
+                  [attr.id]="defaultHeadlessOutputs().getOverlayAttributes()['id']"
+                  [attr.role]="defaultHeadlessOutputs().getOverlayAttributes()['role']"
+                  (keydown)="onHeadlessOverlayKeydown(defaultHeadlessController, $event)"
+                >
+                  <header class="datepicker-headless-header" data-slot="datepicker-header">
+                    <div class="datepicker-headless-header-row">
+                      <button type="button" class="datepicker-headless-nav" data-slot="datepicker-nav-button" (click)="pageBackwardFor(defaultHeadlessController)">‹</button>
+                      <button
+                        type="button"
+                        class="datepicker-headless-period"
+                        data-slot="datepicker-period-button"
+                        [attr.data-interactive]="defaultHeadlessOutputs().view !== 'year' ? 'true' : null"
+                        (click)="onHeadlessPeriodClick(defaultHeadlessController)"
+                      >
+                        <span class="datepicker-headless-period-title">{{ resolvePeriodLabel(defaultHeadlessController) }}</span>
+                        @if (defaultHeadlessOutputs().view !== 'year') {
+                          <span class="datepicker-headless-period-chevron" aria-hidden="true">▾</span>
+                        }
+                      </button>
+                      <button type="button" class="datepicker-headless-nav" data-slot="datepicker-nav-button" (click)="pageForwardFor(defaultHeadlessController)">›</button>
+                    </div>
+                  </header>
+
+                  @if (defaultHeadlessOutputs().view === 'day') {
+                    <div class="datepicker-headless-weekdays" data-slot="datepicker-weekdays" aria-hidden="true">
+                      @for (label of defaultHeadlessOutputs().weekdayLabels; track label) {
+                        <span data-slot="datepicker-weekday">{{ label }}</span>
+                      }
+                    </div>
+
+                    <div
+                      class="datepicker-headless-day-grid"
+                      [attr.aria-activedescendant]="defaultHeadlessOutputs().getGridAttributes()['aria-activedescendant']"
+                      [attr.aria-labelledby]="defaultHeadlessOutputs().getGridAttributes()['aria-labelledby']"
+                      [attr.data-slot]="defaultHeadlessOutputs().getGridAttributes()['data-slot']"
+                      [attr.id]="defaultHeadlessOutputs().getGridAttributes()['id']"
+                      [attr.role]="defaultHeadlessOutputs().getGridAttributes()['role']"
+                      (keydown)="onHeadlessGridKeydown(defaultHeadlessController, $event)"
+                    >
+                      @for (cell of defaultHeadlessOutputs().cells; track cell.id) {
+                        <button
+                          type="button"
+                          class="datepicker-headless-cell"
+                          [disabled]="cell.disabled"
+                          [attr.aria-current]="cell.today ? 'date' : null"
+                          [attr.aria-disabled]="cell.disabled ? 'true' : null"
+                          [attr.aria-selected]="cell.selected ? 'true' : 'false'"
+                          [attr.data-active]="defaultHeadlessOutputs().getCellAttributes(cell)['data-active']"
+                          [attr.data-disabled]="defaultHeadlessOutputs().getCellAttributes(cell)['data-disabled']"
+                          [attr.data-focus-visible]="defaultHeadlessOutputs().getCellAttributes(cell)['data-focus-visible']"
+                          [attr.data-hidden]="defaultHeadlessOutputs().getCellAttributes(cell)['data-hidden']"
+                          [attr.data-in-month]="defaultHeadlessOutputs().getCellAttributes(cell)['data-in-month']"
+                          [attr.data-selected]="defaultHeadlessOutputs().getCellAttributes(cell)['data-selected']"
+                          [attr.data-slot]="defaultHeadlessOutputs().getCellAttributes(cell)['data-slot']"
+                          [attr.id]="cell.id"
+                          [attr.role]="'gridcell'"
+                          [attr.tabindex]="defaultHeadlessOutputs().getCellAttributes(cell)['tabindex']"
+                          (click)="onHeadlessDayCellClick(defaultHeadlessController, cell)"
+                        >
+                          {{ cell.label }}
+                        </button>
+                      }
+                    </div>
+                  }
+
+                  @if (defaultHeadlessOutputs().view === 'month') {
+                    <div class="datepicker-headless-picker-grid" data-slot="datepicker-grid" role="grid" (keydown)="onHeadlessMonthKeydown(defaultHeadlessController, $event)">
+                      @for (option of defaultHeadlessOutputs().monthOptions; track option.id) {
+                        <button
+                          type="button"
+                          class="datepicker-headless-picker-cell"
+                          [disabled]="option.disabled"
+                          [attr.aria-disabled]="defaultHeadlessOutputs().getMonthAttributes(option)['aria-disabled']"
+                          [attr.aria-selected]="defaultHeadlessOutputs().getMonthAttributes(option)['aria-selected']"
+                          [attr.data-active]="defaultHeadlessOutputs().getMonthAttributes(option)['data-active']"
+                          [attr.data-disabled]="defaultHeadlessOutputs().getMonthAttributes(option)['data-disabled']"
+                          [attr.data-focus-visible]="defaultHeadlessOutputs().getMonthAttributes(option)['data-focus-visible']"
+                          [attr.data-selected]="defaultHeadlessOutputs().getMonthAttributes(option)['data-selected']"
+                          [attr.data-slot]="defaultHeadlessOutputs().getMonthAttributes(option)['data-slot']"
+                          [attr.id]="option.id"
+                          [attr.role]="defaultHeadlessOutputs().getMonthAttributes(option)['role']"
+                          [attr.tabindex]="defaultHeadlessOutputs().getMonthAttributes(option)['tabindex']"
+                          (click)="onHeadlessMonthOptionClick(defaultHeadlessController, option)"
+                        >
+                          {{ option.label }}
+                        </button>
+                      }
+                    </div>
+                  }
+
+                  @if (defaultHeadlessOutputs().view === 'year') {
+                    <div class="datepicker-headless-picker-grid" data-slot="datepicker-grid" role="grid" (keydown)="onHeadlessYearKeydown(defaultHeadlessController, $event)">
+                      @for (option of defaultHeadlessOutputs().yearOptions; track option.id) {
+                        <button
+                          type="button"
+                          class="datepicker-headless-picker-cell"
+                          [disabled]="option.disabled"
+                          [attr.aria-disabled]="defaultHeadlessOutputs().getYearAttributes(option)['aria-disabled']"
+                          [attr.aria-selected]="defaultHeadlessOutputs().getYearAttributes(option)['aria-selected']"
+                          [attr.data-active]="defaultHeadlessOutputs().getYearAttributes(option)['data-active']"
+                          [attr.data-disabled]="defaultHeadlessOutputs().getYearAttributes(option)['data-disabled']"
+                          [attr.data-focus-visible]="defaultHeadlessOutputs().getYearAttributes(option)['data-focus-visible']"
+                          [attr.data-selected]="defaultHeadlessOutputs().getYearAttributes(option)['data-selected']"
+                          [attr.data-slot]="defaultHeadlessOutputs().getYearAttributes(option)['data-slot']"
+                          [attr.id]="option.id"
+                          [attr.role]="defaultHeadlessOutputs().getYearAttributes(option)['role']"
+                          [attr.tabindex]="defaultHeadlessOutputs().getYearAttributes(option)['tabindex']"
+                          (click)="onHeadlessYearOptionClick(defaultHeadlessController, option)"
+                        >
+                          {{ option.label }}
+                        </button>
+                      }
+                    </div>
+                  }
+                </section>
+              </div>
+            </div>
+          </section>
+          <p class="datepicker-example-note">Primitive-only material flow built from the controller outputs and overlay directive.</p>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Default wrapper (Plain-CSS)"
+        [codeTabs]="defaultPlainCodeTabs"
+      >
+        <div class="datepicker-example-preview">
+          <tng-datepicker
+            class="datepicker-example-control"
+            [defaultOpen]="false"
+            [defaultValue]="'2024-04-22'"
+            [today]="'2024-04-18'"
+            [minDate]="'2024-04-01'"
+            [maxDate]="'2026-03-31'"
+            [fullWidth]="false"
+            ariaLabel="Invoice date"
+          ></tng-datepicker>
+          <p class="datepicker-example-note">The default wrapper picks up the theme contract without extra utility classes.</p>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Default wrapper (Tailwind CSS)"
+        [codeTabs]="defaultTailwindCodeTabs"
+      >
+        <div class="datepicker-example-preview">
+          <div class="w-full max-w-[18.5rem] rounded-2xl border border-slate-200 bg-white p-3 shadow-sm dark:border-slate-700 dark:bg-slate-900/60">
+            <tng-datepicker
+              class="block w-full"
+              [defaultOpen]="false"
+              [defaultValue]="'2024-04-22'"
+              [today]="'2024-04-18'"
+              [minDate]="'2024-04-01'"
+              [maxDate]="'2026-03-31'"
+              [fullWidth]="false"
+              ariaLabel="Invoice date"
+            ></tng-datepicker>
+          </div>
+          <p class="datepicker-example-note">Wrap the component in utilities when the surrounding surface comes from Tailwind.</p>
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section class="datepicker-examples-block">
+    <app-docs-example-tabs-section
+      heading="Custom format"
+      description="Adapter-driven formatting changes the input text and the overlay period label without changing the datepicker behavior."
+      ariaLabel="Custom format datepicker variants"
+      tabListAriaLabel="Custom format example styles"
+      defaultValue="headless"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="headless"
+        label="Headless"
+        panelTitle="Custom format (Headless)"
+        [codeTabs]="customHeadlessCodeTabs"
+      >
+        <div class="datepicker-example-preview">
+          <section
+            class="datepicker-headless-demo"
+            [attr.aria-describedby]="customHeadlessOutputs().getHostAttributes()['aria-describedby']"
+            [attr.aria-label]="customHeadlessOutputs().getHostAttributes()['aria-label']"
+            [attr.aria-labelledby]="customHeadlessOutputs().getHostAttributes()['aria-labelledby']"
+            [attr.data-disabled]="customHeadlessOutputs().getHostAttributes()['data-disabled']"
+            [attr.data-open]="customHeadlessOutputs().getHostAttributes()['data-open']"
+            [attr.data-slot]="customHeadlessOutputs().getHostAttributes()['data-slot']"
+            [attr.data-view]="customHeadlessOutputs().getHostAttributes()['data-view']"
+            [attr.dir]="customHeadlessOutputs().getHostAttributes()['dir']"
+            [attr.role]="customHeadlessOutputs().getHostAttributes()['role']"
+          >
+            <div class="datepicker-headless-field" data-slot="datepicker-field">
+              <div class="datepicker-headless-anchor">
+                <div
+                  #customHeadlessAnchorShell
+                  class="datepicker-headless-shell"
+                  data-slot="datepicker-input-shell"
+                  [attr.data-invalid]="customHeadlessOutputs().validationError !== null ? 'true' : null"
+                  [attr.data-open]="customHeadlessOutputs().getTriggerAttributes()['data-open']"
+                >
+                  <input
+                    class="datepicker-headless-input"
+                    data-slot="datepicker-input"
+                    type="text"
+                    inputmode="numeric"
+                    placeholder="DD.MM.YYYY"
+                    aria-label="Headless reporting date"
+                    [value]="customHeadlessOutputs().inputText"
+                    [attr.aria-invalid]="customHeadlessOutputs().validationError !== null ? 'true' : null"
+                    (blur)="onHeadlessInputBlur(customHeadlessController)"
+                    (click)="onHeadlessInputClick(customHeadlessController)"
+                    (input)="onHeadlessInputChange(customHeadlessController, $event)"
+                    (keydown)="onHeadlessInputKeydown(customHeadlessController, $event)"
+                  />
+
+                  <button
+                    #customHeadlessTrigger
+                    type="button"
+                    class="datepicker-headless-trigger"
+                    [attr.aria-label]="'Open calendar'"
+                    [attr.aria-controls]="customHeadlessOutputs().getTriggerAttributes()['aria-controls']"
+                    [attr.aria-expanded]="customHeadlessOutputs().getTriggerAttributes()['aria-expanded']"
+                    [attr.aria-haspopup]="customHeadlessOutputs().getTriggerAttributes()['aria-haspopup']"
+                    [attr.data-open]="customHeadlessOutputs().getTriggerAttributes()['data-open']"
+                    [attr.data-slot]="customHeadlessOutputs().getTriggerAttributes()['data-slot']"
+                    (click)="onHeadlessTriggerClick(customHeadlessController)"
+                    (keydown)="onHeadlessTriggerKeydown(customHeadlessController, $event)"
+                  >
+                    <tng-icon icon="calendar-days" class="datepicker-headless-trigger-icon" />
+                    <span class="datepicker-headless-trigger-chevron" aria-hidden="true">▾</span>
+                  </button>
+                </div>
+
+                <section
+                  [tngDatepickerOverlay]="customHeadlessController"
+                  [tngDatepickerOverlayAnchor]="customHeadlessAnchorShell"
+                  class="datepicker-headless-overlay"
+                  [attr.aria-labelledby]="customHeadlessOutputs().getOverlayAttributes()['aria-labelledby']"
+                  [attr.aria-modal]="customHeadlessOutputs().getOverlayAttributes()['aria-modal']"
+                  [attr.data-open]="customHeadlessOutputs().getOverlayAttributes()['data-open']"
+                  [attr.data-position]="customHeadlessOutputs().getOverlayAttributes()['data-position']"
+                  [attr.data-slot]="customHeadlessOutputs().getOverlayAttributes()['data-slot']"
+                  [attr.id]="customHeadlessOutputs().getOverlayAttributes()['id']"
+                  [attr.role]="customHeadlessOutputs().getOverlayAttributes()['role']"
+                  (keydown)="onHeadlessOverlayKeydown(customHeadlessController, $event)"
+                >
+                  <header class="datepicker-headless-header" data-slot="datepicker-header">
+                    <div class="datepicker-headless-header-row">
+                      <button type="button" class="datepicker-headless-nav" data-slot="datepicker-nav-button" (click)="pageBackwardFor(customHeadlessController)">‹</button>
+                      <button
+                        type="button"
+                        class="datepicker-headless-period"
+                        data-slot="datepicker-period-button"
+                        [attr.data-interactive]="customHeadlessOutputs().view !== 'year' ? 'true' : null"
+                        (click)="onHeadlessPeriodClick(customHeadlessController)"
+                      >
+                        <span class="datepicker-headless-period-title">{{ resolvePeriodLabel(customHeadlessController) }}</span>
+                        @if (customHeadlessOutputs().view !== 'year') {
+                          <span class="datepicker-headless-period-chevron" aria-hidden="true">▾</span>
+                        }
+                      </button>
+                      <button type="button" class="datepicker-headless-nav" data-slot="datepicker-nav-button" (click)="pageForwardFor(customHeadlessController)">›</button>
+                    </div>
+                  </header>
+
+                  @if (customHeadlessOutputs().view === 'day') {
+                    <div class="datepicker-headless-weekdays" data-slot="datepicker-weekdays" aria-hidden="true">
+                      @for (label of customHeadlessOutputs().weekdayLabels; track label) {
+                        <span data-slot="datepicker-weekday">{{ label }}</span>
+                      }
+                    </div>
+
+                    <div
+                      class="datepicker-headless-day-grid"
+                      [attr.aria-activedescendant]="customHeadlessOutputs().getGridAttributes()['aria-activedescendant']"
+                      [attr.aria-labelledby]="customHeadlessOutputs().getGridAttributes()['aria-labelledby']"
+                      [attr.data-slot]="customHeadlessOutputs().getGridAttributes()['data-slot']"
+                      [attr.id]="customHeadlessOutputs().getGridAttributes()['id']"
+                      [attr.role]="customHeadlessOutputs().getGridAttributes()['role']"
+                      (keydown)="onHeadlessGridKeydown(customHeadlessController, $event)"
+                    >
+                      @for (cell of customHeadlessOutputs().cells; track cell.id) {
+                        <button
+                          type="button"
+                          class="datepicker-headless-cell"
+                          [disabled]="cell.disabled"
+                          [attr.aria-current]="cell.today ? 'date' : null"
+                          [attr.aria-disabled]="cell.disabled ? 'true' : null"
+                          [attr.aria-selected]="cell.selected ? 'true' : 'false'"
+                          [attr.data-active]="customHeadlessOutputs().getCellAttributes(cell)['data-active']"
+                          [attr.data-disabled]="customHeadlessOutputs().getCellAttributes(cell)['data-disabled']"
+                          [attr.data-focus-visible]="customHeadlessOutputs().getCellAttributes(cell)['data-focus-visible']"
+                          [attr.data-hidden]="customHeadlessOutputs().getCellAttributes(cell)['data-hidden']"
+                          [attr.data-in-month]="customHeadlessOutputs().getCellAttributes(cell)['data-in-month']"
+                          [attr.data-selected]="customHeadlessOutputs().getCellAttributes(cell)['data-selected']"
+                          [attr.data-slot]="customHeadlessOutputs().getCellAttributes(cell)['data-slot']"
+                          [attr.id]="cell.id"
+                          [attr.role]="'gridcell'"
+                          [attr.tabindex]="customHeadlessOutputs().getCellAttributes(cell)['tabindex']"
+                          (click)="onHeadlessDayCellClick(customHeadlessController, cell)"
+                        >
+                          {{ cell.label }}
+                        </button>
+                      }
+                    </div>
+                  }
+
+                  @if (customHeadlessOutputs().view === 'month') {
+                    <div class="datepicker-headless-picker-grid" data-slot="datepicker-grid" role="grid" (keydown)="onHeadlessMonthKeydown(customHeadlessController, $event)">
+                      @for (option of customHeadlessOutputs().monthOptions; track option.id) {
+                        <button
+                          type="button"
+                          class="datepicker-headless-picker-cell"
+                          [disabled]="option.disabled"
+                          [attr.aria-disabled]="customHeadlessOutputs().getMonthAttributes(option)['aria-disabled']"
+                          [attr.aria-selected]="customHeadlessOutputs().getMonthAttributes(option)['aria-selected']"
+                          [attr.data-active]="customHeadlessOutputs().getMonthAttributes(option)['data-active']"
+                          [attr.data-disabled]="customHeadlessOutputs().getMonthAttributes(option)['data-disabled']"
+                          [attr.data-focus-visible]="customHeadlessOutputs().getMonthAttributes(option)['data-focus-visible']"
+                          [attr.data-selected]="customHeadlessOutputs().getMonthAttributes(option)['data-selected']"
+                          [attr.data-slot]="customHeadlessOutputs().getMonthAttributes(option)['data-slot']"
+                          [attr.id]="option.id"
+                          [attr.role]="customHeadlessOutputs().getMonthAttributes(option)['role']"
+                          [attr.tabindex]="customHeadlessOutputs().getMonthAttributes(option)['tabindex']"
+                          (click)="onHeadlessMonthOptionClick(customHeadlessController, option)"
+                        >
+                          {{ option.label }}
+                        </button>
+                      }
+                    </div>
+                  }
+
+                  @if (customHeadlessOutputs().view === 'year') {
+                    <div class="datepicker-headless-picker-grid" data-slot="datepicker-grid" role="grid" (keydown)="onHeadlessYearKeydown(customHeadlessController, $event)">
+                      @for (option of customHeadlessOutputs().yearOptions; track option.id) {
+                        <button
+                          type="button"
+                          class="datepicker-headless-picker-cell"
+                          [disabled]="option.disabled"
+                          [attr.aria-disabled]="customHeadlessOutputs().getYearAttributes(option)['aria-disabled']"
+                          [attr.aria-selected]="customHeadlessOutputs().getYearAttributes(option)['aria-selected']"
+                          [attr.data-active]="customHeadlessOutputs().getYearAttributes(option)['data-active']"
+                          [attr.data-disabled]="customHeadlessOutputs().getYearAttributes(option)['data-disabled']"
+                          [attr.data-focus-visible]="customHeadlessOutputs().getYearAttributes(option)['data-focus-visible']"
+                          [attr.data-selected]="customHeadlessOutputs().getYearAttributes(option)['data-selected']"
+                          [attr.data-slot]="customHeadlessOutputs().getYearAttributes(option)['data-slot']"
+                          [attr.id]="option.id"
+                          [attr.role]="customHeadlessOutputs().getYearAttributes(option)['role']"
+                          [attr.tabindex]="customHeadlessOutputs().getYearAttributes(option)['tabindex']"
+                          (click)="onHeadlessYearOptionClick(customHeadlessController, option)"
+                        >
+                          {{ option.label }}
+                        </button>
+                      }
+                    </div>
+                  }
+                </section>
+              </div>
+            </div>
+          </section>
+          <p class="datepicker-example-note">The same controller can drive a different input format and period label through the adapter alone.</p>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Custom format (Plain-CSS)"
+        [codeTabs]="customPlainCodeTabs"
+      >
+        <div class="datepicker-example-preview">
+          <tng-datepicker
+            class="datepicker-example-control"
+            [defaultOpen]="false"
+            [adapter]="customFormatAdapter"
+            [defaultValue]="'2024-04-22'"
+            [today]="'2024-04-18'"
+            [fullWidth]="false"
+            ariaLabel="Reporting date"
+          ></tng-datepicker>
+          <p class="datepicker-example-note">The wrapper consumes the adapter directly for both input parsing and overlay display text.</p>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Custom format (Tailwind CSS)"
+        [codeTabs]="customTailwindCodeTabs"
+      >
+        <div class="datepicker-example-preview">
+          <div class="w-full max-w-[18.5rem] rounded-2xl border border-slate-200 bg-white p-3 shadow-sm dark:border-slate-700 dark:bg-slate-900/60">
+            <tng-datepicker
+              class="block w-full"
+              [defaultOpen]="false"
+              [adapter]="customFormatAdapter"
+              [defaultValue]="'2024-04-22'"
+              [today]="'2024-04-18'"
+              [fullWidth]="false"
+              ariaLabel="Reporting date"
+            ></tng-datepicker>
+          </div>
+          <p class="datepicker-example-note">Tailwind can own the surrounding surface while the wrapper keeps the datepicker interaction contract intact.</p>
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section class="datepicker-examples-block">
+    <app-docs-example-tabs-section
+      heading="Bounded range"
+      description="Min and max dates constrain day, month, and year navigation, including keyboard movement at the panel edges."
+      ariaLabel="Bounded range datepicker variants"
+      tabListAriaLabel="Bounded range example styles"
+      defaultValue="headless"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="headless"
+        label="Headless"
+        panelTitle="Bounded range (Headless)"
+        [codeTabs]="boundedHeadlessCodeTabs"
+      >
+        <div class="datepicker-example-preview">
+          <section
+            class="datepicker-headless-demo"
+            [attr.aria-describedby]="boundedHeadlessOutputs().getHostAttributes()['aria-describedby']"
+            [attr.aria-label]="boundedHeadlessOutputs().getHostAttributes()['aria-label']"
+            [attr.aria-labelledby]="boundedHeadlessOutputs().getHostAttributes()['aria-labelledby']"
+            [attr.data-disabled]="boundedHeadlessOutputs().getHostAttributes()['data-disabled']"
+            [attr.data-open]="boundedHeadlessOutputs().getHostAttributes()['data-open']"
+            [attr.data-slot]="boundedHeadlessOutputs().getHostAttributes()['data-slot']"
+            [attr.data-view]="boundedHeadlessOutputs().getHostAttributes()['data-view']"
+            [attr.dir]="boundedHeadlessOutputs().getHostAttributes()['dir']"
+            [attr.role]="boundedHeadlessOutputs().getHostAttributes()['role']"
+          >
+            <div class="datepicker-headless-field" data-slot="datepicker-field">
+              <div class="datepicker-headless-anchor">
+                <div
+                  #boundedHeadlessAnchorShell
+                  class="datepicker-headless-shell"
+                  data-slot="datepicker-input-shell"
+                  [attr.data-invalid]="boundedHeadlessOutputs().validationError !== null ? 'true' : null"
+                  [attr.data-open]="boundedHeadlessOutputs().getTriggerAttributes()['data-open']"
+                >
+                  <input
+                    class="datepicker-headless-input"
+                    data-slot="datepicker-input"
+                    type="text"
+                    inputmode="numeric"
+                    placeholder="MM-DD-YYYY"
+                    aria-label="Headless bounded shipping date"
+                    [value]="boundedHeadlessOutputs().inputText"
+                    [attr.aria-invalid]="boundedHeadlessOutputs().validationError !== null ? 'true' : null"
+                    (blur)="onHeadlessInputBlur(boundedHeadlessController)"
+                    (click)="onHeadlessInputClick(boundedHeadlessController)"
+                    (input)="onHeadlessInputChange(boundedHeadlessController, $event)"
+                    (keydown)="onHeadlessInputKeydown(boundedHeadlessController, $event)"
+                  />
+
+                  <button
+                    #boundedHeadlessTrigger
+                    type="button"
+                    class="datepicker-headless-trigger"
+                    [attr.aria-label]="'Open calendar'"
+                    [attr.aria-controls]="boundedHeadlessOutputs().getTriggerAttributes()['aria-controls']"
+                    [attr.aria-expanded]="boundedHeadlessOutputs().getTriggerAttributes()['aria-expanded']"
+                    [attr.aria-haspopup]="boundedHeadlessOutputs().getTriggerAttributes()['aria-haspopup']"
+                    [attr.data-open]="boundedHeadlessOutputs().getTriggerAttributes()['data-open']"
+                    [attr.data-slot]="boundedHeadlessOutputs().getTriggerAttributes()['data-slot']"
+                    (click)="onHeadlessTriggerClick(boundedHeadlessController)"
+                    (keydown)="onHeadlessTriggerKeydown(boundedHeadlessController, $event)"
+                  >
+                    <tng-icon icon="calendar-days" class="datepicker-headless-trigger-icon" />
+                    <span class="datepicker-headless-trigger-chevron" aria-hidden="true">▾</span>
+                  </button>
+                </div>
+
+                <section
+                  [tngDatepickerOverlay]="boundedHeadlessController"
+                  [tngDatepickerOverlayAnchor]="boundedHeadlessAnchorShell"
+                  class="datepicker-headless-overlay"
+                  [attr.aria-labelledby]="boundedHeadlessOutputs().getOverlayAttributes()['aria-labelledby']"
+                  [attr.aria-modal]="boundedHeadlessOutputs().getOverlayAttributes()['aria-modal']"
+                  [attr.data-open]="boundedHeadlessOutputs().getOverlayAttributes()['data-open']"
+                  [attr.data-position]="boundedHeadlessOutputs().getOverlayAttributes()['data-position']"
+                  [attr.data-slot]="boundedHeadlessOutputs().getOverlayAttributes()['data-slot']"
+                  [attr.id]="boundedHeadlessOutputs().getOverlayAttributes()['id']"
+                  [attr.role]="boundedHeadlessOutputs().getOverlayAttributes()['role']"
+                  (keydown)="onHeadlessOverlayKeydown(boundedHeadlessController, $event)"
+                >
+                  <header class="datepicker-headless-header" data-slot="datepicker-header">
+                    <div class="datepicker-headless-header-row">
+                      <button type="button" class="datepicker-headless-nav" data-slot="datepicker-nav-button" (click)="pageBackwardFor(boundedHeadlessController)">‹</button>
+                      <button
+                        type="button"
+                        class="datepicker-headless-period"
+                        data-slot="datepicker-period-button"
+                        [attr.data-interactive]="boundedHeadlessOutputs().view !== 'year' ? 'true' : null"
+                        (click)="onHeadlessPeriodClick(boundedHeadlessController)"
+                      >
+                        <span class="datepicker-headless-period-title">{{ resolvePeriodLabel(boundedHeadlessController) }}</span>
+                        @if (boundedHeadlessOutputs().view !== 'year') {
+                          <span class="datepicker-headless-period-chevron" aria-hidden="true">▾</span>
+                        }
+                      </button>
+                      <button type="button" class="datepicker-headless-nav" data-slot="datepicker-nav-button" (click)="pageForwardFor(boundedHeadlessController)">›</button>
+                    </div>
+                  </header>
+
+                  @if (boundedHeadlessOutputs().view === 'day') {
+                    <div class="datepicker-headless-weekdays" data-slot="datepicker-weekdays" aria-hidden="true">
+                      @for (label of boundedHeadlessOutputs().weekdayLabels; track label) {
+                        <span data-slot="datepicker-weekday">{{ label }}</span>
+                      }
+                    </div>
+
+                    <div
+                      class="datepicker-headless-day-grid"
+                      [attr.aria-activedescendant]="boundedHeadlessOutputs().getGridAttributes()['aria-activedescendant']"
+                      [attr.aria-labelledby]="boundedHeadlessOutputs().getGridAttributes()['aria-labelledby']"
+                      [attr.data-slot]="boundedHeadlessOutputs().getGridAttributes()['data-slot']"
+                      [attr.id]="boundedHeadlessOutputs().getGridAttributes()['id']"
+                      [attr.role]="boundedHeadlessOutputs().getGridAttributes()['role']"
+                      (keydown)="onHeadlessGridKeydown(boundedHeadlessController, $event)"
+                    >
+                      @for (cell of boundedHeadlessOutputs().cells; track cell.id) {
+                        <button
+                          type="button"
+                          class="datepicker-headless-cell"
+                          [disabled]="cell.disabled"
+                          [attr.aria-current]="cell.today ? 'date' : null"
+                          [attr.aria-disabled]="cell.disabled ? 'true' : null"
+                          [attr.aria-selected]="cell.selected ? 'true' : 'false'"
+                          [attr.data-active]="boundedHeadlessOutputs().getCellAttributes(cell)['data-active']"
+                          [attr.data-disabled]="boundedHeadlessOutputs().getCellAttributes(cell)['data-disabled']"
+                          [attr.data-focus-visible]="boundedHeadlessOutputs().getCellAttributes(cell)['data-focus-visible']"
+                          [attr.data-hidden]="boundedHeadlessOutputs().getCellAttributes(cell)['data-hidden']"
+                          [attr.data-in-month]="boundedHeadlessOutputs().getCellAttributes(cell)['data-in-month']"
+                          [attr.data-selected]="boundedHeadlessOutputs().getCellAttributes(cell)['data-selected']"
+                          [attr.data-slot]="boundedHeadlessOutputs().getCellAttributes(cell)['data-slot']"
+                          [attr.id]="cell.id"
+                          [attr.role]="'gridcell'"
+                          [attr.tabindex]="boundedHeadlessOutputs().getCellAttributes(cell)['tabindex']"
+                          (click)="onHeadlessDayCellClick(boundedHeadlessController, cell)"
+                        >
+                          {{ cell.label }}
+                        </button>
+                      }
+                    </div>
+                  }
+
+                  @if (boundedHeadlessOutputs().view === 'month') {
+                    <div class="datepicker-headless-picker-grid" data-slot="datepicker-grid" role="grid" (keydown)="onHeadlessMonthKeydown(boundedHeadlessController, $event)">
+                      @for (option of boundedHeadlessOutputs().monthOptions; track option.id) {
+                        <button
+                          type="button"
+                          class="datepicker-headless-picker-cell"
+                          [disabled]="option.disabled"
+                          [attr.aria-disabled]="boundedHeadlessOutputs().getMonthAttributes(option)['aria-disabled']"
+                          [attr.aria-selected]="boundedHeadlessOutputs().getMonthAttributes(option)['aria-selected']"
+                          [attr.data-active]="boundedHeadlessOutputs().getMonthAttributes(option)['data-active']"
+                          [attr.data-disabled]="boundedHeadlessOutputs().getMonthAttributes(option)['data-disabled']"
+                          [attr.data-focus-visible]="boundedHeadlessOutputs().getMonthAttributes(option)['data-focus-visible']"
+                          [attr.data-selected]="boundedHeadlessOutputs().getMonthAttributes(option)['data-selected']"
+                          [attr.data-slot]="boundedHeadlessOutputs().getMonthAttributes(option)['data-slot']"
+                          [attr.id]="option.id"
+                          [attr.role]="boundedHeadlessOutputs().getMonthAttributes(option)['role']"
+                          [attr.tabindex]="boundedHeadlessOutputs().getMonthAttributes(option)['tabindex']"
+                          (click)="onHeadlessMonthOptionClick(boundedHeadlessController, option)"
+                        >
+                          {{ option.label }}
+                        </button>
+                      }
+                    </div>
+                  }
+
+                  @if (boundedHeadlessOutputs().view === 'year') {
+                    <div class="datepicker-headless-picker-grid" data-slot="datepicker-grid" role="grid" (keydown)="onHeadlessYearKeydown(boundedHeadlessController, $event)">
+                      @for (option of boundedHeadlessOutputs().yearOptions; track option.id) {
+                        <button
+                          type="button"
+                          class="datepicker-headless-picker-cell"
+                          [disabled]="option.disabled"
+                          [attr.aria-disabled]="boundedHeadlessOutputs().getYearAttributes(option)['aria-disabled']"
+                          [attr.aria-selected]="boundedHeadlessOutputs().getYearAttributes(option)['aria-selected']"
+                          [attr.data-active]="boundedHeadlessOutputs().getYearAttributes(option)['data-active']"
+                          [attr.data-disabled]="boundedHeadlessOutputs().getYearAttributes(option)['data-disabled']"
+                          [attr.data-focus-visible]="boundedHeadlessOutputs().getYearAttributes(option)['data-focus-visible']"
+                          [attr.data-selected]="boundedHeadlessOutputs().getYearAttributes(option)['data-selected']"
+                          [attr.data-slot]="boundedHeadlessOutputs().getYearAttributes(option)['data-slot']"
+                          [attr.id]="option.id"
+                          [attr.role]="boundedHeadlessOutputs().getYearAttributes(option)['role']"
+                          [attr.tabindex]="boundedHeadlessOutputs().getYearAttributes(option)['tabindex']"
+                          (click)="onHeadlessYearOptionClick(boundedHeadlessController, option)"
+                        >
+                          {{ option.label }}
+                        </button>
+                      }
+                    </div>
+                  }
+                </section>
+              </div>
+            </div>
+          </section>
+          <p class="datepicker-example-note">Bounds propagate into year and month availability, not just the visible day grid.</p>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Bounded range (Plain-CSS)"
+        [codeTabs]="boundedPlainCodeTabs"
+      >
+        <div class="datepicker-example-preview">
+          <tng-datepicker
+            class="datepicker-example-control"
+            [defaultOpen]="false"
+            [defaultValue]="'2024-04-18'"
+            [today]="'2024-04-18'"
+            [minDate]="'2024-04-10'"
+            [maxDate]="'2024-04-25'"
+            [fullWidth]="false"
+            ariaLabel="Bounded shipping date"
+          ></tng-datepicker>
+          <p class="datepicker-example-note">The wrapper stops month/year traversal on the nearest enabled value inside the allowed window.</p>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Bounded range (Tailwind CSS)"
+        [codeTabs]="boundedTailwindCodeTabs"
+      >
+        <div class="datepicker-example-preview">
+          <div class="w-full max-w-[18.5rem] rounded-2xl border border-slate-200 bg-white p-3 shadow-sm dark:border-slate-700 dark:bg-slate-900/60">
+            <tng-datepicker
+              class="block w-full"
+              [defaultOpen]="false"
+              [defaultValue]="'2024-04-18'"
+              [today]="'2024-04-18'"
+              [minDate]="'2024-04-10'"
+              [maxDate]="'2024-04-25'"
+              [fullWidth]="false"
+              ariaLabel="Bounded shipping date"
+            ></tng-datepicker>
+          </div>
+          <p class="datepicker-example-note">Use a utility shell when range constraints need to sit inside a larger Tailwind-composed card.</p>
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+</article>
