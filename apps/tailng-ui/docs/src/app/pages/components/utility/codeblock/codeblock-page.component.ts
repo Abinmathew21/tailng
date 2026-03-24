@@ -25,7 +25,6 @@ function isCodeblockDocSectionId(value: string): value is CodeblockDocSectionId 
   selector: 'app-codeblock-page',
   imports: [RouterOutlet, TngTabsComponent, TngTabList, TngTab],
   templateUrl: './codeblock-page.component.html',
-  styleUrl: './codeblock-page.component.css',
 })
 export class CodeblockPageComponent {
   private readonly route = inject(ActivatedRoute);

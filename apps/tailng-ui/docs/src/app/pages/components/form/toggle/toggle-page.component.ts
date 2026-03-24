@@ -25,7 +25,6 @@ function isToggleDocSectionId(value: string): value is ToggleDocSectionId {
   selector: 'app-toggle-page',
   imports: [RouterOutlet, TngTabsComponent, TngTabList, TngTab],
   templateUrl: './toggle-page.component.html',
-  styleUrl: './toggle-page.component.css',
 })
 export class TogglePageComponent {
   private readonly route = inject(ActivatedRoute);

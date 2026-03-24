@@ -25,7 +25,6 @@ function isRadioDocSectionId(value: string): value is RadioDocSectionId {
   selector: 'app-radio-page',
   imports: [RouterOutlet, TngTabsComponent, TngTabList, TngTab],
   templateUrl: './radio-page.component.html',
-  styleUrl: './radio-page.component.css',
 })
 export class RadioPageComponent {
   private readonly route = inject(ActivatedRoute);

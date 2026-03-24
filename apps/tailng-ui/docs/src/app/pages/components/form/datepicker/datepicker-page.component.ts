@@ -25,7 +25,6 @@ function isDatepickerDocSectionId(value: string): value is DatepickerDocSectionI
   selector: 'app-datepicker-page',
   imports: [RouterOutlet, TngTabsComponent, TngTabList, TngTab],
   templateUrl: './datepicker-page.component.html',
-  styleUrl: './datepicker-page.component.css',
 })
 export class DatepickerPageComponent {
   private readonly route = inject(ActivatedRoute);

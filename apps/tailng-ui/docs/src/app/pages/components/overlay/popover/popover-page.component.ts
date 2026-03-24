@@ -25,7 +25,6 @@ function isPopoverDocSectionId(value: string): value is PopoverDocSectionId {
   selector: 'app-popover-page',
   imports: [RouterOutlet, TngTabsComponent, TngTabList, TngTab],
   templateUrl: './popover-page.component.html',
-  styleUrl: './popover-page.component.css',
 })
 export class PopoverPageComponent {
   private readonly route = inject(ActivatedRoute);

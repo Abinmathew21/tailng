@@ -25,7 +25,6 @@ function isMultiAutocompleteDocSectionId(value: string): value is MultiAutocompl
   selector: 'app-multi-autocomplete-page',
   imports: [RouterOutlet, TngTabsComponent, TngTabList, TngTab],
   templateUrl: './multi-autocomplete-page.component.html',
-  styleUrl: './multi-autocomplete-page.component.css',
 })
 export class MultiAutocompletePageComponent {
   private readonly route = inject(ActivatedRoute);

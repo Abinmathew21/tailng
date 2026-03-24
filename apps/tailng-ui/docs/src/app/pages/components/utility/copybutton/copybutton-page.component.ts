@@ -25,7 +25,6 @@ function isCopybuttonDocSectionId(value: string): value is CopybuttonDocSectionI
   selector: 'app-copybutton-page',
   imports: [RouterOutlet, TngTabsComponent, TngTabList, TngTab],
   templateUrl: './copybutton-page.component.html',
-  styleUrl: './copybutton-page.component.css',
 })
 export class CopybuttonPageComponent {
   private readonly route = inject(ActivatedRoute);

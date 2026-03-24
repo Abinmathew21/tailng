@@ -25,7 +25,6 @@ function isChipsDocSectionId(value: string): value is ChipsDocSectionId {
   selector: 'app-chips-page',
   imports: [RouterOutlet, TngTabsComponent, TngTabList, TngTab],
   templateUrl: './chips-page.component.html',
-  styleUrl: './chips-page.component.css',
 })
 export class ChipsPageComponent {
   private readonly route = inject(ActivatedRoute);

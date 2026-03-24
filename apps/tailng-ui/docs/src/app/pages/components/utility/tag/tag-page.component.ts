@@ -25,7 +25,6 @@ function isTagDocSectionId(value: string): value is TagDocSectionId {
   selector: 'app-tag-page',
   imports: [RouterOutlet, TngTabsComponent, TngTabList, TngTab],
   templateUrl: './tag-page.component.html',
-  styleUrl: './tag-page.component.css',
 })
 export class TagPageComponent {
   private readonly route = inject(ActivatedRoute);

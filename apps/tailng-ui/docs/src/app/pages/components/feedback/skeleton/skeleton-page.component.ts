@@ -25,7 +25,6 @@ function isSkeletonDocSectionId(value: string): value is SkeletonDocSectionId {
   selector: 'app-skeleton-page',
   imports: [RouterOutlet, TngTabsComponent, TngTabList, TngTab],
   templateUrl: './skeleton-page.component.html',
-  styleUrl: './skeleton-page.component.css',
 })
 export class SkeletonPageComponent {
   private readonly route = inject(ActivatedRoute);

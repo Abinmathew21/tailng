@@ -25,7 +25,6 @@ function isToastDocSectionId(value: string): value is ToastDocSectionId {
   selector: 'app-toast-page',
   imports: [RouterOutlet, TngTabsComponent, TngTabList, TngTab],
   templateUrl: './toast-page.component.html',
-  styleUrl: './toast-page.component.css',
 })
 export class ToastPageComponent {
   private readonly route = inject(ActivatedRoute);

@@ -25,7 +25,6 @@ function isAutocompleteDocSectionId(value: string): value is AutocompleteDocSect
   selector: 'app-autocomplete-page',
   imports: [RouterOutlet, TngTabsComponent, TngTabList, TngTab],
   templateUrl: './autocomplete-page.component.html',
-  styleUrl: './autocomplete-page.component.css',
 })
 export class AutocompletePageComponent {
   private readonly route = inject(ActivatedRoute);

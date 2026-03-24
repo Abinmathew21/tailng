@@ -25,7 +25,6 @@ function isSelectboxDocSectionId(value: string): value is SelectboxDocSectionId 
   selector: 'app-selectbox-page',
   imports: [RouterOutlet, TngTabsComponent, TngTabList, TngTab],
   templateUrl: './selectbox-page.component.html',
-  styleUrl: './selectbox-page.component.css',
 })
 export class SelectboxPageComponent {
   private readonly route = inject(ActivatedRoute);

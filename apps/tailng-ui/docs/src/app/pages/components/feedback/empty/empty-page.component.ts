@@ -25,7 +25,6 @@ function isEmptyDocSectionId(value: string): value is EmptyDocSectionId {
   selector: 'app-empty-page',
   imports: [RouterOutlet, TngTabsComponent, TngTabList, TngTab],
   templateUrl: './empty-page.component.html',
-  styleUrl: './empty-page.component.css',
 })
 export class EmptyPageComponent {
   private readonly route = inject(ActivatedRoute);

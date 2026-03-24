@@ -25,7 +25,6 @@ function isMultiselectDocSectionId(value: string): value is MultiselectDocSectio
   selector: 'app-multiselect-page',
   imports: [RouterOutlet, TngTabsComponent, TngTabList, TngTab],
   templateUrl: './multiselect-page.component.html',
-  styleUrl: './multiselect-page.component.css',
 })
 export class MultiselectPageComponent {
   private readonly route = inject(ActivatedRoute);

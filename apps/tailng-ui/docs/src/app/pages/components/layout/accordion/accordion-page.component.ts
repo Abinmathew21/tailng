@@ -25,7 +25,6 @@ function isAccordionDocSectionId(value: string): value is AccordionDocSectionId 
   selector: 'app-accordion-page',
   imports: [RouterOutlet, TngTabsComponent, TngTabList, TngTab],
   templateUrl: './accordion-page.component.html',
-  styleUrl: './accordion-page.component.css',
 })
 export class AccordionPageComponent {
   private readonly route = inject(ActivatedRoute);

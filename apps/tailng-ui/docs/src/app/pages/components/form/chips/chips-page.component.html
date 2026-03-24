@@ -1,23 +1,23 @@
-<section class="chips-docs-page">
+<section class="docs-component-page">
   <tng-tabs
-    class="chips-docs-tabs"
+    class="docs-component-tabs"
     ariaLabel="Chips documentation sections"
     [activation]="'manual'"
     [value]="activeSection()"
     (valueChange)="onSectionChange($event)"
   >
-    <div tngTabList class="chips-docs-tab-list" ariaLabel="Chips documentation tabs">
-      <button type="button" tngTab value="overview" class="chips-docs-tab-trigger">Overview</button>
-      <button type="button" tngTab value="api" class="chips-docs-tab-trigger">API</button>
-      <button type="button" tngTab value="styling" class="chips-docs-tab-trigger">Styling</button>
-      <button type="button" tngTab value="examples" class="chips-docs-tab-trigger">Examples</button>
-      <button type="button" tngTab value="ownable-install" class="chips-docs-tab-trigger">
+    <div tngTabList class="docs-component-tab-list" ariaLabel="Chips documentation tabs">
+      <button type="button" tngTab value="overview" class="docs-component-tab-trigger">Overview</button>
+      <button type="button" tngTab value="api" class="docs-component-tab-trigger">API</button>
+      <button type="button" tngTab value="styling" class="docs-component-tab-trigger">Styling</button>
+      <button type="button" tngTab value="examples" class="docs-component-tab-trigger">Examples</button>
+      <button type="button" tngTab value="ownable-install" class="docs-component-tab-trigger">
         Ownable Install
       </button>
     </div>
   </tng-tabs>
 
-  <section class="chips-docs-content">
+  <section class="docs-component-content">
     <router-outlet />
   </section>
 </section>

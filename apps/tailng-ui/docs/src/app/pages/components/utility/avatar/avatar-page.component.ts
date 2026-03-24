@@ -25,7 +25,6 @@ function isAvatarDocSectionId(value: string): value is AvatarDocSectionId {
   selector: 'app-avatar-page',
   imports: [RouterOutlet, TngTabsComponent, TngTabList, TngTab],
   templateUrl: './avatar-page.component.html',
-  styleUrl: './avatar-page.component.css',
 })
 export class AvatarPageComponent {
   private readonly route = inject(ActivatedRoute);

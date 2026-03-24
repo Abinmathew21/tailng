@@ -25,7 +25,6 @@ function isTooltipDocSectionId(value: string): value is TooltipDocSectionId {
   selector: 'app-tooltip-page',
   imports: [RouterOutlet, TngTabsComponent, TngTabList, TngTab],
   templateUrl: './tooltip-page.component.html',
-  styleUrl: './tooltip-page.component.css',
 })
 export class TooltipPageComponent {
   private readonly route = inject(ActivatedRoute);

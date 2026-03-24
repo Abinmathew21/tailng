@@ -25,7 +25,6 @@ function isTreeDocSectionId(value: string): value is TreeDocSectionId {
   selector: 'app-tree-page',
   imports: [RouterOutlet, TngTabsComponent, TngTabList, TngTab],
   templateUrl: './tree-page.component.html',
-  styleUrl: './tree-page.component.css',
 })
 export class TreePageComponent {
   private readonly route = inject(ActivatedRoute);

@@ -25,7 +25,6 @@ function isButtonToggleDocSectionId(value: string): value is ButtonToggleDocSect
   selector: 'app-button-toggle-page',
   imports: [RouterOutlet, TngTabsComponent, TngTabList, TngTab],
   templateUrl: './button-toggle-page.component.html',
-  styleUrl: './button-toggle-page.component.css',
 })
 export class ButtonTogglePageComponent {
   private readonly route = inject(ActivatedRoute);

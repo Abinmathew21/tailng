@@ -1,6 +1,6 @@
-<section class="listbox-docs-page">
+<section class="docs-component-page">
   <tng-tabs
-    class="listbox-docs-tabs"
+    class="docs-component-tabs"
     ariaLabel="ListBox documentation sections"
     [activation]="'manual'"
     [value]="activeSection()"
@@ -8,26 +8,26 @@
   >
     <div
       tngTabList
-      class="listbox-docs-tab-list"
+      class="docs-component-tab-list"
       ariaLabel="ListBox documentation tabs"
     >
-      <button type="button" tngTab value="overview" class="listbox-docs-tab-trigger">
+      <button type="button" tngTab value="overview" class="docs-component-tab-trigger">
         Overview
       </button>
-      <button type="button" tngTab value="api" class="listbox-docs-tab-trigger">API</button>
-      <button type="button" tngTab value="styling" class="listbox-docs-tab-trigger">
+      <button type="button" tngTab value="api" class="docs-component-tab-trigger">API</button>
+      <button type="button" tngTab value="styling" class="docs-component-tab-trigger">
         Styling
       </button>
-      <button type="button" tngTab value="examples" class="listbox-docs-tab-trigger">
+      <button type="button" tngTab value="examples" class="docs-component-tab-trigger">
         Examples
       </button>
-      <button type="button" tngTab value="ownable-install" class="listbox-docs-tab-trigger">
+      <button type="button" tngTab value="ownable-install" class="docs-component-tab-trigger">
         Ownable Install
       </button>
     </div>
   </tng-tabs>
 
-  <section class="listbox-docs-content">
+  <section class="docs-component-content">
     <router-outlet />
   </section>
 </section>

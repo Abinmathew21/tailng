@@ -25,7 +25,6 @@ function isCardDocSectionId(value: string): value is CardDocSectionId {
   selector: 'app-card-page',
   imports: [RouterOutlet, TngTabsComponent, TngTabList, TngTab],
   templateUrl: './card-page.component.html',
-  styleUrl: './card-page.component.css',
 })
 export class CardPageComponent {
   private readonly route = inject(ActivatedRoute);

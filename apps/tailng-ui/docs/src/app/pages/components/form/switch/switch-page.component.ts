@@ -30,7 +30,6 @@ function isSwitchDocSectionId(value: string): value is SwitchDocSectionId {
   selector: 'app-switch-page',
   imports: [RouterOutlet, TngTabsComponent, TngTabList, TngTab],
   templateUrl: './switch-page.component.html',
-  styleUrl: './switch-page.component.css',
 })
 export class SwitchPageComponent {
   private readonly route = inject(ActivatedRoute);

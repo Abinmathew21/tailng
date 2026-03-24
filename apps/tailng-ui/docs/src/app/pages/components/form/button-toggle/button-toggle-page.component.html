@@ -1,6 +1,6 @@
-<section class="button-toggle-docs-page">
+<section class="docs-component-page">
   <tng-tabs
-    class="button-toggle-docs-tabs"
+    class="docs-component-tabs"
     ariaLabel="Button Toggle documentation sections"
     [activation]="'manual'"
     [value]="activeSection()"
@@ -8,31 +8,31 @@
   >
     <div
       tngTabList
-      class="button-toggle-docs-tab-list"
+      class="docs-component-tab-list"
       ariaLabel="Button Toggle documentation tabs"
     >
-      <button type="button" tngTab value="overview" class="button-toggle-docs-tab-trigger">
+      <button type="button" tngTab value="overview" class="docs-component-tab-trigger">
         Overview
       </button>
-      <button type="button" tngTab value="api" class="button-toggle-docs-tab-trigger">API</button>
-      <button type="button" tngTab value="styling" class="button-toggle-docs-tab-trigger">
+      <button type="button" tngTab value="api" class="docs-component-tab-trigger">API</button>
+      <button type="button" tngTab value="styling" class="docs-component-tab-trigger">
         Styling
       </button>
-      <button type="button" tngTab value="examples" class="button-toggle-docs-tab-trigger">
+      <button type="button" tngTab value="examples" class="docs-component-tab-trigger">
         Examples
       </button>
       <button
         type="button"
         tngTab
         value="ownable-install"
-        class="button-toggle-docs-tab-trigger"
+        class="docs-component-tab-trigger"
       >
         Ownable Install
       </button>
     </div>
   </tng-tabs>
 
-  <section class="button-toggle-docs-content">
+  <section class="docs-component-content">
     <router-outlet />
   </section>
 </section>

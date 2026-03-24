@@ -1,29 +1,29 @@
-<section class="toast-docs-page">
+<section class="docs-component-page">
   <tng-tabs
-    class="toast-docs-tabs"
+    class="docs-component-tabs"
     ariaLabel="Toast documentation sections"
     [activation]="'manual'"
     [value]="activeSection()"
     (valueChange)="onSectionChange($event)"
   >
-    <div tngTabList class="toast-docs-tab-list" ariaLabel="Toast documentation tabs">
-      <button type="button" tngTab value="overview" class="toast-docs-tab-trigger">
+    <div tngTabList class="docs-component-tab-list" ariaLabel="Toast documentation tabs">
+      <button type="button" tngTab value="overview" class="docs-component-tab-trigger">
         Overview
       </button>
-      <button type="button" tngTab value="api" class="toast-docs-tab-trigger">API</button>
-      <button type="button" tngTab value="styling" class="toast-docs-tab-trigger">
+      <button type="button" tngTab value="api" class="docs-component-tab-trigger">API</button>
+      <button type="button" tngTab value="styling" class="docs-component-tab-trigger">
         Styling
       </button>
-      <button type="button" tngTab value="examples" class="toast-docs-tab-trigger">
+      <button type="button" tngTab value="examples" class="docs-component-tab-trigger">
         Examples
       </button>
-      <button type="button" tngTab value="ownable-install" class="toast-docs-tab-trigger">
+      <button type="button" tngTab value="ownable-install" class="docs-component-tab-trigger">
         Ownable Install
       </button>
     </div>
   </tng-tabs>
 
-  <section class="toast-docs-content">
+  <section class="docs-component-content">
     <router-outlet />
   </section>
 </section>

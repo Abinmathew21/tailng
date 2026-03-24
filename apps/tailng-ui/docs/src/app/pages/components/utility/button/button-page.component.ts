@@ -25,7 +25,6 @@ function isButtonDocSectionId(value: string): value is ButtonDocSectionId {
   selector: 'app-button-page',
   imports: [RouterOutlet, TngTabsComponent, TngTabList, TngTab],
   templateUrl: './button-page.component.html',
-  styleUrl: './button-page.component.css',
 })
 export class ButtonPageComponent {
   private readonly route = inject(ActivatedRoute);

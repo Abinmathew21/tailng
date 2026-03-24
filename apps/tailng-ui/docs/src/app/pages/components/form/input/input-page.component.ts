@@ -25,7 +25,6 @@ function isInputDocSectionId(value: string): value is InputDocSectionId {
   selector: 'app-input-page',
   imports: [RouterOutlet, TngTabsComponent, TngTabList, TngTab],
   templateUrl: './input-page.component.html',
-  styleUrl: './input-page.component.css',
 })
 export class InputPageComponent {
   private readonly route = inject(ActivatedRoute);

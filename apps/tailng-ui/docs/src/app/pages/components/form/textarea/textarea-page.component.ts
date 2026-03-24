@@ -25,7 +25,6 @@ function isTextareaDocSectionId(value: string): value is TextareaDocSectionId {
   selector: 'app-textarea-page',
   imports: [RouterOutlet, TngTabsComponent, TngTabList, TngTab],
   templateUrl: './textarea-page.component.html',
-  styleUrl: './textarea-page.component.css',
 })
 export class TextareaPageComponent {
   private readonly route = inject(ActivatedRoute);

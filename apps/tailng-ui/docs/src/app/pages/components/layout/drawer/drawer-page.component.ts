@@ -25,7 +25,6 @@ function isDrawerDocSectionId(value: string): value is DrawerDocSectionId {
   selector: 'app-drawer-page',
   imports: [RouterOutlet, TngTabsComponent, TngTabList, TngTab],
   templateUrl: './drawer-page.component.html',
-  styleUrl: './drawer-page.component.css',
 })
 export class DrawerPageComponent {
   private readonly route = inject(ActivatedRoute);

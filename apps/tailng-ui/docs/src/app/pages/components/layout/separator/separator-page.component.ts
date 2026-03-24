@@ -25,7 +25,6 @@ function isSeparatorDocSectionId(value: string): value is SeparatorDocSectionId 
   selector: 'app-separator-page',
   imports: [RouterOutlet, TngTabsComponent, TngTabList, TngTab],
   templateUrl: './separator-page.component.html',
-  styleUrl: './separator-page.component.css',
 })
 export class SeparatorPageComponent {
   private readonly route = inject(ActivatedRoute);

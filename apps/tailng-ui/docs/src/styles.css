@@ -24,3 +24,88 @@ app-root {
   display: block;
   height: 100%;
 }
+
+.docs-component-page {
+  display: grid;
+  gap: 1rem;
+  padding-inline: 1.5rem;
+}
+
+.docs-component-tabs {
+  background: var(--tng-semantic-background-base);
+  padding-top: 0.05rem;
+  position: sticky;
+  top: var(--docs-component-tabs-top, 6.65rem);
+  z-index: 9;
+}
+
+.docs-component-tabs::before {
+  background: inherit;
+  content: '';
+  height: 0.8rem;
+  left: 0;
+  pointer-events: none;
+  position: absolute;
+  right: 0;
+  top: -0.8rem;
+}
+
+.docs-component-tabs .tng-tabs {
+  background: inherit;
+  border: 0;
+  border-radius: 0;
+  gap: 0;
+  padding: 0;
+}
+
+.docs-component-tabs [data-slot='tab-list'] {
+  border-bottom: 1px solid var(--tng-semantic-border-subtle);
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 0;
+  width: 100%;
+}
+
+.docs-component-tabs [data-slot='tab'] {
+  background: transparent;
+  border: 0 solid transparent;
+  border-bottom: 3px solid transparent;
+  border-radius: 0;
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 0.9rem;
+  font-weight: 700;
+  min-height: 3rem;
+  min-width: 8.5rem;
+  padding: 0.5rem 1.6rem;
+  text-transform: uppercase;
+}
+
+.docs-component-tabs [data-slot='tab']:is(:hover, :focus-visible, [data-focused='true']) {
+  background: color-mix(in srgb, var(--tng-semantic-background-muted) 62%, transparent);
+  outline: none;
+}
+
+.docs-component-tabs [data-slot='tab'][data-selected='true'] {
+  border-bottom-color: var(--tng-semantic-accent-brand);
+  color: var(--tng-semantic-foreground-primary);
+}
+
+.docs-component-content {
+  display: block;
+  min-height: 16rem;
+}
+
+@media (max-width: 760px) {
+  .docs-component-page {
+    padding-inline: 1rem;
+  }
+
+  .docs-component-tabs [data-slot='tab-list'] {
+    flex-wrap: wrap;
+  }
+
+  .docs-component-tabs [data-slot='tab'] {
+    min-width: 6.75rem;
+    padding-inline: 1rem;
+  }
+}

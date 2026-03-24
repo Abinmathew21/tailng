@@ -25,7 +25,6 @@ function isCollapsibleDocSectionId(value: string): value is CollapsibleDocSectio
   selector: 'app-collapsible-page',
   imports: [RouterOutlet, TngTabsComponent, TngTabList, TngTab],
   templateUrl: './collapsible-page.component.html',
-  styleUrl: './collapsible-page.component.css',
 })
 export class CollapsiblePageComponent {
   private readonly route = inject(ActivatedRoute);

@@ -1,23 +1,23 @@
-<section class="empty-docs-page">
+<section class="docs-component-page">
   <tng-tabs
-    class="empty-docs-tabs"
+    class="docs-component-tabs"
     ariaLabel="Empty documentation sections"
     [activation]="'manual'"
     [value]="activeSection()"
     (valueChange)="onSectionChange($event)"
   >
-    <div tngTabList class="empty-docs-tab-list" ariaLabel="Empty documentation tabs">
-      <button type="button" tngTab value="overview" class="empty-docs-tab-trigger">Overview</button>
-      <button type="button" tngTab value="api" class="empty-docs-tab-trigger">API</button>
-      <button type="button" tngTab value="styling" class="empty-docs-tab-trigger">Styling</button>
-      <button type="button" tngTab value="examples" class="empty-docs-tab-trigger">Examples</button>
-      <button type="button" tngTab value="ownable-install" class="empty-docs-tab-trigger">
+    <div tngTabList class="docs-component-tab-list" ariaLabel="Empty documentation tabs">
+      <button type="button" tngTab value="overview" class="docs-component-tab-trigger">Overview</button>
+      <button type="button" tngTab value="api" class="docs-component-tab-trigger">API</button>
+      <button type="button" tngTab value="styling" class="docs-component-tab-trigger">Styling</button>
+      <button type="button" tngTab value="examples" class="docs-component-tab-trigger">Examples</button>
+      <button type="button" tngTab value="ownable-install" class="docs-component-tab-trigger">
         Ownable Install
       </button>
     </div>
   </tng-tabs>
 
-  <section class="empty-docs-content">
+  <section class="docs-component-content">
     <router-outlet />
   </section>
 </section>

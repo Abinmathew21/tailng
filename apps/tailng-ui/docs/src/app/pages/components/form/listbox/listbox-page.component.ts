@@ -25,7 +25,6 @@ function isListboxDocSectionId(value: string): value is ListboxDocSectionId {
   selector: 'app-listbox-page',
   imports: [RouterOutlet, TngTabsComponent, TngTabList, TngTab],
   templateUrl: './listbox-page.component.html',
-  styleUrl: './listbox-page.component.css',
 })
 export class ListboxPageComponent {
   private readonly route = inject(ActivatedRoute);

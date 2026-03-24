@@ -25,7 +25,6 @@ function isStepperDocSectionId(value: string): value is StepperDocSectionId {
   selector: 'app-stepper-page',
   imports: [RouterOutlet, TngTabsComponent, TngTabList, TngTab],
   templateUrl: './stepper-page.component.html',
-  styleUrl: './stepper-page.component.css',
 })
 export class StepperPageComponent {
   private readonly route = inject(ActivatedRoute);

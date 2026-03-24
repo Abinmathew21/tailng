@@ -25,7 +25,6 @@ function isProgressSpinnerDocSectionId(value: string): value is ProgressSpinnerD
   selector: 'app-progress-spinner-page',
   imports: [RouterOutlet, TngTabsComponent, TngTabList, TngTab],
   templateUrl: './progress-spinner-page.component.html',
-  styleUrl: './progress-spinner-page.component.css',
 })
 export class ProgressSpinnerPageComponent {
   private readonly route = inject(ActivatedRoute);

@@ -30,7 +30,6 @@ function isCheckboxDocSectionId(value: string): value is CheckboxDocSectionId {
   selector: 'app-checkbox-page',
   imports: [RouterOutlet, TngTabsComponent, TngTabList, TngTab],
   templateUrl: './checkbox-page.component.html',
-  styleUrl: './checkbox-page.component.css',
 })
 export class CheckboxPageComponent {
   private readonly route = inject(ActivatedRoute);

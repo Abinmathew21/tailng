@@ -44,7 +44,10 @@
 }
 
 .components-docs-content {
+  --docs-component-tabs-top: 6.65rem;
+
   align-self: stretch;
+  background: var(--tng-semantic-background-base);
   display: block;
   min-height: 0;
   overflow: visible;
@@ -57,7 +60,12 @@
 }
 
 .components-docs-breadcrumb {
+  background: inherit;
   margin-bottom: 0.75rem;
+  padding-block: 0.45rem 0.15rem;
+  position: sticky;
+  top: 4rem;
+  z-index: 10;
 }
 
 .components-docs-search {

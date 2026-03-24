@@ -25,7 +25,6 @@ function isProgressBarDocSectionId(value: string): value is ProgressBarDocSectio
   selector: 'app-progress-bar-page',
   imports: [RouterOutlet, TngTabsComponent, TngTabList, TngTab],
   templateUrl: './progress-bar-page.component.html',
-  styleUrl: './progress-bar-page.component.css',
 })
 export class ProgressBarPageComponent {
   private readonly route = inject(ActivatedRoute);

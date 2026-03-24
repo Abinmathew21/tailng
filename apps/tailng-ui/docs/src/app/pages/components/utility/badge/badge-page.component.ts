@@ -25,7 +25,6 @@ function isBadgeDocSectionId(value: string): value is BadgeDocSectionId {
   selector: 'app-badge-page',
   imports: [RouterOutlet, TngTabsComponent, TngTabList, TngTab],
   templateUrl: './badge-page.component.html',
-  styleUrl: './badge-page.component.css',
 })
 export class BadgePageComponent {
   private readonly route = inject(ActivatedRoute);

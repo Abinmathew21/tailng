@@ -25,7 +25,6 @@ function isInputOtpDocSectionId(value: string): value is InputOtpDocSectionId {
   selector: 'app-input-otp-page',
   imports: [RouterOutlet, TngTabsComponent, TngTabList, TngTab],
   templateUrl: './input-otp-page.component.html',
-  styleUrl: './input-otp-page.component.css',
 })
 export class InputOtpPageComponent {
   private readonly route = inject(ActivatedRoute);

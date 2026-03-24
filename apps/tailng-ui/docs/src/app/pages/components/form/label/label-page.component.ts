@@ -25,7 +25,6 @@ function isLabelDocSectionId(value: string): value is LabelDocSectionId {
   selector: 'app-label-page',
   imports: [RouterOutlet, TngTabsComponent, TngTabList, TngTab],
   templateUrl: './label-page.component.html',
-  styleUrl: './label-page.component.css',
 })
 export class LabelPageComponent {
   private readonly route = inject(ActivatedRoute);

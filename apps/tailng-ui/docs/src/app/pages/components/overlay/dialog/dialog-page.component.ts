@@ -25,7 +25,6 @@ function isDialogDocSectionId(value: string): value is DialogDocSectionId {
   selector: 'app-dialog-page',
   imports: [RouterOutlet, TngTabsComponent, TngTabList, TngTab],
   templateUrl: './dialog-page.component.html',
-  styleUrl: './dialog-page.component.css',
 })
 export class DialogPageComponent {
   private readonly route = inject(ActivatedRoute);
