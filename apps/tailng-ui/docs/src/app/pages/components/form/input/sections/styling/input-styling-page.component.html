@@ -1,11 +1,12 @@
-<article class="input-styling">
-  <h2 class="input-styling-title">Styling contract</h2>
-  <p class="input-styling-lead">
-    Input styling is slot/state driven. Style against stable data attributes instead of internal DOM
-    assumptions.
-  </p>
+<article class="docs-section-page input-styling">
+  <div class="docs-section-page-main">
+    <h2 class="input-styling-title">Styling contract</h2>
+    <p class="input-styling-lead">
+      Input styling is slot/state driven. Style against stable data attributes instead of internal DOM
+      assumptions.
+    </p>
 
-  <section class="input-styling-block">
+    <section id="css-contracts" class="docs-section-anchor input-styling-block">
     <h3>CSS contracts</h3>
     <p>
       Use these selectors as the public styling surface for <code>tngInput</code> and
@@ -153,10 +154,11 @@
       <code>--tng-input-inline-gap</code> on the wrapper when a compact search field or a wider
       utility input needs a different adornment rhythm.
     </p>
-  </section>
+    </section>
 
   <app-docs-example-tabs-section
-    class="input-styling-block"
+    id="user-scenario-style-examples"
+    class="docs-section-anchor input-styling-block"
     heading="User scenario style examples"
     description="Account profile form styling patterns across headless, plain CSS, and Tailwind strategies."
     ariaLabel="Input styling scenarios"
@@ -253,9 +255,12 @@ Writes about numerical methods and computation.</textarea
         </label>
       </div>
     </ng-template>
-  </app-docs-example-tabs-section>
+    </app-docs-example-tabs-section>
 
-  <section class="input-styling-block">
+    <section
+      id="different-styling-pattern-examples"
+      class="docs-section-anchor input-styling-block"
+    >
     <h3>Different styling pattern examples</h3>
     <p>
       Use these patterns as building blocks when documenting forms, search bars, and settings
@@ -283,5 +288,7 @@ Writes about numerical methods and computation.</textarea
         </article>
       }
     </div>
-  </section>
+    </section>
+  </div>
+
 </article>

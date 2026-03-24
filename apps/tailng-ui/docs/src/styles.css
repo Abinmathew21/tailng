@@ -50,10 +50,12 @@ app-root {
   top: -0.8rem;
 }
 
+tng-tabs.docs-component-tabs .tng-tabs,
 .docs-component-tabs .tng-tabs {
   background: inherit;
-  border: 0;
-  border-radius: 0;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none;
   gap: 0;
   padding: 0;
 }
@@ -93,6 +95,34 @@ app-root {
 .docs-component-content {
   display: block;
   min-height: 16rem;
+}
+
+.docs-section-page {
+  display: grid;
+  gap: 1rem;
+}
+
+.docs-section-page-main {
+  display: grid;
+  gap: 1rem;
+  min-width: 0;
+}
+
+.docs-section-anchor {
+  scroll-margin-top: calc(var(--docs-component-tabs-top, 6.65rem) + 4rem);
+}
+
+@media (min-width: 1280px) {
+  .docs-component-content {
+    align-items: start;
+    column-gap: 1.6rem;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+}
+
+.docs-component-content-main {
+  min-width: 0;
 }
 
 @media (max-width: 760px) {

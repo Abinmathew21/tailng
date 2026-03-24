@@ -22,7 +22,14 @@ const fallbackData: OwnableInstallRouteData = {
 
 @Component({
   selector: 'app-docs-ownable-install-section',
-  imports: [NgFor, TngCodeBlockComponent, TngTabsComponent, TngTabList, TngTab, TngTabPanel],
+  imports: [
+    NgFor,
+    TngCodeBlockComponent,
+    TngTabsComponent,
+    TngTabList,
+    TngTab,
+    TngTabPanel,
+  ],
   templateUrl: './docs-ownable-install-section.component.html',
   styleUrl: './docs-ownable-install-section.component.css',
 })

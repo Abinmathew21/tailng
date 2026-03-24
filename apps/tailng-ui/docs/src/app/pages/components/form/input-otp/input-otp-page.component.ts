@@ -2,6 +2,12 @@ import { computed, Component, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { TngTabsComponent } from '@tailng-ui/components';
+import { DocsComponentSectionOutlineComponent } from '../../../../shared/section-outline/docs-component-section-outline.component';
+import {
+  getDocsComponentSectionOutlineAriaLabel,
+  getDocsComponentSectionOutlineItems,
+  getDocsComponentSectionOutlineTitle,
+} from '../../../../shared/section-outline/component-section-outline.data';
 import { TngTab, TngTabList } from '@tailng-ui/primitives';
 import { filter, map, startWith } from 'rxjs/operators';
 
@@ -23,7 +29,7 @@ function isInputOtpDocSectionId(value: string): value is InputOtpDocSectionId {
 
 @Component({
   selector: 'app-input-otp-page',
-  imports: [RouterOutlet, TngTabsComponent, TngTabList, TngTab],
+  imports: [RouterOutlet, TngTabsComponent, TngTabList, TngTab, DocsComponentSectionOutlineComponent],
   templateUrl: './input-otp-page.component.html',
 })
 export class InputOtpPageComponent {
@@ -41,6 +47,20 @@ export class InputOtpPageComponent {
   public readonly activeSection = computed<InputOtpDocSectionId>(() => {
     const section = this.resolveSectionFromUrl(this.currentUrl());
     return section ?? defaultInputOtpDocSection;
+  });
+  private readonly docsItem = this.route.snapshot.data['item'] as
+    | { slug?: string; title?: string }
+    | undefined;
+  private readonly docsItemSlug = this.docsItem?.slug ?? '';
+  private readonly docsItemTitle = this.docsItem?.title ?? 'Component';
+  public readonly outlineItems = computed(() => {
+    return getDocsComponentSectionOutlineItems(this.docsItemSlug, this.activeSection());
+  });
+  public readonly outlineTitle = computed(() => {
+    return getDocsComponentSectionOutlineTitle(this.activeSection());
+  });
+  public readonly outlineAriaLabel = computed(() => {
+    return getDocsComponentSectionOutlineAriaLabel(this.docsItemTitle, this.activeSection());
   });
 
   public onSectionChange(value: string | number | null): void {

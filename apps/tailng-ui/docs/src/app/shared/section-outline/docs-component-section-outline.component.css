@@ -1,0 +1,16 @@
+:host {
+  display: block;
+}
+
+:host.docs-component-section-outline-empty {
+  display: none;
+}
+
+@media (min-width: 1280px) {
+  :host {
+    align-self: start;
+    position: sticky;
+    top: calc(var(--docs-component-tabs-top, 6.65rem) + 3.5rem);
+    width: 15rem;
+  }
+}

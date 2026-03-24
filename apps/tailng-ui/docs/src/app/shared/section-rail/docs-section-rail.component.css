@@ -1,0 +1,56 @@
+:host {
+  display: none;
+}
+
+@media (min-width: 1280px) {
+  :host {
+    display: block;
+  }
+
+  .docs-section-rail-card {
+    border-left: 3px solid
+      color-mix(
+        in srgb,
+        var(--tng-semantic-accent-brand) 22%,
+        var(--tng-semantic-border-subtle)
+      );
+    display: grid;
+    gap: 0.65rem;
+    padding-left: 1rem;
+  }
+
+  .docs-section-rail-title {
+    color: var(--tng-semantic-foreground-primary);
+    font-size: 0.88rem;
+    font-weight: 700;
+    margin: 0;
+  }
+
+  .docs-section-rail-list {
+    display: grid;
+    gap: 0.5rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .docs-section-rail-link {
+    appearance: none;
+    background: transparent;
+    border: 0;
+    color: var(--tng-semantic-foreground-secondary);
+    cursor: pointer;
+    font: inherit;
+    font-size: 0.92rem;
+    line-height: 1.3;
+    padding: 0;
+    text-align: left;
+    transition: color 140ms ease;
+    width: 100%;
+  }
+
+  .docs-section-rail-link:is(:hover, :focus-visible) {
+    color: var(--tng-semantic-accent-brand);
+    outline: none;
+  }
+}

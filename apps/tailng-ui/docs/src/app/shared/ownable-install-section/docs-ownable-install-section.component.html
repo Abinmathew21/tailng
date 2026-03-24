@@ -1,12 +1,13 @@
-<article class="docs-ownable-install">
-  <h2 class="docs-ownable-install-title">Ownable Install</h2>
-  <p class="docs-ownable-install-lead">
-    Install <code>{{ componentName }}</code> from the TailNG registry with the shadcn-like
-    flow. This copies source files into your app so your team can own and evolve the implementation
-    locally.
-  </p>
+<article class="docs-section-page docs-ownable-install">
+  <div class="docs-section-page-main">
+    <h2 class="docs-ownable-install-title">Ownable Install</h2>
+    <p class="docs-ownable-install-lead">
+      Install <code>{{ componentName }}</code> from the TailNG registry with the shadcn-like
+      flow. This copies source files into your app so your team can own and evolve the implementation
+      locally.
+    </p>
 
-  <section class="docs-ownable-install-block">
+    <section id="install-from-registry" class="docs-section-anchor docs-ownable-install-block">
     <h3>Install from registry</h3>
     <p>Run from your Angular workspace root.</p>
     <tng-tabs ariaLabel="Ownable install command" [defaultValue]="'pnpm'" class="docs-ownable-tabs">
@@ -39,9 +40,9 @@
         ></tng-code-block>
       </div>
     </tng-tabs>
-  </section>
+    </section>
 
-  <section class="docs-ownable-install-block">
+    <section id="generated-files" class="docs-section-anchor docs-ownable-install-block">
     <h3>Generated files</h3>
     <p>
       The command scaffolds local files under <code>src/app/tailng-ui/{{ registrySlug }}</code>.
@@ -51,9 +52,9 @@
         <code>{{ file }}</code>
       </li>
     </ul>
-  </section>
+    </section>
 
-  <section class="docs-ownable-install-block">
+    <section id="import-and-usage" class="docs-section-anchor docs-ownable-install-block">
     <h3>Import in your feature module/component</h3>
     <tng-code-block
       [code]="importCode"
@@ -76,5 +77,7 @@
       [wrap]="true"
       [sanitizeHtml]="false"
     ></tng-code-block>
-  </section>
+    </section>
+  </div>
+
 </article>

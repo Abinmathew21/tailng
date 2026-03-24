@@ -2,6 +2,12 @@ import { computed, Component, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { TngTabsComponent } from '@tailng-ui/components';
+import { DocsComponentSectionOutlineComponent } from '../../../../shared/section-outline/docs-component-section-outline.component';
+import {
+  getDocsComponentSectionOutlineAriaLabel,
+  getDocsComponentSectionOutlineItems,
+  getDocsComponentSectionOutlineTitle,
+} from '../../../../shared/section-outline/component-section-outline.data';
 import { TngTab, TngTabList } from '@tailng-ui/primitives';
 import { filter, map, startWith } from 'rxjs/operators';
 
@@ -23,9 +29,8 @@ function isContextMenuDocSectionId(value: string): value is ContextMenuDocSectio
 
 @Component({
   selector: 'app-context-menu-page',
-  imports: [RouterOutlet, TngTabsComponent, TngTabList, TngTab],
+  imports: [RouterOutlet, TngTabsComponent, TngTabList, TngTab, DocsComponentSectionOutlineComponent],
   templateUrl: './context-menu-page.component.html',
-  styleUrls: ['./context-menu-page.component.css'],
 })
 export class ContextMenuPageComponent {
   private readonly route = inject(ActivatedRoute);
@@ -42,6 +47,20 @@ export class ContextMenuPageComponent {
   public readonly activeSection = computed<ContextMenuDocSectionId>(() => {
     const section = this.resolveSectionFromUrl(this.currentUrl());
     return section ?? defaultContextMenuDocSection;
+  });
+  private readonly docsItem = this.route.snapshot.data['item'] as
+    | { slug?: string; title?: string }
+    | undefined;
+  private readonly docsItemSlug = this.docsItem?.slug ?? '';
+  private readonly docsItemTitle = this.docsItem?.title ?? 'Component';
+  public readonly outlineItems = computed(() => {
+    return getDocsComponentSectionOutlineItems(this.docsItemSlug, this.activeSection());
+  });
+  public readonly outlineTitle = computed(() => {
+    return getDocsComponentSectionOutlineTitle(this.activeSection());
+  });
+  public readonly outlineAriaLabel = computed(() => {
+    return getDocsComponentSectionOutlineAriaLabel(this.docsItemTitle, this.activeSection());
   });
 
   public onSectionChange(value: string | number | null): void {

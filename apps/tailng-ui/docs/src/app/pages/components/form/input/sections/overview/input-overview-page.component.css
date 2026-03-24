@@ -2,11 +2,6 @@
   display: block;
 }
 
-.input-overview {
-  display: grid;
-  gap: 1.1rem;
-}
-
 .input-overview-title {
   color: var(--tng-semantic-foreground-primary);
   font-size: 1.5rem;

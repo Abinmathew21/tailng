@@ -2,11 +2,6 @@
   display: block;
 }
 
-.input-examples {
-  display: grid;
-  gap: 1rem;
-}
-
 .input-examples-title {
   color: var(--tng-semantic-foreground-primary);
   font-size: 1.5rem;

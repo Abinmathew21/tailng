@@ -1,98 +1,100 @@
-<article class="input-overview">
-  <h2 class="input-overview-title">Input</h2>
-  <p class="input-overview-lead">
-    Inputs in TailNG are built as headless primitives that attach to native form controls and expose
-    consistent slot markers and state hooks for styling.
-  </p>
-  <p class="input-overview-lead">You can use them in two ways:</p>
-  <ol class="input-overview-steps">
-    <li>
-      <strong>Direct attachment:</strong> <code>tngInput</code> on an <code>&lt;input&gt;</code> or
-      <code>&lt;textarea&gt;</code>
-    </li>
-    <li>
-      <strong>Grouped composition:</strong> <code>tngInputGroup</code> with optional
-      leading/trailing content using slot directives
-    </li>
-  </ol>
-
-  <section class="input-overview-block">
-    <h3>What you get</h3>
-    <ul class="input-overview-list">
+<article class="docs-section-page input-overview">
+  <div class="docs-section-page-main">
+    <h2 class="input-overview-title">Input</h2>
+    <p class="input-overview-lead">
+      Inputs in TailNG are built as headless primitives that attach to native form controls and expose
+      consistent slot markers and state hooks for styling.
+    </p>
+    <p class="input-overview-lead">You can use them in two ways:</p>
+    <ol class="input-overview-steps">
       <li>
-        <strong>Native-first behavior</strong>
-        <ul>
-          <li>Uses real <code>&lt;input&gt;</code> and <code>&lt;textarea&gt;</code>.</li>
-          <li>
-            Preserves standard browser behavior (typing, composition events, Enter submit, native
-            validation).
-          </li>
-        </ul>
+        <strong>Direct attachment:</strong> <code>tngInput</code> on an
+        <code>&lt;input&gt;</code> or <code>&lt;textarea&gt;</code>
       </li>
       <li>
-        <strong>Styling contract</strong>
-        <ul>
-          <li>Styling is driven by <code>data-slot</code> markers and state data attributes.</li>
-          <li>
-            Group-level spacing between leading/trailing adornments and the control is exposed via
-            <code>--tng-input-inline-gap</code>.
-          </li>
-          <li>No required classes.</li>
-          <li>No DOM/tag assumptions beyond slot names.</li>
-        </ul>
+        <strong>Grouped composition:</strong> <code>tngInputGroup</code> with optional
+        leading/trailing content using slot directives
       </li>
-      <li>
-        <strong>Accessibility pass-through</strong>
-        <ul>
-          <li>
-            Supports <code>aria-label</code>, <code>aria-labelledby</code>,
-            <code>aria-describedby</code>, <code>aria-required</code>, <code>aria-invalid</code>.
-          </li>
-          <li><code>aria-invalid</code> is emitted only when invalid.</li>
-        </ul>
-      </li>
-    </ul>
-  </section>
+    </ol>
 
-  <app-docs-example-tabs-section
-    class="input-overview-block"
-    heading="Simple examples"
-    description="Compare the same Input structure across headless, plain CSS, and Tailwind CSS styles."
-    ariaLabel="Input style examples"
-    tabListAriaLabel="Input example style variants"
-    defaultValue="headless"
-    [codeBlockTheme]="codeBlockTheme()"
-  >
-    <ng-template
-      appDocsExampleVariant
-      value="headless"
-      label="Headless"
-      panelTitle="Basic Inputs (Headless)"
-      [codeTabs]="headlessExampleCodeTabs"
-    >
-      <ng-container [ngTemplateOutlet]="basicInputPreviewTemplate" />
-    </ng-template>
+    <section id="what-you-get" class="docs-section-anchor input-overview-block">
+      <h3>What you get</h3>
+      <ul class="input-overview-list">
+        <li>
+          <strong>Native-first behavior</strong>
+          <ul>
+            <li>Uses real <code>&lt;input&gt;</code> and <code>&lt;textarea&gt;</code>.</li>
+            <li>
+              Preserves standard browser behavior (typing, composition events, Enter submit, native
+              validation).
+            </li>
+          </ul>
+        </li>
+        <li>
+          <strong>Styling contract</strong>
+          <ul>
+            <li>Styling is driven by <code>data-slot</code> markers and state data attributes.</li>
+            <li>
+              Group-level spacing between leading/trailing adornments and the control is exposed via
+              <code>--tng-input-inline-gap</code>.
+            </li>
+            <li>No required classes.</li>
+            <li>No DOM/tag assumptions beyond slot names.</li>
+          </ul>
+        </li>
+        <li>
+          <strong>Accessibility pass-through</strong>
+          <ul>
+            <li>
+              Supports <code>aria-label</code>, <code>aria-labelledby</code>,
+              <code>aria-describedby</code>, <code>aria-required</code>, <code>aria-invalid</code>.
+            </li>
+            <li><code>aria-invalid</code> is emitted only when invalid.</li>
+          </ul>
+        </li>
+      </ul>
+    </section>
 
-    <ng-template
-      appDocsExampleVariant
-      value="plain-css"
-      label="Plain-CSS"
-      panelTitle="Basic Inputs (Plain CSS)"
-      [codeTabs]="plainCssExampleCodeTabs"
+    <app-docs-example-tabs-section
+      id="simple-examples"
+      class="docs-section-anchor input-overview-block"
+      heading="Simple examples"
+      description="Compare the same Input structure across headless, plain CSS, and Tailwind CSS styles."
+      ariaLabel="Input style examples"
+      tabListAriaLabel="Input example style variants"
+      defaultValue="headless"
+      [codeBlockTheme]="codeBlockTheme()"
     >
-      <ng-container [ngTemplateOutlet]="basicInputPreviewTemplate" />
-    </ng-template>
+      <ng-template
+        appDocsExampleVariant
+        value="headless"
+        label="Headless"
+        panelTitle="Basic Inputs (Headless)"
+        [codeTabs]="headlessExampleCodeTabs"
+      >
+        <ng-container [ngTemplateOutlet]="basicInputPreviewTemplate" />
+      </ng-template>
 
-    <ng-template
-      appDocsExampleVariant
-      value="tailwind-css"
-      label="Tailwind CSS"
-      panelTitle="Basic Inputs (Tailwind CSS)"
-      [codeTabs]="tailwindExampleCodeTabs"
-    >
-      <ng-container [ngTemplateOutlet]="basicInputPreviewTemplate" />
-    </ng-template>
-  </app-docs-example-tabs-section>
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Basic Inputs (Plain CSS)"
+        [codeTabs]="plainCssExampleCodeTabs"
+      >
+        <ng-container [ngTemplateOutlet]="basicInputPreviewTemplate" />
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Basic Inputs (Tailwind CSS)"
+        [codeTabs]="tailwindExampleCodeTabs"
+      >
+        <ng-container [ngTemplateOutlet]="basicInputPreviewTemplate" />
+      </ng-template>
+    </app-docs-example-tabs-section>
 
   <ng-template #basicInputPreviewTemplate>
     <div class="input-overview-example-fields">
@@ -123,10 +125,10 @@ Water boils at 100 degree celcius at sea level.</textarea
     </div>
   </ng-template>
 
-  <section class="input-overview-block">
-    <h3>Installation</h3>
-    <p>Import only the primitives you need.</p>
-    <tng-code-block
+    <section id="installation" class="docs-section-anchor input-overview-block">
+      <h3>Installation</h3>
+      <p>Import only the primitives you need.</p>
+      <tng-code-block
       [code]="primitivesImportCode"
       adapter="shiki"
       language="ts"
@@ -136,12 +138,12 @@ Water boils at 100 degree celcius at sea level.</textarea
       [wrap]="true"
       [lineNumbers]="false"
     ></tng-code-block>
-  </section>
+    </section>
 
-  <section class="input-overview-block">
-    <h3>Basic usage</h3>
-    <h4>1) Direct primitive attachment (simplest)</h4>
-    <p>Use this when you do not need leading/trailing adornments.</p>
+    <section id="basic-usage" class="docs-section-anchor input-overview-block">
+      <h3>Basic usage</h3>
+      <h4>1) Direct primitive attachment (simplest)</h4>
+      <p>Use this when you do not need leading/trailing adornments.</p>
     <tng-code-block
       [code]="directAttachmentCode"
       adapter="shiki"
@@ -165,31 +167,31 @@ Water boils at 100 degree celcius at sea level.</textarea
       [wrap]="true"
       [lineNumbers]="false"
     ></tng-code-block>
-  </section>
+    </section>
 
-  <section class="input-overview-block">
-    <h3>Structure</h3>
-    <p>
-      Detailed API bindings are documented in the <strong>API</strong> tab. Styling slot/state
-      contract is documented in the <strong>Styling</strong> tab.
-    </p>
-  </section>
+    <section id="structure" class="docs-section-anchor input-overview-block">
+      <h3>Structure</h3>
+      <p>
+        Detailed API bindings are documented in the <strong>API</strong> tab. Styling slot/state
+        contract is documented in the <strong>Styling</strong> tab.
+      </p>
+    </section>
 
-  <section class="input-overview-block">
-    <h3>Accessibility guidance</h3>
-    <ul class="input-overview-list">
-      <li>Mark decorative leading/trailing content as <code>aria-hidden="true"</code>.</li>
+    <section id="accessibility-guidance" class="docs-section-anchor input-overview-block">
+      <h3>Accessibility guidance</h3>
+      <ul class="input-overview-list">
+        <li>Mark decorative leading/trailing content as <code>aria-hidden="true"</code>.</li>
       <li>
         Projected interactive elements (for example trailing clear button) are valid tab stops by
         design.
       </li>
     </ul>
-  </section>
+    </section>
 
-  <section class="input-overview-block">
-    <h3>Validation patterns</h3>
-    <h4>Recommended for unit tests (jsdom)</h4>
-    <tng-code-block
+    <section id="validation-patterns" class="docs-section-anchor input-overview-block">
+      <h3>Validation patterns</h3>
+      <h4>Recommended for unit tests (jsdom)</h4>
+      <tng-code-block
       [code]="ariaInvalidTestCode"
       adapter="shiki"
       language="html"
@@ -210,12 +212,12 @@ Water boils at 100 degree celcius at sea level.</textarea
       [wrap]="true"
       [lineNumbers]="false"
     ></tng-code-block>
-  </section>
+    </section>
 
-  <section class="input-overview-block">
-    <h3>Examples</h3>
-    <h4>Search with keyboard hint (non-focusable)</h4>
-    <tng-code-block
+    <section id="examples" class="docs-section-anchor input-overview-block">
+      <h3>Examples</h3>
+      <h4>Search with keyboard hint (non-focusable)</h4>
+      <tng-code-block
       [code]="searchWithHintCode"
       adapter="shiki"
       language="html"
@@ -236,12 +238,12 @@ Water boils at 100 degree celcius at sea level.</textarea
       [wrap]="true"
       [lineNumbers]="false"
     ></tng-code-block>
-  </section>
+    </section>
 
-  <section class="input-overview-block">
-    <h3>Common pitfalls</h3>
-    <p><strong>"My group warns: found 0 controls"</strong></p>
-    <p>Ensure the projected control includes <code>tngInput</code>.</p>
+    <section id="common-pitfalls" class="docs-section-anchor input-overview-block">
+      <h3>Common pitfalls</h3>
+      <p><strong>"My group warns: found 0 controls"</strong></p>
+      <p>Ensure the projected control includes <code>tngInput</code>.</p>
     <div class="pitfall-grid">
       <div>
         <p class="pitfall-label">Correct</p>
@@ -281,5 +283,7 @@ Water boils at 100 degree celcius at sea level.</textarea
       <li>Do not rely solely on <code>:invalid</code> unless test runtime supports it.</li>
       <li>Group warning checks are dev-mode only and run asynchronously (microtask timing).</li>
     </ul>
-  </section>
+    </section>
+  </div>
+
 </article>

@@ -35,6 +35,14 @@
   </tng-tabs>
 
   <section class="docs-component-content">
-    <router-outlet />
+    <div class="docs-component-content-main" #docsContentRoot>
+      <router-outlet />
+    </div>
+    <app-docs-component-section-outline
+      [ariaLabel]="outlineAriaLabel()"
+      [contentRoot]="docsContentRoot"
+      [items]="outlineItems()"
+      [title]="outlineTitle()"
+    />
   </section>
 </section>

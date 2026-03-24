@@ -1,0 +1,20 @@
+<aside class="docs-section-rail">
+  <div class="docs-section-rail-card">
+    <p class="docs-section-rail-title">{{ title() }}</p>
+    <nav [attr.aria-label]="ariaLabel()">
+      <ol class="docs-section-rail-list">
+        @for (item of items(); track item.id) {
+          <li>
+            <button
+              type="button"
+              class="docs-section-rail-link"
+              (click)="onNavigate(item.id)"
+            >
+              {{ item.label }}
+            </button>
+          </li>
+        }
+      </ol>
+    </nav>
+  </div>
+</aside>
