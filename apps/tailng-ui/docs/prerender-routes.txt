@@ -59,7 +59,6 @@
 /components/form/datepicker/api
 /components/form/datepicker/examples
 /components/form/datepicker/overview
-/components/form/datepicker/ownable-install
 /components/form/datepicker/styling
 /components/form/input
 /components/form/input-otp
@@ -83,13 +82,11 @@
 /components/form/listbox/api
 /components/form/listbox/examples
 /components/form/listbox/overview
-/components/form/listbox/ownable-install
 /components/form/listbox/styling
 /components/form/multi-autocomplete
 /components/form/multi-autocomplete/api
 /components/form/multi-autocomplete/examples
 /components/form/multi-autocomplete/overview
-/components/form/multi-autocomplete/ownable-install
 /components/form/multi-autocomplete/styling
 /components/form/multiselect
 /components/form/multiselect/api
@@ -107,7 +104,6 @@
 /components/form/selectbox/api
 /components/form/selectbox/examples
 /components/form/selectbox/overview
-/components/form/selectbox/ownable-install
 /components/form/selectbox/styling
 /components/form/switch
 /components/form/switch/api

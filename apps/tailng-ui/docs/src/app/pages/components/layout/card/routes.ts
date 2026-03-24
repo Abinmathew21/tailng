@@ -50,9 +50,6 @@ export const COMPONENTS_LAYOUT_CARD_ROUTES: Routes = [
       {
         path: 'ownable-install',
         data: {
-          componentName: 'Card',
-          componentSymbol: 'TngCardComponent',
-          primitiveSymbol: 'TngCard',
           registrySlug: 'card',
           usageCode: [
             '<tng-card>',

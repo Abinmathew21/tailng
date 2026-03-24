@@ -50,9 +50,6 @@ export const COMPONENTS_FEEDBACK_PROGRESS_BAR_ROUTES: Routes = [
       {
         path: 'ownable-install',
         data: {
-          componentName: 'Progress Bar',
-          componentSymbol: 'TngProgressBarComponent',
-          primitiveSymbol: 'TngProgressBar',
           registrySlug: 'progress-bar',
           usageCode: [
             '<tng-progress-bar',

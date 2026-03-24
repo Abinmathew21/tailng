@@ -50,9 +50,6 @@ export const COMPONENTS_FEEDBACK_EMPTY_ROUTES: Routes = [
       {
         path: 'ownable-install',
         data: {
-          componentName: 'Empty',
-          componentSymbol: 'TngEmptyComponent',
-          primitiveSymbol: 'TngEmpty',
           registrySlug: 'empty',
           usageCode: [
             '<tng-empty>',

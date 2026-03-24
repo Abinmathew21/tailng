@@ -1,9 +1,9 @@
 /**
  * @vitest-environment node
  */
-import { afterEach, expect, it } from 'vitest';
+import { afterEach, expect, it, vi } from 'vitest';
 
-import { getRegistryItem, listRegistryItemNames } from '@tailng-ui/registry';
+import { getRegistryItem, listRegistryItemNames, type RegistryItem } from '@tailng-ui/registry';
 import { access, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import * as path from 'node:path';
@@ -36,12 +36,199 @@ async function pathExists(filePath: string): Promise<boolean> {
   }
 }
 
+function toCapturedText(chunk: string | Uint8Array): string {
+  if (typeof chunk === 'string') {
+    return chunk;
+  }
+
+  return Buffer.from(chunk).toString('utf8');
+}
+
+async function captureCli(
+  argv: readonly string[],
+  dependencies?: Readonly<{ registry: CliRegistryModule }>,
+): Promise<Readonly<{ exitCode: number; stderr: string; stdout: string }>> {
+  const stdoutChunks: string[] = [];
+  const stderrChunks: string[] = [];
+  const stdoutSpy = vi.spyOn(process.stdout, 'write').mockImplementation(((chunk: string | Uint8Array) => {
+    stdoutChunks.push(toCapturedText(chunk));
+    return true;
+  }) as typeof process.stdout.write);
+  const stderrSpy = vi.spyOn(process.stderr, 'write').mockImplementation(((chunk: string | Uint8Array) => {
+    stderrChunks.push(toCapturedText(chunk));
+    return true;
+  }) as typeof process.stderr.write);
+
+  try {
+    const exitCode = await runCli(argv, dependencies ?? { registry: registryModule });
+    return {
+      exitCode,
+      stderr: stderrChunks.join(''),
+      stdout: stdoutChunks.join(''),
+    };
+  } finally {
+    stdoutSpy.mockRestore();
+    stderrSpy.mockRestore();
+  }
+}
+
 afterEach(async (): Promise<void> => {
   for (const root of createdRoots) {
     await rm(root, { recursive: true, force: true });
   }
 
   createdRoots.length = 0;
+});
+
+it('tailng cli integration: list prints registry items and aliases', async (): Promise<void> => {
+  const { exitCode, stderr, stdout } = await captureCli(['list']);
+
+  expect(exitCode).toBe(0);
+  expect(stderr).toBe('');
+  expect(stdout).toContain('Available components:');
+  expect(stdout).toContain('- button');
+  expect(stdout).toContain('- progress-spinner');
+  expect(stdout).toContain('Aliases (resolved to canonical components):');
+  expect(stdout).toContain('- slide-toggle -> switch');
+  expect(stdout).toContain('- sidenav -> drawer');
+});
+
+it('tailng cli integration: --help prints usage and exits zero', async (): Promise<void> => {
+  const { exitCode, stderr, stdout } = await captureCli(['--help']);
+
+  expect(exitCode).toBe(0);
+  expect(stderr).toBe('');
+  expect(stdout).toContain('tailng - TailNG CLI');
+  expect(stdout).toContain('tailng list');
+  expect(stdout).toContain('tailng add <component-name>');
+});
+
+it('tailng cli integration: help prints usage and exits zero', async (): Promise<void> => {
+  const { exitCode, stderr, stdout } = await captureCli(['help']);
+
+  expect(exitCode).toBe(0);
+  expect(stderr).toBe('');
+  expect(stdout).toContain('tailng - TailNG CLI');
+  expect(stdout).toContain('tailng list');
+  expect(stdout).toContain('tailng add <component-name>');
+});
+
+it('tailng cli integration: unknown command prints help and exits non-zero', async (): Promise<void> => {
+  const { exitCode, stderr, stdout } = await captureCli(['deploy']);
+
+  expect(exitCode).toBe(1);
+  expect(stderr).toContain('Unknown command "deploy".');
+  expect(stdout).toContain('tailng - TailNG CLI');
+});
+
+it('tailng cli integration: unsupported component prints available components and exits non-zero', async (): Promise<void> => {
+  const targetRoot = await createTargetRoot();
+  const { exitCode, stderr, stdout } = await captureCli(['add', 'datepicker', '--cwd', targetRoot]);
+
+  expect(exitCode).toBe(1);
+  expect(stdout).toBe('');
+  expect(stderr).toContain('Unknown component "datepicker".');
+  expect(stderr).toContain('Available components:');
+  expect(stderr).toContain('button');
+  expect(stderr).toContain('switch');
+});
+
+it('tailng cli integration: add without a component name prints help and exits non-zero', async (): Promise<void> => {
+  const { exitCode, stderr, stdout } = await captureCli(['add']);
+
+  expect(exitCode).toBe(1);
+  expect(stderr).toContain('Missing component name for "add".');
+  expect(stdout).toContain('tailng - TailNG CLI');
+});
+
+it('tailng cli integration: invalid --cwd prints an error and exits non-zero', async (): Promise<void> => {
+  const targetRoot = await createTargetRoot();
+  const missingDirectory = path.join(targetRoot, 'does-not-exist');
+  const { exitCode, stderr, stdout } = await captureCli(['add', 'button', '--cwd', missingDirectory]);
+
+  expect(exitCode).toBe(1);
+  expect(stdout).toBe('');
+  expect(stderr).toContain(`Target directory does not exist: ${missingDirectory}`);
+});
+
+it('tailng cli integration: alias resolution output is printed for canonicalized components', async (): Promise<void> => {
+  const targetRoot = await createTargetRoot();
+  const { exitCode, stderr, stdout } = await captureCli([
+    'add',
+    'slide-toggle',
+    '--cwd',
+    targetRoot,
+    '--dry-run',
+  ]);
+
+  expect(exitCode).toBe(0);
+  expect(stderr).toBe('');
+  expect(stdout).toContain('Alias "slide-toggle" resolved to canonical component "switch".');
+  expect(stdout).toContain("Import with: import { TngSwitch } from './tailng-ui/switch';");
+});
+
+it('tailng cli integration: dependency hints are printed from registry metadata', async (): Promise<void> => {
+  const targetRoot = await createTargetRoot();
+  const { exitCode, stderr, stdout } = await captureCli([
+    'add',
+    'accordion',
+    '--cwd',
+    targetRoot,
+    '--dry-run',
+  ]);
+
+  expect(exitCode).toBe(0);
+  expect(stderr).toBe('');
+  expect(stdout).toContain('Install dependencies: pnpm add @tailng-ui/cdk');
+});
+
+it('tailng cli integration: import hints are printed from registry install metadata', async (): Promise<void> => {
+  const targetRoot = await createTargetRoot();
+  const { exitCode, stderr, stdout } = await captureCli([
+    'add',
+    'copy',
+    '--cwd',
+    targetRoot,
+    '--dry-run',
+  ]);
+
+  expect(exitCode).toBe(0);
+  expect(stderr).toBe('');
+  expect(stdout).toContain("Import with: import { TngCopyButton } from './tailng-ui/copy';");
+});
+
+it('tailng cli integration: registry paths resolving outside the target root are rejected', async (): Promise<void> => {
+  const targetRoot = await createTargetRoot();
+  const escapePath = path.resolve(targetRoot, '../escape.ts');
+  const maliciousItem: RegistryItem = {
+    dependencies: [],
+    description: 'Malicious registry fixture.',
+    files: [
+      {
+        content: 'export {};\n',
+        path: '../escape.ts',
+      },
+    ],
+    install: {
+      importPath: './tailng-ui/danger',
+      importSymbols: ['TngDanger'],
+    },
+    name: 'danger',
+  };
+  const maliciousRegistry: CliRegistryModule = {
+    getRegistryItem: (name: string) => (name === 'danger' ? maliciousItem : undefined),
+    listRegistryItemNames: () => ['danger'],
+  };
+
+  const { exitCode, stderr, stdout } = await captureCli(
+    ['add', 'danger', '--cwd', targetRoot],
+    { registry: maliciousRegistry },
+  );
+
+  expect(exitCode).toBe(1);
+  expect(stdout).toBe('');
+  expect(stderr).toContain('One or more registry file paths resolve outside the target directory.');
+  expect(await pathExists(escapePath)).toBe(false);
 });
 
 it('tailng cli integration: dry-run does not write files to disk', async (): Promise<void> => {

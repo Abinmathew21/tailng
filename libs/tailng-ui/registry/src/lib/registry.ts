@@ -30,7 +30,8 @@ import { popoverRegistryItem } from './popover/popover.registry';
 import { progressBarRegistryItem } from './progress-bar/progress-bar.registry';
 import { progressSpinnerRegistryItem } from './progress-spinner/progress-spinner.registry';
 import { radioRegistryItem } from './radio/radio.registry';
-import type { RegistryItem } from './registry.types';
+import { withRegistryInstallMetadata } from './registry.install';
+import type { RegistryItem, RegistryItemSource } from './registry.types';
 import { selectRegistryItem } from './select/select.registry';
 import { separatorRegistryItem } from './separator/separator.registry';
 import { skeletonRegistryItem } from './skeleton/skeleton.registry';
@@ -47,7 +48,7 @@ import { toolbarRegistryItem } from './toolbar/toolbar.registry';
 import { tooltipRegistryItem } from './tooltip/tooltip.registry';
 import { treeRegistryItem } from './tree/tree.registry';
 
-export const tailngRegistry: readonly RegistryItem[] = [
+const rawRegistry: readonly RegistryItemSource[] = [
   accordionRegistryItem,
   avatarRegistryItem,
   badgeRegistryItem,
@@ -96,6 +97,10 @@ export const tailngRegistry: readonly RegistryItem[] = [
   sliderRegistryItem,
   textareaRegistryItem,
 ];
+
+export const tailngRegistry: readonly RegistryItem[] = rawRegistry.map((item) =>
+  withRegistryInstallMetadata(item),
+);
 
 export function getRegistryItem(name: string): RegistryItem | undefined {
   return tailngRegistry.find((item) => item.name === name);

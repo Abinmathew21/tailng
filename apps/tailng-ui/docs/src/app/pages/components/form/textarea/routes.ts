@@ -50,9 +50,6 @@ export const COMPONENTS_FORM_TEXTAREA_ROUTES: Routes = [
       {
         path: 'ownable-install',
         data: {
-          componentName: 'Textarea',
-          componentSymbol: 'TngTextareaComponent',
-          primitiveSymbol: 'TngInput',
           registrySlug: 'textarea',
           usageCode: [
             '<tng-textarea',

@@ -1,21 +1,16 @@
-import { DOCUMENT, NgFor } from '@angular/common';
+import { DOCUMENT, NgFor, NgIf } from '@angular/common';
 import { Component, inject, signal, type OnDestroy } from '@angular/core';
 import { ActivatedRoute, type Data } from '@angular/router';
 import { TngCodeBlockComponent, TngTabsComponent } from '@tailng-ui/components';
+import { getRegistryGeneratedFilePaths, getRegistryInstallMetadata } from '@tailng-ui/registry';
 import { TngTab, TngTabList, TngTabPanel } from '@tailng-ui/primitives';
 
 interface OwnableInstallRouteData {
-  componentName: string;
-  componentSymbol: string;
-  primitiveSymbol?: string | null;
   registrySlug: string;
   usageCode: string;
 }
 
 const fallbackData: OwnableInstallRouteData = {
-  componentName: 'Component',
-  componentSymbol: 'TngComponent',
-  primitiveSymbol: null,
   registrySlug: 'component',
   usageCode: '<!-- Usage example -->',
 };
@@ -24,6 +19,7 @@ const fallbackData: OwnableInstallRouteData = {
   selector: 'app-docs-ownable-install-section',
   imports: [
     NgFor,
+    NgIf,
     TngCodeBlockComponent,
     TngTabsComponent,
     TngTabList,
@@ -36,17 +32,22 @@ const fallbackData: OwnableInstallRouteData = {
 export class DocsOwnableInstallSectionComponent implements OnDestroy {
   private readonly route = inject(ActivatedRoute);
   private readonly documentRef = inject(DOCUMENT);
+  private readonly docsItem = this.route.parent?.snapshot.data['item'] as
+    | { title?: string }
+    | undefined;
   private readonly routeData: OwnableInstallRouteData = this.resolveRouteData(
     this.route.snapshot.data,
   );
 
-  protected readonly componentName = this.routeData.componentName;
   protected readonly registrySlug = this.routeData.registrySlug;
+  protected readonly componentName = this.docsItem?.title ?? this.formatRegistryName(this.registrySlug);
+  protected readonly installMetadata = getRegistryInstallMetadata(this.registrySlug);
+  protected readonly hasRegistryItem = this.installMetadata !== undefined;
 
-  protected readonly generatedFiles = this.buildGeneratedFiles(this.registrySlug);
+  protected readonly generatedFiles = getRegistryGeneratedFilePaths(this.registrySlug);
   protected readonly installPnpmCode = `pnpm dlx tailng add ${this.registrySlug}`;
   protected readonly installNpxCode = `npx tailng add ${this.registrySlug}`;
-  protected readonly importCode = this.buildImportCode(this.routeData);
+  protected readonly importCode = this.buildImportCode(this.registrySlug);
   protected readonly usageCode = this.routeData.usageCode;
 
   protected readonly codeBlockTheme = signal<'github-dark' | 'github-light'>(
@@ -60,42 +61,29 @@ export class DocsOwnableInstallSectionComponent implements OnDestroy {
 
   private resolveRouteData(data: Data): OwnableInstallRouteData {
     return {
-      componentName:
-        typeof data['componentName'] === 'string'
-          ? data['componentName']
-          : fallbackData.componentName,
-      componentSymbol:
-        typeof data['componentSymbol'] === 'string'
-          ? data['componentSymbol']
-          : fallbackData.componentSymbol,
-      primitiveSymbol:
-        typeof data['primitiveSymbol'] === 'string'
-          ? data['primitiveSymbol']
-          : fallbackData.primitiveSymbol,
       registrySlug:
         typeof data['registrySlug'] === 'string' ? data['registrySlug'] : fallbackData.registrySlug,
       usageCode: typeof data['usageCode'] === 'string' ? data['usageCode'] : fallbackData.usageCode,
     };
   }
 
-  private buildGeneratedFiles(slug: string): readonly string[] {
-    const fileBase = `tng-${slug}`;
-    return [
-      `src/app/tailng-ui/${slug}/${fileBase}-primitive.ts`,
-      `src/app/tailng-ui/${slug}/${fileBase}.ts`,
-      `src/app/tailng-ui/${slug}/${fileBase}.html`,
-      `src/app/tailng-ui/${slug}/${fileBase}.css`,
-      `src/app/tailng-ui/${slug}/index.ts`,
-    ];
-  }
+  private buildImportCode(registrySlug: string): string {
+    const symbols = this.installMetadata?.importSymbols ?? [];
+    const importPath = this.installMetadata?.importPath ?? `./tailng-ui/${registrySlug}`;
 
-  private buildImportCode(data: OwnableInstallRouteData): string {
-    const symbols = [data.componentSymbol];
-    if (typeof data.primitiveSymbol === 'string' && data.primitiveSymbol.length > 0) {
-      symbols.push(data.primitiveSymbol);
+    if (symbols.length === 0) {
+      return `import '${importPath}';\n`;
     }
 
-    return `import { ${symbols.join(', ')} } from './tailng-ui/${data.registrySlug}';\n`;
+    return `import { ${symbols.join(', ')} } from '${importPath}';\n`;
+  }
+
+  private formatRegistryName(registrySlug: string): string {
+    return registrySlug
+      .split('-')
+      .filter((segment) => segment.length > 0)
+      .map((segment) => segment.charAt(0).toUpperCase() + segment.slice(1))
+      .join(' ');
   }
 
   private observeCodeThemeChanges(): MutationObserver | null {

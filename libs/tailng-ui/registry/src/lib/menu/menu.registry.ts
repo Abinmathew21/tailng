@@ -1,4 +1,4 @@
-import type { RegistryItem } from '../registry.types';
+import type { RegistryItemSource } from '../registry.types';
 
 const menuPrimitiveTsTemplate = `import { Directive, ElementRef, HostBinding, HostListener, inject } from '@angular/core';
 
@@ -332,7 +332,7 @@ export * from './tng-menu-primitive';
 export * from './tng-menu-trigger-for';
 `;
 
-export const menuRegistryItem: RegistryItem = {
+export const menuRegistryItem: RegistryItemSource = {
   dependencies: [],
   description: 'Shadcn-style source files for menu primitive and styled wrapper.',
   files: [

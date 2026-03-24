@@ -50,9 +50,6 @@ export const COMPONENTS_UTILITY_AVATAR_ROUTES: Routes = [
       {
         path: 'ownable-install',
         data: {
-          componentName: 'Avatar',
-          componentSymbol: 'TngAvatarComponent',
-          primitiveSymbol: 'TngAvatar',
           registrySlug: 'avatar',
           usageCode: [
             '<tng-avatar',

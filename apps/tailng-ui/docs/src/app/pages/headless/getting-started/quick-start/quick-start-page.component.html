@@ -168,6 +168,11 @@
           <p class="m-0 font-semibold text-tng-fg-primary">
             Option A — Copy source into your app (shadcn-style, ownable)
           </p>
+          <p class="m-0">
+            Use <code class="font-mono text-xs md:text-sm">tailng list</code> to inspect the
+            supported ownable registry items for the current package version before running
+            <code class="font-mono text-xs md:text-sm">tailng add</code>.
+          </p>
           <tng-code-block
             [code]="cliSetupCode"
             adapter="shiki"
@@ -319,6 +324,7 @@
         <p class="m-0">
           Use this command to see all valid values for
           <code class="font-mono text-xs md:text-sm">tailng add &lt;component-name&gt;</code>.
+          The command output is the source of truth for the current registry surface.
         </p>
         <tng-code-block
           [code]="listComponentsCode"

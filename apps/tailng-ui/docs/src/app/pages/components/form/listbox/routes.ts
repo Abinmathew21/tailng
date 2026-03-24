@@ -48,32 +48,6 @@ export const COMPONENTS_FORM_LISTBOX_ROUTES: Routes = [
           ),
       },
       {
-        path: 'ownable-install',
-        data: {
-          componentName: 'ListBox',
-          componentSymbol: 'TngListbox',
-          primitiveSymbol: 'TngListboxDirective',
-          registrySlug: 'listbox',
-          usageCode: [
-            '<div',
-            '  tngListbox',
-            '  tabindex="0"',
-            '  [multiple]="true"',
-            '  [value]="selectedValues"',
-            '  (valueChange)="selectedValues = toArray($event)"',
-            '>',
-            '  @for (option of options; track option.id) {',
-            '    <div tngOption [tngValue]="option.id">{{ option.label }}</div>',
-            '  }',
-            '</div>',
-            '',
-          ].join('\n'),
-        },
-        loadComponent: () =>
-          import('../../../../shared/ownable-install-section/docs-ownable-install-section.component')
-            .then((module) => module.DocsOwnableInstallSectionComponent),
-      },
-      {
         path: '**',
         redirectTo: 'overview',
       },

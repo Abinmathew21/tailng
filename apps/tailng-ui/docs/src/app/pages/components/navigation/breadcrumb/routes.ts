@@ -50,9 +50,6 @@ export const COMPONENTS_NAVIGATION_BREADCRUMB_ROUTES: Routes = [
       {
         path: 'ownable-install',
         data: {
-          componentName: 'Breadcrumb',
-          componentSymbol: 'TngBreadcrumbComponent',
-          primitiveSymbol: 'TngBreadcrumb',
           registrySlug: 'breadcrumb',
           usageCode: [
             '<tng-breadcrumb ariaLabel="Navigation path" separator="›">',

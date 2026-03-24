@@ -1,4 +1,4 @@
-import type { RegistryItem } from '../registry.types';
+import type { RegistryItemSource } from '../registry.types';
 
 const menubarPrimitiveTsTemplate = `import { Directive, HostBinding } from '@angular/core';
 
@@ -48,7 +48,7 @@ const menubarIndexTsTemplate = `export * from './tng-menubar';
 export * from './tng-menubar-primitive';
 `;
 
-export const menubarRegistryItem: RegistryItem = {
+export const menubarRegistryItem: RegistryItemSource = {
   dependencies: [],
   description: 'Shadcn-style source files for menubar primitive and styled wrapper.',
   files: [

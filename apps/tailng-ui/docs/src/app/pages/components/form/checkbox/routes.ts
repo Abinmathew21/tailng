@@ -50,9 +50,6 @@ export const COMPONENTS_FORM_CHECKBOX_ROUTES: Routes = [
       {
         path: 'ownable-install',
         data: {
-          componentName: 'Checkbox',
-          componentSymbol: 'TngCheckbox',
-          primitiveSymbol: 'TngCheckboxPrimitive',
           registrySlug: 'checkbox',
           usageCode: [
             '<tng-checkbox',

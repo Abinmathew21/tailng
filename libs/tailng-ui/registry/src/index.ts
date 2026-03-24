@@ -8,6 +8,8 @@ export * from './lib/code-block/code-block.registry';
 export * from './lib/copy/copy.registry';
 export * from './lib/menubar/menubar.registry';
 export * from './lib/navigation-menu/navigation-menu.registry';
+export * from './lib/registry.install';
+export * from './lib/ownable-docs';
 export * from './lib/toolbar/toolbar.registry';
 export * from './lib/tabs/tabs.registry';
 export * from './lib/stepper/stepper.registry';

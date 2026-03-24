@@ -50,9 +50,6 @@ export const COMPONENTS_FORM_INPUT_ROUTES: Routes = [
       {
         path: 'ownable-install',
         data: {
-          componentName: 'Input',
-          componentSymbol: 'TngInput',
-          primitiveSymbol: 'TngInputPrimitive',
           registrySlug: 'input',
           usageCode: [
             '<tng-input',

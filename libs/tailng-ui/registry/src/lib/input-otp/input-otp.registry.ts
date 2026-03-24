@@ -1,4 +1,4 @@
-import type { RegistryItem } from '../registry.types';
+import type { RegistryItemSource } from '../registry.types';
 
 const inputOtpPrimitiveTsTemplate = `import { Directive, HostBinding, booleanAttribute, input } from '@angular/core';
 
@@ -364,7 +364,7 @@ const inputOtpIndexTsTemplate = `export * from './tng-input-otp';
 export * from './tng-input-otp-primitive';
 `;
 
-export const inputOtpRegistryItem: RegistryItem = {
+export const inputOtpRegistryItem: RegistryItemSource = {
   dependencies: [],
   description: 'Shadcn-style source files for input-otp primitive and styled wrapper.',
   files: [

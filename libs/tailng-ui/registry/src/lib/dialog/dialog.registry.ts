@@ -1,4 +1,4 @@
-import type { RegistryItem } from '../registry.types';
+import type { RegistryItemSource } from '../registry.types';
 
 const dialogPrimitiveTsTemplate = `export type TngDialogCloseReason =
   | 'backdrop'
@@ -607,7 +607,7 @@ const dialogIndexTsTemplate = `export * from './tng-dialog';
 export * from './tng-dialog-primitive';
 `;
 
-export const dialogRegistryItem: RegistryItem = {
+export const dialogRegistryItem: RegistryItemSource = {
   dependencies: [],
   description: 'Shadcn-style source files for dialog wrappers and helpers.',
   files: [

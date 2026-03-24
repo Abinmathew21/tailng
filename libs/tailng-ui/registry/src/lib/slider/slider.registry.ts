@@ -1,4 +1,4 @@
-import type { RegistryItem } from '../registry.types';
+import type { RegistryItemSource } from '../registry.types';
 
 const sliderPrimitiveTsTemplate = `import { Directive, HostBinding, booleanAttribute, input } from '@angular/core';
 
@@ -182,7 +182,7 @@ const sliderIndexTsTemplate = `export * from './tng-slider';
 export * from './tng-slider-primitive';
 `;
 
-export const sliderRegistryItem: RegistryItem = {
+export const sliderRegistryItem: RegistryItemSource = {
   dependencies: [],
   description: 'Shadcn-style source files for slider primitive and styled wrapper.',
   files: [

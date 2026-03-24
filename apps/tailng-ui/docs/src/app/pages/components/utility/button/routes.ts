@@ -50,9 +50,6 @@ export const COMPONENTS_UTILITY_BUTTON_ROUTES: Routes = [
       {
         path: 'ownable-install',
         data: {
-          componentName: 'Button',
-          componentSymbol: 'TngButtonComponent',
-          primitiveSymbol: 'TngPress',
           registrySlug: 'button',
           usageCode: [
             '<tng-button tone="primary" appearance="solid" (click)="onSubmit()">',

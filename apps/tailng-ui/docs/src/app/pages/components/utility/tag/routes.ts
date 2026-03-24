@@ -50,9 +50,6 @@ export const COMPONENTS_UTILITY_TAG_ROUTES: Routes = [
       {
         path: 'ownable-install',
         data: {
-          componentName: 'Tag',
-          componentSymbol: 'TngTag',
-          primitiveSymbol: 'TngTag',
           registrySlug: 'tag',
           usageCode: [
             '<tng-tag tone="success" [removable]="true" label="Stable">Stable</tng-tag>',

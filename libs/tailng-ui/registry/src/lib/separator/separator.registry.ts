@@ -1,4 +1,4 @@
-import type { RegistryItem } from '../registry.types';
+import type { RegistryItemSource } from '../registry.types';
 
 const separatorPrimitiveTsTemplate = `import { booleanAttribute, Directive, HostBinding, input } from '@angular/core';
 
@@ -100,7 +100,7 @@ const separatorIndexTsTemplate = `export * from './tng-separator';
 export * from './tng-separator-primitive';
 `;
 
-export const separatorRegistryItem: RegistryItem = {
+export const separatorRegistryItem: RegistryItemSource = {
   dependencies: [],
   description: 'Shadcn-style source files for separator primitive and styled wrapper.',
   files: [

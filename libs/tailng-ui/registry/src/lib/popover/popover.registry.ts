@@ -1,4 +1,4 @@
-import type { RegistryItem } from '../registry.types';
+import type { RegistryItemSource } from '../registry.types';
 
 const popoverPrimitiveTsTemplate = `export type TngPopoverCloseReason =
   | 'escape'
@@ -315,7 +315,7 @@ const popoverIndexTsTemplate = `export * from './tng-popover';
 export * from './tng-popover-primitive';
 `;
 
-export const popoverRegistryItem: RegistryItem = {
+export const popoverRegistryItem: RegistryItemSource = {
   dependencies: [],
   description: 'Shadcn-style source files for popover wrappers and helpers.',
   files: [

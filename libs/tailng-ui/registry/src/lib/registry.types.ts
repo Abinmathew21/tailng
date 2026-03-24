@@ -3,9 +3,19 @@ export type RegistryFile = Readonly<{
   path: string;
 }>;
 
-export type RegistryItem = Readonly<{
+export type RegistryInstallMetadata = Readonly<{
+  importPath: string;
+  importSymbols: readonly string[];
+}>;
+
+export type RegistryItemSource = Readonly<{
   dependencies: readonly string[];
   description: string;
   files: readonly RegistryFile[];
   name: string;
 }>;
+
+export type RegistryItem = RegistryItemSource &
+  Readonly<{
+    install: RegistryInstallMetadata;
+  }>;

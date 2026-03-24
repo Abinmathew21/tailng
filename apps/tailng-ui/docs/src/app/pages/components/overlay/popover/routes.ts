@@ -50,9 +50,6 @@ export const COMPONENTS_OVERLAY_POPOVER_ROUTES: Routes = [
       {
         path: 'ownable-install',
         data: {
-          componentName: 'Popover',
-          componentSymbol: 'TngPopoverComponent',
-          primitiveSymbol: 'TngPopover',
           registrySlug: 'popover',
           usageCode: [
             '<tng-popover triggerLabel="Project actions">',

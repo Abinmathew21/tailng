@@ -40,6 +40,11 @@
     "test:icons": "vitest run libs/tailng-ui/icons",
     "test:charts": "vitest run libs/tailng-ui/charts",
     "test:cli": "vitest run libs/tailng/cli",
+    "test:docs": "vitest run --config apps/tailng-ui/docs/vitest.config.ts",
+    "typecheck:registry": "tsc -p libs/tailng-ui/registry/tsconfig.lib.json --noEmit",
+    "typecheck:cli": "tsc -p libs/tailng/cli/tsconfig.lib.json --noEmit",
+    "typecheck:docs": "tsc -p apps/tailng-ui/docs/tsconfig.app.json --noEmit",
+    "test:ownable-contracts": "pnpm run test:registry && pnpm run test:cli && pnpm run test:docs && pnpm run typecheck:registry && pnpm run typecheck:cli && pnpm run typecheck:docs",
     "icons:generate": "node libs/tailng-ui/icons/tools/generate-icon-loaders.mjs"
   },
   "private": true,

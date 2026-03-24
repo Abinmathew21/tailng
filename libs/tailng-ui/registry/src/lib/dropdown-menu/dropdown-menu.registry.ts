@@ -1,4 +1,4 @@
-import type { RegistryItem } from '../registry.types';
+import type { RegistryItemSource } from '../registry.types';
 
 const dropdownMenuPrimitiveTsTemplate = `import { Directive, HostBinding } from '@angular/core';
 
@@ -138,7 +138,7 @@ const dropdownMenuIndexTsTemplate = `export * from './tng-dropdown-menu';
 export * from './tng-dropdown-menu-primitive';
 `;
 
-export const dropdownMenuRegistryItem: RegistryItem = {
+export const dropdownMenuRegistryItem: RegistryItemSource = {
   dependencies: [],
   description: 'Shadcn-style source files for dropdown-menu primitive and styled wrapper.',
   files: [

@@ -1,4 +1,4 @@
-import type { RegistryItem } from '../registry.types';
+import type { RegistryItemSource } from '../registry.types';
 
 const bottomsheetPrimitiveTsTemplate = `import { Directive, HostBinding } from '@angular/core';
 
@@ -48,7 +48,7 @@ const bottomsheetIndexTsTemplate = `export * from './tng-bottom-sheet';
 export * from './tng-bottom-sheet-primitive';
 `;
 
-export const bottomsheetRegistryItem: RegistryItem = {
+export const bottomsheetRegistryItem: RegistryItemSource = {
   dependencies: [],
   description: 'Shadcn-style source files for bottom-sheet primitive and styled wrapper.',
   files: [

@@ -64,6 +64,17 @@
     "lint": {
       "executor": "@nx/eslint:lint"
     },
+    "vite:test": {
+      "executor": "@nx/vitest:test",
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
+      "options": {
+        "configFile": "apps/tailng-ui/docs/vitest.config.ts",
+        "reportsDirectory": "coverage/apps/tailng-ui/docs",
+        "watch": false
+      }
+    },
     "serve-static": {
       "continuous": true,
       "executor": "@nx/web:file-server",

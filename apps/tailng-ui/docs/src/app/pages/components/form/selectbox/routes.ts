@@ -48,29 +48,6 @@ export const COMPONENTS_FORM_SELECTBOX_ROUTES: Routes = [
           ),
       },
       {
-        path: 'ownable-install',
-        data: {
-          componentName: 'SelectBox',
-          componentSymbol: 'TngSelectComponent',
-          primitiveSymbol: 'TngSelect',
-          registrySlug: 'selectbox',
-          usageCode: [
-            '<tng-select',
-            '  [options]="planets"',
-            '  [value]="selectedPlanet"',
-            '  (valueChange)="selectedPlanet = toSingleValue($event)"',
-            '  [getOptionValue]="getPlanetValue"',
-            '  [getOptionLabel]="getPlanetLabel"',
-            '  placeholder="Select planet"',
-            '></tng-select>',
-            '',
-          ].join('\n'),
-        },
-        loadComponent: () =>
-          import('../../../../shared/ownable-install-section/docs-ownable-install-section.component')
-            .then((module) => module.DocsOwnableInstallSectionComponent),
-      },
-      {
         path: '**',
         redirectTo: 'overview',
       },

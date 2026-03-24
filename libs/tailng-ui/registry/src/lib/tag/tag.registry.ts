@@ -1,4 +1,4 @@
-import type { RegistryItem } from '../registry.types';
+import type { RegistryItemSource } from '../registry.types';
 
 const tagPrimitiveTsTemplate = `import { Directive, HostBinding } from '@angular/core';
 
@@ -147,7 +147,7 @@ const tagIndexTsTemplate = `export * from './tng-tag';
 export * from './tng-tag-primitive';
 `;
 
-export const tagRegistryItem: RegistryItem = {
+export const tagRegistryItem: RegistryItemSource = {
   dependencies: [],
   description: 'Shadcn-style source files for tag primitive and styled wrapper.',
   files: [

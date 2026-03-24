@@ -1,4 +1,4 @@
-import type { RegistryItem } from '../registry.types';
+import type { RegistryItemSource } from '../registry.types';
 
 const togglePrimitiveTsTemplate = `import { Directive, HostBinding, booleanAttribute, input } from '@angular/core';
 
@@ -170,7 +170,7 @@ const toggleIndexTsTemplate = `export * from './tng-toggle';
 export * from './tng-toggle-primitive';
 `;
 
-export const toggleRegistryItem: RegistryItem = {
+export const toggleRegistryItem: RegistryItemSource = {
   dependencies: [],
   description: 'Shadcn-style source files for icon toggle primitive and styled wrapper.',
   files: [

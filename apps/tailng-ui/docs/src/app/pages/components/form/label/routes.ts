@@ -49,9 +49,6 @@ export const COMPONENTS_FORM_LABEL_ROUTES: Routes = [
       {
         path: 'ownable-install',
         data: {
-          componentName: 'Label',
-          componentSymbol: 'TngLabelComponent',
-          primitiveSymbol: 'TngLabel',
           registrySlug: 'label',
           usageCode: [
             '<tng-label forId="email" [required]="true">Email address</tng-label>',

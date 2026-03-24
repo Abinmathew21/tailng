@@ -1,4 +1,4 @@
-import type { RegistryItem } from '../registry.types';
+import type { RegistryItemSource } from '../registry.types';
 
 const progressSpinnerPrimitiveTsTemplate = `import { booleanAttribute, Directive, HostBinding, input } from '@angular/core';
 
@@ -258,7 +258,7 @@ const progressSpinnerIndexTsTemplate = `export * from './tng-progress-spinner';
 export * from './tng-progress-spinner-primitive';
 `;
 
-export const progressSpinnerRegistryItem: RegistryItem = {
+export const progressSpinnerRegistryItem: RegistryItemSource = {
   dependencies: [],
   description: 'Shadcn-style source files for progress spinner primitive and styled wrapper.',
   files: [

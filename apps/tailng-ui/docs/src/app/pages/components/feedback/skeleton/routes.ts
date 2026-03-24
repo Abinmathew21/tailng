@@ -49,9 +49,6 @@ export const COMPONENTS_FEEDBACK_SKELETON_ROUTES: Routes = [
       {
         path: 'ownable-install',
         data: {
-          componentName: 'Skeleton',
-          componentSymbol: 'TngSkeletonComponent',
-          primitiveSymbol: 'TngSkeleton',
           registrySlug: 'skeleton',
           usageCode: [
             '<tng-skeleton width="75%" height="1rem"></tng-skeleton>',

@@ -1,4 +1,4 @@
-import type { RegistryItem } from '../registry.types';
+import type { RegistryItemSource } from '../registry.types';
 
 const stepperPrimitiveTsTemplate = `import { Directive, HostBinding } from '@angular/core';
 
@@ -48,7 +48,7 @@ const stepperIndexTsTemplate = `export * from './tng-stepper';
 export * from './tng-stepper-primitive';
 `;
 
-export const stepperRegistryItem: RegistryItem = {
+export const stepperRegistryItem: RegistryItemSource = {
   dependencies: [],
   description: 'Shadcn-style source files for stepper primitive and styled wrapper.',
   files: [

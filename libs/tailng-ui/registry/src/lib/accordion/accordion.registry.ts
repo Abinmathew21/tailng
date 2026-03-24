@@ -1,4 +1,4 @@
-import type { RegistryItem } from '../registry.types';
+import type { RegistryItemSource } from '../registry.types';
 
 const accordionPrimitiveTsTemplate = `import { Directive, HostBinding } from '@angular/core';
 
@@ -210,7 +210,7 @@ const accordionIndexTsTemplate = `export * from './tng-accordion';
 export * from './tng-accordion-primitive';
 `;
 
-export const accordionRegistryItem: RegistryItem = {
+export const accordionRegistryItem: RegistryItemSource = {
   dependencies: ['@tailng-ui/cdk'],
   description: 'Shadcn-style source files for accordion primitive and styled wrapper.',
   files: [

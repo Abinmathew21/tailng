@@ -50,9 +50,6 @@ export const COMPONENTS_LAYOUT_SEPARATOR_ROUTES: Routes = [
       {
         path: 'ownable-install',
         data: {
-          componentName: 'Separator',
-          componentSymbol: 'TngSeparatorComponent',
-          primitiveSymbol: 'TngSeparator',
           registrySlug: 'separator',
           usageCode: [
             '<section class="stack">',

@@ -1,4 +1,4 @@
-import type { RegistryItem } from '../registry.types';
+import type { RegistryItemSource } from '../registry.types';
 
 const gridPrimitiveTsTemplate = `import { Directive, HostBinding } from '@angular/core';
 
@@ -48,7 +48,7 @@ const gridIndexTsTemplate = `export * from './tng-grid';
 export * from './tng-grid-primitive';
 `;
 
-export const gridRegistryItem: RegistryItem = {
+export const gridRegistryItem: RegistryItemSource = {
   dependencies: [],
   description: 'Shadcn-style source files for grid primitive and styled wrapper.',
   files: [

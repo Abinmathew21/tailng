@@ -50,9 +50,6 @@ export const COMPONENTS_UTILITY_COPYBUTTON_ROUTES: Routes = [
       {
         path: 'ownable-install',
         data: {
-          componentName: 'CopyButton',
-          componentSymbol: 'TngCopyButtonComponent',
-          primitiveSymbol: 'TngCopy',
           registrySlug: 'copy',
           usageCode: [
             '<tng-copy-button',

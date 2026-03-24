@@ -1,4 +1,4 @@
-import type { RegistryItem } from '../registry.types';
+import type { RegistryItemSource } from '../registry.types';
 
 const checkboxPrimitiveTsTemplate = `import { Directive, HostBinding, booleanAttribute, input } from '@angular/core';
 
@@ -228,7 +228,7 @@ const checkboxIndexTsTemplate = `export * from './tng-checkbox';
 export * from './tng-checkbox-primitive';
 `;
 
-export const checkboxRegistryItem: RegistryItem = {
+export const checkboxRegistryItem: RegistryItemSource = {
   dependencies: [],
   description: 'Shadcn-style source files for checkbox primitive and styled wrapper.',
   files: [

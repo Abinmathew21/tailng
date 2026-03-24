@@ -50,9 +50,6 @@ export const COMPONENTS_NAVIGATION_MENU_ROUTES: Routes = [
       {
         path: 'ownable-install',
         data: {
-          componentName: 'Menu',
-          componentSymbol: 'TngMenuComponent',
-          primitiveSymbol: 'TngMenu',
           registrySlug: 'menu',
           usageCode: [
             '<button type="button" [tngMenuTriggerFor]="actionsMenu">Actions</button>',

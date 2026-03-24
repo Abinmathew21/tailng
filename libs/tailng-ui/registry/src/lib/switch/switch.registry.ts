@@ -1,4 +1,4 @@
-import type { RegistryItem } from '../registry.types';
+import type { RegistryItemSource } from '../registry.types';
 
 const switchPrimitiveTsTemplate = `import { Directive, HostBinding, booleanAttribute, input } from '@angular/core';
 
@@ -247,7 +247,7 @@ const switchIndexTsTemplate = `export * from './tng-switch';
 export * from './tng-switch-primitive';
 `;
 
-export const switchRegistryItem: RegistryItem = {
+export const switchRegistryItem: RegistryItemSource = {
   dependencies: [],
   description: 'Shadcn-style source files for switch primitive and styled wrapper.',
   files: [

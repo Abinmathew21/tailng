@@ -50,9 +50,6 @@ export const COMPONENTS_NAVIGATION_CONTEXT_MENU_ROUTES: Routes = [
       {
         path: 'ownable-install',
         data: {
-          componentName: 'Context Menu',
-          componentSymbol: 'TngContextMenuComponent',
-          primitiveSymbol: 'TngContextMenu',
           registrySlug: 'context-menu',
           usageCode: [
             '<div tabindex="0" [tngContextMenuTrigger]="assetMenu">Right-click target</div>',

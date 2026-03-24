@@ -1,4 +1,4 @@
-import type { RegistryItem } from '../registry.types';
+import type { RegistryItemSource } from '../registry.types';
 
 const comboboxPrimitiveTsTemplate = `import { Directive, HostBinding } from '@angular/core';
 
@@ -48,7 +48,7 @@ const comboboxIndexTsTemplate = `export * from './tng-combobox';
 export * from './tng-combobox-primitive';
 `;
 
-export const comboboxRegistryItem: RegistryItem = {
+export const comboboxRegistryItem: RegistryItemSource = {
   dependencies: [],
   description: 'Shadcn-style source files for combobox primitive and styled wrapper.',
   files: [

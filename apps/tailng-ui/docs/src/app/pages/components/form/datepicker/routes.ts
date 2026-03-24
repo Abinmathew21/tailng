@@ -48,27 +48,6 @@ export const COMPONENTS_FORM_DATEPICKER_ROUTES: Routes = [
           ),
       },
       {
-        path: 'ownable-install',
-        data: {
-          componentName: 'Datepicker',
-          componentSymbol: 'TngDatepickerComponent',
-          primitiveSymbol: 'createDatepickerController',
-          registrySlug: 'datepicker',
-          usageCode: [
-            '<tng-datepicker',
-            '  [defaultValue]="\'2024-04-22\'"',
-            '  [today]="\'2024-04-18\'"',
-            '  [minDate]="\'2024-04-01\'"',
-            '  [maxDate]="\'2026-03-31\'"',
-            '></tng-datepicker>',
-            '',
-          ].join('\n'),
-        },
-        loadComponent: () =>
-          import('../../../../shared/ownable-install-section/docs-ownable-install-section.component')
-            .then((module) => module.DocsOwnableInstallSectionComponent),
-      },
-      {
         path: '**',
         redirectTo: 'overview',
       },

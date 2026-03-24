@@ -50,9 +50,6 @@ export const COMPONENTS_LAYOUT_COLLAPSIBLE_ROUTES: Routes = [
       {
         path: 'ownable-install',
         data: {
-          componentName: 'Collapsible',
-          componentSymbol: 'TngCollapsibleComponent',
-          primitiveSymbol: 'TngCollapsible',
           registrySlug: 'collapsible',
           usageCode: [
             '<tng-collapsible>',

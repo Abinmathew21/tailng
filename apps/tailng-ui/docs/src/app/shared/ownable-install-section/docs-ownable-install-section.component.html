@@ -6,6 +6,9 @@
       flow. This copies source files into your app so your team can own and evolve the implementation
       locally.
     </p>
+    <p *ngIf="!hasRegistryItem" class="docs-ownable-install-warning" data-testid="ownable-install-warning">
+      Registry item <code>{{ registrySlug }}</code> is not available in the current ownable surface.
+    </p>
 
     <section id="install-from-registry" class="docs-section-anchor docs-ownable-install-block">
     <h3>Install from registry</h3>

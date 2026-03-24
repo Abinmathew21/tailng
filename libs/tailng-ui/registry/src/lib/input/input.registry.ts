@@ -1,4 +1,4 @@
-import type { RegistryItem } from '../registry.types';
+import type { RegistryItemSource } from '../registry.types';
 
 const inputPrimitiveTsTemplate = `import { Directive, HostBinding, booleanAttribute, input } from '@angular/core';
 
@@ -234,7 +234,7 @@ const inputIndexTsTemplate = `export * from './tng-input';
 export * from './tng-input-primitive';
 `;
 
-export const inputRegistryItem: RegistryItem = {
+export const inputRegistryItem: RegistryItemSource = {
   dependencies: [],
   description: 'Shadcn-style source files for input primitive and styled wrapper.',
   files: [

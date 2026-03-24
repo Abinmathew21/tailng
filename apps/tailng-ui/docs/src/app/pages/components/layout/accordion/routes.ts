@@ -50,9 +50,6 @@ export const COMPONENTS_LAYOUT_ACCORDION_ROUTES: Routes = [
       {
         path: 'ownable-install',
         data: {
-          componentName: 'Accordion',
-          componentSymbol: 'TngAccordionComponent',
-          primitiveSymbol: 'TngAccordion',
           registrySlug: 'accordion',
           usageCode: [
             '<tng-accordion [defaultValue]="\'item-1\'">',

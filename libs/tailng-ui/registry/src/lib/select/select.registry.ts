@@ -1,4 +1,4 @@
-import type { RegistryItem } from '../registry.types';
+import type { RegistryItemSource } from '../registry.types';
 
 const selectPrimitiveTsTemplate = `import { Directive, HostBinding } from '@angular/core';
 
@@ -48,7 +48,7 @@ const selectIndexTsTemplate = `export * from './tng-select';
 export * from './tng-select-primitive';
 `;
 
-export const selectRegistryItem: RegistryItem = {
+export const selectRegistryItem: RegistryItemSource = {
   dependencies: [],
   description: 'Shadcn-style source files for select primitive and styled wrapper.',
   files: [

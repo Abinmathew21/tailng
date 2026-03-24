@@ -1,6 +1,13 @@
 import { execSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
+import {
+  assertNoWorkspaceProtocols,
+  collectPackageVersions as collectPackageVersionsFromFiles,
+  fail,
+  readJson,
+  rewriteWorkspaceProtocols,
+} from "./package-manifest-utils.mjs";
 
 const targets = (
   process.env.TARGETS?.replace(/^,|,$/g, "") ??
@@ -35,34 +42,8 @@ const run = (cmd, cwd) =>
     env: { ...process.env },
   });
 
-function readJson(p) {
-  return JSON.parse(fs.readFileSync(p, "utf8"));
-}
-
-function writeJson(p, value) {
-  fs.writeFileSync(p, `${JSON.stringify(value, null, 2)}\n`, "utf8");
-}
-
-function fail(msg) {
-  console.error(`publish-selected: ${msg}`);
-  process.exit(1);
-}
-
-function collectPackageVersions() {
-  const versions = new Map();
-
-  // Prefer versions from dist outputs when available.
-  for (const dir of Object.values(DIST_DIR)) {
-    const pkgPath = path.join(dir, "package.json");
-    if (!fs.existsSync(pkgPath)) continue;
-    const pkg = readJson(pkgPath);
-    if (typeof pkg.name === "string" && typeof pkg.version === "string") {
-      versions.set(pkg.name, pkg.version);
-    }
-  }
-
-  // Fallback to source package versions.
-  const sourcePackages = [
+function resolvePackageVersions() {
+  return collectPackageVersionsFromFiles(DIST_DIR, [
     "libs/tailng-ui/cdk/package.json",
     "libs/tailng-ui/primitives/package.json",
     "libs/tailng-ui/components/package.json",
@@ -71,88 +52,7 @@ function collectPackageVersions() {
     "libs/tailng-ui/registry/package.json",
     "libs/tailng-ui/charts/package.json",
     "libs/tailng/cli/package.json",
-  ];
-
-  for (const pkgPath of sourcePackages) {
-    if (!fs.existsSync(pkgPath)) continue;
-    const pkg = readJson(pkgPath);
-    if (typeof pkg.name === "string" && typeof pkg.version === "string" && !versions.has(pkg.name)) {
-      versions.set(pkg.name, pkg.version);
-    }
-  }
-
-  return versions;
-}
-
-function resolveWorkspaceRange(rawRange, depName, versions) {
-  if (!rawRange.startsWith("workspace:")) return rawRange;
-
-  const protocol = rawRange.slice("workspace:".length).trim();
-  const depVersion = versions.get(depName);
-  if (!depVersion) {
-    fail(
-      `cannot resolve workspace protocol for '${depName}' ('${rawRange}'): dependency version not found in dist/source package manifests`,
-    );
-  }
-
-  if (protocol === "" || protocol === "*") {
-    return depVersion;
-  }
-
-  if (protocol === "^" || protocol === "~") {
-    return `${protocol}${depVersion}`;
-  }
-
-  // Allow explicit semver/range after workspace: and pass through unchanged.
-  if (/^[~^<>=]?\d/.test(protocol)) {
-    return protocol;
-  }
-
-  fail(`unsupported workspace protocol range '${rawRange}' for '${depName}'`);
-}
-
-function rewriteWorkspaceProtocols(pkg, pkgPath, versions) {
-  let changed = false;
-  const fields = [
-    "dependencies",
-    "peerDependencies",
-    "optionalDependencies",
-    "devDependencies",
-  ];
-
-  for (const field of fields) {
-    const deps = pkg[field];
-    if (!deps) continue;
-    for (const [name, range] of Object.entries(deps)) {
-      if (typeof range !== "string" || !range.startsWith("workspace:")) continue;
-      const nextRange = resolveWorkspaceRange(range, name, versions);
-      if (nextRange !== range) {
-        deps[name] = nextRange;
-        changed = true;
-      }
-    }
-  }
-
-  if (changed) {
-    writeJson(pkgPath, pkg);
-  }
-}
-
-function assertNoWorkspaceProtocols(pkg, dir) {
-  const fields = ["dependencies", "peerDependencies", "optionalDependencies"];
-  for (const field of fields) {
-    const deps = pkg[field];
-    if (!deps) continue;
-    for (const [name, range] of Object.entries(deps)) {
-      if (typeof range !== "string") continue;
-      if (range.startsWith("workspace:")) {
-        fail(
-          `${pkg.name ?? "<unknown>"} in ${dir} contains workspace protocol for '${name}': '${range}'. ` +
-            "Dist package.json must use real semver ranges before publishing.",
-        );
-      }
-    }
-  }
+  ]);
 }
 
 const publish = (dir) => {
@@ -223,7 +123,7 @@ const ORDER = [
   "cli",
 ];
 
-const packageVersions = collectPackageVersions();
+const packageVersions = resolvePackageVersions();
 
 for (const t of ORDER) {
   if (!has(t)) continue;

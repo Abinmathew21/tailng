@@ -50,9 +50,6 @@ export const COMPONENTS_FORM_TOGGLE_ROUTES: Routes = [
       {
         path: 'ownable-install',
         data: {
-          componentName: 'Toggle',
-          componentSymbol: 'TngToggle',
-          primitiveSymbol: 'TngTogglePrimitive',
           registrySlug: 'toggle',
           usageCode: [
             '<tng-toggle [pressed]="isGrid" (pressedChange)="isGrid = $event">',

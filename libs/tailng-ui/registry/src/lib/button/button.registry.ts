@@ -1,4 +1,4 @@
-import type { RegistryItem } from '../registry.types';
+import type { RegistryItemSource } from '../registry.types';
 
 const buttonPrimitiveTsTemplate = `import {
   Directive,
@@ -393,7 +393,7 @@ const buttonIndexTsTemplate = `export * from './tng-button';
 export * from './tng-press-primitive';
 `;
 
-export const buttonRegistryItem: RegistryItem = {
+export const buttonRegistryItem: RegistryItemSource = {
   dependencies: [],
   description: 'Shadcn-style source files for button primitive and styled wrapper.',
   files: [

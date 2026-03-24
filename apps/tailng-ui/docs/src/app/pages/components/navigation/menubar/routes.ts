@@ -50,9 +50,6 @@ export const COMPONENTS_NAVIGATION_MENUBAR_ROUTES: Routes = [
       {
         path: 'ownable-install',
         data: {
-          componentName: 'Menubar',
-          componentSymbol: 'TngMenubarComponent',
-          primitiveSymbol: 'TngMenubar',
           registrySlug: 'menubar',
           usageCode: [
             '<tng-menubar ariaLabel="Workspace commands">',

@@ -50,9 +50,6 @@ export const COMPONENTS_FORM_AUTOCOMPLETE_ROUTES: Routes = [
       {
         path: 'ownable-install',
         data: {
-          componentName: 'Autocomplete',
-          componentSymbol: 'TngAutocomplete',
-          primitiveSymbol: 'TngAutocompletePrimitive',
           registrySlug: 'autocomplete',
           usageCode: [
             '<tng-autocomplete',

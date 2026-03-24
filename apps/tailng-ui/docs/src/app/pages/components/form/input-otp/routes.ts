@@ -50,9 +50,6 @@ export const COMPONENTS_FORM_INPUT_OTP_ROUTES: Routes = [
       {
         path: 'ownable-install',
         data: {
-          componentName: 'Input OTP',
-          componentSymbol: 'TngInputOtpComponent',
-          primitiveSymbol: 'TngInputOtp',
           registrySlug: 'input-otp',
           usageCode: [
             '<tng-input-otp',

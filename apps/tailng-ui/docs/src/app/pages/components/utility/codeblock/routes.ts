@@ -50,9 +50,6 @@ export const COMPONENTS_UTILITY_CODEBLOCK_ROUTES: Routes = [
       {
         path: 'ownable-install',
         data: {
-          componentName: 'CodeBlock',
-          componentSymbol: 'TngCodeBlockComponent',
-          primitiveSymbol: 'TngCodeBlock',
           registrySlug: 'code-block',
           usageCode: [
             '<tng-code-block',

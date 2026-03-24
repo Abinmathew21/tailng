@@ -1,4 +1,4 @@
-import type { RegistryItem } from '../registry.types';
+import type { RegistryItemSource } from '../registry.types';
 
 const navigationmenuPrimitiveTsTemplate = `import { Directive, HostBinding } from '@angular/core';
 
@@ -48,7 +48,7 @@ const navigationmenuIndexTsTemplate = `export * from './tng-navigation-menu';
 export * from './tng-navigation-menu-primitive';
 `;
 
-export const navigationmenuRegistryItem: RegistryItem = {
+export const navigationmenuRegistryItem: RegistryItemSource = {
   dependencies: [],
   description: 'Shadcn-style source files for navigation-menu primitive and styled wrapper.',
   files: [

@@ -11,14 +11,13 @@ import {
 import { TngTab, TngTabList } from '@tailng-ui/primitives';
 import { filter, map, startWith } from 'rxjs/operators';
 
-type DatepickerDocSectionId = 'api' | 'examples' | 'overview' | 'ownable-install' | 'styling';
+type DatepickerDocSectionId = 'api' | 'examples' | 'overview' | 'styling';
 
 const datepickerDocSectionIds: readonly DatepickerDocSectionId[] = [
   'overview',
   'api',
   'styling',
   'examples',
-  'ownable-install',
 ] as const;
 
 const defaultDatepickerDocSection: DatepickerDocSectionId = 'overview';

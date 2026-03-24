@@ -50,9 +50,6 @@ export const COMPONENTS_OVERLAY_DIALOG_ROUTES: Routes = [
       {
         path: 'ownable-install',
         data: {
-          componentName: 'Dialog',
-          componentSymbol: 'TngDialogComponent',
-          primitiveSymbol: 'TngDialog',
           registrySlug: 'dialog',
           usageCode: [
             '<button type="button" [tngDialogTriggerFor]="reviewDialog">Open</button>',

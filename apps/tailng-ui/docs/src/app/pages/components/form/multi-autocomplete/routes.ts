@@ -50,28 +50,6 @@ export const COMPONENTS_FORM_MULTI_AUTOCOMPLETE_ROUTES: Routes = [
           ),
       },
       {
-        path: 'ownable-install',
-        data: {
-          componentName: 'MultiAutocomplete',
-          componentSymbol: 'TngMultiAutocompleteComponent',
-          primitiveSymbol: 'TngMultiAutocomplete',
-          registrySlug: 'multi-autocomplete',
-          usageCode: [
-            '<tng-multi-autocomplete',
-            '  [options]="countries"',
-            '  [value]="selectedCountries"',
-            '  (valueChange)="selectedCountries = $event"',
-            '  [getOptionValue]="getCountryValue"',
-            '  [getOptionLabel]="getCountryLabel"',
-            '></tng-multi-autocomplete>',
-            '',
-          ].join('\n'),
-        },
-        loadComponent: () =>
-          import('../../../../shared/ownable-install-section/docs-ownable-install-section.component')
-            .then((module) => module.DocsOwnableInstallSectionComponent),
-      },
-      {
         path: '**',
         redirectTo: 'overview',
       },

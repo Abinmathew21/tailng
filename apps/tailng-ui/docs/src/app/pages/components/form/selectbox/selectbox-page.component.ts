@@ -11,14 +11,13 @@ import {
 import { TngTab, TngTabList } from '@tailng-ui/primitives';
 import { filter, map, startWith } from 'rxjs/operators';
 
-type SelectboxDocSectionId = 'api' | 'examples' | 'overview' | 'ownable-install' | 'styling';
+type SelectboxDocSectionId = 'api' | 'examples' | 'overview' | 'styling';
 
 const selectboxDocSectionIds: readonly SelectboxDocSectionId[] = [
   'overview',
   'api',
   'styling',
   'examples',
-  'ownable-install',
 ] as const;
 
 const defaultSelectboxDocSection: SelectboxDocSectionId = 'overview';

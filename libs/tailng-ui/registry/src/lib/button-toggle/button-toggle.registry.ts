@@ -1,4 +1,4 @@
-import type { RegistryItem } from '../registry.types';
+import type { RegistryItemSource } from '../registry.types';
 
 const buttontogglePrimitiveTsTemplate = `import {
   Directive,
@@ -263,7 +263,7 @@ export * from './tng-button-toggle-group';
 export * from './tng-button-toggle-primitive';
 `;
 
-export const buttontoggleRegistryItem: RegistryItem = {
+export const buttontoggleRegistryItem: RegistryItemSource = {
   dependencies: [],
   description: 'Shadcn-style source files for button-toggle primitives and wrappers.',
   files: [

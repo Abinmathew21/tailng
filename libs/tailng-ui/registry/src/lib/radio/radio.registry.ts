@@ -1,4 +1,4 @@
-import type { RegistryItem } from '../registry.types';
+import type { RegistryItemSource } from '../registry.types';
 
 const radioPrimitiveTsTemplate = `import { Directive, HostBinding, booleanAttribute, input } from '@angular/core';
 
@@ -306,7 +306,7 @@ const radioIndexTsTemplate = `export * from './tng-radio';
 export * from './tng-radio-primitive';
 `;
 
-export const radioRegistryItem: RegistryItem = {
+export const radioRegistryItem: RegistryItemSource = {
   dependencies: [],
   description: 'Shadcn-style source files for radio primitive and styled wrapper.',
   files: [

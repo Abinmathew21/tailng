@@ -1,4 +1,4 @@
-import type { RegistryItem } from '../registry.types';
+import type { RegistryItemSource } from '../registry.types';
 
 const drawerPrimitiveTsTemplate = `import { Directive, HostBinding } from '@angular/core';
 
@@ -48,7 +48,7 @@ const drawerIndexTsTemplate = `export * from './tng-drawer';
 export * from './tng-drawer-primitive';
 `;
 
-export const drawerRegistryItem: RegistryItem = {
+export const drawerRegistryItem: RegistryItemSource = {
   dependencies: [],
   description: 'Shadcn-style source files for drawer primitive and styled wrapper.',
   files: [

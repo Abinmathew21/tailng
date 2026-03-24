@@ -364,12 +364,8 @@ function printDependencyHint(item: RegistryItem): void {
   }
 }
 
-function toPascalCase(value: string): string {
-  return value.replace(/(^\w)|(-\w)/g, (match) => match.replace('-', '').toUpperCase());
-}
-
 function formatImportHint(item: RegistryItem): string {
-  const componentSymbol = `Tng${toPascalCase(item.name)}`;
+  const componentSymbol = item.install.importSymbols[0] ?? `Tng${item.name}`;
   return `Import with: import { ${componentSymbol} } from './tailng-ui/${item.name}';`;
 }
 

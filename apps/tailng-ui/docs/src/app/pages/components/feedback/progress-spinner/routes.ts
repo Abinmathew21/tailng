@@ -50,9 +50,6 @@ export const COMPONENTS_FEEDBACK_PROGRESS_SPINNER_ROUTES: Routes = [
       {
         path: 'ownable-install',
         data: {
-          componentName: 'Progress Spinner',
-          componentSymbol: 'TngProgressSpinnerComponent',
-          primitiveSymbol: 'TngProgressSpinner',
           registrySlug: 'progress-spinner',
           usageCode: [
             '<tng-progress-spinner',

@@ -1,4 +1,4 @@
-import type { RegistryItem } from '../registry.types';
+import type { RegistryItemSource } from '../registry.types';
 
 const progressBarPrimitiveTsTemplate = `import { booleanAttribute, Directive, HostBinding, input } from '@angular/core';
 
@@ -220,7 +220,7 @@ const progressBarIndexTsTemplate = `export * from './tng-progress-bar';
 export * from './tng-progress-bar-primitive';
 `;
 
-export const progressBarRegistryItem: RegistryItem = {
+export const progressBarRegistryItem: RegistryItemSource = {
   dependencies: [],
   description: 'Shadcn-style source files for progress bar primitives and styled wrapper.',
   files: [

@@ -1,4 +1,4 @@
-import type { RegistryItem } from '../registry.types';
+import type { RegistryItemSource } from '../registry.types';
 
 const copyPrimitiveTsTemplate = `import {
   Directive,
@@ -555,7 +555,7 @@ export { TngCopyButton as TngCopy } from './tng-copy-button';
 export * from './tng-copy-primitive';
 `;
 
-export const copyRegistryItem: RegistryItem = {
+export const copyRegistryItem: RegistryItemSource = {
   dependencies: [],
   description: 'Shadcn-style source files for copy primitive and copy button wrapper.',
   files: [

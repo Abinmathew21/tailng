@@ -50,9 +50,6 @@ export const COMPONENTS_LAYOUT_STEPPER_ROUTES: Routes = [
       {
         path: 'ownable-install',
         data: {
-          componentName: 'Stepper',
-          componentSymbol: 'TngStepperComponent',
-          primitiveSymbol: 'TngStepper',
           registrySlug: 'stepper',
           usageCode: [
             '<tng-stepper>',

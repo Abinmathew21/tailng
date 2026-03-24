@@ -14,6 +14,15 @@
   margin: 0;
 }
 
+.docs-ownable-install-warning {
+  color: var(--tng-semantic-danger, #dc2626);
+  margin: 0;
+}
+
+.docs-ownable-install-warning code {
+  color: inherit;
+}
+
 .docs-ownable-install-block {
   border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 0.9rem;

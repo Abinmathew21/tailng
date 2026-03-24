@@ -18,7 +18,7 @@ if (wants("primitives")) run("pnpm nx build primitives --skip-nx-cache");
 if (wants("components")) run("pnpm nx build components --skip-nx-cache");
 if (wants("theme")) run("pnpm nx build theme --skip-nx-cache");
 if (wants("icons")) run("pnpm nx build icons --skip-nx-cache");
-if (wants("registry")) run("pnpm nx build registry --skip-nx-cache");
+if (wants("registry") || wants("cli")) run("pnpm nx build registry --skip-nx-cache");
 if (wants("charts")) run("pnpm nx build charts --skip-nx-cache");
 
 // CLI (keeps your historical target name)

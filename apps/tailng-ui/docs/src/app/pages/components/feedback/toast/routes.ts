@@ -49,9 +49,6 @@ export const COMPONENTS_FEEDBACK_TOAST_ROUTES: Routes = [
       {
         path: 'ownable-install',
         data: {
-          componentName: 'Toast',
-          componentSymbol: 'TngToastComponent',
-          primitiveSymbol: 'TngToastViewport / TngToastItem',
           registrySlug: 'toast',
           usageCode: [
             '<tng-toast #toast (dismissed)="onDismiss($event)"></tng-toast>',

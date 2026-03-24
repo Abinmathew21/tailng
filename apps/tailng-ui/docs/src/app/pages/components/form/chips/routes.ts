@@ -49,9 +49,6 @@ export const COMPONENTS_FORM_CHIPS_ROUTES: Routes = [
       {
         path: 'ownable-install',
         data: {
-          componentName: 'Chips',
-          componentSymbol: 'TngChipsComponent',
-          primitiveSymbol: 'TngChips',
           registrySlug: 'chips',
           usageCode: [
             '<tng-chips [values]="selectedTags" (valuesChange)="selectedTags = $event">',

@@ -50,9 +50,6 @@ export const COMPONENTS_FORM_BUTTON_TOGGLE_ROUTES: Routes = [
       {
         path: 'ownable-install',
         data: {
-          componentName: 'Button Toggle',
-          componentSymbol: 'TngButtonToggle',
-          primitiveSymbol: 'TngButtonTogglePrimitive',
           registrySlug: 'button-toggle',
           usageCode: [
             '<tng-button-toggle-group',

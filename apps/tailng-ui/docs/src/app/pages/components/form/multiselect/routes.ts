@@ -50,9 +50,6 @@ export const COMPONENTS_FORM_MULTISELECT_ROUTES: Routes = [
       {
         path: 'ownable-install',
         data: {
-          componentName: 'MultiSelect',
-          componentSymbol: 'TngMultiSelectComponent',
-          primitiveSymbol: 'TngMultiSelect',
           registrySlug: 'multiselect',
           usageCode: [
             '<tng-multiselect',

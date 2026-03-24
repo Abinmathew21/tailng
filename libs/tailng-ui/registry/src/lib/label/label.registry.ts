@@ -1,4 +1,4 @@
-import type { RegistryItem } from '../registry.types';
+import type { RegistryItemSource } from '../registry.types';
 
 const labelPrimitiveTsTemplate = `import { Directive, HostBinding, booleanAttribute, input } from '@angular/core';
 
@@ -83,7 +83,7 @@ const labelIndexTsTemplate = `export * from './tng-label';
 export * from './tng-label-primitive';
 `;
 
-export const labelRegistryItem: RegistryItem = {
+export const labelRegistryItem: RegistryItemSource = {
   dependencies: [],
   description: 'Shadcn-style source files for label primitive and styled wrapper.',
   files: [

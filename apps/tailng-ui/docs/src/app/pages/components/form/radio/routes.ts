@@ -49,9 +49,6 @@ export const COMPONENTS_FORM_RADIO_ROUTES: Routes = [
       {
         path: 'ownable-install',
         data: {
-          componentName: 'Radio',
-          componentSymbol: 'TngRadioComponent',
-          primitiveSymbol: 'TngRadio',
           registrySlug: 'radio',
           usageCode: [
             '<tng-radio',

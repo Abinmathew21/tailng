@@ -50,9 +50,6 @@ export const COMPONENTS_NAVIGATION_TREE_ROUTES: Routes = [
       {
         path: 'ownable-install',
         data: {
-          componentName: 'Tree',
-          componentSymbol: 'TngTree',
-          primitiveSymbol: 'TngTree',
           registrySlug: 'tree',
           usageCode: [
             '<tng-tree',

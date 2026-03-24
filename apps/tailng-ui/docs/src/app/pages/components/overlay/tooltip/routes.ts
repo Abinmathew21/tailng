@@ -50,9 +50,6 @@ export const COMPONENTS_OVERLAY_TOOLTIP_ROUTES: Routes = [
       {
         path: 'ownable-install',
         data: {
-          componentName: 'Tooltip',
-          componentSymbol: 'TngTooltipComponent',
-          primitiveSymbol: 'TngTooltipTrigger, TngTooltipContent',
           registrySlug: 'tooltip',
           usageCode: [
             '<tng-tooltip triggerLabel="Hover for hint" text="Short helper text"></tng-tooltip>',

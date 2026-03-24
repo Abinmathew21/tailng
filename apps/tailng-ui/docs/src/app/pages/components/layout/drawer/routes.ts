@@ -50,9 +50,6 @@ export const COMPONENTS_LAYOUT_DRAWER_ROUTES: Routes = [
       {
         path: 'ownable-install',
         data: {
-          componentName: 'Drawer',
-          componentSymbol: 'TngDrawerComponent',
-          primitiveSymbol: 'TngDrawer',
           registrySlug: 'drawer',
           usageCode: [
             '<section tngDrawerContainer>',

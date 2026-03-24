@@ -50,9 +50,6 @@ export const COMPONENTS_FORM_SWITCH_ROUTES: Routes = [
       {
         path: 'ownable-install',
         data: {
-          componentName: 'Switch',
-          componentSymbol: 'TngSwitchComponent',
-          primitiveSymbol: 'TngSwitch',
           registrySlug: 'switch',
           usageCode: [
             '<tng-switch',

@@ -1,4 +1,4 @@
-import type { RegistryItem } from '../registry.types';
+import type { RegistryItemSource } from '../registry.types';
 
 const togglegroupPrimitiveTsTemplate = `import { Directive, HostBinding } from '@angular/core';
 
@@ -48,7 +48,7 @@ const togglegroupIndexTsTemplate = `export * from './tng-toggle-group';
 export * from './tng-toggle-group-primitive';
 `;
 
-export const togglegroupRegistryItem: RegistryItem = {
+export const togglegroupRegistryItem: RegistryItemSource = {
   dependencies: [],
   description: 'Shadcn-style source files for toggle-group primitive and styled wrapper.',
   files: [

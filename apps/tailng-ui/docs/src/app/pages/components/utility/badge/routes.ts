@@ -50,9 +50,6 @@ export const COMPONENTS_UTILITY_BADGE_ROUTES: Routes = [
       {
         path: 'ownable-install',
         data: {
-          componentName: 'Badge',
-          componentSymbol: 'TngBadge',
-          primitiveSymbol: 'TngBadge',
           registrySlug: 'badge',
           usageCode: [
             '<button',

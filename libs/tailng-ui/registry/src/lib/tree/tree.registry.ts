@@ -1,4 +1,4 @@
-import type { RegistryItem } from '../registry.types';
+import type { RegistryItemSource } from '../registry.types';
 
 const treePrimitiveTsTemplate = `import { Directive, HostBinding } from '@angular/core';
 
@@ -48,7 +48,7 @@ const treeIndexTsTemplate = `export * from './tng-tree';
 export * from './tng-tree-primitive';
 `;
 
-export const treeRegistryItem: RegistryItem = {
+export const treeRegistryItem: RegistryItemSource = {
   dependencies: [],
   description: 'Shadcn-style source files for tree primitive and styled wrapper.',
   files: [
