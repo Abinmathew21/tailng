@@ -23,6 +23,9 @@ jobs:
     environment: production
 
     steps:
+      # ------------------------------------
+      # MAIN BRANCH SAFETY
+      # ------------------------------------
       - name: Ensure running on main branch
         run: |
           if [ "${GITHUB_REF_NAME}" != "main" ]; then
@@ -30,68 +33,123 @@ jobs:
             exit 1
           fi
 
+      # ------------------------------------
+      # CHECKOUT (uses built-in GITHUB_TOKEN)
+      # ------------------------------------
       - name: Checkout source
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
           persist-credentials: true
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 10.30.0
-
-      - name: Setup Node.js
+      # ------------------------------------
+      # NODE AND PNPM (mirror prod-build-deploy)
+      # ------------------------------------
+      - name: Setup Node 20 LTS
         uses: actions/setup-node@v4
         with:
           node-version: 20.20.0
-          cache: pnpm
           registry-url: "https://registry.npmjs.org"
+
+      # IMPORTANT: upgrade npm for Trusted Publishing + provenance
+      - name: Upgrade npm
+        run: |
+          npm i -g npm@latest
+          npm --version
+
+      - name: Enable Corepack and pnpm
+        run: |
+          corepack enable
+          corepack prepare pnpm@latest --activate
+          pnpm --version
+          which pnpm
+
+      - name: Get pnpm store path
+        id: pnpm-cache
+        run: echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_OUTPUT
+
+      - name: Cache pnpm store
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      # ------------------------------------
+      # TESTS
+      # ------------------------------------
       - name: Run ownable contract checks
         run: pnpm run test:ownable-contracts
 
+      # ------------------------------------
+      # VALIDATION
+      # ------------------------------------
       - name: Validate inputs
         run: node tools/release/validate-inputs.mjs "registry,cli" "${{ inputs.release_type }}"
 
       - name: Export TARGETS
         run: echo "TARGETS=,registry,cli," >> $GITHUB_ENV
 
+      # ------------------------------------
+      # GIT IDENTITY
+      # ------------------------------------
       - name: Set Git user
         run: |
           git config --global user.email "prince.francis@tociva.com"
           git config --global user.name "Tociva Technologies"
 
+      # ------------------------------------
+      # VERSION BUMP
+      # ------------------------------------
       - name: Bump versions
         run: node tools/release/bump-versions.mjs "registry,cli" "${{ inputs.release_type }}"
 
+      # ------------------------------------
+      # COMMIT VERSION CHANGES
+      # ------------------------------------
       - name: Commit and push version changes
         run: |
           git add package.json libs/**/package.json || true
           git commit -m "chore(release): ${{ inputs.release_type }} (registry,cli) [skip ci]" || echo "Nothing to commit"
           git push origin HEAD:${GITHUB_REF_NAME}
 
+      # ------------------------------------
+      # BUILD PACKAGES
+      # ------------------------------------
       - name: Build selected packages
         run: node tools/release/build-selected.mjs "registry,cli"
 
       - name: Verify build output
         run: node tools/release/verify-dist.mjs "registry,cli"
 
+      # ------------------------------------
+      # STRONGLY RECOMMENDED: SANITY CHECK (prevent publishing stub bundles)
+      # ------------------------------------
       - name: Sanity check built bundles
         run: node tools/release/assert-bundles.mjs "registry,cli"
 
+      # ------------------------------------
+      # OPTIONAL BUT USEFUL: npm pack dry-run per target
+      # ------------------------------------
       - name: npm pack dry-run (selected targets)
         run: node tools/release/npm-pack-dry-run.mjs "registry,cli"
 
       - name: Packed CLI smoke test
         run: node tools/release/cli-smoke-test.mjs
 
+      # ------------------------------------
+      # PUBLISH (npm Trusted Publishing via OIDC)
+      # ------------------------------------
       - name: Publish selected packages
         run: node tools/release/publish-selected.mjs "registry,cli" "${{ inputs.npm_tag }}"
 
+      # ------------------------------------
+      # TAG AND RELEASE
+      # ------------------------------------
       - name: Tag release
         run: node tools/release/tag-release.mjs
 
