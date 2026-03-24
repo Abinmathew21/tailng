@@ -55,6 +55,12 @@
 /components/form/chips/overview
 /components/form/chips/ownable-install
 /components/form/chips/styling
+/components/form/datepicker
+/components/form/datepicker/api
+/components/form/datepicker/examples
+/components/form/datepicker/overview
+/components/form/datepicker/ownable-install
+/components/form/datepicker/styling
 /components/form/input
 /components/form/input-otp
 /components/form/input-otp/api

@@ -9,97 +9,9 @@
   width: 100%;
 }
 
-.tng-datepicker-root {
-  display: grid;
-  gap: 0.25rem;
-  min-width: 0;
-}
-
-.tng-datepicker-field {
-  display: grid;
-  gap: 0.22rem;
-  min-width: 0;
-}
-
 .tng-datepicker-anchor {
   min-width: 0;
   position: relative;
-}
-
-.tng-datepicker-input-shell {
-  align-items: stretch;
-  background: color-mix(in srgb, var(--tng-semantic-background-base) 86%, var(--tng-semantic-background-surface) 14%);
-  border: 1px solid color-mix(in srgb, var(--tng-semantic-border-strong) 82%, var(--tng-semantic-background-base) 18%);
-  border-radius: 0.82rem;
-  box-sizing: border-box;
-  display: flex;
-  min-height: 2.8rem;
-  overflow: hidden;
-  transition:
-    border-color 150ms ease,
-    box-shadow 150ms ease,
-    background-color 150ms ease;
-  width: 100%;
-}
-
-.tng-datepicker-input-shell:focus-within,
-.tng-datepicker-input-shell[data-open='true'] {
-  border-color: color-mix(in srgb, var(--tng-semantic-accent-brand) 72%, var(--tng-semantic-border-strong) 28%);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--tng-semantic-focus-ring) 65%, transparent);
-}
-
-.tng-datepicker-input-shell[data-invalid='true'] {
-  border-color: var(--tng-semantic-accent-danger);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--tng-semantic-accent-danger) 16%, transparent);
-}
-
-.tng-datepicker-input {
-  appearance: none;
-  background: transparent;
-  border: 0;
-  color: var(--tng-semantic-foreground-primary);
-  flex: 1 1 auto;
-  font: inherit;
-  min-width: 0;
-  outline: none;
-  font-size: 0.94rem;
-  line-height: 1.3;
-  padding: 0.62rem 0.8rem;
-}
-
-.tng-datepicker-input::placeholder {
-  color: var(--tng-semantic-foreground-muted);
-}
-
-.tng-datepicker-trigger {
-  align-items: center;
-  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 5%, var(--tng-semantic-background-surface));
-  border: 0;
-  border-inline-start: 1px solid var(--tng-semantic-border-subtle);
-  color: var(--tng-semantic-foreground-primary);
-  cursor: pointer;
-  display: inline-flex;
-  flex: 0 0 auto;
-  gap: 0.24rem;
-  justify-content: center;
-  min-width: 2.8rem;
-  padding-inline: 0.64rem;
-  transition: background-color 150ms ease;
-}
-
-.tng-datepicker-trigger:hover:not(:disabled),
-.tng-datepicker-trigger[data-open='true'] {
-  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 10%, var(--tng-semantic-background-surface));
-}
-
-.tng-datepicker-trigger:disabled {
-  cursor: not-allowed;
-  opacity: 0.55;
-}
-
-.tng-datepicker-trigger:focus-visible {
-  box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--tng-semantic-focus-ring) 38%, transparent);
-  outline: none;
 }
 
 .tng-datepicker-trigger-calendar {
@@ -107,103 +19,36 @@
   width: 0.96rem;
 }
 
-.tng-datepicker-trigger-chevron {
-  height: 0.76rem;
-  width: 0.76rem;
+.tng-datepicker-trigger-chevron,
+.tng-datepicker-period-button-chevron {
+  flex: 0 0 auto;
+  height: 0.72rem;
+  width: 0.72rem;
 }
 
 .tng-datepicker-overlay {
-  --tng-datepicker-nav-size: 1.9rem;
-  --tng-datepicker-grid-gap: clamp(0.12rem, 1.1%, 0.24rem);
-  background:
-    linear-gradient(
-      180deg,
-      color-mix(in srgb, var(--tng-semantic-background-surface) 96%, var(--tng-semantic-background-base) 4%),
-      color-mix(in srgb, var(--tng-semantic-background-surface) 90%, var(--tng-semantic-background-base) 10%)
-    );
-  border: 1px solid color-mix(in srgb, var(--tng-semantic-border-subtle) 88%, var(--tng-semantic-background-base) 12%);
-  border-radius: 0.86rem;
-  box-shadow:
-    0 14px 24px color-mix(in srgb, var(--tng-semantic-foreground-primary) 9%, transparent),
-    0 3px 8px color-mix(in srgb, var(--tng-semantic-foreground-primary) 5%, transparent);
-  box-sizing: border-box;
-  color: var(--tng-semantic-foreground-primary);
-  display: grid;
-  gap: 0.48rem;
   max-width: calc(100vw - 1.5rem);
   overflow-y: auto;
   overscroll-behavior: contain;
-  padding: 0.58rem;
   position: fixed;
   z-index: 30;
 }
 
-.tng-datepicker-header {
-  display: grid;
-  gap: 0.4rem;
-}
-
-.tng-datepicker-header-row {
-  align-items: center;
-  display: grid;
-  gap: 0.4rem;
-  grid-template-columns: auto 1fr auto;
-}
-
 .tng-datepicker-header-row-material {
   align-items: center;
-  grid-template-columns: var(--tng-datepicker-nav-size) minmax(0, 1fr) var(--tng-datepicker-nav-size);
-}
-
-.tng-datepicker-header-copy {
-  display: grid;
-  gap: 0.1rem;
-}
-
-.tng-datepicker-eyebrow {
-  color: var(--tng-semantic-foreground-muted);
-  font-size: 0.67rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  margin: 0;
-  text-transform: uppercase;
-}
-
-.tng-datepicker-title {
-  font-size: 0.98rem;
-  font-weight: 700;
-  line-height: 1.15;
-  margin: 0;
+  grid-template-columns:
+    var(--tng-datepicker-nav-size, 2.1rem)
+    minmax(0, 1fr)
+    var(--tng-datepicker-nav-size, 2.1rem);
 }
 
 .tng-datepicker-period-button {
   align-items: center;
-  align-self: stretch;
-  background: transparent;
-  border: 0;
-  border-radius: 0.75rem;
-  color: inherit;
-  cursor: pointer;
-  display: grid;
-  gap: 0.06rem;
-  justify-items: center;
+  display: inline-flex;
+  justify-content: center;
   justify-self: center;
   min-width: 0;
-  padding: 0.16rem 0.46rem;
-  text-align: center;
-  transition:
-    background-color 150ms ease,
-    box-shadow 150ms ease,
-    color 150ms ease;
-}
-
-.tng-datepicker-period-button[data-interactive='true']:hover {
-  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 7%, transparent);
-}
-
-.tng-datepicker-period-button:focus-visible {
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--tng-semantic-focus-ring) 18%, transparent);
-  outline: none;
+  width: 100%;
 }
 
 .tng-datepicker-period-button-title-row {
@@ -213,98 +58,15 @@
 }
 
 .tng-datepicker-period-button-title {
-  color: var(--tng-semantic-foreground-primary);
-  font-size: 0.92rem;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  line-height: 1.1;
-}
-
-.tng-datepicker-period-button-chevron {
-  color: color-mix(in srgb, var(--tng-semantic-accent-brand) 72%, var(--tng-semantic-foreground-muted) 28%);
-  flex: 0 0 auto;
-  height: 0.72rem;
-  width: 0.72rem;
-}
-
-.tng-datepicker-nav-button,
-.tng-datepicker-view-chip,
-.tng-datepicker-action,
-.tng-datepicker-cell,
-.tng-datepicker-picker-cell {
-  align-items: center;
-  background: var(--tng-semantic-background-base);
-  border: 1px solid var(--tng-semantic-border-subtle);
-  border-radius: 0.72rem;
-  color: var(--tng-semantic-foreground-primary);
-  cursor: pointer;
-  display: inline-flex;
-  font: inherit;
-  justify-content: center;
-  transition:
-    border-color 150ms ease,
-    box-shadow 150ms ease,
-    background-color 150ms ease,
-    color 150ms ease,
-    transform 150ms ease;
-}
-
-.tng-datepicker-nav-button:hover,
-.tng-datepicker-view-chip:hover,
-.tng-datepicker-action:hover {
-  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 7%, var(--tng-semantic-background-surface));
-}
-
-.tng-datepicker-nav-button:focus-visible,
-.tng-datepicker-view-chip:focus-visible,
-.tng-datepicker-action:focus-visible,
-.tng-datepicker-cell:focus-visible,
-.tng-datepicker-picker-cell:focus-visible {
-  border-color: color-mix(in srgb, var(--tng-semantic-accent-brand) 68%, var(--tng-semantic-border-subtle) 32%);
-  box-shadow: 0 0 0 2px color-mix(in srgb, var(--tng-semantic-focus-ring) 18%, transparent);
-  outline: none;
-}
-
-.tng-datepicker-nav-button {
-  height: var(--tng-datepicker-nav-size);
-  width: var(--tng-datepicker-nav-size);
-}
-
-.tng-datepicker-view-switcher {
-  display: flex;
-  gap: 0.24rem;
-}
-
-.tng-datepicker-view-chip {
-  font-size: 0.76rem;
-  font-weight: 600;
-  min-height: 1.95rem;
-  padding: 0.34rem 0.62rem;
-}
-
-.tng-datepicker-view-chip[data-active='true'],
-.tng-datepicker-action[data-variant='primary'] {
-  background: linear-gradient(
-    180deg,
-    color-mix(in srgb, var(--tng-semantic-accent-brand) 78%, white 22%),
-    color-mix(in srgb, var(--tng-semantic-accent-brand) 88%, black 12%)
-  );
-  border-color: color-mix(in srgb, var(--tng-semantic-accent-brand) 82%, var(--tng-semantic-border-subtle) 18%);
-  color: white;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .tng-datepicker-weekdays {
   display: grid;
   gap: var(--tng-datepicker-grid-gap);
   grid-template-columns: repeat(7, minmax(0, 1fr));
-}
-
-.tng-datepicker-weekday {
-  color: var(--tng-semantic-foreground-muted);
-  font-size: 0.63rem;
-  font-weight: 700;
-  letter-spacing: 0.03em;
-  text-align: center;
 }
 
 .tng-datepicker-grid {
@@ -320,70 +82,9 @@
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
-.tng-datepicker-cell,
-.tng-datepicker-picker-cell {
-  background: transparent;
-  border: 1px solid transparent;
-  border-radius: 0.6rem;
-  font-size: 0.9rem;
-  font-weight: 600;
-  min-height: 2rem;
-  width: 100%;
-}
-
-.tng-datepicker-picker-cell {
-  font-size: 0.84rem;
-  min-height: 2.1rem;
-}
-
-.tng-datepicker-cell[data-selected],
-.tng-datepicker-picker-cell[data-selected] {
-  background: linear-gradient(
-    180deg,
-    color-mix(in srgb, var(--tng-semantic-accent-brand) 16%, var(--tng-semantic-background-surface) 84%),
-    color-mix(in srgb, var(--tng-semantic-accent-brand) 24%, var(--tng-semantic-background-base) 76%)
-  );
-  border-color: color-mix(in srgb, var(--tng-semantic-accent-brand) 70%, var(--tng-semantic-border-subtle) 30%);
-}
-
-.tng-datepicker-cell[data-active]:not([data-selected]),
-.tng-datepicker-picker-cell[data-active]:not([data-selected]) {
-  color: color-mix(in srgb, var(--tng-semantic-accent-brand) 78%, var(--tng-semantic-foreground-primary) 22%);
-}
-
-.tng-datepicker-cell[data-focus-visible],
-.tng-datepicker-picker-cell[data-focus-visible] {
-  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 8%, var(--tng-semantic-background-base));
-  border-color: color-mix(in srgb, var(--tng-semantic-accent-brand) 72%, var(--tng-semantic-border-subtle) 28%);
-  box-shadow:
-    inset 0 0 0 1px color-mix(in srgb, var(--tng-semantic-accent-brand) 64%, white 36%),
-    0 0 0 1px color-mix(in srgb, var(--tng-semantic-accent-brand) 16%, transparent);
-}
-
-.tng-datepicker-cell[data-disabled],
-.tng-datepicker-picker-cell[data-disabled],
-.tng-datepicker-cell:disabled,
-.tng-datepicker-picker-cell:disabled {
-  background: transparent;
-  border-color: transparent;
-  box-shadow: none;
-  color: color-mix(in srgb, var(--tng-semantic-foreground-muted) 84%, transparent);
-  cursor: not-allowed;
-  opacity: 0.52;
-}
-
-.tng-datepicker-cell:not([data-in-month]) {
-  color: color-mix(in srgb, var(--tng-semantic-foreground-muted) 72%, transparent);
-}
-
 @media (max-width: 40rem) {
   :host,
   :host([data-full-width]) {
     width: 100%;
-  }
-
-  .tng-datepicker-overlay {
-    position: static;
-    margin-top: 0.6rem;
   }
 }
