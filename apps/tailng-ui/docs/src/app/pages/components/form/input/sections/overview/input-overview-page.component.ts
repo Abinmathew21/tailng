@@ -1,6 +1,6 @@
 import { DOCUMENT, NgTemplateOutlet } from '@angular/common';
 import { Component, inject, signal, type OnDestroy } from '@angular/core';
-import { TngCodeBlockComponent, TngFormFieldComponent, TngInputComponent } from '@tailng-ui/components';
+import { TngCodeBlockComponent, TngInputComponent } from '@tailng-ui/components';
 import { type DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
 import {
   DocsExampleTabsSectionComponent,
@@ -14,7 +14,6 @@ import {
     TngCodeBlockComponent,
     DocsExampleTabsSectionComponent,
     DocsExampleVariantDirective,
-    TngFormFieldComponent,
     TngInputComponent,
   ],
   templateUrl: './input-overview-page.component.html',

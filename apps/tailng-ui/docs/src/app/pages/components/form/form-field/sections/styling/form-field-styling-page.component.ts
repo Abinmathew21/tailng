@@ -1,7 +1,6 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, inject, signal, type OnDestroy } from '@angular/core';
 import { TngCodeBlockComponent, TngFormFieldComponent } from '@tailng-ui/components';
-import { TngIcon } from '@tailng-ui/icons';
 import { TngInput, TngPrefix, TngSuffix } from '@tailng-ui/primitives';
 import { type DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
 import {
@@ -19,7 +18,6 @@ import {
     TngInput,
     TngPrefix,
     TngSuffix,
-    TngIcon,
   ],
   templateUrl: './form-field-styling-page.component.html',
   styleUrls: ['../../../input/sections/styling/input-styling-page.component.css'],

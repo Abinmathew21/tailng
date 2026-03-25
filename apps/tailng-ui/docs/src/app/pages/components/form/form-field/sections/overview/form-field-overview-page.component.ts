@@ -1,4 +1,4 @@
-import { DOCUMENT, NgTemplateOutlet } from '@angular/common';
+import { DOCUMENT } from '@angular/common';
 import { Component, inject, signal, type OnDestroy } from '@angular/core';
 import { TngCodeBlockComponent, TngFormFieldComponent } from '@tailng-ui/components';
 import { TngIcon } from '@tailng-ui/icons';
@@ -12,7 +12,6 @@ import {
 @Component({
   selector: 'app-form-field-overview-page',
   imports: [
-    NgTemplateOutlet,
     TngCodeBlockComponent,
     DocsExampleTabsSectionComponent,
     DocsExampleVariantDirective,
