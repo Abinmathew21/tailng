@@ -131,9 +131,11 @@ export class PlainCssSetupPageComponent implements OnDestroy {
 
   protected readonly componentMarkupCode = [
     '<section class="demo-stack">',
-    '  <tng-input label="Project name">',
-    '    <input tngInput placeholder="TailNG docs" />',
-    '  </tng-input>',
+    '  <tng-input',
+    '    type="text"',
+    '    placeholder="TailNG docs"',
+    '    ariaLabel="Project name"',
+    '  ></tng-input>',
     '',
     '  <tng-button class="demo-primary-action">Create project</tng-button>',
     '</section>',

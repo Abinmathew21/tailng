@@ -1,0 +1,38 @@
+<div class="grid gap-8 pb-10">
+  <section class="docs-section-anchor grid gap-4" id="input-overview">
+    <h1 class="m-0 text-3xl font-semibold text-tng-fg-primary">Input</h1>
+    <p class="m-0 max-w-4xl text-base leading-7 text-tng-fg-secondary">
+      The ownable Input install gives your app a local wrapper and primitive bridge you can edit
+      directly while keeping the TailNG interaction contract intact.
+    </p>
+  </section>
+
+  <section class="docs-section-anchor grid gap-3" id="why-own-input">
+    <h2 class="m-0 text-xl font-semibold text-tng-fg-primary">Why own Input locally</h2>
+    <p class="m-0 max-w-4xl text-base leading-7 text-tng-fg-secondary">
+      Input is usually one of the first components product teams need to bend to their own design
+      system. Local ownership makes it easier to tune markup, defaults, and validation presentation
+      without forking the wider component package.
+    </p>
+    <ul class="m-0 grid gap-2 pl-5 text-sm leading-6 text-tng-fg-secondary">
+      <li>Change wrapper structure or styling without waiting for a package release.</li>
+      <li>Review input-specific behavior inside the application repo.</li>
+      <li>Keep local form conventions close to the product code that uses them.</li>
+    </ul>
+  </section>
+
+  <section class="docs-section-anchor grid gap-3" id="what-input-installs">
+    <h2 class="m-0 text-xl font-semibold text-tng-fg-primary">What the install includes</h2>
+    <p class="m-0 max-w-4xl text-base leading-7 text-tng-fg-secondary">
+      The registry-backed input install writes the local component wrapper, template, styles, and
+      export barrel under your app so the generated files can be versioned alongside the rest of the
+      product.
+    </p>
+  </section>
+
+  <app-docs-ownable-install-section
+    componentName="Input"
+    registrySlug="input"
+    [usageCode]="usageCode"
+  />
+</div>

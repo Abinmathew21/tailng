@@ -74,14 +74,14 @@
           <tng-input-group
             class="inline-flex min-h-10 w-full items-center gap-2 rounded-lg border border-tng-border-strong bg-tng-bg-canvas px-3 text-sm text-tng-fg-primary data-[focused]:ring-2 data-[focused]:ring-tng-accent-brand/35 data-[invalid]:border-tng-accent-danger data-[disabled]:cursor-not-allowed data-[disabled]:opacity-60"
           >
-            <span tngInputLeading class="inline-flex shrink-0 items-center text-tng-fg-muted" aria-hidden="true">🔎</span>
+            <span tngPrefix class="inline-flex shrink-0 items-center text-tng-fg-muted" aria-hidden="true">🔎</span>
             <input
               tngInput
               type="search"
               placeholder="Search primitives"
               class="min-w-0 w-full border-0 bg-transparent p-0 text-sm text-inherit outline-none placeholder:text-tng-fg-muted"
             />
-            <span tngInputTrailing class="inline-flex shrink-0 items-center text-tng-fg-muted" aria-hidden="true">⌘K</span>
+            <span tngSuffix class="inline-flex shrink-0 items-center text-tng-fg-muted" aria-hidden="true">⌘K</span>
           </tng-input-group>
         </label>
 
@@ -90,7 +90,7 @@
           <tng-input-group
             class="inline-flex min-h-10 w-full items-center gap-2 rounded-lg border border-tng-border-strong bg-tng-bg-canvas px-3 text-sm text-tng-fg-primary data-[focused]:ring-2 data-[focused]:ring-tng-accent-brand/35 data-[invalid]:border-tng-accent-danger data-[disabled]:cursor-not-allowed data-[disabled]:opacity-60"
           >
-            <span tngInputLeading class="inline-flex shrink-0 items-center text-tng-fg-muted" aria-hidden="true">⛔</span>
+            <span tngPrefix class="inline-flex shrink-0 items-center text-tng-fg-muted" aria-hidden="true">⛔</span>
             <input
               tngInput
               placeholder="Disabled"
@@ -112,7 +112,7 @@
               class="min-w-0 w-full border-0 bg-transparent p-0 text-sm text-inherit outline-none placeholder:text-tng-fg-muted"
             />
             <button
-              tngInputTrailing
+              tngSuffix
               type="button"
               aria-label="Clear"
               class="inline-flex h-7 w-7 items-center justify-center rounded-md border border-tng-border-subtle bg-tng-bg-surface text-tng-fg-secondary outline-none transition hover:text-tng-fg-primary focus:ring-2 focus:ring-tng-accent-brand/35"
@@ -127,42 +127,35 @@
     <section class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5 space-y-3">
       <div class="grid gap-0.5">
         <h2 class="m-0 text-[0.9375rem] font-semibold text-tng-fg-primary">
-          3) Component wrapper: <code>&lt;tng-input&gt;</code>
+          3) Components: <code>&lt;tng-input&gt;</code> + <code>&lt;tng-form-field&gt;</code>
         </h2>
-        <p class="m-0 text-[0.8125rem] text-tng-fg-muted">Styled wrapper over the same headless primitives.</p>
+        <p class="m-0 text-[0.8125rem] text-tng-fg-muted">Use <code>tng-input</code> for the plain case, and <code>tng-form-field</code> when you need adornments.</p>
       </div>
 
       <div class="grid gap-3">
         <label class="grid gap-1.5">
-          <span class="text-[0.8125rem] text-tng-fg-secondary">Default wrapper</span>
-          <tng-input>
-            <input tngInput type="email" placeholder="hello@tailng.dev" />
-          </tng-input>
+          <span class="text-[0.8125rem] text-tng-fg-secondary">Simple input</span>
+          <tng-input type="email" placeholder="hello@tailng.dev"></tng-input>
         </label>
 
         <label class="grid gap-1.5">
-          <span class="text-[0.8125rem] text-tng-fg-secondary">Solid + large with slots</span>
-          <tng-input appearance="solid" size="lg">
-            <span tngInputLeading class="inline-flex shrink-0 items-center text-tng-fg-muted" aria-hidden="true">#</span>
+          <span class="text-[0.8125rem] text-tng-fg-secondary">Form field with slots</span>
+          <tng-form-field appearance="solid" size="lg">
+            <span tngPrefix class="inline-flex shrink-0 items-center text-tng-fg-muted" aria-hidden="true">#</span>
             <input tngInput type="text" placeholder="Issue number" />
-            <span tngInputTrailing class="inline-flex shrink-0 items-center text-tng-fg-muted" aria-hidden="true">v1</span>
-          </tng-input>
+            <span tngSuffix class="inline-flex shrink-0 items-center text-tng-fg-muted" aria-hidden="true">v1</span>
+          </tng-form-field>
         </label>
 
         <label class="grid gap-1.5">
           <span class="text-[0.8125rem] text-tng-fg-secondary">Danger tone + invalid</span>
-          <tng-input tone="danger">
-            <span tngInputLeading class="inline-flex shrink-0 items-center text-tng-fg-muted" aria-hidden="true">!</span>
-            <input tngInput type="text" placeholder="Validation error" [ariaInvalid]="true" />
-          </tng-input>
+          <tng-input tone="danger" type="text" placeholder="Validation error" [ariaInvalid]="true"></tng-input>
         </label>
 
         <label class="grid gap-1.5">
           <span class="text-[0.8125rem] text-tng-fg-secondary">Non-full-width (compact)</span>
           <div class="flex">
-            <tng-input [fullWidth]="false" size="sm">
-              <input tngInput type="search" placeholder="Compact search" />
-            </tng-input>
+            <tng-input [fullWidth]="false" size="sm" type="search" placeholder="Compact search"></tng-input>
           </div>
         </label>
       </div>

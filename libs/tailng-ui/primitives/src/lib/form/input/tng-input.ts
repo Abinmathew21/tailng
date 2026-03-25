@@ -186,10 +186,10 @@ export class TngInput {
 }
 
 @Directive({
-  selector: '[tngInputLeading]',
-  exportAs: 'tngInputLeading',
+  selector: '[tngPrefix], [tngInputLeading]',
+  exportAs: 'tngPrefix',
 })
-export class TngInputLeading {
+export class TngPrefix {
   readonly hostElement = inject(ElementRef<HTMLElement>).nativeElement;
 
   @HostBinding('attr.data-slot')
@@ -197,15 +197,17 @@ export class TngInputLeading {
 }
 
 @Directive({
-  selector: '[tngInputTrailing]',
-  exportAs: 'tngInputTrailing',
+  selector: '[tngSuffix], [tngInputTrailing]',
+  exportAs: 'tngSuffix',
 })
-export class TngInputTrailing {
+export class TngSuffix {
   readonly hostElement = inject(ElementRef<HTMLElement>).nativeElement;
 
   @HostBinding('attr.data-slot')
   protected readonly dataSlot = 'input-trailing' as const;
 }
+
+export { TngPrefix as TngInputLeading, TngSuffix as TngInputTrailing };
 
 @Component({
   selector: 'tng-input-group, [tngInputGroup]',
@@ -213,7 +215,7 @@ export class TngInputTrailing {
   template: `
     @if (hasLeadingSlot()) {
       <span class="tng-input-group-leading" data-slot="input-group-leading">
-        <ng-content select="[tngInputLeading], [data-tng-input-leading-proxy]"></ng-content>
+        <ng-content select="[tngPrefix], [tngInputLeading], [data-tng-input-prefix-proxy]"></ng-content>
       </span>
     }
 
@@ -223,7 +225,7 @@ export class TngInputTrailing {
 
     @if (hasTrailingSlot()) {
       <span class="tng-input-group-trailing" data-slot="input-group-trailing">
-        <ng-content select="[tngInputTrailing], [data-tng-input-trailing-proxy]"></ng-content>
+        <ng-content select="[tngSuffix], [tngInputTrailing], [data-tng-input-suffix-proxy]"></ng-content>
       </span>
     }
   `,
@@ -239,11 +241,11 @@ export class TngInputGroup implements AfterContentInit, OnDestroy {
   @ContentChildren(TngInput, { descendants: true })
   protected controls!: QueryList<TngInput>;
 
-  @ContentChildren(TngInputLeading, { descendants: true })
-  protected leadingSlots!: QueryList<TngInputLeading>;
+  @ContentChildren(TngPrefix, { descendants: true })
+  protected prefixSlots!: QueryList<TngPrefix>;
 
-  @ContentChildren(TngInputTrailing, { descendants: true })
-  protected trailingSlots!: QueryList<TngInputTrailing>;
+  @ContentChildren(TngSuffix, { descendants: true })
+  protected suffixSlots!: QueryList<TngSuffix>;
 
   private readonly hostElement = inject(ElementRef<HTMLElement>).nativeElement;
 
@@ -353,18 +355,18 @@ export class TngInputGroup implements AfterContentInit, OnDestroy {
   }
 
   protected hasLeadingSlot(): boolean {
-    const proxy = this.hostElement.querySelector('[data-tng-input-leading-proxy]');
+    const proxy = this.hostElement.querySelector('[data-tng-input-prefix-proxy]');
     if (proxy instanceof HTMLElement) return hasProjectedContent(proxy);
 
-    const slots = this.leadingSlots?.toArray() ?? [];
+    const slots = this.prefixSlots?.toArray() ?? [];
     return slots.some((slot) => hasProjectedContent(slot.hostElement));
   }
 
   protected hasTrailingSlot(): boolean {
-    const proxy = this.hostElement.querySelector('[data-tng-input-trailing-proxy]');
+    const proxy = this.hostElement.querySelector('[data-tng-input-suffix-proxy]');
     if (proxy instanceof HTMLElement) return hasProjectedContent(proxy);
 
-    const slots = this.trailingSlots?.toArray() ?? [];
+    const slots = this.suffixSlots?.toArray() ?? [];
     return slots.some((slot) => hasProjectedContent(slot.hostElement));
   }
 

@@ -124,7 +124,7 @@
   line-height: 1.2;
 }
 
-.input-styling-example-shell[data-slot='input-group'] {
+:host ::ng-deep .input-styling-example-shell [data-slot='input-group'] {
   background: var(--tng-semantic-background-base);
   border: 1px solid var(--tng-semantic-border-strong);
   border-radius: 0.65rem;
@@ -133,9 +133,10 @@
   transition:
     border-color 0.15s ease,
     box-shadow 0.15s ease;
+  cursor: text;
 }
 
-.input-styling-example-shell[data-focused] {
+:host ::ng-deep .input-styling-example-shell [data-slot='input-group'][data-focused] {
   border-color: color-mix(
     in srgb,
     var(--tng-semantic-accent-brand) 55%,
@@ -144,7 +145,7 @@
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--tng-semantic-accent-brand) 20%, transparent);
 }
 
-.input-styling-example-shell [data-slot='input'] {
+:host ::ng-deep .input-styling-example-shell [data-slot='input'] {
   background: transparent;
   border: 0;
   box-shadow: none;
@@ -156,27 +157,13 @@
   padding: 0;
 }
 
-.input-styling-example-shell [data-slot='input']::placeholder {
+:host ::ng-deep .input-styling-example-shell [data-slot='input']::placeholder {
   color: var(--tng-semantic-foreground-muted);
 }
 
-.input-styling-example-shell [data-slot='input']:focus,
-.input-styling-example-shell [data-slot='input']:focus-visible {
+:host ::ng-deep .input-styling-example-shell [data-slot='input']:focus,
+:host ::ng-deep .input-styling-example-shell [data-slot='input']:focus-visible {
   outline: none;
-}
-
-.input-styling-example-field-surface--textarea
-  .input-styling-example-shell[data-slot='input-group'] {
-  align-items: flex-start;
-  min-height: auto;
-  padding: 0.55rem 0.7rem;
-}
-
-.input-styling-example-field-surface--textarea .input-styling-example-shell [data-slot='input'] {
-  font-size: 0.94rem;
-  line-height: 1.45;
-  min-height: 4.2rem;
-  resize: vertical;
 }
 
 .input-styling-pattern-grid {

@@ -9,12 +9,18 @@ export const HEADLESS_FORM_ROUTES: Routes = [
     pathMatch: 'full',
     redirectTo: group.items[0]!.slug,
   },
-  ...group.items.map((item) => ({
+  {
+    path: 'input',
+    loadChildren: () => import('./input/routes').then((m) => m.HEADLESS_FORM_INPUT_ROUTES),
+  },
+  ...group.items
+    .filter((item) => item.slug !== 'input')
+    .map((item) => ({
     path: item.slug,
     data: toHeadlessDocsRouteData(group, item),
     loadComponent: () =>
       import('./landing/form-landing-page.component').then(
         (module) => module.FormLandingPageComponent,
       ),
-  })),
+    })),
 ];

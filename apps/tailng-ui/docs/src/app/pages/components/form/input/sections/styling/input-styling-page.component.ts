@@ -1,7 +1,6 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, inject, signal, type OnDestroy } from '@angular/core';
-import { TngCodeBlockComponent } from '@tailng-ui/components';
-import { TngInput, TngInputGroup } from '@tailng-ui/primitives';
+import { TngCodeBlockComponent, TngInputComponent } from '@tailng-ui/components';
 import { type DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
 import {
   DocsExampleTabsSectionComponent,
@@ -14,8 +13,7 @@ import {
     TngCodeBlockComponent,
     DocsExampleTabsSectionComponent,
     DocsExampleVariantDirective,
-    TngInputGroup,
-    TngInput,
+    TngInputComponent,
   ],
   templateUrl: './input-styling-page.component.html',
   styleUrl: './input-styling-page.component.css',
@@ -34,13 +32,6 @@ export class InputStylingPageComponent implements OnDestroy {
     '    <span class="profile-label">Display name</span>',
     '    <div tngInputGroup class="profile-shell">',
     '      <input tngInput type="text" value="Ada Lovelace" />',
-    '    </div>',
-    '  </label>',
-    '',
-    '  <label class="profile-field profile-field--textarea">',
-    '    <span class="profile-label">Bio</span>',
-    '    <div tngInputGroup class="profile-shell">',
-    '      <textarea tngInput rows="3">Writes about numerical methods and computation.</textarea>',
     '    </div>',
     '  </label>',
     '</form>',
@@ -80,15 +71,6 @@ export class InputStylingPageComponent implements OnDestroy {
     '  width: 100%;',
     '  background: transparent;',
     '}',
-    '.profile-field--textarea .profile-shell[data-slot="input-group"] {',
-    '  min-height: auto;',
-    '  align-items: flex-start;',
-    '  padding: 0.55rem 0.7rem;',
-    '}',
-    '.profile-field--textarea .profile-shell [data-slot="input"] {',
-    '  min-height: 4.2rem;',
-    '  resize: vertical;',
-    '}',
     '',
   ].join('\n');
 
@@ -96,16 +78,7 @@ export class InputStylingPageComponent implements OnDestroy {
     '<form class="account-form">',
     '  <label class="account-field">',
     '    <span class="account-label">Display name</span>',
-    '    <div tngInputGroup class="account-shell">',
-    '      <input tngInput type="text" value="Ada Lovelace" />',
-    '    </div>',
-    '  </label>',
-    '',
-    '  <label class="account-field account-field--textarea">',
-    '    <span class="account-label">Bio</span>',
-    '    <div tngInputGroup class="account-shell">',
-    '      <textarea tngInput rows="3">Writes about numerical methods and computation.</textarea>',
-    '    </div>',
+    '    <tng-input class="account-shell" type="text" value="Ada Lovelace"></tng-input>',
     '  </label>',
     '</form>',
     '',
@@ -128,18 +101,18 @@ export class InputStylingPageComponent implements OnDestroy {
     '  text-transform: uppercase;',
     '  color: var(--tng-semantic-foreground-muted);',
     '}',
-    '.account-shell[data-slot="input-group"] {',
+    '.account-shell [data-slot="input-group"] {',
     '  min-height: 2.45rem;',
     '  border-radius: 0.65rem;',
     '  border: 1px solid var(--tng-semantic-border-strong);',
     '  background: var(--tng-semantic-background-base);',
     '  padding: 0 0.72rem;',
     '}',
-    '.account-shell[data-focused] {',
+    '.account-shell [data-slot="input-group"][data-focused] {',
     '  border-color: var(--tng-semantic-accent-brand);',
     '  box-shadow: 0 0 0 3px color-mix(in srgb, var(--tng-semantic-accent-brand) 18%, transparent);',
     '}',
-    '.account-shell[data-invalid] {',
+    '.account-shell [data-slot="input-group"][data-invalid] {',
     '  border-color: var(--tng-semantic-accent-danger);',
     '}',
     '.account-shell [data-slot="input"] {',
@@ -149,16 +122,6 @@ export class InputStylingPageComponent implements OnDestroy {
     '  padding: 0;',
     '  background: transparent;',
     '}',
-    '.account-field--textarea .account-shell[data-slot="input-group"] {',
-    '  min-height: auto;',
-    '  align-items: flex-start;',
-    '  padding: 0.55rem 0.72rem;',
-    '}',
-    '.account-field--textarea .account-shell [data-slot="input"] {',
-    '  min-height: 4.25rem;',
-    '  line-height: 1.45;',
-    '  resize: vertical;',
-    '}',
     '',
   ].join('\n');
 
@@ -166,33 +129,30 @@ export class InputStylingPageComponent implements OnDestroy {
     '<form class="grid w-full max-w-[31rem] gap-4">',
     '  <label class="grid gap-2 rounded-xl border border-slate-300 bg-white/80 p-3">',
     '    <span class="text-xs font-semibold uppercase tracking-[0.01em] text-slate-500">Display name</span>',
-    '    <div',
-    '      tngInputGroup',
-    '      class="min-h-10 rounded-lg border border-slate-300 bg-white px-3 shadow-sm transition [&[data-focused]]:border-cyan-500 [&[data-focused]]:ring-2 [&[data-focused]]:ring-cyan-200/70"',
-    '    >',
-    '      <input',
-    '        tngInput',
-    '        type="text"',
-    '        value="Ada Lovelace"',
-    '        class="w-full border-0 bg-transparent p-0 text-[0.98rem] font-medium leading-5 outline-none"',
-    '      />',
-    '    </div>',
-    '  </label>',
-    '',
-    '  <label class="grid gap-2 rounded-xl border border-slate-300 bg-white/80 p-3">',
-    '    <span class="text-xs font-semibold uppercase tracking-[0.01em] text-slate-500">Bio</span>',
-    '    <div',
-    '      tngInputGroup',
-    '      class="min-h-0 rounded-lg border border-slate-300 bg-white px-3 py-2 shadow-sm transition [&[data-focused]]:border-cyan-500 [&[data-focused]]:ring-2 [&[data-focused]]:ring-cyan-200/70"',
-    '    >',
-    '      <textarea',
-    '        tngInput',
-    '        rows="3"',
-    '        class="min-h-[4.25rem] w-full resize-y border-0 bg-transparent p-0 text-[0.94rem] leading-6 outline-none"',
-    '      >',
-    '        Writes about numerical methods and computation.',
-    '      </textarea>',
-    '    </div>',
+    '    <tng-input',
+    '      class="block',
+    "             [&_[data-slot='input-group']]:min-h-10",
+    "             [&_[data-slot='input-group']]:rounded-lg",
+    "             [&_[data-slot='input-group']]:border",
+    "             [&_[data-slot='input-group']]:border-slate-300",
+    "             [&_[data-slot='input-group']]:bg-white",
+    "             [&_[data-slot='input-group']]:px-3",
+    "             [&_[data-slot='input-group']]:shadow-sm",
+    "             [&_[data-slot='input-group']]:transition",
+    "             [&_[data-slot='input-group'][data-focused]]:border-cyan-500",
+    "             [&_[data-slot='input-group'][data-focused]]:ring-2",
+    "             [&_[data-slot='input-group'][data-focused]]:ring-cyan-200/70",
+    "             [&_[data-slot='input']]:w-full",
+    "             [&_[data-slot='input']]:border-0",
+    "             [&_[data-slot='input']]:bg-transparent",
+    "             [&_[data-slot='input']]:p-0",
+    "             [&_[data-slot='input']]:text-[0.98rem]",
+    "             [&_[data-slot='input']]:font-medium",
+    "             [&_[data-slot='input']]:leading-5",
+    "             [&_[data-slot='input']]:outline-none\"",
+    '      type="text"',
+    '      value="Ada Lovelace"',
+    '    ></tng-input>',
     '  </label>',
     '</form>',
     '',
@@ -205,7 +165,7 @@ export class InputStylingPageComponent implements OnDestroy {
     {
       title: 'Focus-first shell',
       description:
-        'Use container-level focus styling so input and textarea share one consistent focus treatment.',
+        'Use container-level focus styling so the shell owns the focus treatment instead of the projected control.',
       language: 'css',
       code: [
         '.profile-shell[data-slot="input-group"] {',
@@ -228,11 +188,11 @@ export class InputStylingPageComponent implements OnDestroy {
         'Compose search inputs with adornments while keeping native control semantics and keyboard behavior.',
       language: 'html',
       code: [
-        '<tng-input-group class="search-shell">',
-        '  <span tngInputLeading aria-hidden="true">Search</span>',
+        '<tng-form-field class="search-shell">',
+        '  <span tngPrefix aria-hidden="true">Search</span>',
         '  <input tngInput type="search" placeholder="Search components..." />',
-        '  <button tngInputTrailing type="button" aria-label="Clear">Clear</button>',
-        '</tng-input-group>',
+        '  <button tngSuffix type="button" aria-label="Clear">Clear</button>',
+        '</tng-form-field>',
         '',
       ].join('\n'),
     },
@@ -242,11 +202,11 @@ export class InputStylingPageComponent implements OnDestroy {
         'Style error and disabled states through data hooks instead of custom class toggling logic.',
       language: 'css',
       code: [
-        '.account-shell[data-invalid] {',
+        '.account-shell [data-slot="input-group"][data-invalid] {',
         '  border-color: var(--tng-semantic-accent-danger);',
         '}',
         '',
-        '.account-shell[data-disabled] {',
+        '.account-shell [data-slot="input-group"][data-disabled] {',
         '  opacity: 0.55;',
         '  cursor: not-allowed;',
         '}',
@@ -322,6 +282,23 @@ export class InputStylingPageComponent implements OnDestroy {
 
   public ngOnDestroy(): void {
     this.colorSchemeObserver?.disconnect();
+  }
+
+  protected focusProjectedInput(event: MouseEvent): void {
+    const hostElement = event.currentTarget;
+    if (!(hostElement instanceof HTMLElement)) {
+      return;
+    }
+
+    const inputElement = hostElement.querySelector('[data-slot="input"]');
+    if (
+      !(inputElement instanceof HTMLInputElement || inputElement instanceof HTMLTextAreaElement) ||
+      inputElement.disabled
+    ) {
+      return;
+    }
+
+    inputElement.focus({ preventScroll: true });
   }
 
   private observeCodeThemeChanges(): MutationObserver | null {

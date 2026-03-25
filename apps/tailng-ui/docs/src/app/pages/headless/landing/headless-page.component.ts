@@ -9,14 +9,14 @@ import {
   TngBreadcrumbComponent,
   TngBreadcrumbItemComponent,
   TngDrawerComponent,
-  TngInputComponent,
+  TngFormFieldComponent,
 } from '@tailng-ui/components';
 import { TngIcon } from '@tailng-ui/icons';
 import {
   TngDrawerContainer,
   TngDrawerContent,
   TngInput,
-  TngInputLeading,
+  TngPrefix,
   TngListboxDirective,
   TngOptionDirective,
 } from '@tailng-ui/primitives';
@@ -41,15 +41,15 @@ import {
     TngDrawerContainer,
     TngDrawerContent,
     TngDrawerComponent,
-    TngInputComponent,
+    TngFormFieldComponent,
     TngInput,
-    TngInputLeading,
+    TngPrefix,
     TngListboxDirective,
     TngOptionDirective,
     TngIcon,
   ],
   templateUrl: './headless-page.component.html',
-  styleUrl: './headless-page.component.css',
+  styleUrls: ['../../components/landing/components-page.component.css'],
 })
 export class HeadlessPageComponent {
   private readonly router = inject(Router);

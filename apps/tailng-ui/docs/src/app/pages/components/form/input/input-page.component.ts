@@ -33,8 +33,9 @@ const inputOutlineItemsBySection: Readonly<Record<InputDocSectionId, readonly Do
       { id: 'common-pitfalls', label: 'Common pitfalls' },
     ],
     api: [
-      { id: 'tng-input', label: 'tngInput' },
-      { id: 'tng-input-group', label: 'tngInputGroup' },
+      { id: 'tng-input-component', label: '<tng-input>' },
+      { id: 'tng-form-field', label: '<tng-form-field>' },
+      { id: 'tng-input-directive', label: 'tngInput' },
       { id: 'slot-directives', label: 'Slot directives' },
     ],
     styling: [

@@ -1,0 +1,144 @@
+<article class="docs-section-page input-api">
+  <div class="docs-section-page-main">
+    <h2 class="input-api-title">API reference</h2>
+    <p class="input-api-lead">
+      <code>&lt;tng-form-field&gt;</code> owns the shared shell chrome for one projected
+      <code>input[tngInput]</code> and optional slot content.
+    </p>
+
+    <section id="tng-form-field-component" class="docs-section-anchor input-api-block">
+      <h3><code>&lt;tng-form-field&gt;</code> (component)</h3>
+      <p>
+        Use this wrapper when the field needs projected prefix/suffix content or a custom trailing
+        action.
+      </p>
+      <tng-code-block
+        [code]="formFieldTemplateCode"
+        adapter="shiki"
+        language="html"
+        title="Form field component"
+        [lineNumbers]="false"
+        [wrap]="true"
+        [sanitizeHtml]="false"
+      ></tng-code-block>
+      <div class="input-api-table-wrap">
+        <table class="input-api-table">
+          <thead>
+            <tr>
+              <th scope="col">Property</th>
+              <th scope="col">Type</th>
+              <th scope="col">Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>appearance</code></td>
+              <td><code>'outline' | 'solid' | 'ghost'</code></td>
+              <td>Changes the shell presentation while keeping the same slot contract.</td>
+            </tr>
+            <tr>
+              <td><code>size</code></td>
+              <td><code>'sm' | 'md' | 'lg'</code></td>
+              <td>Controls the shell height and internal spacing.</td>
+            </tr>
+            <tr>
+              <td><code>tone</code></td>
+              <td><code>'neutral' | 'primary' | 'success' | 'danger'</code></td>
+              <td>Adjusts shell emphasis and state styling.</td>
+            </tr>
+            <tr>
+              <td><code>fullWidth</code></td>
+              <td>boolean-like</td>
+              <td>Controls whether the host stretches to fill its container.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="projected-control-contract" class="docs-section-anchor input-api-block">
+      <h3>Projected control contract</h3>
+      <p>
+        The shell expects one projected <code>input[tngInput]</code>. It does not create a native
+        control on its own.
+      </p>
+      <tng-code-block
+        [code]="controlContractCode"
+        adapter="shiki"
+        language="html"
+        title="Projected input contract"
+        [lineNumbers]="false"
+        [wrap]="true"
+        [sanitizeHtml]="false"
+      ></tng-code-block>
+      <div class="input-api-table-wrap">
+        <table class="input-api-table">
+          <thead>
+            <tr>
+              <th scope="col">Feature</th>
+              <th scope="col">Type</th>
+              <th scope="col">Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Projected control</td>
+              <td><code>input[tngInput]</code></td>
+              <td>The shell mirrors focus, invalid, disabled, and readonly state from the projected input.</td>
+            </tr>
+            <tr>
+              <td><code>data-focused</code>, <code>data-disabled</code>, <code>data-invalid</code>, <code>data-readonly</code></td>
+              <td>state attrs</td>
+              <td>Applied on the shell host for container-level styling.</td>
+            </tr>
+            <tr>
+              <td><code>--tng-input-inline-gap</code></td>
+              <td>CSS custom property</td>
+              <td>Controls spacing between prefix, control area, and suffix.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="slot-directives" class="docs-section-anchor input-api-block">
+      <h3>Slot directives</h3>
+      <p><code>tngPrefix</code> and <code>tngSuffix</code> mark the content rendered before and after the projected input.</p>
+      <tng-code-block
+        [code]="slotsCode"
+        adapter="shiki"
+        language="html"
+        title="Prefix and suffix slots"
+        [lineNumbers]="false"
+        [wrap]="true"
+        [sanitizeHtml]="false"
+      ></tng-code-block>
+      <div class="input-api-table-wrap">
+        <table class="input-api-table">
+          <thead>
+            <tr>
+              <th scope="col">Directive</th>
+              <th scope="col">Applies to</th>
+              <th scope="col">Adds</th>
+              <th scope="col">Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>tngPrefix</code></td>
+              <td>Projected leading element</td>
+              <td><code>data-slot="input-leading"</code></td>
+              <td>Marks decorative or semantic content before the input.</td>
+            </tr>
+            <tr>
+              <td><code>tngSuffix</code></td>
+              <td>Projected trailing element</td>
+              <td><code>data-slot="input-trailing"</code></td>
+              <td>Marks helper text, actions, or fixed suffix content after the input.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+</article>

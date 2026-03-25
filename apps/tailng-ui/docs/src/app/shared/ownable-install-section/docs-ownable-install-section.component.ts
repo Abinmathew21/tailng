@@ -1,5 +1,5 @@
 import { DOCUMENT, NgFor, NgIf } from '@angular/common';
-import { Component, inject, signal, type OnDestroy } from '@angular/core';
+import { Component, inject, input, signal, type OnDestroy } from '@angular/core';
 import { ActivatedRoute, type Data } from '@angular/router';
 import { TngCodeBlockComponent, TngTabsComponent } from '@tailng-ui/components';
 import { getRegistryGeneratedFilePaths, getRegistryInstallMetadata } from '@tailng-ui/registry';
@@ -39,16 +39,49 @@ export class DocsOwnableInstallSectionComponent implements OnDestroy {
     this.route.snapshot.data,
   );
 
-  protected readonly registrySlug = this.routeData.registrySlug;
-  protected readonly componentName = this.docsItem?.title ?? this.formatRegistryName(this.registrySlug);
-  protected readonly installMetadata = getRegistryInstallMetadata(this.registrySlug);
-  protected readonly hasRegistryItem = this.installMetadata !== undefined;
+  public readonly registrySlugInput = input<string | null>(null, { alias: 'registrySlug' });
+  public readonly componentNameInput = input<string | null>(null, { alias: 'componentName' });
+  public readonly usageCodeInput = input<string | null>(null, { alias: 'usageCode' });
 
-  protected readonly generatedFiles = getRegistryGeneratedFilePaths(this.registrySlug);
-  protected readonly installPnpmCode = `pnpm dlx tailng add ${this.registrySlug}`;
-  protected readonly installNpxCode = `npx tailng add ${this.registrySlug}`;
-  protected readonly importCode = this.buildImportCode(this.registrySlug);
-  protected readonly usageCode = this.routeData.usageCode;
+  protected get registrySlug(): string {
+    return this.registrySlugInput() ?? this.routeData.registrySlug;
+  }
+
+  protected get componentName(): string {
+    return (
+      this.componentNameInput() ??
+      this.docsItem?.title ??
+      this.formatRegistryName(this.registrySlug)
+    );
+  }
+
+  protected get installMetadata() {
+    return getRegistryInstallMetadata(this.registrySlug);
+  }
+
+  protected get hasRegistryItem(): boolean {
+    return this.installMetadata !== undefined;
+  }
+
+  protected get generatedFiles(): readonly string[] {
+    return getRegistryGeneratedFilePaths(this.registrySlug);
+  }
+
+  protected get installPnpmCode(): string {
+    return `pnpm dlx tailng add ${this.registrySlug}`;
+  }
+
+  protected get installNpxCode(): string {
+    return `npx tailng add ${this.registrySlug}`;
+  }
+
+  protected get importCode(): string {
+    return this.buildImportCode(this.registrySlug);
+  }
+
+  protected get usageCode(): string {
+    return this.usageCodeInput() ?? this.routeData.usageCode;
+  }
 
   protected readonly codeBlockTheme = signal<'github-dark' | 'github-light'>(
     this.resolveCodeBlockTheme(),

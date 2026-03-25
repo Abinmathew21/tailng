@@ -1,0 +1,93 @@
+import type { Routes } from '@angular/router';
+import {
+  DEFAULT_OWNABLE_DOCS_SEGMENT,
+  OWNABLE_FORM_GROUP,
+  OWNABLE_GETTING_STARTED_GROUP,
+  OWNABLE_RELEASE_GROUP,
+  OWNABLE_TOOLING_GROUP,
+  toOwnableDocsRouteData,
+  type OwnableDocsGroup,
+} from './ownable-docs.data';
+
+function requireOwnableItem(group: OwnableDocsGroup, slug: string) {
+  const item = group.items.find((candidate) => candidate.slug === slug);
+  if (item === undefined) {
+    throw new Error(`Missing "${slug}" in ownable docs group "${group.id}".`);
+  }
+
+  return item;
+}
+
+const overviewItem = requireOwnableItem(OWNABLE_GETTING_STARTED_GROUP, 'overview');
+const quickStartItem = requireOwnableItem(OWNABLE_GETTING_STARTED_GROUP, 'quick-start');
+const inputItem = requireOwnableItem(OWNABLE_FORM_GROUP, 'input');
+const cliItem = requireOwnableItem(OWNABLE_TOOLING_GROUP, 'cli');
+const registryItem = requireOwnableItem(OWNABLE_TOOLING_GROUP, 'registry');
+const workflowItem = requireOwnableItem(OWNABLE_RELEASE_GROUP, 'workflow');
+
+export const OWNABLE_ROUTES: Routes = [
+  {
+    path: '',
+    loadComponent: () =>
+      import('./landing/ownable-page.component').then((m) => m.OwnablePageComponent),
+    children: [
+      {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: DEFAULT_OWNABLE_DOCS_SEGMENT,
+      },
+      {
+        path: 'getting-started/overview',
+        data: toOwnableDocsRouteData(OWNABLE_GETTING_STARTED_GROUP, overviewItem),
+        loadComponent: () =>
+          import('./getting-started/overview/ownable-overview-page.component').then(
+            (m) => m.OwnableOverviewPageComponent,
+          ),
+      },
+      {
+        path: 'getting-started/quick-start',
+        data: toOwnableDocsRouteData(OWNABLE_GETTING_STARTED_GROUP, quickStartItem),
+        loadComponent: () =>
+          import('./getting-started/quick-start/ownable-quick-start-page.component').then(
+            (m) => m.OwnableQuickStartPageComponent,
+          ),
+      },
+      {
+        path: 'form/input',
+        data: toOwnableDocsRouteData(OWNABLE_FORM_GROUP, inputItem),
+        loadComponent: () =>
+          import('./form/input/ownable-input-page.component').then(
+            (m) => m.OwnableInputPageComponent,
+          ),
+      },
+      {
+        path: 'tooling/cli',
+        data: toOwnableDocsRouteData(OWNABLE_TOOLING_GROUP, cliItem),
+        loadComponent: () =>
+          import('./tooling/cli/ownable-cli-page.component').then(
+            (m) => m.OwnableCliPageComponent,
+          ),
+      },
+      {
+        path: 'tooling/registry',
+        data: toOwnableDocsRouteData(OWNABLE_TOOLING_GROUP, registryItem),
+        loadComponent: () =>
+          import('./tooling/registry/ownable-registry-page.component').then(
+            (m) => m.OwnableRegistryPageComponent,
+          ),
+      },
+      {
+        path: 'release/workflow',
+        data: toOwnableDocsRouteData(OWNABLE_RELEASE_GROUP, workflowItem),
+        loadComponent: () =>
+          import('./release/workflow/ownable-release-workflow-page.component').then(
+            (m) => m.OwnableReleaseWorkflowPageComponent,
+          ),
+      },
+      {
+        path: '**',
+        redirectTo: DEFAULT_OWNABLE_DOCS_SEGMENT,
+      },
+    ],
+  },
+];

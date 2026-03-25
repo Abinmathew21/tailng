@@ -1,7 +1,6 @@
 import { DOCUMENT, NgTemplateOutlet } from '@angular/common';
 import { Component, inject, signal, type OnDestroy } from '@angular/core';
-import { TngCodeBlockComponent } from '@tailng-ui/components';
-import { TngInput, TngInputGroup } from '@tailng-ui/primitives';
+import { TngCodeBlockComponent, TngFormFieldComponent, TngInputComponent } from '@tailng-ui/components';
 import { type DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
 import {
   DocsExampleTabsSectionComponent,
@@ -15,8 +14,8 @@ import {
     TngCodeBlockComponent,
     DocsExampleTabsSectionComponent,
     DocsExampleVariantDirective,
-    TngInputGroup,
-    TngInput,
+    TngFormFieldComponent,
+    TngInputComponent,
   ],
   templateUrl: './input-overview-page.component.html',
   styleUrl: './input-overview-page.component.css',
@@ -33,24 +32,28 @@ export class InputOverviewPageComponent implements OnDestroy {
     'import {',
     '  TngInput,',
     '  TngInputGroup,',
-    '  TngInputLeading,',
-    '  TngInputTrailing,',
+    '  TngPrefix,',
+    '  TngSuffix,',
     "} from '@tailng-ui/primitives';",
     '',
   ].join('\n');
 
   protected readonly directAttachmentCode = [
     '<input tngInput type="email" placeholder="team@tailng.dev" />',
-    '<textarea tngInput rows="3" placeholder="Write notes..."></textarea>',
+    '',
+  ].join('\n');
+
+  protected readonly wrapperUsageCode = [
+    '<tng-input type="email" placeholder="team@tailng.dev"></tng-input>',
     '',
   ].join('\n');
 
   protected readonly groupedInputCode = [
-    '<tng-input-group>',
-    '  <span tngInputLeading aria-hidden="true">Search</span>',
+    '<tng-form-field>',
+    '  <span tngPrefix aria-hidden="true">Search</span>',
     '  <input tngInput type="search" placeholder="Search..." />',
-    '  <span tngInputTrailing aria-hidden="true">Ctrl+K</span>',
-    '</tng-input-group>',
+    '  <span tngSuffix aria-hidden="true">Ctrl+K</span>',
+    '</tng-form-field>',
     '',
   ].join('\n');
 
@@ -59,33 +62,33 @@ export class InputOverviewPageComponent implements OnDestroy {
   protected readonly nativeValidationCode = '<input tngInput required />';
 
   protected readonly searchWithHintCode = [
-    '<tng-input-group class="demo-group">',
-    '  <span tngInputLeading aria-hidden="true">Search</span>',
+    '<tng-form-field class="demo-group">',
+    '  <span tngPrefix aria-hidden="true">Search</span>',
     '  <input tngInput type="search" placeholder="Search primitives" />',
-    '  <span tngInputTrailing aria-hidden="true">Ctrl+K</span>',
-    '</tng-input-group>',
+    '  <span tngSuffix aria-hidden="true">Ctrl+K</span>',
+    '</tng-form-field>',
     '',
   ].join('\n');
 
   protected readonly searchWithClearButtonCode = [
-    '<tng-input-group class="demo-group">',
+    '<tng-form-field class="demo-group">',
     '  <input tngInput type="search" placeholder="Search..." />',
-    '  <button tngInputTrailing type="button" aria-label="Clear">X</button>',
-    '</tng-input-group>',
+    '  <button tngSuffix type="button" aria-label="Clear">X</button>',
+    '</tng-form-field>',
     '',
   ].join('\n');
 
   protected readonly pitfallCorrectCode = [
-    '<tng-input-group>',
+    '<tng-form-field>',
     '  <input tngInput />',
-    '</tng-input-group>',
+    '</tng-form-field>',
     '',
   ].join('\n');
 
   protected readonly pitfallIncorrectCode = [
-    '<tng-input-group>',
+    '<tng-form-field>',
     '  <input />',
-    '</tng-input-group>',
+    '</tng-form-field>',
     '',
   ].join('\n');
 
@@ -95,13 +98,6 @@ export class InputOverviewPageComponent implements OnDestroy {
     '    <span class="input-demo-label">What is the most abundant gas in air?</span>',
     '    <div tngInputGroup class="input-demo-shell">',
     '      <input tngInput type="text" value="Nitrogen" />',
-    '    </div>',
-    '  </label>',
-    '',
-    '  <label class="input-demo-field input-demo-field--textarea">',
-    '    <span class="input-demo-label">Science fact</span>',
-    '    <div tngInputGroup class="input-demo-shell">',
-    '      <textarea tngInput rows="3">Water boils at 100 degree celcius at sea level.</textarea>',
     '    </div>',
     '  </label>',
     '</form>',
@@ -154,16 +150,6 @@ export class InputOverviewPageComponent implements OnDestroy {
     '  outline: none;',
     '  padding: 0;',
     '}',
-    '.input-demo-field--textarea .input-demo-shell[data-slot="input-group"] {',
-    '  align-items: flex-start;',
-    '  min-height: auto;',
-    '  padding: 0.55rem 0.7rem;',
-    '}',
-    '.input-demo-field--textarea .input-demo-shell [data-slot="input"] {',
-    '  line-height: 1.45;',
-    '  min-height: 4.2rem;',
-    '  resize: vertical;',
-    '}',
     '.input-demo-shell[data-focused] {',
     '  border-color: color-mix(in srgb, var(--tng-semantic-accent-brand) 55%, var(--tng-semantic-border-strong));',
     '  box-shadow: 0 0 0 3px color-mix(in srgb, var(--tng-semantic-accent-brand) 20%, transparent);',
@@ -175,16 +161,7 @@ export class InputOverviewPageComponent implements OnDestroy {
     '<form class="plain-input-form">',
     '  <label class="plain-input-field">',
     '    <span class="plain-input-label">What is the most abundant gas in air?</span>',
-    '    <div tngInputGroup class="plain-input-shell">',
-    '      <input tngInput type="text" value="Nitrogen" />',
-    '    </div>',
-    '  </label>',
-    '',
-    '  <label class="plain-input-field plain-input-field--textarea">',
-    '    <span class="plain-input-label">Science fact</span>',
-    '    <div tngInputGroup class="plain-input-shell">',
-    '      <textarea tngInput rows="3">Water boils at 100 degree celcius at sea level.</textarea>',
-    '    </div>',
+    '    <tng-input class="plain-input-shell" type="text" value="Nitrogen"></tng-input>',
     '  </label>',
     '</form>',
     '',
@@ -192,11 +169,11 @@ export class InputOverviewPageComponent implements OnDestroy {
 
   protected readonly plainCssExampleTsCode = [
     "import { Component } from '@angular/core';",
-    "import { TngInput, TngInputGroup } from '@tailng-ui/primitives';",
+    "import { TngInputComponent } from '@tailng-ui/components';",
     '',
     '@Component({',
     "  selector: 'app-plain-css-input-example',",
-    '  imports: [TngInputGroup, TngInput],',
+    '  imports: [TngInputComponent],',
     "  templateUrl: './plain-css-input-example.component.html',",
     "  styleUrl: './plain-css-input-example.component.css',",
     '})',
@@ -219,7 +196,7 @@ export class InputOverviewPageComponent implements OnDestroy {
     '  font-size: 0.82rem;',
     '  font-weight: 600;',
     '}',
-    '.plain-input-shell[data-slot="input-group"] {',
+    '.plain-input-shell [data-slot="input-group"] {',
     '  background: var(--tng-semantic-background-base);',
     '  border: 1px solid var(--tng-semantic-border-strong);',
     '  border-radius: 0.65rem;',
@@ -235,16 +212,6 @@ export class InputOverviewPageComponent implements OnDestroy {
     '  outline: none;',
     '  padding: 0;',
     '}',
-    '.plain-input-field--textarea .plain-input-shell[data-slot="input-group"] {',
-    '  align-items: flex-start;',
-    '  min-height: auto;',
-    '  padding: 0.55rem 0.7rem;',
-    '}',
-    '.plain-input-field--textarea .plain-input-shell [data-slot="input"] {',
-    '  line-height: 1.45;',
-    '  min-height: 4.2rem;',
-    '  resize: vertical;',
-    '}',
     '',
   ].join('\n');
 
@@ -252,33 +219,30 @@ export class InputOverviewPageComponent implements OnDestroy {
     '<form class="grid w-full max-w-[30rem] gap-4">',
     '  <label class="grid gap-2 rounded-xl border border-slate-300 bg-white/80 p-3">',
     '    <span class="text-xs font-semibold leading-5 text-slate-500">What is the most abundant gas in air?</span>',
-    '    <div',
-    '      tngInputGroup',
-    '      class="min-h-10 rounded-lg border border-slate-300 bg-white px-3 shadow-sm transition [&[data-focused]]:border-blue-500 [&[data-focused]]:ring-2 [&[data-focused]]:ring-blue-200/70"',
-    '    >',
-    '      <input',
-    '        tngInput',
-    '        type="text"',
-    '        value="Nitrogen"',
-    '        class="w-full border-0 bg-transparent p-0 text-[0.98rem] font-medium leading-5 outline-none"',
-    '      />',
-    '    </div>',
-    '  </label>',
-    '',
-    '  <label class="grid gap-2 rounded-xl border border-slate-300 bg-white/80 p-3">',
-    '    <span class="text-xs font-semibold leading-5 text-slate-500">Science fact</span>',
-    '    <div',
-    '      tngInputGroup',
-    '      class="min-h-0 rounded-lg border border-slate-300 bg-white px-3 py-2 shadow-sm transition [&[data-focused]]:border-blue-500 [&[data-focused]]:ring-2 [&[data-focused]]:ring-blue-200/70"',
-    '    >',
-    '      <textarea',
-    '        tngInput',
-    '        rows="3"',
-    '        class="min-h-[4.2rem] w-full resize-y border-0 bg-transparent p-0 text-[0.94rem] leading-6 outline-none"',
-    '      >',
-    '        Water boils at 100 degree celcius at sea level.',
-    '      </textarea>',
-    '    </div>',
+    '    <tng-input',
+    '      class="block',
+    "             [&_[data-slot='input-group']]:min-h-10",
+    "             [&_[data-slot='input-group']]:rounded-lg",
+    "             [&_[data-slot='input-group']]:border",
+    "             [&_[data-slot='input-group']]:border-slate-300",
+    "             [&_[data-slot='input-group']]:bg-white",
+    "             [&_[data-slot='input-group']]:px-3",
+    "             [&_[data-slot='input-group']]:shadow-sm",
+    "             [&_[data-slot='input-group']]:transition",
+    "             [&_[data-slot='input-group'][data-focused]]:border-blue-500",
+    "             [&_[data-slot='input-group'][data-focused]]:ring-2",
+    "             [&_[data-slot='input-group'][data-focused]]:ring-blue-200/70",
+    "             [&_[data-slot='input']]:w-full",
+    "             [&_[data-slot='input']]:border-0",
+    "             [&_[data-slot='input']]:bg-transparent",
+    "             [&_[data-slot='input']]:p-0",
+    "             [&_[data-slot='input']]:text-[0.98rem]",
+    "             [&_[data-slot='input']]:font-medium",
+    "             [&_[data-slot='input']]:leading-5",
+    "             [&_[data-slot='input']]:outline-none\"",
+    '      type="text"',
+    '      value="Nitrogen"',
+    '    ></tng-input>',
     '  </label>',
     '</form>',
     '',
@@ -286,11 +250,11 @@ export class InputOverviewPageComponent implements OnDestroy {
 
   protected readonly tailwindExampleTsCode = [
     "import { Component } from '@angular/core';",
-    "import { TngInput, TngInputGroup } from '@tailng-ui/primitives';",
+    "import { TngInputComponent } from '@tailng-ui/components';",
     '',
     '@Component({',
     "  selector: 'app-tailwind-input-example',",
-    '  imports: [TngInputGroup, TngInput],',
+    '  imports: [TngInputComponent],',
     "  templateUrl: './tailwind-input-example.component.html',",
     '})',
     'export class TailwindInputExampleComponent {}',
@@ -373,6 +337,23 @@ export class InputOverviewPageComponent implements OnDestroy {
 
   public ngOnDestroy(): void {
     this.colorSchemeObserver?.disconnect();
+  }
+
+  protected focusProjectedInput(event: MouseEvent): void {
+    const hostElement = event.currentTarget;
+    if (!(hostElement instanceof HTMLElement)) {
+      return;
+    }
+
+    const inputElement = hostElement.querySelector('[data-slot="input"]');
+    if (
+      !(inputElement instanceof HTMLInputElement || inputElement instanceof HTMLTextAreaElement) ||
+      inputElement.disabled
+    ) {
+      return;
+    }
+
+    inputElement.focus({ preventScroll: true });
   }
 
   private observeCodeThemeChanges(): MutationObserver | null {

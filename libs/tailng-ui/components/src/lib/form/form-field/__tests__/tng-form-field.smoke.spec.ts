@@ -4,33 +4,33 @@ import { By } from '@angular/platform-browser';
 import { describe, expect, it } from 'vitest';
 
 // TODO: update import paths once implemented
-import { TngInput, TngInputLeading, TngInputTrailing } from '@tailng-ui/primitives';
-import { TngInputComponent } from '../tng-input.component';
+import { TngInput, TngPrefix, TngSuffix } from '@tailng-ui/primitives';
+import { TngFormFieldComponent } from '../tng-form-field.component';
 
 @Component({
-  imports: [TngInputComponent, TngInput],
+  imports: [TngFormFieldComponent, TngInput],
   template: `
-    <tng-input>
+    <tng-form-field>
       <input tngInput />
-    </tng-input>
+    </tng-form-field>
   `,
 })
 class StyledSmokeHostComponent {}
 
 @Component({
-  imports: [TngInputComponent, TngInput, TngInputLeading, TngInputTrailing],
+  imports: [TngFormFieldComponent, TngInput, TngPrefix, TngSuffix],
   template: `
-    <tng-input>
-      <span tngInputLeading>Leading</span>
+    <tng-form-field>
+      <span tngPrefix>Leading</span>
       <input tngInput />
-      <span tngInputTrailing>Trailing</span>
-    </tng-input>
+      <span tngSuffix>Trailing</span>
+    </tng-form-field>
   `,
 })
 class StyledSlotsHostComponent {}
 
-describe('<tng-input> styled — smoke & composition', () => {
-  it.skip('renders <tng-input> without errors with a projected <input tngInput>', async () => {
+describe('<tng-form-field> shell — smoke & composition', () => {
+  it.skip('renders <tng-form-field> without errors with a projected <input tngInput>', async () => {
     await TestBed.configureTestingModule({ imports: [StyledSmokeHostComponent] }).compileComponents();
 
     const fixture = TestBed.createComponent(StyledSmokeHostComponent);
@@ -40,7 +40,7 @@ describe('<tng-input> styled — smoke & composition', () => {
     expect(input).toBeTruthy();
   });
 
-  it.skip('renders <tng-input> with both leading and trailing content without errors', async () => {
+  it.skip('renders <tng-form-field> with both leading and trailing content without errors', async () => {
     await TestBed.configureTestingModule({ imports: [StyledSlotsHostComponent] }).compileComponents();
 
     const fixture = TestBed.createComponent(StyledSlotsHostComponent);

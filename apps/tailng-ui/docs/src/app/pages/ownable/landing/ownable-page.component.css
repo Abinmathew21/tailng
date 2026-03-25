@@ -1,0 +1,7 @@
+:host {
+  display: block;
+}
+
+.docs-component-content {
+  --docs-component-tabs-top: 4.75rem;
+}

@@ -58,11 +58,11 @@
           <span class="label">Search with leading + trailing</span>
 
           <tng-input-group class="demo-group">
-            <span tngInputLeading class="adornment" aria-hidden="true">🔎</span>
+            <span tngPrefix class="adornment" aria-hidden="true">🔎</span>
 
             <input tngInput type="search" placeholder="Search primitives" class="demo-control" />
 
-            <span tngInputTrailing class="adornment" aria-hidden="true">⌘K</span>
+            <span tngSuffix class="adornment" aria-hidden="true">⌘K</span>
           </tng-input-group>
 
           <p class="hint">
@@ -74,7 +74,7 @@
           <span class="label">Email with @ prefix</span>
 
           <tng-input-group class="demo-group">
-            <span tngInputLeading class="adornment" aria-hidden="true">@</span>
+            <span tngPrefix class="adornment" aria-hidden="true">@</span>
             <input tngInput type="email" placeholder="name" class="demo-control" />
           </tng-input-group>
         </div>
@@ -83,7 +83,7 @@
           <span class="label">Disabled control (group reflects data-disabled)</span>
 
           <tng-input-group class="demo-group">
-            <span tngInputLeading class="adornment" aria-hidden="true">⛔</span>
+            <span tngPrefix class="adornment" aria-hidden="true">⛔</span>
             <input tngInput placeholder="Disabled" [disabled]="true" class="demo-control" />
           </tng-input-group>
         </div>
@@ -92,7 +92,7 @@
           <span class="label">Invalid via ariaInvalid (group reflects data-invalid)</span>
 
           <tng-input-group class="demo-group">
-            <span tngInputLeading class="adornment" aria-hidden="true">!</span>
+            <span tngPrefix class="adornment" aria-hidden="true">!</span>
             <input tngInput placeholder="Invalid" [ariaInvalid]="true" class="demo-control" />
           </tng-input-group>
 
@@ -109,7 +109,7 @@
             <input tngInput type="search" placeholder="Search…" class="demo-control" />
 
             <!-- focusable trailing: this WILL be an extra tab stop, by design -->
-            <button tngInputTrailing type="button" class="icon-btn" aria-label="Clear">
+            <button tngSuffix type="button" class="icon-btn" aria-label="Clear">
               ✕
             </button>
           </tng-input-group>
@@ -122,44 +122,39 @@
     </section>
 
     <!-- --------------------------------------------- -->
-    <!-- C) Components wrapper -->
+    <!-- C) Components -->
     <!-- --------------------------------------------- -->
     <section class="card">
-      <h2>Component: wrapper (`&lt;tng-input&gt;`)</h2>
+      <h2>Components: simple input + form field</h2>
 
       <div class="stack">
         <div class="field">
-          <span class="label">Default wrapper</span>
-          <tng-input>
-            <input tngInput type="email" placeholder="hello@tailng.dev" />
-          </tng-input>
+          <span class="label">Simple input (`&lt;tng-input&gt;`)</span>
+          <tng-input type="email" placeholder="hello@tailng.dev"></tng-input>
         </div>
 
         <div class="field">
-          <span class="label">Leading + trailing with wrapper tokens</span>
+          <span class="label">Form field with prefix + suffix (`&lt;tng-form-field&gt;`)</span>
 
-          <tng-input appearance="solid" size="lg">
-            <span tngInputLeading class="adornment" aria-hidden="true">#</span>
+          <tng-form-field appearance="solid" size="lg">
+            <span tngPrefix class="adornment" aria-hidden="true">#</span>
             <input tngInput type="text" placeholder="Issue number" />
-            <span tngInputTrailing class="adornment" aria-hidden="true">v1</span>
-          </tng-input>
+            <span tngSuffix class="adornment" aria-hidden="true">v1</span>
+          </tng-form-field>
         </div>
 
         <div class="field">
           <span class="label">Danger tone + invalid state</span>
 
-          <tng-input tone="danger">
-            <span tngInputLeading class="adornment" aria-hidden="true">!</span>
-            <input tngInput type="text" placeholder="Validation error" [ariaInvalid]="true" />
+          <tng-input tone="danger" type="text" placeholder="Validation error" [ariaInvalid]="true">
           </tng-input>
         </div>
 
         <div class="field">
-          <span class="label">Non-full-width wrapper</span>
+          <span class="label">Non-full-width simple input</span>
 
           <div class="inline-row">
-            <tng-input [fullWidth]="false" size="sm">
-              <input tngInput type="search" placeholder="Compact search" />
+            <tng-input [fullWidth]="false" size="sm" type="search" placeholder="Compact search">
             </tng-input>
           </div>
         </div>

@@ -6,22 +6,24 @@ import { describe, expect, it } from 'vitest';
 import {
   TngInput,
   TngInputGroup,
+  TngPrefix,
+  TngSuffix,
   TngInputLeading,
   TngInputTrailing,
 } from '../tng-input';
 
 @Component({
-  imports: [TngInputGroup, TngInput, TngInputLeading, TngInputTrailing],
+  imports: [TngInputGroup, TngInput, TngPrefix, TngSuffix],
   template: `
     <tng-input-group>
       @if (showLeading) {
-        <span tngInputLeading>Leading</span>
+        <span tngPrefix>Leading</span>
       }
 
       <input tngInput />
 
       @if (showTrailing) {
-        <span tngInputTrailing>Trailing</span>
+        <span tngSuffix>Trailing</span>
       }
     </tng-input-group>
   `,
@@ -31,13 +33,44 @@ class GroupSlotsHostComponent {
   public showTrailing = false;
 }
 
+@Component({
+  imports: [TngInputGroup, TngInput, TngInputLeading, TngInputTrailing],
+  template: `
+    <tng-input-group>
+      <span tngInputLeading>Leading</span>
+      <input tngInput />
+      <span tngInputTrailing>Trailing</span>
+    </tng-input-group>
+  `,
+})
+class LegacyGroupSlotsHostComponent {}
+
 describe('tngInputGroup primitive — slot markers', () => {
-  it('exports the tngInputLeading directive', async () => {
-    expect(TngInputLeading).toBeTruthy();
+  it('exports the tngPrefix directive', async () => {
+    expect(TngPrefix).toBeTruthy();
   });
 
-  it('exports the tngInputTrailing directive', async () => {
+  it('exports the tngSuffix directive', async () => {
+    expect(TngSuffix).toBeTruthy();
+  });
+
+  it('keeps the legacy directive exports available during the rename', async () => {
+    expect(TngInputLeading).toBeTruthy();
     expect(TngInputTrailing).toBeTruthy();
+  });
+
+  it('still accepts the legacy leading and trailing selectors', async () => {
+    await TestBed.configureTestingModule({ imports: [LegacyGroupSlotsHostComponent] }).compileComponents();
+
+    const fixture = TestBed.createComponent(LegacyGroupSlotsHostComponent);
+    fixture.detectChanges();
+
+    const host = fixture.debugElement.query(By.css('tng-input-group')).nativeElement as HTMLElement;
+
+    expect(host.getAttribute('data-has-leading')).toBe('');
+    expect(host.getAttribute('data-has-trailing')).toBe('');
+    expect(host.querySelector('[data-slot="input-group-leading"]')).toBeTruthy();
+    expect(host.querySelector('[data-slot="input-group-trailing"]')).toBeTruthy();
   });
 
   it('detects presence of a leading slot and sets data-has-leading on the group', async () => {

@@ -8,18 +8,22 @@ import { TngCodeBlockComponent } from '@tailng-ui/components';
   styleUrl: './input-api-page.component.css',
 })
 export class InputApiPageComponent {
-  protected readonly directiveAttachCode = [
-    '<input tngInput type="text" />',
-    '<textarea tngInput rows="3"></textarea>',
+  protected readonly componentTemplateCode = [
+    '<tng-input type="email" placeholder="team@tailng.dev"></tng-input>',
     '',
   ].join('\n');
 
-  protected readonly groupTemplateCode = [
-    '<tng-input-group>',
-    '  <span tngInputLeading aria-hidden="true">Search</span>',
-    '  <input tngInput type="search" />',
-    '  <span tngInputTrailing aria-hidden="true">Ctrl+K</span>',
-    '</tng-input-group>',
+  protected readonly formFieldTemplateCode = [
+    '<tng-form-field>',
+    '  <span tngPrefix aria-hidden="true">Search</span>',
+    '  <input tngInput type="search" placeholder="Search docs" />',
+    '  <span tngSuffix aria-hidden="true">Ctrl+K</span>',
+    '</tng-form-field>',
+    '',
+  ].join('\n');
+
+  protected readonly directiveAttachCode = [
+    '<input tngInput type="text" />',
     '',
   ].join('\n');
 }

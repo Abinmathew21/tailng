@@ -1,13 +1,28 @@
-<tng-input-group class="tng-input">
-  <span tngInputLeading class="tng-input-slot-proxy" data-tng-input-leading-proxy>
-    <ng-content select="[tngInputLeading]"></ng-content>
-  </span>
-
-  <span class="tng-input-control-proxy" data-tng-input-control-proxy>
-    <ng-content select="input[tngInput], textarea[tngInput]"></ng-content>
-  </span>
-
-  <span tngInputTrailing class="tng-input-slot-proxy" data-tng-input-trailing-proxy>
-    <ng-content select="[tngInputTrailing]"></ng-content>
-  </span>
-</tng-input-group>
+<tng-form-field
+  class="tng-input"
+  [appearance]="appearance()"
+  [size]="size()"
+  [tone]="tone()"
+  [fullWidth]="fullWidth()"
+>
+  <input
+    tngInput
+    class="tng-input-control"
+    [type]="type()"
+    [disabled]="effectiveDisabled"
+    [readonly]="readonly()"
+    [required]="required()"
+    [ariaLabel]="ariaLabel()"
+    [ariaLabelledby]="ariaLabelledby()"
+    [ariaDescribedBy]="ariaDescribedBy()"
+    [ariaInvalid]="ariaInvalid()"
+    [ariaRequired]="ariaRequired()"
+    [attr.autocomplete]="normalizeAttrValue(autocomplete())"
+    [attr.id]="normalizeAttrValue(id())"
+    [attr.name]="normalizeAttrValue(name())"
+    [attr.placeholder]="normalizeAttrValue(placeholder())"
+    [value]="effectiveValue"
+    (input)="onInput($event)"
+    (blur)="onBlur($event)"
+  />
+</tng-form-field>

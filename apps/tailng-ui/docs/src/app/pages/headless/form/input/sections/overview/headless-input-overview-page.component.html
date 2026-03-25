@@ -1,0 +1,277 @@
+<article class="docs-section-page input-overview">
+  <div class="docs-section-page-main">
+    <h2 class="input-overview-title">Input</h2>
+    <p class="input-overview-lead">
+      <code>tngInput</code> is the native input primitive, and this page documents the headless path:
+      you compose a real native <code>&lt;input&gt;</code> with <code>tngInput</code> and optional
+      <code>tngInputGroup</code> slots.
+    </p>
+    <p class="input-overview-lead">
+      Use direct primitive attachment for the simplest field, or add <code>tngInputGroup</code> when
+      you need leading/trailing content.
+    </p>
+    <ol class="input-overview-steps">
+      <li>
+        <strong>Direct attachment:</strong> <code>tngInput</code> on a real
+        <code>&lt;input&gt;</code>
+      </li>
+      <li>
+        <strong>Grouped composition:</strong> <code>tngInputGroup</code> with optional
+        leading/trailing content using slot directives
+      </li>
+    </ol>
+
+    <section id="what-you-get" class="docs-section-anchor input-overview-block">
+      <h3>What you get</h3>
+      <ul class="input-overview-list">
+        <li>
+          <strong>Native-first behavior</strong>
+          <ul>
+            <li>Uses a real <code>&lt;input&gt;</code> instead of a synthetic control.</li>
+            <li>
+              Preserves standard browser behavior (typing, composition events, Enter submit, native
+              validation).
+            </li>
+          </ul>
+        </li>
+        <li>
+          <strong>Styling contract</strong>
+          <ul>
+            <li>Styling is driven by <code>data-slot</code> markers and state data attributes.</li>
+            <li>
+              Group-level spacing between leading/trailing adornments and the control is exposed via
+              <code>--tng-input-inline-gap</code>.
+            </li>
+            <li>No required classes.</li>
+            <li>No DOM/tag assumptions beyond slot names.</li>
+          </ul>
+        </li>
+        <li>
+          <strong>Accessibility pass-through</strong>
+          <ul>
+            <li>
+              Supports <code>aria-label</code>, <code>aria-labelledby</code>,
+              <code>aria-describedby</code>, <code>aria-required</code>, <code>aria-invalid</code>.
+            </li>
+            <li><code>aria-invalid</code> is emitted only when invalid.</li>
+          </ul>
+        </li>
+      </ul>
+    </section>
+
+    <app-docs-example-tabs-section
+      id="simple-examples"
+      class="docs-section-anchor input-overview-block"
+      heading="Simple examples"
+      description="Compare the same headless Input structure across plain CSS and Tailwind CSS styles."
+      ariaLabel="Input style examples"
+      tabListAriaLabel="Input example style variants"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Basic Inputs (Plain CSS)"
+        [codeTabs]="plainCssHeadlessExampleCodeTabs"
+      >
+        <div class="input-overview-example-fields">
+          <label class="input-overview-example-field-surface">
+            <span class="input-overview-example-field-label"
+              >What is the most abundant gas in air?</span
+            >
+            <div tngInputGroup class="input-overview-example-shell">
+              <input
+                tngInput
+                type="text"
+                value="Nitrogen"
+                aria-label="What is the most abundant gas in air?"
+              />
+            </div>
+          </label>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Basic Inputs (Tailwind CSS)"
+        [codeTabs]="tailwindHeadlessExampleCodeTabs"
+      >
+        <div class="input-overview-example-fields">
+          <label class="input-overview-example-field-surface input-overview-example-field-surface--tailwind">
+            <span class="input-overview-example-field-label"
+              >What is the most abundant gas in air?</span
+            >
+            <div
+              tngInputGroup
+              class="min-h-10 rounded-lg border border-slate-300 bg-white px-3 shadow-sm transition [&[data-focused]]:border-blue-500 [&[data-focused]]:ring-2 [&[data-focused]]:ring-blue-200/70"
+            >
+              <input
+                tngInput
+                type="text"
+                value="Nitrogen"
+                aria-label="What is the most abundant gas in air?"
+                class="w-full border-0 bg-transparent p-0 text-[0.98rem] font-medium leading-5 outline-none"
+              />
+            </div>
+          </label>
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
+
+    <section id="installation" class="docs-section-anchor input-overview-block">
+      <h3>Installation</h3>
+      <p>Import only the primitives you need.</p>
+      <tng-code-block
+        [code]="primitivesImportCode"
+        adapter="shiki"
+        language="ts"
+        title="Primitives import"
+        [theme]="codeBlockTheme()"
+        [sanitizeHtml]="false"
+        [wrap]="true"
+        [lineNumbers]="false"
+      ></tng-code-block>
+    </section>
+
+    <section id="basic-usage" class="docs-section-anchor input-overview-block">
+      <h3>Basic usage</h3>
+      <h4>1) Direct primitive attachment (simplest)</h4>
+      <p>Use this when you do not need leading/trailing adornments.</p>
+      <tng-code-block
+        [code]="directAttachmentCode"
+        adapter="shiki"
+        language="html"
+        title="Direct tngInput usage"
+        [theme]="codeBlockTheme()"
+        [sanitizeHtml]="false"
+        [wrap]="true"
+        [lineNumbers]="false"
+      ></tng-code-block>
+
+      <h4>2) Grouped input with leading/trailing slots</h4>
+      <p>Use this for icons, prefixes/suffixes, clear buttons, and helper affordances.</p>
+      <tng-code-block
+        [code]="groupedInputCode"
+        adapter="shiki"
+        language="html"
+        title="tngInputGroup composition"
+        [theme]="codeBlockTheme()"
+        [sanitizeHtml]="false"
+        [wrap]="true"
+        [lineNumbers]="false"
+      ></tng-code-block>
+    </section>
+
+    <section id="structure" class="docs-section-anchor input-overview-block">
+      <h3>Structure</h3>
+      <p>
+        The headless path never creates its own control. You apply <code>tngInput</code> to the real
+        native <code>&lt;input&gt;</code> and optionally wrap it in <code>tngInputGroup</code>.
+      </p>
+      <p>
+        Detailed API bindings are documented in the <strong>API</strong> tab. Styling slot/state
+        contract is documented in the <strong>Styling</strong> tab. Textarea is documented on the
+        dedicated <strong>Textarea</strong> page.
+      </p>
+    </section>
+
+    <section id="accessibility-guidance" class="docs-section-anchor input-overview-block">
+      <h3>Accessibility guidance</h3>
+      <ul class="input-overview-list">
+        <li>Mark decorative leading/trailing content as <code>aria-hidden="true"</code>.</li>
+        <li>
+          Projected interactive elements (for example trailing clear button) are valid tab stops by
+          design.
+        </li>
+      </ul>
+    </section>
+
+    <section id="validation-patterns" class="docs-section-anchor input-overview-block">
+      <h3>Validation patterns</h3>
+      <h4>Recommended for unit tests (jsdom)</h4>
+      <tng-code-block
+        [code]="ariaInvalidTestCode"
+        adapter="shiki"
+        language="html"
+        title="Stable invalid test input"
+        [theme]="codeBlockTheme()"
+        [sanitizeHtml]="false"
+        [wrap]="true"
+        [lineNumbers]="false"
+      ></tng-code-block>
+      <h4>Native browser validation path</h4>
+      <tng-code-block
+        [code]="nativeValidationCode"
+        adapter="shiki"
+        language="html"
+        title="Native required validation"
+        [theme]="codeBlockTheme()"
+        [sanitizeHtml]="false"
+        [wrap]="true"
+        [lineNumbers]="false"
+      ></tng-code-block>
+    </section>
+
+    <section id="examples" class="docs-section-anchor input-overview-block">
+      <h3>Examples</h3>
+      <h4>Search with keyboard hint (non-focusable)</h4>
+      <tng-code-block
+        [code]="searchWithHintCode"
+        adapter="shiki"
+        language="html"
+        title="Search + hint"
+        [theme]="codeBlockTheme()"
+        [sanitizeHtml]="false"
+        [wrap]="true"
+        [lineNumbers]="false"
+      ></tng-code-block>
+      <h4>Search with clear button (focusable trailing)</h4>
+      <tng-code-block
+        [code]="searchWithClearButtonCode"
+        adapter="shiki"
+        language="html"
+        title="Search + clear action"
+        [theme]="codeBlockTheme()"
+        [sanitizeHtml]="false"
+        [wrap]="true"
+        [lineNumbers]="false"
+      ></tng-code-block>
+    </section>
+
+    <section id="common-pitfalls" class="docs-section-anchor input-overview-block">
+      <h3>Common pitfalls</h3>
+      <p><strong>"My group warns: found 0 controls"</strong></p>
+      <p>Ensure the projected control includes <code>tngInput</code>.</p>
+      <div class="pitfall-grid">
+        <div>
+          <p class="pitfall-label">Correct</p>
+          <tng-code-block
+            [code]="pitfallCorrectCode"
+            adapter="shiki"
+            language="html"
+            [theme]="codeBlockTheme()"
+            [sanitizeHtml]="false"
+            [wrap]="true"
+            [lineNumbers]="false"
+          ></tng-code-block>
+        </div>
+        <div>
+          <p class="pitfall-label">Incorrect</p>
+          <tng-code-block
+            [code]="pitfallIncorrectCode"
+            adapter="shiki"
+            language="html"
+            [theme]="codeBlockTheme()"
+            [sanitizeHtml]="false"
+            [wrap]="true"
+            [lineNumbers]="false"
+          ></tng-code-block>
+        </div>
+      </div>
+    </section>
+  </div>
+</article>

@@ -1,0 +1,60 @@
+<article class="grid gap-8 pb-10">
+  <section class="docs-section-anchor grid gap-4" id="what-is-ownable">
+    <h1 class="m-0 text-3xl font-semibold text-tng-fg-primary">Ownable</h1>
+    <p class="m-0 max-w-4xl text-base leading-7 text-tng-fg-secondary">
+      TailNG ownable installs copy registry-backed source into your app so your team can edit,
+      theme, and ship local component implementations without forking the entire library.
+    </p>
+  </section>
+
+  <section class="docs-section-anchor grid gap-3" id="why-ownable">
+    <h2 class="m-0 text-xl font-semibold text-tng-fg-primary">Why ownable exists</h2>
+    <p class="m-0 max-w-4xl text-base leading-7 text-tng-fg-secondary">
+      Some teams want more than package-level composition. They want generated source they can
+      version, refactor, and review in the same codebase as the product using it.
+    </p>
+    <ul class="m-0 grid gap-2 pl-5 text-sm leading-6 text-tng-fg-secondary">
+      <li>Keep primitives and component behavior, but own the generated wrapper source.</li>
+      <li>Adjust markup, styling, defaults, and internal composition without waiting on package releases.</li>
+      <li>Use the CLI and registry as the single supported source for local installs.</li>
+    </ul>
+  </section>
+
+  <section class="docs-section-anchor grid gap-3" id="what-gets-generated">
+    <h2 class="m-0 text-xl font-semibold text-tng-fg-primary">What gets generated</h2>
+    <p class="m-0 max-w-4xl text-base leading-7 text-tng-fg-secondary">
+      Each registry item declares the files written into your app, along with the import symbols and
+      install hints shown by the CLI and docs.
+    </p>
+    <pre
+      class="m-0 overflow-x-auto rounded-2xl border border-tng-border-subtle bg-tng-bg-base p-4 text-sm leading-6 text-tng-fg-primary"
+    ><code>src/app/tailng-ui/button/
+  tng-press-primitive.ts
+  tng-button.ts
+  tng-button.html
+  tng-button.css
+  index.ts</code></pre>
+  </section>
+
+  <section class="docs-section-anchor grid gap-3" id="when-to-use-ownable">
+    <h2 class="m-0 text-xl font-semibold text-tng-fg-primary">When to use ownable</h2>
+    <p class="m-0 max-w-4xl text-base leading-7 text-tng-fg-secondary">
+      Use ownable installs when the generated source is expected to diverge from the stock package
+      surface in a durable way.
+    </p>
+    <ul class="m-0 grid gap-2 pl-5 text-sm leading-6 text-tng-fg-secondary">
+      <li>Product-specific visual systems that need local markup or file ownership.</li>
+      <li>Teams that want direct code review on wrapper changes inside the app repo.</li>
+      <li>Apps that need a controlled bridge between package behavior and local implementation.</li>
+    </ul>
+  </section>
+
+  <section class="docs-section-anchor grid gap-3" id="source-of-truth">
+    <h2 class="m-0 text-xl font-semibold text-tng-fg-primary">Source of truth</h2>
+    <p class="m-0 max-w-4xl text-base leading-7 text-tng-fg-secondary">
+      TailNG keeps the ownable contract centralized in <code>@tailng-ui/registry</code>. The CLI,
+      docs, generated file lists, and import snippets all read from that same registry metadata so
+      the surface does not drift.
+    </p>
+  </section>
+</article>

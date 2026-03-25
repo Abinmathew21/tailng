@@ -1,21 +1,22 @@
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { describe, expect, it } from 'vitest';
 
-import { TngInputComponent } from '../tng-input.component';
+import { TngFormFieldComponent } from '../tng-form-field.component';
 import { TngInput } from '@tailng-ui/primitives';
 
 @Component({
-  imports: [TngInputComponent, TngInput],
+  imports: [TngFormFieldComponent, TngInput],
   template: `
-    <tng-input
+    <tng-form-field
       [size]="size"
       [appearance]="appearance"
       [tone]="tone"
       [fullWidth]="fullWidth"
     >
       <input tngInput />
-    </tng-input>
+    </tng-form-field>
   `,
 })
 class TokensHostComponent {
@@ -25,7 +26,7 @@ class TokensHostComponent {
   public fullWidth = true;
 }
 
-describe('tng-input (styled) — design tokens & host data attributes', () => {
+describe('tng-form-field — design tokens & host data attributes', () => {
   async function flush(fixture: any): Promise<void> {
     fixture.changeDetectorRef.markForCheck();
     fixture.detectChanges();
@@ -37,7 +38,7 @@ describe('tng-input (styled) — design tokens & host data attributes', () => {
     const fixture = TestBed.createComponent(TokensHostComponent);
     await flush(fixture);
 
-    const host = fixture.debugElement.query(By.css('tng-input')).nativeElement as HTMLElement;
+    const host = fixture.debugElement.query(By.css('tng-form-field')).nativeElement as HTMLElement;
     expect(host.getAttribute('data-size')).toBe('md');
   });
 
@@ -46,7 +47,7 @@ describe('tng-input (styled) — design tokens & host data attributes', () => {
     const fixture = TestBed.createComponent(TokensHostComponent);
     await flush(fixture);
 
-    const host = fixture.debugElement.query(By.css('tng-input')).nativeElement as HTMLElement;
+    const host = fixture.debugElement.query(By.css('tng-form-field')).nativeElement as HTMLElement;
     expect(host.getAttribute('data-appearance')).toBe('outline');
   });
 
@@ -55,7 +56,7 @@ describe('tng-input (styled) — design tokens & host data attributes', () => {
     const fixture = TestBed.createComponent(TokensHostComponent);
     await flush(fixture);
 
-    const host = fixture.debugElement.query(By.css('tng-input')).nativeElement as HTMLElement;
+    const host = fixture.debugElement.query(By.css('tng-form-field')).nativeElement as HTMLElement;
     expect(host.getAttribute('data-tone')).toBe('neutral');
   });
 
@@ -65,7 +66,7 @@ describe('tng-input (styled) — design tokens & host data attributes', () => {
     await flush(fixture);
 
     const hostCmp = fixture.componentInstance;
-    const host = fixture.debugElement.query(By.css('tng-input')).nativeElement as HTMLElement;
+    const host = fixture.debugElement.query(By.css('tng-form-field')).nativeElement as HTMLElement;
 
     expect(host.hasAttribute('data-full-width')).toBe(true);
 
@@ -80,7 +81,7 @@ describe('tng-input (styled) — design tokens & host data attributes', () => {
     await flush(fixture);
 
     const hostCmp = fixture.componentInstance;
-    const host = fixture.debugElement.query(By.css('tng-input')).nativeElement as HTMLElement;
+    const host = fixture.debugElement.query(By.css('tng-form-field')).nativeElement as HTMLElement;
 
     hostCmp.size = 'lg';
     hostCmp.appearance = 'solid';

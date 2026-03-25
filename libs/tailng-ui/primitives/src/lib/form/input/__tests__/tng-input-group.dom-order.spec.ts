@@ -6,22 +6,22 @@ import { describe, expect, it } from 'vitest';
 import {
   TngInput,
   TngInputGroup,
-  TngInputLeading,
-  TngInputTrailing,
+  TngPrefix,
+  TngSuffix,
 } from '../tng-input';
 
 @Component({
-  imports: [TngInputGroup, TngInput, TngInputLeading, TngInputTrailing],
+  imports: [TngInputGroup, TngInput, TngPrefix, TngSuffix],
   template: `
     <tng-input-group>
-      <span tngInputLeading>
+      <span tngPrefix>
         <span class="lead-a">A</span>
         <span class="lead-b">B</span>
       </span>
 
       <input tngInput />
 
-      <span tngInputTrailing>
+      <span tngSuffix>
         <span class="trail-x">X</span>
         <span class="trail-y">Y</span>
       </span>
@@ -31,17 +31,17 @@ import {
 class DomOrderHostComponent {}
 
 @Component({
-  imports: [TngInputGroup, TngInput, TngInputLeading, TngInputTrailing],
+  imports: [TngInputGroup, TngInput, TngPrefix, TngSuffix],
   template: `
     <tng-input-group>
       @if (showLeading) {
-        <span tngInputLeading><span class="lead">L</span></span>
+        <span tngPrefix><span class="lead">L</span></span>
       }
 
       <input tngInput />
 
       @if (showTrailing) {
-        <span tngInputTrailing><span class="trail">T</span></span>
+        <span tngSuffix><span class="trail">T</span></span>
       }
     </tng-input-group>
   `,

@@ -26,7 +26,7 @@
         <tbody>
           <tr>
             <td><code>[data-slot="input"]</code></td>
-            <td>Input/textarea host</td>
+            <td>Input host</td>
             <td>Base control styles: typography, spacing, background, placeholder.</td>
           </tr>
           <tr>
@@ -148,10 +148,10 @@
 
     <h4>Layout note</h4>
     <p>
-      <code>tng-input</code> now applies a shared inline gap between
+      <code>tng-form-field</code> applies the shared inline gap between
       <code>[data-slot="input-group-leading"]</code>, <code>[data-slot="input-group-control"]</code>,
       and <code>[data-slot="input-group-trailing"]</code>. Override
-      <code>--tng-input-inline-gap</code> on the wrapper when a compact search field or a wider
+      <code>--tng-input-inline-gap</code> on the shell when a compact search field or a wider
       utility input needs a different adornment rhythm.
     </p>
     </section>
@@ -160,68 +160,31 @@
     id="user-scenario-style-examples"
     class="docs-section-anchor input-styling-block"
     heading="User scenario style examples"
-    description="Account profile form styling patterns across headless, plain CSS, and Tailwind strategies."
+    description="Account profile form styling patterns across wrapper-based plain CSS and Tailwind strategies."
     ariaLabel="Input styling scenarios"
     tabListAriaLabel="Input styling variants"
-    defaultValue="headless"
+    defaultValue="plain-css"
     [codeBlockTheme]="codeBlockTheme()"
   >
-    <ng-template
-      appDocsExampleVariant
-      value="headless"
-      label="Headless"
-      panelTitle="Account profile form"
-      [codeTabs]="headlessScenarioCodeTabs"
-    >
-      <div class="input-styling-example-fields">
-        <label
-          class="input-styling-example-field-surface input-styling-example-field-surface--headless"
-        >
-          <span class="input-styling-example-field-label">Display name</span>
-          <div tngInputGroup class="input-styling-example-shell">
-            <input tngInput type="text" value="Ada Lovelace" aria-label="Display name" />
-          </div>
-        </label>
-
-        <label
-          class="input-styling-example-field-surface input-styling-example-field-surface--textarea input-styling-example-field-surface--headless"
-        >
-          <span class="input-styling-example-field-label">Bio</span>
-          <div tngInputGroup class="input-styling-example-shell">
-            <textarea tngInput rows="3" aria-label="Bio">
-Writes about numerical methods and computation.</textarea
-            >
-          </div>
-        </label>
-      </div>
-    </ng-template>
-
     <ng-template
       appDocsExampleVariant
       value="plain-css"
       label="Plain-CSS"
       panelTitle="Account profile form"
       [codeTabs]="plainCssScenarioCodeTabs"
-    >
-      <div class="input-styling-example-fields">
-        <label
-          class="input-styling-example-field-surface input-styling-example-field-surface--plain"
+      >
+        <div class="input-styling-example-fields">
+          <label
+            class="input-styling-example-field-surface input-styling-example-field-surface--plain"
         >
           <span class="input-styling-example-field-label">Display name</span>
-          <div tngInputGroup class="input-styling-example-shell">
-            <input tngInput type="text" value="Ada Lovelace" aria-label="Display name" />
-          </div>
-        </label>
-
-        <label
-          class="input-styling-example-field-surface input-styling-example-field-surface--textarea input-styling-example-field-surface--plain"
-        >
-          <span class="input-styling-example-field-label">Bio</span>
-          <div tngInputGroup class="input-styling-example-shell">
-            <textarea tngInput rows="3" aria-label="Bio">
-Writes about numerical methods and computation.</textarea
-            >
-          </div>
+          <tng-input
+            class="input-styling-example-shell"
+            type="text"
+            value="Ada Lovelace"
+            ariaLabel="Display name"
+            (click)="focusProjectedInput($event)"
+          ></tng-input>
         </label>
       </div>
     </ng-template>
@@ -238,20 +201,32 @@ Writes about numerical methods and computation.</textarea
           class="input-styling-example-field-surface input-styling-example-field-surface--tailwind"
         >
           <span class="input-styling-example-field-label">Display name</span>
-          <div tngInputGroup class="input-styling-example-shell">
-            <input tngInput type="text" value="Ada Lovelace" aria-label="Display name" />
-          </div>
-        </label>
-
-        <label
-          class="input-styling-example-field-surface input-styling-example-field-surface--textarea input-styling-example-field-surface--tailwind"
-        >
-          <span class="input-styling-example-field-label">Bio</span>
-          <div tngInputGroup class="input-styling-example-shell">
-            <textarea tngInput rows="3" aria-label="Bio">
-Writes about numerical methods and computation.</textarea
-            >
-          </div>
+          <tng-input
+            class="block
+                   [&_[data-slot='input-group']]:min-h-10
+                   [&_[data-slot='input-group']]:rounded-lg
+                   [&_[data-slot='input-group']]:border
+                   [&_[data-slot='input-group']]:border-slate-300
+                   [&_[data-slot='input-group']]:bg-white
+                   [&_[data-slot='input-group']]:px-3
+                   [&_[data-slot='input-group']]:shadow-sm
+                   [&_[data-slot='input-group']]:transition
+                   [&_[data-slot='input-group'][data-focused]]:border-cyan-500
+                   [&_[data-slot='input-group'][data-focused]]:ring-2
+                   [&_[data-slot='input-group'][data-focused]]:ring-cyan-200/70
+                   [&_[data-slot='input']]:w-full
+                   [&_[data-slot='input']]:border-0
+                   [&_[data-slot='input']]:bg-transparent
+                   [&_[data-slot='input']]:p-0
+                   [&_[data-slot='input']]:text-[0.98rem]
+                   [&_[data-slot='input']]:font-medium
+                   [&_[data-slot='input']]:leading-5
+                   [&_[data-slot='input']]:outline-none"
+            type="text"
+            value="Ada Lovelace"
+            ariaLabel="Display name"
+            (click)="focusProjectedInput($event)"
+          ></tng-input>
         </label>
       </div>
     </ng-template>

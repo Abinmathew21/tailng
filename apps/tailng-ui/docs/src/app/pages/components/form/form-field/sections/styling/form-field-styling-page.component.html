@@ -1,0 +1,129 @@
+<article class="docs-section-page input-styling">
+  <div class="docs-section-page-main">
+    <h2 class="input-styling-title">Styling contract</h2>
+    <p class="input-styling-lead">
+      Style <code>tng-form-field</code> through the shell and slot data attributes emitted by the
+      projected input group.
+    </p>
+
+    <section id="css-contracts" class="docs-section-anchor input-styling-block">
+      <h3>CSS contracts</h3>
+      <p>These selectors are the public styling surface for the form-field shell.</p>
+      <tng-code-block
+        [code]="contractsCode"
+        adapter="shiki"
+        language="css"
+        title="Public selectors"
+        [theme]="codeBlockTheme()"
+        [sanitizeHtml]="false"
+        [wrap]="true"
+        [lineNumbers]="false"
+      ></tng-code-block>
+    </section>
+
+    <section id="shell-state-hooks" class="docs-section-anchor input-styling-block">
+      <h3>Shell state hooks</h3>
+      <p>The form-field shell owns the visible container treatment for focus and validation.</p>
+      <tng-code-block
+        [code]="stateHooksCode"
+        adapter="shiki"
+        language="css"
+        title="State hooks"
+        [theme]="codeBlockTheme()"
+        [sanitizeHtml]="false"
+        [wrap]="true"
+        [lineNumbers]="false"
+      ></tng-code-block>
+    </section>
+
+    <section id="user-scenario-style-examples" class="docs-section-anchor input-styling-block">
+      <h3>User scenario style examples</h3>
+      <app-docs-example-tabs-section
+        heading="Workspace slug shell"
+        description="A projected suffix is often the reason to reach for form-field instead of the simple input component."
+        ariaLabel="Form field styling examples"
+        tabListAriaLabel="Form field styling variants"
+        defaultValue="plain-css"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <ng-template
+          appDocsExampleVariant
+          value="plain-css"
+          label="Plain-CSS"
+          panelTitle="Workspace slug shell (Plain-CSS)"
+          [codeTabs]="plainScenarioCodeTabs"
+        >
+          <div class="input-styling-preview">
+            <label class="account-field">
+              <span class="account-label">Workspace slug</span>
+              <tng-form-field class="account-shell">
+                <input tngInput type="text" value="core-platform" />
+                <span tngSuffix class="account-meta">.tailng.dev</span>
+              </tng-form-field>
+            </label>
+          </div>
+        </ng-template>
+
+        <ng-template
+          appDocsExampleVariant
+          value="tailwind-css"
+          label="Tailwind CSS"
+          panelTitle="Workspace slug shell (Tailwind CSS)"
+          [codeTabs]="tailwindScenarioCodeTabs"
+        >
+          <div class="input-styling-preview">
+            <label class="grid w-full max-w-[31rem] gap-2">
+              <span class="text-xs font-semibold text-slate-500">Workspace slug</span>
+              <tng-form-field
+                class="block
+                       [&_[data-slot='input-group']]:min-h-11
+                       [&_[data-slot='input-group']]:items-center
+                       [&_[data-slot='input-group']]:rounded-xl
+                       [&_[data-slot='input-group']]:border
+                       [&_[data-slot='input-group']]:border-blue-300
+                       [&_[data-slot='input-group']]:bg-blue-50/70
+                       [&_[data-slot='input-group']]:px-3
+                       [&_[data-slot='input-group']]:shadow-sm
+                       [&_[data-slot='input-group'][data-focused]]:border-blue-500
+                       [&_[data-slot='input-group'][data-focused]]:ring-2
+                       [&_[data-slot='input-group'][data-focused]]:ring-blue-200
+                       [&_[data-slot='input']]:w-full
+                       [&_[data-slot='input']]:border-0
+                       [&_[data-slot='input']]:bg-transparent
+                       [&_[data-slot='input']]:p-0
+                       [&_[data-slot='input']]:outline-none
+                       [&_[data-slot='input-group-trailing']]:text-xs
+                       [&_[data-slot='input-group-trailing']]:font-semibold"
+              >
+                <input tngInput type="text" value="core-platform" />
+                <span tngSuffix>.tailng.dev</span>
+              </tng-form-field>
+            </label>
+          </div>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
+
+    <section id="different-styling-pattern-examples" class="docs-section-anchor input-styling-block">
+      <h3>Different styling pattern examples</h3>
+      <div class="input-styling-patterns">
+        @for (pattern of stylePatternExamples; track pattern.title) {
+          <article class="input-styling-pattern-card">
+            <h4>{{ pattern.title }}</h4>
+            <p>{{ pattern.description }}</p>
+            <tng-code-block
+              [code]="pattern.code"
+              adapter="shiki"
+              [language]="pattern.language"
+              [title]="pattern.title"
+              [theme]="codeBlockTheme()"
+              [sanitizeHtml]="false"
+              [wrap]="true"
+              [lineNumbers]="false"
+            ></tng-code-block>
+          </article>
+        }
+      </div>
+    </section>
+  </div>
+</article>

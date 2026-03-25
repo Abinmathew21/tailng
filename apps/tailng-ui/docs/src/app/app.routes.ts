@@ -11,6 +11,10 @@ export const appRoutes: Route[] = [
     loadChildren: () => import('./pages/components/routes').then((m) => m.COMPONENTS_ROUTES),
   },
   {
+    path: 'ownable',
+    loadChildren: () => import('./pages/ownable/routes').then((m) => m.OWNABLE_ROUTES),
+  },
+  {
     path: 'headless',
     loadChildren: () => import('./pages/headless/routes').then((m) => m.HEADLESS_ROUTES),
   },

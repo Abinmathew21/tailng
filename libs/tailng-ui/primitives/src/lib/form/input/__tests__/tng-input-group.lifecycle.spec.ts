@@ -5,23 +5,23 @@ import { describe, expect, it } from 'vitest';
 import {
   TngInput,
   TngInputGroup,
-  TngInputLeading,
-  TngInputTrailing,
+  TngPrefix,
+  TngSuffix,
 } from '../tng-input';
 
 @Component({
-  imports: [TngInputGroup, TngInput, TngInputLeading, TngInputTrailing],
+  imports: [TngInputGroup, TngInput, TngPrefix, TngSuffix],
   template: `
     @if (show) {
       <tng-input-group>
         @if (leading) {
-          <span tngInputLeading>Leading</span>
+          <span tngPrefix>Leading</span>
         }
 
         <input tngInput [disabled]="disabled" />
 
         @if (trailing) {
-          <span tngInputTrailing>Trailing</span>
+          <span tngSuffix>Trailing</span>
         }
       </tng-input-group>
     }

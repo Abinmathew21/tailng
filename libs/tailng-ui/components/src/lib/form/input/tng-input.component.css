@@ -7,109 +7,10 @@
   width: 100%;
 }
 
-/* the group host */
 .tng-input {
-  align-items: center;
-  display: inline-flex;
-  gap: var(--tng-input-inline-gap, 0.55rem);
   width: 100%;
 }
 
-/* allow intrinsic width if consumer wants */
 :host(:not([data-full-width])) .tng-input {
   width: auto;
-}
-
-/* ----- slot wrappers (rendered by primitive group) ----- */
-.tng-input [data-slot='input-group-leading'],
-.tng-input [data-slot='input-group-trailing'] {
-  align-items: center;
-  display: inline-flex;
-  flex: 0 0 auto;
-}
-
-.tng-input [data-slot='input-group-control'] {
-  align-items: center;
-  display: inline-flex;
-  flex: 1 1 auto;
-  min-width: 0;
-}
-
-/* ----- control base ----- */
-.tng-input [data-slot='input'] {
-  appearance: none;
-  background: transparent;
-  border: 0;
-  color: inherit;
-  font: inherit;
-  min-width: 0;
-  outline: none;
-  width: 100%;
-}
-
-/* ----- shell belongs to group host (primitive) ----- */
-.tng-input[data-slot='input-group'] {
-  background: var(--tng-semantic-background-surface);
-  border: 1px solid var(--tng-semantic-border-strong);
-  border-radius: 0.6rem;
-  color: var(--tng-semantic-foreground-primary);
-  min-height: 2.5rem;
-  padding: 0 0.85rem;
-}
-
-/* focus ring on group (driven by primitive) */
-.tng-input[data-focused] {
-  box-shadow: 0 0 0 3px var(--tng-semantic-focus-ring);
-}
-
-/* invalid state (driven by primitive) */
-.tng-input[data-invalid] {
-  border-color: var(--tng-semantic-accent-danger);
-}
-
-/* disabled state (driven by primitive) */
-.tng-input[data-disabled] {
-  cursor: not-allowed;
-  opacity: 0.6;
-}
-
-/* placeholder styling */
-.tng-input [data-slot='input']::placeholder {
-  color: var(--tng-semantic-foreground-muted);
-}
-
-/* ---- variants (wrapper inputs -> host attrs) ---- */
-:host([data-appearance='solid']) .tng-input[data-slot='input-group'] {
-  background: var(--tng-semantic-background-surface-strong, var(--tng-semantic-background-surface));
-}
-
-:host([data-appearance='ghost']) .tng-input[data-slot='input-group'] {
-  background: transparent;
-  border-color: transparent;
-}
-
-/* ---- sizes ---- */
-:host([data-size='sm']) .tng-input[data-slot='input-group'] {
-  --tng-input-inline-gap: 0.45rem;
-
-  border-radius: 0.5rem;
-  min-height: 2.125rem;
-  padding: 0 0.65rem;
-}
-
-:host([data-size='lg']) .tng-input[data-slot='input-group'] {
-  --tng-input-inline-gap: 0.65rem;
-
-  border-radius: 0.75rem;
-  min-height: 3rem;
-  padding: 0 1rem;
-}
-
-/* ---- tones (minimal example) ---- */
-:host([data-tone='danger']) .tng-input[data-focused] {
-  box-shadow: 0 0 0 3px var(--tng-semantic-focus-ring-danger, var(--tng-semantic-focus-ring));
-}
-
-:host([data-tone='danger']) .tng-input[data-invalid] {
-  border-color: var(--tng-semantic-accent-danger);
 }

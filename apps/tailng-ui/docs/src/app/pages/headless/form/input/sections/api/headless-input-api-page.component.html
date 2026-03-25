@@ -1,0 +1,121 @@
+<article class="docs-section-page input-api">
+  <div class="docs-section-page-main">
+    <h2 class="input-api-title">API reference</h2>
+    <p class="input-api-lead">
+      Headless input is primitive-first. Attach directives to native controls and style through slot/state attributes.
+    </p>
+
+    <section id="tng-input" class="docs-section-anchor input-api-block">
+      <h3><code>tngInput</code> (directive)</h3>
+      <p>Attach to a native <code>input[tngInput]</code>. Textarea usage is documented on the dedicated <strong>Textarea</strong> page.</p>
+      <tng-code-block [code]="directiveAttachCode" adapter="shiki" language="html" title="Directive attachment" [lineNumbers]="false" [wrap]="true" [sanitizeHtml]="false"></tng-code-block>
+      <div class="input-api-table-wrap">
+        <table class="input-api-table">
+          <thead>
+            <tr>
+              <th scope="col">Property</th>
+              <th scope="col">Type</th>
+              <th scope="col">Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>ariaLabel</code>, <code>ariaLabelledby</code>, <code>ariaDescribedBy</code></td>
+              <td><code>string | null</code></td>
+              <td>Reflected to native ARIA attributes with whitespace-normalization.</td>
+            </tr>
+            <tr>
+              <td><code>ariaInvalid</code>, <code>ariaRequired</code></td>
+              <td>boolean-like</td>
+              <td>ARIA/state hooks layered on top of the native control.</td>
+            </tr>
+            <tr>
+              <td><code>disabled</code>, <code>readonly</code>, <code>required</code></td>
+              <td>boolean-like</td>
+              <td>Reflects the native state and emits matching data attributes.</td>
+            </tr>
+            <tr>
+              <td><code>data-slot="input"</code></td>
+              <td>output attribute</td>
+              <td>Stable styling hook for the control itself.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="tng-input-group" class="docs-section-anchor input-api-block">
+      <h3><code>tngInputGroup</code> (primitive shell)</h3>
+      <p>Wraps a single projected <code>tngInput</code> control with optional <code>tngPrefix</code>/<code>tngSuffix</code> slots.</p>
+      <tng-code-block [code]="groupTemplateCode" adapter="shiki" language="html" title="Grouped composition" [lineNumbers]="false" [wrap]="true" [sanitizeHtml]="false"></tng-code-block>
+      <div class="input-api-table-wrap">
+        <table class="input-api-table">
+          <thead>
+            <tr>
+              <th scope="col">Feature</th>
+              <th scope="col">Type</th>
+              <th scope="col">Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Projected control contract</td>
+              <td><code>tngInput</code> projection rule</td>
+              <td>Expects exactly one projected <code>tngInput</code> control.</td>
+            </tr>
+            <tr>
+              <td>Conditional wrappers</td>
+              <td>Render behavior</td>
+              <td>Leading/control/trailing wrappers render only when matching slot content exists.</td>
+            </tr>
+            <tr>
+              <td><code>--tng-input-inline-gap</code></td>
+              <td>CSS custom property</td>
+              <td>Controls inline spacing between slot wrappers and the projected input inside the group shell.</td>
+            </tr>
+            <tr>
+              <td><code>data-focused</code></td>
+              <td>State attribute</td>
+              <td>Applied on group host while any projected element is focused.</td>
+            </tr>
+            <tr>
+              <td><code>data-disabled</code>, <code>data-invalid</code>, <code>data-readonly</code></td>
+              <td>Mirrored state attributes</td>
+              <td>Reflected from the projected control onto the group host for container-level styling.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="slot-directives" class="docs-section-anchor input-api-block">
+      <h3>Slot directives</h3>
+      <div class="input-api-table-wrap">
+        <table class="input-api-table">
+          <thead>
+            <tr>
+              <th scope="col">Directive</th>
+              <th scope="col">Applies to</th>
+              <th scope="col">Adds</th>
+              <th scope="col">Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>tngPrefix</code></td>
+              <td>Projected leading element</td>
+              <td><code>data-slot="input-leading"</code></td>
+              <td>Marks prefix/adornment content before the control.</td>
+            </tr>
+            <tr>
+              <td><code>tngSuffix</code></td>
+              <td>Projected trailing element</td>
+              <td><code>data-slot="input-trailing"</code></td>
+              <td>Marks suffix/action content after the control.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+</article>

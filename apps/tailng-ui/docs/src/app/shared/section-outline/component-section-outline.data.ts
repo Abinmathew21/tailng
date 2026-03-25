@@ -474,8 +474,9 @@ export const docsComponentOutlineItemsBySlug: Readonly<Record<string, Partial<Re
       { id: 'testing-notes', label: 'Testing notes' },
     ],
     'api': [
-      { id: 'tng-input', label: 'tngInput (directive)' },
-      { id: 'tng-input-group', label: 'tngInputGroup (component)' },
+      { id: 'tng-input-component', label: '&lt;tng-input&gt;' },
+      { id: 'tng-form-field', label: '&lt;tng-form-field&gt;' },
+      { id: 'tng-input-directive', label: 'tngInput (directive)' },
       { id: 'slot-directives', label: 'Slot directives' },
     ],
     'styling': [
@@ -493,6 +494,32 @@ export const docsComponentOutlineItemsBySlug: Readonly<Record<string, Partial<Re
       { id: 'install-from-registry', label: 'Install from registry' },
       { id: 'generated-files', label: 'Generated files' },
       { id: 'import-and-usage', label: 'Import in your feature module/component' },
+    ],
+  },
+  'form-field': {
+    'overview': [
+      { id: 'what-form-field-does', label: 'What form field does' },
+      { id: 'simple-examples', label: 'Simple examples' },
+      { id: 'installation', label: 'Installation' },
+      { id: 'basic-composition', label: 'Basic composition' },
+      { id: 'relationship-to-input-component', label: 'Relationship to input component' },
+      { id: 'accessibility-guidance', label: 'Accessibility guidance' },
+    ],
+    'api': [
+      { id: 'tng-form-field-component', label: '&lt;tng-form-field&gt;' },
+      { id: 'projected-control-contract', label: 'Projected control contract' },
+      { id: 'slot-directives', label: 'Slot directives' },
+    ],
+    'styling': [
+      { id: 'css-contracts', label: 'CSS contracts' },
+      { id: 'shell-state-hooks', label: 'Shell state hooks' },
+      { id: 'user-scenario-style-examples', label: 'User scenario style examples' },
+      { id: 'different-styling-pattern-examples', label: 'Different styling pattern examples' },
+    ],
+    'examples': [
+      { id: 'global-search-field', label: 'Global search field' },
+      { id: 'workspace-slug-field', label: 'Workspace slug field' },
+      { id: 'clear-action-field', label: 'Clear action field' },
     ],
   },
   'input-otp': {

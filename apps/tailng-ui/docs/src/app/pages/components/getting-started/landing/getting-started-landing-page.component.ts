@@ -103,10 +103,12 @@ export class GettingStartedLandingPageComponent implements OnDestroy {
   ].join('\n');
 
   protected readonly quickStartInputExampleCode = [
-    '<tng-input label="Email" hint="We\\\'ll never share this." required>',
-    '  <span tngInputLeading aria-hidden="true">@</span>',
-    '  <input tngInput type="email" placeholder="you@example.com" />',
-    '</tng-input>',
+    '<tng-input',
+    '  type="email"',
+    '  placeholder="you@example.com"',
+    '  ariaLabel="Email"',
+    '  required',
+    '></tng-input>',
     '',
   ].join('\n');
 

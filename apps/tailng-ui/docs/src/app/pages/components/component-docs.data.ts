@@ -72,6 +72,13 @@ export const COMPONENTS_FORM_GROUP: ComponentsDocsGroup = {
       description: 'Text input fields, adornments, validation messaging, and layout patterns.',
     },
     {
+      id: 'form-field',
+      slug: 'form-field',
+      title: 'Form Field',
+      description:
+        'Projected input shell with prefix and suffix slots for icons, helper text, and inline actions.',
+    },
+    {
       id: 'datepicker',
       slug: 'datepicker',
       title: 'Datepicker',

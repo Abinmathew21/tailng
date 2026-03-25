@@ -1,13 +1,13 @@
-<section class="headless-page-full-bleed grid gap-5">
+<section class="components-page-full-bleed grid gap-5">
   <section
     tngDrawerContainer
-    class="headless-docs-stage border-b border-tng-border-subtle bg-tng-bg-surface/60"
+    class="components-docs-stage border-b border-tng-border-subtle bg-tng-bg-surface/60"
     [animate]="false"
     [hasBackdrop]="false"
     [closeOthersOnOpen]="false"
   >
     <tng-drawer
-      class="headless-docs-drawer"
+      class="components-docs-drawer"
       ariaLabel="Headless docs navigation"
       tabindex="-1"
       [opened]="true"
@@ -21,14 +21,14 @@
       [inertContent]="false"
       [allowBodyScroll]="true"
     >
-      <div class="headless-docs-search pb-3">
-        <tng-input class="headless-docs-search-input" size="sm">
-          <span tngInputLeading class="headless-docs-search-icon" aria-hidden="true">
+      <div class="components-docs-search pb-3">
+        <tng-form-field class="components-docs-search-input" size="sm">
+          <span tngPrefix class="components-docs-search-icon" aria-hidden="true">
             <tng-icon icon="search" class="h-4 w-4" />
           </span>
           <input
             tngInput
-            class="headless-docs-search-control"
+            class="components-docs-search-control"
             type="search"
             autofocus
             placeholder="Search headless docs..."
@@ -37,7 +37,7 @@
             [value]="navSearchQuery()"
             (input)="onNavSearchInput($event)"
           />
-        </tng-input>
+        </tng-form-field>
       </div>
 
       @if (filteredNavGroups().length > 0) {
@@ -66,7 +66,7 @@
               <tng-accordion-panel>
                 <div
                   tngListbox
-                  class="headless-docs-nav-listbox grid gap-1.5 py-1"
+                  class="components-docs-nav-listbox grid gap-1.5 py-1"
                   [attr.aria-label]="group.title + ' links'"
                   [value]="activeGroupItemHref(group)"
                   [typeahead]="false"
@@ -78,7 +78,7 @@
                     <div
                       tngOption
                       [tngValue]="itemHref(group.id, item.slug)"
-                      class="headless-docs-nav-option inline-flex min-h-9 w-full items-center justify-between rounded-lg border border-transparent px-3 py-2 text-left text-sm transition-colors"
+                      class="components-docs-nav-option inline-flex min-h-9 w-full items-center justify-between rounded-lg border border-transparent px-3 py-2 text-left text-sm transition-colors"
                       [class.border-tng-border-subtle]="!isItemActive(group.id, item.slug)"
                       [class.bg-tng-bg-base]="!isItemActive(group.id, item.slug)"
                       [class.text-tng-fg-primary]="!isItemActive(group.id, item.slug)"
@@ -102,7 +102,7 @@
         </tng-accordion>
       } @else {
         <div
-          class="headless-docs-empty-search rounded-lg border border-dashed border-tng-border-subtle p-3"
+          class="components-docs-empty-search rounded-lg border border-dashed border-tng-border-subtle p-3"
         >
           <p class="m-0 text-sm font-medium text-tng-fg-primary">No matches found</p>
           <p class="m-0 mt-1 text-xs text-tng-fg-secondary">
@@ -112,8 +112,8 @@
       }
     </tng-drawer>
 
-    <main tngDrawerContent class="headless-docs-content">
-      <section class="headless-docs-breadcrumb">
+    <main tngDrawerContent class="components-docs-content">
+      <section class="components-docs-breadcrumb">
         <tng-breadcrumb ariaLabel="Headless documentation path" separator="›">
           @for (crumb of docsBreadcrumbs(); track $index) {
             <tng-breadcrumb-item [current]="crumb.current" [routerLink]="crumb.url">

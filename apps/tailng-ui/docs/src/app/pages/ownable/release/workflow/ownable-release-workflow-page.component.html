@@ -1,0 +1,45 @@
+<article class="grid gap-8 pb-10">
+  <section class="docs-section-anchor grid gap-4" id="workflow-overview">
+    <h1 class="m-0 text-3xl font-semibold text-tng-fg-primary">Release Workflow</h1>
+    <p class="m-0 max-w-4xl text-base leading-7 text-tng-fg-secondary">
+      TailNG publishes the ownable surface through a dedicated manual release flow so registry and CLI
+      changes can be validated independently from the larger package set.
+    </p>
+  </section>
+
+  <section class="docs-section-anchor grid gap-3" id="manual-ownable-release">
+    <h2 class="m-0 text-xl font-semibold text-tng-fg-primary">Manual ownable release</h2>
+    <p class="m-0 max-w-4xl text-base leading-7 text-tng-fg-secondary">
+      The dedicated workflow publishes only <code>@tailng-ui/registry</code> and <code>tailng</code>,
+      with the same release phases as the main production workflow.
+    </p>
+  </section>
+
+  <section class="docs-section-anchor grid gap-3" id="test-gates">
+    <h2 class="m-0 text-xl font-semibold text-tng-fg-primary">Test gates before publish</h2>
+    <ul class="m-0 grid gap-2 pl-5 text-sm leading-6 text-tng-fg-secondary">
+      <li>registry specs</li>
+      <li>CLI specs</li>
+      <li>docs ownable-install component specs</li>
+      <li>registry, CLI, and docs typechecks</li>
+      <li>packed CLI smoke test after build</li>
+    </ul>
+  </section>
+
+  <section class="docs-section-anchor grid gap-3" id="workflow-split">
+    <h2 class="m-0 text-xl font-semibold text-tng-fg-primary">Workflow split</h2>
+    <p class="m-0 max-w-4xl text-base leading-7 text-tng-fg-secondary">
+      The general production workflow now excludes registry and CLI targets. Ownable publishing stays
+      isolated in its own release file so the publish surface is explicit.
+    </p>
+  </section>
+
+  <section class="docs-section-anchor grid gap-3" id="troubleshooting">
+    <h2 class="m-0 text-xl font-semibold text-tng-fg-primary">Troubleshooting trusted publishing</h2>
+    <p class="m-0 max-w-4xl text-base leading-7 text-tng-fg-secondary">
+      Trusted publishing is sensitive to workflow identity. If publishing fails, verify the npm
+      trusted publisher entry matches the exact workflow filename and environment used by the manual
+      ownable release.
+    </p>
+  </section>
+</article>

@@ -1,16 +1,17 @@
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { describe, expect, it } from 'vitest';
 
-import { TngInputComponent } from '../tng-input.component';
-import { TngInput, TngInputLeading, TngInputTrailing } from '@tailng-ui/primitives';
+import { TngFormFieldComponent } from '../tng-form-field.component';
+import { TngInput, TngPrefix, TngSuffix } from '@tailng-ui/primitives';
 
 @Component({
-  imports: [TngInputComponent, TngInput, TngInputLeading, TngInputTrailing],
+  imports: [TngFormFieldComponent, TngInput, TngPrefix, TngSuffix],
   template: `
-    <tng-input>
+    <tng-form-field>
       @if (showLeading) {
-        <span tngInputLeading>Lead</span>
+        <span tngPrefix>Lead</span>
       }
 
       <input
@@ -20,9 +21,9 @@ import { TngInput, TngInputLeading, TngInputTrailing } from '@tailng-ui/primitiv
       />
 
       @if (showTrailing) {
-        <span tngInputTrailing>Trail</span>
+        <span tngSuffix>Trail</span>
       }
-    </tng-input>
+    </tng-form-field>
   `,
 })
 class StatesHostComponent {
@@ -32,7 +33,7 @@ class StatesHostComponent {
   public showTrailing = false;
 }
 
-describe('tng-input (styled) — interactive visual state hooks', () => {
+describe('tng-form-field — interactive visual state hooks', () => {
   async function flushState(fixture: any): Promise<void> {
     fixture.detectChanges(false);
     await fixture.whenStable?.();
@@ -42,7 +43,7 @@ describe('tng-input (styled) — interactive visual state hooks', () => {
   }
 
   function getGroupEl(fixture: any): HTMLElement {
-    // The primitive group is rendered inside <tng-input>
+    // The primitive group is rendered inside <tng-form-field>
     return fixture.debugElement.query(By.css('tng-input-group')).nativeElement as HTMLElement;
   }
 

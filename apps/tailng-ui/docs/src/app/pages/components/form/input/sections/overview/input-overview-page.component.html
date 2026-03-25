@@ -2,28 +2,36 @@
   <div class="docs-section-page-main">
     <h2 class="input-overview-title">Input</h2>
     <p class="input-overview-lead">
-      Inputs in TailNG are built as headless primitives that attach to native form controls and expose
-      consistent slot markers and state hooks for styling.
+      <code>tngInput</code> is the native input primitive, <code>&lt;tng-input&gt;</code> is the
+      simple self-rendering component, and <code>&lt;tng-form-field&gt;</code> is the shell you use
+      when the field needs prefixes, suffixes, or other projected content.
     </p>
-    <p class="input-overview-lead">You can use them in two ways:</p>
+    <p class="input-overview-lead">
+      Use the simple component for the plain case, use <code>tng-form-field</code> for adorned
+      fields, or use the primitives directly when you need full control over the markup.
+    </p>
     <ol class="input-overview-steps">
       <li>
-        <strong>Direct attachment:</strong> <code>tngInput</code> on an
-        <code>&lt;input&gt;</code> or <code>&lt;textarea&gt;</code>
+        <strong>Simple component:</strong> use <code>&lt;tng-input&gt;</code> for a standard single
+        input field
       </li>
       <li>
-        <strong>Grouped composition:</strong> <code>tngInputGroup</code> with optional
-        leading/trailing content using slot directives
+        <strong>Form field shell:</strong> use <code>&lt;tng-form-field&gt;</code> with a projected
+        <code>&lt;input tngInput&gt;</code> when you need adornments
+      </li>
+      <li>
+        <strong>Headless composition:</strong> use <code>tngInputGroup</code> when you want the raw
+        primitive contract
       </li>
     </ol>
 
     <section id="what-you-get" class="docs-section-anchor input-overview-block">
       <h3>What you get</h3>
       <ul class="input-overview-list">
-        <li>
-          <strong>Native-first behavior</strong>
-          <ul>
-            <li>Uses real <code>&lt;input&gt;</code> and <code>&lt;textarea&gt;</code>.</li>
+      <li>
+        <strong>Native-first behavior</strong>
+        <ul>
+            <li><code>&lt;tng-input&gt;</code> still renders a real native <code>&lt;input&gt;</code>.</li>
             <li>
               Preserves standard browser behavior (typing, composition events, Enter submit, native
               validation).
@@ -59,22 +67,12 @@
       id="simple-examples"
       class="docs-section-anchor input-overview-block"
       heading="Simple examples"
-      description="Compare the same Input structure across headless, plain CSS, and Tailwind CSS styles."
+      description="Compare the same simple <code>tng-input</code> usage across plain CSS and Tailwind CSS styles."
       ariaLabel="Input style examples"
       tabListAriaLabel="Input example style variants"
-      defaultValue="headless"
+      defaultValue="plain-css"
       [codeBlockTheme]="codeBlockTheme()"
     >
-      <ng-template
-        appDocsExampleVariant
-        value="headless"
-        label="Headless"
-        panelTitle="Basic Inputs (Headless)"
-        [codeTabs]="headlessExampleCodeTabs"
-      >
-        <ng-container [ngTemplateOutlet]="basicInputPreviewTemplate" />
-      </ng-template>
-
       <ng-template
         appDocsExampleVariant
         value="plain-css"
@@ -82,7 +80,7 @@
         panelTitle="Basic Inputs (Plain CSS)"
         [codeTabs]="plainCssExampleCodeTabs"
       >
-        <ng-container [ngTemplateOutlet]="basicInputPreviewTemplate" />
+        <ng-container [ngTemplateOutlet]="basicPlainCssInputPreviewTemplate" />
       </ng-template>
 
       <ng-template
@@ -92,35 +90,60 @@
         panelTitle="Basic Inputs (Tailwind CSS)"
         [codeTabs]="tailwindExampleCodeTabs"
       >
-        <ng-container [ngTemplateOutlet]="basicInputPreviewTemplate" />
+        <ng-container [ngTemplateOutlet]="basicTailwindInputPreviewTemplate" />
       </ng-template>
     </app-docs-example-tabs-section>
 
-  <ng-template #basicInputPreviewTemplate>
+  <ng-template #basicPlainCssInputPreviewTemplate>
     <div class="input-overview-example-fields">
       <label class="input-overview-example-field-surface">
         <span class="input-overview-example-field-label"
           >What is the most abundant gas in air?</span
         >
-        <div tngInputGroup class="input-overview-example-shell">
-          <input
-            tngInput
-            type="text"
-            value="Nitrogen"
-            aria-label="What is the most abundant gas in air?"
-          />
-        </div>
+        <tng-input
+          class="input-overview-example-shell"
+          type="text"
+          value="Nitrogen"
+          ariaLabel="What is the most abundant gas in air?"
+          (click)="focusProjectedInput($event)"
+        ></tng-input>
       </label>
 
-      <label
-        class="input-overview-example-field-surface input-overview-example-field-surface--textarea"
-      >
-        <span class="input-overview-example-field-label">Science fact</span>
-        <div tngInputGroup class="input-overview-example-shell">
-          <textarea tngInput rows="3" aria-label="Science fact">
-Water boils at 100 degree celcius at sea level.</textarea
-          >
-        </div>
+    </div>
+  </ng-template>
+
+  <ng-template #basicTailwindInputPreviewTemplate>
+    <div class="input-overview-example-fields">
+      <label class="input-overview-example-field-surface input-overview-example-field-surface--tailwind">
+        <span class="input-overview-example-field-label"
+          >What is the most abundant gas in air?</span
+        >
+        <tng-input
+          class="block
+                 [&_[data-slot='input-group']]:min-h-10
+                 [&_[data-slot='input-group']]:rounded-lg
+                 [&_[data-slot='input-group']]:border
+                 [&_[data-slot='input-group']]:border-slate-300
+                 [&_[data-slot='input-group']]:bg-white
+                 [&_[data-slot='input-group']]:px-3
+                 [&_[data-slot='input-group']]:shadow-sm
+                 [&_[data-slot='input-group']]:transition
+                 [&_[data-slot='input-group'][data-focused]]:border-blue-500
+                 [&_[data-slot='input-group'][data-focused]]:ring-2
+                 [&_[data-slot='input-group'][data-focused]]:ring-blue-200/70
+                 [&_[data-slot='input']]:w-full
+                 [&_[data-slot='input']]:border-0
+                 [&_[data-slot='input']]:bg-transparent
+                 [&_[data-slot='input']]:p-0
+                 [&_[data-slot='input']]:text-[0.98rem]
+                 [&_[data-slot='input']]:font-medium
+                 [&_[data-slot='input']]:leading-5
+                 [&_[data-slot='input']]:outline-none"
+          (click)="focusProjectedInput($event)"
+          type="text"
+          value="Nitrogen"
+          ariaLabel="What is the most abundant gas in air?"
+        ></tng-input>
       </label>
     </div>
   </ng-template>
@@ -142,11 +165,43 @@ Water boils at 100 degree celcius at sea level.</textarea
 
     <section id="basic-usage" class="docs-section-anchor input-overview-block">
       <h3>Basic usage</h3>
-      <h4>1) Direct primitive attachment (simplest)</h4>
-      <p>Use this when you do not need leading/trailing adornments.</p>
-    <tng-code-block
-      [code]="directAttachmentCode"
-      adapter="shiki"
+      <h4>1) Simple component usage</h4>
+      <p>
+        <code>&lt;tng-input&gt;</code> renders its own native <code>&lt;input&gt;</code> and is the
+        default component API for a plain field.
+      </p>
+      <tng-code-block
+        [code]="wrapperUsageCode"
+        adapter="shiki"
+        language="html"
+        title="Wrapper input usage"
+        [theme]="codeBlockTheme()"
+        [sanitizeHtml]="false"
+        [wrap]="true"
+        [lineNumbers]="false"
+      ></tng-code-block>
+
+      <h4>2) Form field shell for prefixes and suffixes</h4>
+      <p>
+        Use <code>&lt;tng-form-field&gt;</code> when the field needs projected adornments or
+        actions.
+      </p>
+      <tng-code-block
+        [code]="groupedInputCode"
+        adapter="shiki"
+        language="html"
+        title="Form field composition"
+        [theme]="codeBlockTheme()"
+        [sanitizeHtml]="false"
+        [wrap]="true"
+        [lineNumbers]="false"
+      ></tng-code-block>
+
+      <h4>3) Direct primitive attachment</h4>
+      <p>Use this when you do not need wrapper chrome or projected slot content.</p>
+      <tng-code-block
+        [code]="directAttachmentCode"
+        adapter="shiki"
       language="html"
       title="Direct tngInput usage"
       [theme]="codeBlockTheme()"
@@ -155,25 +210,19 @@ Water boils at 100 degree celcius at sea level.</textarea
       [lineNumbers]="false"
     ></tng-code-block>
 
-    <h4>2) Grouped input with leading/trailing slots</h4>
-    <p>Use this for icons, prefixes/suffixes, clear buttons, and helper affordances.</p>
-    <tng-code-block
-      [code]="groupedInputCode"
-      adapter="shiki"
-      language="html"
-      title="tngInputGroup composition"
-      [theme]="codeBlockTheme()"
-      [sanitizeHtml]="false"
-      [wrap]="true"
-      [lineNumbers]="false"
-    ></tng-code-block>
     </section>
 
     <section id="structure" class="docs-section-anchor input-overview-block">
       <h3>Structure</h3>
       <p>
+        <code>&lt;tng-input&gt;</code> creates its own native control. <code>&lt;tng-form-field&gt;</code>
+        wraps a projected <code>&lt;input tngInput&gt;</code> so you can add prefixes, suffixes,
+        and custom trailing actions without losing the primitive contract.
+      </p>
+      <p>
         Detailed API bindings are documented in the <strong>API</strong> tab. Styling slot/state
-        contract is documented in the <strong>Styling</strong> tab.
+        contract is documented in the <strong>Styling</strong> tab. Textarea is documented on the
+        dedicated <strong>Textarea</strong> page.
       </p>
     </section>
 
@@ -271,7 +320,7 @@ Water boils at 100 degree celcius at sea level.</textarea
       </div>
     </div>
     <p>
-      Slot wrappers are conditional. Add <code>tngInputLeading</code>/<code>tngInputTrailing</code>
+      Slot wrappers are conditional. Add <code>tngPrefix</code>/<code>tngSuffix</code>
       in tests, and run change detection after projection updates.
     </p>
   </section>

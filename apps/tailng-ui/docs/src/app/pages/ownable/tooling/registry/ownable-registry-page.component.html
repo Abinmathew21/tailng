@@ -1,0 +1,45 @@
+<article class="grid gap-8 pb-10">
+  <section class="docs-section-anchor grid gap-4" id="registry-overview">
+    <h1 class="m-0 text-3xl font-semibold text-tng-fg-primary">Registry</h1>
+    <p class="m-0 max-w-4xl text-base leading-7 text-tng-fg-secondary">
+      <code>@tailng-ui/registry</code> defines the canonical ownable surface: installable names,
+      generated files, and import metadata for each supported item.
+    </p>
+  </section>
+
+  <section class="docs-section-anchor grid gap-3" id="what-it-stores">
+    <h2 class="m-0 text-xl font-semibold text-tng-fg-primary">What the registry stores</h2>
+    <ul class="m-0 grid gap-2 pl-5 text-sm leading-6 text-tng-fg-secondary">
+      <li>canonical component names</li>
+      <li>aliases resolved by the CLI</li>
+      <li>generated file paths and file contents</li>
+      <li>explicit install metadata such as import symbols and import path</li>
+    </ul>
+  </section>
+
+  <section class="docs-section-anchor grid gap-3" id="lookup-helpers">
+    <h2 class="m-0 text-xl font-semibold text-tng-fg-primary">Lookup helpers</h2>
+    <pre
+      class="m-0 overflow-x-auto rounded-2xl border border-tng-border-subtle bg-tng-bg-base p-4 text-sm leading-6 text-tng-fg-primary"
+    ><code>import &#123; getRegistryItem, listRegistryItemNames &#125; from '@tailng-ui/registry';
+
+const names = listRegistryItemNames();
+const button = getRegistryItem('button');</code></pre>
+  </section>
+
+  <section class="docs-section-anchor grid gap-3" id="install-metadata">
+    <h2 class="m-0 text-xl font-semibold text-tng-fg-primary">Install metadata</h2>
+    <p class="m-0 max-w-4xl text-base leading-7 text-tng-fg-secondary">
+      The registry now carries explicit install metadata, so docs and CLI no longer infer import
+      symbols from source files. That keeps generated snippets stable and testable.
+    </p>
+  </section>
+
+  <section class="docs-section-anchor grid gap-3" id="contract-with-docs-and-cli">
+    <h2 class="m-0 text-xl font-semibold text-tng-fg-primary">Contract with docs and CLI</h2>
+    <p class="m-0 max-w-4xl text-base leading-7 text-tng-fg-secondary">
+      The docs ownable pages, README surface, and CLI all read from the same registry contract. That
+      is the main safeguard against drift.
+    </p>
+  </section>
+</article>

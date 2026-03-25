@@ -1,0 +1,241 @@
+<article class="docs-section-page input-examples">
+  <div class="docs-section-page-main">
+    <h2 class="input-examples-title">Examples</h2>
+    <p class="input-examples-lead">
+      The same production input scenarios, documented as headless compositions with plain CSS and
+      Tailwind CSS variants.
+    </p>
+
+    <section id="global-search-field" class="docs-section-anchor input-examples-block">
+      <app-docs-example-tabs-section
+        heading="Global search field"
+        description="Search input with icon prefix and keyboard-hint suffix."
+        ariaLabel="Global search input variants"
+        tabListAriaLabel="Global search style variants"
+        defaultValue="plain-css"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <ng-template
+          appDocsExampleVariant
+          value="plain-css"
+          label="Plain-CSS"
+          panelTitle="Global search field (Plain-CSS)"
+          [codeTabs]="searchPlainCodeTabs"
+        >
+          <div class="input-example-preview">
+            <div tngInputGroup class="input-example-headless-shell">
+              <span tngPrefix aria-hidden="true">
+                <tng-icon icon="search" class="input-example-icon" />
+              </span>
+              <input tngInput type="search" placeholder="Search components..." />
+              <span tngSuffix class="input-example-meta">Ctrl+K</span>
+            </div>
+          </div>
+        </ng-template>
+
+        <ng-template
+          appDocsExampleVariant
+          value="tailwind-css"
+          label="Tailwind CSS"
+          panelTitle="Global search field (Tailwind CSS)"
+          [codeTabs]="searchTailwindCodeTabs"
+        >
+          <div class="input-example-preview">
+            <div
+              tngInputGroup
+              class="min-h-11 items-center gap-2 rounded-xl border border-slate-300 bg-white px-3 shadow-sm transition
+                     [&[data-focused]]:border-blue-500 [&[data-focused]]:ring-2 [&[data-focused]]:ring-blue-200
+                     dark:border-slate-600 dark:bg-slate-900/60 dark:[&[data-focused]]:border-blue-400 dark:[&[data-focused]]:ring-blue-400/30"
+            >
+              <span tngPrefix aria-hidden="true" class="text-slate-500 dark:text-slate-300">
+                <tng-icon icon="search" class="h-4 w-4" />
+              </span>
+              <input
+                tngInput
+                type="search"
+                placeholder="Search components..."
+                class="w-full border-0 bg-transparent p-0 text-[0.98rem] outline-none"
+              />
+              <span tngSuffix class="text-xs font-semibold text-slate-500 dark:text-slate-300"
+                >Ctrl+K</span
+              >
+            </div>
+          </div>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
+
+    <section id="workspace-slug-field" class="docs-section-anchor input-examples-block">
+      <app-docs-example-tabs-section
+        heading="Workspace slug field"
+        description="Editable workspace identifier paired with a fixed domain suffix."
+        ariaLabel="Workspace slug input variants"
+        tabListAriaLabel="Workspace slug style variants"
+        defaultValue="plain-css"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <ng-template
+          appDocsExampleVariant
+          value="plain-css"
+          label="Plain-CSS"
+          panelTitle="Workspace slug field (Plain-CSS)"
+          [codeTabs]="workspacePlainCodeTabs"
+        >
+          <div class="input-example-preview">
+            <div tngInputGroup class="input-example-headless-shell">
+              <input tngInput type="text" placeholder="Workspace slug" value="core-platform" />
+              <span tngSuffix class="input-example-meta">.tailng.dev</span>
+            </div>
+          </div>
+        </ng-template>
+
+        <ng-template
+          appDocsExampleVariant
+          value="tailwind-css"
+          label="Tailwind CSS"
+          panelTitle="Workspace slug field (Tailwind CSS)"
+          [codeTabs]="workspaceTailwindCodeTabs"
+        >
+          <div class="input-example-preview">
+            <div
+              tngInputGroup
+              class="min-h-11 items-center gap-2 rounded-xl border border-blue-300 bg-blue-50/70 px-3 shadow-sm transition
+                     [&[data-focused]]:border-blue-500 [&[data-focused]]:ring-2 [&[data-focused]]:ring-blue-200
+                     dark:border-blue-500/60 dark:bg-blue-950/30 dark:[&[data-focused]]:border-blue-300 dark:[&[data-focused]]:ring-blue-400/30"
+            >
+              <input
+                tngInput
+                type="text"
+                placeholder="Workspace slug"
+                value="core-platform"
+                class="w-full border-0 bg-transparent p-0 text-[0.98rem] outline-none"
+              />
+              <span tngSuffix class="text-xs font-semibold text-blue-700 dark:text-blue-300"
+                >.tailng.dev</span
+              >
+            </div>
+          </div>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
+
+    <section id="validation-feedback" class="docs-section-anchor input-examples-block">
+      <app-docs-example-tabs-section
+        heading="Validation feedback"
+        description="Invalid input state with explicit helper text."
+        ariaLabel="Validation input variants"
+        tabListAriaLabel="Validation style variants"
+        defaultValue="plain-css"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <ng-template
+          appDocsExampleVariant
+          value="plain-css"
+          label="Plain-CSS"
+          panelTitle="Validation feedback (Plain-CSS)"
+          [codeTabs]="validationPlainCodeTabs"
+        >
+          <div class="input-example-preview input-example-validation-stack">
+            <div tngInputGroup class="input-example-headless-shell">
+              <input tngInput type="email" value="team@tailng" aria-invalid="true" />
+            </div>
+            <p class="input-example-helper input-example-helper--danger">
+              Enter a valid email address in user&#64;domain format.
+            </p>
+          </div>
+        </ng-template>
+
+        <ng-template
+          appDocsExampleVariant
+          value="tailwind-css"
+          label="Tailwind CSS"
+          panelTitle="Validation feedback (Tailwind CSS)"
+          [codeTabs]="validationTailwindCodeTabs"
+        >
+          <div class="input-example-preview grid gap-2">
+            <div
+              tngInputGroup
+              class="min-h-11 items-center gap-2 rounded-xl border border-red-400 bg-red-50/70 px-3 shadow-sm transition
+                     [&[data-focused]]:border-red-500 [&[data-focused]]:ring-2 [&[data-focused]]:ring-red-200
+                     dark:border-red-500/70 dark:bg-red-950/25 dark:[&[data-focused]]:border-red-300 dark:[&[data-focused]]:ring-red-400/30"
+            >
+              <input
+                tngInput
+                type="email"
+                value="team@tailng"
+                aria-invalid="true"
+                class="w-full border-0 bg-transparent p-0 text-[0.98rem] outline-none"
+              />
+            </div>
+            <p class="text-xs font-medium text-red-600 dark:text-red-300">
+              Enter a valid email address in user&#64;domain format.
+            </p>
+          </div>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
+
+    <section id="readonly-and-disabled-states" class="docs-section-anchor input-examples-block">
+      <app-docs-example-tabs-section
+        heading="Readonly and disabled states"
+        description="Side-by-side state treatment for readonly and disabled input controls."
+        ariaLabel="Readonly disabled input variants"
+        tabListAriaLabel="Readonly disabled style variants"
+        defaultValue="plain-css"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <ng-template
+          appDocsExampleVariant
+          value="plain-css"
+          label="Plain-CSS"
+          panelTitle="Readonly and disabled states (Plain-CSS)"
+          [codeTabs]="statesPlainCodeTabs"
+        >
+          <div class="input-example-preview input-example-stacked">
+            <div tngInputGroup class="input-example-headless-shell">
+              <input tngInput type="text" value="Readonly API key" readonly />
+            </div>
+            <div tngInputGroup class="input-example-headless-shell">
+              <input tngInput type="text" value="Disabled while syncing" disabled />
+            </div>
+          </div>
+        </ng-template>
+
+        <ng-template
+          appDocsExampleVariant
+          value="tailwind-css"
+          label="Tailwind CSS"
+          panelTitle="Readonly and disabled states (Tailwind CSS)"
+          [codeTabs]="statesTailwindCodeTabs"
+        >
+          <div class="input-example-preview grid gap-3">
+            <div
+              tngInputGroup
+              class="min-h-11 items-center rounded-xl border border-slate-300 bg-slate-100/80 px-3 shadow-sm dark:border-slate-600 dark:bg-slate-800/70"
+            >
+              <input
+                tngInput
+                type="text"
+                value="Readonly API key"
+                readonly
+                class="w-full border-0 bg-transparent p-0 text-[0.98rem] outline-none"
+              />
+            </div>
+            <div
+              tngInputGroup
+              class="min-h-11 items-center rounded-xl border border-slate-300 bg-slate-100/80 px-3 opacity-60 dark:border-slate-600 dark:bg-slate-800/70"
+            >
+              <input
+                tngInput
+                type="text"
+                value="Disabled while syncing"
+                disabled
+                class="w-full border-0 bg-transparent p-0 text-[0.98rem] outline-none"
+              />
+            </div>
+          </div>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
+  </div>
+</article>

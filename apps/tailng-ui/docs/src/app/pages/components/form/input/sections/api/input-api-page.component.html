@@ -2,247 +2,206 @@
   <div class="docs-section-page-main">
     <h2 class="input-api-title">API reference</h2>
     <p class="input-api-lead">
-      Inputs in TailNG are primitive-first. Attach directives to native controls and style through
-      slot/state attributes.
+      Input now exposes a split component contract: <code>&lt;tng-input&gt;</code> for the plain
+      self-rendering case, <code>&lt;tng-form-field&gt;</code> for projected adornments, and the
+      headless primitives underneath.
     </p>
 
-    <section id="tng-input" class="docs-section-anchor input-api-block">
-    <h3><code>tngInput</code> (directive)</h3>
-    <p>Attach to <code>input[tngInput]</code> or <code>textarea[tngInput]</code>.</p>
-    <tng-code-block
-      [code]="directiveAttachCode"
-      adapter="shiki"
-      language="html"
-      title="Directive attachment"
-      [lineNumbers]="false"
-      [wrap]="true"
-      [sanitizeHtml]="false"
-    ></tng-code-block>
-
-    <h4>Inputs</h4>
-    <div class="input-api-table-wrap">
-      <table class="input-api-table">
-        <thead>
-          <tr>
-            <th scope="col">Property</th>
-            <th scope="col">Type</th>
-            <th scope="col">Default</th>
-            <th scope="col">Details</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><code>ariaLabel</code></td>
-            <td><code>string | null</code></td>
-            <td><code>null</code></td>
-            <td>Reflects to <code>aria-label</code>. Empty/whitespace values are omitted.</td>
-          </tr>
-          <tr>
-            <td><code>ariaLabelledby</code></td>
-            <td><code>string | null</code></td>
-            <td><code>null</code></td>
-            <td>Reflects to <code>aria-labelledby</code>. Empty/whitespace values are omitted.</td>
-          </tr>
-          <tr>
-            <td><code>ariaDescribedBy</code></td>
-            <td><code>string | null</code></td>
-            <td><code>null</code></td>
-            <td>Reflects to <code>aria-describedby</code>. Empty/whitespace values are omitted.</td>
-          </tr>
-          <tr>
-            <td><code>ariaInvalid</code></td>
-            <td><code>boolean | null | '' | 'true' | 'false'</code></td>
-            <td><code>null</code></td>
-            <td>
-              Overrides invalid state. <code>null</code> falls back to native <code>:invalid</code>.
-            </td>
-          </tr>
-          <tr>
-            <td><code>ariaRequired</code></td>
-            <td><code>boolean | null | '' | 'true' | 'false'</code></td>
-            <td><code>null</code></td>
-            <td>Sets ARIA required state. If <code>required=true</code>, this is forced true.</td>
-          </tr>
-          <tr>
-            <td><code>disabled</code></td>
-            <td><code>boolean | '' | string</code></td>
-            <td><code>false</code></td>
-            <td>
-              Boolean coercion. Reflects native disabled state and adds <code>data-disabled</code>.
-            </td>
-          </tr>
-          <tr>
-            <td><code>readonly</code></td>
-            <td><code>boolean | '' | string</code></td>
-            <td><code>false</code></td>
-            <td>
-              Boolean coercion. Reflects native readonly state and adds <code>data-readonly</code>.
-            </td>
-          </tr>
-          <tr>
-            <td><code>required</code></td>
-            <td><code>boolean | '' | string</code></td>
-            <td><code>false</code></td>
-            <td>
-              Boolean coercion. Reflects native required state and drives required ARIA output.
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <h4>Output attributes</h4>
-    <div class="input-api-table-wrap">
-      <table class="input-api-table">
-        <thead>
-          <tr>
-            <th scope="col">Attribute</th>
-            <th scope="col">Applied on</th>
-            <th scope="col">When set</th>
-            <th scope="col">Details</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><code>data-slot="input"</code></td>
-            <td>Host control</td>
-            <td>Always</td>
-            <td>Stable slot marker for styling contract.</td>
-          </tr>
-          <tr>
-            <td><code>data-disabled</code></td>
-            <td>Host control</td>
-            <td>When disabled</td>
-            <td>State hook for disabled styling.</td>
-          </tr>
-          <tr>
-            <td><code>data-readonly</code></td>
-            <td>Host control</td>
-            <td>When readonly</td>
-            <td>State hook for readonly styling.</td>
-          </tr>
-          <tr>
-            <td><code>data-invalid</code></td>
-            <td>Host control</td>
-            <td>When invalid</td>
-            <td>Set from <code>ariaInvalid</code> override or native validity.</td>
-          </tr>
-          <tr>
-            <td><code>aria-invalid="true"</code></td>
-            <td>Host control</td>
-            <td>When invalid</td>
-            <td>Only emitted when true.</td>
-          </tr>
-          <tr>
-            <td><code>aria-required="true"</code></td>
-            <td>Host control</td>
-            <td>When required</td>
-            <td>Set when <code>required=true</code> or <code>ariaRequired=true</code>.</td>
-          </tr>
-          <tr>
-            <td><code>id</code></td>
-            <td>Host control</td>
-            <td>Always</td>
-            <td>Respects consumer id, otherwise auto-generates <code>tng-input-...</code>.</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    <section id="tng-input-component" class="docs-section-anchor input-api-block">
+      <h3><code>&lt;tng-input&gt;</code> (component)</h3>
+      <p>
+        Renders an internal native <code>&lt;input&gt;</code> that already uses the
+        <code>tngInput</code> primitive. Use it when you just need a single field without projected
+        prefix/suffix content.
+      </p>
+      <tng-code-block
+        [code]="componentTemplateCode"
+        adapter="shiki"
+        language="html"
+        title="Simple input component"
+        [lineNumbers]="false"
+        [wrap]="true"
+        [sanitizeHtml]="false"
+      ></tng-code-block>
+      <div class="input-api-table-wrap">
+        <table class="input-api-table">
+          <thead>
+            <tr>
+              <th scope="col">Property</th>
+              <th scope="col">Type</th>
+              <th scope="col">Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>type</code></td>
+              <td><code>'text' | 'email' | 'number' | 'password' | 'search' | 'tel' | 'url'</code></td>
+              <td>Maps to the internal native input type.</td>
+            </tr>
+            <tr>
+              <td><code>value</code></td>
+              <td><code>string | null</code></td>
+              <td>Initial/current input value. Use <code>valueChange</code> for updates.</td>
+            </tr>
+            <tr>
+              <td><code>placeholder</code>, <code>name</code>, <code>id</code>, <code>autocomplete</code></td>
+              <td><code>string | null</code></td>
+              <td>Forwarded to the internal native input.</td>
+            </tr>
+            <tr>
+              <td><code>appearance</code>, <code>size</code>, <code>tone</code>, <code>fullWidth</code></td>
+              <td>visual inputs</td>
+              <td>Passed through to the internal <code>tng-form-field</code> shell.</td>
+            </tr>
+            <tr>
+              <td><code>disabled</code>, <code>readonly</code>, <code>required</code></td>
+              <td>boolean-like</td>
+              <td>Forwarded to the internal native input.</td>
+            </tr>
+            <tr>
+              <td><code>ariaLabel</code>, <code>ariaLabelledby</code>, <code>ariaDescribedBy</code>, <code>ariaInvalid</code>, <code>ariaRequired</code></td>
+              <td>ARIA inputs</td>
+              <td>Forwarded to the internal <code>tngInput</code> primitive.</td>
+            </tr>
+            <tr>
+              <td><code>valueChange</code></td>
+              <td><code>output&lt;string&gt;</code></td>
+              <td>Emits on internal input changes.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </section>
 
-    <section id="tng-input-group" class="docs-section-anchor input-api-block">
-    <h3><code>tngInputGroup</code> (component)</h3>
-    <p>
-      Wraps a single projected <code>tngInput</code> control with optional
-      <code>tngInputLeading</code>/<code>tngInputTrailing</code> slots.
-    </p>
-    <tng-code-block
-      [code]="groupTemplateCode"
-      adapter="shiki"
-      language="html"
-      title="Grouped composition"
-      [lineNumbers]="false"
-      [wrap]="true"
-      [sanitizeHtml]="false"
-    ></tng-code-block>
-    <div class="input-api-table-wrap">
-      <table class="input-api-table">
-        <thead>
-          <tr>
-            <th scope="col">Feature</th>
-            <th scope="col">Type</th>
-            <th scope="col">Details</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Projected control contract</td>
-            <td><code>tngInput</code> projection rule</td>
-            <td>Expects exactly one projected <code>tngInput</code> control.</td>
-          </tr>
-          <tr>
-            <td>Conditional wrappers</td>
-            <td>Render behavior</td>
-            <td>
-              Leading/control/trailing wrappers render only when matching slot content exists.
-            </td>
-          </tr>
-          <tr>
-            <td><code>--tng-input-inline-gap</code></td>
-            <td>CSS custom property</td>
-            <td>
-              Controls inline spacing between slot wrappers and the projected input inside the group
-              shell.
-            </td>
-          </tr>
-          <tr>
-            <td><code>data-focused</code></td>
-            <td>State attribute</td>
-            <td>Applied on group host while any projected element is focused.</td>
-          </tr>
-          <tr>
-            <td>
-              <code>data-disabled</code>, <code>data-invalid</code>, <code>data-readonly</code>
-            </td>
-            <td>Mirrored state attributes</td>
-            <td>
-              Reflected from the projected control onto group host for container-level styling.
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    <section id="tng-form-field" class="docs-section-anchor input-api-block">
+      <h3><code>&lt;tng-form-field&gt;</code> (component shell)</h3>
+      <p>
+        Wraps one projected <code>input[tngInput]</code> plus optional <code>tngPrefix</code> /
+        <code>tngSuffix</code> content. Use it for search fields, fixed domain suffixes, and clear
+        buttons.
+      </p>
+      <tng-code-block
+        [code]="formFieldTemplateCode"
+        adapter="shiki"
+        language="html"
+        title="Form field composition"
+        [lineNumbers]="false"
+        [wrap]="true"
+        [sanitizeHtml]="false"
+      ></tng-code-block>
+      <div class="input-api-table-wrap">
+        <table class="input-api-table">
+          <thead>
+            <tr>
+              <th scope="col">Feature</th>
+              <th scope="col">Type</th>
+              <th scope="col">Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Projected control contract</td>
+              <td><code>input[tngInput]</code></td>
+              <td>Expects one projected native input using the primitive directive.</td>
+            </tr>
+            <tr>
+              <td><code>appearance</code>, <code>size</code>, <code>tone</code>, <code>fullWidth</code></td>
+              <td>visual inputs</td>
+              <td>Owns the shared field shell styling and sizing contract.</td>
+            </tr>
+            <tr>
+              <td><code>--tng-input-inline-gap</code></td>
+              <td>CSS custom property</td>
+              <td>Controls inline spacing between prefix, control area, and suffix.</td>
+            </tr>
+            <tr>
+              <td><code>data-focused</code>, <code>data-disabled</code>, <code>data-invalid</code>, <code>data-readonly</code></td>
+              <td>mirrored state attrs</td>
+              <td>Reflected from the projected control onto the shell for container styling.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="tng-input-directive" class="docs-section-anchor input-api-block">
+      <h3><code>tngInput</code> (directive)</h3>
+      <p>
+        Attach to a native <code>input[tngInput]</code>. Textarea usage is documented on the
+        dedicated <strong>Textarea</strong> page.
+      </p>
+      <tng-code-block
+        [code]="directiveAttachCode"
+        adapter="shiki"
+        language="html"
+        title="Directive attachment"
+        [lineNumbers]="false"
+        [wrap]="true"
+        [sanitizeHtml]="false"
+      ></tng-code-block>
+      <div class="input-api-table-wrap">
+        <table class="input-api-table">
+          <thead>
+            <tr>
+              <th scope="col">Property</th>
+              <th scope="col">Type</th>
+              <th scope="col">Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>ariaLabel</code>, <code>ariaLabelledby</code>, <code>ariaDescribedBy</code></td>
+              <td><code>string | null</code></td>
+              <td>Reflected to native ARIA attributes with whitespace-normalization.</td>
+            </tr>
+            <tr>
+              <td><code>ariaInvalid</code>, <code>ariaRequired</code></td>
+              <td>boolean-like</td>
+              <td>ARIA/state hooks layered on top of the native control.</td>
+            </tr>
+            <tr>
+              <td><code>disabled</code>, <code>readonly</code>, <code>required</code></td>
+              <td>boolean-like</td>
+              <td>Reflects the native state and emits matching data attributes.</td>
+            </tr>
+            <tr>
+              <td><code>data-slot="input"</code></td>
+              <td>output attribute</td>
+              <td>Stable styling hook for the control itself.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </section>
 
     <section id="slot-directives" class="docs-section-anchor input-api-block">
-    <h3>Slot directives</h3>
-    <div class="input-api-table-wrap">
-      <table class="input-api-table">
-        <thead>
-          <tr>
-            <th scope="col">Directive</th>
-            <th scope="col">Applies to</th>
-            <th scope="col">Adds</th>
-            <th scope="col">Details</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><code>tngInputLeading</code></td>
-            <td>Projected leading element</td>
-            <td><code>data-slot="input-leading"</code></td>
-            <td>Marks prefix/adornment content before the control.</td>
-          </tr>
-          <tr>
-            <td><code>tngInputTrailing</code></td>
-            <td>Projected trailing element</td>
-            <td><code>data-slot="input-trailing"</code></td>
-            <td>Marks suffix/action content after the control.</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+      <h3>Slot directives</h3>
+      <div class="input-api-table-wrap">
+        <table class="input-api-table">
+          <thead>
+            <tr>
+              <th scope="col">Directive</th>
+              <th scope="col">Applies to</th>
+              <th scope="col">Adds</th>
+              <th scope="col">Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>tngPrefix</code></td>
+              <td>Projected leading element</td>
+              <td><code>data-slot="input-leading"</code></td>
+              <td>Marks prefix/adornment content before the control.</td>
+            </tr>
+            <tr>
+              <td><code>tngSuffix</code></td>
+              <td>Projected trailing element</td>
+              <td><code>data-slot="input-trailing"</code></td>
+              <td>Marks suffix/action content after the control.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </section>
   </div>
-
 </article>

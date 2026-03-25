@@ -109,6 +109,7 @@ const presetOptions: readonly ThemePresetOption[] = [
 
 const primaryNavigation: readonly NavItem[] = [
   { label: 'Components', route: '/components' },
+  { label: 'Ownable', route: '/ownable' },
   { label: 'Headless', route: '/headless' },
   { label: 'CDK', route: '/cdk' },
   { label: 'Theme', route: '/theme' },
@@ -119,6 +120,7 @@ const npmPackageLinks: readonly LinkItem[] = [
   { label: '@tailng-ui/cdk', href: 'https://www.npmjs.com/package/@tailng-ui/cdk' },
   { label: '@tailng-ui/primitives', href: 'https://www.npmjs.com/package/@tailng-ui/primitives' },
   { label: '@tailng-ui/components', href: 'https://www.npmjs.com/package/@tailng-ui/components' },
+  { label: '@tailng-ui/registry', href: 'https://www.npmjs.com/package/@tailng-ui/registry' },
   { label: '@tailng-ui/theme', href: 'https://www.npmjs.com/package/@tailng-ui/theme' },
   { label: '@tailng-ui/icons', href: 'https://www.npmjs.com/package/@tailng-ui/icons' },
   { label: 'tailng', href: 'https://www.npmjs.com/package/tailng' },
@@ -162,7 +164,9 @@ export class App {
     this.buildBreadcrumbs(this.router.url),
   );
   public readonly componentsDocsLayout = computed<boolean>(() =>
-    this.currentUrl().startsWith('/components') || this.currentUrl().startsWith('/headless'),
+    this.currentUrl().startsWith('/components') ||
+    this.currentUrl().startsWith('/ownable') ||
+    this.currentUrl().startsWith('/headless'),
   );
 
   public readonly effectiveMode = computed<'light' | 'dark'>(() =>

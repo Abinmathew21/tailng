@@ -1,0 +1,13 @@
+<tng-input-group class="tng-form-field">
+  <span tngPrefix class="tng-form-field-slot-proxy" data-tng-input-prefix-proxy>
+    <ng-content select="[tngPrefix], [tngInputLeading]"></ng-content>
+  </span>
+
+  <span class="tng-form-field-control-proxy" data-tng-input-control-proxy>
+    <ng-content select="input[tngInput], textarea[tngInput]"></ng-content>
+  </span>
+
+  <span tngSuffix class="tng-form-field-slot-proxy" data-tng-input-suffix-proxy>
+    <ng-content select="[tngSuffix], [tngInputTrailing]"></ng-content>
+  </span>
+</tng-input-group>

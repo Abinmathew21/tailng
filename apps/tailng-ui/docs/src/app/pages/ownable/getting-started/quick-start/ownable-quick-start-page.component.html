@@ -1,0 +1,53 @@
+<article class="grid gap-8 pb-10">
+  <section class="docs-section-anchor grid gap-4" id="quick-start">
+    <h1 class="m-0 text-3xl font-semibold text-tng-fg-primary">Quick Start</h1>
+    <p class="m-0 max-w-4xl text-base leading-7 text-tng-fg-secondary">
+      The shortest path is: inspect the supported surface, add one component, and review the local
+      files written into your app.
+    </p>
+  </section>
+
+  <section class="docs-section-anchor grid gap-3" id="list-surface">
+    <h2 class="m-0 text-xl font-semibold text-tng-fg-primary">1. List the supported surface</h2>
+    <pre
+      class="m-0 overflow-x-auto rounded-2xl border border-tng-border-subtle bg-tng-bg-base p-4 text-sm leading-6 text-tng-fg-primary"
+    ><code>pnpm dlx tailng list</code></pre>
+    <p class="m-0 max-w-4xl text-base leading-7 text-tng-fg-secondary">
+      This is the authoritative current ownable surface for the package version you are using.
+    </p>
+  </section>
+
+  <section class="docs-section-anchor grid gap-3" id="add-component">
+    <h2 class="m-0 text-xl font-semibold text-tng-fg-primary">2. Add a component</h2>
+    <pre
+      class="m-0 overflow-x-auto rounded-2xl border border-tng-border-subtle bg-tng-bg-base p-4 text-sm leading-6 text-tng-fg-primary"
+    ><code>pnpm dlx tailng add button --cwd apps/my-app</code></pre>
+    <p class="m-0 max-w-4xl text-base leading-7 text-tng-fg-secondary">
+      The CLI resolves aliases, validates the target directory, writes the registry files, and prints
+      the import hint for the generated component.
+    </p>
+  </section>
+
+  <section class="docs-section-anchor grid gap-3" id="review-files">
+    <h2 class="m-0 text-xl font-semibold text-tng-fg-primary">3. Review the generated files</h2>
+    <pre
+      class="m-0 overflow-x-auto rounded-2xl border border-tng-border-subtle bg-tng-bg-base p-4 text-sm leading-6 text-tng-fg-primary"
+    ><code>apps/my-app/src/app/tailng-ui/button/
+  tng-press-primitive.ts
+  tng-button.ts
+  tng-button.html
+  tng-button.css
+  index.ts</code></pre>
+    <p class="m-0 max-w-4xl text-base leading-7 text-tng-fg-secondary">
+      These files are now owned by your app. TailNG does not manage later edits inside that folder.
+    </p>
+  </section>
+
+  <section class="docs-section-anchor grid gap-3" id="edit-locally">
+    <h2 class="m-0 text-xl font-semibold text-tng-fg-primary">4. Edit locally</h2>
+    <p class="m-0 max-w-4xl text-base leading-7 text-tng-fg-secondary">
+      From this point forward, treat the generated files like application code: refactor them, review
+      them, theme them, and test them in the same workflow as the rest of your product.
+    </p>
+  </section>
+</article>

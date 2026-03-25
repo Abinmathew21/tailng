@@ -1,0 +1,50 @@
+<article class="grid gap-8 pb-10">
+  <section class="docs-section-anchor grid gap-4" id="cli-overview">
+    <h1 class="m-0 text-3xl font-semibold text-tng-fg-primary">CLI</h1>
+    <p class="m-0 max-w-4xl text-base leading-7 text-tng-fg-secondary">
+      The <code>tailng</code> CLI is the supported entry point for inspecting and copying the
+      ownable surface into an Angular app.
+    </p>
+  </section>
+
+  <section class="docs-section-anchor grid gap-3" id="commands">
+    <h2 class="m-0 text-xl font-semibold text-tng-fg-primary">Commands</h2>
+    <pre
+      class="m-0 overflow-x-auto rounded-2xl border border-tng-border-subtle bg-tng-bg-base p-4 text-sm leading-6 text-tng-fg-primary"
+    ><code>tailng list
+tailng --help
+tailng add button --cwd apps/my-app
+tailng add dialog --cwd apps/my-app
+tailng add slide-toggle --cwd apps/my-app</code></pre>
+  </section>
+
+  <section class="docs-section-anchor grid gap-3" id="options">
+    <h2 class="m-0 text-xl font-semibold text-tng-fg-primary">Options</h2>
+    <ul class="m-0 grid gap-2 pl-5 text-sm leading-6 text-tng-fg-secondary">
+      <li><code>--cwd &lt;path&gt;</code> selects the target app root.</li>
+      <li><code>--dry-run</code> previews file writes without touching disk.</li>
+      <li><code>--force</code> overwrites existing generated files.</li>
+    </ul>
+  </section>
+
+  <section class="docs-section-anchor grid gap-3" id="aliases">
+    <h2 class="m-0 text-xl font-semibold text-tng-fg-primary">Aliases and canonical names</h2>
+    <p class="m-0 max-w-4xl text-base leading-7 text-tng-fg-secondary">
+      The CLI resolves aliases to one canonical registry item before it writes files.
+    </p>
+    <ul class="m-0 grid gap-2 pl-5 text-sm leading-6 text-tng-fg-secondary">
+      <li><code>slide-toggle</code> → <code>switch</code></li>
+      <li><code>sidenav</code> → <code>drawer</code></li>
+      <li><code>spinner</code> → <code>progress-spinner</code></li>
+      <li><code>snackbar</code> → <code>toast</code></li>
+    </ul>
+  </section>
+
+  <section class="docs-section-anchor grid gap-3" id="failure-modes">
+    <h2 class="m-0 text-xl font-semibold text-tng-fg-primary">Failure modes</h2>
+    <p class="m-0 max-w-4xl text-base leading-7 text-tng-fg-secondary">
+      The CLI is intentionally strict. Unknown commands, unsupported components, invalid target
+      directories, and path traversal attempts fail non-zero and print actionable guidance.
+    </p>
+  </section>
+</article>

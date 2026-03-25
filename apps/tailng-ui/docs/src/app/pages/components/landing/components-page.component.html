@@ -22,8 +22,8 @@
       [allowBodyScroll]="true"
     >
       <div class="components-docs-search pb-3">
-        <tng-input class="components-docs-search-input" size="sm">
-          <span tngInputLeading class="components-docs-search-icon" aria-hidden="true">
+        <tng-form-field class="components-docs-search-input" size="sm">
+          <span tngPrefix class="components-docs-search-icon" aria-hidden="true">
             <tng-icon icon="search" class="h-4 w-4" />
           </span>
           <input
@@ -36,7 +36,7 @@
             [value]="navSearchQuery()"
             (input)="onNavSearchInput($event)"
           />
-        </tng-input>
+        </tng-form-field>
       </div>
 
       @if (filteredNavGroups().length > 0) {
