@@ -22,7 +22,7 @@ import {
     TngIcon,
   ],
   templateUrl: './form-field-overview-page.component.html',
-  styleUrls: ['../../../input/sections/overview/input-overview-page.component.css'],
+  styleUrls: ['../../../../../../shared/form/input/input-styles.css'],
 })
 export class FormFieldOverviewPageComponent implements OnDestroy {
   private readonly documentRef = inject(DOCUMENT);

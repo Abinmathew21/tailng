@@ -149,3 +149,30 @@
     font-size: 0.92rem;
   }
 }
+
+/* Used by direct `tngInput` examples (non-grouped “simple input” form). */
+.demo-normal-input {
+  width: 100%;
+  max-width: 30rem;
+  font: inherit;
+  color: rgba(28, 25, 23, 0.95);
+
+  background: #ffffff;
+  border: 1px solid rgba(28, 25, 23, 0.14);
+  border-radius: 0.85rem;
+  padding: 0.75rem 0.8rem;
+
+  box-shadow: 0 1px 2px rgba(28, 25, 23, 0.04);
+}
+
+.demo-normal-input:focus-visible {
+  outline: none;
+  border-color: rgba(15, 118, 110, 0.65);
+  box-shadow:
+    0 0 0 4px rgba(15, 118, 110, 0.18),
+    0 1px 2px rgba(28, 25, 23, 0.04);
+}
+
+.demo-normal-input:hover:not(:disabled):not([aria-disabled='true']) {
+  border-color: rgba(28, 25, 23, 0.18);
+}

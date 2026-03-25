@@ -23,6 +23,7 @@ export class DocsExampleVariantDirective {
   public readonly label = input.required<string>();
   public readonly panelTitle = input.required<string>();
   public readonly codeTabs = input<readonly DocsExampleCodeTab[]>([]);
+  public readonly stackblitzUrl = input<string | null>(null);
   public readonly templateRef = inject<TemplateRef<unknown>>(TemplateRef);
 }
 
@@ -46,6 +47,7 @@ export class DocsExampleTabsSectionComponent {
   public readonly tabListAriaLabel = input<string>('Example variants');
   public readonly defaultValue = input<string | null>(null);
   public readonly codeBlockTheme = input<'github-dark' | 'github-light'>('github-light');
+  public readonly stackblitzUrl = input<string | null>(null);
   protected readonly variants = contentChildren(DocsExampleVariantDirective);
   protected readonly resolvedDefaultValue = computed<string>(() => {
     const configuredDefault = this.defaultValue()?.trim();

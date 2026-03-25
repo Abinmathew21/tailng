@@ -173,14 +173,21 @@
         panelTitle="Account profile form"
         [codeTabs]="plainCssHeadlessScenarioCodeTabs"
         >
-          <div class="input-styling-example-fields">
+          <div class="account-profile-example-fields">
             <label
-              class="input-styling-example-field-surface input-styling-example-field-surface--headless"
+              class="account-profile-example-field-surface account-profile-example-field-surface--headless"
           >
-            <span class="input-styling-example-field-label">Display name</span>
-            <div tngInputGroup class="input-styling-example-shell">
-              <input tngInput type="text" value="Ada Lovelace" aria-label="Display name" />
-            </div>
+            <span class="account-profile-example-field-label">Display name</span>
+              <div tngInputGroup class="account-profile-example-shell">
+                <span tngPrefix aria-hidden="true">@</span>
+                <input
+                  tngInput
+                  type="text"
+                  value="Ada Lovelace"
+                  aria-label="Display name"
+                />
+                <button tngSuffix type="button" aria-label="Clear">X</button>
+              </div>
           </label>
         </div>
       </ng-template>
@@ -192,15 +199,16 @@
         panelTitle="Account profile form"
         [codeTabs]="tailwindHeadlessScenarioCodeTabs"
       >
-        <div class="input-styling-example-fields">
+        <div class="account-profile-example-fields">
           <label
-            class="input-styling-example-field-surface input-styling-example-field-surface--tailwind"
+            class="account-profile-example-field-surface account-profile-example-field-surface--tailwind"
           >
-            <span class="input-styling-example-field-label">Display name</span>
+            <span class="account-profile-example-field-label">Display name</span>
             <div
               tngInputGroup
-              class="min-h-10 rounded-lg border border-slate-300 bg-white px-3 shadow-sm transition [&[data-focused]]:border-cyan-500 [&[data-focused]]:ring-2 [&[data-focused]]:ring-cyan-200/70"
+              class="account-profile-example-shell min-h-10 rounded-lg border border-slate-300 bg-slate-50 px-3 shadow-sm transition [&[data-focused]]:border-cyan-500 [&[data-focused]]:ring-2 [&[data-focused]]:ring-cyan-200/70"
             >
+              <span tngPrefix aria-hidden="true">@</span>
               <input
                 tngInput
                 type="text"
@@ -208,6 +216,7 @@
                 aria-label="Display name"
                 class="w-full border-0 bg-transparent p-0 text-[0.98rem] font-medium leading-5 outline-none"
               />
+              <button tngSuffix type="button" aria-label="Clear">X</button>
             </div>
           </label>
         </div>

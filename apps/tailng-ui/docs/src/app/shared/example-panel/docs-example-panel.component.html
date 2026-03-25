@@ -21,14 +21,27 @@
       >
         <tng-icon icon="code" class="h-5 w-5" />
       </button>
-      <button
-        type="button"
-        class="docs-example-panel-action"
-        aria-label="Open full example"
-        (click)="onOpenButtonClick()"
-      >
-        <tng-icon icon="external-link" class="h-5 w-5" />
-      </button>
+      @let stackblitz = stackblitzUrl();
+      @if (stackblitz) {
+        <a
+          class="docs-example-panel-action"
+          [href]="stackblitz"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Open full example"
+        >
+          <tng-icon icon="external-link" class="h-5 w-5" />
+        </a>
+      } @else {
+        <button
+          type="button"
+          class="docs-example-panel-action"
+          aria-label="Open full example"
+          (click)="onOpenButtonClick()"
+        >
+          <tng-icon icon="external-link" class="h-5 w-5" />
+        </button>
+      }
     </div>
   </header>
 

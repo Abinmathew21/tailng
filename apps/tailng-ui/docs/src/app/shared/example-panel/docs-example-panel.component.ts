@@ -21,6 +21,7 @@ export class DocsExamplePanelComponent {
   public readonly title = input<string>('Example');
   public readonly codeTabs = input<readonly DocsExampleCodeTab[]>([]);
   public readonly codeBlockTheme = input<'github-dark' | 'github-light'>('github-light');
+  public readonly stackblitzUrl = input<string | null>(null);
 
   public readonly linkClick = output<void>();
   public readonly openClick = output<void>();

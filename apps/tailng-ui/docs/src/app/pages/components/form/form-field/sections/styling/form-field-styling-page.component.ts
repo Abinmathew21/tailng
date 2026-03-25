@@ -1,7 +1,7 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, inject, signal, type OnDestroy } from '@angular/core';
 import { TngCodeBlockComponent, TngFormFieldComponent } from '@tailng-ui/components';
-import { TngInput, TngPrefix, TngSuffix } from '@tailng-ui/primitives';
+import { TngInput, TngSuffix } from '@tailng-ui/primitives';
 import { type DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
 import {
   DocsExampleTabsSectionComponent,
@@ -16,7 +16,6 @@ import {
     DocsExampleVariantDirective,
     TngFormFieldComponent,
     TngInput,
-    TngPrefix,
     TngSuffix,
   ],
   templateUrl: './form-field-styling-page.component.html',

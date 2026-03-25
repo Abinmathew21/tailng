@@ -32,6 +32,9 @@
           [title]="variant.panelTitle()"
           [codeTabs]="variant.codeTabs()"
           [codeBlockTheme]="codeBlockTheme()"
+          [stackblitzUrl]="
+            variant.stackblitzUrl() !== null ? variant.stackblitzUrl() : stackblitzUrl()
+          "
         >
           <ng-container [ngTemplateOutlet]="variant.templateRef" />
         </app-docs-example-panel>

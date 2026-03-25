@@ -6,13 +6,11 @@ import {
   DocsExampleTabsSectionComponent,
   DocsExampleVariantDirective,
 } from '../../../../../../shared/example-tabs-section/docs-example-tabs-section.component';
+import { generateStackblitzTailwindUrl, generateStackblitzVanillaUrl } from '../../../../../../shared/util';
 import { InputOverviewPageComponent } from '../../../../../components/form/input/sections/overview/input-overview-page.component';
-
 function createCodeTabs(
   baseName: string,
-  tsCode: string,
-  htmlCode: string,
-  cssCode: string,
+  codes: { tsCode: string; htmlCode: string; cssCode: string },
 ): readonly DocsExampleCodeTab[] {
   return Object.freeze([
     {
@@ -20,21 +18,21 @@ function createCodeTabs(
       label: 'TS',
       language: 'ts',
       title: `${baseName}.component.ts`,
-      code: tsCode,
+      code: codes.tsCode,
     },
     {
       value: 'html',
       label: 'HTML',
       language: 'html',
       title: `${baseName}.component.html`,
-      code: htmlCode,
+      code: codes.htmlCode,
     },
     {
       value: 'css',
       label: 'CSS',
       language: 'css',
       title: `${baseName}.component.css`,
-      code: cssCode,
+      code: codes.cssCode,
     },
   ]);
 }
@@ -50,10 +48,18 @@ function createCodeTabs(
   ],
   templateUrl: './headless-input-overview-page.component.html',
   styleUrls: [
-    '../../../../../components/form/input/sections/overview/input-overview-page.component.css',
+    './headless-input-overview-page.component.css',
+    '../../../../../../shared/form/input/input-styles.css',
   ],
 })
 export class HeadlessInputOverviewPageComponent extends InputOverviewPageComponent {
+
+  protected readonly stackblitzVanillaUrl = generateStackblitzVanillaUrl('input', 'src/app/playground/form/input/input-demo.component.html');
+  protected readonly stackblitzTailwindUrl = generateStackblitzTailwindUrl(
+    'input',
+    'src/app/playground/form/input/input-demo.component.html',
+  );
+
   protected override readonly groupedInputCode = [
     '<tng-input-group>',
     '  <span tngPrefix aria-hidden="true">Search</span>',
@@ -119,15 +125,19 @@ export class HeadlessInputOverviewPageComponent extends InputOverviewPageCompone
 
   protected readonly plainCssHeadlessExampleCodeTabs = createCodeTabs(
     'plain-css-headless-input-example',
-    this.headlessExampleTsCode,
-    this.headlessExampleHtmlCode,
-    this.headlessExampleCssCode,
+    {
+      tsCode: this.headlessExampleTsCode,
+      htmlCode: this.headlessExampleHtmlCode,
+      cssCode: this.headlessExampleCssCode,
+    },
   );
 
   protected readonly tailwindHeadlessExampleCodeTabs = createCodeTabs(
     'tailwind-headless-input-example',
-    this.headlessExampleTsCode,
-    this.tailwindHeadlessExampleHtmlCode,
-    this.tailwindHeadlessExampleCssCode,
+    {
+      tsCode: this.headlessExampleTsCode,
+      htmlCode: this.tailwindHeadlessExampleHtmlCode,
+      cssCode: this.tailwindHeadlessExampleCssCode,
+    },
   );
 }

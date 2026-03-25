@@ -75,19 +75,15 @@
         label="Plain-CSS"
         panelTitle="Basic Inputs (Plain CSS)"
         [codeTabs]="plainCssHeadlessExampleCodeTabs"
+        [stackblitzUrl]="stackblitzVanillaUrl"
       >
         <div class="input-overview-example-fields">
           <label class="input-overview-example-field-surface">
             <span class="input-overview-example-field-label"
               >What is the most abundant gas in air?</span
             >
-            <div tngInputGroup class="input-overview-example-shell">
-              <input
-                tngInput
-                type="text"
-                value="Nitrogen"
-                aria-label="What is the most abundant gas in air?"
-              />
+            <div class="normal-component-wrapper">
+              <input tngInput type="text" value="Nitrogen" class="demo-normal-input" />
             </div>
           </label>
         </div>
@@ -99,6 +95,7 @@
         label="Tailwind CSS"
         panelTitle="Basic Inputs (Tailwind CSS)"
         [codeTabs]="tailwindHeadlessExampleCodeTabs"
+        [stackblitzUrl]="stackblitzTailwindUrl"
       >
         <div class="input-overview-example-fields">
           <label class="input-overview-example-field-surface input-overview-example-field-surface--tailwind">
