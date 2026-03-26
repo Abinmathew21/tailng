@@ -2,9 +2,9 @@ import { computed, Component, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { TngTabsComponent } from '@tailng-ui/components';
-import { DocsComponentSectionOutlineComponent } from '../../../../shared/section-outline/docs-component-section-outline.component';
 import { TngTab, TngTabList } from '@tailng-ui/primitives';
 import { filter, map, startWith } from 'rxjs/operators';
+import { DocsComponentSectionOutlineComponent } from '../../../../shared/section-outline/docs-component-section-outline.component';
 import type { DocsSectionRailItem } from '../../../../shared/section-rail/docs-section-rail.component';
 
 type HeadlessInputDocSectionId = 'api' | 'examples' | 'overview' | 'styling';
@@ -27,6 +27,7 @@ const headlessInputOutlineItemsBySection: Readonly<
     { id: 'installation', label: 'Installation' },
     { id: 'basic-usage', label: 'Basic usage' },
     { id: 'structure', label: 'Structure' },
+    { id: 'layout-contract', label: 'Layout contract' },
     { id: 'accessibility-guidance', label: 'Accessibility guidance' },
     { id: 'validation-patterns', label: 'Validation patterns' },
     { id: 'examples', label: 'Examples' },

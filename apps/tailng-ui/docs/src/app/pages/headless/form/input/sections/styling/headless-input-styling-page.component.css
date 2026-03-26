@@ -1,110 +1,94 @@
+/* Plain-CSS */
+
 .account-profile-example-fields {
   display: grid;
   gap: 1rem;
-  max-width: 31rem;
-  width: min(100%, 31rem);
+  width: min(100%, 32rem);
+  max-width: 32rem;
 }
 
 .account-profile-example-field-surface {
-  border: 1px solid rgba(28, 25, 23, 0.14);
-  border-radius: 0.85rem;
-  color: rgba(28, 25, 23, 0.95);
-  color-scheme: light;
   display: grid;
-  gap: 0.45rem;
-  padding: 0.78rem 0.82rem;
-}
-
-.account-profile-example-field-surface--headless {
-  background: #f8fafc;
-}
-
-.account-profile-example-field-surface--tailwind {
-  background: rgba(125, 211, 252, 0.12);
+  gap: 0.55rem;
+  padding: 1rem;
+  border: 1px solid #d9dde3;
+  border-radius: 1rem;
+  background: #f3f4f6;
+  color: #1f2937;
 }
 
 .account-profile-example-field-label {
-  color: rgba(28, 25, 23, 0.6);
-  font-size: 0.82rem;
+  font-size: 0.84rem;
   font-weight: 600;
-  line-height: 1.2;
+  line-height: 1.25;
+  color: #374151;
 }
 
 .account-profile-example-shell[data-slot='input-group'] {
-  background: #f8fafc;
-  border: 1px solid rgba(28, 25, 23, 0.22);
-  border-radius: 0.65rem;
-  min-height: 2.4rem;
-  padding: 0 0.7rem;
-  transition:
-    border-color 0.15s ease,
-    box-shadow 0.15s ease;
+  min-height: 2.75rem;
+  padding: 0 0.85rem;
+  border: 1px solid #cfd6df;
+  border-radius: 0.8rem;
+  background: #ffffff;
+  color: #111827;
   cursor: text;
+  transition:
+    border-color 0.18s ease,
+    box-shadow 0.18s ease,
+    background-color 0.18s ease;
 }
 
 .account-profile-example-shell[data-slot='input-group'][data-focused] {
-  border-color: rgba(15, 118, 110, 0.65);
-  box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.18);
-}
-
-.account-profile-example-shell [data-slot='input-group-leading'],
-.account-profile-example-shell [data-slot='input-group-trailing'] {
-  align-items: center;
-  color: rgba(28, 25, 23, 0.7);
-  display: inline-flex;
-  font-size: 0.82rem;
-  font-weight: 600;
-}
-
-.account-profile-example-shell [data-slot='input-group-leading'] {
-  margin-right: 0.45rem;
-}
-
-.account-profile-example-shell [data-slot='input-group-trailing'] {
-  margin-left: 0.45rem;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.16);
 }
 
 .account-profile-example-shell [data-slot='input-leading'] {
-  color: rgba(28, 25, 23, 0.7) !important;
   display: inline-flex;
   align-items: center;
-  font-size: 0.82rem;
+  color: #6b7280;
+  font-size: 0.95rem;
   font-weight: 600;
   line-height: 1;
 }
 
 .account-profile-example-shell [data-slot='input-trailing'] {
   appearance: none;
-  background: transparent !important;
-  border: 0 !important;
-  box-shadow: none !important;
-  color: rgba(28, 25, 23, 0.7) !important;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0 !important;
+  min-width: 1.5rem;
+  min-height: 1.5rem;
+  padding: 0;
   margin: 0;
+  border: 0;
+  background: transparent;
+  color: #6b7280;
   font: inherit;
   line-height: 1;
   cursor: pointer;
+  border-radius: 999px;
+  transition:
+    background-color 0.18s ease,
+    color 0.18s ease;
 }
 
-.account-profile-example-shell [data-slot='input-trailing']:hover,
-.account-profile-example-shell [data-slot='input-trailing']:active {
-  background: transparent !important;
+.account-profile-example-shell [data-slot='input-trailing']:hover {
+  background: #f3f4f6;
+  color: #374151;
 }
 
 .account-profile-example-shell [data-slot='input-trailing']:focus,
 .account-profile-example-shell [data-slot='input-trailing']:focus-visible {
-  outline: none !important;
-  box-shadow: none !important;
+  outline: none;
+  box-shadow: none;
 }
 
 .account-profile-example-shell [data-slot='input'] {
   background: transparent;
   border: 0;
   box-shadow: none;
-  color: rgba(28, 25, 23, 0.95);
+  color: #111827;
   font-size: 0.98rem;
   font-weight: 500;
   line-height: 1.35;
@@ -113,16 +97,10 @@
 }
 
 .account-profile-example-shell [data-slot='input']::placeholder {
-  color: rgba(28, 25, 23, 0.55);
+  color: #9ca3af;
 }
 
 .account-profile-example-shell [data-slot='input']:focus,
 .account-profile-example-shell [data-slot='input']:focus-visible {
   outline: none;
-}
-
-@media (max-width: 760px) {
-  .account-profile-example-shell [data-slot='input'] {
-    font-size: 0.92rem;
-  }
 }

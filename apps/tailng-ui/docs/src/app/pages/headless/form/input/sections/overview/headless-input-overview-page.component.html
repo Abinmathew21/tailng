@@ -8,7 +8,7 @@
     </p>
     <p class="input-overview-lead">
       Use direct primitive attachment for the simplest field, or add <code>tngInputGroup</code> when
-      you need leading/trailing content.
+      you need grouped composition with optional leading/trailing content.
     </p>
     <ol class="input-overview-steps">
       <li>
@@ -37,13 +37,19 @@
         <li>
           <strong>Styling contract</strong>
           <ul>
-            <li>Styling is driven by <code>data-slot</code> markers and state data attributes.</li>
+            <li>Styling hooks are exposed through <code>data-slot</code> markers and state data attributes.</li>
             <li>
-              Group-level spacing between leading/trailing adornments and the control is exposed via
-              <code>--tng-input-inline-gap</code>.
+              <code>tngInputGroup</code> provides the base structural layout for leading, control, and
+              trailing regions.
+            </li>
+            <li>
+              Prefix/suffix placement works without consumer deep selectors or internal wrapper styling.
+            </li>
+            <li>
+              Consumers style the visual appearance such as border, radius, background, color, spacing, and
+              focus treatment.
             </li>
             <li>No required classes.</li>
-            <li>No DOM/tag assumptions beyond slot names.</li>
           </ul>
         </li>
         <li>
@@ -150,7 +156,11 @@
       ></tng-code-block>
 
       <h4>2) Grouped input with leading/trailing slots</h4>
-      <p>Use this for icons, prefixes/suffixes, clear buttons, and helper affordances.</p>
+      <p>
+        Use this for icons, prefixes/suffixes, clear buttons, and helper affordances.
+        <code>tngInputGroup</code> handles the internal leading, control, and trailing layout
+        automatically.
+      </p>
       <tng-code-block
         [code]="groupedInputCode"
         adapter="shiki"
@@ -170,10 +180,28 @@
         native <code>&lt;input&gt;</code> and optionally wrap it in <code>tngInputGroup</code>.
       </p>
       <p>
-        Detailed API bindings are documented in the <strong>API</strong> tab. Styling slot/state
-        contract is documented in the <strong>Styling</strong> tab. Textarea is documented on the
-        dedicated <strong>Textarea</strong> page.
+        <code>tngInputGroup</code> does not replace the native control, but it does create structural
+        wrapper regions for grouped composition. These regions provide a consistent leading, control, and
+        trailing layout so prefix/suffix content is positioned correctly without deep selectors.
       </p>
+      <p>
+        Detailed API bindings are documented in the <strong>API</strong> tab. Styling slot/state contract
+        is documented in the <strong>Styling</strong> tab. Textarea is documented on the dedicated
+        <strong>Textarea</strong> page.
+      </p>
+    </section>
+
+    <section id="layout-contract" class="docs-section-anchor input-overview-block">
+      <h3>Layout contract</h3>
+      <ul class="input-overview-list">
+        <li><code>tngInputGroup</code> renders a grouped horizontal layout.</li>
+        <li>Leading content is placed in an optional leading region.</li>
+        <li>The projected control is placed in the flexible control region.</li>
+        <li>Trailing content is placed in an optional trailing region.</li>
+        <li>
+          This structural layout is built into the primitive so consumers can focus on visual styling.
+        </li>
+      </ul>
     </section>
 
     <section id="accessibility-guidance" class="docs-section-anchor input-overview-block">
@@ -183,6 +211,10 @@
         <li>
           Projected interactive elements (for example trailing clear button) are valid tab stops by
           design.
+        </li>
+        <li>
+          Interactive prefix/suffix content participates inside the grouped layout without requiring extra
+          wrapper styling.
         </li>
       </ul>
     </section>
@@ -243,6 +275,11 @@
       <h3>Common pitfalls</h3>
       <p><strong>"My group warns: found 0 controls"</strong></p>
       <p>Ensure the projected control includes <code>tngInput</code>.</p>
+      <p><strong>"Do I need to style internal group wrappers?"</strong></p>
+      <p>
+        No. <code>tngInputGroup</code> owns the base leading/control/trailing layout. Consumer styles
+        should focus on visual appearance, not internal wrapper placement.
+      </p>
       <div class="pitfall-grid">
         <div>
           <p class="pitfall-label">Correct</p>
