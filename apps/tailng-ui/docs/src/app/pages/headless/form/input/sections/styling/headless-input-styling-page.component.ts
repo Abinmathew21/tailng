@@ -7,6 +7,7 @@ import {
   DocsExampleVariantDirective,
 } from '../../../../../../shared/example-tabs-section/docs-example-tabs-section.component';
 import { InputStylingPageComponent } from '../../../../../components/form/input/sections/styling/input-styling-page.component';
+import { stackblitzVanillaUrl, stackblitzTailwindUrl } from '../../input.util';
 
 @Component({
   selector: 'app-headless-input-styling-page',
@@ -28,6 +29,10 @@ import { InputStylingPageComponent } from '../../../../../components/form/input/
   ],
 })
 export class HeadlessInputStylingPageComponent extends InputStylingPageComponent {
+
+  protected readonly stackblitzVanillaUrl = stackblitzVanillaUrl;
+  protected readonly stackblitzTailwindUrl = stackblitzTailwindUrl;
+
   protected override readonly headlessScenarioHtmlCode = [
     '<div class="account-profile-example-fields">',
     '  <label',

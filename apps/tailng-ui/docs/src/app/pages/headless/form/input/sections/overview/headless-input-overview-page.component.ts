@@ -6,8 +6,9 @@ import {
   DocsExampleTabsSectionComponent,
   DocsExampleVariantDirective,
 } from '../../../../../../shared/example-tabs-section/docs-example-tabs-section.component';
-import { generateStackblitzTailwindUrl, generateStackblitzVanillaUrl } from '../../../../../../shared/util';
 import { InputOverviewPageComponent } from '../../../../../components/form/input/sections/overview/input-overview-page.component';
+import { stackblitzVanillaUrl, stackblitzTailwindUrl } from '../../input.util';
+
 function createCodeTabs(
   baseName: string,
   codes: { tsCode: string; htmlCode: string; cssCode: string },
@@ -54,11 +55,8 @@ function createCodeTabs(
 })
 export class HeadlessInputOverviewPageComponent extends InputOverviewPageComponent {
 
-  protected readonly stackblitzVanillaUrl = generateStackblitzVanillaUrl('input', 'src/app/playground/form/input/input-demo.component.html');
-  protected readonly stackblitzTailwindUrl = generateStackblitzTailwindUrl(
-    'input',
-    'src/app/playground/form/input/input-demo.component.html',
-  );
+  protected readonly stackblitzVanillaUrl = stackblitzVanillaUrl;
+  protected readonly stackblitzTailwindUrl = stackblitzTailwindUrl;
 
   protected override readonly groupedInputCode = [
     '<tng-input-group>',
