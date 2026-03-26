@@ -111,7 +111,7 @@ export async function loadUser(): Promise<string> {
 
   protected readonly longShellSnippet = `pnpm nx run playground-tailwind:serve
 pnpm nx run playground-plain-css:serve
-pnpm tailng -- add code-block --cwd apps/tailng-ui/playground-registry
+pnpm run:tailng -- add code-block --cwd apps/tailng-ui/playground-registry
 pnpm nx run-many -t build -p primitives,components
 pnpm nx run-many -t vite:test -p primitives,components --skipNxCache
 pnpm nx graph`;
@@ -123,5 +123,5 @@ pnpm nx graph`;
 
   protected readonly shellSnippet = `pnpm nx run playground-tailwind:serve
 pnpm nx run playground-plain-css:serve
-pnpm tailng -- add code-block --cwd apps/tailng-ui/playground-registry`;
+pnpm run:tailng -- add code-block --cwd apps/tailng-ui/playground-registry`;
 }

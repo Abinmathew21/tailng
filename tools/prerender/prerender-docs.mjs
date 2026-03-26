@@ -81,7 +81,7 @@ const resolveChromeExecutablePath = () => {
 
 const indexHtmlPath = path.join(DIST_DIR, 'index.html');
 if (!fs.existsSync(indexHtmlPath)) {
-  throw new Error(`index.html not found at ${indexHtmlPath}. Run "pnpm run docs:build" first.`);
+  throw new Error(`index.html not found at ${indexHtmlPath}. Run "pnpm run build:docs" first.`);
 }
 const indexHtml = fs.readFileSync(indexHtmlPath);
 

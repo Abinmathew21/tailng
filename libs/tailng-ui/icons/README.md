@@ -138,7 +138,7 @@ export const appConfig = {
 Regenerate built-in loader maps:
 
 ```bash
-pnpm icons:generate
+pnpm generate:icons
 ```
 
 ## Documentation

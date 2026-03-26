@@ -83,7 +83,7 @@ jobs:
       # TESTS
       # ------------------------------------
       - name: Run ownable contract checks
-        run: pnpm run test:ownable-contracts
+        run: pnpm run verify:ownable-contracts
 
       # ------------------------------------
       # VALIDATION

@@ -43,19 +43,19 @@ jobs:
           const targetMap = {
             docs: {
               name: 'docs',
-              build_script: 'docs:seo',
+              build_script: 'seo:docs',
               dist: 'dist/apps/tailng-ui/docs/browser',
               project_var: 'CF_DOCS_PROJECT_NAME',
             },
             tailwind: {
               name: 'tailwind',
-              build_script: 'tailwind:seo',
+              build_script: 'seo:tailwind',
               dist: 'dist/apps/tailng-ui/playground-tailwind/browser',
               project_var: 'CF_TAILWIND_PROJECT_NAME',
             },
             vanilla: {
               name: 'vanilla',
-              build_script: 'vanilla:seo',
+              build_script: 'seo:vanilla',
               dist: 'dist/apps/tailng-ui/playground-plain-css/browser',
               project_var: 'CF_VANILLA_PROJECT_NAME',
             },

@@ -183,13 +183,13 @@ pnpm dev:registry
 ### Run docs site
 
 ```bash
-pnpm docs:start
+pnpm start:docs
 ```
 
 Build static output for Cloudflare Pages:
 
 ```bash
-pnpm docs:seo
+pnpm seo:docs
 ```
 
 If prerender fails with a Chrome/Puppeteer error, install the browser once:
@@ -275,12 +275,12 @@ pnpm exec vitest run --config libs/tailng-ui/theme/vitest.config.ts
 Build and run the `tailng` CLI:
 
 ```bash
-pnpm build:tailng
-pnpm tailng -- list
-pnpm tailng -- add button --cwd apps/tailng-ui/playground-plain-css --dry-run
-pnpm tailng -- add dialog --cwd apps/tailng-ui/playground-plain-css --dry-run
-pnpm tailng -- add popover --cwd apps/tailng-ui/playground-plain-css --dry-run
-pnpm tailng -- add button --cwd apps/tailng-ui/playground-registry --dry-run
+pnpm build:cli
+pnpm run:tailng -- list
+pnpm run:tailng -- add button --cwd apps/tailng-ui/playground-plain-css --dry-run
+pnpm run:tailng -- add dialog --cwd apps/tailng-ui/playground-plain-css --dry-run
+pnpm run:tailng -- add popover --cwd apps/tailng-ui/playground-plain-css --dry-run
+pnpm run:tailng -- add button --cwd apps/tailng-ui/playground-registry --dry-run
 ```
 
 Registry command reference:
@@ -288,27 +288,27 @@ Registry command reference:
 - List available registry items:
 
 ```bash
-pnpm tailng -- list
+pnpm run:tailng -- list
 ```
 
 - Preview file generation without writing:
 
 ```bash
-pnpm tailng -- add button --cwd apps/tailng-ui/playground-registry --dry-run
-pnpm tailng -- add dialog --cwd apps/tailng-ui/playground-registry --dry-run
-pnpm tailng -- add popover --cwd apps/tailng-ui/playground-registry --dry-run
+pnpm run:tailng -- add button --cwd apps/tailng-ui/playground-registry --dry-run
+pnpm run:tailng -- add dialog --cwd apps/tailng-ui/playground-registry --dry-run
+pnpm run:tailng -- add popover --cwd apps/tailng-ui/playground-registry --dry-run
 ```
 
 - Generate files:
 
 ```bash
-pnpm tailng -- add button --cwd apps/tailng-ui/playground-registry
+pnpm run:tailng -- add button --cwd apps/tailng-ui/playground-registry
 ```
 
 - Overwrite existing generated files:
 
 ```bash
-pnpm tailng -- add button --cwd apps/tailng-ui/playground-registry --force
+pnpm run:tailng -- add button --cwd apps/tailng-ui/playground-registry --force
 ```
 
 Note:
