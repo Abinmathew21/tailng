@@ -1,6 +1,8 @@
 import { DestroyRef, Directive, effect, HostBinding, HostListener, inject, untracked } from '@angular/core';
 import { createTngIdFactory } from '@tailng-ui/cdk';
-import { TNG_LISTBOX_FORCE_TYPEAHEAD, TngListboxDirective, TngOptionDirective } from '@tailng-ui/primitives';
+import { TngListboxDirective } from '../listbox/listbox.directive';
+import { TngOptionDirective } from '../listbox/option.directive';
+import { TNG_LISTBOX_FORCE_TYPEAHEAD } from '../listbox/tokens';
 import { normalizeToSingle } from '../../internal/combobox';
 import type { TngAutocomplete } from './tng-autocomplete';
 import { TNG_AUTOCOMPLETE_LISTBOX } from './tng-autocomplete.listbox.tokens';

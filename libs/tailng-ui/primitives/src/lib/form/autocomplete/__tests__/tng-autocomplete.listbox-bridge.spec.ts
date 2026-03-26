@@ -1,16 +1,15 @@
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
+import { TngListboxDirective } from '../../listbox/listbox.directive';
 import {
   TngAutocomplete,
-  TngAutocompleteTrigger,
-  TngAutocompleteContent,
-  TngAutocompleteOverlay,
-  TngAutocompleteListbox,
-  TngAutocompleteOption,
-} from '@tailng-ui/primitives';
+} from '../tng-autocomplete';
+import { TngAutocompleteListbox } from '../tng-autocomplete.listbox';
+import { TngAutocompleteOption } from '../tng-autocomplete.listbox';
+import { TngAutocompleteOverlay } from '../tng-autocomplete.overlay';
+import { TngAutocompleteContent, TngAutocompleteTrigger } from '../tng-autocomplete.parts';
 
-import { TngListboxDirective } from '../../listbox/listbox.directive';
 
 function focus(el: HTMLElement) {
   el.dispatchEvent(new FocusEvent('focus'));
@@ -80,7 +79,7 @@ describe('tng-autocomplete listbox bridge', () => {
     fixture.detectChanges();
 
     const activeBefore =
-      (listboxEl.querySelector('[data-active]') as HTMLElement | null)?.getAttribute('data-testid') ??
+      (listboxEl.querySelector('[data-active]'))?.getAttribute('data-testid') ??
       null;
 
     // printable key would normally invoke listbox typeahead ("b" -> Banana)
@@ -90,7 +89,7 @@ describe('tng-autocomplete listbox bridge', () => {
     fixture.detectChanges();
 
     const activeAfter =
-      (listboxEl.querySelector('[data-active]') as HTMLElement | null)?.getAttribute('data-testid') ??
+      (listboxEl.querySelector('[data-active]'))?.getAttribute('data-testid') ??
       null;
 
     expect(activeAfter).toBe(activeBefore);

@@ -2,7 +2,8 @@ import { DestroyRef, Directive, effect, HostBinding, HostListener, inject, untra
 import { createTngIdFactory } from '@tailng-ui/cdk';
 import { arraysEqual, normalizeToArray } from '../../internal/combobox';
 import type { ListboxValue } from '../listbox/listbox.directive';
-import { TngListboxDirective, TngOptionDirective } from '@tailng-ui/primitives';
+import { TngListboxDirective } from '../listbox/listbox.directive';
+import { TngOptionDirective } from '../listbox/option.directive';
 import { TNG_MULTI_SELECT } from './tng-multi-select.tokens';
 import type { TngMultiSelect } from './tng-multi-select';
 import { TngMultiSelectListboxApi } from './tng-multi-select.listbox.types';

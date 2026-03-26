@@ -4,12 +4,12 @@ import { describe, expect, it } from 'vitest';
 
 import {
   TngMultiAutocomplete,
-  TngMultiAutocompleteContent,
-  TngMultiAutocompleteListbox,
-  TngMultiAutocompleteOption,
-  TngMultiAutocompleteOverlay,
-  TngMultiAutocompleteTrigger,
-} from '@tailng-ui/primitives';
+} from '../tng-multi-autocomplete';
+import { TngMultiAutocompleteContent } from '../tng-multi-autocomplete.content';
+import { TngMultiAutocompleteListbox } from '../tng-multi-autocomplete.listbox';
+import { TngMultiAutocompleteOption } from '../tng-multi-autocomplete.listbox';
+import { TngMultiAutocompleteOverlay } from '../tng-multi-autocomplete.overlay';
+import { TngMultiAutocompleteTrigger } from '../tng-multi-autocomplete.trigger';
 
 function focus(el: HTMLElement): void {
   el.dispatchEvent(new FocusEvent('focus', { bubbles: false, cancelable: false }));

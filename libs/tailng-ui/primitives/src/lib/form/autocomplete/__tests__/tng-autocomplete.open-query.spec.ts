@@ -4,12 +4,11 @@ import { TestBed } from '@angular/core/testing';
 
 import {
   TngAutocomplete,
-  TngAutocompleteTrigger,
-  TngAutocompleteContent,
-  TngAutocompleteOverlay,
-  TngAutocompleteListbox,
-  TngAutocompleteOption,
-} from '@tailng-ui/primitives';
+} from '../tng-autocomplete';
+import { TngAutocompleteListbox } from '../tng-autocomplete.listbox';
+import { TngAutocompleteOption } from '../tng-autocomplete.listbox';
+import { TngAutocompleteOverlay } from '../tng-autocomplete.overlay';
+import { TngAutocompleteContent, TngAutocompleteTrigger } from '../tng-autocomplete.parts';
 
 function focus(el: HTMLElement) {
   el.dispatchEvent(new FocusEvent('focus'));

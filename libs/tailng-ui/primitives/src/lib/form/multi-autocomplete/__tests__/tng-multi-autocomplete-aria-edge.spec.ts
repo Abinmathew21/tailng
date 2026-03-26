@@ -3,9 +3,9 @@ import { TestBed } from '@angular/core/testing';
 import { describe, expect, it, vi } from 'vitest';
 
 import { TngMultiAutocomplete } from '../tng-multi-autocomplete';
-import { TngMultiAutocompleteTrigger } from '../tng-multi-autocomplete.trigger';
 import { TNG_MULTI_AUTOCOMPLETE_LISTBOX } from '../tng-multi-autocomplete.listbox.tokens';
 import type { TngMultiAutocompleteListboxApi } from '../tng-multi-autocomplete.listbox.types';
+import { TngMultiAutocompleteTrigger } from '../tng-multi-autocomplete.trigger';
 
 function dispatchFocus(el: HTMLElement) {
   el.dispatchEvent(new FocusEvent('focus', { bubbles: false, cancelable: false }));

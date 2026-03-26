@@ -11,12 +11,14 @@ import {
 
 import { createTngIdFactory } from '@tailng-ui/cdk';
 import {
-  TNG_LISTBOX_FORCE_TYPEAHEAD,
-  TNG_LISTBOX_FORCE_MULTIPLE,
-  TNG_LISTBOX_PRESERVE_VALUE_ON_UNREGISTER,
   TngListboxDirective,
-  TngOptionDirective,
-} from '@tailng-ui/primitives';
+} from '../listbox/listbox.directive';
+import { TngOptionDirective } from '../listbox/option.directive';
+import {
+  TNG_LISTBOX_FORCE_MULTIPLE,
+  TNG_LISTBOX_FORCE_TYPEAHEAD,
+  TNG_LISTBOX_PRESERVE_VALUE_ON_UNREGISTER,
+} from '../listbox/tokens';
 
 import { TNG_MULTI_AUTOCOMPLETE } from './tng-multi-autocomplete.tokens';
 import type { TngMultiAutocomplete } from './tng-multi-autocomplete';

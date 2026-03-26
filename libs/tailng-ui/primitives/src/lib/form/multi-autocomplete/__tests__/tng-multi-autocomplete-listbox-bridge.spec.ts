@@ -2,11 +2,10 @@ import { Component, signal, viewChild } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
 import {
-  TngMultiAutocomplete,
-  TngMultiAutocompleteTrigger,
-  TngMultiAutocompleteListbox,
-  TngMultiAutocompleteOption,
-} from '@tailng-ui/primitives';
+  TngMultiAutocomplete } from '../tng-multi-autocomplete';
+import { TngMultiAutocompleteListbox } from '../tng-multi-autocomplete.listbox';
+import { TngMultiAutocompleteOption } from '../tng-multi-autocomplete.listbox';
+import { TngMultiAutocompleteTrigger } from '../tng-multi-autocomplete.trigger';
 
 function focus(el: HTMLElement) {
   el.dispatchEvent(new FocusEvent('focus'));
