@@ -1,7 +1,11 @@
 /**
- * TailNG Input — minimal style contract
+ * TailNG Input — primitive style contract
  *
- * Scope: primitives layer (tngInput directive + tngInputGroup component)
+ * Scope: primitives layer (`tngInput` directive + `tngInputGroup` component)
+ * Public wrapper components such as `<tng-form-field>` and `<tng-input>`
+ * should theme the shell by setting these CSS custom properties instead of
+ * restyling the primitive slots directly.
+ *
  * Styling must only rely on:
  *  - slot attributes:  data-slot="..."
  *  - state attributes: data-has-leading / data-has-trailing / data-disabled / data-invalid / data-readonly / data-focused
@@ -24,12 +28,6 @@ export const tngInputSlots = {
   /** Slot markers applied by directives on projected content */
   leading: 'input-leading',
   trailing: 'input-trailing',
-
-  /**
-   * Optional: if you ever reintroduce a styled wrapper component later.
-   * Keep in contract so themes can share rules safely.
-   */
-  field: 'input-field',
 } as const;
 
 export type TngInputSlot = (typeof tngInputSlots)[keyof typeof tngInputSlots];
@@ -55,27 +53,19 @@ export const tngInputHostStates = {
 } as const;
 
 /**
- * Optional wrapper-level tokens (only relevant if a wrapper exists).
- * Keeping them here helps future-proof theme packs.
- */
-export const tngInputFieldTokens = {
-  appearance: 'data-appearance', // "outline" | "solid" | "ghost"
-  size: 'data-size', // "sm" | "md" | "lg"
-  tone: 'data-tone', // "neutral" | "primary" | "success" | "danger"
-  fullWidth: 'data-full-width', // presence
-} as const;
-
-/**
  * CSS custom properties the theme may define for Input.
  */
 export const tngInputCssVars = {
+  bg: '--tng-input-bg',
+  border: '--tng-input-border',
+  fg: '--tng-input-fg',
+
   radius: '--tng-input-radius',
   minHeight: '--tng-input-min-height',
   paddingY: '--tng-input-py',
   paddingX: '--tng-input-px',
 
-  leadingGap: '--tng-input-leading-gap',
-  trailingGap: '--tng-input-trailing-gap',
+  gap: '--tng-input-gap',
 
   focusRing: '--tng-input-focus-ring', // allows override of focus ring strength
 } as const;

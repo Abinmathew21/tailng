@@ -1,7 +1,7 @@
-/* Shell (group host) */
-[data-slot='input-group'] {
+:where([data-slot='input-group']) {
   align-items: center;
   display: inline-flex;
+  gap: var(--tng-input-gap, 0.55rem);
   width: 100%;
 
   background: var(--tng-input-bg, var(--tng-semantic-background-surface));
@@ -13,40 +13,34 @@
   padding: var(--tng-input-py, 0) var(--tng-input-px, 0.85rem);
 }
 
-/* Focus ring driven by primitive */
-[data-slot='input-group'][data-focused] {
+:where([data-slot='input-group'][data-focused]) {
   box-shadow: 0 0 0 3px var(--tng-input-focus-ring, var(--tng-semantic-focus-ring));
 }
 
-/* Invalid state */
-[data-slot='input-group'][data-invalid] {
+:where([data-slot='input-group'][data-invalid]) {
   border-color: var(--tng-semantic-accent-danger);
 }
 
-/* Disabled state */
-[data-slot='input-group'][data-disabled] {
+:where([data-slot='input-group'][data-disabled]) {
   cursor: not-allowed;
   opacity: 0.6;
 }
 
-/* Leading / trailing wrappers (only exist when content exists) */
-[data-slot='input-group-leading'],
-[data-slot='input-group-trailing'] {
+:where([data-slot='input-group-leading']),
+:where([data-slot='input-group-trailing']) {
   align-items: center;
   display: inline-flex;
   flex: 0 0 auto;
 }
 
-/* Control wrapper */
-[data-slot='input-group-control'] {
+:where([data-slot='input-group-control']) {
   align-items: center;
   display: inline-flex;
   flex: 1 1 auto;
   min-width: 0;
 }
 
-/* Actual input / textarea (directive host) */
-[data-slot='input'] {
+:where([data-slot='input']) {
   appearance: none;
   background: transparent;
   border: 0;
@@ -57,6 +51,6 @@
   width: 100%;
 }
 
-[data-slot='input']::placeholder {
+:where([data-slot='input'])::placeholder {
   color: var(--tng-semantic-foreground-muted);
 }

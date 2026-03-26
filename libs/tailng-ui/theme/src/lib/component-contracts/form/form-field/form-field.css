@@ -1,0 +1,61 @@
+:where([data-slot='form-field-wrapper']) {
+  display: inline-flex;
+  max-width: 100%;
+
+  --tng-input-bg: var(--tng-semantic-background-surface);
+  --tng-input-border: var(--tng-semantic-border-strong);
+  --tng-input-fg: var(--tng-semantic-foreground-primary);
+  --tng-input-radius: 0.6rem;
+  --tng-input-min-height: 2.5rem;
+  --tng-input-py: 0;
+  --tng-input-px: 0.85rem;
+  --tng-input-gap: 0.55rem;
+  --tng-input-focus-ring: var(--tng-semantic-focus-ring);
+}
+
+:where([data-slot='form-field-wrapper'][data-full-width]) {
+  width: 100%;
+}
+
+:where([data-slot='form-field-wrapper']) :where([data-slot='input-group']) {
+  width: 100%;
+}
+
+:where([data-slot='form-field-wrapper']:not([data-full-width])) :where([data-slot='input-group']) {
+  width: auto;
+}
+
+:where([data-slot='form-field-wrapper'][data-appearance='solid']) {
+  --tng-input-bg: var(--tng-semantic-background-muted, var(--tng-semantic-background-surface));
+}
+
+:where([data-slot='form-field-wrapper'][data-appearance='ghost']) {
+  --tng-input-bg: transparent;
+  --tng-input-border: transparent;
+}
+
+:where([data-slot='form-field-wrapper'][data-size='sm']) {
+  --tng-input-gap: 0.45rem;
+  --tng-input-radius: 0.5rem;
+  --tng-input-min-height: 2.125rem;
+  --tng-input-px: 0.65rem;
+}
+
+:where([data-slot='form-field-wrapper'][data-size='lg']) {
+  --tng-input-gap: 0.65rem;
+  --tng-input-radius: 0.75rem;
+  --tng-input-min-height: 3rem;
+  --tng-input-px: 1rem;
+}
+
+:where([data-slot='form-field-wrapper'][data-tone='primary']) {
+  --tng-input-focus-ring: var(--tng-semantic-accent-brand, var(--tng-semantic-focus-ring));
+}
+
+:where([data-slot='form-field-wrapper'][data-tone='success']) {
+  --tng-input-focus-ring: var(--tng-semantic-accent-success, var(--tng-semantic-focus-ring));
+}
+
+:where([data-slot='form-field-wrapper'][data-tone='danger']) {
+  --tng-input-focus-ring: var(--tng-semantic-accent-danger, var(--tng-semantic-focus-ring));
+}
