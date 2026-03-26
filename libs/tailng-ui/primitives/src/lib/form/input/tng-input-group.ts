@@ -1,11 +1,18 @@
-import type { OnDestroy, AfterContentInit, QueryList } from "@angular/core";
-import { Component, ContentChildren, ElementRef, HostBinding, HostListener, inject } from "@angular/core";
-import { isDevMode } from "@angular/core";
-import { input } from "@angular/core";
-import { Subject, takeUntil } from "rxjs";
-import { TngPrefix } from "./tng-adornment";
-import { TngSuffix } from "./tng-adornment";
-import { TngInput } from "./tng-input";
+import type { AfterContentInit, OnDestroy, QueryList } from '@angular/core';
+import {
+  Component,
+  ContentChildren,
+  ElementRef,
+  HostBinding,
+  HostListener,
+  inject,
+  input,
+  isDevMode,
+} from '@angular/core';
+import { Subject, takeUntil } from 'rxjs';
+
+import { TngPrefix, TngSuffix } from './tng-adornment';
+import { TngInput } from './tng-input';
 
 function hasProjectedContent(element: HTMLElement): boolean {
   return Array.from(element.childNodes).some((node) => {
@@ -41,6 +48,30 @@ function hasProjectedContent(element: HTMLElement): boolean {
       </span>
     }
   `,
+  styles: [
+    `
+      :host {
+        display: flex;
+        align-items: center;
+        min-width: 0;
+      }
+
+      .tng-input-group-leading,
+      .tng-input-group-trailing {
+        flex: 0 0 auto;
+        display: inline-flex;
+        align-items: center;
+        min-width: 0;
+      }
+
+      .tng-input-group-control {
+        flex: 1 1 auto;
+        display: flex;
+        align-items: center;
+        min-width: 0;
+      }
+    `,
+  ],
 })
 export class TngInputGroup implements AfterContentInit, OnDestroy {
   public readonly hasLeading = input<boolean | null>(null);
@@ -60,9 +91,7 @@ export class TngInputGroup implements AfterContentInit, OnDestroy {
   protected suffixSlots!: QueryList<TngSuffix>;
 
   private readonly hostElement = inject(ElementRef<HTMLElement>).nativeElement;
-
   private focused = false;
-
   private readonly destroyed$ = new Subject<void>();
 
   private validateSingleControl(): void {
@@ -73,7 +102,9 @@ export class TngInputGroup implements AfterContentInit, OnDestroy {
     const domCount = this.hostElement.querySelectorAll(
       '[data-tng-input-control-proxy] input, [data-tng-input-control-proxy] textarea, input[tngInput], textarea[tngInput]',
     ).length;
+
     const count = this.controlCount() ?? (queriedCount > 0 ? queriedCount : domCount);
+
     if (count !== 1) {
       console.warn(
         `[tngInputGroup] Expected exactly 1 control (input/textarea with tngInput), but found ${count}.`,
@@ -85,9 +116,7 @@ export class TngInputGroup implements AfterContentInit, OnDestroy {
   public ngAfterContentInit(): void {
     queueMicrotask(() => this.validateSingleControl());
 
-    this.controls.changes
-      .pipe(takeUntil(this.destroyed$))
-      .subscribe(() => this.validateSingleControl());
+    this.controls.changes.pipe(takeUntil(this.destroyed$)).subscribe(() => this.validateSingleControl());
   }
 
   public ngOnDestroy(): void {
@@ -203,10 +232,8 @@ export class TngInputGroup implements AfterContentInit, OnDestroy {
     const element = this.hostElement.querySelector(
       '[data-tng-input-control-proxy] input, [data-tng-input-control-proxy] textarea, input[tngInput], textarea[tngInput]',
     );
-    if (
-      element instanceof HTMLInputElement ||
-      element instanceof HTMLTextAreaElement
-    ) {
+
+    if (element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement) {
       return element;
     }
 
