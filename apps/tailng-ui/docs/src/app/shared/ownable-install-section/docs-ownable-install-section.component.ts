@@ -2,10 +2,10 @@ import { DOCUMENT, NgFor, NgIf } from '@angular/common';
 import { Component, inject, input, signal, type OnDestroy } from '@angular/core';
 import { ActivatedRoute, type Data } from '@angular/router';
 import { TngCodeBlockComponent, TngTabsComponent } from '@tailng-ui/components';
-import { getRegistryGeneratedFilePaths, getRegistryInstallMetadata } from '@tailng-ui/registry';
 import { TngTab, TngTabList, TngTabPanel } from '@tailng-ui/primitives';
+import { getRegistryGeneratedFilePaths, getRegistryInstallMetadata } from '@tailng-ui/registry';
 
-interface OwnableInstallRouteData {
+type OwnableInstallRouteData = {
   registrySlug: string;
   usageCode: string;
 }

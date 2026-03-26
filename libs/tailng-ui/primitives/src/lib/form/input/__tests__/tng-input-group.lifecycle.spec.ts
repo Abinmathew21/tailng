@@ -2,12 +2,10 @@ import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { describe, expect, it } from 'vitest';
 
-import {
-  TngInput,
-  TngInputGroup,
-  TngPrefix,
-  TngSuffix,
-} from '../tng-input';
+import { TngPrefix } from '../tng-adornment';
+import { TngSuffix } from '../tng-adornment';
+import { TngInput } from '../tng-input';
+import { TngInputGroup } from '../tng-input-group';
 
 @Component({
   imports: [TngInputGroup, TngInput, TngPrefix, TngSuffix],

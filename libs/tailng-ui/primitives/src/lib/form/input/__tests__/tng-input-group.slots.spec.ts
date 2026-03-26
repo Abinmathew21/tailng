@@ -3,14 +3,10 @@ import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { describe, expect, it } from 'vitest';
 
-import {
-  TngInput,
-  TngInputGroup,
-  TngPrefix,
-  TngSuffix,
-  TngInputLeading,
-  TngInputTrailing,
-} from '../tng-input';
+import { TngPrefix } from '../tng-adornment';
+import { TngSuffix } from '../tng-adornment';
+import { TngInput } from '../tng-input';
+import { TngInputGroup } from '../tng-input-group';
 
 @Component({
   imports: [TngInputGroup, TngInput, TngPrefix, TngSuffix],
@@ -34,7 +30,7 @@ class GroupSlotsHostComponent {
 }
 
 @Component({
-  imports: [TngInputGroup, TngInput, TngInputLeading, TngInputTrailing],
+  imports: [TngInputGroup, TngInput, TngPrefix, TngSuffix],
   template: `
     <tng-input-group>
       <span tngInputLeading>Leading</span>
@@ -55,8 +51,8 @@ describe('tngInputGroup primitive — slot markers', () => {
   });
 
   it('keeps the legacy directive exports available during the rename', async () => {
-    expect(TngInputLeading).toBeTruthy();
-    expect(TngInputTrailing).toBeTruthy();
+    expect(TngPrefix).toBeTruthy();
+    expect(TngSuffix).toBeTruthy();
   });
 
   it('still accepts the legacy leading and trailing selectors', async () => {

@@ -3,7 +3,8 @@ import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { describe, expect, it } from 'vitest';
 
-import { TngInput, TngInputGroup } from '../tng-input';
+import { TngInput } from '../tng-input';
+import { TngInputGroup } from '../tng-input-group';
 
 @Component({
   imports: [TngInputGroup, TngInput],

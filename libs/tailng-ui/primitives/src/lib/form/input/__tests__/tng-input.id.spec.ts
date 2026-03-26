@@ -3,8 +3,8 @@ import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { describe, expect, it } from 'vitest';
 
+import { provideTngUniqueId } from '../../_shared/id'; 
 import { TngInput } from '../tng-input';
-import { provideTngUniqueId } from '../../_shared/id'; // adjust path to your shared id provider
 
 @Component({
   imports: [TngInput],
