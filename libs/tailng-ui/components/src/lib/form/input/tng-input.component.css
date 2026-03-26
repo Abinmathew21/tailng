@@ -14,3 +14,8 @@
 :host(:not([data-full-width])) .tng-input {
   width: auto;
 }
+
+/* Optional: make sure the native control fills the form-field */
+.tng-input-control {
+  width: 100%;
+}

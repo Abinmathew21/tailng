@@ -6,13 +6,15 @@ import {
   output,
 } from '@angular/core';
 import { booleanAttribute } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import type { ControlValueAccessor} from '@angular/forms';
+import { NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import {
   coerceTngInputNullableBoolean,
   TngInput,
   type TngInputType,
 } from '@tailng-ui/primitives';
+
 import {
   TngFormFieldComponent,
   type TngFormFieldAppearance,
@@ -22,29 +24,22 @@ import {
 
 type NullableBooleanInput = boolean | null | string | undefined;
 
-function normalizeStringValue(value: string | null | undefined): string | null {
-  if (value === undefined || value === null) {
-    return null;
-  }
-
-  return value;
+function normalizeAttr(value: string | null | undefined): string | null {
+  if (value === undefined || value === null) return null;
+  const v = value.trim();
+  return v.length > 0 ? v : null;
 }
 
-export function readTngInputEventValue(event: unknown): string | null {
-  if (!(event instanceof Event)) {
-    return null;
-  }
-
+function readInputValue(event: unknown): string | null {
+  if (!(event instanceof Event)) return null;
   const target = event.target;
-  if (!(target instanceof HTMLInputElement)) {
-    return null;
-  }
-
+  if (!(target instanceof HTMLInputElement)) return null;
   return target.value;
 }
 
 @Component({
   selector: 'tng-input',
+  standalone: true,
   imports: [TngFormFieldComponent, TngInput],
   templateUrl: './tng-input.component.html',
   styleUrl: './tng-input.component.css',
@@ -57,6 +52,7 @@ export function readTngInputEventValue(event: unknown): string | null {
   ],
 })
 export class TngInputComponent implements ControlValueAccessor {
+  // ---- Wrapper (form-field) appearance knobs ----
   public readonly appearance = input<TngFormFieldAppearance>('outline');
   public readonly size = input<TngFormFieldSize>('md');
   public readonly tone = input<TngFormFieldTone>('neutral');
@@ -64,6 +60,7 @@ export class TngInputComponent implements ControlValueAccessor {
     transform: booleanAttribute,
   });
 
+  // ---- Input API passthrough ----
   public readonly ariaDescribedBy = input<string | null>(null);
   public readonly ariaInvalid = input<boolean | null, NullableBooleanInput>(null, {
     transform: coerceTngInputNullableBoolean,
@@ -73,6 +70,7 @@ export class TngInputComponent implements ControlValueAccessor {
   public readonly ariaRequired = input<boolean | null, NullableBooleanInput>(null, {
     transform: coerceTngInputNullableBoolean,
   });
+
   public readonly autocomplete = input<string | null>(null);
   public readonly disabled = input<boolean, boolean | string>(false, {
     transform: booleanAttribute,
@@ -87,18 +85,27 @@ export class TngInputComponent implements ControlValueAccessor {
     transform: booleanAttribute,
   });
   public readonly type = input<TngInputType>('text');
+
+  /**
+   * Controlled value input (only used when NOT using CVA).
+   * If you bind [value], you should also listen to (valueChange) (or use signals).
+   */
   public readonly value = input<string | null>(null);
 
+  // ---- Outputs ----
   public readonly valueChange = output<string>();
   public readonly inputEvent = output<Event>({ alias: 'input' });
   public readonly blurEvent = output<FocusEvent>({ alias: 'blur' });
 
+  // ---- CVA state ----
+  private usingCva = false;
   private cvaValue: string | null = null;
   private cvaDisabled = false;
-  private usingCva = false;
-  private onChange: (value: string) => void = () => {};
-  private onTouched: () => void = () => {};
 
+  private onChange: (value: string) => void = () => undefined;
+  private onTouched: () => void = () => undefined;
+
+  // ---- Host attrs (optional, useful for styling/debug) ----
   @HostBinding('attr.data-slot')
   protected readonly dataSlot = 'input-component' as const;
 
@@ -122,18 +129,25 @@ export class TngInputComponent implements ControlValueAccessor {
     return this.fullWidth() ? '' : null;
   }
 
+  // ---- Derived values for template ----
   protected get effectiveValue(): string {
-    const value = this.usingCva ? this.cvaValue : this.value();
-    return value ?? '';
+    const v = this.usingCva ? this.cvaValue : this.value();
+    return v ?? '';
   }
 
   protected get effectiveDisabled(): boolean {
     return this.cvaDisabled || this.disabled();
   }
 
+  // ---- CVA ----
   public writeValue(value: unknown): void {
     this.usingCva = true;
-    this.cvaValue = typeof value === 'string' ? value : value == null ? null : String(value);
+    this.cvaValue =
+      typeof value === 'string'
+        ? value
+        : value == null
+          ? null
+          : String(value);
   }
 
   public registerOnChange(fn: (value: string) => void): void {
@@ -148,18 +162,28 @@ export class TngInputComponent implements ControlValueAccessor {
     this.cvaDisabled = isDisabled;
   }
 
+  // ---- DOM handlers ----
   public onInput(event: unknown): void {
-    const value = readTngInputEventValue(event);
-    if (value === null) {
-      return;
-    }
+    const next = readInputValue(event);
+    if (next === null) return;
 
+    // If disabled, ignore (optional safety)
+    if (this.effectiveDisabled) return;
+
+    // Keep CVA in sync when used
     if (this.usingCva) {
-      this.cvaValue = value;
+      if (this.cvaValue === next) {
+        // Still forward the raw event output if you want:
+        if (event instanceof Event) this.inputEvent.emit(event);
+        return;
+      }
+      this.cvaValue = next;
+      this.onChange(next);
     }
 
-    this.onChange(value);
-    this.valueChange.emit(value);
+    // For controlled-input usage, emit valueChange always
+    this.valueChange.emit(next);
+
     if (event instanceof Event) {
       this.inputEvent.emit(event);
     }
@@ -171,6 +195,6 @@ export class TngInputComponent implements ControlValueAccessor {
   }
 
   protected normalizeAttrValue(value: string | null | undefined): string | null {
-    return normalizeStringValue(value);
+    return normalizeAttr(value);
   }
 }
