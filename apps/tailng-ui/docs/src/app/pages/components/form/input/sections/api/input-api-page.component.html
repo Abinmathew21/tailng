@@ -19,6 +19,7 @@
         adapter="shiki"
         language="html"
         title="Simple input component"
+        [theme]="codeBlockTheme()"
         [lineNumbers]="false"
         [wrap]="true"
         [sanitizeHtml]="false"
@@ -68,6 +69,16 @@
               <td><code>output&lt;string&gt;</code></td>
               <td>Emits on internal input changes.</td>
             </tr>
+            <tr>
+              <td><code>input</code>, <code>blur</code></td>
+              <td>aliased DOM event outputs</td>
+              <td>Forward the underlying native input and blur events.</td>
+            </tr>
+            <tr>
+              <td>Angular forms</td>
+              <td><code>ControlValueAccessor</code></td>
+              <td>Works with template-driven forms and reactive forms without extra adapters.</td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -85,6 +96,7 @@
         adapter="shiki"
         language="html"
         title="Form field composition"
+        [theme]="codeBlockTheme()"
         [lineNumbers]="false"
         [wrap]="true"
         [sanitizeHtml]="false"
@@ -110,7 +122,7 @@
               <td>Owns the shared field shell styling and sizing contract.</td>
             </tr>
             <tr>
-              <td><code>--tng-input-inline-gap</code></td>
+              <td><code>--tng-input-gap</code></td>
               <td>CSS custom property</td>
               <td>Controls inline spacing between prefix, control area, and suffix.</td>
             </tr>
@@ -135,6 +147,7 @@
         adapter="shiki"
         language="html"
         title="Directive attachment"
+        [theme]="codeBlockTheme()"
         [lineNumbers]="false"
         [wrap]="true"
         [sanitizeHtml]="false"
@@ -190,13 +203,13 @@
             <tr>
               <td><code>tngPrefix</code></td>
               <td>Projected leading element</td>
-              <td><code>data-slot="input-leading"</code></td>
+              <td><code>data-slot="input-group-leading"</code></td>
               <td>Marks prefix/adornment content before the control.</td>
             </tr>
             <tr>
               <td><code>tngSuffix</code></td>
               <td>Projected trailing element</td>
-              <td><code>data-slot="input-trailing"</code></td>
+              <td><code>data-slot="input-group-trailing"</code></td>
               <td>Marks suffix/action content after the control.</td>
             </tr>
           </tbody>

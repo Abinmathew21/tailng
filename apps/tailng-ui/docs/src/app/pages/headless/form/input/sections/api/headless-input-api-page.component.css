@@ -1,0 +1,56 @@
+.input-example-headless-shell {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.78rem;
+  color: #0f172a;
+  cursor: text;
+  min-height: 2.65rem;
+  padding-inline: 0.88rem;
+  width: min(100%, 32rem);
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.input-example-headless-shell[data-focused] {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.18);
+}
+
+.input-api-prefix {
+  align-items: center;
+  color: #64748b;
+  display: inline-flex;
+}
+
+.input-api-icon-button {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  border-radius: 999px;
+  color: #64748b;
+  cursor: pointer;
+  display: inline-flex;
+  padding: 0;
+}
+
+.input-api-control {
+  background: transparent;
+  border: 0 !important;
+  border-radius: 0;
+  box-shadow: none !important;
+  color: #0f172a;
+  font-size: 0.98rem;
+  line-height: 1.35;
+  outline: none !important;
+  padding: 0;
+}
+
+.input-api-control::placeholder {
+  color: #94a3b8;
+}
+
+.input-api-icon-button:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--tng-semantic-accent-brand) 55%, transparent);
+  outline-offset: 2px;
+}

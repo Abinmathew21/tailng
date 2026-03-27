@@ -481,12 +481,14 @@ export const docsComponentOutlineItemsBySlug: Readonly<Record<string, Partial<Re
     ],
     'styling': [
       { id: 'css-contracts', label: 'CSS contracts' },
+      { id: 'shell-state-hooks', label: 'Shell state hooks' },
+      { id: 'theme-contract-tokens', label: 'Theme contract tokens' },
       { id: 'user-scenario-style-examples', label: 'User scenario style examples' },
       { id: 'different-styling-pattern-examples', label: 'Different styling pattern examples' },
     ],
     'examples': [
-      { id: 'global-search-field', label: 'Global search field' },
-      { id: 'workspace-slug-field', label: 'Workspace slug field' },
+      { id: 'basic-text-field', label: 'Basic text field' },
+      { id: 'type-variants', label: 'Type variants' },
       { id: 'validation-feedback', label: 'Validation feedback' },
       { id: 'readonly-and-disabled-states', label: 'Readonly and disabled states' },
     ],

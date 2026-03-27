@@ -1,5 +1,6 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, inject, signal, type OnDestroy } from '@angular/core';
+import { observeDocsCodeThemeChanges, resolveDocsCodeBlockTheme } from '../../../../../../shared/util';
 import { TngAvatarComponent, TngCodeBlockComponent } from '@tailng-ui/components';
 import {
   TngAvatar,
@@ -33,9 +34,9 @@ export class AvatarOverviewPageComponent implements OnDestroy {
   private readonly documentRef = inject(DOCUMENT);
 
   public readonly codeBlockTheme = signal<'github-dark' | 'github-light'>(
-    this.resolveCodeBlockTheme(),
+    resolveDocsCodeBlockTheme(this.documentRef),
   );
-  private readonly colorSchemeObserver = this.observeCodeThemeChanges();
+  private readonly colorSchemeObserver = observeDocsCodeThemeChanges(this.documentRef, this.codeBlockTheme);
 
   protected readonly sampleImage = `data:image/svg+xml,${encodeURIComponent(
     "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='avatar-g' x1='0' x2='1' y1='0' y2='1'><stop offset='0%' stop-color='%2360a5fa'/><stop offset='100%' stop-color='%232563eb'/></linearGradient></defs><rect width='100' height='100' fill='url(%23avatar-g)'/><circle cx='50' cy='40' r='20' fill='%23cbd5e1'/><rect x='22' y='64' width='56' height='24' rx='12' fill='%23cbd5e1'/></svg>",
@@ -282,37 +283,4 @@ export class AvatarOverviewPageComponent implements OnDestroy {
     return this.headlessSrc() === null || this.headlessLoadFailed();
   }
 
-  private observeCodeThemeChanges(): MutationObserver | null {
-    const mutationObserverCtor = this.documentRef.defaultView?.MutationObserver;
-    if (mutationObserverCtor === undefined) {
-      return null;
-    }
-
-    const observer = new mutationObserverCtor(() => {
-      this.codeBlockTheme.set(this.resolveCodeBlockTheme());
-    });
-
-    observer.observe(this.documentRef.documentElement, {
-      attributeFilter: ['style', 'class'],
-      attributes: true,
-    });
-
-    return observer;
-  }
-
-  private resolveCodeBlockTheme(): 'github-dark' | 'github-light' {
-    const root = this.documentRef.documentElement;
-    const inlineColorScheme = root.style.getPropertyValue('color-scheme').trim().toLowerCase();
-    if (inlineColorScheme.includes('dark')) {
-      return 'github-dark';
-    }
-
-    const computedColorScheme = this.documentRef.defaultView
-      ?.getComputedStyle(root)
-      .getPropertyValue('color-scheme')
-      .trim()
-      .toLowerCase();
-
-    return computedColorScheme?.includes('dark') ? 'github-dark' : 'github-light';
-  }
 }

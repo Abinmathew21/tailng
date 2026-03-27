@@ -2,268 +2,157 @@
   <div class="docs-section-page-main">
     <h2 class="input-styling-title">Styling contract</h2>
     <p class="input-styling-lead">
-      Input styling is slot/state driven. Style against stable data attributes instead of internal DOM
-      assumptions.
+      Style the Input component through the public shell tokens and the stable slot/state markers it
+      emits. The goal is to avoid depending on private wrapper DOM or component-specific class names.
     </p>
 
     <section id="css-contracts" class="docs-section-anchor input-styling-block">
-    <h3>CSS contracts</h3>
-    <p>
-      Use these selectors as the public styling surface for <code>tngInput</code> and
-      <code>tngInputGroup</code>.
-    </p>
-
-    <h4>Slot selectors</h4>
-    <div class="input-styling-table-wrap">
-      <table class="input-styling-table">
-        <thead>
-          <tr>
-            <th scope="col">Selector</th>
-            <th scope="col">Scope</th>
-            <th scope="col">Purpose</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><code>[data-slot="input"]</code></td>
-            <td>Input host</td>
-            <td>Base control styles: typography, spacing, background, placeholder.</td>
-          </tr>
-          <tr>
-            <td><code>[data-slot="input-group"]</code></td>
-            <td>Group container</td>
-            <td>Container shell: border, radius, background, focus container effects.</td>
-          </tr>
-          <tr>
-            <td><code>[data-slot="input-group-leading"]</code></td>
-            <td>Leading wrapper</td>
-            <td>Prefix icon/text spacing and alignment.</td>
-          </tr>
-          <tr>
-            <td><code>[data-slot="input-group-control"]</code></td>
-            <td>Control wrapper</td>
-            <td>Primary layout area for the projected input control.</td>
-          </tr>
-          <tr>
-            <td><code>[data-slot="input-group-trailing"]</code></td>
-            <td>Trailing wrapper</td>
-            <td>Suffix actions, helper text, or status affordances.</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <h4>State hooks</h4>
-    <div class="input-styling-table-wrap">
-      <table class="input-styling-table">
-        <thead>
-          <tr>
-            <th scope="col">State attribute</th>
-            <th scope="col">Applied on</th>
-            <th scope="col">Use case</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><code>[data-focused]</code></td>
-            <td>Group host</td>
-            <td>Focus ring, focused border, and elevated active styling.</td>
-          </tr>
-          <tr>
-            <td><code>[data-invalid]</code></td>
-            <td>Control and group host</td>
-            <td>Error border/message color system integration.</td>
-          </tr>
-          <tr>
-            <td><code>[data-disabled]</code></td>
-            <td>Control and group host</td>
-            <td>Muted visuals, cursor changes, and interaction lock styles.</td>
-          </tr>
-          <tr>
-            <td><code>[data-readonly]</code></td>
-            <td>Control and group host</td>
-            <td>Readonly visual treatment separate from disabled state.</td>
-          </tr>
-          <tr>
-            <td><code>[data-has-leading]</code></td>
-            <td>Group host</td>
-            <td>Conditional left padding/layout when leading content is present.</td>
-          </tr>
-          <tr>
-            <td><code>[data-has-trailing]</code></td>
-            <td>Group host</td>
-            <td>Conditional right padding/layout when trailing content is present.</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <h4>Common semantic tokens</h4>
-    <div class="input-styling-table-wrap">
-      <table class="input-styling-table">
-        <thead>
-          <tr>
-            <th scope="col">Token</th>
-            <th scope="col">Typical usage</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><code>--tng-semantic-background-base</code></td>
-            <td>Input shell background.</td>
-          </tr>
-          <tr>
-            <td><code>--tng-semantic-background-surface</code></td>
-            <td>Field container or section background.</td>
-          </tr>
-          <tr>
-            <td><code>--tng-semantic-border-subtle</code></td>
-            <td>Section and field card borders.</td>
-          </tr>
-          <tr>
-            <td><code>--tng-semantic-border-strong</code></td>
-            <td>Input shell border.</td>
-          </tr>
-          <tr>
-            <td><code>--tng-semantic-focus-ring</code></td>
-            <td>Focus indicator around grouped input.</td>
-          </tr>
-          <tr>
-            <td><code>--tng-semantic-accent-brand</code></td>
-            <td>Focused/selected accent color.</td>
-          </tr>
-          <tr>
-            <td><code>--tng-semantic-accent-danger</code></td>
-            <td>Invalid/error state border or text.</td>
-          </tr>
-          <tr>
-            <td><code>--tng-input-inline-gap</code></td>
-            <td>
-              Internal spacing between leading/trailing slot content and the main control area.
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <h4>Layout note</h4>
-    <p>
-      <code>tng-form-field</code> applies the shared inline gap between
-      <code>[data-slot="input-group-leading"]</code>, <code>[data-slot="input-group-control"]</code>,
-      and <code>[data-slot="input-group-trailing"]</code>. Override
-      <code>--tng-input-inline-gap</code> on the shell when a compact search field or a wider
-      utility input needs a different adornment rhythm.
-    </p>
+      <h3>CSS contracts</h3>
+      <p>
+        These selectors are the public styling surface for both <code>&lt;tng-input&gt;</code> and
+        <code>&lt;tng-form-field&gt;</code>.
+      </p>
+      <tng-code-block
+        [code]="slotSelectorsCode"
+        adapter="shiki"
+        language="css"
+        title="Public selectors"
+        [theme]="codeBlockTheme()"
+        [sanitizeHtml]="false"
+        [wrap]="true"
+        [lineNumbers]="false"
+      ></tng-code-block>
     </section>
 
-  <app-docs-example-tabs-section
-    id="user-scenario-style-examples"
-    class="docs-section-anchor input-styling-block"
-    heading="User scenario style examples"
-    description="Account profile form styling patterns across wrapper-based plain CSS and Tailwind strategies."
-    ariaLabel="Input styling scenarios"
-    tabListAriaLabel="Input styling variants"
-    defaultValue="plain-css"
-    [codeBlockTheme]="codeBlockTheme()"
-  >
-    <ng-template
-      appDocsExampleVariant
-      value="plain-css"
-      label="Plain-CSS"
-      panelTitle="Account profile form"
-      [codeTabs]="plainCssScenarioCodeTabs"
+    <section id="shell-state-hooks" class="docs-section-anchor input-styling-block">
+      <h3>Shell state hooks</h3>
+      <p>
+        Focus, invalid, disabled, and readonly treatment should hang off the emitted shell state
+        attrs instead of custom classes or input event bookkeeping.
+      </p>
+      <tng-code-block
+        [code]="stateHooksCode"
+        adapter="shiki"
+        language="css"
+        title="State hooks"
+        [theme]="codeBlockTheme()"
+        [sanitizeHtml]="false"
+        [wrap]="true"
+        [lineNumbers]="false"
+      ></tng-code-block>
+    </section>
+
+    <section id="theme-contract-tokens" class="docs-section-anchor input-styling-block">
+      <h3>Theme contract tokens</h3>
+      <p>
+        The current theme contract is token-driven. Override these on the component host or a scoped
+        wrapper when you want to change shell rhythm, chrome, or emphasis.
+      </p>
+      <tng-code-block
+        [code]="themeTokensCode"
+        adapter="shiki"
+        language="css"
+        title="Public input tokens"
+        [theme]="codeBlockTheme()"
+        [sanitizeHtml]="false"
+        [wrap]="true"
+        [lineNumbers]="false"
+      ></tng-code-block>
+    </section>
+
+    <app-docs-example-tabs-section
+      id="user-scenario-style-examples"
+      class="docs-section-anchor input-styling-block"
+      heading="User scenario style examples"
+      description="Account profile styling with the component token contract in plain CSS and Tailwind CSS."
+      ariaLabel="Input styling scenarios"
+      tabListAriaLabel="Input styling variants"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Account profile form"
+        [codeTabs]="plainCssScenarioCodeTabs"
       >
         <div class="input-styling-example-fields">
-          <label
-            class="input-styling-example-field-surface input-styling-example-field-surface--plain"
-        >
-          <span class="input-styling-example-field-label">Display name</span>
-          <tng-input
-            class="input-styling-example-shell"
-            type="text"
-            value="Ada Lovelace"
-            ariaLabel="Display name"
-            (click)="focusProjectedInput($event)"
-          ></tng-input>
-        </label>
-      </div>
-    </ng-template>
+          <label class="input-styling-example-field-surface input-styling-example-field-surface--plain">
+            <span class="input-styling-example-field-label">Display name</span>
+            <tng-input
+              class="input-styling-example-shell input-styling-example-shell--plain"
+              type="text"
+              value="Ada Lovelace"
+              ariaLabel="Display name"
+              (click)="focusProjectedInput($event)"
+            ></tng-input>
+          </label>
+        </div>
+      </ng-template>
 
-    <ng-template
-      appDocsExampleVariant
-      value="tailwind-css"
-      label="Tailwind CSS"
-      panelTitle="Account profile form"
-      [codeTabs]="tailwindScenarioCodeTabs"
-    >
-      <div class="input-styling-example-fields">
-        <label
-          class="input-styling-example-field-surface input-styling-example-field-surface--tailwind"
-        >
-          <span class="input-styling-example-field-label">Display name</span>
-          <tng-input
-            class="block
-                   [&_[data-slot='input-group']]:min-h-10
-                   [&_[data-slot='input-group']]:rounded-lg
-                   [&_[data-slot='input-group']]:border
-                   [&_[data-slot='input-group']]:border-slate-300
-                   [&_[data-slot='input-group']]:bg-white
-                   [&_[data-slot='input-group']]:px-3
-                   [&_[data-slot='input-group']]:shadow-sm
-                   [&_[data-slot='input-group']]:transition
-                   [&_[data-slot='input-group'][data-focused]]:border-cyan-500
-                   [&_[data-slot='input-group'][data-focused]]:ring-2
-                   [&_[data-slot='input-group'][data-focused]]:ring-cyan-200/70
-                   [&_[data-slot='input']]:w-full
-                   [&_[data-slot='input']]:border-0
-                   [&_[data-slot='input']]:bg-transparent
-                   [&_[data-slot='input']]:p-0
-                   [&_[data-slot='input']]:text-[0.98rem]
-                   [&_[data-slot='input']]:font-medium
-                   [&_[data-slot='input']]:leading-5
-                   [&_[data-slot='input']]:outline-none"
-            type="text"
-            value="Ada Lovelace"
-            ariaLabel="Display name"
-            (click)="focusProjectedInput($event)"
-          ></tng-input>
-        </label>
-      </div>
-    </ng-template>
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Account profile form"
+        [codeTabs]="tailwindScenarioCodeTabs"
+      >
+        <div class="input-styling-example-fields">
+          <label class="input-styling-example-field-surface input-styling-example-field-surface--tailwind">
+            <span class="input-styling-example-field-label">Display name</span>
+            <tng-input
+              class="block
+                     [&_[data-slot='input-group']]:min-h-10
+                     [&_[data-slot='input-group']]:rounded-lg
+                     [&_[data-slot='input-group']]:border
+                     [&_[data-slot='input-group']]:border-slate-300
+                     [&_[data-slot='input-group']]:bg-white
+                     [&_[data-slot='input-group']]:px-3
+                     [&_[data-slot='input-group']]:shadow-sm
+                     [&_[data-slot='input-group'][data-focused]]:border-cyan-500
+                     [&_[data-slot='input-group'][data-focused]]:ring-2
+                     [&_[data-slot='input-group'][data-focused]]:ring-cyan-200/70
+                     [&_[data-slot='input']]:w-full
+                     [&_[data-slot='input']]:border-0
+                     [&_[data-slot='input']]:bg-transparent
+                     [&_[data-slot='input']]:p-0
+                     [&_[data-slot='input']]:text-[0.98rem]
+                     [&_[data-slot='input']]:font-medium
+                     [&_[data-slot='input']]:leading-5
+                     [&_[data-slot='input']]:outline-none"
+              type="text"
+              value="Ada Lovelace"
+              ariaLabel="Display name"
+              (click)="focusProjectedInput($event)"
+            ></tng-input>
+          </label>
+        </div>
+      </ng-template>
     </app-docs-example-tabs-section>
 
-    <section
-      id="different-styling-pattern-examples"
-      class="docs-section-anchor input-styling-block"
-    >
-    <h3>Different styling pattern examples</h3>
-    <p>
-      Use these patterns as building blocks when documenting forms, search bars, and settings
-      surfaces.
-    </p>
-
-    <div class="input-styling-pattern-grid">
-      @for (example of stylePatternExamples; track example.title) {
-        <article class="input-styling-pattern-card">
-          <header class="input-styling-pattern-header">
-            <h4>{{ example.title }}</h4>
-            <p>{{ example.description }}</p>
-          </header>
-
-          <tng-code-block
-            [code]="example.code"
-            adapter="shiki"
-            [language]="example.language"
-            [title]="example.title"
-            [theme]="codeBlockTheme()"
-            [lineNumbers]="false"
-            [wrap]="true"
-            [sanitizeHtml]="false"
-          ></tng-code-block>
-        </article>
-      }
-    </div>
+    <section id="different-styling-pattern-examples" class="docs-section-anchor input-styling-block">
+      <h3>Different styling pattern examples</h3>
+      <div class="input-styling-pattern-grid">
+        @for (example of stylePatternExamples; track example.title) {
+          <article class="input-styling-pattern-card">
+            <header class="input-styling-pattern-header">
+              <h4>{{ example.title }}</h4>
+              <p>{{ example.description }}</p>
+            </header>
+            <tng-code-block
+              [code]="example.code"
+              adapter="shiki"
+              [language]="example.language"
+              [title]="example.title"
+              [theme]="codeBlockTheme()"
+              [lineNumbers]="false"
+              [wrap]="true"
+              [sanitizeHtml]="false"
+            ></tng-code-block>
+          </article>
+        }
+      </div>
     </section>
   </div>
-
 </article>

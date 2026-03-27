@@ -1,7 +1,8 @@
 import { DOCUMENT, NgTemplateOutlet } from '@angular/common';
 import { Component, inject, signal, type OnDestroy } from '@angular/core';
+import { observeDocsCodeThemeChanges, resolveDocsCodeBlockTheme } from '../../../../../../shared/util';
 import { TngCodeBlockComponent, TngInputComponent } from '@tailng-ui/components';
-import { type DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
+import type { DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
 import {
   DocsExampleTabsSectionComponent,
   DocsExampleVariantDirective,
@@ -23,22 +24,13 @@ export class InputOverviewPageComponent implements OnDestroy {
   private readonly documentRef = inject(DOCUMENT);
 
   public readonly codeBlockTheme = signal<'github-dark' | 'github-light'>(
-    this.resolveCodeBlockTheme(),
+    resolveDocsCodeBlockTheme(this.documentRef),
   );
-  private readonly colorSchemeObserver = this.observeCodeThemeChanges();
+  private readonly colorSchemeObserver = observeDocsCodeThemeChanges(this.documentRef, this.codeBlockTheme);
 
-  protected readonly primitivesImportCode = [
-    'import {',
-    '  TngInput,',
-    '  TngInputGroup,',
-    '  TngPrefix,',
-    '  TngSuffix,',
-    "} from '@tailng-ui/primitives';",
-    '',
-  ].join('\n');
-
-  protected readonly directAttachmentCode = [
-    '<input tngInput type="email" placeholder="team@tailng.dev" />',
+  protected readonly installationCode = [
+    "import { TngFormFieldComponent, TngInputComponent } from '@tailng-ui/components';",
+    "import { TngInput, TngPrefix, TngSuffix } from '@tailng-ui/primitives';",
     '',
   ].join('\n');
 
@@ -47,32 +39,40 @@ export class InputOverviewPageComponent implements OnDestroy {
     '',
   ].join('\n');
 
-  protected readonly groupedInputCode = [
+  protected readonly formFieldUsageCode = [
     '<tng-form-field>',
     '  <span tngPrefix aria-hidden="true">Search</span>',
-    '  <input tngInput type="search" placeholder="Search..." />',
+    '  <input tngInput type="search" placeholder="Search docs" />',
     '  <span tngSuffix aria-hidden="true">Ctrl+K</span>',
     '</tng-form-field>',
     '',
   ].join('\n');
 
-  protected readonly ariaInvalidTestCode = '<input tngInput [ariaInvalid]="true" />';
+  protected readonly directAttachmentCode = [
+    '<input tngInput type="email" placeholder="team@tailng.dev" />',
+    '',
+  ].join('\n');
 
-  protected readonly nativeValidationCode = '<input tngInput required />';
+  protected readonly validationStableCode = [
+    '<tng-input type="email" [ariaInvalid]="true"></tng-input>',
+    '',
+  ].join('\n');
 
-  protected readonly searchWithHintCode = [
-    '<tng-form-field class="demo-group">',
+  protected readonly nativeValidationCode = [
+    '<tng-input type="email" required></tng-input>',
+    '',
+  ].join('\n');
+
+  protected readonly searchExampleCode = [
+    '<tng-input type="search" placeholder="Search docs"></tng-input>',
+    '',
+  ].join('\n');
+
+  protected readonly formFieldReferenceCode = [
+    '<!-- Move to tng-form-field when the field needs projected content -->',
+    '<tng-form-field>',
     '  <span tngPrefix aria-hidden="true">Search</span>',
-    '  <input tngInput type="search" placeholder="Search primitives" />',
-    '  <span tngSuffix aria-hidden="true">Ctrl+K</span>',
-    '</tng-form-field>',
-    '',
-  ].join('\n');
-
-  protected readonly searchWithClearButtonCode = [
-    '<tng-form-field class="demo-group">',
-    '  <input tngInput type="search" placeholder="Search..." />',
-    '  <button tngSuffix type="button" aria-label="Clear">X</button>',
+    '  <input tngInput type="search" placeholder="Search docs" />',
     '</tng-form-field>',
     '',
   ].join('\n');
@@ -91,78 +91,29 @@ export class InputOverviewPageComponent implements OnDestroy {
     '',
   ].join('\n');
 
-  protected readonly headlessExampleHtmlCode = [
-    '<form class="input-demo-form">',
-    '  <label class="input-demo-field">',
-    '    <span class="input-demo-label">What is the most abundant gas in air?</span>',
-    '    <div tngInputGroup class="input-demo-shell">',
-    '      <input tngInput type="text" value="Nitrogen" />',
-    '    </div>',
-    '  </label>',
-    '</form>',
+  protected readonly testingNotesCode = [
+    "const input = fixture.nativeElement.querySelector('[data-slot=\"input\"]');",
+    "const shell = fixture.nativeElement.querySelector('[data-slot=\"input-group\"]');",
+    '',
+    "expect(input).not.toBeNull();",
+    "expect(shell?.hasAttribute('data-focused')).toBe(false);",
     '',
   ].join('\n');
 
-  protected readonly headlessExampleTsCode = [
-    "import { Component } from '@angular/core';",
-    "import { TngInput } from '@tailng-ui/primitives';",
-    "",
-    "@Component({",
-    "  selector: 'app-input-demo',",
-    "  standalone: true,",
-    "  templateUrl: './input-demo.component.html',",
-    "  styleUrl: './input-demo.component.css',",
-    "  imports: [TngInput],",
-    "})",
-    "export class InputDemoComponent {}",
+  private readonly plainCssExampleHtmlCode = [
+    '<label class="input-overview-example-field-surface">',
+    '  <span class="input-overview-example-field-label">Email</span>',
+    '  <tng-input',
+    '    class="input-overview-example-shell input-overview-example-shell--plain"',
+    '    type="email"',
+    '    placeholder="team@tailng.dev"',
+    '    ariaLabel="Email"',
+    '  ></tng-input>',
+    '</label>',
     '',
   ].join('\n');
 
-  protected readonly headlessExampleCssCode = [
-    "/* ===============================",
-    "   Input Styles (Normal example)",
-    "   =============================== */",
-    ".demo-normal-input {",
-    "  width: 100%;",
-    "  max-width: 30rem;",
-    "  font: inherit;",
-    "  color: rgba(28, 25, 23, 0.95);",
-    "",
-    "  background: color-mix(in srgb, var(--tng-semantic-background-surface, #fbfbfa) 92%, transparent);",
-    "  border: 1px solid rgba(28, 25, 23, 0.14);",
-    "  border-radius: 0.85rem;",
-    "  padding: 0.75rem 0.8rem;",
-    "",
-    "  box-shadow: 0 1px 2px rgba(28, 25, 23, 0.04);",
-    "}",
-    "",
-    ".demo-normal-input:focus-visible {",
-    "  outline: none;",
-    "  border-color: rgba(15, 118, 110, 0.65);",
-    "  box-shadow:",
-    "    0 0 0 4px rgba(15, 118, 110, 0.18),",
-    "    0 1px 2px rgba(28, 25, 23, 0.04);",
-    "}",
-    "",
-    ".demo-normal-input:hover:not(:disabled):not([aria-disabled='true']) {",
-    "  border-color: rgba(28, 25, 23, 0.18);",
-    "}",
-    '',
-  ].join('\n');
-
-  protected readonly plainCssExampleHtmlCode = [
-  '<div class="input-root">',
-    '<div class="fd-page">',
-      '<div class="fd-field">',
-        '<div class="demo-label">Normal</div>',
-        '<input tngInput type="text" value="Nitrogen" class="demo-normal-input" />',
-      '</div>',
-    '</div>',
-  '</div>',
-    '',
-  ].join('\n');
-
-  protected readonly plainCssExampleTsCode = [
+  private readonly plainCssExampleTsCode = [
     "import { Component } from '@angular/core';",
     "import { TngInputComponent } from '@tailng-ui/components';",
     '',
@@ -176,74 +127,51 @@ export class InputOverviewPageComponent implements OnDestroy {
     '',
   ].join('\n');
 
-  protected readonly plainCssExampleCssCode = [
-    '.plain-input-form { display: grid; gap: 1rem; width: min(100%, 30rem); }',
-    '.plain-input-field {',
-    '  background: var(--tng-semantic-background-surface);',
-    '  border: 1px solid var(--tng-semantic-border-subtle);',
-    '  border-radius: 0.85rem;',
-    '  display: grid;',
-    '  gap: 0.45rem;',
-    '  padding: 0.75rem 0.8rem;',
-    '}',
-    '.plain-input-label {',
-    '  color: var(--tng-semantic-foreground-secondary);',
-    '  font-size: 0.82rem;',
-    '  font-weight: 600;',
-    '}',
-    '.plain-input-shell [data-slot="input-group"] {',
-    '  background: var(--tng-semantic-background-base);',
-    '  border: 1px solid var(--tng-semantic-border-strong);',
-    '  border-radius: 0.65rem;',
-    '  min-height: 2.4rem;',
-    '  padding: 0 0.7rem;',
-    '}',
-    '.plain-input-shell [data-slot="input"] {',
-    '  background: transparent;',
-    '  border: 0;',
-    '  box-shadow: none;',
+  private readonly plainCssExampleCssCode = [
+    '.input-overview-example-shell--plain {',
+    '  --tng-input-min-height: 2.5rem;',
+    '  --tng-input-radius: 0.72rem;',
+    '  --tng-input-border: color-mix(in srgb, var(--tng-semantic-border-strong) 78%, transparent);',
+    '  --tng-input-focus-ring: color-mix(in srgb, var(--tng-semantic-accent-brand) 22%, transparent);',
+    '  --tng-input-bg: var(--tng-semantic-background-base);',
     '  font-size: 0.98rem;',
-    '  line-height: 1.35;',
-    '  outline: none;',
-    '  padding: 0;',
+    '  font-weight: 500;',
     '}',
     '',
   ].join('\n');
 
-  protected readonly tailwindExampleHtmlCode = [
-    '<form class="grid w-full max-w-[30rem] gap-4">',
-    '  <label class="grid gap-2 rounded-xl border border-slate-300 bg-white/80 p-3">',
-    '    <span class="text-xs font-semibold leading-5 text-slate-500">What is the most abundant gas in air?</span>',
-    '    <tng-input',
-    '      class="block',
-    "             [&_[data-slot='input-group']]:min-h-10",
-    "             [&_[data-slot='input-group']]:rounded-lg",
-    "             [&_[data-slot='input-group']]:border",
-    "             [&_[data-slot='input-group']]:border-slate-300",
-    "             [&_[data-slot='input-group']]:bg-white",
-    "             [&_[data-slot='input-group']]:px-3",
-    "             [&_[data-slot='input-group']]:shadow-sm",
-    "             [&_[data-slot='input-group']]:transition",
-    "             [&_[data-slot='input-group'][data-focused]]:border-blue-500",
-    "             [&_[data-slot='input-group'][data-focused]]:ring-2",
-    "             [&_[data-slot='input-group'][data-focused]]:ring-blue-200/70",
-    "             [&_[data-slot='input']]:w-full",
-    "             [&_[data-slot='input']]:border-0",
-    "             [&_[data-slot='input']]:bg-transparent",
-    "             [&_[data-slot='input']]:p-0",
-    "             [&_[data-slot='input']]:text-[0.98rem]",
-    "             [&_[data-slot='input']]:font-medium",
-    "             [&_[data-slot='input']]:leading-5",
-    "             [&_[data-slot='input']]:outline-none\"",
-    '      type="text"',
-    '      value="Nitrogen"',
-    '    ></tng-input>',
-    '  </label>',
-    '</form>',
+  private readonly tailwindExampleHtmlCode = [
+    '<label class="grid gap-2 rounded-xl border border-slate-300 bg-white/80 p-3">',
+    '  <span class="text-xs font-semibold text-slate-500">Email</span>',
+    '  <tng-input',
+    '    class="block',
+    "           [&_[data-slot='input-group']]:min-h-10",
+    "           [&_[data-slot='input-group']]:rounded-lg",
+    "           [&_[data-slot='input-group']]:border",
+    "           [&_[data-slot='input-group']]:border-slate-300",
+    "           [&_[data-slot='input-group']]:bg-white",
+    "           [&_[data-slot='input-group']]:px-3",
+    "           [&_[data-slot='input-group']]:shadow-sm",
+    "           [&_[data-slot='input-group'][data-focused]]:border-blue-500",
+    "           [&_[data-slot='input-group'][data-focused]]:ring-2",
+    "           [&_[data-slot='input-group'][data-focused]]:ring-blue-200/70",
+    "           [&_[data-slot='input']]:w-full",
+    "           [&_[data-slot='input']]:border-0",
+    "           [&_[data-slot='input']]:bg-transparent",
+    "           [&_[data-slot='input']]:p-0",
+    "           [&_[data-slot='input']]:text-[0.98rem]",
+    "           [&_[data-slot='input']]:font-medium",
+    "           [&_[data-slot='input']]:leading-5",
+    "           [&_[data-slot='input']]:outline-none\"",
+    '    type="email"',
+    '    placeholder="team@tailng.dev"',
+    '    ariaLabel="Email"',
+    '  ></tng-input>',
+    '</label>',
     '',
   ].join('\n');
 
-  protected readonly tailwindExampleTsCode = [
+  private readonly tailwindExampleTsCode = [
     "import { Component } from '@angular/core';",
     "import { TngInputComponent } from '@tailng-ui/components';",
     '',
@@ -256,31 +184,8 @@ export class InputOverviewPageComponent implements OnDestroy {
     '',
   ].join('\n');
 
-  protected readonly tailwindExampleCssCode =
-    '/* No custom CSS required. Styles are applied with Tailwind utility classes in the template. */';
-  protected readonly headlessExampleCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
-    {
-      value: 'ts',
-      label: 'TS',
-      language: 'ts',
-      title: 'headless-input-example.component.ts',
-      code: this.headlessExampleTsCode,
-    },
-    {
-      value: 'html',
-      label: 'HTML',
-      language: 'html',
-      title: 'headless-input-example.component.html',
-      code: this.headlessExampleHtmlCode,
-    },
-    {
-      value: 'css',
-      label: 'CSS',
-      language: 'css',
-      title: 'headless-input-example.component.css',
-      code: this.headlessExampleCssCode,
-    },
-  ]);
+  private readonly tailwindExampleCssCode =
+    '/* No custom CSS required. Tailwind utilities are applied directly in the template. */';
 
   protected readonly plainCssExampleCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
     {
@@ -351,38 +256,4 @@ export class InputOverviewPageComponent implements OnDestroy {
     inputElement.focus({ preventScroll: true });
   }
 
-  private observeCodeThemeChanges(): MutationObserver | null {
-    const view = this.documentRef.defaultView;
-    const mutationObserverCtor = view?.MutationObserver;
-    if (mutationObserverCtor === undefined) {
-      return null;
-    }
-
-    const observer = new mutationObserverCtor(() => {
-      this.codeBlockTheme.set(this.resolveCodeBlockTheme());
-    });
-
-    observer.observe(this.documentRef.documentElement, {
-      attributeFilter: ['style', 'class'],
-      attributes: true,
-    });
-
-    return observer;
-  }
-
-  private resolveCodeBlockTheme(): 'github-dark' | 'github-light' {
-    const root = this.documentRef.documentElement;
-    const inlineColorScheme = root.style.getPropertyValue('color-scheme').trim().toLowerCase();
-    if (inlineColorScheme.includes('dark')) {
-      return 'github-dark';
-    }
-
-    const computedColorScheme = this.documentRef.defaultView
-      ?.getComputedStyle(root)
-      .getPropertyValue('color-scheme')
-      .trim()
-      .toLowerCase();
-
-    return computedColorScheme?.includes('dark') ? 'github-dark' : 'github-light';
-  }
 }

@@ -1,4 +1,6 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Component, ViewEncapsulation, inject, signal, type OnDestroy } from '@angular/core';
+import { observeDocsCodeThemeChanges, resolveDocsCodeBlockTheme } from '../../../../../../shared/util';
 import { TngCodeBlockComponent } from '@tailng-ui/components';
 import { TngInput, TngInputGroup, TngPrefix, TngSuffix } from '@tailng-ui/primitives';
 import type { DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
@@ -6,7 +8,6 @@ import {
   DocsExampleTabsSectionComponent,
   DocsExampleVariantDirective,
 } from '../../../../../../shared/example-tabs-section/docs-example-tabs-section.component';
-import { InputStylingPageComponent } from '../../../../../components/form/input/sections/styling/input-styling-page.component';
 import { stackblitzVanillaUrl, stackblitzTailwindUrl } from '../../input.util';
 
 @Component({
@@ -28,12 +29,18 @@ import { stackblitzVanillaUrl, stackblitzTailwindUrl } from '../../input.util';
     '../../../../../../shared/form/input/input-styles.css',
   ],
 })
-export class HeadlessInputStylingPageComponent extends InputStylingPageComponent {
+export class HeadlessInputStylingPageComponent implements OnDestroy {
+  private readonly documentRef = inject(DOCUMENT);
+
+  public readonly codeBlockTheme = signal<'github-dark' | 'github-light'>(
+    resolveDocsCodeBlockTheme(this.documentRef),
+  );
+  private readonly colorSchemeObserver = observeDocsCodeThemeChanges(this.documentRef, this.codeBlockTheme);
 
   protected readonly stackblitzVanillaUrl = stackblitzVanillaUrl;
   protected readonly stackblitzTailwindUrl = stackblitzTailwindUrl;
 
-  protected override readonly headlessScenarioHtmlCode = [
+  protected readonly headlessScenarioHtmlCode = [
     '<div class="account-profile-example-fields">',
     '  <label',
     '    class="account-profile-example-field-surface account-profile-example-field-surface--headless"',
@@ -54,7 +61,7 @@ export class HeadlessInputStylingPageComponent extends InputStylingPageComponent
     '',
   ].join('\n');
 
-  protected override readonly headlessScenarioCssCode = [
+  protected readonly headlessScenarioCssCode = [
     '/* Plain-CSS headless scenario styling (surface + labels + slot internals). */',
     ".account-profile-example-fields {",
     "  display: grid;",
@@ -277,4 +284,66 @@ export class HeadlessInputStylingPageComponent extends InputStylingPageComponent
       code: this.tailwindHeadlessScenarioCssCode,
     },
   ]);
+
+  protected readonly stylePatternExamples = [
+    {
+      title: 'Theme token override',
+      description:
+        'Prefer overriding the public input tokens on the host instead of reaching into internal DOM for routine visual changes.',
+      language: 'css',
+      code: [
+        '.settings-input {',
+        '  --tng-input-bg: var(--tng-semantic-background-base);',
+        '  --tng-input-border: color-mix(in srgb, var(--tng-semantic-border-strong) 82%, transparent);',
+        '  --tng-input-radius: 0.75rem;',
+        '  --tng-input-min-height: 2.5rem;',
+        '  --tng-input-px: 0.8rem;',
+        '  --tng-input-focus-ring: color-mix(in srgb, var(--tng-semantic-accent-brand) 20%, transparent);',
+        '}',
+        '',
+      ].join('\n'),
+    },
+    {
+      title: 'Density control',
+      description:
+        'Tune field density through the token surface instead of replacing the shell layout.',
+      language: 'css',
+      code: [
+        '.compact-input {',
+        '  --tng-input-min-height: 2.2rem;',
+        '  --tng-input-px: 0.68rem;',
+        '  --tng-input-gap: 0.45rem;',
+        '  --tng-input-radius: 0.65rem;',
+        '}',
+        '',
+      ].join('\n'),
+    },
+    {
+      title: 'State-aware shell',
+      description:
+        'Use the emitted state attrs when the visual treatment must react to focus, invalid, or disabled state.',
+      language: 'css',
+      code: [
+        '.settings-input {',
+        '  --tng-input-border: color-mix(in srgb, var(--tng-semantic-border-strong) 82%, transparent);',
+        '  --tng-input-focus-ring: color-mix(in srgb, var(--tng-semantic-accent-brand) 20%, transparent);',
+        '}',
+        '',
+        '.settings-input [data-slot="input-group"][data-invalid] {',
+        '  border-color: var(--tng-semantic-accent-danger);',
+        '}',
+        '',
+        '.settings-input [data-slot="input-group"][data-disabled] {',
+        '  opacity: 0.58;',
+        '  cursor: not-allowed;',
+        '}',
+        '',
+      ].join('\n'),
+    },
+  ] as const;
+
+  public ngOnDestroy(): void {
+    this.colorSchemeObserver?.disconnect();
+  }
+
 }

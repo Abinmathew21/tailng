@@ -124,25 +124,22 @@
   line-height: 1.2;
 }
 
-:host ::ng-deep .input-styling-example-shell [data-slot='input-group'] {
-  background: var(--tng-semantic-background-base);
-  border: 1px solid var(--tng-semantic-border-strong);
-  border-radius: 0.65rem;
-  min-height: 2.4rem;
-  padding: 0 0.7rem;
-  transition:
-    border-color 0.15s ease,
-    box-shadow 0.15s ease;
-  cursor: text;
+.input-styling-example-shell--plain {
+  --tng-input-min-height: 2.45rem;
+  --tng-input-radius: 0.75rem;
+  --tng-input-px: 0.78rem;
+  --tng-input-border: color-mix(in srgb, var(--tng-semantic-border-strong) 76%, transparent);
+  --tng-input-bg: var(--tng-semantic-background-base);
+  --tng-input-focus-ring: color-mix(in srgb, var(--tng-semantic-accent-brand) 18%, transparent);
+  --tng-input-fg: var(--tng-semantic-foreground-primary);
 }
 
-:host ::ng-deep .input-styling-example-shell [data-slot='input-group'][data-focused] {
-  border-color: color-mix(
-    in srgb,
-    var(--tng-semantic-accent-brand) 55%,
-    var(--tng-semantic-border-strong)
-  );
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--tng-semantic-accent-brand) 20%, transparent);
+:host ::ng-deep .input-styling-example-shell [data-slot='input-group'] {
+  cursor: text;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    background-color 0.15s ease;
 }
 
 :host ::ng-deep .input-styling-example-shell [data-slot='input'] {

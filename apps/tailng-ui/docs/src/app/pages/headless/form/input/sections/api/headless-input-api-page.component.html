@@ -10,7 +10,7 @@
     <section id="tng-input" class="docs-section-anchor input-api-block">
       <h3><code>tngInput</code> (directive)</h3>
       <p>Attach to a native <code>input[tngInput]</code>. Textarea usage is documented on the dedicated <strong>Textarea</strong> page.</p>
-      <tng-code-block [code]="directiveAttachCode" adapter="shiki" language="html" title="Directive attachment" [lineNumbers]="false" [wrap]="true" [sanitizeHtml]="false"></tng-code-block>
+      <tng-code-block [code]="directiveAttachCode" adapter="shiki" language="html" title="Directive attachment" [lineNumbers]="false" [wrap]="true" [sanitizeHtml]="false" [theme]="codeBlockTheme()"></tng-code-block>
       <div class="input-api-table-wrap">
         <table class="input-api-table">
           <thead>
@@ -53,7 +53,83 @@
         <code>tngPrefix</code>/<code>tngSuffix</code> slots and provides the base structural layout for
         leading, control, and trailing regions.
       </p>
-      <tng-code-block [code]="groupTemplateCode" adapter="shiki" language="html" title="Grouped composition" [lineNumbers]="false" [wrap]="true" [sanitizeHtml]="false"></tng-code-block>
+      <app-docs-example-tabs-section
+        heading="Grouped search input"
+        class="docs-section-anchor"
+        description="A headless search field with a search-icon prefix and a clear-action suffix."
+        ariaLabel="Grouped search input variants"
+        tabListAriaLabel="Grouped search input style variants"
+        defaultValue="plain-css"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <ng-template
+          appDocsExampleVariant
+          value="plain-css"
+          label="Plain-CSS"
+          panelTitle="Grouped search input (Plain-CSS)"
+          [codeTabs]="groupDemoPlainCodeTabs"
+          [stackblitzUrl]="stackblitzVanillaUrl"
+        >
+          <div class="input-example-preview">
+            <div tngInputGroup class="input-example-headless-shell">
+              <span tngPrefix aria-hidden="true" class="input-api-prefix">
+                <tng-icon icon="search" class="input-example-icon" />
+              </span>
+              <input
+                tngInput
+                type="search"
+                placeholder="Search docs..."
+                aria-label="Search docs"
+                class="input-api-control"
+              />
+              <button
+                tngSuffix
+                type="button"
+                class="input-api-icon-button"
+                aria-label="Clear search"
+              >
+                <tng-icon icon="x" class="input-example-icon" />
+              </button>
+            </div>
+          </div>
+        </ng-template>
+
+        <ng-template
+          appDocsExampleVariant
+          value="tailwind-css"
+          label="Tailwind CSS"
+          panelTitle="Grouped search input (Tailwind CSS)"
+          [codeTabs]="groupDemoTailwindCodeTabs"
+          [stackblitzUrl]="stackblitzTailwindUrl"
+        >
+          <div class="input-example-preview">
+            <div
+              tngInputGroup
+              class="min-h-11 w-full max-w-[32rem] items-center gap-2 rounded-xl border border-slate-300 bg-white px-3 shadow-sm transition
+                     [&[data-focused]]:border-blue-500 [&[data-focused]]:ring-2 [&[data-focused]]:ring-blue-200"
+            >
+              <span tngPrefix aria-hidden="true" class="text-slate-500">
+                <tng-icon icon="search" class="h-4 w-4" />
+              </span>
+              <input
+                tngInput
+                type="search"
+                placeholder="Search docs..."
+                aria-label="Search docs"
+                class="w-full border-0 bg-transparent p-0 text-[0.98rem] outline-none"
+              />
+              <button
+                tngSuffix
+                type="button"
+                aria-label="Clear search"
+                class="inline-flex items-center rounded-full border-0 bg-transparent p-0 text-slate-500 transition hover:text-slate-700"
+              >
+                <tng-icon icon="x" class="h-4 w-4" />
+              </button>
+            </div>
+          </div>
+        </ng-template>
+      </app-docs-example-tabs-section>
       <div class="input-api-table-wrap">
         <table class="input-api-table">
           <thead>
@@ -136,13 +212,13 @@
             <tr>
               <td><code>tngPrefix</code></td>
               <td>Projected leading element</td>
-              <td><code>data-slot="input-leading"</code></td>
+              <td><code>data-slot="input-group-leading"</code></td>
               <td>Marks prefix/adornment content projected into the group’s leading region.</td>
             </tr>
             <tr>
               <td><code>tngSuffix</code></td>
               <td>Projected trailing element</td>
-              <td><code>data-slot="input-trailing"</code></td>
+              <td><code>data-slot="input-group-trailing"</code></td>
               <td>Marks suffix/action content projected into the group’s trailing region.</td>
             </tr>
           </tbody>

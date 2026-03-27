@@ -88,16 +88,14 @@
   line-height: 1.2;
 }
 
-:host ::ng-deep .input-overview-example-shell [data-slot='input-group'] {
-  background: var(--tng-semantic-background-base);
-  border: 1px solid var(--tng-semantic-border-strong);
-  border-radius: 0.65rem;
-  min-height: 2.4rem;
-  padding: 0 0.7rem;
-  transition:
-    border-color 0.15s ease,
-    box-shadow 0.15s ease;
-  cursor: text;
+.input-overview-example-shell--plain {
+  --tng-input-bg: var(--tng-semantic-background-base);
+  --tng-input-border: color-mix(in srgb, var(--tng-semantic-border-strong) 78%, transparent);
+  --tng-input-radius: 0.72rem;
+  --tng-input-min-height: 2.5rem;
+  --tng-input-px: 0.78rem;
+  --tng-input-focus-ring: color-mix(in srgb, var(--tng-semantic-accent-brand) 22%, transparent);
+  --tng-input-fg: var(--tng-semantic-foreground-primary);
 }
 
 :host ::ng-deep .input-overview-example-shell [data-slot='input'] {
@@ -121,13 +119,12 @@
   color: var(--tng-semantic-foreground-muted);
 }
 
-:host ::ng-deep .input-overview-example-shell [data-slot='input-group'][data-focused] {
-  border-color: color-mix(
-    in srgb,
-    var(--tng-semantic-accent-brand) 55%,
-    var(--tng-semantic-border-strong)
-  );
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--tng-semantic-accent-brand) 20%, transparent);
+:host ::ng-deep .input-overview-example-shell [data-slot='input-group'] {
+  cursor: text;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    background-color 0.15s ease;
 }
 
 .pitfall-grid {

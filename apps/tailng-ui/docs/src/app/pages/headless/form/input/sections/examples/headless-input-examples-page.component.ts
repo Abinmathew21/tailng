@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Component, inject, signal, type OnDestroy } from '@angular/core';
+import { observeDocsCodeThemeChanges, resolveDocsCodeBlockTheme } from '../../../../../../shared/util';
 import { TngIcon } from '@tailng-ui/icons';
 import { TngInput, TngInputGroup, TngPrefix, TngSuffix } from '@tailng-ui/primitives';
 import type { DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
@@ -6,7 +8,6 @@ import {
   DocsExampleTabsSectionComponent,
   DocsExampleVariantDirective,
 } from '../../../../../../shared/example-tabs-section/docs-example-tabs-section.component';
-import { InputExamplesPageComponent } from '../../../../../components/form/input/sections/examples/input-examples-page.component';
 import { stackblitzVanillaUrl, stackblitzTailwindUrl } from '../../input.util';
 
 type CreateCodeTabsArgs = {
@@ -56,9 +57,16 @@ function createCodeTabs({ baseName, tsCode, htmlCode, cssCode }: CreateCodeTabsA
   templateUrl: './headless-input-examples-page.component.html',
   styleUrls: [
     '../../../../../components/form/input/sections/examples/input-examples-page.component.css',
+    './headless-input-examples-page.component.css',
   ],
 })
-export class HeadlessInputExamplesPageComponent extends InputExamplesPageComponent {
+export class HeadlessInputExamplesPageComponent implements OnDestroy {
+  private readonly documentRef = inject(DOCUMENT);
+
+  public readonly codeBlockTheme = signal<'github-dark' | 'github-light'>(
+    resolveDocsCodeBlockTheme(this.documentRef),
+  );
+  private readonly colorSchemeObserver = observeDocsCodeThemeChanges(this.documentRef, this.codeBlockTheme);
 
   protected readonly stackblitzVanillaUrl = stackblitzVanillaUrl;
   protected readonly stackblitzTailwindUrl = stackblitzTailwindUrl;
@@ -90,8 +98,7 @@ export class HeadlessInputExamplesPageComponent extends InputExamplesPageCompone
     '',
   ].join('\n');
 
-  // Overrides the parent class so the code-block (HTML + CSS tabs) matches the domain-shell demo.
-  protected override readonly workspaceHeadlessHtmlCode = [
+  protected readonly workspaceHeadlessHtmlCode = [
     '<div tngInputGroup class="domain-shell">',
     '  <input tngInput type="text" value="core-platform" aria-label="Subdomain" />',
     '  <span tngSuffix class="domain-suffix" aria-hidden="true">.tailng.dev</span>',
@@ -99,7 +106,7 @@ export class HeadlessInputExamplesPageComponent extends InputExamplesPageCompone
     '',
   ].join('\n');
 
-  protected override readonly workspaceHeadlessCssCode = [
+  protected readonly workspaceHeadlessCssCode = [
     ".domain-shell[data-slot='input-group'] {",
     '  width: 100%;',
     '  min-height: 3.25rem;',
@@ -279,59 +286,153 @@ export class HeadlessInputExamplesPageComponent extends InputExamplesPageCompone
     '',
   ].join('\n');
 
-  protected override readonly searchPlainCodeTabs = createCodeTabs({
+  protected readonly searchHeadlessHtmlCode = [
+    '<div tngInputGroup class="input-example-headless-shell">',
+    '  <span tngPrefix aria-hidden="true">',
+    '    <tng-icon icon="search" class="input-example-icon" />',
+    '  </span>',
+    '  <input tngInput type="search" placeholder="Search components..." />',
+    '  <span tngSuffix class="input-example-meta">Ctrl+K</span>',
+    '</div>',
+    '',
+  ].join('\n');
+
+  protected readonly searchHeadlessCssCode = [
+    ".input-example-headless-shell[data-slot='input-group'] {",
+    '  --tng-input-bg: var(--tng-semantic-background-base);',
+    '  --tng-input-border: color-mix(in srgb, var(--tng-semantic-border-strong) 78%, transparent);',
+    '  --tng-input-focus-ring: color-mix(in srgb, var(--tng-semantic-accent-brand) 24%, transparent);',
+    '  --tng-input-radius: 0.78rem;',
+    '  --tng-input-min-height: 2.65rem;',
+    '  --tng-input-px: 0.88rem;',
+    '  --tng-input-fg: var(--tng-semantic-foreground-primary);',
+    '}',
+    '',
+    ".input-example-headless-shell [data-slot='input-group-leading'],",
+    ".input-example-headless-shell [data-slot='input-group-trailing'] {",
+    '  align-items: center;',
+    '  color: var(--tng-semantic-foreground-secondary);',
+    '  display: inline-flex;',
+    '}',
+    '',
+    '.input-example-icon {',
+    '  height: 1.1rem;',
+    '  width: 1.1rem;',
+    '}',
+    '',
+    '.input-example-meta {',
+    '  font-size: 0.82rem;',
+    '  font-weight: 600;',
+    '  letter-spacing: 0.01em;',
+    '}',
+    '',
+  ].join('\n');
+
+  protected readonly searchTailwindCssCode =
+    '/* Tailwind utilities are applied directly in the template. */';
+
+  protected readonly workspaceTailwindCssCode =
+    '/* Tailwind utilities are applied directly in the template. */';
+
+  protected readonly validationHeadlessHtmlCode = [
+    '<div class="input-example-validation-stack">',
+    '  <div tngInputGroup class="input-example-headless-shell">',
+    '    <input tngInput type="email" value="team@tailng" aria-invalid="true" />',
+    '  </div>',
+    '  <p class="input-example-helper input-example-helper--danger">',
+    '    Enter a valid email address in user@domain format.',
+    '  </p>',
+    '</div>',
+    '',
+  ].join('\n');
+
+  protected readonly validationHeadlessCssCode = [
+    this.searchHeadlessCssCode,
+    '.input-example-helper--danger {',
+    '  color: var(--tng-semantic-accent-danger);',
+    '  font-size: 0.82rem;',
+    '}',
+    '',
+  ].join('\n');
+
+  protected readonly validationTailwindCssCode =
+    '/* Tailwind utilities are applied directly in the template. */';
+
+  protected readonly statesHeadlessHtmlCode = [
+    '<div class="input-example-stacked">',
+    '  <div tngInputGroup class="input-example-headless-shell">',
+    '    <input tngInput type="text" value="Readonly API key" readonly />',
+    '  </div>',
+    '  <div tngInputGroup class="input-example-headless-shell">',
+    '    <input tngInput type="text" value="Disabled while syncing" disabled />',
+    '  </div>',
+    '</div>',
+    '',
+  ].join('\n');
+
+  protected readonly statesHeadlessCssCode = this.searchHeadlessCssCode;
+
+  protected readonly statesTailwindCssCode =
+    '/* Tailwind utilities are applied directly in the template. */';
+
+  protected readonly searchPlainCodeTabs = createCodeTabs({
     baseName: 'search-input-plain-css',
     tsCode: this.headlessSearchTsCode,
     htmlCode: this.searchHeadlessHtmlCode,
     cssCode: this.searchHeadlessCssCode,
   });
 
-  protected override readonly searchTailwindCodeTabs = createCodeTabs({
+  protected readonly searchTailwindCodeTabs = createCodeTabs({
     baseName: 'search-input-tailwind',
     tsCode: this.headlessSearchTsCode,
     htmlCode: this.searchHeadlessTailwindHtmlCode,
     cssCode: this.searchTailwindCssCode,
   });
 
-  protected override readonly workspacePlainCodeTabs = createCodeTabs({
+  protected readonly workspacePlainCodeTabs = createCodeTabs({
     baseName: 'workspace-input-plain-css',
     tsCode: this.headlessWorkspaceTsCode,
     htmlCode: this.workspaceHeadlessHtmlCode,
     cssCode: this.workspaceHeadlessCssCode,
   });
 
-  protected override readonly workspaceTailwindCodeTabs = createCodeTabs({
+  protected readonly workspaceTailwindCodeTabs = createCodeTabs({
     baseName: 'workspace-input-tailwind',
     tsCode: this.headlessWorkspaceTsCode,
     htmlCode: this.workspaceHeadlessTailwindHtmlCode,
     cssCode: this.workspaceTailwindCssCode,
   });
 
-  protected override readonly validationPlainCodeTabs = createCodeTabs({
+  protected readonly validationPlainCodeTabs = createCodeTabs({
     baseName: 'validation-input-plain-css',
     tsCode: this.headlessValidationTsCode,
     htmlCode: this.validationHeadlessHtmlCode,
     cssCode: this.validationHeadlessCssCode,
   });
 
-  protected override readonly validationTailwindCodeTabs = createCodeTabs({
+  protected readonly validationTailwindCodeTabs = createCodeTabs({
     baseName: 'validation-input-tailwind',
     tsCode: this.headlessValidationTsCode,
     htmlCode: this.validationHeadlessTailwindHtmlCode,
     cssCode: this.validationTailwindCssCode,
   });
 
-  protected override readonly statesPlainCodeTabs = createCodeTabs({
+  protected readonly statesPlainCodeTabs = createCodeTabs({
     baseName: 'stateful-inputs-plain-css',
     tsCode: this.headlessStatesTsCode,
     htmlCode: this.statesHeadlessHtmlCode,
     cssCode: this.statesHeadlessCssCode,
   });
 
-  protected override readonly statesTailwindCodeTabs = createCodeTabs({
+  protected readonly statesTailwindCodeTabs = createCodeTabs({
     baseName: 'stateful-inputs-tailwind',
     tsCode: this.headlessStatesTsCode,
     htmlCode: this.statesHeadlessTailwindHtmlCode,
     cssCode: this.statesTailwindCssCode,
   });
+
+  public ngOnDestroy(): void {
+    this.colorSchemeObserver?.disconnect();
+  }
+
 }

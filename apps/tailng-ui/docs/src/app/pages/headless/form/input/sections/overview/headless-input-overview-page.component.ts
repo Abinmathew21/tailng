@@ -1,13 +1,14 @@
-import { Component } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Component, inject, signal, type OnDestroy } from '@angular/core';
+import { observeDocsCodeThemeChanges, resolveDocsCodeBlockTheme } from '../../../../../../shared/util';
 import { TngCodeBlockComponent } from '@tailng-ui/components';
-import { TngInput, TngInputGroup } from '@tailng-ui/primitives';
+import { TngInput } from '@tailng-ui/primitives';
 import type { DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
 import {
   DocsExampleTabsSectionComponent,
   DocsExampleVariantDirective,
 } from '../../../../../../shared/example-tabs-section/docs-example-tabs-section.component';
-import { InputOverviewPageComponent } from '../../../../../components/form/input/sections/overview/input-overview-page.component';
-import { stackblitzVanillaUrl, stackblitzTailwindUrl } from '../../input.util';
+import { stackblitzTailwindUrl, stackblitzVanillaUrl } from '../../input.util';
 
 function createCodeTabs(
   baseName: string,
@@ -44,7 +45,6 @@ function createCodeTabs(
     TngCodeBlockComponent,
     DocsExampleTabsSectionComponent,
     DocsExampleVariantDirective,
-    TngInputGroup,
     TngInput,
   ],
   templateUrl: './headless-input-overview-page.component.html',
@@ -53,12 +53,28 @@ function createCodeTabs(
     '../../../../../../shared/form/input/input-styles.css',
   ],
 })
-export class HeadlessInputOverviewPageComponent extends InputOverviewPageComponent {
+export class HeadlessInputOverviewPageComponent implements OnDestroy {
+  private readonly documentRef = inject(DOCUMENT);
+
+  public readonly codeBlockTheme = signal<'github-dark' | 'github-light'>(
+    resolveDocsCodeBlockTheme(this.documentRef),
+  );
+  private readonly colorSchemeObserver = observeDocsCodeThemeChanges(this.documentRef, this.codeBlockTheme);
 
   protected readonly stackblitzVanillaUrl = stackblitzVanillaUrl;
   protected readonly stackblitzTailwindUrl = stackblitzTailwindUrl;
 
-  protected override readonly groupedInputCode = [
+  protected readonly directAttachmentCode = [
+    '<input tngInput type="email" placeholder="team@tailng.dev" />',
+    '',
+  ].join('\n');
+
+  protected readonly primitivesImportCode = [
+    "import { TngInput, TngInputGroup, TngPrefix, TngSuffix } from '@tailng-ui/primitives';",
+    '',
+  ].join('\n');
+
+  protected readonly groupedInputCode = [
     '<tng-input-group>',
     '  <span tngPrefix aria-hidden="true">Search</span>',
     '  <input tngInput type="search" placeholder="Search..." />',
@@ -67,7 +83,7 @@ export class HeadlessInputOverviewPageComponent extends InputOverviewPageCompone
     '',
   ].join('\n');
 
-  protected override readonly searchWithHintCode = [
+  protected readonly searchWithHintCode = [
     '<tng-input-group class="demo-group">',
     '  <span tngPrefix aria-hidden="true">Search</span>',
     '  <input tngInput type="search" placeholder="Search primitives" />',
@@ -76,7 +92,7 @@ export class HeadlessInputOverviewPageComponent extends InputOverviewPageCompone
     '',
   ].join('\n');
 
-  protected override readonly searchWithClearButtonCode = [
+  protected readonly searchWithClearButtonCode = [
     '<tng-input-group class="demo-group">',
     '  <input tngInput type="search" placeholder="Search..." />',
     '  <button tngSuffix type="button" aria-label="Clear">X</button>',
@@ -84,37 +100,85 @@ export class HeadlessInputOverviewPageComponent extends InputOverviewPageCompone
     '',
   ].join('\n');
 
-  protected override readonly pitfallCorrectCode = [
+  protected readonly pitfallCorrectCode = [
     '<tng-input-group>',
     '  <input tngInput />',
     '</tng-input-group>',
     '',
   ].join('\n');
 
-  protected override readonly pitfallIncorrectCode = [
+  protected readonly pitfallIncorrectCode = [
     '<tng-input-group>',
     '  <input />',
     '</tng-input-group>',
     '',
   ].join('\n');
 
+  protected readonly ariaInvalidTestCode = [
+    '<input tngInput type="email" aria-invalid="true" />',
+    '',
+  ].join('\n');
+
+  protected readonly nativeValidationCode = [
+    '<input tngInput type="email" required />',
+    '',
+  ].join('\n');
+
+  protected readonly headlessExampleTsCode = [
+    "import { Component } from '@angular/core';",
+    "import { TngInput } from '@tailng-ui/primitives';",
+    '',
+    '@Component({',
+    "  selector: 'app-plain-css-headless-input-example',",
+    '  imports: [TngInput],',
+    "  templateUrl: './plain-css-headless-input-example.component.html',",
+    "  styleUrl: './plain-css-headless-input-example.component.css',",
+    '})',
+    'export class PlainCssHeadlessInputExampleComponent {}',
+    '',
+  ].join('\n');
+
+  protected readonly headlessExampleHtmlCode = [
+    '<input',
+    '  tngInput',
+    '  type="text"',
+    '  value="Nitrogen"',
+    '  aria-label="What is the most abundant gas in air?"',
+    '  class="demo-normal-input"',
+    '/>',
+    '',
+  ].join('\n');
+
+  protected readonly headlessExampleCssCode = [
+    '.demo-normal-input {',
+    '  width: 100%;',
+    '  max-width: 30rem;',
+    '  font: inherit;',
+    '  color: rgba(28, 25, 23, 0.95);',
+    '  background: #ffffff;',
+    '  border: 1px solid rgba(28, 25, 23, 0.14);',
+    '  border-radius: 0.85rem;',
+    '  padding: 0.75rem 0.8rem;',
+    '  box-shadow: 0 1px 2px rgba(28, 25, 23, 0.04);',
+    '}',
+    '',
+    '.demo-normal-input:focus-visible {',
+    '  outline: none;',
+    '  border-color: rgba(15, 118, 110, 0.65);',
+    '  box-shadow:',
+    '    0 0 0 4px rgba(15, 118, 110, 0.18),',
+    '    0 1px 2px rgba(28, 25, 23, 0.04);',
+    '}',
+    '',
+  ].join('\n');
+
   protected readonly tailwindHeadlessExampleHtmlCode = [
-    '<form class="grid w-full max-w-[30rem] gap-4">',
-    '  <label class="grid gap-2 rounded-xl border border-slate-300 bg-white/80 p-3">',
-    '    <span class="text-xs font-semibold leading-5 text-slate-500">What is the most abundant gas in air?</span>',
-    '    <div',
-    '      tngInputGroup',
-    '      class="min-h-10 rounded-lg border border-slate-300 bg-white px-3 shadow-sm transition [&[data-focused]]:border-blue-500 [&[data-focused]]:ring-2 [&[data-focused]]:ring-blue-200/70"',
-    '    >',
-    '      <input',
-    '        tngInput',
-    '        type="text"',
-    '        value="Nitrogen"',
-    '        class="w-full border-0 bg-transparent p-0 text-[0.98rem] font-medium leading-5 outline-none"',
-    '      />',
-    '    </div>',
-    '  </label>',
-    '</form>',
+    '<input',
+    '  tngInput',
+    '  type="text"',
+    '  value="Oxygen"',
+    '  class="w-full max-w-[30rem] rounded-[0.85rem] border border-[rgba(28,25,23,0.14)] bg-white px-[0.8rem] py-[0.75rem] font-inherit text-[rgba(28,25,23,0.95)] shadow-[0_1px_2px_rgba(28,25,23,0.04)] outline-none focus-visible:border-[rgba(15,118,110,0.65)] focus-visible:shadow-[0_0_0_4px_rgba(15,118,110,0.18),0_1px_2px_rgba(28,25,23,0.04)]"',
+    '/>',
     '',
   ].join('\n');
 
@@ -138,4 +202,9 @@ export class HeadlessInputOverviewPageComponent extends InputOverviewPageCompone
       cssCode: this.tailwindHeadlessExampleCssCode,
     },
   );
+
+  public ngOnDestroy(): void {
+    this.colorSchemeObserver?.disconnect();
+  }
+
 }
