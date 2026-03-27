@@ -90,7 +90,7 @@
 
 .input-overview-example-shell--plain {
   --tng-input-bg: var(--tng-semantic-background-base);
-  --tng-input-border: color-mix(in srgb, var(--tng-semantic-border-strong) 78%, transparent);
+  --tng-input-border: color-mix(in srgb, var(--tng-semantic-border-strong) 92%, transparent);
   --tng-input-radius: 0.72rem;
   --tng-input-min-height: 2.5rem;
   --tng-input-px: 0.78rem;
@@ -155,7 +155,7 @@
   color: rgba(28, 25, 23, 0.95);
 
   background: #ffffff;
-  border: 1px solid rgba(28, 25, 23, 0.14);
+  border: 1px solid rgba(28, 25, 23, 0.22);
   border-radius: 0.85rem;
   padding: 0.75rem 0.8rem;
 
@@ -171,5 +171,5 @@
 }
 
 .demo-normal-input:hover:not(:disabled):not([aria-disabled='true']) {
-  border-color: rgba(28, 25, 23, 0.18);
+  border-color: rgba(28, 25, 23, 0.26);
 }

@@ -156,7 +156,7 @@ export class HeadlessInputOverviewPageComponent implements OnDestroy {
     '  font: inherit;',
     '  color: rgba(28, 25, 23, 0.95);',
     '  background: #ffffff;',
-    '  border: 1px solid rgba(28, 25, 23, 0.14);',
+    '  border: 1px solid rgba(28, 25, 23, 0.22);',
     '  border-radius: 0.85rem;',
     '  padding: 0.75rem 0.8rem;',
     '  box-shadow: 0 1px 2px rgba(28, 25, 23, 0.04);',
@@ -170,6 +170,10 @@ export class HeadlessInputOverviewPageComponent implements OnDestroy {
     '    0 1px 2px rgba(28, 25, 23, 0.04);',
     '}',
     '',
+    ".demo-normal-input:hover:not(:disabled):not([aria-disabled='true']) {",
+    '  border-color: rgba(28, 25, 23, 0.26);',
+    '}',
+    '',
   ].join('\n');
 
   protected readonly tailwindHeadlessExampleHtmlCode = [
@@ -177,7 +181,7 @@ export class HeadlessInputOverviewPageComponent implements OnDestroy {
     '  tngInput',
     '  type="text"',
     '  value="Oxygen"',
-    '  class="w-full max-w-[30rem] rounded-[0.85rem] border border-[rgba(28,25,23,0.14)] bg-white px-[0.8rem] py-[0.75rem] font-inherit text-[rgba(28,25,23,0.95)] shadow-[0_1px_2px_rgba(28,25,23,0.04)] outline-none focus-visible:border-[rgba(15,118,110,0.65)] focus-visible:shadow-[0_0_0_4px_rgba(15,118,110,0.18),0_1px_2px_rgba(28,25,23,0.04)]"',
+    '  class="w-full max-w-[30rem] rounded-[0.85rem] border border-[rgba(28,25,23,0.22)] bg-white px-[0.8rem] py-[0.75rem] font-inherit text-[rgba(28,25,23,0.95)] shadow-[0_1px_2px_rgba(28,25,23,0.04)] outline-none hover:border-[rgba(28,25,23,0.26)] focus-visible:border-[rgba(15,118,110,0.65)] focus-visible:shadow-[0_0_0_4px_rgba(15,118,110,0.18),0_1px_2px_rgba(28,25,23,0.04)]"',
     '/>',
     '',
   ].join('\n');

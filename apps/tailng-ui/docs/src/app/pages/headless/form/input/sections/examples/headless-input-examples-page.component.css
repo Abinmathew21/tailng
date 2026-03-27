@@ -1,18 +1,41 @@
-:host ::ng-deep .input-example-headless-shell[data-slot='input-group'] {
-  --tng-input-bg: var(--tng-semantic-background-base);
-  --tng-input-border: color-mix(in srgb, var(--tng-semantic-border-strong) 78%, transparent);
-  --tng-input-focus-ring: color-mix(in srgb, var(--tng-semantic-accent-brand) 24%, transparent);
-  --tng-input-radius: 0.78rem;
-  --tng-input-min-height: 2.65rem;
-  --tng-input-px: 0.88rem;
-  --tng-input-fg: var(--tng-semantic-foreground-primary);
-  cursor: text;
+:host {
+  display: block;
 }
 
-:host ::ng-deep .input-example-headless-shell [data-slot='input-group-leading'],
-:host ::ng-deep .input-example-headless-shell [data-slot='input-group-trailing'] {
-  align-items: center;
+.input-examples-note {
+  margin: 0 0 1rem;
+  max-width: 52rem;
   color: var(--tng-semantic-foreground-secondary);
+}
+
+.input-examples-note-link {
+  color: var(--tng-semantic-accent-brand);
+  font-weight: 600;
+}
+
+:host ::ng-deep .input-example-headless-shell[data-slot='input-group'] {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.78rem;
+  color: #0f172a;
+  color-scheme: light;
+  cursor: text;
+  min-height: 2.65rem;
+  padding-inline: 0.88rem;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+:host ::ng-deep .input-example-headless-shell[data-slot='input-group'][data-focused] {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.18);
+}
+
+:host ::ng-deep .input-example-headless-shell [data-slot='input-leading'],
+:host ::ng-deep .input-example-headless-shell [data-slot='input-trailing'] {
+  align-items: center;
+  color: #64748b;
   display: inline-flex;
 }
 
@@ -21,15 +44,18 @@
   border: 0 !important;
   border-radius: 0;
   box-shadow: none !important;
-  color: var(--tng-semantic-foreground-primary);
+  color: #0f172a;
+  display: block;
   font-size: 0.98rem;
   line-height: 1.35;
+  min-width: 0;
   outline: none !important;
   padding: 0;
+  width: 100%;
 }
 
 :host ::ng-deep .input-example-headless-shell [data-slot='input']::placeholder {
-  color: var(--tng-semantic-foreground-muted);
+  color: #94a3b8;
 }
 
 .input-example-icon {
@@ -38,8 +64,12 @@
 }
 
 .input-example-meta {
-  color: var(--tng-semantic-foreground-secondary);
+  color: #64748b;
   font-size: 0.82rem;
   font-weight: 600;
   letter-spacing: 0.01em;
+}
+
+.input-example-helper--danger {
+  color: #dc2626;
 }
