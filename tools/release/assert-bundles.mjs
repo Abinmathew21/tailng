@@ -42,6 +42,10 @@ const fail = (msg) => {
 
 const warn = (msg) => console.warn(`⚠️  assert-bundles: ${msg}`);
 
+function readFileSafe(file) {
+  return exists(file) ? fs.readFileSync(file, 'utf8') : null;
+}
+
 function listFiles(dir, predicate) {
   if (!exists(dir)) return [];
   const out = [];
@@ -154,6 +158,23 @@ function assertAngularPackage(name, opts) {
   for (const { file, size } of bundleSizes) {
     if (size < opts.minMjs) {
       warn(`${name}: small bundle entry: ${path.relative(root, file)} (${size} bytes)`);
+    }
+  }
+
+  if (name === 'icons') {
+    const iconEntry = path.join(root, 'src', 'lib', 'tng-icon.js');
+    const iconSource = readFileSafe(iconEntry);
+    if (iconSource === null) {
+      fail(`icons: missing Angular component entry: ${path.relative(root, iconEntry)}`);
+    }
+
+    if (
+      !iconSource.includes('ɵɵngDeclareComponent') ||
+      !iconSource.includes('isStandalone: true')
+    ) {
+      fail(
+        `icons: expected Angular partial-compiled standalone metadata in ${path.relative(root, iconEntry)}`,
+      );
     }
   }
 }

@@ -18,6 +18,7 @@ import { normalizeOptionalString } from './tng-icon.normalizers';
   },
   imports: [NgIcon],
   selector: 'tng-icon',
+  standalone: true,
   styleUrl: './tng-icon.css',
   templateUrl: './tng-icon.html',
 })

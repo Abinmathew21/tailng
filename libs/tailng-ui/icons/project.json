@@ -13,14 +13,11 @@
   "tags": ["scope:tailng", "type:icons"],
   "targets": {
     "build": {
-      "executor": "@nx/js:tsc",
+      "executor": "nx:run-commands",
       "dependsOn": ["generate"],
-      "outputs": ["{options.outputPath}"],
+      "outputs": ["{workspaceRoot}/dist/libs/tailng-ui/icons"],
       "options": {
-        "outputPath": "dist/libs/tailng-ui/icons",
-        "main": "libs/tailng-ui/icons/src/index.ts",
-        "tsConfig": "libs/tailng-ui/icons/tsconfig.lib.json",
-        "assets": ["libs/tailng-ui/icons/*.md"]
+        "command": "node tools/build/build-icons.mjs"
       }
     },
     "nx-release-publish": {
