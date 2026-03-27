@@ -45,3 +45,4 @@ export class TngProgressBarComponent {
     toTngProgressBarPercent(this.min(), this.max(), this.value()),
   );
 }
+export { TngProgressBarComponent as TngProgressBar };

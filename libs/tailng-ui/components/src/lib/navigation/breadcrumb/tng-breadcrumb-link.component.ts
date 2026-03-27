@@ -25,3 +25,4 @@ export class TngBreadcrumbLinkComponent {
     event.stopImmediatePropagation();
   }
 }
+export { TngBreadcrumbLinkComponent as TngBreadcrumbLink };

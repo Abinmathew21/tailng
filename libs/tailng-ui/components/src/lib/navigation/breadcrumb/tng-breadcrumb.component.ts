@@ -199,3 +199,4 @@ export class TngBreadcrumbComponent implements AfterContentInit {
     return visibleIndices;
   }
 }
+export { TngBreadcrumbComponent as TngBreadcrumb };

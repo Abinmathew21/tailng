@@ -107,3 +107,4 @@ export class TngMenuComponent {
     return openNestedMenus[openNestedMenus.length - 1] ?? null;
   }
 }
+export { TngMenuComponent as TngMenu };

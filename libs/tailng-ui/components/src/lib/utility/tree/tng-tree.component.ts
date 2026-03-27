@@ -490,3 +490,4 @@ export class TngTreeComponent implements OnDestroy {
     this.selectedIdChange.emit(nodeId);
   }
 }
+export { TngTreeComponent as TngTree };

@@ -165,3 +165,4 @@ export class TngCopyButtonComponent implements OnDestroy {
     }, this.resetDelay());
   }
 }
+export { TngCopyButtonComponent as TngCopyButton };

@@ -1,12 +1,12 @@
 import { DOCUMENT, NgTemplateOutlet } from '@angular/common';
 import { Component, inject, signal, type OnDestroy } from '@angular/core';
-import { observeDocsCodeThemeChanges, resolveDocsCodeBlockTheme } from '../../../../../../shared/util';
 import { TngCodeBlockComponent, TngInputComponent } from '@tailng-ui/components';
 import type { DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
 import {
   DocsExampleTabsSectionComponent,
   DocsExampleVariantDirective,
 } from '../../../../../../shared/example-tabs-section/docs-example-tabs-section.component';
+import { observeDocsCodeThemeChanges, resolveDocsCodeBlockTheme } from '../../../../../../shared/util';
 
 @Component({
   selector: 'app-input-overview-page',
@@ -35,36 +35,36 @@ export class InputOverviewPageComponent implements OnDestroy {
   ].join('\n');
 
   protected readonly wrapperUsageCode = [
-    '<tng-input type="email" placeholder="team@tailng.dev"></tng-input>',
+    '<tng-input type="email" placeholder="team@tailng.dev" ariaLabel="Email"></tng-input>',
     '',
   ].join('\n');
 
   protected readonly formFieldUsageCode = [
     '<tng-form-field>',
     '  <span tngPrefix aria-hidden="true">Search</span>',
-    '  <input tngInput type="search" placeholder="Search docs" />',
+    '  <input tngInput type="search" placeholder="Search docs" aria-label="Search docs" />',
     '  <span tngSuffix aria-hidden="true">Ctrl+K</span>',
     '</tng-form-field>',
     '',
   ].join('\n');
 
   protected readonly directAttachmentCode = [
-    '<input tngInput type="email" placeholder="team@tailng.dev" />',
+    '<input tngInput type="email" placeholder="team@tailng.dev" aria-label="Email" />',
     '',
   ].join('\n');
 
   protected readonly validationStableCode = [
-    '<tng-input type="email" [ariaInvalid]="true"></tng-input>',
+    '<tng-input type="email" ariaLabel="Email" [ariaInvalid]="true"></tng-input>',
     '',
   ].join('\n');
 
   protected readonly nativeValidationCode = [
-    '<tng-input type="email" required></tng-input>',
+    '<tng-input type="email" ariaLabel="Email" required></tng-input>',
     '',
   ].join('\n');
 
   protected readonly searchExampleCode = [
-    '<tng-input type="search" placeholder="Search docs"></tng-input>',
+    '<tng-input type="search" placeholder="Search docs" ariaLabel="Search docs"></tng-input>',
     '',
   ].join('\n');
 
@@ -72,7 +72,7 @@ export class InputOverviewPageComponent implements OnDestroy {
     '<!-- Move to tng-form-field when the field needs projected content -->',
     '<tng-form-field>',
     '  <span tngPrefix aria-hidden="true">Search</span>',
-    '  <input tngInput type="search" placeholder="Search docs" />',
+    '  <input tngInput type="search" placeholder="Search docs" aria-label="Search docs" />',
     '</tng-form-field>',
     '',
   ].join('\n');
@@ -119,6 +119,7 @@ export class InputOverviewPageComponent implements OnDestroy {
     '',
     '@Component({',
     "  selector: 'app-plain-css-input-example',",
+    '  standalone: true,',
     '  imports: [TngInputComponent],',
     "  templateUrl: './plain-css-input-example.component.html',",
     "  styleUrl: './plain-css-input-example.component.css',",
@@ -155,13 +156,17 @@ export class InputOverviewPageComponent implements OnDestroy {
     "           [&_[data-slot='input-group'][data-focused]]:border-blue-500",
     "           [&_[data-slot='input-group'][data-focused]]:ring-2",
     "           [&_[data-slot='input-group'][data-focused]]:ring-blue-200/70",
+    "           [&_[data-slot='input']]:min-w-0",
     "           [&_[data-slot='input']]:w-full",
+    "           [&_[data-slot='input']]:appearance-none",
     "           [&_[data-slot='input']]:border-0",
     "           [&_[data-slot='input']]:bg-transparent",
     "           [&_[data-slot='input']]:p-0",
     "           [&_[data-slot='input']]:text-[0.98rem]",
+    "           [&_[data-slot='input']]:text-slate-900",
     "           [&_[data-slot='input']]:font-medium",
     "           [&_[data-slot='input']]:leading-5",
+    "           [&_[data-slot='input']]:placeholder:text-slate-400",
     "           [&_[data-slot='input']]:outline-none\"",
     '    type="email"',
     '    placeholder="team@tailng.dev"',
@@ -177,6 +182,7 @@ export class InputOverviewPageComponent implements OnDestroy {
     '',
     '@Component({',
     "  selector: 'app-tailwind-input-example',",
+    '  standalone: true,',
     '  imports: [TngInputComponent],',
     "  templateUrl: './tailwind-input-example.component.html',",
     '})',

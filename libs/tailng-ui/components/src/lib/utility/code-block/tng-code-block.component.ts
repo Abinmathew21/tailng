@@ -825,3 +825,4 @@ export class TngCodeBlockComponent implements OnDestroy {
     }
   }
 }
+export { TngCodeBlockComponent as TngCodeBlock };

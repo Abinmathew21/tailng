@@ -370,3 +370,4 @@ export class TngDialogComponent implements OnDestroy {
     this.wrapTabAtEdges(event, focusState);
   }
 }
+export { TngDialogComponent as TngDialog };

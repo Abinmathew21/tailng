@@ -161,3 +161,4 @@ export class TngBreadcrumbItemComponent {
     this.isFocusVisible.set(false);
   }
 }
+export { TngBreadcrumbItemComponent as TngBreadcrumbItem };

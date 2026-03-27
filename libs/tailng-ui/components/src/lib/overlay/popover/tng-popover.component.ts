@@ -77,3 +77,4 @@ export class TngPopoverComponent {
     this.popoverRef().closePopover('programmatic');
   }
 }
+export { TngPopoverComponent as TngPopover };

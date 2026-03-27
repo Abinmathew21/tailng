@@ -12,13 +12,14 @@
       <p>
         Renders an internal native <code>&lt;input&gt;</code> that already uses the
         <code>tngInput</code> primitive. Use it when you just need a single field without projected
-        prefix/suffix content.
+        prefix/suffix content. The snippet below is ready to paste into a standalone Angular
+        component.
       </p>
       <tng-code-block
         [code]="componentTemplateCode"
         adapter="shiki"
-        language="html"
-        title="Simple input component"
+        language="ts"
+        title="simple-input-demo.component.ts"
         [theme]="codeBlockTheme()"
         [lineNumbers]="false"
         [wrap]="true"
@@ -89,13 +90,13 @@
       <p>
         Wraps one projected <code>input[tngInput]</code> plus optional <code>tngPrefix</code> /
         <code>tngSuffix</code> content. Use it for search fields, fixed domain suffixes, and clear
-        buttons.
+        buttons. The snippet below includes the imports needed for a standalone Angular component.
       </p>
       <tng-code-block
         [code]="formFieldTemplateCode"
         adapter="shiki"
-        language="html"
-        title="Form field composition"
+        language="ts"
+        title="search-form-field-demo.component.ts"
         [theme]="codeBlockTheme()"
         [lineNumbers]="false"
         [wrap]="true"
@@ -140,13 +141,14 @@
       <h3><code>tngInput</code> (directive)</h3>
       <p>
         Attach to a native <code>input[tngInput]</code>. Textarea usage is documented on the
-        dedicated <strong>Textarea</strong> page.
+        dedicated <strong>Textarea</strong> page. The snippet below is a minimal standalone
+        primitive example.
       </p>
       <tng-code-block
         [code]="directiveAttachCode"
         adapter="shiki"
-        language="html"
-        title="Directive attachment"
+        language="ts"
+        title="primitive-input-demo.component.ts"
         [theme]="codeBlockTheme()"
         [lineNumbers]="false"
         [wrap]="true"

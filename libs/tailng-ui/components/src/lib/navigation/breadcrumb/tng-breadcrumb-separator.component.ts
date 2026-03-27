@@ -12,3 +12,4 @@ export class TngBreadcrumbSeparatorComponent {
   public readonly symbol = input('/');
   public readonly template = input<TemplateRef<unknown> | null>(null);
 }
+export { TngBreadcrumbSeparatorComponent as TngBreadcrumbSeparator };

@@ -446,3 +446,4 @@ export class TngToastComponent implements OnDestroy {
     });
   }
 }
+export { TngToastComponent as TngToast };

@@ -39,3 +39,4 @@ export class TngButtonComponent {
   public readonly tone = input<TngButtonTone>('primary');
   public readonly type = input<TngPressType>('button');
 }
+export { TngButtonComponent as TngButton };

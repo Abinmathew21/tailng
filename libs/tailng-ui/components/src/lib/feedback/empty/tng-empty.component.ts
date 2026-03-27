@@ -50,3 +50,8 @@ export class TngEmptyDescriptionComponent {}
   styleUrl: './tng-empty.component.css',
 })
 export class TngEmptyActionsComponent {}
+export { TngEmptyComponent as TngEmpty };
+export { TngEmptyIconComponent as TngEmptyIcon };
+export { TngEmptyTitleComponent as TngEmptyTitle };
+export { TngEmptyDescriptionComponent as TngEmptyDescription };
+export { TngEmptyActionsComponent as TngEmptyActions };

@@ -28,3 +28,4 @@ export class TngContextMenuComponent {
     return this.ariaLabel();
   }
 }
+export { TngContextMenuComponent as TngContextMenu };

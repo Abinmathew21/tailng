@@ -70,3 +70,4 @@ export class TngProgressSpinnerComponent {
     ),
   );
 }
+export { TngProgressSpinnerComponent as TngProgressSpinner };

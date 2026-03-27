@@ -30,3 +30,4 @@ export class TngSkeletonComponent {
     return resolveTngSkeletonCssSize(this.width(), '100%');
   }
 }
+export { TngSkeletonComponent as TngSkeleton };

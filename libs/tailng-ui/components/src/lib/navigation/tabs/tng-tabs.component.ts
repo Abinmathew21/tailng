@@ -33,3 +33,4 @@ export class TngTabsComponent {
     return this.ariaLabel();
   }
 }
+export { TngTabsComponent as TngTabs };

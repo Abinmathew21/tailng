@@ -62,3 +62,4 @@ export class TngDropdownMenuComponent {
     this.open.set(!this.open());
   }
 }
+export { TngDropdownMenuComponent as TngDropdownMenu };

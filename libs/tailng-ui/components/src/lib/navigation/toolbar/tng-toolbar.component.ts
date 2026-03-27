@@ -10,3 +10,4 @@ import { TngToolbar as TngToolbarPrimitive } from '@tailng-ui/primitives';
 export class TngToolbarComponent {
   public readonly ariaLabel = input<string>('Toolbar');
 }
+export { TngToolbarComponent as TngToolbar };

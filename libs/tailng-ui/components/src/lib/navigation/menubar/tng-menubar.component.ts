@@ -21,3 +21,4 @@ export class TngMenubarComponent {
     return this.ariaLabel();
   }
 }
+export { TngMenubarComponent as TngMenubar };

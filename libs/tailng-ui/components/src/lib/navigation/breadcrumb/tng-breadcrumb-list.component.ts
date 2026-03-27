@@ -8,3 +8,4 @@ import { TngBreadcrumbList as TngBreadcrumbListPrimitive } from '@tailng-ui/prim
   styleUrl: './tng-breadcrumb-list.component.css',
 })
 export class TngBreadcrumbListComponent {}
+export { TngBreadcrumbListComponent as TngBreadcrumbList };

@@ -35,3 +35,4 @@ export class TngTooltipComponent {
 
   public readonly openChange = output<boolean>();
 }
+export { TngTooltipComponent as TngTooltip };

@@ -35,3 +35,4 @@ export class TngTagComponent {
     this.removed.emit();
   }
 }
+export { TngTagComponent as TngTag };

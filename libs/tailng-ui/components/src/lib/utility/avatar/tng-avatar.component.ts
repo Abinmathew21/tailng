@@ -97,3 +97,4 @@ export class TngAvatarComponent {
     this.imageLoadFailed.set(false);
   }
 }
+export { TngAvatarComponent as TngAvatar };
