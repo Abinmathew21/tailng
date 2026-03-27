@@ -89,11 +89,14 @@
   border: 0;
   box-shadow: none;
   color: #111827;
+  display: block;
   font-size: 0.98rem;
   font-weight: 500;
   line-height: 1.35;
+  min-width: 0;
   outline: none;
   padding: 0;
+  width: 100%;
 }
 
 .account-profile-example-shell [data-slot='input']::placeholder {
