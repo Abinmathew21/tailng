@@ -19,17 +19,15 @@
   ],
   "targets": {
     "build": {
-      "executor": "@nx/js:tsc",
+      "executor": "nx:run-commands",
+      "dependsOn": [
+        "^build"
+      ],
       "outputs": [
-        "{options.outputPath}"
+        "{workspaceRoot}/dist/libs/tailng-ui/components"
       ],
       "options": {
-        "outputPath": "dist/libs/tailng-ui/components",
-        "main": "libs/tailng-ui/components/src/index.ts",
-        "tsConfig": "libs/tailng-ui/components/tsconfig.lib.json",
-        "assets": [
-          "libs/tailng-ui/components/*.md"
-        ]
+        "command": "node tools/build/build-components.mjs"
       }
     },
     "nx-release-publish": {

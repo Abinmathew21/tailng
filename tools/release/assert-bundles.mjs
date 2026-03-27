@@ -177,6 +177,31 @@ function assertAngularPackage(name, opts) {
       );
     }
   }
+
+  if (name === 'components') {
+    const componentEntries = [
+      path.join(root, 'src', 'lib', 'form', 'input', 'tng-input.component.js'),
+      path.join(root, 'src', 'lib', 'form', 'form-field', 'tng-form-field.component.js'),
+    ];
+
+    for (const componentEntry of componentEntries) {
+      const componentSource = readFileSafe(componentEntry);
+      if (componentSource === null) {
+        fail(
+          `components: missing Angular component entry: ${path.relative(root, componentEntry)}`,
+        );
+      }
+
+      if (
+        !componentSource.includes('ɵɵngDeclareComponent') ||
+        !componentSource.includes('isStandalone: true')
+      ) {
+        fail(
+          `components: expected Angular partial-compiled standalone metadata in ${path.relative(root, componentEntry)}`,
+        );
+      }
+    }
+  }
 }
 
 function assertThemePackage() {
