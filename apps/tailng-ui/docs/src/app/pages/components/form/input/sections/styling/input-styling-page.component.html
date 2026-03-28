@@ -2,15 +2,16 @@
   <div class="docs-section-page-main">
     <h2 class="input-styling-title">Styling contract</h2>
     <p class="input-styling-lead">
-      Style the Input component through the public shell tokens and the stable slot/state markers it
-      emits. The goal is to avoid depending on private wrapper DOM or component-specific class names.
+      Style the Input component through the host-level token contract. The simple path is to put
+      <code>--tng-input-*</code> overrides directly on <code>&lt;tng-input&gt;</code> and avoid
+      reaching into its internal DOM.
     </p>
 
     <section id="css-contracts" class="docs-section-anchor input-styling-block">
       <h3>CSS contracts</h3>
       <p>
-        These selectors are the public styling surface for both <code>&lt;tng-input&gt;</code> and
-        <code>&lt;tng-form-field&gt;</code>.
+        These selectors are the public component-level styling surface. Internal group slots belong
+        to the headless layer and should not be the normal path for component styling.
       </p>
       <tng-code-block
         [code]="slotSelectorsCode"
@@ -102,29 +103,7 @@
           <label class="input-styling-example-field-surface input-styling-example-field-surface--tailwind">
             <span class="input-styling-example-field-label">Display name</span>
             <tng-input
-              class="block
-                     [&_[data-slot='input-group']]:min-h-10
-                     [&_[data-slot='input-group']]:rounded-lg
-                     [&_[data-slot='input-group']]:border
-                     [&_[data-slot='input-group']]:border-slate-300
-                     [&_[data-slot='input-group']]:bg-white
-                     [&_[data-slot='input-group']]:px-3
-                     [&_[data-slot='input-group']]:shadow-sm
-                     [&_[data-slot='input-group'][data-focused]]:border-cyan-500
-                     [&_[data-slot='input-group'][data-focused]]:ring-2
-                     [&_[data-slot='input-group'][data-focused]]:ring-cyan-200/70
-                     [&_[data-slot='input']]:min-w-0
-                     [&_[data-slot='input']]:w-full
-                     [&_[data-slot='input']]:appearance-none
-                     [&_[data-slot='input']]:border-0
-                     [&_[data-slot='input']]:bg-transparent
-                     [&_[data-slot='input']]:p-0
-                     [&_[data-slot='input']]:text-[0.98rem]
-                     [&_[data-slot='input']]:text-slate-900
-                     [&_[data-slot='input']]:font-medium
-                     [&_[data-slot='input']]:leading-5
-                     [&_[data-slot='input']]:placeholder:text-slate-400
-                     [&_[data-slot='input']]:outline-none"
+              [class]="tailwindScenarioHostClass"
               type="text"
               value="Ada Lovelace"
               ariaLabel="Display name"

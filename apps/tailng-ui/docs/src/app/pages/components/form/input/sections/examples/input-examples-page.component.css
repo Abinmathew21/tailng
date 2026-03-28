@@ -50,45 +50,19 @@
 }
 
 .input-example-control {
-  --tng-input-bg: var(--tng-semantic-background-base);
-  --tng-input-border: color-mix(in srgb, var(--tng-semantic-border-strong) 78%, transparent);
-  --tng-input-focus-ring: color-mix(in srgb, var(--tng-semantic-accent-brand) 24%, transparent);
+  display: block;
+  width: 100%;
+  --tng-input-bg: #ffffff;
+  --tng-input-border: #cbd5e1;
+  --tng-input-focus-ring: rgba(59, 130, 246, 0.22);
   --tng-input-radius: 0.78rem;
   --tng-input-min-height: 2.65rem;
   --tng-input-px: 0.88rem;
-  --tng-input-fg: var(--tng-semantic-foreground-primary);
-}
-
-:host ::ng-deep .input-example-control [data-slot='input-group'] {
-  cursor: text;
-  transition:
-    border-color 0.15s ease,
-    box-shadow 0.15s ease,
-    background-color 0.15s ease;
-}
-
-:host ::ng-deep .input-example-control [data-slot='input'] {
-  background: transparent;
-  border: 0 !important;
-  border-radius: 0;
-  box-shadow: none !important;
-  color: var(--tng-semantic-foreground-primary);
-  font-size: 0.98rem;
-  line-height: 1.35;
-  outline: none !important;
-  padding: 0;
-}
-
-:host ::ng-deep .input-example-control [data-slot='input']:focus,
-:host ::ng-deep .input-example-control [data-slot='input']:focus-visible,
-:host ::ng-deep .input-example-control [data-slot='input']:-moz-focusring {
-  border: 0 !important;
-  box-shadow: none !important;
-  outline: none !important;
-}
-
-:host ::ng-deep .input-example-control [data-slot='input']::placeholder {
-  color: var(--tng-semantic-foreground-muted);
+  --tng-input-fg: #0f172a;
+  --tng-input-font-size: 0.98rem;
+  --tng-input-font-weight: 500;
+  --tng-input-line-height: 1.35;
+  --tng-input-placeholder: #94a3b8;
 }
 
 .input-example-stacked {
@@ -103,12 +77,12 @@
 }
 
 .input-example-helper--danger {
-  color: var(--tng-semantic-accent-danger);
+  color: #dc2626;
 }
 
 @media (max-width: 760px) {
-  :host ::ng-deep .input-example-control [data-slot='input'] {
-    font-size: 0.92rem;
+  .input-example-control {
+    --tng-input-font-size: 0.92rem;
   }
 
   .input-example-variant-grid {

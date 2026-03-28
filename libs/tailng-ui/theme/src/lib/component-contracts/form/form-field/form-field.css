@@ -2,15 +2,33 @@
   display: inline-flex;
   max-width: 100%;
 
-  --tng-input-bg: var(--tng-semantic-background-surface);
-  --tng-input-border: var(--tng-semantic-border-strong);
-  --tng-input-fg: var(--tng-semantic-foreground-primary);
-  --tng-input-radius: 0.6rem;
-  --tng-input-min-height: 2.5rem;
-  --tng-input-py: 0;
-  --tng-input-px: 0.85rem;
-  --tng-input-gap: 0.55rem;
-  --tng-input-focus-ring: var(--tng-semantic-focus-ring);
+  --_tng-input-bg-default: var(--tng-semantic-background-surface);
+  --_tng-input-border-default: var(--tng-semantic-border-strong);
+  --_tng-input-fg-default: var(--tng-semantic-foreground-primary);
+  --_tng-input-radius-default: 0.6rem;
+  --_tng-input-min-height-default: 2.5rem;
+  --_tng-input-py-default: 0;
+  --_tng-input-px-default: 0.85rem;
+  --_tng-input-gap-default: 0.55rem;
+  --_tng-input-focus-ring-default: var(--tng-semantic-focus-ring);
+  --_tng-input-font-size-default: inherit;
+  --_tng-input-font-weight-default: inherit;
+  --_tng-input-line-height-default: inherit;
+  --_tng-input-placeholder-default: var(--tng-semantic-foreground-muted);
+
+  --_tng-input-bg: var(--tng-input-bg, var(--_tng-input-bg-default));
+  --_tng-input-border: var(--tng-input-border, var(--_tng-input-border-default));
+  --_tng-input-fg: var(--tng-input-fg, var(--_tng-input-fg-default));
+  --_tng-input-radius: var(--tng-input-radius, var(--_tng-input-radius-default));
+  --_tng-input-min-height: var(--tng-input-min-height, var(--_tng-input-min-height-default));
+  --_tng-input-py: var(--tng-input-py, var(--_tng-input-py-default));
+  --_tng-input-px: var(--tng-input-px, var(--_tng-input-px-default));
+  --_tng-input-gap: var(--tng-input-gap, var(--_tng-input-gap-default));
+  --_tng-input-focus-ring: var(--tng-input-focus-ring, var(--_tng-input-focus-ring-default));
+  --_tng-input-font-size: var(--tng-input-font-size, var(--_tng-input-font-size-default));
+  --_tng-input-font-weight: var(--tng-input-font-weight, var(--_tng-input-font-weight-default));
+  --_tng-input-line-height: var(--tng-input-line-height, var(--_tng-input-line-height-default));
+  --_tng-input-placeholder: var(--tng-input-placeholder, var(--_tng-input-placeholder-default));
 }
 
 :where([data-slot='form-field-wrapper'][data-full-width]) {
@@ -26,36 +44,36 @@
 }
 
 :where([data-slot='form-field-wrapper'][data-appearance='solid']) {
-  --tng-input-bg: var(--tng-semantic-background-muted, var(--tng-semantic-background-surface));
+  --_tng-input-bg-default: var(--tng-semantic-background-muted, var(--tng-semantic-background-surface));
 }
 
 :where([data-slot='form-field-wrapper'][data-appearance='ghost']) {
-  --tng-input-bg: transparent;
-  --tng-input-border: transparent;
+  --_tng-input-bg-default: transparent;
+  --_tng-input-border-default: transparent;
 }
 
 :where([data-slot='form-field-wrapper'][data-size='sm']) {
-  --tng-input-gap: 0.45rem;
-  --tng-input-radius: 0.5rem;
-  --tng-input-min-height: 2.125rem;
-  --tng-input-px: 0.65rem;
+  --_tng-input-gap-default: 0.45rem;
+  --_tng-input-radius-default: 0.5rem;
+  --_tng-input-min-height-default: 2.125rem;
+  --_tng-input-px-default: 0.65rem;
 }
 
 :where([data-slot='form-field-wrapper'][data-size='lg']) {
-  --tng-input-gap: 0.65rem;
-  --tng-input-radius: 0.75rem;
-  --tng-input-min-height: 3rem;
-  --tng-input-px: 1rem;
+  --_tng-input-gap-default: 0.65rem;
+  --_tng-input-radius-default: 0.75rem;
+  --_tng-input-min-height-default: 3rem;
+  --_tng-input-px-default: 1rem;
 }
 
 :where([data-slot='form-field-wrapper'][data-tone='primary']) {
-  --tng-input-focus-ring: var(--tng-semantic-accent-brand, var(--tng-semantic-focus-ring));
+  --_tng-input-focus-ring-default: var(--tng-semantic-accent-brand, var(--tng-semantic-focus-ring));
 }
 
 :where([data-slot='form-field-wrapper'][data-tone='success']) {
-  --tng-input-focus-ring: var(--tng-semantic-accent-success, var(--tng-semantic-focus-ring));
+  --_tng-input-focus-ring-default: var(--tng-semantic-accent-success, var(--tng-semantic-focus-ring));
 }
 
 :where([data-slot='form-field-wrapper'][data-tone='danger']) {
-  --tng-input-focus-ring: var(--tng-semantic-accent-danger, var(--tng-semantic-focus-ring));
+  --_tng-input-focus-ring-default: var(--tng-semantic-accent-danger, var(--tng-semantic-focus-ring));
 }

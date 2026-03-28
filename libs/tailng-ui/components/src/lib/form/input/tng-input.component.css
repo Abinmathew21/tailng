@@ -17,5 +17,22 @@
 
 /* Optional: make sure the native control fills the form-field */
 .tng-input-control {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-sizing: border-box;
+  box-shadow: none;
+  color: inherit;
+  display: block;
+  flex: 1 1 auto;
+  font: inherit;
+  min-width: 0;
+  outline: none;
+  padding: 0;
   width: 100%;
+}
+
+.tng-input-control::placeholder {
+  color: var(--_tng-input-placeholder, var(--tng-semantic-foreground-muted));
 }

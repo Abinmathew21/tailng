@@ -1,3 +1,5 @@
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -32,6 +34,14 @@ class StatesHostComponent {
   public showLeading = false;
   public showTrailing = false;
 }
+
+const formFieldComponentCss = readFileSync(
+  join(
+    process.cwd(),
+    'libs/tailng-ui/components/src/lib/form/form-field/tng-form-field.component.css',
+  ),
+  'utf8',
+);
 
 describe('tng-form-field — interactive visual state hooks', () => {
   async function flushState(fixture: any): Promise<void> {
@@ -127,5 +137,19 @@ describe('tng-form-field — interactive visual state hooks', () => {
 
     fixture.componentInstance.showTrailing = false;
     expect(() => fixture.detectChanges(false)).not.toThrow();
+  });
+
+  it('stretches the projected control proxy so the native input can fill the shell width', async () => {
+    await TestBed.configureTestingModule({ imports: [StatesHostComponent] }).compileComponents();
+    const fixture = TestBed.createComponent(StatesHostComponent);
+    await flushState(fixture);
+
+    const proxy = fixture.debugElement.query(By.css('.tng-form-field-control-proxy')).nativeElement as HTMLElement;
+
+    expect(proxy).toBeTruthy();
+    expect(formFieldComponentCss).toContain('.tng-form-field-control-proxy');
+    expect(formFieldComponentCss).toContain('display: flex;');
+    expect(formFieldComponentCss).toContain('flex: 1 1 auto;');
+    expect(formFieldComponentCss).toContain('width: 100%;');
   });
 });

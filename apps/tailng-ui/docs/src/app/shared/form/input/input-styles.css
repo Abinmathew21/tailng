@@ -63,68 +63,45 @@
 .input-overview-example-fields {
   display: grid;
   gap: 1rem;
-  max-width: 30rem;
-  width: min(100%, 30rem);
+  max-width: 31rem;
+  width: min(100%, 31rem);
 }
 
 .input-overview-example-field-surface {
-  background: color-mix(in srgb, var(--tng-semantic-background-surface) 92%, transparent);
-  border: 1px solid var(--tng-semantic-border-subtle);
-  border-radius: 0.85rem;
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid #cbd5e1;
+  border-radius: 0.95rem;
   display: grid;
-  gap: 0.45rem;
-  padding: 0.75rem 0.8rem;
+  gap: 0.5rem;
+  padding: 0.9rem;
 }
 
 .input-overview-example-field-surface--tailwind {
-  background: color-mix(in srgb, var(--tng-semantic-background-surface) 88%, #dbeafe 12%);
+  background: rgba(255, 255, 255, 0.92);
 }
 
 .input-overview-example-field-label {
-  color: var(--tng-semantic-foreground-secondary);
-  font-size: 0.82rem;
+  color: #64748b;
+  font-size: 0.78rem;
   font-weight: 600;
-  letter-spacing: 0.01em;
   line-height: 1.2;
 }
 
 .input-overview-example-shell--plain {
-  --tng-input-bg: var(--tng-semantic-background-base);
-  --tng-input-border: color-mix(in srgb, var(--tng-semantic-border-strong) 92%, transparent);
+  display: block;
+  max-width: 100%;
+  width: 100%;
+  --tng-input-bg: #ffffff;
+  --tng-input-border: #cbd5e1;
   --tng-input-radius: 0.72rem;
   --tng-input-min-height: 2.5rem;
   --tng-input-px: 0.78rem;
-  --tng-input-focus-ring: color-mix(in srgb, var(--tng-semantic-accent-brand) 22%, transparent);
-  --tng-input-fg: var(--tng-semantic-foreground-primary);
-}
-
-:host ::ng-deep .input-overview-example-shell [data-slot='input'] {
-  background: transparent;
-  border: 0;
-  box-shadow: none;
-  color: var(--tng-semantic-foreground-primary);
-  font-size: 0.98rem;
-  font-weight: 500;
-  line-height: 1.35;
-  outline: none;
-  padding: 0;
-}
-
-:host ::ng-deep .input-overview-example-shell [data-slot='input']:focus,
-:host ::ng-deep .input-overview-example-shell [data-slot='input']:focus-visible {
-  outline: none;
-}
-
-:host ::ng-deep .input-overview-example-shell [data-slot='input']::placeholder {
-  color: var(--tng-semantic-foreground-muted);
-}
-
-:host ::ng-deep .input-overview-example-shell [data-slot='input-group'] {
-  cursor: text;
-  transition:
-    border-color 0.15s ease,
-    box-shadow 0.15s ease,
-    background-color 0.15s ease;
+  --tng-input-focus-ring: rgba(59, 130, 246, 0.22);
+  --tng-input-fg: #0f172a;
+  --tng-input-font-size: 0.98rem;
+  --tng-input-font-weight: 500;
+  --tng-input-line-height: 1.35;
+  --tng-input-placeholder: #94a3b8;
 }
 
 .pitfall-grid {
@@ -142,8 +119,8 @@
 }
 
 @media (max-width: 760px) {
-  :host ::ng-deep .input-overview-example-shell [data-slot='input'] {
-    font-size: 0.92rem;
+  .input-overview-example-shell--plain {
+    --tng-input-font-size: 0.92rem;
   }
 }
 

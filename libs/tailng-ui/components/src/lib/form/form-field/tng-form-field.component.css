@@ -2,3 +2,34 @@
  * Visual styling lives in the theme contract:
  * libs/tailng-ui/theme/src/lib/component-contracts/form/form-field/form-field.css
  */
+
+:host {
+  display: inline-flex;
+  max-width: 100%;
+}
+
+:host([data-full-width]) {
+  width: 100%;
+}
+
+.tng-form-field {
+  width: 100%;
+}
+
+:host(:not([data-full-width])) .tng-form-field {
+  width: auto;
+}
+
+.tng-form-field-slot-proxy {
+  align-items: center;
+  display: inline-flex;
+  min-width: 0;
+}
+
+.tng-form-field-control-proxy {
+  align-items: center;
+  display: flex;
+  flex: 1 1 auto;
+  min-width: 0;
+  width: 100%;
+}

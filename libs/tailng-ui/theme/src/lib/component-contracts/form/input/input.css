@@ -1,20 +1,23 @@
 :where([data-slot='input-group']) {
   align-items: center;
   display: inline-flex;
-  gap: var(--tng-input-gap, 0.55rem);
+  gap: var(--_tng-input-gap, 0.55rem);
   width: 100%;
 
-  background: var(--tng-input-bg, var(--tng-semantic-background-surface));
-  border: 1px solid var(--tng-input-border, var(--tng-semantic-border-strong));
-  border-radius: var(--tng-input-radius, 0.6rem);
-  color: var(--tng-input-fg, var(--tng-semantic-foreground-primary));
+  background: var(--_tng-input-bg, var(--tng-semantic-background-surface));
+  border: 1px solid var(--_tng-input-border, var(--tng-semantic-border-strong));
+  border-radius: var(--_tng-input-radius, 0.6rem);
+  color: var(--_tng-input-fg, var(--tng-semantic-foreground-primary));
+  font-size: var(--_tng-input-font-size, inherit);
+  font-weight: var(--_tng-input-font-weight, inherit);
+  line-height: var(--_tng-input-line-height, inherit);
 
-  min-height: var(--tng-input-min-height, 2.5rem);
-  padding: var(--tng-input-py, 0) var(--tng-input-px, 0.85rem);
+  min-height: var(--_tng-input-min-height, 2.5rem);
+  padding: var(--_tng-input-py, 0) var(--_tng-input-px, 0.85rem);
 }
 
 :where([data-slot='input-group'][data-focused]) {
-  box-shadow: 0 0 0 3px var(--tng-input-focus-ring, var(--tng-semantic-focus-ring));
+  box-shadow: 0 0 0 3px var(--_tng-input-focus-ring, var(--tng-semantic-focus-ring));
 }
 
 :where([data-slot='input-group'][data-invalid]) {
@@ -45,12 +48,15 @@
   background: transparent;
   border: 0;
   color: inherit;
-  font: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
   min-width: 0;
   outline: none;
   width: 100%;
 }
 
 :where([data-slot='input'])::placeholder {
-  color: var(--tng-semantic-foreground-muted);
+  color: var(--_tng-input-placeholder, var(--tng-semantic-foreground-muted));
 }
