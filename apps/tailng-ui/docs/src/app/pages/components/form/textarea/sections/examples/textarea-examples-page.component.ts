@@ -1,6 +1,5 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, inject, signal, type OnDestroy } from '@angular/core';
-import { observeDocsCodeThemeChanges, resolveDocsCodeBlockTheme } from '../../../../../../shared/util';
 import { TngTextareaComponent } from '@tailng-ui/components';
 import { TngInput, TngInputGroup } from '@tailng-ui/primitives';
 import { type DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
@@ -8,6 +7,8 @@ import {
   DocsExampleTabsSectionComponent,
   DocsExampleVariantDirective,
 } from '../../../../../../shared/example-tabs-section/docs-example-tabs-section.component';
+import { observeDocsCodeThemeChanges, resolveDocsCodeBlockTheme } from '../../../../../../shared/util';
+import { stackblitzTailwindUrl, stackblitzVanillaUrl } from '../../textarea.util';
 
 @Component({
   selector: 'app-textarea-examples-page',
@@ -31,6 +32,8 @@ export class TextareaExamplesPageComponent implements OnDestroy {
   protected readonly headlessValue = signal('Users can now pin dashboards and export CSV snapshots.');
   protected readonly plainValue = signal('Block-level announcement draft for internal release channels.');
   protected readonly tailwindValue = signal('Follow-up note with owner, ETA, and mitigation plan.');
+  protected readonly stackblitzVanillaUrl = stackblitzVanillaUrl;
+  protected readonly stackblitzTailwindUrl = stackblitzTailwindUrl;
 
   protected readonly headlessCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
     {

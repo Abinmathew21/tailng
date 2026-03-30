@@ -3,6 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { describe, expect, it } from 'vitest';
 
+import { TngTextarea } from '../../textarea/tng-textarea';
 import { TngInput } from '../tng-input';
 import { TngInputGroup } from '../tng-input-group';
 
@@ -26,8 +27,18 @@ class GroupOnlyInputHostComponent {}
 })
 class GroupNoSlotsHostComponent {}
 
+@Component({
+  imports: [TngInputGroup, TngTextarea],
+  template: `
+    <tng-input-group>
+      <textarea tngTextarea class="consumer-textarea"></textarea>
+    </tng-input-group>
+  `,
+})
+class GroupTextareaAliasHostComponent {}
+
 describe('tngInputGroup primitive — exports & basic structure', () => {
-  it('exports the tngInputGroup component', async () => {
+  it('exports the tngInputGroup component', () => {
     expect(TngInputGroup).toBeTruthy();
   });
 
@@ -68,5 +79,19 @@ describe('tngInputGroup primitive — exports & basic structure', () => {
 
     // Also assert the primitive adds its own slot marker without clobbering
     expect(host.getAttribute('data-slot')).toBe('input-group');
+  });
+
+  it('projects textarea[tngTextarea] into the input-group control slot', async () => {
+    await TestBed.configureTestingModule({ imports: [GroupTextareaAliasHostComponent] }).compileComponents();
+
+    const fixture = TestBed.createComponent(GroupTextareaAliasHostComponent);
+    fixture.detectChanges();
+
+    const host = fixture.debugElement.query(By.css('tng-input-group')).nativeElement as HTMLElement;
+    const controlWrapper = host.querySelector('[data-slot="input-group-control"]');
+    const textarea = controlWrapper?.querySelector('textarea[tngtextarea], textarea');
+
+    expect(controlWrapper).toBeTruthy();
+    expect(textarea).toBeTruthy();
   });
 });

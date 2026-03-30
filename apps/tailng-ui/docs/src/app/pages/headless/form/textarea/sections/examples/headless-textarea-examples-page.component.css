@@ -1,0 +1,128 @@
+:host {
+  display: block;
+}
+
+.textarea-examples {
+  display: grid;
+  gap: 1rem;
+}
+
+.textarea-examples-title {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.textarea-examples-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.textarea-examples-block {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.95rem;
+  display: grid;
+  gap: 0.85rem;
+  padding: 1rem;
+}
+
+.textarea-example-shell {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.textarea-example-label {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.textarea-example-field-shell[data-slot='input-group'] {
+  align-items: flex-start;
+  background: var(--tng-semantic-background-base);
+  border: 1px solid var(--tng-semantic-border-strong);
+  border-radius: 0.75rem;
+  min-height: 8.25rem;
+  padding: 0.7rem 0.85rem;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.textarea-example-field-shell[data-slot='input-group'][data-focused] {
+  border-color: var(--tng-semantic-accent-brand);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--tng-semantic-accent-brand) 18%, transparent);
+}
+
+.textarea-example-field-shell [data-slot='input'] {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  color: var(--tng-semantic-foreground-primary);
+  min-height: 6.75rem;
+  outline: none;
+  padding: 0;
+  resize: vertical;
+}
+
+.textarea-example-field-shell [data-slot='input']::placeholder {
+  color: var(--tng-semantic-foreground-muted);
+}
+
+.textarea-example-field-shell [data-slot='input-trailing'] {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.76rem;
+  font-weight: 700;
+  padding-top: 0.2rem;
+}
+
+.textarea-example-shell--plain {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.9rem;
+  padding: 1rem;
+}
+
+:host ::ng-deep .textarea-example-shell tng-textarea,
+:host ::ng-deep .textarea-example-shell .tng-textarea {
+  inline-size: 100%;
+}
+
+.textarea-example-meta {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.78rem;
+  margin: 0;
+}
+
+.textarea-example-stack {
+  gap: 0.5rem;
+}
+
+.textarea-example-stacked {
+  gap: 0.9rem;
+}
+
+.textarea-example-helper {
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.textarea-example-helper--danger {
+  color: var(--tng-semantic-accent-danger);
+}
+
+.textarea-example-field-shell--danger[data-slot='input-group'] {
+  border-color: color-mix(in srgb, var(--tng-semantic-accent-danger) 72%, transparent);
+}
+
+.textarea-example-field-shell--danger[data-slot='input-group'][data-focused] {
+  box-shadow: 0 0 0 3px
+    color-mix(in srgb, var(--tng-semantic-accent-danger) 16%, transparent);
+}
+
+.textarea-example-field-shell--disabled[data-slot='input-group'] {
+  opacity: 0.6;
+}

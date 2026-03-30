@@ -36,8 +36,6 @@
 .textarea-preview-shell {
   display: grid;
   gap: 0.65rem;
-  inline-size: min(100%, 42rem);
-  margin-inline: auto;
 }
 
 .textarea-preview-label {

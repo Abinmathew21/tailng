@@ -1,6 +1,5 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, inject, signal, type OnDestroy } from '@angular/core';
-import { observeDocsCodeThemeChanges, resolveDocsCodeBlockTheme } from '../../../../../../shared/util';
 import { TngCodeBlockComponent, TngTextareaComponent } from '@tailng-ui/components';
 import { TngInput, TngInputGroup } from '@tailng-ui/primitives';
 import { type DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
@@ -8,6 +7,8 @@ import {
   DocsExampleTabsSectionComponent,
   DocsExampleVariantDirective,
 } from '../../../../../../shared/example-tabs-section/docs-example-tabs-section.component';
+import { observeDocsCodeThemeChanges, resolveDocsCodeBlockTheme } from '../../../../../../shared/util';
+import { stackblitzTailwindUrl, stackblitzVanillaUrl } from '../../textarea.util';
 
 @Component({
   selector: 'app-textarea-overview-page',
@@ -32,6 +33,8 @@ export class TextareaOverviewPageComponent implements OnDestroy {
   protected readonly headlessValue = signal('Error logs now include request IDs for faster triage.');
   protected readonly plainValue = signal('Add concise release highlights for the weekly digest.');
   protected readonly tailwindValue = signal('Ship notes in both plain language and changelog format.');
+  protected readonly stackblitzVanillaUrl = stackblitzVanillaUrl;
+  protected readonly stackblitzTailwindUrl = stackblitzTailwindUrl;
 
   protected readonly primitiveImportCode = [
     "import { TngInput, TngInputGroup } from '@tailng-ui/primitives';",
@@ -49,13 +52,14 @@ export class TextareaOverviewPageComponent implements OnDestroy {
       language: 'ts',
       title: 'textarea-overview-headless.component.ts',
       code: [
+        "import { signal } from '@angular/core';",
         "import { TngInput, TngInputGroup } from '@tailng-ui/primitives';",
         '',
         "readonly notes = signal('');",
         '',
         'onNotesInput(event: Event): void {',
         '  const target = event.target as HTMLTextAreaElement | null;',
-        '  this.notes.set(target?.value ?? \"\");',
+        '  this.notes.set(target?.value ?? "");',
         '}',
         '',
       ].join('\n'),
@@ -66,9 +70,9 @@ export class TextareaOverviewPageComponent implements OnDestroy {
       language: 'html',
       title: 'textarea-overview-headless.component.html',
       code: [
-        '<div class="textarea-preview-field">',
+        '<div class="textarea-preview-shell">',
         '  <label class="textarea-preview-label" for="overview-headless-textarea">Release notes</label>',
-        '  <div tngInputGroup class="textarea-preview-shell">',
+        '  <div tngInputGroup class="textarea-preview-field-shell">',
         '    <textarea',
         '      id="overview-headless-textarea"',
         '      tngInput',
@@ -88,17 +92,37 @@ export class TextareaOverviewPageComponent implements OnDestroy {
       language: 'css',
       title: 'textarea-overview-headless.component.css',
       code: [
-        '.textarea-preview-shell[data-slot="input-group"] {',
-        '  align-items: flex-start;',
-        '  border: 1px solid var(--tng-semantic-border-strong);',
-        '  border-radius: 0.8rem;',
-        '  min-height: 7.5rem;',
-        '  padding: 0.7rem 0.85rem;',
+        '.textarea-preview-shell {',
+        '  display: grid;',
+        '  gap: 0.65rem;',
+        '  inline-size: min(100%, 42rem);',
+        '  margin-inline: auto;',
         '}',
         '',
-        '.textarea-preview-shell [data-slot="input"] {',
+        '.textarea-preview-label {',
+        '  color: var(--tng-semantic-foreground-secondary, #64748b);',
+        '  font-size: 0.82rem;',
+        '  font-weight: 700;',
+        '  letter-spacing: 0.01em;',
+        '}',
+        '',
+        '.textarea-preview-field-shell[data-slot="input-group"] {',
+        '  align-items: flex-start;',
+        '  border: 1px solid var(--tng-semantic-border-strong, #94a3b8);',
+        '  border-radius: 0.75rem;',
+        '  min-height: 7.8rem;',
+        '  padding: 0.65rem 0.8rem;',
+        '}',
+        '',
+        '.textarea-preview-field-shell [data-slot="input"] {',
+        '  background: transparent;',
         '  border: 0;',
-        '  min-height: 6rem;',
+        '  box-shadow: none;',
+        '  color: var(--tng-semantic-foreground-primary, #0f172a);',
+        '  inline-size: 100%;',
+        '  min-height: 6.2rem;',
+        '  outline: none;',
+        '  padding: 0;',
         '  resize: vertical;',
         '}',
         '',
@@ -113,6 +137,7 @@ export class TextareaOverviewPageComponent implements OnDestroy {
       language: 'ts',
       title: 'textarea-overview-plain-css.component.ts',
       code: [
+        "import { signal } from '@angular/core';",
         "import { TngTextareaComponent } from '@tailng-ui/components';",
         '',
         "readonly value = signal('');",
@@ -159,6 +184,7 @@ export class TextareaOverviewPageComponent implements OnDestroy {
       language: 'ts',
       title: 'textarea-overview-tailwind.component.ts',
       code: [
+        "import { signal } from '@angular/core';",
         "import { TngTextareaComponent } from '@tailng-ui/components';",
         '',
         "readonly value = signal('');",

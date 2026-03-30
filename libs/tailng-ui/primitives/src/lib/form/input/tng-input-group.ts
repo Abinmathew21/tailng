@@ -14,18 +14,8 @@ import { Subject, takeUntil } from 'rxjs';
 import { TngPrefix, TngSuffix } from './tng-adornment';
 import { TngInput } from './tng-input';
 
-function hasProjectedContent(element: HTMLElement): boolean {
-  return Array.from(element.childNodes).some((node) => {
-    if (node.nodeType === Node.ELEMENT_NODE) {
-      return true;
-    }
-
-    if (node.nodeType === Node.TEXT_NODE) {
-      return (node.textContent ?? '').trim().length > 0;
-    }
-
-    return false;
-  });
+function containsProjectedContent(childElementCount: number, textContent: string | null): boolean {
+  return childElementCount > 0 || (textContent ?? '').trim().length > 0;
 }
 
 @Component({
@@ -39,7 +29,7 @@ function hasProjectedContent(element: HTMLElement): boolean {
     }
 
     <span class="tng-input-group-control" data-slot="input-group-control">
-      <ng-content select="input[tngInput], textarea[tngInput], [data-tng-input-control-proxy]"></ng-content>
+      <ng-content select="input[tngInput], textarea[tngInput], textarea[tngTextarea], [data-tng-input-control-proxy]"></ng-content>
     </span>
 
     @if (hasTrailingSlot()) {
@@ -90,7 +80,7 @@ export class TngInputGroup implements AfterContentInit, OnDestroy {
   @ContentChildren(TngSuffix, { descendants: true })
   protected suffixSlots!: QueryList<TngSuffix>;
 
-  private readonly hostElement = inject(ElementRef<HTMLElement>).nativeElement;
+  private readonly hostElement: HTMLElement = inject(ElementRef<HTMLElement>).nativeElement as HTMLElement;
   private focused = false;
   private readonly destroyed$ = new Subject<void>();
 
@@ -100,14 +90,14 @@ export class TngInputGroup implements AfterContentInit, OnDestroy {
 
     const queriedCount = this.controls.length;
     const domCount = this.hostElement.querySelectorAll(
-      '[data-tng-input-control-proxy] input, [data-tng-input-control-proxy] textarea, input[tngInput], textarea[tngInput]',
+      '[data-tng-input-control-proxy] input, [data-tng-input-control-proxy] textarea, input[tngInput], textarea[tngInput], textarea[tngTextarea]',
     ).length;
 
     const count = this.controlCount() ?? (queriedCount > 0 ? queriedCount : domCount);
 
     if (count !== 1) {
-      console.warn(
-        `[tngInputGroup] Expected exactly 1 control (input/textarea with tngInput), but found ${count}.`,
+      globalThis.console.warn(
+        `[tngInputGroup] Expected exactly 1 control (input/textarea with tngInput or textarea with tngTextarea), but found ${count}.`,
         this.hostElement,
       );
     }
@@ -187,9 +177,8 @@ export class TngInputGroup implements AfterContentInit, OnDestroy {
     this.focused = true;
   }
 
-  @HostListener('focusout', ['$event'])
-  protected onFocusOut(event: FocusEvent): void {
-    const nextTarget = event.relatedTarget;
+  @HostListener('focusout', ['$event.relatedTarget'])
+  protected onFocusOut(nextTarget: Readonly<EventTarget> | null): void {
     if (nextTarget instanceof Node && this.hostElement.contains(nextTarget)) return;
 
     this.focused = false;
@@ -197,18 +186,42 @@ export class TngInputGroup implements AfterContentInit, OnDestroy {
 
   protected hasLeadingSlot(): boolean {
     const proxy = this.hostElement.querySelector('[data-tng-input-prefix-proxy]');
-    if (proxy instanceof HTMLElement) return hasProjectedContent(proxy);
+    if (
+      proxy instanceof HTMLElement &&
+      containsProjectedContent(proxy.childElementCount, proxy.textContent)
+    ) {
+      return true;
+    }
 
     const slots = this.prefixSlots?.toArray() ?? [];
-    return slots.some((slot) => hasProjectedContent(slot.hostElement));
+    for (const slot of slots) {
+      const hostElement = slot.hostElement;
+      if (containsProjectedContent(hostElement.childElementCount, hostElement.textContent)) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   protected hasTrailingSlot(): boolean {
     const proxy = this.hostElement.querySelector('[data-tng-input-suffix-proxy]');
-    if (proxy instanceof HTMLElement) return hasProjectedContent(proxy);
+    if (
+      proxy instanceof HTMLElement &&
+      containsProjectedContent(proxy.childElementCount, proxy.textContent)
+    ) {
+      return true;
+    }
 
     const slots = this.suffixSlots?.toArray() ?? [];
-    return slots.some((slot) => hasProjectedContent(slot.hostElement));
+    for (const slot of slots) {
+      const hostElement = slot.hostElement;
+      if (containsProjectedContent(hostElement.childElementCount, hostElement.textContent)) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   protected effectiveHasLeading(): boolean {
@@ -230,7 +243,7 @@ export class TngInputGroup implements AfterContentInit, OnDestroy {
 
   protected primaryControlElement(): HTMLInputElement | HTMLTextAreaElement | null {
     const element = this.hostElement.querySelector(
-      '[data-tng-input-control-proxy] input, [data-tng-input-control-proxy] textarea, input[tngInput], textarea[tngInput]',
+      '[data-tng-input-control-proxy] input, [data-tng-input-control-proxy] textarea, input[tngInput], textarea[tngInput], textarea[tngTextarea]',
     );
 
     if (element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement) {

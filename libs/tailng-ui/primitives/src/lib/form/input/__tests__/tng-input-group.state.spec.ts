@@ -1,8 +1,10 @@
 import { Component, isDevMode } from '@angular/core';
+import type { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { describe, expect, it } from 'vitest';
 
+import { TngTextarea } from '../../textarea/tng-textarea';
 import { TngInput } from '../tng-input';
 import { TngInputGroup } from '../tng-input-group';
 
@@ -34,8 +36,25 @@ class GroupStateHostComponent {
 })
 class GroupMultipleControlsHostComponent {}
 
+@Component({
+  imports: [TngInputGroup, TngTextarea],
+  template: `
+    <tng-input-group>
+      <textarea
+        tngTextarea
+        [disabled]="disabled"
+        [ariaInvalid]="ariaInvalid"
+      ></textarea>
+    </tng-input-group>
+  `,
+})
+class GroupTextareaStateHostComponent {
+  public disabled = false;
+  public ariaInvalid: boolean | null = null;
+}
+
 describe('tngInputGroup primitive — group state hooks derived from the control', () => {
-  async function flushState(fixture: any): Promise<void> {
+  async function flushState(fixture: ComponentFixture<unknown>): Promise<void> {
     fixture.detectChanges(false);
     await fixture.whenStable?.();
     fixture.detectChanges(false);
@@ -101,6 +120,20 @@ describe('tngInputGroup primitive — group state hooks derived from the control
 
     fixture.componentInstance.disabled = false;
     expect(() => fixture.detectChanges(false)).not.toThrow();
+  });
+
+  it('reflects disabled and invalid state from textarea[tngTextarea] controls too', async () => {
+    await TestBed.configureTestingModule({ imports: [GroupTextareaStateHostComponent] }).compileComponents();
+
+    const fixture = TestBed.createComponent(GroupTextareaStateHostComponent);
+    fixture.componentInstance.disabled = true;
+    fixture.componentInstance.ariaInvalid = true;
+    await flushState(fixture);
+
+    const host = fixture.debugElement.query(By.css('tng-input-group')).nativeElement as HTMLElement;
+
+    expect(host.getAttribute('data-disabled')).toBe('');
+    expect(host.getAttribute('data-invalid')).toBe('');
   });
 
 

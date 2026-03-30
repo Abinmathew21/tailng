@@ -65,6 +65,13 @@ export const HEADLESS_FORM_GROUP: HeadlessDocsGroup = {
       description: 'Control semantics, group slots, and input behavior contracts for text entry.',
     },
     {
+      id: 'textarea',
+      slug: 'textarea',
+      title: 'Textarea',
+      description:
+        'Multiline text-entry behavior, resize controls, and grouped textarea composition contracts.',
+    },
+    {
       id: 'checkbox',
       slug: 'checkbox',
       title: 'Checkbox',

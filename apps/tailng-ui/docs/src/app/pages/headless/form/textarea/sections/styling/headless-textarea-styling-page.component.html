@@ -1,0 +1,140 @@
+<article class="textarea-styling docs-section-page">
+  <div class="docs-section-page-main">
+    <h2 class="textarea-styling-title">Styling contract</h2>
+    <p class="textarea-styling-lead">
+      Headless textarea styling is slot/state driven. You style the grouped shell and the native
+      multiline control using the same contract as other headless field primitives, with one extra
+      hook for resize mode.
+    </p>
+
+    <section id="css-contracts" class="docs-section-anchor textarea-styling-block">
+      <h3>CSS contracts</h3>
+      <p>
+        These selectors are the stable styling surface for <code>tngTextarea</code> and
+        <code>tngInputGroup</code>.
+      </p>
+      <tng-code-block
+        [code]="contractsCode"
+        adapter="shiki"
+        language="css"
+        title="Public selectors"
+        [theme]="codeBlockTheme()"
+        [lineNumbers]="false"
+        [wrap]="true"
+        [sanitizeHtml]="false"
+      ></tng-code-block>
+      <tng-code-block
+        [code]="stateHooksCode"
+        adapter="shiki"
+        language="css"
+        title="State hooks"
+        [theme]="codeBlockTheme()"
+        [lineNumbers]="false"
+        [wrap]="true"
+        [sanitizeHtml]="false"
+      ></tng-code-block>
+    </section>
+
+    <app-docs-example-tabs-section
+      id="user-scenario-style-examples"
+      class="docs-section-anchor textarea-styling-block"
+      heading="User scenario style examples"
+      description="A support reply field with multiline editing space and a persistent status hint."
+      ariaLabel="Textarea styling scenarios"
+      tabListAriaLabel="Textarea styling variants"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Support reply textarea (Plain-CSS)"
+        [codeTabs]="plainScenarioCodeTabs"
+        [stackblitzUrl]="stackblitzVanillaUrl"
+      >
+        <section class="textarea-preview-shell">
+          <label class="textarea-preview-label" for="headless-textarea-styling-plain">
+            Support reply
+          </label>
+          <div tngInputGroup class="support-reply-shell textarea-preview-field-shell">
+            <textarea
+              id="headless-textarea-styling-plain"
+              tngTextarea
+              rows="5"
+              aria-label="Support reply"
+              [value]="plainSupportReplyValue()"
+              (input)="onPlainSupportReplyInput($event)"
+            ></textarea>
+            <span tngSuffix aria-hidden="true">Markdown enabled</span>
+          </div>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Support reply textarea (Tailwind CSS)"
+        [codeTabs]="tailwindScenarioCodeTabs"
+        [stackblitzUrl]="stackblitzTailwindUrl"
+      >
+        <section class="grid w-full max-w-[32rem] gap-3">
+          <label
+            class="text-xs font-semibold text-[var(--tng-semantic-foreground-secondary)]"
+            for="headless-textarea-styling-tailwind"
+          >
+            Support reply
+          </label>
+          <div
+            tngInputGroup
+            class="min-h-[8rem] items-start gap-3 rounded-xl border border-[var(--tng-semantic-border-strong)] bg-[var(--tng-semantic-background-base)] px-3 py-3 shadow-none transition [&[data-focused]]:border-[var(--tng-semantic-accent-brand)] [&[data-focused]]:ring-2 [&[data-focused]]:ring-blue-400/20"
+          >
+            <textarea
+              id="headless-textarea-styling-tailwind"
+              tngTextarea
+              rows="5"
+              aria-label="Support reply"
+              class="min-h-[6.5rem] min-w-0 flex-1 resize-y appearance-none border-0 bg-transparent p-0 text-[var(--tng-semantic-foreground-primary)] outline-none placeholder:text-[var(--tng-semantic-foreground-muted)] focus:outline-none focus:ring-0"
+              [value]="tailwindSupportReplyValue()"
+              (input)="onTailwindSupportReplyInput($event)"
+            ></textarea>
+            <span
+              tngSuffix
+              class="pt-1 text-xs font-semibold text-[var(--tng-semantic-foreground-secondary)]"
+              >Markdown enabled</span
+            >
+          </div>
+        </section>
+      </ng-template>
+    </app-docs-example-tabs-section>
+
+    <section
+      id="different-styling-pattern-examples"
+      class="docs-section-anchor textarea-styling-block"
+    >
+      <h3>Different styling pattern examples</h3>
+      <p>Resize policy and state treatment are the two main textarea-specific extensions.</p>
+      <tng-code-block
+        [code]="resizePatternCode"
+        adapter="shiki"
+        language="css"
+        title="Resize mode styling"
+        [theme]="codeBlockTheme()"
+        [lineNumbers]="false"
+        [wrap]="true"
+        [sanitizeHtml]="false"
+      ></tng-code-block>
+      <tng-code-block
+        [code]="invalidPatternCode"
+        adapter="shiki"
+        language="css"
+        title="State-driven styling"
+        [theme]="codeBlockTheme()"
+        [lineNumbers]="false"
+        [wrap]="true"
+        [sanitizeHtml]="false"
+      ></tng-code-block>
+    </section>
+  </div>
+</article>

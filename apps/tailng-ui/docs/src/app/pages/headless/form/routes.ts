@@ -13,8 +13,13 @@ export const HEADLESS_FORM_ROUTES: Routes = [
     path: 'input',
     loadChildren: () => import('./input/routes').then((m) => m.HEADLESS_FORM_INPUT_ROUTES),
   },
+  {
+    path: 'textarea',
+    loadChildren: () =>
+      import('./textarea/routes').then((m) => m.HEADLESS_FORM_TEXTAREA_ROUTES),
+  },
   ...group.items
-    .filter((item) => item.slug !== 'input')
+    .filter((item) => item.slug !== 'input' && item.slug !== 'textarea')
     .map((item) => ({
     path: item.slug,
     data: toHeadlessDocsRouteData(group, item),

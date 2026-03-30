@@ -1,0 +1,210 @@
+<article class="textarea-api docs-section-page">
+  <div class="docs-section-page-main">
+    <h2 class="textarea-api-title">API reference</h2>
+    <p class="textarea-api-lead">
+      Headless textarea is primitive-first. Attach <code>tngTextarea</code> to a native
+      <code>&lt;textarea&gt;</code>, use <code>tngInputGroup</code> for grouped composition, and
+      style via slot/state attributes.
+    </p>
+
+    <section id="tng-textarea" class="docs-section-anchor textarea-api-block">
+      <h3><code>tngTextarea</code> (directive)</h3>
+      <p>
+        Attach to a native <code>textarea[tngTextarea]</code>. The directive layers textarea-specific
+        behavior on top of the shared input contract.
+      </p>
+      <tng-code-block
+        [code]="directiveAttachCode"
+        adapter="shiki"
+        language="html"
+        title="Directive attachment"
+        [lineNumbers]="false"
+        [wrap]="true"
+        [sanitizeHtml]="false"
+        [theme]="codeBlockTheme()"
+      ></tng-code-block>
+      <div class="textarea-api-table-wrap">
+        <table class="textarea-api-table">
+          <thead>
+            <tr>
+              <th scope="col">Property</th>
+              <th scope="col">Type</th>
+              <th scope="col">Default</th>
+              <th scope="col">Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>rows</code></td>
+              <td><code>number</code></td>
+              <td><code>3</code></td>
+              <td>Normalized to at least <code>1</code> and reflected to the native attribute.</td>
+            </tr>
+            <tr>
+              <td><code>resize</code></td>
+              <td><code>'vertical' | 'horizontal' | 'both' | 'none'</code></td>
+              <td><code>'vertical'</code></td>
+              <td>Applied to <code>style.resize</code> and emitted as <code>data-resize</code>.</td>
+            </tr>
+            <tr>
+              <td><code>ariaLabel</code>, <code>ariaLabelledby</code>, <code>ariaDescribedBy</code></td>
+              <td><code>string | null</code></td>
+              <td><code>null</code></td>
+              <td>Inherited from the shared input contract with whitespace normalization.</td>
+            </tr>
+            <tr>
+              <td><code>disabled</code>, <code>readonly</code>, <code>required</code></td>
+              <td>boolean-like</td>
+              <td><code>false</code> / <code>null</code></td>
+              <td>Forwarded to the native textarea and mirrored as data attributes.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="tng-input-group" class="docs-section-anchor textarea-api-block">
+      <h3><code>tngInputGroup</code> (primitive shell)</h3>
+      <p>
+        Wraps a projected <code>tngTextarea</code> with optional slots and provides the same leading,
+        control, and trailing structure used by other headless field primitives.
+      </p>
+      <app-docs-example-tabs-section
+        heading="Grouped review notes"
+        description="A multiline field with a shared shell and a trailing draft-status token."
+        ariaLabel="Grouped review notes variants"
+        tabListAriaLabel="Grouped review notes style variants"
+        defaultValue="plain-css"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <ng-template
+          appDocsExampleVariant
+          value="plain-css"
+          label="Plain-CSS"
+          panelTitle="Grouped review notes (Plain-CSS)"
+          [codeTabs]="groupDemoPlainCodeTabs"
+          [stackblitzUrl]="stackblitzVanillaUrl"
+        >
+          <section class="textarea-preview-shell">
+            <label class="textarea-preview-label" for="headless-textarea-api-plain">
+              Reviewer notes
+            </label>
+            <div tngInputGroup class="textarea-preview-field-shell">
+              <textarea
+                id="headless-textarea-api-plain"
+                tngTextarea
+                rows="5"
+                placeholder="Add reviewer notes"
+                aria-label="Reviewer notes"
+                [value]="plainReviewNotesValue()"
+                (input)="onPlainReviewNotesInput($event)"
+              ></textarea>
+              <span tngSuffix aria-hidden="true">Draft</span>
+            </div>
+          </section>
+        </ng-template>
+
+        <ng-template
+          appDocsExampleVariant
+          value="tailwind-css"
+          label="Tailwind CSS"
+          panelTitle="Grouped review notes (Tailwind CSS)"
+          [codeTabs]="groupDemoTailwindCodeTabs"
+          [stackblitzUrl]="stackblitzTailwindUrl"
+        >
+          <section class="grid w-full max-w-[32rem] gap-3">
+            <label
+              class="text-xs font-semibold text-[var(--tng-semantic-foreground-secondary)]"
+              for="headless-textarea-api-tailwind"
+            >
+              Reviewer notes
+            </label>
+            <div
+              tngInputGroup
+              class="min-h-[8rem] items-start gap-3 rounded-xl border border-[var(--tng-semantic-border-strong)] bg-[var(--tng-semantic-background-base)] px-3 py-3 shadow-none transition [&[data-focused]]:border-[var(--tng-semantic-accent-brand)] [&[data-focused]]:ring-2 [&[data-focused]]:ring-blue-400/20"
+            >
+              <textarea
+                id="headless-textarea-api-tailwind"
+                tngTextarea
+                rows="5"
+                placeholder="Add reviewer notes"
+                aria-label="Reviewer notes"
+                class="min-h-[6.5rem] min-w-0 flex-1 resize-y appearance-none border-0 bg-transparent p-0 text-[var(--tng-semantic-foreground-primary)] outline-none placeholder:text-[var(--tng-semantic-foreground-muted)] focus:outline-none focus:ring-0"
+                [value]="tailwindReviewNotesValue()"
+                (input)="onTailwindReviewNotesInput($event)"
+              ></textarea>
+              <span
+                tngSuffix
+                class="pt-1 text-xs font-semibold text-[var(--tng-semantic-foreground-secondary)]"
+                >Draft</span
+              >
+            </div>
+          </section>
+        </ng-template>
+      </app-docs-example-tabs-section>
+      <div class="textarea-api-table-wrap">
+        <table class="textarea-api-table">
+          <thead>
+            <tr>
+              <th scope="col">Feature</th>
+              <th scope="col">Type</th>
+              <th scope="col">Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Projected control contract</td>
+              <td><code>tngTextarea</code> projection rule</td>
+              <td>Expects exactly one projected textarea control inside the group.</td>
+            </tr>
+            <tr>
+              <td>Structural layout</td>
+              <td>Built-in group behavior</td>
+              <td>Provides leading, flexible control, and trailing regions with mirrored state attrs.</td>
+            </tr>
+            <tr>
+              <td><code>data-focused</code></td>
+              <td>State attribute</td>
+              <td>Applied on the group host while the textarea or any projected control is focused.</td>
+            </tr>
+            <tr>
+              <td><code>data-invalid</code>, <code>data-disabled</code>, <code>data-readonly</code></td>
+              <td>Mirrored state attributes</td>
+              <td>Reflected from the projected textarea onto the group host for container styling.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="slot-directives" class="docs-section-anchor textarea-api-block">
+      <h3>Slot directives</h3>
+      <div class="textarea-api-table-wrap">
+        <table class="textarea-api-table">
+          <thead>
+            <tr>
+              <th scope="col">Directive</th>
+              <th scope="col">Applies to</th>
+              <th scope="col">Adds</th>
+              <th scope="col">Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>tngPrefix</code></td>
+              <td>Projected leading element</td>
+              <td><code>data-slot="input-leading"</code></td>
+              <td>Marks leading adornments such as icons or fixed labels.</td>
+            </tr>
+            <tr>
+              <td><code>tngSuffix</code></td>
+              <td>Projected trailing element</td>
+              <td><code>data-slot="input-trailing"</code></td>
+              <td>Marks trailing status tokens, actions, or helper affordances.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+</article>
