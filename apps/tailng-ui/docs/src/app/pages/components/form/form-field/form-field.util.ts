@@ -7,11 +7,11 @@ const COMPONENT_FORM_FIELD_PLAYGROUND_FILE =
   'src/app/playground/form/form-field/form-field.component.html';
 
 export const stackblitzVanillaUrl = generateStackblitzComponentsVanillaUrl(
-  'form-filed',
+  'form-field',
   COMPONENT_FORM_FIELD_PLAYGROUND_FILE,
 );
 
 export const stackblitzTailwindUrl = generateStackblitzComponentsTailwindUrl(
-  'form-filed',
+  'form-field',
   COMPONENT_FORM_FIELD_PLAYGROUND_FILE,
 );
