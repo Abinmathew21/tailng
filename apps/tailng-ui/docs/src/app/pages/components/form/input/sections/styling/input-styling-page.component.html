@@ -77,12 +77,13 @@
         label="Plain-CSS"
         panelTitle="Account profile form"
         [codeTabs]="plainCssScenarioCodeTabs"
+        [stackblitzUrl]="stackblitzVanillaUrl"
       >
-        <div class="input-styling-example-fields">
-          <label class="input-styling-example-field-surface input-styling-example-field-surface--plain">
-            <span class="input-styling-example-field-label">Display name</span>
+        <div class="doc-cmp-input-style-scenario-fields">
+          <label class="doc-cmp-input-style-scenario-surface doc-cmp-input-style-scenario-surface--plain">
+            <span class="doc-cmp-input-style-scenario-label">Display name</span>
             <tng-input
-              class="input-styling-example-shell input-styling-example-shell--plain"
+              class="doc-cmp-input-style-scenario-host--plain"
               type="text"
               value="Ada Lovelace"
               ariaLabel="Display name"
@@ -98,12 +99,13 @@
         label="Tailwind CSS"
         panelTitle="Account profile form"
         [codeTabs]="tailwindScenarioCodeTabs"
+        [stackblitzUrl]="stackblitzTailwindUrl"
       >
-        <div class="input-styling-example-fields">
-          <label class="input-styling-example-field-surface input-styling-example-field-surface--tailwind">
-            <span class="input-styling-example-field-label">Display name</span>
+        <div class="doc-cmp-input-style-scenario-fields">
+          <label class="doc-cmp-input-style-scenario-surface doc-cmp-input-style-scenario-surface--tailwind">
+            <span class="doc-cmp-input-style-scenario-label">Display name</span>
             <tng-input
-              [class]="tailwindScenarioHostClass"
+              [class]="'doc-cmp-input-style-scenario-tw-host ' + tailwindScenarioHostClass"
               type="text"
               value="Ada Lovelace"
               ariaLabel="Display name"

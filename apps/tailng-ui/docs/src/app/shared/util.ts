@@ -5,6 +5,18 @@ export const generateStackblitzVanillaUrl = (path: string, file: string): string
 export const STACKBLITZ_TAILWIND_URL = 'https://stackblitz.com/~/github.com/tailng/tailng-demo-headless-tailwind-v1/tree';
 export const generateStackblitzTailwindUrl = (path: string, file: string): string => `${STACKBLITZ_TAILWIND_URL}/${path}?file=${file}`;
 
+/** StackBlitz bases for `@tailng-ui/components` playground demos (e.g. tng-input). */
+export const STACKBLITZ_COMPONENTS_VANILLA_URL =
+  'https://stackblitz.com/~/github.com/tailng/tailng-demo-components-vanilla-v1/tree';
+export const STACKBLITZ_COMPONENTS_TAILWIND_URL =
+  'https://stackblitz.com/~/github.com/tailng/tailng-demo-components-tailwind-v1/tree';
+
+export const generateStackblitzComponentsVanillaUrl = (path: string, file: string): string =>
+  `${STACKBLITZ_COMPONENTS_VANILLA_URL}/${path}?file=${file}`;
+
+export const generateStackblitzComponentsTailwindUrl = (path: string, file: string): string =>
+  `${STACKBLITZ_COMPONENTS_TAILWIND_URL}/${path}?file=${file}`;
+
 export type DocsCodeBlockTheme = 'github-dark' | 'github-light';
 
 export function resolveDocsCodeBlockTheme(documentRef: Document): DocsCodeBlockTheme {

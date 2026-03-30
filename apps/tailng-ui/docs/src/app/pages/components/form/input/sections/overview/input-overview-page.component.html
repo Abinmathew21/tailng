@@ -43,6 +43,7 @@
         label="Plain-CSS"
         panelTitle="Basic input (Plain CSS)"
         [codeTabs]="plainCssExampleCodeTabs"
+        [stackblitzUrl]="stackblitzVanillaUrl"
       >
         <ng-container [ngTemplateOutlet]="basicPlainCssInputPreviewTemplate" />
       </ng-template>
@@ -53,17 +54,18 @@
         label="Tailwind CSS"
         panelTitle="Basic input (Tailwind CSS)"
         [codeTabs]="tailwindExampleCodeTabs"
+        [stackblitzUrl]="stackblitzTailwindUrl"
       >
         <ng-container [ngTemplateOutlet]="basicTailwindInputPreviewTemplate" />
       </ng-template>
     </app-docs-example-tabs-section>
 
     <ng-template #basicPlainCssInputPreviewTemplate>
-      <div class="input-overview-example-fields">
-        <label class="input-overview-example-field-surface">
-          <span class="input-overview-example-field-label">Email</span>
+      <div class="doc-cmp-input-overview-simple-fields">
+        <label class="doc-cmp-input-overview-simple-surface">
+          <span class="doc-cmp-input-overview-simple-label">Email</span>
           <tng-input
-            class="input-overview-example-shell input-overview-example-shell--plain"
+            class="doc-cmp-input-overview-simple-host--plain"
             type="email"
             placeholder="team@tailng.dev"
             ariaLabel="Email"
@@ -74,11 +76,13 @@
     </ng-template>
 
     <ng-template #basicTailwindInputPreviewTemplate>
-      <div class="input-overview-example-fields">
-        <label class="input-overview-example-field-surface input-overview-example-field-surface--tailwind">
-          <span class="input-overview-example-field-label">Email</span>
+      <div class="doc-cmp-input-overview-simple-fields">
+        <label
+          class="doc-cmp-input-overview-simple-tw-field grid gap-2 rounded-xl border border-slate-300 bg-white/80 p-3"
+        >
+          <span class="doc-cmp-input-overview-simple-tw-caption text-xs font-semibold text-slate-500">Email</span>
           <tng-input
-            [class]="tailwindInputHostClass"
+            [class]="'doc-cmp-input-overview-simple-tw-host ' + tailwindInputHostClass"
             type="email"
             placeholder="team@tailng.dev"
             ariaLabel="Email"
@@ -245,9 +249,9 @@
       <h3>Common pitfalls</h3>
       <p><strong>Projected shell without the primitive</strong></p>
       <p>If you use <code>&lt;tng-form-field&gt;</code>, the projected control still must carry <code>tngInput</code>.</p>
-      <div class="pitfall-grid">
+      <div class="doc-cmp-input-overview-pitfall-grid">
         <div>
-          <p class="pitfall-label">Correct</p>
+          <p class="doc-cmp-input-overview-pitfall-label">Correct</p>
           <tng-code-block
             [code]="pitfallCorrectCode"
             adapter="shiki"
@@ -259,7 +263,7 @@
           ></tng-code-block>
         </div>
         <div>
-          <p class="pitfall-label">Incorrect</p>
+          <p class="doc-cmp-input-overview-pitfall-label">Incorrect</p>
           <tng-code-block
             [code]="pitfallIncorrectCode"
             adapter="shiki"

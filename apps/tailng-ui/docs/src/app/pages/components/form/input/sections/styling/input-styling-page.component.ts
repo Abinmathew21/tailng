@@ -1,6 +1,7 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, inject, signal, type OnDestroy } from '@angular/core';
 import { observeDocsCodeThemeChanges, resolveDocsCodeBlockTheme } from '../../../../../../shared/util';
+import { stackblitzTailwindUrl, stackblitzVanillaUrl } from '../../input.util';
 import { TngCodeBlockComponent, TngInputComponent } from '@tailng-ui/components';
 import type { DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
 import {
@@ -26,6 +27,9 @@ export class InputStylingPageComponent implements OnDestroy {
     resolveDocsCodeBlockTheme(this.documentRef),
   );
   private readonly colorSchemeObserver = observeDocsCodeThemeChanges(this.documentRef, this.codeBlockTheme);
+
+  protected readonly stackblitzVanillaUrl = stackblitzVanillaUrl;
+  protected readonly stackblitzTailwindUrl = stackblitzTailwindUrl;
 
   protected readonly slotSelectorsCode = [
     'tng-input',
@@ -57,16 +61,16 @@ export class InputStylingPageComponent implements OnDestroy {
   ].join('\n');
 
   protected readonly stateHooksCode = [
-    '.settings-input {',
+    '.doc-cmp-input-style-doc-statehooks-host {',
     '  --tng-input-border: #cbd5e1;',
     '  --tng-input-focus-ring: rgba(59, 130, 246, 0.2);',
     '}',
     '',
-    '.settings-shell [data-slot="input-group"][data-invalid] {',
+    '.doc-cmp-input-style-doc-statehooks-shell [data-slot="input-group"][data-invalid] {',
     '  border-color: #ef4444;',
     '}',
     '',
-    '.settings-shell [data-slot="input-group"][data-disabled] {',
+    '.doc-cmp-input-style-doc-statehooks-shell [data-slot="input-group"][data-disabled] {',
     '  opacity: 0.58;',
     '  cursor: not-allowed;',
     '}',
@@ -74,10 +78,10 @@ export class InputStylingPageComponent implements OnDestroy {
   ].join('\n');
 
   private readonly plainCssScenarioHtmlCode = [
-    '<label class="account-field">',
-    '  <span class="account-label">Display name</span>',
+    '<label class="doc-cmp-input-style-scenario-plain-field">',
+    '  <span class="doc-cmp-input-style-scenario-plain-caption">Display name</span>',
     '  <tng-input',
-    '    class="input-styling-example-shell input-styling-example-shell--plain"',
+    '    class="doc-cmp-input-style-scenario-plain-host"',
     '    type="text"',
     '    value="Ada Lovelace"',
     '    ariaLabel="Display name"',
@@ -87,20 +91,20 @@ export class InputStylingPageComponent implements OnDestroy {
   ].join('\n');
 
   private readonly plainCssScenarioCssCode = [
-    '.account-field {',
+    '.doc-cmp-input-style-scenario-plain-field {',
     '  display: grid;',
     '  gap: 0.5rem;',
     '  max-width: 31rem;',
     '}',
     '',
-    '.account-label {',
+    '.doc-cmp-input-style-scenario-plain-caption {',
     '  color: #64748b;',
     '  font-size: 0.82rem;',
     '  font-weight: 600;',
     '  line-height: 1.2;',
     '}',
     '',
-    '.input-styling-example-shell--plain {',
+    '.doc-cmp-input-style-scenario-plain-host {',
     '  display: block;',
     '  width: 100%;',
     '  --tng-input-min-height: 2.45rem;',
@@ -115,6 +119,21 @@ export class InputStylingPageComponent implements OnDestroy {
     '  --tng-input-line-height: 1.35;',
     '  --tng-input-placeholder: #94a3b8;',
     '}',
+    '',
+  ].join('\n');
+
+  private readonly plainCssScenarioTsCode = [
+    "import { Component } from '@angular/core';",
+    "import { TngInputComponent } from '@tailng-ui/components';",
+    '',
+    '@Component({',
+    "  selector: 'app-doc-cmp-input-style-scenario-plain',",
+    '  standalone: true,',
+    '  imports: [TngInputComponent],',
+    "  templateUrl: './doc-cmp-input-style-scenario-plain.component.html',",
+    "  styleUrl: './doc-cmp-input-style-scenario-plain.component.css',",
+    '})',
+    'export class DocCmpInputStyleScenarioPlainComponent {}',
     '',
   ].join('\n');
 
@@ -135,10 +154,10 @@ export class InputStylingPageComponent implements OnDestroy {
   ].join(' ');
 
   private readonly tailwindScenarioHtmlCode = [
-    '<label class="grid w-full max-w-[31rem] gap-2 rounded-xl border border-slate-300 bg-white/80 p-3">',
-    '  <span class="text-xs font-semibold uppercase tracking-[0.01em] text-slate-500">Display name</span>',
+    '<label class="doc-cmp-input-style-scenario-tw-field grid w-full max-w-[31rem] gap-2 rounded-xl border border-slate-300 bg-white/80 p-3">',
+    '  <span class="doc-cmp-input-style-scenario-tw-caption text-xs font-semibold uppercase tracking-[0.01em] text-slate-500">Display name</span>',
     '  <tng-input',
-    '    class="block w-full [--tng-input-min-height:2.45rem] [--tng-input-radius:0.75rem] [--tng-input-px:0.78rem] [--tng-input-border:#cbd5e1] [--tng-input-bg:#ffffff] [--tng-input-focus-ring:rgba(6,182,212,0.18)] [--tng-input-fg:#0f172a] [--tng-input-font-size:0.98rem] [--tng-input-font-weight:500] [--tng-input-line-height:1.35] [--tng-input-placeholder:#94a3b8]"',
+    '    class="doc-cmp-input-style-scenario-tw-host block w-full [--tng-input-min-height:2.45rem] [--tng-input-radius:0.75rem] [--tng-input-px:0.78rem] [--tng-input-border:#cbd5e1] [--tng-input-bg:#ffffff] [--tng-input-focus-ring:rgba(6,182,212,0.18)] [--tng-input-fg:#0f172a] [--tng-input-font-size:0.98rem] [--tng-input-font-weight:500] [--tng-input-line-height:1.35] [--tng-input-placeholder:#94a3b8]"',
     '    type="text"',
     '    value="Ada Lovelace"',
     '    ariaLabel="Display name"',
@@ -150,36 +169,64 @@ export class InputStylingPageComponent implements OnDestroy {
   private readonly tailwindScenarioCssCode =
     '/* Tailwind strategy: utilities are applied directly in the template. */';
 
+  private readonly tailwindScenarioTsCode = [
+    "import { Component } from '@angular/core';",
+    "import { TngInputComponent } from '@tailng-ui/components';",
+    '',
+    '@Component({',
+    "  selector: 'app-doc-cmp-input-style-scenario-tw',",
+    '  standalone: true,',
+    '  imports: [TngInputComponent],',
+    "  templateUrl: './doc-cmp-input-style-scenario-tw.component.html',",
+    '})',
+    'export class DocCmpInputStyleScenarioTwComponent {}',
+    '',
+  ].join('\n');
+
   protected readonly plainCssScenarioCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
+    {
+      value: 'ts',
+      label: 'TS',
+      language: 'ts',
+      title: 'doc-cmp-input-style-scenario-plain.component.ts',
+      code: this.plainCssScenarioTsCode,
+    },
     {
       value: 'html',
       label: 'HTML',
       language: 'html',
-      title: 'plain-css-account-form.component.html',
+      title: 'doc-cmp-input-style-scenario-plain.component.html',
       code: this.plainCssScenarioHtmlCode,
     },
     {
       value: 'css',
       label: 'CSS',
       language: 'css',
-      title: 'plain-css-account-form.component.css',
+      title: 'doc-cmp-input-style-scenario-plain.component.css',
       code: this.plainCssScenarioCssCode,
     },
   ]);
 
   protected readonly tailwindScenarioCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
     {
+      value: 'ts',
+      label: 'TS',
+      language: 'ts',
+      title: 'doc-cmp-input-style-scenario-tw.component.ts',
+      code: this.tailwindScenarioTsCode,
+    },
+    {
       value: 'html',
       label: 'HTML',
       language: 'html',
-      title: 'tailwind-account-form.component.html',
+      title: 'doc-cmp-input-style-scenario-tw.component.html',
       code: this.tailwindScenarioHtmlCode,
     },
     {
       value: 'css',
       label: 'CSS',
       language: 'css',
-      title: 'tailwind-account-form.component.css',
+      title: 'doc-cmp-input-style-scenario-tw.component.css',
       code: this.tailwindScenarioCssCode,
     },
   ]);
@@ -191,7 +238,7 @@ export class InputStylingPageComponent implements OnDestroy {
         'Prefer overriding the public input tokens on the host instead of reaching into internal DOM for routine visual changes.',
       language: 'css',
       code: [
-        '.settings-input {',
+        '.doc-cmp-input-style-pattern-theme-host {',
         '  --tng-input-bg: #ffffff;',
         '  --tng-input-border: #cbd5e1;',
         '  --tng-input-radius: 0.75rem;',
@@ -212,7 +259,7 @@ export class InputStylingPageComponent implements OnDestroy {
         'Tune field density through the token surface instead of replacing the shell layout.',
       language: 'css',
       code: [
-        '.compact-input {',
+        '.doc-cmp-input-style-pattern-density-host {',
         '  --tng-input-min-height: 2.2rem;',
         '  --tng-input-px: 0.68rem;',
         '  --tng-input-gap: 0.45rem;',

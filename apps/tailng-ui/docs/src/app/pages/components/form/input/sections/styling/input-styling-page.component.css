@@ -90,14 +90,14 @@
   font-size: 0.82rem;
 }
 
-.input-styling-example-fields {
+.doc-cmp-input-style-scenario-fields {
   display: grid;
   gap: 1rem;
   max-width: 31rem;
   width: min(100%, 31rem);
 }
 
-.input-styling-example-field-surface {
+.doc-cmp-input-style-scenario-surface {
   border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 0.85rem;
   display: grid;
@@ -105,26 +105,26 @@
   padding: 0.78rem 0.82rem;
 }
 
-.input-styling-example-field-surface--headless {
+.doc-cmp-input-style-scenario-surface--headless {
   background: color-mix(in srgb, var(--tng-semantic-background-surface) 92%, transparent);
 }
 
-.input-styling-example-field-surface--plain {
+.doc-cmp-input-style-scenario-surface--plain {
   background: var(--tng-semantic-background-surface);
 }
 
-.input-styling-example-field-surface--tailwind {
+.doc-cmp-input-style-scenario-surface--tailwind {
   background: color-mix(in srgb, var(--tng-semantic-background-surface) 90%, #7dd3fc 10%);
 }
 
-.input-styling-example-field-label {
+.doc-cmp-input-style-scenario-label {
   color: var(--tng-semantic-foreground-secondary);
   font-size: 0.82rem;
   font-weight: 600;
   line-height: 1.2;
 }
 
-.input-styling-example-shell--plain {
+.doc-cmp-input-style-scenario-host--plain {
   --tng-input-min-height: 2.45rem;
   --tng-input-radius: 0.75rem;
   --tng-input-px: 0.78rem;
@@ -176,7 +176,7 @@
     min-width: 36rem;
   }
 
-  .input-styling-example-shell--plain {
+  .doc-cmp-input-style-scenario-host--plain {
     --tng-input-font-size: 0.92rem;
   }
 

@@ -22,7 +22,7 @@ export class InputApiPageComponent implements OnDestroy {
     "import { TngInputComponent } from '@tailng-ui/components';",
     '',
     '@Component({',
-    "  selector: 'app-simple-input-demo',",
+    "  selector: 'app-doc-cmp-input-api-tng-input',",
     '  standalone: true,',
     '  imports: [TngInputComponent],',
     '  template: `',
@@ -33,7 +33,7 @@ export class InputApiPageComponent implements OnDestroy {
     '    ></tng-input>',
     '  `,',
     '})',
-    'export class SimpleInputDemoComponent {}',
+    'export class DocCmpInputApiTngInputComponent {}',
     '',
   ].join('\n');
 
@@ -43,7 +43,7 @@ export class InputApiPageComponent implements OnDestroy {
     "import { TngInput, TngPrefix, TngSuffix } from '@tailng-ui/primitives';",
     '',
     '@Component({',
-    "  selector: 'app-search-form-field-demo',",
+    "  selector: 'app-doc-cmp-input-api-form-field',",
     '  standalone: true,',
     '  imports: [TngFormFieldComponent, TngInput, TngPrefix, TngSuffix],',
     '  template: `',
@@ -59,7 +59,7 @@ export class InputApiPageComponent implements OnDestroy {
     '    </tng-form-field>',
     '  `,',
     '})',
-    'export class SearchFormFieldDemoComponent {}',
+    'export class DocCmpInputApiFormFieldComponent {}',
     '',
   ].join('\n');
 
@@ -68,7 +68,7 @@ export class InputApiPageComponent implements OnDestroy {
     "import { TngInput } from '@tailng-ui/primitives';",
     '',
     '@Component({',
-    "  selector: 'app-primitive-input-demo',",
+    "  selector: 'app-doc-cmp-input-api-primitive',",
     '  standalone: true,',
     '  imports: [TngInput],',
     '  template: `',
@@ -80,7 +80,7 @@ export class InputApiPageComponent implements OnDestroy {
     '    />',
     '  `,',
     '})',
-    'export class PrimitiveInputDemoComponent {}',
+    'export class DocCmpInputApiPrimitiveComponent {}',
     '',
   ].join('\n');
 

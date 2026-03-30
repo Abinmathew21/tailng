@@ -15,10 +15,10 @@
         defaultValue="plain-css"
         [codeBlockTheme]="codeBlockTheme()"
       >
-        <ng-template appDocsExampleVariant value="plain-css" label="Plain-CSS" panelTitle="Basic text field (Plain-CSS)" [codeTabs]="basicPlainCodeTabs">
-          <div class="input-example-preview">
+        <ng-template appDocsExampleVariant value="plain-css" label="Plain-CSS" panelTitle="Basic text field (Plain-CSS)" [codeTabs]="basicPlainCodeTabs" [stackblitzUrl]="stackblitzVanillaUrl">
+          <div class="doc-cmp-input-ex-basic-preview">
             <tng-input
-              class="input-example-control input-example-control--basic"
+              class="doc-cmp-input-ex-basic-host"
               type="text"
               placeholder="Project name"
               ariaLabel="Project name"
@@ -27,10 +27,10 @@
           </div>
         </ng-template>
 
-        <ng-template appDocsExampleVariant value="tailwind-css" label="Tailwind CSS" panelTitle="Basic text field (Tailwind CSS)" [codeTabs]="basicTailwindCodeTabs">
-          <div class="input-example-preview">
+        <ng-template appDocsExampleVariant value="tailwind-css" label="Tailwind CSS" panelTitle="Basic text field (Tailwind CSS)" [codeTabs]="basicTailwindCodeTabs" [stackblitzUrl]="stackblitzTailwindUrl">
+          <div class="doc-cmp-input-ex-basic-preview">
             <tng-input
-              [class]="tailwindInputHostClass"
+              [class]="'doc-cmp-input-ex-basic-tw-host ' + tailwindInputHostClass"
               type="text"
               placeholder="Project name"
               ariaLabel="Project name"
@@ -50,19 +50,19 @@
         defaultValue="plain-css"
         [codeBlockTheme]="codeBlockTheme()"
       >
-        <ng-template appDocsExampleVariant value="plain-css" label="Plain-CSS" panelTitle="Type variants (Plain-CSS)" [codeTabs]="typePlainCodeTabs">
-          <div class="input-example-preview input-example-variant-grid">
-            <tng-input class="input-example-control" type="email" placeholder="team@tailng.dev" ariaLabel="Email"></tng-input>
-            <tng-input class="input-example-control" type="search" placeholder="Search docs" ariaLabel="Search"></tng-input>
-            <tng-input class="input-example-control" type="number" placeholder="42" ariaLabel="Number"></tng-input>
+        <ng-template appDocsExampleVariant value="plain-css" label="Plain-CSS" panelTitle="Type variants (Plain-CSS)" [codeTabs]="typePlainCodeTabs" [stackblitzUrl]="stackblitzVanillaUrl">
+          <div class="doc-cmp-input-ex-types-preview doc-cmp-input-ex-types-grid">
+            <tng-input class="doc-cmp-input-ex-types-host" type="email" placeholder="team@tailng.dev" ariaLabel="Email"></tng-input>
+            <tng-input class="doc-cmp-input-ex-types-host" type="search" placeholder="Search docs" ariaLabel="Search"></tng-input>
+            <tng-input class="doc-cmp-input-ex-types-host" type="number" placeholder="42" ariaLabel="Number"></tng-input>
           </div>
         </ng-template>
 
-        <ng-template appDocsExampleVariant value="tailwind-css" label="Tailwind CSS" panelTitle="Type variants (Tailwind CSS)" [codeTabs]="typeTailwindCodeTabs">
-          <div class="input-example-preview input-example-variant-grid">
-            <tng-input [class]="tailwindInputHostClass" type="email" placeholder="team@tailng.dev" ariaLabel="Email"></tng-input>
-            <tng-input [class]="tailwindInputHostClass" type="search" placeholder="Search docs" ariaLabel="Search"></tng-input>
-            <tng-input [class]="tailwindInputHostClass" type="number" placeholder="42" ariaLabel="Number"></tng-input>
+        <ng-template appDocsExampleVariant value="tailwind-css" label="Tailwind CSS" panelTitle="Type variants (Tailwind CSS)" [codeTabs]="typeTailwindCodeTabs" [stackblitzUrl]="stackblitzTailwindUrl">
+          <div class="doc-cmp-input-ex-types-preview doc-cmp-input-ex-types-grid">
+            <tng-input [class]="'doc-cmp-input-ex-types-tw-host ' + tailwindInputHostClass" type="email" placeholder="team@tailng.dev" ariaLabel="Email"></tng-input>
+            <tng-input [class]="'doc-cmp-input-ex-types-tw-host ' + tailwindInputHostClass" type="search" placeholder="Search docs" ariaLabel="Search"></tng-input>
+            <tng-input [class]="'doc-cmp-input-ex-types-tw-host ' + tailwindInputHostClass" type="number" placeholder="42" ariaLabel="Number"></tng-input>
           </div>
         </ng-template>
       </app-docs-example-tabs-section>
@@ -77,31 +77,31 @@
         defaultValue="plain-css"
         [codeBlockTheme]="codeBlockTheme()"
       >
-        <ng-template appDocsExampleVariant value="plain-css" label="Plain-CSS" panelTitle="Validation feedback (Plain-CSS)" [codeTabs]="validationPlainCodeTabs">
-          <div class="input-example-preview input-example-validation-stack">
+        <ng-template appDocsExampleVariant value="plain-css" label="Plain-CSS" panelTitle="Validation feedback (Plain-CSS)" [codeTabs]="validationPlainCodeTabs" [stackblitzUrl]="stackblitzVanillaUrl">
+          <div class="doc-cmp-input-ex-validation-preview doc-cmp-input-ex-validation-stack">
             <tng-input
-              class="input-example-control"
+              class="doc-cmp-input-ex-validation-host"
               tone="danger"
               type="email"
               value="team@tailng"
               [ariaInvalid]="true"
               (click)="focusProjectedInput($event)"
             ></tng-input>
-            <p class="input-example-helper input-example-helper--danger">Enter a valid email address in user&#64;domain format.</p>
+            <p class="doc-cmp-input-ex-validation-helper doc-cmp-input-ex-validation-helper--danger">Enter a valid email address in user&#64;domain format.</p>
           </div>
         </ng-template>
 
-        <ng-template appDocsExampleVariant value="tailwind-css" label="Tailwind CSS" panelTitle="Validation feedback (Tailwind CSS)" [codeTabs]="validationTailwindCodeTabs">
-          <div class="input-example-preview input-example-validation-stack">
+        <ng-template appDocsExampleVariant value="tailwind-css" label="Tailwind CSS" panelTitle="Validation feedback (Tailwind CSS)" [codeTabs]="validationTailwindCodeTabs" [stackblitzUrl]="stackblitzTailwindUrl">
+          <div class="doc-cmp-input-ex-validation-preview doc-cmp-input-ex-validation-stack">
             <tng-input
-              [class]="tailwindDangerInputHostClass"
+              [class]="'doc-cmp-input-ex-validation-tw-host ' + tailwindDangerInputHostClass"
               tone="danger"
               type="email"
               value="team@tailng"
               [ariaInvalid]="true"
               (click)="focusProjectedInput($event)"
             ></tng-input>
-            <p class="text-xs font-medium text-red-600">Enter a valid email address in user&#64;domain format.</p>
+            <p class="doc-cmp-input-ex-validation-tw-helper text-xs font-medium text-red-600">Enter a valid email address in user&#64;domain format.</p>
           </div>
         </ng-template>
       </app-docs-example-tabs-section>
@@ -116,17 +116,17 @@
         defaultValue="plain-css"
         [codeBlockTheme]="codeBlockTheme()"
       >
-        <ng-template appDocsExampleVariant value="plain-css" label="Plain-CSS" panelTitle="Readonly and disabled states (Plain-CSS)" [codeTabs]="statesPlainCodeTabs">
-          <div class="input-example-preview input-example-stacked">
-            <tng-input class="input-example-control" type="text" value="Readonly API key" readonly (click)="focusProjectedInput($event)"></tng-input>
-            <tng-input class="input-example-control" type="text" value="Disabled while syncing" disabled (click)="focusProjectedInput($event)"></tng-input>
+        <ng-template appDocsExampleVariant value="plain-css" label="Plain-CSS" panelTitle="Readonly and disabled states (Plain-CSS)" [codeTabs]="statesPlainCodeTabs" [stackblitzUrl]="stackblitzVanillaUrl">
+          <div class="doc-cmp-input-ex-states-preview doc-cmp-input-ex-states-stack">
+            <tng-input class="doc-cmp-input-ex-states-host" type="text" value="Readonly API key" readonly (click)="focusProjectedInput($event)"></tng-input>
+            <tng-input class="doc-cmp-input-ex-states-host" type="text" value="Disabled while syncing" disabled (click)="focusProjectedInput($event)"></tng-input>
           </div>
         </ng-template>
 
-        <ng-template appDocsExampleVariant value="tailwind-css" label="Tailwind CSS" panelTitle="Readonly and disabled states (Tailwind CSS)" [codeTabs]="statesTailwindCodeTabs">
-          <div class="input-example-preview input-example-stacked">
-            <tng-input [class]="tailwindMutedInputHostClass" type="text" value="Readonly API key" readonly (click)="focusProjectedInput($event)"></tng-input>
-            <tng-input [class]="'opacity-60 ' + tailwindMutedInputHostClass" type="text" value="Disabled while syncing" disabled (click)="focusProjectedInput($event)"></tng-input>
+        <ng-template appDocsExampleVariant value="tailwind-css" label="Tailwind CSS" panelTitle="Readonly and disabled states (Tailwind CSS)" [codeTabs]="statesTailwindCodeTabs" [stackblitzUrl]="stackblitzTailwindUrl">
+          <div class="doc-cmp-input-ex-states-preview doc-cmp-input-ex-states-stack">
+            <tng-input [class]="'doc-cmp-input-ex-states-tw-host ' + tailwindMutedInputHostClass" type="text" value="Readonly API key" readonly (click)="focusProjectedInput($event)"></tng-input>
+            <tng-input [class]="'doc-cmp-input-ex-states-tw-host doc-cmp-input-ex-states-tw-host--disabled opacity-60 ' + tailwindMutedInputHostClass" type="text" value="Disabled while syncing" disabled (click)="focusProjectedInput($event)"></tng-input>
           </div>
         </ng-template>
       </app-docs-example-tabs-section>

@@ -1,5 +1,6 @@
+import type {
+  AfterViewInit, OnDestroy } from '@angular/core';
 import {
-  AfterViewInit,
   Component,
   computed,
   effect,
@@ -12,7 +13,8 @@ import {
   signal,
 } from '@angular/core';
 import { booleanAttribute } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import type { ControlValueAccessor} from '@angular/forms';
+import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import {
   clampTngOtpValue,
   normalizeTngOtpLength,
@@ -171,7 +173,7 @@ function clampOtpIndex(index: number, length: number): number {
     },
   ],
 })
-export class TngInputOtpComponent implements AfterViewInit, ControlValueAccessor {
+export class TngInputOtpComponent implements AfterViewInit, ControlValueAccessor, OnDestroy {
   private readonly hostRef = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly renderer = inject(Renderer2);
 

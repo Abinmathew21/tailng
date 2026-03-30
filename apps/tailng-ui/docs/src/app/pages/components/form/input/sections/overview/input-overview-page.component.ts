@@ -6,7 +6,11 @@ import {
   DocsExampleTabsSectionComponent,
   DocsExampleVariantDirective,
 } from '../../../../../../shared/example-tabs-section/docs-example-tabs-section.component';
-import { observeDocsCodeThemeChanges, resolveDocsCodeBlockTheme } from '../../../../../../shared/util';
+import {
+  observeDocsCodeThemeChanges,
+  resolveDocsCodeBlockTheme,
+} from '../../../../../../shared/util';
+import { stackblitzTailwindUrl, stackblitzVanillaUrl } from '../../input.util';
 
 @Component({
   selector: 'app-input-overview-page',
@@ -18,7 +22,7 @@ import { observeDocsCodeThemeChanges, resolveDocsCodeBlockTheme } from '../../..
     TngInputComponent,
   ],
   templateUrl: './input-overview-page.component.html',
-  styleUrl: '../../../../../../shared/form/input/input-styles.css',
+  styleUrls: ['../../../../../../shared/form/input/input-styles.css', './input-overview-page.component.css'],
 })
 export class InputOverviewPageComponent implements OnDestroy {
   private readonly documentRef = inject(DOCUMENT);
@@ -27,6 +31,9 @@ export class InputOverviewPageComponent implements OnDestroy {
     resolveDocsCodeBlockTheme(this.documentRef),
   );
   private readonly colorSchemeObserver = observeDocsCodeThemeChanges(this.documentRef, this.codeBlockTheme);
+
+  protected readonly stackblitzVanillaUrl = stackblitzVanillaUrl;
+  protected readonly stackblitzTailwindUrl = stackblitzTailwindUrl;
 
   protected readonly installationCode = [
     "import { TngFormFieldComponent, TngInputComponent } from '@tailng-ui/components';",
@@ -101,10 +108,10 @@ export class InputOverviewPageComponent implements OnDestroy {
   ].join('\n');
 
   private readonly plainCssExampleHtmlCode = [
-    '<label class="input-overview-example-field-surface">',
-    '  <span class="input-overview-example-field-label">Email</span>',
+    '<label class="doc-cmp-input-overview-simple-surface">',
+    '  <span class="doc-cmp-input-overview-simple-label">Email</span>',
     '  <tng-input',
-    '    class="input-overview-example-shell input-overview-example-shell--plain"',
+    '    class="doc-cmp-input-overview-simple-host--plain"',
     '    type="email"',
     '    placeholder="team@tailng.dev"',
     '    ariaLabel="Email"',
@@ -118,18 +125,18 @@ export class InputOverviewPageComponent implements OnDestroy {
     "import { TngInputComponent } from '@tailng-ui/components';",
     '',
     '@Component({',
-    "  selector: 'app-plain-css-input-example',",
+    "  selector: 'app-doc-cmp-input-overview-plain',",
     '  standalone: true,',
     '  imports: [TngInputComponent],',
-    "  templateUrl: './plain-css-input-example.component.html',",
-    "  styleUrl: './plain-css-input-example.component.css',",
+    "  templateUrl: './doc-cmp-input-overview-plain.component.html',",
+    "  styleUrl: './doc-cmp-input-overview-plain.component.css',",
     '})',
-    'export class PlainCssInputExampleComponent {}',
+    'export class DocCmpInputOverviewPlainComponent {}',
     '',
   ].join('\n');
 
   private readonly plainCssExampleCssCode = [
-    '.input-overview-example-field-surface {',
+    '.doc-cmp-input-overview-simple-surface {',
     '  display: grid;',
     '  gap: 0.5rem;',
     '  padding: 0.9rem;',
@@ -138,13 +145,13 @@ export class InputOverviewPageComponent implements OnDestroy {
     '  background: rgba(255, 255, 255, 0.88);',
     '}',
     '',
-    '.input-overview-example-field-label {',
+    '.doc-cmp-input-overview-simple-label {',
     '  color: #64748b;',
     '  font-size: 0.78rem;',
     '  font-weight: 600;',
     '}',
     '',
-    '.input-overview-example-shell--plain {',
+    '.doc-cmp-input-overview-simple-host--plain {',
     '  display: block;',
     '  width: 100%;',
     '  max-width: 100%;',
@@ -180,10 +187,10 @@ export class InputOverviewPageComponent implements OnDestroy {
   ].join(' ');
 
   private readonly tailwindExampleHtmlCode = [
-    '<label class="grid gap-2 rounded-xl border border-slate-300 bg-white/80 p-3">',
-    '  <span class="text-xs font-semibold text-slate-500">Email</span>',
+    '<label class="doc-cmp-input-overview-simple-tw-field grid gap-2 rounded-xl border border-slate-300 bg-white/80 p-3">',
+    '  <span class="doc-cmp-input-overview-simple-tw-caption text-xs font-semibold text-slate-500">Email</span>',
     '  <tng-input',
-    '    class="block w-full [--tng-input-min-height:2.5rem] [--tng-input-radius:0.72rem] [--tng-input-px:0.78rem] [--tng-input-bg:#ffffff] [--tng-input-border:#cbd5e1] [--tng-input-focus-ring:rgba(59,130,246,0.22)] [--tng-input-fg:#0f172a] [--tng-input-font-size:0.98rem] [--tng-input-font-weight:500] [--tng-input-line-height:1.35] [--tng-input-placeholder:#94a3b8]"',
+    '    class="doc-cmp-input-overview-simple-tw-host block w-full [--tng-input-min-height:2.5rem] [--tng-input-radius:0.72rem] [--tng-input-px:0.78rem] [--tng-input-bg:#ffffff] [--tng-input-border:#cbd5e1] [--tng-input-focus-ring:rgba(59,130,246,0.22)] [--tng-input-fg:#0f172a] [--tng-input-font-size:0.98rem] [--tng-input-font-weight:500] [--tng-input-line-height:1.35] [--tng-input-placeholder:#94a3b8]"',
     '    type="email"',
     '    placeholder="team@tailng.dev"',
     '    ariaLabel="Email"',
@@ -197,12 +204,12 @@ export class InputOverviewPageComponent implements OnDestroy {
     "import { TngInputComponent } from '@tailng-ui/components';",
     '',
     '@Component({',
-    "  selector: 'app-tailwind-input-example',",
+    "  selector: 'app-doc-cmp-input-overview-tailwind',",
     '  standalone: true,',
     '  imports: [TngInputComponent],',
-    "  templateUrl: './tailwind-input-example.component.html',",
+    "  templateUrl: './doc-cmp-input-overview-tailwind.component.html',",
     '})',
-    'export class TailwindInputExampleComponent {}',
+    'export class DocCmpInputOverviewTailwindComponent {}',
     '',
   ].join('\n');
 
@@ -214,21 +221,21 @@ export class InputOverviewPageComponent implements OnDestroy {
       value: 'ts',
       label: 'TS',
       language: 'ts',
-      title: 'plain-css-input-example.component.ts',
+      title: 'doc-cmp-input-overview-plain.component.ts',
       code: this.plainCssExampleTsCode,
     },
     {
       value: 'html',
       label: 'HTML',
       language: 'html',
-      title: 'plain-css-input-example.component.html',
+      title: 'doc-cmp-input-overview-plain.component.html',
       code: this.plainCssExampleHtmlCode,
     },
     {
       value: 'css',
       label: 'CSS',
       language: 'css',
-      title: 'plain-css-input-example.component.css',
+      title: 'doc-cmp-input-overview-plain.component.css',
       code: this.plainCssExampleCssCode,
     },
   ]);
@@ -238,21 +245,21 @@ export class InputOverviewPageComponent implements OnDestroy {
       value: 'ts',
       label: 'TS',
       language: 'ts',
-      title: 'tailwind-input-example.component.ts',
+      title: 'doc-cmp-input-overview-tailwind.component.ts',
       code: this.tailwindExampleTsCode,
     },
     {
       value: 'html',
       label: 'HTML',
       language: 'html',
-      title: 'tailwind-input-example.component.html',
+      title: 'doc-cmp-input-overview-tailwind.component.html',
       code: this.tailwindExampleHtmlCode,
     },
     {
       value: 'css',
       label: 'CSS',
       language: 'css',
-      title: 'tailwind-input-example.component.css',
+      title: 'doc-cmp-input-overview-tailwind.component.css',
       code: this.tailwindExampleCssCode,
     },
   ]);
