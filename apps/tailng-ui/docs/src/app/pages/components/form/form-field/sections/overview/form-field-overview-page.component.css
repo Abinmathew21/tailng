@@ -1,0 +1,58 @@
+:host {
+  display: block;
+}
+
+.doc-cmp-form-field-ov-plain-search-field {
+  display: grid;
+  gap: 0.45rem;
+  width: min(100%, 32rem);
+}
+
+.doc-cmp-form-field-ov-plain-search-label {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.doc-cmp-form-field-ov-plain-search-shell {
+  display: block;
+}
+
+.doc-cmp-form-field-ov-plain-search-shell [data-slot='input-group'] {
+  background: var(--tng-semantic-background-base);
+  border: 1px solid var(--tng-semantic-border-strong);
+  border-radius: 0.78rem;
+  box-shadow: none;
+  min-height: 2.65rem;
+  padding-inline: 0.85rem;
+}
+
+.doc-cmp-form-field-ov-plain-search-shell [data-slot='input-group'][data-focused] {
+  border-color: var(--tng-semantic-accent-brand);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--tng-semantic-accent-brand) 18%, transparent);
+}
+
+.doc-cmp-form-field-ov-plain-search-shell [data-slot='input'] {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  color: inherit;
+  display: block;
+  font: inherit;
+  min-width: 0;
+  outline: none;
+  padding: 0;
+  width: 100%;
+}
+
+.doc-cmp-form-field-ov-plain-search-icon {
+  height: 1rem;
+  width: 1rem;
+}
+
+.doc-cmp-form-field-ov-plain-search-meta {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.8rem;
+  font-weight: 600;
+}

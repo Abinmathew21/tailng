@@ -19,16 +19,16 @@ export class FormFieldApiPageComponent {
 
   protected readonly controlContractCode = [
     '<tng-form-field>',
-    '  <input tngInput type="text" />',
+    '  <textarea tngInput rows="3"></textarea>',
     '</tng-form-field>',
     '',
   ].join('\n');
 
   protected readonly slotsCode = [
     '<tng-form-field>',
-    '  <span tngPrefix aria-hidden="true">$</span>',
+    '  <span tngInputLeading aria-hidden="true">$</span>',
     '  <input tngInput type="text" />',
-    '  <button tngSuffix type="button" aria-label="Clear value">Clear</button>',
+    '  <button tngInputTrailing type="button" aria-label="Clear value">Clear</button>',
     '</tng-form-field>',
     '',
   ].join('\n');

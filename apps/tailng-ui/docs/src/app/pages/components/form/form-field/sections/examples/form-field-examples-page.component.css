@@ -1,0 +1,72 @@
+:host {
+  display: block;
+}
+
+.doc-cmp-form-field-ex-search-preview,
+.doc-cmp-form-field-ex-workspace-preview,
+.doc-cmp-form-field-ex-clear-preview {
+  display: grid;
+  gap: 0.65rem;
+  width: min(100%, 32rem);
+}
+
+.doc-cmp-form-field-ex-search-shell [data-slot='input-group'],
+.doc-cmp-form-field-ex-workspace-shell [data-slot='input-group'],
+.doc-cmp-form-field-ex-clear-shell [data-slot='input-group'] {
+  border-radius: 0.78rem;
+  border: 1px solid var(--tng-semantic-border-strong);
+  background: var(--tng-semantic-background-base);
+  min-height: 2.65rem;
+  padding-inline: 0.85rem;
+  box-shadow: none;
+}
+
+.doc-cmp-form-field-ex-search-shell [data-slot='input-group'][data-focused],
+.doc-cmp-form-field-ex-workspace-shell [data-slot='input-group'][data-focused],
+.doc-cmp-form-field-ex-clear-shell [data-slot='input-group'][data-focused] {
+  border-color: var(--tng-semantic-accent-brand);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--tng-semantic-accent-brand) 18%, transparent);
+}
+
+.doc-cmp-form-field-ex-search-shell [data-slot='input'],
+.doc-cmp-form-field-ex-workspace-shell [data-slot='input'],
+.doc-cmp-form-field-ex-clear-shell [data-slot='input'] {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  color: inherit;
+  display: block;
+  font: inherit;
+  min-width: 0;
+  outline: none;
+  padding: 0;
+  width: 100%;
+}
+
+.doc-cmp-form-field-ex-search-icon {
+  height: 1.1rem;
+  width: 1.1rem;
+}
+
+.doc-cmp-form-field-ex-search-meta,
+.doc-cmp-form-field-ex-workspace-meta {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.doc-cmp-form-field-ex-clear-action {
+  border: 0;
+  border-radius: 0.5rem;
+  background: transparent;
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 0.3rem 0.55rem;
+}
+
+.doc-cmp-form-field-ex-clear-action:hover {
+  background: color-mix(in srgb, var(--tng-semantic-background-muted) 62%, transparent);
+  color: var(--tng-semantic-foreground-primary);
+}

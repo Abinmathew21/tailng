@@ -7,16 +7,22 @@
       content.
     </p>
     <p class="input-overview-lead">
-      Use it when the field needs icons, fixed suffix text, or trailing actions. For the plain
-      case with no projected adornments, use <code>&lt;tng-input&gt;</code> instead.
+      Use it when the field needs icons, fixed suffix text, or trailing actions. For the plain case
+      with no projected adornments, use <code>&lt;tng-input&gt;</code> instead.
     </p>
 
     <section id="what-form-field-does" class="docs-section-anchor input-overview-block">
       <h3>What form field does</h3>
       <ul class="input-overview-list">
         <li><strong>Owns the shell</strong>: sizing, border, focus ring, and inline layout.</li>
-        <li><strong>Projects one real input</strong>: the native control still comes from <code>input[tngInput]</code>.</li>
-        <li><strong>Supports adornments</strong>: leading and trailing content stay outside the native control while sharing the same field chrome.</li>
+        <li>
+          <strong>Projects one real input</strong>: the native control still comes from
+          <code>input[tngInput]</code>.
+        </li>
+        <li>
+          <strong>Supports adornments</strong>: leading and trailing content stay outside the native
+          control while sharing the same field chrome.
+        </li>
       </ul>
     </section>
 
@@ -36,16 +42,20 @@
         label="Plain-CSS"
         panelTitle="Form Field (Plain CSS)"
         [codeTabs]="plainCssExampleCodeTabs"
+        [stackblitzUrl]="stackblitzVanillaUrl"
       >
         <div class="input-overview-example-fields">
-          <label class="input-overview-example-field-surface">
-            <span class="input-overview-example-field-label">Search docs</span>
-            <tng-form-field class="input-overview-example-shell" (click)="focusProjectedInput($event)">
+          <label class="doc-cmp-form-field-ov-plain-search-field">
+            <span class="doc-cmp-form-field-ov-plain-search-label">Search docs</span>
+            <tng-form-field
+              class="doc-cmp-form-field-ov-plain-search-shell"
+              (click)="focusProjectedInput($event)"
+            >
               <span tngPrefix aria-hidden="true">
-                <tng-icon icon="search" class="input-example-icon" />
+                <tng-icon icon="search" class="doc-cmp-form-field-ov-plain-search-icon" />
               </span>
               <input tngInput type="search" placeholder="Search components..." />
-              <span tngSuffix class="input-example-meta">Ctrl+K</span>
+              <span tngSuffix class="doc-cmp-form-field-ov-plain-search-meta">Ctrl+K</span>
             </tng-form-field>
           </label>
         </div>
@@ -57,35 +67,22 @@
         label="Tailwind CSS"
         panelTitle="Form Field (Tailwind CSS)"
         [codeTabs]="tailwindExampleCodeTabs"
-      >
+        [stackblitzUrl]="stackblitzTailwindUrl"
+        >
         <div class="input-overview-example-fields">
-          <label class="input-overview-example-field-surface input-overview-example-field-surface--tailwind">
-            <span class="input-overview-example-field-label">Search docs</span>
+          <label class="grid w-full max-w-[32rem] gap-2">
+            <span class="text-xs font-semibold text-[var(--tng-semantic-foreground-secondary)]">
+              Search docs
+            </span>
             <tng-form-field
-              class="block
-                     [&_[data-slot='input-group']]:min-h-11
-                     [&_[data-slot='input-group']]:items-center
-                     [&_[data-slot='input-group']]:rounded-xl
-                     [&_[data-slot='input-group']]:border
-                     [&_[data-slot='input-group']]:border-slate-300
-                     [&_[data-slot='input-group']]:bg-white
-                     [&_[data-slot='input-group']]:px-3
-                     [&_[data-slot='input-group']]:shadow-sm
-                     [&_[data-slot='input-group'][data-focused]]:border-blue-500
-                     [&_[data-slot='input-group'][data-focused]]:ring-2
-                     [&_[data-slot='input-group'][data-focused]]:ring-blue-200
-                     [&_[data-slot='input']]:w-full
-                     [&_[data-slot='input']]:border-0
-                     [&_[data-slot='input']]:bg-transparent
-                     [&_[data-slot='input']]:p-0
-                     [&_[data-slot='input']]:outline-none"
+              class="block [&_[data-slot='input-group']]:min-h-11 [&_[data-slot='input-group']]:items-center [&_[data-slot='input-group']]:rounded-xl [&_[data-slot='input-group']]:border [&_[data-slot='input-group']]:border-[var(--tng-semantic-border-strong)] [&_[data-slot='input-group']]:bg-[var(--tng-semantic-background-base)] [&_[data-slot='input-group']]:px-3 [&_[data-slot='input-group']]:shadow-none [&_[data-slot='input-group'][data-focused]]:border-[var(--tng-semantic-accent-brand)] [&_[data-slot='input-group'][data-focused]]:ring-2 [&_[data-slot='input-group'][data-focused]]:ring-blue-400/20 [&_[data-slot='input']]:w-full [&_[data-slot='input']]:appearance-none [&_[data-slot='input']]:border-0 [&_[data-slot='input']]:bg-transparent [&_[data-slot='input']]:p-0 [&_[data-slot='input']]:outline-none [&_[data-slot='input']]:shadow-none [&_[data-slot='input']]:text-[var(--tng-semantic-foreground-primary)] [&_[data-slot='input']]:placeholder:text-[var(--tng-semantic-foreground-muted)] [&_[data-slot='input']]:focus:outline-none [&_[data-slot='input']]:focus:ring-0 [&_[data-slot='input-group-leading']]:text-[var(--tng-semantic-foreground-secondary)] [&_[data-slot='input-group-trailing']]:text-xs [&_[data-slot='input-group-trailing']]:font-semibold [&_[data-slot='input-group-trailing']]:text-[var(--tng-semantic-foreground-secondary)]"
               (click)="focusProjectedInput($event)"
             >
               <span tngPrefix aria-hidden="true">
                 <tng-icon icon="search" class="h-4 w-4" />
               </span>
               <input tngInput type="search" placeholder="Search components..." />
-              <span tngSuffix class="text-xs font-semibold text-slate-500">Ctrl+K</span>
+              <span tngSuffix>Ctrl+K</span>
             </tng-form-field>
           </label>
         </div>
@@ -94,7 +91,10 @@
 
     <section id="installation" class="docs-section-anchor input-overview-block">
       <h3>Installation</h3>
-      <p>Import the shell component from components and the projected-control primitives from primitives.</p>
+      <p>
+        Import the shell component from components and the projected-control primitives from
+        primitives.
+      </p>
       <tng-code-block
         [code]="importsCode"
         adapter="shiki"

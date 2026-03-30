@@ -51,18 +51,9 @@ export const COMPONENTS_FORM_INPUT_ROUTES: Routes = [
         path: 'ownable-install',
         data: {
           registrySlug: 'input',
-          usageCode: [
-            '<tng-input',
-            '  type="email"',
-            '  placeholder="name@company.com"',
-            '  [ariaLabel]="\'Email address\'"',
-            '></tng-input>',
-            '',
-          ].join('\n'),
         },
-        loadComponent: () =>
-          import('../../../../shared/ownable-install-section/docs-ownable-install-section.component')
-            .then((module) => module.DocsOwnableInstallSectionComponent),
+        pathMatch: 'full',
+        redirectTo: '/ownable/form/input',
       },
       {
         path: '**',

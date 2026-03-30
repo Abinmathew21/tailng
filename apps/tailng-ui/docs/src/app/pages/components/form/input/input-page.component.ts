@@ -7,14 +7,13 @@ import { TngTab, TngTabList } from '@tailng-ui/primitives';
 import { filter, map, startWith } from 'rxjs/operators';
 import type { DocsSectionRailItem } from '../../../../shared/section-rail/docs-section-rail.component';
 
-type InputDocSectionId = 'api' | 'examples' | 'overview' | 'ownable-install' | 'styling';
+type InputDocSectionId = 'api' | 'examples' | 'overview' | 'styling';
 
 const inputDocSectionIds: readonly InputDocSectionId[] = [
   'overview',
   'api',
   'styling',
   'examples',
-  'ownable-install',
 ] as const;
 
 const defaultInputDocSection: InputDocSectionId = 'overview';
@@ -55,11 +54,6 @@ const inputOutlineItemsBySection: Readonly<Record<InputDocSectionId, readonly Do
       { id: 'validation-feedback', label: 'Validation feedback' },
       { id: 'readonly-and-disabled-states', label: 'Readonly and disabled states' },
     ],
-    'ownable-install': [
-      { id: 'install-from-registry', label: 'Install from registry' },
-      { id: 'generated-files', label: 'Generated files' },
-      { id: 'import-and-usage', label: 'Import and usage' },
-    ],
   } as const;
 
 function isInputDocSectionId(value: string): value is InputDocSectionId {
@@ -98,8 +92,6 @@ export class InputPageComponent {
         return 'Styling content';
       case 'examples':
         return 'Examples content';
-      case 'ownable-install':
-        return 'Install content';
       case 'overview':
       default:
         return 'Overview content';

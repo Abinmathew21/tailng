@@ -27,6 +27,7 @@
             <tr>
               <th scope="col">Property</th>
               <th scope="col">Type</th>
+              <th scope="col">Default</th>
               <th scope="col">Details</th>
             </tr>
           </thead>
@@ -34,21 +35,25 @@
             <tr>
               <td><code>appearance</code></td>
               <td><code>'outline' | 'solid' | 'ghost'</code></td>
+              <td><code>'outline'</code></td>
               <td>Changes the shell presentation while keeping the same slot contract.</td>
             </tr>
             <tr>
               <td><code>size</code></td>
               <td><code>'sm' | 'md' | 'lg'</code></td>
+              <td><code>'md'</code></td>
               <td>Controls the shell height and internal spacing.</td>
             </tr>
             <tr>
               <td><code>tone</code></td>
               <td><code>'neutral' | 'primary' | 'success' | 'danger'</code></td>
+              <td><code>'neutral'</code></td>
               <td>Adjusts shell emphasis and state styling.</td>
             </tr>
             <tr>
               <td><code>fullWidth</code></td>
               <td>boolean-like</td>
+              <td><code>true</code></td>
               <td>Controls whether the host stretches to fill its container.</td>
             </tr>
           </tbody>
@@ -59,8 +64,8 @@
     <section id="projected-control-contract" class="docs-section-anchor input-api-block">
       <h3>Projected control contract</h3>
       <p>
-        The shell expects one projected <code>input[tngInput]</code>. It does not create a native
-        control on its own.
+        The shell expects one projected <code>input[tngInput]</code> or
+        <code>textarea[tngInput]</code>. It does not create a native control on its own.
       </p>
       <tng-code-block
         [code]="controlContractCode"
@@ -83,11 +88,17 @@
           <tbody>
             <tr>
               <td>Projected control</td>
-              <td><code>input[tngInput]</code></td>
-              <td>The shell mirrors focus, invalid, disabled, and readonly state from the projected input.</td>
+              <td><code>input[tngInput]</code> or <code>textarea[tngInput]</code></td>
+              <td>
+                The shell mirrors focus, invalid, disabled, and readonly state from the projected
+                input.
+              </td>
             </tr>
             <tr>
-              <td><code>data-focused</code>, <code>data-disabled</code>, <code>data-invalid</code>, <code>data-readonly</code></td>
+              <td>
+                <code>data-focused</code>, <code>data-disabled</code>, <code>data-invalid</code>,
+                <code>data-readonly</code>
+              </td>
               <td>state attrs</td>
               <td>Applied on the shell host for container-level styling.</td>
             </tr>
@@ -103,12 +114,17 @@
 
     <section id="slot-directives" class="docs-section-anchor input-api-block">
       <h3>Slot directives</h3>
-      <p><code>tngPrefix</code> and <code>tngSuffix</code> mark the content rendered before and after the projected input.</p>
+      <p>
+        <code>tngPrefix</code>/<code>tngSuffix</code> and <code>tngInputLeading</code>/<code
+          >tngInputTrailing</code
+        >
+        project into the same shell slots.
+      </p>
       <tng-code-block
         [code]="slotsCode"
         adapter="shiki"
         language="html"
-        title="Prefix and suffix slots"
+        title="Leading and trailing slots"
         [lineNumbers]="false"
         [wrap]="true"
         [sanitizeHtml]="false"
@@ -120,6 +136,7 @@
               <th scope="col">Directive</th>
               <th scope="col">Applies to</th>
               <th scope="col">Adds</th>
+              <th scope="col">Alias</th>
               <th scope="col">Details</th>
             </tr>
           </thead>
@@ -128,12 +145,14 @@
               <td><code>tngPrefix</code></td>
               <td>Projected leading element</td>
               <td><code>data-slot="input-leading"</code></td>
+              <td><code>tngInputLeading</code></td>
               <td>Marks decorative or semantic content before the input.</td>
             </tr>
             <tr>
               <td><code>tngSuffix</code></td>
               <td>Projected trailing element</td>
               <td><code>data-slot="input-trailing"</code></td>
+              <td><code>tngInputTrailing</code></td>
               <td>Marks helper text, actions, or fixed suffix content after the input.</td>
             </tr>
           </tbody>

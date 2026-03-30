@@ -52,13 +52,14 @@
           label="Plain-CSS"
           panelTitle="Workspace slug shell (Plain-CSS)"
           [codeTabs]="plainScenarioCodeTabs"
+          [stackblitzUrl]="stackblitzVanillaUrl"
         >
           <div class="input-styling-preview">
-            <label class="account-field">
-              <span class="account-label">Workspace slug</span>
-              <tng-form-field class="account-shell">
+            <label class="doc-cmp-form-field-st-workspace-field">
+              <span class="doc-cmp-form-field-st-workspace-label">Workspace slug</span>
+              <tng-form-field class="doc-cmp-form-field-st-workspace-shell">
                 <input tngInput type="text" value="core-platform" />
-                <span tngSuffix class="account-meta">.tailng.dev</span>
+                <span tngSuffix class="doc-cmp-form-field-st-workspace-meta">.tailng.dev</span>
               </tng-form-field>
             </label>
           </div>
@@ -70,30 +71,15 @@
           label="Tailwind CSS"
           panelTitle="Workspace slug shell (Tailwind CSS)"
           [codeTabs]="tailwindScenarioCodeTabs"
+          [stackblitzUrl]="stackblitzTailwindUrl"
         >
           <div class="input-styling-preview">
             <label class="grid w-full max-w-[31rem] gap-2">
-              <span class="text-xs font-semibold text-slate-500">Workspace slug</span>
+              <span class="text-xs font-semibold text-[var(--tng-semantic-foreground-secondary)]">
+                Workspace slug
+              </span>
               <tng-form-field
-                class="block
-                       [&_[data-slot='input-group']]:min-h-11
-                       [&_[data-slot='input-group']]:items-center
-                       [&_[data-slot='input-group']]:rounded-xl
-                       [&_[data-slot='input-group']]:border
-                       [&_[data-slot='input-group']]:border-blue-300
-                       [&_[data-slot='input-group']]:bg-blue-50/70
-                       [&_[data-slot='input-group']]:px-3
-                       [&_[data-slot='input-group']]:shadow-sm
-                       [&_[data-slot='input-group'][data-focused]]:border-blue-500
-                       [&_[data-slot='input-group'][data-focused]]:ring-2
-                       [&_[data-slot='input-group'][data-focused]]:ring-blue-200
-                       [&_[data-slot='input']]:w-full
-                       [&_[data-slot='input']]:border-0
-                       [&_[data-slot='input']]:bg-transparent
-                       [&_[data-slot='input']]:p-0
-                       [&_[data-slot='input']]:outline-none
-                       [&_[data-slot='input-group-trailing']]:text-xs
-                       [&_[data-slot='input-group-trailing']]:font-semibold"
+                class="block [&_[data-slot='input-group']]:min-h-11 [&_[data-slot='input-group']]:items-center [&_[data-slot='input-group']]:rounded-xl [&_[data-slot='input-group']]:border [&_[data-slot='input-group']]:border-[var(--tng-semantic-border-strong)] [&_[data-slot='input-group']]:bg-[var(--tng-semantic-background-base)] [&_[data-slot='input-group']]:px-3 [&_[data-slot='input-group']]:shadow-none [&_[data-slot='input-group'][data-focused]]:border-[var(--tng-semantic-accent-brand)] [&_[data-slot='input-group'][data-focused]]:ring-2 [&_[data-slot='input-group'][data-focused]]:ring-blue-400/20 [&_[data-slot='input']]:w-full [&_[data-slot='input']]:appearance-none [&_[data-slot='input']]:border-0 [&_[data-slot='input']]:bg-transparent [&_[data-slot='input']]:p-0 [&_[data-slot='input']]:outline-none [&_[data-slot='input']]:shadow-none [&_[data-slot='input']]:text-[var(--tng-semantic-foreground-primary)] [&_[data-slot='input']]:placeholder:text-[var(--tng-semantic-foreground-muted)] [&_[data-slot='input']]:focus:outline-none [&_[data-slot='input']]:focus:ring-0 [&_[data-slot='input-group-trailing']]:text-xs [&_[data-slot='input-group-trailing']]:font-semibold [&_[data-slot='input-group-trailing']]:text-[var(--tng-semantic-foreground-primary)]"
               >
                 <input tngInput type="text" value="core-platform" />
                 <span tngSuffix>.tailng.dev</span>
@@ -104,7 +90,10 @@
       </app-docs-example-tabs-section>
     </section>
 
-    <section id="different-styling-pattern-examples" class="docs-section-anchor input-styling-block">
+    <section
+      id="different-styling-pattern-examples"
+      class="docs-section-anchor input-styling-block"
+    >
       <h3>Different styling pattern examples</h3>
       <div class="input-styling-patterns">
         @for (pattern of stylePatternExamples; track pattern.title) {
