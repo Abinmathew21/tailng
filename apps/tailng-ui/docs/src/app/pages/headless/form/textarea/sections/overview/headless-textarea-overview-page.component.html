@@ -42,19 +42,23 @@
         [stackblitzUrl]="stackblitzVanillaUrl"
       >
         <section class="textarea-preview-shell">
-          <label class="textarea-preview-label" for="headless-textarea-overview-plain">
-            Release notes
-          </label>
-          <div tngInputGroup class="textarea-preview-field-shell">
-            <textarea
-              id="headless-textarea-overview-plain"
-              tngTextarea
-              rows="4"
-              aria-label="Release notes"
-              [value]="plainCssExampleValue()"
-              (input)="onPlainCssExampleInput($event)"
-            ></textarea>
-            <span tngSuffix aria-hidden="true">Autosaves</span>
+          <div class="textarea-preview-header">
+            <label class="textarea-preview-label" for="headless-textarea-overview-plain">
+              Release notes
+            </label>
+            <button type="button" class="textarea-preview-status-button">Auto-save</button>
+          </div>
+          <div class="textarea-preview-frame">
+            <div tngInputGroup class="textarea-preview-field-shell">
+              <textarea
+                id="headless-textarea-overview-plain"
+                tngTextarea
+                rows="4"
+                aria-label="Release notes"
+                [value]="plainCssExampleValue()"
+                (input)="onPlainCssExampleInput($event)"
+              ></textarea>
+            </div>
           </div>
         </section>
       </ng-template>
@@ -68,30 +72,32 @@
         [stackblitzUrl]="stackblitzTailwindUrl"
       >
         <section class="grid w-full max-w-[32rem] gap-3">
-          <label
-            class="text-xs font-semibold text-[var(--tng-semantic-foreground-secondary)]"
-            for="headless-textarea-overview-tailwind"
-          >
-            Release notes
-          </label>
+          <div class="flex items-center justify-between gap-3">
+            <label
+              class="text-xs font-semibold text-[var(--tng-semantic-foreground-secondary)]"
+              for="headless-textarea-overview-tailwind"
+            >
+              Release notes
+            </label>
+            <button
+              type="button"
+              class="rounded-full border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-base)] px-3 py-1 text-xs font-semibold text-[var(--tng-semantic-foreground-secondary)] transition hover:border-[var(--tng-semantic-border-strong)] hover:text-[var(--tng-semantic-foreground-primary)]"
+              >Auto-save</button
+            >
+          </div>
           <div
             tngInputGroup
-            class="min-h-[7.5rem] items-start gap-3 rounded-xl border border-[var(--tng-semantic-border-strong)] bg-[var(--tng-semantic-background-base)] px-3 py-3 shadow-none transition [&[data-focused]]:border-[var(--tng-semantic-accent-brand)] [&[data-focused]]:ring-2 [&[data-focused]]:ring-blue-400/20"
+            class="min-h-[7.5rem] items-start rounded-xl border border-[var(--tng-semantic-border-strong)] bg-[var(--tng-semantic-background-base)] px-3 py-3 shadow-none transition [&[data-focused]]:border-[var(--tng-semantic-accent-brand)] [&[data-focused]]:ring-2 [&[data-focused]]:ring-blue-400/20"
           >
             <textarea
               id="headless-textarea-overview-tailwind"
               tngTextarea
               rows="4"
               aria-label="Release notes"
-              class="min-h-[6rem] min-w-0 flex-1 resize-y appearance-none border-0 bg-transparent p-0 text-[var(--tng-semantic-foreground-primary)] outline-none placeholder:text-[var(--tng-semantic-foreground-muted)] focus:outline-none focus:ring-0"
+              class="min-h-[6rem] w-full min-w-0 resize-y appearance-none border-0 bg-transparent p-0 text-[var(--tng-semantic-foreground-primary)] outline-none placeholder:text-[var(--tng-semantic-foreground-muted)] focus:outline-none focus:ring-0"
               [value]="tailwindExampleValue()"
               (input)="onTailwindExampleInput($event)"
             ></textarea>
-            <span
-              tngSuffix
-              class="pt-1 text-xs font-semibold text-[var(--tng-semantic-foreground-secondary)]"
-              >Autosaves</span
-            >
           </div>
         </section>
       </ng-template>

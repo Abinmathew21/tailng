@@ -30,19 +30,38 @@
 .textarea-example-shell {
   display: grid;
   gap: 0.65rem;
+  inline-size: min(100%, 36rem);
+  margin-inline: auto;
+}
+
+.textarea-example-header {
+  align-items: center;
+  display: flex;
+  gap: 0.75rem;
+  justify-content: space-between;
 }
 
 .textarea-example-label {
-  color: var(--tng-semantic-foreground-secondary);
+  color: var(--tng-semantic-foreground-secondary, #64748b);
   font-size: 0.82rem;
   font-weight: 700;
   letter-spacing: 0.01em;
 }
 
+.textarea-example-status {
+  background: var(--tng-semantic-background-base, #ffffff);
+  border: 1px solid var(--tng-semantic-border-subtle, #cbd5e1);
+  border-radius: 9999px;
+  color: var(--tng-semantic-foreground-secondary, #64748b);
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.35rem 0.7rem;
+}
+
 .textarea-example-field-shell[data-slot='input-group'] {
   align-items: flex-start;
-  background: var(--tng-semantic-background-base);
-  border: 1px solid var(--tng-semantic-border-strong);
+  background: var(--tng-semantic-background-base, #ffffff);
+  border: 1px solid var(--tng-semantic-border-strong, #94a3b8);
   border-radius: 0.75rem;
   min-height: 8.25rem;
   padding: 0.7rem 0.85rem;
@@ -53,45 +72,36 @@
 }
 
 .textarea-example-field-shell[data-slot='input-group'][data-focused] {
-  border-color: var(--tng-semantic-accent-brand);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--tng-semantic-accent-brand) 18%, transparent);
+  border-color: var(--tng-semantic-accent-brand, #2563eb);
+  box-shadow: 0 0 0 3px
+    color-mix(in srgb, var(--tng-semantic-accent-brand, #2563eb) 18%, transparent);
 }
 
 .textarea-example-field-shell [data-slot='input'] {
   background: transparent;
   border: 0;
   box-shadow: none;
-  color: var(--tng-semantic-foreground-primary);
+  color: var(--tng-semantic-foreground-primary, #0f172a);
+  inline-size: 100%;
   min-height: 6.75rem;
+  min-inline-size: 0;
   outline: none;
   padding: 0;
   resize: vertical;
 }
 
+.textarea-example-field-shell [data-slot='input']:focus,
+.textarea-example-field-shell [data-slot='input']:focus-visible {
+  box-shadow: none;
+  outline: none;
+}
+
 .textarea-example-field-shell [data-slot='input']::placeholder {
-  color: var(--tng-semantic-foreground-muted);
-}
-
-.textarea-example-field-shell [data-slot='input-trailing'] {
-  color: var(--tng-semantic-foreground-secondary);
-  font-size: 0.76rem;
-  font-weight: 700;
-  padding-top: 0.2rem;
-}
-
-.textarea-example-shell--plain {
-  border: 1px solid var(--tng-semantic-border-subtle);
-  border-radius: 0.9rem;
-  padding: 1rem;
-}
-
-:host ::ng-deep .textarea-example-shell tng-textarea,
-:host ::ng-deep .textarea-example-shell .tng-textarea {
-  inline-size: 100%;
+  color: var(--tng-semantic-foreground-muted, #94a3b8);
 }
 
 .textarea-example-meta {
-  color: var(--tng-semantic-foreground-secondary);
+  color: var(--tng-semantic-foreground-secondary, #64748b);
   font-size: 0.78rem;
   margin: 0;
 }
@@ -111,16 +121,16 @@
 }
 
 .textarea-example-helper--danger {
-  color: var(--tng-semantic-accent-danger);
+  color: var(--tng-semantic-accent-danger, #dc2626);
 }
 
 .textarea-example-field-shell--danger[data-slot='input-group'] {
-  border-color: color-mix(in srgb, var(--tng-semantic-accent-danger) 72%, transparent);
+  border-color: color-mix(in srgb, var(--tng-semantic-accent-danger, #dc2626) 72%, transparent);
 }
 
 .textarea-example-field-shell--danger[data-slot='input-group'][data-focused] {
   box-shadow: 0 0 0 3px
-    color-mix(in srgb, var(--tng-semantic-accent-danger) 16%, transparent);
+    color-mix(in srgb, var(--tng-semantic-accent-danger, #dc2626) 16%, transparent);
 }
 
 .textarea-example-field-shell--disabled[data-slot='input-group'] {

@@ -36,10 +36,23 @@
 .textarea-preview-shell {
   display: grid;
   gap: 0.65rem;
+  inline-size: min(100%, 32rem);
+  margin-inline: auto;
+}
+
+.textarea-preview-header {
+  align-items: center;
+  display: flex;
+  gap: 0.75rem;
+  justify-content: space-between;
+}
+
+.textarea-preview-frame {
+  min-inline-size: 0;
 }
 
 .textarea-preview-label {
-  color: var(--tng-semantic-foreground-secondary);
+  color: var(--tng-semantic-foreground-secondary, #64748b);
   font-size: 0.82rem;
   font-weight: 700;
   letter-spacing: 0.01em;
@@ -47,30 +60,60 @@
 
 .textarea-preview-field-shell[data-slot='input-group'] {
   align-items: flex-start;
-  border: 1px solid var(--tng-semantic-border-strong);
+  background: var(--tng-semantic-background-base, #ffffff);
+  border: 1px solid var(--tng-semantic-border-strong, #94a3b8);
   border-radius: 0.75rem;
   min-height: 7.8rem;
   padding: 0.65rem 0.8rem;
 }
 
+.textarea-preview-field-shell[data-slot='input-group'][data-focused] {
+  border-color: color-mix(
+    in srgb,
+    var(--tng-semantic-accent-brand, #2563eb) 55%,
+    var(--tng-semantic-border-strong, #94a3b8)
+  );
+  box-shadow: 0 0 0 3px
+    color-mix(in srgb, var(--tng-semantic-accent-brand, #2563eb) 18%, transparent);
+}
+
 .textarea-preview-field-shell [data-slot='input'] {
+  background: transparent;
   border: 0;
   box-shadow: none;
+  color: var(--tng-semantic-foreground-primary, #0f172a);
+  inline-size: 100%;
   min-height: 6.2rem;
+  min-inline-size: 0;
   outline: none;
   padding: 0;
   resize: vertical;
 }
 
-.textarea-preview-shell--plain {
-  border: 1px solid var(--tng-semantic-border-subtle);
-  border-radius: 0.85rem;
-  padding: 0.9rem;
+.textarea-preview-status-button {
+  background: var(--tng-semantic-background-base, #ffffff);
+  border: 1px solid var(--tng-semantic-border-subtle, #cbd5e1);
+  border-radius: 9999px;
+  color: var(--tng-semantic-foreground-secondary, #64748b);
+  cursor: pointer;
+  flex: 0 0 auto;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.35rem 0.7rem;
+  transition:
+    border-color 140ms ease,
+    color 140ms ease,
+    transform 140ms ease;
 }
 
-:host ::ng-deep .textarea-preview-shell tng-textarea,
-:host ::ng-deep .textarea-preview-shell .tng-textarea {
-  inline-size: 100%;
+.textarea-preview-status-button:hover {
+  border-color: var(--tng-semantic-border-strong, #94a3b8);
+  color: var(--tng-semantic-foreground-primary, #0f172a);
+}
+
+.textarea-preview-status-button:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--tng-semantic-accent-brand, #2563eb) 80%, white);
+  outline-offset: 2px;
 }
 
 .textarea-preview-value {

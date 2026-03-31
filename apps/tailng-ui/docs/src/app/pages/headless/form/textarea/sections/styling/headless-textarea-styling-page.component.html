@@ -39,7 +39,7 @@
       id="user-scenario-style-examples"
       class="docs-section-anchor textarea-styling-block"
       heading="User scenario style examples"
-      description="A support reply field with multiline editing space and a persistent status hint."
+      description="A support reply field with multiline editing space and a lightweight status chip."
       ariaLabel="Textarea styling scenarios"
       tabListAriaLabel="Textarea styling variants"
       defaultValue="plain-css"
@@ -52,12 +52,15 @@
         panelTitle="Support reply textarea (Plain-CSS)"
         [codeTabs]="plainScenarioCodeTabs"
         [stackblitzUrl]="stackblitzVanillaUrl"
-      >
-        <section class="textarea-preview-shell">
-          <label class="textarea-preview-label" for="headless-textarea-styling-plain">
-            Support reply
-          </label>
-          <div tngInputGroup class="support-reply-shell textarea-preview-field-shell">
+        >
+        <section class="support-reply-demo-shell">
+          <div class="support-reply-demo-header">
+            <label class="support-reply-demo-label" for="headless-textarea-styling-plain">
+              Support reply
+            </label>
+            <span class="support-reply-demo-status" aria-hidden="true">Markdown enabled</span>
+          </div>
+          <div tngInputGroup class="support-reply-shell">
             <textarea
               id="headless-textarea-styling-plain"
               tngTextarea
@@ -66,7 +69,6 @@
               [value]="plainSupportReplyValue()"
               (input)="onPlainSupportReplyInput($event)"
             ></textarea>
-            <span tngSuffix aria-hidden="true">Markdown enabled</span>
           </div>
         </section>
       </ng-template>
@@ -80,30 +82,33 @@
         [stackblitzUrl]="stackblitzTailwindUrl"
       >
         <section class="grid w-full max-w-[32rem] gap-3">
-          <label
-            class="text-xs font-semibold text-[var(--tng-semantic-foreground-secondary)]"
-            for="headless-textarea-styling-tailwind"
-          >
-            Support reply
-          </label>
+          <div class="flex items-center justify-between gap-3">
+            <label
+              class="text-xs font-semibold tracking-[0.01em] text-slate-600 dark:text-slate-400"
+              for="headless-textarea-styling-tailwind"
+            >
+              Support reply
+            </label>
+            <span
+              aria-hidden="true"
+              class="rounded-full border border-slate-300 bg-white px-3 py-1 text-xs font-semibold tracking-[0.01em] text-slate-500 dark:border-slate-600 dark:bg-slate-950 dark:text-slate-400"
+            >
+              Markdown enabled
+            </span>
+          </div>
           <div
             tngInputGroup
-            class="min-h-[8rem] items-start gap-3 rounded-xl border border-[var(--tng-semantic-border-strong)] bg-[var(--tng-semantic-background-base)] px-3 py-3 shadow-none transition [&[data-focused]]:border-[var(--tng-semantic-accent-brand)] [&[data-focused]]:ring-2 [&[data-focused]]:ring-blue-400/20"
+            class="min-h-[8rem] items-start rounded-xl border border-slate-300 bg-white px-3 py-3 shadow-sm transition dark:border-slate-600 dark:bg-slate-950 [&[data-focused]]:border-blue-500 [&[data-focused]]:ring-4 [&[data-focused]]:ring-blue-500/15"
           >
             <textarea
               id="headless-textarea-styling-tailwind"
               tngTextarea
               rows="5"
               aria-label="Support reply"
-              class="min-h-[6.5rem] min-w-0 flex-1 resize-y appearance-none border-0 bg-transparent p-0 text-[var(--tng-semantic-foreground-primary)] outline-none placeholder:text-[var(--tng-semantic-foreground-muted)] focus:outline-none focus:ring-0"
+              class="min-h-[6.5rem] w-full min-w-0 flex-1 resize-y appearance-none border-0 bg-transparent p-0 text-slate-900 outline-none shadow-none dark:text-slate-50 focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0"
               [value]="tailwindSupportReplyValue()"
               (input)="onTailwindSupportReplyInput($event)"
             ></textarea>
-            <span
-              tngSuffix
-              class="pt-1 text-xs font-semibold text-[var(--tng-semantic-foreground-secondary)]"
-              >Markdown enabled</span
-            >
           </div>
         </section>
       </ng-template>

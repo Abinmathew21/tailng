@@ -63,3 +63,66 @@
 .textarea-api-table code {
   color: var(--tng-semantic-foreground-primary);
 }
+
+.textarea-review-demo-shell {
+  display: grid;
+  gap: 0.65rem;
+  inline-size: min(100%, 32rem);
+  margin-inline: auto;
+}
+
+.textarea-review-demo-header {
+  align-items: center;
+  display: flex;
+  gap: 0.75rem;
+  justify-content: space-between;
+}
+
+.textarea-review-demo-label {
+  color: var(--tng-semantic-foreground-secondary, #64748b);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.textarea-review-demo-status {
+  background: var(--tng-semantic-background-base, #ffffff);
+  border: 1px solid var(--tng-semantic-border-subtle, #cbd5e1);
+  border-radius: 9999px;
+  color: var(--tng-semantic-foreground-secondary, #64748b);
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.35rem 0.7rem;
+}
+
+.textarea-review-demo-field-shell[data-slot='input-group'] {
+  align-items: flex-start;
+  background: var(--tng-semantic-background-base, #ffffff);
+  border: 1px solid var(--tng-semantic-border-strong, #94a3b8);
+  border-radius: 0.8rem;
+  min-height: 8rem;
+  padding: 0.7rem 0.85rem;
+}
+
+.textarea-review-demo-field-shell[data-slot='input-group'][data-focused] {
+  border-color: color-mix(
+    in srgb,
+    var(--tng-semantic-accent-brand, #2563eb) 55%,
+    var(--tng-semantic-border-strong, #94a3b8)
+  );
+  box-shadow: 0 0 0 3px
+    color-mix(in srgb, var(--tng-semantic-accent-brand, #2563eb) 18%, transparent);
+}
+
+.textarea-review-demo-field-shell [data-slot='input'] {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  color: var(--tng-semantic-foreground-primary, #0f172a);
+  inline-size: 100%;
+  min-height: 6.5rem;
+  min-inline-size: 0;
+  outline: none;
+  padding: 0;
+  resize: vertical;
+}
