@@ -1,8 +1,7 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, inject, signal, type OnDestroy } from '@angular/core';
 import { TngTextareaComponent } from '@tailng-ui/components';
-import { TngInput, TngInputGroup } from '@tailng-ui/primitives';
-import { type DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
+import type { DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
 import {
   DocsExampleTabsSectionComponent,
   DocsExampleVariantDirective,
@@ -10,12 +9,48 @@ import {
 import { observeDocsCodeThemeChanges, resolveDocsCodeBlockTheme } from '../../../../../../shared/util';
 import { stackblitzTailwindUrl, stackblitzVanillaUrl } from '../../textarea.util';
 
+type ExampleCodeTabsArgs = {
+  baseName: string;
+  tsCode: string;
+  htmlCode: string;
+  cssCode: string;
+};
+
+function createCodeTabs({
+  baseName,
+  tsCode,
+  htmlCode,
+  cssCode,
+}: ExampleCodeTabsArgs): readonly DocsExampleCodeTab[] {
+  return Object.freeze([
+    {
+      value: 'ts',
+      label: 'TS',
+      language: 'ts',
+      title: `${baseName}.component.ts`,
+      code: tsCode,
+    },
+    {
+      value: 'html',
+      label: 'HTML',
+      language: 'html',
+      title: `${baseName}.component.html`,
+      code: htmlCode,
+    },
+    {
+      value: 'css',
+      label: 'CSS',
+      language: 'css',
+      title: `${baseName}.component.css`,
+      code: cssCode,
+    },
+  ]);
+}
+
 @Component({
   selector: 'app-textarea-examples-page',
   imports: [
     TngTextareaComponent,
-    TngInputGroup,
-    TngInput,
     DocsExampleTabsSectionComponent,
     DocsExampleVariantDirective,
   ],
@@ -24,161 +59,142 @@ import { stackblitzTailwindUrl, stackblitzVanillaUrl } from '../../textarea.util
 })
 export class TextareaExamplesPageComponent implements OnDestroy {
   private readonly documentRef = inject(DOCUMENT);
+
   public readonly codeBlockTheme = signal<'github-dark' | 'github-light'>(
     resolveDocsCodeBlockTheme(this.documentRef),
   );
-  private readonly colorSchemeObserver = observeDocsCodeThemeChanges(this.documentRef, this.codeBlockTheme);
+  private readonly colorSchemeObserver = observeDocsCodeThemeChanges(
+    this.documentRef,
+    this.codeBlockTheme,
+  );
 
-  protected readonly headlessValue = signal('Users can now pin dashboards and export CSV snapshots.');
-  protected readonly plainValue = signal('Block-level announcement draft for internal release channels.');
+  protected readonly plainValue = signal(
+    'Block-level announcement draft for internal release channels.',
+  );
   protected readonly tailwindValue = signal('Follow-up note with owner, ETA, and mitigation plan.');
+
   protected readonly stackblitzVanillaUrl = stackblitzVanillaUrl;
   protected readonly stackblitzTailwindUrl = stackblitzTailwindUrl;
 
-  protected readonly headlessCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
-    {
-      value: 'ts',
-      label: 'TS',
-      language: 'ts',
-      title: 'textarea-examples-headless.component.ts',
-      code: [
-        "import { TngInput, TngInputGroup } from '@tailng-ui/primitives';",
-        '',
-        "readonly value = signal('');",
-        '',
-      ].join('\n'),
-    },
-    {
-      value: 'html',
-      label: 'HTML',
-      language: 'html',
-      title: 'textarea-examples-headless.component.html',
-      code: [
-        '<div class="textarea-example-shell">',
-        '  <label for="headless-summary">Incident summary</label>',
-        '  <div tngInputGroup>',
-        '    <textarea',
-        '      id="headless-summary"',
-        '      tngInput',
-        '      [rows]="5"',
-        '      [value]="value()"',
-        '      (input)="onInput($event)"',
-        '    ></textarea>',
-        '  </div>',
-        '</div>',
-        '',
-      ].join('\n'),
-    },
-    {
-      value: 'css',
-      label: 'CSS',
-      language: 'css',
-      title: 'textarea-examples-headless.component.css',
-      code: [
-        '.textarea-example-shell [data-slot="input-group"] {',
-        '  align-items: flex-start;',
-        '  min-height: 8rem;',
-        '}',
-        '',
-      ].join('\n'),
-    },
-  ]);
+  protected readonly plainCssCodeTabs = createCodeTabs({
+    baseName: 'textarea-examples-plain-css',
+    tsCode: [
+      "import { Component, signal } from '@angular/core';",
+      "import { TngTextareaComponent } from '@tailng-ui/components';",
+      '',
+      '@Component({',
+      "  selector: 'app-textarea-examples-plain-css',",
+      '  imports: [TngTextareaComponent],',
+      "  templateUrl: './textarea-examples-plain-css.component.html',",
+      "  styleUrl: './textarea-examples-plain-css.component.css',",
+      '})',
+      'export class TextareaExamplesPlainCssComponent {',
+      '  readonly postmortemSummary = signal(',
+      "    'Block-level announcement draft for internal release channels.',",
+      '  );',
+      '',
+      '  onPostmortemSummaryChange(value: string): void {',
+      '    this.postmortemSummary.set(value);',
+      '  }',
+      '}',
+      '',
+    ].join('\n'),
+    htmlCode: [
+      '<section class="textarea-postmortem-example">',
+      '  <label class="textarea-postmortem-example__label" for="postmortem-summary-textarea">',
+      '    Postmortem summary',
+      '  </label>',
+      '  <tng-textarea',
+      '    class="textarea-postmortem-example__control"',
+      '    [id]="\'postmortem-summary-textarea\'"',
+      '    [rows]="5"',
+      '    [resize]="\'none\'"',
+      '    [placeholder]="\'Add postmortem summary\'"',
+      '    [value]="postmortemSummary()"',
+      '    (valueChange)="onPostmortemSummaryChange($event)"',
+      '  ></tng-textarea>',
+      '  <p class="textarea-postmortem-example__meta">{{ postmortemSummary().length }} characters</p>',
+      '</section>',
+      '',
+    ].join('\n'),
+    cssCode: [
+      '.textarea-postmortem-example {',
+      '  display: grid;',
+      '  gap: 0.65rem;',
+      '  inline-size: min(100%, 42rem);',
+      '  margin-inline: auto;',
+      '  border: 1px solid var(--tng-semantic-border-subtle, #cbd5e1);',
+      '  border-radius: 0.9rem;',
+      '  padding: 1rem;',
+      '}',
+      '',
+      '.textarea-postmortem-example__label {',
+      '  color: var(--tng-semantic-foreground-secondary, #64748b);',
+      '  font-size: 0.82rem;',
+      '  font-weight: 700;',
+      '  letter-spacing: 0.01em;',
+      '}',
+      '',
+      '.textarea-postmortem-example__control {',
+      '  display: block;',
+      '  inline-size: 100%;',
+      '  max-inline-size: 100%;',
+      '  min-inline-size: 0;',
+      '}',
+      '',
+      '.textarea-postmortem-example__meta {',
+      '  color: var(--tng-semantic-foreground-secondary, #64748b);',
+      '  font-size: 0.78rem;',
+      '  margin: 0;',
+      '}',
+      '',
+    ].join('\n'),
+  });
 
-  protected readonly plainCssCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
-    {
-      value: 'ts',
-      label: 'TS',
-      language: 'ts',
-      title: 'textarea-examples-plain-css.component.ts',
-      code: [
-        "import { TngTextareaComponent } from '@tailng-ui/components';",
-        '',
-        "readonly value = signal('');",
-        '',
-      ].join('\n'),
-    },
-    {
-      value: 'html',
-      label: 'HTML',
-      language: 'html',
-      title: 'textarea-examples-plain-css.component.html',
-      code: [
-        '<div class="textarea-example-shell textarea-example-shell--plain">',
-        '  <tng-textarea',
-        '    [rows]="5"',
-        '    [resize]="\'none\'"',
-        '    [placeholder]="\'Postmortem summary\'"',
-        '    [value]="value()"',
-        '    (valueChange)="value.set($event)"',
-        '  ></tng-textarea>',
-        '</div>',
-        '',
-      ].join('\n'),
-    },
-    {
-      value: 'css',
-      label: 'CSS',
-      language: 'css',
-      title: 'textarea-examples-plain-css.component.css',
-      code: [
-        '.textarea-example-shell--plain {',
-        '  border: 1px solid var(--tng-semantic-border-subtle);',
-        '  border-radius: 0.9rem;',
-        '  padding: 1rem;',
-        '}',
-        '',
-      ].join('\n'),
-    },
-  ]);
-
-  protected readonly tailwindCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
-    {
-      value: 'ts',
-      label: 'TS',
-      language: 'ts',
-      title: 'textarea-examples-tailwind.component.ts',
-      code: [
-        "import { TngTextareaComponent } from '@tailng-ui/components';",
-        '',
-        "readonly value = signal('');",
-        '',
-      ].join('\n'),
-    },
-    {
-      value: 'html',
-      label: 'HTML',
-      language: 'html',
-      title: 'textarea-examples-tailwind.component.html',
-      code: [
-        '<div class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">',
-        '  <tng-textarea',
-        '    [rows]="5"',
-        '    [resize]="\'vertical\'"',
-        '    [placeholder]="\'Customer update\'"',
-        '    [value]="value()"',
-        '    (valueChange)="value.set($event)"',
-        '  ></tng-textarea>',
-        '</div>',
-        '',
-      ].join('\n'),
-    },
-    {
-      value: 'css',
-      label: 'CSS',
-      language: 'css',
-      title: 'textarea-examples-tailwind.component.css',
-      code: '/* Tailwind utilities are applied directly in the template. */',
-    },
-  ]);
-
-  protected onHeadlessInput(event: Event): void {
-    const target = event.target;
-    if (!(target instanceof HTMLTextAreaElement)) {
-      return;
-    }
-
-    this.headlessValue.set(target.value);
-  }
+  protected readonly tailwindCodeTabs = createCodeTabs({
+    baseName: 'textarea-examples-tailwind',
+    tsCode: [
+      "import { Component, signal } from '@angular/core';",
+      "import { TngTextareaComponent } from '@tailng-ui/components';",
+      '',
+      '@Component({',
+      "  selector: 'app-textarea-examples-tailwind',",
+      '  imports: [TngTextareaComponent],',
+      "  templateUrl: './textarea-examples-tailwind.component.html',",
+      "  styleUrl: './textarea-examples-tailwind.component.css',",
+      '})',
+      'export class TextareaExamplesTailwindComponent {',
+      "  readonly customerUpdate = signal('Follow-up note with owner, ETA, and mitigation plan.');",
+      '',
+      '  onCustomerUpdateChange(value: string): void {',
+      '    this.customerUpdate.set(value);',
+      '  }',
+      '}',
+      '',
+    ].join('\n'),
+    htmlCode: [
+      '<section class="grid w-full max-w-[42rem] gap-3 rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">',
+      '  <label',
+      '    class="text-xs font-semibold tracking-[0.01em] text-slate-600 dark:text-slate-400"',
+      '    for="customer-update-textarea"',
+      '  >',
+      '    Customer update',
+      '  </label>',
+      '  <tng-textarea',
+      '    class="w-full"',
+      '    [id]="\'customer-update-textarea\'"',
+      '    [rows]="5"',
+      '    [resize]="\'vertical\'"',
+      '    [placeholder]="\'Write customer-facing notes\'"',
+      '    [value]="customerUpdate()"',
+      '    (valueChange)="onCustomerUpdateChange($event)"',
+      '  ></tng-textarea>',
+      '  <p class="text-xs text-slate-500 dark:text-slate-400">{{ customerUpdate().length }} characters</p>',
+      '</section>',
+      '',
+    ].join('\n'),
+    cssCode: '/* Tailwind utilities are applied directly in the template. */',
+  });
 
   protected onPlainValueChange(value: string): void {
     this.plainValue.set(value);
@@ -191,5 +207,4 @@ export class TextareaExamplesPageComponent implements OnDestroy {
   public ngOnDestroy(): void {
     this.colorSchemeObserver?.disconnect();
   }
-
 }

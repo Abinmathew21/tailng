@@ -49,21 +49,8 @@ export const COMPONENTS_FORM_TEXTAREA_ROUTES: Routes = [
       },
       {
         path: 'ownable-install',
-        data: {
-          registrySlug: 'textarea',
-          usageCode: [
-            '<tng-textarea',
-            '  [rows]="5"',
-            '  [placeholder]="\'Add release notes\'"',
-            '  [value]="notes"',
-            '  (valueChange)="notes = $event"',
-            '></tng-textarea>',
-            '',
-          ].join('\n'),
-        },
-        loadComponent: () =>
-          import('../../../../shared/ownable-install-section/docs-ownable-install-section.component')
-            .then((module) => module.DocsOwnableInstallSectionComponent),
+        pathMatch: 'full',
+        redirectTo: '/ownable/form/textarea',
       },
       {
         path: '**',

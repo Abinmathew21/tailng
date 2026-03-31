@@ -9,6 +9,15 @@ import {
 
 type NullableBooleanInput = boolean | null | string | undefined;
 
+function normalizeAttr(value: string | null | undefined): string | null {
+  if (value === undefined || value === null) {
+    return null;
+  }
+
+  const normalized = value.trim();
+  return normalized.length > 0 ? normalized : null;
+}
+
 export function readTngTextareaEventValue(event: unknown): string | null {
   if (!(event instanceof Event)) {
     return null;
@@ -33,12 +42,16 @@ export class TngTextareaComponent {
   public readonly ariaInvalid = input<boolean | null, NullableBooleanInput>(null, {
     transform: coerceTngInputNullableBoolean,
   });
+  public readonly ariaLabel = input<string | null>(null);
+  public readonly ariaLabelledby = input<string | null>(null);
   public readonly ariaRequired = input<boolean | null, NullableBooleanInput>(null, {
     transform: coerceTngInputNullableBoolean,
   });
   public readonly disabled = input<boolean, boolean | string>(false, {
     transform: booleanAttribute,
   });
+  public readonly id = input<string | null>(null);
+  public readonly name = input<string | null>(null);
   public readonly placeholder = input<string | null>(null);
   public readonly readonly = input<boolean, boolean | string>(false, {
     transform: booleanAttribute,
@@ -50,7 +63,7 @@ export class TngTextareaComponent {
     transform: (value: number | string): number =>
       normalizeTngTextareaRows(typeof value === 'number' ? value : Number(value)),
   });
-  public readonly resize = input<TngTextareaResize, TngTextareaResize | string>('vertical', {
+  public readonly resize = input<TngTextareaResize, string>('vertical', {
     transform: normalizeTngTextareaResize,
   });
   public readonly value = input<string | null>(null);
@@ -64,5 +77,9 @@ export class TngTextareaComponent {
     }
 
     this.valueChange.emit(value);
+  }
+
+  protected normalizeAttrValue(value: string | null | undefined): string | null {
+    return normalizeAttr(value);
   }
 }

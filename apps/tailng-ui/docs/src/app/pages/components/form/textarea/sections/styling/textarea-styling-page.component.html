@@ -1,27 +1,63 @@
 <article class="textarea-styling">
   <h2 class="textarea-styling-title">Styling contract</h2>
   <p class="textarea-styling-lead">
-    Textarea styling follows the same input-group slot contract so one token system can style both
-    single-line and multiline fields.
+    <code>&lt;tng-textarea&gt;</code> is token-first. It renders its own internal textarea shell, so
+    the main public styling contract is the semantic token set it consumes plus the host width you
+    apply from your layout.
   </p>
 
   <section class="textarea-styling-block">
-    <h3>State hooks</h3>
+    <h3>Theme tokens</h3>
     <ul class="textarea-styling-list">
-      <li><code>data-slot="input-group"</code> on the group shell.</li>
-      <li><code>data-slot="input"</code> on the native textarea.</li>
-      <li><code>data-focused</code> on the group while focus is inside.</li>
-      <li><code>data-resize="..."</code> for resize mode tokenization.</li>
+      <li><code>--tng-semantic-background-surface</code> controls the textarea fill.</li>
+      <li><code>--tng-semantic-border-strong</code> controls the default border.</li>
+      <li><code>--tng-semantic-foreground-primary</code> colors the textarea value.</li>
+      <li><code>--tng-semantic-foreground-muted</code> colors the placeholder text.</li>
+      <li><code>--tng-semantic-focus-ring</code> powers the component focus ring.</li>
+      <li><code>--tng-semantic-accent-danger</code> colors the invalid border state.</li>
     </ul>
-  </section>
-
-  <section class="textarea-styling-block">
-    <h3>Suggested CSS baseline</h3>
     <tng-code-block
-      [code]="stylingSnippet"
+      [code]="tokenSnippet"
       adapter="shiki"
       language="css"
       title="textarea.tokens.css"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section class="textarea-styling-block">
+    <h3>Host sizing</h3>
+    <p>
+      The component host defaults to <code>width: min(28rem, 100%)</code>. When you need the
+      textarea to fill a wider card or form column, size the host from your own wrapper.
+    </p>
+    <tng-code-block
+      [code]="hostSizingSnippet"
+      adapter="shiki"
+      language="css"
+      title="textarea.layout.css"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section class="textarea-styling-block">
+    <h3>State-driven theming</h3>
+    <p>
+      The component already handles focus, invalid, and disabled visuals internally. The most stable
+      way to change those states is by adjusting the semantic tokens on the wrapper that contains the
+      component.
+    </p>
+    <tng-code-block
+      [code]="componentStateSnippet"
+      adapter="shiki"
+      language="css"
+      title="textarea.states.css"
       [theme]="codeBlockTheme()"
       [lineNumbers]="false"
       [wrap]="true"

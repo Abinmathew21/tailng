@@ -1,8 +1,8 @@
 <article class="textarea-examples">
   <h2 class="textarea-examples-title">Examples</h2>
   <p class="textarea-examples-lead">
-    Common multiline input patterns rendered with the same behavior across headless, plain CSS, and
-    Tailwind wrappers.
+    Copy-ready multiline input patterns rendered with the same component behavior in plain CSS and
+    Tailwind shells.
   </p>
 
   <section class="textarea-examples-block">
@@ -11,31 +11,9 @@
       description="Capture richer text while preserving native textarea semantics and predictable resize behavior."
       ariaLabel="Textarea examples"
       tabListAriaLabel="Textarea example style variants"
-      defaultValue="headless"
+      defaultValue="plain-css"
       [codeBlockTheme]="codeBlockTheme()"
     >
-      <ng-template
-        appDocsExampleVariant
-        value="headless"
-        label="Headless"
-        panelTitle="Headless textarea example"
-        [codeTabs]="headlessCodeTabs"
-      >
-        <section class="textarea-example-shell textarea-example-shell--headless">
-          <label class="textarea-example-label" for="textarea-examples-headless">Incident summary</label>
-          <div tngInputGroup class="textarea-example-field-shell">
-            <textarea
-              id="textarea-examples-headless"
-              tngInput
-              rows="5"
-              [value]="headlessValue()"
-              (input)="onHeadlessInput($event)"
-            ></textarea>
-          </div>
-          <p class="textarea-example-meta">{{ headlessValue().length }} characters</p>
-        </section>
-      </ng-template>
-
       <ng-template
         appDocsExampleVariant
         value="plain-css"
@@ -44,16 +22,20 @@
         [codeTabs]="plainCssCodeTabs"
         [stackblitzUrl]="stackblitzVanillaUrl"
       >
-        <section class="textarea-example-shell textarea-example-shell--plain">
-          <label class="textarea-example-label">Postmortem summary</label>
+        <section class="textarea-postmortem-example">
+          <label class="textarea-postmortem-example__label" for="textarea-examples-plain">
+            Postmortem summary
+          </label>
           <tng-textarea
+            class="textarea-postmortem-example__control"
+            [id]="'textarea-examples-plain'"
             [rows]="5"
             [resize]="'none'"
             [placeholder]="'Add postmortem summary'"
             [value]="plainValue()"
             (valueChange)="onPlainValueChange($event)"
           ></tng-textarea>
-          <p class="textarea-example-meta">{{ plainValue().length }} characters</p>
+          <p class="textarea-postmortem-example__meta">{{ plainValue().length }} characters</p>
         </section>
       </ng-template>
 
@@ -64,12 +46,14 @@
         panelTitle="Tailwind textarea example"
         [codeTabs]="tailwindCodeTabs"
         [stackblitzUrl]="stackblitzTailwindUrl"
-      >
+        >
         <section
           class="textarea-example-shell rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
         >
-          <label class="textarea-example-label">Customer update</label>
+          <label class="textarea-example-label" for="textarea-examples-tailwind">Customer update</label>
           <tng-textarea
+            class="w-full"
+            [id]="'textarea-examples-tailwind'"
             [rows]="5"
             [resize]="'vertical'"
             [placeholder]="'Write customer-facing notes'"

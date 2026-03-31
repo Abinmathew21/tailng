@@ -73,6 +73,13 @@ export const OWNABLE_FORM_GROUP: OwnableDocsGroup = {
       description:
         'Ownable input install with local wrapper source, import metadata, and generated file structure.',
     },
+    {
+      id: 'textarea',
+      slug: 'textarea',
+      title: 'Textarea',
+      description:
+        'Ownable textarea install with local wrapper source, import metadata, and generated file structure.',
+    },
   ],
 };
 

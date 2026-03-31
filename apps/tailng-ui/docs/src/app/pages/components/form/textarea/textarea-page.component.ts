@@ -2,23 +2,22 @@ import { computed, Component, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { TngTabsComponent } from '@tailng-ui/components';
-import { DocsComponentSectionOutlineComponent } from '../../../../shared/section-outline/docs-component-section-outline.component';
+import { TngTab, TngTabList } from '@tailng-ui/primitives';
+import { filter, map, startWith } from 'rxjs/operators';
 import {
   getDocsComponentSectionOutlineAriaLabel,
   getDocsComponentSectionOutlineItems,
   getDocsComponentSectionOutlineTitle,
 } from '../../../../shared/section-outline/component-section-outline.data';
-import { TngTab, TngTabList } from '@tailng-ui/primitives';
-import { filter, map, startWith } from 'rxjs/operators';
+import { DocsComponentSectionOutlineComponent } from '../../../../shared/section-outline/docs-component-section-outline.component';
 
-type TextareaDocSectionId = 'api' | 'examples' | 'overview' | 'ownable-install' | 'styling';
+type TextareaDocSectionId = 'api' | 'examples' | 'overview' | 'styling';
 
 const textareaDocSectionIds: readonly TextareaDocSectionId[] = [
   'overview',
   'api',
   'styling',
   'examples',
-  'ownable-install',
 ] as const;
 
 const defaultTextareaDocSection: TextareaDocSectionId = 'overview';

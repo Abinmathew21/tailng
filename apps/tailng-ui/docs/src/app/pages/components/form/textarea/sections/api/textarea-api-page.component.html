@@ -1,12 +1,17 @@
 <article class="textarea-api">
   <h2 class="textarea-api-title">API reference</h2>
   <p class="textarea-api-lead">
-    Textarea supports both the preferred input-first primitive (<code>textarea[tngInput]</code>)
-    and the styled wrapper (<code>&lt;tng-textarea&gt;</code>).
+    The component-side textarea contract has two layers: the headless
+    <code>textarea[tngTextarea]</code> primitive and the self-rendering
+    <code>&lt;tng-textarea&gt;</code> wrapper.
   </p>
 
   <section class="textarea-api-block">
-    <h3>Primitive: <code>textarea[tngInput]</code></h3>
+    <h3>Primitive: <code>textarea[tngTextarea]</code></h3>
+    <p>
+      Use the directive when you want a real native textarea plus TailNG’s normalized
+      <code>rows</code>, <code>resize</code>, and shared input-state contract.
+    </p>
     <div class="textarea-api-table-wrap">
       <table class="textarea-api-table">
         <thead>
@@ -31,16 +36,28 @@
             <td>Applied to both <code>style.resize</code> and <code>data-resize</code>.</td>
           </tr>
           <tr>
-            <td><code>disabled</code>, <code>readonly</code>, <code>required</code></td>
-            <td><code>boolean</code></td>
-            <td><code>false</code></td>
-            <td>Forwarded as native textarea attributes.</td>
+            <td><code>ariaLabel</code>, <code>ariaLabelledby</code>, <code>ariaDescribedBy</code></td>
+            <td><code>string | null</code></td>
+            <td><code>null</code></td>
+            <td>Inherited from the shared input contract with whitespace normalization.</td>
           </tr>
           <tr>
             <td><code>ariaInvalid</code>, <code>ariaRequired</code></td>
             <td><code>boolean | null</code></td>
             <td><code>null</code></td>
             <td>ARIA pass-through follows nullable coercion rules.</td>
+          </tr>
+          <tr>
+            <td><code>disabled</code>, <code>readonly</code>, <code>required</code></td>
+            <td>boolean-like</td>
+            <td><code>false</code> / <code>null</code></td>
+            <td>Forwarded to the native textarea through the shared input directive.</td>
+          </tr>
+          <tr>
+            <td><code>data-slot="input"</code>, <code>data-resize</code></td>
+            <td>output attributes</td>
+            <td>—</td>
+            <td>Stable styling hooks emitted on the native textarea element.</td>
           </tr>
         </tbody>
       </table>
@@ -49,6 +66,10 @@
 
   <section class="textarea-api-block">
     <h3>Component: <code>&lt;tng-textarea&gt;</code></h3>
+    <p>
+      Renders an internal native <code>&lt;textarea&gt;</code> that already uses the shared input
+      contract. Use it when you want the default TailNG textarea shell and a controlled-value API.
+    </p>
     <div class="textarea-api-table-wrap">
       <table class="textarea-api-table">
         <thead>
@@ -68,21 +89,45 @@
           </tr>
           <tr>
             <td><code>valueChange</code></td>
-            <td><code>EventEmitter&lt;string&gt;</code></td>
+            <td><code>output&lt;string&gt;</code></td>
             <td>—</td>
             <td>Emits on input events when the value changes.</td>
           </tr>
           <tr>
-            <td><code>placeholder</code></td>
+            <td><code>id</code>, <code>name</code>, <code>placeholder</code></td>
             <td><code>string | null</code></td>
             <td><code>null</code></td>
-            <td>Maps to native <code>placeholder</code>.</td>
+            <td>Forwarded to the internal native textarea.</td>
           </tr>
           <tr>
-            <td><code>rows</code>, <code>resize</code></td>
-            <td><code>number</code>, <code>resize enum</code></td>
-            <td><code>3</code>, <code>vertical</code></td>
-            <td>Forwarded to primitive-backed textarea contract.</td>
+            <td><code>ariaLabel</code>, <code>ariaLabelledby</code>, <code>ariaDescribedBy</code></td>
+            <td><code>string | null</code></td>
+            <td><code>null</code></td>
+            <td>Accessible naming and description inputs passed through to the internal control.</td>
+          </tr>
+          <tr>
+            <td><code>ariaInvalid</code>, <code>ariaRequired</code></td>
+            <td><code>boolean | null</code></td>
+            <td><code>null</code></td>
+            <td>Forwarded to the internal <code>tngInput</code> primitive.</td>
+          </tr>
+          <tr>
+            <td><code>disabled</code>, <code>readonly</code>, <code>required</code></td>
+            <td>boolean-like</td>
+            <td><code>false</code></td>
+            <td>Maps directly to the internal native textarea state.</td>
+          </tr>
+          <tr>
+            <td><code>rows</code></td>
+            <td><code>number</code></td>
+            <td><code>3</code></td>
+            <td>Normalized to at least <code>1</code> before it reaches the internal control.</td>
+          </tr>
+          <tr>
+            <td><code>resize</code></td>
+            <td><code>'vertical' | 'horizontal' | 'both' | 'none'</code></td>
+            <td><code>'vertical'</code></td>
+            <td>Applied to the internal control style and mirrored as <code>data-resize</code>.</td>
           </tr>
         </tbody>
       </table>
@@ -90,10 +135,11 @@
   </section>
 
   <section class="textarea-api-block">
-    <h3>Compatibility alias</h3>
+    <h3>Composition note</h3>
     <p>
-      <code>textarea[tngTextarea]</code> is still exported for backward compatibility and delegates
-      to the same underlying behavior as <code>textarea[tngInput]</code>.
+      <code>tngTextarea</code> composes the shared <code>tngInput</code> behavior internally. That
+      means the textarea-specific primitive owns <code>rows</code> and <code>resize</code>, while
+      accessible naming and state attributes still follow the shared input rules.
     </p>
   </section>
 </article>

@@ -9,7 +9,10 @@ import {
   type OwnableDocsGroup,
 } from './ownable-docs.data';
 
-function requireOwnableItem(group: OwnableDocsGroup, slug: string) {
+function requireOwnableItem(
+  group: OwnableDocsGroup,
+  slug: string,
+): OwnableDocsGroup['items'][number] {
   const item = group.items.find((candidate) => candidate.slug === slug);
   if (item === undefined) {
     throw new Error(`Missing "${slug}" in ownable docs group "${group.id}".`);
@@ -21,6 +24,7 @@ function requireOwnableItem(group: OwnableDocsGroup, slug: string) {
 const overviewItem = requireOwnableItem(OWNABLE_GETTING_STARTED_GROUP, 'overview');
 const quickStartItem = requireOwnableItem(OWNABLE_GETTING_STARTED_GROUP, 'quick-start');
 const inputItem = requireOwnableItem(OWNABLE_FORM_GROUP, 'input');
+const textareaItem = requireOwnableItem(OWNABLE_FORM_GROUP, 'textarea');
 const cliItem = requireOwnableItem(OWNABLE_TOOLING_GROUP, 'cli');
 const registryItem = requireOwnableItem(OWNABLE_TOOLING_GROUP, 'registry');
 const workflowItem = requireOwnableItem(OWNABLE_RELEASE_GROUP, 'workflow');
@@ -58,6 +62,14 @@ export const OWNABLE_ROUTES: Routes = [
         loadComponent: () =>
           import('./form/input/ownable-input-page.component').then(
             (m) => m.OwnableInputPageComponent,
+          ),
+      },
+      {
+        path: 'form/textarea',
+        data: toOwnableDocsRouteData(OWNABLE_FORM_GROUP, textareaItem),
+        loadComponent: () =>
+          import('./form/textarea/ownable-textarea-page.component').then(
+            (m) => m.OwnableTextareaPageComponent,
           ),
       },
       {

@@ -1,7 +1,7 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, inject, signal, type OnDestroy } from '@angular/core';
-import { observeDocsCodeThemeChanges, resolveDocsCodeBlockTheme } from '../../../../../../shared/util';
 import { TngCodeBlockComponent } from '@tailng-ui/components';
+import { observeDocsCodeThemeChanges, resolveDocsCodeBlockTheme } from '../../../../../../shared/util';
 
 @Component({
   selector: 'app-textarea-styling-page',
@@ -16,29 +16,50 @@ export class TextareaStylingPageComponent implements OnDestroy {
   );
   private readonly colorSchemeObserver = observeDocsCodeThemeChanges(this.documentRef, this.codeBlockTheme);
 
-  protected readonly stylingSnippet = [
-    '[data-slot="input-group"] {',
-    '  align-items: flex-start;',
-    '  border: 1px solid var(--tng-semantic-border-strong);',
-    '  border-radius: 0.85rem;',
-    '  min-height: 8rem;',
-    '  padding: 0.65rem 0.8rem;',
+  protected readonly tokenSnippet = [
+    '.release-notes-surface {',
+    '  --tng-semantic-background-surface: #ffffff;',
+    '  --tng-semantic-border-strong: #94a3b8;',
+    '  --tng-semantic-foreground-primary: #0f172a;',
+    '  --tng-semantic-foreground-muted: #94a3b8;',
+    '  --tng-semantic-focus-ring: color-mix(in srgb, #2563eb 18%, transparent);',
+    '  --tng-semantic-accent-danger: #dc2626;',
     '}',
     '',
-    '[data-slot="input-group"] [data-slot="input"] {',
-    '  border: 0;',
-    '  min-height: 6.5rem;',
-    '  outline: none;',
-    '  resize: vertical;',
+  ].join('\n');
+
+  protected readonly hostSizingSnippet = [
+    '.release-notes-surface {',
+    '  display: grid;',
+    '  gap: 0.65rem;',
+    '  inline-size: min(100%, 42rem);',
+    '  margin-inline: auto;',
     '}',
     '',
-    '[data-slot="input-group"][data-focused] {',
-    '  border-color: color-mix(in srgb, var(--tng-semantic-accent-brand) 55%, var(--tng-semantic-border-strong));',
-    '  box-shadow: 0 0 0 3px color-mix(in srgb, var(--tng-semantic-accent-brand) 18%, transparent);',
+    '.release-notes-surface tng-textarea {',
+    '  inline-size: 100%;',
     '}',
     '',
-    '[data-slot="input"][data-resize="none"] {',
-    '  resize: none;',
+  ].join('\n');
+
+  protected readonly componentStateSnippet = [
+    '.release-notes-surface {',
+    '  --tng-semantic-background-surface: #ffffff;',
+    '  --tng-semantic-border-strong: #94a3b8;',
+    '  --tng-semantic-foreground-primary: #0f172a;',
+    '  --tng-semantic-foreground-muted: #94a3b8;',
+    '  --tng-semantic-focus-ring: color-mix(in srgb, #2563eb 18%, transparent);',
+    '  --tng-semantic-accent-danger: #dc2626;',
+    '}',
+    '',
+    '.release-notes-surface--invalid {',
+    '  --tng-semantic-border-strong: #dc2626;',
+    '  --tng-semantic-focus-ring: color-mix(in srgb, #dc2626 16%, transparent);',
+    '}',
+    '',
+    '.release-notes-surface--quiet {',
+    '  --tng-semantic-background-surface: #f8fafc;',
+    '  --tng-semantic-border-strong: #cbd5e1;',
     '}',
     '',
   ].join('\n');
