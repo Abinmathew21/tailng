@@ -1,0 +1,148 @@
+:host {
+  display: block;
+}
+
+.checkbox-examples {
+  display: grid;
+  gap: 1rem;
+}
+
+.checkbox-examples-title {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.checkbox-examples-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.checkbox-examples-block {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.95rem;
+  display: grid;
+  gap: 0.85rem;
+  padding: 1rem;
+}
+
+.headless-checkbox-consent-card {
+  background: var(--tng-semantic-background-base, #ffffff);
+  border: 1px solid var(--tng-semantic-border-subtle, #cbd5e1);
+  border-radius: 0.95rem;
+  display: grid;
+  gap: 0.8rem;
+  inline-size: min(100%, 28rem);
+  margin-inline: auto;
+  padding: 1rem;
+}
+
+.headless-checkbox-consent-card__row,
+.headless-checkbox-rollup-card__parent,
+.headless-checkbox-rollup-card__child,
+.headless-checkbox-policy-card__row {
+  align-items: center;
+  color: var(--tng-semantic-foreground-primary, #0f172a);
+  display: inline-flex;
+  gap: 0.7rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.headless-checkbox-consent-card__row--readonly,
+.headless-checkbox-policy-card__row--readonly {
+  color: var(--tng-semantic-foreground-secondary, #64748b);
+}
+
+.headless-checkbox-policy-card__row--disabled {
+  color: color-mix(
+    in srgb,
+    var(--tng-semantic-foreground-secondary, #64748b) 85%,
+    transparent
+  );
+}
+
+.headless-checkbox-consent-card__control,
+.headless-checkbox-rollup-card__control,
+.headless-checkbox-policy-card__control {
+  accent-color: var(--tng-semantic-accent-brand, #2563eb);
+}
+
+.headless-checkbox-consent-card__control[data-focus-visible],
+.headless-checkbox-rollup-card__control[data-focus-visible] {
+  outline: 2px solid color-mix(
+    in srgb,
+    var(--tng-semantic-accent-brand, #2563eb) 70%,
+    white
+  );
+  outline-offset: 2px;
+}
+
+.headless-checkbox-rollup-card {
+  background: color-mix(
+    in srgb,
+    var(--tng-semantic-background-base, #ffffff) 92%,
+    transparent
+  );
+  border: 1px solid var(--tng-semantic-border-subtle, #cbd5e1);
+  border-radius: 0.95rem;
+  display: grid;
+  gap: 0.85rem;
+  inline-size: min(100%, 30rem);
+  margin-inline: auto;
+  padding: 1rem;
+}
+
+.headless-checkbox-rollup-card__children {
+  border-left: 2px solid var(--tng-semantic-border-subtle, #cbd5e1);
+  display: grid;
+  gap: 0.65rem;
+  margin-left: 0.35rem;
+  padding-left: 0.85rem;
+}
+
+.headless-checkbox-rollup-card__summary {
+  color: var(--tng-semantic-foreground-secondary, #64748b);
+  font-size: 0.8rem;
+  margin: 0;
+}
+
+.headless-checkbox-policy-card {
+  display: grid;
+  gap: 0.85rem;
+  inline-size: min(100%, 32rem);
+  margin-inline: auto;
+}
+
+.headless-checkbox-policy-card__group {
+  background: color-mix(
+    in srgb,
+    var(--tng-semantic-accent-danger, #dc2626) 7%,
+    var(--tng-semantic-background-base, #ffffff)
+  );
+  border: 1px solid color-mix(
+    in srgb,
+    var(--tng-semantic-accent-danger, #dc2626) 35%,
+    var(--tng-semantic-border-subtle, #cbd5e1)
+  );
+  border-radius: 0.95rem;
+  display: grid;
+  gap: 0.45rem;
+  padding: 0.9rem 1rem;
+}
+
+.headless-checkbox-policy-card__helper {
+  color: var(--tng-semantic-accent-danger, #dc2626);
+  font-size: 0.78rem;
+  margin: 0 0 0 1.7rem;
+}
+
+.headless-checkbox-policy-card__control[data-invalid] {
+  outline: 2px solid color-mix(
+    in srgb,
+    var(--tng-semantic-accent-danger, #dc2626) 55%,
+    white
+  );
+  outline-offset: 2px;
+}

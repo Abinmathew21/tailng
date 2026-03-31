@@ -49,21 +49,8 @@ export const COMPONENTS_FORM_CHECKBOX_ROUTES: Routes = [
       },
       {
         path: 'ownable-install',
-        data: {
-          registrySlug: 'checkbox',
-          usageCode: [
-            '<tng-checkbox',
-            '  [checked]="releaseReady"',
-            '  (checkedChange)="releaseReady = $event"',
-            '>',
-            '  Release checklist complete',
-            '</tng-checkbox>',
-            '',
-          ].join('\n'),
-        },
-        loadComponent: () =>
-          import('../../../../shared/ownable-install-section/docs-ownable-install-section.component')
-            .then((module) => module.DocsOwnableInstallSectionComponent),
+        pathMatch: 'full',
+        redirectTo: '/ownable/form/checkbox',
       },
       {
         path: '**',

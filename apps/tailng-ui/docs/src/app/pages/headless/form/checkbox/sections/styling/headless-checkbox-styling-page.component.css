@@ -1,0 +1,87 @@
+:host {
+  display: block;
+}
+
+.checkbox-styling {
+  display: grid;
+  gap: 1rem;
+}
+
+.checkbox-styling-title {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.checkbox-styling-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.checkbox-styling-block {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.95rem;
+  display: grid;
+  gap: 0.8rem;
+  padding: 1rem;
+}
+
+.checkbox-styling-block h3 {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1rem;
+  margin: 0;
+}
+
+.checkbox-styling-table-wrap {
+  overflow-x: auto;
+}
+
+.checkbox-styling-table {
+  border-collapse: collapse;
+  min-width: 36rem;
+  width: 100%;
+}
+
+.checkbox-styling-table th,
+.checkbox-styling-table td {
+  border-bottom: 1px solid var(--tng-semantic-border-subtle);
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.9rem;
+  padding: 0.7rem 0.65rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.checkbox-styling-table th {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 0.82rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.checkbox-styling-table code {
+  color: var(--tng-semantic-foreground-primary);
+}
+
+.checkbox-filter-card {
+  background: var(--tng-semantic-background-base, #ffffff);
+  border: 1px solid var(--tng-semantic-border-subtle, #cbd5e1);
+  border-radius: 0.9rem;
+  display: grid;
+  gap: 0.75rem;
+  inline-size: min(100%, 26rem);
+  margin-inline: auto;
+  padding: 1rem;
+}
+
+.checkbox-filter-card__row {
+  align-items: center;
+  color: var(--tng-semantic-foreground-primary, #0f172a);
+  display: inline-flex;
+  gap: 0.65rem;
+}
+
+.checkbox-filter-card__control {
+  accent-color: var(--tng-semantic-accent-brand, #2563eb);
+}

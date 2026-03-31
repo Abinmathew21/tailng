@@ -1,0 +1,290 @@
+<article class="checkbox-examples docs-section-page">
+  <div class="docs-section-page-main">
+    <h2 class="checkbox-examples-title">Examples</h2>
+    <p class="checkbox-examples-lead">
+      Copy-ready checkbox patterns that stay fully headless. Each example keeps the primitive on the
+      native <code>&lt;input&gt;</code> while you own the surrounding layout, labels, helper text,
+      and visual language.
+    </p>
+
+    <section id="consent-checklist" class="docs-section-anchor checkbox-examples-block">
+      <app-docs-example-tabs-section
+        heading="Consent checklist"
+        description="Mix editable consent rows with readonly confirmation in the same shell."
+        ariaLabel="Consent checklist variants"
+        tabListAriaLabel="Consent checklist style variants"
+        defaultValue="plain-css"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <ng-template
+          appDocsExampleVariant
+          value="plain-css"
+          label="Plain-CSS"
+          panelTitle="Consent checklist (Plain-CSS)"
+          [codeTabs]="consentPlainCodeTabs"
+          [stackblitzUrl]="stackblitzVanillaUrl"
+        >
+          <section class="headless-checkbox-consent-card">
+            <label class="headless-checkbox-consent-card__row">
+              <input
+                tngCheckbox
+                [checked]="true"
+                class="headless-checkbox-consent-card__control"
+              />
+              <span>Email release updates</span>
+            </label>
+            <label class="headless-checkbox-consent-card__row">
+              <input tngCheckbox class="headless-checkbox-consent-card__control" />
+              <span>Slack incident digest</span>
+            </label>
+            <label
+              class="headless-checkbox-consent-card__row headless-checkbox-consent-card__row--readonly"
+            >
+              <input
+                tngCheckbox
+                [readonly]="true"
+                [checked]="true"
+                class="headless-checkbox-consent-card__control"
+              />
+              <span>Legal archive confirmed (readonly)</span>
+            </label>
+          </section>
+        </ng-template>
+
+        <ng-template
+          appDocsExampleVariant
+          value="tailwind-css"
+          label="Tailwind CSS"
+          panelTitle="Consent checklist (Tailwind CSS)"
+          [codeTabs]="consentTailwindCodeTabs"
+          [stackblitzUrl]="stackblitzTailwindUrl"
+        >
+          <section
+            class="grid w-full max-w-[28rem] gap-3 rounded-xl border border-slate-300 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-950/60"
+          >
+            <label
+              class="inline-flex items-center gap-3 text-sm font-medium text-slate-900 dark:text-slate-100"
+            >
+              <input
+                tngCheckbox
+                [checked]="true"
+                class="h-4 w-4 rounded border-slate-300 text-blue-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/40 dark:border-slate-600"
+              />
+              <span>Email release updates</span>
+            </label>
+            <label
+              class="inline-flex items-center gap-3 text-sm font-medium text-slate-900 dark:text-slate-100"
+            >
+              <input
+                tngCheckbox
+                class="h-4 w-4 rounded border-slate-300 text-blue-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/40 dark:border-slate-600"
+              />
+              <span>Slack incident digest</span>
+            </label>
+            <label
+              class="inline-flex items-center gap-3 text-sm font-medium text-slate-500 dark:text-slate-400"
+            >
+              <input
+                tngCheckbox
+                [readonly]="true"
+                [checked]="true"
+                class="h-4 w-4 rounded border-slate-300 text-blue-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/40 dark:border-slate-600"
+              />
+              <span>Legal archive confirmed (readonly)</span>
+            </label>
+          </section>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
+
+    <section id="tri-state-rollup" class="docs-section-anchor checkbox-examples-block">
+      <app-docs-example-tabs-section
+        heading="Tri-state rollup"
+        description="A parent checkbox reflects child completion with checked and mixed states."
+        ariaLabel="Tri-state rollup variants"
+        tabListAriaLabel="Tri-state rollup style variants"
+        defaultValue="plain-css"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <ng-template
+          appDocsExampleVariant
+          value="plain-css"
+          label="Plain-CSS"
+          panelTitle="Tri-state rollup (Plain-CSS)"
+          [codeTabs]="rollupPlainCodeTabs"
+          [stackblitzUrl]="stackblitzVanillaUrl"
+        >
+          <section class="headless-checkbox-rollup-card">
+            <label class="headless-checkbox-rollup-card__parent">
+              <input
+                tngCheckbox
+                [checked]="isAllDeploymentChecksSelected('plain-css')"
+                [indeterminate]="isDeploymentChecklistMixed('plain-css')"
+                (change)="onDeploymentRollupChange('plain-css', $event)"
+                class="headless-checkbox-rollup-card__control"
+              />
+              <span>Select all deployment checks</span>
+            </label>
+            <div class="headless-checkbox-rollup-card__children">
+              @for (item of deploymentGateItems; track item) {
+                <label class="headless-checkbox-rollup-card__child">
+                  <input
+                    tngCheckbox
+                    [checked]="isDeploymentCheckSelected('plain-css', item)"
+                    (change)="onDeploymentCheckChange('plain-css', item, $event)"
+                    class="headless-checkbox-rollup-card__control"
+                  />
+                  <span>{{ item }}</span>
+                </label>
+              }
+            </div>
+            <p class="headless-checkbox-rollup-card__summary">
+              Selected: {{ deploymentSummary('plain-css') }}
+            </p>
+          </section>
+        </ng-template>
+
+        <ng-template
+          appDocsExampleVariant
+          value="tailwind-css"
+          label="Tailwind CSS"
+          panelTitle="Tri-state rollup (Tailwind CSS)"
+          [codeTabs]="rollupTailwindCodeTabs"
+          [stackblitzUrl]="stackblitzTailwindUrl"
+        >
+          <section
+            class="grid w-full max-w-[30rem] gap-3 rounded-xl border border-slate-300 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-950/60"
+          >
+            <label
+              class="inline-flex items-center gap-3 text-sm font-semibold text-slate-900 dark:text-slate-100"
+            >
+              <input
+                tngCheckbox
+                [checked]="isAllDeploymentChecksSelected('tailwind-css')"
+                [indeterminate]="isDeploymentChecklistMixed('tailwind-css')"
+                (change)="onDeploymentRollupChange('tailwind-css', $event)"
+                class="h-4 w-4 rounded border-slate-300 text-blue-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/40 dark:border-slate-600"
+              />
+              <span>Select all deployment checks</span>
+            </label>
+            <div class="ml-2 grid gap-2 border-l-2 border-slate-300 pl-3 dark:border-slate-700">
+              @for (item of deploymentGateItems; track item) {
+                <label
+                  class="inline-flex items-center gap-3 text-sm font-medium text-slate-900 dark:text-slate-100"
+                >
+                  <input
+                    tngCheckbox
+                    [checked]="isDeploymentCheckSelected('tailwind-css', item)"
+                    (change)="onDeploymentCheckChange('tailwind-css', item, $event)"
+                    class="h-4 w-4 rounded border-slate-300 text-blue-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/40 dark:border-slate-600"
+                  />
+                  <span>{{ item }}</span>
+                </label>
+              }
+            </div>
+            <p class="text-xs lowercase text-slate-600 dark:text-slate-400">
+              Selected: {{ deploymentSummary('tailwind-css') }}
+            </p>
+          </section>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
+
+    <section id="validation-and-readonly" class="docs-section-anchor checkbox-examples-block">
+      <app-docs-example-tabs-section
+        heading="Validation and readonly states"
+        description="Mandatory approval, readonly audit state, and disabled background work presented together."
+        ariaLabel="Validation and readonly checkbox variants"
+        tabListAriaLabel="Validation and readonly checkbox style variants"
+        defaultValue="plain-css"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <ng-template
+          appDocsExampleVariant
+          value="plain-css"
+          label="Plain-CSS"
+          panelTitle="Validation and readonly states (Plain-CSS)"
+          [codeTabs]="policyPlainCodeTabs"
+          [stackblitzUrl]="stackblitzVanillaUrl"
+        >
+          <section class="headless-checkbox-policy-card">
+            <div class="headless-checkbox-policy-card__group">
+              <label class="headless-checkbox-policy-card__row headless-checkbox-policy-card__row--danger">
+                <input
+                  tngCheckbox
+                  [invalid]="true"
+                  [ariaDescribedBy]="'headless-checkbox-policy-help-live-plain'"
+                  class="headless-checkbox-policy-card__control"
+                />
+                <span>Security review is required before production deploy.</span>
+              </label>
+              <p id="headless-checkbox-policy-help-live-plain" class="headless-checkbox-policy-card__helper">
+                Finish this approval gate before enabling the release toggle.
+              </p>
+            </div>
+            <label class="headless-checkbox-policy-card__row headless-checkbox-policy-card__row--readonly">
+              <input
+                tngCheckbox
+                [readonly]="true"
+                [checked]="true"
+                class="headless-checkbox-policy-card__control"
+              />
+              <span>Compliance archive is locked after sign-off.</span>
+            </label>
+            <label class="headless-checkbox-policy-card__row headless-checkbox-policy-card__row--disabled">
+              <input
+                tngCheckbox
+                [disabled]="true"
+                class="headless-checkbox-policy-card__control"
+              />
+              <span>Background sync is still reconciling release metrics.</span>
+            </label>
+          </section>
+        </ng-template>
+
+        <ng-template
+          appDocsExampleVariant
+          value="tailwind-css"
+          label="Tailwind CSS"
+          panelTitle="Validation and readonly states (Tailwind CSS)"
+          [codeTabs]="policyTailwindCodeTabs"
+          [stackblitzUrl]="stackblitzTailwindUrl"
+        >
+          <section class="grid w-full max-w-[32rem] gap-3">
+            <div class="grid gap-2 rounded-xl border border-rose-300 bg-rose-50/70 p-4 dark:border-rose-500/70 dark:bg-rose-950/20">
+              <label class="inline-flex items-center gap-3 text-sm font-medium text-rose-900 dark:text-rose-100">
+                <input
+                  tngCheckbox
+                  [invalid]="true"
+                  [ariaDescribedBy]="'headless-checkbox-policy-help-live-tailwind'"
+                  class="h-4 w-4 rounded border-rose-300 text-rose-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-500/30 dark:border-rose-500/70"
+                />
+                <span>Security review is required before production deploy.</span>
+              </label>
+              <p id="headless-checkbox-policy-help-live-tailwind" class="ml-7 text-xs font-medium text-rose-700 dark:text-rose-300">
+                Finish this approval gate before enabling the release toggle.
+              </p>
+            </div>
+            <label class="inline-flex items-center gap-3 text-sm font-medium text-slate-500 dark:text-slate-400">
+              <input
+                tngCheckbox
+                [readonly]="true"
+                [checked]="true"
+                class="h-4 w-4 rounded border-slate-300 text-blue-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/40 dark:border-slate-600"
+              />
+              <span>Compliance archive is locked after sign-off.</span>
+            </label>
+            <label class="inline-flex items-center gap-3 text-sm font-medium text-slate-400 dark:text-slate-500">
+              <input
+                tngCheckbox
+                [disabled]="true"
+                class="h-4 w-4 rounded border-slate-300 text-slate-400 dark:border-slate-700"
+              />
+              <span>Background sync is still reconciling release metrics.</span>
+            </label>
+          </section>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
+  </div>
+</article>

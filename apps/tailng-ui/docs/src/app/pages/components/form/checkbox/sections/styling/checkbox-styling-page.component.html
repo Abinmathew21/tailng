@@ -1,146 +1,152 @@
-<article class="checkbox-styling">
-  <h2 class="checkbox-styling-title">Styling contract</h2>
-  <p class="checkbox-styling-lead">
-    Style against checkbox state hooks and semantic tokens. Do not depend on internal DOM beyond the
-    documented attributes.
-  </p>
+<article class="docs-section-page checkbox-styling">
+  <div class="docs-section-page-main">
+    <section id="css-contract-table" class="docs-section-anchor checkbox-styling-block">
+      <h2 class="checkbox-styling-title">Styling contract</h2>
+      <p class="checkbox-styling-lead">
+        The component-safe styling surface is the <code>&lt;tng-checkbox&gt;</code> host plus the
+        semantic tokens that flow into the internal primitive. Use wrapper classes for layout and
+        host-level custom properties for per-instance styling.
+      </p>
 
-  <section class="checkbox-styling-block">
-    <h3>CSS contract table</h3>
-    <div class="checkbox-styling-table-wrap">
-      <table class="checkbox-styling-table">
-        <thead>
-          <tr>
-            <th scope="col">Selector</th>
-            <th scope="col">Applied on</th>
-            <th scope="col">Purpose</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><code>[data-state="checked"]</code></td>
-            <td>Primitive input</td>
-            <td>Checked state styling.</td>
-          </tr>
-          <tr>
-            <td><code>[data-state="mixed"]</code></td>
-            <td>Primitive input</td>
-            <td>Tri-state mixed appearance.</td>
-          </tr>
-          <tr>
-            <td><code>[data-disabled]</code></td>
-            <td>Primitive input + wrapper root</td>
-            <td>Muted visuals and not-allowed cursor behavior.</td>
-          </tr>
-          <tr>
-            <td><code>[data-readonly]</code></td>
-            <td>Primitive input + wrapper root</td>
-            <td>Readonly visual treatment separate from disabled.</td>
-          </tr>
-          <tr>
-            <td><code>[data-invalid]</code></td>
-            <td>Primitive input + wrapper root</td>
-            <td>Error emphasis and validation styling.</td>
-          </tr>
-          <tr>
-            <td><code>[data-focused]</code>, <code>[data-focus-visible]</code></td>
-            <td>Primitive input</td>
-            <td>Focus and keyboard-focus visual differentiation.</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="checkbox-styling-table-wrap">
-      <table class="checkbox-styling-table">
-        <thead>
-          <tr>
-            <th scope="col">Token</th>
-            <th scope="col">Typical use</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><code>--tng-semantic-accent-brand</code></td>
-            <td>Default checked accent.</td>
-          </tr>
-          <tr>
-            <td><code>--tng-semantic-accent-danger</code></td>
-            <td>Invalid/error checkbox accent.</td>
-          </tr>
-          <tr>
-            <td><code>--tng-semantic-focus-ring</code></td>
-            <td>Focus-visible ring color.</td>
-          </tr>
-          <tr>
-            <td><code>--tng-semantic-border-subtle</code></td>
-            <td>Container borders around checkbox groups.</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-
-  <app-docs-example-tabs-section
-    class="checkbox-styling-block"
-    heading="User scenario style examples"
-    description="Use the same behavior contract with different styling systems."
-    ariaLabel="Checkbox styling examples"
-    tabListAriaLabel="Checkbox styling variants"
-    defaultValue="headless"
-    [codeBlockTheme]="codeBlockTheme()"
-  >
-    <ng-template
-      appDocsExampleVariant
-      value="headless"
-      label="Headless"
-      panelTitle="Release policy checklist"
-      [codeTabs]="headlessCodeTabs"
-    >
-      <div class="checkbox-preview-stack">
-        <label class="policy-row">
-          <input tngCheckbox [checked]="true" />
-          <span>Release checklist complete</span>
-        </label>
-        <label class="policy-row">
-          <input tngCheckbox [indeterminate]="true" />
-          <span>Deployment approvals (partial)</span>
-        </label>
+      <div class="checkbox-styling-table-wrap">
+        <table class="checkbox-styling-table">
+          <thead>
+            <tr>
+              <th scope="col">Surface</th>
+              <th scope="col">Use from consumer CSS?</th>
+              <th scope="col">Purpose</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>tng-checkbox</code> host</td>
+              <td>Yes</td>
+              <td>Per-instance token overrides, layout tweaks, and wrapper spacing.</td>
+            </tr>
+            <tr>
+              <td>Wrapper classes around <code>tng-checkbox</code></td>
+              <td>Yes</td>
+              <td>Card layout, section spacing, helper copy, and grouped presentation.</td>
+            </tr>
+            <tr>
+              <td><code>.tng-checkbox-root</code>, <code>.tng-checkbox-control</code></td>
+              <td>No, not from component-scoped CSS</td>
+              <td>Internal implementation details. Use headless or ownable when you need direct control.</td>
+            </tr>
+            <tr>
+              <td><code>data-state</code>, <code>data-invalid</code>, <code>data-focus-visible</code></td>
+              <td>No, not from component-scoped CSS</td>
+              <td>Primitive-level hooks for DOM-owned solutions.</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-    </ng-template>
 
-    <ng-template
-      appDocsExampleVariant
-      value="plain-css"
-      label="Plain-CSS"
-      panelTitle="Release policy checklist"
-      [codeTabs]="plainCssCodeTabs"
-    >
-      <div class="settings-panel">
-        <tng-checkbox [checked]="true">Release checklist complete</tng-checkbox>
-        <tng-checkbox [indeterminate]="true">Deployment approvals (partial)</tng-checkbox>
-        <tng-checkbox [invalid]="true">Security review required</tng-checkbox>
+      <div class="checkbox-styling-table-wrap">
+        <table class="checkbox-styling-table">
+          <thead>
+            <tr>
+              <th scope="col">Semantic token</th>
+              <th scope="col">Default role</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>--tng-semantic-accent-brand</code></td>
+              <td>Checked accent color for the checkbox control.</td>
+            </tr>
+            <tr>
+              <td><code>--tng-semantic-accent-danger</code></td>
+              <td>Invalid checkbox accent and validation emphasis.</td>
+            </tr>
+            <tr>
+              <td><code>--tng-semantic-focus-ring</code></td>
+              <td>Focus-visible ring color around the control.</td>
+            </tr>
+            <tr>
+              <td><code>--tng-semantic-foreground-primary</code></td>
+              <td>Primary label copy color.</td>
+            </tr>
+            <tr>
+              <td><code>--tng-semantic-foreground-secondary</code></td>
+              <td>Muted or readonly label tone.</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-    </ng-template>
 
-    <ng-template
-      appDocsExampleVariant
-      value="tailwind-css"
-      label="Tailwind CSS"
-      panelTitle="Release policy checklist"
-      [codeTabs]="tailwindCodeTabs"
+      <p class="checkbox-styling-note">
+        If a product design needs a fully custom checkbox box, animated indicator, or state-targeted
+        selectors in component-scoped CSS, that is the point to switch to the headless or ownable
+        layer instead of fighting the component wrapper.
+      </p>
+    </section>
+
+    <section
+      id="user-scenario-style-examples"
+      class="docs-section-anchor checkbox-styling-block"
     >
-      <div class="grid gap-3 rounded-xl border border-slate-300 bg-white/80 p-4">
-        <tng-checkbox [checked]="true" class="text-slate-900"
-          >Release checklist complete</tng-checkbox
+      <app-docs-example-tabs-section
+        heading="User scenario style examples"
+        description="These examples keep the checkbox API fixed and only swap the surrounding styling system."
+        ariaLabel="Checkbox styling examples"
+        tabListAriaLabel="Checkbox styling variants"
+        defaultValue="plain-css"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <ng-template
+          appDocsExampleVariant
+          value="plain-css"
+          label="Plain-CSS"
+          panelTitle="Release policy checklist (Plain-CSS)"
+          [codeTabs]="plainCssCodeTabs"
+          [stackblitzUrl]="stackblitzVanillaUrl"
         >
-        <tng-checkbox [indeterminate]="true" class="text-slate-900"
-          >Deployment approvals (partial)</tng-checkbox
+          <section class="doc-cmp-checkbox-styling-card">
+            <tng-checkbox class="doc-cmp-checkbox-styling-item" [checked]="true">
+              Release checklist complete
+            </tng-checkbox>
+            <tng-checkbox class="doc-cmp-checkbox-styling-item" [indeterminate]="true">
+              Deployment approvals pending
+            </tng-checkbox>
+            <tng-checkbox class="doc-cmp-checkbox-styling-item doc-cmp-checkbox-styling-item--danger" [invalid]="true">
+              Security review required
+            </tng-checkbox>
+          </section>
+        </ng-template>
+
+        <ng-template
+          appDocsExampleVariant
+          value="tailwind-css"
+          label="Tailwind CSS"
+          panelTitle="Release policy checklist (Tailwind CSS)"
+          [codeTabs]="tailwindCodeTabs"
+          [stackblitzUrl]="stackblitzTailwindUrl"
         >
-        <tng-checkbox [invalid]="true" class="text-slate-900"
-          >Security review required</tng-checkbox
-        >
-      </div>
-    </ng-template>
-  </app-docs-example-tabs-section>
+          <section
+            class="grid w-full max-w-[32rem] gap-3 rounded-2xl border border-slate-300 bg-white/90 p-4 shadow-sm dark:border-slate-700 dark:bg-slate-950/60"
+          >
+            <tng-checkbox
+              class="block text-slate-900 [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-focus-ring:rgba(37,99,235,0.22)] dark:text-slate-100"
+              [checked]="true"
+            >
+              Release checklist complete
+            </tng-checkbox>
+            <tng-checkbox
+              class="block text-slate-900 [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-focus-ring:rgba(37,99,235,0.22)] dark:text-slate-100"
+              [indeterminate]="true"
+            >
+              Deployment approvals pending
+            </tng-checkbox>
+            <tng-checkbox
+              class="block text-rose-800 [--tng-semantic-accent-danger:#dc2626] dark:text-rose-200"
+              [invalid]="true"
+            >
+              Security review required
+            </tng-checkbox>
+          </section>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
+  </div>
 </article>

@@ -72,37 +72,11 @@ export const COMPONENTS_FORM_GROUP: ComponentsDocsGroup = {
       description: 'Text input fields, adornments, validation messaging, and layout patterns.',
     },
     {
-      id: 'form-field',
-      slug: 'form-field',
-      title: 'Form Field',
-      description:
-        'Projected input shell with prefix and suffix slots for icons, helper text, and inline actions.',
-    },
-    {
-      id: 'datepicker',
-      slug: 'datepicker',
-      title: 'Datepicker',
-      description:
-        'Material-style date selection with editable input, adapter formatting, and bounded calendar views.',
-    },
-    {
       id: 'textarea',
       slug: 'textarea',
       title: 'Textarea',
       description:
         'Multiline text input patterns with input-first primitives and styled textarea wrappers.',
-    },
-    {
-      id: 'input-otp',
-      slug: 'input-otp',
-      title: 'Input OTP',
-      description: 'Segmented one-time-password input with keyboard, paste, and form integration.',
-    },
-    {
-      id: 'label',
-      slug: 'label',
-      title: 'Label',
-      description: 'Accessible label semantics for explicit and wrapped control association.',
     },
     {
       id: 'checkbox',
@@ -163,6 +137,32 @@ export const COMPONENTS_FORM_GROUP: ComponentsDocsGroup = {
       slug: 'chips',
       title: 'Chips',
       description: 'Tokenized input and removable item chip usage patterns.',
+    },
+    {
+      id: 'form-field',
+      slug: 'form-field',
+      title: 'Form Field',
+      description:
+        'Projected input shell with prefix and suffix slots for icons, helper text, and inline actions.',
+    },
+    {
+      id: 'datepicker',
+      slug: 'datepicker',
+      title: 'Datepicker',
+      description:
+        'Material-style date selection with editable input, adapter formatting, and bounded calendar views.',
+    },
+    {
+      id: 'input-otp',
+      slug: 'input-otp',
+      title: 'Input OTP',
+      description: 'Segmented one-time-password input with keyboard, paste, and form integration.',
+    },
+    {
+      id: 'label',
+      slug: 'label',
+      title: 'Label',
+      description: 'Accessible label semantics for explicit and wrapped control association.',
     },
     {
       id: 'switch',
@@ -288,24 +288,6 @@ export const COMPONENTS_UTILITY_GROUP: ComponentsDocsGroup = {
   subtitle: 'General-purpose interface utilities',
   items: [
     {
-      id: 'avatar',
-      slug: 'avatar',
-      title: 'Avatar',
-      description: 'Identity surfaces with fallback handling, shape, and size variants.',
-    },
-    {
-      id: 'badge',
-      slug: 'badge',
-      title: 'Badge',
-      description: 'Count, dot, and placement badges for notifications and status overlays.',
-    },
-    {
-      id: 'tag',
-      slug: 'tag',
-      title: 'Tag',
-      description: 'Compact label chips with optional icon and removable close action.',
-    },
-    {
       id: 'codeblock',
       slug: 'codeblock',
       title: 'Codeblock',
@@ -323,6 +305,24 @@ export const COMPONENTS_UTILITY_GROUP: ComponentsDocsGroup = {
       title: 'Button',
       description: 'Press/action semantics, accessibility, and interaction states.',
     },
+    {
+      id: 'avatar',
+      slug: 'avatar',
+      title: 'Avatar',
+      description: 'Identity surfaces with fallback handling, shape, and size variants.',
+    },
+    {
+      id: 'badge',
+      slug: 'badge',
+      title: 'Badge',
+      description: 'Count, dot, and placement badges for notifications and status overlays.',
+    },
+    {
+      id: 'tag',
+      slug: 'tag',
+      title: 'Tag',
+      description: 'Compact label chips with optional icon and removable close action.',
+    },
   ],
 };
 
@@ -331,12 +331,6 @@ export const COMPONENTS_NAVIGATION_GROUP: ComponentsDocsGroup = {
   title: 'Navigation',
   subtitle: 'Menu surfaces and hierarchical actions',
   items: [
-    {
-      id: 'breadcrumb',
-      slug: 'breadcrumb',
-      title: 'Breadcrumb',
-      description: 'Hierarchical path navigation with optional collapse and current-page semantics.',
-    },
     {
       id: 'menubar',
       slug: 'menubar',
@@ -356,6 +350,12 @@ export const COMPONENTS_NAVIGATION_GROUP: ComponentsDocsGroup = {
       description: 'Right-click and keyboard context actions anchored to element surfaces.',
     },
     {
+      id: 'breadcrumb',
+      slug: 'breadcrumb',
+      title: 'Breadcrumb',
+      description: 'Hierarchical path navigation with optional collapse and current-page semantics.',
+    },
+    {
       id: 'tree',
       slug: 'tree',
       title: 'Tree',
@@ -367,11 +367,11 @@ export const COMPONENTS_NAVIGATION_GROUP: ComponentsDocsGroup = {
 export const COMPONENTS_DOCS_GROUPS: readonly ComponentsDocsGroup[] = Object.freeze([
   COMPONENTS_GETTING_STARTED_GROUP,
   COMPONENTS_FORM_GROUP,
+  COMPONENTS_UTILITY_GROUP,
+  COMPONENTS_NAVIGATION_GROUP,
   COMPONENTS_LAYOUT_GROUP,
   COMPONENTS_OVERLAY_GROUP,
   COMPONENTS_FEEDBACK_GROUP,
-  COMPONENTS_UTILITY_GROUP,
-  COMPONENTS_NAVIGATION_GROUP,
 ]);
 
 const defaultGroup = COMPONENTS_GETTING_STARTED_GROUP;

@@ -1,238 +1,203 @@
-<article class="checkbox-examples">
-  <h2 class="checkbox-examples-title">Examples</h2>
-  <p class="checkbox-examples-lead">
-    Production-focused checkbox patterns with Headless, Plain-CSS, and Tailwind CSS variants.
-  </p>
+<article class="docs-section-page checkbox-examples">
+  <div class="docs-section-page-main">
+    <h2 class="checkbox-examples-title">Examples</h2>
+    <p class="checkbox-examples-lead">
+      Production-focused checkbox patterns rendered with the component layer only. Each variant keeps
+      the <code>&lt;tng-checkbox&gt;</code> API stable while swapping the surrounding styling system.
+    </p>
 
-  <section class="checkbox-examples-block">
-    <app-docs-example-tabs-section
-      heading="Consent and readonly policy"
-      description="Distinguish editable consent from readonly legal confirmation."
-      ariaLabel="Consent checkbox variants"
-      tabListAriaLabel="Consent style variants"
-      defaultValue="headless"
-      [codeBlockTheme]="codeBlockTheme()"
+    <section
+      id="consent-and-readonly-policy"
+      class="docs-section-anchor checkbox-examples-block"
     >
-      <ng-template
-        appDocsExampleVariant
-        value="headless"
-        label="Headless"
-        panelTitle="Consent and readonly policy (Headless)"
-        [codeTabs]="consentHeadlessCodeTabs"
+      <app-docs-example-tabs-section
+        heading="Consent and readonly policy"
+        description="Separate editable consent from product-owned readonly acknowledgement copy."
+        ariaLabel="Consent checkbox variants"
+        tabListAriaLabel="Consent style variants"
+        defaultValue="plain-css"
+        [codeBlockTheme]="codeBlockTheme()"
       >
-        <div class="checkbox-example-stack">
-          <label class="checkbox-row">
-            <input tngCheckbox [checked]="true" />
-            <span>I confirm release notes are reviewed.</span>
-          </label>
-          <label class="checkbox-row">
-            <input tngCheckbox [readonly]="true" [checked]="true" />
-            <span>Legal policy accepted (readonly).</span>
-          </label>
-        </div>
-      </ng-template>
-
-      <ng-template
-        appDocsExampleVariant
-        value="plain-css"
-        label="Plain-CSS"
-        panelTitle="Consent and readonly policy (Plain-CSS)"
-        [codeTabs]="consentPlainCssCodeTabs"
-      >
-        <div class="checkbox-example-stack checkbox-example-stack--plain">
-          <tng-checkbox [checked]="true">I confirm release notes are reviewed.</tng-checkbox>
-          <tng-checkbox [readonly]="true" [checked]="true"
-            >Legal policy accepted (readonly).</tng-checkbox
-          >
-        </div>
-      </ng-template>
-
-      <ng-template
-        appDocsExampleVariant
-        value="tailwind-css"
-        label="Tailwind CSS"
-        panelTitle="Consent and readonly policy (Tailwind CSS)"
-        [codeTabs]="consentTailwindCodeTabs"
-      >
-        <div
-          class="grid gap-3 rounded-xl border border-slate-300 bg-white/80 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+        <ng-template
+          appDocsExampleVariant
+          value="plain-css"
+          label="Plain-CSS"
+          panelTitle="Consent and readonly policy (Plain-CSS)"
+          [codeTabs]="consentPlainCssCodeTabs"
+          [stackblitzUrl]="stackblitzVanillaUrl"
         >
-          <tng-checkbox [checked]="true" class="text-slate-900 dark:text-slate-100">
-            I confirm release notes are reviewed.
-          </tng-checkbox>
-          <tng-checkbox [readonly]="true" [checked]="true" class="text-slate-900 dark:text-slate-100">
-            Legal policy accepted (readonly).
-          </tng-checkbox>
-        </div>
-      </ng-template>
-    </app-docs-example-tabs-section>
-  </section>
+          <section class="doc-cmp-checkbox-consent-panel">
+            <tng-checkbox class="doc-cmp-checkbox-consent-item" [checked]="true">
+              I confirm release notes are reviewed.
+            </tng-checkbox>
+            <tng-checkbox
+              class="doc-cmp-checkbox-consent-item doc-cmp-checkbox-consent-item--muted"
+              [readonly]="true"
+              [checked]="true"
+            >
+              Legal policy accepted (readonly).
+            </tng-checkbox>
+          </section>
+        </ng-template>
 
-  <section class="checkbox-examples-block">
-    <app-docs-example-tabs-section
-      heading="Tri-state select-all"
-      description="Parent checkbox reflects child completion with checked and indeterminate states."
-      ariaLabel="Tri-state checkbox variants"
-      tabListAriaLabel="Tri-state style variants"
-      defaultValue="headless"
-      [codeBlockTheme]="codeBlockTheme()"
-    >
-      <ng-template
-        appDocsExampleVariant
-        value="headless"
-        label="Headless"
-        panelTitle="Tri-state select-all (Headless)"
-        [codeTabs]="triStateHeadlessCodeTabs"
-      >
-        <div class="checkbox-example-stack checkbox-example-stack--tri-state">
-          <label class="checkbox-row">
-            <input
-              tngCheckbox
-              [checked]="areAllRowsChecked('headless')"
-              [indeterminate]="isMixedRowsChecked('headless')"
-              (change)="onHeadlessSelectAllChange($event)"
-            />
-            <span>Select all deployment checks</span>
-          </label>
-
-          <div class="checkbox-example-children">
-            @for (row of rows; track row) {
-              <label class="checkbox-row">
-                <input
-                  tngCheckbox
-                  [checked]="isRowChecked('headless', row)"
-                  (change)="onHeadlessRowChange(row, $event)"
-                />
-                <span>{{ row }}</span>
-              </label>
-            }
-          </div>
-
-          <p class="checkbox-example-summary">selected: {{ selectedSummary('headless') }}</p>
-        </div>
-      </ng-template>
-
-      <ng-template
-        appDocsExampleVariant
-        value="plain-css"
-        label="Plain-CSS"
-        panelTitle="Tri-state select-all (Plain-CSS)"
-        [codeTabs]="triStatePlainCssCodeTabs"
-      >
-        <div class="checkbox-example-stack checkbox-example-stack--tri-state">
-          <tng-checkbox
-            [checked]="areAllRowsChecked('plain-css')"
-            [indeterminate]="isMixedRowsChecked('plain-css')"
-            (checkedChange)="onSelectAllChange('plain-css', $event)"
-          >
-            Select all deployment checks
-          </tng-checkbox>
-
-          <div class="checkbox-example-children">
-            @for (row of rows; track row) {
-              <tng-checkbox
-                [checked]="isRowChecked('plain-css', row)"
-                (checkedChange)="onRowChange('plain-css', row, $event)"
-              >
-                {{ row }}
-              </tng-checkbox>
-            }
-          </div>
-
-          <p class="checkbox-example-summary">selected: {{ selectedSummary('plain-css') }}</p>
-        </div>
-      </ng-template>
-
-      <ng-template
-        appDocsExampleVariant
-        value="tailwind-css"
-        label="Tailwind CSS"
-        panelTitle="Tri-state select-all (Tailwind CSS)"
-        [codeTabs]="triStateTailwindCodeTabs"
-      >
-        <div
-          class="grid gap-3 rounded-xl border border-slate-300 bg-white/80 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+        <ng-template
+          appDocsExampleVariant
+          value="tailwind-css"
+          label="Tailwind CSS"
+          panelTitle="Consent and readonly policy (Tailwind CSS)"
+          [codeTabs]="consentTailwindCodeTabs"
+          [stackblitzUrl]="stackblitzTailwindUrl"
         >
-          <tng-checkbox
-            [checked]="areAllRowsChecked('tailwind-css')"
-            [indeterminate]="isMixedRowsChecked('tailwind-css')"
-            (checkedChange)="onSelectAllChange('tailwind-css', $event)"
-            class="text-slate-900 dark:text-slate-100"
+          <section
+            class="grid w-full max-w-[32rem] gap-3 rounded-2xl border border-slate-300 bg-white/90 p-4 shadow-sm dark:border-slate-700 dark:bg-slate-950/60"
           >
-            Select all deployment checks
-          </tng-checkbox>
+            <tng-checkbox
+              class="block text-slate-900 [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-focus-ring:rgba(37,99,235,0.22)] dark:text-slate-100"
+              [checked]="true"
+            >
+              I confirm release notes are reviewed.
+            </tng-checkbox>
+            <tng-checkbox
+              class="block text-slate-500 [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-focus-ring:rgba(37,99,235,0.22)] dark:text-slate-400"
+              [readonly]="true"
+              [checked]="true"
+            >
+              Legal policy accepted (readonly).
+            </tng-checkbox>
+          </section>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
 
-          <div class="ml-2 grid gap-2 border-l-2 border-slate-300 pl-3 dark:border-slate-600">
-            @for (row of rows; track row) {
-              <tng-checkbox
-                [checked]="isRowChecked('tailwind-css', row)"
-                (checkedChange)="onRowChange('tailwind-css', row, $event)"
-                class="text-slate-900 dark:text-slate-100"
-              >
-                {{ row }}
-              </tng-checkbox>
-            }
-          </div>
-
-          <p class="text-xs lowercase text-slate-600 dark:text-slate-300">
-            selected: {{ selectedSummary('tailwind-css') }}
-          </p>
-        </div>
-      </ng-template>
-    </app-docs-example-tabs-section>
-  </section>
-
-  <section class="checkbox-examples-block">
-    <app-docs-example-tabs-section
-      heading="Validation emphasis"
-      description="Use invalid state for mandatory checks before production deploy."
-      ariaLabel="Validation checkbox variants"
-      tabListAriaLabel="Validation style variants"
-      defaultValue="headless"
-      [codeBlockTheme]="codeBlockTheme()"
-    >
-      <ng-template
-        appDocsExampleVariant
-        value="headless"
-        label="Headless"
-        panelTitle="Validation emphasis (Headless)"
-        [codeTabs]="validationHeadlessCodeTabs"
+    <section id="tri-state-select-all" class="docs-section-anchor checkbox-examples-block">
+      <app-docs-example-tabs-section
+        heading="Tri-state select-all"
+        description="Parent selection mirrors child completion using checked and mixed state without leaving the component API."
+        ariaLabel="Tri-state checkbox variants"
+        tabListAriaLabel="Tri-state style variants"
+        defaultValue="plain-css"
+        [codeBlockTheme]="codeBlockTheme()"
       >
-        <label class="checkbox-row">
-          <input tngCheckbox [invalid]="true" />
-          <span>Security review is required before production deploy.</span>
-        </label>
-      </ng-template>
-
-      <ng-template
-        appDocsExampleVariant
-        value="plain-css"
-        label="Plain-CSS"
-        panelTitle="Validation emphasis (Plain-CSS)"
-        [codeTabs]="validationPlainCssCodeTabs"
-      >
-        <div class="checkbox-example-stack">
-          <tng-checkbox [invalid]="true">
-            Security review is required before production deploy.
-          </tng-checkbox>
-        </div>
-      </ng-template>
-
-      <ng-template
-        appDocsExampleVariant
-        value="tailwind-css"
-        label="Tailwind CSS"
-        panelTitle="Validation emphasis (Tailwind CSS)"
-        [codeTabs]="validationTailwindCodeTabs"
-      >
-        <div
-          class="rounded-xl border border-rose-300 bg-rose-50/70 p-4 dark:border-rose-500/70 dark:bg-rose-950/25"
+        <ng-template
+          appDocsExampleVariant
+          value="plain-css"
+          label="Plain-CSS"
+          panelTitle="Tri-state select-all (Plain-CSS)"
+          [codeTabs]="triStatePlainCssCodeTabs"
+          [stackblitzUrl]="stackblitzVanillaUrl"
         >
-          <tng-checkbox [invalid]="true" class="text-rose-900 dark:text-rose-200">
-            Security review is required before production deploy.
-          </tng-checkbox>
-        </div>
-      </ng-template>
-    </app-docs-example-tabs-section>
-  </section>
+          <section class="doc-cmp-checkbox-tri-state-card">
+            <tng-checkbox
+              class="doc-cmp-checkbox-tri-state-item"
+              [checked]="areAllRowsChecked('plain-css')"
+              [indeterminate]="isMixedRowsChecked('plain-css')"
+              (checkedChange)="onSelectAllChange('plain-css', $event)"
+            >
+              Select all deployment checks
+            </tng-checkbox>
+
+            <div class="doc-cmp-checkbox-tri-state-children">
+              @for (row of rows; track row) {
+                <tng-checkbox
+                  class="doc-cmp-checkbox-tri-state-item"
+                  [checked]="isRowChecked('plain-css', row)"
+                  (checkedChange)="onRowChange('plain-css', row, $event)"
+                >
+                  {{ row }}
+                </tng-checkbox>
+              }
+            </div>
+
+            <p class="doc-cmp-checkbox-tri-state-summary">
+              selected: {{ selectedSummary('plain-css') }}
+            </p>
+          </section>
+        </ng-template>
+
+        <ng-template
+          appDocsExampleVariant
+          value="tailwind-css"
+          label="Tailwind CSS"
+          panelTitle="Tri-state select-all (Tailwind CSS)"
+          [codeTabs]="triStateTailwindCodeTabs"
+          [stackblitzUrl]="stackblitzTailwindUrl"
+        >
+          <section
+            class="grid w-full max-w-[32rem] gap-3 rounded-2xl border border-slate-300 bg-white/90 p-4 shadow-sm dark:border-slate-700 dark:bg-slate-950/60"
+          >
+            <tng-checkbox
+              class="block text-slate-900 [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-focus-ring:rgba(37,99,235,0.22)] dark:text-slate-100"
+              [checked]="areAllRowsChecked('tailwind-css')"
+              [indeterminate]="isMixedRowsChecked('tailwind-css')"
+              (checkedChange)="onSelectAllChange('tailwind-css', $event)"
+            >
+              Select all deployment checks
+            </tng-checkbox>
+
+            <div class="ml-2 grid gap-2 border-l-2 border-slate-300 pl-3 dark:border-slate-600">
+              @for (row of rows; track row) {
+                <tng-checkbox
+                  class="block text-slate-900 [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-focus-ring:rgba(37,99,235,0.22)] dark:text-slate-100"
+                  [checked]="isRowChecked('tailwind-css', row)"
+                  (checkedChange)="onRowChange('tailwind-css', row, $event)"
+                >
+                  {{ row }}
+                </tng-checkbox>
+              }
+            </div>
+
+            <p class="text-xs lowercase text-slate-600 dark:text-slate-300">
+              selected: {{ selectedSummary('tailwind-css') }}
+            </p>
+          </section>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
+
+    <section id="validation-emphasis" class="docs-section-anchor checkbox-examples-block">
+      <app-docs-example-tabs-section
+        heading="Validation emphasis"
+        description="Use component-level invalid state when a mandatory policy or checklist item is still incomplete."
+        ariaLabel="Validation checkbox variants"
+        tabListAriaLabel="Validation style variants"
+        defaultValue="plain-css"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <ng-template
+          appDocsExampleVariant
+          value="plain-css"
+          label="Plain-CSS"
+          panelTitle="Validation emphasis (Plain-CSS)"
+          [codeTabs]="validationPlainCssCodeTabs"
+          [stackblitzUrl]="stackblitzVanillaUrl"
+        >
+          <section class="doc-cmp-checkbox-validation-panel">
+            <tng-checkbox class="doc-cmp-checkbox-validation-item" [invalid]="true">
+              Security review is required before production deploy.
+            </tng-checkbox>
+          </section>
+        </ng-template>
+
+        <ng-template
+          appDocsExampleVariant
+          value="tailwind-css"
+          label="Tailwind CSS"
+          panelTitle="Validation emphasis (Tailwind CSS)"
+          [codeTabs]="validationTailwindCodeTabs"
+          [stackblitzUrl]="stackblitzTailwindUrl"
+        >
+          <section
+            class="rounded-2xl border border-rose-300 bg-rose-50/70 p-4 dark:border-rose-500/70 dark:bg-rose-950/25"
+          >
+            <tng-checkbox
+              class="block text-rose-900 [--tng-semantic-accent-danger:#dc2626] [--tng-semantic-focus-ring:rgba(220,38,38,0.18)] dark:text-rose-200"
+              [invalid]="true"
+            >
+              Security review is required before production deploy.
+            </tng-checkbox>
+          </section>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
+  </div>
 </article>

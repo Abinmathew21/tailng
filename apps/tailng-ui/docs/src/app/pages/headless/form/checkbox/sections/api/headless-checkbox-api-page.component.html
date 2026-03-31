@@ -1,0 +1,179 @@
+<article class="checkbox-api docs-section-page">
+  <div class="docs-section-page-main">
+    <h2 class="checkbox-api-title">API reference</h2>
+    <p class="checkbox-api-lead">
+      Headless checkbox is a single directive surface. Attach <code>tngCheckbox</code> to a native
+      <code>&lt;input&gt;</code> element and let the directive normalize checkbox semantics,
+      tri-state ARIA, and styling hooks for you.
+    </p>
+
+    <section id="tng-checkbox" class="docs-section-anchor checkbox-api-block">
+      <h3><code>tngCheckbox</code> (directive)</h3>
+      <p>
+        Attach to <code>input[tngCheckbox]</code>. The directive itself writes
+        <code>type=&quot;checkbox&quot;</code> on the host, so adding <code>type</code> manually is optional.
+      </p>
+      <tng-code-block
+        [code]="attachmentCode"
+        adapter="shiki"
+        language="html"
+        title="Directive attachment"
+        [theme]="codeBlockTheme()"
+        [lineNumbers]="false"
+        [wrap]="true"
+        [sanitizeHtml]="false"
+      ></tng-code-block>
+
+      <div class="checkbox-api-table-wrap">
+        <table class="checkbox-api-table">
+          <thead>
+            <tr>
+              <th scope="col">Input</th>
+              <th scope="col">Type</th>
+              <th scope="col">Default</th>
+              <th scope="col">Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>checked</code></td>
+              <td><code>boolean | '' | string</code></td>
+              <td><code>false</code></td>
+              <td>Controls the committed checked state.</td>
+            </tr>
+            <tr>
+              <td><code>indeterminate</code></td>
+              <td><code>boolean | '' | string</code></td>
+              <td><code>false</code></td>
+              <td>Enables mixed mode and resolves <code>aria-checked=&quot;mixed&quot;</code>.</td>
+            </tr>
+            <tr>
+              <td><code>disabled</code></td>
+              <td><code>boolean | '' | string</code></td>
+              <td><code>false</code></td>
+              <td>Blocks interaction and reflects the native <code>disabled</code> attribute.</td>
+            </tr>
+            <tr>
+              <td><code>readonly</code></td>
+              <td><code>boolean | '' | string</code></td>
+              <td><code>false</code></td>
+              <td>
+                Keeps the checkbox focusable, but user toggles are reverted after the native
+                <code>change</code> event fires.
+              </td>
+            </tr>
+            <tr>
+              <td><code>required</code></td>
+              <td><code>boolean | '' | string</code></td>
+              <td><code>false</code></td>
+              <td>Reflects the native <code>required</code> attribute and emits <code>data-required</code>.</td>
+            </tr>
+            <tr>
+              <td><code>invalid</code></td>
+              <td><code>boolean | null | '' | 'true' | 'false'</code></td>
+              <td><code>null</code></td>
+              <td>Explicit invalid override for styling and ARIA.</td>
+            </tr>
+            <tr>
+              <td><code>ariaInvalid</code></td>
+              <td><code>boolean | null | '' | 'true' | 'false'</code></td>
+              <td><code>null</code></td>
+              <td>Alternative invalid signal when validation is owned outside the checkbox itself.</td>
+            </tr>
+            <tr>
+              <td><code>ariaDescribedBy</code></td>
+              <td><code>string | null</code></td>
+              <td><code>null</code></td>
+              <td>Connects helper, description, or error text by id.</td>
+            </tr>
+            <tr>
+              <td><code>name</code>, <code>value</code></td>
+              <td><code>string | null</code></td>
+              <td><code>null</code></td>
+              <td>Supports native form submission with stable attribute reflection.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="output-attributes" class="docs-section-anchor checkbox-api-block">
+      <h3>Output attributes</h3>
+      <div class="checkbox-api-table-wrap">
+        <table class="checkbox-api-table">
+          <thead>
+            <tr>
+              <th scope="col">Attribute</th>
+              <th scope="col">When set</th>
+              <th scope="col">Purpose</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>type</code></td>
+              <td>Always</td>
+              <td>Forces the host to be a checkbox input.</td>
+            </tr>
+            <tr>
+              <td><code>aria-checked</code></td>
+              <td>Always</td>
+              <td>Resolves to <code>true</code>, <code>false</code>, or <code>mixed</code>.</td>
+            </tr>
+            <tr>
+              <td><code>data-state</code></td>
+              <td>Always</td>
+              <td>Unified state selector: <code>checked | unchecked | mixed</code>.</td>
+            </tr>
+            <tr>
+              <td><code>data-checked</code>, <code>data-unchecked</code>, <code>data-mixed</code></td>
+              <td>State specific</td>
+              <td>Convenient hooks for visuals that target exactly one state.</td>
+            </tr>
+            <tr>
+              <td><code>data-focused</code>, <code>data-focus-visible</code></td>
+              <td>During focus lifecycle</td>
+              <td>Lets pointer and keyboard focus styling diverge cleanly.</td>
+            </tr>
+            <tr>
+              <td><code>data-disabled</code>, <code>data-readonly</code>, <code>data-required</code>, <code>data-invalid</code></td>
+              <td>When active</td>
+              <td>Mirrors interaction and validation state on the native input.</td>
+            </tr>
+            <tr>
+              <td><code>aria-describedby</code>, <code>aria-invalid</code>, <code>aria-readonly</code></td>
+              <td>When configured</td>
+              <td>Reflects assistive state without requiring a wrapper component.</td>
+            </tr>
+            <tr>
+              <td><code>disabled</code>, <code>required</code>, <code>name</code>, <code>value</code></td>
+              <td>When configured</td>
+              <td>Preserves native form behavior and submission semantics.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="change-handling" class="docs-section-anchor checkbox-api-block">
+      <h3>Change handling</h3>
+      <p>
+        The directive does not emit a custom Angular output. Read the next state from the native
+        <code>change</code> event target and persist it in your own signal or store.
+      </p>
+      <p class="checkbox-api-note">
+        If the checkbox is <code>readonly</code>, the native event still fires, but the directive
+        restores the previous checked and mixed values on the same event cycle.
+      </p>
+      <tng-code-block
+        [code]="changeHandlingCode"
+        adapter="shiki"
+        language="ts"
+        title="Read native change events"
+        [theme]="codeBlockTheme()"
+        [lineNumbers]="false"
+        [wrap]="true"
+        [sanitizeHtml]="false"
+      ></tng-code-block>
+    </section>
+  </div>
+</article>

@@ -18,8 +18,13 @@ export const HEADLESS_FORM_ROUTES: Routes = [
     loadChildren: () =>
       import('./textarea/routes').then((m) => m.HEADLESS_FORM_TEXTAREA_ROUTES),
   },
+  {
+    path: 'checkbox',
+    loadChildren: () =>
+      import('./checkbox/routes').then((m) => m.HEADLESS_FORM_CHECKBOX_ROUTES),
+  },
   ...group.items
-    .filter((item) => item.slug !== 'input' && item.slug !== 'textarea')
+    .filter((item) => item.slug !== 'input' && item.slug !== 'textarea' && item.slug !== 'checkbox')
     .map((item) => ({
     path: item.slug,
     data: toHeadlessDocsRouteData(group, item),

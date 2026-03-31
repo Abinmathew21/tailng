@@ -23,6 +23,7 @@ function requireOwnableItem(
 
 const overviewItem = requireOwnableItem(OWNABLE_GETTING_STARTED_GROUP, 'overview');
 const quickStartItem = requireOwnableItem(OWNABLE_GETTING_STARTED_GROUP, 'quick-start');
+const checkboxItem = requireOwnableItem(OWNABLE_FORM_GROUP, 'checkbox');
 const inputItem = requireOwnableItem(OWNABLE_FORM_GROUP, 'input');
 const textareaItem = requireOwnableItem(OWNABLE_FORM_GROUP, 'textarea');
 const cliItem = requireOwnableItem(OWNABLE_TOOLING_GROUP, 'cli');
@@ -54,6 +55,14 @@ export const OWNABLE_ROUTES: Routes = [
         loadComponent: () =>
           import('./getting-started/quick-start/ownable-quick-start-page.component').then(
             (m) => m.OwnableQuickStartPageComponent,
+          ),
+      },
+      {
+        path: 'form/checkbox',
+        data: toOwnableDocsRouteData(OWNABLE_FORM_GROUP, checkboxItem),
+        loadComponent: () =>
+          import('./form/checkbox/ownable-checkbox-page.component').then(
+            (m) => m.OwnableCheckboxPageComponent,
           ),
       },
       {

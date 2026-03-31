@@ -11,19 +11,13 @@ import {
 import { TngTab, TngTabList } from '@tailng-ui/primitives';
 import { filter, map, startWith } from 'rxjs/operators';
 
-type CheckboxDocSectionId =
-  | 'api'
-  | 'examples'
-  | 'overview'
-  | 'ownable-install'
-  | 'styling';
+type CheckboxDocSectionId = 'api' | 'examples' | 'overview' | 'styling';
 
 const checkboxDocSectionIds: readonly CheckboxDocSectionId[] = [
   'overview',
   'api',
   'styling',
   'examples',
-  'ownable-install',
 ] as const;
 
 const defaultCheckboxDocSection: CheckboxDocSectionId = 'overview';

@@ -67,6 +67,13 @@ export const OWNABLE_FORM_GROUP: OwnableDocsGroup = {
   subtitle: 'Installable form components',
   items: [
     {
+      id: 'checkbox',
+      slug: 'checkbox',
+      title: 'Checkbox',
+      description:
+        'Ownable checkbox install with local wrapper source, form integration, and generated file structure.',
+    },
+    {
       id: 'input',
       slug: 'input',
       title: 'Input',

@@ -1,140 +1,141 @@
-<article class="checkbox-overview">
-  <h2 class="checkbox-overview-title">Checkbox overview</h2>
-  <p class="checkbox-overview-lead">
-    TailNG checkbox supports binary and tri-state selection with a headless primitive
-    (<code>tngCheckbox</code>) and a styled wrapper (<code>tng-checkbox</code>).
-  </p>
+<article class="docs-section-page checkbox-overview">
+  <div class="docs-section-page-main">
+    <section id="imports" class="docs-section-anchor checkbox-overview-block">
+      <h2 class="checkbox-overview-title">Checkbox</h2>
+      <p class="checkbox-overview-lead">
+        <code>&lt;tng-checkbox&gt;</code> is the component-layer checkbox for binary and mixed
+        selection flows. It keeps the checkbox UI ready to ship, forwards state through Angular
+        outputs and forms, and lets you restyle it by overriding semantic tokens on the host.
+      </p>
+      <p class="checkbox-overview-lead">
+        If you need total DOM ownership, state-specific box rendering, or bespoke animation inside
+        the control itself, move down to <strong>Headless &gt; Form &gt; Checkbox</strong> or use
+        the ownable install.
+      </p>
+      <tng-code-block
+        [code]="componentImportCode"
+        adapter="shiki"
+        language="ts"
+        title="Component import"
+        [theme]="codeBlockTheme()"
+        [lineNumbers]="false"
+        [wrap]="true"
+        [sanitizeHtml]="false"
+      ></tng-code-block>
+    </section>
 
-  <section class="checkbox-overview-block">
-    <h3>Imports</h3>
-    <p>Use primitives for full ownership, or use the styled component for fast adoption.</p>
-    <tng-code-block
-      [code]="primitiveImportCode"
-      adapter="shiki"
-      language="ts"
-      title="Primitive import"
-      [theme]="codeBlockTheme()"
-      [sanitizeHtml]="false"
-      [wrap]="true"
-      [lineNumbers]="false"
-    ></tng-code-block>
-    <tng-code-block
-      [code]="componentImportCode"
-      adapter="shiki"
-      language="ts"
-      title="Styled component import"
-      [theme]="codeBlockTheme()"
-      [sanitizeHtml]="false"
-      [wrap]="true"
-      [lineNumbers]="false"
-    ></tng-code-block>
-  </section>
+    <section id="usage-patterns" class="docs-section-anchor checkbox-overview-block">
+      <h3>Usage patterns</h3>
+      <p>
+        Start with projected label content and bind to <code>checkedChange</code> when the parent
+        owns the selected state.
+      </p>
+      <tng-code-block
+        [code]="componentUsageCode"
+        adapter="shiki"
+        language="html"
+        title="Controlled checkbox"
+        [theme]="codeBlockTheme()"
+        [lineNumbers]="false"
+        [wrap]="true"
+        [sanitizeHtml]="false"
+      ></tng-code-block>
+      <p>
+        Mixed state is still first-class at the component layer, so parent checklists can surface
+        partial completion without dropping into the primitive API.
+      </p>
+      <tng-code-block
+        [code]="triStateUsageCode"
+        adapter="shiki"
+        language="html"
+        title="Tri-state presentation"
+        [theme]="codeBlockTheme()"
+        [lineNumbers]="false"
+        [wrap]="true"
+        [sanitizeHtml]="false"
+      ></tng-code-block>
+    </section>
 
-  <section class="checkbox-overview-block">
-    <h3>Usage patterns</h3>
-    <tng-code-block
-      [code]="primitiveUsageCode"
-      adapter="shiki"
-      language="html"
-      title="Primitive usage"
-      [theme]="codeBlockTheme()"
-      [sanitizeHtml]="false"
-      [wrap]="true"
-      [lineNumbers]="false"
-    ></tng-code-block>
-    <tng-code-block
-      [code]="componentUsageCode"
-      adapter="shiki"
-      language="html"
-      title="Styled usage"
-      [theme]="codeBlockTheme()"
-      [sanitizeHtml]="false"
-      [wrap]="true"
-      [lineNumbers]="false"
-    ></tng-code-block>
-  </section>
-
-  <app-docs-example-tabs-section
-    class="checkbox-overview-block"
-    heading="Style variants"
-    description="Same checkbox behavior rendered with headless markup, plain CSS shell, and Tailwind utility styles."
-    ariaLabel="Checkbox style variants"
-    tabListAriaLabel="Checkbox style tabs"
-    defaultValue="headless"
-    [codeBlockTheme]="codeBlockTheme()"
-  >
-    <ng-template
-      appDocsExampleVariant
-      value="headless"
-      label="Headless"
-      panelTitle="Headless checkbox stack"
-      [codeTabs]="headlessCodeTabs"
-    >
-      <div class="checkbox-preview-stack">
-        <label class="checkbox-row">
-          <input tngCheckbox [checked]="true" />
-          <span>Email notifications</span>
-        </label>
-        <label class="checkbox-row">
-          <input tngCheckbox [indeterminate]="true" />
-          <span>Weekly digest (mixed)</span>
-        </label>
-        <label class="checkbox-row">
-          <input tngCheckbox [readonly]="true" [checked]="true" />
-          <span>Readonly legal acknowledgement</span>
-        </label>
-      </div>
-    </ng-template>
-
-    <ng-template
-      appDocsExampleVariant
-      value="plain-css"
-      label="Plain-CSS"
-      panelTitle="Plain CSS checkbox stack"
-      [codeTabs]="plainCssCodeTabs"
-    >
-      <div class="plain-checkbox-card">
-        <tng-checkbox [checked]="true">Email notifications</tng-checkbox>
-        <tng-checkbox [indeterminate]="true">Weekly digest (mixed)</tng-checkbox>
-        <tng-checkbox [readonly]="true" [checked]="true"
-          >Readonly legal acknowledgement</tng-checkbox
-        >
-      </div>
-    </ng-template>
-
-      <ng-template
-        appDocsExampleVariant
-        value="tailwind-css"
-        label="Tailwind CSS"
-        panelTitle="Tailwind checkbox stack"
-        [codeTabs]="tailwindCodeTabs"
+    <section id="style-variants" class="docs-section-anchor checkbox-overview-block">
+      <app-docs-example-tabs-section
+        heading="Style variants"
+        description="The same component contract can sit inside a plain CSS shell or a Tailwind shell without changing the checkbox API."
+        ariaLabel="Checkbox style variants"
+        tabListAriaLabel="Checkbox style tabs"
+        defaultValue="plain-css"
+        [codeBlockTheme]="codeBlockTheme()"
       >
-      <div
-        class="grid gap-3 rounded-xl border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-base)] p-4 shadow-[0_1px_2px_rgba(15,23,42,0.08)]"
-      >
-        <tng-checkbox [checked]="true" class="text-[var(--tng-semantic-foreground-primary)]"
-          >Email notifications</tng-checkbox
+        <ng-template
+          appDocsExampleVariant
+          value="plain-css"
+          label="Plain-CSS"
+          panelTitle="Release channel preferences (Plain-CSS)"
+          [codeTabs]="plainCssCodeTabs"
+          [stackblitzUrl]="stackblitzVanillaUrl"
         >
-        <tng-checkbox [indeterminate]="true" class="text-[var(--tng-semantic-foreground-primary)]"
-          >Weekly digest (mixed)</tng-checkbox
-        >
-        <tng-checkbox
-          [readonly]="true"
-          [checked]="true"
-          class="text-[var(--tng-semantic-foreground-primary)]"
-        >
-          >Readonly legal acknowledgement</tng-checkbox
-        >
-      </div>
-    </ng-template>
-  </app-docs-example-tabs-section>
+          <section class="doc-cmp-checkbox-overview-card">
+            <tng-checkbox class="doc-cmp-checkbox-overview-item" [checked]="true">
+              Email notifications
+            </tng-checkbox>
+            <tng-checkbox class="doc-cmp-checkbox-overview-item" [indeterminate]="true">
+              Weekly digest (mixed)
+            </tng-checkbox>
+            <tng-checkbox
+              class="doc-cmp-checkbox-overview-item doc-cmp-checkbox-overview-item--muted"
+              [readonly]="true"
+              [checked]="true"
+            >
+              Readonly legal acknowledgement
+            </tng-checkbox>
+          </section>
+        </ng-template>
 
-  <section class="checkbox-overview-block">
-    <h3>Accessibility baseline</h3>
-    <ul class="checkbox-overview-list">
-      <li>Tri-state uses <code>aria-checked="mixed"</code> automatically.</li>
-      <li>Readonly stays focusable, but toggling is blocked for keyboard and pointer.</li>
-      <li>State hooks are exposed via <code>data-*</code> attributes for styling.</li>
-    </ul>
-  </section>
+        <ng-template
+          appDocsExampleVariant
+          value="tailwind-css"
+          label="Tailwind CSS"
+          panelTitle="Release channel preferences (Tailwind CSS)"
+          [codeTabs]="tailwindCodeTabs"
+          [stackblitzUrl]="stackblitzTailwindUrl"
+        >
+          <section
+            class="grid w-full max-w-[30rem] gap-3 rounded-2xl border border-slate-300 bg-white/90 p-4 shadow-sm dark:border-slate-700 dark:bg-slate-950/60"
+          >
+            <tng-checkbox
+              class="block text-slate-900 [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-focus-ring:rgba(37,99,235,0.22)] dark:text-slate-100"
+              [checked]="true"
+            >
+              Email notifications
+            </tng-checkbox>
+            <tng-checkbox
+              class="block text-slate-900 [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-focus-ring:rgba(37,99,235,0.22)] dark:text-slate-100"
+              [indeterminate]="true"
+            >
+              Weekly digest (mixed)
+            </tng-checkbox>
+            <tng-checkbox
+              class="block text-slate-500 [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-focus-ring:rgba(37,99,235,0.22)] dark:text-slate-400"
+              [readonly]="true"
+              [checked]="true"
+            >
+              Readonly legal acknowledgement
+            </tng-checkbox>
+          </section>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
+
+    <section id="accessibility-baseline" class="docs-section-anchor checkbox-overview-block">
+      <h3>Accessibility baseline</h3>
+      <ul class="checkbox-overview-list">
+        <li>Projected content becomes the visible label and accessible name.</li>
+        <li>Mixed state resolves to <code>aria-checked="mixed"</code> automatically.</li>
+        <li>Readonly stays focusable, but user toggles are reverted before state is committed.</li>
+        <li>
+          For product-specific visuals inside the checkbox box itself, use the headless or ownable
+          surfaces instead of relying on undocumented internal markup.
+        </li>
+      </ul>
+    </section>
+  </div>
 </article>

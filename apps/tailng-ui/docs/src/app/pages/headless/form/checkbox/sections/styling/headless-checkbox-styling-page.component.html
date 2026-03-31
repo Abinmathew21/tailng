@@ -1,0 +1,136 @@
+<article class="checkbox-styling docs-section-page">
+  <div class="docs-section-page-main">
+    <h2 class="checkbox-styling-title">Styling contract</h2>
+    <p class="checkbox-styling-lead">
+      Headless checkbox styling is native-first. You own the label shell and can target state through
+      <code>data-state</code>, <code>data-focus-visible</code>, <code>data-invalid</code>, and the
+      other emitted attributes on the input itself.
+    </p>
+
+    <section id="css-contracts" class="docs-section-anchor checkbox-styling-block">
+      <h3>CSS contracts</h3>
+      <div class="checkbox-styling-table-wrap">
+        <table class="checkbox-styling-table">
+          <thead>
+            <tr>
+              <th scope="col">Selector</th>
+              <th scope="col">Why it exists</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>input[tngCheckbox]</code></td>
+              <td>Base selector for native sizing, accent color, and cursor policies.</td>
+            </tr>
+            <tr>
+              <td><code>[data-state='checked' | 'unchecked' | 'mixed']</code></td>
+              <td>Single source of truth for visual state changes.</td>
+            </tr>
+            <tr>
+              <td><code>[data-focus-visible]</code></td>
+              <td>Keyboard-aware focus styling hook.</td>
+            </tr>
+            <tr>
+              <td><code>[data-invalid]</code>, <code>[data-readonly]</code>, <code>[data-disabled]</code></td>
+              <td>State selectors for validation and interaction rules.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="state-selectors" class="docs-section-anchor checkbox-styling-block">
+      <h3>State selectors</h3>
+      <tng-code-block
+        [code]="stateSelectorSnippet"
+        adapter="shiki"
+        language="css"
+        title="checkbox.states.css"
+        [theme]="codeBlockTheme()"
+        [lineNumbers]="false"
+        [wrap]="true"
+        [sanitizeHtml]="false"
+      ></tng-code-block>
+    </section>
+
+    <section id="example-shells" class="docs-section-anchor checkbox-styling-block">
+      <h3>Example shells</h3>
+      <tng-code-block
+        [code]="shellSnippet"
+        adapter="shiki"
+        language="css"
+        title="checkbox.shell.css"
+        [theme]="codeBlockTheme()"
+        [lineNumbers]="false"
+        [wrap]="true"
+        [sanitizeHtml]="false"
+      ></tng-code-block>
+
+      <app-docs-example-tabs-section
+        heading="Status filter shell"
+        description="The primitive stays native while your wrapper card and label rows carry the visual language."
+        ariaLabel="Headless checkbox styling variants"
+        tabListAriaLabel="Headless checkbox styling tabs"
+        defaultValue="plain-css"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <ng-template
+          appDocsExampleVariant
+          value="plain-css"
+          label="Plain-CSS"
+          panelTitle="Status filter shell (Plain-CSS)"
+          [codeTabs]="plainCssCodeTabs"
+          [stackblitzUrl]="stackblitzVanillaUrl"
+        >
+          <section class="checkbox-filter-card">
+            <label class="checkbox-filter-card__row">
+              <input type="checkbox" tngCheckbox [checked]="true" class="checkbox-filter-card__control" />
+              <span>Show release blockers</span>
+            </label>
+            <label class="checkbox-filter-card__row">
+              <input
+                type="checkbox"
+                tngCheckbox
+                [indeterminate]="true"
+                class="checkbox-filter-card__control"
+              />
+              <span>Escalated work items</span>
+            </label>
+          </section>
+        </ng-template>
+
+        <ng-template
+          appDocsExampleVariant
+          value="tailwind-css"
+          label="Tailwind CSS"
+          panelTitle="Status filter shell (Tailwind CSS)"
+          [codeTabs]="tailwindCodeTabs"
+          [stackblitzUrl]="stackblitzTailwindUrl"
+        >
+          <section
+            class="grid w-full max-w-[26rem] gap-3 rounded-xl border border-slate-300 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-950/60"
+          >
+            <label class="inline-flex items-center gap-3 text-sm font-medium text-slate-900 dark:text-slate-100">
+              <input
+                type="checkbox"
+                tngCheckbox
+                [checked]="true"
+                class="h-4 w-4 rounded border-slate-300 text-blue-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/40 dark:border-slate-600"
+              />
+              <span>Show release blockers</span>
+            </label>
+            <label class="inline-flex items-center gap-3 text-sm font-medium text-slate-900 dark:text-slate-100">
+              <input
+                type="checkbox"
+                tngCheckbox
+                [indeterminate]="true"
+                class="h-4 w-4 rounded border-slate-300 text-blue-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/40 dark:border-slate-600"
+              />
+              <span>Escalated work items</span>
+            </label>
+          </section>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
+  </div>
+</article>

@@ -1,24 +1,34 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, inject, signal, type OnDestroy } from '@angular/core';
-import { observeDocsCodeThemeChanges, resolveDocsCodeBlockTheme } from '../../../../../../shared/util';
 import { TngCheckboxComponent } from '@tailng-ui/components';
-import { TngCheckbox as TngCheckboxPrimitive } from '@tailng-ui/primitives';
-import { type DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
+import type { DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
 import {
   DocsExampleTabsSectionComponent,
   DocsExampleVariantDirective,
 } from '../../../../../../shared/example-tabs-section/docs-example-tabs-section.component';
+import {
+  observeDocsCodeThemeChanges,
+  resolveDocsCodeBlockTheme,
+} from '../../../../../../shared/util';
+import { stackblitzTailwindUrl, stackblitzVanillaUrl } from '../../checkbox.util';
 
-const deploymentRows = ['build', 'security', 'monitoring'] as const;
-type DeploymentRow = (typeof deploymentRows)[number];
-type ExampleVariant = 'headless' | 'plain-css' | 'tailwind-css';
+const deploymentChecks = ['build', 'security', 'monitoring'] as const;
+type DeploymentCheck = (typeof deploymentChecks)[number];
+type ExampleVariant = 'plain-css' | 'tailwind-css';
 
-function createCodeTabs(
-  baseName: string,
-  tsCode: string,
-  htmlCode: string,
-  cssCode: string,
-): readonly DocsExampleCodeTab[] {
+type CreateCodeTabsOptions = {
+  readonly baseName: string;
+  readonly cssCode: string;
+  readonly htmlCode: string;
+  readonly tsCode: string;
+};
+
+function createCodeTabs({
+  baseName,
+  cssCode,
+  htmlCode,
+  tsCode,
+}: CreateCodeTabsOptions): readonly DocsExampleCodeTab[] {
   return Object.freeze([
     {
       value: 'ts',
@@ -46,12 +56,7 @@ function createCodeTabs(
 
 @Component({
   selector: 'app-checkbox-examples-page',
-  imports: [
-    DocsExampleTabsSectionComponent,
-    DocsExampleVariantDirective,
-    TngCheckboxComponent,
-    TngCheckboxPrimitive,
-  ],
+  imports: [DocsExampleTabsSectionComponent, DocsExampleVariantDirective, TngCheckboxComponent],
   templateUrl: './checkbox-examples-page.component.html',
   styleUrl: './checkbox-examples-page.component.css',
 })
@@ -61,388 +66,414 @@ export class CheckboxExamplesPageComponent implements OnDestroy {
   public readonly codeBlockTheme = signal<'github-dark' | 'github-light'>(
     resolveDocsCodeBlockTheme(this.documentRef),
   );
-  private readonly colorSchemeObserver = observeDocsCodeThemeChanges(this.documentRef, this.codeBlockTheme);
-
-  protected readonly rows = deploymentRows;
-
-  private readonly headlessRows = signal<ReadonlySet<DeploymentRow>>(new Set(['build']));
-  private readonly plainCssRows = signal<ReadonlySet<DeploymentRow>>(new Set(['build']));
-  private readonly tailwindRows = signal<ReadonlySet<DeploymentRow>>(new Set(['build']));
-
-  protected readonly consentHeadlessCodeTabs = createCodeTabs(
-    'checkbox-consent-headless',
-    [
-      'import { Component } from "@angular/core";',
-      'import { TngCheckbox } from "@tailng-ui/primitives";',
-      '',
-      '@Component({',
-      '  imports: [TngCheckbox],',
-      "  templateUrl: './checkbox-consent-headless.component.html',",
-      "  styleUrl: './checkbox-consent-headless.component.css',",
-      '})',
-      'export class CheckboxConsentHeadlessComponent {}',
-      '',
-    ].join('\n'),
-    [
-      '<div class="checkbox-example-stack">',
-      '  <label class="checkbox-row">',
-      '    <input tngCheckbox [checked]="true" />',
-      '    <span>I confirm release notes are reviewed.</span>',
-      '  </label>',
-      '  <label class="checkbox-row">',
-      '    <input tngCheckbox [readonly]="true" [checked]="true" />',
-      '    <span>Legal policy accepted (readonly).</span>',
-      '  </label>',
-      '</div>',
-      '',
-    ].join('\n'),
-    [
-      '.checkbox-example-stack {',
-      '  display: grid;',
-      '  gap: 0.65rem;',
-      '}',
-      '',
-      '.checkbox-row {',
-      '  align-items: center;',
-      '  color: var(--tng-semantic-foreground-primary);',
-      '  display: inline-flex;',
-      '  gap: 0.55rem;',
-      '}',
-      '',
-    ].join('\n'),
+  private readonly colorSchemeObserver = observeDocsCodeThemeChanges(
+    this.documentRef,
+    this.codeBlockTheme,
   );
 
-  protected readonly consentPlainCssCodeTabs = createCodeTabs(
-    'checkbox-consent-plain-css',
-    [
-      'import { Component } from "@angular/core";',
-      'import { TngCheckboxComponent } from "@tailng-ui/components";',
-      '',
-      '@Component({',
-      '  imports: [TngCheckboxComponent],',
-      "  templateUrl: './checkbox-consent-plain-css.component.html',",
-      "  styleUrl: './checkbox-consent-plain-css.component.css',",
-      '})',
-      'export class CheckboxConsentPlainCssComponent {}',
-      '',
-    ].join('\n'),
-    [
-      '<div class="checkbox-example-stack checkbox-example-stack--plain">',
-      '  <tng-checkbox [checked]="true">I confirm release notes are reviewed.</tng-checkbox>',
-      '  <tng-checkbox [readonly]="true" [checked]="true">Legal policy accepted (readonly).</tng-checkbox>',
-      '</div>',
-      '',
-    ].join('\n'),
-    [
-      '.checkbox-example-stack--plain {',
-      '  background: var(--tng-semantic-background-surface);',
-      '  border: 1px solid var(--tng-semantic-border-subtle);',
-      '  border-radius: 0.75rem;',
-      '  padding: 0.75rem 0.9rem;',
-      '}',
-      '',
-    ].join('\n'),
+  protected readonly stackblitzVanillaUrl = stackblitzVanillaUrl;
+  protected readonly stackblitzTailwindUrl = stackblitzTailwindUrl;
+
+  protected readonly rows = deploymentChecks;
+
+  private readonly plainCssRows = signal<ReadonlySet<DeploymentCheck>>(
+    new Set<DeploymentCheck>(['build']),
+  );
+  private readonly tailwindRows = signal<ReadonlySet<DeploymentCheck>>(
+    new Set<DeploymentCheck>(['build']),
   );
 
-  protected readonly consentTailwindCodeTabs = createCodeTabs(
-    'checkbox-consent-tailwind',
-    [
-      'import { Component } from "@angular/core";',
-      'import { TngCheckboxComponent } from "@tailng-ui/components";',
+  protected readonly consentPlainCssCodeTabs = createCodeTabs({
+    baseName: 'doc-cmp-checkbox-consent-plain',
+    tsCode: [
+      "import { Component } from '@angular/core';",
+      "import { TngCheckboxComponent } from '@tailng-ui/components';",
       '',
       '@Component({',
+      "  selector: 'app-doc-cmp-checkbox-consent-plain',",
+      '  standalone: true,',
       '  imports: [TngCheckboxComponent],',
-      "  templateUrl: './checkbox-consent-tailwind.component.html',",
+      "  templateUrl: './doc-cmp-checkbox-consent-plain.component.html',",
+      "  styleUrl: './doc-cmp-checkbox-consent-plain.component.css',",
       '})',
-      'export class CheckboxConsentTailwindComponent {}',
+      'export class DocCmpCheckboxConsentPlainComponent {}',
       '',
     ].join('\n'),
-    [
-      '<div class="grid gap-3 rounded-xl border border-slate-300 bg-white/80 p-4 dark:border-slate-700 dark:bg-slate-900/60">',
-      '  <tng-checkbox [checked]="true" class="text-slate-900 dark:text-slate-100">',
+    htmlCode: [
+      '<section class="doc-cmp-checkbox-consent-panel">',
+      '  <tng-checkbox class="doc-cmp-checkbox-consent-item" [checked]="true">',
       '    I confirm release notes are reviewed.',
       '  </tng-checkbox>',
-      '  <tng-checkbox [readonly]="true" [checked]="true" class="text-slate-900 dark:text-slate-100">',
+      '  <tng-checkbox',
+      '    class="doc-cmp-checkbox-consent-item doc-cmp-checkbox-consent-item--muted"',
+      '    [readonly]="true"',
+      '    [checked]="true"',
+      '  >',
       '    Legal policy accepted (readonly).',
       '  </tng-checkbox>',
-      '</div>',
+      '</section>',
       '',
     ].join('\n'),
-    '/* Tailwind utilities are applied directly in the template. */',
-  );
-
-  protected readonly triStateHeadlessCodeTabs = createCodeTabs(
-    'checkbox-tri-state-headless',
-    [
-      'import { Component, signal } from "@angular/core";',
-      'import { TngCheckbox } from "@tailng-ui/primitives";',
-      '',
-      '@Component({',
-      '  imports: [TngCheckbox],',
-      "  templateUrl: './checkbox-tri-state-headless.component.html',",
-      "  styleUrl: './checkbox-tri-state-headless.component.css',",
-      '})',
-      'export class CheckboxTriStateHeadlessComponent {',
-      "  readonly rows = ['build', 'security', 'monitoring'] as const;",
-      "  readonly selected = signal(new Set(['build']));",
-      '}',
-      '',
-    ].join('\n'),
-    [
-      '<div class="checkbox-example-stack checkbox-example-stack--tri-state">',
-      '  <label class="checkbox-row">',
-      '    <input',
-      '      tngCheckbox',
-      '      [checked]="areAllRowsChecked(\'headless\')"',
-      '      [indeterminate]="isMixedRowsChecked(\'headless\')"',
-      '      (change)="onHeadlessSelectAllChange($event)"',
-      '    />',
-      '    <span>Select all deployment checks</span>',
-      '  </label>',
-      '',
-      '  <div class="checkbox-example-children">',
-      '    @for (row of rows; track row) {',
-      '      <label class="checkbox-row">',
-      '        <input',
-      '          tngCheckbox',
-      '          [checked]="isRowChecked(\'headless\', row)"',
-      '          (change)="onHeadlessRowChange(row, $event)"',
-      '        />',
-      '        <span>{{ row }}</span>',
-      '      </label>',
-      '    }',
-      '  </div>',
-      '',
-      '  <p class="checkbox-example-summary">selected: {{ selectedSummary(\'headless\') }}</p>',
-      '</div>',
-      '',
-    ].join('\n'),
-    [
-      '.checkbox-example-stack--tri-state {',
-      '  background: color-mix(in srgb, var(--tng-semantic-background-base) 95%, transparent);',
-      '  border: 1px solid var(--tng-semantic-border-subtle);',
-      '  border-radius: 0.75rem;',
-      '  padding: 0.75rem 0.9rem;',
-      '}',
-      '',
-      '.checkbox-example-children {',
-      '  border-left: 2px solid var(--tng-semantic-border-subtle);',
+    cssCode: [
+      '.doc-cmp-checkbox-consent-panel {',
       '  display: grid;',
-      '  gap: 0.55rem;',
-      '  margin-left: 0.35rem;',
-      '  padding-left: 0.7rem;',
+      '  gap: 0.75rem;',
+      '  inline-size: min(100%, 32rem);',
+      '  margin-inline: auto;',
+      '  padding: 1rem;',
+      '  border: 1px solid #cbd5e1;',
+      '  border-radius: 1rem;',
+      '  background: rgba(255, 255, 255, 0.92);',
+      '}',
+      '',
+      '.doc-cmp-checkbox-consent-item {',
+      '  display: block;',
+      '  --tng-semantic-accent-brand: #2563eb;',
+      '  --tng-semantic-focus-ring: rgba(37, 99, 235, 0.22);',
+      '}',
+      '',
+      '.doc-cmp-checkbox-consent-item--muted {',
+      '  --tng-semantic-foreground-primary: #64748b;',
+      '  --tng-semantic-foreground-secondary: #64748b;',
       '}',
       '',
     ].join('\n'),
-  );
+  });
 
-  protected readonly triStatePlainCssCodeTabs = createCodeTabs(
-    'checkbox-tri-state-plain-css',
-    [
-      'import { Component, signal } from "@angular/core";',
-      'import { TngCheckboxComponent } from "@tailng-ui/components";',
+  protected readonly consentTailwindCodeTabs = createCodeTabs({
+    baseName: 'doc-cmp-checkbox-consent-tailwind',
+    tsCode: [
+      "import { Component } from '@angular/core';",
+      "import { TngCheckboxComponent } from '@tailng-ui/components';",
       '',
       '@Component({',
+      "  selector: 'app-doc-cmp-checkbox-consent-tailwind',",
+      '  standalone: true,',
       '  imports: [TngCheckboxComponent],',
-      "  templateUrl: './checkbox-tri-state-plain-css.component.html',",
-      "  styleUrl: './checkbox-tri-state-plain-css.component.css',",
+      "  templateUrl: './doc-cmp-checkbox-consent-tailwind.component.html',",
       '})',
-      'export class CheckboxTriStatePlainCssComponent {',
-      "  readonly rows = ['build', 'security', 'monitoring'] as const;",
-      "  readonly selected = signal(new Set(['build']));",
+      'export class DocCmpCheckboxConsentTailwindComponent {}',
+      '',
+    ].join('\n'),
+    htmlCode: [
+      '<section',
+      '  class="grid w-full max-w-[32rem] gap-3 rounded-2xl border border-slate-300 bg-white/90 p-4 shadow-sm dark:border-slate-700 dark:bg-slate-950/60"',
+      '>',
+      '  <tng-checkbox',
+      '    class="block text-slate-900 [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-focus-ring:rgba(37,99,235,0.22)] dark:text-slate-100"',
+      '    [checked]="true"',
+      '  >',
+      '    I confirm release notes are reviewed.',
+      '  </tng-checkbox>',
+      '  <tng-checkbox',
+      '    class="block text-slate-500 [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-focus-ring:rgba(37,99,235,0.22)] dark:text-slate-400"',
+      '    [readonly]="true"',
+      '    [checked]="true"',
+      '  >',
+      '    Legal policy accepted (readonly).',
+      '  </tng-checkbox>',
+      '</section>',
+      '',
+    ].join('\n'),
+    cssCode: '/* Tailwind utilities are applied directly in the template. */',
+  });
+
+  protected readonly triStatePlainCssCodeTabs = createCodeTabs({
+    baseName: 'doc-cmp-checkbox-tri-state-plain',
+    tsCode: [
+      "import { Component, signal } from '@angular/core';",
+      "import { TngCheckboxComponent } from '@tailng-ui/components';",
+      '',
+      "type PlainDeploymentCheck = 'build' | 'security' | 'monitoring';",
+      '',
+      '@Component({',
+      "  selector: 'app-doc-cmp-checkbox-tri-state-plain',",
+      '  standalone: true,',
+      '  imports: [TngCheckboxComponent],',
+      "  templateUrl: './doc-cmp-checkbox-tri-state-plain.component.html',",
+      "  styleUrl: './doc-cmp-checkbox-tri-state-plain.component.css',",
+      '})',
+      'export class DocCmpCheckboxTriStatePlainComponent {',
+      "  readonly deploymentChecks: readonly PlainDeploymentCheck[] = ['build', 'security', 'monitoring'];",
+      "  readonly selectedDeploymentChecks = signal<ReadonlySet<PlainDeploymentCheck>>(new Set(['build']));",
+      '',
+      '  isCheckSelected(check: PlainDeploymentCheck): boolean {',
+      '    return this.selectedDeploymentChecks().has(check);',
+      '  }',
+      '',
+      '  areAllChecksSelected(): boolean {',
+      '    return this.selectedDeploymentChecks().size === this.deploymentChecks.length;',
+      '  }',
+      '',
+      '  isChecklistMixed(): boolean {',
+      '    const count = this.selectedDeploymentChecks().size;',
+      '    return count > 0 && count < this.deploymentChecks.length;',
+      '  }',
+      '',
+      '  onSelectAllChange(checked: boolean): void {',
+      '    this.selectedDeploymentChecks.set(',
+      '      checked ? new Set(this.deploymentChecks) : new Set(),',
+      '    );',
+      '  }',
+      '',
+      '  onCheckChange(check: PlainDeploymentCheck, checked: boolean): void {',
+      '    const next = new Set(this.selectedDeploymentChecks());',
+      '    if (checked) {',
+      '      next.add(check);',
+      '    } else {',
+      '      next.delete(check);',
+      '    }',
+      '',
+      '    this.selectedDeploymentChecks.set(next);',
+      '  }',
+      '',
+      '  summary(): string {',
+      '    const selected = Array.from(this.selectedDeploymentChecks());',
+      "    return selected.length > 0 ? selected.join(', ') : 'none';",
+      '  }',
       '}',
       '',
     ].join('\n'),
-    [
-      '<div class="checkbox-example-stack checkbox-example-stack--tri-state">',
+    htmlCode: [
+      '<section class="doc-cmp-checkbox-tri-state-card">',
       '  <tng-checkbox',
-      '    [checked]="areAllRowsChecked(\'plain-css\')"',
-      '    [indeterminate]="isMixedRowsChecked(\'plain-css\')"',
-      '    (checkedChange)="onSelectAllChange(\'plain-css\', $event)"',
+      '    class="doc-cmp-checkbox-tri-state-item"',
+      '    [checked]="areAllChecksSelected()"',
+      '    [indeterminate]="isChecklistMixed()"',
+      '    (checkedChange)="onSelectAllChange($event)"',
       '  >',
       '    Select all deployment checks',
       '  </tng-checkbox>',
       '',
-      '  <div class="checkbox-example-children">',
-      '    @for (row of rows; track row) {',
+      '  <div class="doc-cmp-checkbox-tri-state-children">',
+      '    @for (check of deploymentChecks; track check) {',
       '      <tng-checkbox',
-      '        [checked]="isRowChecked(\'plain-css\', row)"',
-      '        (checkedChange)="onRowChange(\'plain-css\', row, $event)"',
+      '        class="doc-cmp-checkbox-tri-state-item"',
+      '        [checked]="isCheckSelected(check)"',
+      '        (checkedChange)="onCheckChange(check, $event)"',
       '      >',
-      '        {{ row }}',
+      '        {{ check }}',
       '      </tng-checkbox>',
       '    }',
       '  </div>',
       '',
-      '  <p class="checkbox-example-summary">selected: {{ selectedSummary(\'plain-css\') }}</p>',
-      '</div>',
+      '  <p class="doc-cmp-checkbox-tri-state-summary">selected: {{ summary() }}</p>',
+      '</section>',
       '',
     ].join('\n'),
-    [
-      '.checkbox-example-stack--tri-state {',
-      '  background: color-mix(in srgb, var(--tng-semantic-background-base) 95%, transparent);',
-      '  border: 1px solid var(--tng-semantic-border-subtle);',
-      '  border-radius: 0.75rem;',
-      '  padding: 0.75rem 0.9rem;',
-      '}',
-      '',
-      '.checkbox-example-children {',
-      '  border-left: 2px solid var(--tng-semantic-border-subtle);',
+    cssCode: [
+      '.doc-cmp-checkbox-tri-state-card {',
       '  display: grid;',
-      '  gap: 0.55rem;',
-      '  margin-left: 0.35rem;',
-      '  padding-left: 0.7rem;',
+      '  gap: 0.75rem;',
+      '  inline-size: min(100%, 32rem);',
+      '  margin-inline: auto;',
+      '  padding: 1rem;',
+      '  border: 1px solid #cbd5e1;',
+      '  border-radius: 1rem;',
+      '  background: rgba(255, 255, 255, 0.92);',
+      '}',
+      '',
+      '.doc-cmp-checkbox-tri-state-item {',
+      '  display: block;',
+      '  --tng-semantic-accent-brand: #2563eb;',
+      '  --tng-semantic-focus-ring: rgba(37, 99, 235, 0.22);',
+      '}',
+      '',
+      '.doc-cmp-checkbox-tri-state-children {',
+      '  display: grid;',
+      '  gap: 0.65rem;',
+      '  margin-left: 0.5rem;',
+      '  padding-left: 0.85rem;',
+      '  border-left: 2px solid #cbd5e1;',
+      '}',
+      '',
+      '.doc-cmp-checkbox-tri-state-summary {',
+      '  margin: 0;',
+      '  color: #64748b;',
+      '  font-size: 0.82rem;',
+      '  text-transform: lowercase;',
       '}',
       '',
     ].join('\n'),
-  );
+  });
 
-  protected readonly triStateTailwindCodeTabs = createCodeTabs(
-    'checkbox-tri-state-tailwind',
-    [
-      'import { Component, signal } from "@angular/core";',
-      'import { TngCheckboxComponent } from "@tailng-ui/components";',
+  protected readonly triStateTailwindCodeTabs = createCodeTabs({
+    baseName: 'doc-cmp-checkbox-tri-state-tailwind',
+    tsCode: [
+      "import { Component, signal } from '@angular/core';",
+      "import { TngCheckboxComponent } from '@tailng-ui/components';",
+      '',
+      "type TailwindDeploymentCheck = 'build' | 'security' | 'monitoring';",
       '',
       '@Component({',
+      "  selector: 'app-doc-cmp-checkbox-tri-state-tailwind',",
+      '  standalone: true,',
       '  imports: [TngCheckboxComponent],',
-      "  templateUrl: './checkbox-tri-state-tailwind.component.html',",
+      "  templateUrl: './doc-cmp-checkbox-tri-state-tailwind.component.html',",
       '})',
-      'export class CheckboxTriStateTailwindComponent {',
-      "  readonly rows = ['build', 'security', 'monitoring'] as const;",
-      "  readonly selected = signal(new Set(['build']));",
+      'export class DocCmpCheckboxTriStateTailwindComponent {',
+      "  readonly releaseChecks: readonly TailwindDeploymentCheck[] = ['build', 'security', 'monitoring'];",
+      "  readonly selectedReleaseChecks = signal<ReadonlySet<TailwindDeploymentCheck>>(new Set(['build']));",
+      '',
+      '  isReleaseCheckSelected(check: TailwindDeploymentCheck): boolean {',
+      '    return this.selectedReleaseChecks().has(check);',
+      '  }',
+      '',
+      '  areAllReleaseChecksSelected(): boolean {',
+      '    return this.selectedReleaseChecks().size === this.releaseChecks.length;',
+      '  }',
+      '',
+      '  isReleaseChecklistMixed(): boolean {',
+      '    const count = this.selectedReleaseChecks().size;',
+      '    return count > 0 && count < this.releaseChecks.length;',
+      '  }',
+      '',
+      '  onReleaseChecklistChange(checked: boolean): void {',
+      '    this.selectedReleaseChecks.set(',
+      '      checked ? new Set(this.releaseChecks) : new Set(),',
+      '    );',
+      '  }',
+      '',
+      '  onReleaseCheckChange(check: TailwindDeploymentCheck, checked: boolean): void {',
+      '    const next = new Set(this.selectedReleaseChecks());',
+      '    if (checked) {',
+      '      next.add(check);',
+      '    } else {',
+      '      next.delete(check);',
+      '    }',
+      '',
+      '    this.selectedReleaseChecks.set(next);',
+      '  }',
+      '',
+      '  summary(): string {',
+      '    const selected = Array.from(this.selectedReleaseChecks());',
+      "    return selected.length > 0 ? selected.join(', ') : 'none';",
+      '  }',
       '}',
       '',
     ].join('\n'),
-    [
-      '<div class="grid gap-3 rounded-xl border border-slate-300 bg-white/80 p-4 dark:border-slate-700 dark:bg-slate-900/60">',
+    htmlCode: [
+      '<section',
+      '  class="grid w-full max-w-[32rem] gap-3 rounded-2xl border border-slate-300 bg-white/90 p-4 shadow-sm dark:border-slate-700 dark:bg-slate-950/60"',
+      '>',
       '  <tng-checkbox',
-      '    [checked]="areAllRowsChecked(\'tailwind-css\')"',
-      '    [indeterminate]="isMixedRowsChecked(\'tailwind-css\')"',
-      '    (checkedChange)="onSelectAllChange(\'tailwind-css\', $event)"',
-      '    class="text-slate-900 dark:text-slate-100"',
+      '    class="block text-slate-900 [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-focus-ring:rgba(37,99,235,0.22)] dark:text-slate-100"',
+      '    [checked]="areAllReleaseChecksSelected()"',
+      '    [indeterminate]="isReleaseChecklistMixed()"',
+      '    (checkedChange)="onReleaseChecklistChange($event)"',
       '  >',
       '    Select all deployment checks',
       '  </tng-checkbox>',
       '',
       '  <div class="ml-2 grid gap-2 border-l-2 border-slate-300 pl-3 dark:border-slate-600">',
-      '    @for (row of rows; track row) {',
+      '    @for (check of releaseChecks; track check) {',
       '      <tng-checkbox',
-      '        [checked]="isRowChecked(\'tailwind-css\', row)"',
-      '        (checkedChange)="onRowChange(\'tailwind-css\', row, $event)"',
-      '        class="text-slate-900 dark:text-slate-100"',
+      '        class="block text-slate-900 [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-focus-ring:rgba(37,99,235,0.22)] dark:text-slate-100"',
+      '        [checked]="isReleaseCheckSelected(check)"',
+      '        (checkedChange)="onReleaseCheckChange(check, $event)"',
       '      >',
-      '        {{ row }}',
+      '        {{ check }}',
       '      </tng-checkbox>',
       '    }',
       '  </div>',
       '',
       '  <p class="text-xs lowercase text-slate-600 dark:text-slate-300">',
-      '    selected: {{ selectedSummary(\'tailwind-css\') }}',
+      '    selected: {{ summary() }}',
       '  </p>',
-      '</div>',
+      '</section>',
       '',
     ].join('\n'),
-    '/* Tailwind utilities are applied directly in the template. */',
-  );
+    cssCode: '/* Tailwind utilities are applied directly in the template. */',
+  });
 
-  protected readonly validationHeadlessCodeTabs = createCodeTabs(
-    'checkbox-validation-headless',
-    [
-      'import { Component } from "@angular/core";',
-      'import { TngCheckbox } from "@tailng-ui/primitives";',
+  protected readonly validationPlainCssCodeTabs = createCodeTabs({
+    baseName: 'doc-cmp-checkbox-validation-plain',
+    tsCode: [
+      "import { Component } from '@angular/core';",
+      "import { TngCheckboxComponent } from '@tailng-ui/components';",
       '',
       '@Component({',
-      '  imports: [TngCheckbox],',
-      "  templateUrl: './checkbox-validation-headless.component.html',",
-      "  styleUrl: './checkbox-validation-headless.component.css',",
-      '})',
-      'export class CheckboxValidationHeadlessComponent {}',
-      '',
-    ].join('\n'),
-    [
-      '<label class="checkbox-row">',
-      '  <input tngCheckbox [invalid]="true" />',
-      '  <span>Security review is required before production deploy.</span>',
-      '</label>',
-      '',
-    ].join('\n'),
-    [
-      '.checkbox-row {',
-      '  align-items: center;',
-      '  color: var(--tng-semantic-foreground-primary);',
-      '  display: inline-flex;',
-      '  gap: 0.55rem;',
-      '}',
-      '',
-    ].join('\n'),
-  );
-
-  protected readonly validationPlainCssCodeTabs = createCodeTabs(
-    'checkbox-validation-plain-css',
-    [
-      'import { Component } from "@angular/core";',
-      'import { TngCheckboxComponent } from "@tailng-ui/components";',
-      '',
-      '@Component({',
+      "  selector: 'app-doc-cmp-checkbox-validation-plain',",
+      '  standalone: true,',
       '  imports: [TngCheckboxComponent],',
-      "  templateUrl: './checkbox-validation-plain-css.component.html',",
-      "  styleUrl: './checkbox-validation-plain-css.component.css',",
+      "  templateUrl: './doc-cmp-checkbox-validation-plain.component.html',",
+      "  styleUrl: './doc-cmp-checkbox-validation-plain.component.css',",
       '})',
-      'export class CheckboxValidationPlainCssComponent {}',
+      'export class DocCmpCheckboxValidationPlainComponent {}',
       '',
     ].join('\n'),
-    [
-      '<div class="checkbox-example-stack">',
-      '  <tng-checkbox [invalid]="true">',
+    htmlCode: [
+      '<section class="doc-cmp-checkbox-validation-panel">',
+      '  <tng-checkbox class="doc-cmp-checkbox-validation-item" [invalid]="true">',
       '    Security review is required before production deploy.',
       '  </tng-checkbox>',
-      '</div>',
+      '</section>',
       '',
     ].join('\n'),
-    [
-      '.checkbox-example-stack {',
+    cssCode: [
+      '.doc-cmp-checkbox-validation-panel {',
       '  display: grid;',
-      '  gap: 0.65rem;',
+      '  gap: 0.75rem;',
+      '  inline-size: min(100%, 32rem);',
+      '  margin-inline: auto;',
+      '  padding: 1rem;',
+      '  border: 1px solid #fecaca;',
+      '  border-radius: 1rem;',
+      '  background: rgba(254, 242, 242, 0.78);',
+      '}',
+      '',
+      '.doc-cmp-checkbox-validation-item {',
+      '  display: block;',
+      '  --tng-semantic-accent-danger: #dc2626;',
+      '  --tng-semantic-focus-ring: rgba(220, 38, 38, 0.18);',
+      '  --tng-semantic-foreground-primary: #991b1b;',
       '}',
       '',
     ].join('\n'),
-  );
+  });
 
-  protected readonly validationTailwindCodeTabs = createCodeTabs(
-    'checkbox-validation-tailwind',
-    [
-      'import { Component } from "@angular/core";',
-      'import { TngCheckboxComponent } from "@tailng-ui/components";',
+  protected readonly validationTailwindCodeTabs = createCodeTabs({
+    baseName: 'doc-cmp-checkbox-validation-tailwind',
+    tsCode: [
+      "import { Component } from '@angular/core';",
+      "import { TngCheckboxComponent } from '@tailng-ui/components';",
       '',
       '@Component({',
+      "  selector: 'app-doc-cmp-checkbox-validation-tailwind',",
+      '  standalone: true,',
       '  imports: [TngCheckboxComponent],',
-      "  templateUrl: './checkbox-validation-tailwind.component.html',",
+      "  templateUrl: './doc-cmp-checkbox-validation-tailwind.component.html',",
       '})',
-      'export class CheckboxValidationTailwindComponent {}',
+      'export class DocCmpCheckboxValidationTailwindComponent {}',
       '',
     ].join('\n'),
-    [
-      '<div class="rounded-xl border border-rose-300 bg-rose-50/70 p-4 dark:border-rose-500/70 dark:bg-rose-950/25">',
-      '  <tng-checkbox [invalid]="true" class="text-rose-900 dark:text-rose-200">',
+    htmlCode: [
+      '<section',
+      '  class="rounded-2xl border border-rose-300 bg-rose-50/70 p-4 dark:border-rose-500/70 dark:bg-rose-950/25"',
+      '>',
+      '  <tng-checkbox',
+      '    class="block text-rose-900 [--tng-semantic-accent-danger:#dc2626] [--tng-semantic-focus-ring:rgba(220,38,38,0.18)] dark:text-rose-200"',
+      '    [invalid]="true"',
+      '  >',
       '    Security review is required before production deploy.',
       '  </tng-checkbox>',
-      '</div>',
+      '</section>',
       '',
     ].join('\n'),
-    '/* Tailwind utilities are applied directly in the template. */',
-  );
+    cssCode: '/* Tailwind utilities are applied directly in the template. */',
+  });
 
-  protected isRowChecked(variant: ExampleVariant, row: DeploymentRow): boolean {
+  protected isRowChecked(variant: ExampleVariant, row: DeploymentCheck): boolean {
     return this.readSelection(variant).has(row);
   }
 
   protected areAllRowsChecked(variant: ExampleVariant): boolean {
-    return this.readSelection(variant).size === deploymentRows.length;
+    return this.readSelection(variant).size === deploymentChecks.length;
   }
 
   protected isMixedRowsChecked(variant: ExampleVariant): boolean {
     const count = this.readSelection(variant).size;
-    return count > 0 && count < deploymentRows.length;
+    return count > 0 && count < deploymentChecks.length;
   }
 
   protected selectedSummary(variant: ExampleVariant): string {
@@ -450,7 +481,7 @@ export class CheckboxExamplesPageComponent implements OnDestroy {
     return selected.length > 0 ? selected.join(', ') : 'none';
   }
 
-  protected onRowChange(variant: ExampleVariant, row: DeploymentRow, checked: boolean): void {
+  protected onRowChange(variant: ExampleVariant, row: DeploymentCheck, checked: boolean): void {
     const next = new Set(this.readSelection(variant));
     if (checked) {
       next.add(row);
@@ -462,49 +493,21 @@ export class CheckboxExamplesPageComponent implements OnDestroy {
   }
 
   protected onSelectAllChange(variant: ExampleVariant, checked: boolean): void {
-    this.writeSelection(variant, checked ? new Set(deploymentRows) : new Set());
-  }
-
-  protected onHeadlessSelectAllChange(event: Event): void {
-    const checked = this.readCheckedFromChangeEvent(event);
-    if (checked === null) {
-      return;
-    }
-
-    this.onSelectAllChange('headless', checked);
-  }
-
-  protected onHeadlessRowChange(row: DeploymentRow, event: Event): void {
-    const checked = this.readCheckedFromChangeEvent(event);
-    if (checked === null) {
-      return;
-    }
-
-    this.onRowChange('headless', row, checked);
+    this.writeSelection(
+      variant,
+      checked ? new Set<DeploymentCheck>(deploymentChecks) : new Set<DeploymentCheck>(),
+    );
   }
 
   public ngOnDestroy(): void {
     this.colorSchemeObserver?.disconnect();
   }
 
-  private readSelection(variant: ExampleVariant): ReadonlySet<DeploymentRow> {
-    if (variant === 'headless') {
-      return this.headlessRows();
-    }
-
-    if (variant === 'plain-css') {
-      return this.plainCssRows();
-    }
-
-    return this.tailwindRows();
+  private readSelection(variant: ExampleVariant): ReadonlySet<DeploymentCheck> {
+    return variant === 'plain-css' ? this.plainCssRows() : this.tailwindRows();
   }
 
-  private writeSelection(variant: ExampleVariant, rows: ReadonlySet<DeploymentRow>): void {
-    if (variant === 'headless') {
-      this.headlessRows.set(rows);
-      return;
-    }
-
+  private writeSelection(variant: ExampleVariant, rows: ReadonlySet<DeploymentCheck>): void {
     if (variant === 'plain-css') {
       this.plainCssRows.set(rows);
       return;
@@ -512,14 +515,4 @@ export class CheckboxExamplesPageComponent implements OnDestroy {
 
     this.tailwindRows.set(rows);
   }
-
-  private readCheckedFromChangeEvent(event: Event): boolean | null {
-    const target = event.target;
-    if (!(target instanceof HTMLInputElement)) {
-      return null;
-    }
-
-    return target.checked;
-  }
-
 }

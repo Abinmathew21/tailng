@@ -1,0 +1,172 @@
+<article class="checkbox-overview docs-section-page">
+  <div class="docs-section-page-main">
+    <section id="what-you-get" class="docs-section-anchor checkbox-overview-block">
+      <h2 class="checkbox-overview-title">Headless checkbox</h2>
+      <p class="checkbox-overview-lead">
+        Headless checkbox keeps the native <code>&lt;input type="checkbox"&gt;</code> element in
+        place and adds a consistent state contract for checked, mixed, readonly, invalid, and
+        keyboard-focus styling.
+      </p>
+      <ul class="checkbox-overview-list">
+        <li>Binary and tri-state behavior with <code>checked</code> and <code>indeterminate</code>.</li>
+        <li>Readonly support that keeps the control focusable while reverting user toggles.</li>
+        <li>Stable <code>data-*</code> hooks for custom visuals without wrapper lock-in.</li>
+      </ul>
+    </section>
+
+    <section id="installation" class="docs-section-anchor checkbox-overview-block">
+      <h3>Installation</h3>
+      <p>Import only the checkbox primitive when your app already owns the surrounding markup.</p>
+      <tng-code-block
+        [code]="primitiveImportCode"
+        adapter="shiki"
+        language="ts"
+        title="Primitive import"
+        [theme]="codeBlockTheme()"
+        [lineNumbers]="false"
+        [wrap]="true"
+        [sanitizeHtml]="false"
+      ></tng-code-block>
+    </section>
+
+    <section id="basic-usage" class="docs-section-anchor checkbox-overview-block">
+      <h3>Basic usage</h3>
+      <p>
+        The directive can live on a bare input, but in practice you usually wrap it in a
+        <code>&lt;label&gt;</code> so the text stays clickable and supplies the accessible name.
+      </p>
+      <tng-code-block
+        [code]="attachmentCode"
+        adapter="shiki"
+        language="html"
+        title="Minimal attachment"
+        [theme]="codeBlockTheme()"
+        [lineNumbers]="false"
+        [wrap]="true"
+        [sanitizeHtml]="false"
+      ></tng-code-block>
+      <tng-code-block
+        [code]="labeledUsageCode"
+        adapter="shiki"
+        language="html"
+        title="Recommended labeled pattern"
+        [theme]="codeBlockTheme()"
+        [lineNumbers]="false"
+        [wrap]="true"
+        [sanitizeHtml]="false"
+      ></tng-code-block>
+      <tng-code-block
+        [code]="triStateCode"
+        adapter="shiki"
+        language="html"
+        title="Tri-state example"
+        [theme]="codeBlockTheme()"
+        [lineNumbers]="false"
+        [wrap]="true"
+        [sanitizeHtml]="false"
+      ></tng-code-block>
+    </section>
+
+    <section id="style-variants" class="docs-section-anchor checkbox-overview-block">
+      <app-docs-example-tabs-section
+        heading="Style variants"
+        description="Same headless checkbox behavior rendered inside a plain CSS shell and a Tailwind utility shell."
+        ariaLabel="Headless checkbox style variants"
+        tabListAriaLabel="Headless checkbox style tabs"
+        defaultValue="plain-css"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <ng-template
+          appDocsExampleVariant
+          value="plain-css"
+          label="Plain-CSS"
+          panelTitle="Headless checkbox stack (Plain-CSS)"
+          [codeTabs]="plainCssCodeTabs"
+          [stackblitzUrl]="stackblitzVanillaUrl"
+        >
+          <section class="checkbox-notification-example">
+            <label class="checkbox-notification-example__row">
+              <input
+                type="checkbox"
+                tngCheckbox
+                [checked]="true"
+                class="checkbox-notification-example__control"
+              />
+              <span>Email notifications</span>
+            </label>
+            <label class="checkbox-notification-example__row">
+              <input
+                type="checkbox"
+                tngCheckbox
+                [indeterminate]="true"
+                class="checkbox-notification-example__control"
+              />
+              <span>Weekly digest (mixed)</span>
+            </label>
+            <label class="checkbox-notification-example__row">
+              <input
+                type="checkbox"
+                tngCheckbox
+                [readonly]="true"
+                [checked]="true"
+                class="checkbox-notification-example__control"
+              />
+              <span>Readonly legal acknowledgement</span>
+            </label>
+          </section>
+        </ng-template>
+
+        <ng-template
+          appDocsExampleVariant
+          value="tailwind-css"
+          label="Tailwind CSS"
+          panelTitle="Headless checkbox stack (Tailwind CSS)"
+          [codeTabs]="tailwindCodeTabs"
+          [stackblitzUrl]="stackblitzTailwindUrl"
+        >
+          <section
+            class="grid w-full max-w-[28rem] gap-3 rounded-xl border border-slate-300 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-950/60"
+          >
+            <label class="inline-flex items-center gap-3 text-sm font-medium text-slate-900 dark:text-slate-100">
+              <input
+                type="checkbox"
+                tngCheckbox
+                [checked]="true"
+                class="h-4 w-4 rounded border-slate-300 text-blue-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/40 dark:border-slate-600"
+              />
+              <span>Email notifications</span>
+            </label>
+            <label class="inline-flex items-center gap-3 text-sm font-medium text-slate-900 dark:text-slate-100">
+              <input
+                type="checkbox"
+                tngCheckbox
+                [indeterminate]="true"
+                class="h-4 w-4 rounded border-slate-300 text-blue-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/40 dark:border-slate-600"
+              />
+              <span>Weekly digest (mixed)</span>
+            </label>
+            <label class="inline-flex items-center gap-3 text-sm font-medium text-slate-900 dark:text-slate-100">
+              <input
+                type="checkbox"
+                tngCheckbox
+                [readonly]="true"
+                [checked]="true"
+                class="h-4 w-4 rounded border-slate-300 text-blue-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/40 dark:border-slate-600"
+              />
+              <span>Readonly legal acknowledgement</span>
+            </label>
+          </section>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
+
+    <section id="accessibility-baseline" class="docs-section-anchor checkbox-overview-block">
+      <h3>Accessibility baseline</h3>
+      <ul class="checkbox-overview-list">
+        <li><code>aria-checked</code> resolves to <code>true</code>, <code>false</code>, or <code>mixed</code>.</li>
+        <li><code>readonly</code> keeps the native checkbox in the tab order.</li>
+        <li><code>data-focus-visible</code> makes keyboard-only focus styling straightforward.</li>
+      </ul>
+    </section>
+  </div>
+</article>
