@@ -1,23 +1,32 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, inject, signal, type OnDestroy } from '@angular/core';
-import { observeDocsCodeThemeChanges, resolveDocsCodeBlockTheme } from '../../../../../../shared/util';
 import { TngRadioComponent } from '@tailng-ui/components';
-import { TngRadio as TngRadioPrimitive } from '@tailng-ui/primitives';
-import { type DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
+import type { DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
 import {
   DocsExampleTabsSectionComponent,
   DocsExampleVariantDirective,
 } from '../../../../../../shared/example-tabs-section/docs-example-tabs-section.component';
+import {
+  observeDocsCodeThemeChanges,
+  resolveDocsCodeBlockTheme,
+} from '../../../../../../shared/util';
+import { stackblitzTailwindUrl, stackblitzVanillaUrl } from '../../radio.util';
 
 type BillingPlan = 'enterprise' | 'pro' | 'starter';
-type ReleaseTrack = 'canary' | 'stable';
 
-function createCodeTabs(
-  baseName: string,
-  tsCode: string,
-  htmlCode: string,
-  cssCode: string,
-): readonly DocsExampleCodeTab[] {
+type CreateCodeTabsOptions = {
+  readonly baseName: string;
+  readonly cssCode: string;
+  readonly htmlCode: string;
+  readonly tsCode: string;
+};
+
+function createCodeTabs({
+  baseName,
+  cssCode,
+  htmlCode,
+  tsCode,
+}: CreateCodeTabsOptions): readonly DocsExampleCodeTab[] {
   return Object.freeze([
     {
       value: 'ts',
@@ -45,12 +54,7 @@ function createCodeTabs(
 
 @Component({
   selector: 'app-radio-examples-page',
-  imports: [
-    DocsExampleTabsSectionComponent,
-    DocsExampleVariantDirective,
-    TngRadioComponent,
-    TngRadioPrimitive,
-  ],
+  imports: [DocsExampleTabsSectionComponent, DocsExampleVariantDirective, TngRadioComponent],
   templateUrl: './radio-examples-page.component.html',
   styleUrl: './radio-examples-page.component.css',
 })
@@ -60,216 +64,343 @@ export class RadioExamplesPageComponent implements OnDestroy {
   public readonly codeBlockTheme = signal<'github-dark' | 'github-light'>(
     resolveDocsCodeBlockTheme(this.documentRef),
   );
-  private readonly colorSchemeObserver = observeDocsCodeThemeChanges(this.documentRef, this.codeBlockTheme);
-
-  protected readonly headlessPlan = signal<BillingPlan>('pro');
-  protected readonly plainCssPlan = signal<BillingPlan>('pro');
-  protected readonly tailwindPlan = signal<BillingPlan>('pro');
-
-  protected readonly headlessTrack = signal<ReleaseTrack>('stable');
-  protected readonly plainCssTrack = signal<ReleaseTrack>('stable');
-  protected readonly tailwindTrack = signal<ReleaseTrack>('stable');
-
-  protected readonly billingHeadlessCodeTabs = createCodeTabs(
-    'radio-examples-billing-headless',
-    [
-      "import { Component, signal } from '@angular/core';",
-      "import { TngRadio } from '@tailng-ui/primitives';",
-      '',
-      'export class BillingHeadlessExample {',
-      "  readonly plan = signal<'starter' | 'pro' | 'enterprise'>('pro');",
-      '}',
-      '',
-    ].join('\n'),
-    [
-      '<label class="radio-row"><input tngRadio name="billing" />Starter</label>',
-      '<label class="radio-row"><input tngRadio name="billing" [checked]="true" />Pro</label>',
-      '<label class="radio-row"><input tngRadio name="billing" />Enterprise</label>',
-      '',
-    ].join('\n'),
-    [
-      '.radio-example-stack { display: grid; gap: 0.7rem; }',
-      '.radio-row { align-items: center; display: inline-flex; gap: 0.55rem; }',
-      '',
-    ].join('\n'),
+  private readonly colorSchemeObserver = observeDocsCodeThemeChanges(
+    this.documentRef,
+    this.codeBlockTheme,
   );
 
-  protected readonly billingPlainCssCodeTabs = createCodeTabs(
-    'radio-examples-billing-plain-css',
-    [
+  protected readonly stackblitzVanillaUrl = stackblitzVanillaUrl;
+  protected readonly stackblitzTailwindUrl = stackblitzTailwindUrl;
+
+  protected readonly plainBillingPlan = signal<BillingPlan>('pro');
+  protected readonly tailwindBillingPlan = signal<BillingPlan>('pro');
+
+  protected readonly billingPlainCodeTabs = createCodeTabs({
+    baseName: 'doc-cmp-radio-billing-plain',
+    tsCode: [
       "import { Component, signal } from '@angular/core';",
       "import { TngRadioComponent } from '@tailng-ui/components';",
       '',
-      'export class BillingPlainCssExample {}',
+      "type PlainBillingPlan = 'starter' | 'pro' | 'enterprise';",
       '',
-    ].join('\n'),
-    [
-      '<div class="radio-card">',
-      '  <tng-radio name="billing" value="starter">Starter</tng-radio>',
-      '  <tng-radio name="billing" value="pro" [checked]="true">Pro</tng-radio>',
-      '  <tng-radio name="billing" value="enterprise">Enterprise</tng-radio>',
-      '</div>',
+      '@Component({',
+      "  selector: 'app-doc-cmp-radio-billing-plain',",
+      '  standalone: true,',
+      '  imports: [TngRadioComponent],',
+      "  templateUrl: './doc-cmp-radio-billing-plain.component.html',",
+      "  styleUrl: './doc-cmp-radio-billing-plain.component.css',",
+      '})',
+      'export class DocCmpRadioBillingPlainComponent {',
+      "  readonly selectedPlainBillingPlan = signal<PlainBillingPlan>('pro');",
       '',
-    ].join('\n'),
-    [
-      '.radio-card {',
-      '  background: var(--tng-semantic-background-surface);',
-      '  border: 1px solid var(--tng-semantic-border-subtle);',
-      '  border-radius: 0.8rem;',
-      '  display: grid;',
-      '  gap: 0.75rem;',
-      '  padding: 0.9rem 1rem;',
+      '  onPlainBillingPlanChange(plan: PlainBillingPlan, checked: boolean): void {',
+      '    if (!checked) {',
+      '      return;',
+      '    }',
+      '',
+      '    this.selectedPlainBillingPlan.set(plan);',
+      '  }',
       '}',
       '',
     ].join('\n'),
-  );
-
-  protected readonly billingTailwindCodeTabs = createCodeTabs(
-    'radio-examples-billing-tailwind',
-    [
-      "import { Component } from '@angular/core';",
-      "import { TngRadioComponent } from '@tailng-ui/components';",
-      '',
-      'export class BillingTailwindExample {}',
-      '',
-    ].join('\n'),
-    [
-      '<div class="grid gap-3 rounded-xl border border-slate-300 bg-white/80 p-4 dark:border-slate-700 dark:bg-slate-900/60">',
-      '  <tng-radio class="text-slate-900 dark:text-slate-100" name="billing">Starter</tng-radio>',
-      '  <tng-radio class="text-slate-900 dark:text-slate-100" name="billing" [checked]="true">Pro</tng-radio>',
-      '  <tng-radio class="text-slate-900 dark:text-slate-100" name="billing">Enterprise</tng-radio>',
-      '</div>',
-      '',
-    ].join('\n'),
-    '/* Tailwind utilities are applied directly in the template. */',
-  );
-
-  protected readonly readonlyHeadlessCodeTabs = createCodeTabs(
-    'radio-examples-readonly-headless',
-    [
-      "import { Component } from '@angular/core';",
-      "import { TngRadio } from '@tailng-ui/primitives';",
-      '',
-      'export class ReadonlyHeadlessExample {}',
-      '',
-    ].join('\n'),
-    [
-      '<label class="radio-row">',
-      '  <input tngRadio [checked]="true" [readonly]="true" name="track" />',
-      '  <span>Stable</span>',
-      '</label>',
-      '<label class="radio-row">',
-      '  <input tngRadio [readonly]="true" [invalid]="true" name="track" />',
-      '  <span>Canary</span>',
-      '</label>',
+    htmlCode: [
+      '<section class="doc-cmp-radio-billing-card">',
+      '  <h3 class="doc-cmp-radio-billing-card__title">Billing plan</h3>',
+      '  <p class="doc-cmp-radio-billing-card__subtitle">Select the launch tier for this customer workspace.</p>',
+      '  <tng-radio',
+      '    class="doc-cmp-radio-billing-item"',
+      '    name="plain-billing-selection"',
+      '    value="starter"',
+      '    [checked]="selectedPlainBillingPlan() === \'starter\'"',
+      '    (checkedChange)="onPlainBillingPlanChange(\'starter\', $event)"',
+      '  >',
+      '    Starter',
+      '  </tng-radio>',
+      '  <tng-radio',
+      '    class="doc-cmp-radio-billing-item"',
+      '    name="plain-billing-selection"',
+      '    value="pro"',
+      '    [checked]="selectedPlainBillingPlan() === \'pro\'"',
+      '    (checkedChange)="onPlainBillingPlanChange(\'pro\', $event)"',
+      '  >',
+      '    Pro',
+      '  </tng-radio>',
+      '  <tng-radio',
+      '    class="doc-cmp-radio-billing-item doc-cmp-radio-billing-item--muted"',
+      '    name="plain-billing-selection"',
+      '    value="enterprise"',
+      '    [checked]="selectedPlainBillingPlan() === \'enterprise\'"',
+      '    (checkedChange)="onPlainBillingPlanChange(\'enterprise\', $event)"',
+      '  >',
+      '    Enterprise',
+      '  </tng-radio>',
+      '  <p class="doc-cmp-radio-billing-card__summary">Selected: {{ selectedPlainBillingPlan() }}</p>',
+      '</section>',
       '',
     ].join('\n'),
-    [
-      '.radio-row { align-items: center; display: inline-flex; gap: 0.55rem; }',
-      '',
-    ].join('\n'),
-  );
-
-  protected readonly readonlyPlainCssCodeTabs = createCodeTabs(
-    'radio-examples-readonly-plain-css',
-    [
-      "import { Component } from '@angular/core';",
-      "import { TngRadioComponent } from '@tailng-ui/components';",
-      '',
-      'export class ReadonlyPlainCssExample {}',
-      '',
-    ].join('\n'),
-    [
-      '<div class="radio-card">',
-      '  <tng-radio [checked]="true" [readonly]="true">Stable</tng-radio>',
-      '  <tng-radio [readonly]="true" [invalid]="true">Canary</tng-radio>',
-      '</div>',
-      '',
-    ].join('\n'),
-    [
-      '.radio-card {',
-      '  background: var(--tng-semantic-background-surface);',
-      '  border: 1px solid var(--tng-semantic-border-subtle);',
-      '  border-radius: 0.8rem;',
+    cssCode: [
+      '.doc-cmp-radio-billing-card {',
       '  display: grid;',
-      '  gap: 0.75rem;',
-      '  padding: 0.9rem 1rem;',
+      '  gap: 0.8rem;',
+      '  inline-size: min(100%, 30rem);',
+      '  margin-inline: auto;',
+      '  padding: 1rem;',
+      '  border: 1px solid #d8e1ec;',
+      '  border-radius: 1rem;',
+      '  background: #fff;',
+      '  box-shadow: 0 20px 40px -32px rgba(15, 23, 42, 0.28);',
+      '}',
+      '',
+      '.doc-cmp-radio-billing-card__title {',
+      '  margin: 0;',
+      '  font-size: 1rem;',
+      '  font-weight: 700;',
+      '  color: #0f172a;',
+      '}',
+      '',
+      '.doc-cmp-radio-billing-card__subtitle {',
+      '  margin: 0;',
+      '  color: #64748b;',
+      '  font-size: 0.88rem;',
+      '}',
+      '',
+      '.doc-cmp-radio-billing-item {',
+      '  display: block;',
+      '  padding: 0.75rem 0.9rem;',
+      '  border: 1px solid #d8e1ec;',
+      '  border-radius: 0.9rem;',
+      '  background: #fff;',
+      '  --tng-semantic-accent-brand: #2563eb;',
+      '  --tng-semantic-focus-ring: rgba(37, 99, 235, 0.22);',
+      '  --tng-semantic-foreground-primary: #0f172a;',
+      '}',
+      '',
+      '.doc-cmp-radio-billing-item--muted {',
+      '  background: #f8fafc;',
+      '  --tng-semantic-foreground-primary: #475569;',
+      '}',
+      '',
+      '.doc-cmp-radio-billing-card__summary {',
+      '  margin: 0;',
+      '  color: #64748b;',
+      '  font-size: 0.82rem;',
+      '  text-transform: capitalize;',
       '}',
       '',
     ].join('\n'),
-  );
+  });
 
-  protected readonly readonlyTailwindCodeTabs = createCodeTabs(
-    'radio-examples-readonly-tailwind',
-    [
+  protected readonly billingTailwindCodeTabs = createCodeTabs({
+    baseName: 'doc-cmp-radio-billing-tailwind',
+    tsCode: [
+      "import { Component, signal } from '@angular/core';",
+      "import { TngRadioComponent } from '@tailng-ui/components';",
+      '',
+      "type TailwindBillingPlan = 'starter' | 'pro' | 'enterprise';",
+      '',
+      '@Component({',
+      "  selector: 'app-doc-cmp-radio-billing-tailwind',",
+      '  standalone: true,',
+      '  imports: [TngRadioComponent],',
+      "  templateUrl: './doc-cmp-radio-billing-tailwind.component.html',",
+      '})',
+      'export class DocCmpRadioBillingTailwindComponent {',
+      "  readonly selectedTailwindBillingPlan = signal<TailwindBillingPlan>('pro');",
+      '',
+      '  onTailwindBillingPlanChange(plan: TailwindBillingPlan, checked: boolean): void {',
+      '    if (!checked) {',
+      '      return;',
+      '    }',
+      '',
+      '    this.selectedTailwindBillingPlan.set(plan);',
+      '  }',
+      '}',
+      '',
+    ].join('\n'),
+    htmlCode: [
+      '<section',
+      '  class="grid w-full max-w-[30rem] gap-3 rounded-2xl border border-slate-300 bg-white p-4 shadow-sm"',
+      '>',
+      '  <div class="grid gap-1">',
+      '    <h3 class="m-0 text-base font-semibold text-slate-900">Billing plan</h3>',
+      '    <p class="m-0 text-sm text-slate-600">Select the launch tier for this customer workspace.</p>',
+      '  </div>',
+      '  <tng-radio',
+      '    class="block rounded-xl border border-slate-200 bg-white px-3 py-2 text-slate-900 shadow-sm [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-focus-ring:rgba(37,99,235,0.22)]"',
+      '    name="tailwind-billing-selection"',
+      '    value="starter"',
+      '    [checked]="selectedTailwindBillingPlan() === \'starter\'"',
+      '    (checkedChange)="onTailwindBillingPlanChange(\'starter\', $event)"',
+      '  >',
+      '    Starter',
+      '  </tng-radio>',
+      '  <tng-radio',
+      '    class="block rounded-xl border border-slate-200 bg-white px-3 py-2 text-slate-900 shadow-sm [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-focus-ring:rgba(37,99,235,0.22)]"',
+      '    name="tailwind-billing-selection"',
+      '    value="pro"',
+      '    [checked]="selectedTailwindBillingPlan() === \'pro\'"',
+      '    (checkedChange)="onTailwindBillingPlanChange(\'pro\', $event)"',
+      '  >',
+      '    Pro',
+      '  </tng-radio>',
+      '  <tng-radio',
+      '    class="block rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-slate-600 shadow-sm [--tng-semantic-foreground-primary:#475569] [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-focus-ring:rgba(37,99,235,0.22)]"',
+      '    name="tailwind-billing-selection"',
+      '    value="enterprise"',
+      '    [checked]="selectedTailwindBillingPlan() === \'enterprise\'"',
+      '    (checkedChange)="onTailwindBillingPlanChange(\'enterprise\', $event)"',
+      '  >',
+      '    Enterprise',
+      '  </tng-radio>',
+      '  <p class="m-0 text-xs text-slate-600">Selected: {{ selectedTailwindBillingPlan() }}</p>',
+      '</section>',
+      '',
+    ].join('\n'),
+    cssCode: '/* Tailwind utilities are applied directly in the template. */',
+  });
+
+  protected readonly readonlyPlainCodeTabs = createCodeTabs({
+    baseName: 'doc-cmp-radio-readonly-plain',
+    tsCode: [
       "import { Component } from '@angular/core';",
       "import { TngRadioComponent } from '@tailng-ui/components';",
       '',
-      'export class ReadonlyTailwindExample {}',
+      '@Component({',
+      "  selector: 'app-doc-cmp-radio-readonly-plain',",
+      '  standalone: true,',
+      '  imports: [TngRadioComponent],',
+      "  templateUrl: './doc-cmp-radio-readonly-plain.component.html',",
+      "  styleUrl: './doc-cmp-radio-readonly-plain.component.css',",
+      '})',
+      'export class DocCmpRadioReadonlyPlainComponent {}',
       '',
     ].join('\n'),
-    [
-      '<div class="grid gap-3 rounded-xl border border-slate-300 bg-white/80 p-4 dark:border-slate-700 dark:bg-slate-900/60">',
-      '  <tng-radio [checked]="true" [readonly]="true" class="text-slate-900 dark:text-slate-100">Stable</tng-radio>',
-      '  <tng-radio [readonly]="true" [invalid]="true" class="text-slate-900 dark:text-slate-100">Canary</tng-radio>',
-      '</div>',
+    htmlCode: [
+      '<section class="doc-cmp-radio-review-card">',
+      '  <h3 class="doc-cmp-radio-review-card__title">Release track review</h3>',
+      '  <tng-radio',
+      '    class="doc-cmp-radio-review-item"',
+      '    name="plain-release-track"',
+      '    value="stable"',
+      '    [checked]="true"',
+      '    [readonly]="true"',
+      '  >',
+      '    Stable',
+      '  </tng-radio>',
+      '  <tng-radio',
+      '    class="doc-cmp-radio-review-item doc-cmp-radio-review-item--danger"',
+      '    name="plain-release-track"',
+      '    value="canary"',
+      '    [invalid]="true"',
+      '    [readonly]="true"',
+      '  >',
+      '    Canary requires compliance approval',
+      '  </tng-radio>',
+      '</section>',
       '',
     ].join('\n'),
-    '/* Tailwind utilities are applied directly in the template. */',
-  );
+    cssCode: [
+      '.doc-cmp-radio-review-card {',
+      '  display: grid;',
+      '  gap: 0.8rem;',
+      '  inline-size: min(100%, 30rem);',
+      '  margin-inline: auto;',
+      '  padding: 1rem;',
+      '  border: 1px solid #d8e1ec;',
+      '  border-radius: 1rem;',
+      '  background: #fff;',
+      '  box-shadow: 0 20px 40px -32px rgba(15, 23, 42, 0.28);',
+      '}',
+      '',
+      '.doc-cmp-radio-review-card__title {',
+      '  margin: 0;',
+      '  font-size: 1rem;',
+      '  font-weight: 700;',
+      '  color: #0f172a;',
+      '}',
+      '',
+      '.doc-cmp-radio-review-item {',
+      '  display: block;',
+      '  padding: 0.75rem 0.9rem;',
+      '  border: 1px solid #d8e1ec;',
+      '  border-radius: 0.9rem;',
+      '  background: #fff;',
+      '  --tng-semantic-accent-brand: #2563eb;',
+      '  --tng-semantic-focus-ring: rgba(37, 99, 235, 0.22);',
+      '  --tng-semantic-foreground-primary: #0f172a;',
+      '}',
+      '',
+      '.doc-cmp-radio-review-item--danger {',
+      '  border-color: #fda4af;',
+      '  background: #fff1f2;',
+      '  --tng-semantic-accent-danger: #dc2626;',
+      '  --tng-semantic-foreground-primary: #9f1239;',
+      '}',
+      '',
+    ].join('\n'),
+  });
+
+  protected readonly readonlyTailwindCodeTabs = createCodeTabs({
+    baseName: 'doc-cmp-radio-readonly-tailwind',
+    tsCode: [
+      "import { Component } from '@angular/core';",
+      "import { TngRadioComponent } from '@tailng-ui/components';",
+      '',
+      '@Component({',
+      "  selector: 'app-doc-cmp-radio-readonly-tailwind',",
+      '  standalone: true,',
+      '  imports: [TngRadioComponent],',
+      "  templateUrl: './doc-cmp-radio-readonly-tailwind.component.html',",
+      '})',
+      'export class DocCmpRadioReadonlyTailwindComponent {}',
+      '',
+    ].join('\n'),
+    htmlCode: [
+      '<section',
+      '  class="grid w-full max-w-[30rem] gap-3 rounded-2xl border border-slate-300 bg-white p-4 shadow-sm"',
+      '>',
+      '  <h3 class="m-0 text-base font-semibold text-slate-900">Release track review</h3>',
+      '  <tng-radio',
+      '    class="block rounded-xl border border-slate-200 bg-white px-3 py-2 text-slate-900 shadow-sm [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-focus-ring:rgba(37,99,235,0.22)]"',
+      '    name="tailwind-release-track"',
+      '    value="stable"',
+      '    [checked]="true"',
+      '    [readonly]="true"',
+      '  >',
+      '    Stable',
+      '  </tng-radio>',
+      '  <tng-radio',
+      '    class="block rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-rose-900 shadow-sm [--tng-semantic-foreground-primary:#9f1239] [--tng-semantic-accent-danger:#dc2626] [--tng-semantic-focus-ring:rgba(220,38,38,0.18)]"',
+      '    name="tailwind-release-track"',
+      '    value="canary"',
+      '    [invalid]="true"',
+      '    [readonly]="true"',
+      '  >',
+      '    Canary requires compliance approval',
+      '  </tng-radio>',
+      '</section>',
+      '',
+    ].join('\n'),
+    cssCode: '/* Tailwind utilities are applied directly in the template. */',
+  });
 
   public ngOnDestroy(): void {
     this.colorSchemeObserver?.disconnect();
   }
 
-  protected onHeadlessPlanChange(plan: BillingPlan, event: unknown): void {
-    if (!(event instanceof Event)) {
+  protected onPlainBillingPlanChange(plan: BillingPlan, checked: boolean): void {
+    if (!checked) {
       return;
     }
 
-    const target = event.target;
-    if (!(target instanceof HTMLInputElement) || !target.checked) {
+    this.plainBillingPlan.set(plan);
+  }
+
+  protected onTailwindBillingPlanChange(plan: BillingPlan, checked: boolean): void {
+    if (!checked) {
       return;
     }
 
-    this.headlessPlan.set(plan);
+    this.tailwindBillingPlan.set(plan);
   }
-
-  protected onPlainCssPlanChange(plan: BillingPlan, checked: boolean): void {
-    if (checked) {
-      this.plainCssPlan.set(plan);
-    }
-  }
-
-  protected onTailwindPlanChange(plan: BillingPlan, checked: boolean): void {
-    if (checked) {
-      this.tailwindPlan.set(plan);
-    }
-  }
-
-  protected onHeadlessTrackChange(track: ReleaseTrack, event: unknown): void {
-    if (!(event instanceof Event)) {
-      return;
-    }
-
-    const target = event.target;
-    if (!(target instanceof HTMLInputElement) || !target.checked) {
-      return;
-    }
-
-    this.headlessTrack.set(track);
-  }
-
-  protected onPlainCssTrackChange(track: ReleaseTrack, checked: boolean): void {
-    if (checked) {
-      this.plainCssTrack.set(track);
-    }
-  }
-
-  protected onTailwindTrackChange(track: ReleaseTrack, checked: boolean): void {
-    if (checked) {
-      this.tailwindTrack.set(track);
-    }
-  }
-
 }

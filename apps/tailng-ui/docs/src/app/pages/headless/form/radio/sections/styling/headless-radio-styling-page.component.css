@@ -1,0 +1,110 @@
+:host {
+  display: block;
+}
+
+.radio-styling {
+  display: grid;
+  gap: 1rem;
+}
+
+.radio-styling-title {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.radio-styling-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.radio-styling-block {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.95rem;
+  display: grid;
+  gap: 0.8rem;
+  padding: 1rem;
+}
+
+.radio-styling-block h3 {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1rem;
+  margin: 0;
+}
+
+.radio-styling-table-wrap {
+  overflow-x: auto;
+}
+
+.radio-styling-table {
+  border-collapse: collapse;
+  min-width: 36rem;
+  width: 100%;
+}
+
+.radio-styling-table th,
+.radio-styling-table td {
+  border-bottom: 1px solid var(--tng-semantic-border-subtle);
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.9rem;
+  padding: 0.7rem 0.65rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.radio-styling-table th {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 0.82rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.radio-styling-table code {
+  color: var(--tng-semantic-foreground-primary);
+}
+
+.headless-radio-filter-card {
+  background: var(--tng-semantic-background-base, #ffffff);
+  border: 1px solid var(--tng-semantic-border-subtle, #cbd5e1);
+  border-radius: 0.9rem;
+  display: grid;
+  gap: 0.75rem;
+  inline-size: min(100%, 26rem);
+  margin-inline: auto;
+  padding: 1rem;
+}
+
+.headless-radio-filter-card__legend {
+  color: var(--tng-semantic-foreground-primary, #0f172a);
+  font-weight: 700;
+  margin: 0 0 0.15rem;
+  padding: 0;
+}
+
+.headless-radio-filter-card__row {
+  align-items: center;
+  border: 1px solid transparent;
+  border-radius: 0.75rem;
+  color: var(--tng-semantic-foreground-primary, #0f172a);
+  display: inline-flex;
+  gap: 0.65rem;
+  padding: 0.5rem 0.7rem;
+}
+
+.headless-radio-filter-card__control {
+  accent-color: var(--tng-semantic-accent-brand, #2563eb);
+}
+
+.headless-radio-filter-card__row--invalid {
+  background: color-mix(
+    in srgb,
+    var(--tng-semantic-accent-danger, #dc2626) 10%,
+    var(--tng-semantic-background-base, #ffffff)
+  );
+  border-color: color-mix(
+    in srgb,
+    var(--tng-semantic-accent-danger, #dc2626) 45%,
+    var(--tng-semantic-border-subtle, #cbd5e1)
+  );
+}

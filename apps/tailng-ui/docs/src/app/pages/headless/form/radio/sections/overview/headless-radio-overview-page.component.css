@@ -1,0 +1,86 @@
+:host {
+  display: block;
+}
+
+.radio-overview {
+  display: grid;
+  gap: 1rem;
+}
+
+.radio-overview-title {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.radio-overview-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.radio-overview-block {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.95rem;
+  display: grid;
+  gap: 0.85rem;
+  padding: 1rem;
+}
+
+.radio-overview-block h3 {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1rem;
+  margin: 0;
+}
+
+.radio-overview-list {
+  color: var(--tng-semantic-foreground-secondary);
+  display: grid;
+  gap: 0.55rem;
+  margin: 0;
+  padding-left: 1.2rem;
+}
+
+.radio-overview-list code {
+  color: var(--tng-semantic-foreground-primary);
+}
+
+.headless-radio-plan-card {
+  background: var(--tng-semantic-background-base, #ffffff);
+  border: 1px solid var(--tng-semantic-border-subtle, #cbd5e1);
+  border-radius: 0.95rem;
+  display: grid;
+  gap: 0.8rem;
+  inline-size: min(100%, 28rem);
+  margin-inline: auto;
+  padding: 1rem;
+}
+
+.headless-radio-plan-card__legend {
+  color: var(--tng-semantic-foreground-primary, #0f172a);
+  font-weight: 700;
+  margin: 0 0 0.2rem;
+  padding: 0;
+}
+
+.headless-radio-plan-card__row {
+  align-items: center;
+  color: var(--tng-semantic-foreground-primary, #0f172a);
+  display: inline-flex;
+  gap: 0.65rem;
+}
+
+.headless-radio-plan-card__control {
+  accent-color: var(--tng-semantic-accent-brand, #2563eb);
+}
+
+.headless-radio-plan-card__control[data-focus-visible] {
+  outline: 2px solid color-mix(in srgb, var(--tng-semantic-accent-brand, #2563eb) 70%, white);
+  outline-offset: 2px;
+}
+
+.headless-radio-plan-card__summary {
+  color: var(--tng-semantic-foreground-secondary, #64748b);
+  font-size: 0.85rem;
+  margin: 0;
+}

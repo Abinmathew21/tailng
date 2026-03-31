@@ -1,0 +1,154 @@
+<article class="radio-styling docs-section-page">
+  <div class="docs-section-page-main">
+    <section id="css-contracts" class="docs-section-anchor radio-styling-block">
+      <h2 class="radio-styling-title">Styling contract</h2>
+      <p class="radio-styling-lead">
+        Style against documented radio state hooks and semantic tokens rather than relying on
+        wrapper markup that your app does not own.
+      </p>
+
+      <div class="radio-styling-table-wrap">
+        <table class="radio-styling-table">
+          <thead>
+            <tr>
+              <th scope="col">Selector</th>
+              <th scope="col">Applied on</th>
+              <th scope="col">Purpose</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>[data-state="checked"]</code></td>
+              <td>Primitive input</td>
+              <td>Checked visual treatment.</td>
+            </tr>
+            <tr>
+              <td><code>[data-checked]</code>, <code>[data-unchecked]</code></td>
+              <td>Primitive input</td>
+              <td>Convenience hooks for checked or unchecked states.</td>
+            </tr>
+            <tr>
+              <td><code>[data-invalid]</code>, <code>[data-disabled]</code>, <code>[data-readonly]</code></td>
+              <td>Primitive input</td>
+              <td>Validation and non-editable state styling.</td>
+            </tr>
+            <tr>
+              <td><code>[data-focused]</code>, <code>[data-focus-visible]</code></td>
+              <td>Primitive input</td>
+              <td>Generic focus and keyboard focus-visible styling.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="state-selectors" class="docs-section-anchor radio-styling-block">
+      <h3>State selectors</h3>
+      <tng-code-block
+        [code]="stateSelectorSnippet"
+        adapter="shiki"
+        language="css"
+        title="radio.states.css"
+        [theme]="codeBlockTheme()"
+        [lineNumbers]="false"
+        [wrap]="true"
+        [sanitizeHtml]="false"
+      ></tng-code-block>
+      <tng-code-block
+        [code]="shellSnippet"
+        adapter="shiki"
+        language="css"
+        title="radio.shell.css"
+        [theme]="codeBlockTheme()"
+        [lineNumbers]="false"
+        [wrap]="true"
+        [sanitizeHtml]="false"
+      ></tng-code-block>
+    </section>
+
+    <section id="example-shells" class="docs-section-anchor radio-styling-block">
+      <app-docs-example-tabs-section
+        heading="Example shells"
+        description="The primitive stays native while your wrapper card and label rows carry the visual language."
+        ariaLabel="Headless radio styling variants"
+        tabListAriaLabel="Headless radio styling tabs"
+        defaultValue="plain-css"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <ng-template
+          appDocsExampleVariant
+          value="plain-css"
+          label="Plain-CSS"
+          panelTitle="Status filter shell (Plain-CSS)"
+          [codeTabs]="plainCssCodeTabs"
+          [stackblitzUrl]="stackblitzVanillaUrl"
+        >
+          <fieldset class="headless-radio-filter-card">
+            <legend class="headless-radio-filter-card__legend">Release target</legend>
+            <label class="headless-radio-filter-card__row">
+              <input
+                type="radio"
+                tngRadio
+                name="headless-styling-radio-plain"
+                [checked]="true"
+                class="headless-radio-filter-card__control"
+              />
+              <span>Production release</span>
+            </label>
+            <label class="headless-radio-filter-card__row headless-radio-filter-card__row--invalid">
+              <input
+                type="radio"
+                tngRadio
+                name="headless-styling-radio-plain"
+                [invalid]="true"
+                class="headless-radio-filter-card__control"
+              />
+              <span>Needs compliance approval</span>
+            </label>
+          </fieldset>
+        </ng-template>
+
+        <ng-template
+          appDocsExampleVariant
+          value="tailwind-css"
+          label="Tailwind CSS"
+          panelTitle="Status filter shell (Tailwind CSS)"
+          [codeTabs]="tailwindCodeTabs"
+          [stackblitzUrl]="stackblitzTailwindUrl"
+        >
+          <fieldset
+            class="grid w-full max-w-[26rem] gap-3 rounded-xl border border-slate-300 bg-white p-4 shadow-sm"
+          >
+            <legend class="text-sm font-semibold text-slate-900">
+              Release target
+            </legend>
+            <label
+              class="inline-flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-slate-900"
+            >
+              <input
+                type="radio"
+                tngRadio
+                name="headless-styling-radio-tailwind"
+                [checked]="true"
+                class="h-4 w-4 border-slate-300 text-blue-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/40"
+              />
+              <span>Production release</span>
+            </label>
+            <label
+              class="inline-flex items-center gap-3 rounded-lg border border-rose-300/80 bg-rose-50 px-3 py-2 text-sm font-medium text-slate-900"
+            >
+              <input
+                type="radio"
+                tngRadio
+                name="headless-styling-radio-tailwind"
+                [invalid]="true"
+                class="h-4 w-4 border-rose-400 text-blue-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-500/30"
+              />
+              <span>Needs compliance approval</span>
+            </label>
+          </fieldset>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
+  </div>
+</article>

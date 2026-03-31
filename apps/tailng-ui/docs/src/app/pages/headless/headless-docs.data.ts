@@ -84,6 +84,12 @@ export const HEADLESS_FORM_GROUP: HeadlessDocsGroup = {
       description: 'Pressed-state behavior and group semantics for compact toggle interactions.',
     },
     {
+      id: 'radio',
+      slug: 'radio',
+      title: 'Radio',
+      description: 'Single-choice native radio behavior with readonly, invalid, and focus-visible hooks.',
+    },
+    {
       id: 'listbox',
       slug: 'listbox',
       title: 'ListBox',

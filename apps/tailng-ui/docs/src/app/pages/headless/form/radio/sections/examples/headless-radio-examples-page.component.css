@@ -1,0 +1,94 @@
+:host {
+  display: block;
+}
+
+.radio-examples {
+  display: grid;
+  gap: 1rem;
+}
+
+.radio-examples-title {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.radio-examples-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.radio-examples-block {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.95rem;
+  display: grid;
+  gap: 0.85rem;
+  padding: 1rem;
+}
+
+.headless-radio-billing-card,
+.headless-radio-review-card,
+.headless-radio-alert-card {
+  background: var(--tng-semantic-background-base, #ffffff);
+  border: 1px solid var(--tng-semantic-border-subtle, #cbd5e1);
+  border-radius: 0.95rem;
+  display: grid;
+  gap: 0.8rem;
+  margin-inline: auto;
+  padding: 1rem;
+}
+
+.headless-radio-billing-card,
+.headless-radio-review-card {
+  inline-size: min(100%, 28rem);
+}
+
+.headless-radio-alert-card {
+  inline-size: min(100%, 30rem);
+}
+
+.headless-radio-billing-card__legend,
+.headless-radio-review-card__legend {
+  color: var(--tng-semantic-foreground-primary, #0f172a);
+  font-weight: 700;
+  margin: 0 0 0.2rem;
+  padding: 0;
+}
+
+.headless-radio-alert-card__title {
+  color: var(--tng-semantic-foreground-primary, #0f172a);
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.headless-radio-billing-card__row,
+.headless-radio-review-card__row,
+.headless-radio-alert-card__row {
+  align-items: center;
+  color: var(--tng-semantic-foreground-primary, #0f172a);
+  display: inline-flex;
+  gap: 0.65rem;
+}
+
+.headless-radio-review-card__row--danger {
+  color: var(--tng-semantic-accent-danger, #dc2626);
+}
+
+.headless-radio-billing-card__control,
+.headless-radio-alert-card__control {
+  accent-color: var(--tng-semantic-accent-brand, #2563eb);
+}
+
+.headless-radio-review-card__control[data-invalid] {
+  outline: 2px solid color-mix(in srgb, var(--tng-semantic-accent-danger, #dc2626) 55%, white);
+  outline-offset: 2px;
+}
+
+.headless-radio-billing-card__summary,
+.headless-radio-alert-card__summary {
+  color: var(--tng-semantic-foreground-secondary, #64748b);
+  font-size: 0.85rem;
+  margin: 0;
+}

@@ -1,192 +1,171 @@
-<article class="radio-overview">
-  <h2 class="radio-overview-title">Radio overview</h2>
-  <p class="radio-overview-lead">
-    TailNG radio supports native single-selection behavior with a headless primitive
-    (<code>tngRadio</code>) and a styled wrapper (<code>tng-radio</code>).
-  </p>
+<article class="docs-section-page radio-overview">
+  <div class="docs-section-page-main">
+    <section id="imports" class="docs-section-anchor radio-overview-block">
+      <h2 class="radio-overview-title">Radio</h2>
+      <p class="radio-overview-lead">
+        <code>&lt;tng-radio&gt;</code> is the component-layer radio for grouped single-choice flows.
+        It keeps the visual shell ready to ship, forwards the native radio semantics through
+        Angular inputs and outputs, and lets you restyle the control by overriding semantic tokens
+        on the host.
+      </p>
+      <p class="radio-overview-lead">
+        If you need total DOM ownership or direct styling against the native input state hooks,
+        move down to <strong>Headless &gt; Form &gt; Radio</strong> or use the ownable install.
+      </p>
+      <tng-code-block
+        [code]="componentImportCode"
+        adapter="shiki"
+        language="ts"
+        title="Component import"
+        [theme]="codeBlockTheme()"
+        [lineNumbers]="false"
+        [wrap]="true"
+        [sanitizeHtml]="false"
+      ></tng-code-block>
+    </section>
 
-  <section class="radio-overview-block">
-    <h3>Imports</h3>
-    <p>Use primitives for full ownership, or wrappers for a themed default shell.</p>
-    <tng-code-block
-      [code]="primitiveImportCode"
-      adapter="shiki"
-      language="ts"
-      title="Primitive import"
-      [theme]="codeBlockTheme()"
-      [sanitizeHtml]="false"
-      [wrap]="true"
-      [lineNumbers]="false"
-    ></tng-code-block>
-    <tng-code-block
-      [code]="componentImportCode"
-      adapter="shiki"
-      language="ts"
-      title="Styled component import"
-      [theme]="codeBlockTheme()"
-      [sanitizeHtml]="false"
-      [wrap]="true"
-      [lineNumbers]="false"
-    ></tng-code-block>
-  </section>
+    <section id="usage-patterns" class="docs-section-anchor radio-overview-block">
+      <h3>Usage patterns</h3>
+      <p>
+        Start with projected label content and bind to <code>checkedChange</code> when the parent
+        owns the selected value.
+      </p>
+      <tng-code-block
+        [code]="componentUsageCode"
+        adapter="shiki"
+        language="html"
+        title="Controlled radio"
+        [theme]="codeBlockTheme()"
+        [lineNumbers]="false"
+        [wrap]="true"
+        [sanitizeHtml]="false"
+      ></tng-code-block>
+      <p>
+        For real groups, render multiple radios with the same <code>name</code> and update the
+        selected value only when a newly checked radio emits.
+      </p>
+      <tng-code-block
+        [code]="groupUsageCode"
+        adapter="shiki"
+        language="html"
+        title="Grouped radio pattern"
+        [theme]="codeBlockTheme()"
+        [lineNumbers]="false"
+        [wrap]="true"
+        [sanitizeHtml]="false"
+      ></tng-code-block>
+    </section>
 
-  <section class="radio-overview-block">
-    <h3>Usage patterns</h3>
-    <tng-code-block
-      [code]="primitiveUsageCode"
-      adapter="shiki"
-      language="html"
-      title="Primitive usage"
-      [theme]="codeBlockTheme()"
-      [sanitizeHtml]="false"
-      [wrap]="true"
-      [lineNumbers]="false"
-    ></tng-code-block>
-    <tng-code-block
-      [code]="componentUsageCode"
-      adapter="shiki"
-      language="html"
-      title="Styled usage"
-      [theme]="codeBlockTheme()"
-      [sanitizeHtml]="false"
-      [wrap]="true"
-      [lineNumbers]="false"
-    ></tng-code-block>
-  </section>
-
-  <app-docs-example-tabs-section
-    class="radio-overview-block"
-    heading="Style variants"
-    description="Same radio behavior rendered with headless markup, plain CSS shell, and Tailwind utility styles."
-    ariaLabel="Radio style variants"
-    tabListAriaLabel="Radio style tabs"
-    defaultValue="headless"
-    [codeBlockTheme]="codeBlockTheme()"
-  >
-    <ng-template
-      appDocsExampleVariant
-      value="headless"
-      label="Headless"
-      panelTitle="Headless billing plan"
-      [codeTabs]="headlessCodeTabs"
-    >
-      <fieldset class="radio-preview-stack">
-        <legend class="radio-preview-legend">Billing plan</legend>
-        <label class="radio-row">
-          <input
-            tngRadio
-            name="headless-overview-plan"
-            [checked]="headlessPlan() === 'starter'"
-            (change)="onHeadlessPlanChange('starter', $event)"
-          />
-          <span>Starter</span>
-        </label>
-        <label class="radio-row">
-          <input
-            tngRadio
-            name="headless-overview-plan"
-            [checked]="headlessPlan() === 'pro'"
-            (change)="onHeadlessPlanChange('pro', $event)"
-          />
-          <span>Pro</span>
-        </label>
-        <label class="radio-row">
-          <input
-            tngRadio
-            name="headless-overview-plan"
-            [checked]="headlessPlan() === 'enterprise'"
-            (change)="onHeadlessPlanChange('enterprise', $event)"
-          />
-          <span>Enterprise</span>
-        </label>
-        <p class="radio-selected">selected: {{ headlessPlan() }}</p>
-      </fieldset>
-    </ng-template>
-
-    <ng-template
-      appDocsExampleVariant
-      value="plain-css"
-      label="Plain-CSS"
-      panelTitle="Plain CSS billing plan"
-      [codeTabs]="plainCssCodeTabs"
-    >
-      <div class="plain-radio-card">
-        <tng-radio
-          name="plain-overview-plan"
-          value="starter"
-          [checked]="plainCssPlan() === 'starter'"
-          (checkedChange)="onPlainCssPlanChange('starter', $event)"
-        >
-          Starter
-        </tng-radio>
-        <tng-radio
-          name="plain-overview-plan"
-          value="pro"
-          [checked]="plainCssPlan() === 'pro'"
-          (checkedChange)="onPlainCssPlanChange('pro', $event)"
-        >
-          Pro
-        </tng-radio>
-        <tng-radio
-          name="plain-overview-plan"
-          value="enterprise"
-          [checked]="plainCssPlan() === 'enterprise'"
-          (checkedChange)="onPlainCssPlanChange('enterprise', $event)"
-        >
-          Enterprise
-        </tng-radio>
-        <p class="radio-selected">selected: {{ plainCssPlan() }}</p>
-      </div>
-    </ng-template>
-
-    <ng-template
-      appDocsExampleVariant
-      value="tailwind-css"
-      label="Tailwind CSS"
-      panelTitle="Tailwind billing plan"
-      [codeTabs]="tailwindCodeTabs"
-    >
-      <div
-        class="grid gap-3 rounded-xl border border-slate-300 bg-white/80 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+    <section id="style-variants" class="docs-section-anchor radio-overview-block">
+      <app-docs-example-tabs-section
+        heading="Style variants"
+        description="The same component contract can sit inside a plain CSS shell or a Tailwind shell without changing the radio API."
+        ariaLabel="Radio style variants"
+        tabListAriaLabel="Radio style tabs"
+        defaultValue="plain-css"
+        [codeBlockTheme]="codeBlockTheme()"
       >
-        <tng-radio
-          name="tailwind-overview-plan"
-          value="starter"
-          class="text-slate-900 dark:text-slate-100"
-          [checked]="tailwindPlan() === 'starter'"
-          (checkedChange)="onTailwindPlanChange('starter', $event)"
+        <ng-template
+          appDocsExampleVariant
+          value="plain-css"
+          label="Plain-CSS"
+          panelTitle="Billing plan shell (Plain-CSS)"
+          [codeTabs]="plainCssCodeTabs"
+          [stackblitzUrl]="stackblitzVanillaUrl"
         >
-          Starter
-        </tng-radio>
-        <tng-radio
-          name="tailwind-overview-plan"
-          value="pro"
-          class="text-slate-900 dark:text-slate-100"
-          [checked]="tailwindPlan() === 'pro'"
-          (checkedChange)="onTailwindPlanChange('pro', $event)"
-        >
-          Pro
-        </tng-radio>
-        <tng-radio
-          name="tailwind-overview-plan"
-          value="enterprise"
-          class="text-slate-900 dark:text-slate-100"
-          [checked]="tailwindPlan() === 'enterprise'"
-          (checkedChange)="onTailwindPlanChange('enterprise', $event)"
-        >
-          Enterprise
-        </tng-radio>
-        <p class="text-sm text-slate-700 dark:text-slate-300 m-0">selected: {{ tailwindPlan() }}</p>
-      </div>
-    </ng-template>
-  </app-docs-example-tabs-section>
+          <section class="doc-cmp-radio-overview-card">
+            <h3 class="doc-cmp-radio-overview-card__title">Billing plan</h3>
+            <p class="doc-cmp-radio-overview-card__subtitle">Choose the launch plan for this workspace.</p>
+            <tng-radio
+              class="doc-cmp-radio-overview-item"
+              name="overview-plain-billing-plan"
+              value="starter"
+              [checked]="plainCssPlan() === 'starter'"
+              (checkedChange)="onPlainCssPlanChange('starter', $event)"
+            >
+              Starter
+            </tng-radio>
+            <tng-radio
+              class="doc-cmp-radio-overview-item"
+              name="overview-plain-billing-plan"
+              value="pro"
+              [checked]="plainCssPlan() === 'pro'"
+              (checkedChange)="onPlainCssPlanChange('pro', $event)"
+            >
+              Pro
+            </tng-radio>
+            <tng-radio
+              class="doc-cmp-radio-overview-item doc-cmp-radio-overview-item--muted"
+              name="overview-plain-billing-plan"
+              value="enterprise"
+              [checked]="plainCssPlan() === 'enterprise'"
+              (checkedChange)="onPlainCssPlanChange('enterprise', $event)"
+            >
+              Enterprise
+            </tng-radio>
+            <p class="doc-cmp-radio-overview-card__summary">Selected: {{ plainCssPlan() }}</p>
+          </section>
+        </ng-template>
 
-  <section class="radio-overview-block">
-    <h3>Accessibility baseline</h3>
-    <ul class="radio-overview-list">
-      <li>Native radio semantics are preserved for screen reader compatibility.</li>
-      <li>Keyboard arrow navigation is inherited from native grouped radio behavior.</li>
-      <li>State hooks expose <code>data-state</code>, <code>data-checked</code>, and readonly/invalid attributes.</li>
-    </ul>
-  </section>
+        <ng-template
+          appDocsExampleVariant
+          value="tailwind-css"
+          label="Tailwind CSS"
+          panelTitle="Billing plan shell (Tailwind CSS)"
+          [codeTabs]="tailwindCodeTabs"
+          [stackblitzUrl]="stackblitzTailwindUrl"
+        >
+          <section
+            class="grid w-full max-w-[30rem] gap-3 rounded-2xl border border-slate-300 bg-white p-4 shadow-sm"
+          >
+            <div class="grid gap-1">
+              <h3 class="m-0 text-base font-semibold text-slate-900">Billing plan</h3>
+              <p class="m-0 text-sm text-slate-600">Choose the launch plan for this workspace.</p>
+            </div>
+            <tng-radio
+              class="block rounded-xl border border-slate-200 bg-white px-3 py-2 text-slate-900 shadow-sm [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-focus-ring:rgba(37,99,235,0.22)]"
+              name="overview-tailwind-billing-plan"
+              value="starter"
+              [checked]="tailwindPlan() === 'starter'"
+              (checkedChange)="onTailwindPlanChange('starter', $event)"
+            >
+              Starter
+            </tng-radio>
+            <tng-radio
+              class="block rounded-xl border border-slate-200 bg-white px-3 py-2 text-slate-900 shadow-sm [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-focus-ring:rgba(37,99,235,0.22)]"
+              name="overview-tailwind-billing-plan"
+              value="pro"
+              [checked]="tailwindPlan() === 'pro'"
+              (checkedChange)="onTailwindPlanChange('pro', $event)"
+            >
+              Pro
+            </tng-radio>
+            <tng-radio
+              class="block rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-slate-600 shadow-sm [--tng-semantic-foreground-primary:#475569] [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-focus-ring:rgba(37,99,235,0.22)]"
+              name="overview-tailwind-billing-plan"
+              value="enterprise"
+              [checked]="tailwindPlan() === 'enterprise'"
+              (checkedChange)="onTailwindPlanChange('enterprise', $event)"
+            >
+              Enterprise
+            </tng-radio>
+            <p class="m-0 text-xs text-slate-600">Selected: {{ tailwindPlan() }}</p>
+          </section>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
+
+    <section id="accessibility-baseline" class="docs-section-anchor radio-overview-block">
+      <h3>Accessibility baseline</h3>
+      <ul class="radio-overview-list">
+        <li>Projected content becomes the visible label and accessible name.</li>
+        <li>Mutual exclusion still depends on a shared <code>name</code> across the group.</li>
+        <li>Keyboard arrow navigation comes from the native radio behavior underneath.</li>
+        <li>
+          For custom indicator markup or direct access to <code>data-state</code> hooks on the
+          native input, use the headless or ownable surfaces instead of relying on internal DOM.
+        </li>
+      </ul>
+    </section>
+  </div>
 </article>

@@ -1,239 +1,187 @@
-<article class="radio-examples">
-  <h2 class="radio-examples-title">Examples</h2>
-  <p class="radio-examples-lead">
-    Production radio patterns for single-choice forms and readonly/invalid review states.
-  </p>
+<article class="docs-section-page radio-examples">
+  <div class="docs-section-page-main">
+    <section id="billing-plan-selection" class="docs-section-anchor radio-examples-block">
+      <app-docs-example-tabs-section
+        heading="Billing plan selection"
+        description="Controlled single-choice selection with a summary line that stays outside the radio label."
+        ariaLabel="Radio billing examples"
+        tabListAriaLabel="Radio billing variants"
+        defaultValue="plain-css"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <ng-template
+          appDocsExampleVariant
+          value="plain-css"
+          label="Plain-CSS"
+          panelTitle="Billing plan selection (Plain-CSS)"
+          [codeTabs]="billingPlainCodeTabs"
+          [stackblitzUrl]="stackblitzVanillaUrl"
+        >
+          <section class="doc-cmp-radio-billing-card">
+            <h3 class="doc-cmp-radio-billing-card__title">Billing plan</h3>
+            <p class="doc-cmp-radio-billing-card__subtitle">
+              Select the launch tier for this customer workspace.
+            </p>
+            <tng-radio
+              class="doc-cmp-radio-billing-item"
+              name="examples-plain-billing-plan"
+              value="starter"
+              [checked]="plainBillingPlan() === 'starter'"
+              (checkedChange)="onPlainBillingPlanChange('starter', $event)"
+            >
+              Starter
+            </tng-radio>
+            <tng-radio
+              class="doc-cmp-radio-billing-item"
+              name="examples-plain-billing-plan"
+              value="pro"
+              [checked]="plainBillingPlan() === 'pro'"
+              (checkedChange)="onPlainBillingPlanChange('pro', $event)"
+            >
+              Pro
+            </tng-radio>
+            <tng-radio
+              class="doc-cmp-radio-billing-item doc-cmp-radio-billing-item--muted"
+              name="examples-plain-billing-plan"
+              value="enterprise"
+              [checked]="plainBillingPlan() === 'enterprise'"
+              (checkedChange)="onPlainBillingPlanChange('enterprise', $event)"
+            >
+              Enterprise
+            </tng-radio>
+            <p class="doc-cmp-radio-billing-card__summary">Selected: {{ plainBillingPlan() }}</p>
+          </section>
+        </ng-template>
 
-  <app-docs-example-tabs-section
-    class="radio-examples-block"
-    heading="Billing plan selection"
-    description="Single-selection group with primitive and wrapper implementations."
-    ariaLabel="Radio billing examples"
-    tabListAriaLabel="Radio billing variants"
-    defaultValue="headless"
-    [codeBlockTheme]="codeBlockTheme()"
-  >
-    <ng-template
-      appDocsExampleVariant
-      value="headless"
-      label="Headless"
-      panelTitle="Headless billing radios"
-      [codeTabs]="billingHeadlessCodeTabs"
-    >
-      <fieldset class="radio-example-stack">
-        <legend class="radio-example-legend">Billing plan</legend>
-        <label class="radio-row">
-          <input
-            tngRadio
-            name="examples-headless-billing"
-            [checked]="headlessPlan() === 'starter'"
-            (change)="onHeadlessPlanChange('starter', $event)"
-          />
-          <span>Starter</span>
-        </label>
-        <label class="radio-row">
-          <input
-            tngRadio
-            name="examples-headless-billing"
-            [checked]="headlessPlan() === 'pro'"
-            (change)="onHeadlessPlanChange('pro', $event)"
-          />
-          <span>Pro</span>
-        </label>
-        <label class="radio-row">
-          <input
-            tngRadio
-            name="examples-headless-billing"
-            [checked]="headlessPlan() === 'enterprise'"
-            (change)="onHeadlessPlanChange('enterprise', $event)"
-          />
-          <span>Enterprise</span>
-        </label>
-        <p class="radio-example-summary">selected: {{ headlessPlan() }}</p>
-      </fieldset>
-    </ng-template>
+        <ng-template
+          appDocsExampleVariant
+          value="tailwind-css"
+          label="Tailwind CSS"
+          panelTitle="Billing plan selection (Tailwind CSS)"
+          [codeTabs]="billingTailwindCodeTabs"
+          [stackblitzUrl]="stackblitzTailwindUrl"
+        >
+          <section
+            class="grid w-full max-w-[30rem] gap-3 rounded-2xl border border-slate-300 bg-white p-4 shadow-sm"
+          >
+            <div class="grid gap-1">
+              <h3 class="m-0 text-base font-semibold text-slate-900">
+                Billing plan
+              </h3>
+              <p class="m-0 text-sm text-slate-600">
+                Select the launch tier for this customer workspace.
+              </p>
+            </div>
+            <tng-radio
+              class="block rounded-xl border border-slate-200 bg-white px-3 py-2 text-slate-900 shadow-sm [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-focus-ring:rgba(37,99,235,0.22)]"
+              name="examples-tailwind-billing-plan"
+              value="starter"
+              [checked]="tailwindBillingPlan() === 'starter'"
+              (checkedChange)="onTailwindBillingPlanChange('starter', $event)"
+            >
+              Starter
+            </tng-radio>
+            <tng-radio
+              class="block rounded-xl border border-slate-200 bg-white px-3 py-2 text-slate-900 shadow-sm [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-focus-ring:rgba(37,99,235,0.22)]"
+              name="examples-tailwind-billing-plan"
+              value="pro"
+              [checked]="tailwindBillingPlan() === 'pro'"
+              (checkedChange)="onTailwindBillingPlanChange('pro', $event)"
+            >
+              Pro
+            </tng-radio>
+            <tng-radio
+              class="block rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-slate-600 shadow-sm [--tng-semantic-foreground-primary:#475569] [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-focus-ring:rgba(37,99,235,0.22)]"
+              name="examples-tailwind-billing-plan"
+              value="enterprise"
+              [checked]="tailwindBillingPlan() === 'enterprise'"
+              (checkedChange)="onTailwindBillingPlanChange('enterprise', $event)"
+            >
+              Enterprise
+            </tng-radio>
+            <p class="m-0 text-xs text-slate-600">
+              Selected: {{ tailwindBillingPlan() }}
+            </p>
+          </section>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
 
-    <ng-template
-      appDocsExampleVariant
-      value="plain-css"
-      label="Plain-CSS"
-      panelTitle="Plain CSS billing radios"
-      [codeTabs]="billingPlainCssCodeTabs"
-    >
-      <div class="radio-card">
-        <tng-radio
-          name="examples-plain-billing"
-          value="starter"
-          [checked]="plainCssPlan() === 'starter'"
-          (checkedChange)="onPlainCssPlanChange('starter', $event)"
+    <section id="readonly-and-invalid-review" class="docs-section-anchor radio-examples-block">
+      <app-docs-example-tabs-section
+        heading="Readonly and invalid review"
+        description="Review states stay readable while invalid emphasis can still draw attention to a risky option."
+        ariaLabel="Radio readonly examples"
+        tabListAriaLabel="Radio readonly variants"
+        defaultValue="plain-css"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <ng-template
+          appDocsExampleVariant
+          value="plain-css"
+          label="Plain-CSS"
+          panelTitle="Readonly review (Plain-CSS)"
+          [codeTabs]="readonlyPlainCodeTabs"
+          [stackblitzUrl]="stackblitzVanillaUrl"
         >
-          Starter
-        </tng-radio>
-        <tng-radio
-          name="examples-plain-billing"
-          value="pro"
-          [checked]="plainCssPlan() === 'pro'"
-          (checkedChange)="onPlainCssPlanChange('pro', $event)"
-        >
-          Pro
-        </tng-radio>
-        <tng-radio
-          name="examples-plain-billing"
-          value="enterprise"
-          [checked]="plainCssPlan() === 'enterprise'"
-          (checkedChange)="onPlainCssPlanChange('enterprise', $event)"
-        >
-          Enterprise
-        </tng-radio>
-        <p class="radio-example-summary">selected: {{ plainCssPlan() }}</p>
-      </div>
-    </ng-template>
+          <section class="doc-cmp-radio-review-card">
+            <h3 class="doc-cmp-radio-review-card__title">Release track review</h3>
+            <tng-radio
+              class="doc-cmp-radio-review-item"
+              name="examples-plain-release-track"
+              value="stable"
+              [checked]="true"
+              [readonly]="true"
+            >
+              Stable
+            </tng-radio>
+            <tng-radio
+              class="doc-cmp-radio-review-item doc-cmp-radio-review-item--danger"
+              name="examples-plain-release-track"
+              value="canary"
+              [invalid]="true"
+              [readonly]="true"
+            >
+              Canary requires compliance approval
+            </tng-radio>
+          </section>
+        </ng-template>
 
-    <ng-template
-      appDocsExampleVariant
-      value="tailwind-css"
-      label="Tailwind CSS"
-      panelTitle="Tailwind billing radios"
-      [codeTabs]="billingTailwindCodeTabs"
-    >
-      <div class="grid gap-3 rounded-xl border border-slate-300 bg-white/80 p-4 dark:border-slate-700 dark:bg-slate-900/60">
-        <tng-radio
-          name="examples-tailwind-billing"
-          value="starter"
-          class="text-slate-900 dark:text-slate-100"
-          [checked]="tailwindPlan() === 'starter'"
-          (checkedChange)="onTailwindPlanChange('starter', $event)"
+        <ng-template
+          appDocsExampleVariant
+          value="tailwind-css"
+          label="Tailwind CSS"
+          panelTitle="Readonly review (Tailwind CSS)"
+          [codeTabs]="readonlyTailwindCodeTabs"
+          [stackblitzUrl]="stackblitzTailwindUrl"
         >
-          Starter
-        </tng-radio>
-        <tng-radio
-          name="examples-tailwind-billing"
-          value="pro"
-          class="text-slate-900 dark:text-slate-100"
-          [checked]="tailwindPlan() === 'pro'"
-          (checkedChange)="onTailwindPlanChange('pro', $event)"
-        >
-          Pro
-        </tng-radio>
-        <tng-radio
-          name="examples-tailwind-billing"
-          value="enterprise"
-          class="text-slate-900 dark:text-slate-100"
-          [checked]="tailwindPlan() === 'enterprise'"
-          (checkedChange)="onTailwindPlanChange('enterprise', $event)"
-        >
-          Enterprise
-        </tng-radio>
-        <p class="text-sm text-slate-700 dark:text-slate-300 m-0">selected: {{ tailwindPlan() }}</p>
-      </div>
-    </ng-template>
-  </app-docs-example-tabs-section>
-
-  <app-docs-example-tabs-section
-    class="radio-examples-block"
-    heading="Readonly and invalid review"
-    description="Freeze final decision while still exposing context and validation state hooks."
-    ariaLabel="Radio readonly examples"
-    tabListAriaLabel="Radio readonly variants"
-    defaultValue="headless"
-    [codeBlockTheme]="codeBlockTheme()"
-  >
-    <ng-template
-      appDocsExampleVariant
-      value="headless"
-      label="Headless"
-      panelTitle="Headless readonly radios"
-      [codeTabs]="readonlyHeadlessCodeTabs"
-    >
-      <fieldset class="radio-example-stack">
-        <legend class="radio-example-legend">Release track</legend>
-        <label class="radio-row">
-          <input
-            tngRadio
-            name="examples-headless-track"
-            [readonly]="true"
-            [checked]="headlessTrack() === 'stable'"
-            (change)="onHeadlessTrackChange('stable', $event)"
-          />
-          <span>Stable</span>
-        </label>
-        <label class="radio-row">
-          <input
-            tngRadio
-            name="examples-headless-track"
-            [readonly]="true"
-            [invalid]="true"
-            [checked]="headlessTrack() === 'canary'"
-            (change)="onHeadlessTrackChange('canary', $event)"
-          />
-          <span>Canary (requires approval)</span>
-        </label>
-        <p class="radio-example-summary">selected: {{ headlessTrack() }}</p>
-      </fieldset>
-    </ng-template>
-
-    <ng-template
-      appDocsExampleVariant
-      value="plain-css"
-      label="Plain-CSS"
-      panelTitle="Plain CSS readonly radios"
-      [codeTabs]="readonlyPlainCssCodeTabs"
-    >
-      <div class="radio-card">
-        <tng-radio
-          name="examples-plain-track"
-          value="stable"
-          [readonly]="true"
-          [checked]="plainCssTrack() === 'stable'"
-          (checkedChange)="onPlainCssTrackChange('stable', $event)"
-        >
-          Stable
-        </tng-radio>
-        <tng-radio
-          name="examples-plain-track"
-          value="canary"
-          [readonly]="true"
-          [invalid]="true"
-          [checked]="plainCssTrack() === 'canary'"
-          (checkedChange)="onPlainCssTrackChange('canary', $event)"
-        >
-          Canary (requires approval)
-        </tng-radio>
-        <p class="radio-example-summary">selected: {{ plainCssTrack() }}</p>
-      </div>
-    </ng-template>
-
-    <ng-template
-      appDocsExampleVariant
-      value="tailwind-css"
-      label="Tailwind CSS"
-      panelTitle="Tailwind readonly radios"
-      [codeTabs]="readonlyTailwindCodeTabs"
-    >
-      <div class="grid gap-3 rounded-xl border border-slate-300 bg-white/80 p-4 dark:border-slate-700 dark:bg-slate-900/60">
-        <tng-radio
-          name="examples-tailwind-track"
-          value="stable"
-          [readonly]="true"
-          [checked]="tailwindTrack() === 'stable'"
-          class="text-slate-900 dark:text-slate-100"
-          (checkedChange)="onTailwindTrackChange('stable', $event)"
-        >
-          Stable
-        </tng-radio>
-        <tng-radio
-          name="examples-tailwind-track"
-          value="canary"
-          [readonly]="true"
-          [invalid]="true"
-          [checked]="tailwindTrack() === 'canary'"
-          class="text-slate-900 dark:text-slate-100"
-          (checkedChange)="onTailwindTrackChange('canary', $event)"
-        >
-          Canary (requires approval)
-        </tng-radio>
-        <p class="text-sm text-slate-700 dark:text-slate-300 m-0">selected: {{ tailwindTrack() }}</p>
-      </div>
-    </ng-template>
-  </app-docs-example-tabs-section>
+          <section
+            class="grid w-full max-w-[30rem] gap-3 rounded-2xl border border-slate-300 bg-white p-4 shadow-sm"
+          >
+            <h3 class="m-0 text-base font-semibold text-slate-900">
+              Release track review
+            </h3>
+            <tng-radio
+              class="block rounded-xl border border-slate-200 bg-white px-3 py-2 text-slate-900 shadow-sm [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-focus-ring:rgba(37,99,235,0.22)]"
+              name="examples-tailwind-release-track"
+              value="stable"
+              [checked]="true"
+              [readonly]="true"
+            >
+              Stable
+            </tng-radio>
+            <tng-radio
+              class="block rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-rose-900 shadow-sm [--tng-semantic-foreground-primary:#9f1239] [--tng-semantic-accent-danger:#dc2626] [--tng-semantic-focus-ring:rgba(220,38,38,0.18)]"
+              name="examples-tailwind-release-track"
+              value="canary"
+              [invalid]="true"
+              [readonly]="true"
+            >
+              Canary requires compliance approval
+            </tng-radio>
+          </section>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
+  </div>
 </article>

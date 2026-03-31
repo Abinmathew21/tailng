@@ -1,0 +1,312 @@
+<article class="radio-examples docs-section-page">
+  <div class="docs-section-page-main">
+    <h2 class="radio-examples-title">Examples</h2>
+    <p class="radio-examples-lead">
+      Copy-ready radio patterns that stay fully headless. Your app owns the fieldset, layout, and
+      labels while the primitive preserves the native selection behavior.
+    </p>
+
+    <section id="billing-plan-selection" class="docs-section-anchor radio-examples-block">
+      <app-docs-example-tabs-section
+        heading="Billing plan selection"
+        description="Single-choice plan selector with an owned summary line."
+        ariaLabel="Billing plan radio variants"
+        tabListAriaLabel="Billing plan style variants"
+        defaultValue="plain-css"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <ng-template
+          appDocsExampleVariant
+          value="plain-css"
+          label="Plain-CSS"
+          panelTitle="Billing plan selection (Plain-CSS)"
+          [codeTabs]="billingPlainCodeTabs"
+          [stackblitzUrl]="stackblitzVanillaUrl"
+        >
+          <fieldset class="headless-radio-billing-card">
+            <legend class="headless-radio-billing-card__legend">Billing plan</legend>
+            <label class="headless-radio-billing-card__row">
+              <input
+                type="radio"
+                tngRadio
+                name="headless-billing-plain"
+                [checked]="plainBillingPlan() === 'starter'"
+                (change)="onPlainBillingPlanChange('starter', $event)"
+                class="headless-radio-billing-card__control"
+              />
+              <span>Starter</span>
+            </label>
+            <label class="headless-radio-billing-card__row">
+              <input
+                type="radio"
+                tngRadio
+                name="headless-billing-plain"
+                [checked]="plainBillingPlan() === 'pro'"
+                (change)="onPlainBillingPlanChange('pro', $event)"
+                class="headless-radio-billing-card__control"
+              />
+              <span>Pro</span>
+            </label>
+            <label class="headless-radio-billing-card__row">
+              <input
+                type="radio"
+                tngRadio
+                name="headless-billing-plain"
+                [checked]="plainBillingPlan() === 'enterprise'"
+                (change)="onPlainBillingPlanChange('enterprise', $event)"
+                class="headless-radio-billing-card__control"
+              />
+              <span>Enterprise</span>
+            </label>
+            <p class="headless-radio-billing-card__summary">
+              Selected: {{ plainBillingPlan() }}
+            </p>
+          </fieldset>
+        </ng-template>
+
+        <ng-template
+          appDocsExampleVariant
+          value="tailwind-css"
+          label="Tailwind CSS"
+          panelTitle="Billing plan selection (Tailwind CSS)"
+          [codeTabs]="billingTailwindCodeTabs"
+          [stackblitzUrl]="stackblitzTailwindUrl"
+        >
+          <fieldset
+            class="grid w-full max-w-[28rem] gap-3 rounded-xl border border-slate-300 bg-white p-4 shadow-sm"
+          >
+            <legend class="text-sm font-semibold text-slate-900">
+              Billing plan
+            </legend>
+            <label
+              class="inline-flex items-center gap-3 text-sm font-medium text-slate-900"
+            >
+              <input
+                type="radio"
+                tngRadio
+                name="headless-billing-tailwind"
+                [checked]="tailwindBillingPlan() === 'starter'"
+                (change)="onTailwindBillingPlanChange('starter', $event)"
+                class="h-4 w-4 border-slate-300 text-blue-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/40"
+              />
+              <span>Starter</span>
+            </label>
+            <label
+              class="inline-flex items-center gap-3 text-sm font-medium text-slate-900"
+            >
+              <input
+                type="radio"
+                tngRadio
+                name="headless-billing-tailwind"
+                [checked]="tailwindBillingPlan() === 'pro'"
+                (change)="onTailwindBillingPlanChange('pro', $event)"
+                class="h-4 w-4 border-slate-300 text-blue-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/40"
+              />
+              <span>Pro</span>
+            </label>
+            <label
+              class="inline-flex items-center gap-3 text-sm font-medium text-slate-900"
+            >
+              <input
+                type="radio"
+                tngRadio
+                name="headless-billing-tailwind"
+                [checked]="tailwindBillingPlan() === 'enterprise'"
+                (change)="onTailwindBillingPlanChange('enterprise', $event)"
+                class="h-4 w-4 border-slate-300 text-blue-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/40"
+              />
+              <span>Enterprise</span>
+            </label>
+            <p class="m-0 text-xs text-slate-600">
+              Selected: {{ tailwindBillingPlan() }}
+            </p>
+          </fieldset>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
+
+    <section id="release-track-review" class="docs-section-anchor radio-examples-block">
+      <app-docs-example-tabs-section
+        heading="Release track review"
+        description="Readonly review states still expose which track is currently approved."
+        ariaLabel="Release track radio variants"
+        tabListAriaLabel="Release track style variants"
+        defaultValue="plain-css"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <ng-template
+          appDocsExampleVariant
+          value="plain-css"
+          label="Plain-CSS"
+          panelTitle="Release track review (Plain-CSS)"
+          [codeTabs]="reviewPlainCodeTabs"
+          [stackblitzUrl]="stackblitzVanillaUrl"
+        >
+          <fieldset class="headless-radio-review-card">
+            <legend class="headless-radio-review-card__legend">Release track</legend>
+            <label class="headless-radio-review-card__row">
+              <input
+                type="radio"
+                tngRadio
+                name="headless-review-plain"
+                [readonly]="true"
+                [checked]="plainReleaseTrack() === 'stable'"
+                class="headless-radio-review-card__control"
+              />
+              <span>Stable</span>
+            </label>
+            <label class="headless-radio-review-card__row headless-radio-review-card__row--danger">
+              <input
+                type="radio"
+                tngRadio
+                name="headless-review-plain"
+                [readonly]="true"
+                [invalid]="true"
+                [checked]="plainReleaseTrack() === 'canary'"
+                class="headless-radio-review-card__control"
+              />
+              <span>Canary requires sign-off</span>
+            </label>
+          </fieldset>
+        </ng-template>
+
+        <ng-template
+          appDocsExampleVariant
+          value="tailwind-css"
+          label="Tailwind CSS"
+          panelTitle="Release track review (Tailwind CSS)"
+          [codeTabs]="reviewTailwindCodeTabs"
+          [stackblitzUrl]="stackblitzTailwindUrl"
+        >
+          <fieldset
+            class="grid w-full max-w-[28rem] gap-3 rounded-xl border border-slate-300 bg-white p-4 shadow-sm"
+          >
+            <legend class="text-sm font-semibold text-slate-900">
+              Release track
+            </legend>
+            <label
+              class="inline-flex items-center gap-3 text-sm font-medium text-slate-900"
+            >
+              <input
+                type="radio"
+                tngRadio
+                name="headless-review-tailwind"
+                [readonly]="true"
+                [checked]="tailwindReleaseTrack() === 'stable'"
+                class="h-4 w-4 border-slate-300 text-blue-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/40"
+              />
+              <span>Stable</span>
+            </label>
+            <label
+              class="inline-flex items-center gap-3 text-sm font-medium text-rose-700"
+            >
+              <input
+                type="radio"
+                tngRadio
+                name="headless-review-tailwind"
+                [readonly]="true"
+                [invalid]="true"
+                [checked]="tailwindReleaseTrack() === 'canary'"
+                class="h-4 w-4 border-rose-400 text-blue-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-500/30"
+              />
+              <span>Canary requires sign-off</span>
+            </label>
+          </fieldset>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
+
+    <section id="notification-preferences" class="docs-section-anchor radio-examples-block">
+      <app-docs-example-tabs-section
+        heading="Notification preferences"
+        description="A small, owned choice card for the alert route the team should use."
+        ariaLabel="Notification route radio variants"
+        tabListAriaLabel="Notification route style variants"
+        defaultValue="plain-css"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <ng-template
+          appDocsExampleVariant
+          value="plain-css"
+          label="Plain-CSS"
+          panelTitle="Notification route (Plain-CSS)"
+          [codeTabs]="alertPlainCodeTabs"
+          [stackblitzUrl]="stackblitzVanillaUrl"
+        >
+          <section class="headless-radio-alert-card">
+            <h3 class="headless-radio-alert-card__title">Alert route</h3>
+            <label class="headless-radio-alert-card__row">
+              <input
+                type="radio"
+                tngRadio
+                name="headless-alert-plain"
+                [checked]="plainAlertRoute() === 'email'"
+                (change)="onPlainAlertRouteChange('email', $event)"
+                class="headless-radio-alert-card__control"
+              />
+              <span>Email the release owner</span>
+            </label>
+            <label class="headless-radio-alert-card__row">
+              <input
+                type="radio"
+                tngRadio
+                name="headless-alert-plain"
+                [checked]="plainAlertRoute() === 'slack'"
+                (change)="onPlainAlertRouteChange('slack', $event)"
+                class="headless-radio-alert-card__control"
+              />
+              <span>Post to the incident Slack channel</span>
+            </label>
+            <p class="headless-radio-alert-card__summary">Selected: {{ plainAlertRoute() }}</p>
+          </section>
+        </ng-template>
+
+        <ng-template
+          appDocsExampleVariant
+          value="tailwind-css"
+          label="Tailwind CSS"
+          panelTitle="Notification route (Tailwind CSS)"
+          [codeTabs]="alertTailwindCodeTabs"
+          [stackblitzUrl]="stackblitzTailwindUrl"
+        >
+          <section
+            class="grid w-full max-w-[30rem] gap-3 rounded-xl border border-slate-300 bg-white p-4 shadow-sm"
+          >
+            <h3 class="m-0 text-sm font-semibold text-slate-900">
+              Alert route
+            </h3>
+            <label
+              class="inline-flex items-center gap-3 text-sm font-medium text-slate-900"
+            >
+              <input
+                type="radio"
+                tngRadio
+                name="headless-alert-tailwind"
+                [checked]="tailwindAlertRoute() === 'email'"
+                (change)="onTailwindAlertRouteChange('email', $event)"
+                class="h-4 w-4 border-slate-300 text-blue-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/40"
+              />
+              <span>Email the release owner</span>
+            </label>
+            <label
+              class="inline-flex items-center gap-3 text-sm font-medium text-slate-900"
+            >
+              <input
+                type="radio"
+                tngRadio
+                name="headless-alert-tailwind"
+                [checked]="tailwindAlertRoute() === 'slack'"
+                (change)="onTailwindAlertRouteChange('slack', $event)"
+                class="h-4 w-4 border-slate-300 text-blue-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/40"
+              />
+              <span>Post to the incident Slack channel</span>
+            </label>
+            <p class="m-0 text-xs text-slate-600">
+              Selected: {{ tailwindAlertRoute() }}
+            </p>
+          </section>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
+  </div>
+</article>

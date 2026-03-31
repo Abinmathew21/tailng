@@ -74,6 +74,13 @@ export const OWNABLE_FORM_GROUP: OwnableDocsGroup = {
         'Ownable checkbox install with local wrapper source, form integration, and generated file structure.',
     },
     {
+      id: 'radio',
+      slug: 'radio',
+      title: 'Radio',
+      description:
+        'Ownable radio install with local wrapper source, group semantics, and generated file structure.',
+    },
+    {
       id: 'input',
       slug: 'input',
       title: 'Input',

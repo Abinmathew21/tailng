@@ -48,24 +48,8 @@ export const COMPONENTS_FORM_RADIO_ROUTES: Routes = [
       },
       {
         path: 'ownable-install',
-        data: {
-          registrySlug: 'radio',
-          usageCode: [
-            '<tng-radio',
-            '  name="plan"',
-            '  value="pro"',
-            '  [checked]="plan === \'pro\'"',
-            '  (checkedChange)="plan = $event ? \'pro\' : plan"',
-            '>',
-            '  Pro plan',
-            '</tng-radio>',
-            '',
-          ].join('\n'),
-        },
-        loadComponent: () =>
-          import('../../../../shared/ownable-install-section/docs-ownable-install-section.component').then(
-            (module) => module.DocsOwnableInstallSectionComponent,
-          ),
+        pathMatch: 'full',
+        redirectTo: '/ownable/form/radio',
       },
       {
         path: '**',
