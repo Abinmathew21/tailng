@@ -1,0 +1,283 @@
+<article class="docs-section-page headless-toggle-examples">
+  <div class="docs-section-page-main">
+    <section id="standalone-formatting" class="docs-section-anchor headless-toggle-examples__block">
+      <h2 class="headless-toggle-examples__title">Examples</h2>
+      <p class="headless-toggle-examples__lead">
+        These scenarios stay on the primitive layer so you can own the button label, shell layout,
+        and selection summary directly.
+      </p>
+
+      <app-docs-example-tabs-section
+        heading="Standalone formatting toggles"
+        description="Multiple-selection formatting actions where each button keeps its own pressed state."
+        ariaLabel="Headless toggle formatting examples"
+        tabListAriaLabel="Headless toggle formatting style variants"
+        defaultValue="plain-css"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <ng-template
+          appDocsExampleVariant
+          value="plain-css"
+          label="Plain-CSS"
+          panelTitle="Standalone formatting toggles (Plain-CSS)"
+          [codeTabs]="toolbarPlainCodeTabs"
+          [stackblitzUrl]="stackblitzVanillaUrl"
+        >
+          <section class="headless-toggle-toolbar-example">
+            <div
+              tngToggleGroup
+              class="headless-toggle-toolbar-example__group"
+              ariaLabel="Editor tools"
+              [values]="plainToolbarSelections()"
+              (valuesChange)="onPlainToolbarSelectionsChange($event)"
+            >
+              <button tngToggle tngToggleValue="bold" class="headless-toggle-toolbar-example__item">
+                Bold
+              </button>
+              <button tngToggle tngToggleValue="code" class="headless-toggle-toolbar-example__item">
+                Code
+              </button>
+            </div>
+            <p class="headless-toggle-toolbar-example__summary">
+              Active: {{ plainToolbarSelections().join(", ") }}
+            </p>
+          </section>
+        </ng-template>
+
+        <ng-template
+          appDocsExampleVariant
+          value="tailwind-css"
+          label="Tailwind CSS"
+          panelTitle="Standalone formatting toggles (Tailwind CSS)"
+          [codeTabs]="toolbarTailwindCodeTabs"
+          [stackblitzUrl]="stackblitzTailwindUrl"
+        >
+          <section
+            class="grid w-full max-w-[28rem] gap-3 rounded-2xl border border-slate-300 bg-white p-4 text-slate-900 shadow-sm [color-scheme:light]"
+          >
+            <div class="grid gap-1">
+              <span class="text-base font-semibold text-slate-900">Editor tools</span>
+              <p class="m-0 text-sm leading-6 text-slate-600">
+                Multiple-selection formatting actions where each button keeps its own pressed
+                state.
+              </p>
+            </div>
+            <div
+              tngToggleGroup
+              class="inline-flex flex-wrap gap-2 rounded-2xl border border-slate-200 bg-slate-100 p-2.5"
+              ariaLabel="Editor tools"
+              [values]="tailwindToolbarSelections()"
+              (valuesChange)="onTailwindToolbarSelectionsChange($event)"
+            >
+              <button
+                tngToggle
+                tngToggleValue="bold"
+                class="inline-flex min-h-9 min-w-[5.4rem] items-center justify-center rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-800 transition data-[state=on]:border-blue-600 data-[state=on]:bg-blue-600 data-[state=on]:text-white focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-100"
+              >
+                Bold
+              </button>
+              <button
+                tngToggle
+                tngToggleValue="code"
+                class="inline-flex min-h-9 min-w-[5.4rem] items-center justify-center rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-800 transition data-[state=on]:border-blue-600 data-[state=on]:bg-blue-600 data-[state=on]:text-white focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-100"
+              >
+                Code
+              </button>
+            </div>
+            <p class="m-0 text-xs text-slate-600">
+              Active: {{ tailwindToolbarSelections().join(", ") }}
+            </p>
+          </section>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
+
+    <section id="view-mode-selection" class="docs-section-anchor headless-toggle-examples__block">
+      <app-docs-example-tabs-section
+        heading="View mode selector"
+        description="Single-select groups work well for mutually exclusive layout choices."
+        ariaLabel="Headless toggle view mode examples"
+        tabListAriaLabel="Headless toggle view mode style variants"
+        defaultValue="plain-css"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <ng-template
+          appDocsExampleVariant
+          value="plain-css"
+          label="Plain-CSS"
+          panelTitle="View mode selector (Plain-CSS)"
+          [codeTabs]="viewModePlainCodeTabs"
+          [stackblitzUrl]="stackblitzVanillaUrl"
+        >
+          <section class="headless-toggle-view-mode-example">
+            <div class="headless-toggle-view-mode-example__header">
+              <span class="headless-toggle-view-mode-example__eyebrow">View mode</span>
+              <p class="headless-toggle-view-mode-example__body">
+                Single-select groups are a good fit for layout pickers.
+              </p>
+            </div>
+            <div
+              tngToggleGroup
+              class="headless-toggle-view-mode-example__group"
+              selectionMode="single"
+              ariaLabel="View mode"
+              [value]="plainViewMode()"
+              (valueChange)="onPlainViewModeChange($event)"
+            >
+              <button
+                tngToggle
+                tngToggleValue="grid"
+                class="headless-toggle-view-mode-example__item"
+              >
+                Grid
+              </button>
+              <button
+                tngToggle
+                tngToggleValue="list"
+                class="headless-toggle-view-mode-example__item"
+              >
+                List
+              </button>
+              <button
+                tngToggle
+                tngToggleValue="split"
+                class="headless-toggle-view-mode-example__item"
+              >
+                Split
+              </button>
+            </div>
+            <p class="headless-toggle-view-mode-example__summary">
+              Selected: {{ plainViewMode() }}
+            </p>
+          </section>
+        </ng-template>
+
+        <ng-template
+          appDocsExampleVariant
+          value="tailwind-css"
+          label="Tailwind CSS"
+          panelTitle="View mode selector (Tailwind CSS)"
+          [codeTabs]="viewModeTailwindCodeTabs"
+          [stackblitzUrl]="stackblitzTailwindUrl"
+        >
+          <section
+            class="grid w-full max-w-[30rem] gap-3 rounded-2xl border border-slate-300 bg-white p-4 text-slate-900 shadow-sm [color-scheme:light]"
+          >
+            <div class="grid gap-1">
+              <span class="text-base font-semibold text-slate-900">View mode</span>
+              <p class="m-0 text-sm leading-6 text-slate-600">
+                Single-select groups are a good fit for layout pickers.
+              </p>
+            </div>
+            <div
+              tngToggleGroup
+              class="inline-flex flex-wrap gap-2 rounded-2xl border border-slate-200 bg-slate-100 p-2.5"
+              selectionMode="single"
+              ariaLabel="View mode"
+              [value]="tailwindViewMode()"
+              (valueChange)="onTailwindViewModeChange($event)"
+            >
+              <button
+                tngToggle
+                tngToggleValue="grid"
+                class="inline-flex min-h-9 min-w-[5.4rem] items-center justify-center rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-800 transition data-[state=on]:border-blue-600 data-[state=on]:bg-blue-600 data-[state=on]:text-white focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-100"
+              >
+                Grid
+              </button>
+              <button
+                tngToggle
+                tngToggleValue="list"
+                class="inline-flex min-h-9 min-w-[5.4rem] items-center justify-center rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-800 transition data-[state=on]:border-blue-600 data-[state=on]:bg-blue-600 data-[state=on]:text-white focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-100"
+              >
+                List
+              </button>
+              <button
+                tngToggle
+                tngToggleValue="split"
+                class="inline-flex min-h-9 min-w-[5.4rem] items-center justify-center rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-800 transition data-[state=on]:border-blue-600 data-[state=on]:bg-blue-600 data-[state=on]:text-white focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-100"
+              >
+                Split
+              </button>
+            </div>
+            <p class="m-0 text-xs text-slate-600">Selected: {{ tailwindViewMode() }}</p>
+          </section>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
+
+    <section id="disabled-fallbacks" class="docs-section-anchor headless-toggle-examples__block">
+      <app-docs-example-tabs-section
+        heading="Disabled fallback actions"
+        description="Keep the primary action available while clearly muting the unavailable fallback."
+        ariaLabel="Headless toggle disabled action examples"
+        tabListAriaLabel="Headless toggle disabled action style variants"
+        defaultValue="plain-css"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <ng-template
+          appDocsExampleVariant
+          value="plain-css"
+          label="Plain-CSS"
+          panelTitle="Disabled fallback actions (Plain-CSS)"
+          [codeTabs]="disabledPlainCodeTabs"
+          [stackblitzUrl]="stackblitzVanillaUrl"
+        >
+          <section class="headless-toggle-disabled-example">
+            <button
+              tngToggle
+              class="headless-toggle-disabled-example__item"
+              [pressed]="plainAlertsEnabled()"
+              (pressedChange)="plainAlertsEnabled.set($event)"
+            >
+              Alerts
+            </button>
+            <button
+              tngToggle
+              class="headless-toggle-disabled-example__item"
+              [disabled]="true"
+            >
+              Scheduled reports
+            </button>
+          </section>
+        </ng-template>
+
+        <ng-template
+          appDocsExampleVariant
+          value="tailwind-css"
+          label="Tailwind CSS"
+          panelTitle="Disabled fallback actions (Tailwind CSS)"
+          [codeTabs]="disabledTailwindCodeTabs"
+          [stackblitzUrl]="stackblitzTailwindUrl"
+        >
+          <section
+            class="grid w-full max-w-[28rem] gap-3 rounded-2xl border border-slate-300 bg-white p-4 text-slate-900 shadow-sm [color-scheme:light]"
+          >
+            <div class="grid gap-1">
+              <span class="text-base font-semibold text-slate-900">Fallback actions</span>
+              <p class="m-0 text-sm leading-6 text-slate-600">
+                Keep the primary action available while clearly muting the unavailable fallback.
+              </p>
+            </div>
+            <div class="inline-flex flex-wrap gap-2">
+              <button
+                tngToggle
+                class="inline-flex min-h-9 min-w-[7.25rem] items-center justify-center rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-800 transition data-[state=on]:border-blue-600 data-[state=on]:bg-blue-600 data-[state=on]:text-white focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-100"
+                [pressed]="tailwindAlertsEnabled()"
+                (pressedChange)="tailwindAlertsEnabled.set($event)"
+              >
+                Alerts
+              </button>
+              <button
+                tngToggle
+                class="inline-flex min-h-9 min-w-[9.5rem] items-center justify-center rounded-xl border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-semibold text-slate-400 shadow-none opacity-100 transition disabled:cursor-not-allowed disabled:border-slate-200 disabled:bg-slate-50 disabled:text-slate-400 disabled:shadow-none disabled:opacity-100"
+                [disabled]="true"
+              >
+                Scheduled reports
+              </button>
+            </div>
+          </section>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
+  </div>
+</article>

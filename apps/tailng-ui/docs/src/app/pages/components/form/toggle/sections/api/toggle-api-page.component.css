@@ -28,7 +28,8 @@
   padding: 1rem;
 }
 
-.toggle-api-block h3 {
+.toggle-api-block h3,
+.toggle-api-subheading {
   color: var(--tng-semantic-foreground-primary);
   font-size: 1rem;
   margin: 0;
@@ -36,6 +37,11 @@
 
 .toggle-api-block p {
   margin: 0;
+}
+
+.toggle-api-subheading {
+  font-size: 0.95rem;
+  margin-top: 0.4rem;
 }
 
 .toggle-api-table-wrap {

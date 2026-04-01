@@ -1,18 +1,17 @@
 <article class="toggle-api">
-  <h2 class="toggle-api-title">API reference</h2>
-  <p class="toggle-api-lead">
-    Toggle exposes a headless primitive directive and a styled component wrapper for fast product
-    integration.
-  </p>
-
-  <section class="toggle-api-block">
-    <h3><code>tngToggle</code> (directive)</h3>
-    <p>Attach on native <code>button</code> elements for pressed-button semantics.</p>
+  <section id="tngtoggle-directive" class="toggle-api-block docs-section-anchor">
+    <h2 class="toggle-api-title">API reference</h2>
+    <p class="toggle-api-lead">
+      The component layer keeps the primitive pressed-button semantics. The underlying rendered
+      button still exposes the same <code>aria-pressed</code>, <code>data-state</code>, and focus
+      hooks that power the headless directive.
+    </p>
     <tng-code-block
-      [code]="primitiveAttachmentCode"
+      [code]="primitiveBridgeCode"
       adapter="shiki"
       language="html"
-      title="Primitive attachment"
+      title="Primitive bridge"
+      [theme]="codeBlockTheme()"
       [lineNumbers]="false"
       [wrap]="true"
       [sanitizeHtml]="false"
@@ -22,7 +21,76 @@
       <table class="toggle-api-table">
         <thead>
           <tr>
-            <th scope="col">Input</th>
+            <th scope="col">Hook</th>
+            <th scope="col">Appears on</th>
+            <th scope="col">Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>aria-pressed</code></td>
+            <td>Rendered button</td>
+            <td>Announces the pressed state for assistive technologies.</td>
+          </tr>
+          <tr>
+            <td><code>data-state="on|off"</code></td>
+            <td>Rendered button</td>
+            <td>Primary styling hook for selected and idle states.</td>
+          </tr>
+          <tr>
+            <td><code>data-disabled</code></td>
+            <td>Rendered button</td>
+            <td>Applied when the toggle or its parent group is disabled.</td>
+          </tr>
+          <tr>
+            <td><code>data-focused</code>, <code>data-focus-visible</code></td>
+            <td>Rendered button</td>
+            <td>Lets component themes express focus and keyboard focus separately.</td>
+          </tr>
+          <tr>
+            <td><code>data-slot="toggle"</code></td>
+            <td>Rendered button</td>
+            <td>Stable selector for tests and internal wrapper styling.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="tng-toggle-styled-component" class="toggle-api-block docs-section-anchor">
+    <h3><code>&lt;tng-toggle&gt;</code> and <code>&lt;tng-toggle-group&gt;</code></h3>
+    <p>
+      <code>&lt;tng-toggle&gt;</code> is the styled, icon-slot wrapper for the primitive directive.
+      Add <code>&lt;tng-toggle-group&gt;</code> when the selected value should be coordinated across
+      multiple toggles.
+    </p>
+    <tng-code-block
+      [code]="componentStandaloneCode"
+      adapter="shiki"
+      language="html"
+      title="Standalone component usage"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+    <tng-code-block
+      [code]="componentGroupCode"
+      adapter="shiki"
+      language="html"
+      title="Grouped selection usage"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+
+    <h4 class="toggle-api-subheading"><code>&lt;tng-toggle&gt;</code> component contract</h4>
+    <div class="toggle-api-table-wrap">
+      <table class="toggle-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Input / Output</th>
             <th scope="col">Type</th>
             <th scope="col">Default</th>
             <th scope="col">Notes</th>
@@ -30,137 +98,121 @@
         </thead>
         <tbody>
           <tr>
-            <td><code>pressed</code></td>
-            <td><code>boolean | null | '' | 'true' | 'false'</code></td>
+            <td><code>value</code></td>
+            <td><code>string | null</code></td>
             <td><code>null</code></td>
-            <td>Controlled pressed value when supplied.</td>
+            <td>Item identity inside <code>&lt;tng-toggle-group&gt;</code>. Set this for grouped selection.</td>
+          </tr>
+          <tr>
+            <td><code>pressed</code></td>
+            <td><code>boolean | null</code></td>
+            <td><code>null</code></td>
+            <td>Controlled pressed state for standalone usage.</td>
           </tr>
           <tr>
             <td><code>defaultPressed</code></td>
-            <td><code>boolean | '' | string</code></td>
+            <td><code>boolean</code></td>
             <td><code>false</code></td>
-            <td>Initial value for uncontrolled mode.</td>
+            <td>Initial value for uncontrolled standalone toggles.</td>
           </tr>
           <tr>
             <td><code>disabled</code></td>
-            <td><code>boolean | '' | string</code></td>
+            <td><code>boolean</code></td>
             <td><code>false</code></td>
-            <td>Blocks interaction and applies disabled attributes.</td>
+            <td>Disables the item directly. Group-level disabled also flows through.</td>
+          </tr>
+          <tr>
+            <td><code>pressedLabel</code></td>
+            <td><code>string</code></td>
+            <td><code>'Enabled'</code></td>
+            <td>Fallback <code>aria-label</code> when the toggle is pressed.</td>
+          </tr>
+          <tr>
+            <td><code>unpressedLabel</code></td>
+            <td><code>string</code></td>
+            <td><code>'Disabled'</code></td>
+            <td>Fallback <code>aria-label</code> when the toggle is not pressed.</td>
+          </tr>
+          <tr>
+            <td><code>ariaLabel</code>, <code>ariaLabelledby</code>, <code>ariaDescribedBy</code></td>
+            <td><code>string | null</code></td>
+            <td><code>null</code></td>
+            <td>Explicit accessibility hooks. <code>ariaLabel</code> overrides the pressed/unpressed labels.</td>
+          </tr>
+          <tr>
+            <td><code>pressedChange</code></td>
+            <td><code>boolean</code></td>
+            <td>Output</td>
+            <td>Emits on user activation and underlies ControlValueAccessor updates.</td>
+          </tr>
+          <tr>
+            <td><code>[offIcon]</code>, <code>[onIcon]</code></td>
+            <td>Projected slots</td>
+            <td>Optional</td>
+            <td>The component renders the matching slot based on the current state.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4 class="toggle-api-subheading"><code>&lt;tng-toggle-group&gt;</code> component contract</h4>
+    <div class="toggle-api-table-wrap">
+      <table class="toggle-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Input / Output</th>
+            <th scope="col">Type</th>
+            <th scope="col">Default</th>
+            <th scope="col">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>selectionMode</code></td>
+            <td><code>'multiple' | 'single'</code></td>
+            <td><code>'multiple'</code></td>
+            <td>Choose one value with <code>value</code>, or several with <code>values</code>.</td>
+          </tr>
+          <tr>
+            <td><code>orientation</code></td>
+            <td><code>'horizontal' | 'vertical'</code></td>
+            <td><code>'horizontal'</code></td>
+            <td>Reflected to <code>data-orientation</code> for styling and testing.</td>
+          </tr>
+          <tr>
+            <td><code>value</code>, <code>defaultValue</code>, <code>valueChange</code></td>
+            <td><code>string | null</code></td>
+            <td><code>null</code></td>
+            <td>Single-selection contract.</td>
+          </tr>
+          <tr>
+            <td><code>values</code>, <code>defaultValues</code>, <code>valuesChange</code></td>
+            <td><code>readonly string[]</code></td>
+            <td><code>[]</code></td>
+            <td>Multiple-selection contract.</td>
+          </tr>
+          <tr>
+            <td><code>disabled</code></td>
+            <td><code>boolean</code></td>
+            <td><code>false</code></td>
+            <td>Disables every nested toggle and applies group-level disabled hooks.</td>
           </tr>
           <tr>
             <td><code>ariaLabel</code>, <code>ariaLabelledby</code></td>
             <td><code>string | null</code></td>
             <td><code>null</code></td>
-            <td>Accessible naming hooks.</td>
-          </tr>
-          <tr>
-            <td><code>ariaDescribedBy</code></td>
-            <td><code>string | null</code></td>
-            <td><code>null</code></td>
-            <td>Links helper or status text.</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="toggle-api-table-wrap">
-      <table class="toggle-api-table">
-        <thead>
-          <tr>
-            <th scope="col">Output / Attribute</th>
-            <th scope="col">When set</th>
-            <th scope="col">Purpose</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><code>pressedChange</code></td>
-            <td>On activation</td>
-            <td>Emits next pressed value.</td>
-          </tr>
-          <tr>
-            <td><code>aria-pressed</code></td>
-            <td>Always</td>
-            <td>Announces pressed/unpressed state.</td>
-          </tr>
-          <tr>
-            <td><code>data-state</code></td>
-            <td>Always</td>
-            <td>State hook: <code>on</code> or <code>off</code>.</td>
-          </tr>
-          <tr>
-            <td><code>data-disabled</code></td>
-            <td>When disabled</td>
-            <td>Styling hook for disabled state.</td>
-          </tr>
-          <tr>
-            <td><code>data-focused</code>, <code>data-focus-visible</code></td>
-            <td>Focus lifecycle</td>
-            <td>Keyboard-aware focus styling hooks.</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-
-  <section class="toggle-api-block">
-    <h3><code>tng-toggle</code> (styled component)</h3>
-    <p>
-      Wrapper over <code>tngToggle</code> with icon slots, controlled/uncontrolled modes, and
-      optional ControlValueAccessor wiring.
-    </p>
-    <tng-code-block
-      [code]="componentAttachmentCode"
-      adapter="shiki"
-      language="html"
-      title="Styled attachment"
-      [lineNumbers]="false"
-      [wrap]="true"
-      [sanitizeHtml]="false"
-    ></tng-code-block>
-
-    <div class="toggle-api-table-wrap">
-      <table class="toggle-api-table">
-        <thead>
-          <tr>
-            <th scope="col">API</th>
-            <th scope="col">Type</th>
-            <th scope="col">Details</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Inputs</td>
-            <td>
-              <code>pressed</code>, <code>defaultPressed</code>, <code>disabled</code>,
-              <code>pressedLabel</code>, <code>unpressedLabel</code>, <code>aria*</code>
-            </td>
-            <td>Supports controlled and uncontrolled toggle flows.</td>
-          </tr>
-          <tr>
-            <td>Output</td>
-            <td><code>pressedChange</code></td>
-            <td>Emits next pressed value on user activation.</td>
-          </tr>
-          <tr>
-            <td>Forms</td>
-            <td><code>ControlValueAccessor</code></td>
-            <td>Works with <code>formControl</code> and <code>formControlName</code>.</td>
-          </tr>
-          <tr>
-            <td>Model type</td>
-            <td><code>boolean</code></td>
-            <td>Pressed state maps directly to boolean form values.</td>
+            <td>Accessible name for the selection region.</td>
           </tr>
         </tbody>
       </table>
     </div>
 
     <tng-code-block
-      [code]="reactiveFormCode"
+      [code]="reactiveFormsCode"
       adapter="shiki"
       language="ts"
-      title="Reactive forms"
+      title="Reactive forms with standalone toggle"
+      [theme]="codeBlockTheme()"
       [lineNumbers]="false"
       [wrap]="true"
       [sanitizeHtml]="false"

@@ -24,6 +24,7 @@ function requireOwnableItem(
 const overviewItem = requireOwnableItem(OWNABLE_GETTING_STARTED_GROUP, 'overview');
 const quickStartItem = requireOwnableItem(OWNABLE_GETTING_STARTED_GROUP, 'quick-start');
 const checkboxItem = requireOwnableItem(OWNABLE_FORM_GROUP, 'checkbox');
+const toggleItem = requireOwnableItem(OWNABLE_FORM_GROUP, 'toggle');
 const radioItem = requireOwnableItem(OWNABLE_FORM_GROUP, 'radio');
 const buttonToggleItem = requireOwnableItem(OWNABLE_FORM_GROUP, 'button-toggle');
 const inputItem = requireOwnableItem(OWNABLE_FORM_GROUP, 'input');
@@ -67,6 +68,14 @@ export const OWNABLE_ROUTES: Routes = [
         loadComponent: () =>
           import('./form/checkbox/ownable-checkbox-page.component').then(
             (m) => m.OwnableCheckboxPageComponent,
+          ),
+      },
+      {
+        path: 'form/toggle',
+        data: toOwnableDocsRouteData(OWNABLE_FORM_GROUP, toggleItem),
+        loadComponent: () =>
+          import('./form/toggle/ownable-toggle-page.component').then(
+            (m) => m.OwnableTogglePageComponent,
           ),
       },
       {

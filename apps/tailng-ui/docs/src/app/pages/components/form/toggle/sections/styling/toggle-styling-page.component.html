@@ -1,41 +1,35 @@
 <article class="toggle-styling">
-  <h2 class="toggle-styling-title">Styling contract</h2>
-  <p class="toggle-styling-lead">
-    Style against toggle state hooks and semantic tokens. Do not depend on internal DOM beyond the
-    documented attributes.
-  </p>
+  <section id="css-contract-table" class="toggle-styling-block docs-section-anchor">
+    <h2 class="toggle-styling-title">Styling contract</h2>
+    <p class="toggle-styling-lead">
+      Style the component layer by overriding semantic tokens on the toggle, the group, or an
+      ancestor shell. Avoid depending on internal wrapper DOM beyond the documented state hooks.
+    </p>
 
-  <section class="toggle-styling-block">
-    <h3>CSS contract table</h3>
     <div class="toggle-styling-table-wrap">
       <table class="toggle-styling-table">
         <thead>
           <tr>
-            <th scope="col">Selector</th>
-            <th scope="col">Applied on</th>
-            <th scope="col">Purpose</th>
+            <th scope="col">Surface</th>
+            <th scope="col">Recommended contract</th>
+            <th scope="col">Why it is safe</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td><code>[data-state="on"]</code></td>
-            <td>Primitive button</td>
-            <td>Pressed state styling.</td>
+            <td><code>tng-toggle</code></td>
+            <td>Set semantic tokens such as <code>--tng-semantic-accent-brand</code> and <code>--tng-semantic-background-surface</code>.</td>
+            <td>The rendered internal button inherits those values without exposing private DOM in your app styles.</td>
           </tr>
           <tr>
-            <td><code>[data-disabled]</code></td>
-            <td>Primitive button + wrapper root</td>
-            <td>Muted visuals and not-allowed cursor behavior.</td>
+            <td><code>tng-toggle-group</code></td>
+            <td>Adjust layout, spacing, and supporting shell styles on the host element.</td>
+            <td>The group host is public, and selection logic stays inside the wrapper.</td>
           </tr>
           <tr>
-            <td><code>[data-state="off"]</code></td>
-            <td>Primitive button</td>
-            <td>Unpressed state styling.</td>
-          </tr>
-          <tr>
-            <td><code>[data-focused]</code>, <code>[data-focus-visible]</code></td>
-            <td>Primitive button</td>
-            <td>Focus and keyboard-focus visual differentiation.</td>
+            <td>Ancestor shell</td>
+            <td>Define a token set on a surrounding card to theme several toggles together.</td>
+            <td>CSS custom properties inherit cleanly into every nested toggle.</td>
           </tr>
         </tbody>
       </table>
@@ -52,84 +46,220 @@
         <tbody>
           <tr>
             <td><code>--tng-semantic-accent-brand</code></td>
-            <td>Pressed toggle background and border.</td>
+            <td>Selected toggle background and border.</td>
+          </tr>
+          <tr>
+            <td><code>--tng-semantic-background-surface</code></td>
+            <td>Idle toggle surface.</td>
+          </tr>
+          <tr>
+            <td><code>--tng-semantic-border-strong</code></td>
+            <td>Idle toggle border.</td>
+          </tr>
+          <tr>
+            <td><code>--tng-semantic-foreground-primary</code></td>
+            <td>Icon or glyph color inside the toggle.</td>
           </tr>
           <tr>
             <td><code>--tng-semantic-focus-ring</code></td>
             <td>Focus-visible ring color.</td>
           </tr>
-          <tr>
-            <td><code>--tng-semantic-border-subtle</code></td>
-            <td>Container borders around toggle groups.</td>
-          </tr>
         </tbody>
       </table>
     </div>
+
+    <tng-code-block
+      [code]="tokenOverrideSnippet"
+      adapter="shiki"
+      language="css"
+      title="Host-level token overrides"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
   </section>
 
-  <app-docs-example-tabs-section
-    class="toggle-styling-block"
-    heading="User scenario style examples"
-    description="Use the same behavior contract with different styling systems."
-    ariaLabel="Toggle styling examples"
-    tabListAriaLabel="Toggle styling variants"
-    defaultValue="headless"
-    [codeBlockTheme]="codeBlockTheme()"
-  >
-    <ng-template
-      appDocsExampleVariant
-      value="headless"
-      label="Headless"
-      panelTitle="Release policy checklist"
-      [codeTabs]="headlessCodeTabs"
+  <section id="user-scenario-style-examples" class="docs-section-anchor">
+    <app-docs-example-tabs-section
+      class="toggle-styling-block"
+      heading="User scenario style examples"
+      description="Use the same component contract inside a plain CSS shell or a Tailwind shell by overriding host-level semantic tokens."
+      ariaLabel="Toggle styling examples"
+      tabListAriaLabel="Toggle styling variants"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
     >
-      <div class="toggle-preview-stack">
-        <div class="toolbar-row">
-          <button tngToggle class="toolbar-toggle" [pressed]="true">Bold</button>
-          <button tngToggle class="toolbar-toggle" [pressed]="false">Italic</button>
-          <button tngToggle class="toolbar-toggle" [disabled]="true">Disabled</button>
-        </div>
-      </div>
-    </ng-template>
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Release checklist (Plain-CSS)"
+        [codeTabs]="plainCssCodeTabs"
+        [stackblitzUrl]="stackblitzVanillaUrl"
+      >
+        <section class="release-toggle-shell">
+          <div class="release-toggle-shell__header">
+            <h3 class="release-toggle-shell__title">Release checklist</h3>
+            <p class="release-toggle-shell__body">
+              Use token overrides on the wrapper shell so the component keeps its internal DOM
+              private.
+            </p>
+          </div>
+          <tng-toggle-group
+            class="release-toggle-shell__group"
+            ariaLabel="Release checklist"
+            [values]="plainCssChecklist()"
+            (valuesChange)="onPlainCssChecklistChange($event)"
+          >
+            <div
+              class="release-toggle-shell__row"
+              [class.release-toggle-shell__row--active]="plainCssChecklist().includes('review')"
+              (click)="onPlainCssChecklistChoiceClick('review', $event)"
+            >
+              <tng-toggle
+                [value]="'review'"
+                pressedLabel="Review checkpoint selected"
+                unpressedLabel="Select review checkpoint"
+              >
+                <span offIcon>R</span>
+                <span onIcon>R</span>
+              </tng-toggle>
+              <div class="release-toggle-shell__copy">
+                <span class="release-toggle-shell__label">Review</span>
+                <span class="release-toggle-shell__meta">Human approval before publish.</span>
+              </div>
+            </div>
+            <div
+              class="release-toggle-shell__row"
+              [class.release-toggle-shell__row--active]="plainCssChecklist().includes('qa')"
+              (click)="onPlainCssChecklistChoiceClick('qa', $event)"
+            >
+              <tng-toggle
+                [value]="'qa'"
+                pressedLabel="QA checkpoint selected"
+                unpressedLabel="Select QA checkpoint"
+              >
+                <span offIcon>Q</span>
+                <span onIcon>Q</span>
+              </tng-toggle>
+              <div class="release-toggle-shell__copy">
+                <span class="release-toggle-shell__label">QA</span>
+                <span class="release-toggle-shell__meta">Regression sign-off from the test pass.</span>
+              </div>
+            </div>
+            <div
+              class="release-toggle-shell__row"
+              [class.release-toggle-shell__row--active]="plainCssChecklist().includes('docs')"
+              (click)="onPlainCssChecklistChoiceClick('docs', $event)"
+            >
+              <tng-toggle
+                [value]="'docs'"
+                pressedLabel="Docs checkpoint selected"
+                unpressedLabel="Select docs checkpoint"
+              >
+                <span offIcon>D</span>
+                <span onIcon>D</span>
+              </tng-toggle>
+              <div class="release-toggle-shell__copy">
+                <span class="release-toggle-shell__label">Docs</span>
+                <span class="release-toggle-shell__meta">Release notes and migration guidance.</span>
+              </div>
+            </div>
+          </tng-toggle-group>
+        </section>
+      </ng-template>
 
-    <ng-template
-      appDocsExampleVariant
-      value="plain-css"
-      label="Plain-CSS"
-      panelTitle="Release policy checklist"
-      [codeTabs]="plainCssCodeTabs"
-    >
-      <div class="settings-panel">
-        <tng-toggle [pressed]="true" pressedLabel="Disable bold" unpressedLabel="Enable bold">
-          <span offIcon>B</span>
-          <span onIcon>B</span>
-        </tng-toggle>
-        <tng-toggle [pressed]="false" pressedLabel="Disable italic" unpressedLabel="Enable italic">
-          <span offIcon>I</span>
-          <span onIcon>I</span>
-        </tng-toggle>
-        <tng-toggle [disabled]="true">Disabled</tng-toggle>
-      </div>
-    </ng-template>
-
-    <ng-template
-      appDocsExampleVariant
-      value="tailwind-css"
-      label="Tailwind CSS"
-      panelTitle="Release policy checklist"
-      [codeTabs]="tailwindCodeTabs"
-    >
-      <div class="grid gap-3 rounded-xl border border-slate-300 bg-white/80 p-4">
-        <tng-toggle [pressed]="true" class="text-slate-900">
-          <span offIcon>grid</span>
-          <span onIcon>grid</span>
-        </tng-toggle>
-        <tng-toggle [pressed]="false" class="text-slate-900">
-          <span offIcon>list</span>
-          <span onIcon>list</span>
-        </tng-toggle>
-        <tng-toggle [disabled]="true" class="text-slate-900">disabled</tng-toggle>
-      </div>
-    </ng-template>
-  </app-docs-example-tabs-section>
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Release checklist (Tailwind CSS)"
+        [codeTabs]="tailwindCodeTabs"
+        [stackblitzUrl]="stackblitzTailwindUrl"
+      >
+        <section
+          class="grid w-full max-w-[38rem] gap-4 rounded-2xl border border-slate-300 bg-white p-4 text-slate-900 shadow-sm [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-background-surface:#ffffff] [--tng-semantic-border-strong:#cbd5e1] [--tng-semantic-border-subtle:#dbe4ee] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-focus-ring:rgba(37,99,235,0.26)] [color-scheme:light]"
+        >
+          <div class="grid gap-1">
+            <h3 class="m-0 text-lg font-semibold text-slate-900">Release checklist</h3>
+            <p class="m-0 text-sm leading-6 text-slate-600">
+              Use token overrides on the wrapper shell so the component keeps its internal DOM
+              private.
+            </p>
+          </div>
+          <tng-toggle-group
+            class="grid gap-3 border-0 bg-transparent p-0"
+            ariaLabel="Release checklist"
+            [values]="tailwindChecklist()"
+            (valuesChange)="onTailwindChecklistChange($event)"
+          >
+            <div
+              class="grid grid-cols-[auto_1fr] items-center gap-3 rounded-2xl border p-3 transition"
+              [class.border-blue-200]="tailwindChecklist().includes('review')"
+              [class.bg-blue-50]="tailwindChecklist().includes('review')"
+              [class.border-slate-200]="!tailwindChecklist().includes('review')"
+              [class.bg-slate-50]="!tailwindChecklist().includes('review')"
+              (click)="onTailwindChecklistChoiceClick('review', $event)"
+            >
+              <tng-toggle
+                [value]="'review'"
+                pressedLabel="Review checkpoint selected"
+                unpressedLabel="Select review checkpoint"
+              >
+                <span offIcon>R</span>
+                <span onIcon>R</span>
+              </tng-toggle>
+              <div class="grid gap-0.5">
+                <span class="text-sm font-semibold text-slate-900">Review</span>
+                <span class="text-xs text-slate-500">Human approval before publish.</span>
+              </div>
+            </div>
+            <div
+              class="grid grid-cols-[auto_1fr] items-center gap-3 rounded-2xl border p-3 transition"
+              [class.border-blue-200]="tailwindChecklist().includes('qa')"
+              [class.bg-blue-50]="tailwindChecklist().includes('qa')"
+              [class.border-slate-200]="!tailwindChecklist().includes('qa')"
+              [class.bg-slate-50]="!tailwindChecklist().includes('qa')"
+              (click)="onTailwindChecklistChoiceClick('qa', $event)"
+            >
+              <tng-toggle
+                [value]="'qa'"
+                pressedLabel="QA checkpoint selected"
+                unpressedLabel="Select QA checkpoint"
+              >
+                <span offIcon>Q</span>
+                <span onIcon>Q</span>
+              </tng-toggle>
+              <div class="grid gap-0.5">
+                <span class="text-sm font-semibold text-slate-900">QA</span>
+                <span class="text-xs text-slate-500">Regression sign-off from the test pass.</span>
+              </div>
+            </div>
+            <div
+              class="grid grid-cols-[auto_1fr] items-center gap-3 rounded-2xl border p-3 transition"
+              [class.border-blue-200]="tailwindChecklist().includes('docs')"
+              [class.bg-blue-50]="tailwindChecklist().includes('docs')"
+              [class.border-slate-200]="!tailwindChecklist().includes('docs')"
+              [class.bg-slate-50]="!tailwindChecklist().includes('docs')"
+              (click)="onTailwindChecklistChoiceClick('docs', $event)"
+            >
+              <tng-toggle
+                [value]="'docs'"
+                pressedLabel="Docs checkpoint selected"
+                unpressedLabel="Select docs checkpoint"
+              >
+                <span offIcon>D</span>
+                <span onIcon>D</span>
+              </tng-toggle>
+              <div class="grid gap-0.5">
+                <span class="text-sm font-semibold text-slate-900">Docs</span>
+                <span class="text-xs text-slate-500">Release notes and migration guidance.</span>
+              </div>
+            </div>
+          </tng-toggle-group>
+        </section>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
 </article>

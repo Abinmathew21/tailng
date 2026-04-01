@@ -1,20 +1,63 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, inject, signal, type OnDestroy } from '@angular/core';
-import { observeDocsCodeThemeChanges, resolveDocsCodeBlockTheme } from '../../../../../../shared/util';
-import { TngToggleComponent, TngCodeBlockComponent } from '@tailng-ui/components';
-import { TngToggle as TngTogglePrimitive } from '@tailng-ui/primitives';
-import { type DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
+import {
+  TngCodeBlockComponent,
+  TngToggleComponent,
+  TngToggleGroupComponent,
+} from '@tailng-ui/components';
+import type { DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
 import {
   DocsExampleTabsSectionComponent,
   DocsExampleVariantDirective,
 } from '../../../../../../shared/example-tabs-section/docs-example-tabs-section.component';
+import {
+  observeDocsCodeThemeChanges,
+  resolveDocsCodeBlockTheme,
+} from '../../../../../../shared/util';
+import { stackblitzTailwindUrl, stackblitzVanillaUrl } from '../../toggle.util';
+
+type DensityMode = 'compact' | 'comfortable' | 'spacious';
+
+function createCodeTabs(
+  baseName: string,
+  tsCode: string,
+  htmlCode: string,
+  cssCode: string,
+): readonly DocsExampleCodeTab[] {
+  return Object.freeze([
+    { value: 'ts', label: 'TS', language: 'ts', title: `${baseName}.component.ts`, code: tsCode },
+    {
+      value: 'html',
+      label: 'HTML',
+      language: 'html',
+      title: `${baseName}.component.html`,
+      code: htmlCode,
+    },
+    {
+      value: 'css',
+      label: 'CSS',
+      language: 'css',
+      title: `${baseName}.component.css`,
+      code: cssCode,
+    },
+  ]);
+}
+
+function isDensityMode(value: string | null): value is DensityMode {
+  return value === 'compact' || value === 'comfortable' || value === 'spacious';
+}
+
+function eventCameFromToggle(event: Event): boolean {
+  const target = event.target;
+  return target instanceof Element && target.closest('tng-toggle') !== null;
+}
 
 @Component({
   selector: 'app-toggle-overview-page',
   imports: [
     TngCodeBlockComponent,
     TngToggleComponent,
-    TngTogglePrimitive,
+    TngToggleGroupComponent,
     DocsExampleTabsSectionComponent,
     DocsExampleVariantDirective,
   ],
@@ -27,198 +70,362 @@ export class ToggleOverviewPageComponent implements OnDestroy {
   public readonly codeBlockTheme = signal<'github-dark' | 'github-light'>(
     resolveDocsCodeBlockTheme(this.documentRef),
   );
-  private readonly colorSchemeObserver = observeDocsCodeThemeChanges(this.documentRef, this.codeBlockTheme);
+  private readonly colorSchemeObserver = observeDocsCodeThemeChanges(
+    this.documentRef,
+    this.codeBlockTheme,
+  );
 
-  protected readonly headlessBold = signal(true);
-  protected readonly headlessItalic = signal(false);
-  protected readonly plainBold = signal(true);
-  protected readonly plainItalic = signal(false);
-  protected readonly tailwindGrid = signal(true);
-  protected readonly tailwindList = signal(false);
+  protected readonly stackblitzVanillaUrl = stackblitzVanillaUrl;
+  protected readonly stackblitzTailwindUrl = stackblitzTailwindUrl;
 
-  protected readonly primitiveImportCode = "import { TngToggle } from '@tailng-ui/primitives';";
+  protected readonly plainCssDensity = signal<DensityMode>('comfortable');
+  protected readonly tailwindDensity = signal<DensityMode>('comfortable');
 
   protected readonly componentImportCode =
-    "import { TngToggleComponent } from '@tailng-ui/components';";
+    "import { TngToggleComponent, TngToggleGroupComponent } from '@tailng-ui/components';\n";
 
-  protected readonly primitiveUsageCode = [
-    '<button tngToggle [pressed]="isBold()" (pressedChange)="isBold.set($event)">',
-    '  Bold',
-    '</button>',
-    '',
-  ].join('\n');
-
-  protected readonly componentUsageCode = [
+  protected readonly standaloneUsageCode = [
     '<tng-toggle',
-    '  [pressed]="notificationsEnabled()"',
-    '  pressedLabel="Disable notifications"',
-    '  unpressedLabel="Enable notifications"',
-    '  (pressedChange)="notificationsEnabled.set($event)"',
+    '  [pressed]="sidebarPinned()"',
+    '  pressedLabel="Unpin sidebar"',
+    '  unpressedLabel="Pin sidebar"',
+    '  (pressedChange)="sidebarPinned.set($event)"',
     '>',
-    '  <span offIcon>🔔</span>',
-    '  <span onIcon>🔕</span>',
+    '  <span offIcon>P</span>',
+    '  <span onIcon>P</span>',
     '</tng-toggle>',
     '',
   ].join('\n');
 
-  protected readonly headlessCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
-    {
-      value: 'html',
-      label: 'HTML',
-      language: 'html',
-      title: 'toggle-headless-example.component.html',
-      code: [
-        '<div class="toggle-stack">',
-        '  <button',
-        '    tngToggle',
-        '    class="toggle-preview-control"',
-        '    [pressed]="headlessBold()"',
-        '    (pressedChange)="headlessBold.set($event)"',
-        '  >',
-        '    Bold',
-        '  </button>',
-        '  <button',
-        '    tngToggle',
-        '    class="toggle-preview-control"',
-        '    [pressed]="headlessItalic()"',
-        '    (pressedChange)="headlessItalic.set($event)"',
-        '  >',
-        '    Italic',
-        '  </button>',
-        '  <button tngToggle class="toggle-preview-control" [disabled]="true">Disabled</button>',
-        '</div>',
-        '',
-      ].join('\n'),
-    },
-    {
-      value: 'css',
-      label: 'CSS',
-      language: 'css',
-      title: 'toggle-headless-example.component.css',
-      code: [
-        '.toggle-stack { display: grid; gap: 0.7rem; }',
-        '.toggle-preview-control {',
-        '  align-items: center;',
-        '  background: var(--tng-semantic-background-surface);',
-        '  border: 1px solid var(--tng-semantic-border-strong);',
-        '  border-radius: 0.65rem;',
-        '  color: var(--tng-semantic-foreground-primary);',
-        '  cursor: pointer;',
-        '  display: inline-flex;',
-        '  font-size: 0.86rem;',
-        '  font-weight: 600;',
-        '  justify-content: center;',
-        '  min-height: 2rem;',
-        '  min-width: 5.5rem;',
-        '  padding: 0.35rem 0.8rem;',
-        '  transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease;',
-        '}',
-        '.toggle-preview-control[data-state="on"] {',
-        '  background: var(--tng-semantic-accent-brand);',
-        '  border-color: var(--tng-semantic-accent-brand);',
-        '  color: var(--tng-color-white);',
-        '}',
-        '.toggle-preview-control[data-disabled] {',
-        '  cursor: not-allowed;',
-        '  opacity: 0.6;',
-        '}',
-        '',
-      ].join('\n'),
-    },
-  ]);
+  protected readonly groupedUsageCode = [
+    '<tng-toggle-group',
+    '  selectionMode="single"',
+    '  ariaLabel="Editor density"',
+    '  [value]="density()"',
+    '  (valueChange)="onDensityChange($event)"',
+    '>',
+    '  <tng-toggle',
+    '    [value]="\'compact\'"',
+    '    pressedLabel="Compact density selected"',
+    '    unpressedLabel="Select compact density"',
+    '  >',
+    '    <span offIcon>C</span>',
+    '    <span onIcon>C</span>',
+    '  </tng-toggle>',
+    '  <tng-toggle',
+    '    [value]="\'comfortable\'"',
+    '    pressedLabel="Comfortable density selected"',
+    '    unpressedLabel="Select comfortable density"',
+    '  >',
+    '    <span offIcon>M</span>',
+    '    <span onIcon>M</span>',
+    '  </tng-toggle>',
+    '</tng-toggle-group>',
+    '',
+  ].join('\n');
 
-  protected readonly plainCssCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
-    {
-      value: 'html',
-      label: 'HTML',
-      language: 'html',
-      title: 'toggle-plain-css-example.component.html',
-      code: [
-        '<div class="plain-toggle-card">',
-        '  <tng-toggle',
-        '    [pressed]="plainBold()"',
-        '    pressedLabel="Disable bold"',
-        '    unpressedLabel="Enable bold"',
-        '    (pressedChange)="plainBold.set($event)"',
-        '  >',
-        '    <span offIcon>B</span>',
-        '    <span onIcon>B</span>',
-        '  </tng-toggle>',
-        '  <tng-toggle',
-        '    [pressed]="plainItalic()"',
-        '    pressedLabel="Disable italic"',
-        '    unpressedLabel="Enable italic"',
-        '    (pressedChange)="plainItalic.set($event)"',
-        '  >',
-        '    <span offIcon>I</span>',
-        '    <span onIcon>I</span>',
-        '  </tng-toggle>',
-        '  <tng-toggle [disabled]="true">Disabled</tng-toggle>',
-        '</div>',
-        '',
-      ].join('\n'),
-    },
-    {
-      value: 'css',
-      label: 'CSS',
-      language: 'css',
-      title: 'toggle-plain-css-example.component.css',
-      code: [
-        '.plain-toggle-card {',
-        '  background: var(--tng-semantic-background-surface);',
-        '  border: 1px solid var(--tng-semantic-border-subtle);',
-        '  border-radius: 0.8rem;',
-        '  display: grid;',
-        '  gap: 0.75rem;',
-        '  padding: 0.9rem 1rem;',
-        '}',
-        '',
-      ].join('\n'),
-    },
-  ]);
+  protected readonly plainCssCodeTabs = createCodeTabs(
+    'component-toggle-overview-plain',
+    [
+      "import { Component, signal } from '@angular/core';",
+      "import { TngToggleComponent, TngToggleGroupComponent } from '@tailng-ui/components';",
+      '',
+      "type DensityMode = 'compact' | 'comfortable' | 'spacious';",
+      '',
+      '@Component({',
+      "  selector: 'app-component-toggle-overview-plain',",
+      '  standalone: true,',
+      '  imports: [TngToggleComponent, TngToggleGroupComponent],',
+      "  templateUrl: './component-toggle-overview-plain.component.html',",
+      "  styleUrl: './component-toggle-overview-plain.component.css',",
+      '})',
+      'export class ComponentToggleOverviewPlainComponent {',
+      "  readonly selectedDensity = signal<DensityMode>('comfortable');",
+      '',
+      '  onDensityChange(value: string | null): void {',
+      "    if (value === 'compact' || value === 'comfortable' || value === 'spacious') {",
+      '      this.selectedDensity.set(value);',
+      '    }',
+      '  }',
+      '',
+      '  onDensityChoiceClick(value: DensityMode, event: MouseEvent): void {',
+      "    const target = event.target;",
+      "    if (target instanceof Element && target.closest('tng-toggle') !== null) {",
+      '      return;',
+      '    }',
+      '',
+      '    this.selectedDensity.set(value);',
+      '  }',
+      '}',
+      '',
+    ].join('\n'),
+    [
+      '<section class="component-toggle-density-card">',
+      '  <div class="component-toggle-density-card__header">',
+      '    <p class="component-toggle-density-card__eyebrow">Writing workspace</p>',
+      '    <h3 class="component-toggle-density-card__title">Editor density</h3>',
+      '    <p class="component-toggle-density-card__body">Choose how compact the writing workspace should feel.</p>',
+      '  </div>',
+      '  <tng-toggle-group',
+      '    class="component-toggle-density-card__group"',
+      '    selectionMode="single"',
+      '    ariaLabel="Editor density"',
+      '    [value]="selectedDensity()"',
+      '    (valueChange)="onDensityChange($event)"',
+      '  >',
+      '    <div class="component-toggle-density-card__choice" [class.component-toggle-density-card__choice--active]="selectedDensity() === \'compact\'" (click)="onDensityChoiceClick(\'compact\', $event)">',
+      '      <tng-toggle class="component-toggle-density-card__toggle" [value]="\'compact\'" pressedLabel="Compact density selected" unpressedLabel="Select compact density">',
+      '        <span offIcon>C</span>',
+      '        <span onIcon>C</span>',
+      '      </tng-toggle>',
+      '      <div class="component-toggle-density-card__copy">',
+      '        <span class="component-toggle-density-card__label">Compact</span>',
+      '        <span class="component-toggle-density-card__meta">Fits more lines on screen.</span>',
+      '      </div>',
+      '    </div>',
+      '    <div class="component-toggle-density-card__choice" [class.component-toggle-density-card__choice--active]="selectedDensity() === \'comfortable\'" (click)="onDensityChoiceClick(\'comfortable\', $event)">',
+      '      <tng-toggle class="component-toggle-density-card__toggle" [value]="\'comfortable\'" pressedLabel="Comfortable density selected" unpressedLabel="Select comfortable density">',
+      '        <span offIcon>M</span>',
+      '        <span onIcon>M</span>',
+      '      </tng-toggle>',
+      '      <div class="component-toggle-density-card__copy">',
+      '        <span class="component-toggle-density-card__label">Comfortable</span>',
+      '        <span class="component-toggle-density-card__meta">Balanced spacing for drafting.</span>',
+      '      </div>',
+      '    </div>',
+      '    <div class="component-toggle-density-card__choice" [class.component-toggle-density-card__choice--active]="selectedDensity() === \'spacious\'" (click)="onDensityChoiceClick(\'spacious\', $event)">',
+      '      <tng-toggle class="component-toggle-density-card__toggle" [value]="\'spacious\'" pressedLabel="Spacious density selected" unpressedLabel="Select spacious density">',
+      '        <span offIcon>S</span>',
+      '        <span onIcon>S</span>',
+      '      </tng-toggle>',
+      '      <div class="component-toggle-density-card__copy">',
+      '        <span class="component-toggle-density-card__label">Spacious</span>',
+      '        <span class="component-toggle-density-card__meta">Adds breathing room for review.</span>',
+      '      </div>',
+      '    </div>',
+      '  </tng-toggle-group>',
+      '  <p class="component-toggle-density-card__summary">Selected: {{ selectedDensity() }}</p>',
+      '</section>',
+      '',
+    ].join('\n'),
+    [
+      '.component-toggle-density-card {',
+      '  --tng-semantic-accent-brand: #2563eb;',
+      '  --tng-semantic-background-surface: #ffffff;',
+      '  --tng-semantic-border-strong: #cbd5e1;',
+      '  --tng-semantic-border-subtle: #dbe4ee;',
+      '  --tng-semantic-foreground-primary: #0f172a;',
+      '  --tng-semantic-focus-ring: rgba(37, 99, 235, 0.26);',
+      '  display: grid;',
+      '  gap: 1rem;',
+      '  inline-size: min(100%, 38rem);',
+      '  margin-inline: auto;',
+      '  padding: 1rem;',
+      '  border: 1px solid #cbd5e1;',
+      '  border-radius: 1rem;',
+      '  background: #ffffff;',
+      '  color: #0f172a;',
+      '  color-scheme: light;',
+      '  box-shadow: 0 20px 40px -32px rgba(15, 23, 42, 0.22);',
+      '}',
+      '',
+      '.component-toggle-density-card__header {',
+      '  display: grid;',
+      '  gap: 0.35rem;',
+      '}',
+      '',
+      '.component-toggle-density-card__eyebrow {',
+      '  margin: 0;',
+      '  color: #64748b;',
+      '  font-size: 0.78rem;',
+      '  font-weight: 700;',
+      '  letter-spacing: 0.12em;',
+      '  text-transform: uppercase;',
+      '}',
+      '',
+      '.component-toggle-density-card__title {',
+      '  margin: 0;',
+      '  color: #0f172a;',
+      '  font-size: 1.1rem;',
+      '  font-weight: 700;',
+      '}',
+      '',
+      '.component-toggle-density-card__body {',
+      '  margin: 0;',
+      '  color: #475569;',
+      '  font-size: 0.92rem;',
+      '  line-height: 1.6;',
+      '}',
+      '',
+      '.component-toggle-density-card__group {',
+      '  display: grid;',
+      '  gap: 0.75rem;',
+      '  padding: 0;',
+      '  border: 0;',
+      '  background: transparent;',
+      '}',
+      '',
+      '.component-toggle-density-card__choice {',
+      '  display: grid;',
+      '  grid-template-columns: auto 1fr;',
+      '  gap: 0.85rem;',
+      '  align-items: center;',
+      '  padding: 0.85rem 0.95rem;',
+      '  border: 1px solid #dbe4ee;',
+      '  border-radius: 1rem;',
+      '  background: #f8fafc;',
+      '  cursor: pointer;',
+      '  transition: border-color 150ms ease, background-color 150ms ease, box-shadow 150ms ease;',
+      '}',
+      '',
+      '.component-toggle-density-card__choice--active {',
+      '  border-color: #bfdbfe;',
+      '  background: #eff6ff;',
+      '  box-shadow: inset 0 0 0 1px rgba(37, 99, 235, 0.08);',
+      '}',
+      '',
+      '.component-toggle-density-card__copy {',
+      '  display: grid;',
+      '  gap: 0.15rem;',
+      '}',
+      '',
+      '.component-toggle-density-card__label {',
+      '  color: #0f172a;',
+      '  font-size: 0.92rem;',
+      '  font-weight: 700;',
+      '}',
+      '',
+      '.component-toggle-density-card__meta {',
+      '  color: #64748b;',
+      '  font-size: 0.82rem;',
+      '  line-height: 1.5;',
+      '}',
+      '',
+      '.component-toggle-density-card__summary {',
+      '  margin: 0;',
+      '  color: #475569;',
+      '  font-size: 0.82rem;',
+      '  text-transform: capitalize;',
+      '}',
+      '',
+    ].join('\n'),
+  );
 
-  protected readonly tailwindCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
-    {
-      value: 'html',
-      label: 'HTML',
-      language: 'html',
-      title: 'toggle-tailwind-example.component.html',
-      code: [
-        '<div',
-        '  class="grid gap-3 rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"',
-        '>',
-        '  <tng-toggle',
-        '    [pressed]="tailwindGrid()"',
-        '    class="text-slate-900 dark:text-slate-100"',
-        '    (pressedChange)="tailwindGrid.set($event)"',
-        '  >',
-        '    <span offIcon>grid</span>',
-        '    <span onIcon>grid</span>',
-        '  </tng-toggle>',
-        '  <tng-toggle',
-        '    [pressed]="tailwindList()"',
-        '    class="text-slate-900 dark:text-slate-100"',
-        '    (pressedChange)="tailwindList.set($event)"',
-        '  >',
-        '    <span offIcon>list</span>',
-        '    <span onIcon>list</span>',
-        '  </tng-toggle>',
-        '  <tng-toggle [disabled]="true" class="text-slate-900 dark:text-slate-100">disabled</tng-toggle>',
-        '</div>',
-        '',
-      ].join('\n'),
-    },
-    {
-      value: 'css',
-      label: 'CSS',
-      language: 'css',
-      title: 'toggle-tailwind-example.component.css',
-      code: '/* Tailwind utilities are applied directly in the template. */',
-    },
-  ]);
+  protected readonly tailwindCodeTabs = createCodeTabs(
+    'component-toggle-overview-tailwind',
+    [
+      "import { Component, signal } from '@angular/core';",
+      "import { TngToggleComponent, TngToggleGroupComponent } from '@tailng-ui/components';",
+      '',
+      "type DensityMode = 'compact' | 'comfortable' | 'spacious';",
+      '',
+      '@Component({',
+      "  selector: 'app-component-toggle-overview-tailwind',",
+      '  standalone: true,',
+      '  imports: [TngToggleComponent, TngToggleGroupComponent],',
+      "  templateUrl: './component-toggle-overview-tailwind.component.html',",
+      '})',
+      'export class ComponentToggleOverviewTailwindComponent {',
+      "  readonly selectedDensity = signal<DensityMode>('comfortable');",
+      '',
+      '  onDensityChange(value: string | null): void {',
+      "    if (value === 'compact' || value === 'comfortable' || value === 'spacious') {",
+      '      this.selectedDensity.set(value);',
+      '    }',
+      '  }',
+      '',
+      '  onDensityChoiceClick(value: DensityMode, event: MouseEvent): void {',
+      "    const target = event.target;",
+      "    if (target instanceof Element && target.closest('tng-toggle') !== null) {",
+      '      return;',
+      '    }',
+      '',
+      '    this.selectedDensity.set(value);',
+      '  }',
+      '}',
+      '',
+    ].join('\n'),
+    [
+      '<section class="grid w-full max-w-[38rem] gap-4 rounded-2xl border border-slate-300 bg-white p-4 text-slate-900 shadow-sm [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-background-surface:#ffffff] [--tng-semantic-border-strong:#cbd5e1] [--tng-semantic-border-subtle:#dbe4ee] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-focus-ring:rgba(37,99,235,0.26)] [color-scheme:light]">',
+      '  <div class="grid gap-1">',
+      '    <p class="m-0 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">Writing workspace</p>',
+      '    <h3 class="m-0 text-lg font-semibold text-slate-900">Editor density</h3>',
+      '    <p class="m-0 text-sm leading-6 text-slate-600">Choose how compact the writing workspace should feel.</p>',
+      '  </div>',
+      '  <tng-toggle-group',
+      '    class="grid gap-3 border-0 bg-transparent p-0"',
+      '    selectionMode="single"',
+      '    ariaLabel="Editor density"',
+      '    [value]="selectedDensity()"',
+      '    (valueChange)="onDensityChange($event)"',
+      '  >',
+      '    <div class="grid cursor-pointer grid-cols-[auto_1fr] items-center gap-3 rounded-2xl border p-3 transition" [class.border-blue-200]="selectedDensity() === \'compact\'" [class.bg-blue-50]="selectedDensity() === \'compact\'" [class.border-slate-200]="selectedDensity() !== \'compact\'" [class.bg-slate-50]="selectedDensity() !== \'compact\'" (click)="onDensityChoiceClick(\'compact\', $event)">',
+      '      <tng-toggle [value]="\'compact\'" pressedLabel="Compact density selected" unpressedLabel="Select compact density">',
+      '        <span offIcon>C</span>',
+      '        <span onIcon>C</span>',
+      '      </tng-toggle>',
+      '      <div class="grid gap-0.5">',
+      '        <span class="text-sm font-semibold text-slate-900">Compact</span>',
+      '        <span class="text-xs text-slate-500">Fits more lines on screen.</span>',
+      '      </div>',
+      '    </div>',
+      '    <div class="grid cursor-pointer grid-cols-[auto_1fr] items-center gap-3 rounded-2xl border p-3 transition" [class.border-blue-200]="selectedDensity() === \'comfortable\'" [class.bg-blue-50]="selectedDensity() === \'comfortable\'" [class.border-slate-200]="selectedDensity() !== \'comfortable\'" [class.bg-slate-50]="selectedDensity() !== \'comfortable\'" (click)="onDensityChoiceClick(\'comfortable\', $event)">',
+      '      <tng-toggle [value]="\'comfortable\'" pressedLabel="Comfortable density selected" unpressedLabel="Select comfortable density">',
+      '        <span offIcon>M</span>',
+      '        <span onIcon>M</span>',
+      '      </tng-toggle>',
+      '      <div class="grid gap-0.5">',
+      '        <span class="text-sm font-semibold text-slate-900">Comfortable</span>',
+      '        <span class="text-xs text-slate-500">Balanced spacing for drafting.</span>',
+      '      </div>',
+      '    </div>',
+      '    <div class="grid cursor-pointer grid-cols-[auto_1fr] items-center gap-3 rounded-2xl border p-3 transition" [class.border-blue-200]="selectedDensity() === \'spacious\'" [class.bg-blue-50]="selectedDensity() === \'spacious\'" [class.border-slate-200]="selectedDensity() !== \'spacious\'" [class.bg-slate-50]="selectedDensity() !== \'spacious\'" (click)="onDensityChoiceClick(\'spacious\', $event)">',
+      '      <tng-toggle [value]="\'spacious\'" pressedLabel="Spacious density selected" unpressedLabel="Select spacious density">',
+      '        <span offIcon>S</span>',
+      '        <span onIcon>S</span>',
+      '      </tng-toggle>',
+      '      <div class="grid gap-0.5">',
+      '        <span class="text-sm font-semibold text-slate-900">Spacious</span>',
+      '        <span class="text-xs text-slate-500">Adds breathing room for review.</span>',
+      '      </div>',
+      '    </div>',
+      '  </tng-toggle-group>',
+      '  <p class="m-0 text-xs text-slate-600">Selected: {{ selectedDensity() }}</p>',
+      '</section>',
+      '',
+    ].join('\n'),
+    '/* Tailwind utilities are applied directly in the template. */',
+  );
+
+  protected onPlainCssDensityChange(value: string | null): void {
+    if (isDensityMode(value)) {
+      this.plainCssDensity.set(value);
+    }
+  }
+
+  protected onPlainCssDensityChoiceClick(value: DensityMode, event: MouseEvent): void {
+    if (eventCameFromToggle(event)) {
+      return;
+    }
+
+    this.plainCssDensity.set(value);
+  }
+
+  protected onTailwindDensityChange(value: string | null): void {
+    if (isDensityMode(value)) {
+      this.tailwindDensity.set(value);
+    }
+  }
+
+  protected onTailwindDensityChoiceClick(value: DensityMode, event: MouseEvent): void {
+    if (eventCameFromToggle(event)) {
+      return;
+    }
+
+    this.tailwindDensity.set(value);
+  }
 
   public ngOnDestroy(): void {
     this.colorSchemeObserver?.disconnect();
   }
-
 }

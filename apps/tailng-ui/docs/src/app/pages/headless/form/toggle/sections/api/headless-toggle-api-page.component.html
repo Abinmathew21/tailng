@@ -1,0 +1,229 @@
+<article class="docs-section-page headless-toggle-api">
+  <div class="docs-section-page-main">
+    <section id="tng-toggle" class="docs-section-anchor headless-toggle-api__block">
+      <h2 class="headless-toggle-api__title">API reference</h2>
+      <p class="headless-toggle-api__lead">
+        <code>tngToggle</code> gives a native <code>&lt;button&gt;</code> pressed semantics, while
+        <code>tngToggleGroup</code> coordinates shared selection when multiple toggles belong to one
+        decision surface.
+      </p>
+      <h3><code>tngToggle</code></h3>
+      <p>
+        Attach the directive to a native button. The directive keeps keyboard behavior native,
+        reflects <code>aria-pressed</code>, and supports both controlled and uncontrolled usage.
+      </p>
+      <tng-code-block
+        [code]="toggleAttachmentCode"
+        adapter="shiki"
+        language="html"
+        title="Standalone toggle"
+        [theme]="codeBlockTheme()"
+        [lineNumbers]="false"
+        [wrap]="true"
+        [sanitizeHtml]="false"
+      ></tng-code-block>
+
+      <div class="headless-toggle-api__table-wrap">
+        <table class="headless-toggle-api__table">
+          <thead>
+            <tr>
+              <th scope="col">Input</th>
+              <th scope="col">Type</th>
+              <th scope="col">Default</th>
+              <th scope="col">Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>tngToggleValue</code></td>
+              <td><code>string | null</code></td>
+              <td><code>null</code></td>
+              <td>Item identity when the toggle participates in a group.</td>
+            </tr>
+            <tr>
+              <td><code>pressed</code></td>
+              <td><code>boolean | null | '' | 'true' | 'false'</code></td>
+              <td><code>null</code></td>
+              <td>Controlled pressed state for standalone usage.</td>
+            </tr>
+            <tr>
+              <td><code>defaultPressed</code></td>
+              <td><code>boolean | '' | string</code></td>
+              <td><code>false</code></td>
+              <td>Initial pressed state when the toggle manages itself.</td>
+            </tr>
+            <tr>
+              <td><code>disabled</code></td>
+              <td><code>boolean | '' | string</code></td>
+              <td><code>false</code></td>
+              <td>Disables interaction and reflects disabled attributes.</td>
+            </tr>
+            <tr>
+              <td><code>ariaLabel</code>, <code>ariaLabelledby</code>, <code>ariaDescribedBy</code></td>
+              <td><code>string | null</code></td>
+              <td><code>null</code></td>
+              <td>Accessible naming and helper-text hooks.</td>
+            </tr>
+            <tr>
+              <td><code>pressedChange</code></td>
+              <td><code>EventEmitter&lt;boolean&gt;</code></td>
+              <td>n/a</td>
+              <td>Emits the next pressed state after interaction.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="headless-toggle-api__note">
+        When a grouped toggle has a non-empty <code>tngToggleValue</code>, the group owns its visual
+        pressed state. In that case, use the group outputs instead of standalone <code>pressed</code>
+        control.
+      </p>
+    </section>
+
+    <section id="tng-toggle-group" class="docs-section-anchor headless-toggle-api__block">
+      <h3><code>tngToggleGroup</code></h3>
+      <p>
+        Add the group directive to any container when toggles should share a selection model.
+        Single-selection groups emit <code>valueChange</code>; multi-selection groups emit
+        <code>valuesChange</code>.
+      </p>
+      <tng-code-block
+        [code]="groupAttachmentCode"
+        adapter="shiki"
+        language="html"
+        title="Single-select group"
+        [theme]="codeBlockTheme()"
+        [lineNumbers]="false"
+        [wrap]="true"
+        [sanitizeHtml]="false"
+      ></tng-code-block>
+
+      <div class="headless-toggle-api__table-wrap">
+        <table class="headless-toggle-api__table">
+          <thead>
+            <tr>
+              <th scope="col">Input</th>
+              <th scope="col">Type</th>
+              <th scope="col">Default</th>
+              <th scope="col">Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>selectionMode</code></td>
+              <td><code>'single' | 'multiple'</code></td>
+              <td><code>'multiple'</code></td>
+              <td>Switches between single-choice and multi-select behavior.</td>
+            </tr>
+            <tr>
+              <td><code>orientation</code></td>
+              <td><code>'horizontal' | 'vertical'</code></td>
+              <td><code>'horizontal'</code></td>
+              <td>Orientation hook for layout and accessibility messaging.</td>
+            </tr>
+            <tr>
+              <td><code>value</code>, <code>defaultValue</code></td>
+              <td><code>string | null</code></td>
+              <td><code>null</code></td>
+              <td>Controlled and uncontrolled single-select values.</td>
+            </tr>
+            <tr>
+              <td><code>values</code>, <code>defaultValues</code></td>
+              <td><code>readonly string[]</code></td>
+              <td><code>[]</code></td>
+              <td>Controlled and uncontrolled multiple-select values.</td>
+            </tr>
+            <tr>
+              <td><code>disabled</code></td>
+              <td><code>boolean | '' | string</code></td>
+              <td><code>false</code></td>
+              <td>Disables every child toggle through the shared group state.</td>
+            </tr>
+            <tr>
+              <td><code>ariaLabel</code>, <code>ariaLabelledby</code></td>
+              <td><code>string | null</code></td>
+              <td><code>null</code></td>
+              <td>Accessible name for the group region.</td>
+            </tr>
+            <tr>
+              <td><code>valueChange</code>, <code>valuesChange</code></td>
+              <td><code>EventEmitter</code></td>
+              <td>n/a</td>
+              <td>Selection outputs for single or multiple mode.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="reflected-attributes" class="docs-section-anchor headless-toggle-api__block">
+      <h3>Reflected attributes</h3>
+      <div class="headless-toggle-api__table-wrap">
+        <table class="headless-toggle-api__table">
+          <thead>
+            <tr>
+              <th scope="col">Selector</th>
+              <th scope="col">Applied on</th>
+              <th scope="col">Purpose</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>data-slot="toggle"</code></td>
+              <td>Toggle button</td>
+              <td>Stable styling hook for the primitive button.</td>
+            </tr>
+            <tr>
+              <td><code>data-state="on" | "off"</code></td>
+              <td>Toggle button</td>
+              <td>Pressed state styling and animation hook.</td>
+            </tr>
+            <tr>
+              <td><code>data-disabled</code></td>
+              <td>Toggle button + group</td>
+              <td>Disabled styling for item and shared surface.</td>
+            </tr>
+            <tr>
+              <td><code>data-focused</code>, <code>data-focus-visible</code></td>
+              <td>Toggle button</td>
+              <td>Focus and keyboard-focus differentiation.</td>
+            </tr>
+            <tr>
+              <td><code>data-slot="toggle-group"</code></td>
+              <td>Group host</td>
+              <td>Stable hook for container styling.</td>
+            </tr>
+            <tr>
+              <td><code>data-selection-mode</code>, <code>data-orientation</code></td>
+              <td>Group host</td>
+              <td>Layout and state styling hooks on the container.</td>
+            </tr>
+            <tr>
+              <td><code>role="group"</code></td>
+              <td>Group host</td>
+              <td>Communicates grouped semantics to assistive technology.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="change-handling" class="docs-section-anchor headless-toggle-api__block">
+      <h3>Change handling</h3>
+      <p>
+        Standalone toggles emit booleans. Groups emit the selected value or values depending on the
+        selection mode.
+      </p>
+      <tng-code-block
+        [code]="changeHandlingCode"
+        adapter="shiki"
+        language="ts"
+        title="State handling"
+        [theme]="codeBlockTheme()"
+        [lineNumbers]="false"
+        [wrap]="true"
+        [sanitizeHtml]="false"
+      ></tng-code-block>
+    </section>
+  </div>
+</article>

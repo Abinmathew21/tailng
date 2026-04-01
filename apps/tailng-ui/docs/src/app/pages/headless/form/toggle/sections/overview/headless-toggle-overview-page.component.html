@@ -1,0 +1,152 @@
+<article class="docs-section-page toggle-overview">
+  <div class="docs-section-page-main">
+    <section id="what-you-get" class="docs-section-anchor toggle-overview-block">
+      <h2 class="toggle-overview-title">Headless toggle</h2>
+      <p class="toggle-overview-lead">
+        Headless toggle gives you pressed-button semantics on a real <code>&lt;button&gt;</code>
+        plus an optional <code>tngToggleGroup</code> contract when you want grouped selection.
+      </p>
+      <p class="toggle-overview-lead">
+        Reach for <code>tngToggle</code> when the control itself is the action. If the goal is to
+        present a set of named choices such as density presets or filters, use
+        <strong>Headless Button Toggle</strong> instead.
+      </p>
+      <ul class="toggle-overview-list">
+        <li>Standalone toggles support controlled or uncontrolled pressed state.</li>
+        <li>Grouped toggles support single or multiple selection using native buttons.</li>
+        <li>State hooks are exposed through <code>aria-pressed</code>, <code>data-state</code>, and group data attributes.</li>
+      </ul>
+    </section>
+
+    <section id="installation" class="docs-section-anchor toggle-overview-block">
+      <h3>Installation</h3>
+      <p>Import the directive pair when you need both standalone pressed buttons and grouped toggle selection.</p>
+      <tng-code-block
+        [code]="primitiveImportCode"
+        adapter="shiki"
+        language="ts"
+        title="Primitive import"
+        [theme]="codeBlockTheme()"
+        [lineNumbers]="false"
+        [wrap]="true"
+        [sanitizeHtml]="false"
+      ></tng-code-block>
+    </section>
+
+    <section id="basic-usage" class="docs-section-anchor toggle-overview-block">
+      <h3>Basic usage</h3>
+      <p>Use <code>tngToggle</code> on a native button when the interaction is just a compact pressed state.</p>
+      <tng-code-block
+        [code]="basicUsageCode"
+        adapter="shiki"
+        language="html"
+        title="Standalone toggle"
+        [theme]="codeBlockTheme()"
+        [lineNumbers]="false"
+        [wrap]="true"
+        [sanitizeHtml]="false"
+      ></tng-code-block>
+    </section>
+
+    <section id="grouped-usage" class="docs-section-anchor toggle-overview-block">
+      <h3>Grouped usage</h3>
+      <p>
+        Add <code>tngToggleGroup</code> when toggles need a shared selection model. Use
+        <code>selectionMode=&quot;single&quot;</code> for view pickers or leave the default multiple mode
+        for formatting toolbars.
+      </p>
+      <tng-code-block
+        [code]="groupedUsageCode"
+        adapter="shiki"
+        language="html"
+        title="Single-select group"
+        [theme]="codeBlockTheme()"
+        [lineNumbers]="false"
+        [wrap]="true"
+        [sanitizeHtml]="false"
+      ></tng-code-block>
+    </section>
+
+    <section id="style-variants" class="docs-section-anchor toggle-overview-block">
+      <app-docs-example-tabs-section
+        heading="Style variants"
+        description="The same headless toggle contract can power a plain CSS shell or a Tailwind utility shell."
+        ariaLabel="Headless toggle style variants"
+        tabListAriaLabel="Headless toggle style tabs"
+        defaultValue="plain-css"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <ng-template
+          appDocsExampleVariant
+          value="plain-css"
+          label="Plain-CSS"
+          panelTitle="View mode shell (Plain-CSS)"
+          [codeTabs]="plainCssCodeTabs"
+          [stackblitzUrl]="stackblitzVanillaUrl"
+        >
+          <section class="headless-toggle-view-shell">
+            <div class="headless-toggle-view-shell__header">
+              <span class="headless-toggle-view-shell__eyebrow">View mode</span>
+              <p class="headless-toggle-view-shell__body">
+                Pick one layout while keeping native button semantics.
+              </p>
+            </div>
+            <div
+              tngToggleGroup
+              class="headless-toggle-view-shell__group"
+              selectionMode="single"
+              ariaLabel="View mode"
+              [value]="plainCssViewMode()"
+              (valueChange)="onPlainCssViewModeChange($event)"
+            >
+              <button tngToggle tngToggleValue="grid" class="headless-toggle-view-shell__item">Grid</button>
+              <button tngToggle tngToggleValue="list" class="headless-toggle-view-shell__item">List</button>
+              <button tngToggle tngToggleValue="split" class="headless-toggle-view-shell__item">Split</button>
+            </div>
+            <p class="headless-toggle-view-shell__summary">Selected: {{ plainCssViewMode() }}</p>
+          </section>
+        </ng-template>
+
+        <ng-template
+          appDocsExampleVariant
+          value="tailwind-css"
+          label="Tailwind CSS"
+          panelTitle="View mode shell (Tailwind CSS)"
+          [codeTabs]="tailwindCodeTabs"
+          [stackblitzUrl]="stackblitzTailwindUrl"
+        >
+          <section class="grid w-full max-w-[32rem] gap-3 rounded-2xl border border-slate-300 bg-white p-4 text-slate-900 shadow-sm [color-scheme:light]">
+            <div class="grid gap-1">
+              <span class="text-base font-semibold text-slate-900">View mode</span>
+              <p class="m-0 text-sm leading-6 text-slate-600">
+                Keep the group semantics while styling the surface with utilities.
+              </p>
+            </div>
+            <div
+              tngToggleGroup
+              class="inline-flex flex-wrap gap-2 rounded-2xl border border-slate-200 bg-slate-100 p-2.5"
+              selectionMode="single"
+              ariaLabel="View mode"
+              [value]="tailwindViewMode()"
+              (valueChange)="onTailwindViewModeChange($event)"
+            >
+              <button tngToggle tngToggleValue="grid" class="inline-flex min-h-9 min-w-[5.4rem] items-center justify-center rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-800 transition data-[state=on]:border-blue-600 data-[state=on]:bg-blue-600 data-[state=on]:text-white focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-100">Grid</button>
+              <button tngToggle tngToggleValue="list" class="inline-flex min-h-9 min-w-[5.4rem] items-center justify-center rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-800 transition data-[state=on]:border-blue-600 data-[state=on]:bg-blue-600 data-[state=on]:text-white focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-100">List</button>
+              <button tngToggle tngToggleValue="split" class="inline-flex min-h-9 min-w-[5.4rem] items-center justify-center rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-800 transition data-[state=on]:border-blue-600 data-[state=on]:bg-blue-600 data-[state=on]:text-white focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-100">Split</button>
+            </div>
+            <p class="m-0 text-xs text-slate-600">Selected: {{ tailwindViewMode() }}</p>
+          </section>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
+
+    <section id="accessibility-baseline" class="docs-section-anchor toggle-overview-block">
+      <h3>Accessibility baseline</h3>
+      <ul class="toggle-overview-list">
+        <li><code>aria-pressed</code> stays in sync with the pressed state for every toggle.</li>
+        <li>Keyboard activation still uses native button behavior for <code>Enter</code>, <code>Space</code>, and <code>Tab</code>.</li>
+        <li><code>tngToggleGroup</code> adds a labeled <code>role=&quot;group&quot;</code> region and exposes selection state through value outputs.</li>
+      </ul>
+    </section>
+  </div>
+</article>

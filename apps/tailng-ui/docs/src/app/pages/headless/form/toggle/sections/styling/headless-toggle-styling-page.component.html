@@ -1,0 +1,150 @@
+<article class="docs-section-page headless-toggle-styling">
+  <div class="docs-section-page-main">
+    <section id="css-contracts" class="docs-section-anchor headless-toggle-styling__block">
+      <h2 class="headless-toggle-styling__title">Styling contracts</h2>
+      <p class="headless-toggle-styling__lead">
+        Headless toggle styling is driven by primitive state attributes. Build your surface around
+        those hooks instead of depending on undocumented DOM.
+      </p>
+      <div class="headless-toggle-styling__table-wrap">
+        <table class="headless-toggle-styling__table">
+          <thead>
+            <tr>
+              <th scope="col">Selector</th>
+              <th scope="col">Applied on</th>
+              <th scope="col">Purpose</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>[data-slot="toggle"]</code></td>
+              <td>Primitive button</td>
+              <td>Stable base selector for the toggle item.</td>
+            </tr>
+            <tr>
+              <td><code>[data-state="on"]</code>, <code>[data-state="off"]</code></td>
+              <td>Primitive button</td>
+              <td>Pressed and unpressed state styling.</td>
+            </tr>
+            <tr>
+              <td><code>[data-disabled]</code></td>
+              <td>Primitive button + group</td>
+              <td>Disabled visuals on the item and the shared surface.</td>
+            </tr>
+            <tr>
+              <td><code>[data-focused]</code>, <code>[data-focus-visible]</code></td>
+              <td>Primitive button</td>
+              <td>Focus rings and keyboard-only emphasis.</td>
+            </tr>
+            <tr>
+              <td><code>[data-slot="toggle-group"]</code></td>
+              <td>Group host</td>
+              <td>Stable selector for grouped shells.</td>
+            </tr>
+            <tr>
+              <td><code>[data-selection-mode]</code>, <code>[data-orientation]</code></td>
+              <td>Group host</td>
+              <td>Layout variants and grouped state hints.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="state-selectors" class="docs-section-anchor headless-toggle-styling__block">
+      <h3>State selectors</h3>
+      <p>These two snippets are the minimum contract most shells build on.</p>
+      <tng-code-block
+        [code]="stateSelectorSnippet"
+        adapter="shiki"
+        language="css"
+        title="Toggle item selectors"
+        [theme]="codeBlockTheme()"
+        [lineNumbers]="false"
+        [wrap]="true"
+        [sanitizeHtml]="false"
+      ></tng-code-block>
+      <tng-code-block
+        [code]="groupShellSnippet"
+        adapter="shiki"
+        language="css"
+        title="Group shell selectors"
+        [theme]="codeBlockTheme()"
+        [lineNumbers]="false"
+        [wrap]="true"
+        [sanitizeHtml]="false"
+      ></tng-code-block>
+    </section>
+
+    <section id="example-shells" class="docs-section-anchor headless-toggle-styling__block">
+      <app-docs-example-tabs-section
+        heading="Example shells"
+        description="The same formatting contract can sit inside a plain CSS shell or a Tailwind utility shell."
+        ariaLabel="Headless toggle style examples"
+        tabListAriaLabel="Headless toggle style tabs"
+        defaultValue="plain-css"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <ng-template
+          appDocsExampleVariant
+          value="plain-css"
+          label="Plain-CSS"
+          panelTitle="Formatting shell (Plain-CSS)"
+          [codeTabs]="plainCssCodeTabs"
+          [stackblitzUrl]="stackblitzVanillaUrl"
+        >
+          <section class="headless-toggle-format-shell">
+            <div class="headless-toggle-format-shell__header">
+              <span class="headless-toggle-format-shell__eyebrow">Formatting tools</span>
+              <p class="headless-toggle-format-shell__body">
+                Make active states obvious without losing native button semantics.
+              </p>
+            </div>
+            <div
+              tngToggleGroup
+              class="headless-toggle-format-shell__group"
+              ariaLabel="Formatting tools"
+              [values]="plainCssFormatting()"
+              (valuesChange)="onPlainCssFormattingChange($event)"
+            >
+              <button tngToggle tngToggleValue="bold" class="headless-toggle-format-shell__item">Bold</button>
+              <button tngToggle tngToggleValue="code" class="headless-toggle-format-shell__item">Code</button>
+              <button tngToggle tngToggleValue="mentions" class="headless-toggle-format-shell__item">Mentions</button>
+            </div>
+            <p class="headless-toggle-format-shell__summary">Active: {{ plainCssFormatting().join(", ") }}</p>
+          </section>
+        </ng-template>
+
+        <ng-template
+          appDocsExampleVariant
+          value="tailwind-css"
+          label="Tailwind CSS"
+          panelTitle="Formatting shell (Tailwind CSS)"
+          [codeTabs]="tailwindCodeTabs"
+          [stackblitzUrl]="stackblitzTailwindUrl"
+        >
+          <section class="grid w-full max-w-[32rem] gap-3 rounded-2xl border border-slate-300 bg-white p-4 text-slate-900 shadow-sm [color-scheme:light]">
+            <div class="grid gap-1">
+              <span class="text-base font-semibold text-slate-900">Formatting tools</span>
+              <p class="m-0 text-sm leading-6 text-slate-600">
+                Use state attributes directly while the shell is expressed with utilities.
+              </p>
+            </div>
+            <div
+              tngToggleGroup
+              class="inline-flex flex-wrap gap-2 rounded-2xl border border-slate-200 bg-slate-100 p-2.5"
+              ariaLabel="Formatting tools"
+              [values]="tailwindFormatting()"
+              (valuesChange)="onTailwindFormattingChange($event)"
+            >
+              <button tngToggle tngToggleValue="bold" class="inline-flex min-h-9 min-w-[5.4rem] items-center justify-center rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-800 transition data-[state=on]:border-blue-600 data-[state=on]:bg-blue-600 data-[state=on]:text-white focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-100">Bold</button>
+              <button tngToggle tngToggleValue="code" class="inline-flex min-h-9 min-w-[5.4rem] items-center justify-center rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-800 transition data-[state=on]:border-blue-600 data-[state=on]:bg-blue-600 data-[state=on]:text-white focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-100">Code</button>
+              <button tngToggle tngToggleValue="mentions" class="inline-flex min-h-9 min-w-[5.4rem] items-center justify-center rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-800 transition data-[state=on]:border-blue-600 data-[state=on]:bg-blue-600 data-[state=on]:text-white focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-100">Mentions</button>
+            </div>
+            <p class="m-0 text-xs text-slate-600">Active: {{ tailwindFormatting().join(", ") }}</p>
+          </section>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
+  </div>
+</article>
