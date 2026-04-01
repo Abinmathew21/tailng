@@ -103,6 +103,13 @@ export const HEADLESS_FORM_GROUP: HeadlessDocsGroup = {
       description: 'Single-choice native radio behavior with readonly, invalid, and focus-visible hooks.',
     },
     {
+      id: 'button-toggle',
+      slug: 'button-toggle',
+      title: 'Button Toggle',
+      description:
+        'Single and multiple pressed-button groups with roving focus, selection outputs, and styling hooks.',
+    },
+    {
       id: 'listbox',
       slug: 'listbox',
       title: 'ListBox',

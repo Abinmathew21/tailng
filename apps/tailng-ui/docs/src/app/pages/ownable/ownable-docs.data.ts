@@ -108,6 +108,13 @@ export const OWNABLE_FORM_GROUP: OwnableDocsGroup = {
       description:
         'Ownable radio install with local wrapper source, group semantics, and generated file structure.',
     },
+    {
+      id: 'button-toggle',
+      slug: 'button-toggle',
+      title: 'Button Toggle',
+      description:
+        'Ownable button-toggle install with local group and item wrappers, toolbar semantics, and generated file structure.',
+    },
   ],
 };
 

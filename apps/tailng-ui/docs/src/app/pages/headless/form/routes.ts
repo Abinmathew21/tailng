@@ -35,6 +35,11 @@ export const HEADLESS_FORM_ROUTES: Routes = [
     path: 'radio',
     loadChildren: () => import('./radio/routes').then((m) => m.HEADLESS_FORM_RADIO_ROUTES),
   },
+  {
+    path: 'button-toggle',
+    loadChildren: () =>
+      import('./button-toggle/routes').then((m) => m.HEADLESS_FORM_BUTTON_TOGGLE_ROUTES),
+  },
   ...group.items
     .filter(
       (item) =>
@@ -43,7 +48,8 @@ export const HEADLESS_FORM_ROUTES: Routes = [
         item.slug !== 'label' &&
         item.slug !== 'checkbox' &&
         item.slug !== 'switch' &&
-        item.slug !== 'radio',
+        item.slug !== 'radio' &&
+        item.slug !== 'button-toggle',
     )
     .map((item) => ({
       path: item.slug,

@@ -1,0 +1,52 @@
+:host {
+  display: block;
+}
+
+.button-toggle-api-block {
+  display: grid;
+  gap: 1rem;
+}
+
+.button-toggle-api-title {
+  margin: 0;
+  font-size: clamp(1.85rem, 1.2rem + 2vw, 2.5rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--tng-semantic-foreground-primary);
+}
+
+.button-toggle-api-lead {
+  margin: 0;
+  max-width: 70ch;
+  color: var(--tng-semantic-foreground-secondary);
+  line-height: 1.75;
+}
+
+.button-toggle-api-table-wrap {
+  overflow: hidden;
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 1rem;
+}
+
+.button-toggle-api-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.button-toggle-api-table thead th {
+  padding: 0.95rem 1rem;
+  text-align: left;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--tng-semantic-foreground-secondary);
+  background: color-mix(in srgb, var(--tng-semantic-background-muted) 78%, transparent);
+}
+
+.button-toggle-api-table tbody td {
+  padding: 0.95rem 1rem;
+  border-top: 1px solid var(--tng-semantic-border-subtle);
+  vertical-align: top;
+  color: var(--tng-semantic-foreground-secondary);
+}

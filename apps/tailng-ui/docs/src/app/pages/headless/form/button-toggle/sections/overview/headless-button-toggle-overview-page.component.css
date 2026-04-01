@@ -1,0 +1,106 @@
+:host {
+  display: block;
+}
+
+.button-toggle-overview-block {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.button-toggle-overview-title {
+  margin: 0;
+  font-size: clamp(1.85rem, 1.2rem + 2vw, 2.5rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--tng-semantic-foreground-primary);
+}
+
+.button-toggle-overview-lead {
+  margin: 0;
+  max-width: 70ch;
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--tng-semantic-foreground-secondary);
+}
+
+.button-toggle-overview-list {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0;
+  padding-left: 1.25rem;
+  color: var(--tng-semantic-foreground-secondary);
+}
+
+.headless-button-toggle-density-shell {
+  display: grid;
+  gap: 0.75rem;
+  inline-size: min(100%, 34rem);
+  margin-inline: auto;
+  padding: 1rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 1rem;
+  background: #ffffff;
+  color: #0f172a;
+  box-shadow: 0 20px 40px -32px rgba(15, 23, 42, 0.28);
+  color-scheme: light;
+}
+
+.headless-button-toggle-density-shell__label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #64748b;
+}
+
+.headless-button-toggle-density-shell__group {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  padding: 0.45rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 1rem;
+  background: #f8fafc;
+}
+
+.headless-button-toggle-density-shell__item {
+  appearance: none;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.8rem;
+  background: #ffffff;
+  color: #334155;
+  font: inherit;
+  line-height: inherit;
+  padding: 0.55rem 0.9rem;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06);
+  transition:
+    background-color 140ms ease,
+    border-color 140ms ease,
+    color 140ms ease,
+    box-shadow 140ms ease;
+}
+
+.headless-button-toggle-density-shell__item:hover {
+  background: #f1f5f9;
+  border-color: #94a3b8;
+}
+
+.headless-button-toggle-density-shell__item[data-selected='true'] {
+  background: #2563eb;
+  border-color: #2563eb;
+  color: #ffffff;
+  box-shadow: 0 12px 24px -18px rgba(37, 99, 235, 0.92);
+}
+
+.headless-button-toggle-density-shell__item[data-focused='true'] {
+  outline: 2px solid rgba(37, 99, 235, 0.28);
+  outline-offset: 2px;
+}
+
+.headless-button-toggle-density-shell__item[data-disabled='true'] {
+  background: #f8fafc;
+  border-color: #e2e8f0;
+  color: #94a3b8;
+  box-shadow: none;
+  cursor: not-allowed;
+}

@@ -1,8 +1,4 @@
 :host {
-  display: inline-flex;
-}
-
-.tng-button-toggle-group {
   align-items: center;
   border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 0.85rem;

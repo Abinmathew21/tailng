@@ -58,6 +58,20 @@ class GroupStandaloneGuardHostComponent {
   readonly onStandalonePressedChange = vi.fn<(next: boolean) => void>();
 }
 
+@Component({
+  imports: [TngButtonToggleComponent, TngButtonToggleGroupComponent],
+  template: `
+    <tng-button-toggle-group [type]="'single'" [value]="value()" (valueChange)="value.set($event)">
+      <tng-button-toggle [tngButtonToggleValue]="'left'">Left</tng-button-toggle>
+      <tng-button-toggle [tngButtonToggleValue]="'center'">Center</tng-button-toggle>
+      <tng-button-toggle [tngButtonToggleValue]="'right'">Right</tng-button-toggle>
+    </tng-button-toggle-group>
+  `,
+})
+class GroupSelectionHostComponent {
+  readonly value = signal<'left' | 'center' | 'right' | null>('left');
+}
+
 describe('tng-button-toggle component', () => {
   afterEach(() => {
     TestBed.resetTestingModule();
@@ -132,5 +146,43 @@ describe('tng-button-toggle component', () => {
     fixture.detectChanges();
 
     expect(host.onStandalonePressedChange).not.toHaveBeenCalled();
+  });
+
+  it('reflects initial grouped selection on the rendered toggle button', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [GroupSelectionHostComponent],
+    }).createComponent(GroupSelectionHostComponent);
+    fixture.detectChanges();
+
+    const buttons = Array.from(
+      fixture.nativeElement.querySelectorAll('[data-slot="button-toggle"]'),
+    ) as HTMLButtonElement[];
+
+    expect(buttons).toHaveLength(3);
+    expect(buttons[0]?.getAttribute('data-selected')).toBe('true');
+    expect(buttons[1]?.getAttribute('data-selected')).toBe('false');
+    expect(buttons[2]?.getAttribute('data-selected')).toBe('false');
+  });
+
+  it('updates grouped selection when a wrapped toggle is clicked', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [GroupSelectionHostComponent],
+    }).createComponent(GroupSelectionHostComponent);
+    fixture.detectChanges();
+
+    const host = fixture.componentInstance;
+    const buttons = Array.from(
+      fixture.nativeElement.querySelectorAll('[data-slot="button-toggle"]'),
+    ) as HTMLButtonElement[];
+
+    expect(buttons).toHaveLength(3);
+
+    click(buttons[1]!);
+    fixture.detectChanges();
+
+    expect(host.value()).toBe('center');
+    expect(buttons[0]?.getAttribute('data-selected')).toBe('false');
+    expect(buttons[1]?.getAttribute('data-selected')).toBe('true');
+    expect(buttons[2]?.getAttribute('data-selected')).toBe('false');
   });
 });

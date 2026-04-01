@@ -49,22 +49,8 @@ export const COMPONENTS_FORM_BUTTON_TOGGLE_ROUTES: Routes = [
       },
       {
         path: 'ownable-install',
-        data: {
-          registrySlug: 'button-toggle',
-          usageCode: [
-            '<tng-button-toggle-group',
-            '  [tngButtonToggleValue]="align"',
-            '  (valueChange)="align = $event"',
-            '>',
-            '  <tng-button-toggle value="left">Left</tng-button-toggle>',
-            '  <tng-button-toggle value="center">Center</tng-button-toggle>',
-            '</tng-button-toggle-group>',
-            '',
-          ].join('\n'),
-        },
-        loadComponent: () =>
-          import('../../../../shared/ownable-install-section/docs-ownable-install-section.component')
-            .then((module) => module.DocsOwnableInstallSectionComponent),
+        pathMatch: 'full',
+        redirectTo: '/ownable/form/button-toggle',
       },
       {
         path: '**',

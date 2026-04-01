@@ -7,12 +7,12 @@ import {
 } from '../../../../../../shared/util';
 
 @Component({
-  selector: 'app-button-toggle-api-page',
+  selector: 'app-headless-button-toggle-api-page',
   imports: [TngCodeBlockComponent],
-  templateUrl: './button-toggle-api-page.component.html',
-  styleUrl: './button-toggle-api-page.component.css',
+  templateUrl: './headless-button-toggle-api-page.component.html',
+  styleUrl: './headless-button-toggle-api-page.component.css',
 })
-export class ButtonToggleApiPageComponent implements OnDestroy {
+export class HeadlessButtonToggleApiPageComponent implements OnDestroy {
   private readonly documentRef = inject(DOCUMENT);
 
   public readonly codeBlockTheme = signal<'github-dark' | 'github-light'>(
@@ -23,7 +23,7 @@ export class ButtonToggleApiPageComponent implements OnDestroy {
     this.codeBlockTheme,
   );
 
-  protected readonly primitiveAttachmentCode = [
+  protected readonly groupAttachmentCode = [
     '<div',
     '  tngButtonToggleGroup',
     '  type="single"',
@@ -36,25 +36,13 @@ export class ButtonToggleApiPageComponent implements OnDestroy {
     '',
   ].join('\n');
 
-  protected readonly componentGroupCode = [
-    '<tng-button-toggle-group',
-    '  ariaLabel="Density selection"',
-    '  [value]="density()"',
-    '  (valueChange)="onDensityChange($event)"',
-    '>',
-    `  <tng-button-toggle [tngButtonToggleValue]="'compact'">Compact</tng-button-toggle>`,
-    `  <tng-button-toggle [tngButtonToggleValue]="'comfortable'">Comfortable</tng-button-toggle>`,
-    '</tng-button-toggle-group>',
-    '',
-  ].join('\n');
-
-  protected readonly componentItemCode = [
-    '<tng-button-toggle',
-    '  [pressed]="isBold()"',
-    '  (pressedChange)="isBold.set($event)"',
+  protected readonly itemAttachmentCode = [
+    '<button',
+    '  tngButtonToggle',
+    '  tngButtonToggleValue="bold"',
     '>',
     '  Bold',
-    '</tng-button-toggle>',
+    '</button>',
     '',
   ].join('\n');
 

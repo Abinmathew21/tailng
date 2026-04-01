@@ -1,233 +1,169 @@
-<article class="button-toggle-examples">
-  <h2 class="button-toggle-examples-title">Examples</h2>
-  <p class="button-toggle-examples-lead">
-    Each scenario below is available in headless markup, plain CSS, and Tailwind utility styling.
-  </p>
-
-  <section class="button-toggle-examples-block">
-    <app-docs-example-tabs-section
-      heading="Single-select alignment controls"
-      description="Choose a single alignment target using radio-like button-toggle behavior."
-      ariaLabel="Button Toggle single-select examples"
-      tabListAriaLabel="Single-select style variants"
-      defaultValue="headless"
-      [codeBlockTheme]="codeBlockTheme()"
-    >
-      <ng-template
-        appDocsExampleVariant
-        value="headless"
-        label="Headless"
-        panelTitle="Headless single-select alignment"
-        [codeTabs]="singleSelectHeadlessCodeTabs"
+<article class="docs-section-page button-toggle-examples">
+  <div class="docs-section-page-main">
+    <section id="single-select-alignment-controls" class="docs-section-anchor button-toggle-examples-block">
+      <app-docs-example-tabs-section
+        heading="Single-select alignment controls"
+        description="Choose one alignment target at a time with the group wrapper driving selection."
+        ariaLabel="Button Toggle single-select examples"
+        tabListAriaLabel="Single-select style variants"
+        defaultValue="plain-css"
+        [codeBlockTheme]="codeBlockTheme()"
       >
-        <section
-          tngButtonToggleGroup
-          class="button-toggle-preview-group"
-          [tngButtonToggleValue]="headlessAlign()"
-          (valueChange)="onHeadlessAlignChange($event)"
+        <ng-template
+          appDocsExampleVariant
+          value="plain-css"
+          label="Plain-CSS"
+          panelTitle="Alignment controls (Plain-CSS)"
+          [codeTabs]="singleSelectPlainCssCodeTabs"
+          [stackblitzUrl]="stackblitzVanillaUrl"
         >
-          <button tngButtonToggle tngButtonToggleValue="left" class="button-toggle-preview-item">
-            Left
-          </button>
-          <button
-            tngButtonToggle
-            tngButtonToggleValue="center"
-            class="button-toggle-preview-item"
-          >
-            Center
-          </button>
-          <button tngButtonToggle tngButtonToggleValue="right" class="button-toggle-preview-item">
-            Right
-          </button>
-        </section>
-        <p class="button-toggle-example-summary">selected: {{ headlessAlign() }}</p>
-      </ng-template>
+          <section class="doc-cmp-button-toggle-alignment-card">
+            <h3 class="doc-cmp-button-toggle-alignment-card__title">Text alignment</h3>
+            <tng-button-toggle-group
+              class="doc-cmp-button-toggle-alignment-group"
+              ariaLabel="Text alignment"
+              [value]="plainAlignment()"
+              (valueChange)="onPlainAlignmentChange($event)"
+            >
+              <tng-button-toggle class="doc-cmp-button-toggle-alignment-item" [tngButtonToggleValue]="'left'"
+                >Left</tng-button-toggle
+              >
+              <tng-button-toggle class="doc-cmp-button-toggle-alignment-item" [tngButtonToggleValue]="'center'"
+                >Center</tng-button-toggle
+              >
+              <tng-button-toggle class="doc-cmp-button-toggle-alignment-item" [tngButtonToggleValue]="'right'"
+                >Right</tng-button-toggle
+              >
+            </tng-button-toggle-group>
+            <p class="doc-cmp-button-toggle-alignment-card__summary">
+              Selected: {{ plainAlignment() }}
+            </p>
+          </section>
+        </ng-template>
 
-      <ng-template
-        appDocsExampleVariant
-        value="plain-css"
-        label="Plain-CSS"
-        panelTitle="Plain CSS single-select alignment"
-        [codeTabs]="singleSelectPlainCssCodeTabs"
-      >
-        <div class="plain-button-toggle-card">
-          <div class="button-toggle-wrapper-row" role="group" aria-label="Plain CSS align controls">
-            <tng-button-toggle
-              [pressed]="plainAlign() === 'left'"
-              (pressedChange)="onPlainAlignPressed('left', $event)"
-            >
-              Left
-            </tng-button-toggle>
-            <tng-button-toggle
-              [pressed]="plainAlign() === 'center'"
-              (pressedChange)="onPlainAlignPressed('center', $event)"
-            >
-              Center
-            </tng-button-toggle>
-            <tng-button-toggle
-              [pressed]="plainAlign() === 'right'"
-              (pressedChange)="onPlainAlignPressed('right', $event)"
-            >
-              Right
-            </tng-button-toggle>
-          </div>
-        </div>
-        <p class="button-toggle-example-summary">selected: {{ plainAlign() }}</p>
-      </ng-template>
-
-      <ng-template
-        appDocsExampleVariant
-        value="tailwind-css"
-        label="Tailwind CSS"
-        panelTitle="Tailwind single-select alignment"
-        [codeTabs]="singleSelectTailwindCodeTabs"
-      >
-        <div
-          class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+        <ng-template
+          appDocsExampleVariant
+          value="tailwind-css"
+          label="Tailwind CSS"
+          panelTitle="Alignment controls (Tailwind CSS)"
+          [codeTabs]="singleSelectTailwindCodeTabs"
+          [stackblitzUrl]="stackblitzTailwindUrl"
         >
-          <div
-            class="button-toggle-wrapper-row"
-            role="group"
-            aria-label="Tailwind align controls"
+          <section
+            class="grid w-full max-w-[30rem] gap-3 rounded-2xl border border-slate-300 bg-white p-4 text-slate-900 shadow-sm [color-scheme:light]"
           >
-            <tng-button-toggle
-              [pressed]="tailwindAlign() === 'left'"
-              (pressedChange)="onTailwindAlignPressed('left', $event)"
+            <h3 class="m-0 text-base font-semibold text-slate-900">Text alignment</h3>
+            <tng-button-toggle-group
+              class="inline-flex flex-wrap gap-2 rounded-2xl border border-slate-200 bg-slate-100 p-2.5 [--tng-semantic-border-subtle:#dbe4ee]"
+              ariaLabel="Text alignment"
+              [value]="tailwindAlignment()"
+              (valueChange)="onTailwindAlignmentChange($event)"
             >
-              Left
-            </tng-button-toggle>
-            <tng-button-toggle
-              [pressed]="tailwindAlign() === 'center'"
-              (pressedChange)="onTailwindAlignPressed('center', $event)"
-            >
-              Center
-            </tng-button-toggle>
-            <tng-button-toggle
-              [pressed]="tailwindAlign() === 'right'"
-              (pressedChange)="onTailwindAlignPressed('right', $event)"
-            >
-              Right
-            </tng-button-toggle>
-          </div>
-        </div>
-        <p class="button-toggle-example-summary">selected: {{ tailwindAlign() }}</p>
-      </ng-template>
-    </app-docs-example-tabs-section>
-  </section>
+              <tng-button-toggle
+                class="[--tng-semantic-background-surface:#ffffff] [--tng-semantic-background-muted:#edf4ff] [--tng-semantic-border-subtle:#c6d4e1] [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-foreground-primary:#1e293b] [--tng-color-white:#ffffff]"
+                [tngButtonToggleValue]="'left'"
+                >Left</tng-button-toggle
+              >
+              <tng-button-toggle
+                class="[--tng-semantic-background-surface:#ffffff] [--tng-semantic-background-muted:#edf4ff] [--tng-semantic-border-subtle:#c6d4e1] [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-foreground-primary:#1e293b] [--tng-color-white:#ffffff]"
+                [tngButtonToggleValue]="'center'"
+                >Center</tng-button-toggle
+              >
+              <tng-button-toggle
+                class="[--tng-semantic-background-surface:#ffffff] [--tng-semantic-background-muted:#edf4ff] [--tng-semantic-border-subtle:#c6d4e1] [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-foreground-primary:#1e293b] [--tng-color-white:#ffffff]"
+                [tngButtonToggleValue]="'right'"
+                >Right</tng-button-toggle
+              >
+            </tng-button-toggle-group>
+            <p class="m-0 text-xs text-slate-600">Selected: {{ tailwindAlignment() }}</p>
+          </section>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
 
-  <section class="button-toggle-examples-block">
-    <app-docs-example-tabs-section
-      heading="Multiple-select text-style toolbar"
-      description="Toggle multiple formatting options with deterministic multi-select behavior."
-      ariaLabel="Button Toggle multi-select examples"
-      tabListAriaLabel="Multi-select style variants"
-      defaultValue="headless"
-      [codeBlockTheme]="codeBlockTheme()"
-    >
-      <ng-template
-        appDocsExampleVariant
-        value="headless"
-        label="Headless"
-        panelTitle="Headless multi-select text styles"
-        [codeTabs]="multiSelectHeadlessCodeTabs"
+    <section id="multiple-select-text-style-toolbar" class="docs-section-anchor button-toggle-examples-block">
+      <app-docs-example-tabs-section
+        heading="Multiple-select text-style toolbar"
+        description="Use multiple mode when each pressed item represents an independent formatting state."
+        ariaLabel="Button Toggle multi-select examples"
+        tabListAriaLabel="Multi-select style variants"
+        defaultValue="plain-css"
+        [codeBlockTheme]="codeBlockTheme()"
       >
-        <section
-          tngButtonToggleGroup
-          type="multiple"
-          class="button-toggle-preview-group"
-          [tngButtonToggleValues]="headlessStyles()"
-          (valuesChange)="onHeadlessStylesChange($event)"
+        <ng-template
+          appDocsExampleVariant
+          value="plain-css"
+          label="Plain-CSS"
+          panelTitle="Formatting toolbar (Plain-CSS)"
+          [codeTabs]="multiSelectPlainCssCodeTabs"
+          [stackblitzUrl]="stackblitzVanillaUrl"
         >
-          <button tngButtonToggle tngButtonToggleValue="bold" class="button-toggle-preview-item">
-            Bold
-          </button>
-          <button
-            tngButtonToggle
-            tngButtonToggleValue="italic"
-            class="button-toggle-preview-item"
-          >
-            Italic
-          </button>
-          <button
-            tngButtonToggle
-            tngButtonToggleValue="underline"
-            class="button-toggle-preview-item"
-          >
-            Underline
-          </button>
-        </section>
-        <p class="button-toggle-example-summary">active: {{ headlessStylesSummary() }}</p>
-      </ng-template>
+          <section class="doc-cmp-button-toggle-formatting-card">
+            <h3 class="doc-cmp-button-toggle-formatting-card__title">Formatting toolbar</h3>
+            <tng-button-toggle-group
+              class="doc-cmp-button-toggle-formatting-group"
+              ariaLabel="Formatting toolbar"
+              type="multiple"
+              [values]="plainTextStyles()"
+              (valuesChange)="onPlainTextStylesChange($event)"
+            >
+              <tng-button-toggle class="doc-cmp-button-toggle-formatting-item" [tngButtonToggleValue]="'bold'"
+                >Bold</tng-button-toggle
+              >
+              <tng-button-toggle class="doc-cmp-button-toggle-formatting-item" [tngButtonToggleValue]="'italic'"
+                >Italic</tng-button-toggle
+              >
+              <tng-button-toggle
+                class="doc-cmp-button-toggle-formatting-item"
+                [tngButtonToggleValue]="'underline'"
+                >Underline</tng-button-toggle
+              >
+            </tng-button-toggle-group>
+            <p class="doc-cmp-button-toggle-formatting-card__summary">
+              Active: {{ plainTextStylesSummary() }}
+            </p>
+          </section>
+        </ng-template>
 
-      <ng-template
-        appDocsExampleVariant
-        value="plain-css"
-        label="Plain-CSS"
-        panelTitle="Plain CSS multi-select text styles"
-        [codeTabs]="multiSelectPlainCssCodeTabs"
-      >
-        <div class="plain-button-toggle-card">
-          <div class="button-toggle-wrapper-row" role="group" aria-label="Plain CSS style controls">
-            <tng-button-toggle
-              [pressed]="plainStyles().includes('bold')"
-              (pressedChange)="onPlainStylePressed('bold', $event)"
-            >
-              Bold
-            </tng-button-toggle>
-            <tng-button-toggle
-              [pressed]="plainStyles().includes('italic')"
-              (pressedChange)="onPlainStylePressed('italic', $event)"
-            >
-              Italic
-            </tng-button-toggle>
-            <tng-button-toggle
-              [pressed]="plainStyles().includes('underline')"
-              (pressedChange)="onPlainStylePressed('underline', $event)"
-            >
-              Underline
-            </tng-button-toggle>
-          </div>
-        </div>
-        <p class="button-toggle-example-summary">active: {{ plainStylesSummary() }}</p>
-      </ng-template>
-
-      <ng-template
-        appDocsExampleVariant
-        value="tailwind-css"
-        label="Tailwind CSS"
-        panelTitle="Tailwind multi-select text styles"
-        [codeTabs]="multiSelectTailwindCodeTabs"
-      >
-        <div
-          class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+        <ng-template
+          appDocsExampleVariant
+          value="tailwind-css"
+          label="Tailwind CSS"
+          panelTitle="Formatting toolbar (Tailwind CSS)"
+          [codeTabs]="multiSelectTailwindCodeTabs"
+          [stackblitzUrl]="stackblitzTailwindUrl"
         >
-          <div
-            class="button-toggle-wrapper-row"
-            role="group"
-            aria-label="Tailwind style controls"
+          <section
+            class="grid w-full max-w-[30rem] gap-3 rounded-2xl border border-slate-300 bg-white p-4 text-slate-900 shadow-sm [color-scheme:light]"
           >
-            <tng-button-toggle
-              [pressed]="tailwindStyles().includes('bold')"
-              (pressedChange)="onTailwindStylePressed('bold', $event)"
+            <h3 class="m-0 text-base font-semibold text-slate-900">Formatting toolbar</h3>
+            <tng-button-toggle-group
+              class="inline-flex flex-wrap gap-2 rounded-2xl border border-slate-200 bg-slate-100 p-2.5 [--tng-semantic-border-subtle:#dbe4ee]"
+              ariaLabel="Formatting toolbar"
+              type="multiple"
+              [values]="tailwindTextStyles()"
+              (valuesChange)="onTailwindTextStylesChange($event)"
             >
-              Bold
-            </tng-button-toggle>
-            <tng-button-toggle
-              [pressed]="tailwindStyles().includes('italic')"
-              (pressedChange)="onTailwindStylePressed('italic', $event)"
-            >
-              Italic
-            </tng-button-toggle>
-            <tng-button-toggle
-              [pressed]="tailwindStyles().includes('underline')"
-              (pressedChange)="onTailwindStylePressed('underline', $event)"
-            >
-              Underline
-            </tng-button-toggle>
-          </div>
-        </div>
-        <p class="button-toggle-example-summary">active: {{ tailwindStylesSummary() }}</p>
-      </ng-template>
-    </app-docs-example-tabs-section>
-  </section>
+              <tng-button-toggle
+                class="[--tng-semantic-background-surface:#ffffff] [--tng-semantic-background-muted:#edf4ff] [--tng-semantic-border-subtle:#c6d4e1] [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-foreground-primary:#1e293b] [--tng-color-white:#ffffff]"
+                [tngButtonToggleValue]="'bold'"
+                >Bold</tng-button-toggle
+              >
+              <tng-button-toggle
+                class="[--tng-semantic-background-surface:#ffffff] [--tng-semantic-background-muted:#edf4ff] [--tng-semantic-border-subtle:#c6d4e1] [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-foreground-primary:#1e293b] [--tng-color-white:#ffffff]"
+                [tngButtonToggleValue]="'italic'"
+                >Italic</tng-button-toggle
+              >
+              <tng-button-toggle
+                class="[--tng-semantic-background-surface:#ffffff] [--tng-semantic-background-muted:#edf4ff] [--tng-semantic-border-subtle:#c6d4e1] [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-foreground-primary:#1e293b] [--tng-color-white:#ffffff]"
+                [tngButtonToggleValue]="'underline'"
+                >Underline</tng-button-toggle
+              >
+            </tng-button-toggle-group>
+            <p class="m-0 text-xs text-slate-600">Active: {{ tailwindTextStylesSummary() }}</p>
+          </section>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
+  </div>
 </article>

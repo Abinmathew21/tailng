@@ -1,0 +1,122 @@
+<article class="docs-section-page button-toggle-styling">
+  <div class="docs-section-page-main">
+    <section id="css-contracts" class="docs-section-anchor button-toggle-styling-block">
+      <h2 class="button-toggle-styling-title">Styling contract</h2>
+      <p class="button-toggle-styling-lead">
+        Headless button toggle styling should target the group and item host attributes rather than
+        assuming a wrapper structure.
+      </p>
+      <div class="button-toggle-styling-table-wrap">
+        <table class="button-toggle-styling-table">
+          <thead>
+            <tr>
+              <th scope="col">Selector</th>
+              <th scope="col">Applied on</th>
+              <th scope="col">Purpose</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>[data-slot='button-toggle-group']</code></td>
+              <td>Group host</td>
+              <td>Layout shell for row, toolbar, or segmented-control styling.</td>
+            </tr>
+            <tr>
+              <td><code>[data-type='single']</code>, <code>[data-type='multiple']</code></td>
+              <td>Group host</td>
+              <td>Switch visual semantics between radio-like and pressed-button groups.</td>
+            </tr>
+            <tr>
+              <td><code>[data-slot='button-toggle'][data-selected='true']</code></td>
+              <td>Toggle item</td>
+              <td>Active-state background, border, and text styling.</td>
+            </tr>
+            <tr>
+              <td><code>[data-slot='button-toggle'][data-focused='true']</code></td>
+              <td>Toggle item</td>
+              <td>Roving focus ring when keyboard focus moves between items.</td>
+            </tr>
+            <tr>
+              <td><code>[data-slot='button-toggle'][data-disabled='true']</code></td>
+              <td>Toggle item</td>
+              <td>Mute unavailable items while keeping the group layout intact.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="state-selectors" class="docs-section-anchor button-toggle-styling-block">
+      <h3>State selectors</h3>
+      <tng-code-block
+        [code]="selectorSnippet"
+        adapter="shiki"
+        language="css"
+        title="button-toggle.contract.css"
+        [theme]="codeBlockTheme()"
+        [lineNumbers]="false"
+        [wrap]="true"
+        [sanitizeHtml]="false"
+      ></tng-code-block>
+    </section>
+
+    <section id="example-shells" class="docs-section-anchor button-toggle-styling-block">
+      <app-docs-example-tabs-section
+        heading="Example shells"
+        description="The same primitive contract can drive a pill filter bar in plain CSS or Tailwind utilities."
+        ariaLabel="Headless button toggle styling variants"
+        tabListAriaLabel="Headless button toggle styling tabs"
+        defaultValue="plain-css"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <ng-template
+          appDocsExampleVariant
+          value="plain-css"
+          label="Plain-CSS"
+          panelTitle="Filter shell (Plain-CSS)"
+          [codeTabs]="plainCssCodeTabs"
+          [stackblitzUrl]="stackblitzVanillaUrl"
+        >
+          <section class="headless-button-toggle-filter-shell">
+            <span class="headless-button-toggle-filter-shell__label">Filter</span>
+            <div
+              tngButtonToggleGroup
+              class="headless-button-toggle-filter-shell__group"
+              type="single"
+              [tngButtonToggleValue]="plainSelection()"
+              (valueChange)="onPlainSelectionChange($event)"
+            >
+              <button tngButtonToggle tngButtonToggleValue="all" class="headless-button-toggle-filter-shell__item">All</button>
+              <button tngButtonToggle tngButtonToggleValue="assigned" class="headless-button-toggle-filter-shell__item">Assigned</button>
+              <button tngButtonToggle tngButtonToggleValue="drafts" class="headless-button-toggle-filter-shell__item">Drafts</button>
+            </div>
+          </section>
+        </ng-template>
+
+        <ng-template
+          appDocsExampleVariant
+          value="tailwind-css"
+          label="Tailwind CSS"
+          panelTitle="Filter shell (Tailwind CSS)"
+          [codeTabs]="tailwindCodeTabs"
+          [stackblitzUrl]="stackblitzTailwindUrl"
+        >
+          <section class="grid w-full max-w-[34rem] gap-3 rounded-2xl border border-slate-300 bg-white p-4 text-slate-900 shadow-sm [color-scheme:light]">
+            <span class="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">Filter</span>
+            <div
+              tngButtonToggleGroup
+              class="inline-flex flex-wrap gap-2 rounded-2xl border border-slate-200 bg-slate-50 p-2"
+              type="single"
+              [tngButtonToggleValue]="tailwindSelection()"
+              (valueChange)="onTailwindSelectionChange($event)"
+            >
+              <button tngButtonToggle tngButtonToggleValue="all" class="rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:bg-slate-100 data-[selected=true]:border-blue-600 data-[selected=true]:bg-blue-600 data-[selected=true]:text-white data-[selected=true]:shadow-[0_10px_24px_-16px_rgba(37,99,235,0.95)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-200">All</button>
+              <button tngButtonToggle tngButtonToggleValue="assigned" class="rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:bg-slate-100 data-[selected=true]:border-blue-600 data-[selected=true]:bg-blue-600 data-[selected=true]:text-white data-[selected=true]:shadow-[0_10px_24px_-16px_rgba(37,99,235,0.95)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-200">Assigned</button>
+              <button tngButtonToggle tngButtonToggleValue="drafts" class="rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:bg-slate-100 data-[selected=true]:border-blue-600 data-[selected=true]:bg-blue-600 data-[selected=true]:text-white data-[selected=true]:shadow-[0_10px_24px_-16px_rgba(37,99,235,0.95)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-200">Drafts</button>
+            </div>
+          </section>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
+  </div>
+</article>

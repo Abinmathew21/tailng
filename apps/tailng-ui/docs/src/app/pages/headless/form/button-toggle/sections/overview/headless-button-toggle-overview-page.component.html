@@ -1,0 +1,125 @@
+<article class="button-toggle-overview docs-section-page">
+  <div class="docs-section-page-main">
+    <section id="what-you-get" class="docs-section-anchor button-toggle-overview-block">
+      <h2 class="button-toggle-overview-title">Headless button toggle</h2>
+      <p class="button-toggle-overview-lead">
+        Headless button toggle gives you a roving-focus group and stateful toggle buttons without
+        prescribing the visual shell. Use it when the selection model matters more than the default
+        component chrome.
+      </p>
+      <ul class="button-toggle-overview-list">
+        <li><code>single</code> mode behaves like a radio group with one active value.</li>
+        <li><code>multiple</code> mode exposes pressed-button semantics for toolbars and filters.</li>
+        <li>State attributes like <code>data-selected</code> and <code>data-focused</code> are stable styling hooks.</li>
+      </ul>
+    </section>
+
+    <section id="installation" class="docs-section-anchor button-toggle-overview-block">
+      <h3>Installation</h3>
+      <p>Import the group and item primitives together so keyboard and selection behavior stay aligned.</p>
+      <tng-code-block
+        [code]="primitiveImportCode"
+        adapter="shiki"
+        language="ts"
+        title="Primitive imports"
+        [theme]="codeBlockTheme()"
+        [lineNumbers]="false"
+        [wrap]="true"
+        [sanitizeHtml]="false"
+      ></tng-code-block>
+    </section>
+
+    <section id="basic-usage" class="docs-section-anchor button-toggle-overview-block">
+      <h3>Basic usage</h3>
+      <p>Single-select groups use <code>valueChange</code>; multiple groups use <code>valuesChange</code>.</p>
+      <tng-code-block
+        [code]="singleSelectCode"
+        adapter="shiki"
+        language="html"
+        title="Single-select group"
+        [theme]="codeBlockTheme()"
+        [lineNumbers]="false"
+        [wrap]="true"
+        [sanitizeHtml]="false"
+      ></tng-code-block>
+      <tng-code-block
+        [code]="multipleSelectCode"
+        adapter="shiki"
+        language="html"
+        title="Multiple-select group"
+        [theme]="codeBlockTheme()"
+        [lineNumbers]="false"
+        [wrap]="true"
+        [sanitizeHtml]="false"
+      ></tng-code-block>
+    </section>
+
+    <section id="style-variants" class="docs-section-anchor button-toggle-overview-block">
+      <app-docs-example-tabs-section
+        heading="Style variants"
+        description="The same headless interaction contract can sit inside a simple plain CSS shell or a Tailwind utility shell."
+        ariaLabel="Headless button toggle style variants"
+        tabListAriaLabel="Headless button toggle style tabs"
+        defaultValue="plain-css"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <ng-template
+          appDocsExampleVariant
+          value="plain-css"
+          label="Plain-CSS"
+          panelTitle="Density controls (Plain-CSS)"
+          [codeTabs]="plainCssCodeTabs"
+          [stackblitzUrl]="stackblitzVanillaUrl"
+        >
+          <section class="headless-button-toggle-density-shell">
+            <span class="headless-button-toggle-density-shell__label">Density</span>
+            <div
+              tngButtonToggleGroup
+              class="headless-button-toggle-density-shell__group"
+              type="single"
+              [tngButtonToggleValue]="plainDensity()"
+              (valueChange)="onPlainDensityChange($event)"
+            >
+              <button tngButtonToggle tngButtonToggleValue="compact" class="headless-button-toggle-density-shell__item">Compact</button>
+              <button tngButtonToggle tngButtonToggleValue="comfortable" class="headless-button-toggle-density-shell__item">Comfortable</button>
+              <button tngButtonToggle tngButtonToggleValue="spacious" class="headless-button-toggle-density-shell__item">Spacious</button>
+            </div>
+          </section>
+        </ng-template>
+
+        <ng-template
+          appDocsExampleVariant
+          value="tailwind-css"
+          label="Tailwind CSS"
+          panelTitle="Density controls (Tailwind CSS)"
+          [codeTabs]="tailwindCodeTabs"
+          [stackblitzUrl]="stackblitzTailwindUrl"
+        >
+          <section class="grid w-full max-w-[34rem] gap-3 rounded-2xl border border-slate-300 bg-white p-4 text-slate-900 shadow-sm [color-scheme:light]">
+            <span class="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">Density</span>
+            <div
+              tngButtonToggleGroup
+              class="inline-flex flex-wrap gap-2 rounded-2xl border border-slate-200 bg-slate-50 p-2"
+              type="single"
+              [tngButtonToggleValue]="tailwindDensity()"
+              (valueChange)="onTailwindDensityChange($event)"
+            >
+              <button tngButtonToggle tngButtonToggleValue="compact" class="rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:bg-slate-100 data-[selected=true]:border-blue-600 data-[selected=true]:bg-blue-600 data-[selected=true]:text-white data-[selected=true]:shadow-[0_10px_24px_-16px_rgba(37,99,235,0.95)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-200">Compact</button>
+              <button tngButtonToggle tngButtonToggleValue="comfortable" class="rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:bg-slate-100 data-[selected=true]:border-blue-600 data-[selected=true]:bg-blue-600 data-[selected=true]:text-white data-[selected=true]:shadow-[0_10px_24px_-16px_rgba(37,99,235,0.95)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-200">Comfortable</button>
+              <button tngButtonToggle tngButtonToggleValue="spacious" class="rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:bg-slate-100 data-[selected=true]:border-blue-600 data-[selected=true]:bg-blue-600 data-[selected=true]:text-white data-[selected=true]:shadow-[0_10px_24px_-16px_rgba(37,99,235,0.95)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-200">Spacious</button>
+            </div>
+          </section>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
+
+    <section id="accessibility-baseline" class="docs-section-anchor button-toggle-overview-block">
+      <h3>Accessibility baseline</h3>
+      <ul class="button-toggle-overview-list">
+        <li>Single groups expose <code>radiogroup</code> and item <code>role=&quot;radio&quot;</code>.</li>
+        <li>Multiple groups stay at <code>role=&quot;group&quot;</code> with <code>aria-pressed</code> on each item.</li>
+        <li>Arrow keys, Home, and End move focus across the group without additional wiring.</li>
+      </ul>
+    </section>
+  </div>
+</article>

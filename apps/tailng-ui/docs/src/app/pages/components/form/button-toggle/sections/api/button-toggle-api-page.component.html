@@ -1,67 +1,169 @@
-<article class="button-toggle-api">
-  <h2 class="button-toggle-api-title">API reference</h2>
-  <p class="button-toggle-api-lead">
-    Button Toggle provides group and item primitives with a styled wrapper API aligned to the same
-    interaction model.
-  </p>
+<article class="docs-section-page button-toggle-api">
+  <div class="docs-section-page-main">
+    <section id="primitive-contract" class="docs-section-anchor button-toggle-api-block">
+      <h2 class="button-toggle-api-title">API reference</h2>
+      <p class="button-toggle-api-lead">
+        The component surface is built on the same headless pair that powers roving focus and
+        selection behavior. Reach for headless when you want DOM ownership; use the component pair
+        when you want the same selection contract hosted directly on the wrapper plus a styled shell
+        already in place.
+      </p>
+      <h3>Underlying primitives</h3>
+      <p>
+        <code>tngButtonToggleGroup</code> and <code>tngButtonToggle</code> remain the behavioral
+        baseline underneath the component wrapper. The group wrapper forwards that primitive
+        contract from its host, so grouped items participate in the same focus and selection model
+        as the headless pair.
+      </p>
+      <tng-code-block
+        [code]="primitiveAttachmentCode"
+        adapter="shiki"
+        language="html"
+        title="Primitive attachment"
+        [theme]="codeBlockTheme()"
+        [lineNumbers]="false"
+        [wrap]="true"
+        [sanitizeHtml]="false"
+      ></tng-code-block>
+    </section>
 
-  <section class="button-toggle-api-block">
-    <h3><code>tngButtonToggleGroup</code> + <code>tngButtonToggle</code></h3>
-    <tng-code-block
-      [code]="primitiveAttachmentCode"
-      adapter="shiki"
-      language="html"
-      title="Primitive attachment"
-      [lineNumbers]="false"
-      [wrap]="true"
-      [sanitizeHtml]="false"
-    ></tng-code-block>
+    <section id="component-group-api" class="docs-section-anchor button-toggle-api-block">
+      <h3><code>tng-button-toggle-group</code></h3>
+      <p>
+        The group wrapper hosts the primitive group behavior directly. That means selection mode,
+        keyboard traversal, controlled values, and the analytics-focused outputs all come from the
+        same contract you would use in headless composition.
+      </p>
+      <tng-code-block
+        [code]="componentGroupCode"
+        adapter="shiki"
+        language="html"
+        title="Group attachment"
+        [theme]="codeBlockTheme()"
+        [lineNumbers]="false"
+        [wrap]="true"
+        [sanitizeHtml]="false"
+      ></tng-code-block>
 
-    <div class="button-toggle-api-table-wrap">
-      <table class="button-toggle-api-table">
-        <thead>
-          <tr>
-            <th scope="col">Group API</th>
-            <th scope="col">Type</th>
-            <th scope="col">Notes</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><code>type</code></td>
-            <td><code>'single' | 'multiple'</code></td>
-            <td>Selection strategy.</td>
-          </tr>
-          <tr>
-            <td><code>tngButtonToggleValue</code>, <code>tngButtonToggleValues</code></td>
-            <td><code>T | null</code>, <code>readonly T[]</code></td>
-            <td>Controlled selected values.</td>
-          </tr>
-          <tr>
-            <td><code>valueChange</code>, <code>valuesChange</code></td>
-            <td>Output events</td>
-            <td>Selection updates.</td>
-          </tr>
-          <tr>
-            <td><code>orientation</code>, <code>dir</code>, <code>loop</code></td>
-            <td>Behavior config</td>
-            <td>Keyboard focus traversal.</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
+      <div class="button-toggle-api-table-wrap">
+        <table class="button-toggle-api-table">
+          <thead>
+            <tr>
+              <th scope="col">API</th>
+              <th scope="col">Type</th>
+              <th scope="col">Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>ariaLabel</code></td>
+              <td><code>string</code></td>
+              <td>Accessible name for the group wrapper.</td>
+            </tr>
+            <tr>
+              <td><code>type</code></td>
+              <td><code>'single' | 'multiple'</code></td>
+              <td>Switches between single-select segmented controls and multi-select toolbars.</td>
+            </tr>
+            <tr>
+              <td><code>value</code>, <code>values</code></td>
+              <td><code>T | null</code>, <code>readonly T[]</code></td>
+              <td>Wrapper-level aliases for controlled single and multiple selection.</td>
+            </tr>
+            <tr>
+              <td><code>tngButtonToggleValue</code>, <code>tngButtonToggleValues</code></td>
+              <td><code>T | null</code>, <code>readonly T[]</code></td>
+              <td>
+                Explicit TailNG-prefixed aliases forwarded from the primitive group contract.
+              </td>
+            </tr>
+            <tr>
+              <td><code>defaultValue</code>, <code>defaultValues</code></td>
+              <td><code>T | null</code>, <code>readonly T[]</code></td>
+              <td>Uncontrolled initial selection for single and multiple groups.</td>
+            </tr>
+            <tr>
+              <td><code>allowEmpty</code>, <code>disabled</code>, <code>loop</code></td>
+              <td><code>boolean</code></td>
+              <td>Selection clearing, disabled state, and keyboard wraparound.</td>
+            </tr>
+            <tr>
+              <td><code>orientation</code>, <code>dir</code>, <code>activation</code></td>
+              <td>Behavior config</td>
+              <td>Keyboard axis, LTR/RTL direction, and manual versus automatic selection.</td>
+            </tr>
+            <tr>
+              <td><code>valueChange</code>, <code>valuesChange</code></td>
+              <td>Angular outputs</td>
+              <td>Controlled-state updates for single and multiple groups.</td>
+            </tr>
+            <tr>
+              <td><code>toggleChange</code>, <code>focusChange</code></td>
+              <td>Angular outputs</td>
+              <td>Richer event payloads for analytics, instrumentation, and focus tracking.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
 
-  <section class="button-toggle-api-block">
-    <h3><code>tng-button-toggle-group</code> + <code>tng-button-toggle</code></h3>
-    <tng-code-block
-      [code]="componentAttachmentCode"
-      adapter="shiki"
-      language="html"
-      title="Component attachment"
-      [lineNumbers]="false"
-      [wrap]="true"
-      [sanitizeHtml]="false"
-    ></tng-code-block>
-  </section>
+    <section id="component-item-api" class="docs-section-anchor button-toggle-api-block">
+      <h3><code>tng-button-toggle</code></h3>
+      <p>
+        The item wrapper can participate in a group or work as a standalone pressed button when the
+        group wrapper is not present. Inside a group, pass item identity with
+        <code>[tngButtonToggleValue]</code> or <code>[value]</code> and let the group own the
+        selected state.
+      </p>
+      <tng-code-block
+        [code]="componentItemCode"
+        adapter="shiki"
+        language="html"
+        title="Standalone item"
+        [theme]="codeBlockTheme()"
+        [lineNumbers]="false"
+        [wrap]="true"
+        [sanitizeHtml]="false"
+      ></tng-code-block>
+
+      <div class="button-toggle-api-table-wrap">
+        <table class="button-toggle-api-table">
+          <thead>
+            <tr>
+              <th scope="col">API</th>
+              <th scope="col">Type</th>
+              <th scope="col">Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>value</code>, <code>tngButtonToggleValue</code></td>
+              <td><code>string | number | null</code></td>
+              <td>Stable identity for group selection. Prefer <code>tngButtonToggleValue</code> in grouped examples.</td>
+            </tr>
+            <tr>
+              <td><code>disabled</code></td>
+              <td><code>boolean</code></td>
+              <td>Blocks interaction for standalone usage and forwards to the primitive button.</td>
+            </tr>
+            <tr>
+              <td><code>pressed</code></td>
+              <td><code>boolean</code></td>
+              <td>Standalone pressed state when the item is not inside a group.</td>
+            </tr>
+            <tr>
+              <td><code>pressedChange</code></td>
+              <td><code>boolean</code></td>
+              <td>Standalone output. Inside a group, selection comes from the wrapper outputs instead.</td>
+            </tr>
+            <tr>
+              <td>Projected content</td>
+              <td>Label content</td>
+              <td>Icons, text, and badges can be projected without changing the group contract.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
 </article>

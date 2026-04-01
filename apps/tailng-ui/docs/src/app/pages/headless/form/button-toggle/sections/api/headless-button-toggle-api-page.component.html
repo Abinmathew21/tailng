@@ -1,0 +1,136 @@
+<article class="docs-section-page button-toggle-api">
+  <div class="docs-section-page-main">
+    <section id="tng-button-toggle-group" class="docs-section-anchor button-toggle-api-block">
+      <h2 class="button-toggle-api-title">API reference</h2>
+      <p class="button-toggle-api-lead">
+        The headless surface is a pair: <code>tngButtonToggleGroup</code> owns focus and selection,
+        while <code>tngButtonToggle</code> owns the individual button state hooks.
+      </p>
+      <tng-code-block
+        [code]="groupAttachmentCode"
+        adapter="shiki"
+        language="html"
+        title="Group attachment"
+        [theme]="codeBlockTheme()"
+        [lineNumbers]="false"
+        [wrap]="true"
+        [sanitizeHtml]="false"
+      ></tng-code-block>
+      <div class="button-toggle-api-table-wrap">
+        <table class="button-toggle-api-table">
+          <thead>
+            <tr>
+              <th scope="col">Input / output</th>
+              <th scope="col">Type</th>
+              <th scope="col">Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>type</code></td>
+              <td><code>'single' | 'multiple'</code></td>
+              <td>Switches between radio-style single selection and pressed-button multi selection.</td>
+            </tr>
+            <tr>
+              <td><code>tngButtonToggleValue</code>, <code>value</code></td>
+              <td><code>string | number | null</code></td>
+              <td>Controlled single selected value.</td>
+            </tr>
+            <tr>
+              <td><code>tngButtonToggleValues</code>, <code>values</code></td>
+              <td><code>readonly (string | number)[]</code></td>
+              <td>Controlled multi-select values.</td>
+            </tr>
+            <tr>
+              <td><code>allowEmpty</code></td>
+              <td><code>boolean</code></td>
+              <td>Allows a single-select group to clear its selection.</td>
+            </tr>
+            <tr>
+              <td><code>orientation</code></td>
+              <td><code>'horizontal' | 'vertical'</code></td>
+              <td>Changes keyboard axis and reflected <code>aria-orientation</code>.</td>
+            </tr>
+            <tr>
+              <td><code>activation</code></td>
+              <td><code>'auto' | 'manual'</code></td>
+              <td>Controls whether arrow key focus movement also commits selection.</td>
+            </tr>
+            <tr>
+              <td><code>valueChange</code>, <code>valuesChange</code></td>
+              <td>Angular outputs</td>
+              <td>Emit controlled-state updates for single and multiple groups.</td>
+            </tr>
+            <tr>
+              <td><code>toggleChange</code>, <code>focusChange</code></td>
+              <td>Angular outputs</td>
+              <td>Emit richer metadata for analytics, focus tracking, and instrumentation.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="tng-button-toggle" class="docs-section-anchor button-toggle-api-block">
+      <h3><code>tngButtonToggle</code></h3>
+      <p>
+        Each item is a real <code>&lt;button&gt;</code> with value, disabled state, and group-aware
+        ARIA bindings.
+      </p>
+      <tng-code-block
+        [code]="itemAttachmentCode"
+        adapter="shiki"
+        language="html"
+        title="Item attachment"
+        [theme]="codeBlockTheme()"
+        [lineNumbers]="false"
+        [wrap]="true"
+        [sanitizeHtml]="false"
+      ></tng-code-block>
+      <div class="button-toggle-api-table-wrap">
+        <table class="button-toggle-api-table">
+          <thead>
+            <tr>
+              <th scope="col">Input / host state</th>
+              <th scope="col">Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>tngButtonToggleValue</code>, <code>value</code></td>
+              <td>Stable identity used by the group selection model.</td>
+            </tr>
+            <tr>
+              <td><code>pressed</code></td>
+              <td>Standalone pressed state when the button is used outside a group.</td>
+            </tr>
+            <tr>
+              <td><code>disabled</code></td>
+              <td>Disables the button directly or inherits disabled state from the group.</td>
+            </tr>
+            <tr>
+              <td><code>data-selected</code>, <code>data-state</code></td>
+              <td>Primary styling hooks for active and inactive visuals.</td>
+            </tr>
+            <tr>
+              <td><code>data-focused</code></td>
+              <td>Roving-focus marker for group-driven focus movement.</td>
+            </tr>
+            <tr>
+              <td><code>aria-pressed</code>, <code>aria-checked</code></td>
+              <td>Automatically chosen based on standalone use, single-select groups, and multi-select groups.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="selection-events" class="docs-section-anchor button-toggle-api-block">
+      <h3>Selection events</h3>
+      <p>
+        Prefer the group-level outputs when multiple items participate in the same decision. Those
+        outputs already include the next value set and the trigger source.
+      </p>
+    </section>
+  </div>
+</article>

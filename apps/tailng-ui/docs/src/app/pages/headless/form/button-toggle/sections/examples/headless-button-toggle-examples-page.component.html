@@ -1,0 +1,98 @@
+<article class="docs-section-page button-toggle-examples">
+  <div class="docs-section-page-main">
+    <section id="single-select-density" class="docs-section-anchor button-toggle-examples-block">
+      <app-docs-example-tabs-section
+        heading="Single-select density"
+        description="Use single-select groups when only one layout mode can be active at a time."
+        ariaLabel="Headless button toggle density examples"
+        tabListAriaLabel="Headless button toggle density style variants"
+        defaultValue="plain-css"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <ng-template appDocsExampleVariant value="plain-css" label="Plain-CSS" panelTitle="Density controls (Plain-CSS)" [codeTabs]="singleSelectPlainCodeTabs" [stackblitzUrl]="stackblitzVanillaUrl">
+          <section class="headless-button-toggle-density-example">
+            <span class="headless-button-toggle-density-example__label">Editor density</span>
+            <div tngButtonToggleGroup class="headless-button-toggle-density-example__group" type="single" [tngButtonToggleValue]="plainDensity()" (valueChange)="onPlainDensityChange($event)">
+              <button tngButtonToggle tngButtonToggleValue="compact" class="headless-button-toggle-density-example__item">Compact</button>
+              <button tngButtonToggle tngButtonToggleValue="comfortable" class="headless-button-toggle-density-example__item">Comfortable</button>
+              <button tngButtonToggle tngButtonToggleValue="spacious" class="headless-button-toggle-density-example__item">Spacious</button>
+            </div>
+          </section>
+        </ng-template>
+
+        <ng-template appDocsExampleVariant value="tailwind-css" label="Tailwind CSS" panelTitle="Density controls (Tailwind CSS)" [codeTabs]="singleSelectTailwindCodeTabs" [stackblitzUrl]="stackblitzTailwindUrl">
+          <section class="grid w-full max-w-[34rem] gap-3 rounded-2xl border border-slate-300 bg-white p-4 text-slate-900 shadow-sm [color-scheme:light]">
+            <span class="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">Editor density</span>
+            <div tngButtonToggleGroup class="inline-flex flex-wrap gap-2 rounded-2xl border border-slate-200 bg-slate-50 p-2" type="single" [tngButtonToggleValue]="tailwindDensity()" (valueChange)="onTailwindDensityChange($event)">
+              <button tngButtonToggle tngButtonToggleValue="compact" class="rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:bg-slate-100 data-[selected=true]:border-blue-600 data-[selected=true]:bg-blue-600 data-[selected=true]:text-white data-[selected=true]:shadow-[0_10px_24px_-16px_rgba(37,99,235,0.95)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-200">Compact</button>
+              <button tngButtonToggle tngButtonToggleValue="comfortable" class="rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:bg-slate-100 data-[selected=true]:border-blue-600 data-[selected=true]:bg-blue-600 data-[selected=true]:text-white data-[selected=true]:shadow-[0_10px_24px_-16px_rgba(37,99,235,0.95)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-200">Comfortable</button>
+              <button tngButtonToggle tngButtonToggleValue="spacious" class="rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:bg-slate-100 data-[selected=true]:border-blue-600 data-[selected=true]:bg-blue-600 data-[selected=true]:text-white data-[selected=true]:shadow-[0_10px_24px_-16px_rgba(37,99,235,0.95)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-200">Spacious</button>
+            </div>
+          </section>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
+
+    <section id="multi-select-formatting" class="docs-section-anchor button-toggle-examples-block">
+      <app-docs-example-tabs-section
+        heading="Multi-select formatting"
+        description="Multiple groups are a good fit for style toolbars and independent feature filters."
+        ariaLabel="Headless button toggle formatting examples"
+        tabListAriaLabel="Headless button toggle formatting style variants"
+        defaultValue="plain-css"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <ng-template appDocsExampleVariant value="plain-css" label="Plain-CSS" panelTitle="Formatting toolbar (Plain-CSS)" [codeTabs]="multiSelectPlainCodeTabs" [stackblitzUrl]="stackblitzVanillaUrl">
+          <section class="headless-button-toggle-formatting-example">
+            <div tngButtonToggleGroup class="headless-button-toggle-formatting-example__group" type="multiple" [tngButtonToggleValues]="plainFormats()" (valuesChange)="onPlainFormatsChange($event)">
+              <button tngButtonToggle tngButtonToggleValue="bold" class="headless-button-toggle-formatting-example__item">Bold</button>
+              <button tngButtonToggle tngButtonToggleValue="italic" class="headless-button-toggle-formatting-example__item">Italic</button>
+              <button tngButtonToggle tngButtonToggleValue="underline" class="headless-button-toggle-formatting-example__item">Underline</button>
+            </div>
+            <p class="headless-button-toggle-example-summary">active: {{ plainFormatsSummary() }}</p>
+          </section>
+        </ng-template>
+
+        <ng-template appDocsExampleVariant value="tailwind-css" label="Tailwind CSS" panelTitle="Formatting toolbar (Tailwind CSS)" [codeTabs]="multiSelectTailwindCodeTabs" [stackblitzUrl]="stackblitzTailwindUrl">
+          <section class="grid w-full max-w-[34rem] gap-3 rounded-2xl border border-slate-300 bg-white p-4 text-slate-900 shadow-sm [color-scheme:light]">
+            <div tngButtonToggleGroup class="inline-flex flex-wrap gap-2 rounded-2xl border border-slate-200 bg-slate-50 p-2" type="multiple" [tngButtonToggleValues]="tailwindFormats()" (valuesChange)="onTailwindFormatsChange($event)">
+              <button tngButtonToggle tngButtonToggleValue="bold" class="rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:bg-slate-100 data-[selected=true]:border-blue-600 data-[selected=true]:bg-blue-600 data-[selected=true]:text-white data-[selected=true]:shadow-[0_10px_24px_-16px_rgba(37,99,235,0.95)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-200">Bold</button>
+              <button tngButtonToggle tngButtonToggleValue="italic" class="rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:bg-slate-100 data-[selected=true]:border-blue-600 data-[selected=true]:bg-blue-600 data-[selected=true]:text-white data-[selected=true]:shadow-[0_10px_24px_-16px_rgba(37,99,235,0.95)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-200">Italic</button>
+              <button tngButtonToggle tngButtonToggleValue="underline" class="rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:bg-slate-100 data-[selected=true]:border-blue-600 data-[selected=true]:bg-blue-600 data-[selected=true]:text-white data-[selected=true]:shadow-[0_10px_24px_-16px_rgba(37,99,235,0.95)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-200">Underline</button>
+            </div>
+            <p class="m-0 text-sm text-slate-500">active: {{ tailwindFormatsSummary() }}</p>
+          </section>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
+
+    <section id="disabled-toolbar" class="docs-section-anchor button-toggle-examples-block">
+      <app-docs-example-tabs-section
+        heading="Disabled toolbar"
+        description="Disabled groups should keep their layout while clearly muting interaction."
+        ariaLabel="Headless button toggle disabled examples"
+        tabListAriaLabel="Headless button toggle disabled style variants"
+        defaultValue="plain-css"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <ng-template appDocsExampleVariant value="plain-css" label="Plain-CSS" panelTitle="Disabled toolbar (Plain-CSS)" [codeTabs]="disabledPlainCodeTabs" [stackblitzUrl]="stackblitzVanillaUrl">
+          <section class="headless-button-toggle-disabled-example">
+            <div tngButtonToggleGroup class="headless-button-toggle-disabled-example__group" type="single" disabled="">
+              <button tngButtonToggle tngButtonToggleValue="grid" class="headless-button-toggle-disabled-example__item">Grid</button>
+              <button tngButtonToggle tngButtonToggleValue="list" class="headless-button-toggle-disabled-example__item">List</button>
+            </div>
+          </section>
+        </ng-template>
+
+        <ng-template appDocsExampleVariant value="tailwind-css" label="Tailwind CSS" panelTitle="Disabled toolbar (Tailwind CSS)" [codeTabs]="disabledTailwindCodeTabs" [stackblitzUrl]="stackblitzTailwindUrl">
+          <section class="grid w-full max-w-[34rem] gap-3 rounded-2xl border border-slate-300 bg-white p-4 text-slate-900 shadow-sm [color-scheme:light]">
+            <div tngButtonToggleGroup class="inline-flex gap-2 rounded-2xl border border-slate-200 bg-slate-50 p-2" type="single" disabled="">
+              <button tngButtonToggle tngButtonToggleValue="grid" class="cursor-not-allowed rounded-xl border border-slate-200 bg-slate-100 px-4 py-2 text-sm font-medium text-slate-400 shadow-none opacity-100">Grid</button>
+              <button tngButtonToggle tngButtonToggleValue="list" class="cursor-not-allowed rounded-xl border border-slate-200 bg-slate-100 px-4 py-2 text-sm font-medium text-slate-400 shadow-none opacity-100">List</button>
+            </div>
+          </section>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
+  </div>
+</article>

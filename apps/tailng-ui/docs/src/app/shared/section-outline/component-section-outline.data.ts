@@ -166,20 +166,17 @@ export const docsComponentOutlineItemsBySlug: Readonly<Record<string, Partial<Re
       { id: 'accessibility-baseline', label: 'Accessibility baseline' },
     ],
     'api': [
-      { id: 'tngbuttontogglegroup-tngbuttontoggle', label: 'tngButtonToggleGroup + tngButtonToggle' },
-      { id: 'tng-button-toggle-group-tng-button-toggle', label: 'tng-button-toggle-group + tng-button-toggle' },
+      { id: 'primitive-contract', label: 'Primitive contract' },
+      { id: 'component-group-api', label: 'tng-button-toggle-group' },
+      { id: 'component-item-api', label: 'tng-button-toggle' },
     ],
     'styling': [
-      { id: 'example-styling', label: 'Example styling' },
+      { id: 'css-contract-table', label: 'CSS contract table' },
+      { id: 'user-scenario-style-examples', label: 'User scenario style examples' },
     ],
     'examples': [
       { id: 'single-select-alignment-controls', label: 'Single-select alignment controls' },
       { id: 'multiple-select-text-style-toolbar', label: 'Multiple-select text-style toolbar' },
-    ],
-    'ownable-install': [
-      { id: 'install-from-registry', label: 'Install from registry' },
-      { id: 'generated-files', label: 'Generated files' },
-      { id: 'import-and-usage', label: 'Import in your feature module/component' },
     ],
   },
   'card': {
