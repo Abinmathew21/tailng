@@ -97,6 +97,12 @@ export const COMPONENTS_FORM_GROUP: ComponentsDocsGroup = {
       description: 'Pressed button semantics for compact on/off actions and toolbar commands.',
     },
     {
+      id: 'switch',
+      slug: 'switch',
+      title: 'Switch',
+      description: 'Two-state on/off toggle with track/thumb rendering and arrow-key support.',
+    },
+    {
       id: 'radio',
       slug: 'radio',
       title: 'Radio',
@@ -163,12 +169,6 @@ export const COMPONENTS_FORM_GROUP: ComponentsDocsGroup = {
       slug: 'input-otp',
       title: 'Input OTP',
       description: 'Segmented one-time-password input with keyboard, paste, and form integration.',
-    },
-    {
-      id: 'switch',
-      slug: 'switch',
-      title: 'Switch',
-      description: 'Two-state on/off toggle with track/thumb rendering and arrow-key support.',
     },
   ],
 };

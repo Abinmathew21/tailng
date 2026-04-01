@@ -1,22 +1,45 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, inject, signal, type OnDestroy } from '@angular/core';
-import { observeDocsCodeThemeChanges, resolveDocsCodeBlockTheme } from '../../../../../../shared/util';
-import { TngSwitchComponent } from '@tailng-ui/components';
-import { TngSwitch as TngSwitchPrimitive } from '@tailng-ui/primitives';
-import { type DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
+import { TngCodeBlockComponent, TngSwitchComponent } from '@tailng-ui/components';
+import type { DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
 import {
   DocsExampleTabsSectionComponent,
   DocsExampleVariantDirective,
 } from '../../../../../../shared/example-tabs-section/docs-example-tabs-section.component';
+import {
+  observeDocsCodeThemeChanges,
+  resolveDocsCodeBlockTheme,
+} from '../../../../../../shared/util';
+import { stackblitzTailwindUrl, stackblitzVanillaUrl } from '../../switch.util';
+
+function createCodeTabs(
+  baseName: string,
+  tsCode: string,
+  htmlCode: string,
+  cssCode: string,
+): readonly DocsExampleCodeTab[] {
+  return Object.freeze([
+    { value: 'ts', label: 'TS', language: 'ts', title: `${baseName}.component.ts`, code: tsCode },
+    {
+      value: 'html',
+      label: 'HTML',
+      language: 'html',
+      title: `${baseName}.component.html`,
+      code: htmlCode,
+    },
+    {
+      value: 'css',
+      label: 'CSS',
+      language: 'css',
+      title: `${baseName}.component.css`,
+      code: cssCode,
+    },
+  ]);
+}
 
 @Component({
   selector: 'app-switch-styling-page',
-  imports: [
-    TngSwitchComponent,
-    TngSwitchPrimitive,
-    DocsExampleTabsSectionComponent,
-    DocsExampleVariantDirective,
-  ],
+  imports: [TngCodeBlockComponent, TngSwitchComponent, DocsExampleTabsSectionComponent, DocsExampleVariantDirective],
   templateUrl: './switch-styling-page.component.html',
   styleUrl: './switch-styling-page.component.css',
 })
@@ -26,117 +49,140 @@ export class SwitchStylingPageComponent implements OnDestroy {
   public readonly codeBlockTheme = signal<'github-dark' | 'github-light'>(
     resolveDocsCodeBlockTheme(this.documentRef),
   );
-  private readonly colorSchemeObserver = observeDocsCodeThemeChanges(this.documentRef, this.codeBlockTheme);
+  private readonly colorSchemeObserver = observeDocsCodeThemeChanges(
+    this.documentRef,
+    this.codeBlockTheme,
+  );
 
-  public readonly headlessChecked = signal(true);
-  public readonly plainCssChecked = signal(true);
-  public readonly tailwindChecked = signal(true);
+  protected readonly stackblitzVanillaUrl = stackblitzVanillaUrl;
+  protected readonly stackblitzTailwindUrl = stackblitzTailwindUrl;
 
-  protected readonly headlessCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
-    {
-      value: 'html',
-      label: 'HTML',
-      language: 'html',
-      title: 'switch-styles-headless.component.html',
-      code: [
-        '<div class="switch-row">',
-        '  <button tngSwitch class="switch-track" [checked]="checked()" ariaLabel="Notifications" (click)="onToggle()">',
-        '    <span class="switch-thumb"></span>',
-        '  </button>',
-        '  <span>Notifications</span>',
-        '</div>',
-        '',
-      ].join('\n'),
-    },
-    {
-      value: 'css',
-      label: 'CSS',
-      language: 'css',
-      title: 'switch-styles-headless.component.css',
-      code: [
-        '.switch-track {',
-        '  background: var(--tng-semantic-border-subtle);',
-        '  border: 0; border-radius: 999px;',
-        '  height: 1.5rem; width: 2.65rem; padding: 0.125rem;',
-        '}',
-        '.switch-track[data-state="checked"] {',
-        '  background: var(--tng-semantic-accent-brand);',
-        '}',
-        '.switch-thumb {',
-        '  background: white; border-radius: 999px;',
-        '  height: 1.25rem; width: 1.25rem;',
-        '  transform: translateX(0); transition: transform 150ms ease;',
-        '}',
-        '.switch-track[data-state="checked"] .switch-thumb {',
-        '  transform: translateX(1.15rem);',
-        '}',
-        '',
-      ].join('\n'),
-    },
-  ]);
+  protected readonly plainCssReviewGate = signal(true);
+  protected readonly tailwindReviewGate = signal(true);
 
-  protected readonly plainCssCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
-    {
-      value: 'html',
-      label: 'HTML',
-      language: 'html',
-      title: 'switch-styles-plain.component.html',
-      code: [
-        '<div class="settings-panel">',
-        '  <tng-switch [checked]="true">Release notifications</tng-switch>',
-        '  <tng-switch [checked]="false" [disabled]="true">Disabled switch</tng-switch>',
-        '</div>',
-        '',
-      ].join('\n'),
-    },
-    {
-      value: 'css',
-      label: 'CSS',
-      language: 'css',
-      title: 'switch-styles-plain.component.css',
-      code: [
-        '.settings-panel {',
-        '  background: var(--tng-semantic-background-surface);',
-        '  border: 1px solid var(--tng-semantic-border-subtle);',
-        '  border-radius: 0.8rem;',
-        '  display: grid;',
-        '  gap: 0.75rem;',
-        '  padding: 0.9rem 1rem;',
-        '}',
-        '',
-      ].join('\n'),
-    },
-  ]);
+  protected readonly tokenOverrideSnippet = [
+    'tng-switch {',
+    '  --tng-semantic-accent-brand: #2563eb;',
+    '  --tng-semantic-border-subtle: #cbd5e1;',
+    '  --tng-semantic-focus-ring: rgba(37, 99, 235, 0.25);',
+    '  --tng-semantic-foreground-primary: #0f172a;',
+    '}',
+    '',
+  ].join('\n');
 
-  protected readonly tailwindCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
-    {
-      value: 'html',
-      label: 'HTML',
-      language: 'html',
-      title: 'switch-styles-tailwind.component.html',
-      code: [
-        '<div class="grid gap-3 rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">',
-        '  <tng-switch [checked]="true">Release notifications</tng-switch>',
-        '  <tng-switch [checked]="false" [disabled]="true">Disabled switch</tng-switch>',
-        '</div>',
-        '',
-      ].join('\n'),
-    },
-    {
-      value: 'css',
-      label: 'CSS',
-      language: 'css',
-      title: 'switch-styles-tailwind.component.css',
-      code: '/* Tailwind utilities are applied directly in the template. */',
-    },
-  ]);
+  protected readonly plainCssCodeTabs = createCodeTabs(
+    'component-switch-styling-plain',
+    [
+      "import { Component, signal } from '@angular/core';",
+      "import { TngSwitchComponent } from '@tailng-ui/components';",
+      '',
+      '@Component({',
+      "  selector: 'app-component-switch-styling-plain',",
+      '  standalone: true,',
+      '  imports: [TngSwitchComponent],',
+      "  templateUrl: './component-switch-styling-plain.component.html',",
+      "  styleUrl: './component-switch-styling-plain.component.css',",
+      '})',
+      'export class ComponentSwitchStylingPlainComponent {',
+      '  readonly requireReview = signal(true);',
+      '}',
+      '',
+    ].join('\n'),
+    [
+      '<section class="component-switch-review-card">',
+      '  <div class="component-switch-review-card__header">',
+      '    <h3 class="component-switch-review-card__title">Release gate</h3>',
+      '    <p class="component-switch-review-card__meta">Require human sign-off before publish.</p>',
+      '  </div>',
+      '  <tng-switch',
+      '    class="component-switch-review-card__switch"',
+      '    [checked]="requireReview()"',
+      '    (checkedChange)="requireReview.set($event)"',
+      '  >',
+      '    Require review',
+      '  </tng-switch>',
+      '</section>',
+      '',
+    ].join('\n'),
+    [
+      '.component-switch-review-card {',
+      '  display: grid;',
+      '  gap: 0.9rem;',
+      '  inline-size: min(100%, 30rem);',
+      '  margin-inline: auto;',
+      '  padding: 1rem;',
+      '  border: 1px solid #cbd5e1;',
+      '  border-radius: 1rem;',
+      '  background: #ffffff;',
+      '  color: #0f172a;',
+      '  color-scheme: light;',
+      '}',
+      '',
+      '.component-switch-review-card__header {',
+      '  display: grid;',
+      '  gap: 0.25rem;',
+      '}',
+      '',
+      '.component-switch-review-card__title {',
+      '  margin: 0;',
+      '  color: #0f172a;',
+      '  font-size: 1rem;',
+      '  font-weight: 700;',
+      '}',
+      '',
+      '.component-switch-review-card__meta {',
+      '  margin: 0;',
+      '  color: #64748b;',
+      '  font-size: 0.84rem;',
+      '}',
+      '',
+      '.component-switch-review-card__switch {',
+      '  --tng-semantic-accent-brand: #2563eb;',
+      '  --tng-semantic-border-subtle: #cbd5e1;',
+      '  --tng-semantic-focus-ring: rgba(37, 99, 235, 0.25);',
+      '  --tng-semantic-foreground-primary: #0f172a;',
+      '}',
+      '',
+    ].join('\n'),
+  );
 
-  public onHeadlessToggle(): void {
-    this.headlessChecked.update((v) => !v);
-  }
+  protected readonly tailwindCodeTabs = createCodeTabs(
+    'component-switch-styling-tailwind',
+    [
+      "import { Component, signal } from '@angular/core';",
+      "import { TngSwitchComponent } from '@tailng-ui/components';",
+      '',
+      '@Component({',
+      "  selector: 'app-component-switch-styling-tailwind',",
+      '  standalone: true,',
+      '  imports: [TngSwitchComponent],',
+      "  templateUrl: './component-switch-styling-tailwind.component.html',",
+      '})',
+      'export class ComponentSwitchStylingTailwindComponent {',
+      '  readonly requireReview = signal(true);',
+      '}',
+      '',
+    ].join('\n'),
+    [
+      '<section class="grid w-full max-w-[30rem] gap-4 rounded-2xl border border-slate-300 bg-white p-4 text-slate-900 shadow-sm [color-scheme:light]">',
+      '  <div class="grid gap-1">',
+      '    <h3 class="m-0 text-base font-semibold text-slate-900">Release gate</h3>',
+      '    <p class="m-0 text-sm text-slate-500">Require human sign-off before publish.</p>',
+      '  </div>',
+      '  <tng-switch',
+      '    class="[--tng-semantic-accent-brand:#2563eb] [--tng-semantic-border-subtle:#cbd5e1] [--tng-semantic-focus-ring:rgba(37,99,235,0.25)] [--tng-semantic-foreground-primary:#0f172a]"',
+      '    [checked]="requireReview()"',
+      '    (checkedChange)="requireReview.set($event)"',
+      '  >',
+      '    Require review',
+      '  </tng-switch>',
+      '</section>',
+      '',
+    ].join('\n'),
+    '/* Tailwind utilities are applied directly in the template. */',
+  );
 
   public ngOnDestroy(): void {
     this.colorSchemeObserver?.disconnect();
   }
-
 }

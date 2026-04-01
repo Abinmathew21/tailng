@@ -1,0 +1,139 @@
+<article class="switch-overview docs-section-page">
+  <div class="docs-section-page-main">
+    <section id="what-you-get" class="docs-section-anchor switch-overview-block">
+      <h2 class="switch-overview-title">Headless switch</h2>
+      <p class="switch-overview-lead">
+        Headless switch keeps the interaction surface as a real <code>&lt;button&gt;</code> with
+        <code>role=&quot;switch&quot;</code>. You own the surrounding layout, the thumb markup, and the
+        label treatment while TailNG provides the checked, disabled, and focus-visible state
+        contract.
+      </p>
+      <ul class="switch-overview-list">
+        <li><code>checked</code> and <code>data-state</code> stay in sync for visual and ARIA state.</li>
+        <li><code>disabled</code> blocks interaction and exposes a clean styling hook.</li>
+        <li><code>ariaLabel</code> gives the switch an accessible name when visible text lives outside the button.</li>
+      </ul>
+    </section>
+
+    <section id="installation" class="docs-section-anchor switch-overview-block">
+      <h3>Installation</h3>
+      <p>Import the primitive when you want TailNG to own only the switch semantics.</p>
+      <tng-code-block
+        [code]="primitiveImportCode"
+        adapter="shiki"
+        language="ts"
+        title="Primitive import"
+        [theme]="codeBlockTheme()"
+        [lineNumbers]="false"
+        [wrap]="true"
+        [sanitizeHtml]="false"
+      ></tng-code-block>
+    </section>
+
+    <section id="basic-usage" class="docs-section-anchor switch-overview-block">
+      <h3>Basic usage</h3>
+      <p>
+        The primitive attaches to <code>button[tngSwitch]</code>. When the visible copy is separate
+        from the button, provide <code>ariaLabel</code> so screen readers hear the same label.
+      </p>
+      <tng-code-block
+        [code]="attachmentCode"
+        adapter="shiki"
+        language="html"
+        title="Minimal attachment"
+        [theme]="codeBlockTheme()"
+        [lineNumbers]="false"
+        [wrap]="true"
+        [sanitizeHtml]="false"
+      ></tng-code-block>
+      <tng-code-block
+        [code]="labeledUsageCode"
+        adapter="shiki"
+        language="html"
+        title="Recommended labeled row"
+        [theme]="codeBlockTheme()"
+        [lineNumbers]="false"
+        [wrap]="true"
+        [sanitizeHtml]="false"
+      ></tng-code-block>
+    </section>
+
+    <section id="style-variants" class="docs-section-anchor switch-overview-block">
+      <app-docs-example-tabs-section
+        heading="Style variants"
+        description="The same primitive switch behavior can sit inside a plain CSS shell or a Tailwind utility shell without changing the API."
+        ariaLabel="Headless switch style variants"
+        tabListAriaLabel="Headless switch style tabs"
+        defaultValue="plain-css"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <ng-template
+          appDocsExampleVariant
+          value="plain-css"
+          label="Plain-CSS"
+          panelTitle="Release switch shell (Plain-CSS)"
+          [codeTabs]="plainCssCodeTabs"
+          [stackblitzUrl]="stackblitzVanillaUrl"
+        >
+          <section class="headless-switch-release-shell">
+            <div class="headless-switch-release-shell__row">
+              <button
+                tngSwitch
+                class="headless-switch-release-shell__control"
+                [checked]="plainCssReleaseReady()"
+                ariaLabel="Release ready"
+                (click)="onPlainCssReleaseReadyToggle()"
+              >
+                <span class="headless-switch-release-shell__thumb" aria-hidden="true"></span>
+              </button>
+              <div class="headless-switch-release-shell__copy">
+                <span class="headless-switch-release-shell__title">Release ready</span>
+                <span class="headless-switch-release-shell__meta">Ship after QA sign-off.</span>
+              </div>
+            </div>
+          </section>
+        </ng-template>
+
+        <ng-template
+          appDocsExampleVariant
+          value="tailwind-css"
+          label="Tailwind CSS"
+          panelTitle="Release switch shell (Tailwind CSS)"
+          [codeTabs]="tailwindCodeTabs"
+          [stackblitzUrl]="stackblitzTailwindUrl"
+        >
+          <section class="grid w-full max-w-[30rem] gap-4 rounded-2xl border border-slate-300 bg-white p-4 text-slate-900 shadow-sm [color-scheme:light]">
+            <div class="inline-flex items-center gap-4">
+              <button
+                tngSwitch
+                class="inline-flex h-6 w-11 items-center rounded-full border-0 bg-slate-300 p-0.5 transition data-[state=checked]:bg-blue-600 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-100"
+                [checked]="tailwindAutoPublish()"
+                ariaLabel="Auto publish after review"
+                (click)="onTailwindAutoPublishToggle()"
+              >
+                <span
+                  aria-hidden="true"
+                  class="block h-5 w-5 rounded-full bg-white shadow-sm transition-transform"
+                  [class.translate-x-5]="tailwindAutoPublish()"
+                ></span>
+              </button>
+              <div class="grid gap-0.5">
+                <span class="text-sm font-semibold text-slate-900">Auto publish</span>
+                <span class="text-xs text-slate-500">Ship after review approval.</span>
+              </div>
+            </div>
+          </section>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
+
+    <section id="accessibility-baseline" class="docs-section-anchor switch-overview-block">
+      <h3>Accessibility baseline</h3>
+      <ul class="switch-overview-list">
+        <li><code>role=&quot;switch&quot;</code> and <code>aria-checked</code> are handled by the directive.</li>
+        <li>Use <code>ariaLabel</code> whenever the visible copy is not inside the button itself.</li>
+        <li>The primitive keeps keyboard focus on the button, so <code>:focus-visible</code> styles stay simple.</li>
+      </ul>
+    </section>
+  </div>
+</article>

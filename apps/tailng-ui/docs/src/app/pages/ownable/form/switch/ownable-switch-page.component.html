@@ -1,0 +1,38 @@
+<div class="grid gap-8 pb-10">
+  <section class="docs-section-anchor grid gap-4" id="switch-overview">
+    <h1 class="m-0 text-3xl font-semibold text-tng-fg-primary">Switch</h1>
+    <p class="m-0 max-w-4xl text-base leading-7 text-tng-fg-secondary">
+      The ownable Switch install gives your app a local wrapper, editable styling, and a nearby
+      source surface for product-specific on/off workflows while keeping the TailNG interaction
+      contract intact.
+    </p>
+  </section>
+
+  <section class="docs-section-anchor grid gap-3" id="why-own-switch">
+    <h2 class="m-0 text-xl font-semibold text-tng-fg-primary">Why own Switch locally</h2>
+    <p class="m-0 max-w-4xl text-base leading-7 text-tng-fg-secondary">
+      Switches often pick up custom labels, helper text, feature-flag wording, or analytics hooks.
+      Local ownership makes those product-level adjustments easy to ship without waiting on a
+      shared package release.
+    </p>
+    <ul class="m-0 grid gap-2 pl-5 text-sm leading-6 text-tng-fg-secondary">
+      <li>Adjust track copy, helper rows, and settings-panel layout for your product flow.</li>
+      <li>Keep feature-toggle defaults and UX language inside the app repo.</li>
+      <li>Iterate on switch behavior and presentation without forking the shared package surface.</li>
+    </ul>
+  </section>
+
+  <section class="docs-section-anchor grid gap-3" id="what-switch-installs">
+    <h2 class="m-0 text-xl font-semibold text-tng-fg-primary">What the install includes</h2>
+    <p class="m-0 max-w-4xl text-base leading-7 text-tng-fg-secondary">
+      The registry-backed switch install writes the local wrapper component, template, styles, and
+      export barrel under your app so the generated files can evolve with the surrounding settings UX.
+    </p>
+  </section>
+
+  <app-docs-ownable-install-section
+    componentName="Switch"
+    registrySlug="switch"
+    [usageCode]="usageCode"
+  />
+</div>

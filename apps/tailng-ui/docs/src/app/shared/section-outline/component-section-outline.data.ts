@@ -891,7 +891,9 @@ export const docsComponentOutlineItemsBySlug: Readonly<Record<string, Partial<Re
   'switch': {
     'overview': [
       { id: 'imports', label: 'Imports' },
+      { id: 'usage-patterns', label: 'Usage patterns' },
       { id: 'switch-variants', label: 'Switch variants' },
+      { id: 'accessibility-baseline', label: 'Accessibility baseline' },
     ],
     'api': [
       { id: 'tngswitch-directive', label: 'tngSwitch (directive)' },

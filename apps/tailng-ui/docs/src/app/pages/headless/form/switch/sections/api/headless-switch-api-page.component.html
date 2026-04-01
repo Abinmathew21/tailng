@@ -1,0 +1,147 @@
+<article class="switch-api docs-section-page">
+  <div class="docs-section-page-main">
+    <section id="tng-switch" class="docs-section-anchor switch-api-block">
+      <h2 class="switch-api-title">API reference</h2>
+      <p class="switch-api-lead">
+        Headless switch is a directive attached to <code>button[tngSwitch]</code>. It does not emit
+        a custom Angular output or render a wrapper for you. Your app owns the thumb markup, the
+        surrounding copy, and the state transitions.
+      </p>
+      <tng-code-block
+        [code]="primitiveAttachmentCode"
+        adapter="shiki"
+        language="html"
+        title="Directive attachment"
+        [lineNumbers]="false"
+        [wrap]="true"
+        [sanitizeHtml]="false"
+      ></tng-code-block>
+      <tng-code-block
+        [code]="labeledPatternCode"
+        adapter="shiki"
+        language="html"
+        title="Recommended labeled row"
+        [lineNumbers]="false"
+        [wrap]="true"
+        [sanitizeHtml]="false"
+      ></tng-code-block>
+
+      <div class="switch-api-table-wrap">
+        <table class="switch-api-table">
+          <thead>
+            <tr>
+              <th scope="col">Input</th>
+              <th scope="col">Type</th>
+              <th scope="col">Default</th>
+              <th scope="col">Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>checked</code></td>
+              <td><code>boolean | '' | string</code></td>
+              <td><code>false</code></td>
+              <td>Controls the ARIA state and the <code>data-state</code> hook.</td>
+            </tr>
+            <tr>
+              <td><code>disabled</code></td>
+              <td><code>boolean | '' | string</code></td>
+              <td><code>false</code></td>
+              <td>Blocks interaction and reflects <code>disabled</code> plus <code>data-disabled</code>.</td>
+            </tr>
+            <tr>
+              <td><code>required</code></td>
+              <td><code>boolean | '' | string</code></td>
+              <td><code>false</code></td>
+              <td>Reflects to <code>aria-required</code> for assistive technology.</td>
+            </tr>
+            <tr>
+              <td><code>ariaLabel</code></td>
+              <td><code>string | null</code></td>
+              <td><code>null</code></td>
+              <td>Accessible name for the switch button when visible copy is separate.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="reflected-attributes" class="docs-section-anchor switch-api-block">
+      <h3>Reflected attributes</h3>
+      <p class="switch-api-note">
+        The directive reflects a minimal state contract onto the host button so your CSS can style
+        checked, unchecked, and disabled states without extra wrapper logic.
+      </p>
+
+      <div class="switch-api-table-wrap">
+        <table class="switch-api-table">
+          <thead>
+            <tr>
+              <th scope="col">Attribute</th>
+              <th scope="col">When present</th>
+              <th scope="col">Purpose</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>role=&quot;switch&quot;</code></td>
+              <td>Always</td>
+              <td>Declares switch semantics on the button host.</td>
+            </tr>
+            <tr>
+              <td><code>type=&quot;button&quot;</code></td>
+              <td>Always</td>
+              <td>Prevents accidental form submission.</td>
+            </tr>
+            <tr>
+              <td><code>aria-checked</code></td>
+              <td>Always</td>
+              <td>Mirrors the current on/off state as <code>true</code> or <code>false</code>.</td>
+            </tr>
+            <tr>
+              <td><code>aria-required</code></td>
+              <td>When required</td>
+              <td>Signals mandatory state to assistive technology.</td>
+            </tr>
+            <tr>
+              <td><code>data-state</code></td>
+              <td>Always</td>
+              <td><code>checked</code> or <code>unchecked</code> styling hook.</td>
+            </tr>
+            <tr>
+              <td><code>data-disabled</code></td>
+              <td>When disabled</td>
+              <td>Convenient disabled styling hook.</td>
+            </tr>
+            <tr>
+              <td><code>data-slot=&quot;switch&quot;</code></td>
+              <td>Always</td>
+              <td>Stable selector anchor for theme or utility CSS.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="change-handling" class="docs-section-anchor switch-api-block">
+      <h3>Change handling</h3>
+      <p class="switch-api-note">
+        Headless switch does not own state updates. Listen to <code>click</code> and update the
+        parent signal or store yourself.
+      </p>
+      <tng-code-block
+        [code]="changeHandlingCode"
+        adapter="shiki"
+        language="ts"
+        title="switch-state.ts"
+        [lineNumbers]="false"
+        [wrap]="true"
+        [sanitizeHtml]="false"
+      ></tng-code-block>
+      <p class="switch-api-note">
+        Because the primitive is a button, adjacent text is only visual. If the label copy sits
+        outside the button, keep <code>ariaLabel</code> in sync with that visible text.
+      </p>
+    </section>
+  </div>
+</article>

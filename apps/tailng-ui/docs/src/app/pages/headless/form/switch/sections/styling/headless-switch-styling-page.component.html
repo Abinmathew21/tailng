@@ -1,0 +1,138 @@
+<article class="switch-styling docs-section-page">
+  <div class="docs-section-page-main">
+    <section id="css-contracts" class="docs-section-anchor switch-styling-block">
+      <h2 class="switch-styling-title">Styling contract</h2>
+      <p class="switch-styling-lead">
+        Headless switch exposes a small, predictable contract on the button host. Build the visual
+        shell around that contract rather than relying on invisible wrapper markup.
+      </p>
+
+      <div class="switch-styling-table-wrap">
+        <table class="switch-styling-table">
+          <thead>
+            <tr>
+              <th scope="col">Selector</th>
+              <th scope="col">Applied on</th>
+              <th scope="col">Purpose</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>[data-slot=&quot;switch&quot;]</code></td>
+              <td>Primitive button</td>
+              <td>Stable selector anchor for track styling.</td>
+            </tr>
+            <tr>
+              <td><code>[data-state=&quot;checked&quot;]</code>, <code>[data-state=&quot;unchecked&quot;]</code></td>
+              <td>Primitive button</td>
+              <td>Switch between active and inactive visuals.</td>
+            </tr>
+            <tr>
+              <td><code>[data-disabled]</code></td>
+              <td>Primitive button</td>
+              <td>Dim the control and block hover affordances.</td>
+            </tr>
+            <tr>
+              <td><code>:focus-visible</code></td>
+              <td>Primitive button</td>
+              <td>Keyboard-only focus ring around the switch itself.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="state-selectors" class="docs-section-anchor switch-styling-block">
+      <h3>State selectors</h3>
+      <tng-code-block
+        [code]="stateSelectorSnippet"
+        adapter="shiki"
+        language="css"
+        title="switch.states.css"
+        [theme]="codeBlockTheme()"
+        [lineNumbers]="false"
+        [wrap]="true"
+        [sanitizeHtml]="false"
+      ></tng-code-block>
+      <tng-code-block
+        [code]="shellSnippet"
+        adapter="shiki"
+        language="css"
+        title="switch.shell.css"
+        [theme]="codeBlockTheme()"
+        [lineNumbers]="false"
+        [wrap]="true"
+        [sanitizeHtml]="false"
+      ></tng-code-block>
+    </section>
+
+    <section id="example-shells" class="docs-section-anchor switch-styling-block">
+      <app-docs-example-tabs-section
+        heading="Example shells"
+        description="The same switch primitive can live inside a hand-written CSS shell or a Tailwind utility shell without changing the behavior layer."
+        ariaLabel="Headless switch styling variants"
+        tabListAriaLabel="Headless switch styling tabs"
+        defaultValue="plain-css"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <ng-template
+          appDocsExampleVariant
+          value="plain-css"
+          label="Plain-CSS"
+          panelTitle="Status shell (Plain-CSS)"
+          [codeTabs]="plainCssCodeTabs"
+          [stackblitzUrl]="stackblitzVanillaUrl"
+        >
+          <section class="headless-switch-status-shell">
+            <div class="headless-switch-status-shell__row">
+              <div class="headless-switch-status-shell__copy">
+                <span class="headless-switch-status-shell__title">Require review</span>
+                <span class="headless-switch-status-shell__meta">Hold publishing until an approver signs off.</span>
+              </div>
+              <button
+                tngSwitch
+                class="headless-switch-status-shell__control"
+                [checked]="plainCssStatus()"
+                ariaLabel="Require review"
+                (click)="onPlainCssStatusToggle()"
+              >
+                <span class="headless-switch-status-shell__thumb" aria-hidden="true"></span>
+              </button>
+            </div>
+          </section>
+        </ng-template>
+
+        <ng-template
+          appDocsExampleVariant
+          value="tailwind-css"
+          label="Tailwind CSS"
+          panelTitle="Status shell (Tailwind CSS)"
+          [codeTabs]="tailwindCodeTabs"
+          [stackblitzUrl]="stackblitzTailwindUrl"
+        >
+          <section class="grid w-full max-w-[30rem] gap-4 rounded-2xl border border-slate-300 bg-white p-4 text-slate-900 shadow-sm [color-scheme:light]">
+            <div class="inline-flex items-center justify-between gap-4">
+              <div class="grid gap-0.5">
+                <span class="text-sm font-semibold text-slate-900">Require review</span>
+                <span class="text-xs text-slate-500">Hold publishing until an approver signs off.</span>
+              </div>
+              <button
+                tngSwitch
+                class="inline-flex h-6 w-11 items-center rounded-full border-0 bg-slate-300 p-0.5 transition data-[state=checked]:bg-blue-600 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-100"
+                [checked]="tailwindStatus()"
+                ariaLabel="Require review"
+                (click)="onTailwindStatusToggle()"
+              >
+                <span
+                  aria-hidden="true"
+                  class="block h-5 w-5 rounded-full bg-white shadow-sm transition-transform"
+                  [class.translate-x-5]="tailwindStatus()"
+                ></span>
+              </button>
+            </div>
+          </section>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
+  </div>
+</article>

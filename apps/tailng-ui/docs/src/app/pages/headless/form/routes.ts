@@ -28,6 +28,10 @@ export const HEADLESS_FORM_ROUTES: Routes = [
       import('./checkbox/routes').then((m) => m.HEADLESS_FORM_CHECKBOX_ROUTES),
   },
   {
+    path: 'switch',
+    loadChildren: () => import('./switch/routes').then((m) => m.HEADLESS_FORM_SWITCH_ROUTES),
+  },
+  {
     path: 'radio',
     loadChildren: () => import('./radio/routes').then((m) => m.HEADLESS_FORM_RADIO_ROUTES),
   },
@@ -38,6 +42,7 @@ export const HEADLESS_FORM_ROUTES: Routes = [
         item.slug !== 'textarea' &&
         item.slug !== 'label' &&
         item.slug !== 'checkbox' &&
+        item.slug !== 'switch' &&
         item.slug !== 'radio',
     )
     .map((item) => ({

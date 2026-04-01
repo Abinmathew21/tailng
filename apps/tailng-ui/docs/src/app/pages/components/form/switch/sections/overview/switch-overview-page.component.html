@@ -1,102 +1,116 @@
-<article class="switch-overview">
-  <h2 class="switch-overview-title">Switch overview</h2>
-  <p class="switch-overview-lead">
-    Switch provides a two-state on/off toggle. Use the headless primitive for full ownership, or the
-    styled component for fast adoption.
-  </p>
+<article class="docs-section-page switch-overview">
+  <div class="docs-section-page-main">
+    <section id="imports" class="docs-section-anchor switch-overview-block">
+      <h2 class="switch-overview-title">Switch</h2>
+      <p class="switch-overview-lead">
+        <code>&lt;tng-switch&gt;</code> is the component-layer toggle for simple on/off settings. It
+        wraps the headless primitive, renders the default track and thumb, and keeps a hidden
+        checkbox in sync for native form submission when you provide <code>name</code> and
+        <code>value</code>.
+      </p>
+      <tng-code-block
+        [code]="componentImportCode"
+        adapter="shiki"
+        language="ts"
+        title="Component import"
+        [theme]="codeBlockTheme()"
+        [lineNumbers]="false"
+        [wrap]="true"
+        [sanitizeHtml]="false"
+      ></tng-code-block>
+    </section>
 
-  <section class="switch-overview-block">
-    <h3>Imports</h3>
-    <p>Select the layer that matches your ownership model.</p>
-    <tng-code-block
-      [code]="primitiveImportCode"
-      adapter="shiki"
-      language="ts"
-      title="Primitive import"
-      [theme]="codeBlockTheme()"
-      [lineNumbers]="false"
-      [wrap]="true"
-      [sanitizeHtml]="false"
-    ></tng-code-block>
-    <tng-code-block
-      [code]="componentImportCode"
-      adapter="shiki"
-      language="ts"
-      title="Component import"
-      [theme]="codeBlockTheme()"
-      [lineNumbers]="false"
-      [wrap]="true"
-      [sanitizeHtml]="false"
-    ></tng-code-block>
-  </section>
+    <section id="usage-patterns" class="docs-section-anchor switch-overview-block">
+      <h3>Usage patterns</h3>
+      <p>
+        Use the component in controlled mode with <code>checked</code> and
+        <code>checkedChange</code> when the parent owns the setting state.
+      </p>
+      <tng-code-block
+        [code]="controlledUsageCode"
+        adapter="shiki"
+        language="html"
+        title="Controlled switch"
+        [theme]="codeBlockTheme()"
+        [lineNumbers]="false"
+        [wrap]="true"
+        [sanitizeHtml]="false"
+      ></tng-code-block>
+      <p>
+        Add <code>name</code> and <code>value</code> when the hidden native checkbox should
+        participate in plain HTML form submission.
+      </p>
+      <tng-code-block
+        [code]="nativeFormCode"
+        adapter="shiki"
+        language="html"
+        title="Native form submission"
+        [theme]="codeBlockTheme()"
+        [lineNumbers]="false"
+        [wrap]="true"
+        [sanitizeHtml]="false"
+      ></tng-code-block>
+    </section>
 
-  <section class="switch-overview-block">
-    <app-docs-example-tabs-section
-      heading="Switch variants"
-      description="Same switch semantics rendered through headless markup, plain CSS wrappers, and Tailwind utility shells."
-      ariaLabel="Switch toggle variants"
-      tabListAriaLabel="Switch styles"
-      defaultValue="headless"
-      [codeBlockTheme]="codeBlockTheme()"
-    >
-      <ng-template
-        appDocsExampleVariant
-        value="headless"
-        label="Headless"
-        panelTitle="Headless switch toggle"
-        [codeTabs]="headlessCodeTabs"
+    <section id="switch-variants" class="docs-section-anchor switch-overview-block">
+      <app-docs-example-tabs-section
+        heading="Switch variants"
+        description="The same switch component contract works in both plain CSS and Tailwind wrappers by changing only the surrounding shell and token overrides."
+        ariaLabel="Switch style variants"
+        tabListAriaLabel="Switch style tabs"
+        defaultValue="plain-css"
+        [codeBlockTheme]="codeBlockTheme()"
       >
-        <div class="switch-preview-shell switch-preview-shell--headless">
-          <div class="switch-row">
-            <button
-              tngSwitch
-              class="switch-track"
-              [checked]="headlessChecked()"
-              ariaLabel="Enable notifications"
-              (click)="onHeadlessToggle()"
-            >
-              <span class="switch-thumb"></span>
-            </button>
-            <span class="switch-label">Enable notifications</span>
-          </div>
-        </div>
-      </ng-template>
-
-      <ng-template
-        appDocsExampleVariant
-        value="plain-css"
-        label="Plain-CSS"
-        panelTitle="Plain CSS switch toggle"
-        [codeTabs]="plainCssCodeTabs"
-      >
-        <div class="switch-preview-shell switch-preview-shell--plain">
-          <tng-switch
-            [checked]="plainCssChecked()"
-            (checkedChange)="plainCssChecked.set($event)"
-          >
-            Dark mode
-          </tng-switch>
-        </div>
-      </ng-template>
-
-      <ng-template
-        appDocsExampleVariant
-        value="tailwind-css"
-        label="Tailwind CSS"
-        panelTitle="Tailwind switch toggle"
-        [codeTabs]="tailwindCodeTabs"
-      >
-        <div
-          class="switch-preview-shell rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+        <ng-template
+          appDocsExampleVariant
+          value="plain-css"
+          label="Plain-CSS"
+          panelTitle="Release controls (Plain-CSS)"
+          [codeTabs]="plainCssCodeTabs"
+          [stackblitzUrl]="stackblitzVanillaUrl"
         >
-          <tng-switch
-            [checked]="tailwindChecked()"
-            (checkedChange)="tailwindChecked.set($event)"
-          >
-            Auto-deploy
-          </tng-switch>
-        </div>
-      </ng-template>
-    </app-docs-example-tabs-section>
-  </section>
+          <section class="component-switch-release-card">
+            <p class="component-switch-release-card__eyebrow">Release controls</p>
+            <tng-switch
+              class="component-switch-release-card__switch"
+              [checked]="plainCssReleaseReady()"
+              (checkedChange)="plainCssReleaseReady.set($event)"
+            >
+              Release ready
+            </tng-switch>
+          </section>
+        </ng-template>
+
+        <ng-template
+          appDocsExampleVariant
+          value="tailwind-css"
+          label="Tailwind CSS"
+          panelTitle="Release controls (Tailwind CSS)"
+          [codeTabs]="tailwindCodeTabs"
+          [stackblitzUrl]="stackblitzTailwindUrl"
+        >
+          <section class="grid w-full max-w-[28rem] gap-3 rounded-2xl border border-slate-300 bg-white p-4 text-slate-900 shadow-sm [color-scheme:light]">
+            <p class="m-0 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">Deployment</p>
+            <tng-switch
+              class="[--tng-semantic-accent-brand:#2563eb] [--tng-semantic-border-subtle:#cbd5e1] [--tng-semantic-focus-ring:rgba(37,99,235,0.25)] [--tng-semantic-foreground-primary:#0f172a]"
+              [checked]="tailwindAutoPublish()"
+              (checkedChange)="tailwindAutoPublish.set($event)"
+            >
+              Auto publish after review
+            </tng-switch>
+          </section>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
+
+    <section id="accessibility-baseline" class="docs-section-anchor switch-overview-block">
+      <h3>Accessibility baseline</h3>
+      <ul class="switch-overview-list">
+        <li>The wrapper keeps the interactive element as a switch-role button, with a synced hidden checkbox for forms.</li>
+        <li>Projected text becomes the visible label next to the switch.</li>
+        <li>ArrowLeft forces off and ArrowRight forces on; click handles the regular toggle action.</li>
+        <li>If you need direct access to primitive state hooks or custom thumb markup, move to the headless or ownable surfaces.</li>
+      </ul>
+    </section>
+  </div>
 </article>

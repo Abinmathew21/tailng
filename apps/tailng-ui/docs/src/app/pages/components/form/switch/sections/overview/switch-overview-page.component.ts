@@ -1,20 +1,47 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, inject, signal, type OnDestroy } from '@angular/core';
-import { observeDocsCodeThemeChanges, resolveDocsCodeBlockTheme } from '../../../../../../shared/util';
 import { TngCodeBlockComponent, TngSwitchComponent } from '@tailng-ui/components';
-import { TngSwitch as TngSwitchPrimitive } from '@tailng-ui/primitives';
-import { type DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
+import type { DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
 import {
   DocsExampleTabsSectionComponent,
   DocsExampleVariantDirective,
 } from '../../../../../../shared/example-tabs-section/docs-example-tabs-section.component';
+import {
+  observeDocsCodeThemeChanges,
+  resolveDocsCodeBlockTheme,
+} from '../../../../../../shared/util';
+import { stackblitzTailwindUrl, stackblitzVanillaUrl } from '../../switch.util';
+
+function createCodeTabs(
+  baseName: string,
+  tsCode: string,
+  htmlCode: string,
+  cssCode: string,
+): readonly DocsExampleCodeTab[] {
+  return Object.freeze([
+    { value: 'ts', label: 'TS', language: 'ts', title: `${baseName}.component.ts`, code: tsCode },
+    {
+      value: 'html',
+      label: 'HTML',
+      language: 'html',
+      title: `${baseName}.component.html`,
+      code: htmlCode,
+    },
+    {
+      value: 'css',
+      label: 'CSS',
+      language: 'css',
+      title: `${baseName}.component.css`,
+      code: cssCode,
+    },
+  ]);
+}
 
 @Component({
   selector: 'app-switch-overview-page',
   imports: [
     TngCodeBlockComponent,
     TngSwitchComponent,
-    TngSwitchPrimitive,
     DocsExampleTabsSectionComponent,
     DocsExampleVariantDirective,
   ],
@@ -27,204 +54,141 @@ export class SwitchOverviewPageComponent implements OnDestroy {
   public readonly codeBlockTheme = signal<'github-dark' | 'github-light'>(
     resolveDocsCodeBlockTheme(this.documentRef),
   );
-  private readonly colorSchemeObserver = observeDocsCodeThemeChanges(this.documentRef, this.codeBlockTheme);
+  private readonly colorSchemeObserver = observeDocsCodeThemeChanges(
+    this.documentRef,
+    this.codeBlockTheme,
+  );
 
-  protected readonly primitiveImportCode = "import { TngSwitch } from '@tailng-ui/primitives';";
+  protected readonly stackblitzVanillaUrl = stackblitzVanillaUrl;
+  protected readonly stackblitzTailwindUrl = stackblitzTailwindUrl;
+
+  protected readonly plainCssReleaseReady = signal(true);
+  protected readonly tailwindAutoPublish = signal(false);
 
   protected readonly componentImportCode =
-    "import { TngSwitchComponent } from '@tailng-ui/components';";
+    "import { TngSwitchComponent } from '@tailng-ui/components';\n";
 
-  public readonly headlessChecked = signal(false);
-  public readonly plainCssChecked = signal(true);
-  public readonly tailwindChecked = signal(false);
+  protected readonly controlledUsageCode = [
+    '<tng-switch',
+    '  [checked]="releaseReady()"',
+    '  (checkedChange)="releaseReady.set($event)"',
+    '>',
+    '  Release ready',
+    '</tng-switch>',
+    '',
+  ].join('\n');
 
-  protected readonly headlessCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
-    {
-      value: 'ts',
-      label: 'TS',
-      language: 'ts',
-      title: 'switch-overview-headless.component.ts',
-      code: [
-        "import { Component, signal } from '@angular/core';",
-        "import { TngSwitch } from '@tailng-ui/primitives';",
-        '',
-        '@Component({',
-        '  imports: [TngSwitch],',
-        "  templateUrl: './switch-overview-headless.component.html',",
-        "  styleUrl: './switch-overview-headless.component.css',",
-        '})',
-        'export class SwitchOverviewHeadlessComponent {',
-        '  readonly checked = signal(false);',
-        '',
-        '  onToggle(): void {',
-        '    this.checked.update((v) => !v);',
-        '  }',
-        '}',
-        '',
-      ].join('\n'),
-    },
-    {
-      value: 'html',
-      label: 'HTML',
-      language: 'html',
-      title: 'switch-overview-headless.component.html',
-      code: [
-        '<div class="switch-row">',
-        '  <button',
-        '    tngSwitch',
-        '    class="switch-track"',
-        '    [checked]="checked()"',
-        '    ariaLabel="Enable notifications"',
-        '    (click)="onToggle()"',
-        '  >',
-        '    <span class="switch-thumb"></span>',
-        '  </button>',
-        '  <span>Enable notifications</span>',
-        '</div>',
-        '',
-      ].join('\n'),
-    },
-    {
-      value: 'css',
-      label: 'CSS',
-      language: 'css',
-      title: 'switch-overview-headless.component.css',
-      code: [
-        '.switch-track {',
-        '  background: var(--tng-semantic-border-subtle);',
-        '  border: 0;',
-        '  border-radius: 999px;',
-        '  cursor: pointer;',
-        '  height: 1.5rem;',
-        '  padding: 0.125rem;',
-        '  width: 2.65rem;',
-        '}',
-        '.switch-track[data-state="checked"] {',
-        '  background: var(--tng-semantic-accent-brand);',
-        '}',
-        '.switch-thumb {',
-        '  background: white;',
-        '  border-radius: 999px;',
-        '  display: block;',
-        '  height: 1.25rem;',
-        '  transform: translateX(0);',
-        '  transition: transform 150ms ease;',
-        '  width: 1.25rem;',
-        '}',
-        '.switch-track[data-state="checked"] .switch-thumb {',
-        '  transform: translateX(1.15rem);',
-        '}',
-        '',
-      ].join('\n'),
-    },
-  ]);
+  protected readonly nativeFormCode = [
+    '<form>',
+    '  <tng-switch',
+    '    name="autoPublish"',
+    '    value="enabled"',
+    '    [checked]="true"',
+    '  >',
+    '    Auto publish after review',
+    '  </tng-switch>',
+    '</form>',
+    '',
+  ].join('\n');
 
-  protected readonly plainCssCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
-    {
-      value: 'ts',
-      label: 'TS',
-      language: 'ts',
-      title: 'switch-overview-plain-css.component.ts',
-      code: [
-        "import { Component, signal } from '@angular/core';",
-        "import { TngSwitchComponent } from '@tailng-ui/components';",
-        '',
-        '@Component({',
-        '  imports: [TngSwitchComponent],',
-        "  templateUrl: './switch-overview-plain-css.component.html',",
-        '})',
-        'export class SwitchOverviewPlainCssComponent {',
-        '  readonly checked = signal(true);',
-        '}',
-        '',
-      ].join('\n'),
-    },
-    {
-      value: 'html',
-      label: 'HTML',
-      language: 'html',
-      title: 'switch-overview-plain-css.component.html',
-      code: [
-        '<div class="switch-preview-shell">',
-        '  <tng-switch',
-        '    [checked]="checked()"',
-        '    (checkedChange)="checked.set($event)"',
-        '  >',
-        '    Dark mode',
-        '  </tng-switch>',
-        '</div>',
-        '',
-      ].join('\n'),
-    },
-    {
-      value: 'css',
-      label: 'CSS',
-      language: 'css',
-      title: 'switch-overview-plain-css.component.css',
-      code: [
-        '.switch-preview-shell {',
-        '  background: var(--tng-semantic-background-surface);',
-        '  border: 1px solid var(--tng-semantic-border-subtle);',
-        '  border-radius: 0.8rem;',
-        '  padding: 0.9rem 1rem;',
-        '}',
-        '',
-      ].join('\n'),
-    },
-  ]);
+  protected readonly plainCssCodeTabs = createCodeTabs(
+    'component-switch-overview-plain',
+    [
+      "import { Component, signal } from '@angular/core';",
+      "import { TngSwitchComponent } from '@tailng-ui/components';",
+      '',
+      '@Component({',
+      "  selector: 'app-component-switch-overview-plain',",
+      '  standalone: true,',
+      '  imports: [TngSwitchComponent],',
+      "  templateUrl: './component-switch-overview-plain.component.html',",
+      "  styleUrl: './component-switch-overview-plain.component.css',",
+      '})',
+      'export class ComponentSwitchOverviewPlainComponent {',
+      '  readonly releaseReady = signal(true);',
+      '}',
+      '',
+    ].join('\n'),
+    [
+      '<section class="component-switch-release-card">',
+      '  <p class="component-switch-release-card__eyebrow">Release controls</p>',
+      '  <tng-switch',
+      '    class="component-switch-release-card__switch"',
+      '    [checked]="releaseReady()"',
+      '    (checkedChange)="releaseReady.set($event)"',
+      '  >',
+      '    Release ready',
+      '  </tng-switch>',
+      '</section>',
+      '',
+    ].join('\n'),
+    [
+      '.component-switch-release-card {',
+      '  display: grid;',
+      '  gap: 0.9rem;',
+      '  inline-size: min(100%, 28rem);',
+      '  margin-inline: auto;',
+      '  padding: 1rem;',
+      '  border: 1px solid #cbd5e1;',
+      '  border-radius: 1rem;',
+      '  background: #ffffff;',
+      '  color: #0f172a;',
+      '  color-scheme: light;',
+      '}',
+      '',
+      '.component-switch-release-card__eyebrow {',
+      '  margin: 0;',
+      '  color: #64748b;',
+      '  font-size: 0.8rem;',
+      '  font-weight: 700;',
+      '  letter-spacing: 0.04em;',
+      '  text-transform: uppercase;',
+      '}',
+      '',
+      '.component-switch-release-card__switch {',
+      '  --tng-semantic-accent-brand: #2563eb;',
+      '  --tng-semantic-border-subtle: #cbd5e1;',
+      '  --tng-semantic-focus-ring: rgba(37, 99, 235, 0.25);',
+      '  --tng-semantic-foreground-primary: #0f172a;',
+      '}',
+      '',
+    ].join('\n'),
+  );
 
-  protected readonly tailwindCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
-    {
-      value: 'ts',
-      label: 'TS',
-      language: 'ts',
-      title: 'switch-overview-tailwind.component.ts',
-      code: [
-        "import { Component, signal } from '@angular/core';",
-        "import { TngSwitchComponent } from '@tailng-ui/components';",
-        '',
-        '@Component({',
-        '  imports: [TngSwitchComponent],',
-        "  templateUrl: './switch-overview-tailwind.component.html',",
-        '})',
-        'export class SwitchOverviewTailwindComponent {',
-        '  readonly checked = signal(false);',
-        '}',
-        '',
-      ].join('\n'),
-    },
-    {
-      value: 'html',
-      label: 'HTML',
-      language: 'html',
-      title: 'switch-overview-tailwind.component.html',
-      code: [
-        '<div class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">',
-        '  <tng-switch',
-        '    [checked]="checked()"',
-        '    (checkedChange)="checked.set($event)"',
-        '  >',
-        '    Auto-deploy',
-        '  </tng-switch>',
-        '</div>',
-        '',
-      ].join('\n'),
-    },
-    {
-      value: 'css',
-      label: 'CSS',
-      language: 'css',
-      title: 'switch-overview-tailwind.component.css',
-      code: '/* Tailwind utilities are applied directly in the template. */',
-    },
-  ]);
-
-  public onHeadlessToggle(): void {
-    this.headlessChecked.update((v) => !v);
-  }
+  protected readonly tailwindCodeTabs = createCodeTabs(
+    'component-switch-overview-tailwind',
+    [
+      "import { Component, signal } from '@angular/core';",
+      "import { TngSwitchComponent } from '@tailng-ui/components';",
+      '',
+      '@Component({',
+      "  selector: 'app-component-switch-overview-tailwind',",
+      '  standalone: true,',
+      '  imports: [TngSwitchComponent],',
+      "  templateUrl: './component-switch-overview-tailwind.component.html',",
+      '})',
+      'export class ComponentSwitchOverviewTailwindComponent {',
+      '  readonly autoPublish = signal(false);',
+      '}',
+      '',
+    ].join('\n'),
+    [
+      '<section class="grid w-full max-w-[28rem] gap-3 rounded-2xl border border-slate-300 bg-white p-4 text-slate-900 shadow-sm [color-scheme:light]">',
+      '  <p class="m-0 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">Deployment</p>',
+      '  <tng-switch',
+      '    class="[--tng-semantic-accent-brand:#2563eb] [--tng-semantic-border-subtle:#cbd5e1] [--tng-semantic-focus-ring:rgba(37,99,235,0.25)] [--tng-semantic-foreground-primary:#0f172a]"',
+      '    [checked]="autoPublish()"',
+      '    (checkedChange)="autoPublish.set($event)"',
+      '  >',
+      '    Auto publish after review',
+      '  </tng-switch>',
+      '</section>',
+      '',
+    ].join('\n'),
+    '/* Tailwind utilities are applied directly in the template. */',
+  );
 
   public ngOnDestroy(): void {
     this.colorSchemeObserver?.disconnect();
   }
-
 }

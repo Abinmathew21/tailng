@@ -49,21 +49,8 @@ export const COMPONENTS_FORM_SWITCH_ROUTES: Routes = [
       },
       {
         path: 'ownable-install',
-        data: {
-          registrySlug: 'switch',
-          usageCode: [
-            '<tng-switch',
-            '  [checked]="darkMode"',
-            '  (checkedChange)="darkMode = $event"',
-            '>',
-            '  Dark mode',
-            '</tng-switch>',
-            '',
-          ].join('\n'),
-        },
-        loadComponent: () =>
-          import('../../../../shared/ownable-install-section/docs-ownable-install-section.component')
-            .then((module) => module.DocsOwnableInstallSectionComponent),
+        pathMatch: 'full',
+        redirectTo: '/ownable/form/switch',
       },
       {
         path: '**',

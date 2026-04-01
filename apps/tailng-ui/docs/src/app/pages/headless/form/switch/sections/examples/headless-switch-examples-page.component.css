@@ -1,0 +1,113 @@
+:host {
+  display: block;
+}
+
+.switch-examples-block {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.headless-switch-release-example,
+.headless-switch-privacy-card,
+.headless-switch-state-card {
+  display: grid;
+  gap: 0.75rem;
+  inline-size: min(100%, 32rem);
+  margin-inline: auto;
+  padding: 1rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 1rem;
+  background: #ffffff;
+  color: #0f172a;
+  color-scheme: light;
+}
+
+.headless-switch-release-example__row,
+.headless-switch-privacy-card__row,
+.headless-switch-state-card__row {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.headless-switch-release-example__copy,
+.headless-switch-privacy-card__copy {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.headless-switch-release-example__title,
+.headless-switch-privacy-card__title,
+.headless-switch-state-card__title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.headless-switch-release-example__meta,
+.headless-switch-privacy-card__meta,
+.headless-switch-privacy-card__helper {
+  margin: 0;
+  font-size: 0.82rem;
+  color: #64748b;
+}
+
+.headless-switch-state-card__row--disabled {
+  color: #64748b;
+}
+
+.headless-switch-release-example__control,
+.headless-switch-privacy-card__control,
+.headless-switch-state-card__control {
+  align-items: center;
+  display: inline-flex;
+  justify-content: flex-start;
+  inline-size: 2.75rem;
+  block-size: 1.55rem;
+  padding: 0.125rem;
+  border: 0;
+  border-radius: 999px;
+  background: #cbd5e1;
+  cursor: pointer;
+  transition: background-color 150ms ease;
+}
+
+.headless-switch-release-example__control[data-state='checked'],
+.headless-switch-privacy-card__control[data-state='checked'],
+.headless-switch-state-card__control[data-state='checked'] {
+  background: #2563eb;
+}
+
+.headless-switch-release-example__control[data-disabled],
+.headless-switch-privacy-card__control[data-disabled],
+.headless-switch-state-card__control[data-disabled] {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.headless-switch-release-example__control:focus-visible,
+.headless-switch-privacy-card__control:focus-visible,
+.headless-switch-state-card__control:focus-visible {
+  outline: 2px solid rgba(37, 99, 235, 0.32);
+  outline-offset: 2px;
+}
+
+.headless-switch-release-example__thumb,
+.headless-switch-privacy-card__thumb,
+.headless-switch-state-card__thumb {
+  display: block;
+  inline-size: 1.25rem;
+  block-size: 1.25rem;
+  border-radius: 999px;
+  background: #ffffff;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.16);
+  transform: translateX(0);
+  transition: transform 150ms ease;
+}
+
+.headless-switch-release-example__control[data-state='checked'] .headless-switch-release-example__thumb,
+.headless-switch-privacy-card__control[data-state='checked'] .headless-switch-privacy-card__thumb,
+.headless-switch-state-card__control[data-state='checked'] .headless-switch-state-card__thumb {
+  transform: translateX(1.18rem);
+}

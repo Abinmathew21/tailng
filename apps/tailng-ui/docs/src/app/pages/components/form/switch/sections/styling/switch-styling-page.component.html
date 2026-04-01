@@ -1,136 +1,113 @@
-<article class="switch-styling">
-  <h2 class="switch-styling-title">Styling contract</h2>
-  <p class="switch-styling-lead">
-    Style against switch state hooks and semantic tokens. Do not depend on internal DOM beyond the
-    documented attributes.
-  </p>
+<article class="docs-section-page switch-styling">
+  <div class="docs-section-page-main">
+    <section id="css-contract-table" class="docs-section-anchor switch-styling-block">
+      <h2 class="switch-styling-title">Styling contract</h2>
+      <p class="switch-styling-lead">
+        The supported component contract is host-level token overrides on <code>tng-switch</code>
+        plus any wrapper layout you apply around it. If you need to style the internal track or
+        thumb markup directly, switch to the headless or ownable surfaces instead.
+      </p>
 
-  <section class="switch-styling-block">
-    <h3>CSS contract table</h3>
-    <div class="switch-styling-table-wrap">
-      <table class="switch-styling-table">
-        <thead>
-          <tr>
-            <th scope="col">Selector</th>
-            <th scope="col">Applied on</th>
-            <th scope="col">Purpose</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><code>[data-state="checked"]</code></td>
-            <td>Primitive button</td>
-            <td>Checked track styling (e.g. brand color).</td>
-          </tr>
-          <tr>
-            <td><code>[data-state="unchecked"]</code></td>
-            <td>Primitive button</td>
-            <td>Unchecked track styling (e.g. muted background).</td>
-          </tr>
-          <tr>
-            <td><code>[data-disabled]</code></td>
-            <td>Primitive button + wrapper root</td>
-            <td>Muted visuals and not-allowed cursor.</td>
-          </tr>
-          <tr>
-            <td><code>[data-slot="switch"]</code></td>
-            <td>Primitive button</td>
-            <td>Theme contract anchor for track element.</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="switch-styling-table-wrap">
-      <table class="switch-styling-table">
-        <thead>
-          <tr>
-            <th scope="col">Token</th>
-            <th scope="col">Typical use</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><code>--tng-semantic-accent-brand</code></td>
-            <td>Checked track background.</td>
-          </tr>
-          <tr>
-            <td><code>--tng-semantic-border-subtle</code></td>
-            <td>Unchecked track background.</td>
-          </tr>
-          <tr>
-            <td><code>--tng-semantic-focus-ring</code></td>
-            <td>Focus-visible ring color.</td>
-          </tr>
-          <tr>
-            <td><code>--tng-color-white</code></td>
-            <td>Thumb background.</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-
-  <app-docs-example-tabs-section
-    class="switch-styling-block"
-    heading="Styling examples"
-    description="Same switch behavior contract with different styling systems."
-    ariaLabel="Switch styling examples"
-    tabListAriaLabel="Switch styling variants"
-    defaultValue="headless"
-    [codeBlockTheme]="codeBlockTheme()"
-  >
-    <ng-template
-      appDocsExampleVariant
-      value="headless"
-      label="Headless"
-      panelTitle="Headless switch styling"
-      [codeTabs]="headlessCodeTabs"
-    >
-      <div class="switch-preview-stack">
-        <div class="switch-row">
-          <button
-            tngSwitch
-            class="switch-track"
-            [checked]="headlessChecked()"
-            ariaLabel="Notifications"
-            (click)="onHeadlessToggle()"
-          >
-            <span class="switch-thumb"></span>
-          </button>
-          <span class="switch-label">Notifications</span>
-        </div>
+      <div class="switch-styling-table-wrap">
+        <table class="switch-styling-table">
+          <thead>
+            <tr>
+              <th scope="col">Token</th>
+              <th scope="col">Typical use</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>--tng-semantic-accent-brand</code></td>
+              <td>Checked track background.</td>
+            </tr>
+            <tr>
+              <td><code>--tng-semantic-border-subtle</code></td>
+              <td>Unchecked track background.</td>
+            </tr>
+            <tr>
+              <td><code>--tng-semantic-focus-ring</code></td>
+              <td>Focus-visible ring around the visible switch button.</td>
+            </tr>
+            <tr>
+              <td><code>--tng-semantic-foreground-primary</code></td>
+              <td>Projected label text color.</td>
+            </tr>
+            <tr>
+              <td><code>--tng-color-white</code></td>
+              <td>Thumb fill when you need a different neutral token.</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-    </ng-template>
 
-    <ng-template
-      appDocsExampleVariant
-      value="plain-css"
-      label="Plain-CSS"
-      panelTitle="Plain CSS switch styling"
-      [codeTabs]="plainCssCodeTabs"
-    >
-      <div class="settings-panel">
-        <tng-switch [checked]="plainCssChecked()" (checkedChange)="plainCssChecked.set($event)">
-          Release notifications
-        </tng-switch>
-        <tng-switch [checked]="false" [disabled]="true">Disabled switch</tng-switch>
-      </div>
-    </ng-template>
+      <tng-code-block
+        [code]="tokenOverrideSnippet"
+        adapter="shiki"
+        language="css"
+        title="switch.tokens.css"
+        [theme]="codeBlockTheme()"
+        [lineNumbers]="false"
+        [wrap]="true"
+        [sanitizeHtml]="false"
+      ></tng-code-block>
+    </section>
 
-    <ng-template
-      appDocsExampleVariant
-      value="tailwind-css"
-      label="Tailwind CSS"
-      panelTitle="Tailwind switch styling"
-      [codeTabs]="tailwindCodeTabs"
-    >
-      <div class="grid gap-3 rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">
-        <tng-switch [checked]="tailwindChecked()" (checkedChange)="tailwindChecked.set($event)">
-          Release notifications
-        </tng-switch>
-        <tng-switch [checked]="false" [disabled]="true">Disabled switch</tng-switch>
-      </div>
-    </ng-template>
-  </app-docs-example-tabs-section>
+    <section id="styling-examples" class="docs-section-anchor switch-styling-block">
+      <app-docs-example-tabs-section
+        heading="Styling examples"
+        description="The same switch component contract can sit inside a plain CSS shell or a Tailwind shell by overriding host-level semantic tokens."
+        ariaLabel="Switch styling examples"
+        tabListAriaLabel="Switch styling variants"
+        defaultValue="plain-css"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <ng-template
+          appDocsExampleVariant
+          value="plain-css"
+          label="Plain-CSS"
+          panelTitle="Release gate (Plain-CSS)"
+          [codeTabs]="plainCssCodeTabs"
+          [stackblitzUrl]="stackblitzVanillaUrl"
+        >
+          <section class="component-switch-review-card">
+            <div class="component-switch-review-card__header">
+              <h3 class="component-switch-review-card__title">Release gate</h3>
+              <p class="component-switch-review-card__meta">Require human sign-off before publish.</p>
+            </div>
+            <tng-switch
+              class="component-switch-review-card__switch"
+              [checked]="plainCssReviewGate()"
+              (checkedChange)="plainCssReviewGate.set($event)"
+            >
+              Require review
+            </tng-switch>
+          </section>
+        </ng-template>
+
+        <ng-template
+          appDocsExampleVariant
+          value="tailwind-css"
+          label="Tailwind CSS"
+          panelTitle="Release gate (Tailwind CSS)"
+          [codeTabs]="tailwindCodeTabs"
+          [stackblitzUrl]="stackblitzTailwindUrl"
+        >
+          <section class="grid w-full max-w-[30rem] gap-4 rounded-2xl border border-slate-300 bg-white p-4 text-slate-900 shadow-sm [color-scheme:light]">
+            <div class="grid gap-1">
+              <h3 class="m-0 text-base font-semibold text-slate-900">Release gate</h3>
+              <p class="m-0 text-sm text-slate-500">Require human sign-off before publish.</p>
+            </div>
+            <tng-switch
+              class="[--tng-semantic-accent-brand:#2563eb] [--tng-semantic-border-subtle:#cbd5e1] [--tng-semantic-focus-ring:rgba(37,99,235,0.25)] [--tng-semantic-foreground-primary:#0f172a]"
+              [checked]="tailwindReviewGate()"
+              (checkedChange)="tailwindReviewGate.set($event)"
+            >
+              Require review
+            </tng-switch>
+          </section>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
+  </div>
 </article>

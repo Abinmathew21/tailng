@@ -81,6 +81,13 @@ export const OWNABLE_FORM_GROUP: OwnableDocsGroup = {
         'Ownable textarea install with local wrapper source, import metadata, and generated file structure.',
     },
     {
+      id: 'switch',
+      slug: 'switch',
+      title: 'Switch',
+      description:
+        'Ownable switch install with local wrapper source, settings-focused markup, and generated file structure.',
+    },
+    {
       id: 'label',
       slug: 'label',
       title: 'Label',

@@ -1,0 +1,248 @@
+<article class="switch-examples docs-section-page">
+  <div class="docs-section-page-main">
+    <section id="release-preferences" class="docs-section-anchor switch-examples-block">
+      <app-docs-example-tabs-section
+        heading="Release preferences"
+        description="A small release settings stack that keeps the switch semantics primitive-owned while your shell handles the layout."
+        ariaLabel="Headless switch release preference examples"
+        tabListAriaLabel="Headless switch release preference style variants"
+        defaultValue="plain-css"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <ng-template
+          appDocsExampleVariant
+          value="plain-css"
+          label="Plain-CSS"
+          panelTitle="Release preferences (Plain-CSS)"
+          [codeTabs]="releasePreferencesPlainCodeTabs"
+          [stackblitzUrl]="stackblitzVanillaUrl"
+        >
+          <section class="headless-switch-release-example">
+            <div class="headless-switch-release-example__row">
+              <div class="headless-switch-release-example__copy">
+                <span class="headless-switch-release-example__title">Release summary email</span>
+                <span class="headless-switch-release-example__meta">Send the launch digest to stakeholders.</span>
+              </div>
+              <button
+                tngSwitch
+                class="headless-switch-release-example__control"
+                [checked]="plainCssReleaseEmails()"
+                ariaLabel="Release summary email"
+                (click)="onPlainCssReleaseEmailsToggle()"
+              >
+                <span class="headless-switch-release-example__thumb" aria-hidden="true"></span>
+              </button>
+            </div>
+            <div class="headless-switch-release-example__row">
+              <div class="headless-switch-release-example__copy">
+                <span class="headless-switch-release-example__title">Freeze deploy window</span>
+                <span class="headless-switch-release-example__meta">Pause publishing until the handoff call ends.</span>
+              </div>
+              <button
+                tngSwitch
+                class="headless-switch-release-example__control"
+                [checked]="plainCssDeployWindow()"
+                ariaLabel="Freeze deploy window"
+                (click)="onPlainCssDeployWindowToggle()"
+              >
+                <span class="headless-switch-release-example__thumb" aria-hidden="true"></span>
+              </button>
+            </div>
+          </section>
+        </ng-template>
+
+        <ng-template
+          appDocsExampleVariant
+          value="tailwind-css"
+          label="Tailwind CSS"
+          panelTitle="Release preferences (Tailwind CSS)"
+          [codeTabs]="releasePreferencesTailwindCodeTabs"
+          [stackblitzUrl]="stackblitzTailwindUrl"
+        >
+          <section class="grid w-full max-w-[32rem] gap-3 rounded-2xl border border-slate-300 bg-white p-4 text-slate-900 shadow-sm [color-scheme:light]">
+            <div class="inline-flex items-center justify-between gap-4">
+              <div class="grid gap-0.5">
+                <span class="text-sm font-semibold text-slate-900">Release summary email</span>
+                <span class="text-xs text-slate-500">Send the launch digest to stakeholders.</span>
+              </div>
+              <button
+                tngSwitch
+                class="inline-flex h-6 w-11 items-center rounded-full border-0 bg-slate-300 p-0.5 transition data-[state=checked]:bg-blue-600 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-100"
+                [checked]="tailwindReleaseEmails()"
+                ariaLabel="Release summary email"
+                (click)="onTailwindReleaseEmailsToggle()"
+              >
+                <span aria-hidden="true" class="block h-5 w-5 rounded-full bg-white shadow-sm transition-transform" [class.translate-x-5]="tailwindReleaseEmails()"></span>
+              </button>
+            </div>
+            <div class="inline-flex items-center justify-between gap-4">
+              <div class="grid gap-0.5">
+                <span class="text-sm font-semibold text-slate-900">Freeze deploy window</span>
+                <span class="text-xs text-slate-500">Pause publishing until the handoff call ends.</span>
+              </div>
+              <button
+                tngSwitch
+                class="inline-flex h-6 w-11 items-center rounded-full border-0 bg-slate-300 p-0.5 transition data-[state=checked]:bg-blue-600 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-100"
+                [checked]="tailwindDeployWindow()"
+                ariaLabel="Freeze deploy window"
+                (click)="onTailwindDeployWindowToggle()"
+              >
+                <span aria-hidden="true" class="block h-5 w-5 rounded-full bg-white shadow-sm transition-transform" [class.translate-x-5]="tailwindDeployWindow()"></span>
+              </button>
+            </div>
+          </section>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
+
+    <section id="privacy-guardrail" class="docs-section-anchor switch-examples-block">
+      <app-docs-example-tabs-section
+        heading="Privacy guardrail"
+        description="A single toggle with helper copy works well when the switch controls a sensitive preference."
+        ariaLabel="Headless switch privacy examples"
+        tabListAriaLabel="Headless switch privacy style variants"
+        defaultValue="plain-css"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <ng-template
+          appDocsExampleVariant
+          value="plain-css"
+          label="Plain-CSS"
+          panelTitle="Privacy guardrail (Plain-CSS)"
+          [codeTabs]="privacyPlainCodeTabs"
+          [stackblitzUrl]="stackblitzVanillaUrl"
+        >
+          <section class="headless-switch-privacy-card">
+            <div class="headless-switch-privacy-card__row">
+              <div class="headless-switch-privacy-card__copy">
+                <span class="headless-switch-privacy-card__title">Share diagnostic logs</span>
+                <span class="headless-switch-privacy-card__meta">Include anonymized traces in support bundles.</span>
+              </div>
+              <button
+                tngSwitch
+                class="headless-switch-privacy-card__control"
+                [checked]="plainCssPrivacy()"
+                ariaLabel="Share diagnostic logs"
+                (click)="onPlainCssPrivacyToggle()"
+              >
+                <span class="headless-switch-privacy-card__thumb" aria-hidden="true"></span>
+              </button>
+            </div>
+            <p class="headless-switch-privacy-card__helper">Your workspace owner can revoke this at any time.</p>
+          </section>
+        </ng-template>
+
+        <ng-template
+          appDocsExampleVariant
+          value="tailwind-css"
+          label="Tailwind CSS"
+          panelTitle="Privacy guardrail (Tailwind CSS)"
+          [codeTabs]="privacyTailwindCodeTabs"
+          [stackblitzUrl]="stackblitzTailwindUrl"
+        >
+          <section class="grid w-full max-w-[32rem] gap-3 rounded-2xl border border-slate-300 bg-white p-4 text-slate-900 shadow-sm [color-scheme:light]">
+            <div class="inline-flex items-center justify-between gap-4">
+              <div class="grid gap-0.5">
+                <span class="text-sm font-semibold text-slate-900">Share diagnostic logs</span>
+                <span class="text-xs text-slate-500">Include anonymized traces in support bundles.</span>
+              </div>
+              <button
+                tngSwitch
+                class="inline-flex h-6 w-11 items-center rounded-full border-0 bg-slate-300 p-0.5 transition data-[state=checked]:bg-blue-600 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-100"
+                [checked]="tailwindPrivacy()"
+                ariaLabel="Share diagnostic logs"
+                (click)="onTailwindPrivacyToggle()"
+              >
+                <span aria-hidden="true" class="block h-5 w-5 rounded-full bg-white shadow-sm transition-transform" [class.translate-x-5]="tailwindPrivacy()"></span>
+              </button>
+            </div>
+            <p class="m-0 text-xs text-slate-500">Your workspace owner can revoke this at any time.</p>
+          </section>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
+
+    <section id="disabled-and-required" class="docs-section-anchor switch-examples-block">
+      <app-docs-example-tabs-section
+        heading="Disabled and required"
+        description="Use required when a switch must communicate a mandatory state, and disabled when the server locks the setting."
+        ariaLabel="Headless switch disabled examples"
+        tabListAriaLabel="Headless switch disabled style variants"
+        defaultValue="plain-css"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <ng-template
+          appDocsExampleVariant
+          value="plain-css"
+          label="Plain-CSS"
+          panelTitle="Disabled and required states (Plain-CSS)"
+          [codeTabs]="disabledPlainCodeTabs"
+          [stackblitzUrl]="stackblitzVanillaUrl"
+        >
+          <section class="headless-switch-state-card">
+            <div class="headless-switch-state-card__row">
+              <span class="headless-switch-state-card__title">Emergency cutoff</span>
+              <button
+                tngSwitch
+                class="headless-switch-state-card__control"
+                [checked]="true"
+                [required]="true"
+                ariaLabel="Emergency cutoff"
+              >
+                <span class="headless-switch-state-card__thumb" aria-hidden="true"></span>
+              </button>
+            </div>
+            <div class="headless-switch-state-card__row headless-switch-state-card__row--disabled">
+              <span class="headless-switch-state-card__title">Production bypass</span>
+              <button
+                tngSwitch
+                class="headless-switch-state-card__control"
+                [checked]="false"
+                [disabled]="true"
+                ariaLabel="Production bypass"
+              >
+                <span class="headless-switch-state-card__thumb" aria-hidden="true"></span>
+              </button>
+            </div>
+          </section>
+        </ng-template>
+
+        <ng-template
+          appDocsExampleVariant
+          value="tailwind-css"
+          label="Tailwind CSS"
+          panelTitle="Disabled and required states (Tailwind CSS)"
+          [codeTabs]="disabledTailwindCodeTabs"
+          [stackblitzUrl]="stackblitzTailwindUrl"
+        >
+          <section class="grid w-full max-w-[32rem] gap-3 rounded-2xl border border-slate-300 bg-white p-4 text-slate-900 shadow-sm [color-scheme:light]">
+            <div class="inline-flex items-center justify-between gap-4">
+              <span class="text-sm font-semibold text-slate-900">Emergency cutoff</span>
+              <button
+                tngSwitch
+                class="inline-flex h-6 w-11 items-center rounded-full border-0 bg-slate-300 p-0.5 transition data-[state=checked]:bg-blue-600 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-100"
+                [checked]="true"
+                [required]="true"
+                ariaLabel="Emergency cutoff"
+              >
+                <span aria-hidden="true" class="block h-5 w-5 rounded-full bg-white shadow-sm transition-transform translate-x-5"></span>
+              </button>
+            </div>
+            <div class="inline-flex items-center justify-between gap-4 text-slate-500">
+              <span class="text-sm font-semibold">Production bypass</span>
+              <button
+                tngSwitch
+                class="inline-flex h-6 w-11 items-center rounded-full border-0 bg-slate-300 p-0.5 opacity-55 transition"
+                [checked]="false"
+                [disabled]="true"
+                ariaLabel="Production bypass"
+              >
+                <span aria-hidden="true" class="block h-5 w-5 rounded-full bg-white shadow-sm"></span>
+              </button>
+            </div>
+          </section>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
+  </div>
+</article>

@@ -91,6 +91,12 @@ export const HEADLESS_FORM_GROUP: HeadlessDocsGroup = {
       description: 'Pressed-state behavior and group semantics for compact toggle interactions.',
     },
     {
+      id: 'switch',
+      slug: 'switch',
+      title: 'Switch',
+      description: 'Two-state switch behavior with button semantics, data-state hooks, and ARIA wiring.',
+    },
+    {
       id: 'radio',
       slug: 'radio',
       title: 'Radio',

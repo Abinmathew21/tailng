@@ -1,148 +1,115 @@
-<article class="switch-examples">
-  <h2 class="switch-examples-title">Switch examples</h2>
-  <p class="switch-examples-lead">
-    Real-world usage patterns for the switch component across all styling layers.
-  </p>
-
-  <app-docs-example-tabs-section
-    class="switch-examples-block"
-    heading="Settings panel"
-    description="Multiple switches grouped in a settings context."
-    ariaLabel="Switch settings examples"
-    tabListAriaLabel="Switch settings variants"
-    defaultValue="headless"
-    [codeBlockTheme]="codeBlockTheme()"
-  >
-    <ng-template
-      appDocsExampleVariant
-      value="headless"
-      label="Headless"
-      panelTitle="Headless settings panel"
-      [codeTabs]="settingsHeadlessCodeTabs"
-    >
-      <div class="switch-settings">
-        <div class="switch-row">
-          <button
-            tngSwitch
-            class="switch-track"
-            [checked]="headlessNotifications()"
-            ariaLabel="Push notifications"
-            (click)="onToggleHeadlessNotifications()"
-          >
-            <span class="switch-thumb"></span>
-          </button>
-          <span class="switch-label">Push notifications</span>
-        </div>
-        <div class="switch-row">
-          <button
-            tngSwitch
-            class="switch-track"
-            [checked]="headlessDarkMode()"
-            ariaLabel="Dark mode"
-            (click)="onToggleHeadlessDarkMode()"
-          >
-            <span class="switch-thumb"></span>
-          </button>
-          <span class="switch-label">Dark mode</span>
-        </div>
-      </div>
-    </ng-template>
-
-    <ng-template
-      appDocsExampleVariant
-      value="plain-css"
-      label="Plain-CSS"
-      panelTitle="Plain CSS settings panel"
-      [codeTabs]="settingsPlainCssCodeTabs"
-    >
-      <div class="switch-settings switch-settings--plain">
-        <tng-switch
-          [checked]="plainCssNotifications()"
-          (checkedChange)="plainCssNotifications.set($event)"
+<article class="docs-section-page switch-examples">
+  <div class="docs-section-page-main">
+    <section id="settings-panel" class="docs-section-anchor switch-examples-block">
+      <app-docs-example-tabs-section
+        heading="Settings panel"
+        description="A small settings stack is the most common wrapper around component switches."
+        ariaLabel="Switch settings examples"
+        tabListAriaLabel="Switch settings style variants"
+        defaultValue="plain-css"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <ng-template
+          appDocsExampleVariant
+          value="plain-css"
+          label="Plain-CSS"
+          panelTitle="Settings panel (Plain-CSS)"
+          [codeTabs]="settingsPlainCodeTabs"
+          [stackblitzUrl]="stackblitzVanillaUrl"
         >
-          Push notifications
-        </tng-switch>
-        <tng-switch
-          [checked]="plainCssDarkMode()"
-          (checkedChange)="plainCssDarkMode.set($event)"
-        >
-          Dark mode
-        </tng-switch>
-      </div>
-    </ng-template>
+          <section class="component-switch-settings-card">
+            <tng-switch
+              class="component-switch-settings-card__switch"
+              [checked]="plainCssReleaseEmails()"
+              (checkedChange)="plainCssReleaseEmails.set($event)"
+            >
+              Release summary email
+            </tng-switch>
+            <tng-switch
+              class="component-switch-settings-card__switch"
+              [checked]="plainCssFreezeWindow()"
+              (checkedChange)="plainCssFreezeWindow.set($event)"
+            >
+              Freeze deploy window
+            </tng-switch>
+          </section>
+        </ng-template>
 
-    <ng-template
-      appDocsExampleVariant
-      value="tailwind-css"
-      label="Tailwind CSS"
-      panelTitle="Tailwind settings panel"
-      [codeTabs]="settingsTailwindCodeTabs"
-    >
-      <div class="grid gap-3 rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">
-        <tng-switch
-          [checked]="tailwindNotifications()"
-          (checkedChange)="tailwindNotifications.set($event)"
+        <ng-template
+          appDocsExampleVariant
+          value="tailwind-css"
+          label="Tailwind CSS"
+          panelTitle="Settings panel (Tailwind CSS)"
+          [codeTabs]="settingsTailwindCodeTabs"
+          [stackblitzUrl]="stackblitzTailwindUrl"
         >
-          Push notifications
-        </tng-switch>
-        <tng-switch
-          [checked]="tailwindDarkMode()"
-          (checkedChange)="tailwindDarkMode.set($event)"
+          <section class="grid w-full max-w-[32rem] gap-3 rounded-2xl border border-slate-300 bg-white p-4 text-slate-900 shadow-sm [color-scheme:light]">
+            <tng-switch
+              class="[--tng-semantic-accent-brand:#2563eb] [--tng-semantic-border-subtle:#cbd5e1] [--tng-semantic-focus-ring:rgba(37,99,235,0.25)] [--tng-semantic-foreground-primary:#0f172a]"
+              [checked]="tailwindReleaseEmails()"
+              (checkedChange)="tailwindReleaseEmails.set($event)"
+            >
+              Release summary email
+            </tng-switch>
+            <tng-switch
+              class="[--tng-semantic-accent-brand:#2563eb] [--tng-semantic-border-subtle:#cbd5e1] [--tng-semantic-focus-ring:rgba(37,99,235,0.25)] [--tng-semantic-foreground-primary:#0f172a]"
+              [checked]="tailwindFreezeWindow()"
+              (checkedChange)="tailwindFreezeWindow.set($event)"
+            >
+              Freeze deploy window
+            </tng-switch>
+          </section>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
+
+    <section id="disabled-state" class="docs-section-anchor switch-examples-block">
+      <app-docs-example-tabs-section
+        heading="Disabled state"
+        description="Server-locked or compliance-locked settings should present the same state while clearly muting interaction."
+        ariaLabel="Switch disabled state examples"
+        tabListAriaLabel="Switch disabled style variants"
+        defaultValue="plain-css"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <ng-template
+          appDocsExampleVariant
+          value="plain-css"
+          label="Plain-CSS"
+          panelTitle="Disabled state (Plain-CSS)"
+          [codeTabs]="disabledPlainCodeTabs"
+          [stackblitzUrl]="stackblitzVanillaUrl"
         >
-          Dark mode
-        </tng-switch>
-      </div>
-    </ng-template>
-  </app-docs-example-tabs-section>
+          <section class="component-switch-disabled-card">
+            <tng-switch
+              class="component-switch-disabled-card__switch"
+              [checked]="true"
+              [disabled]="true"
+            >
+              Locked after compliance review
+            </tng-switch>
+          </section>
+        </ng-template>
 
-  <app-docs-example-tabs-section
-    class="switch-examples-block"
-    heading="Disabled state"
-    description="Switch locked in checked state, not interactive."
-    ariaLabel="Switch disabled examples"
-    tabListAriaLabel="Switch disabled variants"
-    defaultValue="headless"
-    [codeBlockTheme]="codeBlockTheme()"
-  >
-    <ng-template
-      appDocsExampleVariant
-      value="headless"
-      label="Headless"
-      panelTitle="Headless disabled switch"
-      [codeTabs]="disabledHeadlessCodeTabs"
-    >
-      <div class="switch-row">
-        <button
-          tngSwitch
-          class="switch-track"
-          [checked]="true"
-          [disabled]="true"
-          ariaLabel="Locked on"
+        <ng-template
+          appDocsExampleVariant
+          value="tailwind-css"
+          label="Tailwind CSS"
+          panelTitle="Disabled state (Tailwind CSS)"
+          [codeTabs]="disabledTailwindCodeTabs"
+          [stackblitzUrl]="stackblitzTailwindUrl"
         >
-          <span class="switch-thumb"></span>
-        </button>
-        <span class="switch-label switch-label--disabled">Locked on (disabled)</span>
-      </div>
-    </ng-template>
-
-    <ng-template
-      appDocsExampleVariant
-      value="plain-css"
-      label="Plain-CSS"
-      panelTitle="Plain CSS disabled switch"
-      [codeTabs]="disabledPlainCssCodeTabs"
-    >
-      <tng-switch [checked]="true" [disabled]="true">Locked on (disabled)</tng-switch>
-    </ng-template>
-
-    <ng-template
-      appDocsExampleVariant
-      value="tailwind-css"
-      label="Tailwind CSS"
-      panelTitle="Tailwind disabled switch"
-      [codeTabs]="disabledTailwindCodeTabs"
-    >
-      <tng-switch [checked]="true" [disabled]="true">Locked on (disabled)</tng-switch>
-    </ng-template>
-  </app-docs-example-tabs-section>
+          <section class="grid w-full max-w-[32rem] gap-3 rounded-2xl border border-slate-300 bg-white p-4 text-slate-500 shadow-sm [color-scheme:light]">
+            <tng-switch
+              class="[--tng-semantic-accent-brand:#2563eb] [--tng-semantic-border-subtle:#cbd5e1] [--tng-semantic-focus-ring:rgba(37,99,235,0.25)] [--tng-semantic-foreground-primary:#64748b]"
+              [checked]="true"
+              [disabled]="true"
+            >
+              Locked after compliance review
+            </tng-switch>
+          </section>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
+  </div>
 </article>
