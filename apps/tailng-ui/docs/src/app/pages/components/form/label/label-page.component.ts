@@ -11,14 +11,13 @@ import {
 import { TngTab, TngTabList } from '@tailng-ui/primitives';
 import { filter, map, startWith } from 'rxjs/operators';
 
-type LabelDocSectionId = 'api' | 'examples' | 'overview' | 'ownable-install' | 'styling';
+type LabelDocSectionId = 'api' | 'examples' | 'overview' | 'styling';
 
 const labelDocSectionIds: readonly LabelDocSectionId[] = [
   'overview',
   'api',
   'styling',
   'examples',
-  'ownable-install',
 ] as const;
 
 const defaultLabelDocSection: LabelDocSectionId = 'overview';

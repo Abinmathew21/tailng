@@ -1,82 +1,104 @@
-<article class="label-api">
-  <h2 class="label-api-title">API reference</h2>
-  <p class="label-api-lead">
-    <code>label[tngLabel]</code> exposes a compact headless contract while
-    <code>&lt;tng-label&gt;</code> adds the default wrapper markup and required marker.
-  </p>
+<article class="label-api docs-section-page">
+  <div class="docs-section-page-main">
+    <section id="primitive-label-tnglabel" class="docs-section-anchor label-api-block">
+      <h2 class="label-api-title">API reference</h2>
+      <p class="label-api-lead">
+        <code>&lt;tng-label&gt;</code> is a styled wrapper around the <code>tngLabel</code> primitive.
+        Most component consumers work with the wrapper, but it helps to understand what the primitive forwards.
+      </p>
+      <h3>Primitive: <code>label[tngLabel]</code></h3>
+      <tng-code-block
+        [code]="primitiveAttachmentCode"
+        adapter="shiki"
+        language="html"
+        title="Primitive attachment"
+        [theme]="codeBlockTheme()"
+        [lineNumbers]="false"
+        [wrap]="true"
+        [sanitizeHtml]="false"
+      ></tng-code-block>
+      <div class="label-api-table-wrap">
+        <table class="label-api-table">
+          <thead>
+            <tr>
+              <th scope="col">Input</th>
+              <th scope="col">Type</th>
+              <th scope="col">Default</th>
+              <th scope="col">Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>disabled</code></td>
+              <td><code>boolean</code></td>
+              <td><code>false</code></td>
+              <td>Adds <code>data-disabled</code> for reduced-emphasis label styling.</td>
+            </tr>
+            <tr>
+              <td><code>required</code></td>
+              <td><code>boolean</code></td>
+              <td><code>false</code></td>
+              <td>Adds <code>data-required</code>; keep required semantics on the control itself.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
 
-  <section class="label-api-block">
-    <h3>Primitive: <code>label[tngLabel]</code></h3>
-    <div class="label-api-table-wrap">
-      <table class="label-api-table">
-        <thead>
-          <tr>
-            <th>Input</th>
-            <th>Type</th>
-            <th>Default</th>
-            <th>Notes</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><code>disabled</code></td>
-            <td><code>boolean</code></td>
-            <td><code>false</code></td>
-            <td>Adds <code>data-disabled</code> hook for styling.</td>
-          </tr>
-          <tr>
-            <td><code>required</code></td>
-            <td><code>boolean</code></td>
-            <td><code>false</code></td>
-            <td>Sets <code>data-required</code>; keep <code>aria-required</code> on the control.</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
+    <section id="component-and-lt-tng-label-and-gt" class="docs-section-anchor label-api-block">
+      <h3>Component: <code>&lt;tng-label&gt;</code></h3>
+      <tng-code-block
+        [code]="componentAttachmentCode"
+        adapter="shiki"
+        language="html"
+        title="Component attachment"
+        [theme]="codeBlockTheme()"
+        [lineNumbers]="false"
+        [wrap]="true"
+        [sanitizeHtml]="false"
+      ></tng-code-block>
+      <div class="label-api-table-wrap">
+        <table class="label-api-table">
+          <thead>
+            <tr>
+              <th scope="col">Input</th>
+              <th scope="col">Type</th>
+              <th scope="col">Default</th>
+              <th scope="col">Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>forId</code></td>
+              <td><code>string</code></td>
+              <td><code>''</code></td>
+              <td>Maps to native <code>for</code> when the trimmed value is non-empty.</td>
+            </tr>
+            <tr>
+              <td><code>required</code></td>
+              <td><code>boolean</code></td>
+              <td><code>false</code></td>
+              <td>Shows the built-in asterisk and forwards <code>data-required</code>.</td>
+            </tr>
+            <tr>
+              <td><code>disabled</code></td>
+              <td><code>boolean</code></td>
+              <td><code>false</code></td>
+              <td>Forwards <code>data-disabled</code> to the internal label for muted styling.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
 
-  <section class="label-api-block">
-    <h3>Component: <code>&lt;tng-label&gt;</code></h3>
-    <div class="label-api-table-wrap">
-      <table class="label-api-table">
-        <thead>
-          <tr>
-            <th>Input</th>
-            <th>Type</th>
-            <th>Default</th>
-            <th>Notes</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><code>forId</code></td>
-            <td><code>string</code></td>
-            <td><code>''</code></td>
-            <td>Maps to native <code>for</code> when trimmed value is non-empty.</td>
-          </tr>
-          <tr>
-            <td><code>required</code></td>
-            <td><code>boolean</code></td>
-            <td><code>false</code></td>
-            <td>Shows visual asterisk and forwards <code>data-required</code>.</td>
-          </tr>
-          <tr>
-            <td><code>disabled</code></td>
-            <td><code>boolean</code></td>
-            <td><code>false</code></td>
-            <td>Forwards <code>data-disabled</code> state hook to the inner label.</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-
-  <section class="label-api-block">
-    <h3>State attributes</h3>
-    <ul class="label-api-list">
-      <li><code>data-slot="label"</code> is always present.</li>
-      <li><code>data-required</code> appears when required is enabled.</li>
-      <li><code>data-disabled</code> appears when disabled is enabled.</li>
-    </ul>
-  </section>
+    <section id="state-attributes" class="docs-section-anchor label-api-block">
+      <h3>State attributes</h3>
+      <ul class="label-api-list">
+        <li><code>data-slot="label"</code> is always emitted on the internal label element.</li>
+        <li><code>data-required</code> appears when the label should render required emphasis.</li>
+        <li><code>data-disabled</code> appears when the label should render reduced emphasis.</li>
+        <li>The component does not disable or require the control for you; apply those semantics to the actual input, checkbox, radio, or textarea.</li>
+      </ul>
+    </section>
+  </div>
 </article>

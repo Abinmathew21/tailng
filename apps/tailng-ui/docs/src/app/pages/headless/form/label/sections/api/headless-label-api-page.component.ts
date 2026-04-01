@@ -7,12 +7,12 @@ import {
 } from '../../../../../../shared/util';
 
 @Component({
-  selector: 'app-label-api-page',
+  selector: 'app-headless-label-api-page',
   imports: [TngCodeBlockComponent],
-  templateUrl: './label-api-page.component.html',
-  styleUrl: './label-api-page.component.css',
+  templateUrl: './headless-label-api-page.component.html',
+  styleUrl: './headless-label-api-page.component.css',
 })
-export class LabelApiPageComponent implements OnDestroy {
+export class HeadlessLabelApiPageComponent implements OnDestroy {
   private readonly documentRef = inject(DOCUMENT);
 
   public readonly codeBlockTheme = signal<'github-dark' | 'github-light'>(
@@ -23,14 +23,12 @@ export class LabelApiPageComponent implements OnDestroy {
     this.codeBlockTheme,
   );
 
-  protected readonly primitiveAttachmentCode = [
-    '<label tngLabel for="release-owner">Release owner</label>',
-    '',
-  ].join('\n');
-
-  protected readonly componentAttachmentCode = [
-    '<tng-label forId="release-owner" [required]="true">Release owner</tng-label>',
-    '<input id="release-owner" aria-required="true" />',
+  protected readonly attachmentCode = ['<label tngLabel for="release-owner">Release owner</label>', ''].join('\n');
+  protected readonly wrappedUsageCode = [
+    '<label tngLabel>',
+    '  <input type="checkbox" />',
+    '  Notify the release channel',
+    '</label>',
     '',
   ].join('\n');
 

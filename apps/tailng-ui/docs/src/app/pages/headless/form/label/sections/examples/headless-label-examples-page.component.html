@@ -1,0 +1,173 @@
+<article class="docs-section-page headless-label-examples">
+  <div class="docs-section-page-main">
+    <section id="explicit-association" class="docs-section-anchor headless-label-examples-block">
+      <app-docs-example-tabs-section
+        heading="Explicit association"
+        description="Use for/id when the label and field are siblings in a stacked form layout."
+        ariaLabel="Headless label explicit association examples"
+        tabListAriaLabel="Headless label explicit association variants"
+        defaultValue="plain-css"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <ng-template
+          appDocsExampleVariant
+          value="plain-css"
+          label="Plain-CSS"
+          panelTitle="Explicit association (Plain-CSS)"
+          [codeTabs]="explicitPlainCodeTabs"
+          [stackblitzUrl]="stackblitzVanillaUrl"
+        >
+          <section class="headless-label-example-card">
+            <label tngLabel [required]="true" for="headless-label-explicit-live-email">
+              Work email
+            </label>
+            <input
+              id="headless-label-explicit-live-email"
+              class="headless-label-example-card__input"
+              type="email"
+              placeholder="ops@tailng.dev"
+              aria-required="true"
+            />
+          </section>
+        </ng-template>
+
+        <ng-template
+          appDocsExampleVariant
+          value="tailwind-css"
+          label="Tailwind CSS"
+          panelTitle="Explicit association (Tailwind CSS)"
+          [codeTabs]="explicitTailwindCodeTabs"
+          [stackblitzUrl]="stackblitzTailwindUrl"
+        >
+          <section class="grid w-full max-w-[28rem] gap-2 rounded-2xl border border-slate-300 bg-white p-4 text-slate-900 shadow-sm [color-scheme:light]">
+            <label
+              tngLabel
+              [required]="true"
+              for="headless-label-explicit-live-tailwind-email"
+              class="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-900 [&[data-required]]:after:text-rose-600 [&[data-required]]:after:content-['*']"
+            >
+              Work email
+            </label>
+            <input
+              id="headless-label-explicit-live-tailwind-email"
+              type="email"
+              placeholder="ops@tailng.dev"
+              aria-required="true"
+              class="min-h-11 rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+            />
+          </section>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
+
+    <section id="wrapped-control" class="docs-section-anchor headless-label-examples-block">
+      <app-docs-example-tabs-section
+        heading="Wrapped control"
+        description="Wrap compact checkbox rows when you want the label copy and control to move together."
+        ariaLabel="Headless label wrapped control examples"
+        tabListAriaLabel="Headless label wrapped control variants"
+        defaultValue="plain-css"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <ng-template
+          appDocsExampleVariant
+          value="plain-css"
+          label="Plain-CSS"
+          panelTitle="Wrapped checkbox row (Plain-CSS)"
+          [codeTabs]="wrappedPlainCodeTabs"
+          [stackblitzUrl]="stackblitzVanillaUrl"
+        >
+          <label tngLabel class="headless-label-choice-row">
+            <input class="headless-label-choice-row__checkbox" type="checkbox" />
+            <span>Send the release announcement to Slack</span>
+          </label>
+        </ng-template>
+
+        <ng-template
+          appDocsExampleVariant
+          value="tailwind-css"
+          label="Tailwind CSS"
+          panelTitle="Wrapped checkbox row (Tailwind CSS)"
+          [codeTabs]="wrappedTailwindCodeTabs"
+          [stackblitzUrl]="stackblitzTailwindUrl"
+        >
+          <label tngLabel class="inline-flex w-full max-w-[28rem] items-center gap-3 rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm font-medium text-slate-800 shadow-sm [color-scheme:light]">
+            <input type="checkbox" class="h-4 w-4 accent-blue-600" />
+            <span>Send the release announcement to Slack</span>
+          </label>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
+
+    <section id="disabled-and-required" class="docs-section-anchor headless-label-examples-block">
+      <app-docs-example-tabs-section
+        heading="Disabled and required"
+        description="Use data-required and data-disabled to style state while keeping semantics on the control itself."
+        ariaLabel="Headless label state examples"
+        tabListAriaLabel="Headless label state variants"
+        defaultValue="plain-css"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <ng-template
+          appDocsExampleVariant
+          value="plain-css"
+          label="Plain-CSS"
+          panelTitle="Required and disabled labels (Plain-CSS)"
+          [codeTabs]="statePlainCodeTabs"
+          [stackblitzUrl]="stackblitzVanillaUrl"
+        >
+          <section class="headless-label-state-card">
+            <label tngLabel [required]="true" for="headless-label-state-live-owner">
+              Release owner
+            </label>
+            <input id="headless-label-state-live-owner" class="headless-label-state-card__input" type="text" aria-required="true" />
+            <label tngLabel [disabled]="true" for="headless-label-state-live-archive">
+              Archived environment
+            </label>
+            <input id="headless-label-state-live-archive" class="headless-label-state-card__input" type="text" disabled />
+          </section>
+        </ng-template>
+
+        <ng-template
+          appDocsExampleVariant
+          value="tailwind-css"
+          label="Tailwind CSS"
+          panelTitle="Required and disabled labels (Tailwind CSS)"
+          [codeTabs]="stateTailwindCodeTabs"
+          [stackblitzUrl]="stackblitzTailwindUrl"
+        >
+          <section class="grid w-full max-w-[28rem] gap-2 rounded-2xl border border-slate-300 bg-white p-4 text-slate-900 shadow-sm [color-scheme:light]">
+            <label
+              tngLabel
+              [required]="true"
+              for="headless-label-state-live-tailwind-owner"
+              class="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-900 [&[data-required]]:after:text-rose-600 [&[data-required]]:after:content-['*']"
+            >
+              Release owner
+            </label>
+            <input
+              id="headless-label-state-live-tailwind-owner"
+              type="text"
+              aria-required="true"
+              class="min-h-11 rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+            />
+            <label
+              tngLabel
+              [disabled]="true"
+              for="headless-label-state-live-tailwind-archive"
+              class="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-500"
+            >
+              Archived environment
+            </label>
+            <input
+              id="headless-label-state-live-tailwind-archive"
+              type="text"
+              disabled
+              class="min-h-11 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-500"
+            />
+          </section>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
+  </div>
+</article>

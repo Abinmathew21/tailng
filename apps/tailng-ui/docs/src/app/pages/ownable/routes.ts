@@ -27,6 +27,7 @@ const checkboxItem = requireOwnableItem(OWNABLE_FORM_GROUP, 'checkbox');
 const radioItem = requireOwnableItem(OWNABLE_FORM_GROUP, 'radio');
 const inputItem = requireOwnableItem(OWNABLE_FORM_GROUP, 'input');
 const textareaItem = requireOwnableItem(OWNABLE_FORM_GROUP, 'textarea');
+const labelItem = requireOwnableItem(OWNABLE_FORM_GROUP, 'label');
 const cliItem = requireOwnableItem(OWNABLE_TOOLING_GROUP, 'cli');
 const registryItem = requireOwnableItem(OWNABLE_TOOLING_GROUP, 'registry');
 const workflowItem = requireOwnableItem(OWNABLE_RELEASE_GROUP, 'workflow');
@@ -88,6 +89,14 @@ export const OWNABLE_ROUTES: Routes = [
         loadComponent: () =>
           import('./form/textarea/ownable-textarea-page.component').then(
             (m) => m.OwnableTextareaPageComponent,
+          ),
+      },
+      {
+        path: 'form/label',
+        data: toOwnableDocsRouteData(OWNABLE_FORM_GROUP, labelItem),
+        loadComponent: () =>
+          import('./form/label/ownable-label-page.component').then(
+            (m) => m.OwnableLabelPageComponent,
           ),
       },
       {

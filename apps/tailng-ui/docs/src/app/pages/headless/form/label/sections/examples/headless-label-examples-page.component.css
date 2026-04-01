@@ -1,0 +1,80 @@
+:host {
+  display: block;
+}
+
+.headless-label-examples-block {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.headless-label-example-card,
+.headless-label-state-card {
+  display: grid;
+  gap: 0.6rem;
+  inline-size: min(100%, 28rem);
+  margin-inline: auto;
+  padding: 1rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 1rem;
+  background: #ffffff;
+  color: #0f172a;
+  color-scheme: light;
+}
+
+.headless-label-example-card [data-slot='label'],
+.headless-label-choice-row,
+.headless-label-state-card [data-slot='label'] {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: #0f172a;
+}
+
+.headless-label-example-card [data-slot='label'],
+.headless-label-state-card [data-slot='label'] {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.headless-label-choice-row {
+  gap: 0.7rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  inline-size: min(100%, 28rem);
+  margin-inline: auto;
+  padding: 1rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 1rem;
+  background: #ffffff;
+  color-scheme: light;
+}
+
+.headless-label-example-card [data-slot='label'][data-required]::after,
+.headless-label-state-card [data-slot='label'][data-required]::after {
+  content: '*';
+  color: #dc2626;
+}
+
+.headless-label-state-card [data-slot='label'][data-disabled] {
+  color: #64748b;
+}
+
+.headless-label-example-card__input,
+.headless-label-state-card__input {
+  background: #ffffff;
+  color: #0f172a;
+  min-block-size: 2.75rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.8rem;
+  padding: 0.65rem 0.8rem;
+  font: inherit;
+}
+
+.headless-label-example-card__input::placeholder,
+.headless-label-state-card__input::placeholder {
+  color: #94a3b8;
+}
+
+.headless-label-choice-row__checkbox {
+  accent-color: #2563eb;
+}

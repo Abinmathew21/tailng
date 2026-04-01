@@ -1,0 +1,137 @@
+<article class="docs-section-page headless-label-styling">
+  <div class="docs-section-page-main">
+    <section id="css-contracts" class="docs-section-anchor headless-label-styling-block">
+      <h2 class="headless-label-styling-title">Styling contract</h2>
+      <p class="headless-label-styling-lead">
+        The headless label contract is intentionally small. Style the native label itself, then use
+        the data attributes to attach required or disabled treatment without adding extra wrapper logic.
+      </p>
+      <div class="headless-label-styling-table-wrap">
+        <table class="headless-label-styling-table">
+          <thead>
+            <tr>
+              <th scope="col">Surface</th>
+              <th scope="col">Why it exists</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>label[tngLabel][data-slot="label"]</code></td>
+              <td>Base selector for layout, typography, gap, and field spacing.</td>
+            </tr>
+            <tr>
+              <td><code>[data-required]</code></td>
+              <td>Append or recolor a required marker in CSS without owning extra markup.</td>
+            </tr>
+            <tr>
+              <td><code>[data-disabled]</code></td>
+              <td>Reduce emphasis on labels that accompany disabled or archived controls.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="state-selectors" class="docs-section-anchor headless-label-styling-block">
+      <h3>State selectors</h3>
+      <tng-code-block
+        [code]="stateSelectorSnippet"
+        adapter="shiki"
+        language="css"
+        title="label.state.css"
+        [theme]="codeBlockTheme()"
+        [lineNumbers]="false"
+        [wrap]="true"
+        [sanitizeHtml]="false"
+      ></tng-code-block>
+      <tng-code-block
+        [code]="shellSnippet"
+        adapter="shiki"
+        language="css"
+        title="field-shell.css"
+        [theme]="codeBlockTheme()"
+        [lineNumbers]="false"
+        [wrap]="true"
+        [sanitizeHtml]="false"
+      ></tng-code-block>
+    </section>
+
+    <section id="example-shells" class="docs-section-anchor headless-label-styling-block">
+      <app-docs-example-tabs-section
+        heading="Example shells"
+        description="The label stays native while your surrounding field shell carries the visual language."
+        ariaLabel="Headless label styling examples"
+        tabListAriaLabel="Headless label styling variants"
+        defaultValue="plain-css"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <ng-template
+          appDocsExampleVariant
+          value="plain-css"
+          label="Plain-CSS"
+          panelTitle="Field shell label styling (Plain-CSS)"
+          [codeTabs]="plainCssCodeTabs"
+          [stackblitzUrl]="stackblitzVanillaUrl"
+        >
+          <section class="headless-label-style-card">
+            <div class="headless-label-style-card__field">
+              <label tngLabel [required]="true" for="headless-label-style-live-owner">
+                Release owner
+              </label>
+              <input id="headless-label-style-live-owner" class="headless-label-style-card__input" type="text" />
+            </div>
+            <div class="headless-label-style-card__field">
+              <label tngLabel [disabled]="true" for="headless-label-style-live-archive">
+                Archived environment
+              </label>
+              <input id="headless-label-style-live-archive" class="headless-label-style-card__input" type="text" disabled />
+            </div>
+          </section>
+        </ng-template>
+
+        <ng-template
+          appDocsExampleVariant
+          value="tailwind-css"
+          label="Tailwind CSS"
+          panelTitle="Field shell label styling (Tailwind CSS)"
+          [codeTabs]="tailwindCodeTabs"
+          [stackblitzUrl]="stackblitzTailwindUrl"
+        >
+          <section class="grid w-full max-w-[34rem] gap-4 rounded-2xl border border-slate-300 bg-white p-4 text-slate-900 shadow-sm [color-scheme:light]">
+            <div class="grid gap-2">
+              <label
+                tngLabel
+                [required]="true"
+                for="headless-label-style-live-tailwind-owner"
+                class="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-900 [&[data-required]]:after:text-rose-600 [&[data-required]]:after:content-['*']"
+              >
+                Release owner
+              </label>
+              <input
+                id="headless-label-style-live-tailwind-owner"
+                type="text"
+                class="min-h-11 rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+              />
+            </div>
+            <div class="grid gap-2">
+              <label
+                tngLabel
+                [disabled]="true"
+                for="headless-label-style-live-tailwind-archive"
+                class="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-500"
+              >
+                Archived environment
+              </label>
+              <input
+                id="headless-label-style-live-tailwind-archive"
+                type="text"
+                disabled
+                class="min-h-11 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-500"
+              />
+            </div>
+          </section>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
+  </div>
+</article>

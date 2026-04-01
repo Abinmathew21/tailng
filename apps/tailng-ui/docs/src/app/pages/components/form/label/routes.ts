@@ -48,21 +48,8 @@ export const COMPONENTS_FORM_LABEL_ROUTES: Routes = [
       },
       {
         path: 'ownable-install',
-        data: {
-          registrySlug: 'label',
-          usageCode: [
-            '<tng-label forId="email" [required]="true">Email address</tng-label>',
-            '<input id="email" tngInput type="email" aria-required="true" />',
-            '',
-            '<label tngLabel for="terms">Accept terms</label>',
-            '<input id="terms" tngCheckbox type="checkbox" />',
-            '',
-          ].join('\n'),
-        },
-        loadComponent: () =>
-          import('../../../../shared/ownable-install-section/docs-ownable-install-section.component').then(
-            (module) => module.DocsOwnableInstallSectionComponent,
-          ),
+        pathMatch: 'full',
+        redirectTo: '/ownable/form/label',
       },
       {
         path: '**',

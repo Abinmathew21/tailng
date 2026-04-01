@@ -72,6 +72,13 @@ export const HEADLESS_FORM_GROUP: HeadlessDocsGroup = {
         'Multiline text-entry behavior, resize controls, and grouped textarea composition contracts.',
     },
     {
+      id: 'label',
+      slug: 'label',
+      title: 'Label',
+      description:
+        'Native label semantics with required and disabled styling hooks for explicit or wrapped controls.',
+    },
+    {
       id: 'checkbox',
       slug: 'checkbox',
       title: 'Checkbox',

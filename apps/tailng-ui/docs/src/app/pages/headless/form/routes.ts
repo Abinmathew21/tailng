@@ -19,6 +19,10 @@ export const HEADLESS_FORM_ROUTES: Routes = [
       import('./textarea/routes').then((m) => m.HEADLESS_FORM_TEXTAREA_ROUTES),
   },
   {
+    path: 'label',
+    loadChildren: () => import('./label/routes').then((m) => m.HEADLESS_FORM_LABEL_ROUTES),
+  },
+  {
     path: 'checkbox',
     loadChildren: () =>
       import('./checkbox/routes').then((m) => m.HEADLESS_FORM_CHECKBOX_ROUTES),
@@ -32,6 +36,7 @@ export const HEADLESS_FORM_ROUTES: Routes = [
       (item) =>
         item.slug !== 'input' &&
         item.slug !== 'textarea' &&
+        item.slug !== 'label' &&
         item.slug !== 'checkbox' &&
         item.slug !== 'radio',
     )

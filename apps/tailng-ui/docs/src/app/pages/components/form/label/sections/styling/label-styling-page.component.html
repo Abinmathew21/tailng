@@ -1,30 +1,121 @@
-<article class="label-styling">
-  <h2 class="label-styling-title">Styling contract</h2>
-  <p class="label-styling-lead">
-    Label keeps styling intentionally small and exposes predictable data attributes for your design
-    system.
-  </p>
+<article class="label-styling docs-section-page">
+  <div class="docs-section-page-main">
+    <section id="state-hooks" class="docs-section-anchor label-styling-block">
+      <h2 class="label-styling-title">Styling contract</h2>
+      <p class="label-styling-lead">
+        The component-safe styling surface is the <code>&lt;tng-label&gt;</code> host plus the semantic tokens
+        consumed by the internal label. Use wrapper classes for field layout and host-level custom properties
+        for per-instance tone changes.
+      </p>
+      <div class="label-styling-table-wrap">
+        <table class="label-styling-table">
+          <thead>
+            <tr>
+              <th scope="col">Surface</th>
+              <th scope="col">Use from consumer CSS?</th>
+              <th scope="col">Purpose</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>tng-label</code> host</td>
+              <td>Yes</td>
+              <td>Per-instance token overrides and layout placement.</td>
+            </tr>
+            <tr>
+              <td><code>--tng-semantic-foreground-primary</code></td>
+              <td>Yes</td>
+              <td>Label text color.</td>
+            </tr>
+            <tr>
+              <td><code>--tng-semantic-accent-danger</code></td>
+              <td>Yes</td>
+              <td>Required marker color.</td>
+            </tr>
+            <tr>
+              <td><code>.tng-label</code>, <code>.tng-label-required</code></td>
+              <td>No, not from component-scoped CSS</td>
+              <td>Internal implementation detail. Use headless or ownable if you need direct selector ownership.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
 
-  <section class="label-styling-block">
-    <h3>State hooks</h3>
-    <ul class="label-styling-list">
-      <li><code>data-slot="label"</code> base hook for typography and spacing.</li>
-      <li><code>data-required</code> hook when required indicator is active.</li>
-      <li><code>data-disabled</code> hook for reduced emphasis states.</li>
-    </ul>
-  </section>
+    <section id="suggested-css-baseline" class="docs-section-anchor label-styling-block">
+      <app-docs-example-tabs-section
+        heading="Suggested CSS baseline"
+        description="Keep the same label API and swap only the surrounding styling layer."
+        ariaLabel="Label styling examples"
+        tabListAriaLabel="Label styling variants"
+        defaultValue="plain-css"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <ng-template
+          appDocsExampleVariant
+          value="plain-css"
+          label="Plain-CSS"
+          panelTitle="Label styling (Plain-CSS)"
+          [codeTabs]="plainCssCodeTabs"
+          [stackblitzUrl]="stackblitzVanillaUrl"
+        >
+          <section class="doc-cmp-label-styling-card">
+            <div class="doc-cmp-label-styling-card__field">
+              <tng-label class="doc-cmp-label-styling-host" forId="doc-cmp-label-styling-live-owner" [required]="true">
+                Release owner
+              </tng-label>
+              <input id="doc-cmp-label-styling-live-owner" class="doc-cmp-label-styling-card__input" type="text" />
+            </div>
+            <div class="doc-cmp-label-styling-card__field">
+              <tng-label class="doc-cmp-label-styling-host doc-cmp-label-styling-host--muted" forId="doc-cmp-label-styling-live-archive" [disabled]="true">
+                Archived environment
+              </tng-label>
+              <input id="doc-cmp-label-styling-live-archive" class="doc-cmp-label-styling-card__input" type="text" disabled />
+            </div>
+          </section>
+        </ng-template>
 
-  <section class="label-styling-block">
-    <h3>Suggested CSS baseline</h3>
-    <tng-code-block
-      [code]="stylingSnippet"
-      adapter="shiki"
-      language="css"
-      title="label.tokens.css"
-      [theme]="codeBlockTheme()"
-      [lineNumbers]="false"
-      [wrap]="true"
-      [sanitizeHtml]="false"
-    ></tng-code-block>
-  </section>
+        <ng-template
+          appDocsExampleVariant
+          value="tailwind-css"
+          label="Tailwind CSS"
+          panelTitle="Label styling (Tailwind CSS)"
+          [codeTabs]="tailwindCodeTabs"
+          [stackblitzUrl]="stackblitzTailwindUrl"
+        >
+          <section class="grid w-full max-w-[34rem] gap-4 rounded-2xl border border-slate-300 bg-white p-4 text-slate-900 shadow-sm [--tng-semantic-accent-danger:#dc2626] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-foreground-secondary:#64748b] [color-scheme:light]">
+            <div class="grid gap-2">
+              <tng-label
+                class="block [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-accent-danger:#dc2626]"
+                forId="doc-cmp-label-styling-live-tailwind-owner"
+                [required]="true"
+              >
+                Release owner
+              </tng-label>
+              <input
+                id="doc-cmp-label-styling-live-tailwind-owner"
+                type="text"
+                class="min-h-11 rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+              />
+            </div>
+            <div class="grid gap-2">
+              <tng-label
+                class="block [--tng-semantic-foreground-primary:#64748b]"
+                forId="doc-cmp-label-styling-live-tailwind-archive"
+                [disabled]="true"
+              >
+                Archived environment
+              </tng-label>
+              <input
+                id="doc-cmp-label-styling-live-tailwind-archive"
+                type="text"
+                disabled
+                class="min-h-11 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-500"
+              />
+            </div>
+          </section>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
+  </div>
 </article>

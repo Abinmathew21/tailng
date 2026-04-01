@@ -1,0 +1,138 @@
+<article class="docs-section-page headless-label-overview">
+  <div class="docs-section-page-main">
+    <section id="what-you-get" class="docs-section-anchor headless-label-overview-block">
+      <h2 class="headless-label-overview-title">Label overview</h2>
+      <p class="headless-label-overview-lead">
+        <code>label[tngLabel]</code> keeps native label semantics while adding predictable data
+        hooks for required and disabled styling. It works equally well with explicit
+        <code>for/id</code> wiring or wrapped controls.
+      </p>
+      <ul class="headless-label-overview-list">
+        <li>Native click-to-focus behavior stays on the browser label element.</li>
+        <li><code>data-slot</code>, <code>data-required</code>, and <code>data-disabled</code> are emitted for styling.</li>
+        <li>You keep full ownership of surrounding field layout, helper copy, and required messaging.</li>
+      </ul>
+    </section>
+
+    <section id="installation" class="docs-section-anchor headless-label-overview-block">
+      <h3>Installation</h3>
+      <p>Import the headless directive when you want to own both markup and styling.</p>
+      <tng-code-block
+        [code]="primitiveImportCode"
+        adapter="shiki"
+        language="ts"
+        title="Primitive import"
+        [theme]="codeBlockTheme()"
+        [lineNumbers]="false"
+        [wrap]="true"
+        [sanitizeHtml]="false"
+      ></tng-code-block>
+    </section>
+
+    <section id="basic-usage" class="docs-section-anchor headless-label-overview-block">
+      <h3>Basic usage</h3>
+      <p>Prefer explicit <code>for/id</code> for form fields and wrapped labels for compact checkbox rows.</p>
+      <tng-code-block
+        [code]="attachmentCode"
+        adapter="shiki"
+        language="html"
+        title="Explicit association"
+        [theme]="codeBlockTheme()"
+        [lineNumbers]="false"
+        [wrap]="true"
+        [sanitizeHtml]="false"
+      ></tng-code-block>
+      <tng-code-block
+        [code]="groupedUsageCode"
+        adapter="shiki"
+        language="html"
+        title="Wrapped checkbox row"
+        [theme]="codeBlockTheme()"
+        [lineNumbers]="false"
+        [wrap]="true"
+        [sanitizeHtml]="false"
+      ></tng-code-block>
+    </section>
+
+    <section id="style-variants" class="docs-section-anchor headless-label-overview-block">
+      <app-docs-example-tabs-section
+        heading="Style variants"
+        description="The label contract stays the same while your surrounding shell changes between plain CSS and Tailwind utility styling."
+        ariaLabel="Headless label style variants"
+        tabListAriaLabel="Headless label example variants"
+        defaultValue="plain-css"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <ng-template
+          appDocsExampleVariant
+          value="plain-css"
+          label="Plain-CSS"
+          panelTitle="Headless label stack (Plain-CSS)"
+          [codeTabs]="plainCssCodeTabs"
+          [stackblitzUrl]="stackblitzVanillaUrl"
+        >
+          <section class="headless-label-overview-card">
+            <div class="headless-label-overview-card__field">
+              <label tngLabel [required]="true" for="headless-label-live-plain-workspace">
+                Workspace name
+              </label>
+              <input
+                id="headless-label-live-plain-workspace"
+                class="headless-label-overview-card__input"
+                type="text"
+                placeholder="North Star"
+                aria-required="true"
+              />
+            </div>
+            <label tngLabel class="headless-label-overview-card__consent">
+              <input class="headless-label-overview-card__checkbox" type="checkbox" />
+              <span>Send the release announcement to Slack</span>
+            </label>
+          </section>
+        </ng-template>
+
+        <ng-template
+          appDocsExampleVariant
+          value="tailwind-css"
+          label="Tailwind CSS"
+          panelTitle="Headless label stack (Tailwind CSS)"
+          [codeTabs]="tailwindCodeTabs"
+          [stackblitzUrl]="stackblitzTailwindUrl"
+        >
+          <section class="grid w-full max-w-[34rem] gap-4 rounded-2xl border border-slate-300 bg-white p-4 text-slate-900 shadow-sm [color-scheme:light]">
+            <div class="grid gap-2">
+              <label
+                tngLabel
+                [required]="true"
+                for="headless-label-live-tailwind-workspace"
+                class="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-900 [&[data-required]]:after:text-rose-600 [&[data-required]]:after:content-['*']"
+              >
+                Workspace name
+              </label>
+              <input
+                id="headless-label-live-tailwind-workspace"
+                type="text"
+                placeholder="North Star"
+                aria-required="true"
+                class="min-h-11 rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+              />
+            </div>
+            <label tngLabel class="inline-flex items-center gap-3 text-sm font-medium text-slate-700">
+              <input type="checkbox" class="h-4 w-4 accent-blue-600" />
+              <span>Send the release announcement to Slack</span>
+            </label>
+          </section>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
+
+    <section id="accessibility-baseline" class="docs-section-anchor headless-label-overview-block">
+      <h3>Accessibility baseline</h3>
+      <ul class="headless-label-overview-list">
+        <li>Use <code>for/id</code> when the label and control are separate siblings.</li>
+        <li>If a label is marked required, keep <code>aria-required</code> or native <code>required</code> on the control.</li>
+        <li>Use <code>disabled</code> on the control itself; <code>data-disabled</code> on the label is only a visual hook.</li>
+      </ul>
+    </section>
+  </div>
+</article>

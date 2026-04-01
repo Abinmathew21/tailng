@@ -67,20 +67,6 @@ export const OWNABLE_FORM_GROUP: OwnableDocsGroup = {
   subtitle: 'Installable form components',
   items: [
     {
-      id: 'checkbox',
-      slug: 'checkbox',
-      title: 'Checkbox',
-      description:
-        'Ownable checkbox install with local wrapper source, form integration, and generated file structure.',
-    },
-    {
-      id: 'radio',
-      slug: 'radio',
-      title: 'Radio',
-      description:
-        'Ownable radio install with local wrapper source, group semantics, and generated file structure.',
-    },
-    {
       id: 'input',
       slug: 'input',
       title: 'Input',
@@ -93,6 +79,27 @@ export const OWNABLE_FORM_GROUP: OwnableDocsGroup = {
       title: 'Textarea',
       description:
         'Ownable textarea install with local wrapper source, import metadata, and generated file structure.',
+    },
+    {
+      id: 'label',
+      slug: 'label',
+      title: 'Label',
+      description:
+        'Ownable label install with local wrapper source, semantic defaults, and generated file structure.',
+    },
+    {
+      id: 'checkbox',
+      slug: 'checkbox',
+      title: 'Checkbox',
+      description:
+        'Ownable checkbox install with local wrapper source, form integration, and generated file structure.',
+    },
+    {
+      id: 'radio',
+      slug: 'radio',
+      title: 'Radio',
+      description:
+        'Ownable radio install with local wrapper source, group semantics, and generated file structure.',
     },
   ],
 };

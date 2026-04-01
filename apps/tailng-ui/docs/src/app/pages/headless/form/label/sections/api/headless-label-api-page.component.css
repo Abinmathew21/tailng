@@ -1,0 +1,46 @@
+:host {
+  display: block;
+}
+
+.headless-label-api-block {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.headless-label-api-title,
+.headless-label-api-lead {
+  margin: 0;
+}
+
+.headless-label-api-table-wrap {
+  overflow-x: auto;
+}
+
+.headless-label-api-table {
+  border-collapse: collapse;
+  inline-size: 100%;
+  min-inline-size: 40rem;
+}
+
+.headless-label-api-table th,
+.headless-label-api-table td {
+  border-bottom: 1px solid var(--tng-semantic-border-subtle);
+  padding: 0.7rem 0.8rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.headless-label-api-table th {
+  color: var(--tng-semantic-foreground-primary);
+}
+
+.headless-label-api-table td {
+  color: var(--tng-semantic-foreground-secondary);
+}
+
+.headless-label-api-list {
+  display: grid;
+  gap: 0.45rem;
+  margin: 0;
+  padding-left: 1.1rem;
+}

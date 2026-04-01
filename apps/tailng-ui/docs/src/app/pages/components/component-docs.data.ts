@@ -79,6 +79,12 @@ export const COMPONENTS_FORM_GROUP: ComponentsDocsGroup = {
         'Multiline text input patterns with input-first primitives and styled textarea wrappers.',
     },
     {
+      id: 'label',
+      slug: 'label',
+      title: 'Label',
+      description: 'Accessible label semantics for explicit and wrapped control association.',
+    },
+    {
       id: 'checkbox',
       slug: 'checkbox',
       title: 'Checkbox',
@@ -157,12 +163,6 @@ export const COMPONENTS_FORM_GROUP: ComponentsDocsGroup = {
       slug: 'input-otp',
       title: 'Input OTP',
       description: 'Segmented one-time-password input with keyboard, paste, and form integration.',
-    },
-    {
-      id: 'label',
-      slug: 'label',
-      title: 'Label',
-      description: 'Accessible label semantics for explicit and wrapped control association.',
     },
     {
       id: 'switch',

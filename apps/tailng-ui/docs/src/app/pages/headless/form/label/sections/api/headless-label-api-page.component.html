@@ -1,0 +1,99 @@
+<article class="docs-section-page headless-label-api">
+  <div class="docs-section-page-main">
+    <section id="tng-label" class="docs-section-anchor headless-label-api-block">
+      <h2 class="headless-label-api-title">API reference</h2>
+      <p class="headless-label-api-lead">
+        <code>label[tngLabel]</code> is intentionally small: it leaves native label behavior intact
+        and only adds state hooks for your styling layer.
+      </p>
+      <tng-code-block
+        [code]="attachmentCode"
+        adapter="shiki"
+        language="html"
+        title="Directive attachment"
+        [theme]="codeBlockTheme()"
+        [lineNumbers]="false"
+        [wrap]="true"
+        [sanitizeHtml]="false"
+      ></tng-code-block>
+      <div class="headless-label-api-table-wrap">
+        <table class="headless-label-api-table">
+          <thead>
+            <tr>
+              <th scope="col">Input</th>
+              <th scope="col">Type</th>
+              <th scope="col">Default</th>
+              <th scope="col">Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>disabled</code></td>
+              <td><code>boolean</code></td>
+              <td><code>false</code></td>
+              <td>Adds <code>data-disabled</code> for reduced-emphasis label styling.</td>
+            </tr>
+            <tr>
+              <td><code>required</code></td>
+              <td><code>boolean</code></td>
+              <td><code>false</code></td>
+              <td>Adds <code>data-required</code> so your CSS can append or color a required indicator.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="output-attributes" class="docs-section-anchor headless-label-api-block">
+      <h3>Output attributes</h3>
+      <div class="headless-label-api-table-wrap">
+        <table class="headless-label-api-table">
+          <thead>
+            <tr>
+              <th scope="col">Attribute</th>
+              <th scope="col">When it appears</th>
+              <th scope="col">Purpose</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>data-slot="label"</code></td>
+              <td>Always</td>
+              <td>Base selector for typography, spacing, and layout styling.</td>
+            </tr>
+            <tr>
+              <td><code>data-required</code></td>
+              <td>When <code>required</code> is true</td>
+              <td>Required marker styling without owning a wrapper component.</td>
+            </tr>
+            <tr>
+              <td><code>data-disabled</code></td>
+              <td>When <code>disabled</code> is true</td>
+              <td>Muted label styling that mirrors a disabled control state.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="usage-notes" class="docs-section-anchor headless-label-api-block">
+      <h3>Usage notes</h3>
+      <ul class="headless-label-api-list">
+        <li>Use <code>for/id</code> for text fields, selects, and textareas when the label and control are siblings.</li>
+        <li>Wrap the control inside <code>label[tngLabel]</code> when you want a compact checkbox or radio row.</li>
+        <li><code>required</code> is visual only; keep native <code>required</code> or <code>aria-required</code> on the control.</li>
+        <li><code>disabled</code> on the label does not disable the input; apply it to the control as well.</li>
+      </ul>
+      <tng-code-block
+        [code]="wrappedUsageCode"
+        adapter="shiki"
+        language="html"
+        title="Wrapped checkbox row"
+        [theme]="codeBlockTheme()"
+        [lineNumbers]="false"
+        [wrap]="true"
+        [sanitizeHtml]="false"
+      ></tng-code-block>
+    </section>
+  </div>
+</article>
