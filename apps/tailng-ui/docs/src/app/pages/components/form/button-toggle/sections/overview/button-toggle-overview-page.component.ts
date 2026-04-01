@@ -263,7 +263,7 @@ export class ButtonToggleOverviewPageComponent implements OnDestroy {
       `    <tng-button-toggle class="[--tng-semantic-background-surface:#ffffff] [--tng-semantic-background-muted:#edf4ff] [--tng-semantic-border-subtle:#c6d4e1] [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-foreground-primary:#1e293b] [--tng-color-white:#ffffff]" [tngButtonToggleValue]="'signals'">Signals</tng-button-toggle>`,
       `    <tng-button-toggle class="[--tng-semantic-background-surface:#ffffff] [--tng-semantic-background-muted:#edf4ff] [--tng-semantic-border-subtle:#c6d4e1] [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-foreground-primary:#1e293b] [--tng-color-white:#ffffff]" [tngButtonToggleValue]="'analytics'">Analytics</tng-button-toggle>`,
       '  </tng-button-toggle-group>',
-      '  <p class="m-0 text-xs text-slate-600">Selected: {{ tailwindFeatures().join(", ") }}</p>',
+      '  <p class="m-0 text-xs text-slate-600">Selected: {{ selectedTailwindFeatures().join(", ") }}</p>',
       '</section>',
       '',
     ].join('\n'),

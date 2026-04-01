@@ -358,7 +358,7 @@ export class ButtonToggleExamplesPageComponent implements OnDestroy {
       `    <tng-button-toggle class="[--tng-semantic-background-surface:#ffffff] [--tng-semantic-background-muted:#edf4ff] [--tng-semantic-border-subtle:#c6d4e1] [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-foreground-primary:#1e293b] [--tng-color-white:#ffffff]" [tngButtonToggleValue]="'italic'">Italic</tng-button-toggle>`,
       `    <tng-button-toggle class="[--tng-semantic-background-surface:#ffffff] [--tng-semantic-background-muted:#edf4ff] [--tng-semantic-border-subtle:#c6d4e1] [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-foreground-primary:#1e293b] [--tng-color-white:#ffffff]" [tngButtonToggleValue]="'underline'">Underline</tng-button-toggle>`,
       '  </tng-button-toggle-group>',
-      '  <p class="m-0 text-xs text-slate-600">Active: {{ tailwindTextStyles().join(", ") }}</p>',
+      '  <p class="m-0 text-xs text-slate-600">Active: {{ selectedTailwindTextStyles().join(", ") }}</p>',
       '</section>',
       '',
     ].join('\n'),
