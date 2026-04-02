@@ -189,6 +189,9 @@ describe('tngListbox + tngOption primitives', () => {
     expect(optA.id).toBeTruthy();
     expect(optB.id).toBeTruthy();
     expect(optC.id).toBeTruthy();
+    expect(optA.getAttribute('tabindex')).toBe('-1');
+    expect(optB.getAttribute('tabindex')).toBe('-1');
+    expect(optC.getAttribute('tabindex')).toBe('-1');
 
     keydown(host, 'ArrowDown');
     fixture.detectChanges();

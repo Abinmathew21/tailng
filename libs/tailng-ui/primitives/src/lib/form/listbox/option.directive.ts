@@ -55,6 +55,9 @@ export class TngOptionDirective<T = unknown> implements AfterViewInit, OnDestroy
     return this.disabled() ? 'true' : null;
   }
 
+  @HostBinding('attr.tabindex')
+  readonly tabIndex = '-1';
+
   // ✅ Tailwind-friendly state attributes (presence based)
   @HostBinding('attr.data-active')
   get dataActive(): '' | null {
