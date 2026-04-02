@@ -5,6 +5,11 @@
     option host. The directives handle selection state, roving focus, and typeahead without
     imposing a wrapper DOM.
   </p>
+  <p class="listbox-api-lead">
+    Focus stays on the <code>tngListbox</code> host. Individual <code>tngOption</code> items are
+    exposed to assistive technology and active-descendant tracking, but they are not part of the
+    normal Tab sequence.
+  </p>
 
   <section id="tnglistbox" class="listbox-api-block">
     <h3><code>tngListbox</code></h3>
@@ -127,8 +132,8 @@
           </tr>
           <tr>
             <td><code>tngOption</code></td>
-            <td><code>role</code>, <code>aria-selected</code>, <code>aria-disabled</code></td>
-            <td>Option semantics for screen readers.</td>
+            <td><code>role</code>, <code>tabindex="-1"</code>, <code>aria-selected</code>, <code>aria-disabled</code></td>
+            <td>Option semantics for screen readers while the listbox host owns Tab focus.</td>
           </tr>
           <tr>
             <td><code>tngOption</code></td>

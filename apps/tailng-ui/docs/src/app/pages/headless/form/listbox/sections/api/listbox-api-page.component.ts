@@ -37,6 +37,7 @@ export class HeadlessListboxApiPageComponent {
     '>',
     '  <div',
     '    role="option"',
+    '    tabindex="-1"',
     '    aria-selected="true"',
     '    data-active',
     '    data-selected',

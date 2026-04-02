@@ -4,6 +4,10 @@
     Style listbox states through public attributes and option hooks instead of relying on internal
     DOM assumptions.
   </p>
+  <p class="listbox-styling-lead">
+    The focus ring belongs on <code>[tngListbox]</code>. Option rows expose active and selected
+    state visually, but they stay out of the sequential tab order.
+  </p>
 
   <section id="css-contract-table" class="listbox-styling-block">
     <h3>CSS contract table</h3>
@@ -20,7 +24,7 @@
           <tr>
             <td><code>[tngListbox]</code></td>
             <td>Listbox host</td>
-            <td>Container layout and focus ring.</td>
+            <td>Container layout, keyboard focus ring, and Tab-stop ownership.</td>
           </tr>
           <tr>
             <td><code>[tngOption]</code></td>
