@@ -1,165 +1,230 @@
-<article class="listbox-examples">
-  <h2 class="listbox-examples-title">Examples</h2>
-  <p class="listbox-examples-lead">
-    Interactive patterns for priority selection and dual-listbox keyboard handoff.
-  </p>
-
-  <section class="listbox-examples-block">
-    <app-docs-example-tabs-section
-      heading="Priority list variants"
-      description="Use Arrow keys and Space to toggle items. Typeahead jumps to matching options."
-      ariaLabel="Listbox priority variants"
-      tabListAriaLabel="Listbox style variants"
-      defaultValue="headless"
-      [codeBlockTheme]="codeBlockTheme()"
-    >
-      <ng-template
-        appDocsExampleVariant
-        value="headless"
-        label="Headless"
-        panelTitle="Headless priority list"
-        [codeTabs]="headlessCodeTabs"
-      >
-        <div class="listbox-preview-shell listbox-preview-shell--headless">
-          <div
-            tngListbox
-            tabindex="0"
-            class="listbox-preview listbox-preview--headless"
-            [multiple]="true"
-            [value]="headlessValue()"
-            (valueChange)="onHeadlessValueChange($event)"
-          >
-            @for (option of priorityOptions; track option.id) {
-              <div
-                tngOption
-                class="listbox-option"
-                [tngValue]="option.id"
-                [disabled]="option.disabled === true"
-              >
-                <p class="listbox-option__title">{{ option.label }}</p>
-                <p class="listbox-option__description">{{ option.description }}</p>
-              </div>
-            }
-          </div>
-          <p class="listbox-preview-summary">selected: {{ headlessSummary() }}</p>
-        </div>
-      </ng-template>
-
-      <ng-template
-        appDocsExampleVariant
-        value="plain-css"
-        label="Plain-CSS"
-        panelTitle="Plain CSS priority list"
-        [codeTabs]="plainCssCodeTabs"
-      >
-        <div class="listbox-preview-shell listbox-preview-shell--plain">
-          <div
-            tngListbox
-            tabindex="0"
-            class="listbox-preview listbox-preview--plain"
-            [multiple]="true"
-            [value]="plainValue()"
-            (valueChange)="onPlainValueChange($event)"
-          >
-            @for (option of priorityOptions; track option.id) {
-              <div
-                tngOption
-                class="listbox-option"
-                [tngValue]="option.id"
-                [disabled]="option.disabled === true"
-              >
-                <p class="listbox-option__title">{{ option.label }}</p>
-                <p class="listbox-option__description">{{ option.description }}</p>
-              </div>
-            }
-          </div>
-          <p class="listbox-preview-summary">selected: {{ plainSummary() }}</p>
-        </div>
-      </ng-template>
-
-      <ng-template
-        appDocsExampleVariant
-        value="tailwind-css"
-        label="Tailwind CSS"
-        panelTitle="Tailwind priority list"
-        [codeTabs]="tailwindCodeTabs"
-      >
-        <div
-          class="listbox-preview-shell rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
-        >
-          <div
-            tngListbox
-            tabindex="0"
-            class="listbox-preview listbox-preview--tailwind"
-            [multiple]="true"
-            [value]="tailwindValue()"
-            (valueChange)="onTailwindValueChange($event)"
-          >
-            @for (option of priorityOptions; track option.id) {
-              <div
-                tngOption
-                class="listbox-option"
-                [tngValue]="option.id"
-                [disabled]="option.disabled === true"
-              >
-                <p class="listbox-option__title">{{ option.label }}</p>
-                <p class="listbox-option__description">{{ option.description }}</p>
-              </div>
-            }
-          </div>
-          <p class="listbox-preview-summary">selected: {{ tailwindSummary() }}</p>
-        </div>
-      </ng-template>
-    </app-docs-example-tabs-section>
-  </section>
-
-  <section class="listbox-examples-block">
-    <h3>Dual listbox keyboard handoff</h3>
-    <p class="listbox-example-description">
-      Each listbox keeps roving focus scoped locally; use <code>Tab</code> to move to the next
-      listbox.
+<section class="docs-page-section">
+  <div class="docs-page-section__intro">
+    <p class="docs-page-section__eyebrow">Examples</p>
+    <h2 class="docs-page-section__title">Component listbox patterns</h2>
+    <p class="docs-page-section__body">
+      These examples wrap the headless listbox interaction model in a ready-to-ship component
+      presentation. Arrow keys stay inside the current listbox; <kbd>Tab</kbd> moves to the next
+      control in the page.
     </p>
+  </div>
+</section>
 
-    <div class="listbox-dual-grid">
-      <section class="listbox-dual-card">
-        <h4>Publish channels A</h4>
+<section class="docs-page-section">
+  <app-docs-example-tabs-section
+    heading="Priority picker"
+    description="Compare a light, editorial treatment in Plain CSS with a Tailwind utility translation that keeps the same listbox semantics and summary feedback."
+    ariaLabel="Priority picker variants"
+    tabListAriaLabel="Priority picker style variants"
+    defaultValue="plain-css"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+      panelTitle="Priority picker (Plain-CSS)"
+      [codeTabs]="plainCssCodeTabs"
+      [stackblitzUrl]="stackblitzVanillaUrl"
+    >
+      <section class="listbox-example-card">
+        <div class="listbox-example-header">
+          <h4>Priority queue</h4>
+          <p>
+            Use the component wrapper to carry a fully styled listbox while keeping the primitive
+            keyboard model underneath.
+          </p>
+        </div>
+
         <div
           tngListbox
-          tabindex="0"
-          class="listbox-preview listbox-preview--plain"
-          [multiple]="true"
-          [value]="channelValueA()"
-          (valueChange)="onChannelAValueChange($event)"
+          class="listbox-preview"
+          aria-label="Priority queue"
+          [value]="plainValue()"
+          (valueChange)="onPlainValueChange($event)"
         >
-          @for (option of channelOptions; track option.id) {
-            <div tngOption class="listbox-option" [tngValue]="option.id">
-              <p class="listbox-option__title">{{ option.label }}</p>
-              <p class="listbox-option__description">{{ option.description }}</p>
-            </div>
+          @for (option of priorityOptions; track option.value) {
+            <button type="button" tngOption class="listbox-option" [value]="option.value">
+              <span class="listbox-option__title">{{ option.title }}</span>
+              <span class="listbox-option__description">{{ option.description }}</span>
+            </button>
           }
         </div>
-        <p class="listbox-preview-summary">selected: {{ channelSummaryA() }}</p>
-      </section>
 
-      <section class="listbox-dual-card">
-        <h4>Publish channels B</h4>
+        <p class="listbox-preview-summary">Selected priority: {{ plainSummary() }}</p>
+      </section>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Priority picker (Tailwind CSS)"
+      [codeTabs]="tailwindCodeTabs"
+      [stackblitzUrl]="stackblitzTailwindUrl"
+    >
+      <section
+        class="grid gap-4 rounded-3xl border border-slate-200 bg-white p-6 text-slate-900 shadow-sm [color-scheme:light]"
+      >
+        <div class="grid gap-2">
+          <h4 class="m-0 text-lg font-semibold">Priority queue</h4>
+          <p class="m-0 text-sm text-slate-600">
+            Use the component wrapper to carry a fully styled listbox while keeping the primitive
+            keyboard model underneath.
+          </p>
+        </div>
+
         <div
           tngListbox
-          tabindex="0"
-          class="listbox-preview listbox-preview--plain"
-          [multiple]="true"
-          [value]="channelValueB()"
-          (valueChange)="onChannelBValueChange($event)"
+          aria-label="Priority queue"
+          class="grid gap-3 rounded-2xl border border-slate-200 bg-slate-50 p-3 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+          [value]="tailwindValue()"
+          (valueChange)="onTailwindValueChange($event)"
         >
-          @for (option of channelOptions; track option.id) {
-            <div tngOption class="listbox-option" [tngValue]="option.id">
-              <p class="listbox-option__title">{{ option.label }}</p>
-              <p class="listbox-option__description">{{ option.description }}</p>
-            </div>
+          @for (option of priorityOptions; track option.value) {
+            <button
+              type="button"
+              tngOption
+              [value]="option.value"
+              class="grid w-full gap-1 rounded-xl border border-slate-200 bg-white px-4 py-4 text-left text-slate-900 shadow-sm transition hover:border-blue-200 hover:bg-blue-50 data-[active]:border-blue-400 data-[active]:ring-2 data-[active]:ring-blue-200 data-[selected]:border-blue-200 data-[selected]:bg-blue-50"
+            >
+              <span class="text-base font-semibold">{{ option.title }}</span>
+              <span class="text-sm text-slate-600">{{ option.description }}</span>
+            </button>
           }
         </div>
-        <p class="listbox-preview-summary">selected: {{ channelSummaryB() }}</p>
+
+        <p class="m-0 text-sm font-medium text-slate-600">
+          Selected priority: {{ tailwindSummary() }}
+        </p>
       </section>
-    </div>
-  </section>
-</article>
+    </ng-template>
+  </app-docs-example-tabs-section>
+</section>
+
+<section class="docs-page-section">
+  <app-docs-example-tabs-section
+    heading="Dual listbox keyboard handoff"
+    description="Each listbox keeps roving focus scoped locally; use Tab to move to the next listbox."
+    ariaLabel="Dual listbox keyboard handoff variants"
+    tabListAriaLabel="Dual listbox keyboard handoff style variants"
+    defaultValue="plain-css"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+      panelTitle="Dual listbox keyboard handoff (Plain-CSS)"
+      [codeTabs]="dualListPlainCodeTabs"
+      [stackblitzUrl]="stackblitzVanillaUrl"
+    >
+      <div class="listbox-dual-grid">
+        <section class="listbox-dual-card">
+          <h4>Publish channels A</h4>
+          <div
+            tngListbox
+            class="listbox-preview"
+            aria-label="Publish channels A"
+            [value]="dualPlainChannelValueA()"
+            (valueChange)="onDualPlainChannelAValueChange($event)"
+          >
+            @for (option of channelOptions; track option.value) {
+              <button type="button" tngOption class="listbox-option" [value]="option.value">
+                <span class="listbox-option__title">{{ option.title }}</span>
+                <span class="listbox-option__description">{{ option.description }}</span>
+              </button>
+            }
+          </div>
+          <p class="listbox-preview-summary">selected: {{ dualPlainChannelSummaryA() }}</p>
+        </section>
+
+        <section class="listbox-dual-card">
+          <h4>Publish channels B</h4>
+          <div
+            tngListbox
+            class="listbox-preview"
+            aria-label="Publish channels B"
+            [value]="dualPlainChannelValueB()"
+            (valueChange)="onDualPlainChannelBValueChange($event)"
+          >
+            @for (option of channelOptions; track option.value) {
+              <button type="button" tngOption class="listbox-option" [value]="option.value">
+                <span class="listbox-option__title">{{ option.title }}</span>
+                <span class="listbox-option__description">{{ option.description }}</span>
+              </button>
+            }
+          </div>
+          <p class="listbox-preview-summary">selected: {{ dualPlainChannelSummaryB() }}</p>
+        </section>
+      </div>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Dual listbox keyboard handoff (Tailwind CSS)"
+      [codeTabs]="dualListTailwindCodeTabs"
+      [stackblitzUrl]="stackblitzTailwindUrl"
+    >
+      <div class="grid gap-4 xl:grid-cols-2 [color-scheme:light]">
+        <section
+          class="grid gap-3 rounded-3xl border border-slate-200 bg-white p-4 text-slate-900 shadow-sm"
+        >
+          <h4 class="m-0 text-lg font-semibold">Publish channels A</h4>
+          <div
+            tngListbox
+            aria-label="Publish channels A"
+            class="grid gap-2 rounded-2xl border border-slate-200 bg-slate-50 p-3 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+            [value]="dualTailwindChannelValueA()"
+            (valueChange)="onDualTailwindChannelAValueChange($event)"
+          >
+            @for (option of channelOptions; track option.value) {
+              <button
+                type="button"
+                tngOption
+                [value]="option.value"
+                class="grid w-full gap-1 rounded-xl border border-slate-200 bg-white px-4 py-4 text-left text-slate-900 shadow-sm transition hover:border-blue-200 hover:bg-blue-50 data-[active]:border-blue-400 data-[active]:ring-2 data-[active]:ring-blue-200 data-[selected]:border-blue-200 data-[selected]:bg-blue-50"
+              >
+                <span class="text-base font-semibold">{{ option.title }}</span>
+                <span class="text-sm text-slate-600">{{ option.description }}</span>
+              </button>
+            }
+          </div>
+          <p class="m-0 text-sm font-medium text-slate-600">
+            selected: {{ dualTailwindChannelSummaryA() }}
+          </p>
+        </section>
+
+        <section
+          class="grid gap-3 rounded-3xl border border-slate-200 bg-white p-4 text-slate-900 shadow-sm"
+        >
+          <h4 class="m-0 text-lg font-semibold">Publish channels B</h4>
+          <div
+            tngListbox
+            aria-label="Publish channels B"
+            class="grid gap-2 rounded-2xl border border-slate-200 bg-slate-50 p-3 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+            [value]="dualTailwindChannelValueB()"
+            (valueChange)="onDualTailwindChannelBValueChange($event)"
+          >
+            @for (option of channelOptions; track option.value) {
+              <button
+                type="button"
+                tngOption
+                [value]="option.value"
+                class="grid w-full gap-1 rounded-xl border border-slate-200 bg-white px-4 py-4 text-left text-slate-900 shadow-sm transition hover:border-blue-200 hover:bg-blue-50 data-[active]:border-blue-400 data-[active]:ring-2 data-[active]:ring-blue-200 data-[selected]:border-blue-200 data-[selected]:bg-blue-50"
+              >
+                <span class="text-base font-semibold">{{ option.title }}</span>
+                <span class="text-sm text-slate-600">{{ option.description }}</span>
+              </button>
+            }
+          </div>
+          <p class="m-0 text-sm font-medium text-slate-600">
+            selected: {{ dualTailwindChannelSummaryB() }}
+          </p>
+        </section>
+      </div>
+    </ng-template>
+  </app-docs-example-tabs-section>
+</section>

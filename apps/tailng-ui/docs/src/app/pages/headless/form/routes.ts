@@ -44,6 +44,10 @@ export const HEADLESS_FORM_ROUTES: Routes = [
     loadChildren: () =>
       import('./button-toggle/routes').then((m) => m.HEADLESS_FORM_BUTTON_TOGGLE_ROUTES),
   },
+  {
+    path: 'listbox',
+    loadChildren: () => import('./listbox/routes').then((m) => m.HEADLESS_FORM_LISTBOX_ROUTES),
+  },
   ...group.items
     .filter(
       (item) =>
@@ -54,7 +58,8 @@ export const HEADLESS_FORM_ROUTES: Routes = [
         item.slug !== 'switch' &&
         item.slug !== 'toggle' &&
         item.slug !== 'radio' &&
-        item.slug !== 'button-toggle',
+        item.slug !== 'button-toggle' &&
+        item.slug !== 'listbox',
     )
     .map((item) => ({
       path: item.slug,

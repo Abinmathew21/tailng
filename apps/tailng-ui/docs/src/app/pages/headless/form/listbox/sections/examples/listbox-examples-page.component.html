@@ -1,0 +1,210 @@
+<article class="listbox-examples">
+  <h2 class="listbox-examples-title">Examples</h2>
+  <p class="listbox-examples-lead">
+    Interactive patterns for priority selection and dual-listbox keyboard handoff.
+  </p>
+
+  <section id="priority-list-variants" class="listbox-examples-block">
+    <app-docs-example-tabs-section
+      heading="Priority list variants"
+      description="Use Arrow keys and Space to toggle items. Typeahead jumps to matching options."
+      ariaLabel="Listbox priority variants"
+      tabListAriaLabel="Listbox style variants"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Plain CSS priority list"
+        [codeTabs]="plainCssCodeTabs"
+        [stackblitzUrl]="stackblitzVanillaUrl"
+      >
+        <div class="listbox-preview-shell listbox-preview-shell--plain">
+          <div
+            tngListbox
+            tabindex="0"
+            class="listbox-preview listbox-preview--plain"
+            [multiple]="true"
+            [value]="plainValue()"
+            (valueChange)="onPlainValueChange($event)"
+          >
+            @for (option of priorityOptions; track option.id) {
+              <div
+                tngOption
+                class="listbox-option"
+                [tngValue]="option.id"
+                [disabled]="option.disabled === true"
+              >
+                <p class="listbox-option__title">{{ option.label }}</p>
+                <p class="listbox-option__description">{{ option.description }}</p>
+              </div>
+            }
+          </div>
+          <p class="listbox-preview-summary">selected: {{ plainSummary() }}</p>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Tailwind priority list"
+        [codeTabs]="tailwindCodeTabs"
+        [stackblitzUrl]="stackblitzTailwindUrl"
+      >
+        <div
+          class="listbox-preview-shell rounded-xl border border-slate-200 bg-white p-4 shadow-sm"
+        >
+          <div
+            tngListbox
+            tabindex="0"
+            class="listbox-preview listbox-preview--tailwind"
+            [multiple]="true"
+            [value]="tailwindValue()"
+            (valueChange)="onTailwindValueChange($event)"
+          >
+            @for (option of priorityOptions; track option.id) {
+              <div
+                tngOption
+                class="listbox-option"
+                [tngValue]="option.id"
+                [disabled]="option.disabled === true"
+              >
+                <p class="listbox-option__title">{{ option.label }}</p>
+                <p class="listbox-option__description">{{ option.description }}</p>
+              </div>
+            }
+          </div>
+          <p class="listbox-preview-summary">selected: {{ tailwindSummary() }}</p>
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section id="dual-listbox-keyboard-handoff" class="listbox-examples-block">
+    <app-docs-example-tabs-section
+      heading="Dual listbox keyboard handoff"
+      description="Each listbox keeps roving focus scoped locally; use Tab to move to the next listbox."
+      ariaLabel="Dual listbox handoff variants"
+      tabListAriaLabel="Dual listbox styles"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Plain CSS dual listbox handoff"
+        [codeTabs]="dualListPlainCodeTabs"
+        [stackblitzUrl]="stackblitzVanillaUrl"
+      >
+        <div class="listbox-dual-grid">
+          <section class="listbox-dual-card">
+            <h4>Publish channels A</h4>
+            <div
+              tngListbox
+              tabindex="0"
+              class="listbox-preview listbox-preview--plain"
+              [multiple]="true"
+              [value]="dualPlainChannelValueA()"
+              (valueChange)="onDualPlainChannelAValueChange($event)"
+            >
+              @for (option of channelOptions; track option.id) {
+                <div tngOption class="listbox-option" [tngValue]="option.id">
+                  <p class="listbox-option__title">{{ option.label }}</p>
+                  <p class="listbox-option__description">{{ option.description }}</p>
+                </div>
+              }
+            </div>
+            <p class="listbox-preview-summary">selected: {{ dualPlainChannelSummaryA() }}</p>
+          </section>
+
+          <section class="listbox-dual-card">
+            <h4>Publish channels B</h4>
+            <div
+              tngListbox
+              tabindex="0"
+              class="listbox-preview listbox-preview--plain"
+              [multiple]="true"
+              [value]="dualPlainChannelValueB()"
+              (valueChange)="onDualPlainChannelBValueChange($event)"
+            >
+              @for (option of channelOptions; track option.id) {
+                <div tngOption class="listbox-option" [tngValue]="option.id">
+                  <p class="listbox-option__title">{{ option.label }}</p>
+                  <p class="listbox-option__description">{{ option.description }}</p>
+                </div>
+              }
+            </div>
+            <p class="listbox-preview-summary">selected: {{ dualPlainChannelSummaryB() }}</p>
+          </section>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Tailwind dual listbox handoff"
+        [codeTabs]="dualListTailwindCodeTabs"
+        [stackblitzUrl]="stackblitzTailwindUrl"
+      >
+        <div class="grid gap-4 xl:grid-cols-2 [color-scheme:light]">
+          <section class="grid gap-3 rounded-2xl border border-slate-200 bg-white p-4 text-slate-900 shadow-sm">
+            <h4 class="m-0 text-base font-semibold text-slate-900">Publish channels A</h4>
+            <div
+              tngListbox
+              tabindex="0"
+              class="grid gap-2 rounded-2xl border border-slate-200 bg-slate-50 p-3 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+              [multiple]="true"
+              [value]="dualTailwindChannelValueA()"
+              (valueChange)="onDualTailwindChannelAValueChange($event)"
+            >
+              @for (option of channelOptions; track option.id) {
+                <div
+                  tngOption
+                  class="grid gap-1 rounded-xl border border-slate-200 bg-white px-4 py-3 transition data-[active]:border-blue-500 data-[selected]:border-blue-200 data-[selected]:bg-blue-50"
+                  [tngValue]="option.id"
+                >
+                  <p class="m-0 text-sm font-semibold text-slate-900">{{ option.label }}</p>
+                  <p class="m-0 text-sm leading-6 text-slate-600">{{ option.description }}</p>
+                </div>
+              }
+            </div>
+            <p class="m-0 text-xs text-slate-600">
+              selected: {{ dualTailwindChannelSummaryA() }}
+            </p>
+          </section>
+
+          <section class="grid gap-3 rounded-2xl border border-slate-200 bg-white p-4 text-slate-900 shadow-sm">
+            <h4 class="m-0 text-base font-semibold text-slate-900">Publish channels B</h4>
+            <div
+              tngListbox
+              tabindex="0"
+              class="grid gap-2 rounded-2xl border border-slate-200 bg-slate-50 p-3 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+              [multiple]="true"
+              [value]="dualTailwindChannelValueB()"
+              (valueChange)="onDualTailwindChannelBValueChange($event)"
+            >
+              @for (option of channelOptions; track option.id) {
+                <div
+                  tngOption
+                  class="grid gap-1 rounded-xl border border-slate-200 bg-white px-4 py-3 transition data-[active]:border-blue-500 data-[selected]:border-blue-200 data-[selected]:bg-blue-50"
+                  [tngValue]="option.id"
+                >
+                  <p class="m-0 text-sm font-semibold text-slate-900">{{ option.label }}</p>
+                  <p class="m-0 text-sm leading-6 text-slate-600">{{ option.description }}</p>
+                </div>
+              }
+            </div>
+            <p class="m-0 text-xs text-slate-600">
+              selected: {{ dualTailwindChannelSummaryB() }}
+            </p>
+          </section>
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+</article>

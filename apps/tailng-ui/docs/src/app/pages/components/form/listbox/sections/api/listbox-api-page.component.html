@@ -1,11 +1,12 @@
 <article class="listbox-api">
   <h2 class="listbox-api-title">API reference</h2>
   <p class="listbox-api-lead">
-    ListBox exposes headless directives for host and option behavior. Use this contract when
-    building custom layouts.
+    In <code>@tailng-ui/components</code>, ListBox behavior is still composed through the headless
+    primitives. Use this page when you need an always-open list surface inside a component-driven
+    app and want to stay aligned with the same selection contract used by select-style wrappers.
   </p>
 
-  <section class="listbox-api-block">
+  <section id="tnglistbox-tngoption" class="listbox-api-block">
     <h3><code>tngListbox</code> + <code>tngOption</code></h3>
     <tng-code-block
       [code]="primitiveAttachmentCode"
@@ -75,12 +76,13 @@
     </div>
   </section>
 
-  <section class="listbox-api-block">
+  <section id="wrapper-status" class="listbox-api-block">
     <h3>Wrapper status</h3>
     <p>
       A dedicated <code>tng-listbox</code> component wrapper is not yet part of
       <code>@tailng-ui/components</code>. For wrapped combobox experiences, use
-      <code>tng-select</code> or <code>tng-multiselect</code>.
+      <code>tng-select</code>, <code>tng-multiselect</code>, <code>tng-autocomplete</code>, or
+      <code>tng-multi-autocomplete</code>.
     </p>
     <tng-code-block
       [code]="wrapperStatusCode"

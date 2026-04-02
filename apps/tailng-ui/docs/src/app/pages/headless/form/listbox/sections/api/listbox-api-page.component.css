@@ -1,0 +1,63 @@
+:host {
+  display: block;
+}
+
+.listbox-api {
+  display: grid;
+  gap: 1rem;
+}
+
+.listbox-api-title {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.listbox-api-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.listbox-api-block {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.9rem;
+  color: var(--tng-semantic-foreground-secondary);
+  display: grid;
+  gap: 0.7rem;
+  padding: 1rem;
+}
+
+.listbox-api-block h3 {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1rem;
+  margin: 0;
+}
+
+.listbox-api-block p {
+  margin: 0;
+}
+
+.listbox-api-table-wrap {
+  overflow-x: auto;
+}
+
+.listbox-api-table {
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  min-width: 34rem;
+  width: 100%;
+}
+
+.listbox-api-table th,
+.listbox-api-table td {
+  border-bottom: 1px solid var(--tng-semantic-border-subtle);
+  padding: 0.625rem 0.5rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.listbox-api-table th {
+  color: var(--tng-semantic-foreground-primary);
+  font-weight: 600;
+}

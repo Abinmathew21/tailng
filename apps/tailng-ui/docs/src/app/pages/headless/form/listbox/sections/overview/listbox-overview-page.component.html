@@ -1,10 +1,9 @@
 <article class="listbox-overview">
   <h2 class="listbox-overview-title">ListBox overview</h2>
   <p class="listbox-overview-lead">
-    TailNG does not ship a dedicated <code>tng-listbox</code> wrapper yet. In component-driven
-    apps, use <code>tngListbox</code> + <code>tngOption</code> when you want an always-open
-    selection surface, or reach for <code>tng-select</code> / <code>tng-multiselect</code> when
-    you want an overlay-driven component wrapper.
+    TailNG ListBox ships as headless primitives. Use <code>tngListbox</code> on the owned list
+    container and <code>tngOption</code> on each option host to keep roving focus, selection, and
+    typeahead behavior consistent while you fully control the DOM.
   </p>
 
   <section id="imports" class="listbox-overview-block">
@@ -37,8 +36,8 @@
 
   <section id="listbox-variants" class="listbox-overview-block">
     <app-docs-example-tabs-section
-      heading="Composition variants"
-      description="The primitive contract stays the same while the surrounding visual shell changes between plain CSS and Tailwind."
+      heading="Listbox variants"
+      description="The same primitive contract rendered with an owned plain-CSS shell and a light Tailwind shell."
       ariaLabel="Listbox style variants"
       tabListAriaLabel="Listbox styles"
       defaultValue="plain-css"

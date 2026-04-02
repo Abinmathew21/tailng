@@ -26,9 +26,10 @@ export class ListboxApiPageComponent {
   ].join('\n');
 
   protected readonly wrapperStatusCode = [
-    '// ListBox currently ships as headless primitives.',
-    '// Wrapper components like <tng-select> and <tng-multiselect>',
-    '// compose listbox behavior for combobox-style surfaces.',
+    '// There is no dedicated <tng-listbox> wrapper today.',
+    '// Use tngListbox + tngOption for always-open selection surfaces.',
+    '// Use <tng-select>, <tng-multiselect>, <tng-autocomplete>,',
+    '// or <tng-multi-autocomplete> when you want an owned overlay wrapper.',
     '',
   ].join('\n');
 }

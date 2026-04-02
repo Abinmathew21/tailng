@@ -1,9 +1,8 @@
 <article class="listbox-styling">
   <h2 class="listbox-styling-title">Styling contract</h2>
   <p class="listbox-styling-lead">
-    Style the owned listbox surface through the primitive host and option hooks. Because there is
-    no dedicated wrapper component yet, the component-side contract is the same public primitive
-    contract you use in headless composition.
+    Style listbox states through public attributes and option hooks instead of relying on internal
+    DOM assumptions.
   </p>
 
   <section id="css-contract-table" class="listbox-styling-block">
@@ -48,8 +47,21 @@
     </div>
   </section>
 
-  <section id="example-style-contract" class="listbox-styling-block">
-    <h3>Example style contract</h3>
+  <section id="state-selectors" class="listbox-styling-block">
+    <h3>State selectors</h3>
+    <tng-code-block
+      [code]="stateSelectorsCode"
+      adapter="shiki"
+      language="css"
+      title="listbox.states.css"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="example-shells" class="listbox-styling-block">
+    <h3>Example shells</h3>
     <tng-code-block
       [code]="stylingExampleCode"
       adapter="shiki"

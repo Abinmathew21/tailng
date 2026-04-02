@@ -1,0 +1,159 @@
+<article class="listbox-api">
+  <h2 class="listbox-api-title">API reference</h2>
+  <p class="listbox-api-lead">
+    Attach <code>tngListbox</code> to the owned list container and <code>tngOption</code> to each
+    option host. The directives handle selection state, roving focus, and typeahead without
+    imposing a wrapper DOM.
+  </p>
+
+  <section id="tnglistbox" class="listbox-api-block">
+    <h3><code>tngListbox</code></h3>
+    <tng-code-block
+      [code]="primitiveAttachmentCode"
+      adapter="shiki"
+      language="html"
+      title="Primitive attachment"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+
+    <div class="listbox-api-table-wrap">
+      <table class="listbox-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Input / output</th>
+            <th scope="col">Type</th>
+            <th scope="col">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>multiple</code></td>
+            <td><code>boolean</code></td>
+            <td>Enables multi-selection. Default is single selection.</td>
+          </tr>
+          <tr>
+            <td><code>orientation</code></td>
+            <td><code>'vertical' | 'horizontal'</code></td>
+            <td>Controls the arrow-key axis for active-item roving.</td>
+          </tr>
+          <tr>
+            <td><code>direction</code></td>
+            <td><code>'ltr' | 'rtl'</code></td>
+            <td>Used when <code>orientation=&quot;horizontal&quot;</code>.</td>
+          </tr>
+          <tr>
+            <td><code>disabled</code></td>
+            <td><code>boolean</code></td>
+            <td>Disables the entire listbox interaction model.</td>
+          </tr>
+          <tr>
+            <td><code>loop</code></td>
+            <td><code>boolean</code></td>
+            <td>Wraps roving focus from last to first option and vice versa.</td>
+          </tr>
+          <tr>
+            <td><code>typeahead</code></td>
+            <td><code>boolean</code></td>
+            <td>Printable keys jump to matching option text. Enabled by default.</td>
+          </tr>
+          <tr>
+            <td><code>value</code> / <code>valueChange</code></td>
+            <td><code>T | readonly T[] | null</code></td>
+            <td>Selection model for single or multiple mode.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="tngoption" class="listbox-api-block">
+    <h3><code>tngOption</code></h3>
+    <div class="listbox-api-table-wrap">
+      <table class="listbox-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Input</th>
+            <th scope="col">Type</th>
+            <th scope="col">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>tngValue</code></td>
+            <td><code>T</code></td>
+            <td>Value committed into the listbox selection model.</td>
+          </tr>
+          <tr>
+            <td><code>disabled</code></td>
+            <td><code>boolean</code></td>
+            <td>Prevents pointer and keyboard selection for that option.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="reflected-attributes" class="listbox-api-block">
+    <h3>Reflected attributes</h3>
+    <p>
+      The directives expose state through ARIA and presence-based data attributes so you can style
+      without relying on implementation-private classes.
+    </p>
+    <tng-code-block
+      [code]="reflectedAttributesCode"
+      adapter="shiki"
+      language="html"
+      title="Reflected attributes"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+    <div class="listbox-api-table-wrap">
+      <table class="listbox-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Directive</th>
+            <th scope="col">Attributes</th>
+            <th scope="col">Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>tngListbox</code></td>
+            <td><code>role</code>, <code>aria-multiselectable</code>, <code>aria-disabled</code>, <code>aria-activedescendant</code></td>
+            <td>Listbox semantics and active-descendant wiring.</td>
+          </tr>
+          <tr>
+            <td><code>tngOption</code></td>
+            <td><code>role</code>, <code>aria-selected</code>, <code>aria-disabled</code></td>
+            <td>Option semantics for screen readers.</td>
+          </tr>
+          <tr>
+            <td><code>tngOption</code></td>
+            <td><code>data-active</code>, <code>data-selected</code>, <code>data-disabled</code></td>
+            <td>Public styling hooks for stateful option rendering.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="change-handling" class="listbox-api-block">
+    <h3>Change handling</h3>
+    <p>
+      In multiple mode, normalize the emitted value into an array so summaries and downstream
+      filters stay stable.
+    </p>
+    <tng-code-block
+      [code]="changeHandlingCode"
+      adapter="shiki"
+      language="ts"
+      title="Selection normalizer"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+</article>

@@ -1,0 +1,147 @@
+:host {
+  display: block;
+}
+
+.listbox-examples {
+  display: grid;
+  gap: 1rem;
+}
+
+.listbox-examples-title {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.listbox-examples-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.listbox-examples-block {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.9rem;
+  color: var(--tng-semantic-foreground-secondary);
+  display: grid;
+  gap: 0.7rem;
+  padding: 1rem;
+}
+
+.listbox-examples-block h3 {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1rem;
+  margin: 0;
+}
+
+.listbox-example-description {
+  margin: 0;
+}
+
+.listbox-preview-shell {
+  display: grid;
+  gap: 0.65rem;
+  width: 100%;
+}
+
+.listbox-preview-shell--headless {
+  background: color-mix(in srgb, var(--tng-semantic-background-surface) 84%, transparent);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.8rem;
+  padding: 0.9rem 1rem;
+}
+
+.listbox-preview-shell--plain {
+  background: var(--tng-semantic-background-surface);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.8rem;
+  padding: 0.9rem 1rem;
+}
+
+.listbox-preview {
+  background: var(--tng-semantic-background-canvas);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.78rem;
+  display: grid;
+  gap: 0.5rem;
+  outline: none;
+  padding: 0.75rem;
+}
+
+.listbox-preview:focus {
+  border-color: var(--tng-semantic-accent-brand);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--tng-semantic-accent-brand) 40%, transparent);
+}
+
+.listbox-option {
+  background: var(--tng-semantic-background-surface);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.68rem;
+  cursor: pointer;
+  display: grid;
+  gap: 0.25rem;
+  padding: 0.7rem 0.78rem;
+  transition:
+    border-color 0.12s ease,
+    background-color 0.12s ease,
+    opacity 0.12s ease;
+}
+
+.listbox-option__title {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.listbox-option__description {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.8rem;
+  margin: 0;
+}
+
+.listbox-option[data-active] {
+  border-color: var(--tng-semantic-accent-brand);
+}
+
+.listbox-option[data-selected] {
+  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 15%, transparent);
+}
+
+.listbox-option[data-disabled] {
+  cursor: not-allowed;
+  opacity: 0.56;
+}
+
+.listbox-preview-summary {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.82rem;
+  margin: 0;
+}
+
+.listbox-dual-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.listbox-dual-card {
+  background: var(--tng-semantic-background-surface);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.75rem;
+  display: grid;
+  gap: 0.65rem;
+  min-width: 0;
+  padding: 0.9rem;
+}
+
+.listbox-dual-card h4 {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+@media (min-width: 64rem) {
+  .listbox-dual-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
