@@ -7,191 +7,69 @@
   gap: 1rem;
 }
 
-.autocomplete-examples-title {
-  color: var(--tng-semantic-foreground-primary);
-  font-size: 1.5rem;
+.autocomplete-examples__section {
+  display: grid;
+}
+
+.docs-autocomplete-country-example,
+.docs-autocomplete-owner-example {
+  display: grid;
+  gap: 0.9rem;
+  inline-size: min(100%, 34rem);
+  margin-inline: auto;
+  padding: 1rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 1.1rem;
+  background: #ffffff;
+  color: #0f172a;
+  color-scheme: light;
+}
+
+.docs-autocomplete-country-example__header,
+.docs-autocomplete-owner-example__header {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.docs-autocomplete-country-example__eyebrow,
+.docs-autocomplete-owner-example__eyebrow {
+  font-size: 0.78rem;
   font-weight: 700;
+  color: #64748b;
+}
+
+.docs-autocomplete-country-example__copy,
+.docs-autocomplete-country-example__summary,
+.docs-autocomplete-owner-example__copy,
+.docs-autocomplete-owner-example__summary {
   margin: 0;
+  color: #475569;
 }
 
-.autocomplete-examples-lead {
-  color: var(--tng-semantic-foreground-secondary);
-  margin: 0;
-}
-
-.autocomplete-examples-block {
-  border: 1px solid var(--tng-semantic-border-subtle);
-  border-radius: 0.9rem;
-  color: var(--tng-semantic-foreground-secondary);
-  display: grid;
-  gap: 0.7rem;
-  padding: 1rem;
-}
-
-.autocomplete-examples-block h3 {
-  color: var(--tng-semantic-foreground-primary);
-  font-size: 1rem;
-  margin: 0;
-}
-
-.autocomplete-example-description {
-  margin: 0;
-}
-
-.autocomplete-demo-grid {
-  display: grid;
-  gap: 1rem;
-}
-
-@media (min-width: 64rem) {
-  .autocomplete-demo-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    align-items: start;
-  }
-}
-
-.autocomplete-demo-card {
-  background: var(--tng-semantic-background-surface);
-  border: 1px solid var(--tng-semantic-border-subtle);
-  border-radius: 0.75rem;
-  display: grid;
-  gap: 0.75rem;
-  min-width: 0;
-  padding: 1rem;
-}
-
-.autocomplete-demo-card__head {
-  display: grid;
-  gap: 0.125rem;
-}
-
-.autocomplete-demo-card__head h4 {
-  color: var(--tng-semantic-foreground-primary);
-  font-size: 0.9375rem;
-  font-weight: 600;
-  margin: 0;
-}
-
-.autocomplete-demo-card__head p {
-  color: var(--tng-semantic-foreground-muted);
-  font-size: 0.8125rem;
-  margin: 0;
-}
-
-.autocomplete-preview-shell {
-  display: grid;
-  gap: 0.65rem;
-  max-width: none;
-  padding-inline: 0;
+.docs-autocomplete-country-example__control {
+  display: block;
   width: 100%;
+  --tng-semantic-background-canvas: #ffffff;
+  --tng-semantic-background-surface: #f8fafc;
+  --tng-semantic-border-subtle: #cbd5e1;
+  --tng-semantic-border-strong: #cbd5e1;
+  --tng-semantic-foreground-primary: #0f172a;
+  --tng-semantic-foreground-secondary: #475569;
+  --tng-semantic-foreground-muted: #64748b;
+  --tng-semantic-accent-brand: #2563eb;
+  --tng-semantic-focus-ring: #2563eb;
 }
 
-.autocomplete-preview-shell--headless {
-  background: color-mix(in srgb, var(--tng-semantic-background-surface) 84%, transparent);
-  border: 1px solid var(--tng-semantic-border-subtle);
-  border-radius: 0.8rem;
-  padding: 0.9rem 1rem;
-}
-
-.autocomplete-preview-shell--plain {
-  background: var(--tng-semantic-background-surface);
-  border: 1px solid var(--tng-semantic-border-subtle);
-  border-radius: 0.8rem;
-  padding: 0.9rem 1rem;
-}
-
-.autocomplete-preview-control {
-  --tng-autocomplete-radius: 0.78rem;
-  --tng-autocomplete-trigger-py: 0.58rem;
-  --tng-autocomplete-trigger-px: 0.88rem;
-  --tng-autocomplete-option-py: 0.5rem;
-  --tng-autocomplete-option-px: 0.72rem;
-  --tng-autocomplete-border-strong: color-mix(
-    in srgb,
-    var(--tng-semantic-border-subtle) 72%,
-    var(--tng-semantic-foreground-primary)
-  );
-  --tng-autocomplete-focus-ring: color-mix(
-    in srgb,
-    var(--tng-semantic-accent-brand) 88%,
-    var(--tng-semantic-background-canvas)
-  );
-}
-
-:host ::ng-deep .autocomplete-preview-control [data-slot='autocomplete-trigger-container'] {
-  min-height: 2.65rem;
-  transition:
-    border-color 0.15s ease,
-    box-shadow 0.15s ease,
-    background-color 0.15s ease;
-}
-
-:host ::ng-deep .autocomplete-preview-control [data-slot='autocomplete-trigger'] {
-  color: var(--tng-semantic-foreground-primary);
-  font-size: 0.98rem;
-  font-weight: 500;
-  line-height: 1.35;
-}
-
-:host ::ng-deep .autocomplete-preview-control [data-slot='autocomplete-icon'] {
-  align-items: center;
-  color: var(--tng-semantic-foreground-secondary);
-  display: inline-flex;
-  flex: 0 0 0.9rem;
-  font-size: 0.82rem;
-  inline-size: 0.9rem;
-  justify-content: center;
-  margin-inline-end: 1rem;
-  opacity: 0.82;
-  transform-origin: center;
-}
-
-:host ::ng-deep .autocomplete-preview-control [data-slot='autocomplete-option'] {
-  font-weight: 500;
-}
-
-.autocomplete-preview-control--headless {
-  --tng-autocomplete-bg: color-mix(
-    in srgb,
-    var(--tng-semantic-background-base) 92%,
-    var(--tng-semantic-background-canvas)
-  );
-}
-
-.autocomplete-preview-summary {
-  color: var(--tng-semantic-foreground-secondary);
-  font-size: 0.82rem;
-  margin: 0;
-}
-
-.autocomplete-debug {
-  align-items: center;
-  color: var(--tng-semantic-foreground-muted);
-  display: flex;
-  font-size: 0.8125rem;
-  gap: 0.5rem;
-}
-
-.autocomplete-debug code {
-  color: var(--tng-semantic-foreground-secondary);
-  font-family: ui-monospace, monospace;
-  font-size: 0.8125rem;
-}
-
-.autocomplete-pill {
-  align-items: center;
-  background: var(--tng-semantic-background-canvas);
-  border: 1px solid var(--tng-semantic-border-subtle);
-  border-radius: 9999px;
-  color: var(--tng-semantic-foreground-muted);
-  display: inline-flex;
-  font-size: 0.75rem;
-  height: 1.25rem;
-  padding: 0 0.5rem;
-}
-
-.autocomplete-state-grid {
-  display: grid;
-  gap: 0.7rem;
-  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+.docs-autocomplete-owner-example__control {
+  display: block;
+  width: 100%;
+  --tng-semantic-background-canvas: #ffffff;
+  --tng-semantic-background-surface: #f8fafc;
+  --tng-semantic-border-subtle: #cbd5e1;
+  --tng-semantic-border-strong: #cbd5e1;
+  --tng-semantic-foreground-primary: #0f172a;
+  --tng-semantic-foreground-secondary: #475569;
+  --tng-semantic-foreground-muted: #64748b;
+  --tng-semantic-accent-brand: #0f766e;
+  --tng-semantic-focus-ring: #0f766e;
 }

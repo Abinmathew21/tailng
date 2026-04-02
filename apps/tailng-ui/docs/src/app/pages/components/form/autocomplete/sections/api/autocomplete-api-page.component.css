@@ -4,81 +4,41 @@
 
 .autocomplete-api {
   display: grid;
+  gap: 2rem;
+}
+
+.autocomplete-api__section {
+  display: grid;
   gap: 1rem;
 }
 
-.autocomplete-api-title {
-  color: var(--tng-semantic-foreground-primary);
-  font-size: 1.5rem;
-  font-weight: 700;
+.autocomplete-api__section h2,
+.autocomplete-api__section p {
   margin: 0;
 }
 
-.autocomplete-api-lead {
-  color: var(--tng-semantic-foreground-secondary);
-  margin: 0;
+.autocomplete-api__table-wrap {
+  overflow: auto;
+  border: 1px solid color-mix(in srgb, var(--tng-semantic-border-subtle, #475569) 78%, transparent);
+  border-radius: 1rem;
 }
 
-.autocomplete-api-block {
-  border: 1px solid var(--tng-semantic-border-subtle);
-  border-radius: 0.9rem;
-  color: var(--tng-semantic-foreground-secondary);
-  display: grid;
-  gap: 0.7rem;
-  padding: 1rem;
-}
-
-.autocomplete-api-block h3 {
-  color: var(--tng-semantic-foreground-primary);
-  font-size: 1rem;
-  margin: 0;
-}
-
-.autocomplete-api-table-wrap {
-  border: 1px solid var(--tng-semantic-border-subtle);
-  border-radius: 0.75rem;
-  overflow-x: auto;
-}
-
-.autocomplete-api-table {
-  border-collapse: collapse;
-  min-width: 42rem;
+.autocomplete-api__table {
   width: 100%;
+  border-collapse: collapse;
 }
 
-.autocomplete-api-table thead th {
-  background: color-mix(in srgb, var(--tng-semantic-background-surface) 88%, transparent);
-  border-bottom: 1px solid var(--tng-semantic-border-subtle);
-  color: var(--tng-semantic-foreground-primary);
-  font-size: 0.8rem;
-  font-weight: 700;
-  letter-spacing: 0.01em;
-  padding: 0.7rem 0.75rem;
+.autocomplete-api__table th,
+.autocomplete-api__table td {
+  padding: 0.9rem 1rem;
   text-align: left;
   vertical-align: top;
 }
 
-.autocomplete-api-table tbody td {
-  border-bottom: 1px solid var(--tng-semantic-border-subtle);
-  color: var(--tng-semantic-foreground-secondary);
-  font-size: 0.86rem;
-  line-height: 1.45;
-  padding: 0.68rem 0.75rem;
-  text-align: left;
-  vertical-align: top;
+.autocomplete-api__table thead {
+  background: color-mix(in srgb, var(--tng-semantic-background-surface, #334155) 72%, transparent);
 }
 
-.autocomplete-api-table tbody tr:last-child td {
-  border-bottom: 0;
-}
-
-.autocomplete-api-table code {
-  color: var(--tng-semantic-foreground-primary);
-  font-size: 0.82rem;
-}
-
-@media (max-width: 760px) {
-  .autocomplete-api-table {
-    min-width: 36rem;
-  }
+.autocomplete-api__table tbody tr + tr td {
+  border-top: 1px solid color-mix(in srgb, var(--tng-semantic-border-subtle, #475569) 62%, transparent);
 }

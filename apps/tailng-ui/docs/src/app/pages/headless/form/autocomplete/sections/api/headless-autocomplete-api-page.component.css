@@ -1,0 +1,55 @@
+:host {
+  display: block;
+}
+
+.headless-autocomplete-api {
+  display: grid;
+  gap: 2rem;
+}
+
+.headless-autocomplete-api__section {
+  display: grid;
+  gap: 1rem;
+}
+
+.headless-autocomplete-api__section h2,
+.headless-autocomplete-api__section p,
+.headless-autocomplete-api__section ul {
+  margin: 0;
+}
+
+.headless-autocomplete-api__section ul {
+  display: grid;
+  gap: 0.6rem;
+  padding-inline-start: 1.1rem;
+}
+
+.headless-autocomplete-api__table-wrap {
+  overflow: auto;
+  border: 1px solid color-mix(in srgb, var(--tng-semantic-border-subtle, #475569) 78%, transparent);
+  border-radius: 1rem;
+}
+
+.headless-autocomplete-api__table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.headless-autocomplete-api__table th,
+.headless-autocomplete-api__table td {
+  padding: 0.9rem 1rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.headless-autocomplete-api__table thead {
+  background: color-mix(in srgb, var(--tng-semantic-background-surface, #334155) 72%, transparent);
+}
+
+.headless-autocomplete-api__table tbody tr + tr td {
+  border-top: 1px solid color-mix(in srgb, var(--tng-semantic-border-subtle, #475569) 62%, transparent);
+}
+
+.headless-autocomplete-api__table tbody tr:nth-child(even) {
+  background: color-mix(in srgb, var(--tng-semantic-background-surface, #1e293b) 34%, transparent);
+}

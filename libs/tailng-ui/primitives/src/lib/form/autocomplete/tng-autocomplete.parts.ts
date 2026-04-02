@@ -81,12 +81,10 @@ export class TngAutocompleteTrigger {
     if (this.autocomplete.disabled()) return;
     if (this.autocomplete._restoringFocus) return;
     if (!this.autocomplete.open()) {
-      this.autocomplete.openSelect();
-
-      // ✅ Emit empty query (or current query) on open-on-focus.
-      // This is the behavior your test expects.
       const input = this.el.nativeElement as HTMLInputElement;
       const value = input?.value ?? '';
+
+      this.autocomplete.openSelect();
 
       this.autocomplete.query.set(value);
       this.autocomplete.queryChange.emit(value);

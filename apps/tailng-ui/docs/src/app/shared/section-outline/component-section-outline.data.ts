@@ -31,27 +31,23 @@ export const docsComponentOutlineItemsBySlug: Readonly<Record<string, Partial<Re
   'autocomplete': {
     'overview': [
       { id: 'imports', label: 'Imports' },
-      { id: 'country-filter-variants', label: 'Country filter variants' },
-      { id: 'behavior-baseline', label: 'Behavior baseline' },
+      { id: 'basic-usage', label: 'Basic usage' },
+      { id: 'style-variants', label: 'Style variants' },
+      { id: 'accessibility-baseline', label: 'Accessibility baseline' },
     ],
     'api': [
-      { id: 'tngautocomplete-parts-primitive', label: 'tngAutocomplete + parts (primitive)' },
-      { id: 'tng-autocomplete-styled-component', label: 'tng-autocomplete (styled component)' },
+      { id: 'tng-autocomplete', label: 'tng-autocomplete' },
+      { id: 'option-accessors', label: 'Option accessors' },
+      { id: 'primitive-foundation', label: 'Primitive foundation' },
     ],
     'styling': [
-      { id: 'css-contract-table', label: 'CSS contract table' },
-      { id: 'example-style-contract', label: 'Example style contract' },
+      { id: 'css-token-contracts', label: 'CSS token contracts' },
+      { id: 'portal-overlay-guidance', label: 'Portal overlay guidance' },
+      { id: 'user-scenario-style-examples', label: 'User scenario style examples' },
     ],
     'examples': [
-      { id: 'playground-parity-demo', label: 'Playground parity demo' },
-      { id: 'country-filter-variants', label: 'Country filter variants' },
-      { id: 'repository-search-variants', label: 'Repository search variants' },
-      { id: 'state-presentation', label: 'State presentation' },
-    ],
-    'ownable-install': [
-      { id: 'install-from-registry', label: 'Install from registry' },
-      { id: 'generated-files', label: 'Generated files' },
-      { id: 'import-and-usage', label: 'Import in your feature module/component' },
+      { id: 'country-directory', label: 'Country directory' },
+      { id: 'release-owner-handoff', label: 'Release owner handoff' },
     ],
   },
   'avatar': {

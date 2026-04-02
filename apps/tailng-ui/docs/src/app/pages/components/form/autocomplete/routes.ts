@@ -49,20 +49,7 @@ export const COMPONENTS_FORM_AUTOCOMPLETE_ROUTES: Routes = [
       },
       {
         path: 'ownable-install',
-        data: {
-          registrySlug: 'autocomplete',
-          usageCode: [
-            '<tng-autocomplete',
-            '  [options]="countries"',
-            '  [value]="selectedCountry"',
-            '  (valueChange)="selectedCountry = $event"',
-            '></tng-autocomplete>',
-            '',
-          ].join('\n'),
-        },
-        loadComponent: () =>
-          import('../../../../shared/ownable-install-section/docs-ownable-install-section.component')
-            .then((module) => module.DocsOwnableInstallSectionComponent),
+        redirectTo: '/ownable/form/autocomplete',
       },
       {
         path: '**',

@@ -1,27 +1,12 @@
 <article class="autocomplete-overview">
-  <h2 class="autocomplete-overview-title">Autocomplete overview</h2>
-  <p class="autocomplete-overview-lead">
-    TailNG autocomplete supports keyboard-first single selection. This overview uses country
-    filtering to compare headless, plain CSS, and Tailwind rendering.
-  </p>
-
-  <section class="autocomplete-overview-block">
-    <h3>Imports</h3>
-    <tng-code-block
-      [code]="primitiveImportCode"
-      adapter="shiki"
-      language="ts"
-      title="Primitive import"
-      [theme]="codeBlockTheme()"
-      [lineNumbers]="false"
-      [wrap]="true"
-      [sanitizeHtml]="false"
-    ></tng-code-block>
+  <section id="imports" class="autocomplete-overview__section">
+    <h2>Imports</h2>
+    <p>Import the wrapper when you want the standard searchable single-select experience.</p>
     <tng-code-block
       [code]="componentImportCode"
       adapter="shiki"
       language="ts"
-      title="Styled component import"
+      title="Component import"
       [theme]="codeBlockTheme()"
       [lineNumbers]="false"
       [wrap]="true"
@@ -29,138 +14,106 @@
     ></tng-code-block>
   </section>
 
-  <section class="autocomplete-overview-block">
+  <section id="basic-usage" class="autocomplete-overview__section">
+    <h2>Basic usage</h2>
+    <p>
+      <code>&lt;tng-autocomplete&gt;</code> owns query display, local filtering, the combobox
+      trigger, and the listbox overlay. You pass options plus accessors for value and label.
+    </p>
+    <tng-code-block
+      [code]="basicUsageCode"
+      adapter="shiki"
+      language="html"
+      title="Basic wrapper usage"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="style-variants" class="autocomplete-overview__section">
     <app-docs-example-tabs-section
-      heading="Country filter variants"
-      description="Type Ind to narrow results to India and Indonesia, then commit with Enter or click."
-      ariaLabel="Autocomplete country filter style variants"
-      tabListAriaLabel="Autocomplete styles"
-      defaultValue="headless"
+      heading="Style variants"
+      description="The wrapper API stays the same across plain CSS and Tailwind shells."
+      ariaLabel="Autocomplete overview style variants"
+      tabListAriaLabel="Autocomplete overview style variants"
+      [defaultValue]="'plain-css'"
       [codeBlockTheme]="codeBlockTheme()"
     >
       <ng-template
         appDocsExampleVariant
-        value="headless"
-        label="Headless"
-        panelTitle="Headless country filter"
-        [codeTabs]="headlessCodeTabs"
-      >
-        <div class="autocomplete-preview-shell autocomplete-preview-shell--headless">
-          <div
-            tngAutocomplete
-            class="autocomplete-preview-control autocomplete-preview-control--headless"
-            #headlessApi="tngAutocomplete"
-            [open]="headlessOpen()"
-            (openChange)="onHeadlessOpenChange($event)"
-            [value]="headlessValue()"
-            (valueChange)="onHeadlessValueChange($event)"
-          >
-            <div tngAutocompleteTriggerContainer>
-              @if (headlessValue()) {
-                <img
-                  class="autocomplete-country-trigger-flag"
-                  [src]="getCountryFlagUrl(headlessValue()!)"
-                  [alt]="headlessSelectedLabel() + ' flag'"
-                  loading="lazy"
-                />
-              }
-              <input
-                tngAutocompleteTrigger
-                type="text"
-                [value]="headlessDisplayText()"
-                (input)="onHeadlessInput($event)"
-                placeholder="Type Ind to filter countries"
-                aria-label="Headless country filter"
-              />
-              <span tngAutocompleteIcon aria-hidden="true">▾</span>
-            </div>
-
-            <div tngAutocompleteContent>
-              <div tngAutocompleteOverlay>
-                <ul tngAutocompleteListbox [value]="headlessApi.value()">
-                  @for (country of headlessFilteredCountries(); track country.code) {
-                    <li
-                      tngAutocompleteOption
-                      [tngValue]="country.code"
-                      class="autocomplete-country-option"
-                    >
-                      <img
-                        class="autocomplete-country-flag"
-                        [src]="getCountryFlagUrl(country.code)"
-                        [alt]="country.label + ' flag'"
-                        loading="lazy"
-                      />
-                      <span>{{ country.label }}</span>
-                    </li>
-                  }
-                  @if (headlessFilteredCountries().length === 0) {
-                    <li data-slot="autocomplete-empty">No matches</li>
-                  }
-                </ul>
-              </div>
-            </div>
-          </div>
-          <p class="autocomplete-preview-summary">selected: {{ headlessSelectedLabel() }}</p>
-        </div>
-      </ng-template>
-
-      <ng-template
-        appDocsExampleVariant
         value="plain-css"
         label="Plain-CSS"
-        panelTitle="Plain CSS country filter"
-        [codeTabs]="plainCssCodeTabs"
+        panelTitle="Country directory (Plain-CSS)"
+        [codeTabs]="plainCodeTabs"
+        [stackblitzUrl]="stackblitzVanillaUrl"
       >
-        <div class="autocomplete-preview-shell autocomplete-preview-shell--plain">
+        <section class="docs-autocomplete-overview-example">
+          <div class="docs-autocomplete-overview-example__header">
+            <span class="docs-autocomplete-overview-example__eyebrow">Country directory</span>
+            <p class="docs-autocomplete-overview-example__copy">
+              Wrapper-first autocomplete for standard country search.
+            </p>
+          </div>
+
           <tng-autocomplete
-            class="autocomplete-preview-control autocomplete-preview-control--plain"
-            [options]="countries()"
-            [value]="plainValue()"
-            (valueChange)="onPlainValueChange($event)"
+            class="docs-autocomplete-overview-example__control"
+            [options]="countries"
+            [value]="plainCountry()"
+            (valueChange)="onPlainCountryChange($event)"
             [getOptionValue]="getCountryValue"
             [getOptionLabel]="getCountryLabel"
-            placeholder="Type Ind to filter countries"
-            ariaLabel="Plain CSS country filter"
+            placeholder="Type Ind to filter"
+            [ariaLabel]="'Country directory'"
           ></tng-autocomplete>
-          <p class="autocomplete-preview-summary">selected: {{ plainSelectedLabel() }}</p>
-        </div>
+
+          <p class="docs-autocomplete-overview-example__summary">
+            Selected: {{ plainSummary() }}
+          </p>
+        </section>
       </ng-template>
 
       <ng-template
         appDocsExampleVariant
         value="tailwind-css"
         label="Tailwind CSS"
-        panelTitle="Tailwind country filter"
+        panelTitle="Country directory (Tailwind CSS)"
         [codeTabs]="tailwindCodeTabs"
+        [stackblitzUrl]="stackblitzTailwindUrl"
       >
-        <div
-          class="autocomplete-preview-shell rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
-        >
+        <section class="mx-auto grid max-w-[34rem] gap-4 rounded-3xl border border-slate-200 bg-white p-5 text-slate-900 shadow-sm">
+          <div class="grid gap-1">
+            <span class="text-xs font-semibold text-slate-500">Country directory</span>
+            <p class="m-0 text-sm text-slate-600">
+              Wrapper-first autocomplete for standard country search.
+            </p>
+          </div>
+
           <tng-autocomplete
-            class="autocomplete-preview-control autocomplete-preview-control--tailwind"
-            [options]="countries()"
-            [value]="tailwindValue()"
-            (valueChange)="onTailwindValueChange($event)"
+            class="block min-w-0 w-full [--tng-semantic-background-canvas:#ffffff] [--tng-semantic-background-surface:#f1f5f9] [--tng-semantic-border-subtle:#cbd5e1] [--tng-semantic-border-strong:#94a3b8] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-foreground-secondary:#475569] [--tng-semantic-foreground-muted:#64748b] [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-focus-ring:#2563eb] [--tng-autocomplete-bg:#ffffff] [--tng-autocomplete-surface:#f1f5f9] [--tng-autocomplete-border:#cbd5e1] [--tng-autocomplete-border-strong:#94a3b8] [--tng-autocomplete-fg:#0f172a] [--tng-autocomplete-muted:#64748b] [--tng-autocomplete-brand:#2563eb] [--tng-autocomplete-focus-ring:#2563eb]"
+            [options]="countries"
+            [value]="tailwindCountry()"
+            (valueChange)="onTailwindCountryChange($event)"
             [getOptionValue]="getCountryValue"
             [getOptionLabel]="getCountryLabel"
-            placeholder="Type Ind to filter countries"
-            ariaLabel="Tailwind country filter"
+            placeholder="Type Ind to filter"
+            [ariaLabel]="'Country directory'"
           ></tng-autocomplete>
-          <p class="autocomplete-preview-summary">selected: {{ tailwindSelectedLabel() }}</p>
-        </div>
+
+          <p class="m-0 text-xs text-slate-600">Selected: {{ tailwindSummary() }}</p>
+        </section>
       </ng-template>
     </app-docs-example-tabs-section>
   </section>
 
-  <section class="autocomplete-overview-block">
-    <h3>Behavior baseline</h3>
-    <ul class="autocomplete-overview-list">
-      <li>Focus opens the list and keeps trigger <code>role="combobox"</code> semantics.</li>
-      <li>Typing filters options through the wrapper query state.</li>
-      <li>
-        Enter commits the active option and closes the overlay; pointer selection uses option
-        pointer interaction.
-      </li>
+  <section id="accessibility-baseline" class="autocomplete-overview__section">
+    <h2>Accessibility baseline</h2>
+    <ul>
+      <li>The wrapper renders a real input with combobox semantics from the primitive foundation.</li>
+      <li>Arrow keys move the active option; Enter commits the current option.</li>
+      <li>Tab leaves the autocomplete because the listbox keeps focus scoped to the trigger.</li>
+      <li>Use the headless primitive if you need create mode, strict mode, or custom option markup.</li>
     </ul>
   </section>
 </article>

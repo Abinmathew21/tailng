@@ -49,6 +49,18 @@ function getLabel(value: string | null): string {
   return value === null ? '' : LABEL_MAP[value] ?? value;
 }
 
+interface CountryOption {
+  readonly code: string;
+  readonly label: string;
+}
+
+const COUNTRY_OPTIONS: readonly CountryOption[] = Object.freeze([
+  { code: 'ca', label: 'Canada' },
+  { code: 'de', label: 'Germany' },
+  { code: 'jp', label: 'Japan' },
+  { code: 'jo', label: 'Jordan' },
+]);
+
 @Component({
   imports: [
     TngAutocomplete,
@@ -201,6 +213,86 @@ class FreeFormHostComponent {
   }
 }
 
+@Component({
+  imports: [
+    TngAutocomplete,
+    TngAutocompleteTrigger,
+    TngAutocompleteContent,
+    TngAutocompleteOverlay,
+    TngAutocompleteListbox,
+    TngAutocompleteOption,
+  ],
+  template: `
+    <div>
+      <div
+        tngAutocomplete
+        #api="tngAutocomplete"
+        [open]="open()"
+        (openChange)="open.set($event)"
+        [value]="selectedCountry()"
+        (valueChange)="selectedCountry.set($event)"
+        [query]="query()"
+        (queryChange)="query.set($event)"
+        data-testid="autocomplete"
+      >
+        <input
+          tngAutocompleteTrigger
+          type="text"
+          data-testid="trigger"
+          [value]="displayText()"
+        />
+
+        <div tngAutocompleteContent data-testid="content">
+          <div tngAutocompleteOverlay data-testid="overlay">
+            <ul
+              tngAutocompleteListbox
+              [value]="api.value()"
+              data-testid="listbox"
+            >
+              @for (country of filteredCountries(); track country.code) {
+                <li
+                  tngAutocompleteOption
+                  [tngValue]="country.code"
+                  [attr.data-testid]="'country-' + country.code"
+                >
+                  {{ country.label }}
+                </li>
+              }
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <button type="button" data-testid="next">Next control</button>
+    </div>
+  `,
+})
+class DisplayLabelHostComponent {
+  @ViewChild('api', { static: true }) api!: TngAutocomplete<string>;
+
+  readonly open = signal(false);
+  readonly selectedCountry = signal<string | null>(null);
+  readonly query = signal('');
+
+  readonly filteredCountries = computed(() => {
+    const normalizedQuery = this.query().trim().toLowerCase();
+    if (normalizedQuery === '') {
+      return COUNTRY_OPTIONS;
+    }
+
+    return COUNTRY_OPTIONS.filter((country) =>
+      country.label.toLowerCase().includes(normalizedQuery),
+    );
+  });
+
+  readonly selectedLabel = computed(
+    () =>
+      COUNTRY_OPTIONS.find((country) => country.code === this.selectedCountry())?.label ?? '',
+  );
+
+  readonly displayText = computed(() => (this.open() ? this.query() : this.selectedLabel()));
+}
+
 async function openAutocomplete(
   fixture: { detectChanges: () => void },
   trigger: HTMLElement
@@ -282,6 +374,43 @@ describe('tng-autocomplete input-on-commit', () => {
         await openAutocomplete(fixture, trigger);
         fixture.detectChanges();
         expect(trigger.value).toBe('A');
+      });
+
+      it('after typing "Jap" and selecting Japan, focus away/back keeps the selected label instead of stale query text', async () => {
+        const fixture = TestBed.configureTestingModule({
+          imports: [DisplayLabelHostComponent],
+        }).createComponent(DisplayLabelHostComponent);
+
+        fixture.detectChanges();
+        const host = fixture.componentInstance;
+        const trigger = fixture.nativeElement.querySelector(
+          '[data-testid="trigger"]'
+        ) as HTMLInputElement;
+        const nextControl = fixture.nativeElement.querySelector(
+          '[data-testid="next"]'
+        ) as HTMLButtonElement;
+
+        await openAutocomplete(fixture, trigger);
+        inputValue(trigger, 'Jap');
+        fixture.detectChanges();
+
+        const japanOption = findOptionInBody('country-jp');
+        pointerdown(japanOption);
+        fixture.detectChanges();
+
+        expect(host.selectedCountry()).toBe('jp');
+        expect(host.open()).toBe(false);
+        expect(trigger.value).toBe('Japan');
+
+        focus(nextControl);
+        fixture.detectChanges();
+        expect(document.activeElement).toBe(nextControl);
+
+        await openAutocomplete(fixture, trigger);
+        fixture.detectChanges();
+
+        expect(trigger.value).toBe('Japan');
+        expect(host.query()).toBe('Japan');
       });
     });
 

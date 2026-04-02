@@ -1,108 +1,107 @@
 <article class="autocomplete-api">
-  <h2 class="autocomplete-api-title">API reference</h2>
-  <p class="autocomplete-api-lead">
-    Autocomplete exposes a headless primitive stack and a component wrapper with option mapping.
-  </p>
-
-  <section class="autocomplete-api-block">
-    <h3><code>tngAutocomplete</code> + parts (primitive)</h3>
+  <section id="tng-autocomplete" class="autocomplete-api__section">
+    <h2><code>tng-autocomplete</code></h2>
+    <p>
+      The wrapper covers the standard searchable single-select case. Pass options, accessors, and
+      the committed value model; the wrapper owns query text and the internal primitive wiring.
+    </p>
     <tng-code-block
-      [code]="primitiveAttachmentCode"
+      [code]="wrapperAttachmentCode"
       adapter="shiki"
       language="html"
-      title="Primitive attachment"
+      title="Wrapper attachment"
+      theme="github-dark"
       [lineNumbers]="false"
       [wrap]="true"
       [sanitizeHtml]="false"
     ></tng-code-block>
 
-    <div class="autocomplete-api-table-wrap">
-      <table class="autocomplete-api-table">
+    <div class="autocomplete-api__table-wrap">
+      <table class="autocomplete-api__table">
         <thead>
           <tr>
-            <th scope="col">Input / model</th>
-            <th scope="col">Type</th>
-            <th scope="col">Notes</th>
+            <th>Property</th>
+            <th>Type</th>
+            <th>Details</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td><code>open</code></td>
-            <td><code>boolean</code></td>
-            <td>Overlay open state.</td>
-          </tr>
-          <tr>
-            <td><code>value</code></td>
-            <td><code>T | null</code></td>
-            <td>Selected option value.</td>
-          </tr>
-          <tr>
-            <td><code>query</code></td>
-            <td><code>string</code></td>
-            <td>Current trigger text used for filtering.</td>
-          </tr>
-          <tr>
-            <td><code>disabled</code>, <code>loading</code>, <code>invalid</code></td>
-            <td><code>boolean</code></td>
-            <td>State hooks reflected on attributes and ARIA.</td>
-          </tr>
-          <tr>
-            <td><code>openChange</code>, <code>valueChange</code>, <code>queryChange</code></td>
-            <td>Output events</td>
-            <td>Emitted on interaction commits and query updates.</td>
-          </tr>
+          @for (row of wrapperRows; track row.name) {
+            <tr>
+              <td><code>{{ row.name }}</code></td>
+              <td><code>{{ row.type }}</code></td>
+              <td>{{ row.details }}</td>
+            </tr>
+          }
         </tbody>
       </table>
     </div>
   </section>
 
-  <section class="autocomplete-api-block">
-    <h3><code>tng-autocomplete</code> (styled component)</h3>
+  <section id="option-accessors" class="autocomplete-api__section">
+    <h2>Option accessors</h2>
+    <p>
+      The wrapper stays generic by delegating value, label, disabled, and identity mapping to small
+      accessor functions.
+    </p>
     <tng-code-block
-      [code]="componentAttachmentCode"
+      [code]="accessorCode"
       adapter="shiki"
-      language="html"
-      title="Styled attachment"
+      language="ts"
+      title="Common accessors"
+      theme="github-dark"
       [lineNumbers]="false"
       [wrap]="true"
       [sanitizeHtml]="false"
     ></tng-code-block>
 
-    <div class="autocomplete-api-table-wrap">
-      <table class="autocomplete-api-table">
+    <div class="autocomplete-api__table-wrap">
+      <table class="autocomplete-api__table">
         <thead>
           <tr>
-            <th scope="col">API</th>
-            <th scope="col">Type</th>
-            <th scope="col">Details</th>
+            <th>Accessor</th>
+            <th>Type</th>
+            <th>Details</th>
           </tr>
         </thead>
         <tbody>
+          @for (row of accessorRows; track row.name) {
+            <tr>
+              <td><code>{{ row.name }}</code></td>
+              <td><code>{{ row.type }}</code></td>
+              <td>{{ row.details }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="primitive-foundation" class="autocomplete-api__section">
+    <h2>Primitive foundation</h2>
+    <p>
+      <code>&lt;tng-autocomplete&gt;</code> is built on the headless autocomplete primitive. For
+      more advanced behavior, drop to headless so you can own the trigger, content, overlay, and
+      option markup directly.
+    </p>
+
+    <div class="autocomplete-api__table-wrap">
+      <table class="autocomplete-api__table">
+        <thead>
           <tr>
-            <td><code>options</code></td>
-            <td><code>readonly O[]</code></td>
-            <td>Option source for rendering and filtering.</td>
+            <th>Capability</th>
+            <th>Availability</th>
+            <th>Guidance</th>
           </tr>
-          <tr>
-            <td><code>getOptionValue</code></td>
-            <td><code>(option: O) =&gt; V</code></td>
-            <td>Maps options to committed value model.</td>
-          </tr>
-          <tr>
-            <td><code>getOptionLabel</code></td>
-            <td><code>(option: O) =&gt; string</code></td>
-            <td>Maps options to display/filter label.</td>
-          </tr>
-          <tr>
-            <td><code>isOptionDisabled</code></td>
-            <td><code>(option: O) =&gt; boolean</code></td>
-            <td>Disables specific options.</td>
-          </tr>
-          <tr>
-            <td>Forwarded primitive model</td>
-            <td><code>open</code>, <code>value</code>, <code>openChange</code>, <code>valueChange</code></td>
-            <td>Exposed through host directive wiring.</td>
-          </tr>
+        </thead>
+        <tbody>
+          @for (row of primitiveFoundationRows; track row.name) {
+            <tr>
+              <td><code>{{ row.name }}</code></td>
+              <td><code>{{ row.type }}</code></td>
+              <td>{{ row.details }}</td>
+            </tr>
+          }
         </tbody>
       </table>
     </div>

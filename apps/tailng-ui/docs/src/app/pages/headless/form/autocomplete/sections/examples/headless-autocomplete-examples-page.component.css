@@ -1,0 +1,120 @@
+:host {
+  display: block;
+}
+
+.headless-autocomplete-examples {
+  display: grid;
+  gap: 2rem;
+}
+
+.headless-autocomplete-examples__section {
+  display: grid;
+  gap: 1rem;
+}
+
+.headless-autocomplete-examples__card {
+  display: grid;
+  gap: 1rem;
+  inline-size: min(100%, 34rem);
+  margin-inline: auto;
+  padding: 1rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 1.1rem;
+  background: #ffffff;
+  color: #0f172a;
+  color-scheme: light;
+}
+
+.headless-autocomplete-examples__card-header {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.headless-autocomplete-examples__eyebrow {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #64748b;
+}
+
+.headless-autocomplete-examples__copy,
+.headless-autocomplete-examples__summary {
+  margin: 0;
+  color: #475569;
+}
+
+.headless-autocomplete-examples__control {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.headless-autocomplete-examples__trigger {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  min-height: 2.875rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.9rem;
+  background: #ffffff;
+  transition: border-color 140ms ease, box-shadow 140ms ease;
+}
+
+.headless-autocomplete-examples__trigger:has(:focus-visible) {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.14);
+}
+
+.headless-autocomplete-examples__trigger [data-slot='autocomplete-trigger'] {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  color: #0f172a;
+  padding: 0.72rem 1rem;
+  outline: none;
+}
+
+.headless-autocomplete-examples__trigger [data-slot='autocomplete-trigger']::placeholder,
+.headless-autocomplete-examples__trigger [data-slot='autocomplete-icon'] {
+  color: #94a3b8;
+}
+
+.headless-autocomplete-examples__trigger [data-slot='autocomplete-icon'] {
+  margin-inline-end: 1rem;
+}
+
+.headless-autocomplete-examples__overlay {
+  border: 1px solid #cbd5e1;
+  border-radius: 0.95rem;
+  background: #ffffff;
+  max-inline-size: min(92vw, 34rem);
+  overflow: auto;
+  padding: 0.4rem;
+  box-shadow: 0 18px 38px -28px rgba(15, 23, 42, 0.32);
+}
+
+.headless-autocomplete-examples__overlay [data-slot='autocomplete-listbox'] {
+  display: grid;
+  gap: 0.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.headless-autocomplete-examples__option {
+  border: 1px solid transparent;
+  border-radius: 0.75rem;
+  padding: 0.7rem 0.85rem;
+  color: #334155;
+}
+
+.headless-autocomplete-examples__option[data-active] {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+}
+
+.headless-autocomplete-examples__option[data-selected] {
+  background: #dbeafe;
+  border-color: #93c5fd;
+  color: #1d4ed8;
+  font-weight: 600;
+}

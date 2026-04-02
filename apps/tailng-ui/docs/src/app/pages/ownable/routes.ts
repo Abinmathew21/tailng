@@ -29,6 +29,7 @@ const radioItem = requireOwnableItem(OWNABLE_FORM_GROUP, 'radio');
 const buttonToggleItem = requireOwnableItem(OWNABLE_FORM_GROUP, 'button-toggle');
 const inputItem = requireOwnableItem(OWNABLE_FORM_GROUP, 'input');
 const textareaItem = requireOwnableItem(OWNABLE_FORM_GROUP, 'textarea');
+const autocompleteItem = requireOwnableItem(OWNABLE_FORM_GROUP, 'autocomplete');
 const switchItem = requireOwnableItem(OWNABLE_FORM_GROUP, 'switch');
 const labelItem = requireOwnableItem(OWNABLE_FORM_GROUP, 'label');
 const cliItem = requireOwnableItem(OWNABLE_TOOLING_GROUP, 'cli');
@@ -108,6 +109,14 @@ export const OWNABLE_ROUTES: Routes = [
         loadComponent: () =>
           import('./form/textarea/ownable-textarea-page.component').then(
             (m) => m.OwnableTextareaPageComponent,
+          ),
+      },
+      {
+        path: 'form/autocomplete',
+        data: toOwnableDocsRouteData(OWNABLE_FORM_GROUP, autocompleteItem),
+        loadComponent: () =>
+          import('./form/autocomplete/ownable-autocomplete-page.component').then(
+            (m) => m.OwnableAutocompletePageComponent,
           ),
       },
       {

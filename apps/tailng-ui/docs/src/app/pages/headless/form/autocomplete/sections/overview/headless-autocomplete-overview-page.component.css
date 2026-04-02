@@ -1,0 +1,124 @@
+:host {
+  display: block;
+}
+
+.headless-autocomplete-doc {
+  display: grid;
+  gap: 2rem;
+}
+
+.headless-autocomplete-doc__section {
+  display: grid;
+  gap: 1rem;
+}
+
+.headless-autocomplete-doc__section h2 {
+  margin: 0;
+}
+
+.headless-autocomplete-doc__section p,
+.headless-autocomplete-doc__section ul {
+  margin: 0;
+}
+
+.headless-autocomplete-doc__section ul {
+  display: grid;
+  gap: 0.65rem;
+  padding-inline-start: 1.1rem;
+}
+
+.headless-autocomplete-overview-example {
+  display: grid;
+  gap: 0.75rem;
+  inline-size: min(100%, 32rem);
+  margin-inline: auto;
+}
+
+.headless-autocomplete-overview-label {
+  color: var(--tng-semantic-foreground-secondary, #64748b);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.headless-autocomplete-overview-control {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.headless-autocomplete-overview-trigger {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  min-height: 2.875rem;
+  border: 1px solid var(--tng-semantic-border-subtle, #cbd5e1);
+  border-radius: 0.9rem;
+  background: var(--tng-semantic-background-base, #ffffff);
+  transition: border-color 140ms ease, box-shadow 140ms ease;
+}
+
+.headless-autocomplete-overview-trigger:has(:focus-visible) {
+  border-color: var(--tng-semantic-accent-brand, #2563eb);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--tng-semantic-accent-brand, #2563eb) 14%, transparent);
+}
+
+.headless-autocomplete-overview-trigger [data-slot='autocomplete-trigger'] {
+  flex: 1;
+  min-width: 0;
+  padding: 0.72rem 1rem;
+  border: 0;
+  background: transparent;
+  color: var(--tng-semantic-foreground-primary, #0f172a);
+  outline: none;
+}
+
+.headless-autocomplete-overview-trigger [data-slot='autocomplete-trigger']::placeholder {
+  color: var(--tng-semantic-foreground-secondary, #94a3b8);
+}
+
+.headless-autocomplete-overview-trigger [data-slot='autocomplete-icon'] {
+  margin-inline-end: 1rem;
+  color: var(--tng-semantic-foreground-secondary, #64748b);
+}
+
+.headless-autocomplete-overview-plain-overlay {
+  border: 1px solid var(--tng-semantic-border-subtle, #cbd5e1);
+  border-radius: 1rem;
+  background: var(--tng-semantic-background-base, #ffffff);
+  max-inline-size: min(92vw, 24rem);
+  overflow: auto;
+  box-shadow: 0 18px 40px -30px rgba(15, 23, 42, 0.28);
+  padding: 0.5rem;
+}
+
+.headless-autocomplete-overview-plain-overlay [data-slot='autocomplete-listbox'] {
+  display: grid;
+  gap: 0.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.headless-autocomplete-overview-plain-option {
+  border: 1px solid transparent;
+  border-radius: 0.75rem;
+  padding: 0.7rem 0.85rem;
+  color: var(--tng-semantic-foreground-primary, #0f172a);
+}
+
+.headless-autocomplete-overview-plain-option[data-active] {
+  background: color-mix(in srgb, var(--tng-semantic-background-surface, #f8fafc) 84%, transparent);
+  border-color: var(--tng-semantic-border-subtle, #cbd5e1);
+}
+
+.headless-autocomplete-overview-plain-option[data-selected] {
+  background: color-mix(in srgb, var(--tng-semantic-accent-brand, #2563eb) 16%, transparent);
+  border-color: color-mix(in srgb, var(--tng-semantic-accent-brand, #2563eb) 36%, transparent);
+  color: var(--tng-semantic-accent-brand, #1d4ed8);
+  font-weight: 600;
+}
+
+.headless-autocomplete-overview-summary {
+  margin: 0;
+  color: var(--tng-semantic-foreground-secondary, #475569);
+  font-size: 0.82rem;
+}

@@ -1,0 +1,301 @@
+<article class="headless-autocomplete-examples">
+  <section id="country-directory" class="headless-autocomplete-examples__section">
+    <app-docs-example-tabs-section
+      heading="Country directory"
+      description="A standard single-select country search. Type to filter, then commit with Enter or click."
+      ariaLabel="Headless autocomplete country directory examples"
+      tabListAriaLabel="Headless autocomplete country directory style variants"
+      [defaultValue]="'plain-css'"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Country directory (Plain-CSS)"
+        [codeTabs]="countryPlainCodeTabs"
+        [stackblitzUrl]="stackblitzVanillaUrl"
+      >
+        <section class="headless-autocomplete-examples__card">
+          <div class="headless-autocomplete-examples__card-header">
+            <span class="headless-autocomplete-examples__eyebrow">Country directory</span>
+            <p class="headless-autocomplete-examples__copy">
+              Search the release locale list and commit with Enter or click.
+            </p>
+          </div>
+
+          <section
+            tngAutocomplete
+            class="headless-autocomplete-examples__control"
+            [open]="plainCountryOpen()"
+            (openChange)="plainCountryOpen.set($event)"
+            [value]="plainCountryValue()"
+            (valueChange)="plainCountryValue.set($event)"
+            [query]="plainCountryQuery()"
+            (queryChange)="plainCountryQuery.set($event)"
+          >
+            <div
+              tngAutocompleteTriggerContainer
+              class="headless-autocomplete-examples__trigger"
+            >
+              <input
+                tngAutocompleteTrigger
+                type="text"
+                [value]="plainCountryDisplayText()"
+                (input)="onPlainCountryInput($event)"
+                aria-label="Country directory"
+                placeholder="Type Ind to filter"
+              />
+              <span tngAutocompleteIcon aria-hidden="true">▾</span>
+            </div>
+
+            <div tngAutocompleteContent class="contents">
+              <div tngAutocompleteOverlay class="headless-autocomplete-examples__overlay">
+                <ul tngAutocompleteListbox [value]="plainCountryValue()">
+                  @for (country of plainCountryFiltered(); track country.code) {
+                    <li
+                      tngAutocompleteOption
+                      class="headless-autocomplete-examples__option"
+                      [tngValue]="country.code"
+                    >
+                      {{ country.label }}
+                    </li>
+                  }
+                  @if (plainCountryFiltered().length === 0) {
+                    <li data-slot="autocomplete-empty">No matches</li>
+                  }
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          <p class="headless-autocomplete-examples__summary">
+            Selected: {{ plainCountrySelectedLabel() }}
+          </p>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Country directory (Tailwind CSS)"
+        [codeTabs]="countryTailwindCodeTabs"
+        [stackblitzUrl]="stackblitzTailwindUrl"
+      >
+        <section class="mx-auto grid max-w-[34rem] gap-4 rounded-3xl border border-slate-200 bg-white p-5 text-slate-900 shadow-sm">
+          <div class="grid gap-1">
+            <span class="text-xs font-semibold text-slate-500">Country directory</span>
+            <p class="m-0 text-sm text-slate-600">
+              Search the release locale list and commit with Enter or click.
+            </p>
+          </div>
+
+          <section
+            tngAutocomplete
+            class="grid gap-2"
+            [open]="tailwindCountryOpen()"
+            (openChange)="tailwindCountryOpen.set($event)"
+            [value]="tailwindCountryValue()"
+            (valueChange)="tailwindCountryValue.set($event)"
+            [query]="tailwindCountryQuery()"
+            (queryChange)="tailwindCountryQuery.set($event)"
+          >
+            <div
+              tngAutocompleteTriggerContainer
+              class="flex min-h-12 items-center gap-3 rounded-2xl border border-slate-200 bg-white shadow-sm transition focus-within:border-blue-500 focus-within:ring-4 focus-within:ring-blue-500/10"
+            >
+              <input
+                tngAutocompleteTrigger
+                type="text"
+                class="min-w-0 flex-1 bg-transparent px-4 py-3 text-sm text-slate-900 outline-none placeholder:text-slate-400"
+                [value]="tailwindCountryDisplayText()"
+                (input)="onTailwindCountryInput($event)"
+                aria-label="Country directory"
+                placeholder="Type Ind to filter"
+              />
+              <span tngAutocompleteIcon aria-hidden="true" class="mr-4 text-slate-400">▾</span>
+            </div>
+
+            <div tngAutocompleteContent class="contents">
+              <div
+                tngAutocompleteOverlay
+                class="rounded-2xl border border-slate-200 bg-white p-2 shadow-2xl shadow-slate-900/10"
+              >
+                <ul tngAutocompleteListbox [value]="tailwindCountryValue()" class="grid gap-1">
+                  @for (country of tailwindCountryFiltered(); track country.code) {
+                    <li
+                      tngAutocompleteOption
+                      class="rounded-xl border border-transparent px-3 py-2 text-sm text-slate-700 transition data-[active]:border-slate-200 data-[active]:bg-slate-50 data-[selected]:border-blue-200 data-[selected]:bg-blue-50 data-[selected]:font-semibold data-[selected]:text-blue-700"
+                      [tngValue]="country.code"
+                    >
+                      {{ country.label }}
+                    </li>
+                  }
+                  @if (tailwindCountryFiltered().length === 0) {
+                    <li data-slot="autocomplete-empty" class="px-3 py-2 text-sm text-slate-500">No matches</li>
+                  }
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          <p class="m-0 text-xs text-slate-600">Selected: {{ tailwindCountrySelectedLabel() }}</p>
+        </section>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section id="repository-search-with-create" class="headless-autocomplete-examples__section">
+    <app-docs-example-tabs-section
+      heading="Repository search with create"
+      description="A richer headless scenario: when there is no active option, Enter can create a new repository token."
+      ariaLabel="Headless autocomplete repository create examples"
+      tabListAriaLabel="Headless autocomplete repository create style variants"
+      [defaultValue]="'plain-css'"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Repository search with create (Plain-CSS)"
+        [codeTabs]="repositoryPlainCodeTabs"
+        [stackblitzUrl]="stackblitzVanillaUrl"
+      >
+        <section class="headless-autocomplete-examples__card">
+          <div class="headless-autocomplete-examples__card-header">
+            <span class="headless-autocomplete-examples__eyebrow">Repository search</span>
+            <p class="headless-autocomplete-examples__copy">
+              Type to filter, or press Enter to create a new repository tag when there is no active match.
+            </p>
+          </div>
+
+          <section
+            tngAutocomplete
+            class="headless-autocomplete-examples__control"
+            [open]="plainRepositoryOpen()"
+            (openChange)="plainRepositoryOpen.set($event)"
+            [value]="plainRepositoryValue()"
+            (valueChange)="plainRepositoryValue.set($event)"
+            [query]="plainRepositoryQuery()"
+            (queryChange)="plainRepositoryQuery.set($event)"
+            [allowCreate]="true"
+            [strict]="false"
+            (create)="onPlainRepositoryCreate($event.query)"
+          >
+            <div
+              tngAutocompleteTriggerContainer
+              class="headless-autocomplete-examples__trigger"
+            >
+              <input
+                tngAutocompleteTrigger
+                type="text"
+                [value]="plainRepositoryDisplayText()"
+                (input)="onPlainRepositoryInput($event)"
+                aria-label="Repository search"
+                placeholder="Search or create repository"
+              />
+              <span tngAutocompleteIcon aria-hidden="true">＋</span>
+            </div>
+
+            <div tngAutocompleteContent class="contents">
+              <div tngAutocompleteOverlay class="headless-autocomplete-examples__overlay">
+                <ul tngAutocompleteListbox [value]="plainRepositoryValue()">
+                  @for (repository of plainRepositoryFiltered(); track repository.id) {
+                    <li
+                      tngAutocompleteOption
+                      class="headless-autocomplete-examples__option"
+                      [tngValue]="repository.id"
+                    >
+                      {{ repository.label }}
+                    </li>
+                  }
+                  @if (plainRepositoryFiltered().length === 0) {
+                    <li data-slot="autocomplete-empty">Press Enter to create “{{ plainRepositoryQuery() }}”.</li>
+                  }
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          <p class="headless-autocomplete-examples__summary">
+            Selected: {{ plainRepositorySelectedLabel() }}
+          </p>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Repository search with create (Tailwind CSS)"
+        [codeTabs]="repositoryTailwindCodeTabs"
+        [stackblitzUrl]="stackblitzTailwindUrl"
+      >
+        <section class="mx-auto grid max-w-[34rem] gap-4 rounded-3xl border border-slate-200 bg-white p-5 text-slate-900 shadow-sm">
+          <div class="grid gap-1">
+            <span class="text-xs font-semibold text-slate-500">Repository search</span>
+            <p class="m-0 text-sm text-slate-600">
+              Type to filter, or press Enter to create a new repository tag when there is no active match.
+            </p>
+          </div>
+
+          <section
+            tngAutocomplete
+            class="grid gap-2"
+            [open]="tailwindRepositoryOpen()"
+            (openChange)="tailwindRepositoryOpen.set($event)"
+            [value]="tailwindRepositoryValue()"
+            (valueChange)="tailwindRepositoryValue.set($event)"
+            [query]="tailwindRepositoryQuery()"
+            (queryChange)="tailwindRepositoryQuery.set($event)"
+            [allowCreate]="true"
+            [strict]="false"
+            (create)="onTailwindRepositoryCreate($event.query)"
+          >
+            <div
+              tngAutocompleteTriggerContainer
+              class="flex min-h-12 items-center gap-3 rounded-2xl border border-slate-200 bg-white shadow-sm transition focus-within:border-cyan-500 focus-within:ring-4 focus-within:ring-cyan-500/10"
+            >
+              <input
+                tngAutocompleteTrigger
+                type="text"
+                class="min-w-0 flex-1 bg-transparent px-4 py-3 text-sm text-slate-900 outline-none placeholder:text-slate-400"
+                [value]="tailwindRepositoryDisplayText()"
+                (input)="onTailwindRepositoryInput($event)"
+                aria-label="Repository search"
+                placeholder="Search or create repository"
+              />
+              <span tngAutocompleteIcon aria-hidden="true" class="mr-4 text-slate-400">＋</span>
+            </div>
+
+            <div tngAutocompleteContent class="contents">
+              <div
+                tngAutocompleteOverlay
+                class="rounded-2xl border border-slate-200 bg-white p-2 shadow-2xl shadow-slate-900/10"
+              >
+                <ul tngAutocompleteListbox [value]="tailwindRepositoryValue()" class="grid gap-1">
+                  @for (repository of tailwindRepositoryFiltered(); track repository.id) {
+                    <li
+                      tngAutocompleteOption
+                      class="rounded-xl border border-transparent px-3 py-2 text-sm text-slate-700 transition data-[active]:border-slate-200 data-[active]:bg-slate-50 data-[selected]:border-cyan-200 data-[selected]:bg-cyan-50 data-[selected]:font-semibold data-[selected]:text-cyan-700"
+                      [tngValue]="repository.id"
+                    >
+                      {{ repository.label }}
+                    </li>
+                  }
+                  @if (tailwindRepositoryFiltered().length === 0) {
+                    <li data-slot="autocomplete-empty" class="px-3 py-2 text-sm text-slate-500">Press Enter to create “{{ tailwindRepositoryQuery() }}”.</li>
+                  }
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          <p class="m-0 text-xs text-slate-600">Selected: {{ tailwindRepositorySelectedLabel() }}</p>
+        </section>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+</article>

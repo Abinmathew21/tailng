@@ -48,6 +48,11 @@ export const HEADLESS_FORM_ROUTES: Routes = [
     path: 'listbox',
     loadChildren: () => import('./listbox/routes').then((m) => m.HEADLESS_FORM_LISTBOX_ROUTES),
   },
+  {
+    path: 'autocomplete',
+    loadChildren: () =>
+      import('./autocomplete/routes').then((m) => m.HEADLESS_FORM_AUTOCOMPLETE_ROUTES),
+  },
   ...group.items
     .filter(
       (item) =>
@@ -59,7 +64,8 @@ export const HEADLESS_FORM_ROUTES: Routes = [
         item.slug !== 'toggle' &&
         item.slug !== 'radio' &&
         item.slug !== 'button-toggle' &&
-        item.slug !== 'listbox',
+        item.slug !== 'listbox' &&
+        item.slug !== 'autocomplete',
     )
     .map((item) => ({
       path: item.slug,

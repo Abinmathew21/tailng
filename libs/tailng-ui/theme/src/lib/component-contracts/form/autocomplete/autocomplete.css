@@ -20,8 +20,8 @@
 
     /* surface + border */
     --tng-autocomplete-border: var(--tng-semantic-border-subtle, #e5e7eb);
-    --tng-autocomplete-border-strong: var(--tng-semantic-border-strong, #d1d5db);
-    --tng-autocomplete-bg: var(--tng-semantic-background-canvas, #ffffff);
+    --tng-autocomplete-border-strong: var(--tng-semantic-border-strong, #bac6d8);
+    --tng-autocomplete-bg: var(--tng-semantic-background-base, #ffffff);
     --tng-autocomplete-surface: var(--tng-semantic-background-surface, #f8fafc);
     --tng-autocomplete-fg: var(--tng-semantic-foreground-primary, #0f172a);
     --tng-autocomplete-muted: var(--tng-semantic-foreground-muted, #64748b);
@@ -51,7 +51,7 @@
 
     border: 1px solid var(--tng-autocomplete-border-strong);
     border-radius: var(--tng-autocomplete-radius);
-    background: color-mix(in srgb, var(--tng-autocomplete-bg) 92%, var(--tng-autocomplete-surface));
+    background: var(--tng-autocomplete-surface);
     min-height: 2.625rem;
 
     transition:
@@ -61,7 +61,7 @@
   }
 
   :where([data-slot="autocomplete-trigger-container"]:hover) {
-    border-color: color-mix(in srgb, var(--tng-autocomplete-border-strong) 60%, var(--tng-autocomplete-brand));
+    border-color: color-mix(in srgb, var(--tng-autocomplete-border-strong) 70%, var(--tng-autocomplete-brand));
   }
 
   :where([data-slot="autocomplete-trigger-container"]:has(:focus)),

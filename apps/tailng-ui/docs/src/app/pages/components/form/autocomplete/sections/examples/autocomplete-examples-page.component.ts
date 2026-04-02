@@ -1,570 +1,481 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, computed, inject, signal, type OnDestroy } from '@angular/core';
-import { observeDocsCodeThemeChanges, resolveDocsCodeBlockTheme } from '../../../../../../shared/util';
 import { TngAutocompleteComponent } from '@tailng-ui/components';
-import {
-  TngAutocomplete,
-  TngAutocompleteContent,
-  TngAutocompleteIcon,
-  TngAutocompleteListbox,
-  TngAutocompleteOption,
-  TngAutocompleteOverlay,
-  TngAutocompleteTrigger,
-  TngAutocompleteTriggerContainer,
-} from '@tailng-ui/primitives';
-import { type DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
+import type { DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
 import {
   DocsExampleTabsSectionComponent,
   DocsExampleVariantDirective,
 } from '../../../../../../shared/example-tabs-section/docs-example-tabs-section.component';
+import {
+  observeDocsCodeThemeChanges,
+  resolveDocsCodeBlockTheme,
+} from '../../../../../../shared/util';
+import { stackblitzTailwindUrl, stackblitzVanillaUrl } from '../../autocomplete.util';
 
 interface CountryOption {
-  code: string;
-  label: string;
+  readonly code: string;
+  readonly label: string;
 }
 
-interface RepositoryOption {
-  id: string;
-  name: string;
+interface OwnerOption {
+  readonly id: string;
+  readonly name: string;
+  readonly disabled?: boolean;
 }
-
-type AutocompleteValueChange = unknown;
 
 const COUNTRY_OPTIONS: readonly CountryOption[] = Object.freeze([
-  { code: 'in', label: 'India' },
-  { code: 'id', label: 'Indonesia' },
   { code: 'ca', label: 'Canada' },
   { code: 'de', label: 'Germany' },
+  { code: 'id', label: 'Indonesia' },
+  { code: 'in', label: 'India' },
   { code: 'jp', label: 'Japan' },
   { code: 'mx', label: 'Mexico' },
   { code: 'es', label: 'Spain' },
 ]);
 
-const REPOSITORY_OPTIONS: readonly RepositoryOption[] = Object.freeze([
-  { id: 'tailng-ui', name: 'tailng-ui' },
-  { id: 'tailng-docs', name: 'tailng-docs' },
-  { id: 'tailng-cli', name: 'tailng-cli' },
-  { id: 'angular', name: 'angular' },
-  { id: 'angular-components', name: 'angular/components' },
-  { id: 'storybook', name: 'storybook' },
-  { id: 'nx', name: 'nx' },
+const OWNER_OPTIONS: readonly OwnerOption[] = Object.freeze([
+  { id: 'abigail', name: 'Abigail Chen' },
+  { id: 'mina', name: 'Mina Lee' },
+  { id: 'omar', name: 'Omar Aziz', disabled: true },
+  { id: 'sanjay', name: 'Sanjay Patel' },
+]);
+
+const COUNTRY_PLAIN_TS_CODE = String.raw`import { Component, computed, signal } from '@angular/core';
+import { TngAutocompleteComponent } from '@tailng-ui/components';
+
+interface CountryOption {
+  readonly code: string;
+  readonly label: string;
+}
+
+const COUNTRY_OPTIONS: readonly CountryOption[] = Object.freeze([
+  { code: 'ca', label: 'Canada' },
+  { code: 'de', label: 'Germany' },
+  { code: 'id', label: 'Indonesia' },
+  { code: 'in', label: 'India' },
+  { code: 'jp', label: 'Japan' },
+  { code: 'mx', label: 'Mexico' },
+  { code: 'es', label: 'Spain' },
 ]);
 
 @Component({
+  selector: 'app-docs-autocomplete-country-example-plain',
+  standalone: true,
+  imports: [TngAutocompleteComponent],
+  templateUrl: './docs-autocomplete-country-example-plain.component.html',
+  styleUrl: './docs-autocomplete-country-example-plain.component.css',
+})
+export class DocsAutocompleteCountryExamplePlainComponent {
+  readonly countries = COUNTRY_OPTIONS;
+  readonly selectedCountry = signal<string | null>('in');
+  readonly selectedSummary = computed(
+    () => this.countries.find((country) => country.code === this.selectedCountry())?.label ?? 'none',
+  );
+  readonly getCountryValue = (country: CountryOption) => country.code;
+  readonly getCountryLabel = (country: CountryOption) => country.label;
+
+  onSelectedCountryChange(value: unknown): void {
+    this.selectedCountry.set(typeof value === 'string' ? value : null);
+  }
+}
+`;
+
+const COUNTRY_PLAIN_HTML_CODE = String.raw`<section class="docs-autocomplete-country-example">
+  <div class="docs-autocomplete-country-example__header">
+    <span class="docs-autocomplete-country-example__eyebrow">Country directory</span>
+    <p class="docs-autocomplete-country-example__copy">
+      Search the release locale list and commit with keyboard or pointer selection.
+    </p>
+  </div>
+
+  <tng-autocomplete
+    class="docs-autocomplete-country-example__control"
+    [options]="countries"
+    [value]="selectedCountry()"
+    (valueChange)="onSelectedCountryChange($event)"
+    [getOptionValue]="getCountryValue"
+    [getOptionLabel]="getCountryLabel"
+    placeholder="Type Ind to filter"
+    [ariaLabel]="'Country directory'"
+  ></tng-autocomplete>
+
+  <p class="docs-autocomplete-country-example__summary">
+    Selected: {{ selectedSummary() }}
+  </p>
+</section>
+`;
+
+const COUNTRY_PLAIN_CSS_CODE = String.raw`.docs-autocomplete-country-example {
+  display: grid;
+  gap: 0.9rem;
+  inline-size: min(100%, 34rem);
+  margin-inline: auto;
+  padding: 1rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 1.1rem;
+  background: #ffffff;
+  color: #0f172a;
+  color-scheme: light;
+}
+
+.docs-autocomplete-country-example__header {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.docs-autocomplete-country-example__eyebrow {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #64748b;
+}
+
+.docs-autocomplete-country-example__copy,
+.docs-autocomplete-country-example__summary {
+  margin: 0;
+  color: #475569;
+}
+
+.docs-autocomplete-country-example__control {
+  display: block;
+  width: 100%;
+  --tng-semantic-background-canvas: #ffffff;
+  --tng-semantic-background-surface: #f8fafc;
+  --tng-semantic-border-subtle: #cbd5e1;
+  --tng-semantic-border-strong: #cbd5e1;
+  --tng-semantic-foreground-primary: #0f172a;
+  --tng-semantic-foreground-secondary: #475569;
+  --tng-semantic-foreground-muted: #64748b;
+  --tng-semantic-accent-brand: #2563eb;
+  --tng-semantic-focus-ring: #2563eb;
+}
+`;
+
+const COUNTRY_TAILWIND_TS_CODE = String.raw`import { Component, computed, signal } from '@angular/core';
+import { TngAutocompleteComponent } from '@tailng-ui/components';
+
+interface CountryOption {
+  readonly code: string;
+  readonly label: string;
+}
+
+const COUNTRY_OPTIONS: readonly CountryOption[] = Object.freeze([
+  { code: 'ca', label: 'Canada' },
+  { code: 'de', label: 'Germany' },
+  { code: 'id', label: 'Indonesia' },
+  { code: 'in', label: 'India' },
+  { code: 'jp', label: 'Japan' },
+  { code: 'mx', label: 'Mexico' },
+  { code: 'es', label: 'Spain' },
+]);
+
+@Component({
+  selector: 'app-docs-autocomplete-country-example-tailwind',
+  standalone: true,
+  imports: [TngAutocompleteComponent],
+  templateUrl: './docs-autocomplete-country-example-tailwind.component.html',
+  styleUrl: './docs-autocomplete-country-example-tailwind.component.css',
+})
+export class DocsAutocompleteCountryExampleTailwindComponent {
+  readonly countries = COUNTRY_OPTIONS;
+  readonly selectedCountry = signal<string | null>('jp');
+  readonly selectedSummary = computed(
+    () => this.countries.find((country) => country.code === this.selectedCountry())?.label ?? 'none',
+  );
+  readonly getCountryValue = (country: CountryOption) => country.code;
+  readonly getCountryLabel = (country: CountryOption) => country.label;
+
+  onSelectedCountryChange(value: unknown): void {
+    this.selectedCountry.set(typeof value === 'string' ? value : null);
+  }
+}
+`;
+
+const COUNTRY_TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-[34rem] gap-4 rounded-3xl border border-slate-200 bg-white p-5 text-slate-900 shadow-sm">
+  <div class="grid gap-1">
+    <span class="text-xs font-semibold text-slate-500">Country directory</span>
+    <p class="m-0 text-sm text-slate-600">
+      Search the release locale list and commit with keyboard or pointer selection.
+    </p>
+  </div>
+
+  <tng-autocomplete
+    class="block w-full [--tng-semantic-background-canvas:#ffffff] [--tng-semantic-background-surface:#f8fafc] [--tng-semantic-border-subtle:#cbd5e1] [--tng-semantic-border-strong:#cbd5e1] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-foreground-secondary:#475569] [--tng-semantic-foreground-muted:#64748b] [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-focus-ring:#2563eb]"
+    [options]="countries"
+    [value]="selectedCountry()"
+    (valueChange)="onSelectedCountryChange($event)"
+    [getOptionValue]="getCountryValue"
+    [getOptionLabel]="getCountryLabel"
+    placeholder="Type Ind to filter"
+    [ariaLabel]="'Country directory'"
+  ></tng-autocomplete>
+
+  <p class="m-0 text-xs text-slate-600">Selected: {{ selectedSummary() }}</p>
+</section>
+`;
+
+const COUNTRY_TAILWIND_CSS_CODE = String.raw`/* No additional CSS file is required for this Tailwind example. */`;
+
+const OWNER_PLAIN_TS_CODE = String.raw`import { Component, computed, signal } from '@angular/core';
+import { TngAutocompleteComponent } from '@tailng-ui/components';
+
+interface OwnerOption {
+  readonly id: string;
+  readonly name: string;
+  readonly disabled?: boolean;
+}
+
+const OWNER_OPTIONS: readonly OwnerOption[] = Object.freeze([
+  { id: 'abigail', name: 'Abigail Chen' },
+  { id: 'mina', name: 'Mina Lee' },
+  { id: 'omar', name: 'Omar Aziz', disabled: true },
+  { id: 'sanjay', name: 'Sanjay Patel' },
+]);
+
+@Component({
+  selector: 'app-docs-autocomplete-owner-example-plain',
+  standalone: true,
+  imports: [TngAutocompleteComponent],
+  templateUrl: './docs-autocomplete-owner-example-plain.component.html',
+  styleUrl: './docs-autocomplete-owner-example-plain.component.css',
+})
+export class DocsAutocompleteOwnerExamplePlainComponent {
+  readonly owners = OWNER_OPTIONS;
+  readonly selectedOwner = signal<string | null>('abigail');
+  readonly selectedSummary = computed(
+    () => this.owners.find((owner) => owner.id === this.selectedOwner())?.name ?? 'none',
+  );
+  readonly getOwnerValue = (owner: OwnerOption) => owner.id;
+  readonly getOwnerLabel = (owner: OwnerOption) => owner.name;
+  readonly isOwnerDisabled = (owner: OwnerOption) => owner.disabled === true;
+
+  onSelectedOwnerChange(value: unknown): void {
+    this.selectedOwner.set(typeof value === 'string' ? value : null);
+  }
+}
+`;
+
+const OWNER_PLAIN_HTML_CODE = String.raw`<section class="docs-autocomplete-owner-example">
+  <div class="docs-autocomplete-owner-example__header">
+    <span class="docs-autocomplete-owner-example__eyebrow">Release owner handoff</span>
+    <p class="docs-autocomplete-owner-example__copy">
+      Disabled owners stay visible for context while the next available handoff stays searchable.
+    </p>
+  </div>
+
+  <tng-autocomplete
+    class="docs-autocomplete-owner-example__control"
+    [options]="owners"
+    [value]="selectedOwner()"
+    (valueChange)="onSelectedOwnerChange($event)"
+    [getOptionValue]="getOwnerValue"
+    [getOptionLabel]="getOwnerLabel"
+    [isOptionDisabled]="isOwnerDisabled"
+    placeholder="Assign a release owner"
+    [ariaLabel]="'Release owner handoff'"
+  ></tng-autocomplete>
+
+  <p class="docs-autocomplete-owner-example__summary">
+    Selected: {{ selectedSummary() }}
+  </p>
+</section>
+`;
+
+const OWNER_PLAIN_CSS_CODE = String.raw`.docs-autocomplete-owner-example {
+  display: grid;
+  gap: 0.9rem;
+  inline-size: min(100%, 34rem);
+  margin-inline: auto;
+  padding: 1rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 1.1rem;
+  background: #ffffff;
+  color: #0f172a;
+  color-scheme: light;
+}
+
+.docs-autocomplete-owner-example__header {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.docs-autocomplete-owner-example__eyebrow {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #64748b;
+}
+
+.docs-autocomplete-owner-example__copy,
+.docs-autocomplete-owner-example__summary {
+  margin: 0;
+  color: #475569;
+}
+
+.docs-autocomplete-owner-example__control {
+  display: block;
+  width: 100%;
+  --tng-semantic-background-canvas: #ffffff;
+  --tng-semantic-background-surface: #f8fafc;
+  --tng-semantic-border-subtle: #cbd5e1;
+  --tng-semantic-border-strong: #cbd5e1;
+  --tng-semantic-foreground-primary: #0f172a;
+  --tng-semantic-foreground-secondary: #475569;
+  --tng-semantic-foreground-muted: #64748b;
+  --tng-semantic-accent-brand: #0f766e;
+  --tng-semantic-focus-ring: #0f766e;
+}
+`;
+
+const OWNER_TAILWIND_TS_CODE = String.raw`import { Component, computed, signal } from '@angular/core';
+import { TngAutocompleteComponent } from '@tailng-ui/components';
+
+interface OwnerOption {
+  readonly id: string;
+  readonly name: string;
+  readonly disabled?: boolean;
+}
+
+const OWNER_OPTIONS: readonly OwnerOption[] = Object.freeze([
+  { id: 'abigail', name: 'Abigail Chen' },
+  { id: 'mina', name: 'Mina Lee' },
+  { id: 'omar', name: 'Omar Aziz', disabled: true },
+  { id: 'sanjay', name: 'Sanjay Patel' },
+]);
+
+@Component({
+  selector: 'app-docs-autocomplete-owner-example-tailwind',
+  standalone: true,
+  imports: [TngAutocompleteComponent],
+  templateUrl: './docs-autocomplete-owner-example-tailwind.component.html',
+  styleUrl: './docs-autocomplete-owner-example-tailwind.component.css',
+})
+export class DocsAutocompleteOwnerExampleTailwindComponent {
+  readonly owners = OWNER_OPTIONS;
+  readonly selectedOwner = signal<string | null>('mina');
+  readonly selectedSummary = computed(
+    () => this.owners.find((owner) => owner.id === this.selectedOwner())?.name ?? 'none',
+  );
+  readonly getOwnerValue = (owner: OwnerOption) => owner.id;
+  readonly getOwnerLabel = (owner: OwnerOption) => owner.name;
+  readonly isOwnerDisabled = (owner: OwnerOption) => owner.disabled === true;
+
+  onSelectedOwnerChange(value: unknown): void {
+    this.selectedOwner.set(typeof value === 'string' ? value : null);
+  }
+}
+`;
+
+const OWNER_TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-[34rem] gap-4 rounded-3xl border border-slate-200 bg-white p-5 text-slate-900 shadow-sm">
+  <div class="grid gap-1">
+    <span class="text-xs font-semibold text-slate-500">Release owner handoff</span>
+    <p class="m-0 text-sm text-slate-600">
+      Disabled owners stay visible for context while the next available handoff stays searchable.
+    </p>
+  </div>
+
+  <tng-autocomplete
+    class="block w-full [--tng-semantic-background-canvas:#ffffff] [--tng-semantic-background-surface:#f8fafc] [--tng-semantic-border-subtle:#cbd5e1] [--tng-semantic-border-strong:#cbd5e1] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-foreground-secondary:#475569] [--tng-semantic-foreground-muted:#64748b] [--tng-semantic-accent-brand:#0f766e] [--tng-semantic-focus-ring:#0f766e]"
+    [options]="owners"
+    [value]="selectedOwner()"
+    (valueChange)="onSelectedOwnerChange($event)"
+    [getOptionValue]="getOwnerValue"
+    [getOptionLabel]="getOwnerLabel"
+    [isOptionDisabled]="isOwnerDisabled"
+    placeholder="Assign a release owner"
+    [ariaLabel]="'Release owner handoff'"
+  ></tng-autocomplete>
+
+  <p class="m-0 text-xs text-slate-600">Selected: {{ selectedSummary() }}</p>
+</section>
+`;
+
+const OWNER_TAILWIND_CSS_CODE = String.raw`/* No additional CSS file is required for this Tailwind example. */`;
+
+function resolveCountryLabel(value: string | null): string {
+  return COUNTRY_OPTIONS.find((country) => country.code === value)?.label ?? 'none';
+}
+
+function resolveOwnerLabel(value: string | null): string {
+  return OWNER_OPTIONS.find((owner) => owner.id === value)?.name ?? 'none';
+}
+
+@Component({
   selector: 'app-autocomplete-examples-page',
-  imports: [
-    TngAutocompleteComponent,
-    TngAutocomplete,
-    TngAutocompleteTrigger,
-    TngAutocompleteTriggerContainer,
-    TngAutocompleteIcon,
-    TngAutocompleteContent,
-    TngAutocompleteOverlay,
-    TngAutocompleteListbox,
-    TngAutocompleteOption,
-    DocsExampleTabsSectionComponent,
-    DocsExampleVariantDirective,
-  ],
+  imports: [TngAutocompleteComponent, DocsExampleTabsSectionComponent, DocsExampleVariantDirective],
   templateUrl: './autocomplete-examples-page.component.html',
   styleUrl: './autocomplete-examples-page.component.css',
 })
 export class AutocompleteExamplesPageComponent implements OnDestroy {
   private readonly documentRef = inject(DOCUMENT);
-  private readonly countriesByCode = new Map(COUNTRY_OPTIONS.map((country) => [country.code, country]));
-  private readonly repositoriesById = new Map(
-    REPOSITORY_OPTIONS.map((repository) => [repository.id, repository]),
-  );
+
   public readonly codeBlockTheme = signal<'github-dark' | 'github-light'>(
     resolveDocsCodeBlockTheme(this.documentRef),
   );
-  private readonly colorSchemeObserver = observeDocsCodeThemeChanges(this.documentRef, this.codeBlockTheme);
+  private readonly colorSchemeObserver = observeDocsCodeThemeChanges(
+    this.documentRef,
+    this.codeBlockTheme,
+  );
 
+  protected readonly stackblitzVanillaUrl = stackblitzVanillaUrl;
+  protected readonly stackblitzTailwindUrl = stackblitzTailwindUrl;
   protected readonly countries = COUNTRY_OPTIONS;
-  protected readonly repositories = REPOSITORY_OPTIONS;
+  protected readonly releaseOwners = OWNER_OPTIONS;
   protected readonly getCountryValue = (country: CountryOption) => country.code;
   protected readonly getCountryLabel = (country: CountryOption) => country.label;
-  protected readonly getRepositoryValue = (repository: RepositoryOption) => repository.id;
-  protected readonly getRepositoryLabel = (repository: RepositoryOption) => repository.name;
+  protected readonly getOwnerValue = (owner: OwnerOption) => owner.id;
+  protected readonly getOwnerLabel = (owner: OwnerOption) => owner.name;
+  protected readonly isOwnerDisabled = (owner: OwnerOption) => owner.disabled === true;
 
-  protected readonly countryHeadlessOpen = signal(false);
-  protected readonly countryHeadlessValue = signal<string | null>(null);
-  protected readonly countryHeadlessQuery = signal('');
-  protected readonly countryPlainValue = signal<string | null>('id');
-  protected readonly countryTailwindValue = signal<string | null>('in');
-  protected readonly compareOpen = signal(false);
-  protected readonly compareValue = signal<string | null>(null);
-  protected readonly compareQuery = signal('');
-  protected readonly compareComponentValue = signal<string | null>(null);
+  protected readonly countryPlainValue = signal<string | null>('in');
+  protected readonly countryTailwindValue = signal<string | null>('jp');
+  protected readonly ownerPlainValue = signal<string | null>('abigail');
+  protected readonly ownerTailwindValue = signal<string | null>('mina');
 
-  protected readonly repositoryHeadlessOpen = signal(false);
-  protected readonly repositoryHeadlessValue = signal<string | null>(null);
-  protected readonly repositoryHeadlessQuery = signal('');
-  protected readonly repositoryPlainValue = signal<string | null>('tailng-ui');
-  protected readonly repositoryTailwindValue = signal<string | null>('angular');
-
-  protected readonly countryHeadlessDisplayText = computed(() => {
-    if (this.countryHeadlessOpen()) {
-      return this.countryHeadlessQuery();
-    }
-
-    return this.resolveCountryLabel(this.countryHeadlessValue()) ?? '';
-  });
-
-  protected readonly countryHeadlessFiltered = computed<readonly CountryOption[]>(() => {
-    const query = this.countryHeadlessQuery().trim().toLowerCase();
-    if (query === '') {
-      return this.countries;
-    }
-
-    return this.countries.filter((country) => country.label.toLowerCase().includes(query));
-  });
-
-  protected readonly repositoryHeadlessDisplayText = computed(() => {
-    if (this.repositoryHeadlessOpen()) {
-      return this.repositoryHeadlessQuery();
-    }
-
-    return this.resolveRepositoryLabel(this.repositoryHeadlessValue()) ?? '';
-  });
-
-  protected readonly repositoryHeadlessFiltered = computed<readonly RepositoryOption[]>(() => {
-    const query = this.repositoryHeadlessQuery().trim().toLowerCase();
-    if (query === '') {
-      return this.repositories;
-    }
-
-    return this.repositories.filter((repository) => repository.name.toLowerCase().includes(query));
-  });
-
-  protected readonly countryHeadlessSummary = computed(
-    () => this.resolveCountryLabel(this.countryHeadlessValue()) ?? 'none',
-  );
-  protected readonly compareSummary = computed(
-    () => this.resolveCountryLabel(this.compareValue()) ?? 'none',
-  );
-  protected readonly compareComponentSummary = computed(
-    () => this.resolveCountryLabel(this.compareComponentValue()) ?? 'none',
-  );
-  protected readonly countryPlainSummary = computed(
-    () => this.resolveCountryLabel(this.countryPlainValue()) ?? 'none',
-  );
-  protected readonly countryTailwindSummary = computed(
-    () => this.resolveCountryLabel(this.countryTailwindValue()) ?? 'none',
-  );
-
-  protected readonly repositoryHeadlessSummary = computed(
-    () => this.resolveRepositoryLabel(this.repositoryHeadlessValue()) ?? 'none',
-  );
-  protected readonly repositoryPlainSummary = computed(
-    () => this.resolveRepositoryLabel(this.repositoryPlainValue()) ?? 'none',
-  );
-  protected readonly repositoryTailwindSummary = computed(
-    () => this.resolveRepositoryLabel(this.repositoryTailwindValue()) ?? 'none',
-  );
-  protected readonly compareDisplayText = computed(() => {
-    if (this.compareOpen()) {
-      return this.compareQuery();
-    }
-
-    return this.resolveCountryLabel(this.compareValue()) ?? '';
-  });
-  protected readonly compareFilteredCountries = computed<readonly CountryOption[]>(() => {
-    const query = this.compareQuery().trim().toLowerCase();
-    if (query === '') {
-      return this.countries;
-    }
-
-    return this.countries.filter((country) => country.label.toLowerCase().includes(query));
-  });
-
-  protected readonly countryHeadlessCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
-    {
-      value: 'ts',
-      label: 'TS',
-      language: 'ts',
-      title: 'autocomplete-country-headless.component.ts',
-      code: [
-        'readonly open = signal(false);',
-        'readonly value = signal<string | null>(null);',
-        "readonly query = signal('');",
-        '',
-        'readonly filteredCountries = computed(() => {',
-        '  const q = this.query().trim().toLowerCase();',
-        "  if (!q) return this.countries;",
-        '  return this.countries.filter((country) => country.label.toLowerCase().includes(q));',
-        '});',
-        '',
-        'onInput(event: Event): void {',
-        '  this.query.set((event.target as HTMLInputElement).value);',
-        '}',
-      ].join('\n'),
-    },
-    {
-      value: 'html',
-      label: 'HTML',
-      language: 'html',
-      title: 'autocomplete-country-headless.component.html',
-      code: [
-        '<div tngAutocomplete [open]="open()" [value]="value()">',
-        '  <div tngAutocompleteTriggerContainer>',
-        '    <input',
-        '      tngAutocompleteTrigger',
-        '      type="text"',
-        '      [value]="displayText()"',
-        '      (input)="onInput($event)"',
-        '      placeholder="Type Ind to filter countries"',
-        '    />',
-        '    <span tngAutocompleteIcon>▾</span>',
-        '  </div>',
-        '',
-        '  <div tngAutocompleteContent>',
-        '    <div tngAutocompleteOverlay>',
-        '      <ul tngAutocompleteListbox>',
-        '        @for (country of filteredCountries(); track country.code) {',
-        '          <li tngAutocompleteOption [tngValue]="country.code">{{ country.label }}</li>',
-        '        }',
-        '      </ul>',
-        '    </div>',
-        '  </div>',
-        '</div>',
-      ].join('\n'),
-    },
-    {
-      value: 'css',
-      label: 'CSS',
-      language: 'css',
-      title: 'autocomplete-country-headless.component.css',
-      code: [
-        '.example-shell {',
-        '  display: grid;',
-        '  gap: 0.65rem;',
-        '}',
-      ].join('\n'),
-    },
-  ]);
+  protected readonly countryPlainSummary = computed(() => resolveCountryLabel(this.countryPlainValue()));
+  protected readonly countryTailwindSummary = computed(() => resolveCountryLabel(this.countryTailwindValue()));
+  protected readonly ownerPlainSummary = computed(() => resolveOwnerLabel(this.ownerPlainValue()));
+  protected readonly ownerTailwindSummary = computed(() => resolveOwnerLabel(this.ownerTailwindValue()));
 
   protected readonly countryPlainCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
-    {
-      value: 'ts',
-      label: 'TS',
-      language: 'ts',
-      title: 'autocomplete-country-plain-css.component.ts',
-      code: [
-        "readonly selectedCountry = signal<string | null>('id');",
-        '',
-        'onValueChange(value: string | readonly string[] | null): void {',
-        '  this.selectedCountry.set(this.toSingleValue(value));',
-        '}',
-      ].join('\n'),
-    },
-    {
-      value: 'html',
-      label: 'HTML',
-      language: 'html',
-      title: 'autocomplete-country-plain-css.component.html',
-      code: [
-        '<tng-autocomplete',
-        '  [options]="countries"',
-        '  [value]="selectedCountry()"',
-        '  (valueChange)="onValueChange($event)"',
-        '  [getOptionValue]="getCountryValue"',
-        '  [getOptionLabel]="getCountryLabel"',
-        '  placeholder="Type Ind to filter countries"',
-        '  ariaLabel="Country filter"',
-        '></tng-autocomplete>',
-      ].join('\n'),
-    },
-    {
-      value: 'css',
-      label: 'CSS',
-      language: 'css',
-      title: 'autocomplete-country-plain-css.component.css',
-      code: [
-        '.example-shell--plain {',
-        '  border: 1px solid var(--tng-semantic-border-subtle);',
-        '  border-radius: 0.8rem;',
-        '  padding: 0.9rem 1rem;',
-        '}',
-      ].join('\n'),
-    },
+    { value: 'ts', label: 'TS', language: 'ts', title: 'autocomplete-country-plain.component.ts', code: COUNTRY_PLAIN_TS_CODE },
+    { value: 'html', label: 'HTML', language: 'html', title: 'autocomplete-country-plain.component.html', code: COUNTRY_PLAIN_HTML_CODE },
+    { value: 'css', label: 'CSS', language: 'css', title: 'autocomplete-country-plain.component.css', code: COUNTRY_PLAIN_CSS_CODE },
   ]);
 
   protected readonly countryTailwindCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
-    {
-      value: 'ts',
-      label: 'TS',
-      language: 'ts',
-      title: 'autocomplete-country-tailwind.component.ts',
-      code: [
-        "readonly selectedCountry = signal<string | null>('in');",
-        '',
-        'onValueChange(value: string | readonly string[] | null): void {',
-        '  this.selectedCountry.set(this.toSingleValue(value));',
-        '}',
-      ].join('\n'),
-    },
-    {
-      value: 'html',
-      label: 'HTML',
-      language: 'html',
-      title: 'autocomplete-country-tailwind.component.html',
-      code: [
-        '<div class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">',
-        '  <tng-autocomplete',
-        '    [options]="countries"',
-        '    [value]="selectedCountry()"',
-        '    (valueChange)="onValueChange($event)"',
-        '    [getOptionValue]="getCountryValue"',
-        '    [getOptionLabel]="getCountryLabel"',
-        '    placeholder="Type Ind to filter countries"',
-        '    ariaLabel="Country filter"',
-        '  ></tng-autocomplete>',
-        '</div>',
-      ].join('\n'),
-    },
-    {
-      value: 'css',
-      label: 'CSS',
-      language: 'css',
-      title: 'autocomplete-country-tailwind.component.css',
-      code: '/* Tailwind utilities are applied directly in the template. */',
-    },
+    { value: 'ts', label: 'TS', language: 'ts', title: 'autocomplete-country-tailwind.component.ts', code: COUNTRY_TAILWIND_TS_CODE },
+    { value: 'html', label: 'HTML', language: 'html', title: 'autocomplete-country-tailwind.component.html', code: COUNTRY_TAILWIND_HTML_CODE },
+    { value: 'css', label: 'CSS', language: 'css', title: 'autocomplete-country-tailwind.component.css', code: COUNTRY_TAILWIND_CSS_CODE },
   ]);
 
-  protected readonly repositoryHeadlessCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
-    {
-      value: 'ts',
-      label: 'TS',
-      language: 'ts',
-      title: 'autocomplete-repository-headless.component.ts',
-      code: [
-        "readonly repoQuery = signal('');",
-        '',
-        'readonly filteredRepositories = computed(() => {',
-        '  const q = this.repoQuery().trim().toLowerCase();',
-        "  if (!q) return this.repositories;",
-        '  return this.repositories.filter((repo) => repo.name.toLowerCase().includes(q));',
-        '});',
-      ].join('\n'),
-    },
-    {
-      value: 'html',
-      label: 'HTML',
-      language: 'html',
-      title: 'autocomplete-repository-headless.component.html',
-      code: [
-        '<div tngAutocomplete>',
-        '  <div tngAutocompleteTriggerContainer>',
-        '    <input tngAutocompleteTrigger placeholder="Search repository" />',
-        '    <span tngAutocompleteIcon>▾</span>',
-        '  </div>',
-        '  <div tngAutocompleteContent>',
-        '    <div tngAutocompleteOverlay>',
-        '      <ul tngAutocompleteListbox>',
-        '        @for (repo of filteredRepositories(); track repo.id) {',
-        '          <li tngAutocompleteOption [tngValue]="repo.id">{{ repo.name }}</li>',
-        '        }',
-        '      </ul>',
-        '    </div>',
-        '  </div>',
-        '</div>',
-      ].join('\n'),
-    },
-    {
-      value: 'css',
-      label: 'CSS',
-      language: 'css',
-      title: 'autocomplete-repository-headless.component.css',
-      code: '/* Uses the same shell contract as the country example. */',
-    },
+  protected readonly ownerPlainCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
+    { value: 'ts', label: 'TS', language: 'ts', title: 'autocomplete-owner-plain.component.ts', code: OWNER_PLAIN_TS_CODE },
+    { value: 'html', label: 'HTML', language: 'html', title: 'autocomplete-owner-plain.component.html', code: OWNER_PLAIN_HTML_CODE },
+    { value: 'css', label: 'CSS', language: 'css', title: 'autocomplete-owner-plain.component.css', code: OWNER_PLAIN_CSS_CODE },
   ]);
 
-  protected readonly repositoryPlainCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
-    {
-      value: 'ts',
-      label: 'TS',
-      language: 'ts',
-      title: 'autocomplete-repository-plain-css.component.ts',
-      code: [
-        "readonly selectedRepository = signal<string | null>('tailng-ui');",
-        '',
-        'onValueChange(value: string | readonly string[] | null): void {',
-        '  this.selectedRepository.set(this.toSingleValue(value));',
-        '}',
-      ].join('\n'),
-    },
-    {
-      value: 'html',
-      label: 'HTML',
-      language: 'html',
-      title: 'autocomplete-repository-plain-css.component.html',
-      code: [
-        '<tng-autocomplete',
-        '  [options]="repositories"',
-        '  [value]="selectedRepository()"',
-        '  (valueChange)="onValueChange($event)"',
-        '  [getOptionValue]="getRepositoryValue"',
-        '  [getOptionLabel]="getRepositoryLabel"',
-        '  placeholder="Search repository"',
-        '  ariaLabel="Repository filter"',
-        '></tng-autocomplete>',
-      ].join('\n'),
-    },
-    {
-      value: 'css',
-      label: 'CSS',
-      language: 'css',
-      title: 'autocomplete-repository-plain-css.component.css',
-      code: '/* Plain CSS shell styles match the country example. */',
-    },
+  protected readonly ownerTailwindCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
+    { value: 'ts', label: 'TS', language: 'ts', title: 'autocomplete-owner-tailwind.component.ts', code: OWNER_TAILWIND_TS_CODE },
+    { value: 'html', label: 'HTML', language: 'html', title: 'autocomplete-owner-tailwind.component.html', code: OWNER_TAILWIND_HTML_CODE },
+    { value: 'css', label: 'CSS', language: 'css', title: 'autocomplete-owner-tailwind.component.css', code: OWNER_TAILWIND_CSS_CODE },
   ]);
 
-  protected readonly repositoryTailwindCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
-    {
-      value: 'ts',
-      label: 'TS',
-      language: 'ts',
-      title: 'autocomplete-repository-tailwind.component.ts',
-      code: [
-        "readonly selectedRepository = signal<string | null>('angular');",
-        '',
-        'onValueChange(value: string | readonly string[] | null): void {',
-        '  this.selectedRepository.set(this.toSingleValue(value));',
-        '}',
-      ].join('\n'),
-    },
-    {
-      value: 'html',
-      label: 'HTML',
-      language: 'html',
-      title: 'autocomplete-repository-tailwind.component.html',
-      code: [
-        '<div class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">',
-        '  <tng-autocomplete',
-        '    [options]="repositories"',
-        '    [value]="selectedRepository()"',
-        '    (valueChange)="onValueChange($event)"',
-        '    [getOptionValue]="getRepositoryValue"',
-        '    [getOptionLabel]="getRepositoryLabel"',
-        '    placeholder="Search repository"',
-        '    ariaLabel="Repository filter"',
-        '  ></tng-autocomplete>',
-        '</div>',
-      ].join('\n'),
-    },
-    {
-      value: 'css',
-      label: 'CSS',
-      language: 'css',
-      title: 'autocomplete-repository-tailwind.component.css',
-      code: '/* Tailwind utilities are applied directly in the template. */',
-    },
-  ]);
-
-  protected onCountryHeadlessInput(event: Event): void {
-    this.countryHeadlessQuery.set((event.target as HTMLInputElement).value);
+  protected onCountryPlainChange(value: unknown): void {
+    this.countryPlainValue.set(typeof value === 'string' ? value : null);
   }
 
-  protected onCountryHeadlessOpenChange(open: boolean): void {
-    this.countryHeadlessOpen.set(open);
-    if (!open) {
-      this.countryHeadlessQuery.set(this.resolveCountryLabel(this.countryHeadlessValue()) ?? '');
-    }
+  protected onCountryTailwindChange(value: unknown): void {
+    this.countryTailwindValue.set(typeof value === 'string' ? value : null);
   }
 
-  protected onCountryHeadlessValueChange(value: AutocompleteValueChange): void {
-    const single = this.toSingleValue(value);
-    this.countryHeadlessValue.set(single);
-    this.countryHeadlessQuery.set(this.resolveCountryLabel(single) ?? '');
+  protected onOwnerPlainChange(value: unknown): void {
+    this.ownerPlainValue.set(typeof value === 'string' ? value : null);
   }
 
-  protected onCountryPlainValueChange(value: AutocompleteValueChange): void {
-    this.countryPlainValue.set(this.toSingleValue(value));
-  }
-
-  protected onCountryTailwindValueChange(value: AutocompleteValueChange): void {
-    this.countryTailwindValue.set(this.toSingleValue(value));
-  }
-
-  protected onCompareInput(event: Event): void {
-    this.compareQuery.set((event.target as HTMLInputElement).value);
-  }
-
-  protected onCompareOpenChange(open: boolean): void {
-    this.compareOpen.set(open);
-    if (!open) {
-      this.compareQuery.set(this.resolveCountryLabel(this.compareValue()) ?? '');
-    }
-  }
-
-  protected onCompareValueChange(value: AutocompleteValueChange): void {
-    const single = this.toSingleValue(value);
-    this.compareValue.set(single);
-    this.compareQuery.set(this.resolveCountryLabel(single) ?? '');
-  }
-
-  protected onCompareComponentValueChange(value: AutocompleteValueChange): void {
-    this.compareComponentValue.set(this.toSingleValue(value));
-  }
-
-  protected onRepositoryHeadlessInput(event: Event): void {
-    this.repositoryHeadlessQuery.set((event.target as HTMLInputElement).value);
-  }
-
-  protected onRepositoryHeadlessOpenChange(open: boolean): void {
-    this.repositoryHeadlessOpen.set(open);
-    if (!open) {
-      this.repositoryHeadlessQuery.set(
-        this.resolveRepositoryLabel(this.repositoryHeadlessValue()) ?? '',
-      );
-    }
-  }
-
-  protected onRepositoryHeadlessValueChange(value: AutocompleteValueChange): void {
-    const single = this.toSingleValue(value);
-    this.repositoryHeadlessValue.set(single);
-    this.repositoryHeadlessQuery.set(this.resolveRepositoryLabel(single) ?? '');
-  }
-
-  protected onRepositoryPlainValueChange(value: AutocompleteValueChange): void {
-    this.repositoryPlainValue.set(this.toSingleValue(value));
-  }
-
-  protected onRepositoryTailwindValueChange(value: AutocompleteValueChange): void {
-    this.repositoryTailwindValue.set(this.toSingleValue(value));
+  protected onOwnerTailwindChange(value: unknown): void {
+    this.ownerTailwindValue.set(typeof value === 'string' ? value : null);
   }
 
   public ngOnDestroy(): void {
     this.colorSchemeObserver?.disconnect();
   }
-
-  private toSingleValue(value: AutocompleteValueChange): string | null {
-    if (value === null) {
-      return null;
-    }
-
-    if (Array.isArray(value)) {
-      const first = value[0];
-      return typeof first === 'string' ? first : first === null ? null : String(first);
-    }
-
-    return typeof value === 'string' ? value : String(value);
-  }
-
-  private resolveCountryLabel(code: string | null): string | null {
-    if (code === null) {
-      return null;
-    }
-
-    return this.countriesByCode.get(code)?.label ?? null;
-  }
-
-  private resolveRepositoryLabel(id: string | null): string | null {
-    if (id === null) {
-      return null;
-    }
-
-    return this.repositoriesById.get(id)?.name ?? null;
-  }
-
 }

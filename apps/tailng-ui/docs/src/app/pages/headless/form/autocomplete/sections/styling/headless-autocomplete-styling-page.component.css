@@ -1,0 +1,147 @@
+:host {
+  display: block;
+}
+
+.headless-autocomplete-styling {
+  display: grid;
+  gap: 2rem;
+}
+
+.headless-autocomplete-styling__section {
+  display: grid;
+  gap: 1rem;
+}
+
+.headless-autocomplete-styling__section h2,
+.headless-autocomplete-styling__section p {
+  margin: 0;
+}
+
+.headless-autocomplete-styling__table-wrap {
+  overflow: auto;
+  border: 1px solid color-mix(in srgb, var(--tng-semantic-border-subtle, #475569) 78%, transparent);
+  border-radius: 1rem;
+}
+
+.headless-autocomplete-styling__table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.headless-autocomplete-styling__table th,
+.headless-autocomplete-styling__table td {
+  padding: 0.9rem 1rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.headless-autocomplete-styling__table thead {
+  background: color-mix(in srgb, var(--tng-semantic-background-surface, #334155) 72%, transparent);
+}
+
+.headless-autocomplete-styling__table tbody tr + tr td {
+  border-top: 1px solid color-mix(in srgb, var(--tng-semantic-border-subtle, #475569) 62%, transparent);
+}
+
+.headless-autocomplete-styling-demo {
+  display: grid;
+  gap: 1rem;
+  inline-size: min(100%, 34rem);
+  margin-inline: auto;
+  padding: 1rem;
+  border: 1px solid #334155;
+  border-radius: 1.25rem;
+  background: #111827;
+}
+
+.headless-autocomplete-styling-demo__header {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.headless-autocomplete-styling-demo__kicker {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #93c5fd;
+}
+
+.headless-autocomplete-styling-demo__copy {
+  margin: 0;
+  color: #cbd5e1;
+}
+
+.headless-autocomplete-styling-demo__control {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.headless-autocomplete-styling-demo__trigger {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  border: 1px solid #334155;
+  border-radius: 1rem;
+  background: #0f172a;
+}
+
+.headless-autocomplete-styling-demo__trigger:has(:focus-visible) {
+  border-color: #38bdf8;
+  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
+}
+
+.headless-autocomplete-styling-demo__trigger [data-slot='autocomplete-trigger'] {
+  flex: 1;
+  min-width: 0;
+  padding: 0.85rem 1rem;
+  border: 0;
+  background: transparent;
+  color: #f8fafc;
+  outline: none;
+}
+
+.headless-autocomplete-styling-demo__trigger [data-slot='autocomplete-trigger']::placeholder,
+.headless-autocomplete-styling-demo__trigger [data-slot='autocomplete-icon'] {
+  color: #94a3b8;
+}
+
+.headless-autocomplete-styling-demo__trigger [data-slot='autocomplete-icon'] {
+  margin-inline-end: 1rem;
+}
+
+.headless-autocomplete-styling-demo__overlay {
+  border: 1px solid #334155;
+  border-radius: 1rem;
+  background: #0f172a;
+  max-inline-size: min(92vw, 34rem);
+  overflow: auto;
+  padding: 0.5rem;
+  box-shadow: 0 24px 48px -36px rgba(15, 23, 42, 0.88);
+}
+
+.headless-autocomplete-styling-demo__overlay [data-slot='autocomplete-listbox'] {
+  display: grid;
+  gap: 0.3rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.headless-autocomplete-styling-demo__option {
+  border: 1px solid transparent;
+  border-radius: 0.8rem;
+  padding: 0.75rem 0.9rem;
+  color: #e2e8f0;
+}
+
+.headless-autocomplete-styling-demo__option[data-active] {
+  background: #172554;
+  border-color: #1d4ed8;
+}
+
+.headless-autocomplete-styling-demo__option[data-selected] {
+  background: #082f49;
+  border-color: #38bdf8;
+  color: #bae6fd;
+}

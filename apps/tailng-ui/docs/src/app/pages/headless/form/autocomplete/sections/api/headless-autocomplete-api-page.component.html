@@ -1,0 +1,127 @@
+<article class="headless-autocomplete-api">
+  <section id="tngautocomplete" class="headless-autocomplete-api__section">
+    <h2><code>tngAutocomplete</code></h2>
+    <p>
+      Attach the root directive to a container that owns the trigger, overlay, and listbox parts.
+      The root manages open state, committed value, query state, invalid/loading state, and
+      free-form create behavior.
+    </p>
+    <tng-code-block
+      [code]="rootAttachmentCode"
+      adapter="shiki"
+      language="html"
+      title="Root primitive attachment"
+      theme="github-dark"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+
+    <div class="headless-autocomplete-api__table-wrap">
+      <table class="headless-autocomplete-api__table">
+        <thead>
+          <tr>
+            <th>Property</th>
+            <th>Type</th>
+            <th>Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of primitiveRows; track row.name) {
+            <tr>
+              <td><code>{{ row.name }}</code></td>
+              <td><code>{{ row.type }}</code></td>
+              <td>{{ row.details }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="owned-parts" class="headless-autocomplete-api__section">
+    <h2>Owned parts</h2>
+    <p>
+      The autocomplete interaction model is split into small slot directives. You can omit the
+      optional trigger container or icon, but the trigger, content, overlay, listbox, and option
+      parts should stay aligned with the root primitive.
+    </p>
+
+    <div class="headless-autocomplete-api__table-wrap">
+      <table class="headless-autocomplete-api__table">
+        <thead>
+          <tr>
+            <th>Slot</th>
+            <th>Directive</th>
+            <th>Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of slotRows; track row.slot) {
+            <tr>
+              <td><code>{{ row.slot }}</code></td>
+              <td><code>{{ row.selector }}</code></td>
+              <td>{{ row.details }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="query-and-create" class="headless-autocomplete-api__section">
+    <h2>Query and create</h2>
+    <p>
+      <code>query</code> is separate from <code>value</code>. The trigger can keep changing the query
+      while the committed value stays the same until the user confirms an option.
+    </p>
+    <ul>
+      <li>Typing updates <code>query</code> and emits <code>queryChange</code>.</li>
+      <li>Arrow keys move the active option inside the listbox.</li>
+      <li>Enter commits the active option and emits <code>valueChange</code>.</li>
+      <li>
+        When <code>allowCreate</code> is true and <code>strict</code> is false, Enter with no active
+        option emits <code>create</code>.
+      </li>
+    </ul>
+    <tng-code-block
+      [code]="createModeCode"
+      adapter="shiki"
+      language="html"
+      title="Free-form create mode"
+      theme="github-dark"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="reflected-attributes" class="headless-autocomplete-api__section">
+    <h2>Reflected attributes</h2>
+    <p>
+      Styling should rely on slot markers and state attributes rather than tag names. These
+      reflected markers are the stable contract.
+    </p>
+
+    <div class="headless-autocomplete-api__table-wrap">
+      <table class="headless-autocomplete-api__table">
+        <thead>
+          <tr>
+            <th>Marker</th>
+            <th>Where</th>
+            <th>Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of reflectedRows; track row.slot + row.selector) {
+            <tr>
+              <td><code>{{ row.slot }}</code></td>
+              <td><code>{{ row.selector }}</code></td>
+              <td>{{ row.details }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+</article>

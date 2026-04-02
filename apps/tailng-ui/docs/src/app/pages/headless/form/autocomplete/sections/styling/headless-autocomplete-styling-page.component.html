@@ -1,0 +1,171 @@
+<article class="headless-autocomplete-styling">
+  <section id="css-contracts" class="headless-autocomplete-styling__section">
+    <h2>CSS contracts</h2>
+    <p>
+      Styling should be driven by slot markers and state attributes. Avoid tag selectors and avoid
+      assuming the overlay stays inside the root tree.
+    </p>
+
+    <div class="headless-autocomplete-styling__table-wrap">
+      <table class="headless-autocomplete-styling__table">
+        <thead>
+          <tr>
+            <th>Selector</th>
+            <th>Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of contractRows; track row.selector) {
+            <tr>
+              <td><code>{{ row.selector }}</code></td>
+              <td>{{ row.details }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="state-selectors" class="headless-autocomplete-styling__section">
+    <h2>State selectors</h2>
+    <p>
+      The root exposes open, disabled, loading, and invalid state. Options expose active,
+      selected, and disabled state. Those markers are enough for most product skins.
+    </p>
+    <tng-code-block
+      [code]="stateSelectorCode"
+      adapter="shiki"
+      language="css"
+      title="State selector starter"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="user-scenario-style-examples" class="headless-autocomplete-styling__section">
+    <app-docs-example-tabs-section
+      heading="User scenario style examples"
+      description="The primitive stays the same while the trigger shell and overlay surface carry the visual language."
+      ariaLabel="Headless autocomplete styling examples"
+      tabListAriaLabel="Headless autocomplete styling variants"
+      [defaultValue]="'plain-css'"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Release owner shell (Plain-CSS)"
+        [codeTabs]="plainCodeTabs"
+        [stackblitzUrl]="stackblitzVanillaUrl"
+      >
+        <section class="headless-autocomplete-styling-demo">
+          <div class="headless-autocomplete-styling-demo__header">
+            <span class="headless-autocomplete-styling-demo__kicker">Release owner</span>
+            <p class="headless-autocomplete-styling-demo__copy">Assign a shipping owner before the release branch opens.</p>
+          </div>
+
+          <section
+            tngAutocomplete
+            class="headless-autocomplete-styling-demo__control"
+            [open]="plainOpen()"
+            (openChange)="plainOpen.set($event)"
+            [value]="plainValue()"
+            (valueChange)="plainValue.set($event)"
+            [query]="plainQuery()"
+            (queryChange)="plainQuery.set($event)"
+          >
+            <div tngAutocompleteTriggerContainer class="headless-autocomplete-styling-demo__trigger">
+              <input
+                tngAutocompleteTrigger
+                type="text"
+                [value]="plainDisplayText()"
+                (input)="onPlainInput($event)"
+                aria-label="Release owner"
+                placeholder="Search people"
+              />
+              <span tngAutocompleteIcon aria-hidden="true">⌄</span>
+            </div>
+
+            <div tngAutocompleteContent class="contents">
+              <div tngAutocompleteOverlay class="headless-autocomplete-styling-demo__overlay">
+                <ul tngAutocompleteListbox [value]="plainValue()">
+                  @for (person of plainFilteredPeople(); track person.id) {
+                    <li
+                      tngAutocompleteOption
+                      class="headless-autocomplete-styling-demo__option"
+                      [tngValue]="person.id"
+                    >
+                      {{ person.label }}
+                    </li>
+                  }
+                </ul>
+              </div>
+            </div>
+          </section>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Release owner shell (Tailwind CSS)"
+        [codeTabs]="tailwindCodeTabs"
+        [stackblitzUrl]="stackblitzTailwindUrl"
+      >
+        <section class="mx-auto grid max-w-[34rem] gap-4 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+          <div class="grid gap-1">
+            <span class="text-[0.7rem] font-semibold uppercase tracking-[0.14em] text-slate-500">Release owner</span>
+            <p class="m-0 text-sm text-slate-600">Assign a shipping owner before the release branch opens.</p>
+          </div>
+
+          <section
+            tngAutocomplete
+            class="grid gap-2"
+            [open]="tailwindOpen()"
+            (openChange)="tailwindOpen.set($event)"
+            [value]="tailwindValue()"
+            (valueChange)="tailwindValue.set($event)"
+            [query]="tailwindQuery()"
+            (queryChange)="tailwindQuery.set($event)"
+          >
+            <div
+              tngAutocompleteTriggerContainer
+              class="flex min-h-12 items-center gap-3 rounded-2xl border border-slate-200 bg-slate-50 transition focus-within:border-blue-500 focus-within:bg-white focus-within:ring-4 focus-within:ring-blue-500/10"
+            >
+              <input
+                tngAutocompleteTrigger
+                type="text"
+                class="min-w-0 flex-1 bg-transparent px-4 py-3 text-sm text-slate-900 outline-none placeholder:text-slate-400"
+                [value]="tailwindDisplayText()"
+                (input)="onTailwindInput($event)"
+                aria-label="Release owner"
+                placeholder="Search people"
+              />
+              <span tngAutocompleteIcon aria-hidden="true" class="mr-4 text-slate-400">⌄</span>
+            </div>
+
+            <div tngAutocompleteContent class="contents">
+              <div tngAutocompleteOverlay class="rounded-2xl border border-slate-200 bg-white p-2 shadow-2xl shadow-slate-900/10">
+                <ul tngAutocompleteListbox [value]="tailwindValue()" class="grid gap-1">
+                  @for (person of tailwindFilteredPeople(); track person.id) {
+                    <li
+                      tngAutocompleteOption
+                      class="rounded-xl border border-transparent px-3 py-2 text-sm text-slate-700 transition data-[active]:border-slate-200 data-[active]:bg-slate-50 data-[selected]:border-emerald-200 data-[selected]:bg-emerald-50 data-[selected]:font-semibold data-[selected]:text-emerald-700"
+                      [tngValue]="person.id"
+                    >
+                      {{ person.label }}
+                    </li>
+                  }
+                </ul>
+              </div>
+            </div>
+          </section>
+        </section>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+</article>

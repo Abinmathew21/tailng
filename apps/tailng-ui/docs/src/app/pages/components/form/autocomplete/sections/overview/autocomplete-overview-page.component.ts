@@ -1,349 +1,288 @@
 import { DOCUMENT } from '@angular/common';
-import { Component, computed, inject, signal, type OnDestroy, type OnInit } from '@angular/core';
-import { observeDocsCodeThemeChanges, resolveDocsCodeBlockTheme } from '../../../../../../shared/util';
+import { Component, computed, inject, signal, type OnDestroy } from '@angular/core';
 import { TngAutocompleteComponent, TngCodeBlockComponent } from '@tailng-ui/components';
-import {
-  TngAutocomplete,
-  TngAutocompleteContent,
-  TngAutocompleteIcon,
-  TngAutocompleteListbox,
-  TngAutocompleteOption,
-  TngAutocompleteOverlay,
-  TngAutocompleteTrigger,
-  TngAutocompleteTriggerContainer,
-} from '@tailng-ui/primitives';
-import { type DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
+import type { DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
 import {
   DocsExampleTabsSectionComponent,
   DocsExampleVariantDirective,
 } from '../../../../../../shared/example-tabs-section/docs-example-tabs-section.component';
+import {
+  observeDocsCodeThemeChanges,
+  resolveDocsCodeBlockTheme,
+} from '../../../../../../shared/util';
+import { stackblitzTailwindUrl, stackblitzVanillaUrl } from '../../autocomplete.util';
 
 interface CountryOption {
-  code: string;
-  label: string;
+  readonly code: string;
+  readonly label: string;
 }
 
-type AutocompleteValueChange = unknown;
+const COUNTRY_OPTIONS: readonly CountryOption[] = Object.freeze([
+  { code: 'ca', label: 'Canada' },
+  { code: 'de', label: 'Germany' },
+  { code: 'id', label: 'Indonesia' },
+  { code: 'in', label: 'India' },
+  { code: 'jp', label: 'Japan' },
+  { code: 'mx', label: 'Mexico' },
+  { code: 'es', label: 'Spain' },
+]);
+
+const COMPONENT_IMPORT_CODE = String.raw`import { TngAutocompleteComponent } from '@tailng-ui/components';`;
+
+const BASIC_USAGE_CODE = String.raw`<tng-autocomplete
+  [options]="countries"
+  [value]="selectedCountry()"
+  (valueChange)="onSelectedCountryChange($event)"
+  [getOptionValue]="getCountryValue"
+  [getOptionLabel]="getCountryLabel"
+  placeholder="Search countries"
+  [ariaLabel]="'Country directory'"
+></tng-autocomplete>
+`;
+
+const PLAIN_TS_CODE = String.raw`import { Component, computed, signal } from '@angular/core';
+import { TngAutocompleteComponent } from '@tailng-ui/components';
+
+interface CountryOption {
+  readonly code: string;
+  readonly label: string;
+}
+
+const COUNTRY_OPTIONS: readonly CountryOption[] = Object.freeze([
+  { code: 'ca', label: 'Canada' },
+  { code: 'de', label: 'Germany' },
+  { code: 'id', label: 'Indonesia' },
+  { code: 'in', label: 'India' },
+  { code: 'jp', label: 'Japan' },
+  { code: 'mx', label: 'Mexico' },
+  { code: 'es', label: 'Spain' },
+]);
+
+@Component({
+  selector: 'app-docs-autocomplete-overview-plain',
+  standalone: true,
+  imports: [TngAutocompleteComponent],
+  templateUrl: './autocomplete-overview-plain.component.html',
+  styleUrl: './autocomplete-overview-plain.component.css',
+})
+export class DocsAutocompleteOverviewPlainComponent {
+  readonly countries = COUNTRY_OPTIONS;
+  readonly selectedCountry = signal<string | null>('in');
+  readonly selectedLabel = computed(
+    () => this.countries.find((country) => country.code === this.selectedCountry())?.label ?? 'none',
+  );
+  readonly getCountryValue = (country: CountryOption) => country.code;
+  readonly getCountryLabel = (country: CountryOption) => country.label;
+
+  onSelectedCountryChange(value: string | null): void {
+    this.selectedCountry.set(typeof value === 'string' ? value : null);
+  }
+}
+`;
+
+const PLAIN_HTML_CODE = String.raw`<section class="docs-autocomplete-overview-example">
+  <div class="docs-autocomplete-overview-example__header">
+    <span class="docs-autocomplete-overview-example__eyebrow">Country directory</span>
+    <p class="docs-autocomplete-overview-example__copy">
+      Wrapper-first autocomplete for standard country search.
+    </p>
+  </div>
+
+  <tng-autocomplete
+    class="docs-autocomplete-overview-example__control"
+    [options]="countries"
+    [value]="selectedCountry()"
+    (valueChange)="onSelectedCountryChange($event)"
+    [getOptionValue]="getCountryValue"
+    [getOptionLabel]="getCountryLabel"
+    placeholder="Type Ind to filter"
+    [ariaLabel]="'Country directory'"
+  ></tng-autocomplete>
+
+  <p class="docs-autocomplete-overview-example__summary">
+    Selected: {{ selectedLabel() }}
+  </p>
+</section>
+`;
+
+const PLAIN_CSS_CODE = String.raw`.docs-autocomplete-overview-example {
+  display: grid;
+  gap: 0.85rem;
+  inline-size: min(100%, 34rem);
+  margin-inline: auto;
+  padding: 1rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 1rem;
+  background: #ffffff;
+  color: #0f172a;
+  color-scheme: light;
+}
+
+.docs-autocomplete-overview-example__header {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.docs-autocomplete-overview-example__eyebrow {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #64748b;
+}
+
+.docs-autocomplete-overview-example__copy,
+.docs-autocomplete-overview-example__summary {
+  margin: 0;
+  color: #475569;
+}
+
+.docs-autocomplete-overview-example__control {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  --tng-semantic-background-canvas: #ffffff;
+  --tng-semantic-background-surface: #f1f5f9;
+  --tng-semantic-border-subtle: #cbd5e1;
+  --tng-semantic-border-strong: #94a3b8;
+  --tng-semantic-foreground-primary: #0f172a;
+  --tng-semantic-foreground-secondary: #475569;
+  --tng-semantic-foreground-muted: #64748b;
+  --tng-semantic-accent-brand: #2563eb;
+  --tng-semantic-focus-ring: #2563eb;
+  --tng-autocomplete-bg: #ffffff;
+  --tng-autocomplete-surface: #f1f5f9;
+  --tng-autocomplete-border: #cbd5e1;
+  --tng-autocomplete-border-strong: #94a3b8;
+  --tng-autocomplete-fg: #0f172a;
+  --tng-autocomplete-muted: #64748b;
+  --tng-autocomplete-brand: #2563eb;
+  --tng-autocomplete-focus-ring: #2563eb;
+}
+`;
+
+const TAILWIND_TS_CODE = String.raw`import { Component, computed, signal } from '@angular/core';
+import { TngAutocompleteComponent } from '@tailng-ui/components';
+
+interface CountryOption {
+  readonly code: string;
+  readonly label: string;
+}
+
+const COUNTRY_OPTIONS: readonly CountryOption[] = Object.freeze([
+  { code: 'ca', label: 'Canada' },
+  { code: 'de', label: 'Germany' },
+  { code: 'id', label: 'Indonesia' },
+  { code: 'in', label: 'India' },
+  { code: 'jp', label: 'Japan' },
+  { code: 'mx', label: 'Mexico' },
+  { code: 'es', label: 'Spain' },
+]);
+
+@Component({
+  selector: 'app-docs-autocomplete-overview-tailwind',
+  standalone: true,
+  imports: [TngAutocompleteComponent],
+  templateUrl: './autocomplete-overview-tailwind.component.html',
+  styleUrl: './autocomplete-overview-tailwind.component.css',
+})
+export class DocsAutocompleteOverviewTailwindComponent {
+  readonly countries = COUNTRY_OPTIONS;
+  readonly selectedCountry = signal<string | null>('de');
+  readonly selectedLabel = computed(
+    () => this.countries.find((country) => country.code === this.selectedCountry())?.label ?? 'none',
+  );
+  readonly getCountryValue = (country: CountryOption) => country.code;
+  readonly getCountryLabel = (country: CountryOption) => country.label;
+
+  onSelectedCountryChange(value: string | null): void {
+    this.selectedCountry.set(typeof value === 'string' ? value : null);
+  }
+}
+`;
+
+const TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-[34rem] gap-4 rounded-3xl border border-slate-200 bg-white p-5 text-slate-900 shadow-sm">
+  <div class="grid gap-1">
+    <span class="text-xs font-semibold text-slate-500">Country directory</span>
+    <p class="m-0 text-sm text-slate-600">
+      Wrapper-first autocomplete for standard country search.
+    </p>
+  </div>
+
+  <tng-autocomplete
+    class="block min-w-0 w-full [--tng-semantic-background-canvas:#ffffff] [--tng-semantic-background-surface:#f1f5f9] [--tng-semantic-border-subtle:#cbd5e1] [--tng-semantic-border-strong:#94a3b8] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-foreground-secondary:#475569] [--tng-semantic-foreground-muted:#64748b] [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-focus-ring:#2563eb] [--tng-autocomplete-bg:#ffffff] [--tng-autocomplete-surface:#f1f5f9] [--tng-autocomplete-border:#cbd5e1] [--tng-autocomplete-border-strong:#94a3b8] [--tng-autocomplete-fg:#0f172a] [--tng-autocomplete-muted:#64748b] [--tng-autocomplete-brand:#2563eb] [--tng-autocomplete-focus-ring:#2563eb]"
+    [options]="countries"
+    [value]="selectedCountry()"
+    (valueChange)="onSelectedCountryChange($event)"
+    [getOptionValue]="getCountryValue"
+    [getOptionLabel]="getCountryLabel"
+    placeholder="Type Ind to filter"
+    [ariaLabel]="'Country directory'"
+  ></tng-autocomplete>
+
+  <p class="m-0 text-xs text-slate-600">Selected: {{ selectedLabel() }}</p>
+</section>
+`;
+
+const TAILWIND_CSS_CODE = String.raw`/* No additional CSS file is required for this Tailwind example. */`;
+
+function resolveCountryLabel(value: string | null): string {
+  return COUNTRY_OPTIONS.find((country) => country.code === value)?.label ?? 'none';
+}
 
 @Component({
   selector: 'app-autocomplete-overview-page',
   imports: [
     TngCodeBlockComponent,
     TngAutocompleteComponent,
-    TngAutocomplete,
-    TngAutocompleteTrigger,
-    TngAutocompleteTriggerContainer,
-    TngAutocompleteIcon,
-    TngAutocompleteContent,
-    TngAutocompleteOverlay,
-    TngAutocompleteListbox,
-    TngAutocompleteOption,
     DocsExampleTabsSectionComponent,
     DocsExampleVariantDirective,
   ],
   templateUrl: './autocomplete-overview-page.component.html',
   styleUrl: './autocomplete-overview-page.component.css',
 })
-export class AutocompleteOverviewPageComponent implements OnDestroy, OnInit {
+export class AutocompleteOverviewPageComponent implements OnDestroy {
   private readonly documentRef = inject(DOCUMENT);
 
   public readonly codeBlockTheme = signal<'github-dark' | 'github-light'>(
     resolveDocsCodeBlockTheme(this.documentRef),
   );
-  private readonly colorSchemeObserver = observeDocsCodeThemeChanges(this.documentRef, this.codeBlockTheme);
-
-  protected readonly countries = signal<readonly CountryOption[]>([]);
-  private readonly countriesByCode = computed(() =>
-    new Map(this.countries().map((country) => [country.code, country])),
+  private readonly colorSchemeObserver = observeDocsCodeThemeChanges(
+    this.documentRef,
+    this.codeBlockTheme,
   );
+
+  protected readonly stackblitzVanillaUrl = stackblitzVanillaUrl;
+  protected readonly stackblitzTailwindUrl = stackblitzTailwindUrl;
+  protected readonly countries = COUNTRY_OPTIONS;
   protected readonly getCountryValue = (country: CountryOption) => country.code;
   protected readonly getCountryLabel = (country: CountryOption) => country.label;
+  protected readonly plainCountry = signal<string | null>('in');
+  protected readonly tailwindCountry = signal<string | null>('de');
+  protected readonly plainSummary = computed(() => resolveCountryLabel(this.plainCountry()));
+  protected readonly tailwindSummary = computed(() => resolveCountryLabel(this.tailwindCountry()));
+  protected readonly componentImportCode = COMPONENT_IMPORT_CODE;
+  protected readonly basicUsageCode = BASIC_USAGE_CODE;
 
-  protected readonly headlessOpen = signal(false);
-  protected readonly headlessValue = signal<string | null>(null);
-  protected readonly headlessQuery = signal('');
-
-  protected readonly plainValue = signal<string | null>('id');
-  protected readonly tailwindValue = signal<string | null>('in');
-
-  protected readonly headlessDisplayText = computed(() => {
-    if (this.headlessOpen()) {
-      return this.headlessQuery();
-    }
-
-    return this.resolveCountryLabel(this.headlessValue()) ?? '';
-  });
-
-  protected readonly headlessFilteredCountries = computed<readonly CountryOption[]>(() => {
-    const query = this.headlessQuery().trim().toLowerCase();
-    const list = this.countries();
-    if (query === '') {
-      return list;
-    }
-
-    return list.filter((country) => country.label.toLowerCase().includes(query));
-  });
-
-  protected readonly headlessSelectedLabel = computed(
-    () => this.resolveCountryLabel(this.headlessValue()) ?? 'none',
-  );
-  protected readonly plainSelectedLabel = computed(
-    () => this.resolveCountryLabel(this.plainValue()) ?? 'none',
-  );
-  protected readonly tailwindSelectedLabel = computed(
-    () => this.resolveCountryLabel(this.tailwindValue()) ?? 'none',
-  );
-
-  protected readonly primitiveImportCode = [
-    'import {',
-    '  TngAutocomplete,',
-    '  TngAutocompleteTrigger,',
-    '  TngAutocompleteTriggerContainer,',
-    '  TngAutocompleteContent,',
-    '  TngAutocompleteOverlay,',
-    '  TngAutocompleteListbox,',
-    '  TngAutocompleteOption,',
-    "} from '@tailng-ui/primitives';",
-    '',
-  ].join('\n');
-
-  protected readonly componentImportCode =
-    "import { TngAutocompleteComponent } from '@tailng-ui/components';";
-
-  protected readonly headlessCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
-    {
-      value: 'ts',
-      label: 'TS',
-      language: 'ts',
-      title: 'autocomplete-headless-country-filter.component.ts',
-      code: [
-        'readonly open = signal(false);',
-        'readonly value = signal<string | null>(null);',
-        "readonly query = signal('');",
-        '',
-        'readonly filteredCountries = computed(() => {',
-        '  const q = this.query().trim().toLowerCase();',
-        "  if (!q) return this.countries;",
-        '  return this.countries.filter((country) => country.label.toLowerCase().includes(q));',
-        '});',
-        '',
-        'onInput(event: Event): void {',
-        '  this.query.set((event.target as HTMLInputElement).value);',
-        '}',
-        '',
-      ].join('\n'),
-    },
-    {
-      value: 'html',
-      label: 'HTML',
-      language: 'html',
-      title: 'autocomplete-headless-country-filter.component.html',
-      code: [
-        '<div',
-        '  tngAutocomplete',
-        '  #api="tngAutocomplete"',
-        '  [open]="open()"',
-        '  (openChange)="open.set($event)"',
-        '  [value]="value()"',
-        '  (valueChange)="onValueChange($event)"',
-        '>',
-        '  <div tngAutocompleteTriggerContainer>',
-        '    <input',
-        '      tngAutocompleteTrigger',
-        '      type="text"',
-        '      [value]="displayText()"',
-        '      (input)="onInput($event)"',
-        '      placeholder="Type Ind to filter"',
-        '      aria-label="Country filter"',
-        '    />',
-        '    <span tngAutocompleteIcon aria-hidden="true">▾</span>',
-        '  </div>',
-        '',
-        '  <div tngAutocompleteContent>',
-        '    <div tngAutocompleteOverlay>',
-        '      <ul tngAutocompleteListbox [value]="api.value()">',
-        '        @for (country of filteredCountries(); track country.code) {',
-        '          <li tngAutocompleteOption [tngValue]="country.code">{{ country.label }}</li>',
-        '        }',
-        '      </ul>',
-        '    </div>',
-        '  </div>',
-        '</div>',
-        '',
-      ].join('\n'),
-    },
-    {
-      value: 'css',
-      label: 'CSS',
-      language: 'css',
-      title: 'autocomplete-headless-country-filter.component.css',
-      code: [
-        '.autocomplete-preview-shell {',
-        '  display: grid;',
-        '  gap: 0.65rem;',
-        '}',
-        '',
-      ].join('\n'),
-    },
-  ]);
-
-  protected readonly plainCssCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
-    {
-      value: 'ts',
-      label: 'TS',
-      language: 'ts',
-      title: 'autocomplete-plain-css-country-filter.component.ts',
-      code: [
-        "readonly selectedCountry = signal<string | null>('id');",
-        '',
-        'onValueChange(value: string | readonly string[] | null): void {',
-        '  this.selectedCountry.set(this.toSingleValue(value));',
-        '}',
-        '',
-      ].join('\n'),
-    },
-    {
-      value: 'html',
-      label: 'HTML',
-      language: 'html',
-      title: 'autocomplete-plain-css-country-filter.component.html',
-      code: [
-        '<div class="autocomplete-preview-shell autocomplete-preview-shell--plain">',
-        '  <tng-autocomplete',
-        '    [options]="countries"',
-        '    [value]="selectedCountry()"',
-        '    (valueChange)="onValueChange($event)"',
-        '    [getOptionValue]="getCountryValue"',
-        '    [getOptionLabel]="getCountryLabel"',
-        '    placeholder="Type Ind to filter countries"',
-        '    ariaLabel="Country filter"',
-        '  ></tng-autocomplete>',
-        '</div>',
-        '',
-      ].join('\n'),
-    },
-    {
-      value: 'css',
-      label: 'CSS',
-      language: 'css',
-      title: 'autocomplete-plain-css-country-filter.component.css',
-      code: [
-        '.autocomplete-preview-shell--plain {',
-        '  border: 1px solid var(--tng-semantic-border-subtle);',
-        '  border-radius: 0.8rem;',
-        '  padding: 0.9rem 1rem;',
-        '}',
-        '',
-      ].join('\n'),
-    },
+  protected readonly plainCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
+    { value: 'ts', label: 'TS', language: 'ts', title: 'autocomplete-overview-plain.component.ts', code: PLAIN_TS_CODE },
+    { value: 'html', label: 'HTML', language: 'html', title: 'autocomplete-overview-plain.component.html', code: PLAIN_HTML_CODE },
+    { value: 'css', label: 'CSS', language: 'css', title: 'autocomplete-overview-plain.component.css', code: PLAIN_CSS_CODE },
   ]);
 
   protected readonly tailwindCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
-    {
-      value: 'ts',
-      label: 'TS',
-      language: 'ts',
-      title: 'autocomplete-tailwind-country-filter.component.ts',
-      code: [
-        "readonly selectedCountry = signal<string | null>('in');",
-        '',
-        'onValueChange(value: string | readonly string[] | null): void {',
-        '  this.selectedCountry.set(this.toSingleValue(value));',
-        '}',
-        '',
-      ].join('\n'),
-    },
-    {
-      value: 'html',
-      label: 'HTML',
-      language: 'html',
-      title: 'autocomplete-tailwind-country-filter.component.html',
-      code: [
-        '<div class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">',
-        '  <tng-autocomplete',
-        '    [options]="countries"',
-        '    [value]="selectedCountry()"',
-        '    (valueChange)="onValueChange($event)"',
-        '    [getOptionValue]="getCountryValue"',
-        '    [getOptionLabel]="getCountryLabel"',
-        '    placeholder="Type Ind to filter countries"',
-        '    ariaLabel="Country filter"',
-        '  ></tng-autocomplete>',
-        '</div>',
-        '',
-      ].join('\n'),
-    },
-    {
-      value: 'css',
-      label: 'CSS',
-      language: 'css',
-      title: 'autocomplete-tailwind-country-filter.component.css',
-      code: '/* Tailwind utilities are applied directly in the template. */',
-    },
+    { value: 'ts', label: 'TS', language: 'ts', title: 'autocomplete-overview-tailwind.component.ts', code: TAILWIND_TS_CODE },
+    { value: 'html', label: 'HTML', language: 'html', title: 'autocomplete-overview-tailwind.component.html', code: TAILWIND_HTML_CODE },
+    { value: 'css', label: 'CSS', language: 'css', title: 'autocomplete-overview-tailwind.component.css', code: TAILWIND_CSS_CODE },
   ]);
 
-  protected onHeadlessInput(event: Event): void {
-    this.headlessQuery.set((event.target as HTMLInputElement).value);
+  protected onPlainCountryChange(value: unknown): void {
+    this.plainCountry.set(typeof value === 'string' ? value : null);
   }
 
-  protected onHeadlessOpenChange(open: boolean): void {
-    this.headlessOpen.set(open);
-    if (!open) {
-      this.headlessQuery.set(this.resolveCountryLabel(this.headlessValue()) ?? '');
-    }
-  }
-
-  protected onHeadlessValueChange(value: AutocompleteValueChange): void {
-    const singleValue = this.toSingleValue(value);
-    this.headlessValue.set(singleValue);
-    this.headlessQuery.set(this.resolveCountryLabel(singleValue) ?? '');
-  }
-
-  protected onPlainValueChange(value: AutocompleteValueChange): void {
-    this.plainValue.set(this.toSingleValue(value));
-  }
-
-  protected onTailwindValueChange(value: AutocompleteValueChange): void {
-    this.tailwindValue.set(this.toSingleValue(value));
-  }
-
-  ngOnInit(): void {
-    fetch('/assets/country-list.json')
-      .then((r) => r.json())
-      .then((data: Array<{ code: string; name: string }>) =>
-        this.countries.set(
-          data.map((c) => ({ code: c.code.toLowerCase(), label: c.name })),
-        ),
-      )
-      .catch(() => this.countries.set([]));
+  protected onTailwindCountryChange(value: unknown): void {
+    this.tailwindCountry.set(typeof value === 'string' ? value : null);
   }
 
   public ngOnDestroy(): void {
     this.colorSchemeObserver?.disconnect();
   }
-
-  private toSingleValue(value: AutocompleteValueChange): string | null {
-    if (value === null) {
-      return null;
-    }
-
-    if (Array.isArray(value)) {
-      const first = value[0];
-      return typeof first === 'string' ? first : first === null ? null : String(first);
-    }
-
-    return typeof value === 'string' ? value : String(value);
-  }
-
-  private resolveCountryLabel(code: string | null): string | null {
-    if (code === null) {
-      return null;
-    }
-
-    return this.countriesByCode().get(code)?.label ?? null;
-  }
-
-  protected readonly getCountryFlagUrl = (code: string): string =>
-    `https://cdn.jsdelivr.net/npm/flag-icons@7.5.0/flags/4x3/${code.toLowerCase()}.svg`;
-
 }

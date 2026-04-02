@@ -81,6 +81,13 @@ export const OWNABLE_FORM_GROUP: OwnableDocsGroup = {
         'Ownable textarea install with local wrapper source, import metadata, and generated file structure.',
     },
     {
+      id: 'autocomplete',
+      slug: 'autocomplete',
+      title: 'Autocomplete',
+      description:
+        'Ownable autocomplete install with local wrapper source, option mapping defaults, and generated file structure.',
+    },
+    {
       id: 'switch',
       slug: 'switch',
       title: 'Switch',

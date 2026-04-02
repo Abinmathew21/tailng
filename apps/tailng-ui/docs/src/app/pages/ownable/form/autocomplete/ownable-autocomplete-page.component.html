@@ -1,0 +1,38 @@
+<div class="grid gap-8 pb-10">
+  <section class="docs-section-anchor grid gap-4" id="autocomplete-overview">
+    <h1 class="m-0 text-3xl font-semibold text-tng-fg-primary">Autocomplete</h1>
+    <p class="m-0 max-w-4xl text-base leading-7 text-tng-fg-secondary">
+      The ownable Autocomplete install gives your app a local wrapper over the TailNG primitive so
+      you can tune filtering defaults, option mapping, and trigger markup inside the product repo.
+    </p>
+  </section>
+
+  <section class="docs-section-anchor grid gap-3" id="why-own-autocomplete">
+    <h2 class="m-0 text-xl font-semibold text-tng-fg-primary">Why own Autocomplete locally</h2>
+    <p class="m-0 max-w-4xl text-base leading-7 text-tng-fg-secondary">
+      Autocomplete usually needs product-specific option labels, disabled rules, and search copy.
+      Local ownership makes it easier to keep those decisions close to the feature code that uses
+      them.
+    </p>
+    <ul class="m-0 grid gap-2 pl-5 text-sm leading-6 text-tng-fg-secondary">
+      <li>Adjust option mapping and placeholder defaults without waiting on a package release.</li>
+      <li>Keep release-owner, repository, or geography data contracts inside the app repo.</li>
+      <li>Review wrapper markup and styling in the same pull request as product feature work.</li>
+    </ul>
+  </section>
+
+  <section class="docs-section-anchor grid gap-3" id="what-autocomplete-installs">
+    <h2 class="m-0 text-xl font-semibold text-tng-fg-primary">What the install includes</h2>
+    <p class="m-0 max-w-4xl text-base leading-7 text-tng-fg-secondary">
+      The registry-backed autocomplete install writes the wrapper component, template, styles, and
+      export barrel into your application so the generated files can evolve with the rest of your
+      product code.
+    </p>
+  </section>
+
+  <app-docs-ownable-install-section
+    componentName="Autocomplete"
+    registrySlug="autocomplete"
+    [usageCode]="usageCode"
+  />
+</div>
