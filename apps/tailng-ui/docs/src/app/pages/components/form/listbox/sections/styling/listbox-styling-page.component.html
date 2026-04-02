@@ -1,9 +1,9 @@
 <article class="listbox-styling">
   <h2 class="listbox-styling-title">Styling contract</h2>
   <p class="listbox-styling-lead">
-    Style the owned listbox surface through the primitive host and option hooks. Because there is
-    no dedicated wrapper component yet, the component-side contract is the same public primitive
-    contract you use in headless composition.
+    Style the component wrapper through host-level semantic tokens. The internal option markup is
+    owned by <code>&lt;tng-listbox&gt;</code>, so the supported customization surface is the host
+    plus its CSS custom properties rather than private child selectors.
   </p>
 
   <section id="css-contract-table" class="listbox-styling-block">
@@ -12,36 +12,61 @@
       <table class="listbox-styling-table">
         <thead>
           <tr>
-            <th scope="col">Selector</th>
+            <th scope="col">Selector / token</th>
             <th scope="col">Applied on</th>
             <th scope="col">Purpose</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td><code>[tngListbox]</code></td>
-            <td>Listbox host</td>
-            <td>Container layout and focus ring.</td>
+            <td><code>tng-listbox</code></td>
+            <td>Wrapper host</td>
+            <td>Width, margins, outer border radius, and host-level positioning.</td>
           </tr>
           <tr>
-            <td><code>[tngOption]</code></td>
-            <td>Option host</td>
-            <td>Typography, spacing, and surface states.</td>
+            <td><code>tng-listbox[data-orientation='horizontal']</code></td>
+            <td>Wrapper host</td>
+            <td>Optional layout tweaks for horizontal listboxes.</td>
           </tr>
           <tr>
-            <td><code>[tngOption][data-active]</code></td>
-            <td>Option host</td>
-            <td>Keyboard-active visual state.</td>
+            <td><code>tng-listbox[data-disabled]</code></td>
+            <td>Wrapper host</td>
+            <td>Global disabled affordance.</td>
           </tr>
           <tr>
-            <td><code>[tngOption][data-selected]</code></td>
-            <td>Option host</td>
-            <td>Selected item styling.</td>
+            <td><code>--tng-semantic-background-surface</code></td>
+            <td>Wrapper host</td>
+            <td>Option surfaces and outer listbox card background.</td>
           </tr>
           <tr>
-            <td><code>[tngOption][data-disabled]</code></td>
-            <td>Option host</td>
-            <td>Disabled affordance and interaction cue.</td>
+            <td><code>--tng-semantic-background-base</code></td>
+            <td>Wrapper host</td>
+            <td>Base fill used behind option cards.</td>
+          </tr>
+          <tr>
+            <td><code>--tng-semantic-border-subtle</code></td>
+            <td>Wrapper host</td>
+            <td>Border color for the wrapper and option rows.</td>
+          </tr>
+          <tr>
+            <td><code>--tng-semantic-accent-brand</code></td>
+            <td>Wrapper host</td>
+            <td>Active and selected state accent color.</td>
+          </tr>
+          <tr>
+            <td><code>--tng-semantic-focus-ring</code></td>
+            <td>Wrapper host</td>
+            <td>Focus ring color applied by the owned wrapper.</td>
+          </tr>
+          <tr>
+            <td><code>--tng-semantic-foreground-primary</code></td>
+            <td>Wrapper host</td>
+            <td>Primary option label color.</td>
+          </tr>
+          <tr>
+            <td><code>--tng-semantic-foreground-secondary</code></td>
+            <td>Wrapper host</td>
+            <td>Secondary description and helper text color.</td>
           </tr>
         </tbody>
       </table>
@@ -49,12 +74,25 @@
   </section>
 
   <section id="example-style-contract" class="listbox-styling-block">
-    <h3>Example style contract</h3>
+    <h3>Plain CSS host styling</h3>
     <tng-code-block
       [code]="stylingExampleCode"
       adapter="shiki"
       language="css"
       title="listbox.contract.css"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="tailwind-style-contract" class="listbox-styling-block">
+    <h3>Tailwind host styling</h3>
+    <tng-code-block
+      [code]="tailwindExampleCode"
+      adapter="shiki"
+      language="html"
+      title="listbox.contract.html"
       [lineNumbers]="false"
       [wrap]="true"
       [sanitizeHtml]="false"

@@ -1,18 +1,17 @@
 <article class="listbox-api">
   <h2 class="listbox-api-title">API reference</h2>
   <p class="listbox-api-lead">
-    In <code>@tailng-ui/components</code>, ListBox behavior is still composed through the headless
-    primitives. Use this page when you need an always-open list surface inside a component-driven
-    app and want to stay aligned with the same selection contract used by select-style wrappers.
+    <code>&lt;tng-listbox&gt;</code> is the component wrapper for an always-open listbox surface.
+    It hosts the primitive keyboard and selection model while accepting options as data.
   </p>
 
-  <section id="tnglistbox-tngoption" class="listbox-api-block">
-    <h3><code>tngListbox</code> + <code>tngOption</code></h3>
+  <section id="tng-listbox" class="listbox-api-block">
+    <h3><code>&lt;tng-listbox&gt;</code></h3>
     <tng-code-block
-      [code]="primitiveAttachmentCode"
+      [code]="wrapperAttachmentCode"
       adapter="shiki"
       language="html"
-      title="Primitive attachment"
+      title="Wrapper attachment"
       [lineNumbers]="false"
       [wrap]="true"
       [sanitizeHtml]="false"
@@ -22,73 +21,100 @@
       <table class="listbox-api-table">
         <thead>
           <tr>
-            <th scope="col">Directive</th>
-            <th scope="col">API</th>
+            <th scope="col">Input / Output</th>
             <th scope="col">Type</th>
             <th scope="col">Notes</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td><code>tngListbox</code></td>
+            <td><code>options</code></td>
+            <td><code>readonly O[]</code></td>
+            <td>Source data rendered into listbox options.</td>
+          </tr>
+          <tr>
+            <td><code>value</code>, <code>valueChange</code></td>
+            <td><code>V | readonly V[] | null</code></td>
+            <td>Controlled selection model. Single mode returns one value; multiple mode returns an array.</td>
+          </tr>
+          <tr>
             <td><code>multiple</code></td>
             <td><code>boolean</code></td>
             <td>Switches single vs multiple selection behavior.</td>
           </tr>
           <tr>
-            <td><code>tngListbox</code></td>
             <td><code>orientation</code></td>
             <td><code>'vertical' | 'horizontal'</code></td>
-            <td>Arrow-key axis for navigation.</td>
+            <td>Changes the arrow-key axis for roving focus.</td>
           </tr>
           <tr>
-            <td><code>tngListbox</code></td>
             <td><code>direction</code></td>
             <td><code>'ltr' | 'rtl'</code></td>
-            <td>Horizontal key mapping direction.</td>
+            <td>Controls horizontal key mapping.</td>
           </tr>
           <tr>
-            <td><code>tngListbox</code></td>
             <td><code>disabled</code>, <code>loop</code>, <code>typeahead</code></td>
             <td><code>boolean</code></td>
-            <td>Global interactivity and keyboard traversal behavior.</td>
+            <td>Global interaction flags forwarded to the primitive controller.</td>
           </tr>
           <tr>
-            <td><code>tngListbox</code></td>
-            <td><code>value</code>, <code>valueChange</code></td>
-            <td><code>T | readonly T[] | null</code></td>
-            <td>Selection model and output updates.</td>
+            <td><code>ariaLabel</code>, <code>ariaLabelledby</code>, <code>ariaDescribedBy</code></td>
+            <td><code>string | null</code></td>
+            <td>Host accessibility labels and description hooks.</td>
           </tr>
           <tr>
-            <td><code>tngOption</code></td>
-            <td><code>tngValue</code></td>
-            <td><code>T</code></td>
-            <td>Option value committed to the listbox model.</td>
+            <td><code>getOptionValue</code></td>
+            <td><code>(option: O) =&gt; V</code></td>
+            <td>Maps each option object to the committed selection value.</td>
           </tr>
           <tr>
-            <td><code>tngOption</code></td>
-            <td><code>disabled</code></td>
-            <td><code>boolean</code></td>
-            <td>Skips option from keyboard and selection interactions.</td>
+            <td><code>getOptionLabel</code></td>
+            <td><code>(option: O) =&gt; string</code></td>
+            <td>Maps each option object to the primary option text.</td>
+          </tr>
+          <tr>
+            <td><code>getOptionDescription</code></td>
+            <td><code>(option: O) =&gt; string | null | undefined</code></td>
+            <td>Optional supporting copy rendered under the main label.</td>
+          </tr>
+          <tr>
+            <td><code>isOptionDisabled</code></td>
+            <td><code>(option: O) =&gt; boolean</code></td>
+            <td>Skips the option from keyboard and selection interactions.</td>
+          </tr>
+          <tr>
+            <td><code>trackBy</code></td>
+            <td><code>(index: number, option: O) =&gt; unknown</code></td>
+            <td>Custom identity for Angular's list rendering.</td>
           </tr>
         </tbody>
       </table>
     </div>
   </section>
 
-  <section id="wrapper-status" class="listbox-api-block">
-    <h3>Wrapper status</h3>
+  <section id="default-accessors" class="listbox-api-block">
+    <h3>Default accessors</h3>
     <p>
-      A dedicated <code>tng-listbox</code> component wrapper is not yet part of
-      <code>@tailng-ui/components</code>. For wrapped combobox experiences, use
-      <code>tng-select</code>, <code>tng-multiselect</code>, <code>tng-autocomplete</code>, or
-      <code>tng-multi-autocomplete</code>.
+      When your option objects follow common shapes, you can skip the accessor inputs. The wrapper
+      resolves values from <code>value</code>, <code>id</code>, <code>key</code>, or
+      <code>code</code>; labels from <code>label</code>, <code>title</code>, or <code>name</code>;
+      descriptions from <code>description</code>, <code>copy</code>, <code>supportingText</code>,
+      or <code>details</code>; and disabled state from <code>disabled</code> or
+      <code>unavailable</code>.
+    </p>
+  </section>
+
+  <section id="option-template" class="listbox-api-block">
+    <h3>Custom option template</h3>
+    <p>
+      Provide <code>#tngListboxOptionTpl</code> when you want custom option markup while keeping the
+      same wrapper API and keyboard behavior.
     </p>
     <tng-code-block
-      [code]="wrapperStatusCode"
+      [code]="customTemplateCode"
       adapter="shiki"
-      language="ts"
-      title="Wrapper status"
+      language="html"
+      title="Custom option template"
       [lineNumbers]="false"
       [wrap]="true"
       [sanitizeHtml]="false"

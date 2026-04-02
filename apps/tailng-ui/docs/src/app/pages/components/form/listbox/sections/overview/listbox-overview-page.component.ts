@@ -1,13 +1,12 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, computed, inject, signal, type OnDestroy } from '@angular/core';
-import { observeDocsCodeThemeChanges, resolveDocsCodeBlockTheme } from '../../../../../../shared/util';
-import { TngCodeBlockComponent } from '@tailng-ui/components';
-import { TngListboxDirective, TngOptionDirective } from '@tailng-ui/primitives';
-import { type DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
+import { TngCodeBlockComponent, TngListboxComponent } from '@tailng-ui/components';
+import type { DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
 import {
   DocsExampleTabsSectionComponent,
   DocsExampleVariantDirective,
 } from '../../../../../../shared/example-tabs-section/docs-example-tabs-section.component';
+import { observeDocsCodeThemeChanges, resolveDocsCodeBlockTheme } from '../../../../../../shared/util';
 import { stackblitzTailwindUrl, stackblitzVanillaUrl } from '../../listbox.util';
 
 interface ListboxOption {
@@ -18,6 +17,8 @@ interface ListboxOption {
 }
 
 type ListboxModel = string | readonly string[] | null;
+
+type CapabilityId = 'a11y' | 'components' | 'styling' | 'tests' | 'roadmap';
 
 const LISTBOX_OPTIONS: readonly ListboxOption[] = Object.freeze([
   {
@@ -41,19 +42,28 @@ const LISTBOX_OPTIONS: readonly ListboxOption[] = Object.freeze([
     label: 'Testing harness',
   },
   {
-    description: 'Upcoming wrapper exploration for richer listbox composition.',
+    description: 'Wrapper-level composition for richer always-open selection surfaces.',
     disabled: true,
     id: 'roadmap',
     label: 'Wrapper roadmap (disabled)',
   },
 ]);
 
+function isCapabilityId(value: string): value is CapabilityId {
+  return (
+    value === 'a11y' ||
+    value === 'components' ||
+    value === 'styling' ||
+    value === 'tests' ||
+    value === 'roadmap'
+  );
+}
+
 @Component({
   selector: 'app-listbox-overview-page',
   imports: [
     TngCodeBlockComponent,
-    TngListboxDirective,
-    TngOptionDirective,
+    TngListboxComponent,
     DocsExampleTabsSectionComponent,
     DocsExampleVariantDirective,
   ],
@@ -72,29 +82,25 @@ export class ListboxOverviewPageComponent implements OnDestroy {
   protected readonly stackblitzTailwindUrl = stackblitzTailwindUrl;
 
   protected readonly options = LISTBOX_OPTIONS;
-  protected readonly plainValue = signal<readonly string[]>(['components']);
-  protected readonly tailwindValue = signal<readonly string[]>(['styling']);
+  protected readonly plainValue = signal<readonly CapabilityId[]>(['components']);
+  protected readonly tailwindValue = signal<readonly CapabilityId[]>(['styling']);
 
   protected readonly plainSummary = computed(() => this.formatSelection(this.plainValue()));
   protected readonly tailwindSummary = computed(() => this.formatSelection(this.tailwindValue()));
 
-  protected readonly primitiveImportCode = [
-    "import { TngListboxDirective, TngOptionDirective } from '@tailng-ui/primitives';",
+  protected readonly wrapperImportCode = [
+    "import { TngListboxComponent } from '@tailng-ui/components';",
     '',
   ].join('\n');
 
-  protected readonly primitiveUsageCode = [
-    '<div',
-    '  tngListbox',
-    '  tabindex="0"',
+  protected readonly wrapperUsageCode = [
+    '<tng-listbox',
+    '  ariaLabel="Capability checklist"',
     '  [multiple]="true"',
-    '  [value]="selectedValues()"',
-    '  (valueChange)="selectedValues.set(toArray($event))"',
-    '>',
-    '  @for (option of options; track option.id) {',
-    '    <div tngOption [tngValue]="option.id">{{ option.label }}</div>',
-    '  }',
-    '</div>',
+    '  [options]="capabilityOptions"',
+    '  [value]="selectedCapabilities()"',
+    '  (valueChange)="onSelectedCapabilitiesChange($event)"',
+    '></tng-listbox>',
     '',
   ].join('\n');
 
@@ -106,7 +112,7 @@ export class ListboxOverviewPageComponent implements OnDestroy {
       title: 'listbox-plain-css-overview.component.ts',
       code: [
         "import { Component, computed, signal } from '@angular/core';",
-        "import { TngListboxDirective, TngOptionDirective } from '@tailng-ui/primitives';",
+        "import { TngListboxComponent } from '@tailng-ui/components';",
         '',
         "type CapabilityId = 'a11y' | 'components' | 'styling' | 'tests' | 'roadmap';",
         '',
@@ -122,7 +128,7 @@ export class ListboxOverviewPageComponent implements OnDestroy {
         "  { id: 'components', label: 'Components integration', description: 'Shared primitives and wrappers for TailNG form controls.' },",
         "  { id: 'styling', label: 'Styling contracts', description: 'State hooks and CSS contracts for custom product skins.' },",
         "  { id: 'tests', label: 'Testing harness', description: 'Regression suites for keyboard, pointer, and typeahead behavior.' },",
-        "  { id: 'roadmap', label: 'Wrapper roadmap (disabled)', description: 'Upcoming wrapper exploration for richer listbox composition.', disabled: true },",
+        "  { id: 'roadmap', label: 'Wrapper roadmap (disabled)', description: 'Wrapper-level composition for richer always-open selection surfaces.', disabled: true },",
         ']);',
         '',
         'function isCapabilityId(value: string): value is CapabilityId {',
@@ -132,7 +138,7 @@ export class ListboxOverviewPageComponent implements OnDestroy {
         '@Component({',
         "  selector: 'app-docs-listbox-overview-plain-css-example',",
         '  standalone: true,',
-        '  imports: [TngListboxDirective, TngOptionDirective],',
+        '  imports: [TngListboxComponent],',
         "  templateUrl: './listbox-plain-css-overview.component.html',",
         "  styleUrl: './listbox-plain-css-overview.component.css',",
         '})',
@@ -147,11 +153,11 @@ export class ListboxOverviewPageComponent implements OnDestroy {
         "    return labels.length > 0 ? labels.join(', ') : 'none';",
         '  });',
         '',
-        '  onSelectedCapabilitiesChange(value: string | readonly string[] | null): void {',
+        '  onSelectedCapabilitiesChange(value: CapabilityId | readonly CapabilityId[] | null): void {',
         '    this.selectedCapabilities.set(this.toArray(value));',
         '  }',
         '',
-        '  private toArray(value: string | readonly string[] | null): readonly CapabilityId[] {',
+        '  private toArray(value: CapabilityId | readonly CapabilityId[] | null): readonly CapabilityId[] {',
         '    if (value === null) {',
         '      return [];',
         '    }',
@@ -170,26 +176,14 @@ export class ListboxOverviewPageComponent implements OnDestroy {
       title: 'listbox-plain-css-overview.component.html',
       code: [
         '<section class="docs-listbox-overview-example">',
-        '  <div',
-        '    tngListbox',
-        '    tabindex="0"',
+        '  <tng-listbox',
         '    class="docs-listbox-overview-example__listbox"',
+        '    ariaLabel="Capability checklist"',
         '    [multiple]="true"',
+        '    [options]="capabilityOptions"',
         '    [value]="selectedCapabilities()"',
         '    (valueChange)="onSelectedCapabilitiesChange($event)"',
-        '  >',
-        '    @for (option of capabilityOptions; track option.id) {',
-        '      <div',
-        '        tngOption',
-        '        class="docs-listbox-overview-example__option"',
-        '        [tngValue]="option.id"',
-        '        [disabled]="option.disabled === true"',
-        '      >',
-        '        <p class="docs-listbox-overview-example__title">{{ option.label }}</p>',
-        '        <p class="docs-listbox-overview-example__description">{{ option.description }}</p>',
-        '      </div>',
-        '    }',
-        '  </div>',
+        '  ></tng-listbox>',
         '  <p class="docs-listbox-overview-example__summary">',
         '    Selected: {{ selectedSummary() }}',
         '  </p>',
@@ -209,72 +203,29 @@ export class ListboxOverviewPageComponent implements OnDestroy {
         '  inline-size: min(100%, 30rem);',
         '  margin-inline: auto;',
         '  padding: 1rem;',
-        '  border: 1px solid var(--tng-semantic-border-subtle, #cbd5e1);',
+        '  border: 1px solid #cbd5e1;',
         '  border-radius: 1rem;',
-        '  background: var(--tng-semantic-background-surface, #ffffff);',
-        '  color: var(--tng-semantic-foreground-primary, #0f172a);',
+        '  background: #ffffff;',
+        '  color: #0f172a;',
         '  color-scheme: light;',
         '}',
         '',
         '.docs-listbox-overview-example__listbox {',
-        '  display: grid;',
-        '  gap: 0.5rem;',
-        '  padding: 0.75rem;',
-        '  border: 1px solid var(--tng-semantic-border-subtle, #cbd5e1);',
-        '  border-radius: 0.85rem;',
-        '  background: var(--tng-semantic-background-canvas, #f8fafc);',
-        '  outline: none;',
-        '}',
-        '',
-        '.docs-listbox-overview-example__listbox:focus {',
-        '  border-color: var(--tng-semantic-accent-brand, #2563eb);',
-        '  box-shadow: 0 0 0 2px color-mix(in srgb, var(--tng-semantic-accent-brand, #2563eb) 28%, transparent);',
-        '}',
-        '',
-        '.docs-listbox-overview-example__option {',
-        '  display: grid;',
-        '  gap: 0.25rem;',
-        '  padding: 0.7rem 0.8rem;',
-        '  border: 1px solid var(--tng-semantic-border-subtle, #cbd5e1);',
-        '  border-radius: 0.75rem;',
-        '  background: var(--tng-semantic-background-surface, #ffffff);',
-        '  cursor: pointer;',
-        '  transition:',
-        '    border-color 120ms ease,',
-        '    background-color 120ms ease,',
-        '    opacity 120ms ease;',
-        '}',
-        '',
-        '.docs-listbox-overview-example__option[data-active] {',
-        '  border-color: var(--tng-semantic-accent-brand, #2563eb);',
-        '}',
-        '',
-        '.docs-listbox-overview-example__option[data-selected] {',
-        '  background: color-mix(in srgb, var(--tng-semantic-accent-brand, #2563eb) 15%, white);',
-        '}',
-        '',
-        '.docs-listbox-overview-example__option[data-disabled] {',
-        '  cursor: not-allowed;',
-        '  opacity: 0.56;',
-        '}',
-        '',
-        '.docs-listbox-overview-example__title {',
-        '  margin: 0;',
-        '  font-size: 0.92rem;',
-        '  font-weight: 600;',
-        '  color: var(--tng-semantic-foreground-primary, #0f172a);',
-        '}',
-        '',
-        '.docs-listbox-overview-example__description {',
-        '  margin: 0;',
-        '  font-size: 0.82rem;',
-        '  color: var(--tng-semantic-foreground-secondary, #475569);',
+        '  width: 100%;',
+        '  max-width: none;',
+        '  --tng-semantic-background-surface: #ffffff;',
+        '  --tng-semantic-background-base: #f8fafc;',
+        '  --tng-semantic-border-subtle: #cbd5e1;',
+        '  --tng-semantic-accent-brand: #2563eb;',
+        '  --tng-semantic-focus-ring: rgba(37, 99, 235, 0.16);',
+        '  --tng-semantic-foreground-primary: #0f172a;',
+        '  --tng-semantic-foreground-secondary: #475569;',
         '}',
         '',
         '.docs-listbox-overview-example__summary {',
         '  margin: 0;',
         '  font-size: 0.82rem;',
-        '  color: var(--tng-semantic-foreground-secondary, #475569);',
+        '  color: #475569;',
         '}',
         '',
       ].join('\n'),
@@ -289,7 +240,7 @@ export class ListboxOverviewPageComponent implements OnDestroy {
       title: 'listbox-tailwind-overview.component.ts',
       code: [
         "import { Component, computed, signal } from '@angular/core';",
-        "import { TngListboxDirective, TngOptionDirective } from '@tailng-ui/primitives';",
+        "import { TngListboxComponent } from '@tailng-ui/components';",
         '',
         "type CapabilityId = 'a11y' | 'components' | 'styling' | 'tests' | 'roadmap';",
         '',
@@ -305,7 +256,7 @@ export class ListboxOverviewPageComponent implements OnDestroy {
         "  { id: 'components', label: 'Components integration', description: 'Shared primitives and wrappers for TailNG form controls.' },",
         "  { id: 'styling', label: 'Styling contracts', description: 'State hooks and CSS contracts for custom product skins.' },",
         "  { id: 'tests', label: 'Testing harness', description: 'Regression suites for keyboard, pointer, and typeahead behavior.' },",
-        "  { id: 'roadmap', label: 'Wrapper roadmap (disabled)', description: 'Upcoming wrapper exploration for richer listbox composition.', disabled: true },",
+        "  { id: 'roadmap', label: 'Wrapper roadmap (disabled)', description: 'Wrapper-level composition for richer always-open selection surfaces.', disabled: true },",
         ']);',
         '',
         'function isCapabilityId(value: string): value is CapabilityId {',
@@ -315,7 +266,7 @@ export class ListboxOverviewPageComponent implements OnDestroy {
         '@Component({',
         "  selector: 'app-docs-listbox-overview-tailwind-example',",
         '  standalone: true,',
-        '  imports: [TngListboxDirective, TngOptionDirective],',
+        '  imports: [TngListboxComponent],',
         "  templateUrl: './listbox-tailwind-overview.component.html',",
         '})',
         'export class DocsListboxOverviewTailwindExampleComponent {',
@@ -329,11 +280,11 @@ export class ListboxOverviewPageComponent implements OnDestroy {
         "    return labels.length > 0 ? labels.join(', ') : 'none';",
         '  });',
         '',
-        '  onSelectedCapabilitiesChange(value: string | readonly string[] | null): void {',
+        '  onSelectedCapabilitiesChange(value: CapabilityId | readonly CapabilityId[] | null): void {',
         '    this.selectedCapabilities.set(this.toArray(value));',
         '  }',
         '',
-        '  private toArray(value: string | readonly string[] | null): readonly CapabilityId[] {',
+        '  private toArray(value: CapabilityId | readonly CapabilityId[] | null): readonly CapabilityId[] {',
         '    if (value === null) {',
         '      return [];',
         '    }',
@@ -352,26 +303,14 @@ export class ListboxOverviewPageComponent implements OnDestroy {
       title: 'listbox-tailwind-overview.component.html',
       code: [
         '<section class="grid w-full max-w-[30rem] gap-3 rounded-xl border border-slate-200 bg-white p-4 text-slate-900 shadow-sm [color-scheme:light]">',
-        '  <div',
-        '    tngListbox',
-        '    tabindex="0"',
-        '    class="grid gap-2 rounded-xl border border-slate-200 bg-slate-50 p-3 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200"',
+        '  <tng-listbox',
+        '    ariaLabel="Capability checklist"',
         '    [multiple]="true"',
+        '    [options]="capabilityOptions"',
         '    [value]="selectedCapabilities()"',
         '    (valueChange)="onSelectedCapabilitiesChange($event)"',
-        '  >',
-        '    @for (option of capabilityOptions; track option.id) {',
-        '      <div',
-        '        tngOption',
-        '        class="grid gap-1 rounded-lg border border-slate-200 bg-white px-3 py-2.5 transition data-[active]:border-blue-500 data-[selected]:border-blue-200 data-[selected]:bg-blue-50 data-[disabled]:cursor-not-allowed data-[disabled]:opacity-60"',
-        '        [tngValue]="option.id"',
-        '        [disabled]="option.disabled === true"',
-        '      >',
-        '        <p class="m-0 text-sm font-semibold text-slate-900">{{ option.label }}</p>',
-        '        <p class="m-0 text-sm leading-6 text-slate-600">{{ option.description }}</p>',
-        '      </div>',
-        '    }',
-        '  </div>',
+        '    class="w-full max-w-none rounded-xl [--tng-semantic-background-surface:#ffffff] [--tng-semantic-background-base:#f8fafc] [--tng-semantic-border-subtle:#cbd5e1] [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-focus-ring:rgba(37,99,235,0.16)] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-foreground-secondary:#475569]"',
+        '  ></tng-listbox>',
         '  <p class="m-0 text-xs text-slate-600">Selected: {{ selectedSummary() }}</p>',
         '</section>',
         '',
@@ -398,27 +337,24 @@ export class ListboxOverviewPageComponent implements OnDestroy {
     this.colorSchemeObserver?.disconnect();
   }
 
-  private toArray(value: ListboxModel): readonly string[] {
+  private toArray(value: ListboxModel): readonly CapabilityId[] {
     if (value === null) {
       return [];
     }
 
-    if (typeof value === 'string') {
-      return [value];
-    }
-
-    return value;
+    const values = typeof value === 'string' ? [value] : value;
+    return values.filter(isCapabilityId);
   }
 
-  private formatSelection(values: readonly string[]): string {
+  private formatSelection(values: readonly CapabilityId[]): string {
     const labels = values
       .map((value) => this.optionLabelById.get(value))
       .filter((label): label is string => label !== undefined);
+
     if (labels.length === 0) {
       return 'none';
     }
 
     return labels.join(', ');
   }
-
 }

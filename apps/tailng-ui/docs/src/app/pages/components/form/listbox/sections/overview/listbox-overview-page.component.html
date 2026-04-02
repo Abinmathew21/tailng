@@ -1,19 +1,18 @@
 <article class="listbox-overview">
   <h2 class="listbox-overview-title">ListBox overview</h2>
   <p class="listbox-overview-lead">
-    TailNG does not ship a dedicated <code>tng-listbox</code> wrapper yet. In component-driven
-    apps, use <code>tngListbox</code> + <code>tngOption</code> when you want an always-open
-    selection surface, or reach for <code>tng-select</code> / <code>tng-multiselect</code> when
-    you want an overlay-driven component wrapper.
+    TailNG ships <code>&lt;tng-listbox&gt;</code> as the owned always-open selection surface. It
+    keeps the listbox primitive keyboard contract, but component-driven apps can now hand options
+    in as data instead of authoring every option node manually.
   </p>
 
   <section id="imports" class="listbox-overview-block">
     <h3>Imports</h3>
     <tng-code-block
-      [code]="primitiveImportCode"
+      [code]="wrapperImportCode"
       adapter="shiki"
       language="ts"
-      title="Primitive import"
+      title="Component import"
       [theme]="codeBlockTheme()"
       [lineNumbers]="false"
       [wrap]="true"
@@ -24,10 +23,10 @@
   <section id="usage-baseline" class="listbox-overview-block">
     <h3>Usage baseline</h3>
     <tng-code-block
-      [code]="primitiveUsageCode"
+      [code]="wrapperUsageCode"
       adapter="shiki"
       language="html"
-      title="Listbox primitive usage"
+      title="Wrapper usage"
       [theme]="codeBlockTheme()"
       [lineNumbers]="false"
       [wrap]="true"
@@ -37,8 +36,8 @@
 
   <section id="listbox-variants" class="listbox-overview-block">
     <app-docs-example-tabs-section
-      heading="Composition variants"
-      description="The primitive contract stays the same while the surrounding visual shell changes between plain CSS and Tailwind."
+      heading="Style variants"
+      description="The same <tng-listbox> contract can sit inside a plain CSS shell or a Tailwind shell without changing the API."
       ariaLabel="Listbox style variants"
       tabListAriaLabel="Listbox styles"
       defaultValue="plain-css"
@@ -48,31 +47,19 @@
         appDocsExampleVariant
         value="plain-css"
         label="Plain-CSS"
-        panelTitle="Plain CSS listbox"
+        panelTitle="Capability checklist (Plain-CSS)"
         [codeTabs]="plainCssCodeTabs"
         [stackblitzUrl]="stackblitzVanillaUrl"
       >
         <div class="listbox-preview-shell listbox-preview-shell--plain">
-          <div
-            tngListbox
-            tabindex="0"
+          <tng-listbox
             class="listbox-preview listbox-preview--plain"
+            ariaLabel="Capability checklist"
             [multiple]="true"
+            [options]="options"
             [value]="plainValue()"
             (valueChange)="onPlainValueChange($event)"
-          >
-            @for (option of options; track option.id) {
-              <div
-                tngOption
-                class="listbox-option"
-                [tngValue]="option.id"
-                [disabled]="option.disabled === true"
-              >
-                <p class="listbox-option__title">{{ option.label }}</p>
-                <p class="listbox-option__description">{{ option.description }}</p>
-              </div>
-            }
-          </div>
+          ></tng-listbox>
           <p class="listbox-preview-summary">selected: {{ plainSummary() }}</p>
         </div>
       </ng-template>
@@ -81,34 +68,20 @@
         appDocsExampleVariant
         value="tailwind-css"
         label="Tailwind CSS"
-        panelTitle="Tailwind listbox"
+        panelTitle="Capability checklist (Tailwind CSS)"
         [codeTabs]="tailwindCodeTabs"
         [stackblitzUrl]="stackblitzTailwindUrl"
       >
-        <div
-          class="listbox-preview-shell rounded-xl border border-slate-200 bg-white p-4 shadow-sm"
-        >
-          <div
-            tngListbox
-            tabindex="0"
-            class="listbox-preview listbox-preview--tailwind"
+        <div class="listbox-preview-shell rounded-xl border border-slate-200 bg-white p-4 shadow-sm [color-scheme:light]">
+          <tng-listbox
+            ariaLabel="Capability checklist"
             [multiple]="true"
+            [options]="options"
             [value]="tailwindValue()"
             (valueChange)="onTailwindValueChange($event)"
-          >
-            @for (option of options; track option.id) {
-              <div
-                tngOption
-                class="listbox-option"
-                [tngValue]="option.id"
-                [disabled]="option.disabled === true"
-              >
-                <p class="listbox-option__title">{{ option.label }}</p>
-                <p class="listbox-option__description">{{ option.description }}</p>
-              </div>
-            }
-          </div>
-          <p class="listbox-preview-summary">selected: {{ tailwindSummary() }}</p>
+            class="w-full max-w-none rounded-xl [--tng-semantic-background-surface:#ffffff] [--tng-semantic-background-base:#f8fafc] [--tng-semantic-border-subtle:#cbd5e1] [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-focus-ring:rgba(37,99,235,0.16)] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-foreground-secondary:#475569]"
+          ></tng-listbox>
+          <p class="m-0 text-xs text-slate-600">selected: {{ tailwindSummary() }}</p>
         </div>
       </ng-template>
     </app-docs-example-tabs-section>
@@ -120,7 +93,7 @@
       <li>Arrow keys drive active option roving inside the focused listbox.</li>
       <li><code>Space</code> toggles active selection and <code>Enter</code> commits selection.</li>
       <li>Typeahead is enabled by default for printable keys.</li>
-      <li>State hooks are exposed through <code>data-active</code>, <code>data-selected</code>, and <code>data-disabled</code>.</li>
+      <li>Common option shapes like <code>id</code>/<code>label</code>/<code>description</code> work without custom accessors.</li>
     </ul>
   </section>
 </article>

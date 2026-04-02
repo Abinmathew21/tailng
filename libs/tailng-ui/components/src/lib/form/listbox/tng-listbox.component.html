@@ -1,0 +1,19 @@
+@for (option of options(); track trackBy()($index, option)) {
+  <button
+    type="button"
+    tngOption
+    class="tng-listbox-option"
+    [tngValue]="getOptionValue()(option)"
+    [disabled]="isOptionDisabled()(option)"
+    [attr.disabled]="isOptionDisabled()(option) ? '' : null"
+  >
+    @if (optionTpl) {
+      <ng-container *ngTemplateOutlet="optionTpl; context: optionContext(option)" />
+    } @else {
+      <span class="tng-listbox-option__label">{{ getOptionLabel()(option) }}</span>
+      @if (resolveOptionDescription(option); as description) {
+        <span class="tng-listbox-option__description">{{ description }}</span>
+      }
+    }
+  </button>
+}

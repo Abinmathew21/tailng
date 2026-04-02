@@ -8,28 +8,34 @@ import { TngCodeBlockComponent } from '@tailng-ui/components';
   styleUrl: './listbox-api-page.component.css',
 })
 export class ListboxApiPageComponent {
-  protected readonly primitiveAttachmentCode = [
-    '<div',
-    '  tngListbox',
-    '  tabindex="0"',
-    '  [multiple]="true"',
-    '  [value]="selectedValues()"',
-    '  (valueChange)="selectedValues.set(toArray($event))"',
-    '>',
-    '  @for (option of options; track option.id) {',
-    '    <div tngOption [tngValue]="option.id" [disabled]="option.disabled === true">',
-    '      {{ option.label }}',
-    '    </div>',
-    '  }',
-    '</div>',
+  protected readonly wrapperAttachmentCode = [
+    '<tng-listbox',
+    '  ariaLabel="Release channels"',
+    '  [options]="channelOptions"',
+    '  [value]="selectedChannel()"',
+    '  (valueChange)="onSelectedChannelChange($event)"',
+    '></tng-listbox>',
     '',
   ].join('\n');
 
-  protected readonly wrapperStatusCode = [
-    '// There is no dedicated <tng-listbox> wrapper today.',
-    '// Use tngListbox + tngOption for always-open selection surfaces.',
-    '// Use <tng-select>, <tng-multiselect>, <tng-autocomplete>,',
-    '// or <tng-multi-autocomplete> when you want an owned overlay wrapper.',
+  protected readonly customTemplateCode = [
+    '<tng-listbox',
+    '  ariaLabel="Release channels"',
+    '  [options]="channelOptions"',
+    '  [getOptionValue]="getChannelValue"',
+    '  [getOptionLabel]="getChannelLabel"',
+    '  [getOptionDescription]="getChannelDescription"',
+    '  [isOptionDisabled]="isChannelDisabled"',
+    '  [value]="selectedChannel()"',
+    '  (valueChange)="onSelectedChannelChange($event)"',
+    '>',
+    '  <ng-template #tngListboxOptionTpl let-item>',
+    '    <span class="channel-option__title">{{ item.label }}</span>',
+    '    @if (item.description; as description) {',
+    '      <span class="channel-option__description">{{ description }}</span>',
+    '    }',
+    '  </ng-template>',
+    '</tng-listbox>',
     '',
   ].join('\n');
 }

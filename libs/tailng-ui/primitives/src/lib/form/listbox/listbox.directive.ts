@@ -108,6 +108,10 @@ export class TngListboxDirective<T> {
       const opts = this.options();
       const external = this.value();
 
+      if (opts.length === 0) {
+        return;
+      }
+
       if (!isMulti) {
         if (external === null) return;
 
