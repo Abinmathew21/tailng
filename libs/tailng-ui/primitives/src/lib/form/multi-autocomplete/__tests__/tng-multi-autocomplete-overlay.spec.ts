@@ -26,6 +26,13 @@ function focus(el: HTMLElement): void {
   template: `
     <section
       tngMultiAutocomplete
+      style="
+        --tng-multi-autocomplete-surface: #f8fafc;
+        --tng-multi-autocomplete-border: #d8e2ef;
+        --tng-multi-autocomplete-fg: #0f172a;
+        --tng-multi-autocomplete-brand: #2563eb;
+        color-scheme: light;
+      "
       [open]="open()"
       (openChange)="open.set($event)"
       [value]="value()"
@@ -60,8 +67,22 @@ describe('tng-multi-autocomplete overlay mounting', () => {
     fixture.detectChanges();
 
     const host = fixture.componentInstance;
+    const multiHost = fixture.nativeElement.querySelector('[data-slot="multi-autocomplete"]') as HTMLElement;
     const trigger = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLInputElement;
     const overlay = fixture.nativeElement.querySelector('[data-testid="overlay"]') as HTMLElement;
+
+    multiHost.getBoundingClientRect = () =>
+      ({
+        left: 48,
+        top: 72,
+        width: 320,
+        height: 48,
+        right: 368,
+        bottom: 120,
+        x: 48,
+        y: 72,
+        toJSON: () => ({}),
+      }) as DOMRect;
 
     expect(overlay.parentNode).not.toBe(document.body);
     expect(fixture.nativeElement.contains(overlay)).toBe(true);
@@ -74,6 +95,13 @@ describe('tng-multi-autocomplete overlay mounting', () => {
     expect(host.open()).toBe(true);
     expect(overlay.parentNode).toBe(document.body);
     expect(fixture.nativeElement.contains(overlay)).toBe(false);
+    expect(overlay.style.getPropertyValue('--tng-multi-autocomplete-surface').trim()).toBe('#f8fafc');
+    expect(overlay.style.getPropertyValue('--tng-multi-autocomplete-border').trim()).toBe('#d8e2ef');
+    expect(overlay.style.getPropertyValue('--tng-multi-autocomplete-fg').trim()).toBe('#0f172a');
+    expect(overlay.style.getPropertyValue('--tng-multi-autocomplete-brand').trim()).toBe('#2563eb');
+    expect(overlay.style.colorScheme).toBe('light');
+    expect(overlay.style.width).toBe('320px');
+    expect(overlay.style.minWidth).toBe('320px');
 
     host.open.set(false);
     fixture.detectChanges();
@@ -82,5 +110,9 @@ describe('tng-multi-autocomplete overlay mounting', () => {
 
     expect(overlay.parentNode).not.toBe(document.body);
     expect(fixture.nativeElement.contains(overlay)).toBe(true);
+    expect(overlay.style.getPropertyValue('--tng-multi-autocomplete-surface').trim()).toBe('');
+    expect(overlay.style.colorScheme).toBe('');
+    expect(overlay.style.width).toBe('');
+    expect(overlay.style.minWidth).toBe('');
   });
 });

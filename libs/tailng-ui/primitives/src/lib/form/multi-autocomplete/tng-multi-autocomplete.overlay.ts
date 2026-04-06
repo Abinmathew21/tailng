@@ -12,6 +12,29 @@ import type { TngMultiAutocomplete } from './tng-multi-autocomplete';
 
 type MaybeRect = Readonly<{ left: number; top: number; width: number; height: number }>;
 
+const PORTALLED_MULTI_AUTOCOMPLETE_THEME_VARS = [
+  '--tng-multi-autocomplete-radius',
+  '--tng-multi-autocomplete-padding',
+  '--tng-multi-autocomplete-trigger-py',
+  '--tng-multi-autocomplete-trigger-px',
+  '--tng-multi-autocomplete-chip-py',
+  '--tng-multi-autocomplete-chip-px',
+  '--tng-multi-autocomplete-option-py',
+  '--tng-multi-autocomplete-option-px',
+  '--tng-multi-autocomplete-border',
+  '--tng-multi-autocomplete-border-strong',
+  '--tng-multi-autocomplete-bg',
+  '--tng-multi-autocomplete-surface',
+  '--tng-multi-autocomplete-fg',
+  '--tng-multi-autocomplete-muted',
+  '--tng-multi-autocomplete-brand',
+  '--tng-multi-autocomplete-danger',
+  '--tng-multi-autocomplete-focus-ring',
+  '--tng-multi-autocomplete-ease',
+  '--tng-multi-autocomplete-shadow',
+  '--tng-multi-autocomplete-shadow-focus',
+] as const;
+
 function rectFromClientRect(r: DOMRect | ClientRect): MaybeRect {
   return { left: r.left, top: r.top, width: r.width, height: r.height };
 }
@@ -162,6 +185,37 @@ export class TngMultiAutocompleteOverlay {
     this.removeDocPointerListener = null;
   }
 
+  private syncPortalledThemeVars(): void {
+    const panel = this.elRef.nativeElement;
+    const hostStyles = getComputedStyle(this.multi.hostElement);
+
+    for (const cssVar of PORTALLED_MULTI_AUTOCOMPLETE_THEME_VARS) {
+      const value = hostStyles.getPropertyValue(cssVar).trim();
+      if (value) {
+        panel.style.setProperty(cssVar, value);
+      } else {
+        panel.style.removeProperty(cssVar);
+      }
+    }
+
+    const colorScheme = hostStyles.colorScheme?.trim();
+    if (colorScheme && colorScheme !== 'normal') {
+      panel.style.colorScheme = colorScheme;
+    } else {
+      panel.style.removeProperty('color-scheme');
+    }
+  }
+
+  private clearPortalledThemeVars(): void {
+    const panel = this.elRef.nativeElement;
+
+    for (const cssVar of PORTALLED_MULTI_AUTOCOMPLETE_THEME_VARS) {
+      panel.style.removeProperty(cssVar);
+    }
+
+    panel.style.removeProperty('color-scheme');
+  }
+
   private mountToBodyAndPosition(): void {
     this.setupRepositionListeners();
 
@@ -174,12 +228,16 @@ export class TngMultiAutocompleteOverlay {
     panel.style.left = '0px';
     panel.style.top = '0px';
     panel.style.zIndex = '1000';
+    this.syncPortalledThemeVars();
 
     queueMicrotask(() => {
       if (!this.multi.open()) return;
 
       const anchor = rectFromClientRect(this.findAnchorEl().getBoundingClientRect());
-      panel.style.minWidth = `${anchor.width}px`;
+      const viewportWidth = viewportRect().width;
+      const inlineSize = Math.max(0, Math.min(anchor.width, viewportWidth - 16));
+      panel.style.width = `${inlineSize}px`;
+      panel.style.minWidth = `${inlineSize}px`;
       this.reposition();
     });
 
@@ -204,7 +262,9 @@ export class TngMultiAutocompleteOverlay {
     panel.style.left = '';
     panel.style.top = '';
     panel.style.zIndex = '';
+    panel.style.width = '';
     panel.style.minWidth = '';
+    this.clearPortalledThemeVars();
     this.teardownOutsidePointer();
   }
 }

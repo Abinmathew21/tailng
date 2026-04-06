@@ -125,12 +125,13 @@ const MARKET_PLAIN_CSS_CODE = String.raw`.docs-multi-autocomplete-launch-markets
   gap: 0.9rem;
   inline-size: min(100%, 36rem);
   margin-inline: auto;
-  padding: 1rem;
+  padding: 1.1rem;
   border: 1px solid #cbd5e1;
-  border-radius: 1rem;
+  border-radius: 1.25rem;
   background: #ffffff;
   color: #0f172a;
   color-scheme: light;
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
 }
 
 .docs-multi-autocomplete-launch-markets-plain-header {
@@ -153,18 +154,27 @@ const MARKET_PLAIN_CSS_CODE = String.raw`.docs-multi-autocomplete-launch-markets
 .docs-multi-autocomplete-launch-markets-plain-control {
   display: block;
   width: 100%;
+  min-width: 0;
   --tng-semantic-background-canvas: #ffffff;
   --tng-semantic-background-surface: #f8fafc;
-  --tng-semantic-border-subtle: #cbd5e1;
+  --tng-semantic-border-subtle: #d8e2ef;
   --tng-semantic-border-strong: #94a3b8;
   --tng-semantic-foreground-primary: #0f172a;
   --tng-semantic-foreground-secondary: #475569;
   --tng-semantic-foreground-muted: #64748b;
   --tng-semantic-accent-brand: #2563eb;
   --tng-semantic-focus-ring: #2563eb;
+  --tng-multi-autocomplete-radius: 1rem;
+  --tng-multi-autocomplete-padding: 0.5rem;
+  --tng-multi-autocomplete-trigger-py: 0.45rem;
+  --tng-multi-autocomplete-trigger-px: 0.5rem;
+  --tng-multi-autocomplete-chip-py: 0.375rem;
+  --tng-multi-autocomplete-chip-px: 0.75rem;
+  --tng-multi-autocomplete-option-py: 0.625rem;
+  --tng-multi-autocomplete-option-px: 0.875rem;
   --tng-multi-autocomplete-bg: #ffffff;
   --tng-multi-autocomplete-surface: #f8fafc;
-  --tng-multi-autocomplete-border: #cbd5e1;
+  --tng-multi-autocomplete-border: #d8e2ef;
   --tng-multi-autocomplete-border-strong: #94a3b8;
   --tng-multi-autocomplete-fg: #0f172a;
   --tng-multi-autocomplete-muted: #64748b;
@@ -237,7 +247,7 @@ const MARKET_TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-
   </div>
 
   <tng-multi-autocomplete
-    class="block w-full [--tng-semantic-background-canvas:#ffffff] [--tng-semantic-background-surface:#f8fafc] [--tng-semantic-border-subtle:#cbd5e1] [--tng-semantic-border-strong:#94a3b8] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-foreground-secondary:#475569] [--tng-semantic-foreground-muted:#64748b] [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-focus-ring:#2563eb] [--tng-multi-autocomplete-bg:#ffffff] [--tng-multi-autocomplete-surface:#f8fafc] [--tng-multi-autocomplete-border:#cbd5e1] [--tng-multi-autocomplete-border-strong:#94a3b8] [--tng-multi-autocomplete-fg:#0f172a] [--tng-multi-autocomplete-muted:#64748b] [--tng-multi-autocomplete-brand:#2563eb] [--tng-multi-autocomplete-focus-ring:#2563eb]"
+    class="block w-full min-w-0 [--tng-semantic-background-canvas:#ffffff] [--tng-semantic-background-surface:#f8fafc] [--tng-semantic-border-subtle:#d8e2ef] [--tng-semantic-border-strong:#94a3b8] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-foreground-secondary:#475569] [--tng-semantic-foreground-muted:#64748b] [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-focus-ring:#2563eb] [--tng-multi-autocomplete-radius:1rem] [--tng-multi-autocomplete-padding:0.5rem] [--tng-multi-autocomplete-trigger-py:0.45rem] [--tng-multi-autocomplete-trigger-px:0.5rem] [--tng-multi-autocomplete-chip-py:0.375rem] [--tng-multi-autocomplete-chip-px:0.75rem] [--tng-multi-autocomplete-option-py:0.625rem] [--tng-multi-autocomplete-option-px:0.875rem] [--tng-multi-autocomplete-bg:#ffffff] [--tng-multi-autocomplete-surface:#f8fafc] [--tng-multi-autocomplete-border:#d8e2ef] [--tng-multi-autocomplete-border-strong:#94a3b8] [--tng-multi-autocomplete-fg:#0f172a] [--tng-multi-autocomplete-muted:#64748b] [--tng-multi-autocomplete-brand:#2563eb] [--tng-multi-autocomplete-focus-ring:#2563eb]"
     [options]="componentExamplesTailwindLaunchMarkets"
     [value]="componentExamplesTailwindSelectedMarketCodes()"
     (valueChange)="onComponentExamplesTailwindSelectedMarketsChange($event)"
@@ -354,12 +364,13 @@ const REVIEWER_PLAIN_CSS_CODE = String.raw`.docs-multi-autocomplete-reviewer-ros
   gap: 0.9rem;
   inline-size: min(100%, 36rem);
   margin-inline: auto;
-  padding: 1rem;
+  padding: 1.1rem;
   border: 1px solid #cbd5e1;
-  border-radius: 1rem;
+  border-radius: 1.25rem;
   background: #ffffff;
   color: #0f172a;
   color-scheme: light;
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
 }
 
 .docs-multi-autocomplete-reviewer-roster-plain-header {
@@ -382,23 +393,32 @@ const REVIEWER_PLAIN_CSS_CODE = String.raw`.docs-multi-autocomplete-reviewer-ros
 .docs-multi-autocomplete-reviewer-roster-plain-control {
   display: block;
   width: 100%;
+  min-width: 0;
   --tng-semantic-background-canvas: #ffffff;
   --tng-semantic-background-surface: #f8fafc;
-  --tng-semantic-border-subtle: #cbd5e1;
+  --tng-semantic-border-subtle: #d8e2ef;
   --tng-semantic-border-strong: #94a3b8;
   --tng-semantic-foreground-primary: #0f172a;
   --tng-semantic-foreground-secondary: #475569;
   --tng-semantic-foreground-muted: #64748b;
-  --tng-semantic-accent-brand: #7c3aed;
-  --tng-semantic-focus-ring: #7c3aed;
+  --tng-semantic-accent-brand: #0f766e;
+  --tng-semantic-focus-ring: #0f766e;
+  --tng-multi-autocomplete-radius: 1rem;
+  --tng-multi-autocomplete-padding: 0.5rem;
+  --tng-multi-autocomplete-trigger-py: 0.45rem;
+  --tng-multi-autocomplete-trigger-px: 0.5rem;
+  --tng-multi-autocomplete-chip-py: 0.375rem;
+  --tng-multi-autocomplete-chip-px: 0.75rem;
+  --tng-multi-autocomplete-option-py: 0.625rem;
+  --tng-multi-autocomplete-option-px: 0.875rem;
   --tng-multi-autocomplete-bg: #ffffff;
   --tng-multi-autocomplete-surface: #f8fafc;
-  --tng-multi-autocomplete-border: #cbd5e1;
+  --tng-multi-autocomplete-border: #d8e2ef;
   --tng-multi-autocomplete-border-strong: #94a3b8;
   --tng-multi-autocomplete-fg: #0f172a;
   --tng-multi-autocomplete-muted: #64748b;
-  --tng-multi-autocomplete-brand: #7c3aed;
-  --tng-multi-autocomplete-focus-ring: #7c3aed;
+  --tng-multi-autocomplete-brand: #0f766e;
+  --tng-multi-autocomplete-focus-ring: #0f766e;
 }
 
 .docs-multi-autocomplete-reviewer-roster-plain-chip-label {
@@ -412,7 +432,25 @@ const REVIEWER_PLAIN_CSS_CODE = String.raw`.docs-multi-autocomplete-reviewer-ros
   cursor: pointer;
   font: inherit;
   line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 1.25rem;
+  block-size: 1.25rem;
+  border-radius: 999px;
   padding: 0;
+  transition:
+    background-color 140ms ease,
+    color 140ms ease;
+}
+
+.docs-multi-autocomplete-reviewer-roster-plain-chip-action:hover {
+  background: rgba(15, 23, 42, 0.08);
+}
+
+.docs-multi-autocomplete-reviewer-roster-plain-chip-action:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(15, 118, 110, 0.18);
 }
 
 .docs-multi-autocomplete-reviewer-roster-plain-option-row {
@@ -493,7 +531,7 @@ const REVIEWER_TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-
   </div>
 
   <tng-multi-autocomplete
-    class="block w-full [--tng-semantic-background-canvas:#ffffff] [--tng-semantic-background-surface:#f8fafc] [--tng-semantic-border-subtle:#cbd5e1] [--tng-semantic-border-strong:#94a3b8] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-foreground-secondary:#475569] [--tng-semantic-foreground-muted:#64748b] [--tng-semantic-accent-brand:#7c3aed] [--tng-semantic-focus-ring:#7c3aed] [--tng-multi-autocomplete-bg:#ffffff] [--tng-multi-autocomplete-surface:#f8fafc] [--tng-multi-autocomplete-border:#cbd5e1] [--tng-multi-autocomplete-border-strong:#94a3b8] [--tng-multi-autocomplete-fg:#0f172a] [--tng-multi-autocomplete-muted:#64748b] [--tng-multi-autocomplete-brand:#7c3aed] [--tng-multi-autocomplete-focus-ring:#7c3aed]"
+    class="block w-full min-w-0 [--tng-semantic-background-canvas:#ffffff] [--tng-semantic-background-surface:#f8fafc] [--tng-semantic-border-subtle:#d8e2ef] [--tng-semantic-border-strong:#94a3b8] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-foreground-secondary:#475569] [--tng-semantic-foreground-muted:#64748b] [--tng-semantic-accent-brand:#0f766e] [--tng-semantic-focus-ring:#0f766e] [--tng-multi-autocomplete-radius:1rem] [--tng-multi-autocomplete-padding:0.5rem] [--tng-multi-autocomplete-trigger-py:0.45rem] [--tng-multi-autocomplete-trigger-px:0.5rem] [--tng-multi-autocomplete-chip-py:0.375rem] [--tng-multi-autocomplete-chip-px:0.75rem] [--tng-multi-autocomplete-option-py:0.625rem] [--tng-multi-autocomplete-option-px:0.875rem] [--tng-multi-autocomplete-bg:#ffffff] [--tng-multi-autocomplete-surface:#f8fafc] [--tng-multi-autocomplete-border:#d8e2ef] [--tng-multi-autocomplete-border-strong:#94a3b8] [--tng-multi-autocomplete-fg:#0f172a] [--tng-multi-autocomplete-muted:#64748b] [--tng-multi-autocomplete-brand:#0f766e] [--tng-multi-autocomplete-focus-ring:#0f766e]"
     [options]="componentExamplesTailwindReviewerRoster"
     [value]="componentExamplesTailwindSelectedReviewerIds()"
     (valueChange)="onComponentExamplesTailwindSelectedReviewersChange($event)"
@@ -507,7 +545,7 @@ const REVIEWER_TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-
       <span class="font-medium">{{ chip.label }}</span>
       <button
         type="button"
-        class="text-slate-500 transition hover:text-slate-900"
+        class="inline-flex h-5 w-5 items-center justify-center rounded-full text-slate-500 transition hover:bg-slate-200 hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500/20"
         (click)="chip.removeItem(chip.value); $event.preventDefault(); $event.stopPropagation()"
         [attr.aria-label]="'Remove ' + chip.label"
       >

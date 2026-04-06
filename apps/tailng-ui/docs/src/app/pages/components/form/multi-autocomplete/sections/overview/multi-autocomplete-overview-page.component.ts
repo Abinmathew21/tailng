@@ -123,12 +123,13 @@ const PLAIN_CSS_CODE = String.raw`.docs-multi-autocomplete-overview-plain-shell 
   gap: 0.9rem;
   inline-size: min(100%, 36rem);
   margin-inline: auto;
-  padding: 1rem;
+  padding: 1.1rem;
   border: 1px solid #cbd5e1;
-  border-radius: 1rem;
+  border-radius: 1.25rem;
   background: #ffffff;
   color: #0f172a;
   color-scheme: light;
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
 }
 
 .docs-multi-autocomplete-overview-plain-header {
@@ -151,18 +152,27 @@ const PLAIN_CSS_CODE = String.raw`.docs-multi-autocomplete-overview-plain-shell 
 .docs-multi-autocomplete-overview-plain-control {
   display: block;
   width: 100%;
+  min-width: 0;
   --tng-semantic-background-canvas: #ffffff;
   --tng-semantic-background-surface: #f8fafc;
-  --tng-semantic-border-subtle: #cbd5e1;
+  --tng-semantic-border-subtle: #d8e2ef;
   --tng-semantic-border-strong: #94a3b8;
   --tng-semantic-foreground-primary: #0f172a;
   --tng-semantic-foreground-secondary: #475569;
   --tng-semantic-foreground-muted: #64748b;
   --tng-semantic-accent-brand: #2563eb;
   --tng-semantic-focus-ring: #2563eb;
+  --tng-multi-autocomplete-radius: 1rem;
+  --tng-multi-autocomplete-padding: 0.5rem;
+  --tng-multi-autocomplete-trigger-py: 0.45rem;
+  --tng-multi-autocomplete-trigger-px: 0.5rem;
+  --tng-multi-autocomplete-chip-py: 0.375rem;
+  --tng-multi-autocomplete-chip-px: 0.75rem;
+  --tng-multi-autocomplete-option-py: 0.625rem;
+  --tng-multi-autocomplete-option-px: 0.875rem;
   --tng-multi-autocomplete-bg: #ffffff;
   --tng-multi-autocomplete-surface: #f8fafc;
-  --tng-multi-autocomplete-border: #cbd5e1;
+  --tng-multi-autocomplete-border: #d8e2ef;
   --tng-multi-autocomplete-border-strong: #94a3b8;
   --tng-multi-autocomplete-fg: #0f172a;
   --tng-multi-autocomplete-muted: #64748b;
@@ -235,7 +245,7 @@ const TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-[36rem]
   </div>
 
   <tng-multi-autocomplete
-    class="block w-full [--tng-semantic-background-canvas:#ffffff] [--tng-semantic-background-surface:#f8fafc] [--tng-semantic-border-subtle:#cbd5e1] [--tng-semantic-border-strong:#94a3b8] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-foreground-secondary:#475569] [--tng-semantic-foreground-muted:#64748b] [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-focus-ring:#2563eb] [--tng-multi-autocomplete-bg:#ffffff] [--tng-multi-autocomplete-surface:#f8fafc] [--tng-multi-autocomplete-border:#cbd5e1] [--tng-multi-autocomplete-border-strong:#94a3b8] [--tng-multi-autocomplete-fg:#0f172a] [--tng-multi-autocomplete-muted:#64748b] [--tng-multi-autocomplete-brand:#2563eb] [--tng-multi-autocomplete-focus-ring:#2563eb]"
+    class="block w-full min-w-0 [--tng-semantic-background-canvas:#ffffff] [--tng-semantic-background-surface:#f8fafc] [--tng-semantic-border-subtle:#d8e2ef] [--tng-semantic-border-strong:#94a3b8] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-foreground-secondary:#475569] [--tng-semantic-foreground-muted:#64748b] [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-focus-ring:#2563eb] [--tng-multi-autocomplete-radius:1rem] [--tng-multi-autocomplete-padding:0.5rem] [--tng-multi-autocomplete-trigger-py:0.45rem] [--tng-multi-autocomplete-trigger-px:0.5rem] [--tng-multi-autocomplete-chip-py:0.375rem] [--tng-multi-autocomplete-chip-px:0.75rem] [--tng-multi-autocomplete-option-py:0.625rem] [--tng-multi-autocomplete-option-px:0.875rem] [--tng-multi-autocomplete-bg:#ffffff] [--tng-multi-autocomplete-surface:#f8fafc] [--tng-multi-autocomplete-border:#d8e2ef] [--tng-multi-autocomplete-border-strong:#94a3b8] [--tng-multi-autocomplete-fg:#0f172a] [--tng-multi-autocomplete-muted:#64748b] [--tng-multi-autocomplete-brand:#2563eb] [--tng-multi-autocomplete-focus-ring:#2563eb]"
     [options]="componentOverviewTailwindLaunchMarkets"
     [value]="componentOverviewTailwindSelectedMarketCodes()"
     (valueChange)="onComponentOverviewTailwindSelectedMarketsChange($event)"

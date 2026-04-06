@@ -2,6 +2,7 @@ import {
   Directive,
   ElementRef,
   HostBinding,
+  HostListener,
   inject,
   input,
   model,
@@ -186,5 +187,43 @@ export class TngMultiAutocomplete<T = unknown> {
       this.hostElement.contains(node) ||
       this._overlayElement?.contains(node) === true
     );
+  }
+
+  @HostListener('click', ['$event'])
+  protected onHostClick(event: MouseEvent): void {
+    if (this.disabled()) {
+      return;
+    }
+
+    const trigger = this.getTriggerElement();
+    if (trigger === null) {
+      return;
+    }
+
+    const target = event.target;
+    if (!(target instanceof Node)) {
+      return;
+    }
+
+    if (trigger.contains(target)) {
+      return;
+    }
+
+    if (target instanceof Element) {
+      const interactiveAncestor = target.closest(
+        'button, a[href], input, textarea, select, summary, [contenteditable=""], [contenteditable="true"], [role="button"], [role="link"]',
+      );
+      if (interactiveAncestor !== null) {
+        return;
+      }
+    }
+
+    trigger.focus({ preventScroll: true });
+  }
+
+  private getTriggerElement(): HTMLInputElement | null {
+    return this.hostElement.querySelector(
+      '[data-slot="multi-autocomplete-trigger"]',
+    ) as HTMLInputElement | null;
   }
 }
