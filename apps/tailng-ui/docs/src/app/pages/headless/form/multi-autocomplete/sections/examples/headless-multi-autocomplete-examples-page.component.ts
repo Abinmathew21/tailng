@@ -63,13 +63,13 @@ import {
   TngMultiAutocompleteTrigger,
 } from '@tailng-ui/primitives';
 
-interface LaunchMarketOption {
+interface HeadlessExamplesPlainLaunchMarketOption {
   readonly code: string;
   readonly label: string;
   readonly region: string;
 }
 
-const LAUNCH_MARKET_OPTIONS: readonly LaunchMarketOption[] = Object.freeze([
+const HEADLESS_EXAMPLES_PLAIN_LAUNCH_MARKET_OPTIONS: readonly HeadlessExamplesPlainLaunchMarketOption[] = Object.freeze([
   { code: 'ca', label: 'Canada', region: 'North America' },
   { code: 'de', label: 'Germany', region: 'Europe' },
   { code: 'id', label: 'Indonesia', region: 'Asia Pacific' },
@@ -95,45 +95,45 @@ const LAUNCH_MARKET_OPTIONS: readonly LaunchMarketOption[] = Object.freeze([
   styleUrl: './headless-multi-autocomplete-launch-markets-plain.component.css',
 })
 export class HeadlessMultiAutocompleteLaunchMarketsPlainComponent {
-  readonly markets = LAUNCH_MARKET_OPTIONS;
-  readonly open = signal(false);
-  readonly query = signal('');
-  readonly selectedMarkets = signal<readonly string[]>(['in', 'jp']);
+  readonly headlessExamplesPlainLaunchMarkets = HEADLESS_EXAMPLES_PLAIN_LAUNCH_MARKET_OPTIONS;
+  readonly headlessExamplesPlainLaunchMarketsOpen = signal(false);
+  readonly headlessExamplesPlainLaunchMarketsQuery = signal('');
+  readonly headlessExamplesPlainSelectedMarketCodes = signal<readonly string[]>(['in', 'jp']);
 
-  readonly filteredMarkets = computed(() => {
-    const normalizedQuery = this.query().trim().toLowerCase();
+  readonly headlessExamplesPlainFilteredLaunchMarkets = computed(() => {
+    const normalizedQuery = this.headlessExamplesPlainLaunchMarketsQuery().trim().toLowerCase();
     if (normalizedQuery === '') {
-      return this.markets;
+      return this.headlessExamplesPlainLaunchMarkets;
     }
 
-    return this.markets.filter((market) =>
+    return this.headlessExamplesPlainLaunchMarkets.filter((market) =>
       (market.label + ' ' + market.region).toLowerCase().includes(normalizedQuery),
     );
   });
 
-  readonly selectedSummary = computed(() => {
-    if (this.selectedMarkets().length === 0) {
+  readonly headlessExamplesPlainSelectedMarketSummary = computed(() => {
+    if (this.headlessExamplesPlainSelectedMarketCodes().length === 0) {
       return 'none';
     }
 
-    return this.selectedMarkets()
-      .map((code) => this.markets.find((market) => market.code === code)?.label ?? code)
+    return this.headlessExamplesPlainSelectedMarketCodes()
+      .map((code) => this.headlessExamplesPlainLaunchMarkets.find((market) => market.code === code)?.label ?? code)
       .join(', ');
   });
 
-  onInput(event: Event): void {
-    this.query.set((event.target as HTMLInputElement).value);
+  onHeadlessExamplesPlainLaunchMarketsInput(event: Event): void {
+    this.headlessExamplesPlainLaunchMarketsQuery.set((event.target as HTMLInputElement).value);
   }
 
-  onValueChange(value: unknown): void {
-    this.selectedMarkets.set(this.toValueArray(value));
+  onHeadlessExamplesPlainLaunchMarketsValueChange(value: unknown): void {
+    this.headlessExamplesPlainSelectedMarketCodes.set(this.toHeadlessExamplesPlainValueArray(value));
   }
 
-  resolveMarketLabel(code: string): string {
-    return this.markets.find((market) => market.code === code)?.label ?? code;
+  resolveHeadlessExamplesPlainLaunchMarketLabel(code: string): string {
+    return this.headlessExamplesPlainLaunchMarkets.find((market) => market.code === code)?.label ?? code;
   }
 
-  private toValueArray(value: unknown): readonly string[] {
+  private toHeadlessExamplesPlainValueArray(value: unknown): readonly string[] {
     if (!Array.isArray(value)) {
       return [];
     }
@@ -153,31 +153,31 @@ const MARKET_PLAIN_HTML_CODE = String.raw`<section class="docs-headless-multi-au
   <section
     tngMultiAutocomplete
     class="docs-headless-multi-autocomplete-launch-markets-plain-control"
-    [open]="open()"
-    (openChange)="open.set($event)"
-    [query]="query()"
-    (queryChange)="query.set($event)"
-    [value]="selectedMarkets()"
-    (valueChange)="onValueChange($event)"
+    [open]="headlessExamplesPlainLaunchMarketsOpen()"
+    (openChange)="headlessExamplesPlainLaunchMarketsOpen.set($event)"
+    [query]="headlessExamplesPlainLaunchMarketsQuery()"
+    (queryChange)="headlessExamplesPlainLaunchMarketsQuery.set($event)"
+    [value]="headlessExamplesPlainSelectedMarketCodes()"
+    (valueChange)="onHeadlessExamplesPlainLaunchMarketsValueChange($event)"
   >
-    @for (code of selectedMarkets(); track code) {
-      <span tngMultiAutocompleteChip [tngValue]="code">{{ resolveMarketLabel(code) }}</span>
+    @for (code of headlessExamplesPlainSelectedMarketCodes(); track code) {
+      <span tngMultiAutocompleteChip [tngValue]="code">{{ resolveHeadlessExamplesPlainLaunchMarketLabel(code) }}</span>
     }
 
     <input
       tngMultiAutocompleteTrigger
       type="text"
-      [value]="query()"
-      (input)="onInput($event)"
+      [value]="headlessExamplesPlainLaunchMarketsQuery()"
+      (input)="onHeadlessExamplesPlainLaunchMarketsInput($event)"
       placeholder="Search launch markets"
       aria-label="Launch markets"
     />
 
-    <div tngMultiAutocompleteContent class="contents">
+    <div tngMultiAutocompleteContent class="docs-headless-multi-autocomplete-launch-markets-plain-content">
       <div class="docs-headless-multi-autocomplete-launch-markets-plain-overlay" tngMultiAutocompleteOverlay>
-        <ul tngMultiAutocompleteListbox [value]="selectedMarkets()">
-          @for (market of filteredMarkets(); track market.code) {
-            <li tngMultiAutocompleteOption [tngValue]="market.code">
+        <ul tngMultiAutocompleteListbox class="docs-headless-multi-autocomplete-launch-markets-plain-listbox" [value]="headlessExamplesPlainSelectedMarketCodes()">
+          @for (market of headlessExamplesPlainFilteredLaunchMarkets(); track market.code) {
+            <li tngMultiAutocompleteOption class="docs-headless-multi-autocomplete-launch-markets-plain-option" [tngValue]="market.code">
               <span>{{ market.label }}</span>
               <small>{{ market.region }}</small>
             </li>
@@ -187,7 +187,7 @@ const MARKET_PLAIN_HTML_CODE = String.raw`<section class="docs-headless-multi-au
     </div>
   </section>
 
-  <p class="docs-headless-multi-autocomplete-launch-markets-plain-summary">Selected: {{ selectedSummary() }}</p>
+  <p class="docs-headless-multi-autocomplete-launch-markets-plain-summary">Selected: {{ headlessExamplesPlainSelectedMarketSummary() }}</p>
 </section>`;
 
 const MARKET_PLAIN_CSS_CODE = String.raw`.docs-headless-multi-autocomplete-launch-markets-plain-shell {
@@ -221,32 +221,159 @@ const MARKET_PLAIN_CSS_CODE = String.raw`.docs-headless-multi-autocomplete-launc
 }
 
 .docs-headless-multi-autocomplete-launch-markets-plain-control {
+  position: relative;
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: 0.45rem;
-  min-height: 3rem;
-  padding: 0.45rem;
+  min-height: 3.25rem;
+  padding: 0.5rem;
   border: 1px solid #94a3b8;
-  border-radius: 1rem;
-  background: #f8fafc;
+  border-radius: 1.1rem;
+  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+  transition:
+    border-color 140ms ease,
+    box-shadow 140ms ease,
+    background-color 140ms ease;
+}
+
+.docs-headless-multi-autocomplete-launch-markets-plain-control:focus-within {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.12);
+}
+
+.docs-headless-multi-autocomplete-launch-markets-plain-control [data-slot='multi-autocomplete-chip'] {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 2rem;
+  padding: 0.375rem 0.8rem;
+  border: 1px solid #dbeafe;
+  border-radius: 999px;
+  background: #eff6ff;
+  color: #1d4ed8;
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.15;
+  white-space: nowrap;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.72),
+    0 1px 2px rgba(37, 99, 235, 0.08);
+}
+
+.docs-headless-multi-autocomplete-launch-markets-plain-control [data-slot='multi-autocomplete-chip']:focus-visible {
+  border-color: #60a5fa;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.72),
+    0 0 0 2px rgba(37, 99, 235, 0.14);
 }
 
 .docs-headless-multi-autocomplete-launch-markets-plain-control [data-slot='multi-autocomplete-trigger'] {
   flex: 1 1 8rem;
   min-width: 8rem;
+  align-self: center;
   border: 0;
   background: transparent;
   color: #0f172a;
   outline: none;
+  font-size: 0.95rem;
+}
+
+.docs-headless-multi-autocomplete-launch-markets-plain-content {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-start: calc(100% + 0.55rem);
+  z-index: 20;
 }
 
 .docs-headless-multi-autocomplete-launch-markets-plain-overlay[data-slot='multi-autocomplete-overlay'] {
   max-inline-size: min(100vw - 2rem, 36rem);
+  border: 1px solid #dbeafe;
+  border-radius: 1.15rem;
   background: #ffffff;
+  padding: 0.5rem;
+  box-shadow: 0 22px 44px rgba(15, 23, 42, 0.14);
 }
-`;
 
-const MARKET_TAILWIND_TS_CODE = MARKET_PLAIN_TS_CODE.replace(/LaunchMarketsPlainComponent/g, 'LaunchMarketsTailwindComponent');
+.docs-headless-multi-autocomplete-launch-markets-plain-listbox[data-slot='multi-autocomplete-listbox'] {
+  display: grid;
+  gap: 0.45rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  max-block-size: 18rem;
+  overflow: auto;
+}
+
+.docs-headless-multi-autocomplete-launch-markets-plain-option {
+  display: grid;
+  gap: 0.2rem;
+  padding: 0.8rem 0.95rem;
+  border: 1px solid transparent;
+  border-radius: 0.95rem;
+  cursor: pointer;
+  color: #0f172a;
+  transition:
+    background-color 140ms ease,
+    border-color 140ms ease,
+    box-shadow 140ms ease,
+    color 140ms ease;
+}
+
+.docs-headless-multi-autocomplete-launch-markets-plain-option small {
+  color: #64748b;
+}
+
+.docs-headless-multi-autocomplete-launch-markets-plain-option[data-active] {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+  box-shadow: 0 0 0 1px rgba(148, 163, 184, 0.08);
+}
+
+.docs-headless-multi-autocomplete-launch-markets-plain-option[data-active] small {
+  color: #475569;
+}
+
+.docs-headless-multi-autocomplete-launch-markets-plain-option[data-selected] {
+  background: #eff6ff;
+  border-color: #bfdbfe;
+  color: #1d4ed8;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.72),
+    0 1px 2px rgba(37, 99, 235, 0.08);
+}
+
+.docs-headless-multi-autocomplete-launch-markets-plain-option[data-selected] small {
+  color: #2563eb;
+}
+
+.docs-headless-multi-autocomplete-launch-markets-plain-option[data-selected][data-active] {
+  background: #dbeafe;
+  border-color: #60a5fa;
+  color: #1e40af;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.72),
+    0 0 0 2px rgba(37, 99, 235, 0.12);
+}
+
+.docs-headless-multi-autocomplete-launch-markets-plain-option[data-selected][data-active] small {
+  color: #1d4ed8;
+}`;
+
+const MARKET_TAILWIND_TS_CODE = MARKET_PLAIN_TS_CODE
+  .replace(/HeadlessMultiAutocompleteLaunchMarketsPlainComponent/g, 'HeadlessMultiAutocompleteLaunchMarketsTailwindComponent')
+  .replace(/app-headless-multi-autocomplete-launch-markets-plain/g, 'app-headless-multi-autocomplete-launch-markets-tailwind')
+  .replace(/headless-multi-autocomplete-launch-markets-plain\.component/g, 'headless-multi-autocomplete-launch-markets-tailwind.component')
+  .replace(/HeadlessExamplesPlainLaunchMarketOption/g, 'HeadlessExamplesTailwindLaunchMarketOption')
+  .replace(/HEADLESS_EXAMPLES_PLAIN_LAUNCH_MARKET_OPTIONS/g, 'HEADLESS_EXAMPLES_TAILWIND_LAUNCH_MARKET_OPTIONS')
+  .replace(/headlessExamplesPlainLaunchMarkets/g, 'headlessExamplesTailwindLaunchMarkets')
+  .replace(/headlessExamplesPlainSelectedMarketCodes/g, 'headlessExamplesTailwindSelectedMarketCodes')
+  .replace(/headlessExamplesPlainFilteredLaunchMarkets/g, 'headlessExamplesTailwindFilteredLaunchMarkets')
+  .replace(/headlessExamplesPlainSelectedMarketSummary/g, 'headlessExamplesTailwindSelectedMarketSummary')
+  .replace(/onHeadlessExamplesPlainLaunchMarketsInput/g, 'onHeadlessExamplesTailwindLaunchMarketsInput')
+  .replace(/onHeadlessExamplesPlainLaunchMarketsValueChange/g, 'onHeadlessExamplesTailwindLaunchMarketsValueChange')
+  .replace(/resolveHeadlessExamplesPlainLaunchMarketLabel/g, 'resolveHeadlessExamplesTailwindLaunchMarketLabel')
+  .replace(/toHeadlessExamplesPlainValueArray/g, 'toHeadlessExamplesTailwindValueArray');
 const MARKET_TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-[36rem] gap-4 rounded-[1.75rem] border border-slate-200 bg-white p-5 text-slate-900 shadow-sm">
   <div class="grid gap-1">
     <span class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Launch markets</span>
@@ -255,17 +382,17 @@ const MARKET_TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-
 
   <section
     tngMultiAutocomplete
-    class="relative flex min-h-12 flex-wrap gap-2 rounded-2xl border border-slate-300 bg-slate-50 p-2 transition focus-within:border-blue-500 focus-within:ring-4 focus-within:ring-blue-500/15"
-    [open]="open()"
-    (openChange)="open.set($event)"
-    [query]="query()"
-    (queryChange)="query.set($event)"
-    [value]="selectedMarkets()"
-    (valueChange)="onValueChange($event)"
+    class="relative flex min-h-12 flex-wrap items-center gap-2 rounded-[1.15rem] border border-slate-300 bg-gradient-to-b from-white to-slate-50 p-2 transition focus-within:border-blue-500 focus-within:ring-4 focus-within:ring-blue-500/15"
+    [open]="headlessExamplesTailwindLaunchMarketsOpen()"
+    (openChange)="headlessExamplesTailwindLaunchMarketsOpen.set($event)"
+    [query]="headlessExamplesTailwindLaunchMarketsQuery()"
+    (queryChange)="headlessExamplesTailwindLaunchMarketsQuery.set($event)"
+    [value]="headlessExamplesTailwindSelectedMarketCodes()"
+    (valueChange)="onHeadlessExamplesTailwindLaunchMarketsValueChange($event)"
   >
-    @for (code of selectedMarkets(); track code) {
-      <span tngMultiAutocompleteChip class="rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-sm font-medium text-blue-700" [tngValue]="code">
-        {{ resolveMarketLabel(code) }}
+    @for (code of headlessExamplesTailwindSelectedMarketCodes(); track code) {
+      <span tngMultiAutocompleteChip class="inline-flex items-center rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-sm font-semibold text-blue-700 shadow-sm shadow-blue-900/5" [tngValue]="code">
+        {{ resolveHeadlessExamplesTailwindLaunchMarketLabel(code) }}
       </span>
     }
 
@@ -273,19 +400,19 @@ const MARKET_TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-
       tngMultiAutocompleteTrigger
       type="text"
       class="min-w-[9rem] flex-1 bg-transparent px-2 py-1.5 text-sm text-slate-900 outline-none placeholder:text-slate-400"
-      [value]="query()"
-      (input)="onInput($event)"
+      [value]="headlessExamplesTailwindLaunchMarketsQuery()"
+      (input)="onHeadlessExamplesTailwindLaunchMarketsInput($event)"
       placeholder="Search launch markets"
       aria-label="Launch markets"
     />
 
     <div tngMultiAutocompleteContent class="contents">
-      <div tngMultiAutocompleteOverlay class="max-w-[min(100vw-2rem,36rem)] overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl shadow-slate-900/10">
-        <ul tngMultiAutocompleteListbox>
-          @for (market of filteredMarkets(); track market.code) {
-            <li tngMultiAutocompleteOption class="grid gap-1 rounded-xl px-4 py-3 text-sm text-slate-900" [tngValue]="market.code">
+      <div tngMultiAutocompleteOverlay class="max-w-[min(100vw-2rem,36rem)] overflow-hidden rounded-[1.15rem] border border-slate-200 bg-white p-2 shadow-xl shadow-slate-900/10">
+        <ul tngMultiAutocompleteListbox [value]="headlessExamplesTailwindSelectedMarketCodes()" class="m-0 grid max-h-72 list-none gap-2 overflow-auto p-0">
+          @for (market of headlessExamplesTailwindFilteredLaunchMarkets(); track market.code) {
+            <li tngMultiAutocompleteOption class="group grid cursor-pointer gap-1 rounded-xl border border-transparent bg-white px-4 py-3 text-sm text-slate-900 transition data-[active]:border-slate-300 data-[active]:bg-slate-50 data-[active]:shadow-[0_0_0_1px_rgba(148,163,184,0.08)] data-[selected]:border-blue-200 data-[selected]:bg-blue-50 data-[selected]:text-blue-700 data-[selected]:shadow-[inset_0_1px_0_rgba(255,255,255,0.72),0_1px_2px_rgba(37,99,235,0.08)] [&[data-selected][data-active]]:border-blue-400 [&[data-selected][data-active]]:bg-blue-100 [&[data-selected][data-active]]:text-blue-800 [&[data-selected][data-active]]:shadow-[inset_0_1px_0_rgba(255,255,255,0.72),0_0_0_2px_rgba(37,99,235,0.12)]" [tngValue]="market.code">
               <span class="font-medium">{{ market.label }}</span>
-              <small class="text-xs text-slate-500">{{ market.region }}</small>
+              <small class="text-xs text-slate-500 group-data-[active]:text-slate-600 group-data-[selected]:text-blue-600">{{ market.region }}</small>
             </li>
           }
         </ul>
@@ -293,7 +420,7 @@ const MARKET_TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-
     </div>
   </section>
 
-  <p class="m-0 text-xs text-slate-600">Selected: {{ selectedSummary() }}</p>
+  <p class="m-0 text-xs text-slate-600">Selected: {{ headlessExamplesTailwindSelectedMarketSummary() }}</p>
 </section>`;
 const MARKET_TAILWIND_CSS_CODE = String.raw`/* No additional CSS file is required for this Tailwind example. */`;
 
@@ -308,14 +435,14 @@ import {
   TngMultiAutocompleteTrigger,
 } from '@tailng-ui/primitives';
 
-interface ReviewerRosterOption {
+interface HeadlessExamplesPlainReviewerRosterOption {
   readonly id: string;
   readonly name: string;
   readonly team: string;
   readonly disabled?: boolean;
 }
 
-const REVIEWER_ROSTER_OPTIONS: readonly ReviewerRosterOption[] = Object.freeze([
+const HEADLESS_EXAMPLES_PLAIN_REVIEWER_ROSTER_OPTIONS: readonly HeadlessExamplesPlainReviewerRosterOption[] = Object.freeze([
   { id: 'abigail', name: 'Abigail Chen', team: 'Design systems' },
   { id: 'mina', name: 'Mina Lee', team: 'Core UI' },
   { id: 'omar', name: 'Omar Aziz', team: 'Compliance', disabled: true },
@@ -338,37 +465,49 @@ const REVIEWER_ROSTER_OPTIONS: readonly ReviewerRosterOption[] = Object.freeze([
   styleUrl: './headless-multi-autocomplete-reviewer-roster-plain.component.css',
 })
 export class HeadlessMultiAutocompleteReviewerRosterPlainComponent {
-  readonly reviewers = REVIEWER_ROSTER_OPTIONS;
-  readonly open = signal(false);
-  readonly query = signal('');
-  readonly selectedReviewers = signal<readonly string[]>(['abigail', 'sanjay']);
+  readonly headlessExamplesPlainReviewerRoster = HEADLESS_EXAMPLES_PLAIN_REVIEWER_ROSTER_OPTIONS;
+  readonly headlessExamplesPlainReviewerRosterOpen = signal(false);
+  readonly headlessExamplesPlainReviewerQuery = signal('');
+  readonly headlessExamplesPlainSelectedReviewerIds = signal<readonly string[]>(['abigail', 'sanjay']);
 
-  readonly filteredReviewers = computed(() => {
-    const normalizedQuery = this.query().trim().toLowerCase();
+  readonly headlessExamplesPlainFilteredReviewerRoster = computed(() => {
+    const normalizedQuery = this.headlessExamplesPlainReviewerQuery().trim().toLowerCase();
     if (normalizedQuery === '') {
-      return this.reviewers;
+      return this.headlessExamplesPlainReviewerRoster;
     }
 
-    return this.reviewers.filter((reviewer) =>
+    return this.headlessExamplesPlainReviewerRoster.filter((reviewer) =>
       (reviewer.name + ' ' + reviewer.team).toLowerCase().includes(normalizedQuery),
     );
   });
 
-  readonly selectedSummary = computed(() => this.selectedReviewers().join(', '));
+  readonly headlessExamplesPlainReviewerSummary = computed(() => {
+    if (this.headlessExamplesPlainSelectedReviewerIds().length === 0) {
+      return 'none';
+    }
 
-  onInput(event: Event): void {
-    this.query.set((event.target as HTMLInputElement).value);
+    return this.headlessExamplesPlainSelectedReviewerIds()
+      .map((id) => this.resolveHeadlessExamplesPlainReviewerLabel(id))
+      .join(', ');
+  });
+
+  onHeadlessExamplesPlainReviewerInput(event: Event): void {
+    this.headlessExamplesPlainReviewerQuery.set((event.target as HTMLInputElement).value);
   }
 
-  onValueChange(value: unknown): void {
-    this.selectedReviewers.set(this.toValueArray(value));
+  onHeadlessExamplesPlainReviewerValueChange(value: unknown): void {
+    this.headlessExamplesPlainSelectedReviewerIds.set(this.toHeadlessExamplesPlainReviewerValueArray(value));
   }
 
-  isReviewerDisabled(reviewer: ReviewerRosterOption): boolean {
+  resolveHeadlessExamplesPlainReviewerLabel(id: string): string {
+    return this.headlessExamplesPlainReviewerRoster.find((reviewer) => reviewer.id === id)?.name ?? id;
+  }
+
+  isHeadlessExamplesPlainReviewerDisabled(reviewer: HeadlessExamplesPlainReviewerRosterOption): boolean {
     return reviewer.disabled === true;
   }
 
-  private toValueArray(value: unknown): readonly string[] {
+  private toHeadlessExamplesPlainReviewerValueArray(value: unknown): readonly string[] {
     if (!Array.isArray(value)) {
       return [];
     }
@@ -388,31 +527,31 @@ const REVIEWER_PLAIN_HTML_CODE = String.raw`<section class="docs-headless-multi-
   <section
     tngMultiAutocomplete
     class="docs-headless-multi-autocomplete-reviewer-roster-plain-control"
-    [open]="open()"
-    (openChange)="open.set($event)"
-    [query]="query()"
-    (queryChange)="query.set($event)"
-    [value]="selectedReviewers()"
-    (valueChange)="onValueChange($event)"
+    [open]="headlessExamplesPlainReviewerRosterOpen()"
+    (openChange)="headlessExamplesPlainReviewerRosterOpen.set($event)"
+    [query]="headlessExamplesPlainReviewerQuery()"
+    (queryChange)="headlessExamplesPlainReviewerQuery.set($event)"
+    [value]="headlessExamplesPlainSelectedReviewerIds()"
+    (valueChange)="onHeadlessExamplesPlainReviewerValueChange($event)"
   >
-    @for (id of selectedReviewers(); track id) {
-      <span tngMultiAutocompleteChip [tngValue]="id">{{ id }}</span>
+    @for (id of headlessExamplesPlainSelectedReviewerIds(); track id) {
+      <span tngMultiAutocompleteChip [tngValue]="id">{{ resolveHeadlessExamplesPlainReviewerLabel(id) }}</span>
     }
 
     <input
       tngMultiAutocompleteTrigger
       type="text"
-      [value]="query()"
-      (input)="onInput($event)"
+      [value]="headlessExamplesPlainReviewerQuery()"
+      (input)="onHeadlessExamplesPlainReviewerInput($event)"
       placeholder="Search reviewers"
       aria-label="Release owner roster"
     />
 
-    <div tngMultiAutocompleteContent class="contents">
+    <div tngMultiAutocompleteContent class="docs-headless-multi-autocomplete-reviewer-roster-plain-content">
       <div class="docs-headless-multi-autocomplete-reviewer-roster-plain-overlay" tngMultiAutocompleteOverlay>
-        <ul tngMultiAutocompleteListbox [value]="selectedReviewers()">
-          @for (reviewer of filteredReviewers(); track reviewer.id) {
-            <li tngMultiAutocompleteOption [tngValue]="reviewer.id" [disabled]="isReviewerDisabled(reviewer)">
+        <ul tngMultiAutocompleteListbox class="docs-headless-multi-autocomplete-reviewer-roster-plain-listbox" [value]="headlessExamplesPlainSelectedReviewerIds()">
+          @for (reviewer of headlessExamplesPlainFilteredReviewerRoster(); track reviewer.id) {
+            <li tngMultiAutocompleteOption class="docs-headless-multi-autocomplete-reviewer-roster-plain-option" [tngValue]="reviewer.id" [disabled]="isHeadlessExamplesPlainReviewerDisabled(reviewer)">
               <span>{{ reviewer.name }}</span>
               <small>{{ reviewer.team }}</small>
             </li>
@@ -422,7 +561,7 @@ const REVIEWER_PLAIN_HTML_CODE = String.raw`<section class="docs-headless-multi-
     </div>
   </section>
 
-  <p class="docs-headless-multi-autocomplete-reviewer-roster-plain-summary">Selected: {{ selectedSummary() }}</p>
+  <p class="docs-headless-multi-autocomplete-reviewer-roster-plain-summary">Selected: {{ headlessExamplesPlainReviewerSummary() }}</p>
 </section>`;
 
 const REVIEWER_PLAIN_CSS_CODE = String.raw`.docs-headless-multi-autocomplete-reviewer-roster-plain-shell {
@@ -456,18 +595,173 @@ const REVIEWER_PLAIN_CSS_CODE = String.raw`.docs-headless-multi-autocomplete-rev
 }
 
 .docs-headless-multi-autocomplete-reviewer-roster-plain-control {
+  position: relative;
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: 0.45rem;
-  min-height: 3rem;
-  padding: 0.45rem;
+  min-height: 3.25rem;
+  padding: 0.5rem;
   border: 1px solid #94a3b8;
-  border-radius: 1rem;
-  background: #ffffff;
+  border-radius: 1.1rem;
+  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+  transition:
+    border-color 140ms ease,
+    box-shadow 140ms ease,
+    background-color 140ms ease;
 }
-`;
 
-const REVIEWER_TAILWIND_TS_CODE = REVIEWER_PLAIN_TS_CODE.replace(/ReviewerRosterPlainComponent/g, 'ReviewerRosterTailwindComponent');
+.docs-headless-multi-autocomplete-reviewer-roster-plain-control:focus-within {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.12);
+}
+
+.docs-headless-multi-autocomplete-reviewer-roster-plain-control [data-slot='multi-autocomplete-chip'] {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 2rem;
+  padding: 0.375rem 0.8rem;
+  border: 1px solid #dbeafe;
+  border-radius: 999px;
+  background: #eff6ff;
+  color: #1d4ed8;
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.15;
+  white-space: nowrap;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.72),
+    0 1px 2px rgba(37, 99, 235, 0.08);
+}
+
+.docs-headless-multi-autocomplete-reviewer-roster-plain-control [data-slot='multi-autocomplete-chip']:focus-visible {
+  border-color: #60a5fa;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.72),
+    0 0 0 2px rgba(37, 99, 235, 0.14);
+}
+
+.docs-headless-multi-autocomplete-reviewer-roster-plain-control [data-slot='multi-autocomplete-trigger'] {
+  flex: 1 1 8rem;
+  min-width: 8rem;
+  align-self: center;
+  border: 0;
+  background: transparent;
+  color: #0f172a;
+  outline: none;
+  font-size: 0.95rem;
+}
+
+.docs-headless-multi-autocomplete-reviewer-roster-plain-content {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-start: calc(100% + 0.55rem);
+  z-index: 20;
+}
+
+.docs-headless-multi-autocomplete-reviewer-roster-plain-overlay[data-slot='multi-autocomplete-overlay'] {
+  max-inline-size: min(100vw - 2rem, 36rem);
+  border: 1px solid #dbeafe;
+  border-radius: 1.15rem;
+  background: #ffffff;
+  padding: 0.5rem;
+  box-shadow: 0 22px 44px rgba(15, 23, 42, 0.14);
+}
+
+.docs-headless-multi-autocomplete-reviewer-roster-plain-listbox[data-slot='multi-autocomplete-listbox'] {
+  display: grid;
+  gap: 0.45rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  max-block-size: 18rem;
+  overflow: auto;
+}
+
+.docs-headless-multi-autocomplete-reviewer-roster-plain-option {
+  display: grid;
+  gap: 0.2rem;
+  padding: 0.8rem 0.95rem;
+  border: 1px solid transparent;
+  border-radius: 0.95rem;
+  cursor: pointer;
+  color: #0f172a;
+  transition:
+    background-color 140ms ease,
+    border-color 140ms ease,
+    box-shadow 140ms ease,
+    color 140ms ease;
+}
+
+.docs-headless-multi-autocomplete-reviewer-roster-plain-option small {
+  color: #64748b;
+}
+
+.docs-headless-multi-autocomplete-reviewer-roster-plain-option[data-active] {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+  box-shadow: 0 0 0 1px rgba(148, 163, 184, 0.08);
+}
+
+.docs-headless-multi-autocomplete-reviewer-roster-plain-option[data-active] small {
+  color: #475569;
+}
+
+.docs-headless-multi-autocomplete-reviewer-roster-plain-option[data-selected] {
+  background: #eff6ff;
+  border-color: #bfdbfe;
+  color: #1d4ed8;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.72),
+    0 1px 2px rgba(37, 99, 235, 0.08);
+}
+
+.docs-headless-multi-autocomplete-reviewer-roster-plain-option[data-selected] small {
+  color: #2563eb;
+}
+
+.docs-headless-multi-autocomplete-reviewer-roster-plain-option[data-selected][data-active] {
+  background: #dbeafe;
+  border-color: #60a5fa;
+  color: #1e40af;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.72),
+    0 0 0 2px rgba(37, 99, 235, 0.12);
+}
+
+.docs-headless-multi-autocomplete-reviewer-roster-plain-option[data-selected][data-active] small {
+  color: #1d4ed8;
+}
+
+.docs-headless-multi-autocomplete-reviewer-roster-plain-option[data-disabled] {
+  cursor: not-allowed;
+  background: #f8fafc;
+  border-color: #e2e8f0;
+  color: #94a3b8;
+  box-shadow: none;
+}
+
+.docs-headless-multi-autocomplete-reviewer-roster-plain-option[data-disabled] small {
+  color: #94a3b8;
+}`;
+
+const REVIEWER_TAILWIND_TS_CODE = REVIEWER_PLAIN_TS_CODE
+  .replace(/HeadlessMultiAutocompleteReviewerRosterPlainComponent/g, 'HeadlessMultiAutocompleteReviewerRosterTailwindComponent')
+  .replace(/app-headless-multi-autocomplete-reviewer-roster-plain/g, 'app-headless-multi-autocomplete-reviewer-roster-tailwind')
+  .replace(/headless-multi-autocomplete-reviewer-roster-plain\.component/g, 'headless-multi-autocomplete-reviewer-roster-tailwind.component')
+  .replace(/HeadlessExamplesPlainReviewerRosterOption/g, 'HeadlessExamplesTailwindReviewerRosterOption')
+  .replace(/HEADLESS_EXAMPLES_PLAIN_REVIEWER_ROSTER_OPTIONS/g, 'HEADLESS_EXAMPLES_TAILWIND_REVIEWER_ROSTER_OPTIONS')
+  .replace(/headlessExamplesPlainReviewerRoster/g, 'headlessExamplesTailwindReviewerRoster')
+  .replace(/headlessExamplesPlainReviewerSummary/g, 'headlessExamplesTailwindReviewerSummary')
+  .replace(/headlessExamplesPlainReviewerQuery/g, 'headlessExamplesTailwindReviewerQuery')
+  .replace(/headlessExamplesPlainSelectedReviewerIds/g, 'headlessExamplesTailwindSelectedReviewerIds')
+  .replace(/headlessExamplesPlainFilteredReviewerRoster/g, 'headlessExamplesTailwindFilteredReviewerRoster')
+  .replace(/onHeadlessExamplesPlainReviewerInput/g, 'onHeadlessExamplesTailwindReviewerInput')
+  .replace(/onHeadlessExamplesPlainReviewerValueChange/g, 'onHeadlessExamplesTailwindReviewerValueChange')
+  .replace(/resolveHeadlessExamplesPlainReviewerLabel/g, 'resolveHeadlessExamplesTailwindReviewerLabel')
+  .replace(/isHeadlessExamplesPlainReviewerDisabled/g, 'isHeadlessExamplesTailwindReviewerDisabled')
+  .replace(/toHeadlessExamplesPlainReviewerValueArray/g, 'toHeadlessExamplesTailwindReviewerValueArray');
 const REVIEWER_TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-[36rem] gap-4 rounded-[1.75rem] border border-slate-200 bg-white p-5 text-slate-900 shadow-sm">
   <div class="grid gap-1">
     <span class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Release owner roster</span>
@@ -476,35 +770,35 @@ const REVIEWER_TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-
 
   <section
     tngMultiAutocomplete
-    class="relative flex min-h-12 flex-wrap gap-2 rounded-2xl border border-slate-300 bg-white p-2 shadow-sm shadow-slate-900/5 transition focus-within:border-blue-500 focus-within:ring-4 focus-within:ring-blue-500/15"
-    [open]="open()"
-    (openChange)="open.set($event)"
-    [query]="query()"
-    (queryChange)="query.set($event)"
-    [value]="selectedReviewers()"
-    (valueChange)="onValueChange($event)"
+    class="relative flex min-h-12 flex-wrap items-center gap-2 rounded-[1.15rem] border border-slate-300 bg-white p-2 shadow-sm shadow-slate-900/5 transition focus-within:border-blue-500 focus-within:ring-4 focus-within:ring-blue-500/15"
+    [open]="headlessExamplesTailwindReviewerRosterOpen()"
+    (openChange)="headlessExamplesTailwindReviewerRosterOpen.set($event)"
+    [query]="headlessExamplesTailwindReviewerQuery()"
+    (queryChange)="headlessExamplesTailwindReviewerQuery.set($event)"
+    [value]="headlessExamplesTailwindSelectedReviewerIds()"
+    (valueChange)="onHeadlessExamplesTailwindReviewerValueChange($event)"
   >
-    @for (id of selectedReviewers(); track id) {
-      <span tngMultiAutocompleteChip class="rounded-full border border-slate-300 bg-slate-100 px-3 py-1 text-sm font-medium text-slate-700" [tngValue]="id">{{ id }}</span>
+    @for (id of headlessExamplesTailwindSelectedReviewerIds(); track id) {
+      <span tngMultiAutocompleteChip class="inline-flex items-center rounded-full border border-slate-300 bg-slate-100 px-3 py-1 text-sm font-semibold text-slate-700 shadow-sm shadow-slate-900/5" [tngValue]="id">{{ resolveHeadlessExamplesTailwindReviewerLabel(id) }}</span>
     }
 
     <input
       tngMultiAutocompleteTrigger
       type="text"
       class="min-w-[9rem] flex-1 bg-transparent px-2 py-1.5 text-sm text-slate-900 outline-none placeholder:text-slate-400"
-      [value]="query()"
-      (input)="onInput($event)"
+      [value]="headlessExamplesTailwindReviewerQuery()"
+      (input)="onHeadlessExamplesTailwindReviewerInput($event)"
       placeholder="Search reviewers"
       aria-label="Release owner roster"
     />
 
     <div tngMultiAutocompleteContent class="contents">
-      <div tngMultiAutocompleteOverlay class="max-w-[min(100vw-2rem,36rem)] overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl shadow-slate-900/10">
-        <ul tngMultiAutocompleteListbox>
-          @for (reviewer of filteredReviewers(); track reviewer.id) {
-            <li tngMultiAutocompleteOption class="grid gap-1 rounded-xl px-4 py-3 text-sm text-slate-900" [tngValue]="reviewer.id" [disabled]="isReviewerDisabled(reviewer)">
+      <div tngMultiAutocompleteOverlay class="max-w-[min(100vw-2rem,36rem)] overflow-hidden rounded-[1.15rem] border border-slate-200 bg-white p-2 shadow-xl shadow-slate-900/10">
+        <ul tngMultiAutocompleteListbox [value]="headlessExamplesTailwindSelectedReviewerIds()" class="m-0 grid max-h-72 list-none gap-2 overflow-auto p-0">
+          @for (reviewer of headlessExamplesTailwindFilteredReviewerRoster(); track reviewer.id) {
+            <li tngMultiAutocompleteOption class="group grid gap-1 rounded-xl border border-transparent bg-white px-4 py-3 text-sm text-slate-900 transition data-[active]:border-slate-300 data-[active]:bg-slate-50 data-[active]:shadow-[0_0_0_1px_rgba(148,163,184,0.08)] data-[selected]:border-blue-200 data-[selected]:bg-blue-50 data-[selected]:text-blue-700 data-[selected]:shadow-[inset_0_1px_0_rgba(255,255,255,0.72),0_1px_2px_rgba(37,99,235,0.08)] data-[disabled]:cursor-not-allowed data-[disabled]:border-slate-200 data-[disabled]:bg-slate-50 data-[disabled]:text-slate-400 data-[disabled]:shadow-none [&[data-selected][data-active]]:border-blue-400 [&[data-selected][data-active]]:bg-blue-100 [&[data-selected][data-active]]:text-blue-800 [&[data-selected][data-active]]:shadow-[inset_0_1px_0_rgba(255,255,255,0.72),0_0_0_2px_rgba(37,99,235,0.12)]" [tngValue]="reviewer.id" [disabled]="isHeadlessExamplesTailwindReviewerDisabled(reviewer)">
               <span class="font-medium">{{ reviewer.name }}</span>
-              <small class="text-xs text-slate-500">{{ reviewer.team }}</small>
+              <small class="text-xs text-slate-500 group-data-[active]:text-slate-600 group-data-[selected]:text-blue-600 group-data-[disabled]:text-slate-400">{{ reviewer.team }}</small>
             </li>
           }
         </ul>
@@ -512,7 +806,7 @@ const REVIEWER_TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-
     </div>
   </section>
 
-  <p class="m-0 text-xs text-slate-600">Selected: {{ selectedSummary() }}</p>
+  <p class="m-0 text-xs text-slate-600">Selected: {{ headlessExamplesTailwindReviewerSummary() }}</p>
 </section>`;
 const REVIEWER_TAILWIND_CSS_CODE = String.raw`/* No additional CSS file is required for this Tailwind example. */`;
 
@@ -548,6 +842,7 @@ export class HeadlessMultiAutocompleteExamplesPageComponent implements OnDestroy
   protected readonly markets = MARKET_OPTIONS;
   protected readonly reviewers = REVIEWER_OPTIONS;
   private readonly marketsByCode = new Map(this.markets.map((market) => [market.code, market]));
+  private readonly reviewersById = new Map(this.reviewers.map((reviewer) => [reviewer.id, reviewer]));
 
   protected readonly launchPlainOpen = signal(false);
   protected readonly launchPlainQuery = signal('');
@@ -572,8 +867,8 @@ export class HeadlessMultiAutocompleteExamplesPageComponent implements OnDestroy
 
   protected readonly launchPlainSummary = computed(() => this.formatMarketSummary(this.launchPlainValues()));
   protected readonly launchTailwindSummary = computed(() => this.formatMarketSummary(this.launchTailwindValues()));
-  protected readonly reviewerPlainSummary = computed(() => this.reviewerPlainValues().join(', '));
-  protected readonly reviewerTailwindSummary = computed(() => this.reviewerTailwindValues().join(', '));
+  protected readonly reviewerPlainSummary = computed(() => this.formatReviewerSummary(this.reviewerPlainValues()));
+  protected readonly reviewerTailwindSummary = computed(() => this.formatReviewerSummary(this.reviewerTailwindValues()));
 
   protected readonly marketPlainCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
     { value: 'ts', label: 'TS', language: 'ts', title: 'headless-multi-autocomplete-launch-markets-plain.component.ts', code: MARKET_PLAIN_TS_CODE },
@@ -606,6 +901,7 @@ export class HeadlessMultiAutocompleteExamplesPageComponent implements OnDestroy
   protected onReviewerTailwindValueChange(value: MultiAutocompleteValueChange): void { this.reviewerTailwindValues.set(this.toValueArray(value)); }
 
   protected resolveMarketLabel(code: string): string { return this.marketsByCode.get(code)?.label ?? code; }
+  protected resolveReviewerLabel(id: string): string { return this.reviewersById.get(id)?.name ?? id; }
   protected isReviewerDisabled(reviewer: ReviewerOption): boolean { return reviewer.disabled === true; }
 
   public ngOnDestroy(): void { this.colorSchemeObserver?.disconnect(); }
@@ -630,5 +926,10 @@ export class HeadlessMultiAutocompleteExamplesPageComponent implements OnDestroy
   private formatMarketSummary(values: readonly string[]): string {
     if (values.length === 0) return 'none';
     return values.map((value) => this.resolveMarketLabel(value)).join(', ');
+  }
+
+  private formatReviewerSummary(values: readonly string[]): string {
+    if (values.length === 0) return 'none';
+    return values.map((value) => this.resolveReviewerLabel(value)).join(', ');
   }
 }

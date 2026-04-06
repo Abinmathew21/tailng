@@ -59,14 +59,14 @@ const HOST_TOKEN_GUIDANCE_CODE = String.raw`tng-multi-autocomplete.release-owner
 const PLAIN_TS_CODE = String.raw`import { Component, computed, signal } from '@angular/core';
 import { TngMultiAutocompleteComponent } from '@tailng-ui/components';
 
-interface ReleaseOwnerOption {
+interface ComponentStylingPlainReleaseOwnerOption {
   readonly id: string;
   readonly name: string;
   readonly team: string;
   readonly disabled?: boolean;
 }
 
-const RELEASE_OWNER_OPTIONS: readonly ReleaseOwnerOption[] = Object.freeze([
+const COMPONENT_STYLING_PLAIN_RELEASE_OWNER_OPTIONS: readonly ComponentStylingPlainReleaseOwnerOption[] = Object.freeze([
   { id: 'abigail', name: 'Abigail Chen', team: 'Design systems' },
   { id: 'mina', name: 'Mina Lee', team: 'Core UI' },
   { id: 'omar', name: 'Omar Aziz', team: 'Compliance', disabled: true },
@@ -81,26 +81,26 @@ const RELEASE_OWNER_OPTIONS: readonly ReleaseOwnerOption[] = Object.freeze([
   styleUrl: './docs-multi-autocomplete-styling-plain.component.css',
 })
 export class DocsMultiAutocompleteStylingPlainComponent {
-  readonly releaseOwners = RELEASE_OWNER_OPTIONS;
-  readonly selectedOwners = signal<readonly string[]>(['mina', 'sanjay']);
-  readonly selectedSummary = computed(() => {
-    if (this.selectedOwners().length === 0) {
+  readonly componentStylingPlainReleaseOwners = COMPONENT_STYLING_PLAIN_RELEASE_OWNER_OPTIONS;
+  readonly componentStylingPlainSelectedOwnerIds = signal<readonly string[]>(['mina', 'sanjay']);
+  readonly componentStylingPlainSelectedOwnerSummary = computed(() => {
+    if (this.componentStylingPlainSelectedOwnerIds().length === 0) {
       return 'none';
     }
 
-    return this.selectedOwners()
-      .map((id) => this.releaseOwners.find((owner) => owner.id === id)?.name ?? id)
+    return this.componentStylingPlainSelectedOwnerIds()
+      .map((id) => this.componentStylingPlainReleaseOwners.find((owner) => owner.id === id)?.name ?? id)
       .join(', ');
   });
-  readonly getOwnerValue = (owner: ReleaseOwnerOption) => owner.id;
-  readonly getOwnerLabel = (owner: ReleaseOwnerOption) => owner.name;
-  readonly isOwnerDisabled = (owner: ReleaseOwnerOption) => owner.disabled === true;
+  readonly getComponentStylingPlainOwnerValue = (owner: ComponentStylingPlainReleaseOwnerOption) => owner.id;
+  readonly getComponentStylingPlainOwnerLabel = (owner: ComponentStylingPlainReleaseOwnerOption) => owner.name;
+  readonly isComponentStylingPlainOwnerDisabled = (owner: ComponentStylingPlainReleaseOwnerOption) => owner.disabled === true;
 
-  onSelectedOwnersChange(value: unknown): void {
-    this.selectedOwners.set(this.toValueArray(value));
+  onComponentStylingPlainSelectedOwnersChange(value: unknown): void {
+    this.componentStylingPlainSelectedOwnerIds.set(this.toComponentStylingPlainValueArray(value));
   }
 
-  private toValueArray(value: unknown): readonly string[] {
+  private toComponentStylingPlainValueArray(value: unknown): readonly string[] {
     if (!Array.isArray(value)) {
       return [];
     }
@@ -121,17 +121,17 @@ const PLAIN_HTML_CODE = String.raw`<section class="docs-multi-autocomplete-styli
 
   <tng-multi-autocomplete
     class="docs-multi-autocomplete-styling-plain-control"
-    [options]="releaseOwners"
-    [value]="selectedOwners()"
-    (valueChange)="onSelectedOwnersChange($event)"
-    [getOptionValue]="getOwnerValue"
-    [getOptionLabel]="getOwnerLabel"
-    [isOptionDisabled]="isOwnerDisabled"
+    [options]="componentStylingPlainReleaseOwners"
+    [value]="componentStylingPlainSelectedOwnerIds()"
+    (valueChange)="onComponentStylingPlainSelectedOwnersChange($event)"
+    [getOptionValue]="getComponentStylingPlainOwnerValue"
+    [getOptionLabel]="getComponentStylingPlainOwnerLabel"
+    [isOptionDisabled]="isComponentStylingPlainOwnerDisabled"
     placeholder="Assign release owners"
     [ariaLabel]="'Release owners'"
   ></tng-multi-autocomplete>
 
-  <p class="docs-multi-autocomplete-styling-plain-summary">Selected: {{ selectedSummary() }}</p>
+  <p class="docs-multi-autocomplete-styling-plain-summary">Selected: {{ componentStylingPlainSelectedOwnerSummary() }}</p>
 </section>`;
 
 const PLAIN_CSS_CODE = String.raw`.docs-multi-autocomplete-styling-plain-shell {
@@ -189,14 +189,14 @@ const PLAIN_CSS_CODE = String.raw`.docs-multi-autocomplete-styling-plain-shell {
 const TAILWIND_TS_CODE = String.raw`import { Component, computed, signal } from '@angular/core';
 import { TngMultiAutocompleteComponent } from '@tailng-ui/components';
 
-interface ReleaseOwnerOption {
+interface ComponentStylingTailwindReleaseOwnerOption {
   readonly id: string;
   readonly name: string;
   readonly team: string;
   readonly disabled?: boolean;
 }
 
-const RELEASE_OWNER_OPTIONS: readonly ReleaseOwnerOption[] = Object.freeze([
+const COMPONENT_STYLING_TAILWIND_RELEASE_OWNER_OPTIONS: readonly ComponentStylingTailwindReleaseOwnerOption[] = Object.freeze([
   { id: 'abigail', name: 'Abigail Chen', team: 'Design systems' },
   { id: 'mina', name: 'Mina Lee', team: 'Core UI' },
   { id: 'omar', name: 'Omar Aziz', team: 'Compliance', disabled: true },
@@ -211,26 +211,26 @@ const RELEASE_OWNER_OPTIONS: readonly ReleaseOwnerOption[] = Object.freeze([
   styleUrl: './docs-multi-autocomplete-styling-tailwind.component.css',
 })
 export class DocsMultiAutocompleteStylingTailwindComponent {
-  readonly releaseOwners = RELEASE_OWNER_OPTIONS;
-  readonly selectedOwners = signal<readonly string[]>(['abigail']);
-  readonly selectedSummary = computed(() => {
-    if (this.selectedOwners().length === 0) {
+  readonly componentStylingTailwindReleaseOwners = COMPONENT_STYLING_TAILWIND_RELEASE_OWNER_OPTIONS;
+  readonly componentStylingTailwindSelectedOwnerIds = signal<readonly string[]>(['abigail']);
+  readonly componentStylingTailwindSelectedOwnerSummary = computed(() => {
+    if (this.componentStylingTailwindSelectedOwnerIds().length === 0) {
       return 'none';
     }
 
-    return this.selectedOwners()
-      .map((id) => this.releaseOwners.find((owner) => owner.id === id)?.name ?? id)
+    return this.componentStylingTailwindSelectedOwnerIds()
+      .map((id) => this.componentStylingTailwindReleaseOwners.find((owner) => owner.id === id)?.name ?? id)
       .join(', ');
   });
-  readonly getOwnerValue = (owner: ReleaseOwnerOption) => owner.id;
-  readonly getOwnerLabel = (owner: ReleaseOwnerOption) => owner.name;
-  readonly isOwnerDisabled = (owner: ReleaseOwnerOption) => owner.disabled === true;
+  readonly getComponentStylingTailwindOwnerValue = (owner: ComponentStylingTailwindReleaseOwnerOption) => owner.id;
+  readonly getComponentStylingTailwindOwnerLabel = (owner: ComponentStylingTailwindReleaseOwnerOption) => owner.name;
+  readonly isComponentStylingTailwindOwnerDisabled = (owner: ComponentStylingTailwindReleaseOwnerOption) => owner.disabled === true;
 
-  onSelectedOwnersChange(value: unknown): void {
-    this.selectedOwners.set(this.toValueArray(value));
+  onComponentStylingTailwindSelectedOwnersChange(value: unknown): void {
+    this.componentStylingTailwindSelectedOwnerIds.set(this.toComponentStylingTailwindValueArray(value));
   }
 
-  private toValueArray(value: unknown): readonly string[] {
+  private toComponentStylingTailwindValueArray(value: unknown): readonly string[] {
     if (!Array.isArray(value)) {
       return [];
     }
@@ -251,17 +251,17 @@ const TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-[36rem]
 
   <tng-multi-autocomplete
     class="block w-full [--tng-semantic-background-canvas:#ffffff] [--tng-semantic-background-surface:#f8fafc] [--tng-semantic-border-subtle:#cbd5e1] [--tng-semantic-border-strong:#94a3b8] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-foreground-secondary:#475569] [--tng-semantic-foreground-muted:#64748b] [--tng-semantic-accent-brand:#0f766e] [--tng-semantic-focus-ring:#0f766e] [--tng-multi-autocomplete-bg:#ffffff] [--tng-multi-autocomplete-surface:#f8fafc] [--tng-multi-autocomplete-border:#cbd5e1] [--tng-multi-autocomplete-border-strong:#94a3b8] [--tng-multi-autocomplete-fg:#0f172a] [--tng-multi-autocomplete-muted:#64748b] [--tng-multi-autocomplete-brand:#0f766e] [--tng-multi-autocomplete-focus-ring:#0f766e]"
-    [options]="releaseOwners"
-    [value]="selectedOwners()"
-    (valueChange)="onSelectedOwnersChange($event)"
-    [getOptionValue]="getOwnerValue"
-    [getOptionLabel]="getOwnerLabel"
-    [isOptionDisabled]="isOwnerDisabled"
+    [options]="componentStylingTailwindReleaseOwners"
+    [value]="componentStylingTailwindSelectedOwnerIds()"
+    (valueChange)="onComponentStylingTailwindSelectedOwnersChange($event)"
+    [getOptionValue]="getComponentStylingTailwindOwnerValue"
+    [getOptionLabel]="getComponentStylingTailwindOwnerLabel"
+    [isOptionDisabled]="isComponentStylingTailwindOwnerDisabled"
     placeholder="Assign release owners"
     [ariaLabel]="'Release owners'"
   ></tng-multi-autocomplete>
 
-  <p class="m-0 text-xs text-slate-600">Selected: {{ selectedSummary() }}</p>
+  <p class="m-0 text-xs text-slate-600">Selected: {{ componentStylingTailwindSelectedOwnerSummary() }}</p>
 </section>`;
 
 const TAILWIND_CSS_CODE = String.raw`/* No additional CSS file is required for this Tailwind example. */`;

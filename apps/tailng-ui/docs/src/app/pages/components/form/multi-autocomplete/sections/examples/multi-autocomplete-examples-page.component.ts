@@ -45,13 +45,13 @@ const REVIEWER_OPTIONS: readonly ReviewerOption[] = Object.freeze([
 const MARKET_PLAIN_TS_CODE = String.raw`import { Component, computed, signal } from '@angular/core';
 import { TngMultiAutocompleteComponent } from '@tailng-ui/components';
 
-interface LaunchMarketOption {
+interface ComponentExamplesPlainLaunchMarketOption {
   readonly code: string;
   readonly label: string;
   readonly region: string;
 }
 
-const LAUNCH_MARKET_OPTIONS: readonly LaunchMarketOption[] = Object.freeze([
+const COMPONENT_EXAMPLES_PLAIN_LAUNCH_MARKET_OPTIONS: readonly ComponentExamplesPlainLaunchMarketOption[] = Object.freeze([
   { code: 'ca', label: 'Canada', region: 'North America' },
   { code: 'de', label: 'Germany', region: 'Europe' },
   { code: 'id', label: 'Indonesia', region: 'Asia Pacific' },
@@ -69,25 +69,25 @@ const LAUNCH_MARKET_OPTIONS: readonly LaunchMarketOption[] = Object.freeze([
   styleUrl: './docs-multi-autocomplete-launch-markets-plain.component.css',
 })
 export class DocsMultiAutocompleteLaunchMarketsPlainComponent {
-  readonly launchMarkets = LAUNCH_MARKET_OPTIONS;
-  readonly selectedMarkets = signal<readonly string[]>(['in', 'jp']);
-  readonly selectedSummary = computed(() => {
-    if (this.selectedMarkets().length === 0) {
+  readonly componentExamplesPlainLaunchMarkets = COMPONENT_EXAMPLES_PLAIN_LAUNCH_MARKET_OPTIONS;
+  readonly componentExamplesPlainSelectedMarketCodes = signal<readonly string[]>(['in', 'jp']);
+  readonly componentExamplesPlainSelectedMarketSummary = computed(() => {
+    if (this.componentExamplesPlainSelectedMarketCodes().length === 0) {
       return 'none';
     }
 
-    return this.selectedMarkets()
-      .map((code) => this.launchMarkets.find((market) => market.code === code)?.label ?? code)
+    return this.componentExamplesPlainSelectedMarketCodes()
+      .map((code) => this.componentExamplesPlainLaunchMarkets.find((market) => market.code === code)?.label ?? code)
       .join(', ');
   });
-  readonly getMarketValue = (market: LaunchMarketOption) => market.code;
-  readonly getMarketLabel = (market: LaunchMarketOption) => market.label;
+  readonly getComponentExamplesPlainMarketValue = (market: ComponentExamplesPlainLaunchMarketOption) => market.code;
+  readonly getComponentExamplesPlainMarketLabel = (market: ComponentExamplesPlainLaunchMarketOption) => market.label;
 
-  onSelectedMarketsChange(value: unknown): void {
-    this.selectedMarkets.set(this.toValueArray(value));
+  onComponentExamplesPlainSelectedMarketsChange(value: unknown): void {
+    this.componentExamplesPlainSelectedMarketCodes.set(this.toComponentExamplesPlainValueArray(value));
   }
 
-  private toValueArray(value: unknown): readonly string[] {
+  private toComponentExamplesPlainValueArray(value: unknown): readonly string[] {
     if (!Array.isArray(value)) {
       return [];
     }
@@ -108,16 +108,16 @@ const MARKET_PLAIN_HTML_CODE = String.raw`<section class="docs-multi-autocomplet
 
   <tng-multi-autocomplete
     class="docs-multi-autocomplete-launch-markets-plain-control"
-    [options]="launchMarkets"
-    [value]="selectedMarkets()"
-    (valueChange)="onSelectedMarketsChange($event)"
-    [getOptionValue]="getMarketValue"
-    [getOptionLabel]="getMarketLabel"
+    [options]="componentExamplesPlainLaunchMarkets"
+    [value]="componentExamplesPlainSelectedMarketCodes()"
+    (valueChange)="onComponentExamplesPlainSelectedMarketsChange($event)"
+    [getOptionValue]="getComponentExamplesPlainMarketValue"
+    [getOptionLabel]="getComponentExamplesPlainMarketLabel"
     placeholder="Search launch markets"
     [ariaLabel]="'Launch markets'"
   ></tng-multi-autocomplete>
 
-  <p class="docs-multi-autocomplete-launch-markets-plain-summary">Selected: {{ selectedSummary() }}</p>
+  <p class="docs-multi-autocomplete-launch-markets-plain-summary">Selected: {{ componentExamplesPlainSelectedMarketSummary() }}</p>
 </section>`;
 
 const MARKET_PLAIN_CSS_CODE = String.raw`.docs-multi-autocomplete-launch-markets-plain-shell {
@@ -175,13 +175,13 @@ const MARKET_PLAIN_CSS_CODE = String.raw`.docs-multi-autocomplete-launch-markets
 const MARKET_TAILWIND_TS_CODE = String.raw`import { Component, computed, signal } from '@angular/core';
 import { TngMultiAutocompleteComponent } from '@tailng-ui/components';
 
-interface LaunchMarketOption {
+interface ComponentExamplesTailwindLaunchMarketOption {
   readonly code: string;
   readonly label: string;
   readonly region: string;
 }
 
-const LAUNCH_MARKET_OPTIONS: readonly LaunchMarketOption[] = Object.freeze([
+const COMPONENT_EXAMPLES_TAILWIND_LAUNCH_MARKET_OPTIONS: readonly ComponentExamplesTailwindLaunchMarketOption[] = Object.freeze([
   { code: 'ca', label: 'Canada', region: 'North America' },
   { code: 'de', label: 'Germany', region: 'Europe' },
   { code: 'id', label: 'Indonesia', region: 'Asia Pacific' },
@@ -199,25 +199,25 @@ const LAUNCH_MARKET_OPTIONS: readonly LaunchMarketOption[] = Object.freeze([
   styleUrl: './docs-multi-autocomplete-launch-markets-tailwind.component.css',
 })
 export class DocsMultiAutocompleteLaunchMarketsTailwindComponent {
-  readonly launchMarkets = LAUNCH_MARKET_OPTIONS;
-  readonly selectedMarkets = signal<readonly string[]>(['ca', 'es']);
-  readonly selectedSummary = computed(() => {
-    if (this.selectedMarkets().length === 0) {
+  readonly componentExamplesTailwindLaunchMarkets = COMPONENT_EXAMPLES_TAILWIND_LAUNCH_MARKET_OPTIONS;
+  readonly componentExamplesTailwindSelectedMarketCodes = signal<readonly string[]>(['ca', 'es']);
+  readonly componentExamplesTailwindSelectedMarketSummary = computed(() => {
+    if (this.componentExamplesTailwindSelectedMarketCodes().length === 0) {
       return 'none';
     }
 
-    return this.selectedMarkets()
-      .map((code) => this.launchMarkets.find((market) => market.code === code)?.label ?? code)
+    return this.componentExamplesTailwindSelectedMarketCodes()
+      .map((code) => this.componentExamplesTailwindLaunchMarkets.find((market) => market.code === code)?.label ?? code)
       .join(', ');
   });
-  readonly getMarketValue = (market: LaunchMarketOption) => market.code;
-  readonly getMarketLabel = (market: LaunchMarketOption) => market.label;
+  readonly getComponentExamplesTailwindMarketValue = (market: ComponentExamplesTailwindLaunchMarketOption) => market.code;
+  readonly getComponentExamplesTailwindMarketLabel = (market: ComponentExamplesTailwindLaunchMarketOption) => market.label;
 
-  onSelectedMarketsChange(value: unknown): void {
-    this.selectedMarkets.set(this.toValueArray(value));
+  onComponentExamplesTailwindSelectedMarketsChange(value: unknown): void {
+    this.componentExamplesTailwindSelectedMarketCodes.set(this.toComponentExamplesTailwindValueArray(value));
   }
 
-  private toValueArray(value: unknown): readonly string[] {
+  private toComponentExamplesTailwindValueArray(value: unknown): readonly string[] {
     if (!Array.isArray(value)) {
       return [];
     }
@@ -238,16 +238,16 @@ const MARKET_TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-
 
   <tng-multi-autocomplete
     class="block w-full [--tng-semantic-background-canvas:#ffffff] [--tng-semantic-background-surface:#f8fafc] [--tng-semantic-border-subtle:#cbd5e1] [--tng-semantic-border-strong:#94a3b8] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-foreground-secondary:#475569] [--tng-semantic-foreground-muted:#64748b] [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-focus-ring:#2563eb] [--tng-multi-autocomplete-bg:#ffffff] [--tng-multi-autocomplete-surface:#f8fafc] [--tng-multi-autocomplete-border:#cbd5e1] [--tng-multi-autocomplete-border-strong:#94a3b8] [--tng-multi-autocomplete-fg:#0f172a] [--tng-multi-autocomplete-muted:#64748b] [--tng-multi-autocomplete-brand:#2563eb] [--tng-multi-autocomplete-focus-ring:#2563eb]"
-    [options]="launchMarkets"
-    [value]="selectedMarkets()"
-    (valueChange)="onSelectedMarketsChange($event)"
-    [getOptionValue]="getMarketValue"
-    [getOptionLabel]="getMarketLabel"
+    [options]="componentExamplesTailwindLaunchMarkets"
+    [value]="componentExamplesTailwindSelectedMarketCodes()"
+    (valueChange)="onComponentExamplesTailwindSelectedMarketsChange($event)"
+    [getOptionValue]="getComponentExamplesTailwindMarketValue"
+    [getOptionLabel]="getComponentExamplesTailwindMarketLabel"
     placeholder="Search launch markets"
     [ariaLabel]="'Launch markets'"
   ></tng-multi-autocomplete>
 
-  <p class="m-0 text-xs text-slate-600">Selected: {{ selectedSummary() }}</p>
+  <p class="m-0 text-xs text-slate-600">Selected: {{ componentExamplesTailwindSelectedMarketSummary() }}</p>
 </section>`;
 
 const MARKET_TAILWIND_CSS_CODE = String.raw`/* No additional CSS file is required for this Tailwind example. */`;
@@ -255,14 +255,14 @@ const MARKET_TAILWIND_CSS_CODE = String.raw`/* No additional CSS file is require
 const REVIEWER_PLAIN_TS_CODE = String.raw`import { Component, computed, signal } from '@angular/core';
 import { TngMultiAutocompleteComponent } from '@tailng-ui/components';
 
-interface ReviewerRosterOption {
+interface ComponentExamplesPlainReviewerRosterOption {
   readonly id: string;
   readonly name: string;
   readonly team: string;
   readonly disabled?: boolean;
 }
 
-const REVIEWER_ROSTER_OPTIONS: readonly ReviewerRosterOption[] = Object.freeze([
+const COMPONENT_EXAMPLES_PLAIN_REVIEWER_ROSTER_OPTIONS: readonly ComponentExamplesPlainReviewerRosterOption[] = Object.freeze([
   { id: 'abigail', name: 'Abigail Chen', team: 'Design systems' },
   { id: 'mina', name: 'Mina Lee', team: 'Core UI' },
   { id: 'omar', name: 'Omar Aziz', team: 'Compliance', disabled: true },
@@ -277,26 +277,26 @@ const REVIEWER_ROSTER_OPTIONS: readonly ReviewerRosterOption[] = Object.freeze([
   styleUrl: './docs-multi-autocomplete-reviewer-roster-plain.component.css',
 })
 export class DocsMultiAutocompleteReviewerRosterPlainComponent {
-  readonly reviewers = REVIEWER_ROSTER_OPTIONS;
-  readonly selectedReviewers = signal<readonly string[]>(['abigail', 'sanjay']);
-  readonly selectedSummary = computed(() => {
-    if (this.selectedReviewers().length === 0) {
+  readonly componentExamplesPlainReviewerRoster = COMPONENT_EXAMPLES_PLAIN_REVIEWER_ROSTER_OPTIONS;
+  readonly componentExamplesPlainSelectedReviewerIds = signal<readonly string[]>(['abigail', 'sanjay']);
+  readonly componentExamplesPlainReviewerSummary = computed(() => {
+    if (this.componentExamplesPlainSelectedReviewerIds().length === 0) {
       return 'none';
     }
 
-    return this.selectedReviewers()
-      .map((id) => this.reviewers.find((reviewer) => reviewer.id === id)?.name ?? id)
+    return this.componentExamplesPlainSelectedReviewerIds()
+      .map((id) => this.componentExamplesPlainReviewerRoster.find((reviewer) => reviewer.id === id)?.name ?? id)
       .join(', ');
   });
-  readonly getReviewerValue = (reviewer: ReviewerRosterOption) => reviewer.id;
-  readonly getReviewerLabel = (reviewer: ReviewerRosterOption) => reviewer.name;
-  readonly isReviewerDisabled = (reviewer: ReviewerRosterOption) => reviewer.disabled === true;
+  readonly getComponentExamplesPlainReviewerValue = (reviewer: ComponentExamplesPlainReviewerRosterOption) => reviewer.id;
+  readonly getComponentExamplesPlainReviewerLabel = (reviewer: ComponentExamplesPlainReviewerRosterOption) => reviewer.name;
+  readonly isComponentExamplesPlainReviewerDisabled = (reviewer: ComponentExamplesPlainReviewerRosterOption) => reviewer.disabled === true;
 
-  onSelectedReviewersChange(value: unknown): void {
-    this.selectedReviewers.set(this.toValueArray(value));
+  onComponentExamplesPlainSelectedReviewersChange(value: unknown): void {
+    this.componentExamplesPlainSelectedReviewerIds.set(this.toComponentExamplesPlainReviewerValueArray(value));
   }
 
-  private toValueArray(value: unknown): readonly string[] {
+  private toComponentExamplesPlainReviewerValueArray(value: unknown): readonly string[] {
     if (!Array.isArray(value)) {
       return [];
     }
@@ -317,12 +317,12 @@ const REVIEWER_PLAIN_HTML_CODE = String.raw`<section class="docs-multi-autocompl
 
   <tng-multi-autocomplete
     class="docs-multi-autocomplete-reviewer-roster-plain-control"
-    [options]="reviewers"
-    [value]="selectedReviewers()"
-    (valueChange)="onSelectedReviewersChange($event)"
-    [getOptionValue]="getReviewerValue"
-    [getOptionLabel]="getReviewerLabel"
-    [isOptionDisabled]="isReviewerDisabled"
+    [options]="componentExamplesPlainReviewerRoster"
+    [value]="componentExamplesPlainSelectedReviewerIds()"
+    (valueChange)="onComponentExamplesPlainSelectedReviewersChange($event)"
+    [getOptionValue]="getComponentExamplesPlainReviewerValue"
+    [getOptionLabel]="getComponentExamplesPlainReviewerLabel"
+    [isOptionDisabled]="isComponentExamplesPlainReviewerDisabled"
     placeholder="Assign release owners"
     [ariaLabel]="'Release owner roster'"
   >
@@ -346,7 +346,7 @@ const REVIEWER_PLAIN_HTML_CODE = String.raw`<section class="docs-multi-autocompl
     </ng-template>
   </tng-multi-autocomplete>
 
-  <p class="docs-multi-autocomplete-reviewer-roster-plain-summary">Selected: {{ selectedSummary() }}</p>
+  <p class="docs-multi-autocomplete-reviewer-roster-plain-summary">Selected: {{ componentExamplesPlainReviewerSummary() }}</p>
 </section>`;
 
 const REVIEWER_PLAIN_CSS_CODE = String.raw`.docs-multi-autocomplete-reviewer-roster-plain-shell {
@@ -432,14 +432,14 @@ const REVIEWER_PLAIN_CSS_CODE = String.raw`.docs-multi-autocomplete-reviewer-ros
 const REVIEWER_TAILWIND_TS_CODE = String.raw`import { Component, computed, signal } from '@angular/core';
 import { TngMultiAutocompleteComponent } from '@tailng-ui/components';
 
-interface ReviewerRosterOption {
+interface ComponentExamplesTailwindReviewerRosterOption {
   readonly id: string;
   readonly name: string;
   readonly team: string;
   readonly disabled?: boolean;
 }
 
-const REVIEWER_ROSTER_OPTIONS: readonly ReviewerRosterOption[] = Object.freeze([
+const COMPONENT_EXAMPLES_TAILWIND_REVIEWER_ROSTER_OPTIONS: readonly ComponentExamplesTailwindReviewerRosterOption[] = Object.freeze([
   { id: 'abigail', name: 'Abigail Chen', team: 'Design systems' },
   { id: 'mina', name: 'Mina Lee', team: 'Core UI' },
   { id: 'omar', name: 'Omar Aziz', team: 'Compliance', disabled: true },
@@ -454,26 +454,26 @@ const REVIEWER_ROSTER_OPTIONS: readonly ReviewerRosterOption[] = Object.freeze([
   styleUrl: './docs-multi-autocomplete-reviewer-roster-tailwind.component.css',
 })
 export class DocsMultiAutocompleteReviewerRosterTailwindComponent {
-  readonly reviewers = REVIEWER_ROSTER_OPTIONS;
-  readonly selectedReviewers = signal<readonly string[]>(['mina']);
-  readonly selectedSummary = computed(() => {
-    if (this.selectedReviewers().length === 0) {
+  readonly componentExamplesTailwindReviewerRoster = COMPONENT_EXAMPLES_TAILWIND_REVIEWER_ROSTER_OPTIONS;
+  readonly componentExamplesTailwindSelectedReviewerIds = signal<readonly string[]>(['mina']);
+  readonly componentExamplesTailwindReviewerSummary = computed(() => {
+    if (this.componentExamplesTailwindSelectedReviewerIds().length === 0) {
       return 'none';
     }
 
-    return this.selectedReviewers()
-      .map((id) => this.reviewers.find((reviewer) => reviewer.id === id)?.name ?? id)
+    return this.componentExamplesTailwindSelectedReviewerIds()
+      .map((id) => this.componentExamplesTailwindReviewerRoster.find((reviewer) => reviewer.id === id)?.name ?? id)
       .join(', ');
   });
-  readonly getReviewerValue = (reviewer: ReviewerRosterOption) => reviewer.id;
-  readonly getReviewerLabel = (reviewer: ReviewerRosterOption) => reviewer.name;
-  readonly isReviewerDisabled = (reviewer: ReviewerRosterOption) => reviewer.disabled === true;
+  readonly getComponentExamplesTailwindReviewerValue = (reviewer: ComponentExamplesTailwindReviewerRosterOption) => reviewer.id;
+  readonly getComponentExamplesTailwindReviewerLabel = (reviewer: ComponentExamplesTailwindReviewerRosterOption) => reviewer.name;
+  readonly isComponentExamplesTailwindReviewerDisabled = (reviewer: ComponentExamplesTailwindReviewerRosterOption) => reviewer.disabled === true;
 
-  onSelectedReviewersChange(value: unknown): void {
-    this.selectedReviewers.set(this.toValueArray(value));
+  onComponentExamplesTailwindSelectedReviewersChange(value: unknown): void {
+    this.componentExamplesTailwindSelectedReviewerIds.set(this.toComponentExamplesTailwindReviewerValueArray(value));
   }
 
-  private toValueArray(value: unknown): readonly string[] {
+  private toComponentExamplesTailwindReviewerValueArray(value: unknown): readonly string[] {
     if (!Array.isArray(value)) {
       return [];
     }
@@ -494,12 +494,12 @@ const REVIEWER_TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-
 
   <tng-multi-autocomplete
     class="block w-full [--tng-semantic-background-canvas:#ffffff] [--tng-semantic-background-surface:#f8fafc] [--tng-semantic-border-subtle:#cbd5e1] [--tng-semantic-border-strong:#94a3b8] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-foreground-secondary:#475569] [--tng-semantic-foreground-muted:#64748b] [--tng-semantic-accent-brand:#7c3aed] [--tng-semantic-focus-ring:#7c3aed] [--tng-multi-autocomplete-bg:#ffffff] [--tng-multi-autocomplete-surface:#f8fafc] [--tng-multi-autocomplete-border:#cbd5e1] [--tng-multi-autocomplete-border-strong:#94a3b8] [--tng-multi-autocomplete-fg:#0f172a] [--tng-multi-autocomplete-muted:#64748b] [--tng-multi-autocomplete-brand:#7c3aed] [--tng-multi-autocomplete-focus-ring:#7c3aed]"
-    [options]="reviewers"
-    [value]="selectedReviewers()"
-    (valueChange)="onSelectedReviewersChange($event)"
-    [getOptionValue]="getReviewerValue"
-    [getOptionLabel]="getReviewerLabel"
-    [isOptionDisabled]="isReviewerDisabled"
+    [options]="componentExamplesTailwindReviewerRoster"
+    [value]="componentExamplesTailwindSelectedReviewerIds()"
+    (valueChange)="onComponentExamplesTailwindSelectedReviewersChange($event)"
+    [getOptionValue]="getComponentExamplesTailwindReviewerValue"
+    [getOptionLabel]="getComponentExamplesTailwindReviewerLabel"
+    [isOptionDisabled]="isComponentExamplesTailwindReviewerDisabled"
     placeholder="Assign release owners"
     [ariaLabel]="'Release owner roster'"
   >
@@ -523,7 +523,7 @@ const REVIEWER_TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-
     </ng-template>
   </tng-multi-autocomplete>
 
-  <p class="m-0 text-xs text-slate-600">Selected: {{ selectedSummary() }}</p>
+  <p class="m-0 text-xs text-slate-600">Selected: {{ componentExamplesTailwindReviewerSummary() }}</p>
 </section>`;
 
 const REVIEWER_TAILWIND_CSS_CODE = String.raw`/* No additional CSS file is required for this Tailwind example. */`;

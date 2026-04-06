@@ -43,13 +43,13 @@ const BASIC_USAGE_CODE = String.raw`<tng-multi-autocomplete
 const PLAIN_TS_CODE = String.raw`import { Component, computed, signal } from '@angular/core';
 import { TngMultiAutocompleteComponent } from '@tailng-ui/components';
 
-interface LaunchMarketOption {
+interface ComponentOverviewPlainLaunchMarketOption {
   readonly code: string;
   readonly label: string;
   readonly region: string;
 }
 
-const LAUNCH_MARKET_OPTIONS: readonly LaunchMarketOption[] = Object.freeze([
+const COMPONENT_OVERVIEW_PLAIN_LAUNCH_MARKET_OPTIONS: readonly ComponentOverviewPlainLaunchMarketOption[] = Object.freeze([
   { code: 'ca', label: 'Canada', region: 'North America' },
   { code: 'de', label: 'Germany', region: 'Europe' },
   { code: 'id', label: 'Indonesia', region: 'Asia Pacific' },
@@ -67,25 +67,25 @@ const LAUNCH_MARKET_OPTIONS: readonly LaunchMarketOption[] = Object.freeze([
   styleUrl: './multi-autocomplete-overview-plain.component.css',
 })
 export class DocsMultiAutocompleteOverviewPlainComponent {
-  readonly markets = LAUNCH_MARKET_OPTIONS;
-  readonly selectedMarkets = signal<readonly string[]>(['in', 'jp']);
-  readonly selectedSummary = computed(() => {
-    if (this.selectedMarkets().length === 0) {
+  readonly componentOverviewPlainLaunchMarkets = COMPONENT_OVERVIEW_PLAIN_LAUNCH_MARKET_OPTIONS;
+  readonly componentOverviewPlainSelectedMarketCodes = signal<readonly string[]>(['in', 'jp']);
+  readonly componentOverviewPlainSelectedMarketSummary = computed(() => {
+    if (this.componentOverviewPlainSelectedMarketCodes().length === 0) {
       return 'none';
     }
 
-    return this.selectedMarkets()
-      .map((code) => this.markets.find((market) => market.code === code)?.label ?? code)
+    return this.componentOverviewPlainSelectedMarketCodes()
+      .map((code) => this.componentOverviewPlainLaunchMarkets.find((market) => market.code === code)?.label ?? code)
       .join(', ');
   });
-  readonly getMarketValue = (market: LaunchMarketOption) => market.code;
-  readonly getMarketLabel = (market: LaunchMarketOption) => market.label;
+  readonly getComponentOverviewPlainMarketValue = (market: ComponentOverviewPlainLaunchMarketOption) => market.code;
+  readonly getComponentOverviewPlainMarketLabel = (market: ComponentOverviewPlainLaunchMarketOption) => market.label;
 
-  onSelectedMarketsChange(value: unknown): void {
-    this.selectedMarkets.set(this.toValueArray(value));
+  onComponentOverviewPlainSelectedMarketsChange(value: unknown): void {
+    this.componentOverviewPlainSelectedMarketCodes.set(this.toComponentOverviewPlainValueArray(value));
   }
 
-  private toValueArray(value: unknown): readonly string[] {
+  private toComponentOverviewPlainValueArray(value: unknown): readonly string[] {
     if (!Array.isArray(value)) {
       return [];
     }
@@ -106,16 +106,16 @@ const PLAIN_HTML_CODE = String.raw`<section class="docs-multi-autocomplete-overv
 
   <tng-multi-autocomplete
     class="docs-multi-autocomplete-overview-plain-control"
-    [options]="markets"
-    [value]="selectedMarkets()"
-    (valueChange)="onSelectedMarketsChange($event)"
-    [getOptionValue]="getMarketValue"
-    [getOptionLabel]="getMarketLabel"
+    [options]="componentOverviewPlainLaunchMarkets"
+    [value]="componentOverviewPlainSelectedMarketCodes()"
+    (valueChange)="onComponentOverviewPlainSelectedMarketsChange($event)"
+    [getOptionValue]="getComponentOverviewPlainMarketValue"
+    [getOptionLabel]="getComponentOverviewPlainMarketLabel"
     placeholder="Search launch markets"
     [ariaLabel]="'Launch markets'"
   ></tng-multi-autocomplete>
 
-  <p class="docs-multi-autocomplete-overview-plain-summary">Selected: {{ selectedSummary() }}</p>
+  <p class="docs-multi-autocomplete-overview-plain-summary">Selected: {{ componentOverviewPlainSelectedMarketSummary() }}</p>
 </section>`;
 
 const PLAIN_CSS_CODE = String.raw`.docs-multi-autocomplete-overview-plain-shell {
@@ -173,13 +173,13 @@ const PLAIN_CSS_CODE = String.raw`.docs-multi-autocomplete-overview-plain-shell 
 const TAILWIND_TS_CODE = String.raw`import { Component, computed, signal } from '@angular/core';
 import { TngMultiAutocompleteComponent } from '@tailng-ui/components';
 
-interface LaunchMarketOption {
+interface ComponentOverviewTailwindLaunchMarketOption {
   readonly code: string;
   readonly label: string;
   readonly region: string;
 }
 
-const LAUNCH_MARKET_OPTIONS: readonly LaunchMarketOption[] = Object.freeze([
+const COMPONENT_OVERVIEW_TAILWIND_LAUNCH_MARKET_OPTIONS: readonly ComponentOverviewTailwindLaunchMarketOption[] = Object.freeze([
   { code: 'ca', label: 'Canada', region: 'North America' },
   { code: 'de', label: 'Germany', region: 'Europe' },
   { code: 'id', label: 'Indonesia', region: 'Asia Pacific' },
@@ -197,25 +197,25 @@ const LAUNCH_MARKET_OPTIONS: readonly LaunchMarketOption[] = Object.freeze([
   styleUrl: './multi-autocomplete-overview-tailwind.component.css',
 })
 export class DocsMultiAutocompleteOverviewTailwindComponent {
-  readonly markets = LAUNCH_MARKET_OPTIONS;
-  readonly selectedMarkets = signal<readonly string[]>(['ca', 'es']);
-  readonly selectedSummary = computed(() => {
-    if (this.selectedMarkets().length === 0) {
+  readonly componentOverviewTailwindLaunchMarkets = COMPONENT_OVERVIEW_TAILWIND_LAUNCH_MARKET_OPTIONS;
+  readonly componentOverviewTailwindSelectedMarketCodes = signal<readonly string[]>(['ca', 'es']);
+  readonly componentOverviewTailwindSelectedMarketSummary = computed(() => {
+    if (this.componentOverviewTailwindSelectedMarketCodes().length === 0) {
       return 'none';
     }
 
-    return this.selectedMarkets()
-      .map((code) => this.markets.find((market) => market.code === code)?.label ?? code)
+    return this.componentOverviewTailwindSelectedMarketCodes()
+      .map((code) => this.componentOverviewTailwindLaunchMarkets.find((market) => market.code === code)?.label ?? code)
       .join(', ');
   });
-  readonly getMarketValue = (market: LaunchMarketOption) => market.code;
-  readonly getMarketLabel = (market: LaunchMarketOption) => market.label;
+  readonly getComponentOverviewTailwindMarketValue = (market: ComponentOverviewTailwindLaunchMarketOption) => market.code;
+  readonly getComponentOverviewTailwindMarketLabel = (market: ComponentOverviewTailwindLaunchMarketOption) => market.label;
 
-  onSelectedMarketsChange(value: unknown): void {
-    this.selectedMarkets.set(this.toValueArray(value));
+  onComponentOverviewTailwindSelectedMarketsChange(value: unknown): void {
+    this.componentOverviewTailwindSelectedMarketCodes.set(this.toComponentOverviewTailwindValueArray(value));
   }
 
-  private toValueArray(value: unknown): readonly string[] {
+  private toComponentOverviewTailwindValueArray(value: unknown): readonly string[] {
     if (!Array.isArray(value)) {
       return [];
     }
@@ -236,16 +236,16 @@ const TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-[36rem]
 
   <tng-multi-autocomplete
     class="block w-full [--tng-semantic-background-canvas:#ffffff] [--tng-semantic-background-surface:#f8fafc] [--tng-semantic-border-subtle:#cbd5e1] [--tng-semantic-border-strong:#94a3b8] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-foreground-secondary:#475569] [--tng-semantic-foreground-muted:#64748b] [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-focus-ring:#2563eb] [--tng-multi-autocomplete-bg:#ffffff] [--tng-multi-autocomplete-surface:#f8fafc] [--tng-multi-autocomplete-border:#cbd5e1] [--tng-multi-autocomplete-border-strong:#94a3b8] [--tng-multi-autocomplete-fg:#0f172a] [--tng-multi-autocomplete-muted:#64748b] [--tng-multi-autocomplete-brand:#2563eb] [--tng-multi-autocomplete-focus-ring:#2563eb]"
-    [options]="markets"
-    [value]="selectedMarkets()"
-    (valueChange)="onSelectedMarketsChange($event)"
-    [getOptionValue]="getMarketValue"
-    [getOptionLabel]="getMarketLabel"
+    [options]="componentOverviewTailwindLaunchMarkets"
+    [value]="componentOverviewTailwindSelectedMarketCodes()"
+    (valueChange)="onComponentOverviewTailwindSelectedMarketsChange($event)"
+    [getOptionValue]="getComponentOverviewTailwindMarketValue"
+    [getOptionLabel]="getComponentOverviewTailwindMarketLabel"
     placeholder="Search launch markets"
     [ariaLabel]="'Launch markets'"
   ></tng-multi-autocomplete>
 
-  <p class="m-0 text-xs text-slate-600">Selected: {{ selectedSummary() }}</p>
+  <p class="m-0 text-xs text-slate-600">Selected: {{ componentOverviewTailwindSelectedMarketSummary() }}</p>
 </section>`;
 
 const TAILWIND_CSS_CODE = String.raw`/* No additional CSS file is required for this Tailwind example. */`;

@@ -95,13 +95,13 @@ import {
   TngMultiAutocompleteTrigger,
 } from '@tailng-ui/primitives';
 
-interface LaunchMarketOption {
+interface HeadlessOverviewPlainLaunchMarketOption {
   readonly code: string;
   readonly label: string;
   readonly region: string;
 }
 
-const LAUNCH_MARKET_OPTIONS: readonly LaunchMarketOption[] = Object.freeze([
+const HEADLESS_OVERVIEW_PLAIN_LAUNCH_MARKET_OPTIONS: readonly HeadlessOverviewPlainLaunchMarketOption[] = Object.freeze([
   { code: 'ca', label: 'Canada', region: 'North America' },
   { code: 'de', label: 'Germany', region: 'Europe' },
   { code: 'id', label: 'Indonesia', region: 'Asia Pacific' },
@@ -127,45 +127,45 @@ const LAUNCH_MARKET_OPTIONS: readonly LaunchMarketOption[] = Object.freeze([
   styleUrl: './headless-multi-autocomplete-overview-plain.component.css',
 })
 export class HeadlessMultiAutocompleteOverviewPlainComponent {
-  readonly launchMarkets = LAUNCH_MARKET_OPTIONS;
-  readonly open = signal(false);
-  readonly query = signal('');
-  readonly selectedMarkets = signal<readonly string[]>(['in', 'jp']);
+  readonly headlessOverviewPlainLaunchMarkets = HEADLESS_OVERVIEW_PLAIN_LAUNCH_MARKET_OPTIONS;
+  readonly headlessOverviewPlainLaunchMarketsOpen = signal(false);
+  readonly headlessOverviewPlainLaunchMarketsQuery = signal('');
+  readonly headlessOverviewPlainSelectedMarketCodes = signal<readonly string[]>(['in', 'jp']);
 
-  readonly filteredMarkets = computed(() => {
-    const normalizedQuery = this.query().trim().toLowerCase();
+  readonly headlessOverviewPlainFilteredLaunchMarkets = computed(() => {
+    const normalizedQuery = this.headlessOverviewPlainLaunchMarketsQuery().trim().toLowerCase();
     if (normalizedQuery === '') {
-      return this.launchMarkets;
+      return this.headlessOverviewPlainLaunchMarkets;
     }
 
-    return this.launchMarkets.filter((market) =>
+    return this.headlessOverviewPlainLaunchMarkets.filter((market) =>
       (market.label + ' ' + market.region).toLowerCase().includes(normalizedQuery),
     );
   });
 
-  readonly selectedSummary = computed(() => {
-    if (this.selectedMarkets().length === 0) {
+  readonly headlessOverviewPlainSelectedMarketSummary = computed(() => {
+    if (this.headlessOverviewPlainSelectedMarketCodes().length === 0) {
       return 'none';
     }
 
-    return this.selectedMarkets()
-      .map((code) => this.launchMarkets.find((market) => market.code === code)?.label ?? code)
+    return this.headlessOverviewPlainSelectedMarketCodes()
+      .map((code) => this.headlessOverviewPlainLaunchMarkets.find((market) => market.code === code)?.label ?? code)
       .join(', ');
   });
 
-  onInput(event: Event): void {
-    this.query.set((event.target as HTMLInputElement).value);
+  onHeadlessOverviewPlainLaunchMarketsInput(event: Event): void {
+    this.headlessOverviewPlainLaunchMarketsQuery.set((event.target as HTMLInputElement).value);
   }
 
-  onValueChange(value: unknown): void {
-    this.selectedMarkets.set(this.toValueArray(value));
+  onHeadlessOverviewPlainLaunchMarketsValueChange(value: unknown): void {
+    this.headlessOverviewPlainSelectedMarketCodes.set(this.toHeadlessOverviewPlainValueArray(value));
   }
 
-  resolveMarketLabel(code: string): string {
-    return this.launchMarkets.find((market) => market.code === code)?.label ?? code;
+  resolveHeadlessOverviewPlainLaunchMarketLabel(code: string): string {
+    return this.headlessOverviewPlainLaunchMarkets.find((market) => market.code === code)?.label ?? code;
   }
 
-  private toValueArray(value: unknown): readonly string[] {
+  private toHeadlessOverviewPlainValueArray(value: unknown): readonly string[] {
     if (!Array.isArray(value)) {
       return [];
     }
@@ -187,28 +187,28 @@ const PLAIN_HTML_CODE = String.raw`<section class="docs-headless-multi-autocompl
   <section
     tngMultiAutocomplete
     class="docs-headless-multi-autocomplete-overview-plain-control"
-    [open]="open()"
-    (openChange)="open.set($event)"
-    [query]="query()"
-    (queryChange)="query.set($event)"
-    [value]="selectedMarkets()"
-    (valueChange)="onValueChange($event)"
+    [open]="headlessOverviewPlainLaunchMarketsOpen()"
+    (openChange)="headlessOverviewPlainLaunchMarketsOpen.set($event)"
+    [query]="headlessOverviewPlainLaunchMarketsQuery()"
+    (queryChange)="headlessOverviewPlainLaunchMarketsQuery.set($event)"
+    [value]="headlessOverviewPlainSelectedMarketCodes()"
+    (valueChange)="onHeadlessOverviewPlainLaunchMarketsValueChange($event)"
   >
-    @for (code of selectedMarkets(); track code) {
+    @for (code of headlessOverviewPlainSelectedMarketCodes(); track code) {
       <span
         tngMultiAutocompleteChip
         class="docs-headless-multi-autocomplete-overview-plain-chip"
         [tngValue]="code"
       >
-        {{ resolveMarketLabel(code) }}
+        {{ resolveHeadlessOverviewPlainLaunchMarketLabel(code) }}
       </span>
     }
 
     <input
       tngMultiAutocompleteTrigger
       type="text"
-      [value]="query()"
-      (input)="onInput($event)"
+      [value]="headlessOverviewPlainLaunchMarketsQuery()"
+      (input)="onHeadlessOverviewPlainLaunchMarketsInput($event)"
       placeholder="Type Ind to filter"
       aria-label="Launch markets"
     />
@@ -218,8 +218,8 @@ const PLAIN_HTML_CODE = String.raw`<section class="docs-headless-multi-autocompl
       class="docs-headless-multi-autocomplete-overview-plain-content"
     >
       <div class="docs-headless-multi-autocomplete-overview-plain-overlay" tngMultiAutocompleteOverlay>
-        <ul tngMultiAutocompleteListbox [value]="selectedMarkets()">
-          @for (market of filteredMarkets(); track market.code) {
+        <ul tngMultiAutocompleteListbox [value]="headlessOverviewPlainSelectedMarketCodes()">
+          @for (market of headlessOverviewPlainFilteredLaunchMarkets(); track market.code) {
             <li
               tngMultiAutocompleteOption
               class="docs-headless-multi-autocomplete-overview-plain-option"
@@ -235,7 +235,7 @@ const PLAIN_HTML_CODE = String.raw`<section class="docs-headless-multi-autocompl
   </section>
 
   <p class="docs-headless-multi-autocomplete-overview-plain-summary">
-    Selected: {{ selectedSummary() }}
+    Selected: {{ headlessOverviewPlainSelectedMarketSummary() }}
   </p>
 </section>`;
 
@@ -401,13 +401,13 @@ import {
   TngMultiAutocompleteTrigger,
 } from '@tailng-ui/primitives';
 
-interface LaunchMarketOption {
+interface HeadlessOverviewTailwindLaunchMarketOption {
   readonly code: string;
   readonly label: string;
   readonly region: string;
 }
 
-const LAUNCH_MARKET_OPTIONS: readonly LaunchMarketOption[] = Object.freeze([
+const HEADLESS_OVERVIEW_TAILWIND_LAUNCH_MARKET_OPTIONS: readonly HeadlessOverviewTailwindLaunchMarketOption[] = Object.freeze([
   { code: 'ca', label: 'Canada', region: 'North America' },
   { code: 'de', label: 'Germany', region: 'Europe' },
   { code: 'id', label: 'Indonesia', region: 'Asia Pacific' },
@@ -432,45 +432,45 @@ const LAUNCH_MARKET_OPTIONS: readonly LaunchMarketOption[] = Object.freeze([
   templateUrl: './headless-multi-autocomplete-overview-tailwind.component.html',
 })
 export class HeadlessMultiAutocompleteOverviewTailwindComponent {
-  readonly launchMarkets = LAUNCH_MARKET_OPTIONS;
-  readonly open = signal(false);
-  readonly query = signal('');
-  readonly selectedMarkets = signal<readonly string[]>(['ca', 'es']);
+  readonly headlessOverviewTailwindLaunchMarkets = HEADLESS_OVERVIEW_TAILWIND_LAUNCH_MARKET_OPTIONS;
+  readonly headlessOverviewTailwindLaunchMarketsOpen = signal(false);
+  readonly headlessOverviewTailwindLaunchMarketsQuery = signal('');
+  readonly headlessOverviewTailwindSelectedMarketCodes = signal<readonly string[]>(['ca', 'es']);
 
-  readonly filteredMarkets = computed(() => {
-    const normalizedQuery = this.query().trim().toLowerCase();
+  readonly headlessOverviewTailwindFilteredLaunchMarkets = computed(() => {
+    const normalizedQuery = this.headlessOverviewTailwindLaunchMarketsQuery().trim().toLowerCase();
     if (normalizedQuery === '') {
-      return this.launchMarkets;
+      return this.headlessOverviewTailwindLaunchMarkets;
     }
 
-    return this.launchMarkets.filter((market) =>
+    return this.headlessOverviewTailwindLaunchMarkets.filter((market) =>
       (market.label + ' ' + market.region).toLowerCase().includes(normalizedQuery),
     );
   });
 
-  readonly selectedSummary = computed(() => {
-    if (this.selectedMarkets().length === 0) {
+  readonly headlessOverviewTailwindSelectedMarketSummary = computed(() => {
+    if (this.headlessOverviewTailwindSelectedMarketCodes().length === 0) {
       return 'none';
     }
 
-    return this.selectedMarkets()
-      .map((code) => this.launchMarkets.find((market) => market.code === code)?.label ?? code)
+    return this.headlessOverviewTailwindSelectedMarketCodes()
+      .map((code) => this.headlessOverviewTailwindLaunchMarkets.find((market) => market.code === code)?.label ?? code)
       .join(', ');
   });
 
-  onInput(event: Event): void {
-    this.query.set((event.target as HTMLInputElement).value);
+  onHeadlessOverviewTailwindLaunchMarketsInput(event: Event): void {
+    this.headlessOverviewTailwindLaunchMarketsQuery.set((event.target as HTMLInputElement).value);
   }
 
-  onValueChange(value: unknown): void {
-    this.selectedMarkets.set(this.toValueArray(value));
+  onHeadlessOverviewTailwindLaunchMarketsValueChange(value: unknown): void {
+    this.headlessOverviewTailwindSelectedMarketCodes.set(this.toHeadlessOverviewTailwindValueArray(value));
   }
 
-  resolveMarketLabel(code: string): string {
-    return this.launchMarkets.find((market) => market.code === code)?.label ?? code;
+  resolveHeadlessOverviewTailwindLaunchMarketLabel(code: string): string {
+    return this.headlessOverviewTailwindLaunchMarkets.find((market) => market.code === code)?.label ?? code;
   }
 
-  private toValueArray(value: unknown): readonly string[] {
+  private toHeadlessOverviewTailwindValueArray(value: unknown): readonly string[] {
     if (!Array.isArray(value)) {
       return [];
     }
@@ -492,20 +492,20 @@ const TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-[36rem]
   <section
     tngMultiAutocomplete
     class="relative flex min-h-[3.25rem] min-w-0 flex-wrap items-center content-start gap-2 rounded-[1.35rem] border border-slate-300 bg-slate-50 p-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.72)] transition focus-within:border-blue-500 focus-within:ring-4 focus-within:ring-blue-500/15"
-    [open]="open()"
-    (openChange)="open.set($event)"
-    [query]="query()"
-    (queryChange)="query.set($event)"
-    [value]="selectedMarkets()"
-    (valueChange)="onValueChange($event)"
+    [open]="headlessOverviewTailwindLaunchMarketsOpen()"
+    (openChange)="headlessOverviewTailwindLaunchMarketsOpen.set($event)"
+    [query]="headlessOverviewTailwindLaunchMarketsQuery()"
+    (queryChange)="headlessOverviewTailwindLaunchMarketsQuery.set($event)"
+    [value]="headlessOverviewTailwindSelectedMarketCodes()"
+    (valueChange)="onHeadlessOverviewTailwindLaunchMarketsValueChange($event)"
   >
-    @for (code of selectedMarkets(); track code) {
+    @for (code of headlessOverviewTailwindSelectedMarketCodes(); track code) {
       <span
         tngMultiAutocompleteChip
         class="inline-flex shrink-0 items-center rounded-full border border-blue-200 bg-blue-50 px-3 py-1.5 text-sm font-semibold leading-5 text-blue-700 shadow-sm"
         [tngValue]="code"
       >
-        {{ resolveMarketLabel(code) }}
+        {{ resolveHeadlessOverviewTailwindLaunchMarketLabel(code) }}
       </span>
     }
 
@@ -513,8 +513,8 @@ const TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-[36rem]
       tngMultiAutocompleteTrigger
       type="text"
       class="basis-40 min-w-[9rem] flex-1 bg-transparent px-2 py-2 text-sm leading-6 text-slate-900 outline-none placeholder:text-slate-400"
-      [value]="query()"
-      (input)="onInput($event)"
+      [value]="headlessOverviewTailwindLaunchMarketsQuery()"
+      (input)="onHeadlessOverviewTailwindLaunchMarketsInput($event)"
       placeholder="Type Ind to filter"
       aria-label="Launch markets"
     />
@@ -525,7 +525,7 @@ const TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-[36rem]
         class="w-auto max-w-[calc(100vw-2rem)] overflow-hidden rounded-[1.25rem] border border-slate-200 bg-white p-2 shadow-[0_24px_40px_-24px_rgba(15,23,42,0.24)]"
       >
         <ul tngMultiAutocompleteListbox class="m-0 grid max-h-64 list-none gap-1 overflow-auto p-0">
-          @for (market of filteredMarkets(); track market.code) {
+          @for (market of headlessOverviewTailwindFilteredLaunchMarkets(); track market.code) {
             <li
               tngMultiAutocompleteOption
               class="grid w-full gap-1 rounded-xl border border-transparent px-4 py-3 text-sm text-slate-900 transition hover:bg-slate-50 data-[active]:border-slate-200 data-[active]:bg-slate-50 data-[selected]:border-blue-300 data-[selected]:bg-blue-50 data-[selected]:font-medium data-[selected]:text-blue-700 data-[selected]:shadow-[inset_0_1px_0_rgba(255,255,255,0.62)] [&[data-selected][data-active]]:border-blue-500 [&[data-selected][data-active]]:bg-blue-100 [&[data-selected][data-active]]:text-blue-800 [&[data-selected][data-active]]:shadow-[inset_0_1px_0_rgba(255,255,255,0.72),0_0_0_2px_rgba(37,99,235,0.16)]"
@@ -540,7 +540,7 @@ const TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-[36rem]
     </div>
   </section>
 
-  <p class="m-0 text-xs text-slate-600">Selected: {{ selectedSummary() }}</p>
+  <p class="m-0 text-xs text-slate-600">Selected: {{ headlessOverviewTailwindSelectedMarketSummary() }}</p>
 </section>`;
 
 const TAILWIND_CSS_CODE = String.raw`/* No additional CSS file is required for this Tailwind example. */`;

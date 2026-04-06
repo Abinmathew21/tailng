@@ -51,6 +51,7 @@ const STATE_SELECTOR_CODE = String.raw`[data-slot='multi-autocomplete'][data-sta
 [data-slot='multi-autocomplete'][data-invalid]
 [data-slot='multi-autocomplete-option'][data-active]
 [data-slot='multi-autocomplete-option'][data-selected]
+[data-slot='multi-autocomplete-option'][data-selected][data-active]
 [data-slot='multi-autocomplete-option'][data-disabled]`;
 
 const PLAIN_TS_CODE = String.raw`import { Component, computed, signal } from '@angular/core';
@@ -64,14 +65,14 @@ import {
   TngMultiAutocompleteTrigger,
 } from '@tailng-ui/primitives';
 
-interface ReleaseOwnerOption {
+interface HeadlessStylingPlainReleaseOwnerOption {
   readonly id: string;
   readonly name: string;
   readonly team: string;
   readonly disabled?: boolean;
 }
 
-const RELEASE_OWNER_OPTIONS: readonly ReleaseOwnerOption[] = Object.freeze([
+const HEADLESS_STYLING_PLAIN_RELEASE_OWNER_OPTIONS: readonly HeadlessStylingPlainReleaseOwnerOption[] = Object.freeze([
   { id: 'abigail', name: 'Abigail Chen', team: 'Design systems' },
   { id: 'mina', name: 'Mina Lee', team: 'Core UI' },
   { id: 'omar', name: 'Omar Aziz', team: 'Compliance', disabled: true },
@@ -94,35 +95,39 @@ const RELEASE_OWNER_OPTIONS: readonly ReleaseOwnerOption[] = Object.freeze([
   styleUrl: './headless-multi-autocomplete-styling-plain.component.css',
 })
 export class HeadlessMultiAutocompleteStylingPlainComponent {
-  readonly owners = RELEASE_OWNER_OPTIONS;
-  readonly open = signal(false);
-  readonly query = signal('');
-  readonly selectedOwners = signal<readonly string[]>(['mina']);
+  readonly headlessStylingPlainReleaseOwners = HEADLESS_STYLING_PLAIN_RELEASE_OWNER_OPTIONS;
+  readonly headlessStylingPlainReleaseOwnersOpen = signal(false);
+  readonly headlessStylingPlainReleaseOwnerQuery = signal('');
+  readonly headlessStylingPlainSelectedOwnerIds = signal<readonly string[]>(['mina']);
 
-  readonly filteredOwners = computed(() => {
-    const normalizedQuery = this.query().trim().toLowerCase();
+  readonly headlessStylingPlainFilteredReleaseOwners = computed(() => {
+    const normalizedQuery = this.headlessStylingPlainReleaseOwnerQuery().trim().toLowerCase();
     if (normalizedQuery === '') {
-      return this.owners;
+      return this.headlessStylingPlainReleaseOwners;
     }
 
-    return this.owners.filter((owner) =>
+    return this.headlessStylingPlainReleaseOwners.filter((owner) =>
       (owner.name + ' ' + owner.team).toLowerCase().includes(normalizedQuery),
     );
   });
 
-  onInput(event: Event): void {
-    this.query.set((event.target as HTMLInputElement).value);
+  onHeadlessStylingPlainReleaseOwnerInput(event: Event): void {
+    this.headlessStylingPlainReleaseOwnerQuery.set((event.target as HTMLInputElement).value);
   }
 
-  onValueChange(value: unknown): void {
-    this.selectedOwners.set(this.toValueArray(value));
+  onHeadlessStylingPlainReleaseOwnerValueChange(value: unknown): void {
+    this.headlessStylingPlainSelectedOwnerIds.set(this.toHeadlessStylingPlainValueArray(value));
   }
 
-  isOwnerDisabled(owner: ReleaseOwnerOption): boolean {
+  resolveHeadlessStylingPlainReleaseOwnerLabel(id: string): string {
+    return this.headlessStylingPlainReleaseOwners.find((owner) => owner.id === id)?.name ?? id;
+  }
+
+  isHeadlessStylingPlainReleaseOwnerDisabled(owner: HeadlessStylingPlainReleaseOwnerOption): boolean {
     return owner.disabled === true;
   }
 
-  private toValueArray(value: unknown): readonly string[] {
+  private toHeadlessStylingPlainValueArray(value: unknown): readonly string[] {
     if (!Array.isArray(value)) {
       return [];
     }
@@ -144,35 +149,35 @@ const PLAIN_HTML_CODE = String.raw`<section class="docs-headless-multi-autocompl
   <section
     tngMultiAutocomplete
     class="docs-headless-multi-autocomplete-styling-plain-control"
-    [open]="open()"
-    (openChange)="open.set($event)"
-    [query]="query()"
-    (queryChange)="query.set($event)"
-    [value]="selectedOwners()"
-    (valueChange)="onValueChange($event)"
+    [open]="headlessStylingPlainReleaseOwnersOpen()"
+    (openChange)="headlessStylingPlainReleaseOwnersOpen.set($event)"
+    [query]="headlessStylingPlainReleaseOwnerQuery()"
+    (queryChange)="headlessStylingPlainReleaseOwnerQuery.set($event)"
+    [value]="headlessStylingPlainSelectedOwnerIds()"
+    (valueChange)="onHeadlessStylingPlainReleaseOwnerValueChange($event)"
   >
-    @for (id of selectedOwners(); track id) {
-      <span tngMultiAutocompleteChip [tngValue]="id">{{ id }}</span>
+    @for (id of headlessStylingPlainSelectedOwnerIds(); track id) {
+      <span tngMultiAutocompleteChip [tngValue]="id">{{ resolveHeadlessStylingPlainReleaseOwnerLabel(id) }}</span>
     }
 
     <input
       tngMultiAutocompleteTrigger
       type="text"
-      [value]="query()"
-      (input)="onInput($event)"
+      [value]="headlessStylingPlainReleaseOwnerQuery()"
+      (input)="onHeadlessStylingPlainReleaseOwnerInput($event)"
       placeholder="Search release owners"
       aria-label="Release owners"
     />
 
     <div tngMultiAutocompleteContent class="contents">
       <div class="docs-headless-multi-autocomplete-styling-plain-overlay" tngMultiAutocompleteOverlay>
-        <ul tngMultiAutocompleteListbox [value]="selectedOwners()">
-          @for (owner of filteredOwners(); track owner.id) {
+        <ul tngMultiAutocompleteListbox [value]="headlessStylingPlainSelectedOwnerIds()">
+          @for (owner of headlessStylingPlainFilteredReleaseOwners(); track owner.id) {
             <li
               tngMultiAutocompleteOption
               class="docs-headless-multi-autocomplete-styling-plain-option"
               [tngValue]="owner.id"
-              [disabled]="isOwnerDisabled(owner)"
+              [disabled]="isHeadlessStylingPlainReleaseOwnerDisabled(owner)"
             >
               <span>{{ owner.name }}</span>
               <small>{{ owner.team }}</small>
@@ -216,6 +221,7 @@ const PLAIN_CSS_CODE = String.raw`.docs-headless-multi-autocomplete-styling-plai
 .docs-headless-multi-autocomplete-styling-plain-control {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: 0.45rem;
   min-height: 3rem;
   padding: 0.45rem;
@@ -225,18 +231,40 @@ const PLAIN_CSS_CODE = String.raw`.docs-headless-multi-autocomplete-styling-plai
 }
 
 .docs-headless-multi-autocomplete-styling-plain-control [data-slot='multi-autocomplete-chip'] {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 2rem;
+  padding: 0.375rem 0.8rem;
   border: 1px solid #dbeafe;
+  border-radius: 999px;
   background: #eff6ff;
   color: #1d4ed8;
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.15;
+  white-space: nowrap;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.72),
+    0 1px 2px rgba(37, 99, 235, 0.08);
+}
+
+.docs-headless-multi-autocomplete-styling-plain-control [data-slot='multi-autocomplete-chip']:focus-visible {
+  border-color: #60a5fa;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.72),
+    0 0 0 2px rgba(37, 99, 235, 0.14);
 }
 
 .docs-headless-multi-autocomplete-styling-plain-control [data-slot='multi-autocomplete-trigger'] {
   flex: 1 1 8rem;
   min-width: 8rem;
+  align-self: center;
   border: 0;
   background: transparent;
   color: #0f172a;
   outline: none;
+  font-size: 0.95rem;
 }
 
 .docs-headless-multi-autocomplete-styling-plain-overlay[data-slot='multi-autocomplete-overlay'] {
@@ -249,18 +277,75 @@ const PLAIN_CSS_CODE = String.raw`.docs-headless-multi-autocomplete-styling-plai
   display: grid;
   gap: 0.2rem;
   border-radius: 0.85rem;
+  padding: 0.8rem 0.95rem;
+  border: 1px solid transparent;
+  cursor: pointer;
+  color: #0f172a;
+  transition:
+    background-color 140ms ease,
+    border-color 140ms ease,
+    box-shadow 140ms ease,
+    color 140ms ease;
 }
 
 .docs-headless-multi-autocomplete-styling-plain-option small {
   color: #64748b;
 }
 
+.docs-headless-multi-autocomplete-styling-plain-option[data-active] {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+  box-shadow: 0 0 0 1px rgba(148, 163, 184, 0.08);
+}
+
+.docs-headless-multi-autocomplete-styling-plain-option[data-active] small {
+  color: #475569;
+}
+
 .docs-headless-multi-autocomplete-styling-plain-option[data-selected] {
   background: #eff6ff;
+  border-color: #bfdbfe;
   color: #1d4ed8;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.72),
+    0 1px 2px rgba(37, 99, 235, 0.08);
+}
+
+.docs-headless-multi-autocomplete-styling-plain-option[data-selected] small {
+  color: #2563eb;
+}
+
+.docs-headless-multi-autocomplete-styling-plain-option[data-selected][data-active] {
+  background: #dbeafe;
+  border-color: #60a5fa;
+  color: #1e40af;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.72),
+    0 0 0 2px rgba(37, 99, 235, 0.12);
+}
+
+.docs-headless-multi-autocomplete-styling-plain-option[data-selected][data-active] small {
+  color: #1d4ed8;
+}
+
+.docs-headless-multi-autocomplete-styling-plain-option[data-disabled] {
+  cursor: not-allowed;
+  border-color: #e2e8f0;
+  background: #f8fafc;
+  color: #94a3b8;
+  box-shadow: none;
+}
+
+.docs-headless-multi-autocomplete-styling-plain-option[data-disabled] small {
+  color: #94a3b8;
 }`;
 
-const TAILWIND_TS_CODE = PLAIN_TS_CODE.replace(/StylingPlainComponent/g, 'StylingTailwindComponent');
+const TAILWIND_TS_CODE = PLAIN_TS_CODE
+  .replace(/HeadlessMultiAutocompleteStylingPlainComponent/g, 'HeadlessMultiAutocompleteStylingTailwindComponent')
+  .replace(/app-headless-multi-autocomplete-styling-plain/g, 'app-headless-multi-autocomplete-styling-tailwind')
+  .replace(/headless-multi-autocomplete-styling-plain\.component/g, 'headless-multi-autocomplete-styling-tailwind.component')
+  .replace(/HeadlessStylingPlainReleaseOwnerOption/g, 'HeadlessStylingTailwindReleaseOwnerOption')
+  .replace(/HEADLESS_STYLING_PLAIN_RELEASE_OWNER_OPTIONS/g, 'HEADLESS_STYLING_TAILWIND_RELEASE_OWNER_OPTIONS');
 
 const TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-[36rem] gap-4 rounded-[1.75rem] border border-slate-200 bg-white p-5 text-slate-900 shadow-sm">
   <div class="grid gap-1">
@@ -273,14 +358,14 @@ const TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-[36rem]
   <section
     tngMultiAutocomplete
     class="relative flex min-h-12 flex-wrap gap-2 rounded-2xl border border-slate-300 bg-white p-2 shadow-sm shadow-slate-900/5 transition focus-within:border-blue-500 focus-within:ring-4 focus-within:ring-blue-500/15"
-    [open]="open()"
-    (openChange)="open.set($event)"
-    [query]="query()"
-    (queryChange)="query.set($event)"
-    [value]="selectedOwners()"
-    (valueChange)="onValueChange($event)"
+    [open]="headlessStylingPlainReleaseOwnersOpen()"
+    (openChange)="headlessStylingPlainReleaseOwnersOpen.set($event)"
+    [query]="headlessStylingPlainReleaseOwnerQuery()"
+    (queryChange)="headlessStylingPlainReleaseOwnerQuery.set($event)"
+    [value]="headlessStylingPlainSelectedOwnerIds()"
+    (valueChange)="onHeadlessStylingPlainReleaseOwnerValueChange($event)"
   >
-    @for (id of selectedOwners(); track id) {
+    @for (id of headlessStylingPlainSelectedOwnerIds(); track id) {
       <span
         tngMultiAutocompleteChip
         class="rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-sm font-medium text-blue-700"
@@ -294,8 +379,8 @@ const TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-[36rem]
       tngMultiAutocompleteTrigger
       type="text"
       class="min-w-[9rem] flex-1 bg-transparent px-2 py-1.5 text-sm text-slate-900 outline-none placeholder:text-slate-400"
-      [value]="query()"
-      (input)="onInput($event)"
+      [value]="headlessStylingPlainReleaseOwnerQuery()"
+      (input)="onHeadlessStylingPlainReleaseOwnerInput($event)"
       placeholder="Search release owners"
       aria-label="Release owners"
     />
@@ -306,15 +391,15 @@ const TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-[36rem]
         class="max-w-[min(100vw-2rem,36rem)] overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl shadow-slate-900/10"
       >
         <ul tngMultiAutocompleteListbox>
-          @for (owner of filteredOwners(); track owner.id) {
+          @for (owner of headlessStylingPlainFilteredReleaseOwners(); track owner.id) {
             <li
               tngMultiAutocompleteOption
-              class="grid gap-1 rounded-xl px-4 py-3 text-sm text-slate-900"
+              class="group grid gap-1 rounded-xl border border-transparent px-4 py-3 text-sm text-slate-900 transition data-[active]:border-slate-300 data-[active]:bg-slate-50 data-[active]:shadow-[0_0_0_1px_rgba(148,163,184,0.08)] data-[selected]:border-blue-200 data-[selected]:bg-blue-50 data-[selected]:text-blue-700 data-[selected]:shadow-[inset_0_1px_0_rgba(255,255,255,0.72),0_1px_2px_rgba(37,99,235,0.08)] data-[disabled]:cursor-not-allowed data-[disabled]:border-slate-200 data-[disabled]:bg-slate-50 data-[disabled]:text-slate-400 data-[disabled]:shadow-none [&[data-selected][data-active]]:border-blue-400 [&[data-selected][data-active]]:bg-blue-100 [&[data-selected][data-active]]:text-blue-800 [&[data-selected][data-active]]:shadow-[inset_0_1px_0_rgba(255,255,255,0.72),0_0_0_2px_rgba(37,99,235,0.12)]"
               [tngValue]="owner.id"
-              [disabled]="isOwnerDisabled(owner)"
+              [disabled]="isHeadlessStylingPlainReleaseOwnerDisabled(owner)"
             >
               <span class="font-medium">{{ owner.name }}</span>
-              <small class="text-xs text-slate-500">{{ owner.team }}</small>
+              <small class="text-xs text-slate-500 group-data-[disabled]:text-slate-400">{{ owner.team }}</small>
             </li>
           }
         </ul>
@@ -395,6 +480,10 @@ export class HeadlessMultiAutocompleteStylingPageComponent implements OnDestroy 
 
   protected onTailwindValueChange(value: MultiAutocompleteValueChange): void {
     this.tailwindValues.set(this.toValueArray(value));
+  }
+
+  protected resolveOwnerLabel(id: string): string {
+    return this.owners.find((owner) => owner.id === id)?.name ?? id;
   }
 
   protected isOwnerDisabled(owner: OwnerOption): boolean {
