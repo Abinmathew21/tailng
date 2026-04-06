@@ -86,6 +86,13 @@ export class TngMultiAutocompleteTrigger {
     if (this.multi.disabled()) return;
 
     const value = (event.target as HTMLInputElement | null)?.value ?? '';
+
+    // If Escape closed the overlay but the trigger remains focused, the next real input
+    // should reopen the panel so filtering can continue without forcing a blur/refocus cycle.
+    if (!this.multi.open()) {
+      this.multi.openSelect();
+    }
+
     this.multi.query.set(value);
 
     // Policy A: do not emit during IME composition
@@ -252,14 +259,14 @@ export class TngMultiAutocompleteTrigger {
     if (!this.multi.open()) return;
 
     const next = event.relatedTarget as Node | null;
-    if (next && this.multi.hostElement.contains(next)) {
+    if (next && this.multi.containsOwnedNode(next)) {
       return;
     }
 
     // Some focus transitions report null relatedTarget. Re-check after DOM focus settles.
     queueMicrotask(() => {
       const active = this.el.nativeElement.ownerDocument.activeElement;
-      if (active && this.multi.hostElement.contains(active)) {
+      if (active && this.multi.containsOwnedNode(active)) {
         return;
       }
 

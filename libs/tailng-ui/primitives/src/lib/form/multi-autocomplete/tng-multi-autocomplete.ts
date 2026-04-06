@@ -42,6 +42,7 @@ export class TngMultiAutocomplete<T = unknown> {
   private _listboxId: string | null = null;
   private _activeId: string | null = null;
   private _listboxApi: TngMultiAutocompleteListboxApi | null = null;
+  private _overlayElement: HTMLElement | null = null;
 
   // ---- host styling hooks ----
 
@@ -166,5 +167,24 @@ export class TngMultiAutocomplete<T = unknown> {
   }
   getListboxApi(): TngMultiAutocompleteListboxApi | null {
     return this._listboxApi;
+  }
+
+  setOverlayElement(element: HTMLElement | null): void {
+    this._overlayElement = element;
+  }
+
+  getOverlayElement(): HTMLElement | null {
+    return this._overlayElement;
+  }
+
+  containsOwnedNode(node: Node | null): boolean {
+    if (node === null) {
+      return false;
+    }
+
+    return (
+      this.hostElement.contains(node) ||
+      this._overlayElement?.contains(node) === true
+    );
   }
 }

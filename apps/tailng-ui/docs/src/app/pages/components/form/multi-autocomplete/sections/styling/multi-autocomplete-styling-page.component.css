@@ -7,13 +7,6 @@
   gap: 1rem;
 }
 
-.multi-autocomplete-styling-title {
-  color: var(--tng-semantic-foreground-primary);
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin: 0;
-}
-
 .multi-autocomplete-styling-lead {
   color: var(--tng-semantic-foreground-secondary);
   margin: 0;
@@ -28,9 +21,13 @@
   padding: 1rem;
 }
 
-.multi-autocomplete-styling-block h3 {
+.multi-autocomplete-styling-block h2 {
   color: var(--tng-semantic-foreground-primary);
-  font-size: 1rem;
+  font-size: 1.25rem;
+  margin: 0;
+}
+
+.multi-autocomplete-styling-block p {
   margin: 0;
 }
 
@@ -75,4 +72,62 @@
 .multi-autocomplete-styling-table code {
   color: var(--tng-semantic-foreground-primary);
   font-size: 0.82rem;
+}
+
+.docs-multi-autocomplete-styling-live-shell {
+  display: grid;
+  gap: 0.9rem;
+  inline-size: min(100%, 36rem);
+  margin-inline: auto;
+  padding: 1rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 1rem;
+  background: #ffffff;
+  color: #0f172a;
+  color-scheme: light;
+}
+
+.docs-multi-autocomplete-styling-live-header {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.docs-multi-autocomplete-styling-live-kicker {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #64748b;
+}
+
+.docs-multi-autocomplete-styling-live-copy,
+.docs-multi-autocomplete-styling-live-summary {
+  margin: 0;
+  color: #475569;
+}
+
+.docs-multi-autocomplete-styling-live-control {
+  display: block;
+  width: 100%;
+  --tng-semantic-background-canvas: #ffffff;
+  --tng-semantic-background-surface: #f8fafc;
+  --tng-semantic-border-subtle: #cbd5e1;
+  --tng-semantic-border-strong: #94a3b8;
+  --tng-semantic-foreground-primary: #0f172a;
+  --tng-semantic-foreground-secondary: #475569;
+  --tng-semantic-foreground-muted: #64748b;
+  --tng-semantic-accent-brand: #2563eb;
+  --tng-semantic-focus-ring: #2563eb;
+  --tng-multi-autocomplete-bg: #ffffff;
+  --tng-multi-autocomplete-surface: #f8fafc;
+  --tng-multi-autocomplete-border: #cbd5e1;
+  --tng-multi-autocomplete-border-strong: #94a3b8;
+  --tng-multi-autocomplete-fg: #0f172a;
+  --tng-multi-autocomplete-muted: #64748b;
+  --tng-multi-autocomplete-brand: #2563eb;
+  --tng-multi-autocomplete-focus-ring: #2563eb;
+}
+
+@media (max-width: 760px) {
+  .multi-autocomplete-styling-table {
+    min-width: 36rem;
+  }
 }

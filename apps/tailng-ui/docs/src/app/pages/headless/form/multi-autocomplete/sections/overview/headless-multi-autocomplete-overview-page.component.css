@@ -1,0 +1,152 @@
+.headless-multi-autocomplete-overview-live-shell {
+  display: grid;
+  gap: 0.9rem;
+  inline-size: min(100%, 36rem);
+  margin-inline: auto;
+  padding: 1.15rem;
+  border: 1px solid #d8e1ee;
+  border-radius: 1.25rem;
+  background: #ffffff;
+  color: #0f172a;
+  color-scheme: light;
+  box-shadow: 0 12px 28px -28px rgba(15, 23, 42, 0.28);
+}
+
+.headless-multi-autocomplete-overview-live-header {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.headless-multi-autocomplete-overview-live-kicker {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #64748b;
+  letter-spacing: 0.01em;
+}
+
+.headless-multi-autocomplete-overview-live-copy,
+.headless-multi-autocomplete-overview-live-summary {
+  margin: 0;
+  color: #475569;
+  line-height: 1.55;
+}
+
+.headless-multi-autocomplete-overview-live-control {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  align-content: flex-start;
+  gap: 0.5rem;
+  min-height: 3.25rem;
+  padding: 0.55rem;
+  --tng-multi-autocomplete-bg: #f8fafc;
+  --tng-multi-autocomplete-surface: #ffffff;
+  --tng-multi-autocomplete-border: #cbd5e1;
+  --tng-multi-autocomplete-border-strong: #c6d3e6;
+  --tng-multi-autocomplete-fg: #0f172a;
+  --tng-multi-autocomplete-muted: #64748b;
+  --tng-multi-autocomplete-brand: #2563eb;
+  --tng-multi-autocomplete-focus-ring: #2563eb;
+  border: 1px solid #c6d3e6;
+  border-radius: 1.15rem;
+  background: linear-gradient(180deg, #f8fbff 0%, #f3f7fc 100%);
+  position: relative;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.72);
+}
+
+.headless-multi-autocomplete-overview-live-control:has([data-slot='multi-autocomplete-trigger']:focus-visible),
+.headless-multi-autocomplete-overview-live-control:has([data-slot='multi-autocomplete-chip']:focus-visible) {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.14);
+}
+
+.headless-multi-autocomplete-overview-live-chip,
+.headless-multi-autocomplete-overview-live-control [data-slot='multi-autocomplete-chip'] {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.15rem;
+  padding: 0.4rem 0.78rem;
+  border: 1px solid #bfdbfe;
+  border-radius: 999px;
+  background: #eff6ff;
+  color: #1d4ed8;
+  font-size: 0.92rem;
+  font-weight: 600;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06);
+}
+
+.headless-multi-autocomplete-overview-live-control [data-slot='multi-autocomplete-trigger'] {
+  flex: 1 1 10rem;
+  min-width: 10rem;
+  padding: 0.55rem 0.4rem;
+  border: 0;
+  background: transparent;
+  color: #0f172a;
+  font-size: 1rem;
+  outline: none;
+}
+
+.headless-multi-autocomplete-overview-live-control [data-slot='multi-autocomplete-trigger']::placeholder {
+  color: #94a3b8;
+}
+
+.headless-multi-autocomplete-overview-live-content[data-slot='multi-autocomplete-content'] {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-start: calc(100% + 0.5rem);
+  z-index: 20;
+}
+
+.headless-multi-autocomplete-overview-live-overlay[data-slot='multi-autocomplete-overlay'] {
+  max-inline-size: min(100vw - 2rem, 36rem);
+  border: 1px solid #d8e1ee;
+  border-radius: 1rem;
+  background: #ffffff;
+  overflow: hidden;
+  box-shadow: 0 24px 40px -24px rgba(15, 23, 42, 0.24);
+  padding: 0.5rem;
+}
+
+.headless-multi-autocomplete-overview-live-overlay [data-slot='multi-autocomplete-listbox'] {
+  gap: 0.35rem;
+}
+
+.headless-multi-autocomplete-overview-live-option,
+.headless-multi-autocomplete-overview-live-overlay [data-slot='multi-autocomplete-option'] {
+  display: grid;
+  gap: 0.15rem;
+  border: 1px solid transparent;
+  border-radius: 0.95rem;
+  padding: 0.82rem 1rem;
+  color: #0f172a;
+  background: #ffffff;
+}
+
+.headless-multi-autocomplete-overview-live-overlay [data-slot='multi-autocomplete-option'][data-active] {
+  background: #f8fbff;
+  border-color: #d7e7fb;
+}
+
+.headless-multi-autocomplete-overview-live-overlay [data-slot='multi-autocomplete-option'][data-selected] {
+  background: #e8f1ff;
+  border-color: #93c5fd;
+  color: #1d4ed8;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.62);
+}
+
+.headless-multi-autocomplete-overview-live-overlay [data-slot='multi-autocomplete-option'][data-selected][data-active] {
+  background: #dbeafe;
+  border-color: #60a5fa;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.72),
+    0 0 0 1px rgba(37, 99, 235, 0.14);
+}
+
+.headless-multi-autocomplete-overview-live-overlay [data-slot='multi-autocomplete-option'][data-selected] small {
+  color: #2563eb;
+}
+
+.headless-multi-autocomplete-overview-live-overlay [data-slot='multi-autocomplete-option'] small {
+  color: #64748b;
+  font-size: 0.85rem;
+}

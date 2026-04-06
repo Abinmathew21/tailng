@@ -1,0 +1,70 @@
+.headless-multi-autocomplete-styling-live-shell {
+  display: grid;
+  gap: 0.9rem;
+  inline-size: min(100%, 36rem);
+  margin-inline: auto;
+  padding: 1rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 1rem;
+  background: #ffffff;
+  color: #0f172a;
+  color-scheme: light;
+}
+
+.headless-multi-autocomplete-styling-live-header {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.headless-multi-autocomplete-styling-live-kicker {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #64748b;
+}
+
+.headless-multi-autocomplete-styling-live-copy {
+  margin: 0;
+  color: #475569;
+}
+
+.headless-multi-autocomplete-styling-live-control {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  min-height: 3rem;
+  padding: 0.45rem;
+  border: 1px solid #94a3b8;
+  border-radius: 1rem;
+  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+}
+
+.headless-multi-autocomplete-styling-live-control [data-slot='multi-autocomplete-chip'] {
+  border: 1px solid #dbeafe;
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+
+.headless-multi-autocomplete-styling-live-control [data-slot='multi-autocomplete-trigger'] {
+  flex: 1 1 8rem;
+  min-width: 8rem;
+  border: 0;
+  background: transparent;
+  color: #0f172a;
+  outline: none;
+}
+
+.headless-multi-autocomplete-styling-live-overlay[data-slot='multi-autocomplete-overlay'] {
+  max-inline-size: min(100vw - 2rem, 36rem);
+  border-color: #dbeafe;
+  background: #ffffff;
+}
+
+.headless-multi-autocomplete-styling-live-overlay [data-slot='multi-autocomplete-option'] {
+  display: grid;
+  gap: 0.2rem;
+  border-radius: 0.85rem;
+}
+
+.headless-multi-autocomplete-styling-live-overlay [data-slot='multi-autocomplete-option'] small {
+  color: #64748b;
+}

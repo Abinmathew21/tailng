@@ -644,20 +644,24 @@ export const docsComponentOutlineItemsBySlug: Readonly<Record<string, Partial<Re
   'multi-autocomplete': {
     'overview': [
       { id: 'imports', label: 'Imports' },
-      { id: 'country-tags-variants', label: 'Country tags variants' },
+      { id: 'basic-usage', label: 'Basic usage' },
+      { id: 'style-variants', label: 'Style variants' },
       { id: 'behavior-baseline', label: 'Behavior baseline' },
     ],
     'api': [
-      { id: 'tngmultiautocomplete-parts-primitive', label: 'tngMultiAutocomplete + parts (primitive)' },
-      { id: 'tng-multi-autocomplete-styled-component', label: 'tng-multi-autocomplete (styled component)' },
+      { id: 'wrapper-apis', label: 'Wrapper APIs' },
+      { id: 'option-accessors', label: 'Option accessors' },
+      { id: 'template-hooks', label: 'Template hooks' },
+      { id: 'primitive-foundation', label: 'Primitive foundation' },
     ],
     'styling': [
-      { id: 'css-contract-table', label: 'CSS contract table' },
-      { id: 'example-style-contract', label: 'Example style contract' },
+      { id: 'supported-contract', label: 'Supported contract' },
+      { id: 'host-tokens', label: 'Host tokens' },
+      { id: 'wrapper-style-variants', label: 'Wrapper style variants' },
     ],
     'examples': [
-      { id: 'country-tags-variants', label: 'Country tags variants' },
-      { id: 'state-variants', label: 'State variants' },
+      { id: 'launch-market-picker', label: 'Launch market picker' },
+      { id: 'release-owner-roster', label: 'Release owner roster' },
     ],
     'ownable-install': [
       { id: 'install-from-registry', label: 'Install from registry' },

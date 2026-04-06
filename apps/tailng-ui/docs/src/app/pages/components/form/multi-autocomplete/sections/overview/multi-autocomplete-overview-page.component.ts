@@ -1,51 +1,260 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, computed, inject, signal, type OnDestroy } from '@angular/core';
-import { observeDocsCodeThemeChanges, resolveDocsCodeBlockTheme } from '../../../../../../shared/util';
 import { TngCodeBlockComponent, TngMultiAutocompleteComponent } from '@tailng-ui/components';
-import {
-  TngMultiAutocomplete,
-  TngMultiAutocompleteChip,
-  TngMultiAutocompleteContent,
-  TngMultiAutocompleteListbox,
-  TngMultiAutocompleteOption,
-  TngMultiAutocompleteOverlay,
-  TngMultiAutocompleteTrigger,
-} from '@tailng-ui/primitives';
-import { type DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
+import type { DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
 import {
   DocsExampleTabsSectionComponent,
   DocsExampleVariantDirective,
 } from '../../../../../../shared/example-tabs-section/docs-example-tabs-section.component';
+import {
+  observeDocsCodeThemeChanges,
+  resolveDocsCodeBlockTheme,
+} from '../../../../../../shared/util';
+import { stackblitzTailwindUrl, stackblitzVanillaUrl } from '../../multi-autocomplete.util';
 
-interface CountryOption {
-  code: string;
-  label: string;
+interface MarketOption {
+  readonly code: string;
+  readonly label: string;
+  readonly region: string;
 }
 
-type MultiAutocompleteValueChange = unknown;
-
-const COUNTRY_OPTIONS: readonly CountryOption[] = Object.freeze([
-  { code: 'in', label: 'India' },
-  { code: 'id', label: 'Indonesia' },
-  { code: 'ca', label: 'Canada' },
-  { code: 'de', label: 'Germany' },
-  { code: 'jp', label: 'Japan' },
-  { code: 'mx', label: 'Mexico' },
-  { code: 'es', label: 'Spain' },
+const MARKET_OPTIONS: readonly MarketOption[] = Object.freeze([
+  { code: 'ca', label: 'Canada', region: 'North America' },
+  { code: 'de', label: 'Germany', region: 'Europe' },
+  { code: 'id', label: 'Indonesia', region: 'Asia Pacific' },
+  { code: 'in', label: 'India', region: 'Asia Pacific' },
+  { code: 'jp', label: 'Japan', region: 'Asia Pacific' },
+  { code: 'mx', label: 'Mexico', region: 'North America' },
+  { code: 'es', label: 'Spain', region: 'Europe' },
 ]);
+
+const COMPONENT_IMPORT_CODE = String.raw`import { TngMultiAutocompleteComponent } from '@tailng-ui/components';`;
+
+const BASIC_USAGE_CODE = String.raw`<tng-multi-autocomplete
+  [options]="markets"
+  [value]="selectedMarkets()"
+  (valueChange)="onSelectedMarketsChange($event)"
+  [getOptionValue]="getMarketValue"
+  [getOptionLabel]="getMarketLabel"
+  placeholder="Search launch markets"
+  [ariaLabel]="'Launch markets'"
+></tng-multi-autocomplete>`;
+
+const PLAIN_TS_CODE = String.raw`import { Component, computed, signal } from '@angular/core';
+import { TngMultiAutocompleteComponent } from '@tailng-ui/components';
+
+interface LaunchMarketOption {
+  readonly code: string;
+  readonly label: string;
+  readonly region: string;
+}
+
+const LAUNCH_MARKET_OPTIONS: readonly LaunchMarketOption[] = Object.freeze([
+  { code: 'ca', label: 'Canada', region: 'North America' },
+  { code: 'de', label: 'Germany', region: 'Europe' },
+  { code: 'id', label: 'Indonesia', region: 'Asia Pacific' },
+  { code: 'in', label: 'India', region: 'Asia Pacific' },
+  { code: 'jp', label: 'Japan', region: 'Asia Pacific' },
+  { code: 'mx', label: 'Mexico', region: 'North America' },
+  { code: 'es', label: 'Spain', region: 'Europe' },
+]);
+
+@Component({
+  selector: 'app-docs-multi-autocomplete-overview-plain',
+  standalone: true,
+  imports: [TngMultiAutocompleteComponent],
+  templateUrl: './multi-autocomplete-overview-plain.component.html',
+  styleUrl: './multi-autocomplete-overview-plain.component.css',
+})
+export class DocsMultiAutocompleteOverviewPlainComponent {
+  readonly markets = LAUNCH_MARKET_OPTIONS;
+  readonly selectedMarkets = signal<readonly string[]>(['in', 'jp']);
+  readonly selectedSummary = computed(() => {
+    if (this.selectedMarkets().length === 0) {
+      return 'none';
+    }
+
+    return this.selectedMarkets()
+      .map((code) => this.markets.find((market) => market.code === code)?.label ?? code)
+      .join(', ');
+  });
+  readonly getMarketValue = (market: LaunchMarketOption) => market.code;
+  readonly getMarketLabel = (market: LaunchMarketOption) => market.label;
+
+  onSelectedMarketsChange(value: unknown): void {
+    this.selectedMarkets.set(this.toValueArray(value));
+  }
+
+  private toValueArray(value: unknown): readonly string[] {
+    if (!Array.isArray(value)) {
+      return [];
+    }
+
+    return value
+      .map((item) => (typeof item === 'string' ? item : String(item)))
+      .filter((item) => item.length > 0);
+  }
+}`;
+
+const PLAIN_HTML_CODE = String.raw`<section class="docs-multi-autocomplete-overview-plain-shell">
+  <div class="docs-multi-autocomplete-overview-plain-header">
+    <span class="docs-multi-autocomplete-overview-plain-kicker">Launch markets</span>
+    <p class="docs-multi-autocomplete-overview-plain-copy">
+      Wrapper-first multi selection with visible chips and a controlled value array.
+    </p>
+  </div>
+
+  <tng-multi-autocomplete
+    class="docs-multi-autocomplete-overview-plain-control"
+    [options]="markets"
+    [value]="selectedMarkets()"
+    (valueChange)="onSelectedMarketsChange($event)"
+    [getOptionValue]="getMarketValue"
+    [getOptionLabel]="getMarketLabel"
+    placeholder="Search launch markets"
+    [ariaLabel]="'Launch markets'"
+  ></tng-multi-autocomplete>
+
+  <p class="docs-multi-autocomplete-overview-plain-summary">Selected: {{ selectedSummary() }}</p>
+</section>`;
+
+const PLAIN_CSS_CODE = String.raw`.docs-multi-autocomplete-overview-plain-shell {
+  display: grid;
+  gap: 0.9rem;
+  inline-size: min(100%, 36rem);
+  margin-inline: auto;
+  padding: 1rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 1rem;
+  background: #ffffff;
+  color: #0f172a;
+  color-scheme: light;
+}
+
+.docs-multi-autocomplete-overview-plain-header {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.docs-multi-autocomplete-overview-plain-kicker {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #64748b;
+}
+
+.docs-multi-autocomplete-overview-plain-copy,
+.docs-multi-autocomplete-overview-plain-summary {
+  margin: 0;
+  color: #475569;
+}
+
+.docs-multi-autocomplete-overview-plain-control {
+  display: block;
+  width: 100%;
+  --tng-semantic-background-canvas: #ffffff;
+  --tng-semantic-background-surface: #f8fafc;
+  --tng-semantic-border-subtle: #cbd5e1;
+  --tng-semantic-border-strong: #94a3b8;
+  --tng-semantic-foreground-primary: #0f172a;
+  --tng-semantic-foreground-secondary: #475569;
+  --tng-semantic-foreground-muted: #64748b;
+  --tng-semantic-accent-brand: #2563eb;
+  --tng-semantic-focus-ring: #2563eb;
+  --tng-multi-autocomplete-bg: #ffffff;
+  --tng-multi-autocomplete-surface: #f8fafc;
+  --tng-multi-autocomplete-border: #cbd5e1;
+  --tng-multi-autocomplete-border-strong: #94a3b8;
+  --tng-multi-autocomplete-fg: #0f172a;
+  --tng-multi-autocomplete-muted: #64748b;
+  --tng-multi-autocomplete-brand: #2563eb;
+  --tng-multi-autocomplete-focus-ring: #2563eb;
+}`;
+
+const TAILWIND_TS_CODE = String.raw`import { Component, computed, signal } from '@angular/core';
+import { TngMultiAutocompleteComponent } from '@tailng-ui/components';
+
+interface LaunchMarketOption {
+  readonly code: string;
+  readonly label: string;
+  readonly region: string;
+}
+
+const LAUNCH_MARKET_OPTIONS: readonly LaunchMarketOption[] = Object.freeze([
+  { code: 'ca', label: 'Canada', region: 'North America' },
+  { code: 'de', label: 'Germany', region: 'Europe' },
+  { code: 'id', label: 'Indonesia', region: 'Asia Pacific' },
+  { code: 'in', label: 'India', region: 'Asia Pacific' },
+  { code: 'jp', label: 'Japan', region: 'Asia Pacific' },
+  { code: 'mx', label: 'Mexico', region: 'North America' },
+  { code: 'es', label: 'Spain', region: 'Europe' },
+]);
+
+@Component({
+  selector: 'app-docs-multi-autocomplete-overview-tailwind',
+  standalone: true,
+  imports: [TngMultiAutocompleteComponent],
+  templateUrl: './multi-autocomplete-overview-tailwind.component.html',
+  styleUrl: './multi-autocomplete-overview-tailwind.component.css',
+})
+export class DocsMultiAutocompleteOverviewTailwindComponent {
+  readonly markets = LAUNCH_MARKET_OPTIONS;
+  readonly selectedMarkets = signal<readonly string[]>(['ca', 'es']);
+  readonly selectedSummary = computed(() => {
+    if (this.selectedMarkets().length === 0) {
+      return 'none';
+    }
+
+    return this.selectedMarkets()
+      .map((code) => this.markets.find((market) => market.code === code)?.label ?? code)
+      .join(', ');
+  });
+  readonly getMarketValue = (market: LaunchMarketOption) => market.code;
+  readonly getMarketLabel = (market: LaunchMarketOption) => market.label;
+
+  onSelectedMarketsChange(value: unknown): void {
+    this.selectedMarkets.set(this.toValueArray(value));
+  }
+
+  private toValueArray(value: unknown): readonly string[] {
+    if (!Array.isArray(value)) {
+      return [];
+    }
+
+    return value
+      .map((item) => (typeof item === 'string' ? item : String(item)))
+      .filter((item) => item.length > 0);
+  }
+}`;
+
+const TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-[36rem] gap-4 rounded-[1.75rem] border border-slate-200 bg-white p-5 text-slate-900 shadow-sm">
+  <div class="grid gap-1">
+    <span class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Launch markets</span>
+    <p class="m-0 text-sm text-slate-600">
+      Wrapper-first multi selection with visible chips and a controlled value array.
+    </p>
+  </div>
+
+  <tng-multi-autocomplete
+    class="block w-full [--tng-semantic-background-canvas:#ffffff] [--tng-semantic-background-surface:#f8fafc] [--tng-semantic-border-subtle:#cbd5e1] [--tng-semantic-border-strong:#94a3b8] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-foreground-secondary:#475569] [--tng-semantic-foreground-muted:#64748b] [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-focus-ring:#2563eb] [--tng-multi-autocomplete-bg:#ffffff] [--tng-multi-autocomplete-surface:#f8fafc] [--tng-multi-autocomplete-border:#cbd5e1] [--tng-multi-autocomplete-border-strong:#94a3b8] [--tng-multi-autocomplete-fg:#0f172a] [--tng-multi-autocomplete-muted:#64748b] [--tng-multi-autocomplete-brand:#2563eb] [--tng-multi-autocomplete-focus-ring:#2563eb]"
+    [options]="markets"
+    [value]="selectedMarkets()"
+    (valueChange)="onSelectedMarketsChange($event)"
+    [getOptionValue]="getMarketValue"
+    [getOptionLabel]="getMarketLabel"
+    placeholder="Search launch markets"
+    [ariaLabel]="'Launch markets'"
+  ></tng-multi-autocomplete>
+
+  <p class="m-0 text-xs text-slate-600">Selected: {{ selectedSummary() }}</p>
+</section>`;
+
+const TAILWIND_CSS_CODE = String.raw`/* No additional CSS file is required for this Tailwind example. */`;
 
 @Component({
   selector: 'app-multi-autocomplete-overview-page',
   imports: [
     TngCodeBlockComponent,
     TngMultiAutocompleteComponent,
-    TngMultiAutocomplete,
-    TngMultiAutocompleteTrigger,
-    TngMultiAutocompleteChip,
-    TngMultiAutocompleteContent,
-    TngMultiAutocompleteOverlay,
-    TngMultiAutocompleteListbox,
-    TngMultiAutocompleteOption,
     DocsExampleTabsSectionComponent,
     DocsExampleVariantDirective,
   ],
@@ -58,263 +267,47 @@ export class MultiAutocompleteOverviewPageComponent implements OnDestroy {
   public readonly codeBlockTheme = signal<'github-dark' | 'github-light'>(
     resolveDocsCodeBlockTheme(this.documentRef),
   );
-
-  private readonly colorSchemeObserver = observeDocsCodeThemeChanges(this.documentRef, this.codeBlockTheme);
-
-  protected readonly countries = signal<readonly CountryOption[]>(COUNTRY_OPTIONS);
-  private readonly countriesByCode = computed(
-    () => new Map(this.countries().map((country) => [country.code, country])),
+  private readonly colorSchemeObserver = observeDocsCodeThemeChanges(
+    this.documentRef,
+    this.codeBlockTheme,
   );
 
-  protected readonly getCountryValue = (country: CountryOption) => country.code;
-  protected readonly getCountryLabel = (country: CountryOption) => country.label;
+  protected readonly stackblitzVanillaUrl = stackblitzVanillaUrl;
+  protected readonly stackblitzTailwindUrl = stackblitzTailwindUrl;
+  protected readonly markets = MARKET_OPTIONS;
+  protected readonly getMarketValue = (market: MarketOption) => market.code;
+  protected readonly getMarketLabel = (market: MarketOption) => market.label;
+  protected readonly plainMarkets = signal<readonly string[]>(['in', 'jp']);
+  protected readonly tailwindMarkets = signal<readonly string[]>(['ca', 'es']);
+  protected readonly plainSummary = computed(() => this.formatSelection(this.plainMarkets()));
+  protected readonly tailwindSummary = computed(() => this.formatSelection(this.tailwindMarkets()));
 
-  protected readonly headlessOpen = signal(false);
-  protected readonly headlessQuery = signal('');
-  protected readonly headlessValue = signal<readonly string[]>(['in']);
-
-  protected readonly plainValue = signal<readonly string[]>(['id', 'jp']);
-  protected readonly tailwindValue = signal<readonly string[]>(['ca']);
-
-  protected readonly headlessFilteredCountries = computed<readonly CountryOption[]>(() => {
-    const query = this.headlessQuery().trim().toLowerCase();
-    const list = this.countries();
-
-    if (query === '') {
-      return list;
-    }
-
-    return list.filter((country) => country.label.toLowerCase().includes(query));
-  });
-
-  protected readonly headlessSelectedSummary = computed(() =>
-    this.formatSelection(this.headlessValue()),
-  );
-
-  protected readonly plainSelectedSummary = computed(() => this.formatSelection(this.plainValue()));
-
-  protected readonly tailwindSelectedSummary = computed(() =>
-    this.formatSelection(this.tailwindValue()),
-  );
-
-  protected readonly primitiveImportCode = [
-    'import {',
-    '  TngMultiAutocomplete,',
-    '  TngMultiAutocompleteTrigger,',
-    '  TngMultiAutocompleteChip,',
-    '  TngMultiAutocompleteContent,',
-    '  TngMultiAutocompleteOverlay,',
-    '  TngMultiAutocompleteListbox,',
-    '  TngMultiAutocompleteOption,',
-    "} from '@tailng-ui/primitives';",
-    '',
-  ].join('\n');
-
-  protected readonly componentImportCode =
-    "import { TngMultiAutocompleteComponent } from '@tailng-ui/components';";
-
-  protected readonly headlessCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
-    {
-      value: 'ts',
-      label: 'TS',
-      language: 'ts',
-      title: 'multi-autocomplete-headless-country-tags.component.ts',
-      code: [
-        'readonly open = signal(false);',
-        "readonly query = signal('');",
-        "readonly value = signal<readonly string[]>(['in']);",
-        '',
-        'readonly filteredCountries = computed(() => {',
-        '  const q = this.query().trim().toLowerCase();',
-        '  if (!q) return this.countries;',
-        '  return this.countries.filter((country) => country.label.toLowerCase().includes(q));',
-        '});',
-        '',
-        'onInput(event: Event): void {',
-        '  this.query.set((event.target as HTMLInputElement).value);',
-        '}',
-        '',
-      ].join('\n'),
-    },
-    {
-      value: 'html',
-      label: 'HTML',
-      language: 'html',
-      title: 'multi-autocomplete-headless-country-tags.component.html',
-      code: [
-        '<section',
-        '  tngMultiAutocomplete',
-        '  #api="tngMultiAutocomplete"',
-        '  [open]="open()"',
-        '  [query]="query()"',
-        '  [value]="value()"',
-        '  (queryChange)="query.set($event)"',
-        '  (valueChange)="value.set(toValueArray($event))"',
-        '>',
-        '  @for (code of value(); track code) {',
-        '    <span tngMultiAutocompleteChip [tngValue]="code">{{ resolveCountryLabel(code) }}</span>',
-        '  }',
-        '',
-        '  <input',
-        '    tngMultiAutocompleteTrigger',
-        '    type="text"',
-        '    [value]="query()"',
-        '    (input)="onInput($event)"',
-        '    placeholder="Type Ind to filter countries"',
-        '  />',
-        '',
-        '  <div tngMultiAutocompleteContent>',
-        '    <div tngMultiAutocompleteOverlay>',
-        '      <ul tngMultiAutocompleteListbox [value]="api.value()">',
-        '        @for (country of filteredCountries(); track country.code) {',
-        '          <li tngMultiAutocompleteOption [tngValue]="country.code">{{ country.label }}</li>',
-        '        }',
-        '      </ul>',
-        '    </div>',
-        '  </div>',
-        '</section>',
-        '',
-      ].join('\n'),
-    },
-    {
-      value: 'css',
-      label: 'CSS',
-      language: 'css',
-      title: 'multi-autocomplete-headless-country-tags.component.css',
-      code: [
-        '.multi-autocomplete-preview-shell {',
-        '  display: grid;',
-        '  gap: 0.65rem;',
-        '}',
-        '',
-      ].join('\n'),
-    },
+  protected readonly componentImportCode = COMPONENT_IMPORT_CODE;
+  protected readonly basicUsageCode = BASIC_USAGE_CODE;
+  protected readonly plainCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
+    { value: 'ts', label: 'TS', language: 'ts', title: 'multi-autocomplete-overview-plain.component.ts', code: PLAIN_TS_CODE },
+    { value: 'html', label: 'HTML', language: 'html', title: 'multi-autocomplete-overview-plain.component.html', code: PLAIN_HTML_CODE },
+    { value: 'css', label: 'CSS', language: 'css', title: 'multi-autocomplete-overview-plain.component.css', code: PLAIN_CSS_CODE },
   ]);
-
-  protected readonly plainCssCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
-    {
-      value: 'ts',
-      label: 'TS',
-      language: 'ts',
-      title: 'multi-autocomplete-plain-css-country-tags.component.ts',
-      code: [
-        "readonly selectedCountries = signal<readonly string[]>(['id', 'jp']);",
-        '',
-        'onValueChange(value: unknown): void {',
-        '  this.selectedCountries.set(this.toValueArray(value));',
-        '}',
-        '',
-      ].join('\n'),
-    },
-    {
-      value: 'html',
-      label: 'HTML',
-      language: 'html',
-      title: 'multi-autocomplete-plain-css-country-tags.component.html',
-      code: [
-        '<div class="multi-autocomplete-preview-shell multi-autocomplete-preview-shell--plain">',
-        '  <tng-multi-autocomplete',
-        '    [options]="countries"',
-        '    [value]="selectedCountries()"',
-        '    (valueChange)="onValueChange($event)"',
-        '    [getOptionValue]="getCountryValue"',
-        '    [getOptionLabel]="getCountryLabel"',
-        '    placeholder="Type Ind to filter countries"',
-        '    ariaLabel="Country tags"',
-        '  ></tng-multi-autocomplete>',
-        '</div>',
-        '',
-      ].join('\n'),
-    },
-    {
-      value: 'css',
-      label: 'CSS',
-      language: 'css',
-      title: 'multi-autocomplete-plain-css-country-tags.component.css',
-      code: [
-        '.multi-autocomplete-preview-shell--plain {',
-        '  border: 1px solid var(--tng-semantic-border-subtle);',
-        '  border-radius: 0.8rem;',
-        '  padding: 0.9rem 1rem;',
-        '}',
-        '',
-      ].join('\n'),
-    },
-  ]);
-
   protected readonly tailwindCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
-    {
-      value: 'ts',
-      label: 'TS',
-      language: 'ts',
-      title: 'multi-autocomplete-tailwind-country-tags.component.ts',
-      code: [
-        "readonly selectedCountries = signal<readonly string[]>(['ca']);",
-        '',
-        'onValueChange(value: unknown): void {',
-        '  this.selectedCountries.set(this.toValueArray(value));',
-        '}',
-        '',
-      ].join('\n'),
-    },
-    {
-      value: 'html',
-      label: 'HTML',
-      language: 'html',
-      title: 'multi-autocomplete-tailwind-country-tags.component.html',
-      code: [
-        '<div class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">',
-        '  <tng-multi-autocomplete',
-        '    [options]="countries"',
-        '    [value]="selectedCountries()"',
-        '    (valueChange)="onValueChange($event)"',
-        '    [getOptionValue]="getCountryValue"',
-        '    [getOptionLabel]="getCountryLabel"',
-        '    placeholder="Type Ind to filter countries"',
-        '    ariaLabel="Country tags"',
-        '  ></tng-multi-autocomplete>',
-        '</div>',
-        '',
-      ].join('\n'),
-    },
-    {
-      value: 'css',
-      label: 'CSS',
-      language: 'css',
-      title: 'multi-autocomplete-tailwind-country-tags.component.css',
-      code: '/* Tailwind utilities are applied directly in the template. */',
-    },
+    { value: 'ts', label: 'TS', language: 'ts', title: 'multi-autocomplete-overview-tailwind.component.ts', code: TAILWIND_TS_CODE },
+    { value: 'html', label: 'HTML', language: 'html', title: 'multi-autocomplete-overview-tailwind.component.html', code: TAILWIND_HTML_CODE },
+    { value: 'css', label: 'CSS', language: 'css', title: 'multi-autocomplete-overview-tailwind.component.css', code: TAILWIND_CSS_CODE },
   ]);
 
-  protected onHeadlessInput(event: Event): void {
-    this.headlessQuery.set((event.target as HTMLInputElement).value);
+  protected onPlainMarketsChange(value: unknown): void {
+    this.plainMarkets.set(this.toValueArray(value));
   }
 
-  protected onHeadlessQueryChange(query: string): void {
-    this.headlessQuery.set(query);
-  }
-
-  protected onHeadlessValueChange(value: MultiAutocompleteValueChange): void {
-    this.headlessValue.set(this.toValueArray(value));
-  }
-
-  protected onPlainValueChange(value: MultiAutocompleteValueChange): void {
-    this.plainValue.set(this.toValueArray(value));
-  }
-
-  protected onTailwindValueChange(value: MultiAutocompleteValueChange): void {
-    this.tailwindValue.set(this.toValueArray(value));
+  protected onTailwindMarketsChange(value: unknown): void {
+    this.tailwindMarkets.set(this.toValueArray(value));
   }
 
   public ngOnDestroy(): void {
     this.colorSchemeObserver?.disconnect();
   }
 
-  protected resolveCountryLabel(code: string): string {
-    return this.countriesByCode().get(code)?.label ?? code;
-  }
-
-  private toValueArray(value: MultiAutocompleteValueChange): readonly string[] {
+  private toValueArray(value: unknown): readonly string[] {
     if (!Array.isArray(value)) {
       return [];
     }
@@ -329,7 +322,8 @@ export class MultiAutocompleteOverviewPageComponent implements OnDestroy {
       return 'none';
     }
 
-    return values.map((value) => this.resolveCountryLabel(value)).join(', ');
+    return values
+      .map((value) => this.markets.find((market) => market.code === value)?.label ?? value)
+      .join(', ');
   }
-
 }

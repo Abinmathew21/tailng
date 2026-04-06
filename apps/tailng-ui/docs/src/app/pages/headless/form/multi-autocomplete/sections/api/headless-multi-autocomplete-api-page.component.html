@@ -1,0 +1,151 @@
+<article class="multi-autocomplete-api">
+  <section id="tngmultiautocomplete" class="multi-autocomplete-api-block">
+    <h3><code>tngMultiAutocomplete</code></h3>
+    <p>
+      The primitive owns three reactive models: <code>open</code>, <code>query</code>, and the
+      selected values array. It also bridges active option state to the owned listbox parts.
+    </p>
+    <tng-code-block
+      [code]="primitiveAttachmentCode"
+      adapter="shiki"
+      language="html"
+      title="Primitive attachment"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+
+    <div class="multi-autocomplete-api-table-wrap">
+      <table class="multi-autocomplete-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Input / model</th>
+            <th scope="col">Type</th>
+            <th scope="col">Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>open</code></td>
+            <td><code>boolean</code></td>
+            <td>Controls whether the overlay is attached and visible.</td>
+          </tr>
+          <tr>
+            <td><code>query</code></td>
+            <td><code>string</code></td>
+            <td>Trigger text used for filtering. This stays separate from the selected values array.</td>
+          </tr>
+          <tr>
+            <td><code>value</code></td>
+            <td><code>readonly T[]</code></td>
+            <td>Selected values in insertion order.</td>
+          </tr>
+          <tr>
+            <td><code>disabled</code>, <code>loading</code>, <code>invalid</code></td>
+            <td><code>boolean</code></td>
+            <td>Optional state hooks reflected on attributes for styling and ARIA.</td>
+          </tr>
+          <tr>
+            <td><code>openChange</code>, <code>queryChange</code>, <code>valueChange</code></td>
+            <td>Outputs</td>
+            <td>Emit whenever the matching primitive model changes.</td>
+          </tr>
+          <tr>
+            <td>Methods</td>
+            <td><code>add</code>, <code>remove</code>, <code>toggle</code>, <code>removeLast</code>, <code>clear</code></td>
+            <td>Imperative helpers exposed on the primitive export.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="owned-parts" class="multi-autocomplete-api-block">
+    <h3>Owned parts</h3>
+    <p>
+      MultiAutocomplete stays split into small directives so you can own the shell and the portaled overlay.
+    </p>
+    <tng-code-block
+      [code]="partsCode"
+      adapter="shiki"
+      language="txt"
+      title="Part selectors"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+
+    <div class="multi-autocomplete-api-table-wrap">
+      <table class="multi-autocomplete-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Part</th>
+            <th scope="col">Responsibility</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>tngMultiAutocompleteTrigger</code></td>
+            <td>Opens the overlay, keeps the query in sync, and handles chip-removal backspace behavior.</td>
+          </tr>
+          <tr>
+            <td><code>tngMultiAutocompleteChip</code></td>
+            <td>Represents a selected value and stays keyboard-focusable for removal flows.</td>
+          </tr>
+          <tr>
+            <td><code>tngMultiAutocompleteContent</code> + <code>tngMultiAutocompleteOverlay</code></td>
+            <td>Own the overlay container and portaled surface.</td>
+          </tr>
+          <tr>
+            <td><code>tngMultiAutocompleteListbox</code> + <code>tngMultiAutocompleteOption</code></td>
+            <td>Own option navigation, active item state, and commit behavior.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="models-and-events" class="multi-autocomplete-api-block">
+    <h3>Models and events</h3>
+    <p>
+      The headless primitive is the right layer when you need to control the live query directly or coordinate chips,
+      input text, and overlay state with other primitives.
+    </p>
+    <ul>
+      <li><code>query</code> remains controlled even when the selected values array changes.</li>
+      <li>Selecting an active option toggles its presence in <code>value</code>.</li>
+      <li>Backspace on an empty trigger removes the last selected chip.</li>
+    </ul>
+  </section>
+
+  <section id="reflected-attributes" class="multi-autocomplete-api-block">
+    <h3>Reflected attributes</h3>
+    <p>
+      The primitive reflects state onto slot-based attributes for styling. Keep the focus ring on the host, not the option rows.
+    </p>
+    <div class="multi-autocomplete-api-table-wrap">
+      <table class="multi-autocomplete-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Element</th>
+            <th scope="col">Attributes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>[tngMultiAutocomplete]</code></td>
+            <td><code>data-slot</code>, <code>data-state</code>, <code>data-disabled</code>, <code>data-loading</code>, <code>data-invalid</code></td>
+          </tr>
+          <tr>
+            <td><code>[tngMultiAutocompleteChip]</code></td>
+            <td><code>data-slot="multi-autocomplete-chip"</code></td>
+          </tr>
+          <tr>
+            <td><code>[tngMultiAutocompleteOption]</code></td>
+            <td><code>data-slot="multi-autocomplete-option"</code>, plus active/selected state from the listbox bridge</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</article>

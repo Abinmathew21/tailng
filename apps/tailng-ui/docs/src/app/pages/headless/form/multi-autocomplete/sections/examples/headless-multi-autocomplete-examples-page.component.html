@@ -1,0 +1,117 @@
+<article class="docs-page-article">
+  <section id="launch-market-picker" class="docs-page-section">
+    <app-docs-example-tabs-section
+      heading="Launch market picker"
+      description="Select multiple launch regions and keep the chip row visible while filtering."
+      ariaLabel="Headless multi autocomplete launch market examples"
+      tabListAriaLabel="Headless multi autocomplete launch market variants"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template appDocsExampleVariant value="plain-css" label="Plain-CSS" panelTitle="Launch market picker (Plain-CSS)" [codeTabs]="marketPlainCodeTabs" [stackblitzUrl]="stackblitzVanillaUrl">
+        <section class="headless-multi-autocomplete-examples-live-shell">
+          <div class="headless-multi-autocomplete-examples-live-header">
+            <span class="headless-multi-autocomplete-examples-live-kicker">Launch markets</span>
+            <p class="headless-multi-autocomplete-examples-live-copy">Pick multiple launch regions while keeping chips visible in the owned shell.</p>
+          </div>
+          <section tngMultiAutocomplete class="headless-multi-autocomplete-examples-live-control" [open]="launchPlainOpen()" (openChange)="launchPlainOpen.set($event)" [query]="launchPlainQuery()" (queryChange)="launchPlainQuery.set($event)" [value]="launchPlainValues()" (valueChange)="onLaunchPlainValueChange($event)">
+            @for (code of launchPlainValues(); track code) {
+              <span tngMultiAutocompleteChip [tngValue]="code">{{ resolveMarketLabel(code) }}</span>
+            }
+            <input tngMultiAutocompleteTrigger type="text" [value]="launchPlainQuery()" (input)="onLaunchPlainInput($event)" placeholder="Search launch markets" aria-label="Launch markets" />
+            <div tngMultiAutocompleteContent class="contents">
+              <div class="headless-multi-autocomplete-examples-live-overlay" tngMultiAutocompleteOverlay>
+                <ul tngMultiAutocompleteListbox [value]="launchPlainValues()">
+                  @for (market of launchPlainFiltered(); track market.code) {
+                    <li tngMultiAutocompleteOption [tngValue]="market.code"><span>{{ market.label }}</span><small>{{ market.region }}</small></li>
+                  }
+                </ul>
+              </div>
+            </div>
+          </section>
+          <p class="headless-multi-autocomplete-examples-live-summary">Selected: {{ launchPlainSummary() }}</p>
+        </section>
+      </ng-template>
+
+      <ng-template appDocsExampleVariant value="tailwind-css" label="Tailwind CSS" panelTitle="Launch market picker (Tailwind CSS)" [codeTabs]="marketTailwindCodeTabs" [stackblitzUrl]="stackblitzTailwindUrl">
+        <section class="mx-auto grid max-w-[36rem] gap-4 rounded-[1.75rem] border border-slate-200 bg-white p-5 text-slate-900 shadow-sm">
+          <div class="grid gap-1"><span class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Launch markets</span><p class="m-0 text-sm text-slate-600">Pick multiple launch regions while keeping chips visible in the owned shell.</p></div>
+          <section tngMultiAutocomplete class="relative flex min-h-12 flex-wrap gap-2 rounded-2xl border border-slate-300 bg-slate-50 p-2 transition focus-within:border-blue-500 focus-within:ring-4 focus-within:ring-blue-500/15" [open]="launchTailwindOpen()" (openChange)="launchTailwindOpen.set($event)" [query]="launchTailwindQuery()" (queryChange)="launchTailwindQuery.set($event)" [value]="launchTailwindValues()" (valueChange)="onLaunchTailwindValueChange($event)">
+            @for (code of launchTailwindValues(); track code) {
+              <span tngMultiAutocompleteChip class="rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-sm font-medium text-blue-700" [tngValue]="code">{{ resolveMarketLabel(code) }}</span>
+            }
+            <input tngMultiAutocompleteTrigger type="text" class="min-w-[9rem] flex-1 bg-transparent px-2 py-1.5 text-sm text-slate-900 outline-none placeholder:text-slate-400" [value]="launchTailwindQuery()" (input)="onLaunchTailwindInput($event)" placeholder="Search launch markets" aria-label="Launch markets" />
+            <div tngMultiAutocompleteContent class="contents">
+              <div tngMultiAutocompleteOverlay class="max-w-[min(100vw-2rem,36rem)] overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl shadow-slate-900/10">
+                <ul tngMultiAutocompleteListbox>
+                  @for (market of launchTailwindFiltered(); track market.code) {
+                    <li tngMultiAutocompleteOption class="grid gap-1 rounded-xl px-4 py-3 text-sm text-slate-900" [tngValue]="market.code"><span class="font-medium">{{ market.label }}</span><small class="text-xs text-slate-500">{{ market.region }}</small></li>
+                  }
+                </ul>
+              </div>
+            </div>
+          </section>
+          <p class="m-0 text-xs text-slate-600">Selected: {{ launchTailwindSummary() }}</p>
+        </section>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section id="release-owner-roster" class="docs-page-section">
+    <app-docs-example-tabs-section
+      heading="Release owner roster"
+      description="Disabled options stay visible so the handoff list explains why some reviewers cannot be selected."
+      ariaLabel="Headless multi autocomplete reviewer examples"
+      tabListAriaLabel="Headless multi autocomplete reviewer variants"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template appDocsExampleVariant value="plain-css" label="Plain-CSS" panelTitle="Release owner roster (Plain-CSS)" [codeTabs]="reviewerPlainCodeTabs" [stackblitzUrl]="stackblitzVanillaUrl">
+        <section class="headless-multi-autocomplete-examples-live-shell">
+          <div class="headless-multi-autocomplete-examples-live-header">
+            <span class="headless-multi-autocomplete-examples-live-kicker">Release owner roster</span>
+            <p class="headless-multi-autocomplete-examples-live-copy">Disabled options stay visible so reviewers understand who is locked out of the current handoff.</p>
+          </div>
+          <section tngMultiAutocomplete class="headless-multi-autocomplete-examples-live-control" [open]="reviewerPlainOpen()" (openChange)="reviewerPlainOpen.set($event)" [query]="reviewerPlainQuery()" (queryChange)="reviewerPlainQuery.set($event)" [value]="reviewerPlainValues()" (valueChange)="onReviewerPlainValueChange($event)">
+            @for (id of reviewerPlainValues(); track id) {
+              <span tngMultiAutocompleteChip [tngValue]="id">{{ id }}</span>
+            }
+            <input tngMultiAutocompleteTrigger type="text" [value]="reviewerPlainQuery()" (input)="onReviewerPlainInput($event)" placeholder="Search reviewers" aria-label="Release owner roster" />
+            <div tngMultiAutocompleteContent class="contents">
+              <div class="headless-multi-autocomplete-examples-live-overlay" tngMultiAutocompleteOverlay>
+                <ul tngMultiAutocompleteListbox [value]="reviewerPlainValues()">
+                  @for (reviewer of reviewerPlainFiltered(); track reviewer.id) {
+                    <li tngMultiAutocompleteOption [tngValue]="reviewer.id" [disabled]="isReviewerDisabled(reviewer)"><span>{{ reviewer.name }}</span><small>{{ reviewer.team }}</small></li>
+                  }
+                </ul>
+              </div>
+            </div>
+          </section>
+          <p class="headless-multi-autocomplete-examples-live-summary">Selected: {{ reviewerPlainSummary() }}</p>
+        </section>
+      </ng-template>
+
+      <ng-template appDocsExampleVariant value="tailwind-css" label="Tailwind CSS" panelTitle="Release owner roster (Tailwind CSS)" [codeTabs]="reviewerTailwindCodeTabs" [stackblitzUrl]="stackblitzTailwindUrl">
+        <section class="mx-auto grid max-w-[36rem] gap-4 rounded-[1.75rem] border border-slate-200 bg-white p-5 text-slate-900 shadow-sm">
+          <div class="grid gap-1"><span class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Release owner roster</span><p class="m-0 text-sm text-slate-600">Disabled options stay visible so reviewers understand who is locked out of the current handoff.</p></div>
+          <section tngMultiAutocomplete class="relative flex min-h-12 flex-wrap gap-2 rounded-2xl border border-slate-300 bg-white p-2 shadow-sm shadow-slate-900/5 transition focus-within:border-blue-500 focus-within:ring-4 focus-within:ring-blue-500/15" [open]="reviewerTailwindOpen()" (openChange)="reviewerTailwindOpen.set($event)" [query]="reviewerTailwindQuery()" (queryChange)="reviewerTailwindQuery.set($event)" [value]="reviewerTailwindValues()" (valueChange)="onReviewerTailwindValueChange($event)">
+            @for (id of reviewerTailwindValues(); track id) {
+              <span tngMultiAutocompleteChip class="rounded-full border border-slate-300 bg-slate-100 px-3 py-1 text-sm font-medium text-slate-700" [tngValue]="id">{{ id }}</span>
+            }
+            <input tngMultiAutocompleteTrigger type="text" class="min-w-[9rem] flex-1 bg-transparent px-2 py-1.5 text-sm text-slate-900 outline-none placeholder:text-slate-400" [value]="reviewerTailwindQuery()" (input)="onReviewerTailwindInput($event)" placeholder="Search reviewers" aria-label="Release owner roster" />
+            <div tngMultiAutocompleteContent class="contents">
+              <div tngMultiAutocompleteOverlay class="max-w-[min(100vw-2rem,36rem)] overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl shadow-slate-900/10">
+                <ul tngMultiAutocompleteListbox>
+                  @for (reviewer of reviewerTailwindFiltered(); track reviewer.id) {
+                    <li tngMultiAutocompleteOption class="grid gap-1 rounded-xl px-4 py-3 text-sm text-slate-900" [tngValue]="reviewer.id" [disabled]="isReviewerDisabled(reviewer)"><span class="font-medium">{{ reviewer.name }}</span><small class="text-xs text-slate-500">{{ reviewer.team }}</small></li>
+                  }
+                </ul>
+              </div>
+            </div>
+          </section>
+          <p class="m-0 text-xs text-slate-600">Selected: {{ reviewerTailwindSummary() }}</p>
+        </section>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+</article>

@@ -7,125 +7,109 @@
   gap: 1rem;
 }
 
-.multi-autocomplete-examples-title {
-  color: var(--tng-semantic-foreground-primary);
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin: 0;
-}
-
-.multi-autocomplete-examples-lead {
-  color: var(--tng-semantic-foreground-secondary);
-  margin: 0;
-}
-
-.multi-autocomplete-examples-block {
-  border: 1px solid var(--tng-semantic-border-subtle);
-  border-radius: 0.9rem;
-  color: var(--tng-semantic-foreground-secondary);
+.docs-multi-autocomplete-launch-live-shell,
+.docs-multi-autocomplete-reviewer-live-shell {
   display: grid;
-  gap: 0.7rem;
+  gap: 0.9rem;
+  inline-size: min(100%, 36rem);
+  margin-inline: auto;
   padding: 1rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 1rem;
+  background: #ffffff;
+  color: #0f172a;
+  color-scheme: light;
 }
 
-.multi-autocomplete-examples-block h3 {
-  color: var(--tng-semantic-foreground-primary);
-  font-size: 1rem;
-  margin: 0;
-}
-
-.multi-autocomplete-example-description {
-  margin: 0;
-}
-
-.multi-autocomplete-preview-shell {
+.docs-multi-autocomplete-launch-live-header,
+.docs-multi-autocomplete-reviewer-live-header {
   display: grid;
-  gap: 0.65rem;
-  max-width: none;
-  padding-inline: 0;
+  gap: 0.35rem;
+}
+
+.docs-multi-autocomplete-launch-live-kicker,
+.docs-multi-autocomplete-reviewer-live-kicker {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #64748b;
+}
+
+.docs-multi-autocomplete-launch-live-copy,
+.docs-multi-autocomplete-launch-live-summary,
+.docs-multi-autocomplete-reviewer-live-copy,
+.docs-multi-autocomplete-reviewer-live-summary {
+  margin: 0;
+  color: #475569;
+}
+
+.docs-multi-autocomplete-launch-live-control {
+  display: block;
   width: 100%;
+  --tng-semantic-background-canvas: #ffffff;
+  --tng-semantic-background-surface: #f8fafc;
+  --tng-semantic-border-subtle: #cbd5e1;
+  --tng-semantic-border-strong: #94a3b8;
+  --tng-semantic-foreground-primary: #0f172a;
+  --tng-semantic-foreground-secondary: #475569;
+  --tng-semantic-foreground-muted: #64748b;
+  --tng-semantic-accent-brand: #2563eb;
+  --tng-semantic-focus-ring: #2563eb;
+  --tng-multi-autocomplete-bg: #ffffff;
+  --tng-multi-autocomplete-surface: #f8fafc;
+  --tng-multi-autocomplete-border: #cbd5e1;
+  --tng-multi-autocomplete-border-strong: #94a3b8;
+  --tng-multi-autocomplete-fg: #0f172a;
+  --tng-multi-autocomplete-muted: #64748b;
+  --tng-multi-autocomplete-brand: #2563eb;
+  --tng-multi-autocomplete-focus-ring: #2563eb;
 }
 
-.multi-autocomplete-preview-shell--plain {
-  background: var(--tng-semantic-background-surface);
-  border: 1px solid var(--tng-semantic-border-subtle);
-  border-radius: 0.8rem;
-  padding: 0.9rem 1rem;
+.docs-multi-autocomplete-reviewer-live-control {
+  display: block;
+  width: 100%;
+  --tng-semantic-background-canvas: #ffffff;
+  --tng-semantic-background-surface: #f8fafc;
+  --tng-semantic-border-subtle: #cbd5e1;
+  --tng-semantic-border-strong: #94a3b8;
+  --tng-semantic-foreground-primary: #0f172a;
+  --tng-semantic-foreground-secondary: #475569;
+  --tng-semantic-foreground-muted: #64748b;
+  --tng-semantic-accent-brand: #7c3aed;
+  --tng-semantic-focus-ring: #7c3aed;
+  --tng-multi-autocomplete-bg: #ffffff;
+  --tng-multi-autocomplete-surface: #f8fafc;
+  --tng-multi-autocomplete-border: #cbd5e1;
+  --tng-multi-autocomplete-border-strong: #94a3b8;
+  --tng-multi-autocomplete-fg: #0f172a;
+  --tng-multi-autocomplete-muted: #64748b;
+  --tng-multi-autocomplete-brand: #7c3aed;
+  --tng-multi-autocomplete-focus-ring: #7c3aed;
 }
 
-.multi-autocomplete-preview-control {
-  --tng-multi-autocomplete-radius: 0.78rem;
-  --tng-multi-autocomplete-trigger-py: 0.45rem;
-  --tng-multi-autocomplete-trigger-px: 0.88rem;
-  --tng-multi-autocomplete-option-py: 0.5rem;
-  --tng-multi-autocomplete-option-px: 0.72rem;
-  --tng-multi-autocomplete-border-strong: color-mix(
-    in srgb,
-    var(--tng-semantic-border-subtle) 72%,
-    var(--tng-semantic-foreground-primary)
-  );
-  --tng-multi-autocomplete-focus-ring: color-mix(
-    in srgb,
-    var(--tng-semantic-accent-brand) 88%,
-    var(--tng-semantic-background-canvas)
-  );
-}
-
-.multi-autocomplete-preview-control--headless {
-  background: color-mix(in srgb, var(--tng-semantic-background-surface) 84%, transparent);
-  border: 1px solid var(--tng-semantic-border-subtle);
-  border-radius: 0.8rem;
-  padding: 0.9rem 1rem;
-}
-
-:host
-  ::ng-deep
-  .multi-autocomplete-preview-control[data-slot='multi-autocomplete'] {
-  min-height: 3rem;
-}
-
-:host
-  ::ng-deep
-  .multi-autocomplete-preview-control [data-slot='multi-autocomplete-trigger'] {
-  background: transparent;
-  border: 0;
-  box-shadow: none;
-  color: var(--tng-semantic-foreground-primary);
-  font-size: 0.98rem;
-  font-weight: 500;
-  line-height: 1.35;
-  outline: none;
-  padding-inline: 0.25rem;
-}
-
-:host
-  ::ng-deep
-  .multi-autocomplete-preview-control [data-slot='multi-autocomplete-trigger']:focus,
-:host
-  ::ng-deep
-  .multi-autocomplete-preview-control [data-slot='multi-autocomplete-trigger']:focus-visible {
-  border: 0;
-  box-shadow: none;
-  outline: none;
-}
-
-:host ::ng-deep .multi-autocomplete-preview-control [data-slot='multi-autocomplete-chip'] {
-  font-size: 0.82rem;
+.docs-multi-autocomplete-reviewer-live-chip-label {
   font-weight: 600;
 }
 
-:host ::ng-deep .multi-autocomplete-preview-control [data-slot='multi-autocomplete-option'] {
-  font-weight: 500;
+.docs-multi-autocomplete-reviewer-live-chip-action {
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  line-height: 1;
+  padding: 0;
 }
 
-.multi-autocomplete-preview-summary {
-  color: var(--tng-semantic-foreground-secondary);
-  font-size: 0.82rem;
-  margin: 0;
-}
-
-.multi-autocomplete-state-grid {
+.docs-multi-autocomplete-reviewer-live-option-row {
   display: grid;
-  gap: 0.7rem;
-  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: 0.2rem;
+}
+
+.docs-multi-autocomplete-reviewer-live-option-label {
+  font-weight: 600;
+}
+
+.docs-multi-autocomplete-reviewer-live-option-meta {
+  color: #64748b;
+  font-size: 0.75rem;
 }

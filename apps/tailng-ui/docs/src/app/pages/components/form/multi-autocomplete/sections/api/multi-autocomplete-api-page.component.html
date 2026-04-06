@@ -1,17 +1,18 @@
 <article class="multi-autocomplete-api">
   <h2 class="multi-autocomplete-api-title">API reference</h2>
   <p class="multi-autocomplete-api-lead">
-    MultiAutocomplete exposes a headless primitive stack and a component wrapper with value-array
-    mapping.
+    <code>&lt;tng-multi-autocomplete&gt;</code> wraps the headless primitive for the standard chip-based
+    multi-select workflow. You pass options and accessors; the wrapper owns the query input, overlay,
+    and default chip rendering.
   </p>
 
-  <section class="multi-autocomplete-api-block">
-    <h3><code>tngMultiAutocomplete</code> + parts (primitive)</h3>
+  <section id="wrapper-apis" class="multi-autocomplete-api-block">
+    <h3><code>tng-multi-autocomplete</code></h3>
     <tng-code-block
-      [code]="primitiveAttachmentCode"
+      [code]="wrapperAttachmentCode"
       adapter="shiki"
       language="html"
-      title="Primitive attachment"
+      title="Wrapper attachment"
       [lineNumbers]="false"
       [wrap]="true"
       [sanitizeHtml]="false"
@@ -21,97 +22,124 @@
       <table class="multi-autocomplete-api-table">
         <thead>
           <tr>
-            <th scope="col">Input / model</th>
-            <th scope="col">Type</th>
-            <th scope="col">Notes</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><code>open</code></td>
-            <td><code>boolean</code></td>
-            <td>Overlay open state.</td>
-          </tr>
-          <tr>
-            <td><code>value</code></td>
-            <td><code>readonly T[]</code></td>
-            <td>Selected option values (multi-select model).</td>
-          </tr>
-          <tr>
-            <td><code>query</code></td>
-            <td><code>string</code></td>
-            <td>Current trigger text used for filtering.</td>
-          </tr>
-          <tr>
-            <td><code>disabled</code>, <code>loading</code>, <code>invalid</code></td>
-            <td><code>boolean</code></td>
-            <td>State hooks reflected on attributes and ARIA.</td>
-          </tr>
-          <tr>
-            <td><code>openChange</code>, <code>valueChange</code>, <code>queryChange</code></td>
-            <td>Output events</td>
-            <td>Emitted on interaction commits and query updates.</td>
-          </tr>
-          <tr>
-            <td>Methods</td>
-            <td><code>add/remove/toggle/clear</code></td>
-            <td>Imperative selection helpers on primitive export.</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-
-  <section class="multi-autocomplete-api-block">
-    <h3><code>tng-multi-autocomplete</code> (styled component)</h3>
-    <tng-code-block
-      [code]="componentAttachmentCode"
-      adapter="shiki"
-      language="html"
-      title="Styled attachment"
-      [lineNumbers]="false"
-      [wrap]="true"
-      [sanitizeHtml]="false"
-    ></tng-code-block>
-
-    <div class="multi-autocomplete-api-table-wrap">
-      <table class="multi-autocomplete-api-table">
-        <thead>
-          <tr>
-            <th scope="col">API</th>
+            <th scope="col">Property</th>
             <th scope="col">Type</th>
             <th scope="col">Details</th>
           </tr>
         </thead>
         <tbody>
+          @for (row of wrapperRows; track row.name) {
+            <tr>
+              <td><code>{{ row.name }}</code></td>
+              <td><code>{{ row.type }}</code></td>
+              <td>{{ row.details }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="option-accessors" class="multi-autocomplete-api-block">
+    <h3>Option accessors</h3>
+    <p>
+      The wrapper stays generic by delegating option identity, labels, disabled state, and tracking
+      to small accessor functions.
+    </p>
+    <tng-code-block
+      [code]="accessorCode"
+      adapter="shiki"
+      language="ts"
+      title="Common accessors"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+
+    <div class="multi-autocomplete-api-table-wrap">
+      <table class="multi-autocomplete-api-table">
+        <thead>
           <tr>
-            <td><code>options</code></td>
-            <td><code>readonly O[]</code></td>
-            <td>Option source for rendering and filtering.</td>
+            <th scope="col">Accessor</th>
+            <th scope="col">Type</th>
+            <th scope="col">Details</th>
           </tr>
+        </thead>
+        <tbody>
+          @for (row of accessorRows; track row.name) {
+            <tr>
+              <td><code>{{ row.name }}</code></td>
+              <td><code>{{ row.type }}</code></td>
+              <td>{{ row.details }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="template-hooks" class="multi-autocomplete-api-block">
+    <h3>Template hooks</h3>
+    <p>
+      You can replace the default chip body and option rows through content templates while the
+      wrapper keeps the primitive selection logic intact.
+    </p>
+    <tng-code-block
+      [code]="templateHookCode"
+      adapter="shiki"
+      language="html"
+      title="Template hooks"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+
+    <div class="multi-autocomplete-api-table-wrap">
+      <table class="multi-autocomplete-api-table">
+        <thead>
           <tr>
-            <td><code>getOptionValue</code></td>
-            <td><code>(option: O) =&gt; V</code></td>
-            <td>Maps options to committed value model.</td>
+            <th scope="col">Template</th>
+            <th scope="col">Context</th>
+            <th scope="col">Details</th>
           </tr>
+        </thead>
+        <tbody>
+          @for (row of templateRows; track row.name) {
+            <tr>
+              <td><code>{{ row.name }}</code></td>
+              <td><code>{{ row.type }}</code></td>
+              <td>{{ row.details }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="primitive-foundation" class="multi-autocomplete-api-block">
+    <h3>Primitive foundation</h3>
+    <p>
+      The wrapper is intentionally opinionated around the common “chips + input + results list” UX.
+      Use the headless primitive when you need to own the transient query model or rebuild the shell.
+    </p>
+
+    <div class="multi-autocomplete-api-table-wrap">
+      <table class="multi-autocomplete-api-table">
+        <thead>
           <tr>
-            <td><code>getOptionLabel</code></td>
-            <td><code>(option: O) =&gt; string</code></td>
-            <td>Maps options to display/filter label.</td>
+            <th scope="col">Capability</th>
+            <th scope="col">Availability</th>
+            <th scope="col">Guidance</th>
           </tr>
-          <tr>
-            <td><code>isOptionDisabled</code></td>
-            <td><code>(option: O) =&gt; boolean</code></td>
-            <td>Disables specific options.</td>
-          </tr>
-          <tr>
-            <td>Forwarded primitive model</td>
-            <td>
-              <code>open</code>, <code>value</code>, <code>query</code>, <code>openChange</code>,
-              <code>valueChange</code>, <code>queryChange</code>
-            </td>
-            <td>Exposed through host directive wiring.</td>
-          </tr>
+        </thead>
+        <tbody>
+          @for (row of primitiveFoundationRows; track row.name) {
+            <tr>
+              <td><code>{{ row.name }}</code></td>
+              <td><code>{{ row.type }}</code></td>
+              <td>{{ row.details }}</td>
+            </tr>
+          }
         </tbody>
       </table>
     </div>
