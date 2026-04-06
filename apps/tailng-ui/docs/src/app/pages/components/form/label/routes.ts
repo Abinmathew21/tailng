@@ -48,6 +48,9 @@ export const COMPONENTS_FORM_LABEL_ROUTES: Routes = [
       },
       {
         path: 'ownable-install',
+        data: {
+          registrySlug: 'label',
+        },
         pathMatch: 'full',
         redirectTo: '/ownable/form/label',
       },

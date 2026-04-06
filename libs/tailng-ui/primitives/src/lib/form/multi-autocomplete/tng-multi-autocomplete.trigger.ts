@@ -32,6 +32,7 @@ export class TngMultiAutocompleteTrigger {
 
   private composing = false;
   private lastEmittedQuery: string | null = null;
+  private reopenOnNextInput = false;
 
   @HostBinding('attr.data-slot')
   protected readonly dataSlot = 'multi-autocomplete-trigger' as const;
@@ -68,6 +69,8 @@ export class TngMultiAutocompleteTrigger {
   protected onFocus(): void {
     if (this.multi.disabled()) return;
 
+    this.reopenOnNextInput = false;
+
     if (!this.multi.open()) {
       this.multi.openSelect();
 
@@ -87,9 +90,10 @@ export class TngMultiAutocompleteTrigger {
 
     const value = (event.target as HTMLInputElement | null)?.value ?? '';
 
-    // If Escape closed the overlay but the trigger remains focused, the next real input
-    // should reopen the panel so filtering can continue without forcing a blur/refocus cycle.
-    if (!this.multi.open()) {
+    // If Escape closed the overlay but the trigger remained focused, reopen on the next
+    // real input so filtering can continue without a blur/refocus cycle.
+    if (!this.multi.open() && this.reopenOnNextInput) {
+      this.reopenOnNextInput = false;
       this.multi.openSelect();
     }
 
@@ -122,7 +126,10 @@ export class TngMultiAutocompleteTrigger {
       if (this.multi.open()) {
         event.preventDefault();
         event.stopPropagation();
+        this.reopenOnNextInput = true;
         this.multi.close();
+      } else {
+        this.reopenOnNextInput = false;
       }
       return;
     }
@@ -256,6 +263,8 @@ export class TngMultiAutocompleteTrigger {
 
   @HostListener('focusout', ['$event'])
   protected onFocusOut(event: FocusEvent): void {
+    this.reopenOnNextInput = false;
+
     if (!this.multi.open()) return;
 
     const next = event.relatedTarget as Node | null;

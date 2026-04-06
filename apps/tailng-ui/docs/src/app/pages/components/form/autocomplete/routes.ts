@@ -49,6 +49,9 @@ export const COMPONENTS_FORM_AUTOCOMPLETE_ROUTES: Routes = [
       },
       {
         path: 'ownable-install',
+        data: {
+          registrySlug: 'autocomplete',
+        },
         redirectTo: '/ownable/form/autocomplete',
       },
       {

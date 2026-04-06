@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it } from 'vitest';
 
 import { TngMultiAutocomplete } from '../tng-multi-autocomplete';
 import { TngMultiAutocompleteTrigger } from '../tng-multi-autocomplete.trigger';
@@ -43,6 +43,10 @@ class QueryEdgeHostComponent {
 }
 
 describe('tng-multi-autocomplete query edge behavior', () => {
+  afterEach(() => {
+    TestBed.resetTestingModule();
+  });
+
   it('typing emits queryChange with typed value and does not auto-open overlay', async () => {
     const fixture = TestBed.configureTestingModule({
       imports: [QueryEdgeHostComponent],

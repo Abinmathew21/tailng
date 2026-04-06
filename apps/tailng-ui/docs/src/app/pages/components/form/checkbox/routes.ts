@@ -49,6 +49,9 @@ export const COMPONENTS_FORM_CHECKBOX_ROUTES: Routes = [
       },
       {
         path: 'ownable-install',
+        data: {
+          registrySlug: 'checkbox',
+        },
         pathMatch: 'full',
         redirectTo: '/ownable/form/checkbox',
       },

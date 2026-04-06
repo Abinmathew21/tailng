@@ -1,6 +1,6 @@
 import { Component, signal, viewChild } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it } from 'vitest';
 
 import { TngMultiAutocomplete } from '../tng-multi-autocomplete';
 import { TngMultiAutocompleteTrigger } from '../tng-multi-autocomplete.trigger';
@@ -52,6 +52,10 @@ class ListboxEdgeHostComponent {
 }
 
 describe('tng-multi-autocomplete listbox edge/polish', () => {
+  afterEach(() => {
+    TestBed.resetTestingModule();
+  });
+
   it('valueChange clears query even when CLOSED (selection resets filtering state)', async () => {
     const fixture = TestBed.configureTestingModule({
       imports: [ListboxEdgeHostComponent],

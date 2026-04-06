@@ -49,6 +49,9 @@ export const COMPONENTS_FORM_TEXTAREA_ROUTES: Routes = [
       },
       {
         path: 'ownable-install',
+        data: {
+          registrySlug: 'textarea',
+        },
         pathMatch: 'full',
         redirectTo: '/ownable/form/textarea',
       },

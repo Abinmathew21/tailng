@@ -1,8 +1,7 @@
+import { NgFor, NgIf } from '@angular/common';
 import { Component, Directive, Input } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRoute, type Data } from '@angular/router';
-import { TngCodeBlockComponent, TngTabsComponent } from '@tailng-ui/components';
-import { TngTab, TngTabList, TngTabPanel } from '@tailng-ui/primitives';
 import { describe, expect, it } from 'vitest';
 import { DocsOwnableInstallSectionComponent } from './docs-ownable-install-section.component';
 
@@ -89,11 +88,10 @@ async function renderComponent(
     ],
   });
   TestBed.overrideComponent(DocsOwnableInstallSectionComponent, {
-    remove: {
-      imports: [TngCodeBlockComponent, TngTabsComponent, TngTabList, TngTab, TngTabPanel],
-    },
-    add: {
+    set: {
       imports: [
+        NgFor,
+        NgIf,
         StubCodeBlockComponent,
         StubTabsComponent,
         StubTabListDirective,

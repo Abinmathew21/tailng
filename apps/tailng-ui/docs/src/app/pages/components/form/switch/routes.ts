@@ -49,6 +49,9 @@ export const COMPONENTS_FORM_SWITCH_ROUTES: Routes = [
       },
       {
         path: 'ownable-install',
+        data: {
+          registrySlug: 'switch',
+        },
         pathMatch: 'full',
         redirectTo: '/ownable/form/switch',
       },

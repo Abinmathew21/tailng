@@ -1,6 +1,6 @@
 import { Component, computed, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it } from 'vitest';
 
 import { TngMultiAutocomplete } from '../tng-multi-autocomplete';
 import { TngMultiAutocompleteContent } from '../tng-multi-autocomplete.content';
@@ -99,6 +99,10 @@ class MultiAutocompleteEscapeReopenHostComponent {
 }
 
 describe('tng-multi-autocomplete Escape reopen flow', () => {
+  afterEach(() => {
+    TestBed.resetTestingModule();
+  });
+
   it('reopens the overlay when input changes after Escape closed it', async () => {
     const fixture = TestBed.configureTestingModule({
       imports: [MultiAutocompleteEscapeReopenHostComponent],

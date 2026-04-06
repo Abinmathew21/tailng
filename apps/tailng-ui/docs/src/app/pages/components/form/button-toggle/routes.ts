@@ -49,6 +49,9 @@ export const COMPONENTS_FORM_BUTTON_TOGGLE_ROUTES: Routes = [
       },
       {
         path: 'ownable-install',
+        data: {
+          registrySlug: 'button-toggle',
+        },
         pathMatch: 'full',
         redirectTo: '/ownable/form/button-toggle',
       },

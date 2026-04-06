@@ -48,6 +48,9 @@ export const COMPONENTS_FORM_RADIO_ROUTES: Routes = [
       },
       {
         path: 'ownable-install',
+        data: {
+          registrySlug: 'radio',
+        },
         pathMatch: 'full',
         redirectTo: '/ownable/form/radio',
       },
