@@ -1,4 +1,4 @@
-import { execSync } from "node:child_process";
+import { execSync, spawnSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 import {
@@ -55,6 +55,15 @@ function resolvePackageVersions() {
   ]);
 }
 
+function isAlreadyPublished(name, version) {
+  const result = spawnSync("npm", ["view", `${name}@${version}`, "version"], {
+    stdio: "pipe",
+    encoding: "utf8",
+    timeout: 30_000,
+  });
+  return result.status === 0 && result.stdout.trim() === version;
+}
+
 const publish = (dir) => {
   if (!fs.existsSync(dir)) {
     fail(`Publish directory not found: ${dir}`);
@@ -72,6 +81,11 @@ const publish = (dir) => {
   const version = publishPkg.version ?? "";
 
   assertNoWorkspaceProtocols(publishPkg, dir);
+
+  if (isAlreadyPublished(name, version)) {
+    console.log(`⏭  ${name}@${version} already published — skipping`);
+    return;
+  }
 
   console.log(`Publishing ${name}@${version} with tag ${npmTag}`);
 
