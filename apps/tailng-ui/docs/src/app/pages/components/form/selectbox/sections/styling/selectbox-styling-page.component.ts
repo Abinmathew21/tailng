@@ -58,8 +58,8 @@ const HOST_TOKEN_GUIDANCE_CODE = String.raw`tng-select.docs-component-selectbox-
   --tng-select-focus-ring: #0f766e;
 }
 
-/* The wrapper owns trigger and overlay structure. */
-/* Use headless select when you need direct DOM ownership of the menu shell. */`;
+/* Palette tokens stay on the host. */
+/* Add slot-level spacing only when you need a more opinionated presentation shell. */`;
 
 const PLAIN_TS_CODE = String.raw`import { Component, computed, signal } from '@angular/core';
 import { TngSelectComponent } from '@tailng-ui/components';
@@ -122,7 +122,7 @@ const PLAIN_HTML_CODE = String.raw`<section class="docs-component-selectbox-styl
   <div class="docs-component-selectbox-styling-plain-header">
     <span class="docs-component-selectbox-styling-plain-kicker">Release owners</span>
     <p class="docs-component-selectbox-styling-plain-copy">
-      Host-level tokens restyle the wrapper without reaching into private trigger or overlay markup.
+      Host-level tokens define the palette while a small amount of slot spacing keeps the wrapper presentation tidy.
     </p>
   </div>
 
@@ -174,10 +174,12 @@ const PLAIN_CSS_CODE = String.raw`.docs-component-selectbox-styling-plain-shell 
   color: #475569;
 }
 
+/* Host-level tokens – the component base CSS consumes them automatically. */
 .docs-component-selectbox-styling-release-owner-shell {
   display: block;
   width: 100%;
   min-width: 0;
+  color-scheme: light;
   --tng-semantic-background-canvas: #ffffff;
   --tng-semantic-background-surface: #f8fafc;
   --tng-semantic-border-subtle: #d8e2ef;
@@ -188,18 +190,31 @@ const PLAIN_CSS_CODE = String.raw`.docs-component-selectbox-styling-plain-shell 
   --tng-semantic-accent-brand: #0f766e;
   --tng-semantic-focus-ring: #0f766e;
   --tng-select-radius: 1rem;
-  --tng-select-trigger-py: 0.625rem;
-  --tng-select-trigger-px: 0.875rem;
-  --tng-select-option-py: 0.625rem;
-  --tng-select-option-px: 0.875rem;
+  --tng-select-trigger-min-height: 3.2rem;
+  --tng-select-trigger-py: 0.72rem;
+  --tng-select-trigger-px: 0.9rem;
+  --tng-select-trigger-gap: 0.75rem;
+  --tng-select-option-py: 0.72rem;
+  --tng-select-option-px: 0.9rem;
+  --tng-select-option-radius: 0.85rem;
   --tng-select-bg: #ffffff;
   --tng-select-surface: #f8fafc;
   --tng-select-border: #d8e2ef;
   --tng-select-border-strong: #94a3b8;
+  --tng-select-border-hover: #64748b;
   --tng-select-fg: #0f172a;
   --tng-select-muted: #64748b;
   --tng-select-brand: #0f766e;
   --tng-select-focus-ring: #0f766e;
+  --tng-select-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+  --tng-select-shadow-focus: 0 0 0 3px rgba(15, 118, 110, 0.16);
+  --tng-select-icon-margin-inline-start: 0.35rem;
+  --tng-select-overlay-max-width: min(92vw, 36rem);
+  --tng-select-overlay-border: #d8e2ef;
+  --tng-select-overlay-radius: 1rem;
+  --tng-select-overlay-bg: #ffffff;
+  --tng-select-overlay-padding: 0.4rem;
+  --tng-select-overlay-shadow: 0 18px 38px rgba(15, 23, 42, 0.14);
 }`;
 
 const TAILWIND_TS_CODE = String.raw`import { Component, computed, signal } from '@angular/core';
@@ -263,12 +278,12 @@ const TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-[36rem]
   <div class="grid gap-1">
     <span class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Release owners</span>
     <p class="m-0 text-sm text-slate-600">
-      Host-level tokens restyle the wrapper cleanly from a utility-first shell.
+      Host-level tokens define the palette while a small amount of slot spacing keeps the wrapper presentation tidy.
     </p>
   </div>
 
   <tng-select
-    class="block w-full min-w-0 [--tng-semantic-background-canvas:#ffffff] [--tng-semantic-background-surface:#f8fafc] [--tng-semantic-border-subtle:#d8e2ef] [--tng-semantic-border-strong:#94a3b8] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-foreground-secondary:#475569] [--tng-semantic-foreground-muted:#64748b] [--tng-semantic-accent-brand:#0f766e] [--tng-semantic-focus-ring:#0f766e] [--tng-select-radius:1rem] [--tng-select-trigger-py:0.625rem] [--tng-select-trigger-px:0.875rem] [--tng-select-option-py:0.625rem] [--tng-select-option-px:0.875rem] [--tng-select-bg:#ffffff] [--tng-select-surface:#f8fafc] [--tng-select-border:#d8e2ef] [--tng-select-border-strong:#94a3b8] [--tng-select-fg:#0f172a] [--tng-select-muted:#64748b] [--tng-select-brand:#0f766e] [--tng-select-focus-ring:#0f766e]"
+    class="docs-component-selectbox-styling-live-control docs-component-selectbox-styling-release-owner-shell block w-full min-w-0 [--tng-semantic-background-canvas:#ffffff] [--tng-semantic-background-surface:#f8fafc] [--tng-semantic-border-subtle:#d8e2ef] [--tng-semantic-border-strong:#94a3b8] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-foreground-secondary:#475569] [--tng-semantic-foreground-muted:#64748b] [--tng-semantic-accent-brand:#0f766e] [--tng-semantic-focus-ring:#0f766e] [--tng-select-radius:1rem] [--tng-select-trigger-py:0.625rem] [--tng-select-trigger-px:0.875rem] [--tng-select-option-py:0.625rem] [--tng-select-option-px:0.875rem] [--tng-select-bg:#ffffff] [--tng-select-surface:#f8fafc] [--tng-select-border:#d8e2ef] [--tng-select-border-strong:#94a3b8] [--tng-select-fg:#0f172a] [--tng-select-muted:#64748b] [--tng-select-brand:#0f766e] [--tng-select-focus-ring:#0f766e]"
     [options]="componentSelectboxStylingTailwindReleaseOwners"
     [value]="componentSelectboxStylingTailwindSelectedOwnerId()"
     (valueChange)="onComponentSelectboxStylingTailwindSelectedOwnerChange($event)"
@@ -282,7 +297,7 @@ const TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-[36rem]
   <p class="m-0 text-xs text-slate-600">Selected: {{ componentSelectboxStylingTailwindSelectedOwnerSummary() }}</p>
 </section>`;
 
-const TAILWIND_CSS_CODE = '/* Tailwind utilities are applied directly in the template. */';
+const TAILWIND_CSS_CODE = '/* Tokens are applied via Tailwind arbitrary properties in the template. */\n/* The component base CSS consumes them automatically. */';
 
 @Component({
   selector: 'app-selectbox-styling-page',

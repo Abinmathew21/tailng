@@ -1,5 +1,5 @@
-/* Canonical layer order for theme (match playground-plain-css) */
-@layer tng.tokens, tng.contracts, tng.app;
+/* Keep Tailwind preflight below TailNG contracts so low-specificity slot rules still style wrappers. */
+@layer base, components, tng.tokens, tng.contracts, tng.app, utilities;
 
 @tailwind base;
 @tailwind components;

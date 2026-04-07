@@ -14,10 +14,24 @@
 
     /* sizing knobs */
     --tng-select-radius: 0.5rem;
+    --tng-select-trigger-min-height: 2.625rem;
     --tng-select-trigger-py: 0.5rem;
     --tng-select-trigger-px: 0.75rem;
+    --tng-select-trigger-gap: 0.5rem;
+    --tng-select-icon-size: 0.75rem;
+    --tng-select-icon-opacity: 0.6;
+    --tng-select-icon-margin-inline-start: 0;
+    --tng-select-overlay-padding: 0.375rem;
+    --tng-select-overlay-radius: calc(var(--tng-select-radius) + 0.125rem);
+    --tng-select-overlay-shadow:
+      0 4px 6px -1px rgba(0, 0, 0, 0.1),
+      0 10px 25px -5px rgba(0, 0, 0, 0.1);
+    --tng-select-overlay-max-width: min(92vw, 20rem);
+    --tng-select-listbox-gap: 0.25rem;
+    --tng-select-option-min-height: 2.25rem;
     --tng-select-option-py: 0.5rem;
     --tng-select-option-px: 0.75rem;
+    --tng-select-option-radius: 0.375rem;
 
     /* surface + border */
     --tng-select-border: var(--tng-semantic-border-subtle, #e5e7eb);
@@ -51,10 +65,11 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 0.5rem;
+    gap: var(--tng-select-trigger-gap);
 
     width: 100%;
     min-width: 0;
+    min-height: var(--tng-select-trigger-min-height);
 
     padding: var(--tng-select-trigger-py) var(--tng-select-trigger-px);
 
@@ -110,10 +125,12 @@
   }
 
   :where([data-slot="select-icon"]) {
-    opacity: 0.6;
+    opacity: var(--tng-select-icon-opacity);
     line-height: 1;
-    font-size: 0.75rem;
+    font-size: var(--tng-select-icon-size);
     flex-shrink: 0;
+    margin-inline-start: var(--tng-select-icon-margin-inline-start);
+    color: var(--tng-select-muted);
   }
 
   /* ---------------- Content / Overlay ---------------- */
@@ -130,25 +147,32 @@
   :where([data-slot="select-overlay"]) {
     /* re-define for portaled overlay + descendants (options) */
     --tng-select-radius: 0.5rem;
+    --tng-select-overlay-padding: 0.375rem;
+    --tng-select-overlay-radius: calc(var(--tng-select-radius) + 0.125rem);
+    --tng-select-overlay-shadow:
+      0 4px 6px -1px rgba(0, 0, 0, 0.1),
+      0 10px 25px -5px rgba(0, 0, 0, 0.1);
+    --tng-select-overlay-max-width: min(92vw, 20rem);
+    --tng-select-listbox-gap: 0.25rem;
+    --tng-select-option-min-height: 2.25rem;
     --tng-select-option-py: 0.5rem;
     --tng-select-option-px: 0.75rem;
+    --tng-select-option-radius: 0.375rem;
     --tng-select-fg: var(--tng-semantic-foreground-primary, #0f172a);
     --tng-select-brand: var(--tng-semantic-accent-brand, #2563eb);
     --tng-select-focus-ring: var(--tng-semantic-focus-ring, #2563eb);
     --tng-select-ease: cubic-bezier(0.4, 0, 0.2, 1);
 
     border: 1px solid var(--tng-semantic-border-subtle, #e5e7eb);
-    border-radius: calc(var(--tng-select-radius) + 0.125rem);
-    background: var(--tng-semantic-background-surface, #f8fafc);
-    box-shadow:
-      0 4px 6px -1px rgba(0, 0, 0, 0.1),
-      0 10px 25px -5px rgba(0, 0, 0, 0.1);
+    border-radius: var(--tng-select-overlay-radius);
+    background: var(--tng-select-surface);
+    box-shadow: var(--tng-select-overlay-shadow);
 
-    padding: 0.375rem;
+    padding: var(--tng-select-overlay-padding);
 
     min-width: var(--tng-select-trigger-width, auto);
     width: max-content;
-    max-width: min(92vw, 20rem);
+    max-width: var(--tng-select-overlay-max-width);
 
     overflow: hidden;
   }
@@ -162,7 +186,7 @@
     padding: 0;
 
     display: grid;
-    gap: 0.25rem;
+    gap: var(--tng-select-listbox-gap);
   }
 
   /* ---------------- Options ---------------- */
@@ -173,12 +197,12 @@
     align-items: center;
     width: 100%;
     box-sizing: border-box;
-    min-height: 2.25rem;
+    min-height: var(--tng-select-option-min-height);
 
     margin: 0;
     padding: var(--tng-select-option-py) var(--tng-select-option-px);
 
-    border-radius: 0.375rem;
+    border-radius: var(--tng-select-option-radius);
     border: 2px solid transparent;
     background: transparent;
     color: var(--tng-select-fg);

@@ -2,6 +2,7 @@ import {
   Component,
   ContentChild,
   TemplateRef,
+  ViewEncapsulation,
   computed,
   inject,
   input,
@@ -63,6 +64,8 @@ export type TngSelectOptionContext<O, V> = {
     },
   ],
   templateUrl: './tng-select.component.html',
+  styleUrl: './tng-select.component.css',
+  encapsulation: ViewEncapsulation.None,
 })
 export class TngSelectComponent<O = unknown, V = unknown> {
   // Access primitive instance for reading value/open state inside template.

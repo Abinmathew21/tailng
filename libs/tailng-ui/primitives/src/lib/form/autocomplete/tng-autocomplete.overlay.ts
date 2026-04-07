@@ -18,6 +18,65 @@ import type { TngAutocomplete } from './tng-autocomplete';
 
 type MaybeRect = Readonly<{ left: number; top: number; width: number; height: number }>;
 
+const PORTALLED_AUTOCOMPLETE_THEME_VARS = [
+  '--tng-autocomplete-radius',
+  '--tng-autocomplete-trigger-width',
+  '--tng-autocomplete-trigger-min-height',
+  '--tng-autocomplete-trigger-container-min-height',
+  '--tng-autocomplete-trigger-container-gap',
+  '--tng-autocomplete-trigger-container-px',
+  '--tng-autocomplete-trigger-py',
+  '--tng-autocomplete-trigger-px',
+  '--tng-autocomplete-icon-size',
+  '--tng-autocomplete-icon-box-size',
+  '--tng-autocomplete-icon-opacity',
+  '--tng-autocomplete-icon-margin-inline-end',
+  '--tng-autocomplete-overlay-padding',
+  '--tng-autocomplete-overlay-radius',
+  '--tng-autocomplete-overlay-shadow',
+  '--tng-autocomplete-overlay-max-width',
+  '--tng-autocomplete-overlay-border',
+  '--tng-autocomplete-overlay-bg',
+  '--tng-autocomplete-listbox-gap',
+  '--tng-autocomplete-option-min-height',
+  '--tng-autocomplete-option-py',
+  '--tng-autocomplete-option-px',
+  '--tng-autocomplete-option-radius',
+  '--tng-autocomplete-option-bg-active',
+  '--tng-autocomplete-option-border-active',
+  '--tng-autocomplete-option-bg-selected',
+  '--tng-autocomplete-option-border-selected',
+  '--tng-autocomplete-option-fg-selected',
+  '--tng-autocomplete-option-bg-selected-active',
+  '--tng-autocomplete-option-border-selected-active',
+  '--tng-autocomplete-option-shadow-selected-active',
+  '--tng-autocomplete-option-disabled-opacity',
+  '--tng-autocomplete-border',
+  '--tng-autocomplete-border-strong',
+  '--tng-autocomplete-border-hover',
+  '--tng-autocomplete-bg',
+  '--tng-autocomplete-surface',
+  '--tng-autocomplete-fg',
+  '--tng-autocomplete-muted',
+  '--tng-autocomplete-brand',
+  '--tng-autocomplete-danger',
+  '--tng-autocomplete-focus-ring',
+  '--tng-autocomplete-ease',
+  '--tng-autocomplete-shadow',
+  '--tng-autocomplete-shadow-focus',
+  '--tng-semantic-background-base',
+  '--tng-semantic-background-canvas',
+  '--tng-semantic-background-surface',
+  '--tng-semantic-border-subtle',
+  '--tng-semantic-border-strong',
+  '--tng-semantic-foreground-primary',
+  '--tng-semantic-foreground-secondary',
+  '--tng-semantic-foreground-muted',
+  '--tng-semantic-accent-brand',
+  '--tng-semantic-accent-danger',
+  '--tng-semantic-focus-ring',
+] as const;
+
 function rectFromClientRect(r: DOMRect | ClientRect): MaybeRect {
   return { left: r.left, top: r.top, width: r.width, height: r.height };
 }
@@ -166,6 +225,37 @@ export class TngAutocompleteOverlay {
     this.removeDocPointerListener = null;
   }
 
+  private syncPortalledThemeVars(): void {
+    const panel = this.elRef.nativeElement;
+    const hostStyles = getComputedStyle(this.autocomplete.hostElement);
+
+    for (const cssVar of PORTALLED_AUTOCOMPLETE_THEME_VARS) {
+      const value = hostStyles.getPropertyValue(cssVar).trim();
+      if (value) {
+        panel.style.setProperty(cssVar, value);
+      } else {
+        panel.style.removeProperty(cssVar);
+      }
+    }
+
+    const colorScheme = hostStyles.colorScheme?.trim();
+    if (colorScheme && colorScheme !== 'normal') {
+      panel.style.colorScheme = colorScheme;
+    } else {
+      panel.style.removeProperty('color-scheme');
+    }
+  }
+
+  private clearPortalledThemeVars(): void {
+    const panel = this.elRef.nativeElement;
+
+    for (const cssVar of PORTALLED_AUTOCOMPLETE_THEME_VARS) {
+      panel.style.removeProperty(cssVar);
+    }
+
+    panel.style.removeProperty('color-scheme');
+  }
+
   private mountToBodyAndPosition(): void {
     this.lastFocusedBeforeOpen = document.activeElement as HTMLElement | null;
     this.setupRepositionListeners();
@@ -177,6 +267,7 @@ export class TngAutocompleteOverlay {
     panel.style.left = '0px';
     panel.style.top = '0px';
     panel.style.zIndex = '1000';
+    this.syncPortalledThemeVars();
 
     queueMicrotask(() => {
       if (!this.autocomplete.open()) return;
@@ -232,6 +323,7 @@ export class TngAutocompleteOverlay {
     panel.style.top = '';
     panel.style.zIndex = '';
     panel.style.minWidth = '';
+    this.clearPortalledThemeVars();
     this.teardownOutsidePointer();
   }
 

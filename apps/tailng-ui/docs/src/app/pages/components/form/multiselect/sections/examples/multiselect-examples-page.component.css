@@ -63,8 +63,10 @@
   --tng-select-radius: 0.78rem;
   --tng-select-trigger-py: 0.58rem;
   --tng-select-trigger-px: 0.88rem;
+  --tng-select-trigger-min-height: 2.65rem;
   --tng-select-option-py: 0.5rem;
   --tng-select-option-px: 0.72rem;
+  --tng-select-option-font-weight: 500;
   --tng-select-border-strong: color-mix(
     in srgb,
     var(--tng-semantic-border-subtle) 72%,
@@ -75,31 +77,11 @@
     var(--tng-semantic-accent-brand) 88%,
     var(--tng-semantic-background-canvas)
   );
-}
-
-:host ::ng-deep .multiselect-preview-control [data-slot='select-trigger'] {
-  min-height: 2.65rem;
-}
-
-:host ::ng-deep .multiselect-preview-control [data-slot='select-icon'] {
-  align-items: center;
-  color: var(--tng-semantic-foreground-secondary);
-  display: inline-flex;
-  flex: 0 0 0.9rem;
-  font-size: 0.82rem;
-  inline-size: 0.9rem;
-  justify-content: center;
-  margin-inline-end: 0.125rem;
-  opacity: 0.82;
-}
-
-:host ::ng-deep .multiselect-preview-control [data-slot='select-overlay'] {
-  max-height: 14rem;
-  overflow: auto;
-}
-
-:host ::ng-deep .multiselect-preview-control [data-slot='multi-select-option'] {
-  font-weight: 500;
+  --tng-select-muted: var(--tng-semantic-foreground-secondary);
+  --tng-select-icon-size: 0.82rem;
+  --tng-select-icon-opacity: 0.82;
+  --tng-select-icon-margin-inline-end: 0.125rem;
+  --tng-select-overlay-max-height: 14rem;
 }
 
 .multiselect-preview-summary {

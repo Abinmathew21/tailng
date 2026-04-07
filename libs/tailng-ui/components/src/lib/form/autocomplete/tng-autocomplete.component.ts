@@ -1,5 +1,6 @@
 import {
   Component,
+  ViewEncapsulation,
   computed,
   effect,
   inject,
@@ -52,6 +53,7 @@ export type TngAutocompleteTrackBy<O> = (index: number, opt: O) => unknown;
   ],
   templateUrl: './tng-autocomplete.component.html',
   styleUrl: './tng-autocomplete.component.css',
+  encapsulation: ViewEncapsulation.None,
 })
 export class TngAutocompleteComponent<O = unknown, V = unknown> {
   protected readonly primitive = inject<TngAutocomplete<V>>(TngAutocomplete);

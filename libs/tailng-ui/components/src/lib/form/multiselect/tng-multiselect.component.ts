@@ -2,6 +2,7 @@ import {
   Component,
   ContentChild,
   TemplateRef,
+  ViewEncapsulation,
   computed,
   inject,
   input,
@@ -66,6 +67,7 @@ export type TngMultiSelectOptionContext<O, V> = {
   ],
   templateUrl: './tng-multiselect.component.html',
   styleUrl: './tng-multiselect.component.css',
+  encapsulation: ViewEncapsulation.None,
 })
 export class TngMultiSelectComponent<O = unknown, V = unknown> {
   protected readonly primitive = inject<TngMultiSelect<V>>(TngMultiSelect);

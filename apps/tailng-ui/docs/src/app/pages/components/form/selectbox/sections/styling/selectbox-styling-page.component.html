@@ -49,7 +49,7 @@
   <section id="wrapper-style-variants" class="docs-page-section">
     <app-docs-example-tabs-section
       heading="Release owner shell"
-      description="The wrapper keeps the same API while plain CSS and Tailwind shells override host-level tokens."
+      description="The wrapper keeps the same API while host-level tokens define the palette and lightweight slot spacing keeps the trigger polished."
       ariaLabel="Select styling examples"
       tabListAriaLabel="Select styling variants"
       defaultValue="plain-css"
@@ -60,7 +60,7 @@
           <div class="docs-component-selectbox-styling-live-header">
             <span class="docs-component-selectbox-styling-live-kicker">Release owners</span>
             <p class="docs-component-selectbox-styling-live-copy">
-              Host-level tokens restyle the wrapper without reaching into private trigger or overlay markup.
+              Host-level tokens define the palette while a small amount of slot spacing keeps the wrapper presentation tidy.
             </p>
           </div>
 
@@ -85,12 +85,12 @@
           <div class="grid gap-1">
             <span class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Release owners</span>
             <p class="m-0 text-sm text-slate-600">
-              Host-level tokens restyle the wrapper cleanly from a utility-first shell.
+              Host-level tokens define the palette while a small amount of slot spacing keeps the wrapper presentation tidy.
             </p>
           </div>
 
           <tng-select
-            class="block w-full min-w-0 [--tng-semantic-background-canvas:#ffffff] [--tng-semantic-background-surface:#f8fafc] [--tng-semantic-border-subtle:#d8e2ef] [--tng-semantic-border-strong:#94a3b8] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-foreground-secondary:#475569] [--tng-semantic-foreground-muted:#64748b] [--tng-semantic-accent-brand:#0f766e] [--tng-semantic-focus-ring:#0f766e] [--tng-select-radius:1rem] [--tng-select-trigger-py:0.625rem] [--tng-select-trigger-px:0.875rem] [--tng-select-option-py:0.625rem] [--tng-select-option-px:0.875rem] [--tng-select-bg:#ffffff] [--tng-select-surface:#f8fafc] [--tng-select-border:#d8e2ef] [--tng-select-border-strong:#94a3b8] [--tng-select-fg:#0f172a] [--tng-select-muted:#64748b] [--tng-select-brand:#0f766e] [--tng-select-focus-ring:#0f766e]"
+            class="docs-component-selectbox-styling-live-control docs-component-selectbox-styling-release-owner-shell block w-full min-w-0 [--tng-semantic-background-canvas:#ffffff] [--tng-semantic-background-surface:#f8fafc] [--tng-semantic-border-subtle:#d8e2ef] [--tng-semantic-border-strong:#94a3b8] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-foreground-secondary:#475569] [--tng-semantic-foreground-muted:#64748b] [--tng-semantic-accent-brand:#0f766e] [--tng-semantic-focus-ring:#0f766e] [--tng-select-radius:1rem] [--tng-select-trigger-py:0.625rem] [--tng-select-trigger-px:0.875rem] [--tng-select-option-py:0.625rem] [--tng-select-option-px:0.875rem] [--tng-select-bg:#ffffff] [--tng-select-surface:#f8fafc] [--tng-select-border:#d8e2ef] [--tng-select-border-strong:#94a3b8] [--tng-select-fg:#0f172a] [--tng-select-muted:#64748b] [--tng-select-brand:#0f766e] [--tng-select-focus-ring:#0f766e]"
             [options]="releaseOwners"
             [value]="stylingTailwindSelectedOwnerId()"
             (valueChange)="onStylingTailwindSelectedOwnerChange($event)"

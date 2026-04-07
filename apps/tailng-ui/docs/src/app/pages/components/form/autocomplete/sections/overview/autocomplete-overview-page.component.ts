@@ -135,10 +135,12 @@ const PLAIN_CSS_CODE = String.raw`.docs-autocomplete-overview-example {
   color: #475569;
 }
 
+/* Host-level tokens – the component base CSS consumes them automatically. */
 .docs-autocomplete-overview-example__control {
   display: block;
   width: 100%;
   min-width: 0;
+  color-scheme: light;
   --tng-semantic-background-canvas: #ffffff;
   --tng-semantic-background-surface: #f1f5f9;
   --tng-semantic-border-subtle: #cbd5e1;
@@ -148,14 +150,34 @@ const PLAIN_CSS_CODE = String.raw`.docs-autocomplete-overview-example {
   --tng-semantic-foreground-muted: #64748b;
   --tng-semantic-accent-brand: #2563eb;
   --tng-semantic-focus-ring: #2563eb;
+  --tng-autocomplete-radius: 1rem;
+  --tng-autocomplete-trigger-container-min-height: 3.25rem;
+  --tng-autocomplete-trigger-container-gap: 0.55rem;
+  --tng-autocomplete-trigger-container-px: 0.25rem;
+  --tng-autocomplete-trigger-min-height: 2.75rem;
+  --tng-autocomplete-trigger-py: 0.7rem;
+  --tng-autocomplete-trigger-px: 0.95rem;
+  --tng-autocomplete-option-py: 0.7rem;
+  --tng-autocomplete-option-px: 0.95rem;
+  --tng-autocomplete-option-radius: 0.85rem;
   --tng-autocomplete-bg: #ffffff;
   --tng-autocomplete-surface: #f1f5f9;
   --tng-autocomplete-border: #cbd5e1;
   --tng-autocomplete-border-strong: #94a3b8;
+  --tng-autocomplete-border-hover: #64748b;
   --tng-autocomplete-fg: #0f172a;
   --tng-autocomplete-muted: #64748b;
   --tng-autocomplete-brand: #2563eb;
   --tng-autocomplete-focus-ring: #2563eb;
+  --tng-autocomplete-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+  --tng-autocomplete-shadow-focus: 0 0 0 3px rgba(37, 99, 235, 0.18);
+  --tng-autocomplete-icon-margin-inline-end: 0.9rem;
+  --tng-autocomplete-overlay-max-width: min(92vw, 34rem);
+  --tng-autocomplete-overlay-border: #d8e2ef;
+  --tng-autocomplete-overlay-radius: 1rem;
+  --tng-autocomplete-overlay-bg: #ffffff;
+  --tng-autocomplete-overlay-padding: 0.4rem;
+  --tng-autocomplete-overlay-shadow: 0 18px 38px rgba(15, 23, 42, 0.14);
 }
 `;
 
@@ -222,7 +244,7 @@ const TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-[34rem]
 </section>
 `;
 
-const TAILWIND_CSS_CODE = String.raw`/* No additional CSS file is required for this Tailwind example. */`;
+const TAILWIND_CSS_CODE = '/* Tokens are applied via Tailwind arbitrary properties in the template. */\n/* The component base CSS consumes them automatically. */';
 
 function resolveCountryLabel(value: string | null): string {
   return COUNTRY_OPTIONS.find((country) => country.code === value)?.label ?? 'none';

@@ -114,7 +114,14 @@ const PLAIN_HTML_CODE = String.raw`<section class="docs-component-selectbox-over
     [isOptionDisabled]="isComponentSelectboxOverviewPlainWorkflowStageDisabled"
     placeholder="Choose workflow stage"
     [ariaLabel]="'Workflow stage'"
-  ></tng-select>
+  >
+    <ng-template #tngSelectOptionTpl let-option>
+      <span class="docs-component-selectbox-overview-plain-option-row">
+        <span class="docs-component-selectbox-overview-plain-option-label">{{ option.label }}</span>
+        <span class="docs-component-selectbox-overview-plain-option-meta">{{ option.option.note }}</span>
+      </span>
+    </ng-template>
+  </tng-select>
 
   <p class="docs-component-selectbox-overview-plain-summary">
     Selected: {{ componentSelectboxOverviewPlainSelectedStageSummary() }}
@@ -152,10 +159,13 @@ const PLAIN_CSS_CODE = String.raw`.docs-component-selectbox-overview-plain-shell
   color: #475569;
 }
 
+/* Host-level tokens – the component base CSS consumes them automatically. */
 .docs-component-selectbox-overview-plain-control {
   display: block;
   width: 100%;
   min-width: 0;
+  color-scheme: light;
+  --tng-semantic-background-base: #ffffff;
   --tng-semantic-background-canvas: #ffffff;
   --tng-semantic-background-surface: #f8fafc;
   --tng-semantic-border-subtle: #d8e2ef;
@@ -166,18 +176,58 @@ const PLAIN_CSS_CODE = String.raw`.docs-component-selectbox-overview-plain-shell
   --tng-semantic-accent-brand: #2563eb;
   --tng-semantic-focus-ring: #2563eb;
   --tng-select-radius: 1rem;
-  --tng-select-trigger-py: 0.625rem;
-  --tng-select-trigger-px: 0.875rem;
-  --tng-select-option-py: 0.625rem;
-  --tng-select-option-px: 0.875rem;
+  --tng-select-trigger-min-height: 3.35rem;
+  --tng-select-trigger-py: 0.8rem;
+  --tng-select-trigger-px: 0.95rem;
+  --tng-select-trigger-gap: 0.75rem;
+  --tng-select-option-py: 0.75rem;
+  --tng-select-option-px: 0.85rem;
+  --tng-select-option-radius: 0.85rem;
   --tng-select-bg: #ffffff;
-  --tng-select-surface: #f8fafc;
+  --tng-select-surface: #ffffff;
   --tng-select-border: #d8e2ef;
   --tng-select-border-strong: #94a3b8;
+  --tng-select-border-hover: #64748b;
   --tng-select-fg: #0f172a;
   --tng-select-muted: #64748b;
   --tng-select-brand: #2563eb;
   --tng-select-focus-ring: #2563eb;
+  --tng-select-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+  --tng-select-shadow-focus: 0 0 0 3px rgba(37, 99, 235, 0.18);
+  --tng-select-icon-size: 0.75rem;
+  --tng-select-icon-margin-inline-start: 0.35rem;
+  --tng-select-overlay-max-width: min(92vw, 36rem);
+  --tng-select-overlay-border: #d8e2ef;
+  --tng-select-overlay-radius: 1rem;
+  --tng-select-overlay-bg: #ffffff;
+  --tng-select-overlay-padding: 0.4rem;
+  --tng-select-overlay-shadow: 0 18px 38px rgba(15, 23, 42, 0.14);
+  --tng-select-option-bg-active: #f8fafc;
+  --tng-select-option-border-active: #cbd5e1;
+  --tng-select-option-bg-selected: #eff6ff;
+  --tng-select-option-border-selected: #93c5fd;
+  --tng-select-option-fg-selected: #142033;
+  --tng-select-option-bg-selected-active: #dbeafe;
+  --tng-select-option-border-selected-active: #60a5fa;
+  --tng-select-option-shadow-selected-active: 0 0 0 1px rgba(37, 99, 235, 0.12);
+}
+
+.docs-component-selectbox-overview-plain-option-row {
+  display: grid;
+  gap: 0.18rem;
+}
+
+.docs-component-selectbox-overview-plain-option-label {
+  color: #0f172a;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.docs-component-selectbox-overview-plain-option-meta {
+  color: #64748b;
+  font-size: 0.82rem;
+  line-height: 1.35;
 }`;
 
 const TAILWIND_TS_CODE = String.raw`import { Component, computed, signal } from '@angular/core';
@@ -237,7 +287,7 @@ export class ComponentSelectboxOverviewTailwindExampleComponent {
   }
 }`;
 
-const TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-[36rem] gap-4 rounded-[1.75rem] border border-slate-200 bg-white p-5 text-slate-900 shadow-sm">
+const TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-[36rem] gap-4 rounded-[1.75rem] border border-slate-200 bg-white p-5 text-slate-900 shadow-[0_12px_32px_rgba(15,23,42,0.08)] [color-scheme:light]">
   <div class="grid gap-1">
     <span class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Workflow stage</span>
     <p class="m-0 text-sm text-slate-600">
@@ -246,7 +296,7 @@ const TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-[36rem]
   </div>
 
   <tng-select
-    class="block w-full min-w-0 [--tng-semantic-background-canvas:#ffffff] [--tng-semantic-background-surface:#f8fafc] [--tng-semantic-border-subtle:#d8e2ef] [--tng-semantic-border-strong:#94a3b8] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-foreground-secondary:#475569] [--tng-semantic-foreground-muted:#64748b] [--tng-semantic-accent-brand:#0f766e] [--tng-semantic-focus-ring:#0f766e] [--tng-select-radius:1rem] [--tng-select-trigger-py:0.625rem] [--tng-select-trigger-px:0.875rem] [--tng-select-option-py:0.625rem] [--tng-select-option-px:0.875rem] [--tng-select-bg:#ffffff] [--tng-select-surface:#f8fafc] [--tng-select-border:#d8e2ef] [--tng-select-border-strong:#94a3b8] [--tng-select-fg:#0f172a] [--tng-select-muted:#64748b] [--tng-select-brand:#0f766e] [--tng-select-focus-ring:#0f766e]"
+    class="docs-component-selectbox-overview-tailwind-control block w-full min-w-0 [color-scheme:light] [--tng-semantic-background-base:#ffffff] [--tng-semantic-background-canvas:#ffffff] [--tng-semantic-background-surface:#f8fafc] [--tng-semantic-border-subtle:#d8e2ef] [--tng-semantic-border-strong:#94a3b8] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-foreground-secondary:#475569] [--tng-semantic-foreground-muted:#64748b] [--tng-semantic-accent-brand:#0f766e] [--tng-semantic-focus-ring:#0f766e] [--tng-select-radius:1rem] [--tng-select-trigger-py:0.95rem] [--tng-select-trigger-px:1rem] [--tng-select-option-py:0.75rem] [--tng-select-option-px:0.85rem] [--tng-select-bg:#ffffff] [--tng-select-surface:#ffffff] [--tng-select-border:#d8e2ef] [--tng-select-border-strong:#94a3b8] [--tng-select-fg:#0f172a] [--tng-select-muted:#64748b] [--tng-select-brand:#0f766e] [--tng-select-focus-ring:#0f766e] [--tng-select-shadow:0_1px_2px_rgba(15,23,42,0.04)] [--tng-select-shadow-focus:0_0_0_3px_rgba(15,118,110,0.18)]"
     [options]="componentSelectboxOverviewTailwindWorkflowStages"
     [value]="componentSelectboxOverviewTailwindSelectedStage()"
     (valueChange)="onComponentSelectboxOverviewTailwindSelectedStageChange($event)"
@@ -255,12 +305,19 @@ const TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-[36rem]
     [isOptionDisabled]="isComponentSelectboxOverviewTailwindWorkflowStageDisabled"
     placeholder="Choose workflow stage"
     [ariaLabel]="'Workflow stage'"
-  ></tng-select>
+  >
+    <ng-template #tngSelectOptionTpl let-option>
+      <span class="grid gap-0.5">
+        <span class="text-sm font-semibold text-slate-900">{{ option.label }}</span>
+        <span class="text-xs text-slate-500">{{ option.option.note }}</span>
+      </span>
+    </ng-template>
+  </tng-select>
 
   <p class="m-0 text-xs text-slate-600">Selected: {{ componentSelectboxOverviewTailwindSelectedStageSummary() }}</p>
 </section>`;
 
-const TAILWIND_CSS_CODE = '/* Tailwind utilities are applied directly in the template. */';
+const TAILWIND_CSS_CODE = '/* Tokens are applied via Tailwind arbitrary properties in the template. */\n/* The component base CSS consumes them automatically. */';
 
 @Component({
   selector: 'app-selectbox-overview-page',
