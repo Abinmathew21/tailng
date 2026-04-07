@@ -86,20 +86,23 @@ if (has("primitives")) {
 }
 
 // 4) align components peerDeps (only if components selected)
-// components depends on primitives
+// components depends on cdk + primitives
 if (has("components")) {
   const componentsPath = "libs/tailng-ui/components/package.json";
   const components = readJson(componentsPath);
 
+  const cdkV = readJson("libs/tailng-ui/cdk/package.json").version;
   const primitivesV = readJson("libs/tailng-ui/primitives/package.json").version;
 
   components.peerDependencies ||= {};
 
-  // Only rewrite keys that already exist (avoid introducing new constraints silently)
+  if (components.peerDependencies["@tailng-ui/cdk"]) {
+    components.peerDependencies["@tailng-ui/cdk"] = `^${cdkV}`;
+  }
   if (components.peerDependencies["@tailng-ui/primitives"]) {
     components.peerDependencies["@tailng-ui/primitives"] = `^${primitivesV}`;
   }
 
   writeJson(componentsPath, components);
-  console.log(`[peerDeps] components: primitives=^${primitivesV}`);
+  console.log(`[peerDeps] components: cdk=^${cdkV} primitives=^${primitivesV}`);
 }

@@ -15,11 +15,9 @@
       "default": "./src/index.js"
     }
   },
-  "dependencies": {
-    "@tailng-ui/cdk": "workspace:^"
-  },
   "peerDependencies": {
     "@angular/core": "^21.1.0",
+    "@tailng-ui/cdk": "workspace:^",
     "tslib": "^2.3.0"
   },
   "sideEffects": false
