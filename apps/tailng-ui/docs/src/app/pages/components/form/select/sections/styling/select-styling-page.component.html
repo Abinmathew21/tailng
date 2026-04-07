@@ -1,13 +1,13 @@
-<article class="selectbox-styling">
-  <section id="supported-contract" class="selectbox-styling-block">
+<article class="select-styling">
+  <section id="supported-contract" class="select-styling-block">
     <h2>Supported contract</h2>
-    <p class="selectbox-styling-lead">
+    <p class="select-styling-lead">
       Theme the wrapper from its host. Override semantic and select tokens on <code>&lt;tng-select&gt;</code>;
       drop to headless when you need full trigger or overlay DOM ownership.
     </p>
 
-    <div class="selectbox-styling-table-wrap">
-      <table class="selectbox-styling-table">
+    <div class="select-styling-table-wrap">
+      <table class="select-styling-table">
         <thead>
           <tr>
             <th scope="col">Selector or token</th>
@@ -28,7 +28,7 @@
     </div>
   </section>
 
-  <section id="host-tokens" class="selectbox-styling-block">
+  <section id="host-tokens" class="select-styling-block">
     <h2>Host tokens</h2>
     <p>
       These host-level variables are the stable styling surface for the wrapper. The same token set
@@ -38,7 +38,7 @@
       [code]="hostTokenGuidanceCode"
       adapter="shiki"
       language="css"
-      title="selectbox.tokens.css"
+      title="select.tokens.css"
       [theme]="codeBlockTheme()"
       [lineNumbers]="false"
       [wrap]="true"
@@ -56,16 +56,16 @@
       [codeBlockTheme]="codeBlockTheme()"
     >
       <ng-template appDocsExampleVariant value="plain-css" label="Plain-CSS" panelTitle="Release owner shell (Plain-CSS)" [codeTabs]="plainCodeTabs" [stackblitzUrl]="stackblitzVanillaUrl">
-        <section class="docs-component-selectbox-styling-live-shell">
-          <div class="docs-component-selectbox-styling-live-header">
-            <span class="docs-component-selectbox-styling-live-kicker">Release owners</span>
-            <p class="docs-component-selectbox-styling-live-copy">
+        <section class="docs-component-select-styling-live-shell">
+          <div class="docs-component-select-styling-live-header">
+            <span class="docs-component-select-styling-live-kicker">Release owners</span>
+            <p class="docs-component-select-styling-live-copy">
               Host-level tokens define the palette while a small amount of slot spacing keeps the wrapper presentation tidy.
             </p>
           </div>
 
           <tng-select
-            class="docs-component-selectbox-styling-live-control docs-component-selectbox-styling-release-owner-shell"
+            class="docs-component-select-styling-live-control docs-component-select-styling-release-owner-shell"
             [options]="releaseOwners"
             [value]="stylingPlainSelectedOwnerId()"
             (valueChange)="onStylingPlainSelectedOwnerChange($event)"
@@ -76,7 +76,7 @@
             [ariaLabel]="'Release owners'"
           ></tng-select>
 
-          <p class="docs-component-selectbox-styling-live-summary">Selected: {{ stylingPlainSummary() }}</p>
+          <p class="docs-component-select-styling-live-summary">Selected: {{ stylingPlainSummary() }}</p>
         </section>
       </ng-template>
 
@@ -90,7 +90,7 @@
           </div>
 
           <tng-select
-            class="docs-component-selectbox-styling-live-control docs-component-selectbox-styling-release-owner-shell block w-full min-w-0 [--tng-semantic-background-canvas:#ffffff] [--tng-semantic-background-surface:#f8fafc] [--tng-semantic-border-subtle:#d8e2ef] [--tng-semantic-border-strong:#94a3b8] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-foreground-secondary:#475569] [--tng-semantic-foreground-muted:#64748b] [--tng-semantic-accent-brand:#0f766e] [--tng-semantic-focus-ring:#0f766e] [--tng-select-radius:1rem] [--tng-select-trigger-py:0.625rem] [--tng-select-trigger-px:0.875rem] [--tng-select-option-py:0.625rem] [--tng-select-option-px:0.875rem] [--tng-select-bg:#ffffff] [--tng-select-surface:#f8fafc] [--tng-select-border:#d8e2ef] [--tng-select-border-strong:#94a3b8] [--tng-select-fg:#0f172a] [--tng-select-muted:#64748b] [--tng-select-brand:#0f766e] [--tng-select-focus-ring:#0f766e]"
+            class="docs-component-select-styling-live-control docs-component-select-styling-release-owner-shell block w-full min-w-0 [--tng-semantic-background-canvas:#ffffff] [--tng-semantic-background-surface:#f8fafc] [--tng-semantic-border-subtle:#d8e2ef] [--tng-semantic-border-strong:#94a3b8] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-foreground-secondary:#475569] [--tng-semantic-foreground-muted:#64748b] [--tng-semantic-accent-brand:#0f766e] [--tng-semantic-focus-ring:#0f766e] [--tng-select-radius:1rem] [--tng-select-trigger-py:0.625rem] [--tng-select-trigger-px:0.875rem] [--tng-select-option-py:0.625rem] [--tng-select-option-px:0.875rem] [--tng-select-bg:#ffffff] [--tng-select-surface:#f8fafc] [--tng-select-border:#d8e2ef] [--tng-select-border-strong:#94a3b8] [--tng-select-fg:#0f172a] [--tng-select-muted:#64748b] [--tng-select-brand:#0f766e] [--tng-select-focus-ring:#0f766e]"
             [options]="releaseOwners"
             [value]="stylingTailwindSelectedOwnerId()"
             (valueChange)="onStylingTailwindSelectedOwnerChange($event)"

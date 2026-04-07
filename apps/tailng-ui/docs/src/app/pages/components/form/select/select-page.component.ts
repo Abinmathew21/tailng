@@ -11,27 +11,27 @@ import {
 import { TngTab, TngTabList } from '@tailng-ui/primitives';
 import { filter, map, startWith } from 'rxjs/operators';
 
-type SelectboxDocSectionId = 'api' | 'examples' | 'overview' | 'styling';
+type SelectDocSectionId = 'api' | 'examples' | 'overview' | 'styling';
 
-const selectboxDocSectionIds: readonly SelectboxDocSectionId[] = [
+const selectDocSectionIds: readonly SelectDocSectionId[] = [
   'overview',
   'api',
   'styling',
   'examples',
 ] as const;
 
-const defaultSelectboxDocSection: SelectboxDocSectionId = 'overview';
+const defaultSelectDocSection: SelectDocSectionId = 'overview';
 
-function isSelectboxDocSectionId(value: string): value is SelectboxDocSectionId {
-  return selectboxDocSectionIds.includes(value as SelectboxDocSectionId);
+function isSelectDocSectionId(value: string): value is SelectDocSectionId {
+  return selectDocSectionIds.includes(value as SelectDocSectionId);
 }
 
 @Component({
-  selector: 'app-selectbox-page',
+  selector: 'app-select-page',
   imports: [RouterOutlet, TngTabsComponent, TngTabList, TngTab, DocsComponentSectionOutlineComponent],
-  templateUrl: './selectbox-page.component.html',
+  templateUrl: './select-page.component.html',
 })
-export class SelectboxPageComponent {
+export class SelectPageComponent {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly currentUrl = toSignal(
@@ -43,9 +43,9 @@ export class SelectboxPageComponent {
     { initialValue: this.router.url },
   );
 
-  public readonly activeSection = computed<SelectboxDocSectionId>(() => {
+  public readonly activeSection = computed<SelectDocSectionId>(() => {
     const section = this.resolveSectionFromUrl(this.currentUrl());
-    return section ?? defaultSelectboxDocSection;
+    return section ?? defaultSelectDocSection;
   });
   private readonly docsItem = this.route.snapshot.data['item'] as
     | { slug?: string; title?: string }
@@ -63,7 +63,7 @@ export class SelectboxPageComponent {
   });
 
   public onSectionChange(value: string | number | null): void {
-    if (typeof value !== 'string' || !isSelectboxDocSectionId(value)) {
+    if (typeof value !== 'string' || !isSelectDocSectionId(value)) {
       return;
     }
 
@@ -74,7 +74,7 @@ export class SelectboxPageComponent {
     void this.router.navigate([value], { relativeTo: this.route });
   }
 
-  private resolveSectionFromUrl(rawUrl: string): SelectboxDocSectionId | null {
+  private resolveSectionFromUrl(rawUrl: string): SelectDocSectionId | null {
     const path = this.normalizeUrl(rawUrl);
     const segments = path.split('/').filter((segment) => segment.length > 0);
     if (segments.length < 4) {
@@ -82,7 +82,7 @@ export class SelectboxPageComponent {
     }
 
     const section = segments[3];
-    if (section === undefined || !isSelectboxDocSectionId(section)) {
+    if (section === undefined || !isSelectDocSectionId(section)) {
       return null;
     }
 

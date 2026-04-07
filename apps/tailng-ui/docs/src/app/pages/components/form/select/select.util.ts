@@ -3,15 +3,15 @@ import {
   generateStackblitzComponentsVanillaUrl,
 } from '../../../../shared/util';
 
-const COMPONENT_SELECTBOX_PLAYGROUND_FILE =
-  'src/app/playground/form/selectbox/selectbox.component.html';
+const COMPONENT_SELECT_PLAYGROUND_FILE =
+  'src/app/playground/form/select/select.component.html';
 
 export const stackblitzVanillaUrl = generateStackblitzComponentsVanillaUrl(
   'select',
-  COMPONENT_SELECTBOX_PLAYGROUND_FILE,
+  COMPONENT_SELECT_PLAYGROUND_FILE,
 );
 
 export const stackblitzTailwindUrl = generateStackblitzComponentsTailwindUrl(
   'select',
-  COMPONENT_SELECTBOX_PLAYGROUND_FILE,
+  COMPONENT_SELECT_PLAYGROUND_FILE,
 );

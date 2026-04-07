@@ -2,7 +2,7 @@
   display: block;
 }
 
-.docs-component-selectbox-overview-live-shell {
+.docs-component-select-overview-live-shell {
   display: grid;
   gap: 0.9rem;
   inline-size: min(100%, 36rem);
@@ -16,24 +16,24 @@
   box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
 }
 
-.docs-component-selectbox-overview-live-header {
+.docs-component-select-overview-live-header {
   display: grid;
   gap: 0.35rem;
 }
 
-.docs-component-selectbox-overview-live-kicker {
+.docs-component-select-overview-live-kicker {
   font-size: 0.8rem;
   font-weight: 700;
   color: #64748b;
 }
 
-.docs-component-selectbox-overview-live-copy,
-.docs-component-selectbox-overview-live-summary {
+.docs-component-select-overview-live-copy,
+.docs-component-select-overview-live-summary {
   margin: 0;
   color: #475569;
 }
 
-.docs-component-selectbox-overview-live-control {
+.docs-component-select-overview-live-control {
   width: 100%;
   min-width: 0;
   color-scheme: light;
@@ -84,19 +84,19 @@
   --tng-select-option-shadow-selected-active: 0 0 0 1px rgba(37, 99, 235, 0.12);
 }
 
-.docs-component-selectbox-overview-live-option-row {
+.docs-component-select-overview-live-option-row {
   display: grid;
   gap: 0.18rem;
 }
 
-.docs-component-selectbox-overview-live-option-label {
+.docs-component-select-overview-live-option-label {
   color: #0f172a;
   font-size: 1rem;
   font-weight: 600;
   line-height: 1.3;
 }
 
-.docs-component-selectbox-overview-live-option-meta {
+.docs-component-select-overview-live-option-meta {
   color: #64748b;
   font-size: 0.82rem;
   line-height: 1.35;

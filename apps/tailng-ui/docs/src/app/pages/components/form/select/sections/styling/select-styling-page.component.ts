@@ -10,7 +10,7 @@ import {
   observeDocsCodeThemeChanges,
   resolveDocsCodeBlockTheme,
 } from '../../../../../../shared/util';
-import { stackblitzTailwindUrl, stackblitzVanillaUrl } from '../../selectbox.util';
+import { stackblitzTailwindUrl, stackblitzVanillaUrl } from '../../select.util';
 
 interface ContractRow {
   readonly selector: string;
@@ -32,7 +32,7 @@ const RELEASE_OWNER_OPTIONS: readonly ReleaseOwnerOption[] = Object.freeze([
   { id: 'sanjay', name: 'Sanjay Patel', team: 'Documentation' },
 ]);
 
-const HOST_TOKEN_GUIDANCE_CODE = String.raw`tng-select.docs-component-selectbox-styling-release-owner-shell {
+const HOST_TOKEN_GUIDANCE_CODE = String.raw`tng-select.docs-component-select-styling-release-owner-shell {
   --tng-semantic-background-canvas: #ffffff;
   --tng-semantic-background-surface: #f8fafc;
   --tng-semantic-border-subtle: #d8e2ef;
@@ -64,14 +64,14 @@ const HOST_TOKEN_GUIDANCE_CODE = String.raw`tng-select.docs-component-selectbox-
 const PLAIN_TS_CODE = String.raw`import { Component, computed, signal } from '@angular/core';
 import { TngSelectComponent } from '@tailng-ui/components';
 
-interface ComponentSelectboxStylingPlainReleaseOwnerOption {
+interface ComponentSelectStylingPlainReleaseOwnerOption {
   readonly id: string;
   readonly name: string;
   readonly team: string;
   readonly disabled?: boolean;
 }
 
-const COMPONENT_SELECTBOX_STYLING_PLAIN_RELEASE_OWNER_OPTIONS: readonly ComponentSelectboxStylingPlainReleaseOwnerOption[] = Object.freeze([
+const COMPONENT_SELECT_STYLING_PLAIN_RELEASE_OWNER_OPTIONS: readonly ComponentSelectStylingPlainReleaseOwnerOption[] = Object.freeze([
   { id: 'abigail', name: 'Abigail Chen', team: 'Design systems' },
   { id: 'mina', name: 'Mina Lee', team: 'Core UI' },
   { id: 'omar', name: 'Omar Aziz', team: 'Compliance', disabled: true },
@@ -79,32 +79,32 @@ const COMPONENT_SELECTBOX_STYLING_PLAIN_RELEASE_OWNER_OPTIONS: readonly Componen
 ]);
 
 @Component({
-  selector: 'app-component-selectbox-styling-plain-example',
+  selector: 'app-component-select-styling-plain-example',
   standalone: true,
   imports: [TngSelectComponent],
-  templateUrl: './component-selectbox-styling-plain-example.component.html',
-  styleUrl: './component-selectbox-styling-plain-example.component.css',
+  templateUrl: './component-select-styling-plain-example.component.html',
+  styleUrl: './component-select-styling-plain-example.component.css',
 })
-export class ComponentSelectboxStylingPlainExampleComponent {
-  readonly componentSelectboxStylingPlainReleaseOwners = COMPONENT_SELECTBOX_STYLING_PLAIN_RELEASE_OWNER_OPTIONS;
-  readonly componentSelectboxStylingPlainSelectedOwnerId = signal<string | null>('mina');
-  readonly componentSelectboxStylingPlainSelectedOwnerSummary = computed(() => {
-    const selectedValue = this.componentSelectboxStylingPlainSelectedOwnerId();
+export class ComponentSelectStylingPlainExampleComponent {
+  readonly componentSelectStylingPlainReleaseOwners = COMPONENT_SELECT_STYLING_PLAIN_RELEASE_OWNER_OPTIONS;
+  readonly componentSelectStylingPlainSelectedOwnerId = signal<string | null>('mina');
+  readonly componentSelectStylingPlainSelectedOwnerSummary = computed(() => {
+    const selectedValue = this.componentSelectStylingPlainSelectedOwnerId();
     if (selectedValue === null) {
       return 'none';
     }
 
-    return this.componentSelectboxStylingPlainReleaseOwners.find((owner) => owner.id === selectedValue)?.name ?? 'none';
+    return this.componentSelectStylingPlainReleaseOwners.find((owner) => owner.id === selectedValue)?.name ?? 'none';
   });
-  readonly getComponentSelectboxStylingPlainOwnerValue = (owner: ComponentSelectboxStylingPlainReleaseOwnerOption) => owner.id;
-  readonly getComponentSelectboxStylingPlainOwnerLabel = (owner: ComponentSelectboxStylingPlainReleaseOwnerOption) => owner.name;
-  readonly isComponentSelectboxStylingPlainOwnerDisabled = (owner: ComponentSelectboxStylingPlainReleaseOwnerOption) => owner.disabled === true;
+  readonly getComponentSelectStylingPlainOwnerValue = (owner: ComponentSelectStylingPlainReleaseOwnerOption) => owner.id;
+  readonly getComponentSelectStylingPlainOwnerLabel = (owner: ComponentSelectStylingPlainReleaseOwnerOption) => owner.name;
+  readonly isComponentSelectStylingPlainOwnerDisabled = (owner: ComponentSelectStylingPlainReleaseOwnerOption) => owner.disabled === true;
 
-  onComponentSelectboxStylingPlainSelectedOwnerChange(value: unknown): void {
-    this.componentSelectboxStylingPlainSelectedOwnerId.set(this.toComponentSelectboxStylingPlainSingleValue(value));
+  onComponentSelectStylingPlainSelectedOwnerChange(value: unknown): void {
+    this.componentSelectStylingPlainSelectedOwnerId.set(this.toComponentSelectStylingPlainSingleValue(value));
   }
 
-  private toComponentSelectboxStylingPlainSingleValue(value: unknown): string | null {
+  private toComponentSelectStylingPlainSingleValue(value: unknown): string | null {
     if (typeof value === 'string') {
       return value;
     }
@@ -118,32 +118,32 @@ export class ComponentSelectboxStylingPlainExampleComponent {
   }
 }`;
 
-const PLAIN_HTML_CODE = String.raw`<section class="docs-component-selectbox-styling-plain-shell">
-  <div class="docs-component-selectbox-styling-plain-header">
-    <span class="docs-component-selectbox-styling-plain-kicker">Release owners</span>
-    <p class="docs-component-selectbox-styling-plain-copy">
+const PLAIN_HTML_CODE = String.raw`<section class="docs-component-select-styling-plain-shell">
+  <div class="docs-component-select-styling-plain-header">
+    <span class="docs-component-select-styling-plain-kicker">Release owners</span>
+    <p class="docs-component-select-styling-plain-copy">
       Host-level tokens define the palette while a small amount of slot spacing keeps the wrapper presentation tidy.
     </p>
   </div>
 
   <tng-select
-    class="docs-component-selectbox-styling-plain-control docs-component-selectbox-styling-release-owner-shell"
-    [options]="componentSelectboxStylingPlainReleaseOwners"
-    [value]="componentSelectboxStylingPlainSelectedOwnerId()"
-    (valueChange)="onComponentSelectboxStylingPlainSelectedOwnerChange($event)"
-    [getOptionValue]="getComponentSelectboxStylingPlainOwnerValue"
-    [getOptionLabel]="getComponentSelectboxStylingPlainOwnerLabel"
-    [isOptionDisabled]="isComponentSelectboxStylingPlainOwnerDisabled"
+    class="docs-component-select-styling-plain-control docs-component-select-styling-release-owner-shell"
+    [options]="componentSelectStylingPlainReleaseOwners"
+    [value]="componentSelectStylingPlainSelectedOwnerId()"
+    (valueChange)="onComponentSelectStylingPlainSelectedOwnerChange($event)"
+    [getOptionValue]="getComponentSelectStylingPlainOwnerValue"
+    [getOptionLabel]="getComponentSelectStylingPlainOwnerLabel"
+    [isOptionDisabled]="isComponentSelectStylingPlainOwnerDisabled"
     placeholder="Assign release owner"
     [ariaLabel]="'Release owners'"
   ></tng-select>
 
-  <p class="docs-component-selectbox-styling-plain-summary">
-    Selected: {{ componentSelectboxStylingPlainSelectedOwnerSummary() }}
+  <p class="docs-component-select-styling-plain-summary">
+    Selected: {{ componentSelectStylingPlainSelectedOwnerSummary() }}
   </p>
 </section>`;
 
-const PLAIN_CSS_CODE = String.raw`.docs-component-selectbox-styling-plain-shell {
+const PLAIN_CSS_CODE = String.raw`.docs-component-select-styling-plain-shell {
   display: grid;
   gap: 0.9rem;
   inline-size: min(100%, 36rem);
@@ -157,25 +157,25 @@ const PLAIN_CSS_CODE = String.raw`.docs-component-selectbox-styling-plain-shell 
   box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
 }
 
-.docs-component-selectbox-styling-plain-header {
+.docs-component-select-styling-plain-header {
   display: grid;
   gap: 0.35rem;
 }
 
-.docs-component-selectbox-styling-plain-kicker {
+.docs-component-select-styling-plain-kicker {
   font-size: 0.8rem;
   font-weight: 700;
   color: #64748b;
 }
 
-.docs-component-selectbox-styling-plain-copy,
-.docs-component-selectbox-styling-plain-summary {
+.docs-component-select-styling-plain-copy,
+.docs-component-select-styling-plain-summary {
   margin: 0;
   color: #475569;
 }
 
 /* Host-level tokens – the component base CSS consumes them automatically. */
-.docs-component-selectbox-styling-release-owner-shell {
+.docs-component-select-styling-release-owner-shell {
   display: block;
   width: 100%;
   min-width: 0;
@@ -220,14 +220,14 @@ const PLAIN_CSS_CODE = String.raw`.docs-component-selectbox-styling-plain-shell 
 const TAILWIND_TS_CODE = String.raw`import { Component, computed, signal } from '@angular/core';
 import { TngSelectComponent } from '@tailng-ui/components';
 
-interface ComponentSelectboxStylingTailwindReleaseOwnerOption {
+interface ComponentSelectStylingTailwindReleaseOwnerOption {
   readonly id: string;
   readonly name: string;
   readonly team: string;
   readonly disabled?: boolean;
 }
 
-const COMPONENT_SELECTBOX_STYLING_TAILWIND_RELEASE_OWNER_OPTIONS: readonly ComponentSelectboxStylingTailwindReleaseOwnerOption[] = Object.freeze([
+const COMPONENT_SELECT_STYLING_TAILWIND_RELEASE_OWNER_OPTIONS: readonly ComponentSelectStylingTailwindReleaseOwnerOption[] = Object.freeze([
   { id: 'abigail', name: 'Abigail Chen', team: 'Design systems' },
   { id: 'mina', name: 'Mina Lee', team: 'Core UI' },
   { id: 'omar', name: 'Omar Aziz', team: 'Compliance', disabled: true },
@@ -235,32 +235,32 @@ const COMPONENT_SELECTBOX_STYLING_TAILWIND_RELEASE_OWNER_OPTIONS: readonly Compo
 ]);
 
 @Component({
-  selector: 'app-component-selectbox-styling-tailwind-example',
+  selector: 'app-component-select-styling-tailwind-example',
   standalone: true,
   imports: [TngSelectComponent],
-  templateUrl: './component-selectbox-styling-tailwind-example.component.html',
-  styleUrl: './component-selectbox-styling-tailwind-example.component.css',
+  templateUrl: './component-select-styling-tailwind-example.component.html',
+  styleUrl: './component-select-styling-tailwind-example.component.css',
 })
-export class ComponentSelectboxStylingTailwindExampleComponent {
-  readonly componentSelectboxStylingTailwindReleaseOwners = COMPONENT_SELECTBOX_STYLING_TAILWIND_RELEASE_OWNER_OPTIONS;
-  readonly componentSelectboxStylingTailwindSelectedOwnerId = signal<string | null>('abigail');
-  readonly componentSelectboxStylingTailwindSelectedOwnerSummary = computed(() => {
-    const selectedValue = this.componentSelectboxStylingTailwindSelectedOwnerId();
+export class ComponentSelectStylingTailwindExampleComponent {
+  readonly componentSelectStylingTailwindReleaseOwners = COMPONENT_SELECT_STYLING_TAILWIND_RELEASE_OWNER_OPTIONS;
+  readonly componentSelectStylingTailwindSelectedOwnerId = signal<string | null>('abigail');
+  readonly componentSelectStylingTailwindSelectedOwnerSummary = computed(() => {
+    const selectedValue = this.componentSelectStylingTailwindSelectedOwnerId();
     if (selectedValue === null) {
       return 'none';
     }
 
-    return this.componentSelectboxStylingTailwindReleaseOwners.find((owner) => owner.id === selectedValue)?.name ?? 'none';
+    return this.componentSelectStylingTailwindReleaseOwners.find((owner) => owner.id === selectedValue)?.name ?? 'none';
   });
-  readonly getComponentSelectboxStylingTailwindOwnerValue = (owner: ComponentSelectboxStylingTailwindReleaseOwnerOption) => owner.id;
-  readonly getComponentSelectboxStylingTailwindOwnerLabel = (owner: ComponentSelectboxStylingTailwindReleaseOwnerOption) => owner.name;
-  readonly isComponentSelectboxStylingTailwindOwnerDisabled = (owner: ComponentSelectboxStylingTailwindReleaseOwnerOption) => owner.disabled === true;
+  readonly getComponentSelectStylingTailwindOwnerValue = (owner: ComponentSelectStylingTailwindReleaseOwnerOption) => owner.id;
+  readonly getComponentSelectStylingTailwindOwnerLabel = (owner: ComponentSelectStylingTailwindReleaseOwnerOption) => owner.name;
+  readonly isComponentSelectStylingTailwindOwnerDisabled = (owner: ComponentSelectStylingTailwindReleaseOwnerOption) => owner.disabled === true;
 
-  onComponentSelectboxStylingTailwindSelectedOwnerChange(value: unknown): void {
-    this.componentSelectboxStylingTailwindSelectedOwnerId.set(this.toComponentSelectboxStylingTailwindSingleValue(value));
+  onComponentSelectStylingTailwindSelectedOwnerChange(value: unknown): void {
+    this.componentSelectStylingTailwindSelectedOwnerId.set(this.toComponentSelectStylingTailwindSingleValue(value));
   }
 
-  private toComponentSelectboxStylingTailwindSingleValue(value: unknown): string | null {
+  private toComponentSelectStylingTailwindSingleValue(value: unknown): string | null {
     if (typeof value === 'string') {
       return value;
     }
@@ -283,34 +283,34 @@ const TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-[36rem]
   </div>
 
   <tng-select
-    class="docs-component-selectbox-styling-live-control docs-component-selectbox-styling-release-owner-shell block w-full min-w-0 [--tng-semantic-background-canvas:#ffffff] [--tng-semantic-background-surface:#f8fafc] [--tng-semantic-border-subtle:#d8e2ef] [--tng-semantic-border-strong:#94a3b8] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-foreground-secondary:#475569] [--tng-semantic-foreground-muted:#64748b] [--tng-semantic-accent-brand:#0f766e] [--tng-semantic-focus-ring:#0f766e] [--tng-select-radius:1rem] [--tng-select-trigger-py:0.625rem] [--tng-select-trigger-px:0.875rem] [--tng-select-option-py:0.625rem] [--tng-select-option-px:0.875rem] [--tng-select-bg:#ffffff] [--tng-select-surface:#f8fafc] [--tng-select-border:#d8e2ef] [--tng-select-border-strong:#94a3b8] [--tng-select-fg:#0f172a] [--tng-select-muted:#64748b] [--tng-select-brand:#0f766e] [--tng-select-focus-ring:#0f766e]"
-    [options]="componentSelectboxStylingTailwindReleaseOwners"
-    [value]="componentSelectboxStylingTailwindSelectedOwnerId()"
-    (valueChange)="onComponentSelectboxStylingTailwindSelectedOwnerChange($event)"
-    [getOptionValue]="getComponentSelectboxStylingTailwindOwnerValue"
-    [getOptionLabel]="getComponentSelectboxStylingTailwindOwnerLabel"
-    [isOptionDisabled]="isComponentSelectboxStylingTailwindOwnerDisabled"
+    class="docs-component-select-styling-live-control docs-component-select-styling-release-owner-shell block w-full min-w-0 [--tng-semantic-background-canvas:#ffffff] [--tng-semantic-background-surface:#f8fafc] [--tng-semantic-border-subtle:#d8e2ef] [--tng-semantic-border-strong:#94a3b8] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-foreground-secondary:#475569] [--tng-semantic-foreground-muted:#64748b] [--tng-semantic-accent-brand:#0f766e] [--tng-semantic-focus-ring:#0f766e] [--tng-select-radius:1rem] [--tng-select-trigger-py:0.625rem] [--tng-select-trigger-px:0.875rem] [--tng-select-option-py:0.625rem] [--tng-select-option-px:0.875rem] [--tng-select-bg:#ffffff] [--tng-select-surface:#f8fafc] [--tng-select-border:#d8e2ef] [--tng-select-border-strong:#94a3b8] [--tng-select-fg:#0f172a] [--tng-select-muted:#64748b] [--tng-select-brand:#0f766e] [--tng-select-focus-ring:#0f766e]"
+    [options]="componentSelectStylingTailwindReleaseOwners"
+    [value]="componentSelectStylingTailwindSelectedOwnerId()"
+    (valueChange)="onComponentSelectStylingTailwindSelectedOwnerChange($event)"
+    [getOptionValue]="getComponentSelectStylingTailwindOwnerValue"
+    [getOptionLabel]="getComponentSelectStylingTailwindOwnerLabel"
+    [isOptionDisabled]="isComponentSelectStylingTailwindOwnerDisabled"
     placeholder="Assign release owner"
     [ariaLabel]="'Release owners'"
   ></tng-select>
 
-  <p class="m-0 text-xs text-slate-600">Selected: {{ componentSelectboxStylingTailwindSelectedOwnerSummary() }}</p>
+  <p class="m-0 text-xs text-slate-600">Selected: {{ componentSelectStylingTailwindSelectedOwnerSummary() }}</p>
 </section>`;
 
 const TAILWIND_CSS_CODE = '/* Tokens are applied via Tailwind arbitrary properties in the template. */\n/* The component base CSS consumes them automatically. */';
 
 @Component({
-  selector: 'app-selectbox-styling-page',
+  selector: 'app-select-styling-page',
   imports: [
     TngCodeBlockComponent,
     TngSelectComponent,
     DocsExampleTabsSectionComponent,
     DocsExampleVariantDirective,
   ],
-  templateUrl: './selectbox-styling-page.component.html',
-  styleUrl: './selectbox-styling-page.component.css',
+  templateUrl: './select-styling-page.component.html',
+  styleUrl: './select-styling-page.component.css',
 })
-export class SelectboxStylingPageComponent implements OnDestroy {
+export class SelectStylingPageComponent implements OnDestroy {
   private readonly documentRef = inject(DOCUMENT);
   private readonly releaseOwnerLabelByValue = new Map(
     RELEASE_OWNER_OPTIONS.map((owner) => [owner.id, owner.name]),
@@ -356,15 +356,15 @@ export class SelectboxStylingPageComponent implements OnDestroy {
   ]);
 
   protected readonly plainCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
-    { value: 'ts', label: 'TS', language: 'ts', title: 'component-selectbox-styling-plain-example.component.ts', code: PLAIN_TS_CODE },
-    { value: 'html', label: 'HTML', language: 'html', title: 'component-selectbox-styling-plain-example.component.html', code: PLAIN_HTML_CODE },
-    { value: 'css', label: 'CSS', language: 'css', title: 'component-selectbox-styling-plain-example.component.css', code: PLAIN_CSS_CODE },
+    { value: 'ts', label: 'TS', language: 'ts', title: 'component-select-styling-plain-example.component.ts', code: PLAIN_TS_CODE },
+    { value: 'html', label: 'HTML', language: 'html', title: 'component-select-styling-plain-example.component.html', code: PLAIN_HTML_CODE },
+    { value: 'css', label: 'CSS', language: 'css', title: 'component-select-styling-plain-example.component.css', code: PLAIN_CSS_CODE },
   ]);
 
   protected readonly tailwindCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
-    { value: 'ts', label: 'TS', language: 'ts', title: 'component-selectbox-styling-tailwind-example.component.ts', code: TAILWIND_TS_CODE },
-    { value: 'html', label: 'HTML', language: 'html', title: 'component-selectbox-styling-tailwind-example.component.html', code: TAILWIND_HTML_CODE },
-    { value: 'css', label: 'CSS', language: 'css', title: 'component-selectbox-styling-tailwind-example.component.css', code: TAILWIND_CSS_CODE },
+    { value: 'ts', label: 'TS', language: 'ts', title: 'component-select-styling-tailwind-example.component.ts', code: TAILWIND_TS_CODE },
+    { value: 'html', label: 'HTML', language: 'html', title: 'component-select-styling-tailwind-example.component.html', code: TAILWIND_HTML_CODE },
+    { value: 'css', label: 'CSS', language: 'css', title: 'component-select-styling-tailwind-example.component.css', code: TAILWIND_CSS_CODE },
   ]);
 
   protected readonly getReleaseOwnerValue = (owner: ReleaseOwnerOption) => owner.id;

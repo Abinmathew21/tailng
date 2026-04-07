@@ -27,7 +27,7 @@
     ></tng-code-block>
   </section>
 
-  <section id="selectbox-variants" class="docs-page-section">
+  <section id="select-variants" class="docs-page-section">
     <app-docs-example-tabs-section
       heading="Select variants"
       description="The wrapper API stays the same across plain CSS and Tailwind shells."
@@ -44,16 +44,16 @@
         [codeTabs]="plainCodeTabs"
         [stackblitzUrl]="stackblitzVanillaUrl"
       >
-        <section class="docs-component-selectbox-overview-live-shell">
-          <div class="docs-component-selectbox-overview-live-header">
-            <span class="docs-component-selectbox-overview-live-kicker">Workflow stage</span>
-            <p class="docs-component-selectbox-overview-live-copy">
+        <section class="docs-component-select-overview-live-shell">
+          <div class="docs-component-select-overview-live-header">
+            <span class="docs-component-select-overview-live-kicker">Workflow stage</span>
+            <p class="docs-component-select-overview-live-copy">
               Wrapper-first single selection with a light shell and a committed value summary.
             </p>
           </div>
 
           <tng-select
-            class="docs-component-selectbox-overview-live-control docs-component-selectbox-overview-live-control--plain"
+            class="docs-component-select-overview-live-control docs-component-select-overview-live-control--plain"
             [options]="workflowStages"
             [value]="overviewPlainSelectedStage()"
             (valueChange)="onOverviewPlainSelectedStageChange($event)"
@@ -64,14 +64,14 @@
             [ariaLabel]="'Workflow stage'"
           >
             <ng-template #tngSelectOptionTpl let-option>
-              <span class="docs-component-selectbox-overview-live-option-row">
-                <span class="docs-component-selectbox-overview-live-option-label">{{ option.label }}</span>
-                <span class="docs-component-selectbox-overview-live-option-meta">{{ option.option.note }}</span>
+              <span class="docs-component-select-overview-live-option-row">
+                <span class="docs-component-select-overview-live-option-label">{{ option.label }}</span>
+                <span class="docs-component-select-overview-live-option-meta">{{ option.option.note }}</span>
               </span>
             </ng-template>
           </tng-select>
 
-          <p class="docs-component-selectbox-overview-live-summary">
+          <p class="docs-component-select-overview-live-summary">
             Selected: {{ overviewPlainSummary() }}
           </p>
         </section>
@@ -94,7 +94,7 @@
           </div>
 
           <tng-select
-            class="docs-component-selectbox-overview-live-control docs-component-selectbox-overview-live-control--tailwind block w-full min-w-0 [color-scheme:light] [--tng-semantic-background-base:#ffffff] [--tng-semantic-background-canvas:#ffffff] [--tng-semantic-background-surface:#f8fafc] [--tng-semantic-border-subtle:#d8e2ef] [--tng-semantic-border-strong:#94a3b8] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-foreground-secondary:#475569] [--tng-semantic-foreground-muted:#64748b] [--tng-semantic-accent-brand:#0f766e] [--tng-semantic-focus-ring:#0f766e] [--tng-select-radius:1rem] [--tng-select-trigger-py:0.95rem] [--tng-select-trigger-px:1rem] [--tng-select-option-py:0.75rem] [--tng-select-option-px:0.85rem] [--tng-select-bg:#ffffff] [--tng-select-surface:#ffffff] [--tng-select-border:#d8e2ef] [--tng-select-border-strong:#94a3b8] [--tng-select-fg:#0f172a] [--tng-select-muted:#64748b] [--tng-select-brand:#0f766e] [--tng-select-focus-ring:#0f766e] [--tng-select-shadow:0_1px_2px_rgba(15,23,42,0.04)] [--tng-select-shadow-focus:0_0_0_3px_rgba(15,118,110,0.18)]"
+            class="docs-component-select-overview-live-control docs-component-select-overview-live-control--tailwind block w-full min-w-0 [color-scheme:light] [--tng-semantic-background-base:#ffffff] [--tng-semantic-background-canvas:#ffffff] [--tng-semantic-background-surface:#f8fafc] [--tng-semantic-border-subtle:#d8e2ef] [--tng-semantic-border-strong:#94a3b8] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-foreground-secondary:#475569] [--tng-semantic-foreground-muted:#64748b] [--tng-semantic-accent-brand:#0f766e] [--tng-semantic-focus-ring:#0f766e] [--tng-select-radius:1rem] [--tng-select-trigger-py:0.95rem] [--tng-select-trigger-px:1rem] [--tng-select-option-py:0.75rem] [--tng-select-option-px:0.85rem] [--tng-select-bg:#ffffff] [--tng-select-surface:#ffffff] [--tng-select-border:#d8e2ef] [--tng-select-border-strong:#94a3b8] [--tng-select-fg:#0f172a] [--tng-select-muted:#64748b] [--tng-select-brand:#0f766e] [--tng-select-focus-ring:#0f766e] [--tng-select-shadow:0_1px_2px_rgba(15,23,42,0.04)] [--tng-select-shadow-focus:0_0_0_3px_rgba(15,118,110,0.18)]"
             [options]="workflowStages"
             [value]="overviewTailwindSelectedStage()"
             (valueChange)="onOverviewTailwindSelectedStageChange($event)"

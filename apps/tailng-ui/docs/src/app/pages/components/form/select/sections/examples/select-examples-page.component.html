@@ -1,4 +1,4 @@
-<article class="selectbox-examples">
+<article class="select-examples">
   <section id="release-stage-select" class="docs-page-section">
     <app-docs-example-tabs-section
       heading="Release stage select"
@@ -9,16 +9,16 @@
       [codeBlockTheme]="codeBlockTheme()"
     >
       <ng-template appDocsExampleVariant value="plain-css" label="Plain-CSS" panelTitle="Release stage select (Plain-CSS)" [codeTabs]="releaseStagePlainCodeTabs" [stackblitzUrl]="stackblitzVanillaUrl">
-        <section class="docs-component-selectbox-examples-live-shell">
-          <div class="docs-component-selectbox-examples-live-header">
-            <span class="docs-component-selectbox-examples-live-kicker">Release stage</span>
-            <p class="docs-component-selectbox-examples-live-copy">
+        <section class="docs-component-select-examples-live-shell">
+          <div class="docs-component-select-examples-live-header">
+            <span class="docs-component-select-examples-live-kicker">Release stage</span>
+            <p class="docs-component-select-examples-live-copy">
               Keep a controlled release-stage value while the wrapper handles trigger and menu plumbing.
             </p>
           </div>
 
           <tng-select
-            class="docs-component-selectbox-examples-live-control docs-component-selectbox-examples-stage-shell"
+            class="docs-component-select-examples-live-control docs-component-select-examples-stage-shell"
             [options]="releaseStages"
             [value]="releaseStagePlainSelectedValue()"
             (valueChange)="onReleaseStagePlainSelectedValueChange($event)"
@@ -29,7 +29,7 @@
             [ariaLabel]="'Release stage'"
           ></tng-select>
 
-          <p class="docs-component-selectbox-examples-live-summary">Selected: {{ releaseStagePlainSummary() }}</p>
+          <p class="docs-component-select-examples-live-summary">Selected: {{ releaseStagePlainSummary() }}</p>
         </section>
       </ng-template>
 
@@ -70,16 +70,16 @@
       [codeBlockTheme]="codeBlockTheme()"
     >
       <ng-template appDocsExampleVariant value="plain-css" label="Plain-CSS" panelTitle="Release owner roster (Plain-CSS)" [codeTabs]="releaseOwnerPlainCodeTabs" [stackblitzUrl]="stackblitzVanillaUrl">
-        <section class="docs-component-selectbox-examples-live-shell">
-          <div class="docs-component-selectbox-examples-live-header">
-            <span class="docs-component-selectbox-examples-live-kicker">Release owner roster</span>
-            <p class="docs-component-selectbox-examples-live-copy">
+        <section class="docs-component-select-examples-live-shell">
+          <div class="docs-component-select-examples-live-header">
+            <span class="docs-component-select-examples-live-kicker">Release owner roster</span>
+            <p class="docs-component-select-examples-live-copy">
               Custom templates let the wrapper show richer trigger and option content without rebuilding the select primitive.
             </p>
           </div>
 
           <tng-select
-            class="docs-component-selectbox-examples-live-control docs-component-selectbox-examples-owner-shell"
+            class="docs-component-select-examples-live-control docs-component-select-examples-owner-shell"
             [options]="releaseOwners"
             [value]="releaseOwnerPlainSelectedValue()"
             (valueChange)="onReleaseOwnerPlainSelectedValueChange($event)"
@@ -90,21 +90,21 @@
             [ariaLabel]="'Release owner roster'"
           >
             <ng-template #tngSelectValueTpl let-selected>
-              <div class="docs-component-selectbox-examples-owner-value-row">
+              <div class="docs-component-select-examples-owner-value-row">
                 <strong>{{ selected.label }}</strong>
                 <small>{{ selected.option?.team }}</small>
               </div>
             </ng-template>
 
             <ng-template #tngSelectOptionTpl let-option>
-              <div class="docs-component-selectbox-examples-owner-option-row">
-                <span class="docs-component-selectbox-examples-owner-option-label">{{ option.label }}</span>
-                <small class="docs-component-selectbox-examples-owner-option-meta">{{ option.option.team }} · {{ option.option.timezone }}</small>
+              <div class="docs-component-select-examples-owner-option-row">
+                <span class="docs-component-select-examples-owner-option-label">{{ option.label }}</span>
+                <small class="docs-component-select-examples-owner-option-meta">{{ option.option.team }} · {{ option.option.timezone }}</small>
               </div>
             </ng-template>
           </tng-select>
 
-          <p class="docs-component-selectbox-examples-live-summary">Selected: {{ releaseOwnerPlainSummary() }}</p>
+          <p class="docs-component-select-examples-live-summary">Selected: {{ releaseOwnerPlainSummary() }}</p>
         </section>
       </ng-template>
 

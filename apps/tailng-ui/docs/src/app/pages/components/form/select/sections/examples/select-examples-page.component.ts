@@ -10,7 +10,7 @@ import {
   observeDocsCodeThemeChanges,
   resolveDocsCodeBlockTheme,
 } from '../../../../../../shared/util';
-import { stackblitzTailwindUrl, stackblitzVanillaUrl } from '../../selectbox.util';
+import { stackblitzTailwindUrl, stackblitzVanillaUrl } from '../../select.util';
 
 interface ReleaseStageOption {
   readonly value: string;
@@ -44,14 +44,14 @@ const RELEASE_OWNER_OPTIONS: readonly ReleaseOwnerOption[] = Object.freeze([
 const STAGE_PLAIN_TS_CODE = String.raw`import { Component, computed, signal } from '@angular/core';
 import { TngSelectComponent } from '@tailng-ui/components';
 
-interface ComponentSelectboxExamplesPlainReleaseStageOption {
+interface ComponentSelectExamplesPlainReleaseStageOption {
   readonly value: string;
   readonly label: string;
   readonly note: string;
   readonly disabled?: boolean;
 }
 
-const COMPONENT_SELECTBOX_EXAMPLES_PLAIN_RELEASE_STAGE_OPTIONS: readonly ComponentSelectboxExamplesPlainReleaseStageOption[] = Object.freeze([
+const COMPONENT_SELECT_EXAMPLES_PLAIN_RELEASE_STAGE_OPTIONS: readonly ComponentSelectExamplesPlainReleaseStageOption[] = Object.freeze([
   { value: 'draft', label: 'Draft', note: 'Internal drafting only.' },
   { value: 'review', label: 'In review', note: 'Editorial sign-off in progress.' },
   { value: 'qa', label: 'QA ready', note: 'Approved for validation.' },
@@ -59,32 +59,32 @@ const COMPONENT_SELECTBOX_EXAMPLES_PLAIN_RELEASE_STAGE_OPTIONS: readonly Compone
 ]);
 
 @Component({
-  selector: 'app-component-selectbox-examples-stage-plain',
+  selector: 'app-component-select-examples-stage-plain',
   standalone: true,
   imports: [TngSelectComponent],
-  templateUrl: './component-selectbox-examples-stage-plain.component.html',
-  styleUrl: './component-selectbox-examples-stage-plain.component.css',
+  templateUrl: './component-select-examples-stage-plain.component.html',
+  styleUrl: './component-select-examples-stage-plain.component.css',
 })
-export class ComponentSelectboxExamplesStagePlainComponent {
-  readonly componentSelectboxExamplesPlainReleaseStages = COMPONENT_SELECTBOX_EXAMPLES_PLAIN_RELEASE_STAGE_OPTIONS;
-  readonly componentSelectboxExamplesPlainSelectedStage = signal<string | null>('review');
-  readonly componentSelectboxExamplesPlainSelectedStageSummary = computed(() => {
-    const selectedValue = this.componentSelectboxExamplesPlainSelectedStage();
+export class ComponentSelectExamplesStagePlainComponent {
+  readonly componentSelectExamplesPlainReleaseStages = COMPONENT_SELECT_EXAMPLES_PLAIN_RELEASE_STAGE_OPTIONS;
+  readonly componentSelectExamplesPlainSelectedStage = signal<string | null>('review');
+  readonly componentSelectExamplesPlainSelectedStageSummary = computed(() => {
+    const selectedValue = this.componentSelectExamplesPlainSelectedStage();
     if (selectedValue === null) {
       return 'none';
     }
 
-    return this.componentSelectboxExamplesPlainReleaseStages.find((stage) => stage.value === selectedValue)?.label ?? 'none';
+    return this.componentSelectExamplesPlainReleaseStages.find((stage) => stage.value === selectedValue)?.label ?? 'none';
   });
-  readonly getComponentSelectboxExamplesPlainStageValue = (stage: ComponentSelectboxExamplesPlainReleaseStageOption) => stage.value;
-  readonly getComponentSelectboxExamplesPlainStageLabel = (stage: ComponentSelectboxExamplesPlainReleaseStageOption) => stage.label;
-  readonly isComponentSelectboxExamplesPlainStageDisabled = (stage: ComponentSelectboxExamplesPlainReleaseStageOption) => stage.disabled === true;
+  readonly getComponentSelectExamplesPlainStageValue = (stage: ComponentSelectExamplesPlainReleaseStageOption) => stage.value;
+  readonly getComponentSelectExamplesPlainStageLabel = (stage: ComponentSelectExamplesPlainReleaseStageOption) => stage.label;
+  readonly isComponentSelectExamplesPlainStageDisabled = (stage: ComponentSelectExamplesPlainReleaseStageOption) => stage.disabled === true;
 
-  onComponentSelectboxExamplesPlainSelectedStageChange(value: unknown): void {
-    this.componentSelectboxExamplesPlainSelectedStage.set(this.toComponentSelectboxExamplesPlainSingleValue(value));
+  onComponentSelectExamplesPlainSelectedStageChange(value: unknown): void {
+    this.componentSelectExamplesPlainSelectedStage.set(this.toComponentSelectExamplesPlainSingleValue(value));
   }
 
-  private toComponentSelectboxExamplesPlainSingleValue(value: unknown): string | null {
+  private toComponentSelectExamplesPlainSingleValue(value: unknown): string | null {
     if (typeof value === 'string') {
       return value;
     }
@@ -98,30 +98,30 @@ export class ComponentSelectboxExamplesStagePlainComponent {
   }
 }`;
 
-const STAGE_PLAIN_HTML_CODE = String.raw`<section class="docs-component-selectbox-examples-stage-plain-shell">
-  <div class="docs-component-selectbox-examples-stage-plain-header">
-    <span class="docs-component-selectbox-examples-stage-plain-kicker">Release stage</span>
-    <p class="docs-component-selectbox-examples-stage-plain-copy">
+const STAGE_PLAIN_HTML_CODE = String.raw`<section class="docs-component-select-examples-stage-plain-shell">
+  <div class="docs-component-select-examples-stage-plain-header">
+    <span class="docs-component-select-examples-stage-plain-kicker">Release stage</span>
+    <p class="docs-component-select-examples-stage-plain-copy">
       Keep a controlled release-stage value while the wrapper handles trigger and menu plumbing.
     </p>
   </div>
 
   <tng-select
-    class="docs-component-selectbox-examples-stage-plain-control"
-    [options]="componentSelectboxExamplesPlainReleaseStages"
-    [value]="componentSelectboxExamplesPlainSelectedStage()"
-    (valueChange)="onComponentSelectboxExamplesPlainSelectedStageChange($event)"
-    [getOptionValue]="getComponentSelectboxExamplesPlainStageValue"
-    [getOptionLabel]="getComponentSelectboxExamplesPlainStageLabel"
-    [isOptionDisabled]="isComponentSelectboxExamplesPlainStageDisabled"
+    class="docs-component-select-examples-stage-plain-control"
+    [options]="componentSelectExamplesPlainReleaseStages"
+    [value]="componentSelectExamplesPlainSelectedStage()"
+    (valueChange)="onComponentSelectExamplesPlainSelectedStageChange($event)"
+    [getOptionValue]="getComponentSelectExamplesPlainStageValue"
+    [getOptionLabel]="getComponentSelectExamplesPlainStageLabel"
+    [isOptionDisabled]="isComponentSelectExamplesPlainStageDisabled"
     placeholder="Choose release stage"
     [ariaLabel]="'Release stage'"
   ></tng-select>
 
-  <p class="docs-component-selectbox-examples-stage-plain-summary">Selected: {{ componentSelectboxExamplesPlainSelectedStageSummary() }}</p>
+  <p class="docs-component-select-examples-stage-plain-summary">Selected: {{ componentSelectExamplesPlainSelectedStageSummary() }}</p>
 </section>`;
 
-const STAGE_PLAIN_CSS_CODE = String.raw`.docs-component-selectbox-examples-stage-plain-shell {
+const STAGE_PLAIN_CSS_CODE = String.raw`.docs-component-select-examples-stage-plain-shell {
   display: grid;
   gap: 0.9rem;
   inline-size: min(100%, 36rem);
@@ -135,24 +135,24 @@ const STAGE_PLAIN_CSS_CODE = String.raw`.docs-component-selectbox-examples-stage
   box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
 }
 
-.docs-component-selectbox-examples-stage-plain-header {
+.docs-component-select-examples-stage-plain-header {
   display: grid;
   gap: 0.35rem;
 }
 
-.docs-component-selectbox-examples-stage-plain-kicker {
+.docs-component-select-examples-stage-plain-kicker {
   font-size: 0.8rem;
   font-weight: 700;
   color: #64748b;
 }
 
-.docs-component-selectbox-examples-stage-plain-copy,
-.docs-component-selectbox-examples-stage-plain-summary {
+.docs-component-select-examples-stage-plain-copy,
+.docs-component-select-examples-stage-plain-summary {
   margin: 0;
   color: #475569;
 }
 
-.docs-component-selectbox-examples-stage-plain-control {
+.docs-component-select-examples-stage-plain-control {
   display: block;
   width: 100%;
   min-width: 0;
@@ -183,14 +183,14 @@ const STAGE_PLAIN_CSS_CODE = String.raw`.docs-component-selectbox-examples-stage
 const STAGE_TAILWIND_TS_CODE = String.raw`import { Component, computed, signal } from '@angular/core';
 import { TngSelectComponent } from '@tailng-ui/components';
 
-interface ComponentSelectboxExamplesTailwindReleaseStageOption {
+interface ComponentSelectExamplesTailwindReleaseStageOption {
   readonly value: string;
   readonly label: string;
   readonly note: string;
   readonly disabled?: boolean;
 }
 
-const COMPONENT_SELECTBOX_EXAMPLES_TAILWIND_RELEASE_STAGE_OPTIONS: readonly ComponentSelectboxExamplesTailwindReleaseStageOption[] = Object.freeze([
+const COMPONENT_SELECT_EXAMPLES_TAILWIND_RELEASE_STAGE_OPTIONS: readonly ComponentSelectExamplesTailwindReleaseStageOption[] = Object.freeze([
   { value: 'draft', label: 'Draft', note: 'Internal drafting only.' },
   { value: 'review', label: 'In review', note: 'Editorial sign-off in progress.' },
   { value: 'qa', label: 'QA ready', note: 'Approved for validation.' },
@@ -198,32 +198,32 @@ const COMPONENT_SELECTBOX_EXAMPLES_TAILWIND_RELEASE_STAGE_OPTIONS: readonly Comp
 ]);
 
 @Component({
-  selector: 'app-component-selectbox-examples-stage-tailwind',
+  selector: 'app-component-select-examples-stage-tailwind',
   standalone: true,
   imports: [TngSelectComponent],
-  templateUrl: './component-selectbox-examples-stage-tailwind.component.html',
-  styleUrl: './component-selectbox-examples-stage-tailwind.component.css',
+  templateUrl: './component-select-examples-stage-tailwind.component.html',
+  styleUrl: './component-select-examples-stage-tailwind.component.css',
 })
-export class ComponentSelectboxExamplesStageTailwindComponent {
-  readonly componentSelectboxExamplesTailwindReleaseStages = COMPONENT_SELECTBOX_EXAMPLES_TAILWIND_RELEASE_STAGE_OPTIONS;
-  readonly componentSelectboxExamplesTailwindSelectedStage = signal<string | null>('qa');
-  readonly componentSelectboxExamplesTailwindSelectedStageSummary = computed(() => {
-    const selectedValue = this.componentSelectboxExamplesTailwindSelectedStage();
+export class ComponentSelectExamplesStageTailwindComponent {
+  readonly componentSelectExamplesTailwindReleaseStages = COMPONENT_SELECT_EXAMPLES_TAILWIND_RELEASE_STAGE_OPTIONS;
+  readonly componentSelectExamplesTailwindSelectedStage = signal<string | null>('qa');
+  readonly componentSelectExamplesTailwindSelectedStageSummary = computed(() => {
+    const selectedValue = this.componentSelectExamplesTailwindSelectedStage();
     if (selectedValue === null) {
       return 'none';
     }
 
-    return this.componentSelectboxExamplesTailwindReleaseStages.find((stage) => stage.value === selectedValue)?.label ?? 'none';
+    return this.componentSelectExamplesTailwindReleaseStages.find((stage) => stage.value === selectedValue)?.label ?? 'none';
   });
-  readonly getComponentSelectboxExamplesTailwindStageValue = (stage: ComponentSelectboxExamplesTailwindReleaseStageOption) => stage.value;
-  readonly getComponentSelectboxExamplesTailwindStageLabel = (stage: ComponentSelectboxExamplesTailwindReleaseStageOption) => stage.label;
-  readonly isComponentSelectboxExamplesTailwindStageDisabled = (stage: ComponentSelectboxExamplesTailwindReleaseStageOption) => stage.disabled === true;
+  readonly getComponentSelectExamplesTailwindStageValue = (stage: ComponentSelectExamplesTailwindReleaseStageOption) => stage.value;
+  readonly getComponentSelectExamplesTailwindStageLabel = (stage: ComponentSelectExamplesTailwindReleaseStageOption) => stage.label;
+  readonly isComponentSelectExamplesTailwindStageDisabled = (stage: ComponentSelectExamplesTailwindReleaseStageOption) => stage.disabled === true;
 
-  onComponentSelectboxExamplesTailwindSelectedStageChange(value: unknown): void {
-    this.componentSelectboxExamplesTailwindSelectedStage.set(this.toComponentSelectboxExamplesTailwindSingleValue(value));
+  onComponentSelectExamplesTailwindSelectedStageChange(value: unknown): void {
+    this.componentSelectExamplesTailwindSelectedStage.set(this.toComponentSelectExamplesTailwindSingleValue(value));
   }
 
-  private toComponentSelectboxExamplesTailwindSingleValue(value: unknown): string | null {
+  private toComponentSelectExamplesTailwindSingleValue(value: unknown): string | null {
     if (typeof value === 'string') {
       return value;
     }
@@ -247,17 +247,17 @@ const STAGE_TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-[
 
   <tng-select
     class="block w-full min-w-0 [--tng-semantic-background-canvas:#ffffff] [--tng-semantic-background-surface:#f8fafc] [--tng-semantic-border-subtle:#d8e2ef] [--tng-semantic-border-strong:#94a3b8] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-foreground-secondary:#475569] [--tng-semantic-foreground-muted:#64748b] [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-focus-ring:#2563eb] [--tng-select-radius:1rem] [--tng-select-trigger-py:0.625rem] [--tng-select-trigger-px:0.875rem] [--tng-select-option-py:0.625rem] [--tng-select-option-px:0.875rem] [--tng-select-bg:#ffffff] [--tng-select-surface:#f8fafc] [--tng-select-border:#d8e2ef] [--tng-select-border-strong:#94a3b8] [--tng-select-fg:#0f172a] [--tng-select-muted:#64748b] [--tng-select-brand:#2563eb] [--tng-select-focus-ring:#2563eb]"
-    [options]="componentSelectboxExamplesTailwindReleaseStages"
-    [value]="componentSelectboxExamplesTailwindSelectedStage()"
-    (valueChange)="onComponentSelectboxExamplesTailwindSelectedStageChange($event)"
-    [getOptionValue]="getComponentSelectboxExamplesTailwindStageValue"
-    [getOptionLabel]="getComponentSelectboxExamplesTailwindStageLabel"
-    [isOptionDisabled]="isComponentSelectboxExamplesTailwindStageDisabled"
+    [options]="componentSelectExamplesTailwindReleaseStages"
+    [value]="componentSelectExamplesTailwindSelectedStage()"
+    (valueChange)="onComponentSelectExamplesTailwindSelectedStageChange($event)"
+    [getOptionValue]="getComponentSelectExamplesTailwindStageValue"
+    [getOptionLabel]="getComponentSelectExamplesTailwindStageLabel"
+    [isOptionDisabled]="isComponentSelectExamplesTailwindStageDisabled"
     placeholder="Choose release stage"
     [ariaLabel]="'Release stage'"
   ></tng-select>
 
-  <p class="m-0 text-xs text-slate-600">Selected: {{ componentSelectboxExamplesTailwindSelectedStageSummary() }}</p>
+  <p class="m-0 text-xs text-slate-600">Selected: {{ componentSelectExamplesTailwindSelectedStageSummary() }}</p>
 </section>`;
 
 const STAGE_TAILWIND_CSS_CODE = '/* Tailwind utilities are applied directly in the template. */';
@@ -265,7 +265,7 @@ const STAGE_TAILWIND_CSS_CODE = '/* Tailwind utilities are applied directly in t
 const OWNER_PLAIN_TS_CODE = String.raw`import { Component, computed, signal } from '@angular/core';
 import { TngSelectComponent } from '@tailng-ui/components';
 
-interface ComponentSelectboxExamplesPlainReleaseOwnerOption {
+interface ComponentSelectExamplesPlainReleaseOwnerOption {
   readonly id: string;
   readonly name: string;
   readonly team: string;
@@ -273,7 +273,7 @@ interface ComponentSelectboxExamplesPlainReleaseOwnerOption {
   readonly disabled?: boolean;
 }
 
-const COMPONENT_SELECTBOX_EXAMPLES_PLAIN_RELEASE_OWNER_OPTIONS: readonly ComponentSelectboxExamplesPlainReleaseOwnerOption[] = Object.freeze([
+const COMPONENT_SELECT_EXAMPLES_PLAIN_RELEASE_OWNER_OPTIONS: readonly ComponentSelectExamplesPlainReleaseOwnerOption[] = Object.freeze([
   { id: 'abigail', name: 'Abigail Chen', team: 'Design systems', timezone: 'UTC-8' },
   { id: 'mina', name: 'Mina Lee', team: 'Core UI', timezone: 'UTC-5' },
   { id: 'omar', name: 'Omar Aziz', team: 'Compliance', timezone: 'UTC+1', disabled: true },
@@ -281,32 +281,32 @@ const COMPONENT_SELECTBOX_EXAMPLES_PLAIN_RELEASE_OWNER_OPTIONS: readonly Compone
 ]);
 
 @Component({
-  selector: 'app-component-selectbox-examples-owner-plain',
+  selector: 'app-component-select-examples-owner-plain',
   standalone: true,
   imports: [TngSelectComponent],
-  templateUrl: './component-selectbox-examples-owner-plain.component.html',
-  styleUrl: './component-selectbox-examples-owner-plain.component.css',
+  templateUrl: './component-select-examples-owner-plain.component.html',
+  styleUrl: './component-select-examples-owner-plain.component.css',
 })
-export class ComponentSelectboxExamplesOwnerPlainComponent {
-  readonly componentSelectboxExamplesPlainReleaseOwners = COMPONENT_SELECTBOX_EXAMPLES_PLAIN_RELEASE_OWNER_OPTIONS;
-  readonly componentSelectboxExamplesPlainSelectedOwnerId = signal<string | null>('mina');
-  readonly componentSelectboxExamplesPlainSelectedOwnerSummary = computed(() => {
-    const selectedValue = this.componentSelectboxExamplesPlainSelectedOwnerId();
+export class ComponentSelectExamplesOwnerPlainComponent {
+  readonly componentSelectExamplesPlainReleaseOwners = COMPONENT_SELECT_EXAMPLES_PLAIN_RELEASE_OWNER_OPTIONS;
+  readonly componentSelectExamplesPlainSelectedOwnerId = signal<string | null>('mina');
+  readonly componentSelectExamplesPlainSelectedOwnerSummary = computed(() => {
+    const selectedValue = this.componentSelectExamplesPlainSelectedOwnerId();
     if (selectedValue === null) {
       return 'none';
     }
 
-    return this.componentSelectboxExamplesPlainReleaseOwners.find((owner) => owner.id === selectedValue)?.name ?? 'none';
+    return this.componentSelectExamplesPlainReleaseOwners.find((owner) => owner.id === selectedValue)?.name ?? 'none';
   });
-  readonly getComponentSelectboxExamplesPlainOwnerValue = (owner: ComponentSelectboxExamplesPlainReleaseOwnerOption) => owner.id;
-  readonly getComponentSelectboxExamplesPlainOwnerLabel = (owner: ComponentSelectboxExamplesPlainReleaseOwnerOption) => owner.name;
-  readonly isComponentSelectboxExamplesPlainOwnerDisabled = (owner: ComponentSelectboxExamplesPlainReleaseOwnerOption) => owner.disabled === true;
+  readonly getComponentSelectExamplesPlainOwnerValue = (owner: ComponentSelectExamplesPlainReleaseOwnerOption) => owner.id;
+  readonly getComponentSelectExamplesPlainOwnerLabel = (owner: ComponentSelectExamplesPlainReleaseOwnerOption) => owner.name;
+  readonly isComponentSelectExamplesPlainOwnerDisabled = (owner: ComponentSelectExamplesPlainReleaseOwnerOption) => owner.disabled === true;
 
-  onComponentSelectboxExamplesPlainSelectedOwnerChange(value: unknown): void {
-    this.componentSelectboxExamplesPlainSelectedOwnerId.set(this.toComponentSelectboxExamplesPlainSingleValue(value));
+  onComponentSelectExamplesPlainSelectedOwnerChange(value: unknown): void {
+    this.componentSelectExamplesPlainSelectedOwnerId.set(this.toComponentSelectExamplesPlainSingleValue(value));
   }
 
-  private toComponentSelectboxExamplesPlainSingleValue(value: unknown): string | null {
+  private toComponentSelectExamplesPlainSingleValue(value: unknown): string | null {
     if (typeof value === 'string') {
       return value;
     }
@@ -320,44 +320,44 @@ export class ComponentSelectboxExamplesOwnerPlainComponent {
   }
 }`;
 
-const OWNER_PLAIN_HTML_CODE = String.raw`<section class="docs-component-selectbox-examples-owner-plain-shell">
-  <div class="docs-component-selectbox-examples-owner-plain-header">
-    <span class="docs-component-selectbox-examples-owner-plain-kicker">Release owner roster</span>
-    <p class="docs-component-selectbox-examples-owner-plain-copy">
+const OWNER_PLAIN_HTML_CODE = String.raw`<section class="docs-component-select-examples-owner-plain-shell">
+  <div class="docs-component-select-examples-owner-plain-header">
+    <span class="docs-component-select-examples-owner-plain-kicker">Release owner roster</span>
+    <p class="docs-component-select-examples-owner-plain-copy">
       Custom templates let the wrapper show richer trigger and option content without rebuilding the select primitive.
     </p>
   </div>
 
   <tng-select
-    class="docs-component-selectbox-examples-owner-plain-control"
-    [options]="componentSelectboxExamplesPlainReleaseOwners"
-    [value]="componentSelectboxExamplesPlainSelectedOwnerId()"
-    (valueChange)="onComponentSelectboxExamplesPlainSelectedOwnerChange($event)"
-    [getOptionValue]="getComponentSelectboxExamplesPlainOwnerValue"
-    [getOptionLabel]="getComponentSelectboxExamplesPlainOwnerLabel"
-    [isOptionDisabled]="isComponentSelectboxExamplesPlainOwnerDisabled"
+    class="docs-component-select-examples-owner-plain-control"
+    [options]="componentSelectExamplesPlainReleaseOwners"
+    [value]="componentSelectExamplesPlainSelectedOwnerId()"
+    (valueChange)="onComponentSelectExamplesPlainSelectedOwnerChange($event)"
+    [getOptionValue]="getComponentSelectExamplesPlainOwnerValue"
+    [getOptionLabel]="getComponentSelectExamplesPlainOwnerLabel"
+    [isOptionDisabled]="isComponentSelectExamplesPlainOwnerDisabled"
     placeholder="Assign release owner"
     [ariaLabel]="'Release owner roster'"
   >
     <ng-template #tngSelectValueTpl let-selected>
-      <div class="docs-component-selectbox-examples-owner-plain-value-row">
+      <div class="docs-component-select-examples-owner-plain-value-row">
         <strong>{{ selected.label }}</strong>
         <small>{{ selected.option?.team }}</small>
       </div>
     </ng-template>
 
     <ng-template #tngSelectOptionTpl let-option>
-      <div class="docs-component-selectbox-examples-owner-plain-option-row">
-        <span class="docs-component-selectbox-examples-owner-plain-option-label">{{ option.label }}</span>
-        <small class="docs-component-selectbox-examples-owner-plain-option-meta">{{ option.option.team }} · {{ option.option.timezone }}</small>
+      <div class="docs-component-select-examples-owner-plain-option-row">
+        <span class="docs-component-select-examples-owner-plain-option-label">{{ option.label }}</span>
+        <small class="docs-component-select-examples-owner-plain-option-meta">{{ option.option.team }} · {{ option.option.timezone }}</small>
       </div>
     </ng-template>
   </tng-select>
 
-  <p class="docs-component-selectbox-examples-owner-plain-summary">Selected: {{ componentSelectboxExamplesPlainSelectedOwnerSummary() }}</p>
+  <p class="docs-component-select-examples-owner-plain-summary">Selected: {{ componentSelectExamplesPlainSelectedOwnerSummary() }}</p>
 </section>`;
 
-const OWNER_PLAIN_CSS_CODE = String.raw`.docs-component-selectbox-examples-owner-plain-shell {
+const OWNER_PLAIN_CSS_CODE = String.raw`.docs-component-select-examples-owner-plain-shell {
   display: grid;
   gap: 0.9rem;
   inline-size: min(100%, 36rem);
@@ -371,24 +371,24 @@ const OWNER_PLAIN_CSS_CODE = String.raw`.docs-component-selectbox-examples-owner
   box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
 }
 
-.docs-component-selectbox-examples-owner-plain-header {
+.docs-component-select-examples-owner-plain-header {
   display: grid;
   gap: 0.35rem;
 }
 
-.docs-component-selectbox-examples-owner-plain-kicker {
+.docs-component-select-examples-owner-plain-kicker {
   font-size: 0.8rem;
   font-weight: 700;
   color: #64748b;
 }
 
-.docs-component-selectbox-examples-owner-plain-copy,
-.docs-component-selectbox-examples-owner-plain-summary {
+.docs-component-select-examples-owner-plain-copy,
+.docs-component-select-examples-owner-plain-summary {
   margin: 0;
   color: #475569;
 }
 
-.docs-component-selectbox-examples-owner-plain-control {
+.docs-component-select-examples-owner-plain-control {
   display: block;
   width: 100%;
   min-width: 0;
@@ -416,26 +416,26 @@ const OWNER_PLAIN_CSS_CODE = String.raw`.docs-component-selectbox-examples-owner
   --tng-select-focus-ring: #0f766e;
 }
 
-.docs-component-selectbox-examples-owner-plain-value-row,
-.docs-component-selectbox-examples-owner-plain-option-row {
+.docs-component-select-examples-owner-plain-value-row,
+.docs-component-select-examples-owner-plain-option-row {
   display: grid;
   gap: 0.15rem;
 }
 
-.docs-component-selectbox-examples-owner-plain-value-row strong,
-.docs-component-selectbox-examples-owner-plain-option-label {
+.docs-component-select-examples-owner-plain-value-row strong,
+.docs-component-select-examples-owner-plain-option-label {
   font-weight: 600;
 }
 
-.docs-component-selectbox-examples-owner-plain-value-row small,
-.docs-component-selectbox-examples-owner-plain-option-meta {
+.docs-component-select-examples-owner-plain-value-row small,
+.docs-component-select-examples-owner-plain-option-meta {
   color: #64748b;
 }`;
 
 const OWNER_TAILWIND_TS_CODE = String.raw`import { Component, computed, signal } from '@angular/core';
 import { TngSelectComponent } from '@tailng-ui/components';
 
-interface ComponentSelectboxExamplesTailwindReleaseOwnerOption {
+interface ComponentSelectExamplesTailwindReleaseOwnerOption {
   readonly id: string;
   readonly name: string;
   readonly team: string;
@@ -443,7 +443,7 @@ interface ComponentSelectboxExamplesTailwindReleaseOwnerOption {
   readonly disabled?: boolean;
 }
 
-const COMPONENT_SELECTBOX_EXAMPLES_TAILWIND_RELEASE_OWNER_OPTIONS: readonly ComponentSelectboxExamplesTailwindReleaseOwnerOption[] = Object.freeze([
+const COMPONENT_SELECT_EXAMPLES_TAILWIND_RELEASE_OWNER_OPTIONS: readonly ComponentSelectExamplesTailwindReleaseOwnerOption[] = Object.freeze([
   { id: 'abigail', name: 'Abigail Chen', team: 'Design systems', timezone: 'UTC-8' },
   { id: 'mina', name: 'Mina Lee', team: 'Core UI', timezone: 'UTC-5' },
   { id: 'omar', name: 'Omar Aziz', team: 'Compliance', timezone: 'UTC+1', disabled: true },
@@ -451,32 +451,32 @@ const COMPONENT_SELECTBOX_EXAMPLES_TAILWIND_RELEASE_OWNER_OPTIONS: readonly Comp
 ]);
 
 @Component({
-  selector: 'app-component-selectbox-examples-owner-tailwind',
+  selector: 'app-component-select-examples-owner-tailwind',
   standalone: true,
   imports: [TngSelectComponent],
-  templateUrl: './component-selectbox-examples-owner-tailwind.component.html',
-  styleUrl: './component-selectbox-examples-owner-tailwind.component.css',
+  templateUrl: './component-select-examples-owner-tailwind.component.html',
+  styleUrl: './component-select-examples-owner-tailwind.component.css',
 })
-export class ComponentSelectboxExamplesOwnerTailwindComponent {
-  readonly componentSelectboxExamplesTailwindReleaseOwners = COMPONENT_SELECTBOX_EXAMPLES_TAILWIND_RELEASE_OWNER_OPTIONS;
-  readonly componentSelectboxExamplesTailwindSelectedOwnerId = signal<string | null>('abigail');
-  readonly componentSelectboxExamplesTailwindSelectedOwnerSummary = computed(() => {
-    const selectedValue = this.componentSelectboxExamplesTailwindSelectedOwnerId();
+export class ComponentSelectExamplesOwnerTailwindComponent {
+  readonly componentSelectExamplesTailwindReleaseOwners = COMPONENT_SELECT_EXAMPLES_TAILWIND_RELEASE_OWNER_OPTIONS;
+  readonly componentSelectExamplesTailwindSelectedOwnerId = signal<string | null>('abigail');
+  readonly componentSelectExamplesTailwindSelectedOwnerSummary = computed(() => {
+    const selectedValue = this.componentSelectExamplesTailwindSelectedOwnerId();
     if (selectedValue === null) {
       return 'none';
     }
 
-    return this.componentSelectboxExamplesTailwindReleaseOwners.find((owner) => owner.id === selectedValue)?.name ?? 'none';
+    return this.componentSelectExamplesTailwindReleaseOwners.find((owner) => owner.id === selectedValue)?.name ?? 'none';
   });
-  readonly getComponentSelectboxExamplesTailwindOwnerValue = (owner: ComponentSelectboxExamplesTailwindReleaseOwnerOption) => owner.id;
-  readonly getComponentSelectboxExamplesTailwindOwnerLabel = (owner: ComponentSelectboxExamplesTailwindReleaseOwnerOption) => owner.name;
-  readonly isComponentSelectboxExamplesTailwindOwnerDisabled = (owner: ComponentSelectboxExamplesTailwindReleaseOwnerOption) => owner.disabled === true;
+  readonly getComponentSelectExamplesTailwindOwnerValue = (owner: ComponentSelectExamplesTailwindReleaseOwnerOption) => owner.id;
+  readonly getComponentSelectExamplesTailwindOwnerLabel = (owner: ComponentSelectExamplesTailwindReleaseOwnerOption) => owner.name;
+  readonly isComponentSelectExamplesTailwindOwnerDisabled = (owner: ComponentSelectExamplesTailwindReleaseOwnerOption) => owner.disabled === true;
 
-  onComponentSelectboxExamplesTailwindSelectedOwnerChange(value: unknown): void {
-    this.componentSelectboxExamplesTailwindSelectedOwnerId.set(this.toComponentSelectboxExamplesTailwindSingleValue(value));
+  onComponentSelectExamplesTailwindSelectedOwnerChange(value: unknown): void {
+    this.componentSelectExamplesTailwindSelectedOwnerId.set(this.toComponentSelectExamplesTailwindSingleValue(value));
   }
 
-  private toComponentSelectboxExamplesTailwindSingleValue(value: unknown): string | null {
+  private toComponentSelectExamplesTailwindSingleValue(value: unknown): string | null {
     if (typeof value === 'string') {
       return value;
     }
@@ -500,12 +500,12 @@ const OWNER_TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-[
 
   <tng-select
     class="block w-full min-w-0 [--tng-semantic-background-canvas:#ffffff] [--tng-semantic-background-surface:#f8fafc] [--tng-semantic-border-subtle:#d8e2ef] [--tng-semantic-border-strong:#94a3b8] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-foreground-secondary:#475569] [--tng-semantic-foreground-muted:#64748b] [--tng-semantic-accent-brand:#0f766e] [--tng-semantic-focus-ring:#0f766e] [--tng-select-radius:1rem] [--tng-select-trigger-py:0.625rem] [--tng-select-trigger-px:0.875rem] [--tng-select-option-py:0.625rem] [--tng-select-option-px:0.875rem] [--tng-select-bg:#ffffff] [--tng-select-surface:#f8fafc] [--tng-select-border:#d8e2ef] [--tng-select-border-strong:#94a3b8] [--tng-select-fg:#0f172a] [--tng-select-muted:#64748b] [--tng-select-brand:#0f766e] [--tng-select-focus-ring:#0f766e]"
-    [options]="componentSelectboxExamplesTailwindReleaseOwners"
-    [value]="componentSelectboxExamplesTailwindSelectedOwnerId()"
-    (valueChange)="onComponentSelectboxExamplesTailwindSelectedOwnerChange($event)"
-    [getOptionValue]="getComponentSelectboxExamplesTailwindOwnerValue"
-    [getOptionLabel]="getComponentSelectboxExamplesTailwindOwnerLabel"
-    [isOptionDisabled]="isComponentSelectboxExamplesTailwindOwnerDisabled"
+    [options]="componentSelectExamplesTailwindReleaseOwners"
+    [value]="componentSelectExamplesTailwindSelectedOwnerId()"
+    (valueChange)="onComponentSelectExamplesTailwindSelectedOwnerChange($event)"
+    [getOptionValue]="getComponentSelectExamplesTailwindOwnerValue"
+    [getOptionLabel]="getComponentSelectExamplesTailwindOwnerLabel"
+    [isOptionDisabled]="isComponentSelectExamplesTailwindOwnerDisabled"
     placeholder="Assign release owner"
     [ariaLabel]="'Release owner roster'"
   >
@@ -524,18 +524,18 @@ const OWNER_TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-[
     </ng-template>
   </tng-select>
 
-  <p class="m-0 text-xs text-slate-600">Selected: {{ componentSelectboxExamplesTailwindSelectedOwnerSummary() }}</p>
+  <p class="m-0 text-xs text-slate-600">Selected: {{ componentSelectExamplesTailwindSelectedOwnerSummary() }}</p>
 </section>`;
 
 const OWNER_TAILWIND_CSS_CODE = '/* Tailwind utilities are applied directly in the template. */';
 
 @Component({
-  selector: 'app-selectbox-examples-page',
+  selector: 'app-select-examples-page',
   imports: [TngSelectComponent, DocsExampleTabsSectionComponent, DocsExampleVariantDirective],
-  templateUrl: './selectbox-examples-page.component.html',
-  styleUrl: './selectbox-examples-page.component.css',
+  templateUrl: './select-examples-page.component.html',
+  styleUrl: './select-examples-page.component.css',
 })
-export class SelectboxExamplesPageComponent implements OnDestroy {
+export class SelectExamplesPageComponent implements OnDestroy {
   private readonly documentRef = inject(DOCUMENT);
   private readonly releaseStageLabelByValue = new Map(
     RELEASE_STAGE_OPTIONS.map((stage) => [stage.value, stage.label]),
@@ -563,27 +563,27 @@ export class SelectboxExamplesPageComponent implements OnDestroy {
   protected readonly stackblitzTailwindUrl = stackblitzTailwindUrl;
 
   protected readonly releaseStagePlainCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
-    { value: 'ts', label: 'TS', language: 'ts', title: 'component-selectbox-examples-stage-plain.component.ts', code: STAGE_PLAIN_TS_CODE },
-    { value: 'html', label: 'HTML', language: 'html', title: 'component-selectbox-examples-stage-plain.component.html', code: STAGE_PLAIN_HTML_CODE },
-    { value: 'css', label: 'CSS', language: 'css', title: 'component-selectbox-examples-stage-plain.component.css', code: STAGE_PLAIN_CSS_CODE },
+    { value: 'ts', label: 'TS', language: 'ts', title: 'component-select-examples-stage-plain.component.ts', code: STAGE_PLAIN_TS_CODE },
+    { value: 'html', label: 'HTML', language: 'html', title: 'component-select-examples-stage-plain.component.html', code: STAGE_PLAIN_HTML_CODE },
+    { value: 'css', label: 'CSS', language: 'css', title: 'component-select-examples-stage-plain.component.css', code: STAGE_PLAIN_CSS_CODE },
   ]);
 
   protected readonly releaseStageTailwindCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
-    { value: 'ts', label: 'TS', language: 'ts', title: 'component-selectbox-examples-stage-tailwind.component.ts', code: STAGE_TAILWIND_TS_CODE },
-    { value: 'html', label: 'HTML', language: 'html', title: 'component-selectbox-examples-stage-tailwind.component.html', code: STAGE_TAILWIND_HTML_CODE },
-    { value: 'css', label: 'CSS', language: 'css', title: 'component-selectbox-examples-stage-tailwind.component.css', code: STAGE_TAILWIND_CSS_CODE },
+    { value: 'ts', label: 'TS', language: 'ts', title: 'component-select-examples-stage-tailwind.component.ts', code: STAGE_TAILWIND_TS_CODE },
+    { value: 'html', label: 'HTML', language: 'html', title: 'component-select-examples-stage-tailwind.component.html', code: STAGE_TAILWIND_HTML_CODE },
+    { value: 'css', label: 'CSS', language: 'css', title: 'component-select-examples-stage-tailwind.component.css', code: STAGE_TAILWIND_CSS_CODE },
   ]);
 
   protected readonly releaseOwnerPlainCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
-    { value: 'ts', label: 'TS', language: 'ts', title: 'component-selectbox-examples-owner-plain.component.ts', code: OWNER_PLAIN_TS_CODE },
-    { value: 'html', label: 'HTML', language: 'html', title: 'component-selectbox-examples-owner-plain.component.html', code: OWNER_PLAIN_HTML_CODE },
-    { value: 'css', label: 'CSS', language: 'css', title: 'component-selectbox-examples-owner-plain.component.css', code: OWNER_PLAIN_CSS_CODE },
+    { value: 'ts', label: 'TS', language: 'ts', title: 'component-select-examples-owner-plain.component.ts', code: OWNER_PLAIN_TS_CODE },
+    { value: 'html', label: 'HTML', language: 'html', title: 'component-select-examples-owner-plain.component.html', code: OWNER_PLAIN_HTML_CODE },
+    { value: 'css', label: 'CSS', language: 'css', title: 'component-select-examples-owner-plain.component.css', code: OWNER_PLAIN_CSS_CODE },
   ]);
 
   protected readonly releaseOwnerTailwindCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
-    { value: 'ts', label: 'TS', language: 'ts', title: 'component-selectbox-examples-owner-tailwind.component.ts', code: OWNER_TAILWIND_TS_CODE },
-    { value: 'html', label: 'HTML', language: 'html', title: 'component-selectbox-examples-owner-tailwind.component.html', code: OWNER_TAILWIND_HTML_CODE },
-    { value: 'css', label: 'CSS', language: 'css', title: 'component-selectbox-examples-owner-tailwind.component.css', code: OWNER_TAILWIND_CSS_CODE },
+    { value: 'ts', label: 'TS', language: 'ts', title: 'component-select-examples-owner-tailwind.component.ts', code: OWNER_TAILWIND_TS_CODE },
+    { value: 'html', label: 'HTML', language: 'html', title: 'component-select-examples-owner-tailwind.component.html', code: OWNER_TAILWIND_HTML_CODE },
+    { value: 'css', label: 'CSS', language: 'css', title: 'component-select-examples-owner-tailwind.component.css', code: OWNER_TAILWIND_CSS_CODE },
   ]);
 
   protected readonly getReleaseStageValue = (stage: ReleaseStageOption) => stage.value;

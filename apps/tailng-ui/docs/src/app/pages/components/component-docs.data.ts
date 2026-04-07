@@ -133,8 +133,8 @@ export const COMPONENTS_FORM_GROUP: ComponentsDocsGroup = {
       description: 'Chip-based autocomplete selection for multiple values.',
     },
     {
-      id: 'selectbox',
-      slug: 'selectbox',
+      id: 'select',
+      slug: 'select',
       title: 'Select',
       description: 'Single-choice select surfaces and trigger/content composition.',
     },

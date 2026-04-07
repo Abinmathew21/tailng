@@ -10,7 +10,7 @@ import {
   observeDocsCodeThemeChanges,
   resolveDocsCodeBlockTheme,
 } from '../../../../../../shared/util';
-import { stackblitzTailwindUrl, stackblitzVanillaUrl } from '../../selectbox.util';
+import { stackblitzTailwindUrl, stackblitzVanillaUrl } from '../../select.util';
 
 interface WorkflowStageOption {
   readonly value: string;
@@ -42,14 +42,14 @@ const BASIC_USAGE_CODE = String.raw`<tng-select
 const PLAIN_TS_CODE = String.raw`import { Component, computed, signal } from '@angular/core';
 import { TngSelectComponent } from '@tailng-ui/components';
 
-interface ComponentSelectboxOverviewPlainWorkflowStageOption {
+interface ComponentSelectOverviewPlainWorkflowStageOption {
   readonly value: string;
   readonly label: string;
   readonly note: string;
   readonly disabled?: boolean;
 }
 
-const COMPONENT_SELECTBOX_OVERVIEW_PLAIN_WORKFLOW_STAGE_OPTIONS: readonly ComponentSelectboxOverviewPlainWorkflowStageOption[] = Object.freeze([
+const COMPONENT_SELECT_OVERVIEW_PLAIN_WORKFLOW_STAGE_OPTIONS: readonly ComponentSelectOverviewPlainWorkflowStageOption[] = Object.freeze([
   { value: 'draft', label: 'Draft', note: 'Internal drafting only.' },
   { value: 'review', label: 'In review', note: 'Waiting on editorial review.' },
   { value: 'qa', label: 'QA ready', note: 'Approved for validation.' },
@@ -57,32 +57,32 @@ const COMPONENT_SELECTBOX_OVERVIEW_PLAIN_WORKFLOW_STAGE_OPTIONS: readonly Compon
 ]);
 
 @Component({
-  selector: 'app-component-selectbox-overview-plain-example',
+  selector: 'app-component-select-overview-plain-example',
   standalone: true,
   imports: [TngSelectComponent],
-  templateUrl: './component-selectbox-overview-plain-example.component.html',
-  styleUrl: './component-selectbox-overview-plain-example.component.css',
+  templateUrl: './component-select-overview-plain-example.component.html',
+  styleUrl: './component-select-overview-plain-example.component.css',
 })
-export class ComponentSelectboxOverviewPlainExampleComponent {
-  readonly componentSelectboxOverviewPlainWorkflowStages = COMPONENT_SELECTBOX_OVERVIEW_PLAIN_WORKFLOW_STAGE_OPTIONS;
-  readonly componentSelectboxOverviewPlainSelectedStage = signal<string | null>('review');
-  readonly componentSelectboxOverviewPlainSelectedStageSummary = computed(() => {
-    const selectedValue = this.componentSelectboxOverviewPlainSelectedStage();
+export class ComponentSelectOverviewPlainExampleComponent {
+  readonly componentSelectOverviewPlainWorkflowStages = COMPONENT_SELECT_OVERVIEW_PLAIN_WORKFLOW_STAGE_OPTIONS;
+  readonly componentSelectOverviewPlainSelectedStage = signal<string | null>('review');
+  readonly componentSelectOverviewPlainSelectedStageSummary = computed(() => {
+    const selectedValue = this.componentSelectOverviewPlainSelectedStage();
     if (selectedValue === null) {
       return 'none';
     }
 
-    return this.componentSelectboxOverviewPlainWorkflowStages.find((stage) => stage.value === selectedValue)?.label ?? 'none';
+    return this.componentSelectOverviewPlainWorkflowStages.find((stage) => stage.value === selectedValue)?.label ?? 'none';
   });
-  readonly getComponentSelectboxOverviewPlainWorkflowStageValue = (stage: ComponentSelectboxOverviewPlainWorkflowStageOption) => stage.value;
-  readonly getComponentSelectboxOverviewPlainWorkflowStageLabel = (stage: ComponentSelectboxOverviewPlainWorkflowStageOption) => stage.label;
-  readonly isComponentSelectboxOverviewPlainWorkflowStageDisabled = (stage: ComponentSelectboxOverviewPlainWorkflowStageOption) => stage.disabled === true;
+  readonly getComponentSelectOverviewPlainWorkflowStageValue = (stage: ComponentSelectOverviewPlainWorkflowStageOption) => stage.value;
+  readonly getComponentSelectOverviewPlainWorkflowStageLabel = (stage: ComponentSelectOverviewPlainWorkflowStageOption) => stage.label;
+  readonly isComponentSelectOverviewPlainWorkflowStageDisabled = (stage: ComponentSelectOverviewPlainWorkflowStageOption) => stage.disabled === true;
 
-  onComponentSelectboxOverviewPlainSelectedStageChange(value: unknown): void {
-    this.componentSelectboxOverviewPlainSelectedStage.set(this.toComponentSelectboxOverviewPlainSingleValue(value));
+  onComponentSelectOverviewPlainSelectedStageChange(value: unknown): void {
+    this.componentSelectOverviewPlainSelectedStage.set(this.toComponentSelectOverviewPlainSingleValue(value));
   }
 
-  private toComponentSelectboxOverviewPlainSingleValue(value: unknown): string | null {
+  private toComponentSelectOverviewPlainSingleValue(value: unknown): string | null {
     if (typeof value === 'string') {
       return value;
     }
@@ -96,39 +96,39 @@ export class ComponentSelectboxOverviewPlainExampleComponent {
   }
 }`;
 
-const PLAIN_HTML_CODE = String.raw`<section class="docs-component-selectbox-overview-plain-shell">
-  <div class="docs-component-selectbox-overview-plain-header">
-    <span class="docs-component-selectbox-overview-plain-kicker">Workflow stage</span>
-    <p class="docs-component-selectbox-overview-plain-copy">
+const PLAIN_HTML_CODE = String.raw`<section class="docs-component-select-overview-plain-shell">
+  <div class="docs-component-select-overview-plain-header">
+    <span class="docs-component-select-overview-plain-kicker">Workflow stage</span>
+    <p class="docs-component-select-overview-plain-copy">
       Wrapper-first single selection with a light shell and a committed value summary.
     </p>
   </div>
 
   <tng-select
-    class="docs-component-selectbox-overview-plain-control"
-    [options]="componentSelectboxOverviewPlainWorkflowStages"
-    [value]="componentSelectboxOverviewPlainSelectedStage()"
-    (valueChange)="onComponentSelectboxOverviewPlainSelectedStageChange($event)"
-    [getOptionValue]="getComponentSelectboxOverviewPlainWorkflowStageValue"
-    [getOptionLabel]="getComponentSelectboxOverviewPlainWorkflowStageLabel"
-    [isOptionDisabled]="isComponentSelectboxOverviewPlainWorkflowStageDisabled"
+    class="docs-component-select-overview-plain-control"
+    [options]="componentSelectOverviewPlainWorkflowStages"
+    [value]="componentSelectOverviewPlainSelectedStage()"
+    (valueChange)="onComponentSelectOverviewPlainSelectedStageChange($event)"
+    [getOptionValue]="getComponentSelectOverviewPlainWorkflowStageValue"
+    [getOptionLabel]="getComponentSelectOverviewPlainWorkflowStageLabel"
+    [isOptionDisabled]="isComponentSelectOverviewPlainWorkflowStageDisabled"
     placeholder="Choose workflow stage"
     [ariaLabel]="'Workflow stage'"
   >
     <ng-template #tngSelectOptionTpl let-option>
-      <span class="docs-component-selectbox-overview-plain-option-row">
-        <span class="docs-component-selectbox-overview-plain-option-label">{{ option.label }}</span>
-        <span class="docs-component-selectbox-overview-plain-option-meta">{{ option.option.note }}</span>
+      <span class="docs-component-select-overview-plain-option-row">
+        <span class="docs-component-select-overview-plain-option-label">{{ option.label }}</span>
+        <span class="docs-component-select-overview-plain-option-meta">{{ option.option.note }}</span>
       </span>
     </ng-template>
   </tng-select>
 
-  <p class="docs-component-selectbox-overview-plain-summary">
-    Selected: {{ componentSelectboxOverviewPlainSelectedStageSummary() }}
+  <p class="docs-component-select-overview-plain-summary">
+    Selected: {{ componentSelectOverviewPlainSelectedStageSummary() }}
   </p>
 </section>`;
 
-const PLAIN_CSS_CODE = String.raw`.docs-component-selectbox-overview-plain-shell {
+const PLAIN_CSS_CODE = String.raw`.docs-component-select-overview-plain-shell {
   display: grid;
   gap: 0.9rem;
   inline-size: min(100%, 36rem);
@@ -142,25 +142,25 @@ const PLAIN_CSS_CODE = String.raw`.docs-component-selectbox-overview-plain-shell
   box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
 }
 
-.docs-component-selectbox-overview-plain-header {
+.docs-component-select-overview-plain-header {
   display: grid;
   gap: 0.35rem;
 }
 
-.docs-component-selectbox-overview-plain-kicker {
+.docs-component-select-overview-plain-kicker {
   font-size: 0.8rem;
   font-weight: 700;
   color: #64748b;
 }
 
-.docs-component-selectbox-overview-plain-copy,
-.docs-component-selectbox-overview-plain-summary {
+.docs-component-select-overview-plain-copy,
+.docs-component-select-overview-plain-summary {
   margin: 0;
   color: #475569;
 }
 
 /* Host-level tokens – the component base CSS consumes them automatically. */
-.docs-component-selectbox-overview-plain-control {
+.docs-component-select-overview-plain-control {
   display: block;
   width: 100%;
   min-width: 0;
@@ -212,19 +212,19 @@ const PLAIN_CSS_CODE = String.raw`.docs-component-selectbox-overview-plain-shell
   --tng-select-option-shadow-selected-active: 0 0 0 1px rgba(37, 99, 235, 0.12);
 }
 
-.docs-component-selectbox-overview-plain-option-row {
+.docs-component-select-overview-plain-option-row {
   display: grid;
   gap: 0.18rem;
 }
 
-.docs-component-selectbox-overview-plain-option-label {
+.docs-component-select-overview-plain-option-label {
   color: #0f172a;
   font-size: 1rem;
   font-weight: 600;
   line-height: 1.3;
 }
 
-.docs-component-selectbox-overview-plain-option-meta {
+.docs-component-select-overview-plain-option-meta {
   color: #64748b;
   font-size: 0.82rem;
   line-height: 1.35;
@@ -233,14 +233,14 @@ const PLAIN_CSS_CODE = String.raw`.docs-component-selectbox-overview-plain-shell
 const TAILWIND_TS_CODE = String.raw`import { Component, computed, signal } from '@angular/core';
 import { TngSelectComponent } from '@tailng-ui/components';
 
-interface ComponentSelectboxOverviewTailwindWorkflowStageOption {
+interface ComponentSelectOverviewTailwindWorkflowStageOption {
   readonly value: string;
   readonly label: string;
   readonly note: string;
   readonly disabled?: boolean;
 }
 
-const COMPONENT_SELECTBOX_OVERVIEW_TAILWIND_WORKFLOW_STAGE_OPTIONS: readonly ComponentSelectboxOverviewTailwindWorkflowStageOption[] = Object.freeze([
+const COMPONENT_SELECT_OVERVIEW_TAILWIND_WORKFLOW_STAGE_OPTIONS: readonly ComponentSelectOverviewTailwindWorkflowStageOption[] = Object.freeze([
   { value: 'draft', label: 'Draft', note: 'Internal drafting only.' },
   { value: 'review', label: 'In review', note: 'Waiting on editorial review.' },
   { value: 'qa', label: 'QA ready', note: 'Approved for validation.' },
@@ -248,32 +248,32 @@ const COMPONENT_SELECTBOX_OVERVIEW_TAILWIND_WORKFLOW_STAGE_OPTIONS: readonly Com
 ]);
 
 @Component({
-  selector: 'app-component-selectbox-overview-tailwind-example',
+  selector: 'app-component-select-overview-tailwind-example',
   standalone: true,
   imports: [TngSelectComponent],
-  templateUrl: './component-selectbox-overview-tailwind-example.component.html',
-  styleUrl: './component-selectbox-overview-tailwind-example.component.css',
+  templateUrl: './component-select-overview-tailwind-example.component.html',
+  styleUrl: './component-select-overview-tailwind-example.component.css',
 })
-export class ComponentSelectboxOverviewTailwindExampleComponent {
-  readonly componentSelectboxOverviewTailwindWorkflowStages = COMPONENT_SELECTBOX_OVERVIEW_TAILWIND_WORKFLOW_STAGE_OPTIONS;
-  readonly componentSelectboxOverviewTailwindSelectedStage = signal<string | null>('qa');
-  readonly componentSelectboxOverviewTailwindSelectedStageSummary = computed(() => {
-    const selectedValue = this.componentSelectboxOverviewTailwindSelectedStage();
+export class ComponentSelectOverviewTailwindExampleComponent {
+  readonly componentSelectOverviewTailwindWorkflowStages = COMPONENT_SELECT_OVERVIEW_TAILWIND_WORKFLOW_STAGE_OPTIONS;
+  readonly componentSelectOverviewTailwindSelectedStage = signal<string | null>('qa');
+  readonly componentSelectOverviewTailwindSelectedStageSummary = computed(() => {
+    const selectedValue = this.componentSelectOverviewTailwindSelectedStage();
     if (selectedValue === null) {
       return 'none';
     }
 
-    return this.componentSelectboxOverviewTailwindWorkflowStages.find((stage) => stage.value === selectedValue)?.label ?? 'none';
+    return this.componentSelectOverviewTailwindWorkflowStages.find((stage) => stage.value === selectedValue)?.label ?? 'none';
   });
-  readonly getComponentSelectboxOverviewTailwindWorkflowStageValue = (stage: ComponentSelectboxOverviewTailwindWorkflowStageOption) => stage.value;
-  readonly getComponentSelectboxOverviewTailwindWorkflowStageLabel = (stage: ComponentSelectboxOverviewTailwindWorkflowStageOption) => stage.label;
-  readonly isComponentSelectboxOverviewTailwindWorkflowStageDisabled = (stage: ComponentSelectboxOverviewTailwindWorkflowStageOption) => stage.disabled === true;
+  readonly getComponentSelectOverviewTailwindWorkflowStageValue = (stage: ComponentSelectOverviewTailwindWorkflowStageOption) => stage.value;
+  readonly getComponentSelectOverviewTailwindWorkflowStageLabel = (stage: ComponentSelectOverviewTailwindWorkflowStageOption) => stage.label;
+  readonly isComponentSelectOverviewTailwindWorkflowStageDisabled = (stage: ComponentSelectOverviewTailwindWorkflowStageOption) => stage.disabled === true;
 
-  onComponentSelectboxOverviewTailwindSelectedStageChange(value: unknown): void {
-    this.componentSelectboxOverviewTailwindSelectedStage.set(this.toComponentSelectboxOverviewTailwindSingleValue(value));
+  onComponentSelectOverviewTailwindSelectedStageChange(value: unknown): void {
+    this.componentSelectOverviewTailwindSelectedStage.set(this.toComponentSelectOverviewTailwindSingleValue(value));
   }
 
-  private toComponentSelectboxOverviewTailwindSingleValue(value: unknown): string | null {
+  private toComponentSelectOverviewTailwindSingleValue(value: unknown): string | null {
     if (typeof value === 'string') {
       return value;
     }
@@ -296,13 +296,13 @@ const TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-[36rem]
   </div>
 
   <tng-select
-    class="docs-component-selectbox-overview-tailwind-control block w-full min-w-0 [color-scheme:light] [--tng-semantic-background-base:#ffffff] [--tng-semantic-background-canvas:#ffffff] [--tng-semantic-background-surface:#f8fafc] [--tng-semantic-border-subtle:#d8e2ef] [--tng-semantic-border-strong:#94a3b8] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-foreground-secondary:#475569] [--tng-semantic-foreground-muted:#64748b] [--tng-semantic-accent-brand:#0f766e] [--tng-semantic-focus-ring:#0f766e] [--tng-select-radius:1rem] [--tng-select-trigger-py:0.95rem] [--tng-select-trigger-px:1rem] [--tng-select-option-py:0.75rem] [--tng-select-option-px:0.85rem] [--tng-select-bg:#ffffff] [--tng-select-surface:#ffffff] [--tng-select-border:#d8e2ef] [--tng-select-border-strong:#94a3b8] [--tng-select-fg:#0f172a] [--tng-select-muted:#64748b] [--tng-select-brand:#0f766e] [--tng-select-focus-ring:#0f766e] [--tng-select-shadow:0_1px_2px_rgba(15,23,42,0.04)] [--tng-select-shadow-focus:0_0_0_3px_rgba(15,118,110,0.18)]"
-    [options]="componentSelectboxOverviewTailwindWorkflowStages"
-    [value]="componentSelectboxOverviewTailwindSelectedStage()"
-    (valueChange)="onComponentSelectboxOverviewTailwindSelectedStageChange($event)"
-    [getOptionValue]="getComponentSelectboxOverviewTailwindWorkflowStageValue"
-    [getOptionLabel]="getComponentSelectboxOverviewTailwindWorkflowStageLabel"
-    [isOptionDisabled]="isComponentSelectboxOverviewTailwindWorkflowStageDisabled"
+    class="docs-component-select-overview-tailwind-control block w-full min-w-0 [color-scheme:light] [--tng-semantic-background-base:#ffffff] [--tng-semantic-background-canvas:#ffffff] [--tng-semantic-background-surface:#f8fafc] [--tng-semantic-border-subtle:#d8e2ef] [--tng-semantic-border-strong:#94a3b8] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-foreground-secondary:#475569] [--tng-semantic-foreground-muted:#64748b] [--tng-semantic-accent-brand:#0f766e] [--tng-semantic-focus-ring:#0f766e] [--tng-select-radius:1rem] [--tng-select-trigger-py:0.95rem] [--tng-select-trigger-px:1rem] [--tng-select-option-py:0.75rem] [--tng-select-option-px:0.85rem] [--tng-select-bg:#ffffff] [--tng-select-surface:#ffffff] [--tng-select-border:#d8e2ef] [--tng-select-border-strong:#94a3b8] [--tng-select-fg:#0f172a] [--tng-select-muted:#64748b] [--tng-select-brand:#0f766e] [--tng-select-focus-ring:#0f766e] [--tng-select-shadow:0_1px_2px_rgba(15,23,42,0.04)] [--tng-select-shadow-focus:0_0_0_3px_rgba(15,118,110,0.18)]"
+    [options]="componentSelectOverviewTailwindWorkflowStages"
+    [value]="componentSelectOverviewTailwindSelectedStage()"
+    (valueChange)="onComponentSelectOverviewTailwindSelectedStageChange($event)"
+    [getOptionValue]="getComponentSelectOverviewTailwindWorkflowStageValue"
+    [getOptionLabel]="getComponentSelectOverviewTailwindWorkflowStageLabel"
+    [isOptionDisabled]="isComponentSelectOverviewTailwindWorkflowStageDisabled"
     placeholder="Choose workflow stage"
     [ariaLabel]="'Workflow stage'"
   >
@@ -314,23 +314,23 @@ const TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-[36rem]
     </ng-template>
   </tng-select>
 
-  <p class="m-0 text-xs text-slate-600">Selected: {{ componentSelectboxOverviewTailwindSelectedStageSummary() }}</p>
+  <p class="m-0 text-xs text-slate-600">Selected: {{ componentSelectOverviewTailwindSelectedStageSummary() }}</p>
 </section>`;
 
 const TAILWIND_CSS_CODE = '/* Tokens are applied via Tailwind arbitrary properties in the template. */\n/* The component base CSS consumes them automatically. */';
 
 @Component({
-  selector: 'app-selectbox-overview-page',
+  selector: 'app-select-overview-page',
   imports: [
     TngCodeBlockComponent,
     TngSelectComponent,
     DocsExampleTabsSectionComponent,
     DocsExampleVariantDirective,
   ],
-  templateUrl: './selectbox-overview-page.component.html',
-  styleUrl: './selectbox-overview-page.component.css',
+  templateUrl: './select-overview-page.component.html',
+  styleUrl: './select-overview-page.component.css',
 })
-export class SelectboxOverviewPageComponent implements OnDestroy {
+export class SelectOverviewPageComponent implements OnDestroy {
   private readonly documentRef = inject(DOCUMENT);
   private readonly workflowStageLabelByValue = new Map(
     WORKFLOW_STAGE_OPTIONS.map((stage) => [stage.value, stage.label]),
@@ -354,15 +354,15 @@ export class SelectboxOverviewPageComponent implements OnDestroy {
   protected readonly stackblitzTailwindUrl = stackblitzTailwindUrl;
 
   protected readonly plainCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
-    { value: 'ts', label: 'TS', language: 'ts', title: 'component-selectbox-overview-plain-example.component.ts', code: PLAIN_TS_CODE },
-    { value: 'html', label: 'HTML', language: 'html', title: 'component-selectbox-overview-plain-example.component.html', code: PLAIN_HTML_CODE },
-    { value: 'css', label: 'CSS', language: 'css', title: 'component-selectbox-overview-plain-example.component.css', code: PLAIN_CSS_CODE },
+    { value: 'ts', label: 'TS', language: 'ts', title: 'component-select-overview-plain-example.component.ts', code: PLAIN_TS_CODE },
+    { value: 'html', label: 'HTML', language: 'html', title: 'component-select-overview-plain-example.component.html', code: PLAIN_HTML_CODE },
+    { value: 'css', label: 'CSS', language: 'css', title: 'component-select-overview-plain-example.component.css', code: PLAIN_CSS_CODE },
   ]);
 
   protected readonly tailwindCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
-    { value: 'ts', label: 'TS', language: 'ts', title: 'component-selectbox-overview-tailwind-example.component.ts', code: TAILWIND_TS_CODE },
-    { value: 'html', label: 'HTML', language: 'html', title: 'component-selectbox-overview-tailwind-example.component.html', code: TAILWIND_HTML_CODE },
-    { value: 'css', label: 'CSS', language: 'css', title: 'component-selectbox-overview-tailwind-example.component.css', code: TAILWIND_CSS_CODE },
+    { value: 'ts', label: 'TS', language: 'ts', title: 'component-select-overview-tailwind-example.component.ts', code: TAILWIND_TS_CODE },
+    { value: 'html', label: 'HTML', language: 'html', title: 'component-select-overview-tailwind-example.component.html', code: TAILWIND_HTML_CODE },
+    { value: 'css', label: 'CSS', language: 'css', title: 'component-select-overview-tailwind-example.component.css', code: TAILWIND_CSS_CODE },
   ]);
 
   protected readonly getWorkflowStageValue = (stage: WorkflowStageOption) => stage.value;

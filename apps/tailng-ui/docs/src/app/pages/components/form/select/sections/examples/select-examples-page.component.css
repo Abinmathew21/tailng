@@ -2,12 +2,12 @@
   display: block;
 }
 
-.selectbox-examples {
+.select-examples {
   display: grid;
   gap: 1rem;
 }
 
-.docs-component-selectbox-examples-live-shell {
+.docs-component-select-examples-live-shell {
   display: grid;
   gap: 0.9rem;
   inline-size: min(100%, 36rem);
@@ -21,25 +21,25 @@
   box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
 }
 
-.docs-component-selectbox-examples-live-header {
+.docs-component-select-examples-live-header {
   display: grid;
   gap: 0.35rem;
 }
 
-.docs-component-selectbox-examples-live-kicker {
+.docs-component-select-examples-live-kicker {
   font-size: 0.8rem;
   font-weight: 700;
   color: #64748b;
 }
 
-.docs-component-selectbox-examples-live-copy,
-.docs-component-selectbox-examples-live-summary {
+.docs-component-select-examples-live-copy,
+.docs-component-select-examples-live-summary {
   margin: 0;
   color: #475569;
 }
 
-.docs-component-selectbox-examples-stage-shell,
-.docs-component-selectbox-examples-owner-shell {
+.docs-component-select-examples-stage-shell,
+.docs-component-select-examples-owner-shell {
   display: block;
   width: 100%;
   min-width: 0;
@@ -67,25 +67,25 @@
   --tng-select-focus-ring: #2563eb;
 }
 
-.docs-component-selectbox-examples-owner-shell {
+.docs-component-select-examples-owner-shell {
   --tng-semantic-accent-brand: #0f766e;
   --tng-semantic-focus-ring: #0f766e;
   --tng-select-brand: #0f766e;
   --tng-select-focus-ring: #0f766e;
 }
 
-.docs-component-selectbox-examples-owner-value-row,
-.docs-component-selectbox-examples-owner-option-row {
+.docs-component-select-examples-owner-value-row,
+.docs-component-select-examples-owner-option-row {
   display: grid;
   gap: 0.15rem;
 }
 
-.docs-component-selectbox-examples-owner-value-row strong,
-.docs-component-selectbox-examples-owner-option-label {
+.docs-component-select-examples-owner-value-row strong,
+.docs-component-select-examples-owner-option-label {
   font-weight: 600;
 }
 
-.docs-component-selectbox-examples-owner-value-row small,
-.docs-component-selectbox-examples-owner-option-meta {
+.docs-component-select-examples-owner-value-row small,
+.docs-component-select-examples-owner-option-meta {
   color: #64748b;
 }

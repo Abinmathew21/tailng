@@ -53,12 +53,12 @@ const TEMPLATE_HOOK_CODE = String.raw`<tng-select
 </tng-select>`;
 
 @Component({
-  selector: 'app-selectbox-api-page',
+  selector: 'app-select-api-page',
   imports: [TngCodeBlockComponent],
-  templateUrl: './selectbox-api-page.component.html',
-  styleUrl: './selectbox-api-page.component.css',
+  templateUrl: './select-api-page.component.html',
+  styleUrl: './select-api-page.component.css',
 })
-export class SelectboxApiPageComponent {
+export class SelectApiPageComponent {
   protected readonly wrapperAttachmentCode = WRAPPER_ATTACHMENT_CODE;
   protected readonly accessorCode = ACCESSOR_CODE;
   protected readonly templateHookCode = TEMPLATE_HOOK_CODE;

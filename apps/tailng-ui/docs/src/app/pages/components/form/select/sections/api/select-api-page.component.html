@@ -1,11 +1,11 @@
-<article class="selectbox-api">
-  <h2 class="selectbox-api-title">API reference</h2>
-  <p class="selectbox-api-lead">
+<article class="select-api">
+  <h2 class="select-api-title">API reference</h2>
+  <p class="select-api-lead">
     <code>&lt;tng-select&gt;</code> wraps the headless select primitive for the common single-select workflow.
     You pass options and accessors; the wrapper owns the trigger, overlay, and default listbox wiring.
   </p>
 
-  <section id="wrapper-api" class="selectbox-api-block">
+  <section id="wrapper-api" class="select-api-block">
     <h3><code>tng-select</code></h3>
     <tng-code-block
       [code]="wrapperAttachmentCode"
@@ -17,8 +17,8 @@
       [sanitizeHtml]="false"
     ></tng-code-block>
 
-    <div class="selectbox-api-table-wrap">
-      <table class="selectbox-api-table">
+    <div class="select-api-table-wrap">
+      <table class="select-api-table">
         <thead>
           <tr>
             <th scope="col">Property</th>
@@ -39,7 +39,7 @@
     </div>
   </section>
 
-  <section id="option-accessors" class="selectbox-api-block">
+  <section id="option-accessors" class="select-api-block">
     <h3>Option accessors</h3>
     <p>
       The wrapper stays generic by delegating option identity, labels, disabled state, and tracking
@@ -55,8 +55,8 @@
       [sanitizeHtml]="false"
     ></tng-code-block>
 
-    <div class="selectbox-api-table-wrap">
-      <table class="selectbox-api-table">
+    <div class="select-api-table-wrap">
+      <table class="select-api-table">
         <thead>
           <tr>
             <th scope="col">Accessor</th>
@@ -77,7 +77,7 @@
     </div>
   </section>
 
-  <section id="template-hooks" class="selectbox-api-block">
+  <section id="template-hooks" class="select-api-block">
     <h3>Template hooks</h3>
     <p>
       You can replace the trigger value markup and option rows through content templates while the
@@ -93,8 +93,8 @@
       [sanitizeHtml]="false"
     ></tng-code-block>
 
-    <div class="selectbox-api-table-wrap">
-      <table class="selectbox-api-table">
+    <div class="select-api-table-wrap">
+      <table class="select-api-table">
         <thead>
           <tr>
             <th scope="col">Template</th>
@@ -115,15 +115,15 @@
     </div>
   </section>
 
-  <section id="primitive-foundation" class="selectbox-api-block">
+  <section id="primitive-foundation" class="select-api-block">
     <h3>Primitive foundation</h3>
     <p>
       The wrapper is intentionally opinionated around the common trigger + menu select experience.
       Use the headless primitive when you need full trigger or overlay markup control.
     </p>
 
-    <div class="selectbox-api-table-wrap">
-      <table class="selectbox-api-table">
+    <div class="select-api-table-wrap">
+      <table class="select-api-table">
         <thead>
           <tr>
             <th scope="col">Capability</th>

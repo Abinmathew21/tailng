@@ -789,11 +789,11 @@ export const docsComponentOutlineItemsBySlug: Readonly<Record<string, Partial<Re
       { id: 'import-and-usage', label: 'Import in your feature module/component' },
     ],
   },
-  'selectbox': {
+  'select': {
     'overview': [
       { id: 'imports', label: 'Imports' },
       { id: 'basic-usage', label: 'Basic usage' },
-      { id: 'selectbox-variants', label: 'Select variants' },
+      { id: 'select-variants', label: 'Select variants' },
       { id: 'behavior-baseline', label: 'Behavior baseline' },
     ],
     'api': [

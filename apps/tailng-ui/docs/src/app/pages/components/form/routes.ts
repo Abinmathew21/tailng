@@ -59,9 +59,9 @@ const multiAutocompleteItem = group.items.find((item) => item.slug === 'multi-au
 if (multiAutocompleteItem === undefined) {
   throw new Error('Missing "multi-autocomplete" in components form docs group.');
 }
-const selectboxItem = group.items.find((item) => item.slug === 'selectbox');
-if (selectboxItem === undefined) {
-  throw new Error('Missing "selectbox" in components form docs group.');
+const selectItem = group.items.find((item) => item.slug === 'select');
+if (selectItem === undefined) {
+  throw new Error('Missing "select" in components form docs group.');
 }
 const multiselectItem = group.items.find((item) => item.slug === 'multiselect');
 if (multiselectItem === undefined) {
@@ -90,7 +90,7 @@ const landingSlugs = new Set([
   listboxItem.slug,
   autocompleteItem.slug,
   multiAutocompleteItem.slug,
-  selectboxItem.slug,
+  selectItem.slug,
   multiselectItem.slug,
   chipsItem.slug,
   switchItem.slug,
@@ -172,9 +172,9 @@ export const COMPONENTS_FORM_ROUTES: Routes = [
       ),
   },
   {
-    path: selectboxItem.slug,
+    path: selectItem.slug,
     loadChildren: () =>
-      import('./selectbox/routes').then((module) => module.COMPONENTS_FORM_SELECTBOX_ROUTES),
+      import('./select/routes').then((module) => module.COMPONENTS_FORM_SELECT_ROUTES),
   },
   {
     path: multiselectItem.slug,

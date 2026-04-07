@@ -2,12 +2,12 @@
   display: block;
 }
 
-.selectbox-styling {
+.select-styling {
   display: grid;
   gap: 1rem;
 }
 
-.selectbox-styling-block {
+.select-styling-block {
   border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 0.9rem;
   color: var(--tng-semantic-foreground-secondary);
@@ -16,48 +16,48 @@
   padding: 1rem;
 }
 
-.selectbox-styling-block h2 {
+.select-styling-block h2 {
   color: var(--tng-semantic-foreground-primary);
   font-size: 1.25rem;
   margin: 0;
 }
 
-.selectbox-styling-lead {
+.select-styling-lead {
   margin: 0;
 }
 
-.selectbox-styling-table-wrap {
+.select-styling-table-wrap {
   border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 0.75rem;
   overflow-x: auto;
 }
 
-.selectbox-styling-table {
+.select-styling-table {
   border-collapse: collapse;
   min-width: 40rem;
   width: 100%;
 }
 
-.selectbox-styling-table th,
-.selectbox-styling-table td {
+.select-styling-table th,
+.select-styling-table td {
   border-bottom: 1px solid var(--tng-semantic-border-subtle);
   padding: 0.7rem 0.75rem;
   text-align: left;
   vertical-align: top;
 }
 
-.selectbox-styling-table th {
+.select-styling-table th {
   background: color-mix(in srgb, var(--tng-semantic-background-surface) 88%, transparent);
   color: var(--tng-semantic-foreground-primary);
   font-size: 0.8rem;
   font-weight: 700;
 }
 
-.selectbox-styling-table tbody tr:last-child td {
+.select-styling-table tbody tr:last-child td {
   border-bottom: 0;
 }
 
-.docs-component-selectbox-styling-live-shell {
+.docs-component-select-styling-live-shell {
   display: grid;
   gap: 0.9rem;
   inline-size: min(100%, 36rem);
@@ -71,24 +71,24 @@
   box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
 }
 
-.docs-component-selectbox-styling-live-header {
+.docs-component-select-styling-live-header {
   display: grid;
   gap: 0.35rem;
 }
 
-.docs-component-selectbox-styling-live-kicker {
+.docs-component-select-styling-live-kicker {
   font-size: 0.8rem;
   font-weight: 700;
   color: #64748b;
 }
 
-.docs-component-selectbox-styling-live-copy,
-.docs-component-selectbox-styling-live-summary {
+.docs-component-select-styling-live-copy,
+.docs-component-select-styling-live-summary {
   margin: 0;
   color: #475569;
 }
 
-.docs-component-selectbox-styling-release-owner-shell {
+.docs-component-select-styling-release-owner-shell {
   width: 100%;
   min-width: 0;
   color-scheme: light;
