@@ -66,43 +66,7 @@ for (const [key, path, label] of libs) {
   console.log(`[pkg] ${label} -> ${next}`);
 }
 
-// 3) align primitives peerDeps (only if primitives selected)
-// primitives depends on cdk
-if (has("primitives")) {
-  const primitivesPath = "libs/tailng-ui/primitives/package.json";
-  const primitives = readJson(primitivesPath);
-
-  const cdkV = readJson("libs/tailng-ui/cdk/package.json").version;
-
-  primitives.peerDependencies ||= {};
-
-  // Only rewrite keys that already exist (avoid introducing new constraints silently)
-  if (primitives.peerDependencies["@tailng-ui/cdk"]) {
-    primitives.peerDependencies["@tailng-ui/cdk"] = `^${cdkV}`;
-  }
-
-  writeJson(primitivesPath, primitives);
-  console.log(`[peerDeps] primitives: cdk=^${cdkV}`);
-}
-
-// 4) align components peerDeps (only if components selected)
-// components depends on cdk + primitives
-if (has("components")) {
-  const componentsPath = "libs/tailng-ui/components/package.json";
-  const components = readJson(componentsPath);
-
-  const cdkV = readJson("libs/tailng-ui/cdk/package.json").version;
-  const primitivesV = readJson("libs/tailng-ui/primitives/package.json").version;
-
-  components.peerDependencies ||= {};
-
-  if (components.peerDependencies["@tailng-ui/cdk"]) {
-    components.peerDependencies["@tailng-ui/cdk"] = `^${cdkV}`;
-  }
-  if (components.peerDependencies["@tailng-ui/primitives"]) {
-    components.peerDependencies["@tailng-ui/primitives"] = `^${primitivesV}`;
-  }
-
-  writeJson(componentsPath, components);
-  console.log(`[peerDeps] components: cdk=^${cdkV} primitives=^${primitivesV}`);
-}
+// workspace:^ peer deps (e.g. primitives → cdk, components → cdk + primitives)
+// are resolved to concrete semver ranges at publish time by rewriteWorkspaceProtocols
+// in publish-selected.mjs. No rewriting needed here — keeping workspace:^ in the
+// source preserves pnpm lockfile consistency.
