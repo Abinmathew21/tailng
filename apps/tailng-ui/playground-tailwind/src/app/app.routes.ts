@@ -317,13 +317,6 @@ export const appRoutes: Route[] = [
           ).then((module) => module.ChipsPlaygroundPageComponent),
       },
       {
-        path: 'combobox',
-        loadComponent: () =>
-          import(
-            './pages/components/combobox-demo/combobox-playground-page.component'
-          ).then((module) => module.ComboboxPlaygroundPageComponent),
-      },
-      {
         path: 'select',
         loadComponent: () =>
           import(

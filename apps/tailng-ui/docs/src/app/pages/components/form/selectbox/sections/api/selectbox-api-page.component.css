@@ -34,30 +34,51 @@
   margin: 0;
 }
 
-.selectbox-api-block p {
-  margin: 0;
-}
-
 .selectbox-api-table-wrap {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.75rem;
   overflow-x: auto;
 }
 
 .selectbox-api-table {
   border-collapse: collapse;
-  font-size: 0.875rem;
-  min-width: 34rem;
+  min-width: 42rem;
   width: 100%;
 }
 
-.selectbox-api-table th,
-.selectbox-api-table td {
+.selectbox-api-table thead th {
+  background: color-mix(in srgb, var(--tng-semantic-background-surface) 88%, transparent);
   border-bottom: 1px solid var(--tng-semantic-border-subtle);
-  padding: 0.625rem 0.5rem;
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  padding: 0.7rem 0.75rem;
   text-align: left;
   vertical-align: top;
 }
 
-.selectbox-api-table th {
+.selectbox-api-table tbody td {
+  border-bottom: 1px solid var(--tng-semantic-border-subtle);
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.86rem;
+  line-height: 1.45;
+  padding: 0.68rem 0.75rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.selectbox-api-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.selectbox-api-table code {
   color: var(--tng-semantic-foreground-primary);
-  font-weight: 600;
+  font-size: 0.82rem;
+}
+
+@media (max-width: 760px) {
+  .selectbox-api-table {
+    min-width: 36rem;
+  }
 }

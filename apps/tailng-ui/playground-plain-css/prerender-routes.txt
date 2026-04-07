@@ -41,7 +41,6 @@
 /toggle
 /slider
 /chips
-/combobox
 /select
 /autocomplete
 /multi-autocomplete

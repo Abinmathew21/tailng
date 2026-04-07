@@ -1,0 +1,172 @@
+<article class="headless-selectbox-styling">
+  <section id="css-contract-table" class="headless-selectbox-styling__section">
+    <h2>CSS contract table</h2>
+    <div class="headless-selectbox-styling__table-wrap">
+      <table class="headless-selectbox-styling__table">
+        <thead>
+          <tr>
+            <th scope="col">Selector</th>
+            <th scope="col">Applied on</th>
+            <th scope="col">Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of contractRows; track row.selector) {
+            <tr>
+              <td><code>{{ row.selector }}</code></td>
+              <td>{{ row.appliedOn }}</td>
+              <td>{{ row.purpose }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="state-selectors" class="headless-selectbox-styling__section">
+    <h2>State selectors</h2>
+    <tng-code-block
+      [code]="stateSelectorCode"
+      adapter="shiki"
+      language="css"
+      title="Selectbox state selectors"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="example-shells" class="docs-page-section">
+    <app-docs-example-tabs-section
+      heading="Example shells"
+      description="The primitive contract stays the same while your shell defines the trigger, overlay, and option row treatment."
+      ariaLabel="Headless select styling variants"
+      tabListAriaLabel="Headless select styling styles"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Release owners (Plain-CSS)"
+        [codeTabs]="plainCodeTabs"
+        [stackblitzUrl]="stackblitzVanillaUrl"
+      >
+        <section class="docs-headless-selectbox-styling-plain-shell">
+          <div class="docs-headless-selectbox-styling-plain-header">
+            <span class="docs-headless-selectbox-styling-plain-kicker">Release owners</span>
+            <p class="docs-headless-selectbox-styling-plain-copy">
+              The primitive stays native while your wrapper card and option rows carry the visual style.
+            </p>
+          </div>
+
+          <section
+            tngSelect
+            class="docs-headless-selectbox-styling-plain-root"
+            [value]="stylingPlainSelectedOwnerId()"
+            (valueChange)="onStylingPlainSelectedOwnerChange($event)"
+          >
+            <button type="button" tngSelectTrigger class="docs-headless-selectbox-styling-plain-trigger">
+              <span
+                tngSelectValue
+                class="docs-headless-selectbox-styling-plain-value"
+                [attr.data-placeholder]="stylingPlainSelectedOwnerLabel() === null ? '' : null"
+              >
+                {{ stylingPlainSelectedOwnerLabel() ?? 'Assign release owner' }}
+              </span>
+              <span tngSelectIcon class="docs-headless-selectbox-styling-plain-icon" aria-hidden="true">▾</span>
+            </button>
+
+            <div tngSelectContent class="docs-headless-selectbox-styling-plain-content">
+              <div tngSelectOverlay class="docs-headless-selectbox-styling-plain-overlay">
+                <div
+                  tngSelectListbox
+                  class="docs-headless-selectbox-styling-plain-listbox"
+                  [value]="stylingPlainSelectedOwnerId()"
+                  (valueChange)="onStylingPlainSelectedOwnerChange($event)"
+                >
+                  @for (owner of releaseOwners; track owner.id) {
+                    <div
+                      tngSelectOption
+                      class="docs-headless-selectbox-styling-plain-option"
+                      [tngValue]="owner.id"
+                      [disabled]="owner.disabled === true"
+                    >
+                      <p class="docs-headless-selectbox-styling-plain-option-label">{{ owner.name }}</p>
+                      <p class="docs-headless-selectbox-styling-plain-option-meta">{{ owner.team }}</p>
+                    </div>
+                  }
+                </div>
+              </div>
+            </div>
+          </section>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Release owners (Tailwind CSS)"
+        [codeTabs]="tailwindCodeTabs"
+        [stackblitzUrl]="stackblitzTailwindUrl"
+      >
+        <section class="mx-auto grid max-w-[36rem] gap-4 rounded-[1.75rem] border border-slate-200 bg-white p-5 text-slate-900 shadow-sm [color-scheme:light]">
+          <div class="grid gap-1">
+            <span class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Release owners</span>
+            <p class="m-0 text-sm text-slate-600">
+              The primitive stays native while your wrapper card and option rows carry the visual style.
+            </p>
+          </div>
+
+          <section
+            tngSelect
+            class="block w-full"
+            [value]="stylingTailwindSelectedOwnerId()"
+            (valueChange)="onStylingTailwindSelectedOwnerChange($event)"
+          >
+            <button
+              type="button"
+              tngSelectTrigger
+              class="flex w-full min-w-0 items-center justify-between gap-3 rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left text-slate-900 shadow-sm transition hover:border-slate-400 focus:border-teal-600 focus:outline-none focus:ring-4 focus:ring-teal-100"
+            >
+              <span
+                tngSelectValue
+                class="min-w-0 truncate"
+                [attr.data-placeholder]="stylingTailwindSelectedOwnerLabel() === null ? '' : null"
+              >
+                {{ stylingTailwindSelectedOwnerLabel() ?? 'Assign release owner' }}
+              </span>
+              <span tngSelectIcon class="text-xs text-slate-500" aria-hidden="true">▾</span>
+            </button>
+
+            <div tngSelectContent class="contents">
+              <div tngSelectOverlay class="max-w-[min(92vw,36rem)] rounded-2xl border border-slate-200 bg-white p-2 shadow-2xl">
+                <div
+                  tngSelectListbox
+                  class="grid gap-1"
+                  [value]="stylingTailwindSelectedOwnerId()"
+                  (valueChange)="onStylingTailwindSelectedOwnerChange($event)"
+                >
+                  @for (owner of releaseOwners; track owner.id) {
+                    <div
+                      tngSelectOption
+                      class="grid gap-1 rounded-xl border border-transparent px-4 py-3 transition data-[active]:border-slate-200 data-[active]:bg-slate-50 data-[selected]:border-teal-200 data-[selected]:bg-teal-50 data-[selected]:text-teal-800 [&[data-selected][data-active]]:border-teal-400 [&[data-selected][data-active]]:bg-teal-100 data-[disabled]:cursor-not-allowed data-[disabled]:opacity-45"
+                      [tngValue]="owner.id"
+                      [disabled]="owner.disabled === true"
+                    >
+                      <p class="m-0 text-sm font-semibold text-current">{{ owner.name }}</p>
+                      <p class="m-0 text-sm text-slate-500">{{ owner.team }}</p>
+                    </div>
+                  }
+                </div>
+              </div>
+            </div>
+          </section>
+        </section>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+</article>

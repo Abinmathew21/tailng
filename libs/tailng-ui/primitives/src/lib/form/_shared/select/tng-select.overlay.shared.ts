@@ -24,6 +24,37 @@ type MaybeRect = Readonly<{
   height: number;
 }>;
 
+const PORTALLED_SELECT_THEME_VARS = [
+  '--tng-select-radius',
+  '--tng-select-trigger-width',
+  '--tng-select-trigger-py',
+  '--tng-select-trigger-px',
+  '--tng-select-option-py',
+  '--tng-select-option-px',
+  '--tng-select-border',
+  '--tng-select-border-strong',
+  '--tng-select-bg',
+  '--tng-select-surface',
+  '--tng-select-fg',
+  '--tng-select-muted',
+  '--tng-select-brand',
+  '--tng-select-danger',
+  '--tng-select-focus-ring',
+  '--tng-select-ease',
+  '--tng-select-shadow',
+  '--tng-select-shadow-focus',
+  '--tng-semantic-background-base',
+  '--tng-semantic-background-surface',
+  '--tng-semantic-border-subtle',
+  '--tng-semantic-border-strong',
+  '--tng-semantic-foreground-primary',
+  '--tng-semantic-foreground-secondary',
+  '--tng-semantic-foreground-muted',
+  '--tng-semantic-accent-brand',
+  '--tng-semantic-accent-danger',
+  '--tng-semantic-focus-ring',
+] as const;
+
 function rectFromClientRect(r: DOMRect | ClientRect): MaybeRect {
   return { left: r.left, top: r.top, width: r.width, height: r.height };
 }
@@ -148,6 +179,37 @@ export class TngSelectOverlay {
     return root.querySelector('[data-slot="select-trigger"]') as HTMLElement | null;
   }
 
+  private syncPortalledThemeVars(): void {
+    const panel = this.elRef.nativeElement;
+    const hostStyles = getComputedStyle(this.host.hostElement);
+
+    for (const cssVar of PORTALLED_SELECT_THEME_VARS) {
+      const value = hostStyles.getPropertyValue(cssVar).trim();
+      if (value) {
+        panel.style.setProperty(cssVar, value);
+      } else {
+        panel.style.removeProperty(cssVar);
+      }
+    }
+
+    const colorScheme = hostStyles.colorScheme?.trim();
+    if (colorScheme && colorScheme !== 'normal') {
+      panel.style.colorScheme = colorScheme;
+    } else {
+      panel.style.removeProperty('color-scheme');
+    }
+  }
+
+  private clearPortalledThemeVars(): void {
+    const panel = this.elRef.nativeElement;
+
+    for (const cssVar of PORTALLED_SELECT_THEME_VARS) {
+      panel.style.removeProperty(cssVar);
+    }
+
+    panel.style.removeProperty('color-scheme');
+  }
+
   private mountToBodyAndPosition(): void {
     this.lastFocusedBeforeOpen = document.activeElement as HTMLElement | null;
     this.setupRepositionListeners();
@@ -161,6 +223,7 @@ export class TngSelectOverlay {
     panel.style.left = '0px';
     panel.style.top = '0px';
     panel.style.zIndex = '1000';
+    this.syncPortalledThemeVars();
 
     queueMicrotask(() => {
       if (!this.host.open()) return;
@@ -168,7 +231,10 @@ export class TngSelectOverlay {
       if (!trigger) return;
 
       const anchor = rectFromClientRect(trigger.getBoundingClientRect());
-      panel.style.minWidth = `${anchor.width}px`;
+      const viewportWidth = viewportRect().width;
+      const inlineSize = Math.max(0, Math.min(anchor.width, viewportWidth - 16));
+      panel.style.width = `${inlineSize}px`;
+      panel.style.minWidth = `${inlineSize}px`;
 
       const overlay = rectFromClientRect(panel.getBoundingClientRect());
       const viewport = viewportRect();
@@ -219,7 +285,9 @@ export class TngSelectOverlay {
     panel.style.left = '';
     panel.style.top = '';
     panel.style.zIndex = '';
+    panel.style.width = '';
     panel.style.minWidth = '';
+    this.clearPortalledThemeVars();
     this.teardownOutsidePointer();
   }
 

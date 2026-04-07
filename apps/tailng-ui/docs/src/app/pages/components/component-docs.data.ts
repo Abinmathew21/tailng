@@ -135,7 +135,7 @@ export const COMPONENTS_FORM_GROUP: ComponentsDocsGroup = {
     {
       id: 'selectbox',
       slug: 'selectbox',
-      title: 'SelectBox',
+      title: 'Select',
       description: 'Single-choice select surfaces and trigger/content composition.',
     },
     {

@@ -8,7 +8,6 @@ export * from './button-toggle/tng-button-toggle.component';
 export * from './button-toggle/tng-button-toggle-group.component';
 export * from './checkbox/tng-checkbox.component';
 export * from './chips/tng-chips.component';
-export * from './combobox/tng-combobox.component';
 export * from './datepicker/tng-datepicker.component';
 export * from './form-field/tng-form-field.component';
 export * from './input/tng-input.component';

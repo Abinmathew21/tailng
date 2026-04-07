@@ -27,6 +27,17 @@ function pointerdown(el: HTMLElement, init: Partial<PointerEventInit> = {}): voi
       #api="tngSelect"
       [open]="open()"
       (openChange)="open.set($event)"
+      style="
+        --tng-select-surface: #f8fafc;
+        --tng-select-border: #d8e2ef;
+        --tng-select-fg: #0f172a;
+        --tng-select-brand: #2563eb;
+        --tng-semantic-background-surface: #f8fafc;
+        --tng-semantic-border-subtle: #d8e2ef;
+        --tng-semantic-foreground-primary: #0f172a;
+        --tng-semantic-accent-brand: #2563eb;
+        color-scheme: light;
+      "
       data-testid="select"
     >
       <button tngSelectTrigger data-testid="trigger">Trigger</button>
@@ -85,6 +96,7 @@ describe('tng-select overlay primitive', () => {
   });
 
   afterEach(() => {
+    TestBed.resetTestingModule();
     // best-effort cleanup between tests
     while (document.body.children.length > bodyChildrenBefore) {
       document.body.removeChild(document.body.lastElementChild!);
@@ -130,6 +142,66 @@ describe('tng-select overlay primitive', () => {
     // restored back under fixture host (NOT direct child of body)
     expect(overlay.parentElement).not.toBe(document.body);
     expect(overlay.hasAttribute('hidden')).toBe(true);
+  });
+
+  it('copies host theme vars and anchor width onto the portaled overlay', async () => {
+    const fixture = TestBed.configureTestingModule({ imports: [HostComponent] }).createComponent(HostComponent);
+    fixture.detectChanges();
+
+    const host = fixture.componentInstance;
+    const trigger = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLElement;
+    const overlay = fixture.nativeElement.querySelector('[data-testid="overlay"]') as HTMLElement;
+
+    vi.spyOn(trigger, 'getBoundingClientRect').mockReturnValue({
+      left: 48,
+      top: 72,
+      width: 320,
+      height: 40,
+      right: 368,
+      bottom: 112,
+      x: 48,
+      y: 72,
+      toJSON: () => ({}),
+    } as DOMRect);
+
+    vi.spyOn(overlay, 'getBoundingClientRect').mockReturnValue({
+      left: 0,
+      top: 0,
+      width: 160,
+      height: 120,
+      right: 160,
+      bottom: 120,
+      x: 0,
+      y: 0,
+      toJSON: () => ({}),
+    } as DOMRect);
+
+    pointerdown(trigger);
+    fixture.detectChanges();
+    await Promise.resolve();
+    fixture.detectChanges();
+
+    expect(host.api.open()).toBe(true);
+    expect(overlay.parentElement).toBe(document.body);
+    expect(overlay.style.getPropertyValue('--tng-select-surface').trim()).toBe('#f8fafc');
+    expect(overlay.style.getPropertyValue('--tng-select-border').trim()).toBe('#d8e2ef');
+    expect(overlay.style.getPropertyValue('--tng-select-fg').trim()).toBe('#0f172a');
+    expect(overlay.style.getPropertyValue('--tng-select-brand').trim()).toBe('#2563eb');
+    expect(overlay.style.getPropertyValue('--tng-semantic-background-surface').trim()).toBe('#f8fafc');
+    expect(overlay.style.colorScheme).toBe('light');
+    expect(overlay.style.width).toBe('320px');
+    expect(overlay.style.minWidth).toBe('320px');
+
+    host.open.set(false);
+    fixture.detectChanges();
+    await Promise.resolve();
+    fixture.detectChanges();
+
+    expect(overlay.parentElement).not.toBe(document.body);
+    expect(overlay.style.getPropertyValue('--tng-select-surface').trim()).toBe('');
+    expect(overlay.style.colorScheme).toBe('');
+    expect(overlay.style.width).toBe('');
+    expect(overlay.style.minWidth).toBe('');
   });
 
   it('positions overlay relative to trigger - sets inline left/top', async () => {

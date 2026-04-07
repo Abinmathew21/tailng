@@ -1,0 +1,50 @@
+:host {
+  display: block;
+}
+
+.headless-selectbox-api {
+  display: grid;
+  gap: 1rem;
+}
+
+.headless-selectbox-api__section {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.headless-selectbox-api__section h2 {
+  margin: 0;
+}
+
+.headless-selectbox-api__section p {
+  margin: 0;
+}
+
+.headless-selectbox-api__table-wrap {
+  overflow-x: auto;
+  border: 1px solid color-mix(in srgb, currentColor 12%, transparent);
+  border-radius: 1rem;
+}
+
+.headless-selectbox-api__table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 40rem;
+}
+
+.headless-selectbox-api__table th,
+.headless-selectbox-api__table td {
+  padding: 0.85rem 1rem;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid color-mix(in srgb, currentColor 12%, transparent);
+}
+
+.headless-selectbox-api__table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.headless-selectbox-api__table th {
+  font-size: 0.82rem;
+  font-weight: 700;
+}

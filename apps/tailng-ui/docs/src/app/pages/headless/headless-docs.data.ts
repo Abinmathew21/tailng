@@ -130,7 +130,7 @@ export const HEADLESS_FORM_GROUP: HeadlessDocsGroup = {
     {
       id: 'selectbox',
       slug: 'selectbox',
-      title: 'SelectBox',
+      title: 'Select',
       description: 'Primitive select trigger/content behavior, keyboard flow, and option roles.',
     },
     {

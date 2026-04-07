@@ -1,22 +1,6 @@
-<article class="selectbox-overview">
-  <h2 class="selectbox-overview-title">SelectBox overview</h2>
-  <p class="selectbox-overview-lead">
-    TailNG SelectBox supports keyboard-first single selection. This overview compares headless
-    primitives with plain CSS and Tailwind wrapper usage.
-  </p>
-
-  <section class="selectbox-overview-block">
-    <h3>Imports</h3>
-    <tng-code-block
-      [code]="primitiveImportCode"
-      adapter="shiki"
-      language="ts"
-      title="Primitive import"
-      [theme]="codeBlockTheme()"
-      [lineNumbers]="false"
-      [wrap]="true"
-      [sanitizeHtml]="false"
-    ></tng-code-block>
+<article class="docs-page-article">
+  <section id="imports" class="docs-page-section">
+    <h2>Imports</h2>
     <tng-code-block
       [code]="componentImportCode"
       adapter="shiki"
@@ -29,113 +13,103 @@
     ></tng-code-block>
   </section>
 
-  <section class="selectbox-overview-block">
+  <section id="basic-usage" class="docs-page-section">
+    <h2>Basic usage</h2>
+    <tng-code-block
+      [code]="basicUsageCode"
+      adapter="shiki"
+      language="html"
+      title="Wrapper attachment"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="selectbox-variants" class="docs-page-section">
     <app-docs-example-tabs-section
-      heading="Planet select variants"
-      description="Choose a planet using click, Enter, or Arrow keys to compare headless and wrapper rendering."
-      ariaLabel="Selectbox planet variants"
-      tabListAriaLabel="Selectbox styles"
-      defaultValue="headless"
+      heading="Select variants"
+      description="The wrapper API stays the same across plain CSS and Tailwind shells."
+      ariaLabel="Select overview variants"
+      tabListAriaLabel="Select overview style variants"
+      defaultValue="plain-css"
       [codeBlockTheme]="codeBlockTheme()"
     >
       <ng-template
         appDocsExampleVariant
-        value="headless"
-        label="Headless"
-        panelTitle="Headless planet select"
-        [codeTabs]="headlessCodeTabs"
-      >
-        <div class="selectbox-preview-shell selectbox-preview-shell--headless">
-          <section
-            tngSelect
-            class="selectbox-preview-control selectbox-preview-control--headless"
-            #headlessApi="tngSelect"
-            [value]="headlessValue()"
-            (valueChange)="onHeadlessValueChange($event)"
-          >
-            <button #headlessTrigger tngSelectTrigger type="button" aria-label="Headless planet select">
-              <span tngSelectValue>{{ resolveLabel(headlessValue()) }}</span>
-              <span tngSelectIcon aria-hidden="true">▾</span>
-            </button>
-
-            <div tngSelectContent>
-              <div tngSelectOverlay [style.minWidth.px]="headlessTrigger.offsetWidth">
-                <ul tngSelectListbox [value]="headlessApi.value()">
-                  @for (option of options; track option.value) {
-                    <li
-                      tngSelectOption
-                      [tngValue]="option.value"
-                      [disabled]="option.disabled === true"
-                    >
-                      {{ option.label }}
-                    </li>
-                  }
-                </ul>
-              </div>
-            </div>
-          </section>
-          <p class="selectbox-preview-summary">selected: {{ headlessSummary() }}</p>
-        </div>
-      </ng-template>
-
-      <ng-template
-        appDocsExampleVariant
         value="plain-css"
         label="Plain-CSS"
-        panelTitle="Plain CSS planet select"
-        [codeTabs]="plainCssCodeTabs"
+        panelTitle="Workflow stage (Plain-CSS)"
+        [codeTabs]="plainCodeTabs"
+        [stackblitzUrl]="stackblitzVanillaUrl"
       >
-        <div class="selectbox-preview-shell selectbox-preview-shell--plain">
+        <section class="docs-component-selectbox-overview-live-shell">
+          <div class="docs-component-selectbox-overview-live-header">
+            <span class="docs-component-selectbox-overview-live-kicker">Workflow stage</span>
+            <p class="docs-component-selectbox-overview-live-copy">
+              Wrapper-first single selection with a light shell and a committed value summary.
+            </p>
+          </div>
+
           <tng-select
-            class="selectbox-preview-control selectbox-preview-control--plain"
-            [options]="options"
-            [value]="plainValue()"
-            (valueChange)="onPlainValueChange($event)"
-            [getOptionValue]="getPlanetValue"
-            [getOptionLabel]="getPlanetLabel"
-            placeholder="Select a planet"
-            aria-label="Plain CSS planet select"
+            class="docs-component-selectbox-overview-live-control"
+            [options]="workflowStages"
+            [value]="overviewPlainSelectedStage()"
+            (valueChange)="onOverviewPlainSelectedStageChange($event)"
+            [getOptionValue]="getWorkflowStageValue"
+            [getOptionLabel]="getWorkflowStageLabel"
+            [isOptionDisabled]="isWorkflowStageDisabled"
+            placeholder="Choose workflow stage"
+            [ariaLabel]="'Workflow stage'"
           ></tng-select>
-          <p class="selectbox-preview-summary">selected: {{ plainSummary() }}</p>
-        </div>
+
+          <p class="docs-component-selectbox-overview-live-summary">
+            Selected: {{ overviewPlainSummary() }}
+          </p>
+        </section>
       </ng-template>
 
       <ng-template
         appDocsExampleVariant
         value="tailwind-css"
         label="Tailwind CSS"
-        panelTitle="Tailwind planet select"
+        panelTitle="Workflow stage (Tailwind CSS)"
         [codeTabs]="tailwindCodeTabs"
+        [stackblitzUrl]="stackblitzTailwindUrl"
       >
-        <div
-          class="selectbox-preview-shell rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
-        >
+        <section class="mx-auto grid max-w-[36rem] gap-4 rounded-[1.75rem] border border-slate-200 bg-white p-5 text-slate-900 shadow-sm">
+          <div class="grid gap-1">
+            <span class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Workflow stage</span>
+            <p class="m-0 text-sm text-slate-600">
+              Wrapper-first single selection with a utility-first shell and the same select contract.
+            </p>
+          </div>
+
           <tng-select
-            class="selectbox-preview-control selectbox-preview-control--tailwind"
-            [options]="options"
-            [value]="tailwindValue()"
-            (valueChange)="onTailwindValueChange($event)"
-            [getOptionValue]="getPlanetValue"
-            [getOptionLabel]="getPlanetLabel"
-            placeholder="Select a planet"
-            aria-label="Tailwind planet select"
+            class="block w-full min-w-0 [--tng-semantic-background-canvas:#ffffff] [--tng-semantic-background-surface:#f8fafc] [--tng-semantic-border-subtle:#d8e2ef] [--tng-semantic-border-strong:#94a3b8] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-foreground-secondary:#475569] [--tng-semantic-foreground-muted:#64748b] [--tng-semantic-accent-brand:#0f766e] [--tng-semantic-focus-ring:#0f766e] [--tng-select-radius:1rem] [--tng-select-trigger-py:0.625rem] [--tng-select-trigger-px:0.875rem] [--tng-select-option-py:0.625rem] [--tng-select-option-px:0.875rem] [--tng-select-bg:#ffffff] [--tng-select-surface:#f8fafc] [--tng-select-border:#d8e2ef] [--tng-select-border-strong:#94a3b8] [--tng-select-fg:#0f172a] [--tng-select-muted:#64748b] [--tng-select-brand:#0f766e] [--tng-select-focus-ring:#0f766e]"
+            [options]="workflowStages"
+            [value]="overviewTailwindSelectedStage()"
+            (valueChange)="onOverviewTailwindSelectedStageChange($event)"
+            [getOptionValue]="getWorkflowStageValue"
+            [getOptionLabel]="getWorkflowStageLabel"
+            [isOptionDisabled]="isWorkflowStageDisabled"
+            placeholder="Choose workflow stage"
+            [ariaLabel]="'Workflow stage'"
           ></tng-select>
-          <p class="selectbox-preview-summary">selected: {{ tailwindSummary() }}</p>
-        </div>
+
+          <p class="m-0 text-xs text-slate-600">Selected: {{ overviewTailwindSummary() }}</p>
+        </section>
       </ng-template>
     </app-docs-example-tabs-section>
   </section>
 
-  <section class="selectbox-overview-block">
-    <h3>Behavior baseline</h3>
-    <ul class="selectbox-overview-list">
-      <li>Trigger exposes <code>role=&quot;combobox&quot;</code> with listbox state attributes.</li>
-      <li><code>ArrowUp</code>/<code>ArrowDown</code> opens and traverses options.</li>
-      <li><code>Enter</code> commits the active option and closes the overlay.</li>
-      <li>
-        Styling hooks are available via slots like <code>select-trigger</code>,
-        <code>select-overlay</code>, and <code>select-option</code>.
-      </li>
+  <section id="behavior-baseline" class="docs-page-section">
+    <h2>Behavior baseline</h2>
+    <ul>
+      <li>The wrapper exposes a controlled single-value model through <code>value</code> and <code>valueChange</code>.</li>
+      <li>The trigger owns the combobox semantics while the menu uses a roving active option inside a listbox.</li>
+      <li>Use content templates when you need richer selected-value or option-row markup without rebuilding the primitive shell.</li>
     </ul>
   </section>
 </article>

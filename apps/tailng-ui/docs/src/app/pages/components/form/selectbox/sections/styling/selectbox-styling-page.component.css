@@ -7,18 +7,6 @@
   gap: 1rem;
 }
 
-.selectbox-styling-title {
-  color: var(--tng-semantic-foreground-primary);
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin: 0;
-}
-
-.selectbox-styling-lead {
-  color: var(--tng-semantic-foreground-secondary);
-  margin: 0;
-}
-
 .selectbox-styling-block {
   border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 0.9rem;
@@ -28,32 +16,102 @@
   padding: 1rem;
 }
 
-.selectbox-styling-block h3 {
+.selectbox-styling-block h2 {
   color: var(--tng-semantic-foreground-primary);
-  font-size: 1rem;
+  font-size: 1.25rem;
+  margin: 0;
+}
+
+.selectbox-styling-lead {
   margin: 0;
 }
 
 .selectbox-styling-table-wrap {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.75rem;
   overflow-x: auto;
 }
 
 .selectbox-styling-table {
   border-collapse: collapse;
-  font-size: 0.875rem;
-  min-width: 26rem;
+  min-width: 40rem;
   width: 100%;
 }
 
 .selectbox-styling-table th,
 .selectbox-styling-table td {
   border-bottom: 1px solid var(--tng-semantic-border-subtle);
-  padding: 0.625rem 0.5rem;
+  padding: 0.7rem 0.75rem;
   text-align: left;
   vertical-align: top;
 }
 
 .selectbox-styling-table th {
+  background: color-mix(in srgb, var(--tng-semantic-background-surface) 88%, transparent);
   color: var(--tng-semantic-foreground-primary);
-  font-weight: 600;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.selectbox-styling-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.docs-component-selectbox-styling-live-shell {
+  display: grid;
+  gap: 0.9rem;
+  inline-size: min(100%, 36rem);
+  margin-inline: auto;
+  padding: 1.1rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 1.25rem;
+  background: #ffffff;
+  color: #0f172a;
+  color-scheme: light;
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
+}
+
+.docs-component-selectbox-styling-live-header {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.docs-component-selectbox-styling-live-kicker {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #64748b;
+}
+
+.docs-component-selectbox-styling-live-copy,
+.docs-component-selectbox-styling-live-summary {
+  margin: 0;
+  color: #475569;
+}
+
+.docs-component-selectbox-styling-release-owner-shell {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  --tng-semantic-background-canvas: #ffffff;
+  --tng-semantic-background-surface: #f8fafc;
+  --tng-semantic-border-subtle: #d8e2ef;
+  --tng-semantic-border-strong: #94a3b8;
+  --tng-semantic-foreground-primary: #0f172a;
+  --tng-semantic-foreground-secondary: #475569;
+  --tng-semantic-foreground-muted: #64748b;
+  --tng-semantic-accent-brand: #0f766e;
+  --tng-semantic-focus-ring: #0f766e;
+  --tng-select-radius: 1rem;
+  --tng-select-trigger-py: 0.625rem;
+  --tng-select-trigger-px: 0.875rem;
+  --tng-select-option-py: 0.625rem;
+  --tng-select-option-px: 0.875rem;
+  --tng-select-bg: #ffffff;
+  --tng-select-surface: #f8fafc;
+  --tng-select-border: #d8e2ef;
+  --tng-select-border-strong: #94a3b8;
+  --tng-select-fg: #0f172a;
+  --tng-select-muted: #64748b;
+  --tng-select-brand: #0f766e;
+  --tng-select-focus-ring: #0f766e;
 }

@@ -10,7 +10,6 @@ export * from './autocomplete';
 export * from './button-toggle/tng-button-toggle';
 export * from './checkbox/tng-checkbox';
 export * from './chips/tng-chips';
-export * from './combobox/tng-combobox';
 export * from './datepicker';
 export * from './input/tng-input';
 export * from './input/tng-input-group';

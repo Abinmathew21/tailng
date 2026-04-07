@@ -7,130 +7,85 @@
   gap: 1rem;
 }
 
-.selectbox-examples-title {
-  color: var(--tng-semantic-foreground-primary);
-  font-size: 1.5rem;
+.docs-component-selectbox-examples-live-shell {
+  display: grid;
+  gap: 0.9rem;
+  inline-size: min(100%, 36rem);
+  margin-inline: auto;
+  padding: 1.1rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 1.25rem;
+  background: #ffffff;
+  color: #0f172a;
+  color-scheme: light;
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
+}
+
+.docs-component-selectbox-examples-live-header {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.docs-component-selectbox-examples-live-kicker {
+  font-size: 0.8rem;
   font-weight: 700;
+  color: #64748b;
+}
+
+.docs-component-selectbox-examples-live-copy,
+.docs-component-selectbox-examples-live-summary {
   margin: 0;
+  color: #475569;
 }
 
-.selectbox-examples-lead {
-  color: var(--tng-semantic-foreground-secondary);
-  margin: 0;
-}
-
-.selectbox-examples-block {
-  border: 1px solid var(--tng-semantic-border-subtle);
-  border-radius: 0.9rem;
-  color: var(--tng-semantic-foreground-secondary);
-  display: grid;
-  gap: 0.7rem;
-  padding: 1rem;
-}
-
-.selectbox-examples-block h3 {
-  color: var(--tng-semantic-foreground-primary);
-  font-size: 1rem;
-  margin: 0;
-}
-
-.selectbox-example-description {
-  margin: 0;
-}
-
-.selectbox-preview-shell {
-  display: grid;
-  gap: 0.65rem;
-  max-width: 28rem;
+.docs-component-selectbox-examples-stage-shell,
+.docs-component-selectbox-examples-owner-shell {
+  display: block;
   width: 100%;
-}
-
-.selectbox-preview-shell--headless {
-  background: color-mix(in srgb, var(--tng-semantic-background-surface) 84%, transparent);
-  border: 1px solid var(--tng-semantic-border-subtle);
-  border-radius: 0.8rem;
-  padding: 0.9rem 1rem;
-}
-
-.selectbox-preview-shell--plain {
-  background: var(--tng-semantic-background-surface);
-  border: 1px solid var(--tng-semantic-border-subtle);
-  border-radius: 0.8rem;
-  padding: 0.9rem 1rem;
-}
-
-.selectbox-preview-control {
-  --tng-select-radius: 0.78rem;
-  --tng-select-trigger-py: 0.58rem;
-  --tng-select-trigger-px: 0.88rem;
-  --tng-select-option-py: 0.5rem;
-  --tng-select-option-px: 0.72rem;
-  --tng-select-border-strong: color-mix(
-    in srgb,
-    var(--tng-semantic-border-subtle) 72%,
-    var(--tng-semantic-foreground-primary)
-  );
-  --tng-select-focus-ring: color-mix(
-    in srgb,
-    var(--tng-semantic-accent-brand) 88%,
-    var(--tng-semantic-background-canvas)
-  );
-}
-
-:host ::ng-deep .selectbox-preview-control [data-slot='select-trigger'] {
-  min-height: 2.65rem;
-}
-
-:host ::ng-deep .selectbox-preview-control [data-slot='select-icon'] {
-  align-items: center;
-  color: var(--tng-semantic-foreground-secondary);
-  display: inline-flex;
-  flex: 0 0 0.9rem;
-  font-size: 0.82rem;
-  inline-size: 0.9rem;
-  justify-content: center;
-  margin-inline-end: 0.125rem;
-  opacity: 0.82;
-}
-
-:host ::ng-deep .selectbox-preview-control [data-slot='select-overlay'] {
-  max-height: 14rem;
-  overflow: auto;
-}
-
-:host ::ng-deep .selectbox-preview-control [data-slot='select-option'] {
-  font-weight: 500;
-}
-
-.selectbox-preview-summary {
-  color: var(--tng-semantic-foreground-secondary);
-  font-size: 0.82rem;
-  margin: 0;
-}
-
-.selectbox-dual-grid {
-  display: grid;
-  gap: 1rem;
-}
-
-.selectbox-dual-card {
-  background: var(--tng-semantic-background-surface);
-  border: 1px solid var(--tng-semantic-border-subtle);
-  border-radius: 0.75rem;
-  display: grid;
-  gap: 0.65rem;
   min-width: 0;
-  padding: 0.9rem;
+  --tng-semantic-background-canvas: #ffffff;
+  --tng-semantic-background-surface: #f8fafc;
+  --tng-semantic-border-subtle: #d8e2ef;
+  --tng-semantic-border-strong: #94a3b8;
+  --tng-semantic-foreground-primary: #0f172a;
+  --tng-semantic-foreground-secondary: #475569;
+  --tng-semantic-foreground-muted: #64748b;
+  --tng-semantic-accent-brand: #2563eb;
+  --tng-semantic-focus-ring: #2563eb;
+  --tng-select-radius: 1rem;
+  --tng-select-trigger-py: 0.625rem;
+  --tng-select-trigger-px: 0.875rem;
+  --tng-select-option-py: 0.625rem;
+  --tng-select-option-px: 0.875rem;
+  --tng-select-bg: #ffffff;
+  --tng-select-surface: #f8fafc;
+  --tng-select-border: #d8e2ef;
+  --tng-select-border-strong: #94a3b8;
+  --tng-select-fg: #0f172a;
+  --tng-select-muted: #64748b;
+  --tng-select-brand: #2563eb;
+  --tng-select-focus-ring: #2563eb;
 }
 
-.selectbox-dual-card h4 {
-  color: var(--tng-semantic-foreground-primary);
-  font-size: 0.95rem;
-  margin: 0;
+.docs-component-selectbox-examples-owner-shell {
+  --tng-semantic-accent-brand: #0f766e;
+  --tng-semantic-focus-ring: #0f766e;
+  --tng-select-brand: #0f766e;
+  --tng-select-focus-ring: #0f766e;
 }
 
-@media (min-width: 64rem) {
-  .selectbox-dual-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
+.docs-component-selectbox-examples-owner-value-row,
+.docs-component-selectbox-examples-owner-option-row {
+  display: grid;
+  gap: 0.15rem;
+}
+
+.docs-component-selectbox-examples-owner-value-row strong,
+.docs-component-selectbox-examples-owner-option-label {
+  font-weight: 600;
+}
+
+.docs-component-selectbox-examples-owner-value-row small,
+.docs-component-selectbox-examples-owner-option-meta {
+  color: #64748b;
 }

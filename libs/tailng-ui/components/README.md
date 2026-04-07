@@ -12,7 +12,7 @@ Ready-to-use styled Angular components for TailNG UI, built on top of `@tailng-u
   <h1>@tailng-ui/components</h1>
 
   <p>
-    <strong>Scalability of Angular. Simplicity of Tailwind.</strong>
+    <strong>Accessible Angular UI, built to be owned.</strong>
   </p>
 
   <p>

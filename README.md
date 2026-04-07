@@ -8,7 +8,7 @@
   <h1>TailNG</h1>
 
   <p>
-    <strong>Scalability of Angular. Simplicity of Tailwind.</strong>
+    <strong>Accessible Angular UI, built to be owned.</strong>
   </p>
 
   <p>

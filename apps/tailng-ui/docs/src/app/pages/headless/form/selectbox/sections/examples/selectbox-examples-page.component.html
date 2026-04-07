@@ -1,0 +1,277 @@
+<article class="headless-selectbox-examples">
+  <section id="release-stage-select" class="docs-page-section">
+    <app-docs-example-tabs-section
+      heading="Release stage select"
+      description="A primitive-first status picker with a controlled single value and the default option rendering."
+      ariaLabel="Headless select release stage examples"
+      tabListAriaLabel="Headless select release stage variants"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Release stage select (Plain-CSS)"
+        [codeTabs]="releaseStagePlainCodeTabs"
+        [stackblitzUrl]="stackblitzVanillaUrl"
+      >
+        <section class="docs-headless-selectbox-examples-stage-plain-shell">
+          <div class="docs-headless-selectbox-examples-stage-plain-header">
+            <span class="docs-headless-selectbox-examples-stage-plain-kicker">Release stage</span>
+            <p class="docs-headless-selectbox-examples-stage-plain-copy">
+              Keep a controlled release-stage value while the primitive owns the interaction contract.
+            </p>
+          </div>
+
+          <section
+            tngSelect
+            class="docs-headless-selectbox-examples-stage-plain-root"
+            [value]="releaseStagePlainSelectedValue()"
+            (valueChange)="onReleaseStagePlainSelectedValueChange($event)"
+          >
+            <button type="button" tngSelectTrigger class="docs-headless-selectbox-examples-stage-plain-trigger">
+              <span
+                tngSelectValue
+                class="docs-headless-selectbox-examples-stage-plain-value"
+                [attr.data-placeholder]="releaseStagePlainSummary() === 'none' ? '' : null"
+              >
+                {{ releaseStagePlainSummary() === 'none' ? 'Choose release stage' : releaseStagePlainSummary() }}
+              </span>
+              <span tngSelectIcon class="docs-headless-selectbox-examples-stage-plain-icon" aria-hidden="true">▾</span>
+            </button>
+
+            <div tngSelectContent class="docs-headless-selectbox-examples-stage-plain-content">
+              <div tngSelectOverlay class="docs-headless-selectbox-examples-stage-plain-overlay">
+                <div
+                  tngSelectListbox
+                  class="docs-headless-selectbox-examples-stage-plain-listbox"
+                  [value]="releaseStagePlainSelectedValue()"
+                  (valueChange)="onReleaseStagePlainSelectedValueChange($event)"
+                >
+                  @for (stage of releaseStages; track stage.value) {
+                    <div
+                      tngSelectOption
+                      class="docs-headless-selectbox-examples-stage-plain-option"
+                      [tngValue]="stage.value"
+                      [disabled]="stage.disabled === true"
+                    >
+                      <p class="docs-headless-selectbox-examples-stage-plain-option-label">{{ stage.label }}</p>
+                      <p class="docs-headless-selectbox-examples-stage-plain-option-meta">{{ stage.note }}</p>
+                    </div>
+                  }
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <p class="docs-headless-selectbox-examples-stage-plain-summary">Selected: {{ releaseStagePlainSummary() }}</p>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Release stage select (Tailwind CSS)"
+        [codeTabs]="releaseStageTailwindCodeTabs"
+        [stackblitzUrl]="stackblitzTailwindUrl"
+      >
+        <section class="mx-auto grid max-w-[36rem] gap-4 rounded-[1.75rem] border border-slate-200 bg-white p-5 text-slate-900 shadow-sm [color-scheme:light]">
+          <div class="grid gap-1">
+            <span class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Release stage</span>
+            <p class="m-0 text-sm text-slate-600">
+              Keep a controlled release-stage value while the primitive owns the interaction contract.
+            </p>
+          </div>
+
+          <section
+            tngSelect
+            class="block w-full"
+            [value]="releaseStageTailwindSelectedValue()"
+            (valueChange)="onReleaseStageTailwindSelectedValueChange($event)"
+          >
+            <button
+              type="button"
+              tngSelectTrigger
+              class="flex w-full min-w-0 items-center justify-between gap-3 rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left text-slate-900 shadow-sm transition hover:border-slate-400 focus:border-blue-600 focus:outline-none focus:ring-4 focus:ring-blue-100"
+            >
+              <span
+                tngSelectValue
+                class="min-w-0 truncate"
+                [attr.data-placeholder]="releaseStageTailwindSummary() === 'none' ? '' : null"
+              >
+                {{ releaseStageTailwindSummary() === 'none' ? 'Choose release stage' : releaseStageTailwindSummary() }}
+              </span>
+              <span tngSelectIcon class="text-xs text-slate-500" aria-hidden="true">▾</span>
+            </button>
+
+            <div tngSelectContent class="contents">
+              <div tngSelectOverlay class="max-w-[min(92vw,36rem)] rounded-2xl border border-slate-200 bg-white p-2 shadow-2xl">
+                <div
+                  tngSelectListbox
+                  class="grid gap-1"
+                  [value]="releaseStageTailwindSelectedValue()"
+                  (valueChange)="onReleaseStageTailwindSelectedValueChange($event)"
+                >
+                  @for (stage of releaseStages; track stage.value) {
+                    <div
+                      tngSelectOption
+                      class="grid gap-1 rounded-xl border border-transparent px-4 py-3 transition data-[active]:border-slate-200 data-[active]:bg-slate-50 data-[selected]:border-blue-200 data-[selected]:bg-blue-50 data-[selected]:text-blue-800 [&[data-selected][data-active]]:border-blue-400 [&[data-selected][data-active]]:bg-blue-100 data-[disabled]:cursor-not-allowed data-[disabled]:opacity-45"
+                      [tngValue]="stage.value"
+                      [disabled]="stage.disabled === true"
+                    >
+                      <p class="m-0 text-sm font-semibold text-current">{{ stage.label }}</p>
+                      <p class="m-0 text-sm text-slate-500">{{ stage.note }}</p>
+                    </div>
+                  }
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <p class="m-0 text-xs text-slate-600">Selected: {{ releaseStageTailwindSummary() }}</p>
+        </section>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section id="release-owner-roster" class="docs-page-section">
+    <app-docs-example-tabs-section
+      heading="Release owner roster"
+      description="Own the trigger value and option rows directly when the selected state needs richer metadata."
+      ariaLabel="Headless select release owner examples"
+      tabListAriaLabel="Headless select release owner variants"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Release owner roster (Plain-CSS)"
+        [codeTabs]="releaseOwnerPlainCodeTabs"
+        [stackblitzUrl]="stackblitzVanillaUrl"
+      >
+        <section class="docs-headless-selectbox-examples-owner-plain-shell">
+          <div class="docs-headless-selectbox-examples-owner-plain-header">
+            <span class="docs-headless-selectbox-examples-owner-plain-kicker">Release owner roster</span>
+            <p class="docs-headless-selectbox-examples-owner-plain-copy">
+              Own the trigger value and option markup directly when the selected state needs richer metadata.
+            </p>
+          </div>
+
+          <section
+            tngSelect
+            class="docs-headless-selectbox-examples-owner-plain-root"
+            [value]="releaseOwnerPlainSelectedValue()"
+            (valueChange)="onReleaseOwnerPlainSelectedValueChange($event)"
+          >
+            <button type="button" tngSelectTrigger class="docs-headless-selectbox-examples-owner-plain-trigger">
+              <span tngSelectValue class="docs-headless-selectbox-examples-owner-plain-value-block">
+                @if (releaseOwnerPlainSelectedOwner(); as owner) {
+                  <span class="docs-headless-selectbox-examples-owner-plain-value-label">{{ owner.name }}</span>
+                  <span class="docs-headless-selectbox-examples-owner-plain-value-meta">{{ owner.team }} · {{ owner.timezone }}</span>
+                } @else {
+                  <span class="docs-headless-selectbox-examples-owner-plain-value-placeholder">Assign release owner</span>
+                }
+              </span>
+              <span tngSelectIcon class="docs-headless-selectbox-examples-owner-plain-icon" aria-hidden="true">▾</span>
+            </button>
+
+            <div tngSelectContent class="docs-headless-selectbox-examples-owner-plain-content">
+              <div tngSelectOverlay class="docs-headless-selectbox-examples-owner-plain-overlay">
+                <div
+                  tngSelectListbox
+                  class="docs-headless-selectbox-examples-owner-plain-listbox"
+                  [value]="releaseOwnerPlainSelectedValue()"
+                  (valueChange)="onReleaseOwnerPlainSelectedValueChange($event)"
+                >
+                  @for (owner of releaseOwners; track owner.id) {
+                    <div
+                      tngSelectOption
+                      class="docs-headless-selectbox-examples-owner-plain-option"
+                      [tngValue]="owner.id"
+                      [disabled]="owner.disabled === true"
+                    >
+                      <p class="docs-headless-selectbox-examples-owner-plain-option-label">{{ owner.name }}</p>
+                      <p class="docs-headless-selectbox-examples-owner-plain-option-meta">{{ owner.team }} · {{ owner.timezone }}</p>
+                    </div>
+                  }
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <p class="docs-headless-selectbox-examples-owner-plain-summary">Selected: {{ releaseOwnerPlainSummary() }}</p>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Release owner roster (Tailwind CSS)"
+        [codeTabs]="releaseOwnerTailwindCodeTabs"
+        [stackblitzUrl]="stackblitzTailwindUrl"
+      >
+        <section class="mx-auto grid max-w-[36rem] gap-4 rounded-[1.75rem] border border-slate-200 bg-white p-5 text-slate-900 shadow-sm [color-scheme:light]">
+          <div class="grid gap-1">
+            <span class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Release owner roster</span>
+            <p class="m-0 text-sm text-slate-600">
+              Own the trigger value and option markup directly when the selected state needs richer metadata.
+            </p>
+          </div>
+
+          <section
+            tngSelect
+            class="block w-full"
+            [value]="releaseOwnerTailwindSelectedValue()"
+            (valueChange)="onReleaseOwnerTailwindSelectedValueChange($event)"
+          >
+            <button
+              type="button"
+              tngSelectTrigger
+              class="flex w-full min-w-0 items-center justify-between gap-3 rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left text-slate-900 shadow-sm transition hover:border-slate-400 focus:border-teal-600 focus:outline-none focus:ring-4 focus:ring-teal-100"
+            >
+              <span tngSelectValue class="grid min-w-0 flex-1 gap-0.5 text-left">
+                @if (releaseOwnerTailwindSelectedOwner(); as owner) {
+                  <span class="truncate text-sm font-semibold text-slate-900">{{ owner.name }}</span>
+                  <span class="truncate text-xs text-slate-500">{{ owner.team }} · {{ owner.timezone }}</span>
+                } @else {
+                  <span class="truncate text-sm text-slate-500">Assign release owner</span>
+                }
+              </span>
+              <span tngSelectIcon class="text-xs text-slate-500" aria-hidden="true">▾</span>
+            </button>
+
+            <div tngSelectContent class="contents">
+              <div tngSelectOverlay class="max-w-[min(92vw,36rem)] rounded-2xl border border-slate-200 bg-white p-2 shadow-2xl">
+                <div
+                  tngSelectListbox
+                  class="grid gap-1"
+                  [value]="releaseOwnerTailwindSelectedValue()"
+                  (valueChange)="onReleaseOwnerTailwindSelectedValueChange($event)"
+                >
+                  @for (owner of releaseOwners; track owner.id) {
+                    <div
+                      tngSelectOption
+                      class="grid gap-1 rounded-xl border border-transparent px-4 py-3 transition data-[active]:border-slate-200 data-[active]:bg-slate-50 data-[selected]:border-teal-200 data-[selected]:bg-teal-50 data-[selected]:text-teal-800 [&[data-selected][data-active]]:border-teal-400 [&[data-selected][data-active]]:bg-teal-100 data-[disabled]:cursor-not-allowed data-[disabled]:opacity-45"
+                      [tngValue]="owner.id"
+                      [disabled]="owner.disabled === true"
+                    >
+                      <p class="m-0 text-sm font-semibold text-current">{{ owner.name }}</p>
+                      <p class="m-0 text-sm text-slate-500">{{ owner.team }} · {{ owner.timezone }}</p>
+                    </div>
+                  }
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <p class="m-0 text-xs text-slate-600">Selected: {{ releaseOwnerTailwindSummary() }}</p>
+        </section>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+</article>

@@ -1,0 +1,178 @@
+<article class="headless-selectbox-overview">
+  <section id="imports" class="headless-selectbox-overview__section">
+    <h2>Imports</h2>
+    <tng-code-block
+      [code]="primitiveImportCode"
+      adapter="shiki"
+      language="ts"
+      title="Primitive imports"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="basic-usage" class="headless-selectbox-overview__section">
+    <h2>Basic usage</h2>
+    <tng-code-block
+      [code]="basicUsageCode"
+      adapter="shiki"
+      language="html"
+      title="Owned select composition"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="selectbox-variants" class="docs-page-section">
+    <app-docs-example-tabs-section
+      heading="Select variants"
+      description="The same headless select primitive rendered with an owned plain-CSS shell and a light Tailwind shell."
+      ariaLabel="Headless select overview variants"
+      tabListAriaLabel="Headless select overview styles"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Workflow stage (Plain-CSS)"
+        [codeTabs]="plainCodeTabs"
+        [stackblitzUrl]="stackblitzVanillaUrl"
+      >
+        <section class="docs-headless-selectbox-overview-plain-shell">
+          <div class="docs-headless-selectbox-overview-plain-header">
+            <span class="docs-headless-selectbox-overview-plain-kicker">Workflow stage</span>
+            <p class="docs-headless-selectbox-overview-plain-copy">
+              Primitive-first single selection with an owned trigger and owned overlay rows.
+            </p>
+          </div>
+
+          <section
+            tngSelect
+            class="docs-headless-selectbox-overview-plain-root"
+            [value]="overviewPlainSelectedStage()"
+            (valueChange)="onOverviewPlainSelectedStageChange($event)"
+          >
+            <button type="button" tngSelectTrigger class="docs-headless-selectbox-overview-plain-trigger">
+              <span
+                tngSelectValue
+                class="docs-headless-selectbox-overview-plain-value"
+                [attr.data-placeholder]="overviewPlainSelectedStageLabel() === null ? '' : null"
+              >
+                {{ overviewPlainSelectedStageLabel() ?? 'Choose workflow stage' }}
+              </span>
+              <span tngSelectIcon class="docs-headless-selectbox-overview-plain-icon" aria-hidden="true">▾</span>
+            </button>
+
+            <div tngSelectContent class="docs-headless-selectbox-overview-plain-content">
+              <div tngSelectOverlay class="docs-headless-selectbox-overview-plain-overlay">
+                <div
+                  tngSelectListbox
+                  class="docs-headless-selectbox-overview-plain-listbox"
+                  [value]="overviewPlainSelectedStage()"
+                  (valueChange)="onOverviewPlainSelectedStageChange($event)"
+                >
+                  @for (stage of workflowStages; track stage.value) {
+                    <div
+                      tngSelectOption
+                      class="docs-headless-selectbox-overview-plain-option"
+                      [tngValue]="stage.value"
+                      [disabled]="stage.disabled === true"
+                    >
+                      <p class="docs-headless-selectbox-overview-plain-option-label">{{ stage.label }}</p>
+                      <p class="docs-headless-selectbox-overview-plain-option-meta">{{ stage.note }}</p>
+                    </div>
+                  }
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <p class="docs-headless-selectbox-overview-plain-summary">
+            Selected: {{ overviewPlainSummary() }}
+          </p>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Workflow stage (Tailwind CSS)"
+        [codeTabs]="tailwindCodeTabs"
+        [stackblitzUrl]="stackblitzTailwindUrl"
+      >
+        <section class="mx-auto grid max-w-[36rem] gap-4 rounded-[1.75rem] border border-slate-200 bg-white p-5 text-slate-900 shadow-sm [color-scheme:light]">
+          <div class="grid gap-1">
+            <span class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Workflow stage</span>
+            <p class="m-0 text-sm text-slate-600">
+              Primitive-first single selection with an owned trigger and owned overlay rows.
+            </p>
+          </div>
+
+          <section
+            tngSelect
+            class="block w-full"
+            [value]="overviewTailwindSelectedStage()"
+            (valueChange)="onOverviewTailwindSelectedStageChange($event)"
+          >
+            <button
+              type="button"
+              tngSelectTrigger
+              class="flex w-full min-w-0 items-center justify-between gap-3 rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left text-slate-900 shadow-sm transition hover:border-slate-400 focus:border-emerald-600 focus:outline-none focus:ring-4 focus:ring-emerald-100"
+            >
+              <span
+                tngSelectValue
+                class="min-w-0 truncate"
+                [attr.data-placeholder]="overviewTailwindSelectedStageLabel() === null ? '' : null"
+              >
+                {{ overviewTailwindSelectedStageLabel() ?? 'Choose workflow stage' }}
+              </span>
+              <span tngSelectIcon class="text-xs text-slate-500" aria-hidden="true">▾</span>
+            </button>
+
+            <div tngSelectContent class="contents">
+              <div tngSelectOverlay class="max-w-[min(92vw,36rem)] rounded-2xl border border-slate-200 bg-white p-2 text-slate-900 shadow-2xl [color-scheme:light]">
+                <div
+                  tngSelectListbox
+                  class="grid gap-1"
+                  [value]="overviewTailwindSelectedStage()"
+                  (valueChange)="onOverviewTailwindSelectedStageChange($event)"
+                >
+                  @for (stage of workflowStages; track stage.value) {
+                    <div
+                      tngSelectOption
+                      class="grid gap-1 rounded-xl border border-transparent px-4 py-3 text-slate-900 transition data-[active]:border-slate-200 data-[active]:bg-slate-50 data-[selected]:border-emerald-200 data-[selected]:bg-emerald-50 data-[selected]:text-emerald-800 [&[data-selected][data-active]]:border-emerald-400 [&[data-selected][data-active]]:bg-emerald-100 data-[disabled]:cursor-not-allowed data-[disabled]:opacity-45"
+                      [tngValue]="stage.value"
+                      [disabled]="stage.disabled === true"
+                    >
+                      <p class="m-0 text-sm font-semibold text-current">{{ stage.label }}</p>
+                      <p class="m-0 text-sm text-slate-500">{{ stage.note }}</p>
+                    </div>
+                  }
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <p class="m-0 text-xs text-slate-600">Selected: {{ overviewTailwindSummary() }}</p>
+        </section>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section id="behavior-baseline" class="headless-selectbox-overview__section">
+    <h2>Behavior baseline</h2>
+    <ul class="headless-selectbox-overview__list">
+      <li>The trigger owns combobox semantics, focus, and <code>aria-expanded</code>.</li>
+      <li>The listbox bridge keeps active option state and committed value in sync.</li>
+      <li><code>Enter</code>, <code>Space</code>, and pointer selection commit the active option and close the menu.</li>
+      <li>Use <code>data-active</code>, <code>data-selected</code>, and <code>data-disabled</code> for option state styling.</li>
+    </ul>
+  </section>
+</article>

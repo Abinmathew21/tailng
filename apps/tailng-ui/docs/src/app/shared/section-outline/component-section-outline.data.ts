@@ -792,20 +792,24 @@ export const docsComponentOutlineItemsBySlug: Readonly<Record<string, Partial<Re
   'selectbox': {
     'overview': [
       { id: 'imports', label: 'Imports' },
-      { id: 'planet-select-variants', label: 'Planet select variants' },
+      { id: 'basic-usage', label: 'Basic usage' },
+      { id: 'selectbox-variants', label: 'Select variants' },
       { id: 'behavior-baseline', label: 'Behavior baseline' },
     ],
     'api': [
-      { id: 'primitive-directives', label: 'Primitive directives' },
-      { id: 'styled-wrapper-and-lt-tng-select-and-gt', label: 'Styled wrapper &lt;tng-select&gt;' },
+      { id: 'wrapper-api', label: 'Wrapper API' },
+      { id: 'option-accessors', label: 'Option accessors' },
+      { id: 'template-hooks', label: 'Template hooks' },
+      { id: 'primitive-foundation', label: 'Primitive foundation' },
     ],
     'styling': [
-      { id: 'css-contract-table', label: 'CSS contract table' },
-      { id: 'example-style-contract', label: 'Example style contract' },
+      { id: 'supported-contract', label: 'Supported contract' },
+      { id: 'host-tokens', label: 'Host tokens' },
+      { id: 'wrapper-style-variants', label: 'Wrapper style variants' },
     ],
     'examples': [
-      { id: 'status-select-variants', label: 'Status select variants' },
-      { id: 'dual-select-keyboard-handoff', label: 'Dual select keyboard handoff' },
+      { id: 'release-stage-select', label: 'Release stage select' },
+      { id: 'custom-owner-template', label: 'Custom owner template' },
     ],
     'ownable-install': [
       { id: 'install-from-registry', label: 'Install from registry' },

@@ -12,7 +12,7 @@ Icon abstraction layer for TailNG UI, with built-in `lucide` support, custom pac
   <h1>@tailng-ui/icons</h1>
 
   <p>
-    <strong>Scalability of Angular. Simplicity of Tailwind.</strong>
+    <strong>Accessible Angular UI, built to be owned.</strong>
   </p>
 
   <p>
