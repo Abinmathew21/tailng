@@ -79,8 +79,11 @@
   /* ---------------- Trigger (input) ---------------- */
 
   :where([data-slot="autocomplete-trigger"]) {
+    all: unset;
+    box-sizing: border-box;
     flex: 1;
     min-width: 0;
+    display: block;
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -91,9 +94,13 @@
     background: transparent;
     color: var(--tng-autocomplete-fg);
 
+    font-family: inherit;
     font-size: 0.95rem;
     font-weight: 400;
     line-height: 1.4;
+    caret-color: var(--tng-autocomplete-brand);
+    cursor: text;
+    -webkit-tap-highlight-color: transparent;
 
     outline: none;
   }
