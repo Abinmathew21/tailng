@@ -64,6 +64,10 @@ export const HEADLESS_FORM_ROUTES: Routes = [
     path: 'selectbox',
     loadChildren: () => import('./selectbox/routes').then((m) => m.HEADLESS_FORM_SELECTBOX_ROUTES),
   },
+  {
+    path: 'multiselect',
+    loadChildren: () => import('./multiselect/routes').then((m) => m.HEADLESS_FORM_MULTISELECT_ROUTES),
+  },
   ...group.items
     .filter(
       (item) =>
@@ -78,7 +82,8 @@ export const HEADLESS_FORM_ROUTES: Routes = [
         item.slug !== 'listbox' &&
         item.slug !== 'autocomplete' &&
         item.slug !== 'multi-autocomplete' &&
-        item.slug !== 'selectbox',
+        item.slug !== 'selectbox' &&
+        item.slug !== 'multiselect',
     )
     .map((item) => ({
       path: item.slug,

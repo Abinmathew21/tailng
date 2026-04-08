@@ -1,0 +1,169 @@
+<article class="headless-multiselect-overview">
+  <section id="imports" class="headless-multiselect-overview__section">
+    <h2>Imports</h2>
+    <tng-code-block
+      [code]="primitiveImportCode"
+      adapter="shiki"
+      language="ts"
+      title="Primitive imports"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="basic-usage" class="headless-multiselect-overview__section">
+    <h2>Basic usage</h2>
+    <tng-code-block
+      [code]="basicUsageCode"
+      adapter="shiki"
+      language="html"
+      title="Owned multiselect composition"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="multiselect-variants" class="docs-page-section">
+    <app-docs-example-tabs-section
+      heading="MultiSelect variants"
+      description="The same headless multiselect primitive rendered with an owned plain-CSS shell and a light Tailwind shell."
+      ariaLabel="Headless multiselect overview variants"
+      tabListAriaLabel="Headless multiselect overview styles"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Planets (Plain-CSS)"
+        [codeTabs]="plainCodeTabs"
+        [stackblitzUrl]="stackblitzVanillaUrl"
+      >
+        <section class="docs-headless-multiselect-overview-plain-shell">
+          <div class="docs-headless-multiselect-overview-plain-header">
+            <span class="docs-headless-multiselect-overview-plain-kicker">Planets</span>
+            <p class="docs-headless-multiselect-overview-plain-copy">
+              Primitive-first multi-selection with an owned trigger and owned overlay rows.
+            </p>
+          </div>
+
+          <section
+            tngMultiSelect
+            class="docs-headless-multiselect-overview-plain-root"
+            [value]="overviewPlainSelectedPlanets()"
+            (valueChange)="onOverviewPlainValueChange($event)"
+          >
+            <button type="button" tngSelectTrigger class="docs-headless-multiselect-overview-plain-trigger">
+              <span tngSelectValue class="docs-headless-multiselect-overview-plain-value">
+                {{ overviewPlainSummary() }}
+              </span>
+              <span tngSelectIcon class="docs-headless-multiselect-overview-plain-icon" aria-hidden="true">▾</span>
+            </button>
+
+            <div tngSelectContent class="docs-headless-multiselect-overview-plain-content">
+              <div tngSelectOverlay class="docs-headless-multiselect-overview-plain-overlay">
+                <ul
+                  tngMultiSelectListbox
+                  class="docs-headless-multiselect-overview-plain-listbox"
+                  [multiple]="true"
+                  [value]="overviewPlainSelectedPlanets()"
+                >
+                  @for (planet of planets; track planet.value) {
+                    <li
+                      tngMultiSelectOption
+                      class="docs-headless-multiselect-overview-plain-option"
+                      [tngValue]="planet.value"
+                      [disabled]="planet.disabled === true"
+                    >
+                      {{ planet.label }}
+                    </li>
+                  }
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          <p class="docs-headless-multiselect-overview-plain-summary">
+            Selected: {{ overviewPlainSummary() }}
+          </p>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Planets (Tailwind CSS)"
+        [codeTabs]="tailwindCodeTabs"
+        [stackblitzUrl]="stackblitzTailwindUrl"
+      >
+        <section class="mx-auto grid max-w-[36rem] gap-4 rounded-[1.75rem] border border-slate-200 bg-white p-5 text-slate-900 shadow-sm [color-scheme:light]">
+          <div class="grid gap-1">
+            <span class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Planets</span>
+            <p class="m-0 text-sm text-slate-600">
+              Primitive-first multi-selection with an owned trigger and owned overlay rows.
+            </p>
+          </div>
+
+          <section
+            tngMultiSelect
+            class="block w-full"
+            [value]="overviewTailwindSelectedPlanets()"
+            (valueChange)="onOverviewTailwindValueChange($event)"
+          >
+            <button
+              type="button"
+              tngSelectTrigger
+              class="flex w-full min-w-0 items-center justify-between gap-3 rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left text-slate-900 shadow-sm transition hover:border-slate-400 focus:border-emerald-600 focus:outline-none focus:ring-4 focus:ring-emerald-100"
+            >
+              <span tngSelectValue class="min-w-0 truncate">
+                {{ overviewTailwindSummary() }}
+              </span>
+              <span tngSelectIcon class="text-xs text-slate-500" aria-hidden="true">▾</span>
+            </button>
+
+            <div tngSelectContent class="contents">
+              <div tngSelectOverlay class="max-w-[min(92vw,36rem)] rounded-2xl border border-slate-200 bg-white p-2 text-slate-900 shadow-2xl [color-scheme:light]">
+                <ul
+                  tngMultiSelectListbox
+                  class="m-0 grid list-none gap-1 p-0"
+                  [multiple]="true"
+                  [value]="overviewTailwindSelectedPlanets()"
+                >
+                  @for (planet of planets; track planet.value) {
+                    <li
+                      tngMultiSelectOption
+                      class="rounded-xl border border-transparent px-4 py-3 text-slate-900 transition data-[active]:border-slate-200 data-[active]:bg-slate-50 data-[selected]:border-emerald-200 data-[selected]:bg-emerald-50 data-[selected]:text-emerald-800 [&[data-selected][data-active]]:border-emerald-400 [&[data-selected][data-active]]:bg-emerald-100 data-[disabled]:cursor-not-allowed data-[disabled]:opacity-45"
+                      [tngValue]="planet.value"
+                      [disabled]="planet.disabled === true"
+                    >
+                      {{ planet.label }}
+                    </li>
+                  }
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          <p class="m-0 text-xs text-slate-600">Selected: {{ overviewTailwindSummary() }}</p>
+        </section>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section id="behavior-baseline" class="headless-multiselect-overview__section">
+    <h2>Behavior baseline</h2>
+    <ul class="headless-multiselect-overview__list">
+      <li>The trigger owns combobox semantics, focus, and <code>aria-expanded</code>.</li>
+      <li>The multiselect listbox keeps active option state and selected values in sync.</li>
+      <li><code>Enter</code> toggles the active option <strong>without</strong> closing the overlay.</li>
+      <li>Values are modelled as <code>readonly T[]</code> and emitted as arrays on every toggle.</li>
+      <li>Use <code>data-active</code>, <code>data-selected</code>, and <code>data-disabled</code> for option state styling.</li>
+    </ul>
+  </section>
+</article>

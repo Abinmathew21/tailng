@@ -1,167 +1,157 @@
 <article class="multiselect-examples">
-  <h2 class="multiselect-examples-title">Examples</h2>
-  <p class="multiselect-examples-lead">
-    Interactive multi-select patterns for status filters and dual-control keyboard handoff.
-  </p>
-
-  <section class="multiselect-examples-block">
+  <section id="status-multiselect-variants" class="docs-page-section">
     <app-docs-example-tabs-section
-      heading="Status multiselect variants"
+      heading="Status multiselect"
       description="Toggle status options with Enter or click while the panel remains open."
-      ariaLabel="Multiselect status variants"
-      tabListAriaLabel="Multiselect style variants"
-      defaultValue="headless"
+      ariaLabel="Multiselect status examples"
+      tabListAriaLabel="Multiselect status variants"
+      defaultValue="plain-css"
       [codeBlockTheme]="codeBlockTheme()"
     >
-      <ng-template
-        appDocsExampleVariant
-        value="headless"
-        label="Headless"
-        panelTitle="Headless status multiselect"
-        [codeTabs]="headlessCodeTabs"
-      >
-        <div class="multiselect-preview-shell multiselect-preview-shell--headless">
-          <section
-            tngMultiSelect
-            class="multiselect-preview-control multiselect-preview-control--headless"
-            #headlessApi="tngMultiSelect"
-            [value]="headlessValue()"
-            (valueChange)="onHeadlessValueChange($event)"
-          >
-            <button #headlessTrigger tngSelectTrigger type="button" aria-label="Headless status multi-select">
-              <span tngSelectValue>{{ resolveLabels(headlessValue()) }}</span>
-              <span tngSelectIcon aria-hidden="true">▾</span>
-            </button>
+      <ng-template appDocsExampleVariant value="plain-css" label="Plain-CSS" panelTitle="Status multiselect (Plain-CSS)" [codeTabs]="statusPlainCodeTabs" [stackblitzUrl]="stackblitzVanillaUrl">
+        <section class="docs-component-multiselect-examples-live-shell">
+          <div class="docs-component-multiselect-examples-live-header">
+            <span class="docs-component-multiselect-examples-live-kicker">Status filter</span>
+            <p class="docs-component-multiselect-examples-live-copy">
+              Keep a controlled multi-value while the wrapper handles trigger and menu plumbing.
+            </p>
+          </div>
 
-            <div tngSelectContent>
-              <div tngSelectOverlay [style.minWidth.px]="headlessTrigger.offsetWidth">
-                <ul tngMultiSelectListbox [multiple]="true" [value]="headlessApi.value()">
-                  @for (option of statusOptions; track option.value) {
-                    <li
-                      tngMultiSelectOption
-                      [tngValue]="option.value"
-                      [disabled]="option.disabled === true"
-                    >
-                      {{ option.label }}
-                    </li>
-                  }
-                </ul>
-              </div>
-            </div>
-          </section>
-          <p class="multiselect-preview-summary">selected: {{ headlessSummary() }}</p>
-        </div>
-      </ng-template>
-
-      <ng-template
-        appDocsExampleVariant
-        value="plain-css"
-        label="Plain-CSS"
-        panelTitle="Plain CSS status multiselect"
-        [codeTabs]="plainCssCodeTabs"
-      >
-        <div class="multiselect-preview-shell multiselect-preview-shell--plain">
           <tng-multiselect
-            class="multiselect-preview-control multiselect-preview-control--plain"
+            class="docs-component-multiselect-examples-status-control"
             [options]="statusOptions"
-            [value]="plainValue()"
-            (valueChange)="onPlainValueChange($event)"
+            [value]="statusPlainValue()"
+            (valueChange)="onStatusPlainValueChange($event)"
             [getOptionValue]="getStatusValue"
             [getOptionLabel]="getStatusLabel"
             placeholder="Select statuses"
             aria-label="Plain CSS status multiselect"
           ></tng-multiselect>
-          <p class="multiselect-preview-summary">selected: {{ plainSummary() }}</p>
-        </div>
+
+          <p class="docs-component-multiselect-examples-live-summary">Selected: {{ statusPlainSummary() }}</p>
+        </section>
       </ng-template>
 
-      <ng-template
-        appDocsExampleVariant
-        value="tailwind-css"
-        label="Tailwind CSS"
-        panelTitle="Tailwind status multiselect"
-        [codeTabs]="tailwindCodeTabs"
-      >
-        <div
-          class="multiselect-preview-shell rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
-        >
+      <ng-template appDocsExampleVariant value="tailwind-css" label="Tailwind CSS" panelTitle="Status multiselect (Tailwind CSS)" [codeTabs]="statusTailwindCodeTabs" [stackblitzUrl]="stackblitzTailwindUrl">
+        <section class="mx-auto grid max-w-[36rem] gap-4 rounded-[1.75rem] border border-slate-200 bg-white p-5 text-slate-900 shadow-sm [color-scheme:light]">
+          <div class="grid gap-1">
+            <span class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Status filter</span>
+            <p class="m-0 text-sm text-slate-600">
+              Keep a controlled multi-value while the wrapper handles trigger and menu plumbing.
+            </p>
+          </div>
+
           <tng-multiselect
-            class="multiselect-preview-control multiselect-preview-control--tailwind"
+            class="block w-full min-w-0 [--tng-semantic-background-canvas:#ffffff] [--tng-semantic-background-surface:#f8fafc] [--tng-semantic-border-subtle:#d8e2ef] [--tng-semantic-border-strong:#94a3b8] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-foreground-secondary:#475569] [--tng-semantic-foreground-muted:#64748b] [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-focus-ring:#2563eb] [--tng-select-radius:1rem] [--tng-select-trigger-py:0.625rem] [--tng-select-trigger-px:0.875rem] [--tng-select-option-py:0.625rem] [--tng-select-option-px:0.875rem] [--tng-select-bg:#ffffff] [--tng-select-surface:#f8fafc] [--tng-select-border:#d8e2ef] [--tng-select-border-strong:#94a3b8] [--tng-select-fg:#0f172a] [--tng-select-muted:#64748b] [--tng-select-brand:#2563eb] [--tng-select-focus-ring:#2563eb]"
             [options]="statusOptions"
-            [value]="tailwindValue()"
-            (valueChange)="onTailwindValueChange($event)"
+            [value]="statusTailwindValue()"
+            (valueChange)="onStatusTailwindValueChange($event)"
             [getOptionValue]="getStatusValue"
             [getOptionLabel]="getStatusLabel"
             placeholder="Select statuses"
             aria-label="Tailwind status multiselect"
           ></tng-multiselect>
-          <p class="multiselect-preview-summary">selected: {{ tailwindSummary() }}</p>
-        </div>
+
+          <p class="m-0 text-xs text-slate-600">Selected: {{ statusTailwindSummary() }}</p>
+        </section>
       </ng-template>
     </app-docs-example-tabs-section>
   </section>
 
-  <section class="multiselect-examples-block">
-    <h3>Dual multiselect keyboard handoff</h3>
-    <p class="multiselect-example-description">
-      Use <code>Tab</code> to move between controls; each multiselect keeps independent roving
-      option state.
-    </p>
+  <section id="dual-multiselect-keyboard-handoff" class="docs-page-section">
+    <app-docs-example-tabs-section
+      heading="Dual multiselect keyboard handoff"
+      description="Use Tab to move between controls; each multiselect keeps independent roving option state."
+      ariaLabel="Dual multiselect keyboard handoff examples"
+      tabListAriaLabel="Dual multiselect variants"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template appDocsExampleVariant value="plain-css" label="Plain-CSS" panelTitle="Dual multiselect (Plain-CSS)" [codeTabs]="dualPlainCodeTabs" [stackblitzUrl]="stackblitzVanillaUrl">
+        <section class="docs-component-multiselect-examples-dual-shell">
+          <div class="docs-component-multiselect-examples-live-header">
+            <span class="docs-component-multiselect-examples-live-kicker">Dual tag groups</span>
+            <p class="docs-component-multiselect-examples-live-copy">
+              Two independent multiselects with Tab-based keyboard handoff between controls.
+            </p>
+          </div>
 
-    <div class="multiselect-dual-grid">
-      <section class="multiselect-dual-card">
-        <h4>Tag group A</h4>
-        <section
-          tngMultiSelect
-          class="multiselect-preview-control"
-          #tagAApi="tngMultiSelect"
-          [value]="tagValueA()"
-          (valueChange)="onTagAValueChange($event)"
-        >
-          <button #tagATrigger tngSelectTrigger type="button" aria-label="Tag group A multiselect">
-            <span tngSelectValue>{{ resolveLabels(tagValueA()) }}</span>
-            <span tngSelectIcon aria-hidden="true">▾</span>
-          </button>
+          <div class="docs-component-multiselect-examples-dual-grid">
+            <div class="docs-component-multiselect-examples-dual-card">
+              <p class="docs-component-multiselect-examples-dual-card-title">Tag group A</p>
+              <tng-multiselect
+                class="docs-component-multiselect-examples-tag-control"
+                [options]="tagOptions"
+                [value]="tagPlainValueA()"
+                (valueChange)="onTagPlainAValueChange($event)"
+                [getOptionValue]="getTagValue"
+                [getOptionLabel]="getTagLabel"
+                placeholder="Select tags"
+                aria-label="Tag group A multiselect"
+              ></tng-multiselect>
+              <p class="docs-component-multiselect-examples-live-summary">Selected: {{ tagPlainSummaryA() }}</p>
+            </div>
 
-          <div tngSelectContent>
-            <div tngSelectOverlay [style.minWidth.px]="tagATrigger.offsetWidth">
-              <ul tngMultiSelectListbox [multiple]="true" [value]="tagAApi.value()">
-                @for (option of tagOptions; track option.value) {
-                  <li tngMultiSelectOption [tngValue]="option.value">{{ option.label }}</li>
-                }
-              </ul>
+            <div class="docs-component-multiselect-examples-dual-card">
+              <p class="docs-component-multiselect-examples-dual-card-title">Tag group B</p>
+              <tng-multiselect
+                class="docs-component-multiselect-examples-tag-control"
+                [options]="tagOptions"
+                [value]="tagPlainValueB()"
+                (valueChange)="onTagPlainBValueChange($event)"
+                [getOptionValue]="getTagValue"
+                [getOptionLabel]="getTagLabel"
+                placeholder="Select tags"
+                aria-label="Tag group B multiselect"
+              ></tng-multiselect>
+              <p class="docs-component-multiselect-examples-live-summary">Selected: {{ tagPlainSummaryB() }}</p>
             </div>
           </div>
         </section>
-        <p class="multiselect-preview-summary">selected: {{ tagSummaryA() }}</p>
-      </section>
+      </ng-template>
 
-      <section class="multiselect-dual-card">
-        <h4>Tag group B</h4>
-        <section
-          tngMultiSelect
-          class="multiselect-preview-control"
-          #tagBApi="tngMultiSelect"
-          [value]="tagValueB()"
-          (valueChange)="onTagBValueChange($event)"
-        >
-          <button #tagBTrigger tngSelectTrigger type="button" aria-label="Tag group B multiselect">
-            <span tngSelectValue>{{ resolveLabels(tagValueB()) }}</span>
-            <span tngSelectIcon aria-hidden="true">▾</span>
-          </button>
+      <ng-template appDocsExampleVariant value="tailwind-css" label="Tailwind CSS" panelTitle="Dual multiselect (Tailwind CSS)" [codeTabs]="dualTailwindCodeTabs" [stackblitzUrl]="stackblitzTailwindUrl">
+        <section class="grid w-full gap-4 rounded-[1.75rem] border border-slate-200 bg-white p-5 text-slate-900 shadow-sm [color-scheme:light]">
+          <div class="grid gap-1">
+            <span class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Dual tag groups</span>
+            <p class="m-0 text-sm text-slate-600">
+              Two independent multiselects with Tab-based keyboard handoff between controls.
+            </p>
+          </div>
 
-          <div tngSelectContent>
-            <div tngSelectOverlay [style.minWidth.px]="tagBTrigger.offsetWidth">
-              <ul tngMultiSelectListbox [multiple]="true" [value]="tagBApi.value()">
-                @for (option of tagOptions; track option.value) {
-                  <li tngMultiSelectOption [tngValue]="option.value">{{ option.label }}</li>
-                }
-              </ul>
+          <div class="grid gap-4 lg:grid-cols-2">
+            <div class="grid gap-2 rounded-xl border border-slate-100 bg-slate-50 p-3">
+              <p class="m-0 text-sm font-semibold text-slate-600">Tag group A</p>
+              <tng-multiselect
+                class="block w-full min-w-0 [--tng-semantic-background-canvas:#ffffff] [--tng-semantic-background-surface:#f8fafc] [--tng-semantic-border-subtle:#d8e2ef] [--tng-semantic-border-strong:#94a3b8] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-foreground-secondary:#475569] [--tng-semantic-foreground-muted:#64748b] [--tng-semantic-accent-brand:#0f766e] [--tng-semantic-focus-ring:#0f766e] [--tng-select-radius:1rem] [--tng-select-trigger-py:0.625rem] [--tng-select-trigger-px:0.875rem] [--tng-select-option-py:0.625rem] [--tng-select-option-px:0.875rem] [--tng-select-bg:#ffffff] [--tng-select-surface:#f8fafc] [--tng-select-border:#d8e2ef] [--tng-select-border-strong:#94a3b8] [--tng-select-fg:#0f172a] [--tng-select-muted:#64748b] [--tng-select-brand:#0f766e] [--tng-select-focus-ring:#0f766e]"
+                [options]="tagOptions"
+                [value]="tagTailwindValueA()"
+                (valueChange)="onTagTailwindAValueChange($event)"
+                [getOptionValue]="getTagValue"
+                [getOptionLabel]="getTagLabel"
+                placeholder="Select tags"
+                aria-label="Tag group A multiselect"
+              ></tng-multiselect>
+              <p class="m-0 text-xs text-slate-600">Selected: {{ tagTailwindSummaryA() }}</p>
+            </div>
+
+            <div class="grid gap-2 rounded-xl border border-slate-100 bg-slate-50 p-3">
+              <p class="m-0 text-sm font-semibold text-slate-600">Tag group B</p>
+              <tng-multiselect
+                class="block w-full min-w-0 [--tng-semantic-background-canvas:#ffffff] [--tng-semantic-background-surface:#f8fafc] [--tng-semantic-border-subtle:#d8e2ef] [--tng-semantic-border-strong:#94a3b8] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-foreground-secondary:#475569] [--tng-semantic-foreground-muted:#64748b] [--tng-semantic-accent-brand:#0f766e] [--tng-semantic-focus-ring:#0f766e] [--tng-select-radius:1rem] [--tng-select-trigger-py:0.625rem] [--tng-select-trigger-px:0.875rem] [--tng-select-option-py:0.625rem] [--tng-select-option-px:0.875rem] [--tng-select-bg:#ffffff] [--tng-select-surface:#f8fafc] [--tng-select-border:#d8e2ef] [--tng-select-border-strong:#94a3b8] [--tng-select-fg:#0f172a] [--tng-select-muted:#64748b] [--tng-select-brand:#0f766e] [--tng-select-focus-ring:#0f766e]"
+                [options]="tagOptions"
+                [value]="tagTailwindValueB()"
+                (valueChange)="onTagTailwindBValueChange($event)"
+                [getOptionValue]="getTagValue"
+                [getOptionLabel]="getTagLabel"
+                placeholder="Select tags"
+                aria-label="Tag group B multiselect"
+              ></tng-multiselect>
+              <p class="m-0 text-xs text-slate-600">Selected: {{ tagTailwindSummaryB() }}</p>
             </div>
           </div>
         </section>
-        <p class="multiselect-preview-summary">selected: {{ tagSummaryB() }}</p>
-      </section>
-    </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
   </section>
 </article>

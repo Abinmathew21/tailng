@@ -11,14 +11,13 @@ import {
 import { TngTab, TngTabList } from '@tailng-ui/primitives';
 import { filter, map, startWith } from 'rxjs/operators';
 
-type MultiselectDocSectionId = 'api' | 'examples' | 'overview' | 'ownable-install' | 'styling';
+type MultiselectDocSectionId = 'api' | 'examples' | 'overview' | 'styling';
 
 const multiselectDocSectionIds: readonly MultiselectDocSectionId[] = [
   'overview',
   'api',
   'styling',
   'examples',
-  'ownable-install',
 ] as const;
 
 const defaultMultiselectDocSection: MultiselectDocSectionId = 'overview';

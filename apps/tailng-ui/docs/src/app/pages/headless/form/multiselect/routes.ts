@@ -1,18 +1,18 @@
 import type { Routes } from '@angular/router';
-import { COMPONENTS_FORM_GROUP, toComponentsDocsRouteData } from '../../component-docs.data';
+import { HEADLESS_FORM_GROUP, toHeadlessDocsRouteData } from '../../headless-docs.data';
 
-const group = COMPONENTS_FORM_GROUP;
-const item = group.items.find((entry) => entry.slug === 'multiselect');
-if (item === undefined) {
-  throw new Error('Missing "multiselect" in components form docs group.');
+const group = HEADLESS_FORM_GROUP;
+const multiselectItem = group.items.find((item) => item.slug === 'multiselect');
+if (multiselectItem === undefined) {
+  throw new Error('Missing "multiselect" in headless form docs group.');
 }
 
-export const COMPONENTS_FORM_MULTISELECT_ROUTES: Routes = [
+export const HEADLESS_FORM_MULTISELECT_ROUTES: Routes = [
   {
     path: '',
-    data: toComponentsDocsRouteData(group, item),
+    data: toHeadlessDocsRouteData(group, multiselectItem),
     loadComponent: () =>
-      import('./multiselect-page.component').then((module) => module.MultiselectPageComponent),
+      import('./multiselect-page.component').then((module) => module.HeadlessMultiselectPageComponent),
     children: [
       {
         path: '',
@@ -23,28 +23,28 @@ export const COMPONENTS_FORM_MULTISELECT_ROUTES: Routes = [
         path: 'overview',
         loadComponent: () =>
           import('./sections/overview/multiselect-overview-page.component').then(
-            (module) => module.MultiselectOverviewPageComponent,
+            (module) => module.HeadlessMultiselectOverviewPageComponent,
           ),
       },
       {
         path: 'api',
         loadComponent: () =>
           import('./sections/api/multiselect-api-page.component').then(
-            (module) => module.MultiselectApiPageComponent,
+            (module) => module.HeadlessMultiselectApiPageComponent,
           ),
       },
       {
         path: 'styling',
         loadComponent: () =>
           import('./sections/styling/multiselect-styling-page.component').then(
-            (module) => module.MultiselectStylingPageComponent,
+            (module) => module.HeadlessMultiselectStylingPageComponent,
           ),
       },
       {
         path: 'examples',
         loadComponent: () =>
           import('./sections/examples/multiselect-examples-page.component').then(
-            (module) => module.MultiselectExamplesPageComponent,
+            (module) => module.HeadlessMultiselectExamplesPageComponent,
           ),
       },
       {

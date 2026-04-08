@@ -1,17 +1,8 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, computed, inject, signal, type OnDestroy } from '@angular/core';
 import { observeDocsCodeThemeChanges, resolveDocsCodeBlockTheme } from '../../../../../../shared/util';
+import { stackblitzTailwindUrl, stackblitzVanillaUrl } from '../../multiselect.util';
 import { TngCodeBlockComponent, TngMultiSelectComponent } from '@tailng-ui/components';
-import {
-  TngMultiSelect,
-  TngMultiSelectListbox,
-  TngMultiSelectOption,
-  TngSelectContent,
-  TngSelectIcon,
-  TngSelectOverlay,
-  TngSelectTrigger,
-  TngSelectValue,
-} from '@tailng-ui/primitives';
 import { type DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
 import {
   DocsExampleTabsSectionComponent,
@@ -39,14 +30,6 @@ const PLANET_OPTIONS: readonly PlanetOption[] = Object.freeze([
   imports: [
     TngCodeBlockComponent,
     TngMultiSelectComponent,
-    TngMultiSelect,
-    TngSelectTrigger,
-    TngSelectValue,
-    TngSelectIcon,
-    TngSelectContent,
-    TngSelectOverlay,
-    TngMultiSelectListbox,
-    TngMultiSelectOption,
     DocsExampleTabsSectionComponent,
     DocsExampleVariantDirective,
   ],
@@ -67,85 +50,28 @@ export class MultiselectOverviewPageComponent implements OnDestroy {
   protected readonly getPlanetValue = (option: PlanetOption) => option.value;
   protected readonly getPlanetLabel = (option: PlanetOption) => option.label;
 
-  protected readonly headlessValue = signal<readonly string[]>(['earth', 'mars']);
-  protected readonly plainValue = signal<readonly string[]>(['venus', 'neptune']);
-  protected readonly tailwindValue = signal<readonly string[]>(['mercury', 'uranus']);
+  protected readonly plainValue = signal<readonly string[]>(['earth', 'mars', 'neptune']);
+  protected readonly tailwindValue = signal<readonly string[]>(['venus', 'uranus']);
 
-  protected readonly headlessSummary = computed(() => this.resolveLabels(this.headlessValue()));
+  protected readonly stackblitzVanillaUrl = stackblitzVanillaUrl;
+  protected readonly stackblitzTailwindUrl = stackblitzTailwindUrl;
+
   protected readonly plainSummary = computed(() => this.resolveLabels(this.plainValue()));
   protected readonly tailwindSummary = computed(() => this.resolveLabels(this.tailwindValue()));
-
-  protected readonly primitiveImportCode = [
-    'import {',
-    '  TngMultiSelect,',
-    '  TngSelectTrigger,',
-    '  TngSelectValue,',
-    '  TngSelectIcon,',
-    '  TngSelectContent,',
-    '  TngSelectOverlay,',
-    '  TngMultiSelectListbox,',
-    '  TngMultiSelectOption,',
-    "} from '@tailng-ui/primitives';",
-    '',
-  ].join('\n');
 
   protected readonly componentImportCode =
     "import { TngMultiSelectComponent } from '@tailng-ui/components';";
 
-  protected readonly headlessCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
-    {
-      value: 'ts',
-      label: 'TS',
-      language: 'ts',
-      title: 'multiselect-headless-overview.component.ts',
-      code: [
-        "readonly selectedPlanets = signal<readonly string[]>(['earth', 'mars']);",
-        '',
-        'onValueChange(value: string | readonly string[] | null): void {',
-        '  this.selectedPlanets.set(this.toValueArray(value));',
-        '}',
-        '',
-      ].join('\n'),
-    },
-    {
-      value: 'html',
-      label: 'HTML',
-      language: 'html',
-      title: 'multiselect-headless-overview.component.html',
-      code: [
-        '<section tngMultiSelect [value]="selectedPlanets()" (valueChange)="onValueChange($event)">',
-        '  <button #trigger tngSelectTrigger type="button">',
-        '    <span tngSelectValue>{{ selectedLabel() }}</span>',
-        '    <span tngSelectIcon aria-hidden="true">▾</span>',
-        '  </button>',
-        '  <div tngSelectContent>',
-        '    <div tngSelectOverlay [style.minWidth.px]="trigger.offsetWidth">',
-        '      <ul tngMultiSelectListbox [multiple]="true">',
-        '        @for (planet of planets; track planet.value) {',
-        '          <li tngMultiSelectOption [tngValue]="planet.value">{{ planet.label }}</li>',
-        '        }',
-        '      </ul>',
-        '    </div>',
-        '  </div>',
-        '</section>',
-        '',
-      ].join('\n'),
-    },
-    {
-      value: 'css',
-      label: 'CSS',
-      language: 'css',
-      title: 'multiselect-headless-overview.component.css',
-      code: [
-        '.multiselect-preview-control {',
-        '  --tng-select-radius: 0.78rem;',
-        '  --tng-select-trigger-py: 0.58rem;',
-        '  --tng-select-trigger-px: 0.88rem;',
-        '}',
-        '',
-      ].join('\n'),
-    },
-  ]);
+  protected readonly basicUsageCode = [
+    '<tng-multiselect',
+    '  [options]="planets"',
+    '  [value]="selectedPlanets()"',
+    '  (valueChange)="onValueChange($event)"',
+    '  [getOptionValue]="getPlanetValue"',
+    '  [getOptionLabel]="getPlanetLabel"',
+    '  placeholder="Select planets"',
+    '></tng-multiselect>',
+  ].join('\n');
 
   protected readonly plainCssCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
     {
@@ -154,12 +80,42 @@ export class MultiselectOverviewPageComponent implements OnDestroy {
       language: 'ts',
       title: 'multiselect-plain-css-overview.component.ts',
       code: [
-        "readonly selectedPlanets = signal<readonly string[]>(['venus', 'neptune']);",
+        "import { Component, signal } from '@angular/core';",
+        "import { TngMultiSelectComponent } from '@tailng-ui/components';",
         '',
-        'onValueChange(value: string | readonly string[] | null): void {',
-        '  this.selectedPlanets.set(this.toValueArray(value));',
+        'interface PlanetOption {',
+        '  readonly value: string;',
+        '  readonly label: string;',
+        '  readonly disabled?: boolean;',
         '}',
         '',
+        'const PLANETS: readonly PlanetOption[] = [',
+        "  { value: 'mercury', label: 'Mercury' },",
+        "  { value: 'venus', label: 'Venus' },",
+        "  { value: 'earth', label: 'Earth' },",
+        "  { value: 'mars', label: 'Mars' },",
+        "  { value: 'jupiter', label: 'Jupiter', disabled: true },",
+        "  { value: 'uranus', label: 'Uranus' },",
+        "  { value: 'neptune', label: 'Neptune' },",
+        '];',
+        '',
+        '@Component({',
+        "  selector: 'app-multiselect-plain-css-overview',",
+        '  standalone: true,',
+        '  imports: [TngMultiSelectComponent],',
+        "  templateUrl: './multiselect-plain-css-overview.component.html',",
+        "  styleUrl: './multiselect-plain-css-overview.component.css',",
+        '})',
+        'export class MultiselectPlainCssOverviewComponent {',
+        '  readonly planets = PLANETS;',
+        "  readonly selectedPlanets = signal<readonly string[]>(['earth', 'mars', 'neptune']);",
+        '  readonly getPlanetValue = (o: PlanetOption) => o.value;',
+        '  readonly getPlanetLabel = (o: PlanetOption) => o.label;',
+        '',
+        '  onValueChange(value: unknown): void {',
+        '    if (Array.isArray(value)) this.selectedPlanets.set(value);',
+        '  }',
+        '}',
       ].join('\n'),
     },
     {
@@ -168,18 +124,22 @@ export class MultiselectOverviewPageComponent implements OnDestroy {
       language: 'html',
       title: 'multiselect-plain-css-overview.component.html',
       code: [
-        '<div class="multiselect-preview-shell multiselect-preview-shell--plain">',
+        '<section class="shell">',
+        '  <div class="header">',
+        '    <span class="kicker">Planet picker</span>',
+        '    <p class="copy">Wrapper-first multi-selection with a light shell.</p>',
+        '  </div>',
+        '',
         '  <tng-multiselect',
+        '    class="control"',
         '    [options]="planets"',
         '    [value]="selectedPlanets()"',
         '    (valueChange)="onValueChange($event)"',
         '    [getOptionValue]="getPlanetValue"',
         '    [getOptionLabel]="getPlanetLabel"',
         '    placeholder="Select planets"',
-        '    aria-label="Plain CSS planet multi-select"',
         '  ></tng-multiselect>',
-        '</div>',
-        '',
+        '</section>',
       ].join('\n'),
     },
     {
@@ -188,12 +148,25 @@ export class MultiselectOverviewPageComponent implements OnDestroy {
       language: 'css',
       title: 'multiselect-plain-css-overview.component.css',
       code: [
-        '.multiselect-preview-shell--plain {',
-        '  border: 1px solid var(--tng-semantic-border-subtle);',
-        '  border-radius: 0.8rem;',
-        '  padding: 0.9rem 1rem;',
+        '.shell {',
+        '  display: grid; gap: 0.9rem; max-width: 36rem; margin: auto;',
+        '  padding: 1.1rem; border: 1px solid #cbd5e1; border-radius: 1.25rem;',
+        '  background: #fff; color: #0f172a;',
         '}',
         '',
+        '.control {',
+        '  width: 100%;',
+        '  --tng-select-radius: 1rem;',
+        '  --tng-select-trigger-py: 0.8rem;',
+        '  --tng-select-trigger-px: 0.95rem;',
+        '  --tng-select-option-py: 0.75rem;',
+        '  --tng-select-option-px: 0.85rem;',
+        '  --tng-select-bg: #ffffff;',
+        '  --tng-select-border-strong: #94a3b8;',
+        '  --tng-select-fg: #0f172a;',
+        '  --tng-select-brand: #2563eb;',
+        '  --tng-select-focus-ring: #2563eb;',
+        '}',
       ].join('\n'),
     },
   ]);
@@ -205,12 +178,41 @@ export class MultiselectOverviewPageComponent implements OnDestroy {
       language: 'ts',
       title: 'multiselect-tailwind-overview.component.ts',
       code: [
-        "readonly selectedPlanets = signal<readonly string[]>(['mercury', 'uranus']);",
+        "import { Component, signal } from '@angular/core';",
+        "import { TngMultiSelectComponent } from '@tailng-ui/components';",
         '',
-        'onValueChange(value: string | readonly string[] | null): void {',
-        '  this.selectedPlanets.set(this.toValueArray(value));',
+        'interface PlanetOption {',
+        '  readonly value: string;',
+        '  readonly label: string;',
+        '  readonly disabled?: boolean;',
         '}',
         '',
+        'const PLANETS: readonly PlanetOption[] = [',
+        "  { value: 'mercury', label: 'Mercury' },",
+        "  { value: 'venus', label: 'Venus' },",
+        "  { value: 'earth', label: 'Earth' },",
+        "  { value: 'mars', label: 'Mars' },",
+        "  { value: 'jupiter', label: 'Jupiter', disabled: true },",
+        "  { value: 'uranus', label: 'Uranus' },",
+        "  { value: 'neptune', label: 'Neptune' },",
+        '];',
+        '',
+        '@Component({',
+        "  selector: 'app-multiselect-tailwind-overview',",
+        '  standalone: true,',
+        '  imports: [TngMultiSelectComponent],',
+        "  templateUrl: './multiselect-tailwind-overview.component.html',",
+        '})',
+        'export class MultiselectTailwindOverviewComponent {',
+        '  readonly planets = PLANETS;',
+        "  readonly selectedPlanets = signal<readonly string[]>(['venus', 'uranus']);",
+        '  readonly getPlanetValue = (o: PlanetOption) => o.value;',
+        '  readonly getPlanetLabel = (o: PlanetOption) => o.label;',
+        '',
+        '  onValueChange(value: unknown): void {',
+        '    if (Array.isArray(value)) this.selectedPlanets.set(value);',
+        '  }',
+        '}',
       ].join('\n'),
     },
     {
@@ -219,18 +221,29 @@ export class MultiselectOverviewPageComponent implements OnDestroy {
       language: 'html',
       title: 'multiselect-tailwind-overview.component.html',
       code: [
-        '<div class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">',
+        '<section class="mx-auto grid max-w-[36rem] gap-4 rounded-[1.75rem] border border-slate-200 bg-white p-5 text-slate-900 shadow-sm [color-scheme:light]">',
+        '  <div class="grid gap-1">',
+        '    <span class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Planet picker</span>',
+        '    <p class="m-0 text-sm text-slate-600">Wrapper-first multi-selection with Tailwind utilities.</p>',
+        '  </div>',
+        '',
         '  <tng-multiselect',
+        '    class="block w-full min-w-0',
+        '      [--tng-select-radius:1rem]',
+        '      [--tng-select-trigger-py:0.95rem]',
+        '      [--tng-select-trigger-px:1rem]',
+        '      [--tng-select-bg:#ffffff]',
+        '      [--tng-select-fg:#0f172a]',
+        '      [--tng-select-brand:#0f766e]',
+        '      [--tng-select-focus-ring:#0f766e]"',
         '    [options]="planets"',
         '    [value]="selectedPlanets()"',
         '    (valueChange)="onValueChange($event)"',
         '    [getOptionValue]="getPlanetValue"',
         '    [getOptionLabel]="getPlanetLabel"',
         '    placeholder="Select planets"',
-        '    aria-label="Tailwind planet multi-select"',
         '  ></tng-multiselect>',
-        '</div>',
-        '',
+        '</section>',
       ].join('\n'),
     },
     {
@@ -238,13 +251,9 @@ export class MultiselectOverviewPageComponent implements OnDestroy {
       label: 'CSS',
       language: 'css',
       title: 'multiselect-tailwind-overview.component.css',
-      code: '/* Tailwind utilities are applied directly in the template. */',
+      code: '/* No additional CSS required. Tailwind utility classes define the shell. */',
     },
   ]);
-
-  protected onHeadlessValueChange(value: unknown): void {
-    this.headlessValue.set(this.toValueArray(value));
-  }
 
   protected onPlainValueChange(value: unknown): void {
     this.plainValue.set(this.toValueArray(value));
@@ -276,5 +285,4 @@ export class MultiselectOverviewPageComponent implements OnDestroy {
 
     return typeof value === 'string' ? [value] : [];
   }
-
 }

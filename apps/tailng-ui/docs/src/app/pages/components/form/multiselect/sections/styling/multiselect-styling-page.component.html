@@ -1,67 +1,109 @@
 <article class="multiselect-styling">
-  <h2 class="multiselect-styling-title">Styling contract</h2>
-  <p class="multiselect-styling-lead">
-    MultiSelect styling should target public slots and state attributes for predictable custom
-    skins.
-  </p>
+  <section id="supported-contract" class="multiselect-styling-block">
+    <h2>Supported contract</h2>
+    <p class="multiselect-styling-lead">
+      Theme the wrapper from its host. Override semantic and select tokens on <code>&lt;tng-multiselect&gt;</code>;
+      drop to headless when you need full trigger or overlay DOM ownership.
+    </p>
 
-  <section class="multiselect-styling-block">
-    <h3>CSS contract table</h3>
     <div class="multiselect-styling-table-wrap">
       <table class="multiselect-styling-table">
         <thead>
           <tr>
-            <th scope="col">Selector</th>
+            <th scope="col">Selector or token</th>
             <th scope="col">Applied on</th>
             <th scope="col">Purpose</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td><code>[data-slot=&quot;multi-select&quot;]</code></td>
-            <td>Root host</td>
-            <td>State container and token overrides.</td>
-          </tr>
-          <tr>
-            <td><code>[data-slot=&quot;select-trigger&quot;]</code></td>
-            <td>Trigger control</td>
-            <td>Trigger surface and focus ring.</td>
-          </tr>
-          <tr>
-            <td><code>[data-slot=&quot;select-overlay&quot;]</code></td>
-            <td>Portaled overlay</td>
-            <td>Panel border, radius, and elevation.</td>
-          </tr>
-          <tr>
-            <td><code>[data-slot=&quot;multi-select-listbox&quot;]</code></td>
-            <td>Listbox host</td>
-            <td>Option stack spacing and scrolling behavior.</td>
-          </tr>
-          <tr>
-            <td><code>[data-slot=&quot;multi-select-option&quot;][data-active]</code></td>
-            <td>Option host</td>
-            <td>Keyboard active highlight.</td>
-          </tr>
-          <tr>
-            <td><code>[data-slot=&quot;multi-select-option&quot;][data-selected]</code></td>
-            <td>Option host</td>
-            <td>Committed selection styling.</td>
-          </tr>
+          @for (row of contractRows; track row.selector) {
+            <tr>
+              <td><code>{{ row.selector }}</code></td>
+              <td>{{ row.appliedOn }}</td>
+              <td>{{ row.purpose }}</td>
+            </tr>
+          }
         </tbody>
       </table>
     </div>
   </section>
 
-  <section class="multiselect-styling-block">
-    <h3>Example style contract</h3>
+  <section id="host-tokens" class="multiselect-styling-block">
+    <h2>Host tokens</h2>
+    <p>
+      These host-level variables are the stable styling surface for the wrapper. The same token set
+      feeds the trigger, option rows, and the portaled overlay.
+    </p>
     <tng-code-block
-      [code]="stylingExampleCode"
+      [code]="hostTokenGuidanceCode"
       adapter="shiki"
       language="css"
-      title="multiselect.contract.css"
+      title="multiselect.tokens.css"
+      [theme]="codeBlockTheme()"
       [lineNumbers]="false"
       [wrap]="true"
       [sanitizeHtml]="false"
     ></tng-code-block>
+  </section>
+
+  <section id="wrapper-style-variants" class="docs-page-section">
+    <app-docs-example-tabs-section
+      heading="Category picker shell"
+      description="The wrapper keeps the same API while host-level tokens define the palette and lightweight slot spacing keeps the trigger polished."
+      ariaLabel="MultiSelect styling examples"
+      tabListAriaLabel="MultiSelect styling variants"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template appDocsExampleVariant value="plain-css" label="Plain-CSS" panelTitle="Category picker (Plain-CSS)" [codeTabs]="plainCodeTabs" [stackblitzUrl]="stackblitzVanillaUrl">
+        <section class="docs-component-multiselect-styling-live-shell">
+          <div class="docs-component-multiselect-styling-live-header">
+            <span class="docs-component-multiselect-styling-live-kicker">Categories</span>
+            <p class="docs-component-multiselect-styling-live-copy">
+              Host-level tokens define the palette while the wrapper handles multi-selection plumbing.
+            </p>
+          </div>
+
+          <tng-multiselect
+            class="docs-component-multiselect-styling-live-control docs-component-multiselect-styling-shell"
+            [options]="categories"
+            [value]="stylingPlainSelectedCategories()"
+            (valueChange)="onStylingPlainSelectedCategoriesChange($event)"
+            [getOptionValue]="getCategoryValue"
+            [getOptionLabel]="getCategoryLabel"
+            [isOptionDisabled]="isCategoryDisabled"
+            placeholder="Select categories"
+            [ariaLabel]="'Categories'"
+          ></tng-multiselect>
+
+          <p class="docs-component-multiselect-styling-live-summary">Selected: {{ stylingPlainSummary() }}</p>
+        </section>
+      </ng-template>
+
+      <ng-template appDocsExampleVariant value="tailwind-css" label="Tailwind CSS" panelTitle="Category picker (Tailwind CSS)" [codeTabs]="tailwindCodeTabs" [stackblitzUrl]="stackblitzTailwindUrl">
+        <section class="mx-auto grid max-w-[36rem] gap-4 rounded-[1.75rem] border border-slate-200 bg-white p-5 text-slate-900 shadow-sm">
+          <div class="grid gap-1">
+            <span class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Categories</span>
+            <p class="m-0 text-sm text-slate-600">
+              Host-level tokens define the palette while the wrapper handles multi-selection plumbing.
+            </p>
+          </div>
+
+          <tng-multiselect
+            class="docs-component-multiselect-styling-live-control docs-component-multiselect-styling-shell block w-full min-w-0 [--tng-semantic-background-canvas:#ffffff] [--tng-semantic-background-surface:#f8fafc] [--tng-semantic-border-subtle:#d8e2ef] [--tng-semantic-border-strong:#94a3b8] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-foreground-secondary:#475569] [--tng-semantic-foreground-muted:#64748b] [--tng-semantic-accent-brand:#0f766e] [--tng-semantic-focus-ring:#0f766e] [--tng-select-radius:1rem] [--tng-select-trigger-py:0.625rem] [--tng-select-trigger-px:0.875rem] [--tng-select-option-py:0.625rem] [--tng-select-option-px:0.875rem] [--tng-select-bg:#ffffff] [--tng-select-surface:#f8fafc] [--tng-select-border:#d8e2ef] [--tng-select-border-strong:#94a3b8] [--tng-select-fg:#0f172a] [--tng-select-muted:#64748b] [--tng-select-brand:#0f766e] [--tng-select-focus-ring:#0f766e]"
+            [options]="categories"
+            [value]="stylingTailwindSelectedCategories()"
+            (valueChange)="onStylingTailwindSelectedCategoriesChange($event)"
+            [getOptionValue]="getCategoryValue"
+            [getOptionLabel]="getCategoryLabel"
+            [isOptionDisabled]="isCategoryDisabled"
+            placeholder="Select categories"
+            [ariaLabel]="'Categories'"
+          ></tng-multiselect>
+
+          <p class="m-0 text-xs text-slate-600">Selected: {{ stylingTailwindSummary() }}</p>
+        </section>
+      </ng-template>
+    </app-docs-example-tabs-section>
   </section>
 </article>

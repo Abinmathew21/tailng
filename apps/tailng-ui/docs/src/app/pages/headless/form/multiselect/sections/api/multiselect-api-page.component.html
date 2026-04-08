@@ -1,0 +1,144 @@
+<article class="headless-multiselect-api">
+  <section id="tngmultiselect" class="headless-multiselect-api__section">
+    <h2><code>tngMultiSelect</code></h2>
+    <p>
+      The root directive owns the committed array value, open state, and the aria wiring that the trigger and content use.
+      Headless usage means you control the DOM around it while the primitive keeps multi-selection semantics intact.
+    </p>
+
+    <tng-code-block
+      [code]="attachmentCode"
+      adapter="shiki"
+      language="html"
+      title="Root attachment"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+
+    <div class="headless-multiselect-api__table-wrap">
+      <table class="headless-multiselect-api__table">
+        <thead>
+          <tr>
+            <th scope="col">Entry</th>
+            <th scope="col">Type</th>
+            <th scope="col">Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of rootRows; track row.name) {
+            <tr>
+              <td><code>{{ row.name }}</code></td>
+              <td><code>{{ row.type }}</code></td>
+              <td>{{ row.details }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="owned-parts" class="headless-multiselect-api__section">
+    <h2>Owned parts</h2>
+    <p>
+      Each part directive is small on purpose. You own the markup; the primitive annotates it with slots, state, and interaction behavior.
+    </p>
+
+    <div class="headless-multiselect-api__table-wrap">
+      <table class="headless-multiselect-api__table">
+        <thead>
+          <tr>
+            <th scope="col">Part</th>
+            <th scope="col">Role</th>
+            <th scope="col">Guidance</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of partRows; track row.name) {
+            <tr>
+              <td><code>{{ row.name }}</code></td>
+              <td><code>{{ row.type }}</code></td>
+              <td>{{ row.details }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="listbox-bridge" class="headless-multiselect-api__section">
+    <h2>Listbox bridge</h2>
+    <p>
+      The multiselect root models values as arrays. Normalize the emitted payload to <code>readonly string[]</code> in your handler.
+    </p>
+
+    <tng-code-block
+      [code]="listboxBridgeCode"
+      adapter="shiki"
+      language="ts"
+      title="Array-value normalization"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+
+    <div class="headless-multiselect-api__table-wrap">
+      <table class="headless-multiselect-api__table">
+        <thead>
+          <tr>
+            <th scope="col">Binding</th>
+            <th scope="col">Meaning</th>
+            <th scope="col">Why it matters</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of bridgeRows; track row.name) {
+            <tr>
+              <td><code>{{ row.name }}</code></td>
+              <td><code>{{ row.type }}</code></td>
+              <td>{{ row.details }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="reflected-attributes" class="headless-multiselect-api__section">
+    <h2>Reflected attributes</h2>
+    <p>
+      The primitive reflects stable slots and state so you can style the multiselect without reaching for brittle DOM assumptions.
+    </p>
+
+    <tng-code-block
+      [code]="reflectedAttributesCode"
+      adapter="shiki"
+      language="html"
+      title="Reflected state and slots"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+
+    <div class="headless-multiselect-api__table-wrap">
+      <table class="headless-multiselect-api__table">
+        <thead>
+          <tr>
+            <th scope="col">Attribute</th>
+            <th scope="col">Scope</th>
+            <th scope="col">Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of reflectedRows; track row.name) {
+            <tr>
+              <td><code>{{ row.name }}</code></td>
+              <td><code>{{ row.type }}</code></td>
+              <td>{{ row.details }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+</article>

@@ -1,0 +1,162 @@
+<article class="headless-multiselect-styling">
+  <section id="css-contract-table" class="headless-multiselect-styling__section">
+    <h2>CSS contract table</h2>
+    <div class="headless-multiselect-styling__table-wrap">
+      <table class="headless-multiselect-styling__table">
+        <thead>
+          <tr>
+            <th scope="col">Selector</th>
+            <th scope="col">Applied on</th>
+            <th scope="col">Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of contractRows; track row.selector) {
+            <tr>
+              <td><code>{{ row.selector }}</code></td>
+              <td>{{ row.appliedOn }}</td>
+              <td>{{ row.purpose }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="state-selectors" class="headless-multiselect-styling__section">
+    <h2>State selectors</h2>
+    <tng-code-block
+      [code]="stateSelectorCode"
+      adapter="shiki"
+      language="css"
+      title="MultiSelect state selectors"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="example-shells" class="docs-page-section">
+    <app-docs-example-tabs-section
+      heading="Example shells"
+      description="The primitive contract stays the same while your shell defines the trigger, overlay, and option row treatment."
+      ariaLabel="Headless multiselect styling variants"
+      tabListAriaLabel="Headless multiselect styling styles"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Categories (Plain-CSS)"
+        [codeTabs]="plainCodeTabs"
+        [stackblitzUrl]="stackblitzVanillaUrl"
+      >
+        <section class="docs-headless-multiselect-styling-plain-shell">
+          <div class="docs-headless-multiselect-styling-plain-header">
+            <span class="docs-headless-multiselect-styling-plain-kicker">Categories</span>
+            <p class="docs-headless-multiselect-styling-plain-copy">
+              The primitive stays native while your wrapper card and option rows carry the visual style.
+            </p>
+          </div>
+
+          <section
+            tngMultiSelect
+            class="docs-headless-multiselect-styling-plain-root"
+            [value]="stylingPlainSelectedCategories()"
+            (valueChange)="onStylingPlainValueChange($event)"
+          >
+            <button type="button" tngSelectTrigger class="docs-headless-multiselect-styling-plain-trigger">
+              <span tngSelectValue class="docs-headless-multiselect-styling-plain-value">
+                {{ stylingPlainSummary() }}
+              </span>
+              <span tngSelectIcon class="docs-headless-multiselect-styling-plain-icon" aria-hidden="true">▾</span>
+            </button>
+
+            <div tngSelectContent class="docs-headless-multiselect-styling-plain-content">
+              <div tngSelectOverlay class="docs-headless-multiselect-styling-plain-overlay">
+                <ul
+                  tngMultiSelectListbox
+                  class="docs-headless-multiselect-styling-plain-listbox"
+                  [multiple]="true"
+                  [value]="stylingPlainSelectedCategories()"
+                >
+                  @for (category of categories; track category.id) {
+                    <li
+                      tngMultiSelectOption
+                      class="docs-headless-multiselect-styling-plain-option"
+                      [tngValue]="category.id"
+                      [disabled]="category.disabled === true"
+                    >
+                      {{ category.label }}
+                    </li>
+                  }
+                </ul>
+              </div>
+            </div>
+          </section>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Categories (Tailwind CSS)"
+        [codeTabs]="tailwindCodeTabs"
+        [stackblitzUrl]="stackblitzTailwindUrl"
+      >
+        <section class="mx-auto grid max-w-[36rem] gap-4 rounded-[1.75rem] border border-slate-200 bg-white p-5 text-slate-900 shadow-sm [color-scheme:light]">
+          <div class="grid gap-1">
+            <span class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Categories</span>
+            <p class="m-0 text-sm text-slate-600">
+              The primitive stays native while your wrapper and option rows carry the visual style.
+            </p>
+          </div>
+
+          <section
+            tngMultiSelect
+            class="block w-full"
+            [value]="stylingTailwindSelectedCategories()"
+            (valueChange)="onStylingTailwindValueChange($event)"
+          >
+            <button
+              type="button"
+              tngSelectTrigger
+              class="flex w-full min-w-0 items-center justify-between gap-3 rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left text-slate-900 shadow-sm transition hover:border-slate-400 focus:border-teal-600 focus:outline-none focus:ring-4 focus:ring-teal-100"
+            >
+              <span tngSelectValue class="min-w-0 truncate">{{ stylingTailwindSummary() }}</span>
+              <span tngSelectIcon class="text-xs text-slate-500" aria-hidden="true">▾</span>
+            </button>
+
+            <div tngSelectContent class="contents">
+              <div tngSelectOverlay class="max-w-[min(92vw,36rem)] rounded-2xl border border-slate-200 bg-white p-2 text-slate-900 shadow-2xl [color-scheme:light]">
+                <ul
+                  tngMultiSelectListbox
+                  class="m-0 grid list-none gap-1 p-0"
+                  [multiple]="true"
+                  [value]="stylingTailwindSelectedCategories()"
+                >
+                  @for (category of categories; track category.id) {
+                    <li
+                      tngMultiSelectOption
+                      class="rounded-xl border border-transparent px-4 py-3 transition data-[active]:border-slate-200 data-[active]:bg-slate-50 data-[selected]:border-teal-200 data-[selected]:bg-teal-50 data-[selected]:text-teal-800 [&[data-selected][data-active]]:border-teal-400 [&[data-selected][data-active]]:bg-teal-100 data-[disabled]:cursor-not-allowed data-[disabled]:opacity-45"
+                      [tngValue]="category.id"
+                      [disabled]="category.disabled === true"
+                    >
+                      {{ category.label }}
+                    </li>
+                  }
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          <p class="m-0 text-xs text-slate-600">Selected: {{ stylingTailwindSummary() }}</p>
+        </section>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+</article>

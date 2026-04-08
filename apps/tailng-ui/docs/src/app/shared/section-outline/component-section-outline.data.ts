@@ -672,7 +672,8 @@ export const docsComponentOutlineItemsBySlug: Readonly<Record<string, Partial<Re
   'multiselect': {
     'overview': [
       { id: 'imports', label: 'Imports' },
-      { id: 'planet-multi-select-variants', label: 'Planet multi-select variants' },
+      { id: 'basic-usage', label: 'Basic usage' },
+      { id: 'multiselect-variants', label: 'MultiSelect variants' },
       { id: 'behavior-baseline', label: 'Behavior baseline' },
     ],
     'api': [
@@ -680,17 +681,13 @@ export const docsComponentOutlineItemsBySlug: Readonly<Record<string, Partial<Re
       { id: 'tng-multiselect-styled-component', label: 'tng-multiselect (styled component)' },
     ],
     'styling': [
-      { id: 'css-contract-table', label: 'CSS contract table' },
-      { id: 'example-style-contract', label: 'Example style contract' },
+      { id: 'supported-contract', label: 'Supported contract' },
+      { id: 'host-tokens', label: 'Host tokens' },
+      { id: 'wrapper-style-variants', label: 'Category picker shell' },
     ],
     'examples': [
       { id: 'status-multiselect-variants', label: 'Status multiselect variants' },
       { id: 'dual-multiselect-keyboard-handoff', label: 'Dual multiselect keyboard handoff' },
-    ],
-    'ownable-install': [
-      { id: 'install-from-registry', label: 'Install from registry' },
-      { id: 'generated-files', label: 'Generated files' },
-      { id: 'import-and-usage', label: 'Import in your feature module/component' },
     ],
   },
   'popover': {
