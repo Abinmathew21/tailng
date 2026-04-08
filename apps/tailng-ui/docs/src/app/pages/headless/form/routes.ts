@@ -45,6 +45,10 @@ export const HEADLESS_FORM_ROUTES: Routes = [
       import('./button-toggle/routes').then((m) => m.HEADLESS_FORM_BUTTON_TOGGLE_ROUTES),
   },
   {
+    path: 'chips',
+    loadChildren: () => import('./chips/routes').then((m) => m.HEADLESS_FORM_CHIPS_ROUTES),
+  },
+  {
     path: 'listbox',
     loadChildren: () => import('./listbox/routes').then((m) => m.HEADLESS_FORM_LISTBOX_ROUTES),
   },
@@ -79,6 +83,7 @@ export const HEADLESS_FORM_ROUTES: Routes = [
         item.slug !== 'toggle' &&
         item.slug !== 'radio' &&
         item.slug !== 'button-toggle' &&
+        item.slug !== 'chips' &&
         item.slug !== 'listbox' &&
         item.slug !== 'autocomplete' &&
         item.slug !== 'multi-autocomplete' &&

@@ -228,26 +228,24 @@ export const docsComponentOutlineItemsBySlug: Readonly<Record<string, Partial<Re
   'chips': {
     'overview': [
       { id: 'imports', label: 'Imports' },
-      { id: 'removable-chip-list-variants', label: 'Removable chip list variants' },
-      { id: 'disabled-chip-variants', label: 'Disabled chip variants' },
+      { id: 'basic-usage', label: 'Basic usage' },
+      { id: 'chip-variants', label: 'Chip variants' },
+      { id: 'behavior-baseline', label: 'Behavior baseline' },
     ],
     'api': [
-      { id: 'root-tngchips', label: 'Root (`tngChips`)' },
-      { id: 'item-tngchip', label: 'Item (`tngChip`)' },
-      { id: 'remove-control-tngchipremove', label: 'Remove control (`tngChipRemove`)' },
+      { id: 'wrapper-api', label: '`<tng-chips>`' },
+      { id: 'projected-chip', label: 'Projected chip parts' },
+      { id: 'remove-control', label: 'Remove control' },
+      { id: 'primitive-foundation', label: 'Primitive foundation' },
     ],
     'styling': [
-      { id: 'state-hooks', label: 'State hooks' },
-      { id: 'plain-css-example', label: 'Plain CSS example' },
+      { id: 'supported-contract', label: 'Supported contract' },
+      { id: 'host-tokens', label: 'Host tokens' },
+      { id: 'styling-variants', label: 'Styling variants' },
     ],
     'examples': [
-      { id: 'removable-chip-list-variants', label: 'Removable chip list variants' },
-      { id: 'disabled-chip-variants', label: 'Disabled chip variants' },
-    ],
-    'ownable-install': [
-      { id: 'install-from-registry', label: 'Install from registry' },
-      { id: 'generated-files', label: 'Generated files' },
-      { id: 'import-and-usage', label: 'Import in your feature module/component' },
+      { id: 'removable-filter-chips', label: 'Removable filter chips' },
+      { id: 'locked-release-chips', label: 'Locked release lanes' },
     ],
   },
   'codeblock': {

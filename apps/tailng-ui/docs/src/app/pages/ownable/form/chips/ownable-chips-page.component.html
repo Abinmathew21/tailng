@@ -1,0 +1,38 @@
+<div class="grid gap-8 pb-10">
+  <section class="docs-section-anchor grid gap-4" id="chips-overview">
+    <h1 class="m-0 text-3xl font-semibold text-tng-fg-primary">Chips</h1>
+    <p class="m-0 max-w-4xl text-base leading-7 text-tng-fg-secondary">
+      The ownable Chips install gives your app a local wrapper and editable source surface for
+      removable tokens, selected filters, and product-specific chip treatments without losing the
+      TailNG interaction contract.
+    </p>
+  </section>
+
+  <section class="docs-section-anchor grid gap-3" id="why-own-chips">
+    <h2 class="m-0 text-xl font-semibold text-tng-fg-primary">Why own Chips locally</h2>
+    <p class="m-0 max-w-4xl text-base leading-7 text-tng-fg-secondary">
+      Chip lists tend to pick up product language, iconography, disabled rules, and analytics hooks
+      very quickly. Local ownership keeps those decisions in the same repo and pull request as the
+      feature that uses them.
+    </p>
+    <ul class="m-0 grid gap-2 pl-5 text-sm leading-6 text-tng-fg-secondary">
+      <li>Adjust chip copy, remove affordances, and locked states without waiting on a package release.</li>
+      <li>Keep product-specific token markup and surrounding layout close to the owning feature.</li>
+      <li>Iterate on chip sizing, visual states, and helper copy while preserving TailNG semantics.</li>
+    </ul>
+  </section>
+
+  <section class="docs-section-anchor grid gap-3" id="what-chips-installs">
+    <h2 class="m-0 text-xl font-semibold text-tng-fg-primary">What the install includes</h2>
+    <p class="m-0 max-w-4xl text-base leading-7 text-tng-fg-secondary">
+      The registry-backed chips install writes the local wrapper component, template, styles, and
+      export barrel into your app so the generated source can evolve with the product UI around it.
+    </p>
+  </section>
+
+  <app-docs-ownable-install-section
+    componentName="Chips"
+    registrySlug="chips"
+    [usageCode]="usageCode"
+  />
+</div>

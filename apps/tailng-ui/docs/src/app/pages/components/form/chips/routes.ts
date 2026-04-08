@@ -50,21 +50,9 @@ export const COMPONENTS_FORM_CHIPS_ROUTES: Routes = [
         path: 'ownable-install',
         data: {
           registrySlug: 'chips',
-          usageCode: [
-            '<tng-chips [values]="selectedTags" (valuesChange)="selectedTags = $event">',
-            '  @for (tag of selectedTags; track tag) {',
-            '    <span tngChip [tngChipValue]="tag" [tngChipLabel]="tag">',
-            '      <span>{{ tag }}</span>',
-            '      <button tngChipRemove type="button"></button>',
-            '    </span>',
-            '  }',
-            '</tng-chips>',
-            '',
-          ].join('\n'),
         },
-        loadComponent: () =>
-          import('../../../../shared/ownable-install-section/docs-ownable-install-section.component')
-            .then((module) => module.DocsOwnableInstallSectionComponent),
+        pathMatch: 'full',
+        redirectTo: '/ownable/form/chips',
       },
       {
         path: '**',

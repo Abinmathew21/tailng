@@ -1,0 +1,47 @@
+:host {
+  display: block;
+}
+
+.headless-chips-api {
+  display: grid;
+  gap: 1rem;
+}
+
+.headless-chips-api__section {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.headless-chips-api__section h2,
+.headless-chips-api__section p {
+  margin: 0;
+}
+
+.headless-chips-api__table-wrap {
+  overflow-x: auto;
+  border: 1px solid color-mix(in srgb, currentColor 12%, transparent);
+  border-radius: 1rem;
+}
+
+.headless-chips-api__table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 40rem;
+}
+
+.headless-chips-api__table th,
+.headless-chips-api__table td {
+  padding: 0.85rem 1rem;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid color-mix(in srgb, currentColor 12%, transparent);
+}
+
+.headless-chips-api__table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.headless-chips-api__table th {
+  font-size: 0.82rem;
+  font-weight: 700;
+}

@@ -1,45 +1,126 @@
 <article class="chips-api">
-  <h2 class="chips-api-title">Chips API</h2>
+  <h2 class="chips-api-title">API reference</h2>
   <p class="chips-api-lead">
-    API surface for the headless directives and the component wrapper used in form selections.
+    <code>&lt;tng-chips&gt;</code> is a lightweight wrapper around the headless chips primitive. The wrapper owns the
+    root shell; you still project <code>tngChip</code> and <code>tngChipRemove</code> for each pill.
   </p>
 
-  <section class="chips-api-block">
-    <h3>Root (`tngChips`)</h3>
+  <section id="wrapper-api" class="chips-api-block">
+    <h3><code>tng-chips</code></h3>
     <tng-code-block
-      [code]="chipsRootApi"
+      [code]="wrapperAttachmentCode"
       adapter="shiki"
-      language="md"
-      title="Root contract"
+      language="html"
+      title="Wrapper attachment"
       [lineNumbers]="false"
       [wrap]="true"
       [sanitizeHtml]="false"
     ></tng-code-block>
+
+    <div class="chips-api-table-wrap">
+      <table class="chips-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Property</th>
+            <th scope="col">Type</th>
+            <th scope="col">Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of wrapperRows; track row.name) {
+            <tr>
+              <td><code>{{ row.name }}</code></td>
+              <td><code>{{ row.type }}</code></td>
+              <td>{{ row.details }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
   </section>
 
-  <section class="chips-api-block">
-    <h3>Item (`tngChip`)</h3>
+  <section id="projected-chip" class="chips-api-block">
+    <h3>Projected chip parts</h3>
+    <p>
+      The wrapper stays small on purpose. Project the chip item and remove control primitives directly so the pill body remains yours.
+    </p>
     <tng-code-block
-      [code]="chipItemApi"
+      [code]="primitivePartsCode"
       adapter="shiki"
-      language="md"
-      title="Chip item contract"
+      language="html"
+      title="Projected chip parts"
       [lineNumbers]="false"
       [wrap]="true"
       [sanitizeHtml]="false"
     ></tng-code-block>
+
+    <div class="chips-api-table-wrap">
+      <table class="chips-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Primitive input</th>
+            <th scope="col">Type</th>
+            <th scope="col">Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of chipRows; track row.name) {
+            <tr>
+              <td><code>{{ row.name }}</code></td>
+              <td><code>{{ row.type }}</code></td>
+              <td>{{ row.details }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
   </section>
 
-  <section class="chips-api-block">
-    <h3>Remove control (`tngChipRemove`)</h3>
-    <tng-code-block
-      [code]="chipRemoveApi"
-      adapter="shiki"
-      language="md"
-      title="Remove contract"
-      [lineNumbers]="false"
-      [wrap]="true"
-      [sanitizeHtml]="false"
-    ></tng-code-block>
+  <section id="remove-control" class="chips-api-block">
+    <h3>Remove control</h3>
+    <div class="chips-api-table-wrap">
+      <table class="chips-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Capability</th>
+            <th scope="col">Type</th>
+            <th scope="col">Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of removeRows; track row.name) {
+            <tr>
+              <td><code>{{ row.name }}</code></td>
+              <td><code>{{ row.type }}</code></td>
+              <td>{{ row.details }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="primitive-foundation" class="chips-api-block">
+    <h3>Primitive foundation</h3>
+    <div class="chips-api-table-wrap">
+      <table class="chips-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Capability</th>
+            <th scope="col">Availability</th>
+            <th scope="col">Guidance</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of foundationRows; track row.name) {
+            <tr>
+              <td><code>{{ row.name }}</code></td>
+              <td><code>{{ row.type }}</code></td>
+              <td>{{ row.details }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
   </section>
 </article>

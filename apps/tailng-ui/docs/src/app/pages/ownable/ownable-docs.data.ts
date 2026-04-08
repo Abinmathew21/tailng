@@ -136,6 +136,13 @@ export const OWNABLE_FORM_GROUP: OwnableDocsGroup = {
       description:
         'Ownable button-toggle install with local group and item wrappers, toolbar semantics, and generated file structure.',
     },
+    {
+      id: 'chips',
+      slug: 'chips',
+      title: 'Chips',
+      description:
+        'Ownable chips install with local wrapper source, removable token markup, and generated file structure.',
+    },
   ],
 };
 

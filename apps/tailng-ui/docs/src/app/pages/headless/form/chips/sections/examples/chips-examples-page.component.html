@@ -2,38 +2,38 @@
   <section id="removable-filter-chips" class="docs-page-section">
     <app-docs-example-tabs-section
       heading="Removable filter chips"
-      description="Keep a controlled list of active filters while the wrapper provides the root shell and the projected remove controls handle interaction."
+      description="Keep a controlled list of active filters while the primitive root provides semantics and the projected remove controls handle interaction."
       ariaLabel="Chips removable filter examples"
       tabListAriaLabel="Chips removable filter variants"
       defaultValue="plain-css"
       [codeBlockTheme]="codeBlockTheme()"
     >
       <ng-template appDocsExampleVariant value="plain-css" label="Plain-CSS" panelTitle="Removable filter chips (Plain-CSS)" [codeTabs]="removablePlainCodeTabs" [stackblitzUrl]="stackblitzVanillaUrl">
-        <section class="docs-component-chips-examples-live-shell">
-          <div class="docs-component-chips-examples-live-header">
-            <span class="docs-component-chips-examples-live-kicker">Active filters</span>
-            <p class="docs-component-chips-examples-live-copy">
-              Keep a controlled filter list while the wrapper handles the root semantics and chip removal events.
+        <section class="docs-headless-chips-examples-live-shell">
+          <div class="docs-headless-chips-examples-live-header">
+            <span class="docs-headless-chips-examples-live-kicker">Active filters</span>
+            <p class="docs-headless-chips-examples-live-copy">
+              Keep a controlled filter list while the primitive root handles semantics and chip removal events.
             </p>
           </div>
 
-          <tng-chips
-            class="docs-component-chips-examples-live-control"
-            [values]="filterPlainValues()"
+          <section tngChips
+            class="docs-headless-chips-examples-live-control"
+            [tngChipsValues]="filterPlainValues()"
             (valuesChange)="onFilterPlainValuesChange($event)"
-            [ariaLabel]="'Active filters'"
+            [tngChipsAriaLabel]="'Active filters'"
           >
-            <div class="docs-component-chips-examples-live-row docs-component-chips-examples-live-row--filters">
+            <div class="docs-headless-chips-examples-live-row docs-headless-chips-examples-live-row--filters">
               @for (filter of filterPlainValues(); track filter) {
-                <span tngChip [tngChipValue]="filter" [tngChipLabel]="filter" class="docs-component-chips-examples-live-chip docs-component-chips-examples-live-chip--filter">
+                <span tngChip [tngChipValue]="filter" [tngChipLabel]="filter" class="docs-headless-chips-examples-live-chip docs-headless-chips-examples-live-chip--filter">
                   <span>{{ filter }}</span>
-                  <button tngChipRemove type="button" class="docs-component-chips-examples-live-chip-remove">&times;</button>
+                  <button tngChipRemove type="button" class="docs-headless-chips-examples-live-chip-remove">&times;</button>
                 </span>
               }
             </div>
-          </tng-chips>
+          </section>
 
-          <p class="docs-component-chips-examples-live-summary">Selected: {{ filterPlainSummary() }}</p>
+          <p class="docs-headless-chips-examples-live-summary">Selected: {{ filterPlainSummary() }}</p>
         </section>
       </ng-template>
 
@@ -42,15 +42,15 @@
           <div class="grid gap-1">
             <span class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Active filters</span>
             <p class="m-0 text-sm text-slate-600">
-              Keep a controlled filter list while the wrapper handles the root semantics and chip removal events.
+              Keep a controlled filter list while the primitive root handles semantics and chip removal events.
             </p>
           </div>
 
-          <tng-chips
+          <section tngChips
             class="block w-full min-w-0 [--tng-semantic-background-base:#ffffff] [--tng-semantic-border-subtle:#d8e2ef] [--tng-semantic-foreground-primary:#0f172a]"
-            [values]="filterTailwindValues()"
+            [tngChipsValues]="filterTailwindValues()"
             (valuesChange)="onFilterTailwindValuesChange($event)"
-            [ariaLabel]="'Active filters'"
+            [tngChipsAriaLabel]="'Active filters'"
           >
             <div class="flex flex-wrap gap-2">
               @for (filter of filterTailwindValues(); track filter) {
@@ -60,7 +60,7 @@
                 </span>
               }
             </div>
-          </tng-chips>
+          </section>
 
           <p class="m-0 text-xs text-slate-600">Selected: {{ filterTailwindSummary() }}</p>
         </section>
@@ -68,7 +68,7 @@
     </app-docs-example-tabs-section>
   </section>
 
-  <section id="locked-release-chips" class="docs-page-section">
+  <section id="locked-release-lanes" class="docs-page-section">
     <app-docs-example-tabs-section
       heading="Locked release lanes"
       description="Disabled chips stay visible in the roster, but only active lanes remain removable."
@@ -78,37 +78,37 @@
       [codeBlockTheme]="codeBlockTheme()"
     >
       <ng-template appDocsExampleVariant value="plain-css" label="Plain-CSS" panelTitle="Locked release lanes (Plain-CSS)" [codeTabs]="lockedPlainCodeTabs" [stackblitzUrl]="stackblitzVanillaUrl">
-        <section class="docs-component-chips-examples-live-shell">
-          <div class="docs-component-chips-examples-live-header">
-            <span class="docs-component-chips-examples-live-kicker">Release lanes</span>
-            <p class="docs-component-chips-examples-live-copy">
+        <section class="docs-headless-chips-examples-live-shell">
+          <div class="docs-headless-chips-examples-live-header">
+            <span class="docs-headless-chips-examples-live-kicker">Release lanes</span>
+            <p class="docs-headless-chips-examples-live-copy">
               Disabled chips stay visible, but only active lanes remain removable.
             </p>
           </div>
 
-          <tng-chips
-            class="docs-component-chips-examples-live-control"
-            [values]="lockedPlainValues()"
+          <section tngChips
+            class="docs-headless-chips-examples-live-control"
+            [tngChipsValues]="lockedPlainValues()"
             (valuesChange)="onLockedPlainValuesChange($event)"
-            [ariaLabel]="'Release lanes'"
+            [tngChipsAriaLabel]="'Release lanes'"
           >
-            <div class="docs-component-chips-examples-live-row docs-component-chips-examples-live-row--locked">
+            <div class="docs-headless-chips-examples-live-row docs-headless-chips-examples-live-row--locked">
               @for (lane of lockedPlainValues(); track lane) {
                 <span
                   tngChip
                   [tngChipValue]="lane"
                   [tngChipLabel]="lane"
                   [tngChipDisabled]="isLockedPlainValue(lane)"
-                  class="docs-component-chips-examples-live-chip docs-component-chips-examples-live-chip--locked"
+                  class="docs-headless-chips-examples-live-chip docs-headless-chips-examples-live-chip--locked"
                 >
                   <span>{{ lane }}</span>
-                  <button tngChipRemove type="button" class="docs-component-chips-examples-live-chip-remove">&times;</button>
+                  <button tngChipRemove type="button" class="docs-headless-chips-examples-live-chip-remove">&times;</button>
                 </span>
               }
             </div>
-          </tng-chips>
+          </section>
 
-          <p class="docs-component-chips-examples-live-summary">Selected: {{ lockedPlainSummary() }}</p>
+          <p class="docs-headless-chips-examples-live-summary">Selected: {{ lockedPlainSummary() }}</p>
         </section>
       </ng-template>
 
@@ -121,11 +121,11 @@
             </p>
           </div>
 
-          <tng-chips
+          <section tngChips
             class="block w-full min-w-0 [--tng-semantic-background-base:#ffffff] [--tng-semantic-border-subtle:#d8e2ef] [--tng-semantic-foreground-primary:#0f172a]"
-            [values]="lockedTailwindValues()"
+            [tngChipsValues]="lockedTailwindValues()"
             (valuesChange)="onLockedTailwindValuesChange($event)"
-            [ariaLabel]="'Release lanes'"
+            [tngChipsAriaLabel]="'Release lanes'"
           >
             <div class="flex flex-wrap gap-2">
               @for (lane of lockedTailwindValues(); track lane) {
@@ -135,7 +135,7 @@
                 </span>
               }
             </div>
-          </tng-chips>
+          </section>
 
           <p class="m-0 text-xs text-slate-600">Selected: {{ lockedTailwindSummary() }}</p>
         </section>

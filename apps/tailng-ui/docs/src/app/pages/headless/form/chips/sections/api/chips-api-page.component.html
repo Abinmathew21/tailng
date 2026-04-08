@@ -1,0 +1,136 @@
+<article class="headless-chips-api">
+  <section id="tngchips" class="headless-chips-api__section">
+    <h2><code>tngChips</code></h2>
+    <p>
+      The root directive owns the list semantics and the removal bookkeeping. Headless usage means you keep the DOM around
+      it while the primitive emits the next value array when removal succeeds.
+    </p>
+
+    <tng-code-block
+      [code]="rootAttachmentCode"
+      adapter="shiki"
+      language="html"
+      title="Root attachment"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+
+    <div class="headless-chips-api__table-wrap">
+      <table class="headless-chips-api__table">
+        <thead>
+          <tr>
+            <th scope="col">Entry</th>
+            <th scope="col">Type</th>
+            <th scope="col">Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of rootRows; track row.name) {
+            <tr>
+              <td><code>{{ row.name }}</code></td>
+              <td><code>{{ row.type }}</code></td>
+              <td>{{ row.details }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="tngchip" class="headless-chips-api__section">
+    <h2><code>tngChip</code></h2>
+    <p>
+      Each chip item stays yours. The primitive adds listitem semantics, removal behavior, and disabled state reflection to
+      the markup you project.
+    </p>
+
+    <div class="headless-chips-api__table-wrap">
+      <table class="headless-chips-api__table">
+        <thead>
+          <tr>
+            <th scope="col">Input</th>
+            <th scope="col">Type</th>
+            <th scope="col">Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of chipRows; track row.name) {
+            <tr>
+              <td><code>{{ row.name }}</code></td>
+              <td><code>{{ row.type }}</code></td>
+              <td>{{ row.details }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="tngchipremove" class="headless-chips-api__section">
+    <h2><code>tngChipRemove</code></h2>
+    <p>
+      The remove control is intentionally small. It stays focusable in DOM order and reflects a focused state hook when you
+      want to draw a custom ring.
+    </p>
+
+    <div class="headless-chips-api__table-wrap">
+      <table class="headless-chips-api__table">
+        <thead>
+          <tr>
+            <th scope="col">Capability</th>
+            <th scope="col">Type</th>
+            <th scope="col">Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of removeRows; track row.name) {
+            <tr>
+              <td><code>{{ row.name }}</code></td>
+              <td><code>{{ row.type }}</code></td>
+              <td>{{ row.details }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="reflected-state" class="headless-chips-api__section">
+    <h2>Reflected state</h2>
+    <p>
+      The primitive reflects stable slots and state so you can style chip lists without brittle DOM assumptions.
+    </p>
+
+    <tng-code-block
+      [code]="reflectedStateCode"
+      adapter="shiki"
+      language="html"
+      title="Reflected slots and state"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+
+    <div class="headless-chips-api__table-wrap">
+      <table class="headless-chips-api__table">
+        <thead>
+          <tr>
+            <th scope="col">Attribute</th>
+            <th scope="col">Scope</th>
+            <th scope="col">Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of reflectedRows; track row.name) {
+            <tr>
+              <td><code>{{ row.name }}</code></td>
+              <td><code>{{ row.type }}</code></td>
+              <td>{{ row.details }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+</article>

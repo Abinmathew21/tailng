@@ -1,28 +1,11 @@
-<article class="chips-overview">
-  <h2 class="chips-overview-title">Chips overview</h2>
-  <p class="chips-overview-lead">
-    Chips are compact tokens that represent selected values. TailNG ships a headless remove flow
-    (<code>tngChips</code>, <code>tngChip</code>, <code>tngChipRemove</code>) and a minimal
-    <code>&lt;tng-chips&gt;</code> wrapper.
-  </p>
-
-  <section class="chips-overview-block">
-    <h3>Imports</h3>
-    <tng-code-block
-      [code]="primitiveImportCode"
-      adapter="shiki"
-      language="ts"
-      title="Primitive imports"
-      [theme]="codeBlockTheme()"
-      [lineNumbers]="false"
-      [wrap]="true"
-      [sanitizeHtml]="false"
-    ></tng-code-block>
+<article class="docs-page-article">
+  <section id="imports" class="docs-page-section">
+    <h2>Imports</h2>
     <tng-code-block
       [code]="componentImportCode"
       adapter="shiki"
       language="ts"
-      title="Styled wrapper imports"
+      title="Styled component imports"
       [theme]="codeBlockTheme()"
       [lineNumbers]="false"
       [wrap]="true"
@@ -30,202 +13,127 @@
     ></tng-code-block>
   </section>
 
-  <section class="chips-overview-block">
+  <section id="basic-usage" class="docs-page-section">
+    <h2>Basic usage</h2>
+    <tng-code-block
+      [code]="basicUsageCode"
+      adapter="shiki"
+      language="html"
+      title="Wrapper attachment"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="chip-variants" class="docs-page-section">
     <app-docs-example-tabs-section
-      heading="Removable chip list variants"
-      description="Remove chips by click or keyboard (Enter/Space) with the same behavior across style layers."
-      ariaLabel="Chips removable variants"
-      tabListAriaLabel="Removable chips styles"
-      defaultValue="headless"
+      heading="Chip variants"
+      description="The wrapper keeps the root shell and controlled value model while projected primitives still own chip and remove behavior."
+      ariaLabel="Chips overview variants"
+      tabListAriaLabel="Chips overview style variants"
+      defaultValue="plain-css"
       [codeBlockTheme]="codeBlockTheme()"
     >
       <ng-template
         appDocsExampleVariant
-        value="headless"
-        label="Headless"
-        panelTitle="Headless removable chips"
-        [codeTabs]="removableHeadlessCodeTabs"
-      >
-        <div
-          tngChips
-          class="chips-preview-shell chips-preview-shell--headless chips-row"
-          tngChipsAriaLabel="Headless selected tags"
-          [tngChipsValues]="removableHeadlessValues()"
-          (valuesChange)="onRemovableHeadlessValuesChange($event)"
-        >
-          @for (item of removableHeadlessValues(); track item) {
-            <span tngChip [tngChipValue]="item" [tngChipLabel]="item" class="chip-pill">
-              <span>{{ item }}</span>
-              <button tngChipRemove type="button" class="chip-pill-remove"></button>
-            </span>
-          }
-        </div>
-        @if (removableHeadlessValues().length === 0) {
-          <p class="chips-preview-note">No chips left.</p>
-        }
-      </ng-template>
-
-      <ng-template
-        appDocsExampleVariant
         value="plain-css"
         label="Plain-CSS"
-        panelTitle="Plain CSS removable chips"
-        [codeTabs]="removablePlainCodeTabs"
+        panelTitle="Selected topics (Plain-CSS)"
+        [codeTabs]="plainCodeTabs"
+        [stackblitzUrl]="stackblitzVanillaUrl"
       >
-        <div class="chips-preview-shell chips-preview-shell--plain">
+        <section class="docs-component-chips-overview-live-shell">
+          <div class="docs-component-chips-overview-live-header">
+            <span class="docs-component-chips-overview-live-kicker">Selected topics</span>
+            <p class="docs-component-chips-overview-live-copy">
+              Wrapper-first removable chips with a light shell and a controlled value array.
+            </p>
+          </div>
+
           <tng-chips
-            ariaLabel="Plain selected tags"
-            [values]="removablePlainValues()"
-            (valuesChange)="onRemovablePlainValuesChange($event)"
+            class="docs-component-chips-overview-live-control docs-component-chips-overview-live-control--plain"
+            [values]="overviewPlainSelectedTopics()"
+            (valuesChange)="onOverviewPlainValuesChange($event)"
+            [ariaLabel]="'Selected topics'"
           >
-            <div class="chips-row">
-              @for (item of removablePlainValues(); track item) {
-                <span tngChip [tngChipValue]="item" [tngChipLabel]="item" class="chip-pill">
-                  <span>{{ item }}</span>
-                  <button tngChipRemove type="button" class="chip-pill-remove"></button>
+            <div class="docs-component-chips-overview-live-row">
+              @for (topic of overviewPlainSelectedTopics(); track topic) {
+                <span
+                  tngChip
+                  [tngChipValue]="topic"
+                  [tngChipLabel]="topic"
+                  class="docs-component-chips-overview-live-chip"
+                >
+                  <span>{{ topic }}</span>
+                  <button tngChipRemove type="button" class="docs-component-chips-overview-live-chip-remove">
+                    &times;
+                  </button>
                 </span>
               }
             </div>
           </tng-chips>
-        </div>
-        @if (removablePlainValues().length === 0) {
-          <p class="chips-preview-note">No chips left.</p>
-        }
+
+          <p class="docs-component-chips-overview-live-summary">Selected: {{ overviewPlainSummary() }}</p>
+        </section>
       </ng-template>
 
       <ng-template
         appDocsExampleVariant
         value="tailwind-css"
         label="Tailwind CSS"
-        panelTitle="Tailwind removable chips"
-        [codeTabs]="removableTailwindCodeTabs"
+        panelTitle="Selected surfaces (Tailwind CSS)"
+        [codeTabs]="tailwindCodeTabs"
+        [stackblitzUrl]="stackblitzTailwindUrl"
       >
-        <div
-          class="chips-preview-shell rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
-        >
+        <section class="mx-auto grid max-w-[36rem] gap-4 rounded-[1.75rem] border border-slate-200 bg-white p-5 text-slate-900 shadow-sm">
+          <div class="grid gap-1">
+            <span class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Selected surfaces</span>
+            <p class="m-0 text-sm text-slate-600">
+              Wrapper-first removable chips with utility-first styling on top of the same projected primitive parts.
+            </p>
+          </div>
+
           <tng-chips
-            ariaLabel="Tailwind selected tags"
-            [values]="removableTailwindValues()"
-            (valuesChange)="onRemovableTailwindValuesChange($event)"
+            class="block w-full min-w-0 [--tng-semantic-background-base:#ffffff] [--tng-semantic-border-subtle:#d8e2ef] [--tng-semantic-foreground-primary:#0f172a]"
+            [values]="overviewTailwindSelectedSurfaces()"
+            (valuesChange)="onOverviewTailwindValuesChange($event)"
+            [ariaLabel]="'Selected surfaces'"
           >
-            <div class="chips-row">
-              @for (item of removableTailwindValues(); track item) {
-                <span tngChip [tngChipValue]="item" [tngChipLabel]="item" class="chip-pill">
-                  <span>{{ item }}</span>
-                  <button tngChipRemove type="button" class="chip-pill-remove"></button>
+            <div class="flex flex-wrap gap-2">
+              @for (surface of overviewTailwindSelectedSurfaces(); track surface) {
+                <span
+                  tngChip
+                  [tngChipValue]="surface"
+                  [tngChipLabel]="surface"
+                  class="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-2 text-sm font-medium text-emerald-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.72)]"
+                >
+                  <span>{{ surface }}</span>
+                  <button
+                    tngChipRemove
+                    type="button"
+                    class="inline-grid h-5 w-5 place-items-center rounded-full bg-emerald-100 text-[0.8rem] leading-none text-emerald-800 transition hover:bg-emerald-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-400"
+                  >
+                    &times;
+                  </button>
                 </span>
               }
             </div>
           </tng-chips>
-        </div>
-        @if (removableTailwindValues().length === 0) {
-          <p class="chips-preview-note">No chips left.</p>
-        }
+
+          <p class="m-0 text-xs text-slate-600">Selected: {{ overviewTailwindSummary() }}</p>
+        </section>
       </ng-template>
     </app-docs-example-tabs-section>
   </section>
 
-  <section class="chips-overview-block">
-    <app-docs-example-tabs-section
-      heading="Disabled chip variants"
-      description="Disabled chips remain visible and non-removable while active chips can still be removed."
-      ariaLabel="Chips disabled variants"
-      tabListAriaLabel="Disabled chips styles"
-      defaultValue="headless"
-      [codeBlockTheme]="codeBlockTheme()"
-    >
-      <ng-template
-        appDocsExampleVariant
-        value="headless"
-        label="Headless"
-        panelTitle="Headless disabled chips"
-        [codeTabs]="disabledHeadlessCodeTabs"
-      >
-        <div
-          tngChips
-          class="chips-preview-shell chips-preview-shell--headless chips-row"
-          tngChipsAriaLabel="Headless disabled chip sample"
-          [tngChipsValues]="disabledHeadlessValues()"
-          (valuesChange)="onDisabledHeadlessValuesChange($event)"
-        >
-          @for (item of disabledHeadlessValues(); track item) {
-            <span
-              tngChip
-              [tngChipValue]="item"
-              [tngChipLabel]="item"
-              [tngChipDisabled]="item === 'Release'"
-              class="chip-pill"
-            >
-              <span>{{ item }}</span>
-              <button tngChipRemove type="button" class="chip-pill-remove"></button>
-            </span>
-          }
-        </div>
-      </ng-template>
-
-      <ng-template
-        appDocsExampleVariant
-        value="plain-css"
-        label="Plain-CSS"
-        panelTitle="Plain CSS disabled chips"
-        [codeTabs]="disabledPlainCodeTabs"
-      >
-        <div class="chips-preview-shell chips-preview-shell--plain">
-          <tng-chips
-            ariaLabel="Plain disabled chip sample"
-            [values]="disabledPlainValues()"
-            (valuesChange)="onDisabledPlainValuesChange($event)"
-          >
-            <div class="chips-row">
-              @for (item of disabledPlainValues(); track item) {
-                <span
-                  tngChip
-                  [tngChipValue]="item"
-                  [tngChipLabel]="item"
-                  [tngChipDisabled]="item === 'Stable'"
-                  class="chip-pill"
-                >
-                  <span>{{ item }}</span>
-                  <button tngChipRemove type="button" class="chip-pill-remove"></button>
-                </span>
-              }
-            </div>
-          </tng-chips>
-        </div>
-      </ng-template>
-
-      <ng-template
-        appDocsExampleVariant
-        value="tailwind-css"
-        label="Tailwind CSS"
-        panelTitle="Tailwind disabled chips"
-        [codeTabs]="disabledTailwindCodeTabs"
-      >
-        <div
-          class="chips-preview-shell rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
-        >
-          <tng-chips
-            ariaLabel="Tailwind disabled chip sample"
-            [values]="disabledTailwindValues()"
-            (valuesChange)="onDisabledTailwindValuesChange($event)"
-          >
-            <div class="chips-row">
-              @for (item of disabledTailwindValues(); track item) {
-                <span
-                  tngChip
-                  [tngChipValue]="item"
-                  [tngChipLabel]="item"
-                  [tngChipDisabled]="item === 'Locked'"
-                  class="chip-pill"
-                >
-                  <span>{{ item }}</span>
-                  <button tngChipRemove type="button" class="chip-pill-remove"></button>
-                </span>
-              }
-            </div>
-          </tng-chips>
-        </div>
-      </ng-template>
-    </app-docs-example-tabs-section>
+  <section id="behavior-baseline" class="docs-page-section">
+    <h2>Behavior baseline</h2>
+    <ul>
+      <li>The wrapper forwards <code>ariaLabel</code>, <code>disabled</code>, and the controlled <code>values</code> array to the primitive root.</li>
+      <li>Projected <code>tngChip</code> and <code>tngChipRemove</code> directives still own keyboard removal, focus hooks, and remove labels.</li>
+      <li>Use the wrapper when you want a styled root shell; drop to headless when you need to own the root DOM outright.</li>
+    </ul>
   </section>
 </article>

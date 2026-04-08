@@ -1,7 +1,7 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, computed, inject, signal, type OnDestroy } from '@angular/core';
-import { TngChip, TngChipRemove } from '@tailng-ui/primitives';
-import { TngChipsComponent, TngCodeBlockComponent } from '@tailng-ui/components';
+import { TngChip, TngChipRemove, TngChips } from '@tailng-ui/primitives';
+import { TngCodeBlockComponent } from '@tailng-ui/components';
 import type { DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
 import {
   DocsExampleTabsSectionComponent,
@@ -19,95 +19,92 @@ interface ContractRow {
   readonly purpose: string;
 }
 
-const HOST_TOKEN_GUIDANCE_CODE = String.raw`tng-chips.docs-component-chips-styling-shell {
-  --tng-semantic-background-base: #ffffff;
-  --tng-semantic-border-subtle: #d8e2ef;
-  --tng-semantic-foreground-primary: #0f172a;
+const HOST_TOKEN_GUIDANCE_CODE = String.raw`.docs-headless-chips-styling-shell[data-slot='chips'] {
+  display: block;
 }
 
-.docs-component-chips-styling-chip {
+.docs-headless-chips-styling-chip[data-slot='chip'] {
   border: 1px solid #bfdbfe;
   border-radius: 999px;
   background: #eff6ff;
   color: #1e3a8a;
 }
 
-.docs-component-chips-styling-chip-remove[data-focused] {
+.docs-headless-chips-styling-chip-remove[data-slot='chip-remove'][data-focused] {
   outline: 2px solid rgba(37, 99, 235, 0.28);
   outline-offset: 2px;
 }`;
 
 const PLAIN_TS_CODE = String.raw`import { Component, computed, signal } from '@angular/core';
-import { TngChipsComponent } from '@tailng-ui/components';
-import { TngChip, TngChipRemove } from '@tailng-ui/primitives';
+import { TngChip, TngChipRemove, TngChips } from '@tailng-ui/primitives';
 
-const COMPONENT_CHIPS_STYLING_PLAIN_RELEASE_OWNERS = Object.freeze([
+const HEADLESS_CHIPS_STYLING_PLAIN_RELEASE_OWNERS = Object.freeze([
   'Mina Lee',
   'Sanjay Patel',
   'Omar Aziz',
 ]);
 
 @Component({
-  selector: 'app-component-chips-styling-plain-example',
+  selector: 'app-headless-chips-styling-plain-example',
   standalone: true,
-  imports: [TngChipsComponent, TngChip, TngChipRemove],
-  templateUrl: './component-chips-styling-plain-example.component.html',
-  styleUrl: './component-chips-styling-plain-example.component.css',
+  imports: [TngChips, TngChip, TngChipRemove],
+  templateUrl: './headless-chips-styling-plain-example.component.html',
+  styleUrl: './headless-chips-styling-plain-example.component.css',
 })
-export class ComponentChipsStylingPlainExampleComponent {
-  readonly componentChipsStylingPlainReleaseOwners = signal<readonly string[]>(
-    COMPONENT_CHIPS_STYLING_PLAIN_RELEASE_OWNERS,
+export class HeadlessChipsStylingPlainExampleComponent {
+  readonly headlessChipsStylingPlainReleaseOwners = signal<readonly string[]>(
+    HEADLESS_CHIPS_STYLING_PLAIN_RELEASE_OWNERS,
   );
-  readonly componentChipsStylingPlainSummary = computed(() => {
-    const values = this.componentChipsStylingPlainReleaseOwners();
+  readonly headlessChipsStylingPlainSummary = computed(() => {
+    const values = this.headlessChipsStylingPlainReleaseOwners();
     return values.length > 0 ? values.join(', ') : 'none';
   });
 
-  onComponentChipsStylingPlainValuesChange(nextValues: readonly unknown[]): void {
-    this.componentChipsStylingPlainReleaseOwners.set(
+  onHeadlessChipsStylingPlainValuesChange(nextValues: readonly unknown[]): void {
+    this.headlessChipsStylingPlainReleaseOwners.set(
       nextValues.filter((value): value is string => typeof value === 'string'),
     );
   }
 
-  isComponentChipsStylingPlainLocked(owner: string): boolean {
+  isHeadlessChipsStylingPlainLocked(owner: string): boolean {
     return owner === 'Omar Aziz';
   }
 }`;
 
-const PLAIN_HTML_CODE = String.raw`<section class="docs-component-chips-styling-plain-shell-card">
-  <div class="docs-component-chips-styling-plain-header">
-    <span class="docs-component-chips-styling-plain-kicker">Release owners</span>
-    <p class="docs-component-chips-styling-plain-copy">
-      Theme the wrapper at the host, then own the projected pill styling directly in your component stylesheet.
+const PLAIN_HTML_CODE = String.raw`<section class="docs-headless-chips-styling-plain-shell-card">
+  <div class="docs-headless-chips-styling-plain-header">
+    <span class="docs-headless-chips-styling-plain-kicker">Release owners</span>
+    <p class="docs-headless-chips-styling-plain-copy">
+      Style the headless root directly, then own the projected pill styling in your page stylesheet.
     </p>
   </div>
 
-  <tng-chips
-    class="docs-component-chips-styling-plain-shell"
-    [values]="componentChipsStylingPlainReleaseOwners()"
-    (valuesChange)="onComponentChipsStylingPlainValuesChange($event)"
-    [ariaLabel]="'Release owners'"
+  <section tngChips
+    class="docs-headless-chips-styling-plain-shell"
+    [tngChipsValues]="headlessChipsStylingPlainReleaseOwners()"
+    (valuesChange)="onHeadlessChipsStylingPlainValuesChange($event)"
+    [tngChipsAriaLabel]="'Release owners'"
   >
-    <div class="docs-component-chips-styling-plain-row">
-      @for (owner of componentChipsStylingPlainReleaseOwners(); track owner) {
+    <div class="docs-headless-chips-styling-plain-row">
+      @for (owner of headlessChipsStylingPlainReleaseOwners(); track owner) {
         <span
           tngChip
           [tngChipValue]="owner"
           [tngChipLabel]="owner"
-          [tngChipDisabled]="isComponentChipsStylingPlainLocked(owner)"
-          class="docs-component-chips-styling-plain-chip"
+          [tngChipDisabled]="isHeadlessChipsStylingPlainLocked(owner)"
+          class="docs-headless-chips-styling-plain-chip"
         >
           <span>{{ owner }}</span>
-          <button tngChipRemove type="button" class="docs-component-chips-styling-plain-chip-remove">&times;</button>
+          <button tngChipRemove type="button" class="docs-headless-chips-styling-plain-chip-remove">&times;</button>
         </span>
       }
     </div>
-  </tng-chips>
+  </section>
 
-  <p class="docs-component-chips-styling-plain-summary">Selected: {{ componentChipsStylingPlainSummary() }}</p>
+  <p class="docs-headless-chips-styling-plain-summary">Selected: {{ headlessChipsStylingPlainSummary() }}</p>
 </section>`;
 
-const PLAIN_CSS_CODE = String.raw`.docs-component-chips-styling-plain-shell-card {
+const PLAIN_CSS_CODE = String.raw`.docs-headless-chips-styling-plain-shell-card {
   display: grid;
   gap: 0.9rem;
   inline-size: min(100%, 36rem);
@@ -121,7 +118,7 @@ const PLAIN_CSS_CODE = String.raw`.docs-component-chips-styling-plain-shell-card
   box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
 }
 
-.docs-component-chips-styling-plain-shell {
+.docs-headless-chips-styling-plain-shell {
   display: block;
   width: 100%;
   min-width: 0;
@@ -131,13 +128,13 @@ const PLAIN_CSS_CODE = String.raw`.docs-component-chips-styling-plain-shell-card
   --tng-semantic-foreground-primary: #0f172a;
 }
 
-.docs-component-chips-styling-plain-row {
+.docs-headless-chips-styling-plain-row {
   display: flex;
   flex-wrap: wrap;
   gap: 0.55rem;
 }
 
-.docs-component-chips-styling-plain-chip {
+.docs-headless-chips-styling-plain-chip {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
@@ -150,13 +147,13 @@ const PLAIN_CSS_CODE = String.raw`.docs-component-chips-styling-plain-shell-card
   padding: 0.45rem 0.8rem;
 }
 
-.docs-component-chips-styling-plain-chip[data-disabled] {
+.docs-headless-chips-styling-plain-chip[data-disabled] {
   border-color: #cbd5e1;
   background: #f8fafc;
   color: #94a3b8;
 }
 
-.docs-component-chips-styling-plain-chip-remove {
+.docs-headless-chips-styling-plain-chip-remove {
   border: 0;
   border-radius: 999px;
   background: rgba(37, 99, 235, 0.12);
@@ -174,39 +171,38 @@ const PLAIN_CSS_CODE = String.raw`.docs-component-chips-styling-plain-shell-card
   padding: 0;
 }
 
-.docs-component-chips-styling-plain-chip-remove[data-focused] {
+.docs-headless-chips-styling-plain-chip-remove[data-focused] {
   outline: 2px solid rgba(37, 99, 235, 0.28);
   outline-offset: 2px;
 }`;
 
 const TAILWIND_TS_CODE = String.raw`import { Component, computed, signal } from '@angular/core';
-import { TngChipsComponent } from '@tailng-ui/components';
-import { TngChip, TngChipRemove } from '@tailng-ui/primitives';
+import { TngChip, TngChipRemove, TngChips } from '@tailng-ui/primitives';
 
-const COMPONENT_CHIPS_STYLING_TAILWIND_RELEASE_OWNERS = Object.freeze([
+const HEADLESS_CHIPS_STYLING_TAILWIND_RELEASE_OWNERS = Object.freeze([
   'Abigail Chen',
   'Mina Lee',
   'Sanjay Patel',
 ]);
 
 @Component({
-  selector: 'app-component-chips-styling-tailwind-example',
+  selector: 'app-headless-chips-styling-tailwind-example',
   standalone: true,
-  imports: [TngChipsComponent, TngChip, TngChipRemove],
-  templateUrl: './component-chips-styling-tailwind-example.component.html',
-  styleUrl: './component-chips-styling-tailwind-example.component.css',
+  imports: [TngChips, TngChip, TngChipRemove],
+  templateUrl: './headless-chips-styling-tailwind-example.component.html',
+  styleUrl: './headless-chips-styling-tailwind-example.component.css',
 })
-export class ComponentChipsStylingTailwindExampleComponent {
-  readonly componentChipsStylingTailwindReleaseOwners = signal<readonly string[]>(
-    COMPONENT_CHIPS_STYLING_TAILWIND_RELEASE_OWNERS,
+export class HeadlessChipsStylingTailwindExampleComponent {
+  readonly headlessChipsStylingTailwindReleaseOwners = signal<readonly string[]>(
+    HEADLESS_CHIPS_STYLING_TAILWIND_RELEASE_OWNERS,
   );
-  readonly componentChipsStylingTailwindSummary = computed(() => {
-    const values = this.componentChipsStylingTailwindReleaseOwners();
+  readonly headlessChipsStylingTailwindSummary = computed(() => {
+    const values = this.headlessChipsStylingTailwindReleaseOwners();
     return values.length > 0 ? values.join(', ') : 'none';
   });
 
-  onComponentChipsStylingTailwindValuesChange(nextValues: readonly unknown[]): void {
-    this.componentChipsStylingTailwindReleaseOwners.set(
+  onHeadlessChipsStylingTailwindValuesChange(nextValues: readonly unknown[]): void {
+    this.headlessChipsStylingTailwindReleaseOwners.set(
       nextValues.filter((value): value is string => typeof value === 'string'),
     );
   }
@@ -216,36 +212,36 @@ const TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-[36rem]
   <div class="grid gap-1">
     <span class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Release owners</span>
     <p class="m-0 text-sm text-slate-600">
-      Theme the wrapper at the host, then own the projected pill styling directly in the template.
+      Style the headless root directly, then own the projected pill styling directly in the template.
     </p>
   </div>
 
-  <tng-chips
+  <section tngChips
     class="block w-full min-w-0 [--tng-semantic-background-base:#ffffff] [--tng-semantic-border-subtle:#d8e2ef] [--tng-semantic-foreground-primary:#0f172a]"
-    [values]="componentChipsStylingTailwindReleaseOwners()"
-    (valuesChange)="onComponentChipsStylingTailwindValuesChange($event)"
-    [ariaLabel]="'Release owners'"
+    [tngChipsValues]="headlessChipsStylingTailwindReleaseOwners()"
+    (valuesChange)="onHeadlessChipsStylingTailwindValuesChange($event)"
+    [tngChipsAriaLabel]="'Release owners'"
   >
     <div class="flex flex-wrap gap-2">
-      @for (owner of componentChipsStylingTailwindReleaseOwners(); track owner) {
+      @for (owner of headlessChipsStylingTailwindReleaseOwners(); track owner) {
         <span tngChip [tngChipValue]="owner" [tngChipLabel]="owner" class="inline-flex items-center gap-2 rounded-full border border-violet-200 bg-violet-50 px-3 py-2 text-sm font-medium text-violet-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.72)]">
           <span>{{ owner }}</span>
           <button tngChipRemove type="button" class="inline-grid h-5 w-5 place-items-center rounded-full bg-violet-100 text-[0.8rem] leading-none text-violet-800 transition hover:bg-violet-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400">&times;</button>
         </span>
       }
     </div>
-  </tng-chips>
+  </section>
 
-  <p class="m-0 text-xs text-slate-600">Selected: {{ componentChipsStylingTailwindSummary() }}</p>
+  <p class="m-0 text-xs text-slate-600">Selected: {{ headlessChipsStylingTailwindSummary() }}</p>
 </section>`;
 
 const TAILWIND_CSS_CODE = '/* Tailwind utilities are applied directly in the template. */';
 
 @Component({
-  selector: 'app-chips-styling-page',
+  selector: 'app-headless-chips-styling-page',
   imports: [
     TngCodeBlockComponent,
-    TngChipsComponent,
+    TngChips,
     TngChip,
     TngChipRemove,
     DocsExampleTabsSectionComponent,
@@ -254,7 +250,7 @@ const TAILWIND_CSS_CODE = '/* Tailwind utilities are applied directly in the tem
   templateUrl: './chips-styling-page.component.html',
   styleUrl: './chips-styling-page.component.css',
 })
-export class ChipsStylingPageComponent implements OnDestroy {
+export class HeadlessChipsStylingPageComponent implements OnDestroy {
   private readonly documentRef = inject(DOCUMENT);
   readonly codeBlockTheme = signal<'github-dark' | 'github-light'>(
     resolveDocsCodeBlockTheme(this.documentRef),
@@ -264,14 +260,9 @@ export class ChipsStylingPageComponent implements OnDestroy {
   protected readonly hostTokenGuidanceCode = HOST_TOKEN_GUIDANCE_CODE;
   protected readonly contractRows: readonly ContractRow[] = Object.freeze([
     {
-      selector: '<tng-chips>.your-class',
-      appliedOn: 'Wrapper host',
-      purpose: 'Apply semantic background, border, and foreground tokens for the root shell.',
-    },
-    {
       selector: '[data-slot="chips"]',
-      appliedOn: 'Projected root',
-      purpose: 'Stable hook for the primitive list root when you want additional layout or state-driven tweaks.',
+      appliedOn: 'Root shell',
+      purpose: 'Stable hook for root layout, spacing, and any shell treatment you want to add.',
     },
     {
       selector: '[data-slot="chip"]',
@@ -316,15 +307,15 @@ export class ChipsStylingPageComponent implements OnDestroy {
   });
 
   protected readonly plainCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
-    { value: 'ts', label: 'TS', language: 'ts', title: 'component-chips-styling-plain-example.component.ts', code: PLAIN_TS_CODE },
-    { value: 'html', label: 'HTML', language: 'html', title: 'component-chips-styling-plain-example.component.html', code: PLAIN_HTML_CODE },
-    { value: 'css', label: 'CSS', language: 'css', title: 'component-chips-styling-plain-example.component.css', code: PLAIN_CSS_CODE },
+    { value: 'ts', label: 'TS', language: 'ts', title: 'headless-chips-styling-plain-example.component.ts', code: PLAIN_TS_CODE },
+    { value: 'html', label: 'HTML', language: 'html', title: 'headless-chips-styling-plain-example.component.html', code: PLAIN_HTML_CODE },
+    { value: 'css', label: 'CSS', language: 'css', title: 'headless-chips-styling-plain-example.component.css', code: PLAIN_CSS_CODE },
   ]);
 
   protected readonly tailwindCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
-    { value: 'ts', label: 'TS', language: 'ts', title: 'component-chips-styling-tailwind-example.component.ts', code: TAILWIND_TS_CODE },
-    { value: 'html', label: 'HTML', language: 'html', title: 'component-chips-styling-tailwind-example.component.html', code: TAILWIND_HTML_CODE },
-    { value: 'css', label: 'CSS', language: 'css', title: 'component-chips-styling-tailwind-example.component.css', code: TAILWIND_CSS_CODE },
+    { value: 'ts', label: 'TS', language: 'ts', title: 'headless-chips-styling-tailwind-example.component.ts', code: TAILWIND_TS_CODE },
+    { value: 'html', label: 'HTML', language: 'html', title: 'headless-chips-styling-tailwind-example.component.html', code: TAILWIND_HTML_CODE },
+    { value: 'css', label: 'CSS', language: 'css', title: 'headless-chips-styling-tailwind-example.component.css', code: TAILWIND_CSS_CODE },
   ]);
 
   protected readonly stackblitzVanillaUrl = stackblitzVanillaUrl;

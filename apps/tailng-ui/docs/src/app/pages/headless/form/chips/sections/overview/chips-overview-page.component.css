@@ -1,4 +1,23 @@
-.docs-component-chips-overview-live-shell {
+:host {
+  display: block;
+}
+
+.headless-chips-overview {
+  display: grid;
+  gap: 1rem;
+}
+
+.headless-chips-overview__section {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.headless-chips-overview__section h2,
+.headless-chips-overview__section p {
+  margin: 0;
+}
+
+.docs-headless-chips-overview-live-shell {
   display: grid;
   gap: 0.9rem;
   inline-size: min(100%, 36rem);
@@ -12,43 +31,36 @@
   box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
 }
 
-.docs-component-chips-overview-live-header {
+.docs-headless-chips-overview-live-header {
   display: grid;
   gap: 0.35rem;
 }
 
-.docs-component-chips-overview-live-kicker {
+.docs-headless-chips-overview-live-kicker {
   font-size: 0.8rem;
   font-weight: 700;
   color: #64748b;
 }
 
-.docs-component-chips-overview-live-copy,
-.docs-component-chips-overview-live-summary {
+.docs-headless-chips-overview-live-copy,
+.docs-headless-chips-overview-live-summary {
   margin: 0;
   color: #475569;
 }
 
-.docs-component-chips-overview-live-control {
+.docs-headless-chips-overview-live-root {
   display: block;
   width: 100%;
   min-width: 0;
 }
 
-.docs-component-chips-overview-live-control--plain {
-  color-scheme: light;
-  --tng-semantic-background-base: #ffffff;
-  --tng-semantic-border-subtle: #d8e2ef;
-  --tng-semantic-foreground-primary: #0f172a;
-}
-
-.docs-component-chips-overview-live-row {
+.docs-headless-chips-overview-live-row {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
 }
 
-.docs-component-chips-overview-live-chip {
+.docs-headless-chips-overview-live-chip {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
@@ -62,7 +74,7 @@
   padding: 0.45rem 0.8rem;
 }
 
-.docs-component-chips-overview-live-chip-remove {
+.docs-headless-chips-overview-live-chip-remove {
   border: 0;
   border-radius: 999px;
   background: rgba(37, 99, 235, 0.12);
@@ -75,7 +87,7 @@
   padding: 0;
 }
 
-.docs-component-chips-overview-live-chip-remove[data-focused] {
+.docs-headless-chips-overview-live-chip-remove[data-focused] {
   outline: 2px solid rgba(37, 99, 235, 0.28);
   outline-offset: 2px;
 }

@@ -1,16 +1,16 @@
 <article class="chips-styling">
-  <section id="supported-contract" class="chips-styling-block">
-    <h2>Supported contract</h2>
+  <section id="css-contract-table" class="chips-styling-block">
+    <h2>CSS contract table</h2>
     <p class="chips-styling-lead">
-      Style the wrapper from its host and style projected chip markup directly in your template. No <code>::ng-deep</code>
-      is needed because the chip body belongs to you.
+      Style the primitive root and the projected chip markup directly in your template. No <code>::ng-deep</code> is
+      needed because the chip body belongs to you.
     </p>
 
     <div class="chips-styling-table-wrap">
       <table class="chips-styling-table">
         <thead>
           <tr>
-            <th scope="col">Selector or token</th>
+            <th scope="col">Selector</th>
             <th scope="col">Applied on</th>
             <th scope="col">Purpose</th>
           </tr>
@@ -28,17 +28,17 @@
     </div>
   </section>
 
-  <section id="host-tokens" class="chips-styling-block">
-    <h2>Host tokens</h2>
+  <section id="state-selectors" class="chips-styling-block">
+    <h2>State selectors</h2>
     <p>
-      The wrapper shell consumes semantic tokens from the host. Style the pills themselves with your own classes or the stable
-      primitive state hooks.
+      The primitive reflects stable slots and focus hooks, so you can style the list, chip, and remove button without
+      owning extra state.
     </p>
     <tng-code-block
       [code]="hostTokenGuidanceCode"
       adapter="shiki"
       language="css"
-      title="chips.tokens.css"
+      title="chips.state-selectors.css"
       [theme]="codeBlockTheme()"
       [lineNumbers]="false"
       [wrap]="true"
@@ -49,44 +49,44 @@
   <section id="styling-variants" class="docs-page-section">
     <app-docs-example-tabs-section
       heading="Release owner shell"
-      description="The wrapper shell stays quiet while your projected chip classes carry the visible presentation."
+      description="The primitive root stays quiet while your projected chip classes carry the visible presentation."
       ariaLabel="Chips styling examples"
       tabListAriaLabel="Chips styling variants"
       defaultValue="plain-css"
       [codeBlockTheme]="codeBlockTheme()"
     >
       <ng-template appDocsExampleVariant value="plain-css" label="Plain-CSS" panelTitle="Release owner shell (Plain-CSS)" [codeTabs]="plainCodeTabs" [stackblitzUrl]="stackblitzVanillaUrl">
-        <section class="docs-component-chips-styling-live-shell">
-          <div class="docs-component-chips-styling-live-header">
-            <span class="docs-component-chips-styling-live-kicker">Release owners</span>
-            <p class="docs-component-chips-styling-live-copy">
-              Theme the wrapper at the host, then own the projected pill styling directly in your component stylesheet.
+        <section class="docs-headless-chips-styling-live-shell">
+          <div class="docs-headless-chips-styling-live-header">
+            <span class="docs-headless-chips-styling-live-kicker">Release owners</span>
+            <p class="docs-headless-chips-styling-live-copy">
+              Style the headless root directly, then own the projected pill styling in your page stylesheet.
             </p>
           </div>
 
-          <tng-chips
-            class="docs-component-chips-styling-live-control"
-            [values]="stylingPlainReleaseOwners()"
+          <section tngChips
+            class="docs-headless-chips-styling-live-control"
+            [tngChipsValues]="stylingPlainReleaseOwners()"
             (valuesChange)="onStylingPlainValuesChange($event)"
-            [ariaLabel]="'Release owners'"
+            [tngChipsAriaLabel]="'Release owners'"
           >
-            <div class="docs-component-chips-styling-live-row">
+            <div class="docs-headless-chips-styling-live-row">
               @for (owner of stylingPlainReleaseOwners(); track owner) {
                 <span
                   tngChip
                   [tngChipValue]="owner"
                   [tngChipLabel]="owner"
                   [tngChipDisabled]="isStylingPlainLocked(owner)"
-                  class="docs-component-chips-styling-live-chip"
+                  class="docs-headless-chips-styling-live-chip"
                 >
                   <span>{{ owner }}</span>
-                  <button tngChipRemove type="button" class="docs-component-chips-styling-live-chip-remove">&times;</button>
+                  <button tngChipRemove type="button" class="docs-headless-chips-styling-live-chip-remove">&times;</button>
                 </span>
               }
             </div>
-          </tng-chips>
+          </section>
 
-          <p class="docs-component-chips-styling-live-summary">Selected: {{ stylingPlainSummary() }}</p>
+          <p class="docs-headless-chips-styling-live-summary">Selected: {{ stylingPlainSummary() }}</p>
         </section>
       </ng-template>
 
@@ -95,15 +95,15 @@
           <div class="grid gap-1">
             <span class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Release owners</span>
             <p class="m-0 text-sm text-slate-600">
-              Theme the wrapper at the host, then own the projected pill styling directly in the template.
+              Style the headless root directly, then own the projected pill styling directly in the template.
             </p>
           </div>
 
-          <tng-chips
+          <section tngChips
             class="block w-full min-w-0 [--tng-semantic-background-base:#ffffff] [--tng-semantic-border-subtle:#d8e2ef] [--tng-semantic-foreground-primary:#0f172a]"
-            [values]="stylingTailwindReleaseOwners()"
+            [tngChipsValues]="stylingTailwindReleaseOwners()"
             (valuesChange)="onStylingTailwindValuesChange($event)"
-            [ariaLabel]="'Release owners'"
+            [tngChipsAriaLabel]="'Release owners'"
           >
             <div class="flex flex-wrap gap-2">
               @for (owner of stylingTailwindReleaseOwners(); track owner) {
@@ -113,7 +113,7 @@
                 </span>
               }
             </div>
-          </tng-chips>
+          </section>
 
           <p class="m-0 text-xs text-slate-600">Selected: {{ stylingTailwindSummary() }}</p>
         </section>

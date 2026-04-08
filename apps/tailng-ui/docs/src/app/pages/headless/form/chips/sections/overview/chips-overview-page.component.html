@@ -1,0 +1,118 @@
+<article class="headless-chips-overview">
+  <section id="imports" class="headless-chips-overview__section">
+    <h2>Imports</h2>
+    <p>
+      Headless Chips is built from a small primitive set: the list root, the chip item, and the remove control.
+    </p>
+    <tng-code-block
+      [code]="primitiveImportCode"
+      adapter="shiki"
+      language="ts"
+      title="chips.imports.ts"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="basic-usage" class="headless-chips-overview__section">
+    <h2>Basic usage</h2>
+    <p>
+      Attach <code>tngChips</code> to the list root, then project a removable chip body for each value you want to render.
+    </p>
+    <tng-code-block
+      [code]="basicUsageCode"
+      adapter="shiki"
+      language="html"
+      title="chips.basic-usage.html"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="chip-variants" class="docs-page-section">
+    <app-docs-example-tabs-section
+      heading="Chip variants"
+      description="The primitive contract stays the same whether you wrap it in a plain-CSS shell or a Tailwind shell."
+      ariaLabel="Headless chips overview examples"
+      tabListAriaLabel="Headless chips overview variants"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template appDocsExampleVariant value="plain-css" label="Plain-CSS" panelTitle="Selected topics (Plain-CSS)" [codeTabs]="plainCodeTabs" [stackblitzUrl]="stackblitzVanillaUrl">
+        <section class="docs-headless-chips-overview-live-shell">
+          <div class="docs-headless-chips-overview-live-header">
+            <span class="docs-headless-chips-overview-live-kicker">Selected topics</span>
+            <p class="docs-headless-chips-overview-live-copy">
+              Primitive-first removable chips with a light shell and a controlled value array.
+            </p>
+          </div>
+
+          <section
+            tngChips
+            class="docs-headless-chips-overview-live-root"
+            [tngChipsValues]="overviewPlainSelectedTopics()"
+            (valuesChange)="onOverviewPlainValuesChange($event)"
+            [tngChipsAriaLabel]="'Selected topics'"
+          >
+            <div class="docs-headless-chips-overview-live-row">
+              @for (topic of overviewPlainSelectedTopics(); track topic) {
+                <span tngChip [tngChipValue]="topic" [tngChipLabel]="topic" class="docs-headless-chips-overview-live-chip">
+                  <span>{{ topic }}</span>
+                  <button tngChipRemove type="button" class="docs-headless-chips-overview-live-chip-remove">&times;</button>
+                </span>
+              }
+            </div>
+          </section>
+
+          <p class="docs-headless-chips-overview-live-summary">Selected: {{ overviewPlainSummary() }}</p>
+        </section>
+      </ng-template>
+
+      <ng-template appDocsExampleVariant value="tailwind-css" label="Tailwind CSS" panelTitle="Selected surfaces (Tailwind CSS)" [codeTabs]="tailwindCodeTabs" [stackblitzUrl]="stackblitzTailwindUrl">
+        <section class="mx-auto grid max-w-[36rem] gap-4 rounded-[1.75rem] border border-slate-200 bg-white p-5 text-slate-900 shadow-sm">
+          <div class="grid gap-1">
+            <span class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Selected surfaces</span>
+            <p class="m-0 text-sm text-slate-600">
+              Primitive-first removable chips with utility-first styling on top of the same projected chip parts.
+            </p>
+          </div>
+
+          <section
+            tngChips
+            class="block w-full min-w-0"
+            [tngChipsValues]="overviewTailwindSelectedSurfaces()"
+            (valuesChange)="onOverviewTailwindValuesChange($event)"
+            [tngChipsAriaLabel]="'Selected surfaces'"
+          >
+            <div class="flex flex-wrap gap-2">
+              @for (surface of overviewTailwindSelectedSurfaces(); track surface) {
+                <span tngChip [tngChipValue]="surface" [tngChipLabel]="surface" class="inline-flex items-center gap-2 rounded-full border border-sky-200 bg-sky-50 px-3 py-2 text-sm font-medium text-sky-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.72)]">
+                  <span>{{ surface }}</span>
+                  <button tngChipRemove type="button" class="inline-grid h-5 w-5 place-items-center rounded-full bg-sky-100 text-[0.8rem] leading-none text-sky-800 transition hover:bg-sky-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-400">&times;</button>
+                </span>
+              }
+            </div>
+          </section>
+
+          <p class="m-0 text-xs text-slate-600">Selected: {{ overviewTailwindSummary() }}</p>
+        </section>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section id="behavior-baseline" class="headless-chips-overview__section">
+    <h2>Behavior baseline</h2>
+    <p>
+      The root reflects <code>role="list"</code> and <code>data-slot="chips"</code>. Each chip reflects <code>role="listitem"</code>
+      and <code>data-slot="chip"</code>, so your styling hooks stay stable.
+    </p>
+    <p>
+      Use <code>Delete</code> or <code>Backspace</code> on a focused chip to remove it, or <code>Enter</code> / <code>Space</code> on
+      the remove control when removal is allowed. Disabled roots and disabled chips block those actions without extra glue code.
+    </p>
+  </section>
+</article>
