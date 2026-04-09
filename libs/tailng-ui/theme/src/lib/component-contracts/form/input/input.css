@@ -44,19 +44,46 @@
 }
 
 :where([data-slot='input']) {
+  all: unset;
   appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
   background: transparent;
   border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  box-sizing: border-box;
   color: inherit;
+  cursor: text;
+  display: block;
+  flex: 1 1 auto;
   font-family: inherit;
   font-size: inherit;
   font-weight: inherit;
   line-height: inherit;
   min-width: 0;
   outline: none;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
   width: 100%;
+}
+
+:where([data-slot='input']:focus),
+:where([data-slot='input']:focus-visible),
+:where([data-slot='input']:-moz-focusring) {
+  border: 0 !important;
+  box-shadow: none !important;
+  outline: none !important;
 }
 
 :where([data-slot='input'])::placeholder {
   color: var(--_tng-input-placeholder, var(--tng-semantic-foreground-muted));
+}
+
+:where(input[data-slot='input'][type='search'])::-webkit-search-decoration,
+:where(input[data-slot='input'][type='search'])::-webkit-search-cancel-button,
+:where(input[data-slot='input'][type='search'])::-webkit-search-results-button,
+:where(input[data-slot='input'][type='search'])::-webkit-search-results-decoration {
+  -webkit-appearance: none;
+  appearance: none;
 }

@@ -1,0 +1,212 @@
+<article class="docs-section-page input-api">
+  <div class="docs-section-page-main">
+    <h2 class="input-api-title">API reference</h2>
+    <p class="input-api-lead">
+      Headless input group is primitive-first. Use <code>tngInputGroup</code> to own the grouped
+      shell structure, project exactly one control, and style the result through slot and state
+      attributes.
+    </p>
+
+    <section id="tng-input-group" class="docs-section-anchor input-api-block">
+      <h3><code>tngInputGroup</code> (primitive shell)</h3>
+      <p>
+        Wraps a single projected control with optional <code>tngPrefix</code> and
+        <code>tngSuffix</code> content. The primitive renders the leading, control, and trailing
+        regions for you and mirrors control state back to the host.
+      </p>
+      <tng-code-block
+        [code]="groupTemplateCode"
+        adapter="shiki"
+        language="html"
+        title="Grouped search field"
+        [theme]="codeBlockTheme()"
+        [sanitizeHtml]="false"
+        [wrap]="true"
+        [lineNumbers]="false"
+      ></tng-code-block>
+      <div class="input-api-table-wrap">
+        <table class="input-api-table">
+          <thead>
+            <tr>
+              <th scope="col">Input</th>
+              <th scope="col">Type</th>
+              <th scope="col">Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>hasLeading</code></td>
+              <td>boolean-like</td>
+              <td>Overrides automatic prefix-slot detection.</td>
+            </tr>
+            <tr>
+              <td><code>hasTrailing</code></td>
+              <td>boolean-like</td>
+              <td>Overrides automatic suffix-slot detection.</td>
+            </tr>
+            <tr>
+              <td><code>disabled</code></td>
+              <td>boolean-like</td>
+              <td>Overrides the mirrored disabled state on the group host.</td>
+            </tr>
+            <tr>
+              <td><code>invalid</code></td>
+              <td>boolean-like</td>
+              <td>Overrides the mirrored invalid state on the group host.</td>
+            </tr>
+            <tr>
+              <td><code>readonly</code></td>
+              <td>boolean-like</td>
+              <td>Overrides the mirrored readonly state on the group host.</td>
+            </tr>
+            <tr>
+              <td><code>controlCount</code></td>
+              <td><code>number | null</code></td>
+              <td>Dev-mode override for the single-control validation warning.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="projected-control-contract" class="docs-section-anchor input-api-block">
+      <h3>Projected control contract</h3>
+      <p>
+        The group is just the shell. You still project the real control yourself, and the expected
+        control count is one.
+      </p>
+      <tng-code-block
+        [code]="projectedControlCode"
+        adapter="shiki"
+        language="html"
+        title="Projected control contract"
+        [theme]="codeBlockTheme()"
+        [sanitizeHtml]="false"
+        [wrap]="true"
+        [lineNumbers]="false"
+      ></tng-code-block>
+      <div class="input-api-table-wrap">
+        <table class="input-api-table">
+          <thead>
+            <tr>
+              <th scope="col">Feature</th>
+              <th scope="col">Type</th>
+              <th scope="col">Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Projected control</td>
+              <td><code>input[tngInput]</code>, <code>textarea[tngInput]</code>, or <code>textarea[tngTextarea]</code></td>
+              <td>The projected control keeps native semantics, Angular forms integration, and label wiring.</td>
+            </tr>
+            <tr>
+              <td>Expected count</td>
+              <td>Single control</td>
+              <td>The primitive warns in dev mode when the effective projected control count is not exactly one.</td>
+            </tr>
+            <tr>
+              <td>Generated structure</td>
+              <td>Leading / control / trailing regions</td>
+              <td>The host owns the flex layout for those regions so consumers can focus on visual styling only.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="reflected-attributes" class="docs-section-anchor input-api-block">
+      <h3>Reflected attributes</h3>
+      <p>
+        These stable hooks are the public styling surface for the grouped shell and its generated
+        regions.
+      </p>
+      <div class="input-api-table-wrap">
+        <table class="input-api-table">
+          <thead>
+            <tr>
+              <th scope="col">Attribute</th>
+              <th scope="col">Applied to</th>
+              <th scope="col">Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>data-slot="input-group"</code></td>
+              <td>Group host</td>
+              <td>Primary styling hook for the shell surface.</td>
+            </tr>
+            <tr>
+              <td><code>data-focused</code></td>
+              <td>Group host</td>
+              <td>Present while any projected control or action inside the group has focus.</td>
+            </tr>
+            <tr>
+              <td><code>data-invalid</code>, <code>data-disabled</code>, <code>data-readonly</code></td>
+              <td>Group host</td>
+              <td>Mirrored from the projected control unless explicitly overridden.</td>
+            </tr>
+            <tr>
+              <td><code>data-has-leading</code>, <code>data-has-trailing</code></td>
+              <td>Group host</td>
+              <td>Added when leading or trailing slot content exists or when the matching override input is set.</td>
+            </tr>
+            <tr>
+              <td><code>data-slot="input-group-leading"</code>, <code>data-slot="input-group-control"</code>, <code>data-slot="input-group-trailing"</code></td>
+              <td>Generated wrappers</td>
+              <td>Stable structural hooks for the regions rendered by the primitive.</td>
+            </tr>
+            <tr>
+              <td><code>data-slot="input"</code></td>
+              <td>Projected control</td>
+              <td>Applied by <code>tngInput</code> or <code>tngTextarea</code> on the real control.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <tng-code-block
+        [code]="stateSelectorCode"
+        adapter="shiki"
+        language="css"
+        title="State selector starter"
+        [theme]="codeBlockTheme()"
+        [sanitizeHtml]="false"
+        [wrap]="true"
+        [lineNumbers]="false"
+      ></tng-code-block>
+    </section>
+
+    <section id="slot-directives" class="docs-section-anchor input-api-block">
+      <h3>Slot directives</h3>
+      <div class="input-api-table-wrap">
+        <table class="input-api-table">
+          <thead>
+            <tr>
+              <th scope="col">Directive</th>
+              <th scope="col">Applies to</th>
+              <th scope="col">Adds</th>
+              <th scope="col">Alias</th>
+              <th scope="col">Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>tngPrefix</code></td>
+              <td>Projected leading element</td>
+              <td><code>data-slot="input-leading"</code></td>
+              <td><code>tngInputLeading</code></td>
+              <td>Marks prefix/adornment content for the leading region.</td>
+            </tr>
+            <tr>
+              <td><code>tngSuffix</code></td>
+              <td>Projected trailing element</td>
+              <td><code>data-slot="input-trailing"</code></td>
+              <td><code>tngInputTrailing</code></td>
+              <td>Marks suffix text, fixed metadata, or trailing action content.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+</article>

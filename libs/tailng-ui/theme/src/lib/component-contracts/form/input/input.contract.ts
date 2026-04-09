@@ -67,7 +67,11 @@ export const tngInputCssVars = {
 
   gap: '--tng-input-gap',
 
-  focusRing: '--tng-input-focus-ring', // allows override of focus ring strength
+  focusRing: '--tng-input-focus-ring',
+  fontSize: '--tng-input-font-size',
+  fontWeight: '--tng-input-font-weight',
+  lineHeight: '--tng-input-line-height',
+  placeholder: '--tng-input-placeholder',
 } as const;
 
 /**

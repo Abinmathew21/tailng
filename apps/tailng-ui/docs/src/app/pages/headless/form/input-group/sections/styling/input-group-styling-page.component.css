@@ -1,0 +1,52 @@
+:host {
+  display: block;
+}
+
+.docs-headless-input-group-styling-plain-field {
+  display: grid;
+  gap: 0.5rem;
+  width: min(100%, 31rem);
+}
+
+.docs-headless-input-group-styling-plain-label {
+  color: #64748b;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.docs-headless-input-group-styling-plain-shell[data-slot='input-group'] {
+  align-items: center;
+  gap: 0.55rem;
+  width: 100%;
+  min-height: 2.65rem;
+  padding-inline: 0.85rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.78rem;
+  background: #ffffff;
+  color: #0f172a;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.docs-headless-input-group-styling-plain-shell[data-slot='input-group'][data-focused] {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.18);
+}
+
+.docs-headless-input-group-styling-plain-control[data-slot='input'] {
+  min-width: 0;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #0f172a;
+  font: inherit;
+  outline: none;
+  box-shadow: none;
+}
+
+.docs-headless-input-group-styling-plain-meta {
+  color: #64748b;
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+}

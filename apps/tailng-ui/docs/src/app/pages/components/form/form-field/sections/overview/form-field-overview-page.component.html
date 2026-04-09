@@ -2,98 +2,91 @@
   <div class="docs-section-page-main">
     <h2 class="input-overview-title">Form Field</h2>
     <p class="input-overview-lead">
-      <code>&lt;tng-form-field&gt;</code> is the shell component for a projected
-      <code>input[tngInput]</code> plus optional <code>tngPrefix</code>/<code>tngSuffix</code>
-      content.
+      <code>&lt;tng-form-field&gt;</code> is the component shell for one projected
+      <code>input[tngInput]</code> or <code>textarea[tngInput]</code> plus optional
+      <code>tngPrefix</code>/<code>tngSuffix</code> content.
     </p>
     <p class="input-overview-lead">
-      Use it when the field needs icons, fixed suffix text, or trailing actions. For the plain case
-      with no projected adornments, use <code>&lt;tng-input&gt;</code> instead.
+      Reach for it when the field needs icons, fixed helper text, or trailing actions while the
+      shared TailNG shell keeps border, spacing, and focus treatment consistent.
     </p>
 
     <section id="what-form-field-does" class="docs-section-anchor input-overview-block">
       <h3>What form field does</h3>
       <ul class="input-overview-list">
-        <li><strong>Owns the shell</strong>: sizing, border, focus ring, and inline layout.</li>
         <li>
-          <strong>Projects one real input</strong>: the native control still comes from
-          <code>input[tngInput]</code>.
+          <strong>Owns the shell</strong>: the component applies the shared input chrome and
+          density model.
         </li>
         <li>
-          <strong>Supports adornments</strong>: leading and trailing content stay outside the native
-          control while sharing the same field chrome.
+          <strong>Projects one real control</strong>: the native input or textarea still comes
+          from <code>tngInput</code>.
+        </li>
+        <li>
+          <strong>Keeps adornments outside the input</strong>: prefix and suffix content share the
+          same shell without custom layout glue.
         </li>
       </ul>
     </section>
 
-    <app-docs-example-tabs-section
-      id="simple-examples"
-      class="docs-section-anchor input-overview-block"
-      heading="Simple examples"
-      description="Compare the same form field composition across plain CSS and Tailwind CSS styles."
-      ariaLabel="Form field style examples"
-      tabListAriaLabel="Form field example style variants"
-      defaultValue="plain-css"
-      [codeBlockTheme]="codeBlockTheme()"
-    >
-      <ng-template
-        appDocsExampleVariant
-        value="plain-css"
-        label="Plain-CSS"
-        panelTitle="Form Field (Plain CSS)"
-        [codeTabs]="plainCssExampleCodeTabs"
-        [stackblitzUrl]="stackblitzVanillaUrl"
+    <section id="simple-examples" class="docs-section-anchor input-overview-block">
+      <app-docs-example-tabs-section
+        heading="Simple examples"
+        description="Compare the same form-field composition across plain CSS and Tailwind CSS while styling only through the host token contract."
+        ariaLabel="Form field style examples"
+        tabListAriaLabel="Form field example style variants"
+        defaultValue="plain-css"
+        [codeBlockTheme]="codeBlockTheme()"
       >
-        <div class="input-overview-example-fields">
-          <label class="doc-cmp-form-field-ov-plain-search-field">
-            <span class="doc-cmp-form-field-ov-plain-search-label">Search docs</span>
-            <tng-form-field
-              class="doc-cmp-form-field-ov-plain-search-shell"
-              (click)="focusProjectedInput($event)"
-            >
-              <span tngPrefix aria-hidden="true">
-                <tng-icon icon="search" class="doc-cmp-form-field-ov-plain-search-icon" />
+        <ng-template
+          appDocsExampleVariant
+          value="plain-css"
+          label="Plain-CSS"
+          panelTitle="Form Field (Plain-CSS)"
+          [codeTabs]="plainCssExampleCodeTabs"
+          [stackblitzUrl]="stackblitzVanillaUrl"
+        >
+          <label class="doc-cmp-form-field-ov-plain-card">
+            <span class="doc-cmp-form-field-ov-plain-label">Search docs</span>
+            <tng-form-field class="doc-cmp-form-field-ov-plain-shell">
+              <span tngPrefix aria-hidden="true" class="doc-cmp-form-field-ov-plain-prefix">
+                <tng-icon icon="search" class="doc-cmp-form-field-ov-plain-icon" />
               </span>
               <input tngInput type="search" placeholder="Search components..." />
-              <span tngSuffix class="doc-cmp-form-field-ov-plain-search-meta">Ctrl+K</span>
+              <span tngSuffix class="doc-cmp-form-field-ov-plain-meta">Ctrl+K</span>
             </tng-form-field>
           </label>
-        </div>
-      </ng-template>
+        </ng-template>
 
-      <ng-template
-        appDocsExampleVariant
-        value="tailwind-css"
-        label="Tailwind CSS"
-        panelTitle="Form Field (Tailwind CSS)"
-        [codeTabs]="tailwindExampleCodeTabs"
-        [stackblitzUrl]="stackblitzTailwindUrl"
+        <ng-template
+          appDocsExampleVariant
+          value="tailwind-css"
+          label="Tailwind CSS"
+          panelTitle="Form Field (Tailwind CSS)"
+          [codeTabs]="tailwindExampleCodeTabs"
+          [stackblitzUrl]="stackblitzTailwindUrl"
         >
-        <div class="input-overview-example-fields">
-          <label class="grid w-full max-w-[32rem] gap-2">
-            <span class="text-xs font-semibold text-[var(--tng-semantic-foreground-secondary)]">
-              Search docs
-            </span>
-            <tng-form-field
-              class="block [&_[data-slot='input-group']]:min-h-11 [&_[data-slot='input-group']]:items-center [&_[data-slot='input-group']]:rounded-xl [&_[data-slot='input-group']]:border [&_[data-slot='input-group']]:border-[var(--tng-semantic-border-strong)] [&_[data-slot='input-group']]:bg-[var(--tng-semantic-background-base)] [&_[data-slot='input-group']]:px-3 [&_[data-slot='input-group']]:shadow-none [&_[data-slot='input-group'][data-focused]]:border-[var(--tng-semantic-accent-brand)] [&_[data-slot='input-group'][data-focused]]:ring-2 [&_[data-slot='input-group'][data-focused]]:ring-blue-400/20 [&_[data-slot='input']]:w-full [&_[data-slot='input']]:appearance-none [&_[data-slot='input']]:border-0 [&_[data-slot='input']]:bg-transparent [&_[data-slot='input']]:p-0 [&_[data-slot='input']]:outline-none [&_[data-slot='input']]:shadow-none [&_[data-slot='input']]:text-[var(--tng-semantic-foreground-primary)] [&_[data-slot='input']]:placeholder:text-[var(--tng-semantic-foreground-muted)] [&_[data-slot='input']]:focus:outline-none [&_[data-slot='input']]:focus:ring-0 [&_[data-slot='input-group-leading']]:text-[var(--tng-semantic-foreground-secondary)] [&_[data-slot='input-group-trailing']]:text-xs [&_[data-slot='input-group-trailing']]:font-semibold [&_[data-slot='input-group-trailing']]:text-[var(--tng-semantic-foreground-secondary)]"
-              (click)="focusProjectedInput($event)"
+          <label class="mx-auto grid w-full max-w-[34rem] gap-2 rounded-[1.5rem] border border-slate-200 bg-white p-5 text-slate-900 shadow-sm">
+            <span class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500"
+              >Search docs</span
             >
-              <span tngPrefix aria-hidden="true">
+            <tng-form-field [class]="tailwindHostClass">
+              <span tngPrefix aria-hidden="true" class="text-slate-500">
                 <tng-icon icon="search" class="h-4 w-4" />
               </span>
               <input tngInput type="search" placeholder="Search components..." />
-              <span tngSuffix>Ctrl+K</span>
+              <span tngSuffix class="text-xs font-semibold text-slate-500">Ctrl+K</span>
             </tng-form-field>
           </label>
-        </div>
-      </ng-template>
-    </app-docs-example-tabs-section>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
 
     <section id="installation" class="docs-section-anchor input-overview-block">
       <h3>Installation</h3>
       <p>
-        Import the shell component from components and the projected-control primitives from
-        primitives.
+        Import the shell component from components and the projected input primitives from
+        primitives. Bring in icons only when the field actually renders icon content.
       </p>
       <tng-code-block
         [code]="importsCode"
@@ -137,9 +130,9 @@
     <section id="relationship-to-input-component" class="docs-section-anchor input-overview-block">
       <h3>Relationship to input component</h3>
       <p>
-        <code>&lt;tng-input&gt;</code> is the simple component for a plain field. Reach for
-        <code>&lt;tng-form-field&gt;</code> when the field needs projected prefix/suffix content or
-        any custom trailing action.
+        <code>&lt;tng-input&gt;</code> is still the better fit when the field is just a plain
+        control. Choose <code>&lt;tng-form-field&gt;</code> once the shell needs projected prefix
+        or suffix content.
       </p>
       <tng-code-block
         [code]="relationshipCode"
@@ -156,9 +149,9 @@
     <section id="accessibility-guidance" class="docs-section-anchor input-overview-block">
       <h3>Accessibility guidance</h3>
       <ul class="input-overview-list">
-        <li>Mark decorative prefix/suffix content as <code>aria-hidden="true"</code>.</li>
-        <li>Give the projected input a real accessible name with <code>label</code> or ARIA.</li>
-        <li>Trailing buttons should keep their own explicit accessible label.</li>
+        <li>Give the projected input or textarea a real accessible name with a label or ARIA.</li>
+        <li>Mark decorative prefix and suffix content as <code>aria-hidden="true"</code>.</li>
+        <li>Trailing buttons should keep their own explicit accessible labels.</li>
       </ul>
       <tng-code-block
         [code]="accessibilityCode"

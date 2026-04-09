@@ -25,7 +25,7 @@
         >
           <div class="doc-cmp-form-field-ex-search-preview">
             <tng-form-field class="doc-cmp-form-field-ex-search-shell">
-              <span tngPrefix aria-hidden="true">
+              <span tngPrefix aria-hidden="true" class="doc-cmp-form-field-ex-search-prefix">
                 <tng-icon icon="search" class="doc-cmp-form-field-ex-search-icon" />
               </span>
               <input tngInput type="search" placeholder="Search components..." />
@@ -43,14 +43,12 @@
           [stackblitzUrl]="stackblitzTailwindUrl"
         >
           <div class="doc-cmp-form-field-ex-search-preview">
-            <tng-form-field
-              class="block [&_[data-slot='input-group']]:min-h-11 [&_[data-slot='input-group']]:items-center [&_[data-slot='input-group']]:rounded-xl [&_[data-slot='input-group']]:border [&_[data-slot='input-group']]:border-[var(--tng-semantic-border-strong)] [&_[data-slot='input-group']]:bg-[var(--tng-semantic-background-base)] [&_[data-slot='input-group']]:px-3 [&_[data-slot='input-group']]:shadow-none [&_[data-slot='input-group'][data-focused]]:border-[var(--tng-semantic-accent-brand)] [&_[data-slot='input-group'][data-focused]]:ring-2 [&_[data-slot='input-group'][data-focused]]:ring-blue-400/20 [&_[data-slot='input']]:w-full [&_[data-slot='input']]:appearance-none [&_[data-slot='input']]:border-0 [&_[data-slot='input']]:bg-transparent [&_[data-slot='input']]:p-0 [&_[data-slot='input']]:outline-none [&_[data-slot='input']]:shadow-none [&_[data-slot='input']]:text-[var(--tng-semantic-foreground-primary)] [&_[data-slot='input']]:placeholder:text-[var(--tng-semantic-foreground-muted)] [&_[data-slot='input']]:focus:outline-none [&_[data-slot='input']]:focus:ring-0 [&_[data-slot='input-group-leading']]:text-[var(--tng-semantic-foreground-secondary)] [&_[data-slot='input-group-trailing']]:text-xs [&_[data-slot='input-group-trailing']]:font-semibold [&_[data-slot='input-group-trailing']]:text-[var(--tng-semantic-foreground-secondary)]"
-            >
-              <span tngPrefix aria-hidden="true">
+            <tng-form-field [class]="searchTailwindHostClass">
+              <span tngPrefix aria-hidden="true" class="text-slate-500">
                 <tng-icon icon="search" class="h-4 w-4" />
               </span>
               <input tngInput type="search" placeholder="Search components..." />
-              <span tngSuffix>Ctrl+K</span>
+              <span tngSuffix class="text-xs font-semibold text-slate-500">Ctrl+K</span>
             </tng-form-field>
           </div>
         </ng-template>
@@ -91,11 +89,9 @@
           [stackblitzUrl]="stackblitzTailwindUrl"
         >
           <div class="doc-cmp-form-field-ex-workspace-preview">
-            <tng-form-field
-              class="block [&_[data-slot='input-group']]:min-h-11 [&_[data-slot='input-group']]:items-center [&_[data-slot='input-group']]:rounded-xl [&_[data-slot='input-group']]:border [&_[data-slot='input-group']]:border-[var(--tng-semantic-border-strong)] [&_[data-slot='input-group']]:bg-[var(--tng-semantic-background-base)] [&_[data-slot='input-group']]:px-3 [&_[data-slot='input-group']]:shadow-none [&_[data-slot='input-group'][data-focused]]:border-[var(--tng-semantic-accent-brand)] [&_[data-slot='input-group'][data-focused]]:ring-2 [&_[data-slot='input-group'][data-focused]]:ring-blue-400/20 [&_[data-slot='input']]:w-full [&_[data-slot='input']]:appearance-none [&_[data-slot='input']]:border-0 [&_[data-slot='input']]:bg-transparent [&_[data-slot='input']]:p-0 [&_[data-slot='input']]:outline-none [&_[data-slot='input']]:shadow-none [&_[data-slot='input']]:text-[var(--tng-semantic-foreground-primary)] [&_[data-slot='input']]:placeholder:text-[var(--tng-semantic-foreground-muted)] [&_[data-slot='input']]:focus:outline-none [&_[data-slot='input']]:focus:ring-0 [&_[data-slot='input-group-trailing']]:text-xs [&_[data-slot='input-group-trailing']]:font-semibold [&_[data-slot='input-group-trailing']]:text-[var(--tng-semantic-foreground-secondary)]"
-            >
+            <tng-form-field [class]="workspaceTailwindHostClass">
               <input tngInput type="text" value="core-platform" />
-              <span tngSuffix>.tailng.dev</span>
+              <span tngSuffix class="text-xs font-semibold text-slate-500">.tailng.dev</span>
             </tng-form-field>
           </div>
         </ng-template>
@@ -143,11 +139,16 @@
           [codeTabs]="clearTailwindCodeTabs"
         >
           <div class="doc-cmp-form-field-ex-clear-preview">
-            <tng-form-field
-              class="block [&_[data-slot='input-group']]:min-h-11 [&_[data-slot='input-group']]:items-center [&_[data-slot='input-group']]:rounded-xl [&_[data-slot='input-group']]:border [&_[data-slot='input-group']]:border-[var(--tng-semantic-border-strong)] [&_[data-slot='input-group']]:bg-[var(--tng-semantic-background-base)] [&_[data-slot='input-group']]:px-3 [&_[data-slot='input-group']]:shadow-none [&_[data-slot='input-group'][data-focused]]:border-[var(--tng-semantic-accent-brand)] [&_[data-slot='input-group'][data-focused]]:ring-2 [&_[data-slot='input-group'][data-focused]]:ring-blue-400/20 [&_[data-slot='input']]:w-full [&_[data-slot='input']]:appearance-none [&_[data-slot='input']]:border-0 [&_[data-slot='input']]:bg-transparent [&_[data-slot='input']]:p-0 [&_[data-slot='input']]:outline-none [&_[data-slot='input']]:shadow-none [&_[data-slot='input']]:text-[var(--tng-semantic-foreground-primary)] [&_[data-slot='input']]:placeholder:text-[var(--tng-semantic-foreground-muted)] [&_[data-slot='input']]:focus:outline-none [&_[data-slot='input']]:focus:ring-0 [&_[data-slot='input-group-trailing']_button]:rounded-md [&_[data-slot='input-group-trailing']_button]:border-0 [&_[data-slot='input-group-trailing']_button]:bg-transparent [&_[data-slot='input-group-trailing']_button]:px-2 [&_[data-slot='input-group-trailing']_button]:py-1 [&_[data-slot='input-group-trailing']_button]:text-xs [&_[data-slot='input-group-trailing']_button]:font-semibold [&_[data-slot='input-group-trailing']_button]:text-[var(--tng-semantic-foreground-secondary)] hover:[&_[data-slot='input-group-trailing']_button]:bg-[color-mix(in_srgb,var(--tng-semantic-background-muted)_62%,transparent)] hover:[&_[data-slot='input-group-trailing']_button]:text-[var(--tng-semantic-foreground-primary)]"
-            >
+            <tng-form-field [class]="clearTailwindHostClass">
               <input tngInput type="search" value="TailNG" />
-              <button tngSuffix type="button" aria-label="Clear search">Clear</button>
+              <button
+                tngSuffix
+                type="button"
+                aria-label="Clear search"
+                class="rounded-md bg-transparent px-2.5 py-1 text-xs font-semibold text-slate-500 transition hover:bg-slate-200/60 hover:text-slate-900"
+              >
+                Clear
+              </button>
             </tng-form-field>
           </div>
         </ng-template>

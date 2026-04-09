@@ -65,6 +65,13 @@ export const HEADLESS_FORM_GROUP: HeadlessDocsGroup = {
       description: 'Control semantics, group slots, and input behavior contracts for text entry.',
     },
     {
+      id: 'input-group',
+      slug: 'input-group',
+      title: 'Input Group',
+      description:
+        'Shell primitive for one input control plus optional prefix and suffix content with mirrored state attrs.',
+    },
+    {
       id: 'textarea',
       slug: 'textarea',
       title: 'Textarea',

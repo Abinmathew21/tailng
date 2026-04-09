@@ -2,7 +2,7 @@ import { DOCUMENT } from '@angular/common';
 import { Component, inject, signal, type OnDestroy } from '@angular/core';
 import { TngCodeBlockComponent, TngFormFieldComponent } from '@tailng-ui/components';
 import { TngInput, TngSuffix } from '@tailng-ui/primitives';
-import { type DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
+import type { DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
 import {
   DocsExampleTabsSectionComponent,
   DocsExampleVariantDirective,
@@ -13,22 +13,47 @@ import {
 } from '../../../../../../shared/util';
 import { stackblitzTailwindUrl, stackblitzVanillaUrl } from '../../form-field.util';
 
-function createFormFieldStylingExampleTsCode(selector: string, className: string): string {
+function createWorkspaceFieldTsCode(selector: string, className: string): string {
   return [
     "import { Component } from '@angular/core';",
     "import { TngFormFieldComponent } from '@tailng-ui/components';",
-    "import { TngInput, TngPrefix, TngSuffix } from '@tailng-ui/primitives';",
-    "import { TngIcon } from '@tailng-ui/icons';",
+    "import { TngInput, TngSuffix } from '@tailng-ui/primitives';",
     '',
     '@Component({',
-    `  selector: '${selector}',`,
-    '  imports: [TngFormFieldComponent, TngInput, TngPrefix, TngSuffix, TngIcon],',
-    `  templateUrl: './${selector}.component.html',`,
-    `  styleUrl: './${selector}.component.css',`,
+    "  selector: '" + selector + "',",
+    '  standalone: true,',
+    '  imports: [TngFormFieldComponent, TngInput, TngSuffix],',
+    "  templateUrl: './" + selector + ".component.html',",
+    "  styleUrl: './" + selector + ".component.css',",
     '})',
-    `export class ${className} {}`,
+    'export class ' + className + ' {}',
     '',
   ].join('\n');
+}
+
+function createCodeTabs(
+  baseName: string,
+  tsCode: string,
+  htmlCode: string,
+  cssCode: string,
+): readonly DocsExampleCodeTab[] {
+  return Object.freeze([
+    { value: 'ts', label: 'TS', language: 'ts', title: baseName + '.component.ts', code: tsCode },
+    {
+      value: 'html',
+      label: 'HTML',
+      language: 'html',
+      title: baseName + '.component.html',
+      code: htmlCode,
+    },
+    {
+      value: 'css',
+      label: 'CSS',
+      language: 'css',
+      title: baseName + '.component.css',
+      code: cssCode,
+    },
+  ]);
 }
 
 @Component({
@@ -49,7 +74,7 @@ function createFormFieldStylingExampleTsCode(selector: string, className: string
 })
 export class FormFieldStylingPageComponent implements OnDestroy {
   private readonly documentRef = inject(DOCUMENT);
-  
+
   protected readonly stackblitzVanillaUrl = stackblitzVanillaUrl;
   protected readonly stackblitzTailwindUrl = stackblitzTailwindUrl;
 
@@ -62,38 +87,39 @@ export class FormFieldStylingPageComponent implements OnDestroy {
   );
 
   protected readonly contractsCode = [
-    '[data-slot="form-field-wrapper"]',
-    '[data-appearance="outline" | "solid" | "ghost"]',
-    '[data-size="sm" | "md" | "lg"]',
-    '[data-tone="neutral" | "primary" | "success" | "danger"]',
-    '[data-full-width]',
-    '[data-slot="input-group"]',
-    '[data-slot="input-group-leading"]',
-    '[data-slot="input-group-control"]',
-    '[data-slot="input-group-trailing"]',
-    '[data-slot="input"]',
-    '[data-focused]',
-    '[data-disabled]',
-    '[data-invalid]',
-    '[data-readonly]',
-    '',
-  ].join('\n');
-
-  protected readonly stateHooksCode = [
-    '.doc-cmp-form-field-st-pattern-search-shell [data-slot="input-group"] {',
-    '  border: 1px solid var(--tng-semantic-border-strong);',
-    '  border-radius: 0.75rem;',
-    '  transition: border-color 0.15s ease, box-shadow 0.15s ease;',
-    '}',
-    '',
-    '.doc-cmp-form-field-st-pattern-search-shell [data-slot="input-group"][data-focused] {',
-    '  border-color: var(--tng-semantic-accent-brand);',
-    '  box-shadow: 0 0 0 3px color-mix(in srgb, var(--tng-semantic-accent-brand) 20%, transparent);',
+    '.docs-form-field-shell {',
+    '  --tng-input-bg: #ffffff;',
+    '  --tng-input-border: #cbd5e1;',
+    '  --tng-input-fg: #0f172a;',
+    '  --tng-input-radius: 0.85rem;',
+    '  --tng-input-min-height: 2.75rem;',
+    '  --tng-input-px: 0.9rem;',
+    '  --tng-input-gap: 0.65rem;',
+    '  --tng-input-focus-ring: rgba(59, 130, 246, 0.18);',
+    '  --tng-input-font-size: 0.96rem;',
+    '  --tng-input-line-height: 1.45;',
+    '  --tng-input-placeholder: #94a3b8;',
     '}',
     '',
   ].join('\n');
 
-  private readonly plainScenarioTsCode = createFormFieldStylingExampleTsCode(
+  protected readonly stateOwnershipCode = [
+    '/* <tng-form-field> exposes host tokens. */',
+    '/* Focus, invalid, disabled, and readonly attrs still live on the inner primitive group. */',
+    '/* If you need custom shell selectors keyed off those attrs, move to headless input-group. */',
+    '',
+    '<tng-input-group class="docs-search-group">',
+    '  <span tngPrefix aria-hidden="true">Search</span>',
+    '  <input tngInput type="search" />',
+    '</tng-input-group>',
+    '',
+    '.docs-search-group[data-focused] {',
+    '  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.18);',
+    '}',
+    '',
+  ].join('\n');
+
+  private readonly plainScenarioTsCode = createWorkspaceFieldTsCode(
     'app-doc-cmp-form-field-st-workspace-plain',
     'DocCmpFormFieldStWorkspacePlainComponent',
   );
@@ -110,96 +136,85 @@ export class FormFieldStylingPageComponent implements OnDestroy {
   ].join('\n');
 
   private readonly plainScenarioCssCode = [
-    '.doc-cmp-form-field-st-workspace-field { display: grid; gap: 0.5rem; width: min(100%, 31rem); }',
+    '.doc-cmp-form-field-st-workspace-field {',
+    '  display: grid;',
+    '  gap: 0.5rem;',
+    '  width: min(100%, 31rem);',
+    '}',
+    '',
     '.doc-cmp-form-field-st-workspace-label {',
     '  font-size: 0.82rem;',
     '  font-weight: 600;',
-    '  color: var(--tng-semantic-foreground-secondary);',
+    '  color: #64748b;',
     '}',
-    '.doc-cmp-form-field-st-workspace-shell [data-slot="input-group"] {',
-    '  min-height: 2.55rem;',
-    '  border-radius: 0.75rem;',
-    '  border: 1px solid var(--tng-semantic-border-strong);',
-    '  background: var(--tng-semantic-background-base);',
-    '  padding-inline: 0.8rem;',
-    '}',
-    '.doc-cmp-form-field-st-workspace-shell [data-slot="input-group"][data-focused] {',
-    '  border-color: var(--tng-semantic-accent-brand);',
-    '  box-shadow: 0 0 0 3px color-mix(in srgb, var(--tng-semantic-accent-brand) 18%, transparent);',
-    '}',
-    '.doc-cmp-form-field-st-workspace-shell [data-slot="input"] {',
-    '  appearance: none;',
-    '  background: transparent;',
-    '  border: 0;',
-    '  box-shadow: none;',
-    '  color: inherit;',
+    '',
+    '.doc-cmp-form-field-st-workspace-shell {',
     '  display: block;',
-    '  font: inherit;',
-    '  min-width: 0;',
-    '  outline: none;',
-    '  padding: 0;',
     '  width: 100%;',
+    '  --tng-input-bg: #ffffff;',
+    '  --tng-input-border: #cbd5e1;',
+    '  --tng-input-radius: 0.78rem;',
+    '  --tng-input-min-height: 2.65rem;',
+    '  --tng-input-px: 0.85rem;',
+    '  --tng-input-gap: 0.55rem;',
+    '  --tng-input-fg: #0f172a;',
+    '  --tng-input-focus-ring: rgba(59, 130, 246, 0.18);',
+    '  --tng-input-placeholder: #94a3b8;',
     '}',
-    '.doc-cmp-form-field-st-workspace-meta { font-size: 0.8rem; font-weight: 600; }',
+    '',
+    '.doc-cmp-form-field-st-workspace-meta {',
+    '  color: #64748b;',
+    '  font-size: 0.8rem;',
+    '  font-weight: 600;',
+    '  white-space: nowrap;',
+    '}',
     '',
   ].join('\n');
 
-  private readonly tailwindScenarioTsCode = createFormFieldStylingExampleTsCode(
+  private readonly tailwindHostClassValue = [
+    'block',
+    'w-full',
+    '[--tng-input-bg:#ffffff]',
+    '[--tng-input-border:#cbd5e1]',
+    '[--tng-input-radius:0.78rem]',
+    '[--tng-input-min-height:2.65rem]',
+    '[--tng-input-px:0.85rem]',
+    '[--tng-input-gap:0.55rem]',
+    '[--tng-input-fg:#0f172a]',
+    '[--tng-input-focus-ring:rgba(59,130,246,0.18)]',
+    '[--tng-input-placeholder:#94a3b8]',
+  ].join(' ');
+
+  protected readonly tailwindHostClass = this.tailwindHostClassValue;
+
+  private readonly tailwindScenarioTsCode = createWorkspaceFieldTsCode(
     'app-doc-cmp-form-field-st-workspace-tailwind',
     'DocCmpFormFieldStWorkspaceTailwindComponent',
   );
 
   private readonly tailwindScenarioHtmlCode = [
     '<label class="grid w-full max-w-[31rem] gap-2">',
-    '  <span class="text-xs font-semibold text-[var(--tng-semantic-foreground-secondary)]">',
-    '    Workspace slug',
-    '  </span>',
-    '  <tng-form-field',
-    '    class="block',
-    "           [&_[data-slot='input-group']]:min-h-11",
-    "           [&_[data-slot='input-group']]:items-center",
-    "           [&_[data-slot='input-group']]:rounded-xl",
-    "           [&_[data-slot='input-group']]:border",
-    "           [&_[data-slot='input-group']]:border-[var(--tng-semantic-border-strong)]",
-    "           [&_[data-slot='input-group']]:bg-[var(--tng-semantic-background-base)]",
-    "           [&_[data-slot='input-group']]:px-3",
-    "           [&_[data-slot='input-group']]:shadow-none",
-    "           [&_[data-slot='input-group'][data-focused]]:border-[var(--tng-semantic-accent-brand)]",
-    "           [&_[data-slot='input-group'][data-focused]]:ring-2",
-    "           [&_[data-slot='input-group'][data-focused]]:ring-blue-400/20",
-    "           [&_[data-slot='input']]:w-full",
-    "           [&_[data-slot='input']]:appearance-none",
-    "           [&_[data-slot='input']]:border-0",
-    "           [&_[data-slot='input']]:bg-transparent",
-    "           [&_[data-slot='input']]:p-0",
-    "           [&_[data-slot='input']]:outline-none",
-    "           [&_[data-slot='input']]:shadow-none",
-    "           [&_[data-slot='input']]:text-[var(--tng-semantic-foreground-primary)]",
-    "           [&_[data-slot='input']]:placeholder:text-[var(--tng-semantic-foreground-muted)]",
-    "           [&_[data-slot='input']]:focus:outline-none",
-    "           [&_[data-slot='input']]:focus:ring-0",
-    "           [&_[data-slot='input-group-trailing']]:text-xs",
-    "           [&_[data-slot='input-group-trailing']]:font-semibold",
-    "           [&_[data-slot='input-group-trailing']]:text-[var(--tng-semantic-foreground-primary)]\">",
+    '  <span class="text-xs font-semibold text-slate-500">Workspace slug</span>',
+    '  <tng-form-field class="' + this.tailwindHostClassValue + '">',
     '    <input tngInput type="text" value="core-platform" />',
-    '    <span tngSuffix>.tailng.dev</span>',
+    '    <span tngSuffix class="text-xs font-semibold text-slate-500">.tailng.dev</span>',
     '  </tng-form-field>',
     '</label>',
     '',
   ].join('\n');
 
   private readonly tailwindScenarioCssCode =
-    '/* Tailwind utilities are applied directly in the template. */';
+    '/* Tailwind utilities and host token overrides are applied directly in the template. */';
 
-  protected readonly plainScenarioCodeTabs = this.createCodeTabs(
-    'form-field-style-example',
+  protected readonly plainScenarioCodeTabs = createCodeTabs(
+    'doc-cmp-form-field-styling-plain',
     this.plainScenarioTsCode,
     this.plainScenarioHtmlCode,
     this.plainScenarioCssCode,
   );
 
-  protected readonly tailwindScenarioCodeTabs = this.createCodeTabs(
-    'form-field-style-example-tailwind',
+  protected readonly tailwindScenarioCodeTabs = createCodeTabs(
+    'doc-cmp-form-field-styling-tailwind',
     this.tailwindScenarioTsCode,
     this.tailwindScenarioHtmlCode,
     this.tailwindScenarioCssCode,
@@ -207,71 +222,39 @@ export class FormFieldStylingPageComponent implements OnDestroy {
 
   protected readonly stylePatternExamples = [
     {
-      title: 'Container-first focus styling',
+      title: 'Projected content classes',
       description:
-        'Apply focus, invalid, and disabled treatment on the form-field shell instead of the projected input.',
-      language: 'css',
-      code: this.stateHooksCode,
-    },
-    {
-      title: 'Projected slots',
-      description:
-        'Treat prefixes and suffixes as projected content that inherits the same shell chrome as the control.',
+        'Theme the wrapper at the host, then style projected prefix, suffix, and action elements with your own classes.',
       language: 'html',
       code: [
-        '<tng-form-field class="doc-cmp-form-field-st-pattern-search-shell">',
-        '  <span tngPrefix aria-hidden="true">Search</span>',
+        '<tng-form-field class="docs-search-shell">',
+        '  <span tngPrefix class="docs-search-prefix" aria-hidden="true">',
+        '    <tng-icon icon="search"></tng-icon>',
+        '  </span>',
         '  <input tngInput type="search" placeholder="Search docs" />',
-        '  <button tngSuffix type="button" aria-label="Clear search">Clear</button>',
+        '  <button tngSuffix type="button" class="docs-search-action">Clear</button>',
         '</tng-form-field>',
+        '',
+        '.docs-search-shell {',
+        '  --tng-input-border: #cbd5e1;',
+        '  --tng-input-radius: 0.85rem;',
+        '}',
+        '',
+        '.docs-search-prefix { color: #64748b; }',
+        '.docs-search-action { color: #475569; }',
         '',
       ].join('\n'),
     },
     {
-      title: 'State-driven styling',
+      title: 'Headless escalation for shell state',
       description:
-        'Use the mirrored state attrs from the projected control instead of custom class toggles.',
-      language: 'css',
-      code: [
-        '.doc-cmp-form-field-st-pattern-search-shell [data-slot="input-group"][data-invalid] {',
-        '  border-color: var(--tng-semantic-accent-danger);',
-        '}',
-        '',
-        '.doc-cmp-form-field-st-pattern-search-shell [data-slot="input-group"][data-disabled] {',
-        '  opacity: 0.55;',
-        '  cursor: not-allowed;',
-        '}',
-        '',
-      ].join('\n'),
+        'The component wrapper keeps state selectors inside the primitive. Drop to headless input-group when you need custom focus or invalid selectors on the shell itself.',
+      language: 'html',
+      code: this.stateOwnershipCode,
     },
   ] as const;
 
   public ngOnDestroy(): void {
     this.colorSchemeObserver?.disconnect();
-  }
-
-  private createCodeTabs(
-    baseName: string,
-    tsCode: string,
-    htmlCode: string,
-    cssCode: string,
-  ): readonly DocsExampleCodeTab[] {
-    return Object.freeze([
-      { value: 'ts', label: 'TS', language: 'ts', title: `${baseName}.component.ts`, code: tsCode },
-      {
-        value: 'html',
-        label: 'HTML',
-        language: 'html',
-        title: `${baseName}.component.html`,
-        code: htmlCode,
-      },
-      {
-        value: 'css',
-        label: 'CSS',
-        language: 'css',
-        title: `${baseName}.component.css`,
-        code: cssCode,
-      },
-    ]);
   }
 }

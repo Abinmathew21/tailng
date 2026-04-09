@@ -2,18 +2,21 @@
   <div class="docs-section-page-main">
     <h2 class="input-styling-title">Styling contract</h2>
     <p class="input-styling-lead">
-      Style <code>tng-form-field</code> through the shell and slot data attributes emitted by the
-      projected input group.
+      Style <code>tng-form-field</code> through host CSS variables and your own classes on
+      projected prefix, suffix, and action elements.
     </p>
 
     <section id="css-contracts" class="docs-section-anchor input-styling-block">
-      <h3>CSS contracts</h3>
-      <p>These selectors are the public styling surface for the form-field shell.</p>
+      <h3>Supported contract</h3>
+      <p>
+        The public styling path is the host token contract inherited from the shared input shell.
+        Apply these vars on a class attached to <code>&lt;tng-form-field&gt;</code>.
+      </p>
       <tng-code-block
         [code]="contractsCode"
         adapter="shiki"
         language="css"
-        title="Public selectors"
+        title="Public host contract"
         [theme]="codeBlockTheme()"
         [sanitizeHtml]="false"
         [wrap]="true"
@@ -22,13 +25,17 @@
     </section>
 
     <section id="shell-state-hooks" class="docs-section-anchor input-styling-block">
-      <h3>Shell state hooks</h3>
-      <p>The form-field shell owns the visible container treatment for focus and validation.</p>
+      <h3>Shell state ownership</h3>
+      <p>
+        The wrapper consumes the focus and validation states internally. If you need custom shell
+        selectors keyed off <code>data-focused</code> or <code>data-invalid</code>, move to the
+        headless <code>&lt;tng-input-group&gt;</code> primitive.
+      </p>
       <tng-code-block
-        [code]="stateHooksCode"
+        [code]="stateOwnershipCode"
         adapter="shiki"
-        language="css"
-        title="State hooks"
+        language="html"
+        title="State ownership"
         [theme]="codeBlockTheme()"
         [sanitizeHtml]="false"
         [wrap]="true"
@@ -37,7 +44,7 @@
     </section>
 
     <section id="user-scenario-style-examples" class="docs-section-anchor input-styling-block">
-      <h3>User scenario style examples</h3>
+      <h3>Workspace slug shell</h3>
       <app-docs-example-tabs-section
         heading="Workspace slug shell"
         description="A projected suffix is often the reason to reach for form-field instead of the simple input component."
@@ -75,14 +82,10 @@
         >
           <div class="input-styling-preview">
             <label class="grid w-full max-w-[31rem] gap-2">
-              <span class="text-xs font-semibold text-[var(--tng-semantic-foreground-secondary)]">
-                Workspace slug
-              </span>
-              <tng-form-field
-                class="block [&_[data-slot='input-group']]:min-h-11 [&_[data-slot='input-group']]:items-center [&_[data-slot='input-group']]:rounded-xl [&_[data-slot='input-group']]:border [&_[data-slot='input-group']]:border-[var(--tng-semantic-border-strong)] [&_[data-slot='input-group']]:bg-[var(--tng-semantic-background-base)] [&_[data-slot='input-group']]:px-3 [&_[data-slot='input-group']]:shadow-none [&_[data-slot='input-group'][data-focused]]:border-[var(--tng-semantic-accent-brand)] [&_[data-slot='input-group'][data-focused]]:ring-2 [&_[data-slot='input-group'][data-focused]]:ring-blue-400/20 [&_[data-slot='input']]:w-full [&_[data-slot='input']]:appearance-none [&_[data-slot='input']]:border-0 [&_[data-slot='input']]:bg-transparent [&_[data-slot='input']]:p-0 [&_[data-slot='input']]:outline-none [&_[data-slot='input']]:shadow-none [&_[data-slot='input']]:text-[var(--tng-semantic-foreground-primary)] [&_[data-slot='input']]:placeholder:text-[var(--tng-semantic-foreground-muted)] [&_[data-slot='input']]:focus:outline-none [&_[data-slot='input']]:focus:ring-0 [&_[data-slot='input-group-trailing']]:text-xs [&_[data-slot='input-group-trailing']]:font-semibold [&_[data-slot='input-group-trailing']]:text-[var(--tng-semantic-foreground-primary)]"
-              >
+              <span class="text-xs font-semibold text-slate-500">Workspace slug</span>
+              <tng-form-field [class]="tailwindHostClass">
                 <input tngInput type="text" value="core-platform" />
-                <span tngSuffix>.tailng.dev</span>
+                <span tngSuffix class="text-xs font-semibold text-slate-500">.tailng.dev</span>
               </tng-form-field>
             </label>
           </div>
@@ -94,7 +97,7 @@
       id="different-styling-pattern-examples"
       class="docs-section-anchor input-styling-block"
     >
-      <h3>Different styling pattern examples</h3>
+      <h3>Projected content classes</h3>
       <div class="input-styling-patterns">
         @for (pattern of stylePatternExamples; track pattern.title) {
           <article class="input-styling-pattern-card">

@@ -1,0 +1,149 @@
+:host {
+  display: block;
+}
+
+.docs-headless-input-group-examples-note {
+  margin: 0 0 1rem;
+  max-width: 56rem;
+  color: var(--tng-semantic-foreground-secondary);
+}
+
+.docs-headless-input-group-examples-note-link {
+  color: var(--tng-semantic-accent-brand);
+  font-weight: 600;
+}
+
+.docs-headless-input-group-examples-plain-search-command-card,
+.docs-headless-input-group-examples-plain-clear-action-card {
+  display: grid;
+  gap: 0.65rem;
+  width: min(100%, 34rem);
+}
+
+.docs-headless-input-group-examples-plain-workspace-slug-card {
+  display: grid;
+  gap: 0.5rem;
+  width: min(100%, 31rem);
+}
+
+.docs-headless-input-group-examples-plain-search-command-label,
+.docs-headless-input-group-examples-plain-clear-action-label,
+.docs-headless-input-group-examples-plain-workspace-slug-label {
+  color: #64748b;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.docs-headless-input-group-examples-plain-workspace-slug-label {
+  font-weight: 600;
+}
+
+.docs-headless-input-group-examples-plain-search-command-shell[data-slot='input-group'],
+.docs-headless-input-group-examples-plain-clear-action-shell[data-slot='input-group'] {
+  align-items: center;
+  gap: 0.65rem;
+  width: 100%;
+  min-height: 2.85rem;
+  padding-inline: 0.95rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.92rem;
+  background: #ffffff;
+  color: #0f172a;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.docs-headless-input-group-examples-plain-workspace-slug-shell[data-slot='input-group'] {
+  align-items: center;
+  gap: 0.55rem;
+  width: 100%;
+  min-height: 2.65rem;
+  padding-inline: 0.85rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.78rem;
+  background: #ffffff;
+  color: #0f172a;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.docs-headless-input-group-examples-plain-search-command-shell[data-slot='input-group'][data-focused],
+.docs-headless-input-group-examples-plain-clear-action-shell[data-slot='input-group'][data-focused],
+.docs-headless-input-group-examples-plain-workspace-slug-shell[data-slot='input-group'][data-focused] {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.18);
+}
+
+.docs-headless-input-group-examples-plain-search-command-prefix,
+.docs-headless-input-group-examples-plain-search-command-meta,
+.docs-headless-input-group-examples-plain-workspace-slug-meta,
+.docs-headless-input-group-examples-plain-clear-action-prefix {
+  color: #64748b;
+}
+
+.docs-headless-input-group-examples-plain-search-command-icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.docs-headless-input-group-examples-plain-search-command-control[data-slot='input'],
+.docs-headless-input-group-examples-plain-workspace-slug-control[data-slot='input'],
+.docs-headless-input-group-examples-plain-clear-action-control[data-slot='input'] {
+  min-width: 0;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #0f172a;
+  font: inherit;
+  line-height: 1.45;
+  outline: none;
+  box-shadow: none;
+}
+
+.docs-headless-input-group-examples-plain-search-command-control::placeholder,
+.docs-headless-input-group-examples-plain-clear-action-control::placeholder {
+  color: #94a3b8;
+}
+
+.docs-headless-input-group-examples-plain-search-command-meta,
+.docs-headless-input-group-examples-plain-workspace-slug-meta {
+  white-space: nowrap;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.docs-headless-input-group-examples-plain-clear-action-prefix {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.docs-headless-input-group-examples-plain-clear-action-shell[data-slot='input-group'] {
+  gap: 0.7rem;
+  min-height: 2.9rem;
+  padding-inline: 0.9rem;
+}
+
+.docs-headless-input-group-examples-plain-clear-action-button {
+  appearance: none;
+  border: 0;
+  border-radius: 999px;
+  background: #dbeafe;
+  color: #1d4ed8;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 1;
+  padding: 0.45rem 0.7rem;
+  transition: background-color 150ms ease, color 150ms ease, opacity 150ms ease;
+}
+
+.docs-headless-input-group-examples-plain-clear-action-button:hover {
+  background: #bfdbfe;
+}
+
+.docs-headless-input-group-examples-plain-clear-action-button:disabled {
+  cursor: default;
+  opacity: 0.5;
+}

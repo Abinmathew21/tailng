@@ -1,0 +1,157 @@
+<article class="docs-section-page input-overview">
+  <div class="docs-section-page-main">
+    <h2 class="input-overview-title">Input Group</h2>
+    <p class="input-overview-lead">
+      <code>&lt;tng-input-group&gt;</code> is the headless shell primitive for one projected
+      <code>input[tngInput]</code> or <code>textarea[tngInput]</code> plus optional
+      <code>tngPrefix</code>/<code>tngSuffix</code> content.
+    </p>
+    <p class="input-overview-lead">
+      Reach for it when you want the layout, state mirroring, and slot structure of a grouped field
+      while keeping complete ownership of the surface styles.
+    </p>
+
+    <section id="imports" class="docs-section-anchor input-overview-block">
+      <h3>Imports</h3>
+      <tng-code-block
+        [code]="importsCode"
+        adapter="shiki"
+        language="ts"
+        title="Headless imports"
+        [theme]="codeBlockTheme()"
+        [sanitizeHtml]="false"
+        [wrap]="true"
+        [lineNumbers]="false"
+      ></tng-code-block>
+    </section>
+
+    <section id="basic-composition" class="docs-section-anchor input-overview-block">
+      <h3>Basic composition</h3>
+      <p>
+        The primitive expects exactly one projected control with <code>tngInput</code>. Leading and
+        trailing regions render only when matching slot content exists.
+      </p>
+      <tng-code-block
+        [code]="basicCompositionCode"
+        adapter="shiki"
+        language="html"
+        title="Minimal input group"
+        [theme]="codeBlockTheme()"
+        [sanitizeHtml]="false"
+        [wrap]="true"
+        [lineNumbers]="false"
+      ></tng-code-block>
+      <tng-code-block
+        [code]="groupedCompositionCode"
+        adapter="shiki"
+        language="html"
+        title="Grouped search field"
+        [theme]="codeBlockTheme()"
+        [sanitizeHtml]="false"
+        [wrap]="true"
+        [lineNumbers]="false"
+      ></tng-code-block>
+    </section>
+
+    <section id="grouped-field-variants" class="docs-section-anchor input-overview-block">
+      <app-docs-example-tabs-section
+        heading="Grouped field variants"
+        description="Compare the same headless input-group composition across plain CSS and Tailwind CSS while keeping the shell primitive in charge of layout and state mirroring."
+        ariaLabel="Input group overview examples"
+        tabListAriaLabel="Input group overview style variants"
+        defaultValue="plain-css"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <ng-template
+          appDocsExampleVariant
+          value="plain-css"
+          label="Plain-CSS"
+          panelTitle="Input Group (Plain-CSS)"
+          [codeTabs]="plainCodeTabs"
+          [stackblitzUrl]="stackblitzVanillaUrl"
+        >
+          <label class="docs-headless-input-group-overview-plain-card">
+            <span class="docs-headless-input-group-overview-plain-label">Search docs</span>
+            <tng-input-group class="docs-headless-input-group-overview-plain-shell">
+              <span tngPrefix aria-hidden="true" class="docs-headless-input-group-overview-plain-prefix">
+                <tng-icon icon="search" class="docs-headless-input-group-overview-plain-icon" />
+              </span>
+              <input
+                tngInput
+                type="search"
+                placeholder="Search components..."
+                class="docs-headless-input-group-overview-plain-control"
+              />
+              <span tngSuffix class="docs-headless-input-group-overview-plain-meta">Ctrl+K</span>
+            </tng-input-group>
+          </label>
+        </ng-template>
+
+        <ng-template
+          appDocsExampleVariant
+          value="tailwind-css"
+          label="Tailwind CSS"
+          panelTitle="Input Group (Tailwind CSS)"
+          [codeTabs]="tailwindCodeTabs"
+          [stackblitzUrl]="stackblitzTailwindUrl"
+        >
+          <label class="mx-auto grid w-full max-w-[34rem] gap-2 rounded-[1.5rem] border border-slate-200 bg-white p-5 text-slate-900 shadow-sm">
+            <span class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Search docs</span>
+            <tng-input-group
+              class="min-h-[2.85rem] w-full items-center gap-[0.65rem] rounded-[0.9rem] border border-slate-300 bg-white px-4 text-slate-900 transition [&[data-focused]]:border-blue-500 [&[data-focused]]:ring-4 [&[data-focused]]:ring-blue-100"
+            >
+              <span tngPrefix aria-hidden="true" class="text-slate-500">
+                <tng-icon icon="search" class="h-4 w-4" />
+              </span>
+              <input
+                tngInput
+                type="search"
+                placeholder="Search components..."
+                class="min-w-0 flex-1 border-0 bg-transparent p-0 text-[0.96rem] leading-[1.45] text-slate-900 outline-none placeholder:text-slate-400"
+              />
+              <span tngSuffix class="whitespace-nowrap text-xs font-semibold text-slate-500">Ctrl+K</span>
+            </tng-input-group>
+          </label>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
+
+    <section id="mirrored-state-contract" class="docs-section-anchor input-overview-block">
+      <h3>Mirrored state contract</h3>
+      <p>
+        <code>tngInputGroup</code> mirrors focus, invalid, disabled, readonly, and slot-presence
+        state onto the host. That gives you stable styling hooks without owning the shell layout
+        plumbing yourself.
+      </p>
+      <tng-code-block
+        [code]="mirroredStateCode"
+        adapter="shiki"
+        language="html"
+        title="Host state selectors"
+        [theme]="codeBlockTheme()"
+        [sanitizeHtml]="false"
+        [wrap]="true"
+        [lineNumbers]="false"
+      ></tng-code-block>
+    </section>
+
+    <section id="accessibility-baseline" class="docs-section-anchor input-overview-block">
+      <h3>Accessibility baseline</h3>
+      <ul class="input-overview-list">
+        <li>Give the projected control a real accessible name with a label or ARIA.</li>
+        <li>Mark decorative prefix and suffix content as <code>aria-hidden="true"</code>.</li>
+        <li>Trailing buttons should keep their own explicit accessible labels.</li>
+      </ul>
+      <tng-code-block
+        [code]="accessibilityCode"
+        adapter="shiki"
+        language="html"
+        title="Accessible grouped field"
+        [theme]="codeBlockTheme()"
+        [sanitizeHtml]="false"
+        [wrap]="true"
+        [lineNumbers]="false"
+      ></tng-code-block>
+    </section>
+  </div>
+</article>

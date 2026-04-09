@@ -7,11 +7,16 @@ export const HEADLESS_FORM_ROUTES: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: group.items[0]!.slug,
+    redirectTo: group.items[0].slug,
   },
   {
     path: 'input',
     loadChildren: () => import('./input/routes').then((m) => m.HEADLESS_FORM_INPUT_ROUTES),
+  },
+  {
+    path: 'input-group',
+    loadChildren: () =>
+      import('./input-group/routes').then((m) => m.HEADLESS_FORM_INPUT_GROUP_ROUTES),
   },
   {
     path: 'textarea',
@@ -76,6 +81,7 @@ export const HEADLESS_FORM_ROUTES: Routes = [
     .filter(
       (item) =>
         item.slug !== 'input' &&
+        item.slug !== 'input-group' &&
         item.slug !== 'textarea' &&
         item.slug !== 'label' &&
         item.slug !== 'checkbox' &&

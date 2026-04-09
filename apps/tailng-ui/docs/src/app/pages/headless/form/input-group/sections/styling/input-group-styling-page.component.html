@@ -1,0 +1,136 @@
+<article class="docs-section-page input-styling">
+  <div class="docs-section-page-main">
+    <h2 class="input-styling-title">Styling contract</h2>
+    <p class="input-styling-lead">
+      Style <code>tngInputGroup</code> through its host selector, mirrored state attributes, and the
+      stable slot attributes rendered by the primitive.
+    </p>
+
+    <section id="css-contract-table" class="docs-section-anchor input-styling-block">
+      <h3>CSS contract table</h3>
+      <div class="input-styling-table-wrap">
+        <table class="input-styling-table">
+          <thead>
+            <tr>
+              <th scope="col">Hook</th>
+              <th scope="col">Applied to</th>
+              <th scope="col">Use it for</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>[data-slot="input-group"]</code></td>
+              <td>Group host</td>
+              <td>Border, background, radius, padding, and focus ring.</td>
+            </tr>
+            <tr>
+              <td><code>[data-slot="input-group-leading"]</code></td>
+              <td>Generated leading region</td>
+              <td>Optional structural spacing around prefix content.</td>
+            </tr>
+            <tr>
+              <td><code>[data-slot="input-group-control"]</code></td>
+              <td>Generated control region</td>
+              <td>Structural layout around the projected control when needed.</td>
+            </tr>
+            <tr>
+              <td><code>[data-slot="input-group-trailing"]</code></td>
+              <td>Generated trailing region</td>
+              <td>Optional structural spacing around suffix or action content.</td>
+            </tr>
+            <tr>
+              <td><code>[data-slot="input"]</code></td>
+              <td>Projected control</td>
+              <td>Reset browser chrome and tune native control typography.</td>
+            </tr>
+            <tr>
+              <td><code>[data-slot="input-leading"]</code>, <code>[data-slot="input-trailing"]</code></td>
+              <td>Projected content</td>
+              <td>Style prefix, suffix, and trailing action content directly.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="state-selectors" class="docs-section-anchor input-styling-block">
+      <h3>State selectors</h3>
+      <p>
+        The group host mirrors focus, invalid, disabled, readonly, and slot-presence state so the
+        shell can respond without custom event wiring.
+      </p>
+      <tng-code-block
+        [code]="stateSelectorsCode"
+        adapter="shiki"
+        language="css"
+        title="State selector starter"
+        [theme]="codeBlockTheme()"
+        [sanitizeHtml]="false"
+        [wrap]="true"
+        [lineNumbers]="false"
+      ></tng-code-block>
+    </section>
+
+    <section id="example-shells" class="docs-section-anchor input-styling-block">
+      <h3>Example shells</h3>
+      <app-docs-example-tabs-section
+        heading="Workspace slug shell"
+        description="A simple grouped field with a fixed suffix is usually enough to show the public styling surface clearly."
+        ariaLabel="Input group styling examples"
+        tabListAriaLabel="Input group styling variants"
+        defaultValue="plain-css"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <ng-template
+          appDocsExampleVariant
+          value="plain-css"
+          label="Plain-CSS"
+          panelTitle="Workspace slug shell (Plain-CSS)"
+          [codeTabs]="plainScenarioCodeTabs"
+          [stackblitzUrl]="stackblitzVanillaUrl"
+        >
+          <div class="input-styling-preview">
+            <label class="docs-headless-input-group-styling-plain-field">
+              <span class="docs-headless-input-group-styling-plain-label">Workspace slug</span>
+              <tng-input-group class="docs-headless-input-group-styling-plain-shell">
+                <input
+                  tngInput
+                  type="text"
+                  value="core-platform"
+                  class="docs-headless-input-group-styling-plain-control"
+                />
+                <span tngSuffix class="docs-headless-input-group-styling-plain-meta">.tailng.dev</span>
+              </tng-input-group>
+            </label>
+          </div>
+        </ng-template>
+
+        <ng-template
+          appDocsExampleVariant
+          value="tailwind-css"
+          label="Tailwind CSS"
+          panelTitle="Workspace slug shell (Tailwind CSS)"
+          [codeTabs]="tailwindScenarioCodeTabs"
+          [stackblitzUrl]="stackblitzTailwindUrl"
+        >
+          <div class="input-styling-preview">
+            <label class="grid w-full max-w-[31rem] gap-2">
+              <span class="text-xs font-semibold text-slate-500">Workspace slug</span>
+              <tng-input-group
+                class="min-h-[2.65rem] w-full items-center gap-[0.55rem] rounded-[0.78rem] border border-slate-300 bg-white px-3.5 text-slate-900 transition [&[data-focused]]:border-blue-500 [&[data-focused]]:ring-4 [&[data-focused]]:ring-blue-100"
+              >
+                <input
+                  tngInput
+                  type="text"
+                  value="core-platform"
+                  class="min-w-0 flex-1 border-0 bg-transparent p-0 text-slate-900 outline-none"
+                />
+                <span tngSuffix class="whitespace-nowrap text-xs font-semibold text-slate-500">.tailng.dev</span>
+              </tng-input-group>
+            </label>
+          </div>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
+  </div>
+</article>

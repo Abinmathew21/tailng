@@ -50,6 +50,10 @@ export const tngFormFieldCssVars = {
   paddingX: tngInputCssVars.paddingX,
   gap: tngInputCssVars.gap,
   focusRing: tngInputCssVars.focusRing,
+  fontSize: tngInputCssVars.fontSize,
+  fontWeight: tngInputCssVars.fontWeight,
+  lineHeight: tngInputCssVars.lineHeight,
+  placeholder: tngInputCssVars.placeholder,
 } as const;
 
 export const tngFormFieldSemanticTokens = {

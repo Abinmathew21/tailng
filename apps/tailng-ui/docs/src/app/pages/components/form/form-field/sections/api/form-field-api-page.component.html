@@ -3,14 +3,14 @@
     <h2 class="input-api-title">API reference</h2>
     <p class="input-api-lead">
       <code>&lt;tng-form-field&gt;</code> owns the shared shell chrome for one projected
-      <code>input[tngInput]</code> and optional slot content.
+      <code>input[tngInput]</code> or <code>textarea[tngInput]</code> and optional slot content.
     </p>
 
     <section id="tng-form-field-component" class="docs-section-anchor input-api-block">
       <h3><code>&lt;tng-form-field&gt;</code> (component)</h3>
       <p>
-        Use this wrapper when the field needs projected prefix/suffix content or a custom trailing
-        action.
+        Use this wrapper when the field needs projected prefix or suffix content and you want the
+        standard TailNG input shell without composing the headless primitive yourself.
       </p>
       <tng-code-block
         [code]="formFieldTemplateCode"
@@ -36,25 +36,25 @@
               <td><code>appearance</code></td>
               <td><code>'outline' | 'solid' | 'ghost'</code></td>
               <td><code>'outline'</code></td>
-              <td>Changes the shell presentation while keeping the same slot contract.</td>
+              <td>Switches the shell presentation while keeping the same projected-control API.</td>
             </tr>
             <tr>
               <td><code>size</code></td>
               <td><code>'sm' | 'md' | 'lg'</code></td>
               <td><code>'md'</code></td>
-              <td>Controls the shell height and internal spacing.</td>
+              <td>Controls the shell height, radius, and spacing preset.</td>
             </tr>
             <tr>
               <td><code>tone</code></td>
               <td><code>'neutral' | 'primary' | 'success' | 'danger'</code></td>
               <td><code>'neutral'</code></td>
-              <td>Adjusts shell emphasis and state styling.</td>
+              <td>Changes the emphasis palette for the shared shell contract.</td>
             </tr>
             <tr>
               <td><code>fullWidth</code></td>
               <td>boolean-like</td>
               <td><code>true</code></td>
-              <td>Controls whether the host stretches to fill its container.</td>
+              <td>Controls whether the host stretches to fill the available inline space.</td>
             </tr>
           </tbody>
         </table>
@@ -64,8 +64,9 @@
     <section id="projected-control-contract" class="docs-section-anchor input-api-block">
       <h3>Projected control contract</h3>
       <p>
-        The shell expects one projected <code>input[tngInput]</code> or
-        <code>textarea[tngInput]</code>. It does not create a native control on its own.
+        The wrapper does not create a native control. You project exactly one
+        <code>input[tngInput]</code> or <code>textarea[tngInput]</code>, then theme the wrapper
+        host with <code>--tng-input-*</code> CSS variables.
       </p>
       <tng-code-block
         [code]="controlContractCode"
@@ -90,35 +91,44 @@
               <td>Projected control</td>
               <td><code>input[tngInput]</code> or <code>textarea[tngInput]</code></td>
               <td>
-                The shell mirrors focus, invalid, disabled, and readonly state from the projected
-                input.
+                The projected control keeps native semantics, Angular forms integration, and its own
+                label/ARIA relationship.
               </td>
             </tr>
             <tr>
+              <td>Shell styling path</td>
+              <td><code>--tng-input-*</code> CSS variables on <code>&lt;tng-form-field&gt;</code></td>
+              <td>Use host classes and CSS vars instead of targeting the wrapper internals.</td>
+            </tr>
+            <tr>
+              <td>State-specific shell selectors</td>
+              <td>Headless escalation</td>
               <td>
-                <code>data-focused</code>, <code>data-disabled</code>, <code>data-invalid</code>,
-                <code>data-readonly</code>
+                Focus, invalid, disabled, and readonly attrs live on the inner
+                <code>&lt;tng-input-group&gt;</code>. If you need custom shell selectors keyed off
+                those states, switch to the headless primitive.
               </td>
-              <td>state attrs</td>
-              <td>Applied on the shell host for container-level styling.</td>
-            </tr>
-            <tr>
-              <td><code>--tng-input-inline-gap</code></td>
-              <td>CSS custom property</td>
-              <td>Controls spacing between prefix, control area, and suffix.</td>
             </tr>
           </tbody>
         </table>
       </div>
+      <tng-code-block
+        [code]="stateEscalationCode"
+        adapter="shiki"
+        language="html"
+        title="Escalate to headless for state-driven shell selectors"
+        [lineNumbers]="false"
+        [wrap]="true"
+        [sanitizeHtml]="false"
+      ></tng-code-block>
     </section>
 
     <section id="slot-directives" class="docs-section-anchor input-api-block">
       <h3>Slot directives</h3>
       <p>
-        <code>tngPrefix</code>/<code>tngSuffix</code> and <code>tngInputLeading</code>/<code
-          >tngInputTrailing</code
-        >
-        project into the same shell slots.
+        Project leading and trailing content with <code>tngPrefix</code>/<code>tngSuffix</code>.
+        The older aliases <code>tngInputLeading</code>/<code>tngInputTrailing</code> map to the
+        same slot markers.
       </p>
       <tng-code-block
         [code]="slotsCode"
@@ -146,14 +156,14 @@
               <td>Projected leading element</td>
               <td><code>data-slot="input-leading"</code></td>
               <td><code>tngInputLeading</code></td>
-              <td>Marks decorative or semantic content before the input.</td>
+              <td>Marks decorative or semantic content before the projected control.</td>
             </tr>
             <tr>
               <td><code>tngSuffix</code></td>
               <td>Projected trailing element</td>
               <td><code>data-slot="input-trailing"</code></td>
               <td><code>tngInputTrailing</code></td>
-              <td>Marks helper text, actions, or fixed suffix content after the input.</td>
+              <td>Marks helper text, fixed suffix content, or action buttons after the control.</td>
             </tr>
           </tbody>
         </table>

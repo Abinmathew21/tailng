@@ -504,10 +504,10 @@ export const docsComponentOutlineItemsBySlug: Readonly<Record<string, Partial<Re
       { id: 'slot-directives', label: 'Slot directives' },
     ],
     'styling': [
-      { id: 'css-contracts', label: 'CSS contracts' },
-      { id: 'shell-state-hooks', label: 'Shell state hooks' },
-      { id: 'user-scenario-style-examples', label: 'User scenario style examples' },
-      { id: 'different-styling-pattern-examples', label: 'Different styling pattern examples' },
+      { id: 'css-contracts', label: 'Supported contract' },
+      { id: 'shell-state-hooks', label: 'Shell state ownership' },
+      { id: 'user-scenario-style-examples', label: 'Workspace slug shell' },
+      { id: 'different-styling-pattern-examples', label: 'Projected content classes' },
     ],
     'examples': [
       { id: 'global-search-field', label: 'Global search field' },

@@ -1,0 +1,248 @@
+<article class="docs-section-page input-examples">
+  <div class="docs-section-page-main">
+    <h2 class="input-examples-title">Examples</h2>
+    <p class="input-examples-lead">
+      Copy-ready headless input-group patterns for practical field shells. Each example keeps the
+      grouped surface primitive-first while owning the projected prefix, control, and suffix markup
+      directly.
+    </p>
+    <p class="docs-headless-input-group-examples-note">
+      Start from the
+      <a
+        [href]="stackblitzVanillaUrl"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="docs-headless-input-group-examples-note-link"
+        >Plain-CSS StackBlitz starter</a
+      >
+      or the
+      <a
+        [href]="stackblitzTailwindUrl"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="docs-headless-input-group-examples-note-link"
+        >Tailwind StackBlitz starter</a
+      >
+      if you want a runnable sandbox first. The Plain-CSS tabs are self-contained, so the shown
+      files can be pasted directly into a standalone Angular app.
+    </p>
+
+    <section id="search-command-field" class="docs-section-anchor input-examples-block">
+      <app-docs-example-tabs-section
+        heading="Search command field"
+        description="A grouped search field with a projected search icon and keyboard-hint suffix. The shown files are ready to paste into a standalone Angular app."
+        ariaLabel="Search command field variants"
+        tabListAriaLabel="Search command field style variants"
+        defaultValue="plain-css"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <ng-template
+          appDocsExampleVariant
+          value="plain-css"
+          label="Plain-CSS"
+          panelTitle="Search command field (Plain-CSS)"
+          [codeTabs]="searchCommandPlainCodeTabs"
+          [stackblitzUrl]="stackblitzVanillaUrl"
+        >
+          <div class="input-example-preview">
+            <label class="docs-headless-input-group-examples-plain-search-command-card">
+              <span class="docs-headless-input-group-examples-plain-search-command-label">Search docs</span>
+              <tng-input-group class="docs-headless-input-group-examples-plain-search-command-shell">
+                <span
+                  tngPrefix
+                  aria-hidden="true"
+                  class="docs-headless-input-group-examples-plain-search-command-prefix"
+                >
+                  <tng-icon
+                    icon="search"
+                    class="docs-headless-input-group-examples-plain-search-command-icon"
+                  ></tng-icon>
+                </span>
+                <input
+                  tngInput
+                  type="search"
+                  placeholder="Search components..."
+                  class="docs-headless-input-group-examples-plain-search-command-control"
+                />
+                <span tngSuffix class="docs-headless-input-group-examples-plain-search-command-meta">Ctrl+K</span>
+              </tng-input-group>
+            </label>
+          </div>
+        </ng-template>
+
+        <ng-template
+          appDocsExampleVariant
+          value="tailwind-css"
+          label="Tailwind CSS"
+          panelTitle="Search command field (Tailwind CSS)"
+          [codeTabs]="searchCommandTailwindCodeTabs"
+          [stackblitzUrl]="stackblitzTailwindUrl"
+        >
+          <div class="input-example-preview">
+            <label class="grid w-full max-w-[34rem] gap-2 rounded-[1.5rem] border border-slate-200 bg-white p-5 text-slate-900 shadow-sm">
+              <span class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Search docs</span>
+              <tng-input-group
+                class="min-h-[2.85rem] w-full items-center gap-[0.65rem] rounded-[0.92rem] border border-slate-300 bg-white px-4 text-slate-900 transition [&[data-focused]]:border-blue-500 [&[data-focused]]:ring-4 [&[data-focused]]:ring-blue-100"
+              >
+                <span tngPrefix aria-hidden="true" class="text-slate-500">
+                  <tng-icon icon="search" class="h-4 w-4"></tng-icon>
+                </span>
+                <input
+                  tngInput
+                  type="search"
+                  placeholder="Search components..."
+                  class="min-w-0 flex-1 border-0 bg-transparent p-0 text-[0.96rem] leading-[1.45] text-slate-900 outline-none placeholder:text-slate-400"
+                />
+                <span tngSuffix class="whitespace-nowrap text-xs font-semibold text-slate-500">Ctrl+K</span>
+              </tng-input-group>
+            </label>
+          </div>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
+
+    <section id="workspace-slug-field" class="docs-section-anchor input-examples-block">
+      <app-docs-example-tabs-section
+        heading="Workspace slug field"
+        description="A settings-style slug field with a fixed domain suffix. Useful for workspace, subdomain, or tenant setup flows."
+        ariaLabel="Workspace slug field variants"
+        tabListAriaLabel="Workspace slug field style variants"
+        defaultValue="plain-css"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <ng-template
+          appDocsExampleVariant
+          value="plain-css"
+          label="Plain-CSS"
+          panelTitle="Workspace slug field (Plain-CSS)"
+          [codeTabs]="workspaceSlugPlainCodeTabs"
+          [stackblitzUrl]="stackblitzVanillaUrl"
+        >
+          <div class="input-example-preview">
+            <label class="docs-headless-input-group-examples-plain-workspace-slug-card">
+              <span class="docs-headless-input-group-examples-plain-workspace-slug-label">Workspace slug</span>
+              <tng-input-group class="docs-headless-input-group-examples-plain-workspace-slug-shell">
+                <input
+                  tngInput
+                  type="text"
+                  value="core-platform"
+                  class="docs-headless-input-group-examples-plain-workspace-slug-control"
+                />
+                <span tngSuffix class="docs-headless-input-group-examples-plain-workspace-slug-meta">.tailng.dev</span>
+              </tng-input-group>
+            </label>
+          </div>
+        </ng-template>
+
+        <ng-template
+          appDocsExampleVariant
+          value="tailwind-css"
+          label="Tailwind CSS"
+          panelTitle="Workspace slug field (Tailwind CSS)"
+          [codeTabs]="workspaceSlugTailwindCodeTabs"
+          [stackblitzUrl]="stackblitzTailwindUrl"
+        >
+          <div class="input-example-preview">
+            <label class="grid w-full max-w-[31rem] gap-2">
+              <span class="text-xs font-semibold text-slate-500">Workspace slug</span>
+              <tng-input-group
+                class="min-h-[2.65rem] w-full items-center gap-[0.55rem] rounded-[0.78rem] border border-slate-300 bg-white px-3.5 text-slate-900 transition [&[data-focused]]:border-blue-500 [&[data-focused]]:ring-4 [&[data-focused]]:ring-blue-100"
+              >
+                <input
+                  tngInput
+                  type="text"
+                  value="core-platform"
+                  class="min-w-0 flex-1 border-0 bg-transparent p-0 text-slate-900 outline-none"
+                />
+                <span tngSuffix class="whitespace-nowrap text-xs font-semibold text-slate-500">.tailng.dev</span>
+              </tng-input-group>
+            </label>
+          </div>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
+
+    <section id="clear-action-field" class="docs-section-anchor input-examples-block">
+      <app-docs-example-tabs-section
+        heading="Clear action field"
+        description="A grouped query field with an owned trailing action button. This is the simplest way to add lightweight command or search reset behavior around the primitive shell."
+        ariaLabel="Clear action field variants"
+        tabListAriaLabel="Clear action field style variants"
+        defaultValue="plain-css"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <ng-template
+          appDocsExampleVariant
+          value="plain-css"
+          label="Plain-CSS"
+          panelTitle="Clear action field (Plain-CSS)"
+          [codeTabs]="clearActionPlainCodeTabs"
+          [stackblitzUrl]="stackblitzVanillaUrl"
+        >
+          <div class="input-example-preview">
+            <label class="docs-headless-input-group-examples-plain-clear-action-card">
+              <span class="docs-headless-input-group-examples-plain-clear-action-label">Command palette query</span>
+              <tng-input-group class="docs-headless-input-group-examples-plain-clear-action-shell">
+                <span tngPrefix class="docs-headless-input-group-examples-plain-clear-action-prefix">Query</span>
+                <input
+                  tngInput
+                  type="search"
+                  placeholder="Search tokens..."
+                  [value]="clearActionQuery()"
+                  (input)="onClearActionInput($event)"
+                  class="docs-headless-input-group-examples-plain-clear-action-control"
+                />
+                <button
+                  tngSuffix
+                  type="button"
+                  class="docs-headless-input-group-examples-plain-clear-action-button"
+                  [disabled]="clearActionQuery().length === 0"
+                  (click)="clearClearActionQuery()"
+                >
+                  Clear
+                </button>
+              </tng-input-group>
+            </label>
+          </div>
+        </ng-template>
+
+        <ng-template
+          appDocsExampleVariant
+          value="tailwind-css"
+          label="Tailwind CSS"
+          panelTitle="Clear action field (Tailwind CSS)"
+          [codeTabs]="clearActionTailwindCodeTabs"
+          [stackblitzUrl]="stackblitzTailwindUrl"
+        >
+          <div class="input-example-preview">
+            <label class="grid w-full max-w-[34rem] gap-2 rounded-[1.5rem] border border-slate-200 bg-white p-5 text-slate-900 shadow-sm">
+              <span class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Command palette query</span>
+              <tng-input-group
+                class="min-h-[2.9rem] w-full items-center gap-[0.7rem] rounded-[0.92rem] border border-slate-300 bg-white px-4 text-slate-900 transition [&[data-focused]]:border-blue-500 [&[data-focused]]:ring-4 [&[data-focused]]:ring-blue-100"
+              >
+                <span tngPrefix class="text-[0.78rem] font-bold uppercase tracking-[0.22em] text-slate-500">Query</span>
+                <input
+                  tngInput
+                  type="search"
+                  placeholder="Search tokens..."
+                  [value]="clearActionQuery()"
+                  (input)="onClearActionInput($event)"
+                  class="min-w-0 flex-1 border-0 bg-transparent p-0 text-[0.96rem] leading-[1.45] text-slate-900 outline-none placeholder:text-slate-400"
+                />
+                <button
+                  tngSuffix
+                  type="button"
+                  class="rounded-full bg-blue-100 px-3 py-1.5 text-[0.78rem] font-bold leading-none text-blue-700 transition hover:bg-blue-200 disabled:cursor-default disabled:opacity-50"
+                  [disabled]="clearActionQuery().length === 0"
+                  (click)="clearClearActionQuery()"
+                >
+                  Clear
+                </button>
+              </tng-input-group>
+            </label>
+          </div>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
+  </div>
+</article>

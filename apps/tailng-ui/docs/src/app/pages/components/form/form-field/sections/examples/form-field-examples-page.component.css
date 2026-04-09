@@ -10,63 +10,56 @@
   width: min(100%, 32rem);
 }
 
-.doc-cmp-form-field-ex-search-shell [data-slot='input-group'],
-.doc-cmp-form-field-ex-workspace-shell [data-slot='input-group'],
-.doc-cmp-form-field-ex-clear-shell [data-slot='input-group'] {
-  border-radius: 0.78rem;
-  border: 1px solid var(--tng-semantic-border-strong);
-  background: var(--tng-semantic-background-base);
-  min-height: 2.65rem;
-  padding-inline: 0.85rem;
-  box-shadow: none;
-}
-
-.doc-cmp-form-field-ex-search-shell [data-slot='input-group'][data-focused],
-.doc-cmp-form-field-ex-workspace-shell [data-slot='input-group'][data-focused],
-.doc-cmp-form-field-ex-clear-shell [data-slot='input-group'][data-focused] {
-  border-color: var(--tng-semantic-accent-brand);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--tng-semantic-accent-brand) 18%, transparent);
-}
-
-.doc-cmp-form-field-ex-search-shell [data-slot='input'],
-.doc-cmp-form-field-ex-workspace-shell [data-slot='input'],
-.doc-cmp-form-field-ex-clear-shell [data-slot='input'] {
-  appearance: none;
-  background: transparent;
-  border: 0;
-  box-shadow: none;
-  color: inherit;
+.doc-cmp-form-field-ex-search-shell,
+.doc-cmp-form-field-ex-workspace-shell,
+.doc-cmp-form-field-ex-clear-shell {
   display: block;
-  font: inherit;
-  min-width: 0;
-  outline: none;
-  padding: 0;
   width: 100%;
+  --tng-input-bg: #ffffff;
+  --tng-input-border: #cbd5e1;
+  --tng-input-radius: 0.85rem;
+  --tng-input-min-height: 2.7rem;
+  --tng-input-px: 0.9rem;
+  --tng-input-gap: 0.55rem;
+  --tng-input-fg: #0f172a;
+  --tng-input-focus-ring: rgba(59, 130, 246, 0.18);
+  --tng-input-placeholder: #94a3b8;
+}
+
+.doc-cmp-form-field-ex-search-shell {
+  --tng-input-gap: 0.65rem;
+}
+
+.doc-cmp-form-field-ex-search-prefix,
+.doc-cmp-form-field-ex-search-meta,
+.doc-cmp-form-field-ex-workspace-meta {
+  color: #64748b;
 }
 
 .doc-cmp-form-field-ex-search-icon {
-  height: 1.1rem;
-  width: 1.1rem;
+  height: 1.05rem;
+  width: 1.05rem;
 }
 
 .doc-cmp-form-field-ex-search-meta,
 .doc-cmp-form-field-ex-workspace-meta {
-  color: var(--tng-semantic-foreground-secondary);
-  font-size: 0.82rem;
+  font-size: 0.8rem;
   font-weight: 600;
+  white-space: nowrap;
 }
 
 .doc-cmp-form-field-ex-clear-action {
   border: 0;
-  border-radius: 0.5rem;
+  border-radius: 0.55rem;
   background: transparent;
-  color: var(--tng-semantic-foreground-secondary);
+  color: #64748b;
   font-size: 0.78rem;
   font-weight: 600;
-  padding: 0.3rem 0.55rem;
+  padding: 0.35rem 0.6rem;
+  transition: background-color 150ms ease, color 150ms ease;
 }
 
 .doc-cmp-form-field-ex-clear-action:hover {
-  background: color-mix(in srgb, var(--tng-semantic-background-muted) 62%, transparent);
-  color: var(--tng-semantic-foreground-primary);
+  background: rgba(148, 163, 184, 0.14);
+  color: #0f172a;
 }
