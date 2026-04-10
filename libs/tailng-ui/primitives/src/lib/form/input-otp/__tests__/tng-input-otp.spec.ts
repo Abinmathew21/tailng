@@ -1,12 +1,15 @@
-import { Component, signal } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { afterEach, describe, expect, it } from 'vitest';
 import {
   clampTngOtpValue,
   normalizeTngOtpLength,
   normalizeTngOtpValue,
+  resolveTngOtpEntryIndex,
+  resolveTngOtpBackspaceResult,
   resolveTngOtpState,
   TngInputOtp,
+  TngInputOtpSlot,
 } from '../tng-input-otp';
 
 function getByTestId<T extends Element>(
@@ -51,6 +54,39 @@ class InputOtpPrimitiveHostComponent {
   public readonly activeIndex = signal<number | null>(null);
 }
 
+@Component({
+  imports: [TngInputOtp, TngInputOtpSlot],
+  template: `
+    <div
+      tngInputOtp
+      data-testid="headless-root"
+      [length]="length()"
+      [value]="value()"
+      (valueChange)="value.set($event)"
+      [activeIndex]="activeIndex()"
+      (activeIndexChange)="activeIndex.set($event)"
+    >
+      @for (slot of slotIndexes(); track slot) {
+        <input
+          [tngInputOtpSlot]="slot"
+          [attr.data-testid]="'slot-' + slot"
+          maxlength="1"
+          inputmode="numeric"
+        />
+      }
+    </div>
+  `,
+})
+class InputOtpHeadlessHostComponent {
+  public readonly length = signal(4);
+  public readonly value = signal('');
+  public readonly activeIndex = signal<number | null>(null);
+
+  protected readonly slotIndexes = computed(() =>
+    Array.from({ length: this.length() }, (_, index) => index),
+  );
+}
+
 describe('tng-input-otp primitive', () => {
   afterEach(() => {
     TestBed.resetTestingModule();
@@ -77,6 +113,18 @@ describe('tng-input-otp primitive', () => {
     expect(resolveTngOtpState(6, '12')).toBe('partial');
     expect(resolveTngOtpState(6, '123456')).toBe('complete');
     expect(resolveTngOtpState(4, '123456')).toBe('complete');
+  });
+
+  it('resolves backspace updates for filled and empty slots', () => {
+    expect(resolveTngOtpBackspaceResult('123', 2, 6)).toEqual({
+      value: '12',
+      focusIndex: 1,
+    });
+    expect(resolveTngOtpBackspaceResult('12', 2, 6)).toEqual({
+      value: '1',
+      focusIndex: 1,
+    });
+    expect(resolveTngOtpBackspaceResult('', 0, 6)).toBeNull();
   });
 
   it('renders group semantics with slot and empty state by default', () => {
@@ -152,5 +200,55 @@ describe('tng-input-otp primitive', () => {
     fixture.componentInstance.activeIndex.set(9);
     fixture.detectChanges();
     expect(root.getAttribute('data-active')).toBeNull();
+  });
+
+  it('types one character, updates value, and moves focus to the next slot', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [InputOtpHeadlessHostComponent],
+    }).createComponent(InputOtpHeadlessHostComponent);
+    fixture.detectChanges();
+
+    const firstSlot = getByTestId<HTMLInputElement>(fixture, 'slot-0');
+    const secondSlot = getByTestId<HTMLInputElement>(fixture, 'slot-1');
+
+    firstSlot.focus();
+    fixture.detectChanges();
+
+    firstSlot.value = '1';
+    firstSlot.dispatchEvent(new Event('input', { bubbles: true }));
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    expect(fixture.componentInstance.value()).toBe('1');
+    expect(fixture.componentInstance.activeIndex()).toBe(1);
+    expect(document.activeElement).toBe(secondSlot);
+  });
+
+  it('backspace on a filled slot clears it and moves focus backward', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [InputOtpHeadlessHostComponent],
+    }).createComponent(InputOtpHeadlessHostComponent);
+
+    fixture.componentInstance.value.set('123');
+    fixture.componentInstance.activeIndex.set(resolveTngOtpEntryIndex('123', 4));
+    fixture.detectChanges();
+
+    const thirdSlot = getByTestId<HTMLInputElement>(fixture, 'slot-2');
+    const secondSlot = getByTestId<HTMLInputElement>(fixture, 'slot-1');
+
+    thirdSlot.focus();
+    fixture.detectChanges();
+
+    thirdSlot.dispatchEvent(
+      new KeyboardEvent('keydown', { bubbles: true, cancelable: true, key: 'Backspace' }),
+    );
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    expect(fixture.componentInstance.value()).toBe('12');
+    expect(fixture.componentInstance.activeIndex()).toBe(1);
+    expect(document.activeElement).toBe(secondSlot);
   });
 });

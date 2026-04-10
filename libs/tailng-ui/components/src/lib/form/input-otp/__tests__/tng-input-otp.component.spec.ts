@@ -496,7 +496,7 @@ describe('tng-input-otp component', () => {
     expect(document.activeElement).toBe(slots[3]);
   });
 
-  it('clears with Backspace/Delete and supports backward removal from empty slot', () => {
+  it('clears with Backspace/Delete and moves focus backward after removal', async () => {
     const fixture = TestBed.configureTestingModule({
       imports: [UncontrolledOtpHostComponent],
     }).createComponent(UncontrolledOtpHostComponent);
@@ -512,13 +512,19 @@ describe('tng-input-otp component', () => {
     fixture.detectChanges();
     pressKey(slots[2]!, 'Backspace');
     fixture.detectChanges();
+    await Promise.resolve();
+    fixture.detectChanges();
     expect(queryHiddenInput(host).value).toBe('12');
+    expect(document.activeElement).toBe(slots[1]);
 
     slots[2]!.focus();
     fixture.detectChanges();
     pressKey(slots[2]!, 'Backspace');
     fixture.detectChanges();
+    await Promise.resolve();
+    fixture.detectChanges();
     expect(queryHiddenInput(host).value).toBe('1');
+    expect(document.activeElement).toBe(slots[1]);
 
     slots[0]!.focus();
     fixture.detectChanges();

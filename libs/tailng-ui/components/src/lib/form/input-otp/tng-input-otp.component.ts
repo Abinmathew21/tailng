@@ -16,58 +16,30 @@ import { booleanAttribute } from '@angular/core';
 import type { ControlValueAccessor} from '@angular/forms';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import {
+  applyTngOtpCharacters,
   clampTngOtpValue,
   normalizeTngOtpLength,
+  removeTngOtpCharacter,
+  resolveTngOtpBackspaceResult,
+  resolveTngOtpEndIndex,
+  resolveTngOtpEntryIndex,
   resolveTngOtpState,
+  sanitizeTngOtpCharacters,
   TngInputOtp as TngInputOtpPrimitive,
 } from '@tailng-ui/primitives';
 
 export type TngInputOtpType = 'numeric' | 'alphanumeric' | 'custom';
 export type TngInputOtpInputMode = 'numeric' | 'text' | 'tel' | 'decimal';
 
-const tngOtpDigitPattern = /^\d$/;
-const tngOtpAlphanumericPattern = /^[a-zA-Z0-9]$/;
+export {
+  applyTngOtpCharacters,
+  removeTngOtpCharacter,
+  resolveTngOtpEndIndex,
+  resolveTngOtpEntryIndex,
+  sanitizeTngOtpCharacters,
+};
 
 let tngInputOtpInstanceCounter = 0;
-
-function toNonGlobalRegex(pattern: RegExp): RegExp {
-  const flags = pattern.flags.replace(/g/g, '');
-  return new RegExp(pattern.source, flags);
-}
-
-export function sanitizeTngOtpCharacters(
-  value: string,
-  mode: TngInputOtpType,
-  pattern: string | RegExp | null,
-): readonly string[] {
-  const compiledPattern =
-    mode !== 'custom'
-      ? null
-      : typeof pattern === 'string'
-        ? new RegExp(pattern)
-        : pattern === null
-          ? null
-          : toNonGlobalRegex(pattern);
-
-  const acceptedChars: string[] = [];
-  for (const char of Array.from(value)) {
-    if (mode === 'numeric' && !tngOtpDigitPattern.test(char)) {
-      continue;
-    }
-
-    if (mode === 'alphanumeric' && !tngOtpAlphanumericPattern.test(char)) {
-      continue;
-    }
-
-    if (compiledPattern && !compiledPattern.test(char)) {
-      continue;
-    }
-
-    acceptedChars.push(char);
-  }
-
-  return acceptedChars;
-}
 
 export function toTngOtpSlots(length: number, value: string): readonly string[] {
   const safeLength = normalizeTngOtpLength(length);
@@ -83,64 +55,6 @@ export function toTngOtpSlots(length: number, value: string): readonly string[] 
   }
 
   return slots;
-}
-
-export function applyTngOtpCharacters(
-  value: string,
-  startIndex: number,
-  characters: readonly string[],
-  maxLength: number,
-): string {
-  const safeLength = normalizeTngOtpLength(maxLength);
-  const nextChars = Array.from(clampTngOtpValue(value, safeLength));
-  const safeStart = Math.max(0, Math.min(startIndex, safeLength - 1));
-
-  let cursor = nextChars.length < safeLength ? Math.min(safeStart, nextChars.length) : safeStart;
-  for (const char of characters) {
-    if (cursor >= safeLength) {
-      break;
-    }
-
-    if (cursor < nextChars.length) {
-      nextChars[cursor] = char;
-    } else {
-      nextChars.push(char);
-    }
-
-    cursor += 1;
-  }
-
-  return nextChars.slice(0, safeLength).join('');
-}
-
-export function removeTngOtpCharacter(value: string, index: number): string {
-  const chars = Array.from(value);
-  if (index < 0 || index >= chars.length) {
-    return value;
-  }
-
-  chars.splice(index, 1);
-  return chars.join('');
-}
-
-export function resolveTngOtpEntryIndex(value: string, length: number): number {
-  const safeLength = normalizeTngOtpLength(length);
-  const safeValue = clampTngOtpValue(value, safeLength);
-  if (safeValue.length >= safeLength) {
-    return safeLength - 1;
-  }
-
-  return safeValue.length;
-}
-
-export function resolveTngOtpEndIndex(value: string, length: number): number {
-  const safeLength = normalizeTngOtpLength(length);
-  const safeValue = clampTngOtpValue(value, safeLength);
-  if (safeValue.length === 0) {
-    return safeLength - 1;
-  }
-
-  return Math.max(0, safeValue.length - 1);
 }
 
 function clampOtpIndex(index: number, length: number): number {
@@ -515,21 +429,12 @@ export class TngInputOtpComponent implements AfterViewInit, ControlValueAccessor
       return;
     }
 
-    const currentValue = this.currentValue();
-    if (currentValue.length === 0) {
+    const nextState = resolveTngOtpBackspaceResult(this.currentValue(), index, this.length());
+    if (nextState === null) {
       return;
     }
 
-    if (index < currentValue.length) {
-      const nextValue = removeTngOtpCharacter(currentValue, index);
-      const nextFocus = Math.min(index, Math.max(0, nextValue.length));
-      this.commitValue(nextValue, nextFocus);
-      return;
-    }
-
-    const previousIndex = Math.max(0, currentValue.length - 1);
-    const nextValue = removeTngOtpCharacter(currentValue, previousIndex);
-    this.commitValue(nextValue, Math.max(0, previousIndex));
+    this.commitValue(nextState.value, nextState.focusIndex);
   }
 
   private handleDelete(index: number): void {
