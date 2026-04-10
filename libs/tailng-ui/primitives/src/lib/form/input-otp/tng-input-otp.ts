@@ -324,6 +324,11 @@ export class TngInputOtp {
     return String(clampOtpIndex(index, this.length()));
   }
 
+  @HostListener('focusout', ['$event'])
+  protected onFocusOut(event: FocusEvent): void {
+    this.handleGroupFocusOut(event);
+  }
+
   public slotValue(index: number): string {
     const slot = toTngOtpSlots(this.length(), this.normalizedValue())[index];
     return slot ?? '';
@@ -385,6 +390,15 @@ export class TngInputOtp {
     if ((this.disabled() || this.readonly()) && event.key.length === 1) {
       event.preventDefault();
     }
+  }
+
+  public handleGroupFocusOut(event: FocusEvent): void {
+    const nextTarget = event.relatedTarget;
+    if (nextTarget instanceof Node && this.hostElement.contains(nextTarget)) {
+      return;
+    }
+
+    this.activeIndex.set(null);
   }
 
   public handleSlotInput(index: number, target: HTMLInputElement | null): void {

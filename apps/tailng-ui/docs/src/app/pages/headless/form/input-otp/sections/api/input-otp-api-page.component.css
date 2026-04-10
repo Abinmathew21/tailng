@@ -2,24 +2,24 @@
   display: block;
 }
 
-.input-otp-api {
+.headless-input-otp-api {
   display: grid;
   gap: 1rem;
 }
 
-.input-otp-api-title {
+.headless-input-otp-api-title {
   margin: 0;
   color: var(--tng-semantic-foreground-primary);
   font-size: 1.5rem;
   font-weight: 700;
 }
 
-.input-otp-api-lead {
+.headless-input-otp-api-lead {
   margin: 0;
   color: var(--tng-semantic-foreground-secondary);
 }
 
-.input-otp-api-block {
+.headless-input-otp-api-block {
   display: grid;
   gap: 0.85rem;
   padding: 1rem;
@@ -28,35 +28,42 @@
   color: var(--tng-semantic-foreground-secondary);
 }
 
-.input-otp-api-block h3,
-.input-otp-api-block p {
+.headless-input-otp-api-block h3,
+.headless-input-otp-api-block p,
+.headless-input-otp-api-list {
   margin: 0;
 }
 
-.input-otp-api-block h3 {
+.headless-input-otp-api-block h3 {
   color: var(--tng-semantic-foreground-primary);
   font-size: 1rem;
 }
 
-.input-otp-api-table-wrap {
+.headless-input-otp-api-table-wrap {
   overflow-x: auto;
 }
 
-.input-otp-api-table {
+.headless-input-otp-api-table {
   width: 100%;
   border-collapse: collapse;
 }
 
-.input-otp-api-table th,
-.input-otp-api-table td {
+.headless-input-otp-api-table th,
+.headless-input-otp-api-table td {
   padding: 0.8rem 0.75rem;
   border-bottom: 1px solid var(--tng-semantic-border-subtle);
   text-align: left;
   vertical-align: top;
 }
 
-.input-otp-api-table th {
+.headless-input-otp-api-table th {
   color: var(--tng-semantic-foreground-primary);
   font-size: 0.8rem;
   font-weight: 700;
+}
+
+.headless-input-otp-api-list {
+  display: grid;
+  gap: 0.45rem;
+  padding-left: 1.1rem;
 }

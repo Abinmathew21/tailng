@@ -7,12 +7,12 @@ import {
 } from '../../../../../../shared/util';
 
 @Component({
-  selector: 'app-input-otp-api-page',
+  selector: 'app-headless-input-otp-api-page',
   imports: [TngCodeBlockComponent],
   templateUrl: './input-otp-api-page.component.html',
   styleUrl: './input-otp-api-page.component.css',
 })
-export class InputOtpApiPageComponent implements OnDestroy {
+export class HeadlessInputOtpApiPageComponent implements OnDestroy {
   private readonly documentRef = inject(DOCUMENT);
 
   public readonly codeBlockTheme = signal<'github-dark' | 'github-light'>(
@@ -23,23 +23,17 @@ export class InputOtpApiPageComponent implements OnDestroy {
     this.codeBlockTheme,
   );
 
-  protected readonly wrapperUsageCode = String.raw`<tng-input-otp
+  protected readonly primitiveUsageCode = String.raw`<div
+  tngInputOtp
   [length]="6"
   [value]="verificationCode()"
-  [type]="'numeric'"
-  [required]="true"
-  [ariaLabel]="'Verification code'"
-  (valueChange)="onVerificationCodeChange($event)"
-  (complete)="onVerificationCodeComplete($event)"
-></tng-input-otp>`;
-
-  protected readonly formsCode = String.raw`import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-
-readonly verificationForm = new FormGroup({
-  otp: new FormControl('', { nonNullable: true }),
-});
-
-<tng-input-otp formControlName="otp"></tng-input-otp>`;
+  [disabled]="isDisabled()"
+  [readonly]="isReadonly()"
+  [invalid]="hasError()"
+  [focused]="isFocused()"
+  [focusVisible]="showFocusRing()"
+  [activeIndex]="activeIndex()"
+></div>`;
 
   public ngOnDestroy(): void {
     this.colorSchemeObserver?.disconnect();

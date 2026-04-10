@@ -1,0 +1,74 @@
+<article class="headless-input-otp-api">
+  <h2 class="headless-input-otp-api-title">API reference</h2>
+  <p class="headless-input-otp-api-lead">
+    <code>[tngInputOtp]</code> only reflects combined OTP state onto the host. You still own the slot inputs,
+    their keyboard handling, and their visual layout.
+  </p>
+
+  <section id="tnginputotp" class="headless-input-otp-api-block">
+    <h3><code>tngInputOtp</code></h3>
+    <tng-code-block
+      [code]="primitiveUsageCode"
+      adapter="shiki"
+      language="html"
+      title="Primitive attachment"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+
+    <div class="headless-input-otp-api-table-wrap">
+      <table class="headless-input-otp-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Input</th>
+            <th scope="col">Type</th>
+            <th scope="col">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>length</code></td>
+            <td><code>number</code></td>
+            <td>Total slot count. The primitive normalizes it to a safe 1..12 range.</td>
+          </tr>
+          <tr>
+            <td><code>value</code></td>
+            <td><code>string</code></td>
+            <td>Combined OTP value used to derive empty, partial, and complete state hooks.</td>
+          </tr>
+          <tr>
+            <td><code>activeIndex</code></td>
+            <td><code>number | null</code></td>
+            <td>Reflects the currently active slot through <code>data-active</code>.</td>
+          </tr>
+          <tr>
+            <td><code>disabled</code>, <code>readonly</code>, <code>required</code>, <code>invalid</code>, <code>focused</code>, <code>focusVisible</code></td>
+            <td><code>boolean</code></td>
+            <td>Mirrors your external interaction state into stable host attributes.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="reflected-state" class="headless-input-otp-api-block">
+    <h3>Reflected state</h3>
+    <p>
+      The primitive adds <code>data-empty</code>, <code>data-partial</code>, <code>data-complete</code>,
+      <code>data-disabled</code>, <code>data-readonly</code>, <code>data-required</code>,
+      <code>data-invalid</code>, <code>data-focused</code>, <code>data-focus-visible</code>, and
+      <code>data-active</code> so your page CSS can react without custom DOM bookkeeping.
+    </p>
+  </section>
+
+  <section id="ownership-notes" class="headless-input-otp-api-block">
+    <h3>Ownership notes</h3>
+    <ul class="headless-input-otp-api-list">
+      <li>The primitive does not render slot inputs for you.</li>
+      <li>You decide how characters are sanitized and how focus advances.</li>
+      <li>Reach for the component wrapper when you want that behavior prebuilt.</li>
+    </ul>
+  </section>
+</article>

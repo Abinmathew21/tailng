@@ -54,6 +54,11 @@ export const HEADLESS_FORM_ROUTES: Routes = [
     loadChildren: () => import('./chips/routes').then((m) => m.HEADLESS_FORM_CHIPS_ROUTES),
   },
   {
+    path: 'input-otp',
+    loadChildren: () =>
+      import('./input-otp/routes').then((m) => m.HEADLESS_FORM_INPUT_OTP_ROUTES),
+  },
+  {
     path: 'listbox',
     loadChildren: () => import('./listbox/routes').then((m) => m.HEADLESS_FORM_LISTBOX_ROUTES),
   },
@@ -90,6 +95,7 @@ export const HEADLESS_FORM_ROUTES: Routes = [
         item.slug !== 'radio' &&
         item.slug !== 'button-toggle' &&
         item.slug !== 'chips' &&
+        item.slug !== 'input-otp' &&
         item.slug !== 'listbox' &&
         item.slug !== 'autocomplete' &&
         item.slug !== 'multi-autocomplete' &&

@@ -1,42 +1,196 @@
 import { DOCUMENT } from '@angular/common';
-import { Component, computed, ElementRef, inject, signal, type OnDestroy } from '@angular/core';
-import { observeDocsCodeThemeChanges, resolveDocsCodeBlockTheme } from '../../../../../../shared/util';
+import { Component, inject, signal, type OnDestroy } from '@angular/core';
 import { TngCodeBlockComponent, TngInputOtpComponent } from '@tailng-ui/components';
-import {
-  normalizeTngOtpLength,
-  resolveTngOtpState,
-  TngInputOtp as TngInputOtpPrimitive,
-} from '@tailng-ui/primitives';
-import { type DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
+import type { DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
 import {
   DocsExampleTabsSectionComponent,
   DocsExampleVariantDirective,
 } from '../../../../../../shared/example-tabs-section/docs-example-tabs-section.component';
+import {
+  observeDocsCodeThemeChanges,
+  resolveDocsCodeBlockTheme,
+} from '../../../../../../shared/util';
+import { stackblitzTailwindUrl, stackblitzVanillaUrl } from '../../input-otp.util';
 
-function toSlots(length: number, value: string): readonly string[] {
-  const slots = Array.from({ length }, () => '');
-  const chars = Array.from(value.slice(0, length));
+function createCodeTabs(
+  baseName: string,
+  tsCode: string,
+  htmlCode: string,
+  cssCode: string,
+): readonly DocsExampleCodeTab[] {
+  return Object.freeze([
+    { value: 'ts', label: 'TS', language: 'ts', title: `${baseName}.component.ts`, code: tsCode },
+    {
+      value: 'html',
+      label: 'HTML',
+      language: 'html',
+      title: `${baseName}.component.html`,
+      code: htmlCode,
+    },
+    {
+      value: 'css',
+      label: 'CSS',
+      language: 'css',
+      title: `${baseName}.component.css`,
+      code: cssCode,
+    },
+  ]);
+}
 
-  for (const [index, char] of chars.entries()) {
-    if (index >= length) {
-      break;
+const COMPONENT_IMPORT_CODE = String.raw`import { TngInputOtpComponent } from '@tailng-ui/components';`;
+
+const BASIC_USAGE_CODE = String.raw`<tng-input-otp
+  [length]="6"
+  [value]="verificationCode()"
+  [ariaLabel]="'Verification code'"
+  (valueChange)="onVerificationCodeChange($event)"
+  (complete)="onVerificationCodeComplete($event)"
+></tng-input-otp>`;
+
+const PLAIN_TS_CODE = String.raw`import { Component, signal } from '@angular/core';
+import { TngInputOtpComponent } from '@tailng-ui/components';
+
+@Component({
+  selector: 'app-component-input-otp-overview-plain-example',
+  standalone: true,
+  imports: [TngInputOtpComponent],
+  templateUrl: './component-input-otp-overview-plain-example.component.html',
+  styleUrl: './component-input-otp-overview-plain-example.component.css',
+})
+export class ComponentInputOtpOverviewPlainExampleComponent {
+  readonly componentInputOtpOverviewPlainValue = signal('12');
+  readonly componentInputOtpOverviewPlainComplete = signal('');
+
+  onComponentInputOtpOverviewPlainValueChange(nextValue: string): void {
+    this.componentInputOtpOverviewPlainValue.set(nextValue);
+    if (nextValue.length < 6) {
+      this.componentInputOtpOverviewPlainComplete.set('');
     }
-
-    slots[index] = char;
   }
 
-  return slots;
+  onComponentInputOtpOverviewPlainComplete(nextValue: string): void {
+    this.componentInputOtpOverviewPlainComplete.set(nextValue);
+  }
+}`;
+
+const PLAIN_HTML_CODE = String.raw`<section class="docs-component-input-otp-overview-plain-shell">
+  <div class="docs-component-input-otp-overview-plain-header">
+    <span class="docs-component-input-otp-overview-plain-kicker">Verification code</span>
+    <p class="docs-component-input-otp-overview-plain-copy">
+      Wrapper-first OTP entry with a controlled string value and a light verification surface.
+    </p>
+  </div>
+
+  <tng-input-otp
+    class="docs-component-input-otp-overview-plain-control"
+    [length]="6"
+    [value]="componentInputOtpOverviewPlainValue()"
+    [ariaLabel]="'Verification code'"
+    (valueChange)="onComponentInputOtpOverviewPlainValueChange($event)"
+    (complete)="onComponentInputOtpOverviewPlainComplete($event)"
+  ></tng-input-otp>
+
+  <p class="docs-component-input-otp-overview-plain-summary">
+    Value: {{ componentInputOtpOverviewPlainValue() || '—' }}
+  </p>
+  <p class="docs-component-input-otp-overview-plain-summary">
+    Complete event: {{ componentInputOtpOverviewPlainComplete() || '—' }}
+  </p>
+</section>`;
+
+const PLAIN_CSS_CODE = String.raw`.docs-component-input-otp-overview-plain-shell {
+  display: grid;
+  gap: 0.9rem;
+  inline-size: min(100%, 36rem);
+  margin-inline: auto;
+  padding: 1.15rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 1.35rem;
+  background: #ffffff;
+  color: #0f172a;
+  color-scheme: light;
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
 }
 
-function sanitizeDigits(value: string): readonly string[] {
-  return Array.from(value).filter((char) => /\d/.test(char));
+.docs-component-input-otp-overview-plain-header {
+  display: grid;
+  gap: 0.35rem;
 }
+
+.docs-component-input-otp-overview-plain-kicker {
+  color: #64748b;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.docs-component-input-otp-overview-plain-copy,
+.docs-component-input-otp-overview-plain-summary {
+  margin: 0;
+  color: #475569;
+}
+
+.docs-component-input-otp-overview-plain-control {
+  --tng-semantic-background-surface: #ffffff;
+  --tng-semantic-background-muted: #eef4ff;
+  --tng-semantic-border-default: #cbd5e1;
+  --tng-semantic-foreground-primary: #0f172a;
+  --tng-semantic-foreground-muted: #94a3b8;
+  --tng-semantic-accent-brand: #2563eb;
+  --tng-semantic-accent-danger: #dc2626;
+}`;
+
+const TAILWIND_TS_CODE = String.raw`import { Component, signal } from '@angular/core';
+import { TngInputOtpComponent } from '@tailng-ui/components';
+
+@Component({
+  selector: 'app-component-input-otp-overview-tailwind-example',
+  standalone: true,
+  imports: [TngInputOtpComponent],
+  templateUrl: './component-input-otp-overview-tailwind-example.component.html',
+  styleUrl: './component-input-otp-overview-tailwind-example.component.css',
+})
+export class ComponentInputOtpOverviewTailwindExampleComponent {
+  readonly componentInputOtpOverviewTailwindValue = signal('84');
+  readonly componentInputOtpOverviewTailwindComplete = signal('');
+
+  onComponentInputOtpOverviewTailwindValueChange(nextValue: string): void {
+    this.componentInputOtpOverviewTailwindValue.set(nextValue);
+    if (nextValue.length < 6) {
+      this.componentInputOtpOverviewTailwindComplete.set('');
+    }
+  }
+
+  onComponentInputOtpOverviewTailwindComplete(nextValue: string): void {
+    this.componentInputOtpOverviewTailwindComplete.set(nextValue);
+  }
+}`;
+
+const TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid w-full max-w-[36rem] gap-4 rounded-[1.5rem] border border-slate-200 bg-white p-5 text-slate-900 shadow-sm">
+  <div class="grid gap-1">
+    <span class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Approval code</span>
+    <p class="m-0 text-sm leading-6 text-slate-600">
+      Same wrapper, utility-first shell, and a completion event you can wire into your flow.
+    </p>
+  </div>
+
+  <tng-input-otp
+    class="block [--tng-semantic-background-surface:#ffffff] [--tng-semantic-background-muted:#eef6ff] [--tng-semantic-border-default:#cbd5e1] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-foreground-muted:#94a3b8] [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-accent-danger:#dc2626]"
+    [length]="6"
+    [value]="componentInputOtpOverviewTailwindValue()"
+    [ariaLabel]="'Approval code'"
+    (valueChange)="onComponentInputOtpOverviewTailwindValueChange($event)"
+    (complete)="onComponentInputOtpOverviewTailwindComplete($event)"
+  ></tng-input-otp>
+
+  <p class="m-0 text-sm text-slate-600">Value: {{ componentInputOtpOverviewTailwindValue() || '—' }}</p>
+  <p class="m-0 text-sm text-slate-600">Complete event: {{ componentInputOtpOverviewTailwindComplete() || '—' }}</p>
+</section>`;
 
 @Component({
   selector: 'app-input-otp-overview-page',
   imports: [
     TngCodeBlockComponent,
-    TngInputOtpPrimitive,
     TngInputOtpComponent,
     DocsExampleTabsSectionComponent,
     DocsExampleVariantDirective,
@@ -46,355 +200,61 @@ function sanitizeDigits(value: string): readonly string[] {
 })
 export class InputOtpOverviewPageComponent implements OnDestroy {
   private readonly documentRef = inject(DOCUMENT);
-  private readonly hostRef = inject<ElementRef<HTMLElement>>(ElementRef);
+
   public readonly codeBlockTheme = signal<'github-dark' | 'github-light'>(
     resolveDocsCodeBlockTheme(this.documentRef),
   );
-  private readonly colorSchemeObserver = observeDocsCodeThemeChanges(this.documentRef, this.codeBlockTheme);
+  private readonly colorSchemeObserver = observeDocsCodeThemeChanges(
+    this.documentRef,
+    this.codeBlockTheme,
+  );
 
-  protected readonly length = 6;
-  protected readonly headlessValue = signal('');
-  protected readonly headlessActiveIndex = signal(0);
-  protected readonly headlessSlots = computed(() => toSlots(this.length, this.headlessValue()));
-  protected readonly headlessState = computed(() => resolveTngOtpState(this.length, this.headlessValue()));
+  protected readonly stackblitzVanillaUrl = stackblitzVanillaUrl;
+  protected readonly stackblitzTailwindUrl = stackblitzTailwindUrl;
+  protected readonly componentImportCode = COMPONENT_IMPORT_CODE;
+  protected readonly basicUsageCode = BASIC_USAGE_CODE;
 
   protected readonly plainValue = signal('12');
   protected readonly plainComplete = signal('');
   protected readonly tailwindValue = signal('84');
   protected readonly tailwindComplete = signal('');
 
-  protected readonly primitiveImportCode =
-    "import { TngInputOtp as TngInputOtpPrimitive } from '@tailng-ui/primitives';\n";
-  protected readonly componentImportCode =
-    "import { TngInputOtpComponent } from '@tailng-ui/components';\n";
+  protected readonly plainCodeTabs = createCodeTabs(
+    'component-input-otp-overview-plain-example',
+    PLAIN_TS_CODE,
+    PLAIN_HTML_CODE,
+    PLAIN_CSS_CODE,
+  );
+  protected readonly tailwindCodeTabs = createCodeTabs(
+    'component-input-otp-overview-tailwind-example',
+    TAILWIND_TS_CODE,
+    TAILWIND_HTML_CODE,
+    '/* Tailwind utilities are applied directly in the template. */',
+  );
 
-  protected readonly headlessCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
-    {
-      value: 'ts',
-      label: 'TS',
-      language: 'ts',
-      title: 'input-otp-headless-overview.component.ts',
-      code: [
-        "readonly value = signal('');",
-        'readonly activeIndex = signal(0);',
-        'readonly slots = computed(() => toSlots(6, this.value()));',
-        '',
-        'onSlotInput(index: number, event: Event): void {',
-        '  const chars = sanitizeDigits((event.target as HTMLInputElement).value);',
-        '  this.value.set(applyChars(this.value(), index, chars));',
-        '}',
-        '',
-      ].join('\n'),
-    },
-    {
-      value: 'html',
-      label: 'HTML',
-      language: 'html',
-      title: 'input-otp-headless-overview.component.html',
-      code: [
-        '<div',
-        '  tngInputOtp',
-        '  class="otp-preview-shell"',
-        '  [length]="6"',
-        '  [value]="value()"',
-        '  [activeIndex]="activeIndex()"',
-        '>',
-        '  @for (slot of slots(); track $index) {',
-        '    <input',
-        '      class="otp-preview-slot"',
-        '      [value]="slot"',
-        '      maxlength="1"',
-        '      inputmode="numeric"',
-        '      (input)="onSlotInput($index, $event)"',
-        '      (paste)="onSlotPaste($index, $event)"',
-        '      (keydown)="onSlotKeydown($index, $event)"',
-        '    />',
-        '  }',
-        '</div>',
-        '',
-      ].join('\n'),
-    },
-    {
-      value: 'css',
-      label: 'CSS',
-      language: 'css',
-      title: 'input-otp-headless-overview.component.css',
-      code: [
-        '.otp-preview-shell {',
-        '  display: inline-flex;',
-        '  gap: 0.5rem;',
-        '}',
-        '',
-        '.otp-preview-slot {',
-        '  inline-size: 2.35rem;',
-        '  block-size: 2.55rem;',
-        '  text-align: center;',
-        '}',
-        '',
-      ].join('\n'),
-    },
-  ]);
-
-  protected readonly plainCssCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
-    {
-      value: 'ts',
-      label: 'TS',
-      language: 'ts',
-      title: 'input-otp-plain-overview.component.ts',
-      code: [
-        "readonly otpValue = signal('12');",
-        "readonly completion = signal('');",
-        '',
-        'onValueChange(value: string): void {',
-        '  this.otpValue.set(value);',
-        '}',
-        '',
-      ].join('\n'),
-    },
-    {
-      value: 'html',
-      label: 'HTML',
-      language: 'html',
-      title: 'input-otp-plain-overview.component.html',
-      code: [
-        '<div class="otp-preview-shell otp-preview-shell--plain">',
-        '  <tng-input-otp',
-        '    [length]="6"',
-        '    [value]="otpValue()"',
-        '    (valueChange)="onValueChange($event)"',
-        '    (complete)="onComplete($event)"',
-        '  ></tng-input-otp>',
-        '</div>',
-        '',
-      ].join('\n'),
-    },
-    {
-      value: 'css',
-      label: 'CSS',
-      language: 'css',
-      title: 'input-otp-plain-overview.component.css',
-      code: [
-        '.otp-preview-shell--plain {',
-        '  border: 1px solid var(--tng-semantic-border-subtle);',
-        '  border-radius: 0.8rem;',
-        '  padding: 0.9rem 1rem;',
-        '}',
-        '',
-      ].join('\n'),
-    },
-  ]);
-
-  protected readonly tailwindCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
-    {
-      value: 'ts',
-      label: 'TS',
-      language: 'ts',
-      title: 'input-otp-tailwind-overview.component.ts',
-      code: [
-        "readonly otpValue = signal('84');",
-        '',
-        'onValueChange(value: string): void {',
-        '  this.otpValue.set(value);',
-        '}',
-        '',
-      ].join('\n'),
-    },
-    {
-      value: 'html',
-      label: 'HTML',
-      language: 'html',
-      title: 'input-otp-tailwind-overview.component.html',
-      code: [
-        '<div class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">',
-        '  <tng-input-otp',
-        '    [length]="6"',
-        '    [value]="otpValue()"',
-        '    (valueChange)="onValueChange($event)"',
-        '  ></tng-input-otp>',
-        '</div>',
-        '',
-      ].join('\n'),
-    },
-    {
-      value: 'css',
-      label: 'CSS',
-      language: 'css',
-      title: 'input-otp-tailwind-overview.component.css',
-      code: '/* Tailwind utilities are applied directly in the template. */',
-    },
-  ]);
-
-  protected onHeadlessSlotFocus(index: number): void {
-    this.headlessActiveIndex.set(index);
-  }
-
-  protected onHeadlessSlotInput(index: number, event: Event): void {
-    const target = event.target;
-    if (!(target instanceof HTMLInputElement)) {
-      return;
-    }
-
-    const previousLength = this.headlessValue().length;
-    const wasCompleteBeforeInput = previousLength >= this.length;
-    const wasReplacingExistingCharacter = index < previousLength;
-    const chars = sanitizeDigits(target.value);
-    if (chars.length === 0) {
-      this.removeAt(index);
-      return;
-    }
-
-    const next = this.applyChars(index, chars);
-    this.headlessValue.set(next);
-    const nextIndex = this.resolveNextIndex(
-      next,
-      index,
-      chars.length,
-      wasCompleteBeforeInput,
-      wasReplacingExistingCharacter,
-    );
-    this.headlessActiveIndex.set(nextIndex);
-    this.focusHeadlessSlot(nextIndex, true);
-  }
-
-  protected onHeadlessSlotKeydown(index: number, event: KeyboardEvent): void {
-    if (event.key === 'ArrowLeft') {
-      event.preventDefault();
-      const nextIndex = Math.max(0, index - 1);
-      this.headlessActiveIndex.set(nextIndex);
-      this.focusHeadlessSlot(nextIndex, true);
-      return;
-    }
-
-    if (event.key === 'ArrowRight') {
-      event.preventDefault();
-      const nextIndex = Math.min(this.length - 1, index + 1);
-      this.headlessActiveIndex.set(nextIndex);
-      this.focusHeadlessSlot(nextIndex, true);
-      return;
-    }
-
-    if (event.key === 'Backspace') {
-      event.preventDefault();
-      this.removeAt(index);
-      this.focusHeadlessSlot(this.headlessActiveIndex(), true);
+  protected onPlainValueChange(nextValue: string): void {
+    this.plainValue.set(nextValue);
+    if (nextValue.length < 6) {
+      this.plainComplete.set('');
     }
   }
 
-  protected onHeadlessPaste(index: number, event: ClipboardEvent): void {
-    const previousLength = this.headlessValue().length;
-    const wasCompleteBeforeInput = previousLength >= this.length;
-    const wasReplacingExistingCharacter = index < previousLength;
-    const text = event.clipboardData?.getData('text') ?? '';
-    const chars = sanitizeDigits(text);
-    if (chars.length === 0) {
-      event.preventDefault();
-      return;
+  protected onPlainComplete(nextValue: string): void {
+    this.plainComplete.set(nextValue);
+  }
+
+  protected onTailwindValueChange(nextValue: string): void {
+    this.tailwindValue.set(nextValue);
+    if (nextValue.length < 6) {
+      this.tailwindComplete.set('');
     }
-
-    event.preventDefault();
-    const next = this.applyChars(index, chars);
-    this.headlessValue.set(next);
-    const nextIndex = this.resolveNextIndex(
-      next,
-      index,
-      chars.length,
-      wasCompleteBeforeInput,
-      wasReplacingExistingCharacter,
-    );
-    this.headlessActiveIndex.set(nextIndex);
-    this.focusHeadlessSlot(nextIndex, true);
   }
 
-  protected onPlainValueChange(value: string): void {
-    this.plainValue.set(value);
-  }
-
-  protected onPlainComplete(value: string): void {
-    this.plainComplete.set(value);
-  }
-
-  protected onTailwindValueChange(value: string): void {
-    this.tailwindValue.set(value);
-  }
-
-  protected onTailwindComplete(value: string): void {
-    this.tailwindComplete.set(value);
+  protected onTailwindComplete(nextValue: string): void {
+    this.tailwindComplete.set(nextValue);
   }
 
   public ngOnDestroy(): void {
     this.colorSchemeObserver?.disconnect();
-  }
-
-  private applyChars(index: number, chars: readonly string[]): string {
-    const length = normalizeTngOtpLength(this.length);
-    const buffer = Array.from(this.headlessValue().slice(0, length));
-    let cursor = Math.min(index, buffer.length);
-
-    for (const char of chars) {
-      if (cursor >= length) {
-        break;
-      }
-
-      if (cursor < buffer.length) {
-        buffer[cursor] = char;
-      } else {
-        buffer.push(char);
-      }
-
-      cursor += 1;
-    }
-
-    return buffer.slice(0, length).join('');
-  }
-
-  private removeAt(index: number): void {
-    const chars = Array.from(this.headlessValue());
-    if (chars.length === 0) {
-      return;
-    }
-
-    const cursor = Math.max(0, Math.min(index, chars.length - 1));
-    chars.splice(cursor, 1);
-    this.headlessValue.set(chars.join(''));
-    this.headlessActiveIndex.set(Math.max(0, Math.min(cursor, chars.length)));
-  }
-
-  private resolveNextIndex(
-    value: string,
-    index: number,
-    consumed: number,
-    wasCompleteBeforeInput: boolean,
-    wasReplacingExistingCharacter: boolean,
-  ): number {
-    if (wasCompleteBeforeInput || wasReplacingExistingCharacter) {
-      return Math.min(this.length - 1, Math.max(0, index + Math.max(consumed, 1)));
-    }
-
-    if (value.length >= this.length) {
-      return this.length - 1;
-    }
-
-    return Math.min(this.length - 1, Math.max(value.length, index + consumed));
-  }
-
-
-  private focusHeadlessSlot(index: number, select: boolean): void {
-    const safeIndex = Math.max(0, Math.min(index, this.length - 1));
-    queueMicrotask(() => {
-      const headlessRoot = this.hostRef.nativeElement.querySelector<HTMLElement>('[data-headless-otp]');
-      if (!(headlessRoot instanceof HTMLElement)) {
-        return;
-      }
-
-      const slot = headlessRoot.querySelector<HTMLInputElement>(`[data-tng-otp-slot='${safeIndex}']`);
-      if (!(slot instanceof HTMLInputElement)) {
-        return;
-      }
-
-      slot.focus();
-      if (select) {
-        slot.select();
-      }
-    });
   }
 }

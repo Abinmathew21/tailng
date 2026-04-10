@@ -518,24 +518,24 @@ export const docsComponentOutlineItemsBySlug: Readonly<Record<string, Partial<Re
   'input-otp': {
     'overview': [
       { id: 'imports', label: 'Imports' },
-      { id: 'verification-code-variants', label: 'Verification code variants' },
+      { id: 'usage-baseline', label: 'Usage baseline' },
+      { id: 'input-otp-variants', label: 'Input OTP variants' },
       { id: 'behavior-baseline', label: 'Behavior baseline' },
     ],
     'api': [
-      { id: 'tnginputotp-primitive', label: 'tngInputOtp primitive' },
-      { id: 'and-lt-tng-input-otp-and-gt-wrapper', label: '&lt;tng-input-otp&gt; wrapper' },
-      { id: 'angular-forms-integration', label: 'Angular forms integration' },
+      { id: 'wrapper-api', label: '&lt;tng-input-otp&gt; wrapper' },
+      { id: 'event-contract', label: 'Event contract' },
+      { id: 'forms-integration', label: 'Forms integration' },
+      { id: 'primitive-foundation', label: 'Primitive foundation' },
     ],
     'styling': [
-      { id: 'recommended-hooks', label: 'Recommended hooks' },
+      { id: 'theming-surface', label: 'Theming surface' },
+      { id: 'styling-variants', label: 'Styling variants' },
+      { id: 'guidance', label: 'Guidance' },
     ],
     'examples': [
-      { id: 'verification-otp-patterns', label: 'Verification OTP patterns' },
-    ],
-    'ownable-install': [
-      { id: 'install-from-registry', label: 'Install from registry' },
-      { id: 'generated-files', label: 'Generated files' },
-      { id: 'import-and-usage', label: 'Import in your feature module/component' },
+      { id: 'verification-passcode', label: 'Verification passcode' },
+      { id: 'masked-recovery-code', label: 'Masked recovery code' },
     ],
   },
   'label': {

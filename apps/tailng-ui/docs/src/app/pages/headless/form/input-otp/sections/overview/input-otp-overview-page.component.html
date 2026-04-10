@@ -1,0 +1,144 @@
+<article class="docs-section-page headless-input-otp-overview">
+  <div class="docs-section-page-main headless-input-otp-overview-main">
+    <h2 class="headless-input-otp-overview-title">Input OTP</h2>
+    <p class="headless-input-otp-overview-lead">
+      <code>[tngInputOtp]</code> is the headless state primitive for OTP roots. You own the actual
+      inputs, keyboard handling, and slot layout while the primitive reflects mirrored state onto the host.
+    </p>
+
+    <section id="imports" class="docs-section-anchor headless-input-otp-overview-block">
+      <h3>Imports</h3>
+      <tng-code-block
+        [code]="primitiveImportCode"
+        adapter="shiki"
+        language="ts"
+        title="Primitive import"
+        [theme]="codeBlockTheme()"
+        [sanitizeHtml]="false"
+        [wrap]="true"
+        [lineNumbers]="false"
+      ></tng-code-block>
+    </section>
+
+    <section id="usage-baseline" class="docs-section-anchor headless-input-otp-overview-block">
+      <h3>Usage baseline</h3>
+      <p>
+        The primitive does not render slots for you, but the root and slot directives coordinate the
+        baseline OTP behavior so your page only owns markup and styling.
+      </p>
+      <tng-code-block
+        [code]="usageBaselineCode"
+        adapter="shiki"
+        language="html"
+        title="Minimal headless composition"
+        [theme]="codeBlockTheme()"
+        [sanitizeHtml]="false"
+        [wrap]="true"
+        [lineNumbers]="false"
+      ></tng-code-block>
+    </section>
+
+    <section id="otp-variants" class="docs-section-anchor headless-input-otp-overview-block">
+      <app-docs-example-tabs-section
+        heading="OTP variants"
+        description="Compare the same primitive composition across plain CSS and Tailwind CSS while keeping the slot markup fully owned."
+        ariaLabel="Headless input OTP overview examples"
+        tabListAriaLabel="Headless input OTP overview style variants"
+        defaultValue="plain-css"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <ng-template
+          appDocsExampleVariant
+          value="plain-css"
+          label="Plain-CSS"
+          panelTitle="Input OTP (Plain-CSS)"
+          [codeTabs]="plainCodeTabs"
+          [stackblitzUrl]="stackblitzVanillaUrl"
+        >
+          <section class="docs-headless-input-otp-overview-plain-shell">
+            <div class="docs-headless-input-otp-overview-plain-header">
+              <span class="docs-headless-input-otp-overview-plain-kicker">Verification code</span>
+              <p class="docs-headless-input-otp-overview-plain-copy">
+                Own the slot markup directly while the primitive reflects root state for styling.
+              </p>
+            </div>
+
+            <div
+              tngInputOtp
+              class="docs-headless-input-otp-overview-plain-root"
+              [length]="plainLength"
+              [value]="plainValue()"
+              (valueChange)="plainValue.set($event)"
+              [activeIndex]="plainActiveIndex()"
+              (activeIndexChange)="plainActiveIndex.set($event)"
+            >
+              @for (slotIndex of plainSlotIndexes; track slotIndex) {
+                <input
+                  [tngInputOtpSlot]="slotIndex"
+                  class="docs-headless-input-otp-overview-plain-slot"
+                  maxlength="1"
+                  inputmode="numeric"
+                />
+              }
+            </div>
+
+            <p class="docs-headless-input-otp-overview-plain-summary">Value: {{ plainValue() || '—' }}</p>
+            <p class="docs-headless-input-otp-overview-plain-summary">State: {{ plainState() }}</p>
+          </section>
+        </ng-template>
+
+        <ng-template
+          appDocsExampleVariant
+          value="tailwind-css"
+          label="Tailwind CSS"
+          panelTitle="Input OTP (Tailwind CSS)"
+          [codeTabs]="tailwindCodeTabs"
+          [stackblitzUrl]="stackblitzTailwindUrl"
+        >
+          <section class="mx-auto grid w-full max-w-[36rem] gap-4 rounded-[1.5rem] border border-slate-200 bg-white p-5 text-slate-900 shadow-sm">
+            <div class="grid gap-1">
+              <span class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Approval code</span>
+              <p class="m-0 text-sm leading-6 text-slate-600">
+                Same primitive contract, utility-first shell, and fully owned slot markup.
+              </p>
+            </div>
+
+            <div
+              tngInputOtp
+              class="flex gap-2"
+              [length]="tailwindLength"
+              [value]="tailwindValue()"
+              (valueChange)="tailwindValue.set($event)"
+              [activeIndex]="tailwindActiveIndex()"
+              (activeIndexChange)="tailwindActiveIndex.set($event)"
+            >
+              @for (slotIndex of tailwindSlotIndexes; track slotIndex) {
+                <input
+                  [tngInputOtpSlot]="slotIndex"
+                  class="h-11 w-10 rounded-xl border border-slate-300 bg-white text-center text-base font-semibold text-slate-900 outline-none transition"
+                  [class.border-blue-500]="tailwindActiveIndex() === slotIndex"
+                  [class.ring-4]="tailwindActiveIndex() === slotIndex"
+                  [class.ring-blue-100]="tailwindActiveIndex() === slotIndex"
+                  maxlength="1"
+                  inputmode="numeric"
+                />
+              }
+            </div>
+
+            <p class="m-0 text-sm text-slate-600">Value: {{ tailwindValue() || '—' }}</p>
+            <p class="m-0 text-sm text-slate-600">State: {{ tailwindState() }}</p>
+          </section>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
+
+    <section id="behavior-baseline" class="docs-section-anchor headless-input-otp-overview-block">
+      <h3>Behavior baseline</h3>
+      <ul class="headless-input-otp-overview-list">
+        <li>You own the slot markup and styling, while the primitive handles baseline OTP keyboard flow.</li>
+        <li>The primitive mirrors combined value state through <code>data-empty</code>, <code>data-partial</code>, and <code>data-complete</code>.</li>
+        <li><code>valueChange</code> and <code>activeIndexChange</code> let headless pages stay controlled without reimplementing focus movement.</li>
+      </ul>
+    </section>
+  </div>
+</article>

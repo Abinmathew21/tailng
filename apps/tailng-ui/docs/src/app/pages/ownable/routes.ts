@@ -28,6 +28,7 @@ const toggleItem = requireOwnableItem(OWNABLE_FORM_GROUP, 'toggle');
 const radioItem = requireOwnableItem(OWNABLE_FORM_GROUP, 'radio');
 const buttonToggleItem = requireOwnableItem(OWNABLE_FORM_GROUP, 'button-toggle');
 const chipsItem = requireOwnableItem(OWNABLE_FORM_GROUP, 'chips');
+const inputOtpItem = requireOwnableItem(OWNABLE_FORM_GROUP, 'input-otp');
 const inputItem = requireOwnableItem(OWNABLE_FORM_GROUP, 'input');
 const textareaItem = requireOwnableItem(OWNABLE_FORM_GROUP, 'textarea');
 const autocompleteItem = requireOwnableItem(OWNABLE_FORM_GROUP, 'autocomplete');
@@ -102,6 +103,14 @@ export const OWNABLE_ROUTES: Routes = [
         loadComponent: () =>
           import('./form/chips/ownable-chips-page.component').then(
             (m) => m.OwnableChipsPageComponent,
+          ),
+      },
+      {
+        path: 'form/input-otp',
+        data: toOwnableDocsRouteData(OWNABLE_FORM_GROUP, inputOtpItem),
+        loadComponent: () =>
+          import('./form/input-otp/ownable-input-otp-page.component').then(
+            (m) => m.OwnableInputOtpPageComponent,
           ),
       },
       {

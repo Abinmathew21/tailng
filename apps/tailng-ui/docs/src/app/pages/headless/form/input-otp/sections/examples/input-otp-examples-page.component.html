@@ -1,0 +1,181 @@
+<article class="headless-input-otp-examples">
+  <section id="sms-verification-code" class="headless-input-otp-examples-block">
+    <app-docs-example-tabs-section
+      heading="SMS verification code"
+      description="A lightweight OTP row for SMS verification with the slot markup fully owned in your component."
+      ariaLabel="Headless SMS verification code examples"
+      tabListAriaLabel="Headless SMS verification code style variants"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="SMS verification code (Plain-CSS)"
+        [codeTabs]="smsPlainCodeTabs"
+        [stackblitzUrl]="stackblitzVanillaUrl"
+      >
+        <section class="docs-headless-input-otp-examples-sms-plain-shell">
+          <div class="docs-headless-input-otp-examples-sms-plain-header">
+            <span class="docs-headless-input-otp-examples-sms-plain-kicker">SMS verification</span>
+            <p class="docs-headless-input-otp-examples-sms-plain-copy">
+              A lightweight owned OTP row for a simple SMS verification step.
+            </p>
+          </div>
+
+          <div
+            tngInputOtp
+            class="docs-headless-input-otp-examples-sms-plain-root"
+            [length]="smsPlainLength"
+            [value]="smsPlainValue()"
+            (valueChange)="smsPlainValue.set($event)"
+            [activeIndex]="smsPlainActiveIndex()"
+            (activeIndexChange)="smsPlainActiveIndex.set($event)"
+          >
+            @for (slotIndex of smsPlainSlotIndexes; track slotIndex) {
+              <input
+                [tngInputOtpSlot]="slotIndex"
+                class="docs-headless-input-otp-examples-sms-plain-slot"
+                maxlength="1"
+                inputmode="numeric"
+              />
+            }
+          </div>
+
+          <p class="docs-headless-input-otp-examples-sms-plain-summary">Value: {{ smsPlainValue() || '—' }}</p>
+          <p class="docs-headless-input-otp-examples-sms-plain-summary">State: {{ smsPlainState() }}</p>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="SMS verification code (Tailwind CSS)"
+        [codeTabs]="smsTailwindCodeTabs"
+        [stackblitzUrl]="stackblitzTailwindUrl"
+      >
+        <section class="mx-auto grid w-full max-w-[36rem] gap-4 rounded-[1.75rem] border border-blue-200 bg-white p-5 text-slate-900 shadow-sm">
+          <div class="grid gap-1">
+            <span class="text-xs font-semibold uppercase tracking-[0.22em] text-blue-600">SMS verification</span>
+            <p class="m-0 text-sm leading-6 text-slate-600">
+              A utility-first OTP row for a lightweight verification step.
+            </p>
+          </div>
+
+          <div
+            tngInputOtp
+            class="flex gap-2"
+            [length]="smsTailwindLength"
+            [value]="smsTailwindValue()"
+            (valueChange)="smsTailwindValue.set($event)"
+            [activeIndex]="smsTailwindActiveIndex()"
+            (activeIndexChange)="smsTailwindActiveIndex.set($event)"
+          >
+            @for (slotIndex of smsTailwindSlotIndexes; track slotIndex) {
+              <input
+                [tngInputOtpSlot]="slotIndex"
+                class="h-11 w-10 rounded-xl border border-slate-300 bg-white text-center text-base font-semibold text-slate-900 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+                maxlength="1"
+                inputmode="numeric"
+              />
+            }
+          </div>
+
+          <p class="m-0 text-sm text-slate-600">Value: {{ smsTailwindValue() || '—' }}</p>
+          <p class="m-0 text-sm text-slate-600">State: {{ smsTailwindState() }}</p>
+        </section>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section id="recovery-checkpoint" class="headless-input-otp-examples-block">
+    <app-docs-example-tabs-section
+      heading="Recovery checkpoint"
+      description="A utility-first approval shell that keeps the OTP slots fully owned in page markup."
+      ariaLabel="Headless recovery checkpoint examples"
+      tabListAriaLabel="Headless recovery checkpoint style variants"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Recovery checkpoint (Plain-CSS)"
+        [codeTabs]="recoveryPlainCodeTabs"
+        [stackblitzUrl]="stackblitzVanillaUrl"
+      >
+        <section class="docs-headless-input-otp-examples-recovery-plain-shell">
+          <div class="docs-headless-input-otp-examples-recovery-plain-header">
+            <span class="docs-headless-input-otp-examples-recovery-plain-kicker">Recovery checkpoint</span>
+            <p class="docs-headless-input-otp-examples-recovery-plain-copy">
+              A softer approval shell that still keeps the slot markup fully owned.
+            </p>
+          </div>
+
+          <div
+            tngInputOtp
+            class="docs-headless-input-otp-examples-recovery-plain-root"
+            [length]="recoveryPlainLength"
+            [value]="recoveryPlainValue()"
+            (valueChange)="recoveryPlainValue.set($event)"
+            [activeIndex]="recoveryPlainActiveIndex()"
+            (activeIndexChange)="recoveryPlainActiveIndex.set($event)"
+          >
+            @for (slotIndex of recoveryPlainSlotIndexes; track slotIndex) {
+              <input
+                [tngInputOtpSlot]="slotIndex"
+                class="docs-headless-input-otp-examples-recovery-plain-slot"
+                maxlength="1"
+                inputmode="numeric"
+              />
+            }
+          </div>
+
+          <p class="docs-headless-input-otp-examples-recovery-plain-summary">Value: {{ recoveryPlainValue() || '—' }}</p>
+          <p class="docs-headless-input-otp-examples-recovery-plain-summary">State: {{ recoveryPlainState() }}</p>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Recovery checkpoint (Tailwind CSS)"
+        [codeTabs]="recoveryTailwindCodeTabs"
+        [stackblitzUrl]="stackblitzTailwindUrl"
+      >
+        <section class="mx-auto grid w-full max-w-[36rem] gap-4 rounded-[1.75rem] border border-emerald-200 bg-white p-5 text-slate-900 shadow-sm">
+          <div class="grid gap-1">
+            <span class="text-xs font-semibold uppercase tracking-[0.22em] text-emerald-600">Recovery checkpoint</span>
+            <p class="m-0 text-sm leading-6 text-slate-600">A utility-first approval surface with fully owned OTP slots.</p>
+          </div>
+
+          <div
+            tngInputOtp
+            class="flex gap-2"
+            [length]="recoveryTailwindLength"
+            [value]="recoveryTailwindValue()"
+            (valueChange)="recoveryTailwindValue.set($event)"
+            [activeIndex]="recoveryTailwindActiveIndex()"
+            (activeIndexChange)="recoveryTailwindActiveIndex.set($event)"
+          >
+            @for (slotIndex of recoveryTailwindSlotIndexes; track slotIndex) {
+              <input
+                [tngInputOtpSlot]="slotIndex"
+                class="h-11 w-10 rounded-xl border border-slate-300 bg-white text-center text-base font-semibold text-slate-900 outline-none transition focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100"
+                maxlength="1"
+                inputmode="numeric"
+              />
+            }
+          </div>
+
+          <p class="m-0 text-sm text-slate-600">Value: {{ recoveryTailwindValue() || '—' }}</p>
+          <p class="m-0 text-sm text-slate-600">State: {{ recoveryTailwindState() }}</p>
+        </section>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+</article>

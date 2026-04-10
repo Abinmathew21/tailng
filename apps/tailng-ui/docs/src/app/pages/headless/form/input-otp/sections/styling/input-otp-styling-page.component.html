@@ -1,0 +1,102 @@
+<article class="headless-input-otp-styling">
+  <h2 class="headless-input-otp-styling-title">Styling</h2>
+  <p class="headless-input-otp-styling-lead">
+    The primitive gives you root-level state selectors. Your own slot classes stay responsible for the
+    visible surface, spacing, and active-slot treatment.
+  </p>
+
+  <section id="css-contract-table" class="headless-input-otp-styling-block">
+    <h3>CSS contract table</h3>
+    <tng-code-block
+      [code]="cssContractCode"
+      adapter="shiki"
+      language="css"
+      title="Headless state selectors"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="state-selectors" class="headless-input-otp-styling-block">
+    <h3>State selectors</h3>
+    <ul class="headless-input-otp-styling-list">
+      <li><code>[data-empty]</code>, <code>[data-partial]</code>, and <code>[data-complete]</code> tell you how much of the OTP is filled.</li>
+      <li><code>[data-active]</code> gives you the currently active slot index from the root.</li>
+      <li><code>[data-focused]</code> and <code>[data-focus-visible]</code> let you differentiate focus ring treatments from plain hover or active states.</li>
+    </ul>
+  </section>
+
+  <section id="styling-variants" class="headless-input-otp-styling-block">
+    <app-docs-example-tabs-section
+      heading="Styling variants"
+      description="Both variants style the same primitive state contract while keeping the slot markup fully owned."
+      ariaLabel="Headless input OTP styling examples"
+      tabListAriaLabel="Headless input OTP styling style variants"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Input OTP styling (Plain-CSS)"
+        [codeTabs]="plainCodeTabs"
+        [stackblitzUrl]="stackblitzVanillaUrl"
+      >
+        <section class="docs-headless-input-otp-styling-plain-shell">
+          <div
+            tngInputOtp
+            class="docs-headless-input-otp-styling-plain-root"
+            [length]="6"
+            [value]="'2184'"
+            [focused]="true"
+            [focusVisible]="true"
+          >
+            @for (slotIndex of [0, 1, 2, 3, 4, 5]; track slotIndex) {
+              <input
+                [tngInputOtpSlot]="slotIndex"
+                class="docs-headless-input-otp-styling-plain-slot"
+                maxlength="1"
+                inputmode="numeric"
+              />
+            }
+          </div>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Input OTP styling (Tailwind CSS)"
+        [codeTabs]="tailwindCodeTabs"
+        [stackblitzUrl]="stackblitzTailwindUrl"
+      >
+        <section class="mx-auto grid w-full max-w-[36rem] gap-4 rounded-[1.5rem] border border-slate-200 bg-white p-5 text-slate-900 shadow-sm">
+          <div
+            tngInputOtp
+            class="flex gap-2"
+            [length]="6"
+            [value]="'5310'"
+            [focused]="true"
+            [focusVisible]="true"
+          >
+            @for (slotIndex of [0, 1, 2, 3, 4, 5]; track slotIndex) {
+              <input
+                [tngInputOtpSlot]="slotIndex"
+                class="h-11 w-10 rounded-xl border border-slate-300 bg-white text-center text-base font-semibold text-slate-900 outline-none transition"
+                [class.border-emerald-500]="slotIndex === 4"
+                [class.ring-4]="slotIndex === 4"
+                [class.ring-emerald-100]="slotIndex === 4"
+                maxlength="1"
+                inputmode="numeric"
+              />
+            }
+          </div>
+        </section>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+</article>

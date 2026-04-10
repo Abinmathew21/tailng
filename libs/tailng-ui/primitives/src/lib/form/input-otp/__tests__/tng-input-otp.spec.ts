@@ -87,6 +87,84 @@ class InputOtpHeadlessHostComponent {
   );
 }
 
+@Component({
+  imports: [TngInputOtp, TngInputOtpSlot],
+  template: `
+    <button type="button" data-testid="before">Before</button>
+    <div
+      tngInputOtp
+      data-testid="tab-root"
+      [length]="length()"
+      [value]="value()"
+      (valueChange)="value.set($event)"
+      [activeIndex]="activeIndex()"
+      (activeIndexChange)="activeIndex.set($event)"
+    >
+      @for (slot of slotIndexes(); track slot) {
+        <input
+          [tngInputOtpSlot]="slot"
+          [attr.data-testid]="'tab-slot-' + slot"
+          maxlength="1"
+          inputmode="numeric"
+        />
+      }
+    </div>
+    <button type="button" data-testid="after">After</button>
+  `,
+})
+class InputOtpTabEntryHostComponent {
+  public readonly length = signal(6);
+  public readonly value = signal('1234');
+  public readonly activeIndex = signal<number | null>(null);
+
+  protected readonly slotIndexes = computed(() =>
+    Array.from({ length: this.length() }, (_, index) => index),
+  );
+}
+
+function dispatchTabAndSimulateBrowserFocus(
+  source: HTMLElement,
+  target: HTMLElement,
+  shiftKey = false,
+): KeyboardEvent {
+  const event = new KeyboardEvent('keydown', {
+    key: 'Tab',
+    shiftKey,
+    bubbles: true,
+    cancelable: true,
+  });
+
+  source.dispatchEvent(event);
+  source.dispatchEvent(
+    new FocusEvent('focusout', {
+      bubbles: true,
+      relatedTarget: target,
+    }),
+  );
+
+  target.focus();
+  target.dispatchEvent(
+    new FocusEvent('focusin', {
+      bubbles: true,
+      relatedTarget: source,
+    }),
+  );
+
+  return event;
+}
+
+function getCurrentTabbableOtpSlot(fixture: { nativeElement: HTMLElement }): HTMLInputElement {
+  const slot = Array.from(
+    fixture.nativeElement.querySelectorAll<HTMLInputElement>('[data-testid^="tab-slot-"]'),
+  ).find((candidate) => candidate.tabIndex === 0);
+
+  if (!slot) {
+    throw new Error('Expected a tabbable OTP slot.');
+  }
+
+  return slot;
+}
+
 describe('tng-input-otp primitive', () => {
   afterEach(() => {
     TestBed.resetTestingModule();
@@ -250,5 +328,63 @@ describe('tng-input-otp primitive', () => {
     expect(fixture.componentInstance.value()).toBe('12');
     expect(fixture.componentInstance.activeIndex()).toBe(1);
     expect(document.activeElement).toBe(secondSlot);
+  });
+
+  it('tabs into a partially filled otp at the next empty slot', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [InputOtpTabEntryHostComponent],
+    }).createComponent(InputOtpTabEntryHostComponent);
+    fixture.detectChanges();
+
+    const beforeButton = getByTestId<HTMLButtonElement>(fixture, 'before');
+    const fifthSlot = getByTestId<HTMLInputElement>(fixture, 'tab-slot-4');
+
+    for (let index = 0; index < 6; index += 1) {
+      const slot = getByTestId<HTMLInputElement>(fixture, `tab-slot-${index}`);
+      expect(slot.tabIndex).toBe(index === 4 ? 0 : -1);
+    }
+
+    beforeButton.focus();
+    fixture.detectChanges();
+
+    const tabEvent = dispatchTabAndSimulateBrowserFocus(beforeButton, fifthSlot);
+    fixture.detectChanges();
+
+    expect(tabEvent.defaultPrevented).toBe(false);
+    expect(fixture.componentInstance.activeIndex()).toBe(4);
+    expect(document.activeElement).toBe(fifthSlot);
+  });
+
+  it('returns to the next empty slot after clicking an earlier slot, Shift+Tabbing out, and tabbing back in', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [InputOtpTabEntryHostComponent],
+    }).createComponent(InputOtpTabEntryHostComponent);
+
+    fixture.componentInstance.value.set('246');
+    fixture.detectChanges();
+
+    const beforeButton = getByTestId<HTMLButtonElement>(fixture, 'before');
+    const firstSlot = getByTestId<HTMLInputElement>(fixture, 'tab-slot-0');
+
+    firstSlot.focus();
+    firstSlot.dispatchEvent(new FocusEvent('focusin', { bubbles: true }));
+    fixture.detectChanges();
+
+    expect(fixture.componentInstance.activeIndex()).toBe(0);
+
+    const shiftTabEvent = dispatchTabAndSimulateBrowserFocus(firstSlot, beforeButton, true);
+    fixture.detectChanges();
+
+    expect(shiftTabEvent.defaultPrevented).toBe(false);
+    expect(document.activeElement).toBe(beforeButton);
+
+    const tabbableSlot = getCurrentTabbableOtpSlot(fixture);
+    const tabEvent = dispatchTabAndSimulateBrowserFocus(beforeButton, tabbableSlot);
+    fixture.detectChanges();
+
+    expect(tabEvent.defaultPrevented).toBe(false);
+    expect(fixture.componentInstance.activeIndex()).toBe(3);
+    expect(document.activeElement).toBe(tabbableSlot);
+    expect(tabbableSlot).toBe(getByTestId<HTMLInputElement>(fixture, 'tab-slot-3'));
   });
 });

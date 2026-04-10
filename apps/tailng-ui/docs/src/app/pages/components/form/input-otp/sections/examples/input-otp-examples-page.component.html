@@ -1,72 +1,44 @@
 <article class="input-otp-examples">
-  <h2 class="input-otp-examples-title">Examples</h2>
-  <p class="input-otp-examples-lead">
-    Input OTP examples share the same segmented verification flow across headless markup, plain CSS,
-    and Tailwind utility shells.
-  </p>
-
-  <section class="input-otp-examples-block">
+  <section id="verification-passcode" class="input-otp-examples-block">
     <app-docs-example-tabs-section
-      heading="Verification OTP patterns"
-      description="Type digits, use Arrow keys for slot traversal, and paste full codes from any active slot."
-      ariaLabel="Input OTP examples"
-      tabListAriaLabel="Input OTP example variants"
-      defaultValue="headless"
+      heading="Verification passcode"
+      description="A straightforward six-digit verification step with completion feedback."
+      ariaLabel="Verification passcode examples"
+      tabListAriaLabel="Verification passcode style variants"
+      defaultValue="plain-css"
       [codeBlockTheme]="codeBlockTheme()"
     >
       <ng-template
         appDocsExampleVariant
-        value="headless"
-        label="Headless"
-        panelTitle="Headless OTP examples"
-        [codeTabs]="headlessCodeTabs"
-      >
-        <section class="otp-example-shell otp-example-shell--headless">
-          <div
-            tngInputOtp
-            class="otp-example-root"
-            data-headless-otp
-            [length]="length"
-            [value]="headlessValue()"
-            [activeIndex]="headlessActiveIndex()"
-          >
-            @for (slot of headlessSlots(); track $index) {
-              <input
-                class="otp-example-slot"
-                [attr.data-tng-otp-slot]="$index"
-                [value]="slot"
-                [tabIndex]="headlessActiveIndex() === $index ? 0 : -1"
-                maxlength="1"
-                inputmode="numeric"
-                autocomplete="one-time-code"
-                (focus)="onHeadlessSlotFocus($index)"
-                (input)="onHeadlessSlotInput($index, $event)"
-                (keydown)="onHeadlessSlotKeydown($index, $event)"
-                (paste)="onHeadlessPaste($index, $event)"
-              />
-            }
-          </div>
-          <p class="otp-example-summary">value: {{ headlessValue() || '—' }}</p>
-        </section>
-      </ng-template>
-
-      <ng-template
-        appDocsExampleVariant
         value="plain-css"
         label="Plain-CSS"
-        panelTitle="Plain CSS OTP examples"
-        [codeTabs]="plainCssCodeTabs"
+        panelTitle="Verification passcode (Plain-CSS)"
+        [codeTabs]="passcodePlainCodeTabs"
+        [stackblitzUrl]="stackblitzVanillaUrl"
       >
-        <section class="otp-example-shell otp-example-shell--plain">
+        <section class="docs-component-input-otp-examples-passcode-plain-shell">
+          <div class="docs-component-input-otp-examples-passcode-plain-header">
+            <span class="docs-component-input-otp-examples-passcode-plain-kicker">Verification flow</span>
+            <p class="docs-component-input-otp-examples-passcode-plain-copy">
+              A straightforward numeric code step with completion feedback.
+            </p>
+          </div>
+
           <tng-input-otp
+            class="docs-component-input-otp-examples-passcode-plain-control"
             [length]="6"
-            [value]="plainValue()"
-            [name]="'plainExampleOtp'"
-            (valueChange)="onPlainValueChange($event)"
-            (complete)="onPlainComplete($event)"
+            [value]="passcodePlainValue()"
+            [ariaLabel]="'Verification code'"
+            (valueChange)="onPasscodePlainValueChange($event)"
+            (complete)="onPasscodePlainComplete($event)"
           ></tng-input-otp>
-          <p class="otp-example-summary">value: {{ plainValue() || '—' }}</p>
-          <p class="otp-example-summary">complete event: {{ plainComplete() || '—' }}</p>
+
+          <p class="docs-component-input-otp-examples-passcode-plain-summary">
+            Value: {{ passcodePlainValue() || '—' }}
+          </p>
+          <p class="docs-component-input-otp-examples-passcode-plain-summary">
+            Complete event: {{ passcodePlainComplete() || '—' }}
+          </p>
         </section>
       </ng-template>
 
@@ -74,22 +46,98 @@
         appDocsExampleVariant
         value="tailwind-css"
         label="Tailwind CSS"
-        panelTitle="Tailwind OTP examples"
-        [codeTabs]="tailwindCodeTabs"
+        panelTitle="Verification passcode (Tailwind CSS)"
+        [codeTabs]="passcodeTailwindCodeTabs"
+        [stackblitzUrl]="stackblitzTailwindUrl"
       >
-        <section
-          class="otp-example-shell rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
-        >
+        <section class="mx-auto grid w-full max-w-[36rem] gap-4 rounded-[1.5rem] border border-slate-200 bg-white p-5 text-slate-900 shadow-sm">
+          <div class="grid gap-1">
+            <span class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Approval flow</span>
+            <p class="m-0 text-sm leading-6 text-slate-600">Numeric approval code with utility-first framing.</p>
+          </div>
+
           <tng-input-otp
+            class="block [--tng-semantic-background-surface:#ffffff] [--tng-semantic-background-muted:#eef6ff] [--tng-semantic-border-default:#cbd5e1] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-foreground-muted:#94a3b8] [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-accent-danger:#dc2626]"
             [length]="6"
-            [value]="tailwindValue()"
-            [name]="'tailwindExampleOtp'"
-            [mask]="true"
-            (valueChange)="onTailwindValueChange($event)"
-            (complete)="onTailwindComplete($event)"
+            [value]="passcodeTailwindValue()"
+            [ariaLabel]="'Approval code'"
+            (valueChange)="onPasscodeTailwindValueChange($event)"
+            (complete)="onPasscodeTailwindComplete($event)"
           ></tng-input-otp>
-          <p class="otp-example-summary">value: {{ tailwindValue() || '—' }}</p>
-          <p class="otp-example-summary">complete event: {{ tailwindComplete() || '—' }}</p>
+
+          <p class="m-0 text-sm text-slate-600">Value: {{ passcodeTailwindValue() || '—' }}</p>
+          <p class="m-0 text-sm text-slate-600">Complete event: {{ passcodeTailwindComplete() || '—' }}</p>
+        </section>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section id="masked-recovery-code" class="input-otp-examples-block">
+    <app-docs-example-tabs-section
+      heading="Masked recovery code"
+      description="An alphanumeric recovery step with masked slots and a calmer caution tone."
+      ariaLabel="Masked recovery code examples"
+      tabListAriaLabel="Masked recovery code style variants"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Masked recovery code (Plain-CSS)"
+        [codeTabs]="recoveryPlainCodeTabs"
+        [stackblitzUrl]="stackblitzVanillaUrl"
+      >
+        <section class="docs-component-input-otp-examples-recovery-plain-shell">
+          <div class="docs-component-input-otp-examples-recovery-plain-header">
+            <span class="docs-component-input-otp-examples-recovery-plain-kicker">Recovery code</span>
+            <p class="docs-component-input-otp-examples-recovery-plain-copy">
+              Alphanumeric entry with masking for sensitive approval checkpoints.
+            </p>
+          </div>
+
+          <tng-input-otp
+            class="docs-component-input-otp-examples-recovery-plain-control"
+            [length]="6"
+            [type]="'alphanumeric'"
+            [mask]="true"
+            [value]="recoveryPlainValue()"
+            [ariaLabel]="'Recovery code'"
+            (valueChange)="onRecoveryPlainValueChange($event)"
+          ></tng-input-otp>
+
+          <p class="docs-component-input-otp-examples-recovery-plain-summary">
+            Value: {{ recoveryPlainValue() || '—' }}
+          </p>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Masked recovery code (Tailwind CSS)"
+        [codeTabs]="recoveryTailwindCodeTabs"
+        [stackblitzUrl]="stackblitzTailwindUrl"
+      >
+        <section class="mx-auto grid w-full max-w-[36rem] gap-4 rounded-[1.75rem] border border-orange-200 bg-white p-5 text-slate-900 shadow-sm">
+          <div class="grid gap-1">
+            <span class="text-xs font-semibold uppercase tracking-[0.22em] text-orange-600">Recovery checkpoint</span>
+            <p class="m-0 text-sm leading-6 text-slate-600">Masked alphanumeric entry with a warmer caution tone.</p>
+          </div>
+
+          <tng-input-otp
+            class="block [--tng-semantic-background-surface:#ffffff] [--tng-semantic-background-muted:#fff7ed] [--tng-semantic-border-default:#fdba74] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-foreground-muted:#94a3b8] [--tng-semantic-accent-brand:#ea580c] [--tng-semantic-accent-danger:#dc2626]"
+            [length]="6"
+            [type]="'alphanumeric'"
+            [mask]="true"
+            [value]="recoveryTailwindValue()"
+            [ariaLabel]="'Recovery code'"
+            (valueChange)="onRecoveryTailwindValueChange($event)"
+          ></tng-input-otp>
+
+          <p class="m-0 text-sm text-slate-600">Value: {{ recoveryTailwindValue() || '—' }}</p>
         </section>
       </ng-template>
     </app-docs-example-tabs-section>

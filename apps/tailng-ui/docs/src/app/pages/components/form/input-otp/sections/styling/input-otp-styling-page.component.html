@@ -1,27 +1,98 @@
 <article class="input-otp-styling">
   <h2 class="input-otp-styling-title">Styling</h2>
   <p class="input-otp-styling-lead">
-    Style OTP layouts through primitive data attributes and wrapper slot classes. Keep focus,
-    invalid, and completion feedback visible in your product theme.
+    The component does not expose a separate OTP-only token contract. Style it the same way the
+    wrapper does internally: by setting semantic foreground, border, background, and accent tokens
+    on the <code>&lt;tng-input-otp&gt;</code> host.
   </p>
 
-  <section class="input-otp-styling-block">
-    <h3>Recommended hooks</h3>
-    <ul>
-      <li><code>[data-slot="input-otp"]</code> for root-level spacing and surface styles.</li>
-      <li><code>[data-empty]</code>, <code>[data-partial]</code>, <code>[data-complete]</code> for state feedback.</li>
-      <li><code>[data-active]</code> and <code>[data-focus-visible]</code> for active-slot highlighting.</li>
-      <li><code>[data-invalid]</code> + <code>[data-required]</code> for validation affordance.</li>
-    </ul>
-
+  <section id="theming-surface" class="input-otp-styling-block">
+    <h3>Theming surface</h3>
+    <p>
+      Your host class is the stable public styling hook. The projected slots inherit the semantic
+      tokens you set there.
+    </p>
     <tng-code-block
-      [code]="stylingExampleCode"
+      [code]="stylingGuideCode"
       adapter="shiki"
       language="css"
-      title="OTP state styling"
+      title="Host-level theming"
+      [theme]="codeBlockTheme()"
       [lineNumbers]="false"
       [wrap]="true"
       [sanitizeHtml]="false"
     ></tng-code-block>
+  </section>
+
+  <section id="styling-variants" class="input-otp-styling-block">
+    <app-docs-example-tabs-section
+      heading="Styling variants"
+      description="Both examples use the same wrapper and only change the host-level semantic tokens."
+      ariaLabel="Input OTP styling examples"
+      tabListAriaLabel="Input OTP styling style variants"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Input OTP styling (Plain-CSS)"
+        [codeTabs]="plainCodeTabs"
+        [stackblitzUrl]="stackblitzVanillaUrl"
+      >
+        <section class="docs-component-input-otp-styling-plain-shell">
+          <div class="docs-component-input-otp-styling-plain-header">
+            <span class="docs-component-input-otp-styling-plain-kicker">Review code</span>
+            <p class="docs-component-input-otp-styling-plain-copy">
+              The wrapper keeps the OTP behavior stable while your host class supplies the visual theme.
+            </p>
+          </div>
+
+          <tng-input-otp
+            class="docs-component-input-otp-styling-plain-control"
+            [length]="6"
+            [value]="plainValue()"
+            [ariaLabel]="'Review code'"
+            (valueChange)="onPlainValueChange($event)"
+          ></tng-input-otp>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Input OTP styling (Tailwind CSS)"
+        [codeTabs]="tailwindCodeTabs"
+        [stackblitzUrl]="stackblitzTailwindUrl"
+      >
+        <section class="mx-auto grid w-full max-w-[36rem] gap-4 rounded-[1.75rem] border border-emerald-200 bg-white p-5 text-slate-900 shadow-[0_18px_38px_rgba(15,23,42,0.08)]">
+          <div class="grid gap-1">
+            <span class="text-xs font-semibold uppercase tracking-[0.22em] text-emerald-600">Payment approval</span>
+            <p class="m-0 text-sm leading-6 text-slate-600">
+              Apply semantic tokens directly on the wrapper host while keeping the OTP behavior untouched.
+            </p>
+          </div>
+
+          <tng-input-otp
+            class="block [--tng-semantic-background-surface:#ffffff] [--tng-semantic-background-muted:#ecfdf5] [--tng-semantic-border-default:#a7f3d0] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-foreground-muted:#64748b] [--tng-semantic-accent-brand:#059669] [--tng-semantic-accent-danger:#dc2626]"
+            [length]="6"
+            [value]="tailwindValue()"
+            [ariaLabel]="'Payment approval code'"
+            (valueChange)="onTailwindValueChange($event)"
+          ></tng-input-otp>
+        </section>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section id="guidance" class="input-otp-styling-block">
+    <h3>Guidance</h3>
+    <ul class="input-otp-styling-list">
+      <li>Use host-level semantic tokens for color, border, and focus treatments.</li>
+      <li>Reach for the headless primitive when you need to own the slot markup itself.</li>
+      <li>Keep completion and invalid feedback visible when the code is partially filled.</li>
+    </ul>
   </section>
 </article>

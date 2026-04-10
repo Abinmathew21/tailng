@@ -1,0 +1,102 @@
+:host {
+  display: block;
+}
+
+.headless-input-otp-overview-main {
+  display: grid;
+  gap: 1rem;
+}
+
+.headless-input-otp-overview-title {
+  margin: 0;
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.headless-input-otp-overview-lead {
+  margin: 0;
+  color: var(--tng-semantic-foreground-secondary);
+}
+
+.headless-input-otp-overview-block {
+  display: grid;
+  gap: 0.85rem;
+  padding: 1rem;
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 1rem;
+  color: var(--tng-semantic-foreground-secondary);
+}
+
+.headless-input-otp-overview-block h3,
+.headless-input-otp-overview-block p,
+.headless-input-otp-overview-list {
+  margin: 0;
+}
+
+.headless-input-otp-overview-block h3 {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1rem;
+}
+
+.headless-input-otp-overview-list {
+  display: grid;
+  gap: 0.45rem;
+  padding-left: 1.1rem;
+}
+
+.docs-headless-input-otp-overview-plain-shell {
+  display: grid;
+  gap: 0.9rem;
+  inline-size: min(100%, 36rem);
+  margin-inline: auto;
+  padding: 1.15rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 1.35rem;
+  background: #ffffff;
+  color: #0f172a;
+  color-scheme: light;
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
+}
+
+.docs-headless-input-otp-overview-plain-header {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.docs-headless-input-otp-overview-plain-kicker {
+  color: #64748b;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.docs-headless-input-otp-overview-plain-copy,
+.docs-headless-input-otp-overview-plain-summary {
+  margin: 0;
+  color: #475569;
+}
+
+.docs-headless-input-otp-overview-plain-root[data-slot='input-otp'] {
+  display: inline-flex;
+  gap: 0.55rem;
+}
+
+.docs-headless-input-otp-overview-plain-slot {
+  appearance: none;
+  inline-size: 2.55rem;
+  block-size: 2.75rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.75rem;
+  background: #ffffff;
+  color: #0f172a;
+  font-size: 1rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.docs-headless-input-otp-overview-plain-root[data-slot='input-otp'][data-active='2'] .docs-headless-input-otp-overview-plain-slot[data-docs-otp-slot='2'] {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.14);
+  outline: none;
+}

@@ -1,18 +1,18 @@
 import type { Routes } from '@angular/router';
-import { COMPONENTS_FORM_GROUP, toComponentsDocsRouteData } from '../../component-docs.data';
+import { HEADLESS_FORM_GROUP, toHeadlessDocsRouteData } from '../../headless-docs.data';
 
-const group = COMPONENTS_FORM_GROUP;
-const inputOtpItem = group.items.find((item) => item.slug === 'input-otp');
-if (inputOtpItem === undefined) {
-  throw new Error('Missing "input-otp" in components form docs group.');
+const group = HEADLESS_FORM_GROUP;
+const item = group.items.find((entry) => entry.slug === 'input-otp');
+if (item === undefined) {
+  throw new Error('Missing "input-otp" in headless form docs group.');
 }
 
-export const COMPONENTS_FORM_INPUT_OTP_ROUTES: Routes = [
+export const HEADLESS_FORM_INPUT_OTP_ROUTES: Routes = [
   {
     path: '',
-    data: toComponentsDocsRouteData(group, inputOtpItem),
+    data: toHeadlessDocsRouteData(group, item),
     loadComponent: () =>
-      import('./input-otp-page.component').then((module) => module.InputOtpPageComponent),
+      import('./input-otp-page.component').then((module) => module.HeadlessInputOtpPageComponent),
     children: [
       {
         path: '',
@@ -23,34 +23,29 @@ export const COMPONENTS_FORM_INPUT_OTP_ROUTES: Routes = [
         path: 'overview',
         loadComponent: () =>
           import('./sections/overview/input-otp-overview-page.component').then(
-            (module) => module.InputOtpOverviewPageComponent,
+            (module) => module.HeadlessInputOtpOverviewPageComponent,
           ),
       },
       {
         path: 'api',
         loadComponent: () =>
           import('./sections/api/input-otp-api-page.component').then(
-            (module) => module.InputOtpApiPageComponent,
+            (module) => module.HeadlessInputOtpApiPageComponent,
           ),
       },
       {
         path: 'styling',
         loadComponent: () =>
           import('./sections/styling/input-otp-styling-page.component').then(
-            (module) => module.InputOtpStylingPageComponent,
+            (module) => module.HeadlessInputOtpStylingPageComponent,
           ),
       },
       {
         path: 'examples',
         loadComponent: () =>
           import('./sections/examples/input-otp-examples-page.component').then(
-            (module) => module.InputOtpExamplesPageComponent,
+            (module) => module.HeadlessInputOtpExamplesPageComponent,
           ),
-      },
-      {
-        path: 'ownable-install',
-        pathMatch: 'full',
-        redirectTo: '/ownable/form/input-otp',
       },
       {
         path: '**',

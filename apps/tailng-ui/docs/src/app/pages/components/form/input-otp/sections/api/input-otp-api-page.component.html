@@ -1,17 +1,18 @@
 <article class="input-otp-api">
   <h2 class="input-otp-api-title">API reference</h2>
   <p class="input-otp-api-lead">
-    Input OTP ships as a primitive directive for state hooks and a wrapper component for complete
-    slot behavior, paste handling, and form integration.
+    <code>&lt;tng-input-otp&gt;</code> is the wrapper surface. It renders the segmented slots,
+    keeps the combined value in sync, and bridges forms through <code>ControlValueAccessor</code>.
   </p>
 
-  <section class="input-otp-api-block">
-    <h3><code>tngInputOtp</code> primitive</h3>
+  <section id="wrapper-api" class="input-otp-api-block">
+    <h3><code>&lt;tng-input-otp&gt;</code> wrapper</h3>
     <tng-code-block
-      [code]="primitiveAttachmentCode"
+      [code]="wrapperUsageCode"
       adapter="shiki"
       language="html"
-      title="Primitive attachment"
+      title="Wrapper usage"
+      [theme]="codeBlockTheme()"
       [lineNumbers]="false"
       [wrap]="true"
       [sanitizeHtml]="false"
@@ -21,63 +22,90 @@
       <table class="input-otp-api-table">
         <thead>
           <tr>
-            <th scope="col">Directive</th>
-            <th scope="col">API</th>
+            <th scope="col">Input</th>
             <th scope="col">Type</th>
             <th scope="col">Notes</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td><code>tngInputOtp</code></td>
             <td><code>length</code></td>
-            <td><code>number</code> (1..12)</td>
-            <td>Total OTP slot count exposed through host state hooks.</td>
+            <td><code>number</code></td>
+            <td>Total slot count. The component normalizes the value to the configured length.</td>
           </tr>
           <tr>
-            <td><code>tngInputOtp</code></td>
-            <td><code>value</code></td>
+            <td><code>value</code> / <code>defaultValue</code></td>
             <td><code>string</code></td>
-            <td>Combined OTP value used to derive <code>data-empty/partial/complete</code>.</td>
+            <td>Controlled and uncontrolled starting values for the combined OTP string.</td>
           </tr>
           <tr>
-            <td><code>tngInputOtp</code></td>
-            <td><code>activeIndex</code></td>
-            <td><code>number | null</code></td>
-            <td>Marks the active slot through <code>data-active</code>.</td>
+            <td><code>type</code> / <code>pattern</code></td>
+            <td><code>'numeric' | 'alphanumeric' | 'custom'</code></td>
+            <td>Choose the accepted character set, or provide a custom regex when needed.</td>
           </tr>
           <tr>
-            <td><code>tngInputOtp</code></td>
-            <td>
-              <code>disabled</code>, <code>readonly</code>, <code>required</code>,
-              <code>invalid</code>, <code>focused</code>, <code>focusVisible</code>
-            </td>
+            <td><code>mask</code></td>
             <td><code>boolean</code></td>
-            <td>Maps interaction and validation state into data attributes for styling.</td>
+            <td>Masks slot values while keeping the underlying string value intact.</td>
+          </tr>
+          <tr>
+            <td><code>disabled</code>, <code>readonly</code>, <code>required</code>, <code>invalid</code></td>
+            <td><code>boolean</code></td>
+            <td>Maps interaction and validation state into the rendered slots.</td>
+          </tr>
+          <tr>
+            <td><code>autoFocus</code> / <code>selectOnFocus</code></td>
+            <td><code>boolean</code></td>
+            <td>Controls startup focus and whether existing slot content is selected on focus.</td>
+          </tr>
+          <tr>
+            <td><code>placeholderChar</code></td>
+            <td><code>string</code></td>
+            <td>Single-character placeholder shown in empty slots.</td>
+          </tr>
+          <tr>
+            <td><code>name</code>, <code>form</code>, <code>autocomplete</code>, <code>inputMode</code></td>
+            <td><code>string</code></td>
+            <td>Hidden-input form submission and mobile keyboard hints.</td>
+          </tr>
+          <tr>
+            <td><code>ariaLabel</code>, <code>ariaLabelledby</code>, <code>ariaDescribedby</code></td>
+            <td><code>string</code></td>
+            <td>Accessible naming and helper-text wiring for the grouped field.</td>
           </tr>
         </tbody>
       </table>
     </div>
   </section>
 
-  <section class="input-otp-api-block">
-    <h3><code>&lt;tng-input-otp&gt;</code> wrapper</h3>
-    <p>
-      Wrapper component handles slot rendering, keyboard traversal, paste distribution, hidden input
-      submission, and emits <code>valueChange</code> + <code>complete</code>.
-    </p>
-    <tng-code-block
-      [code]="wrapperAttachmentCode"
-      adapter="shiki"
-      language="html"
-      title="Wrapper usage"
-      [lineNumbers]="false"
-      [wrap]="true"
-      [sanitizeHtml]="false"
-    ></tng-code-block>
+  <section id="event-contract" class="input-otp-api-block">
+    <h3>Events</h3>
+    <div class="input-otp-api-table-wrap">
+      <table class="input-otp-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Output</th>
+            <th scope="col">Payload</th>
+            <th scope="col">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>valueChange</code></td>
+            <td><code>string</code></td>
+            <td>Emits on each valid slot update, paste, deletion, or replacement.</td>
+          </tr>
+          <tr>
+            <td><code>complete</code></td>
+            <td><code>string</code></td>
+            <td>Emits when all slots are filled with valid characters.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </section>
 
-  <section class="input-otp-api-block">
+  <section id="forms-integration" class="input-otp-api-block">
     <h3>Angular forms integration</h3>
     <p>
       The wrapper implements <code>ControlValueAccessor</code> and works with
@@ -88,9 +116,19 @@
       adapter="shiki"
       language="ts"
       title="Reactive forms wiring"
+      [theme]="codeBlockTheme()"
       [lineNumbers]="false"
       [wrap]="true"
       [sanitizeHtml]="false"
     ></tng-code-block>
+  </section>
+
+  <section id="primitive-foundation" class="input-otp-api-block">
+    <h3>Primitive foundation</h3>
+    <p>
+      The wrapper is built on top of the headless <code>[tngInputOtp]</code> primitive. When you
+      need to fully own the slot markup and state selectors, use the dedicated headless
+      <code>Input OTP</code> docs under <code>/headless/form/input-otp</code>.
+    </p>
   </section>
 </article>

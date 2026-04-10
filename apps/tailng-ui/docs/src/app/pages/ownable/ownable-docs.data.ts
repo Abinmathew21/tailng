@@ -143,6 +143,13 @@ export const OWNABLE_FORM_GROUP: OwnableDocsGroup = {
       description:
         'Ownable chips install with local wrapper source, removable token markup, and generated file structure.',
     },
+    {
+      id: 'input-otp',
+      slug: 'input-otp',
+      title: 'Input OTP',
+      description:
+        'Ownable input-otp install with local wrapper source, verification-flow defaults, and generated file structure.',
+    },
   ],
 };
 

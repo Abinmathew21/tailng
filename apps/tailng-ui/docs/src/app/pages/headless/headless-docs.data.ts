@@ -152,6 +152,13 @@ export const HEADLESS_FORM_GROUP: HeadlessDocsGroup = {
       title: 'Chips',
       description: 'Token removal, focus order, and input integration behavior for chip lists.',
     },
+    {
+      id: 'input-otp',
+      slug: 'input-otp',
+      title: 'Input OTP',
+      description:
+        'Segmented OTP entry primitives with owned slot markup, paste handling, and reflected state attrs.',
+    },
   ],
 };
 
