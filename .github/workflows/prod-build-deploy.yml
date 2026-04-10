@@ -1,4 +1,4 @@
-name: "PROD - Release & Deploy (Tailng)"
+name: "Test, Build, Release & Deploy"
 
 on:
   workflow_dispatch:
