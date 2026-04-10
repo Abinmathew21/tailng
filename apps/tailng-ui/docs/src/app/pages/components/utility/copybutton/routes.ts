@@ -53,7 +53,7 @@ export const COMPONENTS_UTILITY_COPYBUTTON_ROUTES: Routes = [
           registrySlug: 'copy',
           usageCode: [
             '<tng-copy-button',
-            "  text=\"pnpm add @tailng-ui/components\"",
+            "  text=\"pnpm add @tailng-ui/components @tailng-ui/primitives @tailng-ui/cdk\"",
             '  (tngCopied)="onCopied($event)"',
             '>',
             '  Copy install command',

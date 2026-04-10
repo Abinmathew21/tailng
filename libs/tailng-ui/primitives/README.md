@@ -53,6 +53,9 @@ yarn add @tailng-ui/primitives @tailng-ui/cdk
 npm install @tailng-ui/primitives @tailng-ui/cdk
 ```
 
+`@tailng-ui/primitives` no longer bundles the CDK layer transitively. Install
+`@tailng-ui/cdk` explicitly alongside the primitives package.
+
 Peer dependencies:
 
 - `@angular/core` `^21.1.0`

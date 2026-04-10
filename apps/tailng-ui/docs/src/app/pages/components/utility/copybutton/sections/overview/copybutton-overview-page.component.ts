@@ -31,7 +31,8 @@ export class CopybuttonOverviewPageComponent implements OnDestroy {
   );
   private readonly colorSchemeObserver = observeDocsCodeThemeChanges(this.documentRef, this.codeBlockTheme);
 
-  protected readonly command = 'pnpm add @tailng-ui/components';
+  protected readonly command =
+    'pnpm add @tailng-ui/components @tailng-ui/primitives @tailng-ui/cdk';
   protected readonly headlessStatus = signal('No copy action yet.');
   protected readonly plainStatus = signal('No copy action yet.');
   protected readonly tailwindStatus = signal('No copy action yet.');
@@ -82,7 +83,7 @@ export class CopybuttonOverviewPageComponent implements OnDestroy {
         '  styleUrl: \"./copybutton-overview-headless.component.css\",',
         '})',
         'export class CopybuttonOverviewHeadlessComponent {',
-        "  protected readonly command = 'pnpm add @tailng-ui/components';",
+        "  protected readonly command = 'pnpm add @tailng-ui/components @tailng-ui/primitives @tailng-ui/cdk';",
         "  protected readonly status = signal('No copy action yet.');",
         '',
         '  protected onCopied(payload: string): void {',
@@ -148,7 +149,7 @@ export class CopybuttonOverviewPageComponent implements OnDestroy {
         '  styleUrl: \"./copybutton-overview-plain-css.component.css\",',
         '})',
         'export class CopybuttonOverviewPlainCssComponent {',
-        "  protected readonly command = 'pnpm add @tailng-ui/components';",
+        "  protected readonly command = 'pnpm add @tailng-ui/components @tailng-ui/primitives @tailng-ui/cdk';",
         "  protected readonly status = signal('No copy action yet.');",
         '}',
         '',
@@ -199,7 +200,7 @@ export class CopybuttonOverviewPageComponent implements OnDestroy {
         "import { TngIcon } from '@tailng-ui/icons';",
         '',
         'export class CopybuttonOverviewTailwindComponent {',
-        "  protected readonly command = 'pnpm add @tailng-ui/components';",
+        "  protected readonly command = 'pnpm add @tailng-ui/components @tailng-ui/primitives @tailng-ui/cdk';",
         "  protected readonly status = signal('No copy action yet.');",
         '}',
         '',

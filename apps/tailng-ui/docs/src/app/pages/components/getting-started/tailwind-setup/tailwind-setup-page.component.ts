@@ -69,31 +69,22 @@ export class TailwindSetupPageComponent implements OnDestroy {
   private readonly colorSchemeObserver = observeDocsCodeThemeChanges(this.documentRef, this.codeBlockTheme);
 
   protected readonly installPnpmCode = [
-    '## Headless behavior and accessibility primitives',
-    'pnpm add @tailng-ui/primitives',
-    '## Or if you need components',
-    'pnpm add @tailng-ui/components',
+    '## TailNG packages',
+    'pnpm add @tailng-ui/components @tailng-ui/primitives @tailng-ui/cdk @tailng-ui/theme @tailng-ui/icons',
     '## Tailwind CSS',
-    'pnpm add @tailng-ui/theme @tailng-ui/icons',
     'pnpm add -D tailwindcss postcss autoprefixer',
   ].join('\n');
   protected readonly installNpmCode = [
-    '## Headless behavior and accessibility primitives',
-    'npm install @tailng-ui/primitives',
-    '## Or if you need components',
-    'npm install @tailng-ui/components',
+    '## TailNG packages',
+    'npm install @tailng-ui/components @tailng-ui/primitives @tailng-ui/cdk @tailng-ui/theme @tailng-ui/icons',
     '## Tailwind CSS',
-    'npm install @tailng-ui/theme @tailng-ui/icons',
     'npm install -D tailwindcss postcss autoprefixer',
     '',
   ].join('\n');
   protected readonly installYarnCode = [
-    '## Headless behavior and accessibility primitives',
-    'yarn add @tailng-ui/primitives',
-    '## Or if you need components',
-    'yarn add @tailng-ui/components',
+    '## TailNG packages',
+    'yarn add @tailng-ui/components @tailng-ui/primitives @tailng-ui/cdk @tailng-ui/theme @tailng-ui/icons',
     '## Tailwind CSS',
-    'yarn add @tailng-ui/theme @tailng-ui/icons',
     'yarn add -D tailwindcss postcss autoprefixer',
     '',
   ].join('\n');

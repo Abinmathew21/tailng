@@ -37,20 +37,23 @@ Ready-to-use styled Angular components for TailNG UI, built on top of `@tailng-u
 ### pnpm
 
 ```bash
-pnpm add @tailng-ui/components @tailng-ui/primitives
+pnpm add @tailng-ui/components @tailng-ui/primitives @tailng-ui/cdk
 ```
 
 ### yarn
 
 ```bash
-yarn add @tailng-ui/components @tailng-ui/primitives
+yarn add @tailng-ui/components @tailng-ui/primitives @tailng-ui/cdk
 ```
 
 ### npm
 
 ```bash
-npm install @tailng-ui/components @tailng-ui/primitives
+npm install @tailng-ui/components @tailng-ui/primitives @tailng-ui/cdk
 ```
+
+`@tailng-ui/components` now ships separately from both the primitives and CDK layers, so install
+`@tailng-ui/primitives` and `@tailng-ui/cdk` explicitly alongside it.
 
 Peer dependencies:
 

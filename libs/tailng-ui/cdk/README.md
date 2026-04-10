@@ -67,6 +67,9 @@ npm install @tailng-ui/cdk tslib
 
 `tslib` is a peer dependency.
 
+If you consume `@tailng-ui/primitives` or `@tailng-ui/components`, install `@tailng-ui/cdk`
+explicitly as well. The higher layers no longer bundle the CDK transitively.
+
 ## Package design principles
 
 - **Headless first**: no CSS classes, tokens, or visual opinions.

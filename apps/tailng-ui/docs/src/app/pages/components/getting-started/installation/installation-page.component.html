@@ -23,8 +23,12 @@
           Core packages (recommended)
         </p>
         <p class="m-0">
-          For most apps, install the Components layer or the primitives layer plus theme, and icons. These
-          are the packages used across the docs and playgrounds.
+          For most apps, install the primitives layer with
+          <code class="font-mono text-xs md:text-sm">@tailng-ui/cdk</code>, or install the components
+          layer together with its explicit peer dependencies
+          <code class="font-mono text-xs md:text-sm">@tailng-ui/primitives</code> and
+          <code class="font-mono text-xs md:text-sm">@tailng-ui/cdk</code>. Add theme and icons on top
+          when you want the default TailNG styling surface.
         </p>
         <tng-tabs
           ariaLabel="Package manager install commands"
@@ -102,13 +106,16 @@
 
       <div class="grid gap-2">
         <p class="m-0 text-xs font-semibold uppercase tracking-[0.12em] text-tng-fg-secondary">
-          Minimal install (components + theme)
+          Minimal install (components + required peers)
         </p>
         <p class="m-0">
-          If you only need styled components and theming, you can add just
+          If you only need the styled component layer, add
           <code class="font-mono text-xs md:text-sm">@tailng-ui/components</code> and
-          <code class="font-mono text-xs md:text-sm">@tailng-ui/theme</code>. Primitives and CDK are
-          peer dependencies of many components; add them when you use features that require them.
+          its explicit peer dependencies
+          <code class="font-mono text-xs md:text-sm">@tailng-ui/primitives</code> and
+          <code class="font-mono text-xs md:text-sm">@tailng-ui/cdk</code>, then add
+          <code class="font-mono text-xs md:text-sm">@tailng-ui/theme</code> for the default styling
+          contract.
         </p>
         <tng-tabs
           ariaLabel="Components and theme only – package manager"
@@ -169,7 +176,8 @@
         </p>
         <p class="m-0">
           To use the TailNG icon set in buttons, menus, and other components, add
-          <code class="font-mono text-xs md:text-sm">@tailng-ui/icons</code>.
+          <code class="font-mono text-xs md:text-sm">@tailng-ui/icons</code> on top of the components,
+          primitives, CDK, and theme packages.
         </p>
         <tng-tabs
           ariaLabel="Full set including icons – package manager"
@@ -230,8 +238,10 @@
         </p>
         <p class="m-0">
           TailNG Components and primitives target modern Angular (v19+). Ensure your workspace uses
-          a compatible Angular version. No additional global styles or polyfills are required beyond
-          your existing Angular and theme setup.
+          a compatible Angular version, and remember that
+          <code class="font-mono text-xs md:text-sm">@tailng-ui/primitives</code> and
+          <code class="font-mono text-xs md:text-sm">@tailng-ui/components</code> now both expect
+          <code class="font-mono text-xs md:text-sm">@tailng-ui/cdk</code> to be installed explicitly.
         </p>
       </div>
     </section>

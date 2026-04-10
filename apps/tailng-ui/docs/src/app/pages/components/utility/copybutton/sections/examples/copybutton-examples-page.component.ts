@@ -38,7 +38,8 @@ export class CopybuttonExamplesPageComponent implements OnDestroy {
   );
   private readonly colorSchemeObserver = observeDocsCodeThemeChanges(this.documentRef, this.codeBlockTheme);
 
-  protected readonly installCommand = 'pnpm add @tailng-ui/components';
+  protected readonly installCommand =
+    'pnpm add @tailng-ui/components @tailng-ui/primitives @tailng-ui/cdk';
   private readonly statusMap = signal<Record<CopyExampleScope, string>>({
     'quick-headless': 'No copy action yet.',
     'quick-plain': 'No copy action yet.',
@@ -59,7 +60,7 @@ export class CopybuttonExamplesPageComponent implements OnDestroy {
         "import { TngCopy } from '@tailng-ui/primitives';",
         '',
         'export class QuickCopyHeadlessComponent {',
-        "  protected readonly command = 'pnpm add @tailng-ui/components';",
+        "  protected readonly command = 'pnpm add @tailng-ui/components @tailng-ui/primitives @tailng-ui/cdk';",
         "  protected readonly status = signal('No copy action yet.');",
         '}',
         '',
@@ -112,7 +113,7 @@ export class CopybuttonExamplesPageComponent implements OnDestroy {
         "import { TngIcon } from '@tailng-ui/icons';",
         '',
         'export class QuickCopyPlainComponent {',
-        "  protected readonly command = 'pnpm add @tailng-ui/components';",
+        "  protected readonly command = 'pnpm add @tailng-ui/components @tailng-ui/primitives @tailng-ui/cdk';",
         "  protected readonly status = signal('No copy action yet.');",
         '}',
         '',
@@ -160,7 +161,7 @@ export class CopybuttonExamplesPageComponent implements OnDestroy {
         "import { TngIcon } from '@tailng-ui/icons';",
         '',
         'export class QuickCopyTailwindComponent {',
-        "  protected readonly command = 'pnpm add @tailng-ui/components';",
+        "  protected readonly command = 'pnpm add @tailng-ui/components @tailng-ui/primitives @tailng-ui/cdk';",
         "  protected readonly status = signal('No copy action yet.');",
         '}',
         '',

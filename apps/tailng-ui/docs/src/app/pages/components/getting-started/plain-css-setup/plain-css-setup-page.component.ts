@@ -69,33 +69,11 @@ export class PlainCssSetupPageComponent implements OnDestroy {
   private readonly colorSchemeObserver = observeDocsCodeThemeChanges(this.documentRef, this.codeBlockTheme);
 
   protected readonly installPnpmCode =
-    [
-      '## Headless behavior and accessibility primitives',
-      'pnpm add @tailng-ui/primitives',
-      '## Or if you need components',
-      'pnpm add @tailng-ui/components',
-      '## Optional',
-      'pnpm add @tailng-ui/theme @tailng-ui/icons',
-      'pnpm add @tailng-ui/icons',
-    ].join('\n');
+    'pnpm add @tailng-ui/components @tailng-ui/primitives @tailng-ui/cdk @tailng-ui/theme @tailng-ui/icons';
   protected readonly installNpmCode =
-    [
-      '## Headless behavior and accessibility primitives',
-      'npm install @tailng-ui/primitives',
-      '## Or if you need components',
-      'npm install @tailng-ui/components',
-      '## Optional',
-      'npm install @tailng-ui/theme @tailng-ui/icons',
-    ].join('\n');
+    'npm install @tailng-ui/components @tailng-ui/primitives @tailng-ui/cdk @tailng-ui/theme @tailng-ui/icons';
   protected readonly installYarnCode =
-    [
-      '## Headless behavior and accessibility primitives',
-      'yarn add @tailng-ui/primitives',
-      '## Or if you need components',
-      'yarn add @tailng-ui/components',
-      '## Optional',
-      'yarn add @tailng-ui/theme @tailng-ui/icons',
-    ].join('\n');
+    'yarn add @tailng-ui/components @tailng-ui/primitives @tailng-ui/cdk @tailng-ui/theme @tailng-ui/icons';
 
   protected readonly providerCode = [
     "import { ApplicationConfig } from '@angular/core';",

@@ -71,58 +71,40 @@ export class InstallationPageComponent implements OnDestroy {
 
   protected readonly installPnpmCode =
     ['## Headless behavior and accessibility primitives',
-    'pnpm add @tailng-ui/primitives',
-    '## Or if you need components',
-    'pnpm add @tailng-ui/components',
-    '## Optional',
+    'pnpm add @tailng-ui/primitives @tailng-ui/cdk',
+    '## Or if you need styled components',
+    'pnpm add @tailng-ui/components @tailng-ui/primitives @tailng-ui/cdk',
+    '## Optional theme + icons',
     'pnpm add @tailng-ui/theme @tailng-ui/icons',
   ].join('\n');
   protected readonly installNpmCode =
     ['## Headless behavior and accessibility primitives',
-    'npm install @tailng-ui/primitives',
-    '## Or if you need components',
-    'npm install @tailng-ui/components',
-    '## Optional',
+    'npm install @tailng-ui/primitives @tailng-ui/cdk',
+    '## Or if you need styled components',
+    'npm install @tailng-ui/components @tailng-ui/primitives @tailng-ui/cdk',
+    '## Optional theme + icons',
     'npm install @tailng-ui/theme @tailng-ui/icons',
   ].join('\n');
   protected readonly installYarnCode =
     ['## Headless behavior and accessibility primitives',
-    'yarn add @tailng-ui/primitives',
-    '## Or if you need components',
-    'yarn add @tailng-ui/components',
-    '## Optional',
+    'yarn add @tailng-ui/primitives @tailng-ui/cdk',
+    '## Or if you need styled components',
+    'yarn add @tailng-ui/components @tailng-ui/primitives @tailng-ui/cdk',
+    '## Optional theme + icons',
     'yarn add @tailng-ui/theme @tailng-ui/icons',
   ].join('\n');
   protected readonly installComponentsOnlyPnpmCode =
-    'pnpm add @tailng-ui/components @tailng-ui/theme';
+    'pnpm add @tailng-ui/components @tailng-ui/primitives @tailng-ui/cdk @tailng-ui/theme';
   protected readonly installComponentsOnlyNpmCode =
-    'npm install @tailng-ui/components @tailng-ui/theme';
+    'npm install @tailng-ui/components @tailng-ui/primitives @tailng-ui/cdk @tailng-ui/theme';
   protected readonly installComponentsOnlyYarnCode =
-    'yarn add @tailng-ui/components @tailng-ui/theme';
+    'yarn add @tailng-ui/components @tailng-ui/primitives @tailng-ui/cdk @tailng-ui/theme';
   protected readonly installWithIconsPnpmCode =
-    ['## Headless behavior and accessibility primitives',
-    'pnpm add @tailng-ui/primitives',
-    '## Or if you need components',
-    'pnpm add @tailng-ui/components',
-    '## Optional',
-    'pnpm add @tailng-ui/theme @tailng-ui/icons',
-  ].join('\n');
+    'pnpm add @tailng-ui/components @tailng-ui/primitives @tailng-ui/cdk @tailng-ui/theme @tailng-ui/icons';
   protected readonly installWithIconsNpmCode =
-    ['## Headless behavior and accessibility primitives',
-    'npm install @tailng-ui/primitives',
-    '## Or if you need components',
-    'npm install @tailng-ui/components',
-    '## Optional',
-    'npm install @tailng-ui/theme @tailng-ui/icons',
-  ].join('\n');
+    'npm install @tailng-ui/components @tailng-ui/primitives @tailng-ui/cdk @tailng-ui/theme @tailng-ui/icons';
   protected readonly installWithIconsYarnCode =
-    ['## Headless behavior and accessibility primitives',
-    'yarn add @tailng-ui/primitives',
-    '## Or if you need components',
-    'yarn add @tailng-ui/components',
-    '## Optional',
-    'yarn add @tailng-ui/theme @tailng-ui/icons',
-  ].join('\n');
+    'yarn add @tailng-ui/components @tailng-ui/primitives @tailng-ui/cdk @tailng-ui/theme @tailng-ui/icons';
 
   public ngOnDestroy(): void {
     this.colorSchemeObserver?.disconnect();
