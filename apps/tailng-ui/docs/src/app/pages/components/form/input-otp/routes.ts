@@ -49,6 +49,9 @@ export const COMPONENTS_FORM_INPUT_OTP_ROUTES: Routes = [
       },
       {
         path: 'ownable-install',
+        data: {
+          registrySlug: 'input-otp',
+        },
         pathMatch: 'full',
         redirectTo: '/ownable/form/input-otp',
       },

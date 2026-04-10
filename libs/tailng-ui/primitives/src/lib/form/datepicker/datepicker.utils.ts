@@ -323,12 +323,13 @@ export function buildMonthGrid<TDate>(
     const hidden = !inMonth && !options.showOutsideDays;
     const active = datesEqual(options.adapter, date, options.activeDate);
     const focusVisible = options.focusedDate !== null && datesEqual(options.adapter, date, options.focusedDate);
+    const disabled = !inMonth || options.isDisabled(date);
     cells.push(
       Object.freeze({
         active,
         colIndex: index % 7,
         date,
-        disabled: options.isDisabled(date),
+        disabled,
         focusVisible,
         hidden,
         id: options.createCellId(date),

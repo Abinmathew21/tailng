@@ -94,4 +94,44 @@ describe('tng-datepicker constraints block D', () => {
     expect(controller.getOutputs().value).toBeNull();
     expect(controller.getOutputs().validationError).toBe('out-of-range');
   });
+
+  it('disables visible outside-month days so adjacent month dates do not look selectable', () => {
+    const controller = createController({
+      showOutsideDays: true,
+    });
+    controller.setState({
+      activeDate: '2024-05-15',
+      visibleMonth: '2024-05-01',
+    });
+
+    const previousMonthCell = controller.getOutputs().cells.find(
+      (cell) => dateKey(cell.date) === '2024-04-30',
+    );
+    const currentMonthCell = controller.getOutputs().cells.find(
+      (cell) => dateKey(cell.date) === '2024-05-01',
+    );
+    const nextMonthCell = controller.getOutputs().cells.find(
+      (cell) => dateKey(cell.date) === '2024-06-01',
+    );
+
+    expect(previousMonthCell?.inMonth).toBe(false);
+    expect(previousMonthCell?.disabled).toBe(true);
+    expect(currentMonthCell?.inMonth).toBe(true);
+    expect(currentMonthCell?.disabled).toBe(false);
+    expect(nextMonthCell?.inMonth).toBe(false);
+    expect(nextMonthCell?.disabled).toBe(true);
+    const previousMonthAttrs = controller.getOutputs().getCellAttributes(previousMonthCell as never);
+    const nextMonthAttrs = controller.getOutputs().getCellAttributes(nextMonthCell as never);
+
+    expect(previousMonthAttrs).toMatchObject({
+      'aria-disabled': 'true',
+      'data-disabled': 'true',
+    });
+    expect(previousMonthAttrs).not.toHaveProperty('data-in-month');
+    expect(nextMonthAttrs).toMatchObject({
+      'aria-disabled': 'true',
+      'data-disabled': 'true',
+    });
+    expect(nextMonthAttrs).not.toHaveProperty('data-in-month');
+  });
 });

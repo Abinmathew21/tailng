@@ -58,13 +58,33 @@ export const tngDatepickerDayStates = {
 } as const;
 
 export const tngDatepickerCssVars = {
+  // Layout
   radius: '--tng-datepicker-radius',
   fieldHeight: '--tng-datepicker-field-height',
   overlayGap: '--tng-datepicker-overlay-gap',
   dayCellSize: '--tng-datepicker-day-cell-size',
   pickerCellSize: '--tng-datepicker-picker-cell-size',
+  gridGap: '--tng-datepicker-grid-gap',
   inlineGap: '--tng-datepicker-inline-gap',
   overlayPadding: '--tng-datepicker-overlay-padding',
+
+  // Visual aliases
+  border: '--tng-datepicker-border',
+  borderStrong: '--tng-datepicker-border-strong',
+  bg: '--tng-datepicker-bg',
+  surface: '--tng-datepicker-surface',
+  canvas: '--tng-datepicker-canvas',
+  fg: '--tng-datepicker-fg',
+  muted: '--tng-datepicker-muted',
+  brand: '--tng-datepicker-brand',
+  danger: '--tng-datepicker-danger',
+  focus: '--tng-datepicker-focus',
+  shadow: '--tng-datepicker-shadow',
+  focusShadow: '--tng-datepicker-focus-shadow',
+  ease: '--tng-datepicker-ease',
+
+  // Wrapper layout hooks used by the component implementation
+  navSize: '--tng-datepicker-nav-size',
 } as const;
 
 export const tngDatepickerSemanticTokens = {

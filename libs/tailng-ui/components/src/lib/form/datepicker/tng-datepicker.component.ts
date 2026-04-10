@@ -14,7 +14,13 @@ import {
 import { booleanAttribute } from '@angular/core';
 import type { OnDestroy } from '@angular/core';
 import {
-  computeOverlayPosition,
+  applyFixedPortalledOverlayBaseStyles,
+  clearFixedPortalledOverlayBaseStyles,
+  clearPortalledThemeVars,
+  positionFixedAnchoredOverlay,
+  resolveCssCustomPropertyPx,
+  syncPortalledThemeVars,
+  type TngOverlayRuntime,
   type TngOverlayCollisionOptions,
   type TngOverlayOffset,
   type TngOverlayPlacement,
@@ -39,33 +45,8 @@ import {
 type OptionalBooleanInput = boolean | null | string | undefined;
 type TngDatepickerPlacement = 'auto' | 'bottom' | 'top';
 
-type MaybeRect = Readonly<{
-  height: number;
-  left: number;
-  top: number;
-  width: number;
-}>;
-
 const OVERLAY_VIEWPORT_MARGIN = 12;
 const OVERLAY_OFFSET = 9;
-
-function rectFromClientRect(rect: DOMRect | ClientRect): MaybeRect {
-  return {
-    height: rect.height,
-    left: rect.left,
-    top: rect.top,
-    width: rect.width,
-  };
-}
-
-function viewportRect(windowRef: Window): MaybeRect {
-  return {
-    height: windowRef.innerHeight || 768,
-    left: 0,
-    top: 0,
-    width: windowRef.innerWidth || 1024,
-  };
-}
 
 function normalizeOptionalBooleanInput(value: OptionalBooleanInput): boolean | undefined {
   if (value === null || value === undefined) {
@@ -89,6 +70,41 @@ function isKeyboardEventTarget(value: EventTarget | null): value is HTMLElement 
 }
 
 let nextDatepickerInputId = 0;
+
+const PORTALLED_DATEPICKER_THEME_VARS = [
+  '--tng-datepicker-radius',
+  '--tng-datepicker-field-height',
+  '--tng-datepicker-overlay-gap',
+  '--tng-datepicker-day-cell-size',
+  '--tng-datepicker-picker-cell-size',
+  '--tng-datepicker-grid-gap',
+  '--tng-datepicker-inline-gap',
+  '--tng-datepicker-overlay-padding',
+  '--tng-datepicker-border',
+  '--tng-datepicker-border-strong',
+  '--tng-datepicker-bg',
+  '--tng-datepicker-surface',
+  '--tng-datepicker-canvas',
+  '--tng-datepicker-fg',
+  '--tng-datepicker-muted',
+  '--tng-datepicker-brand',
+  '--tng-datepicker-danger',
+  '--tng-datepicker-focus',
+  '--tng-datepicker-shadow',
+  '--tng-datepicker-focus-shadow',
+  '--tng-datepicker-ease',
+  '--tng-datepicker-nav-size',
+  '--tng-semantic-background-base',
+  '--tng-semantic-background-surface',
+  '--tng-semantic-background-canvas',
+  '--tng-semantic-border-subtle',
+  '--tng-semantic-border-strong',
+  '--tng-semantic-foreground-primary',
+  '--tng-semantic-foreground-secondary',
+  '--tng-semantic-accent-brand',
+  '--tng-semantic-accent-danger',
+  '--tng-semantic-focus-ring',
+] as const;
 
 function createDatepickerInputId(): string {
   nextDatepickerInputId += 1;
@@ -212,6 +228,7 @@ export class TngDatepickerComponent<TDate = Date> implements OnDestroy {
   public readonly open = input<boolean | undefined, OptionalBooleanInput>(undefined, {
     transform: normalizeOptionalBooleanInput,
   });
+  public readonly overlayRuntime = input<TngOverlayRuntime | null | undefined>(undefined);
   public readonly overlaySize = input<number, number | string>(320, {
     transform: normalizeNumberInput,
   });
@@ -339,6 +356,7 @@ export class TngDatepickerComponent<TDate = Date> implements OnDestroy {
         maxDate: this.maxDate(),
         minDate: this.minDate(),
         overlaySize: this.overlaySize(),
+        overlayRuntime: this.overlayRuntime(),
         ownerDocument: this.ownerDocument,
         restoreFocus: this.restoreFocus(),
         selectionMode: this.selectionMode(),
@@ -690,46 +708,31 @@ export class TngDatepickerComponent<TDate = Date> implements OnDestroy {
       return;
     }
 
-    const anchorRect = rectFromClientRect(anchor.getBoundingClientRect());
-    const viewport = viewportRect(this.ownerWindow);
-    const width = Math.max(
-      0,
-      Math.min(anchorRect.width, viewport.width - OVERLAY_VIEWPORT_MARGIN * 2),
-    );
-
-    overlay.style.width = `${width}px`;
-    overlay.style.maxWidth = `${Math.max(0, viewport.width - OVERLAY_VIEWPORT_MARGIN * 2)}px`;
-    overlay.style.maxHeight = '';
-
-    const overlayRect = rectFromClientRect(overlay.getBoundingClientRect());
-    const result = computeOverlayPosition({
-      anchorRect,
+    const result = positionFixedAnchoredOverlay({
+      anchor,
       collision: this.resolveOverlayCollision(this.placement()),
       direction: this.direction(),
       offset: this.resolveOverlayOffset(),
-      overlayRect,
+      overlay,
       placement: this.resolveOverlayPlacement(this.placement()),
-      viewportRect: viewport,
+      viewportMargin: OVERLAY_VIEWPORT_MARGIN,
+      windowRef: this.ownerWindow,
     });
-
-    overlay.style.left = `${result.x}px`;
-    overlay.style.top = `${result.y}px`;
-
-    const anchorBottom = anchorRect.top + anchorRect.height;
-    const availableHeight =
-      result.side === 'top'
-        ? Math.max(0, Math.floor(anchorRect.top - OVERLAY_VIEWPORT_MARGIN - OVERLAY_OFFSET))
-        : Math.max(
-            0,
-            Math.floor(viewport.height - anchorBottom - OVERLAY_VIEWPORT_MARGIN - OVERLAY_OFFSET),
-          );
-
-    if (availableHeight > 0) {
-      overlay.style.maxHeight = `${availableHeight}px`;
-    }
 
     this.resolvedOverlayPlacement.set(result.side === 'top' ? 'top' : 'bottom');
     overlay.style.visibility = '';
+  }
+
+  private syncPortalledThemeVars(overlay: HTMLElement): void {
+    syncPortalledThemeVars({
+      cssVars: PORTALLED_DATEPICKER_THEME_VARS,
+      panel: overlay,
+      source: this.hostElement.nativeElement,
+    });
+  }
+
+  private clearPortalledThemeVars(overlay: HTMLElement): void {
+    clearPortalledThemeVars(overlay, PORTALLED_DATEPICKER_THEME_VARS);
   }
 
   private mountOverlayToBodyAndPosition(): void {
@@ -745,11 +748,8 @@ export class TngDatepickerComponent<TDate = Date> implements OnDestroy {
       this.ownerDocument.body.appendChild(overlay);
     }
 
-    overlay.style.position = 'fixed';
-    overlay.style.left = '0px';
-    overlay.style.top = '0px';
-    overlay.style.visibility = 'hidden';
-    overlay.style.zIndex = '1000';
+    applyFixedPortalledOverlayBaseStyles(overlay);
+    this.syncPortalledThemeVars(overlay);
 
     queueMicrotask(() => {
       if (!this.overlayOpen()) {
@@ -779,14 +779,11 @@ export class TngDatepickerComponent<TDate = Date> implements OnDestroy {
 
     this.teardownOverlayRepositionListeners();
     this.resolvedOverlayPlacement.set(this.placement() === 'top' ? 'top' : 'bottom');
-    overlay.style.left = '';
+    this.clearPortalledThemeVars(overlay);
+    clearFixedPortalledOverlayBaseStyles(overlay);
     overlay.style.maxHeight = '';
     overlay.style.maxWidth = '';
-    overlay.style.position = '';
-    overlay.style.top = '';
-    overlay.style.visibility = '';
     overlay.style.width = '';
-    overlay.style.zIndex = '';
   }
 
   private setupOverlayRepositionListeners(): void {
@@ -840,7 +837,13 @@ export class TngDatepickerComponent<TDate = Date> implements OnDestroy {
   }
 
   private resolveOverlayOffset(): TngOverlayOffset {
-    return { side: OVERLAY_OFFSET };
+    return {
+      side: resolveCssCustomPropertyPx(
+        this.hostElement.nativeElement,
+        '--tng-datepicker-overlay-gap',
+        OVERLAY_OFFSET,
+      ),
+    };
   }
 
   private resolveOverlayPlacement(placement: TngDatepickerPlacement): TngOverlayPlacement {

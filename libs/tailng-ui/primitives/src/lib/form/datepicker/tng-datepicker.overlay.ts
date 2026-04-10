@@ -9,7 +9,12 @@ import {
   signal,
 } from '@angular/core';
 import {
-  computeOverlayPosition,
+  applyFixedPortalledOverlayBaseStyles,
+  clearFixedPortalledOverlayBaseStyles,
+  clearPortalledThemeVars,
+  positionFixedAnchoredOverlay,
+  resolveCssCustomPropertyPx,
+  syncPortalledThemeVars,
   type TngOverlayCollisionOptions,
   type TngOverlayOffset,
   type TngOverlayPlacement,
@@ -27,39 +32,48 @@ type TngDatepickerOverlayController = Readonly<{
   subscribe: (listener: (event: unknown) => void) => () => void;
 }>;
 
-type MaybeRect = Readonly<{
-  height: number;
-  left: number;
-  top: number;
-  width: number;
-}>;
-
 type OverlayAnchorInput =
   | ElementRef<HTMLElement>
   | HTMLElement
   | null
   | undefined;
 
+const PORTALLED_DATEPICKER_THEME_VARS = [
+  '--tng-datepicker-radius',
+  '--tng-datepicker-field-height',
+  '--tng-datepicker-overlay-gap',
+  '--tng-datepicker-day-cell-size',
+  '--tng-datepicker-picker-cell-size',
+  '--tng-datepicker-grid-gap',
+  '--tng-datepicker-inline-gap',
+  '--tng-datepicker-overlay-padding',
+  '--tng-datepicker-border',
+  '--tng-datepicker-border-strong',
+  '--tng-datepicker-bg',
+  '--tng-datepicker-surface',
+  '--tng-datepicker-canvas',
+  '--tng-datepicker-fg',
+  '--tng-datepicker-muted',
+  '--tng-datepicker-brand',
+  '--tng-datepicker-danger',
+  '--tng-datepicker-focus',
+  '--tng-datepicker-shadow',
+  '--tng-datepicker-focus-shadow',
+  '--tng-datepicker-ease',
+  '--tng-semantic-background-base',
+  '--tng-semantic-background-surface',
+  '--tng-semantic-background-canvas',
+  '--tng-semantic-border-subtle',
+  '--tng-semantic-border-strong',
+  '--tng-semantic-foreground-primary',
+  '--tng-semantic-foreground-secondary',
+  '--tng-semantic-accent-brand',
+  '--tng-semantic-accent-danger',
+  '--tng-semantic-focus-ring',
+] as const;
+
 const OVERLAY_VIEWPORT_MARGIN = 12;
 const OVERLAY_OFFSET = 9;
-
-function rectFromClientRect(rect: DOMRect | ClientRect): MaybeRect {
-  return {
-    height: rect.height,
-    left: rect.left,
-    top: rect.top,
-    width: rect.width,
-  };
-}
-
-function viewportRect(windowRef: Window): MaybeRect {
-  return {
-    height: windowRef.innerHeight || 768,
-    left: 0,
-    top: 0,
-    width: windowRef.innerWidth || 1024,
-  };
-}
 
 function resolveAnchorElement(anchor: OverlayAnchorInput): HTMLElement | null {
   if (anchor instanceof ElementRef) {
@@ -222,44 +236,16 @@ export class TngDatepickerOverlay {
       return;
     }
 
-    const anchorRect = rectFromClientRect(anchor.getBoundingClientRect());
-    const viewport = viewportRect(this.ownerWindow);
-    const width = Math.max(
-      0,
-      Math.min(anchorRect.width, viewport.width - OVERLAY_VIEWPORT_MARGIN * 2),
-    );
-
-    overlay.style.width = `${width}px`;
-    overlay.style.maxWidth = `${Math.max(0, viewport.width - OVERLAY_VIEWPORT_MARGIN * 2)}px`;
-    overlay.style.maxHeight = '';
-
-    const overlayRect = rectFromClientRect(overlay.getBoundingClientRect());
-    const result = computeOverlayPosition({
-      anchorRect,
+    const result = positionFixedAnchoredOverlay({
+      anchor,
       collision: this.resolveCollision(),
       direction: this.resolveDirection(),
       offset: this.resolveOffset(),
-      overlayRect,
+      overlay,
       placement: this.resolvePlacement(),
-      viewportRect: viewport,
+      viewportMargin: OVERLAY_VIEWPORT_MARGIN,
+      windowRef: this.ownerWindow,
     });
-
-    overlay.style.left = `${result.x}px`;
-    overlay.style.top = `${result.y}px`;
-
-    const anchorBottom = anchorRect.top + anchorRect.height;
-    const availableHeight =
-      result.side === 'top'
-        ? Math.max(0, Math.floor(anchorRect.top - OVERLAY_VIEWPORT_MARGIN - OVERLAY_OFFSET))
-        : Math.max(
-            0,
-            Math.floor(viewport.height - anchorBottom - OVERLAY_VIEWPORT_MARGIN - OVERLAY_OFFSET),
-          );
-
-    if (availableHeight > 0) {
-      overlay.style.maxHeight = `${availableHeight}px`;
-    }
-
     this.resolvedPlacement.set(result.side === 'top' ? 'top' : 'bottom');
     overlay.style.visibility = '';
   }
@@ -302,6 +288,24 @@ export class TngDatepickerOverlay {
     this.resizeObserver = null;
   }
 
+  private syncPortalledThemeVars(): void {
+    const overlay = this.elRef.nativeElement;
+    const themeSource = this.findAnchorEl();
+    if (themeSource === null) {
+      return;
+    }
+
+    syncPortalledThemeVars({
+      cssVars: PORTALLED_DATEPICKER_THEME_VARS,
+      panel: overlay,
+      source: themeSource,
+    });
+  }
+
+  private clearPortalledThemeVars(): void {
+    clearPortalledThemeVars(this.elRef.nativeElement, PORTALLED_DATEPICKER_THEME_VARS);
+  }
+
   private mountToBodyAndPosition(): void {
     const overlay = this.elRef.nativeElement;
     if (this.ownerDocument === null) {
@@ -314,11 +318,8 @@ export class TngDatepickerOverlay {
       this.ownerDocument.body.appendChild(overlay);
     }
 
-    overlay.style.position = 'fixed';
-    overlay.style.left = '0px';
-    overlay.style.top = '0px';
-    overlay.style.visibility = 'hidden';
-    overlay.style.zIndex = '1000';
+    applyFixedPortalledOverlayBaseStyles(overlay);
+    this.syncPortalledThemeVars();
 
     queueMicrotask(() => {
       if (!this.controller().getOutputs().open) {
@@ -344,14 +345,11 @@ export class TngDatepickerOverlay {
 
     this.teardownRepositionListeners();
     this.resolvedPlacement.set(this.resolvePlacement().side === 'top' ? 'top' : 'bottom');
-    overlay.style.left = '';
+    this.clearPortalledThemeVars();
+    clearFixedPortalledOverlayBaseStyles(overlay);
     overlay.style.maxHeight = '';
     overlay.style.maxWidth = '';
-    overlay.style.position = '';
-    overlay.style.top = '';
-    overlay.style.visibility = '';
     overlay.style.width = '';
-    overlay.style.zIndex = '';
   }
 
   private resolvePlacement(): TngOverlayPlacement {
@@ -359,7 +357,22 @@ export class TngDatepickerOverlay {
   }
 
   private resolveOffset(): TngOverlayOffset {
-    return this.offset() ?? { side: OVERLAY_OFFSET };
+    const explicitOffset = this.offset();
+    if (explicitOffset !== undefined) {
+      return explicitOffset;
+    }
+
+    const themeSource = this.findAnchorEl();
+    return {
+      side:
+        themeSource === null
+          ? OVERLAY_OFFSET
+          : resolveCssCustomPropertyPx(
+              themeSource,
+              '--tng-datepicker-overlay-gap',
+              OVERLAY_OFFSET,
+            ),
+    };
   }
 
   private resolveCollision(): TngOverlayCollisionOptions {

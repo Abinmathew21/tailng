@@ -2,7 +2,10 @@ import { NgIf, NgTemplateOutlet } from '@angular/common';
 import { Component, Directive, Input, TemplateRef, contentChildren, inject } from '@angular/core';
 import { TestBed, type ComponentFixture } from '@angular/core/testing';
 import { afterEach, describe, expect, it } from 'vitest';
-import { TngInputOtp as TngInputOtpPrimitive, TngInputOtpSlot } from '@tailng-ui/primitives';
+import {
+  TngInputOtp as TngInputOtpPrimitive,
+  TngInputOtpSlot,
+} from '../../../../../../../../../../../libs/tailng-ui/primitives/src/lib/form/input-otp/tng-input-otp';
 import { HeadlessInputOtpOverviewPageComponent } from './input-otp-overview-page.component';
 
 @Component({

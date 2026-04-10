@@ -1,5 +1,6 @@
 import { Component, LOCALE_ID, signal, type Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { createOverlayRuntime, type TngOverlayRuntime } from '@tailng-ui/cdk';
 import { defaultDatepickerDateAdapter, type TngDateAdapter } from '@tailng-ui/primitives';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { TngDatepickerComponent } from '../tng-datepicker.component';
@@ -208,6 +209,43 @@ class CustomFormatDatepickerHostComponent {
   public readonly valueChanges: unknown[] = [];
 }
 
+@Component({
+  imports: [TngDatepickerComponent],
+  template: `
+    <tng-datepicker
+      aria-label="Styled Datepicker"
+      style="
+        --tng-datepicker-surface: #f8fafc;
+        --tng-datepicker-border: #d8e2ef;
+        --tng-datepicker-fg: #0f172a;
+        --tng-datepicker-brand: #2563eb;
+        --tng-datepicker-nav-size: 2.8rem;
+        --tng-semantic-background-surface: #f8fafc;
+        --tng-semantic-border-subtle: #d8e2ef;
+        --tng-semantic-foreground-primary: #0f172a;
+        --tng-semantic-accent-brand: #2563eb;
+        color-scheme: light;
+      "
+    />
+  `,
+})
+class StyledDatepickerHostComponent {}
+
+@Component({
+  imports: [TngDatepickerComponent],
+  template: `
+    <tng-datepicker
+      aria-label="Runtime Datepicker"
+      [overlayRuntime]="overlayRuntime()"
+    />
+  `,
+})
+class CustomRuntimeDatepickerHostComponent {
+  public readonly overlayRuntime = signal<TngOverlayRuntime | null>(
+    createOverlayRuntime({ documentRef: document }),
+  );
+}
+
 describe('tng-datepicker component behavior', () => {
   afterEach(() => {
     vi.restoreAllMocks();
@@ -259,6 +297,49 @@ describe('tng-datepicker component behavior', () => {
     expect(overlay.parentNode).toBe(document.body);
     expect(overlay.style.position).toBe('fixed');
     expect((document.activeElement as HTMLElement | null)?.getAttribute('data-slot')).toBe('datepicker-cell');
+  });
+
+  it('keeps host-scoped theme vars on the portalled overlay', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [StyledDatepickerHostComponent],
+    }).createComponent(StyledDatepickerHostComponent);
+
+    await settle(fixture);
+    await openOverlay(fixture);
+
+    const overlay = getRequiredFromRoot<HTMLElement>(document.body, '[data-slot="datepicker-overlay"]');
+    expect(overlay.style.getPropertyValue('--tng-datepicker-surface').trim()).toBe('#f8fafc');
+    expect(overlay.style.getPropertyValue('--tng-datepicker-border').trim()).toBe('#d8e2ef');
+    expect(overlay.style.getPropertyValue('--tng-datepicker-fg').trim()).toBe('#0f172a');
+    expect(overlay.style.getPropertyValue('--tng-datepicker-brand').trim()).toBe('#2563eb');
+    expect(overlay.style.getPropertyValue('--tng-datepicker-nav-size').trim()).toBe('2.8rem');
+    expect(overlay.style.colorScheme).toBe('light');
+
+    getRequired<HTMLButtonElement>(fixture, '[data-slot="datepicker-trigger"]').click();
+    await settle(fixture);
+
+    expect(overlay.style.getPropertyValue('--tng-datepicker-surface').trim()).toBe('');
+    expect(overlay.style.getPropertyValue('--tng-datepicker-nav-size').trim()).toBe('');
+    expect(overlay.style.colorScheme).toBe('');
+  });
+
+  it('registers overlay layers on a provided overlay runtime', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [CustomRuntimeDatepickerHostComponent],
+    }).createComponent(CustomRuntimeDatepickerHostComponent);
+
+    await settle(fixture);
+
+    const runtime = fixture.componentInstance.overlayRuntime();
+    expect(runtime).not.toBeNull();
+    expect(runtime?.getLayerIds()).toEqual([]);
+
+    await openOverlay(fixture);
+    expect(runtime?.getLayerIds().length).toBe(1);
+
+    getRequired<HTMLButtonElement>(fixture, '[data-slot="datepicker-trigger"]').click();
+    await settle(fixture);
+    expect(runtime?.getLayerIds()).toEqual([]);
   });
 
   it('commits manual input with Enter and emits valueChange', async () => {

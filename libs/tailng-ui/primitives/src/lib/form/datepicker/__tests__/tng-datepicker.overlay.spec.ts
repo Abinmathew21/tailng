@@ -42,7 +42,24 @@ function getRequired<T extends Element>(root: ParentNode, selector: string): T {
 @Component({
   imports: [TngDatepickerOverlay],
   template: `
-    <div #anchor data-slot="datepicker-input-shell" data-testid="anchor" style="width: 240px; min-height: 52px;">
+    <div
+      #anchor
+      data-slot="datepicker-input-shell"
+      data-testid="anchor"
+      style="
+        width: 240px;
+        min-height: 52px;
+        --tng-datepicker-surface: #f8fafc;
+        --tng-datepicker-border: #d8e2ef;
+        --tng-datepicker-fg: #0f172a;
+        --tng-datepicker-brand: #2563eb;
+        --tng-semantic-background-surface: #f8fafc;
+        --tng-semantic-border-subtle: #d8e2ef;
+        --tng-semantic-foreground-primary: #0f172a;
+        --tng-semantic-accent-brand: #2563eb;
+        color-scheme: light;
+      "
+    >
       <button
         #trigger
         type="button"
@@ -105,12 +122,20 @@ describe('tng-datepicker.overlay', () => {
     expect(mountedOverlay.parentNode).toBe(document.body);
     expect(mountedOverlay.style.position).toBe('fixed');
     expect(mountedOverlay.getAttribute('hidden')).toBeNull();
+    expect(mountedOverlay.style.getPropertyValue('--tng-datepicker-surface').trim()).toBe('#f8fafc');
+    expect(mountedOverlay.style.getPropertyValue('--tng-datepicker-border').trim()).toBe('#d8e2ef');
+    expect(mountedOverlay.style.getPropertyValue('--tng-datepicker-fg').trim()).toBe('#0f172a');
+    expect(mountedOverlay.style.getPropertyValue('--tng-datepicker-brand').trim()).toBe('#2563eb');
+    expect(mountedOverlay.style.colorScheme).toBe('light');
 
     fixture.componentInstance.controller.close();
     await settle(fixture);
 
     expect(overlay.parentNode).toBe(fixture.nativeElement);
     expect(overlay.getAttribute('hidden')).toBe('');
+    expect(overlay.style.getPropertyValue('--tng-datepicker-surface').trim()).toBe('');
+    expect(overlay.style.getPropertyValue('--tng-datepicker-border').trim()).toBe('');
+    expect(overlay.style.colorScheme).toBe('');
   });
 
   it('flips the overlay above the anchor when there is more available space above', async () => {
