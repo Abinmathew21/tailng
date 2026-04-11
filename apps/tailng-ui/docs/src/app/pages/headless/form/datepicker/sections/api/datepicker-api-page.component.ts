@@ -1,0 +1,81 @@
+import { Component } from '@angular/core';
+import { TngCodeBlockComponent } from '@tailng-ui/components';
+
+@Component({
+  selector: 'app-headless-datepicker-api-page',
+  imports: [TngCodeBlockComponent],
+  templateUrl: './datepicker-api-page.component.html',
+  styleUrl: './datepicker-api-page.component.css',
+})
+export class HeadlessDatepickerApiPageComponent {
+  protected readonly controllerAttachCode = [
+    "import { bindTngDatepicker, createDatepickerController } from '@tailng-ui/primitives';",
+    '',
+    'readonly controller = createDatepickerController<Date>({',
+    "  ownerDocument: document,",
+    "  value: '2024-04-22',",
+    "  today: '2024-04-18',",
+    "  minDate: '2024-04-01',",
+    "  maxDate: '2026-03-31',",
+    '  closeOnSelect: true,',
+    '  trapFocus: true,',
+    '  showOutsideDays: true,',
+    '});',
+    '',
+    'readonly datepicker = bindTngDatepicker(this.controller);',
+    '',
+  ].join('\n');
+
+  protected readonly directiveAttachCode = [
+    '<section [tngDatepickerHost]="controller">',
+    '  <div data-slot="datepicker-field">',
+    '    <div #anchorShell>',
+    '      <div',
+    '        data-slot="datepicker-input-shell"',
+    "        [attr.data-invalid]=\"datepicker.outputs().validationError !== null ? 'true' : null\"",
+    "        [attr.data-open]=\"datepicker.outputs().getTriggerAttributes()['data-open']\"",
+    '      >',
+    '        <input [tngDatepickerInput]="controller" type="text" placeholder="MM-DD-YYYY" />',
+    '        <button [tngDatepickerTrigger]="controller" type="button">Open</button>',
+    '      </div>',
+    '',
+    '      <section [tngDatepickerOverlay]="controller" [tngDatepickerOverlayAnchor]="anchorShell">',
+    '        <button [tngDatepickerPrevButton]="controller" type="button">‹</button>',
+    '        <button [tngDatepickerPeriodButton]="controller" type="button">',
+    '          {{ datepicker.periodLabel() }}',
+    '        </button>',
+    '        <button [tngDatepickerNextButton]="controller" type="button">›</button>',
+    '      </section>',
+    '    </div>',
+    '  </div>',
+    '</section>',
+    '',
+  ].join('\n');
+
+  protected readonly gridAttachCode = [
+    '@if (datepicker.outputs().view === \'day\') {',
+    '  <div [tngDatepickerDayGrid]="controller">',
+    '    @for (cell of datepicker.outputs().cells; track cell.id) {',
+    '      <button [tngDatepickerDayCell]="cell" type="button">{{ cell.label }}</button>',
+    '    }',
+    '  </div>',
+    '}',
+    '',
+    '@if (datepicker.outputs().view === \'month\') {',
+    '  <div [tngDatepickerMonthGrid]="controller">',
+    '    @for (option of datepicker.outputs().monthOptions; track option.id) {',
+    '      <button [tngDatepickerMonthOption]="option" type="button">{{ option.label }}</button>',
+    '    }',
+    '  </div>',
+    '}',
+    '',
+    '@if (datepicker.outputs().view === \'year\') {',
+    '  <div [tngDatepickerYearGrid]="controller">',
+    '    @for (option of datepicker.outputs().yearOptions; track option.id) {',
+    '      <button [tngDatepickerYearOption]="option" type="button">{{ option.label }}</button>',
+    '    }',
+    '  </div>',
+    '}',
+    '',
+  ].join('\n');
+}

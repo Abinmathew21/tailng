@@ -1,0 +1,307 @@
+<article class="headless-datepicker-overview">
+  <h2 class="headless-datepicker-overview-title">Datepicker overview</h2>
+  <p class="headless-datepicker-overview-lead">
+    Headless Datepicker gives you the same calendar logic as the wrapper without owning the field
+    markup. Use it when the product needs a custom shell, a custom input rhythm, or a more directed
+    drill-down flow than the stock component surface.
+  </p>
+
+  <section id="imports" class="headless-datepicker-overview-block">
+    <h3>Imports</h3>
+    <tng-code-block
+      [code]="importsCode"
+      adapter="shiki"
+      language="ts"
+      title="Headless imports"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="usage-baseline" class="headless-datepicker-overview-block">
+    <h3>Usage baseline</h3>
+    <p>
+      Start with one controller, one registered trigger, and one overlay anchor. The controller owns
+      date math, input parsing, bounds, and keyboard state. Your template only mirrors its outputs.
+    </p>
+    <tng-code-block
+      [code]="usageBaselineCode"
+      adapter="shiki"
+      language="ts"
+      title="Controller baseline"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="datepicker-variants" class="headless-datepicker-overview-block">
+    <app-docs-example-tabs-section
+      heading="Datepicker variants"
+      description="Compare the same controller-driven Datepicker flow across plain CSS and Tailwind CSS shells while keeping the primitive in charge of calendar behavior."
+      ariaLabel="Headless datepicker overview examples"
+      tabListAriaLabel="Headless datepicker overview style variants"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Datepicker (Plain-CSS)"
+        [codeTabs]="plainCodeTabs"
+        [stackblitzUrl]="stackblitzVanillaUrl"
+      >
+        <div class="headless-datepicker-overview-example-preview">
+          <section class="docs-headless-datepicker-overview-plain-card">
+            <span class="docs-headless-datepicker-overview-plain-label">Invoice date</span>
+            <section
+              class="headless-datepicker-demo docs-headless-datepicker-overview-demo docs-headless-datepicker-overview-demo--plain"
+              [tngDatepickerHost]="plainController"
+            >
+              <div class="headless-datepicker-field" data-slot="datepicker-field">
+                <div #plainAnchorShell class="headless-datepicker-anchor">
+                  <div
+                    class="headless-datepicker-shell"
+                    data-slot="datepicker-input-shell"
+                    [attr.data-invalid]="plain.outputs().validationError !== null ? 'true' : null"
+                    [attr.data-open]="plain.outputs().getTriggerAttributes()['data-open']"
+                  >
+                    <input
+                      class="headless-datepicker-input"
+                      [tngDatepickerInput]="plainController"
+                      type="text"
+                      inputmode="numeric"
+                      placeholder="MM-DD-YYYY"
+                      aria-label="Overview invoice date"
+                    />
+
+                    <button
+                      type="button"
+                      class="headless-datepicker-trigger"
+                      [tngDatepickerTrigger]="plainController"
+                      aria-label="Open calendar"
+                    >
+                      <tng-icon icon="calendar-days" class="headless-datepicker-trigger-icon" />
+                      <span class="headless-datepicker-trigger-chevron" aria-hidden="true">▾</span>
+                    </button>
+                  </div>
+
+                  <section
+                    [tngDatepickerOverlay]="plainController"
+                    [tngDatepickerOverlayAnchor]="plainAnchorShell"
+                    class="headless-datepicker-overlay"
+                  >
+                    <header class="headless-datepicker-header" data-slot="datepicker-header">
+                      <div class="headless-datepicker-header-row">
+                        <button type="button" class="headless-datepicker-nav" [tngDatepickerPrevButton]="plainController">‹</button>
+                        <button
+                          type="button"
+                          class="headless-datepicker-period"
+                          [tngDatepickerPeriodButton]="plainController"
+                        >
+                          <span class="headless-datepicker-period-title">{{ plain.periodLabel() }}</span>
+                          @if (plain.outputs().view !== 'year') {
+                            <span class="headless-datepicker-period-chevron" aria-hidden="true">▾</span>
+                          }
+                        </button>
+                        <button type="button" class="headless-datepicker-nav" [tngDatepickerNextButton]="plainController">›</button>
+                      </div>
+                    </header>
+
+                    @if (plain.outputs().view === 'day') {
+                      <div class="headless-datepicker-weekdays" data-slot="datepicker-weekdays" aria-hidden="true">
+                        @for (label of plain.outputs().weekdayLabels; track label) {
+                          <span data-slot="datepicker-weekday">{{ label }}</span>
+                        }
+                      </div>
+
+                      <div
+                        class="headless-datepicker-day-grid"
+                        [tngDatepickerDayGrid]="plainController"
+                      >
+                        @for (cell of plain.outputs().cells; track cell.id) {
+                          <button
+                            type="button"
+                            class="headless-datepicker-cell"
+                            [tngDatepickerDayCell]="cell"
+                          >
+                            {{ cell.label }}
+                          </button>
+                        }
+                      </div>
+                    }
+
+                    @if (plain.outputs().view === 'month') {
+                      <div class="headless-datepicker-picker-grid" [tngDatepickerMonthGrid]="plainController">
+                        @for (option of plain.outputs().monthOptions; track option.id) {
+                          <button
+                            type="button"
+                            class="headless-datepicker-picker-cell"
+                            [tngDatepickerMonthOption]="option"
+                          >
+                            {{ option.label }}
+                          </button>
+                        }
+                      </div>
+                    }
+
+                    @if (plain.outputs().view === 'year') {
+                      <div class="headless-datepicker-picker-grid" [tngDatepickerYearGrid]="plainController">
+                        @for (option of plain.outputs().yearOptions; track option.id) {
+                          <button
+                            type="button"
+                            class="headless-datepicker-picker-cell"
+                            [tngDatepickerYearOption]="option"
+                          >
+                            {{ option.label }}
+                          </button>
+                        }
+                      </div>
+                    }
+                  </section>
+                </div>
+              </div>
+            </section>
+          </section>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Datepicker (Tailwind CSS)"
+        [codeTabs]="tailwindCodeTabs"
+        [stackblitzUrl]="stackblitzTailwindUrl"
+      >
+        <div class="headless-datepicker-overview-example-preview">
+          <div class="mx-auto grid w-full max-w-[22rem] gap-3 rounded-[1.5rem] border border-slate-200/90 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-4 text-slate-900 shadow-[0_18px_38px_rgba(15,23,42,0.10)] [color-scheme:light]">
+            <span class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Invoice date</span>
+            <section
+              class="headless-datepicker-demo docs-headless-datepicker-overview-demo docs-headless-datepicker-overview-demo--tailwind"
+              [tngDatepickerHost]="tailwindController"
+            >
+              <div class="headless-datepicker-field" data-slot="datepicker-field">
+                <div #tailwindAnchorShell class="headless-datepicker-anchor">
+                  <div
+                    class="headless-datepicker-shell"
+                    data-slot="datepicker-input-shell"
+                    [attr.data-invalid]="tailwind.outputs().validationError !== null ? 'true' : null"
+                    [attr.data-open]="tailwind.outputs().getTriggerAttributes()['data-open']"
+                  >
+                    <input
+                      class="headless-datepicker-input"
+                      [tngDatepickerInput]="tailwindController"
+                      type="text"
+                      inputmode="numeric"
+                      placeholder="MM-DD-YYYY"
+                      aria-label="Overview invoice date"
+                    />
+
+                    <button
+                      type="button"
+                      class="headless-datepicker-trigger"
+                      [tngDatepickerTrigger]="tailwindController"
+                      aria-label="Open calendar"
+                    >
+                      <tng-icon icon="calendar-days" class="headless-datepicker-trigger-icon" />
+                      <span class="headless-datepicker-trigger-chevron" aria-hidden="true">▾</span>
+                    </button>
+                  </div>
+
+                  <section
+                    [tngDatepickerOverlay]="tailwindController"
+                    [tngDatepickerOverlayAnchor]="tailwindAnchorShell"
+                    class="headless-datepicker-overlay"
+                  >
+                    <header class="headless-datepicker-header" data-slot="datepicker-header">
+                      <div class="headless-datepicker-header-row">
+                        <button type="button" class="headless-datepicker-nav" [tngDatepickerPrevButton]="tailwindController">‹</button>
+                        <button
+                          type="button"
+                          class="headless-datepicker-period"
+                          [tngDatepickerPeriodButton]="tailwindController"
+                        >
+                          <span class="headless-datepicker-period-title">{{ tailwind.periodLabel() }}</span>
+                          @if (tailwind.outputs().view !== 'year') {
+                            <span class="headless-datepicker-period-chevron" aria-hidden="true">▾</span>
+                          }
+                        </button>
+                        <button type="button" class="headless-datepicker-nav" [tngDatepickerNextButton]="tailwindController">›</button>
+                      </div>
+                    </header>
+
+                    @if (tailwind.outputs().view === 'day') {
+                      <div class="headless-datepicker-weekdays" data-slot="datepicker-weekdays" aria-hidden="true">
+                        @for (label of tailwind.outputs().weekdayLabels; track label) {
+                          <span data-slot="datepicker-weekday">{{ label }}</span>
+                        }
+                      </div>
+
+                      <div
+                        class="headless-datepicker-day-grid"
+                        [tngDatepickerDayGrid]="tailwindController"
+                      >
+                        @for (cell of tailwind.outputs().cells; track cell.id) {
+                          <button
+                            type="button"
+                            class="headless-datepicker-cell"
+                            [tngDatepickerDayCell]="cell"
+                          >
+                            {{ cell.label }}
+                          </button>
+                        }
+                      </div>
+                    }
+
+                    @if (tailwind.outputs().view === 'month') {
+                      <div class="headless-datepicker-picker-grid" [tngDatepickerMonthGrid]="tailwindController">
+                        @for (option of tailwind.outputs().monthOptions; track option.id) {
+                          <button
+                            type="button"
+                            class="headless-datepicker-picker-cell"
+                            [tngDatepickerMonthOption]="option"
+                          >
+                            {{ option.label }}
+                          </button>
+                        }
+                      </div>
+                    }
+
+                    @if (tailwind.outputs().view === 'year') {
+                      <div class="headless-datepicker-picker-grid" [tngDatepickerYearGrid]="tailwindController">
+                        @for (option of tailwind.outputs().yearOptions; track option.id) {
+                          <button
+                            type="button"
+                            class="headless-datepicker-picker-cell"
+                            [tngDatepickerYearOption]="option"
+                          >
+                            {{ option.label }}
+                          </button>
+                        }
+                      </div>
+                    }
+                  </section>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section id="behavior-baseline" class="headless-datepicker-overview-block">
+    <h3>Behavior baseline</h3>
+    <ul class="headless-datepicker-overview-list">
+      <li>The controller owns manual input parsing, bounds, and selected-value commits.</li>
+      <li>The overlay directive portals the popup while preserving Datepicker slot attrs and tokens.</li>
+      <li>Outside-month days can stay visible with <code>showOutsideDays</code>, but remain clearly disabled when blocked.</li>
+      <li>Register the same trigger element you render so focus restoration and combobox semantics stay aligned.</li>
+    </ul>
+  </section>
+</article>

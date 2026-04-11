@@ -1,0 +1,200 @@
+<article class="headless-datepicker-styling">
+  <h2 class="headless-datepicker-styling-title">Styling contract</h2>
+  <p class="headless-datepicker-styling-lead">
+    Headless Datepicker styling is entirely slot and state driven. The controller gives you stable
+    public attributes so you can style the same field, overlay, and calendar structure with plain
+    CSS or utility classes. The current helper directives apply those public attrs for you, so most
+    applications style the slots instead of mirroring attribute maps manually.
+  </p>
+
+  <section id="css-contract-table" class="headless-datepicker-styling-block">
+    <h3>CSS contract table</h3>
+    <div class="headless-datepicker-styling-table-wrap">
+      <table class="headless-datepicker-styling-table">
+        <thead>
+          <tr>
+            <th scope="col">Selector</th>
+            <th scope="col">Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>[data-slot="datepicker"]</code></td>
+            <td>Host root for shared field and popup theming. <code>[tngDatepickerHost]</code> applies this automatically.</td>
+          </tr>
+          <tr>
+            <td><code>[data-slot="datepicker-field"]</code></td>
+            <td>Field wrapper containing the input shell and overlay anchor.</td>
+          </tr>
+          <tr>
+            <td><code>[data-slot="datepicker-input-shell"]</code></td>
+            <td>Combined input and trigger chrome.</td>
+          </tr>
+          <tr>
+            <td><code>[data-slot="datepicker-input"]</code></td>
+            <td>Editable text input surface. <code>[tngDatepickerInput]</code> applies the slot attr and input behavior.</td>
+          </tr>
+          <tr>
+            <td><code>[data-slot="datepicker-trigger"]</code></td>
+            <td>Trigger button that toggles the calendar popup. <code>[tngDatepickerTrigger]</code> applies the slot and ARIA attrs.</td>
+          </tr>
+          <tr>
+            <td><code>[data-slot="datepicker-overlay"]</code></td>
+            <td>Popup panel. <code>[tngDatepickerOverlay]</code> keeps this as the styling surface even after portaling.</td>
+          </tr>
+          <tr>
+            <td><code>[data-slot="datepicker-header"]</code> / <code>[data-slot="datepicker-period-button"]</code></td>
+            <td>Header layout and month-year drill-down trigger. The nav/period directives add behavior without changing the styling hook.</td>
+          </tr>
+          <tr>
+            <td><code>[data-slot="datepicker-cell"]</code></td>
+            <td>Day cell styling surface in the month grid. <code>[tngDatepickerDayCell]</code> applies item attrs and selection behavior.</td>
+          </tr>
+          <tr>
+            <td><code>[data-slot="datepicker-month"]</code> / <code>[data-slot="datepicker-year"]</code></td>
+            <td>Month and year picker cells. <code>[tngDatepickerMonthOption]</code> and <code>[tngDatepickerYearOption]</code> apply the same public attrs.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="state-selectors" class="headless-datepicker-styling-block">
+    <h3>State selectors</h3>
+    <div class="headless-datepicker-styling-table-wrap">
+      <table class="headless-datepicker-styling-table">
+        <thead>
+          <tr>
+            <th scope="col">State</th>
+            <th scope="col">Applied on</th>
+            <th scope="col">Use case</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>[data-open]</code></td>
+            <td>Host, trigger, input shell, overlay</td>
+            <td>Open-state emphasis and shell changes.</td>
+          </tr>
+          <tr>
+            <td><code>[data-invalid]</code></td>
+            <td>Input shell</td>
+            <td>Manual input parse or bounds errors.</td>
+          </tr>
+          <tr>
+            <td><code>[data-disabled]</code></td>
+            <td>Host, day/month/year cells</td>
+            <td>Disabled field or blocked date visuals.</td>
+          </tr>
+          <tr>
+            <td><code>[data-selected]</code></td>
+            <td>Day/month/year cells</td>
+            <td>Committed selection state.</td>
+          </tr>
+          <tr>
+            <td><code>[data-focus-visible]</code></td>
+            <td>Day/month/year cells</td>
+            <td>Keyboard focus treatment distinct from selection.</td>
+          </tr>
+          <tr>
+            <td><code>[data-active]</code></td>
+            <td>Day/month/year cells</td>
+            <td>Current roving target when focus and selection differ.</td>
+          </tr>
+          <tr>
+            <td><code>[data-in-month]</code></td>
+            <td>Day cells</td>
+            <td>Distinguishes spillover days from the current visible month.</td>
+          </tr>
+          <tr>
+            <td><code>[data-hidden]</code></td>
+            <td>Day cells</td>
+            <td>Supports hidden placeholder cells when outside days are not shown.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="common-custom-properties" class="headless-datepicker-styling-block">
+    <h3>Common custom properties</h3>
+    <div class="headless-datepicker-styling-table-wrap">
+      <table class="headless-datepicker-styling-table">
+        <thead>
+          <tr>
+            <th scope="col">Token</th>
+            <th scope="col">Typical usage</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>--tng-datepicker-radius</code></td>
+            <td>Field shell and overlay radius.</td>
+          </tr>
+          <tr>
+            <td><code>--tng-datepicker-field-height</code></td>
+            <td>Combined input and trigger height.</td>
+          </tr>
+          <tr>
+            <td><code>--tng-datepicker-overlay-gap</code></td>
+            <td>Distance between the field anchor and the popup.</td>
+          </tr>
+          <tr>
+            <td><code>--tng-datepicker-overlay-padding</code></td>
+            <td>Popup panel padding.</td>
+          </tr>
+          <tr>
+            <td><code>--tng-datepicker-grid-gap</code></td>
+            <td>Spacing between day, month, and year cells.</td>
+          </tr>
+          <tr>
+            <td><code>--tng-datepicker-inline-gap</code> / <code>--tng-datepicker-nav-size</code></td>
+            <td>Trigger/nav spacing and wrapper-level control sizing.</td>
+          </tr>
+          <tr>
+            <td><code>--tng-datepicker-day-cell-size</code></td>
+            <td>Base day-cell height.</td>
+          </tr>
+          <tr>
+            <td><code>--tng-datepicker-picker-cell-size</code></td>
+            <td>Base month/year-cell height.</td>
+          </tr>
+          <tr>
+            <td><code>--tng-datepicker-brand</code></td>
+            <td>Selected and focus-visible accent color.</td>
+          </tr>
+          <tr>
+            <td><code>--tng-datepicker-border</code> / <code>--tng-datepicker-border-strong</code></td>
+            <td>Field chrome, panel edges, and stronger selected-state borders.</td>
+          </tr>
+          <tr>
+            <td><code>--tng-datepicker-bg</code> / <code>--tng-datepicker-surface</code> / <code>--tng-datepicker-canvas</code></td>
+            <td>Field shell, control fills, and popup surface layers.</td>
+          </tr>
+          <tr>
+            <td><code>--tng-datepicker-fg</code> / <code>--tng-datepicker-muted</code></td>
+            <td>Primary text, icon, weekday, and supporting copy colors.</td>
+          </tr>
+          <tr>
+            <td><code>--tng-datepicker-focus</code> / <code>--tng-datepicker-focus-shadow</code></td>
+            <td>Focus ring color and the shared focus treatment used by the contract.</td>
+          </tr>
+          <tr>
+            <td><code>--tng-datepicker-shadow</code> / <code>--tng-datepicker-ease</code></td>
+            <td>Popup elevation and contract transition timing.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <tng-code-block
+      [code]="compactThemeCode"
+      adapter="shiki"
+      language="css"
+      title="Scoped token overrides"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+</article>

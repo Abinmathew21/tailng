@@ -147,6 +147,13 @@ export const HEADLESS_FORM_GROUP: HeadlessDocsGroup = {
       description: 'Multiple selection state handling and interaction contracts in select overlays.',
     },
     {
+      id: 'datepicker',
+      slug: 'datepicker',
+      title: 'Datepicker',
+      description:
+        'Headless calendar controller with editable input orchestration, overlay ownership, and bounded date navigation.',
+    },
+    {
       id: 'chips',
       slug: 'chips',
       title: 'Chips',
