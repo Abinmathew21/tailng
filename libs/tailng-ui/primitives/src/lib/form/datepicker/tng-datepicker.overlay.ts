@@ -3,6 +3,7 @@ import {
   Directive,
   ElementRef,
   HostBinding,
+  HostListener,
   effect,
   inject,
   input,
@@ -24,8 +25,10 @@ import type {
 } from './datepicker.types';
 
 type TngDatepickerOverlayController = Readonly<{
+  handleOverlayKeyDown: (event: KeyboardEvent) => void;
   getOutputs: () => Readonly<{
     getHostAttributes: () => TngDatepickerAttributeMap;
+    getOverlayAttributes: () => TngDatepickerAttributeMap;
     open: boolean;
   }>;
   registerOverlay: (element: HTMLElement | null) => void;
@@ -135,6 +138,65 @@ export class TngDatepickerOverlay {
   protected get dataPlacement(): 'bottom' | 'top' {
     this.renderVersion();
     return this.resolvedPlacement();
+  }
+
+  @HostBinding('attr.aria-describedby')
+  protected get ariaDescribedby(): string | null {
+    this.renderVersion();
+    return this.controller().getOutputs().getOverlayAttributes()['aria-describedby'] ?? null;
+  }
+
+  @HostBinding('attr.aria-label')
+  protected get ariaLabel(): string | null {
+    this.renderVersion();
+    return this.controller().getOutputs().getOverlayAttributes()['aria-label'] ?? null;
+  }
+
+  @HostBinding('attr.aria-labelledby')
+  protected get ariaLabelledby(): string | null {
+    this.renderVersion();
+    return this.controller().getOutputs().getOverlayAttributes()['aria-labelledby'] ?? null;
+  }
+
+  @HostBinding('attr.aria-modal')
+  protected get ariaModal(): string | null {
+    this.renderVersion();
+    return this.controller().getOutputs().getOverlayAttributes()['aria-modal'] ?? null;
+  }
+
+  @HostBinding('attr.data-open')
+  protected get dataOpen(): string | null {
+    this.renderVersion();
+    return this.controller().getOutputs().getOverlayAttributes()['data-open'] ?? null;
+  }
+
+  @HostBinding('attr.data-position')
+  protected get dataPosition(): string | null {
+    this.renderVersion();
+    return this.controller().getOutputs().getOverlayAttributes()['data-position'] ?? null;
+  }
+
+  @HostBinding('attr.data-slot')
+  protected get dataSlot(): string | null {
+    this.renderVersion();
+    return this.controller().getOutputs().getOverlayAttributes()['data-slot'] ?? null;
+  }
+
+  @HostBinding('attr.id')
+  protected get id(): string | null {
+    this.renderVersion();
+    return this.controller().getOutputs().getOverlayAttributes()['id'] ?? null;
+  }
+
+  @HostBinding('attr.role')
+  protected get role(): string | null {
+    this.renderVersion();
+    return this.controller().getOutputs().getOverlayAttributes()['role'] ?? null;
+  }
+
+  @HostListener('keydown', ['$event'])
+  protected onKeydown(event: KeyboardEvent): void {
+    this.controller().handleOverlayKeyDown(event);
   }
 
   public constructor() {
