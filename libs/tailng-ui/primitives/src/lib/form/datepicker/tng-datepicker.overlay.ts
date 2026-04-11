@@ -50,6 +50,7 @@ const PORTALLED_DATEPICKER_THEME_VARS = [
   '--tng-datepicker-grid-gap',
   '--tng-datepicker-inline-gap',
   '--tng-datepicker-overlay-padding',
+  '--tng-datepicker-nav-size',
   '--tng-datepicker-border',
   '--tng-datepicker-border-strong',
   '--tng-datepicker-bg',

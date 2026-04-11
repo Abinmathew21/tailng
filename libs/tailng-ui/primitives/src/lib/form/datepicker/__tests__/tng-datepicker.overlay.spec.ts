@@ -49,6 +49,7 @@ function getRequired<T extends Element>(root: ParentNode, selector: string): T {
       style="
         width: 240px;
         min-height: 52px;
+        --tng-datepicker-nav-size: 2.8rem;
         --tng-datepicker-surface: #f8fafc;
         --tng-datepicker-border: #d8e2ef;
         --tng-datepicker-fg: #0f172a;
@@ -126,6 +127,7 @@ describe('tng-datepicker.overlay', () => {
     expect(mountedOverlay.style.getPropertyValue('--tng-datepicker-border').trim()).toBe('#d8e2ef');
     expect(mountedOverlay.style.getPropertyValue('--tng-datepicker-fg').trim()).toBe('#0f172a');
     expect(mountedOverlay.style.getPropertyValue('--tng-datepicker-brand').trim()).toBe('#2563eb');
+    expect(mountedOverlay.style.getPropertyValue('--tng-datepicker-nav-size').trim()).toBe('2.8rem');
     expect(mountedOverlay.style.colorScheme).toBe('light');
 
     fixture.componentInstance.controller.close();
@@ -135,6 +137,7 @@ describe('tng-datepicker.overlay', () => {
     expect(overlay.getAttribute('hidden')).toBe('');
     expect(overlay.style.getPropertyValue('--tng-datepicker-surface').trim()).toBe('');
     expect(overlay.style.getPropertyValue('--tng-datepicker-border').trim()).toBe('');
+    expect(overlay.style.getPropertyValue('--tng-datepicker-nav-size').trim()).toBe('');
     expect(overlay.style.colorScheme).toBe('');
   });
 
