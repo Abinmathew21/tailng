@@ -96,16 +96,40 @@
   border-radius: var(--tng-datepicker-radius);
   background: var(--tng-datepicker-bg);
   box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05);
+  transition:
+    border-color 150ms ease,
+    box-shadow 150ms ease,
+    background-color 150ms ease;
+}
+
+.datepicker-headless-shell:focus-within {
+  border-color: color-mix(in srgb, var(--tng-datepicker-brand) 62%, var(--tng-datepicker-border) 38%);
+  box-shadow: var(--tng-datepicker-focus-shadow);
 }
 
 .datepicker-headless-input {
+  appearance: none;
+  -webkit-appearance: none;
   background: transparent;
+  border: 0;
+  box-shadow: none;
   caret-color: var(--tng-datepicker-brand);
   color: var(--tng-datepicker-fg);
   flex: 1 1 auto;
+  font: inherit;
   font-size: 0.98rem;
   font-weight: 600;
+  line-height: 1.35;
+  min-height: 100%;
   min-inline-size: 0;
+  outline: none;
+  padding: 0;
+}
+
+.datepicker-headless-input:focus,
+.datepicker-headless-input:focus-visible {
+  outline: none;
+  box-shadow: none;
 }
 
 .datepicker-headless-input::placeholder {

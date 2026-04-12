@@ -2295,6 +2295,10 @@ class DatepickerController<TDate> implements TngDatepickerController<TDate> {
     const seenIds = new Set<string>();
 
     for (const element of focusableElements) {
+      if (element.tabIndex < 0) {
+        continue;
+      }
+
       const id = this.ensureElementId(element);
       if (seenIds.has(id)) {
         continue;

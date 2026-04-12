@@ -31,19 +31,19 @@
 
             <section
               class="datepicker-headless-demo datepicker-headless-demo--booking"
-              [tngDatepickerHost]="bookingController"
+              [tngDatepickerHost]="bookingPlainController"
             >
               <div class="datepicker-headless-field" data-slot="datepicker-field">
                 <div #bookingPlainAnchorShell class="datepicker-headless-anchor">
                   <div
                     class="datepicker-headless-shell"
                     data-slot="datepicker-input-shell"
-                    [attr.data-invalid]="booking.outputs().validationError !== null ? 'true' : null"
-                    [attr.data-open]="booking.outputs().getTriggerAttributes()['data-open']"
+                    [attr.data-invalid]="bookingPlain.outputs().validationError !== null ? 'true' : null"
+                    [attr.data-open]="bookingPlain.outputs().getTriggerAttributes()['data-open']"
                   >
                     <input
                       class="datepicker-headless-input"
-                      [tngDatepickerInput]="bookingController"
+                      [tngDatepickerInput]="bookingPlainController"
                       type="text"
                       inputmode="numeric"
                       placeholder="MM-DD-YYYY"
@@ -53,7 +53,8 @@
                     <button
                       type="button"
                       class="datepicker-headless-trigger"
-                      [tngDatepickerTrigger]="bookingController"
+                      [tngDatepickerTrigger]="bookingPlainController"
+                      tabindex="-1"
                       aria-label="Open booking calendar"
                     >
                       <tng-icon icon="calendar-days" class="datepicker-headless-trigger-icon" />
@@ -62,7 +63,7 @@
                   </div>
 
                   <section
-                    [tngDatepickerOverlay]="bookingController"
+                    [tngDatepickerOverlay]="bookingPlainController"
                     [tngDatepickerOverlayAnchor]="bookingPlainAnchorShell"
                     class="datepicker-headless-overlay"
                   >
@@ -71,41 +72,41 @@
                         <button
                           type="button"
                           class="datepicker-headless-nav"
-                          [tngDatepickerPrevButton]="bookingController"
+                          [tngDatepickerPrevButton]="bookingPlainController"
                         >
                           ‹
                         </button>
                         <button
                           type="button"
                           class="datepicker-headless-period"
-                          [tngDatepickerPeriodButton]="bookingController"
+                          [tngDatepickerPeriodButton]="bookingPlainController"
                         >
                           <span class="datepicker-headless-period-title">
-                            {{ booking.periodLabel() }}
+                            {{ bookingPlain.periodLabel() }}
                           </span>
-                          @if (booking.outputs().view !== 'year') {
+                          @if (bookingPlain.outputs().view !== 'year') {
                             <span class="datepicker-headless-period-chevron" aria-hidden="true">▾</span>
                           }
                         </button>
                         <button
                           type="button"
                           class="datepicker-headless-nav"
-                          [tngDatepickerNextButton]="bookingController"
+                          [tngDatepickerNextButton]="bookingPlainController"
                         >
                           ›
                         </button>
                       </div>
                     </header>
 
-                    @if (booking.outputs().view === 'day') {
+                    @if (bookingPlain.outputs().view === 'day') {
                       <div class="datepicker-headless-weekdays" data-slot="datepicker-weekdays" aria-hidden="true">
-                        @for (label of booking.outputs().weekdayLabels; track label) {
+                        @for (label of bookingPlain.outputs().weekdayLabels; track label) {
                           <span data-slot="datepicker-weekday">{{ label }}</span>
                         }
                       </div>
 
-                      <div class="datepicker-headless-day-grid" [tngDatepickerDayGrid]="bookingController">
-                        @for (cell of booking.outputs().cells; track cell.id) {
+                      <div class="datepicker-headless-day-grid" [tngDatepickerDayGrid]="bookingPlainController">
+                        @for (cell of bookingPlain.outputs().cells; track cell.id) {
                           <button
                             type="button"
                             class="datepicker-headless-cell"
@@ -117,9 +118,9 @@
                       </div>
                     }
 
-                    @if (booking.outputs().view === 'month') {
-                      <div class="datepicker-headless-picker-grid" [tngDatepickerMonthGrid]="bookingController">
-                        @for (option of booking.outputs().monthOptions; track option.id) {
+                    @if (bookingPlain.outputs().view === 'month') {
+                      <div class="datepicker-headless-picker-grid" [tngDatepickerMonthGrid]="bookingPlainController">
+                        @for (option of bookingPlain.outputs().monthOptions; track option.id) {
                           <button
                             type="button"
                             class="datepicker-headless-picker-cell"
@@ -131,9 +132,9 @@
                       </div>
                     }
 
-                    @if (booking.outputs().view === 'year') {
-                      <div class="datepicker-headless-picker-grid" [tngDatepickerYearGrid]="bookingController">
-                        @for (option of booking.outputs().yearOptions; track option.id) {
+                    @if (bookingPlain.outputs().view === 'year') {
+                      <div class="datepicker-headless-picker-grid" [tngDatepickerYearGrid]="bookingPlainController">
+                        @for (option of bookingPlain.outputs().yearOptions; track option.id) {
                           <button
                             type="button"
                             class="datepicker-headless-picker-cell"
@@ -167,21 +168,18 @@
               Constrain the selectable booking window without giving up manual input.
             </p>
 
-            <section
-              class="datepicker-headless-demo datepicker-headless-demo--booking"
-              [tngDatepickerHost]="bookingController"
-            >
-              <div class="datepicker-headless-field" data-slot="datepicker-field">
-                <div #bookingTailwindAnchorShell class="datepicker-headless-anchor">
+            <section class="block w-[18.5rem] max-w-full [color-scheme:light]" [tngDatepickerHost]="bookingTailwindController">
+              <div class="grid gap-[0.2rem]" data-slot="datepicker-field">
+                <div #bookingTailwindAnchorShell class="relative">
                   <div
-                    class="datepicker-headless-shell"
+                    class="flex min-h-[2.95rem] min-w-0 w-full overflow-hidden rounded-[1.08rem] border border-slate-300/90 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] shadow-[0_1px_2px_rgba(15,23,42,0.04)] transition-[border-color,box-shadow,background-color] duration-150 focus-within:border-slate-400 focus-within:shadow-[0_0_0_3px_rgba(148,163,184,0.14)] data-[open=true]:border-blue-600 data-[open=true]:shadow-[0_0_0_3px_rgba(37,99,235,0.16)] data-[invalid=true]:border-rose-600 data-[invalid=true]:shadow-[0_0_0_3px_rgba(225,29,72,0.16)]"
                     data-slot="datepicker-input-shell"
-                    [attr.data-invalid]="booking.outputs().validationError !== null ? 'true' : null"
-                    [attr.data-open]="booking.outputs().getTriggerAttributes()['data-open']"
+                    [attr.data-invalid]="bookingTailwind.outputs().validationError !== null ? 'true' : null"
+                    [attr.data-open]="bookingTailwind.outputs().getTriggerAttributes()['data-open']"
                   >
                     <input
-                      class="datepicker-headless-input"
-                      [tngDatepickerInput]="bookingController"
+                      class="min-h-full min-w-0 flex-1 appearance-none border-0 bg-transparent px-[0.88rem] py-[0.72rem] text-[0.98rem] font-semibold tracking-[0.01em] text-slate-950 outline-none ring-0 focus:outline-none focus:ring-0 placeholder:font-medium placeholder:text-slate-400"
+                      [tngDatepickerInput]="bookingTailwindController"
                       type="text"
                       inputmode="numeric"
                       placeholder="MM-DD-YYYY"
@@ -190,63 +188,64 @@
 
                     <button
                       type="button"
-                      class="datepicker-headless-trigger"
-                      [tngDatepickerTrigger]="bookingController"
+                      class="inline-flex min-w-[3.1rem] shrink-0 items-center justify-center gap-[0.28rem] border-l border-slate-300/80 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] pl-[0.54rem] pr-[0.9rem] text-slate-950 transition-colors duration-150 hover:bg-blue-50"
+                      [tngDatepickerTrigger]="bookingTailwindController"
+                      tabindex="-1"
                       aria-label="Open booking calendar"
                     >
-                      <tng-icon icon="calendar-days" class="datepicker-headless-trigger-icon" />
-                      <span class="datepicker-headless-trigger-chevron" aria-hidden="true">▾</span>
+                      <tng-icon icon="calendar-days" class="size-[1.05rem] shrink-0 text-slate-950" />
+                      <span class="text-[0.68rem] leading-none text-slate-500" aria-hidden="true">▾</span>
                     </button>
                   </div>
 
                   <section
-                    [tngDatepickerOverlay]="bookingController"
+                    [tngDatepickerOverlay]="bookingTailwindController"
                     [tngDatepickerOverlayAnchor]="bookingTailwindAnchorShell"
-                    class="datepicker-headless-overlay"
+                    class="grid w-[min(20rem,calc(100vw-2rem))] gap-[0.68rem] rounded-[1.26rem] border border-slate-300/90 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-[0.8rem] text-slate-950 shadow-[0_22px_38px_rgba(15,23,42,0.12),0_10px_20px_rgba(15,23,42,0.08)]"
                   >
-                    <header class="datepicker-headless-header" data-slot="datepicker-header">
-                      <div class="datepicker-headless-header-row">
+                    <header class="grid gap-[0.42rem]" data-slot="datepicker-header">
+                      <div class="grid grid-cols-[1.9rem_minmax(0,1fr)_1.9rem] items-center gap-[0.4rem]">
                         <button
                           type="button"
-                          class="datepicker-headless-nav"
-                          [tngDatepickerPrevButton]="bookingController"
+                          class="inline-flex min-h-[2rem] items-center justify-center rounded-[0.82rem] border border-slate-300/90 bg-white/80 text-[1.05rem] leading-none text-slate-950 transition-colors duration-150 hover:bg-blue-50"
+                          [tngDatepickerPrevButton]="bookingTailwindController"
                         >
                           ‹
                         </button>
                         <button
                           type="button"
-                          class="datepicker-headless-period"
-                          [tngDatepickerPeriodButton]="bookingController"
+                          class="inline-flex min-h-[2rem] min-w-0 items-center justify-center gap-[0.24rem] rounded-[0.82rem] border border-slate-300/90 bg-white/80 px-[0.72rem] font-semibold text-slate-950 transition-colors duration-150 hover:bg-blue-50"
+                          [tngDatepickerPeriodButton]="bookingTailwindController"
                         >
-                          <span class="datepicker-headless-period-title">
-                            {{ booking.periodLabel() }}
+                          <span class="truncate">
+                            {{ bookingTailwind.periodLabel() }}
                           </span>
-                          @if (booking.outputs().view !== 'year') {
-                            <span class="datepicker-headless-period-chevron" aria-hidden="true">▾</span>
+                          @if (bookingTailwind.outputs().view !== 'year') {
+                            <span class="text-[0.68rem] leading-none text-slate-500" aria-hidden="true">▾</span>
                           }
                         </button>
                         <button
                           type="button"
-                          class="datepicker-headless-nav"
-                          [tngDatepickerNextButton]="bookingController"
+                          class="inline-flex min-h-[2rem] items-center justify-center rounded-[0.82rem] border border-slate-300/90 bg-white/80 text-[1.05rem] leading-none text-slate-950 transition-colors duration-150 hover:bg-blue-50"
+                          [tngDatepickerNextButton]="bookingTailwindController"
                         >
                           ›
                         </button>
                       </div>
                     </header>
 
-                    @if (booking.outputs().view === 'day') {
-                      <div class="datepicker-headless-weekdays" data-slot="datepicker-weekdays" aria-hidden="true">
-                        @for (label of booking.outputs().weekdayLabels; track label) {
-                          <span data-slot="datepicker-weekday">{{ label }}</span>
+                    @if (bookingTailwind.outputs().view === 'day') {
+                      <div class="grid grid-cols-7 gap-[0.28rem]" data-slot="datepicker-weekdays" aria-hidden="true">
+                        @for (label of bookingTailwind.outputs().weekdayLabels; track label) {
+                          <span class="text-center text-[0.68rem] font-medium text-slate-500" data-slot="datepicker-weekday">{{ label }}</span>
                         }
                       </div>
 
-                      <div class="datepicker-headless-day-grid" [tngDatepickerDayGrid]="bookingController">
-                        @for (cell of booking.outputs().cells; track cell.id) {
+                      <div class="grid grid-cols-7 gap-[0.28rem]" [tngDatepickerDayGrid]="bookingTailwindController">
+                        @for (cell of bookingTailwind.outputs().cells; track cell.id) {
                           <button
                             type="button"
-                            class="datepicker-headless-cell"
+                            class="min-h-[2.28rem] rounded-[0.82rem] border border-transparent bg-slate-50 text-slate-950 transition-[border-color,box-shadow,background-color,color,opacity] duration-150 hover:border-slate-300/90 hover:bg-white data-[active=true]:border-slate-300/90 data-[active=true]:bg-white data-[active=true]:shadow-[0_0_0_1px_rgba(15,23,42,0.05)] data-[selected=true]:text-slate-950 data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-45"
                             [tngDatepickerDayCell]="cell"
                           >
                             {{ cell.label }}
@@ -255,12 +254,12 @@
                       </div>
                     }
 
-                    @if (booking.outputs().view === 'month') {
-                      <div class="datepicker-headless-picker-grid" [tngDatepickerMonthGrid]="bookingController">
-                        @for (option of booking.outputs().monthOptions; track option.id) {
+                    @if (bookingTailwind.outputs().view === 'month') {
+                      <div class="grid grid-cols-4 gap-[0.28rem]" [tngDatepickerMonthGrid]="bookingTailwindController">
+                        @for (option of bookingTailwind.outputs().monthOptions; track option.id) {
                           <button
                             type="button"
-                            class="datepicker-headless-picker-cell"
+                            class="min-h-[2.38rem] rounded-[0.82rem] border border-transparent bg-slate-50 text-slate-950 transition-[border-color,box-shadow,background-color,color,opacity] duration-150 hover:border-slate-300/90 hover:bg-white data-[active=true]:border-slate-300/90 data-[active=true]:bg-white data-[active=true]:shadow-[0_0_0_1px_rgba(15,23,42,0.05)] data-[selected=true]:text-slate-950 data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-45"
                             [tngDatepickerMonthOption]="option"
                           >
                             {{ option.label }}
@@ -269,12 +268,12 @@
                       </div>
                     }
 
-                    @if (booking.outputs().view === 'year') {
-                      <div class="datepicker-headless-picker-grid" [tngDatepickerYearGrid]="bookingController">
-                        @for (option of booking.outputs().yearOptions; track option.id) {
+                    @if (bookingTailwind.outputs().view === 'year') {
+                      <div class="grid grid-cols-4 gap-[0.28rem]" [tngDatepickerYearGrid]="bookingTailwindController">
+                        @for (option of bookingTailwind.outputs().yearOptions; track option.id) {
                           <button
                             type="button"
-                            class="datepicker-headless-picker-cell"
+                            class="min-h-[2.38rem] rounded-[0.82rem] border border-transparent bg-slate-50 text-slate-950 transition-[border-color,box-shadow,background-color,color,opacity] duration-150 hover:border-slate-300/90 hover:bg-white data-[active=true]:border-slate-300/90 data-[active=true]:bg-white data-[active=true]:shadow-[0_0_0_1px_rgba(15,23,42,0.05)] data-[selected=true]:text-slate-950 data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-45"
                             [tngDatepickerYearOption]="option"
                           >
                             {{ option.label }}
@@ -318,19 +317,19 @@
 
             <section
               class="datepicker-headless-demo datepicker-headless-demo--reporting"
-              [tngDatepickerHost]="reportingController"
+              [tngDatepickerHost]="reportingPlainController"
             >
               <div class="datepicker-headless-field" data-slot="datepicker-field">
                 <div #reportingPlainAnchorShell class="datepicker-headless-anchor">
                   <div
                     class="datepicker-headless-shell"
                     data-slot="datepicker-input-shell"
-                    [attr.data-invalid]="reporting.outputs().validationError !== null ? 'true' : null"
-                    [attr.data-open]="reporting.outputs().getTriggerAttributes()['data-open']"
+                    [attr.data-invalid]="reportingPlain.outputs().validationError !== null ? 'true' : null"
+                    [attr.data-open]="reportingPlain.outputs().getTriggerAttributes()['data-open']"
                   >
                     <input
                       class="datepicker-headless-input"
-                      [tngDatepickerInput]="reportingController"
+                      [tngDatepickerInput]="reportingPlainController"
                       type="text"
                       inputmode="numeric"
                       placeholder="DD.MM.YYYY"
@@ -340,7 +339,8 @@
                     <button
                       type="button"
                       class="datepicker-headless-trigger"
-                      [tngDatepickerTrigger]="reportingController"
+                      [tngDatepickerTrigger]="reportingPlainController"
+                      tabindex="-1"
                       aria-label="Open reporting calendar"
                     >
                       <tng-icon icon="calendar-days" class="datepicker-headless-trigger-icon" />
@@ -349,7 +349,7 @@
                   </div>
 
                   <section
-                    [tngDatepickerOverlay]="reportingController"
+                    [tngDatepickerOverlay]="reportingPlainController"
                     [tngDatepickerOverlayAnchor]="reportingPlainAnchorShell"
                     class="datepicker-headless-overlay"
                   >
@@ -358,41 +358,41 @@
                         <button
                           type="button"
                           class="datepicker-headless-nav"
-                          [tngDatepickerPrevButton]="reportingController"
+                          [tngDatepickerPrevButton]="reportingPlainController"
                         >
                           ‹
                         </button>
                         <button
                           type="button"
                           class="datepicker-headless-period"
-                          [tngDatepickerPeriodButton]="reportingController"
+                          [tngDatepickerPeriodButton]="reportingPlainController"
                         >
                           <span class="datepicker-headless-period-title">
-                            {{ reporting.periodLabel() }}
+                            {{ reportingPlain.periodLabel() }}
                           </span>
-                          @if (reporting.outputs().view !== 'year') {
+                          @if (reportingPlain.outputs().view !== 'year') {
                             <span class="datepicker-headless-period-chevron" aria-hidden="true">▾</span>
                           }
                         </button>
                         <button
                           type="button"
                           class="datepicker-headless-nav"
-                          [tngDatepickerNextButton]="reportingController"
+                          [tngDatepickerNextButton]="reportingPlainController"
                         >
                           ›
                         </button>
                       </div>
                     </header>
 
-                    @if (reporting.outputs().view === 'day') {
+                    @if (reportingPlain.outputs().view === 'day') {
                       <div class="datepicker-headless-weekdays" data-slot="datepicker-weekdays" aria-hidden="true">
-                        @for (label of reporting.outputs().weekdayLabels; track label) {
+                        @for (label of reportingPlain.outputs().weekdayLabels; track label) {
                           <span data-slot="datepicker-weekday">{{ label }}</span>
                         }
                       </div>
 
-                      <div class="datepicker-headless-day-grid" [tngDatepickerDayGrid]="reportingController">
-                        @for (cell of reporting.outputs().cells; track cell.id) {
+                      <div class="datepicker-headless-day-grid" [tngDatepickerDayGrid]="reportingPlainController">
+                        @for (cell of reportingPlain.outputs().cells; track cell.id) {
                           <button
                             type="button"
                             class="datepicker-headless-cell"
@@ -404,9 +404,9 @@
                       </div>
                     }
 
-                    @if (reporting.outputs().view === 'month') {
-                      <div class="datepicker-headless-picker-grid" [tngDatepickerMonthGrid]="reportingController">
-                        @for (option of reporting.outputs().monthOptions; track option.id) {
+                    @if (reportingPlain.outputs().view === 'month') {
+                      <div class="datepicker-headless-picker-grid" [tngDatepickerMonthGrid]="reportingPlainController">
+                        @for (option of reportingPlain.outputs().monthOptions; track option.id) {
                           <button
                             type="button"
                             class="datepicker-headless-picker-cell"
@@ -418,9 +418,9 @@
                       </div>
                     }
 
-                    @if (reporting.outputs().view === 'year') {
-                      <div class="datepicker-headless-picker-grid" [tngDatepickerYearGrid]="reportingController">
-                        @for (option of reporting.outputs().yearOptions; track option.id) {
+                    @if (reportingPlain.outputs().view === 'year') {
+                      <div class="datepicker-headless-picker-grid" [tngDatepickerYearGrid]="reportingPlainController">
+                        @for (option of reportingPlain.outputs().yearOptions; track option.id) {
                           <button
                             type="button"
                             class="datepicker-headless-picker-cell"
@@ -454,21 +454,18 @@
               Swap in a reporting adapter when the field format and period label follow business conventions.
             </p>
 
-            <section
-              class="datepicker-headless-demo datepicker-headless-demo--reporting"
-              [tngDatepickerHost]="reportingController"
-            >
-              <div class="datepicker-headless-field" data-slot="datepicker-field">
-                <div #reportingTailwindAnchorShell class="datepicker-headless-anchor">
+            <section class="block w-[18.5rem] max-w-full [color-scheme:light]" [tngDatepickerHost]="reportingTailwindController">
+              <div class="grid gap-[0.2rem]" data-slot="datepicker-field">
+                <div #reportingTailwindAnchorShell class="relative">
                   <div
-                    class="datepicker-headless-shell"
+                    class="flex min-h-[2.95rem] min-w-0 w-full overflow-hidden rounded-[1.08rem] border border-slate-300/90 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] shadow-[0_1px_2px_rgba(15,23,42,0.04)] transition-[border-color,box-shadow,background-color] duration-150 focus-within:border-slate-400 focus-within:shadow-[0_0_0_3px_rgba(148,163,184,0.14)] data-[open=true]:border-teal-700 data-[open=true]:shadow-[0_0_0_3px_rgba(15,118,110,0.16)] data-[invalid=true]:border-rose-600 data-[invalid=true]:shadow-[0_0_0_3px_rgba(225,29,72,0.16)]"
                     data-slot="datepicker-input-shell"
-                    [attr.data-invalid]="reporting.outputs().validationError !== null ? 'true' : null"
-                    [attr.data-open]="reporting.outputs().getTriggerAttributes()['data-open']"
+                    [attr.data-invalid]="reportingTailwind.outputs().validationError !== null ? 'true' : null"
+                    [attr.data-open]="reportingTailwind.outputs().getTriggerAttributes()['data-open']"
                   >
                     <input
-                      class="datepicker-headless-input"
-                      [tngDatepickerInput]="reportingController"
+                      class="min-h-full min-w-0 flex-1 appearance-none border-0 bg-transparent px-[0.88rem] py-[0.72rem] text-[0.98rem] font-semibold tracking-[0.01em] text-slate-950 outline-none ring-0 focus:outline-none focus:ring-0 placeholder:font-medium placeholder:text-slate-400"
+                      [tngDatepickerInput]="reportingTailwindController"
                       type="text"
                       inputmode="numeric"
                       placeholder="DD.MM.YYYY"
@@ -477,63 +474,64 @@
 
                     <button
                       type="button"
-                      class="datepicker-headless-trigger"
-                      [tngDatepickerTrigger]="reportingController"
+                      class="inline-flex min-w-[3.1rem] shrink-0 items-center justify-center gap-[0.28rem] border-l border-slate-300/80 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] pl-[0.54rem] pr-[0.9rem] text-slate-950 transition-colors duration-150 hover:bg-teal-50"
+                      [tngDatepickerTrigger]="reportingTailwindController"
+                      tabindex="-1"
                       aria-label="Open reporting calendar"
                     >
-                      <tng-icon icon="calendar-days" class="datepicker-headless-trigger-icon" />
-                      <span class="datepicker-headless-trigger-chevron" aria-hidden="true">▾</span>
+                      <tng-icon icon="calendar-days" class="size-[1.05rem] shrink-0 text-slate-950" />
+                      <span class="text-[0.68rem] leading-none text-slate-500" aria-hidden="true">▾</span>
                     </button>
                   </div>
 
                   <section
-                    [tngDatepickerOverlay]="reportingController"
+                    [tngDatepickerOverlay]="reportingTailwindController"
                     [tngDatepickerOverlayAnchor]="reportingTailwindAnchorShell"
-                    class="datepicker-headless-overlay"
+                    class="grid w-[min(20rem,calc(100vw-2rem))] gap-[0.68rem] rounded-[1.26rem] border border-slate-300/90 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-[0.8rem] text-slate-950 shadow-[0_22px_38px_rgba(15,23,42,0.12),0_10px_20px_rgba(15,23,42,0.08)]"
                   >
-                    <header class="datepicker-headless-header" data-slot="datepicker-header">
-                      <div class="datepicker-headless-header-row">
+                    <header class="grid gap-[0.42rem]" data-slot="datepicker-header">
+                      <div class="grid grid-cols-[1.9rem_minmax(0,1fr)_1.9rem] items-center gap-[0.4rem]">
                         <button
                           type="button"
-                          class="datepicker-headless-nav"
-                          [tngDatepickerPrevButton]="reportingController"
+                          class="inline-flex min-h-[2rem] items-center justify-center rounded-[0.82rem] border border-slate-300/90 bg-white/80 text-[1.05rem] leading-none text-slate-950 transition-colors duration-150 hover:bg-teal-50"
+                          [tngDatepickerPrevButton]="reportingTailwindController"
                         >
                           ‹
                         </button>
                         <button
                           type="button"
-                          class="datepicker-headless-period"
-                          [tngDatepickerPeriodButton]="reportingController"
+                          class="inline-flex min-h-[2rem] min-w-0 items-center justify-center gap-[0.24rem] rounded-[0.82rem] border border-slate-300/90 bg-white/80 px-[0.72rem] font-semibold text-slate-950 transition-colors duration-150 hover:bg-teal-50"
+                          [tngDatepickerPeriodButton]="reportingTailwindController"
                         >
-                          <span class="datepicker-headless-period-title">
-                            {{ reporting.periodLabel() }}
+                          <span class="truncate">
+                            {{ reportingTailwind.periodLabel() }}
                           </span>
-                          @if (reporting.outputs().view !== 'year') {
-                            <span class="datepicker-headless-period-chevron" aria-hidden="true">▾</span>
+                          @if (reportingTailwind.outputs().view !== 'year') {
+                            <span class="text-[0.68rem] leading-none text-slate-500" aria-hidden="true">▾</span>
                           }
                         </button>
                         <button
                           type="button"
-                          class="datepicker-headless-nav"
-                          [tngDatepickerNextButton]="reportingController"
+                          class="inline-flex min-h-[2rem] items-center justify-center rounded-[0.82rem] border border-slate-300/90 bg-white/80 text-[1.05rem] leading-none text-slate-950 transition-colors duration-150 hover:bg-teal-50"
+                          [tngDatepickerNextButton]="reportingTailwindController"
                         >
                           ›
                         </button>
                       </div>
                     </header>
 
-                    @if (reporting.outputs().view === 'day') {
-                      <div class="datepicker-headless-weekdays" data-slot="datepicker-weekdays" aria-hidden="true">
-                        @for (label of reporting.outputs().weekdayLabels; track label) {
-                          <span data-slot="datepicker-weekday">{{ label }}</span>
+                    @if (reportingTailwind.outputs().view === 'day') {
+                      <div class="grid grid-cols-7 gap-[0.28rem]" data-slot="datepicker-weekdays" aria-hidden="true">
+                        @for (label of reportingTailwind.outputs().weekdayLabels; track label) {
+                          <span class="text-center text-[0.68rem] font-medium text-slate-500" data-slot="datepicker-weekday">{{ label }}</span>
                         }
                       </div>
 
-                      <div class="datepicker-headless-day-grid" [tngDatepickerDayGrid]="reportingController">
-                        @for (cell of reporting.outputs().cells; track cell.id) {
+                      <div class="grid grid-cols-7 gap-[0.28rem]" [tngDatepickerDayGrid]="reportingTailwindController">
+                        @for (cell of reportingTailwind.outputs().cells; track cell.id) {
                           <button
                             type="button"
-                            class="datepicker-headless-cell"
+                            class="min-h-[2.28rem] rounded-[0.82rem] border border-transparent bg-slate-50 text-slate-950 transition-[border-color,box-shadow,background-color,color,opacity] duration-150 hover:border-slate-300/90 hover:bg-white data-[active=true]:border-slate-300/90 data-[active=true]:bg-white data-[active=true]:shadow-[0_0_0_1px_rgba(15,23,42,0.05)] data-[selected=true]:text-slate-950 data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-45"
                             [tngDatepickerDayCell]="cell"
                           >
                             {{ cell.label }}
@@ -542,12 +540,12 @@
                       </div>
                     }
 
-                    @if (reporting.outputs().view === 'month') {
-                      <div class="datepicker-headless-picker-grid" [tngDatepickerMonthGrid]="reportingController">
-                        @for (option of reporting.outputs().monthOptions; track option.id) {
+                    @if (reportingTailwind.outputs().view === 'month') {
+                      <div class="grid grid-cols-4 gap-[0.28rem]" [tngDatepickerMonthGrid]="reportingTailwindController">
+                        @for (option of reportingTailwind.outputs().monthOptions; track option.id) {
                           <button
                             type="button"
-                            class="datepicker-headless-picker-cell"
+                            class="min-h-[2.38rem] rounded-[0.82rem] border border-transparent bg-slate-50 text-slate-950 transition-[border-color,box-shadow,background-color,color,opacity] duration-150 hover:border-slate-300/90 hover:bg-white data-[active=true]:border-slate-300/90 data-[active=true]:bg-white data-[active=true]:shadow-[0_0_0_1px_rgba(15,23,42,0.05)] data-[selected=true]:text-slate-950 data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-45"
                             [tngDatepickerMonthOption]="option"
                           >
                             {{ option.label }}
@@ -556,12 +554,12 @@
                       </div>
                     }
 
-                    @if (reporting.outputs().view === 'year') {
-                      <div class="datepicker-headless-picker-grid" [tngDatepickerYearGrid]="reportingController">
-                        @for (option of reporting.outputs().yearOptions; track option.id) {
+                    @if (reportingTailwind.outputs().view === 'year') {
+                      <div class="grid grid-cols-4 gap-[0.28rem]" [tngDatepickerYearGrid]="reportingTailwindController">
+                        @for (option of reportingTailwind.outputs().yearOptions; track option.id) {
                           <button
                             type="button"
-                            class="datepicker-headless-picker-cell"
+                            class="min-h-[2.38rem] rounded-[0.82rem] border border-transparent bg-slate-50 text-slate-950 transition-[border-color,box-shadow,background-color,color,opacity] duration-150 hover:border-slate-300/90 hover:bg-white data-[active=true]:border-slate-300/90 data-[active=true]:bg-white data-[active=true]:shadow-[0_0_0_1px_rgba(15,23,42,0.05)] data-[selected=true]:text-slate-950 data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-45"
                             [tngDatepickerYearOption]="option"
                           >
                             {{ option.label }}

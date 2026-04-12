@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { afterEach, describe, expect, it } from 'vitest';
 import { createDatepickerController, type TngDatepickerOutputs } from '../tng-datepicker';
+import { TngDatepickerOverlay } from '../tng-datepicker.overlay';
 import {
   bindTngDatepicker,
   TngDatepickerDayCell,
@@ -30,6 +31,50 @@ function getRequired<T extends Element>(root: ParentNode, selector: string): T {
 
 function dispatchKeyboardEvent(target: Element, key: string): void {
   target.dispatchEvent(new KeyboardEvent('keydown', { bubbles: true, cancelable: true, key }));
+}
+
+function dispatchTabLikeBrowser(target: HTMLElement, shiftKey = false): void {
+  target.focus();
+
+  const event = new KeyboardEvent('keydown', {
+    bubbles: true,
+    cancelable: true,
+    key: 'Tab',
+    shiftKey,
+  });
+  target.dispatchEvent(event);
+
+  if (event.defaultPrevented) {
+    return;
+  }
+
+  const overlay = target.closest<HTMLElement>('[data-testid="overlay"]');
+  if (overlay === null) {
+    return;
+  }
+
+  const focusableElements = Array.from(
+    overlay.querySelectorAll<HTMLElement>(
+      [
+        'a[href]:not([tabindex="-1"])',
+        'button:not([disabled]):not([tabindex="-1"])',
+        'input:not([disabled]):not([tabindex="-1"])',
+        'select:not([disabled]):not([tabindex="-1"])',
+        'textarea:not([disabled]):not([tabindex="-1"])',
+        '[tabindex]:not([tabindex="-1"])',
+      ].join(','),
+    ),
+  );
+  const currentIndex = focusableElements.indexOf(target);
+  if (currentIndex === -1) {
+    return;
+  }
+
+  const nextTarget = shiftKey
+    ? focusableElements[currentIndex - 1]
+    : focusableElements[currentIndex + 1];
+
+  nextTarget?.focus();
 }
 
 function settle(fixture: { detectChanges(): void; whenStable(): Promise<unknown> }): Promise<unknown> {
@@ -90,6 +135,82 @@ function settle(fixture: { detectChanges(): void; whenStable(): Promise<unknown>
   `,
 })
 class DatepickerPartsHostComponent {
+  public readonly controller = createDatepickerController<Date>({
+    closeOnSelect: false,
+    ownerDocument: document,
+    showOutsideDays: true,
+    today: '2024-04-18',
+    trapFocus: true,
+    value: '2024-04-22',
+  });
+  public readonly datepicker = bindTngDatepicker(this.controller);
+
+  public outputs(): TngDatepickerOutputs<Date> {
+    return this.controller.getOutputs();
+  }
+}
+
+@Component({
+  standalone: true,
+  imports: [
+    TngDatepickerHost,
+    TngDatepickerInput,
+    TngDatepickerTrigger,
+    TngDatepickerOverlay,
+    TngDatepickerPrevButton,
+    TngDatepickerPeriodButton,
+    TngDatepickerNextButton,
+    TngDatepickerDayGrid,
+    TngDatepickerDayCell,
+    TngDatepickerMonthGrid,
+    TngDatepickerMonthOption,
+    TngDatepickerYearGrid,
+    TngDatepickerYearOption,
+  ],
+  template: `
+    <div data-testid="host" [tngDatepickerHost]="controller">
+      <div #anchor data-testid="anchor">
+        <input data-testid="input" [tngDatepickerInput]="controller" />
+        <button data-testid="trigger" type="button" [tngDatepickerTrigger]="controller">Open</button>
+      </div>
+
+      <section
+        data-testid="overlay"
+        [tngDatepickerOverlay]="controller"
+        [tngDatepickerOverlayAnchor]="anchor"
+      >
+        <header>
+          <button data-testid="prev" type="button" [tngDatepickerPrevButton]="controller">Prev</button>
+          <button data-testid="period" type="button" [tngDatepickerPeriodButton]="controller">
+            {{ datepicker.periodLabel() }}
+          </button>
+          <button data-testid="next" type="button" [tngDatepickerNextButton]="controller">Next</button>
+        </header>
+
+        @if (outputs().view === 'day') {
+          <div data-testid="day-grid" [tngDatepickerDayGrid]="controller">
+            @for (cell of outputs().cells; track cell.id) {
+              <button type="button" [tngDatepickerDayCell]="cell">{{ cell.label }}</button>
+            }
+          </div>
+        } @else if (outputs().view === 'month') {
+          <div data-testid="month-grid" [tngDatepickerMonthGrid]="controller">
+            @for (option of outputs().monthOptions; track option.id) {
+              <button type="button" [tngDatepickerMonthOption]="option">{{ option.label }}</button>
+            }
+          </div>
+        } @else {
+          <div data-testid="year-grid" [tngDatepickerYearGrid]="controller">
+            @for (option of outputs().yearOptions; track option.id) {
+              <button type="button" [tngDatepickerYearOption]="option">{{ option.label }}</button>
+            }
+          </div>
+        }
+      </section>
+    </div>
+  `,
+})
+class DatepickerOverlayPartsHostComponent {
   public readonly controller = createDatepickerController<Date>({
     closeOnSelect: false,
     ownerDocument: document,
@@ -263,5 +384,95 @@ describe('tng-datepicker primitive parts', () => {
     fixture.detectChanges();
 
     expect(fixture.componentInstance.controller.getOutputs().view).toBe('month');
+  });
+
+  it('moves Tab focus from the overlay header into the active day, month, and year panels in headless usage', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [DatepickerOverlayPartsHostComponent],
+    }).createComponent(DatepickerOverlayPartsHostComponent);
+
+    await settle(fixture);
+
+    const trigger = getRequired<HTMLButtonElement>(fixture.nativeElement, '[data-testid="trigger"]');
+    trigger.click();
+    await settle(fixture);
+
+    let overlay = getRequired<HTMLElement>(document.body, '[data-testid="overlay"]');
+    let next = getRequired<HTMLButtonElement>(overlay, '[data-testid="next"]');
+    dispatchTabLikeBrowser(next);
+
+    const activeDay = fixture.componentInstance.controller.getOutputs().cells.find((cell) => cell.active);
+    expect(document.activeElement?.id).toBe(activeDay?.id);
+    expect((document.activeElement as HTMLElement | null)?.getAttribute('data-slot')).toBe(
+      'datepicker-cell',
+    );
+
+    fixture.componentInstance.controller.showMonthsPanel();
+    await settle(fixture);
+
+    overlay = getRequired<HTMLElement>(document.body, '[data-testid="overlay"]');
+    next = getRequired<HTMLButtonElement>(overlay, '[data-testid="next"]');
+    dispatchTabLikeBrowser(next);
+
+    const activeMonth = fixture.componentInstance.controller
+      .getOutputs()
+      .monthOptions.find((option) => option.active);
+    expect(document.activeElement?.id).toBe(activeMonth?.id);
+    expect((document.activeElement as HTMLElement | null)?.getAttribute('data-slot')).toBe(
+      'datepicker-month',
+    );
+
+    fixture.componentInstance.controller.showYearsPanel();
+    await settle(fixture);
+
+    overlay = getRequired<HTMLElement>(document.body, '[data-testid="overlay"]');
+    next = getRequired<HTMLButtonElement>(overlay, '[data-testid="next"]');
+    dispatchTabLikeBrowser(next);
+
+    const activeYear = fixture.componentInstance.controller
+      .getOutputs()
+      .yearOptions.find((option) => option.active);
+    expect(document.activeElement?.id).toBe(activeYear?.id);
+    expect((document.activeElement as HTMLElement | null)?.getAttribute('data-slot')).toBe(
+      'datepicker-year',
+    );
+  });
+
+  it('traps focus inside the overlay by wrapping Tab and Shift+Tab between the last and first focusable members', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [DatepickerOverlayPartsHostComponent],
+    }).createComponent(DatepickerOverlayPartsHostComponent);
+
+    await settle(fixture);
+
+    const trigger = getRequired<HTMLButtonElement>(fixture.nativeElement, '[data-testid="trigger"]');
+    trigger.click();
+    await settle(fixture);
+
+    const overlay = getRequired<HTMLElement>(document.body, '[data-testid="overlay"]');
+    const focusableMembers = Array.from(
+      overlay.querySelectorAll<HTMLElement>(
+        [
+          'a[href]:not([tabindex="-1"])',
+          'button:not([disabled]):not([tabindex="-1"])',
+          'input:not([disabled]):not([tabindex="-1"])',
+          'select:not([disabled]):not([tabindex="-1"])',
+          'textarea:not([disabled]):not([tabindex="-1"])',
+          '[tabindex]:not([tabindex="-1"])',
+        ].join(','),
+      ),
+    );
+    const firstMember = focusableMembers[0];
+    const lastMember = focusableMembers[focusableMembers.length - 1];
+
+    if (firstMember === undefined || lastMember === undefined) {
+      throw new Error('Expected overlay focusable members to exist.');
+    }
+
+    dispatchTabLikeBrowser(lastMember);
+    expect(document.activeElement).toBe(firstMember);
+
+    dispatchTabLikeBrowser(firstMember, true);
+    expect(document.activeElement).toBe(lastMember);
   });
 });
