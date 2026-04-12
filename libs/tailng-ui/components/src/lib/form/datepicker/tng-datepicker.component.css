@@ -9,21 +9,29 @@
   width: 100%;
 }
 
+.tng-datepicker-root {
+  --tng-datepicker-radius: 0.85rem;
+}
+
 .tng-datepicker-anchor {
   min-width: 0;
   position: relative;
 }
 
+.tng-datepicker-input-shell {
+  border-radius: var(--tng-datepicker-radius);
+}
+
 .tng-datepicker-trigger-calendar {
-  height: 0.96rem;
-  width: 0.96rem;
+  height: 1.05rem;
+  width: 1.05rem;
 }
 
 .tng-datepicker-trigger-chevron,
 .tng-datepicker-period-button-chevron {
   flex: 0 0 auto;
-  height: 0.72rem;
-  width: 0.72rem;
+  height: 0.68rem;
+  width: 0.68rem;
 }
 
 .tng-datepicker-overlay {
@@ -34,8 +42,13 @@
   z-index: 30;
 }
 
-.tng-datepicker-header-row-material {
+.tng-datepicker-header-row {
   align-items: center;
+  display: grid;
+  gap: 0.34rem;
+}
+
+.tng-datepicker-header-row-material {
   grid-template-columns:
     var(--tng-datepicker-nav-size, 2.1rem)
     minmax(0, 1fr)
@@ -61,6 +74,28 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.tng-datepicker-input,
+.tng-datepicker-trigger {
+  outline: none;
+}
+
+.tng-datepicker-input {
+  padding-block: 0.74rem;
+  padding-inline: 1.25rem 1rem;
+}
+
+.tng-datepicker-input:focus,
+.tng-datepicker-input:focus-visible,
+.tng-datepicker-trigger:focus,
+.tng-datepicker-trigger:focus-visible {
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+.tng-datepicker-trigger::-moz-focus-inner {
+  border: 0;
 }
 
 .tng-datepicker-weekdays {

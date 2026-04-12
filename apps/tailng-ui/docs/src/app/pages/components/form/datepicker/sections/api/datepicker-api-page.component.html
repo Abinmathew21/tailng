@@ -1,10 +1,16 @@
 <article class="datepicker-api">
   <h2 class="datepicker-api-title">API reference</h2>
-  <p class="datepicker-api-lead">
-    The default docs surface is the <code>tng-datepicker</code> wrapper. When the wrapper is too
-    opinionated for a product flow, use <code>createDatepickerController(...)</code> and render the
-    same slots yourself.
-  </p>
+  <div class="datepicker-api-lead-group">
+    <p class="datepicker-api-lead">
+      The default surface is <code>tng-datepicker</code>. When you need custom markup, use
+      <code>createDatepickerController(...)</code>, <code>bindTngDatepicker(...)</code>, and the
+      datepicker helper directives instead of wiring keyboard, focus, and ARIA behavior by hand.
+    </p>
+    <p class="datepicker-api-lead">
+      The wrapper intentionally sets a few opinionated defaults on top of the controller, notably
+      <code>closeOnSelect</code>, <code>trapFocus</code>, and <code>autoCommitView</code>.
+    </p>
+  </div>
 
   <section class="datepicker-api-block">
     <h3><code>tng-datepicker</code> (component)</h3>
@@ -13,156 +19,68 @@
       adapter="shiki"
       language="html"
       title="Wrapper attachment"
+      [theme]="codeBlockTheme()"
       [lineNumbers]="false"
       [wrap]="true"
       [sanitizeHtml]="false"
     ></tng-code-block>
 
-    <h4>Inputs</h4>
-    <div class="datepicker-api-table-wrap">
-      <table class="datepicker-api-table">
-        <thead>
-          <tr>
-            <th scope="col">Property</th>
-            <th scope="col">Type</th>
-            <th scope="col">Default</th>
-            <th scope="col">Details</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><code>adapter</code></td>
-            <td><code>TngDateAdapter&lt;TDate&gt; | undefined</code></td>
-            <td>Default Date adapter</td>
-            <td>Controls parsing/formatting for the input field and overlay labels.</td>
-          </tr>
-          <tr>
-            <td><code>defaultValue</code></td>
-            <td><code>TngDateSelectionInput&lt;TDate&gt; | undefined</code></td>
-            <td><code>undefined</code></td>
-            <td>Uncontrolled initial selection.</td>
-          </tr>
-          <tr>
-            <td><code>value</code></td>
-            <td><code>TngDateSelectionInput&lt;TDate&gt; | undefined</code></td>
-            <td><code>undefined</code></td>
-            <td>Controlled selected value.</td>
-          </tr>
-          <tr>
-            <td><code>minDate</code> / <code>maxDate</code></td>
-            <td><code>TngDateInputValue&lt;TDate&gt; | undefined</code></td>
-            <td><code>undefined</code></td>
-            <td>Disables out-of-range days, months, and years.</td>
-          </tr>
-          <tr>
-            <td><code>allowManualInput</code></td>
-            <td><code>boolean</code></td>
-            <td><code>true</code></td>
-            <td>Allows direct keyboard editing in the input field.</td>
-          </tr>
-          <tr>
-            <td><code>locale</code></td>
-            <td><code>string</code></td>
-            <td>Angular <code>LOCALE_ID</code></td>
-            <td>Drives month names, weekday labels, and adapter formatting defaults.</td>
-          </tr>
-          <tr>
-            <td><code>placement</code></td>
-            <td><code>'auto' | 'bottom' | 'top'</code></td>
-            <td><code>'auto'</code></td>
-            <td>Auto-flips the overlay when there is not enough room below the trigger.</td>
-          </tr>
-          <tr>
-            <td><code>placeholder</code></td>
-            <td><code>string</code></td>
-            <td><code>'MM-DD-YYYY'</code></td>
-            <td>Input placeholder only. It does not change parsing rules.</td>
-          </tr>
-          <tr>
-            <td><code>today</code></td>
-            <td><code>TngDateInputValue&lt;TDate&gt; | undefined</code></td>
-            <td>Adapter <code>today()</code></td>
-            <td>Overrides the date flagged as today in the overlay grid.</td>
-          </tr>
-          <tr>
-            <td><code>weekStartsOn</code></td>
-            <td><code>0 | 1 | 2 | 3 | 4 | 5 | 6</code></td>
-            <td><code>0</code></td>
-            <td>Controls weekday order and grid alignment.</td>
-          </tr>
-          <tr>
-            <td><code>disabled</code> / <code>readonly</code> / <code>invalid</code></td>
-            <td><code>boolean</code></td>
-            <td><code>false</code></td>
-            <td>Drives wrapper state styling and interaction rules.</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    @for (group of wrapperInputGroups; track group.title) {
+      <h4>{{ group.title }}</h4>
+      @if (group.description) {
+        <p>{{ group.description }}</p>
+      }
+      <div class="datepicker-api-table-wrap">
+        <table class="datepicker-api-table">
+          <thead>
+            <tr>
+              <th scope="col">Property</th>
+              <th scope="col">Type</th>
+              <th scope="col">Default</th>
+              <th scope="col">Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (row of group.rows; track row.name) {
+              <tr>
+                <td><code>{{ row.name }}</code></td>
+                <td><code>{{ row.type }}</code></td>
+                <td>{{ row.default }}</td>
+                <td>{{ row.details }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </section>
 
-    <h4>Outputs</h4>
+  <section class="datepicker-api-block">
+    <h3>Outputs</h3>
     <div class="datepicker-api-table-wrap">
       <table class="datepicker-api-table">
         <thead>
           <tr>
-            <th scope="col">Event</th>
-            <th scope="col">Payload</th>
+            <th scope="col">Output</th>
+            <th scope="col">Type</th>
             <th scope="col">Details</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td><code>valueChange</code></td>
-            <td><code>TngDateValue&lt;TDate&gt;</code></td>
-            <td>Emits after click, keyboard commit, or valid manual input commit.</td>
-          </tr>
-          <tr>
-            <td><code>openChange</code></td>
-            <td><code>boolean</code></td>
-            <td>Emits when the popup opens or closes.</td>
-          </tr>
-          <tr>
-            <td><code>closed</code></td>
-            <td><code>TngDatepickerCloseReason</code></td>
-            <td>Reports <code>escape</code>, <code>outside</code>, <code>programmatic</code>, or <code>select</code>.</td>
-          </tr>
-          <tr>
-            <td><code>activeDateChange</code></td>
-            <td><code>TDate</code></td>
-            <td>Emits as keyboard focus moves through the calendar.</td>
-          </tr>
-          <tr>
-            <td><code>viewChange</code></td>
-            <td><code>'day' | 'month' | 'year'</code></td>
-            <td>Tracks the material-style year → month → day drill-down flow.</td>
-          </tr>
-          <tr>
-            <td><code>monthChange</code></td>
-            <td><code>TDate</code></td>
-            <td>Emits when paging changes the visible month block.</td>
-          </tr>
-          <tr>
-            <td><code>yearChange</code></td>
-            <td><code>number</code></td>
-            <td>Emits when the visible year page anchor changes.</td>
-          </tr>
+          @for (row of wrapperOutputRows; track row.name) {
+            <tr>
+              <td><code>{{ row.name }}</code></td>
+              <td><code>{{ row.type }}</code></td>
+              <td>{{ row.details }}</td>
+            </tr>
+          }
         </tbody>
       </table>
     </div>
   </section>
 
   <section class="datepicker-api-block">
-    <h3><code>createDatepickerController(...)</code> (headless)</h3>
-    <tng-code-block
-      [code]="controllerAttachCode"
-      adapter="shiki"
-      language="ts"
-      title="Controller setup"
-      [lineNumbers]="false"
-      [wrap]="true"
-      [sanitizeHtml]="false"
-    ></tng-code-block>
-
+    <h3>Wrapper instance methods</h3>
     <div class="datepicker-api-table-wrap">
       <table class="datepicker-api-table">
         <thead>
@@ -172,26 +90,107 @@
           </tr>
         </thead>
         <tbody>
+          @for (row of wrapperMethodRows; track row.name) {
+            <tr>
+              <td><code>{{ row.name }}</code></td>
+              <td>{{ row.details }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="datepicker-api-block">
+    <h3>Headless binding layer</h3>
+    <tng-code-block
+      [code]="headlessAttachCode"
+      adapter="shiki"
+      language="ts"
+      title="Controller + Angular binding"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+    <tng-code-block
+      [code]="directiveAttachCode"
+      adapter="shiki"
+      language="html"
+      title="Field + overlay wiring"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+
+    <div class="datepicker-api-table-wrap">
+      <table class="datepicker-api-table">
+        <thead>
           <tr>
-            <td><code>getOutputs()</code></td>
-            <td>Returns the slot/state payload used to render day, month, year, trigger, and overlay UI.</td>
+            <th scope="col">Helper</th>
+            <th scope="col">Purpose</th>
           </tr>
+        </thead>
+        <tbody>
+          @for (row of headlessBindingRows; track row.name) {
+            <tr>
+              <td><code>{{ row.name }}</code></td>
+              <td>{{ row.details }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="datepicker-api-block">
+    <h3>Advanced controller options</h3>
+    <p>
+      The wrapper covers the common surface. These options are available when you work with the
+      controller directly.
+    </p>
+    <div class="datepicker-api-table-wrap">
+      <table class="datepicker-api-table">
+        <thead>
           <tr>
-            <td><code>showYearsPanel()</code>, <code>showMonthsPanel()</code>, <code>showDaysPanel()</code></td>
-            <td>Lets the implementation page drive the visible panel explicitly.</td>
+            <th scope="col">Option</th>
+            <th scope="col">Type</th>
+            <th scope="col">Default</th>
+            <th scope="col">Details</th>
           </tr>
+        </thead>
+        <tbody>
+          @for (row of headlessOptionRows; track row.name) {
+            <tr>
+              <td><code>{{ row.name }}</code></td>
+              <td><code>{{ row.type }}</code></td>
+              <td>{{ row.default }}</td>
+              <td>{{ row.details }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="datepicker-api-block">
+    <h3>Controller methods</h3>
+    <div class="datepicker-api-table-wrap">
+      <table class="datepicker-api-table">
+        <thead>
           <tr>
-            <td><code>pageForward()</code> / <code>pageBackward()</code></td>
-            <td>Moves the visible month/year block in the currently active view.</td>
+            <th scope="col">Method</th>
+            <th scope="col">Purpose</th>
           </tr>
-          <tr>
-            <td><code>setInputText(...)</code> / <code>commitInputText()</code></td>
-            <td>Supports manual input editing with the same adapter/bounds validation as the wrapper.</td>
-          </tr>
-          <tr>
-            <td><code>registerTrigger(...)</code> / <code>registerOverlay(...)</code></td>
-            <td>Hooks focus restoration, outside dismissal, and overlay runtime behavior into custom UI.</td>
-          </tr>
+        </thead>
+        <tbody>
+          @for (row of controllerMethodRows; track row.name) {
+            <tr>
+              <td><code>{{ row.name }}</code></td>
+              <td>{{ row.details }}</td>
+            </tr>
+          }
         </tbody>
       </table>
     </div>

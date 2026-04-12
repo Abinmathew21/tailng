@@ -1,9 +1,9 @@
 <article class="datepicker-styling">
   <h2 class="datepicker-styling-title">Styling contract</h2>
   <p class="datepicker-styling-lead">
-    Datepicker styling is slot/state driven. The wrapper and the headless demos share the same
-    contract, so custom themes should target the public data attributes instead of internal DOM
-    structure.
+    The wrapper, the helper directives, and the portaled overlay all share one public slot and
+    state contract. Style against the exported data attributes and CSS variables instead of DOM
+    structure or fixed light and dark utility classes.
   </p>
 
   <section class="datepicker-styling-block">
@@ -19,47 +19,39 @@
         <tbody>
           <tr>
             <td><code>[data-slot="datepicker"]</code></td>
-            <td>Host contract root for field-level layout tokens and shared semantic colors.</td>
+            <td>Root contract for field-level layout tokens, host state hooks, and shared semantic colors.</td>
           </tr>
           <tr>
             <td><code>[data-slot="datepicker-field"]</code></td>
-            <td>Field wrapper containing the input shell and the overlay anchor.</td>
+            <td>Field wrapper that contains the input shell and the overlay anchor.</td>
           </tr>
           <tr>
             <td><code>[data-slot="datepicker-input-shell"]</code></td>
-            <td>Combined input/trigger chrome. Use this for border, focus ring, and invalid treatment.</td>
+            <td>Combined input and trigger chrome. Use this for border, invalid, open, and focus treatment.</td>
           </tr>
           <tr>
-            <td><code>[data-slot="datepicker-input"]</code></td>
-            <td>Editable text input surface.</td>
-          </tr>
-          <tr>
-            <td><code>[data-slot="datepicker-trigger"]</code></td>
-            <td>Calendar button suffix inside the input shell.</td>
+            <td><code>[data-slot="datepicker-input"]</code> / <code>[data-slot="datepicker-trigger"]</code></td>
+            <td>Editable text field and calendar trigger inside the shared shell.</td>
           </tr>
           <tr>
             <td><code>[data-slot="datepicker-overlay"]</code></td>
-            <td>Popup panel. This is important because the overlay is portaled to <code>body</code>.</td>
+            <td>Popup panel. It is portaled to <code>body</code>, so scope theme tokens on an ancestor that can be copied to the overlay.</td>
           </tr>
           <tr>
-            <td><code>[data-slot="datepicker-period-button"]</code></td>
-            <td>Centered month-year button used to drill into year and month panels.</td>
+            <td><code>[data-slot="datepicker-header"]</code> / <code>[data-slot="datepicker-nav-button"]</code> / <code>[data-slot="datepicker-period-button"]</code></td>
+            <td>Header row and drill-down controls.</td>
+          </tr>
+          <tr>
+            <td><code>[data-slot="datepicker-weekdays"]</code> / <code>[data-slot="datepicker-weekday"]</code></td>
+            <td>Weekday label row in day view.</td>
           </tr>
           <tr>
             <td><code>[data-slot="datepicker-grid"]</code></td>
-            <td>Month/year grid container.</td>
+            <td>Shared grid container for day, month, and year panels.</td>
           </tr>
           <tr>
-            <td><code>[data-slot="datepicker-cell"]</code></td>
-            <td>Day cell slot for the calendar grid.</td>
-          </tr>
-          <tr>
-            <td><code>[data-slot="datepicker-month"]</code></td>
-            <td>Month picker cell slot.</td>
-          </tr>
-          <tr>
-            <td><code>[data-slot="datepicker-year"]</code></td>
-            <td>Year picker cell slot.</td>
+            <td><code>[data-slot="datepicker-cell"]</code> / <code>[data-slot="datepicker-month"]</code> / <code>[data-slot="datepicker-year"]</code></td>
+            <td>Interactive day, month, and year cells.</td>
           </tr>
         </tbody>
       </table>
@@ -80,38 +72,58 @@
         <tbody>
           <tr>
             <td><code>[data-open]</code></td>
-            <td>Host, trigger, input shell, overlay</td>
+            <td>Host, input shell, trigger, overlay</td>
             <td>Open-state affordances and trigger emphasis.</td>
+          </tr>
+          <tr>
+            <td><code>[data-view]</code></td>
+            <td>Host</td>
+            <td>View-specific layout or animation changes across day, month, and year panels.</td>
           </tr>
           <tr>
             <td><code>[data-invalid]</code></td>
             <td>Input shell</td>
-            <td>Manual input parse/bounds failure treatment.</td>
+            <td>Manual input parse and bounds failure treatment.</td>
           </tr>
           <tr>
             <td><code>[data-disabled]</code></td>
-            <td>Host, day/month/year cells</td>
+            <td>Host, day cells, month cells, year cells</td>
             <td>Disabled field or out-of-range date visuals.</td>
           </tr>
           <tr>
+            <td><code>[data-active]</code></td>
+            <td>Day, month, and year cells</td>
+            <td>Current roving target when focus and selection differ.</td>
+          </tr>
+          <tr>
             <td><code>[data-selected]</code></td>
-            <td>Day/month/year cells</td>
+            <td>Day, month, and year cells</td>
             <td>Committed selection state.</td>
           </tr>
           <tr>
             <td><code>[data-focus-visible]</code></td>
-            <td>Day/month/year cells</td>
+            <td>Day, month, and year cells</td>
             <td>Keyboard focus treatment independent of selected state.</td>
           </tr>
           <tr>
-            <td><code>[data-active]</code></td>
-            <td>Day/month/year cells</td>
-            <td>Current roving target when focus and selection differ.</td>
+            <td><code>[data-hidden]</code></td>
+            <td>Day cells</td>
+            <td>Lets headless layouts suppress or fade hidden outside-month cells cleanly.</td>
           </tr>
           <tr>
             <td><code>[data-in-month]</code></td>
             <td>Day cells</td>
-            <td>Distinguishes outside days from the visible month.</td>
+            <td>Distinguishes outside-month days from the visible month.</td>
+          </tr>
+          <tr>
+            <td><code>[data-in-range]</code>, <code>[data-range-start]</code>, <code>[data-range-end]</code></td>
+            <td>Day cells in range mode</td>
+            <td>Supports shared background, start cap, and end cap styling for range selection.</td>
+          </tr>
+          <tr>
+            <td><code>[data-placement]</code> / <code>[data-position]</code></td>
+            <td>Overlay</td>
+            <td>Respond to flipped popup placement and horizontal alignment.</td>
           </tr>
         </tbody>
       </table>
@@ -135,7 +147,7 @@
           </tr>
           <tr>
             <td><code>--tng-datepicker-field-height</code></td>
-            <td>Combined input/trigger height.</td>
+            <td>Combined input and trigger height.</td>
           </tr>
           <tr>
             <td><code>--tng-datepicker-overlay-padding</code></td>
@@ -143,23 +155,27 @@
           </tr>
           <tr>
             <td><code>--tng-datepicker-grid-gap</code></td>
-            <td>Responsive spacing between day, month, and year cells.</td>
+            <td>Spacing between day, month, and year cells.</td>
           </tr>
           <tr>
-            <td><code>--tng-datepicker-day-cell-size</code></td>
-            <td>Base day-cell height.</td>
+            <td><code>--tng-datepicker-day-cell-size</code> / <code>--tng-datepicker-picker-cell-size</code></td>
+            <td>Base cell sizing for day and picker panels.</td>
           </tr>
           <tr>
-            <td><code>--tng-datepicker-picker-cell-size</code></td>
-            <td>Base month/year-cell height.</td>
+            <td><code>--tng-datepicker-brand</code> / <code>--tng-datepicker-focus</code></td>
+            <td>Selection, hover, and focus accents.</td>
           </tr>
           <tr>
-            <td><code>--tng-datepicker-brand</code></td>
-            <td>Selected and focus-visible accents.</td>
+            <td><code>--tng-datepicker-border</code> / <code>--tng-datepicker-surface</code> / <code>--tng-datepicker-fg</code></td>
+            <td>Field chrome, popup surface, and foreground styling.</td>
           </tr>
           <tr>
-            <td><code>--tng-datepicker-border</code> / <code>--tng-datepicker-surface</code></td>
-            <td>Field chrome and overlay surface styling.</td>
+            <td><code>--tng-datepicker-shadow</code> / <code>--tng-datepicker-focus-shadow</code></td>
+            <td>Popup depth and focus ring treatment.</td>
+          </tr>
+          <tr>
+            <td><code>--tng-datepicker-nav-size</code></td>
+            <td>Header navigation button footprint.</td>
           </tr>
         </tbody>
       </table>
@@ -167,16 +183,36 @@
   </section>
 
   <section class="datepicker-styling-block">
+    <h3>Theme-aware wrapper shell</h3>
+    <p>
+      When you place the wrapper inside a utility shell, prefer semantic tokens so the surrounding
+      surface stays aligned with theme and mode changes and the portaled overlay inherits the same
+      visual language.
+    </p>
+    <tng-code-block
+      [code]="themeAwareShellCode"
+      adapter="shiki"
+      language="css"
+      title="Theme-aware container"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section class="datepicker-styling-block">
     <h3>Compact override example</h3>
     <p>
-      These tokens are already tuned for the default compact docs examples. Override them on a
-      wrapper scope when a denser or roomier product surface needs a different rhythm.
+      These tokens are already tuned for the docs examples. Override them on a wrapper scope when a
+      denser or roomier product surface needs a different rhythm.
     </p>
     <tng-code-block
       [code]="compactThemeCode"
       adapter="shiki"
       language="css"
       title="Scoped token overrides"
+      [theme]="codeBlockTheme()"
       [lineNumbers]="false"
       [wrap]="true"
       [sanitizeHtml]="false"

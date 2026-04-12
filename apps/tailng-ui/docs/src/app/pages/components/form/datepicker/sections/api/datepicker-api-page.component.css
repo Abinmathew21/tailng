@@ -7,6 +7,11 @@
   gap: 1.5rem;
 }
 
+.datepicker-api-lead-group {
+  display: grid;
+  gap: 0.75rem;
+}
+
 .datepicker-api-title {
   font-size: 1.9rem;
   font-weight: 800;
@@ -28,6 +33,12 @@
 .datepicker-api-block h3,
 .datepicker-api-block h4 {
   margin: 0;
+}
+
+.datepicker-api-block p {
+  line-height: 1.65;
+  margin: 0;
+  max-width: 58rem;
 }
 
 .datepicker-api-table-wrap {
