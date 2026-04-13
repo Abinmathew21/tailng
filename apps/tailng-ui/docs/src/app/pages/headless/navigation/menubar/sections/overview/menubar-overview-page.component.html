@@ -1,0 +1,191 @@
+<article class="headless-menubar-overview">
+  <section id="imports" class="headless-menubar-overview-block">
+    <h2 class="headless-menubar-overview-title">Menubar overview</h2>
+    <p class="headless-menubar-overview-lead">
+      Headless menubar keeps the command strip, owned menus, and keyboard handoff in the primitive
+      layer while you keep full ownership of markup and visual styling.
+    </p>
+    <tng-code-block
+      [code]="importCode"
+      adapter="shiki"
+      language="ts"
+      title="Primitive imports"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="basic-composition" class="headless-menubar-overview-block">
+    <h3>Basic composition</h3>
+    <p>
+      Compose a top-level strip with <code>tngMenubar</code>, then link each trigger to an owned
+      <code>tngMenu</code> through <code>[tngMenubarMenu]</code>.
+    </p>
+    <tng-code-block
+      [code]="usageCode"
+      adapter="shiki"
+      language="html"
+      title="Headless menubar composition"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <app-docs-example-tabs-section
+    id="style-variants"
+    class="headless-menubar-overview-block"
+    heading="Style variants"
+    description="The same primitive markup rendered through a plain CSS contract or Tailwind utility shell."
+    ariaLabel="Headless menubar overview examples"
+    tabListAriaLabel="Headless menubar overview style tabs"
+    defaultValue="plain-css"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+      panelTitle="Headless menubar (plain CSS)"
+      [codeTabs]="plainCodeTabs"
+      [stackblitzUrl]="stackblitzVanillaUrl"
+    >
+      <section class="docs-headless-menubar-overview-card">
+        <span class="docs-headless-menubar-overview-kicker">Workspace commands</span>
+        <p class="docs-headless-menubar-overview-copy">
+          Keep top-level actions visible while menus own the deeper command tree.
+        </p>
+
+        <div class="docs-headless-menubar-overview-stage">
+          <div tngMenubar aria-label="Workspace commands" class="docs-headless-menubar-shell">
+            <div class="docs-headless-menubar-item-shell">
+              <div
+                tngMenu
+                #plainFileMenu="tngMenu"
+                aria-label="File menu"
+                class="docs-headless-menubar-menu"
+                (tngMenuSelect)="onPlainCommandSelect($event)"
+              >
+                <div tngMenuGroupLabel class="docs-headless-menubar-group">File</div>
+                <button type="button" tngMenuItem tngMenuItemValue="Create document">New</button>
+                <button type="button" tngMenuItem tngMenuItemValue="Open document">Open</button>
+                <button type="button" tngMenuItem tngMenuItemValue="Save document">Save</button>
+              </div>
+              <button type="button" tngMenubarItem [tngMenubarMenu]="plainFileMenu">File</button>
+            </div>
+
+            <div class="docs-headless-menubar-item-shell">
+              <div
+                tngMenu
+                #plainEditMenu="tngMenu"
+                aria-label="Edit menu"
+                class="docs-headless-menubar-menu"
+                (tngMenuSelect)="onPlainCommandSelect($event)"
+              >
+                <div tngMenuGroupLabel class="docs-headless-menubar-group">Edit</div>
+                <button type="button" tngMenuItem tngMenuItemValue="Undo change">Undo</button>
+                <button type="button" tngMenuItem tngMenuItemValue="Redo change">Redo</button>
+                <div tngMenuSeparator class="docs-headless-menubar-separator"></div>
+                <button type="button" tngMenuItem tngMenuItemValue="Find in page">Find</button>
+              </div>
+              <button type="button" tngMenubarItem [tngMenubarMenu]="plainEditMenu">Edit</button>
+            </div>
+
+            <button type="button" tngMenubarItem (click)="onPlainLeafCommandSelect('Help')">Help</button>
+          </div>
+        </div>
+
+        <p class="headless-menubar-overview-state">Last command: {{ plainCommand() }}</p>
+      </section>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Headless menubar (Tailwind CSS)"
+      [codeTabs]="tailwindCodeTabs"
+      [stackblitzUrl]="stackblitzTailwindUrl"
+    >
+      <section class="mx-auto grid w-full max-w-[24rem] gap-3 rounded-[1.5rem] border border-slate-200/90 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-4 text-slate-900 shadow-[0_18px_38px_rgba(15,23,42,0.10)]">
+        <span class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Workspace commands</span>
+        <p class="m-0 text-sm leading-6 text-slate-600">
+          Keep top-level actions visible while menus own the deeper command tree.
+        </p>
+
+        <div class="relative grid min-h-[14rem] justify-items-start content-start">
+          <div tngMenubar aria-label="Workspace commands" class="inline-flex min-h-[2.7rem] gap-[0.45rem] rounded-[0.95rem] border border-slate-300 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-[0.32rem] shadow-[0_8px_22px_-18px_rgba(15,23,42,0.26),0_10px_32px_-24px_rgba(15,23,42,0.18)]">
+            <div class="relative">
+              <div
+                tngMenu
+                #tailwindFileMenu="tngMenu"
+                aria-label="File menu"
+                class="absolute left-0 top-[calc(100%+0.45rem)] z-30 hidden min-w-[13.8rem] rounded-[0.82rem] border border-slate-300 bg-white p-[0.45rem] shadow-[0_16px_30px_-22px_rgba(15,23,42,0.35)] data-[state=open]:grid data-[state=open]:gap-[0.24rem]"
+                (tngMenuSelect)="onTailwindCommandSelect($event)"
+              >
+                <div tngMenuGroupLabel class="px-[0.45rem] py-[0.25rem] text-[0.72rem] font-bold uppercase tracking-[0.08em] text-slate-500">File</div>
+                <button type="button" tngMenuItem tngMenuItemValue="Create document" class="flex min-h-[2rem] justify-between rounded-[0.58rem] px-[0.62rem] py-[0.4rem] text-left text-[0.86rem] font-medium text-slate-900 outline-none transition hover:bg-slate-100 hover:text-slate-950 focus:bg-blue-100 focus:text-blue-700 focus-visible:ring-2 focus-visible:ring-blue-400/40 [&[data-active]]:bg-blue-100 [&[data-active]]:text-blue-700">New</button>
+                <button type="button" tngMenuItem tngMenuItemValue="Open document" class="flex min-h-[2rem] justify-between rounded-[0.58rem] px-[0.62rem] py-[0.4rem] text-left text-[0.86rem] font-medium text-slate-900 outline-none transition hover:bg-slate-100 hover:text-slate-950 focus:bg-blue-100 focus:text-blue-700 focus-visible:ring-2 focus-visible:ring-blue-400/40 [&[data-active]]:bg-blue-100 [&[data-active]]:text-blue-700">Open</button>
+                <button type="button" tngMenuItem tngMenuItemValue="Save document" class="flex min-h-[2rem] justify-between rounded-[0.58rem] px-[0.62rem] py-[0.4rem] text-left text-[0.86rem] font-medium text-slate-900 outline-none transition hover:bg-slate-100 hover:text-slate-950 focus:bg-blue-100 focus:text-blue-700 focus-visible:ring-2 focus-visible:ring-blue-400/40 [&[data-active]]:bg-blue-100 [&[data-active]]:text-blue-700">Save</button>
+              </div>
+              <button
+                type="button"
+                tngMenubarItem
+                [tngMenubarMenu]="tailwindFileMenu"
+                class="docs-headless-menubar-tailwind-item min-h-[2.05rem] min-w-[3.3rem] rounded-[0.62rem] px-[0.9rem] py-[0.46rem] text-[0.95rem] font-semibold text-slate-900 outline-none transition hover:bg-blue-50 hover:text-blue-700 focus:bg-blue-100 focus:text-blue-700 focus:shadow-[inset_0_0_0_1px_rgba(37,99,235,0.22)] focus-visible:ring-2 focus-visible:ring-blue-400/40 aria-[expanded=true]:bg-blue-100 aria-[expanded=true]:text-blue-700 aria-[expanded=true]:shadow-[inset_0_0_0_1px_rgba(37,99,235,0.22)]"
+              >
+                File
+              </button>
+            </div>
+
+            <div class="relative">
+              <div
+                tngMenu
+                #tailwindToolsMenu="tngMenu"
+                aria-label="Tools menu"
+                class="absolute left-0 top-[calc(100%+0.45rem)] z-30 hidden min-w-[13.8rem] rounded-[0.82rem] border border-slate-300 bg-white p-[0.45rem] shadow-[0_16px_30px_-22px_rgba(15,23,42,0.35)] data-[state=open]:grid data-[state=open]:gap-[0.24rem]"
+                (tngMenuSelect)="onTailwindCommandSelect($event)"
+              >
+                <div tngMenuGroupLabel class="px-[0.45rem] py-[0.25rem] text-[0.72rem] font-bold uppercase tracking-[0.08em] text-slate-500">Tools</div>
+                <button type="button" tngMenuItem tngMenuItemValue="Run lint" class="flex min-h-[2rem] justify-between rounded-[0.58rem] px-[0.62rem] py-[0.4rem] text-left text-[0.86rem] font-medium text-slate-900 outline-none transition hover:bg-slate-100 hover:text-slate-950 focus:bg-blue-100 focus:text-blue-700 focus-visible:ring-2 focus-visible:ring-blue-400/40 [&[data-active]]:bg-blue-100 [&[data-active]]:text-blue-700">Run lint</button>
+                <button type="button" tngMenuItem tngMenuItemValue="Run tests" class="flex min-h-[2rem] justify-between rounded-[0.58rem] px-[0.62rem] py-[0.4rem] text-left text-[0.86rem] font-medium text-slate-900 outline-none transition hover:bg-slate-100 hover:text-slate-950 focus:bg-blue-100 focus:text-blue-700 focus-visible:ring-2 focus-visible:ring-blue-400/40 [&[data-active]]:bg-blue-100 [&[data-active]]:text-blue-700">Run tests</button>
+              </div>
+              <button
+                type="button"
+                tngMenubarItem
+                [tngMenubarMenu]="tailwindToolsMenu"
+                class="docs-headless-menubar-tailwind-item min-h-[2.05rem] min-w-[3.3rem] rounded-[0.62rem] px-[0.9rem] py-[0.46rem] text-[0.95rem] font-semibold text-slate-900 outline-none transition hover:bg-blue-50 hover:text-blue-700 focus:bg-blue-100 focus:text-blue-700 focus:shadow-[inset_0_0_0_1px_rgba(37,99,235,0.22)] focus-visible:ring-2 focus-visible:ring-blue-400/40 aria-[expanded=true]:bg-blue-100 aria-[expanded=true]:text-blue-700 aria-[expanded=true]:shadow-[inset_0_0_0_1px_rgba(37,99,235,0.22)]"
+              >
+                Tools
+              </button>
+            </div>
+
+            <button
+              type="button"
+              tngMenubarItem
+              (click)="onTailwindLeafCommandSelect('Help')"
+              class="docs-headless-menubar-tailwind-item min-h-[2.05rem] min-w-[3.3rem] rounded-[0.62rem] px-[0.9rem] py-[0.46rem] text-[0.95rem] font-semibold text-slate-900 outline-none transition hover:bg-blue-50 hover:text-blue-700 focus:bg-blue-100 focus:text-blue-700 focus:shadow-[inset_0_0_0_1px_rgba(37,99,235,0.22)] focus-visible:ring-2 focus-visible:ring-blue-400/40"
+            >
+              Help
+            </button>
+          </div>
+        </div>
+
+        <p class="m-0 text-sm text-slate-500">Last command: <strong>{{ tailwindCommand() }}</strong></p>
+      </section>
+    </ng-template>
+  </app-docs-example-tabs-section>
+
+  <section id="keyboard-baseline" class="headless-menubar-overview-block">
+    <h3>Keyboard baseline</h3>
+    <ul class="headless-menubar-overview-list">
+      <li><code>ArrowLeft</code>/<code>ArrowRight</code> move across top-level items.</li>
+      <li><code>ArrowDown</code> opens an owned menu and focuses the first enabled item.</li>
+      <li><code>Home</code>/<code>End</code> jump to the first or last enabled top-level item.</li>
+      <li><code>Escape</code> closes the current menu and restores focus to its owning trigger.</li>
+    </ul>
+  </section>
+</article>

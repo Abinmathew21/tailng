@@ -1,0 +1,252 @@
+<article class="headless-menubar-examples">
+  <h2 class="headless-menubar-examples-title">Examples</h2>
+  <p class="headless-menubar-examples-lead">
+    Production-style menubar patterns for workspace command strips and cascaded submenu trees.
+  </p>
+
+  <section id="workspace-command-bar" class="headless-menubar-examples-block">
+    <app-docs-example-tabs-section
+      heading="Workspace command bar"
+      description="Keep high-frequency actions visible and let the owned menus carry the secondary command tree."
+      ariaLabel="Headless menubar workspace examples"
+      tabListAriaLabel="Headless menubar workspace example tabs"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Workspace command bar (plain CSS)"
+        [codeTabs]="workspacePlainCodeTabs"
+        [stackblitzUrl]="stackblitzVanillaUrl"
+      >
+        <div class="headless-menubar-example-stage headless-menubar-example-stage--short">
+          <div tngMenubar aria-label="Workspace commands" class="headless-menubar-example-shell">
+            <div class="headless-menubar-example-item-shell">
+              <div
+                tngMenu
+                #workspacePlainFileMenu="tngMenu"
+                aria-label="File menu"
+                class="headless-menubar-example-menu"
+                (tngMenuSelect)="onWorkspacePlainCommandSelect($event)"
+              >
+                <div tngMenuGroupLabel class="headless-menubar-example-group">File</div>
+                <button type="button" tngMenuItem tngMenuItemValue="Create release">New release</button>
+                <button type="button" tngMenuItem tngMenuItemValue="Publish release">Publish</button>
+              </div>
+              <button type="button" tngMenubarItem [tngMenubarMenu]="workspacePlainFileMenu">File</button>
+            </div>
+
+            <div class="headless-menubar-example-item-shell">
+              <div
+                tngMenu
+                #workspacePlainViewMenu="tngMenu"
+                aria-label="View menu"
+                class="headless-menubar-example-menu"
+                (tngMenuSelect)="onWorkspacePlainCommandSelect($event)"
+              >
+                <button type="button" tngMenuItem tngMenuItemValue="Toggle sidebar">Toggle sidebar</button>
+                <button type="button" tngMenuItem tngMenuItemValue="Open command palette">Command palette</button>
+              </div>
+              <button type="button" tngMenubarItem [tngMenubarMenu]="workspacePlainViewMenu">View</button>
+            </div>
+
+            <button type="button" tngMenubarItem>Help</button>
+          </div>
+        </div>
+        <p class="headless-menubar-example-state">Last command: {{ workspacePlainCommand() }}</p>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Workspace command bar (Tailwind CSS)"
+        [codeTabs]="workspaceTailwindCodeTabs"
+        [stackblitzUrl]="stackblitzTailwindUrl"
+      >
+        <div class="relative grid min-h-[14.5rem] justify-items-start content-start">
+          <div tngMenubar aria-label="Workspace commands" class="inline-flex min-h-[2.7rem] gap-[0.45rem] rounded-[0.95rem] border border-slate-300 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-[0.32rem] shadow-[0_8px_22px_-18px_rgba(15,23,42,0.26),0_10px_32px_-24px_rgba(15,23,42,0.18)]">
+            <div class="relative">
+              <div
+                tngMenu
+                #workspaceTailwindFileMenu="tngMenu"
+                aria-label="File menu"
+                class="absolute left-0 top-[calc(100%+0.45rem)] z-30 hidden min-w-[13.8rem] rounded-[0.82rem] border border-slate-300 bg-white p-[0.45rem] data-[state=open]:grid data-[state=open]:gap-[0.24rem]"
+                (tngMenuSelect)="onWorkspaceTailwindCommandSelect($event)"
+              >
+                <div tngMenuGroupLabel class="px-[0.45rem] py-[0.25rem] text-[0.72rem] font-bold uppercase tracking-[0.08em] text-slate-500">File</div>
+                <button type="button" tngMenuItem tngMenuItemValue="Create release" class="rounded-[0.58rem] px-[0.62rem] py-[0.4rem] text-left text-[0.86rem] font-medium text-slate-900 transition hover:bg-slate-100 data-[active=true]:bg-blue-100 data-[active=true]:text-blue-700">New release</button>
+                <button type="button" tngMenuItem tngMenuItemValue="Publish release" class="rounded-[0.58rem] px-[0.62rem] py-[0.4rem] text-left text-[0.86rem] font-medium text-slate-900 transition hover:bg-slate-100 data-[active=true]:bg-blue-100 data-[active=true]:text-blue-700">Publish</button>
+              </div>
+              <button type="button" tngMenubarItem [tngMenubarMenu]="workspaceTailwindFileMenu" class="min-h-[2.05rem] min-w-[3.3rem] rounded-[0.62rem] px-[0.9rem] py-[0.46rem] text-[0.95rem] font-semibold text-slate-900 transition hover:bg-blue-50 focus-visible:bg-blue-50">File</button>
+            </div>
+
+            <div class="relative">
+              <div
+                tngMenu
+                #workspaceTailwindToolsMenu="tngMenu"
+                aria-label="Tools menu"
+                class="absolute left-0 top-[calc(100%+0.45rem)] z-30 hidden min-w-[13.8rem] rounded-[0.82rem] border border-slate-300 bg-white p-[0.45rem] data-[state=open]:grid data-[state=open]:gap-[0.24rem]"
+                (tngMenuSelect)="onWorkspaceTailwindCommandSelect($event)"
+              >
+                <button type="button" tngMenuItem tngMenuItemValue="Run lint" class="rounded-[0.58rem] px-[0.62rem] py-[0.4rem] text-left text-[0.86rem] font-medium text-slate-900 transition hover:bg-slate-100 data-[active=true]:bg-blue-100 data-[active=true]:text-blue-700">Run lint</button>
+                <button type="button" tngMenuItem tngMenuItemValue="Run tests" class="rounded-[0.58rem] px-[0.62rem] py-[0.4rem] text-left text-[0.86rem] font-medium text-slate-900 transition hover:bg-slate-100 data-[active=true]:bg-blue-100 data-[active=true]:text-blue-700">Run tests</button>
+              </div>
+              <button type="button" tngMenubarItem [tngMenubarMenu]="workspaceTailwindToolsMenu" class="min-h-[2.05rem] min-w-[3.3rem] rounded-[0.62rem] px-[0.9rem] py-[0.46rem] text-[0.95rem] font-semibold text-slate-900 transition hover:bg-blue-50 focus-visible:bg-blue-50">Tools</button>
+            </div>
+
+            <button type="button" tngMenubarItem class="min-h-[2.05rem] min-w-[3.3rem] rounded-[0.62rem] px-[0.9rem] py-[0.46rem] text-[0.95rem] font-semibold text-slate-900 transition hover:bg-blue-50 focus-visible:bg-blue-50">Help</button>
+          </div>
+        </div>
+        <p class="headless-menubar-example-state">Last command: {{ workspaceTailwindCommand() }}</p>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section id="cascaded-import-menu" class="headless-menubar-examples-block">
+    <app-docs-example-tabs-section
+      heading="Cascaded import menu"
+      description="Nested submenus stay on headless Menu, while Menubar keeps the top-level handoff and focus restoration stable."
+      ariaLabel="Headless menubar cascade examples"
+      tabListAriaLabel="Headless menubar cascade example tabs"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Cascaded import menu (plain CSS)"
+        [codeTabs]="cascadePlainCodeTabs"
+        [stackblitzUrl]="stackblitzVanillaUrl"
+      >
+        <div class="headless-menubar-example-stage headless-menubar-example-stage--cascade">
+          <div tngMenubar aria-label="Cascaded command bar" class="headless-menubar-example-shell">
+            <div class="headless-menubar-example-item-shell">
+              <div
+                tngMenu
+                #cascadePlainFileMenu="tngMenu"
+                aria-label="File menu"
+                class="headless-menubar-example-menu"
+                (tngMenuSelect)="onCascadePlainCommandSelect($event)"
+              >
+                <button type="button" tngMenuItem tngMenuItemValue="Create project">Create project</button>
+                <button
+                  type="button"
+                  tngMenuItem
+                  [tngMenuItemSubmenu]="cascadePlainImportMenu"
+                  tngMenuItemValue="Import from source"
+                >
+                  Import from…
+                </button>
+                <div tngMenuSeparator class="headless-menubar-example-separator"></div>
+                <button type="button" tngMenuItem tngMenuItemValue="Archive project">Archive project</button>
+
+                <div
+                  tngMenu
+                  #cascadePlainImportMenu="tngMenu"
+                  aria-label="Import submenu"
+                  class="headless-menubar-example-menu headless-menubar-example-menu--submenu headless-menubar-example-menu--level-1"
+                  (tngMenuSelect)="onCascadePlainCommandSelect($event)"
+                >
+                  <button type="button" tngMenuItem tngMenuItemValue="Import from CSV">CSV file</button>
+                  <button
+                    type="button"
+                    tngMenuItem
+                    [tngMenuItemSubmenu]="cascadePlainGitMenu"
+                    tngMenuItemValue="Import from git"
+                  >
+                    Git repository
+                  </button>
+                </div>
+
+                <div
+                  tngMenu
+                  #cascadePlainGitMenu="tngMenu"
+                  aria-label="Git provider submenu"
+                  class="headless-menubar-example-menu headless-menubar-example-menu--submenu headless-menubar-example-menu--level-2"
+                  (tngMenuSelect)="onCascadePlainCommandSelect($event)"
+                >
+                  <button type="button" tngMenuItem tngMenuItemValue="Import from GitHub">GitHub</button>
+                  <button type="button" tngMenuItem tngMenuItemValue="Import from GitLab">GitLab</button>
+                </div>
+              </div>
+              <button type="button" tngMenubarItem [tngMenubarMenu]="cascadePlainFileMenu">File</button>
+            </div>
+          </div>
+        </div>
+        <p class="headless-menubar-example-state">Last cascaded command: {{ cascadePlainCommand() }}</p>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Cascaded import menu (Tailwind CSS)"
+        [codeTabs]="cascadeTailwindCodeTabs"
+        [stackblitzUrl]="stackblitzTailwindUrl"
+      >
+        <div class="relative grid min-h-[22rem] justify-items-start content-start">
+          <div tngMenubar aria-label="Cascaded command bar" class="inline-flex min-h-[2.7rem] gap-[0.45rem] rounded-[0.95rem] border border-slate-300 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-[0.32rem] shadow-[0_8px_22px_-18px_rgba(15,23,42,0.26),0_10px_32px_-24px_rgba(15,23,42,0.18)]">
+            <div class="relative">
+              <div
+                tngMenu
+                #cascadeTailwindFileMenu="tngMenu"
+                aria-label="File menu"
+                class="absolute left-0 top-[calc(100%+0.45rem)] z-30 hidden min-w-[13.8rem] rounded-[0.82rem] border border-slate-300 bg-white p-[0.45rem] data-[state=open]:grid data-[state=open]:gap-[0.24rem]"
+                (tngMenuSelect)="onCascadeTailwindCommandSelect($event)"
+              >
+                <button type="button" tngMenuItem tngMenuItemValue="Create project" class="rounded-[0.58rem] px-[0.62rem] py-[0.4rem] text-left text-[0.86rem] font-medium text-slate-900 transition hover:bg-slate-100 data-[active=true]:bg-blue-100 data-[active=true]:text-blue-700">Create project</button>
+                <button
+                  type="button"
+                  tngMenuItem
+                  [tngMenuItemSubmenu]="cascadeTailwindImportMenu"
+                  tngMenuItemValue="Import from source"
+                  class="rounded-[0.58rem] px-[0.62rem] py-[0.4rem] text-left text-[0.86rem] font-medium text-slate-900 transition hover:bg-slate-100 data-[active=true]:bg-blue-100 data-[active=true]:text-blue-700"
+                >
+                  Import from…
+                </button>
+                <div tngMenuSeparator class="mx-[0.35rem] my-[0.2rem] h-px bg-slate-200"></div>
+                <button type="button" tngMenuItem tngMenuItemValue="Archive project" class="rounded-[0.58rem] px-[0.62rem] py-[0.4rem] text-left text-[0.86rem] font-medium text-slate-900 transition hover:bg-slate-100 data-[active=true]:bg-blue-100 data-[active=true]:text-blue-700">Archive project</button>
+
+                <div
+                  tngMenu
+                  #cascadeTailwindImportMenu="tngMenu"
+                  aria-label="Import submenu"
+                  class="absolute left-[calc(100%+0.42rem)] top-[2.7rem] z-30 hidden min-w-[13.8rem] rounded-[0.82rem] border border-slate-300 bg-white p-[0.45rem] data-[state=open]:grid data-[state=open]:gap-[0.24rem]"
+                  (tngMenuSelect)="onCascadeTailwindCommandSelect($event)"
+                >
+                  <button type="button" tngMenuItem tngMenuItemValue="Import from CSV" class="rounded-[0.58rem] px-[0.62rem] py-[0.4rem] text-left text-[0.86rem] font-medium text-slate-900 transition hover:bg-slate-100 data-[active=true]:bg-blue-100 data-[active=true]:text-blue-700">CSV file</button>
+                  <button
+                    type="button"
+                    tngMenuItem
+                    [tngMenuItemSubmenu]="cascadeTailwindGitMenu"
+                    tngMenuItemValue="Import from git"
+                    class="rounded-[0.58rem] px-[0.62rem] py-[0.4rem] text-left text-[0.86rem] font-medium text-slate-900 transition hover:bg-slate-100 data-[active=true]:bg-blue-100 data-[active=true]:text-blue-700"
+                  >
+                    Git repository
+                  </button>
+                </div>
+
+                <div
+                  tngMenu
+                  #cascadeTailwindGitMenu="tngMenu"
+                  aria-label="Git provider submenu"
+                  class="absolute left-[calc(100%+0.42rem)] top-[5.5rem] z-30 hidden min-w-[13.8rem] rounded-[0.82rem] border border-slate-300 bg-white p-[0.45rem] data-[state=open]:grid data-[state=open]:gap-[0.24rem]"
+                  (tngMenuSelect)="onCascadeTailwindCommandSelect($event)"
+                >
+                  <button type="button" tngMenuItem tngMenuItemValue="Import from GitHub" class="rounded-[0.58rem] px-[0.62rem] py-[0.4rem] text-left text-[0.86rem] font-medium text-slate-900 transition hover:bg-slate-100 data-[active=true]:bg-blue-100 data-[active=true]:text-blue-700">GitHub</button>
+                  <button type="button" tngMenuItem tngMenuItemValue="Import from GitLab" class="rounded-[0.58rem] px-[0.62rem] py-[0.4rem] text-left text-[0.86rem] font-medium text-slate-900 transition hover:bg-slate-100 data-[active=true]:bg-blue-100 data-[active=true]:text-blue-700">GitLab</button>
+                </div>
+              </div>
+              <button type="button" tngMenubarItem [tngMenubarMenu]="cascadeTailwindFileMenu" class="min-h-[2.05rem] min-w-[3.3rem] rounded-[0.62rem] px-[0.9rem] py-[0.46rem] text-[0.95rem] font-semibold text-slate-900 transition hover:bg-blue-50 focus-visible:bg-blue-50">File</button>
+            </div>
+          </div>
+        </div>
+        <p class="headless-menubar-example-state">Last cascaded command: {{ cascadeTailwindCommand() }}</p>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+</article>

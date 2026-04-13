@@ -115,32 +115,79 @@
           class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
         >
           <div class="menubar-example-stage menubar-example-stage--short">
-            <tng-menubar ariaLabel="Tailwind workspace commands" class="menubar-shell">
+            <tng-menubar
+              ariaLabel="Tailwind workspace commands"
+              class="inline-flex items-center gap-1 rounded-xl border border-slate-200 bg-white p-1 shadow-sm"
+            >
               <div class="menubar-item-shell">
                 <tng-menu
                   #tailwindFileMenu="tngMenu"
                   ariaLabel="File menu"
-                  class="menubar-example-menu"
+                  class="grid min-w-48 gap-1 rounded-xl border border-slate-200 bg-white p-1 shadow-xl"
                   (tngMenuSelect)="onTailwindCommandSelect($event)"
                 >
-                  <div tngMenuGroupLabel class="menubar-example-group">File</div>
-                  <button type="button" tngMenuItem tngMenuItemValue="Create file">New</button>
-                  <button type="button" tngMenuItem tngMenuItemValue="Open file">Open</button>
+                  <div tngMenuGroupLabel class="px-3 pt-2 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-slate-400">
+                    File
+                  </div>
+                  <button
+                    type="button"
+                    tngMenuItem
+                    tngMenuItemValue="Create file"
+                    class="flex min-h-9 w-full items-center rounded-lg px-3 text-left text-sm font-medium text-slate-700 outline-none transition hover:bg-sky-50 hover:text-slate-950 focus-visible:bg-sky-50 focus-visible:text-slate-950 focus-visible:ring-2 focus-visible:ring-sky-400/50 [&[data-active]]:bg-sky-50 [&[data-active]]:text-slate-950"
+                  >
+                    New
+                  </button>
+                  <button
+                    type="button"
+                    tngMenuItem
+                    tngMenuItemValue="Open file"
+                    class="flex min-h-9 w-full items-center rounded-lg px-3 text-left text-sm font-medium text-slate-700 outline-none transition hover:bg-sky-50 hover:text-slate-950 focus-visible:bg-sky-50 focus-visible:text-slate-950 focus-visible:ring-2 focus-visible:ring-sky-400/50 [&[data-active]]:bg-sky-50 [&[data-active]]:text-slate-950"
+                  >
+                    Open
+                  </button>
                 </tng-menu>
-                <button type="button" tngMenubarItem [tngMenubarMenu]="tailwindFileMenu">File</button>
+                <button
+                  type="button"
+                  tngMenubarItem
+                  [tngMenubarMenu]="tailwindFileMenu"
+                  class="inline-flex min-h-9 items-center rounded-lg px-3 text-sm font-medium text-slate-700 outline-none transition hover:bg-slate-100 hover:text-slate-950 focus-visible:bg-white focus-visible:text-slate-950 focus-visible:ring-2 focus-visible:ring-sky-400/60 [&[tabindex='0']]:bg-white [&[tabindex='0']]:text-slate-950 [&[tabindex='0']]:shadow-sm [&[aria-expanded='true']]:bg-white [&[aria-expanded='true']]:text-slate-950 [&[aria-expanded='true']]:shadow-sm"
+                >
+                  File
+                </button>
               </div>
 
               <div class="menubar-item-shell">
                 <tng-menu
                   #tailwindToolsMenu="tngMenu"
                   ariaLabel="Tools menu"
-                  class="menubar-example-menu"
+                  class="grid min-w-48 gap-1 rounded-xl border border-slate-200 bg-white p-1 shadow-xl"
                   (tngMenuSelect)="onTailwindCommandSelect($event)"
                 >
-                  <button type="button" tngMenuItem tngMenuItemValue="Run lint">Run lint</button>
-                  <button type="button" tngMenuItem tngMenuItemValue="Run tests">Run tests</button>
+                  <button
+                    type="button"
+                    tngMenuItem
+                    tngMenuItemValue="Run lint"
+                    class="flex min-h-9 w-full items-center rounded-lg px-3 text-left text-sm font-medium text-slate-700 outline-none transition hover:bg-sky-50 hover:text-slate-950 focus-visible:bg-sky-50 focus-visible:text-slate-950 focus-visible:ring-2 focus-visible:ring-sky-400/50 [&[data-active]]:bg-sky-50 [&[data-active]]:text-slate-950"
+                  >
+                    Run lint
+                  </button>
+                  <button
+                    type="button"
+                    tngMenuItem
+                    tngMenuItemValue="Run tests"
+                    class="flex min-h-9 w-full items-center rounded-lg px-3 text-left text-sm font-medium text-slate-700 outline-none transition hover:bg-sky-50 hover:text-slate-950 focus-visible:bg-sky-50 focus-visible:text-slate-950 focus-visible:ring-2 focus-visible:ring-sky-400/50 [&[data-active]]:bg-sky-50 [&[data-active]]:text-slate-950"
+                  >
+                    Run tests
+                  </button>
                 </tng-menu>
-                <button type="button" tngMenubarItem [tngMenubarMenu]="tailwindToolsMenu">Tools</button>
+                <button
+                  type="button"
+                  tngMenubarItem
+                  [tngMenubarMenu]="tailwindToolsMenu"
+                  class="inline-flex min-h-9 items-center rounded-lg px-3 text-sm font-medium text-slate-700 outline-none transition hover:bg-slate-100 hover:text-slate-950 focus-visible:bg-white focus-visible:text-slate-950 focus-visible:ring-2 focus-visible:ring-sky-400/60 [&[tabindex='0']]:bg-white [&[tabindex='0']]:text-slate-950 [&[tabindex='0']]:shadow-sm [&[aria-expanded='true']]:bg-white [&[aria-expanded='true']]:text-slate-950 [&[aria-expanded='true']]:shadow-sm"
+                >
+                  Tools
+                </button>
               </div>
             </tng-menubar>
           </div>
