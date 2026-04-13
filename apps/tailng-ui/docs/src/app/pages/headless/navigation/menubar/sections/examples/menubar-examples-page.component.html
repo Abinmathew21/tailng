@@ -52,7 +52,9 @@
               <button type="button" tngMenubarItem [tngMenubarMenu]="workspacePlainViewMenu">View</button>
             </div>
 
-            <button type="button" tngMenubarItem>Help</button>
+            <button type="button" tngMenubarItem (click)="onWorkspacePlainLeafCommandSelect('Help')">
+              Help
+            </button>
           </div>
         </div>
         <p class="headless-menubar-example-state">Last command: {{ workspacePlainCommand() }}</p>
@@ -66,7 +68,7 @@
         [codeTabs]="workspaceTailwindCodeTabs"
         [stackblitzUrl]="stackblitzTailwindUrl"
       >
-        <div class="relative grid min-h-[14.5rem] justify-items-start content-start">
+        <div class="relative grid justify-items-start content-start">
           <div tngMenubar aria-label="Workspace commands" class="inline-flex min-h-[2.7rem] gap-[0.45rem] rounded-[0.95rem] border border-slate-300 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-[0.32rem] shadow-[0_8px_22px_-18px_rgba(15,23,42,0.26),0_10px_32px_-24px_rgba(15,23,42,0.18)]">
             <div class="relative">
               <div
@@ -97,7 +99,14 @@
               <button type="button" tngMenubarItem [tngMenubarMenu]="workspaceTailwindToolsMenu" class="min-h-[2.05rem] min-w-[3.3rem] rounded-[0.62rem] px-[0.9rem] py-[0.46rem] text-[0.95rem] font-semibold text-slate-900 transition hover:bg-blue-50 focus-visible:bg-blue-50">Tools</button>
             </div>
 
-            <button type="button" tngMenubarItem class="min-h-[2.05rem] min-w-[3.3rem] rounded-[0.62rem] px-[0.9rem] py-[0.46rem] text-[0.95rem] font-semibold text-slate-900 transition hover:bg-blue-50 focus-visible:bg-blue-50">Help</button>
+            <button
+              type="button"
+              tngMenubarItem
+              (click)="onWorkspaceTailwindLeafCommandSelect('Help')"
+              class="min-h-[2.05rem] min-w-[3.3rem] rounded-[0.62rem] px-[0.9rem] py-[0.46rem] text-[0.95rem] font-semibold text-slate-900 transition hover:bg-blue-50 focus-visible:bg-blue-50"
+            >
+              Help
+            </button>
           </div>
         </div>
         <p class="headless-menubar-example-state">Last command: {{ workspaceTailwindCommand() }}</p>
@@ -188,7 +197,7 @@
         [codeTabs]="cascadeTailwindCodeTabs"
         [stackblitzUrl]="stackblitzTailwindUrl"
       >
-        <div class="relative grid min-h-[22rem] justify-items-start content-start">
+        <div class="relative grid justify-items-start content-start">
           <div tngMenubar aria-label="Cascaded command bar" class="inline-flex min-h-[2.7rem] gap-[0.45rem] rounded-[0.95rem] border border-slate-300 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-[0.32rem] shadow-[0_8px_22px_-18px_rgba(15,23,42,0.26),0_10px_32px_-24px_rgba(15,23,42,0.18)]">
             <div class="relative">
               <div

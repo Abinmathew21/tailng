@@ -71,7 +71,13 @@
   align-content: start;
   display: grid;
   justify-items: start;
-  min-height: 14rem;
+  position: relative;
+}
+
+.docs-headless-menubar-overview-tailwind-stage {
+  align-content: start;
+  display: grid;
+  justify-items: start;
   position: relative;
 }
 
