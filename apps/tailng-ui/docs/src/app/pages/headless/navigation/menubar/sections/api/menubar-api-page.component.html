@@ -1,0 +1,152 @@
+<article class="headless-menubar-api">
+  <h2 class="headless-menubar-api-title">API reference</h2>
+  <p class="headless-menubar-api-lead">
+    Headless Menubar is the primitive navigation surface. You own the markup and panel placement,
+    while the directives handle roving focus, menu handoff, and cross-menu keyboard flow.
+  </p>
+
+  <section id="tng-menubar" class="headless-menubar-api-block">
+    <h3><code>tngMenubar</code></h3>
+    <p>
+      Applies menubar semantics to the host and manages the top-level roving tabindex state across
+      <code>tngMenubarItem</code> descendants.
+    </p>
+    <tng-code-block
+      [code]="compositionCode"
+      adapter="shiki"
+      language="html"
+      title="Primitive composition"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+    <div class="headless-menubar-api-table-wrap">
+      <table class="headless-menubar-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Input</th>
+            <th scope="col">Type</th>
+            <th scope="col">Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>loop</code></td>
+            <td><code>boolean</code></td>
+            <td>Wraps horizontal focus from last item to first and vice versa. Defaults to <code>true</code>.</td>
+          </tr>
+          <tr>
+            <td>Host attributes</td>
+            <td><code>role</code>, <code>aria-orientation</code>, <code>data-slot</code></td>
+            <td>Emits <code>role="menubar"</code>, horizontal orientation, and <code>data-slot="menubar"</code>.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="tng-menubar-item" class="headless-menubar-api-block">
+    <h3><code>tngMenubarItem</code></h3>
+    <p>
+      Marks a focusable top-level trigger and links it to an optional owned <code>tngMenu</code>.
+    </p>
+    <div class="headless-menubar-api-table-wrap">
+      <table class="headless-menubar-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Input / Attr</th>
+            <th scope="col">Type</th>
+            <th scope="col">Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>[tngMenubarMenu]</code></td>
+            <td><code>TngMenu | null</code></td>
+            <td>Owns the menu panel opened by click, Enter, Space, or the open-arrow keys.</td>
+          </tr>
+          <tr>
+            <td><code>tabindex</code></td>
+            <td><code>0 | -1</code></td>
+            <td>Managed by the primitive so only one enabled top-level item is tabbable at a time.</td>
+          </tr>
+          <tr>
+            <td><code>aria-haspopup</code>, <code>aria-controls</code>, <code>aria-expanded</code></td>
+            <td>Reflected attrs</td>
+            <td>Added automatically when an owned menu exists and updated as the menu opens or closes.</td>
+          </tr>
+          <tr>
+            <td><code>aria-disabled</code></td>
+            <td><code>'true' | null</code></td>
+            <td>Disables the trigger in roving focus, typeahead, and menu ownership flow.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="owned-menu-link" class="headless-menubar-api-block">
+    <h3>Owned menu link</h3>
+    <p>
+      Menubar reuses the headless <code>tngMenu</code> primitive for its panels. Menus can contain
+      regular items, labels, separators, and nested submenus.
+    </p>
+    <tng-code-block
+      [code]="submenuCode"
+      adapter="shiki"
+      language="html"
+      title="Nested submenu wiring"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+    <div class="headless-menubar-api-table-wrap">
+      <table class="headless-menubar-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Directive</th>
+            <th scope="col">Purpose</th>
+            <th scope="col">Key inputs</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>tngMenu</code></td>
+            <td>Owns menu panel focus order, open state, and typeahead inside the panel.</td>
+            <td><code>loop</code>, <code>disabled</code>, <code>closeOnSelect</code></td>
+          </tr>
+          <tr>
+            <td><code>tngMenuItem</code></td>
+            <td>Selectable command row or submenu trigger inside the panel.</td>
+            <td><code>tngMenuItemValue</code>, <code>disabled</code>, <code>[tngMenuItemSubmenu]</code></td>
+          </tr>
+          <tr>
+            <td><code>tngMenuGroupLabel</code>, <code>tngMenuSeparator</code></td>
+            <td>Structural helpers for grouped commands and visual separation.</td>
+            <td>No inputs</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="keyboard-contract" class="headless-menubar-api-block">
+    <h3>Keyboard contract</h3>
+    <p>
+      Menubar owns top-level keyboard semantics and coordinates with the owned menu so focus stays
+      predictable when panels open, close, or hand off to adjacent triggers.
+    </p>
+    <tng-code-block
+      [code]="keyboardContractCode"
+      adapter="shiki"
+      language="text"
+      title="Top-level keyboard baseline"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+</article>

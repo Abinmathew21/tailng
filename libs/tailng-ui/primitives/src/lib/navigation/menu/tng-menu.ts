@@ -481,6 +481,12 @@ export class TngMenu {
       return;
     }
 
+    const owningMenubar = this.triggerElement?.closest<HTMLElement>('[data-slot="menubar"]');
+    if (owningMenubar?.contains(target) === true) {
+      this.close(false);
+      return;
+    }
+
     this.close(this.restoreFocusOnOutsideClick);
   }
 
