@@ -35,14 +35,6 @@
   position: relative;
 }
 
-.headless-menubar-example-stage--short {
-  min-height: 14.5rem;
-}
-
-.headless-menubar-example-stage--cascade {
-  min-height: 22rem;
-}
-
 .headless-menubar-example-shell {
   background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
   border: 1px solid #cbd5e1;

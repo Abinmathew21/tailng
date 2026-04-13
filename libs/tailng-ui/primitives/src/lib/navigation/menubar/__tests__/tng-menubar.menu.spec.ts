@@ -1,6 +1,6 @@
 import { Component, signal, viewChild } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { describe, expect, it, vi } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { TngMenu, TngMenuItem, TngMenuSelectEvent } from '../../menu/tng-menu';
 import { TngMenubar, TngMenubarItem } from '../tng-menubar';
@@ -187,6 +187,97 @@ class MenubarSelectionDelegationHostComponent {
     <div tngMenubar data-testid="menubar">
       <button
         tngMenubarItem
+        [tngMenubarMenu]="fileMenu"
+        data-testid="item-file"
+      >
+        File
+      </button>
+      <button tngMenubarItem data-testid="item-help">Help</button>
+    </div>
+
+    <div
+      tngMenu
+      #fileMenu="tngMenu"
+      (tngMenuSelect)="onSelect($event)"
+      data-testid="file-menu"
+    >
+      <button
+        tngMenuItem
+        [tngMenuItemSubmenu]="importMenu"
+        [tngMenuItemValue]="'import-from-source'"
+        data-testid="file-import"
+      >
+        Import from...
+      </button>
+      <button
+        tngMenuItem
+        [tngMenuItemValue]="'archive-project'"
+        data-testid="file-archive"
+      >
+        Archive
+      </button>
+    </div>
+
+    <div
+      tngMenu
+      #importMenu="tngMenu"
+      (tngMenuSelect)="onSelect($event)"
+      data-testid="import-menu"
+    >
+      <button
+        tngMenuItem
+        [tngMenuItemValue]="'import-csv'"
+        data-testid="import-csv"
+      >
+        CSV file
+      </button>
+      <button
+        tngMenuItem
+        [tngMenuItemSubmenu]="gitMenu"
+        [tngMenuItemValue]="'import-git'"
+        data-testid="import-git"
+      >
+        Git repository
+      </button>
+    </div>
+
+    <div
+      tngMenu
+      #gitMenu="tngMenu"
+      (tngMenuSelect)="onSelect($event)"
+      data-testid="git-menu"
+    >
+      <button
+        tngMenuItem
+        [tngMenuItemValue]="'import-github'"
+        data-testid="git-github"
+      >
+        GitHub
+      </button>
+      <button
+        tngMenuItem
+        [tngMenuItemValue]="'import-gitlab'"
+        data-testid="git-gitlab"
+      >
+        GitLab
+      </button>
+    </div>
+  `,
+})
+class MenubarCascadedSubmenuHostComponent {
+  readonly events: TngMenuSelectEvent[] = [];
+
+  onSelect(event: TngMenuSelectEvent): void {
+    this.events.push(event);
+  }
+}
+
+@Component({
+  imports: [TngMenubar, TngMenubarItem, TngMenu, TngMenuItem],
+  template: `
+    <div tngMenubar data-testid="menubar">
+      <button
+        tngMenubarItem
         [tngMenubarMenu]="fileMenu() ?? null"
         data-testid="item-file"
       >
@@ -266,6 +357,10 @@ function dispatchTabAndSimulateBrowserFocus(
 
   return event;
 }
+
+afterEach(() => {
+  TestBed.resetTestingModule();
+});
 
 describe('tng-menubar owned menu integration', () => {
   it('applies menu ownership aria attributes only to items that own a menu', () => {
@@ -1265,6 +1360,57 @@ describe('tng-menubar owned menu integration', () => {
       {
         value: 'new',
         itemId: item.id,
+        trigger: 'pointer',
+      },
+    ]);
+  });
+
+  it('allows selecting a cascaded submenu leaf with mouse clicks from a menubar-owned menu', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [MenubarCascadedSubmenuHostComponent],
+    }).createComponent(MenubarCascadedSubmenuHostComponent);
+
+    fixture.detectChanges();
+
+    const host = fixture.componentInstance;
+    const file = fixture.nativeElement.querySelector('[data-testid="item-file"]') as HTMLButtonElement;
+    const fileMenu = fixture.nativeElement.querySelector('[data-testid="file-menu"]') as HTMLElement;
+    const importMenu = fixture.nativeElement.querySelector('[data-testid="import-menu"]') as HTMLElement;
+    const gitMenu = fixture.nativeElement.querySelector('[data-testid="git-menu"]') as HTMLElement;
+    const importTrigger = fixture.nativeElement.querySelector('[data-testid="file-import"]') as HTMLButtonElement;
+    const gitTrigger = fixture.nativeElement.querySelector('[data-testid="import-git"]') as HTMLButtonElement;
+    const githubItem = fixture.nativeElement.querySelector('[data-testid="git-github"]') as HTMLButtonElement;
+
+    click(file);
+    fixture.detectChanges();
+
+    expect(fileMenu.getAttribute('data-state')).toBe('open');
+
+    click(importTrigger);
+    fixture.detectChanges();
+
+    expect(fileMenu.getAttribute('data-state')).toBe('open');
+    expect(importMenu.getAttribute('data-state')).toBe('open');
+    expect(importTrigger.getAttribute('aria-expanded')).toBe('true');
+
+    click(gitTrigger);
+    fixture.detectChanges();
+
+    expect(importMenu.getAttribute('data-state')).toBe('open');
+    expect(gitMenu.getAttribute('data-state')).toBe('open');
+    expect(gitTrigger.getAttribute('aria-expanded')).toBe('true');
+
+    click(githubItem);
+    fixture.detectChanges();
+
+    expect(gitMenu.getAttribute('data-state')).toBe('closed');
+    expect(importMenu.getAttribute('data-state')).toBe('closed');
+    expect(fileMenu.getAttribute('data-state')).toBe('closed');
+    expect(file.getAttribute('aria-expanded')).toBe('false');
+    expect(host.events).toEqual([
+      {
+        value: 'import-github',
+        itemId: githubItem.id,
         trigger: 'pointer',
       },
     ]);
