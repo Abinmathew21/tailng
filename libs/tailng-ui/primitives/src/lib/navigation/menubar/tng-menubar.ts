@@ -571,3 +571,18 @@ export class TngMenubarItem {
     this.hostRef.nativeElement.id = this.id;
   }
 }
+
+/**
+ * Wrap each owned {@link TngMenu} and its {@link TngMenubarItem} so absolutely
+ * positioned menu panels anchor to this element. The menu contract positions
+ * root menus with `top: calc(100% + …)`; that percentage resolves against the
+ * nearest positioned ancestor — this host provides it (see theme menubar.css).
+ */
+@Directive({
+  selector: '[tngMenubarGroup]',
+  exportAs: 'tngMenubarGroup',
+})
+export class TngMenubarGroup {
+  @HostBinding('attr.data-slot')
+  protected readonly dataSlot = 'menubar-group' as const;
+}

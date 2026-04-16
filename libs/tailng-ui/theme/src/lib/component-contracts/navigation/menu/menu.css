@@ -90,6 +90,30 @@
     outline: none;
   }
 
+  /*
+   * Nested submenu panels live inside a parent [data-slot="menu"] host.
+   * Root menus use top/left below the trigger; submenus must fly out to the
+   * side of the parent panel — not stack under it (which looked like a panel
+   * at the bottom-left of the viewport/page).
+   *
+   * This rule matches any menu nested inside another menu (2nd, 3rd, … level).
+   * Each panel is position:absolute; the containing block is the *nearest*
+   * positioned ancestor, i.e. the immediate parent menu host, so deeper
+   * cascades keep opening to the right of the previous panel (LTR).
+   */
+  :where([data-slot="menu"][aria-labelledby]) :where([data-slot="menu"][aria-labelledby]) {
+    top: 0;
+    left: 100%;
+    margin-left: 0.35rem;
+  }
+
+  :where([dir='rtl'] [data-slot="menu"][aria-labelledby]) :where([data-slot="menu"][aria-labelledby]) {
+    left: auto;
+    right: 100%;
+    margin-left: 0;
+    margin-right: 0.35rem;
+  }
+
   :where([data-slot="menu"][aria-labelledby][hidden]) {
     display: none;
   }
