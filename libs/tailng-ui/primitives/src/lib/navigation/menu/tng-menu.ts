@@ -730,7 +730,11 @@ export class TngMenu {
       const activeItem = this.activeItemId === null ? null : this.itemsById.get(this.activeItemId) ?? null;
       if (activeItem !== null) {
         event.preventDefault();
-        this.requestSelect(activeItem, 'keyboard');
+        if (activeItem.getOwnedSubmenu() !== null) {
+          activeItem.openOwnedSubmenu('first');
+        } else {
+          this.requestSelect(activeItem, 'keyboard');
+        }
       }
       return;
     }

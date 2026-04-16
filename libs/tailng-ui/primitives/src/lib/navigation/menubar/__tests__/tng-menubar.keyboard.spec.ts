@@ -2,6 +2,7 @@ import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { describe, expect, it } from 'vitest';
 
+import { TngMenu, TngMenuItem } from '../../menu/tng-menu';
 import { TngMenubar, TngMenubarItem } from '../tng-menubar';
 
 function keydown(el: HTMLElement, key: string): void {
@@ -180,8 +181,8 @@ describe('tng-menubar keyboard navigation', () => {
   imports: [
     TngMenubar,
     TngMenubarItem,
-    import('../../menu/tng-menu').then(m => m.TngMenu) as any,
-    import('../../menu/tng-menu').then(m => m.TngMenuItem) as any,
+    TngMenu,
+    TngMenuItem,
   ],
   template: `
     <div tngMenubar data-testid="menubar">
@@ -193,7 +194,7 @@ describe('tng-menubar keyboard navigation', () => {
 
       <!-- 2nd menu -->
       <button tngMenubarItem [tngMenubarMenu]="menu2" data-testid="item-2">Menu 2</button>
-      <div tngMenu #menu2="tngMenu">
+      <div tngMenu #menu2="tngMenu" data-testid="menu-2">
         <!-- The trigger for the submenu -->
         <button tngMenuItem [tngMenuItemSubmenu]="submenu2" data-testid="submenu-trigger-2">Submenu 2</button>
         <div tngMenu #submenu2="tngMenu" data-testid="submenu-2">
@@ -237,24 +238,34 @@ describe('tng-menubar submenu interaction bug', () => {
     await Promise.resolve(); // allow microtasks
 
     const submenuTrigger2 = fixture.nativeElement.querySelector('[data-testid="submenu-trigger-2"]') as HTMLButtonElement;
+    const menu2Container = fixture.nativeElement.querySelector('[data-testid="menu-2"]') as HTMLDivElement;
+    const submenu2Container = fixture.nativeElement.querySelector('[data-testid="submenu-2"]') as HTMLDivElement;
+
     // Down arrow to go into the menu
     keydown(item2, 'ArrowDown');
     fixture.detectChanges();
-    expect(document.activeElement).toBe(submenuTrigger2);
+    expect(document.activeElement).toBe(menu2Container);
+    expect(menu2Container.getAttribute('aria-activedescendant')).toBe(submenuTrigger2.id);
 
     // Open submenu overlay using Enter or ArrowRight
-    keydown(submenuTrigger2, 'Enter');
+    keydown(menu2Container, 'Enter');
     fixture.detectChanges();
     await Promise.resolve();
 
     const submenuItem = fixture.nativeElement.querySelector('[data-testid="submenu-item"]') as HTMLButtonElement;
     // Enter submenu via arrow down
-    keydown(submenuTrigger2, 'ArrowDown');
+    keydown(menu2Container, 'ArrowRight'); // arrow down inside menu2Container will move selection, arrow right opens flyout
     fixture.detectChanges();
-    expect(document.activeElement).toBe(submenuItem);
+    expect(document.activeElement).toBe(submenu2Container);
+    
+    // Now hit arrow down inside submenu2Container to select item
+    keydown(submenu2Container, 'ArrowDown');
+    fixture.detectChanges();
+    expect(document.activeElement).toBe(submenu2Container);
+    expect(submenu2Container.getAttribute('aria-activedescendant')).toBe(submenuItem.id);
 
     // 4. User ARROW key and ENTER key and select one submenu item from opened overlay
-    keydown(submenuItem, 'Enter');
+    keydown(submenu2Container, 'Enter');
     fixture.detectChanges();
     await Promise.resolve();
 
