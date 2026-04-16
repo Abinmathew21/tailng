@@ -45,11 +45,9 @@
   display: grid;
   gap: 0.75rem;
   justify-items: start;
-  min-height: 14rem;
-  position: relative;
 }
 
-.menubar-stage [tngMenubar] {
+.menubar-stage--plain [tngMenubar] {
   align-items: center;
   background: color-mix(in srgb, var(--tng-semantic-background-surface) 88%, transparent);
   border: 1px solid var(--tng-semantic-border-subtle);
@@ -60,7 +58,7 @@
   padding: 0.32rem;
 }
 
-.menubar-stage [tngMenubarItem] {
+.menubar-stage--plain [tngMenubarItem] {
   background: transparent;
   border: 0;
   border-radius: 0.62rem;
@@ -78,12 +76,12 @@
     box-shadow 130ms ease;
 }
 
-.menubar-stage [tngMenubarItem]:is(:hover, :focus-visible) {
+.menubar-stage--plain [tngMenubarItem]:is(:hover, :focus-visible) {
   background: color-mix(in srgb, var(--tng-semantic-accent-brand) 10%, transparent);
   outline: none;
 }
 
-.menubar-stage [tngMenubarItem][tabindex='0'] {
+.menubar-stage--plain [tngMenubarItem][tabindex='0'] {
   background: color-mix(in srgb, var(--tng-semantic-accent-brand) 13%, transparent);
   box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--tng-semantic-accent-brand) 42%, transparent);
   color: color-mix(
@@ -93,7 +91,7 @@
   );
 }
 
-.menubar-stage [tngMenubarItem][aria-expanded='true'] {
+.menubar-stage--plain [tngMenubarItem][aria-expanded='true'] {
   background: color-mix(in srgb, var(--tng-semantic-accent-brand) 16%, transparent);
   color: color-mix(
     in srgb,
@@ -102,11 +100,7 @@
   );
 }
 
-.menubar-item-shell {
-  position: relative;
-}
-
-.menubar-stage [tngMenu][data-state='open'] {
+.menubar-stage--plain [tngMenu][data-state='open'] {
   background: var(--tng-semantic-background-canvas);
   border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 0.82rem;
@@ -117,7 +111,7 @@
   padding: 0.48rem;
 }
 
-.menubar-stage [tngMenuItem] {
+.menubar-stage--plain [tngMenuItem] {
   background: transparent;
   border: 0;
   border-radius: 0.62rem;
@@ -133,12 +127,12 @@
     color 120ms ease;
 }
 
-.menubar-stage [tngMenuItem]:hover {
+.menubar-stage--plain [tngMenuItem]:hover {
   background: color-mix(in srgb, var(--tng-semantic-foreground-primary) 8%, transparent);
 }
 
-.menubar-stage [tngMenuItem][data-active],
-.menubar-stage [tngMenuItem][aria-expanded='true'] {
+.menubar-stage--plain [tngMenuItem][data-active],
+.menubar-stage--plain [tngMenuItem][aria-expanded='true'] {
   background: color-mix(in srgb, var(--tng-semantic-accent-brand) 16%, transparent);
   color: color-mix(
     in srgb,
