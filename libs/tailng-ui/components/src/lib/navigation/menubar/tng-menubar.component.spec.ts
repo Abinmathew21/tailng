@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { TngMenuGroupLabel, TngMenubarItem, TngMenuItem, TngMenuSeparator } from '@tailng-ui/primitives';
 import { describe, expect, it, vi } from 'vitest';
 import { TngMenubarComponent } from './tng-menubar.component';
-import { TngMenuGroupLabel, TngMenubarItem, TngMenuItem, TngMenuSeparator } from '@tailng-ui/primitives';
 import { TngMenuComponent } from '../menu/tng-menu.component';
 
 @Component({
@@ -31,9 +31,19 @@ function flushMicrotask(): Promise<void> {
   return Promise.resolve();
 }
 
-/** `TngMenuComponent` repositions in rAF then syncs focus in a microtask — flush both before asserting `document.activeElement`. */
+/**
+ * `TngMenuComponent` hides with `data-positioning-state="pending"` until fixed placement; submenus may
+ * need an extra rAF when the overlay rect is still 0×0. Loop until no pending menus, then flush focus.
+ */
 async function flushMenubarOverlayLayout(): Promise<void> {
-  await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+  const maxPasses = 16;
+  for (let i = 0; i < maxPasses; i += 1) {
+    await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+    await flushMicrotask();
+    if (!document.querySelector('[data-positioning-state="pending"]')) {
+      break;
+    }
+  }
   await flushMicrotask();
 }
 
