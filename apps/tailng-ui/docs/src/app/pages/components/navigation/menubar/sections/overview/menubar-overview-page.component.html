@@ -57,67 +57,45 @@
   <app-docs-example-tabs-section
     class="menubar-overview-block"
     heading="Style variants"
-    description="Same menubar behavior rendered through headless directives, plain CSS wrappers, and Tailwind utility shells."
+    description="Same menubar behavior rendered through plain CSS wrappers and Tailwind utility shells."
     ariaLabel="Menubar style variants"
     tabListAriaLabel="Menubar style tabs"
-    defaultValue="headless"
+    defaultValue="plain-css"
     [codeBlockTheme]="codeBlockTheme()"
   >
-    <ng-template
-      appDocsExampleVariant
-      value="headless"
-      label="Headless"
-      panelTitle="Headless application menubar"
-      [codeTabs]="headlessCodeTabs"
-    >
-      <div class="menubar-stage">
-        <div tngMenubar aria-label="Headless workspace commands">
-          <div class="menubar-item-shell">
-            <div tngMenu #headlessFileMenu="tngMenu" aria-label="File menu" (tngMenuSelect)="onHeadlessCommandSelect($event)">
-              <div tngMenuGroupLabel>File</div>
-              <button type="button" tngMenuItem tngMenuItemValue="Create document">New</button>
-              <button type="button" tngMenuItem tngMenuItemValue="Open document">Open</button>
-              <button type="button" tngMenuItem tngMenuItemValue="Save document">Save</button>
-            </div>
-            <button type="button" tngMenubarItem [tngMenubarMenu]="headlessFileMenu">File</button>
-          </div>
-
-          <div class="menubar-item-shell">
-            <div tngMenu #headlessEditMenu="tngMenu" aria-label="Edit menu" (tngMenuSelect)="onHeadlessCommandSelect($event)">
-              <div tngMenuGroupLabel>Edit</div>
-              <button type="button" tngMenuItem tngMenuItemValue="Undo change">Undo</button>
-              <button type="button" tngMenuItem tngMenuItemValue="Redo change">Redo</button>
-              <div tngMenuSeparator></div>
-              <button type="button" tngMenuItem tngMenuItemValue="Find in page">Find</button>
-            </div>
-            <button type="button" tngMenubarItem [tngMenubarMenu]="headlessEditMenu">Edit</button>
-          </div>
-
-          <button type="button" tngMenubarItem>Help</button>
-        </div>
-      </div>
-      <p class="menubar-overview-state">last command: {{ headlessCommand() }}</p>
-    </ng-template>
-
     <ng-template
       appDocsExampleVariant
       value="plain-css"
       label="Plain-CSS"
       panelTitle="Wrapper menubar (plain CSS)"
       [codeTabs]="plainCssCodeTabs"
+      [stackblitzUrl]="stackblitzVanillaUrl"
     >
-      <div class="menubar-stage">
+      <div class="menubar-stage menubar-stage--plain">
         <tng-menubar ariaLabel="Wrapper workspace commands">
-          <div class="menubar-item-shell">
+          <div tngMenubarGroup class="menubar-item-shell">
             <tng-menu #plainFileMenu="tngMenu" ariaLabel="File menu" (tngMenuSelect)="onPlainCommandSelect($event)">
               <div tngMenuGroupLabel>File</div>
               <button type="button" tngMenuItem tngMenuItemValue="Create wrapper document">New</button>
+              <button
+                type="button"
+                tngMenuItem
+                [tngMenuItemSubmenu]="plainImportMenu"
+                tngMenuItemValue="Import from source"
+              >
+                Import from...
+              </button>
               <button type="button" tngMenuItem tngMenuItemValue="Open wrapper document">Open</button>
+
+              <tng-menu #plainImportMenu="tngMenu" ariaLabel="Import submenu" (tngMenuSelect)="onPlainCommandSelect($event)">
+                <button type="button" tngMenuItem tngMenuItemValue="Import from CSV">CSV file</button>
+                <button type="button" tngMenuItem tngMenuItemValue="Import from Git">Git repository</button>
+              </tng-menu>
             </tng-menu>
             <button type="button" tngMenubarItem [tngMenubarMenu]="plainFileMenu">File</button>
           </div>
 
-          <div class="menubar-item-shell">
+          <div tngMenubarGroup class="menubar-item-shell">
             <tng-menu #plainViewMenu="tngMenu" ariaLabel="View menu" (tngMenuSelect)="onPlainCommandSelect($event)">
               <button type="button" tngMenuItem tngMenuItemValue="Toggle sidebar">Toggle sidebar</button>
               <button type="button" tngMenuItem tngMenuItemValue="Open command palette">Command palette</button>
@@ -125,7 +103,7 @@
             <button type="button" tngMenubarItem [tngMenubarMenu]="plainViewMenu">View</button>
           </div>
 
-          <button type="button" tngMenubarItem>Help</button>
+          <button type="button" tngMenubarItem (click)="onPlainLeafCommandSelect('Help')">Help</button>
         </tng-menubar>
       </div>
       <p class="menubar-overview-state">last command: {{ plainCommand() }}</p>
@@ -137,80 +115,122 @@
       label="Tailwind CSS"
       panelTitle="Wrapper menubar (tailwind)"
       [codeTabs]="tailwindCodeTabs"
+      [stackblitzUrl]="stackblitzTailwindUrl"
     >
-      <div class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">
+      <div class="rounded-xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4">
         <div class="menubar-stage">
           <tng-menubar
             ariaLabel="Tailwind workspace commands"
-            class="inline-flex items-center gap-1 rounded-xl border border-slate-200 bg-white p-1 shadow-sm"
+            class="inline-flex min-h-[2.7rem] items-center gap-[0.45rem] rounded-[0.9rem] border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-[0.32rem]"
           >
-            <div class="menubar-item-shell">
+            <div tngMenubarGroup class="menubar-item-shell">
               <tng-menu
                 #tailwindFileMenu="tngMenu"
                 ariaLabel="File menu"
-                class="grid min-w-48 gap-1 rounded-xl border border-slate-200 bg-white p-1 shadow-xl"
+                class="hidden min-w-[13.5rem] gap-[0.24rem] rounded-[0.82rem] border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-canvas)] p-[0.48rem] shadow-[0_16px_30px_-22px_color-mix(in_srgb,var(--tng-semantic-foreground-primary)_35%,transparent)] data-[state=open]:grid"
                 (tngMenuSelect)="onTailwindCommandSelect($event)"
               >
                 <button
                   type="button"
                   tngMenuItem
                   tngMenuItemValue="Create release"
-                  class="flex min-h-9 w-full items-center rounded-lg px-3 text-left text-sm font-medium text-slate-700 outline-none transition hover:bg-sky-50 hover:text-slate-950 focus-visible:bg-sky-50 focus-visible:text-slate-950 focus-visible:ring-2 focus-visible:ring-sky-400/50 [&[data-active]]:bg-sky-50 [&[data-active]]:text-slate-950"
+                  class="flex min-h-[2.05rem] w-full items-center rounded-[0.62rem] px-[0.68rem] py-[0.45rem] text-left text-[0.92rem] font-[550] text-[var(--tng-semantic-foreground-primary)] outline-none transition hover:bg-[color-mix(in_srgb,var(--tng-semantic-foreground-primary)_8%,transparent)] focus-visible:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_16%,transparent)] focus-visible:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_72%,var(--tng-semantic-foreground-primary))] [&[data-active]]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_16%,transparent)] [&[data-active]]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_72%,var(--tng-semantic-foreground-primary))]"
                 >
                   New release
                 </button>
                 <button
                   type="button"
                   tngMenuItem
+                  [tngMenuItemSubmenu]="tailwindImportMenu"
+                  tngMenuItemValue="Import from source"
+                  class="flex min-h-[2.05rem] w-full items-center rounded-[0.62rem] px-[0.68rem] py-[0.45rem] text-left text-[0.92rem] font-[550] text-[var(--tng-semantic-foreground-primary)] outline-none transition hover:bg-[color-mix(in_srgb,var(--tng-semantic-foreground-primary)_8%,transparent)] focus-visible:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_16%,transparent)] focus-visible:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_72%,var(--tng-semantic-foreground-primary))] [&[data-active]]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_16%,transparent)] [&[data-active]]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_72%,var(--tng-semantic-foreground-primary))]"
+                >
+                  Import from...
+                </button>
+                <button
+                  type="button"
+                  tngMenuItem
                   tngMenuItemValue="Publish release"
-                  class="flex min-h-9 w-full items-center rounded-lg px-3 text-left text-sm font-medium text-slate-700 outline-none transition hover:bg-sky-50 hover:text-slate-950 focus-visible:bg-sky-50 focus-visible:text-slate-950 focus-visible:ring-2 focus-visible:ring-sky-400/50 [&[data-active]]:bg-sky-50 [&[data-active]]:text-slate-950"
+                  class="flex min-h-[2.05rem] w-full items-center rounded-[0.62rem] px-[0.68rem] py-[0.45rem] text-left text-[0.92rem] font-[550] text-[var(--tng-semantic-foreground-primary)] outline-none transition hover:bg-[color-mix(in_srgb,var(--tng-semantic-foreground-primary)_8%,transparent)] focus-visible:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_16%,transparent)] focus-visible:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_72%,var(--tng-semantic-foreground-primary))] [&[data-active]]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_16%,transparent)] [&[data-active]]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_72%,var(--tng-semantic-foreground-primary))]"
                 >
                   Publish
                 </button>
+
+                <tng-menu
+                  #tailwindImportMenu="tngMenu"
+                  ariaLabel="Import submenu"
+                  class="hidden min-w-[13.5rem] gap-[0.24rem] rounded-[0.82rem] border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-canvas)] p-[0.48rem] shadow-[0_16px_30px_-22px_color-mix(in_srgb,var(--tng-semantic-foreground-primary)_35%,transparent)] data-[state=open]:grid"
+                  (tngMenuSelect)="onTailwindCommandSelect($event)"
+                >
+                  <button
+                    type="button"
+                    tngMenuItem
+                    tngMenuItemValue="Import from CSV"
+                    class="flex min-h-[2.05rem] w-full items-center rounded-[0.62rem] px-[0.68rem] py-[0.45rem] text-left text-[0.92rem] font-[550] text-[var(--tng-semantic-foreground-primary)] outline-none transition hover:bg-[color-mix(in_srgb,var(--tng-semantic-foreground-primary)_8%,transparent)] focus-visible:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_16%,transparent)] focus-visible:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_72%,var(--tng-semantic-foreground-primary))] [&[data-active]]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_16%,transparent)] [&[data-active]]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_72%,var(--tng-semantic-foreground-primary))]"
+                  >
+                    CSV file
+                  </button>
+                  <button
+                    type="button"
+                    tngMenuItem
+                    tngMenuItemValue="Import from Git"
+                    class="flex min-h-[2.05rem] w-full items-center rounded-[0.62rem] px-[0.68rem] py-[0.45rem] text-left text-[0.92rem] font-[550] text-[var(--tng-semantic-foreground-primary)] outline-none transition hover:bg-[color-mix(in_srgb,var(--tng-semantic-foreground-primary)_8%,transparent)] focus-visible:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_16%,transparent)] focus-visible:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_72%,var(--tng-semantic-foreground-primary))] [&[data-active]]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_16%,transparent)] [&[data-active]]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_72%,var(--tng-semantic-foreground-primary))]"
+                  >
+                    Git repository
+                  </button>
+                </tng-menu>
               </tng-menu>
               <button
                 type="button"
                 tngMenubarItem
                 [tngMenubarMenu]="tailwindFileMenu"
-                class="inline-flex min-h-9 items-center rounded-lg px-3 text-sm font-medium text-slate-700 outline-none transition hover:bg-slate-100 hover:text-slate-950 focus-visible:bg-white focus-visible:text-slate-950 focus-visible:ring-2 focus-visible:ring-sky-400/60 [&[tabindex='0']]:bg-white [&[tabindex='0']]:text-slate-950 [&[tabindex='0']]:shadow-sm [&[aria-expanded='true']]:bg-white [&[aria-expanded='true']]:text-slate-950 [&[aria-expanded='true']]:shadow-sm"
+                class="inline-flex min-h-[2.05rem] min-w-[3.3rem] items-center rounded-[0.62rem] px-[0.9rem] py-[0.46rem] text-[0.95rem] font-semibold text-[var(--tng-semantic-foreground-primary)] outline-none transition hover:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_10%,transparent)] focus-visible:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_10%,transparent)] [&[tabindex='0']]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_13%,transparent)] [&[tabindex='0']]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_72%,var(--tng-semantic-foreground-primary))] [&[tabindex='0']]:shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--tng-semantic-accent-brand)_42%,transparent)] [&[aria-expanded='true']]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_16%,transparent)] [&[aria-expanded='true']]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_74%,var(--tng-semantic-foreground-primary))]"
               >
                 File
               </button>
             </div>
 
-            <div class="menubar-item-shell">
+            <div tngMenubarGroup class="menubar-item-shell">
               <tng-menu
-                #tailwindToolsMenu="tngMenu"
-                ariaLabel="Tools menu"
-                class="grid min-w-48 gap-1 rounded-xl border border-slate-200 bg-white p-1 shadow-xl"
+                #tailwindViewMenu="tngMenu"
+                ariaLabel="View menu"
+                class="hidden min-w-[13.5rem] gap-[0.24rem] rounded-[0.82rem] border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-canvas)] p-[0.48rem] shadow-[0_16px_30px_-22px_color-mix(in_srgb,var(--tng-semantic-foreground-primary)_35%,transparent)] data-[state=open]:grid"
                 (tngMenuSelect)="onTailwindCommandSelect($event)"
               >
                 <button
                   type="button"
                   tngMenuItem
-                  tngMenuItemValue="Run lint"
-                  class="flex min-h-9 w-full items-center rounded-lg px-3 text-left text-sm font-medium text-slate-700 outline-none transition hover:bg-sky-50 hover:text-slate-950 focus-visible:bg-sky-50 focus-visible:text-slate-950 focus-visible:ring-2 focus-visible:ring-sky-400/50 [&[data-active]]:bg-sky-50 [&[data-active]]:text-slate-950"
+                  tngMenuItemValue="Toggle sidebar"
+                  class="flex min-h-[2.05rem] w-full items-center rounded-[0.62rem] px-[0.68rem] py-[0.45rem] text-left text-[0.92rem] font-[550] text-[var(--tng-semantic-foreground-primary)] outline-none transition hover:bg-[color-mix(in_srgb,var(--tng-semantic-foreground-primary)_8%,transparent)] focus-visible:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_16%,transparent)] focus-visible:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_72%,var(--tng-semantic-foreground-primary))] [&[data-active]]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_16%,transparent)] [&[data-active]]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_72%,var(--tng-semantic-foreground-primary))]"
                 >
-                  Run lint
+                  Toggle sidebar
                 </button>
                 <button
                   type="button"
                   tngMenuItem
-                  tngMenuItemValue="Run tests"
-                  class="flex min-h-9 w-full items-center rounded-lg px-3 text-left text-sm font-medium text-slate-700 outline-none transition hover:bg-sky-50 hover:text-slate-950 focus-visible:bg-sky-50 focus-visible:text-slate-950 focus-visible:ring-2 focus-visible:ring-sky-400/50 [&[data-active]]:bg-sky-50 [&[data-active]]:text-slate-950"
+                  tngMenuItemValue="Open command palette"
+                  class="flex min-h-[2.05rem] w-full items-center rounded-[0.62rem] px-[0.68rem] py-[0.45rem] text-left text-[0.92rem] font-[550] text-[var(--tng-semantic-foreground-primary)] outline-none transition hover:bg-[color-mix(in_srgb,var(--tng-semantic-foreground-primary)_8%,transparent)] focus-visible:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_16%,transparent)] focus-visible:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_72%,var(--tng-semantic-foreground-primary))] [&[data-active]]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_16%,transparent)] [&[data-active]]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_72%,var(--tng-semantic-foreground-primary))]"
                 >
-                  Run tests
+                  Command palette
                 </button>
               </tng-menu>
               <button
                 type="button"
                 tngMenubarItem
-                [tngMenubarMenu]="tailwindToolsMenu"
-                class="inline-flex min-h-9 items-center rounded-lg px-3 text-sm font-medium text-slate-700 outline-none transition hover:bg-slate-100 hover:text-slate-950 focus-visible:bg-white focus-visible:text-slate-950 focus-visible:ring-2 focus-visible:ring-sky-400/60 [&[tabindex='0']]:bg-white [&[tabindex='0']]:text-slate-950 [&[tabindex='0']]:shadow-sm [&[aria-expanded='true']]:bg-white [&[aria-expanded='true']]:text-slate-950 [&[aria-expanded='true']]:shadow-sm"
+                [tngMenubarMenu]="tailwindViewMenu"
+                class="inline-flex min-h-[2.05rem] min-w-[3.3rem] items-center rounded-[0.62rem] px-[0.9rem] py-[0.46rem] text-[0.95rem] font-semibold text-[var(--tng-semantic-foreground-primary)] outline-none transition hover:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_10%,transparent)] focus-visible:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_10%,transparent)] [&[tabindex='0']]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_13%,transparent)] [&[tabindex='0']]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_72%,var(--tng-semantic-foreground-primary))] [&[tabindex='0']]:shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--tng-semantic-accent-brand)_42%,transparent)] [&[aria-expanded='true']]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_16%,transparent)] [&[aria-expanded='true']]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_74%,var(--tng-semantic-foreground-primary))]"
               >
-                Tools
+                View
               </button>
             </div>
+            <button
+              type="button"
+              tngMenubarItem
+              (click)="onTailwindLeafCommandSelect('Help')"
+              class="inline-flex min-h-[2.05rem] min-w-[3.3rem] items-center rounded-[0.62rem] px-[0.9rem] py-[0.46rem] text-[0.95rem] font-semibold text-[var(--tng-semantic-foreground-primary)] outline-none transition hover:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_10%,transparent)] focus-visible:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_10%,transparent)] [&[tabindex='0']]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_13%,transparent)] [&[tabindex='0']]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_72%,var(--tng-semantic-foreground-primary))] [&[tabindex='0']]:shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--tng-semantic-accent-brand)_42%,transparent)] [&[aria-expanded='true']]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_16%,transparent)] [&[aria-expanded='true']]:text-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_74%,var(--tng-semantic-foreground-primary))]"
+            >
+              Help
+            </button>
           </tng-menubar>
         </div>
       </div>

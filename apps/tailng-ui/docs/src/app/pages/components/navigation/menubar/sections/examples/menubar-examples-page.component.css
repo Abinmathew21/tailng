@@ -45,14 +45,6 @@
   position: relative;
 }
 
-.menubar-example-stage--short {
-  min-height: 14.5rem;
-}
-
-.menubar-example-stage--cascade {
-  min-height: 22rem;
-}
-
 .menubar-shell {
   background: color-mix(in srgb, var(--tng-semantic-background-surface) 88%, transparent);
   border: 1px solid var(--tng-semantic-border-subtle);
@@ -61,10 +53,6 @@
   gap: 0.45rem;
   min-height: 2.7rem;
   padding: 0.32rem;
-}
-
-.menubar-item-shell {
-  position: relative;
 }
 
 .menubar-shell [tngMenubarItem] {

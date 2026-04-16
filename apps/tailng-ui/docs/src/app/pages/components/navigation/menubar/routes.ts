@@ -51,20 +51,9 @@ export const COMPONENTS_NAVIGATION_MENUBAR_ROUTES: Routes = [
         path: 'ownable-install',
         data: {
           registrySlug: 'menubar',
-          usageCode: [
-            '<tng-menubar ariaLabel="Workspace commands">',
-            '  <tng-menu #fileMenu="tngMenu" ariaLabel="File menu">',
-            '    <button type="button" tngMenuItem tngMenuItemValue="New">New</button>',
-            '  </tng-menu>',
-            '  <button type="button" tngMenubarItem [tngMenubarMenu]="fileMenu">File</button>',
-            '</tng-menubar>',
-            '',
-          ].join('\n'),
         },
-        loadComponent: () =>
-          import('../../../../shared/ownable-install-section/docs-ownable-install-section.component').then(
-            (module) => module.DocsOwnableInstallSectionComponent,
-          ),
+        pathMatch: 'full',
+        redirectTo: '/ownable/navigation/menubar',
       },
       {
         path: '**',

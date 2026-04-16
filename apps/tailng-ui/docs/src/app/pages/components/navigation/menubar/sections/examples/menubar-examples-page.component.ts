@@ -1,21 +1,23 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, inject, signal, type OnDestroy } from '@angular/core';
-import { observeDocsCodeThemeChanges, resolveDocsCodeBlockTheme } from '../../../../../../shared/util';
 import { TngMenuComponent, TngMenubarComponent } from '@tailng-ui/components';
+import type {
+  TngMenuSelectEvent
+} from '@tailng-ui/primitives';
 import {
   TngMenu,
   TngMenuGroupLabel,
   TngMenuItem,
-  TngMenuSelectEvent,
-  TngMenuSeparator,
   TngMenubar,
-  TngMenubarItem,
+  TngMenubarGroup,
+  TngMenubarItem
 } from '@tailng-ui/primitives';
 import { type DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
 import {
   DocsExampleTabsSectionComponent,
   DocsExampleVariantDirective,
 } from '../../../../../../shared/example-tabs-section/docs-example-tabs-section.component';
+import { observeDocsCodeThemeChanges, resolveDocsCodeBlockTheme } from '../../../../../../shared/util';
 
 @Component({
   selector: 'app-menubar-examples-page',
@@ -24,8 +26,8 @@ import {
     TngMenuComponent,
     TngMenuGroupLabel,
     TngMenuItem,
-    TngMenuSeparator,
     TngMenubar,
+    TngMenubarGroup,
     TngMenubarComponent,
     TngMenubarItem,
     DocsExampleTabsSectionComponent,
@@ -41,50 +43,9 @@ export class MenubarExamplesPageComponent implements OnDestroy {
   );
   private readonly colorSchemeObserver = observeDocsCodeThemeChanges(this.documentRef, this.codeBlockTheme);
 
-  protected readonly headlessCommand = signal('No command yet');
   protected readonly plainCommand = signal('No command yet');
   protected readonly tailwindCommand = signal('No command yet');
   protected readonly cascadeCommand = signal('No command yet');
-
-  protected readonly headlessCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
-    {
-      value: 'ts',
-      label: 'TS',
-      language: 'ts',
-      title: 'menubar-examples-headless.component.ts',
-      code: [
-        "readonly lastCommand = signal('No command yet');",
-        '',
-        'onMenuSelect(event: TngMenuSelectEvent): void {',
-        '  this.lastCommand.set(String(event.value));',
-        '}',
-      ].join('\n'),
-    },
-    {
-      value: 'html',
-      label: 'HTML',
-      language: 'html',
-      title: 'menubar-examples-headless.component.html',
-      code: [
-        '<div tngMenubar aria-label="Workspace commands">',
-        '  <div class="menubar-item-shell">',
-        '    <div tngMenu #fileMenu="tngMenu" (tngMenuSelect)="onMenuSelect($event)">',
-        '      <button type="button" tngMenuItem tngMenuItemValue="Create document">New</button>',
-        '      <button type="button" tngMenuItem tngMenuItemValue="Open document">Open</button>',
-        '    </div>',
-        '    <button type="button" tngMenubarItem [tngMenubarMenu]="fileMenu">File</button>',
-        '  </div>',
-        '</div>',
-      ].join('\n'),
-    },
-    {
-      value: 'css',
-      label: 'CSS',
-      language: 'css',
-      title: 'menubar-examples-headless.component.css',
-      code: '.menubar-item-shell { position: relative; }',
-    },
-  ]);
 
   protected readonly plainCssCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
     {
@@ -93,10 +54,27 @@ export class MenubarExamplesPageComponent implements OnDestroy {
       language: 'ts',
       title: 'menubar-examples-plain-css.component.ts',
       code: [
-        "readonly lastCommand = signal('No command yet');",
+        "import { Component, signal } from '@angular/core';",
+        "import { TngMenuComponent, TngMenubarComponent } from '@tailng-ui/components';",
+        "import { TngMenuItem, TngMenubarGroup, TngMenubarItem, type TngMenuSelectEvent } from '@tailng-ui/primitives';",
         '',
-        'onMenuSelect(event: TngMenuSelectEvent): void {',
-        '  this.lastCommand.set(String(event.value));',
+        '@Component({',
+        "  selector: 'app-menubar-examples-plain-css',",
+        '  standalone: true,',
+        '  imports: [TngMenuComponent, TngMenubarComponent, TngMenuItem, TngMenubarGroup, TngMenubarItem],',
+        "  templateUrl: './menubar-examples-plain-css.component.html',",
+        "  styleUrl: './menubar-examples-plain-css.component.css',",
+        '})',
+        'export class MenubarExamplesPlainCssComponent {',
+        "readonly menubarExamplesPlainLastCommand = signal('No command yet');",
+        '',
+        '  onMenubarExamplesPlainMenuSelect(event: TngMenuSelectEvent): void {',
+        '    this.menubarExamplesPlainLastCommand.set(String(event.value));',
+        '  }',
+        '',
+        '  onMenubarExamplesPlainLeafSelect(command: string): void {',
+        '    this.menubarExamplesPlainLastCommand.set(command);',
+        '  }',
         '}',
       ].join('\n'),
     },
@@ -106,14 +84,28 @@ export class MenubarExamplesPageComponent implements OnDestroy {
       language: 'html',
       title: 'menubar-examples-plain-css.component.html',
       code: [
-        '<tng-menubar ariaLabel="Workspace commands">',
-        '  <div class="menubar-item-shell">',
-        '    <tng-menu #fileMenu="tngMenu" ariaLabel="File menu" (tngMenuSelect)="onMenuSelect($event)">',
-        '      <button type="button" tngMenuItem tngMenuItemValue="Create document">New</button>',
-        '      <button type="button" tngMenuItem tngMenuItemValue="Open document">Open</button>',
+        '<tng-menubar ariaLabel="Workspace commands" class="menubar-examples-plain-shell">',
+        '  <div tngMenubarGroup class="menubar-examples-plain-item-shell">',
+        '    <tng-menu #menubarExamplesPlainFileMenu="tngMenu" ariaLabel="File menu" (tngMenuSelect)="onMenubarExamplesPlainMenuSelect($event)">',
+        '      <button type="button" tngMenuItem tngMenuItemValue="Create release">New release</button>',
+        '      <button type="button" tngMenuItem [tngMenuItemSubmenu]="menubarExamplesPlainImportMenu" tngMenuItemValue="Import from source">Import from...</button>',
+        '      <button type="button" tngMenuItem tngMenuItemValue="Publish release">Publish</button>',
+        '',
+        '      <tng-menu #menubarExamplesPlainImportMenu="tngMenu" ariaLabel="Import submenu" (tngMenuSelect)="onMenubarExamplesPlainMenuSelect($event)">',
+        '        <button type="button" tngMenuItem tngMenuItemValue="Import from CSV">CSV file</button>',
+        '        <button type="button" tngMenuItem tngMenuItemValue="Import from Git">Git repository</button>',
+        '      </tng-menu>',
         '    </tng-menu>',
-        '    <button type="button" tngMenubarItem [tngMenubarMenu]="fileMenu">File</button>',
+        '    <button type="button" tngMenubarItem [tngMenubarMenu]="menubarExamplesPlainFileMenu">File</button>',
         '  </div>',
+        '  <div tngMenubarGroup class="menubar-examples-plain-item-shell">',
+        '    <tng-menu #menubarExamplesPlainViewMenu="tngMenu" ariaLabel="View menu" (tngMenuSelect)="onMenubarExamplesPlainMenuSelect($event)">',
+        '      <button type="button" tngMenuItem tngMenuItemValue="Toggle sidebar">Toggle sidebar</button>',
+        '      <button type="button" tngMenuItem tngMenuItemValue="Open command palette">Command palette</button>',
+        '    </tng-menu>',
+        '    <button type="button" tngMenubarItem [tngMenubarMenu]="menubarExamplesPlainViewMenu">View</button>',
+        '  </div>',
+        '  <button type="button" tngMenubarItem (click)="onMenubarExamplesPlainLeafSelect(\'Help\')">Help</button>',
         '</tng-menubar>',
       ].join('\n'),
     },
@@ -123,7 +115,7 @@ export class MenubarExamplesPageComponent implements OnDestroy {
       language: 'css',
       title: 'menubar-examples-plain-css.component.css',
       code: [
-        '.menubar-shell {',
+        '.menubar-examples-plain-shell {',
         '  border: 1px solid var(--tng-semantic-border-subtle);',
         '  border-radius: 0.85rem;',
         '  display: inline-flex;',
@@ -141,10 +133,27 @@ export class MenubarExamplesPageComponent implements OnDestroy {
       language: 'ts',
       title: 'menubar-examples-tailwind.component.ts',
       code: [
-        "readonly lastCommand = signal('No command yet');",
+        "import { Component, signal } from '@angular/core';",
+        "import { TngMenuComponent, TngMenubarComponent } from '@tailng-ui/components';",
+        "import { TngMenuItem, TngMenubarGroup, TngMenubarItem, type TngMenuSelectEvent } from '@tailng-ui/primitives';",
         '',
-        'onMenuSelect(event: TngMenuSelectEvent): void {',
-        '  this.lastCommand.set(String(event.value));',
+        '@Component({',
+        "  selector: 'app-menubar-examples-tailwind',",
+        '  standalone: true,',
+        '  imports: [TngMenuComponent, TngMenubarComponent, TngMenuItem, TngMenubarGroup, TngMenubarItem],',
+        "  templateUrl: './menubar-examples-tailwind.component.html',",
+        "  styleUrl: './menubar-examples-tailwind.component.css',",
+        '})',
+        'export class MenubarExamplesTailwindComponent {',
+        "readonly menubarExamplesTailwindLastCommand = signal('No command yet');",
+        '',
+        '  onMenubarExamplesTailwindMenuSelect(event: TngMenuSelectEvent): void {',
+        '    this.menubarExamplesTailwindLastCommand.set(String(event.value));',
+        '  }',
+        '',
+        '  onMenubarExamplesTailwindLeafSelect(command: string): void {',
+        '    this.menubarExamplesTailwindLastCommand.set(command);',
+        '  }',
         '}',
       ].join('\n'),
     },
@@ -157,28 +166,69 @@ export class MenubarExamplesPageComponent implements OnDestroy {
         '<div class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">',
         '  <tng-menubar',
         '    ariaLabel="Workspace commands"',
-        '    class="inline-flex items-center gap-1 rounded-xl border border-slate-200 bg-white p-1 shadow-sm"',
+        '    class="menubar-examples-tailwind-shell inline-flex items-center gap-1 rounded-xl border border-slate-200 bg-white p-1 shadow-sm"',
         '  >',
-        '    <div class="menubar-item-shell">',
+        '    <div tngMenubarGroup class="menubar-examples-tailwind-item-shell">',
         '      <tng-menu',
-        '        #fileMenu="tngMenu"',
+        '        #menubarExamplesTailwindFileMenu="tngMenu"',
         '        ariaLabel="File menu"',
-        '        class="grid min-w-48 gap-1 rounded-xl border border-slate-200 bg-white p-1 shadow-xl"',
+        '        class="menubar-examples-tailwind-menu hidden min-w-48 gap-1 rounded-xl border border-slate-200 bg-white p-1 shadow-xl data-[state=open]:grid"',
+        '        (tngMenuSelect)="onMenubarExamplesTailwindMenuSelect($event)"',
         '      >',
         '        <button',
         '          type="button"',
         '          tngMenuItem',
-        '          tngMenuItemValue="Create document"',
+        '          tngMenuItemValue="Create release"',
         '          class="flex min-h-9 w-full items-center rounded-lg px-3 text-left text-sm font-medium text-slate-700 outline-none transition hover:bg-sky-50 hover:text-slate-950 focus-visible:bg-sky-50 focus-visible:text-slate-950 focus-visible:ring-2 focus-visible:ring-sky-400/50 [&[data-active]]:bg-sky-50 [&[data-active]]:text-slate-950"',
-        '        >New</button>',
+        '        >New release</button>',
+        '        <button',
+        '          type="button"',
+        '          tngMenuItem',
+        '          [tngMenuItemSubmenu]="menubarExamplesTailwindImportMenu"',
+        '          tngMenuItemValue="Import from source"',
+        '          class="flex min-h-9 w-full items-center rounded-lg px-3 text-left text-sm font-medium text-slate-700 outline-none transition hover:bg-sky-50 hover:text-slate-950 focus-visible:bg-sky-50 focus-visible:text-slate-950 focus-visible:ring-2 focus-visible:ring-sky-400/50 [&[data-active]]:bg-sky-50 [&[data-active]]:text-slate-950"',
+        '        >Import from...</button>',
+        '        <button',
+        '          type="button"',
+        '          tngMenuItem',
+        '          tngMenuItemValue="Publish release"',
+        '          class="flex min-h-9 w-full items-center rounded-lg px-3 text-left text-sm font-medium text-slate-700 outline-none transition hover:bg-sky-50 hover:text-slate-950 focus-visible:bg-sky-50 focus-visible:text-slate-950 focus-visible:ring-2 focus-visible:ring-sky-400/50 [&[data-active]]:bg-sky-50 [&[data-active]]:text-slate-950"',
+        '        >Publish</button>',
+        '        <tng-menu',
+        '          #menubarExamplesTailwindImportMenu="tngMenu"',
+        '          ariaLabel="Import submenu"',
+        '          class="hidden min-w-48 gap-1 rounded-xl border border-slate-200 bg-white p-1 shadow-xl data-[state=open]:grid"',
+        '          (tngMenuSelect)="onMenubarExamplesTailwindMenuSelect($event)"',
+        '        >',
+        '          <button type="button" tngMenuItem tngMenuItemValue="Import from CSV" class="flex min-h-9 w-full items-center rounded-lg px-3 text-left text-sm font-medium text-slate-700 outline-none transition hover:bg-sky-50 hover:text-slate-950 focus-visible:bg-sky-50 focus-visible:text-slate-950 focus-visible:ring-2 focus-visible:ring-sky-400/50 [&[data-active]]:bg-sky-50 [&[data-active]]:text-slate-950">CSV file</button>',
+        '          <button type="button" tngMenuItem tngMenuItemValue="Import from Git" class="flex min-h-9 w-full items-center rounded-lg px-3 text-left text-sm font-medium text-slate-700 outline-none transition hover:bg-sky-50 hover:text-slate-950 focus-visible:bg-sky-50 focus-visible:text-slate-950 focus-visible:ring-2 focus-visible:ring-sky-400/50 [&[data-active]]:bg-sky-50 [&[data-active]]:text-slate-950">Git repository</button>',
+        '        </tng-menu>',
         '      </tng-menu>',
         '      <button',
         '        type="button"',
         '        tngMenubarItem',
-        '        [tngMenubarMenu]="fileMenu"',
+        '        [tngMenubarMenu]="menubarExamplesTailwindFileMenu"',
         '        class="inline-flex min-h-9 items-center rounded-lg px-3 text-sm font-medium text-slate-700 outline-none transition hover:bg-slate-100 hover:text-slate-950 focus-visible:bg-white focus-visible:text-slate-950 focus-visible:ring-2 focus-visible:ring-sky-400/60 [&[tabindex=\'0\']]:bg-white [&[tabindex=\'0\']]:text-slate-950 [&[tabindex=\'0\']]:shadow-sm [&[aria-expanded=\'true\']]:bg-white [&[aria-expanded=\'true\']]:text-slate-950 [&[aria-expanded=\'true\']]:shadow-sm"',
         '      >File</button>',
         '    </div>',
+        '    <div tngMenubarGroup class="menubar-examples-tailwind-item-shell">',
+        '      <tng-menu',
+        '        #menubarExamplesTailwindViewMenu="tngMenu"',
+        '        ariaLabel="View menu"',
+        '        class="hidden min-w-48 gap-1 rounded-xl border border-slate-200 bg-white p-1 shadow-xl data-[state=open]:grid"',
+        '        (tngMenuSelect)="onMenubarExamplesTailwindMenuSelect($event)"',
+        '      >',
+        '        <button type="button" tngMenuItem tngMenuItemValue="Toggle sidebar" class="flex min-h-9 w-full items-center rounded-lg px-3 text-left text-sm font-medium text-slate-700 outline-none transition hover:bg-sky-50 hover:text-slate-950 focus-visible:bg-sky-50 focus-visible:text-slate-950 focus-visible:ring-2 focus-visible:ring-sky-400/50 [&[data-active]]:bg-sky-50 [&[data-active]]:text-slate-950">Toggle sidebar</button>',
+        '        <button type="button" tngMenuItem tngMenuItemValue="Open command palette" class="flex min-h-9 w-full items-center rounded-lg px-3 text-left text-sm font-medium text-slate-700 outline-none transition hover:bg-sky-50 hover:text-slate-950 focus-visible:bg-sky-50 focus-visible:text-slate-950 focus-visible:ring-2 focus-visible:ring-sky-400/50 [&[data-active]]:bg-sky-50 [&[data-active]]:text-slate-950">Command palette</button>',
+        '      </tng-menu>',
+        '      <button',
+        '        type="button"',
+        '        tngMenubarItem',
+        '        [tngMenubarMenu]="menubarExamplesTailwindViewMenu"',
+        '        class="inline-flex min-h-9 items-center rounded-lg px-3 text-sm font-medium text-slate-700 outline-none transition hover:bg-slate-100 hover:text-slate-950 focus-visible:bg-white focus-visible:text-slate-950 focus-visible:ring-2 focus-visible:ring-sky-400/60 [&[tabindex=\'0\']]:bg-white [&[tabindex=\'0\']]:text-slate-950 [&[tabindex=\'0\']]:shadow-sm [&[aria-expanded=\'true\']]:bg-white [&[aria-expanded=\'true\']]:text-slate-950 [&[aria-expanded=\'true\']]:shadow-sm"',
+        '      >View</button>',
+        '    </div>',
+        '    <button type="button" tngMenubarItem (click)="onMenubarExamplesTailwindLeafSelect(\'Help\')" class="inline-flex min-h-9 items-center rounded-lg px-3 text-sm font-medium text-slate-700 outline-none transition hover:bg-slate-100 hover:text-slate-950 focus-visible:bg-white focus-visible:text-slate-950 focus-visible:ring-2 focus-visible:ring-sky-400/60 [&[tabindex=\'0\']]:bg-white [&[tabindex=\'0\']]:text-slate-950 [&[tabindex=\'0\']]:shadow-sm [&[aria-expanded=\'true\']]:bg-white [&[aria-expanded=\'true\']]:text-slate-950 [&[aria-expanded=\'true\']]:shadow-sm">Help</button>',
         '  </tng-menubar>',
         '</div>',
       ].join('\n'),
@@ -194,10 +244,6 @@ export class MenubarExamplesPageComponent implements OnDestroy {
 
   public ngOnDestroy(): void {
     this.colorSchemeObserver?.disconnect();
-  }
-
-  protected onHeadlessCommandSelect(event: TngMenuSelectEvent): void {
-    this.headlessCommand.set(String(event.value));
   }
 
   protected onPlainCommandSelect(event: TngMenuSelectEvent): void {
