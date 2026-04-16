@@ -1,0 +1,59 @@
+:host {
+  display: block;
+}
+
+.headless-menu-styling {
+  display: grid;
+  gap: 1rem;
+}
+
+.headless-menu-styling-title {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.headless-menu-styling-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.headless-menu-styling-block {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.9rem;
+  color: var(--tng-semantic-foreground-secondary);
+  display: grid;
+  gap: 0.7rem;
+  padding: 1rem;
+}
+
+.headless-menu-styling-block h3 {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1rem;
+  margin: 0;
+}
+
+.headless-menu-styling-table-wrap {
+  overflow-x: auto;
+}
+
+.headless-menu-styling-table {
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  min-width: 26rem;
+  width: 100%;
+}
+
+.headless-menu-styling-table th,
+.headless-menu-styling-table td {
+  border-bottom: 1px solid var(--tng-semantic-border-subtle);
+  padding: 0.625rem 0.5rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.headless-menu-styling-table th {
+  color: var(--tng-semantic-foreground-primary);
+  font-weight: 600;
+}

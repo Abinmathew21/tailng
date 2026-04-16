@@ -1,0 +1,118 @@
+<article class="headless-menu-styling">
+  <h2 class="headless-menu-styling-title">Styling contract</h2>
+  <p class="headless-menu-styling-lead">
+    Menu styling stays public. The primitive emits stable <code>data-slot</code> values on the trigger,
+    panel, items, and optional backdrop so you can theme plain CSS or Tailwind shells without reaching
+    into internal nodes.
+  </p>
+
+  <section id="css-contract-table" class="headless-menu-styling-block">
+    <h3>CSS contract table</h3>
+    <div class="headless-menu-styling-table-wrap">
+      <table class="headless-menu-styling-table">
+        <thead>
+          <tr>
+            <th scope="col">Selector</th>
+            <th scope="col">Applied on</th>
+            <th scope="col">Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>[data-slot='menu-trigger']</code></td>
+            <td>Trigger host</td>
+            <td>Button or control surface, hover/focus, and open state via <code>aria-expanded</code>.</td>
+          </tr>
+          <tr>
+            <td><code>[data-slot='menu']</code></td>
+            <td>Panel host</td>
+            <td>Surface, placement, elevation; pair with <code>data-state='open' | 'closed'</code>.</td>
+          </tr>
+          <tr>
+            <td><code>[data-slot='menu'][hidden]</code></td>
+            <td>Closed panel</td>
+            <td>Prefer letting <code>hidden</code> win; avoid unconditional <code>display:grid</code> on the host.</td>
+          </tr>
+          <tr>
+            <td><code>[data-slot='menu-item']</code></td>
+            <td>Row</td>
+            <td>Row spacing, hover, and <code>data-active</code> for the keyboard cursor.</td>
+          </tr>
+          <tr>
+            <td><code>[data-slot='menu-backdrop']</code></td>
+            <td>Optional scrim</td>
+            <td>Full-bleed dismiss layer when you pair a backdrop with the same menu instance.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <tng-code-block
+      [code]="contractCode"
+      adapter="shiki"
+      language="css"
+      title="Menu contract tokens (excerpt)"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="theme-tokens" class="headless-menu-styling-block">
+    <h3>Theme tokens</h3>
+    <div class="headless-menu-styling-table-wrap">
+      <table class="headless-menu-styling-table">
+        <thead>
+          <tr>
+            <th scope="col">Variable</th>
+            <th scope="col">Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>--tng-menu-radius</code>, <code>--tng-menu-padding</code></td>
+            <td>Panel rounding and inner padding for item grids.</td>
+          </tr>
+          <tr>
+            <td><code>--tng-menu-item-px</code>, <code>--tng-menu-item-py</code></td>
+            <td>Row gutters inside the open panel.</td>
+          </tr>
+          <tr>
+            <td><code>--tng-menu-border</code>, <code>--tng-menu-border-strong</code></td>
+            <td>Neutral strokes for triggers and panels.</td>
+          </tr>
+          <tr>
+            <td><code>--tng-menu-brand</code>, <code>--tng-menu-focus-ring</code></td>
+            <td>Accent for active rows, focus rings, and open trigger emphasis.</td>
+          </tr>
+          <tr>
+            <td><code>--tng-menu-bg</code>, <code>--tng-menu-surface</code></td>
+            <td>Canvas and elevated surfaces for triggers and panels.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p>
+      The shared Tailwind Menu contract in <code>@tailng-ui/theme</code> defines these tokens on
+      <code>[data-slot='menu-trigger']</code> and labelled panels; reuse or override them in your shell.
+    </p>
+  </section>
+
+  <section id="state-selectors" class="headless-menu-styling-block">
+    <h3>State selectors</h3>
+    <p>
+      Style open triggers with <code>aria-expanded</code>, active rows with <code>data-active</code>, and
+      submenu affordances with <code>aria-expanded</code> on items that own nested panels.
+    </p>
+    <tng-code-block
+      [code]="stateSelectorCode"
+      adapter="shiki"
+      language="css"
+      title="State selector starter"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+</article>

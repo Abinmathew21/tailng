@@ -1,0 +1,276 @@
+<article class="headless-menu-examples">
+  <h2 class="headless-menu-examples-title">Examples</h2>
+  <p class="headless-menu-examples-lead">
+    Trigger-driven menus for compact actions and cascaded trees. For horizontal command strips, see the
+    <a routerLink="/headless/navigation/menubar/overview">Menubar</a> docs.
+  </p>
+
+  <section id="dropdown-trigger" class="headless-menu-examples-block">
+    <app-docs-example-tabs-section
+      heading="Dropdown with trigger"
+      description="A single button opens a panel; style the trigger with [data-slot='menu-trigger'] or utilities."
+      ariaLabel="Headless menu dropdown examples"
+      tabListAriaLabel="Headless menu dropdown example tabs"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Dropdown with trigger (plain CSS)"
+        [codeTabs]="dropdownPlainCodeTabs"
+        [stackblitzUrl]="stackblitzVanillaUrl"
+      >
+        <div class="headless-menu-example-stage">
+          <div class="headless-menu-example-shell">
+            <button type="button" [tngMenuTrigger]="dropdownPlainMenu">Open actions</button>
+            <div
+              tngMenu
+              #dropdownPlainMenu="tngMenu"
+              aria-label="Quick actions"
+              class="headless-menu-example-menu"
+              (tngMenuSelect)="onDropdownPlainSelect($event)"
+            >
+              <div tngMenuGroupLabel class="headless-menu-example-group">Recent</div>
+              <button type="button" tngMenuItem tngMenuItemValue="copy">Copy</button>
+              <button type="button" tngMenuItem tngMenuItemValue="paste">Paste</button>
+            </div>
+          </div>
+        </div>
+        <p class="headless-menu-example-state">Last action: {{ dropdownPlainCommand() }}</p>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Dropdown with trigger (Tailwind CSS)"
+        [codeTabs]="dropdownTailwindCodeTabs"
+        [stackblitzUrl]="stackblitzTailwindUrl"
+      >
+        <div class="relative grid justify-items-start content-start">
+          <div class="relative inline-block">
+            <button
+              type="button"
+              [tngMenuTrigger]="dropdownTailwindMenu"
+              class="headless-menu-example-tailwind-trigger min-h-[2.05rem] rounded-[0.62rem] px-[0.9rem] py-[0.46rem] text-[0.95rem] font-semibold"
+            >
+              Open actions
+            </button>
+            <div
+              tngMenu
+              #dropdownTailwindMenu="tngMenu"
+              aria-label="Quick actions"
+              class="headless-menu-example-tw-panel absolute left-0 top-[calc(100%+0.45rem)] z-30 hidden min-w-[13.8rem] p-[0.45rem] data-[state=open]:grid data-[state=open]:gap-[0.24rem]"
+              (tngMenuSelect)="onDropdownTailwindSelect($event)"
+            >
+              <div tngMenuGroupLabel class="headless-menu-example-tw-label px-[0.45rem] py-[0.25rem]">
+                Recent
+              </div>
+              <button
+                type="button"
+                tngMenuItem
+                tngMenuItemValue="copy"
+                class="headless-menu-example-tw-item flex min-h-[2rem] justify-between px-[0.62rem] py-[0.4rem] text-left"
+              >
+                Copy
+              </button>
+              <button
+                type="button"
+                tngMenuItem
+                tngMenuItemValue="paste"
+                class="headless-menu-example-tw-item flex min-h-[2rem] justify-between px-[0.62rem] py-[0.4rem] text-left"
+              >
+                Paste
+              </button>
+            </div>
+          </div>
+        </div>
+        <p class="headless-menu-example-state">Last action: {{ dropdownTailwindCommand() }}</p>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section id="nested-submenu" class="headless-menu-examples-block">
+    <app-docs-example-tabs-section
+      heading="Nested submenu"
+      description="Child menus are sibling tngMenu hosts inside the root panel; items link them with tngMenuItemSubmenu."
+      ariaLabel="Headless menu nested examples"
+      tabListAriaLabel="Headless menu nested example tabs"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Nested submenu (plain CSS)"
+        [codeTabs]="nestedPlainCodeTabs"
+        [stackblitzUrl]="stackblitzVanillaUrl"
+      >
+        <div class="headless-menu-example-stage">
+          <div class="headless-menu-example-shell">
+            <button type="button" [tngMenuTrigger]="nestedPlainFile">File</button>
+            <div
+              tngMenu
+              #nestedPlainFile="tngMenu"
+              aria-label="File menu"
+              class="headless-menu-example-menu"
+              (tngMenuSelect)="onNestedPlainSelect($event)"
+            >
+              <button type="button" tngMenuItem tngMenuItemValue="new-notebook">New notebook</button>
+              <button
+                type="button"
+                tngMenuItem
+                [tngMenuItemSubmenu]="nestedPlainImport"
+                tngMenuItemValue="import"
+              >
+                Import…
+              </button>
+              <div tngMenuSeparator class="headless-menu-example-separator"></div>
+              <button type="button" tngMenuItem tngMenuItemValue="close">Close</button>
+
+              <div
+                tngMenu
+                #nestedPlainImport="tngMenu"
+                aria-label="Import sources"
+                class="headless-menu-example-menu headless-menu-example-menu--submenu headless-menu-example-menu--level-1"
+                (tngMenuSelect)="onNestedPlainSelect($event)"
+              >
+                <button type="button" tngMenuItem tngMenuItemValue="csv">CSV file</button>
+                <button
+                  type="button"
+                  tngMenuItem
+                  [tngMenuItemSubmenu]="nestedPlainGit"
+                  tngMenuItemValue="git"
+                >
+                  Git repository
+                </button>
+              </div>
+
+              <div
+                tngMenu
+                #nestedPlainGit="tngMenu"
+                aria-label="Git hosts"
+                class="headless-menu-example-menu headless-menu-example-menu--submenu headless-menu-example-menu--level-2"
+                (tngMenuSelect)="onNestedPlainSelect($event)"
+              >
+                <button type="button" tngMenuItem tngMenuItemValue="github">GitHub</button>
+                <button type="button" tngMenuItem tngMenuItemValue="gitlab">GitLab</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="headless-menu-example-state">Last command: {{ nestedPlainCommand() }}</p>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Nested submenu (Tailwind CSS)"
+        [codeTabs]="nestedTailwindCodeTabs"
+        [stackblitzUrl]="stackblitzTailwindUrl"
+      >
+        <div class="relative grid justify-items-start content-start">
+          <div class="relative inline-block">
+            <button
+              type="button"
+              [tngMenuTrigger]="nestedTailwindFile"
+              class="headless-menu-example-tailwind-trigger min-h-[2.05rem] rounded-[0.62rem] px-[0.9rem] py-[0.46rem] text-[0.95rem] font-semibold"
+            >
+              File
+            </button>
+            <div
+              tngMenu
+              #nestedTailwindFile="tngMenu"
+              aria-label="File menu"
+              class="headless-menu-example-tw-panel absolute left-0 top-[calc(100%+0.45rem)] z-30 hidden min-w-[13.8rem] p-[0.45rem] data-[state=open]:grid data-[state=open]:gap-[0.24rem]"
+              (tngMenuSelect)="onNestedTailwindSelect($event)"
+            >
+              <button
+                type="button"
+                tngMenuItem
+                tngMenuItemValue="new-notebook"
+                class="headless-menu-example-tw-item flex min-h-[2rem] justify-between px-[0.62rem] py-[0.4rem] text-left"
+              >
+                New notebook
+              </button>
+              <button
+                type="button"
+                tngMenuItem
+                [tngMenuItemSubmenu]="nestedTailwindImport"
+                tngMenuItemValue="import"
+                class="headless-menu-example-tw-item flex min-h-[2rem] justify-between px-[0.62rem] py-[0.4rem] text-left"
+              >
+                Import…
+              </button>
+              <div tngMenuSeparator class="headless-menu-example-tw-sep mx-[0.35rem] my-[0.2rem] h-px"></div>
+              <button
+                type="button"
+                tngMenuItem
+                tngMenuItemValue="close"
+                class="headless-menu-example-tw-item flex min-h-[2rem] justify-between px-[0.62rem] py-[0.4rem] text-left"
+              >
+                Close
+              </button>
+
+              <div
+                tngMenu
+                #nestedTailwindImport="tngMenu"
+                aria-label="Import sources"
+                class="headless-menu-example-tw-panel absolute left-[calc(100%+0.42rem)] top-[2.7rem] z-30 hidden min-w-[13.8rem] p-[0.45rem] data-[state=open]:grid data-[state=open]:gap-[0.24rem]"
+                (tngMenuSelect)="onNestedTailwindSelect($event)"
+              >
+                <button
+                  type="button"
+                  tngMenuItem
+                  tngMenuItemValue="csv"
+                  class="headless-menu-example-tw-item flex min-h-[2rem] justify-between px-[0.62rem] py-[0.4rem] text-left"
+                >
+                  CSV file
+                </button>
+                <button
+                  type="button"
+                  tngMenuItem
+                  [tngMenuItemSubmenu]="nestedTailwindGit"
+                  tngMenuItemValue="git"
+                  class="headless-menu-example-tw-item flex min-h-[2rem] justify-between px-[0.62rem] py-[0.4rem] text-left"
+                >
+                  Git repository
+                </button>
+              </div>
+
+              <div
+                tngMenu
+                #nestedTailwindGit="tngMenu"
+                aria-label="Git hosts"
+                class="headless-menu-example-tw-panel absolute left-[calc(100%+0.42rem)] top-[5.5rem] z-30 hidden min-w-[13.8rem] p-[0.45rem] data-[state=open]:grid data-[state=open]:gap-[0.24rem]"
+                (tngMenuSelect)="onNestedTailwindSelect($event)"
+              >
+                <button
+                  type="button"
+                  tngMenuItem
+                  tngMenuItemValue="github"
+                  class="headless-menu-example-tw-item flex min-h-[2rem] justify-between px-[0.62rem] py-[0.4rem] text-left"
+                >
+                  GitHub
+                </button>
+                <button
+                  type="button"
+                  tngMenuItem
+                  tngMenuItemValue="gitlab"
+                  class="headless-menu-example-tw-item flex min-h-[2rem] justify-between px-[0.62rem] py-[0.4rem] text-left"
+                >
+                  GitLab
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="headless-menu-example-state">Last command: {{ nestedTailwindCommand() }}</p>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+</article>

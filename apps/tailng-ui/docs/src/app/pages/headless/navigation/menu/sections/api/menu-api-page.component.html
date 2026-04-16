@@ -1,0 +1,223 @@
+<article class="headless-menu-api">
+  <h2 class="headless-menu-api-title">API reference</h2>
+  <p class="headless-menu-api-lead">
+    Headless Menu is the panel primitive for dropdowns and nested submenus. Pair
+    <code>tngMenuTrigger</code> with <code>tngMenu</code> for standalone triggers, or compose with
+    <code>tngMenubar</code> when you need a horizontal command strip (see the Menubar docs).
+  </p>
+
+  <section id="tng-menu" class="headless-menu-api-block">
+    <h3><code>tngMenu</code></h3>
+    <p>
+      Hosts <code>role="menu"</code>, tracks open state, active item, typeahead, outside dismissal,
+      and coordinates focus with an optional trigger or parent menubar.
+    </p>
+    <tng-code-block
+      [code]="compositionCode"
+      adapter="shiki"
+      language="html"
+      title="Trigger + menu composition"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+    <div class="headless-menu-api-table-wrap">
+      <table class="headless-menu-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Input</th>
+            <th scope="col">Type</th>
+            <th scope="col">Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>loop</code></td>
+            <td><code>boolean</code></td>
+            <td>Wraps vertical navigation at the ends of the item list. Defaults to <code>true</code>.</td>
+          </tr>
+          <tr>
+            <td><code>disabled</code></td>
+            <td><code>boolean</code></td>
+            <td>Prevents opening the panel and clears interactive state.</td>
+          </tr>
+          <tr>
+            <td><code>closeOnSelect</code></td>
+            <td><code>boolean</code></td>
+            <td>Closes the menu after a leaf selection. Defaults to <code>true</code>.</td>
+          </tr>
+          <tr>
+            <td><code>dismissOnOutsideClick</code></td>
+            <td><code>boolean</code></td>
+            <td>Closes on pointer down outside. Defaults to <code>true</code>.</td>
+          </tr>
+          <tr>
+            <td><code>dismissOnFocusout</code></td>
+            <td><code>boolean</code></td>
+            <td>Optional focus-leave dismissal for custom focus traps. Defaults to <code>false</code>.</td>
+          </tr>
+          <tr>
+            <td>Outputs</td>
+            <td><code>tngMenuOpened</code>, <code>tngMenuClosed</code>, <code>tngMenuSelect</code></td>
+            <td>
+              <code>tngMenuSelect</code> carries <code>value</code>, <code>itemId</code>, and
+              <code>trigger</code> (<code>'keyboard' | 'pointer'</code>).
+            </td>
+          </tr>
+          <tr>
+            <td>Host</td>
+            <td><code>role</code>, <code>data-slot</code>, <code>data-state</code>, <code>hidden</code></td>
+            <td>
+              Emits <code>data-slot="menu"</code>, <code>data-state="open" | "closed"</code>, and uses the
+              native <code>hidden</code> attribute while closed.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="tng-menu-trigger" class="headless-menu-api-block">
+    <h3><code>tngMenuTrigger</code></h3>
+    <p>
+      Links a focusable host (commonly a <code>button</code>) to a <code>tngMenu</code> instance. The
+      directive wires <code>aria-controls</code>, <code>aria-expanded</code>, and keyboard open/close
+      behavior.
+    </p>
+    <div class="headless-menu-api-table-wrap">
+      <table class="headless-menu-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Input</th>
+            <th scope="col">Type</th>
+            <th scope="col">Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>[tngMenuTrigger]</code></td>
+            <td><code>TngMenu | null</code></td>
+            <td>Required reference to the menu instance (<code>#ref="tngMenu"</code>).</td>
+          </tr>
+          <tr>
+            <td><code>data-slot</code></td>
+            <td><code>'menu-trigger'</code></td>
+            <td>Stable hook for styling the trigger surface.</td>
+          </tr>
+          <tr>
+            <td>Disabled hosts</td>
+            <td>native / ARIA</td>
+            <td>
+              Honors <code>disabled</code>, <code>disabled</code> attribute, or
+              <code>aria-disabled="true"</code>.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="tng-menu-item" class="headless-menu-api-block">
+    <h3><code>tngMenuItem</code> and structure helpers</h3>
+    <p>
+      Menu items participate in roving focus inside the panel. Use <code>tngMenuGroupLabel</code> and
+      <code>tngMenuSeparator</code> for structure; submenu rows link nested <code>tngMenu</code> hosts with
+      <code>[tngMenuItemSubmenu]</code>.
+    </p>
+    <tng-code-block
+      [code]="submenuCode"
+      adapter="shiki"
+      language="html"
+      title="Nested submenu wiring"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+    <div class="headless-menu-api-table-wrap">
+      <table class="headless-menu-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Directive</th>
+            <th scope="col">Key inputs</th>
+            <th scope="col">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>tngMenuItem</code></td>
+            <td>
+              <code>tngMenuItemValue</code>, <code>tngMenuItemRole</code>,
+              <code>tngMenuItemChecked</code>, <code>tngMenuItemSubmenu</code>
+            </td>
+            <td>
+              Supports <code>menuitem</code>, <code>menuitemcheckbox</code>, and
+              <code>menuitemradio</code> roles; checkbox/radio items surface <code>aria-checked</code>.
+            </td>
+          </tr>
+          <tr>
+            <td><code>tngMenuGroupLabel</code>, <code>tngMenuSeparator</code></td>
+            <td>—</td>
+            <td>Presentation roles for labeled groups and dividers.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="structure-backdrop" class="headless-menu-api-block">
+    <h3>Structure and backdrop</h3>
+    <p>
+      Optional <code>tngMenuBackdrop</code> hosts forward clicks to close an open menu—useful for modal-like
+      overlays or dimmed shells while keeping headless markup flexible.
+    </p>
+    <tng-code-block
+      [code]="backdropCode"
+      adapter="shiki"
+      language="html"
+      title="Backdrop closes linked menu"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="events-token" class="headless-menu-api-block">
+    <h3>Events and focus token</h3>
+    <p>
+      Overlay-style hosts that reposition the panel after open can defer the initial focus move until
+      coordinates are stable by providing the injection token below on the same element injector as
+      <code>tngMenu</code>.
+    </p>
+    <tng-code-block
+      [code]="tokenCode"
+      adapter="shiki"
+      language="ts"
+      title="Defer initial focus until positioned"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="keyboard-contract" class="headless-menu-api-block">
+    <h3>Keyboard contract</h3>
+    <p>
+      Standalone triggers use the keys below; when a menu is owned by <code>tngMenubar</code>, additional
+      horizontal navigation is handled by the menubar primitive.
+    </p>
+    <tng-code-block
+      [code]="keyboardContractCode"
+      adapter="shiki"
+      language="text"
+      title="Keyboard baseline"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+</article>

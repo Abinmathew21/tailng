@@ -17,8 +17,13 @@ export const HEADLESS_NAVIGATION_ROUTES: Routes = [
     loadChildren: () =>
       import('./menubar/routes').then((module) => module.HEADLESS_NAVIGATION_MENUBAR_ROUTES),
   },
+  {
+    path: 'menu',
+    loadChildren: () =>
+      import('./menu/routes').then((module) => module.HEADLESS_NAVIGATION_MENU_ROUTES),
+  },
   ...group.items
-    .filter((item) => item.slug !== 'menubar')
+    .filter((item) => item.slug !== 'menubar' && item.slug !== 'menu')
     .map((item) => ({
       path: item.slug,
       data: toHeadlessDocsRouteData(group, item),

@@ -1,0 +1,174 @@
+<article class="headless-menu-overview">
+  <section id="imports" class="headless-menu-overview-block">
+    <h2 class="headless-menu-overview-title">Menu overview</h2>
+    <p class="headless-menu-overview-lead">
+      Headless menu owns the panel, selection, submenus, and keyboard behavior. Pair
+      <code>tngMenuTrigger</code> with <code>tngMenu</code> for standalone dropdowns, or compose
+      with <code>tngMenubar</code> for command strips (see the Menubar docs).
+    </p>
+    <tng-code-block
+      [code]="importCode"
+      adapter="shiki"
+      language="ts"
+      title="Primitive imports"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="basic-composition" class="headless-menu-overview-block">
+    <h3>Basic composition</h3>
+    <p>
+      Place a trigger before the panel. Link them with <code>[tngMenuTrigger]</code> so open/close,
+      <code>aria-expanded</code>, and focus restoration stay coordinated.
+    </p>
+    <tng-code-block
+      [code]="usageCode"
+      adapter="shiki"
+      language="html"
+      title="Headless menu composition"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <app-docs-example-tabs-section
+    id="style-variants"
+    class="headless-menu-overview-block"
+    heading="Style variants"
+    description="The same primitive markup rendered through a plain CSS contract or Tailwind utility shell."
+    ariaLabel="Headless menu overview examples"
+    tabListAriaLabel="Headless menu overview style tabs"
+    defaultValue="plain-css"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+      panelTitle="Headless menu (plain CSS)"
+      [codeTabs]="plainCodeTabs"
+      [stackblitzUrl]="stackblitzVanillaUrl"
+    >
+      <section class="docs-headless-menu-overview-card">
+        <span class="docs-headless-menu-overview-kicker">Actions menu</span>
+        <p class="docs-headless-menu-overview-copy">
+          A single trigger opens a panel; you control placement and elevation with CSS.
+        </p>
+
+        <div class="docs-headless-menu-overview-stage">
+          <div class="docs-headless-menu-trigger-shell">
+            <button type="button" [tngMenuTrigger]="plainMenu">Open menu</button>
+            <div
+              tngMenu
+              #plainMenu="tngMenu"
+              aria-label="Actions"
+              class="docs-headless-menu-overview-menu"
+              (tngMenuSelect)="onPlainCommandSelect($event)"
+            >
+              <div tngMenuGroupLabel class="docs-headless-menu-overview-group">Actions</div>
+              <button type="button" tngMenuItem tngMenuItemValue="duplicate">Duplicate</button>
+              <button type="button" tngMenuItem tngMenuItemValue="rename">Rename</button>
+              <div tngMenuSeparator class="docs-headless-menu-overview-separator"></div>
+              <button type="button" tngMenuItem tngMenuItemValue="delete">Delete</button>
+            </div>
+          </div>
+        </div>
+
+        <p class="headless-menu-overview-state">Last command: {{ plainCommand() }}</p>
+      </section>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Headless menu (Tailwind CSS)"
+      [codeTabs]="tailwindCodeTabs"
+      [stackblitzUrl]="stackblitzTailwindUrl"
+    >
+      <section class="docs-headless-menu-overview-tw mx-auto grid w-full max-w-[24rem] gap-3 p-4">
+        <span class="docs-headless-menu-overview-tw-kicker">Actions menu</span>
+        <p class="docs-headless-menu-overview-tw-lead m-0">
+          A single trigger opens a panel; utilities style the trigger and absolutely positioned panel.
+        </p>
+
+        <div class="relative grid justify-items-start content-start">
+          <div class="relative inline-block">
+            <button
+              type="button"
+              [tngMenuTrigger]="tailwindMenu"
+              class="docs-headless-menu-overview-tailwind-trigger min-h-[2.05rem] rounded-[0.62rem] px-[0.9rem] py-[0.46rem] text-[0.95rem] font-semibold"
+            >
+              Open menu
+            </button>
+            <div
+              tngMenu
+              #tailwindMenu="tngMenu"
+              aria-label="Actions"
+              class="docs-headless-menu-overview-tw-panel absolute left-0 top-[calc(100%+0.45rem)] z-30 hidden min-w-[13.8rem] p-[0.45rem] data-[state=open]:grid data-[state=open]:gap-[0.24rem]"
+              (tngMenuSelect)="onTailwindCommandSelect($event)"
+            >
+              <div tngMenuGroupLabel class="docs-headless-menu-overview-tw-label px-[0.45rem] py-[0.25rem]">
+                Actions
+              </div>
+              <button
+                type="button"
+                tngMenuItem
+                tngMenuItemValue="duplicate"
+                class="docs-headless-menu-overview-tw-item flex min-h-[2rem] justify-between px-[0.62rem] py-[0.4rem] text-left"
+              >
+                Duplicate
+              </button>
+              <button
+                type="button"
+                tngMenuItem
+                tngMenuItemValue="rename"
+                class="docs-headless-menu-overview-tw-item flex min-h-[2rem] justify-between px-[0.62rem] py-[0.4rem] text-left"
+              >
+                Rename
+              </button>
+              <div tngMenuSeparator class="docs-headless-menu-overview-tw-sep mx-[0.35rem] my-[0.2rem] h-px"></div>
+              <button
+                type="button"
+                tngMenuItem
+                tngMenuItemValue="delete"
+                class="docs-headless-menu-overview-tw-item flex min-h-[2rem] justify-between px-[0.62rem] py-[0.4rem] text-left"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <p class="docs-headless-menu-overview-tw-foot m-0">
+          Last command: <strong>{{ tailwindCommand() }}</strong>
+        </p>
+      </section>
+    </ng-template>
+  </app-docs-example-tabs-section>
+
+  <section id="keyboard-baseline" class="headless-menu-overview-block">
+    <h3>Keyboard baseline</h3>
+    <ul class="headless-menu-overview-list">
+      <li>
+        <strong>Trigger:</strong> <code>Enter</code>/<code>Space</code> open; <code>ArrowDown</code> opens
+        focusing first item; <code>ArrowUp</code> opens focusing last item; <code>Escape</code> closes when
+        open.
+      </li>
+      <li>
+        <strong>Open panel:</strong> <code>ArrowDown</code>/<code>ArrowUp</code> move active item;
+        <code>Home</code>/<code>End</code> jump; typeahead matches item text; <code>Enter</code>/
+        <code>Space</code> activates; <code>Escape</code> closes (submenu closes to parent first).
+      </li>
+      <li>
+        <strong>Submenus:</strong> <code>ArrowRight</code> opens; <code>ArrowLeft</code> closes nested panel
+        and returns focus to the parent menu.
+      </li>
+    </ul>
+  </section>
+</article>
