@@ -206,6 +206,14 @@ export class TngMenu {
     this.changeDetectorRef.detectChanges();
   }
 
+  getTriggerElement(): HTMLElement | null {
+    return this.triggerElement;
+  }
+
+  getParentMenu(): TngMenu | null {
+    return this.parentMenu;
+  }
+
   isOpen(): boolean {
     return this.openState;
   }
@@ -351,7 +359,7 @@ export class TngMenu {
     });
 
     if (this.closeOnSelect()) {
-      this.closeSelfAndAncestorMenus(false);
+      this.closeSelfAndAncestorMenus(true);
     }
   }
 

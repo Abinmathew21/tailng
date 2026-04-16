@@ -73,7 +73,7 @@
     >
       <div class="menubar-stage menubar-stage--plain">
         <tng-menubar ariaLabel="Wrapper workspace commands">
-          <div tngMenubarGroup class="menubar-item-shell">
+          <div tngMenubarGroup>
             <tng-menu #plainFileMenu="tngMenu" ariaLabel="File menu" (tngMenuSelect)="onPlainCommandSelect($event)">
               <div tngMenuGroupLabel>File</div>
               <button type="button" tngMenuItem tngMenuItemValue="Create wrapper document">New</button>
@@ -95,7 +95,7 @@
             <button type="button" tngMenubarItem [tngMenubarMenu]="plainFileMenu">File</button>
           </div>
 
-          <div tngMenubarGroup class="menubar-item-shell">
+          <div tngMenubarGroup>
             <tng-menu #plainViewMenu="tngMenu" ariaLabel="View menu" (tngMenuSelect)="onPlainCommandSelect($event)">
               <button type="button" tngMenuItem tngMenuItemValue="Toggle sidebar">Toggle sidebar</button>
               <button type="button" tngMenuItem tngMenuItemValue="Open command palette">Command palette</button>
@@ -123,7 +123,7 @@
             ariaLabel="Tailwind workspace commands"
             class="inline-flex min-h-[2.7rem] items-center gap-[0.45rem] rounded-[0.9rem] border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-[0.32rem]"
           >
-            <div tngMenubarGroup class="menubar-item-shell">
+            <div tngMenubarGroup>
               <tng-menu
                 #tailwindFileMenu="tngMenu"
                 ariaLabel="File menu"
@@ -190,7 +190,7 @@
               </button>
             </div>
 
-            <div tngMenubarGroup class="menubar-item-shell">
+            <div tngMenubarGroup>
               <tng-menu
                 #tailwindViewMenu="tngMenu"
                 ariaLabel="View menu"
