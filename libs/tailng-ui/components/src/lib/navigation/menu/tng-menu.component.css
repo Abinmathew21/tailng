@@ -1,1 +1,8 @@
-:host {}
+/*
+ * Pending: hide until first fixed placement so theme absolute + JS fixed do not flash two positions.
+ * All menu levels use the same reposition() pipeline.
+ */
+:host([data-positioning-state='pending']) {
+  opacity: 0;
+  pointer-events: none;
+}

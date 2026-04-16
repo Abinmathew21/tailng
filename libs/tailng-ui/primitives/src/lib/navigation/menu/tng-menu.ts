@@ -5,6 +5,7 @@ import {
   HostBinding,
   HostListener,
   inject,
+  InjectionToken,
   input,
   NgZone,
   output,
@@ -28,6 +29,16 @@ export type TngMenuSelectEvent = Readonly<{
   itemId: string;
   trigger: TngMenuSelectTrigger;
 }>;
+
+/**
+ * When `true` is provided on the same element injector as {@link TngMenu}, {@link TngMenu.open}
+ * skips moving focus to the panel synchronously so a host (e.g. `TngMenuComponent` after overlay
+ * placement) can focus once coordinates are stable. Headless / primitive-only hosts omit this
+ * token so focus behavior stays unchanged.
+ */
+export const TNG_MENU_DEFER_HOST_FOCUS_UNTIL_POSITIONED = new InjectionToken<boolean>(
+  'TNG_MENU_DEFER_HOST_FOCUS_UNTIL_POSITIONED',
+);
 
 function getNextIndex(currentIndex: number, total: number): number {
   if (currentIndex < 0) {
@@ -103,6 +114,8 @@ export class TngMenu {
   private readonly changeDetectorRef = inject(ChangeDetectorRef);
   private readonly hostRef = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly ngZone = inject(NgZone);
+  private readonly deferHostFocusUntilPositioned =
+    inject(TNG_MENU_DEFER_HOST_FOCUS_UNTIL_POSITIONED, { optional: true }) === true;
   private readonly resolvedId = this.hostRef.nativeElement.getAttribute('id') ?? createMenuId();
   private readonly itemsById = new Map<string, TngMenuItem>();
   private outsidePointerdownCleanup: (() => void) | null = null;
@@ -292,7 +305,9 @@ export class TngMenu {
     this.triggerStateSync?.();
     this.attachOutsidePointerdownListener();
     this.changeDetectorRef.detectChanges();
-    this.hostRef.nativeElement.focus();
+    if (!this.deferHostFocusUntilPositioned) {
+      this.hostRef.nativeElement.focus();
+    }
   }
 
   close(restoreFocus: boolean): void {

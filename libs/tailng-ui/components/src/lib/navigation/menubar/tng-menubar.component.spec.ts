@@ -31,6 +31,12 @@ function flushMicrotask(): Promise<void> {
   return Promise.resolve();
 }
 
+/** `TngMenuComponent` repositions in rAF then syncs focus in a microtask — flush both before asserting `document.activeElement`. */
+async function flushMenubarOverlayLayout(): Promise<void> {
+  await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+  await flushMicrotask();
+}
+
 @Component({
   imports: [TngMenubarComponent, TngMenubarItem, TngMenuComponent, TngMenuItem],
   template: `
@@ -141,7 +147,7 @@ describe('tng-menubar component', () => {
     expect(menubar.getAttribute('aria-label')).toBe('Workspace actions');
   });
 
-  it('keeps second-level wrapper submenu open and active when ArrowDown is pressed inside it', () => {
+  it('keeps second-level wrapper submenu open and active when ArrowDown is pressed inside it', async () => {
     const fixture = TestBed.configureTestingModule({
       imports: [CascadedWrapperHostComponent],
     }).createComponent(CascadedWrapperHostComponent);
@@ -174,6 +180,7 @@ describe('tng-menubar component', () => {
 
     keydown(importMenu, 'ArrowRight');
     fixture.detectChanges();
+    await flushMenubarOverlayLayout();
 
     expect(gitMenu.getAttribute('data-state')).toBe('open');
     expect(gitMenu.getAttribute('aria-activedescendant')).toBe(gitGithub.id);
@@ -228,7 +235,7 @@ describe('tng-menubar component', () => {
     expect(fileMenu.getAttribute('data-state')).toBe('open');
   });
 
-  it('keeps submenu chain open on ArrowDown in level-2 for demo-like wrapper markup', () => {
+  it('keeps submenu chain open on ArrowDown in level-2 for demo-like wrapper markup', async () => {
     const fixture = TestBed.configureTestingModule({
       imports: [CascadedWrapperDemoLikeHostComponent],
     }).createComponent(CascadedWrapperDemoLikeHostComponent);
@@ -249,6 +256,7 @@ describe('tng-menubar component', () => {
     keydown(fileMenu, 'ArrowDown');
     keydown(fileMenu, 'ArrowRight');
     fixture.detectChanges();
+    await flushMenubarOverlayLayout();
 
     expect(fileMenu.getAttribute('aria-activedescendant')).toBe(fileImportTrigger.id);
     expect(importMenu.getAttribute('aria-activedescendant')).toBe(importCsv.id);
@@ -290,6 +298,7 @@ describe('tng-menubar component', () => {
     keydown(importMenu, 'ArrowDown');
     keydown(importMenu, 'ArrowRight');
     fixture.detectChanges();
+    await flushMenubarOverlayLayout();
 
     expect(importMenu.getAttribute('aria-activedescendant')).toBe(importGitTrigger.id);
     expect(gitMenu.getAttribute('aria-activedescendant')).toBe(gitGithub.id);
@@ -332,6 +341,7 @@ describe('tng-menubar component', () => {
     keydown(importMenu, 'ArrowDown');
     keydown(importMenu, 'ArrowRight');
     fixture.detectChanges();
+    await flushMenubarOverlayLayout();
 
     expect(gitMenu.getAttribute('data-state')).toBe('open');
     expect(document.activeElement).toBe(gitMenu);

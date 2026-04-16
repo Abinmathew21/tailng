@@ -1,6 +1,9 @@
 import { Component, ElementRef, HostBinding, inject, input, DestroyRef, NgZone } from '@angular/core';
 import { computeOverlayPosition } from '@tailng-ui/cdk';
-import { TngMenu as TngMenuPrimitive } from '@tailng-ui/primitives';
+import {
+  TNG_MENU_DEFER_HOST_FOCUS_UNTIL_POSITIONED,
+  TngMenu as TngMenuPrimitive,
+} from '@tailng-ui/primitives';
 
 const MAX_FOCUS_SYNC_ATTEMPTS = 4;
 
@@ -14,6 +17,7 @@ function viewportRect(): { left: number; top: number; width: number; height: num
 
 @Component({
   selector: 'tng-menu',
+  providers: [{ provide: TNG_MENU_DEFER_HOST_FOCUS_UNTIL_POSITIONED, useValue: true }],
   hostDirectives: [
     {
       directive: TngMenuPrimitive,
@@ -38,6 +42,8 @@ export class TngMenuComponent {
   private removeScrollListener: (() => void) | null = null;
   private resizeObserver: ResizeObserver | null = null;
   private rafId: number | null = null;
+  /** Retries when overlay rect is 0×0 before first placement (layout not ready yet). */
+  private initialPlacementRetryCount = 0;
 
   readonly ariaLabel = input<string>('Menu');
 
@@ -56,6 +62,8 @@ export class TngMenuComponent {
     const isOpen = this.primitive.isOpen();
 
     if (!this.lastOpenState && isOpen) {
+      this.initialPlacementRetryCount = 0;
+      this.setPositioningPending(true);
       this.attachPositioningListeners();
       this.queuePositioning();
     } else if (this.lastOpenState && !isOpen) {
@@ -65,8 +73,19 @@ export class TngMenuComponent {
 
     if (!isOpen) {
       this.lastOpenState = false;
+      this.initialPlacementRetryCount = 0;
+      this.setPositioningPending(false);
       this.focusSyncAttempts = 0;
       this.focusSyncQueued = false;
+      return;
+    }
+
+    const justOpened = !this.lastOpenState && isOpen;
+    this.lastOpenState = true;
+
+    // Opening edge: primitive defers host focus until overlay placement runs in reposition();
+    // skip queueFocusSync here so focus does not run before the first fixed-position pass.
+    if (justOpened) {
       return;
     }
 
@@ -82,14 +101,9 @@ export class TngMenuComponent {
     const shouldSyncFocusToHostOrDeepestSubmenu =
       deepestOpenSubmenu !== null ? !hasFocusInDeepestOpenSubmenu : !hasFocusInsideHost;
 
-    if (
-      (!this.lastOpenState || shouldSyncFocusToHostOrDeepestSubmenu) &&
-      this.focusSyncAttempts < MAX_FOCUS_SYNC_ATTEMPTS
-    ) {
+    if (shouldSyncFocusToHostOrDeepestSubmenu && this.focusSyncAttempts < MAX_FOCUS_SYNC_ATTEMPTS) {
       this.queueFocusSync();
     }
-
-    this.lastOpenState = true;
   }
 
   private queuePositioning(): void {
@@ -107,11 +121,14 @@ export class TngMenuComponent {
 
     const host = this.hostRef.nativeElement;
     const trigger = this.primitive.getTriggerElement();
-    if (!trigger) return;
+    if (!trigger) {
+      this.clearPositioningPending();
+      return;
+    }
 
     const isSubmenu = this.primitive.getParentMenu() !== null;
-    
-    // Default config: root menus drop down, submenus fly out to the right
+
+    // Default config: root menus drop down, submenus fly out to the right (same pipeline for every layer).
     let side: 'bottom' | 'right' = 'bottom';
     let align: 'start' | 'center' | 'end' = 'start';
 
@@ -121,7 +138,33 @@ export class TngMenuComponent {
     }
 
     const anchor = rectFromClientRect(trigger.getBoundingClientRect());
-    const overlay = rectFromClientRect(host.getBoundingClientRect());
+    let overlay = rectFromClientRect(host.getBoundingClientRect());
+
+    const pendingInitial =
+      host.getAttribute('data-positioning-state') === 'pending';
+    if (
+      pendingInitial &&
+      (overlay.width < 0.5 || overlay.height < 0.5) &&
+      this.initialPlacementRetryCount < 5
+    ) {
+      this.initialPlacementRetryCount += 1;
+      this.ngZone.runOutsideAngular(() => {
+        requestAnimationFrame(() => {
+          if (!this.primitive.isOpen()) {
+            return;
+          }
+          this.reposition();
+        });
+      });
+      return;
+    }
+
+    if (pendingInitial) {
+      this.initialPlacementRetryCount = 0;
+    }
+
+    overlay = rectFromClientRect(host.getBoundingClientRect());
+
     const viewport = viewportRect();
 
     const result = computeOverlayPosition({
@@ -130,7 +173,7 @@ export class TngMenuComponent {
       viewportRect: viewport,
       placement: { side, align },
       offset: { side: isSubmenu ? -4 : 4, align: 0 },
-      collision: { padding: 8, flip: true, shift: true }
+      collision: { padding: 8, flip: true, shift: true },
     });
 
     host.style.position = 'fixed';
@@ -138,6 +181,28 @@ export class TngMenuComponent {
     host.style.margin = '0';
     host.style.left = `${result.x}px`;
     host.style.top = `${result.y}px`;
+    host.style.right = 'auto';
+    host.style.bottom = 'auto';
+
+    this.clearPositioningPending();
+    this.scheduleFocusAfterReposition();
+  }
+
+  /**
+   * Hide the panel until the first fixed placement is applied so theme CSS (absolute) does not
+   * flash before JS overlay coordinates (all levels use the same reposition path).
+   */
+  private setPositioningPending(pending: boolean): void {
+    const host = this.hostRef.nativeElement;
+    if (pending) {
+      host.setAttribute('data-positioning-state', 'pending');
+    } else {
+      host.removeAttribute('data-positioning-state');
+    }
+  }
+
+  private clearPositioningPending(): void {
+    this.hostRef.nativeElement.removeAttribute('data-positioning-state');
   }
 
   private clearPositioningStyles(): void {
@@ -147,6 +212,9 @@ export class TngMenuComponent {
     host.style.margin = '';
     host.style.left = '';
     host.style.top = '';
+    host.style.right = '';
+    host.style.bottom = '';
+    host.removeAttribute('data-positioning-state');
   }
 
   private attachPositioningListeners(): void {
@@ -166,6 +234,19 @@ export class TngMenuComponent {
         if (trigger) this.resizeObserver.observe(trigger);
         this.resizeObserver.observe(this.hostRef.nativeElement);
       }
+    });
+  }
+
+  /**
+   * After fixed placement is applied, run the same focus sync previously scheduled from ngDoCheck
+   * so assistive tech sees the panel in its final coordinates (position → then focus).
+   */
+  private scheduleFocusAfterReposition(): void {
+    if (!this.primitive.isOpen()) {
+      return;
+    }
+    this.ngZone.run(() => {
+      queueMicrotask(() => this.runFocusSyncIfNeeded());
     });
   }
 
@@ -192,30 +273,69 @@ export class TngMenuComponent {
     this.focusSyncQueued = true;
     queueMicrotask((): void => {
       this.focusSyncQueued = false;
-
-      if (!this.primitive.isOpen()) {
-        return;
-      }
-
-      const host = this.hostRef.nativeElement;
-      const activeElement = document.activeElement;
-      const deepestOpenSubmenu = this.getDeepestOpenSubmenu(host);
-
-      if (deepestOpenSubmenu !== null) {
-        if (!(activeElement instanceof Node) || !deepestOpenSubmenu.contains(activeElement)) {
-          this.focusSyncAttempts += 1;
-          deepestOpenSubmenu.focus();
-        }
-        return;
-      }
-
-      if (activeElement instanceof Node && host.contains(activeElement)) {
-        return;
-      }
-
-      this.focusSyncAttempts += 1;
-      host.focus();
+      this.runFocusSyncIfNeeded();
     });
+  }
+
+  private runFocusSyncIfNeeded(): void {
+    if (!this.primitive.isOpen()) {
+      return;
+    }
+
+    const host = this.hostRef.nativeElement;
+    const activeElement = document.activeElement;
+    const focusMenuHost =
+      activeElement instanceof Element
+        ? (activeElement.closest('[data-slot="menu"][data-state="open"]') as HTMLElement | null)
+        : null;
+
+    // Cascaded level-2+ panels are often siblings under one root menu, not nested in DOM. Do not
+    // call host.focus() on a shallower panel while a deeper sibling panel should keep focus.
+    if (this.shouldDeferFocusToDeeperCascadePanel(host, focusMenuHost)) {
+      return;
+    }
+
+    const deepestOpenSubmenu = this.getDeepestOpenSubmenu(host);
+
+    if (deepestOpenSubmenu !== null) {
+      if (!(activeElement instanceof Node) || !deepestOpenSubmenu.contains(activeElement)) {
+        this.focusSyncAttempts += 1;
+        deepestOpenSubmenu.focus();
+      }
+      return;
+    }
+
+    if (activeElement instanceof Node && host.contains(activeElement)) {
+      return;
+    }
+
+    this.focusSyncAttempts += 1;
+    host.focus();
+  }
+
+  private shouldDeferFocusToDeeperCascadePanel(host: HTMLElement, focusMenuHost: HTMLElement | null): boolean {
+    if (!(focusMenuHost instanceof HTMLElement) || focusMenuHost === host) {
+      return false;
+    }
+    if (host.contains(focusMenuHost)) {
+      return false;
+    }
+
+    const ordered = this.getOpenMenuPanelsUnderMenubar(host);
+    const hostIndex = ordered.indexOf(host);
+    const focusIndex = ordered.indexOf(focusMenuHost);
+    if (hostIndex === -1 || focusIndex === -1) {
+      return false;
+    }
+    return focusIndex > hostIndex;
+  }
+
+  private getOpenMenuPanelsUnderMenubar(host: HTMLElement): HTMLElement[] {
+    const menubar = host.closest('[data-slot="menubar"], [role="menubar"]');
+    if (!menubar) {
+      return [];
+    }
+    return Array.from(menubar.querySelectorAll<HTMLElement>('[data-slot="menu"][data-state="open"]'));
   }
 
   private getDeepestOpenSubmenu(host: HTMLElement): HTMLElement | null {
