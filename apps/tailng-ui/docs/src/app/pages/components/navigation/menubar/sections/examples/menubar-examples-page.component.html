@@ -21,39 +21,39 @@
         panelTitle="Wrapper menubar (plain CSS)"
         [codeTabs]="plainCssCodeTabs"
       >
-        <div class="menubar-example-stage menubar-example-stage--short">
-          <tng-menubar ariaLabel="Wrapper workspace commands" class="menubar-shell">
-            <div tngMenubarGroup class="menubar-item-shell">
+        <div class="menubar-examples-workspace-plain-stage menubar-examples-workspace-plain-stage--short">
+          <tng-menubar ariaLabel="Wrapper workspace commands" class="menubar-examples-workspace-plain-menubar">
+            <div tngMenubarGroup class="menubar-examples-workspace-plain-group">
               <tng-menu
-                #plainFileMenu="tngMenu"
+                #workspacePlainFileMenu="tngMenu"
                 ariaLabel="File menu"
-                class="menubar-example-menu"
+                class="menubar-examples-workspace-plain-menu"
                 (tngMenuSelect)="onPlainCommandSelect($event)"
               >
-                <div tngMenuGroupLabel class="menubar-example-group">File</div>
+                <div tngMenuGroupLabel class="menubar-examples-workspace-plain-group-label">File</div>
                 <button type="button" tngMenuItem tngMenuItemValue="Create release">New release</button>
                 <button type="button" tngMenuItem tngMenuItemValue="Publish release">Publish</button>
               </tng-menu>
-              <button type="button" tngMenubarItem [tngMenubarMenu]="plainFileMenu">File</button>
+              <button type="button" tngMenubarItem [tngMenubarMenu]="workspacePlainFileMenu">File</button>
             </div>
 
-            <div tngMenubarGroup class="menubar-item-shell">
+            <div tngMenubarGroup class="menubar-examples-workspace-plain-group">
               <tng-menu
-                #plainViewMenu="tngMenu"
+                #workspacePlainViewMenu="tngMenu"
                 ariaLabel="View menu"
-                class="menubar-example-menu"
+                class="menubar-examples-workspace-plain-menu"
                 (tngMenuSelect)="onPlainCommandSelect($event)"
               >
                 <button type="button" tngMenuItem tngMenuItemValue="Toggle sidebar">Toggle sidebar</button>
                 <button type="button" tngMenuItem tngMenuItemValue="Open command palette">Command palette</button>
               </tng-menu>
-              <button type="button" tngMenubarItem [tngMenubarMenu]="plainViewMenu">View</button>
+              <button type="button" tngMenubarItem [tngMenubarMenu]="workspacePlainViewMenu">View</button>
             </div>
 
             <button type="button" tngMenubarItem>Help</button>
           </tng-menubar>
         </div>
-        <p class="menubar-example-state">last command: {{ plainCommand() }}</p>
+        <p class="menubar-examples-workspace-plain-state">last command: {{ plainCommand() }}</p>
       </ng-template>
 
       <ng-template
@@ -64,28 +64,31 @@
         [codeTabs]="tailwindCodeTabs"
       >
         <div
-          class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+          class="menubar-examples-workspace-tw-panel rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
         >
-          <div class="menubar-example-stage menubar-example-stage--short">
+          <div class="menubar-examples-workspace-tw-stage menubar-examples-workspace-tw-stage--short">
             <tng-menubar
               ariaLabel="Tailwind workspace commands"
-              class="inline-flex items-center gap-1 rounded-xl border border-slate-200 bg-white p-1 shadow-sm"
+              class="menubar-examples-workspace-tw-menubar inline-flex items-center gap-1 rounded-xl border border-slate-200 bg-white p-1 shadow-sm dark:border-slate-600 dark:bg-slate-950 dark:shadow-black/20"
             >
-              <div tngMenubarGroup class="menubar-item-shell">
+              <div tngMenubarGroup class="menubar-examples-workspace-tw-group">
                 <tng-menu
-                  #tailwindFileMenu="tngMenu"
+                  #workspaceTwFileMenu="tngMenu"
                   ariaLabel="File menu"
-                  class="grid min-w-48 gap-1 rounded-xl border border-slate-200 bg-white p-1 shadow-xl"
+                  class="menubar-examples-workspace-tw-menu min-w-48 gap-1 rounded-xl border border-slate-200 bg-white p-1 shadow-xl data-[state=open]:grid dark:border-slate-600 dark:bg-slate-950 dark:shadow-black/40"
                   (tngMenuSelect)="onTailwindCommandSelect($event)"
                 >
-                  <div tngMenuGroupLabel class="px-3 pt-2 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-slate-400">
+                  <div
+                    tngMenuGroupLabel
+                    class="px-3 pt-2 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-slate-400 dark:text-slate-500"
+                  >
                     File
                   </div>
                   <button
                     type="button"
                     tngMenuItem
                     tngMenuItemValue="Create file"
-                    class="flex min-h-9 w-full items-center rounded-lg px-3 text-left text-sm font-medium text-slate-700 outline-none transition hover:bg-sky-50 hover:text-slate-950 focus-visible:bg-sky-50 focus-visible:text-slate-950 focus-visible:ring-2 focus-visible:ring-sky-400/50 [&[data-active]]:bg-sky-50 [&[data-active]]:text-slate-950"
+                    class="flex min-h-9 w-full items-center rounded-lg px-3 text-left text-sm font-medium text-slate-700 outline-none transition hover:bg-sky-50 hover:text-slate-950 focus-visible:bg-sky-50 focus-visible:text-slate-950 focus-visible:ring-2 focus-visible:ring-sky-400/50 [&[data-active]]:bg-sky-50 [&[data-active]]:text-slate-950 dark:text-slate-200 dark:hover:bg-slate-800/80 dark:hover:text-white dark:focus-visible:bg-slate-800 dark:focus-visible:text-white dark:focus-visible:ring-sky-500/40 dark:[&[data-active]]:bg-slate-800 dark:[&[data-active]]:text-white"
                   >
                     New
                   </button>
@@ -93,7 +96,7 @@
                     type="button"
                     tngMenuItem
                     tngMenuItemValue="Open file"
-                    class="flex min-h-9 w-full items-center rounded-lg px-3 text-left text-sm font-medium text-slate-700 outline-none transition hover:bg-sky-50 hover:text-slate-950 focus-visible:bg-sky-50 focus-visible:text-slate-950 focus-visible:ring-2 focus-visible:ring-sky-400/50 [&[data-active]]:bg-sky-50 [&[data-active]]:text-slate-950"
+                    class="flex min-h-9 w-full items-center rounded-lg px-3 text-left text-sm font-medium text-slate-700 outline-none transition hover:bg-sky-50 hover:text-slate-950 focus-visible:bg-sky-50 focus-visible:text-slate-950 focus-visible:ring-2 focus-visible:ring-sky-400/50 [&[data-active]]:bg-sky-50 [&[data-active]]:text-slate-950 dark:text-slate-200 dark:hover:bg-slate-800/80 dark:hover:text-white dark:focus-visible:bg-slate-800 dark:focus-visible:text-white dark:focus-visible:ring-sky-500/40 dark:[&[data-active]]:bg-slate-800 dark:[&[data-active]]:text-white"
                   >
                     Open
                   </button>
@@ -101,25 +104,25 @@
                 <button
                   type="button"
                   tngMenubarItem
-                  [tngMenubarMenu]="tailwindFileMenu"
-                  class="inline-flex min-h-9 items-center rounded-lg px-3 text-sm font-medium text-slate-700 outline-none transition hover:bg-slate-100 hover:text-slate-950 focus-visible:bg-white focus-visible:text-slate-950 focus-visible:ring-2 focus-visible:ring-sky-400/60 [&[tabindex='0']]:bg-white [&[tabindex='0']]:text-slate-950 [&[tabindex='0']]:shadow-sm [&[aria-expanded='true']]:bg-white [&[aria-expanded='true']]:text-slate-950 [&[aria-expanded='true']]:shadow-sm"
+                  [tngMenubarMenu]="workspaceTwFileMenu"
+                  class="inline-flex min-h-9 items-center rounded-lg px-3 text-sm font-medium text-slate-700 outline-none transition hover:bg-slate-100 hover:text-slate-950 focus-visible:bg-white focus-visible:text-slate-950 focus-visible:ring-2 focus-visible:ring-sky-400/60 [&[tabindex='0']]:bg-white [&[tabindex='0']]:text-slate-950 [&[tabindex='0']]:shadow-sm [&[aria-expanded='true']]:bg-white [&[aria-expanded='true']]:text-slate-950 [&[aria-expanded='true']]:shadow-sm dark:text-slate-200 dark:hover:bg-slate-800 dark:hover:text-white dark:focus-visible:bg-slate-900 dark:focus-visible:text-white dark:focus-visible:ring-sky-500/50 dark:[&[tabindex='0']]:bg-slate-900 dark:[&[tabindex='0']]:text-white dark:[&[tabindex='0']]:shadow-black/20 dark:[&[aria-expanded='true']]:bg-slate-900 dark:[&[aria-expanded='true']]:text-white"
                 >
                   File
                 </button>
               </div>
 
-              <div tngMenubarGroup class="menubar-item-shell">
+              <div tngMenubarGroup class="menubar-examples-workspace-tw-group">
                 <tng-menu
-                  #tailwindToolsMenu="tngMenu"
+                  #workspaceTwToolsMenu="tngMenu"
                   ariaLabel="Tools menu"
-                  class="grid min-w-48 gap-1 rounded-xl border border-slate-200 bg-white p-1 shadow-xl"
+                  class="menubar-examples-workspace-tw-menu min-w-48 gap-1 rounded-xl border border-slate-200 bg-white p-1 shadow-xl data-[state=open]:grid dark:border-slate-600 dark:bg-slate-950 dark:shadow-black/40"
                   (tngMenuSelect)="onTailwindCommandSelect($event)"
                 >
                   <button
                     type="button"
                     tngMenuItem
                     tngMenuItemValue="Run lint"
-                    class="flex min-h-9 w-full items-center rounded-lg px-3 text-left text-sm font-medium text-slate-700 outline-none transition hover:bg-sky-50 hover:text-slate-950 focus-visible:bg-sky-50 focus-visible:text-slate-950 focus-visible:ring-2 focus-visible:ring-sky-400/50 [&[data-active]]:bg-sky-50 [&[data-active]]:text-slate-950"
+                    class="flex min-h-9 w-full items-center rounded-lg px-3 text-left text-sm font-medium text-slate-700 outline-none transition hover:bg-sky-50 hover:text-slate-950 focus-visible:bg-sky-50 focus-visible:text-slate-950 focus-visible:ring-2 focus-visible:ring-sky-400/50 [&[data-active]]:bg-sky-50 [&[data-active]]:text-slate-950 dark:text-slate-200 dark:hover:bg-slate-800/80 dark:hover:text-white dark:focus-visible:bg-slate-800 dark:focus-visible:text-white dark:focus-visible:ring-sky-500/40 dark:[&[data-active]]:bg-slate-800 dark:[&[data-active]]:text-white"
                   >
                     Run lint
                   </button>
@@ -127,7 +130,7 @@
                     type="button"
                     tngMenuItem
                     tngMenuItemValue="Run tests"
-                    class="flex min-h-9 w-full items-center rounded-lg px-3 text-left text-sm font-medium text-slate-700 outline-none transition hover:bg-sky-50 hover:text-slate-950 focus-visible:bg-sky-50 focus-visible:text-slate-950 focus-visible:ring-2 focus-visible:ring-sky-400/50 [&[data-active]]:bg-sky-50 [&[data-active]]:text-slate-950"
+                    class="flex min-h-9 w-full items-center rounded-lg px-3 text-left text-sm font-medium text-slate-700 outline-none transition hover:bg-sky-50 hover:text-slate-950 focus-visible:bg-sky-50 focus-visible:text-slate-950 focus-visible:ring-2 focus-visible:ring-sky-400/50 [&[data-active]]:bg-sky-50 [&[data-active]]:text-slate-950 dark:text-slate-200 dark:hover:bg-slate-800/80 dark:hover:text-white dark:focus-visible:bg-slate-800 dark:focus-visible:text-white dark:focus-visible:ring-sky-500/40 dark:[&[data-active]]:bg-slate-800 dark:[&[data-active]]:text-white"
                   >
                     Run tests
                   </button>
@@ -135,15 +138,15 @@
                 <button
                   type="button"
                   tngMenubarItem
-                  [tngMenubarMenu]="tailwindToolsMenu"
-                  class="inline-flex min-h-9 items-center rounded-lg px-3 text-sm font-medium text-slate-700 outline-none transition hover:bg-slate-100 hover:text-slate-950 focus-visible:bg-white focus-visible:text-slate-950 focus-visible:ring-2 focus-visible:ring-sky-400/60 [&[tabindex='0']]:bg-white [&[tabindex='0']]:text-slate-950 [&[tabindex='0']]:shadow-sm [&[aria-expanded='true']]:bg-white [&[aria-expanded='true']]:text-slate-950 [&[aria-expanded='true']]:shadow-sm"
+                  [tngMenubarMenu]="workspaceTwToolsMenu"
+                  class="inline-flex min-h-9 items-center rounded-lg px-3 text-sm font-medium text-slate-700 outline-none transition hover:bg-slate-100 hover:text-slate-950 focus-visible:bg-white focus-visible:text-slate-950 focus-visible:ring-2 focus-visible:ring-sky-400/60 [&[tabindex='0']]:bg-white [&[tabindex='0']]:text-slate-950 [&[tabindex='0']]:shadow-sm [&[aria-expanded='true']]:bg-white [&[aria-expanded='true']]:text-slate-950 [&[aria-expanded='true']]:shadow-sm dark:text-slate-200 dark:hover:bg-slate-800 dark:hover:text-white dark:focus-visible:bg-slate-900 dark:focus-visible:text-white dark:focus-visible:ring-sky-500/50 dark:[&[tabindex='0']]:bg-slate-900 dark:[&[tabindex='0']]:text-white dark:[&[tabindex='0']]:shadow-black/20 dark:[&[aria-expanded='true']]:bg-slate-900 dark:[&[aria-expanded='true']]:text-white"
                 >
                   Tools
                 </button>
               </div>
             </tng-menubar>
           </div>
-          <p class="menubar-example-state">last command: {{ tailwindCommand() }}</p>
+          <p class="menubar-examples-workspace-tw-state">last command: {{ tailwindCommand() }}</p>
         </div>
       </ng-template>
     </app-docs-example-tabs-section>
@@ -163,41 +166,41 @@
         value="plain-css"
         label="Plain-CSS"
         panelTitle="Cascaded submenu chain (plain CSS)"
-        [codeTabs]="plainCssCodeTabs"
+        [codeTabs]="cascadePlainCssCodeTabs"
       >
-        <div class="menubar-example-stage menubar-example-stage--cascade">
-          <tng-menubar ariaLabel="Cascaded command bar" class="menubar-shell">
-            <div tngMenubarGroup class="menubar-item-shell">
+        <div class="menubar-examples-cascade-plain-stage menubar-examples-cascade-plain-stage--cascade">
+          <tng-menubar ariaLabel="Cascaded command bar" class="menubar-examples-cascade-plain-menubar">
+            <div tngMenubarGroup class="menubar-examples-cascade-plain-group">
               <tng-menu
-                #cascadeFileMenuPlain="tngMenu"
+                #cascadePlainFileMenu="tngMenu"
                 ariaLabel="File menu"
-                class="menubar-example-menu"
+                class="menubar-examples-cascade-plain-menu"
                 (tngMenuSelect)="onCascadeCommandSelect($event)"
               >
-                <div tngMenuGroupLabel class="menubar-example-group">File</div>
+                <div tngMenuGroupLabel class="menubar-examples-cascade-plain-group-label">File</div>
                 <button type="button" tngMenuItem tngMenuItemValue="Create project">Create project</button>
                 <button
                   type="button"
                   tngMenuItem
-                  [tngMenuItemSubmenu]="cascadeImportMenuPlain"
+                  [tngMenuItemSubmenu]="cascadePlainImportMenu"
                   tngMenuItemValue="Import from source"
                 >
                   Import from...
                 </button>
-                <div tngMenuSeparator class="menubar-example-separator"></div>
+                <div tngMenuSeparator class="menubar-examples-cascade-plain-separator"></div>
                 <button type="button" tngMenuItem tngMenuItemValue="Archive project">Archive project</button>
 
                 <tng-menu
-                  #cascadeImportMenuPlain="tngMenu"
+                  #cascadePlainImportMenu="tngMenu"
                   ariaLabel="Import submenu"
-                  class="menubar-example-menu menubar-example-menu--submenu menubar-example-menu--level-1"
+                  class="menubar-examples-cascade-plain-menu menubar-examples-cascade-plain-menu--submenu menubar-examples-cascade-plain-menu--level-1"
                   (tngMenuSelect)="onCascadeCommandSelect($event)"
                 >
                   <button type="button" tngMenuItem tngMenuItemValue="Import from CSV">CSV file</button>
                   <button
                     type="button"
                     tngMenuItem
-                    [tngMenuItemSubmenu]="cascadeGitMenuPlain"
+                    [tngMenuItemSubmenu]="cascadePlainGitMenu"
                     tngMenuItemValue="Import from git"
                   >
                     Git repository
@@ -205,33 +208,33 @@
                 </tng-menu>
 
                 <tng-menu
-                  #cascadeGitMenuPlain="tngMenu"
+                  #cascadePlainGitMenu="tngMenu"
                   ariaLabel="Git provider submenu"
-                  class="menubar-example-menu menubar-example-menu--submenu menubar-example-menu--level-2"
+                  class="menubar-examples-cascade-plain-menu menubar-examples-cascade-plain-menu--submenu menubar-examples-cascade-plain-menu--level-2"
                   (tngMenuSelect)="onCascadeCommandSelect($event)"
                 >
                   <button type="button" tngMenuItem tngMenuItemValue="Import from GitHub">GitHub</button>
                   <button type="button" tngMenuItem tngMenuItemValue="Import from GitLab">GitLab</button>
                 </tng-menu>
               </tng-menu>
-              <button type="button" tngMenubarItem [tngMenubarMenu]="cascadeFileMenuPlain">File</button>
+              <button type="button" tngMenubarItem [tngMenubarMenu]="cascadePlainFileMenu">File</button>
             </div>
 
-            <div tngMenubarGroup class="menubar-item-shell">
+            <div tngMenubarGroup class="menubar-examples-cascade-plain-group">
               <tng-menu
-                #cascadeToolsMenuPlain="tngMenu"
+                #cascadePlainToolsMenu="tngMenu"
                 ariaLabel="Tools menu"
-                class="menubar-example-menu"
+                class="menubar-examples-cascade-plain-menu"
                 (tngMenuSelect)="onCascadeCommandSelect($event)"
               >
                 <button type="button" tngMenuItem tngMenuItemValue="Run lint">Run lint</button>
                 <button type="button" tngMenuItem tngMenuItemValue="Run tests">Run tests</button>
               </tng-menu>
-              <button type="button" tngMenubarItem [tngMenubarMenu]="cascadeToolsMenuPlain">Tools</button>
+              <button type="button" tngMenubarItem [tngMenubarMenu]="cascadePlainToolsMenu">Tools</button>
             </div>
           </tng-menubar>
         </div>
-        <p class="menubar-example-state">last cascaded command: {{ cascadeCommand() }}</p>
+        <p class="menubar-examples-cascade-plain-state">last cascaded command: {{ cascadeCommand() }}</p>
       </ng-template>
 
       <ng-template
@@ -239,78 +242,154 @@
         value="tailwind-css"
         label="Tailwind CSS"
         panelTitle="Cascaded submenu chain (tailwind)"
-        [codeTabs]="tailwindCodeTabs"
+        [codeTabs]="cascadeTailwindCodeTabs"
       >
         <div
-          class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+          class="menubar-examples-cascade-tw-panel rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
         >
-          <div class="menubar-example-stage menubar-example-stage--cascade">
-            <tng-menubar ariaLabel="Cascaded command bar" class="menubar-shell">
-              <div tngMenubarGroup class="menubar-item-shell">
+          <div class="menubar-examples-cascade-tw-stage menubar-examples-cascade-tw-stage--cascade">
+            <tng-menubar
+              ariaLabel="Cascaded command bar"
+              class="menubar-examples-cascade-tw-menubar inline-flex items-center gap-1 rounded-xl border border-slate-200 bg-white p-1 shadow-sm dark:border-slate-600 dark:bg-slate-950 dark:shadow-black/20"
+            >
+              <div tngMenubarGroup class="menubar-examples-cascade-tw-group">
                 <tng-menu
-                  #cascadeFileMenuTailwind="tngMenu"
+                  #cascadeTwFileMenu="tngMenu"
                   ariaLabel="File menu"
-                  class="menubar-example-menu"
+                  class="menubar-examples-cascade-tw-menu min-w-48 gap-1 rounded-xl border border-slate-200 bg-white p-1 shadow-xl data-[state=open]:grid dark:border-slate-600 dark:bg-slate-950 dark:shadow-black/40"
                   (tngMenuSelect)="onCascadeCommandSelect($event)"
                 >
-                  <div tngMenuGroupLabel class="menubar-example-group">File</div>
-                  <button type="button" tngMenuItem tngMenuItemValue="Create project">Create project</button>
+                  <div
+                    tngMenuGroupLabel
+                    class="menubar-examples-cascade-tw-group-label px-3 pt-2 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-slate-400 dark:text-slate-500"
+                  >
+                    File
+                  </div>
                   <button
                     type="button"
                     tngMenuItem
-                    [tngMenuItemSubmenu]="cascadeImportMenuTailwind"
+                    tngMenuItemValue="Create project"
+                    class="flex min-h-9 w-full items-center rounded-lg px-3 text-left text-sm font-medium text-slate-700 outline-none transition hover:bg-sky-50 hover:text-slate-950 focus-visible:bg-sky-50 focus-visible:text-slate-950 focus-visible:ring-2 focus-visible:ring-sky-400/50 [&[data-active]]:bg-sky-50 [&[data-active]]:text-slate-950 dark:text-slate-200 dark:hover:bg-slate-800/80 dark:hover:text-white dark:focus-visible:bg-slate-800 dark:focus-visible:text-white dark:focus-visible:ring-sky-500/40 dark:[&[data-active]]:bg-slate-800 dark:[&[data-active]]:text-white"
+                  >
+                    Create project
+                  </button>
+                  <button
+                    type="button"
+                    tngMenuItem
+                    [tngMenuItemSubmenu]="cascadeTwImportMenu"
                     tngMenuItemValue="Import from source"
+                    class="flex min-h-9 w-full items-center rounded-lg px-3 text-left text-sm font-medium text-slate-700 outline-none transition hover:bg-sky-50 hover:text-slate-950 focus-visible:bg-sky-50 focus-visible:text-slate-950 focus-visible:ring-2 focus-visible:ring-sky-400/50 [&[data-active]]:bg-sky-50 [&[data-active]]:text-slate-950 dark:text-slate-200 dark:hover:bg-slate-800/80 dark:hover:text-white dark:focus-visible:bg-slate-800 dark:focus-visible:text-white dark:focus-visible:ring-sky-500/40 dark:[&[data-active]]:bg-slate-800 dark:[&[data-active]]:text-white"
                   >
                     Import from...
                   </button>
-                  <div tngMenuSeparator class="menubar-example-separator"></div>
-                  <button type="button" tngMenuItem tngMenuItemValue="Archive project">Archive project</button>
+                  <div
+                    tngMenuSeparator
+                    class="menubar-examples-cascade-tw-separator mx-1 my-1 h-px bg-slate-200 dark:bg-slate-600"
+                  ></div>
+                  <button
+                    type="button"
+                    tngMenuItem
+                    tngMenuItemValue="Archive project"
+                    class="flex min-h-9 w-full items-center rounded-lg px-3 text-left text-sm font-medium text-slate-700 outline-none transition hover:bg-sky-50 hover:text-slate-950 focus-visible:bg-sky-50 focus-visible:text-slate-950 focus-visible:ring-2 focus-visible:ring-sky-400/50 [&[data-active]]:bg-sky-50 [&[data-active]]:text-slate-950 dark:text-slate-200 dark:hover:bg-slate-800/80 dark:hover:text-white dark:focus-visible:bg-slate-800 dark:focus-visible:text-white dark:focus-visible:ring-sky-500/40 dark:[&[data-active]]:bg-slate-800 dark:[&[data-active]]:text-white"
+                  >
+                    Archive project
+                  </button>
 
                   <tng-menu
-                    #cascadeImportMenuTailwind="tngMenu"
+                    #cascadeTwImportMenu="tngMenu"
                     ariaLabel="Import submenu"
-                    class="menubar-example-menu menubar-example-menu--submenu menubar-example-menu--level-1"
+                    class="menubar-examples-cascade-tw-menu menubar-examples-cascade-tw-menu--submenu menubar-examples-cascade-tw-menu--level-1 min-w-48 gap-1 rounded-xl border border-slate-200 bg-white p-1 shadow-xl data-[state=open]:grid dark:border-slate-600 dark:bg-slate-950 dark:shadow-black/40"
                     (tngMenuSelect)="onCascadeCommandSelect($event)"
                   >
-                    <button type="button" tngMenuItem tngMenuItemValue="Import from CSV">CSV file</button>
                     <button
                       type="button"
                       tngMenuItem
-                      [tngMenuItemSubmenu]="cascadeGitMenuTailwind"
+                      tngMenuItemValue="Import from CSV"
+                      class="flex min-h-9 w-full items-center rounded-lg px-3 text-left text-sm font-medium text-slate-700 outline-none transition hover:bg-sky-50 hover:text-slate-950 focus-visible:bg-sky-50 focus-visible:text-slate-950 focus-visible:ring-2 focus-visible:ring-sky-400/50 [&[data-active]]:bg-sky-50 [&[data-active]]:text-slate-950 dark:text-slate-200 dark:hover:bg-slate-800/80 dark:hover:text-white dark:focus-visible:bg-slate-800 dark:focus-visible:text-white dark:focus-visible:ring-sky-500/40 dark:[&[data-active]]:bg-slate-800 dark:[&[data-active]]:text-white"
+                    >
+                      CSV file
+                    </button>
+                    <button
+                      type="button"
+                      tngMenuItem
+                      [tngMenuItemSubmenu]="cascadeTwGitMenu"
                       tngMenuItemValue="Import from git"
+                      class="flex min-h-9 w-full items-center rounded-lg px-3 text-left text-sm font-medium text-slate-700 outline-none transition hover:bg-sky-50 hover:text-slate-950 focus-visible:bg-sky-50 focus-visible:text-slate-950 focus-visible:ring-2 focus-visible:ring-sky-400/50 [&[data-active]]:bg-sky-50 [&[data-active]]:text-slate-950 dark:text-slate-200 dark:hover:bg-slate-800/80 dark:hover:text-white dark:focus-visible:bg-slate-800 dark:focus-visible:text-white dark:focus-visible:ring-sky-500/40 dark:[&[data-active]]:bg-slate-800 dark:[&[data-active]]:text-white"
                     >
                       Git repository
                     </button>
                   </tng-menu>
 
                   <tng-menu
-                    #cascadeGitMenuTailwind="tngMenu"
+                    #cascadeTwGitMenu="tngMenu"
                     ariaLabel="Git provider submenu"
-                    class="menubar-example-menu menubar-example-menu--submenu menubar-example-menu--level-2"
+                    class="menubar-examples-cascade-tw-menu menubar-examples-cascade-tw-menu--submenu menubar-examples-cascade-tw-menu--level-2 min-w-48 gap-1 rounded-xl border border-slate-200 bg-white p-1 shadow-xl data-[state=open]:grid dark:border-slate-600 dark:bg-slate-950 dark:shadow-black/40"
                     (tngMenuSelect)="onCascadeCommandSelect($event)"
                   >
-                    <button type="button" tngMenuItem tngMenuItemValue="Import from GitHub">GitHub</button>
-                    <button type="button" tngMenuItem tngMenuItemValue="Import from GitLab">GitLab</button>
+                    <button
+                      type="button"
+                      tngMenuItem
+                      tngMenuItemValue="Import from GitHub"
+                      class="flex min-h-9 w-full items-center rounded-lg px-3 text-left text-sm font-medium text-slate-700 outline-none transition hover:bg-sky-50 hover:text-slate-950 focus-visible:bg-sky-50 focus-visible:text-slate-950 focus-visible:ring-2 focus-visible:ring-sky-400/50 [&[data-active]]:bg-sky-50 [&[data-active]]:text-slate-950 dark:text-slate-200 dark:hover:bg-slate-800/80 dark:hover:text-white dark:focus-visible:bg-slate-800 dark:focus-visible:text-white dark:focus-visible:ring-sky-500/40 dark:[&[data-active]]:bg-slate-800 dark:[&[data-active]]:text-white"
+                    >
+                      GitHub
+                    </button>
+                    <button
+                      type="button"
+                      tngMenuItem
+                      tngMenuItemValue="Import from GitLab"
+                      class="flex min-h-9 w-full items-center rounded-lg px-3 text-left text-sm font-medium text-slate-700 outline-none transition hover:bg-sky-50 hover:text-slate-950 focus-visible:bg-sky-50 focus-visible:text-slate-950 focus-visible:ring-2 focus-visible:ring-sky-400/50 [&[data-active]]:bg-sky-50 [&[data-active]]:text-slate-950 dark:text-slate-200 dark:hover:bg-slate-800/80 dark:hover:text-white dark:focus-visible:bg-slate-800 dark:focus-visible:text-white dark:focus-visible:ring-sky-500/40 dark:[&[data-active]]:bg-slate-800 dark:[&[data-active]]:text-white"
+                    >
+                      GitLab
+                    </button>
                   </tng-menu>
                 </tng-menu>
-                <button type="button" tngMenubarItem [tngMenubarMenu]="cascadeFileMenuTailwind">File</button>
+                <button
+                  type="button"
+                  tngMenubarItem
+                  [tngMenubarMenu]="cascadeTwFileMenu"
+                  class="inline-flex min-h-9 items-center rounded-lg px-3 text-sm font-medium text-slate-700 outline-none transition hover:bg-slate-100 hover:text-slate-950 focus-visible:bg-white focus-visible:text-slate-950 focus-visible:ring-2 focus-visible:ring-sky-400/60 [&[tabindex='0']]:bg-white [&[tabindex='0']]:text-slate-950 [&[tabindex='0']]:shadow-sm [&[aria-expanded='true']]:bg-white [&[aria-expanded='true']]:text-slate-950 [&[aria-expanded='true']]:shadow-sm dark:text-slate-200 dark:hover:bg-slate-800 dark:hover:text-white dark:focus-visible:bg-slate-900 dark:focus-visible:text-white dark:focus-visible:ring-sky-500/50 dark:[&[tabindex='0']]:bg-slate-900 dark:[&[tabindex='0']]:text-white dark:[&[tabindex='0']]:shadow-black/20 dark:[&[aria-expanded='true']]:bg-slate-900 dark:[&[aria-expanded='true']]:text-white"
+                >
+                  File
+                </button>
               </div>
 
-              <div tngMenubarGroup class="menubar-item-shell">
+              <div tngMenubarGroup class="menubar-examples-cascade-tw-group">
                 <tng-menu
-                  #cascadeToolsMenuTailwind="tngMenu"
+                  #cascadeTwToolsMenu="tngMenu"
                   ariaLabel="Tools menu"
-                  class="menubar-example-menu"
+                  class="menubar-examples-cascade-tw-menu min-w-48 gap-1 rounded-xl border border-slate-200 bg-white p-1 shadow-xl data-[state=open]:grid dark:border-slate-600 dark:bg-slate-950 dark:shadow-black/40"
                   (tngMenuSelect)="onCascadeCommandSelect($event)"
                 >
-                  <button type="button" tngMenuItem tngMenuItemValue="Run lint">Run lint</button>
-                  <button type="button" tngMenuItem tngMenuItemValue="Run tests">Run tests</button>
+                  <button
+                    type="button"
+                    tngMenuItem
+                    tngMenuItemValue="Run lint"
+                    class="flex min-h-9 w-full items-center rounded-lg px-3 text-left text-sm font-medium text-slate-700 outline-none transition hover:bg-sky-50 hover:text-slate-950 focus-visible:bg-sky-50 focus-visible:text-slate-950 focus-visible:ring-2 focus-visible:ring-sky-400/50 [&[data-active]]:bg-sky-50 [&[data-active]]:text-slate-950 dark:text-slate-200 dark:hover:bg-slate-800/80 dark:hover:text-white dark:focus-visible:bg-slate-800 dark:focus-visible:text-white dark:focus-visible:ring-sky-500/40 dark:[&[data-active]]:bg-slate-800 dark:[&[data-active]]:text-white"
+                  >
+                    Run lint
+                  </button>
+                  <button
+                    type="button"
+                    tngMenuItem
+                    tngMenuItemValue="Run tests"
+                    class="flex min-h-9 w-full items-center rounded-lg px-3 text-left text-sm font-medium text-slate-700 outline-none transition hover:bg-sky-50 hover:text-slate-950 focus-visible:bg-sky-50 focus-visible:text-slate-950 focus-visible:ring-2 focus-visible:ring-sky-400/50 [&[data-active]]:bg-sky-50 [&[data-active]]:text-slate-950 dark:text-slate-200 dark:hover:bg-slate-800/80 dark:hover:text-white dark:focus-visible:bg-slate-800 dark:focus-visible:text-white dark:focus-visible:ring-sky-500/40 dark:[&[data-active]]:bg-slate-800 dark:[&[data-active]]:text-white"
+                  >
+                    Run tests
+                  </button>
                 </tng-menu>
-                <button type="button" tngMenubarItem [tngMenubarMenu]="cascadeToolsMenuTailwind">Tools</button>
+                <button
+                  type="button"
+                  tngMenubarItem
+                  [tngMenubarMenu]="cascadeTwToolsMenu"
+                  class="inline-flex min-h-9 items-center rounded-lg px-3 text-sm font-medium text-slate-700 outline-none transition hover:bg-slate-100 hover:text-slate-950 focus-visible:bg-white focus-visible:text-slate-950 focus-visible:ring-2 focus-visible:ring-sky-400/60 [&[tabindex='0']]:bg-white [&[tabindex='0']]:text-slate-950 [&[tabindex='0']]:shadow-sm [&[aria-expanded='true']]:bg-white [&[aria-expanded='true']]:text-slate-950 [&[aria-expanded='true']]:shadow-sm dark:text-slate-200 dark:hover:bg-slate-800 dark:hover:text-white dark:focus-visible:bg-slate-900 dark:focus-visible:text-white dark:focus-visible:ring-sky-500/50 dark:[&[tabindex='0']]:bg-slate-900 dark:[&[tabindex='0']]:text-white dark:[&[tabindex='0']]:shadow-black/20 dark:[&[aria-expanded='true']]:bg-slate-900 dark:[&[aria-expanded='true']]:text-white"
+                >
+                  Tools
+                </button>
               </div>
             </tng-menubar>
           </div>
-          <p class="menubar-example-state">last cascaded command: {{ cascadeCommand() }}</p>
+          <p class="menubar-examples-cascade-tw-state">last cascaded command: {{ cascadeCommand() }}</p>
         </div>
       </ng-template>
     </app-docs-example-tabs-section>
