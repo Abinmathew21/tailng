@@ -5,6 +5,15 @@
     - slots + ARIA/state attributes only
   */
 
+  /*
+   * Each top-level “owned menu + menubar item” pair should live in a group host
+   * (primitive: tngMenubarGroup) so root menu panels anchor under the trigger
+   * instead of the viewport or an unrelated ancestor.
+   */
+  :where([data-slot="menubar-group"]) {
+    position: relative;
+  }
+
   :where([data-slot="menubar"]) {
     display: inline-flex;
     align-items: stretch;
