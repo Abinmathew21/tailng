@@ -20,7 +20,6 @@ import { observeDocsCodeThemeChanges, resolveDocsCodeBlockTheme } from '../../..
     DocsExampleVariantDirective,
   ],
   templateUrl: './menu-examples-page.component.html',
-  styleUrls: ['./menu-examples-page.component.css'],
 })
 export class MenuExamplesPageComponent implements OnDestroy {
   private readonly documentRef = inject(DOCUMENT);

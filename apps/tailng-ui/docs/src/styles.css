@@ -183,6 +183,37 @@ tng-tabs.docs-component-tabs .tng-tabs,
   padding-inline-start: 1.1rem;
 }
 
+.docs-api-table-wrap {
+  overflow-x: auto;
+}
+
+.docs-api-table {
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  min-width: 34rem;
+  width: 100%;
+}
+
+.docs-api-table th,
+.docs-api-table td {
+  border-bottom: 1px solid var(--tng-semantic-border-subtle);
+  padding: 0.625rem 0.5rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.docs-api-table th {
+  color: var(--tng-semantic-foreground-primary);
+  font-weight: 600;
+}
+
+.menu-example-stage {
+  align-content: start;
+  display: grid;
+  gap: 0.7rem;
+  justify-items: start;
+}
+
 .docs-section-page-main {
   display: grid;
   gap: 1rem;

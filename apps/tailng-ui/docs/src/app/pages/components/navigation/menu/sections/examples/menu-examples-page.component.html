@@ -1,10 +1,10 @@
-<article class="menu-examples">
-  <h2 class="menu-examples-title">Examples</h2>
-  <p class="menu-examples-lead">
+<article class="docs-overview">
+  <h2 class="docs-overview-title">Examples</h2>
+  <p class="docs-overview-lead">
     Reference patterns for trigger wiring, command groups, and nested submenu behavior.
   </p>
 
-  <section class="menu-examples-block">
+  <section class="docs-overview-block">
     <app-docs-example-tabs-section
       heading="Action menu variants"
       description="Open with click or Enter/Space, then traverse options with Arrow keys."
@@ -21,7 +21,7 @@
         [codeTabs]="plainCssCodeTabs"
       >
         <div class="menu-example-stage">
-          <div class="menu-example-trigger-shell">
+          <div>
             <button type="button" id="menu-examples-plain-trigger" [tngMenuTriggerFor]="plainMenu">
               Options
             </button>
@@ -33,7 +33,7 @@
             </tng-menu>
           </div>
         </div>
-        <p class="menu-example-state">last command: {{ plainCommand() }}</p>
+        <p class="docs-overview-state">last command: {{ plainCommand() }}</p>
       </ng-template>
 
       <ng-template
@@ -47,7 +47,7 @@
           class="rounded-xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4"
         >
           <div class="menu-example-stage">
-            <div class="menu-example-trigger-shell">
+            <div>
               <button type="button" id="menu-examples-tailwind-trigger" [tngMenuTriggerFor]="tailwindMenu">
                 Open menu
               </button>
@@ -60,12 +60,12 @@
             </div>
           </div>
         </div>
-        <p class="menu-example-state">last command: {{ tailwindCommand() }}</p>
+        <p class="docs-overview-state">last command: {{ tailwindCommand() }}</p>
       </ng-template>
     </app-docs-example-tabs-section>
   </section>
 
-  <section class="menu-examples-block">
+  <section class="docs-overview-block">
     <app-docs-example-tabs-section
       heading="Cascaded submenu example"
       description="Nested submenu wiring with [tngMenuItemSubmenu]. Use ArrowRight on the active parent option to enter deeper levels."
@@ -82,7 +82,7 @@
         [codeTabs]="cascadePlainCodeTabs"
       >
         <div class="menu-example-stage menu-example-stage--cascade">
-          <div class="menu-example-trigger-shell">
+          <div>
             <button type="button" id="menu-examples-cascade-plain-root-trigger" [tngMenuTriggerFor]="cascadePlainRootMenu">
               Import
             </button>
@@ -104,7 +104,7 @@
             </tng-menu>
           </div>
         </div>
-        <p class="menu-example-state">last cascaded command: {{ cascadePlainCommand() }}</p>
+        <p class="docs-overview-state">last cascaded command: {{ cascadePlainCommand() }}</p>
       </ng-template>
 
       <ng-template
@@ -118,7 +118,7 @@
           class="rounded-xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4"
         >
           <div class="menu-example-stage menu-example-stage--cascade">
-            <div class="menu-example-trigger-shell">
+            <div>
               <button type="button" id="menu-examples-cascade-tailwind-root-trigger" [tngMenuTriggerFor]="cascadeTailwindRootMenu">
                 Import
               </button>
@@ -142,7 +142,7 @@
             </div>
           </div>
         </div>
-        <p class="menu-example-state">last cascaded command: {{ cascadeTailwindCommand() }}</p>
+        <p class="docs-overview-state">last cascaded command: {{ cascadeTailwindCommand() }}</p>
       </ng-template>
     </app-docs-example-tabs-section>
   </section>
