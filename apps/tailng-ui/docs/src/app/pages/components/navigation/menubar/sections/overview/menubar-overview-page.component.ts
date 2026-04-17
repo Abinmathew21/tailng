@@ -116,7 +116,7 @@ export class MenubarOverviewPageComponent implements OnDestroy {
       language: 'html',
       title: 'menubar-overview-plain-css.component.html',
       code: [
-        '<tng-menubar ariaLabel="Workspace commands" class="menubar-overview-plain-shell">',
+        '<tng-menubar ariaLabel="Workspace commands">',
         '  <div tngMenubarGroup>',
         '    <tng-menu #menubarOverviewPlainFileMenu="tngMenu" ariaLabel="File menu" (tngMenuSelect)="onMenubarOverviewPlainCommandSelect($event)">',
         '      <button type="button" tngMenuItem tngMenuItemValue="Create document">New</button>',

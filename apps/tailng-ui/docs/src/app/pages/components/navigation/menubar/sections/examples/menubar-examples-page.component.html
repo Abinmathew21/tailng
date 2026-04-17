@@ -21,27 +21,25 @@
         panelTitle="Wrapper menubar (plain CSS)"
         [codeTabs]="plainCssCodeTabs"
       >
-        <div class="docs-example-stage docs-example-stage--menubar">
-          <tng-menubar ariaLabel="Wrapper workspace commands" class="menubar-examples-workspace-plain-menubar">
-            <div tngMenubarGroup class="menubar-examples-workspace-plain-group">
+        <div class="docs-example-stage">
+          <tng-menubar ariaLabel="Wrapper workspace commands">
+            <div tngMenubarGroup>
               <tng-menu
                 #workspacePlainFileMenu="tngMenu"
                 ariaLabel="File menu"
-                class="menubar-examples-workspace-plain-menu"
                 (tngMenuSelect)="onPlainCommandSelect($event)"
               >
-                <div tngMenuGroupLabel class="menubar-examples-workspace-plain-group-label">File</div>
+                <div tngMenuGroupLabel>File</div>
                 <button type="button" tngMenuItem tngMenuItemValue="Create release">New release</button>
                 <button type="button" tngMenuItem tngMenuItemValue="Publish release">Publish</button>
               </tng-menu>
               <button type="button" tngMenubarItem [tngMenubarMenu]="workspacePlainFileMenu">File</button>
             </div>
 
-            <div tngMenubarGroup class="menubar-examples-workspace-plain-group">
+            <div tngMenubarGroup>
               <tng-menu
                 #workspacePlainViewMenu="tngMenu"
                 ariaLabel="View menu"
-                class="menubar-examples-workspace-plain-menu"
                 (tngMenuSelect)="onPlainCommandSelect($event)"
               >
                 <button type="button" tngMenuItem tngMenuItemValue="Toggle sidebar">Toggle sidebar</button>
@@ -66,16 +64,16 @@
         <div
           class="menubar-examples-workspace-tw-panel rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
         >
-          <div class="docs-example-stage docs-example-stage--menubar">
+          <div class="docs-example-stage">
             <tng-menubar
               ariaLabel="Tailwind workspace commands"
-              class="menubar-examples-workspace-tw-menubar inline-flex items-center gap-1 rounded-xl border border-slate-200 bg-white p-1 shadow-sm dark:border-slate-600 dark:bg-slate-950 dark:shadow-black/20"
+              class="inline-flex items-center gap-1 rounded-xl border border-slate-200 bg-white p-1 shadow-sm dark:border-slate-600 dark:bg-slate-950 dark:shadow-black/20"
             >
-              <div tngMenubarGroup class="menubar-examples-workspace-tw-group">
+              <div tngMenubarGroup>
                 <tng-menu
                   #workspaceTwFileMenu="tngMenu"
                   ariaLabel="File menu"
-                  class="menubar-examples-workspace-tw-menu min-w-48 gap-1 rounded-xl border border-slate-200 bg-white p-1 shadow-xl data-[state=open]:grid dark:border-slate-600 dark:bg-slate-950 dark:shadow-black/40"
+                  class="min-w-48 gap-1 rounded-xl border border-slate-200 bg-white p-1 shadow-xl data-[state=open]:grid dark:border-slate-600 dark:bg-slate-950 dark:shadow-black/40"
                   (tngMenuSelect)="onTailwindCommandSelect($event)"
                 >
                   <div
@@ -111,11 +109,11 @@
                 </button>
               </div>
 
-              <div tngMenubarGroup class="menubar-examples-workspace-tw-group">
+              <div tngMenubarGroup>
                 <tng-menu
                   #workspaceTwToolsMenu="tngMenu"
                   ariaLabel="Tools menu"
-                  class="menubar-examples-workspace-tw-menu min-w-48 gap-1 rounded-xl border border-slate-200 bg-white p-1 shadow-xl data-[state=open]:grid dark:border-slate-600 dark:bg-slate-950 dark:shadow-black/40"
+                  class="min-w-48 gap-1 rounded-xl border border-slate-200 bg-white p-1 shadow-xl data-[state=open]:grid dark:border-slate-600 dark:bg-slate-950 dark:shadow-black/40"
                   (tngMenuSelect)="onTailwindCommandSelect($event)"
                 >
                   <button
@@ -168,16 +166,15 @@
         panelTitle="Cascaded submenu chain (plain CSS)"
         [codeTabs]="cascadePlainCssCodeTabs"
       >
-        <div class="docs-example-stage docs-example-stage--menubar">
-          <tng-menubar ariaLabel="Cascaded command bar" class="menubar-examples-cascade-plain-menubar">
-            <div tngMenubarGroup class="menubar-examples-cascade-plain-group">
+        <div class="docs-example-stage">
+          <tng-menubar ariaLabel="Cascaded command bar">
+            <div tngMenubarGroup>
               <tng-menu
                 #cascadePlainFileMenu="tngMenu"
                 ariaLabel="File menu"
-                class="menubar-examples-cascade-plain-menu"
                 (tngMenuSelect)="onCascadeCommandSelect($event)"
               >
-                <div tngMenuGroupLabel class="menubar-examples-cascade-plain-group-label">File</div>
+                <div tngMenuGroupLabel>File</div>
                 <button type="button" tngMenuItem tngMenuItemValue="Create project">Create project</button>
                 <button
                   type="button"
@@ -187,13 +184,12 @@
                 >
                   Import from...
                 </button>
-                <div tngMenuSeparator class="menubar-examples-cascade-plain-separator"></div>
+                <div tngMenuSeparator></div>
                 <button type="button" tngMenuItem tngMenuItemValue="Archive project">Archive project</button>
 
                 <tng-menu
                   #cascadePlainImportMenu="tngMenu"
                   ariaLabel="Import submenu"
-                  class="menubar-examples-cascade-plain-menu menubar-examples-cascade-plain-menu--submenu menubar-examples-cascade-plain-menu--level-1"
                   (tngMenuSelect)="onCascadeCommandSelect($event)"
                 >
                   <button type="button" tngMenuItem tngMenuItemValue="Import from CSV">CSV file</button>
@@ -210,7 +206,6 @@
                 <tng-menu
                   #cascadePlainGitMenu="tngMenu"
                   ariaLabel="Git provider submenu"
-                  class="menubar-examples-cascade-plain-menu menubar-examples-cascade-plain-menu--submenu menubar-examples-cascade-plain-menu--level-2"
                   (tngMenuSelect)="onCascadeCommandSelect($event)"
                 >
                   <button type="button" tngMenuItem tngMenuItemValue="Import from GitHub">GitHub</button>
@@ -220,11 +215,10 @@
               <button type="button" tngMenubarItem [tngMenubarMenu]="cascadePlainFileMenu">File</button>
             </div>
 
-            <div tngMenubarGroup class="menubar-examples-cascade-plain-group">
+            <div tngMenubarGroup>
               <tng-menu
                 #cascadePlainToolsMenu="tngMenu"
                 ariaLabel="Tools menu"
-                class="menubar-examples-cascade-plain-menu"
                 (tngMenuSelect)="onCascadeCommandSelect($event)"
               >
                 <button type="button" tngMenuItem tngMenuItemValue="Run lint">Run lint</button>
@@ -247,21 +241,21 @@
         <div
           class="menubar-examples-cascade-tw-panel rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
         >
-          <div class="docs-example-stage docs-example-stage--menubar">
+          <div class="docs-example-stage">
             <tng-menubar
               ariaLabel="Cascaded command bar"
-              class="menubar-examples-cascade-tw-menubar inline-flex items-center gap-1 rounded-xl border border-slate-200 bg-white p-1 shadow-sm dark:border-slate-600 dark:bg-slate-950 dark:shadow-black/20"
+              class="inline-flex items-center gap-1 rounded-xl border border-slate-200 bg-white p-1 shadow-sm dark:border-slate-600 dark:bg-slate-950 dark:shadow-black/20"
             >
-              <div tngMenubarGroup class="menubar-examples-cascade-tw-group">
+              <div tngMenubarGroup>
                 <tng-menu
                   #cascadeTwFileMenu="tngMenu"
                   ariaLabel="File menu"
-                  class="menubar-examples-cascade-tw-menu min-w-48 gap-1 rounded-xl border border-slate-200 bg-white p-1 shadow-xl data-[state=open]:grid dark:border-slate-600 dark:bg-slate-950 dark:shadow-black/40"
+                  class="min-w-48 gap-1 rounded-xl border border-slate-200 bg-white p-1 shadow-xl data-[state=open]:grid dark:border-slate-600 dark:bg-slate-950 dark:shadow-black/40"
                   (tngMenuSelect)="onCascadeCommandSelect($event)"
                 >
                   <div
                     tngMenuGroupLabel
-                    class="menubar-examples-cascade-tw-group-label px-3 pt-2 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-slate-400 dark:text-slate-500"
+                    class="px-3 pt-2 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-slate-400 dark:text-slate-500"
                   >
                     File
                   </div>
@@ -284,7 +278,7 @@
                   </button>
                   <div
                     tngMenuSeparator
-                    class="menubar-examples-cascade-tw-separator mx-1 my-1 h-px bg-slate-200 dark:bg-slate-600"
+                    class="mx-1 my-1 h-px bg-slate-200 dark:bg-slate-600"
                   ></div>
                   <button
                     type="button"
@@ -298,7 +292,7 @@
                   <tng-menu
                     #cascadeTwImportMenu="tngMenu"
                     ariaLabel="Import submenu"
-                    class="menubar-examples-cascade-tw-menu menubar-examples-cascade-tw-menu--submenu menubar-examples-cascade-tw-menu--level-1 min-w-48 gap-1 rounded-xl border border-slate-200 bg-white p-1 shadow-xl data-[state=open]:grid dark:border-slate-600 dark:bg-slate-950 dark:shadow-black/40"
+                    class="min-w-48 gap-1 rounded-xl border border-slate-200 bg-white p-1 shadow-xl data-[state=open]:grid dark:border-slate-600 dark:bg-slate-950 dark:shadow-black/40"
                     (tngMenuSelect)="onCascadeCommandSelect($event)"
                   >
                     <button
@@ -323,7 +317,7 @@
                   <tng-menu
                     #cascadeTwGitMenu="tngMenu"
                     ariaLabel="Git provider submenu"
-                    class="menubar-examples-cascade-tw-menu menubar-examples-cascade-tw-menu--submenu menubar-examples-cascade-tw-menu--level-2 min-w-48 gap-1 rounded-xl border border-slate-200 bg-white p-1 shadow-xl data-[state=open]:grid dark:border-slate-600 dark:bg-slate-950 dark:shadow-black/40"
+                    class="min-w-48 gap-1 rounded-xl border border-slate-200 bg-white p-1 shadow-xl data-[state=open]:grid dark:border-slate-600 dark:bg-slate-950 dark:shadow-black/40"
                     (tngMenuSelect)="onCascadeCommandSelect($event)"
                   >
                     <button
@@ -354,11 +348,11 @@
                 </button>
               </div>
 
-              <div tngMenubarGroup class="menubar-examples-cascade-tw-group">
+              <div tngMenubarGroup>
                 <tng-menu
                   #cascadeTwToolsMenu="tngMenu"
                   ariaLabel="Tools menu"
-                  class="menubar-examples-cascade-tw-menu min-w-48 gap-1 rounded-xl border border-slate-200 bg-white p-1 shadow-xl data-[state=open]:grid dark:border-slate-600 dark:bg-slate-950 dark:shadow-black/40"
+                  class="min-w-48 gap-1 rounded-xl border border-slate-200 bg-white p-1 shadow-xl data-[state=open]:grid dark:border-slate-600 dark:bg-slate-950 dark:shadow-black/40"
                   (tngMenuSelect)="onCascadeCommandSelect($event)"
                 >
                   <button
