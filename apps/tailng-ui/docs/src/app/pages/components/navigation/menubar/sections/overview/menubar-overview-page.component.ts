@@ -192,7 +192,6 @@ export class MenubarOverviewPageComponent implements OnDestroy {
       language: 'html',
       title: 'menubar-overview-tailwind.component.html',
       code: [
-        '<div class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">',
         '  <tng-menubar',
         '    ariaLabel="Workspace commands"',
         '    class="inline-flex items-center gap-1 rounded-xl border border-slate-200 bg-white p-1 shadow-sm"',
@@ -254,7 +253,6 @@ export class MenubarOverviewPageComponent implements OnDestroy {
         '    </div>',
         '    <button type="button" tngMenubarItem (click)="onMenubarOverviewTailwindLeafSelect(\'Help\')" class="inline-flex min-h-9 items-center rounded-lg px-3 text-sm font-medium text-slate-700 outline-none transition hover:bg-slate-100 hover:text-slate-950 focus-visible:bg-white focus-visible:text-slate-950 focus-visible:ring-2 focus-visible:ring-sky-400/60 [&[tabindex=\'0\']]:bg-white [&[tabindex=\'0\']]:text-slate-950 [&[tabindex=\'0\']]:shadow-sm [&[aria-expanded=\'true\']]:bg-white [&[aria-expanded=\'true\']]:text-slate-950 [&[aria-expanded=\'true\']]:shadow-sm">Help</button>',
         '  </tng-menubar>',
-        '</div>',
       ].join('\n'),
     },
     {
