@@ -25,8 +25,8 @@ export class HeadlessMenuApiPageComponent implements OnDestroy {
 
   protected readonly compositionCode = [
     '<div class="menu-shell">',
-    '  <button type="button" [tngMenuTrigger]="fileMenu">File</button>',
-    '  <div tngMenu #fileMenu="tngMenu" aria-label="File menu">',
+    '  <button type="button" [tngMenuTrigger]="apiCompositionFileMenu">File</button>',
+    '  <div tngMenu #apiCompositionFileMenu="tngMenu" aria-label="File menu">',
     '    <button type="button" tngMenuItem tngMenuItemValue="new">New</button>',
     '    <button type="button" tngMenuItem tngMenuItemValue="open">Open</button>',
     '  </div>',
@@ -35,10 +35,10 @@ export class HeadlessMenuApiPageComponent implements OnDestroy {
   ].join('\n');
 
   protected readonly submenuCode = [
-    '<div tngMenu #rootMenu="tngMenu" aria-label="Actions">',
-    '  <button type="button" tngMenuItem [tngMenuItemSubmenu]="importMenu">Import…</button>',
+    '<div tngMenu #apiRootMenu="tngMenu" aria-label="Actions">',
+    '  <button type="button" tngMenuItem [tngMenuItemSubmenu]="apiImportMenu">Import…</button>',
     '',
-    '  <div tngMenu #importMenu="tngMenu" aria-label="Import sources">',
+    '  <div tngMenu #apiImportMenu="tngMenu" aria-label="Import sources">',
     '    <button type="button" tngMenuItem tngMenuItemValue="csv">CSV</button>',
     '  </div>',
     '</div>',
@@ -47,9 +47,9 @@ export class HeadlessMenuApiPageComponent implements OnDestroy {
 
   protected readonly backdropCode = [
     '<section class="menu-with-backdrop">',
-    '  <button type="button" [tngMenuTrigger]="panel">Open</button>',
-    '  <div [tngMenuBackdrop]="panel" class="menu-backdrop" aria-hidden="true"></div>',
-    '  <div tngMenu #panel="tngMenu" aria-label="Actions">',
+    '  <button type="button" [tngMenuTrigger]="apiBackdropPanel">Open</button>',
+    '  <div [tngMenuBackdrop]="apiBackdropPanel" class="menu-backdrop" aria-hidden="true"></div>',
+    '  <div tngMenu #apiBackdropPanel="tngMenu" aria-label="Actions">',
     '    <button type="button" tngMenuItem tngMenuItemValue="save">Save</button>',
     '  </div>',
     '</section>',

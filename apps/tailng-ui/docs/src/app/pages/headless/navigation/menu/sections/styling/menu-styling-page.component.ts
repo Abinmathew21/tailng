@@ -45,16 +45,17 @@ export class HeadlessMenuStylingPageComponent implements OnDestroy {
   ].join('\n');
 
   protected readonly stateSelectorCode = [
-    ".docs-menu-shell [data-slot='menu-trigger'][aria-expanded='true'] {",
+    "[data-slot='menu-trigger'][aria-expanded='true'] {",
     '  border-color: var(--tng-menu-brand);',
     '}',
     '',
-    ".docs-menu-panel [tngMenuItem][data-active] {",
+    "[data-slot='menu-item'][data-active],",
+    "[data-slot='menu-item'][aria-expanded='true'] {",
     '  color: #1d4ed8;',
     '  background: rgba(37, 99, 235, 0.16);',
     '}',
     '',
-    ".docs-menu-panel [tngMenuItem][aria-disabled='true'] {",
+    "[data-slot='menu-item'][aria-disabled='true'] {",
     '  opacity: 0.5;',
     '  cursor: not-allowed;',
     '}',

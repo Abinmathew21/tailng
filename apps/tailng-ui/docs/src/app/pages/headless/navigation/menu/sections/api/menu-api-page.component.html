@@ -67,10 +67,14 @@
           </tr>
           <tr>
             <td>Host</td>
-            <td><code>role</code>, <code>data-slot</code>, <code>data-state</code>, <code>hidden</code></td>
+            <td>
+              <code>role</code>, <code>data-slot</code>, <code>data-state</code>, <code>hidden</code>,
+              <code>aria-activedescendant</code>
+            </td>
             <td>
               Emits <code>data-slot="menu"</code>, <code>data-state="open" | "closed"</code>, and uses the
-              native <code>hidden</code> attribute while closed.
+              native <code>hidden</code> attribute while closed. When a row is active, the panel also
+              updates <code>aria-activedescendant</code> to the active item id.
             </td>
           </tr>
         </tbody>
@@ -106,6 +110,14 @@
             <td>Stable hook for styling the trigger surface.</td>
           </tr>
           <tr>
+            <td>Host</td>
+            <td><code>id</code>, <code>aria-haspopup</code>, <code>aria-controls</code>, <code>aria-expanded</code></td>
+            <td>
+              The trigger owns the accessible relationship to the linked panel and reflects open state through
+              <code>aria-expanded</code>.
+            </td>
+          </tr>
+          <tr>
             <td>Disabled hosts</td>
             <td>native / ARIA</td>
             <td>
@@ -123,7 +135,8 @@
     <p>
       Menu items participate in roving focus inside the panel. Use <code>tngMenuGroupLabel</code> and
       <code>tngMenuSeparator</code> for structure; submenu rows link nested <code>tngMenu</code> hosts with
-      <code>[tngMenuItemSubmenu]</code>.
+      <code>[tngMenuItemSubmenu]</code>. Owned submenus can open by click or <code>ArrowRight</code>; leaf
+      rows emit selection on click, <code>Enter</code>, or <code>Space</code>.
     </p>
     <tng-code-block
       [code]="submenuCode"
@@ -154,7 +167,15 @@
             <td>
               Supports <code>menuitem</code>, <code>menuitemcheckbox</code>, and
               <code>menuitemradio</code> roles; checkbox/radio items surface <code>aria-checked</code>.
+              Every item also exposes <code>data-slot="menu-item"</code>; active rows reflect
+              <code>data-active</code>, and submenu owners reflect <code>aria-haspopup</code>,
+              <code>aria-controls</code>, and <code>aria-expanded</code>.
             </td>
+          </tr>
+          <tr>
+            <td><code>tngMenuBackdrop</code></td>
+            <td><code>[tngMenuBackdrop]</code></td>
+            <td>Optional dismiss layer that closes the linked menu on click and exposes <code>data-slot="menu-backdrop"</code>.</td>
           </tr>
           <tr>
             <td><code>tngMenuGroupLabel</code>, <code>tngMenuSeparator</code></td>

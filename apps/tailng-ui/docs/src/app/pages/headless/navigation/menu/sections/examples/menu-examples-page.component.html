@@ -54,7 +54,7 @@
             <button
               type="button"
               [tngMenuTrigger]="dropdownTailwindMenu"
-              class="headless-menu-example-tailwind-trigger min-h-[2.05rem] rounded-[0.62rem] px-[0.9rem] py-[0.46rem] text-[0.95rem] font-semibold"
+              class="min-h-[2.05rem] rounded-[0.62rem] border border-[color:var(--tng-semantic-border-strong,#94a3b8)] bg-[color:color-mix(in_srgb,var(--tng-semantic-background-surface,#f8fafc)_90%,transparent)] px-[0.9rem] py-[0.46rem] text-[0.95rem] font-semibold text-[color:var(--tng-semantic-foreground-primary,#0f172a)] shadow-[0_1px_2px_color-mix(in_srgb,var(--tng-semantic-foreground-primary,#0f172a)_8%,transparent)] transition hover:border-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand,#2563eb)_45%,var(--tng-semantic-border-strong,#94a3b8))] hover:bg-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand,#2563eb)_14%,var(--tng-semantic-background-surface,#f8fafc))] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--tng-semantic-focus-ring,#93c5fd)] aria-expanded:border-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand,#2563eb)_55%,var(--tng-semantic-border-strong,#94a3b8))] aria-expanded:bg-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand,#2563eb)_22%,var(--tng-semantic-background-surface,#f8fafc))] aria-expanded:text-[color:var(--tng-semantic-accent-brand,#2563eb)] aria-expanded:shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--tng-semantic-accent-brand,#2563eb)_35%,transparent),0_1px_2px_color-mix(in_srgb,var(--tng-semantic-foreground-primary,#0f172a)_8%,transparent)]"
             >
               Open actions
             </button>
@@ -62,17 +62,20 @@
               tngMenu
               #dropdownTailwindMenu="tngMenu"
               aria-label="Quick actions"
-              class="headless-menu-example-tw-panel absolute left-0 top-[calc(100%+0.45rem)] z-30 hidden min-w-[13.8rem] p-[0.45rem] data-[state=open]:grid data-[state=open]:gap-[0.24rem]"
+              class="absolute left-0 top-[calc(100%+0.45rem)] z-30 hidden min-w-[13.8rem] rounded-[0.82rem] border border-[color:var(--tng-semantic-border-strong,#94a3b8)] bg-[color:var(--tng-semantic-background-canvas,#ffffff)] p-[0.45rem] shadow-[0_16px_30px_-22px_color-mix(in_srgb,var(--tng-semantic-foreground-primary,#0f172a)_35%,transparent)] data-[state=open]:grid data-[state=open]:gap-[0.24rem]"
               (tngMenuSelect)="onDropdownTailwindSelect($event)"
             >
-              <div tngMenuGroupLabel class="headless-menu-example-tw-label px-[0.45rem] py-[0.25rem]">
+              <div
+                tngMenuGroupLabel
+                class="px-[0.45rem] py-[0.25rem] text-[0.72rem] font-bold uppercase tracking-[0.08em] text-[color:var(--tng-semantic-foreground-secondary,#64748b)]"
+              >
                 Recent
               </div>
               <button
                 type="button"
                 tngMenuItem
                 tngMenuItemValue="copy"
-                class="headless-menu-example-tw-item flex min-h-[2rem] justify-between px-[0.62rem] py-[0.4rem] text-left"
+                class="flex min-h-[2rem] cursor-pointer justify-between rounded-[0.58rem] border-0 bg-transparent px-[0.62rem] py-[0.4rem] text-left text-[0.86rem] font-[550] text-[color:var(--tng-semantic-foreground-primary,#0f172a)] outline-none transition-[background-color,color] duration-[120ms] hover:bg-[color:color-mix(in_srgb,var(--tng-semantic-foreground-primary,#0f172a)_8%,transparent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--tng-semantic-focus-ring,#93c5fd)] data-[active]:bg-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand,#2563eb)_22%,transparent)] data-[active]:text-[color:var(--tng-semantic-accent-brand,#2563eb)]"
               >
                 Copy
               </button>
@@ -80,14 +83,19 @@
                 type="button"
                 tngMenuItem
                 tngMenuItemValue="paste"
-                class="headless-menu-example-tw-item flex min-h-[2rem] justify-between px-[0.62rem] py-[0.4rem] text-left"
+                class="flex min-h-[2rem] cursor-pointer justify-between rounded-[0.58rem] border-0 bg-transparent px-[0.62rem] py-[0.4rem] text-left text-[0.86rem] font-[550] text-[color:var(--tng-semantic-foreground-primary,#0f172a)] outline-none transition-[background-color,color] duration-[120ms] hover:bg-[color:color-mix(in_srgb,var(--tng-semantic-foreground-primary,#0f172a)_8%,transparent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--tng-semantic-focus-ring,#93c5fd)] data-[active]:bg-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand,#2563eb)_22%,transparent)] data-[active]:text-[color:var(--tng-semantic-accent-brand,#2563eb)]"
               >
                 Paste
               </button>
             </div>
           </div>
         </div>
-        <p class="headless-menu-example-state">Last action: {{ dropdownTailwindCommand() }}</p>
+        <p class="m-0 text-[0.84rem] text-[color:var(--tng-semantic-foreground-secondary,#64748b)]">
+          Last action:
+          <strong class="font-semibold text-[color:var(--tng-semantic-foreground-primary,#0f172a)]">{{
+            dropdownTailwindCommand()
+          }}</strong>
+        </p>
       </ng-template>
     </app-docs-example-tabs-section>
   </section>
@@ -178,7 +186,7 @@
             <button
               type="button"
               [tngMenuTrigger]="nestedTailwindFile"
-              class="headless-menu-example-tailwind-trigger min-h-[2.05rem] rounded-[0.62rem] px-[0.9rem] py-[0.46rem] text-[0.95rem] font-semibold"
+              class="min-h-[2.05rem] rounded-[0.62rem] border border-[color:var(--tng-semantic-border-strong,#94a3b8)] bg-[color:color-mix(in_srgb,var(--tng-semantic-background-surface,#f8fafc)_90%,transparent)] px-[0.9rem] py-[0.46rem] text-[0.95rem] font-semibold text-[color:var(--tng-semantic-foreground-primary,#0f172a)] shadow-[0_1px_2px_color-mix(in_srgb,var(--tng-semantic-foreground-primary,#0f172a)_8%,transparent)] transition hover:border-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand,#2563eb)_45%,var(--tng-semantic-border-strong,#94a3b8))] hover:bg-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand,#2563eb)_14%,var(--tng-semantic-background-surface,#f8fafc))] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--tng-semantic-focus-ring,#93c5fd)] aria-expanded:border-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand,#2563eb)_55%,var(--tng-semantic-border-strong,#94a3b8))] aria-expanded:bg-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand,#2563eb)_22%,var(--tng-semantic-background-surface,#f8fafc))] aria-expanded:text-[color:var(--tng-semantic-accent-brand,#2563eb)] aria-expanded:shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--tng-semantic-accent-brand,#2563eb)_35%,transparent),0_1px_2px_color-mix(in_srgb,var(--tng-semantic-foreground-primary,#0f172a)_8%,transparent)]"
             >
               File
             </button>
@@ -186,14 +194,14 @@
               tngMenu
               #nestedTailwindFile="tngMenu"
               aria-label="File menu"
-              class="headless-menu-example-tw-panel absolute left-0 top-[calc(100%+0.45rem)] z-30 hidden min-w-[13.8rem] p-[0.45rem] data-[state=open]:grid data-[state=open]:gap-[0.24rem]"
+              class="absolute left-0 top-[calc(100%+0.45rem)] z-30 hidden min-w-[13.8rem] rounded-[0.82rem] border border-[color:var(--tng-semantic-border-strong,#94a3b8)] bg-[color:var(--tng-semantic-background-canvas,#ffffff)] p-[0.45rem] shadow-[0_16px_30px_-22px_color-mix(in_srgb,var(--tng-semantic-foreground-primary,#0f172a)_35%,transparent)] data-[state=open]:grid data-[state=open]:gap-[0.24rem]"
               (tngMenuSelect)="onNestedTailwindSelect($event)"
             >
               <button
                 type="button"
                 tngMenuItem
                 tngMenuItemValue="new-notebook"
-                class="headless-menu-example-tw-item flex min-h-[2rem] justify-between px-[0.62rem] py-[0.4rem] text-left"
+                class="flex min-h-[2rem] cursor-pointer justify-between rounded-[0.58rem] border-0 bg-transparent px-[0.62rem] py-[0.4rem] text-left text-[0.86rem] font-[550] text-[color:var(--tng-semantic-foreground-primary,#0f172a)] outline-none transition-[background-color,color] duration-[120ms] hover:bg-[color:color-mix(in_srgb,var(--tng-semantic-foreground-primary,#0f172a)_8%,transparent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--tng-semantic-focus-ring,#93c5fd)] data-[active]:bg-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand,#2563eb)_22%,transparent)] data-[active]:text-[color:var(--tng-semantic-accent-brand,#2563eb)] aria-expanded:bg-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand,#2563eb)_22%,transparent)] aria-expanded:text-[color:var(--tng-semantic-accent-brand,#2563eb)]"
               >
                 New notebook
               </button>
@@ -202,16 +210,19 @@
                 tngMenuItem
                 [tngMenuItemSubmenu]="nestedTailwindImport"
                 tngMenuItemValue="import"
-                class="headless-menu-example-tw-item flex min-h-[2rem] justify-between px-[0.62rem] py-[0.4rem] text-left"
+                class="flex min-h-[2rem] cursor-pointer justify-between rounded-[0.58rem] border-0 bg-transparent px-[0.62rem] py-[0.4rem] text-left text-[0.86rem] font-[550] text-[color:var(--tng-semantic-foreground-primary,#0f172a)] outline-none transition-[background-color,color] duration-[120ms] hover:bg-[color:color-mix(in_srgb,var(--tng-semantic-foreground-primary,#0f172a)_8%,transparent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--tng-semantic-focus-ring,#93c5fd)] data-[active]:bg-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand,#2563eb)_22%,transparent)] data-[active]:text-[color:var(--tng-semantic-accent-brand,#2563eb)] aria-expanded:bg-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand,#2563eb)_22%,transparent)] aria-expanded:text-[color:var(--tng-semantic-accent-brand,#2563eb)]"
               >
                 Import…
               </button>
-              <div tngMenuSeparator class="headless-menu-example-tw-sep mx-[0.35rem] my-[0.2rem] h-px"></div>
+              <div
+                tngMenuSeparator
+                class="mx-[0.35rem] my-[0.2rem] h-px bg-[color:var(--tng-semantic-border-subtle,#cbd5e1)]"
+              ></div>
               <button
                 type="button"
                 tngMenuItem
                 tngMenuItemValue="close"
-                class="headless-menu-example-tw-item flex min-h-[2rem] justify-between px-[0.62rem] py-[0.4rem] text-left"
+                class="flex min-h-[2rem] cursor-pointer justify-between rounded-[0.58rem] border-0 bg-transparent px-[0.62rem] py-[0.4rem] text-left text-[0.86rem] font-[550] text-[color:var(--tng-semantic-foreground-primary,#0f172a)] outline-none transition-[background-color,color] duration-[120ms] hover:bg-[color:color-mix(in_srgb,var(--tng-semantic-foreground-primary,#0f172a)_8%,transparent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--tng-semantic-focus-ring,#93c5fd)] data-[active]:bg-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand,#2563eb)_22%,transparent)] data-[active]:text-[color:var(--tng-semantic-accent-brand,#2563eb)] aria-expanded:bg-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand,#2563eb)_22%,transparent)] aria-expanded:text-[color:var(--tng-semantic-accent-brand,#2563eb)]"
               >
                 Close
               </button>
@@ -220,14 +231,14 @@
                 tngMenu
                 #nestedTailwindImport="tngMenu"
                 aria-label="Import sources"
-                class="headless-menu-example-tw-panel absolute left-[calc(100%+0.42rem)] top-[2.7rem] z-30 hidden min-w-[13.8rem] p-[0.45rem] data-[state=open]:grid data-[state=open]:gap-[0.24rem]"
+                class="absolute left-[calc(100%+0.42rem)] top-[2.7rem] z-30 hidden min-w-[13.8rem] rounded-[0.82rem] border border-[color:var(--tng-semantic-border-strong,#94a3b8)] bg-[color:var(--tng-semantic-background-canvas,#ffffff)] p-[0.45rem] shadow-[0_16px_30px_-22px_color-mix(in_srgb,var(--tng-semantic-foreground-primary,#0f172a)_35%,transparent)] data-[state=open]:grid data-[state=open]:gap-[0.24rem]"
                 (tngMenuSelect)="onNestedTailwindSelect($event)"
               >
                 <button
                   type="button"
                   tngMenuItem
                   tngMenuItemValue="csv"
-                  class="headless-menu-example-tw-item flex min-h-[2rem] justify-between px-[0.62rem] py-[0.4rem] text-left"
+                  class="flex min-h-[2rem] cursor-pointer justify-between rounded-[0.58rem] border-0 bg-transparent px-[0.62rem] py-[0.4rem] text-left text-[0.86rem] font-[550] text-[color:var(--tng-semantic-foreground-primary,#0f172a)] outline-none transition-[background-color,color] duration-[120ms] hover:bg-[color:color-mix(in_srgb,var(--tng-semantic-foreground-primary,#0f172a)_8%,transparent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--tng-semantic-focus-ring,#93c5fd)] data-[active]:bg-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand,#2563eb)_22%,transparent)] data-[active]:text-[color:var(--tng-semantic-accent-brand,#2563eb)] aria-expanded:bg-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand,#2563eb)_22%,transparent)] aria-expanded:text-[color:var(--tng-semantic-accent-brand,#2563eb)]"
                 >
                   CSV file
                 </button>
@@ -236,7 +247,7 @@
                   tngMenuItem
                   [tngMenuItemSubmenu]="nestedTailwindGit"
                   tngMenuItemValue="git"
-                  class="headless-menu-example-tw-item flex min-h-[2rem] justify-between px-[0.62rem] py-[0.4rem] text-left"
+                  class="flex min-h-[2rem] cursor-pointer justify-between rounded-[0.58rem] border-0 bg-transparent px-[0.62rem] py-[0.4rem] text-left text-[0.86rem] font-[550] text-[color:var(--tng-semantic-foreground-primary,#0f172a)] outline-none transition-[background-color,color] duration-[120ms] hover:bg-[color:color-mix(in_srgb,var(--tng-semantic-foreground-primary,#0f172a)_8%,transparent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--tng-semantic-focus-ring,#93c5fd)] data-[active]:bg-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand,#2563eb)_22%,transparent)] data-[active]:text-[color:var(--tng-semantic-accent-brand,#2563eb)] aria-expanded:bg-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand,#2563eb)_22%,transparent)] aria-expanded:text-[color:var(--tng-semantic-accent-brand,#2563eb)]"
                 >
                   Git repository
                 </button>
@@ -246,14 +257,14 @@
                 tngMenu
                 #nestedTailwindGit="tngMenu"
                 aria-label="Git hosts"
-                class="headless-menu-example-tw-panel absolute left-[calc(100%+0.42rem)] top-[5.5rem] z-30 hidden min-w-[13.8rem] p-[0.45rem] data-[state=open]:grid data-[state=open]:gap-[0.24rem]"
+                class="absolute left-[calc(100%+0.42rem)] top-[5.5rem] z-30 hidden min-w-[13.8rem] rounded-[0.82rem] border border-[color:var(--tng-semantic-border-strong,#94a3b8)] bg-[color:var(--tng-semantic-background-canvas,#ffffff)] p-[0.45rem] shadow-[0_16px_30px_-22px_color-mix(in_srgb,var(--tng-semantic-foreground-primary,#0f172a)_35%,transparent)] data-[state=open]:grid data-[state=open]:gap-[0.24rem]"
                 (tngMenuSelect)="onNestedTailwindSelect($event)"
               >
                 <button
                   type="button"
                   tngMenuItem
                   tngMenuItemValue="github"
-                  class="headless-menu-example-tw-item flex min-h-[2rem] justify-between px-[0.62rem] py-[0.4rem] text-left"
+                  class="flex min-h-[2rem] cursor-pointer justify-between rounded-[0.58rem] border-0 bg-transparent px-[0.62rem] py-[0.4rem] text-left text-[0.86rem] font-[550] text-[color:var(--tng-semantic-foreground-primary,#0f172a)] outline-none transition-[background-color,color] duration-[120ms] hover:bg-[color:color-mix(in_srgb,var(--tng-semantic-foreground-primary,#0f172a)_8%,transparent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--tng-semantic-focus-ring,#93c5fd)] data-[active]:bg-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand,#2563eb)_22%,transparent)] data-[active]:text-[color:var(--tng-semantic-accent-brand,#2563eb)] aria-expanded:bg-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand,#2563eb)_22%,transparent)] aria-expanded:text-[color:var(--tng-semantic-accent-brand,#2563eb)]"
                 >
                   GitHub
                 </button>
@@ -261,7 +272,7 @@
                   type="button"
                   tngMenuItem
                   tngMenuItemValue="gitlab"
-                  class="headless-menu-example-tw-item flex min-h-[2rem] justify-between px-[0.62rem] py-[0.4rem] text-left"
+                  class="flex min-h-[2rem] cursor-pointer justify-between rounded-[0.58rem] border-0 bg-transparent px-[0.62rem] py-[0.4rem] text-left text-[0.86rem] font-[550] text-[color:var(--tng-semantic-foreground-primary,#0f172a)] outline-none transition-[background-color,color] duration-[120ms] hover:bg-[color:color-mix(in_srgb,var(--tng-semantic-foreground-primary,#0f172a)_8%,transparent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--tng-semantic-focus-ring,#93c5fd)] data-[active]:bg-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand,#2563eb)_22%,transparent)] data-[active]:text-[color:var(--tng-semantic-accent-brand,#2563eb)] aria-expanded:bg-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand,#2563eb)_22%,transparent)] aria-expanded:text-[color:var(--tng-semantic-accent-brand,#2563eb)]"
                 >
                   GitLab
                 </button>
@@ -269,7 +280,12 @@
             </div>
           </div>
         </div>
-        <p class="headless-menu-example-state">Last command: {{ nestedTailwindCommand() }}</p>
+        <p class="m-0 text-[0.84rem] text-[color:var(--tng-semantic-foreground-secondary,#64748b)]">
+          Last command:
+          <strong class="font-semibold text-[color:var(--tng-semantic-foreground-primary,#0f172a)]">{{
+            nestedTailwindCommand()
+          }}</strong>
+        </p>
       </ng-template>
     </app-docs-example-tabs-section>
   </section>
