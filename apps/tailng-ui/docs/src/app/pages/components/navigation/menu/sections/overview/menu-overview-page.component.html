@@ -1,11 +1,11 @@
-<article class="menu-overview">
-  <h2 class="menu-overview-title">Menu overview</h2>
-  <p class="menu-overview-lead">
+<article class="docs-overview">
+  <h2 class="docs-overview-title">Menu overview</h2>
+  <p class="docs-overview-lead">
     Menu wraps trigger wiring, panel lifecycle, and command selection so you can ship command
     surfaces quickly while still opting into cascaded submenus when needed.
   </p>
 
-  <section class="menu-overview-block">
+  <section class="docs-overview-block">
     <h3>Imports</h3>
     <p>Imports for the styled <code>tng-menu</code> wrapper and its projected menu primitives.</p>
     <tng-code-block
@@ -20,7 +20,7 @@
     ></tng-code-block>
   </section>
 
-  <section class="menu-overview-block">
+  <section class="docs-overview-block">
     <h3>Usage patterns</h3>
     <tng-code-block
       [code]="componentUsageCode"
@@ -35,7 +35,6 @@
   </section>
 
   <app-docs-example-tabs-section
-    class="menu-overview-block"
     heading="Style variants"
     description="Theme-backed menus: load TailNG component contracts globally; examples only add a small layout shell (and optional Tailwind card chrome)."
     ariaLabel="Menu style variants"
@@ -51,7 +50,7 @@
         [codeTabs]="plainCssCodeTabs"
       >
         <div class="menu-stage">
-          <div class="menu-trigger-shell">
+          <div>
             <button
               type="button"
               id="menu-overview-plain-trigger"
@@ -68,7 +67,7 @@
             </tng-menu>
           </div>
         </div>
-        <p class="menu-overview-state">last command: {{ plainCommand() }}</p>
+        <p class="docs-overview-state">last command: {{ plainCommand() }}</p>
       </ng-template>
 
     <ng-template
@@ -82,7 +81,7 @@
           class="rounded-xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4"
         >
           <div class="menu-stage">
-            <div class="menu-trigger-shell">
+            <div>
               <button
                 type="button"
                 id="menu-overview-tailwind-trigger"
@@ -100,13 +99,13 @@
           </div>
         </div>
       </div>
-      <p class="menu-overview-state">last command: {{ tailwindCommand() }}</p>
+      <p class="docs-overview-state">last command: {{ tailwindCommand() }}</p>
     </ng-template>
   </app-docs-example-tabs-section>
 
-  <section class="menu-overview-block">
+  <section class="docs-overview-block">
     <h3>Keyboard baseline</h3>
-    <ul class="menu-overview-list">
+    <ul class="docs-overview-list">
       <li><code>ArrowDown</code>/<code>ArrowUp</code> traverses enabled options.</li>
       <li><code>Home</code>/<code>End</code> jumps to first and last option.</li>
       <li><code>Enter</code>/<code>Space</code> selects the active option.</li>
