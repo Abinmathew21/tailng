@@ -43,12 +43,7 @@
   display: grid;
   gap: 0.7rem;
   justify-items: start;
-  min-height: 12.2rem;
   position: relative;
-}
-
-.menu-example-stage--cascade {
-  min-height: 15.2rem;
 }
 
 .menu-example-trigger-shell {

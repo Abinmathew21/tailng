@@ -29,6 +29,9 @@ export class TngMenuTriggerFor {
 
   private readonly hostRef = inject<ElementRef<HTMLElement>>(ElementRef);
 
+  @HostBinding('attr.data-slot')
+  protected readonly dataSlot = 'menu-trigger' as const;
+
   @HostBinding('attr.aria-haspopup')
   protected readonly ariaHasPopup = 'menu' as const;
 

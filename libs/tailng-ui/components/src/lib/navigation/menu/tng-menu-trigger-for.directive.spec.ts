@@ -27,6 +27,8 @@ describe('tng-menu-trigger-for directive', () => {
     const trigger = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLButtonElement;
     const menu = fixture.nativeElement.querySelector('[data-testid="menu"]') as HTMLElement;
 
+    expect(trigger.getAttribute('data-slot')).toBe('menu-trigger');
+
     trigger.click();
     fixture.detectChanges();
 

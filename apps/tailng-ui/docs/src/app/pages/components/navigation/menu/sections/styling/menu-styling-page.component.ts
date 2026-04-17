@@ -9,7 +9,7 @@ import { TngCodeBlockComponent } from '@tailng-ui/components';
 })
 export class MenuStylingPageComponent {
   protected readonly stylingContractCode = [
-    '[tngMenu][data-state="open"] {',
+    'tng-menu[data-state="open"] {',
     '  background: var(--tng-semantic-background-canvas);',
     '  border: 1px solid var(--tng-semantic-border-subtle);',
     '  border-radius: 0.75rem;',
@@ -17,6 +17,11 @@ export class MenuStylingPageComponent {
     '  gap: 0.25rem;',
     '  min-width: 14rem;',
     '  padding: 0.45rem;',
+    '}',
+    '',
+    '[tngMenuTriggerFor][aria-expanded="true"] {',
+    '  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 15%, transparent);',
+    '  color: color-mix(in srgb, var(--tng-semantic-accent-brand) 74%, var(--tng-semantic-foreground-primary));',
     '}',
     '',
     '[tngMenuItem] {',

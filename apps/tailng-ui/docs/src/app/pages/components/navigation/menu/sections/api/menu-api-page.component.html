@@ -1,8 +1,9 @@
 <article class="menu-api">
   <h2 class="menu-api-title">API reference</h2>
   <p class="menu-api-lead">
-    Menu docs cover wrapper APIs (<code>tng-menu</code>, <code>tngMenuTriggerFor</code>) and
-    headless primitives for custom markup ownership.
+    Component docs cover the wrapper surface for <code>tng-menu</code> and
+    <code>[tngMenuTriggerFor]</code>. For full markup ownership, use the
+    <a routerLink="/headless/navigation/menu/overview">headless Menu docs</a>.
   </p>
 
   <section class="menu-api-block">
@@ -54,39 +55,34 @@
   </section>
 
   <section class="menu-api-block">
-    <h3>Primitive directives</h3>
+    <h3>Projected directives</h3>
     <div class="menu-api-table-wrap">
       <table class="menu-api-table">
         <thead>
           <tr>
             <th scope="col">Directive</th>
+            <th scope="col">Used on</th>
             <th scope="col">Purpose</th>
-            <th scope="col">Key inputs</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td><code>tngMenu</code></td>
-            <td>Panel state, keyboard traversal, typeahead, and dismissal.</td>
-            <td><code>loop</code>, <code>disabled</code>, <code>closeOnSelect</code></td>
-          </tr>
-          <tr>
-            <td><code>tngMenuTrigger</code></td>
-            <td>Headless trigger wiring to open and close menus.</td>
-            <td><code>[tngMenuTrigger]</code></td>
-          </tr>
-          <tr>
             <td><code>tngMenuItem</code></td>
-            <td>Selectable command with optional checkbox/radio/submenu semantics.</td>
+            <td>Projected command button</td>
             <td>
-              <code>tngMenuItemValue</code>, <code>tngMenuItemRole</code>,
-              <code>tngMenuItemChecked</code>, <code>[tngMenuItemSubmenu]</code>
+              Selectable command item. Combine with <code>tngMenuItemValue</code> for emitted
+              values, or <code>[tngMenuItemSubmenu]</code> for cascaded menus.
             </td>
           </tr>
           <tr>
-            <td><code>tngMenuGroupLabel</code>, <code>tngMenuSeparator</code></td>
-            <td>Grouping and visual separation inside menus.</td>
-            <td>-</td>
+            <td><code>tngMenuGroupLabel</code></td>
+            <td>Projected label element</td>
+            <td>Optional section label for grouped command sets inside a wrapper menu.</td>
+          </tr>
+          <tr>
+            <td><code>tngMenuSeparator</code></td>
+            <td>Projected separator element</td>
+            <td>Visual break between clusters of commands inside the same wrapper menu.</td>
           </tr>
         </tbody>
       </table>

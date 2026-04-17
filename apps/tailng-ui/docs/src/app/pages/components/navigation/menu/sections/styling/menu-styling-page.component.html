@@ -1,8 +1,8 @@
 <article class="menu-styling">
   <h2 class="menu-styling-title">Styling contract</h2>
   <p class="menu-styling-lead">
-    Menu styling is based on public directives and state attributes, so you can control visual
-    language without depending on private DOM structure.
+    Wrapper menu styling still relies on public state attributes, so you can theme
+    <code>&lt;tng-menu&gt;</code> and projected items without reaching into private DOM structure.
   </p>
 
   <section class="menu-styling-block">
@@ -18,9 +18,14 @@
         </thead>
         <tbody>
           <tr>
-            <td><code>[tngMenu][data-state='open']</code></td>
+            <td><code>tng-menu[data-state='open']</code></td>
             <td>Menu panel host</td>
             <td>Visible panel surface, border, spacing, and layout.</td>
+          </tr>
+          <tr>
+            <td><code>[tngMenuTriggerFor][aria-expanded='true']</code></td>
+            <td>Trigger element</td>
+            <td>Open trigger styling for active wrapper menus.</td>
           </tr>
           <tr>
             <td><code>[tngMenuItem]</code></td>

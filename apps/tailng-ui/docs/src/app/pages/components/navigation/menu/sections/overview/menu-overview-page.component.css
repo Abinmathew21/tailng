@@ -45,7 +45,6 @@
   display: grid;
   gap: 0.68rem;
   justify-items: start;
-  min-height: 12rem;
   position: relative;
 }
 
