@@ -7,6 +7,7 @@
 
   :where([data-slot="menu-trigger"]),
   :where([data-slot="menu"][aria-labelledby]) {
+    /* Component tokens: override per theme on :root / [data-theme] alongside semantic palette. */
     --tng-menu-radius: 0.75rem;
     --tng-menu-padding: 0.4rem;
     --tng-menu-item-py: 0.5rem;
@@ -18,10 +19,14 @@
     --tng-menu-fg: var(--tng-semantic-foreground-primary, #0f172a);
     --tng-menu-muted: var(--tng-semantic-foreground-secondary, #64748b);
     --tng-menu-brand: var(--tng-semantic-accent-brand, #2563eb);
-    --tng-menu-focus-ring: var(--tng-semantic-focus-ring, var(--tng-menu-brand));
+    --tng-menu-focus-ring: var(
+      --tng-semantic-focus-ring,
+      var(--tng-semantic-accent-brand, #2563eb)
+    );
+    --tng-menu-shadow-ink: var(--tng-semantic-foreground-primary, #0f172a);
     --tng-menu-shadow:
-      0 12px 24px -12px rgba(15, 23, 42, 0.22),
-      0 18px 40px -18px rgba(15, 23, 42, 0.18);
+      0 12px 24px -12px color-mix(in srgb, var(--tng-menu-shadow-ink) 22%, transparent),
+      0 18px 40px -18px color-mix(in srgb, var(--tng-menu-shadow-ink) 18%, transparent);
     --tng-menu-shadow-focus:
       0 0 0 3px color-mix(in srgb, var(--tng-menu-focus-ring) 28%, transparent);
     --tng-menu-ease: cubic-bezier(0.4, 0, 0.2, 1);

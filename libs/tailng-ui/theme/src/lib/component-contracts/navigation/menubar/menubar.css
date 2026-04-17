@@ -21,6 +21,7 @@
     gap: 0.25rem;
     min-width: 0;
 
+    /* Component tokens: override per theme on :root / [data-theme] alongside semantic palette. */
     --tng-menubar-radius: 0.9rem;
     --tng-menubar-padding: 0.3rem;
     --tng-menubar-item-px: 0.85rem;
@@ -31,10 +32,14 @@
     --tng-menubar-fg: var(--tng-semantic-foreground-primary, #0f172a);
     --tng-menubar-muted: var(--tng-semantic-foreground-secondary, #64748b);
     --tng-menubar-brand: var(--tng-semantic-accent-brand, #2563eb);
-    --tng-menubar-focus-ring: var(--tng-semantic-focus-ring, var(--tng-menubar-brand));
+    --tng-menubar-focus-ring: var(
+      --tng-semantic-focus-ring,
+      var(--tng-semantic-accent-brand, #2563eb)
+    );
+    --tng-menubar-shadow-ink: var(--tng-semantic-foreground-primary, #0f172a);
     --tng-menubar-shadow:
-      0 8px 22px -18px rgba(15, 23, 42, 0.26),
-      0 10px 32px -24px rgba(15, 23, 42, 0.18);
+      0 8px 22px -18px color-mix(in srgb, var(--tng-menubar-shadow-ink) 26%, transparent),
+      0 10px 32px -24px color-mix(in srgb, var(--tng-menubar-shadow-ink) 18%, transparent);
     --tng-menubar-shadow-focus:
       inset 0 0 0 1px color-mix(in srgb, var(--tng-menubar-focus-ring) 55%, transparent);
     --tng-menubar-ease: cubic-bezier(0.4, 0, 0.2, 1);
