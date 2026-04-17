@@ -1,11 +1,11 @@
-<article class="menubar-overview">
-  <h2 class="menubar-overview-title">Menubar overview</h2>
-  <p class="menubar-overview-lead">
+<article class="docs-overview">
+  <h2 class="docs-overview-title">Menubar overview</h2>
+  <p class="docs-overview-lead">
     Menubar composes top-level command items and owned menus with keyboard-first navigation,
     focus transfer, and submenu support.
   </p>
 
-  <section class="menubar-overview-block">
+  <section class="docs-overview-block">
     <h3>Imports</h3>
     <p>Use primitives for full markup ownership, or wrappers for faster composition.</p>
     <tng-code-block
@@ -30,7 +30,7 @@
     ></tng-code-block>
   </section>
 
-  <section class="menubar-overview-block">
+  <section class="docs-overview-block">
     <h3>Usage patterns</h3>
     <tng-code-block
       [code]="primitiveUsageCode"
@@ -55,7 +55,6 @@
   </section>
 
   <app-docs-example-tabs-section
-    class="menubar-overview-block"
     heading="Style variants"
     description="Same menubar behavior rendered through plain CSS wrappers and Tailwind utility shells."
     ariaLabel="Menubar style variants"
@@ -71,7 +70,7 @@
       [codeTabs]="plainCssCodeTabs"
       [stackblitzUrl]="stackblitzVanillaUrl"
     >
-      <div class="menubar-stage menubar-stage--plain">
+      <div class="docs-example-stage docs-example-stage--menubar">
         <tng-menubar ariaLabel="Wrapper workspace commands">
           <div tngMenubarGroup>
             <tng-menu #plainFileMenu="tngMenu" ariaLabel="File menu" (tngMenuSelect)="onPlainCommandSelect($event)">
@@ -106,7 +105,7 @@
           <button type="button" tngMenubarItem (click)="onPlainLeafCommandSelect('Help')">Help</button>
         </tng-menubar>
       </div>
-      <p class="menubar-overview-state">last command: {{ plainCommand() }}</p>
+      <p class="docs-overview-state">last command: {{ plainCommand() }}</p>
     </ng-template>
 
     <ng-template
@@ -118,7 +117,7 @@
       [stackblitzUrl]="stackblitzTailwindUrl"
     >
       <div class="rounded-xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4">
-        <div class="menubar-stage">
+        <div class="docs-example-stage docs-example-stage--menubar">
           <tng-menubar
             ariaLabel="Tailwind workspace commands"
             class="inline-flex min-h-[2.7rem] items-center gap-[0.45rem] rounded-[0.9rem] border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-[0.32rem]"
@@ -234,13 +233,13 @@
           </tng-menubar>
         </div>
       </div>
-      <p class="menubar-overview-state">last command: {{ tailwindCommand() }}</p>
+      <p class="docs-overview-state">last command: {{ tailwindCommand() }}</p>
     </ng-template>
   </app-docs-example-tabs-section>
 
-  <section class="menubar-overview-block">
+  <section class="docs-overview-block">
     <h3>Keyboard baseline</h3>
-    <ul class="menubar-overview-list">
+    <ul class="docs-overview-list">
       <li><code>ArrowLeft</code>/<code>ArrowRight</code> move focus across top-level items.</li>
       <li><code>ArrowDown</code> opens owned menus and enters menu item traversal.</li>
       <li><code>Escape</code> closes menus and restores focus to their owning menubar item.</li>

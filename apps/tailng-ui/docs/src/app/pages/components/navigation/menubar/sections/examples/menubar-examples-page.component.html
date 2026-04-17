@@ -1,11 +1,11 @@
-<article class="menubar-examples">
-  <h2 class="menubar-examples-title">Examples</h2>
-  <p class="menubar-examples-lead">
+<article class="docs-overview">
+  <h2 class="docs-overview-title">Examples</h2>
+  <p class="docs-overview-lead">
     Production menubar patterns for top-level command strips, owned menu panels, and nested
     submenu chains.
   </p>
 
-  <section class="menubar-examples-block">
+  <section class="docs-overview-block">
     <app-docs-example-tabs-section
       heading="Workspace command bar"
       description="Open with click or Enter/Space, then move across items with ArrowLeft/ArrowRight."
@@ -21,7 +21,7 @@
         panelTitle="Wrapper menubar (plain CSS)"
         [codeTabs]="plainCssCodeTabs"
       >
-        <div class="menubar-examples-workspace-plain-stage menubar-examples-workspace-plain-stage--short">
+        <div class="docs-example-stage docs-example-stage--menubar">
           <tng-menubar ariaLabel="Wrapper workspace commands" class="menubar-examples-workspace-plain-menubar">
             <div tngMenubarGroup class="menubar-examples-workspace-plain-group">
               <tng-menu
@@ -53,7 +53,7 @@
             <button type="button" tngMenubarItem>Help</button>
           </tng-menubar>
         </div>
-        <p class="menubar-examples-workspace-plain-state">last command: {{ plainCommand() }}</p>
+        <p class="docs-overview-state">last command: {{ plainCommand() }}</p>
       </ng-template>
 
       <ng-template
@@ -66,7 +66,7 @@
         <div
           class="menubar-examples-workspace-tw-panel rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
         >
-          <div class="menubar-examples-workspace-tw-stage menubar-examples-workspace-tw-stage--short">
+          <div class="docs-example-stage docs-example-stage--menubar">
             <tng-menubar
               ariaLabel="Tailwind workspace commands"
               class="menubar-examples-workspace-tw-menubar inline-flex items-center gap-1 rounded-xl border border-slate-200 bg-white p-1 shadow-sm dark:border-slate-600 dark:bg-slate-950 dark:shadow-black/20"
@@ -146,13 +146,13 @@
               </div>
             </tng-menubar>
           </div>
-          <p class="menubar-examples-workspace-tw-state">last command: {{ tailwindCommand() }}</p>
+          <p class="docs-overview-state">last command: {{ tailwindCommand() }}</p>
         </div>
       </ng-template>
     </app-docs-example-tabs-section>
   </section>
 
-  <section class="menubar-examples-block">
+  <section class="docs-overview-block">
     <app-docs-example-tabs-section
       heading="Cascaded submenu chain"
       description="Nested menus are wired with [tngMenuItemSubmenu]. Use ArrowDown and ArrowRight from File to move into deeper levels."
@@ -168,7 +168,7 @@
         panelTitle="Cascaded submenu chain (plain CSS)"
         [codeTabs]="cascadePlainCssCodeTabs"
       >
-        <div class="menubar-examples-cascade-plain-stage menubar-examples-cascade-plain-stage--cascade">
+        <div class="docs-example-stage docs-example-stage--menubar">
           <tng-menubar ariaLabel="Cascaded command bar" class="menubar-examples-cascade-plain-menubar">
             <div tngMenubarGroup class="menubar-examples-cascade-plain-group">
               <tng-menu
@@ -234,7 +234,7 @@
             </div>
           </tng-menubar>
         </div>
-        <p class="menubar-examples-cascade-plain-state">last cascaded command: {{ cascadeCommand() }}</p>
+        <p class="docs-overview-state">last cascaded command: {{ cascadeCommand() }}</p>
       </ng-template>
 
       <ng-template
@@ -247,7 +247,7 @@
         <div
           class="menubar-examples-cascade-tw-panel rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
         >
-          <div class="menubar-examples-cascade-tw-stage menubar-examples-cascade-tw-stage--cascade">
+          <div class="docs-example-stage docs-example-stage--menubar">
             <tng-menubar
               ariaLabel="Cascaded command bar"
               class="menubar-examples-cascade-tw-menubar inline-flex items-center gap-1 rounded-xl border border-slate-200 bg-white p-1 shadow-sm dark:border-slate-600 dark:bg-slate-950 dark:shadow-black/20"
@@ -389,7 +389,7 @@
               </div>
             </tng-menubar>
           </div>
-          <p class="menubar-examples-cascade-tw-state">last cascaded command: {{ cascadeCommand() }}</p>
+          <p class="docs-overview-state">last cascaded command: {{ cascadeCommand() }}</p>
         </div>
       </ng-template>
     </app-docs-example-tabs-section>
