@@ -11,30 +11,14 @@ import {
 import { TngTab, TngTabList } from '@tailng-ui/primitives';
 import { filter, map, startWith } from 'rxjs/operators';
 
-type MenuDocPrimarySectionId = 'api' | 'examples' | 'overview' | 'styling';
+type MenuDocSectionId = 'api' | 'examples' | 'overview' | 'styling';
 
-const menuDocPrimarySectionIds: readonly MenuDocPrimarySectionId[] = [
-  'overview',
-  'api',
-  'styling',
-  'examples',
-] as const;
-
-type MenuDocSectionId = MenuDocPrimarySectionId | 'ownable-install';
-
-const menuDocSectionIds: readonly MenuDocSectionId[] = [
-  ...menuDocPrimarySectionIds,
-  'ownable-install',
-] as const;
+const menuDocSectionIds: readonly MenuDocSectionId[] = ['overview', 'api', 'styling', 'examples'] as const;
 
 const defaultMenuDocSection: MenuDocSectionId = 'overview';
 
 function isMenuDocSectionId(value: string): value is MenuDocSectionId {
   return menuDocSectionIds.includes(value as MenuDocSectionId);
-}
-
-function isMenuDocPrimarySectionId(value: string): value is MenuDocPrimarySectionId {
-  return menuDocPrimarySectionIds.includes(value as MenuDocPrimarySectionId);
 }
 
 @Component({
@@ -60,18 +44,9 @@ export class MenuPageComponent {
   });
 
   public readonly activePrimarySection = computed<string | null>(() => {
-    const section = this.resolveSectionFromUrl(this.currentUrl());
-    if (section === null || !isMenuDocPrimarySectionId(section)) {
-      return null;
-    }
-
-    return section;
+    return this.activeSection();
   });
 
-  public readonly activeOwnableSection = computed<string | null>(() => {
-    const section = this.resolveSectionFromUrl(this.currentUrl());
-    return section === 'ownable-install' ? 'ownable-install' : null;
-  });
   private readonly docsItem = this.route.snapshot.data['item'] as
     | { slug?: string; title?: string }
     | undefined;
@@ -88,7 +63,7 @@ export class MenuPageComponent {
   });
 
   public onPrimarySectionChange(value: string | number | null): void {
-    if (typeof value !== 'string' || !isMenuDocPrimarySectionId(value)) {
+    if (typeof value !== 'string' || !isMenuDocSectionId(value)) {
       return;
     }
 
@@ -97,18 +72,6 @@ export class MenuPageComponent {
     }
 
     void this.router.navigate([value], { relativeTo: this.route });
-  }
-
-  public onOwnableSectionChange(value: string | number | null): void {
-    if (value !== 'ownable-install') {
-      return;
-    }
-
-    if (this.activeOwnableSection() === 'ownable-install') {
-      return;
-    }
-
-    void this.router.navigate(['ownable-install'], { relativeTo: this.route });
   }
 
   private resolveSectionFromUrl(rawUrl: string): MenuDocSectionId | null {

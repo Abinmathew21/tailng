@@ -109,6 +109,9 @@ export class TailwindSetupPageComponent implements OnDestroy {
     '',
     'export default {',
     "  content: ['./src/**/*.{html,ts}'],",
+    '  corePlugins: {',
+    '    preflight: false,',
+    '  },',
     '  theme: {',
     '    extend: {',
     '      colors: {',
@@ -123,7 +126,8 @@ export class TailwindSetupPageComponent implements OnDestroy {
 
   protected readonly stylesCode = [
     '/* src/styles.css */',
-    '@tailwind base;',
+    '@layer tw.preflight, components, tng.tokens, tng.contracts, utilities;',
+    '@import "./tailwind-preflight.layer.css";',
     '@tailwind components;',
     '@tailwind utilities;',
     '',

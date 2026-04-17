@@ -5,8 +5,8 @@
     - slots + ARIA/state attributes only
   */
 
-  :where([data-slot="menu-trigger"]),
-  :where([data-slot="menu"][aria-labelledby]) {
+  [data-slot="menu-trigger"],
+  [data-slot="menu"][aria-labelledby] {
     /* Component tokens: override per theme on :root / [data-theme] alongside semantic palette. */
     --tng-menu-radius: 0.75rem;
     --tng-menu-padding: 0.4rem;
@@ -16,6 +16,7 @@
     --tng-menu-border-strong: var(--tng-semantic-border-strong, #d1d5db);
     --tng-menu-bg: var(--tng-semantic-background-canvas, #ffffff);
     --tng-menu-surface: var(--tng-semantic-background-surface, #f8fafc);
+    --tng-menu-surface-muted: var(--tng-semantic-background-muted, #f1f5f9);
     --tng-menu-fg: var(--tng-semantic-foreground-primary, #0f172a);
     --tng-menu-muted: var(--tng-semantic-foreground-secondary, #64748b);
     --tng-menu-brand: var(--tng-semantic-accent-brand, #2563eb);
@@ -29,64 +30,95 @@
       0 18px 40px -18px color-mix(in srgb, var(--tng-menu-shadow-ink) 18%, transparent);
     --tng-menu-shadow-focus:
       0 0 0 3px color-mix(in srgb, var(--tng-menu-focus-ring) 28%, transparent);
+    --tng-menu-panel-shadow-focus:
+      0 0 0 2px color-mix(in srgb, var(--tng-menu-focus-ring) 18%, transparent);
     --tng-menu-ease: cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  :where([data-slot="menu-trigger"]) {
+  [data-slot="menu-trigger"] {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-    min-height: 2.5rem;
+    justify-content: center;
+    gap: 0.6rem;
+    min-height: 2.75rem;
+    min-width: max-content;
 
-    padding: 0 0.9rem;
+    padding: 0 1.7rem;
 
-    border: 1px solid var(--tng-menu-border-strong);
+    border: 1px solid color-mix(in srgb, var(--tng-menu-border-strong) 92%, var(--tng-menu-bg));
     border-radius: var(--tng-menu-radius);
-    background: var(--tng-menu-surface);
+    background: color-mix(in srgb, var(--tng-menu-surface-muted) 76%, var(--tng-menu-bg));
+    background-color: color-mix(in srgb, var(--tng-menu-surface-muted) 76%, var(--tng-menu-bg));
+    background-image: none;
     color: var(--tng-menu-fg);
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, var(--tng-menu-bg) 22%, transparent),
+      inset 0 -1px 0 color-mix(in srgb, var(--tng-menu-shadow-ink) 10%, transparent),
+      0 1px 2px color-mix(in srgb, var(--tng-menu-shadow-ink) 14%, transparent);
 
     cursor: pointer;
     font: inherit;
     font-size: 0.875rem;
     font-weight: 600;
     line-height: 1.2;
+    white-space: nowrap;
+    appearance: none;
+    -webkit-appearance: none;
 
     transition:
       border-color 150ms var(--tng-menu-ease),
       box-shadow 150ms var(--tng-menu-ease),
-      background-color 150ms var(--tng-menu-ease);
+      background-color 150ms var(--tng-menu-ease),
+      color 150ms var(--tng-menu-ease);
   }
 
-  :where([data-slot="menu-trigger"]:hover) {
-    background: color-mix(in srgb, var(--tng-menu-surface) 72%, var(--tng-menu-brand) 8%);
+  [data-slot="menu-trigger"]:hover {
+    border-color: color-mix(in srgb, var(--tng-menu-brand) 24%, var(--tng-menu-border-strong));
+    background: color-mix(in srgb, var(--tng-menu-surface-muted) 82%, var(--tng-menu-brand));
+    background-color: color-mix(in srgb, var(--tng-menu-surface-muted) 82%, var(--tng-menu-brand));
   }
 
-  :where([data-slot="menu-trigger"]:focus-visible) {
+  [data-slot="menu-trigger"]:focus-visible {
     outline: none;
     border-color: var(--tng-menu-focus-ring);
-    box-shadow: var(--tng-menu-shadow-focus);
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, var(--tng-menu-bg) 22%, transparent),
+      inset 0 -1px 0 color-mix(in srgb, var(--tng-menu-shadow-ink) 10%, transparent),
+      0 1px 2px color-mix(in srgb, var(--tng-menu-shadow-ink) 14%, transparent),
+      var(--tng-menu-shadow-focus);
   }
 
-  :where([data-slot="menu-trigger"][disabled]),
-  :where([data-slot="menu-trigger"][aria-disabled="true"]) {
+  [data-slot="menu-trigger"][aria-expanded="true"] {
+    border-color: color-mix(in srgb, var(--tng-menu-brand) 40%, var(--tng-menu-border-strong));
+    background: color-mix(in srgb, var(--tng-menu-brand) 24%, var(--tng-menu-bg));
+    background-color: color-mix(in srgb, var(--tng-menu-brand) 24%, var(--tng-menu-bg));
+    color: color-mix(in srgb, var(--tng-menu-brand) 82%, var(--tng-menu-fg));
+    box-shadow:
+      inset 0 0 0 1px color-mix(in srgb, var(--tng-menu-brand) 24%, transparent),
+      inset 0 1px 0 color-mix(in srgb, var(--tng-menu-bg) 18%, transparent),
+      0 1px 2px color-mix(in srgb, var(--tng-menu-shadow-ink) 14%, transparent);
+  }
+
+  [data-slot="menu-trigger"][disabled],
+  [data-slot="menu-trigger"][aria-disabled="true"] {
     opacity: 0.55;
     cursor: not-allowed;
   }
 
-  :where([data-slot="menu"][aria-labelledby]) {
+  [data-slot="menu"][aria-labelledby] {
     display: grid;
     gap: 0.25rem;
-    min-width: min(18rem, calc(100vw - 2rem));
-    max-width: min(22rem, calc(100vw - 2rem));
+    min-width: min(15rem, calc(100vw - 2rem));
+    max-width: min(18rem, calc(100vw - 2rem));
 
     position: absolute;
     top: calc(100% + 0.55rem);
     left: 0;
     z-index: 50;
 
-    padding: var(--tng-menu-padding);
+    padding: 0.55rem;
 
-    border: 1px solid var(--tng-menu-border);
+    border: 1px solid color-mix(in srgb, var(--tng-menu-border-strong) 72%, var(--tng-menu-bg));
     border-radius: var(--tng-menu-radius);
     background: var(--tng-menu-bg);
     color: var(--tng-menu-fg);
@@ -106,30 +138,30 @@
    * positioned ancestor, i.e. the immediate parent menu host, so deeper
    * cascades keep opening to the right of the previous panel (LTR).
    */
-  :where([data-slot="menu"][aria-labelledby]) :where([data-slot="menu"][aria-labelledby]) {
+  [data-slot="menu"][aria-labelledby] [data-slot="menu"][aria-labelledby] {
     top: 0;
     left: 100%;
     margin-left: 0.35rem;
   }
 
-  :where([dir='rtl'] [data-slot="menu"][aria-labelledby]) :where([data-slot="menu"][aria-labelledby]) {
+  [dir='rtl'] [data-slot="menu"][aria-labelledby] [data-slot="menu"][aria-labelledby] {
     left: auto;
     right: 100%;
     margin-left: 0;
     margin-right: 0.35rem;
   }
 
-  :where([data-slot="menu"][aria-labelledby][hidden]) {
+  [data-slot="menu"][aria-labelledby][hidden] {
     display: none;
   }
 
-  :where([data-slot="menu"][aria-labelledby]:focus-visible) {
+  [data-slot="menu"][aria-labelledby]:focus-visible {
     box-shadow:
       var(--tng-menu-shadow),
-      var(--tng-menu-shadow-focus);
+      var(--tng-menu-panel-shadow-focus);
   }
 
-  :where([data-slot="menu-item"]) {
+  [data-slot="menu-item"] {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -137,14 +169,16 @@
     width: 100%;
     min-height: 2.35rem;
 
-    padding: var(--tng-menu-item-py) var(--tng-menu-item-px);
+    padding: 0.54rem 0.88rem;
 
     border: 0;
     border-radius: calc(var(--tng-menu-radius) - 0.25rem);
     background: transparent;
+    background-color: transparent;
     color: inherit;
 
     appearance: none;
+    -webkit-appearance: none;
     cursor: pointer;
     font: inherit;
     font-size: 0.875rem;
@@ -152,44 +186,55 @@
     line-height: 1.3;
     text-align: left;
     text-decoration: none;
+
+    transition:
+      background-color 150ms var(--tng-menu-ease),
+      color 150ms var(--tng-menu-ease),
+      box-shadow 150ms var(--tng-menu-ease);
   }
 
-  :where([data-slot="menu-item"]:hover):not([aria-disabled="true"]),
-  :where([data-slot="menu-item"]:focus-visible):not([aria-disabled="true"]) {
+  [data-slot="menu-item"]:hover:not([aria-disabled="true"]),
+  [data-slot="menu-item"]:focus-visible:not([aria-disabled="true"]) {
     outline: none;
-    background: color-mix(in srgb, var(--tng-menu-brand) 10%, var(--tng-menu-bg));
+    background: color-mix(in srgb, var(--tng-menu-brand) 13%, var(--tng-menu-surface-muted));
+    background-color: color-mix(in srgb, var(--tng-menu-brand) 13%, var(--tng-menu-surface-muted));
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--tng-menu-brand) 14%, transparent);
   }
 
-  :where([data-slot="menu-item"][data-active]):not([aria-disabled="true"]) {
-    background: color-mix(in srgb, var(--tng-menu-brand) 14%, var(--tng-menu-bg));
-    color: color-mix(in srgb, var(--tng-menu-brand) 74%, var(--tng-menu-fg));
+  [data-slot="menu-item"][data-active]:not([aria-disabled="true"]) {
+    background: color-mix(in srgb, var(--tng-menu-brand) 17%, var(--tng-menu-surface-muted));
+    background-color: color-mix(in srgb, var(--tng-menu-brand) 17%, var(--tng-menu-surface-muted));
+    color: color-mix(in srgb, var(--tng-menu-brand) 82%, var(--tng-menu-fg));
     font-weight: 600;
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--tng-menu-brand) 18%, transparent);
   }
 
-  :where([data-slot="menu-item"][aria-expanded="true"]),
-  :where([data-slot="menu-item"][aria-checked="true"]) {
-    background: color-mix(in srgb, var(--tng-menu-brand) 14%, var(--tng-menu-bg));
-    color: color-mix(in srgb, var(--tng-menu-brand) 74%, var(--tng-menu-fg));
+  [data-slot="menu-item"][aria-expanded="true"],
+  [data-slot="menu-item"][aria-checked="true"] {
+    background: color-mix(in srgb, var(--tng-menu-brand) 17%, var(--tng-menu-surface-muted));
+    background-color: color-mix(in srgb, var(--tng-menu-brand) 17%, var(--tng-menu-surface-muted));
+    color: color-mix(in srgb, var(--tng-menu-brand) 82%, var(--tng-menu-fg));
     font-weight: 600;
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--tng-menu-brand) 18%, transparent);
   }
 
-  :where([data-slot="menu-item"][data-active][aria-checked="true"]) {
-    background: color-mix(in srgb, var(--tng-menu-brand) 18%, var(--tng-menu-bg));
+  [data-slot="menu-item"][data-active][aria-checked="true"] {
+    background: color-mix(in srgb, var(--tng-menu-brand) 15%, var(--tng-menu-surface-muted));
   }
 
-  :where([data-slot="menu-item"][aria-haspopup="menu"])::after {
+  [data-slot="menu-item"][aria-haspopup="menu"]::after {
     content: '›';
     color: var(--tng-menu-muted);
     font-size: 0.9rem;
     line-height: 1;
   }
 
-  :where([data-slot="menu-item"][aria-disabled="true"]) {
+  [data-slot="menu-item"][aria-disabled="true"] {
     opacity: 0.45;
     cursor: not-allowed;
   }
 
-  :where([data-slot="menu-group-label"]) {
+  [data-slot="menu-group-label"] {
     padding: 0.35rem 0.75rem 0.15rem;
     color: var(--tng-menu-muted);
     font-size: 0.72rem;
@@ -199,13 +244,13 @@
     user-select: none;
   }
 
-  :where([data-slot="menu-separator"]) {
+  [data-slot="menu-separator"] {
     height: 1px;
     margin: 0.2rem 0.15rem;
     background: color-mix(in srgb, var(--tng-menu-border) 78%, transparent);
   }
 
-  :where([data-slot="menu-backdrop"]) {
+  [data-slot="menu-backdrop"] {
     position: fixed;
     inset: 0;
     z-index: 40;
@@ -217,7 +262,7 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
-    :where([data-slot="menu-trigger"]) {
+    [data-slot="menu-trigger"] {
       transition: none;
     }
   }

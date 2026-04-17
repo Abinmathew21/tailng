@@ -607,11 +607,6 @@ export const docsComponentOutlineItemsBySlug: Readonly<Record<string, Partial<Re
       { id: 'action-menu-variants', label: 'Action menu variants' },
       { id: 'cascaded-submenu-example', label: 'Cascaded submenu example' },
     ],
-    'ownable-install': [
-      { id: 'install-from-registry', label: 'Install from registry' },
-      { id: 'generated-files', label: 'Generated files' },
-      { id: 'import-and-usage', label: 'Import in your feature module/component' },
-    ],
   },
   'menubar': {
     'overview': [

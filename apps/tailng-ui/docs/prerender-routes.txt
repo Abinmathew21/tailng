@@ -184,7 +184,6 @@
 /components/navigation/menu/api
 /components/navigation/menu/examples
 /components/navigation/menu/overview
-/components/navigation/menu/ownable-install
 /components/navigation/menu/styling
 /components/navigation/menubar
 /components/navigation/menubar/api

@@ -13,22 +13,6 @@
         <button type="button" tngTab value="examples" class="docs-component-tab-trigger">Examples</button>
       </div>
     </tng-tabs>
-
-    <div class="docs-component-tabs-ownable" role="group" aria-label="Ownable">
-      <span class="docs-component-tabs-ownable-label">Ownable</span>
-      <tng-tabs
-        ariaLabel="Menu ownable documentation"
-        [activation]="'manual'"
-        [value]="activeOwnableSection()"
-        (valueChange)="onOwnableSectionChange($event)"
-      >
-        <div tngTabList class="docs-component-tab-list" ariaLabel="Menu ownable tabs">
-          <button type="button" tngTab value="ownable-install" class="docs-component-tab-trigger">
-            Install
-          </button>
-        </div>
-      </tng-tabs>
-    </div>
   </div>
 
   <section class="docs-component-content">

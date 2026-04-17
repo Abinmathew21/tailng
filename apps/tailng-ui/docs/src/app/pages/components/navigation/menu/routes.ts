@@ -48,24 +48,6 @@ export const COMPONENTS_NAVIGATION_MENU_ROUTES: Routes = [
           ),
       },
       {
-        path: 'ownable-install',
-        data: {
-          registrySlug: 'menu',
-          usageCode: [
-            '<button type="button" [tngMenuTriggerFor]="actionsMenu">Actions</button>',
-            '<tng-menu #actionsMenu="tngMenu" ariaLabel="Actions menu">',
-            '  <button type="button" tngMenuItem tngMenuItemValue="Duplicate">Duplicate</button>',
-            '  <button type="button" tngMenuItem tngMenuItemValue="Archive">Archive</button>',
-            '</tng-menu>',
-            '',
-          ].join('\n'),
-        },
-        loadComponent: () =>
-          import('../../../../shared/ownable-install-section/docs-ownable-install-section.component').then(
-            (module) => module.DocsOwnableInstallSectionComponent,
-          ),
-      },
-      {
         path: '**',
         redirectTo: 'overview',
       },

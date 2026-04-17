@@ -1,11 +1,11 @@
-/* Keep Tailwind preflight below TailNG contracts so low-specificity slot rules still style wrappers. */
-@layer base, components, tng.tokens, tng.contracts, tng.app, utilities;
+/* Keep the docs reset in a lower native layer so TailNG contracts can safely override it. */
+@layer tw.preflight, components, tng.tokens, tng.contracts, tng.app, utilities;
 
-@tailwind base;
+@import "./tailwind-preflight.layer.css";
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
+@layer tw.preflight {
   html,
   body {
     height: 100%;
