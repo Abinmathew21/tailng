@@ -28,7 +28,7 @@
             type="button"
             [tngMenuTriggerFor]="themeMenu"
             aria-label="Theme preset"
-            class="inline-flex h-9 w-9 items-center justify-center rounded-md text-tng-fg-secondary transition-colors hover:text-tng-fg-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tng-focus-ring"
+            class="border-0 bg-transparent p-0 shadow-none hidden h-9 w-9 items-center justify-center rounded-md border border-transparent text-tng-fg-secondary transition-colors hover:border-tng-border-subtle hover:bg-tng-bg-muted hover:text-tng-fg-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tng-focus-ring md:inline-flex"
           >
             <tng-icon icon="palette" class="h-4 w-4" />
           </button>
@@ -36,7 +36,6 @@
           <tng-menu
             #themeMenu="tngMenu"
             ariaLabel="Theme presets"
-            class="left-auto right-0 z-50 min-w-72"
             (tngMenuSelect)="onThemePresetMenuSelect($event)"
           >
             @for (preset of presetOptions; track preset.id) {
@@ -98,7 +97,7 @@
             type="button"
             [tngMenuTriggerFor]="npmPackagesMenu"
             aria-label="npm packages"
-            class="inline-flex h-9 w-9 items-center justify-center rounded-md border border-transparent text-tng-fg-secondary transition-colors hover:border-tng-border-subtle hover:bg-tng-bg-muted hover:text-tng-fg-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tng-focus-ring"
+            class="border-0 bg-transparent p-0 shadow-none hidden h-9 w-9 items-center justify-center rounded-md border border-transparent text-tng-fg-secondary transition-colors hover:border-tng-border-subtle hover:bg-tng-bg-muted hover:text-tng-fg-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tng-focus-ring md:inline-flex"
           >
             <svg
               aria-hidden="true"
