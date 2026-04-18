@@ -1,6 +1,5 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, inject, signal, ViewEncapsulation, type OnDestroy } from '@angular/core';
-import { observeDocsCodeThemeChanges, resolveDocsCodeBlockTheme } from '../../../../../../shared/util';
 import { TngCodeBlockComponent, TngMenuComponent, TngMenuTriggerFor } from '@tailng-ui/components';
 import { TngMenuGroupLabel, TngMenuItem, type TngMenuSelectEvent } from '@tailng-ui/primitives';
 import { type DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
@@ -8,6 +7,7 @@ import {
   DocsExampleTabsSectionComponent,
   DocsExampleVariantDirective,
 } from '../../../../../../shared/example-tabs-section/docs-example-tabs-section.component';
+import { observeDocsCodeThemeChanges, resolveDocsCodeBlockTheme } from '../../../../../../shared/util';
 
 @Component({
   selector: 'app-menu-overview-page',
@@ -107,7 +107,7 @@ export class MenuOverviewPageComponent implements OnDestroy {
         '  <button type="button" tngMenuItem tngMenuItemValue="Mute notifications">Mute</button>',
         '  <button type="button" tngMenuItem tngMenuItemValue="Remove item">Remove</button>',
         '</tng-menu>',
-        '<p class="menu-example-state">last command: {{ menuOverviewPlainLastCommand() }}</p>',
+        '<p>last command: {{ menuOverviewPlainLastCommand() }}</p>',
       ].join('\n'),
     },
     {
@@ -117,17 +117,15 @@ export class MenuOverviewPageComponent implements OnDestroy {
       title: 'menu-overview-plain-css.component.css',
       code: [
         '/*',
-        ' * Load TailNG component contracts once (menu styling uses [data-slot] selectors):',
-        ' * - angular.json "styles": [..., "libs/tailng-ui/theme/src/lib/component-contracts/index.css"]',
-        ' *   or: @import "@tailng-ui/theme/component-contracts/index.css"; in global styles.css',
-        ' * Also define --tng-semantic-* tokens (light/dark) on :root or [data-theme].',
+        ' * tng-menu, triggers, labels, and items need no local CSS — the component',
+        ' * implementation applies styles. Use this file only for non-menu chrome',
+        ' * (e.g. the "last command" line below).',
         ' */',
         '',
         ':host {',
         '  display: block;',
         '}',
         '',
-        '/* Layout only: trigger, panel, label, and items use the shared theme contract. */',
         '.menu-example-state {',
         '  color: var(--tng-semantic-foreground-secondary, #64748b);',
         '  font-size: 0.9rem;',
@@ -190,7 +188,7 @@ export class MenuOverviewPageComponent implements OnDestroy {
         '    <button type="button" tngMenuItem tngMenuItemValue="Copy path">Copy path</button>',
         '  </tng-menu>',
         '</div>',
-        '<p class="menu-example-state">last command: {{ menuOverviewTailwindLastCommand() }}</p>',
+        '<p>last command: {{ menuOverviewTailwindLastCommand() }}</p>',
       ].join('\n'),
     },
     {
@@ -200,9 +198,9 @@ export class MenuOverviewPageComponent implements OnDestroy {
       title: 'menu-overview-tailwind.component.css',
       code: [
         '/*',
-        ' * Menu trigger, panel, and items are styled by TailNG component contracts',
-        ' * (see libs/tailng-ui/theme/.../component-contracts).',
-        ' * This file can stay empty; optional Tailwind here is for page chrome only (e.g. the card).',
+        ' * No CSS is required for tng-menu and related primitives — the component',
+        ' * handles them. This file can be omitted or left empty; utilities on',
+        ' * wrappers (e.g. the card in the template) are optional page chrome.',
         ' */',
       ].join('\n'),
     },

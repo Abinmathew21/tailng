@@ -1,7 +1,7 @@
 <article class="docs-overview">
   <h2 class="docs-overview-title">Examples</h2>
   <p class="docs-overview-lead">
-    Reference patterns for trigger wiring, command groups, and nested submenu behavior.
+    Reference patterns for trigger wiring, command groups, nested submenu behavior, and public-state styling hooks.
   </p>
 
   <section class="docs-overview-block">
@@ -61,6 +61,192 @@
           </div>
         </div>
         <p class="docs-overview-state">last command: {{ tailwindCommand() }}</p>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section class="docs-overview-block">
+    <app-docs-example-tabs-section
+      heading="State-driven styling hooks"
+      description="Style wrapper menus through public attributes like aria-expanded, data-state, data-active, and aria-disabled without reaching into private DOM."
+      ariaLabel="State driven styling examples"
+      tabListAriaLabel="State driven styling tabs"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Wrapper state styling (plain CSS)"
+        [codeTabs]="styledPlainCodeTabs"
+      >
+        <div class="docs-example-stage menu-examples-state-style-stage">
+          <div class="menu-examples-state-style-shell menu-examples-state-style-plain-shell">
+            <p class="menu-examples-styled-plain-note">
+              Use this example when you want to own the trigger and panel look, while styling from public state
+              hooks like <code>aria-expanded</code>, <code>data-state</code>, and <code>data-active</code>.
+            </p>
+            <button
+              type="button"
+              id="menu-examples-styled-plain-trigger"
+              [tngMenuTriggerFor]="styledPlainMenu"
+              class="menu-examples-styled-plain-trigger"
+            >
+              Deploy
+            </button>
+            <tng-menu
+              #styledPlainMenu="tngMenu"
+              ariaLabel="Styled deployment menu"
+              class="menu-examples-styled-plain-menu"
+              (tngMenuSelect)="onStyledPlainSelect($event)"
+            >
+              <div tngMenuGroupLabel class="menu-examples-styled-plain-label">Deployment</div>
+              <button type="button" tngMenuItem tngMenuItemValue="Run checks" class="menu-examples-styled-plain-item">
+                Run checks
+              </button>
+              <button
+                type="button"
+                tngMenuItem
+                [tngMenuItemSubmenu]="styledPlainTargetMenu"
+                tngMenuItemValue="Choose target"
+                class="menu-examples-styled-plain-item"
+              >
+                Choose target
+              </button>
+              <button
+                type="button"
+                tngMenuItem
+                tngMenuItemValue="Rollback build"
+                disabled
+                class="menu-examples-styled-plain-item"
+              >
+                Rollback
+              </button>
+
+              <tng-menu
+                #styledPlainTargetMenu="tngMenu"
+                ariaLabel="Deployment target menu"
+                class="menu-examples-styled-plain-menu"
+                (tngMenuSelect)="onStyledPlainSelect($event)"
+              >
+                <button
+                  type="button"
+                  tngMenuItem
+                  tngMenuItemValue="Deploy to staging"
+                  class="menu-examples-styled-plain-item"
+                >
+                  Staging cluster
+                </button>
+                <button
+                  type="button"
+                  tngMenuItem
+                  tngMenuItemValue="Deploy to production"
+                  class="menu-examples-styled-plain-item"
+                >
+                  Production cluster
+                </button>
+              </tng-menu>
+            </tng-menu>
+          </div>
+        </div>
+        <p class="docs-overview-state">last styled command: {{ styledPlainCommand() }}</p>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Wrapper state styling (tailwind shell)"
+        [codeTabs]="styledTailwindCodeTabs"
+      >
+        <div class="rounded-xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4">
+          <div class="docs-example-stage menu-examples-state-style-stage">
+            <div class="menu-examples-state-style-shell">
+              <p
+                class="m-0 max-w-[34rem] text-[0.88rem] leading-[1.55] text-[color:var(--tng-semantic-foreground-secondary)]"
+              >
+                Use this example when you want utility-owned styling on the wrapper shell, while reacting to public
+                menu state like <code class="font-bold text-[color:var(--tng-semantic-foreground-primary)]"
+                  >aria-expanded</code
+                >, <code class="font-bold text-[color:var(--tng-semantic-foreground-primary)]">data-state</code>, and
+                <code class="font-bold text-[color:var(--tng-semantic-foreground-primary)]">data-active</code>.
+              </p>
+              <button
+                type="button"
+                id="menu-examples-styled-tailwind-trigger"
+                [tngMenuTriggerFor]="styledTailwindMenu"
+                class="inline-flex min-h-11 items-center justify-center rounded-full border border-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand)_22%,var(--tng-semantic-border-subtle))] bg-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand)_10%,var(--tng-semantic-background-surface))] px-4 text-[0.95rem] font-semibold text-[color:var(--tng-semantic-foreground-primary)] transition hover:bg-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-surface))] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand)_28%,transparent)] aria-expanded:border-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand)_50%,var(--tng-semantic-border-strong))] aria-expanded:bg-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand)_18%,var(--tng-semantic-background-surface))] aria-expanded:text-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand)_78%,var(--tng-semantic-foreground-primary))]"
+              >
+                Deploy
+              </button>
+              <tng-menu
+                #styledTailwindMenu="tngMenu"
+                ariaLabel="Styled deployment menu"
+                class="min-w-[14rem] rounded-[0.95rem] border border-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand)_24%,var(--tng-semantic-border-subtle))] bg-[color:color-mix(in_srgb,var(--tng-semantic-background-canvas)_94%,var(--tng-semantic-background-surface))] p-[0.45rem] shadow-[0_18px_36px_-22px_color-mix(in_srgb,var(--tng-semantic-foreground-primary)_28%,transparent)] data-[state=open]:gap-[0.18rem]"
+                (tngMenuSelect)="onStyledTailwindSelect($event)"
+              >
+                <div
+                  tngMenuGroupLabel
+                  class="px-[0.55rem] pb-[0.2rem] pt-[0.35rem] text-[0.72rem] font-extrabold uppercase tracking-[0.12em] text-[color:var(--tng-semantic-foreground-secondary)]"
+                >
+                  Deployment
+                </div>
+                <button
+                  type="button"
+                  tngMenuItem
+                  tngMenuItemValue="Run checks"
+                  class="flex min-h-[2.15rem] w-full items-center justify-between rounded-[0.72rem] px-[0.72rem] py-[0.5rem] text-left text-[0.88rem] font-medium text-[color:var(--tng-semantic-foreground-primary)] transition hover:bg-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand)_8%,transparent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand)_28%,transparent)] [&[data-active]]:bg-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand)_16%,transparent)] [&[data-active]]:text-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand)_76%,var(--tng-semantic-foreground-primary))]"
+                >
+                  Run checks
+                </button>
+                <button
+                  type="button"
+                  tngMenuItem
+                  [tngMenuItemSubmenu]="styledTailwindTargetMenu"
+                  tngMenuItemValue="Choose target"
+                  class="flex min-h-[2.15rem] w-full items-center justify-between rounded-[0.72rem] px-[0.72rem] py-[0.5rem] text-left text-[0.88rem] font-medium text-[color:var(--tng-semantic-foreground-primary)] transition hover:bg-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand)_8%,transparent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand)_28%,transparent)] [&[data-active]]:bg-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand)_16%,transparent)] [&[data-active]]:text-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand)_76%,var(--tng-semantic-foreground-primary))] aria-expanded:bg-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand)_16%,transparent)] aria-expanded:text-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand)_76%,var(--tng-semantic-foreground-primary))]"
+                >
+                  Choose target
+                </button>
+                <button
+                  type="button"
+                  tngMenuItem
+                  tngMenuItemValue="Rollback build"
+                  disabled
+                  class="flex min-h-[2.15rem] w-full items-center justify-between rounded-[0.72rem] px-[0.72rem] py-[0.5rem] text-left text-[0.88rem] font-medium text-[color:var(--tng-semantic-foreground-primary)] transition aria-disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  Rollback
+                </button>
+
+                <tng-menu
+                  #styledTailwindTargetMenu="tngMenu"
+                  ariaLabel="Deployment target menu"
+                  class="min-w-[13rem] rounded-[0.95rem] border border-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand)_24%,var(--tng-semantic-border-subtle))] bg-[color:color-mix(in_srgb,var(--tng-semantic-background-canvas)_94%,var(--tng-semantic-background-surface))] p-[0.45rem] shadow-[0_18px_36px_-22px_color-mix(in_srgb,var(--tng-semantic-foreground-primary)_28%,transparent)] data-[state=open]:gap-[0.18rem]"
+                  (tngMenuSelect)="onStyledTailwindSelect($event)"
+                >
+                  <button
+                    type="button"
+                    tngMenuItem
+                    tngMenuItemValue="Deploy to staging"
+                    class="flex min-h-[2.15rem] w-full items-center justify-between rounded-[0.72rem] px-[0.72rem] py-[0.5rem] text-left text-[0.88rem] font-medium text-[color:var(--tng-semantic-foreground-primary)] transition hover:bg-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand)_8%,transparent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand)_28%,transparent)] [&[data-active]]:bg-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand)_16%,transparent)] [&[data-active]]:text-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand)_76%,var(--tng-semantic-foreground-primary))]"
+                  >
+                    Staging cluster
+                  </button>
+                  <button
+                    type="button"
+                    tngMenuItem
+                    tngMenuItemValue="Deploy to production"
+                    class="flex min-h-[2.15rem] w-full items-center justify-between rounded-[0.72rem] px-[0.72rem] py-[0.5rem] text-left text-[0.88rem] font-medium text-[color:var(--tng-semantic-foreground-primary)] transition hover:bg-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand)_8%,transparent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand)_28%,transparent)] [&[data-active]]:bg-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand)_16%,transparent)] [&[data-active]]:text-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand)_76%,var(--tng-semantic-foreground-primary))]"
+                  >
+                    Production cluster
+                  </button>
+                </tng-menu>
+              </tng-menu>
+            </div>
+          </div>
+        </div>
+        <p class="docs-overview-state">last styled command: {{ styledTailwindCommand() }}</p>
       </ng-template>
     </app-docs-example-tabs-section>
   </section>

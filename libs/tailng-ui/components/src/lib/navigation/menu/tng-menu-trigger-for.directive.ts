@@ -28,9 +28,7 @@ export class TngMenuTriggerFor {
   readonly tngMenuTriggerFor = input.required<TngMenu>();
 
   private readonly hostRef = inject<ElementRef<HTMLElement>>(ElementRef);
-
-  @HostBinding('attr.data-slot')
-  protected readonly dataSlot = 'menu-trigger' as const;
+  private readonly dataSlot = 'menu-trigger' as const;
 
   @HostBinding('attr.aria-haspopup')
   protected readonly ariaHasPopup = 'menu' as const;
@@ -39,12 +37,14 @@ export class TngMenuTriggerFor {
     effect((onCleanup): void => {
       const menu = this.tngMenuTriggerFor();
       const trigger = this.hostRef.nativeElement;
+      trigger.setAttribute('data-slot', this.dataSlot);
       menu.setTriggerElement(trigger, () => this.syncAriaState());
       menu.setRestoreFocusOnOutsideClick(false);
       this.syncAriaState();
 
       onCleanup((): void => {
         menu.clearTriggerLink(trigger);
+        trigger.removeAttribute('data-slot');
         trigger.removeAttribute('aria-controls');
         trigger.removeAttribute('aria-expanded');
       });

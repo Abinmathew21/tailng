@@ -17,6 +17,22 @@ import { TngMenuTriggerFor } from './tng-menu-trigger-for.directive';
 class HostComponent {}
 
 describe('tng-menu-trigger-for directive', () => {
+  it('injects the trigger slot and aria attributes at runtime', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [HostComponent],
+    }).createComponent(HostComponent);
+
+    fixture.detectChanges();
+
+    const trigger = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLButtonElement;
+    const menu = fixture.nativeElement.querySelector('[data-testid="menu"]') as HTMLElement;
+
+    expect(trigger.getAttribute('data-slot')).toBe('menu-trigger');
+    expect(trigger.getAttribute('aria-haspopup')).toBe('menu');
+    expect(trigger.getAttribute('aria-controls')).toBe(menu.id);
+    expect(trigger.getAttribute('aria-expanded')).toBe('false');
+  });
+
   it('opens and closes the target menu while syncing trigger aria state', () => {
     const fixture = TestBed.configureTestingModule({
       imports: [HostComponent],
