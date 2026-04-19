@@ -166,7 +166,7 @@ describe('tng-menubar roving tabindex contract', () => {
     expect(document.activeElement).toBe(before);
   });
 
-  it('moves focus to the next enabled top-level item on Tab', () => {
+  it('allows Tab to leave the menubar from a focused item instead of moving to another top-level item', () => {
     const fixture = TestBed.configureTestingModule({
       imports: [MenubarTabindexHostComponent],
     }).createComponent(MenubarTabindexHostComponent);
@@ -174,20 +174,22 @@ describe('tng-menubar roving tabindex contract', () => {
     fixture.detectChanges();
 
     const file = fixture.nativeElement.querySelector('[data-testid="item-file"]') as HTMLButtonElement;
+    const after = fixture.nativeElement.querySelector('[data-testid="after"]') as HTMLButtonElement;
     const view = fixture.nativeElement.querySelector('[data-testid="item-view"]') as HTMLButtonElement;
 
     file.focus();
     fixture.detectChanges();
 
-    const event = keydown(file, 'Tab');
+    const event = dispatchTabAndSimulateBrowserFocus(file, after);
     fixture.detectChanges();
 
-    expect(event.defaultPrevented).toBe(true);
-    expect(document.activeElement).toBe(view);
-    expect(view.getAttribute('tabindex')).toBe('0');
+    expect(event.defaultPrevented).toBe(false);
+    expect(document.activeElement).toBe(after);
+    expect(file.getAttribute('tabindex')).toBe('0');
+    expect(view.getAttribute('tabindex')).toBe('-1');
   });
 
-  it('moves focus to the previous enabled top-level item on Shift+Tab', () => {
+  it('keeps the current tab stop when Tab leaves the menubar', () => {
     const fixture = TestBed.configureTestingModule({
       imports: [MenubarTabindexHostComponent],
     }).createComponent(MenubarTabindexHostComponent);
@@ -195,16 +197,39 @@ describe('tng-menubar roving tabindex contract', () => {
     fixture.detectChanges();
 
     const file = fixture.nativeElement.querySelector('[data-testid="item-file"]') as HTMLButtonElement;
+    const after = fixture.nativeElement.querySelector('[data-testid="after"]') as HTMLButtonElement;
+    const view = fixture.nativeElement.querySelector('[data-testid="item-view"]') as HTMLButtonElement;
+
+    file.focus();
+    fixture.detectChanges();
+
+    const event = dispatchTabAndSimulateBrowserFocus(file, after);
+    fixture.detectChanges();
+
+    expect(event.defaultPrevented).toBe(false);
+    expect(document.activeElement).toBe(after);
+    expect(file.getAttribute('tabindex')).toBe('0');
+    expect(view.getAttribute('tabindex')).toBe('-1');
+  });
+
+  it('keeps the current tab stop when Shift+Tab leaves the menubar', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [MenubarTabindexHostComponent],
+    }).createComponent(MenubarTabindexHostComponent);
+
+    fixture.detectChanges();
+
+    const before = fixture.nativeElement.querySelector('[data-testid="before"]') as HTMLButtonElement;
     const view = fixture.nativeElement.querySelector('[data-testid="item-view"]') as HTMLButtonElement;
 
     view.focus();
     fixture.detectChanges();
 
-    const event = keydown(view, 'Tab', true);
+    const event = dispatchTabAndSimulateBrowserFocus(view, before, true);
     fixture.detectChanges();
 
-    expect(event.defaultPrevented).toBe(true);
-    expect(document.activeElement).toBe(file);
-    expect(file.getAttribute('tabindex')).toBe('0');
+    expect(event.defaultPrevented).toBe(false);
+    expect(document.activeElement).toBe(before);
+    expect(view.getAttribute('tabindex')).toBe('0');
   });
 });

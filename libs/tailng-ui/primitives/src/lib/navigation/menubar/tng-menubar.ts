@@ -254,14 +254,14 @@ export class TngMenubarItem {
       return;
     }
 
-    this.lastOwnedMenu?.clearTriggerLink(this.hostRef.nativeElement);
+    this.teardownOwnedMenuLink(this.lastOwnedMenu);
     this.lastOwnedMenu = currentOwnedMenu;
     this.syncOwnedMenuLink();
     this.syncAriaExpanded();
   }
 
   ngOnDestroy(): void {
-    this.lastOwnedMenu?.clearTriggerLink(this.hostRef.nativeElement);
+    this.teardownOwnedMenuLink(this.lastOwnedMenu);
   }
 
   @HostListener('click')
@@ -333,29 +333,9 @@ export class TngMenubarItem {
 
     if (event.key === 'Tab') {
       if (ownedMenu?.isOpen()) {
-        if (this.handleTabFromOpenMenu(event.shiftKey)) {
-          event.preventDefault();
-        }
+        this.closeOwnedMenu(false);
         return;
       }
-
-      const items = this.menubar.getEnabledItems();
-      const current = this.hostRef.nativeElement;
-      const currentIndex = items.indexOf(current);
-
-      if (currentIndex < 0 || items.length === 0) {
-        return;
-      }
-
-      const targetIndex = event.shiftKey ? currentIndex - 1 : currentIndex + 1;
-      const target = items[targetIndex];
-
-      if (target === undefined) {
-        return;
-      }
-
-      event.preventDefault();
-      target.focus();
       return;
     }
 
@@ -514,7 +494,7 @@ export class TngMenubarItem {
     ownedMenu.setTriggerElement(this.hostRef.nativeElement, () => this.syncMenuState());
     ownedMenu.setRestoreFocusOnOutsideClick(true);
     ownedMenu.setMenubarArrowHandler((key) => this.handleArrowFromOpenMenu(key));
-    ownedMenu.setMenubarTabHandler((shiftKey) => this.handleTabFromOpenMenu(shiftKey));
+    ownedMenu.setMenubarTabHandler(null);
   }
 
   private syncAriaExpanded(): void {
@@ -532,35 +512,16 @@ export class TngMenubarItem {
     this.menubar.syncOpenItem(this);
   }
 
-  private handleTabFromOpenMenu(shiftKey: boolean): boolean {
-    const items = this.menubar.getEnabledItems();
-    const current = this.hostRef.nativeElement;
-    const currentIndex = items.indexOf(current);
-
-    if (currentIndex < 0 || items.length === 0) {
-      return false;
+  private teardownOwnedMenuLink(ownedMenu: TngMenu | null): void {
+    if (ownedMenu === null) {
+      return;
     }
 
-    const targetIndex = shiftKey ? currentIndex - 1 : currentIndex + 1;
-    const target = items[targetIndex];
-
-    if (target === undefined || target === current) {
-      this.closeOwnedMenu(false);
-      return false;
+    if (ownedMenu.isOpen()) {
+      ownedMenu.close(false);
     }
 
-    const targetDirective = (target as HTMLElement & { click(): void });
-    const targetOwnsMenu = target.getAttribute('aria-haspopup') === 'menu';
-
-    if (targetOwnsMenu) {
-      target.focus();
-      targetDirective.click();
-      return true;
-    }
-
-    this.closeOwnedMenu(false);
-    target.focus();
-    return true;
+    ownedMenu.clearTriggerLink(this.hostRef.nativeElement);
   }
 
   private syncHostId(): void {
