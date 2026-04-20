@@ -192,10 +192,7 @@ export class MenubarOverviewPageComponent implements OnDestroy {
       language: 'html',
       title: 'menubar-overview-tailwind.component.html',
       code: [
-        '  <tng-menubar',
-        '    ariaLabel="Workspace commands"',
-        '    class="inline-flex items-center gap-1 rounded-xl border border-slate-200 bg-white p-1 shadow-sm"',
-        '  >',
+        '  <tng-menubar ariaLabel="Workspace commands">',
         '    <div tngMenubarGroup>',
         '      <tng-menu',
         '        #menubarOverviewTailwindFileMenu="tngMenu"',

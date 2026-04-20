@@ -1,0 +1,121 @@
+.menubar-examples-contract-stage {
+  align-items: stretch;
+}
+
+.menubar-examples-contract-shell {
+  display: grid;
+  gap: 0.9rem;
+  width: min(100%, 38rem);
+  padding: 1.1rem;
+  border: 1px solid color-mix(in srgb, var(--tng-semantic-accent-brand) 18%, var(--tng-semantic-border-subtle));
+  border-radius: 1.2rem;
+  background:
+    radial-gradient(
+      circle at top left,
+      color-mix(in srgb, var(--tng-semantic-accent-brand) 12%, transparent),
+      transparent 42%
+    ),
+    color-mix(in srgb, var(--tng-semantic-background-surface) 92%, transparent);
+}
+
+.menubar-examples-contract-note {
+  margin: 0;
+  max-width: 34rem;
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+.menubar-examples-contract-shell [data-slot='menubar'] {
+  --tng-menubar-radius: 1.1rem;
+  --tng-menubar-padding: 0.38rem;
+  --tng-menubar-item-px: 1rem;
+  --tng-menubar-surface: color-mix(
+    in srgb,
+    var(--tng-semantic-accent-brand) 10%,
+    var(--tng-semantic-background-surface)
+  );
+  --tng-menubar-border-strong: color-mix(
+    in srgb,
+    var(--tng-semantic-accent-brand) 18%,
+    var(--tng-semantic-border-strong)
+  );
+  --tng-menubar-shadow: 0 18px 36px -28px color-mix(
+    in srgb,
+    var(--tng-semantic-foreground-primary) 30%,
+    transparent
+  );
+}
+
+.menubar-examples-contract-shell [data-slot='menubar-item'] {
+  letter-spacing: 0.01em;
+}
+
+.menubar-examples-contract-shell [data-slot='menubar-item'][tabindex='0'] {
+  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 10%, transparent);
+}
+
+.menubar-examples-contract-shell [data-slot='menubar-item'][aria-expanded='true'] {
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--tng-semantic-accent-brand) 24%, transparent);
+}
+
+.menubar-examples-contract-shell [data-slot='menu'][aria-labelledby] {
+  --tng-menu-radius: 1rem;
+  --tng-menu-padding: 0.5rem;
+  --tng-menu-border-strong: color-mix(
+    in srgb,
+    var(--tng-semantic-accent-brand) 22%,
+    var(--tng-semantic-border-subtle)
+  );
+  min-width: 14.5rem;
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(
+        in srgb,
+        var(--tng-semantic-accent-brand) 14%,
+        var(--tng-semantic-background-canvas)
+      ),
+      color-mix(
+        in srgb,
+        var(--tng-semantic-background-surface) 96%,
+        var(--tng-semantic-background-canvas)
+      )
+    );
+  box-shadow:
+    0 24px 52px -30px color-mix(in srgb, var(--tng-semantic-foreground-primary) 40%, transparent),
+    inset 0 1px 0 color-mix(in srgb, var(--tng-semantic-background-canvas) 70%, transparent),
+    0 0 0 1px color-mix(in srgb, var(--tng-semantic-accent-brand) 10%, transparent);
+  backdrop-filter: blur(12px);
+}
+
+.menubar-examples-contract-shell [data-slot='menu-group-label'] {
+  color: color-mix(
+    in srgb,
+    var(--tng-semantic-accent-brand) 52%,
+    var(--tng-semantic-foreground-secondary)
+  );
+}
+
+.menubar-examples-contract-shell [data-slot='menu-item'] {
+  border-radius: 0.82rem;
+}
+
+.menubar-examples-contract-shell [data-slot='menu-item'][data-active],
+.menubar-examples-contract-shell [data-slot='menu-item'][aria-expanded='true'] {
+  background:
+    linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--tng-semantic-accent-brand) 76%, transparent) 0 0.24rem,
+      color-mix(in srgb, var(--tng-semantic-accent-brand) 18%, transparent) 0.24rem
+    );
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--tng-semantic-accent-brand) 24%, transparent);
+}
+
+.menubar-examples-contract-shell [data-slot='menu-item'][aria-disabled='true'] {
+  opacity: 0.38;
+}
+
+.menubar-examples-contract-shell [data-slot='menu-separator'] {
+  margin-inline: 0.3rem;
+}
