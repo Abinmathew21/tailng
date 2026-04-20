@@ -54,14 +54,15 @@
   background: color-mix(in srgb, var(--tng-semantic-background-base, #ffffff) 92%, transparent);
 }
 
-.doc-cmp-checkbox-consent-item,
-.doc-cmp-checkbox-tri-state-item {
+.doc-cmp-checkbox-consent-panel > tng-checkbox,
+.doc-cmp-checkbox-tri-state-card > tng-checkbox,
+.doc-cmp-checkbox-tri-state-children tng-checkbox {
   display: block;
   --tng-semantic-accent-brand: #2563eb;
   --tng-semantic-focus-ring: rgba(37, 99, 235, 0.22);
 }
 
-.doc-cmp-checkbox-consent-item--muted {
+.doc-cmp-checkbox-consent-item--muted tng-checkbox {
   --tng-semantic-foreground-primary: #64748b;
   --tng-semantic-foreground-secondary: #64748b;
 }
@@ -86,7 +87,7 @@
   background: rgba(254, 242, 242, 0.78);
 }
 
-.doc-cmp-checkbox-validation-item {
+.doc-cmp-checkbox-validation-panel tng-checkbox {
   display: block;
   --tng-semantic-accent-danger: #dc2626;
   --tng-semantic-focus-ring: rgba(220, 38, 38, 0.18);

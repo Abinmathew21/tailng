@@ -103,15 +103,17 @@
           [stackblitzUrl]="stackblitzVanillaUrl"
         >
           <section class="doc-cmp-checkbox-styling-card">
-            <tng-checkbox class="doc-cmp-checkbox-styling-item" [checked]="true">
+            <tng-checkbox [checked]="true">
               Release checklist complete
             </tng-checkbox>
-            <tng-checkbox class="doc-cmp-checkbox-styling-item" [indeterminate]="true">
+            <tng-checkbox [indeterminate]="true">
               Deployment approvals pending
             </tng-checkbox>
-            <tng-checkbox class="doc-cmp-checkbox-styling-item doc-cmp-checkbox-styling-item--danger" [invalid]="true">
-              Security review required
-            </tng-checkbox>
+            <div class="doc-cmp-checkbox-styling-item--danger">
+              <tng-checkbox [invalid]="true">
+                Security review required
+              </tng-checkbox>
+            </div>
           </section>
         </ng-template>
 
@@ -124,26 +126,19 @@
           [stackblitzUrl]="stackblitzTailwindUrl"
         >
           <section
-            class="grid w-full max-w-[32rem] gap-3 rounded-2xl border border-slate-300 bg-white/90 p-4 shadow-sm dark:border-slate-700 dark:bg-slate-950/60"
+            class="grid w-full max-w-[32rem] gap-3 rounded-2xl border border-slate-300 bg-white/90 p-4 text-slate-900 shadow-sm [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-focus-ring:rgba(37,99,235,0.22)] dark:border-slate-700 dark:bg-slate-950/60 dark:text-slate-100"
           >
-            <tng-checkbox
-              class="block text-slate-900 [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-focus-ring:rgba(37,99,235,0.22)] dark:text-slate-100"
-              [checked]="true"
-            >
+            <tng-checkbox [checked]="true">
               Release checklist complete
             </tng-checkbox>
-            <tng-checkbox
-              class="block text-slate-900 [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-focus-ring:rgba(37,99,235,0.22)] dark:text-slate-100"
-              [indeterminate]="true"
-            >
+            <tng-checkbox [indeterminate]="true">
               Deployment approvals pending
             </tng-checkbox>
-            <tng-checkbox
-              class="block text-rose-800 [--tng-semantic-accent-danger:#dc2626] dark:text-rose-200"
-              [invalid]="true"
-            >
-              Security review required
-            </tng-checkbox>
+            <div class="text-rose-800 [--tng-semantic-accent-danger:#dc2626] dark:text-rose-200">
+              <tng-checkbox [invalid]="true">
+                Security review required
+              </tng-checkbox>
+            </div>
           </section>
         </ng-template>
       </app-docs-example-tabs-section>

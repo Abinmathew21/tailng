@@ -56,13 +56,13 @@
   background: color-mix(in srgb, var(--tng-semantic-background-base, #ffffff) 92%, transparent);
 }
 
-.doc-cmp-checkbox-overview-item {
+.doc-cmp-checkbox-overview-card > tng-checkbox {
   display: block;
   --tng-semantic-accent-brand: #2563eb;
   --tng-semantic-focus-ring: rgba(37, 99, 235, 0.22);
 }
 
-.doc-cmp-checkbox-overview-item--muted {
+.doc-cmp-checkbox-overview-item--muted tng-checkbox {
   --tng-semantic-foreground-primary: #64748b;
   --tng-semantic-foreground-secondary: #64748b;
 }

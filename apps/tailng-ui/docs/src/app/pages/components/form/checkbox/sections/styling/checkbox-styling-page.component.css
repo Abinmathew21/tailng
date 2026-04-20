@@ -97,14 +97,14 @@
   background: color-mix(in srgb, var(--tng-semantic-background-base, #ffffff) 92%, transparent);
 }
 
-.doc-cmp-checkbox-styling-item {
+.doc-cmp-checkbox-styling-card > tng-checkbox {
   display: block;
   --tng-semantic-accent-brand: #2563eb;
   --tng-semantic-focus-ring: rgba(37, 99, 235, 0.22);
   --tng-semantic-foreground-primary: #0f172a;
 }
 
-.doc-cmp-checkbox-styling-item--danger {
+.doc-cmp-checkbox-styling-item--danger tng-checkbox {
   --tng-semantic-accent-danger: #dc2626;
   --tng-semantic-foreground-primary: #991b1b;
 }

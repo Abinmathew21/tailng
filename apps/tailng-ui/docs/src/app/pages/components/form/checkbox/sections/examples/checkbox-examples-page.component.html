@@ -27,16 +27,17 @@
           [stackblitzUrl]="stackblitzVanillaUrl"
         >
           <section class="doc-cmp-checkbox-consent-panel">
-            <tng-checkbox class="doc-cmp-checkbox-consent-item" [checked]="true">
+            <tng-checkbox [checked]="true">
               I confirm release notes are reviewed.
             </tng-checkbox>
-            <tng-checkbox
-              class="doc-cmp-checkbox-consent-item doc-cmp-checkbox-consent-item--muted"
-              [readonly]="true"
-              [checked]="true"
-            >
-              Legal policy accepted (readonly).
-            </tng-checkbox>
+            <div class="doc-cmp-checkbox-consent-item--muted">
+              <tng-checkbox
+                [readonly]="true"
+                [checked]="true"
+              >
+                Legal policy accepted (readonly).
+              </tng-checkbox>
+            </div>
           </section>
         </ng-template>
 
@@ -49,21 +50,19 @@
           [stackblitzUrl]="stackblitzTailwindUrl"
         >
           <section
-            class="grid w-full max-w-[32rem] gap-3 rounded-2xl border border-slate-300 bg-white/90 p-4 shadow-sm dark:border-slate-700 dark:bg-slate-950/60"
+            class="grid w-full max-w-[32rem] gap-3 rounded-2xl border border-slate-300 bg-white/90 p-4 text-slate-900 shadow-sm [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-focus-ring:rgba(37,99,235,0.22)] dark:border-slate-700 dark:bg-slate-950/60 dark:text-slate-100"
           >
-            <tng-checkbox
-              class="block text-slate-900 [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-focus-ring:rgba(37,99,235,0.22)] dark:text-slate-100"
-              [checked]="true"
-            >
+            <tng-checkbox [checked]="true">
               I confirm release notes are reviewed.
             </tng-checkbox>
-            <tng-checkbox
-              class="block text-slate-500 [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-focus-ring:rgba(37,99,235,0.22)] dark:text-slate-400"
-              [readonly]="true"
-              [checked]="true"
-            >
-              Legal policy accepted (readonly).
-            </tng-checkbox>
+            <div class="text-slate-500 dark:text-slate-400">
+              <tng-checkbox
+                [readonly]="true"
+                [checked]="true"
+              >
+                Legal policy accepted (readonly).
+              </tng-checkbox>
+            </div>
           </section>
         </ng-template>
       </app-docs-example-tabs-section>
@@ -88,7 +87,6 @@
         >
           <section class="doc-cmp-checkbox-tri-state-card">
             <tng-checkbox
-              class="doc-cmp-checkbox-tri-state-item"
               [checked]="areAllRowsChecked('plain-css')"
               [indeterminate]="isMixedRowsChecked('plain-css')"
               (checkedChange)="onSelectAllChange('plain-css', $event)"
@@ -99,7 +97,6 @@
             <div class="doc-cmp-checkbox-tri-state-children">
               @for (row of rows; track row) {
                 <tng-checkbox
-                  class="doc-cmp-checkbox-tri-state-item"
                   [checked]="isRowChecked('plain-css', row)"
                   (checkedChange)="onRowChange('plain-css', row, $event)"
                 >
@@ -123,10 +120,9 @@
           [stackblitzUrl]="stackblitzTailwindUrl"
         >
           <section
-            class="grid w-full max-w-[32rem] gap-3 rounded-2xl border border-slate-300 bg-white/90 p-4 shadow-sm dark:border-slate-700 dark:bg-slate-950/60"
+            class="grid w-full max-w-[32rem] gap-3 rounded-2xl border border-slate-300 bg-white/90 p-4 text-slate-900 shadow-sm [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-focus-ring:rgba(37,99,235,0.22)] dark:border-slate-700 dark:bg-slate-950/60 dark:text-slate-100"
           >
             <tng-checkbox
-              class="block text-slate-900 [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-focus-ring:rgba(37,99,235,0.22)] dark:text-slate-100"
               [checked]="areAllRowsChecked('tailwind-css')"
               [indeterminate]="isMixedRowsChecked('tailwind-css')"
               (checkedChange)="onSelectAllChange('tailwind-css', $event)"
@@ -137,7 +133,6 @@
             <div class="ml-2 grid gap-2 border-l-2 border-slate-300 pl-3 dark:border-slate-600">
               @for (row of rows; track row) {
                 <tng-checkbox
-                  class="block text-slate-900 [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-focus-ring:rgba(37,99,235,0.22)] dark:text-slate-100"
                   [checked]="isRowChecked('tailwind-css', row)"
                   (checkedChange)="onRowChange('tailwind-css', row, $event)"
                 >
@@ -172,7 +167,7 @@
           [stackblitzUrl]="stackblitzVanillaUrl"
         >
           <section class="doc-cmp-checkbox-validation-panel">
-            <tng-checkbox class="doc-cmp-checkbox-validation-item" [invalid]="true">
+            <tng-checkbox [invalid]="true">
               Security review is required before production deploy.
             </tng-checkbox>
           </section>
@@ -187,12 +182,9 @@
           [stackblitzUrl]="stackblitzTailwindUrl"
         >
           <section
-            class="rounded-2xl border border-rose-300 bg-rose-50/70 p-4 dark:border-rose-500/70 dark:bg-rose-950/25"
+            class="rounded-2xl border border-rose-300 bg-rose-50/70 p-4 text-rose-900 [--tng-semantic-accent-danger:#dc2626] [--tng-semantic-focus-ring:rgba(220,38,38,0.18)] dark:border-rose-500/70 dark:bg-rose-950/25 dark:text-rose-200"
           >
-            <tng-checkbox
-              class="block text-rose-900 [--tng-semantic-accent-danger:#dc2626] [--tng-semantic-focus-ring:rgba(220,38,38,0.18)] dark:text-rose-200"
-              [invalid]="true"
-            >
+            <tng-checkbox [invalid]="true">
               Security review is required before production deploy.
             </tng-checkbox>
           </section>
