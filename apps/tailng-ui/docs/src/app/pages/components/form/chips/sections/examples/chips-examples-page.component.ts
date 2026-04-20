@@ -54,21 +54,22 @@ const FILTER_PLAIN_HTML_CODE = String.raw`<section class="docs-component-chips-e
     </p>
   </div>
 
-  <tng-chips
-    class="docs-component-chips-examples-filter-plain-control"
-    [values]="componentChipsExamplesPlainFilterValues()"
-    (valuesChange)="onComponentChipsExamplesPlainFilterValuesChange($event)"
-    [ariaLabel]="'Active filters'"
-  >
-    <div class="docs-component-chips-examples-filter-plain-row">
-      @for (filter of componentChipsExamplesPlainFilterValues(); track filter) {
-        <span tngChip [tngChipValue]="filter" [tngChipLabel]="filter" class="docs-component-chips-examples-filter-plain-chip">
-          <span>{{ filter }}</span>
-          <button tngChipRemove type="button" class="docs-component-chips-examples-filter-plain-chip-remove">&times;</button>
-        </span>
-      }
-    </div>
-  </tng-chips>
+  <div class="docs-component-chips-examples-filter-plain-control">
+    <tng-chips
+      [values]="componentChipsExamplesPlainFilterValues()"
+      (valuesChange)="onComponentChipsExamplesPlainFilterValuesChange($event)"
+      [ariaLabel]="'Active filters'"
+    >
+      <div class="docs-component-chips-examples-filter-plain-row">
+        @for (filter of componentChipsExamplesPlainFilterValues(); track filter) {
+          <span tngChip [tngChipValue]="filter" [tngChipLabel]="filter" class="docs-component-chips-examples-filter-plain-chip">
+            <span>{{ filter }}</span>
+            <button tngChipRemove type="button" class="docs-component-chips-examples-filter-plain-chip-remove">&times;</button>
+          </span>
+        }
+      </div>
+    </tng-chips>
+  </div>
 
   <p class="docs-component-chips-examples-filter-plain-summary">Selected: {{ componentChipsExamplesPlainFilterSummary() }}</p>
 </section>`;
@@ -79,22 +80,22 @@ const FILTER_PLAIN_CSS_CODE = String.raw`.docs-component-chips-examples-filter-p
   inline-size: min(100%, 36rem);
   margin-inline: auto;
   padding: 1.1rem;
-  border: 1px solid #cbd5e1;
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 1.25rem;
-  background: #ffffff;
-  color: #0f172a;
-  color-scheme: light;
+  background: var(--tng-semantic-background-surface);
+  color: var(--tng-semantic-foreground-primary);
   box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
 }
 
 .docs-component-chips-examples-filter-plain-control {
+  width: 100%;
+  min-width: 0;
+}
+
+.docs-component-chips-examples-filter-plain-control tng-chips {
   display: block;
   width: 100%;
   min-width: 0;
-  color-scheme: light;
-  --tng-semantic-background-base: #ffffff;
-  --tng-semantic-border-subtle: #d8e2ef;
-  --tng-semantic-foreground-primary: #0f172a;
 }
 
 .docs-component-chips-examples-filter-plain-row {
@@ -108,16 +109,16 @@ const FILTER_PLAIN_CSS_CODE = String.raw`.docs-component-chips-examples-filter-p
   align-items: center;
   gap: 0.5rem;
   border-radius: 999px;
-  border: 1px solid #93c5fd;
-  background: #eff6ff;
-  color: #1d4ed8;
+  border: 1px solid color-mix(in srgb, var(--tng-semantic-accent-brand) 42%, var(--tng-semantic-border-subtle));
+  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 12%, var(--tng-semantic-background-base));
+  color: var(--tng-semantic-foreground-primary);
   padding: 0.45rem 0.8rem;
 }
 
 .docs-component-chips-examples-filter-plain-chip-remove {
   border: 0;
   border-radius: 999px;
-  background: rgba(37, 99, 235, 0.12);
+  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 16%, transparent);
   color: inherit;
   cursor: pointer;
   display: inline-flex;
@@ -165,31 +166,32 @@ export class ComponentChipsExamplesFilterTailwindComponent {
   }
 }`;
 
-const FILTER_TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-[36rem] gap-4 rounded-[1.75rem] border border-slate-200 bg-white p-5 text-slate-900 shadow-sm">
+const FILTER_TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-[36rem] gap-4 rounded-[1.75rem] border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-surface)] p-5 text-[var(--tng-semantic-foreground-primary)] shadow-sm">
   <div class="grid gap-1">
-    <span class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Active filters</span>
-    <p class="m-0 text-sm text-slate-600">
+    <span class="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--tng-semantic-foreground-muted)]">Active filters</span>
+    <p class="m-0 text-sm text-[var(--tng-semantic-foreground-secondary)]">
       Keep a controlled filter list while the wrapper handles the root semantics and chip removal events.
     </p>
   </div>
 
-  <tng-chips
-    class="block w-full min-w-0 [--tng-semantic-background-base:#ffffff] [--tng-semantic-border-subtle:#d8e2ef] [--tng-semantic-foreground-primary:#0f172a]"
-    [values]="componentChipsExamplesTailwindFilterValues()"
-    (valuesChange)="onComponentChipsExamplesTailwindFilterValuesChange($event)"
-    [ariaLabel]="'Active filters'"
-  >
-    <div class="flex flex-wrap gap-2">
-      @for (filter of componentChipsExamplesTailwindFilterValues(); track filter) {
-        <span tngChip [tngChipValue]="filter" [tngChipLabel]="filter" class="inline-flex items-center gap-2 rounded-full border border-sky-200 bg-sky-50 px-3 py-2 text-sm font-medium text-sky-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.72)]">
-          <span>{{ filter }}</span>
-          <button tngChipRemove type="button" class="inline-grid h-5 w-5 place-items-center rounded-full bg-sky-100 text-[0.8rem] leading-none text-sky-800 transition hover:bg-sky-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-400">&times;</button>
-        </span>
-      }
-    </div>
-  </tng-chips>
+  <div class="block w-full min-w-0">
+    <tng-chips
+      [values]="componentChipsExamplesTailwindFilterValues()"
+      (valuesChange)="onComponentChipsExamplesTailwindFilterValuesChange($event)"
+      [ariaLabel]="'Active filters'"
+    >
+      <div class="flex flex-wrap gap-2">
+        @for (filter of componentChipsExamplesTailwindFilterValues(); track filter) {
+          <span tngChip [tngChipValue]="filter" [tngChipLabel]="filter" class="inline-flex items-center gap-2 rounded-full border border-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_42%,var(--tng-semantic-border-subtle))] bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_12%,var(--tng-semantic-background-base))] px-3 py-2 text-sm font-medium text-[var(--tng-semantic-foreground-primary)] shadow-[inset_0_1px_0_color-mix(in_srgb,var(--tng-semantic-background-surface)_72%,transparent)]">
+            <span>{{ filter }}</span>
+            <button tngChipRemove type="button" class="inline-grid h-5 w-5 place-items-center rounded-full bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_16%,transparent)] text-[0.8rem] leading-none text-[var(--tng-semantic-foreground-secondary)] transition hover:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_24%,transparent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color-mix(in_srgb,var(--tng-semantic-focus-ring)_40%,transparent)]">&times;</button>
+          </span>
+        }
+      </div>
+    </tng-chips>
+  </div>
 
-  <p class="m-0 text-xs text-slate-600">Selected: {{ componentChipsExamplesTailwindFilterSummary() }}</p>
+  <p class="m-0 text-xs text-[var(--tng-semantic-foreground-secondary)]">Selected: {{ componentChipsExamplesTailwindFilterSummary() }}</p>
 </section>`;
 
 const FILTER_TAILWIND_CSS_CODE = '/* Tailwind utilities are applied directly in the template. */';
@@ -239,27 +241,28 @@ const LOCKED_PLAIN_HTML_CODE = String.raw`<section class="docs-component-chips-e
     </p>
   </div>
 
-  <tng-chips
-    class="docs-component-chips-examples-locked-plain-control"
-    [values]="componentChipsExamplesPlainReleaseLanes()"
-    (valuesChange)="onComponentChipsExamplesPlainReleaseLanesChange($event)"
-    [ariaLabel]="'Release lanes'"
-  >
-    <div class="docs-component-chips-examples-locked-plain-row">
-      @for (lane of componentChipsExamplesPlainReleaseLanes(); track lane) {
-        <span
-          tngChip
-          [tngChipValue]="lane"
-          [tngChipLabel]="lane"
-          [tngChipDisabled]="isComponentChipsExamplesPlainReleaseLaneLocked(lane)"
-          class="docs-component-chips-examples-locked-plain-chip"
-        >
-          <span>{{ lane }}</span>
-          <button tngChipRemove type="button" class="docs-component-chips-examples-locked-plain-chip-remove">&times;</button>
-        </span>
-      }
-    </div>
-  </tng-chips>
+  <div class="docs-component-chips-examples-locked-plain-control">
+    <tng-chips
+      [values]="componentChipsExamplesPlainReleaseLanes()"
+      (valuesChange)="onComponentChipsExamplesPlainReleaseLanesChange($event)"
+      [ariaLabel]="'Release lanes'"
+    >
+      <div class="docs-component-chips-examples-locked-plain-row">
+        @for (lane of componentChipsExamplesPlainReleaseLanes(); track lane) {
+          <span
+            tngChip
+            [tngChipValue]="lane"
+            [tngChipLabel]="lane"
+            [tngChipDisabled]="isComponentChipsExamplesPlainReleaseLaneLocked(lane)"
+            class="docs-component-chips-examples-locked-plain-chip"
+          >
+            <span>{{ lane }}</span>
+            <button tngChipRemove type="button" class="docs-component-chips-examples-locked-plain-chip-remove">&times;</button>
+          </span>
+        }
+      </div>
+    </tng-chips>
+  </div>
 
   <p class="docs-component-chips-examples-locked-plain-summary">Selected: {{ componentChipsExamplesPlainReleaseLaneSummary() }}</p>
 </section>`;
@@ -270,22 +273,22 @@ const LOCKED_PLAIN_CSS_CODE = String.raw`.docs-component-chips-examples-locked-p
   inline-size: min(100%, 36rem);
   margin-inline: auto;
   padding: 1.1rem;
-  border: 1px solid #cbd5e1;
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 1.25rem;
-  background: #ffffff;
-  color: #0f172a;
-  color-scheme: light;
+  background: var(--tng-semantic-background-surface);
+  color: var(--tng-semantic-foreground-primary);
   box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
 }
 
 .docs-component-chips-examples-locked-plain-control {
+  width: 100%;
+  min-width: 0;
+}
+
+.docs-component-chips-examples-locked-plain-control tng-chips {
   display: block;
   width: 100%;
   min-width: 0;
-  color-scheme: light;
-  --tng-semantic-background-base: #ffffff;
-  --tng-semantic-border-subtle: #d8e2ef;
-  --tng-semantic-foreground-primary: #0f172a;
 }
 
 .docs-component-chips-examples-locked-plain-row {
@@ -299,22 +302,22 @@ const LOCKED_PLAIN_CSS_CODE = String.raw`.docs-component-chips-examples-locked-p
   align-items: center;
   gap: 0.5rem;
   border-radius: 999px;
-  border: 1px solid #99f6e4;
-  background: #ecfeff;
-  color: #115e59;
+  border: 1px solid color-mix(in srgb, var(--tng-semantic-accent-success) 42%, var(--tng-semantic-border-subtle));
+  background: color-mix(in srgb, var(--tng-semantic-accent-success) 12%, var(--tng-semantic-background-base));
+  color: var(--tng-semantic-foreground-primary);
   padding: 0.45rem 0.8rem;
 }
 
 .docs-component-chips-examples-locked-plain-chip[data-disabled] {
-  border-color: #cbd5e1;
-  background: #f8fafc;
-  color: #94a3b8;
+  border-color: var(--tng-semantic-border-subtle);
+  background: var(--tng-semantic-background-muted);
+  color: var(--tng-semantic-foreground-muted);
 }
 
 .docs-component-chips-examples-locked-plain-chip-remove {
   border: 0;
   border-radius: 999px;
-  background: rgba(20, 184, 166, 0.16);
+  background: color-mix(in srgb, var(--tng-semantic-accent-success) 18%, transparent);
   color: inherit;
   cursor: pointer;
   display: inline-flex;
@@ -366,31 +369,32 @@ export class ComponentChipsExamplesLockedTailwindComponent {
   }
 }`;
 
-const LOCKED_TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-[36rem] gap-4 rounded-[1.75rem] border border-slate-200 bg-white p-5 text-slate-900 shadow-sm">
+const LOCKED_TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-[36rem] gap-4 rounded-[1.75rem] border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-surface)] p-5 text-[var(--tng-semantic-foreground-primary)] shadow-sm">
   <div class="grid gap-1">
-    <span class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Release lanes</span>
-    <p class="m-0 text-sm text-slate-600">
+    <span class="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--tng-semantic-foreground-muted)]">Release lanes</span>
+    <p class="m-0 text-sm text-[var(--tng-semantic-foreground-secondary)]">
       Disabled chips stay visible, but only active lanes remain removable.
     </p>
   </div>
 
-  <tng-chips
-    class="block w-full min-w-0 [--tng-semantic-background-base:#ffffff] [--tng-semantic-border-subtle:#d8e2ef] [--tng-semantic-foreground-primary:#0f172a]"
-    [values]="componentChipsExamplesTailwindReleaseLanes()"
-    (valuesChange)="onComponentChipsExamplesTailwindReleaseLanesChange($event)"
-    [ariaLabel]="'Release lanes'"
-  >
-    <div class="flex flex-wrap gap-2">
-      @for (lane of componentChipsExamplesTailwindReleaseLanes(); track lane) {
-        <span tngChip [tngChipValue]="lane" [tngChipLabel]="lane" [tngChipDisabled]="isComponentChipsExamplesTailwindReleaseLaneLocked(lane)" class="inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-3 py-2 text-sm font-medium text-amber-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.72)] data-[disabled]:border-slate-200 data-[disabled]:bg-slate-50 data-[disabled]:text-slate-400">
-          <span>{{ lane }}</span>
-          <button tngChipRemove type="button" class="inline-grid h-5 w-5 place-items-center rounded-full bg-amber-100 text-[0.8rem] leading-none text-amber-800 transition hover:bg-amber-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-400">&times;</button>
-        </span>
-      }
-    </div>
-  </tng-chips>
+  <div class="block w-full min-w-0">
+    <tng-chips
+      [values]="componentChipsExamplesTailwindReleaseLanes()"
+      (valuesChange)="onComponentChipsExamplesTailwindReleaseLanesChange($event)"
+      [ariaLabel]="'Release lanes'"
+    >
+      <div class="flex flex-wrap gap-2">
+        @for (lane of componentChipsExamplesTailwindReleaseLanes(); track lane) {
+          <span tngChip [tngChipValue]="lane" [tngChipLabel]="lane" [tngChipDisabled]="isComponentChipsExamplesTailwindReleaseLaneLocked(lane)" class="inline-flex items-center gap-2 rounded-full border border-[color-mix(in_srgb,var(--tng-semantic-accent-success)_42%,var(--tng-semantic-border-subtle))] bg-[color-mix(in_srgb,var(--tng-semantic-accent-success)_12%,var(--tng-semantic-background-base))] px-3 py-2 text-sm font-medium text-[var(--tng-semantic-foreground-primary)] shadow-[inset_0_1px_0_color-mix(in_srgb,var(--tng-semantic-background-surface)_72%,transparent)] data-[disabled]:border-[var(--tng-semantic-border-subtle)] data-[disabled]:bg-[var(--tng-semantic-background-muted)] data-[disabled]:text-[var(--tng-semantic-foreground-muted)]">
+            <span>{{ lane }}</span>
+            <button tngChipRemove type="button" class="inline-grid h-5 w-5 place-items-center rounded-full bg-[color-mix(in_srgb,var(--tng-semantic-accent-success)_18%,transparent)] text-[0.8rem] leading-none text-[var(--tng-semantic-foreground-secondary)] transition hover:bg-[color-mix(in_srgb,var(--tng-semantic-accent-success)_26%,transparent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color-mix(in_srgb,var(--tng-semantic-focus-ring)_40%,transparent)]">&times;</button>
+          </span>
+        }
+      </div>
+    </tng-chips>
+  </div>
 
-  <p class="m-0 text-xs text-slate-600">Selected: {{ componentChipsExamplesTailwindReleaseLaneSummary() }}</p>
+  <p class="m-0 text-xs text-[var(--tng-semantic-foreground-secondary)]">Selected: {{ componentChipsExamplesTailwindReleaseLaneSummary() }}</p>
 </section>`;
 
 const LOCKED_TAILWIND_CSS_CODE = '/* Tailwind utilities are applied directly in the template. */';

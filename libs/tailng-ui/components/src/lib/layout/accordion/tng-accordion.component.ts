@@ -90,7 +90,6 @@ export class TngAccordionIndicator {
 @Component({
   selector: 'tng-accordion-trigger',
   hostDirectives: [TngAccordionTriggerPrimitive],
-  imports: [TngAccordionIndicator],
   template: `
     <span class="tng-accordion__trigger-content">
       <span class="tng-accordion__indicator-slot">

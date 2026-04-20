@@ -4,11 +4,10 @@
   inline-size: min(100%, 36rem);
   margin-inline: auto;
   padding: 1.1rem;
-  border: 1px solid #cbd5e1;
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 1.25rem;
-  background: #ffffff;
-  color: #0f172a;
-  color-scheme: light;
+  background: var(--tng-semantic-background-surface);
+  color: var(--tng-semantic-foreground-primary);
   box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
 }
 
@@ -20,26 +19,24 @@
 .docs-component-chips-overview-live-kicker {
   font-size: 0.8rem;
   font-weight: 700;
-  color: #64748b;
+  color: var(--tng-semantic-foreground-muted);
 }
 
 .docs-component-chips-overview-live-copy,
 .docs-component-chips-overview-live-summary {
   margin: 0;
-  color: #475569;
+  color: var(--tng-semantic-foreground-secondary);
 }
 
 .docs-component-chips-overview-live-control {
-  display: block;
   width: 100%;
   min-width: 0;
 }
 
-.docs-component-chips-overview-live-control--plain {
-  color-scheme: light;
-  --tng-semantic-background-base: #ffffff;
-  --tng-semantic-border-subtle: #d8e2ef;
-  --tng-semantic-foreground-primary: #0f172a;
+.docs-component-chips-overview-live-control tng-chips {
+  display: block;
+  width: 100%;
+  min-width: 0;
 }
 
 .docs-component-chips-overview-live-row {
@@ -53,9 +50,9 @@
   align-items: center;
   gap: 0.5rem;
   border-radius: 999px;
-  border: 1px solid #bfdbfe;
-  background: #eff6ff;
-  color: #1e3a8a;
+  border: 1px solid color-mix(in srgb, var(--tng-semantic-accent-brand) 38%, var(--tng-semantic-border-subtle));
+  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 12%, var(--tng-semantic-background-base));
+  color: var(--tng-semantic-foreground-primary);
   font-size: 0.9rem;
   font-weight: 600;
   line-height: 1.2;
@@ -65,7 +62,7 @@
 .docs-component-chips-overview-live-chip-remove {
   border: 0;
   border-radius: 999px;
-  background: rgba(37, 99, 235, 0.12);
+  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 16%, transparent);
   color: inherit;
   cursor: pointer;
   display: inline-grid;
@@ -76,6 +73,6 @@
 }
 
 .docs-component-chips-overview-live-chip-remove[data-focused] {
-  outline: 2px solid rgba(37, 99, 235, 0.28);
+  outline: 2px solid color-mix(in srgb, var(--tng-semantic-focus-ring) 38%, transparent);
   outline-offset: 2px;
 }

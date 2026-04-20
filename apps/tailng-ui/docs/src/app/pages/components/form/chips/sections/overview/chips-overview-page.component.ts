@@ -72,21 +72,22 @@ const PLAIN_HTML_CODE = String.raw`<section class="docs-component-chips-overview
     </p>
   </div>
 
-  <tng-chips
-    class="docs-component-chips-overview-plain-control"
-    [values]="componentChipsOverviewPlainSelectedTopics()"
-    (valuesChange)="onComponentChipsOverviewPlainValuesChange($event)"
-    [ariaLabel]="'Selected topics'"
-  >
-    <div class="docs-component-chips-overview-plain-row">
-      @for (topic of componentChipsOverviewPlainSelectedTopics(); track topic) {
-        <span tngChip [tngChipValue]="topic" [tngChipLabel]="topic" class="docs-component-chips-overview-plain-chip">
-          <span>{{ topic }}</span>
-          <button tngChipRemove type="button" class="docs-component-chips-overview-plain-chip-remove">&times;</button>
-        </span>
-      }
-    </div>
-  </tng-chips>
+  <div class="docs-component-chips-overview-plain-control">
+    <tng-chips
+      [values]="componentChipsOverviewPlainSelectedTopics()"
+      (valuesChange)="onComponentChipsOverviewPlainValuesChange($event)"
+      [ariaLabel]="'Selected topics'"
+    >
+      <div class="docs-component-chips-overview-plain-row">
+        @for (topic of componentChipsOverviewPlainSelectedTopics(); track topic) {
+          <span tngChip [tngChipValue]="topic" [tngChipLabel]="topic" class="docs-component-chips-overview-plain-chip">
+            <span>{{ topic }}</span>
+            <button tngChipRemove type="button" class="docs-component-chips-overview-plain-chip-remove">&times;</button>
+          </span>
+        }
+      </div>
+    </tng-chips>
+  </div>
 
   <p class="docs-component-chips-overview-plain-summary">Selected: {{ componentChipsOverviewPlainSummary() }}</p>
 </section>`;
@@ -97,11 +98,10 @@ const PLAIN_CSS_CODE = String.raw`.docs-component-chips-overview-plain-shell {
   inline-size: min(100%, 36rem);
   margin-inline: auto;
   padding: 1.1rem;
-  border: 1px solid #cbd5e1;
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 1.25rem;
-  background: #ffffff;
-  color: #0f172a;
-  color-scheme: light;
+  background: var(--tng-semantic-background-surface);
+  color: var(--tng-semantic-foreground-primary);
   box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
 }
 
@@ -113,23 +113,24 @@ const PLAIN_CSS_CODE = String.raw`.docs-component-chips-overview-plain-shell {
 .docs-component-chips-overview-plain-kicker {
   font-size: 0.8rem;
   font-weight: 700;
-  color: #64748b;
+  color: var(--tng-semantic-foreground-muted);
 }
 
 .docs-component-chips-overview-plain-copy,
 .docs-component-chips-overview-plain-summary {
   margin: 0;
-  color: #475569;
+  color: var(--tng-semantic-foreground-secondary);
 }
 
 .docs-component-chips-overview-plain-control {
+  width: 100%;
+  min-width: 0;
+}
+
+.docs-component-chips-overview-plain-control tng-chips {
   display: block;
   width: 100%;
   min-width: 0;
-  color-scheme: light;
-  --tng-semantic-background-base: #ffffff;
-  --tng-semantic-border-subtle: #d8e2ef;
-  --tng-semantic-foreground-primary: #0f172a;
 }
 
 .docs-component-chips-overview-plain-row {
@@ -143,9 +144,9 @@ const PLAIN_CSS_CODE = String.raw`.docs-component-chips-overview-plain-shell {
   align-items: center;
   gap: 0.5rem;
   border-radius: 999px;
-  border: 1px solid #bfdbfe;
-  background: #eff6ff;
-  color: #1e3a8a;
+  border: 1px solid color-mix(in srgb, var(--tng-semantic-accent-brand) 38%, var(--tng-semantic-border-subtle));
+  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 12%, var(--tng-semantic-background-base));
+  color: var(--tng-semantic-foreground-primary);
   font-size: 0.9rem;
   font-weight: 600;
   line-height: 1.2;
@@ -155,7 +156,7 @@ const PLAIN_CSS_CODE = String.raw`.docs-component-chips-overview-plain-shell {
 .docs-component-chips-overview-plain-chip-remove {
   border: 0;
   border-radius: 999px;
-  background: rgba(37, 99, 235, 0.12);
+  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 16%, transparent);
   color: inherit;
   cursor: pointer;
   display: inline-grid;
@@ -166,7 +167,7 @@ const PLAIN_CSS_CODE = String.raw`.docs-component-chips-overview-plain-shell {
 }
 
 .docs-component-chips-overview-plain-chip-remove[data-focused] {
-  outline: 2px solid rgba(37, 99, 235, 0.28);
+  outline: 2px solid color-mix(in srgb, var(--tng-semantic-focus-ring) 38%, transparent);
   outline-offset: 2px;
 }`;
 
@@ -203,31 +204,32 @@ export class ComponentChipsOverviewTailwindExampleComponent {
   }
 }`;
 
-const TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-[36rem] gap-4 rounded-[1.75rem] border border-slate-200 bg-white p-5 text-slate-900 shadow-sm">
+const TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-[36rem] gap-4 rounded-[1.75rem] border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-surface)] p-5 text-[var(--tng-semantic-foreground-primary)] shadow-sm">
   <div class="grid gap-1">
-    <span class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Selected surfaces</span>
-    <p class="m-0 text-sm text-slate-600">
+    <span class="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--tng-semantic-foreground-muted)]">Selected surfaces</span>
+    <p class="m-0 text-sm text-[var(--tng-semantic-foreground-secondary)]">
       Wrapper-first removable chips with utility-first styling on top of the same projected primitive parts.
     </p>
   </div>
 
-  <tng-chips
-    class="block w-full min-w-0 [--tng-semantic-background-base:#ffffff] [--tng-semantic-border-subtle:#d8e2ef] [--tng-semantic-foreground-primary:#0f172a]"
-    [values]="componentChipsOverviewTailwindSelectedSurfaces()"
-    (valuesChange)="onComponentChipsOverviewTailwindValuesChange($event)"
-    [ariaLabel]="'Selected surfaces'"
-  >
-    <div class="flex flex-wrap gap-2">
-      @for (surface of componentChipsOverviewTailwindSelectedSurfaces(); track surface) {
-        <span tngChip [tngChipValue]="surface" [tngChipLabel]="surface" class="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-2 text-sm font-medium text-emerald-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.72)]">
-          <span>{{ surface }}</span>
-          <button tngChipRemove type="button" class="inline-grid h-5 w-5 place-items-center rounded-full bg-emerald-100 text-[0.8rem] leading-none text-emerald-800 transition hover:bg-emerald-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-400">&times;</button>
-        </span>
-      }
-    </div>
-  </tng-chips>
+  <div class="block w-full min-w-0">
+    <tng-chips
+      [values]="componentChipsOverviewTailwindSelectedSurfaces()"
+      (valuesChange)="onComponentChipsOverviewTailwindValuesChange($event)"
+      [ariaLabel]="'Selected surfaces'"
+    >
+      <div class="flex flex-wrap gap-2">
+        @for (surface of componentChipsOverviewTailwindSelectedSurfaces(); track surface) {
+          <span tngChip [tngChipValue]="surface" [tngChipLabel]="surface" class="inline-flex items-center gap-2 rounded-full border border-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_38%,var(--tng-semantic-border-subtle))] bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_12%,var(--tng-semantic-background-base))] px-3 py-2 text-sm font-medium text-[var(--tng-semantic-foreground-primary)] shadow-[inset_0_1px_0_color-mix(in_srgb,var(--tng-semantic-background-surface)_72%,transparent)]">
+            <span>{{ surface }}</span>
+            <button tngChipRemove type="button" class="inline-grid h-5 w-5 place-items-center rounded-full bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_16%,transparent)] text-[0.8rem] leading-none text-[var(--tng-semantic-foreground-secondary)] transition hover:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_24%,transparent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color-mix(in_srgb,var(--tng-semantic-focus-ring)_40%,transparent)]">&times;</button>
+          </span>
+        }
+      </div>
+    </tng-chips>
+  </div>
 
-  <p class="m-0 text-xs text-slate-600">Selected: {{ componentChipsOverviewTailwindSummary() }}</p>
+  <p class="m-0 text-xs text-[var(--tng-semantic-foreground-secondary)]">Selected: {{ componentChipsOverviewTailwindSummary() }}</p>
 </section>`;
 
 const TAILWIND_CSS_CODE = '/* Tailwind utilities are applied directly in the template. */';

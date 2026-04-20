@@ -4,11 +4,10 @@
   inline-size: min(100%, 36rem);
   margin-inline: auto;
   padding: 1.1rem;
-  border: 1px solid #cbd5e1;
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 1.25rem;
-  background: #ffffff;
-  color: #0f172a;
-  color-scheme: light;
+  background: var(--tng-semantic-background-surface);
+  color: var(--tng-semantic-foreground-primary);
   box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
 }
 
@@ -20,23 +19,24 @@
 .docs-component-chips-examples-live-kicker {
   font-size: 0.8rem;
   font-weight: 700;
-  color: #64748b;
+  color: var(--tng-semantic-foreground-muted);
 }
 
 .docs-component-chips-examples-live-copy,
 .docs-component-chips-examples-live-summary {
   margin: 0;
-  color: #475569;
+  color: var(--tng-semantic-foreground-secondary);
 }
 
 .docs-component-chips-examples-live-control {
+  width: 100%;
+  min-width: 0;
+}
+
+.docs-component-chips-examples-live-control tng-chips {
   display: block;
   width: 100%;
   min-width: 0;
-  color-scheme: light;
-  --tng-semantic-background-base: #ffffff;
-  --tng-semantic-border-subtle: #d8e2ef;
-  --tng-semantic-foreground-primary: #0f172a;
 }
 
 .docs-component-chips-examples-live-row {
@@ -54,27 +54,27 @@
 }
 
 .docs-component-chips-examples-live-chip--filter {
-  border: 1px solid #93c5fd;
-  background: #eff6ff;
-  color: #1d4ed8;
+  border: 1px solid color-mix(in srgb, var(--tng-semantic-accent-brand) 42%, var(--tng-semantic-border-subtle));
+  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 12%, var(--tng-semantic-background-base));
+  color: var(--tng-semantic-foreground-primary);
 }
 
 .docs-component-chips-examples-live-chip--locked {
-  border: 1px solid #99f6e4;
-  background: #ecfeff;
-  color: #115e59;
+  border: 1px solid color-mix(in srgb, var(--tng-semantic-accent-success) 42%, var(--tng-semantic-border-subtle));
+  background: color-mix(in srgb, var(--tng-semantic-accent-success) 12%, var(--tng-semantic-background-base));
+  color: var(--tng-semantic-foreground-primary);
 }
 
 .docs-component-chips-examples-live-chip[data-disabled] {
-  border-color: #cbd5e1;
-  background: #f8fafc;
-  color: #94a3b8;
+  border-color: var(--tng-semantic-border-subtle);
+  background: var(--tng-semantic-background-muted);
+  color: var(--tng-semantic-foreground-muted);
 }
 
 .docs-component-chips-examples-live-chip-remove {
   border: 0;
   border-radius: 999px;
-  background: rgba(37, 99, 235, 0.12);
+  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 16%, transparent);
   color: inherit;
   cursor: pointer;
   display: inline-flex;

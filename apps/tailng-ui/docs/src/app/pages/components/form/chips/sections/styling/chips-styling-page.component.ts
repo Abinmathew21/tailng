@@ -19,21 +19,21 @@ interface ContractRow {
   readonly purpose: string;
 }
 
-const HOST_TOKEN_GUIDANCE_CODE = String.raw`tng-chips.docs-component-chips-styling-shell {
-  --tng-semantic-background-base: #ffffff;
-  --tng-semantic-border-subtle: #d8e2ef;
-  --tng-semantic-foreground-primary: #0f172a;
+const HOST_TOKEN_GUIDANCE_CODE = String.raw`.docs-component-chips-styling-shell {
+  /* Optional brand tuning while inheriting semantic surface colors. */
+  --tng-semantic-accent-brand: var(--tng-semantic-accent-brand);
+  --tng-semantic-focus-ring: var(--tng-semantic-focus-ring);
 }
 
 .docs-component-chips-styling-chip {
-  border: 1px solid #bfdbfe;
+  border: 1px solid color-mix(in srgb, var(--tng-semantic-accent-brand) 38%, var(--tng-semantic-border-subtle));
   border-radius: 999px;
-  background: #eff6ff;
-  color: #1e3a8a;
+  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 12%, var(--tng-semantic-background-base));
+  color: var(--tng-semantic-foreground-primary);
 }
 
 .docs-component-chips-styling-chip-remove[data-focused] {
-  outline: 2px solid rgba(37, 99, 235, 0.28);
+  outline: 2px solid color-mix(in srgb, var(--tng-semantic-focus-ring) 38%, transparent);
   outline-offset: 2px;
 }`;
 
@@ -82,27 +82,28 @@ const PLAIN_HTML_CODE = String.raw`<section class="docs-component-chips-styling-
     </p>
   </div>
 
-  <tng-chips
-    class="docs-component-chips-styling-plain-shell"
-    [values]="componentChipsStylingPlainReleaseOwners()"
-    (valuesChange)="onComponentChipsStylingPlainValuesChange($event)"
-    [ariaLabel]="'Release owners'"
-  >
-    <div class="docs-component-chips-styling-plain-row">
-      @for (owner of componentChipsStylingPlainReleaseOwners(); track owner) {
-        <span
-          tngChip
-          [tngChipValue]="owner"
-          [tngChipLabel]="owner"
-          [tngChipDisabled]="isComponentChipsStylingPlainLocked(owner)"
-          class="docs-component-chips-styling-plain-chip"
-        >
-          <span>{{ owner }}</span>
-          <button tngChipRemove type="button" class="docs-component-chips-styling-plain-chip-remove">&times;</button>
-        </span>
-      }
-    </div>
-  </tng-chips>
+  <div class="docs-component-chips-styling-plain-shell">
+    <tng-chips
+      [values]="componentChipsStylingPlainReleaseOwners()"
+      (valuesChange)="onComponentChipsStylingPlainValuesChange($event)"
+      [ariaLabel]="'Release owners'"
+    >
+      <div class="docs-component-chips-styling-plain-row">
+        @for (owner of componentChipsStylingPlainReleaseOwners(); track owner) {
+          <span
+            tngChip
+            [tngChipValue]="owner"
+            [tngChipLabel]="owner"
+            [tngChipDisabled]="isComponentChipsStylingPlainLocked(owner)"
+            class="docs-component-chips-styling-plain-chip"
+          >
+            <span>{{ owner }}</span>
+            <button tngChipRemove type="button" class="docs-component-chips-styling-plain-chip-remove">&times;</button>
+          </span>
+        }
+      </div>
+    </tng-chips>
+  </div>
 
   <p class="docs-component-chips-styling-plain-summary">Selected: {{ componentChipsStylingPlainSummary() }}</p>
 </section>`;
@@ -113,22 +114,22 @@ const PLAIN_CSS_CODE = String.raw`.docs-component-chips-styling-plain-shell-card
   inline-size: min(100%, 36rem);
   margin-inline: auto;
   padding: 1.1rem;
-  border: 1px solid #cbd5e1;
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 1.25rem;
-  background: #ffffff;
-  color: #0f172a;
-  color-scheme: light;
+  background: var(--tng-semantic-background-surface);
+  color: var(--tng-semantic-foreground-primary);
   box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
 }
 
 .docs-component-chips-styling-plain-shell {
+  width: 100%;
+  min-width: 0;
+}
+
+.docs-component-chips-styling-plain-shell tng-chips {
   display: block;
   width: 100%;
   min-width: 0;
-  color-scheme: light;
-  --tng-semantic-background-base: #ffffff;
-  --tng-semantic-border-subtle: #d8e2ef;
-  --tng-semantic-foreground-primary: #0f172a;
 }
 
 .docs-component-chips-styling-plain-row {
@@ -142,24 +143,24 @@ const PLAIN_CSS_CODE = String.raw`.docs-component-chips-styling-plain-shell-card
   align-items: center;
   gap: 0.5rem;
   border-radius: 999px;
-  border: 1px solid #bfdbfe;
-  background: #eff6ff;
-  color: #1e3a8a;
+  border: 1px solid color-mix(in srgb, var(--tng-semantic-accent-brand) 38%, var(--tng-semantic-border-subtle));
+  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 12%, var(--tng-semantic-background-base));
+  color: var(--tng-semantic-foreground-primary);
   font-size: 0.9rem;
   font-weight: 600;
   padding: 0.45rem 0.8rem;
 }
 
 .docs-component-chips-styling-plain-chip[data-disabled] {
-  border-color: #cbd5e1;
-  background: #f8fafc;
-  color: #94a3b8;
+  border-color: var(--tng-semantic-border-subtle);
+  background: var(--tng-semantic-background-muted);
+  color: var(--tng-semantic-foreground-muted);
 }
 
 .docs-component-chips-styling-plain-chip-remove {
   border: 0;
   border-radius: 999px;
-  background: rgba(37, 99, 235, 0.12);
+  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 16%, transparent);
   color: inherit;
   cursor: pointer;
   display: inline-flex;
@@ -175,7 +176,7 @@ const PLAIN_CSS_CODE = String.raw`.docs-component-chips-styling-plain-shell-card
 }
 
 .docs-component-chips-styling-plain-chip-remove[data-focused] {
-  outline: 2px solid rgba(37, 99, 235, 0.28);
+  outline: 2px solid color-mix(in srgb, var(--tng-semantic-focus-ring) 38%, transparent);
   outline-offset: 2px;
 }`;
 
@@ -212,31 +213,32 @@ export class ComponentChipsStylingTailwindExampleComponent {
   }
 }`;
 
-const TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-[36rem] gap-4 rounded-[1.75rem] border border-slate-200 bg-white p-5 text-slate-900 shadow-sm">
+const TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-[36rem] gap-4 rounded-[1.75rem] border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-surface)] p-5 text-[var(--tng-semantic-foreground-primary)] shadow-sm">
   <div class="grid gap-1">
-    <span class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Release owners</span>
-    <p class="m-0 text-sm text-slate-600">
+    <span class="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--tng-semantic-foreground-muted)]">Release owners</span>
+    <p class="m-0 text-sm text-[var(--tng-semantic-foreground-secondary)]">
       Theme the wrapper at the host, then own the projected pill styling directly in the template.
     </p>
   </div>
 
-  <tng-chips
-    class="block w-full min-w-0 [--tng-semantic-background-base:#ffffff] [--tng-semantic-border-subtle:#d8e2ef] [--tng-semantic-foreground-primary:#0f172a]"
-    [values]="componentChipsStylingTailwindReleaseOwners()"
-    (valuesChange)="onComponentChipsStylingTailwindValuesChange($event)"
-    [ariaLabel]="'Release owners'"
-  >
-    <div class="flex flex-wrap gap-2">
-      @for (owner of componentChipsStylingTailwindReleaseOwners(); track owner) {
-        <span tngChip [tngChipValue]="owner" [tngChipLabel]="owner" class="inline-flex items-center gap-2 rounded-full border border-violet-200 bg-violet-50 px-3 py-2 text-sm font-medium text-violet-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.72)]">
-          <span>{{ owner }}</span>
-          <button tngChipRemove type="button" class="inline-grid h-5 w-5 place-items-center rounded-full bg-violet-100 text-[0.8rem] leading-none text-violet-800 transition hover:bg-violet-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400">&times;</button>
-        </span>
-      }
-    </div>
-  </tng-chips>
+  <div class="block w-full min-w-0">
+    <tng-chips
+      [values]="componentChipsStylingTailwindReleaseOwners()"
+      (valuesChange)="onComponentChipsStylingTailwindValuesChange($event)"
+      [ariaLabel]="'Release owners'"
+    >
+      <div class="flex flex-wrap gap-2">
+        @for (owner of componentChipsStylingTailwindReleaseOwners(); track owner) {
+          <span tngChip [tngChipValue]="owner" [tngChipLabel]="owner" class="inline-flex items-center gap-2 rounded-full border border-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_38%,var(--tng-semantic-border-subtle))] bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_12%,var(--tng-semantic-background-base))] px-3 py-2 text-sm font-medium text-[var(--tng-semantic-foreground-primary)] shadow-[inset_0_1px_0_color-mix(in_srgb,var(--tng-semantic-background-surface)_72%,transparent)]">
+            <span>{{ owner }}</span>
+            <button tngChipRemove type="button" class="inline-grid h-5 w-5 place-items-center rounded-full bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_16%,transparent)] text-[0.8rem] leading-none text-[var(--tng-semantic-foreground-secondary)] transition hover:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_24%,transparent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color-mix(in_srgb,var(--tng-semantic-focus-ring)_40%,transparent)]">&times;</button>
+          </span>
+        }
+      </div>
+    </tng-chips>
+  </div>
 
-  <p class="m-0 text-xs text-slate-600">Selected: {{ componentChipsStylingTailwindSummary() }}</p>
+  <p class="m-0 text-xs text-[var(--tng-semantic-foreground-secondary)]">Selected: {{ componentChipsStylingTailwindSummary() }}</p>
 </section>`;
 
 const TAILWIND_CSS_CODE = '/* Tailwind utilities are applied directly in the template. */';
@@ -264,7 +266,7 @@ export class ChipsStylingPageComponent implements OnDestroy {
   protected readonly hostTokenGuidanceCode = HOST_TOKEN_GUIDANCE_CODE;
   protected readonly contractRows: readonly ContractRow[] = Object.freeze([
     {
-      selector: '<tng-chips>.your-class',
+      selector: '.your-wrapper-class',
       appliedOn: 'Wrapper host',
       purpose: 'Apply semantic background, border, and foreground tokens for the root shell.',
     },
