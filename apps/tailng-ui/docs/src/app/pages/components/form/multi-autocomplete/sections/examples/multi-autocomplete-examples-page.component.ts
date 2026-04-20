@@ -106,16 +106,17 @@ const MARKET_PLAIN_HTML_CODE = String.raw`<section class="docs-multi-autocomplet
     </p>
   </div>
 
-  <tng-multi-autocomplete
-    class="docs-multi-autocomplete-launch-markets-plain-control"
-    [options]="componentExamplesPlainLaunchMarkets"
-    [value]="componentExamplesPlainSelectedMarketCodes()"
-    (valueChange)="onComponentExamplesPlainSelectedMarketsChange($event)"
-    [getOptionValue]="getComponentExamplesPlainMarketValue"
-    [getOptionLabel]="getComponentExamplesPlainMarketLabel"
-    placeholder="Search launch markets"
-    [ariaLabel]="'Launch markets'"
-  ></tng-multi-autocomplete>
+  <div class="docs-multi-autocomplete-launch-markets-plain-control">
+    <tng-multi-autocomplete
+      [options]="componentExamplesPlainLaunchMarkets"
+      [value]="componentExamplesPlainSelectedMarketCodes()"
+      (valueChange)="onComponentExamplesPlainSelectedMarketsChange($event)"
+      [getOptionValue]="getComponentExamplesPlainMarketValue"
+      [getOptionLabel]="getComponentExamplesPlainMarketLabel"
+      placeholder="Search launch markets"
+      [ariaLabel]="'Launch markets'"
+    ></tng-multi-autocomplete>
+  </div>
 
   <p class="docs-multi-autocomplete-launch-markets-plain-summary">Selected: {{ componentExamplesPlainSelectedMarketSummary() }}</p>
 </section>`;
@@ -126,11 +127,10 @@ const MARKET_PLAIN_CSS_CODE = String.raw`.docs-multi-autocomplete-launch-markets
   inline-size: min(100%, 36rem);
   margin-inline: auto;
   padding: 1.1rem;
-  border: 1px solid #cbd5e1;
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 1.25rem;
-  background: #ffffff;
-  color: #0f172a;
-  color-scheme: light;
+  background: var(--tng-semantic-background-surface);
+  color: var(--tng-semantic-foreground-primary);
   box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
 }
 
@@ -142,28 +142,19 @@ const MARKET_PLAIN_CSS_CODE = String.raw`.docs-multi-autocomplete-launch-markets
 .docs-multi-autocomplete-launch-markets-plain-kicker {
   font-size: 0.8rem;
   font-weight: 700;
-  color: #64748b;
+  color: var(--tng-semantic-foreground-muted);
 }
 
 .docs-multi-autocomplete-launch-markets-plain-copy,
 .docs-multi-autocomplete-launch-markets-plain-summary {
   margin: 0;
-  color: #475569;
+  color: var(--tng-semantic-foreground-secondary);
 }
 
 .docs-multi-autocomplete-launch-markets-plain-control {
   display: block;
   width: 100%;
   min-width: 0;
-  --tng-semantic-background-canvas: #ffffff;
-  --tng-semantic-background-surface: #f8fafc;
-  --tng-semantic-border-subtle: #d8e2ef;
-  --tng-semantic-border-strong: #94a3b8;
-  --tng-semantic-foreground-primary: #0f172a;
-  --tng-semantic-foreground-secondary: #475569;
-  --tng-semantic-foreground-muted: #64748b;
-  --tng-semantic-accent-brand: #2563eb;
-  --tng-semantic-focus-ring: #2563eb;
   --tng-multi-autocomplete-radius: 1rem;
   --tng-multi-autocomplete-padding: 0.5rem;
   --tng-multi-autocomplete-trigger-py: 0.45rem;
@@ -172,14 +163,6 @@ const MARKET_PLAIN_CSS_CODE = String.raw`.docs-multi-autocomplete-launch-markets
   --tng-multi-autocomplete-chip-px: 0.75rem;
   --tng-multi-autocomplete-option-py: 0.625rem;
   --tng-multi-autocomplete-option-px: 0.875rem;
-  --tng-multi-autocomplete-bg: #ffffff;
-  --tng-multi-autocomplete-surface: #f8fafc;
-  --tng-multi-autocomplete-border: #d8e2ef;
-  --tng-multi-autocomplete-border-strong: #94a3b8;
-  --tng-multi-autocomplete-fg: #0f172a;
-  --tng-multi-autocomplete-muted: #64748b;
-  --tng-multi-autocomplete-brand: #2563eb;
-  --tng-multi-autocomplete-focus-ring: #2563eb;
 }`;
 
 const MARKET_TAILWIND_TS_CODE = String.raw`import { Component, computed, signal } from '@angular/core';
@@ -238,26 +221,27 @@ export class DocsMultiAutocompleteLaunchMarketsTailwindComponent {
   }
 }`;
 
-const MARKET_TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-[36rem] gap-4 rounded-[1.75rem] border border-slate-200 bg-white p-5 text-slate-900 shadow-sm">
+const MARKET_TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-[36rem] gap-4 rounded-[1.75rem] border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-surface)] p-5 text-[var(--tng-semantic-foreground-primary)] shadow-sm">
   <div class="grid gap-1">
-    <span class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Launch markets</span>
-    <p class="m-0 text-sm text-slate-600">
+    <span class="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--tng-semantic-foreground-muted)]">Launch markets</span>
+    <p class="m-0 text-sm text-[var(--tng-semantic-foreground-secondary)]">
       Keep a controlled array of launch regions while the wrapper owns the query text and chips.
     </p>
   </div>
 
-  <tng-multi-autocomplete
-    class="block w-full min-w-0 [--tng-semantic-background-canvas:#ffffff] [--tng-semantic-background-surface:#f8fafc] [--tng-semantic-border-subtle:#d8e2ef] [--tng-semantic-border-strong:#94a3b8] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-foreground-secondary:#475569] [--tng-semantic-foreground-muted:#64748b] [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-focus-ring:#2563eb] [--tng-multi-autocomplete-radius:1rem] [--tng-multi-autocomplete-padding:0.5rem] [--tng-multi-autocomplete-trigger-py:0.45rem] [--tng-multi-autocomplete-trigger-px:0.5rem] [--tng-multi-autocomplete-chip-py:0.375rem] [--tng-multi-autocomplete-chip-px:0.75rem] [--tng-multi-autocomplete-option-py:0.625rem] [--tng-multi-autocomplete-option-px:0.875rem] [--tng-multi-autocomplete-bg:#ffffff] [--tng-multi-autocomplete-surface:#f8fafc] [--tng-multi-autocomplete-border:#d8e2ef] [--tng-multi-autocomplete-border-strong:#94a3b8] [--tng-multi-autocomplete-fg:#0f172a] [--tng-multi-autocomplete-muted:#64748b] [--tng-multi-autocomplete-brand:#2563eb] [--tng-multi-autocomplete-focus-ring:#2563eb]"
-    [options]="componentExamplesTailwindLaunchMarkets"
-    [value]="componentExamplesTailwindSelectedMarketCodes()"
-    (valueChange)="onComponentExamplesTailwindSelectedMarketsChange($event)"
-    [getOptionValue]="getComponentExamplesTailwindMarketValue"
-    [getOptionLabel]="getComponentExamplesTailwindMarketLabel"
-    placeholder="Search launch markets"
-    [ariaLabel]="'Launch markets'"
-  ></tng-multi-autocomplete>
+  <div class="block w-full min-w-0 [--tng-multi-autocomplete-radius:1rem] [--tng-multi-autocomplete-padding:0.5rem] [--tng-multi-autocomplete-trigger-py:0.45rem] [--tng-multi-autocomplete-trigger-px:0.5rem] [--tng-multi-autocomplete-chip-py:0.375rem] [--tng-multi-autocomplete-chip-px:0.75rem] [--tng-multi-autocomplete-option-py:0.625rem] [--tng-multi-autocomplete-option-px:0.875rem]">
+    <tng-multi-autocomplete
+      [options]="componentExamplesTailwindLaunchMarkets"
+      [value]="componentExamplesTailwindSelectedMarketCodes()"
+      (valueChange)="onComponentExamplesTailwindSelectedMarketsChange($event)"
+      [getOptionValue]="getComponentExamplesTailwindMarketValue"
+      [getOptionLabel]="getComponentExamplesTailwindMarketLabel"
+      placeholder="Search launch markets"
+      [ariaLabel]="'Launch markets'"
+    ></tng-multi-autocomplete>
+  </div>
 
-  <p class="m-0 text-xs text-slate-600">Selected: {{ componentExamplesTailwindSelectedMarketSummary() }}</p>
+  <p class="m-0 text-xs text-[var(--tng-semantic-foreground-secondary)]">Selected: {{ componentExamplesTailwindSelectedMarketSummary() }}</p>
 </section>`;
 
 const MARKET_TAILWIND_CSS_CODE = String.raw`/* No additional CSS file is required for this Tailwind example. */`;
@@ -325,36 +309,37 @@ const REVIEWER_PLAIN_HTML_CODE = String.raw`<section class="docs-multi-autocompl
     </p>
   </div>
 
-  <tng-multi-autocomplete
-    class="docs-multi-autocomplete-reviewer-roster-plain-control"
-    [options]="componentExamplesPlainReviewerRoster"
-    [value]="componentExamplesPlainSelectedReviewerIds()"
-    (valueChange)="onComponentExamplesPlainSelectedReviewersChange($event)"
-    [getOptionValue]="getComponentExamplesPlainReviewerValue"
-    [getOptionLabel]="getComponentExamplesPlainReviewerLabel"
-    [isOptionDisabled]="isComponentExamplesPlainReviewerDisabled"
-    placeholder="Assign release owners"
-    [ariaLabel]="'Release owner roster'"
-  >
-    <ng-template #tngMultiAutocompleteChipTpl let-chip>
-      <span class="docs-multi-autocomplete-reviewer-roster-plain-chip-label">{{ chip.label }}</span>
-      <button
-        class="docs-multi-autocomplete-reviewer-roster-plain-chip-action"
-        type="button"
-        (click)="chip.removeItem(chip.value); $event.preventDefault(); $event.stopPropagation()"
-        [attr.aria-label]="'Remove ' + chip.label"
-      >
-        ×
-      </button>
-    </ng-template>
+  <div class="docs-multi-autocomplete-reviewer-roster-plain-control">
+    <tng-multi-autocomplete
+      [options]="componentExamplesPlainReviewerRoster"
+      [value]="componentExamplesPlainSelectedReviewerIds()"
+      (valueChange)="onComponentExamplesPlainSelectedReviewersChange($event)"
+      [getOptionValue]="getComponentExamplesPlainReviewerValue"
+      [getOptionLabel]="getComponentExamplesPlainReviewerLabel"
+      [isOptionDisabled]="isComponentExamplesPlainReviewerDisabled"
+      placeholder="Assign release owners"
+      [ariaLabel]="'Release owner roster'"
+    >
+      <ng-template #tngMultiAutocompleteChipTpl let-chip>
+        <span class="docs-multi-autocomplete-reviewer-roster-plain-chip-label">{{ chip.label }}</span>
+        <button
+          class="docs-multi-autocomplete-reviewer-roster-plain-chip-action"
+          type="button"
+          (click)="chip.removeItem(chip.value); $event.preventDefault(); $event.stopPropagation()"
+          [attr.aria-label]="'Remove ' + chip.label"
+        >
+          ×
+        </button>
+      </ng-template>
 
-    <ng-template #tngMultiAutocompleteOptionTpl let-option>
-      <div class="docs-multi-autocomplete-reviewer-roster-plain-option-row">
-        <span class="docs-multi-autocomplete-reviewer-roster-plain-option-label">{{ option.label }}</span>
-        <small class="docs-multi-autocomplete-reviewer-roster-plain-option-meta">{{ option.option.team }}</small>
-      </div>
-    </ng-template>
-  </tng-multi-autocomplete>
+      <ng-template #tngMultiAutocompleteOptionTpl let-option>
+        <div class="docs-multi-autocomplete-reviewer-roster-plain-option-row">
+          <span class="docs-multi-autocomplete-reviewer-roster-plain-option-label">{{ option.label }}</span>
+          <small class="docs-multi-autocomplete-reviewer-roster-plain-option-meta">{{ option.option.team }}</small>
+        </div>
+      </ng-template>
+    </tng-multi-autocomplete>
+  </div>
 
   <p class="docs-multi-autocomplete-reviewer-roster-plain-summary">Selected: {{ componentExamplesPlainReviewerSummary() }}</p>
 </section>`;
@@ -365,11 +350,10 @@ const REVIEWER_PLAIN_CSS_CODE = String.raw`.docs-multi-autocomplete-reviewer-ros
   inline-size: min(100%, 36rem);
   margin-inline: auto;
   padding: 1.1rem;
-  border: 1px solid #cbd5e1;
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 1.25rem;
-  background: #ffffff;
-  color: #0f172a;
-  color-scheme: light;
+  background: var(--tng-semantic-background-surface);
+  color: var(--tng-semantic-foreground-primary);
   box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
 }
 
@@ -381,28 +365,19 @@ const REVIEWER_PLAIN_CSS_CODE = String.raw`.docs-multi-autocomplete-reviewer-ros
 .docs-multi-autocomplete-reviewer-roster-plain-kicker {
   font-size: 0.8rem;
   font-weight: 700;
-  color: #64748b;
+  color: var(--tng-semantic-foreground-muted);
 }
 
 .docs-multi-autocomplete-reviewer-roster-plain-copy,
 .docs-multi-autocomplete-reviewer-roster-plain-summary {
   margin: 0;
-  color: #475569;
+  color: var(--tng-semantic-foreground-secondary);
 }
 
 .docs-multi-autocomplete-reviewer-roster-plain-control {
   display: block;
   width: 100%;
   min-width: 0;
-  --tng-semantic-background-canvas: #ffffff;
-  --tng-semantic-background-surface: #f8fafc;
-  --tng-semantic-border-subtle: #d8e2ef;
-  --tng-semantic-border-strong: #94a3b8;
-  --tng-semantic-foreground-primary: #0f172a;
-  --tng-semantic-foreground-secondary: #475569;
-  --tng-semantic-foreground-muted: #64748b;
-  --tng-semantic-accent-brand: #0f766e;
-  --tng-semantic-focus-ring: #0f766e;
   --tng-multi-autocomplete-radius: 1rem;
   --tng-multi-autocomplete-padding: 0.5rem;
   --tng-multi-autocomplete-trigger-py: 0.45rem;
@@ -411,14 +386,6 @@ const REVIEWER_PLAIN_CSS_CODE = String.raw`.docs-multi-autocomplete-reviewer-ros
   --tng-multi-autocomplete-chip-px: 0.75rem;
   --tng-multi-autocomplete-option-py: 0.625rem;
   --tng-multi-autocomplete-option-px: 0.875rem;
-  --tng-multi-autocomplete-bg: #ffffff;
-  --tng-multi-autocomplete-surface: #f8fafc;
-  --tng-multi-autocomplete-border: #d8e2ef;
-  --tng-multi-autocomplete-border-strong: #94a3b8;
-  --tng-multi-autocomplete-fg: #0f172a;
-  --tng-multi-autocomplete-muted: #64748b;
-  --tng-multi-autocomplete-brand: #0f766e;
-  --tng-multi-autocomplete-focus-ring: #0f766e;
 }
 
 .docs-multi-autocomplete-reviewer-roster-plain-chip-label {
@@ -463,7 +430,7 @@ const REVIEWER_PLAIN_CSS_CODE = String.raw`.docs-multi-autocomplete-reviewer-ros
 }
 
 .docs-multi-autocomplete-reviewer-roster-plain-option-meta {
-  color: #64748b;
+  color: var(--tng-semantic-foreground-muted);
   font-size: 0.75rem;
 }`;
 
@@ -522,46 +489,47 @@ export class DocsMultiAutocompleteReviewerRosterTailwindComponent {
   }
 }`;
 
-const REVIEWER_TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-[36rem] gap-4 rounded-[1.75rem] border border-slate-200 bg-white p-5 text-slate-900 shadow-sm">
+const REVIEWER_TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-[36rem] gap-4 rounded-[1.75rem] border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-surface)] p-5 text-[var(--tng-semantic-foreground-primary)] shadow-sm">
   <div class="grid gap-1">
-    <span class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Release owner roster</span>
-    <p class="m-0 text-sm text-slate-600">
+    <span class="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--tng-semantic-foreground-muted)]">Release owner roster</span>
+    <p class="m-0 text-sm text-[var(--tng-semantic-foreground-secondary)]">
       Custom templates keep the wrapper ergonomics while showing richer chips and option metadata.
     </p>
   </div>
 
-  <tng-multi-autocomplete
-    class="block w-full min-w-0 [--tng-semantic-background-canvas:#ffffff] [--tng-semantic-background-surface:#f8fafc] [--tng-semantic-border-subtle:#d8e2ef] [--tng-semantic-border-strong:#94a3b8] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-foreground-secondary:#475569] [--tng-semantic-foreground-muted:#64748b] [--tng-semantic-accent-brand:#0f766e] [--tng-semantic-focus-ring:#0f766e] [--tng-multi-autocomplete-radius:1rem] [--tng-multi-autocomplete-padding:0.5rem] [--tng-multi-autocomplete-trigger-py:0.45rem] [--tng-multi-autocomplete-trigger-px:0.5rem] [--tng-multi-autocomplete-chip-py:0.375rem] [--tng-multi-autocomplete-chip-px:0.75rem] [--tng-multi-autocomplete-option-py:0.625rem] [--tng-multi-autocomplete-option-px:0.875rem] [--tng-multi-autocomplete-bg:#ffffff] [--tng-multi-autocomplete-surface:#f8fafc] [--tng-multi-autocomplete-border:#d8e2ef] [--tng-multi-autocomplete-border-strong:#94a3b8] [--tng-multi-autocomplete-fg:#0f172a] [--tng-multi-autocomplete-muted:#64748b] [--tng-multi-autocomplete-brand:#0f766e] [--tng-multi-autocomplete-focus-ring:#0f766e]"
-    [options]="componentExamplesTailwindReviewerRoster"
-    [value]="componentExamplesTailwindSelectedReviewerIds()"
-    (valueChange)="onComponentExamplesTailwindSelectedReviewersChange($event)"
-    [getOptionValue]="getComponentExamplesTailwindReviewerValue"
-    [getOptionLabel]="getComponentExamplesTailwindReviewerLabel"
-    [isOptionDisabled]="isComponentExamplesTailwindReviewerDisabled"
-    placeholder="Assign release owners"
-    [ariaLabel]="'Release owner roster'"
-  >
-    <ng-template #tngMultiAutocompleteChipTpl let-chip>
-      <span class="font-medium">{{ chip.label }}</span>
-      <button
-        type="button"
-        class="inline-flex h-5 w-5 items-center justify-center rounded-full text-slate-500 transition hover:bg-slate-200 hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500/20"
-        (click)="chip.removeItem(chip.value); $event.preventDefault(); $event.stopPropagation()"
-        [attr.aria-label]="'Remove ' + chip.label"
-      >
-        ×
-      </button>
-    </ng-template>
+  <div class="block w-full min-w-0 [--tng-multi-autocomplete-radius:1rem] [--tng-multi-autocomplete-padding:0.5rem] [--tng-multi-autocomplete-trigger-py:0.45rem] [--tng-multi-autocomplete-trigger-px:0.5rem] [--tng-multi-autocomplete-chip-py:0.375rem] [--tng-multi-autocomplete-chip-px:0.75rem] [--tng-multi-autocomplete-option-py:0.625rem] [--tng-multi-autocomplete-option-px:0.875rem]">
+    <tng-multi-autocomplete
+      [options]="componentExamplesTailwindReviewerRoster"
+      [value]="componentExamplesTailwindSelectedReviewerIds()"
+      (valueChange)="onComponentExamplesTailwindSelectedReviewersChange($event)"
+      [getOptionValue]="getComponentExamplesTailwindReviewerValue"
+      [getOptionLabel]="getComponentExamplesTailwindReviewerLabel"
+      [isOptionDisabled]="isComponentExamplesTailwindReviewerDisabled"
+      placeholder="Assign release owners"
+      [ariaLabel]="'Release owner roster'"
+    >
+      <ng-template #tngMultiAutocompleteChipTpl let-chip>
+        <span class="font-medium">{{ chip.label }}</span>
+        <button
+          type="button"
+          class="inline-flex h-5 w-5 items-center justify-center rounded-full text-slate-500 transition hover:bg-slate-200 hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500/20"
+          (click)="chip.removeItem(chip.value); $event.preventDefault(); $event.stopPropagation()"
+          [attr.aria-label]="'Remove ' + chip.label"
+        >
+          ×
+        </button>
+      </ng-template>
 
-    <ng-template #tngMultiAutocompleteOptionTpl let-option>
-      <div class="grid gap-1">
-        <span class="font-medium">{{ option.label }}</span>
-        <small class="text-xs text-slate-500">{{ option.option.team }}</small>
-      </div>
-    </ng-template>
-  </tng-multi-autocomplete>
+      <ng-template #tngMultiAutocompleteOptionTpl let-option>
+        <div class="grid gap-1">
+          <span class="font-medium">{{ option.label }}</span>
+          <small class="text-xs text-slate-500">{{ option.option.team }}</small>
+        </div>
+      </ng-template>
+    </tng-multi-autocomplete>
+  </div>
 
-  <p class="m-0 text-xs text-slate-600">Selected: {{ componentExamplesTailwindReviewerSummary() }}</p>
+  <p class="m-0 text-xs text-[var(--tng-semantic-foreground-secondary)]">Selected: {{ componentExamplesTailwindReviewerSummary() }}</p>
 </section>`;
 
 const REVIEWER_TAILWIND_CSS_CODE = String.raw`/* No additional CSS file is required for this Tailwind example. */`;

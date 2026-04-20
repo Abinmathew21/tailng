@@ -16,6 +16,7 @@ import { createListboxController } from '@tailng-ui/cdk';
 import type { TngListNavigationAction } from '@tailng-ui/cdk';
 import {
   TNG_LISTBOX,
+  TNG_LISTBOX_FOCUS_ON_POINTER_SELECT,
   TNG_LISTBOX_FORCE_MULTIPLE,
   TNG_LISTBOX_PRESERVE_VALUE_ON_UNREGISTER,
 } from './tokens';
@@ -28,6 +29,8 @@ export type ListboxValue<T> = T | readonly T[] | null;
 })
 export class TngListboxDirective<T> {
   private readonly _forceMultiple = inject(TNG_LISTBOX_FORCE_MULTIPLE, { optional: true });
+  private readonly focusOnPointerSelect =
+    inject(TNG_LISTBOX_FOCUS_ON_POINTER_SELECT, { optional: true }) ?? true;
   private readonly preserveValueOnUnregister =
     inject(TNG_LISTBOX_PRESERVE_VALUE_ON_UNREGISTER, { optional: true }) ?? false;
   readonly multipleInput = input<boolean>(false, { alias: 'multiple' });
@@ -398,9 +401,11 @@ export class TngListboxDirective<T> {
     const ctrl = this.controller();
     if (!ctrl) return;
 
-    // Pointer selection should transfer keyboard focus to this listbox so
-    // subsequent Arrow keys continue from the clicked list.
-    this.el.nativeElement.focus();
+    if (this.focusOnPointerSelect) {
+      // Pointer selection can transfer keyboard focus to this listbox so
+      // subsequent Arrow keys continue from the clicked list.
+      this.el.nativeElement.focus();
+    }
 
     ctrl.handleClick(id, shiftKey);
 

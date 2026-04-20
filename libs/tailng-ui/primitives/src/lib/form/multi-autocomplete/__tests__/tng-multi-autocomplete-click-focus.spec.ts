@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { afterEach, describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { TngMultiAutocomplete } from '../tng-multi-autocomplete';
 import { TngMultiAutocompleteChip } from '../tng-multi-autocomplete.chip';
@@ -12,6 +12,17 @@ import { TngMultiAutocompleteTrigger } from '../tng-multi-autocomplete.trigger';
 
 function click(el: HTMLElement): void {
   el.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
+}
+
+function focus(el: HTMLElement): void {
+  el.dispatchEvent(new FocusEvent('focus', { bubbles: false, cancelable: false }));
+  el.focus();
+}
+
+function pointerdown(el: HTMLElement): void {
+  el.dispatchEvent(
+    new MouseEvent('pointerdown', { bubbles: true, cancelable: true, button: 0 }),
+  );
 }
 
 function getOpenOverlay(): HTMLElement | null {
@@ -124,5 +135,36 @@ describe('tng-multi-autocomplete click-to-focus behavior', () => {
 
     expect(host.removed()).toBe('de');
     expect(document.activeElement).not.toBe(trigger);
+  });
+
+  it('keeps focus on the trigger after pointer-selecting an option', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [ClickFocusHostComponent],
+    }).createComponent(ClickFocusHostComponent);
+
+    fixture.detectChanges();
+
+    const host = fixture.componentInstance;
+    const trigger = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLInputElement;
+
+    focus(trigger);
+    fixture.detectChanges();
+    await Promise.resolve();
+    fixture.detectChanges();
+
+    const listbox = document.body.querySelector(
+      '[data-slot="multi-autocomplete-listbox"]',
+    ) as HTMLElement;
+    const listboxFocusSpy = vi.spyOn(listbox, 'focus');
+
+    const canadaOption = document.body.querySelector('[data-slot="multi-autocomplete-option"]') as HTMLElement;
+    pointerdown(canadaOption);
+    fixture.detectChanges();
+    await Promise.resolve();
+    fixture.detectChanges();
+
+    expect(host.value()).toEqual(['de', 'ca']);
+    expect(document.activeElement).toBe(trigger);
+    expect(listboxFocusSpy).not.toHaveBeenCalled();
   });
 });

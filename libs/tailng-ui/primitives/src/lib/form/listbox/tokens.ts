@@ -13,6 +13,13 @@ export const TNG_LISTBOX_FORCE_MULTIPLE =
   new InjectionToken<boolean>('TNG_LISTBOX_FORCE_MULTIPLE');
 
 /**
+ * When true, pointer selection moves DOM focus to the listbox host so follow-up
+ * keyboard navigation continues from the clicked list. Defaults to true.
+ */
+export const TNG_LISTBOX_FOCUS_ON_POINTER_SELECT =
+  new InjectionToken<boolean>('TNG_LISTBOX_FOCUS_ON_POINTER_SELECT');
+
+/**
  * When true, unregistering options should not mutate the external listbox value.
  * This is useful for filterable composites where options can temporarily unmount
  * while the controlled value should remain authoritative.

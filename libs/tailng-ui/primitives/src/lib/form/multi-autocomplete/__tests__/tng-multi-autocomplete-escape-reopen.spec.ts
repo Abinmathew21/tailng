@@ -14,6 +14,16 @@ function focus(el: HTMLElement): void {
   el.focus();
 }
 
+function click(el: HTMLElement): void {
+  el.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
+}
+
+function pointerdown(el: HTMLElement): void {
+  el.dispatchEvent(
+    new MouseEvent('pointerdown', { bubbles: true, cancelable: true, button: 0 }),
+  );
+}
+
 function inputText(input: HTMLInputElement, value: string): void {
   input.value = value;
   input.dispatchEvent(new Event('input', { bubbles: true, cancelable: true }));
@@ -80,11 +90,14 @@ class MultiAutocompleteEscapeReopenHostComponent {
     'Cameroon',
     'Chile',
     'Japan',
+    'Norway',
+    'Peru',
+    'Spain',
   ]);
 
   readonly open = signal(false);
   readonly query = signal('');
-  readonly value = signal<readonly string[]>([]);
+  readonly value = signal<readonly string[]>(['Canada', 'Chile']);
 
   readonly filteredCountries = computed(() => {
     const normalizedQuery = this.query().trim().toLowerCase();
@@ -150,5 +163,93 @@ describe('tng-multi-autocomplete Escape reopen flow', () => {
     expect(content.hasAttribute('hidden')).toBe(false);
     expect(overlay.parentNode).toBe(document.body);
     expect(optionTexts(document.body)).toEqual(['Canada', 'Cameroon', 'Chile']);
+  });
+
+  it('closes the overlay on Escape after selecting another option from an open list', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [MultiAutocompleteEscapeReopenHostComponent],
+    }).createComponent(MultiAutocompleteEscapeReopenHostComponent);
+
+    fixture.detectChanges();
+
+    const host = fixture.componentInstance;
+    const root = fixture.nativeElement as HTMLElement;
+    const trigger = root.querySelector('[data-testid="trigger"]') as HTMLInputElement;
+    const content = root.querySelector('[data-testid="content"]') as HTMLElement;
+
+    click(trigger);
+    focus(trigger);
+    fixture.detectChanges();
+    await Promise.resolve();
+    fixture.detectChanges();
+
+    expect(host.value()).toEqual(['Canada', 'Chile']);
+    expect(host.open()).toBe(true);
+    expect(optionTexts(document.body)).toEqual([
+      'Canada',
+      'Cameroon',
+      'Chile',
+      'Japan',
+      'Norway',
+      'Peru',
+      'Spain',
+    ]);
+
+    const japanOption = document.body.querySelector('[data-testid="opt-japan"]') as HTMLElement;
+    pointerdown(japanOption);
+    fixture.detectChanges();
+    await Promise.resolve();
+    fixture.detectChanges();
+
+    expect(host.value()).toEqual(['Canada', 'Chile', 'Japan']);
+    expect(host.open()).toBe(true);
+
+    keydown(trigger, 'Escape');
+    fixture.detectChanges();
+    await Promise.resolve();
+    fixture.detectChanges();
+
+    expect(host.open()).toBe(false);
+    expect(content.hasAttribute('hidden')).toBe(true);
+  });
+
+  it('closes the overlay when Escape is sent to the focused element after pointer selection', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [MultiAutocompleteEscapeReopenHostComponent],
+    }).createComponent(MultiAutocompleteEscapeReopenHostComponent);
+
+    fixture.detectChanges();
+
+    const host = fixture.componentInstance;
+    const root = fixture.nativeElement as HTMLElement;
+    const trigger = root.querySelector('[data-testid="trigger"]') as HTMLInputElement;
+    const content = root.querySelector('[data-testid="content"]') as HTMLElement;
+
+    click(trigger);
+    focus(trigger);
+    fixture.detectChanges();
+    await Promise.resolve();
+    fixture.detectChanges();
+
+    expect(host.value()).toEqual(['Canada', 'Chile']);
+    expect(host.open()).toBe(true);
+
+    const japanOption = document.body.querySelector('[data-testid="opt-japan"]') as HTMLElement;
+    pointerdown(japanOption);
+    fixture.detectChanges();
+    await Promise.resolve();
+    fixture.detectChanges();
+
+    expect(host.value()).toEqual(['Canada', 'Chile', 'Japan']);
+    expect(host.open()).toBe(true);
+
+    const focusedElement = document.activeElement as HTMLElement;
+    keydown(focusedElement, 'Escape');
+    fixture.detectChanges();
+    await Promise.resolve();
+    fixture.detectChanges();
+
+    expect(host.open()).toBe(false);
+    expect(content.hasAttribute('hidden')).toBe(true);
   });
 });

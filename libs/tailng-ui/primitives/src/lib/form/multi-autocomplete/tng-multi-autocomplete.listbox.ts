@@ -15,6 +15,7 @@ import {
 } from '../listbox/listbox.directive';
 import { TngOptionDirective } from '../listbox/option.directive';
 import {
+  TNG_LISTBOX_FOCUS_ON_POINTER_SELECT,
   TNG_LISTBOX_FORCE_MULTIPLE,
   TNG_LISTBOX_FORCE_TYPEAHEAD,
   TNG_LISTBOX_PRESERVE_VALUE_ON_UNREGISTER,
@@ -34,6 +35,8 @@ const createListboxId = createTngIdFactory('tng-multi-autocomplete-listbox');
     // Multi-autocomplete typing happens in the input. Listbox must NOT typeahead.
     { provide: TNG_LISTBOX_FORCE_TYPEAHEAD, useValue: false },
     { provide: TNG_LISTBOX_FORCE_MULTIPLE, useValue: true },
+    // Keep focus on the trigger input so combobox Escape/typing semantics stay intact.
+    { provide: TNG_LISTBOX_FOCUS_ON_POINTER_SELECT, useValue: false },
     { provide: TNG_LISTBOX_PRESERVE_VALUE_ON_UNREGISTER, useValue: true },
   ],
   hostDirectives: [
