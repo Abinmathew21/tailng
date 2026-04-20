@@ -32,14 +32,7 @@ const CATEGORY_OPTIONS: readonly CategoryOption[] = Object.freeze([
   { id: 'theming', label: 'Theming' },
 ]);
 
-const HOST_TOKEN_GUIDANCE_CODE = String.raw`tng-multiselect.docs-component-multiselect-styling-shell {
-  --tng-semantic-background-canvas: #ffffff;
-  --tng-semantic-background-surface: #f8fafc;
-  --tng-semantic-border-subtle: #d8e2ef;
-  --tng-semantic-border-strong: #94a3b8;
-  --tng-semantic-foreground-primary: #0f172a;
-  --tng-semantic-foreground-secondary: #475569;
-  --tng-semantic-foreground-muted: #64748b;
+const HOST_TOKEN_GUIDANCE_CODE = String.raw`.docs-component-multiselect-styling-shell {
   --tng-semantic-accent-brand: #0f766e;
   --tng-semantic-focus-ring: #0f766e;
 
@@ -48,12 +41,6 @@ const HOST_TOKEN_GUIDANCE_CODE = String.raw`tng-multiselect.docs-component-multi
   --tng-select-trigger-px: 0.875rem;
   --tng-select-option-py: 0.625rem;
   --tng-select-option-px: 0.875rem;
-  --tng-select-bg: #ffffff;
-  --tng-select-surface: #f8fafc;
-  --tng-select-border: #d8e2ef;
-  --tng-select-border-strong: #94a3b8;
-  --tng-select-fg: #0f172a;
-  --tng-select-muted: #64748b;
   --tng-select-brand: #0f766e;
   --tng-select-focus-ring: #0f766e;
 }
@@ -118,17 +105,18 @@ const PLAIN_HTML_CODE = String.raw`<section class="docs-component-multiselect-st
     </p>
   </div>
 
-  <tng-multiselect
-    class="docs-component-multiselect-styling-plain-control docs-component-multiselect-styling-shell"
-    [options]="categories"
-    [value]="selectedCategories()"
-    (valueChange)="onSelectedCategoriesChange($event)"
-    [getOptionValue]="getCategoryValue"
-    [getOptionLabel]="getCategoryLabel"
-    [isOptionDisabled]="isCategoryDisabled"
-    placeholder="Select categories"
-    [ariaLabel]="'Categories'"
-  ></tng-multiselect>
+  <div class="docs-component-multiselect-styling-plain-control docs-component-multiselect-styling-shell">
+    <tng-multiselect
+      [options]="categories"
+      [value]="selectedCategories()"
+      (valueChange)="onSelectedCategoriesChange($event)"
+      [getOptionValue]="getCategoryValue"
+      [getOptionLabel]="getCategoryLabel"
+      [isOptionDisabled]="isCategoryDisabled"
+      placeholder="Select categories"
+      [ariaLabel]="'Categories'"
+    ></tng-multiselect>
+  </div>
 
   <p class="docs-component-multiselect-styling-plain-summary">
     Selected: {{ selectedSummary() }}
@@ -141,11 +129,10 @@ const PLAIN_CSS_CODE = String.raw`.docs-component-multiselect-styling-plain-shel
   inline-size: min(100%, 36rem);
   margin-inline: auto;
   padding: 1.1rem;
-  border: 1px solid #cbd5e1;
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 1.25rem;
-  background: #ffffff;
-  color: #0f172a;
-  color-scheme: light;
+  background: var(--tng-semantic-background-surface);
+  color: var(--tng-semantic-foreground-primary);
   box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
 }
 
@@ -157,13 +144,13 @@ const PLAIN_CSS_CODE = String.raw`.docs-component-multiselect-styling-plain-shel
 .docs-component-multiselect-styling-plain-kicker {
   font-size: 0.8rem;
   font-weight: 700;
-  color: #64748b;
+  color: var(--tng-semantic-foreground-muted);
 }
 
 .docs-component-multiselect-styling-plain-copy,
 .docs-component-multiselect-styling-plain-summary {
   margin: 0;
-  color: #475569;
+  color: var(--tng-semantic-foreground-secondary);
 }
 
 /* Host-level tokens – the component base CSS consumes them automatically. */
@@ -171,14 +158,6 @@ const PLAIN_CSS_CODE = String.raw`.docs-component-multiselect-styling-plain-shel
   display: block;
   width: 100%;
   min-width: 0;
-  color-scheme: light;
-  --tng-semantic-background-canvas: #ffffff;
-  --tng-semantic-background-surface: #f8fafc;
-  --tng-semantic-border-subtle: #d8e2ef;
-  --tng-semantic-border-strong: #94a3b8;
-  --tng-semantic-foreground-primary: #0f172a;
-  --tng-semantic-foreground-secondary: #475569;
-  --tng-semantic-foreground-muted: #64748b;
   --tng-semantic-accent-brand: #0f766e;
   --tng-semantic-focus-ring: #0f766e;
   --tng-select-radius: 1rem;
@@ -189,24 +168,21 @@ const PLAIN_CSS_CODE = String.raw`.docs-component-multiselect-styling-plain-shel
   --tng-select-option-py: 0.72rem;
   --tng-select-option-px: 0.9rem;
   --tng-select-option-radius: 0.85rem;
-  --tng-select-bg: #ffffff;
-  --tng-select-surface: #f8fafc;
-  --tng-select-border: #d8e2ef;
-  --tng-select-border-strong: #94a3b8;
-  --tng-select-border-hover: #64748b;
-  --tng-select-fg: #0f172a;
-  --tng-select-muted: #64748b;
   --tng-select-brand: #0f766e;
   --tng-select-focus-ring: #0f766e;
   --tng-select-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
   --tng-select-shadow-focus: 0 0 0 3px rgba(15, 118, 110, 0.16);
   --tng-select-icon-margin-inline-start: 0.35rem;
   --tng-select-overlay-max-width: min(92vw, 36rem);
-  --tng-select-overlay-border: #d8e2ef;
   --tng-select-overlay-radius: 1rem;
-  --tng-select-overlay-bg: #ffffff;
   --tng-select-overlay-padding: 0.4rem;
   --tng-select-overlay-shadow: 0 18px 38px rgba(15, 23, 42, 0.14);
+}
+
+.docs-component-multiselect-styling-shell tng-multiselect {
+  display: block;
+  width: 100%;
+  min-width: 0;
 }`;
 
 const TAILWIND_TS_CODE = String.raw`import { Component, computed, signal } from '@angular/core';
@@ -258,27 +234,28 @@ export class ComponentMultiselectStylingTailwindExampleComponent {
   }
 }`;
 
-const TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-[36rem] gap-4 rounded-[1.75rem] border border-slate-200 bg-white p-5 text-slate-900 shadow-sm">
+const TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-[36rem] gap-4 rounded-[1.75rem] border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-surface)] p-5 text-[var(--tng-semantic-foreground-primary)] shadow-sm">
   <div class="grid gap-1">
-    <span class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Categories</span>
-    <p class="m-0 text-sm text-slate-600">
+    <span class="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--tng-semantic-foreground-muted)]">Categories</span>
+    <p class="m-0 text-sm text-[var(--tng-semantic-foreground-secondary)]">
       Host-level tokens define the palette while the wrapper handles multi-selection plumbing.
     </p>
   </div>
 
-  <tng-multiselect
-    class="docs-component-multiselect-styling-live-control docs-component-multiselect-styling-shell block w-full min-w-0 [--tng-semantic-background-canvas:#ffffff] [--tng-semantic-background-surface:#f8fafc] [--tng-semantic-border-subtle:#d8e2ef] [--tng-semantic-border-strong:#94a3b8] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-foreground-secondary:#475569] [--tng-semantic-foreground-muted:#64748b] [--tng-semantic-accent-brand:#0f766e] [--tng-semantic-focus-ring:#0f766e] [--tng-select-radius:1rem] [--tng-select-trigger-py:0.625rem] [--tng-select-trigger-px:0.875rem] [--tng-select-option-py:0.625rem] [--tng-select-option-px:0.875rem] [--tng-select-bg:#ffffff] [--tng-select-surface:#f8fafc] [--tng-select-border:#d8e2ef] [--tng-select-border-strong:#94a3b8] [--tng-select-fg:#0f172a] [--tng-select-muted:#64748b] [--tng-select-brand:#0f766e] [--tng-select-focus-ring:#0f766e]"
-    [options]="categories"
-    [value]="selectedCategories()"
-    (valueChange)="onSelectedCategoriesChange($event)"
-    [getOptionValue]="getCategoryValue"
-    [getOptionLabel]="getCategoryLabel"
-    [isOptionDisabled]="isCategoryDisabled"
-    placeholder="Select categories"
-    [ariaLabel]="'Categories'"
-  ></tng-multiselect>
+  <div class="docs-component-multiselect-styling-live-control docs-component-multiselect-styling-shell block w-full min-w-0 [--tng-semantic-accent-brand:#0f766e] [--tng-semantic-focus-ring:#0f766e] [--tng-select-radius:1rem] [--tng-select-trigger-py:0.625rem] [--tng-select-trigger-px:0.875rem] [--tng-select-option-py:0.625rem] [--tng-select-option-px:0.875rem] [--tng-select-brand:#0f766e] [--tng-select-focus-ring:#0f766e]">
+    <tng-multiselect
+      [options]="categories"
+      [value]="selectedCategories()"
+      (valueChange)="onSelectedCategoriesChange($event)"
+      [getOptionValue]="getCategoryValue"
+      [getOptionLabel]="getCategoryLabel"
+      [isOptionDisabled]="isCategoryDisabled"
+      placeholder="Select categories"
+      [ariaLabel]="'Categories'"
+    ></tng-multiselect>
+  </div>
 
-  <p class="m-0 text-xs text-slate-600">Selected: {{ selectedSummary() }}</p>
+  <p class="m-0 text-xs text-[var(--tng-semantic-foreground-secondary)]">Selected: {{ selectedSummary() }}</p>
 </section>`;
 
 const TAILWIND_CSS_CODE = '/* Tokens are applied via Tailwind arbitrary properties in the template. */\n/* The component base CSS consumes them automatically. */';
@@ -318,7 +295,7 @@ export class MultiselectStylingPageComponent implements OnDestroy {
 
   protected readonly contractRows: readonly ContractRow[] = Object.freeze([
     {
-      selector: '<tng-multiselect> + --tng-select-*',
+      selector: '.docs-component-multiselect-styling-shell + --tng-select-*',
       appliedOn: 'Wrapper host',
       purpose: 'Stable surface for trigger, option, and overlay theming through copied host tokens.',
     },

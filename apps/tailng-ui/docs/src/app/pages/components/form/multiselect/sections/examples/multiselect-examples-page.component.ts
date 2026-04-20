@@ -86,16 +86,17 @@ const STATUS_PLAIN_HTML_CODE = String.raw`<section class="status-multiselect-pla
     </p>
   </div>
 
-  <tng-multiselect
-    class="status-multiselect-plain-control"
-    [options]="statusOptions"
-    [value]="selectedStatuses()"
-    (valueChange)="onValueChange($event)"
-    [getOptionValue]="getStatusValue"
-    [getOptionLabel]="getStatusLabel"
-    placeholder="Select statuses"
-    aria-label="Status multiselect"
-  ></tng-multiselect>
+  <div class="status-multiselect-plain-control">
+    <tng-multiselect
+      [options]="statusOptions"
+      [value]="selectedStatuses()"
+      (valueChange)="onValueChange($event)"
+      [getOptionValue]="getStatusValue"
+      [getOptionLabel]="getStatusLabel"
+      placeholder="Select statuses"
+      aria-label="Status multiselect"
+    ></tng-multiselect>
+  </div>
 
   <p class="status-multiselect-plain-summary">Selected: {{ selectedSummary() }}</p>
 </section>`;
@@ -106,11 +107,10 @@ const STATUS_PLAIN_CSS_CODE = String.raw`.status-multiselect-plain-shell {
   inline-size: min(100%, 36rem);
   margin-inline: auto;
   padding: 1.1rem;
-  border: 1px solid #cbd5e1;
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 1.25rem;
-  background: #ffffff;
-  color: #0f172a;
-  color-scheme: light;
+  background: var(--tng-semantic-background-surface);
+  color: var(--tng-semantic-foreground-primary);
   box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
 }
 
@@ -122,26 +122,19 @@ const STATUS_PLAIN_CSS_CODE = String.raw`.status-multiselect-plain-shell {
 .status-multiselect-plain-kicker {
   font-size: 0.8rem;
   font-weight: 700;
-  color: #64748b;
+  color: var(--tng-semantic-foreground-muted);
 }
 
 .status-multiselect-plain-copy,
 .status-multiselect-plain-summary {
   margin: 0;
-  color: #475569;
+  color: var(--tng-semantic-foreground-secondary);
 }
 
 .status-multiselect-plain-control {
   display: block;
   width: 100%;
   min-width: 0;
-  --tng-semantic-background-canvas: #ffffff;
-  --tng-semantic-background-surface: #f8fafc;
-  --tng-semantic-border-subtle: #d8e2ef;
-  --tng-semantic-border-strong: #94a3b8;
-  --tng-semantic-foreground-primary: #0f172a;
-  --tng-semantic-foreground-secondary: #475569;
-  --tng-semantic-foreground-muted: #64748b;
   --tng-semantic-accent-brand: #2563eb;
   --tng-semantic-focus-ring: #2563eb;
   --tng-select-radius: 1rem;
@@ -149,14 +142,14 @@ const STATUS_PLAIN_CSS_CODE = String.raw`.status-multiselect-plain-shell {
   --tng-select-trigger-px: 0.875rem;
   --tng-select-option-py: 0.625rem;
   --tng-select-option-px: 0.875rem;
-  --tng-select-bg: #ffffff;
-  --tng-select-surface: #f8fafc;
-  --tng-select-border: #d8e2ef;
-  --tng-select-border-strong: #94a3b8;
-  --tng-select-fg: #0f172a;
-  --tng-select-muted: #64748b;
   --tng-select-brand: #2563eb;
   --tng-select-focus-ring: #2563eb;
+}
+
+.status-multiselect-plain-control tng-multiselect {
+  display: block;
+  width: 100%;
+  min-width: 0;
 }`;
 
 const STATUS_TAILWIND_TS_CODE = String.raw`import { Component, computed, signal } from '@angular/core';
@@ -207,26 +200,27 @@ export class StatusMultiselectTailwindComponent {
   }
 }`;
 
-const STATUS_TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-[36rem] gap-4 rounded-[1.75rem] border border-slate-200 bg-white p-5 text-slate-900 shadow-sm [color-scheme:light]">
+const STATUS_TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-[36rem] gap-4 rounded-[1.75rem] border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-surface)] p-5 text-[var(--tng-semantic-foreground-primary)] shadow-sm">
   <div class="grid gap-1">
-    <span class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Status filter</span>
-    <p class="m-0 text-sm text-slate-600">
+    <span class="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--tng-semantic-foreground-muted)]">Status filter</span>
+    <p class="m-0 text-sm text-[var(--tng-semantic-foreground-secondary)]">
       Keep a controlled multi-value while the wrapper handles trigger and menu plumbing.
     </p>
   </div>
 
-  <tng-multiselect
-    class="block w-full min-w-0 [--tng-semantic-background-canvas:#ffffff] [--tng-semantic-background-surface:#f8fafc] [--tng-semantic-border-subtle:#d8e2ef] [--tng-semantic-border-strong:#94a3b8] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-foreground-secondary:#475569] [--tng-semantic-foreground-muted:#64748b] [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-focus-ring:#2563eb] [--tng-select-radius:1rem] [--tng-select-trigger-py:0.625rem] [--tng-select-trigger-px:0.875rem] [--tng-select-option-py:0.625rem] [--tng-select-option-px:0.875rem] [--tng-select-bg:#ffffff] [--tng-select-surface:#f8fafc] [--tng-select-border:#d8e2ef] [--tng-select-border-strong:#94a3b8] [--tng-select-fg:#0f172a] [--tng-select-muted:#64748b] [--tng-select-brand:#2563eb] [--tng-select-focus-ring:#2563eb]"
-    [options]="statusOptions"
-    [value]="selectedStatuses()"
-    (valueChange)="onValueChange($event)"
-    [getOptionValue]="getStatusValue"
-    [getOptionLabel]="getStatusLabel"
-    placeholder="Select statuses"
-    aria-label="Status multiselect"
-  ></tng-multiselect>
+  <div class="block w-full min-w-0 [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-focus-ring:#2563eb] [--tng-select-radius:1rem] [--tng-select-trigger-py:0.625rem] [--tng-select-trigger-px:0.875rem] [--tng-select-option-py:0.625rem] [--tng-select-option-px:0.875rem] [--tng-select-brand:#2563eb] [--tng-select-focus-ring:#2563eb]">
+    <tng-multiselect
+      [options]="statusOptions"
+      [value]="selectedStatuses()"
+      (valueChange)="onValueChange($event)"
+      [getOptionValue]="getStatusValue"
+      [getOptionLabel]="getStatusLabel"
+      placeholder="Select statuses"
+      aria-label="Status multiselect"
+    ></tng-multiselect>
+  </div>
 
-  <p class="m-0 text-xs text-slate-600">Selected: {{ selectedSummary() }}</p>
+  <p class="m-0 text-xs text-[var(--tng-semantic-foreground-secondary)]">Selected: {{ selectedSummary() }}</p>
 </section>`;
 
 const STATUS_TAILWIND_CSS_CODE = '/* Tailwind utilities are applied directly in the template. */';
@@ -295,31 +289,33 @@ const DUAL_PLAIN_HTML_CODE = String.raw`<section class="dual-multiselect-plain-s
   <div class="dual-multiselect-plain-grid">
     <div class="dual-multiselect-plain-card">
       <p class="dual-multiselect-plain-card-title">Tag group A</p>
-      <tng-multiselect
-        class="dual-multiselect-plain-control"
-        [options]="tagOptions"
-        [value]="tagValueA()"
-        (valueChange)="onTagAValueChange($event)"
-        [getOptionValue]="getTagValue"
-        [getOptionLabel]="getTagLabel"
-        placeholder="Select tags"
-        aria-label="Tag group A multiselect"
-      ></tng-multiselect>
+      <div class="dual-multiselect-plain-control">
+        <tng-multiselect
+          [options]="tagOptions"
+          [value]="tagValueA()"
+          (valueChange)="onTagAValueChange($event)"
+          [getOptionValue]="getTagValue"
+          [getOptionLabel]="getTagLabel"
+          placeholder="Select tags"
+          aria-label="Tag group A multiselect"
+        ></tng-multiselect>
+      </div>
       <p class="dual-multiselect-plain-summary">Selected: {{ tagSummaryA() }}</p>
     </div>
 
     <div class="dual-multiselect-plain-card">
       <p class="dual-multiselect-plain-card-title">Tag group B</p>
-      <tng-multiselect
-        class="dual-multiselect-plain-control"
-        [options]="tagOptions"
-        [value]="tagValueB()"
-        (valueChange)="onTagBValueChange($event)"
-        [getOptionValue]="getTagValue"
-        [getOptionLabel]="getTagLabel"
-        placeholder="Select tags"
-        aria-label="Tag group B multiselect"
-      ></tng-multiselect>
+      <div class="dual-multiselect-plain-control">
+        <tng-multiselect
+          [options]="tagOptions"
+          [value]="tagValueB()"
+          (valueChange)="onTagBValueChange($event)"
+          [getOptionValue]="getTagValue"
+          [getOptionLabel]="getTagLabel"
+          placeholder="Select tags"
+          aria-label="Tag group B multiselect"
+        ></tng-multiselect>
+      </div>
       <p class="dual-multiselect-plain-summary">Selected: {{ tagSummaryB() }}</p>
     </div>
   </div>
@@ -330,11 +326,10 @@ const DUAL_PLAIN_CSS_CODE = String.raw`.dual-multiselect-plain-shell {
   gap: 0.9rem;
   inline-size: 100%;
   padding: 1.1rem;
-  border: 1px solid #cbd5e1;
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 1.25rem;
-  background: #ffffff;
-  color: #0f172a;
-  color-scheme: light;
+  background: var(--tng-semantic-background-surface);
+  color: var(--tng-semantic-foreground-primary);
   box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
 }
 
@@ -346,12 +341,12 @@ const DUAL_PLAIN_CSS_CODE = String.raw`.dual-multiselect-plain-shell {
 .dual-multiselect-plain-kicker {
   font-size: 0.8rem;
   font-weight: 700;
-  color: #64748b;
+  color: var(--tng-semantic-foreground-muted);
 }
 
 .dual-multiselect-plain-copy {
   margin: 0;
-  color: #475569;
+  color: var(--tng-semantic-foreground-secondary);
 }
 
 .dual-multiselect-plain-grid {
@@ -370,34 +365,27 @@ const DUAL_PLAIN_CSS_CODE = String.raw`.dual-multiselect-plain-shell {
   gap: 0.65rem;
   min-width: 0;
   padding: 0.75rem;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 0.85rem;
-  background: #f8fafc;
+  background: var(--tng-semantic-background-muted);
 }
 
 .dual-multiselect-plain-card-title {
   font-size: 0.85rem;
   font-weight: 600;
   margin: 0;
-  color: #334155;
+  color: var(--tng-semantic-foreground-secondary);
 }
 
 .dual-multiselect-plain-summary {
   margin: 0;
-  color: #475569;
+  color: var(--tng-semantic-foreground-secondary);
 }
 
 .dual-multiselect-plain-control {
   display: block;
   width: 100%;
   min-width: 0;
-  --tng-semantic-background-canvas: #ffffff;
-  --tng-semantic-background-surface: #f8fafc;
-  --tng-semantic-border-subtle: #d8e2ef;
-  --tng-semantic-border-strong: #94a3b8;
-  --tng-semantic-foreground-primary: #0f172a;
-  --tng-semantic-foreground-secondary: #475569;
-  --tng-semantic-foreground-muted: #64748b;
   --tng-semantic-accent-brand: #0f766e;
   --tng-semantic-focus-ring: #0f766e;
   --tng-select-radius: 1rem;
@@ -405,14 +393,14 @@ const DUAL_PLAIN_CSS_CODE = String.raw`.dual-multiselect-plain-shell {
   --tng-select-trigger-px: 0.875rem;
   --tng-select-option-py: 0.625rem;
   --tng-select-option-px: 0.875rem;
-  --tng-select-bg: #ffffff;
-  --tng-select-surface: #f8fafc;
-  --tng-select-border: #d8e2ef;
-  --tng-select-border-strong: #94a3b8;
-  --tng-select-fg: #0f172a;
-  --tng-select-muted: #64748b;
   --tng-select-brand: #0f766e;
   --tng-select-focus-ring: #0f766e;
+}
+
+.dual-multiselect-plain-control tng-multiselect {
+  display: block;
+  width: 100%;
+  min-width: 0;
 }`;
 
 const DUAL_TAILWIND_TS_CODE = String.raw`import { Component, computed, signal } from '@angular/core';
@@ -468,43 +456,45 @@ export class DualMultiselectTailwindComponent {
   }
 }`;
 
-const DUAL_TAILWIND_HTML_CODE = String.raw`<section class="grid w-full gap-4 rounded-[1.75rem] border border-slate-200 bg-white p-5 text-slate-900 shadow-sm [color-scheme:light]">
+const DUAL_TAILWIND_HTML_CODE = String.raw`<section class="grid w-full gap-4 rounded-[1.75rem] border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-surface)] p-5 text-[var(--tng-semantic-foreground-primary)] shadow-sm">
   <div class="grid gap-1">
-    <span class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Dual tag groups</span>
-    <p class="m-0 text-sm text-slate-600">
+    <span class="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--tng-semantic-foreground-muted)]">Dual tag groups</span>
+    <p class="m-0 text-sm text-[var(--tng-semantic-foreground-secondary)]">
       Two independent multiselects with Tab-based keyboard handoff between controls.
     </p>
   </div>
 
   <div class="grid gap-4 lg:grid-cols-2">
-    <div class="grid gap-2 rounded-xl border border-slate-100 bg-slate-50 p-3">
-      <p class="m-0 text-sm font-semibold text-slate-600">Tag group A</p>
-      <tng-multiselect
-        class="block w-full min-w-0 [--tng-semantic-background-canvas:#ffffff] [--tng-semantic-background-surface:#f8fafc] [--tng-semantic-border-subtle:#d8e2ef] [--tng-semantic-border-strong:#94a3b8] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-foreground-secondary:#475569] [--tng-semantic-foreground-muted:#64748b] [--tng-semantic-accent-brand:#0f766e] [--tng-semantic-focus-ring:#0f766e] [--tng-select-radius:1rem] [--tng-select-trigger-py:0.625rem] [--tng-select-trigger-px:0.875rem] [--tng-select-option-py:0.625rem] [--tng-select-option-px:0.875rem] [--tng-select-bg:#ffffff] [--tng-select-surface:#f8fafc] [--tng-select-border:#d8e2ef] [--tng-select-border-strong:#94a3b8] [--tng-select-fg:#0f172a] [--tng-select-muted:#64748b] [--tng-select-brand:#0f766e] [--tng-select-focus-ring:#0f766e]"
-        [options]="tagOptions"
-        [value]="tagValueA()"
-        (valueChange)="onTagAValueChange($event)"
-        [getOptionValue]="getTagValue"
-        [getOptionLabel]="getTagLabel"
-        placeholder="Select tags"
-        aria-label="Tag group A multiselect"
-      ></tng-multiselect>
-      <p class="m-0 text-xs text-slate-600">Selected: {{ tagSummaryA() }}</p>
+    <div class="grid gap-2 rounded-xl border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-muted)] p-3">
+      <p class="m-0 text-sm font-semibold text-[var(--tng-semantic-foreground-secondary)]">Tag group A</p>
+      <div class="block w-full min-w-0 [--tng-semantic-accent-brand:#0f766e] [--tng-semantic-focus-ring:#0f766e] [--tng-select-radius:1rem] [--tng-select-trigger-py:0.625rem] [--tng-select-trigger-px:0.875rem] [--tng-select-option-py:0.625rem] [--tng-select-option-px:0.875rem] [--tng-select-brand:#0f766e] [--tng-select-focus-ring:#0f766e]">
+        <tng-multiselect
+          [options]="tagOptions"
+          [value]="tagValueA()"
+          (valueChange)="onTagAValueChange($event)"
+          [getOptionValue]="getTagValue"
+          [getOptionLabel]="getTagLabel"
+          placeholder="Select tags"
+          aria-label="Tag group A multiselect"
+        ></tng-multiselect>
+      </div>
+      <p class="m-0 text-xs text-[var(--tng-semantic-foreground-secondary)]">Selected: {{ tagSummaryA() }}</p>
     </div>
 
-    <div class="grid gap-2 rounded-xl border border-slate-100 bg-slate-50 p-3">
-      <p class="m-0 text-sm font-semibold text-slate-600">Tag group B</p>
-      <tng-multiselect
-        class="block w-full min-w-0 [--tng-semantic-background-canvas:#ffffff] [--tng-semantic-background-surface:#f8fafc] [--tng-semantic-border-subtle:#d8e2ef] [--tng-semantic-border-strong:#94a3b8] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-foreground-secondary:#475569] [--tng-semantic-foreground-muted:#64748b] [--tng-semantic-accent-brand:#0f766e] [--tng-semantic-focus-ring:#0f766e] [--tng-select-radius:1rem] [--tng-select-trigger-py:0.625rem] [--tng-select-trigger-px:0.875rem] [--tng-select-option-py:0.625rem] [--tng-select-option-px:0.875rem] [--tng-select-bg:#ffffff] [--tng-select-surface:#f8fafc] [--tng-select-border:#d8e2ef] [--tng-select-border-strong:#94a3b8] [--tng-select-fg:#0f172a] [--tng-select-muted:#64748b] [--tng-select-brand:#0f766e] [--tng-select-focus-ring:#0f766e]"
-        [options]="tagOptions"
-        [value]="tagValueB()"
-        (valueChange)="onTagBValueChange($event)"
-        [getOptionValue]="getTagValue"
-        [getOptionLabel]="getTagLabel"
-        placeholder="Select tags"
-        aria-label="Tag group B multiselect"
-      ></tng-multiselect>
-      <p class="m-0 text-xs text-slate-600">Selected: {{ tagSummaryB() }}</p>
+    <div class="grid gap-2 rounded-xl border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-muted)] p-3">
+      <p class="m-0 text-sm font-semibold text-[var(--tng-semantic-foreground-secondary)]">Tag group B</p>
+      <div class="block w-full min-w-0 [--tng-semantic-accent-brand:#0f766e] [--tng-semantic-focus-ring:#0f766e] [--tng-select-radius:1rem] [--tng-select-trigger-py:0.625rem] [--tng-select-trigger-px:0.875rem] [--tng-select-option-py:0.625rem] [--tng-select-option-px:0.875rem] [--tng-select-brand:#0f766e] [--tng-select-focus-ring:#0f766e]">
+        <tng-multiselect
+          [options]="tagOptions"
+          [value]="tagValueB()"
+          (valueChange)="onTagBValueChange($event)"
+          [getOptionValue]="getTagValue"
+          [getOptionLabel]="getTagLabel"
+          placeholder="Select tags"
+          aria-label="Tag group B multiselect"
+        ></tng-multiselect>
+      </div>
+      <p class="m-0 text-xs text-[var(--tng-semantic-foreground-secondary)]">Selected: {{ tagSummaryB() }}</p>
     </div>
   </div>
 </section>`;

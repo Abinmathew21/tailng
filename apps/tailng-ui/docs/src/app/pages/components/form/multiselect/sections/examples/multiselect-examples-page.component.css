@@ -13,11 +13,10 @@
   inline-size: min(100%, 36rem);
   margin-inline: auto;
   padding: 1.1rem;
-  border: 1px solid #cbd5e1;
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 1.25rem;
-  background: #ffffff;
-  color: #0f172a;
-  color-scheme: light;
+  background: var(--tng-semantic-background-surface);
+  color: var(--tng-semantic-foreground-primary);
   box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
 }
 
@@ -29,13 +28,13 @@
 .docs-component-multiselect-examples-live-kicker {
   font-size: 0.8rem;
   font-weight: 700;
-  color: #64748b;
+  color: var(--tng-semantic-foreground-muted);
 }
 
 .docs-component-multiselect-examples-live-copy,
 .docs-component-multiselect-examples-live-summary {
   margin: 0;
-  color: #475569;
+  color: var(--tng-semantic-foreground-secondary);
 }
 
 .docs-component-multiselect-examples-status-control,
@@ -43,13 +42,6 @@
   display: block;
   width: 100%;
   min-width: 0;
-  --tng-semantic-background-canvas: #ffffff;
-  --tng-semantic-background-surface: #f8fafc;
-  --tng-semantic-border-subtle: #d8e2ef;
-  --tng-semantic-border-strong: #94a3b8;
-  --tng-semantic-foreground-primary: #0f172a;
-  --tng-semantic-foreground-secondary: #475569;
-  --tng-semantic-foreground-muted: #64748b;
   --tng-semantic-accent-brand: #2563eb;
   --tng-semantic-focus-ring: #2563eb;
   --tng-select-radius: 1rem;
@@ -57,12 +49,6 @@
   --tng-select-trigger-px: 0.875rem;
   --tng-select-option-py: 0.625rem;
   --tng-select-option-px: 0.875rem;
-  --tng-select-bg: #ffffff;
-  --tng-select-surface: #f8fafc;
-  --tng-select-border: #d8e2ef;
-  --tng-select-border-strong: #94a3b8;
-  --tng-select-fg: #0f172a;
-  --tng-select-muted: #64748b;
   --tng-select-brand: #2563eb;
   --tng-select-focus-ring: #2563eb;
 }
@@ -74,17 +60,23 @@
   --tng-select-focus-ring: #0f766e;
 }
 
+.docs-component-multiselect-examples-status-control tng-multiselect,
+.docs-component-multiselect-examples-tag-control tng-multiselect {
+  display: block;
+  width: 100%;
+  min-width: 0;
+}
+
 .docs-component-multiselect-examples-dual-shell {
   display: grid;
   gap: 0.9rem;
   inline-size: 100%;
   margin-inline: auto;
   padding: 1.1rem;
-  border: 1px solid #cbd5e1;
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 1.25rem;
-  background: #ffffff;
-  color: #0f172a;
-  color-scheme: light;
+  background: var(--tng-semantic-background-surface);
+  color: var(--tng-semantic-foreground-primary);
   box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
 }
 
@@ -104,14 +96,14 @@
   gap: 0.65rem;
   min-width: 0;
   padding: 0.75rem;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 0.85rem;
-  background: #f8fafc;
+  background: var(--tng-semantic-background-muted);
 }
 
 .docs-component-multiselect-examples-dual-card-title {
   font-size: 0.85rem;
   font-weight: 600;
   margin: 0;
-  color: #334155;
+  color: var(--tng-semantic-foreground-secondary);
 }
