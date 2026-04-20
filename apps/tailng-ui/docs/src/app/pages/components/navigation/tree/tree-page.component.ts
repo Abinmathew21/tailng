@@ -11,15 +11,9 @@ import {
 import { TngTab, TngTabList } from '@tailng-ui/primitives';
 import { filter, map, startWith } from 'rxjs/operators';
 
-type TreeDocSectionId = 'api' | 'examples' | 'overview' | 'ownable-install' | 'styling';
+type TreeDocSectionId = 'api' | 'examples' | 'overview' | 'styling';
 
-const treeDocSectionIds: readonly TreeDocSectionId[] = [
-  'overview',
-  'api',
-  'styling',
-  'examples',
-  'ownable-install',
-] as const;
+const treeDocSectionIds: readonly TreeDocSectionId[] = ['overview', 'api', 'styling', 'examples'] as const;
 
 const defaultTreeDocSection: TreeDocSectionId = 'overview';
 

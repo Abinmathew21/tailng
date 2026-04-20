@@ -1,0 +1,80 @@
+<article class="headless-tree-styling">
+  <h2 class="headless-tree-styling-title">Styling contract</h2>
+  <p class="headless-tree-styling-lead">
+    Headless tree styling relies on slot and state attributes from the primitives. Those hooks are
+    enough to build file explorers, settings panes, and navigation trees without coupling to
+    private markup.
+  </p>
+
+  <section id="css-contract-table" class="headless-tree-styling-block">
+    <h3>CSS contract table</h3>
+    <div class="headless-tree-styling-table-wrap">
+      <table class="headless-tree-styling-table">
+        <thead>
+          <tr>
+            <th scope="col">Selector</th>
+            <th scope="col">Applied on</th>
+            <th scope="col">Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>[data-slot='tree']</code></td>
+            <td>Root controller</td>
+            <td>Overall tree typography, spacing, and interactive scope.</td>
+          </tr>
+          <tr>
+            <td><code>[data-slot='tree-item']</code></td>
+            <td>Each node</td>
+            <td>Row padding, cursor, and node-level affordances.</td>
+          </tr>
+          <tr>
+            <td><code>[data-slot='tree-group']</code></td>
+            <td>Child branch container</td>
+            <td>Indentation, connector lines, and nested layout.</td>
+          </tr>
+          <tr>
+            <td><code>[data-slot='tree-indicator']</code></td>
+            <td>Disclosure affordance</td>
+            <td>Chevron rotation, icon swap, or branch marker styling.</td>
+          </tr>
+          <tr>
+            <td><code>[data-expanded='true' | 'false']</code></td>
+            <td>Item and indicator</td>
+            <td>Branch visibility and indicator-state styling.</td>
+          </tr>
+          <tr>
+            <td><code>[data-selected='true']</code></td>
+            <td>Selected item</td>
+            <td>Selection highlight and emphasis treatment.</td>
+          </tr>
+          <tr>
+            <td><code>[data-disabled='true']</code></td>
+            <td>Disabled item</td>
+            <td>Muted or blocked presentation for disabled nodes.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="branch-visibility" class="headless-tree-styling-block">
+    <h3>Branch visibility</h3>
+    <p>
+      The primitive reflects branch state through <code>data-expanded</code>, but it does not hide
+      child groups for you. Most headless trees need a rule like
+      <code>[data-slot='tree-item'][data-expanded='false'] &gt; [data-slot='tree-group']</code>
+      <code>{{ '{' }} display: none; {{ '}' }}</code> so collapsed branches stop rendering.
+    </p>
+  </section>
+
+  <section id="state-selectors" class="headless-tree-styling-block">
+    <h3>State selectors</h3>
+    <ul>
+      <li>Use <code>:focus-visible</code> on <code>[data-slot='tree-item']</code> for roving-focus indication.</li>
+      <li>Style <code>[data-selected='true']</code> on the node row, not just the indicator, so current selection reads clearly.</li>
+      <li>Pair <code>[data-disabled='true']</code> with reduced opacity and a non-interactive cursor.</li>
+      <li>When visible labels are terse, provide richer <code>aria-label</code> values because typeahead reads them first.</li>
+    </ul>
+  </section>
+</article>

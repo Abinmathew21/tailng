@@ -1,0 +1,160 @@
+<article class="headless-tree-overview">
+  <section id="imports" class="headless-tree-overview-block">
+    <h2 class="headless-tree-overview-title">Tree overview</h2>
+    <p class="headless-tree-overview-lead">
+      Headless tree owns navigation, expansion, selection, and typeahead behavior for hierarchical
+      views. You own the row markup, branch connectors, disclosure visuals, and collapsed-group
+      presentation.
+    </p>
+    <tng-code-block
+      [code]="importCode"
+      adapter="shiki"
+      language="ts"
+      title="Primitive imports"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="basic-composition" class="headless-tree-overview-block">
+    <h3>Basic composition</h3>
+    <p>
+      Compose a root controller, one focusable tree item per node, nested groups for children, and
+      an optional indicator that toggles the branch. The primitive does not create rows or hide
+      collapsed groups for you.
+    </p>
+    <tng-code-block
+      [code]="usageCode"
+      adapter="shiki"
+      language="html"
+      title="Headless tree composition"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <app-docs-example-tabs-section
+    id="style-variants"
+    class="headless-tree-overview-block"
+    heading="Style variants"
+    description="The same primitive tree rendered through a plain CSS contract or a Tailwind utility shell."
+    ariaLabel="Headless tree overview examples"
+    tabListAriaLabel="Headless tree overview style tabs"
+    defaultValue="plain-css"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+      panelTitle="Headless tree (plain CSS)"
+      [codeTabs]="plainCodeTabs"
+    >
+      <div class="headless-tree-shell">
+        <div
+          tngTree
+          [selectionMode]="'single'"
+          [defaultValue]="'button'"
+          aria-label="Project files"
+          class="headless-tree-root"
+        >
+          <div tngTreeItem [value]="'src'" [defaultExpanded]="true">
+            <span class="tree-node-row">
+              <span tngTreeIndicator class="tree-indicator">📂</span>
+              src
+            </span>
+            <div tngTreeGroup class="tree-node-group">
+              <div tngTreeItem [value]="'components'" [defaultExpanded]="true">
+                <span class="tree-node-row">
+                  <span tngTreeIndicator class="tree-indicator">📂</span>
+                  components
+                </span>
+                <div tngTreeGroup class="tree-node-group">
+                  <div tngTreeItem [value]="'button'">
+                    <span class="tree-node-row">
+                      <span class="tree-icon">📄</span>
+                      button.ts
+                    </span>
+                  </div>
+                  <div tngTreeItem [value]="'input'">
+                    <span class="tree-node-row">
+                      <span class="tree-icon">📄</span>
+                      input.ts
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div tngTreeItem [value]="'utils'">
+                <span class="tree-node-row">
+                  <span class="tree-icon">📄</span>
+                  utils.ts
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Headless tree (Tailwind CSS)"
+      [codeTabs]="tailwindCodeTabs"
+    >
+      <div class="rounded-xl border border-slate-300 bg-slate-50 p-4 text-sm dark:border-slate-700 dark:bg-slate-900/60 [&_[data-slot=tree-item][data-expanded=false]>.tree-node-group]:hidden [&_[data-slot=tree-item][data-selected=true]>.tree-node-row]:bg-sky-100 [&_[data-slot=tree-item][data-selected=true]>.tree-node-row]:text-sky-900 dark:[&_[data-slot=tree-item][data-selected=true]>.tree-node-row]:bg-sky-900/40 dark:[&_[data-slot=tree-item][data-selected=true]>.tree-node-row]:text-sky-100">
+        <div tngTree [selectionMode]="'single'" [defaultValue]="'button'" aria-label="Project files" class="leading-7">
+          <div tngTreeItem [value]="'src'" [defaultExpanded]="true">
+            <span class="tree-node-row inline-flex items-center gap-1.5 rounded-md px-1.5">
+              <span tngTreeIndicator class="tree-indicator inline-block w-4 text-center text-xs">📂</span>
+              src
+            </span>
+            <div tngTreeGroup class="tree-node-group ml-5 border-l border-slate-300 pl-3 dark:border-slate-700">
+              <div tngTreeItem [value]="'components'" [defaultExpanded]="true">
+                <span class="tree-node-row inline-flex items-center gap-1.5 rounded-md px-1.5">
+                  <span tngTreeIndicator class="tree-indicator inline-block w-4 text-center text-xs">📂</span>
+                  components
+                </span>
+                <div tngTreeGroup class="tree-node-group ml-5 border-l border-slate-300 pl-3 dark:border-slate-700">
+                  <div tngTreeItem [value]="'button'">
+                    <span class="tree-node-row inline-flex items-center gap-1.5 rounded-md px-1.5">
+                      <span class="tree-icon inline-block w-4 text-center text-xs">📄</span>
+                      button.ts
+                    </span>
+                  </div>
+                  <div tngTreeItem [value]="'input'">
+                    <span class="tree-node-row inline-flex items-center gap-1.5 rounded-md px-1.5">
+                      <span class="tree-icon inline-block w-4 text-center text-xs">📄</span>
+                      input.ts
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div tngTreeItem [value]="'utils'">
+                <span class="tree-node-row inline-flex items-center gap-1.5 rounded-md px-1.5">
+                  <span class="tree-icon inline-block w-4 text-center text-xs">📄</span>
+                  utils.ts
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </app-docs-example-tabs-section>
+
+  <section id="accessibility-baseline" class="headless-tree-overview-block">
+    <h3>Accessibility baseline</h3>
+    <ul class="headless-tree-overview-list">
+      <li>Root controller exposes <code>role="tree"</code> and manages the active roving item.</li>
+      <li>Each tree item exposes <code>role="treeitem"</code> with <code>aria-expanded</code> only for branch nodes.</li>
+      <li>Selection state is mirrored through <code>aria-selected</code> and <code>data-selected</code>.</li>
+      <li>Owners must hide collapsed child groups visually and provide meaningful visible or <code>aria-label</code> text for typeahead.</li>
+    </ul>
+  </section>
+</article>

@@ -1,0 +1,297 @@
+<article class="headless-tree-examples">
+  <h2 class="headless-tree-examples-title">Examples</h2>
+  <p class="headless-tree-examples-lead">
+    Headless tree works well for explorer layouts and settings hierarchies when your product needs
+    complete ownership over rows, indicators, and branch styling.
+  </p>
+
+  <section id="file-browser" class="headless-tree-example-block">
+    <app-docs-example-tabs-section
+      heading="File browser"
+      description="Repository-like tree with workspace, package, and app branches."
+      ariaLabel="Headless file browser examples"
+      tabListAriaLabel="Headless file browser style tabs"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Headless file browser (plain CSS)"
+        [codeTabs]="fileBrowserPlainCodeTabs"
+      >
+        <div class="headless-tree-example-shell">
+          <div
+            tngTree
+            [selectionMode]="'single'"
+            [defaultValue]="'components'"
+            aria-label="Repository files"
+            class="headless-tree-example-root"
+          >
+            <div tngTreeItem [value]="'workspace'" [defaultExpanded]="true">
+              <span class="tree-node-row">
+                <span tngTreeIndicator class="tree-indicator">📂</span>
+                tailng-ui
+              </span>
+              <div tngTreeGroup class="tree-node-group">
+                <div tngTreeItem [value]="'libs'" [defaultExpanded]="true">
+                  <span class="tree-node-row">
+                    <span tngTreeIndicator class="tree-indicator">📂</span>
+                    libs
+                  </span>
+                  <div tngTreeGroup class="tree-node-group">
+                    <div tngTreeItem [value]="'components'">
+                      <span class="tree-node-row">
+                        <span class="tree-icon">📄</span>
+                        components
+                      </span>
+                    </div>
+                    <div tngTreeItem [value]="'primitives'">
+                      <span class="tree-node-row">
+                        <span class="tree-icon">📄</span>
+                        primitives
+                      </span>
+                    </div>
+                    <div tngTreeItem [value]="'theme'">
+                      <span class="tree-node-row">
+                        <span class="tree-icon">📄</span>
+                        theme
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div tngTreeItem [value]="'apps'" [defaultExpanded]="true">
+                  <span class="tree-node-row">
+                    <span tngTreeIndicator class="tree-indicator">📂</span>
+                    apps
+                  </span>
+                  <div tngTreeGroup class="tree-node-group">
+                    <div tngTreeItem [value]="'docs'">
+                      <span class="tree-node-row">
+                        <span class="tree-icon">📄</span>
+                        docs
+                      </span>
+                    </div>
+                    <div tngTreeItem [value]="'playground'">
+                      <span class="tree-node-row">
+                        <span class="tree-icon">📄</span>
+                        playground-tailwind
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Headless file browser (Tailwind CSS)"
+        [codeTabs]="fileBrowserTailwindCodeTabs"
+      >
+        <div class="rounded-xl border border-slate-300 bg-slate-50 p-4 text-sm dark:border-slate-700 dark:bg-slate-900/60 [&_[data-slot=tree-item][data-expanded=false]>.tree-node-group]:hidden [&_[data-slot=tree-item][data-selected=true]>.tree-node-row]:bg-sky-100 [&_[data-slot=tree-item][data-selected=true]>.tree-node-row]:text-sky-900 dark:[&_[data-slot=tree-item][data-selected=true]>.tree-node-row]:bg-sky-900/40 dark:[&_[data-slot=tree-item][data-selected=true]>.tree-node-row]:text-sky-100">
+          <div tngTree [selectionMode]="'single'" [defaultValue]="'components'" aria-label="Repository files" class="leading-7">
+            <div tngTreeItem [value]="'workspace'" [defaultExpanded]="true">
+              <span class="tree-node-row inline-flex items-center gap-1.5 rounded-md px-1.5">
+                <span tngTreeIndicator class="inline-block w-4 text-center text-xs">📂</span>
+                tailng-ui
+              </span>
+              <div tngTreeGroup class="tree-node-group ml-5 border-l border-slate-300 pl-3 dark:border-slate-700">
+                <div tngTreeItem [value]="'libs'" [defaultExpanded]="true">
+                  <span class="tree-node-row inline-flex items-center gap-1.5 rounded-md px-1.5">
+                    <span tngTreeIndicator class="inline-block w-4 text-center text-xs">📂</span>
+                    libs
+                  </span>
+                  <div tngTreeGroup class="tree-node-group ml-5 border-l border-slate-300 pl-3 dark:border-slate-700">
+                    <div tngTreeItem [value]="'components'">
+                      <span class="tree-node-row inline-flex items-center gap-1.5 rounded-md px-1.5">
+                        <span class="tree-icon inline-block w-4 text-center text-xs">📄</span>
+                        components
+                      </span>
+                    </div>
+                    <div tngTreeItem [value]="'primitives'">
+                      <span class="tree-node-row inline-flex items-center gap-1.5 rounded-md px-1.5">
+                        <span class="tree-icon inline-block w-4 text-center text-xs">📄</span>
+                        primitives
+                      </span>
+                    </div>
+                    <div tngTreeItem [value]="'theme'">
+                      <span class="tree-node-row inline-flex items-center gap-1.5 rounded-md px-1.5">
+                        <span class="tree-icon inline-block w-4 text-center text-xs">📄</span>
+                        theme
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div tngTreeItem [value]="'apps'" [defaultExpanded]="true">
+                  <span class="tree-node-row inline-flex items-center gap-1.5 rounded-md px-1.5">
+                    <span tngTreeIndicator class="inline-block w-4 text-center text-xs">📂</span>
+                    apps
+                  </span>
+                  <div tngTreeGroup class="tree-node-group ml-5 border-l border-slate-300 pl-3 dark:border-slate-700">
+                    <div tngTreeItem [value]="'docs'">
+                      <span class="tree-node-row inline-flex items-center gap-1.5 rounded-md px-1.5">
+                        <span class="tree-icon inline-block w-4 text-center text-xs">📄</span>
+                        docs
+                      </span>
+                    </div>
+                    <div tngTreeItem [value]="'playground'">
+                      <span class="tree-node-row inline-flex items-center gap-1.5 rounded-md px-1.5">
+                        <span class="tree-icon inline-block w-4 text-center text-xs">📄</span>
+                        playground-tailwind
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section id="settings-panel" class="headless-tree-example-block">
+    <app-docs-example-tabs-section
+      heading="Settings panel"
+      description="Categorized settings tree with a disabled experimental branch."
+      ariaLabel="Headless settings tree examples"
+      tabListAriaLabel="Headless settings tree style tabs"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Headless settings tree (plain CSS)"
+        [codeTabs]="settingsPlainCodeTabs"
+      >
+        <div class="headless-tree-example-shell">
+          <div
+            tngTree
+            [selectionMode]="'single'"
+            [defaultValue]="'theme-mode'"
+            aria-label="Settings"
+            class="headless-tree-example-root"
+          >
+            <div tngTreeItem [value]="'general'" [defaultExpanded]="true">
+              <span class="tree-node-row">
+                <span tngTreeIndicator class="tree-indicator">⚙️</span>
+                General
+              </span>
+              <div tngTreeGroup class="tree-node-group">
+                <div tngTreeItem [value]="'appearance'" [defaultExpanded]="true">
+                  <span class="tree-node-row">
+                    <span tngTreeIndicator class="tree-indicator">🎨</span>
+                    Appearance
+                  </span>
+                  <div tngTreeGroup class="tree-node-group">
+                    <div tngTreeItem [value]="'theme-mode'">
+                      <span class="tree-node-row">
+                        <span class="tree-icon">📄</span>
+                        Theme mode
+                      </span>
+                    </div>
+                    <div tngTreeItem [value]="'font-size'">
+                      <span class="tree-node-row">
+                        <span class="tree-icon">📄</span>
+                        Font size
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div tngTreeItem [value]="'advanced'" [defaultExpanded]="true">
+              <span class="tree-node-row">
+                <span tngTreeIndicator class="tree-indicator">🛠️</span>
+                Advanced
+              </span>
+              <div tngTreeGroup class="tree-node-group">
+                <div tngTreeItem [value]="'developer'">
+                  <span class="tree-node-row">
+                    <span class="tree-icon">📄</span>
+                    Developer tools
+                  </span>
+                </div>
+                <div tngTreeItem [value]="'experimental'" [disabled]="true">
+                  <span class="tree-node-row">
+                    <span class="tree-icon">📄</span>
+                    Experimental
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Headless settings tree (Tailwind CSS)"
+        [codeTabs]="settingsTailwindCodeTabs"
+      >
+        <div class="rounded-xl border border-slate-300 bg-slate-50 p-4 text-sm dark:border-slate-700 dark:bg-slate-900/60 [&_[data-slot=tree-item][data-expanded=false]>.tree-node-group]:hidden [&_[data-slot=tree-item][data-selected=true]>.tree-node-row]:bg-sky-100 [&_[data-slot=tree-item][data-selected=true]>.tree-node-row]:text-sky-900 [&_[data-slot=tree-item][data-disabled=true]]:opacity-60 dark:[&_[data-slot=tree-item][data-selected=true]>.tree-node-row]:bg-sky-900/40 dark:[&_[data-slot=tree-item][data-selected=true]>.tree-node-row]:text-sky-100">
+          <div tngTree [selectionMode]="'single'" [defaultValue]="'theme-mode'" aria-label="Settings" class="leading-7">
+            <div tngTreeItem [value]="'general'" [defaultExpanded]="true">
+              <span class="tree-node-row inline-flex items-center gap-1.5 rounded-md px-1.5">
+                <span tngTreeIndicator class="inline-block w-4 text-center text-xs">⚙️</span>
+                General
+              </span>
+              <div tngTreeGroup class="tree-node-group ml-5 border-l border-slate-300 pl-3 dark:border-slate-700">
+                <div tngTreeItem [value]="'appearance'" [defaultExpanded]="true">
+                  <span class="tree-node-row inline-flex items-center gap-1.5 rounded-md px-1.5">
+                    <span tngTreeIndicator class="inline-block w-4 text-center text-xs">🎨</span>
+                    Appearance
+                  </span>
+                  <div tngTreeGroup class="tree-node-group ml-5 border-l border-slate-300 pl-3 dark:border-slate-700">
+                    <div tngTreeItem [value]="'theme-mode'">
+                      <span class="tree-node-row inline-flex items-center gap-1.5 rounded-md px-1.5">
+                        <span class="tree-icon inline-block w-4 text-center text-xs">📄</span>
+                        Theme mode
+                      </span>
+                    </div>
+                    <div tngTreeItem [value]="'font-size'">
+                      <span class="tree-node-row inline-flex items-center gap-1.5 rounded-md px-1.5">
+                        <span class="tree-icon inline-block w-4 text-center text-xs">📄</span>
+                        Font size
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div tngTreeItem [value]="'advanced'" [defaultExpanded]="true">
+              <span class="tree-node-row inline-flex items-center gap-1.5 rounded-md px-1.5">
+                <span tngTreeIndicator class="inline-block w-4 text-center text-xs">🛠️</span>
+                Advanced
+              </span>
+              <div tngTreeGroup class="tree-node-group ml-5 border-l border-slate-300 pl-3 dark:border-slate-700">
+                <div tngTreeItem [value]="'developer'">
+                  <span class="tree-node-row inline-flex items-center gap-1.5 rounded-md px-1.5">
+                    <span class="tree-icon inline-block w-4 text-center text-xs">📄</span>
+                    Developer tools
+                  </span>
+                </div>
+                <div tngTreeItem [value]="'experimental'" [disabled]="true">
+                  <span class="tree-node-row inline-flex items-center gap-1.5 rounded-md px-1.5">
+                    <span class="tree-icon inline-block w-4 text-center text-xs">📄</span>
+                    Experimental
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+</article>

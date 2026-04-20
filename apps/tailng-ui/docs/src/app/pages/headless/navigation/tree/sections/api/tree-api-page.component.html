@@ -1,0 +1,274 @@
+<article class="headless-tree-api">
+  <h2 class="headless-tree-api-title">API reference</h2>
+  <p class="headless-tree-api-lead">
+    Headless tree exposes four small directives: a root controller, tree items, nested groups, and
+    an optional indicator. The behavior layer handles focus movement, expansion, selection, and
+    typeahead, while the owner controls DOM shape and visuals.
+  </p>
+
+  <section id="tree-root" class="headless-tree-api-block">
+    <h3><code>tngTree</code></h3>
+    <p>Root controller for selection mode, roving focus, visible node calculation, and typeahead.</p>
+    <div class="headless-tree-api-table-wrap">
+      <table class="headless-tree-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Input</th>
+            <th scope="col">Type</th>
+            <th scope="col">Default</th>
+            <th scope="col">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>selectionMode</code></td>
+            <td><code>'single' | 'multiple' | 'none'</code></td>
+            <td><code>'none'</code></td>
+            <td>Controls whether item clicks update selection.</td>
+          </tr>
+          <tr>
+            <td><code>orientation</code></td>
+            <td><code>'vertical' | 'horizontal'</code></td>
+            <td><code>'vertical'</code></td>
+            <td>Adjusts orientation metadata and horizontal key semantics.</td>
+          </tr>
+          <tr>
+            <td><code>value</code></td>
+            <td><code>TngTreeValue | readonly TngTreeValue[] | null</code></td>
+            <td><code>undefined</code></td>
+            <td>Controlled selection value.</td>
+          </tr>
+          <tr>
+            <td><code>defaultValue</code></td>
+            <td><code>TngTreeValue | readonly TngTreeValue[] | null</code></td>
+            <td><code>undefined</code></td>
+            <td>Initial uncontrolled selection.</td>
+          </tr>
+          <tr>
+            <td><code>disabled</code></td>
+            <td><code>boolean</code></td>
+            <td><code>false</code></td>
+            <td>Disables traversal and interaction for the whole tree.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="headless-tree-api-table-wrap">
+      <table class="headless-tree-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Output</th>
+            <th scope="col">Type</th>
+            <th scope="col">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>valueChange</code></td>
+            <td><code>TngTreeValue | readonly TngTreeValue[] | null</code></td>
+            <td>Emits when selection changes.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="headless-tree-api-table-wrap">
+      <table class="headless-tree-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Host attribute</th>
+            <th scope="col">Value</th>
+            <th scope="col">Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>data-slot</code></td>
+            <td><code>"tree"</code></td>
+            <td>Stable root styling hook.</td>
+          </tr>
+          <tr>
+            <td><code>role</code></td>
+            <td><code>"tree"</code></td>
+            <td>ARIA tree role.</td>
+          </tr>
+          <tr>
+            <td><code>aria-orientation</code></td>
+            <td><code>"vertical" | "horizontal"</code></td>
+            <td>Reflects the normalized orientation input.</td>
+          </tr>
+          <tr>
+            <td><code>aria-multiselectable</code></td>
+            <td><code>"true" | "false" | null</code></td>
+            <td>Reflected whenever selection mode is not <code>'none'</code>.</td>
+          </tr>
+          <tr>
+            <td><code>tabindex</code></td>
+            <td><code>"0" | "-1"</code></td>
+            <td>Keeps the composite focus entry on the active tree surface.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="tree-item" class="headless-tree-api-block">
+    <h3><code>tngTreeItem</code></h3>
+    <p>Focus target and state container for one node in the hierarchy.</p>
+    <div class="headless-tree-api-table-wrap">
+      <table class="headless-tree-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Input</th>
+            <th scope="col">Type</th>
+            <th scope="col">Default</th>
+            <th scope="col">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>value</code></td>
+            <td><code>TngTreeValue</code></td>
+            <td>Required</td>
+            <td>Unique node identity used for selection and traversal.</td>
+          </tr>
+          <tr>
+            <td><code>expanded</code></td>
+            <td><code>boolean | undefined</code></td>
+            <td><code>undefined</code></td>
+            <td>Controlled expansion state.</td>
+          </tr>
+          <tr>
+            <td><code>defaultExpanded</code></td>
+            <td><code>boolean</code></td>
+            <td><code>false</code></td>
+            <td>Initial uncontrolled branch state.</td>
+          </tr>
+          <tr>
+            <td><code>disabled</code></td>
+            <td><code>boolean</code></td>
+            <td><code>false</code></td>
+            <td>Disables selection, expansion, and focus entry for the node.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="headless-tree-api-table-wrap">
+      <table class="headless-tree-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Output</th>
+            <th scope="col">Type</th>
+            <th scope="col">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>expandedChange</code></td>
+            <td><code>boolean</code></td>
+            <td>Emits when branch expansion toggles.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="headless-tree-api-table-wrap">
+      <table class="headless-tree-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Host attribute</th>
+            <th scope="col">Value</th>
+            <th scope="col">Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>data-slot</code></td>
+            <td><code>"tree-item"</code></td>
+            <td>Stable node styling hook.</td>
+          </tr>
+          <tr>
+            <td><code>role</code></td>
+            <td><code>"treeitem"</code></td>
+            <td>ARIA role for each node.</td>
+          </tr>
+          <tr>
+            <td><code>tabindex</code></td>
+            <td><code>"0" | "-1"</code></td>
+            <td>Managed by the root roving-focus controller.</td>
+          </tr>
+          <tr>
+            <td><code>data-expanded</code></td>
+            <td><code>"true" | "false"</code></td>
+            <td>State hook for branch visibility.</td>
+          </tr>
+          <tr>
+            <td><code>data-selected</code></td>
+            <td><code>"true" | "false"</code></td>
+            <td>Selection styling hook.</td>
+          </tr>
+          <tr>
+            <td><code>data-disabled</code></td>
+            <td><code>"true" | "false"</code></td>
+            <td>Disabled styling hook.</td>
+          </tr>
+          <tr>
+            <td><code>aria-expanded</code></td>
+            <td><code>"true" | "false" | null</code></td>
+            <td>Only present for expandable branch items.</td>
+          </tr>
+          <tr>
+            <td><code>aria-selected</code></td>
+            <td><code>"true" | "false" | null</code></td>
+            <td>Only present when the tree selection mode is not <code>'none'</code>.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="tree-group-indicator" class="headless-tree-api-block">
+    <h3><code>tngTreeGroup</code> and <code>tngTreeIndicator</code></h3>
+    <p>
+      Groups register branch children with the parent item. Indicators mirror expansion state and
+      forward click toggles back to the tree controller.
+    </p>
+    <div class="headless-tree-api-table-wrap">
+      <table class="headless-tree-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Directive</th>
+            <th scope="col">State / host attrs</th>
+            <th scope="col">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>tngTreeGroup</code></td>
+            <td><code>data-slot="tree-group"</code>, <code>role="group"</code></td>
+            <td>Wraps child items and tells the parent item it can expand.</td>
+          </tr>
+          <tr>
+            <td><code>tngTreeIndicator</code></td>
+            <td><code>data-slot="tree-indicator"</code>, <code>data-expanded="true|false"</code></td>
+            <td>Mirrors parent expansion state and toggles that state on click.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="selection-and-typeahead" class="headless-tree-api-block">
+    <h3>Selection and typeahead</h3>
+    <ul>
+      <li><code>ArrowUp</code> and <code>ArrowDown</code> move through visible enabled nodes.</li>
+      <li><code>ArrowRight</code> expands a collapsed branch or moves to its first visible child.</li>
+      <li><code>ArrowLeft</code> collapses an expanded branch or moves back to the nearest selectable parent.</li>
+      <li><code>Home</code> and <code>End</code> jump to the first or last visible enabled node.</li>
+      <li><code>Enter</code> and <code>Space</code> toggle selection according to the active selection mode.</li>
+      <li>Printable keys run typeahead using item <code>aria-label</code> first, then text content, then the node value.</li>
+    </ul>
+  </section>
+</article>

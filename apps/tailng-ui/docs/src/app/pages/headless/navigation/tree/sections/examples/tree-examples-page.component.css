@@ -1,0 +1,85 @@
+:host {
+  display: block;
+}
+
+.headless-tree-examples {
+  display: grid;
+  gap: 1rem;
+}
+
+.headless-tree-examples-title {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.headless-tree-examples-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.headless-tree-example-block {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.9rem;
+  color: var(--tng-semantic-foreground-secondary);
+  display: grid;
+  gap: 0.85rem;
+  padding: 1rem;
+}
+
+.headless-tree-example-shell {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.9rem;
+  max-width: 38rem;
+  padding: 0.9rem 1rem;
+}
+
+.headless-tree-example-root {
+  cursor: default;
+  font-size: 0.875rem;
+  line-height: 1.7rem;
+}
+
+.headless-tree-example-root [data-slot='tree-item'][data-expanded='false'] > [data-slot='tree-group'] {
+  display: none;
+}
+
+.tree-node-row {
+  align-items: center;
+  border-radius: 0.4rem;
+  display: inline-flex;
+  gap: 0.35rem;
+  padding: 0 0.35rem;
+}
+
+.headless-tree-example-root [data-slot='tree-item'][data-selected='true'] > .tree-node-row {
+  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 14%, transparent);
+  color: var(--tng-semantic-accent-brand);
+}
+
+.headless-tree-example-root [data-slot='tree-item'][data-disabled='true'] {
+  opacity: 0.55;
+}
+
+.headless-tree-example-root [data-slot='tree-item']:focus-visible > .tree-node-row {
+  box-shadow: 0 0 0 2px var(--tng-semantic-focus-ring);
+}
+
+.tree-node-group {
+  border-left: 1px solid var(--tng-semantic-border-subtle);
+  margin-left: 1.15rem;
+  padding-left: 0.75rem;
+}
+
+.tree-indicator {
+  display: inline-block;
+  text-align: center;
+  width: 1rem;
+}
+
+.tree-icon {
+  display: inline-block;
+  text-align: center;
+  width: 1rem;
+}

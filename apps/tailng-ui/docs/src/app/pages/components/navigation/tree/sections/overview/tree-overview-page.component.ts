@@ -3,12 +3,6 @@ import { Component, inject, signal, type OnDestroy } from '@angular/core';
 import { observeDocsCodeThemeChanges, resolveDocsCodeBlockTheme } from '../../../../../../shared/util';
 import { TngCodeBlockComponent, TngTree as TngTreeComponent } from '@tailng-ui/components';
 import type { TngTreeItem as TngTreeComponentItem } from '@tailng-ui/components';
-import {
-  TngTree as TngTreePrimitive,
-  TngTreeItem,
-  TngTreeGroup,
-  TngTreeIndicator,
-} from '@tailng-ui/primitives';
 import { type DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
 import {
   DocsExampleTabsSectionComponent,
@@ -30,10 +24,6 @@ const overviewNodes: readonly TngTreeComponentItem[] = Object.freeze([
   imports: [
     TngCodeBlockComponent,
     TngTreeComponent,
-    TngTreePrimitive,
-    TngTreeItem,
-    TngTreeGroup,
-    TngTreeIndicator,
     DocsExampleTabsSectionComponent,
     DocsExampleVariantDirective,
   ],
@@ -54,30 +44,9 @@ export class TreeOverviewPageComponent implements OnDestroy {
     "import { TngTree, TngTreeItem, TngTreeGroup, TngTreeIndicator } from '@tailng-ui/primitives';",
   ].join('\n');
 
-  protected readonly componentImportCode =
-    "import { TngTree } from '@tailng-ui/components';";
-
-  protected readonly headlessCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
-    {
-      value: 'html',
-      label: 'HTML',
-      language: 'html',
-      title: 'tree-overview-headless.component.html',
-      code: [
-        '<div tngTree [selectionMode]="\'single\'" aria-label="Project files">',
-        '  <div tngTreeItem [value]="\'src\'" [defaultExpanded]="true">',
-        '    <span tngTreeIndicator>📂</span> src',
-        '    <div tngTreeGroup>',
-        '      <div tngTreeItem [value]="\'index\'">',
-        '        <span tngTreeIndicator>📄</span> index.ts',
-        '      </div>',
-        '    </div>',
-        '  </div>',
-        '</div>',
-        '',
-      ].join('\n'),
-    },
-  ]);
+  protected readonly componentImportCode = [
+    "import { TngTree, type TngTreeItem } from '@tailng-ui/components';",
+  ].join('\n');
 
   protected readonly plainCssCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
     {
@@ -86,11 +55,29 @@ export class TreeOverviewPageComponent implements OnDestroy {
       language: 'ts',
       title: 'tree-overview-plain-css.component.ts',
       code: [
-        "readonly treeNodes: TngTreeItem[] = [",
-        "  { id: 'src', label: 'src' },",
-        "  { id: 'index', label: 'index.ts', parentId: 'src' },",
-        '];',
+        "import { Component } from '@angular/core';",
+        "import { TngTree, type TngTreeItem } from '@tailng-ui/components';",
         '',
+        '@Component({',
+        "  selector: 'app-tree-overview-plain-css',",
+        '  standalone: true,',
+        '  imports: [TngTree],',
+        "  templateUrl: './tree-overview-plain-css.component.html',",
+        "  styleUrl: './tree-overview-plain-css.component.css',",
+        '})',
+        'export class TreeOverviewPlainCssComponent {',
+        '  protected readonly treeNodes: readonly TngTreeItem[] = [',
+        "    { id: 'src', label: 'src' },",
+        "    { id: 'components', label: 'components', parentId: 'src' },",
+        "    { id: 'button', label: 'button.ts', parentId: 'components' },",
+        "    { id: 'input', label: 'input.ts', parentId: 'components' },",
+        "    { id: 'utils', label: 'utils', parentId: 'src' },",
+        "    { id: 'helpers', label: 'helpers.ts', parentId: 'utils' },",
+        "    { id: 'readme', label: 'README.md', parentId: 'src' },",
+        '  ];',
+        '',
+        "  protected readonly defaultExpandedIds = ['src', 'components'] as const;",
+        '}',
       ].join('\n'),
     },
     {
@@ -99,40 +86,77 @@ export class TreeOverviewPageComponent implements OnDestroy {
       language: 'html',
       title: 'tree-overview-plain-css.component.html',
       code: [
+        '<div class="tree-demo-shell">',
         '<tng-tree',
         '  [nodes]="treeNodes"',
-        '  [defaultExpandedIds]="[\'src\']"',
-        '  [ariaLabel]="\'Project files\'"',
-        '  (selectedIdChange)="onSelect($event)"',
-        '/>',
-        '',
+        '  [defaultExpandedIds]="defaultExpandedIds"',
+        '  [defaultSelectedId]="\'button\'"',
+        '  ariaLabel="Project files"',
+        '></tng-tree>',
+        '</div>',
+      ].join('\n'),
+    },
+    {
+      value: 'css',
+      label: 'CSS',
+      language: 'css',
+      title: 'tree-overview-plain-css.component.css',
+      code: [
+        '.tree-demo-shell {',
+        '  border: 1px solid var(--docs-border-subtle);',
+        '  border-radius: 16px;',
+        '  padding: 1rem;',
+        '}',
       ].join('\n'),
     },
   ]);
 
   protected readonly tailwindCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
     {
+      value: 'ts',
+      label: 'TS',
+      language: 'ts',
+      title: 'tree-overview-tailwind.component.ts',
+      code: [
+        "import { Component } from '@angular/core';",
+        "import { TngTree, type TngTreeItem } from '@tailng-ui/components';",
+        '',
+        '@Component({',
+        "  selector: 'app-tree-overview-tailwind',",
+        '  standalone: true,',
+        '  imports: [TngTree],',
+        "  templateUrl: './tree-overview-tailwind.component.html',",
+        "  styleUrl: './tree-overview-tailwind.component.css',",
+        '})',
+        'export class TreeOverviewTailwindComponent {',
+        '  protected readonly treeNodes: readonly TngTreeItem[] = [',
+        "    { id: 'src', label: 'src' },",
+        "    { id: 'components', label: 'components', parentId: 'src' },",
+        "    { id: 'button', label: 'button.ts', parentId: 'components' },",
+        "    { id: 'input', label: 'input.ts', parentId: 'components' },",
+        "    { id: 'utils', label: 'utils', parentId: 'src' },",
+        "    { id: 'helpers', label: 'helpers.ts', parentId: 'utils' },",
+        "    { id: 'readme', label: 'README.md', parentId: 'src' },",
+        '  ];',
+        '',
+        "  protected readonly defaultExpandedIds = ['src', 'components'] as const;",
+        '}',
+      ].join('\n'),
+    },
+    {
       value: 'html',
       label: 'HTML',
       language: 'html',
       title: 'tree-overview-tailwind.component.html',
       code: [
-        '<div tngTree [selectionMode]="\'single\'"',
-        '  class="rounded-xl border border-tng-border-subtle p-3 text-sm">',
-        '  <div tngTreeItem [value]="\'src\'" [defaultExpanded]="true" class="cursor-pointer">',
-        '    <span class="tree-row">',
-        '      <span tngTreeIndicator class="mr-1 w-4 text-center text-xs">📂</span>src',
-        '    </span>',
-        '    <div tngTreeGroup class="ml-5 border-l border-tng-border-subtle pl-3">',
-        '      <div tngTreeItem [value]="\'index\'" class="cursor-pointer">',
-        '        <span class="tree-row">',
-        '          <span tngTreeIndicator class="mr-1 w-4 text-center text-xs">📄</span>index.ts',
-        '        </span>',
-        '      </div>',
-        '    </div>',
-        '  </div>',
+        '<div class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">',
+        '  <tng-tree',
+        '    [nodes]="treeNodes"',
+        '    [defaultExpandedIds]="defaultExpandedIds"',
+        '    [defaultSelectedId]="\'button\'"',
+        '    ariaLabel="Project files"',
+        '  ></tng-tree>',
         '</div>',
-        '',
       ].join('\n'),
     },
     {
@@ -147,5 +171,4 @@ export class TreeOverviewPageComponent implements OnDestroy {
   public ngOnDestroy(): void {
     this.colorSchemeObserver?.disconnect();
   }
-
 }

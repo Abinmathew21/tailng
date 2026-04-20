@@ -1,0 +1,58 @@
+:host {
+  display: block;
+}
+
+.headless-tree-api {
+  display: grid;
+  gap: 1rem;
+}
+
+.headless-tree-api-title {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.headless-tree-api-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.headless-tree-api-block {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.9rem;
+  color: var(--tng-semantic-foreground-secondary);
+  display: grid;
+  gap: 0.8rem;
+  padding: 1rem;
+}
+
+.headless-tree-api-block h3 {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1rem;
+  margin: 0;
+}
+
+.headless-tree-api-table-wrap {
+  overflow-x: auto;
+}
+
+.headless-tree-api-table {
+  border-collapse: collapse;
+  min-width: 100%;
+  width: 100%;
+}
+
+.headless-tree-api-table th,
+.headless-tree-api-table td {
+  border-bottom: 1px solid var(--tng-semantic-border-subtle);
+  padding: 0.75rem 0.85rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.headless-tree-api-table th {
+  color: var(--tng-semantic-foreground-primary);
+  font-weight: 600;
+}

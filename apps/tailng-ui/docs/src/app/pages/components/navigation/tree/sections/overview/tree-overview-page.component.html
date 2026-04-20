@@ -1,13 +1,14 @@
 <article class="tree-overview">
   <h2 class="tree-overview-title">Tree overview</h2>
   <p class="tree-overview-lead">
-    Tree provides keyboard-navigable hierarchical data views with expand/collapse, single selection,
-    and typeahead. Use the headless primitives for full control or the wrapper component for quick adoption.
+    Tree renders hierarchical explorers and settings panels from a flat node model. The wrapper
+    ships with minimum row, toggle, and depth styling while preserving the underlying tree contract
+    for teams that need deeper customization later.
   </p>
 
   <section class="tree-overview-block">
     <h3>Imports</h3>
-    <p>Select the layer that matches your ownership model.</p>
+    <p>Use the wrapper for flat node data, or reach for primitives on the headless page when you need full markup control.</p>
     <tng-code-block
       [code]="primitiveImportCode"
       adapter="shiki"
@@ -32,84 +33,26 @@
 
   <section class="tree-overview-block">
     <app-docs-example-tabs-section
-      heading="File tree variants"
-      description="Same tree structure rendered through headless markup, plain CSS wrappers, and Tailwind utility shells."
+      heading="Wrapper variants"
+      description="The same wrapper tree rendered inside plain CSS and Tailwind shells."
       ariaLabel="Tree file browser variants"
       tabListAriaLabel="Tree styles"
-      defaultValue="headless"
+      defaultValue="plain-css"
       [codeBlockTheme]="codeBlockTheme()"
     >
       <ng-template
         appDocsExampleVariant
-        value="headless"
-        label="Headless"
-        panelTitle="Headless file tree"
-        [codeTabs]="headlessCodeTabs"
-      >
-        <div class="tree-preview-shell tree-preview-shell--headless">
-          <div
-            tngTree
-            [selectionMode]="'single'"
-            class="tree-preview-primitive"
-            aria-label="Project files"
-          >
-            <div tngTreeItem [value]="'src'" [defaultExpanded]="true">
-              <span class="tree-row">
-                <span tngTreeIndicator class="tree-preview-indicator">📂</span>src
-              </span>
-              <div tngTreeGroup class="tree-preview-group">
-                <div tngTreeItem [value]="'components'" [defaultExpanded]="true">
-                  <span class="tree-row">
-                    <span tngTreeIndicator class="tree-preview-indicator">📂</span>components
-                  </span>
-                  <div tngTreeGroup class="tree-preview-group">
-                    <div tngTreeItem [value]="'button'">
-                      <span class="tree-row">
-                        <span tngTreeIndicator class="tree-preview-indicator">📄</span>button.ts
-                      </span>
-                    </div>
-                    <div tngTreeItem [value]="'input'">
-                      <span class="tree-row">
-                        <span tngTreeIndicator class="tree-preview-indicator">📄</span>input.ts
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                <div tngTreeItem [value]="'utils'" [defaultExpanded]="false">
-                  <span class="tree-row">
-                    <span tngTreeIndicator class="tree-preview-indicator">📂</span>utils
-                  </span>
-                  <div tngTreeGroup class="tree-preview-group">
-                    <div tngTreeItem [value]="'helpers'">
-                      <span class="tree-row">
-                        <span tngTreeIndicator class="tree-preview-indicator">📄</span>helpers.ts
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                <div tngTreeItem [value]="'readme'">
-                  <span class="tree-row">
-                    <span tngTreeIndicator class="tree-preview-indicator">📄</span>README.md
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </ng-template>
-
-      <ng-template
-        appDocsExampleVariant
         value="plain-css"
         label="Plain-CSS"
-        panelTitle="Plain CSS file tree"
+        panelTitle="Wrapper tree (plain CSS)"
         [codeTabs]="plainCssCodeTabs"
       >
-        <div class="tree-preview-shell tree-preview-shell--plain">
+        <div class="tree-preview-shell">
           <tng-tree
             [nodes]="overviewNodes"
             [defaultExpandedIds]="defaultExpandedIds"
-            [ariaLabel]="'Project files'"
+            [defaultSelectedId]="'button'"
+            ariaLabel="Project files"
           />
         </div>
       </ng-template>
@@ -118,14 +61,15 @@
         appDocsExampleVariant
         value="tailwind-css"
         label="Tailwind CSS"
-        panelTitle="Tailwind file tree"
+        panelTitle="Wrapper tree (Tailwind shell)"
         [codeTabs]="tailwindCodeTabs"
       >
-        <div class="tree-preview-shell tree-preview-shell--plain">
+        <div class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">
           <tng-tree
             [nodes]="overviewNodes"
             [defaultExpandedIds]="defaultExpandedIds"
-            [ariaLabel]="'Project files'"
+            [defaultSelectedId]="'button'"
+            ariaLabel="Project files"
           />
         </div>
       </ng-template>

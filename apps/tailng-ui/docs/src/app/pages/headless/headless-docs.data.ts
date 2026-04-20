@@ -198,7 +198,7 @@ export const HEADLESS_UTILITY_GROUP: HeadlessDocsGroup = {
 export const HEADLESS_NAVIGATION_GROUP: HeadlessDocsGroup = {
   id: 'navigation',
   title: 'Navigation',
-  subtitle: 'Headless trails, menus, and command surfaces',
+  subtitle: 'Headless trails, trees, menus, and command surfaces',
   items: [
     {
       id: 'menubar',
@@ -223,6 +223,12 @@ export const HEADLESS_NAVIGATION_GROUP: HeadlessDocsGroup = {
       slug: 'breadcrumb',
       title: 'Breadcrumb',
       description: 'Structural breadcrumb slots for owner-controlled trails, current links, and separators.',
+    },
+    {
+      id: 'tree',
+      slug: 'tree',
+      title: 'Tree',
+      description: 'Hierarchical treeitem contracts with owned expansion, selection, and typeahead styling.',
     },
   ],
 };

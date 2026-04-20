@@ -34,13 +34,19 @@ export const HEADLESS_NAVIGATION_ROUTES: Routes = [
     loadChildren: () =>
       import('./breadcrumb/routes').then((module) => module.HEADLESS_NAVIGATION_BREADCRUMB_ROUTES),
   },
+  {
+    path: 'tree',
+    loadChildren: () =>
+      import('./tree/routes').then((module) => module.HEADLESS_NAVIGATION_TREE_ROUTES),
+  },
   ...group.items
     .filter(
       (item) =>
         item.slug !== 'menubar' &&
         item.slug !== 'menu' &&
         item.slug !== 'context-menu' &&
-        item.slug !== 'breadcrumb',
+        item.slug !== 'breadcrumb' &&
+        item.slug !== 'tree',
     )
     .map((item) => ({
       path: item.slug,

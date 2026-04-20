@@ -1,97 +1,31 @@
 <article class="tree-examples">
   <h2 class="tree-examples-title">Examples</h2>
   <p class="tree-examples-lead">
-    Reusable tree patterns for file browsers, settings panels, and hierarchical navigation.
+    Reusable wrapper tree patterns for file browsers, settings panels, and explorer-style navigation.
   </p>
 
   <section class="tree-examples-block">
     <app-docs-example-tabs-section
       heading="File browser"
-      description="Repository-like tree with workspace, libs, and apps branches."
+      description="Repository-like wrapper tree with workspace, libs, and apps branches."
       ariaLabel="File browser tree variants"
       tabListAriaLabel="File browser tree styles"
-      defaultValue="headless"
+      defaultValue="plain-css"
       [codeBlockTheme]="codeBlockTheme()"
     >
       <ng-template
         appDocsExampleVariant
-        value="headless"
-        label="Headless"
-        panelTitle="Headless file browser"
-        [codeTabs]="fileTreeHeadlessCodeTabs"
-      >
-        <div class="tree-example-shell tree-example-shell--headless">
-          <div
-            tngTree
-            [selectionMode]="'single'"
-            class="tree-example-primitive"
-            aria-label="Repository files"
-            (valueChange)="onHeadlessSelect($event)"
-          >
-            <div tngTreeItem [value]="'workspace'" [defaultExpanded]="true">
-              <span class="tree-row">
-                <span tngTreeIndicator class="tree-example-indicator">📂</span>tailng-ui
-              </span>
-              <div tngTreeGroup class="tree-example-group">
-                <div tngTreeItem [value]="'libs'" [defaultExpanded]="true">
-                  <span class="tree-row">
-                    <span tngTreeIndicator class="tree-example-indicator">📂</span>libs
-                  </span>
-                  <div tngTreeGroup class="tree-example-group">
-                    <div tngTreeItem [value]="'components'">
-                      <span class="tree-row">
-                        <span tngTreeIndicator class="tree-example-indicator">📄</span>components
-                      </span>
-                    </div>
-                    <div tngTreeItem [value]="'primitives'">
-                      <span class="tree-row">
-                        <span tngTreeIndicator class="tree-example-indicator">📄</span>primitives
-                      </span>
-                    </div>
-                    <div tngTreeItem [value]="'theme'">
-                      <span class="tree-row">
-                        <span tngTreeIndicator class="tree-example-indicator">📄</span>theme
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                <div tngTreeItem [value]="'apps'" [defaultExpanded]="true">
-                  <span class="tree-row">
-                    <span tngTreeIndicator class="tree-example-indicator">📂</span>apps
-                  </span>
-                  <div tngTreeGroup class="tree-example-group">
-                    <div tngTreeItem [value]="'docs'">
-                      <span class="tree-row">
-                        <span tngTreeIndicator class="tree-example-indicator">📄</span>docs
-                      </span>
-                    </div>
-                    <div tngTreeItem [value]="'playground'">
-                      <span class="tree-row">
-                        <span tngTreeIndicator class="tree-example-indicator">📄</span>playground-tailwind
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </ng-template>
-
-      <ng-template
-        appDocsExampleVariant
         value="plain-css"
         label="Plain-CSS"
-        panelTitle="Plain CSS file browser"
+        panelTitle="Wrapper file browser (plain CSS)"
         [codeTabs]="fileTreePlainCodeTabs"
       >
-        <div class="tree-example-shell tree-example-shell--plain">
+        <div class="tree-example-shell">
           <tng-tree
             [nodes]="fileTreeNodes"
             [defaultExpandedIds]="fileTreeExpanded"
             [defaultSelectedId]="'components'"
-            [ariaLabel]="'Repository files'"
-            (selectedIdChange)="onFileTreeSelect($event)"
+            ariaLabel="Repository files"
           />
         </div>
       </ng-template>
@@ -100,16 +34,15 @@
         appDocsExampleVariant
         value="tailwind-css"
         label="Tailwind CSS"
-        panelTitle="Tailwind file browser"
+        panelTitle="Wrapper file browser (Tailwind shell)"
         [codeTabs]="fileTreeTailwindCodeTabs"
       >
-        <div class="tree-example-shell tree-example-shell--plain">
+        <div class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">
           <tng-tree
             [nodes]="fileTreeNodes"
             [defaultExpandedIds]="fileTreeExpanded"
             [defaultSelectedId]="'components'"
-            [ariaLabel]="'Repository files'"
-            (selectedIdChange)="onFileTreeSelect($event)"
+            ariaLabel="Repository files"
           />
         </div>
       </ng-template>
@@ -119,103 +52,25 @@
   <section class="tree-examples-block">
     <app-docs-example-tabs-section
       heading="Settings panel"
-      description="Categorized settings tree with disabled experimental branch."
+      description="Categorized wrapper tree with a disabled experimental branch."
       ariaLabel="Settings panel tree variants"
       tabListAriaLabel="Settings panel tree styles"
-      defaultValue="headless"
+      defaultValue="plain-css"
       [codeBlockTheme]="codeBlockTheme()"
     >
       <ng-template
         appDocsExampleVariant
-        value="headless"
-        label="Headless"
-        panelTitle="Headless settings panel"
-        [codeTabs]="settingsHeadlessCodeTabs"
-      >
-        <div class="tree-example-shell tree-example-shell--headless">
-          <div
-            tngTree
-            [selectionMode]="'single'"
-            class="tree-example-primitive"
-            aria-label="Settings"
-            (valueChange)="onHeadlessSelect($event)"
-          >
-            <div tngTreeItem [value]="'general'" [defaultExpanded]="true">
-              <span class="tree-row">
-                <span tngTreeIndicator class="tree-example-indicator">⚙️</span>General
-              </span>
-              <div tngTreeGroup class="tree-example-group">
-                <div tngTreeItem [value]="'appearance'" [defaultExpanded]="true">
-                  <span class="tree-row">
-                    <span tngTreeIndicator class="tree-example-indicator">🎨</span>Appearance
-                  </span>
-                  <div tngTreeGroup class="tree-example-group">
-                    <div tngTreeItem [value]="'theme-mode'">
-                      <span class="tree-row">
-                        <span tngTreeIndicator class="tree-example-indicator">📄</span>Theme mode
-                      </span>
-                    </div>
-                    <div tngTreeItem [value]="'font-size'">
-                      <span class="tree-row">
-                        <span tngTreeIndicator class="tree-example-indicator">📄</span>Font size
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                <div tngTreeItem [value]="'privacy'" [defaultExpanded]="false">
-                  <span class="tree-row">
-                    <span tngTreeIndicator class="tree-example-indicator">🔒</span>Privacy
-                  </span>
-                  <div tngTreeGroup class="tree-example-group">
-                    <div tngTreeItem [value]="'cookies'">
-                      <span class="tree-row">
-                        <span tngTreeIndicator class="tree-example-indicator">📄</span>Cookies
-                      </span>
-                    </div>
-                    <div tngTreeItem [value]="'tracking'">
-                      <span class="tree-row">
-                        <span tngTreeIndicator class="tree-example-indicator">📄</span>Tracking
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div tngTreeItem [value]="'advanced'" [defaultExpanded]="false">
-              <span class="tree-row">
-                <span tngTreeIndicator class="tree-example-indicator">🛠️</span>Advanced
-              </span>
-              <div tngTreeGroup class="tree-example-group">
-                <div tngTreeItem [value]="'developer'">
-                  <span class="tree-row">
-                    <span tngTreeIndicator class="tree-example-indicator">📄</span>Developer tools
-                  </span>
-                </div>
-                <div tngTreeItem [value]="'experimental'" [disabled]="true">
-                  <span class="tree-row">
-                    <span tngTreeIndicator class="tree-example-indicator">📄</span>Experimental
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </ng-template>
-
-      <ng-template
-        appDocsExampleVariant
         value="plain-css"
         label="Plain-CSS"
-        panelTitle="Plain CSS settings panel"
+        panelTitle="Wrapper settings panel (plain CSS)"
         [codeTabs]="settingsPlainCodeTabs"
       >
-        <div class="tree-example-shell tree-example-shell--plain">
+        <div class="tree-example-shell">
           <tng-tree
             [nodes]="settingsTreeNodes"
             [defaultExpandedIds]="settingsTreeExpanded"
             [defaultSelectedId]="'theme-mode'"
-            [ariaLabel]="'Settings'"
-            (selectedIdChange)="onSettingsTreeSelect($event)"
+            ariaLabel="Settings"
           />
         </div>
       </ng-template>
@@ -224,16 +79,15 @@
         appDocsExampleVariant
         value="tailwind-css"
         label="Tailwind CSS"
-        panelTitle="Tailwind settings panel"
+        panelTitle="Wrapper settings panel (Tailwind shell)"
         [codeTabs]="settingsTailwindCodeTabs"
       >
-        <div class="tree-example-shell tree-example-shell--plain">
+        <div class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">
           <tng-tree
             [nodes]="settingsTreeNodes"
             [defaultExpandedIds]="settingsTreeExpanded"
             [defaultSelectedId]="'theme-mode'"
-            [ariaLabel]="'Settings'"
-            (selectedIdChange)="onSettingsTreeSelect($event)"
+            ariaLabel="Settings"
           />
         </div>
       </ng-template>

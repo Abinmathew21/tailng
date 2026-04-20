@@ -1,0 +1,58 @@
+:host {
+  display: block;
+}
+
+.headless-tree-styling {
+  display: grid;
+  gap: 1rem;
+}
+
+.headless-tree-styling-title {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.headless-tree-styling-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.headless-tree-styling-block {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.9rem;
+  color: var(--tng-semantic-foreground-secondary);
+  display: grid;
+  gap: 0.8rem;
+  padding: 1rem;
+}
+
+.headless-tree-styling-block h3 {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1rem;
+  margin: 0;
+}
+
+.headless-tree-styling-table-wrap {
+  overflow-x: auto;
+}
+
+.headless-tree-styling-table {
+  border-collapse: collapse;
+  min-width: 100%;
+  width: 100%;
+}
+
+.headless-tree-styling-table th,
+.headless-tree-styling-table td {
+  border-bottom: 1px solid var(--tng-semantic-border-subtle);
+  padding: 0.75rem 0.85rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.headless-tree-styling-table th {
+  color: var(--tng-semantic-foreground-primary);
+  font-weight: 600;
+}
