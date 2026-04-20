@@ -88,16 +88,17 @@ const COUNTRY_PLAIN_HTML_CODE = String.raw`<section class="docs-autocomplete-cou
     </p>
   </div>
 
-  <tng-autocomplete
-    class="docs-autocomplete-country-example__control"
-    [options]="countries"
-    [value]="selectedCountry()"
-    (valueChange)="onSelectedCountryChange($event)"
-    [getOptionValue]="getCountryValue"
-    [getOptionLabel]="getCountryLabel"
-    placeholder="Type Ind to filter"
-    [ariaLabel]="'Country directory'"
-  ></tng-autocomplete>
+  <div class="docs-autocomplete-country-example__control">
+    <tng-autocomplete
+      [options]="countries"
+      [value]="selectedCountry()"
+      (valueChange)="onSelectedCountryChange($event)"
+      [getOptionValue]="getCountryValue"
+      [getOptionLabel]="getCountryLabel"
+      placeholder="Type Ind to filter"
+      [ariaLabel]="'Country directory'"
+    ></tng-autocomplete>
+  </div>
 
   <p class="docs-autocomplete-country-example__summary">
     Selected: {{ selectedSummary() }}
@@ -111,11 +112,10 @@ const COUNTRY_PLAIN_CSS_CODE = String.raw`.docs-autocomplete-country-example {
   inline-size: min(100%, 34rem);
   margin-inline: auto;
   padding: 1rem;
-  border: 1px solid #cbd5e1;
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 1.1rem;
-  background: #ffffff;
-  color: #0f172a;
-  color-scheme: light;
+  background: var(--tng-semantic-background-surface);
+  color: var(--tng-semantic-foreground-primary);
 }
 
 .docs-autocomplete-country-example__header {
@@ -126,27 +126,23 @@ const COUNTRY_PLAIN_CSS_CODE = String.raw`.docs-autocomplete-country-example {
 .docs-autocomplete-country-example__eyebrow {
   font-size: 0.78rem;
   font-weight: 700;
-  color: #64748b;
+  color: var(--tng-semantic-foreground-muted);
 }
 
 .docs-autocomplete-country-example__copy,
 .docs-autocomplete-country-example__summary {
   margin: 0;
-  color: #475569;
+  color: var(--tng-semantic-foreground-secondary);
 }
 
 .docs-autocomplete-country-example__control {
   display: block;
   width: 100%;
-  --tng-semantic-background-canvas: #ffffff;
-  --tng-semantic-background-surface: #f8fafc;
-  --tng-semantic-border-subtle: #cbd5e1;
-  --tng-semantic-border-strong: #cbd5e1;
-  --tng-semantic-foreground-primary: #0f172a;
-  --tng-semantic-foreground-secondary: #475569;
-  --tng-semantic-foreground-muted: #64748b;
-  --tng-semantic-accent-brand: #2563eb;
-  --tng-semantic-focus-ring: #2563eb;
+}
+
+.docs-autocomplete-country-example__control tng-autocomplete {
+  display: block;
+  width: 100%;
 }
 `;
 
@@ -190,26 +186,27 @@ export class DocsAutocompleteCountryExampleTailwindComponent {
 }
 `;
 
-const COUNTRY_TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-[34rem] gap-4 rounded-3xl border border-slate-200 bg-white p-5 text-slate-900 shadow-sm">
+const COUNTRY_TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-[34rem] gap-4 rounded-3xl border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-surface)] p-5 text-[var(--tng-semantic-foreground-primary)] shadow-sm">
   <div class="grid gap-1">
-    <span class="text-xs font-semibold text-slate-500">Country directory</span>
-    <p class="m-0 text-sm text-slate-600">
+    <span class="text-xs font-semibold text-[var(--tng-semantic-foreground-muted)]">Country directory</span>
+    <p class="m-0 text-sm text-[var(--tng-semantic-foreground-secondary)]">
       Search the release locale list and commit with keyboard or pointer selection.
     </p>
   </div>
 
-  <tng-autocomplete
-    class="block w-full [--tng-semantic-background-canvas:#ffffff] [--tng-semantic-background-surface:#f8fafc] [--tng-semantic-border-subtle:#cbd5e1] [--tng-semantic-border-strong:#cbd5e1] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-foreground-secondary:#475569] [--tng-semantic-foreground-muted:#64748b] [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-focus-ring:#2563eb]"
-    [options]="countries"
-    [value]="selectedCountry()"
-    (valueChange)="onSelectedCountryChange($event)"
-    [getOptionValue]="getCountryValue"
-    [getOptionLabel]="getCountryLabel"
-    placeholder="Type Ind to filter"
-    [ariaLabel]="'Country directory'"
-  ></tng-autocomplete>
+  <div class="block w-full">
+    <tng-autocomplete
+      [options]="countries"
+      [value]="selectedCountry()"
+      (valueChange)="onSelectedCountryChange($event)"
+      [getOptionValue]="getCountryValue"
+      [getOptionLabel]="getCountryLabel"
+      placeholder="Type Ind to filter"
+      [ariaLabel]="'Country directory'"
+    ></tng-autocomplete>
+  </div>
 
-  <p class="m-0 text-xs text-slate-600">Selected: {{ selectedSummary() }}</p>
+  <p class="m-0 text-xs text-[var(--tng-semantic-foreground-secondary)]">Selected: {{ selectedSummary() }}</p>
 </section>
 `;
 
@@ -262,17 +259,18 @@ const OWNER_PLAIN_HTML_CODE = String.raw`<section class="docs-autocomplete-owner
     </p>
   </div>
 
-  <tng-autocomplete
-    class="docs-autocomplete-owner-example__control"
-    [options]="owners"
-    [value]="selectedOwner()"
-    (valueChange)="onSelectedOwnerChange($event)"
-    [getOptionValue]="getOwnerValue"
-    [getOptionLabel]="getOwnerLabel"
-    [isOptionDisabled]="isOwnerDisabled"
-    placeholder="Assign a release owner"
-    [ariaLabel]="'Release owner handoff'"
-  ></tng-autocomplete>
+  <div class="docs-autocomplete-owner-example__control">
+    <tng-autocomplete
+      [options]="owners"
+      [value]="selectedOwner()"
+      (valueChange)="onSelectedOwnerChange($event)"
+      [getOptionValue]="getOwnerValue"
+      [getOptionLabel]="getOwnerLabel"
+      [isOptionDisabled]="isOwnerDisabled"
+      placeholder="Assign a release owner"
+      [ariaLabel]="'Release owner handoff'"
+    ></tng-autocomplete>
+  </div>
 
   <p class="docs-autocomplete-owner-example__summary">
     Selected: {{ selectedSummary() }}
@@ -286,11 +284,10 @@ const OWNER_PLAIN_CSS_CODE = String.raw`.docs-autocomplete-owner-example {
   inline-size: min(100%, 34rem);
   margin-inline: auto;
   padding: 1rem;
-  border: 1px solid #cbd5e1;
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 1.1rem;
-  background: #ffffff;
-  color: #0f172a;
-  color-scheme: light;
+  background: var(--tng-semantic-background-surface);
+  color: var(--tng-semantic-foreground-primary);
 }
 
 .docs-autocomplete-owner-example__header {
@@ -301,27 +298,23 @@ const OWNER_PLAIN_CSS_CODE = String.raw`.docs-autocomplete-owner-example {
 .docs-autocomplete-owner-example__eyebrow {
   font-size: 0.78rem;
   font-weight: 700;
-  color: #64748b;
+  color: var(--tng-semantic-foreground-muted);
 }
 
 .docs-autocomplete-owner-example__copy,
 .docs-autocomplete-owner-example__summary {
   margin: 0;
-  color: #475569;
+  color: var(--tng-semantic-foreground-secondary);
 }
 
 .docs-autocomplete-owner-example__control {
   display: block;
   width: 100%;
-  --tng-semantic-background-canvas: #ffffff;
-  --tng-semantic-background-surface: #f8fafc;
-  --tng-semantic-border-subtle: #cbd5e1;
-  --tng-semantic-border-strong: #cbd5e1;
-  --tng-semantic-foreground-primary: #0f172a;
-  --tng-semantic-foreground-secondary: #475569;
-  --tng-semantic-foreground-muted: #64748b;
-  --tng-semantic-accent-brand: #0f766e;
-  --tng-semantic-focus-ring: #0f766e;
+}
+
+.docs-autocomplete-owner-example__control tng-autocomplete {
+  display: block;
+  width: 100%;
 }
 `;
 
@@ -364,27 +357,28 @@ export class DocsAutocompleteOwnerExampleTailwindComponent {
 }
 `;
 
-const OWNER_TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-[34rem] gap-4 rounded-3xl border border-slate-200 bg-white p-5 text-slate-900 shadow-sm">
+const OWNER_TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-[34rem] gap-4 rounded-3xl border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-surface)] p-5 text-[var(--tng-semantic-foreground-primary)] shadow-sm">
   <div class="grid gap-1">
-    <span class="text-xs font-semibold text-slate-500">Release owner handoff</span>
-    <p class="m-0 text-sm text-slate-600">
+    <span class="text-xs font-semibold text-[var(--tng-semantic-foreground-muted)]">Release owner handoff</span>
+    <p class="m-0 text-sm text-[var(--tng-semantic-foreground-secondary)]">
       Disabled owners stay visible for context while the next available handoff stays searchable.
     </p>
   </div>
 
-  <tng-autocomplete
-    class="block w-full [--tng-semantic-background-canvas:#ffffff] [--tng-semantic-background-surface:#f8fafc] [--tng-semantic-border-subtle:#cbd5e1] [--tng-semantic-border-strong:#cbd5e1] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-foreground-secondary:#475569] [--tng-semantic-foreground-muted:#64748b] [--tng-semantic-accent-brand:#0f766e] [--tng-semantic-focus-ring:#0f766e]"
-    [options]="owners"
-    [value]="selectedOwner()"
-    (valueChange)="onSelectedOwnerChange($event)"
-    [getOptionValue]="getOwnerValue"
-    [getOptionLabel]="getOwnerLabel"
-    [isOptionDisabled]="isOwnerDisabled"
-    placeholder="Assign a release owner"
-    [ariaLabel]="'Release owner handoff'"
-  ></tng-autocomplete>
+  <div class="block w-full">
+    <tng-autocomplete
+      [options]="owners"
+      [value]="selectedOwner()"
+      (valueChange)="onSelectedOwnerChange($event)"
+      [getOptionValue]="getOwnerValue"
+      [getOptionLabel]="getOwnerLabel"
+      [isOptionDisabled]="isOwnerDisabled"
+      placeholder="Assign a release owner"
+      [ariaLabel]="'Release owner handoff'"
+    ></tng-autocomplete>
+  </div>
 
-  <p class="m-0 text-xs text-slate-600">Selected: {{ selectedSummary() }}</p>
+  <p class="m-0 text-xs text-[var(--tng-semantic-foreground-secondary)]">Selected: {{ selectedSummary() }}</p>
 </section>
 `;
 

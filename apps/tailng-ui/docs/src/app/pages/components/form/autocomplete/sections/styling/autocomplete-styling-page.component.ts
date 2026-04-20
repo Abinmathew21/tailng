@@ -100,17 +100,18 @@ const PLAIN_HTML_CODE = String.raw`<section class="docs-autocomplete-styling-exa
     </p>
   </div>
 
-  <tng-autocomplete
-    class="docs-autocomplete-styling-example__control"
-    [options]="releaseOwners"
-    [value]="selectedOwner()"
-    (valueChange)="onSelectedOwnerChange($event)"
-    [getOptionValue]="getOwnerValue"
-    [getOptionLabel]="getOwnerLabel"
-    [isOptionDisabled]="isOwnerDisabled"
-    placeholder="Assign a release owner"
-    [ariaLabel]="'Release owner'"
-  ></tng-autocomplete>
+  <div class="docs-autocomplete-styling-example__control">
+    <tng-autocomplete
+      [options]="releaseOwners"
+      [value]="selectedOwner()"
+      (valueChange)="onSelectedOwnerChange($event)"
+      [getOptionValue]="getOwnerValue"
+      [getOptionLabel]="getOwnerLabel"
+      [isOptionDisabled]="isOwnerDisabled"
+      placeholder="Assign a release owner"
+      [ariaLabel]="'Release owner'"
+    ></tng-autocomplete>
+  </div>
 
   <p class="docs-autocomplete-styling-example__summary">
     Selected: {{ selectedSummary() }}
@@ -124,11 +125,10 @@ const PLAIN_CSS_CODE = String.raw`.docs-autocomplete-styling-example {
   inline-size: min(100%, 34rem);
   margin-inline: auto;
   padding: 1rem;
-  border: 1px solid #cbd5e1;
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 1.1rem;
-  background: #ffffff;
-  color: #0f172a;
-  color-scheme: light;
+  background: var(--tng-semantic-background-surface);
+  color: var(--tng-semantic-foreground-primary);
 }
 
 .docs-autocomplete-styling-example__header {
@@ -139,27 +139,23 @@ const PLAIN_CSS_CODE = String.raw`.docs-autocomplete-styling-example {
 .docs-autocomplete-styling-example__eyebrow {
   font-size: 0.78rem;
   font-weight: 700;
-  color: #64748b;
+  color: var(--tng-semantic-foreground-muted);
 }
 
 .docs-autocomplete-styling-example__copy,
 .docs-autocomplete-styling-example__summary {
   margin: 0;
-  color: #475569;
+  color: var(--tng-semantic-foreground-secondary);
 }
 
 .docs-autocomplete-styling-example__control {
   display: block;
   width: 100%;
-  --tng-semantic-background-canvas: #ffffff;
-  --tng-semantic-background-surface: #f8fafc;
-  --tng-semantic-border-subtle: #cbd5e1;
-  --tng-semantic-border-strong: #cbd5e1;
-  --tng-semantic-foreground-primary: #0f172a;
-  --tng-semantic-foreground-secondary: #475569;
-  --tng-semantic-foreground-muted: #64748b;
-  --tng-semantic-accent-brand: #2563eb;
-  --tng-semantic-focus-ring: #2563eb;
+}
+
+.docs-autocomplete-styling-example__control tng-autocomplete {
+  display: block;
+  width: 100%;
 }
 `;
 
@@ -202,27 +198,28 @@ export class DocsAutocompleteStylingTailwindComponent {
 }
 `;
 
-const TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-[34rem] gap-4 rounded-3xl border border-slate-200 bg-white p-5 text-slate-900 shadow-sm">
+const TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-[34rem] gap-4 rounded-3xl border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-surface)] p-5 text-[var(--tng-semantic-foreground-primary)] shadow-sm">
   <div class="grid gap-1">
-    <span class="text-xs font-semibold text-slate-500">Release owner</span>
-    <p class="m-0 text-sm text-slate-600">
+    <span class="text-xs font-semibold text-[var(--tng-semantic-foreground-muted)]">Release owner</span>
+    <p class="m-0 text-sm text-[var(--tng-semantic-foreground-secondary)]">
       Host-level semantic tokens restyle the wrapper cleanly from a utility-first shell.
     </p>
   </div>
 
-  <tng-autocomplete
-    class="block w-full [--tng-semantic-background-canvas:#ffffff] [--tng-semantic-background-surface:#f8fafc] [--tng-semantic-border-subtle:#cbd5e1] [--tng-semantic-border-strong:#cbd5e1] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-foreground-secondary:#475569] [--tng-semantic-foreground-muted:#64748b] [--tng-semantic-accent-brand:#0f766e] [--tng-semantic-focus-ring:#0f766e]"
-    [options]="releaseOwners"
-    [value]="selectedOwner()"
-    (valueChange)="onSelectedOwnerChange($event)"
-    [getOptionValue]="getOwnerValue"
-    [getOptionLabel]="getOwnerLabel"
-    [isOptionDisabled]="isOwnerDisabled"
-    placeholder="Assign a release owner"
-    [ariaLabel]="'Release owner'"
-  ></tng-autocomplete>
+  <div class="block w-full">
+    <tng-autocomplete
+      [options]="releaseOwners"
+      [value]="selectedOwner()"
+      (valueChange)="onSelectedOwnerChange($event)"
+      [getOptionValue]="getOwnerValue"
+      [getOptionLabel]="getOwnerLabel"
+      [isOptionDisabled]="isOwnerDisabled"
+      placeholder="Assign a release owner"
+      [ariaLabel]="'Release owner'"
+    ></tng-autocomplete>
+  </div>
 
-  <p class="m-0 text-xs text-slate-600">Selected: {{ selectedSummary() }}</p>
+  <p class="m-0 text-xs text-[var(--tng-semantic-foreground-secondary)]">Selected: {{ selectedSummary() }}</p>
 </section>
 `;
 

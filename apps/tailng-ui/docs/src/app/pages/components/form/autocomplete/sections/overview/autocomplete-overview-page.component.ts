@@ -88,16 +88,17 @@ const PLAIN_HTML_CODE = String.raw`<section class="docs-autocomplete-overview-ex
     </p>
   </div>
 
-  <tng-autocomplete
-    class="docs-autocomplete-overview-example__control"
-    [options]="countries"
-    [value]="selectedCountry()"
-    (valueChange)="onSelectedCountryChange($event)"
-    [getOptionValue]="getCountryValue"
-    [getOptionLabel]="getCountryLabel"
-    placeholder="Type Ind to filter"
-    [ariaLabel]="'Country directory'"
-  ></tng-autocomplete>
+  <div class="docs-autocomplete-overview-example__control">
+    <tng-autocomplete
+      [options]="countries"
+      [value]="selectedCountry()"
+      (valueChange)="onSelectedCountryChange($event)"
+      [getOptionValue]="getCountryValue"
+      [getOptionLabel]="getCountryLabel"
+      placeholder="Type Ind to filter"
+      [ariaLabel]="'Country directory'"
+    ></tng-autocomplete>
+  </div>
 
   <p class="docs-autocomplete-overview-example__summary">
     Selected: {{ selectedLabel() }}
@@ -111,11 +112,10 @@ const PLAIN_CSS_CODE = String.raw`.docs-autocomplete-overview-example {
   inline-size: min(100%, 34rem);
   margin-inline: auto;
   padding: 1rem;
-  border: 1px solid #cbd5e1;
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 1rem;
-  background: #ffffff;
-  color: #0f172a;
-  color-scheme: light;
+  background: var(--tng-semantic-background-surface);
+  color: var(--tng-semantic-foreground-primary);
 }
 
 .docs-autocomplete-overview-example__header {
@@ -126,13 +126,13 @@ const PLAIN_CSS_CODE = String.raw`.docs-autocomplete-overview-example {
 .docs-autocomplete-overview-example__eyebrow {
   font-size: 0.8rem;
   font-weight: 700;
-  color: #64748b;
+  color: var(--tng-semantic-foreground-muted);
 }
 
 .docs-autocomplete-overview-example__copy,
 .docs-autocomplete-overview-example__summary {
   margin: 0;
-  color: #475569;
+  color: var(--tng-semantic-foreground-secondary);
 }
 
 /* Host-level tokens – the component base CSS consumes them automatically. */
@@ -140,44 +140,11 @@ const PLAIN_CSS_CODE = String.raw`.docs-autocomplete-overview-example {
   display: block;
   width: 100%;
   min-width: 0;
-  color-scheme: light;
-  --tng-semantic-background-canvas: #ffffff;
-  --tng-semantic-background-surface: #f1f5f9;
-  --tng-semantic-border-subtle: #cbd5e1;
-  --tng-semantic-border-strong: #94a3b8;
-  --tng-semantic-foreground-primary: #0f172a;
-  --tng-semantic-foreground-secondary: #475569;
-  --tng-semantic-foreground-muted: #64748b;
-  --tng-semantic-accent-brand: #2563eb;
-  --tng-semantic-focus-ring: #2563eb;
-  --tng-autocomplete-radius: 1rem;
-  --tng-autocomplete-trigger-container-min-height: 3.25rem;
-  --tng-autocomplete-trigger-container-gap: 0.55rem;
-  --tng-autocomplete-trigger-container-px: 0.25rem;
-  --tng-autocomplete-trigger-min-height: 2.75rem;
-  --tng-autocomplete-trigger-py: 0.7rem;
-  --tng-autocomplete-trigger-px: 0.95rem;
-  --tng-autocomplete-option-py: 0.7rem;
-  --tng-autocomplete-option-px: 0.95rem;
-  --tng-autocomplete-option-radius: 0.85rem;
-  --tng-autocomplete-bg: #ffffff;
-  --tng-autocomplete-surface: #f1f5f9;
-  --tng-autocomplete-border: #cbd5e1;
-  --tng-autocomplete-border-strong: #94a3b8;
-  --tng-autocomplete-border-hover: #64748b;
-  --tng-autocomplete-fg: #0f172a;
-  --tng-autocomplete-muted: #64748b;
-  --tng-autocomplete-brand: #2563eb;
-  --tng-autocomplete-focus-ring: #2563eb;
-  --tng-autocomplete-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
-  --tng-autocomplete-shadow-focus: 0 0 0 3px rgba(37, 99, 235, 0.18);
-  --tng-autocomplete-icon-margin-inline-end: 0.9rem;
-  --tng-autocomplete-overlay-max-width: min(92vw, 34rem);
-  --tng-autocomplete-overlay-border: #d8e2ef;
-  --tng-autocomplete-overlay-radius: 1rem;
-  --tng-autocomplete-overlay-bg: #ffffff;
-  --tng-autocomplete-overlay-padding: 0.4rem;
-  --tng-autocomplete-overlay-shadow: 0 18px 38px rgba(15, 23, 42, 0.14);
+}
+
+.docs-autocomplete-overview-example__control tng-autocomplete {
+  width: 100%;
+  min-width: 0;
 }
 `;
 
@@ -221,26 +188,27 @@ export class DocsAutocompleteOverviewTailwindComponent {
 }
 `;
 
-const TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-[34rem] gap-4 rounded-3xl border border-slate-200 bg-white p-5 text-slate-900 shadow-sm">
+const TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-[34rem] gap-4 rounded-3xl border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-surface)] p-5 text-[var(--tng-semantic-foreground-primary)] shadow-sm">
   <div class="grid gap-1">
-    <span class="text-xs font-semibold text-slate-500">Country directory</span>
-    <p class="m-0 text-sm text-slate-600">
+    <span class="text-xs font-semibold text-[var(--tng-semantic-foreground-muted)]">Country directory</span>
+    <p class="m-0 text-sm text-[var(--tng-semantic-foreground-secondary)]">
       Wrapper-first autocomplete for standard country search.
     </p>
   </div>
 
-  <tng-autocomplete
-    class="block min-w-0 w-full [--tng-semantic-background-canvas:#ffffff] [--tng-semantic-background-surface:#f1f5f9] [--tng-semantic-border-subtle:#cbd5e1] [--tng-semantic-border-strong:#94a3b8] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-foreground-secondary:#475569] [--tng-semantic-foreground-muted:#64748b] [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-focus-ring:#2563eb] [--tng-autocomplete-bg:#ffffff] [--tng-autocomplete-surface:#f1f5f9] [--tng-autocomplete-border:#cbd5e1] [--tng-autocomplete-border-strong:#94a3b8] [--tng-autocomplete-fg:#0f172a] [--tng-autocomplete-muted:#64748b] [--tng-autocomplete-brand:#2563eb] [--tng-autocomplete-focus-ring:#2563eb]"
-    [options]="countries"
-    [value]="selectedCountry()"
-    (valueChange)="onSelectedCountryChange($event)"
-    [getOptionValue]="getCountryValue"
-    [getOptionLabel]="getCountryLabel"
-    placeholder="Type Ind to filter"
-    [ariaLabel]="'Country directory'"
-  ></tng-autocomplete>
+  <div class="block min-w-0 w-full">
+    <tng-autocomplete
+      [options]="countries"
+      [value]="selectedCountry()"
+      (valueChange)="onSelectedCountryChange($event)"
+      [getOptionValue]="getCountryValue"
+      [getOptionLabel]="getCountryLabel"
+      placeholder="Type Ind to filter"
+      [ariaLabel]="'Country directory'"
+    ></tng-autocomplete>
+  </div>
 
-  <p class="m-0 text-xs text-slate-600">Selected: {{ selectedLabel() }}</p>
+  <p class="m-0 text-xs text-[var(--tng-semantic-foreground-secondary)]">Selected: {{ selectedLabel() }}</p>
 </section>
 `;
 
