@@ -20,15 +20,25 @@
           <section class="doc-cmp-label-examples-card">
             <div class="doc-cmp-label-examples-card__field">
               <tng-label forId="doc-cmp-label-examples-live-project" [required]="true">Project name</tng-label>
-              <input id="doc-cmp-label-examples-live-project" class="doc-cmp-label-examples-card__input" type="text" aria-required="true" placeholder="Nova" />
+              <tng-input
+                [id]="'doc-cmp-label-examples-live-project'"
+                type="text"
+                [ariaRequired]="true"
+                placeholder="Nova"
+              ></tng-input>
             </div>
             <div class="doc-cmp-label-examples-card__row">
               <input id="doc-cmp-label-examples-live-alerts" type="checkbox" class="doc-cmp-label-examples-card__checkbox" />
               <tng-label forId="doc-cmp-label-examples-live-alerts">Send release alerts</tng-label>
             </div>
-            <div class="doc-cmp-label-examples-card__field">
-              <tng-label class="doc-cmp-label-examples-card__meta-label" forId="doc-cmp-label-examples-live-archive" [disabled]="true">Archive note</tng-label>
-              <input id="doc-cmp-label-examples-live-archive" class="doc-cmp-label-examples-card__input" type="text" disabled placeholder="Readonly metadata" />
+            <div class="doc-cmp-label-examples-card__field doc-cmp-label-examples-card__field--meta">
+              <tng-label forId="doc-cmp-label-examples-live-archive" [disabled]="true">Archive note</tng-label>
+              <tng-input
+                [id]="'doc-cmp-label-examples-live-archive'"
+                type="text"
+                [disabled]="true"
+                placeholder="Readonly metadata"
+              ></tng-input>
             </div>
           </section>
         </ng-template>
@@ -41,30 +51,28 @@
           [codeTabs]="tailwindCodeTabs"
           [stackblitzUrl]="stackblitzTailwindUrl"
         >
-          <section class="grid w-full max-w-[34rem] gap-4 rounded-2xl border border-slate-300 bg-white p-4 text-slate-900 shadow-sm [--tng-semantic-accent-danger:#dc2626] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-foreground-secondary:#64748b] [color-scheme:light]">
+          <section class="grid w-full max-w-[34rem] gap-4 rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-surface)] p-4 text-[var(--tng-semantic-foreground-primary)] shadow-sm">
             <div class="grid gap-2">
               <tng-label forId="doc-cmp-label-examples-live-tailwind-project" [required]="true">Project name</tng-label>
-              <input
-                id="doc-cmp-label-examples-live-tailwind-project"
+              <tng-input
+                [id]="'doc-cmp-label-examples-live-tailwind-project'"
                 type="text"
-                aria-required="true"
+                [ariaRequired]="true"
                 placeholder="Nova"
-                class="min-h-11 rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
-              />
+              ></tng-input>
             </div>
             <div class="inline-flex items-center gap-3">
               <input id="doc-cmp-label-examples-live-tailwind-alerts" type="checkbox" class="h-4 w-4 accent-blue-600" />
               <tng-label forId="doc-cmp-label-examples-live-tailwind-alerts">Send release alerts</tng-label>
             </div>
-            <div class="grid gap-2">
-              <tng-label class="block [--tng-semantic-foreground-primary:#64748b]" forId="doc-cmp-label-examples-live-tailwind-archive" [disabled]="true">Archive note</tng-label>
-              <input
-                id="doc-cmp-label-examples-live-tailwind-archive"
+            <div class="grid gap-2 [--tng-semantic-foreground-primary:#64748b]">
+              <tng-label forId="doc-cmp-label-examples-live-tailwind-archive" [disabled]="true">Archive note</tng-label>
+              <tng-input
+                [id]="'doc-cmp-label-examples-live-tailwind-archive'"
                 type="text"
-                disabled
+                [disabled]="true"
                 placeholder="Readonly metadata"
-                class="min-h-11 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-500"
-              />
+              ></tng-input>
             </div>
           </section>
         </ng-template>

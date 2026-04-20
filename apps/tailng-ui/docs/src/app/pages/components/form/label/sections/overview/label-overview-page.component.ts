@@ -1,6 +1,6 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, inject, signal, type OnDestroy } from '@angular/core';
-import { TngCodeBlockComponent, TngLabelComponent } from '@tailng-ui/components';
+import { TngCodeBlockComponent, TngInputComponent, TngLabelComponent } from '@tailng-ui/components';
 import type { DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
 import {
   DocsExampleTabsSectionComponent,
@@ -44,6 +44,7 @@ function createCodeTabs(
   selector: 'app-label-overview-page',
   imports: [
     TngCodeBlockComponent,
+    TngInputComponent,
     TngLabelComponent,
     DocsExampleTabsSectionComponent,
     DocsExampleVariantDirective,
@@ -63,18 +64,18 @@ export class LabelOverviewPageComponent implements OnDestroy {
   protected readonly stackblitzTailwindUrl = stackblitzTailwindUrl;
 
   protected readonly componentImportCode =
-    "import { TngLabelComponent } from '@tailng-ui/components';\n";
+    "import { TngInputComponent, TngLabelComponent } from '@tailng-ui/components';\n";
 
   protected readonly plainCssCodeTabs = createCodeTabs(
     'doc-cmp-label-overview-plain',
     [
       "import { Component } from '@angular/core';",
-      "import { TngLabelComponent } from '@tailng-ui/components';",
+      "import { TngInputComponent, TngLabelComponent } from '@tailng-ui/components';",
       '',
       '@Component({',
       "  selector: 'app-doc-cmp-label-overview-plain',",
       '  standalone: true,',
-      '  imports: [TngLabelComponent],',
+      '  imports: [TngInputComponent, TngLabelComponent],',
       "  templateUrl: './doc-cmp-label-overview-plain.component.html',",
       "  styleUrl: './doc-cmp-label-overview-plain.component.css',",
       '})',
@@ -87,13 +88,7 @@ export class LabelOverviewPageComponent implements OnDestroy {
       '    <tng-label forId="doc-cmp-label-overview-workspace" [required]="true">',
       '      Workspace name',
       '    </tng-label>',
-      '    <input',
-      '      id="doc-cmp-label-overview-workspace"',
-      '      class="doc-cmp-label-overview-card__input"',
-      '      type="text"',
-      '      placeholder="North Star"',
-      '      aria-required="true"',
-      '    />',
+      '    <tng-input [id]="\'doc-cmp-label-overview-workspace\'" type="text" placeholder="North Star" [ariaRequired]="true"></tng-input>',
       '  </div>',
       '  <div class="doc-cmp-label-overview-card__row">',
       '    <input id="doc-cmp-label-overview-alerts" type="checkbox" class="doc-cmp-label-overview-card__checkbox" />',
@@ -109,14 +104,10 @@ export class LabelOverviewPageComponent implements OnDestroy {
       '  inline-size: min(100%, 34rem);',
       '  margin-inline: auto;',
       '  padding: 1rem;',
-      '  border: 1px solid #cbd5e1;',
+      '  border: 1px solid var(--tng-semantic-border-subtle);',
       '  border-radius: 1rem;',
-      '  background: #ffffff;',
-      '  color: #0f172a;',
-      '  color-scheme: light;',
-      '  --tng-semantic-accent-danger: #dc2626;',
-      '  --tng-semantic-foreground-primary: #0f172a;',
-      '  --tng-semantic-foreground-secondary: #64748b;',
+      '  background: var(--tng-semantic-background-surface);',
+      '  color: var(--tng-semantic-foreground-primary);',
       '}',
       '',
       '.doc-cmp-label-overview-card__field {',
@@ -130,22 +121,12 @@ export class LabelOverviewPageComponent implements OnDestroy {
       '  gap: 0.75rem;',
       '}',
       '',
-      '.doc-cmp-label-overview-card__input {',
-      '  background: #ffffff;',
-      '  color: #0f172a;',
-      '  min-block-size: 2.75rem;',
-      '  border: 1px solid #cbd5e1;',
-      '  border-radius: 0.8rem;',
-      '  padding: 0.65rem 0.8rem;',
-      '  font: inherit;',
-      '}',
-      '',
-      '.doc-cmp-label-overview-card__input::placeholder {',
-      '  color: #94a3b8;',
+      '.doc-cmp-label-overview-card tng-input {',
+      '  inline-size: 100%;',
       '}',
       '',
       '.doc-cmp-label-overview-card__checkbox {',
-      '  accent-color: #2563eb;',
+      '  accent-color: var(--tng-semantic-accent-brand);',
       '}',
       '',
     ].join('\n'),
@@ -155,30 +136,24 @@ export class LabelOverviewPageComponent implements OnDestroy {
     'doc-cmp-label-overview-tailwind',
     [
       "import { Component } from '@angular/core';",
-      "import { TngLabelComponent } from '@tailng-ui/components';",
+      "import { TngInputComponent, TngLabelComponent } from '@tailng-ui/components';",
       '',
       '@Component({',
       "  selector: 'app-doc-cmp-label-overview-tailwind',",
       '  standalone: true,',
-      '  imports: [TngLabelComponent],',
+      '  imports: [TngInputComponent, TngLabelComponent],',
       "  templateUrl: './doc-cmp-label-overview-tailwind.component.html',",
       '})',
       'export class DocCmpLabelOverviewTailwindComponent {}',
       '',
     ].join('\n'),
     [
-      '<section class="grid w-full max-w-[34rem] gap-4 rounded-2xl border border-slate-300 bg-white p-4 text-slate-900 shadow-sm [--tng-semantic-accent-danger:#dc2626] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-foreground-secondary:#64748b] [color-scheme:light]">',
+      '<section class="grid w-full max-w-[34rem] gap-4 rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-surface)] p-4 text-[var(--tng-semantic-foreground-primary)] shadow-sm">',
       '  <div class="grid gap-2">',
       '    <tng-label forId="doc-cmp-label-overview-tailwind-workspace" [required]="true">',
       '      Workspace name',
       '    </tng-label>',
-      '    <input',
-      '      id="doc-cmp-label-overview-tailwind-workspace"',
-      '      type="text"',
-      '      placeholder="North Star"',
-      '      aria-required="true"',
-      '      class="min-h-11 rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-100"',
-      '    />',
+      '    <tng-input [id]="\'doc-cmp-label-overview-tailwind-workspace\'" type="text" placeholder="North Star" [ariaRequired]="true"></tng-input>',
       '  </div>',
       '  <div class="inline-flex items-center gap-3">',
       '    <input id="doc-cmp-label-overview-tailwind-alerts" type="checkbox" class="h-4 w-4 accent-blue-600" />',
@@ -187,7 +162,7 @@ export class LabelOverviewPageComponent implements OnDestroy {
       '</section>',
       '',
     ].join('\n'),
-    '/* Tailwind utilities are applied directly in the template. */',
+    '/* tng-input and tng-label use default component styles; optional utilities stay on wrappers. */',
   );
 
   public ngOnDestroy(): void {

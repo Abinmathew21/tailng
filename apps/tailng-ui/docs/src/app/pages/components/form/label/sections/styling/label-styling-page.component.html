@@ -61,16 +61,16 @@
         >
           <section class="doc-cmp-label-styling-card">
             <div class="doc-cmp-label-styling-card__field">
-              <tng-label class="doc-cmp-label-styling-host" forId="doc-cmp-label-styling-live-owner" [required]="true">
+              <tng-label forId="doc-cmp-label-styling-live-owner" [required]="true">
                 Release owner
               </tng-label>
-              <input id="doc-cmp-label-styling-live-owner" class="doc-cmp-label-styling-card__input" type="text" />
+              <tng-input [id]="'doc-cmp-label-styling-live-owner'" type="text"></tng-input>
             </div>
-            <div class="doc-cmp-label-styling-card__field">
-              <tng-label class="doc-cmp-label-styling-host doc-cmp-label-styling-host--muted" forId="doc-cmp-label-styling-live-archive" [disabled]="true">
+            <div class="doc-cmp-label-styling-card__field doc-cmp-label-styling-card__field--muted">
+              <tng-label forId="doc-cmp-label-styling-live-archive" [disabled]="true">
                 Archived environment
               </tng-label>
-              <input id="doc-cmp-label-styling-live-archive" class="doc-cmp-label-styling-card__input" type="text" disabled />
+              <tng-input [id]="'doc-cmp-label-styling-live-archive'" type="text" [disabled]="true"></tng-input>
             </div>
           </section>
         </ng-template>
@@ -83,35 +83,24 @@
           [codeTabs]="tailwindCodeTabs"
           [stackblitzUrl]="stackblitzTailwindUrl"
         >
-          <section class="grid w-full max-w-[34rem] gap-4 rounded-2xl border border-slate-300 bg-white p-4 text-slate-900 shadow-sm [--tng-semantic-accent-danger:#dc2626] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-foreground-secondary:#64748b] [color-scheme:light]">
+          <section class="grid w-full max-w-[34rem] gap-4 rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-surface)] p-4 text-[var(--tng-semantic-foreground-primary)] shadow-sm">
             <div class="grid gap-2">
               <tng-label
-                class="block [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-accent-danger:#dc2626]"
                 forId="doc-cmp-label-styling-live-tailwind-owner"
                 [required]="true"
               >
                 Release owner
               </tng-label>
-              <input
-                id="doc-cmp-label-styling-live-tailwind-owner"
-                type="text"
-                class="min-h-11 rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
-              />
+              <tng-input [id]="'doc-cmp-label-styling-live-tailwind-owner'" type="text"></tng-input>
             </div>
-            <div class="grid gap-2">
+            <div class="grid gap-2 [--tng-semantic-foreground-primary:#64748b]">
               <tng-label
-                class="block [--tng-semantic-foreground-primary:#64748b]"
                 forId="doc-cmp-label-styling-live-tailwind-archive"
                 [disabled]="true"
               >
                 Archived environment
               </tng-label>
-              <input
-                id="doc-cmp-label-styling-live-tailwind-archive"
-                type="text"
-                disabled
-                class="min-h-11 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-500"
-              />
+              <tng-input [id]="'doc-cmp-label-styling-live-tailwind-archive'" type="text" [disabled]="true"></tng-input>
             </div>
           </section>
         </ng-template>
