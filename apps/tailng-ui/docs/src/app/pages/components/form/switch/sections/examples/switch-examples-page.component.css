@@ -31,10 +31,10 @@
 
 .component-switch-settings-card tng-switch,
 #settings-panel .switch-examples-block section.grid tng-switch {
-  --tng-semantic-foreground-primary: #0f172a;
+  --tng-semantic-foreground-primary: var(--tng-semantic-foreground-primary);
 }
 
 .component-switch-disabled-card tng-switch,
 #disabled-state .switch-examples-block section.grid tng-switch {
-  --tng-semantic-foreground-primary: #64748b;
+  --tng-semantic-foreground-primary: var(--tng-semantic-foreground-secondary);
 }

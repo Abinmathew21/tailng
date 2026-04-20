@@ -148,7 +148,7 @@ export class SwitchOverviewPageComponent implements OnDestroy {
       '  --tng-semantic-accent-brand: #2563eb;',
       '  --tng-semantic-border-subtle: #cbd5e1;',
       '  --tng-semantic-focus-ring: rgba(37, 99, 235, 0.25);',
-      '  --tng-semantic-foreground-primary: #0f172a;',
+      '  --tng-semantic-foreground-primary: var(--tng-semantic-foreground-primary);',
       '}',
       '',
     ].join('\n'),

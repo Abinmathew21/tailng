@@ -99,9 +99,10 @@
   margin: 0;
   font-size: 1rem;
   font-weight: 700;
-  color: #0f172a;
+  color: var(--tng-semantic-foreground-primary);
 }
 
+.doc-cmp-radio-styling-panel > tng-radio,
 .doc-cmp-radio-styling-item {
   display: block;
   padding: 0.75rem 0.9rem;
@@ -110,14 +111,15 @@
   background: #fff;
   --tng-semantic-accent-brand: #2563eb;
   --tng-semantic-focus-ring: rgba(37, 99, 235, 0.22);
-  --tng-semantic-foreground-primary: #0f172a;
+  --tng-semantic-foreground-primary: var(--tng-semantic-foreground-primary);
 }
 
-.doc-cmp-radio-styling-item--danger {
+.doc-cmp-radio-styling-item--danger,
+.doc-cmp-radio-styling-panel > .doc-cmp-radio-styling-item--danger {
   border-color: #fda4af;
   background: #fff1f2;
   --tng-semantic-accent-danger: #dc2626;
-  --tng-semantic-foreground-primary: #9f1239;
+  --tng-semantic-foreground-primary: var(--tng-semantic-accent-danger);
 }
 
 @media (max-width: 760px) {

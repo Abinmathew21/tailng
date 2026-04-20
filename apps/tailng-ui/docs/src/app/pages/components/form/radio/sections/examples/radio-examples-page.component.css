@@ -23,9 +23,9 @@
   inline-size: min(100%, 30rem);
   margin-inline: auto;
   padding: 1rem;
-  border: 1px solid #d8e1ec;
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 1rem;
-  background: #fff;
+  background: var(--tng-semantic-background-surface);
   box-shadow: 0 20px 40px -32px rgba(15, 23, 42, 0.28);
 }
 
@@ -34,42 +34,58 @@
   margin: 0;
   font-size: 1rem;
   font-weight: 700;
-  color: #0f172a;
+  color: var(--tng-semantic-foreground-primary);
 }
 
 .doc-cmp-radio-billing-card__subtitle {
   margin: 0;
-  color: #64748b;
+  color: var(--tng-semantic-foreground-secondary);
   font-size: 0.88rem;
 }
 
+.doc-cmp-radio-billing-card > tng-radio,
+.doc-cmp-radio-review-card > tng-radio,
 .doc-cmp-radio-billing-item,
 .doc-cmp-radio-review-item {
   display: block;
   padding: 0.75rem 0.9rem;
-  border: 1px solid #d8e1ec;
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 0.9rem;
-  background: #fff;
+  background: var(--tng-semantic-background-surface);
   --tng-semantic-accent-brand: #2563eb;
   --tng-semantic-focus-ring: rgba(37, 99, 235, 0.22);
-  --tng-semantic-foreground-primary: #0f172a;
+  --tng-semantic-foreground-primary: var(--tng-semantic-foreground-primary);
 }
 
-.doc-cmp-radio-billing-item--muted {
-  background: #f8fafc;
-  --tng-semantic-foreground-primary: #475569;
+.doc-cmp-radio-billing-item--muted,
+.doc-cmp-radio-billing-card > tng-radio:last-of-type {
+  background: color-mix(
+    in srgb,
+    var(--tng-semantic-background-surface) 92%,
+    var(--tng-semantic-foreground-primary) 8%
+  );
+  --tng-semantic-foreground-primary: var(--tng-semantic-foreground-secondary);
 }
 
-.doc-cmp-radio-review-item--danger {
-  border-color: #fda4af;
-  background: #fff1f2;
+.doc-cmp-radio-review-item--danger,
+.doc-cmp-radio-review-card > .doc-cmp-radio-review-item--danger {
+  border-color: color-mix(
+    in srgb,
+    var(--tng-semantic-accent-danger) 35%,
+    var(--tng-semantic-border-subtle) 65%
+  );
+  background: color-mix(
+    in srgb,
+    var(--tng-semantic-accent-danger) 10%,
+    var(--tng-semantic-background-surface) 90%
+  );
   --tng-semantic-accent-danger: #dc2626;
-  --tng-semantic-foreground-primary: #9f1239;
+  --tng-semantic-foreground-primary: var(--tng-semantic-accent-danger);
 }
 
 .doc-cmp-radio-billing-card__summary {
   margin: 0;
-  color: #64748b;
+  color: var(--tng-semantic-foreground-secondary);
   font-size: 0.82rem;
   text-transform: capitalize;
 }

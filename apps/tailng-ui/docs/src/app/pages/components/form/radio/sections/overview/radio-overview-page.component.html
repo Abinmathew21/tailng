@@ -77,7 +77,6 @@
             <h3 class="doc-cmp-radio-overview-card__title">Billing plan</h3>
             <p class="doc-cmp-radio-overview-card__subtitle">Choose the launch plan for this workspace.</p>
             <tng-radio
-              class="doc-cmp-radio-overview-item"
               name="overview-plain-billing-plan"
               value="starter"
               [checked]="plainCssPlan() === 'starter'"
@@ -86,7 +85,6 @@
               Starter
             </tng-radio>
             <tng-radio
-              class="doc-cmp-radio-overview-item"
               name="overview-plain-billing-plan"
               value="pro"
               [checked]="plainCssPlan() === 'pro'"
@@ -94,15 +92,16 @@
             >
               Pro
             </tng-radio>
-            <tng-radio
-              class="doc-cmp-radio-overview-item doc-cmp-radio-overview-item--muted"
-              name="overview-plain-billing-plan"
-              value="enterprise"
-              [checked]="plainCssPlan() === 'enterprise'"
-              (checkedChange)="onPlainCssPlanChange('enterprise', $event)"
-            >
-              Enterprise
-            </tng-radio>
+            <div class="doc-cmp-radio-overview-item doc-cmp-radio-overview-item--muted">
+              <tng-radio
+                name="overview-plain-billing-plan"
+                value="enterprise"
+                [checked]="plainCssPlan() === 'enterprise'"
+                (checkedChange)="onPlainCssPlanChange('enterprise', $event)"
+              >
+                Enterprise
+              </tng-radio>
+            </div>
             <p class="doc-cmp-radio-overview-card__summary">Selected: {{ plainCssPlan() }}</p>
           </section>
         </ng-template>
@@ -116,14 +115,14 @@
           [stackblitzUrl]="stackblitzTailwindUrl"
         >
           <section
-            class="grid w-full max-w-[30rem] gap-3 rounded-2xl border border-slate-300 bg-white p-4 shadow-sm"
+            class="grid w-full max-w-[30rem] gap-3 rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-surface)] p-4 shadow-sm"
           >
             <div class="grid gap-1">
-              <h3 class="m-0 text-base font-semibold text-slate-900">Billing plan</h3>
-              <p class="m-0 text-sm text-slate-600">Choose the launch plan for this workspace.</p>
+              <h3 class="m-0 text-base font-semibold text-[var(--tng-semantic-foreground-primary)]">Billing plan</h3>
+              <p class="m-0 text-sm text-[var(--tng-semantic-foreground-secondary)]">Choose the launch plan for this workspace.</p>
             </div>
-            <tng-radio
-              class="block rounded-xl border border-slate-200 bg-white px-3 py-2 text-slate-900 shadow-sm [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-focus-ring:rgba(37,99,235,0.22)]"
+            <div class="block rounded-xl border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-surface)] px-3 py-2 text-[var(--tng-semantic-foreground-primary)] shadow-sm [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-focus-ring:rgba(37,99,235,0.22)]">
+              <tng-radio
               name="overview-tailwind-billing-plan"
               value="starter"
               [checked]="tailwindPlan() === 'starter'"
@@ -131,8 +130,9 @@
             >
               Starter
             </tng-radio>
-            <tng-radio
-              class="block rounded-xl border border-slate-200 bg-white px-3 py-2 text-slate-900 shadow-sm [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-focus-ring:rgba(37,99,235,0.22)]"
+            </div>
+            <div class="block rounded-xl border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-surface)] px-3 py-2 text-[var(--tng-semantic-foreground-primary)] shadow-sm [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-focus-ring:rgba(37,99,235,0.22)]">
+              <tng-radio
               name="overview-tailwind-billing-plan"
               value="pro"
               [checked]="tailwindPlan() === 'pro'"
@@ -140,8 +140,9 @@
             >
               Pro
             </tng-radio>
-            <tng-radio
-              class="block rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-slate-600 shadow-sm [--tng-semantic-foreground-primary:#475569] [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-focus-ring:rgba(37,99,235,0.22)]"
+            </div>
+            <div class="block rounded-xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_92%,var(--tng-semantic-foreground-primary)_8%)] px-3 py-2 text-[var(--tng-semantic-foreground-secondary)] shadow-sm [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-focus-ring:rgba(37,99,235,0.22)]">
+              <tng-radio
               name="overview-tailwind-billing-plan"
               value="enterprise"
               [checked]="tailwindPlan() === 'enterprise'"
@@ -149,7 +150,8 @@
             >
               Enterprise
             </tng-radio>
-            <p class="m-0 text-xs text-slate-600">Selected: {{ tailwindPlan() }}</p>
+            </div>
+            <p class="m-0 text-xs text-[var(--tng-semantic-foreground-secondary)]">Selected: {{ tailwindPlan() }}</p>
           </section>
         </ng-template>
       </app-docs-example-tabs-section>
