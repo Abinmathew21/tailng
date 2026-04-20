@@ -11,14 +11,13 @@ import {
 import { TngTab, TngTabList } from '@tailng-ui/primitives';
 import { filter, map, startWith } from 'rxjs/operators';
 
-type BreadcrumbDocSectionId = 'api' | 'examples' | 'overview' | 'ownable-install' | 'styling';
+type BreadcrumbDocSectionId = 'api' | 'examples' | 'overview' | 'styling';
 
 const breadcrumbDocSectionIds: readonly BreadcrumbDocSectionId[] = [
   'overview',
   'api',
   'styling',
   'examples',
-  'ownable-install',
 ] as const;
 
 const defaultBreadcrumbDocSection: BreadcrumbDocSectionId = 'overview';

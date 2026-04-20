@@ -1,8 +1,8 @@
 <article class="breadcrumb-examples">
   <h2 class="breadcrumb-examples-title">Examples</h2>
   <p class="breadcrumb-examples-lead">
-    Production breadcrumb paths often require collapse handling and mixed current/disabled states
-    across headless and wrapper compositions.
+    Production breadcrumb paths often require collapse handling and mixed current or disabled
+    states across wrapper compositions.
   </p>
 
   <app-docs-example-tabs-section
@@ -11,29 +11,9 @@
     description="Show first and trailing segments while collapsing middle items when path depth grows."
     ariaLabel="Collapsed breadcrumb examples"
     tabListAriaLabel="Collapsed breadcrumb variants"
-    defaultValue="headless"
+    defaultValue="plain-css"
     [codeBlockTheme]="codeBlockTheme()"
   >
-    <ng-template
-      appDocsExampleVariant
-      value="headless"
-      label="Headless"
-      panelTitle="Headless collapsed path"
-      [codeTabs]="collapseHeadlessCodeTabs"
-    >
-      <nav tngBreadcrumb aria-label="Headless collapsed breadcrumb" class="example-headless-nav">
-        <ol tngBreadcrumbList class="example-headless-list">
-          <li tngBreadcrumbItem><a tngBreadcrumbLink href="#">Home</a></li>
-          <li tngBreadcrumbSeparator>/</li>
-          <li tngBreadcrumbItem><span aria-hidden="true">…</span></li>
-          <li tngBreadcrumbSeparator>/</li>
-          <li tngBreadcrumbItem><a tngBreadcrumbLink href="#">Shoes</a></li>
-          <li tngBreadcrumbSeparator>/</li>
-          <li tngBreadcrumbItem><span aria-current="page">Running</span></li>
-        </ol>
-      </nav>
-    </ng-template>
-
     <ng-template
       appDocsExampleVariant
       value="plain-css"
@@ -77,27 +57,9 @@
     description="Mix disabled ancestors and optional current-as-link behavior when products require it."
     ariaLabel="Current and disabled breadcrumb examples"
     tabListAriaLabel="Current and disabled variants"
-    defaultValue="headless"
+    defaultValue="plain-css"
     [codeBlockTheme]="codeBlockTheme()"
   >
-    <ng-template
-      appDocsExampleVariant
-      value="headless"
-      label="Headless"
-      panelTitle="Headless current-link"
-      [codeTabs]="currentHeadlessCodeTabs"
-    >
-      <nav tngBreadcrumb aria-label="Headless current-link breadcrumb" class="example-headless-nav">
-        <ol tngBreadcrumbList class="example-headless-list">
-          <li tngBreadcrumbItem><a tngBreadcrumbLink href="#">Home</a></li>
-          <li tngBreadcrumbSeparator>/</li>
-          <li tngBreadcrumbItem><a tngBreadcrumbLink href="#">Docs</a></li>
-          <li tngBreadcrumbSeparator>/</li>
-          <li tngBreadcrumbItem><a tngBreadcrumbLink aria-current="page" href="#">Breadcrumb</a></li>
-        </ol>
-      </nav>
-    </ng-template>
-
     <ng-template
       appDocsExampleVariant
       value="plain-css"

@@ -1,0 +1,94 @@
+<article class="headless-breadcrumb-api">
+  <h2 class="headless-breadcrumb-api-title">API reference</h2>
+  <p class="headless-breadcrumb-api-lead">
+    Headless breadcrumb primitives are intentionally thin. They expose stable slot hooks and the
+    separator accessibility contract, while leaving trail semantics, current-page resolution, and
+    collapse behavior to the owner.
+  </p>
+
+  <section id="root-slots" class="headless-breadcrumb-api-block">
+    <h3>Root slots</h3>
+    <div class="headless-breadcrumb-api-table-wrap">
+      <table class="headless-breadcrumb-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Directive</th>
+            <th scope="col">Purpose</th>
+            <th scope="col">Host hook</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>tngBreadcrumb</code></td>
+            <td>Root breadcrumb landmark container.</td>
+            <td><code>data-slot="breadcrumb"</code></td>
+          </tr>
+          <tr>
+            <td><code>tngBreadcrumbList</code></td>
+            <td>Ordered list container for the visible trail.</td>
+            <td><code>data-slot="breadcrumb-list"</code></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="item-slots" class="headless-breadcrumb-api-block">
+    <h3>Item slots</h3>
+    <div class="headless-breadcrumb-api-table-wrap">
+      <table class="headless-breadcrumb-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Directive</th>
+            <th scope="col">Purpose</th>
+            <th scope="col">Host hook</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>tngBreadcrumbItem</code></td>
+            <td>List item wrapper for each visible segment.</td>
+            <td><code>data-slot="breadcrumb-item"</code></td>
+          </tr>
+          <tr>
+            <td><code>tngBreadcrumbLink</code></td>
+            <td>Optional linked ancestor segment.</td>
+            <td><code>data-slot="breadcrumb-link"</code></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="separator-contract" class="headless-breadcrumb-api-block">
+    <h3>Separator contract</h3>
+    <div class="headless-breadcrumb-api-table-wrap">
+      <table class="headless-breadcrumb-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Directive</th>
+            <th scope="col">Behavior</th>
+            <th scope="col">Host hook</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>tngBreadcrumbSeparator</code></td>
+            <td>Marks decorative separators and applies <code>aria-hidden="true"</code>.</td>
+            <td><code>data-slot="breadcrumb-separator"</code></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="owner-responsibilities" class="headless-breadcrumb-api-block">
+    <h3>Owner responsibilities</h3>
+    <ul>
+      <li>Choose the landmark label with <code>aria-label</code> or surrounding context.</li>
+      <li>Author the current page state with <code>aria-current="page"</code> on the visible current segment.</li>
+      <li>Decide whether disabled or collapsed segments render as links, text, or ellipsis nodes.</li>
+      <li>Bring your own collapse logic if long trails need summarization.</li>
+    </ul>
+  </section>
+</article>

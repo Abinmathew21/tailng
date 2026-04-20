@@ -1,0 +1,111 @@
+<article class="headless-breadcrumb-overview">
+  <section id="imports" class="headless-breadcrumb-overview-block">
+    <h2 class="headless-breadcrumb-overview-title">Breadcrumb overview</h2>
+    <p class="headless-breadcrumb-overview-lead">
+      Headless breadcrumb is a structural slot contract for navigation trails. It does not resolve
+      current pages, collapse long paths, or generate links for you; owners bring those decisions
+      in their own markup.
+    </p>
+    <tng-code-block
+      [code]="importCode"
+      adapter="shiki"
+      language="ts"
+      title="Primitive imports"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="basic-composition" class="headless-breadcrumb-overview-block">
+    <h3>Basic composition</h3>
+    <p>
+      Compose a navigation landmark, an ordered list, linked ancestors, and a current-page text
+      node. The primitive gives you stable slot hooks and a decorative separator contract.
+    </p>
+    <tng-code-block
+      [code]="usageCode"
+      adapter="shiki"
+      language="html"
+      title="Headless breadcrumb composition"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <app-docs-example-tabs-section
+    id="style-variants"
+    class="headless-breadcrumb-overview-block"
+    heading="Style variants"
+    description="The same primitive markup rendered through a plain CSS contract or Tailwind utility shell."
+    ariaLabel="Headless breadcrumb overview examples"
+    tabListAriaLabel="Headless breadcrumb overview style tabs"
+    defaultValue="plain-css"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+      panelTitle="Headless breadcrumb (plain CSS)"
+      [codeTabs]="plainCodeTabs"
+    >
+      <div class="headless-breadcrumb-shell">
+        <nav tngBreadcrumb aria-label="Release path">
+          <ol tngBreadcrumbList class="headless-breadcrumb-list">
+            <li tngBreadcrumbItem><a tngBreadcrumbLink href="#">Home</a></li>
+            <li tngBreadcrumbSeparator>/</li>
+            <li tngBreadcrumbItem><a tngBreadcrumbLink href="#">Releases</a></li>
+            <li tngBreadcrumbSeparator>/</li>
+            <li tngBreadcrumbItem><span aria-current="page">v2.6</span></li>
+          </ol>
+        </nav>
+      </div>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Headless breadcrumb (Tailwind CSS)"
+      [codeTabs]="tailwindCodeTabs"
+    >
+      <div class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">
+        <nav tngBreadcrumb aria-label="Tailwind docs path">
+          <ol tngBreadcrumbList class="m-0 flex list-none flex-wrap items-center gap-[0.45rem] p-0">
+            <li tngBreadcrumbItem>
+              <a tngBreadcrumbLink class="text-sky-700 no-underline hover:underline dark:text-sky-300" href="#">
+                Docs
+              </a>
+            </li>
+            <li tngBreadcrumbSeparator class="text-slate-400">›</li>
+            <li tngBreadcrumbItem>
+              <a tngBreadcrumbLink class="text-sky-700 no-underline hover:underline dark:text-sky-300" href="#">
+                Navigation
+              </a>
+            </li>
+            <li tngBreadcrumbSeparator class="text-slate-400">›</li>
+            <li tngBreadcrumbItem>
+              <span class="font-semibold text-slate-900 dark:text-slate-100" aria-current="page">
+                Breadcrumb
+              </span>
+            </li>
+          </ol>
+        </nav>
+      </div>
+    </ng-template>
+  </app-docs-example-tabs-section>
+
+  <section id="accessibility-baseline" class="headless-breadcrumb-overview-block">
+    <h3>Accessibility baseline</h3>
+    <ul class="headless-breadcrumb-overview-list">
+      <li>Ancestor links stay native anchors and use the browser’s normal <code>Tab</code> order.</li>
+      <li>Mark the current segment with <code>aria-current="page"</code> on the visible current node.</li>
+      <li><code>tngBreadcrumbSeparator</code> renders with <code>aria-hidden="true"</code>.</li>
+      <li>Collapsed or disabled states are owner-authored in headless markup; the primitive does not infer them.</li>
+    </ul>
+  </section>
+</article>

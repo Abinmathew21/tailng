@@ -1,0 +1,135 @@
+<article class="headless-breadcrumb-examples">
+  <h2 class="headless-breadcrumb-examples-title">Examples</h2>
+  <p class="headless-breadcrumb-examples-lead">
+    Headless breadcrumb leaves collapse, disabled, and current-link decisions to the owner. These
+    examples show how to author those patterns directly with primitive markup.
+  </p>
+
+  <section id="collapsed-trail" class="headless-breadcrumb-example-block">
+    <app-docs-example-tabs-section
+      heading="Manual collapsed trail"
+      description="Summarize long paths manually when your app controls the collapse breakpoint and ellipsis behavior."
+      ariaLabel="Headless breadcrumb collapsed examples"
+      tabListAriaLabel="Headless breadcrumb collapsed variants"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Manual collapsed trail (plain CSS)"
+        [codeTabs]="collapsedPlainCodeTabs"
+      >
+        <div class="headless-breadcrumb-example-shell">
+          <nav tngBreadcrumb aria-label="Catalog path">
+            <ol tngBreadcrumbList class="headless-breadcrumb-example-list">
+              <li tngBreadcrumbItem><a tngBreadcrumbLink href="#">Home</a></li>
+              <li tngBreadcrumbSeparator>/</li>
+              <li tngBreadcrumbItem><span aria-hidden="true">…</span></li>
+              <li tngBreadcrumbSeparator>/</li>
+              <li tngBreadcrumbItem><a tngBreadcrumbLink href="#">Shoes</a></li>
+              <li tngBreadcrumbSeparator>/</li>
+              <li tngBreadcrumbItem><span aria-current="page">Running</span></li>
+            </ol>
+          </nav>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Manual collapsed trail (Tailwind CSS)"
+        [codeTabs]="collapsedTailwindCodeTabs"
+      >
+        <div class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">
+          <nav tngBreadcrumb aria-label="Catalog path">
+            <ol tngBreadcrumbList class="m-0 flex list-none flex-wrap items-center gap-[0.45rem] p-0">
+              <li tngBreadcrumbItem>
+                <a tngBreadcrumbLink class="text-sky-700 no-underline hover:underline dark:text-sky-300" href="#">
+                  Home
+                </a>
+              </li>
+              <li tngBreadcrumbSeparator class="text-slate-400">›</li>
+              <li tngBreadcrumbItem><span class="text-slate-500">…</span></li>
+              <li tngBreadcrumbSeparator class="text-slate-400">›</li>
+              <li tngBreadcrumbItem>
+                <a tngBreadcrumbLink class="text-sky-700 no-underline hover:underline dark:text-sky-300" href="#">
+                  Shoes
+                </a>
+              </li>
+              <li tngBreadcrumbSeparator class="text-slate-400">›</li>
+              <li tngBreadcrumbItem>
+                <span class="font-semibold text-slate-900 dark:text-slate-100" aria-current="page">
+                  Running
+                </span>
+              </li>
+            </ol>
+          </nav>
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section id="current-link" class="headless-breadcrumb-example-block">
+    <app-docs-example-tabs-section
+      heading="Current-link and disabled segments"
+      description="Author current-page and disabled states explicitly when your IA needs linked current pages or blocked ancestors."
+      ariaLabel="Headless breadcrumb current-link examples"
+      tabListAriaLabel="Headless breadcrumb current-link variants"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Current-link and disabled segments (plain CSS)"
+        [codeTabs]="currentPlainCodeTabs"
+      >
+        <div class="headless-breadcrumb-example-shell">
+          <nav tngBreadcrumb aria-label="Current-link path">
+            <ol tngBreadcrumbList class="headless-breadcrumb-example-list">
+              <li tngBreadcrumbItem><a tngBreadcrumbLink href="#">Home</a></li>
+              <li tngBreadcrumbSeparator>/</li>
+              <li tngBreadcrumbItem><span aria-disabled="true">Restricted</span></li>
+              <li tngBreadcrumbSeparator>/</li>
+              <li tngBreadcrumbItem><a tngBreadcrumbLink aria-current="page" href="#">Docs</a></li>
+            </ol>
+          </nav>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Current-link and disabled segments (Tailwind CSS)"
+        [codeTabs]="currentTailwindCodeTabs"
+      >
+        <div class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">
+          <nav tngBreadcrumb aria-label="Billing path">
+            <ol tngBreadcrumbList class="m-0 flex list-none flex-wrap items-center gap-[0.45rem] p-0">
+              <li tngBreadcrumbItem>
+                <a tngBreadcrumbLink class="text-sky-700 no-underline hover:underline dark:text-sky-300" href="#">
+                  Workspace
+                </a>
+              </li>
+              <li tngBreadcrumbSeparator class="text-slate-400">›</li>
+              <li tngBreadcrumbItem>
+                <span class="text-slate-500 dark:text-slate-400" aria-disabled="true">Restricted</span>
+              </li>
+              <li tngBreadcrumbSeparator class="text-slate-400">›</li>
+              <li tngBreadcrumbItem>
+                <span class="font-semibold text-slate-900 dark:text-slate-100" aria-current="page">
+                  Billing
+                </span>
+              </li>
+            </ol>
+          </nav>
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+</article>

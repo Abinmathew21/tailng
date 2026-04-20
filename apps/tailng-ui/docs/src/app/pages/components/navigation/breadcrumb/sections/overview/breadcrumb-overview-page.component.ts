@@ -6,13 +6,6 @@ import {
   TngBreadcrumbItemComponent,
   TngCodeBlockComponent,
 } from '@tailng-ui/components';
-import {
-  TngBreadcrumb,
-  TngBreadcrumbItem,
-  TngBreadcrumbLink,
-  TngBreadcrumbList,
-  TngBreadcrumbSeparator,
-} from '@tailng-ui/primitives';
 import { type DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
 import {
   DocsExampleTabsSectionComponent,
@@ -25,11 +18,6 @@ import {
     TngBreadcrumbComponent,
     TngBreadcrumbItemComponent,
     TngCodeBlockComponent,
-    TngBreadcrumb,
-    TngBreadcrumbList,
-    TngBreadcrumbItem,
-    TngBreadcrumbLink,
-    TngBreadcrumbSeparator,
     DocsExampleTabsSectionComponent,
     DocsExampleVariantDirective,
   ],
@@ -57,68 +45,6 @@ export class BreadcrumbOverviewPageComponent implements OnDestroy {
     "import { TngBreadcrumbComponent, TngBreadcrumbItemComponent } from '@tailng-ui/components';",
   ].join('\n');
 
-  protected readonly headlessCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
-    {
-      value: 'ts',
-      label: 'TS',
-      language: 'ts',
-      title: 'breadcrumb-overview-headless.component.ts',
-      code: [
-        "import { Component } from '@angular/core';",
-        "import { TngBreadcrumb, TngBreadcrumbItem, TngBreadcrumbLink, TngBreadcrumbList, TngBreadcrumbSeparator } from '@tailng-ui/primitives';",
-        '',
-        '@Component({',
-        '  imports: [TngBreadcrumb, TngBreadcrumbList, TngBreadcrumbItem, TngBreadcrumbLink, TngBreadcrumbSeparator],',
-        "  templateUrl: './breadcrumb-overview-headless.component.html',",
-        "  styleUrl: './breadcrumb-overview-headless.component.css',",
-        '})',
-        'export class BreadcrumbOverviewHeadlessComponent {}',
-      ].join('\n'),
-    },
-    {
-      value: 'html',
-      label: 'HTML',
-      language: 'html',
-      title: 'breadcrumb-overview-headless.component.html',
-      code: [
-        '<nav tngBreadcrumb aria-label="Headless breadcrumb path" class="demo-headless-nav">',
-        '  <ol tngBreadcrumbList class="demo-headless-list">',
-        '    <li tngBreadcrumbItem><a tngBreadcrumbLink href="/">Home</a></li>',
-        '    <li tngBreadcrumbSeparator>/</li>',
-        '    <li tngBreadcrumbItem><a tngBreadcrumbLink href="/docs">Docs</a></li>',
-        '    <li tngBreadcrumbSeparator>/</li>',
-        '    <li tngBreadcrumbItem><span aria-current="page">Breadcrumb</span></li>',
-        '  </ol>',
-        '</nav>',
-      ].join('\n'),
-    },
-    {
-      value: 'css',
-      label: 'CSS',
-      language: 'css',
-      title: 'breadcrumb-overview-headless.component.css',
-      code: [
-        '.demo-headless-nav {',
-        '  width: fit-content;',
-        '  max-width: 100%;',
-        '}',
-        '',
-        '.demo-headless-list {',
-        '  display: flex;',
-        '  align-items: center;',
-        '  gap: 0.5rem;',
-        '  list-style: none;',
-        '  margin: 0;',
-        '  padding: 0;',
-        '}',
-        '',
-        ".demo-headless-list [data-slot='breadcrumb-separator'] {",
-        '  opacity: 0.72;',
-        '}',
-      ].join('\n'),
-    },
-  ]);
-
   protected readonly plainCssCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
     {
       value: 'ts',
@@ -130,6 +56,8 @@ export class BreadcrumbOverviewPageComponent implements OnDestroy {
         "import { TngBreadcrumbComponent, TngBreadcrumbItemComponent } from '@tailng-ui/components';",
         '',
         '@Component({',
+        "  selector: 'app-breadcrumb-overview-plain-css',",
+        '  standalone: true,',
         '  imports: [TngBreadcrumbComponent, TngBreadcrumbItemComponent],',
         "  templateUrl: './breadcrumb-overview-plain-css.component.html',",
         "  styleUrl: './breadcrumb-overview-plain-css.component.css',",
@@ -178,6 +106,8 @@ export class BreadcrumbOverviewPageComponent implements OnDestroy {
         "import { TngBreadcrumbComponent, TngBreadcrumbItemComponent } from '@tailng-ui/components';",
         '',
         '@Component({',
+        "  selector: 'app-breadcrumb-overview-tailwind',",
+        '  standalone: true,',
         '  imports: [TngBreadcrumbComponent, TngBreadcrumbItemComponent],',
         "  templateUrl: './breadcrumb-overview-tailwind.component.html',",
         "  styleUrl: './breadcrumb-overview-tailwind.component.css',",

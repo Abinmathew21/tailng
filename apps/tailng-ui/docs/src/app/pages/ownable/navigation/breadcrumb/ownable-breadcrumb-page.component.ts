@@ -8,9 +8,16 @@ import { DocsOwnableInstallSectionComponent } from '../../../../shared/ownable-i
 })
 export class OwnableBreadcrumbPageComponent {
   protected readonly usageCode = [
-    '<tng-breadcrumb ariaLabel="Navigation path" separator="›">',
+    '<tng-breadcrumb',
+    '  ariaLabel="Navigation path"',
+    '  separator="›"',
+    '  [maxItems]="4"',
+    '  [itemsBeforeCollapse]="1"',
+    '  [itemsAfterCollapse]="2"',
+    '>',
     '  <tng-breadcrumb-item href="/">Home</tng-breadcrumb-item>',
-    '  <tng-breadcrumb-item href="/docs">Docs</tng-breadcrumb-item>',
+    '  <tng-breadcrumb-item href="/docs">Guides</tng-breadcrumb-item>',
+    '  <tng-breadcrumb-item href="/docs/navigation">Navigation</tng-breadcrumb-item>',
     '  <tng-breadcrumb-item [current]="true">Breadcrumb</tng-breadcrumb-item>',
     '</tng-breadcrumb>',
     '',

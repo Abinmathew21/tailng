@@ -1,0 +1,68 @@
+<article class="headless-breadcrumb-styling">
+  <h2 class="headless-breadcrumb-styling-title">Styling contract</h2>
+  <p class="headless-breadcrumb-styling-lead">
+    Breadcrumb primitives emit stable slot attributes and little else. Owners style the visible
+    trail, define current-segment emphasis, and decide how collapsed or disabled states should look.
+  </p>
+
+  <section id="css-contract-table" class="headless-breadcrumb-styling-block">
+    <h3>CSS contract table</h3>
+    <div class="headless-breadcrumb-styling-table-wrap">
+      <table class="headless-breadcrumb-styling-table">
+        <thead>
+          <tr>
+            <th scope="col">Selector</th>
+            <th scope="col">Applied on</th>
+            <th scope="col">Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>[data-slot='breadcrumb']</code></td>
+            <td>Root landmark container</td>
+            <td>Overall color, width, and layout shell for the trail.</td>
+          </tr>
+          <tr>
+            <td><code>[data-slot='breadcrumb-list']</code></td>
+            <td>Ordered list</td>
+            <td>Row layout, wrapping, spacing, and list reset.</td>
+          </tr>
+          <tr>
+            <td><code>[data-slot='breadcrumb-item']</code></td>
+            <td>Segment wrapper</td>
+            <td>Segment spacing and any owner-authored current or disabled styling hooks.</td>
+          </tr>
+          <tr>
+            <td><code>[data-slot='breadcrumb-link']</code></td>
+            <td>Linked ancestor segment</td>
+            <td>Link color, hover affordance, and focus treatment.</td>
+          </tr>
+          <tr>
+            <td><code>[data-slot='breadcrumb-separator']</code></td>
+            <td>Decorative separator</td>
+            <td>Separator tone and spacing; remains non-focusable and <code>aria-hidden</code>.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="owner-state" class="headless-breadcrumb-styling-block">
+    <h3>Owner state</h3>
+    <ul>
+      <li>Style the current segment through <code>[aria-current='page']</code> or your own current-state class.</li>
+      <li>Represent disabled segments with text nodes or an explicit disabled class if the path needs them.</li>
+      <li>Collapsed trails are owner-authored, so style ellipsis markers with your own selector rather than a built-in state attr.</li>
+    </ul>
+  </section>
+
+  <section id="practical-guidance" class="headless-breadcrumb-styling-block">
+    <h3>Practical guidance</h3>
+    <ul>
+      <li>Keep separators decorative and lower contrast than the content-bearing segments.</li>
+      <li>Use stronger contrast and weight for the current segment than linked ancestors.</li>
+      <li>Allow wrapping on narrow screens if long route labels are common in your IA.</li>
+      <li>Prefer text or <code>aria-current</code> for the current segment unless your app truly needs a current-page link.</li>
+    </ul>
+  </section>
+</article>

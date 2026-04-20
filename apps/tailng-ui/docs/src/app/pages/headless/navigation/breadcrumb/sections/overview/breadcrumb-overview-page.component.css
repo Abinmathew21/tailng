@@ -1,0 +1,82 @@
+:host {
+  display: block;
+}
+
+.headless-breadcrumb-overview {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.headless-breadcrumb-overview-title {
+  font-size: clamp(1.45rem, 1.05rem + 1.3vw, 1.95rem);
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.headless-breadcrumb-overview-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+  max-width: 70ch;
+}
+
+.headless-breadcrumb-overview-block {
+  background: color-mix(in srgb, var(--tng-semantic-background-surface) 88%, transparent);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 1rem;
+  display: grid;
+  gap: 0.9rem;
+  padding: 1.2rem;
+}
+
+.headless-breadcrumb-overview-block h3 {
+  font-size: 1.05rem;
+  font-weight: 650;
+  margin: 0;
+}
+
+.headless-breadcrumb-overview-block p {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.headless-breadcrumb-shell {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.9rem;
+  padding: 0.9rem 1rem;
+}
+
+.headless-breadcrumb-list {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.headless-breadcrumb-list [data-slot='breadcrumb-link'] {
+  color: var(--tng-semantic-accent-brand);
+  text-decoration: none;
+}
+
+.headless-breadcrumb-list [data-slot='breadcrumb-link']:hover {
+  text-decoration: underline;
+}
+
+.headless-breadcrumb-list [aria-current='page'] {
+  color: var(--tng-semantic-foreground-primary);
+  font-weight: 600;
+}
+
+.headless-breadcrumb-overview-list {
+  display: grid;
+  gap: 0.55rem;
+  margin: 0;
+  padding-inline-start: 1.1rem;
+}
+
+.headless-breadcrumb-overview-list code {
+  font-size: 0.84em;
+}

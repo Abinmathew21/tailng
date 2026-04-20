@@ -2,13 +2,6 @@ import { DOCUMENT } from '@angular/common';
 import { Component, inject, signal, type OnDestroy } from '@angular/core';
 import { observeDocsCodeThemeChanges, resolveDocsCodeBlockTheme } from '../../../../../../shared/util';
 import { TngBreadcrumbComponent, TngBreadcrumbItemComponent } from '@tailng-ui/components';
-import {
-  TngBreadcrumb,
-  TngBreadcrumbItem,
-  TngBreadcrumbLink,
-  TngBreadcrumbList,
-  TngBreadcrumbSeparator,
-} from '@tailng-ui/primitives';
 import { type DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
 import {
   DocsExampleTabsSectionComponent,
@@ -20,11 +13,6 @@ import {
   imports: [
     TngBreadcrumbComponent,
     TngBreadcrumbItemComponent,
-    TngBreadcrumb,
-    TngBreadcrumbList,
-    TngBreadcrumbItem,
-    TngBreadcrumbLink,
-    TngBreadcrumbSeparator,
     DocsExampleTabsSectionComponent,
     DocsExampleVariantDirective,
   ],
@@ -38,66 +26,6 @@ export class BreadcrumbExamplesPageComponent implements OnDestroy {
   );
   private readonly colorSchemeObserver = observeDocsCodeThemeChanges(this.documentRef, this.codeBlockTheme);
 
-  protected readonly collapseHeadlessCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
-    {
-      value: 'ts',
-      label: 'TS',
-      language: 'ts',
-      title: 'breadcrumb-example-collapse-headless.component.ts',
-      code: [
-        "import { Component } from '@angular/core';",
-        "import { TngBreadcrumb, TngBreadcrumbItem, TngBreadcrumbLink, TngBreadcrumbList, TngBreadcrumbSeparator } from '@tailng-ui/primitives';",
-        '',
-        '@Component({',
-        '  imports: [TngBreadcrumb, TngBreadcrumbList, TngBreadcrumbItem, TngBreadcrumbLink, TngBreadcrumbSeparator],',
-        "  templateUrl: './breadcrumb-example-collapse-headless.component.html',",
-        "  styleUrl: './breadcrumb-example-collapse-headless.component.css',",
-        '})',
-        'export class BreadcrumbExampleCollapseHeadlessComponent {}',
-      ].join('\n'),
-    },
-    {
-      value: 'html',
-      label: 'HTML',
-      language: 'html',
-      title: 'breadcrumb-example-collapse-headless.component.html',
-      code: [
-        '<nav tngBreadcrumb aria-label="Catalog path" class="example-headless-nav">',
-        '  <ol tngBreadcrumbList class="example-headless-list">',
-        '    <li tngBreadcrumbItem><a tngBreadcrumbLink href="#">Home</a></li>',
-        '    <li tngBreadcrumbSeparator>/</li>',
-        '    <li tngBreadcrumbItem><span aria-hidden="true">…</span></li>',
-        '    <li tngBreadcrumbSeparator>/</li>',
-        '    <li tngBreadcrumbItem><a tngBreadcrumbLink href="#">Shoes</a></li>',
-        '    <li tngBreadcrumbSeparator>/</li>',
-        '    <li tngBreadcrumbItem><span aria-current="page">Running</span></li>',
-        '  </ol>',
-        '</nav>',
-      ].join('\n'),
-    },
-    {
-      value: 'css',
-      label: 'CSS',
-      language: 'css',
-      title: 'breadcrumb-example-collapse-headless.component.css',
-      code: [
-        '.example-headless-nav {',
-        '  width: fit-content;',
-        '  max-width: 100%;',
-        '}',
-        '',
-        '.example-headless-list {',
-        '  display: flex;',
-        '  align-items: center;',
-        '  gap: 0.5rem;',
-        '  list-style: none;',
-        '  margin: 0;',
-        '  padding: 0;',
-        '}',
-      ].join('\n'),
-    },
-  ]);
-
   protected readonly collapsePlainCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
     {
       value: 'ts',
@@ -109,6 +37,8 @@ export class BreadcrumbExamplesPageComponent implements OnDestroy {
         "import { TngBreadcrumbComponent, TngBreadcrumbItemComponent } from '@tailng-ui/components';",
         '',
         '@Component({',
+        "  selector: 'app-breadcrumb-example-collapse-plain',",
+        '  standalone: true,',
         '  imports: [TngBreadcrumbComponent, TngBreadcrumbItemComponent],',
         "  templateUrl: './breadcrumb-example-collapse-plain.component.html',",
         "  styleUrl: './breadcrumb-example-collapse-plain.component.css',",
@@ -159,6 +89,8 @@ export class BreadcrumbExamplesPageComponent implements OnDestroy {
         "import { TngBreadcrumbComponent, TngBreadcrumbItemComponent } from '@tailng-ui/components';",
         '',
         '@Component({',
+        "  selector: 'app-breadcrumb-example-collapse-tailwind',",
+        '  standalone: true,',
         '  imports: [TngBreadcrumbComponent, TngBreadcrumbItemComponent],',
         "  templateUrl: './breadcrumb-example-collapse-tailwind.component.html',",
         "  styleUrl: './breadcrumb-example-collapse-tailwind.component.css',",
@@ -192,62 +124,6 @@ export class BreadcrumbExamplesPageComponent implements OnDestroy {
     },
   ]);
 
-  protected readonly currentHeadlessCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
-    {
-      value: 'ts',
-      label: 'TS',
-      language: 'ts',
-      title: 'breadcrumb-example-current-headless.component.ts',
-      code: [
-        "import { Component } from '@angular/core';",
-        "import { TngBreadcrumb, TngBreadcrumbItem, TngBreadcrumbLink, TngBreadcrumbList, TngBreadcrumbSeparator } from '@tailng-ui/primitives';",
-        '',
-        '@Component({',
-        '  imports: [TngBreadcrumb, TngBreadcrumbList, TngBreadcrumbItem, TngBreadcrumbLink, TngBreadcrumbSeparator],',
-        "  templateUrl: './breadcrumb-example-current-headless.component.html',",
-        "  styleUrl: './breadcrumb-example-current-headless.component.css',",
-        '})',
-        'export class BreadcrumbExampleCurrentHeadlessComponent {}',
-      ].join('\n'),
-    },
-    {
-      value: 'html',
-      label: 'HTML',
-      language: 'html',
-      title: 'breadcrumb-example-current-headless.component.html',
-      code: [
-        '<nav tngBreadcrumb aria-label="Headless current link path">',
-        '  <ol tngBreadcrumbList>',
-        '    <li tngBreadcrumbItem><a tngBreadcrumbLink href="#">Home</a></li>',
-        '    <li tngBreadcrumbSeparator>/</li>',
-        '    <li tngBreadcrumbItem><a tngBreadcrumbLink aria-current="page" href="#">Docs</a></li>',
-        '  </ol>',
-        '</nav>',
-      ].join('\n'),
-    },
-    {
-      value: 'css',
-      label: 'CSS',
-      language: 'css',
-      title: 'breadcrumb-example-current-headless.component.css',
-      code: [
-        '.example-headless-nav {',
-        '  width: fit-content;',
-        '  max-width: 100%;',
-        '}',
-        '',
-        '.example-headless-list {',
-        '  display: flex;',
-        '  align-items: center;',
-        '  gap: 0.5rem;',
-        '  list-style: none;',
-        '  margin: 0;',
-        '  padding: 0;',
-        '}',
-      ].join('\n'),
-    },
-  ]);
-
   protected readonly currentPlainCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
     {
       value: 'ts',
@@ -259,6 +135,8 @@ export class BreadcrumbExamplesPageComponent implements OnDestroy {
         "import { TngBreadcrumbComponent, TngBreadcrumbItemComponent } from '@tailng-ui/components';",
         '',
         '@Component({',
+        "  selector: 'app-breadcrumb-example-current-plain',",
+        '  standalone: true,',
         '  imports: [TngBreadcrumbComponent, TngBreadcrumbItemComponent],',
         "  templateUrl: './breadcrumb-example-current-plain.component.html',",
         "  styleUrl: './breadcrumb-example-current-plain.component.css',",
@@ -307,6 +185,8 @@ export class BreadcrumbExamplesPageComponent implements OnDestroy {
         "import { TngBreadcrumbComponent, TngBreadcrumbItemComponent } from '@tailng-ui/components';",
         '',
         '@Component({',
+        "  selector: 'app-breadcrumb-example-current-tailwind',",
+        '  standalone: true,',
         '  imports: [TngBreadcrumbComponent, TngBreadcrumbItemComponent],',
         "  templateUrl: './breadcrumb-example-current-tailwind.component.html',",
         "  styleUrl: './breadcrumb-example-current-tailwind.component.css',",

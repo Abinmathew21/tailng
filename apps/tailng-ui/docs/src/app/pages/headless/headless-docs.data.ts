@@ -198,7 +198,7 @@ export const HEADLESS_UTILITY_GROUP: HeadlessDocsGroup = {
 export const HEADLESS_NAVIGATION_GROUP: HeadlessDocsGroup = {
   id: 'navigation',
   title: 'Navigation',
-  subtitle: 'Headless menu and command surfaces',
+  subtitle: 'Headless trails, menus, and command surfaces',
   items: [
     {
       id: 'menubar',
@@ -217,6 +217,12 @@ export const HEADLESS_NAVIGATION_GROUP: HeadlessDocsGroup = {
       slug: 'context-menu',
       title: 'Context Menu',
       description: 'Context-triggered menu behavior for right-click and keyboard surface actions.',
+    },
+    {
+      id: 'breadcrumb',
+      slug: 'breadcrumb',
+      title: 'Breadcrumb',
+      description: 'Structural breadcrumb slots for owner-controlled trails, current links, and separators.',
     },
   ],
 };
