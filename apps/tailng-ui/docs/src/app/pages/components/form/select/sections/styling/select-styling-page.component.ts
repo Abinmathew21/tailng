@@ -126,17 +126,18 @@ const PLAIN_HTML_CODE = String.raw`<section class="docs-component-select-styling
     </p>
   </div>
 
-  <tng-select
-    class="docs-component-select-styling-plain-control docs-component-select-styling-release-owner-shell"
-    [options]="componentSelectStylingPlainReleaseOwners"
-    [value]="componentSelectStylingPlainSelectedOwnerId()"
-    (valueChange)="onComponentSelectStylingPlainSelectedOwnerChange($event)"
-    [getOptionValue]="getComponentSelectStylingPlainOwnerValue"
-    [getOptionLabel]="getComponentSelectStylingPlainOwnerLabel"
-    [isOptionDisabled]="isComponentSelectStylingPlainOwnerDisabled"
-    placeholder="Assign release owner"
-    [ariaLabel]="'Release owners'"
-  ></tng-select>
+  <div class="docs-component-select-styling-plain-control docs-component-select-styling-release-owner-shell">
+    <tng-select
+      [options]="componentSelectStylingPlainReleaseOwners"
+      [value]="componentSelectStylingPlainSelectedOwnerId()"
+      (valueChange)="onComponentSelectStylingPlainSelectedOwnerChange($event)"
+      [getOptionValue]="getComponentSelectStylingPlainOwnerValue"
+      [getOptionLabel]="getComponentSelectStylingPlainOwnerLabel"
+      [isOptionDisabled]="isComponentSelectStylingPlainOwnerDisabled"
+      placeholder="Assign release owner"
+      [ariaLabel]="'Release owners'"
+    ></tng-select>
+  </div>
 
   <p class="docs-component-select-styling-plain-summary">
     Selected: {{ componentSelectStylingPlainSelectedOwnerSummary() }}
@@ -149,11 +150,10 @@ const PLAIN_CSS_CODE = String.raw`.docs-component-select-styling-plain-shell {
   inline-size: min(100%, 36rem);
   margin-inline: auto;
   padding: 1.1rem;
-  border: 1px solid #cbd5e1;
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 1.25rem;
-  background: #ffffff;
-  color: #0f172a;
-  color-scheme: light;
+  background: var(--tng-semantic-background-surface);
+  color: var(--tng-semantic-foreground-primary);
   box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
 }
 
@@ -165,13 +165,13 @@ const PLAIN_CSS_CODE = String.raw`.docs-component-select-styling-plain-shell {
 .docs-component-select-styling-plain-kicker {
   font-size: 0.8rem;
   font-weight: 700;
-  color: #64748b;
+  color: var(--tng-semantic-foreground-muted);
 }
 
 .docs-component-select-styling-plain-copy,
 .docs-component-select-styling-plain-summary {
   margin: 0;
-  color: #475569;
+  color: var(--tng-semantic-foreground-secondary);
 }
 
 /* Host-level tokens – the component base CSS consumes them automatically. */
@@ -179,16 +179,6 @@ const PLAIN_CSS_CODE = String.raw`.docs-component-select-styling-plain-shell {
   display: block;
   width: 100%;
   min-width: 0;
-  color-scheme: light;
-  --tng-semantic-background-canvas: #ffffff;
-  --tng-semantic-background-surface: #f8fafc;
-  --tng-semantic-border-subtle: #d8e2ef;
-  --tng-semantic-border-strong: #94a3b8;
-  --tng-semantic-foreground-primary: #0f172a;
-  --tng-semantic-foreground-secondary: #475569;
-  --tng-semantic-foreground-muted: #64748b;
-  --tng-semantic-accent-brand: #0f766e;
-  --tng-semantic-focus-ring: #0f766e;
   --tng-select-radius: 1rem;
   --tng-select-trigger-min-height: 3.2rem;
   --tng-select-trigger-py: 0.72rem;
@@ -197,22 +187,11 @@ const PLAIN_CSS_CODE = String.raw`.docs-component-select-styling-plain-shell {
   --tng-select-option-py: 0.72rem;
   --tng-select-option-px: 0.9rem;
   --tng-select-option-radius: 0.85rem;
-  --tng-select-bg: #ffffff;
-  --tng-select-surface: #f8fafc;
-  --tng-select-border: #d8e2ef;
-  --tng-select-border-strong: #94a3b8;
-  --tng-select-border-hover: #64748b;
-  --tng-select-fg: #0f172a;
-  --tng-select-muted: #64748b;
-  --tng-select-brand: #0f766e;
-  --tng-select-focus-ring: #0f766e;
   --tng-select-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
   --tng-select-shadow-focus: 0 0 0 3px rgba(15, 118, 110, 0.16);
   --tng-select-icon-margin-inline-start: 0.35rem;
   --tng-select-overlay-max-width: min(92vw, 36rem);
-  --tng-select-overlay-border: #d8e2ef;
   --tng-select-overlay-radius: 1rem;
-  --tng-select-overlay-bg: #ffffff;
   --tng-select-overlay-padding: 0.4rem;
   --tng-select-overlay-shadow: 0 18px 38px rgba(15, 23, 42, 0.14);
 }`;
@@ -274,27 +253,28 @@ export class ComponentSelectStylingTailwindExampleComponent {
   }
 }`;
 
-const TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-[36rem] gap-4 rounded-[1.75rem] border border-slate-200 bg-white p-5 text-slate-900 shadow-sm">
+const TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-[36rem] gap-4 rounded-[1.75rem] border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-surface)] p-5 text-[var(--tng-semantic-foreground-primary)] shadow-sm">
   <div class="grid gap-1">
-    <span class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Release owners</span>
-    <p class="m-0 text-sm text-slate-600">
+    <span class="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--tng-semantic-foreground-muted)]">Release owners</span>
+    <p class="m-0 text-sm text-[var(--tng-semantic-foreground-secondary)]">
       Host-level tokens define the palette while a small amount of slot spacing keeps the wrapper presentation tidy.
     </p>
   </div>
 
-  <tng-select
-    class="docs-component-select-styling-live-control docs-component-select-styling-release-owner-shell block w-full min-w-0 [--tng-semantic-background-canvas:#ffffff] [--tng-semantic-background-surface:#f8fafc] [--tng-semantic-border-subtle:#d8e2ef] [--tng-semantic-border-strong:#94a3b8] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-foreground-secondary:#475569] [--tng-semantic-foreground-muted:#64748b] [--tng-semantic-accent-brand:#0f766e] [--tng-semantic-focus-ring:#0f766e] [--tng-select-radius:1rem] [--tng-select-trigger-py:0.625rem] [--tng-select-trigger-px:0.875rem] [--tng-select-option-py:0.625rem] [--tng-select-option-px:0.875rem] [--tng-select-bg:#ffffff] [--tng-select-surface:#f8fafc] [--tng-select-border:#d8e2ef] [--tng-select-border-strong:#94a3b8] [--tng-select-fg:#0f172a] [--tng-select-muted:#64748b] [--tng-select-brand:#0f766e] [--tng-select-focus-ring:#0f766e]"
-    [options]="componentSelectStylingTailwindReleaseOwners"
-    [value]="componentSelectStylingTailwindSelectedOwnerId()"
-    (valueChange)="onComponentSelectStylingTailwindSelectedOwnerChange($event)"
-    [getOptionValue]="getComponentSelectStylingTailwindOwnerValue"
-    [getOptionLabel]="getComponentSelectStylingTailwindOwnerLabel"
-    [isOptionDisabled]="isComponentSelectStylingTailwindOwnerDisabled"
-    placeholder="Assign release owner"
-    [ariaLabel]="'Release owners'"
-  ></tng-select>
+  <div class="docs-component-select-styling-live-control docs-component-select-styling-release-owner-shell block w-full min-w-0 [--tng-select-radius:1rem] [--tng-select-trigger-py:0.625rem] [--tng-select-trigger-px:0.875rem] [--tng-select-option-py:0.625rem] [--tng-select-option-px:0.875rem]">
+    <tng-select
+      [options]="componentSelectStylingTailwindReleaseOwners"
+      [value]="componentSelectStylingTailwindSelectedOwnerId()"
+      (valueChange)="onComponentSelectStylingTailwindSelectedOwnerChange($event)"
+      [getOptionValue]="getComponentSelectStylingTailwindOwnerValue"
+      [getOptionLabel]="getComponentSelectStylingTailwindOwnerLabel"
+      [isOptionDisabled]="isComponentSelectStylingTailwindOwnerDisabled"
+      placeholder="Assign release owner"
+      [ariaLabel]="'Release owners'"
+    ></tng-select>
+  </div>
 
-  <p class="m-0 text-xs text-slate-600">Selected: {{ componentSelectStylingTailwindSelectedOwnerSummary() }}</p>
+  <p class="m-0 text-xs text-[var(--tng-semantic-foreground-secondary)]">Selected: {{ componentSelectStylingTailwindSelectedOwnerSummary() }}</p>
 </section>`;
 
 const TAILWIND_CSS_CODE = '/* Tokens are applied via Tailwind arbitrary properties in the template. */\n/* The component base CSS consumes them automatically. */';

@@ -8,11 +8,10 @@
   inline-size: min(100%, 36rem);
   margin-inline: auto;
   padding: 1.1rem;
-  border: 1px solid #cbd5e1;
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 1.25rem;
-  background: #ffffff;
-  color: #0f172a;
-  color-scheme: light;
+  background: var(--tng-semantic-background-surface);
+  color: var(--tng-semantic-foreground-primary);
   box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
 }
 
@@ -24,29 +23,18 @@
 .docs-component-select-overview-live-kicker {
   font-size: 0.8rem;
   font-weight: 700;
-  color: #64748b;
+  color: var(--tng-semantic-foreground-muted);
 }
 
 .docs-component-select-overview-live-copy,
 .docs-component-select-overview-live-summary {
   margin: 0;
-  color: #475569;
+  color: var(--tng-semantic-foreground-secondary);
 }
 
 .docs-component-select-overview-live-control {
   width: 100%;
   min-width: 0;
-  color-scheme: light;
-  --tng-semantic-background-base: #ffffff;
-  --tng-semantic-background-canvas: #ffffff;
-  --tng-semantic-background-surface: #f8fafc;
-  --tng-semantic-border-subtle: #d8e2ef;
-  --tng-semantic-border-strong: #94a3b8;
-  --tng-semantic-foreground-primary: #0f172a;
-  --tng-semantic-foreground-secondary: #475569;
-  --tng-semantic-foreground-muted: #64748b;
-  --tng-semantic-accent-brand: #2563eb;
-  --tng-semantic-focus-ring: #2563eb;
   --tng-select-radius: 1rem;
   --tng-select-trigger-min-height: 3.35rem;
   --tng-select-trigger-py: 0.8rem;
@@ -55,33 +43,14 @@
   --tng-select-option-py: 0.75rem;
   --tng-select-option-px: 0.85rem;
   --tng-select-option-radius: 0.85rem;
-  --tng-select-bg: #ffffff;
-  --tng-select-surface: #ffffff;
-  --tng-select-border: #d8e2ef;
-  --tng-select-border-strong: #94a3b8;
-  --tng-select-border-hover: #64748b;
-  --tng-select-fg: #0f172a;
-  --tng-select-muted: #64748b;
-  --tng-select-brand: #2563eb;
-  --tng-select-focus-ring: #2563eb;
   --tng-select-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
   --tng-select-shadow-focus: 0 0 0 3px rgba(37, 99, 235, 0.18);
   --tng-select-icon-size: 0.75rem;
   --tng-select-icon-margin-inline-start: 0.35rem;
   --tng-select-overlay-max-width: min(92vw, 36rem);
-  --tng-select-overlay-border: #d8e2ef;
   --tng-select-overlay-radius: 1rem;
-  --tng-select-overlay-bg: #ffffff;
   --tng-select-overlay-padding: 0.4rem;
   --tng-select-overlay-shadow: 0 18px 38px rgba(15, 23, 42, 0.14);
-  --tng-select-option-bg-active: #f8fafc;
-  --tng-select-option-border-active: #cbd5e1;
-  --tng-select-option-bg-selected: #eff6ff;
-  --tng-select-option-border-selected: #93c5fd;
-  --tng-select-option-fg-selected: #142033;
-  --tng-select-option-bg-selected-active: #dbeafe;
-  --tng-select-option-border-selected-active: #60a5fa;
-  --tng-select-option-shadow-selected-active: 0 0 0 1px rgba(37, 99, 235, 0.12);
 }
 
 .docs-component-select-overview-live-option-row {
@@ -90,14 +59,14 @@
 }
 
 .docs-component-select-overview-live-option-label {
-  color: #0f172a;
+  color: var(--tng-semantic-foreground-primary);
   font-size: 1rem;
   font-weight: 600;
   line-height: 1.3;
 }
 
 .docs-component-select-overview-live-option-meta {
-  color: #64748b;
+  color: var(--tng-semantic-foreground-muted);
   font-size: 0.82rem;
   line-height: 1.35;
 }

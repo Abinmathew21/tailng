@@ -106,17 +106,18 @@ const STAGE_PLAIN_HTML_CODE = String.raw`<section class="docs-component-select-e
     </p>
   </div>
 
-  <tng-select
-    class="docs-component-select-examples-stage-plain-control"
-    [options]="componentSelectExamplesPlainReleaseStages"
-    [value]="componentSelectExamplesPlainSelectedStage()"
-    (valueChange)="onComponentSelectExamplesPlainSelectedStageChange($event)"
-    [getOptionValue]="getComponentSelectExamplesPlainStageValue"
-    [getOptionLabel]="getComponentSelectExamplesPlainStageLabel"
-    [isOptionDisabled]="isComponentSelectExamplesPlainStageDisabled"
-    placeholder="Choose release stage"
-    [ariaLabel]="'Release stage'"
-  ></tng-select>
+  <div class="docs-component-select-examples-stage-plain-control">
+    <tng-select
+      [options]="componentSelectExamplesPlainReleaseStages"
+      [value]="componentSelectExamplesPlainSelectedStage()"
+      (valueChange)="onComponentSelectExamplesPlainSelectedStageChange($event)"
+      [getOptionValue]="getComponentSelectExamplesPlainStageValue"
+      [getOptionLabel]="getComponentSelectExamplesPlainStageLabel"
+      [isOptionDisabled]="isComponentSelectExamplesPlainStageDisabled"
+      placeholder="Choose release stage"
+      [ariaLabel]="'Release stage'"
+    ></tng-select>
+  </div>
 
   <p class="docs-component-select-examples-stage-plain-summary">Selected: {{ componentSelectExamplesPlainSelectedStageSummary() }}</p>
 </section>`;
@@ -127,11 +128,10 @@ const STAGE_PLAIN_CSS_CODE = String.raw`.docs-component-select-examples-stage-pl
   inline-size: min(100%, 36rem);
   margin-inline: auto;
   padding: 1.1rem;
-  border: 1px solid #cbd5e1;
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 1.25rem;
-  background: #ffffff;
-  color: #0f172a;
-  color-scheme: light;
+  background: var(--tng-semantic-background-surface);
+  color: var(--tng-semantic-foreground-primary);
   box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
 }
 
@@ -143,41 +143,24 @@ const STAGE_PLAIN_CSS_CODE = String.raw`.docs-component-select-examples-stage-pl
 .docs-component-select-examples-stage-plain-kicker {
   font-size: 0.8rem;
   font-weight: 700;
-  color: #64748b;
+  color: var(--tng-semantic-foreground-muted);
 }
 
 .docs-component-select-examples-stage-plain-copy,
 .docs-component-select-examples-stage-plain-summary {
   margin: 0;
-  color: #475569;
+  color: var(--tng-semantic-foreground-secondary);
 }
 
 .docs-component-select-examples-stage-plain-control {
   display: block;
   width: 100%;
   min-width: 0;
-  --tng-semantic-background-canvas: #ffffff;
-  --tng-semantic-background-surface: #f8fafc;
-  --tng-semantic-border-subtle: #d8e2ef;
-  --tng-semantic-border-strong: #94a3b8;
-  --tng-semantic-foreground-primary: #0f172a;
-  --tng-semantic-foreground-secondary: #475569;
-  --tng-semantic-foreground-muted: #64748b;
-  --tng-semantic-accent-brand: #2563eb;
-  --tng-semantic-focus-ring: #2563eb;
   --tng-select-radius: 1rem;
   --tng-select-trigger-py: 0.625rem;
   --tng-select-trigger-px: 0.875rem;
   --tng-select-option-py: 0.625rem;
   --tng-select-option-px: 0.875rem;
-  --tng-select-bg: #ffffff;
-  --tng-select-surface: #f8fafc;
-  --tng-select-border: #d8e2ef;
-  --tng-select-border-strong: #94a3b8;
-  --tng-select-fg: #0f172a;
-  --tng-select-muted: #64748b;
-  --tng-select-brand: #2563eb;
-  --tng-select-focus-ring: #2563eb;
 }`;
 
 const STAGE_TAILWIND_TS_CODE = String.raw`import { Component, computed, signal } from '@angular/core';
@@ -237,27 +220,28 @@ export class ComponentSelectExamplesStageTailwindComponent {
   }
 }`;
 
-const STAGE_TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-[36rem] gap-4 rounded-[1.75rem] border border-slate-200 bg-white p-5 text-slate-900 shadow-sm">
+const STAGE_TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-[36rem] gap-4 rounded-[1.75rem] border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-surface)] p-5 text-[var(--tng-semantic-foreground-primary)] shadow-sm">
   <div class="grid gap-1">
-    <span class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Release stage</span>
-    <p class="m-0 text-sm text-slate-600">
+    <span class="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--tng-semantic-foreground-muted)]">Release stage</span>
+    <p class="m-0 text-sm text-[var(--tng-semantic-foreground-secondary)]">
       Keep a controlled release-stage value while the wrapper handles trigger and menu plumbing.
     </p>
   </div>
 
-  <tng-select
-    class="block w-full min-w-0 [--tng-semantic-background-canvas:#ffffff] [--tng-semantic-background-surface:#f8fafc] [--tng-semantic-border-subtle:#d8e2ef] [--tng-semantic-border-strong:#94a3b8] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-foreground-secondary:#475569] [--tng-semantic-foreground-muted:#64748b] [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-focus-ring:#2563eb] [--tng-select-radius:1rem] [--tng-select-trigger-py:0.625rem] [--tng-select-trigger-px:0.875rem] [--tng-select-option-py:0.625rem] [--tng-select-option-px:0.875rem] [--tng-select-bg:#ffffff] [--tng-select-surface:#f8fafc] [--tng-select-border:#d8e2ef] [--tng-select-border-strong:#94a3b8] [--tng-select-fg:#0f172a] [--tng-select-muted:#64748b] [--tng-select-brand:#2563eb] [--tng-select-focus-ring:#2563eb]"
-    [options]="componentSelectExamplesTailwindReleaseStages"
-    [value]="componentSelectExamplesTailwindSelectedStage()"
-    (valueChange)="onComponentSelectExamplesTailwindSelectedStageChange($event)"
-    [getOptionValue]="getComponentSelectExamplesTailwindStageValue"
-    [getOptionLabel]="getComponentSelectExamplesTailwindStageLabel"
-    [isOptionDisabled]="isComponentSelectExamplesTailwindStageDisabled"
-    placeholder="Choose release stage"
-    [ariaLabel]="'Release stage'"
-  ></tng-select>
+  <div class="block w-full min-w-0 [--tng-select-radius:1rem] [--tng-select-trigger-py:0.625rem] [--tng-select-trigger-px:0.875rem] [--tng-select-option-py:0.625rem] [--tng-select-option-px:0.875rem]">
+    <tng-select
+      [options]="componentSelectExamplesTailwindReleaseStages"
+      [value]="componentSelectExamplesTailwindSelectedStage()"
+      (valueChange)="onComponentSelectExamplesTailwindSelectedStageChange($event)"
+      [getOptionValue]="getComponentSelectExamplesTailwindStageValue"
+      [getOptionLabel]="getComponentSelectExamplesTailwindStageLabel"
+      [isOptionDisabled]="isComponentSelectExamplesTailwindStageDisabled"
+      placeholder="Choose release stage"
+      [ariaLabel]="'Release stage'"
+    ></tng-select>
+  </div>
 
-  <p class="m-0 text-xs text-slate-600">Selected: {{ componentSelectExamplesTailwindSelectedStageSummary() }}</p>
+  <p class="m-0 text-xs text-[var(--tng-semantic-foreground-secondary)]">Selected: {{ componentSelectExamplesTailwindSelectedStageSummary() }}</p>
 </section>`;
 
 const STAGE_TAILWIND_CSS_CODE = '/* Tailwind utilities are applied directly in the template. */';
@@ -328,31 +312,32 @@ const OWNER_PLAIN_HTML_CODE = String.raw`<section class="docs-component-select-e
     </p>
   </div>
 
-  <tng-select
-    class="docs-component-select-examples-owner-plain-control"
-    [options]="componentSelectExamplesPlainReleaseOwners"
-    [value]="componentSelectExamplesPlainSelectedOwnerId()"
-    (valueChange)="onComponentSelectExamplesPlainSelectedOwnerChange($event)"
-    [getOptionValue]="getComponentSelectExamplesPlainOwnerValue"
-    [getOptionLabel]="getComponentSelectExamplesPlainOwnerLabel"
-    [isOptionDisabled]="isComponentSelectExamplesPlainOwnerDisabled"
-    placeholder="Assign release owner"
-    [ariaLabel]="'Release owner roster'"
-  >
-    <ng-template #tngSelectValueTpl let-selected>
-      <div class="docs-component-select-examples-owner-plain-value-row">
-        <strong>{{ selected.label }}</strong>
-        <small>{{ selected.option?.team }}</small>
-      </div>
-    </ng-template>
+  <div class="docs-component-select-examples-owner-plain-control">
+    <tng-select
+      [options]="componentSelectExamplesPlainReleaseOwners"
+      [value]="componentSelectExamplesPlainSelectedOwnerId()"
+      (valueChange)="onComponentSelectExamplesPlainSelectedOwnerChange($event)"
+      [getOptionValue]="getComponentSelectExamplesPlainOwnerValue"
+      [getOptionLabel]="getComponentSelectExamplesPlainOwnerLabel"
+      [isOptionDisabled]="isComponentSelectExamplesPlainOwnerDisabled"
+      placeholder="Assign release owner"
+      [ariaLabel]="'Release owner roster'"
+    >
+      <ng-template #tngSelectValueTpl let-selected>
+        <div class="docs-component-select-examples-owner-plain-value-row">
+          <strong>{{ selected.label }}</strong>
+          <small>{{ selected.option?.team }}</small>
+        </div>
+      </ng-template>
 
-    <ng-template #tngSelectOptionTpl let-option>
-      <div class="docs-component-select-examples-owner-plain-option-row">
-        <span class="docs-component-select-examples-owner-plain-option-label">{{ option.label }}</span>
-        <small class="docs-component-select-examples-owner-plain-option-meta">{{ option.option.team }} · {{ option.option.timezone }}</small>
-      </div>
-    </ng-template>
-  </tng-select>
+      <ng-template #tngSelectOptionTpl let-option>
+        <div class="docs-component-select-examples-owner-plain-option-row">
+          <span class="docs-component-select-examples-owner-plain-option-label">{{ option.label }}</span>
+          <small class="docs-component-select-examples-owner-plain-option-meta">{{ option.option.team }} · {{ option.option.timezone }}</small>
+        </div>
+      </ng-template>
+    </tng-select>
+  </div>
 
   <p class="docs-component-select-examples-owner-plain-summary">Selected: {{ componentSelectExamplesPlainSelectedOwnerSummary() }}</p>
 </section>`;
@@ -363,11 +348,10 @@ const OWNER_PLAIN_CSS_CODE = String.raw`.docs-component-select-examples-owner-pl
   inline-size: min(100%, 36rem);
   margin-inline: auto;
   padding: 1.1rem;
-  border: 1px solid #cbd5e1;
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 1.25rem;
-  background: #ffffff;
-  color: #0f172a;
-  color-scheme: light;
+  background: var(--tng-semantic-background-surface);
+  color: var(--tng-semantic-foreground-primary);
   box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
 }
 
@@ -379,41 +363,24 @@ const OWNER_PLAIN_CSS_CODE = String.raw`.docs-component-select-examples-owner-pl
 .docs-component-select-examples-owner-plain-kicker {
   font-size: 0.8rem;
   font-weight: 700;
-  color: #64748b;
+  color: var(--tng-semantic-foreground-muted);
 }
 
 .docs-component-select-examples-owner-plain-copy,
 .docs-component-select-examples-owner-plain-summary {
   margin: 0;
-  color: #475569;
+  color: var(--tng-semantic-foreground-secondary);
 }
 
 .docs-component-select-examples-owner-plain-control {
   display: block;
   width: 100%;
   min-width: 0;
-  --tng-semantic-background-canvas: #ffffff;
-  --tng-semantic-background-surface: #f8fafc;
-  --tng-semantic-border-subtle: #d8e2ef;
-  --tng-semantic-border-strong: #94a3b8;
-  --tng-semantic-foreground-primary: #0f172a;
-  --tng-semantic-foreground-secondary: #475569;
-  --tng-semantic-foreground-muted: #64748b;
-  --tng-semantic-accent-brand: #0f766e;
-  --tng-semantic-focus-ring: #0f766e;
   --tng-select-radius: 1rem;
   --tng-select-trigger-py: 0.625rem;
   --tng-select-trigger-px: 0.875rem;
   --tng-select-option-py: 0.625rem;
   --tng-select-option-px: 0.875rem;
-  --tng-select-bg: #ffffff;
-  --tng-select-surface: #f8fafc;
-  --tng-select-border: #d8e2ef;
-  --tng-select-border-strong: #94a3b8;
-  --tng-select-fg: #0f172a;
-  --tng-select-muted: #64748b;
-  --tng-select-brand: #0f766e;
-  --tng-select-focus-ring: #0f766e;
 }
 
 .docs-component-select-examples-owner-plain-value-row,
@@ -429,7 +396,7 @@ const OWNER_PLAIN_CSS_CODE = String.raw`.docs-component-select-examples-owner-pl
 
 .docs-component-select-examples-owner-plain-value-row small,
 .docs-component-select-examples-owner-plain-option-meta {
-  color: #64748b;
+  color: var(--tng-semantic-foreground-muted);
 }`;
 
 const OWNER_TAILWIND_TS_CODE = String.raw`import { Component, computed, signal } from '@angular/core';
@@ -490,41 +457,42 @@ export class ComponentSelectExamplesOwnerTailwindComponent {
   }
 }`;
 
-const OWNER_TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-[36rem] gap-4 rounded-[1.75rem] border border-slate-200 bg-white p-5 text-slate-900 shadow-sm">
+const OWNER_TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-[36rem] gap-4 rounded-[1.75rem] border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-surface)] p-5 text-[var(--tng-semantic-foreground-primary)] shadow-sm">
   <div class="grid gap-1">
-    <span class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Release owner roster</span>
-    <p class="m-0 text-sm text-slate-600">
+    <span class="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--tng-semantic-foreground-muted)]">Release owner roster</span>
+    <p class="m-0 text-sm text-[var(--tng-semantic-foreground-secondary)]">
       Custom templates let the wrapper show richer trigger and option content without rebuilding the select primitive.
     </p>
   </div>
 
-  <tng-select
-    class="block w-full min-w-0 [--tng-semantic-background-canvas:#ffffff] [--tng-semantic-background-surface:#f8fafc] [--tng-semantic-border-subtle:#d8e2ef] [--tng-semantic-border-strong:#94a3b8] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-foreground-secondary:#475569] [--tng-semantic-foreground-muted:#64748b] [--tng-semantic-accent-brand:#0f766e] [--tng-semantic-focus-ring:#0f766e] [--tng-select-radius:1rem] [--tng-select-trigger-py:0.625rem] [--tng-select-trigger-px:0.875rem] [--tng-select-option-py:0.625rem] [--tng-select-option-px:0.875rem] [--tng-select-bg:#ffffff] [--tng-select-surface:#f8fafc] [--tng-select-border:#d8e2ef] [--tng-select-border-strong:#94a3b8] [--tng-select-fg:#0f172a] [--tng-select-muted:#64748b] [--tng-select-brand:#0f766e] [--tng-select-focus-ring:#0f766e]"
-    [options]="componentSelectExamplesTailwindReleaseOwners"
-    [value]="componentSelectExamplesTailwindSelectedOwnerId()"
-    (valueChange)="onComponentSelectExamplesTailwindSelectedOwnerChange($event)"
-    [getOptionValue]="getComponentSelectExamplesTailwindOwnerValue"
-    [getOptionLabel]="getComponentSelectExamplesTailwindOwnerLabel"
-    [isOptionDisabled]="isComponentSelectExamplesTailwindOwnerDisabled"
-    placeholder="Assign release owner"
-    [ariaLabel]="'Release owner roster'"
-  >
-    <ng-template #tngSelectValueTpl let-selected>
-      <div class="grid gap-0.5">
-        <strong class="text-sm font-semibold text-slate-900">{{ selected.label }}</strong>
-        <small class="text-xs text-slate-500">{{ selected.option?.team }}</small>
-      </div>
-    </ng-template>
+  <div class="block w-full min-w-0 [--tng-select-radius:1rem] [--tng-select-trigger-py:0.625rem] [--tng-select-trigger-px:0.875rem] [--tng-select-option-py:0.625rem] [--tng-select-option-px:0.875rem]">
+    <tng-select
+      [options]="componentSelectExamplesTailwindReleaseOwners"
+      [value]="componentSelectExamplesTailwindSelectedOwnerId()"
+      (valueChange)="onComponentSelectExamplesTailwindSelectedOwnerChange($event)"
+      [getOptionValue]="getComponentSelectExamplesTailwindOwnerValue"
+      [getOptionLabel]="getComponentSelectExamplesTailwindOwnerLabel"
+      [isOptionDisabled]="isComponentSelectExamplesTailwindOwnerDisabled"
+      placeholder="Assign release owner"
+      [ariaLabel]="'Release owner roster'"
+    >
+      <ng-template #tngSelectValueTpl let-selected>
+        <div class="grid gap-0.5">
+          <strong class="text-sm font-semibold text-slate-900">{{ selected.label }}</strong>
+          <small class="text-xs text-slate-500">{{ selected.option?.team }}</small>
+        </div>
+      </ng-template>
 
-    <ng-template #tngSelectOptionTpl let-option>
-      <div class="grid gap-0.5">
-        <span class="text-sm font-medium text-slate-900">{{ option.label }}</span>
-        <small class="text-xs text-slate-500">{{ option.option.team }} · {{ option.option.timezone }}</small>
-      </div>
-    </ng-template>
-  </tng-select>
+      <ng-template #tngSelectOptionTpl let-option>
+        <div class="grid gap-0.5">
+          <span class="text-sm font-medium text-slate-900">{{ option.label }}</span>
+          <small class="text-xs text-slate-500">{{ option.option.team }} · {{ option.option.timezone }}</small>
+        </div>
+      </ng-template>
+    </tng-select>
+  </div>
 
-  <p class="m-0 text-xs text-slate-600">Selected: {{ componentSelectExamplesTailwindSelectedOwnerSummary() }}</p>
+  <p class="m-0 text-xs text-[var(--tng-semantic-foreground-secondary)]">Selected: {{ componentSelectExamplesTailwindSelectedOwnerSummary() }}</p>
 </section>`;
 
 const OWNER_TAILWIND_CSS_CODE = '/* Tailwind utilities are applied directly in the template. */';
