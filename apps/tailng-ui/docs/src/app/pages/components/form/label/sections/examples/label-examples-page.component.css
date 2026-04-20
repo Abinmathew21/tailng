@@ -39,5 +39,5 @@
 }
 
 .doc-cmp-label-examples-card__field--meta tng-label {
-  --tng-semantic-foreground-primary: #64748b;
+  --tng-semantic-foreground-primary: var(--tng-semantic-foreground-secondary);
 }

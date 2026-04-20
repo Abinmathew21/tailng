@@ -8,8 +8,8 @@
 }
 
 .doc-cmp-input-overview-simple-surface {
-  background: rgba(255, 255, 255, 0.88);
-  border: 1px solid #cbd5e1;
+  background: color-mix(in srgb, var(--tng-semantic-background-surface) 88%, transparent);
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 0.95rem;
   display: grid;
   gap: 0.5rem;
@@ -17,11 +17,11 @@
 }
 
 .doc-cmp-input-overview-simple-surface--tw {
-  background: rgba(255, 255, 255, 0.92);
+  background: color-mix(in srgb, var(--tng-semantic-background-surface) 92%, transparent);
 }
 
 .doc-cmp-input-overview-simple-label {
-  color: #64748b;
+  color: var(--tng-semantic-foreground-secondary);
   font-size: 0.78rem;
   font-weight: 600;
   line-height: 1.2;

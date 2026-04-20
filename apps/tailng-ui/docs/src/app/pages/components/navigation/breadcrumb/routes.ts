@@ -51,19 +51,9 @@ export const COMPONENTS_NAVIGATION_BREADCRUMB_ROUTES: Routes = [
         path: 'ownable-install',
         data: {
           registrySlug: 'breadcrumb',
-          usageCode: [
-            '<tng-breadcrumb ariaLabel="Navigation path" separator="›">',
-            '  <tng-breadcrumb-item href="/">Home</tng-breadcrumb-item>',
-            '  <tng-breadcrumb-item href="/docs">Docs</tng-breadcrumb-item>',
-            '  <tng-breadcrumb-item [current]="true">Breadcrumb</tng-breadcrumb-item>',
-            '</tng-breadcrumb>',
-            '',
-          ].join('\n'),
         },
-        loadComponent: () =>
-          import('../../../../shared/ownable-install-section/docs-ownable-install-section.component').then(
-            (module) => module.DocsOwnableInstallSectionComponent,
-          ),
+        pathMatch: 'full',
+        redirectTo: '/ownable/navigation/breadcrumb',
       },
       {
         path: '**',

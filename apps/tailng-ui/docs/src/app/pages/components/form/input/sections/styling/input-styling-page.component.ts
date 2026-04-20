@@ -121,8 +121,8 @@ export class InputStylingPageComponent implements OnDestroy {
   ].join('\n');
 
   private readonly tailwindScenarioHtmlCode = [
-    '<label class="doc-cmp-input-style-scenario-tw-field grid w-full max-w-[31rem] gap-2 rounded-xl border border-slate-300 bg-white/80 p-3">',
-    '  <span class="doc-cmp-input-style-scenario-tw-caption text-xs font-semibold uppercase tracking-[0.01em] text-slate-500">Display name</span>',
+    '<label class="doc-cmp-input-style-scenario-tw-field grid w-full max-w-[31rem] gap-2 rounded-xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-3">',
+    '  <span class="doc-cmp-input-style-scenario-tw-caption text-xs font-semibold uppercase tracking-[0.01em] text-[var(--tng-semantic-foreground-secondary)]">Display name</span>',
     '  <tng-input',
     '    type="text"',
     '    value="Ada Lovelace"',

@@ -141,13 +141,13 @@ export class InputOverviewPageComponent implements OnDestroy {
     '  display: grid;',
     '  gap: 0.5rem;',
     '  padding: 0.9rem;',
-    '  border: 1px solid #cbd5e1;',
+    '  border: 1px solid var(--tng-semantic-border-subtle);',
     '  border-radius: 0.95rem;',
-    '  background: rgba(255, 255, 255, 0.88);',
+    '  background: color-mix(in srgb, var(--tng-semantic-background-surface) 88%, transparent);',
     '}',
     '',
     '.doc-cmp-input-overview-simple-label {',
-    '  color: #64748b;',
+    '  color: var(--tng-semantic-foreground-secondary);',
     '  font-size: 0.78rem;',
     '  font-weight: 600;',
     '}',
@@ -155,8 +155,8 @@ export class InputOverviewPageComponent implements OnDestroy {
   ].join('\n');
 
   private readonly tailwindExampleHtmlCode = [
-    '<label class="doc-cmp-input-overview-simple-tw-field grid gap-2 rounded-xl border border-slate-300 bg-white/80 p-3">',
-    '  <span class="doc-cmp-input-overview-simple-tw-caption text-xs font-semibold text-slate-500">Email</span>',
+    '<label class="doc-cmp-input-overview-simple-tw-field grid gap-2 rounded-xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-3">',
+    '  <span class="doc-cmp-input-overview-simple-tw-caption text-xs font-semibold text-[var(--tng-semantic-foreground-secondary)]">Email</span>',
     '  <tng-input',
     '    type="email"',
     '    placeholder="team@tailng.dev"',
