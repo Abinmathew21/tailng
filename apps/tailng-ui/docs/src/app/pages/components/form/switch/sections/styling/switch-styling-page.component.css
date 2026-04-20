@@ -68,10 +68,10 @@
   inline-size: min(100%, 30rem);
   margin-inline: auto;
   padding: 1rem;
-  border: 1px solid #cbd5e1;
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 1rem;
-  background: #ffffff;
-  color: #0f172a;
+  background: var(--tng-semantic-background-surface);
+  color: var(--tng-semantic-foreground-primary);
   color-scheme: light;
 }
 
@@ -82,18 +82,19 @@
 
 .component-switch-review-card__title {
   margin: 0;
-  color: #0f172a;
+  color: var(--tng-semantic-foreground-primary);
   font-size: 1rem;
   font-weight: 700;
 }
 
 .component-switch-review-card__meta {
   margin: 0;
-  color: #64748b;
+  color: var(--tng-semantic-foreground-secondary);
   font-size: 0.84rem;
 }
 
-.component-switch-review-card__switch {
+.component-switch-review-card tng-switch,
+.switch-styling-block section.grid tng-switch {
   --tng-semantic-accent-brand: #2563eb;
   --tng-semantic-border-subtle: #cbd5e1;
   --tng-semantic-focus-ring: rgba(37, 99, 235, 0.25);

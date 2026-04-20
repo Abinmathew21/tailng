@@ -14,24 +14,27 @@
   inline-size: min(100%, 32rem);
   margin-inline: auto;
   padding: 1rem;
-  border: 1px solid #cbd5e1;
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 1rem;
-  background: #ffffff;
-  color: #0f172a;
+  background: var(--tng-semantic-background-surface);
+  color: var(--tng-semantic-foreground-primary);
   color-scheme: light;
 }
 
-.component-switch-settings-card__switch,
-.component-switch-disabled-card__switch {
+.component-switch-settings-card tng-switch,
+.component-switch-disabled-card tng-switch,
+.switch-examples-block section.grid tng-switch {
   --tng-semantic-accent-brand: #2563eb;
   --tng-semantic-border-subtle: #cbd5e1;
   --tng-semantic-focus-ring: rgba(37, 99, 235, 0.25);
 }
 
-.component-switch-settings-card__switch {
+.component-switch-settings-card tng-switch,
+#settings-panel .switch-examples-block section.grid tng-switch {
   --tng-semantic-foreground-primary: #0f172a;
 }
 
-.component-switch-disabled-card__switch {
+.component-switch-disabled-card tng-switch,
+#disabled-state .switch-examples-block section.grid tng-switch {
   --tng-semantic-foreground-primary: #64748b;
 }
