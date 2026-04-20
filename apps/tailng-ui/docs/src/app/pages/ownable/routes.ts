@@ -37,6 +37,7 @@ const autocompleteItem = requireOwnableItem(OWNABLE_FORM_GROUP, 'autocomplete');
 const switchItem = requireOwnableItem(OWNABLE_FORM_GROUP, 'switch');
 const labelItem = requireOwnableItem(OWNABLE_FORM_GROUP, 'label');
 const collapsibleItem = requireOwnableItem(OWNABLE_LAYOUT_GROUP, 'collapsible');
+const accordionItem = requireOwnableItem(OWNABLE_LAYOUT_GROUP, 'accordion');
 const breadcrumbItem = requireOwnableItem(OWNABLE_NAVIGATION_GROUP, 'breadcrumb');
 const contextMenuItem = requireOwnableItem(OWNABLE_NAVIGATION_GROUP, 'context-menu');
 const menubarItem = requireOwnableItem(OWNABLE_NAVIGATION_GROUP, 'menubar');
@@ -166,6 +167,14 @@ export const OWNABLE_ROUTES: Routes = [
         loadComponent: () =>
           import('./layout/collapsible/ownable-collapsible-page.component').then(
             (m) => m.OwnableCollapsiblePageComponent,
+          ),
+      },
+      {
+        path: 'layout/accordion',
+        data: toOwnableDocsRouteData(OWNABLE_LAYOUT_GROUP, accordionItem),
+        loadComponent: () =>
+          import('./layout/accordion/ownable-accordion-page.component').then(
+            (m) => m.OwnableAccordionPageComponent,
           ),
       },
       {

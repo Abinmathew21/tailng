@@ -1,0 +1,87 @@
+<article class="headless-accordion-styling">
+  <h2 class="headless-accordion-styling-title">Styling</h2>
+  <p class="headless-accordion-styling-lead">
+    Headless accordion exposes stable slot and state hooks on the root, item, trigger, and panel.
+    Those hooks are the intended styling API for both CSS selectors and utility wrappers.
+  </p>
+
+  <section id="slot-and-state-hooks" class="headless-accordion-styling-block">
+    <h3>Slot and state hooks</h3>
+    <div class="headless-accordion-styling-table-wrap">
+      <table class="headless-accordion-styling-table">
+        <thead>
+          <tr>
+            <th scope="col">Selector</th>
+            <th scope="col">When it appears</th>
+            <th scope="col">Typical use</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>[data-slot="accordion"]</code></td>
+            <td>Always on the root directive.</td>
+            <td>Shell border, radius, background, and group spacing.</td>
+          </tr>
+          <tr>
+            <td><code>[data-type="single|multiple"]</code></td>
+            <td>Always on the root directive.</td>
+            <td>Mode-specific accents or density shifts.</td>
+          </tr>
+          <tr>
+            <td><code>[data-slot="accordion-item"]</code></td>
+            <td>Always on each item.</td>
+            <td>Item separators and disabled section treatment.</td>
+          </tr>
+          <tr>
+            <td><code>[data-slot="accordion-trigger"]</code></td>
+            <td>Always on the trigger.</td>
+            <td>Header layout, icon alignment, hover, and focus treatment.</td>
+          </tr>
+          <tr>
+            <td><code>[data-slot="accordion-panel"]</code></td>
+            <td>Always on the panel host.</td>
+            <td>Panel padding, typography, and inner content layout.</td>
+          </tr>
+          <tr>
+            <td><code>[data-state="open|closed"]</code></td>
+            <td>On item, trigger, and panel.</td>
+            <td>Chevron rotation, emphasized headers, or motion classes.</td>
+          </tr>
+          <tr>
+            <td><code>[data-disabled="true|false"]</code></td>
+            <td>On root, item, and trigger.</td>
+            <td>Lower emphasis and blocked-pointer styling.</td>
+          </tr>
+          <tr>
+            <td><code>[data-mounted="true|false"]</code></td>
+            <td>On the panel.</td>
+            <td>Differentiate lazy unmounted panels from closed-but-mounted panels.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="css-starter" class="headless-accordion-styling-block">
+    <h3>CSS starter</h3>
+    <tng-code-block
+      [code]="cssStarterCode"
+      adapter="shiki"
+      language="css"
+      title="Headless accordion starter CSS"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="practical-guidance" class="headless-accordion-styling-block">
+    <h3>Practical guidance</h3>
+    <ul>
+      <li>Put chevrons or status badges inside the trigger so they can react to <code>data-state</code>.</li>
+      <li>Style panel inner layout separately from the panel host if you need complex grid or prose content.</li>
+      <li>Use <code>data-mounted</code> when lazy panels should skip expensive descendants until first open.</li>
+      <li>When using utility CSS, scope selectors to the wrapper around your accordion instead of the root itself.</li>
+    </ul>
+  </section>
+</article>

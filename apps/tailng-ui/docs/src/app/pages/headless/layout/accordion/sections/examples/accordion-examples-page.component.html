@@ -1,0 +1,183 @@
+<article class="headless-accordion-examples">
+  <h2 class="headless-accordion-examples-title">Examples</h2>
+  <p class="headless-accordion-examples-lead">
+    Use single mode for FAQ-style disclosure and multiple mode when settings sections should stay
+    open together.
+  </p>
+
+  <section id="single-mode-faq" class="headless-accordion-examples-block">
+    <app-docs-example-tabs-section
+      heading="Single-mode FAQ"
+      description="One section stays active at a time, with predictable roving focus between triggers."
+      ariaLabel="Headless accordion single-mode FAQ examples"
+      tabListAriaLabel="Headless accordion single-mode FAQ tabs"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Headless accordion single-mode FAQ (plain CSS)"
+        [codeTabs]="faqPlainCodeTabs"
+      >
+        <section
+          tngAccordion
+          aria-label="Project FAQ"
+          [defaultValue]="'license'"
+          class="headless-accordion-example-shell"
+        >
+          <article tngAccordionItem value="license" class="headless-accordion-example-item">
+            <button tngAccordionTrigger type="button" class="headless-accordion-example-trigger">
+              License
+            </button>
+            <div tngAccordionPanel class="headless-accordion-example-panel">
+              MIT with optional enterprise add-ons.
+            </div>
+          </article>
+          <article tngAccordionItem value="support" class="headless-accordion-example-item">
+            <button tngAccordionTrigger type="button" class="headless-accordion-example-trigger">
+              Support window
+            </button>
+            <div tngAccordionPanel class="headless-accordion-example-panel">
+              Community and commercial channels.
+            </div>
+          </article>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Headless accordion single-mode FAQ (Tailwind CSS)"
+        [codeTabs]="faqTailwindCodeTabs"
+      >
+        <section
+          tngAccordion
+          aria-label="Project FAQ"
+          [defaultValue]="'release'"
+          class="overflow-hidden rounded-2xl border border-slate-300 bg-slate-50 dark:border-slate-700 dark:bg-slate-900/60"
+        >
+          <article tngAccordionItem value="release" class="border-b border-slate-200 dark:border-slate-800">
+            <button
+              tngAccordionTrigger
+              type="button"
+              class="flex w-full items-center justify-between border-0 bg-transparent px-4 py-3 text-left font-medium text-slate-900 dark:text-slate-100"
+            >
+              Release model
+            </button>
+            <div tngAccordionPanel class="px-4 pb-4 text-sm leading-6 text-slate-700 dark:text-slate-300">
+              Weekly patch and monthly minor cadence.
+            </div>
+          </article>
+          <article tngAccordionItem value="quality">
+            <button
+              tngAccordionTrigger
+              type="button"
+              class="flex w-full items-center justify-between border-0 bg-transparent px-4 py-3 text-left font-medium text-slate-900 dark:text-slate-100"
+            >
+              Quality gates
+            </button>
+            <div tngAccordionPanel class="px-4 pb-4 text-sm leading-6 text-slate-700 dark:text-slate-300">
+              Tests and lint pass before merge.
+            </div>
+          </article>
+        </section>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section id="multiple-mode-settings" class="headless-accordion-examples-block">
+    <app-docs-example-tabs-section
+      heading="Multiple-mode settings"
+      description="Keep multiple sections expanded while preserving the same trigger and panel semantics."
+      ariaLabel="Headless accordion multiple-mode settings examples"
+      tabListAriaLabel="Headless accordion multiple-mode settings tabs"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Headless accordion multiple-mode settings (plain CSS)"
+        [codeTabs]="settingsPlainCodeTabs"
+      >
+        <section
+          tngAccordion
+          type="multiple"
+          aria-label="System settings"
+          [defaultValue]="['alerts']"
+          class="headless-accordion-example-shell"
+        >
+          <article tngAccordionItem value="alerts" class="headless-accordion-example-item">
+            <button tngAccordionTrigger type="button" class="headless-accordion-example-trigger">
+              Alerts
+            </button>
+            <div tngAccordionPanel class="headless-accordion-example-panel">
+              PagerDuty, email, and Slack routing.
+            </div>
+          </article>
+          <article tngAccordionItem value="audits" class="headless-accordion-example-item">
+            <button tngAccordionTrigger type="button" class="headless-accordion-example-trigger">
+              Audits
+            </button>
+            <div tngAccordionPanel class="headless-accordion-example-panel">
+              Retention and export scheduling.
+            </div>
+          </article>
+          <article tngAccordionItem value="billing" disabled class="headless-accordion-example-item">
+            <button tngAccordionTrigger type="button" class="headless-accordion-example-trigger">
+              Billing (disabled)
+            </button>
+            <div tngAccordionPanel class="headless-accordion-example-panel">
+              Disabled sections stay locked.
+            </div>
+          </article>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Headless accordion multiple-mode settings (Tailwind CSS)"
+        [codeTabs]="settingsTailwindCodeTabs"
+      >
+        <section
+          tngAccordion
+          type="multiple"
+          aria-label="System settings"
+          [defaultValue]="['alerts']"
+          class="overflow-hidden rounded-2xl border border-slate-300 bg-slate-50 dark:border-slate-700 dark:bg-slate-900/60"
+        >
+          <article tngAccordionItem value="alerts" class="border-b border-slate-200 dark:border-slate-800">
+            <button
+              tngAccordionTrigger
+              type="button"
+              class="flex w-full items-center justify-between border-0 bg-transparent px-4 py-3 text-left font-medium text-slate-900 dark:text-slate-100"
+            >
+              Alerts
+            </button>
+            <div tngAccordionPanel class="px-4 pb-4 text-sm leading-6 text-slate-700 dark:text-slate-300">
+              PagerDuty, email, and Slack routing.
+            </div>
+          </article>
+          <article tngAccordionItem value="audits">
+            <button
+              tngAccordionTrigger
+              type="button"
+              class="flex w-full items-center justify-between border-0 bg-transparent px-4 py-3 text-left font-medium text-slate-900 dark:text-slate-100"
+            >
+              Audits
+            </button>
+            <div tngAccordionPanel class="px-4 pb-4 text-sm leading-6 text-slate-700 dark:text-slate-300">
+              Retention and export scheduling.
+            </div>
+          </article>
+        </section>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+</article>

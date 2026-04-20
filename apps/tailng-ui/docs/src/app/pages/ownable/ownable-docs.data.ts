@@ -171,6 +171,13 @@ export const OWNABLE_LAYOUT_GROUP: OwnableDocsGroup = {
       description:
         'Ownable collapsible install with local wrapper source, disclosure markup, and generated file structure.',
     },
+    {
+      id: 'accordion',
+      slug: 'accordion',
+      title: 'Accordion',
+      description:
+        'Ownable accordion install with local wrapper source, section markup, and generated file structure.',
+    },
   ],
 };
 

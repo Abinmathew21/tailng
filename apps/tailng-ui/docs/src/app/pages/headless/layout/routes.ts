@@ -14,4 +14,9 @@ export const HEADLESS_LAYOUT_ROUTES: Routes = [
     loadChildren: () =>
       import('./collapsible/routes').then((module) => module.HEADLESS_LAYOUT_COLLAPSIBLE_ROUTES),
   },
+  {
+    path: 'accordion',
+    loadChildren: () =>
+      import('./accordion/routes').then((module) => module.HEADLESS_LAYOUT_ACCORDION_ROUTES),
+  },
 ];

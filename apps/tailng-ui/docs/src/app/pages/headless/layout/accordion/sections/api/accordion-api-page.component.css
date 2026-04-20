@@ -1,0 +1,68 @@
+:host {
+  display: block;
+}
+
+.headless-accordion-api {
+  display: grid;
+  gap: 1rem;
+}
+
+.headless-accordion-api-title {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.headless-accordion-api-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.headless-accordion-api-block {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.9rem;
+  color: var(--tng-semantic-foreground-secondary);
+  display: grid;
+  gap: 0.75rem;
+  padding: 1rem;
+}
+
+.headless-accordion-api-block h3 {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1rem;
+  margin: 0;
+}
+
+.headless-accordion-api-note {
+  margin: 0;
+}
+
+.headless-accordion-api-table-wrap {
+  overflow-x: auto;
+}
+
+.headless-accordion-api-table {
+  border-collapse: collapse;
+  inline-size: 100%;
+  min-inline-size: 42rem;
+}
+
+.headless-accordion-api-table th,
+.headless-accordion-api-table td {
+  border-bottom: 1px solid var(--tng-semantic-border-subtle);
+  padding: 0.7rem 0.8rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.headless-accordion-api-table th {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.headless-accordion-api-block ul {
+  margin: 0;
+  padding-left: 1rem;
+}

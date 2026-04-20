@@ -1,0 +1,39 @@
+<div class="grid gap-8 pb-10">
+  <section class="docs-section-anchor grid gap-4" id="accordion-overview">
+    <h1 class="m-0 text-3xl font-semibold text-tng-fg-primary">Accordion</h1>
+    <p class="m-0 max-w-4xl text-base leading-7 text-tng-fg-secondary">
+      The ownable Accordion install gives your app a local wrapper, editable template, and nearby
+      style surface for multi-section disclosure patterns while keeping the TailNG primitive
+      interaction contract close to the feature that owns it.
+    </p>
+  </section>
+
+  <section class="docs-section-anchor grid gap-3" id="why-own-accordion">
+    <h2 class="m-0 text-xl font-semibold text-tng-fg-primary">Why own Accordion locally</h2>
+    <p class="m-0 max-w-4xl text-base leading-7 text-tng-fg-secondary">
+      Accordion often becomes product-specific once teams add editorial headers, section badges,
+      help copy, or feature-specific panel layouts. Local ownership keeps those decisions versioned
+      beside the product code that depends on them.
+    </p>
+    <ul class="m-0 grid gap-2 pl-5 text-sm leading-6 text-tng-fg-secondary">
+      <li>Adjust trigger layout, icons, and panel structure without waiting on a package release.</li>
+      <li>Keep FAQ, settings, and documentation section markup close to the owning feature.</li>
+      <li>Iterate on local shell styling while preserving the shared primitive wiring underneath.</li>
+    </ul>
+  </section>
+
+  <section class="docs-section-anchor grid gap-3" id="what-accordion-installs">
+    <h2 class="m-0 text-xl font-semibold text-tng-fg-primary">What the install includes</h2>
+    <p class="m-0 max-w-4xl text-base leading-7 text-tng-fg-secondary">
+      The registry-backed accordion install writes the local wrapper component, template, styles,
+      primitive bridge file, and export barrel under your app so the generated source can evolve
+      with the surrounding disclosure pattern.
+    </p>
+  </section>
+
+  <app-docs-ownable-install-section
+    componentName="Accordion"
+    registrySlug="accordion"
+    [usageCode]="usageCode"
+  />
+</div>

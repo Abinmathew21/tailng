@@ -5,7 +5,7 @@
     <code>tngAccordion</code>, while wrappers forward the same interaction model.
   </p>
 
-  <section class="accordion-api-block">
+  <section id="primitive-composition" class="accordion-api-block">
     <h3>Primitive composition</h3>
     <p>
       Use root, item, trigger, and panel directives together. This gives full styling control while
@@ -56,11 +56,12 @@
     </div>
   </section>
 
-  <section class="accordion-api-block">
+  <section id="wrapper-composition" class="accordion-api-block">
     <h3>Wrapper composition</h3>
     <p>
       <code>tng-accordion</code> and subcomponents are thin wrappers over the same primitive
-      behavior contract.
+      behavior contract, and <code>[tngAccordionIndicator]</code> lets you replace the default
+      chevron with your own projected icon.
     </p>
     <tng-code-block
       [code]="componentAttachmentCode"
@@ -83,6 +84,12 @@
           </tr>
         </thead>
         <tbody>
+          <tr>
+            <td><code>ariaLabel</code></td>
+            <td><code>string</code></td>
+            <td><code>'Accordion'</code></td>
+            <td>Applies an accessible label to the wrapper host.</td>
+          </tr>
           <tr>
             <td><code>type</code></td>
             <td><code>'single' | 'multiple'</code></td>
@@ -131,12 +138,18 @@
             <td><code>true</code></td>
             <td>Keep previously mounted panels in DOM when collapsed.</td>
           </tr>
+          <tr>
+            <td><code>[tngAccordionIndicator]</code></td>
+            <td><code>Directive</code></td>
+            <td>Optional</td>
+            <td>Project a custom icon into the trigger and suppress the built-in default chevron.</td>
+          </tr>
         </tbody>
       </table>
     </div>
   </section>
 
-  <section class="accordion-api-block">
+  <section id="outputs" class="accordion-api-block">
     <h3>Outputs</h3>
     <p>
       Listen to state changes from either primitives or wrapper components.

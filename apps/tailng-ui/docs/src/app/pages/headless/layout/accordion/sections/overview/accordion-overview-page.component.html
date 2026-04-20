@@ -1,0 +1,147 @@
+<article class="headless-accordion-overview">
+  <section id="imports" class="headless-accordion-overview-block">
+    <h2 class="headless-accordion-overview-title">Accordion overview</h2>
+    <p class="headless-accordion-overview-lead">
+      Headless accordion gives you section registration, roving trigger focus, and panel
+      visibility semantics without prescribing markup beyond the root, item, trigger, and panel
+      directives.
+    </p>
+    <tng-code-block
+      [code]="importCode"
+      adapter="shiki"
+      language="ts"
+      title="Primitive imports"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="basic-composition" class="headless-accordion-overview-block">
+    <h3>Basic composition</h3>
+    <p>
+      Attach <code>tngAccordion</code> to a group root, register each section with
+      <code>tngAccordionItem</code>, and let the trigger and panel coordinate ids and ARIA wiring.
+    </p>
+    <tng-code-block
+      [code]="usageCode"
+      adapter="shiki"
+      language="html"
+      title="Headless accordion composition"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <app-docs-example-tabs-section
+    id="style-variants"
+    class="headless-accordion-overview-block"
+    heading="Style variants"
+    description="The same headless primitive contract rendered through a local CSS shell or a Tailwind utility shell."
+    ariaLabel="Headless accordion overview examples"
+    tabListAriaLabel="Headless accordion overview style tabs"
+    defaultValue="plain-css"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+      panelTitle="Headless accordion (plain CSS)"
+      [codeTabs]="plainCodeTabs"
+    >
+      <section
+        tngAccordion
+        aria-label="Release FAQ"
+        [defaultValue]="'ownership'"
+        class="headless-accordion-preview-shell"
+      >
+        <article tngAccordionItem value="ownership" class="headless-accordion-preview-item">
+          <button tngAccordionTrigger type="button" class="headless-accordion-preview-trigger">
+            Ownership model
+            <span aria-hidden="true" class="headless-accordion-preview-chevron">⌄</span>
+          </button>
+          <div tngAccordionPanel class="headless-accordion-preview-panel">
+            Copy-paste mode keeps source in your app for long-term ownership.
+          </div>
+        </article>
+
+        <article tngAccordionItem value="testing" class="headless-accordion-preview-item">
+          <button tngAccordionTrigger type="button" class="headless-accordion-preview-trigger">
+            Test coverage
+            <span aria-hidden="true" class="headless-accordion-preview-chevron">⌄</span>
+          </button>
+          <div tngAccordionPanel class="headless-accordion-preview-panel">
+            Primitive suites validate keyboard, pointer, and aria behavior.
+          </div>
+        </article>
+      </section>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Headless accordion (Tailwind CSS)"
+      [codeTabs]="tailwindCodeTabs"
+    >
+      <section
+        tngAccordion
+        aria-label="Operational guide"
+        [defaultValue]="'governance'"
+        class="overflow-hidden rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-surface)]"
+      >
+        <article
+          tngAccordionItem
+          value="governance"
+          class="border-b border-[var(--tng-semantic-border-subtle)] last:border-b-0"
+        >
+          <button
+            tngAccordionTrigger
+            type="button"
+            class="flex w-full items-center justify-between border-0 bg-transparent px-4 py-3 text-left font-medium text-[var(--tng-semantic-foreground-primary)]"
+          >
+            Governance
+            <span aria-hidden="true" class="text-sm text-[var(--tng-semantic-foreground-muted)]">⌄</span>
+          </button>
+          <div
+            tngAccordionPanel
+            class="px-4 pb-4 text-sm leading-6 text-[var(--tng-semantic-foreground-secondary)]"
+          >
+            Define release policy, reviewer gates, and rollback ownership.
+          </div>
+        </article>
+
+        <article tngAccordionItem value="delivery">
+          <button
+            tngAccordionTrigger
+            type="button"
+            class="flex w-full items-center justify-between border-0 bg-transparent px-4 py-3 text-left font-medium text-[var(--tng-semantic-foreground-primary)]"
+          >
+            Delivery
+            <span aria-hidden="true" class="text-sm text-[var(--tng-semantic-foreground-muted)]">⌄</span>
+          </button>
+          <div
+            tngAccordionPanel
+            class="px-4 pb-4 text-sm leading-6 text-[var(--tng-semantic-foreground-secondary)]"
+          >
+            Ship documentation and examples in the same milestone cadence.
+          </div>
+        </article>
+      </section>
+    </ng-template>
+  </app-docs-example-tabs-section>
+
+  <section id="accessibility-baseline" class="headless-accordion-overview-block">
+    <h3>Accessibility baseline</h3>
+    <ul class="headless-accordion-overview-list">
+      <li>Triggers reflect <code>aria-expanded</code>, <code>aria-controls</code>, and roving <code>tabindex</code>.</li>
+      <li>Panels render as <code>role="region"</code> and point back to the owning trigger with <code>aria-labelledby</code>.</li>
+      <li>Arrow Up, Arrow Down, Home, and End move across enabled triggers.</li>
+      <li>Use native <code>button</code> triggers when possible so tab order stays natural.</li>
+    </ul>
+  </section>
+</article>

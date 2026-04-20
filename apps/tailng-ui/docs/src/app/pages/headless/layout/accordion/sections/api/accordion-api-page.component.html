@@ -1,0 +1,224 @@
+<article class="headless-accordion-api">
+  <h2 class="headless-accordion-api-title">API reference</h2>
+  <p class="headless-accordion-api-lead">
+    Headless accordion owns section registration, expansion state normalization, and trigger focus
+    movement. You still own the surrounding markup, copy, and styling contract.
+  </p>
+
+  <section id="root-directive" class="headless-accordion-api-block">
+    <h3><code>tngAccordion</code></h3>
+    <div class="headless-accordion-api-table-wrap">
+      <table class="headless-accordion-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Input</th>
+            <th scope="col">Type</th>
+            <th scope="col">Default</th>
+            <th scope="col">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>type</code></td>
+            <td><code>'single' | 'multiple'</code></td>
+            <td><code>'single'</code></td>
+            <td>Controls whether one or many items can stay expanded.</td>
+          </tr>
+          <tr>
+            <td><code>value</code></td>
+            <td><code>string | number | readonly (string | number)[] | null</code></td>
+            <td><code>undefined</code></td>
+            <td>Controlled expansion state. <code>undefined</code> keeps the primitive uncontrolled.</td>
+          </tr>
+          <tr>
+            <td><code>defaultValue</code></td>
+            <td><code>string | number | readonly (string | number)[] | null</code></td>
+            <td><code>undefined</code></td>
+            <td>Initial uncontrolled value or values.</td>
+          </tr>
+          <tr>
+            <td><code>collapsible</code></td>
+            <td><code>boolean</code></td>
+            <td><code>true</code></td>
+            <td>In single mode, allows the currently open item to collapse.</td>
+          </tr>
+          <tr>
+            <td><code>disabled</code></td>
+            <td><code>boolean</code></td>
+            <td><code>false</code></td>
+            <td>Disables interaction for every registered item.</td>
+          </tr>
+          <tr>
+            <td><code>loop</code></td>
+            <td><code>boolean</code></td>
+            <td><code>true</code></td>
+            <td>Lets Arrow Up and Arrow Down wrap focus between first and last enabled triggers.</td>
+          </tr>
+          <tr>
+            <td><code>lazy</code></td>
+            <td><code>boolean</code></td>
+            <td><code>false</code></td>
+            <td>Panels do not mount until the first time they open.</td>
+          </tr>
+          <tr>
+            <td><code>keepAlive</code></td>
+            <td><code>boolean</code></td>
+            <td><code>true</code></td>
+            <td>Previously mounted panels remain in the DOM when closed.</td>
+          </tr>
+          <tr>
+            <td>Host hooks</td>
+            <td colspan="3"><code>data-slot="accordion"</code>, <code>data-type</code>, <code>data-disabled</code></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="headless-accordion-api-note">
+      The root also exposes <code>valueChange</code>, <code>valuesChange</code>,
+      <code>expandedChange</code>, <code>openStart</code>, <code>opened</code>,
+      <code>closeStart</code>, and <code>closed</code>, plus imperative <code>open</code>,
+      <code>close</code>, <code>toggle</code>, and <code>getExpandedValues()</code> methods.
+    </p>
+  </section>
+
+  <section id="item-directive" class="headless-accordion-api-block">
+    <h3><code>tngAccordionItem</code></h3>
+    <div class="headless-accordion-api-table-wrap">
+      <table class="headless-accordion-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Input</th>
+            <th scope="col">Type</th>
+            <th scope="col">Default</th>
+            <th scope="col">Behavior</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>value</code></td>
+            <td><code>string | number</code></td>
+            <td>Auto-generated</td>
+            <td>Stable identifier used in the root value set and change events.</td>
+          </tr>
+          <tr>
+            <td><code>disabled</code></td>
+            <td><code>boolean</code></td>
+            <td><code>false</code></td>
+            <td>Opts just this item out of pointer and keyboard interaction.</td>
+          </tr>
+          <tr>
+            <td>Host hooks</td>
+            <td colspan="3"><code>data-slot="accordion-item"</code>, <code>data-state</code>, <code>data-disabled</code></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="trigger-directive" class="headless-accordion-api-block">
+    <h3><code>tngAccordionTrigger</code></h3>
+    <div class="headless-accordion-api-table-wrap">
+      <table class="headless-accordion-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Reflected attr</th>
+            <th scope="col">Source</th>
+            <th scope="col">Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>role="button"</code></td>
+            <td>Always</td>
+            <td>Preserves button semantics even on non-button hosts.</td>
+          </tr>
+          <tr>
+            <td><code>tabindex</code></td>
+            <td>Always</td>
+            <td>Roving focus across enabled triggers.</td>
+          </tr>
+          <tr>
+            <td><code>aria-expanded</code></td>
+            <td>Item state</td>
+            <td>Reflects whether the owning item is open.</td>
+          </tr>
+          <tr>
+            <td><code>aria-controls</code></td>
+            <td>Owned panel id</td>
+            <td>Links the trigger to its panel.</td>
+          </tr>
+          <tr>
+            <td><code>aria-disabled</code> / <code>disabled</code></td>
+            <td>Root or item disabled state</td>
+            <td>Blocks interaction and exposes disabled semantics.</td>
+          </tr>
+          <tr>
+            <td><code>data-state</code> / <code>data-disabled</code></td>
+            <td>Derived</td>
+            <td>Primary styling hooks for open and disabled presentation.</td>
+          </tr>
+          <tr>
+            <td>Keyboard behavior</td>
+            <td colspan="2">Enter and Space toggle. Arrow Up, Arrow Down, Home, and End move focus.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="panel-directive" class="headless-accordion-api-block">
+    <h3><code>tngAccordionPanel</code></h3>
+    <div class="headless-accordion-api-table-wrap">
+      <table class="headless-accordion-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Reflected attr</th>
+            <th scope="col">Source</th>
+            <th scope="col">Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>role="region"</code></td>
+            <td>Always</td>
+            <td>Exposes each visible section as a labeled landmark region.</td>
+          </tr>
+          <tr>
+            <td><code>aria-labelledby</code></td>
+            <td>Owned trigger id</td>
+            <td>Connects the panel back to its trigger text.</td>
+          </tr>
+          <tr>
+            <td><code>hidden</code></td>
+            <td>Expansion state + mount policy</td>
+            <td>Hides closed panels and unmounted lazy panels.</td>
+          </tr>
+          <tr>
+            <td><code>data-state</code></td>
+            <td>Expansion state</td>
+            <td>Differentiate open versus closed visuals or transitions.</td>
+          </tr>
+          <tr>
+            <td><code>data-mounted</code></td>
+            <td>Lazy/keepAlive policy</td>
+            <td>Lets owners distinguish “closed but mounted” from “not mounted yet”.</td>
+          </tr>
+          <tr>
+            <td>Host slot</td>
+            <td colspan="2"><code>data-slot="accordion-panel"</code></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="owner-responsibilities" class="headless-accordion-api-block">
+    <h3>Owner responsibilities</h3>
+    <ul>
+      <li>Provide real section structure and meaningful trigger text for each item.</li>
+      <li>Choose controlled versus uncontrolled expansion behavior for the surrounding feature.</li>
+      <li>Style motion, iconography, spacing, and panel content from your own CSS or utility layer.</li>
+      <li>Prefer native <code>button</code> triggers unless you explicitly need a custom focus sequence.</li>
+    </ul>
+  </section>
+</article>

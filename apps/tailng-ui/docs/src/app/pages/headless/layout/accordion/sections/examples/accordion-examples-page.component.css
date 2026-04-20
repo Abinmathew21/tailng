@@ -1,0 +1,81 @@
+:host {
+  display: block;
+}
+
+.headless-accordion-examples {
+  display: grid;
+  gap: 1rem;
+}
+
+.headless-accordion-examples-title {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.headless-accordion-examples-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.headless-accordion-examples-block {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.9rem;
+  color: var(--tng-semantic-foreground-secondary);
+  display: grid;
+  gap: 0.85rem;
+  padding: 1rem;
+}
+
+.headless-accordion-example-shell {
+  background: var(--tng-semantic-background-surface);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.95rem;
+  max-width: 36rem;
+  overflow: hidden;
+  width: 100%;
+}
+
+.headless-accordion-example-item {
+  border-bottom: 1px solid var(--tng-semantic-border-subtle);
+}
+
+.headless-accordion-example-item:last-child {
+  border-bottom: 0;
+}
+
+.headless-accordion-example-trigger {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  color: var(--tng-semantic-foreground-primary);
+  cursor: pointer;
+  display: flex;
+  font: inherit;
+  font-weight: 600;
+  justify-content: space-between;
+  min-height: 2.7rem;
+  padding: 0.7rem 0.9rem;
+  text-align: left;
+  width: 100%;
+}
+
+.headless-accordion-example-trigger:focus-visible {
+  outline: 2px solid var(--tng-semantic-focus-ring);
+  outline-offset: -2px;
+}
+
+.headless-accordion-example-trigger[data-state='open'] {
+  color: var(--tng-semantic-accent-brand);
+}
+
+.headless-accordion-example-panel {
+  color: var(--tng-semantic-foreground-secondary);
+  line-height: 1.5;
+  padding: 0 0.9rem 0.9rem;
+}
+
+.headless-accordion-example-item[data-disabled='true'] {
+  opacity: 0.68;
+}

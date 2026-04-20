@@ -3,6 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { afterEach, describe, expect, it } from 'vitest';
 import {
   TngAccordionComponent,
+  TngAccordionIndicator,
   TngAccordionItemComponent,
   TngAccordionPanelComponent,
   TngAccordionTriggerComponent,
@@ -57,6 +58,28 @@ class AccordionWrapperHostComponent {
   readonly valuesChanges: Array<readonly string[]> = [];
 }
 
+@Component({
+  imports: [
+    TngAccordionComponent,
+    TngAccordionItemComponent,
+    TngAccordionTriggerComponent,
+    TngAccordionPanelComponent,
+    TngAccordionIndicator,
+  ],
+  template: `
+    <tng-accordion ariaLabel="Project sections" data-testid="accordion" [defaultValue]="'overview'">
+      <tng-accordion-item value="overview">
+        <tng-accordion-trigger data-testid="trigger-overview">
+          Overview
+          <span tngAccordionIndicator data-testid="indicator-overview">+</span>
+        </tng-accordion-trigger>
+        <tng-accordion-panel data-testid="panel-overview">Overview panel</tng-accordion-panel>
+      </tng-accordion-item>
+    </tng-accordion>
+  `,
+})
+class AccordionCustomIndicatorHostComponent {}
+
 describe('tng-accordion component wrappers', () => {
   afterEach(() => {
     TestBed.resetTestingModule();
@@ -64,6 +87,7 @@ describe('tng-accordion component wrappers', () => {
 
   it('exports accordion wrapper components', () => {
     expect(typeof TngAccordionComponent).toBe('function');
+    expect(typeof TngAccordionIndicator).toBe('function');
     expect(typeof TngAccordionItemComponent).toBe('function');
     expect(typeof TngAccordionTriggerComponent).toBe('function');
     expect(typeof TngAccordionPanelComponent).toBe('function');
@@ -119,5 +143,40 @@ describe('tng-accordion component wrappers', () => {
     fixture.detectChanges();
 
     expect(fixture.componentInstance.valuesChanges.at(-1)).toEqual(['overview', 'api']);
+  });
+
+  it('renders a default indicator inside wrapper triggers', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [AccordionWrapperHostComponent],
+    }).createComponent(AccordionWrapperHostComponent);
+    fixture.detectChanges();
+
+    const trigger = getByTestId<HTMLElement>(fixture, 'trigger-overview');
+    const defaultIndicator = trigger.querySelector<SVGElement>('.tng-accordion__indicator-default');
+
+    expect(defaultIndicator).not.toBeNull();
+    expect(defaultIndicator?.getAttribute('data-slot')).toBe('accordion-indicator');
+    expect(defaultIndicator?.getAttribute('aria-hidden')).toBe('true');
+  });
+
+  it('suppresses the default indicator when a custom indicator is projected and reflects state on the custom directive', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [AccordionCustomIndicatorHostComponent],
+    }).createComponent(AccordionCustomIndicatorHostComponent);
+    fixture.detectChanges();
+
+    const trigger = getByTestId<HTMLElement>(fixture, 'trigger-overview');
+    const indicator = getByTestId<HTMLElement>(fixture, 'indicator-overview');
+
+    expect(trigger.querySelector('.tng-accordion__indicator-default')).toBeNull();
+    expect(trigger.querySelectorAll('[data-slot="accordion-indicator"]')).toHaveLength(1);
+    expect(indicator.getAttribute('data-slot')).toBe('accordion-indicator');
+    expect(indicator.getAttribute('data-state')).toBe('open');
+    expect(indicator.getAttribute('data-disabled')).toBe('false');
+
+    click(trigger);
+    fixture.detectChanges();
+
+    expect(indicator.getAttribute('data-state')).toBe('closed');
   });
 });

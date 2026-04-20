@@ -186,6 +186,13 @@ export const HEADLESS_LAYOUT_GROUP: HeadlessDocsGroup = {
       description:
         'Owner-controlled disclosure structure with trigger/content wiring and stable state hooks.',
     },
+    {
+      id: 'accordion',
+      slug: 'accordion',
+      title: 'Accordion',
+      description:
+        'Headless multi-section disclosure behavior with item registration, roving focus, and panel lifecycle control.',
+    },
   ],
 };
 

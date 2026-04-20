@@ -1,23 +1,12 @@
 <article class="accordion-overview">
-  <h2 class="accordion-overview-title">Accordion overview</h2>
-  <p class="accordion-overview-lead">
-    Accordion exposes headless expand/collapse behavior with roving keyboard focus and accessible
-    trigger/panel wiring. Choose primitives for full control or wrappers for faster composition.
-  </p>
-
-  <section class="accordion-overview-block">
+  <section id="imports" class="accordion-overview-block">
+    <h2 class="accordion-overview-title">Accordion overview</h2>
+    <p class="accordion-overview-lead">
+      Accordion wrappers bring baseline item separators, trigger ergonomics, and animated panel
+      treatment on top of the shared primitive behavior contract.
+    </p>
     <h3>Imports</h3>
-    <p>Select the layer that matches your ownership model.</p>
-    <tng-code-block
-      [code]="primitiveImportCode"
-      adapter="shiki"
-      language="ts"
-      title="Primitive import"
-      [theme]="codeBlockTheme()"
-      [lineNumbers]="false"
-      [wrap]="true"
-      [sanitizeHtml]="false"
-    ></tng-code-block>
+    <p>Import the wrapper surface when you want the built-in shell styles and motion defaults.</p>
     <tng-code-block
       [code]="componentImportCode"
       adapter="shiki"
@@ -32,43 +21,14 @@
 
   <section class="accordion-overview-block">
     <app-docs-example-tabs-section
+      id="faq-variants"
       heading="FAQ variants"
-      description="Same accordion behavior rendered through headless primitives, plain CSS wrappers, and Tailwind utility shells."
+      description="The same wrapper behavior rendered through a local CSS shell or a Tailwind utility shell."
       ariaLabel="Accordion overview style variants"
       tabListAriaLabel="Accordion style variants"
-      defaultValue="headless"
+      defaultValue="plain-css"
       [codeBlockTheme]="codeBlockTheme()"
     >
-      <ng-template
-        appDocsExampleVariant
-        value="headless"
-        label="Headless"
-        panelTitle="Headless accordion"
-        [codeTabs]="headlessCodeTabs"
-      >
-        <section tngAccordion class="accordion-preview-shell accordion-preview-shell--headless" [defaultValue]="'account'">
-          <article tngAccordionItem value="account" class="accordion-preview-item">
-            <button tngAccordionTrigger type="button" class="accordion-preview-trigger">
-              Account access
-              <span aria-hidden="true" class="accordion-preview-chevron">⌄</span>
-            </button>
-            <div tngAccordionPanel class="accordion-preview-panel">
-              Manage identities, MFA posture, and session controls.
-            </div>
-          </article>
-
-          <article tngAccordionItem value="audit" class="accordion-preview-item">
-            <button tngAccordionTrigger type="button" class="accordion-preview-trigger">
-              Audit logs
-              <span aria-hidden="true" class="accordion-preview-chevron">⌄</span>
-            </button>
-            <div tngAccordionPanel class="accordion-preview-panel">
-              Review activity trails, export logs, and retention windows.
-            </div>
-          </article>
-        </section>
-      </ng-template>
-
       <ng-template
         appDocsExampleVariant
         value="plain-css"
@@ -81,7 +41,7 @@
             <tng-accordion-item value="ownership">
               <tng-accordion-trigger class="accordion-preview-trigger">
                 Ownership model
-                <span aria-hidden="true" class="accordion-preview-chevron">⌄</span>
+                <span tngAccordionIndicator aria-hidden="true" class="accordion-preview-chevron">⌄</span>
               </tng-accordion-trigger>
               <tng-accordion-panel class="accordion-preview-panel">
                 Copy-paste mode keeps source in your app for long-term ownership.
@@ -91,7 +51,7 @@
             <tng-accordion-item value="testing">
               <tng-accordion-trigger class="accordion-preview-trigger">
                 Test coverage
-                <span aria-hidden="true" class="accordion-preview-chevron">⌄</span>
+                <span tngAccordionIndicator aria-hidden="true" class="accordion-preview-chevron">⌄</span>
               </tng-accordion-trigger>
               <tng-accordion-panel class="accordion-preview-panel">
                 Primitive suites in __tests__ validate keyboard, pointer, and aria behavior.
@@ -115,7 +75,7 @@
             <tng-accordion-item value="governance">
               <tng-accordion-trigger class="accordion-preview-trigger font-medium text-slate-900 dark:text-slate-100">
                 Governance
-                <span aria-hidden="true" class="accordion-preview-chevron">⌄</span>
+                <span tngAccordionIndicator aria-hidden="true" class="accordion-preview-chevron">⌄</span>
               </tng-accordion-trigger>
               <tng-accordion-panel class="accordion-preview-panel text-slate-700 dark:text-slate-300">
                 Define release policy, reviewer gates, and rollback ownership.
@@ -125,7 +85,7 @@
             <tng-accordion-item value="delivery">
               <tng-accordion-trigger class="accordion-preview-trigger font-medium text-slate-900 dark:text-slate-100">
                 Delivery
-                <span aria-hidden="true" class="accordion-preview-chevron">⌄</span>
+                <span tngAccordionIndicator aria-hidden="true" class="accordion-preview-chevron">⌄</span>
               </tng-accordion-trigger>
               <tng-accordion-panel class="accordion-preview-panel text-slate-700 dark:text-slate-300">
                 Ship documentation and examples in the same milestone cadence.
@@ -137,12 +97,12 @@
     </app-docs-example-tabs-section>
   </section>
 
-  <section class="accordion-overview-block">
+  <section id="accessibility-baseline" class="accordion-overview-block">
     <h3>Accessibility baseline</h3>
     <ul class="accordion-overview-list">
-      <li>Triggers expose <code>aria-expanded</code>, <code>aria-controls</code>, and disabled semantics.</li>
+      <li>Wrapper triggers still expose <code>aria-expanded</code>, <code>aria-controls</code>, and disabled semantics.</li>
       <li>Panels expose <code>role="region"</code> with <code>aria-labelledby</code> back to the trigger.</li>
-      <li>Arrow keys, Home/End, Enter, and Space follow the documented keyboard contract.</li>
+      <li>Arrow keys, Home or End, Enter, and Space follow the same primitive keyboard contract underneath.</li>
     </ul>
   </section>
 </article>

@@ -1,18 +1,18 @@
 import type { Routes } from '@angular/router';
-import { COMPONENTS_LAYOUT_GROUP, toComponentsDocsRouteData } from '../../component-docs.data';
+import { HEADLESS_LAYOUT_GROUP, toHeadlessDocsRouteData } from '../../headless-docs.data';
 
-const group = COMPONENTS_LAYOUT_GROUP;
+const group = HEADLESS_LAYOUT_GROUP;
 const accordionItem = group.items.find((item) => item.slug === 'accordion');
 if (accordionItem === undefined) {
-  throw new Error('Missing "accordion" in components layout docs group.');
+  throw new Error('Missing "accordion" in headless layout docs group.');
 }
 
-export const COMPONENTS_LAYOUT_ACCORDION_ROUTES: Routes = [
+export const HEADLESS_LAYOUT_ACCORDION_ROUTES: Routes = [
   {
     path: '',
-    data: toComponentsDocsRouteData(group, accordionItem),
+    data: toHeadlessDocsRouteData(group, accordionItem),
     loadComponent: () =>
-      import('./accordion-page.component').then((module) => module.AccordionPageComponent),
+      import('./accordion-page.component').then((module) => module.HeadlessAccordionPageComponent),
     children: [
       {
         path: '',
@@ -23,37 +23,29 @@ export const COMPONENTS_LAYOUT_ACCORDION_ROUTES: Routes = [
         path: 'overview',
         loadComponent: () =>
           import('./sections/overview/accordion-overview-page.component').then(
-            (module) => module.AccordionOverviewPageComponent,
+            (module) => module.HeadlessAccordionOverviewPageComponent,
           ),
       },
       {
         path: 'api',
         loadComponent: () =>
           import('./sections/api/accordion-api-page.component').then(
-            (module) => module.AccordionApiPageComponent,
+            (module) => module.HeadlessAccordionApiPageComponent,
           ),
       },
       {
         path: 'styling',
         loadComponent: () =>
           import('./sections/styling/accordion-styling-page.component').then(
-            (module) => module.AccordionStylingPageComponent,
+            (module) => module.HeadlessAccordionStylingPageComponent,
           ),
       },
       {
         path: 'examples',
         loadComponent: () =>
           import('./sections/examples/accordion-examples-page.component').then(
-            (module) => module.AccordionExamplesPageComponent,
+            (module) => module.HeadlessAccordionExamplesPageComponent,
           ),
-      },
-      {
-        path: 'ownable-install',
-        data: {
-          registrySlug: 'accordion',
-        },
-        pathMatch: 'full',
-        redirectTo: '/ownable/layout/accordion',
       },
       {
         path: '**',

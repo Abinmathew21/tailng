@@ -5,7 +5,7 @@
     consistently in plain CSS or utility layers.
   </p>
 
-  <section class="accordion-styling-block">
+  <section id="state-hooks" class="accordion-styling-block">
     <h3>State hooks</h3>
     <div class="accordion-styling-table-wrap">
       <table class="accordion-styling-table">
@@ -38,8 +38,13 @@
             <td>Button typography, hover, focus, and open/closed state styles.</td>
           </tr>
           <tr>
+            <td><code>data-slot="accordion-indicator"</code></td>
+            <td>Default chevron or projected custom indicator</td>
+            <td>Icon sizing, alignment, and open-state transforms.</td>
+          </tr>
+          <tr>
             <td><code>data-state="open|closed"</code></td>
-            <td>Item, trigger, panel</td>
+            <td>Item, trigger, panel, indicator</td>
             <td>Animate chevrons, open panels, and stateful backgrounds.</td>
           </tr>
           <tr>
@@ -57,7 +62,7 @@
     </div>
   </section>
 
-  <section class="accordion-styling-block">
+  <section id="css-starter" class="accordion-styling-block">
     <h3>CSS starter</h3>
     <tng-code-block
       [code]="cssContractCode"

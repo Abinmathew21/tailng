@@ -1,4 +1,4 @@
-import { Component, HostBinding, input } from '@angular/core';
+import { Component, ContentChild, Directive, HostBinding, inject, input } from '@angular/core';
 import {
   TngAccordion as TngAccordionPrimitive,
   TngAccordionItem as TngAccordionItemPrimitive,
@@ -55,10 +55,67 @@ export class TngAccordionComponent {
 })
 export class TngAccordionItemComponent {}
 
+@Directive({
+  selector: '[tngAccordionIndicator]',
+  exportAs: 'tngAccordionIndicator',
+})
+export class TngAccordionIndicator {
+  private readonly item = inject(TngAccordionItemPrimitive, { optional: true });
+
+  @HostBinding('attr.data-slot')
+  protected readonly dataSlot = 'accordion-indicator' as const;
+
+  @HostBinding('attr.aria-hidden')
+  protected readonly ariaHidden = 'true' as const;
+
+  @HostBinding('attr.data-state')
+  protected get dataState(): 'open' | 'closed' {
+    if (this.item === null) {
+      return 'closed';
+    }
+
+    return this.item.getAccordion()?.isItemExpanded(this.item) ? 'open' : 'closed';
+  }
+
+  @HostBinding('attr.data-disabled')
+  protected get dataDisabled(): 'true' | 'false' {
+    if (this.item === null) {
+      return 'false';
+    }
+
+    return this.item.getAccordion()?.isItemDisabled(this.item) ? 'true' : 'false';
+  }
+}
+
 @Component({
   selector: 'tng-accordion-trigger',
   hostDirectives: [TngAccordionTriggerPrimitive],
-  template: '<span class="tng-accordion__trigger-content"><ng-content /></span>',
+  imports: [TngAccordionIndicator],
+  template: `
+    <span class="tng-accordion__trigger-content">
+      <span class="tng-accordion__indicator-slot">
+        <ng-content select="[tngAccordionIndicator]"></ng-content>
+        @if (!hasCustomIndicator()) {
+          <svg
+            class="tng-accordion__indicator-default"
+            data-slot="accordion-indicator"
+            aria-hidden="true"
+            viewBox="0 0 16 16"
+            fill="none"
+          >
+            <path
+              d="M4 6.5 8 10.5 12 6.5"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.75"
+            />
+          </svg>
+        }
+      </span>
+      <span class="tng-accordion__trigger-label"><ng-content></ng-content></span>
+    </span>
+  `,
   styles: `
     :host {
       align-items: center;
@@ -90,13 +147,50 @@ export class TngAccordionItemComponent {}
       align-items: center;
       display: inline-flex;
       flex: 1 1 auto;
-      justify-content: space-between;
+      gap: 0.5rem;
       width: 100%;
+    }
+
+    .tng-accordion__trigger-label {
+      flex: 1 1 auto;
+      order: 1;
+    }
+
+    .tng-accordion__indicator-slot {
+      align-items: center;
+      color: var(--tng-semantic-foreground-secondary);
+      display: inline-flex;
+      flex: 0 0 auto;
+      justify-content: center;
+      min-height: 1rem;
+      min-width: 1rem;
+      order: 2;
+    }
+
+    .tng-accordion__indicator-default {
+      display: block;
+      flex: 0 0 auto;
+      height: 1rem;
+      transition:
+        color 180ms ease,
+        transform 180ms ease;
+      width: 1rem;
+    }
+
+    :host([data-state='open']) .tng-accordion__indicator-default {
+      transform: rotate(180deg);
     }
   `,
   exportAs: 'tngAccordionTriggerComponent',
 })
-export class TngAccordionTriggerComponent {}
+export class TngAccordionTriggerComponent {
+  @ContentChild(TngAccordionIndicator, { descendants: true })
+  protected customIndicator?: TngAccordionIndicator;
+
+  protected hasCustomIndicator(): boolean {
+    return this.customIndicator !== undefined;
+  }
+}
 
 @Component({
   selector: 'tng-accordion-panel',
