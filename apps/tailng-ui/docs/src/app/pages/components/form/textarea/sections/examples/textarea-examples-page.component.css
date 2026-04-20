@@ -108,7 +108,7 @@
   letter-spacing: 0.01em;
 }
 
-.textarea-postmortem-example__control {
+.textarea-postmortem-example tng-textarea {
   display: block;
   inline-size: 100%;
   max-inline-size: 100%;

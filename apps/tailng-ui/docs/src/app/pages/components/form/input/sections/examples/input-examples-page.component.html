@@ -18,7 +18,6 @@
         <ng-template appDocsExampleVariant value="plain-css" label="Plain-CSS" panelTitle="Basic text field (Plain-CSS)" [codeTabs]="basicPlainCodeTabs" [stackblitzUrl]="stackblitzVanillaUrl">
           <div class="doc-cmp-input-ex-basic-preview">
             <tng-input
-              class="doc-cmp-input-ex-basic-host"
               type="text"
               placeholder="Project name"
               ariaLabel="Project name"
@@ -30,7 +29,6 @@
         <ng-template appDocsExampleVariant value="tailwind-css" label="Tailwind CSS" panelTitle="Basic text field (Tailwind CSS)" [codeTabs]="basicTailwindCodeTabs" [stackblitzUrl]="stackblitzTailwindUrl">
           <div class="doc-cmp-input-ex-basic-preview">
             <tng-input
-              [class]="'doc-cmp-input-ex-basic-tw-host ' + tailwindInputHostClass"
               type="text"
               placeholder="Project name"
               ariaLabel="Project name"
@@ -52,17 +50,17 @@
       >
         <ng-template appDocsExampleVariant value="plain-css" label="Plain-CSS" panelTitle="Type variants (Plain-CSS)" [codeTabs]="typePlainCodeTabs" [stackblitzUrl]="stackblitzVanillaUrl">
           <div class="doc-cmp-input-ex-types-preview doc-cmp-input-ex-types-grid">
-            <tng-input class="doc-cmp-input-ex-types-host" type="email" placeholder="team@tailng.dev" ariaLabel="Email"></tng-input>
-            <tng-input class="doc-cmp-input-ex-types-host" type="search" placeholder="Search docs" ariaLabel="Search"></tng-input>
-            <tng-input class="doc-cmp-input-ex-types-host" type="number" placeholder="42" ariaLabel="Number"></tng-input>
+            <tng-input type="email" placeholder="team@tailng.dev" ariaLabel="Email"></tng-input>
+            <tng-input type="search" placeholder="Search docs" ariaLabel="Search"></tng-input>
+            <tng-input type="number" placeholder="42" ariaLabel="Number"></tng-input>
           </div>
         </ng-template>
 
         <ng-template appDocsExampleVariant value="tailwind-css" label="Tailwind CSS" panelTitle="Type variants (Tailwind CSS)" [codeTabs]="typeTailwindCodeTabs" [stackblitzUrl]="stackblitzTailwindUrl">
           <div class="doc-cmp-input-ex-types-preview doc-cmp-input-ex-types-grid">
-            <tng-input [class]="'doc-cmp-input-ex-types-tw-host ' + tailwindInputHostClass" type="email" placeholder="team@tailng.dev" ariaLabel="Email"></tng-input>
-            <tng-input [class]="'doc-cmp-input-ex-types-tw-host ' + tailwindInputHostClass" type="search" placeholder="Search docs" ariaLabel="Search"></tng-input>
-            <tng-input [class]="'doc-cmp-input-ex-types-tw-host ' + tailwindInputHostClass" type="number" placeholder="42" ariaLabel="Number"></tng-input>
+            <tng-input type="email" placeholder="team@tailng.dev" ariaLabel="Email"></tng-input>
+            <tng-input type="search" placeholder="Search docs" ariaLabel="Search"></tng-input>
+            <tng-input type="number" placeholder="42" ariaLabel="Number"></tng-input>
           </div>
         </ng-template>
       </app-docs-example-tabs-section>
@@ -80,7 +78,6 @@
         <ng-template appDocsExampleVariant value="plain-css" label="Plain-CSS" panelTitle="Validation feedback (Plain-CSS)" [codeTabs]="validationPlainCodeTabs" [stackblitzUrl]="stackblitzVanillaUrl">
           <div class="doc-cmp-input-ex-validation-preview doc-cmp-input-ex-validation-stack">
             <tng-input
-              class="doc-cmp-input-ex-validation-host"
               tone="danger"
               type="email"
               value="team@tailng"
@@ -94,7 +91,6 @@
         <ng-template appDocsExampleVariant value="tailwind-css" label="Tailwind CSS" panelTitle="Validation feedback (Tailwind CSS)" [codeTabs]="validationTailwindCodeTabs" [stackblitzUrl]="stackblitzTailwindUrl">
           <div class="doc-cmp-input-ex-validation-preview doc-cmp-input-ex-validation-stack">
             <tng-input
-              [class]="'doc-cmp-input-ex-validation-tw-host ' + tailwindDangerInputHostClass"
               tone="danger"
               type="email"
               value="team@tailng"
@@ -118,15 +114,15 @@
       >
         <ng-template appDocsExampleVariant value="plain-css" label="Plain-CSS" panelTitle="Readonly and disabled states (Plain-CSS)" [codeTabs]="statesPlainCodeTabs" [stackblitzUrl]="stackblitzVanillaUrl">
           <div class="doc-cmp-input-ex-states-preview doc-cmp-input-ex-states-stack">
-            <tng-input class="doc-cmp-input-ex-states-host" type="text" value="Readonly API key" readonly (click)="focusProjectedInput($event)"></tng-input>
-            <tng-input class="doc-cmp-input-ex-states-host" type="text" value="Disabled while syncing" disabled (click)="focusProjectedInput($event)"></tng-input>
+            <tng-input type="text" value="Readonly API key" readonly (click)="focusProjectedInput($event)"></tng-input>
+            <tng-input type="text" value="Disabled while syncing" disabled (click)="focusProjectedInput($event)"></tng-input>
           </div>
         </ng-template>
 
         <ng-template appDocsExampleVariant value="tailwind-css" label="Tailwind CSS" panelTitle="Readonly and disabled states (Tailwind CSS)" [codeTabs]="statesTailwindCodeTabs" [stackblitzUrl]="stackblitzTailwindUrl">
           <div class="doc-cmp-input-ex-states-preview doc-cmp-input-ex-states-stack">
-            <tng-input [class]="'doc-cmp-input-ex-states-tw-host ' + tailwindMutedInputHostClass" type="text" value="Readonly API key" readonly (click)="focusProjectedInput($event)"></tng-input>
-            <tng-input [class]="'doc-cmp-input-ex-states-tw-host doc-cmp-input-ex-states-tw-host--disabled opacity-60 ' + tailwindMutedInputHostClass" type="text" value="Disabled while syncing" disabled (click)="focusProjectedInput($event)"></tng-input>
+            <tng-input type="text" value="Readonly API key" readonly (click)="focusProjectedInput($event)"></tng-input>
+            <tng-input type="text" value="Disabled while syncing" disabled (click)="focusProjectedInput($event)"></tng-input>
           </div>
         </ng-template>
       </app-docs-example-tabs-section>

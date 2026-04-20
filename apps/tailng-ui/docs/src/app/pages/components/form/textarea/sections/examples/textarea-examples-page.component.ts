@@ -105,7 +105,6 @@ export class TextareaExamplesPageComponent implements OnDestroy {
       '    Postmortem summary',
       '  </label>',
       '  <tng-textarea',
-      '    class="textarea-postmortem-example__control"',
       '    [id]="\'postmortem-summary-textarea\'"',
       '    [rows]="5"',
       '    [resize]="\'none\'"',
@@ -135,7 +134,7 @@ export class TextareaExamplesPageComponent implements OnDestroy {
       '  letter-spacing: 0.01em;',
       '}',
       '',
-      '.textarea-postmortem-example__control {',
+      '.textarea-postmortem-example tng-textarea {',
       '  display: block;',
       '  inline-size: 100%;',
       '  max-inline-size: 100%;',
@@ -181,7 +180,6 @@ export class TextareaExamplesPageComponent implements OnDestroy {
       '    Customer update',
       '  </label>',
       '  <tng-textarea',
-      '    class="w-full"',
       '    [id]="\'customer-update-textarea\'"',
       '    [rows]="5"',
       '    [resize]="\'vertical\'"',
@@ -193,7 +191,8 @@ export class TextareaExamplesPageComponent implements OnDestroy {
       '</section>',
       '',
     ].join('\n'),
-    cssCode: '/* Tailwind utilities are applied directly in the template. */',
+    cssCode:
+      '/* tng-textarea needs no CSS; optional utilities stay on section/label wrappers only. */',
   });
 
   protected onPlainValueChange(value: string): void {

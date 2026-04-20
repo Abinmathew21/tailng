@@ -124,20 +124,6 @@
   line-height: 1.2;
 }
 
-.doc-cmp-input-style-scenario-host--plain {
-  --tng-input-min-height: 2.45rem;
-  --tng-input-radius: 0.75rem;
-  --tng-input-px: 0.78rem;
-  --tng-input-border: color-mix(in srgb, var(--tng-semantic-border-strong) 76%, transparent);
-  --tng-input-bg: var(--tng-semantic-background-base);
-  --tng-input-focus-ring: color-mix(in srgb, var(--tng-semantic-accent-brand) 18%, transparent);
-  --tng-input-fg: var(--tng-semantic-foreground-primary);
-  --tng-input-font-size: 0.98rem;
-  --tng-input-font-weight: 500;
-  --tng-input-line-height: 1.35;
-  --tng-input-placeholder: var(--tng-semantic-foreground-muted);
-}
-
 .input-styling-pattern-grid {
   display: grid;
   gap: 0.9rem;
@@ -174,10 +160,6 @@
 @media (max-width: 760px) {
   .input-styling-table {
     min-width: 36rem;
-  }
-
-  .doc-cmp-input-style-scenario-host--plain {
-    --tng-input-font-size: 0.92rem;
   }
 
   .input-styling-pattern-grid {

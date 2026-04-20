@@ -111,7 +111,6 @@ export class InputOverviewPageComponent implements OnDestroy {
     '<label class="doc-cmp-input-overview-simple-surface">',
     '  <span class="doc-cmp-input-overview-simple-label">Email</span>',
     '  <tng-input',
-    '    class="doc-cmp-input-overview-simple-host--plain"',
     '    type="email"',
     '    placeholder="team@tailng.dev"',
     '    ariaLabel="Email"',
@@ -136,6 +135,8 @@ export class InputOverviewPageComponent implements OnDestroy {
   ].join('\n');
 
   private readonly plainCssExampleCssCode = [
+    '/* Label chrome only; tng-input needs no local CSS. */',
+    '',
     '.doc-cmp-input-overview-simple-surface {',
     '  display: grid;',
     '  gap: 0.5rem;',
@@ -151,46 +152,12 @@ export class InputOverviewPageComponent implements OnDestroy {
     '  font-weight: 600;',
     '}',
     '',
-    '.doc-cmp-input-overview-simple-host--plain {',
-    '  display: block;',
-    '  width: 100%;',
-    '  max-width: 100%;',
-    '  --tng-input-min-height: 2.5rem;',
-    '  --tng-input-radius: 0.72rem;',
-    '  --tng-input-px: 0.78rem;',
-    '  --tng-input-bg: #ffffff;',
-    '  --tng-input-border: #cbd5e1;',
-    '  --tng-input-focus-ring: rgba(59, 130, 246, 0.22);',
-    '  --tng-input-fg: #0f172a;',
-    '  --tng-input-font-size: 0.98rem;',
-    '  --tng-input-font-weight: 500;',
-    '  --tng-input-line-height: 1.35;',
-    '  --tng-input-placeholder: #94a3b8;',
-    '}',
-    '',
   ].join('\n');
-
-  protected readonly tailwindInputHostClass = [
-    'block',
-    'w-full',
-    '[--tng-input-min-height:2.5rem]',
-    '[--tng-input-radius:0.72rem]',
-    '[--tng-input-px:0.78rem]',
-    '[--tng-input-bg:#ffffff]',
-    '[--tng-input-border:#cbd5e1]',
-    '[--tng-input-focus-ring:rgba(59,130,246,0.22)]',
-    '[--tng-input-fg:#0f172a]',
-    '[--tng-input-font-size:0.98rem]',
-    '[--tng-input-font-weight:500]',
-    '[--tng-input-line-height:1.35]',
-    '[--tng-input-placeholder:#94a3b8]',
-  ].join(' ');
 
   private readonly tailwindExampleHtmlCode = [
     '<label class="doc-cmp-input-overview-simple-tw-field grid gap-2 rounded-xl border border-slate-300 bg-white/80 p-3">',
     '  <span class="doc-cmp-input-overview-simple-tw-caption text-xs font-semibold text-slate-500">Email</span>',
     '  <tng-input',
-    '    class="doc-cmp-input-overview-simple-tw-host block w-full [--tng-input-min-height:2.5rem] [--tng-input-radius:0.72rem] [--tng-input-px:0.78rem] [--tng-input-bg:#ffffff] [--tng-input-border:#cbd5e1] [--tng-input-focus-ring:rgba(59,130,246,0.22)] [--tng-input-fg:#0f172a] [--tng-input-font-size:0.98rem] [--tng-input-font-weight:500] [--tng-input-line-height:1.35] [--tng-input-placeholder:#94a3b8]"',
     '    type="email"',
     '    placeholder="team@tailng.dev"',
     '    ariaLabel="Email"',
@@ -214,7 +181,7 @@ export class InputOverviewPageComponent implements OnDestroy {
   ].join('\n');
 
   private readonly tailwindExampleCssCode =
-    '/* No custom CSS required. Tailwind utilities are applied directly in the template. */';
+    '/* tng-input needs no CSS; optional utilities stay on the label wrapper only. */';
 
   protected readonly plainCssExampleCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
     {

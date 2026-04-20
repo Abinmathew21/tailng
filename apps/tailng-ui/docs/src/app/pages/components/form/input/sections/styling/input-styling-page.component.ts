@@ -81,7 +81,6 @@ export class InputStylingPageComponent implements OnDestroy {
     '<label class="doc-cmp-input-style-scenario-plain-field">',
     '  <span class="doc-cmp-input-style-scenario-plain-caption">Display name</span>',
     '  <tng-input',
-    '    class="doc-cmp-input-style-scenario-plain-host"',
     '    type="text"',
     '    value="Ada Lovelace"',
     '    ariaLabel="Display name"',
@@ -104,22 +103,6 @@ export class InputStylingPageComponent implements OnDestroy {
     '  line-height: 1.2;',
     '}',
     '',
-    '.doc-cmp-input-style-scenario-plain-host {',
-    '  display: block;',
-    '  width: 100%;',
-    '  --tng-input-min-height: 2.45rem;',
-    '  --tng-input-radius: 0.75rem;',
-    '  --tng-input-px: 0.78rem;',
-    '  --tng-input-border: #cbd5e1;',
-    '  --tng-input-bg: #ffffff;',
-    '  --tng-input-focus-ring: rgba(6, 182, 212, 0.18);',
-    '  --tng-input-fg: #0f172a;',
-    '  --tng-input-font-size: 0.98rem;',
-    '  --tng-input-font-weight: 500;',
-    '  --tng-input-line-height: 1.35;',
-    '  --tng-input-placeholder: #94a3b8;',
-    '}',
-    '',
   ].join('\n');
 
   private readonly plainCssScenarioTsCode = [
@@ -137,27 +120,10 @@ export class InputStylingPageComponent implements OnDestroy {
     '',
   ].join('\n');
 
-  protected readonly tailwindScenarioHostClass = [
-    'block',
-    'w-full',
-    '[--tng-input-min-height:2.45rem]',
-    '[--tng-input-radius:0.75rem]',
-    '[--tng-input-px:0.78rem]',
-    '[--tng-input-border:#cbd5e1]',
-    '[--tng-input-bg:#ffffff]',
-    '[--tng-input-focus-ring:rgba(6,182,212,0.18)]',
-    '[--tng-input-fg:#0f172a]',
-    '[--tng-input-font-size:0.98rem]',
-    '[--tng-input-font-weight:500]',
-    '[--tng-input-line-height:1.35]',
-    '[--tng-input-placeholder:#94a3b8]',
-  ].join(' ');
-
   private readonly tailwindScenarioHtmlCode = [
     '<label class="doc-cmp-input-style-scenario-tw-field grid w-full max-w-[31rem] gap-2 rounded-xl border border-slate-300 bg-white/80 p-3">',
     '  <span class="doc-cmp-input-style-scenario-tw-caption text-xs font-semibold uppercase tracking-[0.01em] text-slate-500">Display name</span>',
     '  <tng-input',
-    '    class="doc-cmp-input-style-scenario-tw-host block w-full [--tng-input-min-height:2.45rem] [--tng-input-radius:0.75rem] [--tng-input-px:0.78rem] [--tng-input-border:#cbd5e1] [--tng-input-bg:#ffffff] [--tng-input-focus-ring:rgba(6,182,212,0.18)] [--tng-input-fg:#0f172a] [--tng-input-font-size:0.98rem] [--tng-input-font-weight:500] [--tng-input-line-height:1.35] [--tng-input-placeholder:#94a3b8]"',
     '    type="text"',
     '    value="Ada Lovelace"',
     '    ariaLabel="Display name"',
@@ -167,7 +133,7 @@ export class InputStylingPageComponent implements OnDestroy {
   ].join('\n');
 
   private readonly tailwindScenarioCssCode =
-    '/* Tailwind strategy: utilities are applied directly in the template. */';
+    '/* tng-input needs no CSS; optional utilities stay on the label wrapper only. */';
 
   private readonly tailwindScenarioTsCode = [
     "import { Component } from '@angular/core';",

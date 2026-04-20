@@ -27,23 +27,6 @@
   line-height: 1.2;
 }
 
-.doc-cmp-input-overview-simple-host--plain {
-  display: block;
-  max-width: 100%;
-  width: 100%;
-  --tng-input-bg: #ffffff;
-  --tng-input-border: #cbd5e1;
-  --tng-input-radius: 0.72rem;
-  --tng-input-min-height: 2.5rem;
-  --tng-input-px: 0.78rem;
-  --tng-input-focus-ring: rgba(59, 130, 246, 0.22);
-  --tng-input-fg: #0f172a;
-  --tng-input-font-size: 0.98rem;
-  --tng-input-font-weight: 500;
-  --tng-input-line-height: 1.35;
-  --tng-input-placeholder: #94a3b8;
-}
-
 .doc-cmp-input-overview-pitfall-grid {
   display: grid;
   gap: 0.65rem;
@@ -58,8 +41,3 @@
   text-transform: uppercase;
 }
 
-@media (max-width: 760px) {
-  .doc-cmp-input-overview-simple-host--plain {
-    --tng-input-font-size: 0.92rem;
-  }
-}

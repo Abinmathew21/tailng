@@ -182,7 +182,6 @@ export class TextareaOverviewPageComponent implements OnDestroy {
       '    Customer update',
       '  </label>',
       '  <tng-textarea',
-      '    class="w-full"',
       '    [id]="\'customer-update-textarea\'"',
       '    [rows]="4"',
       '    [placeholder]="\'Write a customer-facing summary\'"',
@@ -193,7 +192,8 @@ export class TextareaOverviewPageComponent implements OnDestroy {
       '</section>',
       '',
     ].join('\n'),
-    cssCode: '/* Tailwind utilities are applied directly in the template. */',
+    cssCode:
+      '/* tng-textarea needs no CSS; optional utilities stay on section/label wrappers only. */',
   });
 
   protected onPlainValueChange(value: string): void {
