@@ -1,0 +1,119 @@
+<article class="headless-collapsible-api">
+  <h2 class="headless-collapsible-api-title">API reference</h2>
+  <p class="headless-collapsible-api-lead">
+    Headless collapsible is intentionally small. The primitive does not own state changes for you;
+    it reflects the values you pass into the root, trigger, and content directives.
+  </p>
+
+  <section id="root-directive" class="headless-collapsible-api-block">
+    <h3><code>tngCollapsible</code></h3>
+    <div class="headless-collapsible-api-table-wrap">
+      <table class="headless-collapsible-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Input</th>
+            <th scope="col">Type</th>
+            <th scope="col">Default</th>
+            <th scope="col">Host hooks</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>open</code></td>
+            <td><code>boolean</code></td>
+            <td><code>false</code></td>
+            <td><code>data-state="open|closed"</code></td>
+          </tr>
+          <tr>
+            <td><code>disabled</code></td>
+            <td><code>boolean</code></td>
+            <td><code>false</code></td>
+            <td><code>data-disabled</code> when true</td>
+          </tr>
+          <tr>
+            <td>Host slot</td>
+            <td colspan="3"><code>data-slot="collapsible"</code></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="trigger-directive" class="headless-collapsible-api-block">
+    <h3><code>button[tngCollapsibleTrigger]</code></h3>
+    <div class="headless-collapsible-api-table-wrap">
+      <table class="headless-collapsible-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Input</th>
+            <th scope="col">Type</th>
+            <th scope="col">Default</th>
+            <th scope="col">Reflected behavior</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>open</code></td>
+            <td><code>boolean</code></td>
+            <td><code>false</code></td>
+            <td><code>aria-expanded</code> plus <code>data-state</code>.</td>
+          </tr>
+          <tr>
+            <td><code>contentId</code></td>
+            <td><code>string</code></td>
+            <td><code>''</code></td>
+            <td>Mirrors into <code>aria-controls</code> when provided.</td>
+          </tr>
+          <tr>
+            <td><code>disabled</code></td>
+            <td><code>boolean</code></td>
+            <td><code>false</code></td>
+            <td>Applies native <code>disabled</code> and <code>data-disabled</code>.</td>
+          </tr>
+          <tr>
+            <td>Host slot</td>
+            <td colspan="3"><code>data-slot="collapsible-trigger"</code></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="content-directive" class="headless-collapsible-api-block">
+    <h3><code>tngCollapsibleContent</code></h3>
+    <div class="headless-collapsible-api-table-wrap">
+      <table class="headless-collapsible-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Input</th>
+            <th scope="col">Type</th>
+            <th scope="col">Default</th>
+            <th scope="col">Reflected behavior</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>open</code></td>
+            <td><code>boolean</code></td>
+            <td><code>false</code></td>
+            <td>Removes <code>hidden</code> when open and mirrors <code>data-state</code>.</td>
+          </tr>
+          <tr>
+            <td>Host slot</td>
+            <td colspan="3"><code>data-slot="collapsible-content"</code></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="owner-responsibilities" class="headless-collapsible-api-block">
+    <h3>Owner responsibilities</h3>
+    <ul>
+      <li>Own the open state and wire the trigger click to your chosen toggle behavior.</li>
+      <li>Provide a stable content id if you want <code>aria-controls</code> on the trigger.</li>
+      <li>Author any extra state semantics inside the content, such as current, complete, or error steps.</li>
+      <li>Bring your own animation if the content should expand or collapse with motion.</li>
+    </ul>
+  </section>
+</article>

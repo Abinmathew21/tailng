@@ -18,6 +18,10 @@ export const HEADLESS_ROUTES: Routes = [
           import('./getting-started/routes').then((m) => m.HEADLESS_GETTING_STARTED_ROUTES),
       },
       {
+        path: 'layout',
+        loadChildren: () => import('./layout/routes').then((m) => m.HEADLESS_LAYOUT_ROUTES),
+      },
+      {
         path: 'form',
         loadChildren: () => import('./form/routes').then((m) => m.HEADLESS_FORM_ROUTES),
       },

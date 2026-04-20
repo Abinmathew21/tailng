@@ -2,26 +2,16 @@ import { DOCUMENT } from '@angular/common';
 import { Component, inject, signal, type OnDestroy } from '@angular/core';
 import { observeDocsCodeThemeChanges, resolveDocsCodeBlockTheme } from '../../../../../../shared/util';
 import { TngCodeBlockComponent, TngCollapsibleComponent } from '@tailng-ui/components';
-import {
-  TngCollapsible as TngCollapsiblePrimitive,
-  TngCollapsibleContent as TngCollapsibleContentPrimitive,
-  TngCollapsibleTrigger as TngCollapsibleTriggerPrimitive,
-} from '@tailng-ui/primitives';
-import { type DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
+import type { DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
 import {
   DocsExampleTabsSectionComponent,
   DocsExampleVariantDirective,
 } from '../../../../../../shared/example-tabs-section/docs-example-tabs-section.component';
 
-const headlessContentId = 'docs-collapsible-overview-headless-content';
-
 @Component({
   selector: 'app-collapsible-overview-page',
   imports: [
     TngCodeBlockComponent,
-    TngCollapsiblePrimitive,
-    TngCollapsibleTriggerPrimitive,
-    TngCollapsibleContentPrimitive,
     TngCollapsibleComponent,
     DocsExampleTabsSectionComponent,
     DocsExampleVariantDirective,
@@ -31,88 +21,16 @@ const headlessContentId = 'docs-collapsible-overview-headless-content';
 })
 export class CollapsibleOverviewPageComponent implements OnDestroy {
   private readonly documentRef = inject(DOCUMENT);
+
   public readonly codeBlockTheme = signal<'github-dark' | 'github-light'>(
     resolveDocsCodeBlockTheme(this.documentRef),
   );
   private readonly colorSchemeObserver = observeDocsCodeThemeChanges(this.documentRef, this.codeBlockTheme);
-  public readonly headlessContentId = headlessContentId;
-  public readonly headlessOpen = signal(false);
-  public readonly plainCssOpen = signal(false);
+  public readonly plainCssOpen = signal(true);
   public readonly tailwindOpen = signal(false);
-
-  protected readonly primitiveImportCode = [
-    "import { TngCollapsible, TngCollapsibleTrigger, TngCollapsibleContent } from '@tailng-ui/primitives';",
-    '',
-  ].join('\n');
 
   protected readonly componentImportCode =
     "import { TngCollapsibleComponent } from '@tailng-ui/components';";
-
-  protected readonly headlessCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
-    {
-      value: 'ts',
-      label: 'TS',
-      language: 'ts',
-      title: 'collapsible-overview-headless.component.ts',
-      code: [
-        "readonly headlessContentId = 'docs-collapsible-overview-headless-content';",
-        'readonly headlessOpen = signal(false);',
-        '',
-        'onHeadlessOpenChange(nextOpen: boolean): void {',
-        '  this.headlessOpen.set(nextOpen);',
-        '}',
-        '',
-      ].join('\n'),
-    },
-    {
-      value: 'html',
-      label: 'HTML',
-      language: 'html',
-      title: 'collapsible-overview-headless.component.html',
-      code: [
-        '<section tngCollapsible class="collapsible-preview-headless" [open]="headlessOpen()">',
-        '  <button',
-        '    tngCollapsibleTrigger',
-        '    class="collapsible-preview-trigger"',
-        '    [open]="headlessOpen()"',
-        '    [contentId]="headlessContentId"',
-        '    (click)="onHeadlessOpenChange(!headlessOpen())"',
-        '  >',
-        '    Checkout progress',
-        '  </button>',
-        '',
-        '  <ol',
-        '    tngCollapsibleContent',
-        '    class="collapsible-preview-list"',
-        '    [id]="headlessContentId"',
-        '    [open]="headlessOpen()"',
-        '    aria-label="Checkout progress"',
-        '  >',
-        '    <li class="collapsible-preview-item is-current"><span class="collapsible-preview-dot">1</span> Shipping details</li>',
-        '    <li class="collapsible-preview-item"><span class="collapsible-preview-dot">2</span> Payment method</li>',
-        '    <li class="collapsible-preview-item"><span class="collapsible-preview-dot">3</span> Confirmation</li>',
-        '  </ol>',
-        '</section>',
-        '',
-      ].join('\n'),
-    },
-    {
-      value: 'css',
-      label: 'CSS',
-      language: 'css',
-      title: 'collapsible-overview-headless.component.css',
-      code: [
-        '.collapsible-preview-trigger {',
-        '  border: 1px solid var(--tng-semantic-border-subtle);',
-        '}',
-        '',
-        '.collapsible-preview-item.is-current {',
-        '  border-color: var(--tng-semantic-accent-brand);',
-        '}',
-        '',
-      ].join('\n'),
-    },
-  ]);
 
   protected readonly plainCssCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
     {
@@ -121,12 +39,19 @@ export class CollapsibleOverviewPageComponent implements OnDestroy {
       language: 'ts',
       title: 'collapsible-overview-plain-css.component.ts',
       code: [
-        'readonly plainCssOpen = signal(false);',
+        "import { Component, signal } from '@angular/core';",
+        "import { TngCollapsibleComponent } from '@tailng-ui/components';",
         '',
-        'onPlainCssOpenChange(nextOpen: boolean): void {',
-        '  this.plainCssOpen.set(nextOpen);',
+        '@Component({',
+        "  selector: 'app-collapsible-overview-plain-css',",
+        '  standalone: true,',
+        '  imports: [TngCollapsibleComponent],',
+        "  templateUrl: './collapsible-overview-plain-css.component.html',",
+        "  styleUrl: './collapsible-overview-plain-css.component.css',",
+        '})',
+        'export class CollapsibleOverviewPlainCssComponent {',
+        '  readonly open = signal(true);',
         '}',
-        '',
       ].join('\n'),
     },
     {
@@ -138,9 +63,8 @@ export class CollapsibleOverviewPageComponent implements OnDestroy {
         '<div class="collapsible-preview-shell collapsible-preview-shell--plain">',
         '  <tng-collapsible',
         '    title="Release pipeline"',
-        '    ariaLabel="Release pipeline"',
-        '    [open]="plainCssOpen()"',
-        '    (openChange)="onPlainCssOpenChange($event)"',
+        '    [open]="open()"',
+        '    (openChange)="open.set($event)"',
         '  >',
         '    <ol class="collapsible-preview-list">',
         '      <li class="collapsible-preview-item is-complete"><span class="collapsible-preview-dot">✓</span> Draft</li>',
@@ -149,7 +73,6 @@ export class CollapsibleOverviewPageComponent implements OnDestroy {
         '    </ol>',
         '  </tng-collapsible>',
         '</div>',
-        '',
       ].join('\n'),
     },
     {
@@ -163,7 +86,6 @@ export class CollapsibleOverviewPageComponent implements OnDestroy {
         '  border-radius: 0.8rem;',
         '  padding: 0.9rem 1rem;',
         '}',
-        '',
       ].join('\n'),
     },
   ]);
@@ -175,12 +97,19 @@ export class CollapsibleOverviewPageComponent implements OnDestroy {
       language: 'ts',
       title: 'collapsible-overview-tailwind.component.ts',
       code: [
-        'readonly tailwindOpen = signal(false);',
+        "import { Component, signal } from '@angular/core';",
+        "import { TngCollapsibleComponent } from '@tailng-ui/components';",
         '',
-        'onTailwindOpenChange(nextOpen: boolean): void {',
-        '  this.tailwindOpen.set(nextOpen);',
+        '@Component({',
+        "  selector: 'app-collapsible-overview-tailwind',",
+        '  standalone: true,',
+        '  imports: [TngCollapsibleComponent],',
+        "  templateUrl: './collapsible-overview-tailwind.component.html',",
+        "  styleUrl: './collapsible-overview-tailwind.component.css',",
+        '})',
+        'export class CollapsibleOverviewTailwindComponent {',
+        '  readonly open = signal(false);',
         '}',
-        '',
       ].join('\n'),
     },
     {
@@ -192,9 +121,8 @@ export class CollapsibleOverviewPageComponent implements OnDestroy {
         '<div class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">',
         '  <tng-collapsible',
         '    title="Release pipeline"',
-        '    ariaLabel="Release pipeline"',
-        '    [open]="tailwindOpen()"',
-        '    (openChange)="onTailwindOpenChange($event)"',
+        '    [open]="open()"',
+        '    (openChange)="open.set($event)"',
         '  >',
         '    <ol class="collapsible-preview-list">',
         '      <li class="collapsible-preview-item is-complete"><span class="collapsible-preview-dot">✓</span> Draft</li>',
@@ -203,7 +131,6 @@ export class CollapsibleOverviewPageComponent implements OnDestroy {
         '    </ol>',
         '  </tng-collapsible>',
         '</div>',
-        '',
       ].join('\n'),
     },
     {
@@ -218,17 +145,4 @@ export class CollapsibleOverviewPageComponent implements OnDestroy {
   public ngOnDestroy(): void {
     this.colorSchemeObserver?.disconnect();
   }
-
-  public onHeadlessOpenChange(nextOpen: boolean): void {
-    this.headlessOpen.set(nextOpen);
-  }
-
-  public onPlainCssOpenChange(nextOpen: boolean): void {
-    this.plainCssOpen.set(nextOpen);
-  }
-
-  public onTailwindOpenChange(nextOpen: boolean): void {
-    this.tailwindOpen.set(nextOpen);
-  }
-
 }

@@ -1,0 +1,169 @@
+<article class="headless-collapsible-examples">
+  <h2 class="headless-collapsible-examples-title">Examples</h2>
+  <p class="headless-collapsible-examples-lead">
+    These examples keep the primitive contract intact while showing two common owner-authored
+    patterns: ordered progress and error emphasis.
+  </p>
+
+  <section id="checkout-progression" class="headless-collapsible-examples-block">
+    <h3>Checkout progression</h3>
+    <p>Use owner-authored complete and current step styling inside the disclosed list.</p>
+    <app-docs-example-tabs-section
+      heading=""
+      description=""
+      ariaLabel="Checkout progression examples"
+      tabListAriaLabel="Checkout progression style tabs"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Checkout progression (plain CSS)"
+        [codeTabs]="checkoutPlainCodeTabs"
+      >
+        <section tngCollapsible class="headless-collapsible-example-shell" [open]="checkoutOpen()">
+          <button
+            tngCollapsibleTrigger
+            class="headless-collapsible-example-trigger"
+            [open]="checkoutOpen()"
+            [contentId]="checkoutContentId"
+            (click)="checkoutOpen.set(!checkoutOpen())"
+          >
+            Checkout progress
+          </button>
+
+          <ol
+            tngCollapsibleContent
+            class="headless-collapsible-example-list"
+            [id]="checkoutContentId"
+            [open]="checkoutOpen()"
+            aria-label="Checkout progress"
+          >
+            <li class="headless-collapsible-example-item is-complete"><span class="dot">✓</span> Cart</li>
+            <li class="headless-collapsible-example-item is-current"><span class="dot">2</span> Shipping</li>
+            <li class="headless-collapsible-example-item"><span class="dot">3</span> Payment</li>
+          </ol>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Checkout progression (Tailwind CSS)"
+        [codeTabs]="checkoutTailwindCodeTabs"
+      >
+        <section
+          tngCollapsible
+          class="overflow-hidden rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-surface)]"
+          [open]="checkoutTailwindOpen()"
+        >
+          <button
+            tngCollapsibleTrigger
+            class="flex w-full items-center justify-between border-0 bg-transparent px-4 py-3 text-left font-medium text-[var(--tng-semantic-foreground-primary)]"
+            [open]="checkoutTailwindOpen()"
+            [contentId]="checkoutTailwindContentId"
+            (click)="checkoutTailwindOpen.set(!checkoutTailwindOpen())"
+          >
+            Checkout progress
+            <span class="text-sm text-[var(--tng-semantic-foreground-muted)]">{{ checkoutTailwindOpen() ? 'Hide' : 'Show' }}</span>
+          </button>
+          <ol
+            tngCollapsibleContent
+            class="m-0 grid list-none gap-3 border-t border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-canvas)] px-4 py-4"
+            [id]="checkoutTailwindContentId"
+            [open]="checkoutTailwindOpen()"
+            aria-label="Checkout progress"
+          >
+            <li class="flex items-center gap-3 rounded-xl border border-[color-mix(in_srgb,var(--tng-semantic-accent-success)_55%,transparent)] px-3 py-2 text-[var(--tng-semantic-foreground-secondary)]"><span class="grid h-7 w-7 place-items-center rounded-full bg-[var(--tng-semantic-accent-success)] text-white">✓</span> Cart</li>
+            <li class="flex items-center gap-3 rounded-xl border border-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_55%,transparent)] bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_12%,var(--tng-semantic-background-canvas))] px-3 py-2 text-[var(--tng-semantic-foreground-primary)]"><span class="grid h-7 w-7 place-items-center rounded-full bg-[var(--tng-semantic-accent-brand)] text-white">2</span> Shipping</li>
+            <li class="flex items-center gap-3 rounded-xl border border-[var(--tng-semantic-border-subtle)] px-3 py-2 text-[var(--tng-semantic-foreground-secondary)]"><span class="grid h-7 w-7 place-items-center rounded-full bg-[var(--tng-semantic-background-muted)] text-[var(--tng-semantic-foreground-secondary)]">3</span> Payment</li>
+          </ol>
+        </section>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section id="error-emphasis" class="headless-collapsible-examples-block">
+    <h3>Error emphasis</h3>
+    <p>Use your own error classes and copy inside the list while the disclosure contract stays unchanged.</p>
+    <app-docs-example-tabs-section
+      heading=""
+      description=""
+      ariaLabel="Error emphasis examples"
+      tabListAriaLabel="Error emphasis style tabs"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Error emphasis (plain CSS)"
+        [codeTabs]="errorPlainCodeTabs"
+      >
+        <section tngCollapsible class="headless-collapsible-example-shell" [open]="errorOpen()">
+          <button
+            tngCollapsibleTrigger
+            class="headless-collapsible-example-trigger"
+            [open]="errorOpen()"
+            [contentId]="errorContentId"
+            (click)="errorOpen.set(!errorOpen())"
+          >
+            Onboarding checklist
+          </button>
+
+          <ol
+            tngCollapsibleContent
+            class="headless-collapsible-example-list"
+            [id]="errorContentId"
+            [open]="errorOpen()"
+            aria-label="Onboarding checklist"
+          >
+            <li class="headless-collapsible-example-item is-complete"><span class="dot">✓</span> Profile</li>
+            <li class="headless-collapsible-example-item is-error"><span class="dot">2</span> Billing</li>
+            <li class="headless-collapsible-example-item"><span class="dot">3</span> Team invite</li>
+          </ol>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Error emphasis (Tailwind CSS)"
+        [codeTabs]="errorTailwindCodeTabs"
+      >
+        <section
+          tngCollapsible
+          class="overflow-hidden rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-surface)]"
+          [open]="errorTailwindOpen()"
+        >
+          <button
+            tngCollapsibleTrigger
+            class="flex w-full items-center justify-between border-0 bg-transparent px-4 py-3 text-left font-medium text-[var(--tng-semantic-foreground-primary)]"
+            [open]="errorTailwindOpen()"
+            [contentId]="errorTailwindContentId"
+            (click)="errorTailwindOpen.set(!errorTailwindOpen())"
+          >
+            Onboarding checklist
+            <span class="text-sm text-[var(--tng-semantic-foreground-muted)]">{{ errorTailwindOpen() ? 'Hide' : 'Show' }}</span>
+          </button>
+          <ol
+            tngCollapsibleContent
+            class="m-0 grid list-none gap-3 border-t border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-canvas)] px-4 py-4"
+            [id]="errorTailwindContentId"
+            [open]="errorTailwindOpen()"
+            aria-label="Onboarding checklist"
+          >
+            <li class="flex items-center gap-3 rounded-xl border border-[color-mix(in_srgb,var(--tng-semantic-accent-success)_55%,transparent)] px-3 py-2 text-[var(--tng-semantic-foreground-secondary)]"><span class="grid h-7 w-7 place-items-center rounded-full bg-[var(--tng-semantic-accent-success)] text-white">✓</span> Profile</li>
+            <li class="flex items-center gap-3 rounded-xl border border-[color-mix(in_srgb,var(--tng-semantic-accent-danger)_55%,transparent)] bg-[color-mix(in_srgb,var(--tng-semantic-accent-danger)_12%,var(--tng-semantic-background-canvas))] px-3 py-2 text-[var(--tng-semantic-foreground-primary)]"><span class="grid h-7 w-7 place-items-center rounded-full bg-[var(--tng-semantic-accent-danger)] text-white">2</span> Billing</li>
+            <li class="flex items-center gap-3 rounded-xl border border-[var(--tng-semantic-border-subtle)] px-3 py-2 text-[var(--tng-semantic-foreground-secondary)]"><span class="grid h-7 w-7 place-items-center rounded-full bg-[var(--tng-semantic-background-muted)] text-[var(--tng-semantic-foreground-secondary)]">3</span> Team invite</li>
+          </ol>
+        </section>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+</article>

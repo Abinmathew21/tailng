@@ -5,7 +5,7 @@
     centralized so current/completed/error remain visually consistent across flows.
   </p>
 
-  <section class="collapsible-styling-block">
+  <section class="collapsible-styling-block" id="state-hooks">
     <h3>State hooks</h3>
     <div class="collapsible-styling-table-wrap">
       <table class="collapsible-styling-table">
@@ -24,22 +24,22 @@
           </tr>
           <tr>
             <td><code>data-state="current"</code></td>
-            <td>Step item</td>
+            <td>Owner-authored child item</td>
             <td>Active step emphasis and readable focus baseline.</td>
           </tr>
           <tr>
             <td><code>data-state="completed"</code></td>
-            <td>Step item</td>
+            <td>Owner-authored child item</td>
             <td>Past-step confirmation colors and icon treatment.</td>
           </tr>
           <tr>
             <td><code>data-state="upcoming"</code></td>
-            <td>Step item</td>
+            <td>Owner-authored child item</td>
             <td>Muted future-step presentation.</td>
           </tr>
           <tr>
             <td><code>data-state="error"</code></td>
-            <td>Step item</td>
+            <td>Owner-authored child item</td>
             <td>Validation/processing failure styling.</td>
           </tr>
         </tbody>
@@ -47,7 +47,7 @@
     </div>
   </section>
 
-  <section class="collapsible-styling-block">
+  <section class="collapsible-styling-block" id="css-starter">
     <h3>CSS starter</h3>
     <tng-code-block
       [code]="cssContractCode"
@@ -60,4 +60,3 @@
     ></tng-code-block>
   </section>
 </article>
-

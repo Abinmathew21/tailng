@@ -1,0 +1,152 @@
+<article class="headless-collapsible-overview">
+  <section id="imports" class="headless-collapsible-overview-block">
+    <h2 class="headless-collapsible-overview-title">Collapsible overview</h2>
+    <p class="headless-collapsible-overview-lead">
+      Headless collapsible is a minimal disclosure contract. It gives you a root, a trigger, and a
+      content region with stable state hooks, while leaving state ownership, projected content, and
+      visual treatment to your markup.
+    </p>
+    <tng-code-block
+      [code]="importCode"
+      adapter="shiki"
+      language="ts"
+      title="Primitive imports"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="basic-composition" class="headless-collapsible-overview-block">
+    <h3>Basic composition</h3>
+    <p>
+      Drive <code>open</code> from your own signal or input, wire the trigger to the content with
+      <code>contentId</code>, and render any structure inside the content region.
+    </p>
+    <tng-code-block
+      [code]="usageCode"
+      adapter="shiki"
+      language="html"
+      title="Headless collapsible composition"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <app-docs-example-tabs-section
+    id="style-variants"
+    class="headless-collapsible-overview-block"
+    heading="Style variants"
+    description="The same headless markup rendered through a plain CSS contract or a Tailwind utility shell."
+    ariaLabel="Headless collapsible overview examples"
+    tabListAriaLabel="Headless collapsible overview style tabs"
+    defaultValue="plain-css"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+      panelTitle="Headless collapsible (plain CSS)"
+      [codeTabs]="plainCodeTabs"
+    >
+      <section tngCollapsible class="headless-collapsible-shell" [open]="plainOpen()">
+        <button
+          tngCollapsibleTrigger
+          class="headless-collapsible-trigger"
+          [open]="plainOpen()"
+          [contentId]="plainContentId"
+          (click)="plainOpen.set(!plainOpen())"
+        >
+          Release readiness
+        </button>
+
+        <ol
+          tngCollapsibleContent
+          class="headless-collapsible-list"
+          [id]="plainContentId"
+          [open]="plainOpen()"
+          aria-label="Release readiness"
+        >
+          <li class="headless-collapsible-item is-complete">
+            <span class="headless-collapsible-dot">✓</span>
+            Notes approved
+          </li>
+          <li class="headless-collapsible-item is-current">
+            <span class="headless-collapsible-dot">2</span>
+            QA sign-off
+          </li>
+          <li class="headless-collapsible-item">
+            <span class="headless-collapsible-dot">3</span>
+            Publish
+          </li>
+        </ol>
+      </section>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Headless collapsible (Tailwind CSS)"
+      [codeTabs]="tailwindCodeTabs"
+    >
+      <section
+        tngCollapsible
+        class="overflow-hidden rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-surface)]"
+        [open]="tailwindOpen()"
+      >
+        <button
+          tngCollapsibleTrigger
+          class="flex w-full items-center justify-between border-0 bg-transparent px-4 py-3 text-left font-medium text-[var(--tng-semantic-foreground-primary)]"
+          [open]="tailwindOpen()"
+          [contentId]="tailwindContentId"
+          (click)="tailwindOpen.set(!tailwindOpen())"
+        >
+          Deployment checklist
+          <span class="text-sm text-[var(--tng-semantic-foreground-muted)]">{{ tailwindOpen() ? 'Hide' : 'Show' }}</span>
+        </button>
+
+        <ol
+          tngCollapsibleContent
+          class="m-0 grid list-none gap-3 border-t border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-canvas)] px-4 py-4"
+          [id]="tailwindContentId"
+          [open]="tailwindOpen()"
+          aria-label="Deployment checklist"
+        >
+          <li
+            class="flex items-center gap-3 rounded-xl border border-[color-mix(in_srgb,var(--tng-semantic-accent-success)_55%,transparent)] px-3 py-2 text-[var(--tng-semantic-foreground-secondary)]"
+          >
+            <span class="grid h-7 w-7 place-items-center rounded-full bg-[var(--tng-semantic-accent-success)] text-white">✓</span>
+            Build approved
+          </li>
+          <li
+            class="flex items-center gap-3 rounded-xl border border-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_55%,transparent)] bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_12%,var(--tng-semantic-background-canvas))] px-3 py-2 text-[var(--tng-semantic-foreground-primary)]"
+          >
+            <span class="grid h-7 w-7 place-items-center rounded-full bg-[var(--tng-semantic-accent-brand)] text-white">2</span>
+            Traffic ramp
+          </li>
+          <li
+            class="flex items-center gap-3 rounded-xl border border-[var(--tng-semantic-border-subtle)] px-3 py-2 text-[var(--tng-semantic-foreground-secondary)]"
+          >
+            <span class="grid h-7 w-7 place-items-center rounded-full bg-[var(--tng-semantic-background-muted)] text-[var(--tng-semantic-foreground-secondary)]">3</span>
+            Post-release review
+          </li>
+        </ol>
+      </section>
+    </ng-template>
+  </app-docs-example-tabs-section>
+
+  <section id="accessibility-baseline" class="headless-collapsible-overview-block">
+    <h3>Accessibility baseline</h3>
+    <ul class="headless-collapsible-overview-list">
+      <li>The trigger stays a real <code>button</code> and reflects <code>aria-expanded</code>.</li>
+      <li>Provide a stable content id so <code>aria-controls</code> points to the owned region.</li>
+      <li>The content region toggles with <code>hidden</code> when closed.</li>
+      <li>Any step semantics, current-state copy, or status announcements are owner-authored.</li>
+    </ul>
+  </section>
+</article>

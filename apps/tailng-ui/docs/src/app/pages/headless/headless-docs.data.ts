@@ -1,4 +1,9 @@
-export type HeadlessDocsCategoryId = 'getting-started' | 'form' | 'utility' | 'navigation';
+export type HeadlessDocsCategoryId =
+  | 'getting-started'
+  | 'layout'
+  | 'form'
+  | 'utility'
+  | 'navigation';
 
 export type HeadlessDocsItem = Readonly<{
   id: string;
@@ -169,6 +174,21 @@ export const HEADLESS_FORM_GROUP: HeadlessDocsGroup = {
   ],
 };
 
+export const HEADLESS_LAYOUT_GROUP: HeadlessDocsGroup = {
+  id: 'layout',
+  title: 'Layout',
+  subtitle: 'Headless structural primitives for expandable and container patterns',
+  items: [
+    {
+      id: 'collapsible',
+      slug: 'collapsible',
+      title: 'Collapsible',
+      description:
+        'Owner-controlled disclosure structure with trigger/content wiring and stable state hooks.',
+    },
+  ],
+};
+
 export const HEADLESS_UTILITY_GROUP: HeadlessDocsGroup = {
   id: 'utility',
   title: 'Utility',
@@ -235,6 +255,7 @@ export const HEADLESS_NAVIGATION_GROUP: HeadlessDocsGroup = {
 
 export const HEADLESS_DOCS_GROUPS: readonly HeadlessDocsGroup[] = Object.freeze([
   HEADLESS_GETTING_STARTED_GROUP,
+  HEADLESS_LAYOUT_GROUP,
   HEADLESS_FORM_GROUP,
   HEADLESS_UTILITY_GROUP,
   HEADLESS_NAVIGATION_GROUP,

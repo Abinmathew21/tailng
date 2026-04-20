@@ -1,0 +1,72 @@
+<article class="headless-collapsible-styling">
+  <h2 class="headless-collapsible-styling-title">Styling</h2>
+  <p class="headless-collapsible-styling-lead">
+    The headless collapsible contract is mostly slot and state driven. You style the owner markup
+    around three stable hooks: root, trigger, and content.
+  </p>
+
+  <section id="slot-and-state-hooks" class="headless-collapsible-styling-block">
+    <h3>Slot and state hooks</h3>
+    <div class="headless-collapsible-styling-table-wrap">
+      <table class="headless-collapsible-styling-table">
+        <thead>
+          <tr>
+            <th scope="col">Selector</th>
+            <th scope="col">When it appears</th>
+            <th scope="col">Typical use</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>[data-slot="collapsible"]</code></td>
+            <td>Always on the root directive.</td>
+            <td>Outer border, radius, and shell spacing.</td>
+          </tr>
+          <tr>
+            <td><code>[data-slot="collapsible-trigger"]</code></td>
+            <td>Always on the trigger button.</td>
+            <td>Header layout, text alignment, and icon placement.</td>
+          </tr>
+          <tr>
+            <td><code>[data-slot="collapsible-content"]</code></td>
+            <td>Always on the content region.</td>
+            <td>Panel padding, background, and inner layout.</td>
+          </tr>
+          <tr>
+            <td><code>[data-state="open"]</code> / <code>[data-state="closed"]</code></td>
+            <td>On root, trigger, and content.</td>
+            <td>Chevron rotation, border emphasis, and motion classes.</td>
+          </tr>
+          <tr>
+            <td><code>[data-disabled]</code></td>
+            <td>On root and trigger when disabled.</td>
+            <td>Lower emphasis and pointer affordance changes.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="css-starter" class="headless-collapsible-styling-block">
+    <h3>CSS starter</h3>
+    <tng-code-block
+      [code]="cssStarterCode"
+      adapter="shiki"
+      language="css"
+      title="Headless collapsible starter CSS"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="practical-guidance" class="headless-collapsible-styling-block">
+    <h3>Practical guidance</h3>
+    <ul>
+      <li>Style your inner content structure separately from the disclosure shell.</li>
+      <li>Use owner-authored classes for step states like complete, current, or error.</li>
+      <li>Prefer animating inner wrappers rather than the <code>hidden</code> content element directly.</li>
+      <li>Keep iconography inside the trigger markup so you can rotate or swap it from <code>data-state</code>.</li>
+    </ul>
+  </section>
+</article>

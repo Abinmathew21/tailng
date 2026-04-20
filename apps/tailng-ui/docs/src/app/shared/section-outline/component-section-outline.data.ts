@@ -289,7 +289,6 @@ export const docsComponentOutlineItemsBySlug: Readonly<Record<string, Partial<Re
     ],
     'examples': [
       { id: 'checkout-progression-variants', label: 'Checkout progression variants' },
-      { id: 'release-pipeline-variants', label: 'Release pipeline variants' },
       { id: 'error-surface-variants', label: 'Error surface variants' },
     ],
     'ownable-install': [

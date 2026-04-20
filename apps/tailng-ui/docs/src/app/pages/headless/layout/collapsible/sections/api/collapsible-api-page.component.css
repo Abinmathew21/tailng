@@ -1,0 +1,46 @@
+.headless-collapsible-api {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.headless-collapsible-api-title {
+  margin: 0;
+  font-size: 1.9rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.headless-collapsible-api-lead {
+  margin: 0;
+  max-width: 64rem;
+  color: var(--tng-semantic-foreground-secondary);
+  line-height: 1.7;
+}
+
+.headless-collapsible-api-block {
+  display: grid;
+  gap: 1rem;
+}
+
+.headless-collapsible-api-table-wrap {
+  overflow-x: auto;
+}
+
+.headless-collapsible-api-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.headless-collapsible-api-table th,
+.headless-collapsible-api-table td {
+  padding: 0.8rem 0.9rem;
+  border-bottom: 1px solid var(--tng-semantic-border-subtle);
+  text-align: left;
+  vertical-align: top;
+}
+
+.headless-collapsible-api-table th {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.92rem;
+  font-weight: 600;
+}

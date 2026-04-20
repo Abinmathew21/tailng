@@ -1,6 +1,7 @@
 export type OwnableDocsCategoryId =
   | 'getting-started'
   | 'form'
+  | 'layout'
   | 'navigation'
   | 'release'
   | 'tooling';
@@ -158,6 +159,21 @@ export const OWNABLE_FORM_GROUP: OwnableDocsGroup = {
   ],
 };
 
+export const OWNABLE_LAYOUT_GROUP: OwnableDocsGroup = {
+  id: 'layout',
+  title: 'Layout',
+  subtitle: 'Installable layout wrappers with local source ownership',
+  items: [
+    {
+      id: 'collapsible',
+      slug: 'collapsible',
+      title: 'Collapsible',
+      description:
+        'Ownable collapsible install with local wrapper source, disclosure markup, and generated file structure.',
+    },
+  ],
+};
+
 export const OWNABLE_NAVIGATION_GROUP: OwnableDocsGroup = {
   id: 'navigation',
   title: 'Navigation',
@@ -212,6 +228,7 @@ export const OWNABLE_RELEASE_GROUP: OwnableDocsGroup = {
 export const OWNABLE_DOCS_GROUPS: readonly OwnableDocsGroup[] = Object.freeze([
   OWNABLE_GETTING_STARTED_GROUP,
   OWNABLE_FORM_GROUP,
+  OWNABLE_LAYOUT_GROUP,
   OWNABLE_NAVIGATION_GROUP,
   OWNABLE_TOOLING_GROUP,
   OWNABLE_RELEASE_GROUP,

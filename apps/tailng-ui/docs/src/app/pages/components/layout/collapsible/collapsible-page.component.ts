@@ -11,14 +11,13 @@ import {
 import { TngTab, TngTabList } from '@tailng-ui/primitives';
 import { filter, map, startWith } from 'rxjs/operators';
 
-type CollapsibleDocSectionId = 'api' | 'examples' | 'overview' | 'ownable-install' | 'styling';
+type CollapsibleDocSectionId = 'api' | 'examples' | 'overview' | 'styling';
 
 const collapsibleDocSectionIds: readonly CollapsibleDocSectionId[] = [
   'overview',
   'api',
   'styling',
   'examples',
-  'ownable-install',
 ] as const;
 
 const defaultCollapsibleDocSection: CollapsibleDocSectionId = 'overview';
@@ -111,4 +110,3 @@ export class CollapsiblePageComponent {
     return normalized;
   }
 }
-

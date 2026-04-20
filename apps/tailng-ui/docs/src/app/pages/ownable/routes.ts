@@ -3,6 +3,7 @@ import {
   DEFAULT_OWNABLE_DOCS_SEGMENT,
   OWNABLE_FORM_GROUP,
   OWNABLE_GETTING_STARTED_GROUP,
+  OWNABLE_LAYOUT_GROUP,
   OWNABLE_NAVIGATION_GROUP,
   OWNABLE_RELEASE_GROUP,
   OWNABLE_TOOLING_GROUP,
@@ -35,6 +36,7 @@ const textareaItem = requireOwnableItem(OWNABLE_FORM_GROUP, 'textarea');
 const autocompleteItem = requireOwnableItem(OWNABLE_FORM_GROUP, 'autocomplete');
 const switchItem = requireOwnableItem(OWNABLE_FORM_GROUP, 'switch');
 const labelItem = requireOwnableItem(OWNABLE_FORM_GROUP, 'label');
+const collapsibleItem = requireOwnableItem(OWNABLE_LAYOUT_GROUP, 'collapsible');
 const breadcrumbItem = requireOwnableItem(OWNABLE_NAVIGATION_GROUP, 'breadcrumb');
 const contextMenuItem = requireOwnableItem(OWNABLE_NAVIGATION_GROUP, 'context-menu');
 const menubarItem = requireOwnableItem(OWNABLE_NAVIGATION_GROUP, 'menubar');
@@ -156,6 +158,14 @@ export const OWNABLE_ROUTES: Routes = [
         loadComponent: () =>
           import('./form/label/ownable-label-page.component').then(
             (m) => m.OwnableLabelPageComponent,
+          ),
+      },
+      {
+        path: 'layout/collapsible',
+        data: toOwnableDocsRouteData(OWNABLE_LAYOUT_GROUP, collapsibleItem),
+        loadComponent: () =>
+          import('./layout/collapsible/ownable-collapsible-page.component').then(
+            (m) => m.OwnableCollapsiblePageComponent,
           ),
       },
       {

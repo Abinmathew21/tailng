@@ -1,15 +1,16 @@
 <article class="collapsible-api">
   <h2 class="collapsible-api-title">API reference</h2>
   <p class="collapsible-api-lead">
-    Collapsible currently provides a structural primitive directive and a styled wrapper component.
-    Behavioral navigation APIs are planned for the next iteration.
+    Collapsible exposes a small headless primitive trio and a wrapper component. The wrapper owns a
+    baseline trigger shell, while the primitive stays available for fully custom markup.
   </p>
 
-  <section class="collapsible-api-block">
+  <section class="collapsible-api-block" id="tngcollapsible-directive">
     <h3><code>tngCollapsible</code> (directive)</h3>
     <p>
-      Attach on a container element (<code>ol</code>, <code>section</code>, etc.) to expose
-      collapsible slot semantics.
+      Attach on a container element to reflect root state. Pair it with
+      <code>tngCollapsibleTrigger</code> and <code>tngCollapsibleContent</code> when you want full
+      control over the markup.
     </p>
     <tng-code-block
       [code]="primitiveAttachmentCode"
@@ -32,9 +33,9 @@
         </thead>
         <tbody>
           <tr>
-            <td>Host attribute</td>
-            <td><code>data-slot="collapsible"</code></td>
-            <td>Stable styling and query hook.</td>
+            <td>Input</td>
+            <td><code>open</code>, <code>disabled</code></td>
+            <td>Mirrors into <code>data-state</code> and <code>data-disabled</code>.</td>
           </tr>
           <tr>
             <td>Selector</td>
@@ -51,14 +52,23 @@
     </div>
   </section>
 
-  <section class="collapsible-api-block">
+  <section class="collapsible-api-block" id="tng-collapsible-component">
     <h3><code>tng-collapsible</code> (component)</h3>
     <p>
-      Wrapper that applies a baseline shell and forwards <code>ariaLabel</code> to the collapsible
-      host.
+      Wrapper that renders the trigger button, generated content id wiring, and a baseline shell
+      around projected content.
     </p>
     <tng-code-block
-      [code]="componentAttachmentCode"
+      [code]="componentTsCode"
+      adapter="shiki"
+      language="ts"
+      title="Component state"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+    <tng-code-block
+      [code]="componentHtmlCode"
       adapter="shiki"
       language="html"
       title="Component attachment"
@@ -79,14 +89,37 @@
         </thead>
         <tbody>
           <tr>
-            <td><code>ariaLabel</code></td>
+            <td><code>contentId</code></td>
+            <td><code>string</code></td>
+            <td>Generated id</td>
+            <td>Overrides the generated content id if you need a stable external hook.</td>
+          </tr>
+          <tr>
+            <td><code>disabled</code></td>
+            <td><code>boolean</code></td>
+            <td><code>false</code></td>
+            <td>Locks the trigger and keeps the current open state unchanged.</td>
+          </tr>
+          <tr>
+            <td><code>open</code></td>
+            <td><code>boolean</code></td>
+            <td><code>false</code></td>
+            <td>Controls whether the projected content is visible.</td>
+          </tr>
+          <tr>
+            <td><code>title</code></td>
             <td><code>string</code></td>
             <td><code>'Collapsible'</code></td>
-            <td>Sets accessible label on the underlying collapsible host.</td>
+            <td>Visible trigger label rendered inside the wrapper trigger.</td>
+          </tr>
+          <tr>
+            <td><code>openChange</code></td>
+            <td><code>EventEmitter&lt;boolean&gt;</code></td>
+            <td>n/a</td>
+            <td>Emits the next requested open state when the trigger is activated.</td>
           </tr>
         </tbody>
       </table>
     </div>
   </section>
 </article>
-

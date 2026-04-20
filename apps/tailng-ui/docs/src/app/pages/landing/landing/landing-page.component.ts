@@ -157,6 +157,11 @@ const exploreLinks: readonly RouteCard[] = [
     route: '/headless',
   },
   {
+    title: 'Headless Collapsible',
+    description: 'Jump directly to the headless collapsible docs in the layout section.',
+    route: '/headless/layout/collapsible',
+  },
+  {
     title: 'CDK',
     description: 'See the low-level behavioral foundations that power the system.',
     route: '/cdk',

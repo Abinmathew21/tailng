@@ -1,0 +1,46 @@
+.headless-collapsible-styling {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.headless-collapsible-styling-title {
+  margin: 0;
+  font-size: 1.9rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.headless-collapsible-styling-lead {
+  margin: 0;
+  max-width: 64rem;
+  color: var(--tng-semantic-foreground-secondary);
+  line-height: 1.7;
+}
+
+.headless-collapsible-styling-block {
+  display: grid;
+  gap: 1rem;
+}
+
+.headless-collapsible-styling-table-wrap {
+  overflow-x: auto;
+}
+
+.headless-collapsible-styling-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.headless-collapsible-styling-table th,
+.headless-collapsible-styling-table td {
+  padding: 0.8rem 0.9rem;
+  border-bottom: 1px solid var(--tng-semantic-border-subtle);
+  text-align: left;
+  vertical-align: top;
+}
+
+.headless-collapsible-styling-table th {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.92rem;
+  font-weight: 600;
+}

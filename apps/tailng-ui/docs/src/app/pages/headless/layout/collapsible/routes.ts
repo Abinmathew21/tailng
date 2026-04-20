@@ -1,18 +1,18 @@
 import type { Routes } from '@angular/router';
-import { COMPONENTS_LAYOUT_GROUP, toComponentsDocsRouteData } from '../../component-docs.data';
+import { HEADLESS_LAYOUT_GROUP, toHeadlessDocsRouteData } from '../../headless-docs.data';
 
-const group = COMPONENTS_LAYOUT_GROUP;
+const group = HEADLESS_LAYOUT_GROUP;
 const collapsibleItem = group.items.find((item) => item.slug === 'collapsible');
 if (collapsibleItem === undefined) {
-  throw new Error('Missing "collapsible" in components layout docs group.');
+  throw new Error('Missing "collapsible" in headless layout docs group.');
 }
 
-export const COMPONENTS_LAYOUT_COLLAPSIBLE_ROUTES: Routes = [
+export const HEADLESS_LAYOUT_COLLAPSIBLE_ROUTES: Routes = [
   {
     path: '',
-    data: toComponentsDocsRouteData(group, collapsibleItem),
+    data: toHeadlessDocsRouteData(group, collapsibleItem),
     loadComponent: () =>
-      import('./collapsible-page.component').then((module) => module.CollapsiblePageComponent),
+      import('./collapsible-page.component').then((module) => module.HeadlessCollapsiblePageComponent),
     children: [
       {
         path: '',
@@ -23,37 +23,29 @@ export const COMPONENTS_LAYOUT_COLLAPSIBLE_ROUTES: Routes = [
         path: 'overview',
         loadComponent: () =>
           import('./sections/overview/collapsible-overview-page.component').then(
-            (module) => module.CollapsibleOverviewPageComponent,
+            (module) => module.HeadlessCollapsibleOverviewPageComponent,
           ),
       },
       {
         path: 'api',
         loadComponent: () =>
           import('./sections/api/collapsible-api-page.component').then(
-            (module) => module.CollapsibleApiPageComponent,
+            (module) => module.HeadlessCollapsibleApiPageComponent,
           ),
       },
       {
         path: 'styling',
         loadComponent: () =>
           import('./sections/styling/collapsible-styling-page.component').then(
-            (module) => module.CollapsibleStylingPageComponent,
+            (module) => module.HeadlessCollapsibleStylingPageComponent,
           ),
       },
       {
         path: 'examples',
         loadComponent: () =>
           import('./sections/examples/collapsible-examples-page.component').then(
-            (module) => module.CollapsibleExamplesPageComponent,
+            (module) => module.HeadlessCollapsibleExamplesPageComponent,
           ),
-      },
-      {
-        path: 'ownable-install',
-        data: {
-          registrySlug: 'collapsible',
-        },
-        pathMatch: 'full',
-        redirectTo: '/ownable/layout/collapsible',
       },
       {
         path: '**',
