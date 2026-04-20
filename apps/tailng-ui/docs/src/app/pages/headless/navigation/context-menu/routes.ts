@@ -1,18 +1,20 @@
 import type { Routes } from '@angular/router';
-import { COMPONENTS_NAVIGATION_GROUP, toComponentsDocsRouteData } from '../../component-docs.data';
+import { HEADLESS_NAVIGATION_GROUP, toHeadlessDocsRouteData } from '../../headless-docs.data';
 
-const group = COMPONENTS_NAVIGATION_GROUP;
+const group = HEADLESS_NAVIGATION_GROUP;
 const contextMenuItem = group.items.find((item) => item.slug === 'context-menu');
 if (contextMenuItem === undefined) {
-  throw new Error('Missing "context-menu" in components navigation docs group.');
+  throw new Error('Missing "context-menu" in headless navigation docs group.');
 }
 
-export const COMPONENTS_NAVIGATION_CONTEXT_MENU_ROUTES: Routes = [
+export const HEADLESS_NAVIGATION_CONTEXT_MENU_ROUTES: Routes = [
   {
     path: '',
-    data: toComponentsDocsRouteData(group, contextMenuItem),
+    data: toHeadlessDocsRouteData(group, contextMenuItem),
     loadComponent: () =>
-      import('./context-menu-page.component').then((module) => module.ContextMenuPageComponent),
+      import('./context-menu-page.component').then(
+        (module) => module.HeadlessContextMenuPageComponent,
+      ),
     children: [
       {
         path: '',
@@ -23,37 +25,29 @@ export const COMPONENTS_NAVIGATION_CONTEXT_MENU_ROUTES: Routes = [
         path: 'overview',
         loadComponent: () =>
           import('./sections/overview/context-menu-overview-page.component').then(
-            (module) => module.ContextMenuOverviewPageComponent,
+            (module) => module.HeadlessContextMenuOverviewPageComponent,
           ),
       },
       {
         path: 'api',
         loadComponent: () =>
           import('./sections/api/context-menu-api-page.component').then(
-            (module) => module.ContextMenuApiPageComponent,
+            (module) => module.HeadlessContextMenuApiPageComponent,
           ),
       },
       {
         path: 'styling',
         loadComponent: () =>
           import('./sections/styling/context-menu-styling-page.component').then(
-            (module) => module.ContextMenuStylingPageComponent,
+            (module) => module.HeadlessContextMenuStylingPageComponent,
           ),
       },
       {
         path: 'examples',
         loadComponent: () =>
           import('./sections/examples/context-menu-examples-page.component').then(
-            (module) => module.ContextMenuExamplesPageComponent,
+            (module) => module.HeadlessContextMenuExamplesPageComponent,
           ),
-      },
-      {
-        path: 'ownable-install',
-        data: {
-          registrySlug: 'context-menu',
-        },
-        pathMatch: 'full',
-        redirectTo: '/ownable/navigation/context-menu',
       },
       {
         path: '**',

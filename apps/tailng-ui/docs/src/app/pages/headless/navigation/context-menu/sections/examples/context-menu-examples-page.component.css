@@ -2,29 +2,29 @@
   display: block;
 }
 
-.context-menu-examples {
+.headless-context-menu-examples {
   display: grid;
   gap: 1rem;
 }
 
-.context-menu-examples-title {
+.headless-context-menu-examples-title {
   color: var(--tng-semantic-foreground-primary);
   font-size: 1.5rem;
   font-weight: 700;
   margin: 0;
 }
 
-.context-menu-examples-lead {
+.headless-context-menu-examples-lead {
   color: var(--tng-semantic-foreground-secondary);
   margin: 0;
 }
 
-.context-menu-examples-block {
+.headless-context-menu-examples-block {
   border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 1rem;
 }
 
-.context-menu-stage {
+.headless-context-menu-stage {
   align-content: start;
   display: grid;
   justify-items: start;
@@ -44,8 +44,15 @@
   z-index: 20;
 }
 
-.context-menu-shell--wrapper [data-slot='menu'] {
-  box-shadow: 0 14px 34px -22px color-mix(in srgb, var(--tng-semantic-foreground-primary) 38%, transparent);
+.context-menu-shell--headless [data-slot='menu'] {
+  background: var(--tng-semantic-background-canvas);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.75rem;
+  color: var(--tng-semantic-foreground-primary);
+  display: grid;
+  gap: 0.22rem;
+  min-width: 14rem;
+  padding: 0.45rem;
 }
 
 .context-menu-target {
@@ -58,10 +65,6 @@
   min-height: 3rem;
   padding: 0.8rem 0.95rem;
   width: min(28rem, 100%);
-}
-
-.context-menu-target--wrapper {
-  font-weight: 550;
 }
 
 .context-menu-target:focus-visible {
@@ -120,7 +123,7 @@
   margin: 0.2rem 0.35rem;
 }
 
-.context-menu-examples-state {
+.headless-context-menu-examples-state {
   color: var(--tng-semantic-foreground-secondary);
   font-size: 0.9rem;
   margin: 0;

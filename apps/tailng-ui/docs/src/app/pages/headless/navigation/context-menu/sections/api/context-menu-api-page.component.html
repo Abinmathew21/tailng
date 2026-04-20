@@ -1,0 +1,152 @@
+<article class="headless-context-menu-api">
+  <h2 class="headless-context-menu-api-title">API reference</h2>
+  <p class="headless-context-menu-api-lead">
+    Headless context menu is a thin trigger layer on top of <code>tngMenu</code>. The context
+    directive captures whether an open came from pointer coordinates or a keyboard anchor and lets
+    owners use that state for their own placement logic.
+  </p>
+
+  <section id="tng-context-menu" class="headless-context-menu-api-block">
+    <h3><code>tngContextMenu</code></h3>
+    <p>
+      Apply <code>tngContextMenu</code> on the same host as <code>tngMenu</code>. The directive
+      exports as <code>tngContextMenu</code> and delegates open and close behavior to the linked
+      menu instance.
+    </p>
+    <tng-code-block
+      [code]="compositionCode"
+      adapter="shiki"
+      language="html"
+      title="Context trigger + menu composition"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+    <div class="headless-context-menu-api-table-wrap">
+      <table class="headless-context-menu-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Capability</th>
+            <th scope="col">Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>exportAs</code></td>
+            <td><code>tngContextMenu</code></td>
+          </tr>
+          <tr>
+            <td>Host requirement</td>
+            <td>Must share the same host injector as <code>tngMenu</code>.</td>
+          </tr>
+          <tr>
+            <td>Open state</td>
+            <td><code>isOpen()</code> and <code>close(restoreFocus)</code> proxy the hosted menu.</td>
+          </tr>
+          <tr>
+            <td>Anchor state</td>
+            <td>
+              Tracks <code>'pointer'</code> vs <code>'element'</code> opens and stores the last
+              pointer coordinates from a right-click invocation.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="tng-context-menu-trigger" class="headless-context-menu-api-block">
+    <h3><code>tngContextMenuTrigger</code></h3>
+    <p>
+      Link any focusable target to a context menu instance with
+      <code>[tngContextMenuTrigger]</code>. The directive listens for
+      <code>contextmenu</code>, <code>Shift + F10</code>, and the
+      <code>ContextMenu</code> keyboard key.
+    </p>
+    <div class="headless-context-menu-api-table-wrap">
+      <table class="headless-context-menu-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Input / Host</th>
+            <th scope="col">Type</th>
+            <th scope="col">Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>[tngContextMenuTrigger]</code></td>
+            <td><code>TngContextMenu | null</code></td>
+            <td>Required reference to the exported context menu instance.</td>
+          </tr>
+          <tr>
+            <td><code>data-slot</code></td>
+            <td><code>'context-menu-trigger'</code></td>
+            <td>Stable styling hook for right-click affordances and focus treatment.</td>
+          </tr>
+          <tr>
+            <td>Host attributes</td>
+            <td><code>id</code>, <code>aria-haspopup</code>, <code>aria-controls</code>, <code>aria-expanded</code></td>
+            <td>Reflects the relationship to the linked menu surface and current open state.</td>
+          </tr>
+          <tr>
+            <td>Disabled hosts</td>
+            <td>native / ARIA</td>
+            <td>Honors <code>disabled</code>, <code>disabled</code> attribute, or <code>aria-disabled="true"</code>.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="exported-instance" class="headless-context-menu-api-block">
+    <h3>Exported instance</h3>
+    <div class="headless-context-menu-api-table-wrap">
+      <table class="headless-context-menu-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Method</th>
+            <th scope="col">Type</th>
+            <th scope="col">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>isOpen()</code></td>
+            <td><code>boolean</code></td>
+            <td>Current open state for the linked context menu.</td>
+          </tr>
+          <tr>
+            <td><code>close(restoreFocus)</code></td>
+            <td><code>(restoreFocus: boolean) =&gt; void</code></td>
+            <td>Closes the panel and optionally restores focus to the trigger target.</td>
+          </tr>
+          <tr>
+            <td><code>getAnchorType()</code></td>
+            <td><code>'pointer' | 'element' | null</code></td>
+            <td>Whether the current open came from right-click coordinates or keyboard context invocation.</td>
+          </tr>
+          <tr>
+            <td><code>getPointerAnchor()</code></td>
+            <td><code>TngContextMenuPointerAnchor | null</code></td>
+            <td>Viewport client coordinates captured during a pointer open. Returns <code>null</code> for keyboard opens.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="keyboard-contract" class="headless-context-menu-api-block">
+    <h3>Keyboard contract</h3>
+    <tng-code-block
+      [code]="keyboardContractCode"
+      adapter="shiki"
+      language="text"
+      title="Context-menu keyboard baseline"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+</article>

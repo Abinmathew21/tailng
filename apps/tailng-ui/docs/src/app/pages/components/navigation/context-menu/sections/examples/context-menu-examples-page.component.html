@@ -2,7 +2,8 @@
   <h2 class="context-menu-examples-title">Examples</h2>
   <p class="context-menu-examples-lead">
     Production context-menu flows for file rows, deployments, and operational surfaces across
-    headless, plain CSS, and Tailwind shells.
+    plain CSS and Tailwind wrapper shells. These demos anchor panels under the target for
+    readability.
   </p>
 
   <app-docs-example-tabs-section
@@ -11,40 +12,9 @@
     description="Right-click any target surface to open actions and commit commands with click or keyboard."
     ariaLabel="Context menu operational examples"
     tabListAriaLabel="Context menu operational tabs"
-    defaultValue="headless"
+    defaultValue="plain-css"
     [codeBlockTheme]="codeBlockTheme()"
   >
-    <ng-template
-      appDocsExampleVariant
-      value="headless"
-      label="Headless"
-      panelTitle="Headless file actions"
-      [codeTabs]="headlessCodeTabs"
-    >
-      <div class="context-menu-stage">
-        <div class="context-menu-shell">
-          <div class="context-menu-target" tabindex="0" [tngContextMenuTrigger]="headlessMenu">
-            Right-click file row for headless actions.
-          </div>
-          <div
-            tngMenu
-            tngContextMenu
-            #headlessMenu="tngContextMenu"
-            aria-label="Headless file actions"
-            class="context-menu-panel"
-            (tngMenuSelect)="onHeadlessSelect($event)"
-          >
-            <div tngMenuGroupLabel class="context-menu-label">File actions</div>
-            <button type="button" tngMenuItem tngMenuItemValue="Copy file path">Copy path</button>
-            <button type="button" tngMenuItem tngMenuItemValue="Open in terminal">Open terminal</button>
-            <div tngMenuSeparator class="context-menu-separator"></div>
-            <button type="button" tngMenuItem tngMenuItemValue="Move to archive">Archive</button>
-          </div>
-        </div>
-      </div>
-      <p class="context-menu-examples-state">last action: {{ headlessAction() }}</p>
-    </ng-template>
-
     <ng-template
       appDocsExampleVariant
       value="plain-css"
@@ -53,17 +23,16 @@
       [codeTabs]="plainCodeTabs"
     >
       <div class="context-menu-stage">
-        <div class="context-menu-shell">
+        <div class="context-menu-shell context-menu-shell--anchored context-menu-shell--wrapper">
           <div class="context-menu-target context-menu-target--wrapper" tabindex="0" [tngContextMenuTrigger]="plainMenu">
             Right-click deployment row for wrapper actions.
           </div>
           <tng-context-menu
             #plainMenu="tngContextMenu"
             ariaLabel="Deployment actions"
-            class="context-menu-panel"
             (tngMenuSelect)="onPlainSelect($event)"
           >
-            <div tngMenuGroupLabel class="context-menu-label">Deployment</div>
+            <div tngMenuGroupLabel>Deployment</div>
             <button type="button" tngMenuItem tngMenuItemValue="Retry deployment">Retry</button>
             <button type="button" tngMenuItem tngMenuItemValue="Rollback deployment">Rollback</button>
             <button type="button" tngMenuItem tngMenuItemValue="View logs">View logs</button>
@@ -84,7 +53,9 @@
         class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
       >
         <div class="context-menu-stage">
-          <div class="context-menu-shell">
+          <div
+            class="relative grid gap-[0.65rem] [&_[data-slot=menu]]:absolute [&_[data-slot=menu]]:left-0 [&_[data-slot=menu]]:top-[calc(100%+0.42rem)] [&_[data-slot=menu]]:z-20 [&_[data-slot=menu]]:shadow-[0_14px_34px_-22px_rgba(15,23,42,0.5)] [&_[data-slot=menu-item]]:block [&_[data-slot=menu-item]]:w-full [&_[data-slot=menu-item]]:rounded-[0.62rem] [&_[data-slot=menu-item]]:border-0 [&_[data-slot=menu-item]]:bg-transparent [&_[data-slot=menu-item]]:px-[0.66rem] [&_[data-slot=menu-item]]:py-[0.42rem] [&_[data-slot=menu-item]]:text-left [&_[data-slot=menu-item]]:text-[0.9rem] [&_[data-slot=menu-item]]:text-slate-700 [&_[data-slot=menu-item][data-active]]:bg-sky-100 [&_[data-slot=menu-item][data-active]]:text-sky-900 dark:[&_[data-slot=menu-item]]:text-slate-200 dark:[&_[data-slot=menu-item][data-active]]:bg-sky-900/40 dark:[&_[data-slot=menu-item][data-active]]:text-sky-100"
+          >
             <div
               class="context-menu-target rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-700 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200"
               tabindex="0"
@@ -95,7 +66,6 @@
             <tng-context-menu
               #tailwindMenu="tngContextMenu"
               ariaLabel="Node actions"
-              class="context-menu-panel"
               (tngMenuSelect)="onTailwindSelect($event)"
             >
               <button type="button" tngMenuItem tngMenuItemValue="Inspect node">Inspect</button>

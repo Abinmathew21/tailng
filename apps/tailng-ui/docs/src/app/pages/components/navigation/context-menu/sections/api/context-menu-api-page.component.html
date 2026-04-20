@@ -2,7 +2,8 @@
   <h2 class="context-menu-api-title">API reference</h2>
   <p class="context-menu-api-lead">
     Context Menu composes menu primitives with a dedicated trigger directive for right-click and
-    keyboard context invocation.
+    keyboard context invocation. The exported <code>tngContextMenu</code> instance also exposes
+    anchor state so owners can choose their own placement strategy.
   </p>
 
   <section class="context-menu-api-block">
@@ -73,12 +74,49 @@
           <tr>
             <td><code>tngContextMenuTrigger</code></td>
             <td>Listens for <code>contextmenu</code>, <code>Shift + F10</code>, and <code>ContextMenu</code>.</td>
-            <td>Sets <code>aria-haspopup</code>, <code>aria-controls</code>, and <code>aria-expanded</code>.</td>
+            <td>Sets <code>data-slot="context-menu-trigger"</code>, <code>aria-haspopup</code>, <code>aria-controls</code>, and <code>aria-expanded</code>.</td>
           </tr>
           <tr>
             <td><code>tngMenu</code>, <code>tngMenuItem</code></td>
             <td>Menu state, keyboard traversal, selection, submenu composition.</td>
             <td>Shared primitive contract with menu and menubar docs.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="context-menu-api-block">
+    <h3>Exported Instance</h3>
+    <div class="context-menu-api-table-wrap">
+      <table class="context-menu-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Method</th>
+            <th scope="col">Type</th>
+            <th scope="col">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>isOpen()</code></td>
+            <td><code>boolean</code></td>
+            <td>Current open state for the linked context menu.</td>
+          </tr>
+          <tr>
+            <td><code>close(restoreFocus)</code></td>
+            <td><code>(restoreFocus: boolean) =&gt; void</code></td>
+            <td>Closes the panel and optionally restores focus to the trigger target.</td>
+          </tr>
+          <tr>
+            <td><code>getAnchorType()</code></td>
+            <td><code>'pointer' | 'element' | null</code></td>
+            <td>Tells whether the current open came from right-click coordinates or keyboard context invocation.</td>
+          </tr>
+          <tr>
+            <td><code>getPointerAnchor()</code></td>
+            <td><code>TngContextMenuPointerAnchor | null</code></td>
+            <td>Viewport client coordinates captured during right-click open. Returns <code>null</code> for keyboard opens.</td>
           </tr>
         </tbody>
       </table>

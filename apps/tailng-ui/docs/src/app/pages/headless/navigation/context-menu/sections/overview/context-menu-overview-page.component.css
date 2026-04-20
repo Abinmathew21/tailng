@@ -2,33 +2,50 @@
   display: block;
 }
 
-.context-menu-examples {
+.headless-context-menu-overview {
   display: grid;
-  gap: 1rem;
+  gap: 1.5rem;
 }
 
-.context-menu-examples-title {
-  color: var(--tng-semantic-foreground-primary);
-  font-size: 1.5rem;
+.headless-context-menu-overview-title {
+  font-size: clamp(1.45rem, 1.05rem + 1.3vw, 1.95rem);
   font-weight: 700;
+  line-height: 1.2;
   margin: 0;
 }
 
-.context-menu-examples-lead {
+.headless-context-menu-overview-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+  max-width: 70ch;
+}
+
+.headless-context-menu-overview-block {
+  background: color-mix(in srgb, var(--tng-semantic-background-surface) 88%, transparent);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 1rem;
+  display: grid;
+  gap: 0.9rem;
+  padding: 1.2rem;
+}
+
+.headless-context-menu-overview-block h3 {
+  font-size: 1.05rem;
+  font-weight: 650;
+  margin: 0;
+}
+
+.headless-context-menu-overview-block p {
   color: var(--tng-semantic-foreground-secondary);
   margin: 0;
 }
 
-.context-menu-examples-block {
-  border: 1px solid var(--tng-semantic-border-subtle);
-  border-radius: 1rem;
-}
-
-.context-menu-stage {
+.headless-context-menu-stage {
   align-content: start;
   display: grid;
   justify-items: start;
-  min-height: 12.5rem;
+  min-height: 13rem;
+  position: relative;
 }
 
 .context-menu-shell {
@@ -44,8 +61,15 @@
   z-index: 20;
 }
 
-.context-menu-shell--wrapper [data-slot='menu'] {
-  box-shadow: 0 14px 34px -22px color-mix(in srgb, var(--tng-semantic-foreground-primary) 38%, transparent);
+.context-menu-shell--headless [data-slot='menu'] {
+  background: var(--tng-semantic-background-canvas);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.75rem;
+  color: var(--tng-semantic-foreground-primary);
+  display: grid;
+  gap: 0.22rem;
+  min-width: 14rem;
+  padding: 0.45rem;
 }
 
 .context-menu-target {
@@ -58,10 +82,6 @@
   min-height: 3rem;
   padding: 0.8rem 0.95rem;
   width: min(28rem, 100%);
-}
-
-.context-menu-target--wrapper {
-  font-weight: 550;
 }
 
 .context-menu-target:focus-visible {
@@ -120,8 +140,19 @@
   margin: 0.2rem 0.35rem;
 }
 
-.context-menu-examples-state {
+.headless-context-menu-overview-state {
   color: var(--tng-semantic-foreground-secondary);
   font-size: 0.9rem;
   margin: 0;
+}
+
+.headless-context-menu-overview-list {
+  display: grid;
+  gap: 0.55rem;
+  margin: 0;
+  padding-inline-start: 1.1rem;
+}
+
+.headless-context-menu-overview-list code {
+  font-size: 0.84em;
 }

@@ -1,12 +1,16 @@
 <section class="docs-component-page">
   <tng-tabs
     class="docs-component-tabs"
-    ariaLabel="Context menu documentation sections"
+    ariaLabel="Headless context menu documentation sections"
     [activation]="'manual'"
     [value]="activeSection()"
     (valueChange)="onSectionChange($event)"
   >
-    <div tngTabList class="docs-component-tab-list" ariaLabel="Context menu documentation tabs">
+    <div
+      tngTabList
+      class="docs-component-tab-list"
+      ariaLabel="Headless context menu documentation tabs"
+    >
       <button type="button" tngTab value="overview" class="docs-component-tab-trigger">
         Overview
       </button>

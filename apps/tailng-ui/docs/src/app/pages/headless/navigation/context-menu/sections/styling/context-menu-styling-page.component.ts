@@ -1,0 +1,81 @@
+import { Component } from '@angular/core';
+import { TngCodeBlockComponent } from '@tailng-ui/components';
+
+@Component({
+  selector: 'app-headless-context-menu-styling-page',
+  imports: [TngCodeBlockComponent],
+  templateUrl: './context-menu-styling-page.component.html',
+  styleUrls: ['./context-menu-styling-page.component.css'],
+})
+export class HeadlessContextMenuStylingPageComponent {
+  protected readonly contractCode = [
+    '.context-shell {',
+    '  position: relative;',
+    '}',
+    '',
+    '[data-slot="context-menu-trigger"] {',
+    '  cursor: context-menu;',
+    '}',
+    '',
+    '.context-shell [data-slot="menu"] {',
+    '  position: absolute;',
+    '  left: 0;',
+    '  top: calc(100% + 0.42rem);',
+    '}',
+    '',
+    '.context-shell [data-slot="menu"][hidden] {',
+    '  display: none !important;',
+    '}',
+    '',
+    '.context-shell [data-slot="menu-item"][data-active],',
+    '.context-shell [data-slot="menu-item"][aria-expanded="true"] {',
+    '  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 15%, transparent);',
+    '}',
+    '',
+  ].join('\n');
+
+  protected readonly pointerPlacementCode = [
+    "readonly panelStyle = signal<Record<string, string>>({ position: 'absolute' });",
+    '',
+    'syncPlacement(menu: TngContextMenu): void {',
+    '  const pointerAnchor = menu.getPointerAnchor();',
+    '',
+    '  if (pointerAnchor !== null) {',
+    '    this.panelStyle.set({',
+    "      position: 'fixed',",
+    '      left: `${pointerAnchor.x}px`,',
+    '      top: `${pointerAnchor.y}px`,',
+    '    });',
+    '    return;',
+    '  }',
+    '',
+    '  this.panelStyle.set({',
+    "    position: 'absolute',",
+    "    left: '0',",
+    "    top: 'calc(100% + 0.42rem)',",
+    '  });',
+    '}',
+    '',
+  ].join('\n');
+
+  protected readonly stateSelectorCode = [
+    '[data-slot="context-menu-trigger"][aria-expanded="true"] {',
+    '  border-color: color-mix(in srgb, var(--tng-semantic-accent-brand) 45%, transparent);',
+    '}',
+    '',
+    '[data-slot="menu-item"][data-active],',
+    '[data-slot="menu-item"][aria-expanded="true"] {',
+    '  color: color-mix(',
+    '    in srgb,',
+    '    var(--tng-semantic-accent-brand) 72%,',
+    '    var(--tng-semantic-foreground-primary)',
+    '  );',
+    '}',
+    '',
+    '[data-slot="menu-item"][aria-disabled="true"] {',
+    '  cursor: default;',
+    '  opacity: 0.55;',
+    '}',
+    '',
+  ].join('\n');
+}

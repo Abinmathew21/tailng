@@ -1,4 +1,9 @@
-export type OwnableDocsCategoryId = 'getting-started' | 'form' | 'release' | 'tooling';
+export type OwnableDocsCategoryId =
+  | 'getting-started'
+  | 'form'
+  | 'navigation'
+  | 'release'
+  | 'tooling';
 
 export type OwnableDocsItem = Readonly<{
   id: string;
@@ -153,6 +158,42 @@ export const OWNABLE_FORM_GROUP: OwnableDocsGroup = {
   ],
 };
 
+export const OWNABLE_NAVIGATION_GROUP: OwnableDocsGroup = {
+  id: 'navigation',
+  title: 'Navigation',
+  subtitle: 'Installable navigation components',
+  items: [
+    {
+      id: 'breadcrumb',
+      slug: 'breadcrumb',
+      title: 'Breadcrumb',
+      description:
+        'Ownable breadcrumb install with local wrapper source, collapsed trail defaults, and generated file structure.',
+    },
+    {
+      id: 'context-menu',
+      slug: 'context-menu',
+      title: 'Context Menu',
+      description:
+        'Ownable context-menu install with local wrapper source, trigger semantics, and generated file structure.',
+    },
+    {
+      id: 'menubar',
+      slug: 'menubar',
+      title: 'Menubar',
+      description:
+        'Ownable menubar install with local wrapper source, command-strip markup, and generated file structure.',
+    },
+    {
+      id: 'tree',
+      slug: 'tree',
+      title: 'Tree',
+      description:
+        'Ownable tree install with local wrapper source, hierarchical row presentation, and generated file structure.',
+    },
+  ],
+};
+
 export const OWNABLE_RELEASE_GROUP: OwnableDocsGroup = {
   id: 'release',
   title: 'Release',
@@ -171,6 +212,7 @@ export const OWNABLE_RELEASE_GROUP: OwnableDocsGroup = {
 export const OWNABLE_DOCS_GROUPS: readonly OwnableDocsGroup[] = Object.freeze([
   OWNABLE_GETTING_STARTED_GROUP,
   OWNABLE_FORM_GROUP,
+  OWNABLE_NAVIGATION_GROUP,
   OWNABLE_TOOLING_GROUP,
   OWNABLE_RELEASE_GROUP,
 ]);

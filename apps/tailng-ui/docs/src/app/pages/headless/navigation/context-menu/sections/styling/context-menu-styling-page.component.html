@@ -1,0 +1,95 @@
+<article class="headless-context-menu-styling">
+  <h2 class="headless-context-menu-styling-title">Styling contract</h2>
+  <p class="headless-context-menu-styling-lead">
+    Headless context menu styling stays on public slot and state hooks. The primitive does not
+    position the panel for you, so owners usually pair those hooks with either anchored CSS or
+    pointer-aware inline styles derived from the exported instance.
+  </p>
+
+  <section id="css-contract-table" class="headless-context-menu-styling-block">
+    <h3>CSS contract table</h3>
+    <div class="headless-context-menu-styling-table-wrap">
+      <table class="headless-context-menu-styling-table">
+        <thead>
+          <tr>
+            <th scope="col">Selector</th>
+            <th scope="col">Applied on</th>
+            <th scope="col">Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>[data-slot='context-menu-trigger']</code></td>
+            <td>Context target surface</td>
+            <td>Right-click affordance, focus ring, and expanded target styling.</td>
+          </tr>
+          <tr>
+            <td><code>[data-slot='menu']</code></td>
+            <td>Context menu panel</td>
+            <td>Surface, placement, elevation, and open-state display rules.</td>
+          </tr>
+          <tr>
+            <td><code>[data-slot='menu-item']</code></td>
+            <td>Action row</td>
+            <td>Spacing, hover affordance, and keyboard active treatment.</td>
+          </tr>
+          <tr>
+            <td><code>[data-slot='menu-item'][data-active]</code></td>
+            <td>Active action row</td>
+            <td>Reflects the arrow-key cursor managed by <code>tngMenu</code>.</td>
+          </tr>
+          <tr>
+            <td><code>[data-slot='menu-group-label']</code>, <code>[data-slot='menu-separator']</code></td>
+            <td>Menu sub-elements</td>
+            <td>Section labeling and separation for larger contextual action groups.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <tng-code-block
+      [code]="contractCode"
+      adapter="shiki"
+      language="css"
+      title="Context-menu contract starter"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="pointer-placement" class="headless-context-menu-styling-block">
+    <h3>Pointer placement</h3>
+    <p>
+      For true cursor-relative placement, read <code>getPointerAnchor()</code> from the exported
+      context-menu instance after open. Keyboard opens return <code>null</code>, so owners usually
+      fall back to an element-relative placement rule.
+    </p>
+    <tng-code-block
+      [code]="pointerPlacementCode"
+      adapter="shiki"
+      language="ts"
+      title="Pointer-aware placement sketch"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="state-selectors" class="headless-context-menu-styling-block">
+    <h3>State selectors</h3>
+    <p>
+      Style the trigger through <code>aria-expanded</code>, active rows through
+      <code>data-active</code>, and submenu owners through <code>aria-expanded</code> on the item
+      that owns a nested menu.
+    </p>
+    <tng-code-block
+      [code]="stateSelectorCode"
+      adapter="shiki"
+      language="css"
+      title="State selector starter"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+</article>

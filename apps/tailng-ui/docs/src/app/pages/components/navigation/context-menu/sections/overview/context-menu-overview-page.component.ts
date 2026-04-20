@@ -3,9 +3,7 @@ import { Component, inject, signal, type OnDestroy } from '@angular/core';
 import { observeDocsCodeThemeChanges, resolveDocsCodeBlockTheme } from '../../../../../../shared/util';
 import { TngCodeBlockComponent, TngContextMenuComponent } from '@tailng-ui/components';
 import {
-  TngContextMenu,
   TngContextMenuTrigger,
-  TngMenu,
   TngMenuGroupLabel,
   TngMenuItem,
   TngMenuSelectEvent,
@@ -21,10 +19,8 @@ import {
   selector: 'app-context-menu-overview-page',
   imports: [
     TngCodeBlockComponent,
-    TngContextMenu,
     TngContextMenuComponent,
     TngContextMenuTrigger,
-    TngMenu,
     TngMenuGroupLabel,
     TngMenuItem,
     TngMenuSeparator,
@@ -41,7 +37,6 @@ export class ContextMenuOverviewPageComponent implements OnDestroy {
   );
   private readonly colorSchemeObserver = observeDocsCodeThemeChanges(this.documentRef, this.codeBlockTheme);
 
-  protected readonly headlessCommand = signal('No command yet');
   protected readonly plainCommand = signal('No command yet');
   protected readonly tailwindCommand = signal('No command yet');
 
@@ -60,60 +55,25 @@ export class ContextMenuOverviewPageComponent implements OnDestroy {
   ].join('\n');
 
   protected readonly primitiveUsageCode = [
-    '<div tabindex="0" [tngContextMenuTrigger]="assetMenu">Right-click target</div>',
-    '<div tngMenu tngContextMenu #assetMenu="tngContextMenu">',
-    '  <button type="button" tngMenuItem tngMenuItemValue="Rename">Rename</button>',
-    '  <button type="button" tngMenuItem tngMenuItemValue="Archive">Archive</button>',
+    '<div class="context-menu-shell context-menu-shell--anchored">',
+    '  <div tabindex="0" [tngContextMenuTrigger]="assetMenu">Right-click target</div>',
+    '  <div tngMenu tngContextMenu #assetMenu="tngContextMenu">',
+    '    <button type="button" tngMenuItem tngMenuItemValue="Rename">Rename</button>',
+    '    <button type="button" tngMenuItem tngMenuItemValue="Archive">Archive</button>',
+    '  </div>',
     '</div>',
+    '<!-- Use assetMenu.getAnchorType() / getPointerAnchor() if you want cursor-relative placement. -->',
   ].join('\n');
 
   protected readonly componentUsageCode = [
-    '<div tabindex="0" [tngContextMenuTrigger]="assetMenu">Right-click target</div>',
-    '<tng-context-menu #assetMenu="tngContextMenu" ariaLabel="Asset actions">',
-    '  <button type="button" tngMenuItem tngMenuItemValue="Rename">Rename</button>',
-    '  <button type="button" tngMenuItem tngMenuItemValue="Archive">Archive</button>',
-    '</tng-context-menu>',
+    '<div class="context-menu-shell context-menu-shell--anchored">',
+    '  <div tabindex="0" [tngContextMenuTrigger]="assetMenu">Right-click target</div>',
+    '  <tng-context-menu #assetMenu="tngContextMenu" ariaLabel="Asset actions">',
+    '    <button type="button" tngMenuItem tngMenuItemValue="Rename">Rename</button>',
+    '    <button type="button" tngMenuItem tngMenuItemValue="Archive">Archive</button>',
+    '  </tng-context-menu>',
+    '</div>',
   ].join('\n');
-
-  protected readonly headlessCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
-    {
-      value: 'ts',
-      label: 'TS',
-      language: 'ts',
-      title: 'context-menu-overview-headless.component.ts',
-      code: [
-        "readonly lastAction = signal('No command yet');",
-        '',
-        'onSelect(event: TngMenuSelectEvent): void {',
-        '  this.lastAction.set(String(event.value));',
-        '}',
-      ].join('\n'),
-    },
-    {
-      value: 'html',
-      label: 'HTML',
-      language: 'html',
-      title: 'context-menu-overview-headless.component.html',
-      code: [
-        '<div tabindex="0" [tngContextMenuTrigger]="menu">Right-click row</div>',
-        '<div tngMenu tngContextMenu #menu="tngContextMenu" (tngMenuSelect)="onSelect($event)">',
-        '  <button type="button" tngMenuItem tngMenuItemValue="Duplicate">Duplicate</button>',
-        '</div>',
-      ].join('\n'),
-    },
-    {
-      value: 'css',
-      label: 'CSS',
-      language: 'css',
-      title: 'context-menu-overview-headless.component.css',
-      code: [
-        '.context-target {',
-        '  cursor: context-menu;',
-        '  min-height: 3rem;',
-        '}',
-      ].join('\n'),
-    },
-  ]);
 
   protected readonly plainCssCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
     {
@@ -122,10 +82,35 @@ export class ContextMenuOverviewPageComponent implements OnDestroy {
       language: 'ts',
       title: 'context-menu-overview-plain-css.component.ts',
       code: [
-        "readonly lastAction = signal('No command yet');",
+        "import { Component, signal } from '@angular/core';",
+        "import { TngContextMenuComponent } from '@tailng-ui/components';",
+        "import {",
+        "  TngContextMenuTrigger,",
+        "  TngMenuGroupLabel,",
+        "  TngMenuItem,",
+        "  TngMenuSeparator,",
+        "  type TngMenuSelectEvent,",
+        "} from '@tailng-ui/primitives';",
+        '',
+        '@Component({',
+        "  selector: 'app-context-menu-overview-plain-css',",
+        '  standalone: true,',
+        '  imports: [',
+        '    TngContextMenuComponent,',
+        '    TngContextMenuTrigger,',
+        '    TngMenuGroupLabel,',
+        '    TngMenuItem,',
+        '    TngMenuSeparator,',
+        '  ],',
+        "  templateUrl: './context-menu-overview-plain-css.component.html',",
+        "  styleUrl: './context-menu-overview-plain-css.component.css',",
+        '})',
+        'export class ContextMenuOverviewPlainCssComponent {',
+        "  readonly lastAction = signal('No command yet');",
         '',
         'onSelect(event: TngMenuSelectEvent): void {',
         '  this.lastAction.set(String(event.value));',
+        '}',
         '}',
       ].join('\n'),
     },
@@ -135,11 +120,21 @@ export class ContextMenuOverviewPageComponent implements OnDestroy {
       language: 'html',
       title: 'context-menu-overview-plain-css.component.html',
       code: [
-        '<div tabindex="0" [tngContextMenuTrigger]="menu">Right-click release row</div>',
-        '<tng-context-menu #menu="tngContextMenu" ariaLabel="Release actions">',
-        '  <button type="button" tngMenuItem tngMenuItemValue="Promote">Promote</button>',
-        '  <button type="button" tngMenuItem tngMenuItemValue="Rollback">Rollback</button>',
-        '</tng-context-menu>',
+        '<div class="context-menu-shell context-menu-shell--anchored">',
+        '  <div tabindex="0" [tngContextMenuTrigger]="menu">Right-click release row</div>',
+        '  <tng-context-menu',
+        '    #menu="tngContextMenu"',
+        '    ariaLabel="Release actions"',
+        '    (tngMenuSelect)="onSelect($event)"',
+        '  >',
+        '    <div tngMenuGroupLabel>Release</div>',
+        '    <button type="button" tngMenuItem tngMenuItemValue="Promote">Promote</button>',
+        '    <button type="button" tngMenuItem tngMenuItemValue="Rollback">Rollback</button>',
+        '    <div tngMenuSeparator></div>',
+        '    <button type="button" tngMenuItem tngMenuItemValue="Delete release">Delete</button>',
+        '  </tng-context-menu>',
+        '</div>',
+        '<p>last command: {{ lastAction() }}</p>',
       ].join('\n'),
     },
     {
@@ -148,9 +143,19 @@ export class ContextMenuOverviewPageComponent implements OnDestroy {
       language: 'css',
       title: 'context-menu-overview-plain-css.component.css',
       code: [
-        '.context-panel {',
-        '  border-radius: 0.75rem;',
-        '  min-width: 15rem;',
+        '.context-menu-shell {',
+        '  position: relative;',
+        '}',
+        '',
+        '.context-menu-shell [data-slot="menu"] {',
+        '  position: absolute;',
+        '  left: 0;',
+        '  top: calc(100% + 0.42rem);',
+        '}',
+        '',
+        '.context-menu-shell [data-slot="menu-item"] {',
+        '  min-height: 2rem;',
+        '  padding: 0.42rem 0.66rem;',
         '}',
       ].join('\n'),
     },
@@ -163,10 +168,23 @@ export class ContextMenuOverviewPageComponent implements OnDestroy {
       language: 'ts',
       title: 'context-menu-overview-tailwind.component.ts',
       code: [
-        "readonly lastAction = signal('No command yet');",
+        "import { Component, signal } from '@angular/core';",
+        "import { TngContextMenuComponent } from '@tailng-ui/components';",
+        "import { TngContextMenuTrigger, TngMenuItem, type TngMenuSelectEvent } from '@tailng-ui/primitives';",
+        '',
+        '@Component({',
+        "  selector: 'app-context-menu-overview-tailwind',",
+        '  standalone: true,',
+        '  imports: [TngContextMenuComponent, TngContextMenuTrigger, TngMenuItem],',
+        "  templateUrl: './context-menu-overview-tailwind.component.html',",
+        "  styleUrl: './context-menu-overview-tailwind.component.css',",
+        '})',
+        'export class ContextMenuOverviewTailwindComponent {',
+        "  readonly lastAction = signal('No command yet');",
         '',
         'onSelect(event: TngMenuSelectEvent): void {',
         '  this.lastAction.set(String(event.value));',
+        '}',
         '}',
       ].join('\n'),
     },
@@ -176,12 +194,21 @@ export class ContextMenuOverviewPageComponent implements OnDestroy {
       language: 'html',
       title: 'context-menu-overview-tailwind.component.html',
       code: [
-        '<div class="rounded-xl border px-4 py-3" tabindex="0" [tngContextMenuTrigger]="menu">',
-        '  Right-click target',
+        '<div class="relative grid gap-3 [&_[data-slot=menu]]:absolute [&_[data-slot=menu]]:left-0 [&_[data-slot=menu]]:top-[calc(100%+0.42rem)] [&_[data-slot=menu]]:shadow-lg [&_[data-slot=menu-item]]:w-full [&_[data-slot=menu-item]]:rounded-lg [&_[data-slot=menu-item]]:px-3 [&_[data-slot=menu-item]]:py-2 [&_[data-slot=menu-item][data-active]]:bg-sky-100">',
+        '  <div class="rounded-xl border px-4 py-3" tabindex="0" [tngContextMenuTrigger]="menu">',
+        '    Right-click target',
+        '  </div>',
+        '  <tng-context-menu',
+        '    #menu="tngContextMenu"',
+        '    ariaLabel="Asset actions"',
+        '    (tngMenuSelect)="onSelect($event)"',
+        '  >',
+        '    <button type="button" tngMenuItem tngMenuItemValue="Open">Open</button>',
+        '    <button type="button" tngMenuItem tngMenuItemValue="Copy link">Copy link</button>',
+        '    <button type="button" tngMenuItem tngMenuItemValue="Share asset">Share</button>',
+        '  </tng-context-menu>',
         '</div>',
-        '<tng-context-menu #menu="tngContextMenu" class="absolute left-0 top-full mt-2 shadow-lg">',
-        '  <button type="button" tngMenuItem tngMenuItemValue="Open">Open</button>',
-        '</tng-context-menu>',
+        '<p>last command: {{ lastAction() }}</p>',
       ].join('\n'),
     },
     {
@@ -195,10 +222,6 @@ export class ContextMenuOverviewPageComponent implements OnDestroy {
 
   public ngOnDestroy(): void {
     this.colorSchemeObserver?.disconnect();
-  }
-
-  protected onHeadlessSelect(event: TngMenuSelectEvent): void {
-    this.headlessCommand.set(String(event.value));
   }
 
   protected onPlainSelect(event: TngMenuSelectEvent): void {

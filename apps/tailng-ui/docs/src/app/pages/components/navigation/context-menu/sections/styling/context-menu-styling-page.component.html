@@ -1,8 +1,9 @@
 <article class="context-menu-styling">
   <h2 class="context-menu-styling-title">Styling contract</h2>
   <p class="context-menu-styling-lead">
-    Context Menu styling relies on public primitives and state attributes so custom themes can style
-    target affordances and menu surfaces without private DOM coupling.
+    Context Menu styling relies on public slot and state attributes so custom themes can style
+    target affordances and menu surfaces without private DOM coupling. The wrapper adds a minimum
+    panel skin, but placement and item treatments still live on those public hooks.
   </p>
 
   <section class="context-menu-styling-block">
@@ -18,34 +19,39 @@
         </thead>
         <tbody>
           <tr>
-            <td><code>[tngContextMenuTrigger]</code></td>
+            <td><code>[data-slot='context-menu-trigger']</code></td>
             <td>Context target surface</td>
             <td>Right-click affordance and focus ring styling.</td>
           </tr>
           <tr>
-            <td><code>[tngMenu][tngContextMenu][data-state='open']</code></td>
+            <td><code>[data-slot='menu'][data-state='open']</code></td>
             <td>Context menu panel</td>
             <td>Panel visibility, border, spacing, and background surface.</td>
           </tr>
           <tr>
-            <td><code>[tngMenuItem]</code></td>
+            <td><code>[data-slot='menu-item']</code></td>
             <td>Action item</td>
             <td>Typography, spacing, and pointer affordance for actions.</td>
           </tr>
           <tr>
-            <td><code>[tngMenuItem][data-active]</code></td>
+            <td><code>[data-slot='menu-item'][data-active]</code></td>
             <td>Action item</td>
             <td>Keyboard-active state from arrow traversal.</td>
           </tr>
           <tr>
-            <td><code>[tngMenuItem][aria-expanded='true']</code></td>
+            <td><code>[data-slot='menu-item'][aria-expanded='true']</code></td>
             <td>Submenu trigger item</td>
             <td>Expanded state for nested context menus.</td>
           </tr>
           <tr>
-            <td><code>[tngMenuItem][aria-disabled='true']</code></td>
+            <td><code>[data-slot='menu-item'][aria-disabled='true']</code></td>
             <td>Disabled action item</td>
             <td>Dimmed visual affordance for non-interactive actions.</td>
+          </tr>
+          <tr>
+            <td><code>[data-slot='menu-group-label']</code>, <code>[data-slot='menu-separator']</code></td>
+            <td>Menu sub-elements</td>
+            <td>Section labeling and separation inside larger action groups.</td>
           </tr>
         </tbody>
       </table>

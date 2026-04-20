@@ -2,7 +2,8 @@
   <h2 class="context-menu-overview-title">Context Menu overview</h2>
   <p class="context-menu-overview-lead">
     Context Menu layers right-click and keyboard context actions on top of menu primitives while
-    keeping the trigger surface fully owner-controlled.
+    keeping the trigger surface fully owner-controlled and exposing anchor state for owner-managed
+    placement.
   </p>
 
   <section class="context-menu-overview-block">
@@ -32,6 +33,11 @@
 
   <section class="context-menu-overview-block">
     <h3>Usage patterns</h3>
+    <p>
+      The exported <code>tngContextMenu</code> instance tracks whether the menu opened from a
+      pointer or keyboard anchor. Use that state when you want true cursor-relative placement in
+      headless builds; the wrapper only adds the minimum panel skin.
+    </p>
     <tng-code-block
       [code]="primitiveUsageCode"
       adapter="shiki"
@@ -57,43 +63,12 @@
   <app-docs-example-tabs-section
     class="context-menu-overview-block"
     heading="Style variants"
-    description="Same context-menu behavior rendered through headless primitives, plain CSS wrappers, and Tailwind utility shells."
+    description="Same context-menu behavior rendered through plain CSS wrappers and Tailwind utility shells. These docs anchor the menu under each target for readability."
     ariaLabel="Context menu style variants"
     tabListAriaLabel="Context menu style tabs"
-    defaultValue="headless"
+    defaultValue="plain-css"
     [codeBlockTheme]="codeBlockTheme()"
   >
-    <ng-template
-      appDocsExampleVariant
-      value="headless"
-      label="Headless"
-      panelTitle="Headless surface actions"
-      [codeTabs]="headlessCodeTabs"
-    >
-      <div class="context-menu-stage">
-        <div class="context-menu-shell">
-          <div class="context-menu-target" tabindex="0" [tngContextMenuTrigger]="headlessMenu">
-            Right-click this table row for headless actions.
-          </div>
-          <div
-            tngMenu
-            tngContextMenu
-            #headlessMenu="tngContextMenu"
-            aria-label="Headless row actions"
-            class="context-menu-panel"
-            (tngMenuSelect)="onHeadlessSelect($event)"
-          >
-            <div tngMenuGroupLabel class="context-menu-label">Row actions</div>
-            <button type="button" tngMenuItem tngMenuItemValue="Open details">Open details</button>
-            <button type="button" tngMenuItem tngMenuItemValue="Rename row">Rename</button>
-            <div tngMenuSeparator class="context-menu-separator"></div>
-            <button type="button" tngMenuItem tngMenuItemValue="Archive row">Archive</button>
-          </div>
-        </div>
-      </div>
-      <p class="context-menu-overview-state">last command: {{ headlessCommand() }}</p>
-    </ng-template>
-
     <ng-template
       appDocsExampleVariant
       value="plain-css"
@@ -102,20 +77,19 @@
       [codeTabs]="plainCssCodeTabs"
     >
       <div class="context-menu-stage">
-        <div class="context-menu-shell">
+        <div class="context-menu-shell context-menu-shell--anchored context-menu-shell--wrapper">
           <div class="context-menu-target context-menu-target--wrapper" tabindex="0" [tngContextMenuTrigger]="plainMenu">
             Right-click this release item for wrapper actions.
           </div>
           <tng-context-menu
             #plainMenu="tngContextMenu"
             ariaLabel="Release actions"
-            class="context-menu-panel"
             (tngMenuSelect)="onPlainSelect($event)"
           >
-            <div tngMenuGroupLabel class="context-menu-label">Release</div>
+            <div tngMenuGroupLabel>Release</div>
             <button type="button" tngMenuItem tngMenuItemValue="Promote release">Promote</button>
             <button type="button" tngMenuItem tngMenuItemValue="Rollback release">Rollback</button>
-            <div tngMenuSeparator class="context-menu-separator"></div>
+            <div tngMenuSeparator></div>
             <button type="button" tngMenuItem tngMenuItemValue="Delete release">Delete</button>
           </tng-context-menu>
         </div>
@@ -134,7 +108,9 @@
         class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
       >
         <div class="context-menu-stage">
-          <div class="context-menu-shell">
+          <div
+            class="relative grid gap-[0.65rem] [&_[data-slot=menu]]:absolute [&_[data-slot=menu]]:left-0 [&_[data-slot=menu]]:top-[calc(100%+0.42rem)] [&_[data-slot=menu]]:z-20 [&_[data-slot=menu]]:shadow-[0_14px_34px_-22px_rgba(15,23,42,0.5)] [&_[data-slot=menu-item]]:block [&_[data-slot=menu-item]]:w-full [&_[data-slot=menu-item]]:rounded-[0.62rem] [&_[data-slot=menu-item]]:border-0 [&_[data-slot=menu-item]]:bg-transparent [&_[data-slot=menu-item]]:px-[0.66rem] [&_[data-slot=menu-item]]:py-[0.42rem] [&_[data-slot=menu-item]]:text-left [&_[data-slot=menu-item]]:text-[0.9rem] [&_[data-slot=menu-item]]:text-slate-700 [&_[data-slot=menu-item][data-active]]:bg-sky-100 [&_[data-slot=menu-item][data-active]]:text-sky-900 dark:[&_[data-slot=menu-item]]:text-slate-200 dark:[&_[data-slot=menu-item][data-active]]:bg-sky-900/40 dark:[&_[data-slot=menu-item][data-active]]:text-sky-100"
+          >
             <div
               class="context-menu-target rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-700 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200"
               tabindex="0"
@@ -145,7 +121,6 @@
             <tng-context-menu
               #tailwindMenu="tngContextMenu"
               ariaLabel="Tailwind context actions"
-              class="context-menu-panel"
               (tngMenuSelect)="onTailwindSelect($event)"
             >
               <button type="button" tngMenuItem tngMenuItemValue="Open asset">Open</button>

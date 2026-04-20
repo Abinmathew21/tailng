@@ -1,0 +1,85 @@
+<article class="headless-context-menu-examples">
+  <h2 class="headless-context-menu-examples-title">Examples</h2>
+  <p class="headless-context-menu-examples-lead">
+    Context-triggered action surfaces for rows, cards, and operator workflows. These demos anchor
+    the menu under the trigger for readability; owners can switch to cursor placement by reading
+    <code>getPointerAnchor()</code>.
+  </p>
+
+  <section id="operational-actions" class="headless-context-menu-examples-block">
+    <app-docs-example-tabs-section
+      heading="Operational actions"
+      description="Right-click the target surface to open a headless action menu and commit commands with pointer or keyboard."
+      ariaLabel="Headless context menu operational examples"
+      tabListAriaLabel="Headless context menu operational tabs"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Headless context menu (plain CSS)"
+        [codeTabs]="plainCodeTabs"
+      >
+        <div class="headless-context-menu-stage">
+          <div class="context-menu-shell context-menu-shell--anchored context-menu-shell--headless">
+            <div class="context-menu-target" tabindex="0" [tngContextMenuTrigger]="plainMenu">
+              Right-click file row for headless actions.
+            </div>
+            <div
+              tngMenu
+              tngContextMenu
+              #plainMenu="tngContextMenu"
+              aria-label="File actions"
+              (tngMenuSelect)="onPlainSelect($event)"
+            >
+              <div tngMenuGroupLabel>File actions</div>
+              <button type="button" tngMenuItem tngMenuItemValue="Copy file path">Copy path</button>
+              <button type="button" tngMenuItem tngMenuItemValue="Open in terminal">Open terminal</button>
+              <div tngMenuSeparator></div>
+              <button type="button" tngMenuItem tngMenuItemValue="Move to archive">Archive</button>
+            </div>
+          </div>
+        </div>
+        <p class="headless-context-menu-examples-state">Last action: {{ plainAction() }}</p>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Headless context menu (Tailwind CSS)"
+        [codeTabs]="tailwindCodeTabs"
+      >
+        <div class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">
+          <div class="headless-context-menu-stage">
+            <div
+              class="relative grid gap-[0.65rem] [&_[data-slot=context-menu-trigger]]:cursor-context-menu [&_[data-slot=menu]]:absolute [&_[data-slot=menu]]:left-0 [&_[data-slot=menu]]:top-[calc(100%+0.42rem)] [&_[data-slot=menu]]:z-20 [&_[data-slot=menu]]:hidden [&_[data-slot=menu]]:min-w-[14rem] [&_[data-slot=menu]]:rounded-[0.8rem] [&_[data-slot=menu]]:border [&_[data-slot=menu]]:border-slate-300 [&_[data-slot=menu]]:bg-white [&_[data-slot=menu]]:p-[0.45rem] [&_[data-slot=menu]]:shadow-[0_14px_34px_-22px_rgba(15,23,42,0.4)] [&_[data-slot=menu][data-state=open]]:grid [&_[data-slot=menu-item]]:w-full [&_[data-slot=menu-item]]:rounded-[0.62rem] [&_[data-slot=menu-item]]:border-0 [&_[data-slot=menu-item]]:bg-transparent [&_[data-slot=menu-item]]:px-[0.66rem] [&_[data-slot=menu-item]]:py-[0.42rem] [&_[data-slot=menu-item]]:text-left [&_[data-slot=menu-item]]:text-[0.9rem] [&_[data-slot=menu-item]]:text-slate-700 [&_[data-slot=menu-item][data-active]]:bg-sky-100 [&_[data-slot=menu-item][data-active]]:text-sky-900 dark:[&_[data-slot=menu]]:border-slate-700 dark:[&_[data-slot=menu]]:bg-slate-950 dark:[&_[data-slot=menu-item]]:text-slate-200 dark:[&_[data-slot=menu-item][data-active]]:bg-sky-900/40 dark:[&_[data-slot=menu-item][data-active]]:text-sky-100"
+            >
+              <div
+                class="rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-700 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200"
+                tabindex="0"
+                [tngContextMenuTrigger]="tailwindMenu"
+              >
+                Right-click node card for headless actions.
+              </div>
+              <div
+                tngMenu
+                tngContextMenu
+                #tailwindMenu="tngContextMenu"
+                aria-label="Node actions"
+                (tngMenuSelect)="onTailwindSelect($event)"
+              >
+                <button type="button" tngMenuItem tngMenuItemValue="Inspect node">Inspect</button>
+                <button type="button" tngMenuItem tngMenuItemValue="Copy node id">Copy ID</button>
+                <button type="button" tngMenuItem tngMenuItemValue="Delete node">Delete node</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="headless-context-menu-examples-state">Last action: {{ tailwindAction() }}</p>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+</article>

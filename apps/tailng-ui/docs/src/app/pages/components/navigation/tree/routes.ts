@@ -51,19 +51,9 @@ export const COMPONENTS_NAVIGATION_TREE_ROUTES: Routes = [
         path: 'ownable-install',
         data: {
           registrySlug: 'tree',
-          usageCode: [
-            '<tng-tree',
-            '  [nodes]="treeNodes"',
-            '  [defaultExpandedIds]="[\'workspace\']"',
-            '  [ariaLabel]="\'File tree\'"',
-            '  (selectedIdChange)="onSelect($event)"',
-            '/>',
-            '',
-          ].join('\n'),
         },
-        loadComponent: () =>
-          import('../../../../shared/ownable-install-section/docs-ownable-install-section.component')
-            .then((module) => module.DocsOwnableInstallSectionComponent),
+        pathMatch: 'full',
+        redirectTo: '/ownable/navigation/tree',
       },
       {
         path: '**',

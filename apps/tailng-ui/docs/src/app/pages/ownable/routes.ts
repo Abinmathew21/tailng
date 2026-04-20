@@ -3,6 +3,7 @@ import {
   DEFAULT_OWNABLE_DOCS_SEGMENT,
   OWNABLE_FORM_GROUP,
   OWNABLE_GETTING_STARTED_GROUP,
+  OWNABLE_NAVIGATION_GROUP,
   OWNABLE_RELEASE_GROUP,
   OWNABLE_TOOLING_GROUP,
   toOwnableDocsRouteData,
@@ -34,6 +35,10 @@ const textareaItem = requireOwnableItem(OWNABLE_FORM_GROUP, 'textarea');
 const autocompleteItem = requireOwnableItem(OWNABLE_FORM_GROUP, 'autocomplete');
 const switchItem = requireOwnableItem(OWNABLE_FORM_GROUP, 'switch');
 const labelItem = requireOwnableItem(OWNABLE_FORM_GROUP, 'label');
+const breadcrumbItem = requireOwnableItem(OWNABLE_NAVIGATION_GROUP, 'breadcrumb');
+const contextMenuItem = requireOwnableItem(OWNABLE_NAVIGATION_GROUP, 'context-menu');
+const menubarItem = requireOwnableItem(OWNABLE_NAVIGATION_GROUP, 'menubar');
+const treeItem = requireOwnableItem(OWNABLE_NAVIGATION_GROUP, 'tree');
 const cliItem = requireOwnableItem(OWNABLE_TOOLING_GROUP, 'cli');
 const registryItem = requireOwnableItem(OWNABLE_TOOLING_GROUP, 'registry');
 const workflowItem = requireOwnableItem(OWNABLE_RELEASE_GROUP, 'workflow');
@@ -151,6 +156,38 @@ export const OWNABLE_ROUTES: Routes = [
         loadComponent: () =>
           import('./form/label/ownable-label-page.component').then(
             (m) => m.OwnableLabelPageComponent,
+          ),
+      },
+      {
+        path: 'navigation/breadcrumb',
+        data: toOwnableDocsRouteData(OWNABLE_NAVIGATION_GROUP, breadcrumbItem),
+        loadComponent: () =>
+          import('./navigation/breadcrumb/ownable-breadcrumb-page.component').then(
+            (m) => m.OwnableBreadcrumbPageComponent,
+          ),
+      },
+      {
+        path: 'navigation/context-menu',
+        data: toOwnableDocsRouteData(OWNABLE_NAVIGATION_GROUP, contextMenuItem),
+        loadComponent: () =>
+          import('./navigation/context-menu/ownable-context-menu-page.component').then(
+            (m) => m.OwnableContextMenuPageComponent,
+          ),
+      },
+      {
+        path: 'navigation/menubar',
+        data: toOwnableDocsRouteData(OWNABLE_NAVIGATION_GROUP, menubarItem),
+        loadComponent: () =>
+          import('./navigation/menubar/ownable-menubar-page.component').then(
+            (m) => m.OwnableMenubarPageComponent,
+          ),
+      },
+      {
+        path: 'navigation/tree',
+        data: toOwnableDocsRouteData(OWNABLE_NAVIGATION_GROUP, treeItem),
+        loadComponent: () =>
+          import('./navigation/tree/ownable-tree-page.component').then(
+            (m) => m.OwnableTreePageComponent,
           ),
       },
       {

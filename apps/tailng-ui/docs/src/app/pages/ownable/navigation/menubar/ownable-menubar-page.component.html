@@ -1,0 +1,39 @@
+<div class="grid gap-8 pb-10">
+  <section class="docs-section-anchor grid gap-4" id="menubar-overview">
+    <h1 class="m-0 text-3xl font-semibold text-tng-fg-primary">Menubar</h1>
+    <p class="m-0 max-w-4xl text-base leading-7 text-tng-fg-secondary">
+      The ownable Menubar install gives your app a local command-strip wrapper you can reshape for
+      app chrome, platform conventions, and product-specific top-level actions while keeping the
+      shared keyboard and menu behavior underneath.
+    </p>
+  </section>
+
+  <section class="docs-section-anchor grid gap-3" id="why-own-menubar">
+    <h2 class="m-0 text-xl font-semibold text-tng-fg-primary">Why own Menubar locally</h2>
+    <p class="m-0 max-w-4xl text-base leading-7 text-tng-fg-secondary">
+      Menubars usually end up tightly coupled to workspace navigation, action grouping, and shell
+      styling. Local ownership makes it easier to ship those product-level changes without waiting
+      on a shared package update.
+    </p>
+    <ul class="m-0 grid gap-2 pl-5 text-sm leading-6 text-tng-fg-secondary">
+      <li>Rework top-level command grouping and chrome integration for your app shell.</li>
+      <li>Keep menu labels, icons, and default actions close to the workspace code.</li>
+      <li>Iterate on wrapper styling while preserving the underlying keyboard contract.</li>
+    </ul>
+  </section>
+
+  <section class="docs-section-anchor grid gap-3" id="what-menubar-installs">
+    <h2 class="m-0 text-xl font-semibold text-tng-fg-primary">What the install includes</h2>
+    <p class="m-0 max-w-4xl text-base leading-7 text-tng-fg-secondary">
+      The registry-backed menubar install writes the local wrapper component, template, styles, and
+      export barrel under your app so command surfaces can evolve together with the rest of your
+      navigation shell.
+    </p>
+  </section>
+
+  <app-docs-ownable-install-section
+    componentName="Menubar"
+    registrySlug="menubar"
+    [usageCode]="usageCode"
+  />
+</div>

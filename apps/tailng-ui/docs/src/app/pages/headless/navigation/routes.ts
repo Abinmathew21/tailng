@@ -22,8 +22,15 @@ export const HEADLESS_NAVIGATION_ROUTES: Routes = [
     loadChildren: () =>
       import('./menu/routes').then((module) => module.HEADLESS_NAVIGATION_MENU_ROUTES),
   },
+  {
+    path: 'context-menu',
+    loadChildren: () =>
+      import('./context-menu/routes').then(
+        (module) => module.HEADLESS_NAVIGATION_CONTEXT_MENU_ROUTES,
+      ),
+  },
   ...group.items
-    .filter((item) => item.slug !== 'menubar' && item.slug !== 'menu')
+    .filter((item) => item.slug !== 'menubar' && item.slug !== 'menu' && item.slug !== 'context-menu')
     .map((item) => ({
       path: item.slug,
       data: toHeadlessDocsRouteData(group, item),

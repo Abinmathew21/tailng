@@ -1,0 +1,39 @@
+<div class="grid gap-8 pb-10">
+  <section class="docs-section-anchor grid gap-4" id="context-menu-overview">
+    <h1 class="m-0 text-3xl font-semibold text-tng-fg-primary">Context Menu</h1>
+    <p class="m-0 max-w-4xl text-base leading-7 text-tng-fg-secondary">
+      The ownable Context Menu install gives your app a local wrapper around the shared primitive
+      behavior so you can shape panel markup, placement strategy, and action presentation near the
+      product flows that need it.
+    </p>
+  </section>
+
+  <section class="docs-section-anchor grid gap-3" id="why-own-context-menu">
+    <h2 class="m-0 text-xl font-semibold text-tng-fg-primary">Why own Context Menu locally</h2>
+    <p class="m-0 max-w-4xl text-base leading-7 text-tng-fg-secondary">
+      Context menus often need product-specific target affordances, pointer placement logic, and
+      command copy that drift quickly from generic defaults. Owning the wrapper locally makes that
+      iteration much easier.
+    </p>
+    <ul class="m-0 grid gap-2 pl-5 text-sm leading-6 text-tng-fg-secondary">
+      <li>Customize right-click target shells and panel placement without forking primitives.</li>
+      <li>Keep action wording and destructive-state treatments inside the product repo.</li>
+      <li>Review context-menu behavior and markup next to the surfaces that invoke it.</li>
+    </ul>
+  </section>
+
+  <section class="docs-section-anchor grid gap-3" id="what-context-menu-installs">
+    <h2 class="m-0 text-xl font-semibold text-tng-fg-primary">What the install includes</h2>
+    <p class="m-0 max-w-4xl text-base leading-7 text-tng-fg-secondary">
+      The registry-backed context-menu install writes a local wrapper component, template, styles,
+      and export barrel under your app so you can tune the owned surface without losing the shared
+      interaction contract.
+    </p>
+  </section>
+
+  <app-docs-ownable-install-section
+    componentName="Context Menu"
+    registrySlug="context-menu"
+    [usageCode]="usageCode"
+  />
+</div>
