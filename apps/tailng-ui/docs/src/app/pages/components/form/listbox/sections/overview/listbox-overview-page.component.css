@@ -52,14 +52,9 @@
   max-width: none;
 }
 
-.listbox-preview--plain {
-  --tng-semantic-background-surface: #ffffff;
-  --tng-semantic-background-base: #f8fafc;
-  --tng-semantic-border-subtle: #cbd5e1;
-  --tng-semantic-accent-brand: #2563eb;
-  --tng-semantic-focus-ring: rgba(37, 99, 235, 0.16);
-  --tng-semantic-foreground-primary: #0f172a;
-  --tng-semantic-foreground-secondary: #475569;
+.listbox-preview tng-listbox {
+  width: 100%;
+  max-width: none;
 }
 
 .listbox-preview-summary {

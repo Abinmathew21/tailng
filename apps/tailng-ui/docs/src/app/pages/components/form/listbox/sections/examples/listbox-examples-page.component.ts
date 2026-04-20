@@ -190,13 +190,14 @@ export class DocsListboxPriorityPlainCssExampleComponent {
     </p>
   </header>
 
-  <tng-listbox
-    class="docs-listbox-priority-example__listbox"
-    ariaLabel="Priority queue"
-    [options]="priorityOptions"
-    [value]="selectedPriority()"
-    (valueChange)="onSelectedPriorityChange($event)"
-  ></tng-listbox>
+  <div class="docs-listbox-priority-example__listbox">
+    <tng-listbox
+      ariaLabel="Priority queue"
+      [options]="priorityOptions"
+      [value]="selectedPriority()"
+      (valueChange)="onSelectedPriorityChange($event)"
+    ></tng-listbox>
+  </div>
 
   <p class="docs-listbox-priority-example__summary">
     Selected priority: {{ selectedPrioritySummary() }}
@@ -213,12 +214,11 @@ export class DocsListboxPriorityPlainCssExampleComponent {
   display: grid;
   gap: 1rem;
   padding: 1.5rem;
-  border: 1px solid #cbd5e1;
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 1.25rem;
-  background: #ffffff;
-  color: #0f172a;
+  background: var(--tng-semantic-background-surface);
+  color: var(--tng-semantic-foreground-primary);
   box-shadow: 0 18px 40px -28px rgba(15, 23, 42, 0.35);
-  color-scheme: light;
 }
 
 .docs-listbox-priority-example__header {
@@ -234,24 +234,22 @@ export class DocsListboxPriorityPlainCssExampleComponent {
 
 .docs-listbox-priority-example__copy {
   margin: 0;
-  color: #475569;
+  color: var(--tng-semantic-foreground-secondary);
 }
 
 .docs-listbox-priority-example__listbox {
   width: 100%;
   max-width: none;
-  --tng-semantic-background-surface: #ffffff;
-  --tng-semantic-background-base: #f8fafc;
-  --tng-semantic-border-subtle: #cbd5e1;
-  --tng-semantic-accent-brand: #2563eb;
-  --tng-semantic-focus-ring: rgba(37, 99, 235, 0.18);
-  --tng-semantic-foreground-primary: #0f172a;
-  --tng-semantic-foreground-secondary: #475569;
+}
+
+.docs-listbox-priority-example__listbox tng-listbox {
+  width: 100%;
+  max-width: none;
 }
 
 .docs-listbox-priority-example__summary {
   margin: 0;
-  color: #475569;
+  color: var(--tng-semantic-foreground-secondary);
   font-size: 0.95rem;
   font-weight: 600;
 }
@@ -329,24 +327,25 @@ export class DocsListboxPriorityTailwindExampleComponent {
       label: 'HTML',
       language: 'html',
       title: 'docs-listbox-priority-tailwind-example.component.html',
-      code: `<section class="grid gap-4 rounded-3xl border border-slate-200 bg-white p-6 text-slate-900 shadow-sm [color-scheme:light]">
+      code: `<section class="grid gap-4 rounded-3xl border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-surface)] p-6 text-[var(--tng-semantic-foreground-primary)] shadow-sm">
   <header class="grid gap-2">
     <h2 class="m-0 text-lg font-semibold">Priority queue</h2>
-    <p class="m-0 text-sm text-slate-600">
+    <p class="m-0 text-sm text-[var(--tng-semantic-foreground-secondary)]">
       Use the component wrapper to carry a fully styled listbox while keeping the primitive
       keyboard model underneath.
     </p>
   </header>
 
-  <tng-listbox
-    ariaLabel="Priority queue"
-    [options]="priorityOptions"
-    [value]="selectedPriority()"
-    (valueChange)="onSelectedPriorityChange($event)"
-    class="w-full max-w-none rounded-2xl [--tng-semantic-background-surface:#ffffff] [--tng-semantic-background-base:#f8fafc] [--tng-semantic-border-subtle:#cbd5e1] [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-focus-ring:rgba(37,99,235,0.18)] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-foreground-secondary:#475569]"
-  ></tng-listbox>
+  <div class="w-full max-w-none rounded-2xl">
+    <tng-listbox
+      ariaLabel="Priority queue"
+      [options]="priorityOptions"
+      [value]="selectedPriority()"
+      (valueChange)="onSelectedPriorityChange($event)"
+    ></tng-listbox>
+  </div>
 
-  <p class="m-0 text-sm font-medium text-slate-600">
+  <p class="m-0 text-sm font-medium text-[var(--tng-semantic-foreground-secondary)]">
     Selected priority: {{ selectedPrioritySummary() }}
   </p>
 </section>
@@ -449,25 +448,27 @@ export class DocsListboxDualHandoffPlainCssExampleComponent {
       code: `<div class="docs-listbox-dual-handoff-example">
   <section class="docs-listbox-dual-handoff-example__card">
     <h2 class="docs-listbox-dual-handoff-example__title">Publish channels A</h2>
-    <tng-listbox
-      class="docs-listbox-dual-handoff-example__listbox docs-listbox-dual-handoff-example__listbox--dark"
-      ariaLabel="Publish channels A"
-      [options]="channelOptions"
-      [value]="selectedChannelA()"
-      (valueChange)="onSelectedChannelAChange($event)"
-    ></tng-listbox>
+    <div class="docs-listbox-dual-handoff-example__listbox docs-listbox-dual-handoff-example__listbox--dark">
+      <tng-listbox
+        ariaLabel="Publish channels A"
+        [options]="channelOptions"
+        [value]="selectedChannelA()"
+        (valueChange)="onSelectedChannelAChange($event)"
+      ></tng-listbox>
+    </div>
     <p class="docs-listbox-dual-handoff-example__summary">selected: {{ selectedChannelSummaryA() }}</p>
   </section>
 
   <section class="docs-listbox-dual-handoff-example__card">
     <h2 class="docs-listbox-dual-handoff-example__title">Publish channels B</h2>
-    <tng-listbox
-      class="docs-listbox-dual-handoff-example__listbox docs-listbox-dual-handoff-example__listbox--dark"
-      ariaLabel="Publish channels B"
-      [options]="channelOptions"
-      [value]="selectedChannelB()"
-      (valueChange)="onSelectedChannelBChange($event)"
-    ></tng-listbox>
+    <div class="docs-listbox-dual-handoff-example__listbox docs-listbox-dual-handoff-example__listbox--dark">
+      <tng-listbox
+        ariaLabel="Publish channels B"
+        [options]="channelOptions"
+        [value]="selectedChannelB()"
+        (valueChange)="onSelectedChannelBChange($event)"
+      ></tng-listbox>
+    </div>
     <p class="docs-listbox-dual-handoff-example__summary">selected: {{ selectedChannelSummaryB() }}</p>
   </section>
 </div>
@@ -493,11 +494,10 @@ export class DocsListboxDualHandoffPlainCssExampleComponent {
   display: grid;
   gap: 1rem;
   padding: 1.5rem;
-  border: 1px solid #475569;
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 1.25rem;
-  background: #334155;
-  color: #f8fafc;
-  color-scheme: dark;
+  background: var(--tng-semantic-background-surface);
+  color: var(--tng-semantic-foreground-primary);
 }
 
 .docs-listbox-dual-handoff-example__title {
@@ -511,19 +511,16 @@ export class DocsListboxDualHandoffPlainCssExampleComponent {
   max-width: none;
 }
 
-.docs-listbox-dual-handoff-example__listbox--dark {
-  --tng-semantic-background-surface: #334155;
-  --tng-semantic-background-base: #0f172a;
-  --tng-semantic-border-subtle: #475569;
-  --tng-semantic-accent-brand: #60a5fa;
-  --tng-semantic-focus-ring: rgba(96, 165, 250, 0.16);
-  --tng-semantic-foreground-primary: #f8fafc;
-  --tng-semantic-foreground-secondary: #cbd5e1;
+.docs-listbox-dual-handoff-example__listbox tng-listbox {
+  width: 100%;
+  max-width: none;
 }
+
+.docs-listbox-dual-handoff-example__listbox--dark {}
 
 .docs-listbox-dual-handoff-example__summary {
   margin: 0;
-  color: #cbd5e1;
+  color: var(--tng-semantic-foreground-secondary);
   font-size: 0.95rem;
   font-weight: 600;
 }
@@ -614,29 +611,31 @@ export class DocsListboxDualHandoffTailwindExampleComponent {
       label: 'HTML',
       language: 'html',
       title: 'docs-listbox-dual-handoff-tailwind-example.component.html',
-      code: `<div class="grid gap-4 xl:grid-cols-2 [color-scheme:light]">
-  <section class="grid gap-3 rounded-3xl border border-slate-200 bg-white p-4 text-slate-900 shadow-sm">
+      code: `<div class="grid gap-4 xl:grid-cols-2">
+  <section class="grid gap-3 rounded-3xl border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-surface)] p-4 text-[var(--tng-semantic-foreground-primary)] shadow-sm">
     <h2 class="m-0 text-lg font-semibold">Publish channels A</h2>
-    <tng-listbox
-      ariaLabel="Publish channels A"
-      [options]="channelOptions"
-      [value]="selectedChannelA()"
-      (valueChange)="onSelectedChannelAChange($event)"
-      class="w-full max-w-none rounded-2xl [--tng-semantic-background-surface:#ffffff] [--tng-semantic-background-base:#f8fafc] [--tng-semantic-border-subtle:#cbd5e1] [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-focus-ring:rgba(37,99,235,0.18)] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-foreground-secondary:#475569]"
-    ></tng-listbox>
-    <p class="m-0 text-sm font-medium text-slate-600">selected: {{ selectedChannelSummaryA() }}</p>
+    <div class="w-full max-w-none rounded-2xl">
+      <tng-listbox
+        ariaLabel="Publish channels A"
+        [options]="channelOptions"
+        [value]="selectedChannelA()"
+        (valueChange)="onSelectedChannelAChange($event)"
+      ></tng-listbox>
+    </div>
+    <p class="m-0 text-sm font-medium text-[var(--tng-semantic-foreground-secondary)]">selected: {{ selectedChannelSummaryA() }}</p>
   </section>
 
-  <section class="grid gap-3 rounded-3xl border border-slate-200 bg-white p-4 text-slate-900 shadow-sm">
+  <section class="grid gap-3 rounded-3xl border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-surface)] p-4 text-[var(--tng-semantic-foreground-primary)] shadow-sm">
     <h2 class="m-0 text-lg font-semibold">Publish channels B</h2>
-    <tng-listbox
-      ariaLabel="Publish channels B"
-      [options]="channelOptions"
-      [value]="selectedChannelB()"
-      (valueChange)="onSelectedChannelBChange($event)"
-      class="w-full max-w-none rounded-2xl [--tng-semantic-background-surface:#ffffff] [--tng-semantic-background-base:#f8fafc] [--tng-semantic-border-subtle:#cbd5e1] [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-focus-ring:rgba(37,99,235,0.18)] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-foreground-secondary:#475569]"
-    ></tng-listbox>
-    <p class="m-0 text-sm font-medium text-slate-600">selected: {{ selectedChannelSummaryB() }}</p>
+    <div class="w-full max-w-none rounded-2xl">
+      <tng-listbox
+        ariaLabel="Publish channels B"
+        [options]="channelOptions"
+        [value]="selectedChannelB()"
+        (valueChange)="onSelectedChannelBChange($event)"
+      ></tng-listbox>
+    </div>
+    <p class="m-0 text-sm font-medium text-[var(--tng-semantic-foreground-secondary)]">selected: {{ selectedChannelSummaryB() }}</p>
   </section>
 </div>
 `,

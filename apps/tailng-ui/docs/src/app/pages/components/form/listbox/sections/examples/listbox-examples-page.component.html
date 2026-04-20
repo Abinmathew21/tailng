@@ -35,13 +35,14 @@
           </p>
         </div>
 
-        <tng-listbox
-          class="listbox-preview listbox-preview--light"
-          ariaLabel="Priority queue"
-          [options]="priorityOptions"
-          [value]="plainValue()"
-          (valueChange)="onPlainValueChange($event)"
-        ></tng-listbox>
+        <div class="listbox-preview listbox-preview--light">
+          <tng-listbox
+            ariaLabel="Priority queue"
+            [options]="priorityOptions"
+            [value]="plainValue()"
+            (valueChange)="onPlainValueChange($event)"
+          ></tng-listbox>
+        </div>
 
         <p class="listbox-preview-summary">Selected priority: {{ plainSummary() }}</p>
       </section>
@@ -56,25 +57,26 @@
       [stackblitzUrl]="stackblitzTailwindUrl"
     >
       <section
-        class="grid gap-4 rounded-3xl border border-slate-200 bg-white p-6 text-slate-900 shadow-sm [color-scheme:light]"
+        class="grid gap-4 rounded-3xl border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-surface)] p-6 text-[var(--tng-semantic-foreground-primary)] shadow-sm"
       >
         <div class="grid gap-2">
           <h4 class="m-0 text-lg font-semibold">Priority queue</h4>
-          <p class="m-0 text-sm text-slate-600">
+          <p class="m-0 text-sm text-[var(--tng-semantic-foreground-secondary)]">
             Use the component wrapper to carry a fully styled listbox while keeping the primitive
             keyboard model underneath.
           </p>
         </div>
 
-        <tng-listbox
-          ariaLabel="Priority queue"
-          [options]="priorityOptions"
-          [value]="tailwindValue()"
-          (valueChange)="onTailwindValueChange($event)"
-          class="w-full max-w-none rounded-2xl [--tng-semantic-background-surface:#ffffff] [--tng-semantic-background-base:#f8fafc] [--tng-semantic-border-subtle:#cbd5e1] [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-focus-ring:rgba(37,99,235,0.18)] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-foreground-secondary:#475569]"
-        ></tng-listbox>
+        <div class="w-full max-w-none rounded-2xl">
+          <tng-listbox
+            ariaLabel="Priority queue"
+            [options]="priorityOptions"
+            [value]="tailwindValue()"
+            (valueChange)="onTailwindValueChange($event)"
+          ></tng-listbox>
+        </div>
 
-        <p class="m-0 text-sm font-medium text-slate-600">
+        <p class="m-0 text-sm font-medium text-[var(--tng-semantic-foreground-secondary)]">
           Selected priority: {{ tailwindSummary() }}
         </p>
       </section>
@@ -102,25 +104,27 @@
       <div class="listbox-dual-grid">
         <section class="listbox-dual-card">
           <h4>Publish channels A</h4>
-          <tng-listbox
-            class="listbox-preview listbox-preview--dark"
-            ariaLabel="Publish channels A"
-            [options]="channelOptions"
-            [value]="dualPlainChannelValueA()"
-            (valueChange)="onDualPlainChannelAValueChange($event)"
-          ></tng-listbox>
+          <div class="listbox-preview listbox-preview--dark">
+            <tng-listbox
+              ariaLabel="Publish channels A"
+              [options]="channelOptions"
+              [value]="dualPlainChannelValueA()"
+              (valueChange)="onDualPlainChannelAValueChange($event)"
+            ></tng-listbox>
+          </div>
           <p class="listbox-preview-summary listbox-preview-summary--dark">selected: {{ dualPlainChannelSummaryA() }}</p>
         </section>
 
         <section class="listbox-dual-card">
           <h4>Publish channels B</h4>
-          <tng-listbox
-            class="listbox-preview listbox-preview--dark"
-            ariaLabel="Publish channels B"
-            [options]="channelOptions"
-            [value]="dualPlainChannelValueB()"
-            (valueChange)="onDualPlainChannelBValueChange($event)"
-          ></tng-listbox>
+          <div class="listbox-preview listbox-preview--dark">
+            <tng-listbox
+              ariaLabel="Publish channels B"
+              [options]="channelOptions"
+              [value]="dualPlainChannelValueB()"
+              (valueChange)="onDualPlainChannelBValueChange($event)"
+            ></tng-listbox>
+          </div>
           <p class="listbox-preview-summary listbox-preview-summary--dark">selected: {{ dualPlainChannelSummaryB() }}</p>
         </section>
       </div>
@@ -134,35 +138,37 @@
       [codeTabs]="dualListTailwindCodeTabs"
       [stackblitzUrl]="stackblitzTailwindUrl"
     >
-      <div class="grid gap-4 xl:grid-cols-2 [color-scheme:light]">
+      <div class="grid gap-4 xl:grid-cols-2">
         <section
-          class="grid gap-3 rounded-3xl border border-slate-200 bg-white p-4 text-slate-900 shadow-sm"
+          class="grid gap-3 rounded-3xl border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-surface)] p-4 text-[var(--tng-semantic-foreground-primary)] shadow-sm"
         >
           <h4 class="m-0 text-lg font-semibold">Publish channels A</h4>
-          <tng-listbox
-            ariaLabel="Publish channels A"
-            [options]="channelOptions"
-            [value]="dualTailwindChannelValueA()"
-            (valueChange)="onDualTailwindChannelAValueChange($event)"
-            class="w-full max-w-none rounded-2xl [--tng-semantic-background-surface:#ffffff] [--tng-semantic-background-base:#f8fafc] [--tng-semantic-border-subtle:#cbd5e1] [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-focus-ring:rgba(37,99,235,0.18)] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-foreground-secondary:#475569]"
-          ></tng-listbox>
-          <p class="m-0 text-sm font-medium text-slate-600">
+          <div class="w-full max-w-none rounded-2xl">
+            <tng-listbox
+              ariaLabel="Publish channels A"
+              [options]="channelOptions"
+              [value]="dualTailwindChannelValueA()"
+              (valueChange)="onDualTailwindChannelAValueChange($event)"
+            ></tng-listbox>
+          </div>
+          <p class="m-0 text-sm font-medium text-[var(--tng-semantic-foreground-secondary)]">
             selected: {{ dualTailwindChannelSummaryA() }}
           </p>
         </section>
 
         <section
-          class="grid gap-3 rounded-3xl border border-slate-200 bg-white p-4 text-slate-900 shadow-sm"
+          class="grid gap-3 rounded-3xl border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-surface)] p-4 text-[var(--tng-semantic-foreground-primary)] shadow-sm"
         >
           <h4 class="m-0 text-lg font-semibold">Publish channels B</h4>
-          <tng-listbox
-            ariaLabel="Publish channels B"
-            [options]="channelOptions"
-            [value]="dualTailwindChannelValueB()"
-            (valueChange)="onDualTailwindChannelBValueChange($event)"
-            class="w-full max-w-none rounded-2xl [--tng-semantic-background-surface:#ffffff] [--tng-semantic-background-base:#f8fafc] [--tng-semantic-border-subtle:#cbd5e1] [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-focus-ring:rgba(37,99,235,0.18)] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-foreground-secondary:#475569]"
-          ></tng-listbox>
-          <p class="m-0 text-sm font-medium text-slate-600">
+          <div class="w-full max-w-none rounded-2xl">
+            <tng-listbox
+              ariaLabel="Publish channels B"
+              [options]="channelOptions"
+              [value]="dualTailwindChannelValueB()"
+              (valueChange)="onDualTailwindChannelBValueChange($event)"
+            ></tng-listbox>
+          </div>
+          <p class="m-0 text-sm font-medium text-[var(--tng-semantic-foreground-secondary)]">
             selected: {{ dualTailwindChannelSummaryB() }}
           </p>
         </section>
