@@ -88,21 +88,18 @@
                 Use host-level semantic tokens when one action needs stronger emphasis.
               </p>
             </div>
-            <tng-button-toggle-group
-              class="doc-cmp-button-toggle-release-group"
-              ariaLabel="Release target"
-              [value]="plainCssReleaseTarget()"
-              (valueChange)="onPlainCssReleaseTargetChange($event)"
-            >
-              <tng-button-toggle class="doc-cmp-button-toggle-release-item" [tngButtonToggleValue]="'ship-now'"
-                >Ship now</tng-button-toggle
+            <div class="doc-cmp-button-toggle-release-group">
+              <tng-button-toggle-group
+                ariaLabel="Release target"
+                [value]="plainCssReleaseTarget()"
+                (valueChange)="onPlainCssReleaseTargetChange($event)"
               >
-              <tng-button-toggle
-                class="doc-cmp-button-toggle-release-item doc-cmp-button-toggle-release-item--critical"
-                [tngButtonToggleValue]="'review'"
-                >Compliance review</tng-button-toggle
-              >
-            </tng-button-toggle-group>
+                <tng-button-toggle [tngButtonToggleValue]="'ship-now'">Ship now</tng-button-toggle>
+                <div class="doc-cmp-button-toggle-release-item--critical">
+                  <tng-button-toggle [tngButtonToggleValue]="'review'">Compliance review</tng-button-toggle>
+                </div>
+              </tng-button-toggle-group>
+            </div>
           </section>
         </ng-template>
 
@@ -115,31 +112,30 @@
           [stackblitzUrl]="stackblitzTailwindUrl"
         >
           <section
-            class="grid w-full max-w-[32rem] gap-3 rounded-2xl border border-slate-300 bg-white p-4 text-slate-900 shadow-sm [color-scheme:light]"
+            class="grid w-full max-w-[32rem] gap-3 rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-surface)] p-4 text-[var(--tng-semantic-foreground-primary)] shadow-sm"
           >
             <div class="grid gap-1">
-              <h3 class="m-0 text-base font-semibold text-slate-900">Release target</h3>
-              <p class="m-0 text-sm leading-6 text-slate-600">
+              <h3 class="m-0 text-base font-semibold text-[var(--tng-semantic-foreground-primary)]">Release target</h3>
+              <p class="m-0 text-sm leading-6 text-[var(--tng-semantic-foreground-secondary)]">
                 Use host-level semantic tokens when one action needs stronger emphasis.
               </p>
             </div>
-            <tng-button-toggle-group
-              class="inline-flex flex-wrap gap-2 rounded-2xl border border-slate-200 bg-slate-100 p-2.5 [--tng-semantic-border-subtle:#dbe4ee]"
-              ariaLabel="Release target"
-              [value]="tailwindReleaseTarget()"
-              (valueChange)="onTailwindReleaseTargetChange($event)"
+            <div
+              class="inline-flex flex-wrap gap-2 rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-muted)_78%,var(--tng-semantic-background-surface)_22%)] p-2.5"
             >
-              <tng-button-toggle
-                class="[--tng-semantic-background-surface:#ffffff] [--tng-semantic-background-muted:#edf4ff] [--tng-semantic-border-subtle:#c6d4e1] [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-foreground-primary:#1e293b] [--tng-color-white:#ffffff]"
-                [tngButtonToggleValue]="'ship-now'"
-                >Ship now</tng-button-toggle
+              <tng-button-toggle-group
+                ariaLabel="Release target"
+                [value]="tailwindReleaseTarget()"
+                (valueChange)="onTailwindReleaseTargetChange($event)"
               >
-              <tng-button-toggle
-                class="[--tng-semantic-background-surface:#fff7f8] [--tng-semantic-background-muted:#ffe7eb] [--tng-semantic-border-subtle:#fecdd3] [--tng-semantic-accent-brand:#e11d48] [--tng-semantic-foreground-primary:#881337] [--tng-color-white:#ffffff]"
-                [tngButtonToggleValue]="'review'"
-                >Compliance review</tng-button-toggle
-              >
-            </tng-button-toggle-group>
+                <tng-button-toggle [tngButtonToggleValue]="'ship-now'">Ship now</tng-button-toggle>
+                <div
+                  class="[--tng-semantic-background-surface:color-mix(in_srgb,var(--tng-semantic-accent-danger)_8%,var(--tng-semantic-background-surface)_92%)] [--tng-semantic-background-muted:color-mix(in_srgb,var(--tng-semantic-accent-danger)_14%,var(--tng-semantic-background-surface)_86%)] [--tng-semantic-border-subtle:color-mix(in_srgb,var(--tng-semantic-accent-danger)_26%,var(--tng-semantic-border-subtle)_74%)] [--tng-semantic-accent-brand:var(--tng-semantic-accent-danger)] [--tng-semantic-foreground-primary:var(--tng-semantic-accent-danger)] [--tng-color-white:var(--tng-color-white)]"
+                >
+                  <tng-button-toggle [tngButtonToggleValue]="'review'">Compliance review</tng-button-toggle>
+                </div>
+              </tng-button-toggle-group>
+            </div>
           </section>
         </ng-template>
       </app-docs-example-tabs-section>

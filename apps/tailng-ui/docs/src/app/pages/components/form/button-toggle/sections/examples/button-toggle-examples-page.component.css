@@ -14,42 +14,34 @@
   inline-size: min(100%, 30rem);
   margin-inline: auto;
   padding: 1rem;
-  border: 1px solid #dbe4ee;
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 1rem;
-  background: #ffffff;
+  background: var(--tng-semantic-background-surface);
   box-shadow: 0 20px 40px -32px rgba(15, 23, 42, 0.28);
-  color-scheme: light;
 }
 
 .doc-cmp-button-toggle-alignment-card__title,
 .doc-cmp-button-toggle-formatting-card__title {
   margin: 0;
-  color: #0f172a;
+  color: var(--tng-semantic-foreground-primary);
   font-size: 1rem;
   font-weight: 700;
 }
 
 .doc-cmp-button-toggle-alignment-group,
 .doc-cmp-button-toggle-formatting-group {
-  --tng-semantic-border-subtle: #dbe4ee;
-  background: #f8fafc;
+  background: color-mix(
+    in srgb,
+    var(--tng-semantic-background-muted) 78%,
+    var(--tng-semantic-background-surface) 22%
+  );
   border-radius: 1rem;
-}
-
-.doc-cmp-button-toggle-alignment-item,
-.doc-cmp-button-toggle-formatting-item {
-  --tng-semantic-background-surface: #ffffff;
-  --tng-semantic-background-muted: #edf4ff;
-  --tng-semantic-border-subtle: #c6d4e1;
-  --tng-semantic-accent-brand: #2563eb;
-  --tng-semantic-foreground-primary: #1e293b;
-  --tng-color-white: #ffffff;
 }
 
 .doc-cmp-button-toggle-alignment-card__summary,
 .doc-cmp-button-toggle-formatting-card__summary {
   margin: 0;
-  color: #475569;
+  color: var(--tng-semantic-foreground-secondary);
   font-size: 0.82rem;
 }
 
