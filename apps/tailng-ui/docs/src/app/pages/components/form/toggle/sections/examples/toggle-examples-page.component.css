@@ -19,31 +19,12 @@
   inline-size: min(100%, 38rem);
   margin-inline: auto;
   padding: 1rem;
-  border: 1px solid #cbd5e1;
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 1rem;
-  background: #ffffff;
-  color: #0f172a;
+  background: var(--tng-semantic-background-surface);
+  color: var(--tng-semantic-foreground-primary);
   color-scheme: light;
   box-shadow: 0 18px 40px -34px rgba(15, 23, 42, 0.24);
-}
-
-.toggle-formatting-card {
-  --tng-semantic-accent-brand: #2563eb;
-  --tng-semantic-background-surface: #ffffff;
-  --tng-semantic-border-strong: #cbd5e1;
-  --tng-semantic-border-subtle: #dbe4ee;
-  --tng-semantic-foreground-primary: #0f172a;
-  --tng-semantic-focus-ring: rgba(37, 99, 235, 0.26);
-}
-
-.toggle-layout-card,
-.toggle-publish-card {
-  --tng-semantic-accent-brand: #2563eb;
-  --tng-semantic-background-surface: #ffffff;
-  --tng-semantic-border-strong: #cbd5e1;
-  --tng-semantic-border-subtle: #dbe4ee;
-  --tng-semantic-foreground-primary: #0f172a;
-  --tng-semantic-focus-ring: rgba(37, 99, 235, 0.26);
 }
 
 .toggle-formatting-card__header,
@@ -55,7 +36,7 @@
 
 .toggle-formatting-card__eyebrow {
   margin: 0;
-  color: #64748b;
+  color: var(--tng-semantic-foreground-secondary);
   font-size: 0.78rem;
   font-weight: 700;
   letter-spacing: 0.14em;
@@ -66,7 +47,7 @@
 .toggle-layout-card__title,
 .toggle-publish-card__title {
   margin: 0;
-  color: #0f172a;
+  color: var(--tng-semantic-foreground-primary);
   font-size: 1.05rem;
   font-weight: 700;
 }
@@ -75,7 +56,7 @@
 .toggle-layout-card__body,
 .toggle-publish-card__body {
   margin: 0;
-  color: #475569;
+  color: var(--tng-semantic-foreground-secondary);
   font-size: 0.9rem;
   line-height: 1.6;
 }
@@ -86,16 +67,9 @@
   gap: 0.75rem;
 }
 
-.toggle-formatting-card__toggle {
-  --tng-semantic-accent-brand: #2563eb;
-  --tng-semantic-background-surface: #ffffff;
-  --tng-semantic-border-strong: #cbd5e1;
-  --tng-semantic-foreground-primary: #0f172a;
-  --tng-semantic-focus-ring: rgba(37, 99, 235, 0.26);
-}
-
-.toggle-layout-card__group,
-.toggle-publish-card__group {
+.toggle-layout-card tng-toggle-group,
+.toggle-publish-card tng-toggle-group,
+.toggle-examples-stack section.grid tng-toggle-group {
   display: grid;
   gap: 0.75rem;
   padding: 0;
@@ -110,17 +84,29 @@
   gap: 0.85rem;
   align-items: center;
   padding: 0.85rem 0.95rem;
-  border: 1px solid #dbe4ee;
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 1rem;
-  background: #f8fafc;
+  background: color-mix(
+    in srgb,
+    var(--tng-semantic-background-surface) 92%,
+    var(--tng-semantic-foreground-primary) 8%
+  );
   cursor: pointer;
   transition: border-color 150ms ease, background-color 150ms ease;
 }
 
 .toggle-layout-card__choice--active,
 .toggle-publish-card__choice--active {
-  border-color: #bfdbfe;
-  background: #eff6ff;
+  border-color: color-mix(
+    in srgb,
+    var(--tng-semantic-accent-brand) 30%,
+    var(--tng-semantic-border-subtle) 70%
+  );
+  background: color-mix(
+    in srgb,
+    var(--tng-semantic-accent-brand) 12%,
+    var(--tng-semantic-background-surface) 88%
+  );
 }
 
 .toggle-layout-card__copy,
@@ -131,14 +117,14 @@
 
 .toggle-layout-card__label,
 .toggle-publish-card__label {
-  color: #0f172a;
+  color: var(--tng-semantic-foreground-primary);
   font-size: 0.92rem;
   font-weight: 700;
 }
 
 .toggle-layout-card__meta,
 .toggle-publish-card__meta {
-  color: #64748b;
+  color: var(--tng-semantic-foreground-secondary);
   font-size: 0.82rem;
   line-height: 1.5;
 }
@@ -147,7 +133,7 @@
 .toggle-layout-card__summary,
 .toggle-publish-card__summary {
   margin: 0;
-  color: #475569;
+  color: var(--tng-semantic-foreground-secondary);
   font-size: 0.82rem;
 }
 

@@ -81,16 +81,10 @@
 }
 
 .release-toggle-shell {
-  --tng-semantic-accent-brand: #2563eb;
-  --tng-semantic-background-surface: #ffffff;
-  --tng-semantic-border-strong: #cbd5e1;
-  --tng-semantic-border-subtle: #dbe4ee;
-  --tng-semantic-foreground-primary: #0f172a;
-  --tng-semantic-focus-ring: rgba(37, 99, 235, 0.26);
-  background: #ffffff;
-  border: 1px solid #cbd5e1;
+  background: var(--tng-semantic-background-surface);
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 1rem;
-  color: #0f172a;
+  color: var(--tng-semantic-foreground-primary);
   color-scheme: light;
   display: grid;
   gap: 1rem;
@@ -105,20 +99,21 @@
 }
 
 .release-toggle-shell__title {
-  color: #0f172a;
+  color: var(--tng-semantic-foreground-primary);
   font-size: 1.05rem;
   font-weight: 700;
   margin: 0;
 }
 
 .release-toggle-shell__body {
-  color: #475569;
+  color: var(--tng-semantic-foreground-secondary);
   font-size: 0.9rem;
   line-height: 1.6;
   margin: 0;
 }
 
-.release-toggle-shell__group {
+.release-toggle-shell tng-toggle-group,
+.toggle-styling-block section.grid tng-toggle-group {
   background: transparent;
   border: 0;
   display: grid;
@@ -128,8 +123,12 @@
 
 .release-toggle-shell__row {
   align-items: center;
-  background: #f8fafc;
-  border: 1px solid #dbe4ee;
+  background: color-mix(
+    in srgb,
+    var(--tng-semantic-background-surface) 92%,
+    var(--tng-semantic-foreground-primary) 8%
+  );
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 1rem;
   cursor: pointer;
   display: grid;
@@ -139,8 +138,16 @@
 }
 
 .release-toggle-shell__row--active {
-  background: #eff6ff;
-  border-color: #bfdbfe;
+  background: color-mix(
+    in srgb,
+    var(--tng-semantic-accent-brand) 12%,
+    var(--tng-semantic-background-surface) 88%
+  );
+  border-color: color-mix(
+    in srgb,
+    var(--tng-semantic-accent-brand) 30%,
+    var(--tng-semantic-border-subtle) 70%
+  );
 }
 
 .release-toggle-shell__copy {
@@ -149,13 +156,13 @@
 }
 
 .release-toggle-shell__label {
-  color: #0f172a;
+  color: var(--tng-semantic-foreground-primary);
   font-size: 0.92rem;
   font-weight: 700;
 }
 
 .release-toggle-shell__meta {
-  color: #64748b;
+  color: var(--tng-semantic-foreground-secondary);
   font-size: 0.82rem;
   line-height: 1.5;
 }

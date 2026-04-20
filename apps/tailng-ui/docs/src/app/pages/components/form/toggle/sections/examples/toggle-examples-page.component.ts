@@ -182,7 +182,6 @@ export class ComponentToggleFormattingPlainComponent {
 
   <div class="toggle-formatting-card__toolbar" role="toolbar" aria-label="Formatting actions">
     <tng-toggle
-      class="toggle-formatting-card__toggle"
       [pressed]="boldActive()"
       pressedLabel="Disable bold"
       unpressedLabel="Enable bold"
@@ -192,7 +191,6 @@ export class ComponentToggleFormattingPlainComponent {
       <span onIcon>B</span>
     </tng-toggle>
     <tng-toggle
-      class="toggle-formatting-card__toggle"
       [pressed]="italicActive()"
       pressedLabel="Disable italic"
       unpressedLabel="Enable italic"
@@ -202,7 +200,6 @@ export class ComponentToggleFormattingPlainComponent {
       <span onIcon>I</span>
     </tng-toggle>
     <tng-toggle
-      class="toggle-formatting-card__toggle"
       [pressed]="codeActive()"
       pressedLabel="Disable code style"
       unpressedLabel="Enable code style"
@@ -216,21 +213,15 @@ export class ComponentToggleFormattingPlainComponent {
   <p class="toggle-formatting-card__summary">Active: {{ activeFormattingSummary() }}</p>
 </section>`,
     `.toggle-formatting-card {
-  --tng-semantic-accent-brand: #2563eb;
-  --tng-semantic-background-surface: #ffffff;
-  --tng-semantic-border-strong: #cbd5e1;
-  --tng-semantic-border-subtle: #dbe4ee;
-  --tng-semantic-foreground-primary: #0f172a;
-  --tng-semantic-focus-ring: rgba(37, 99, 235, 0.26);
   display: grid;
   gap: 1rem;
   inline-size: min(100%, 32rem);
   margin-inline: auto;
   padding: 1rem;
-  border: 1px solid #cbd5e1;
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 1rem;
-  background: #ffffff;
-  color: #0f172a;
+  background: var(--tng-semantic-background-surface);
+  color: var(--tng-semantic-foreground-primary);
   color-scheme: light;
   box-shadow: 0 18px 40px -34px rgba(15, 23, 42, 0.25);
 }
@@ -242,7 +233,7 @@ export class ComponentToggleFormattingPlainComponent {
 
 .toggle-formatting-card__eyebrow {
   margin: 0;
-  color: #64748b;
+  color: var(--tng-semantic-foreground-secondary);
   font-size: 0.78rem;
   font-weight: 700;
   letter-spacing: 0.14em;
@@ -251,14 +242,14 @@ export class ComponentToggleFormattingPlainComponent {
 
 .toggle-formatting-card__title {
   margin: 0;
-  color: #0f172a;
+  color: var(--tng-semantic-foreground-primary);
   font-size: 1.05rem;
   font-weight: 700;
 }
 
 .toggle-formatting-card__body {
   margin: 0;
-  color: #475569;
+  color: var(--tng-semantic-foreground-secondary);
   font-size: 0.9rem;
   line-height: 1.6;
 }
@@ -269,17 +260,9 @@ export class ComponentToggleFormattingPlainComponent {
   gap: 0.75rem;
 }
 
-.toggle-formatting-card__toggle {
-  --tng-semantic-accent-brand: #2563eb;
-  --tng-semantic-background-surface: #ffffff;
-  --tng-semantic-border-strong: #cbd5e1;
-  --tng-semantic-foreground-primary: #0f172a;
-  --tng-semantic-focus-ring: rgba(37, 99, 235, 0.26);
-}
-
 .toggle-formatting-card__summary {
   margin: 0;
-  color: #475569;
+  color: var(--tng-semantic-foreground-secondary);
   font-size: 0.82rem;
   text-transform: lowercase;
 }`,
@@ -315,20 +298,19 @@ export class ComponentToggleFormattingTailwindComponent {
     return active.length > 0 ? active.join(', ') : 'none';
   });
 }`,
-    `<section class="grid w-full max-w-[32rem] gap-4 rounded-2xl border border-slate-300 bg-white p-4 text-slate-900 shadow-sm [color-scheme:light]">
+    `<section class="grid w-full max-w-[32rem] gap-4 rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-surface)] p-4 text-[var(--tng-semantic-foreground-primary)] shadow-sm">
   <div class="grid gap-1">
-    <p class="m-0 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+    <p class="m-0 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--tng-semantic-foreground-secondary)]">
       Editing toolbar
     </p>
-    <h3 class="m-0 text-lg font-semibold text-slate-900">Formatting actions</h3>
-    <p class="m-0 text-sm leading-6 text-slate-600">
+    <h3 class="m-0 text-lg font-semibold text-[var(--tng-semantic-foreground-primary)]">Formatting actions</h3>
+    <p class="m-0 text-sm leading-6 text-[var(--tng-semantic-foreground-secondary)]">
       Standalone toggles work well for independent editor actions.
     </p>
   </div>
 
   <div class="flex flex-wrap gap-3" role="toolbar" aria-label="Formatting actions">
     <tng-toggle
-      class="[--tng-semantic-accent-brand:#2563eb] [--tng-semantic-background-surface:#ffffff] [--tng-semantic-border-strong:#cbd5e1] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-focus-ring:rgba(37,99,235,0.26)]"
       [pressed]="boldActive()"
       pressedLabel="Disable bold"
       unpressedLabel="Enable bold"
@@ -338,7 +320,6 @@ export class ComponentToggleFormattingTailwindComponent {
       <span onIcon>B</span>
     </tng-toggle>
     <tng-toggle
-      class="[--tng-semantic-accent-brand:#2563eb] [--tng-semantic-background-surface:#ffffff] [--tng-semantic-border-strong:#cbd5e1] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-focus-ring:rgba(37,99,235,0.26)]"
       [pressed]="italicActive()"
       pressedLabel="Disable italic"
       unpressedLabel="Enable italic"
@@ -348,7 +329,6 @@ export class ComponentToggleFormattingTailwindComponent {
       <span onIcon>I</span>
     </tng-toggle>
     <tng-toggle
-      class="[--tng-semantic-accent-brand:#2563eb] [--tng-semantic-background-surface:#ffffff] [--tng-semantic-border-strong:#cbd5e1] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-focus-ring:rgba(37,99,235,0.26)]"
       [pressed]="codeActive()"
       pressedLabel="Disable code style"
       unpressedLabel="Enable code style"
@@ -359,7 +339,7 @@ export class ComponentToggleFormattingTailwindComponent {
     </tng-toggle>
   </div>
 
-  <p class="m-0 text-xs lowercase text-slate-600">Active: {{ activeFormattingSummary() }}</p>
+  <p class="m-0 text-xs lowercase text-[var(--tng-semantic-foreground-secondary)]">Active: {{ activeFormattingSummary() }}</p>
 </section>`,
     '/* Tailwind utilities are applied directly in the template. */',
   );
@@ -403,7 +383,6 @@ export class ComponentToggleLayoutPlainComponent {
   </div>
 
   <tng-toggle-group
-    class="toggle-layout-card__group"
     selectionMode="single"
     ariaLabel="Review queue layout"
     [value]="selectedReviewLayout()"
@@ -444,21 +423,15 @@ export class ComponentToggleLayoutPlainComponent {
   <p class="toggle-layout-card__summary">Selected: {{ selectedReviewLayout() }}</p>
 </section>`,
     `.toggle-layout-card {
-  --tng-semantic-accent-brand: #2563eb;
-  --tng-semantic-background-surface: #ffffff;
-  --tng-semantic-border-strong: #cbd5e1;
-  --tng-semantic-border-subtle: #dbe4ee;
-  --tng-semantic-foreground-primary: #0f172a;
-  --tng-semantic-focus-ring: rgba(37, 99, 235, 0.26);
   display: grid;
   gap: 1rem;
   inline-size: min(100%, 38rem);
   margin-inline: auto;
   padding: 1rem;
-  border: 1px solid #cbd5e1;
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 1rem;
-  background: #ffffff;
-  color: #0f172a;
+  background: var(--tng-semantic-background-surface);
+  color: var(--tng-semantic-foreground-primary);
   color-scheme: light;
 }
 
@@ -469,19 +442,19 @@ export class ComponentToggleLayoutPlainComponent {
 
 .toggle-layout-card__title {
   margin: 0;
-  color: #0f172a;
+  color: var(--tng-semantic-foreground-primary);
   font-size: 1.05rem;
   font-weight: 700;
 }
 
 .toggle-layout-card__body {
   margin: 0;
-  color: #475569;
+  color: var(--tng-semantic-foreground-secondary);
   font-size: 0.9rem;
   line-height: 1.6;
 }
 
-.toggle-layout-card__group {
+.toggle-layout-card tng-toggle-group {
   display: grid;
   gap: 0.75rem;
   padding: 0;
@@ -495,16 +468,16 @@ export class ComponentToggleLayoutPlainComponent {
   gap: 0.85rem;
   align-items: center;
   padding: 0.85rem 0.95rem;
-  border: 1px solid #dbe4ee;
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 1rem;
-  background: #f8fafc;
+  background: color-mix(in srgb, var(--tng-semantic-background-surface) 92%, var(--tng-semantic-foreground-primary) 8%);
   cursor: pointer;
   transition: border-color 150ms ease, background-color 150ms ease;
 }
 
 .toggle-layout-card__choice--active {
-  border-color: #bfdbfe;
-  background: #eff6ff;
+  border-color: color-mix(in srgb, var(--tng-semantic-accent-brand) 30%, var(--tng-semantic-border-subtle) 70%);
+  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 12%, var(--tng-semantic-background-surface) 88%);
 }
 
 .toggle-layout-card__copy {
@@ -513,20 +486,20 @@ export class ComponentToggleLayoutPlainComponent {
 }
 
 .toggle-layout-card__label {
-  color: #0f172a;
+  color: var(--tng-semantic-foreground-primary);
   font-size: 0.92rem;
   font-weight: 700;
 }
 
 .toggle-layout-card__meta {
-  color: #64748b;
+  color: var(--tng-semantic-foreground-secondary);
   font-size: 0.82rem;
   line-height: 1.5;
 }
 
 .toggle-layout-card__summary {
   margin: 0;
-  color: #475569;
+  color: var(--tng-semantic-foreground-secondary);
   font-size: 0.82rem;
   text-transform: capitalize;
 }`,
@@ -563,52 +536,51 @@ export class ComponentToggleLayoutTailwindComponent {
     this.selectedReviewLayout.set(value);
   }
 }`,
-    `<section class="grid w-full max-w-[38rem] gap-4 rounded-2xl border border-slate-300 bg-white p-4 text-slate-900 shadow-sm [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-background-surface:#ffffff] [--tng-semantic-border-strong:#cbd5e1] [--tng-semantic-border-subtle:#dbe4ee] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-focus-ring:rgba(37,99,235,0.26)] [color-scheme:light]">
+    `<section class="grid w-full max-w-[38rem] gap-4 rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-surface)] p-4 text-[var(--tng-semantic-foreground-primary)] shadow-sm">
   <div class="grid gap-1">
-    <h3 class="m-0 text-lg font-semibold text-slate-900">Review queue layout</h3>
-    <p class="m-0 text-sm leading-6 text-slate-600">Choose the default workspace for triage and approvals.</p>
+    <h3 class="m-0 text-lg font-semibold text-[var(--tng-semantic-foreground-primary)]">Review queue layout</h3>
+    <p class="m-0 text-sm leading-6 text-[var(--tng-semantic-foreground-secondary)]">Choose the default workspace for triage and approvals.</p>
   </div>
 
   <tng-toggle-group
-    class="grid gap-3 border-0 bg-transparent p-0"
     selectionMode="single"
     ariaLabel="Review queue layout"
     [value]="selectedReviewLayout()"
     (valueChange)="onReviewLayoutChange($event)"
   >
-    <div class="grid cursor-pointer grid-cols-[auto_1fr] items-center gap-3 rounded-2xl border p-3 transition" [class.border-blue-200]="selectedReviewLayout() === 'board'" [class.bg-blue-50]="selectedReviewLayout() === 'board'" [class.border-slate-200]="selectedReviewLayout() !== 'board'" [class.bg-slate-50]="selectedReviewLayout() !== 'board'" (click)="onReviewLayoutChoiceClick('board', $event)">
+    <div class="grid cursor-pointer grid-cols-[auto_1fr] items-center gap-3 rounded-2xl border p-3 transition" [style.border-color]="selectedReviewLayout() === 'board' ? 'color-mix(in srgb, var(--tng-semantic-accent-brand) 30%, var(--tng-semantic-border-subtle) 70%)' : 'var(--tng-semantic-border-subtle)'" [style.background]="selectedReviewLayout() === 'board' ? 'color-mix(in srgb, var(--tng-semantic-accent-brand) 12%, var(--tng-semantic-background-surface) 88%)' : 'color-mix(in srgb, var(--tng-semantic-background-surface) 92%, var(--tng-semantic-foreground-primary) 8%)'" (click)="onReviewLayoutChoiceClick('board', $event)">
       <tng-toggle [value]="'board'" pressedLabel="Board layout selected" unpressedLabel="Select board layout">
         <span offIcon>B</span>
         <span onIcon>B</span>
       </tng-toggle>
       <div class="grid gap-0.5">
-        <span class="text-sm font-semibold text-slate-900">Board</span>
-        <span class="text-xs text-slate-500">Kanban lanes for rapid triage.</span>
+        <span class="text-sm font-semibold text-[var(--tng-semantic-foreground-primary)]">Board</span>
+        <span class="text-xs text-[var(--tng-semantic-foreground-secondary)]">Kanban lanes for rapid triage.</span>
       </div>
     </div>
-    <div class="grid cursor-pointer grid-cols-[auto_1fr] items-center gap-3 rounded-2xl border p-3 transition" [class.border-blue-200]="selectedReviewLayout() === 'table'" [class.bg-blue-50]="selectedReviewLayout() === 'table'" [class.border-slate-200]="selectedReviewLayout() !== 'table'" [class.bg-slate-50]="selectedReviewLayout() !== 'table'" (click)="onReviewLayoutChoiceClick('table', $event)">
+    <div class="grid cursor-pointer grid-cols-[auto_1fr] items-center gap-3 rounded-2xl border p-3 transition" [style.border-color]="selectedReviewLayout() === 'table' ? 'color-mix(in srgb, var(--tng-semantic-accent-brand) 30%, var(--tng-semantic-border-subtle) 70%)' : 'var(--tng-semantic-border-subtle)'" [style.background]="selectedReviewLayout() === 'table' ? 'color-mix(in srgb, var(--tng-semantic-accent-brand) 12%, var(--tng-semantic-background-surface) 88%)' : 'color-mix(in srgb, var(--tng-semantic-background-surface) 92%, var(--tng-semantic-foreground-primary) 8%)'" (click)="onReviewLayoutChoiceClick('table', $event)">
       <tng-toggle [value]="'table'" pressedLabel="Table layout selected" unpressedLabel="Select table layout">
         <span offIcon>T</span>
         <span onIcon>T</span>
       </tng-toggle>
       <div class="grid gap-0.5">
-        <span class="text-sm font-semibold text-slate-900">Table</span>
-        <span class="text-xs text-slate-500">Dense scanning across columns.</span>
+        <span class="text-sm font-semibold text-[var(--tng-semantic-foreground-primary)]">Table</span>
+        <span class="text-xs text-[var(--tng-semantic-foreground-secondary)]">Dense scanning across columns.</span>
       </div>
     </div>
-    <div class="grid cursor-pointer grid-cols-[auto_1fr] items-center gap-3 rounded-2xl border p-3 transition" [class.border-blue-200]="selectedReviewLayout() === 'timeline'" [class.bg-blue-50]="selectedReviewLayout() === 'timeline'" [class.border-slate-200]="selectedReviewLayout() !== 'timeline'" [class.bg-slate-50]="selectedReviewLayout() !== 'timeline'" (click)="onReviewLayoutChoiceClick('timeline', $event)">
+    <div class="grid cursor-pointer grid-cols-[auto_1fr] items-center gap-3 rounded-2xl border p-3 transition" [style.border-color]="selectedReviewLayout() === 'timeline' ? 'color-mix(in srgb, var(--tng-semantic-accent-brand) 30%, var(--tng-semantic-border-subtle) 70%)' : 'var(--tng-semantic-border-subtle)'" [style.background]="selectedReviewLayout() === 'timeline' ? 'color-mix(in srgb, var(--tng-semantic-accent-brand) 12%, var(--tng-semantic-background-surface) 88%)' : 'color-mix(in srgb, var(--tng-semantic-background-surface) 92%, var(--tng-semantic-foreground-primary) 8%)'" (click)="onReviewLayoutChoiceClick('timeline', $event)">
       <tng-toggle [value]="'timeline'" pressedLabel="Timeline layout selected" unpressedLabel="Select timeline layout">
         <span offIcon>L</span>
         <span onIcon>L</span>
       </tng-toggle>
       <div class="grid gap-0.5">
-        <span class="text-sm font-semibold text-slate-900">Timeline</span>
-        <span class="text-xs text-slate-500">Chronological incident playback.</span>
+        <span class="text-sm font-semibold text-[var(--tng-semantic-foreground-primary)]">Timeline</span>
+        <span class="text-xs text-[var(--tng-semantic-foreground-secondary)]">Chronological incident playback.</span>
       </div>
     </div>
   </tng-toggle-group>
 
-  <p class="m-0 text-xs capitalize text-slate-600">Selected: {{ selectedReviewLayout() }}</p>
+  <p class="m-0 text-xs capitalize text-[var(--tng-semantic-foreground-secondary)]">Selected: {{ selectedReviewLayout() }}</p>
 </section>`,
     '/* Tailwind utilities are applied directly in the template. */',
   );
@@ -659,7 +631,6 @@ export class ComponentTogglePublishPlainComponent {
   </div>
 
   <tng-toggle-group
-    class="toggle-publish-card__group"
     selectionMode="multiple"
     ariaLabel="Publish targets"
     [values]="selectedPublishTargets()"
@@ -700,21 +671,15 @@ export class ComponentTogglePublishPlainComponent {
   <p class="toggle-publish-card__summary">Targets: {{ publishSummary() }}</p>
 </section>`,
     `.toggle-publish-card {
-  --tng-semantic-accent-brand: #2563eb;
-  --tng-semantic-background-surface: #ffffff;
-  --tng-semantic-border-strong: #cbd5e1;
-  --tng-semantic-border-subtle: #dbe4ee;
-  --tng-semantic-foreground-primary: #0f172a;
-  --tng-semantic-focus-ring: rgba(37, 99, 235, 0.26);
   display: grid;
   gap: 1rem;
   inline-size: min(100%, 38rem);
   margin-inline: auto;
   padding: 1rem;
-  border: 1px solid #cbd5e1;
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 1rem;
-  background: #ffffff;
-  color: #0f172a;
+  background: var(--tng-semantic-background-surface);
+  color: var(--tng-semantic-foreground-primary);
   color-scheme: light;
 }
 
@@ -725,19 +690,19 @@ export class ComponentTogglePublishPlainComponent {
 
 .toggle-publish-card__title {
   margin: 0;
-  color: #0f172a;
+  color: var(--tng-semantic-foreground-primary);
   font-size: 1.05rem;
   font-weight: 700;
 }
 
 .toggle-publish-card__body {
   margin: 0;
-  color: #475569;
+  color: var(--tng-semantic-foreground-secondary);
   font-size: 0.9rem;
   line-height: 1.6;
 }
 
-.toggle-publish-card__group {
+.toggle-publish-card tng-toggle-group {
   display: grid;
   gap: 0.75rem;
   padding: 0;
@@ -751,16 +716,16 @@ export class ComponentTogglePublishPlainComponent {
   gap: 0.85rem;
   align-items: center;
   padding: 0.85rem 0.95rem;
-  border: 1px solid #dbe4ee;
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 1rem;
-  background: #f8fafc;
+  background: color-mix(in srgb, var(--tng-semantic-background-surface) 92%, var(--tng-semantic-foreground-primary) 8%);
   cursor: pointer;
   transition: border-color 150ms ease, background-color 150ms ease;
 }
 
 .toggle-publish-card__choice--active {
-  border-color: #bfdbfe;
-  background: #eff6ff;
+  border-color: color-mix(in srgb, var(--tng-semantic-accent-brand) 30%, var(--tng-semantic-border-subtle) 70%);
+  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 12%, var(--tng-semantic-background-surface) 88%);
 }
 
 .toggle-publish-card__copy {
@@ -769,20 +734,20 @@ export class ComponentTogglePublishPlainComponent {
 }
 
 .toggle-publish-card__label {
-  color: #0f172a;
+  color: var(--tng-semantic-foreground-primary);
   font-size: 0.92rem;
   font-weight: 700;
 }
 
 .toggle-publish-card__meta {
-  color: #64748b;
+  color: var(--tng-semantic-foreground-secondary);
   font-size: 0.82rem;
   line-height: 1.5;
 }
 
 .toggle-publish-card__summary {
   margin: 0;
-  color: #475569;
+  color: var(--tng-semantic-foreground-secondary);
   font-size: 0.82rem;
   text-transform: lowercase;
 }`,
@@ -826,52 +791,51 @@ export class ComponentTogglePublishTailwindComponent {
     this.selectedPublishTargets.set(togglePublishTarget(this.selectedPublishTargets(), value));
   }
 }`,
-    `<section class="grid w-full max-w-[38rem] gap-4 rounded-2xl border border-slate-300 bg-white p-4 text-slate-900 shadow-sm [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-background-surface:#ffffff] [--tng-semantic-border-strong:#cbd5e1] [--tng-semantic-border-subtle:#dbe4ee] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-focus-ring:rgba(37,99,235,0.26)] [color-scheme:light]">
+    `<section class="grid w-full max-w-[38rem] gap-4 rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-surface)] p-4 text-[var(--tng-semantic-foreground-primary)] shadow-sm">
   <div class="grid gap-1">
-    <h3 class="m-0 text-lg font-semibold text-slate-900">Publish targets</h3>
-    <p class="m-0 text-sm leading-6 text-slate-600">Choose where the rollout summary should be delivered.</p>
+    <h3 class="m-0 text-lg font-semibold text-[var(--tng-semantic-foreground-primary)]">Publish targets</h3>
+    <p class="m-0 text-sm leading-6 text-[var(--tng-semantic-foreground-secondary)]">Choose where the rollout summary should be delivered.</p>
   </div>
 
   <tng-toggle-group
-    class="grid gap-3 border-0 bg-transparent p-0"
     selectionMode="multiple"
     ariaLabel="Publish targets"
     [values]="selectedPublishTargets()"
     (valuesChange)="onPublishTargetsChange($event)"
   >
-    <div class="grid cursor-pointer grid-cols-[auto_1fr] items-center gap-3 rounded-2xl border p-3 transition" [class.border-blue-200]="selectedPublishTargets().includes('email')" [class.bg-blue-50]="selectedPublishTargets().includes('email')" [class.border-slate-200]="!selectedPublishTargets().includes('email')" [class.bg-slate-50]="!selectedPublishTargets().includes('email')" (click)="onPublishTargetChoiceClick('email', $event)">
+    <div class="grid cursor-pointer grid-cols-[auto_1fr] items-center gap-3 rounded-2xl border p-3 transition" [style.border-color]="selectedPublishTargets().includes('email') ? 'color-mix(in srgb, var(--tng-semantic-accent-brand) 30%, var(--tng-semantic-border-subtle) 70%)' : 'var(--tng-semantic-border-subtle)'" [style.background]="selectedPublishTargets().includes('email') ? 'color-mix(in srgb, var(--tng-semantic-accent-brand) 12%, var(--tng-semantic-background-surface) 88%)' : 'color-mix(in srgb, var(--tng-semantic-background-surface) 92%, var(--tng-semantic-foreground-primary) 8%)'" (click)="onPublishTargetChoiceClick('email', $event)">
       <tng-toggle [value]="'email'" pressedLabel="Email target selected" unpressedLabel="Select email target">
         <span offIcon>E</span>
         <span onIcon>E</span>
       </tng-toggle>
       <div class="grid gap-0.5">
-        <span class="text-sm font-semibold text-slate-900">Email</span>
-        <span class="text-xs text-slate-500">Send a concise release digest to stakeholders.</span>
+        <span class="text-sm font-semibold text-[var(--tng-semantic-foreground-primary)]">Email</span>
+        <span class="text-xs text-[var(--tng-semantic-foreground-secondary)]">Send a concise release digest to stakeholders.</span>
       </div>
     </div>
-    <div class="grid cursor-pointer grid-cols-[auto_1fr] items-center gap-3 rounded-2xl border p-3 transition" [class.border-blue-200]="selectedPublishTargets().includes('slack')" [class.bg-blue-50]="selectedPublishTargets().includes('slack')" [class.border-slate-200]="!selectedPublishTargets().includes('slack')" [class.bg-slate-50]="!selectedPublishTargets().includes('slack')" (click)="onPublishTargetChoiceClick('slack', $event)">
+    <div class="grid cursor-pointer grid-cols-[auto_1fr] items-center gap-3 rounded-2xl border p-3 transition" [style.border-color]="selectedPublishTargets().includes('slack') ? 'color-mix(in srgb, var(--tng-semantic-accent-brand) 30%, var(--tng-semantic-border-subtle) 70%)' : 'var(--tng-semantic-border-subtle)'" [style.background]="selectedPublishTargets().includes('slack') ? 'color-mix(in srgb, var(--tng-semantic-accent-brand) 12%, var(--tng-semantic-background-surface) 88%)' : 'color-mix(in srgb, var(--tng-semantic-background-surface) 92%, var(--tng-semantic-foreground-primary) 8%)'" (click)="onPublishTargetChoiceClick('slack', $event)">
       <tng-toggle [value]="'slack'" pressedLabel="Slack target selected" unpressedLabel="Select Slack target">
         <span offIcon>S</span>
         <span onIcon>S</span>
       </tng-toggle>
       <div class="grid gap-0.5">
-        <span class="text-sm font-semibold text-slate-900">Slack</span>
-        <span class="text-xs text-slate-500">Post the summary into the release channel.</span>
+        <span class="text-sm font-semibold text-[var(--tng-semantic-foreground-primary)]">Slack</span>
+        <span class="text-xs text-[var(--tng-semantic-foreground-secondary)]">Post the summary into the release channel.</span>
       </div>
     </div>
-    <div class="grid cursor-pointer grid-cols-[auto_1fr] items-center gap-3 rounded-2xl border p-3 transition" [class.border-blue-200]="selectedPublishTargets().includes('status')" [class.bg-blue-50]="selectedPublishTargets().includes('status')" [class.border-slate-200]="!selectedPublishTargets().includes('status')" [class.bg-slate-50]="!selectedPublishTargets().includes('status')" (click)="onPublishTargetChoiceClick('status', $event)">
+    <div class="grid cursor-pointer grid-cols-[auto_1fr] items-center gap-3 rounded-2xl border p-3 transition" [style.border-color]="selectedPublishTargets().includes('status') ? 'color-mix(in srgb, var(--tng-semantic-accent-brand) 30%, var(--tng-semantic-border-subtle) 70%)' : 'var(--tng-semantic-border-subtle)'" [style.background]="selectedPublishTargets().includes('status') ? 'color-mix(in srgb, var(--tng-semantic-accent-brand) 12%, var(--tng-semantic-background-surface) 88%)' : 'color-mix(in srgb, var(--tng-semantic-background-surface) 92%, var(--tng-semantic-foreground-primary) 8%)'" (click)="onPublishTargetChoiceClick('status', $event)">
       <tng-toggle [value]="'status'" pressedLabel="Status page target selected" unpressedLabel="Select status page target">
         <span offIcon>P</span>
         <span onIcon>P</span>
       </tng-toggle>
       <div class="grid gap-0.5">
-        <span class="text-sm font-semibold text-slate-900">Status page</span>
-        <span class="text-xs text-slate-500">Update the public rollout timeline.</span>
+        <span class="text-sm font-semibold text-[var(--tng-semantic-foreground-primary)]">Status page</span>
+        <span class="text-xs text-[var(--tng-semantic-foreground-secondary)]">Update the public rollout timeline.</span>
       </div>
     </div>
   </tng-toggle-group>
 
-  <p class="m-0 text-xs lowercase text-slate-600">Targets: {{ publishSummary() }}</p>
+  <p class="m-0 text-xs lowercase text-[var(--tng-semantic-foreground-secondary)]">Targets: {{ publishSummary() }}</p>
 </section>`,
     '/* Tailwind utilities are applied directly in the template. */',
   );
