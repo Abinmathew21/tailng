@@ -1,0 +1,165 @@
+<article class="headless-dialog-examples">
+  <h2 class="headless-dialog-examples-title">Examples</h2>
+  <p class="headless-dialog-examples-lead">
+    Use headless dialog when the workflow needs your own panel structure, action treatment, or
+    dismissal policy while preserving a stable modal behavior contract.
+  </p>
+
+  <section id="destructive-confirmation" class="headless-dialog-examples-block">
+    <app-docs-example-tabs-section
+      heading="Destructive confirmation"
+      description="A destructive flow with explicit close reasons and owner-authored action styling."
+      ariaLabel="Headless dialog destructive confirmation"
+      tabListAriaLabel="Headless dialog destructive style tabs"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Destructive confirmation with owner CSS"
+        [codeTabs]="destructivePlainCodeTabs"
+      >
+        <div class="headless-dialog-example-stage">
+          <button
+            type="button"
+            class="headless-dialog-example-trigger"
+            [tngDialogTrigger]="destructiveDialog"
+          >
+            Delete release branch
+          </button>
+
+          <section
+            tngDialog
+            #destructiveDialog="tngDialog"
+            [open]="destructiveOpen()"
+            (openChange)="destructiveOpen.set($event)"
+            (closed)="onDestructiveClosed($event)"
+          >
+            <div tngDialogBackdrop class="headless-dialog-example-backdrop">
+              <section tngDialogPanel class="headless-dialog-example-panel">
+                <h3 tngDialogTitle class="headless-dialog-example-title">Delete release branch?</h3>
+                <p tngDialogDescription class="headless-dialog-example-copy">
+                  This action removes branch automation and cannot be undone.
+                </p>
+                <div tngDialogActions class="headless-dialog-action-row">
+                  <button type="button" tngDialogClose class="headless-dialog-example-secondary">
+                    Cancel
+                  </button>
+                  <button
+                    type="button"
+                    tngDialogClose
+                    [tngDialogClose]="'programmatic'"
+                    class="headless-dialog-example-danger"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </section>
+            </div>
+          </section>
+        </div>
+        <p class="headless-dialog-example-state">result: {{ destructiveResult() }}</p>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Destructive confirmation with Tailwind"
+        [codeTabs]="destructiveTailwindCodeTabs"
+      >
+        <div class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">
+          <div class="headless-dialog-example-stage">
+            <button
+              type="button"
+              class="rounded-lg border border-rose-300 bg-white px-3 py-2 text-sm font-semibold text-rose-700 dark:border-rose-800 dark:bg-slate-900 dark:text-rose-200"
+              [tngDialogTrigger]="tailwindDestructiveDialog"
+            >
+              Delete release branch
+            </button>
+
+            <section
+              tngDialog
+              #tailwindDestructiveDialog="tngDialog"
+              [open]="destructiveOpen()"
+              (openChange)="destructiveOpen.set($event)"
+              (closed)="onDestructiveClosed($event)"
+            >
+              <div tngDialogBackdrop class="fixed inset-0 grid place-items-center bg-slate-950/70 p-4">
+                <section
+                  tngDialogPanel
+                  class="grid w-full max-w-lg gap-3 rounded-3xl border border-slate-200 bg-white p-5 shadow-2xl dark:border-slate-800 dark:bg-slate-950"
+                >
+                  <h3 tngDialogTitle class="m-0 text-lg font-semibold text-slate-950 dark:text-slate-50">
+                    Delete release branch?
+                  </h3>
+                  <p tngDialogDescription class="m-0 text-sm text-slate-600 dark:text-slate-300">
+                    This action removes branch automation and cannot be undone.
+                  </p>
+                  <div tngDialogActions class="flex flex-wrap justify-end gap-2">
+                    <button
+                      type="button"
+                      tngDialogClose
+                      class="rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-700 dark:border-slate-700 dark:text-slate-200"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="button"
+                      tngDialogClose
+                      [tngDialogClose]="'programmatic'"
+                      class="rounded-lg border border-rose-600 bg-rose-600 px-3 py-2 text-sm font-semibold text-white"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </section>
+              </div>
+            </section>
+          </div>
+        </div>
+        <p class="headless-dialog-example-state">result: {{ destructiveResult() }}</p>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section id="controlled-review" class="headless-dialog-examples-block">
+    <h3>Controlled review gate</h3>
+    <p class="headless-dialog-examples-copy">
+      For approval or onboarding flows, keep the dialog controlled and disable passive dismissal
+      until the user chooses an explicit action.
+    </p>
+    <tng-code-block
+      [code]="controlledReviewTsCode"
+      adapter="shiki"
+      language="ts"
+      title="headless-dialog-controlled-review.component.ts"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+    <tng-code-block
+      [code]="controlledReviewHtmlCode"
+      adapter="shiki"
+      language="html"
+      title="headless-dialog-controlled-review.component.html"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+    <tng-code-block
+      [code]="controlledReviewCssCode"
+      adapter="shiki"
+      language="css"
+      title="headless-dialog-controlled-review.component.css"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+</article>

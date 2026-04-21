@@ -1,18 +1,18 @@
 import type { Routes } from '@angular/router';
-import { COMPONENTS_OVERLAY_GROUP, toComponentsDocsRouteData } from '../../component-docs.data';
+import { HEADLESS_OVERLAY_GROUP, toHeadlessDocsRouteData } from '../../headless-docs.data';
 
-const group = COMPONENTS_OVERLAY_GROUP;
+const group = HEADLESS_OVERLAY_GROUP;
 const dialogItem = group.items.find((item) => item.slug === 'dialog');
 if (dialogItem === undefined) {
-  throw new Error('Missing "dialog" in components overlay docs group.');
+  throw new Error('Missing "dialog" in headless overlay docs group.');
 }
 
-export const COMPONENTS_OVERLAY_DIALOG_ROUTES: Routes = [
+export const HEADLESS_OVERLAY_DIALOG_ROUTES: Routes = [
   {
     path: '',
-    data: toComponentsDocsRouteData(group, dialogItem),
+    data: toHeadlessDocsRouteData(group, dialogItem),
     loadComponent: () =>
-      import('./dialog-page.component').then((module) => module.DialogPageComponent),
+      import('./dialog-page.component').then((module) => module.HeadlessDialogPageComponent),
     children: [
       {
         path: '',
@@ -23,37 +23,29 @@ export const COMPONENTS_OVERLAY_DIALOG_ROUTES: Routes = [
         path: 'overview',
         loadComponent: () =>
           import('./sections/overview/dialog-overview-page.component').then(
-            (module) => module.DialogOverviewPageComponent,
+            (module) => module.HeadlessDialogOverviewPageComponent,
           ),
       },
       {
         path: 'api',
         loadComponent: () =>
           import('./sections/api/dialog-api-page.component').then(
-            (module) => module.DialogApiPageComponent,
+            (module) => module.HeadlessDialogApiPageComponent,
           ),
       },
       {
         path: 'styling',
         loadComponent: () =>
           import('./sections/styling/dialog-styling-page.component').then(
-            (module) => module.DialogStylingPageComponent,
+            (module) => module.HeadlessDialogStylingPageComponent,
           ),
       },
       {
         path: 'examples',
         loadComponent: () =>
           import('./sections/examples/dialog-examples-page.component').then(
-            (module) => module.DialogExamplesPageComponent,
+            (module) => module.HeadlessDialogExamplesPageComponent,
           ),
-      },
-      {
-        path: 'ownable-install',
-        data: {
-          registrySlug: 'dialog',
-        },
-        pathMatch: 'full',
-        redirectTo: '/ownable/overlay/dialog',
       },
       {
         path: '**',

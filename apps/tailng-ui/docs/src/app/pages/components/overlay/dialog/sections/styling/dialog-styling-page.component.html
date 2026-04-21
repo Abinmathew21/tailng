@@ -1,11 +1,11 @@
 <article class="dialog-styling">
   <h2 class="dialog-styling-title">Styling contract</h2>
   <p class="dialog-styling-lead">
-    Dialog primitives expose stable slot and state attributes so teams can style panel, backdrop,
-    and close controls without DOM guessing.
+    Wrapper dialog ships minimum theme styles, and the underlying primitive surface still exposes
+    stable slot and state attributes for deeper shell customization.
   </p>
 
-  <section class="dialog-styling-block">
+  <section id="core-data-attributes" class="dialog-styling-block">
     <h3>Core data attributes</h3>
     <ul>
       <li><code>[data-slot="dialog"]</code> with <code>data-open</code>, <code>data-state</code>, and <code>data-size</code>.</li>
@@ -15,7 +15,7 @@
     </ul>
   </section>
 
-  <section class="dialog-styling-block">
+  <section id="reference-css" class="dialog-styling-block">
     <h3>Reference CSS</h3>
     <tng-code-block
       [code]="stylingContractCode"

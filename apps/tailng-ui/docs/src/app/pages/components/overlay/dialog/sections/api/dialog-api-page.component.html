@@ -1,11 +1,11 @@
 <article class="dialog-api">
   <h2 class="dialog-api-title">API reference</h2>
   <p class="dialog-api-lead">
-    Dialog docs cover headless primitives (<code>tngDialog*</code>) and the wrapper
-    <code>&lt;tng-dialog&gt;</code> component.
+    Component dialog uses the styled <code>&lt;tng-dialog&gt;</code> wrapper and sits on top of the
+    same primitive contract documented on the separate headless dialog page.
   </p>
 
-  <section class="dialog-api-block">
+  <section id="wrapper-apis" class="dialog-api-block">
     <h3>Wrapper APIs</h3>
     <div class="dialog-api-table-wrap">
       <table class="dialog-api-table">
@@ -53,7 +53,7 @@
     </div>
   </section>
 
-  <section class="dialog-api-block">
+  <section id="primitive-directives" class="dialog-api-block">
     <h3>Primitive directives</h3>
     <div class="dialog-api-table-wrap">
       <table class="dialog-api-table">
@@ -90,7 +90,7 @@
     </div>
   </section>
 
-  <section class="dialog-api-block">
+  <section id="keyboard-contract-high-level" class="dialog-api-block">
     <h3>Keyboard contract (high level)</h3>
     <ul>
       <li><code>Tab</code>/<code>Shift+Tab</code> wraps within dialog focusables when trapping is enabled.</li>

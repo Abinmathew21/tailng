@@ -1,0 +1,38 @@
+<div class="grid gap-8 pb-10">
+  <section class="docs-section-anchor grid gap-4" id="dialog-overview">
+    <h1 class="m-0 text-3xl font-semibold text-tng-fg-primary">Dialog</h1>
+    <p class="m-0 max-w-4xl text-base leading-7 text-tng-fg-secondary">
+      The ownable Dialog install gives your app a local modal wrapper, nearby behavior helpers, and
+      an editable shell for product-specific confirmation, review, and blocking workflows.
+    </p>
+  </section>
+
+  <section class="docs-section-anchor grid gap-3" id="why-own-dialog">
+    <h2 class="m-0 text-xl font-semibold text-tng-fg-primary">Why own Dialog locally</h2>
+    <p class="m-0 max-w-4xl text-base leading-7 text-tng-fg-secondary">
+      Modal shells almost always drift into product-specific territory once teams add review
+      content, destructive-action framing, animation, or branded action layouts. Local ownership
+      keeps those decisions close to the feature that depends on them.
+    </p>
+    <ul class="m-0 grid gap-2 pl-5 text-sm leading-6 text-tng-fg-secondary">
+      <li>Adjust panel spacing, header treatment, and action rows without waiting on a package release.</li>
+      <li>Keep modal copy, analytics hooks, and action semantics versioned beside the owning workflow.</li>
+      <li>Extend the generated wrapper if your product later needs richer footer or layout variants.</li>
+    </ul>
+  </section>
+
+  <section class="docs-section-anchor grid gap-3" id="what-dialog-installs">
+    <h2 class="m-0 text-xl font-semibold text-tng-fg-primary">What the install includes</h2>
+    <p class="m-0 max-w-4xl text-base leading-7 text-tng-fg-secondary">
+      The registry-backed dialog install writes the local wrapper component, template, stylesheet,
+      export barrel, and the primitive helper file that handles IDs, focus resolution, and scroll
+      locking. Your app owns the generated source after install.
+    </p>
+  </section>
+
+  <app-docs-ownable-install-section
+    componentName="Dialog"
+    registrySlug="dialog"
+    [usageCode]="usageCode"
+  />
+</div>

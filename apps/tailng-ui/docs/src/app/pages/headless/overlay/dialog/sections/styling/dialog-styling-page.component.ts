@@ -1,0 +1,49 @@
+import { Component } from '@angular/core';
+import { TngCodeBlockComponent } from '@tailng-ui/components';
+
+@Component({
+  selector: 'app-headless-dialog-styling-page',
+  imports: [TngCodeBlockComponent],
+  templateUrl: './dialog-styling-page.component.html',
+  styleUrl: './dialog-styling-page.component.css',
+})
+export class HeadlessDialogStylingPageComponent {
+  protected readonly cssStarterCode = [
+    '[data-slot="dialog-backdrop"] {',
+    '  align-items: center;',
+    '  background: rgb(2 6 23 / 58%);',
+    '  display: grid;',
+    '  inset: 0;',
+    '  padding: 1rem;',
+    '  position: fixed;',
+    '}',
+    '',
+    '[data-slot="dialog-panel"] {',
+    '  background: var(--tng-semantic-background-surface);',
+    '  border: 1px solid var(--tng-semantic-border-subtle);',
+    '  border-radius: 1rem;',
+    '  box-shadow: 0 24px 56px rgb(2 6 23 / 28%);',
+    '  display: grid;',
+    '  gap: 0.85rem;',
+    '  inline-size: min(100%, 34rem);',
+    '  padding: 1rem;',
+    '}',
+    '',
+    '[data-slot="dialog-panel"][data-size="lg"] {',
+    '  inline-size: min(100%, 42rem);',
+    '}',
+    '',
+    '[data-slot="dialog-actions"] {',
+    '  display: flex;',
+    '  flex-wrap: wrap;',
+    '  gap: 0.625rem;',
+    '  justify-content: flex-end;',
+    '}',
+    '',
+    '[data-slot="dialog-close"],',
+    '[data-slot="dialog-trigger"] {',
+    '  border-radius: 0.75rem;',
+    '}',
+    '',
+  ].join('\n');
+}

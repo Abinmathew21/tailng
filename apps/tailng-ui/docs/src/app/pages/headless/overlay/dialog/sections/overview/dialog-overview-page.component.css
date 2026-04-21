@@ -1,0 +1,147 @@
+:host {
+  display: block;
+}
+
+.headless-dialog-overview {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.headless-dialog-overview-title {
+  font-size: clamp(1.45rem, 1.05rem + 1.3vw, 1.95rem);
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.headless-dialog-overview-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+  max-width: 70ch;
+}
+
+.headless-dialog-overview-block {
+  background: color-mix(in srgb, var(--tng-semantic-background-surface) 88%, transparent);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 1rem;
+  display: grid;
+  gap: 0.9rem;
+  padding: 1.2rem;
+}
+
+.headless-dialog-overview-block h3 {
+  font-size: 1.05rem;
+  font-weight: 650;
+  margin: 0;
+}
+
+.headless-dialog-overview-block p {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.headless-dialog-stage {
+  align-content: start;
+  display: grid;
+  gap: 0.7rem;
+  justify-items: start;
+  min-height: 10rem;
+  position: relative;
+}
+
+.headless-dialog-trigger,
+.headless-dialog-secondary,
+.headless-dialog-primary {
+  border-radius: 0.7rem;
+  cursor: pointer;
+  font-size: 0.88rem;
+  font-weight: 600;
+  min-height: 2.1rem;
+  padding: 0.45rem 0.9rem;
+}
+
+.headless-dialog-trigger,
+.headless-dialog-secondary {
+  background: color-mix(in srgb, var(--tng-semantic-background-canvas) 80%, transparent);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  color: var(--tng-semantic-foreground-primary);
+}
+
+.headless-dialog-primary {
+  background: var(--tng-semantic-accent-brand);
+  border: 1px solid var(--tng-semantic-accent-brand);
+  color: var(--tng-semantic-background-canvas);
+}
+
+.headless-dialog-trigger:focus-visible,
+.headless-dialog-secondary:focus-visible,
+.headless-dialog-primary:focus-visible {
+  box-shadow: 0 0 0 3px var(--tng-semantic-focus-ring);
+  outline: none;
+}
+
+.headless-dialog-backdrop {
+  align-items: center;
+  background: color-mix(in srgb, #020617 58%, transparent);
+  display: grid;
+  inset: 0;
+  justify-items: center;
+  padding: 1rem;
+  position: fixed;
+  z-index: 40;
+}
+
+.headless-dialog-backdrop[hidden] {
+  display: none !important;
+}
+
+.headless-dialog-panel {
+  background: var(--tng-semantic-background-surface);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.95rem;
+  box-shadow: 0 26px 48px color-mix(in srgb, #020617 30%, transparent);
+  display: grid;
+  gap: 0.75rem;
+  max-width: min(28rem, 100%);
+  padding: 1rem;
+  width: 100%;
+}
+
+.headless-dialog-panel[hidden] {
+  display: none !important;
+}
+
+.headless-dialog-title {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1.02rem;
+  margin: 0;
+}
+
+.headless-dialog-description {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.headless-dialog-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  justify-content: flex-end;
+}
+
+.headless-dialog-overview-state {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.headless-dialog-overview-list {
+  display: grid;
+  gap: 0.55rem;
+  margin: 0;
+  padding-inline-start: 1.1rem;
+}
+
+.headless-dialog-overview-list code {
+  font-size: 0.84em;
+}

@@ -22,6 +22,10 @@ export const HEADLESS_ROUTES: Routes = [
         loadChildren: () => import('./layout/routes').then((m) => m.HEADLESS_LAYOUT_ROUTES),
       },
       {
+        path: 'overlay',
+        loadChildren: () => import('./overlay/routes').then((m) => m.HEADLESS_OVERLAY_ROUTES),
+      },
+      {
         path: 'form',
         loadChildren: () => import('./form/routes').then((m) => m.HEADLESS_FORM_ROUTES),
       },

@@ -1,0 +1,70 @@
+:host {
+  display: block;
+}
+
+.headless-dialog-api {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.headless-dialog-api-title {
+  font-size: clamp(1.45rem, 1.08rem + 1.15vw, 1.95rem);
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.headless-dialog-api-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+  max-width: 72ch;
+}
+
+.headless-dialog-api-block {
+  background: color-mix(in srgb, var(--tng-semantic-background-surface) 88%, transparent);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 1rem;
+  display: grid;
+  gap: 0.9rem;
+  padding: 1.15rem;
+}
+
+.headless-dialog-api-block h3 {
+  font-size: 1.02rem;
+  font-weight: 650;
+  margin: 0;
+}
+
+.headless-dialog-api-block ul {
+  color: var(--tng-semantic-foreground-secondary);
+  display: grid;
+  gap: 0.55rem;
+  margin: 0;
+  padding-inline-start: 1.1rem;
+}
+
+.headless-dialog-api-table-wrap {
+  overflow-x: auto;
+}
+
+.headless-dialog-api-table {
+  border-collapse: collapse;
+  inline-size: 100%;
+  min-inline-size: 42rem;
+}
+
+.headless-dialog-api-table th,
+.headless-dialog-api-table td {
+  border-bottom: 1px solid var(--tng-semantic-border-subtle);
+  padding: 0.7rem 0.8rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.headless-dialog-api-table th {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}

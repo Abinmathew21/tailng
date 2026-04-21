@@ -5,6 +5,7 @@ import {
   OWNABLE_GETTING_STARTED_GROUP,
   OWNABLE_LAYOUT_GROUP,
   OWNABLE_NAVIGATION_GROUP,
+  OWNABLE_OVERLAY_GROUP,
   OWNABLE_RELEASE_GROUP,
   OWNABLE_TOOLING_GROUP,
   toOwnableDocsRouteData,
@@ -41,6 +42,7 @@ const separatorItem = requireOwnableItem(OWNABLE_LAYOUT_GROUP, 'separator');
 const collapsibleItem = requireOwnableItem(OWNABLE_LAYOUT_GROUP, 'collapsible');
 const accordionItem = requireOwnableItem(OWNABLE_LAYOUT_GROUP, 'accordion');
 const stepperItem = requireOwnableItem(OWNABLE_LAYOUT_GROUP, 'stepper');
+const dialogItem = requireOwnableItem(OWNABLE_OVERLAY_GROUP, 'dialog');
 const breadcrumbItem = requireOwnableItem(OWNABLE_NAVIGATION_GROUP, 'breadcrumb');
 const contextMenuItem = requireOwnableItem(OWNABLE_NAVIGATION_GROUP, 'context-menu');
 const menubarItem = requireOwnableItem(OWNABLE_NAVIGATION_GROUP, 'menubar');
@@ -202,6 +204,14 @@ export const OWNABLE_ROUTES: Routes = [
         loadComponent: () =>
           import('./layout/stepper/ownable-stepper-page.component').then(
             (m) => m.OwnableStepperPageComponent,
+          ),
+      },
+      {
+        path: 'overlay/dialog',
+        data: toOwnableDocsRouteData(OWNABLE_OVERLAY_GROUP, dialogItem),
+        loadComponent: () =>
+          import('./overlay/dialog/ownable-dialog-page.component').then(
+            (m) => m.OwnableDialogPageComponent,
           ),
       },
       {

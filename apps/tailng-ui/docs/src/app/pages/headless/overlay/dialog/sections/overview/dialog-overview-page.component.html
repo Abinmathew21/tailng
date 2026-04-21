@@ -1,0 +1,161 @@
+<article class="headless-dialog-overview">
+  <h2 class="headless-dialog-overview-title">Dialog overview</h2>
+  <p class="headless-dialog-overview-lead">
+    Headless dialog gives you modal behavior, focus management, and close reason reporting without
+    prescribing panel markup or product styling.
+  </p>
+
+  <section id="imports" class="headless-dialog-overview-block">
+    <h3>Imports</h3>
+    <p>Bring in only the structural directives you plan to render in your shell.</p>
+    <tng-code-block
+      [code]="importCode"
+      adapter="shiki"
+      language="ts"
+      title="Headless dialog imports"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="basic-composition" class="headless-dialog-overview-block">
+    <h3>Basic composition</h3>
+    <p>The root owns open state and behavior; backdrop, panel, title, description, and actions stay semantic.</p>
+    <tng-code-block
+      [code]="compositionCode"
+      adapter="shiki"
+      language="html"
+      title="Headless dialog composition"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <app-docs-example-tabs-section
+    id="style-variants"
+    class="headless-dialog-overview-block"
+    heading="Style variants"
+    description="The same headless dialog behavior skinned with owner-authored CSS or Tailwind utilities."
+    ariaLabel="Headless dialog style variants"
+    tabListAriaLabel="Headless dialog style tabs"
+    defaultValue="plain-css"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+      panelTitle="Headless dialog with owner-authored CSS"
+      [codeTabs]="plainCodeTabs"
+    >
+      <div class="headless-dialog-stage">
+        <button type="button" class="headless-dialog-trigger" [tngDialogTrigger]="plainDialog">
+          Open headless dialog
+        </button>
+
+        <section
+          tngDialog
+          #plainDialog="tngDialog"
+          [open]="plainOpen()"
+          (openChange)="plainOpen.set($event)"
+          (closed)="plainReason.set($event)"
+        >
+          <div tngDialogBackdrop class="headless-dialog-backdrop">
+            <section tngDialogPanel class="headless-dialog-panel">
+              <h3 tngDialogTitle class="headless-dialog-title">Ship this release?</h3>
+              <p tngDialogDescription class="headless-dialog-description">
+                Focus stays trapped inside the panel until the owner closes it.
+              </p>
+              <div tngDialogActions class="headless-dialog-actions">
+                <button type="button" tngDialogClose class="headless-dialog-secondary">Cancel</button>
+                <button
+                  type="button"
+                  tngDialogClose
+                  [tngDialogClose]="'programmatic'"
+                  class="headless-dialog-primary"
+                >
+                  Confirm
+                </button>
+              </div>
+            </section>
+          </div>
+        </section>
+      </div>
+      <p class="headless-dialog-overview-state">last close reason: {{ plainReason() }}</p>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Headless dialog with Tailwind shell"
+      [codeTabs]="tailwindCodeTabs"
+    >
+      <div class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">
+        <div class="headless-dialog-stage">
+          <button
+            type="button"
+            class="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-800 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100"
+            [tngDialogTrigger]="tailwindDialog"
+          >
+            Open review dialog
+          </button>
+
+          <section
+            tngDialog
+            #tailwindDialog="tngDialog"
+            [open]="tailwindOpen()"
+            (openChange)="tailwindOpen.set($event)"
+            (closed)="tailwindReason.set($event)"
+          >
+            <div tngDialogBackdrop class="fixed inset-0 grid place-items-center bg-slate-950/65 p-4">
+              <section
+                tngDialogPanel
+                class="grid w-full max-w-lg gap-3 rounded-3xl border border-slate-200 bg-white p-5 shadow-2xl dark:border-slate-800 dark:bg-slate-950"
+              >
+                <h3 tngDialogTitle class="m-0 text-lg font-semibold text-slate-950 dark:text-slate-50">
+                  Tailwind review
+                </h3>
+                <p tngDialogDescription class="m-0 text-sm text-slate-600 dark:text-slate-300">
+                  Pair the primitive contract with utility classes and product tokens.
+                </p>
+                <div tngDialogActions class="flex flex-wrap justify-end gap-2">
+                  <button
+                    type="button"
+                    tngDialogClose
+                    class="rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-700 dark:border-slate-700 dark:text-slate-200"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="button"
+                    tngDialogClose
+                    [tngDialogClose]="'programmatic'"
+                    class="rounded-lg border border-sky-600 bg-sky-600 px-3 py-2 text-sm font-semibold text-white"
+                  >
+                    Approve
+                  </button>
+                </div>
+              </section>
+            </div>
+          </section>
+        </div>
+      </div>
+      <p class="headless-dialog-overview-state">last close reason: {{ tailwindReason() }}</p>
+    </ng-template>
+  </app-docs-example-tabs-section>
+
+  <section id="accessibility-baseline" class="headless-dialog-overview-block">
+    <h3>Accessibility baseline</h3>
+    <ul class="headless-dialog-overview-list">
+      <li><code>TngDialogPanel</code> provides the dialog role, naming hookup, and panel focus target.</li>
+      <li><code>Tab</code> and <code>Shift+Tab</code> wrap inside the panel when focus trapping is enabled.</li>
+      <li><code>Escape</code> closes only when <code>dismissible</code> and <code>closeOnEscape</code> allow it.</li>
+      <li>Owners still choose readable headings, descriptive body copy, and high-contrast action states.</li>
+    </ul>
+  </section>
+</article>

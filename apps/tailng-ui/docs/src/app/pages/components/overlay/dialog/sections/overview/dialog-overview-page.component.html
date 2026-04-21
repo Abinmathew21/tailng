@@ -1,23 +1,13 @@
 <article class="dialog-overview">
   <h2 class="dialog-overview-title">Dialog overview</h2>
   <p class="dialog-overview-lead">
-    Dialog provides modal overlays with backdrop dismissal, focus trapping, and close reason
-    outputs for Escape, backdrop, and explicit actions.
+    Dialog provides a styled modal shell with backdrop dismissal, focus trapping, and close reason
+    outputs. For full DOM ownership, use the separate headless dialog docs.
   </p>
 
-  <section class="dialog-overview-block">
+  <section id="imports" class="dialog-overview-block">
     <h3>Imports</h3>
-    <p>Choose primitives for full markup ownership, or wrapper components for quicker delivery.</p>
-    <tng-code-block
-      [code]="primitiveImportCode"
-      adapter="shiki"
-      language="ts"
-      title="Primitive imports"
-      [theme]="codeBlockTheme()"
-      [sanitizeHtml]="false"
-      [wrap]="true"
-      [lineNumbers]="false"
-    ></tng-code-block>
+    <p>Import the wrapper when your team wants a ready-made panel, header, and close affordance.</p>
     <tng-code-block
       [code]="componentImportCode"
       adapter="shiki"
@@ -30,18 +20,9 @@
     ></tng-code-block>
   </section>
 
-  <section class="dialog-overview-block">
+  <section id="usage-patterns" class="dialog-overview-block">
     <h3>Usage patterns</h3>
-    <tng-code-block
-      [code]="primitiveUsageCode"
-      adapter="shiki"
-      language="html"
-      title="Primitive usage"
-      [theme]="codeBlockTheme()"
-      [sanitizeHtml]="false"
-      [wrap]="true"
-      [lineNumbers]="false"
-    ></tng-code-block>
+    <p>Control the open state from your feature and project any body or footer content into the wrapper.</p>
     <tng-code-block
       [code]="componentUsageCode"
       adapter="shiki"
@@ -55,58 +36,15 @@
   </section>
 
   <app-docs-example-tabs-section
+    id="ship-this-release"
     class="dialog-overview-block"
-    heading="Style variants"
-    description="Same dialog behavior rendered through headless primitives, plain CSS wrappers, and Tailwind utility shells."
-    ariaLabel="Dialog style variants"
-    tabListAriaLabel="Dialog style tabs"
-    defaultValue="headless"
+    heading="Ship this release?"
+    description="The same wrapper dialog shown with local CSS or a Tailwind-flavored content shell."
+    ariaLabel="Dialog wrapper style variants"
+    tabListAriaLabel="Dialog wrapper style tabs"
+    defaultValue="plain-css"
     [codeBlockTheme]="codeBlockTheme()"
   >
-    <ng-template
-      appDocsExampleVariant
-      value="headless"
-      label="Headless"
-      panelTitle="Headless confirmation dialog"
-      [codeTabs]="headlessCodeTabs"
-    >
-      <div class="dialog-stage">
-        <button type="button" class="dialog-trigger" [tngDialogTrigger]="headlessDialog">
-          Open headless dialog
-        </button>
-
-        <section
-          tngDialog
-          #headlessDialog="tngDialog"
-          [open]="headlessOpen()"
-          (openChange)="onHeadlessOpenChange($event)"
-          (closed)="onHeadlessClose($event)"
-        >
-          <div tngDialogBackdrop class="dialog-preview-backdrop">
-            <section tngDialogPanel class="dialog-preview-panel">
-              <h3 tngDialogTitle class="dialog-preview-title">Ship this release?</h3>
-              <p tngDialogDescription class="dialog-preview-description">
-                Focus stays trapped inside the panel until close.
-              </p>
-              <div tngDialogActions class="dialog-preview-actions">
-                <button type="button" tngDialogClose class="dialog-action-ghost">Cancel</button>
-                <button
-                  type="button"
-                  tngDialogClose
-                  [tngDialogClose]="'programmatic'"
-                  data-tng-dialog-initial-focus
-                  class="dialog-action-primary"
-                >
-                  Confirm
-                </button>
-              </div>
-            </section>
-          </div>
-        </section>
-      </div>
-      <p class="dialog-overview-state">last close reason: {{ headlessCloseReason() }}</p>
-    </ng-template>
-
     <ng-template
       appDocsExampleVariant
       value="plain-css"
@@ -184,13 +122,13 @@
     </ng-template>
   </app-docs-example-tabs-section>
 
-  <section class="dialog-overview-block">
+  <section id="keyboard-baseline" class="dialog-overview-block">
     <h3>Keyboard baseline</h3>
     <ul class="dialog-overview-list">
       <li><code>Tab</code>/<code>Shift+Tab</code> cycles focus inside the dialog panel.</li>
       <li><code>Escape</code> closes when dismissal is enabled.</li>
-      <li>Backdrop pointer down closes when <code>closeOnBackdropClick</code> is enabled.</li>
-      <li>Focus returns to the trigger when <code>restoreFocus</code> is active.</li>
+      <li>Backdrop pointer down closes when <code>closeOnBackdrop</code> is enabled.</li>
+      <li>Focus returns to the trigger when wrapper focus restoration is active.</li>
     </ul>
   </section>
 </article>

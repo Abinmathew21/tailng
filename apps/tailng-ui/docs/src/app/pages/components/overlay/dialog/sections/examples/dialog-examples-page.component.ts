@@ -2,17 +2,6 @@ import { DOCUMENT } from '@angular/common';
 import { Component, inject, signal, type OnDestroy } from '@angular/core';
 import { observeDocsCodeThemeChanges, resolveDocsCodeBlockTheme } from '../../../../../../shared/util';
 import { TngDialogComponent } from '@tailng-ui/components';
-import {
-  TngDialog,
-  TngDialogActions,
-  TngDialogBackdrop,
-  TngDialogClose,
-  TngDialogDescription,
-  TngDialogPanel,
-  TngDialogTitle,
-  TngDialogTrigger,
-  type TngDialogCloseReason,
-} from '@tailng-ui/primitives';
 import { type DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
 import {
   DocsExampleTabsSectionComponent,
@@ -21,76 +10,26 @@ import {
 
 @Component({
   selector: 'app-dialog-examples-page',
-  imports: [
-    TngDialog,
-    TngDialogActions,
-    TngDialogBackdrop,
-    TngDialogClose,
-    TngDialogComponent,
-    TngDialogDescription,
-    TngDialogPanel,
-    TngDialogTitle,
-    TngDialogTrigger,
-    DocsExampleTabsSectionComponent,
-    DocsExampleVariantDirective,
-  ],
+  imports: [TngDialogComponent, DocsExampleTabsSectionComponent, DocsExampleVariantDirective],
   templateUrl: './dialog-examples-page.component.html',
   styleUrl: './dialog-examples-page.component.css',
 })
 export class DialogExamplesPageComponent implements OnDestroy {
   private readonly documentRef = inject(DOCUMENT);
+
   public readonly codeBlockTheme = signal<'github-dark' | 'github-light'>(
     resolveDocsCodeBlockTheme(this.documentRef),
   );
-  private readonly colorSchemeObserver = observeDocsCodeThemeChanges(this.documentRef, this.codeBlockTheme);
+  private readonly colorSchemeObserver = observeDocsCodeThemeChanges(
+    this.documentRef,
+    this.codeBlockTheme,
+  );
 
-  protected readonly headlessOpen = signal(false);
   protected readonly plainOpen = signal(false);
   protected readonly tailwindOpen = signal(false);
 
-  protected readonly headlessResult = signal('No decision yet');
   protected readonly plainResult = signal('No decision yet');
   protected readonly tailwindResult = signal('No decision yet');
-
-  protected readonly headlessCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
-    {
-      value: 'ts',
-      label: 'TS',
-      language: 'ts',
-      title: 'dialog-examples-headless.component.ts',
-      code: [
-        "readonly open = signal(false);",
-        "readonly result = signal('No decision yet');",
-      ].join('\n'),
-    },
-    {
-      value: 'html',
-      label: 'HTML',
-      language: 'html',
-      title: 'dialog-examples-headless.component.html',
-      code: [
-        '<button type="button" [tngDialogTrigger]="dialog">Open confirmation</button>',
-        '<section tngDialog #dialog="tngDialog">',
-        '  <div tngDialogBackdrop>',
-        '    <section tngDialogPanel>',
-        '      <h2 tngDialogTitle>Delete release branch?</h2>',
-        '      <div tngDialogActions>',
-        '        <button type="button" tngDialogClose>Cancel</button>',
-        '        <button type="button" tngDialogClose [tngDialogClose]="\'programmatic\'">Delete</button>',
-        '      </div>',
-        '    </section>',
-        '  </div>',
-        '</section>',
-      ].join('\n'),
-    },
-    {
-      value: 'css',
-      label: 'CSS',
-      language: 'css',
-      title: 'dialog-examples-headless.component.css',
-      code: '.dialog-example-panel { max-width: 28rem; width: 100%; }',
-    },
-  ]);
 
   protected readonly plainCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
     {
@@ -99,8 +38,30 @@ export class DialogExamplesPageComponent implements OnDestroy {
       language: 'ts',
       title: 'dialog-examples-plain-css.component.ts',
       code: [
-        "readonly open = signal(false);",
-        "readonly result = signal('No decision yet');",
+        "import { Component, signal } from '@angular/core';",
+        "import { TngDialogComponent } from '@tailng-ui/components';",
+        '',
+        '@Component({',
+        "  selector: 'app-dialog-examples-plain-css',",
+        '  standalone: true,',
+        '  imports: [TngDialogComponent],',
+        "  templateUrl: './dialog-examples-plain-css.component.html',",
+        "  styleUrl: './dialog-examples-plain-css.component.css',",
+        '})',
+        'export class DialogExamplesPlainCssComponent {',
+        '  protected readonly open = signal(false);',
+        "  protected readonly result = signal('No decision yet');",
+        '',
+        '  protected onApprove(): void {',
+        "    this.result.set('Deleted release branch');",
+        '    this.open.set(false);',
+        '  }',
+        '',
+        '  protected onCancel(): void {',
+        "    this.result.set('Canceled');",
+        '    this.open.set(false);',
+        '  }',
+        '}',
       ].join('\n'),
     },
     {
@@ -109,9 +70,20 @@ export class DialogExamplesPageComponent implements OnDestroy {
       language: 'html',
       title: 'dialog-examples-plain-css.component.html',
       code: [
-        '<button type="button" (click)="open.set(true)">Open dialog</button>',
-        '<tng-dialog title="Publish snapshot" [open]="open()" (openChange)="open.set($event)">',
-        '  <p>Confirm publishing to staging.</p>',
+        '<button type="button" class="dialog-example-trigger" (click)="open.set(true)">',
+        '  Delete release branch',
+        '</button>',
+        '',
+        '<tng-dialog',
+        '  title="Delete release branch?"',
+        '  description="This action removes branch automation and cannot be undone."',
+        '  [open]="open()"',
+        '  (openChange)="open.set($event)"',
+        '>',
+        '  <div class="dialog-action-row">',
+        '    <button type="button" class="dialog-example-secondary" (click)="onCancel()">Cancel</button>',
+        '    <button type="button" class="dialog-example-danger" (click)="onApprove()">Delete</button>',
+        '  </div>',
         '</tng-dialog>',
       ].join('\n'),
     },
@@ -120,7 +92,19 @@ export class DialogExamplesPageComponent implements OnDestroy {
       label: 'CSS',
       language: 'css',
       title: 'dialog-examples-plain-css.component.css',
-      code: '.dialog-action-row { justify-content: flex-end; }',
+      code: [
+        '.dialog-action-row {',
+        '  display: flex;',
+        '  flex-wrap: wrap;',
+        '  gap: 0.55rem;',
+        '  justify-content: flex-end;',
+        '}',
+        '',
+        '.dialog-example-danger {',
+        '  background: #dc2626;',
+        '  color: #fff;',
+        '}',
+      ].join('\n'),
     },
   ]);
 
@@ -131,8 +115,30 @@ export class DialogExamplesPageComponent implements OnDestroy {
       language: 'ts',
       title: 'dialog-examples-tailwind.component.ts',
       code: [
-        "readonly open = signal(false);",
-        "readonly result = signal('No decision yet');",
+        "import { Component, signal } from '@angular/core';",
+        "import { TngDialogComponent } from '@tailng-ui/components';",
+        '',
+        '@Component({',
+        "  selector: 'app-dialog-examples-tailwind',",
+        '  standalone: true,',
+        '  imports: [TngDialogComponent],',
+        "  templateUrl: './dialog-examples-tailwind.component.html',",
+        "  styleUrl: './dialog-examples-tailwind.component.css',",
+        '})',
+        'export class DialogExamplesTailwindComponent {',
+        '  protected readonly open = signal(false);',
+        "  protected readonly result = signal('No decision yet');",
+        '',
+        '  protected onApprove(): void {',
+        "    this.result.set('Deployment approved');",
+        '    this.open.set(false);',
+        '  }',
+        '',
+        '  protected onCancel(): void {',
+        "    this.result.set('Canceled');",
+        '    this.open.set(false);',
+        '  }',
+        '}',
       ].join('\n'),
     },
     {
@@ -141,10 +147,28 @@ export class DialogExamplesPageComponent implements OnDestroy {
       language: 'html',
       title: 'dialog-examples-tailwind.component.html',
       code: [
-        '<button class="rounded-lg border px-3 py-2" (click)="open.set(true)">Open</button>',
-        '<tng-dialog title="Tailwind example" [open]="open()" (openChange)="open.set($event)">',
-        '  <p class="text-sm text-slate-700 dark:text-slate-300">Review deployment notice.</p>',
-        '</tng-dialog>',
+        '<div class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">',
+        '  <button',
+        '    type="button"',
+        '    class="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-800 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100"',
+        '    (click)="open.set(true)"',
+        '  >',
+        '    Approve deployment',
+        '  </button>',
+        '',
+        '  <tng-dialog',
+        '    title="Approve deployment"',
+        '    description="Proceed with production rollout for version 2.7.0?"',
+        '    [open]="open()"',
+        '    (openChange)="open.set($event)"',
+        '  >',
+        '    <p class="m-0 text-sm text-slate-700 dark:text-slate-300">Rollout will start in us-east and eu-west.</p>',
+        '    <div class="mt-3 flex flex-wrap justify-end gap-2">',
+        '      <button type="button" class="rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-700 dark:border-slate-600 dark:text-slate-200" (click)="onCancel()">Hold</button>',
+        '      <button type="button" class="rounded-lg border border-emerald-600 bg-emerald-600 px-3 py-2 text-sm font-semibold text-white" (click)="onApprove()">Approve</button>',
+        '    </div>',
+        '  </tng-dialog>',
+        '</div>',
       ].join('\n'),
     },
     {
@@ -152,7 +176,7 @@ export class DialogExamplesPageComponent implements OnDestroy {
       label: 'CSS',
       language: 'css',
       title: 'dialog-examples-tailwind.component.css',
-      code: '/* Tailwind utilities are applied directly in template. */',
+      code: '/* Tailwind utilities are applied directly in the template. */',
     },
   ]);
 
@@ -160,16 +184,8 @@ export class DialogExamplesPageComponent implements OnDestroy {
     this.colorSchemeObserver?.disconnect();
   }
 
-  protected onHeadlessClosed(reason: TngDialogCloseReason): void {
-    this.headlessResult.set(reason === 'programmatic' ? 'Deleted release branch' : `Closed (${reason})`);
-  }
-
-  protected onHeadlessOpenChange(isOpen: boolean): void {
-    this.headlessOpen.set(isOpen);
-  }
-
   protected onPlainApprove(): void {
-    this.plainResult.set('Published to staging');
+    this.plainResult.set('Deleted release branch');
     this.plainOpen.set(false);
   }
 
@@ -187,5 +203,4 @@ export class DialogExamplesPageComponent implements OnDestroy {
     this.tailwindResult.set('Canceled');
     this.tailwindOpen.set(false);
   }
-
 }

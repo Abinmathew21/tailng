@@ -1,0 +1,127 @@
+:host {
+  display: block;
+}
+
+.headless-dialog-examples {
+  display: grid;
+  gap: 1.2rem;
+}
+
+.headless-dialog-examples-title {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.headless-dialog-examples-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.headless-dialog-examples-block {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.95rem;
+  display: grid;
+  gap: 0.8rem;
+  padding: 1rem;
+}
+
+.headless-dialog-examples-block h3 {
+  font-size: 1.02rem;
+  font-weight: 650;
+  margin: 0;
+}
+
+.headless-dialog-examples-copy {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.headless-dialog-example-stage {
+  align-content: start;
+  display: grid;
+  gap: 0.7rem;
+  justify-items: start;
+  min-height: 10rem;
+  position: relative;
+}
+
+.headless-dialog-example-trigger,
+.headless-dialog-example-secondary,
+.headless-dialog-example-danger {
+  border-radius: 0.68rem;
+  cursor: pointer;
+  font-size: 0.88rem;
+  font-weight: 600;
+  min-height: 2.05rem;
+  padding: 0.42rem 0.86rem;
+}
+
+.headless-dialog-example-trigger,
+.headless-dialog-example-secondary {
+  background: color-mix(in srgb, var(--tng-semantic-background-canvas) 80%, transparent);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  color: var(--tng-semantic-foreground-primary);
+}
+
+.headless-dialog-example-danger {
+  background: color-mix(in srgb, #dc2626 88%, var(--tng-semantic-accent-brand));
+  border: 1px solid color-mix(in srgb, #dc2626 88%, transparent);
+  color: #fff;
+}
+
+.headless-dialog-example-backdrop {
+  align-items: center;
+  background: color-mix(in srgb, #020617 58%, transparent);
+  display: grid;
+  inset: 0;
+  justify-items: center;
+  padding: 1rem;
+  position: fixed;
+  z-index: 45;
+}
+
+.headless-dialog-example-backdrop[hidden] {
+  display: none !important;
+}
+
+.headless-dialog-example-panel {
+  background: var(--tng-semantic-background-surface);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.95rem;
+  box-shadow: 0 22px 44px color-mix(in srgb, #020617 26%, transparent);
+  display: grid;
+  gap: 0.72rem;
+  max-width: min(30rem, 100%);
+  padding: 1rem;
+  width: 100%;
+}
+
+.headless-dialog-example-panel[hidden] {
+  display: none !important;
+}
+
+.headless-dialog-example-title {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1rem;
+  margin: 0;
+}
+
+.headless-dialog-example-copy {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.headless-dialog-action-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  justify-content: flex-end;
+}
+
+.headless-dialog-example-state {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.9rem;
+  margin: 0;
+}

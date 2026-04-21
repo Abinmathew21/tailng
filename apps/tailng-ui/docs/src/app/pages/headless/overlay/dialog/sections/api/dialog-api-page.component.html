@@ -1,0 +1,114 @@
+<article class="headless-dialog-api">
+  <h2 class="headless-dialog-api-title">API reference</h2>
+  <p class="headless-dialog-api-lead">
+    Headless dialog exposes a root controller plus structural directives for backdrop, panel,
+    trigger, close controls, and accessible labeling. It owns the modal behavior, while you own
+    the rendered shell.
+  </p>
+
+  <section id="root-directive" class="headless-dialog-api-block">
+    <h3>Root directive</h3>
+    <div class="headless-dialog-api-table-wrap">
+      <table class="headless-dialog-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Directive</th>
+            <th scope="col">Selector</th>
+            <th scope="col">Key API</th>
+            <th scope="col">Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>TngDialog</code></td>
+            <td><code>[tngDialog]</code></td>
+            <td>
+              <code>open</code>, <code>defaultOpen</code>, <code>dismissible</code>,
+              <code>closeOnBackdropClick</code>, <code>closeOnEscape</code>,
+              <code>restoreFocus</code>, <code>autoFocus</code>, <code>trapFocus</code>,
+              <code>lockScroll</code>, <code>size</code>
+            </td>
+            <td>Owns modal lifecycle, focus management, scroll locking, and close reason outputs.</td>
+          </tr>
+          <tr>
+            <td><code>TngDialog</code></td>
+            <td><code>[tngDialog]</code></td>
+            <td><code>openChange</code>, <code>closed</code></td>
+            <td>Emits controlled open-state changes and close reasons for analytics or workflows.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="slot-directives" class="headless-dialog-api-block">
+    <h3>Slot directives</h3>
+    <div class="headless-dialog-api-table-wrap">
+      <table class="headless-dialog-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Directive</th>
+            <th scope="col">Selector</th>
+            <th scope="col">Slot</th>
+            <th scope="col">Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>TngDialogBackdrop</code></td>
+            <td><code>[tngDialogBackdrop]</code></td>
+            <td><code>dialog-backdrop</code></td>
+            <td>Overlay surface, outside-dismiss target, and modal centering layer.</td>
+          </tr>
+          <tr>
+            <td><code>TngDialogPanel</code></td>
+            <td><code>[tngDialogPanel]</code></td>
+            <td><code>dialog-panel</code></td>
+            <td>Dialog container with role, size state, and ARIA wiring.</td>
+          </tr>
+          <tr>
+            <td><code>TngDialogTrigger</code></td>
+            <td><code>[tngDialogTrigger]</code></td>
+            <td><code>dialog-trigger</code></td>
+            <td>Opens the owned dialog and participates in focus restoration.</td>
+          </tr>
+          <tr>
+            <td><code>TngDialogClose</code></td>
+            <td><code>[tngDialogClose]</code></td>
+            <td><code>dialog-close</code></td>
+            <td>Closes the owned dialog and can emit an explicit close reason.</td>
+          </tr>
+          <tr>
+            <td><code>TngDialogTitle</code></td>
+            <td><code>[tngDialogTitle]</code></td>
+            <td><code>dialog-title</code></td>
+            <td>Registers the accessible dialog label when the panel is present.</td>
+          </tr>
+          <tr>
+            <td><code>TngDialogDescription</code></td>
+            <td><code>[tngDialogDescription]</code></td>
+            <td><code>dialog-description</code></td>
+            <td>Registers the accessible description for screen reader context.</td>
+          </tr>
+          <tr>
+            <td><code>TngDialogActions</code></td>
+            <td><code>[tngDialogActions]</code></td>
+            <td><code>dialog-actions</code></td>
+            <td>Stable styling hook for footer action rows.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="behavior-and-events" class="headless-dialog-api-block">
+    <h3>Behavior and events</h3>
+    <ul>
+      <li><code>closed</code> emits <code>'backdrop' | 'close-button' | 'escape' | 'programmatic'</code>.</li>
+      <li><code>autoFocus</code> lets owners prefer the panel, the first focusable, or no automatic focus change.</li>
+      <li><code>trapFocus</code> and <code>restoreFocus</code> are enabled by default for modal-safe keyboard flow.</li>
+      <li><code>ariaLabel</code>, <code>ariaLabelledby</code>, and <code>ariaDescribedby</code> support custom naming when title/description nodes are not used.</li>
+      <li><code>dismissible</code> is the top-level guard for Escape and backdrop dismissal.</li>
+    </ul>
+  </section>
+</article>
