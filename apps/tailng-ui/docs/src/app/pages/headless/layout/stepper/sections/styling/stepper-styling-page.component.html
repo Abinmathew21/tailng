@@ -1,0 +1,62 @@
+<article class="headless-stepper-styling">
+  <h2 class="headless-stepper-styling-title">Styling</h2>
+  <p class="headless-stepper-styling-lead">
+    Headless stepper exposes one library-owned hook on the root. Everything inside that root,
+    including step row classes and state attributes, is authored by you.
+  </p>
+
+  <section id="slot-and-owner-hooks" class="headless-stepper-styling-block">
+    <h3>Slot and owner hooks</h3>
+    <div class="headless-stepper-styling-table-wrap">
+      <table class="headless-stepper-styling-table">
+        <thead>
+          <tr>
+            <th scope="col">Selector</th>
+            <th scope="col">Who owns it</th>
+            <th scope="col">Typical use</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>[data-slot="stepper"]</code></td>
+            <td>Library</td>
+            <td>Root spacing, orientation, connectors, and wrapper-level layout.</td>
+          </tr>
+          <tr>
+            <td><code>.step</code> / <code>[data-state]</code></td>
+            <td>You</td>
+            <td>Step row visuals, complete/current/error emphasis, and icon styling.</td>
+          </tr>
+          <tr>
+            <td><code>[aria-current="step"]</code></td>
+            <td>You</td>
+            <td>Current-step emphasis tied to semantic state instead of presentation-only classes.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="css-starter" class="headless-stepper-styling-block">
+    <h3>CSS starter</h3>
+    <tng-code-block
+      [code]="cssStarterCode"
+      adapter="shiki"
+      language="css"
+      title="Headless stepper starter CSS"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="practical-guidance" class="headless-stepper-styling-block">
+    <h3>Practical guidance</h3>
+    <ul>
+      <li>Base your visual current-step treatment on <code>aria-current="step"</code> when possible.</li>
+      <li>Keep owner-authored state names consistent across flows so progress visuals stay predictable.</li>
+      <li>Build connectors, badges, and icons inside each step row rather than expecting extra primitive slots.</li>
+      <li>Use the root slot for layout only and keep step-item styling in your own class or attribute contract.</li>
+    </ul>
+  </section>
+</article>

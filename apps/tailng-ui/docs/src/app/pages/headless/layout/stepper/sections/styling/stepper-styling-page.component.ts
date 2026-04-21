@@ -2,28 +2,27 @@ import { Component } from '@angular/core';
 import { TngCodeBlockComponent } from '@tailng-ui/components';
 
 @Component({
-  selector: 'app-stepper-styling-page',
+  selector: 'app-headless-stepper-styling-page',
   imports: [TngCodeBlockComponent],
   templateUrl: './stepper-styling-page.component.html',
-  styleUrl: './stepper-styling-page.component.css',
+  styleUrls: ['./stepper-styling-page.component.css'],
 })
-export class StepperStylingPageComponent {
-  protected readonly cssContractCode = [
+export class HeadlessStepperStylingPageComponent {
+  protected readonly cssStarterCode = [
     '[data-slot="stepper"] {',
     '  display: grid;',
     '  gap: 0.65rem;',
     '}',
     '',
-    '[data-slot="stepper"] [data-state="current"] {',
+    '[data-slot="stepper"] .step[data-state="current"] {',
     '  border-color: var(--tng-semantic-accent-brand);',
-    '  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 12%, transparent);',
     '}',
     '',
-    '[data-slot="stepper"] [data-state="completed"] {',
+    '[data-slot="stepper"] .step[data-state="completed"] {',
     '  border-color: var(--tng-semantic-accent-success);',
     '}',
     '',
-    '[data-slot="stepper"] [data-state="error"] {',
+    '[data-slot="stepper"] .step[data-state="error"] {',
     '  border-color: var(--tng-semantic-accent-danger);',
     '}',
     '',

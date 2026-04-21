@@ -1,0 +1,124 @@
+<article class="headless-stepper-examples">
+  <h2 class="headless-stepper-examples-title">Examples</h2>
+  <p class="headless-stepper-examples-lead">
+    Reusable headless stepper patterns for checkout, release workflows, and validation fallback
+    paths.
+  </p>
+
+  <section id="checkout-progression" class="headless-stepper-examples-block">
+    <app-docs-example-tabs-section
+      heading="Checkout progression"
+      description="Completed, current, and upcoming rows authored directly in your markup."
+      ariaLabel="Headless stepper checkout progression examples"
+      tabListAriaLabel="Headless stepper checkout progression tabs"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Headless stepper checkout progression (plain CSS)"
+        [codeTabs]="checkoutPlainCodeTabs"
+      >
+        <ol tngStepper class="headless-stepper-example-list" aria-label="Checkout progress">
+          <li data-state="completed" class="headless-stepper-example-item is-complete"><span class="dot">✓</span> Cart</li>
+          <li aria-current="step" data-state="current" class="headless-stepper-example-item is-current"><span class="dot">2</span> Shipping</li>
+          <li data-state="upcoming" class="headless-stepper-example-item"><span class="dot">3</span> Payment</li>
+        </ol>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Headless stepper checkout progression (Tailwind CSS)"
+        [codeTabs]="checkoutTailwindCodeTabs"
+      >
+        <ol tngStepper aria-label="Checkout progress" class="grid gap-3">
+          <li class="inline-flex min-h-10 items-center gap-3 rounded-xl border border-emerald-300 bg-emerald-50 px-3 py-2 text-slate-900 dark:border-emerald-800 dark:bg-emerald-950/30 dark:text-slate-100"><span class="grid h-6 w-6 place-items-center rounded-full bg-emerald-600 text-xs font-semibold text-white">✓</span> Cart</li>
+          <li aria-current="step" class="inline-flex min-h-10 items-center gap-3 rounded-xl border border-sky-300 bg-sky-50 px-3 py-2 text-slate-900 dark:border-sky-800 dark:bg-sky-950/30 dark:text-slate-100"><span class="grid h-6 w-6 place-items-center rounded-full bg-sky-600 text-xs font-semibold text-white">2</span> Shipping</li>
+          <li class="inline-flex min-h-10 items-center gap-3 rounded-xl border border-slate-300 bg-white px-3 py-2 text-slate-700 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300"><span class="grid h-6 w-6 place-items-center rounded-full bg-slate-200 text-xs font-semibold text-slate-700 dark:bg-slate-800 dark:text-slate-300">3</span> Payment</li>
+        </ol>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section id="release-pipeline" class="headless-stepper-examples-block">
+    <app-docs-example-tabs-section
+      heading="Release pipeline"
+      description="Two completed rows feeding into a current publish stage."
+      ariaLabel="Headless stepper release pipeline examples"
+      tabListAriaLabel="Headless stepper release pipeline tabs"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Headless stepper release pipeline (plain CSS)"
+        [codeTabs]="releasePlainCodeTabs"
+      >
+        <ol tngStepper class="headless-stepper-example-list" aria-label="Release flow">
+          <li data-state="completed" class="headless-stepper-example-item is-complete"><span class="dot">✓</span> Draft</li>
+          <li data-state="completed" class="headless-stepper-example-item is-complete"><span class="dot">✓</span> Review</li>
+          <li aria-current="step" data-state="current" class="headless-stepper-example-item is-current"><span class="dot">3</span> Publish</li>
+        </ol>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Headless stepper release pipeline (Tailwind CSS)"
+        [codeTabs]="releaseTailwindCodeTabs"
+      >
+        <ol tngStepper aria-label="Release flow" class="grid gap-3">
+          <li class="inline-flex min-h-10 items-center gap-3 rounded-xl border border-emerald-300 bg-emerald-50 px-3 py-2 text-slate-900 dark:border-emerald-800 dark:bg-emerald-950/30 dark:text-slate-100"><span class="grid h-6 w-6 place-items-center rounded-full bg-emerald-600 text-xs font-semibold text-white">✓</span> Draft</li>
+          <li class="inline-flex min-h-10 items-center gap-3 rounded-xl border border-emerald-300 bg-emerald-50 px-3 py-2 text-slate-900 dark:border-emerald-800 dark:bg-emerald-950/30 dark:text-slate-100"><span class="grid h-6 w-6 place-items-center rounded-full bg-emerald-600 text-xs font-semibold text-white">✓</span> Review</li>
+          <li aria-current="step" class="inline-flex min-h-10 items-center gap-3 rounded-xl border border-sky-300 bg-sky-50 px-3 py-2 text-slate-900 dark:border-sky-800 dark:bg-sky-950/30 dark:text-slate-100"><span class="grid h-6 w-6 place-items-center rounded-full bg-sky-600 text-xs font-semibold text-white">3</span> Publish</li>
+        </ol>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section id="error-surface" class="headless-stepper-examples-block">
+    <app-docs-example-tabs-section
+      heading="Error surface"
+      description="The current step exposes a failure state while surrounding rows remain readable."
+      ariaLabel="Headless stepper error surface examples"
+      tabListAriaLabel="Headless stepper error surface tabs"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Headless stepper error surface (plain CSS)"
+        [codeTabs]="errorPlainCodeTabs"
+      >
+        <ol tngStepper class="headless-stepper-example-list" aria-label="Onboarding">
+          <li data-state="completed" class="headless-stepper-example-item is-complete"><span class="dot">✓</span> Profile</li>
+          <li aria-current="step" data-state="error" class="headless-stepper-example-item is-error"><span class="dot">2</span> Billing</li>
+          <li data-state="upcoming" class="headless-stepper-example-item"><span class="dot">3</span> Team invite</li>
+        </ol>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Headless stepper error surface (Tailwind CSS)"
+        [codeTabs]="errorTailwindCodeTabs"
+      >
+        <ol tngStepper aria-label="Onboarding" class="grid gap-3">
+          <li class="inline-flex min-h-10 items-center gap-3 rounded-xl border border-emerald-300 bg-emerald-50 px-3 py-2 text-slate-900 dark:border-emerald-800 dark:bg-emerald-950/30 dark:text-slate-100"><span class="grid h-6 w-6 place-items-center rounded-full bg-emerald-600 text-xs font-semibold text-white">✓</span> Profile</li>
+          <li aria-current="step" class="inline-flex min-h-10 items-center gap-3 rounded-xl border border-rose-300 bg-rose-50 px-3 py-2 text-slate-900 dark:border-rose-800 dark:bg-rose-950/30 dark:text-slate-100"><span class="grid h-6 w-6 place-items-center rounded-full bg-rose-600 text-xs font-semibold text-white">2</span> Billing</li>
+          <li class="inline-flex min-h-10 items-center gap-3 rounded-xl border border-slate-300 bg-white px-3 py-2 text-slate-700 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300"><span class="grid h-6 w-6 place-items-center rounded-full bg-slate-200 text-xs font-semibold text-slate-700 dark:bg-slate-800 dark:text-slate-300">3</span> Team invite</li>
+        </ol>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+</article>

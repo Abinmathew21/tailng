@@ -1,23 +1,12 @@
 <article class="stepper-overview">
-  <h2 class="stepper-overview-title">Stepper overview</h2>
-  <p class="stepper-overview-lead">
-    Stepper provides a lightweight structure for ordered progress indicators. Use the headless
-    primitive for complete control or the wrapper component for quick adoption.
-  </p>
-
-  <section class="stepper-overview-block">
+  <section id="imports" class="stepper-overview-block">
+    <h2 class="stepper-overview-title">Stepper overview</h2>
+    <p class="stepper-overview-lead">
+      Stepper wraps the headless root with a baseline shell and an accessible label, while your app
+      still owns the projected step rows, state semantics, and any interactive behavior inside.
+    </p>
     <h3>Imports</h3>
-    <p>Select the layer that matches your ownership model.</p>
-    <tng-code-block
-      [code]="primitiveImportCode"
-      adapter="shiki"
-      language="ts"
-      title="Primitive import"
-      [theme]="codeBlockTheme()"
-      [lineNumbers]="false"
-      [wrap]="true"
-      [sanitizeHtml]="false"
-    ></tng-code-block>
+    <p>Import the wrapper when you want the default shell styling and <code>ariaLabel</code> input.</p>
     <tng-code-block
       [code]="componentImportCode"
       adapter="shiki"
@@ -32,38 +21,14 @@
 
   <section class="stepper-overview-block">
     <app-docs-example-tabs-section
+      id="progress-indicator-variants"
       heading="Progress indicator variants"
-      description="Same stepper semantics rendered through headless markup, plain CSS wrappers, and Tailwind utility shells."
+      description="The same wrapper shell rendered through local CSS or a Tailwind utility shell around owner-authored step rows."
       ariaLabel="Stepper progress indicator variants"
       tabListAriaLabel="Stepper styles"
-      defaultValue="headless"
+      defaultValue="plain-css"
       [codeBlockTheme]="codeBlockTheme()"
     >
-      <ng-template
-        appDocsExampleVariant
-        value="headless"
-        label="Headless"
-        panelTitle="Headless progress stepper"
-        [codeTabs]="headlessCodeTabs"
-      >
-        <div class="stepper-preview-shell stepper-preview-shell--headless">
-          <ol tngStepper class="stepper-preview-list" aria-label="Checkout progress">
-            <li class="stepper-preview-item is-current">
-              <span class="stepper-preview-dot">1</span>
-              Shipping details
-            </li>
-            <li class="stepper-preview-item">
-              <span class="stepper-preview-dot">2</span>
-              Payment method
-            </li>
-            <li class="stepper-preview-item">
-              <span class="stepper-preview-dot">3</span>
-              Confirmation
-            </li>
-          </ol>
-        </div>
-      </ng-template>
-
       <ng-template
         appDocsExampleVariant
         value="plain-css"
@@ -78,7 +43,7 @@
                 <span class="stepper-preview-dot">✓</span>
                 Draft
               </li>
-              <li class="stepper-preview-item is-current">
+              <li aria-current="step" class="stepper-preview-item is-current">
                 <span class="stepper-preview-dot">2</span>
                 Review
               </li>
@@ -107,7 +72,7 @@
                 <span class="stepper-preview-dot">✓</span>
                 Draft
               </li>
-              <li class="stepper-preview-item is-current">
+              <li aria-current="step" class="stepper-preview-item is-current">
                 <span class="stepper-preview-dot">2</span>
                 Review
               </li>
@@ -122,12 +87,12 @@
     </app-docs-example-tabs-section>
   </section>
 
-  <section class="stepper-overview-block">
+  <section id="accessibility-baseline" class="stepper-overview-block">
     <h3>Accessibility baseline</h3>
     <ul class="stepper-overview-list">
       <li>Current step should expose <code>aria-current="step"</code>.</li>
-      <li>Step triggers should remain keyboard-focusable in document order.</li>
-      <li>Optional, error, and completed states should be announced in accessible labels.</li>
+      <li>If step rows are clickable, use real links or buttons in document order.</li>
+      <li>Optional, error, and completed states should be announced in visible or accessible text.</li>
     </ul>
   </section>
 </article>

@@ -193,6 +193,13 @@ export const HEADLESS_LAYOUT_GROUP: HeadlessDocsGroup = {
       description:
         'Headless multi-section disclosure behavior with item registration, roving focus, and panel lifecycle control.',
     },
+    {
+      id: 'stepper',
+      slug: 'stepper',
+      title: 'Stepper',
+      description:
+        'Minimal structural hook for ordered progress flows with owner-authored step item semantics and styling.',
+    },
   ],
 };
 

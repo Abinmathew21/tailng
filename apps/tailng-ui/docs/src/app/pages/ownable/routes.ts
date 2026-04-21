@@ -38,6 +38,7 @@ const switchItem = requireOwnableItem(OWNABLE_FORM_GROUP, 'switch');
 const labelItem = requireOwnableItem(OWNABLE_FORM_GROUP, 'label');
 const collapsibleItem = requireOwnableItem(OWNABLE_LAYOUT_GROUP, 'collapsible');
 const accordionItem = requireOwnableItem(OWNABLE_LAYOUT_GROUP, 'accordion');
+const stepperItem = requireOwnableItem(OWNABLE_LAYOUT_GROUP, 'stepper');
 const breadcrumbItem = requireOwnableItem(OWNABLE_NAVIGATION_GROUP, 'breadcrumb');
 const contextMenuItem = requireOwnableItem(OWNABLE_NAVIGATION_GROUP, 'context-menu');
 const menubarItem = requireOwnableItem(OWNABLE_NAVIGATION_GROUP, 'menubar');
@@ -175,6 +176,14 @@ export const OWNABLE_ROUTES: Routes = [
         loadComponent: () =>
           import('./layout/accordion/ownable-accordion-page.component').then(
             (m) => m.OwnableAccordionPageComponent,
+          ),
+      },
+      {
+        path: 'layout/stepper',
+        data: toOwnableDocsRouteData(OWNABLE_LAYOUT_GROUP, stepperItem),
+        loadComponent: () =>
+          import('./layout/stepper/ownable-stepper-page.component').then(
+            (m) => m.OwnableStepperPageComponent,
           ),
       },
       {

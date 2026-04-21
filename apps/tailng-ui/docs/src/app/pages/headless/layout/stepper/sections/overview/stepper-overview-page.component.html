@@ -1,0 +1,112 @@
+<article class="headless-stepper-overview">
+  <section id="imports" class="headless-stepper-overview-block">
+    <h2 class="headless-stepper-overview-title">Stepper overview</h2>
+    <p class="headless-stepper-overview-lead">
+      Headless stepper is intentionally minimal. It marks the root container with a stable slot
+      hook and leaves step item structure, current-state semantics, and visual treatment to your
+      own markup.
+    </p>
+    <tng-code-block
+      [code]="importCode"
+      adapter="shiki"
+      language="ts"
+      title="Primitive import"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="basic-composition" class="headless-stepper-overview-block">
+    <h3>Basic composition</h3>
+    <p>
+      Attach <code>tngStepper</code> to the ordered list or section that owns your progress flow,
+      then author the step items, labels, and state semantics directly in the surrounding markup.
+    </p>
+    <tng-code-block
+      [code]="usageCode"
+      adapter="shiki"
+      language="html"
+      title="Headless stepper composition"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <app-docs-example-tabs-section
+    id="style-variants"
+    class="headless-stepper-overview-block"
+    heading="Style variants"
+    description="The same headless stepper root rendered through a local CSS contract or a Tailwind utility shell."
+    ariaLabel="Headless stepper overview examples"
+    tabListAriaLabel="Headless stepper overview style tabs"
+    defaultValue="plain-css"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+      panelTitle="Headless stepper (plain CSS)"
+      [codeTabs]="plainCodeTabs"
+    >
+      <ol tngStepper class="headless-stepper-preview-list" aria-label="Release pipeline">
+        <li class="headless-stepper-preview-item is-complete">
+          <span class="headless-stepper-preview-dot">✓</span>
+          Draft
+        </li>
+        <li aria-current="step" class="headless-stepper-preview-item is-current">
+          <span class="headless-stepper-preview-dot">2</span>
+          Review
+        </li>
+        <li class="headless-stepper-preview-item">
+          <span class="headless-stepper-preview-dot">3</span>
+          Publish
+        </li>
+      </ol>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Headless stepper (Tailwind CSS)"
+      [codeTabs]="tailwindCodeTabs"
+    >
+      <ol tngStepper aria-label="Checkout progress" class="grid gap-3">
+        <li
+          class="inline-flex min-h-10 items-center gap-3 rounded-xl border border-emerald-300 bg-emerald-50 px-3 py-2 text-slate-900 dark:border-emerald-800 dark:bg-emerald-950/30 dark:text-slate-100"
+        >
+          <span class="grid h-6 w-6 place-items-center rounded-full bg-emerald-600 text-xs font-semibold text-white">✓</span>
+          Cart
+        </li>
+        <li
+          aria-current="step"
+          class="inline-flex min-h-10 items-center gap-3 rounded-xl border border-sky-300 bg-sky-50 px-3 py-2 text-slate-900 dark:border-sky-800 dark:bg-sky-950/30 dark:text-slate-100"
+        >
+          <span class="grid h-6 w-6 place-items-center rounded-full bg-sky-600 text-xs font-semibold text-white">2</span>
+          Shipping
+        </li>
+        <li
+          class="inline-flex min-h-10 items-center gap-3 rounded-xl border border-slate-300 bg-white px-3 py-2 text-slate-700 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300"
+        >
+          <span class="grid h-6 w-6 place-items-center rounded-full bg-slate-200 text-xs font-semibold text-slate-700 dark:bg-slate-800 dark:text-slate-300">3</span>
+          Payment
+        </li>
+      </ol>
+    </ng-template>
+  </app-docs-example-tabs-section>
+
+  <section id="accessibility-baseline" class="headless-stepper-overview-block">
+    <h3>Accessibility baseline</h3>
+    <ul class="headless-stepper-overview-list">
+      <li>Keep the overall flow semantic by using an ordered list when the sequence matters.</li>
+      <li>Expose the active item with <code>aria-current="step"</code> on the current step row or trigger.</li>
+      <li>Include readable text for complete, optional, or error states instead of relying on color alone.</li>
+      <li>If a step is interactive, use real links or buttons inside each item rather than non-semantic containers.</li>
+    </ul>
+  </section>
+</article>

@@ -1,18 +1,18 @@
 import type { Routes } from '@angular/router';
-import { COMPONENTS_LAYOUT_GROUP, toComponentsDocsRouteData } from '../../component-docs.data';
+import { HEADLESS_LAYOUT_GROUP, toHeadlessDocsRouteData } from '../../headless-docs.data';
 
-const group = COMPONENTS_LAYOUT_GROUP;
+const group = HEADLESS_LAYOUT_GROUP;
 const stepperItem = group.items.find((item) => item.slug === 'stepper');
 if (stepperItem === undefined) {
-  throw new Error('Missing "stepper" in components layout docs group.');
+  throw new Error('Missing "stepper" in headless layout docs group.');
 }
 
-export const COMPONENTS_LAYOUT_STEPPER_ROUTES: Routes = [
+export const HEADLESS_LAYOUT_STEPPER_ROUTES: Routes = [
   {
     path: '',
-    data: toComponentsDocsRouteData(group, stepperItem),
+    data: toHeadlessDocsRouteData(group, stepperItem),
     loadComponent: () =>
-      import('./stepper-page.component').then((module) => module.StepperPageComponent),
+      import('./stepper-page.component').then((module) => module.HeadlessStepperPageComponent),
     children: [
       {
         path: '',
@@ -23,37 +23,29 @@ export const COMPONENTS_LAYOUT_STEPPER_ROUTES: Routes = [
         path: 'overview',
         loadComponent: () =>
           import('./sections/overview/stepper-overview-page.component').then(
-            (module) => module.StepperOverviewPageComponent,
+            (module) => module.HeadlessStepperOverviewPageComponent,
           ),
       },
       {
         path: 'api',
         loadComponent: () =>
           import('./sections/api/stepper-api-page.component').then(
-            (module) => module.StepperApiPageComponent,
+            (module) => module.HeadlessStepperApiPageComponent,
           ),
       },
       {
         path: 'styling',
         loadComponent: () =>
           import('./sections/styling/stepper-styling-page.component').then(
-            (module) => module.StepperStylingPageComponent,
+            (module) => module.HeadlessStepperStylingPageComponent,
           ),
       },
       {
         path: 'examples',
         loadComponent: () =>
           import('./sections/examples/stepper-examples-page.component').then(
-            (module) => module.StepperExamplesPageComponent,
+            (module) => module.HeadlessStepperExamplesPageComponent,
           ),
-      },
-      {
-        path: 'ownable-install',
-        data: {
-          registrySlug: 'stepper',
-        },
-        pathMatch: 'full',
-        redirectTo: '/ownable/layout/stepper',
       },
       {
         path: '**',

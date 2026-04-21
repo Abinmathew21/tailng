@@ -5,11 +5,11 @@
     Behavioral navigation APIs are planned for the next iteration.
   </p>
 
-  <section class="stepper-api-block">
+  <section id="tngstepper-directive" class="stepper-api-block">
     <h3><code>tngStepper</code> (directive)</h3>
     <p>
       Attach on a container element (<code>ol</code>, <code>section</code>, etc.) to expose
-      stepper slot semantics.
+      stepper slot semantics. The rows inside are fully owner-authored.
     </p>
     <tng-code-block
       [code]="primitiveAttachmentCode"
@@ -46,16 +46,21 @@
             <td><code>tngStepper</code></td>
             <td>Reference directive instance from templates if needed.</td>
           </tr>
+          <tr>
+            <td>Built-in item hooks</td>
+            <td>None</td>
+            <td>Any <code>data-state</code>, <code>aria-current</code>, or classes on step rows are app-authored.</td>
+          </tr>
         </tbody>
       </table>
     </div>
   </section>
 
-  <section class="stepper-api-block">
+  <section id="tng-stepper-component" class="stepper-api-block">
     <h3><code>tng-stepper</code> (component)</h3>
     <p>
       Wrapper that applies a baseline shell and forwards <code>ariaLabel</code> to the stepper
-      host.
+      host. It does not generate step rows or manage current, completed, or error states for you.
     </p>
     <tng-code-block
       [code]="componentAttachmentCode"
@@ -89,4 +94,3 @@
     </div>
   </section>
 </article>
-

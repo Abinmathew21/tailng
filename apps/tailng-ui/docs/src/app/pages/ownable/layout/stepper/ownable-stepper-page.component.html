@@ -1,0 +1,39 @@
+<div class="grid gap-8 pb-10">
+  <section class="docs-section-anchor grid gap-4" id="stepper-overview">
+    <h1 class="m-0 text-3xl font-semibold text-tng-fg-primary">Stepper</h1>
+    <p class="m-0 max-w-4xl text-base leading-7 text-tng-fg-secondary">
+      The ownable Stepper install gives your app a local wrapper, editable template, and nearby
+      style surface for progress flows while keeping the TailNG root slot contract close to the
+      product feature that owns the step rows.
+    </p>
+  </section>
+
+  <section class="docs-section-anchor grid gap-3" id="why-own-stepper">
+    <h2 class="m-0 text-xl font-semibold text-tng-fg-primary">Why own Stepper locally</h2>
+    <p class="m-0 max-w-4xl text-base leading-7 text-tng-fg-secondary">
+      Stepper usually becomes product-specific once teams add completion badges, validation
+      messaging, branch-specific copy, or clickable stage rows. Local ownership keeps those step
+      semantics versioned beside the workflow they describe.
+    </p>
+    <ul class="m-0 grid gap-2 pl-5 text-sm leading-6 text-tng-fg-secondary">
+      <li>Adjust step-row markup, badges, and connectors without waiting on a package release.</li>
+      <li>Keep checkout, release, or onboarding flow copy close to the feature that owns it.</li>
+      <li>Iterate on local shell styling while preserving the shared root slot contract underneath.</li>
+    </ul>
+  </section>
+
+  <section class="docs-section-anchor grid gap-3" id="what-stepper-installs">
+    <h2 class="m-0 text-xl font-semibold text-tng-fg-primary">What the install includes</h2>
+    <p class="m-0 max-w-4xl text-base leading-7 text-tng-fg-secondary">
+      The registry-backed stepper install writes the local wrapper component, template, styles,
+      primitive bridge file, and export barrel under your app so the generated source can evolve
+      with the surrounding progress pattern.
+    </p>
+  </section>
+
+  <app-docs-ownable-install-section
+    componentName="Stepper"
+    registrySlug="stepper"
+    [usageCode]="usageCode"
+  />
+</div>

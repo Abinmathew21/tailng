@@ -1,0 +1,90 @@
+:host {
+  display: block;
+}
+
+.headless-stepper-overview {
+  display: grid;
+  gap: 1rem;
+}
+
+.headless-stepper-overview-title {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.headless-stepper-overview-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.headless-stepper-overview-block {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.9rem;
+  color: var(--tng-semantic-foreground-secondary);
+  display: grid;
+  gap: 0.75rem;
+  padding: 1rem;
+}
+
+.headless-stepper-overview-block h3 {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1rem;
+  margin: 0;
+}
+
+.headless-stepper-overview-block p {
+  margin: 0;
+}
+
+.headless-stepper-preview-list {
+  display: grid;
+  gap: 0.6rem;
+  list-style: none;
+  margin: 0;
+  max-width: 34rem;
+  padding: 0;
+  width: 100%;
+}
+
+.headless-stepper-preview-item {
+  align-items: center;
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.7rem;
+  color: var(--tng-semantic-foreground-primary);
+  display: inline-flex;
+  gap: 0.55rem;
+  min-height: 2.3rem;
+  padding: 0.35rem 0.75rem;
+}
+
+.headless-stepper-preview-item.is-current {
+  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 14%, transparent);
+  border-color: var(--tng-semantic-accent-brand);
+}
+
+.headless-stepper-preview-item.is-complete {
+  background: color-mix(in srgb, var(--tng-semantic-accent-success) 12%, transparent);
+  border-color: var(--tng-semantic-accent-success);
+}
+
+.headless-stepper-preview-dot {
+  align-items: center;
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 999px;
+  display: inline-flex;
+  font-size: 0.75rem;
+  font-weight: 700;
+  height: 1.35rem;
+  justify-content: center;
+  min-width: 1.35rem;
+  padding-inline: 0.3rem;
+}
+
+.headless-stepper-overview-list {
+  display: grid;
+  gap: 0.45rem;
+  margin: 0;
+  padding-left: 1rem;
+}

@@ -1,0 +1,64 @@
+:host {
+  display: block;
+}
+
+.headless-stepper-styling {
+  display: grid;
+  gap: 1rem;
+}
+
+.headless-stepper-styling-title {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.headless-stepper-styling-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.headless-stepper-styling-block {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.9rem;
+  color: var(--tng-semantic-foreground-secondary);
+  display: grid;
+  gap: 0.75rem;
+  padding: 1rem;
+}
+
+.headless-stepper-styling-block h3 {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1rem;
+  margin: 0;
+}
+
+.headless-stepper-styling-table-wrap {
+  overflow-x: auto;
+}
+
+.headless-stepper-styling-table {
+  border-collapse: collapse;
+  inline-size: 100%;
+  min-inline-size: 34rem;
+}
+
+.headless-stepper-styling-table th,
+.headless-stepper-styling-table td {
+  border-bottom: 1px solid var(--tng-semantic-border-subtle);
+  padding: 0.7rem 0.8rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.headless-stepper-styling-table th {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.headless-stepper-styling-block ul {
+  margin: 0;
+  padding-left: 1rem;
+}

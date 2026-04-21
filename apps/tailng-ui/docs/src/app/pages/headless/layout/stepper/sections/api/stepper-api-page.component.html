@@ -1,0 +1,68 @@
+<article class="headless-stepper-api">
+  <h2 class="headless-stepper-api-title">API reference</h2>
+  <p class="headless-stepper-api-lead">
+    Headless stepper is a structural primitive. It marks the root with a stable slot selector and
+    leaves step rows, states, and any interactivity to the owning markup.
+  </p>
+
+  <section id="root-directive" class="headless-stepper-api-block">
+    <h3><code>tngStepper</code></h3>
+    <p>
+      Attach the directive to the container that owns your ordered progress content. The primitive
+      does not add step-item directives, outputs, or keyboard behavior.
+    </p>
+    <tng-code-block
+      [code]="usageCode"
+      adapter="shiki"
+      language="html"
+      title="Headless stepper usage"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+
+    <div class="headless-stepper-api-table-wrap">
+      <table class="headless-stepper-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Surface</th>
+            <th scope="col">Value</th>
+            <th scope="col">Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Selector</td>
+            <td><code>[tngStepper]</code></td>
+            <td>Attaches the primitive to your chosen host element.</td>
+          </tr>
+          <tr>
+            <td>Export alias</td>
+            <td><code>tngStepper</code></td>
+            <td>Lets templates reference the directive instance if needed.</td>
+          </tr>
+          <tr>
+            <td>Host hook</td>
+            <td><code>data-slot="stepper"</code></td>
+            <td>Stable selector for styling and queries.</td>
+          </tr>
+          <tr>
+            <td>Built-in state hooks</td>
+            <td>None</td>
+            <td>Current, complete, and error state semantics are fully owner-authored.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="owner-responsibilities" class="headless-stepper-api-block">
+    <h3>Owner responsibilities</h3>
+    <ul>
+      <li>Choose the correct semantic container, usually an ordered list for linear flows.</li>
+      <li>Author step rows, labels, icons, connectors, and state tokens in your own markup.</li>
+      <li>Expose the active step with <code>aria-current="step"</code> when the flow has a current position.</li>
+      <li>Add any keyboard or link behavior yourself if step rows are navigable.</li>
+    </ul>
+  </section>
+</article>

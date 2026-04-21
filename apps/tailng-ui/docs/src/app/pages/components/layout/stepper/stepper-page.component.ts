@@ -11,14 +11,13 @@ import {
 import { TngTab, TngTabList } from '@tailng-ui/primitives';
 import { filter, map, startWith } from 'rxjs/operators';
 
-type StepperDocSectionId = 'api' | 'examples' | 'overview' | 'ownable-install' | 'styling';
+type StepperDocSectionId = 'api' | 'examples' | 'overview' | 'styling';
 
 const stepperDocSectionIds: readonly StepperDocSectionId[] = [
   'overview',
   'api',
   'styling',
   'examples',
-  'ownable-install',
 ] as const;
 
 const defaultStepperDocSection: StepperDocSectionId = 'overview';
@@ -111,4 +110,3 @@ export class StepperPageComponent {
     return normalized;
   }
 }
-

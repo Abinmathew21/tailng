@@ -19,4 +19,9 @@ export const HEADLESS_LAYOUT_ROUTES: Routes = [
     loadChildren: () =>
       import('./accordion/routes').then((module) => module.HEADLESS_LAYOUT_ACCORDION_ROUTES),
   },
+  {
+    path: 'stepper',
+    loadChildren: () =>
+      import('./stepper/routes').then((module) => module.HEADLESS_LAYOUT_STEPPER_ROUTES),
+  },
 ];

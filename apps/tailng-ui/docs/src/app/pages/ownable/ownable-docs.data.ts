@@ -178,6 +178,13 @@ export const OWNABLE_LAYOUT_GROUP: OwnableDocsGroup = {
       description:
         'Ownable accordion install with local wrapper source, section markup, and generated file structure.',
     },
+    {
+      id: 'stepper',
+      slug: 'stepper',
+      title: 'Stepper',
+      description:
+        'Ownable stepper install with local wrapper source, progress markup, and generated file structure.',
+    },
   ],
 };
 

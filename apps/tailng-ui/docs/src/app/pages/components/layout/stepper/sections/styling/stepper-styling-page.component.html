@@ -1,11 +1,12 @@
 <article class="stepper-styling">
   <h2 class="stepper-styling-title">Styling contract</h2>
   <p class="stepper-styling-lead">
-    Style against explicit data hooks from the stepper host and each step item. Keep state tokens
-    centralized so current/completed/error remain visually consistent across flows.
+    The library owns the stepper root hook. State tokens for individual rows are still authored by
+    your app, so keep those conventions centralized if you want current, complete, and error
+    treatment to stay consistent across flows.
   </p>
 
-  <section class="stepper-styling-block">
+  <section id="state-hooks" class="stepper-styling-block">
     <h3>State hooks</h3>
     <div class="stepper-styling-table-wrap">
       <table class="stepper-styling-table">
@@ -19,27 +20,27 @@
         <tbody>
           <tr>
             <td><code>data-slot="stepper"</code></td>
-            <td>Root</td>
+            <td>Root (library-owned)</td>
             <td>Container spacing, orientation layouts, connector styling.</td>
           </tr>
           <tr>
             <td><code>data-state="current"</code></td>
-            <td>Step item</td>
-            <td>Active step emphasis and readable focus baseline.</td>
+            <td>Step item (owner-authored)</td>
+            <td>Active step emphasis and readable current-state styling.</td>
           </tr>
           <tr>
             <td><code>data-state="completed"</code></td>
-            <td>Step item</td>
+            <td>Step item (owner-authored)</td>
             <td>Past-step confirmation colors and icon treatment.</td>
           </tr>
           <tr>
             <td><code>data-state="upcoming"</code></td>
-            <td>Step item</td>
+            <td>Step item (owner-authored)</td>
             <td>Muted future-step presentation.</td>
           </tr>
           <tr>
             <td><code>data-state="error"</code></td>
-            <td>Step item</td>
+            <td>Step item (owner-authored)</td>
             <td>Validation/processing failure styling.</td>
           </tr>
         </tbody>
@@ -47,7 +48,7 @@
     </div>
   </section>
 
-  <section class="stepper-styling-block">
+  <section id="css-starter" class="stepper-styling-block">
     <h3>CSS starter</h3>
     <tng-code-block
       [code]="cssContractCode"
@@ -58,6 +59,9 @@
       [wrap]="true"
       [sanitizeHtml]="false"
     ></tng-code-block>
+    <p class="stepper-styling-note">
+      The inner <code>data-state</code> selectors in this starter are conventions from your app,
+      not attributes emitted by the stepper wrapper itself.
+    </p>
   </section>
 </article>
-
