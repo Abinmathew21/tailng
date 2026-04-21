@@ -222,6 +222,13 @@ export const OWNABLE_OVERLAY_GROUP: OwnableDocsGroup = {
       description:
         'Ownable popover install with local wrapper source, anchored panel behavior, and generated file structure.',
     },
+    {
+      id: 'tooltip',
+      slug: 'tooltip',
+      title: 'Tooltip',
+      description:
+        'Ownable tooltip install with local wrapper source, helper-text defaults, and generated file structure.',
+    },
   ],
 };
 

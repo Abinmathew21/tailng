@@ -1,11 +1,11 @@
 <article class="tooltip-styling">
   <h2 class="tooltip-styling-title">Styling contract</h2>
   <p class="tooltip-styling-lead">
-    Tooltip primitives expose slot and state hooks so teams can style trigger and floating content
-    without relying on internal DOM structure.
+    The wrapper forwards slot and state hooks through its built-in trigger and floating content, so
+    teams can restyle the shell without depending on internal DOM structure.
   </p>
 
-  <section class="tooltip-styling-block">
+  <section id="core-data-attributes" class="tooltip-styling-block">
     <h3>Core data attributes</h3>
     <ul>
       <li>
@@ -21,17 +21,21 @@
         and <code>left</code> placement styles.
       </li>
       <li>
-        Tooltip content should keep <code>pointer-events: none</code> and remain non-interactive.
+        The wrapper owns floating coordinates. Style the surface, not the placement math, and keep
+        <code>pointer-events: none</code> on tooltip content.
       </li>
     </ul>
   </section>
 
-  <section class="tooltip-styling-block">
+  <section id="reference-css" class="tooltip-styling-block">
     <h3>Reference CSS</h3>
     <tng-code-block
       [code]="stylingContractCode"
+      adapter="shiki"
       language="css"
       title="tooltip-styling.css"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
       [wrap]="true"
       [lineNumbers]="true"
       [copy]="true"

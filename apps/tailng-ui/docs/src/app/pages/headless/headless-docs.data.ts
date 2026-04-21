@@ -237,6 +237,13 @@ export const HEADLESS_OVERLAY_GROUP: HeadlessDocsGroup = {
       description:
         'Anchored floating panel behavior with trigger wiring, outside dismissal, and focus handoff.',
     },
+    {
+      id: 'tooltip',
+      slug: 'tooltip',
+      title: 'Tooltip',
+      description:
+        'Hover and focus helper text behavior with managed anchoring, collision-aware positioning, and ARIA wiring.',
+    },
   ],
 };
 

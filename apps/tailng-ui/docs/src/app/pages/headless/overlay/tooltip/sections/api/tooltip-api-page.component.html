@@ -1,0 +1,96 @@
+<article class="tooltip-api">
+  <h2 class="tooltip-api-title">API reference</h2>
+  <p class="tooltip-api-lead">
+    Headless tooltip is built from one root directive plus two slot directives. The root owns open
+    delays, floating placement, and dismissal behavior.
+  </p>
+
+  <section id="root-directive" class="tooltip-api-block">
+    <h3>Root directive</h3>
+    <div class="tooltip-api-table-wrap">
+      <table class="tooltip-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Directive / API</th>
+            <th scope="col">Type</th>
+            <th scope="col">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>tngTooltip</code></td>
+            <td><code>directive</code></td>
+            <td>Registers the tooltip interaction layer, trigger, and floating content as one behavior unit.</td>
+          </tr>
+          <tr>
+            <td><code>side</code></td>
+            <td><code>'top' | 'right' | 'bottom' | 'left'</code></td>
+            <td>Requested placement side. The runtime may flip when space is constrained.</td>
+          </tr>
+          <tr>
+            <td><code>openDelay</code>, <code>closeDelay</code></td>
+            <td><code>number</code></td>
+            <td>Delay in milliseconds before the tooltip opens or closes.</td>
+          </tr>
+          <tr>
+            <td><code>defaultOpen</code></td>
+            <td><code>boolean</code></td>
+            <td>Initial uncontrolled state.</td>
+          </tr>
+          <tr>
+            <td><code>open</code></td>
+            <td><code>boolean | undefined</code></td>
+            <td>Optional controlled open state when you want the owner to drive visibility.</td>
+          </tr>
+          <tr>
+            <td><code>disabled</code></td>
+            <td><code>boolean</code></td>
+            <td>Disables hover and focus interactions and forces the tooltip closed.</td>
+          </tr>
+          <tr>
+            <td><code>openChange</code></td>
+            <td><code>boolean</code></td>
+            <td>Emits whenever root-managed open state changes.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="slot-directives" class="tooltip-api-block">
+    <h3>Slot directives</h3>
+    <div class="tooltip-api-table-wrap">
+      <table class="tooltip-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Directive</th>
+            <th scope="col">Purpose</th>
+            <th scope="col">Key inputs / reflected attrs</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>tngTooltipTrigger</code></td>
+            <td>Applies trigger semantics, hover/focus listeners, <code>aria-describedby</code>, and state hooks.</td>
+            <td><code>open</code>, <code>disabled</code>, <code>describedBy</code>, <code>data-state</code></td>
+          </tr>
+          <tr>
+            <td><code>tngTooltipContent</code></td>
+            <td>Applies tooltip role, generated or explicit ID, side hooks, hidden state, and root-owned coordinates.</td>
+            <td><code>id</code>, <code>open</code>, <code>side</code>, <code>data-side</code>, <code>[hidden]</code></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="behavior-and-events" class="tooltip-api-block">
+    <h3>Behavior and events</h3>
+    <ul>
+      <li>When used under <code>tngTooltip</code>, the content gets fixed-position <code>left</code> and <code>top</code> styles from the runtime.</li>
+      <li>The root uses JavaScript positioning with viewport collision handling and side flipping.</li>
+      <li><code>Escape</code>, outside pointer, blur, and mouseleave all close a root-managed tooltip.</li>
+      <li>Tooltip content stays presentational only. Keep actions and focusable controls in popovers, not tooltips.</li>
+    </ul>
+  </section>
+</article>

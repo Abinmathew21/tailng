@@ -1010,8 +1010,8 @@ export const docsComponentOutlineItemsBySlug: Readonly<Record<string, Partial<Re
     ],
     'api': [
       { id: 'wrapper-component-and-lt-tng-tooltip-and-gt', label: 'Wrapper component: &lt;tng-tooltip&gt;' },
-      { id: 'primitive-directives', label: 'Primitive directives' },
-      { id: 'keyboard-and-focus-baseline', label: 'Keyboard and focus baseline' },
+      { id: 'projected-content', label: 'Projected content' },
+      { id: 'behavior-baseline', label: 'Behavior baseline' },
     ],
     'styling': [
       { id: 'core-data-attributes', label: 'Core data attributes' },
@@ -1019,11 +1019,6 @@ export const docsComponentOutlineItemsBySlug: Readonly<Record<string, Partial<Re
     ],
     'examples': [
       { id: 'action-hint-workflow', label: 'Action hint workflow' },
-    ],
-    'ownable-install': [
-      { id: 'install-from-registry', label: 'Install from registry' },
-      { id: 'generated-files', label: 'Generated files' },
-      { id: 'import-and-usage', label: 'Import in your feature module/component' },
     ],
   },
   'tree': {

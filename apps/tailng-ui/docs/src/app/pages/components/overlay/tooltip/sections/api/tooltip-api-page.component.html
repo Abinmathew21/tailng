@@ -1,12 +1,11 @@
 <article class="tooltip-api">
   <h2 class="tooltip-api-title">API reference</h2>
   <p class="tooltip-api-lead">
-    Tooltip docs cover the headless primitive directives (<code>tngTooltipTrigger</code>,
-    <code>tngTooltipContent</code>) and the wrapper component
-    (<code>&lt;tng-tooltip&gt;</code>).
+    The wrapper surface centers on <code>&lt;tng-tooltip&gt;</code>. For primitive directives and
+    root-owned positioning details, use the headless tooltip docs.
   </p>
 
-  <section class="tooltip-api-block">
+  <section id="wrapper-component-and-lt-tng-tooltip-and-gt" class="tooltip-api-block">
     <h3>Wrapper component: &lt;tng-tooltip&gt;</h3>
     <div class="tooltip-api-table-wrap">
       <table class="tooltip-api-table">
@@ -31,7 +30,7 @@
           <tr>
             <td><code>side</code></td>
             <td><code>'top' | 'right' | 'bottom' | 'left'</code></td>
-            <td>Placement hint exposed through <code>data-side</code> on tooltip content.</td>
+            <td>Placement hint exposed through <code>data-side</code> on tooltip content and flipped when needed.</td>
           </tr>
           <tr>
             <td><code>openDelay</code>, <code>closeDelay</code></td>
@@ -58,40 +57,40 @@
     </div>
   </section>
 
-  <section class="tooltip-api-block">
-    <h3>Primitive directives</h3>
+  <section id="projected-content" class="tooltip-api-block">
+    <h3>Projected content</h3>
     <div class="tooltip-api-table-wrap">
       <table class="tooltip-api-table">
         <thead>
           <tr>
-            <th scope="col">Directive</th>
+            <th scope="col">Surface</th>
             <th scope="col">Purpose</th>
-            <th scope="col">Key inputs</th>
+            <th scope="col">Notes</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td><code>tngTooltipTrigger</code></td>
-            <td>Applies trigger semantics, state/data hooks, and optional aria-describedby wiring.</td>
-            <td><code>open</code>, <code>disabled</code>, <code>describedBy</code></td>
+            <td><code>[trigger]</code> slot</td>
+            <td>Projects custom trigger content into the built-in wrapper button.</td>
+            <td>Use this for icons or branded trigger labels without replacing the wrapper behavior.</td>
           </tr>
           <tr>
-            <td><code>tngTooltipContent</code></td>
-            <td>Applies tooltip role/id, visibility state, and side placement hook.</td>
-            <td><code>id</code> (required), <code>open</code>, <code>side</code></td>
+            <td>Default content slot</td>
+            <td>Projects tooltip body content into the floating shell.</td>
+            <td>Fallbacks to <code>text</code> when nothing is projected. Keep the content short and non-interactive.</td>
           </tr>
         </tbody>
       </table>
     </div>
   </section>
 
-  <section class="tooltip-api-block">
-    <h3>Keyboard and focus baseline</h3>
+  <section id="behavior-baseline" class="tooltip-api-block">
+    <h3>Behavior baseline</h3>
     <ul>
       <li><code>Tab</code> to a trigger opens the tooltip for keyboard users.</li>
-      <li><code>Blur</code> closes the tooltip and removes <code>aria-describedby</code>.</li>
+      <li><code>Blur</code>, <code>mouseleave</code>, outside pointer, and <code>Escape</code> close the tooltip and remove <code>aria-describedby</code>.</li>
       <li>Tooltip content stays non-interactive and should remain outside the tab order.</li>
-      <li>Use <code>Escape</code> handling in headless templates if your UX requires it.</li>
+      <li>The wrapper exposes the same slot and state hooks as the primitive, but keeps trigger and content markup on a stable minimum shell.</li>
     </ul>
   </section>
 </article>

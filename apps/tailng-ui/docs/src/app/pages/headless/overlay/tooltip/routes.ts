@@ -1,18 +1,18 @@
 import type { Routes } from '@angular/router';
-import { COMPONENTS_OVERLAY_GROUP, toComponentsDocsRouteData } from '../../component-docs.data';
+import { HEADLESS_OVERLAY_GROUP, toHeadlessDocsRouteData } from '../../headless-docs.data';
 
-const group = COMPONENTS_OVERLAY_GROUP;
+const group = HEADLESS_OVERLAY_GROUP;
 const tooltipItem = group.items.find((item) => item.slug === 'tooltip');
 if (tooltipItem === undefined) {
-  throw new Error('Missing "tooltip" in components overlay docs group.');
+  throw new Error('Missing "tooltip" in headless overlay docs group.');
 }
 
-export const COMPONENTS_OVERLAY_TOOLTIP_ROUTES: Routes = [
+export const HEADLESS_OVERLAY_TOOLTIP_ROUTES: Routes = [
   {
     path: '',
-    data: toComponentsDocsRouteData(group, tooltipItem),
+    data: toHeadlessDocsRouteData(group, tooltipItem),
     loadComponent: () =>
-      import('./tooltip-page.component').then((module) => module.TooltipPageComponent),
+      import('./tooltip-page.component').then((module) => module.HeadlessTooltipPageComponent),
     children: [
       {
         path: '',
@@ -23,37 +23,29 @@ export const COMPONENTS_OVERLAY_TOOLTIP_ROUTES: Routes = [
         path: 'overview',
         loadComponent: () =>
           import('./sections/overview/tooltip-overview-page.component').then(
-            (module) => module.TooltipOverviewPageComponent,
+            (module) => module.HeadlessTooltipOverviewPageComponent,
           ),
       },
       {
         path: 'api',
         loadComponent: () =>
           import('./sections/api/tooltip-api-page.component').then(
-            (module) => module.TooltipApiPageComponent,
+            (module) => module.HeadlessTooltipApiPageComponent,
           ),
       },
       {
         path: 'styling',
         loadComponent: () =>
           import('./sections/styling/tooltip-styling-page.component').then(
-            (module) => module.TooltipStylingPageComponent,
+            (module) => module.HeadlessTooltipStylingPageComponent,
           ),
       },
       {
         path: 'examples',
         loadComponent: () =>
           import('./sections/examples/tooltip-examples-page.component').then(
-            (module) => module.TooltipExamplesPageComponent,
+            (module) => module.HeadlessTooltipExamplesPageComponent,
           ),
-      },
-      {
-        path: 'ownable-install',
-        data: {
-          registrySlug: 'tooltip',
-        },
-        pathMatch: 'full',
-        redirectTo: '/ownable/overlay/tooltip',
       },
       {
         path: '**',

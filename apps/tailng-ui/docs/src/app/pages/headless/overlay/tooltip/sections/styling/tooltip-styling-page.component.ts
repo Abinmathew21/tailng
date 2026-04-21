@@ -7,12 +7,12 @@ import {
 } from '../../../../../../shared/util';
 
 @Component({
-  selector: 'app-tooltip-styling-page',
+  selector: 'app-headless-tooltip-styling-page',
   imports: [TngCodeBlockComponent],
   templateUrl: './tooltip-styling-page.component.html',
   styleUrl: './tooltip-styling-page.component.css',
 })
-export class TooltipStylingPageComponent implements OnDestroy {
+export class HeadlessTooltipStylingPageComponent implements OnDestroy {
   private readonly documentRef = inject(DOCUMENT);
 
   public readonly codeBlockTheme = signal<'github-dark' | 'github-light'>(
@@ -37,12 +37,18 @@ export class TooltipStylingPageComponent implements OnDestroy {
     '  border: 1px solid var(--tng-semantic-border-subtle);',
     '  border-radius: 0.7rem;',
     '  box-shadow: 0 20px 36px color-mix(in srgb, #020617 24%, transparent);',
+    '  max-width: min(22rem, calc(100vw - 2rem));',
     '  padding: 0.45rem 0.62rem;',
     '  pointer-events: none;',
+    '  white-space: nowrap;',
     '}',
     '',
     '[data-slot="tooltip-content"][data-side="top"] {',
     '  transform-origin: bottom center;',
+    '}',
+    '',
+    '[data-slot="tooltip-content"][data-side="right"] {',
+    '  transform-origin: center left;',
     '}',
     '',
     '[data-slot="tooltip-content"][hidden] {',

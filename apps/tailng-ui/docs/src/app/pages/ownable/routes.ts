@@ -44,6 +44,7 @@ const accordionItem = requireOwnableItem(OWNABLE_LAYOUT_GROUP, 'accordion');
 const stepperItem = requireOwnableItem(OWNABLE_LAYOUT_GROUP, 'stepper');
 const dialogItem = requireOwnableItem(OWNABLE_OVERLAY_GROUP, 'dialog');
 const popoverItem = requireOwnableItem(OWNABLE_OVERLAY_GROUP, 'popover');
+const tooltipItem = requireOwnableItem(OWNABLE_OVERLAY_GROUP, 'tooltip');
 const breadcrumbItem = requireOwnableItem(OWNABLE_NAVIGATION_GROUP, 'breadcrumb');
 const contextMenuItem = requireOwnableItem(OWNABLE_NAVIGATION_GROUP, 'context-menu');
 const menubarItem = requireOwnableItem(OWNABLE_NAVIGATION_GROUP, 'menubar');
@@ -221,6 +222,14 @@ export const OWNABLE_ROUTES: Routes = [
         loadComponent: () =>
           import('./overlay/popover/ownable-popover-page.component').then(
             (m) => m.OwnablePopoverPageComponent,
+          ),
+      },
+      {
+        path: 'overlay/tooltip',
+        data: toOwnableDocsRouteData(OWNABLE_OVERLAY_GROUP, tooltipItem),
+        loadComponent: () =>
+          import('./overlay/tooltip/ownable-tooltip-page.component').then(
+            (m) => m.OwnableTooltipPageComponent,
           ),
       },
       {

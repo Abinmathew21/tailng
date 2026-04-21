@@ -1,48 +1,19 @@
 <article class="tooltip-examples">
   <h2 class="tooltip-examples-title">Examples</h2>
   <p class="tooltip-examples-lead">
-    Production tooltip patterns for helper hints and icon-button guidance across headless, plain
-    CSS, and Tailwind shells.
+    Production tooltip patterns for short helper hints across plain CSS and Tailwind wrapper shells.
   </p>
 
   <app-docs-example-tabs-section
+    id="action-hint-workflow"
     class="tooltip-examples-block"
     heading="Action hint workflow"
     description="Use tooltip for short non-interactive hints. Prefer popover when users need actions."
     ariaLabel="Tooltip examples"
     tabListAriaLabel="Tooltip example style tabs"
-    defaultValue="headless"
+    defaultValue="plain-css"
     [codeBlockTheme]="codeBlockTheme()"
   >
-    <ng-template
-      appDocsExampleVariant
-      value="headless"
-      label="Headless"
-      panelTitle="Headless action tooltip"
-      [codeTabs]="headlessCodeTabs"
-    >
-      <section class="tooltip-example-stage">
-        <div class="tooltip-example-anchor" tngTooltip [side]="'right'" [openDelay]="0" [closeDelay]="0">
-          <button
-            type="button"
-            tngTooltipTrigger
-            class="tooltip-example-trigger"
-          >
-            Delete release branch
-          </button>
-
-          <span
-            tngTooltipContent
-            class="tooltip-example-note"
-            [id]="headlessTooltipId"
-          >
-            Permanently removes branch automation.
-          </span>
-        </div>
-      </section>
-      <p class="tooltip-example-state">mode: root-managed</p>
-    </ng-template>
-
     <ng-template
       appDocsExampleVariant
       value="plain-css"
@@ -70,8 +41,10 @@
       panelTitle="Wrapper deployment tooltip"
       [codeTabs]="tailwindCodeTabs"
     >
-      <div class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">
-        <div class="tooltip-example-stage">
+      <div
+        class="rounded-xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4"
+      >
+        <div class="grid min-h-[8.5rem] content-start justify-items-start gap-3">
           <tng-tooltip
             triggerLabel="Approve deployment"
             side="top"
@@ -79,13 +52,17 @@
             [closeDelay]="100"
             (openChange)="tailwindOpen.set($event)"
           >
-            <span class="text-sm text-slate-700 dark:text-slate-300">
+            <span
+              class="block max-w-56 text-sm leading-6 text-[var(--tng-semantic-foreground-primary)]"
+            >
               Rollout starts in us-east, then eu-west.
             </span>
           </tng-tooltip>
         </div>
       </div>
-      <p class="tooltip-example-state">open: {{ tailwindOpen() ? 'true' : 'false' }}</p>
+      <p class="m-0 text-[0.9rem] text-[var(--tng-semantic-foreground-secondary)]">
+        open: {{ tailwindOpen() ? 'true' : 'false' }}
+      </p>
     </ng-template>
   </app-docs-example-tabs-section>
 </article>

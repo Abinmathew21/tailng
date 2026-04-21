@@ -1,0 +1,161 @@
+<article class="headless-tooltip-examples">
+  <h2 class="headless-tooltip-examples-title">Examples</h2>
+  <p class="headless-tooltip-examples-lead">
+    Use headless tooltip for short, non-interactive helper text where the trigger chrome and
+    tooltip surface need to match your product directly.
+  </p>
+
+  <section id="icon-button-hint" class="headless-tooltip-examples-block">
+    <app-docs-example-tabs-section
+      heading="Icon button hint"
+      description="A compact icon trigger with a short action explanation."
+      ariaLabel="Headless tooltip icon button hint"
+      tabListAriaLabel="Headless tooltip icon button tabs"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Icon button hint with owner CSS"
+        [codeTabs]="iconPlainCodeTabs"
+      >
+        <section class="headless-tooltip-example-stage">
+          <div class="headless-tooltip-example-shell">
+            <div
+              tngTooltip
+              side="right"
+              [openDelay]="0"
+              [closeDelay]="0"
+              (openChange)="iconPlainOpen.set($event)"
+            >
+              <button
+                type="button"
+                tngTooltipTrigger
+                aria-label="Sync release"
+                class="headless-tooltip-icon-trigger"
+              >
+                ⟳
+              </button>
+              <span tngTooltipContent id="docs-headless-tooltip-icon-plain" class="headless-tooltip-example-note">
+                Syncs the release manifest before deploy.
+              </span>
+            </div>
+          </div>
+        </section>
+        <p class="headless-tooltip-example-state">open: {{ iconPlainOpen() ? 'true' : 'false' }}</p>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Icon button hint with Tailwind"
+        [codeTabs]="iconTailwindCodeTabs"
+      >
+        <div class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">
+          <section class="headless-tooltip-example-stage">
+            <div
+              tngTooltip
+              side="right"
+              [openDelay]="0"
+              [closeDelay]="0"
+              (openChange)="iconTailwindOpen.set($event)"
+            >
+              <button
+                type="button"
+                tngTooltipTrigger
+                aria-label="Sync release"
+                class="inline-flex size-9 items-center justify-center rounded-full border border-slate-300 bg-white text-slate-700 transition focus-visible:border-sky-500 focus-visible:bg-sky-50 focus-visible:text-sky-900 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-sky-200/90 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100 dark:focus-visible:border-sky-400 dark:focus-visible:bg-sky-950 dark:focus-visible:text-sky-50 dark:focus-visible:ring-sky-500/45"
+              >
+                ⟳
+              </button>
+              <span
+                tngTooltipContent
+                id="docs-headless-tooltip-icon-tailwind"
+                class="rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 shadow-2xl [&[hidden]]:!hidden dark:border-slate-800 dark:bg-slate-950 dark:text-slate-200"
+              >
+                Syncs the release manifest before deploy.
+              </span>
+            </div>
+          </section>
+        </div>
+        <p class="headless-tooltip-example-state">open: {{ iconTailwindOpen() ? 'true' : 'false' }}</p>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section id="status-explanation" class="headless-tooltip-examples-block">
+    <app-docs-example-tabs-section
+      heading="Status explanation"
+      description="A status chip that explains why a workflow is paused."
+      ariaLabel="Headless tooltip status explanation"
+      tabListAriaLabel="Headless tooltip status explanation tabs"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Status explanation with owner CSS"
+        [codeTabs]="statusPlainCodeTabs"
+      >
+        <section class="headless-tooltip-example-stage">
+          <div
+            tngTooltip
+            side="top"
+            [openDelay]="0"
+            [closeDelay]="0"
+            (openChange)="statusPlainOpen.set($event)"
+          >
+            <button type="button" tngTooltipTrigger class="headless-tooltip-status-chip">
+              Paused rollout
+            </button>
+            <span tngTooltipContent id="docs-headless-tooltip-status-plain" class="headless-tooltip-example-note">
+              Deployment is paused until QA signs off on the release note.
+            </span>
+          </div>
+        </section>
+        <p class="headless-tooltip-example-state">open: {{ statusPlainOpen() ? 'true' : 'false' }}</p>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Status explanation with Tailwind"
+        [codeTabs]="statusTailwindCodeTabs"
+      >
+        <div class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">
+          <section class="headless-tooltip-example-stage">
+            <div
+              tngTooltip
+              side="top"
+              [openDelay]="0"
+              [closeDelay]="0"
+              (openChange)="statusTailwindOpen.set($event)"
+            >
+              <button
+                type="button"
+                tngTooltipTrigger
+                class="rounded-full border border-amber-300 bg-amber-50 px-3 py-1.5 text-sm font-semibold text-amber-900 transition focus-visible:border-amber-500 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-amber-200/90 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-100 dark:focus-visible:border-amber-400 dark:focus-visible:ring-amber-500/40"
+              >
+                Paused rollout
+              </button>
+              <span
+                tngTooltipContent
+                id="docs-headless-tooltip-status-tailwind"
+                class="max-w-72 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 shadow-2xl [&[hidden]]:!hidden dark:border-slate-800 dark:bg-slate-950 dark:text-slate-200"
+              >
+                Deployment is paused until QA signs off on the release note.
+              </span>
+            </div>
+          </section>
+        </div>
+        <p class="headless-tooltip-example-state">open: {{ statusTailwindOpen() ? 'true' : 'false' }}</p>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+</article>

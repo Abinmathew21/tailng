@@ -1,23 +1,13 @@
 <article class="tooltip-overview">
   <h2 class="tooltip-overview-title">Tooltip overview</h2>
   <p class="tooltip-overview-lead">
-    Tooltip provides short helper text on hover or keyboard focus. It stays non-interactive,
-    keeps content concise, and exposes slot/state hooks for custom styling.
+    Tooltip provides a ready-made trigger button and minimum floating hint shell for short
+    helper text. For full DOM ownership, use the separate headless tooltip docs.
   </p>
 
-  <section class="tooltip-overview-block">
+  <section id="imports" class="tooltip-overview-block">
     <h3>Imports</h3>
-    <p>Use primitive directives for full markup ownership, or the wrapper component for quick defaults.</p>
-    <tng-code-block
-      [code]="primitiveImportCode"
-      adapter="shiki"
-      language="ts"
-      title="Primitive imports"
-      [theme]="codeBlockTheme()"
-      [sanitizeHtml]="false"
-      [wrap]="true"
-      [lineNumbers]="false"
-    ></tng-code-block>
+    <p>Use the wrapper when your team wants a built-in trigger plus tooltip behavior with minimal markup.</p>
     <tng-code-block
       [code]="componentImportCode"
       adapter="shiki"
@@ -30,18 +20,8 @@
     ></tng-code-block>
   </section>
 
-  <section class="tooltip-overview-block">
+  <section id="usage-patterns" class="tooltip-overview-block">
     <h3>Usage patterns</h3>
-    <tng-code-block
-      [code]="primitiveUsageCode"
-      adapter="shiki"
-      language="html"
-      title="Primitive usage"
-      [theme]="codeBlockTheme()"
-      [sanitizeHtml]="false"
-      [wrap]="true"
-      [lineNumbers]="false"
-    ></tng-code-block>
     <tng-code-block
       [code]="componentUsageCode"
       adapter="shiki"
@@ -55,43 +35,15 @@
   </section>
 
   <app-docs-example-tabs-section
+    id="style-variants"
     class="tooltip-overview-block"
     heading="Style variants"
-    description="Same tooltip behavior rendered through headless primitives, plain CSS wrappers, and Tailwind utility shells."
+    description="The same wrapper behavior rendered with local CSS or Tailwind utility shells."
     ariaLabel="Tooltip style variants"
     tabListAriaLabel="Tooltip style tabs"
-    defaultValue="headless"
+    defaultValue="plain-css"
     [codeBlockTheme]="codeBlockTheme()"
   >
-    <ng-template
-      appDocsExampleVariant
-      value="headless"
-      label="Headless"
-      panelTitle="Headless anchored tooltip"
-      [codeTabs]="headlessCodeTabs"
-    >
-      <section class="tooltip-stage">
-        <div class="tooltip-anchor" tngTooltip [side]="headlessSide()" [openDelay]="0" [closeDelay]="0">
-          <button
-            tngTooltipTrigger
-            class="tooltip-trigger"
-            type="button"
-          >
-            Hover or focus for hint
-          </button>
-
-          <span
-            tngTooltipContent
-            class="tooltip-preview"
-            [id]="headlessTooltipId"
-          >
-            Headless tooltip with primitive directives and host-managed state.
-          </span>
-        </div>
-      </section>
-      <p class="tooltip-overview-state">side: {{ headlessSide() }}</p>
-    </ng-template>
-
     <ng-template
       appDocsExampleVariant
       value="plain-css"
@@ -119,8 +71,10 @@
       panelTitle="Wrapper tooltip (tailwind shell)"
       [codeTabs]="tailwindCodeTabs"
     >
-      <div class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">
-        <div class="tooltip-stage">
+      <div
+        class="rounded-xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4"
+      >
+        <div class="grid min-h-32 content-start justify-items-start gap-3">
           <tng-tooltip
             triggerLabel="Tailwind hint"
             side="right"
@@ -128,22 +82,26 @@
             [closeDelay]="80"
             (openChange)="tailwindOpen.set($event)"
           >
-            <span class="text-sm text-slate-700 dark:text-slate-300">
+            <span
+              class="block max-w-56 text-sm leading-6 text-[var(--tng-semantic-foreground-primary)]"
+            >
               Tokenized wrapper with utility-first content.
             </span>
           </tng-tooltip>
         </div>
       </div>
-      <p class="tooltip-overview-state">open: {{ tailwindOpen() ? 'true' : 'false' }}</p>
+      <p class="m-0 text-[0.9rem] text-[var(--tng-semantic-foreground-secondary)]">
+        open: {{ tailwindOpen() ? 'true' : 'false' }}
+      </p>
     </ng-template>
   </app-docs-example-tabs-section>
 
-  <section class="tooltip-overview-block">
+  <section id="keyboard-baseline" class="tooltip-overview-block">
     <h3>Keyboard baseline</h3>
     <ul class="tooltip-overview-list">
-      <li><code>Tab</code> to trigger opens tooltip for keyboard users.</li>
+      <li><code>Tab</code> to the built-in trigger opens the tooltip for keyboard users.</li>
       <li><code>Shift+Tab</code> or blur closes the tooltip.</li>
-      <li><code>Escape</code> closes root-managed headless tooltips.</li>
+      <li><code>Escape</code> closes the wrapper tooltip while focus stays on the trigger.</li>
       <li>Tooltips should stay non-interactive and out of tab order.</li>
     </ul>
   </section>

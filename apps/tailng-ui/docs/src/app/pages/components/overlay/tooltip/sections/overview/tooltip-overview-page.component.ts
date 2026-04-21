@@ -1,27 +1,21 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, inject, signal, type OnDestroy } from '@angular/core';
-import { observeDocsCodeThemeChanges, resolveDocsCodeBlockTheme } from '../../../../../../shared/util';
 import { TngCodeBlockComponent, TngTooltipComponent } from '@tailng-ui/components';
-import {
-  TngTooltip as TngTooltipPrimitive,
-  TngTooltipContent as TngTooltipContentPrimitive,
-  type TngTooltipSide,
-  TngTooltipTrigger as TngTooltipTriggerPrimitive,
-} from '@tailng-ui/primitives';
-import { type DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
+import type { DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
 import {
   DocsExampleTabsSectionComponent,
   DocsExampleVariantDirective,
 } from '../../../../../../shared/example-tabs-section/docs-example-tabs-section.component';
+import {
+  observeDocsCodeThemeChanges,
+  resolveDocsCodeBlockTheme,
+} from '../../../../../../shared/util';
 
 @Component({
   selector: 'app-tooltip-overview-page',
   imports: [
     TngCodeBlockComponent,
     TngTooltipComponent,
-    TngTooltipPrimitive,
-    TngTooltipTriggerPrimitive,
-    TngTooltipContentPrimitive,
     DocsExampleTabsSectionComponent,
     DocsExampleVariantDirective,
   ],
@@ -30,34 +24,21 @@ import {
 })
 export class TooltipOverviewPageComponent implements OnDestroy {
   private readonly documentRef = inject(DOCUMENT);
+
   public readonly codeBlockTheme = signal<'github-dark' | 'github-light'>(
     resolveDocsCodeBlockTheme(this.documentRef),
   );
-  private readonly colorSchemeObserver = observeDocsCodeThemeChanges(this.documentRef, this.codeBlockTheme);
-
-  protected readonly headlessSide = signal<TngTooltipSide>('top');
-  protected readonly headlessTooltipId = 'docs-tooltip-overview-headless';
+  private readonly colorSchemeObserver = observeDocsCodeThemeChanges(
+    this.documentRef,
+    this.codeBlockTheme,
+  );
 
   protected readonly plainOpen = signal(false);
   protected readonly tailwindOpen = signal(false);
 
-  protected readonly primitiveImportCode = [
-    "import { TngTooltip, TngTooltipTrigger, TngTooltipContent } from '@tailng-ui/primitives';",
-  ].join('\n');
-
   protected readonly componentImportCode = [
     "import { TngTooltipComponent } from '@tailng-ui/components';",
-  ].join('\n');
-
-  protected readonly primitiveUsageCode = [
-    "readonly side = signal<'top' | 'right' | 'bottom' | 'left'>('top');",
     '',
-    '<span tngTooltip [side]="side()" [openDelay]="0" [closeDelay]="0">',
-    '  <button tngTooltipTrigger>Hover for hint</button>',
-    '  <span tngTooltipContent [id]="\'country-tip\'">',
-    '    Use this to filter countries quickly.',
-    '  </span>',
-    '</span>',
   ].join('\n');
 
   protected readonly componentUsageCode = [
@@ -68,48 +49,8 @@ export class TooltipOverviewPageComponent implements OnDestroy {
     '  [openDelay]="120"',
     '  [closeDelay]="80"',
     '></tng-tooltip>',
+    '',
   ].join('\n');
-
-  protected readonly headlessCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
-    {
-      value: 'ts',
-      label: 'TS',
-      language: 'ts',
-      title: 'tooltip-overview-headless.component.ts',
-      code: ["readonly side = signal<'top' | 'right' | 'bottom' | 'left'>('top');"].join('\n'),
-    },
-    {
-      value: 'html',
-      label: 'HTML',
-      language: 'html',
-      title: 'tooltip-overview-headless.component.html',
-      code: [
-        '<span tngTooltip [side]="side()" [openDelay]="0" [closeDelay]="0">',
-        '  <button tngTooltipTrigger>Hover or focus</button>',
-        '  <span tngTooltipContent [id]="\'headless-tip\'">',
-        '    Headless tooltip message.',
-        '  </span>',
-        '</span>',
-      ].join('\n'),
-    },
-    {
-      value: 'css',
-      label: 'CSS',
-      language: 'css',
-      title: 'tooltip-overview-headless.component.css',
-      code: [
-        '[data-slot="tooltip-trigger"] {',
-        '  border-radius: 0.68rem;',
-        '  min-height: 2.1rem;',
-        '}',
-        '',
-        '[data-slot="tooltip-content"] {',
-        '  position: fixed;',
-        '  z-index: 70;',
-        '}',
-      ].join('\n'),
-    },
-  ]);
 
   protected readonly plainCssCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
     {
@@ -117,7 +58,21 @@ export class TooltipOverviewPageComponent implements OnDestroy {
       label: 'TS',
       language: 'ts',
       title: 'tooltip-overview-plain-css.component.ts',
-      code: ["readonly open = signal(false);", ''].join('\n'),
+      code: [
+        "import { Component, signal } from '@angular/core';",
+        "import { TngTooltipComponent } from '@tailng-ui/components';",
+        '',
+        '@Component({',
+        "  selector: 'app-tooltip-overview-plain-css',",
+        '  standalone: true,',
+        '  imports: [TngTooltipComponent],',
+        "  templateUrl: './tooltip-overview-plain-css.component.html',",
+        "  styleUrl: './tooltip-overview-plain-css.component.css',",
+        '})',
+        'export class TooltipOverviewPlainCssComponent {',
+        '  protected readonly open = signal(false);',
+        '}',
+      ].join('\n'),
     },
     {
       value: 'html',
@@ -125,14 +80,16 @@ export class TooltipOverviewPageComponent implements OnDestroy {
       language: 'html',
       title: 'tooltip-overview-plain-css.component.html',
       code: [
-        '<tng-tooltip',
-        '  triggerLabel="Plain CSS hint"',
-        '  text="Wrapper tooltip with semantic token styling."',
-        '  side="bottom"',
-        '  [openDelay]="120"',
-        '  [closeDelay]="80"',
-        '  (openChange)="open.set($event)"',
-        '></tng-tooltip>',
+        '<div class="tooltip-shell tooltip-stage">',
+        '  <tng-tooltip',
+        '    triggerLabel="Plain CSS hint"',
+        '    text="Wrapper tooltip with semantic token styling."',
+        '    side="bottom"',
+        '    [openDelay]="120"',
+        '    [closeDelay]="80"',
+        '    (openChange)="open.set($event)"',
+        '  ></tng-tooltip>',
+        '</div>',
       ].join('\n'),
     },
     {
@@ -156,7 +113,21 @@ export class TooltipOverviewPageComponent implements OnDestroy {
       label: 'TS',
       language: 'ts',
       title: 'tooltip-overview-tailwind.component.ts',
-      code: ["readonly open = signal(false);", ''].join('\n'),
+      code: [
+        "import { Component, signal } from '@angular/core';",
+        "import { TngTooltipComponent } from '@tailng-ui/components';",
+        '',
+        '@Component({',
+        "  selector: 'app-tooltip-overview-tailwind',",
+        '  standalone: true,',
+        '  imports: [TngTooltipComponent],',
+        "  templateUrl: './tooltip-overview-tailwind.component.html',",
+        "  styleUrl: './tooltip-overview-tailwind.component.css',",
+        '})',
+        'export class TooltipOverviewTailwindComponent {',
+        '  protected readonly open = signal(false);',
+        '}',
+      ].join('\n'),
     },
     {
       value: 'html',
@@ -164,18 +135,22 @@ export class TooltipOverviewPageComponent implements OnDestroy {
       language: 'html',
       title: 'tooltip-overview-tailwind.component.html',
       code: [
-        '<div class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">',
-        '  <tng-tooltip',
-        '    triggerLabel="Tailwind hint"',
-        '    side="right"',
-        '    [openDelay]="100"',
-        '    [closeDelay]="80"',
-        '    (openChange)="open.set($event)"',
-        '  >',
-        '    <span class="text-sm text-slate-700 dark:text-slate-300">',
-        '      Tokenized wrapper with utility-first content.',
-        '    </span>',
-        '  </tng-tooltip>',
+        '<div',
+        '  class="rounded-xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4"',
+        '>',
+        '  <div class="grid min-h-32 content-start justify-items-start gap-3">',
+        '    <tng-tooltip',
+        '      triggerLabel="Tailwind hint"',
+        '      side="right"',
+        '      [openDelay]="100"',
+        '      [closeDelay]="80"',
+        '      (openChange)="open.set($event)"',
+        '    >',
+        '      <span class="block max-w-56 text-sm leading-6 text-[var(--tng-semantic-foreground-primary)]">',
+        '        Tokenized wrapper with utility-first content.',
+        '      </span>',
+        '    </tng-tooltip>',
+        '  </div>',
         '</div>',
       ].join('\n'),
     },
@@ -191,5 +166,4 @@ export class TooltipOverviewPageComponent implements OnDestroy {
   public ngOnDestroy(): void {
     this.colorSchemeObserver?.disconnect();
   }
-
 }

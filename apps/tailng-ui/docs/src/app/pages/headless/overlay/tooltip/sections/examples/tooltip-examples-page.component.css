@@ -1,0 +1,102 @@
+:host {
+  display: block;
+}
+
+.headless-tooltip-examples {
+  display: grid;
+  gap: 1rem;
+}
+
+.headless-tooltip-examples-title {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.headless-tooltip-examples-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.headless-tooltip-examples-block {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.95rem;
+  display: grid;
+  gap: 0.8rem;
+  padding: 1rem;
+}
+
+.headless-tooltip-example-stage {
+  align-content: start;
+  display: grid;
+  gap: 0.7rem;
+  justify-items: start;
+  min-height: 11rem;
+}
+
+.headless-tooltip-example-shell {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.95rem;
+  padding: 1rem;
+}
+
+.headless-tooltip-icon-trigger {
+  align-items: center;
+  aspect-ratio: 1;
+  background: color-mix(in srgb, var(--tng-semantic-background-canvas) 80%, transparent);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 999px;
+  color: var(--tng-semantic-foreground-primary);
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 0.95rem;
+  justify-content: center;
+  inline-size: 2.25rem;
+}
+
+.headless-tooltip-icon-trigger:focus-visible,
+.headless-tooltip-status-chip:focus-visible {
+  outline: 2px solid var(--tng-semantic-accent-brand);
+  outline-offset: 2px;
+}
+
+.headless-tooltip-status-chip {
+  background: color-mix(in srgb, #f59e0b 12%, var(--tng-semantic-background-canvas));
+  border: 1px solid color-mix(in srgb, #f59e0b 52%, transparent);
+  border-radius: 999px;
+  color: var(--tng-semantic-foreground-primary);
+  cursor: pointer;
+  font-size: 0.84rem;
+  font-weight: 650;
+  min-height: 2rem;
+  padding: 0.45rem 0.8rem;
+}
+
+.headless-tooltip-example-note {
+  background: var(--tng-semantic-background-surface);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.7rem;
+  box-shadow: 0 20px 36px color-mix(in srgb, var(--tng-semantic-foreground-primary) 22%, transparent);
+  box-sizing: border-box;
+  color: var(--tng-semantic-foreground-primary);
+  display: block;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  max-width: min(22rem, calc(100vw - 3rem));
+  overflow-wrap: break-word;
+  padding: 0.55rem 0.75rem;
+  pointer-events: none;
+  white-space: normal;
+  z-index: 70;
+}
+
+.headless-tooltip-example-note[hidden] {
+  display: none !important;
+}
+
+.headless-tooltip-example-state {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.9rem;
+  margin: 0;
+}

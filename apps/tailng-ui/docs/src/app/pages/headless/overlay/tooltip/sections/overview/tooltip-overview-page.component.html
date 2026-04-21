@@ -1,0 +1,121 @@
+<article class="headless-tooltip-overview">
+  <h2 class="headless-tooltip-overview-title">Tooltip overview</h2>
+  <p class="headless-tooltip-overview-lead">
+    Headless tooltip gives you hover and focus helper-text behavior with primitive-owned anchoring,
+    positioning, and ARIA wiring while leaving the trigger and floating shell fully up to you.
+  </p>
+
+  <section id="imports" class="headless-tooltip-overview-block">
+    <h3>Imports</h3>
+    <p>Bring in the root plus the two slot directives when you want full ownership of the markup.</p>
+    <tng-code-block
+      [code]="importCode"
+      adapter="shiki"
+      language="ts"
+      title="Headless tooltip imports"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="basic-composition" class="headless-tooltip-overview-block">
+    <h3>Basic composition</h3>
+    <p>The root manages delays and floating placement. Trigger and content stay semantic and owner-authored.</p>
+    <tng-code-block
+      [code]="compositionCode"
+      adapter="shiki"
+      language="html"
+      title="Headless tooltip composition"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <app-docs-example-tabs-section
+    id="style-variants"
+    class="headless-tooltip-overview-block"
+    heading="Style variants"
+    description="The same headless tooltip behavior skinned with owner-authored CSS or Tailwind utilities."
+    ariaLabel="Headless tooltip style variants"
+    tabListAriaLabel="Headless tooltip style tabs"
+    defaultValue="plain-css"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+      panelTitle="Headless tooltip with owner CSS"
+      [codeTabs]="plainCodeTabs"
+    >
+      <section class="headless-tooltip-stage">
+        <div
+          class="headless-tooltip-anchor"
+          tngTooltip
+          side="top"
+          [openDelay]="0"
+          [closeDelay]="0"
+          (openChange)="plainOpen.set($event)"
+        >
+          <button type="button" tngTooltipTrigger class="headless-tooltip-trigger">
+            Hover or focus for storage hint
+          </button>
+          <span tngTooltipContent class="headless-tooltip-note" id="docs-headless-tooltip-overview-plain">
+            Headless tooltip stays non-interactive and repositions with collision handling.
+          </span>
+        </div>
+      </section>
+      <p class="headless-tooltip-overview-state">open: {{ plainOpen() ? 'true' : 'false' }}</p>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Headless tooltip with Tailwind shell"
+      [codeTabs]="tailwindCodeTabs"
+    >
+      <div class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">
+        <section class="headless-tooltip-stage">
+          <div
+            tngTooltip
+            side="right"
+            [openDelay]="0"
+            [closeDelay]="0"
+            (openChange)="tailwindOpen.set($event)"
+          >
+            <button
+              type="button"
+              tngTooltipTrigger
+              class="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-800 transition focus-visible:border-sky-500 focus-visible:bg-sky-50 focus-visible:text-sky-900 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-sky-200/90 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100 dark:focus-visible:border-sky-400 dark:focus-visible:bg-sky-950 dark:focus-visible:text-sky-50 dark:focus-visible:ring-sky-500/45"
+            >
+              Hover for rollout hint
+            </button>
+            <span
+              tngTooltipContent
+              id="docs-headless-tooltip-overview-tailwind"
+              class="max-w-64 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 shadow-2xl [&[hidden]]:!hidden dark:border-slate-800 dark:bg-slate-950 dark:text-slate-200"
+            >
+              Tailwind utilities can reskin the surface while the primitive owns placement and ARIA.
+            </span>
+          </div>
+        </section>
+      </div>
+      <p class="headless-tooltip-overview-state">open: {{ tailwindOpen() ? 'true' : 'false' }}</p>
+    </ng-template>
+  </app-docs-example-tabs-section>
+
+  <section id="behavior-baseline" class="headless-tooltip-overview-block">
+    <h3>Behavior baseline</h3>
+    <ul class="headless-tooltip-overview-list">
+      <li><code>mouseenter</code> and keyboard focus open the root-managed tooltip.</li>
+      <li><code>mouseleave</code>, blur, outside pointer, and <code>Escape</code> close the tooltip.</li>
+      <li>Positioning is computed in JavaScript with side flipping and viewport collision handling.</li>
+      <li>Tooltip content stays non-interactive and should remain outside the tab order.</li>
+    </ul>
+  </section>
+</article>

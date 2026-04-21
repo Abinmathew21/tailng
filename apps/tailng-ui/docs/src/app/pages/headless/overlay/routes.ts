@@ -19,4 +19,9 @@ export const HEADLESS_OVERLAY_ROUTES: Routes = [
     loadChildren: () =>
       import('./popover/routes').then((module) => module.HEADLESS_OVERLAY_POPOVER_ROUTES),
   },
+  {
+    path: 'tooltip',
+    loadChildren: () =>
+      import('./tooltip/routes').then((module) => module.HEADLESS_OVERLAY_TOOLTIP_ROUTES),
+  },
 ];

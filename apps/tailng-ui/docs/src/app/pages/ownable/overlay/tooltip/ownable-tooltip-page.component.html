@@ -1,0 +1,38 @@
+<div class="grid gap-8 pb-10">
+  <section class="docs-section-anchor grid gap-4" id="tooltip-overview">
+    <h1 class="m-0 text-3xl font-semibold text-tng-fg-primary">Tooltip</h1>
+    <p class="m-0 max-w-4xl text-base leading-7 text-tng-fg-secondary">
+      The ownable Tooltip install gives your app a local helper-text wrapper with editable trigger
+      copy, content defaults, and nearby styling for compact guidance patterns.
+    </p>
+  </section>
+
+  <section class="docs-section-anchor grid gap-3" id="why-own-tooltip">
+    <h2 class="m-0 text-xl font-semibold text-tng-fg-primary">Why own Tooltip locally</h2>
+    <p class="m-0 max-w-4xl text-base leading-7 text-tng-fg-secondary">
+      Tooltips stay small, but teams still tailor trigger wording, content tone, and shell styling
+      to the product surface using them. Local ownership keeps those adjustments close to the
+      screen that depends on the hint.
+    </p>
+    <ul class="m-0 grid gap-2 pl-5 text-sm leading-6 text-tng-fg-secondary">
+      <li>Adjust trigger labels, icon treatment, and density without waiting on a package release.</li>
+      <li>Keep helper copy, local analytics hooks, and styling tokens versioned with the owning feature.</li>
+      <li>Extend the generated wrapper if your product later adds richer trigger or hint variants.</li>
+    </ul>
+  </section>
+
+  <section class="docs-section-anchor grid gap-3" id="what-tooltip-installs">
+    <h2 class="m-0 text-xl font-semibold text-tng-fg-primary">What the install includes</h2>
+    <p class="m-0 max-w-4xl text-base leading-7 text-tng-fg-secondary">
+      The registry-backed tooltip install writes the local wrapper component, template, stylesheet,
+      export barrel, and the primitive helper file used by the generated source. After install,
+      your app owns the wrapper and can evolve the helper-text presentation locally.
+    </p>
+  </section>
+
+  <app-docs-ownable-install-section
+    componentName="Tooltip"
+    registrySlug="tooltip"
+    [usageCode]="usageCode"
+  />
+</div>

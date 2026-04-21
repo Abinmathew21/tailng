@@ -1,0 +1,66 @@
+:host {
+  display: block;
+}
+
+.tooltip-api {
+  display: grid;
+  gap: 1rem;
+}
+
+.tooltip-api-title {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.tooltip-api-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.tooltip-api-block {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.9rem;
+  color: var(--tng-semantic-foreground-secondary);
+  display: grid;
+  gap: 0.7rem;
+  padding: 1rem;
+}
+
+.tooltip-api-block h3 {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1rem;
+  margin: 0;
+}
+
+.tooltip-api-block ul {
+  display: grid;
+  gap: 0.45rem;
+  margin: 0;
+  padding-inline-start: 1.1rem;
+}
+
+.tooltip-api-table-wrap {
+  overflow-x: auto;
+}
+
+.tooltip-api-table {
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  min-width: 32rem;
+  width: 100%;
+}
+
+.tooltip-api-table th,
+.tooltip-api-table td {
+  border-bottom: 1px solid var(--tng-semantic-border-subtle);
+  padding: 0.625rem 0.5rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.tooltip-api-table th {
+  color: var(--tng-semantic-foreground-primary);
+  font-weight: 600;
+}

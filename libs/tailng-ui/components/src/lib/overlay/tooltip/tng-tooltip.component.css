@@ -35,13 +35,16 @@
   background: var(--tng-semantic-background-surface);
   border: 1px solid var(--tng-semantic-border-default);
   border-radius: 0.5rem;
+  box-sizing: border-box;
   color: var(--tng-semantic-foreground-primary);
   font-size: 0.75rem;
-  max-width: 18rem;
+  line-height: 1.45;
+  max-width: min(18rem, calc(100vw - 2rem));
+  overflow-wrap: break-word;
   padding: 0.45rem 0.6rem;
   pointer-events: none;
   position: fixed;
-  white-space: nowrap;
+  white-space: normal;
   z-index: 20;
 }
 

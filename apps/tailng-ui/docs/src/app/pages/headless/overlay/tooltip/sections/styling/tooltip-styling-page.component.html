@@ -1,0 +1,41 @@
+<article class="tooltip-styling">
+  <h2 class="tooltip-styling-title">Styling contract</h2>
+  <p class="tooltip-styling-lead">
+    Headless tooltip exposes trigger and content hooks while the root still owns floating
+    placement. You style the surface, density, and state feedback without replacing the behavior.
+  </p>
+
+  <section id="slot-and-state-hooks" class="tooltip-styling-block">
+    <h3>Slot and state hooks</h3>
+    <ul>
+      <li><code>[data-slot="tooltip-trigger"]</code> exposes <code>data-state</code>, optional <code>data-disabled</code>, and <code>aria-describedby</code> while open.</li>
+      <li><code>[data-slot="tooltip-content"]</code> carries <code>role="tooltip"</code>, <code>data-state</code>, <code>data-side</code>, and <code>[hidden]</code>.</li>
+      <li>The root computes floating coordinates, so owners should style the content surface instead of hard-coding placement math.</li>
+      <li>Keep <code>pointer-events: none</code> on tooltip content so it stays presentational.</li>
+    </ul>
+  </section>
+
+  <section id="css-starter" class="tooltip-styling-block">
+    <h3>CSS starter</h3>
+    <tng-code-block
+      [code]="stylingContractCode"
+      adapter="shiki"
+      language="css"
+      title="headless-tooltip.css"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="true"
+      [copy]="true"
+    ></tng-code-block>
+  </section>
+
+  <section id="owner-guidance" class="tooltip-styling-block">
+    <h3>Owner guidance</h3>
+    <ul>
+      <li>Prefer short single-purpose hint copy. If users need actions or rich content, move to popover.</li>
+      <li>Style focus on the trigger, not the tooltip body, because focus never enters the content.</li>
+      <li>Use <code>[hidden]</code> overrides when utility classes force display so closed content does not remain visible.</li>
+    </ul>
+  </section>
+</article>
