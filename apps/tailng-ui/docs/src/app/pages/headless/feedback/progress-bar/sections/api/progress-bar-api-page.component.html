@@ -1,0 +1,118 @@
+<article class="headless-progress-bar-api">
+  <h2 class="headless-progress-bar-api-title">API reference</h2>
+  <p class="headless-progress-bar-api-lead">
+    Headless progress bar exposes one semantic root directive and one structural indicator
+    directive. Range clamping and ARIA values live on the root.
+  </p>
+
+  <section id="root-directive" class="headless-progress-bar-api-block">
+    <h3>Root directive</h3>
+    <p>
+      <code>tngProgressBar</code> adds <code>role="progressbar"</code>, stable slot metadata, and
+      normalized range attributes to your own element.
+    </p>
+    <tng-code-block
+      [code]="rootCode"
+      adapter="shiki"
+      language="html"
+      title="Root usage"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+
+    <div class="headless-progress-bar-api-table-wrap">
+      <table class="headless-progress-bar-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Input</th>
+            <th scope="col">Type</th>
+            <th scope="col">Default</th>
+            <th scope="col">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>min</code></td>
+            <td><code>number</code></td>
+            <td><code>0</code></td>
+            <td>Lower bound for determinate values.</td>
+          </tr>
+          <tr>
+            <td><code>max</code></td>
+            <td><code>number</code></td>
+            <td><code>100</code></td>
+            <td>Upper bound, normalized so it never falls below <code>min</code>.</td>
+          </tr>
+          <tr>
+            <td><code>value</code></td>
+            <td><code>number</code></td>
+            <td><code>0</code></td>
+            <td>Determinate value, clamped between <code>min</code> and <code>max</code>.</td>
+          </tr>
+          <tr>
+            <td><code>indeterminate</code></td>
+            <td><code>boolean</code></td>
+            <td><code>false</code></td>
+            <td>Suppresses the value ARIA attributes and marks the root with <code>data-indeterminate</code>.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="indicator-directive" class="headless-progress-bar-api-block">
+    <h3>Indicator directive</h3>
+    <p>
+      <code>tngProgressBarIndicator</code> is a structural hook only. It adds
+      <code>data-slot="progress-bar-indicator"</code> and leaves width and animation fully in your
+      hands.
+    </p>
+    <tng-code-block
+      [code]="indicatorCode"
+      adapter="shiki"
+      language="html"
+      title="Indicator usage"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+
+    <div class="headless-progress-bar-api-table-wrap">
+      <table class="headless-progress-bar-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Directive</th>
+            <th scope="col">Selector</th>
+            <th scope="col">Data slot</th>
+            <th scope="col">Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>TngProgressBar</code></td>
+            <td><code>[tngProgressBar]</code></td>
+            <td><code>progress-bar</code></td>
+            <td>Semantic root for the linear progress range.</td>
+          </tr>
+          <tr>
+            <td><code>TngProgressBarIndicator</code></td>
+            <td><code>[tngProgressBarIndicator]</code></td>
+            <td><code>progress-bar-indicator</code></td>
+            <td>Visual fill element inside the owner-authored track.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="accessibility-contract" class="headless-progress-bar-api-block">
+    <h3>Accessibility contract</h3>
+    <ul class="headless-progress-bar-api-list">
+      <li>The root always exposes <code>role="progressbar"</code>.</li>
+      <li>Determinate mode sets <code>aria-valuemin</code>, <code>aria-valuemax</code>, and <code>aria-valuenow</code>.</li>
+      <li>Indeterminate mode removes those value attributes, so provide a clear label through nearby text or <code>aria-label</code>.</li>
+      <li>Because the primitive does not render a label, owners are responsible for visible context and contrast.</li>
+    </ul>
+  </section>
+</article>

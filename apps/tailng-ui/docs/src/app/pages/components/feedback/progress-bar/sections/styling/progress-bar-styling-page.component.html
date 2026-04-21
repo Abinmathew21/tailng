@@ -2,24 +2,52 @@
   <h2 class="progress-bar-styling-title">Styling contract</h2>
   <p class="progress-bar-styling-lead">
     Progress Bar exposes stable slot hooks so design systems can control track, indicator, and
-    indeterminate motion.
+    indeterminate motion while still using the wrapper shell.
   </p>
 
-  <section class="progress-bar-styling-block">
-    <h3>Slot hooks</h3>
+  <section id="wrapper-slot-hooks" class="progress-bar-styling-block">
+    <h3>Wrapper slot hooks</h3>
     <p>
       Both primitives and wrappers expose the same selectors:
       <code>progress-bar</code> and <code>progress-bar-indicator</code>.
     </p>
     <tng-code-block
-      [code]="cssContractCode"
+      [code]="slotContractCode"
       adapter="shiki"
       language="css"
-      title="Recommended CSS contract"
+      title="Slot contract"
       [theme]="codeBlockTheme()"
       [lineNumbers]="false"
       [wrap]="true"
       [sanitizeHtml]="false"
     ></tng-code-block>
+  </section>
+
+  <section id="default-shell" class="progress-bar-styling-block">
+    <h3>Default shell</h3>
+    <p>
+      The wrapper adds a minimal block-level host and a gentle width transition so determinate
+      updates feel responsive without imposing heavy visual styling.
+    </p>
+    <tng-code-block
+      [code]="defaultShellCode"
+      adapter="shiki"
+      language="css"
+      title="Wrapper defaults"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="owner-guidance" class="progress-bar-styling-block">
+    <h3>Owner guidance</h3>
+    <ul class="progress-bar-styling-list">
+      <li>Style thresholds, color ramps, and motion timing through the slot selectors instead of depending on internal wrapper markup.</li>
+      <li>Increase track height and contrast for touch-heavy or glanceable dashboard surfaces.</li>
+      <li>Keep indeterminate motion calm so long-running jobs do not create visual noise.</li>
+      <li>Pair status copy with the bar when completion value alone does not explain what is happening.</li>
+    </ul>
   </section>
 </article>

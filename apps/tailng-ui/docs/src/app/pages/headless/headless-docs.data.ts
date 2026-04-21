@@ -267,6 +267,13 @@ export const HEADLESS_FEEDBACK_GROUP: HeadlessDocsGroup = {
       description:
         'Structural empty-state slots for owner-authored icon, title, description, and action content.',
     },
+    {
+      id: 'progress-bar',
+      slug: 'progress-bar',
+      title: 'Progress Bar',
+      description:
+        'Linear progress primitives with range normalization, aria semantics, and owner-authored track styling.',
+    },
   ],
 };
 

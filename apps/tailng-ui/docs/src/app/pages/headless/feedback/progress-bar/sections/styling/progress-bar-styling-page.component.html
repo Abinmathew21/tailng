@@ -1,0 +1,44 @@
+<article class="headless-progress-bar-styling">
+  <h2 class="headless-progress-bar-styling-title">Styling contract</h2>
+  <p class="headless-progress-bar-styling-lead">
+    Headless progress bar only guarantees stable slot names. Track height, fill tone, striping,
+    and loading motion all stay in owner CSS.
+  </p>
+
+  <section id="slot-hooks" class="headless-progress-bar-styling-block">
+    <h3>Slot hooks</h3>
+    <p>
+      Style the semantic root with <code>[data-slot="progress-bar"]</code> and the fill element
+      with <code>[data-slot="progress-bar-indicator"]</code>. These hooks stay stable across
+      headless and wrapper usage.
+    </p>
+  </section>
+
+  <section id="css-starter" class="headless-progress-bar-styling-block">
+    <h3>CSS starter</h3>
+    <p>
+      This starter keeps the primitive minimal while giving you a solid default track and animated
+      indeterminate segment.
+    </p>
+    <tng-code-block
+      [code]="cssStarterCode"
+      adapter="shiki"
+      language="css"
+      title="Progress bar starter CSS"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="motion-guidance" class="headless-progress-bar-styling-block">
+    <h3>Motion guidance</h3>
+    <ul class="headless-progress-bar-styling-list">
+      <li>Keep indeterminate motion smooth and lateral so the task still reads as a linear bar.</li>
+      <li>Use duration and easing that feel calm in dashboards where the bar may stay visible for a while.</li>
+      <li>Prefer subtle width transitions over dramatic easing when progress updates frequently.</li>
+      <li>Pair the bar with text labels when completion percentage alone is not enough context.</li>
+    </ul>
+  </section>
+</article>

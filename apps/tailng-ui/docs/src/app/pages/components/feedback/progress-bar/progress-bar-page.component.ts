@@ -11,14 +11,13 @@ import {
 import { TngTab, TngTabList } from '@tailng-ui/primitives';
 import { filter, map, startWith } from 'rxjs/operators';
 
-type ProgressBarDocSectionId = 'api' | 'examples' | 'overview' | 'ownable-install' | 'styling';
+type ProgressBarDocSectionId = 'api' | 'examples' | 'overview' | 'styling';
 
 const progressBarDocSectionIds: readonly ProgressBarDocSectionId[] = [
   'overview',
   'api',
   'styling',
   'examples',
-  'ownable-install',
 ] as const;
 
 const defaultProgressBarDocSection: ProgressBarDocSectionId = 'overview';

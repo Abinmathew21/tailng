@@ -1,0 +1,177 @@
+<article class="headless-progress-bar-examples">
+  <h2 class="headless-progress-bar-examples-title">Examples</h2>
+  <p class="headless-progress-bar-examples-lead">
+    Use determinate bars when you know the range, then hand off to an indeterminate segment when
+    the system is still working but exact completion is unknown.
+  </p>
+
+  <section id="determinate-metrics" class="headless-progress-bar-examples-block">
+    <app-docs-example-tabs-section
+      heading="Determinate metrics"
+      description="Show task completion when your app can report a real numeric value."
+      ariaLabel="Headless determinate progress examples"
+      tabListAriaLabel="Headless determinate progress style variants"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Headless determinate bars (plain CSS)"
+        [codeTabs]="determinatePlainTabs"
+      >
+        <section class="headless-progress-bar-example">
+          <div class="headless-progress-bar-example-row">
+            <span>Upload progress</span>
+            <div tngProgressBar [value]="uploadProgress" class="headless-progress-bar-example-track">
+              <span
+                tngProgressBarIndicator
+                class="headless-progress-bar-example-indicator"
+                [style.width.%]="uploadProgress"
+              ></span>
+            </div>
+          </div>
+          <div class="headless-progress-bar-example-row">
+            <span>Quality checks</span>
+            <div tngProgressBar [value]="qualityProgress" class="headless-progress-bar-example-track">
+              <span
+                tngProgressBarIndicator
+                class="headless-progress-bar-example-indicator headless-progress-bar-example-indicator--success"
+                [style.width.%]="qualityProgress"
+              ></span>
+            </div>
+          </div>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Headless determinate bars (Tailwind)"
+        [codeTabs]="determinateTailwindTabs"
+      >
+        <section
+          class="grid gap-3 rounded-xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4"
+        >
+          <div class="grid gap-1 text-sm">
+            <span class="text-[var(--tng-semantic-foreground-primary)]">Upload progress</span>
+            <div
+              tngProgressBar
+              [value]="uploadProgress"
+              class="h-2 overflow-hidden rounded-full bg-[var(--tng-semantic-background-muted)]"
+            >
+              <span
+                tngProgressBarIndicator
+                class="block h-full rounded-full bg-[var(--tng-semantic-accent-brand)]"
+                [style.width.%]="uploadProgress"
+              ></span>
+            </div>
+          </div>
+          <div class="grid gap-1 text-sm">
+            <span class="text-[var(--tng-semantic-foreground-primary)]">Quality checks</span>
+            <div
+              tngProgressBar
+              [value]="qualityProgress"
+              class="h-2 overflow-hidden rounded-full bg-[var(--tng-semantic-background-muted)]"
+            >
+              <span
+                tngProgressBarIndicator
+                class="block h-full rounded-full bg-[var(--tng-semantic-accent-success)]"
+                [style.width.%]="qualityProgress"
+              ></span>
+            </div>
+          </div>
+        </section>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section id="indeterminate-handoff" class="headless-progress-bar-examples-block">
+    <app-docs-example-tabs-section
+      heading="Indeterminate handoff"
+      description="Switch to an indeterminate segment when work continues but exact progress is unavailable."
+      ariaLabel="Headless indeterminate progress examples"
+      tabListAriaLabel="Headless indeterminate progress style variants"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Headless handoff bars (plain CSS)"
+        [codeTabs]="handoffPlainTabs"
+      >
+        <section class="headless-progress-bar-example">
+          <div class="headless-progress-bar-example-row">
+            <span>Preparing release</span>
+            <div
+              tngProgressBar
+              [indeterminate]="true"
+              aria-label="Preparing release"
+              class="headless-progress-bar-example-track"
+            >
+              <span
+                tngProgressBarIndicator
+                class="headless-progress-bar-example-indicator headless-progress-bar-example-indicator--indeterminate"
+              ></span>
+            </div>
+          </div>
+          <div class="headless-progress-bar-example-row">
+            <span>Rollout</span>
+            <div tngProgressBar [value]="rolloutProgress" class="headless-progress-bar-example-track">
+              <span
+                tngProgressBarIndicator
+                class="headless-progress-bar-example-indicator"
+                [style.width.%]="rolloutProgress"
+              ></span>
+            </div>
+          </div>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Headless handoff bars (Tailwind)"
+        [codeTabs]="handoffTailwindTabs"
+      >
+        <section
+          class="grid gap-3 rounded-xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4"
+        >
+          <div class="grid gap-1 text-sm">
+            <span class="text-[var(--tng-semantic-foreground-primary)]">Preparing release</span>
+            <div
+              tngProgressBar
+              [indeterminate]="true"
+              aria-label="Preparing release"
+              class="h-2 overflow-hidden rounded-full bg-[var(--tng-semantic-background-muted)]"
+            >
+              <span
+                tngProgressBarIndicator
+                class="block h-full w-2/5 animate-[tng-progress-bar-indeterminate_1.1s_ease-in-out_infinite] rounded-full bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_42%,var(--tng-semantic-accent-success)_58%)]"
+              ></span>
+            </div>
+          </div>
+          <div class="grid gap-1 text-sm">
+            <span class="text-[var(--tng-semantic-foreground-primary)]">Rollout</span>
+            <div
+              tngProgressBar
+              [value]="rolloutProgress"
+              class="h-2 overflow-hidden rounded-full bg-[var(--tng-semantic-background-muted)]"
+            >
+              <span
+                tngProgressBarIndicator
+                class="block h-full rounded-full bg-[var(--tng-semantic-accent-brand)]"
+                [style.width.%]="rolloutProgress"
+              ></span>
+            </div>
+          </div>
+        </section>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+</article>

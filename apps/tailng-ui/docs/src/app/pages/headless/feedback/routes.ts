@@ -19,4 +19,9 @@ export const HEADLESS_FEEDBACK_ROUTES: Routes = [
     loadChildren: () =>
       import('./empty/routes').then((module) => module.HEADLESS_FEEDBACK_EMPTY_ROUTES),
   },
+  {
+    path: 'progress-bar',
+    loadChildren: () =>
+      import('./progress-bar/routes').then((module) => module.HEADLESS_FEEDBACK_PROGRESS_BAR_ROUTES),
+  },
 ];

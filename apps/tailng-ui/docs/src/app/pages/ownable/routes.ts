@@ -48,6 +48,7 @@ const popoverItem = requireOwnableItem(OWNABLE_OVERLAY_GROUP, 'popover');
 const tooltipItem = requireOwnableItem(OWNABLE_OVERLAY_GROUP, 'tooltip');
 const toastItem = requireOwnableItem(OWNABLE_FEEDBACK_GROUP, 'toast');
 const emptyItem = requireOwnableItem(OWNABLE_FEEDBACK_GROUP, 'empty');
+const progressBarItem = requireOwnableItem(OWNABLE_FEEDBACK_GROUP, 'progress-bar');
 const breadcrumbItem = requireOwnableItem(OWNABLE_NAVIGATION_GROUP, 'breadcrumb');
 const contextMenuItem = requireOwnableItem(OWNABLE_NAVIGATION_GROUP, 'context-menu');
 const menubarItem = requireOwnableItem(OWNABLE_NAVIGATION_GROUP, 'menubar');
@@ -249,6 +250,14 @@ export const OWNABLE_ROUTES: Routes = [
         loadComponent: () =>
           import('./feedback/empty/ownable-empty-page.component').then(
             (m) => m.OwnableEmptyPageComponent,
+          ),
+      },
+      {
+        path: 'feedback/progress-bar',
+        data: toOwnableDocsRouteData(OWNABLE_FEEDBACK_GROUP, progressBarItem),
+        loadComponent: () =>
+          import('./feedback/progress-bar/ownable-progress-bar-page.component').then(
+            (m) => m.OwnableProgressBarPageComponent,
           ),
       },
       {

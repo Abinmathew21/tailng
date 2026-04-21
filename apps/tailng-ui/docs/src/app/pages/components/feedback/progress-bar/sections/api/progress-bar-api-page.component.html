@@ -1,23 +1,33 @@
 <article class="progress-bar-api">
   <h2 class="progress-bar-api-title">API reference</h2>
   <p class="progress-bar-api-lead">
-    Progress Bar exposes a minimal contract: range values, indeterminate mode, and semantic
-    accessibility attributes.
+    Progress Bar exposes a minimal wrapper contract: normalized range values, indeterminate mode,
+    and semantic accessibility attributes.
   </p>
 
-  <section class="progress-bar-api-block">
-    <h3><code>tngProgressBar</code> and <code>tngProgressBarIndicator</code></h3>
-    <p>Use primitive directives when you want full control over surrounding markup and motion.</p>
+  <section id="wrapper-component" class="progress-bar-api-block">
+    <h3>Wrapper component</h3>
+    <p>
+      <code>tng-progress-bar</code> renders the track and indicator for you, computes determinate
+      width from the range, and forwards the primitive semantics underneath.
+    </p>
     <tng-code-block
-      [code]="primitiveAttachmentCode"
+      [code]="wrapperUsageCode"
       adapter="shiki"
       language="html"
-      title="Primitive usage"
+      title="Wrapper usage"
       [lineNumbers]="false"
       [wrap]="true"
       [sanitizeHtml]="false"
     ></tng-code-block>
+  </section>
 
+  <section id="range-inputs" class="progress-bar-api-block">
+    <h3>Range inputs</h3>
+    <p>
+      The wrapper exposes the same range inputs as the primitive and adds
+      <code>ariaLabel</code> for easier explicit naming from template code.
+    </p>
     <div class="progress-bar-api-table-wrap">
       <table class="progress-bar-api-table">
         <thead>
@@ -51,24 +61,31 @@
             <td><code>indeterminate</code></td>
             <td><code>boolean</code></td>
             <td><code>false</code></td>
-            <td>Hides <code>aria-valuenow</code>/<code>aria-valuemin</code>/<code>aria-valuemax</code>.</td>
+            <td>Hides <code>aria-valuenow</code>, <code>aria-valuemin</code>, and <code>aria-valuemax</code>.</td>
+          </tr>
+          <tr>
+            <td><code>ariaLabel</code></td>
+            <td><code>string | null</code></td>
+            <td><code>null</code></td>
+            <td>Supplies an explicit accessible name when surrounding context is not enough.</td>
           </tr>
         </tbody>
       </table>
     </div>
   </section>
 
-  <section class="progress-bar-api-block">
-    <h3><code>tng-progress-bar</code> wrapper</h3>
+  <section id="primitive-foundation" class="progress-bar-api-block">
+    <h3>Primitive foundation</h3>
     <p>
-      Wrapper component uses the same inputs and adds <code>ariaLabel</code> plus default indicator
-      width calculation.
+      Under the hood, the wrapper uses <code>tngProgressBar</code> for the semantic root and
+      <code>tngProgressBarIndicator</code> for the fill element. Reach for the headless page when
+      you want to own that markup directly.
     </p>
     <tng-code-block
-      [code]="componentAttachmentCode"
+      [code]="primitiveUsageCode"
       adapter="shiki"
       language="html"
-      title="Component usage"
+      title="Primitive foundation"
       [lineNumbers]="false"
       [wrap]="true"
       [sanitizeHtml]="false"

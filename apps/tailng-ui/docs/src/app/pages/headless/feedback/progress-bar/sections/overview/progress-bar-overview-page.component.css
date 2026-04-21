@@ -1,0 +1,89 @@
+:host {
+  display: block;
+}
+
+.headless-progress-bar-overview {
+  display: grid;
+  gap: 1.25rem;
+  padding-bottom: 2rem;
+}
+
+.headless-progress-bar-overview-title {
+  font-size: clamp(1.65rem, 1.8vw + 1rem, 2.1rem);
+  font-weight: 700;
+  line-height: 1.15;
+  margin: 0;
+}
+
+.headless-progress-bar-overview-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 1rem;
+  line-height: 1.55;
+  margin: 0;
+  max-inline-size: 62ch;
+}
+
+.headless-progress-bar-overview-block {
+  background: color-mix(in srgb, var(--tng-semantic-background-surface) 92%, transparent);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 1rem;
+  display: grid;
+  gap: 0.9rem;
+  padding: 1.1rem;
+}
+
+.headless-progress-bar-overview-block h3 {
+  font-size: 1.15rem;
+  margin: 0;
+}
+
+.headless-progress-bar-overview-block > p {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.headless-progress-bar-overview-list {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0;
+  padding-inline-start: 1.1rem;
+}
+
+.headless-progress-bar-preview {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.headless-progress-bar-preview-track {
+  background: var(--tng-semantic-background-surface);
+  border-radius: 9999px;
+  display: block;
+  height: 0.625rem;
+  overflow: hidden;
+}
+
+.headless-progress-bar-preview-indicator {
+  background: var(--tng-semantic-accent-brand);
+  border-radius: inherit;
+  display: block;
+  height: 100%;
+}
+
+.headless-progress-bar-preview-indicator--success {
+  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 72%, #10b981);
+}
+
+.headless-progress-bar-preview-indicator--indeterminate {
+  animation: tng-progress-bar-indeterminate 1.1s ease-in-out infinite;
+  width: 40%;
+}
+
+@keyframes tng-progress-bar-indeterminate {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(250%);
+  }
+}

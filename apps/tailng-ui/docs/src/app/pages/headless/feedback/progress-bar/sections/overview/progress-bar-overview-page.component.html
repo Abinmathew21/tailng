@@ -1,0 +1,145 @@
+<article class="headless-progress-bar-overview">
+  <h2 class="headless-progress-bar-overview-title">Progress Bar overview</h2>
+  <p class="headless-progress-bar-overview-lead">
+    Headless progress bar gives you range semantics and ARIA wiring, while the track, fill, labels,
+    and motion remain fully owner-authored.
+  </p>
+
+  <section id="imports" class="headless-progress-bar-overview-block">
+    <h3>Imports</h3>
+    <p>Use the primitive directives when you want to own the surrounding markup and visuals.</p>
+    <tng-code-block
+      [code]="importCode"
+      adapter="shiki"
+      language="ts"
+      title="Primitive import"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="basic-composition" class="headless-progress-bar-overview-block">
+    <h3>Basic composition</h3>
+    <p>
+      The root owns the semantic range. The indicator is just a structural part, so you control
+      width for determinate states and motion for indeterminate ones.
+    </p>
+    <tng-code-block
+      [code]="compositionCode"
+      adapter="shiki"
+      language="html"
+      title="Minimal headless markup"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="style-variants" class="headless-progress-bar-overview-block">
+    <app-docs-example-tabs-section
+      heading="Style variants"
+      description="Use the same primitives inside a lightweight CSS shell or a utility-authored Tailwind surface."
+      ariaLabel="Headless progress bar style variants"
+      tabListAriaLabel="Headless progress bar style tabs"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Headless progress bar (plain CSS)"
+        [codeTabs]="plainCodeTabs"
+      >
+        <section class="headless-progress-bar-preview">
+          <div tngProgressBar [value]="completion" class="headless-progress-bar-preview-track">
+            <span
+              tngProgressBarIndicator
+              class="headless-progress-bar-preview-indicator"
+              [style.width.%]="completion"
+            ></span>
+          </div>
+          <div tngProgressBar [value]="reviewProgress" class="headless-progress-bar-preview-track">
+            <span
+              tngProgressBarIndicator
+              class="headless-progress-bar-preview-indicator headless-progress-bar-preview-indicator--success"
+              [style.width.%]="reviewProgress"
+            ></span>
+          </div>
+          <div
+            tngProgressBar
+            [indeterminate]="true"
+            aria-label="Preparing sync"
+            class="headless-progress-bar-preview-track"
+          >
+            <span
+              tngProgressBarIndicator
+              class="headless-progress-bar-preview-indicator headless-progress-bar-preview-indicator--indeterminate"
+            ></span>
+          </div>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Headless progress bar (Tailwind)"
+        [codeTabs]="tailwindCodeTabs"
+      >
+        <section
+          class="rounded-xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4"
+        >
+          <div class="grid gap-3">
+            <div
+              tngProgressBar
+              [value]="completion"
+              class="h-2 overflow-hidden rounded-full bg-[var(--tng-semantic-background-muted)]"
+            >
+              <span
+                tngProgressBarIndicator
+                class="block h-full rounded-full bg-[var(--tng-semantic-accent-brand)]"
+                [style.width.%]="completion"
+              ></span>
+            </div>
+            <div
+              tngProgressBar
+              [value]="reviewProgress"
+              class="h-2 overflow-hidden rounded-full bg-[var(--tng-semantic-background-muted)]"
+            >
+              <span
+                tngProgressBarIndicator
+                class="block h-full rounded-full bg-[var(--tng-semantic-accent-success)]"
+                [style.width.%]="reviewProgress"
+              ></span>
+            </div>
+            <div
+              tngProgressBar
+              [indeterminate]="true"
+              aria-label="Preparing sync"
+              class="h-2 overflow-hidden rounded-full bg-[var(--tng-semantic-background-muted)]"
+            >
+              <span
+                tngProgressBarIndicator
+                class="block h-full w-2/5 animate-[tng-progress-bar-indeterminate_1.1s_ease-in-out_infinite] rounded-full bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_42%,var(--tng-semantic-accent-success)_58%)]"
+              ></span>
+            </div>
+          </div>
+        </section>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section id="range-semantics" class="headless-progress-bar-overview-block">
+    <h3>Range semantics</h3>
+    <ul class="headless-progress-bar-overview-list">
+      <li><code>min</code>, <code>max</code>, and <code>value</code> are normalized and clamped on the root directive.</li>
+      <li>Indeterminate mode removes <code>aria-valuenow</code>, <code>aria-valuemin</code>, and <code>aria-valuemax</code>.</li>
+      <li>The indicator width is entirely owner-authored in headless mode.</li>
+      <li>Provide clear context through nearby copy or <code>aria-label</code> when the task is not obvious.</li>
+    </ul>
+  </section>
+</article>

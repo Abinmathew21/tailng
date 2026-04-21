@@ -252,6 +252,13 @@ export const OWNABLE_FEEDBACK_GROUP: OwnableDocsGroup = {
       description:
         'Ownable empty install with local wrapper source, no-data copy patterns, and generated file structure.',
     },
+    {
+      id: 'progress-bar',
+      slug: 'progress-bar',
+      title: 'Progress Bar',
+      description:
+        'Ownable progress-bar install with local wrapper source, track styling, and generated file structure.',
+    },
   ],
 };
 

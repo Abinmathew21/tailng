@@ -1,12 +1,16 @@
 <section class="docs-component-page">
   <tng-tabs
     class="docs-component-tabs"
-    ariaLabel="Progress bar documentation sections"
+    ariaLabel="Headless progress bar documentation sections"
     [activation]="'manual'"
     [value]="activeSection()"
     (valueChange)="onSectionChange($event)"
   >
-    <div tngTabList class="docs-component-tab-list" ariaLabel="Progress bar documentation tabs">
+    <div
+      tngTabList
+      class="docs-component-tab-list"
+      ariaLabel="Headless progress bar documentation tabs"
+    >
       <button type="button" tngTab value="overview" class="docs-component-tab-trigger">
         Overview
       </button>

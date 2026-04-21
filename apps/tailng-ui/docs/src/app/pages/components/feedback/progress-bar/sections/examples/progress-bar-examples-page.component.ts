@@ -2,10 +2,6 @@ import { DOCUMENT } from '@angular/common';
 import { Component, inject, signal, type OnDestroy } from '@angular/core';
 import { observeDocsCodeThemeChanges, resolveDocsCodeBlockTheme } from '../../../../../../shared/util';
 import { TngProgressBarComponent } from '@tailng-ui/components';
-import {
-  TngProgressBar as TngProgressBarPrimitive,
-  TngProgressBarIndicator as TngProgressBarIndicatorPrimitive,
-} from '@tailng-ui/primitives';
 import { type DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
 import {
   DocsExampleTabsSectionComponent,
@@ -15,8 +11,6 @@ import {
 @Component({
   selector: 'app-progress-bar-examples-page',
   imports: [
-    TngProgressBarPrimitive,
-    TngProgressBarIndicatorPrimitive,
     TngProgressBarComponent,
     DocsExampleTabsSectionComponent,
     DocsExampleVariantDirective,
@@ -29,48 +23,14 @@ export class ProgressBarExamplesPageComponent implements OnDestroy {
   public readonly codeBlockTheme = signal<'github-dark' | 'github-light'>(
     resolveDocsCodeBlockTheme(this.documentRef),
   );
-  private readonly colorSchemeObserver = observeDocsCodeThemeChanges(this.documentRef, this.codeBlockTheme);
+  private readonly colorSchemeObserver = observeDocsCodeThemeChanges(
+    this.documentRef,
+    this.codeBlockTheme,
+  );
 
   protected readonly uploadProgress = 68;
-  protected readonly testCoverageProgress = 84;
+  protected readonly qualityProgress = 84;
   protected readonly releaseProgress = 42;
-
-  protected readonly uploadHeadlessTabs: readonly DocsExampleCodeTab[] = Object.freeze([
-    {
-      value: 'ts',
-      label: 'TS',
-      language: 'ts',
-      title: 'progress-bar-examples-upload-headless.component.ts',
-      code: "import { TngProgressBar, TngProgressBarIndicator } from '@tailng-ui/primitives';\n",
-    },
-    {
-      value: 'html',
-      label: 'HTML',
-      language: 'html',
-      title: 'progress-bar-examples-upload-headless.component.html',
-      code: [
-        '<div class="example-track" tngProgressBar [value]="68">',
-        '  <span class="example-indicator" tngProgressBarIndicator [style.width.%]="68"></span>',
-        '</div>',
-        '<div class="example-track" tngProgressBar [value]="84">',
-        '  <span class="example-indicator" tngProgressBarIndicator [style.width.%]="84"></span>',
-        '</div>',
-        '',
-      ].join('\n'),
-    },
-    {
-      value: 'css',
-      label: 'CSS',
-      language: 'css',
-      title: 'progress-bar-examples-upload-headless.component.css',
-      code: [
-        '.example-track {',
-        '  height: 0.625rem;',
-        '}',
-        '',
-      ].join('\n'),
-    },
-  ]);
 
   protected readonly uploadPlainTabs: readonly DocsExampleCodeTab[] = Object.freeze([
     {
@@ -78,7 +38,22 @@ export class ProgressBarExamplesPageComponent implements OnDestroy {
       label: 'TS',
       language: 'ts',
       title: 'progress-bar-examples-upload-plain-css.component.ts',
-      code: "import { TngProgressBarComponent } from '@tailng-ui/components';\n",
+      code: [
+        "import { Component } from '@angular/core';",
+        "import { TngProgressBarComponent } from '@tailng-ui/components';",
+        '',
+        '@Component({',
+        "  selector: 'app-progress-bar-examples-upload-plain-css',",
+        '  standalone: true,',
+        '  imports: [TngProgressBarComponent],',
+        "  templateUrl: './progress-bar-examples-upload-plain-css.component.html',",
+        "  styleUrl: './progress-bar-examples-upload-plain-css.component.css',",
+        '})',
+        'export class ProgressBarExamplesUploadPlainCssComponent {',
+        '  protected readonly uploadProgress = 68;',
+        '  protected readonly qualityProgress = 84;',
+        '}',
+      ].join('\n'),
     },
     {
       value: 'html',
@@ -86,8 +61,10 @@ export class ProgressBarExamplesPageComponent implements OnDestroy {
       language: 'html',
       title: 'progress-bar-examples-upload-plain-css.component.html',
       code: [
-        '<tng-progress-bar [value]="68" ariaLabel="Upload progress"></tng-progress-bar>',
-        '<tng-progress-bar [value]="84" ariaLabel="Test coverage"></tng-progress-bar>',
+        '<div class="example-shell">',
+        '  <tng-progress-bar [value]="uploadProgress" ariaLabel="Upload progress"></tng-progress-bar>',
+        '  <tng-progress-bar [value]="qualityProgress" ariaLabel="Quality checks"></tng-progress-bar>',
+        '</div>',
         '',
       ].join('\n'),
     },
@@ -112,7 +89,22 @@ export class ProgressBarExamplesPageComponent implements OnDestroy {
       label: 'TS',
       language: 'ts',
       title: 'progress-bar-examples-upload-tailwind.component.ts',
-      code: "import { TngProgressBarComponent } from '@tailng-ui/components';\n",
+      code: [
+        "import { Component } from '@angular/core';",
+        "import { TngProgressBarComponent } from '@tailng-ui/components';",
+        '',
+        '@Component({',
+        "  selector: 'app-progress-bar-examples-upload-tailwind',",
+        '  standalone: true,',
+        '  imports: [TngProgressBarComponent],',
+        "  templateUrl: './progress-bar-examples-upload-tailwind.component.html',",
+        "  styleUrl: './progress-bar-examples-upload-tailwind.component.css',",
+        '})',
+        'export class ProgressBarExamplesUploadTailwindComponent {',
+        '  protected readonly uploadProgress = 68;',
+        '  protected readonly qualityProgress = 84;',
+        '}',
+      ].join('\n'),
     },
     {
       value: 'html',
@@ -120,10 +112,16 @@ export class ProgressBarExamplesPageComponent implements OnDestroy {
       language: 'html',
       title: 'progress-bar-examples-upload-tailwind.component.html',
       code: [
-        '<div class="grid gap-3 rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">',
-        '  <tng-progress-bar [value]="68" ariaLabel="Upload progress"></tng-progress-bar>',
-        '  <tng-progress-bar [value]="84" ariaLabel="Test coverage"></tng-progress-bar>',
-        '</div>',
+        '<section class="grid gap-3 rounded-xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4">',
+        '  <div class="grid gap-1 text-sm">',
+        '    <span class="text-[var(--tng-semantic-foreground-primary)]">Upload progress</span>',
+        '    <tng-progress-bar [value]="uploadProgress" ariaLabel="Upload progress"></tng-progress-bar>',
+        '  </div>',
+        '  <div class="grid gap-1 text-sm">',
+        '    <span class="text-[var(--tng-semantic-foreground-primary)]">Quality checks</span>',
+        '    <tng-progress-bar [value]="qualityProgress" ariaLabel="Quality checks"></tng-progress-bar>',
+        '  </div>',
+        '</section>',
         '',
       ].join('\n'),
     },
@@ -136,48 +134,27 @@ export class ProgressBarExamplesPageComponent implements OnDestroy {
     },
   ]);
 
-  protected readonly loadingHeadlessTabs: readonly DocsExampleCodeTab[] = Object.freeze([
-    {
-      value: 'ts',
-      label: 'TS',
-      language: 'ts',
-      title: 'progress-bar-examples-loading-headless.component.ts',
-      code: "import { TngProgressBar, TngProgressBarIndicator } from '@tailng-ui/primitives';\n",
-    },
-    {
-      value: 'html',
-      label: 'HTML',
-      language: 'html',
-      title: 'progress-bar-examples-loading-headless.component.html',
-      code: [
-        '<div class="example-track" tngProgressBar [indeterminate]="true" aria-label="Preparing release">',
-        '  <span class="example-indicator example-indicator--indeterminate" tngProgressBarIndicator></span>',
-        '</div>',
-        '',
-      ].join('\n'),
-    },
-    {
-      value: 'css',
-      label: 'CSS',
-      language: 'css',
-      title: 'progress-bar-examples-loading-headless.component.css',
-      code: [
-        '.example-indicator--indeterminate {',
-        '  animation: primitive-progress-bar-indeterminate 1.1s ease-in-out infinite;',
-        '  width: 40%;',
-        '}',
-        '',
-      ].join('\n'),
-    },
-  ]);
-
   protected readonly loadingPlainTabs: readonly DocsExampleCodeTab[] = Object.freeze([
     {
       value: 'ts',
       label: 'TS',
       language: 'ts',
       title: 'progress-bar-examples-loading-plain-css.component.ts',
-      code: "import { TngProgressBarComponent } from '@tailng-ui/components';\n",
+      code: [
+        "import { Component } from '@angular/core';",
+        "import { TngProgressBarComponent } from '@tailng-ui/components';",
+        '',
+        '@Component({',
+        "  selector: 'app-progress-bar-examples-loading-plain-css',",
+        '  standalone: true,',
+        '  imports: [TngProgressBarComponent],',
+        "  templateUrl: './progress-bar-examples-loading-plain-css.component.html',",
+        "  styleUrl: './progress-bar-examples-loading-plain-css.component.css',",
+        '})',
+        'export class ProgressBarExamplesLoadingPlainCssComponent {',
+        '  protected readonly releaseProgress = 42;',
+        '}',
+      ].join('\n'),
     },
     {
       value: 'html',
@@ -185,8 +162,10 @@ export class ProgressBarExamplesPageComponent implements OnDestroy {
       language: 'html',
       title: 'progress-bar-examples-loading-plain-css.component.html',
       code: [
-        '<tng-progress-bar [indeterminate]="true" ariaLabel="Preparing release"></tng-progress-bar>',
-        '<tng-progress-bar [value]="42" ariaLabel="Release rollout"></tng-progress-bar>',
+        '<div class="loading-shell">',
+        '  <tng-progress-bar [indeterminate]="true" ariaLabel="Preparing release"></tng-progress-bar>',
+        '  <tng-progress-bar [value]="releaseProgress" ariaLabel="Release rollout"></tng-progress-bar>',
+        '</div>',
         '',
       ].join('\n'),
     },
@@ -211,7 +190,21 @@ export class ProgressBarExamplesPageComponent implements OnDestroy {
       label: 'TS',
       language: 'ts',
       title: 'progress-bar-examples-loading-tailwind.component.ts',
-      code: "import { TngProgressBarComponent } from '@tailng-ui/components';\n",
+      code: [
+        "import { Component } from '@angular/core';",
+        "import { TngProgressBarComponent } from '@tailng-ui/components';",
+        '',
+        '@Component({',
+        "  selector: 'app-progress-bar-examples-loading-tailwind',",
+        '  standalone: true,',
+        '  imports: [TngProgressBarComponent],',
+        "  templateUrl: './progress-bar-examples-loading-tailwind.component.html',",
+        "  styleUrl: './progress-bar-examples-loading-tailwind.component.css',",
+        '})',
+        'export class ProgressBarExamplesLoadingTailwindComponent {',
+        '  protected readonly releaseProgress = 42;',
+        '}',
+      ].join('\n'),
     },
     {
       value: 'html',
@@ -219,10 +212,16 @@ export class ProgressBarExamplesPageComponent implements OnDestroy {
       language: 'html',
       title: 'progress-bar-examples-loading-tailwind.component.html',
       code: [
-        '<div class="grid gap-3 rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">',
-        '  <tng-progress-bar [indeterminate]="true" ariaLabel="Preparing release"></tng-progress-bar>',
-        '  <tng-progress-bar [value]="42" ariaLabel="Release rollout"></tng-progress-bar>',
-        '</div>',
+        '<section class="grid gap-3 rounded-xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4">',
+        '  <div class="grid gap-1 text-sm">',
+        '    <span class="text-[var(--tng-semantic-foreground-primary)]">Preparing release</span>',
+        '    <tng-progress-bar [indeterminate]="true" ariaLabel="Preparing release"></tng-progress-bar>',
+        '  </div>',
+        '  <div class="grid gap-1 text-sm">',
+        '    <span class="text-[var(--tng-semantic-foreground-primary)]">Rollout</span>',
+        '    <tng-progress-bar [value]="releaseProgress" ariaLabel="Release rollout"></tng-progress-bar>',
+        '  </div>',
+        '</section>',
         '',
       ].join('\n'),
     },
@@ -238,5 +237,4 @@ export class ProgressBarExamplesPageComponent implements OnDestroy {
   public ngOnDestroy(): void {
     this.colorSchemeObserver?.disconnect();
   }
-
 }

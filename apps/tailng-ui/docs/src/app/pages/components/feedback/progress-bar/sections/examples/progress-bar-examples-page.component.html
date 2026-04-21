@@ -4,46 +4,15 @@
     Pair determinate and indeterminate states to communicate progress and loading intent clearly.
   </p>
 
-  <section class="progress-bar-examples-block">
+  <section id="determinate-metrics" class="progress-bar-examples-block">
     <app-docs-example-tabs-section
-      heading="Upload and quality metrics"
+      heading="Determinate metrics"
       description="Track completion of known-duration tasks with determinate values."
       ariaLabel="Progress upload examples"
       tabListAriaLabel="Progress upload style variants"
-      defaultValue="headless"
+      defaultValue="plain-css"
       [codeBlockTheme]="codeBlockTheme()"
     >
-      <ng-template
-        appDocsExampleVariant
-        value="headless"
-        label="Headless"
-        panelTitle="Headless metric bars"
-        [codeTabs]="uploadHeadlessTabs"
-      >
-        <section class="progress-example-shell progress-example-shell--headless">
-          <div class="progress-example-row">
-            <span>Upload progress</span>
-            <div class="progress-example-track" tngProgressBar [value]="uploadProgress">
-              <span
-                class="progress-example-indicator"
-                tngProgressBarIndicator
-                [style.width.%]="uploadProgress"
-              ></span>
-            </div>
-          </div>
-          <div class="progress-example-row">
-            <span>Test coverage</span>
-            <div class="progress-example-track" tngProgressBar [value]="testCoverageProgress">
-              <span
-                class="progress-example-indicator"
-                tngProgressBarIndicator
-                [style.width.%]="testCoverageProgress"
-              ></span>
-            </div>
-          </div>
-        </section>
-      </ng-template>
-
       <ng-template
         appDocsExampleVariant
         value="plain-css"
@@ -57,8 +26,8 @@
             <tng-progress-bar [value]="uploadProgress" ariaLabel="Upload progress"></tng-progress-bar>
           </div>
           <div class="progress-example-row">
-            <span>Test coverage</span>
-            <tng-progress-bar [value]="testCoverageProgress" ariaLabel="Test coverage"></tng-progress-bar>
+            <span>Quality checks</span>
+            <tng-progress-bar [value]="qualityProgress" ariaLabel="Quality checks"></tng-progress-bar>
           </div>
         </section>
       </ng-template>
@@ -71,65 +40,30 @@
         [codeTabs]="uploadTailwindTabs"
       >
         <section
-          class="grid gap-3 rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+          class="grid gap-3 rounded-xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4"
         >
           <div class="grid gap-1 text-sm">
-            <span class="text-slate-700 dark:text-slate-200">Upload progress</span>
+            <span class="text-[var(--tng-semantic-foreground-primary)]">Upload progress</span>
             <tng-progress-bar [value]="uploadProgress" ariaLabel="Upload progress"></tng-progress-bar>
           </div>
           <div class="grid gap-1 text-sm">
-            <span class="text-slate-700 dark:text-slate-200">Test coverage</span>
-            <tng-progress-bar [value]="testCoverageProgress" ariaLabel="Test coverage"></tng-progress-bar>
+            <span class="text-[var(--tng-semantic-foreground-primary)]">Quality checks</span>
+            <tng-progress-bar [value]="qualityProgress" ariaLabel="Quality checks"></tng-progress-bar>
           </div>
         </section>
       </ng-template>
     </app-docs-example-tabs-section>
   </section>
 
-  <section class="progress-bar-examples-block">
+  <section id="indeterminate-handoff" class="progress-bar-examples-block">
     <app-docs-example-tabs-section
-      heading="Loading and rollout state"
+      heading="Indeterminate handoff"
       description="Use indeterminate when duration is unknown, then switch to determinate rollout progress."
       ariaLabel="Progress loading examples"
       tabListAriaLabel="Progress loading style variants"
-      defaultValue="headless"
+      defaultValue="plain-css"
       [codeBlockTheme]="codeBlockTheme()"
     >
-      <ng-template
-        appDocsExampleVariant
-        value="headless"
-        label="Headless"
-        panelTitle="Headless loading bars"
-        [codeTabs]="loadingHeadlessTabs"
-      >
-        <section class="progress-example-shell progress-example-shell--headless">
-          <div class="progress-example-row">
-            <span>Preparing release</span>
-            <div
-              class="progress-example-track"
-              tngProgressBar
-              [indeterminate]="true"
-              aria-label="Preparing release"
-            >
-              <span
-                class="progress-example-indicator progress-example-indicator--indeterminate"
-                tngProgressBarIndicator
-              ></span>
-            </div>
-          </div>
-          <div class="progress-example-row">
-            <span>Rollout</span>
-            <div class="progress-example-track" tngProgressBar [value]="releaseProgress">
-              <span
-                class="progress-example-indicator"
-                tngProgressBarIndicator
-                [style.width.%]="releaseProgress"
-              ></span>
-            </div>
-          </div>
-        </section>
-      </ng-template>
-
       <ng-template
         appDocsExampleVariant
         value="plain-css"
@@ -157,14 +91,14 @@
         [codeTabs]="loadingTailwindTabs"
       >
         <section
-          class="grid gap-3 rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+          class="grid gap-3 rounded-xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4"
         >
           <div class="grid gap-1 text-sm">
-            <span class="text-slate-700 dark:text-slate-200">Preparing release</span>
+            <span class="text-[var(--tng-semantic-foreground-primary)]">Preparing release</span>
             <tng-progress-bar [indeterminate]="true" ariaLabel="Preparing release"></tng-progress-bar>
           </div>
           <div class="grid gap-1 text-sm">
-            <span class="text-slate-700 dark:text-slate-200">Rollout</span>
+            <span class="text-[var(--tng-semantic-foreground-primary)]">Rollout</span>
             <tng-progress-bar [value]="releaseProgress" ariaLabel="Release rollout"></tng-progress-bar>
           </div>
         </section>

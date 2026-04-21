@@ -708,24 +708,22 @@ export const docsComponentOutlineItemsBySlug: Readonly<Record<string, Partial<Re
   'progress-bar': {
     'overview': [
       { id: 'imports', label: 'Imports' },
-      { id: 'progress-variants', label: 'Progress variants' },
+      { id: 'style-variants', label: 'Style variants' },
       { id: 'accessibility-baseline', label: 'Accessibility baseline' },
     ],
     'api': [
-      { id: 'tngprogressbar-and-tngprogressbarindicator', label: 'tngProgressBar and tngProgressBarIndicator' },
-      { id: 'tng-progress-bar-wrapper', label: 'tng-progress-bar wrapper' },
+      { id: 'wrapper-component', label: 'Wrapper component' },
+      { id: 'range-inputs', label: 'Range inputs' },
+      { id: 'primitive-foundation', label: 'Primitive foundation' },
     ],
     'styling': [
-      { id: 'slot-hooks', label: 'Slot hooks' },
+      { id: 'wrapper-slot-hooks', label: 'Wrapper slot hooks' },
+      { id: 'default-shell', label: 'Default shell' },
+      { id: 'owner-guidance', label: 'Owner guidance' },
     ],
     'examples': [
-      { id: 'upload-and-quality-metrics', label: 'Upload and quality metrics' },
-      { id: 'loading-and-rollout-state', label: 'Loading and rollout state' },
-    ],
-    'ownable-install': [
-      { id: 'install-from-registry', label: 'Install from registry' },
-      { id: 'generated-files', label: 'Generated files' },
-      { id: 'import-and-usage', label: 'Import in your feature module/component' },
+      { id: 'determinate-metrics', label: 'Determinate metrics' },
+      { id: 'indeterminate-handoff', label: 'Indeterminate handoff' },
     ],
   },
   'progress-spinner': {

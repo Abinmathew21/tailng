@@ -1,15 +1,18 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, inject, signal, type OnDestroy } from '@angular/core';
-import { observeDocsCodeThemeChanges, resolveDocsCodeBlockTheme } from '../../../../../../shared/util';
 import { TngCodeBlockComponent } from '@tailng-ui/components';
+import {
+  observeDocsCodeThemeChanges,
+  resolveDocsCodeBlockTheme,
+} from '../../../../../../shared/util';
 
 @Component({
-  selector: 'app-progress-bar-styling-page',
+  selector: 'app-headless-progress-bar-styling-page',
   imports: [TngCodeBlockComponent],
   templateUrl: './progress-bar-styling-page.component.html',
   styleUrl: './progress-bar-styling-page.component.css',
 })
-export class ProgressBarStylingPageComponent implements OnDestroy {
+export class HeadlessProgressBarStylingPageComponent implements OnDestroy {
   private readonly documentRef = inject(DOCUMENT);
   public readonly codeBlockTheme = signal<'github-dark' | 'github-light'>(
     resolveDocsCodeBlockTheme(this.documentRef),
@@ -19,7 +22,7 @@ export class ProgressBarStylingPageComponent implements OnDestroy {
     this.codeBlockTheme,
   );
 
-  protected readonly slotContractCode = [
+  protected readonly cssStarterCode = [
     '[data-slot="progress-bar"] {',
     '  background: var(--tng-semantic-background-surface);',
     '  border-radius: 9999px;',
@@ -36,18 +39,12 @@ export class ProgressBarStylingPageComponent implements OnDestroy {
     '',
     '[data-slot="progress-bar-indicator"][data-indeterminate] {',
     '  animation: tng-progress-bar-indeterminate 1.1s ease-in-out infinite;',
+    '  width: 40%;',
     '}',
     '',
-  ].join('\n');
-
-  protected readonly defaultShellCode = [
-    ':host {',
-    '  display: block;',
-    '  width: 100%;',
-    '}',
-    '',
-    '.tng-progress-bar-indicator {',
-    '  transition: width 180ms ease;',
+    '@keyframes tng-progress-bar-indeterminate {',
+    '  0% { transform: translateX(-100%); }',
+    '  100% { transform: translateX(250%); }',
     '}',
     '',
   ].join('\n');

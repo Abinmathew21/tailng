@@ -1,18 +1,20 @@
 import type { Routes } from '@angular/router';
-import { COMPONENTS_FEEDBACK_GROUP, toComponentsDocsRouteData } from '../../component-docs.data';
+import { HEADLESS_FEEDBACK_GROUP, toHeadlessDocsRouteData } from '../../headless-docs.data';
 
-const group = COMPONENTS_FEEDBACK_GROUP;
+const group = HEADLESS_FEEDBACK_GROUP;
 const progressBarItem = group.items.find((item) => item.slug === 'progress-bar');
 if (progressBarItem === undefined) {
-  throw new Error('Missing "progress-bar" in components feedback docs group.');
+  throw new Error('Missing "progress-bar" in headless feedback docs group.');
 }
 
-export const COMPONENTS_FEEDBACK_PROGRESS_BAR_ROUTES: Routes = [
+export const HEADLESS_FEEDBACK_PROGRESS_BAR_ROUTES: Routes = [
   {
     path: '',
-    data: toComponentsDocsRouteData(group, progressBarItem),
+    data: toHeadlessDocsRouteData(group, progressBarItem),
     loadComponent: () =>
-      import('./progress-bar-page.component').then((module) => module.ProgressBarPageComponent),
+      import('./progress-bar-page.component').then(
+        (module) => module.HeadlessProgressBarPageComponent,
+      ),
     children: [
       {
         path: '',
@@ -23,37 +25,29 @@ export const COMPONENTS_FEEDBACK_PROGRESS_BAR_ROUTES: Routes = [
         path: 'overview',
         loadComponent: () =>
           import('./sections/overview/progress-bar-overview-page.component').then(
-            (module) => module.ProgressBarOverviewPageComponent,
+            (module) => module.HeadlessProgressBarOverviewPageComponent,
           ),
       },
       {
         path: 'api',
         loadComponent: () =>
           import('./sections/api/progress-bar-api-page.component').then(
-            (module) => module.ProgressBarApiPageComponent,
+            (module) => module.HeadlessProgressBarApiPageComponent,
           ),
       },
       {
         path: 'styling',
         loadComponent: () =>
           import('./sections/styling/progress-bar-styling-page.component').then(
-            (module) => module.ProgressBarStylingPageComponent,
+            (module) => module.HeadlessProgressBarStylingPageComponent,
           ),
       },
       {
         path: 'examples',
         loadComponent: () =>
           import('./sections/examples/progress-bar-examples-page.component').then(
-            (module) => module.ProgressBarExamplesPageComponent,
+            (module) => module.HeadlessProgressBarExamplesPageComponent,
           ),
-      },
-      {
-        path: 'ownable-install',
-        data: {
-          registrySlug: 'progress-bar',
-        },
-        pathMatch: 'full',
-        redirectTo: '/ownable/feedback/progress-bar',
       },
       {
         path: '**',
