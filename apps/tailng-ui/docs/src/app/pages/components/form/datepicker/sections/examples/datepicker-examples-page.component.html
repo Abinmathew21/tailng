@@ -23,16 +23,17 @@
         [codeTabs]="defaultPlainCodeTabs"
       >
         <div class="datepicker-example-preview">
-          <tng-datepicker
-            class="datepicker-example-control"
-            [defaultOpen]="false"
-            [defaultValue]="'2024-04-22'"
-            [today]="'2024-04-18'"
-            [minDate]="'2024-04-01'"
-            [maxDate]="'2026-03-31'"
-            [fullWidth]="false"
-            ariaLabel="Invoice date"
-          ></tng-datepicker>
+          <div class="datepicker-example-control">
+            <tng-datepicker
+              [defaultOpen]="false"
+              [defaultValue]="'2024-04-22'"
+              [today]="'2024-04-18'"
+              [minDate]="'2024-04-01'"
+              [maxDate]="'2026-03-31'"
+              [fullWidth]="false"
+              ariaLabel="Invoice date"
+            ></tng-datepicker>
+          </div>
           <p class="datepicker-example-note">
             The default wrapper picks up the theme contract without extra utility classes.
           </p>
@@ -48,11 +49,9 @@
       >
         <div class="datepicker-example-preview">
           <div
-            class="w-full max-w-[18.5rem] rounded-2xl border p-3 shadow-sm"
-            [attr.style]="themeAwareTailwindShellStyle"
+            class="w-full max-w-[18.5rem] rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[linear-gradient(180deg,color-mix(in_srgb,var(--tng-semantic-background-base)_92%,var(--tng-semantic-background-surface)_8%),color-mix(in_srgb,var(--tng-semantic-background-base)_76%,var(--tng-semantic-background-surface)_24%))] p-3 text-[var(--tng-semantic-foreground-primary)] shadow-[0_10px_24px_color-mix(in_srgb,var(--tng-semantic-foreground-primary)_10%,transparent)]"
           >
             <tng-datepicker
-              class="block w-full"
               [defaultOpen]="false"
               [defaultValue]="'2024-04-22'"
               [today]="'2024-04-18'"
@@ -88,15 +87,16 @@
         [codeTabs]="customPlainCodeTabs"
       >
         <div class="datepicker-example-preview">
-          <tng-datepicker
-            class="datepicker-example-control"
-            [defaultOpen]="false"
-            [adapter]="customFormatAdapter"
-            [defaultValue]="'2024-04-22'"
-            [today]="'2024-04-18'"
-            [fullWidth]="false"
-            ariaLabel="Reporting date"
-          ></tng-datepicker>
+          <div class="datepicker-example-control">
+            <tng-datepicker
+              [defaultOpen]="false"
+              [adapter]="customFormatAdapter"
+              [defaultValue]="'2024-04-22'"
+              [today]="'2024-04-18'"
+              [fullWidth]="false"
+              ariaLabel="Reporting date"
+            ></tng-datepicker>
+          </div>
           <p class="datepicker-example-note">
             The wrapper consumes the adapter directly for both input parsing and overlay display
             text.
@@ -113,11 +113,9 @@
       >
         <div class="datepicker-example-preview">
           <div
-            class="w-full max-w-[18.5rem] rounded-2xl border p-3 shadow-sm"
-            [attr.style]="themeAwareTailwindShellStyle"
+            class="w-full max-w-[18.5rem] rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[linear-gradient(180deg,color-mix(in_srgb,var(--tng-semantic-background-base)_92%,var(--tng-semantic-background-surface)_8%),color-mix(in_srgb,var(--tng-semantic-background-base)_76%,var(--tng-semantic-background-surface)_24%))] p-3 text-[var(--tng-semantic-foreground-primary)] shadow-[0_10px_24px_color-mix(in_srgb,var(--tng-semantic-foreground-primary)_10%,transparent)]"
           >
             <tng-datepicker
-              class="block w-full"
               [defaultOpen]="false"
               [adapter]="customFormatAdapter"
               [defaultValue]="'2024-04-22'"
@@ -152,16 +150,17 @@
         [codeTabs]="boundedPlainCodeTabs"
       >
         <div class="datepicker-example-preview">
-          <tng-datepicker
-            class="datepicker-example-control"
-            [defaultOpen]="false"
-            [defaultValue]="'2024-04-18'"
-            [today]="'2024-04-18'"
-            [minDate]="'2024-04-10'"
-            [maxDate]="'2024-04-25'"
-            [fullWidth]="false"
-            ariaLabel="Bounded shipping date"
-          ></tng-datepicker>
+          <div class="datepicker-example-control">
+            <tng-datepicker
+              [defaultOpen]="false"
+              [defaultValue]="'2024-04-18'"
+              [today]="'2024-04-18'"
+              [minDate]="'2024-04-10'"
+              [maxDate]="'2024-04-25'"
+              [fullWidth]="false"
+              ariaLabel="Bounded shipping date"
+            ></tng-datepicker>
+          </div>
           <p class="datepicker-example-note">
             The wrapper stops month and year traversal on the nearest enabled value inside the
             allowed window.
@@ -178,11 +177,9 @@
       >
         <div class="datepicker-example-preview">
           <div
-            class="w-full max-w-[18.5rem] rounded-2xl border p-3 shadow-sm"
-            [attr.style]="themeAwareTailwindShellStyle"
+            class="w-full max-w-[18.5rem] rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[linear-gradient(180deg,color-mix(in_srgb,var(--tng-semantic-background-base)_92%,var(--tng-semantic-background-surface)_8%),color-mix(in_srgb,var(--tng-semantic-background-base)_76%,var(--tng-semantic-background-surface)_24%))] p-3 text-[var(--tng-semantic-foreground-primary)] shadow-[0_10px_24px_color-mix(in_srgb,var(--tng-semantic-foreground-primary)_10%,transparent)]"
           >
             <tng-datepicker
-              class="block w-full"
               [defaultOpen]="false"
               [defaultValue]="'2024-04-18'"
               [today]="'2024-04-18'"

@@ -12,16 +12,6 @@ import {
   resolveDocsCodeBlockTheme,
 } from '../../../../../../shared/util';
 
-const themeAwareTailwindShellStyle = [
-  'border-color: var(--tng-semantic-border-subtle);',
-  'background: linear-gradient(',
-  '180deg,',
-  'color-mix(in srgb, var(--tng-semantic-background-base) 92%, var(--tng-semantic-background-surface) 8%),',
-  'color-mix(in srgb, var(--tng-semantic-background-base) 76%, var(--tng-semantic-background-surface) 24%)',
-  ');',
-  'color: var(--tng-semantic-foreground-primary);',
-].join(' ');
-
 const customFormatAdapter: TngDateAdapter<Date> = Object.freeze({
   ...defaultDatepickerDateAdapter,
   format: (date, format, locale) => {
@@ -147,7 +137,6 @@ export class DatepickerExamplesPageComponent implements OnDestroy {
     this.codeBlockTheme,
   );
 
-  protected readonly themeAwareTailwindShellStyle = themeAwareTailwindShellStyle;
   protected readonly customFormatAdapter = customFormatAdapter;
 
   protected readonly defaultPlainCodeTabs = createCodeTabs(
@@ -173,11 +162,9 @@ export class DatepickerExamplesPageComponent implements OnDestroy {
     createWrapperTsCode('default-datepicker-tailwind'),
     [
       '<div',
-      '  class="w-full max-w-[18.5rem] rounded-2xl border p-3 shadow-sm"',
-      `  style="${themeAwareTailwindShellStyle}"`,
+      '  class="w-full max-w-[18.5rem] rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[linear-gradient(180deg,color-mix(in_srgb,var(--tng-semantic-background-base)_92%,var(--tng-semantic-background-surface)_8%),color-mix(in_srgb,var(--tng-semantic-background-base)_76%,var(--tng-semantic-background-surface)_24%))] p-3 text-[var(--tng-semantic-foreground-primary)] shadow-[0_10px_24px_color-mix(in_srgb,var(--tng-semantic-foreground-primary)_10%,transparent)]"',
       '>',
       '  <tng-datepicker',
-      '    class="block w-full"',
       '    [defaultOpen]="false"',
       '    [defaultValue]="\'2024-04-22\'"',
       '    [today]="\'2024-04-18\'"',
@@ -214,11 +201,9 @@ export class DatepickerExamplesPageComponent implements OnDestroy {
     createWrapperTsCode('custom-format-datepicker-tailwind', true),
     [
       '<div',
-      '  class="w-full max-w-[18.5rem] rounded-2xl border p-3 shadow-sm"',
-      `  style="${themeAwareTailwindShellStyle}"`,
+      '  class="w-full max-w-[18.5rem] rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[linear-gradient(180deg,color-mix(in_srgb,var(--tng-semantic-background-base)_92%,var(--tng-semantic-background-surface)_8%),color-mix(in_srgb,var(--tng-semantic-background-base)_76%,var(--tng-semantic-background-surface)_24%))] p-3 text-[var(--tng-semantic-foreground-primary)] shadow-[0_10px_24px_color-mix(in_srgb,var(--tng-semantic-foreground-primary)_10%,transparent)]"',
       '>',
       '  <tng-datepicker',
-      '    class="block w-full"',
       '    [defaultOpen]="false"',
       '    [adapter]="reportingAdapter"',
       '    [defaultValue]="\'2024-04-22\'"',
@@ -255,11 +240,9 @@ export class DatepickerExamplesPageComponent implements OnDestroy {
     createWrapperTsCode('bounded-datepicker-tailwind'),
     [
       '<div',
-      '  class="w-full max-w-[18.5rem] rounded-2xl border p-3 shadow-sm"',
-      `  style="${themeAwareTailwindShellStyle}"`,
+      '  class="w-full max-w-[18.5rem] rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[linear-gradient(180deg,color-mix(in_srgb,var(--tng-semantic-background-base)_92%,var(--tng-semantic-background-surface)_8%),color-mix(in_srgb,var(--tng-semantic-background-base)_76%,var(--tng-semantic-background-surface)_24%))] p-3 text-[var(--tng-semantic-foreground-primary)] shadow-[0_10px_24px_color-mix(in_srgb,var(--tng-semantic-foreground-primary)_10%,transparent)]"',
       '>',
       '  <tng-datepicker',
-      '    class="block w-full"',
       '    [defaultOpen]="false"',
       '    [defaultValue]="\'2024-04-18\'"',
       '    [today]="\'2024-04-18\'"',
