@@ -2,7 +2,6 @@ import { DOCUMENT } from '@angular/common';
 import { Component, inject, signal, type OnDestroy } from '@angular/core';
 import { observeDocsCodeThemeChanges, resolveDocsCodeBlockTheme } from '../../../../../../shared/util';
 import { TngCodeBlockComponent, TngSeparatorComponent } from '@tailng-ui/components';
-import { TngSeparator as TngSeparatorPrimitive } from '@tailng-ui/primitives';
 import { type DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
 import {
   DocsExampleTabsSectionComponent,
@@ -13,7 +12,6 @@ import {
   selector: 'app-separator-overview-page',
   imports: [
     TngCodeBlockComponent,
-    TngSeparatorPrimitive,
     TngSeparatorComponent,
     DocsExampleTabsSectionComponent,
     DocsExampleVariantDirective,
@@ -23,64 +21,17 @@ import {
 })
 export class SeparatorOverviewPageComponent implements OnDestroy {
   private readonly documentRef = inject(DOCUMENT);
+
   public readonly codeBlockTheme = signal<'github-dark' | 'github-light'>(
     resolveDocsCodeBlockTheme(this.documentRef),
   );
-  private readonly colorSchemeObserver = observeDocsCodeThemeChanges(this.documentRef, this.codeBlockTheme);
-
-  protected readonly primitiveImportCode =
-    "import { TngSeparator } from '@tailng-ui/primitives';\n";
+  private readonly colorSchemeObserver = observeDocsCodeThemeChanges(
+    this.documentRef,
+    this.codeBlockTheme,
+  );
 
   protected readonly componentImportCode =
     "import { TngSeparatorComponent } from '@tailng-ui/components';\n";
-
-  protected readonly headlessCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
-    {
-      value: 'ts',
-      label: 'TS',
-      language: 'ts',
-      title: 'separator-overview-headless.component.ts',
-      code: this.primitiveImportCode,
-    },
-    {
-      value: 'html',
-      label: 'HTML',
-      language: 'html',
-      title: 'separator-overview-headless.component.html',
-      code: [
-        '<section class="separator-preview-shell separator-preview-shell--headless">',
-        '  <div class="separator-row">',
-        '    <span>Profile</span>',
-        '    <div tngSeparator orientation="vertical" class="separator-preview-vertical"></div>',
-        '    <span>Security</span>',
-        '    <div tngSeparator orientation="vertical" class="separator-preview-vertical"></div>',
-        '    <span>Billing</span>',
-        '  </div>',
-        '',
-        '  <div tngSeparator></div>',
-        '',
-        '  <div class="separator-row">',
-        '    <span>Semantic divider</span>',
-        '    <div tngSeparator [decorative]="false"></div>',
-        '  </div>',
-        '</section>',
-        '',
-      ].join('\n'),
-    },
-    {
-      value: 'css',
-      label: 'CSS',
-      language: 'css',
-      title: 'separator-overview-headless.component.css',
-      code: [
-        '.separator-preview-vertical {',
-        '  align-self: stretch;',
-        '  min-height: 1rem;',
-        '}',
-        '',
-      ].join('\n'),
-    },
-  ]);
 
   protected readonly plainCssCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
     {
@@ -88,7 +39,19 @@ export class SeparatorOverviewPageComponent implements OnDestroy {
       label: 'TS',
       language: 'ts',
       title: 'separator-overview-plain-css.component.ts',
-      code: this.componentImportCode,
+      code: [
+        "import { Component } from '@angular/core';",
+        "import { TngSeparatorComponent } from '@tailng-ui/components';",
+        '',
+        '@Component({',
+        "  selector: 'app-separator-overview-plain-css',",
+        '  standalone: true,',
+        '  imports: [TngSeparatorComponent],',
+        "  templateUrl: './separator-overview-plain-css.component.html',",
+        "  styleUrl: './separator-overview-plain-css.component.css',",
+        '})',
+        'export class SeparatorOverviewPlainCssComponent {}',
+      ].join('\n'),
     },
     {
       value: 'html',
@@ -104,7 +67,8 @@ export class SeparatorOverviewPageComponent implements OnDestroy {
         '    <tng-separator orientation="vertical" class="separator-preview-vertical"></tng-separator>',
         '    <span>Alerts</span>',
         '  </div>',
-        '  <tng-separator></tng-separator>',
+        '  <tng-separator class="separator-preview-horizontal"></tng-separator>',
+        '  <p class="separator-preview-text">Apply wrapper-level spacing and let the component provide the line contract.</p>',
         '</div>',
         '',
       ].join('\n'),
@@ -131,7 +95,19 @@ export class SeparatorOverviewPageComponent implements OnDestroy {
       label: 'TS',
       language: 'ts',
       title: 'separator-overview-tailwind.component.ts',
-      code: this.componentImportCode,
+      code: [
+        "import { Component } from '@angular/core';",
+        "import { TngSeparatorComponent } from '@tailng-ui/components';",
+        '',
+        '@Component({',
+        "  selector: 'app-separator-overview-tailwind',",
+        '  standalone: true,',
+        '  imports: [TngSeparatorComponent],',
+        "  templateUrl: './separator-overview-tailwind.component.html',",
+        "  styleUrl: './separator-overview-tailwind.component.css',",
+        '})',
+        'export class SeparatorOverviewTailwindComponent {}',
+      ].join('\n'),
     },
     {
       value: 'html',
@@ -148,7 +124,7 @@ export class SeparatorOverviewPageComponent implements OnDestroy {
         '    <span>Audit trail</span>',
         '  </div>',
         '  <tng-separator class="my-3"></tng-separator>',
-        '  <p class="m-0 text-sm text-slate-600 dark:text-slate-300">Use separators to divide related information, not as decorative noise.</p>',
+        '  <p class="m-0 text-sm text-slate-600 dark:text-slate-300">Tailwind utilities handle shell spacing while separator remains the same component.</p>',
         '</div>',
         '',
       ].join('\n'),
@@ -165,5 +141,4 @@ export class SeparatorOverviewPageComponent implements OnDestroy {
   public ngOnDestroy(): void {
     this.colorSchemeObserver?.disconnect();
   }
-
 }

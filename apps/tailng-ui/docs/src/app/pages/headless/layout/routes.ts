@@ -15,6 +15,11 @@ export const HEADLESS_LAYOUT_ROUTES: Routes = [
       import('./card/routes').then((module) => module.HEADLESS_LAYOUT_CARD_ROUTES),
   },
   {
+    path: 'separator',
+    loadChildren: () =>
+      import('./separator/routes').then((module) => module.HEADLESS_LAYOUT_SEPARATOR_ROUTES),
+  },
+  {
     path: 'collapsible',
     loadChildren: () =>
       import('./collapsible/routes').then((module) => module.HEADLESS_LAYOUT_COLLAPSIBLE_ROUTES),

@@ -2,7 +2,6 @@ import { DOCUMENT } from '@angular/common';
 import { Component, inject, signal, type OnDestroy } from '@angular/core';
 import { observeDocsCodeThemeChanges, resolveDocsCodeBlockTheme } from '../../../../../../shared/util';
 import { TngSeparatorComponent } from '@tailng-ui/components';
-import { TngSeparator as TngSeparatorPrimitive } from '@tailng-ui/primitives';
 import { type DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
 import {
   DocsExampleTabsSectionComponent,
@@ -11,62 +10,20 @@ import {
 
 @Component({
   selector: 'app-separator-examples-page',
-  imports: [
-    TngSeparatorPrimitive,
-    TngSeparatorComponent,
-    DocsExampleTabsSectionComponent,
-    DocsExampleVariantDirective,
-  ],
+  imports: [TngSeparatorComponent, DocsExampleTabsSectionComponent, DocsExampleVariantDirective],
   templateUrl: './separator-examples-page.component.html',
   styleUrl: './separator-examples-page.component.css',
 })
 export class SeparatorExamplesPageComponent implements OnDestroy {
   private readonly documentRef = inject(DOCUMENT);
+
   public readonly codeBlockTheme = signal<'github-dark' | 'github-light'>(
     resolveDocsCodeBlockTheme(this.documentRef),
   );
-  private readonly colorSchemeObserver = observeDocsCodeThemeChanges(this.documentRef, this.codeBlockTheme);
-
-  protected readonly toolbarHeadlessCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
-    {
-      value: 'ts',
-      label: 'TS',
-      language: 'ts',
-      title: 'separator-examples-toolbar-headless.component.ts',
-      code: "import { TngSeparator } from '@tailng-ui/primitives';\n",
-    },
-    {
-      value: 'html',
-      label: 'HTML',
-      language: 'html',
-      title: 'separator-examples-toolbar-headless.component.html',
-      code: [
-        '<div class="toolbar-headless">',
-        '  <button type="button">Grid</button>',
-        '  <div tngSeparator orientation="vertical" class="toolbar-separator"></div>',
-        '  <button type="button">List</button>',
-        '  <div tngSeparator orientation="vertical" class="toolbar-separator"></div>',
-        '  <button type="button">Calendar</button>',
-        '</div>',
-        '',
-      ].join('\n'),
-    },
-    {
-      value: 'css',
-      label: 'CSS',
-      language: 'css',
-      title: 'separator-examples-toolbar-headless.component.css',
-      code: [
-        '.toolbar-separator {',
-        '  background: var(--tng-semantic-border-strong);',
-        '  align-self: stretch;',
-        '  width: 1px;',
-        '  min-height: 1.25rem;',
-        '}',
-        '',
-      ].join('\n'),
-    },
-  ]);
+  private readonly colorSchemeObserver = observeDocsCodeThemeChanges(
+    this.documentRef,
+    this.codeBlockTheme,
+  );
 
   protected readonly toolbarPlainCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
     {
@@ -74,7 +31,19 @@ export class SeparatorExamplesPageComponent implements OnDestroy {
       label: 'TS',
       language: 'ts',
       title: 'separator-examples-toolbar-plain-css.component.ts',
-      code: "import { TngSeparatorComponent } from '@tailng-ui/components';\n",
+      code: [
+        "import { Component } from '@angular/core';",
+        "import { TngSeparatorComponent } from '@tailng-ui/components';",
+        '',
+        '@Component({',
+        "  selector: 'app-separator-examples-toolbar-plain-css',",
+        '  standalone: true,',
+        '  imports: [TngSeparatorComponent],',
+        "  templateUrl: './separator-examples-toolbar-plain-css.component.html',",
+        "  styleUrl: './separator-examples-toolbar-plain-css.component.css',",
+        '})',
+        'export class SeparatorExamplesToolbarPlainCssComponent {}',
+      ].join('\n'),
     },
     {
       value: 'html',
@@ -114,7 +83,19 @@ export class SeparatorExamplesPageComponent implements OnDestroy {
       label: 'TS',
       language: 'ts',
       title: 'separator-examples-toolbar-tailwind.component.ts',
-      code: "import { TngSeparatorComponent } from '@tailng-ui/components';\n",
+      code: [
+        "import { Component } from '@angular/core';",
+        "import { TngSeparatorComponent } from '@tailng-ui/components';",
+        '',
+        '@Component({',
+        "  selector: 'app-separator-examples-toolbar-tailwind',",
+        '  standalone: true,',
+        '  imports: [TngSeparatorComponent],',
+        "  templateUrl: './separator-examples-toolbar-tailwind.component.html',",
+        "  styleUrl: './separator-examples-toolbar-tailwind.component.css',",
+        '})',
+        'export class SeparatorExamplesToolbarTailwindComponent {}',
+      ].join('\n'),
     },
     {
       value: 'html',
@@ -123,7 +104,7 @@ export class SeparatorExamplesPageComponent implements OnDestroy {
       title: 'separator-examples-toolbar-tailwind.component.html',
       code: [
         '<div class="rounded-xl border border-slate-300 bg-slate-50 p-3 dark:border-slate-700 dark:bg-slate-900/60">',
-        '  <div class="flex items-center gap-3 text-sm">',
+        '  <div class="flex items-center gap-3 text-sm text-slate-700 dark:text-slate-200">',
         '    <button type="button">Pipelines</button>',
         '    <tng-separator orientation="vertical" class="self-stretch min-h-5"></tng-separator>',
         '    <button type="button">Jobs</button>',
@@ -143,58 +124,25 @@ export class SeparatorExamplesPageComponent implements OnDestroy {
     },
   ]);
 
-  protected readonly listHeadlessCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
-    {
-      value: 'ts',
-      label: 'TS',
-      language: 'ts',
-      title: 'separator-examples-list-headless.component.ts',
-      code: "import { TngSeparator } from '@tailng-ui/primitives';\n",
-    },
-    {
-      value: 'html',
-      label: 'HTML',
-      language: 'html',
-      title: 'separator-examples-list-headless.component.html',
-      code: [
-        '<section class="list-headless">',
-        '  <div class="list-row">Failed jobs</div>',
-        '  <div tngSeparator [decorative]="false" class="list-separator"></div>',
-        '  <div class="list-row">Queued jobs</div>',
-        '  <div tngSeparator class="list-separator"></div>',
-        '  <div class="list-row">Completed jobs</div>',
-        '</section>',
-        '',
-      ].join('\n'),
-    },
-    {
-      value: 'css',
-      label: 'CSS',
-      language: 'css',
-      title: 'separator-examples-list-headless.component.css',
-      code: [
-        '.list-separator {',
-        '  background: var(--tng-semantic-border-strong);',
-        '  display: block;',
-        '  height: 1px;',
-        '  width: 100%;',
-        '}',
-        '',
-        '.list-row {',
-        '  padding-block: 0.45rem;',
-        '}',
-        '',
-      ].join('\n'),
-    },
-  ]);
-
   protected readonly listPlainCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
     {
       value: 'ts',
       label: 'TS',
       language: 'ts',
       title: 'separator-examples-list-plain-css.component.ts',
-      code: "import { TngSeparatorComponent } from '@tailng-ui/components';\n",
+      code: [
+        "import { Component } from '@angular/core';",
+        "import { TngSeparatorComponent } from '@tailng-ui/components';",
+        '',
+        '@Component({',
+        "  selector: 'app-separator-examples-list-plain-css',",
+        '  standalone: true,',
+        '  imports: [TngSeparatorComponent],',
+        "  templateUrl: './separator-examples-list-plain-css.component.html',",
+        "  styleUrl: './separator-examples-list-plain-css.component.css',",
+        '})',
+        'export class SeparatorExamplesListPlainCssComponent {}',
+      ].join('\n'),
     },
     {
       value: 'html',
@@ -234,7 +182,19 @@ export class SeparatorExamplesPageComponent implements OnDestroy {
       label: 'TS',
       language: 'ts',
       title: 'separator-examples-list-tailwind.component.ts',
-      code: "import { TngSeparatorComponent } from '@tailng-ui/components';\n",
+      code: [
+        "import { Component } from '@angular/core';",
+        "import { TngSeparatorComponent } from '@tailng-ui/components';",
+        '',
+        '@Component({',
+        "  selector: 'app-separator-examples-list-tailwind',",
+        '  standalone: true,',
+        '  imports: [TngSeparatorComponent],',
+        "  templateUrl: './separator-examples-list-tailwind.component.html',",
+        "  styleUrl: './separator-examples-list-tailwind.component.css',",
+        '})',
+        'export class SeparatorExamplesListTailwindComponent {}',
+      ].join('\n'),
     },
     {
       value: 'html',
@@ -264,5 +224,4 @@ export class SeparatorExamplesPageComponent implements OnDestroy {
   public ngOnDestroy(): void {
     this.colorSchemeObserver?.disconnect();
   }
-
 }

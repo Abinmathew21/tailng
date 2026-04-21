@@ -1,0 +1,112 @@
+<article class="headless-separator-overview">
+  <section id="imports" class="headless-separator-overview-block">
+    <h2 class="headless-separator-overview-title">Separator overview</h2>
+    <p class="headless-separator-overview-lead">
+      Headless separator is a minimal divider primitive. It gives you a stable slot selector,
+      orientation hook, and semantic toggle without imposing extra container structure.
+    </p>
+    <h3>Imports</h3>
+    <p>Import the directive anywhere you need horizontal or vertical dividers in owner-authored layouts.</p>
+    <tng-code-block
+      [code]="importCode"
+      adapter="shiki"
+      language="ts"
+      title="Headless separator import"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="basic-composition" class="headless-separator-overview-block">
+    <h3>Basic composition</h3>
+    <p>
+      Apply the directive to any block element that should render as a divider. Toggle
+      <code>[decorative]</code> only when the separation carries meaning for assistive technology.
+    </p>
+    <tng-code-block
+      [code]="usageCode"
+      adapter="shiki"
+      language="html"
+      title="Headless separator usage"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section class="headless-separator-overview-block">
+    <app-docs-example-tabs-section
+      id="style-variants"
+      heading="Style variants"
+      description="The same primitive divider contract rendered through local CSS or a Tailwind utility shell."
+      ariaLabel="Headless separator style variants"
+      tabListAriaLabel="Headless separator style tabs"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Headless separator overview (plain CSS)"
+        [codeTabs]="plainCodeTabs"
+      >
+        <section class="headless-separator-preview-shell">
+          <div class="headless-separator-row">
+            <span>Profile</span>
+            <div
+              tngSeparator
+              orientation="vertical"
+              class="headless-separator-preview-vertical"
+            ></div>
+            <span>Security</span>
+            <div
+              tngSeparator
+              orientation="vertical"
+              class="headless-separator-preview-vertical"
+            ></div>
+            <span>Billing</span>
+          </div>
+          <div tngSeparator class="headless-separator-preview-horizontal"></div>
+          <p class="headless-separator-preview-text">
+            Use semantic separators only when the break carries meaning.
+          </p>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Headless separator overview (Tailwind CSS)"
+        [codeTabs]="tailwindCodeTabs"
+      >
+        <section class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">
+          <div class="flex items-center gap-3 text-sm text-slate-700 dark:text-slate-200">
+            <span>Deployments</span>
+            <div tngSeparator orientation="vertical" class="self-stretch min-h-5"></div>
+            <span>Environments</span>
+            <div tngSeparator orientation="vertical" class="self-stretch min-h-5"></div>
+            <span>Audit trail</span>
+          </div>
+          <div tngSeparator class="my-3"></div>
+          <p class="m-0 text-sm text-slate-600 dark:text-slate-300">
+            Tailwind handles shell spacing while the primitive keeps divider semantics stable.
+          </p>
+        </section>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section id="accessibility-baseline" class="headless-separator-overview-block">
+    <h3>Accessibility baseline</h3>
+    <ul class="headless-separator-overview-list">
+      <li>Keep <code>decorative</code> true for purely visual dividers.</li>
+      <li>Set <code>[decorative]="false"</code> only when the separator carries structural meaning.</li>
+      <li>Use <code>orientation="vertical"</code> only when the divider is visually vertical.</li>
+    </ul>
+  </section>
+</article>

@@ -11,14 +11,13 @@ import {
 import { TngTab, TngTabList } from '@tailng-ui/primitives';
 import { filter, map, startWith } from 'rxjs/operators';
 
-type SeparatorDocSectionId = 'api' | 'examples' | 'overview' | 'ownable-install' | 'styling';
+type SeparatorDocSectionId = 'api' | 'examples' | 'overview' | 'styling';
 
 const separatorDocSectionIds: readonly SeparatorDocSectionId[] = [
   'overview',
   'api',
   'styling',
   'examples',
-  'ownable-install',
 ] as const;
 
 const defaultSeparatorDocSection: SeparatorDocSectionId = 'overview';

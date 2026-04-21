@@ -1,0 +1,39 @@
+<div class="grid gap-8 pb-10">
+  <section class="docs-section-anchor grid gap-4" id="separator-overview">
+    <h1 class="m-0 text-3xl font-semibold text-tng-fg-primary">Separator</h1>
+    <p class="m-0 max-w-4xl text-base leading-7 text-tng-fg-secondary">
+      The ownable Separator install gives your app a local divider wrapper and nearby style surface
+      for horizontal and vertical grouping patterns while keeping the generated source editable in
+      the feature that owns the layout.
+    </p>
+  </section>
+
+  <section class="docs-section-anchor grid gap-3" id="why-own-separator">
+    <h2 class="m-0 text-xl font-semibold text-tng-fg-primary">Why own Separator locally</h2>
+    <p class="m-0 max-w-4xl text-base leading-7 text-tng-fg-secondary">
+      Separator looks simple, but teams often need local control over contrast, density, semantic
+      usage, and vertical sizing once dividers start appearing in toolbars, settings panes, and
+      dashboard stacks.
+    </p>
+    <ul class="m-0 grid gap-2 pl-5 text-sm leading-6 text-tng-fg-secondary">
+      <li>Adjust divider thickness, color, and spacing without waiting on a package release.</li>
+      <li>Keep toolbar and content-stack treatments consistent with the feature that owns them.</li>
+      <li>Extend the local wrapper if your product needs additional variant or token plumbing later.</li>
+    </ul>
+  </section>
+
+  <section class="docs-section-anchor grid gap-3" id="what-separator-installs">
+    <h2 class="m-0 text-xl font-semibold text-tng-fg-primary">What the install includes</h2>
+    <p class="m-0 max-w-4xl text-base leading-7 text-tng-fg-secondary">
+      The registry-backed separator install writes the primitive bridge, the wrapper component,
+      template, shared stylesheet, and export barrel under your app so the divider contract can
+      evolve with local layout needs.
+    </p>
+  </section>
+
+  <app-docs-ownable-install-section
+    componentName="Separator"
+    registrySlug="separator"
+    [usageCode]="usageCode"
+  />
+</div>

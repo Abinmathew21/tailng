@@ -1,0 +1,71 @@
+<article class="headless-separator-api">
+  <h2 class="headless-separator-api-title">API reference</h2>
+  <p class="headless-separator-api-lead">
+    Headless separator is a single directive surface. It exposes orientation and decorative
+    semantics while leaving sizing, spacing, and surrounding layout to your markup.
+  </p>
+
+  <section id="directive-contract" class="headless-separator-api-block">
+    <h3>Directive contract</h3>
+    <p>
+      Attach the directive to any block element that should behave as a divider in your layout.
+    </p>
+    <tng-code-block
+      [code]="attachmentCode"
+      adapter="shiki"
+      language="html"
+      title="Headless separator attachment"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+
+    <div class="headless-separator-api-table-wrap">
+      <table class="headless-separator-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Surface</th>
+            <th scope="col">Value</th>
+            <th scope="col">Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Selector</td>
+            <td><code>[tngSeparator]</code></td>
+            <td>Attaches the divider primitive to your chosen element.</td>
+          </tr>
+          <tr>
+            <td>Export alias</td>
+            <td><code>tngSeparator</code></td>
+            <td>Lets templates reference the directive instance if needed.</td>
+          </tr>
+          <tr>
+            <td><code>orientation</code></td>
+            <td><code>'horizontal' | 'vertical'</code></td>
+            <td>Controls divider axis and semantic orientation when non-decorative.</td>
+          </tr>
+          <tr>
+            <td><code>decorative</code></td>
+            <td><code>boolean</code></td>
+            <td>When <code>true</code>, applies <code>aria-hidden="true"</code>; when <code>false</code>, applies <code>role="separator"</code>.</td>
+          </tr>
+          <tr>
+            <td>Host hooks</td>
+            <td><code>data-slot="separator"</code>, <code>data-orientation</code></td>
+            <td>Stable styling selectors for both visual and semantic variants.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="owner-responsibilities" class="headless-separator-api-block">
+    <h3>Owner responsibilities</h3>
+    <ul>
+      <li>Define thickness, length, spacing, and any surrounding shell layout in your own CSS.</li>
+      <li>Keep decorative separators out of the accessibility tree unless the division has real meaning.</li>
+      <li>Provide surrounding semantics yourself when a separator divides regions, groups, or landmarks.</li>
+    </ul>
+  </section>
+</article>

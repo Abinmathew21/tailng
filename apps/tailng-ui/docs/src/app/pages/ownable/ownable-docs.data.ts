@@ -172,6 +172,13 @@ export const OWNABLE_LAYOUT_GROUP: OwnableDocsGroup = {
         'Ownable card install with local wrapper source, content shell markup, and generated file structure.',
     },
     {
+      id: 'separator',
+      slug: 'separator',
+      title: 'Separator',
+      description:
+        'Ownable separator install with local wrapper source, divider styling, and generated file structure.',
+    },
+    {
       id: 'collapsible',
       slug: 'collapsible',
       title: 'Collapsible',

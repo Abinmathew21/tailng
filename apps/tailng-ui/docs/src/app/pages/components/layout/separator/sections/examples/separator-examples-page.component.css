@@ -51,21 +51,6 @@
   padding: 0.4rem 0.7rem;
 }
 
-.toolbar-shell--headless {
-  background: color-mix(in srgb, var(--tng-semantic-background-muted) 30%, transparent);
-}
-
-.toolbar-shell--headless [data-slot='separator'] {
-  background: var(--tng-semantic-border-strong);
-  display: block;
-}
-
-.toolbar-shell--headless [data-slot='separator'][data-orientation='vertical'] {
-  align-self: stretch;
-  inline-size: 1px;
-  min-block-size: 1.25rem;
-}
-
 .toolbar-shell--plain {
   background: color-mix(in srgb, var(--tng-semantic-background-muted) 36%, transparent);
 }
@@ -79,13 +64,6 @@
 
 .list-shell {
   background: color-mix(in srgb, var(--tng-semantic-background-muted) 30%, transparent);
-}
-
-.list-shell--headless [data-slot='separator'] {
-  background: var(--tng-semantic-border-strong);
-  block-size: 1px;
-  display: block;
-  inline-size: 100%;
 }
 
 .list-separator {

@@ -1,34 +1,18 @@
 <article class="separator-examples">
   <h2 class="separator-examples-title">Examples</h2>
   <p class="separator-examples-lead">
-    Production separator patterns for toolbars, command strips, and grouped list content.
+    Wrapper-based separator patterns for toolbars, command strips, and grouped list content.
   </p>
 
-  <section class="separator-examples-block">
+  <section id="toolbar-grouping" class="separator-examples-block">
     <app-docs-example-tabs-section
       heading="Toolbar grouping"
       description="Use vertical separators to partition dense command bars without extra wrapper components."
       ariaLabel="Separator toolbar examples"
       tabListAriaLabel="Separator toolbar styles"
-      defaultValue="headless"
+      defaultValue="plain-css"
       [codeBlockTheme]="codeBlockTheme()"
     >
-      <ng-template
-        appDocsExampleVariant
-        value="headless"
-        label="Headless"
-        panelTitle="Headless toolbar separators"
-        [codeTabs]="toolbarHeadlessCodeTabs"
-      >
-        <div class="toolbar-shell toolbar-shell--headless">
-          <button type="button">Grid</button>
-          <div tngSeparator orientation="vertical" class="toolbar-separator"></div>
-          <button type="button">List</button>
-          <div tngSeparator orientation="vertical" class="toolbar-separator"></div>
-          <button type="button">Calendar</button>
-        </div>
-      </ng-template>
-
       <ng-template
         appDocsExampleVariant
         value="plain-css"
@@ -71,31 +55,15 @@
     </app-docs-example-tabs-section>
   </section>
 
-  <section class="separator-examples-block">
+  <section id="list-grouping" class="separator-examples-block">
     <app-docs-example-tabs-section
       heading="List grouping"
-      description="Mix decorative and semantic separators to structure dense monitoring timelines."
+      description="Use horizontal separators to structure dense status lists and grouped content blocks."
       ariaLabel="Separator list examples"
       tabListAriaLabel="Separator list styles"
-      defaultValue="headless"
+      defaultValue="plain-css"
       [codeBlockTheme]="codeBlockTheme()"
     >
-      <ng-template
-        appDocsExampleVariant
-        value="headless"
-        label="Headless"
-        panelTitle="Headless list separators"
-        [codeTabs]="listHeadlessCodeTabs"
-      >
-        <section class="list-shell list-shell--headless">
-          <div class="list-row">Failed jobs</div>
-          <div tngSeparator [decorative]="false" class="list-separator"></div>
-          <div class="list-row">Queued jobs</div>
-          <div tngSeparator class="list-separator"></div>
-          <div class="list-row">Completed jobs</div>
-        </section>
-      </ng-template>
-
       <ng-template
         appDocsExampleVariant
         value="plain-css"

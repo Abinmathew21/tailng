@@ -2,79 +2,71 @@
   display: block;
 }
 
-.separator-overview {
+.headless-separator-overview {
   display: grid;
   gap: 1rem;
 }
 
-.separator-overview-title {
+.headless-separator-overview-title {
   color: var(--tng-semantic-foreground-primary);
   font-size: 1.5rem;
   font-weight: 700;
   margin: 0;
 }
 
-.separator-overview-lead {
+.headless-separator-overview-lead {
   color: var(--tng-semantic-foreground-secondary);
   margin: 0;
 }
 
-.separator-overview-block {
+.headless-separator-overview-block {
   border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 0.9rem;
   color: var(--tng-semantic-foreground-secondary);
   display: grid;
-  gap: 0.8rem;
+  gap: 0.75rem;
   padding: 1rem;
 }
 
-.separator-overview-block h3 {
+.headless-separator-overview-block h3 {
   color: var(--tng-semantic-foreground-primary);
   font-size: 1rem;
   margin: 0;
 }
 
-.separator-overview-block p {
+.headless-separator-overview-block p {
   margin: 0;
 }
 
-.separator-preview-shell {
+.headless-separator-preview-shell {
   border: 1px solid var(--tng-semantic-border-subtle);
-  border-radius: 0.85rem;
+  border-radius: 0.9rem;
   display: grid;
   gap: 0.85rem;
+  max-width: 42rem;
   padding: 1rem;
-}
-
-.separator-preview-shell--plain {
-  background: color-mix(in srgb, var(--tng-semantic-background-muted) 35%, transparent);
-}
-
-.separator-row {
-  align-items: center;
-  color: var(--tng-semantic-foreground-primary);
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.65rem;
-}
-
-.separator-preview-horizontal {
   width: 100%;
 }
 
-.separator-preview-vertical {
+.headless-separator-row {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.headless-separator-preview-vertical {
   align-self: stretch;
   min-height: 1rem;
 }
 
-.separator-preview-text {
-  color: var(--tng-semantic-foreground-secondary);
+.headless-separator-preview-text {
   font-size: 0.9rem;
 }
 
-.separator-overview-list {
+.headless-separator-overview-list {
   display: grid;
   gap: 0.45rem;
   margin: 0;
-  padding-left: 1.1rem;
+  padding-left: 1rem;
 }

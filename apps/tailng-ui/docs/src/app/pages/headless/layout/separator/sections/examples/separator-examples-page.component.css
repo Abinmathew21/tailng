@@ -1,0 +1,71 @@
+:host {
+  display: block;
+}
+
+.headless-separator-examples {
+  display: grid;
+  gap: 1rem;
+}
+
+.headless-separator-examples-title {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.headless-separator-examples-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.headless-separator-examples-block {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.9rem;
+  color: var(--tng-semantic-foreground-secondary);
+  display: grid;
+  gap: 0.85rem;
+  padding: 1rem;
+}
+
+.headless-separator-toolbar {
+  align-items: center;
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.9rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  max-width: 42rem;
+  padding: 0.8rem 1rem;
+}
+
+.headless-separator-toolbar-line {
+  align-self: stretch;
+  min-height: 1.25rem;
+}
+
+.headless-separator-list,
+.headless-separator-semantic {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.9rem;
+  display: grid;
+  max-width: 42rem;
+  padding: 1rem;
+}
+
+.headless-separator-list {
+  gap: 0.7rem;
+}
+
+.headless-separator-list-row {
+  padding-block: 0.1rem;
+}
+
+.headless-separator-semantic {
+  gap: 0.85rem;
+}
+
+.headless-separator-semantic h3,
+.headless-separator-semantic p {
+  margin: 0;
+}

@@ -187,6 +187,13 @@ export const HEADLESS_LAYOUT_GROUP: HeadlessDocsGroup = {
         'Structural card slots for owner-authored content groupings, media regions, and footer actions.',
     },
     {
+      id: 'separator',
+      slug: 'separator',
+      title: 'Separator',
+      description:
+        'Minimal divider primitive with orientation and decorative semantics for owner-authored layouts.',
+    },
+    {
       id: 'collapsible',
       slug: 'collapsible',
       title: 'Collapsible',

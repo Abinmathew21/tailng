@@ -1,0 +1,66 @@
+<article class="headless-separator-styling">
+  <h2 class="headless-separator-styling-title">Styling</h2>
+  <p class="headless-separator-styling-lead">
+    Headless separator styling is intentionally compact. The primitive gives you slot and
+    orientation hooks, and your layout decides spacing, thickness, and contextual emphasis.
+  </p>
+
+  <section id="slot-and-owner-hooks" class="headless-separator-styling-block">
+    <h3>Slot and owner hooks</h3>
+    <div class="headless-separator-styling-table-wrap">
+      <table class="headless-separator-styling-table">
+        <thead>
+          <tr>
+            <th scope="col">Selector</th>
+            <th scope="col">Who owns it</th>
+            <th scope="col">Typical use</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>[data-slot="separator"]</code></td>
+            <td>Library</td>
+            <td>Base line color, opacity, and shared divider transitions.</td>
+          </tr>
+          <tr>
+            <td><code>[data-orientation="horizontal"]</code></td>
+            <td>Library</td>
+            <td>Horizontal height and width rules.</td>
+          </tr>
+          <tr>
+            <td><code>[data-orientation="vertical"]</code></td>
+            <td>Library</td>
+            <td>Vertical width and minimum height rules.</td>
+          </tr>
+          <tr>
+            <td><code>.toolbar</code> / <code>.stack</code></td>
+            <td>You</td>
+            <td>Context-specific spacing and divider placement in the surrounding layout.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="css-starter" class="headless-separator-styling-block">
+    <h3>CSS starter</h3>
+    <tng-code-block
+      [code]="cssStarterCode"
+      adapter="shiki"
+      language="css"
+      title="Headless separator starter CSS"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="practical-guidance" class="headless-separator-styling-block">
+    <h3>Practical guidance</h3>
+    <ul>
+      <li>Keep divider thickness on the primitive hook and container spacing on the surrounding layout.</li>
+      <li>Use lower-contrast separators for decorative grouping and stronger contrast for semantic breaks.</li>
+      <li>Avoid stretching vertical separators with arbitrary heights when the container can provide natural alignment.</li>
+    </ul>
+  </section>
+</article>
