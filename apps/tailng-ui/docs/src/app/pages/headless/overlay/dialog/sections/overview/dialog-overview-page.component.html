@@ -99,7 +99,7 @@
         <div class="headless-dialog-stage">
           <button
             type="button"
-            class="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-800 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100"
+            class="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-800 transition focus-visible:border-sky-500 focus-visible:bg-sky-50 focus-visible:text-sky-900 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-sky-200/90 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-50 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100 dark:focus-visible:border-sky-400 dark:focus-visible:bg-sky-950 dark:focus-visible:text-sky-50 dark:focus-visible:ring-sky-500/45 dark:focus-visible:ring-offset-slate-900"
             [tngDialogTrigger]="tailwindDialog"
           >
             Open review dialog
@@ -112,10 +112,13 @@
             (openChange)="tailwindOpen.set($event)"
             (closed)="tailwindReason.set($event)"
           >
-            <div tngDialogBackdrop class="fixed inset-0 grid place-items-center bg-slate-950/65 p-4">
+            <div
+              tngDialogBackdrop
+              class="fixed inset-0 grid place-items-center bg-slate-950/65 p-4 [&[hidden]]:!hidden"
+            >
               <section
                 tngDialogPanel
-                class="grid w-full max-w-lg gap-3 rounded-3xl border border-slate-200 bg-white p-5 shadow-2xl dark:border-slate-800 dark:bg-slate-950"
+                class="grid w-full max-w-lg gap-3 rounded-3xl border border-slate-200 bg-white p-5 shadow-2xl [&[hidden]]:!hidden dark:border-slate-800 dark:bg-slate-950"
               >
                 <h3 tngDialogTitle class="m-0 text-lg font-semibold text-slate-950 dark:text-slate-50">
                   Tailwind review
@@ -127,7 +130,7 @@
                   <button
                     type="button"
                     tngDialogClose
-                    class="rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-700 dark:border-slate-700 dark:text-slate-200"
+                    class="rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-700 transition focus-visible:border-sky-500 focus-visible:bg-sky-50 focus-visible:text-sky-900 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-sky-200/90 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:border-slate-700 dark:text-slate-200 dark:focus-visible:border-sky-400 dark:focus-visible:bg-sky-950 dark:focus-visible:text-sky-50 dark:focus-visible:ring-sky-500/45 dark:focus-visible:ring-offset-slate-950"
                   >
                     Cancel
                   </button>
@@ -135,7 +138,7 @@
                     type="button"
                     tngDialogClose
                     [tngDialogClose]="'programmatic'"
-                    class="rounded-lg border border-sky-600 bg-sky-600 px-3 py-2 text-sm font-semibold text-white"
+                    class="rounded-lg border border-sky-600 bg-sky-600 px-3 py-2 text-sm font-semibold text-white transition focus-visible:border-sky-500 focus-visible:bg-sky-500 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-sky-200/90 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:border-sky-300 dark:focus-visible:bg-sky-500 dark:focus-visible:ring-sky-400/55 dark:focus-visible:ring-offset-slate-950"
                   >
                     Approve
                   </button>

@@ -1,6 +1,5 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, inject, signal, type OnDestroy } from '@angular/core';
-import { TngCodeBlockComponent } from '@tailng-ui/components';
 import {
   TngDialog,
   TngDialogActions,
@@ -25,7 +24,6 @@ import {
 @Component({
   selector: 'app-headless-dialog-examples-page',
   imports: [
-    TngCodeBlockComponent,
     TngDialog,
     TngDialogActions,
     TngDialogBackdrop,
@@ -51,8 +49,15 @@ export class HeadlessDialogExamplesPageComponent implements OnDestroy {
     this.codeBlockTheme,
   );
 
-  protected readonly destructiveOpen = signal(false);
-  protected readonly destructiveResult = signal('No decision yet');
+  protected readonly destructivePlainOpen = signal(false);
+  protected readonly destructivePlainResult = signal('No decision yet');
+  protected readonly destructiveTailwindOpen = signal(false);
+  protected readonly destructiveTailwindResult = signal('No decision yet');
+
+  protected readonly controlledReviewPlainOpen = signal(false);
+  protected readonly controlledReviewPlainResult = signal('No decision yet');
+  protected readonly controlledReviewTailwindOpen = signal(false);
+  protected readonly controlledReviewTailwindResult = signal('No decision yet');
 
   protected readonly destructivePlainCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
     {
@@ -257,86 +262,247 @@ export class HeadlessDialogExamplesPageComponent implements OnDestroy {
     },
   ]);
 
-  protected readonly controlledReviewTsCode = [
-    "import { Component, signal } from '@angular/core';",
-    'import {',
-    '  TngDialog,',
-    '  TngDialogActions,',
-    '  TngDialogBackdrop,',
-    '  TngDialogClose,',
-    '  TngDialogDescription,',
-    '  TngDialogPanel,',
-    '  TngDialogTitle,',
-    "} from '@tailng-ui/primitives';",
-    '',
-    '@Component({',
-    "  selector: 'app-headless-dialog-controlled-review',",
-    '  standalone: true,',
-    '  imports: [',
-    '    TngDialog,',
-    '    TngDialogActions,',
-    '    TngDialogBackdrop,',
-    '    TngDialogClose,',
-    '    TngDialogDescription,',
-    '    TngDialogPanel,',
-    '    TngDialogTitle,',
-    '  ],',
-    "  templateUrl: './headless-dialog-controlled-review.component.html',",
-    "  styleUrl: './headless-dialog-controlled-review.component.css',",
-    '})',
-    'export class HeadlessDialogControlledReviewComponent {',
-    '  protected readonly open = signal(false);',
-    '}',
-  ].join('\n');
+  protected readonly controlledReviewPlainCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
+    {
+      value: 'ts',
+      label: 'TS',
+      language: 'ts',
+      title: 'headless-dialog-controlled-review-plain.component.ts',
+      code: [
+        "import { Component, signal } from '@angular/core';",
+        'import {',
+        '  TngDialog,',
+        '  TngDialogActions,',
+        '  TngDialogBackdrop,',
+        '  TngDialogClose,',
+        '  TngDialogDescription,',
+        '  TngDialogPanel,',
+        '  TngDialogTitle,',
+        "  type TngDialogCloseReason,",
+        "} from '@tailng-ui/primitives';",
+        '',
+        '@Component({',
+        "  selector: 'app-headless-dialog-controlled-review-plain',",
+        '  standalone: true,',
+        '  imports: [',
+        '    TngDialog,',
+        '    TngDialogActions,',
+        '    TngDialogBackdrop,',
+        '    TngDialogClose,',
+        '    TngDialogDescription,',
+        '    TngDialogPanel,',
+        '    TngDialogTitle,',
+        '  ],',
+        "  templateUrl: './headless-dialog-controlled-review-plain.component.html',",
+        "  styleUrl: './headless-dialog-controlled-review-plain.component.css',",
+        '})',
+        'export class HeadlessDialogControlledReviewPlainComponent {',
+        '  protected readonly open = signal(false);',
+        "  protected readonly result = signal('No decision yet');",
+        '',
+        '  protected onClosed(reason: TngDialogCloseReason): void {',
+        "    this.result.set(reason === 'programmatic' ? 'Review approved' : 'Stayed blocked until explicit cancel');",
+        '  }',
+        '}',
+      ].join('\n'),
+    },
+    {
+      value: 'html',
+      label: 'HTML',
+      language: 'html',
+      title: 'headless-dialog-controlled-review-plain.component.html',
+      code: [
+        '<button type="button" class="headless-dialog-example-trigger" (click)="open.set(true)">',
+        '  Open security review',
+        '</button>',
+        '',
+        '<section',
+        '  tngDialog',
+        '  [open]="open()"',
+        '  [dismissible]="false"',
+        '  [closeOnBackdropClick]="false"',
+        '  [closeOnEscape]="false"',
+        '  (openChange)="open.set($event)"',
+        '  (closed)="onClosed($event)"',
+        '>',
+        '  <div tngDialogBackdrop class="headless-dialog-example-backdrop">',
+        '    <section tngDialogPanel class="headless-dialog-example-panel headless-dialog-review-panel">',
+        '      <h3 tngDialogTitle class="headless-dialog-example-title">Security review required</h3>',
+        '      <p tngDialogDescription class="headless-dialog-example-copy">Complete the release checklist before continuing with deployment.</p>',
+        '      <ul class="headless-dialog-review-list">',
+        '        <li>Static analysis must be clean.</li>',
+        '        <li>QA sign-off must be attached to the release note.</li>',
+        '        <li>Rollback instructions must be linked in the deployment ticket.</li>',
+        '      </ul>',
+        '      <p class="headless-dialog-review-note">Backdrop click and Escape are disabled until someone chooses an action.</p>',
+        '      <div tngDialogActions class="headless-dialog-action-row">',
+        '        <button type="button" tngDialogClose class="headless-dialog-example-secondary">Cancel review</button>',
+        "        <button type=\"button\" tngDialogClose [tngDialogClose]=\"'programmatic'\" class=\"headless-dialog-example-primary\">Continue</button>",
+        '      </div>',
+        '    </section>',
+        '  </div>',
+        '</section>',
+      ].join('\n'),
+    },
+    {
+      value: 'css',
+      label: 'CSS',
+      language: 'css',
+      title: 'headless-dialog-controlled-review-plain.component.css',
+      code: [
+        '.headless-dialog-example-backdrop {',
+        '  align-items: center;',
+        '  background: rgb(15 23 42 / 72%);',
+        '  display: grid;',
+        '  inset: 0;',
+        '  padding: 1rem;',
+        '  position: fixed;',
+        '}',
+        '',
+        '.headless-dialog-review-panel {',
+        '  inline-size: min(100%, 34rem);',
+        '}',
+        '',
+        '.headless-dialog-review-list {',
+        '  color: var(--tng-semantic-foreground-primary);',
+        '  display: grid;',
+        '  gap: 0.45rem;',
+        '  margin: 0;',
+        '  padding-inline-start: 1.15rem;',
+        '}',
+        '',
+        '.headless-dialog-review-note {',
+        '  color: var(--tng-semantic-foreground-secondary);',
+        '  margin: 0;',
+        '}',
+      ].join('\n'),
+    },
+  ]);
 
-  protected readonly controlledReviewHtmlCode = [
-    '<button type="button" (click)="open.set(true)">Open security review</button>',
-    '',
-    '<section',
-    '  tngDialog',
-    '  [open]="open()"',
-    '  [dismissible]="false"',
-    '  [closeOnBackdropClick]="false"',
-    '  [closeOnEscape]="false"',
-    '  (openChange)="open.set($event)"',
-    '>',
-    '  <div tngDialogBackdrop class="review-backdrop">',
-    '    <section tngDialogPanel class="review-panel">',
-    '      <h2 tngDialogTitle>Security review required</h2>',
-    '      <p tngDialogDescription>Complete the checklist before continuing.</p>',
-    '      <div tngDialogActions class="review-actions">',
-    '        <button type="button" tngDialogClose>Cancel</button>',
-    "        <button type=\"button\" tngDialogClose [tngDialogClose]=\"'programmatic'\">Continue</button>",
-    '      </div>',
-    '    </section>',
-    '  </div>',
-    '</section>',
-    '',
-  ].join('\n');
-
-  protected readonly controlledReviewCssCode = [
-    '.review-backdrop {',
-    '  align-items: center;',
-    '  background: rgb(15 23 42 / 0.72);',
-    '  display: grid;',
-    '  inset: 0;',
-    '  padding: 1rem;',
-    '  position: fixed;',
-    '}',
-    '',
-    '.review-panel {',
-    '  inline-size: min(100%, 34rem);',
-    '}',
-    '',
-  ].join('\n');
+  protected readonly controlledReviewTailwindCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
+    {
+      value: 'ts',
+      label: 'TS',
+      language: 'ts',
+      title: 'headless-dialog-controlled-review-tailwind.component.ts',
+      code: [
+        "import { Component, signal } from '@angular/core';",
+        'import {',
+        '  TngDialog,',
+        '  TngDialogActions,',
+        '  TngDialogBackdrop,',
+        '  TngDialogClose,',
+        '  TngDialogDescription,',
+        '  TngDialogPanel,',
+        '  TngDialogTitle,',
+        "  type TngDialogCloseReason,",
+        "} from '@tailng-ui/primitives';",
+        '',
+        '@Component({',
+        "  selector: 'app-headless-dialog-controlled-review-tailwind',",
+        '  standalone: true,',
+        '  imports: [',
+        '    TngDialog,',
+        '    TngDialogActions,',
+        '    TngDialogBackdrop,',
+        '    TngDialogClose,',
+        '    TngDialogDescription,',
+        '    TngDialogPanel,',
+        '    TngDialogTitle,',
+        '  ],',
+        "  templateUrl: './headless-dialog-controlled-review-tailwind.component.html',",
+        "  styleUrl: './headless-dialog-controlled-review-tailwind.component.css',",
+        '})',
+        'export class HeadlessDialogControlledReviewTailwindComponent {',
+        '  protected readonly open = signal(false);',
+        "  protected readonly result = signal('No decision yet');",
+        '',
+        '  protected onClosed(reason: TngDialogCloseReason): void {',
+        "    this.result.set(reason === 'programmatic' ? 'Review approved' : 'Stayed blocked until explicit cancel');",
+        '  }',
+        '}',
+      ].join('\n'),
+    },
+    {
+      value: 'html',
+      label: 'HTML',
+      language: 'html',
+      title: 'headless-dialog-controlled-review-tailwind.component.html',
+      code: [
+        '<div class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">',
+        '  <button',
+        '    type="button"',
+        '    class="rounded-lg border border-sky-300 bg-white px-3 py-2 text-sm font-semibold text-sky-700 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400/75 dark:border-sky-900 dark:bg-slate-900 dark:text-sky-200 dark:focus-visible:ring-sky-500/65"',
+        '    (click)="open.set(true)"',
+        '  >',
+        '    Open security review',
+        '  </button>',
+        '',
+        '  <section',
+        '    tngDialog',
+        '    [open]="open()"',
+        '    [dismissible]="false"',
+        '    [closeOnBackdropClick]="false"',
+        '    [closeOnEscape]="false"',
+        '    (openChange)="open.set($event)"',
+        '    (closed)="onClosed($event)"',
+        '  >',
+        '    <div tngDialogBackdrop class="fixed inset-0 grid place-items-center bg-slate-950/75 p-4 [&[hidden]]:!hidden">',
+        '      <section tngDialogPanel class="grid w-full max-w-xl gap-4 rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-2xl [&[hidden]]:!hidden dark:border-slate-800 dark:bg-slate-950">',
+        '        <div class="grid gap-2">',
+        '          <h3 tngDialogTitle class="m-0 text-lg font-semibold text-slate-950 dark:text-slate-50">Security review required</h3>',
+        '          <p tngDialogDescription class="m-0 text-sm text-slate-600 dark:text-slate-300">Complete the release checklist before continuing with deployment.</p>',
+        '        </div>',
+        '        <ul class="grid gap-2 rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200">',
+        '          <li>Static analysis must be clean.</li>',
+        '          <li>QA sign-off must be attached to the release note.</li>',
+        '          <li>Rollback instructions must be linked in the deployment ticket.</li>',
+        '        </ul>',
+        '        <p class="m-0 text-sm text-slate-500 dark:text-slate-400">Backdrop click and Escape are disabled until someone chooses an action.</p>',
+        '        <div tngDialogActions class="flex flex-wrap justify-end gap-2">',
+        '          <button type="button" tngDialogClose class="rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-700 transition focus-visible:border-sky-500 focus-visible:bg-sky-50 focus-visible:text-sky-900 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-sky-200/90 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:border-slate-700 dark:text-slate-200 dark:focus-visible:border-sky-400 dark:focus-visible:bg-sky-950 dark:focus-visible:text-sky-50 dark:focus-visible:ring-sky-500/45 dark:focus-visible:ring-offset-slate-950">Cancel review</button>',
+        "          <button type=\"button\" tngDialogClose [tngDialogClose]=\"'programmatic'\" class=\"rounded-lg border border-sky-600 bg-sky-600 px-3 py-2 text-sm font-semibold text-white transition focus-visible:border-sky-500 focus-visible:bg-sky-500 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-sky-200/90 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:border-sky-300 dark:focus-visible:bg-sky-500 dark:focus-visible:ring-sky-400/55 dark:focus-visible:ring-offset-slate-950\">Continue</button>",
+        '        </div>',
+        '      </section>',
+        '    </div>',
+        '  </section>',
+        '</div>',
+      ].join('\n'),
+    },
+    {
+      value: 'css',
+      label: 'CSS',
+      language: 'css',
+      title: 'headless-dialog-controlled-review-tailwind.component.css',
+      code: '/* Tailwind utilities are applied directly in the template. */',
+    },
+  ]);
 
   public ngOnDestroy(): void {
     this.colorSchemeObserver?.disconnect();
   }
 
-  protected onDestructiveClosed(reason: TngDialogCloseReason): void {
-    this.destructiveResult.set(
-      reason === 'programmatic' ? 'Deleted release branch' : `Closed (${reason})`,
-    );
+  protected onDestructivePlainClosed(reason: TngDialogCloseReason): void {
+    this.destructivePlainResult.set(this.formatDestructiveResult(reason));
+  }
+
+  protected onDestructiveTailwindClosed(reason: TngDialogCloseReason): void {
+    this.destructiveTailwindResult.set(this.formatDestructiveResult(reason));
+  }
+
+  protected onControlledReviewPlainClosed(reason: TngDialogCloseReason): void {
+    this.controlledReviewPlainResult.set(this.formatControlledReviewResult(reason));
+  }
+
+  protected onControlledReviewTailwindClosed(reason: TngDialogCloseReason): void {
+    this.controlledReviewTailwindResult.set(this.formatControlledReviewResult(reason));
+  }
+
+  private formatDestructiveResult(reason: TngDialogCloseReason): string {
+    return reason === 'programmatic' ? 'Deleted release branch' : `Closed (${reason})`;
+  }
+
+  private formatControlledReviewResult(reason: TngDialogCloseReason): string {
+    return reason === 'programmatic' ? 'Review approved' : 'Stayed blocked until explicit cancel';
   }
 }
