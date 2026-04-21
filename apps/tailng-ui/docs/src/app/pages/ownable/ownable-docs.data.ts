@@ -215,6 +215,13 @@ export const OWNABLE_OVERLAY_GROUP: OwnableDocsGroup = {
       description:
         'Ownable dialog install with local wrapper source, modal behavior helpers, and generated file structure.',
     },
+    {
+      id: 'popover',
+      slug: 'popover',
+      title: 'Popover',
+      description:
+        'Ownable popover install with local wrapper source, anchored panel behavior, and generated file structure.',
+    },
   ],
 };
 

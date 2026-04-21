@@ -1,0 +1,38 @@
+<div class="grid gap-8 pb-10">
+  <section class="docs-section-anchor grid gap-4" id="popover-overview">
+    <h1 class="m-0 text-3xl font-semibold text-tng-fg-primary">Popover</h1>
+    <p class="m-0 max-w-4xl text-base leading-7 text-tng-fg-secondary">
+      The ownable Popover install gives your app a local anchored panel wrapper with editable
+      trigger and panel styling close to the workflow that owns the floating interaction.
+    </p>
+  </section>
+
+  <section class="docs-section-anchor grid gap-3" id="why-own-popover">
+    <h2 class="m-0 text-xl font-semibold text-tng-fg-primary">Why own Popover locally</h2>
+    <p class="m-0 max-w-4xl text-base leading-7 text-tng-fg-secondary">
+      Popovers quickly become product-specific once teams add contextual actions, inspection panes,
+      or compact review flows. Local ownership keeps trigger wording, panel layout, and behavior
+      affordances versioned with the feature using them.
+    </p>
+    <ul class="m-0 grid gap-2 pl-5 text-sm leading-6 text-tng-fg-secondary">
+      <li>Adjust trigger chrome, panel density, and action layout without waiting on a package release.</li>
+      <li>Keep anchored-position styling and projected content coupled to the owning screen.</li>
+      <li>Extend the generated wrapper if your product later needs richer panel variants or extra hooks.</li>
+    </ul>
+  </section>
+
+  <section class="docs-section-anchor grid gap-3" id="what-popover-installs">
+    <h2 class="m-0 text-xl font-semibold text-tng-fg-primary">What the install includes</h2>
+    <p class="m-0 max-w-4xl text-base leading-7 text-tng-fg-secondary">
+      The registry-backed popover install writes the wrapper component, template, stylesheet,
+      primitive helper file, and export barrel. After install, your app owns the generated source
+      and can evolve the floating panel shell locally.
+    </p>
+  </section>
+
+  <app-docs-ownable-install-section
+    componentName="Popover"
+    registrySlug="popover"
+    [usageCode]="usageCode"
+  />
+</div>

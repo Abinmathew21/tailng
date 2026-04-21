@@ -1,0 +1,97 @@
+<article class="headless-popover-api">
+  <h2 class="headless-popover-api-title">API reference</h2>
+  <p class="headless-popover-api-lead">
+    Headless popover exposes a root controller plus structural directives for the trigger, panel,
+    and explicit close affordances. It owns opening, dismissal, focus handoff, and ARIA wiring,
+    while you own the anchored layout.
+  </p>
+
+  <section id="root-directive" class="headless-popover-api-block">
+    <h3>Root directive</h3>
+    <div class="headless-popover-api-table-wrap">
+      <table class="headless-popover-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Directive</th>
+            <th scope="col">Selector</th>
+            <th scope="col">Key API</th>
+            <th scope="col">Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>TngPopover</code></td>
+            <td><code>[tngPopover]</code></td>
+            <td>
+              <code>open</code>, <code>defaultOpen</code>, <code>disabled</code>,
+              <code>closeOnEscape</code>, <code>closeOnOutsidePointer</code>,
+              <code>restoreFocus</code>, <code>autoFocus</code>, <code>side</code>,
+              <code>align</code>, <code>panelRole</code>, <code>ariaHasPopup</code>,
+              <code>ariaLabel</code>
+            </td>
+            <td>Owns open state, dismissal policy, focus handoff, and panel accessibility metadata.</td>
+          </tr>
+          <tr>
+            <td><code>TngPopover</code></td>
+            <td><code>[tngPopover]</code></td>
+            <td><code>openChange</code>, <code>closed</code></td>
+            <td>Emits controlled open-state changes and close reasons for feature workflows.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="slot-directives" class="headless-popover-api-block">
+    <h3>Slot directives</h3>
+    <div class="headless-popover-api-table-wrap">
+      <table class="headless-popover-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Directive</th>
+            <th scope="col">Selector</th>
+            <th scope="col">Slot</th>
+            <th scope="col">Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>TngPopoverTrigger</code></td>
+            <td><code>[tngPopoverTrigger]</code></td>
+            <td><code>popover-trigger</code></td>
+            <td>Binds a trigger to a popover instance and mirrors open/disabled state through data hooks.</td>
+          </tr>
+          <tr>
+            <td><code>TngPopoverPanel</code></td>
+            <td><code>[tngPopoverPanel]</code></td>
+            <td><code>popover-panel</code></td>
+            <td>Anchored panel surface with generated id, role, hidden state, side, and align metadata.</td>
+          </tr>
+          <tr>
+            <td><code>TngPopoverContent</code></td>
+            <td><code>[tngPopoverContent]</code></td>
+            <td><code>popover-panel</code></td>
+            <td>Alias of the panel directive for teams that prefer a content-oriented naming style.</td>
+          </tr>
+          <tr>
+            <td><code>TngPopoverClose</code></td>
+            <td><code>[tngPopoverClose]</code></td>
+            <td><code>popover-close</code></td>
+            <td>Closes the popover from an in-panel action and can emit an explicit close reason.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="behavior-and-events" class="headless-popover-api-block">
+    <h3>Behavior and events</h3>
+    <ul>
+      <li><code>closed</code> emits <code>'escape' | 'outside-pointer' | 'programmatic' | 'trigger-toggle'</code>.</li>
+      <li><code>autoFocus</code> can prefer the first focusable, the panel itself, or no initial focus move.</li>
+      <li>Popover does not trap focus by default, so <code>Tab</code> may leave the panel.</li>
+      <li><code>side</code> and <code>align</code> only mirror state as attributes; they do not perform automatic positioning math.</li>
+      <li><code>panelRole</code> supports <code>dialog</code>, <code>menu</code>, <code>listbox</code>, <code>region</code>, or <code>none</code>.</li>
+    </ul>
+  </section>
+</article>

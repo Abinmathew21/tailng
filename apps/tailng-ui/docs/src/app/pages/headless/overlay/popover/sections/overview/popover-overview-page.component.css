@@ -2,25 +2,25 @@
   display: block;
 }
 
-.popover-overview {
+.headless-popover-overview {
   display: grid;
   gap: 1.5rem;
 }
 
-.popover-overview-title {
+.headless-popover-overview-title {
   font-size: clamp(1.45rem, 1.05rem + 1.3vw, 1.95rem);
   font-weight: 700;
   line-height: 1.2;
   margin: 0;
 }
 
-.popover-overview-lead {
+.headless-popover-overview-lead {
   color: var(--tng-semantic-foreground-secondary);
   margin: 0;
   max-width: 70ch;
 }
 
-.popover-overview-block {
+.headless-popover-overview-block {
   background: color-mix(in srgb, var(--tng-semantic-background-surface) 88%, transparent);
   border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 1rem;
@@ -29,34 +29,25 @@
   padding: 1.2rem;
 }
 
-.popover-overview-block h3 {
+.headless-popover-overview-block h3 {
   font-size: 1.05rem;
   font-weight: 650;
   margin: 0;
 }
 
-.popover-overview-block p {
+.headless-popover-overview-block p {
   color: var(--tng-semantic-foreground-secondary);
   margin: 0;
 }
 
-.popover-stage {
-  align-content: start;
-  display: grid;
-  gap: 0.7rem;
-  justify-items: start;
-  min-height: 10rem;
-  position: relative;
-}
-
-.popover-anchor {
+.headless-popover-anchor {
   display: inline-block;
   position: relative;
 }
 
-.popover-trigger,
-.popover-action-ghost,
-.popover-action-primary {
+.headless-popover-trigger,
+.headless-popover-secondary,
+.headless-popover-primary {
   border-radius: 0.7rem;
   cursor: pointer;
   font-size: 0.88rem;
@@ -65,34 +56,20 @@
   padding: 0.45rem 0.9rem;
 }
 
-.popover-trigger,
-.popover-action-ghost {
+.headless-popover-trigger,
+.headless-popover-secondary {
   background: color-mix(in srgb, var(--tng-semantic-background-canvas) 80%, transparent);
   border: 1px solid var(--tng-semantic-border-subtle);
   color: var(--tng-semantic-foreground-primary);
 }
 
-.popover-action-primary {
+.headless-popover-primary {
   background: var(--tng-semantic-accent-brand);
   border: 1px solid var(--tng-semantic-accent-brand);
   color: var(--tng-semantic-background-canvas);
 }
 
-.popover-action-ghost:hover {
-  background: color-mix(in srgb, var(--tng-semantic-background-canvas) 64%, transparent);
-}
-
-.popover-action-primary:hover {
-  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 88%, black);
-}
-
-.popover-action-ghost:focus-visible,
-.popover-action-primary:focus-visible {
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--tng-semantic-focus-ring) 78%, transparent);
-  outline: none;
-}
-
-.popover-preview-panel {
+.headless-popover-panel {
   background: var(--tng-semantic-background-surface);
   border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 0.95rem;
@@ -109,42 +86,41 @@
   z-index: 70;
 }
 
-.popover-preview-panel[hidden] {
+.headless-popover-panel[hidden] {
   display: none !important;
 }
 
-.popover-preview-title {
+.headless-popover-title {
   color: var(--tng-semantic-foreground-primary);
   font-size: 1.02rem;
   margin: 0;
 }
 
-.popover-preview-description,
-.popover-body-copy {
+.headless-popover-description {
   color: var(--tng-semantic-foreground-secondary);
   margin: 0;
 }
 
-.popover-preview-actions {
+.headless-popover-actions {
   display: flex;
   flex-wrap: wrap;
   gap: 0.6rem;
   justify-content: flex-end;
 }
 
-.popover-overview-state {
+.headless-popover-overview-state {
   color: var(--tng-semantic-foreground-secondary);
   font-size: 0.9rem;
   margin: 0;
 }
 
-.popover-overview-list {
+.headless-popover-overview-list {
   display: grid;
   gap: 0.55rem;
   margin: 0;
   padding-inline-start: 1.1rem;
 }
 
-.popover-overview-list code {
+.headless-popover-overview-list code {
   font-size: 0.84em;
 }

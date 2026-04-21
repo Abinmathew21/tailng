@@ -14,4 +14,9 @@ export const HEADLESS_OVERLAY_ROUTES: Routes = [
     loadChildren: () =>
       import('./dialog/routes').then((module) => module.HEADLESS_OVERLAY_DIALOG_ROUTES),
   },
+  {
+    path: 'popover',
+    loadChildren: () =>
+      import('./popover/routes').then((module) => module.HEADLESS_OVERLAY_POPOVER_ROUTES),
+  },
 ];

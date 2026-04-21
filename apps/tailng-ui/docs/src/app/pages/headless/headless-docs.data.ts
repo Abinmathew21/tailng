@@ -230,6 +230,13 @@ export const HEADLESS_OVERLAY_GROUP: HeadlessDocsGroup = {
       description:
         'Modal dialog behavior with backdrop dismissal, focus trapping, and close reason output.',
     },
+    {
+      id: 'popover',
+      slug: 'popover',
+      title: 'Popover',
+      description:
+        'Anchored floating panel behavior with trigger wiring, outside dismissal, and focus handoff.',
+    },
   ],
 };
 

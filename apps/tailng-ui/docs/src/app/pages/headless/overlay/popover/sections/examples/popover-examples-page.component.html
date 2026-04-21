@@ -1,0 +1,271 @@
+<article class="headless-popover-examples">
+  <h2 class="headless-popover-examples-title">Examples</h2>
+  <p class="headless-popover-examples-lead">
+    Headless popover is a good fit when the trigger, anchored layout, and panel content all belong
+    to the feature instead of a shared wrapper shell.
+  </p>
+
+  <section id="destructive-confirmation" class="headless-popover-examples-block">
+    <app-docs-example-tabs-section
+      heading="Destructive confirmation"
+      description="A confirmation popover with owner-authored anchoring and explicit close actions."
+      ariaLabel="Headless popover destructive confirmation"
+      tabListAriaLabel="Headless popover destructive style tabs"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Destructive confirmation with owner CSS"
+        [codeTabs]="destructivePlainCodeTabs"
+      >
+        <section
+          tngPopover
+          #destructivePopover="tngPopover"
+          class="headless-popover-example-anchor"
+          [open]="destructivePlainOpen()"
+          (openChange)="destructivePlainOpen.set($event)"
+          (closed)="onDestructivePlainClosed($event)"
+        >
+          <button
+            type="button"
+            class="headless-popover-example-trigger"
+            [tngPopoverTrigger]="destructivePopover"
+          >
+            Delete release branch
+          </button>
+
+          <section tngPopoverPanel class="headless-popover-example-panel">
+            <h3 class="headless-popover-example-title">Delete release branch?</h3>
+            <p class="headless-popover-example-copy">
+              This action removes branch automation and cannot be undone.
+            </p>
+            <div class="headless-popover-action-row">
+              <button
+                type="button"
+                tngPopoverClose
+                [tngPopoverClose]="'programmatic'"
+                class="headless-popover-example-secondary"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                tngPopoverClose
+                [tngPopoverClose]="'programmatic'"
+                class="headless-popover-example-danger"
+              >
+                Delete
+              </button>
+            </div>
+          </section>
+        </section>
+        <p class="headless-popover-example-state">result: {{ destructivePlainResult() }}</p>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Destructive confirmation with Tailwind"
+        [codeTabs]="destructiveTailwindCodeTabs"
+      >
+        <div class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">
+          <section
+            tngPopover
+            #tailwindDestructivePopover="tngPopover"
+            class="relative inline-block"
+            [open]="destructiveTailwindOpen()"
+            (openChange)="destructiveTailwindOpen.set($event)"
+            (closed)="onDestructiveTailwindClosed($event)"
+          >
+            <button
+              type="button"
+              class="rounded-lg border border-rose-300 bg-white px-3 py-2 text-sm font-semibold text-rose-700 dark:border-rose-800 dark:bg-slate-900 dark:text-rose-200"
+              [tngPopoverTrigger]="tailwindDestructivePopover"
+            >
+              Delete release branch
+            </button>
+
+            <section
+              tngPopoverPanel
+              class="absolute left-0 top-[calc(100%+0.5rem)] grid min-w-80 gap-3 rounded-3xl border border-slate-200 bg-white p-4 shadow-2xl [&[hidden]]:!hidden dark:border-slate-800 dark:bg-slate-950"
+            >
+              <h3 class="m-0 text-base font-semibold text-slate-950 dark:text-slate-50">
+                Delete release branch?
+              </h3>
+              <p class="m-0 text-sm text-slate-600 dark:text-slate-300">
+                This action removes branch automation and cannot be undone.
+              </p>
+              <div class="flex flex-wrap justify-end gap-2">
+                <button
+                  type="button"
+                  tngPopoverClose
+                  [tngPopoverClose]="'programmatic'"
+                  class="rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-700 dark:border-slate-700 dark:text-slate-200"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  tngPopoverClose
+                  [tngPopoverClose]="'programmatic'"
+                  class="rounded-lg border border-rose-600 bg-rose-600 px-3 py-2 text-sm font-semibold text-white"
+                >
+                  Delete
+                </button>
+              </div>
+            </section>
+          </section>
+        </div>
+        <p class="headless-popover-example-state">result: {{ destructiveTailwindResult() }}</p>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section id="controlled-review" class="headless-popover-examples-block">
+    <app-docs-example-tabs-section
+      heading="Controlled review"
+      description="Keep the panel open until the owner decides otherwise, with outside-pointer and Escape dismissal disabled."
+      ariaLabel="Headless popover controlled review"
+      tabListAriaLabel="Headless popover controlled review style tabs"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Controlled review with owner CSS"
+        [codeTabs]="controlledPlainCodeTabs"
+      >
+        <section
+          tngPopover
+          #plainReviewPopover="tngPopover"
+          class="headless-popover-review-shell"
+          [open]="controlledPlainOpen()"
+          [closeOnOutsidePointer]="false"
+          [closeOnEscape]="false"
+          [autoFocus]="'panel'"
+          [panelRole]="'dialog'"
+          (openChange)="controlledPlainOpen.set($event)"
+          (closed)="onControlledPlainClosed($event)"
+        >
+          <button
+            type="button"
+            class="headless-popover-review-trigger"
+            [tngPopoverTrigger]="plainReviewPopover"
+          >
+            Open security checklist
+          </button>
+
+          <section tngPopoverPanel class="headless-popover-review-panel">
+            <p class="headless-popover-review-eyebrow">Controlled review</p>
+            <h3 class="headless-popover-review-title">Security review required</h3>
+            <p class="headless-popover-review-copy">Finish the checklist before continuing.</p>
+            <ul class="headless-popover-review-list">
+              <li>Audit logs enabled</li>
+              <li>Rollback snapshot verified</li>
+              <li>On-call contact confirmed</li>
+            </ul>
+            <div class="headless-popover-action-row">
+              <button
+                type="button"
+                tngPopoverClose
+                [tngPopoverClose]="'programmatic'"
+                class="headless-popover-example-secondary"
+                (click)="onControlledPlainDismiss()"
+              >
+                Dismiss
+              </button>
+              <button
+                type="button"
+                tngPopoverClose
+                [tngPopoverClose]="'programmatic'"
+                class="headless-popover-example-primary"
+                (click)="onControlledPlainContinue()"
+              >
+                Continue
+              </button>
+            </div>
+          </section>
+        </section>
+        <p class="headless-popover-example-state">result: {{ controlledPlainResult() }}</p>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Controlled review with Tailwind"
+        [codeTabs]="controlledTailwindCodeTabs"
+      >
+        <div class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">
+          <section
+            tngPopover
+            #tailwindReviewPopover="tngPopover"
+            class="relative inline-block"
+            [open]="controlledTailwindOpen()"
+            [closeOnOutsidePointer]="false"
+            [closeOnEscape]="false"
+            [autoFocus]="'panel'"
+            [panelRole]="'dialog'"
+            (openChange)="controlledTailwindOpen.set($event)"
+            (closed)="onControlledTailwindClosed($event)"
+          >
+            <button
+              type="button"
+              class="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-800 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100"
+              [tngPopoverTrigger]="tailwindReviewPopover"
+            >
+              Open security checklist
+            </button>
+
+            <section
+              tngPopoverPanel
+              class="absolute left-0 top-[calc(100%+0.5rem)] grid min-w-80 gap-3 rounded-3xl border border-slate-200 bg-white p-4 shadow-2xl [&[hidden]]:!hidden dark:border-slate-800 dark:bg-slate-950"
+            >
+              <p class="m-0 text-[0.7rem] font-semibold uppercase tracking-[0.22em] text-sky-600 dark:text-sky-300">
+                Controlled review
+              </p>
+              <h3 class="m-0 text-base font-semibold text-slate-950 dark:text-slate-50">
+                Security review required
+              </h3>
+              <p class="m-0 text-sm text-slate-600 dark:text-slate-300">
+                Finish the checklist before continuing.
+              </p>
+              <ul class="m-0 list-disc space-y-1 pl-5 text-sm text-slate-700 dark:text-slate-200">
+                <li>Audit logs enabled</li>
+                <li>Rollback snapshot verified</li>
+                <li>On-call contact confirmed</li>
+              </ul>
+              <div class="flex flex-wrap justify-end gap-2">
+                <button
+                  type="button"
+                  tngPopoverClose
+                  [tngPopoverClose]="'programmatic'"
+                  class="rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-700 dark:border-slate-700 dark:text-slate-200"
+                  (click)="onControlledTailwindDismiss()"
+                >
+                  Dismiss
+                </button>
+                <button
+                  type="button"
+                  tngPopoverClose
+                  [tngPopoverClose]="'programmatic'"
+                  class="rounded-lg border border-sky-600 bg-sky-600 px-3 py-2 text-sm font-semibold text-white"
+                  (click)="onControlledTailwindContinue()"
+                >
+                  Continue
+                </button>
+              </div>
+            </section>
+          </section>
+        </div>
+        <p class="headless-popover-example-state">result: {{ controlledTailwindResult() }}</p>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+</article>

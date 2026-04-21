@@ -1,0 +1,41 @@
+<article class="headless-popover-styling">
+  <h2 class="headless-popover-styling-title">Styling contract</h2>
+  <p class="headless-popover-styling-lead">
+    Headless popover publishes slot and state hooks for the root, trigger, panel, and close
+    controls. Owners are responsible for the anchored positioning and visual treatment of the
+    panel.
+  </p>
+
+  <section id="slot-and-state-hooks" class="headless-popover-styling-block">
+    <h3>Slot and state hooks</h3>
+    <ul>
+      <li><code>[data-slot="popover"]</code> mirrors <code>data-open</code>, <code>data-state</code>, <code>data-side</code>, <code>data-align</code>, and <code>data-disabled</code>.</li>
+      <li><code>[data-slot="popover-trigger"]</code> exposes <code>aria-haspopup</code>, <code>aria-controls</code>, <code>aria-expanded</code>, and matching open-state hooks.</li>
+      <li><code>[data-slot="popover-panel"]</code> carries <code>data-side</code>, <code>data-align</code>, <code>data-state</code>, and <code>[hidden]</code>.</li>
+      <li><code>[data-slot="popover-close"]</code> gives you a stable selector for in-panel dismissal actions.</li>
+    </ul>
+  </section>
+
+  <section id="css-starter" class="headless-popover-styling-block">
+    <h3>CSS starter</h3>
+    <tng-code-block
+      [code]="cssStarterCode"
+      adapter="shiki"
+      language="css"
+      title="headless-popover.css"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="owner-guidance" class="headless-popover-styling-block">
+    <h3>Owner guidance</h3>
+    <ul>
+      <li>Anchor the panel with your own CSS; the primitive does not measure or reposition the overlay.</li>
+      <li>Use <code>data-side</code> and <code>data-align</code> as styling signals for directional placement variants.</li>
+      <li>Keep the trigger and panel within the same positioned root when using simple absolute positioning.</li>
+      <li>Choose the panel role to match the content model so the semantics and styling stay aligned.</li>
+    </ul>
+  </section>
+</article>

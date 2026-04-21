@@ -1,23 +1,14 @@
 <article class="popover-overview">
   <h2 class="popover-overview-title">Popover overview</h2>
   <p class="popover-overview-lead">
-    Popover provides anchored floating content with trigger semantics, outside-pointer dismissal,
-    Escape handling, and optional focus restore.
+    Popover provides a ready-made trigger and anchored panel shell with outside-pointer dismissal,
+    Escape handling, and optional focus restore. For full DOM ownership, use the separate headless
+    popover docs.
   </p>
 
-  <section class="popover-overview-block">
+  <section id="imports" class="popover-overview-block">
     <h3>Imports</h3>
-    <p>Use primitives for full markup ownership, or wrapper components for quick defaults.</p>
-    <tng-code-block
-      [code]="primitiveImportCode"
-      adapter="shiki"
-      language="ts"
-      title="Primitive imports"
-      [theme]="codeBlockTheme()"
-      [sanitizeHtml]="false"
-      [wrap]="true"
-      [lineNumbers]="false"
-    ></tng-code-block>
+    <p>Use the wrapper when your team wants built-in trigger markup and a minimum floating panel shell.</p>
     <tng-code-block
       [code]="componentImportCode"
       adapter="shiki"
@@ -30,18 +21,8 @@
     ></tng-code-block>
   </section>
 
-  <section class="popover-overview-block">
+  <section id="usage-patterns" class="popover-overview-block">
     <h3>Usage patterns</h3>
-    <tng-code-block
-      [code]="primitiveUsageCode"
-      adapter="shiki"
-      language="html"
-      title="Primitive usage"
-      [theme]="codeBlockTheme()"
-      [sanitizeHtml]="false"
-      [wrap]="true"
-      [lineNumbers]="false"
-    ></tng-code-block>
     <tng-code-block
       [code]="componentUsageCode"
       adapter="shiki"
@@ -55,57 +36,15 @@
   </section>
 
   <app-docs-example-tabs-section
+    id="style-variants"
     class="popover-overview-block"
     heading="Style variants"
-    description="Same popover behavior rendered through headless primitives, plain CSS wrappers, and Tailwind utility shells."
-    ariaLabel="Popover style variants"
-    tabListAriaLabel="Popover style tabs"
-    defaultValue="headless"
+    description="The wrapper behavior shown with local CSS or Tailwind-flavored projected content."
+    ariaLabel="Popover wrapper style variants"
+    tabListAriaLabel="Popover wrapper style tabs"
+    defaultValue="plain-css"
     [codeBlockTheme]="codeBlockTheme()"
   >
-    <ng-template
-      appDocsExampleVariant
-      value="headless"
-      label="Headless"
-      panelTitle="Headless anchored popover"
-      [codeTabs]="headlessCodeTabs"
-    >
-      <section
-        tngPopover
-        #headlessPopover="tngPopover"
-        class="popover-stage"
-        [open]="headlessOpen()"
-        (openChange)="onHeadlessOpenChange($event)"
-        (closed)="onHeadlessClose($event)"
-      >
-        <div class="popover-anchor">
-          <button type="button" class="popover-trigger" [tngPopoverTrigger]="headlessPopover">
-            Open headless popover
-          </button>
-
-          <section tngPopoverPanel class="popover-preview-panel">
-            <p class="popover-preview-title">Release checklist</p>
-            <p class="popover-preview-description">
-              Review readiness items before triggering deployment.
-            </p>
-            <div class="popover-preview-actions">
-              <button type="button" tngPopoverClose class="popover-action-ghost">Dismiss</button>
-              <button
-                type="button"
-                tngPopoverClose
-                [tngPopoverClose]="'programmatic'"
-                data-tng-popover-initial-focus
-                class="popover-action-primary"
-              >
-                Ship
-              </button>
-            </div>
-          </section>
-        </div>
-      </section>
-      <p class="popover-overview-state">last close reason: {{ headlessCloseReason() }}</p>
-    </ng-template>
-
     <ng-template
       appDocsExampleVariant
       value="plain-css"
@@ -118,7 +57,7 @@
           #plainPopover
           triggerLabel="Project actions"
           [open]="plainOpen()"
-          (openChange)="onPlainOpenChange($event)"
+          (openChange)="plainOpen.set($event)"
           (closed)="onPlainClose($event)"
         >
           <p class="popover-body-copy">Use wrapper defaults for trigger wiring and dismissal behavior.</p>
@@ -148,7 +87,7 @@
             #tailwindPopover
             triggerLabel="Tailwind actions"
             [open]="tailwindOpen()"
-            (openChange)="onTailwindOpenChange($event)"
+            (openChange)="tailwindOpen.set($event)"
             (closed)="onTailwindClose($event)"
           >
             <p class="m-0 text-sm text-slate-700 dark:text-slate-300">
@@ -157,14 +96,14 @@
             <div class="mt-3 flex flex-wrap justify-end gap-2">
               <button
                 type="button"
-                class="rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-700 dark:border-slate-600 dark:text-slate-200"
+                class="rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-700 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400/70 dark:border-slate-600 dark:text-slate-200 dark:focus-visible:ring-sky-500/65"
                 (click)="tailwindPopover.close()"
               >
                 Hold
               </button>
               <button
                 type="button"
-                class="rounded-lg border border-sky-600 bg-sky-600 px-3 py-2 text-sm font-semibold text-white"
+                class="rounded-lg border border-sky-600 bg-sky-600 px-3 py-2 text-sm font-semibold text-white transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-300/80 dark:focus-visible:ring-sky-200/80"
                 (click)="tailwindPopover.close()"
               >
                 Apply
@@ -177,13 +116,13 @@
     </ng-template>
   </app-docs-example-tabs-section>
 
-  <section class="popover-overview-block">
+  <section id="keyboard-baseline" class="popover-overview-block">
     <h3>Keyboard baseline</h3>
     <ul class="popover-overview-list">
-      <li><code>Enter</code>/<code>Space</code> on trigger toggles panel visibility.</li>
+      <li><code>Enter</code>/<code>Space</code> on the built-in trigger toggles the panel.</li>
       <li><code>Escape</code> closes when <code>closeOnEscape</code> is enabled.</li>
-      <li>No focus trap by default; <code>Tab</code> can move outside the panel.</li>
-      <li>Focus can return to trigger when <code>restoreFocus</code> is enabled.</li>
+      <li>No focus trap is applied by default; <code>Tab</code> can move outside the panel.</li>
+      <li>Focus can return to the trigger when <code>restoreFocus</code> is enabled.</li>
     </ul>
   </section>
 </article>

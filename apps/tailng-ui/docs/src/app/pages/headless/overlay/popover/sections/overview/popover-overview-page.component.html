@@ -1,0 +1,153 @@
+<article class="headless-popover-overview">
+  <h2 class="headless-popover-overview-title">Popover overview</h2>
+  <p class="headless-popover-overview-lead">
+    Headless popover gives you anchored floating behavior, trigger wiring, outside dismissal, and
+    focus restore without imposing a trigger or panel design.
+  </p>
+
+  <section id="imports" class="headless-popover-overview-block">
+    <h3>Imports</h3>
+    <p>Bring in only the root, trigger, panel, and close directives you actually render.</p>
+    <tng-code-block
+      [code]="importCode"
+      adapter="shiki"
+      language="ts"
+      title="Headless popover imports"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="basic-composition" class="headless-popover-overview-block">
+    <h3>Basic composition</h3>
+    <p>The primitive handles open state and dismissal; owners still position and style the anchored panel.</p>
+    <tng-code-block
+      [code]="compositionCode"
+      adapter="shiki"
+      language="html"
+      title="Headless popover composition"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <app-docs-example-tabs-section
+    id="style-variants"
+    class="headless-popover-overview-block"
+    heading="Style variants"
+    description="The same headless popover behavior skinned with owner-authored CSS or Tailwind utilities."
+    ariaLabel="Headless popover style variants"
+    tabListAriaLabel="Headless popover style tabs"
+    defaultValue="plain-css"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+      panelTitle="Headless popover with owner CSS"
+      [codeTabs]="plainCodeTabs"
+    >
+      <section
+        tngPopover
+        #plainPopover="tngPopover"
+        class="headless-popover-anchor"
+        [open]="plainOpen()"
+        (openChange)="plainOpen.set($event)"
+        (closed)="plainReason.set($event)"
+      >
+        <button type="button" class="headless-popover-trigger" [tngPopoverTrigger]="plainPopover">
+          Open headless popover
+        </button>
+
+        <section tngPopoverPanel class="headless-popover-panel">
+          <p class="headless-popover-title">Release checklist</p>
+          <p class="headless-popover-description">
+            Review readiness items before triggering deployment.
+          </p>
+          <div class="headless-popover-actions">
+            <button type="button" tngPopoverClose class="headless-popover-secondary">Dismiss</button>
+            <button
+              type="button"
+              tngPopoverClose
+              [tngPopoverClose]="'programmatic'"
+              class="headless-popover-primary"
+            >
+              Ship
+            </button>
+          </div>
+        </section>
+      </section>
+      <p class="headless-popover-overview-state">last close reason: {{ plainReason() }}</p>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Headless popover with Tailwind shell"
+      [codeTabs]="tailwindCodeTabs"
+    >
+      <div class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">
+        <section
+          tngPopover
+          #tailwindPopover="tngPopover"
+          class="relative inline-block"
+          [open]="tailwindOpen()"
+          (openChange)="tailwindOpen.set($event)"
+          (closed)="tailwindReason.set($event)"
+        >
+          <button
+            type="button"
+            class="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-800 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100"
+            [tngPopoverTrigger]="tailwindPopover"
+          >
+            Tailwind actions
+          </button>
+
+          <section
+            tngPopoverPanel
+            class="absolute left-0 top-[calc(100%+0.5rem)] grid min-w-72 gap-3 rounded-3xl border border-slate-200 bg-white p-4 shadow-2xl dark:border-slate-800 dark:bg-slate-950"
+          >
+            <p class="m-0 text-sm font-semibold text-slate-950 dark:text-slate-50">Release checklist</p>
+            <p class="m-0 text-sm text-slate-600 dark:text-slate-300">
+              Pair the primitive with your own anchored layout utilities.
+            </p>
+            <div class="flex flex-wrap justify-end gap-2">
+              <button
+                type="button"
+                tngPopoverClose
+                class="rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-700 dark:border-slate-700 dark:text-slate-200"
+              >
+                Dismiss
+              </button>
+              <button
+                type="button"
+                tngPopoverClose
+                [tngPopoverClose]="'programmatic'"
+                class="rounded-lg border border-sky-600 bg-sky-600 px-3 py-2 text-sm font-semibold text-white"
+              >
+                Ship
+              </button>
+            </div>
+          </section>
+        </section>
+      </div>
+      <p class="headless-popover-overview-state">last close reason: {{ tailwindReason() }}</p>
+    </ng-template>
+  </app-docs-example-tabs-section>
+
+  <section id="behavior-baseline" class="headless-popover-overview-block">
+    <h3>Behavior baseline</h3>
+    <ul class="headless-popover-overview-list">
+      <li><code>Enter</code>/<code>Space</code> on a button trigger toggles the panel.</li>
+      <li><code>Escape</code> closes when <code>closeOnEscape</code> is enabled.</li>
+      <li>Focus can return to the trigger when <code>restoreFocus</code> is enabled.</li>
+      <li>No focus trap is applied by default, so <code>Tab</code> can move outside the popover.</li>
+    </ul>
+  </section>
+</article>

@@ -11,14 +11,13 @@ import {
 import { TngTab, TngTabList } from '@tailng-ui/primitives';
 import { filter, map, startWith } from 'rxjs/operators';
 
-type PopoverDocSectionId = 'api' | 'examples' | 'overview' | 'ownable-install' | 'styling';
+type PopoverDocSectionId = 'api' | 'examples' | 'overview' | 'styling';
 
 const popoverDocSectionIds: readonly PopoverDocSectionId[] = [
   'overview',
   'api',
   'styling',
   'examples',
-  'ownable-install',
 ] as const;
 
 const defaultPopoverDocSection: PopoverDocSectionId = 'overview';

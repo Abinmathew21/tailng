@@ -1,0 +1,185 @@
+:host {
+  display: block;
+}
+
+.headless-popover-examples {
+  display: grid;
+  gap: 1rem;
+}
+
+.headless-popover-examples-title {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.headless-popover-examples-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.headless-popover-examples-block {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.95rem;
+  display: grid;
+  gap: 0.8rem;
+  padding: 1rem;
+}
+
+.headless-popover-examples-block h3 {
+  font-size: 1.02rem;
+  font-weight: 650;
+  margin: 0;
+}
+
+.headless-popover-examples-copy {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.headless-popover-example-anchor {
+  display: inline-block;
+  position: relative;
+}
+
+.headless-popover-example-trigger,
+.headless-popover-example-secondary,
+.headless-popover-example-primary,
+.headless-popover-example-danger {
+  border-radius: 0.68rem;
+  cursor: pointer;
+  font-size: 0.88rem;
+  font-weight: 600;
+  min-height: 2.05rem;
+  padding: 0.42rem 0.86rem;
+}
+
+.headless-popover-example-trigger,
+.headless-popover-example-secondary {
+  background: color-mix(in srgb, var(--tng-semantic-background-canvas) 80%, transparent);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  color: var(--tng-semantic-foreground-primary);
+}
+
+.headless-popover-example-primary {
+  background: var(--tng-semantic-accent-brand);
+  border: 1px solid var(--tng-semantic-accent-brand);
+  color: var(--tng-semantic-background-canvas);
+}
+
+.headless-popover-example-danger {
+  background: color-mix(in srgb, #dc2626 88%, var(--tng-semantic-accent-brand));
+  border: 1px solid color-mix(in srgb, #dc2626 88%, transparent);
+  color: #fff;
+}
+
+.headless-popover-example-panel {
+  background: var(--tng-semantic-background-surface);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.95rem;
+  box-shadow: 0 22px 44px color-mix(in srgb, #020617 26%, transparent);
+  display: grid;
+  gap: 0.72rem;
+  left: 0;
+  max-width: min(30rem, calc(100vw - 3rem));
+  min-width: 16rem;
+  padding: 1rem;
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  width: min(30rem, 100%);
+  z-index: 70;
+}
+
+.headless-popover-example-panel[hidden] {
+  display: none !important;
+}
+
+.headless-popover-example-title {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1rem;
+  margin: 0;
+}
+
+.headless-popover-example-copy {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.headless-popover-action-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  justify-content: flex-end;
+}
+
+.headless-popover-example-state {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.headless-popover-review-shell {
+  display: inline-block;
+  position: relative;
+}
+
+.headless-popover-review-trigger {
+  background: color-mix(in srgb, var(--tng-semantic-background-canvas) 82%, transparent);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.72rem;
+  color: var(--tng-semantic-foreground-primary);
+  cursor: pointer;
+  font-size: 0.88rem;
+  font-weight: 600;
+  min-height: 2.1rem;
+  padding: 0.45rem 0.9rem;
+}
+
+.headless-popover-review-panel {
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--tng-semantic-background-surface) 96%, #dbeafe 4%), var(--tng-semantic-background-surface));
+  border: 1px solid color-mix(in srgb, var(--tng-semantic-border-subtle) 72%, #93c5fd 28%);
+  border-radius: 1rem;
+  box-shadow: 0 24px 48px color-mix(in srgb, #0f172a 24%, transparent);
+  display: grid;
+  gap: 0.72rem;
+  inline-size: min(100%, 24rem);
+  left: 0;
+  padding: 1rem;
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  z-index: 70;
+}
+
+.headless-popover-review-panel[hidden] {
+  display: none !important;
+}
+
+.headless-popover-review-eyebrow {
+  color: #0369a1;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.headless-popover-review-title {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1rem;
+  margin: 0;
+}
+
+.headless-popover-review-copy {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.headless-popover-review-list {
+  color: var(--tng-semantic-foreground-secondary);
+  display: grid;
+  gap: 0.35rem;
+  margin: 0;
+  padding-inline-start: 1rem;
+}
