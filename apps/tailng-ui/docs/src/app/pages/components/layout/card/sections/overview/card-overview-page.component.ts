@@ -11,15 +11,6 @@ import {
   TngCardTitleComponent,
   TngCodeBlockComponent,
 } from '@tailng-ui/components';
-import {
-  TngCard as TngCardPrimitive,
-  TngCardActions as TngCardActionsPrimitive,
-  TngCardContent as TngCardContentPrimitive,
-  TngCardDescription as TngCardDescriptionPrimitive,
-  TngCardFooter as TngCardFooterPrimitive,
-  TngCardHeader as TngCardHeaderPrimitive,
-  TngCardTitle as TngCardTitlePrimitive,
-} from '@tailng-ui/primitives';
 import { type DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
 import {
   DocsExampleTabsSectionComponent,
@@ -30,13 +21,6 @@ import {
   selector: 'app-card-overview-page',
   imports: [
     TngCodeBlockComponent,
-    TngCardPrimitive,
-    TngCardHeaderPrimitive,
-    TngCardTitlePrimitive,
-    TngCardDescriptionPrimitive,
-    TngCardContentPrimitive,
-    TngCardFooterPrimitive,
-    TngCardActionsPrimitive,
     TngCardComponent,
     TngCardHeaderComponent,
     TngCardTitleComponent,
@@ -52,94 +36,27 @@ import {
 })
 export class CardOverviewPageComponent implements OnDestroy {
   private readonly documentRef = inject(DOCUMENT);
+
   public readonly codeBlockTheme = signal<'github-dark' | 'github-light'>(
     resolveDocsCodeBlockTheme(this.documentRef),
   );
-  private readonly colorSchemeObserver = observeDocsCodeThemeChanges(this.documentRef, this.codeBlockTheme);
-
-  protected readonly primitiveImportCode = [
-    'import {',
-    '  TngCard,',
-    '  TngCardHeader,',
-    '  TngCardTitle,',
-    '  TngCardDescription,',
-    '  TngCardContent,',
-    '  TngCardFooter,',
-    '  TngCardActions,',
-    '} from \'@tailng-ui/primitives\';',
-    '',
-  ].join('\n');
+  private readonly colorSchemeObserver = observeDocsCodeThemeChanges(
+    this.documentRef,
+    this.codeBlockTheme,
+  );
 
   protected readonly componentImportCode = [
     'import {',
+    '  TngCardActionsComponent,',
     '  TngCardComponent,',
+    '  TngCardContentComponent,',
+    '  TngCardDescriptionComponent,',
+    '  TngCardFooterComponent,',
     '  TngCardHeaderComponent,',
     '  TngCardTitleComponent,',
-    '  TngCardDescriptionComponent,',
-    '  TngCardContentComponent,',
-    '  TngCardFooterComponent,',
-    '  TngCardActionsComponent,',
-    '} from \'@tailng-ui/components\';',
+    "} from '@tailng-ui/components';",
     '',
   ].join('\n');
-
-  protected readonly headlessCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
-    {
-      value: 'ts',
-      label: 'TS',
-      language: 'ts',
-      title: 'card-overview-headless.component.ts',
-      code: this.primitiveImportCode,
-    },
-    {
-      value: 'html',
-      label: 'HTML',
-      language: 'html',
-      title: 'card-overview-headless.component.html',
-      code: [
-        '<article tngCard class="card-preview card-preview--headless">',
-        '  <header tngCardHeader class="card-preview__header">',
-        '    <h3 tngCardTitle>Release status</h3>',
-        '    <p tngCardDescription>Production rollout is complete and monitoring is stable.</p>',
-        '  </header>',
-        '',
-        '  <section tngCardContent class="card-preview__content">',
-        '    <ul>',
-        '      <li>Latency is below 120ms across all regions.</li>',
-        '      <li>Error rate remained under 0.2% for the last hour.</li>',
-        '    </ul>',
-        '  </section>',
-        '',
-        '  <footer tngCardFooter class="card-preview__footer">',
-        '    <div tngCardActions>',
-        '      <button type="button">View report</button>',
-        '      <button type="button">Promote</button>',
-        '    </div>',
-        '  </footer>',
-        '</article>',
-        '',
-      ].join('\n'),
-    },
-    {
-      value: 'css',
-      label: 'CSS',
-      language: 'css',
-      title: 'card-overview-headless.component.css',
-      code: [
-        '.card-preview--headless {',
-        '  border: 1px solid var(--tng-semantic-border-subtle);',
-        '  border-radius: 0.9rem;',
-        '  padding: 1rem;',
-        '}',
-        '',
-        '.card-preview__content ul {',
-        '  margin: 0;',
-        '  padding-left: 1rem;',
-        '}',
-        '',
-      ].join('\n'),
-    },
-  ]);
 
   protected readonly plainCssCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
     {
@@ -147,7 +64,35 @@ export class CardOverviewPageComponent implements OnDestroy {
       label: 'TS',
       language: 'ts',
       title: 'card-overview-plain-css.component.ts',
-      code: this.componentImportCode,
+      code: [
+        "import { Component } from '@angular/core';",
+        "import {",
+        "  TngCardActionsComponent,",
+        "  TngCardComponent,",
+        "  TngCardContentComponent,",
+        "  TngCardDescriptionComponent,",
+        "  TngCardFooterComponent,",
+        "  TngCardHeaderComponent,",
+        "  TngCardTitleComponent,",
+        "} from '@tailng-ui/components';",
+        '',
+        '@Component({',
+        "  selector: 'app-card-overview-plain-css',",
+        '  standalone: true,',
+        '  imports: [',
+        '    TngCardComponent,',
+        '    TngCardHeaderComponent,',
+        '    TngCardTitleComponent,',
+        '    TngCardDescriptionComponent,',
+        '    TngCardContentComponent,',
+        '    TngCardFooterComponent,',
+        '    TngCardActionsComponent,',
+        '  ],',
+        "  templateUrl: './card-overview-plain-css.component.html',",
+        "  styleUrl: './card-overview-plain-css.component.css',",
+        '})',
+        'export class CardOverviewPlainCssComponent {}',
+      ].join('\n'),
     },
     {
       value: 'html',
@@ -200,7 +145,35 @@ export class CardOverviewPageComponent implements OnDestroy {
       label: 'TS',
       language: 'ts',
       title: 'card-overview-tailwind.component.ts',
-      code: this.componentImportCode,
+      code: [
+        "import { Component } from '@angular/core';",
+        "import {",
+        "  TngCardActionsComponent,",
+        "  TngCardComponent,",
+        "  TngCardContentComponent,",
+        "  TngCardDescriptionComponent,",
+        "  TngCardFooterComponent,",
+        "  TngCardHeaderComponent,",
+        "  TngCardTitleComponent,",
+        "} from '@tailng-ui/components';",
+        '',
+        '@Component({',
+        "  selector: 'app-card-overview-tailwind',",
+        '  standalone: true,',
+        '  imports: [',
+        '    TngCardComponent,',
+        '    TngCardHeaderComponent,',
+        '    TngCardTitleComponent,',
+        '    TngCardDescriptionComponent,',
+        '    TngCardContentComponent,',
+        '    TngCardFooterComponent,',
+        '    TngCardActionsComponent,',
+        '  ],',
+        "  templateUrl: './card-overview-tailwind.component.html',",
+        "  styleUrl: './card-overview-tailwind.component.css',",
+        '})',
+        'export class CardOverviewTailwindComponent {}',
+      ].join('\n'),
     },
     {
       value: 'html',
@@ -243,5 +216,4 @@ export class CardOverviewPageComponent implements OnDestroy {
   public ngOnDestroy(): void {
     this.colorSchemeObserver?.disconnect();
   }
-
 }

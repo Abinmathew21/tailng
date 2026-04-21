@@ -1,0 +1,109 @@
+<article class="headless-card-api">
+  <h2 class="headless-card-api-title">API reference</h2>
+  <p class="headless-card-api-lead">
+    Headless card is a slot-only primitive surface. It adds stable <code>data-slot</code> hooks
+    and otherwise leaves semantics, content, and interaction flow to your markup.
+  </p>
+
+  <section id="root-and-slots" class="headless-card-api-block">
+    <h3>Root and slots</h3>
+    <p>
+      Attach the directives to the elements that already make sense for your content model rather
+      than wrapping everything in non-semantic containers.
+    </p>
+    <tng-code-block
+      [code]="attachmentCode"
+      adapter="shiki"
+      language="html"
+      title="Headless card attachment"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+
+    <div class="headless-card-api-table-wrap">
+      <table class="headless-card-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Directive</th>
+            <th scope="col">Selector</th>
+            <th scope="col">Slot</th>
+            <th scope="col">Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>TngCard</code></td>
+            <td><code>[tngCard]</code></td>
+            <td><code>card</code></td>
+            <td>Root container for the grouped content surface.</td>
+          </tr>
+          <tr>
+            <td><code>TngCardHeader</code></td>
+            <td><code>[tngCardHeader]</code></td>
+            <td><code>card-header</code></td>
+            <td>Heading wrapper for title and description content.</td>
+          </tr>
+          <tr>
+            <td><code>TngCardTitle</code></td>
+            <td><code>[tngCardTitle]</code></td>
+            <td><code>card-title</code></td>
+            <td>Primary heading hook.</td>
+          </tr>
+          <tr>
+            <td><code>TngCardDescription</code></td>
+            <td><code>[tngCardDescription]</code></td>
+            <td><code>card-description</code></td>
+            <td>Supporting summary or metadata text.</td>
+          </tr>
+          <tr>
+            <td><code>TngCardMedia</code></td>
+            <td><code>[tngCardMedia]</code></td>
+            <td><code>card-media</code></td>
+            <td>Media wrapper for imagery, charts, or preview surfaces.</td>
+          </tr>
+          <tr>
+            <td><code>TngCardContent</code></td>
+            <td><code>[tngCardContent]</code></td>
+            <td><code>card-content</code></td>
+            <td>Main body copy or owner-authored custom layout.</td>
+          </tr>
+          <tr>
+            <td><code>TngCardDivider</code></td>
+            <td><code>[tngCardDivider]</code></td>
+            <td><code>card-divider</code></td>
+            <td>Visual separation between regions.</td>
+          </tr>
+          <tr>
+            <td><code>TngCardFooter</code></td>
+            <td><code>[tngCardFooter]</code></td>
+            <td><code>card-footer</code></td>
+            <td>Footer row for links, meta, and actions.</td>
+          </tr>
+          <tr>
+            <td><code>TngCardLink</code></td>
+            <td><code>[tngCardLink]</code></td>
+            <td><code>card-link</code></td>
+            <td>Inline focusable link hook within the footer area.</td>
+          </tr>
+          <tr>
+            <td><code>TngCardActions</code></td>
+            <td><code>[tngCardActions]</code></td>
+            <td><code>card-actions</code></td>
+            <td>Action grouping hook for aligned button rows.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="owner-responsibilities" class="headless-card-api-block">
+    <h3>Owner responsibilities</h3>
+    <ul>
+      <li>Choose semantic host elements such as <code>article</code>, <code>header</code>, and <code>footer</code>.</li>
+      <li>Author all visual state, including emphasis, density, hover treatment, and elevation.</li>
+      <li>Manage any interaction model yourself when the full card or inner regions are clickable.</li>
+      <li>Provide meaningful accessible names for linked cards, inline actions, and media alternatives.</li>
+    </ul>
+  </section>
+</article>

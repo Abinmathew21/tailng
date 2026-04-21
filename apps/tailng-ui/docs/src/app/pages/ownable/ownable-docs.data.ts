@@ -165,6 +165,13 @@ export const OWNABLE_LAYOUT_GROUP: OwnableDocsGroup = {
   subtitle: 'Installable layout wrappers with local source ownership',
   items: [
     {
+      id: 'card',
+      slug: 'card',
+      title: 'Card',
+      description:
+        'Ownable card install with local wrapper source, content shell markup, and generated file structure.',
+    },
+    {
       id: 'collapsible',
       slug: 'collapsible',
       title: 'Collapsible',

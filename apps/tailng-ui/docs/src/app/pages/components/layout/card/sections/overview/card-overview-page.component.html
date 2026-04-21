@@ -1,23 +1,12 @@
 <article class="card-overview">
-  <h2 class="card-overview-title">Card overview</h2>
-  <p class="card-overview-lead">
-    Card provides structural sections for grouped content. Build fully custom markup with the
-    headless primitives or move faster with <code>&lt;tng-card&gt;</code> wrappers.
-  </p>
-
-  <section class="card-overview-block">
+  <section id="imports" class="card-overview-block">
+    <h2 class="card-overview-title">Card overview</h2>
+    <p class="card-overview-lead">
+      Card wraps the primitive slot contract with baseline shell styles and variant inputs while
+      leaving the content structure inside each region under your control.
+    </p>
     <h3>Imports</h3>
-    <p>Select the layer that matches your ownership model.</p>
-    <tng-code-block
-      [code]="primitiveImportCode"
-      adapter="shiki"
-      language="ts"
-      title="Primitive import"
-      [theme]="codeBlockTheme()"
-      [lineNumbers]="false"
-      [wrap]="true"
-      [sanitizeHtml]="false"
-    ></tng-code-block>
+    <p>Import the wrapper components when you want the default shell styling and variant inputs.</p>
     <tng-code-block
       [code]="componentImportCode"
       adapter="shiki"
@@ -30,46 +19,15 @@
     ></tng-code-block>
   </section>
 
-  <section class="card-overview-block">
+  <section id="release-status" class="card-overview-block">
     <app-docs-example-tabs-section
       heading="Status card variants"
-      description="Same card structure rendered through headless directives, plain CSS wrappers, and Tailwind utility shells."
+      description="The same wrapper card rendered with local CSS or a Tailwind utility shell around the default component styles."
       ariaLabel="Card status variants"
       tabListAriaLabel="Card style variants"
-      defaultValue="headless"
+      defaultValue="plain-css"
       [codeBlockTheme]="codeBlockTheme()"
     >
-      <ng-template
-        appDocsExampleVariant
-        value="headless"
-        label="Headless"
-        panelTitle="Headless release status card"
-        [codeTabs]="headlessCodeTabs"
-      >
-        <article tngCard class="card-preview card-preview--headless">
-          <header tngCardHeader class="card-preview__header">
-            <h3 tngCardTitle>Release status</h3>
-            <p tngCardDescription>Production rollout is complete and monitoring is stable.</p>
-          </header>
-
-          <section tngCardContent class="card-preview__content">
-            <ul>
-              <li>Latency is below 120ms across all regions.</li>
-              <li>Error rate remained under 0.2% for the last hour.</li>
-            </ul>
-          </section>
-
-          <footer tngCardFooter class="card-preview__footer">
-            <div tngCardActions>
-              <button type="button" class="card-preview__button">View report</button>
-              <button type="button" class="card-preview__button card-preview__button--primary">
-                Promote
-              </button>
-            </div>
-          </footer>
-        </article>
-      </ng-template>
-
       <ng-template
         appDocsExampleVariant
         value="plain-css"
@@ -144,7 +102,7 @@
     </app-docs-example-tabs-section>
   </section>
 
-  <section class="card-overview-block">
+  <section id="accessibility-baseline" class="card-overview-block">
     <h3>Accessibility baseline</h3>
     <ul class="card-overview-list">
       <li>Use semantic regions (<code>article</code>, <code>header</code>, <code>footer</code>) when possible.</li>

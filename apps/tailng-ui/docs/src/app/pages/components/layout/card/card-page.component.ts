@@ -11,14 +11,13 @@ import {
 import { TngTab, TngTabList } from '@tailng-ui/primitives';
 import { filter, map, startWith } from 'rxjs/operators';
 
-type CardDocSectionId = 'api' | 'examples' | 'overview' | 'ownable-install' | 'styling';
+type CardDocSectionId = 'api' | 'examples' | 'overview' | 'styling';
 
 const cardDocSectionIds: readonly CardDocSectionId[] = [
   'overview',
   'api',
   'styling',
   'examples',
-  'ownable-install',
 ] as const;
 
 const defaultCardDocSection: CardDocSectionId = 'overview';
@@ -111,4 +110,3 @@ export class CardPageComponent {
     return normalized;
   }
 }
-

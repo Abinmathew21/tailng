@@ -36,6 +36,7 @@ const textareaItem = requireOwnableItem(OWNABLE_FORM_GROUP, 'textarea');
 const autocompleteItem = requireOwnableItem(OWNABLE_FORM_GROUP, 'autocomplete');
 const switchItem = requireOwnableItem(OWNABLE_FORM_GROUP, 'switch');
 const labelItem = requireOwnableItem(OWNABLE_FORM_GROUP, 'label');
+const cardItem = requireOwnableItem(OWNABLE_LAYOUT_GROUP, 'card');
 const collapsibleItem = requireOwnableItem(OWNABLE_LAYOUT_GROUP, 'collapsible');
 const accordionItem = requireOwnableItem(OWNABLE_LAYOUT_GROUP, 'accordion');
 const stepperItem = requireOwnableItem(OWNABLE_LAYOUT_GROUP, 'stepper');
@@ -160,6 +161,14 @@ export const OWNABLE_ROUTES: Routes = [
         loadComponent: () =>
           import('./form/label/ownable-label-page.component').then(
             (m) => m.OwnableLabelPageComponent,
+          ),
+      },
+      {
+        path: 'layout/card',
+        data: toOwnableDocsRouteData(OWNABLE_LAYOUT_GROUP, cardItem),
+        loadComponent: () =>
+          import('./layout/card/ownable-card-page.component').then(
+            (m) => m.OwnableCardPageComponent,
           ),
       },
       {

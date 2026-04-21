@@ -1,0 +1,67 @@
+<article class="headless-card-styling">
+  <h2 class="headless-card-styling-title">Styling</h2>
+  <p class="headless-card-styling-lead">
+    Headless card exposes stable slot hooks only. Tone, density, interaction affordances, and any
+    local state attributes belong to your own contract.
+  </p>
+
+  <section id="slot-and-owner-hooks" class="headless-card-styling-block">
+    <h3>Slot and owner hooks</h3>
+    <div class="headless-card-styling-table-wrap">
+      <table class="headless-card-styling-table">
+        <thead>
+          <tr>
+            <th scope="col">Selector</th>
+            <th scope="col">Who owns it</th>
+            <th scope="col">Typical use</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>[data-slot="card"]</code></td>
+            <td>Library</td>
+            <td>Root surface layout, border, padding, and elevation.</td>
+          </tr>
+          <tr>
+            <td><code>[data-slot="card-header"]</code> through <code>[data-slot="card-actions"]</code></td>
+            <td>Library</td>
+            <td>Stable region selectors for spacing, typography, media, and footer layout.</td>
+          </tr>
+          <tr>
+            <td><code>.is-featured</code> / <code>[data-tone]</code></td>
+            <td>You</td>
+            <td>Product-specific emphasis, editorial treatments, or marketing variants.</td>
+          </tr>
+          <tr>
+            <td><code>[aria-current]</code> / <code>[aria-disabled]</code></td>
+            <td>You</td>
+            <td>State-driven styling when card internals participate in navigation flows.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="css-starter" class="headless-card-styling-block">
+    <h3>CSS starter</h3>
+    <tng-code-block
+      [code]="cssStarterCode"
+      adapter="shiki"
+      language="css"
+      title="Headless card starter CSS"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="practical-guidance" class="headless-card-styling-block">
+    <h3>Practical guidance</h3>
+    <ul>
+      <li>Keep spacing and surface styling on the root slot so nested content regions stay reusable.</li>
+      <li>Base interaction states on real buttons and links rather than styling a static card like a button.</li>
+      <li>Prefer owner-authored variant attributes when cards need editorial, dashboard, or marketing skins.</li>
+      <li>Use media and footer slots for layout only, and keep content semantics inside the projected markup.</li>
+    </ul>
+  </section>
+</article>

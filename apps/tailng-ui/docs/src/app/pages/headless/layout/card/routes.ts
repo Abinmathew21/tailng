@@ -1,18 +1,18 @@
 import type { Routes } from '@angular/router';
-import { COMPONENTS_LAYOUT_GROUP, toComponentsDocsRouteData } from '../../component-docs.data';
+import { HEADLESS_LAYOUT_GROUP, toHeadlessDocsRouteData } from '../../headless-docs.data';
 
-const group = COMPONENTS_LAYOUT_GROUP;
+const group = HEADLESS_LAYOUT_GROUP;
 const cardItem = group.items.find((item) => item.slug === 'card');
 if (cardItem === undefined) {
-  throw new Error('Missing "card" in components layout docs group.');
+  throw new Error('Missing "card" in headless layout docs group.');
 }
 
-export const COMPONENTS_LAYOUT_CARD_ROUTES: Routes = [
+export const HEADLESS_LAYOUT_CARD_ROUTES: Routes = [
   {
     path: '',
-    data: toComponentsDocsRouteData(group, cardItem),
+    data: toHeadlessDocsRouteData(group, cardItem),
     loadComponent: () =>
-      import('./card-page.component').then((module) => module.CardPageComponent),
+      import('./card-page.component').then((module) => module.HeadlessCardPageComponent),
     children: [
       {
         path: '',
@@ -23,37 +23,29 @@ export const COMPONENTS_LAYOUT_CARD_ROUTES: Routes = [
         path: 'overview',
         loadComponent: () =>
           import('./sections/overview/card-overview-page.component').then(
-            (module) => module.CardOverviewPageComponent,
+            (module) => module.HeadlessCardOverviewPageComponent,
           ),
       },
       {
         path: 'api',
         loadComponent: () =>
           import('./sections/api/card-api-page.component').then(
-            (module) => module.CardApiPageComponent,
+            (module) => module.HeadlessCardApiPageComponent,
           ),
       },
       {
         path: 'styling',
         loadComponent: () =>
           import('./sections/styling/card-styling-page.component').then(
-            (module) => module.CardStylingPageComponent,
+            (module) => module.HeadlessCardStylingPageComponent,
           ),
       },
       {
         path: 'examples',
         loadComponent: () =>
           import('./sections/examples/card-examples-page.component').then(
-            (module) => module.CardExamplesPageComponent,
+            (module) => module.HeadlessCardExamplesPageComponent,
           ),
-      },
-      {
-        path: 'ownable-install',
-        data: {
-          registrySlug: 'card',
-        },
-        pathMatch: 'full',
-        redirectTo: '/ownable/layout/card',
       },
       {
         path: '**',

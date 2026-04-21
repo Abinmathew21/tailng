@@ -10,6 +10,11 @@ export const HEADLESS_LAYOUT_ROUTES: Routes = [
     redirectTo: group.items[0]!.slug,
   },
   {
+    path: 'card',
+    loadChildren: () =>
+      import('./card/routes').then((module) => module.HEADLESS_LAYOUT_CARD_ROUTES),
+  },
+  {
     path: 'collapsible',
     loadChildren: () =>
       import('./collapsible/routes').then((module) => module.HEADLESS_LAYOUT_COLLAPSIBLE_ROUTES),

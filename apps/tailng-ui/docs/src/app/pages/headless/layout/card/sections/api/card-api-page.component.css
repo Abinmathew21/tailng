@@ -1,0 +1,69 @@
+:host {
+  display: block;
+}
+
+.headless-card-api {
+  display: grid;
+  gap: 1rem;
+}
+
+.headless-card-api-title {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.headless-card-api-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.headless-card-api-block {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.9rem;
+  color: var(--tng-semantic-foreground-secondary);
+  display: grid;
+  gap: 0.75rem;
+  padding: 1rem;
+}
+
+.headless-card-api-block h3 {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1rem;
+  margin: 0;
+}
+
+.headless-card-api-block p,
+.headless-card-api-block ul {
+  margin: 0;
+}
+
+.headless-card-api-block ul {
+  display: grid;
+  gap: 0.45rem;
+  padding-left: 1rem;
+}
+
+.headless-card-api-table-wrap {
+  overflow-x: auto;
+}
+
+.headless-card-api-table {
+  border-collapse: collapse;
+  min-width: 44rem;
+  width: 100%;
+}
+
+.headless-card-api-table th,
+.headless-card-api-table td {
+  border-bottom: 1px solid var(--tng-semantic-border-subtle);
+  padding: 0.7rem 0.75rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.headless-card-api-table th {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 0.84rem;
+}

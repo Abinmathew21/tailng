@@ -1,0 +1,101 @@
+:host {
+  display: block;
+}
+
+.headless-card-examples {
+  display: grid;
+  gap: 1rem;
+}
+
+.headless-card-examples-title {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.headless-card-examples-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.headless-card-examples-block {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.9rem;
+  color: var(--tng-semantic-foreground-secondary);
+  display: grid;
+  gap: 0.85rem;
+  padding: 1rem;
+}
+
+.headless-card-example {
+  background: color-mix(in srgb, var(--tng-semantic-background-surface) 86%, transparent);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.9rem;
+  display: grid;
+  gap: 0.85rem;
+  max-width: 42rem;
+  padding: 1rem;
+  width: 100%;
+}
+
+.headless-card-example--announcement {
+  background: linear-gradient(
+    145deg,
+    color-mix(in srgb, var(--tng-semantic-accent-warning) 10%, transparent),
+    color-mix(in srgb, var(--tng-semantic-background-surface) 92%, transparent)
+  );
+}
+
+.headless-card-example__media {
+  border-radius: 0.7rem;
+  overflow: hidden;
+}
+
+.headless-card-example__media-placeholder {
+  align-items: center;
+  aspect-ratio: 16 / 7;
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--tng-semantic-accent-brand) 35%, transparent),
+    color-mix(in srgb, var(--tng-semantic-accent-success) 28%, transparent)
+  );
+  color: var(--tng-semantic-foreground-primary);
+  display: flex;
+  font-size: 1.15rem;
+  font-weight: 800;
+  justify-content: center;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.headless-card-example__footer {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: space-between;
+}
+
+.headless-card-example__button {
+  background: var(--tng-semantic-background-surface);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.55rem;
+  color: var(--tng-semantic-foreground-primary);
+  cursor: pointer;
+  font-size: 0.82rem;
+  font-weight: 600;
+  min-height: 2rem;
+  padding: 0.35rem 0.75rem;
+}
+
+.headless-card-example__button--primary {
+  border-color: var(--tng-semantic-accent-brand);
+  color: var(--tng-semantic-accent-brand);
+}
+
+.headless-card-example__link {
+  color: var(--tng-semantic-accent-brand);
+  font-weight: 600;
+  text-decoration: none;
+}

@@ -1,0 +1,136 @@
+<article class="headless-card-overview">
+  <section id="imports" class="headless-card-overview-block">
+    <h2 class="headless-card-overview-title">Card overview</h2>
+    <p class="headless-card-overview-lead">
+      Headless card gives you stable structural slots for grouped content while keeping markup,
+      semantics, and the entire visual contract under your control.
+    </p>
+    <h3>Imports</h3>
+    <p>Import only the slots you need for the card shape your feature owns.</p>
+    <tng-code-block
+      [code]="importCode"
+      adapter="shiki"
+      language="ts"
+      title="Headless card imports"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="basic-composition" class="headless-card-overview-block">
+    <h3>Basic composition</h3>
+    <p>
+      Apply the directives to semantic elements like <code>article</code>, <code>header</code>,
+      <code>section</code>, and <code>footer</code>.
+    </p>
+    <tng-code-block
+      [code]="usageCode"
+      adapter="shiki"
+      language="html"
+      title="Headless card usage"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section class="headless-card-overview-block">
+    <app-docs-example-tabs-section
+      id="style-variants"
+      heading="Style variants"
+      description="The same headless card structure skinned with local CSS or a Tailwind utility shell."
+      ariaLabel="Headless card style variants"
+      tabListAriaLabel="Headless card style tabs"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Headless card overview (plain CSS)"
+        [codeTabs]="plainCodeTabs"
+      >
+        <article tngCard class="headless-card-preview">
+          <header tngCardHeader class="headless-card-preview__header">
+            <h3 tngCardTitle>Release status</h3>
+            <p tngCardDescription>Production rollout is complete and monitoring is stable.</p>
+          </header>
+          <section tngCardContent class="headless-card-preview__content">
+            <ul>
+              <li>Latency is below 120ms across all regions.</li>
+              <li>Error rate stayed under 0.2% for the last hour.</li>
+            </ul>
+          </section>
+          <footer tngCardFooter class="headless-card-preview__footer">
+            <div tngCardActions>
+              <button type="button" class="headless-card-preview__button">View report</button>
+              <button
+                type="button"
+                class="headless-card-preview__button headless-card-preview__button--primary"
+              >
+                Promote
+              </button>
+            </div>
+          </footer>
+        </article>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Headless card overview (Tailwind CSS)"
+        [codeTabs]="tailwindCodeTabs"
+      >
+        <article
+          tngCard
+          class="grid gap-4 rounded-2xl border border-slate-300 bg-white/95 p-5 shadow-sm dark:border-slate-700 dark:bg-slate-950/70"
+        >
+          <header tngCardHeader class="grid gap-1">
+            <h3 tngCardTitle class="m-0 text-lg font-semibold text-slate-950 dark:text-slate-50">
+              Release status
+            </h3>
+            <p tngCardDescription class="m-0 text-sm text-slate-600 dark:text-slate-300">
+              Production rollout is complete and monitoring is stable.
+            </p>
+          </header>
+          <section tngCardContent>
+            <ul class="m-0 space-y-2 pl-4 text-sm text-slate-700 dark:text-slate-200">
+              <li>Latency is below 120ms across all regions.</li>
+              <li>Error rate stayed under 0.2% for the last hour.</li>
+            </ul>
+          </section>
+          <footer tngCardFooter class="flex flex-wrap justify-end gap-2">
+            <div tngCardActions class="flex flex-wrap gap-2">
+              <button
+                type="button"
+                class="rounded-lg border border-slate-300 px-3 py-2 text-sm font-medium text-slate-700 dark:border-slate-700 dark:text-slate-200"
+              >
+                View report
+              </button>
+              <button
+                type="button"
+                class="rounded-lg border border-sky-500 bg-sky-500 px-3 py-2 text-sm font-medium text-white"
+              >
+                Promote
+              </button>
+            </div>
+          </footer>
+        </article>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section id="accessibility-baseline" class="headless-card-overview-block">
+    <h3>Accessibility baseline</h3>
+    <ul class="headless-card-overview-list">
+      <li>Use semantic regions so screen-reader users get a meaningful content outline.</li>
+      <li>Keep the card itself non-interactive unless the entire surface truly behaves like one action.</li>
+      <li>Preserve a natural tab order for links, buttons, and other controls inside the footer.</li>
+    </ul>
+  </section>
+</article>

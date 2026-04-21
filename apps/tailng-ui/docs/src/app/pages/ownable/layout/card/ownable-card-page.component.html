@@ -1,0 +1,40 @@
+<div class="grid gap-8 pb-10">
+  <section class="docs-section-anchor grid gap-4" id="card-overview">
+    <h1 class="m-0 text-3xl font-semibold text-tng-fg-primary">Card</h1>
+    <p class="m-0 max-w-4xl text-base leading-7 text-tng-fg-secondary">
+      The ownable Card install gives your app a local wrapper shell for common content grouping
+      patterns while keeping the generated markup and styling surface editable beside the feature
+      that owns the presentation.
+    </p>
+  </section>
+
+  <section class="docs-section-anchor grid gap-3" id="why-own-card">
+    <h2 class="m-0 text-xl font-semibold text-tng-fg-primary">Why own Card locally</h2>
+    <p class="m-0 max-w-4xl text-base leading-7 text-tng-fg-secondary">
+      Card shells usually become product-specific quickly once teams add editorial spacing,
+      dashboard treatments, campaign surfaces, or linked summary patterns. Local ownership keeps
+      those layout decisions versioned with the feature instead of buried in a distant package.
+    </p>
+    <ul class="m-0 grid gap-2 pl-5 text-sm leading-6 text-tng-fg-secondary">
+      <li>Adjust shell density, spacing, and footer layout without waiting on a package release.</li>
+      <li>Compose feature-specific content inside the generated wrapper with local naming and structure.</li>
+      <li>Extend the installed card locally if your app later needs extra regions like media or dividers.</li>
+    </ul>
+  </section>
+
+  <section class="docs-section-anchor grid gap-3" id="what-card-installs">
+    <h2 class="m-0 text-xl font-semibold text-tng-fg-primary">What the install includes</h2>
+    <p class="m-0 max-w-4xl text-base leading-7 text-tng-fg-secondary">
+      The current registry-backed card install writes the local wrapper source for the base shell:
+      card, header, title, description, content, footer, the shared stylesheet, and the primitive
+      bridge file. More specialized regions can be added in your app once the local source is in
+      place.
+    </p>
+  </section>
+
+  <app-docs-ownable-install-section
+    componentName="Card"
+    registrySlug="card"
+    [usageCode]="usageCode"
+  />
+</div>

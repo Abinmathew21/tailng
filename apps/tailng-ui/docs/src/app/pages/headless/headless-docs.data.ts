@@ -180,6 +180,13 @@ export const HEADLESS_LAYOUT_GROUP: HeadlessDocsGroup = {
   subtitle: 'Headless structural primitives for expandable and container patterns',
   items: [
     {
+      id: 'card',
+      slug: 'card',
+      title: 'Card',
+      description:
+        'Structural card slots for owner-authored content groupings, media regions, and footer actions.',
+    },
+    {
       id: 'collapsible',
       slug: 'collapsible',
       title: 'Collapsible',
