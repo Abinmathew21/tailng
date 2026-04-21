@@ -24,14 +24,15 @@
             </p>
           </div>
 
-          <tng-input-otp
-            class="docs-component-input-otp-examples-passcode-plain-control"
-            [length]="6"
-            [value]="passcodePlainValue()"
-            [ariaLabel]="'Verification code'"
-            (valueChange)="onPasscodePlainValueChange($event)"
-            (complete)="onPasscodePlainComplete($event)"
-          ></tng-input-otp>
+          <div class="docs-component-input-otp-examples-passcode-plain-control">
+            <tng-input-otp
+              [length]="6"
+              [value]="passcodePlainValue()"
+              [ariaLabel]="'Verification code'"
+              (valueChange)="onPasscodePlainValueChange($event)"
+              (complete)="onPasscodePlainComplete($event)"
+            ></tng-input-otp>
+          </div>
 
           <p class="docs-component-input-otp-examples-passcode-plain-summary">
             Value: {{ passcodePlainValue() || '—' }}
@@ -50,23 +51,26 @@
         [codeTabs]="passcodeTailwindCodeTabs"
         [stackblitzUrl]="stackblitzTailwindUrl"
       >
-        <section class="mx-auto grid w-full max-w-[36rem] gap-4 rounded-[1.5rem] border border-slate-200 bg-white p-5 text-slate-900 shadow-sm">
+        <section class="mx-auto grid w-full max-w-[36rem] gap-4 rounded-[1.5rem] border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-surface)] p-5 text-[var(--tng-semantic-foreground-primary)] shadow-[0_12px_32px_color-mix(in_srgb,var(--tng-semantic-foreground-primary)_8%,transparent)]">
           <div class="grid gap-1">
-            <span class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Approval flow</span>
-            <p class="m-0 text-sm leading-6 text-slate-600">Numeric approval code with utility-first framing.</p>
+            <span class="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--tng-semantic-foreground-secondary)]">Approval flow</span>
+            <p class="m-0 text-sm leading-6 text-[var(--tng-semantic-foreground-secondary)]">Numeric approval code with utility-first framing.</p>
           </div>
 
-          <tng-input-otp
-            class="block [--tng-semantic-background-surface:#ffffff] [--tng-semantic-background-muted:#eef6ff] [--tng-semantic-border-default:#cbd5e1] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-foreground-muted:#94a3b8] [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-accent-danger:#dc2626]"
-            [length]="6"
-            [value]="passcodeTailwindValue()"
-            [ariaLabel]="'Approval code'"
-            (valueChange)="onPasscodeTailwindValueChange($event)"
-            (complete)="onPasscodeTailwindComplete($event)"
-          ></tng-input-otp>
+          <div
+            class="block [--tng-semantic-background-muted:color-mix(in_srgb,var(--tng-semantic-accent-brand)_12%,var(--tng-semantic-background-base))] [--tng-semantic-border-default:var(--tng-semantic-border-subtle)]"
+          >
+            <tng-input-otp
+              [length]="6"
+              [value]="passcodeTailwindValue()"
+              [ariaLabel]="'Approval code'"
+              (valueChange)="onPasscodeTailwindValueChange($event)"
+              (complete)="onPasscodeTailwindComplete($event)"
+            ></tng-input-otp>
+          </div>
 
-          <p class="m-0 text-sm text-slate-600">Value: {{ passcodeTailwindValue() || '—' }}</p>
-          <p class="m-0 text-sm text-slate-600">Complete event: {{ passcodeTailwindComplete() || '—' }}</p>
+          <p class="m-0 text-sm text-[var(--tng-semantic-foreground-secondary)]">Value: {{ passcodeTailwindValue() || '—' }}</p>
+          <p class="m-0 text-sm text-[var(--tng-semantic-foreground-secondary)]">Complete event: {{ passcodeTailwindComplete() || '—' }}</p>
         </section>
       </ng-template>
     </app-docs-example-tabs-section>
@@ -97,15 +101,16 @@
             </p>
           </div>
 
-          <tng-input-otp
-            class="docs-component-input-otp-examples-recovery-plain-control"
-            [length]="6"
-            [type]="'alphanumeric'"
-            [mask]="true"
-            [value]="recoveryPlainValue()"
-            [ariaLabel]="'Recovery code'"
-            (valueChange)="onRecoveryPlainValueChange($event)"
-          ></tng-input-otp>
+          <div class="docs-component-input-otp-examples-recovery-plain-control">
+            <tng-input-otp
+              [length]="6"
+              [type]="'alphanumeric'"
+              [mask]="true"
+              [value]="recoveryPlainValue()"
+              [ariaLabel]="'Recovery code'"
+              (valueChange)="onRecoveryPlainValueChange($event)"
+            ></tng-input-otp>
+          </div>
 
           <p class="docs-component-input-otp-examples-recovery-plain-summary">
             Value: {{ recoveryPlainValue() || '—' }}
@@ -121,23 +126,26 @@
         [codeTabs]="recoveryTailwindCodeTabs"
         [stackblitzUrl]="stackblitzTailwindUrl"
       >
-        <section class="mx-auto grid w-full max-w-[36rem] gap-4 rounded-[1.75rem] border border-orange-200 bg-white p-5 text-slate-900 shadow-sm">
+        <section class="mx-auto grid w-full max-w-[36rem] gap-4 rounded-[1.75rem] border border-[color-mix(in_srgb,var(--tng-semantic-accent-danger)_28%,var(--tng-semantic-border-subtle))] bg-[linear-gradient(180deg,color-mix(in_srgb,var(--tng-semantic-accent-danger)_8%,var(--tng-semantic-background-surface)),var(--tng-semantic-background-surface))] p-5 text-[var(--tng-semantic-foreground-primary)] shadow-[0_14px_36px_color-mix(in_srgb,var(--tng-semantic-foreground-primary)_10%,transparent)]">
           <div class="grid gap-1">
-            <span class="text-xs font-semibold uppercase tracking-[0.22em] text-orange-600">Recovery checkpoint</span>
-            <p class="m-0 text-sm leading-6 text-slate-600">Masked alphanumeric entry with a warmer caution tone.</p>
+            <span class="text-xs font-semibold uppercase tracking-[0.22em] text-[color-mix(in_srgb,var(--tng-semantic-accent-danger)_55%,var(--tng-semantic-foreground-secondary))]">Recovery checkpoint</span>
+            <p class="m-0 text-sm leading-6 text-[var(--tng-semantic-foreground-secondary)]">Masked alphanumeric entry with a warmer caution tone.</p>
           </div>
 
-          <tng-input-otp
-            class="block [--tng-semantic-background-surface:#ffffff] [--tng-semantic-background-muted:#fff7ed] [--tng-semantic-border-default:#fdba74] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-foreground-muted:#94a3b8] [--tng-semantic-accent-brand:#ea580c] [--tng-semantic-accent-danger:#dc2626]"
-            [length]="6"
-            [type]="'alphanumeric'"
-            [mask]="true"
-            [value]="recoveryTailwindValue()"
-            [ariaLabel]="'Recovery code'"
-            (valueChange)="onRecoveryTailwindValueChange($event)"
-          ></tng-input-otp>
+          <div
+            class="block [--tng-semantic-background-muted:color-mix(in_srgb,var(--tng-semantic-accent-danger)_12%,var(--tng-semantic-background-base))] [--tng-semantic-border-default:color-mix(in_srgb,var(--tng-semantic-accent-danger)_30%,var(--tng-semantic-border-subtle))] [--tng-semantic-accent-brand:var(--tng-semantic-accent-danger)]"
+          >
+            <tng-input-otp
+              [length]="6"
+              [type]="'alphanumeric'"
+              [mask]="true"
+              [value]="recoveryTailwindValue()"
+              [ariaLabel]="'Recovery code'"
+              (valueChange)="onRecoveryTailwindValueChange($event)"
+            ></tng-input-otp>
+          </div>
 
-          <p class="m-0 text-sm text-slate-600">Value: {{ recoveryTailwindValue() || '—' }}</p>
+          <p class="m-0 text-sm text-[var(--tng-semantic-foreground-secondary)]">Value: {{ recoveryTailwindValue() || '—' }}</p>
         </section>
       </ng-template>
     </app-docs-example-tabs-section>

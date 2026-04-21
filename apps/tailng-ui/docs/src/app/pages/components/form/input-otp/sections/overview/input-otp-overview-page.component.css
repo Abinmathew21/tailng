@@ -51,12 +51,11 @@
   inline-size: min(100%, 36rem);
   margin-inline: auto;
   padding: 1.15rem;
-  border: 1px solid #cbd5e1;
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 1.35rem;
-  background: #ffffff;
-  color: #0f172a;
-  color-scheme: light;
-  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
+  background: var(--tng-semantic-background-surface);
+  color: var(--tng-semantic-foreground-primary);
+  box-shadow: 0 12px 32px color-mix(in srgb, var(--tng-semantic-foreground-primary) 8%, transparent);
 }
 
 .docs-component-input-otp-overview-plain-header {
@@ -65,7 +64,7 @@
 }
 
 .docs-component-input-otp-overview-plain-kicker {
-  color: #64748b;
+  color: var(--tng-semantic-foreground-secondary);
   font-size: 0.8rem;
   font-weight: 700;
   letter-spacing: 0.02em;
@@ -74,15 +73,25 @@
 .docs-component-input-otp-overview-plain-copy,
 .docs-component-input-otp-overview-plain-summary {
   margin: 0;
-  color: #475569;
+  color: var(--tng-semantic-foreground-secondary);
 }
 
 .docs-component-input-otp-overview-plain-control {
-  --tng-semantic-background-surface: #ffffff;
-  --tng-semantic-background-muted: #eef4ff;
-  --tng-semantic-border-default: #cbd5e1;
-  --tng-semantic-foreground-primary: #0f172a;
-  --tng-semantic-foreground-muted: #94a3b8;
-  --tng-semantic-accent-brand: #2563eb;
-  --tng-semantic-accent-danger: #dc2626;
+  --tng-semantic-background-surface: var(--tng-semantic-background-surface);
+  --tng-semantic-background-muted: color-mix(
+    in srgb,
+    var(--tng-semantic-accent-brand) 10%,
+    var(--tng-semantic-background-base)
+  );
+  --tng-semantic-border-default: var(--tng-semantic-border-subtle);
+  --tng-semantic-foreground-primary: var(--tng-semantic-foreground-primary);
+  --tng-semantic-foreground-muted: var(--tng-semantic-foreground-muted);
+  --tng-semantic-accent-brand: var(--tng-semantic-accent-brand);
+  --tng-semantic-accent-danger: var(--tng-semantic-accent-danger);
+}
+
+.docs-component-input-otp-overview-plain-control tng-input-otp {
+  display: block;
+  inline-size: 100%;
+  min-inline-size: 0;
 }

@@ -37,14 +37,19 @@ function createCodeTabs(
   ]);
 }
 
-const STYLING_GUIDE_CODE = String.raw`.project-otp-shell {
-  --tng-semantic-background-surface: #ffffff;
-  --tng-semantic-background-muted: #eef4ff;
-  --tng-semantic-border-default: #cbd5e1;
-  --tng-semantic-foreground-primary: #0f172a;
-  --tng-semantic-foreground-muted: #94a3b8;
-  --tng-semantic-accent-brand: #2563eb;
-  --tng-semantic-accent-danger: #dc2626;
+const STYLING_GUIDE_CODE = String.raw`/* Scope semantic tokens on a wrapper around <tng-input-otp>; they inherit into the component. */
+.project-otp-shell {
+  --tng-semantic-background-surface: var(--tng-semantic-background-surface);
+  --tng-semantic-background-muted: color-mix(
+    in srgb,
+    var(--tng-semantic-accent-brand) 10%,
+    var(--tng-semantic-background-base)
+  );
+  --tng-semantic-border-default: var(--tng-semantic-border-subtle);
+  --tng-semantic-foreground-primary: var(--tng-semantic-foreground-primary);
+  --tng-semantic-foreground-muted: var(--tng-semantic-foreground-muted);
+  --tng-semantic-accent-brand: var(--tng-semantic-accent-brand);
+  --tng-semantic-accent-danger: var(--tng-semantic-accent-danger);
 }`;
 
 const PLAIN_TS_CODE = String.raw`import { Component, signal } from '@angular/core';
@@ -73,13 +78,14 @@ const PLAIN_HTML_CODE = String.raw`<section class="docs-component-input-otp-styl
     </p>
   </div>
 
-  <tng-input-otp
-    class="docs-component-input-otp-styling-plain-control"
-    [length]="6"
-    [value]="componentInputOtpStylingPlainValue()"
-    [ariaLabel]="'Review code'"
-    (valueChange)="onComponentInputOtpStylingPlainValueChange($event)"
-  ></tng-input-otp>
+  <div class="docs-component-input-otp-styling-plain-control">
+    <tng-input-otp
+      [length]="6"
+      [value]="componentInputOtpStylingPlainValue()"
+      [ariaLabel]="'Review code'"
+      (valueChange)="onComponentInputOtpStylingPlainValueChange($event)"
+    ></tng-input-otp>
+  </div>
 </section>`;
 
 const PLAIN_CSS_CODE = String.raw`.docs-component-input-otp-styling-plain-shell {
@@ -88,12 +94,15 @@ const PLAIN_CSS_CODE = String.raw`.docs-component-input-otp-styling-plain-shell 
   inline-size: min(100%, 36rem);
   margin-inline: auto;
   padding: 1.15rem;
-  border: 1px solid #d6c6b8;
+  border: 1px solid color-mix(in srgb, var(--tng-semantic-accent-brand) 22%, var(--tng-semantic-border-subtle));
   border-radius: 1.35rem;
-  background: linear-gradient(180deg, #fff8ef 0%, #fffdf7 100%);
-  color: #3f3022;
-  color-scheme: light;
-  box-shadow: 0 16px 40px rgba(68, 46, 14, 0.12);
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--tng-semantic-accent-brand) 6%, var(--tng-semantic-background-surface)),
+    var(--tng-semantic-background-surface)
+  );
+  color: var(--tng-semantic-foreground-primary);
+  box-shadow: 0 16px 40px color-mix(in srgb, var(--tng-semantic-foreground-primary) 10%, transparent);
 }
 
 .docs-component-input-otp-styling-plain-header {
@@ -102,7 +111,7 @@ const PLAIN_CSS_CODE = String.raw`.docs-component-input-otp-styling-plain-shell 
 }
 
 .docs-component-input-otp-styling-plain-kicker {
-  color: #8a6d4f;
+  color: color-mix(in srgb, var(--tng-semantic-accent-brand) 45%, var(--tng-semantic-foreground-secondary));
   font-size: 0.8rem;
   font-weight: 700;
   letter-spacing: 0.02em;
@@ -110,17 +119,27 @@ const PLAIN_CSS_CODE = String.raw`.docs-component-input-otp-styling-plain-shell 
 
 .docs-component-input-otp-styling-plain-copy {
   margin: 0;
-  color: #5f4a35;
+  color: var(--tng-semantic-foreground-secondary);
 }
 
 .docs-component-input-otp-styling-plain-control {
-  --tng-semantic-background-surface: #fffdf7;
-  --tng-semantic-background-muted: #fff1db;
-  --tng-semantic-border-default: #d6c6b8;
-  --tng-semantic-foreground-primary: #3f3022;
-  --tng-semantic-foreground-muted: #9c8468;
-  --tng-semantic-accent-brand: #c87817;
-  --tng-semantic-accent-danger: #b42318;
+  --tng-semantic-background-surface: var(--tng-semantic-background-surface);
+  --tng-semantic-background-muted: color-mix(
+    in srgb,
+    var(--tng-semantic-accent-brand) 12%,
+    var(--tng-semantic-background-base)
+  );
+  --tng-semantic-border-default: color-mix(in srgb, var(--tng-semantic-accent-brand) 24%, var(--tng-semantic-border-subtle));
+  --tng-semantic-foreground-primary: var(--tng-semantic-foreground-primary);
+  --tng-semantic-foreground-muted: var(--tng-semantic-foreground-muted);
+  --tng-semantic-accent-brand: var(--tng-semantic-accent-brand);
+  --tng-semantic-accent-danger: var(--tng-semantic-accent-danger);
+}
+
+.docs-component-input-otp-styling-plain-control tng-input-otp {
+  display: block;
+  inline-size: 100%;
+  min-inline-size: 0;
 }`;
 
 const TAILWIND_TS_CODE = String.raw`import { Component, signal } from '@angular/core';
@@ -141,21 +160,22 @@ export class ComponentInputOtpStylingTailwindExampleComponent {
   }
 }`;
 
-const TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid w-full max-w-[36rem] gap-4 rounded-[1.75rem] border border-emerald-200 bg-white p-5 text-slate-900 shadow-[0_18px_38px_rgba(15,23,42,0.08)]">
+const TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid w-full max-w-[36rem] gap-4 rounded-[1.75rem] border border-[color-mix(in_srgb,var(--tng-semantic-accent-success)_35%,var(--tng-semantic-border-subtle))] bg-[linear-gradient(180deg,color-mix(in_srgb,var(--tng-semantic-accent-success)_8%,var(--tng-semantic-background-surface)),var(--tng-semantic-background-surface))] p-5 text-[var(--tng-semantic-foreground-primary)] shadow-[0_18px_38px_color-mix(in_srgb,var(--tng-semantic-foreground-primary)_9%,transparent)]">
   <div class="grid gap-1">
-    <span class="text-xs font-semibold uppercase tracking-[0.22em] text-emerald-600">Payment approval</span>
-    <p class="m-0 text-sm leading-6 text-slate-600">
+    <span class="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--tng-semantic-accent-success)]">Payment approval</span>
+    <p class="m-0 text-sm leading-6 text-[var(--tng-semantic-foreground-secondary)]">
       Apply semantic tokens directly on the wrapper host while keeping the OTP behavior untouched.
     </p>
   </div>
 
-  <tng-input-otp
-    class="block [--tng-semantic-background-surface:#ffffff] [--tng-semantic-background-muted:#ecfdf5] [--tng-semantic-border-default:#a7f3d0] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-foreground-muted:#64748b] [--tng-semantic-accent-brand:#059669] [--tng-semantic-accent-danger:#dc2626]"
-    [length]="6"
-    [value]="componentInputOtpStylingTailwindValue()"
-    [ariaLabel]="'Payment approval code'"
-    (valueChange)="onComponentInputOtpStylingTailwindValueChange($event)"
-  ></tng-input-otp>
+  <div class="block [--tng-semantic-background-muted:color-mix(in_srgb,var(--tng-semantic-accent-success)_12%,var(--tng-semantic-background-base))] [--tng-semantic-border-default:color-mix(in_srgb,var(--tng-semantic-accent-success)_30%,var(--tng-semantic-border-subtle))] [--tng-semantic-accent-brand:var(--tng-semantic-accent-success)]">
+    <tng-input-otp
+      [length]="6"
+      [value]="componentInputOtpStylingTailwindValue()"
+      [ariaLabel]="'Payment approval code'"
+      (valueChange)="onComponentInputOtpStylingTailwindValueChange($event)"
+    ></tng-input-otp>
+  </div>
 </section>`;
 
 @Component({

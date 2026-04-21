@@ -71,14 +71,15 @@ const PASSCODE_PLAIN_HTML_CODE = String.raw`<section class="docs-component-input
     </p>
   </div>
 
-  <tng-input-otp
-    class="docs-component-input-otp-examples-passcode-plain-control"
-    [length]="6"
-    [value]="componentInputOtpExamplesPasscodePlainValue()"
-    [ariaLabel]="'Verification code'"
-    (valueChange)="onComponentInputOtpExamplesPasscodePlainValueChange($event)"
-    (complete)="onComponentInputOtpExamplesPasscodePlainComplete($event)"
-  ></tng-input-otp>
+  <div class="docs-component-input-otp-examples-passcode-plain-control">
+    <tng-input-otp
+      [length]="6"
+      [value]="componentInputOtpExamplesPasscodePlainValue()"
+      [ariaLabel]="'Verification code'"
+      (valueChange)="onComponentInputOtpExamplesPasscodePlainValueChange($event)"
+      (complete)="onComponentInputOtpExamplesPasscodePlainComplete($event)"
+    ></tng-input-otp>
+  </div>
 
   <p class="docs-component-input-otp-examples-passcode-plain-summary">
     Value: {{ componentInputOtpExamplesPasscodePlainValue() || '—' }}
@@ -94,12 +95,11 @@ const PASSCODE_PLAIN_CSS_CODE = String.raw`.docs-component-input-otp-examples-pa
   inline-size: min(100%, 36rem);
   margin-inline: auto;
   padding: 1.15rem;
-  border: 1px solid #cbd5e1;
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 1.35rem;
-  background: #ffffff;
-  color: #0f172a;
-  color-scheme: light;
-  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
+  background: var(--tng-semantic-background-surface);
+  color: var(--tng-semantic-foreground-primary);
+  box-shadow: 0 12px 32px color-mix(in srgb, var(--tng-semantic-foreground-primary) 8%, transparent);
 }
 
 .docs-component-input-otp-examples-passcode-plain-header {
@@ -108,7 +108,7 @@ const PASSCODE_PLAIN_CSS_CODE = String.raw`.docs-component-input-otp-examples-pa
 }
 
 .docs-component-input-otp-examples-passcode-plain-kicker {
-  color: #64748b;
+  color: var(--tng-semantic-foreground-secondary);
   font-size: 0.8rem;
   font-weight: 700;
   letter-spacing: 0.02em;
@@ -117,17 +117,27 @@ const PASSCODE_PLAIN_CSS_CODE = String.raw`.docs-component-input-otp-examples-pa
 .docs-component-input-otp-examples-passcode-plain-copy,
 .docs-component-input-otp-examples-passcode-plain-summary {
   margin: 0;
-  color: #475569;
+  color: var(--tng-semantic-foreground-secondary);
 }
 
 .docs-component-input-otp-examples-passcode-plain-control {
-  --tng-semantic-background-surface: #ffffff;
-  --tng-semantic-background-muted: #eef4ff;
-  --tng-semantic-border-default: #cbd5e1;
-  --tng-semantic-foreground-primary: #0f172a;
-  --tng-semantic-foreground-muted: #94a3b8;
-  --tng-semantic-accent-brand: #2563eb;
-  --tng-semantic-accent-danger: #dc2626;
+  --tng-semantic-background-surface: var(--tng-semantic-background-surface);
+  --tng-semantic-background-muted: color-mix(
+    in srgb,
+    var(--tng-semantic-accent-brand) 10%,
+    var(--tng-semantic-background-base)
+  );
+  --tng-semantic-border-default: var(--tng-semantic-border-subtle);
+  --tng-semantic-foreground-primary: var(--tng-semantic-foreground-primary);
+  --tng-semantic-foreground-muted: var(--tng-semantic-foreground-muted);
+  --tng-semantic-accent-brand: var(--tng-semantic-accent-brand);
+  --tng-semantic-accent-danger: var(--tng-semantic-accent-danger);
+}
+
+.docs-component-input-otp-examples-passcode-plain-control tng-input-otp {
+  display: block;
+  inline-size: 100%;
+  min-inline-size: 0;
 }`;
 
 const PASSCODE_TAILWIND_TS_CODE = String.raw`import { Component, signal } from '@angular/core';
@@ -156,23 +166,24 @@ export class ComponentInputOtpExamplesPasscodeTailwindComponent {
   }
 }`;
 
-const PASSCODE_TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid w-full max-w-[36rem] gap-4 rounded-[1.5rem] border border-slate-200 bg-white p-5 text-slate-900 shadow-sm">
+const PASSCODE_TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid w-full max-w-[36rem] gap-4 rounded-[1.5rem] border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-surface)] p-5 text-[var(--tng-semantic-foreground-primary)] shadow-[0_12px_32px_color-mix(in_srgb,var(--tng-semantic-foreground-primary)_8%,transparent)]">
   <div class="grid gap-1">
-    <span class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Approval flow</span>
-    <p class="m-0 text-sm leading-6 text-slate-600">Numeric approval code with utility-first framing.</p>
+    <span class="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--tng-semantic-foreground-secondary)]">Approval flow</span>
+    <p class="m-0 text-sm leading-6 text-[var(--tng-semantic-foreground-secondary)]">Numeric approval code with utility-first framing.</p>
   </div>
 
-  <tng-input-otp
-    class="block [--tng-semantic-background-surface:#ffffff] [--tng-semantic-background-muted:#eef6ff] [--tng-semantic-border-default:#cbd5e1] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-foreground-muted:#94a3b8] [--tng-semantic-accent-brand:#2563eb] [--tng-semantic-accent-danger:#dc2626]"
-    [length]="6"
-    [value]="componentInputOtpExamplesPasscodeTailwindValue()"
-    [ariaLabel]="'Approval code'"
-    (valueChange)="onComponentInputOtpExamplesPasscodeTailwindValueChange($event)"
-    (complete)="onComponentInputOtpExamplesPasscodeTailwindComplete($event)"
-  ></tng-input-otp>
+  <div class="block [--tng-semantic-background-muted:color-mix(in_srgb,var(--tng-semantic-accent-brand)_12%,var(--tng-semantic-background-base))] [--tng-semantic-border-default:var(--tng-semantic-border-subtle)]">
+    <tng-input-otp
+      [length]="6"
+      [value]="componentInputOtpExamplesPasscodeTailwindValue()"
+      [ariaLabel]="'Approval code'"
+      (valueChange)="onComponentInputOtpExamplesPasscodeTailwindValueChange($event)"
+      (complete)="onComponentInputOtpExamplesPasscodeTailwindComplete($event)"
+    ></tng-input-otp>
+  </div>
 
-  <p class="m-0 text-sm text-slate-600">Value: {{ componentInputOtpExamplesPasscodeTailwindValue() || '—' }}</p>
-  <p class="m-0 text-sm text-slate-600">Complete event: {{ componentInputOtpExamplesPasscodeTailwindComplete() || '—' }}</p>
+  <p class="m-0 text-sm text-[var(--tng-semantic-foreground-secondary)]">Value: {{ componentInputOtpExamplesPasscodeTailwindValue() || '—' }}</p>
+  <p class="m-0 text-sm text-[var(--tng-semantic-foreground-secondary)]">Complete event: {{ componentInputOtpExamplesPasscodeTailwindComplete() || '—' }}</p>
 </section>`;
 
 const RECOVERY_PLAIN_TS_CODE = String.raw`import { Component, signal } from '@angular/core';
@@ -201,15 +212,16 @@ const RECOVERY_PLAIN_HTML_CODE = String.raw`<section class="docs-component-input
     </p>
   </div>
 
-  <tng-input-otp
-    class="docs-component-input-otp-examples-recovery-plain-control"
-    [length]="6"
-    [type]="'alphanumeric'"
-    [mask]="true"
-    [value]="componentInputOtpExamplesRecoveryPlainValue()"
-    [ariaLabel]="'Recovery code'"
-    (valueChange)="onComponentInputOtpExamplesRecoveryPlainValueChange($event)"
-  ></tng-input-otp>
+  <div class="docs-component-input-otp-examples-recovery-plain-control">
+    <tng-input-otp
+      [length]="6"
+      [type]="'alphanumeric'"
+      [mask]="true"
+      [value]="componentInputOtpExamplesRecoveryPlainValue()"
+      [ariaLabel]="'Recovery code'"
+      (valueChange)="onComponentInputOtpExamplesRecoveryPlainValueChange($event)"
+    ></tng-input-otp>
+  </div>
 
   <p class="docs-component-input-otp-examples-recovery-plain-summary">
     Value: {{ componentInputOtpExamplesRecoveryPlainValue() || '—' }}
@@ -222,12 +234,15 @@ const RECOVERY_PLAIN_CSS_CODE = String.raw`.docs-component-input-otp-examples-re
   inline-size: min(100%, 36rem);
   margin-inline: auto;
   padding: 1.15rem;
-  border: 1px solid #d6c6b8;
+  border: 1px solid color-mix(in srgb, var(--tng-semantic-accent-danger) 28%, var(--tng-semantic-border-subtle));
   border-radius: 1.35rem;
-  background: linear-gradient(180deg, #fff7ed 0%, #fffdfa 100%);
-  color: #3f3022;
-  color-scheme: light;
-  box-shadow: 0 14px 36px rgba(68, 46, 14, 0.12);
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--tng-semantic-accent-danger) 8%, var(--tng-semantic-background-surface)),
+    var(--tng-semantic-background-surface)
+  );
+  color: var(--tng-semantic-foreground-primary);
+  box-shadow: 0 14px 36px color-mix(in srgb, var(--tng-semantic-foreground-primary) 10%, transparent);
 }
 
 .docs-component-input-otp-examples-recovery-plain-header {
@@ -236,7 +251,7 @@ const RECOVERY_PLAIN_CSS_CODE = String.raw`.docs-component-input-otp-examples-re
 }
 
 .docs-component-input-otp-examples-recovery-plain-kicker {
-  color: #9a6a3a;
+  color: color-mix(in srgb, var(--tng-semantic-accent-danger) 55%, var(--tng-semantic-foreground-secondary));
   font-size: 0.8rem;
   font-weight: 700;
   letter-spacing: 0.02em;
@@ -245,17 +260,27 @@ const RECOVERY_PLAIN_CSS_CODE = String.raw`.docs-component-input-otp-examples-re
 .docs-component-input-otp-examples-recovery-plain-copy,
 .docs-component-input-otp-examples-recovery-plain-summary {
   margin: 0;
-  color: #5f4a35;
+  color: var(--tng-semantic-foreground-secondary);
 }
 
 .docs-component-input-otp-examples-recovery-plain-control {
-  --tng-semantic-background-surface: #fffdfa;
-  --tng-semantic-background-muted: #ffedd5;
-  --tng-semantic-border-default: #fdba74;
-  --tng-semantic-foreground-primary: #3f3022;
-  --tng-semantic-foreground-muted: #9c8468;
-  --tng-semantic-accent-brand: #ea580c;
-  --tng-semantic-accent-danger: #b42318;
+  --tng-semantic-background-surface: var(--tng-semantic-background-surface);
+  --tng-semantic-background-muted: color-mix(
+    in srgb,
+    var(--tng-semantic-accent-danger) 10%,
+    var(--tng-semantic-background-base)
+  );
+  --tng-semantic-border-default: color-mix(in srgb, var(--tng-semantic-accent-danger) 30%, var(--tng-semantic-border-subtle));
+  --tng-semantic-foreground-primary: var(--tng-semantic-foreground-primary);
+  --tng-semantic-foreground-muted: var(--tng-semantic-foreground-muted);
+  --tng-semantic-accent-brand: var(--tng-semantic-accent-danger);
+  --tng-semantic-accent-danger: var(--tng-semantic-accent-danger);
+}
+
+.docs-component-input-otp-examples-recovery-plain-control tng-input-otp {
+  display: block;
+  inline-size: 100%;
+  min-inline-size: 0;
 }`;
 
 const RECOVERY_TAILWIND_TS_CODE = String.raw`import { Component, signal } from '@angular/core';
@@ -276,23 +301,24 @@ export class ComponentInputOtpExamplesRecoveryTailwindComponent {
   }
 }`;
 
-const RECOVERY_TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid w-full max-w-[36rem] gap-4 rounded-[1.75rem] border border-orange-200 bg-white p-5 text-slate-900 shadow-sm">
+const RECOVERY_TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid w-full max-w-[36rem] gap-4 rounded-[1.75rem] border border-[color-mix(in_srgb,var(--tng-semantic-accent-danger)_28%,var(--tng-semantic-border-subtle))] bg-[linear-gradient(180deg,color-mix(in_srgb,var(--tng-semantic-accent-danger)_8%,var(--tng-semantic-background-surface)),var(--tng-semantic-background-surface))] p-5 text-[var(--tng-semantic-foreground-primary)] shadow-[0_14px_36px_color-mix(in_srgb,var(--tng-semantic-foreground-primary)_10%,transparent)]">
   <div class="grid gap-1">
-    <span class="text-xs font-semibold uppercase tracking-[0.22em] text-orange-600">Recovery checkpoint</span>
-    <p class="m-0 text-sm leading-6 text-slate-600">Masked alphanumeric entry with a warmer caution tone.</p>
+    <span class="text-xs font-semibold uppercase tracking-[0.22em] text-[color-mix(in_srgb,var(--tng-semantic-accent-danger)_55%,var(--tng-semantic-foreground-secondary))]">Recovery checkpoint</span>
+    <p class="m-0 text-sm leading-6 text-[var(--tng-semantic-foreground-secondary)]">Masked alphanumeric entry with a warmer caution tone.</p>
   </div>
 
-  <tng-input-otp
-    class="block [--tng-semantic-background-surface:#ffffff] [--tng-semantic-background-muted:#fff7ed] [--tng-semantic-border-default:#fdba74] [--tng-semantic-foreground-primary:#0f172a] [--tng-semantic-foreground-muted:#94a3b8] [--tng-semantic-accent-brand:#ea580c] [--tng-semantic-accent-danger:#dc2626]"
-    [length]="6"
-    [type]="'alphanumeric'"
-    [mask]="true"
-    [value]="componentInputOtpExamplesRecoveryTailwindValue()"
-    [ariaLabel]="'Recovery code'"
-    (valueChange)="onComponentInputOtpExamplesRecoveryTailwindValueChange($event)"
-  ></tng-input-otp>
+  <div class="block [--tng-semantic-background-muted:color-mix(in_srgb,var(--tng-semantic-accent-danger)_12%,var(--tng-semantic-background-base))] [--tng-semantic-border-default:color-mix(in_srgb,var(--tng-semantic-accent-danger)_30%,var(--tng-semantic-border-subtle))] [--tng-semantic-accent-brand:var(--tng-semantic-accent-danger)]">
+    <tng-input-otp
+      [length]="6"
+      [type]="'alphanumeric'"
+      [mask]="true"
+      [value]="componentInputOtpExamplesRecoveryTailwindValue()"
+      [ariaLabel]="'Recovery code'"
+      (valueChange)="onComponentInputOtpExamplesRecoveryTailwindValueChange($event)"
+    ></tng-input-otp>
+  </div>
 
-  <p class="m-0 text-sm text-slate-600">Value: {{ componentInputOtpExamplesRecoveryTailwindValue() || '—' }}</p>
+  <p class="m-0 text-sm text-[var(--tng-semantic-foreground-secondary)]">Value: {{ componentInputOtpExamplesRecoveryTailwindValue() || '—' }}</p>
 </section>`;
 
 @Component({

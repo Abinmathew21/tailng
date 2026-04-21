@@ -23,21 +23,24 @@
   margin-inline: auto;
   padding: 1.15rem;
   border-radius: 1.35rem;
-  color: #0f172a;
-  color-scheme: light;
-  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
 }
 
 .docs-component-input-otp-examples-passcode-plain-shell {
-  border: 1px solid #cbd5e1;
-  background: #ffffff;
+  border: 1px solid var(--tng-semantic-border-subtle);
+  background: var(--tng-semantic-background-surface);
+  color: var(--tng-semantic-foreground-primary);
+  box-shadow: 0 12px 32px color-mix(in srgb, var(--tng-semantic-foreground-primary) 8%, transparent);
 }
 
 .docs-component-input-otp-examples-recovery-plain-shell {
-  border: 1px solid #d6c6b8;
-  background: linear-gradient(180deg, #fff7ed 0%, #fffdfa 100%);
-  color: #3f3022;
-  box-shadow: 0 14px 36px rgba(68, 46, 14, 0.12);
+  border: 1px solid color-mix(in srgb, var(--tng-semantic-accent-danger) 28%, var(--tng-semantic-border-subtle));
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--tng-semantic-accent-danger) 8%, var(--tng-semantic-background-surface)),
+    var(--tng-semantic-background-surface)
+  );
+  color: var(--tng-semantic-foreground-primary);
+  box-shadow: 0 14px 36px color-mix(in srgb, var(--tng-semantic-foreground-primary) 10%, transparent);
 }
 
 .docs-component-input-otp-examples-passcode-plain-header,
@@ -54,41 +57,56 @@
 }
 
 .docs-component-input-otp-examples-passcode-plain-kicker {
-  color: #64748b;
+  color: var(--tng-semantic-foreground-secondary);
 }
 
 .docs-component-input-otp-examples-recovery-plain-kicker {
-  color: #9a6a3a;
+  color: color-mix(in srgb, var(--tng-semantic-accent-danger) 55%, var(--tng-semantic-foreground-secondary));
 }
 
 .docs-component-input-otp-examples-passcode-plain-copy,
 .docs-component-input-otp-examples-passcode-plain-summary {
   margin: 0;
-  color: #475569;
+  color: var(--tng-semantic-foreground-secondary);
 }
 
 .docs-component-input-otp-examples-recovery-plain-copy,
 .docs-component-input-otp-examples-recovery-plain-summary {
   margin: 0;
-  color: #5f4a35;
+  color: var(--tng-semantic-foreground-secondary);
 }
 
 .docs-component-input-otp-examples-passcode-plain-control {
-  --tng-semantic-background-surface: #ffffff;
-  --tng-semantic-background-muted: #eef4ff;
-  --tng-semantic-border-default: #cbd5e1;
-  --tng-semantic-foreground-primary: #0f172a;
-  --tng-semantic-foreground-muted: #94a3b8;
-  --tng-semantic-accent-brand: #2563eb;
-  --tng-semantic-accent-danger: #dc2626;
+  --tng-semantic-background-surface: var(--tng-semantic-background-surface);
+  --tng-semantic-background-muted: color-mix(
+    in srgb,
+    var(--tng-semantic-accent-brand) 10%,
+    var(--tng-semantic-background-base)
+  );
+  --tng-semantic-border-default: var(--tng-semantic-border-subtle);
+  --tng-semantic-foreground-primary: var(--tng-semantic-foreground-primary);
+  --tng-semantic-foreground-muted: var(--tng-semantic-foreground-muted);
+  --tng-semantic-accent-brand: var(--tng-semantic-accent-brand);
+  --tng-semantic-accent-danger: var(--tng-semantic-accent-danger);
 }
 
 .docs-component-input-otp-examples-recovery-plain-control {
-  --tng-semantic-background-surface: #fffdfa;
-  --tng-semantic-background-muted: #ffedd5;
-  --tng-semantic-border-default: #fdba74;
-  --tng-semantic-foreground-primary: #3f3022;
-  --tng-semantic-foreground-muted: #9c8468;
-  --tng-semantic-accent-brand: #ea580c;
-  --tng-semantic-accent-danger: #b42318;
+  --tng-semantic-background-surface: var(--tng-semantic-background-surface);
+  --tng-semantic-background-muted: color-mix(
+    in srgb,
+    var(--tng-semantic-accent-danger) 10%,
+    var(--tng-semantic-background-base)
+  );
+  --tng-semantic-border-default: color-mix(in srgb, var(--tng-semantic-accent-danger) 30%, var(--tng-semantic-border-subtle));
+  --tng-semantic-foreground-primary: var(--tng-semantic-foreground-primary);
+  --tng-semantic-foreground-muted: var(--tng-semantic-foreground-muted);
+  --tng-semantic-accent-brand: var(--tng-semantic-accent-danger);
+  --tng-semantic-accent-danger: var(--tng-semantic-accent-danger);
+}
+
+.docs-component-input-otp-examples-passcode-plain-control tng-input-otp,
+.docs-component-input-otp-examples-recovery-plain-control tng-input-otp {
+  display: block;
+  inline-size: 100%;
+  min-inline-size: 0;
 }
