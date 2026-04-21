@@ -1,0 +1,150 @@
+<article class="headless-toast-overview">
+  <h2 class="headless-toast-overview-title">Toast overview</h2>
+  <p class="headless-toast-overview-lead">
+    Headless toast gives you semantic viewport and item directives only. The owner decides where
+    the stack lives, how messages are queued, when items dismiss, and what the notification shell
+    looks like.
+  </p>
+
+  <section id="imports" class="headless-toast-overview-block">
+    <h3>Imports</h3>
+    <p>Bring in the viewport and item directives when you want full control over queue state and markup.</p>
+    <tng-code-block
+      [code]="importCode"
+      adapter="shiki"
+      language="ts"
+      title="Headless toast imports"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="basic-composition" class="headless-toast-overview-block">
+    <h3>Basic composition</h3>
+    <p>
+      The primitive only reflects semantics on the viewport and each toast item. Your component owns
+      queue state, timers, and placement.
+    </p>
+    <tng-code-block
+      [code]="compositionCode"
+      adapter="shiki"
+      language="html"
+      title="Headless toast composition"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <app-docs-example-tabs-section
+    id="style-variants"
+    class="headless-toast-overview-block"
+    heading="Style variants"
+    description="The same primitive contract skinned with owner-authored CSS or Tailwind utilities."
+    ariaLabel="Headless toast style variants"
+    tabListAriaLabel="Headless toast style tabs"
+    defaultValue="plain-css"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+      panelTitle="Headless toast with owner CSS"
+      [codeTabs]="plainCodeTabs"
+    >
+      <section class="headless-toast-overview-stage">
+        <button
+          type="button"
+          class="headless-toast-overview-trigger"
+          (click)="queueToast('plain')"
+        >
+          Show success toast
+        </button>
+
+        <section tngToastViewport class="headless-toast-overview-viewport">
+          @for (toast of plainToasts(); track toast.id) {
+            <article tngToastItem [tone]="toast.tone" class="headless-toast-overview-item">
+              <div class="headless-toast-overview-copy">
+                <strong>{{ toast.title }}</strong>
+                <p>{{ toast.message }}</p>
+              </div>
+              <button
+                type="button"
+                class="headless-toast-overview-dismiss"
+                (click)="dismissToast('plain', toast.id)"
+              >
+                Dismiss
+              </button>
+            </article>
+          }
+        </section>
+      </section>
+      <p class="headless-toast-overview-status">active toasts: {{ plainToasts().length }}</p>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Headless toast with Tailwind shell"
+      [codeTabs]="tailwindCodeTabs"
+    >
+      <div
+        class="rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4"
+      >
+        <section class="relative grid min-h-52 content-start gap-3">
+          <button
+            type="button"
+            class="inline-flex justify-self-start rounded-lg border border-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_62%,transparent)] bg-[var(--tng-semantic-accent-brand)] px-3.5 py-2 text-sm font-semibold text-[var(--tng-semantic-foreground-inverse)] shadow-[0_8px_18px_color-mix(in_srgb,var(--tng-semantic-accent-brand)_28%,transparent)] transition hover:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_86%,var(--tng-semantic-foreground-primary)_14%)] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[color-mix(in_srgb,var(--tng-semantic-focus-ring)_40%,transparent)]"
+            (click)="queueToast('tailwind')"
+          >
+            Show success toast
+          </button>
+
+          <section tngToastViewport class="absolute right-0 top-14 grid w-full max-w-sm gap-3">
+            @for (toast of tailwindToasts(); track toast.id) {
+              <article
+                tngToastItem
+                [tone]="toast.tone"
+                class="grid grid-cols-[1fr_auto] gap-3 rounded-2xl border border-[color-mix(in_srgb,var(--tng-semantic-accent-success)_42%,var(--tng-semantic-border-default))] bg-[var(--tng-semantic-background-surface)] p-4 text-[var(--tng-semantic-foreground-primary)] shadow-[0_16px_30px_color-mix(in_srgb,var(--tng-semantic-foreground-primary)_18%,transparent)]"
+              >
+                <div class="grid gap-1">
+                  <strong
+                    class="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--tng-semantic-accent-success)]"
+                  >
+                    {{ toast.title }}
+                  </strong>
+                  <p class="m-0 text-sm leading-6 text-[var(--tng-semantic-foreground-secondary)]">
+                    {{ toast.message }}
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  class="rounded-lg border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-canvas)_86%,transparent)] px-2.5 py-1 text-xs font-semibold text-[var(--tng-semantic-foreground-primary)] transition hover:border-[var(--tng-semantic-border-default)] hover:bg-[color-mix(in_srgb,var(--tng-semantic-background-muted)_68%,transparent)] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[color-mix(in_srgb,var(--tng-semantic-focus-ring)_35%,transparent)]"
+                  (click)="dismissToast('tailwind', toast.id)"
+                >
+                  Dismiss
+                </button>
+              </article>
+            }
+          </section>
+        </section>
+      </div>
+      <p class="headless-toast-overview-status">active toasts: {{ tailwindToasts().length }}</p>
+    </ng-template>
+  </app-docs-example-tabs-section>
+
+  <section id="behavior-baseline" class="headless-toast-overview-block">
+    <h3>Behavior baseline</h3>
+    <ul class="headless-toast-overview-list">
+      <li><code>tngToastViewport</code> is structural only. You own stack placement and spacing.</li>
+      <li><code>tngToastItem</code> maps tone to <code>role</code>, <code>aria-live</code>, and <code>data-tone</code>.</li>
+      <li>No queue logic, timers, or JavaScript positioning are built into the primitive.</li>
+      <li>Dismiss by removing items from your collection or by driving <code>[open]</code> yourself.</li>
+    </ul>
+  </section>
+</article>

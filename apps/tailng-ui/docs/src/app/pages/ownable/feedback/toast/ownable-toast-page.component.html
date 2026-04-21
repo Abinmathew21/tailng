@@ -1,0 +1,38 @@
+<div class="grid gap-8 pb-10">
+  <section class="docs-section-anchor grid gap-4" id="toast-overview">
+    <h1 class="m-0 text-3xl font-semibold text-tng-fg-primary">Toast</h1>
+    <p class="m-0 max-w-4xl text-base leading-7 text-tng-fg-secondary">
+      The ownable Toast install gives your app a local notification queue wrapper with editable
+      markup, action behavior, and styling that can evolve with the feature that owns it.
+    </p>
+  </section>
+
+  <section class="docs-section-anchor grid gap-3" id="why-own-toast">
+    <h2 class="m-0 text-xl font-semibold text-tng-fg-primary">Why own Toast locally</h2>
+    <p class="m-0 max-w-4xl text-base leading-7 text-tng-fg-secondary">
+      Toasts often start simple, then pick up product-specific affordances like retry actions,
+      analytics hooks, richer message bodies, or queue rules. Local ownership keeps those changes
+      close to the workflow that depends on them.
+    </p>
+    <ul class="m-0 grid gap-2 pl-5 text-sm leading-6 text-tng-fg-secondary">
+      <li>Adjust queue rules, close behavior, and action wiring without waiting on a package release.</li>
+      <li>Keep notification copy, telemetry, and styling decisions versioned with the owning feature.</li>
+      <li>Promote the generated wrapper into a richer local system when your product outgrows the default shell.</li>
+    </ul>
+  </section>
+
+  <section class="docs-section-anchor grid gap-3" id="what-toast-installs">
+    <h2 class="m-0 text-xl font-semibold text-tng-fg-primary">What the install includes</h2>
+    <p class="m-0 max-w-4xl text-base leading-7 text-tng-fg-secondary">
+      The registry-backed toast install writes the primitive helpers, wrapper component, template,
+      stylesheet, and barrel export. After install, the queue UI and toast surface belong to your
+      app and can be edited locally like any other source file.
+    </p>
+  </section>
+
+  <app-docs-ownable-install-section
+    componentName="Toast"
+    registrySlug="toast"
+    [usageCode]="usageCode"
+  />
+</div>

@@ -1,17 +1,18 @@
 import type { Routes } from '@angular/router';
-import { COMPONENTS_FEEDBACK_GROUP, toComponentsDocsRouteData } from '../../component-docs.data';
+import { HEADLESS_FEEDBACK_GROUP, toHeadlessDocsRouteData } from '../../headless-docs.data';
 
-const group = COMPONENTS_FEEDBACK_GROUP;
+const group = HEADLESS_FEEDBACK_GROUP;
 const toastItem = group.items.find((item) => item.slug === 'toast');
 if (toastItem === undefined) {
-  throw new Error('Missing "toast" in components feedback docs group.');
+  throw new Error('Missing "toast" in headless feedback docs group.');
 }
 
-export const COMPONENTS_FEEDBACK_TOAST_ROUTES: Routes = [
+export const HEADLESS_FEEDBACK_TOAST_ROUTES: Routes = [
   {
     path: '',
-    data: toComponentsDocsRouteData(group, toastItem),
-    loadComponent: () => import('./toast-page.component').then((module) => module.ToastPageComponent),
+    data: toHeadlessDocsRouteData(group, toastItem),
+    loadComponent: () =>
+      import('./toast-page.component').then((module) => module.HeadlessToastPageComponent),
     children: [
       {
         path: '',
@@ -22,37 +23,29 @@ export const COMPONENTS_FEEDBACK_TOAST_ROUTES: Routes = [
         path: 'overview',
         loadComponent: () =>
           import('./sections/overview/toast-overview-page.component').then(
-            (module) => module.ToastOverviewPageComponent,
+            (module) => module.HeadlessToastOverviewPageComponent,
           ),
       },
       {
         path: 'api',
         loadComponent: () =>
           import('./sections/api/toast-api-page.component').then(
-            (module) => module.ToastApiPageComponent,
+            (module) => module.HeadlessToastApiPageComponent,
           ),
       },
       {
         path: 'styling',
         loadComponent: () =>
           import('./sections/styling/toast-styling-page.component').then(
-            (module) => module.ToastStylingPageComponent,
+            (module) => module.HeadlessToastStylingPageComponent,
           ),
       },
       {
         path: 'examples',
         loadComponent: () =>
           import('./sections/examples/toast-examples-page.component').then(
-            (module) => module.ToastExamplesPageComponent,
+            (module) => module.HeadlessToastExamplesPageComponent,
           ),
-      },
-      {
-        path: 'ownable-install',
-        data: {
-          registrySlug: 'toast',
-        },
-        pathMatch: 'full',
-        redirectTo: '/ownable/feedback/toast',
       },
       {
         path: '**',

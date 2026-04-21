@@ -1,0 +1,310 @@
+<article class="headless-toast-examples">
+  <h2 class="headless-toast-examples-title">Examples</h2>
+  <p class="headless-toast-examples-lead">
+    Headless toast is a good fit when your product needs its own notification shell, queue rules,
+    and layout decisions instead of the wrapper’s built-in presentation.
+  </p>
+
+  <section id="activity-stream-notifications" class="headless-toast-examples-block">
+    <app-docs-example-tabs-section
+      heading="Activity stream notifications"
+      description="Informational and success events are usually transient and owner-managed."
+      ariaLabel="Headless toast activity stream examples"
+      tabListAriaLabel="Headless toast activity stream style tabs"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Activity stream with owner CSS"
+        [codeTabs]="streamPlainCodeTabs"
+      >
+        <section class="headless-toast-example-stage">
+          <div class="headless-toast-example-toolbar">
+            <button
+              type="button"
+              class="headless-toast-example-trigger"
+              (click)="showStreamToast('plain', 'neutral')"
+            >
+              Show info toast
+            </button>
+            <button
+              type="button"
+              class="headless-toast-example-trigger"
+              (click)="showStreamToast('plain', 'success')"
+            >
+              Show success toast
+            </button>
+          </div>
+
+          <section tngToastViewport class="headless-toast-example-viewport">
+            @for (toast of streamPlainToasts(); track toast.id) {
+              <article tngToastItem [tone]="toast.tone" class="headless-toast-example-item">
+                <strong>{{ toast.title }}</strong>
+                <p>{{ toast.message }}</p>
+              </article>
+            }
+          </section>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Activity stream with Tailwind"
+        [codeTabs]="streamTailwindCodeTabs"
+      >
+        <div
+          class="rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4"
+        >
+          <section class="relative grid min-h-56 content-start gap-3">
+            <div class="flex flex-wrap gap-2">
+              <button
+                type="button"
+                class="rounded-lg border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-canvas)_90%,transparent)] px-3 py-2 text-sm font-semibold text-[var(--tng-semantic-foreground-primary)] transition hover:bg-[color-mix(in_srgb,var(--tng-semantic-background-muted)_58%,transparent)] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[color-mix(in_srgb,var(--tng-semantic-focus-ring)_38%,transparent)]"
+                (click)="showStreamToast('tailwind', 'neutral')"
+              >
+                Show info toast
+              </button>
+              <button
+                type="button"
+                class="rounded-lg border border-[color-mix(in_srgb,var(--tng-semantic-accent-success)_58%,transparent)] bg-[var(--tng-semantic-accent-success)] px-3 py-2 text-sm font-semibold text-[var(--tng-semantic-foreground-inverse)] transition hover:bg-[color-mix(in_srgb,var(--tng-semantic-accent-success)_88%,var(--tng-semantic-foreground-primary)_12%)] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[color-mix(in_srgb,var(--tng-semantic-accent-success)_35%,transparent)]"
+                (click)="showStreamToast('tailwind', 'success')"
+              >
+                Show success toast
+              </button>
+            </div>
+
+            <section tngToastViewport class="absolute right-0 top-14 grid w-full max-w-sm gap-3">
+              @for (toast of streamTailwindToasts(); track toast.id) {
+                <article
+                  tngToastItem
+                  [tone]="toast.tone"
+                  class="group grid gap-1 rounded-2xl border border-[var(--tng-semantic-border-default)] bg-[var(--tng-semantic-background-surface)] p-4 text-[var(--tng-semantic-foreground-primary)] shadow-[0_16px_30px_color-mix(in_srgb,var(--tng-semantic-foreground-primary)_18%,transparent)] data-[tone=success]:border-[color-mix(in_srgb,var(--tng-semantic-accent-success)_45%,var(--tng-semantic-border-default))]"
+                >
+                  <strong
+                    class="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--tng-semantic-foreground-secondary)] group-data-[tone=success]:text-[var(--tng-semantic-accent-success)]"
+                  >
+                    {{ toast.title }}
+                  </strong>
+                  <p class="m-0 text-sm leading-6 text-[var(--tng-semantic-foreground-secondary)]">
+                    {{ toast.message }}
+                  </p>
+                </article>
+              }
+            </section>
+          </section>
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section id="fixed-corner-stack" class="headless-toast-examples-block">
+    <app-docs-example-tabs-section
+      heading="Fixed corner stack"
+      description="A headless viewport can also be fixed to the real screen corner when you want an app-level notification layer."
+      ariaLabel="Headless toast fixed corner examples"
+      tabListAriaLabel="Headless toast fixed corner style tabs"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Fixed bottom-right stack with owner CSS"
+        [codeTabs]="fixedPlainCodeTabs"
+      >
+        <section class="headless-toast-example-stage headless-toast-example-stage--compact">
+          <button
+            type="button"
+            class="headless-toast-example-trigger"
+            (click)="showFixedToast('plain')"
+          >
+            Show bottom-right toast
+          </button>
+          <p class="headless-toast-example-note">
+            This viewport is fixed to the real window corner, not contained by the preview box.
+          </p>
+
+          <section
+            tngToastViewport
+            class="headless-toast-example-viewport headless-toast-example-viewport--fixed"
+          >
+            @for (toast of fixedPlainToasts(); track toast.id) {
+              <article tngToastItem [tone]="toast.tone" class="headless-toast-example-item">
+                <strong>{{ toast.title }}</strong>
+                <p>{{ toast.message }}</p>
+              </article>
+            }
+          </section>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Fixed bottom-right stack with Tailwind"
+        [codeTabs]="fixedTailwindCodeTabs"
+      >
+        <div
+          class="rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4"
+        >
+          <section class="grid min-h-32 content-start gap-3">
+            <button
+              type="button"
+              class="inline-flex justify-self-start rounded-lg border border-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_62%,transparent)] bg-[var(--tng-semantic-accent-brand)] px-3.5 py-2 text-sm font-semibold text-[var(--tng-semantic-foreground-inverse)] shadow-[0_8px_18px_color-mix(in_srgb,var(--tng-semantic-accent-brand)_28%,transparent)] transition hover:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_86%,var(--tng-semantic-foreground-primary)_14%)] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[color-mix(in_srgb,var(--tng-semantic-focus-ring)_40%,transparent)]"
+              (click)="showFixedToast('tailwind')"
+            >
+              Show bottom-right toast
+            </button>
+            <p class="m-0 max-w-xl text-sm leading-6 text-[var(--tng-semantic-foreground-secondary)]">
+              This viewport is fixed to the real window corner, not contained by the preview box.
+            </p>
+
+            <section
+              tngToastViewport
+              class="fixed bottom-4 right-4 z-[80] grid w-[min(24rem,calc(100vw-2rem))] gap-3"
+            >
+              @for (toast of fixedTailwindToasts(); track toast.id) {
+                <article
+                  tngToastItem
+                  [tone]="toast.tone"
+                  class="grid gap-1 rounded-2xl border border-[color-mix(in_srgb,var(--tng-semantic-accent-success)_42%,var(--tng-semantic-border-default))] bg-[var(--tng-semantic-background-surface)] p-4 text-[var(--tng-semantic-foreground-primary)] shadow-[0_16px_30px_color-mix(in_srgb,var(--tng-semantic-foreground-primary)_18%,transparent)]"
+                >
+                  <strong class="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--tng-semantic-accent-success)]">
+                    {{ toast.title }}
+                  </strong>
+                  <p class="m-0 text-sm leading-6 text-[var(--tng-semantic-foreground-secondary)]">
+                    {{ toast.message }}
+                  </p>
+                </article>
+              }
+            </section>
+          </section>
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section id="escalation-notifications" class="headless-toast-examples-block">
+    <app-docs-example-tabs-section
+      heading="Escalation notifications"
+      description="Warnings can auto-dismiss, but persistent failures should wait for explicit acknowledgement."
+      ariaLabel="Headless toast escalation examples"
+      tabListAriaLabel="Headless toast escalation style tabs"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Escalation notifications with owner CSS"
+        [codeTabs]="escalationPlainCodeTabs"
+      >
+        <section class="headless-toast-example-stage">
+          <div class="headless-toast-example-toolbar">
+            <button
+              type="button"
+              class="headless-toast-example-trigger headless-toast-example-trigger--warning"
+              (click)="showEscalationToast('plain', 'warning')"
+            >
+              Show warning toast
+            </button>
+            <button
+              type="button"
+              class="headless-toast-example-trigger headless-toast-example-trigger--danger"
+              (click)="showEscalationToast('plain', 'danger')"
+            >
+              Show persistent error
+            </button>
+          </div>
+
+          <section tngToastViewport class="headless-toast-example-viewport">
+            @for (toast of escalationPlainToasts(); track toast.id) {
+              <article tngToastItem [tone]="toast.tone" class="headless-toast-example-item">
+                <strong>{{ toast.title }}</strong>
+                <p>{{ toast.message }}</p>
+                @if (toast.tone === 'danger') {
+                  <button
+                    type="button"
+                    class="headless-toast-example-dismiss"
+                    (click)="dismissToast('escalationPlain', toast.id)"
+                  >
+                    Dismiss
+                  </button>
+                }
+              </article>
+            }
+          </section>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Escalation notifications with Tailwind"
+        [codeTabs]="escalationTailwindCodeTabs"
+      >
+        <div
+          class="rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4"
+        >
+          <section class="relative grid min-h-56 content-start gap-3">
+            <div class="flex flex-wrap gap-2">
+              <button
+                type="button"
+                class="rounded-lg border border-[color-mix(in_srgb,var(--tng-semantic-accent-warning)_52%,var(--tng-semantic-border-subtle))] bg-[color-mix(in_srgb,var(--tng-semantic-accent-warning)_14%,var(--tng-semantic-background-canvas))] px-3 py-2 text-sm font-semibold text-[var(--tng-semantic-foreground-primary)] transition hover:bg-[color-mix(in_srgb,var(--tng-semantic-accent-warning)_22%,var(--tng-semantic-background-muted))] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[color-mix(in_srgb,var(--tng-semantic-accent-warning)_32%,transparent)]"
+                (click)="showEscalationToast('tailwind', 'warning')"
+              >
+                Show warning toast
+              </button>
+              <button
+                type="button"
+                class="rounded-lg border border-[color-mix(in_srgb,var(--tng-semantic-accent-danger)_58%,transparent)] bg-[var(--tng-semantic-accent-danger)] px-3 py-2 text-sm font-semibold text-[var(--tng-semantic-foreground-inverse)] transition hover:bg-[color-mix(in_srgb,var(--tng-semantic-accent-danger)_88%,var(--tng-semantic-foreground-primary)_12%)] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[color-mix(in_srgb,var(--tng-semantic-accent-danger)_35%,transparent)]"
+                (click)="showEscalationToast('tailwind', 'danger')"
+              >
+                Show persistent error
+              </button>
+            </div>
+
+            <section tngToastViewport class="absolute right-0 top-14 grid w-full max-w-sm gap-3">
+              @for (toast of escalationTailwindToasts(); track toast.id) {
+                <article
+                  tngToastItem
+                  [tone]="toast.tone"
+                  class="group grid gap-3 rounded-2xl border border-[var(--tng-semantic-border-default)] bg-[var(--tng-semantic-background-surface)] p-4 text-[var(--tng-semantic-foreground-primary)] shadow-[0_16px_30px_color-mix(in_srgb,var(--tng-semantic-foreground-primary)_18%,transparent)] data-[tone=warning]:border-[color-mix(in_srgb,var(--tng-semantic-accent-warning)_48%,var(--tng-semantic-border-default))] data-[tone=danger]:border-[color-mix(in_srgb,var(--tng-semantic-accent-danger)_48%,var(--tng-semantic-border-default))]"
+                >
+                  <div class="grid gap-1">
+                    <strong
+                      class="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--tng-semantic-foreground-secondary)] group-data-[tone=warning]:text-[var(--tng-semantic-accent-warning)] group-data-[tone=danger]:text-[var(--tng-semantic-accent-danger)]"
+                    >
+                      {{ toast.title }}
+                    </strong>
+                    <p class="m-0 text-sm leading-6 text-[var(--tng-semantic-foreground-secondary)]">
+                      {{ toast.message }}
+                    </p>
+                  </div>
+                  @if (toast.tone === 'danger') {
+                    <button
+                      type="button"
+                      class="justify-self-start rounded-lg border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-canvas)_86%,transparent)] px-2.5 py-1 text-xs font-semibold text-[var(--tng-semantic-foreground-primary)] transition hover:border-[var(--tng-semantic-border-default)] hover:bg-[color-mix(in_srgb,var(--tng-semantic-background-muted)_68%,transparent)] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[color-mix(in_srgb,var(--tng-semantic-focus-ring)_35%,transparent)]"
+                      (click)="dismissToast('escalationTailwind', toast.id)"
+                    >
+                      Dismiss
+                    </button>
+                  }
+                </article>
+              }
+            </section>
+          </section>
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+</article>

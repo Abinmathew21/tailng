@@ -1,62 +1,19 @@
 <article class="toast-api">
   <h2 class="toast-api-title">API reference</h2>
   <p class="toast-api-lead">
-    Toast ships primitive viewport/item directives and a wrapper component with runtime show/dismiss
-    methods, queue limits, and tone-aware accessibility semantics.
+    <code>&lt;tng-toast&gt;</code> is a wrapper component around the toast primitives that adds queue
+    trimming, dismissal timers, action handling, and focus-aware Escape dismissal.
   </p>
 
-  <section class="toast-api-block">
-    <h3><code>tngToastViewport</code> + <code>tngToastItem</code> primitives</h3>
-    <p>
-      Use primitives when you need full markup control. Tone and open state map to role, live
-      politeness, and visibility attributes.
-    </p>
-    <tng-code-block
-      [code]="primitiveAttachmentCode"
-      adapter="shiki"
-      language="html"
-      title="Primitive usage"
-      [lineNumbers]="false"
-      [wrap]="true"
-      [sanitizeHtml]="false"
-    ></tng-code-block>
-
-    <div class="toast-api-table-wrap">
-      <table class="toast-api-table">
-        <thead>
-          <tr>
-            <th scope="col">Primitive input</th>
-            <th scope="col">Type</th>
-            <th scope="col">Default</th>
-            <th scope="col">Notes</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><code>[tone]</code> on <code>tngToastItem</code></td>
-            <td><code>'neutral' | 'success' | 'warning' | 'danger'</code></td>
-            <td><code>'neutral'</code></td>
-            <td>Maps to <code>role</code>, <code>aria-live</code>, and <code>data-tone</code>.</td>
-          </tr>
-          <tr>
-            <td><code>[open]</code> on <code>tngToastItem</code></td>
-            <td><code>boolean</code></td>
-            <td><code>true</code></td>
-            <td>Controls <code>hidden</code> and <code>data-state</code> (<code>open</code>/<code>closed</code>).</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-
-  <section class="toast-api-block">
+  <section id="wrapper-component" class="toast-api-block">
     <h3><code>&lt;tng-toast&gt;</code> wrapper</h3>
     <p>
-      Wrapper component manages queue state, auto-dismiss timers, Escape dismissal, and emits
-      <code>dismissed</code> when items close.
+      The wrapper renders a fixed-position viewport and a minimum toast shell. It is designed for
+      the common case where you want imperative <code>show()</code> calls instead of owning the queue
+      in your template.
     </p>
     <tng-code-block
-      [code]="componentAttachmentCode"
+      [code]="wrapperUsageCode"
       adapter="shiki"
       language="html"
       title="Wrapper usage"
@@ -69,7 +26,7 @@
       <table class="toast-api-table">
         <thead>
           <tr>
-            <th scope="col">Wrapper input/output</th>
+            <th scope="col">Wrapper input / output</th>
             <th scope="col">Type</th>
             <th scope="col">Default</th>
             <th scope="col">Notes</th>
@@ -80,34 +37,118 @@
             <td><code>[duration]</code></td>
             <td><code>number</code></td>
             <td><code>4000</code></td>
-            <td>Fallback auto-dismiss duration in milliseconds.</td>
+            <td>Fallback auto-dismiss duration in milliseconds for <code>show()</code> calls.</td>
           </tr>
           <tr>
             <td><code>[maxVisible]</code></td>
             <td><code>number</code></td>
             <td><code>4</code></td>
-            <td>Keeps only the latest N toasts visible.</td>
+            <td>Keeps only the latest N toasts visible in the viewport.</td>
           </tr>
           <tr>
             <td><code>[mode]</code></td>
             <td><code>'toast' | 'snackbar'</code></td>
             <td><code>'toast'</code></td>
-            <td>Exposes layout hint via <code>data-mode</code>.</td>
+            <td>Reflects <code>data-mode</code> on the viewport so CSS can switch layout emphasis.</td>
           </tr>
           <tr>
             <td><code>[position]</code></td>
             <td><code>'top-right' | 'top-left' | 'bottom-right' | 'bottom-left'</code></td>
             <td><code>'bottom-right'</code></td>
-            <td>Controls fixed viewport anchor corner.</td>
+            <td>Chooses the fixed corner used by the default shell.</td>
           </tr>
           <tr>
             <td><code>(dismissed)</code></td>
             <td><code>EventEmitter&lt;string&gt;</code></td>
             <td>—</td>
-            <td>Emits the toast id after dismissal.</td>
+            <td>Emits the toast id after any dismissal.</td>
+          </tr>
+          <tr>
+            <td><code>(dismissedWithReason)</code></td>
+            <td><code>&#123; id: string; reason: 'manual' | 'timeout' | 'escape' &#125;</code></td>
+            <td>—</td>
+            <td>Emits the id plus the dismissal reason for analytics or retry flows.</td>
           </tr>
         </tbody>
       </table>
     </div>
+  </section>
+
+  <section id="runtime-methods" class="toast-api-block">
+    <h3>Runtime methods</h3>
+    <p>
+      Toast is usually used through a template reference and the imperative <code>show()</code> /
+      <code>dismiss()</code> API.
+    </p>
+    <tng-code-block
+      [code]="runtimeCode"
+      adapter="shiki"
+      language="ts"
+      title="Imperative runtime API"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+
+    <div class="toast-api-table-wrap">
+      <table class="toast-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Method / option</th>
+            <th scope="col">Type</th>
+            <th scope="col">Default</th>
+            <th scope="col">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>show(message, options)</code></td>
+            <td><code>(message: string, options?: TngToastOptions) =&gt; string</code></td>
+            <td>—</td>
+            <td>Adds a toast to the queue and returns the generated toast id.</td>
+          </tr>
+          <tr>
+            <td><code>dismiss(id, reason?)</code></td>
+            <td><code>(id: string, reason?: 'manual' | 'timeout' | 'escape') =&gt; void</code></td>
+            <td><code>'manual'</code></td>
+            <td>Removes a visible toast and emits the matching dismissal outputs.</td>
+          </tr>
+          <tr>
+            <td><code>options.title</code></td>
+            <td><code>string | null</code></td>
+            <td><code>null</code></td>
+            <td>Optional heading rendered above the message.</td>
+          </tr>
+          <tr>
+            <td><code>options.tone</code></td>
+            <td><code>'neutral' | 'success' | 'warning' | 'danger'</code></td>
+            <td><code>'neutral'</code></td>
+            <td>Sets the toast semantics and visual tone hooks.</td>
+          </tr>
+          <tr>
+            <td><code>options.duration</code></td>
+            <td><code>number</code></td>
+            <td><code>component duration()</code></td>
+            <td>Use <code>0</code> to keep the toast open until manual dismissal.</td>
+          </tr>
+          <tr>
+            <td><code>options.action</code></td>
+            <td><code>&#123; label: string; dismissOnSelect?: boolean; onSelect?: (id: string) =&gt; void &#125;</code></td>
+            <td><code>null</code></td>
+            <td>Renders a wrapper-owned action button and optionally keeps the toast open after selection.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="primitive-foundation" class="toast-api-block">
+    <h3>Primitive foundation</h3>
+    <p>
+      The wrapper uses <code>tngToastViewport</code> and <code>tngToastItem</code> internally, so
+      the public slot and tone/state hooks still show up on the rendered DOM. If you need full
+      control over the toast markup, timers, or placement rules, use the headless toast page
+      instead of styling through wrapper internals.
+    </p>
   </section>
 </article>

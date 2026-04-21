@@ -1,23 +1,17 @@
 <article class="toast-overview">
   <h2 class="toast-overview-title">Toast overview</h2>
   <p class="toast-overview-lead">
-    Toast renders short-lived notification messages in a fixed viewport. Use tone, position, and
-    duration to model confirmations, warnings, and persistent error notices.
+    Toast renders short-lived notifications in a fixed viewport and manages queue trimming,
+    dismissal timing, action buttons, and focus-aware Escape behavior for you.
   </p>
 
-  <section class="toast-overview-block">
+  <section id="imports" class="toast-overview-block">
     <h3>Imports</h3>
-    <p>Use primitive directives for headless structure or the wrapper component for runtime APIs.</p>
-    <tng-code-block
-      [code]="primitiveImportCode"
-      adapter="shiki"
-      language="ts"
-      title="Primitive import"
-      [theme]="codeBlockTheme()"
-      [lineNumbers]="false"
-      [wrap]="true"
-      [sanitizeHtml]="false"
-    ></tng-code-block>
+    <p>
+      Use <code>TngToastComponent</code> when you want the wrapper’s built-in queue and minimum
+      notification shell. Reach for the headless toast page when you need to own the markup and
+      timers yourself.
+    </p>
     <tng-code-block
       [code]="componentImportCode"
       adapter="shiki"
@@ -30,50 +24,15 @@
     ></tng-code-block>
   </section>
 
-  <section class="toast-overview-block">
+  <section id="style-variants" class="toast-overview-block">
     <app-docs-example-tabs-section
-      heading="Style variants"
-      description="Use headless primitives for custom trigger/visibility wiring, or component wrappers for built-in runtime queue handling with optional action buttons."
-      ariaLabel="Toast style variants"
-      tabListAriaLabel="Toast style tabs"
-      defaultValue="headless"
+      heading="Wrapper variants"
+      description="The same wrapper queue rendered with the default shell and themed through surrounding page styles."
+      ariaLabel="Toast wrapper style variants"
+      tabListAriaLabel="Toast wrapper style tabs"
+      defaultValue="plain-css"
       [codeBlockTheme]="codeBlockTheme()"
     >
-      <ng-template
-        appDocsExampleVariant
-        value="headless"
-        label="Headless"
-        panelTitle="Headless toast primitives"
-        [codeTabs]="headlessCodeTabs"
-      >
-        <section class="toast-preview-static">
-          <button type="button" class="toast-headless-trigger" (click)="showHeadlessToast()">
-            Show headless toast
-          </button>
-
-          <section tngToastViewport class="toast-headless-viewport">
-            @for (toast of headlessToasts(); track toast.id) {
-              <article tngToastItem [tone]="toast.tone" class="toast-preview-static-item">
-                <div class="toast-preview-static-content">
-                  <strong>{{ toast.title }}</strong>
-                  <p>{{ toast.message }}</p>
-                </div>
-
-                <button
-                  type="button"
-                  class="toast-headless-dismiss"
-                  (click)="dismissHeadlessToast(toast.id)"
-                >
-                  Dismiss
-                </button>
-              </article>
-            }
-          </section>
-
-          <p class="toast-headless-status">active toasts: {{ headlessToasts().length }}</p>
-        </section>
-      </ng-template>
-
       <ng-template
         appDocsExampleVariant
         value="plain-css"
@@ -83,21 +42,15 @@
       >
         <tng-toast #plainToast position="bottom-right"></tng-toast>
         <section class="toast-preview-controls toast-preview-controls--plain">
-          <tng-button (click)="showDemoToast(plainToast, 'neutral')">Show info</tng-button>
-          <tng-button tone="success" (click)="showDemoToast(plainToast, 'success')">
+          <tng-button (click)="showTone(plainToast, 'neutral')">Show info</tng-button>
+          <tng-button tone="success" (click)="showTone(plainToast, 'success')">
             Show success
           </tng-button>
-          <tng-button tone="neutral" (click)="showDemoToast(plainToast, 'warning')">
-            Show warning
-          </tng-button>
-          <tng-button tone="danger" (click)="showDemoToast(plainToast, 'danger')">
+          <tng-button tone="danger" (click)="showTone(plainToast, 'danger')">
             Show error
           </tng-button>
-          <tng-button tone="success" (click)="showActionToast(plainToast, 'undo')">
+          <tng-button tone="success" (click)="showUndoToast(plainToast)">
             Show undo toast
-          </tng-button>
-          <tng-button tone="neutral" (click)="showActionToast(plainToast, 'retry')">
-            Show retry snackbar
           </tng-button>
         </section>
       </ng-template>
@@ -113,18 +66,15 @@
         <section
           class="flex flex-wrap gap-2 rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
         >
-          <tng-button (click)="showDemoToast(tailwindToast, 'neutral')">Show info</tng-button>
-          <tng-button tone="success" (click)="showDemoToast(tailwindToast, 'success')">
+          <tng-button (click)="showTone(tailwindToast, 'neutral')">Show info</tng-button>
+          <tng-button tone="success" (click)="showTone(tailwindToast, 'success')">
             Show success
           </tng-button>
-          <tng-button tone="danger" (click)="showDemoToast(tailwindToast, 'danger')">
+          <tng-button tone="danger" (click)="showTone(tailwindToast, 'danger')">
             Show error
           </tng-button>
-          <tng-button tone="success" (click)="showActionToast(tailwindToast, 'undo')">
+          <tng-button tone="success" (click)="showUndoToast(tailwindToast)">
             Show undo toast
-          </tng-button>
-          <tng-button tone="neutral" (click)="showActionToast(tailwindToast, 'retry')">
-            Show retry snackbar
           </tng-button>
         </section>
       </ng-template>
@@ -136,13 +86,13 @@
     }
   </section>
 
-  <section class="toast-overview-block">
+  <section id="accessibility-baseline" class="toast-overview-block">
     <h3>Accessibility baseline</h3>
     <ul class="toast-overview-list">
-      <li>Neutral and success tones announce with <code>role="status"</code>.</li>
-      <li>Warning and danger tones announce with <code>role="alert"</code>.</li>
-      <li>Support keyboard dismissal with Escape and keep a visible close button.</li>
-      <li>Use <code>duration: 0</code> only for messages that require explicit acknowledgment.</li>
+      <li>Neutral and success toasts announce with <code>role="status"</code>.</li>
+      <li>Warning and danger toasts announce with <code>role="alert"</code>.</li>
+      <li>Escape dismisses the focused toast when possible, or the latest toast in the stack.</li>
+      <li>Use <code>duration: 0</code> only when the message requires explicit acknowledgement.</li>
     </ul>
   </section>
 </article>

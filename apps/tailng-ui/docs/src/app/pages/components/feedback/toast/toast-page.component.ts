@@ -11,14 +11,13 @@ import {
 import { TngTab, TngTabList } from '@tailng-ui/primitives';
 import { filter, map, startWith } from 'rxjs/operators';
 
-type ToastDocSectionId = 'api' | 'examples' | 'overview' | 'ownable-install' | 'styling';
+type ToastDocSectionId = 'api' | 'examples' | 'overview' | 'styling';
 
 const toastDocSectionIds: readonly ToastDocSectionId[] = [
   'overview',
   'api',
   'styling',
   'examples',
-  'ownable-install',
 ] as const;
 
 const defaultToastDocSection: ToastDocSectionId = 'overview';

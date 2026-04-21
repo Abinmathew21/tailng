@@ -1,0 +1,166 @@
+:host {
+  display: block;
+}
+
+.headless-toast-overview {
+  display: grid;
+  gap: 1.25rem;
+  padding-bottom: 2rem;
+}
+
+.headless-toast-overview-title {
+  font-size: clamp(1.65rem, 1.8vw + 1rem, 2.1rem);
+  font-weight: 700;
+  line-height: 1.15;
+  margin: 0;
+}
+
+.headless-toast-overview-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 1rem;
+  line-height: 1.55;
+  margin: 0;
+  max-inline-size: 66ch;
+}
+
+.headless-toast-overview-block {
+  background: color-mix(in srgb, var(--tng-semantic-background-surface) 92%, transparent);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 1rem;
+  display: grid;
+  gap: 0.9rem;
+  padding: 1.1rem;
+}
+
+.headless-toast-overview-block h3 {
+  font-size: 1.15rem;
+  margin: 0;
+}
+
+.headless-toast-overview-block > p {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.headless-toast-overview-stage {
+  background: color-mix(in srgb, var(--tng-semantic-background-canvas) 72%, transparent);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 1rem;
+  display: grid;
+  gap: 0.75rem;
+  min-height: 13rem;
+  padding: 1rem;
+  position: relative;
+}
+
+.headless-toast-overview-trigger,
+.headless-toast-overview-dismiss {
+  align-items: center;
+  appearance: none;
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.72rem;
+  cursor: pointer;
+  display: inline-flex;
+  font: inherit;
+  justify-content: center;
+  justify-self: start;
+  min-height: 2.1rem;
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.headless-toast-overview-trigger {
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--tng-semantic-accent-brand) 96%, var(--tng-semantic-foreground-inverse) 4%),
+    color-mix(in srgb, var(--tng-semantic-accent-brand) 88%, var(--tng-semantic-foreground-primary) 12%)
+  );
+  border-color: color-mix(in srgb, var(--tng-semantic-accent-brand) 72%, var(--tng-semantic-foreground-primary) 28%);
+  box-shadow:
+    0 1px 0 color-mix(in srgb, var(--tng-semantic-foreground-inverse) 32%, transparent) inset,
+    0 8px 18px color-mix(in srgb, var(--tng-semantic-accent-brand) 28%, transparent);
+  color: var(--tng-semantic-foreground-inverse);
+  font-weight: 600;
+  padding: 0.46rem 0.92rem;
+}
+
+.headless-toast-overview-trigger:hover {
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--tng-semantic-accent-brand) 92%, var(--tng-semantic-foreground-inverse) 8%),
+    color-mix(in srgb, var(--tng-semantic-accent-brand) 82%, var(--tng-semantic-foreground-primary) 18%)
+  );
+}
+
+.headless-toast-overview-dismiss {
+  background: color-mix(in srgb, var(--tng-semantic-background-canvas) 86%, transparent);
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 0.35rem 0.7rem;
+}
+
+.headless-toast-overview-trigger:focus-visible,
+.headless-toast-overview-dismiss:focus-visible {
+  outline: 2px solid var(--tng-semantic-accent-brand);
+  outline-offset: 2px;
+}
+
+.headless-toast-overview-viewport {
+  display: grid;
+  gap: 0.65rem;
+  position: absolute;
+  right: 1rem;
+  top: 4.5rem;
+  width: min(24rem, calc(100% - 2rem));
+}
+
+.headless-toast-overview-item {
+  background: var(--tng-semantic-background-surface);
+  border: 1px solid var(--tng-semantic-border-default);
+  border-radius: 0.9rem;
+  box-shadow: 0 16px 30px color-mix(in srgb, var(--tng-semantic-foreground-primary) 18%, transparent);
+  color: var(--tng-semantic-foreground-primary);
+  display: grid;
+  gap: 0.6rem;
+  grid-template-columns: 1fr auto;
+  padding: 0.8rem 0.85rem;
+}
+
+.headless-toast-overview-item[data-tone='success'] {
+  border-color: color-mix(in srgb, var(--tng-semantic-accent-success) 70%, transparent);
+}
+
+.headless-toast-overview-copy {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.headless-toast-overview-copy strong {
+  color: var(--tng-semantic-accent-success);
+  font-size: 0.78rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.headless-toast-overview-copy p {
+  color: var(--tng-semantic-foreground-secondary);
+  line-height: 1.45;
+  margin: 0;
+}
+
+.headless-toast-overview-status {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.84rem;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.headless-toast-overview-list {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0;
+  padding-inline-start: 1.1rem;
+}

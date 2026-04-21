@@ -2,6 +2,7 @@ export type HeadlessDocsCategoryId =
   | 'getting-started'
   | 'layout'
   | 'overlay'
+  | 'feedback'
   | 'form'
   | 'utility'
   | 'navigation';
@@ -247,6 +248,21 @@ export const HEADLESS_OVERLAY_GROUP: HeadlessDocsGroup = {
   ],
 };
 
+export const HEADLESS_FEEDBACK_GROUP: HeadlessDocsGroup = {
+  id: 'feedback',
+  title: 'Feedback',
+  subtitle: 'Headless notification and status communication patterns',
+  items: [
+    {
+      id: 'toast',
+      slug: 'toast',
+      title: 'Toast',
+      description:
+        'Viewport and item primitives for stacked notifications with tone semantics and owner-managed lifecycles.',
+    },
+  ],
+};
+
 export const HEADLESS_UTILITY_GROUP: HeadlessDocsGroup = {
   id: 'utility',
   title: 'Utility',
@@ -315,6 +331,7 @@ export const HEADLESS_DOCS_GROUPS: readonly HeadlessDocsGroup[] = Object.freeze(
   HEADLESS_GETTING_STARTED_GROUP,
   HEADLESS_LAYOUT_GROUP,
   HEADLESS_OVERLAY_GROUP,
+  HEADLESS_FEEDBACK_GROUP,
   HEADLESS_FORM_GROUP,
   HEADLESS_UTILITY_GROUP,
   HEADLESS_NAVIGATION_GROUP,

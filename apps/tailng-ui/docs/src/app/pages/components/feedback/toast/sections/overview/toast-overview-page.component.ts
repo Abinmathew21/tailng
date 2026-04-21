@@ -1,17 +1,16 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, inject, signal, type OnDestroy } from '@angular/core';
-import { observeDocsCodeThemeChanges, resolveDocsCodeBlockTheme } from '../../../../../../shared/util';
 import { TngButtonComponent, TngCodeBlockComponent, TngToastComponent } from '@tailng-ui/components';
-import {
-  TngToastItem,
-  TngToastViewport,
-  type TngToastTone,
-} from '@tailng-ui/primitives';
+import type { TngToastTone } from '@tailng-ui/primitives';
 import type { DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
 import {
   DocsExampleTabsSectionComponent,
   DocsExampleVariantDirective,
 } from '../../../../../../shared/example-tabs-section/docs-example-tabs-section.component';
+import {
+  observeDocsCodeThemeChanges,
+  resolveDocsCodeBlockTheme,
+} from '../../../../../../shared/util';
 
 const toneTitleByTone: Readonly<Record<TngToastTone, string>> = Object.freeze({
   danger: 'Error',
@@ -20,21 +19,12 @@ const toneTitleByTone: Readonly<Record<TngToastTone, string>> = Object.freeze({
   warning: 'Warning',
 });
 
-type HeadlessToastRecord = Readonly<{
-  id: string;
-  message: string;
-  tone: TngToastTone;
-  title: string;
-}>;
-
 @Component({
   selector: 'app-toast-overview-page',
   imports: [
     TngButtonComponent,
     TngCodeBlockComponent,
     TngToastComponent,
-    TngToastItem,
-    TngToastViewport,
     DocsExampleTabsSectionComponent,
     DocsExampleVariantDirective,
   ],
@@ -43,118 +33,22 @@ type HeadlessToastRecord = Readonly<{
 })
 export class ToastOverviewPageComponent implements OnDestroy {
   private readonly documentRef = inject(DOCUMENT);
+  private previewCounter = 0;
+
   public readonly codeBlockTheme = signal<'github-dark' | 'github-light'>(
     resolveDocsCodeBlockTheme(this.documentRef),
   );
-  private readonly colorSchemeObserver = observeDocsCodeThemeChanges(this.documentRef, this.codeBlockTheme);
-  private previewCounter = 0;
-  private headlessCounter = 0;
-  private readonly headlessTimeoutById = new Map<string, ReturnType<typeof setTimeout>>();
-  protected readonly actionEvents = signal<readonly string[]>([]);
-  protected readonly headlessToasts = signal<readonly HeadlessToastRecord[]>([]);
+  private readonly colorSchemeObserver = observeDocsCodeThemeChanges(
+    this.documentRef,
+    this.codeBlockTheme,
+  );
 
-  protected readonly primitiveImportCode = [
-    "import { TngToastViewport, TngToastItem } from '@tailng-ui/primitives';",
-    '',
-  ].join('\n');
+  protected readonly actionEvents = signal<readonly string[]>([]);
 
   protected readonly componentImportCode = [
-    "import { TngToastComponent, TngButtonComponent } from '@tailng-ui/components';",
+    "import { TngButtonComponent, TngToastComponent } from '@tailng-ui/components';",
     '',
   ].join('\n');
-
-  protected readonly headlessCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
-    {
-      value: 'ts',
-      label: 'TS',
-      language: 'ts',
-      title: 'toast-overview-headless.component.ts',
-      code: [
-        "import { signal } from '@angular/core';",
-        "import { TngToastViewport, TngToastItem } from '@tailng-ui/primitives';",
-        '',
-        'readonly toasts = signal<ReadonlyArray<{ id: string; title: string; message: string; tone: TngToastTone }>>([]);',
-        '',
-        'showToast(): void {',
-        '  const id = crypto.randomUUID();',
-        '  this.toasts.update((current) => [...current, {',
-        '    id,',
-        "    title: 'Success',",
-        "    message: 'Build completed and artifacts were published.',",
-        "    tone: 'success',",
-        '  }]);',
-        '}',
-        '',
-        'dismissToast(id: string): void {',
-        '  this.toasts.update((current) => current.filter((toast) => toast.id !== id));',
-        '}',
-        '',
-      ].join('\n'),
-    },
-    {
-      value: 'html',
-      label: 'HTML',
-      language: 'html',
-      title: 'toast-overview-headless.component.html',
-      code: [
-        '<section class="toast-preview-static">',
-        '  <button type="button" class="toast-headless-trigger" (click)="showHeadlessToast()">',
-        '    Show headless toast',
-        '  </button>',
-        '',
-        '  <section tngToastViewport class="toast-headless-viewport">',
-        '    @for (toast of headlessToasts(); track toast.id) {',
-        '      <article tngToastItem [tone]="toast.tone" class="toast-preview-static-item">',
-        '        <div class="toast-preview-static-content">',
-        '          <strong>{{ toast.title }}</strong>',
-        '          <p>{{ toast.message }}</p>',
-        '        </div>',
-        '        <button type="button" class="toast-headless-dismiss" (click)="dismissHeadlessToast(toast.id)">',
-        '          Dismiss',
-        '        </button>',
-        '      </article>',
-        '    }',
-        '  </section>',
-        '',
-        '  <p class="toast-headless-status">active toasts: {{ headlessToasts().length }}</p>',
-        '</section>',
-        '',
-      ].join('\n'),
-    },
-    {
-      value: 'css',
-      label: 'CSS',
-      language: 'css',
-      title: 'toast-overview-headless.component.css',
-      code: [
-        '.toast-preview-static {',
-        '  display: grid;',
-        '  gap: 0.65rem;',
-        '}',
-        '',
-        '.toast-headless-viewport {',
-        '  display: grid;',
-        '  gap: 0.65rem;',
-        '  position: fixed;',
-        '  right: 1.25rem;',
-        '  top: 5rem;',
-        '  width: min(24rem, calc(100vw - 2rem));',
-        '}',
-        '',
-        '.toast-preview-static-item {',
-        '  background: var(--tng-semantic-background-surface);',
-        '  border: 1px solid var(--tng-semantic-border-subtle);',
-        '  border-radius: 0.85rem;',
-        '  display: grid;',
-        '  gap: 0.7rem;',
-        '  grid-template-columns: 1fr auto;',
-        '  pointer-events: auto;',
-        '  padding: 0.75rem 0.85rem;',
-        '}',
-        '',
-      ].join('\n'),
-    },
-  ]);
 
   protected readonly plainCssCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
     {
@@ -162,7 +56,55 @@ export class ToastOverviewPageComponent implements OnDestroy {
       label: 'TS',
       language: 'ts',
       title: 'toast-overview-plain-css.component.ts',
-      code: this.componentImportCode,
+      code: [
+        "import { Component, signal } from '@angular/core';",
+        "import { TngButtonComponent, TngToastComponent } from '@tailng-ui/components';",
+        "import type { TngToastTone } from '@tailng-ui/primitives';",
+        '',
+        "const toneTitleByTone: Readonly<Record<TngToastTone, string>> = Object.freeze({",
+        "  danger: 'Error',",
+        "  neutral: 'Info',",
+        "  success: 'Success',",
+        "  warning: 'Warning',",
+        '});',
+        '',
+        '@Component({',
+        "  selector: 'app-toast-overview-plain-css',",
+        '  standalone: true,',
+        '  imports: [TngButtonComponent, TngToastComponent],',
+        "  templateUrl: './toast-overview-plain-css.component.html',",
+        "  styleUrl: './toast-overview-plain-css.component.css',",
+        '})',
+        'export class ToastOverviewPlainCssComponent {',
+        '  private previewCounter = 0;',
+        '',
+        '  protected readonly actionEvents = signal<readonly string[]>([]);',
+        '',
+        '  protected showTone(toast: TngToastComponent, tone: TngToastTone): void {',
+        '    this.previewCounter += 1;',
+        '    toast.show(`Toast preview #${this.previewCounter}`, {',
+        "      duration: tone === 'danger' ? 0 : 4200,",
+        '      title: toneTitleByTone[tone],',
+        '      tone,',
+        '    });',
+        '  }',
+        '',
+        '  protected showUndoToast(toast: TngToastComponent): void {',
+        '    this.previewCounter += 1;',
+        '    toast.show(`Saved draft #${this.previewCounter}`, {',
+        '      action: {',
+        "        label: 'Undo',",
+        '        onSelect: (id): void => {',
+        '          this.actionEvents.update((events) => [`Undo selected for ${id}`, ...events].slice(0, 6));',
+        '        },',
+        '      },',
+        '      duration: 5200,',
+        "      title: 'Saved',",
+        "      tone: 'success',",
+        '    });',
+        '  }',
+        '}',
+      ].join('\n'),
     },
     {
       value: 'html',
@@ -171,13 +113,16 @@ export class ToastOverviewPageComponent implements OnDestroy {
       title: 'toast-overview-plain-css.component.html',
       code: [
         '<tng-toast #toast position="bottom-right"></tng-toast>',
-        '<div class="controls">',
-        '  <tng-button (click)="showDemoToast(toast, \'success\')">Show success</tng-button>',
-        '  <tng-button tone="danger" (click)="showDemoToast(toast, \'danger\')">Show error</tng-button>',
-        '  <tng-button tone="success" (click)="showActionToast(toast, \'undo\')">Show undo toast</tng-button>',
-        '  <tng-button tone="neutral" (click)="showActionToast(toast, \'retry\')">Show retry snackbar</tng-button>',
-        '</div>',
+        '<section class="toast-preview-controls toast-preview-controls--plain">',
+        '  <tng-button (click)="showTone(toast, \'neutral\')">Show info</tng-button>',
+        '  <tng-button tone="success" (click)="showTone(toast, \'success\')">Show success</tng-button>',
+        '  <tng-button tone="danger" (click)="showTone(toast, \'danger\')">Show error</tng-button>',
+        '  <tng-button tone="success" (click)="showUndoToast(toast)">Show undo toast</tng-button>',
+        '</section>',
         '',
+        '@if (actionEvents().length > 0) {',
+        '  <p class="toast-action-status">Latest action: {{ actionEvents()[0] }}</p>',
+        '}',
       ].join('\n'),
     },
     {
@@ -186,12 +131,18 @@ export class ToastOverviewPageComponent implements OnDestroy {
       language: 'css',
       title: 'toast-overview-plain-css.component.css',
       code: [
-        '.controls {',
+        '.toast-preview-controls {',
+        '  border: 1px solid var(--tng-semantic-border-subtle);',
+        '  border-radius: 0.95rem;',
         '  display: flex;',
         '  flex-wrap: wrap;',
         '  gap: 0.55rem;',
+        '  padding: 0.95rem;',
         '}',
         '',
+        '.toast-preview-controls--plain {',
+        '  background: color-mix(in srgb, var(--tng-semantic-background-canvas) 70%, transparent);',
+        '}',
       ].join('\n'),
     },
   ]);
@@ -202,7 +153,55 @@ export class ToastOverviewPageComponent implements OnDestroy {
       label: 'TS',
       language: 'ts',
       title: 'toast-overview-tailwind.component.ts',
-      code: this.componentImportCode,
+      code: [
+        "import { Component, signal } from '@angular/core';",
+        "import { TngButtonComponent, TngToastComponent } from '@tailng-ui/components';",
+        "import type { TngToastTone } from '@tailng-ui/primitives';",
+        '',
+        "const toneTitleByTone: Readonly<Record<TngToastTone, string>> = Object.freeze({",
+        "  danger: 'Error',",
+        "  neutral: 'Info',",
+        "  success: 'Success',",
+        "  warning: 'Warning',",
+        '});',
+        '',
+        '@Component({',
+        "  selector: 'app-toast-overview-tailwind',",
+        '  standalone: true,',
+        '  imports: [TngButtonComponent, TngToastComponent],',
+        "  templateUrl: './toast-overview-tailwind.component.html',",
+        "  styleUrl: './toast-overview-tailwind.component.css',",
+        '})',
+        'export class ToastOverviewTailwindComponent {',
+        '  private previewCounter = 0;',
+        '',
+        '  protected readonly actionEvents = signal<readonly string[]>([]);',
+        '',
+        '  protected showTone(toast: TngToastComponent, tone: TngToastTone): void {',
+        '    this.previewCounter += 1;',
+        '    toast.show(`Toast preview #${this.previewCounter}`, {',
+        "      duration: tone === 'danger' ? 0 : 4200,",
+        '      title: toneTitleByTone[tone],',
+        '      tone,',
+        '    });',
+        '  }',
+        '',
+        '  protected showUndoToast(toast: TngToastComponent): void {',
+        '    this.previewCounter += 1;',
+        '    toast.show(`Saved draft #${this.previewCounter}`, {',
+        '      action: {',
+        "        label: 'Undo',",
+        '        onSelect: (id): void => {',
+        '          this.actionEvents.update((events) => [`Undo selected for ${id}`, ...events].slice(0, 6));',
+        '        },',
+        '      },',
+        '      duration: 5200,',
+        "      title: 'Saved',",
+        "      tone: 'success',",
+        '    });',
+        '  }',
+        '}',
+      ].join('\n'),
     },
     {
       value: 'html',
@@ -211,14 +210,18 @@ export class ToastOverviewPageComponent implements OnDestroy {
       title: 'toast-overview-tailwind.component.html',
       code: [
         '<tng-toast #toast position="bottom-right"></tng-toast>',
-        '<div class="flex flex-wrap gap-2 rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">',
-        '  <tng-button (click)="showDemoToast(toast, \'neutral\')">Show info</tng-button>',
-        '  <tng-button tone="success" (click)="showDemoToast(toast, \'success\')">Show success</tng-button>',
-        '  <tng-button tone="danger" (click)="showDemoToast(toast, \'danger\')">Show error</tng-button>',
-        '  <tng-button tone="success" (click)="showActionToast(toast, \'undo\')">Show undo toast</tng-button>',
-        '  <tng-button tone="neutral" (click)="showActionToast(toast, \'retry\')">Show retry snackbar</tng-button>',
-        '</div>',
+        '<section',
+        '  class="flex flex-wrap gap-2 rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"',
+        '>',
+        '  <tng-button (click)="showTone(toast, \'neutral\')">Show info</tng-button>',
+        '  <tng-button tone="success" (click)="showTone(toast, \'success\')">Show success</tng-button>',
+        '  <tng-button tone="danger" (click)="showTone(toast, \'danger\')">Show error</tng-button>',
+        '  <tng-button tone="success" (click)="showUndoToast(toast)">Show undo toast</tng-button>',
+        '</section>',
         '',
+        '@if (actionEvents().length > 0) {',
+        '  <p class="toast-action-status">Latest action: {{ actionEvents()[0] }}</p>',
+        '}',
       ].join('\n'),
     },
     {
@@ -230,7 +233,7 @@ export class ToastOverviewPageComponent implements OnDestroy {
     },
   ]);
 
-  protected showDemoToast(toast: TngToastComponent, tone: TngToastTone): void {
+  protected showTone(toast: TngToastComponent, tone: TngToastTone): void {
     this.previewCounter += 1;
     toast.show(`Toast preview #${this.previewCounter}`, {
       duration: tone === 'danger' ? 0 : 4200,
@@ -239,71 +242,22 @@ export class ToastOverviewPageComponent implements OnDestroy {
     });
   }
 
-  protected showActionToast(toast: TngToastComponent, kind: 'retry' | 'undo'): void {
+  protected showUndoToast(toast: TngToastComponent): void {
     this.previewCounter += 1;
-    if (kind === 'undo') {
-      toast.show(`Saved draft #${this.previewCounter}`, {
-        action: {
-          label: 'Undo',
-          onSelect: (id): void => {
-            this.actionEvents.update((events) => [`Undo selected for ${id}`, ...events].slice(0, 6));
-          },
-        },
-        duration: 5200,
-        title: 'Saved',
-        tone: 'success',
-      });
-      return;
-    }
-
-    toast.show(`Publish run #${this.previewCounter} requires another attempt.`, {
+    toast.show(`Saved draft #${this.previewCounter}`, {
       action: {
-        dismissOnSelect: false,
-        label: 'Retry',
+        label: 'Undo',
         onSelect: (id): void => {
-          this.actionEvents.update((events) => [`Retry selected for ${id}`, ...events].slice(0, 6));
+          this.actionEvents.update((events) => [`Undo selected for ${id}`, ...events].slice(0, 6));
         },
       },
-      duration: 0,
-      title: 'Action required',
-      tone: 'warning',
+      duration: 5200,
+      title: 'Saved',
+      tone: 'success',
     });
   }
 
-  protected showHeadlessToast(): void {
-    this.headlessCounter += 1;
-    const id = `headless-toast-${this.headlessCounter}`;
-    const nextToast: HeadlessToastRecord = {
-      id,
-      message: `Headless toast #${this.headlessCounter}: Build completed and artifacts were published.`,
-      tone: 'success',
-      title: 'Success',
-    };
-
-    this.headlessToasts.update((current) => [...current, nextToast]);
-
-    const timeoutId = setTimeout(() => {
-      this.dismissHeadlessToast(id);
-    }, 4200);
-    this.headlessTimeoutById.set(id, timeoutId);
-  }
-
-  protected dismissHeadlessToast(id: string): void {
-    const timeoutId = this.headlessTimeoutById.get(id);
-    if (timeoutId !== undefined) {
-      clearTimeout(timeoutId);
-      this.headlessTimeoutById.delete(id);
-    }
-
-    this.headlessToasts.update((current) => current.filter((toast) => toast.id !== id));
-  }
-
   public ngOnDestroy(): void {
-    for (const timeoutId of this.headlessTimeoutById.values()) {
-      clearTimeout(timeoutId);
-    }
-    this.headlessTimeoutById.clear();
     this.colorSchemeObserver?.disconnect();
   }
-
 }

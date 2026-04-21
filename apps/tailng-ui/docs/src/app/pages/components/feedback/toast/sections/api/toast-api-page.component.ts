@@ -8,20 +8,35 @@ import { TngCodeBlockComponent } from '@tailng-ui/components';
   styleUrl: './toast-api-page.component.css',
 })
 export class ToastApiPageComponent {
-  protected readonly primitiveAttachmentCode = [
-    '<section tngToastViewport>',
-    '  <article tngToastItem tone="success">',
-    '    <p>Deployment completed.</p>',
-    '  </article>',
-    '</section>',
+  protected readonly wrapperUsageCode = [
+    '<tng-toast',
+    '  #toast',
+    '  position="bottom-right"',
+    '  (dismissedWithReason)="onToastDismiss($event)"',
+    '></tng-toast>',
+    '',
+    '<tng-button',
+    '  tone="success"',
+    '  (click)="toast.show(\'Saved checklist updates.\', { title: \'Saved\', tone: \'success\' })"',
+    '>',
+    '  Show success toast',
+    '</tng-button>',
     '',
   ].join('\n');
 
-  protected readonly componentAttachmentCode = [
-    '<tng-toast #toast position="bottom-right" (dismissed)="onDismiss($event)"></tng-toast>',
-    '<tng-button (click)="toast.show(\'Saved\', { tone: \'success\', title: \'Success\' })">',
-    '  Show success toast',
-    '</tng-button>',
+  protected readonly runtimeCode = [
+    'toast.show(\'Build failed during publish.\', {',
+    "  action: {",
+    "    dismissOnSelect: false,",
+    "    label: 'Retry',",
+    '    onSelect: (id) => retryBuild(id),',
+    '  },',
+    '  duration: 0,',
+    "  title: 'Action required',",
+    "  tone: 'warning',",
+    '});',
+    '',
+    "toast.dismiss(toastId, 'manual');",
     '',
   ].join('\n');
 }

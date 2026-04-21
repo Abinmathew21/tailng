@@ -1,0 +1,54 @@
+<article class="headless-toast-styling">
+  <h2 class="headless-toast-styling-title">Styling contract</h2>
+  <p class="headless-toast-styling-lead">
+    Headless toast exposes a deliberately small styling surface: one slot on the viewport, one slot
+    on each item, plus tone and state attributes. Everything else is your markup.
+  </p>
+
+  <section id="slot-and-state-hooks" class="headless-toast-styling-block">
+    <h3>Slot and state hooks</h3>
+    <p>
+      Style the stack with <code>[data-slot="toast-viewport"]</code> and each item with
+      <code>[data-slot="toast-item"]</code>. Branch by <code>data-tone</code> and
+      <code>data-state</code> when you want semantic variants.
+    </p>
+    <tng-code-block
+      [code]="stateHooksCode"
+      adapter="shiki"
+      language="css"
+      title="Slot and state selectors"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="css-starter" class="headless-toast-styling-block">
+    <h3>CSS starter</h3>
+    <p>
+      A simple owner-authored baseline usually means one positioned stack rule and one surface rule
+      for each item.
+    </p>
+    <tng-code-block
+      [code]="starterCssCode"
+      adapter="shiki"
+      language="css"
+      title="Starter toast CSS"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="owner-guidance" class="headless-toast-styling-block">
+    <h3>Owner guidance</h3>
+    <ul class="headless-toast-styling-list">
+      <li>Keep tone emphasis on the outer item surface so screen-reader semantics and visual semantics stay aligned.</li>
+      <li>Hide closed items with a <code>[hidden]</code> override if you choose to keep them mounted during exit animations.</li>
+      <li>Add your own close buttons and action controls inside the item markup as needed.</li>
+      <li>Use the wrapper or ownable install when you want a built-in shell instead of styling everything from scratch.</li>
+    </ul>
+  </section>
+</article>

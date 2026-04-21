@@ -1,16 +1,18 @@
 <article class="toast-styling">
   <h2 class="toast-styling-title">Styling contract</h2>
   <p class="toast-styling-lead">
-    Toast exposes stable viewport/item hooks so you can theme notification surfaces without touching
-    internal implementation details.
+    Toast exposes the underlying viewport/item slot hooks while still shipping a minimum wrapper
+    shell. Style through the public hooks first, and move to headless or ownable when you need to
+    own the inner markup.
   </p>
 
-  <section class="toast-styling-block">
-    <h3>Slot and state hooks</h3>
+  <section id="wrapper-slot-hooks" class="toast-styling-block">
+    <h3>Wrapper slot hooks</h3>
     <p>
       Use <code>[data-slot="toast-viewport"]</code> as the layout anchor and
       <code>[data-slot="toast-item"]</code> for message cards. Branch by
-      <code>data-tone</code> and <code>data-state</code> to style semantic variants.
+      <code>data-tone</code>, <code>data-state</code>, and viewport <code>data-mode</code> to style
+      semantic and layout variants.
     </p>
     <tng-code-block
       [code]="cssContractCode"
@@ -22,5 +24,23 @@
       [wrap]="true"
       [sanitizeHtml]="false"
     ></tng-code-block>
+  </section>
+
+  <section id="default-shell" class="toast-styling-block">
+    <h3>Default shell</h3>
+    <p>
+      The wrapper already includes close-button, title, message, and action-button layout. Treat
+      that as a minimum implementation detail rather than a public style API. Theme the outer item
+      surface and viewport placement first.
+    </p>
+  </section>
+
+  <section id="owner-guidance" class="toast-styling-block">
+    <h3>Owner guidance</h3>
+    <ul class="toast-styling-guidance">
+      <li>Use the wrapper when the default title/message/action structure is good enough for your product.</li>
+      <li>Use the headless toast primitives when you need custom markup, custom timers, or a non-standard queue layout.</li>
+      <li>Use the ownable install when you want the wrapper model but need to edit the shell source locally.</li>
+    </ul>
   </section>
 </article>

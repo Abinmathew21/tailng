@@ -961,20 +961,18 @@ export const docsComponentOutlineItemsBySlug: Readonly<Record<string, Partial<Re
       { id: 'accessibility-baseline', label: 'Accessibility baseline' },
     ],
     'api': [
-      { id: 'tngtoastviewport-tngtoastitem-primitives', label: 'tngToastViewport + tngToastItem primitives' },
-      { id: 'and-lt-tng-toast-and-gt-wrapper', label: '&lt;tng-toast&gt; wrapper' },
+      { id: 'wrapper-component', label: '&lt;tng-toast&gt; wrapper' },
+      { id: 'runtime-methods', label: 'Runtime methods' },
+      { id: 'primitive-foundation', label: 'Primitive foundation' },
     ],
     'styling': [
-      { id: 'slot-and-state-hooks', label: 'Slot and state hooks' },
+      { id: 'wrapper-slot-hooks', label: 'Wrapper slot hooks' },
+      { id: 'default-shell', label: 'Default shell' },
+      { id: 'owner-guidance', label: 'Owner guidance' },
     ],
     'examples': [
       { id: 'activity-stream-notifications', label: 'Activity stream notifications' },
       { id: 'escalation-notifications', label: 'Escalation notifications' },
-    ],
-    'ownable-install': [
-      { id: 'install-from-registry', label: 'Install from registry' },
-      { id: 'generated-files', label: 'Generated files' },
-      { id: 'import-and-usage', label: 'Import in your feature module/component' },
     ],
   },
   'toggle': {

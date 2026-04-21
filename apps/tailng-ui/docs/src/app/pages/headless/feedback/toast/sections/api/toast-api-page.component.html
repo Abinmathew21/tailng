@@ -1,0 +1,115 @@
+<article class="headless-toast-api">
+  <h2 class="headless-toast-api-title">API reference</h2>
+  <p class="headless-toast-api-lead">
+    Headless toast consists of one structural viewport directive and one semantic item directive.
+    There is no root controller, no built-in queue, and no positioning runtime at the primitive
+    level.
+  </p>
+
+  <section id="viewport-primitive" class="headless-toast-api-block">
+    <h3>Viewport primitive</h3>
+    <p>
+      <code>tngToastViewport</code> marks the container for a stack of toast items and reflects a
+      stable slot hook for your layout CSS.
+    </p>
+    <tng-code-block
+      [code]="viewportCode"
+      adapter="shiki"
+      language="html"
+      title="Viewport usage"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+
+    <div class="headless-toast-api-table-wrap">
+      <table class="headless-toast-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Directive / reflected attrs</th>
+            <th scope="col">Type</th>
+            <th scope="col">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>tngToastViewport</code></td>
+            <td><code>directive</code></td>
+            <td>Attaches <code>data-slot="toast-viewport"</code> so the owner can target the stack container.</td>
+          </tr>
+          <tr>
+            <td>Placement</td>
+            <td>owner-authored</td>
+            <td>The primitive does not set <code>position</code>, <code>top</code>, <code>right</code>, or any stack geometry.</td>
+          </tr>
+          <tr>
+            <td>Queue order</td>
+            <td>owner-authored</td>
+            <td>The order of rendered items is whatever your template collection produces.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="item-primitive" class="headless-toast-api-block">
+    <h3>Item primitive</h3>
+    <p>
+      <code>tngToastItem</code> maps toast tone and visibility to ARIA and state attributes while
+      leaving all content and controls up to the owner.
+    </p>
+    <tng-code-block
+      [code]="itemCode"
+      adapter="shiki"
+      language="html"
+      title="Item usage"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+
+    <div class="headless-toast-api-table-wrap">
+      <table class="headless-toast-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Input / reflected attrs</th>
+            <th scope="col">Type</th>
+            <th scope="col">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>[tone]</code></td>
+            <td><code>'neutral' | 'success' | 'warning' | 'danger'</code></td>
+            <td>Sets <code>data-tone</code> and maps to the correct <code>role</code> and <code>aria-live</code>.</td>
+          </tr>
+          <tr>
+            <td><code>[open]</code></td>
+            <td><code>boolean</code></td>
+            <td>Reflects <code>data-state="open|closed"</code> and applies the <code>hidden</code> attribute when false.</td>
+          </tr>
+          <tr>
+            <td><code>role</code></td>
+            <td><code>'status' | 'alert'</code></td>
+            <td><code>neutral</code> and <code>success</code> become polite status updates; <code>warning</code> and <code>danger</code> become assertive alerts.</td>
+          </tr>
+          <tr>
+            <td><code>aria-atomic</code></td>
+            <td><code>'true'</code></td>
+            <td>Always set so assistive technology announces the toast message as one unit.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="behavior-and-semantics" class="headless-toast-api-block">
+    <h3>Behavior and semantics</h3>
+    <ul class="headless-toast-api-list">
+      <li>The primitive does not auto-dismiss items. Timers are owned by your component.</li>
+      <li>The primitive does not add close buttons, action buttons, or focus handling.</li>
+      <li>If you keep closed items in the DOM, add a <code>[hidden]</code> override in your CSS so they fully disappear.</li>
+      <li>Reach for the component wrapper when you want built-in queue trimming, action support, and dismissal reasons.</li>
+    </ul>
+  </section>
+</article>

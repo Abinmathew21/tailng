@@ -2,6 +2,7 @@ import type { Routes } from '@angular/router';
 import {
   DEFAULT_OWNABLE_DOCS_SEGMENT,
   OWNABLE_FORM_GROUP,
+  OWNABLE_FEEDBACK_GROUP,
   OWNABLE_GETTING_STARTED_GROUP,
   OWNABLE_LAYOUT_GROUP,
   OWNABLE_NAVIGATION_GROUP,
@@ -45,6 +46,7 @@ const stepperItem = requireOwnableItem(OWNABLE_LAYOUT_GROUP, 'stepper');
 const dialogItem = requireOwnableItem(OWNABLE_OVERLAY_GROUP, 'dialog');
 const popoverItem = requireOwnableItem(OWNABLE_OVERLAY_GROUP, 'popover');
 const tooltipItem = requireOwnableItem(OWNABLE_OVERLAY_GROUP, 'tooltip');
+const toastItem = requireOwnableItem(OWNABLE_FEEDBACK_GROUP, 'toast');
 const breadcrumbItem = requireOwnableItem(OWNABLE_NAVIGATION_GROUP, 'breadcrumb');
 const contextMenuItem = requireOwnableItem(OWNABLE_NAVIGATION_GROUP, 'context-menu');
 const menubarItem = requireOwnableItem(OWNABLE_NAVIGATION_GROUP, 'menubar');
@@ -230,6 +232,14 @@ export const OWNABLE_ROUTES: Routes = [
         loadComponent: () =>
           import('./overlay/tooltip/ownable-tooltip-page.component').then(
             (m) => m.OwnableTooltipPageComponent,
+          ),
+      },
+      {
+        path: 'feedback/toast',
+        data: toOwnableDocsRouteData(OWNABLE_FEEDBACK_GROUP, toastItem),
+        loadComponent: () =>
+          import('./feedback/toast/ownable-toast-page.component').then(
+            (m) => m.OwnableToastPageComponent,
           ),
       },
       {

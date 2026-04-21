@@ -3,6 +3,7 @@ export type OwnableDocsCategoryId =
   | 'form'
   | 'layout'
   | 'overlay'
+  | 'feedback'
   | 'navigation'
   | 'release'
   | 'tooling';
@@ -232,6 +233,21 @@ export const OWNABLE_OVERLAY_GROUP: OwnableDocsGroup = {
   ],
 };
 
+export const OWNABLE_FEEDBACK_GROUP: OwnableDocsGroup = {
+  id: 'feedback',
+  title: 'Feedback',
+  subtitle: 'Installable feedback wrappers with local source ownership',
+  items: [
+    {
+      id: 'toast',
+      slug: 'toast',
+      title: 'Toast',
+      description:
+        'Ownable toast install with local queue UI, notification styling, and generated file structure.',
+    },
+  ],
+};
+
 export const OWNABLE_NAVIGATION_GROUP: OwnableDocsGroup = {
   id: 'navigation',
   title: 'Navigation',
@@ -288,6 +304,7 @@ export const OWNABLE_DOCS_GROUPS: readonly OwnableDocsGroup[] = Object.freeze([
   OWNABLE_FORM_GROUP,
   OWNABLE_LAYOUT_GROUP,
   OWNABLE_OVERLAY_GROUP,
+  OWNABLE_FEEDBACK_GROUP,
   OWNABLE_NAVIGATION_GROUP,
   OWNABLE_TOOLING_GROUP,
   OWNABLE_RELEASE_GROUP,

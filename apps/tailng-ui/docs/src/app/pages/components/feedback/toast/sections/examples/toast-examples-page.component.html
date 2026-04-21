@@ -1,55 +1,19 @@
 <article class="toast-examples">
   <h2 class="toast-examples-title">Examples</h2>
   <p class="toast-examples-lead">
-    Use toast streams for non-blocking confirmations and escalation notifications. Keep destructive
-    failures persistent until users acknowledge them.
+    Use the wrapper for common notification flows where you want queue trimming, tone semantics,
+    and action-button wiring without owning the toast markup yourself.
   </p>
 
-  <section class="toast-examples-block">
+  <section id="activity-stream-notifications" class="toast-examples-block">
     <app-docs-example-tabs-section
       heading="Activity stream notifications"
-      description="Informational and success events are best suited for auto-dismiss toast messages."
+      description="Informational and success events are best suited for transient wrapper toasts."
       ariaLabel="Toast stream examples"
       tabListAriaLabel="Toast stream style variants"
-      defaultValue="headless"
+      defaultValue="plain-css"
       [codeBlockTheme]="codeBlockTheme()"
     >
-      <ng-template
-        appDocsExampleVariant
-        value="headless"
-        label="Headless"
-        panelTitle="Headless toast stream"
-        [codeTabs]="streamHeadlessTabs"
-      >
-        <section class="toast-headless-stack">
-          <section class="toast-headless-actions">
-            <button
-              type="button"
-              class="toast-headless-trigger"
-              (click)="showHeadlessStreamToast('neutral')"
-            >
-              Show info toast
-            </button>
-            <button
-              type="button"
-              class="toast-headless-trigger"
-              (click)="showHeadlessStreamToast('success')"
-            >
-              Show success toast
-            </button>
-          </section>
-
-          <section tngToastViewport class="toast-headless-viewport">
-            @for (toast of streamHeadlessToasts(); track toast.id) {
-              <article tngToastItem [tone]="toast.tone" class="toast-headless-item">
-                <strong>{{ toast.title }}</strong>
-                <p>{{ toast.message }}</p>
-              </article>
-            }
-          </section>
-        </section>
-      </ng-template>
-
       <ng-template
         appDocsExampleVariant
         value="plain-css"
@@ -63,7 +27,7 @@
           <tng-button tone="success" (click)="showTone(streamPlainToast, 'success')">
             Show success
           </tng-button>
-          <tng-button tone="success" (click)="showActionToast(streamPlainToast, 'undo')">
+          <tng-button tone="success" (click)="showUndoToast(streamPlainToast)">
             Show undo toast
           </tng-button>
         </section>
@@ -84,7 +48,7 @@
           <tng-button tone="success" (click)="showTone(streamTailwindToast, 'success')">
             Show success
           </tng-button>
-          <tng-button tone="success" (click)="showActionToast(streamTailwindToast, 'undo')">
+          <tng-button tone="success" (click)="showUndoToast(streamTailwindToast)">
             Show undo toast
           </tng-button>
         </section>
@@ -95,60 +59,15 @@
     }
   </section>
 
-  <section class="toast-examples-block">
+  <section id="escalation-notifications" class="toast-examples-block">
     <app-docs-example-tabs-section
       heading="Escalation notifications"
-      description="Warnings and errors should be assertive; persistent errors should require explicit dismissal."
+      description="Warnings can auto-dismiss, while persistent failures can stay until users act."
       ariaLabel="Toast escalation examples"
       tabListAriaLabel="Toast escalation style variants"
-      defaultValue="headless"
+      defaultValue="plain-css"
       [codeBlockTheme]="codeBlockTheme()"
     >
-      <ng-template
-        appDocsExampleVariant
-        value="headless"
-        label="Headless"
-        panelTitle="Headless escalation stack"
-        [codeTabs]="escalationHeadlessTabs"
-      >
-        <section class="toast-headless-stack">
-          <section class="toast-headless-actions">
-            <button
-              type="button"
-              class="toast-headless-trigger toast-headless-trigger--warning"
-              (click)="showHeadlessEscalationToast('warning')"
-            >
-              Show warning toast
-            </button>
-            <button
-              type="button"
-              class="toast-headless-trigger toast-headless-trigger--danger"
-              (click)="showHeadlessEscalationToast('danger')"
-            >
-              Show persistent error
-            </button>
-          </section>
-
-          <section tngToastViewport class="toast-headless-viewport">
-            @for (toast of escalationHeadlessToasts(); track toast.id) {
-              <article tngToastItem [tone]="toast.tone" class="toast-headless-item">
-                <strong>{{ toast.title }}</strong>
-                <p>{{ toast.message }}</p>
-                @if (toast.tone === 'danger') {
-                  <button
-                    type="button"
-                    class="toast-headless-dismiss"
-                    (click)="dismissHeadlessToast('escalation', toast.id)"
-                  >
-                    Dismiss
-                  </button>
-                }
-              </article>
-            }
-          </section>
-        </section>
-      </ng-template>
-
       <ng-template
         appDocsExampleVariant
         value="plain-css"
@@ -164,7 +83,7 @@
           <tng-button tone="danger" (click)="showTone(escalationPlainToast, 'danger')">
             Show persistent error
           </tng-button>
-          <tng-button tone="neutral" (click)="showActionToast(escalationPlainToast, 'retry')">
+          <tng-button tone="neutral" (click)="showRetryToast(escalationPlainToast)">
             Show retry snackbar
           </tng-button>
         </section>
@@ -187,7 +106,7 @@
           <tng-button tone="danger" (click)="showTone(escalationTailwindToast, 'danger')">
             Show persistent error
           </tng-button>
-          <tng-button tone="neutral" (click)="showActionToast(escalationTailwindToast, 'retry')">
+          <tng-button tone="neutral" (click)="showRetryToast(escalationTailwindToast)">
             Show retry snackbar
           </tng-button>
         </section>

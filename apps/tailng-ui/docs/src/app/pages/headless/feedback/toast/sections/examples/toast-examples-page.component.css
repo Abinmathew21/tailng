@@ -1,0 +1,167 @@
+:host {
+  display: block;
+}
+
+.headless-toast-examples {
+  display: grid;
+  gap: 1.25rem;
+  padding-bottom: 2rem;
+}
+
+.headless-toast-examples-title {
+  font-size: clamp(1.55rem, 1.5vw + 1rem, 2rem);
+  font-weight: 700;
+  margin: 0;
+}
+
+.headless-toast-examples-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  line-height: 1.55;
+  margin: 0;
+  max-inline-size: 66ch;
+}
+
+.headless-toast-examples-block {
+  background: color-mix(in srgb, var(--tng-semantic-background-surface) 92%, transparent);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 1rem;
+  display: grid;
+  gap: 0.85rem;
+  padding: 1rem;
+}
+
+.headless-toast-example-stage {
+  background: color-mix(in srgb, var(--tng-semantic-background-canvas) 72%, transparent);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 1rem;
+  display: grid;
+  gap: 0.75rem;
+  min-height: 13.5rem;
+  padding: 1rem;
+  position: relative;
+}
+
+.headless-toast-example-stage--compact {
+  min-height: 9.5rem;
+}
+
+.headless-toast-example-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+.headless-toast-example-trigger,
+.headless-toast-example-dismiss {
+  align-items: center;
+  appearance: none;
+  background: color-mix(in srgb, var(--tng-semantic-background-canvas) 86%, transparent);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.72rem;
+  color: var(--tng-semantic-foreground-primary);
+  cursor: pointer;
+  display: inline-flex;
+  font: inherit;
+  font-weight: 650;
+  justify-content: center;
+  justify-self: start;
+  min-height: 2.1rem;
+  padding: 0.42rem 0.78rem;
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.headless-toast-example-trigger:hover,
+.headless-toast-example-dismiss:hover {
+  background: color-mix(in srgb, var(--tng-semantic-background-muted) 55%, transparent);
+}
+
+.headless-toast-example-trigger--warning {
+  border-color: color-mix(in srgb, var(--tng-semantic-accent-warning) 58%, var(--tng-semantic-border-subtle));
+}
+
+.headless-toast-example-trigger--danger {
+  border-color: color-mix(in srgb, var(--tng-semantic-accent-danger) 58%, var(--tng-semantic-border-subtle));
+}
+
+.headless-toast-example-trigger:focus-visible,
+.headless-toast-example-dismiss:focus-visible {
+  outline: 2px solid var(--tng-semantic-focus-ring);
+  outline-offset: 2px;
+}
+
+.headless-toast-example-viewport {
+  display: grid;
+  gap: 0.65rem;
+  inset-inline-end: 1rem;
+  position: absolute;
+  top: 4.5rem;
+  width: min(24rem, calc(100% - 2rem));
+}
+
+.headless-toast-example-viewport--fixed {
+  bottom: 1rem;
+  position: fixed;
+  right: 1rem;
+  top: auto;
+  width: min(24rem, calc(100vw - 2rem));
+  z-index: 80;
+}
+
+.headless-toast-example-item {
+  background: var(--tng-semantic-background-surface);
+  border: 1px solid var(--tng-semantic-border-default);
+  border-radius: 0.9rem;
+  box-shadow: 0 16px 30px color-mix(in srgb, var(--tng-semantic-foreground-primary) 18%, transparent);
+  color: var(--tng-semantic-foreground-primary);
+  display: grid;
+  gap: 0.35rem;
+  padding: 0.8rem 0.85rem;
+}
+
+.headless-toast-example-item strong {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.78rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.headless-toast-example-item[data-tone='success'] strong {
+  color: var(--tng-semantic-accent-success);
+}
+
+.headless-toast-example-item[data-tone='warning'] strong {
+  color: var(--tng-semantic-accent-warning);
+}
+
+.headless-toast-example-item[data-tone='danger'] strong {
+  color: var(--tng-semantic-accent-danger);
+}
+
+.headless-toast-example-item p {
+  color: var(--tng-semantic-foreground-secondary);
+  line-height: 1.45;
+  margin: 0;
+}
+
+.headless-toast-example-note {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.9rem;
+  line-height: 1.55;
+  margin: 0;
+  max-inline-size: 56ch;
+}
+
+.headless-toast-example-item[data-tone='success'] {
+  border-color: color-mix(in srgb, var(--tng-semantic-accent-success) 72%, transparent);
+}
+
+.headless-toast-example-item[data-tone='warning'] {
+  border-color: color-mix(in srgb, var(--tng-semantic-accent-warning) 72%, transparent);
+}
+
+.headless-toast-example-item[data-tone='danger'] {
+  border-color: color-mix(in srgb, var(--tng-semantic-accent-danger) 72%, transparent);
+}
