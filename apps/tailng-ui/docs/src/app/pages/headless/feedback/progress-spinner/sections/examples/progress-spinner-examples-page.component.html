@@ -1,0 +1,227 @@
+<article class="headless-progress-spinner-examples">
+  <h2 class="headless-progress-spinner-examples-title">Examples</h2>
+  <p class="headless-progress-spinner-examples-lead">
+    Use determinate spinners when a real numeric range exists, then hand off to an indeterminate
+    arc when the work continues without a trustworthy percentage.
+  </p>
+
+  <section id="determinate-metrics" class="headless-progress-spinner-examples-block">
+    <app-docs-example-tabs-section
+      heading="Determinate metrics"
+      description="Track completion of known-duration tasks with owner-authored SVG circles."
+      ariaLabel="Headless determinate spinner examples"
+      tabListAriaLabel="Headless determinate spinner style variants"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Headless determinate spinners (plain CSS)"
+        [codeTabs]="determinatePlainTabs"
+      >
+        <section class="headless-spinner-example">
+          <div class="headless-spinner-example-row">
+            <span>Upload progress</span>
+            <span tngProgressSpinner [value]="uploadProgress" class="headless-spinner-example-item" aria-label="Upload progress">
+              <svg class="headless-spinner-example-svg" viewBox="0 0 40 40">
+                <circle class="headless-spinner-example-track" cx="20" cy="20" r="18"></circle>
+                <circle
+                  class="headless-spinner-example-indicator"
+                  cx="20"
+                  cy="20"
+                  r="18"
+                  [attr.stroke-dasharray]="spinnerCircumference"
+                  [attr.stroke-dashoffset]="spinnerCircumference - (spinnerCircumference * uploadProgress) / 100"
+                ></circle>
+              </svg>
+            </span>
+          </div>
+          <div class="headless-spinner-example-row">
+            <span>Quality checks</span>
+            <span tngProgressSpinner [value]="qualityProgress" class="headless-spinner-example-item" aria-label="Quality checks">
+              <svg class="headless-spinner-example-svg" viewBox="0 0 40 40">
+                <circle class="headless-spinner-example-track" cx="20" cy="20" r="18"></circle>
+                <circle
+                  class="headless-spinner-example-indicator headless-spinner-example-indicator--success"
+                  cx="20"
+                  cy="20"
+                  r="18"
+                  [attr.stroke-dasharray]="spinnerCircumference"
+                  [attr.stroke-dashoffset]="spinnerCircumference - (spinnerCircumference * qualityProgress) / 100"
+                ></circle>
+              </svg>
+            </span>
+          </div>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Headless determinate spinners (Tailwind)"
+        [codeTabs]="determinateTailwindTabs"
+      >
+        <section
+          class="grid gap-3 rounded-xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4"
+        >
+          <div class="flex flex-wrap gap-3">
+            <span tngProgressSpinner [value]="uploadProgress" class="inline-flex h-10 w-10" aria-label="Upload progress">
+              <svg class="block h-full w-full" viewBox="0 0 40 40">
+                <circle
+                  class="fill-none stroke-[var(--tng-semantic-border-subtle)]"
+                  cx="20"
+                  cy="20"
+                  r="18"
+                  stroke-width="4"
+                ></circle>
+                <circle
+                  class="fill-none stroke-[var(--tng-semantic-accent-brand)] [stroke-linecap:round]"
+                  cx="20"
+                  cy="20"
+                  r="18"
+                  stroke-width="4"
+                  [attr.stroke-dasharray]="spinnerCircumference"
+                  [attr.stroke-dashoffset]="spinnerCircumference - (spinnerCircumference * uploadProgress) / 100"
+                  style="transform: rotate(-90deg); transform-origin: center;"
+                ></circle>
+              </svg>
+            </span>
+            <span tngProgressSpinner [value]="qualityProgress" class="inline-flex h-10 w-10" aria-label="Quality checks">
+              <svg class="block h-full w-full" viewBox="0 0 40 40">
+                <circle
+                  class="fill-none stroke-[var(--tng-semantic-border-subtle)]"
+                  cx="20"
+                  cy="20"
+                  r="18"
+                  stroke-width="4"
+                ></circle>
+                <circle
+                  class="fill-none stroke-[var(--tng-semantic-accent-success)] [stroke-linecap:round]"
+                  cx="20"
+                  cy="20"
+                  r="18"
+                  stroke-width="4"
+                  [attr.stroke-dasharray]="spinnerCircumference"
+                  [attr.stroke-dashoffset]="spinnerCircumference - (spinnerCircumference * qualityProgress) / 100"
+                  style="transform: rotate(-90deg); transform-origin: center;"
+                ></circle>
+              </svg>
+            </span>
+          </div>
+        </section>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section id="indeterminate-handoff" class="headless-progress-spinner-examples-block">
+    <app-docs-example-tabs-section
+      heading="Indeterminate handoff"
+      description="Use an indeterminate arc when the work continues but exact completion is unavailable."
+      ariaLabel="Headless indeterminate spinner examples"
+      tabListAriaLabel="Headless indeterminate spinner style variants"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Headless handoff spinners (plain CSS)"
+        [codeTabs]="handoffPlainTabs"
+      >
+        <section class="headless-spinner-example">
+          <div class="headless-spinner-example-row">
+            <span>Preparing release</span>
+            <span tngProgressSpinner [indeterminate]="true" class="headless-spinner-example-item" aria-label="Preparing release">
+              <svg class="headless-spinner-example-svg" viewBox="0 0 40 40">
+                <circle class="headless-spinner-example-track" cx="20" cy="20" r="18"></circle>
+                <circle
+                  class="headless-spinner-example-indicator headless-spinner-example-indicator--indeterminate"
+                  cx="20"
+                  cy="20"
+                  r="18"
+                  stroke-dasharray="70"
+                  stroke-dashoffset="20"
+                ></circle>
+              </svg>
+            </span>
+          </div>
+          <div class="headless-spinner-example-row">
+            <span>Rollout</span>
+            <span tngProgressSpinner [value]="rolloutProgress" class="headless-spinner-example-item" aria-label="Release rollout">
+              <svg class="headless-spinner-example-svg" viewBox="0 0 40 40">
+                <circle class="headless-spinner-example-track" cx="20" cy="20" r="18"></circle>
+                <circle
+                  class="headless-spinner-example-indicator"
+                  cx="20"
+                  cy="20"
+                  r="18"
+                  [attr.stroke-dasharray]="spinnerCircumference"
+                  [attr.stroke-dashoffset]="spinnerCircumference - (spinnerCircumference * rolloutProgress) / 100"
+                ></circle>
+              </svg>
+            </span>
+          </div>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Headless handoff spinners (Tailwind)"
+        [codeTabs]="handoffTailwindTabs"
+      >
+        <section
+          class="grid gap-3 rounded-xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4"
+        >
+          <div class="flex flex-wrap gap-3">
+            <span tngProgressSpinner [indeterminate]="true" class="inline-flex h-10 w-10" aria-label="Preparing release">
+              <svg class="block h-full w-full" viewBox="0 0 40 40">
+                <circle
+                  class="fill-none stroke-[var(--tng-semantic-border-subtle)]"
+                  cx="20"
+                  cy="20"
+                  r="18"
+                  stroke-width="4"
+                ></circle>
+                <circle
+                  class="fill-none stroke-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_42%,var(--tng-semantic-accent-success)_58%)] [stroke-dasharray:70] [stroke-dashoffset:20] [stroke-linecap:round] animate-[tng-progress-spinner-indeterminate_1s_linear_infinite]"
+                  cx="20"
+                  cy="20"
+                  r="18"
+                  stroke-width="4"
+                  style="transform-origin: center;"
+                ></circle>
+              </svg>
+            </span>
+            <span tngProgressSpinner [value]="rolloutProgress" class="inline-flex h-10 w-10" aria-label="Release rollout">
+              <svg class="block h-full w-full" viewBox="0 0 40 40">
+                <circle
+                  class="fill-none stroke-[var(--tng-semantic-border-subtle)]"
+                  cx="20"
+                  cy="20"
+                  r="18"
+                  stroke-width="4"
+                ></circle>
+                <circle
+                  class="fill-none stroke-[var(--tng-semantic-accent-brand)] [stroke-linecap:round]"
+                  cx="20"
+                  cy="20"
+                  r="18"
+                  stroke-width="4"
+                  [attr.stroke-dasharray]="spinnerCircumference"
+                  [attr.stroke-dashoffset]="spinnerCircumference - (spinnerCircumference * rolloutProgress) / 100"
+                  style="transform: rotate(-90deg); transform-origin: center;"
+                ></circle>
+              </svg>
+            </span>
+          </div>
+        </section>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+</article>

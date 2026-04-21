@@ -1,0 +1,187 @@
+<article class="headless-progress-spinner-overview">
+  <h2 class="headless-progress-spinner-overview-title">Progress Spinner overview</h2>
+  <p class="headless-progress-spinner-overview-lead">
+    Headless progress spinner gives you range semantics and ARIA wiring, while the SVG, circles,
+    motion, and visual scale stay fully owner-authored.
+  </p>
+
+  <section id="imports" class="headless-progress-spinner-overview-block">
+    <h3>Imports</h3>
+    <p>Use the primitive directive when you want to own the circular markup and motion yourself.</p>
+    <tng-code-block
+      [code]="importCode"
+      adapter="shiki"
+      language="ts"
+      title="Primitive import"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="basic-composition" class="headless-progress-spinner-overview-block">
+    <h3>Basic composition</h3>
+    <p>
+      The primitive only marks the root as a progressbar. You provide the SVG, track circle,
+      indicator circle, and any indeterminate animation.
+    </p>
+    <tng-code-block
+      [code]="compositionCode"
+      adapter="shiki"
+      language="html"
+      title="Minimal headless markup"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="style-variants" class="headless-progress-spinner-overview-block">
+    <app-docs-example-tabs-section
+      heading="Style variants"
+      description="Use the same primitive root inside a lightweight CSS shell or a utility-authored Tailwind surface."
+      ariaLabel="Headless progress spinner style variants"
+      tabListAriaLabel="Headless progress spinner style tabs"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Headless spinner (plain CSS)"
+        [codeTabs]="plainCodeTabs"
+      >
+        <section class="headless-spinner-preview">
+          <span tngProgressSpinner [value]="completion" class="headless-spinner-preview__item" aria-label="Sync progress">
+            <svg class="headless-spinner-preview__svg" viewBox="0 0 40 40">
+              <circle class="headless-spinner-preview__track" cx="20" cy="20" r="18"></circle>
+              <circle
+                class="headless-spinner-preview__indicator"
+                cx="20"
+                cy="20"
+                r="18"
+                [attr.stroke-dasharray]="spinnerCircumference"
+                [attr.stroke-dashoffset]="spinnerCircumference - (spinnerCircumference * completion) / 100"
+              ></circle>
+            </svg>
+          </span>
+          <span tngProgressSpinner [value]="reviewProgress" class="headless-spinner-preview__item" aria-label="Review completion">
+            <svg class="headless-spinner-preview__svg" viewBox="0 0 40 40">
+              <circle class="headless-spinner-preview__track" cx="20" cy="20" r="18"></circle>
+              <circle
+                class="headless-spinner-preview__indicator headless-spinner-preview__indicator--success"
+                cx="20"
+                cy="20"
+                r="18"
+                [attr.stroke-dasharray]="spinnerCircumference"
+                [attr.stroke-dashoffset]="spinnerCircumference - (spinnerCircumference * reviewProgress) / 100"
+              ></circle>
+            </svg>
+          </span>
+          <span tngProgressSpinner [indeterminate]="true" class="headless-spinner-preview__item" aria-label="Preparing sync">
+            <svg class="headless-spinner-preview__svg" viewBox="0 0 40 40">
+              <circle class="headless-spinner-preview__track" cx="20" cy="20" r="18"></circle>
+              <circle
+                class="headless-spinner-preview__indicator headless-spinner-preview__indicator--indeterminate"
+                cx="20"
+                cy="20"
+                r="18"
+                stroke-dasharray="70"
+                stroke-dashoffset="20"
+              ></circle>
+            </svg>
+          </span>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Headless spinner (Tailwind)"
+        [codeTabs]="tailwindCodeTabs"
+      >
+        <section
+          class="rounded-xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4"
+        >
+          <div class="flex flex-wrap gap-3">
+            <span tngProgressSpinner [value]="completion" class="inline-flex h-10 w-10" aria-label="Deploy progress">
+              <svg class="block h-full w-full" viewBox="0 0 40 40">
+                <circle
+                  class="fill-none stroke-[var(--tng-semantic-border-subtle)]"
+                  cx="20"
+                  cy="20"
+                  r="18"
+                  stroke-width="4"
+                ></circle>
+                <circle
+                  class="fill-none stroke-[var(--tng-semantic-accent-brand)] [stroke-linecap:round]"
+                  cx="20"
+                  cy="20"
+                  r="18"
+                  stroke-width="4"
+                  [attr.stroke-dasharray]="spinnerCircumference"
+                  [attr.stroke-dashoffset]="spinnerCircumference - (spinnerCircumference * completion) / 100"
+                  style="transform: rotate(-90deg); transform-origin: center;"
+                ></circle>
+              </svg>
+            </span>
+            <span tngProgressSpinner [value]="reviewProgress" class="inline-flex h-10 w-10" aria-label="Review completion">
+              <svg class="block h-full w-full" viewBox="0 0 40 40">
+                <circle
+                  class="fill-none stroke-[var(--tng-semantic-border-subtle)]"
+                  cx="20"
+                  cy="20"
+                  r="18"
+                  stroke-width="4"
+                ></circle>
+                <circle
+                  class="fill-none stroke-[var(--tng-semantic-accent-success)] [stroke-linecap:round]"
+                  cx="20"
+                  cy="20"
+                  r="18"
+                  stroke-width="4"
+                  [attr.stroke-dasharray]="spinnerCircumference"
+                  [attr.stroke-dashoffset]="spinnerCircumference - (spinnerCircumference * reviewProgress) / 100"
+                  style="transform: rotate(-90deg); transform-origin: center;"
+                ></circle>
+              </svg>
+            </span>
+            <span tngProgressSpinner [indeterminate]="true" class="inline-flex h-10 w-10" aria-label="Preparing sync">
+              <svg class="block h-full w-full" viewBox="0 0 40 40">
+                <circle
+                  class="fill-none stroke-[var(--tng-semantic-border-subtle)]"
+                  cx="20"
+                  cy="20"
+                  r="18"
+                  stroke-width="4"
+                ></circle>
+                <circle
+                  class="fill-none stroke-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_42%,var(--tng-semantic-accent-success)_58%)] [stroke-dasharray:70] [stroke-dashoffset:20] [stroke-linecap:round] animate-[tng-progress-spinner-indeterminate_1s_linear_infinite]"
+                  cx="20"
+                  cy="20"
+                  r="18"
+                  stroke-width="4"
+                  style="transform-origin: center;"
+                ></circle>
+              </svg>
+            </span>
+          </div>
+        </section>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section id="range-semantics" class="headless-progress-spinner-overview-block">
+    <h3>Range semantics</h3>
+    <ul class="headless-progress-spinner-overview-list">
+      <li><code>min</code>, <code>max</code>, and <code>value</code> are normalized and clamped on the root directive.</li>
+      <li>Indeterminate mode removes <code>aria-valuenow</code>, <code>aria-valuemin</code>, and <code>aria-valuemax</code>.</li>
+      <li>The primitive does not render circles or size the spinner for you.</li>
+      <li>Provide visible context or an explicit <code>aria-label</code> when the surrounding UI does not already explain the task.</li>
+    </ul>
+  </section>
+</article>

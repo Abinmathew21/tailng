@@ -2,25 +2,25 @@
   display: block;
 }
 
-.progress-spinner-styling {
+.headless-progress-spinner-styling {
   display: grid;
   gap: 1.2rem;
   padding-bottom: 2rem;
 }
 
-.progress-spinner-styling-title {
+.headless-progress-spinner-styling-title {
   font-size: clamp(1.55rem, 1.5vw + 1rem, 2rem);
   font-weight: 700;
   margin: 0;
 }
 
-.progress-spinner-styling-lead {
+.headless-progress-spinner-styling-lead {
   color: var(--tng-semantic-foreground-secondary);
   margin: 0;
-  max-inline-size: 60ch;
+  max-inline-size: 62ch;
 }
 
-.progress-spinner-styling-block {
+.headless-progress-spinner-styling-block {
   background: color-mix(in srgb, var(--tng-semantic-background-surface) 92%, transparent);
   border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 1rem;
@@ -29,16 +29,16 @@
   padding: 1.1rem;
 }
 
-.progress-spinner-styling-block h3 {
+.headless-progress-spinner-styling-block h3 {
   margin: 0;
 }
 
-.progress-spinner-styling-block p {
+.headless-progress-spinner-styling-block p {
   color: var(--tng-semantic-foreground-secondary);
   margin: 0;
 }
 
-.progress-spinner-styling-list {
+.headless-progress-spinner-styling-list {
   display: grid;
   gap: 0.5rem;
   margin: 0;

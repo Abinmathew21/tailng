@@ -1,0 +1,316 @@
+import { DOCUMENT } from '@angular/common';
+import { Component, inject, signal, type OnDestroy } from '@angular/core';
+import { TngProgressSpinner } from '@tailng-ui/primitives';
+import type { DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
+import {
+  DocsExampleTabsSectionComponent,
+  DocsExampleVariantDirective,
+} from '../../../../../../shared/example-tabs-section/docs-example-tabs-section.component';
+import {
+  observeDocsCodeThemeChanges,
+  resolveDocsCodeBlockTheme,
+} from '../../../../../../shared/util';
+
+@Component({
+  selector: 'app-headless-progress-spinner-examples-page',
+  imports: [TngProgressSpinner, DocsExampleTabsSectionComponent, DocsExampleVariantDirective],
+  templateUrl: './progress-spinner-examples-page.component.html',
+  styleUrl: './progress-spinner-examples-page.component.css',
+})
+export class HeadlessProgressSpinnerExamplesPageComponent implements OnDestroy {
+  private readonly documentRef = inject(DOCUMENT);
+  public readonly codeBlockTheme = signal<'github-dark' | 'github-light'>(
+    resolveDocsCodeBlockTheme(this.documentRef),
+  );
+  private readonly colorSchemeObserver = observeDocsCodeThemeChanges(
+    this.documentRef,
+    this.codeBlockTheme,
+  );
+
+  protected readonly uploadProgress = 68;
+  protected readonly qualityProgress = 84;
+  protected readonly rolloutProgress = 42;
+  protected readonly spinnerCircumference = 113.097;
+
+  protected readonly determinatePlainTabs: readonly DocsExampleCodeTab[] = Object.freeze([
+    {
+      value: 'ts',
+      label: 'TS',
+      language: 'ts',
+      title: 'headless-progress-spinner-determinate-plain.component.ts',
+      code: [
+        "import { Component } from '@angular/core';",
+        "import { TngProgressSpinner } from '@tailng-ui/primitives';",
+        '',
+        '@Component({',
+        "  selector: 'app-headless-progress-spinner-determinate-plain',",
+        '  standalone: true,',
+        '  imports: [TngProgressSpinner],',
+        "  templateUrl: './headless-progress-spinner-determinate-plain.component.html',",
+        "  styleUrl: './headless-progress-spinner-determinate-plain.component.css',",
+        '})',
+        'export class HeadlessProgressSpinnerDeterminatePlainComponent {',
+        '  protected readonly spinnerCircumference = 113.097;',
+        '}',
+      ].join('\n'),
+    },
+    {
+      value: 'html',
+      label: 'HTML',
+      language: 'html',
+      title: 'headless-progress-spinner-determinate-plain.component.html',
+      code: [
+        '<section class="spinner-example spinner-example--plain">',
+        '  <div class="spinner-example-row">',
+        '    <span>Upload progress</span>',
+        '    <span tngProgressSpinner [value]="68" class="spinner-example-item" aria-label="Upload progress">',
+        '      <svg class="spinner-example-svg" viewBox="0 0 40 40">',
+        '        <circle class="spinner-example-track" cx="20" cy="20" r="18"></circle>',
+        '        <circle',
+        '          class="spinner-example-indicator"',
+        '          cx="20"',
+        '          cy="20"',
+        '          r="18"',
+        '          stroke-dasharray="113.097"',
+        '          [attr.stroke-dashoffset]="113.097 - (113.097 * 68) / 100"',
+        '        ></circle>',
+        '      </svg>',
+        '    </span>',
+        '  </div>',
+        '</section>',
+        '',
+      ].join('\n'),
+    },
+    {
+      value: 'css',
+      label: 'CSS',
+      language: 'css',
+      title: 'headless-progress-spinner-determinate-plain.component.css',
+      code: [
+        '.spinner-example-item {',
+        '  display: inline-flex;',
+        '  height: 2.5rem;',
+        '  width: 2.5rem;',
+        '}',
+        '',
+      ].join('\n'),
+    },
+  ]);
+
+  protected readonly determinateTailwindTabs: readonly DocsExampleCodeTab[] = Object.freeze([
+    {
+      value: 'ts',
+      label: 'TS',
+      language: 'ts',
+      title: 'headless-progress-spinner-determinate-tailwind.component.ts',
+      code: [
+        "import { Component } from '@angular/core';",
+        "import { TngProgressSpinner } from '@tailng-ui/primitives';",
+        '',
+        '@Component({',
+        "  selector: 'app-headless-progress-spinner-determinate-tailwind',",
+        '  standalone: true,',
+        '  imports: [TngProgressSpinner],',
+        "  templateUrl: './headless-progress-spinner-determinate-tailwind.component.html',",
+        "  styleUrl: './headless-progress-spinner-determinate-tailwind.component.css',",
+        '})',
+        'export class HeadlessProgressSpinnerDeterminateTailwindComponent {',
+        '  protected readonly spinnerCircumference = 113.097;',
+        '}',
+      ].join('\n'),
+    },
+    {
+      value: 'html',
+      label: 'HTML',
+      language: 'html',
+      title: 'headless-progress-spinner-determinate-tailwind.component.html',
+      code: [
+        '<section class="grid gap-3 rounded-xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4">',
+        '  <div class="flex flex-wrap gap-3">',
+        '    <span tngProgressSpinner [value]="68" class="inline-flex h-10 w-10" aria-label="Upload progress">',
+        '      <svg class="block h-full w-full" viewBox="0 0 40 40">',
+        '        <circle class="fill-none stroke-[var(--tng-semantic-border-subtle)]" cx="20" cy="20" r="18" stroke-width="4"></circle>',
+        '        <circle',
+        '          class="fill-none stroke-[var(--tng-semantic-accent-brand)] [stroke-linecap:round]"',
+        '          cx="20"',
+        '          cy="20"',
+        '          r="18"',
+        '          stroke-width="4"',
+        '          stroke-dasharray="113.097"',
+        '          [attr.stroke-dashoffset]="113.097 - (113.097 * 68) / 100"',
+        '          style="transform: rotate(-90deg); transform-origin: center;"',
+        '        ></circle>',
+        '      </svg>',
+        '    </span>',
+        '    <span tngProgressSpinner [value]="84" class="inline-flex h-10 w-10" aria-label="Quality checks">',
+        '      <svg class="block h-full w-full" viewBox="0 0 40 40">',
+        '        <circle class="fill-none stroke-[var(--tng-semantic-border-subtle)]" cx="20" cy="20" r="18" stroke-width="4"></circle>',
+        '        <circle',
+        '          class="fill-none stroke-[var(--tng-semantic-accent-success)] [stroke-linecap:round]"',
+        '          cx="20"',
+        '          cy="20"',
+        '          r="18"',
+        '          stroke-width="4"',
+        '          stroke-dasharray="113.097"',
+        '          [attr.stroke-dashoffset]="113.097 - (113.097 * 84) / 100"',
+        '          style="transform: rotate(-90deg); transform-origin: center;"',
+        '        ></circle>',
+        '      </svg>',
+        '    </span>',
+        '  </div>',
+        '</section>',
+        '',
+      ].join('\n'),
+    },
+    {
+      value: 'css',
+      label: 'CSS',
+      language: 'css',
+      title: 'headless-progress-spinner-determinate-tailwind.component.css',
+      code: '/* Tailwind utilities are applied directly in the template. */',
+    },
+  ]);
+
+  protected readonly handoffPlainTabs: readonly DocsExampleCodeTab[] = Object.freeze([
+    {
+      value: 'ts',
+      label: 'TS',
+      language: 'ts',
+      title: 'headless-progress-spinner-handoff-plain.component.ts',
+      code: [
+        "import { Component } from '@angular/core';",
+        "import { TngProgressSpinner } from '@tailng-ui/primitives';",
+        '',
+        '@Component({',
+        "  selector: 'app-headless-progress-spinner-handoff-plain',",
+        '  standalone: true,',
+        '  imports: [TngProgressSpinner],',
+        "  templateUrl: './headless-progress-spinner-handoff-plain.component.html',",
+        "  styleUrl: './headless-progress-spinner-handoff-plain.component.css',",
+        '})',
+        'export class HeadlessProgressSpinnerHandoffPlainComponent {',
+        '  protected readonly spinnerCircumference = 113.097;',
+        '}',
+      ].join('\n'),
+    },
+    {
+      value: 'html',
+      label: 'HTML',
+      language: 'html',
+      title: 'headless-progress-spinner-handoff-plain.component.html',
+      code: [
+        '<section class="spinner-example spinner-example--plain">',
+        '  <div class="spinner-example-row">',
+        '    <span>Preparing release</span>',
+        '    <span tngProgressSpinner [indeterminate]="true" class="spinner-example-item" aria-label="Preparing release">',
+        '      <svg class="spinner-example-svg" viewBox="0 0 40 40">',
+        '        <circle class="spinner-example-track" cx="20" cy="20" r="18"></circle>',
+        '        <circle',
+        '          class="spinner-example-indicator spinner-example-indicator--indeterminate"',
+        '          cx="20"',
+        '          cy="20"',
+        '          r="18"',
+        '          stroke-dasharray="70"',
+        '          stroke-dashoffset="20"',
+        '        ></circle>',
+        '      </svg>',
+        '    </span>',
+        '  </div>',
+        '</section>',
+        '',
+      ].join('\n'),
+    },
+    {
+      value: 'css',
+      label: 'CSS',
+      language: 'css',
+      title: 'headless-progress-spinner-handoff-plain.component.css',
+      code: [
+        '.spinner-example-indicator--indeterminate {',
+        '  animation: tng-progress-spinner-indeterminate 1s linear infinite;',
+        '}',
+        '',
+      ].join('\n'),
+    },
+  ]);
+
+  protected readonly handoffTailwindTabs: readonly DocsExampleCodeTab[] = Object.freeze([
+    {
+      value: 'ts',
+      label: 'TS',
+      language: 'ts',
+      title: 'headless-progress-spinner-handoff-tailwind.component.ts',
+      code: [
+        "import { Component } from '@angular/core';",
+        "import { TngProgressSpinner } from '@tailng-ui/primitives';",
+        '',
+        '@Component({',
+        "  selector: 'app-headless-progress-spinner-handoff-tailwind',",
+        '  standalone: true,',
+        '  imports: [TngProgressSpinner],',
+        "  templateUrl: './headless-progress-spinner-handoff-tailwind.component.html',",
+        "  styleUrl: './headless-progress-spinner-handoff-tailwind.component.css',",
+        '})',
+        'export class HeadlessProgressSpinnerHandoffTailwindComponent {}',
+      ].join('\n'),
+    },
+    {
+      value: 'html',
+      label: 'HTML',
+      language: 'html',
+      title: 'headless-progress-spinner-handoff-tailwind.component.html',
+      code: [
+        '<section class="grid gap-3 rounded-xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4">',
+        '  <div class="flex flex-wrap gap-3">',
+        '    <span tngProgressSpinner [indeterminate]="true" class="inline-flex h-10 w-10" aria-label="Preparing release">',
+        '      <svg class="block h-full w-full" viewBox="0 0 40 40">',
+        '        <circle class="fill-none stroke-[var(--tng-semantic-border-subtle)]" cx="20" cy="20" r="18" stroke-width="4"></circle>',
+        '        <circle',
+        '          class="fill-none stroke-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_42%,var(--tng-semantic-accent-success)_58%)] [stroke-dasharray:70] [stroke-dashoffset:20] [stroke-linecap:round] animate-[tng-progress-spinner-indeterminate_1s_linear_infinite]"',
+        '          cx="20"',
+        '          cy="20"',
+        '          r="18"',
+        '          stroke-width="4"',
+        '          style="transform-origin: center;"',
+        '        ></circle>',
+        '      </svg>',
+        '    </span>',
+        '    <span tngProgressSpinner [value]="42" class="inline-flex h-10 w-10" aria-label="Release rollout">',
+        '      <svg class="block h-full w-full" viewBox="0 0 40 40">',
+        '        <circle class="fill-none stroke-[var(--tng-semantic-border-subtle)]" cx="20" cy="20" r="18" stroke-width="4"></circle>',
+        '        <circle',
+        '          class="fill-none stroke-[var(--tng-semantic-accent-brand)] [stroke-linecap:round]"',
+        '          cx="20"',
+        '          cy="20"',
+        '          r="18"',
+        '          stroke-width="4"',
+        '          stroke-dasharray="113.097"',
+        '          [attr.stroke-dashoffset]="113.097 - (113.097 * 42) / 100"',
+        '          style="transform: rotate(-90deg); transform-origin: center;"',
+        '        ></circle>',
+        '      </svg>',
+        '    </span>',
+        '  </div>',
+        '</section>',
+        '',
+      ].join('\n'),
+    },
+    {
+      value: 'css',
+      label: 'CSS',
+      language: 'css',
+      title: 'headless-progress-spinner-handoff-tailwind.component.css',
+      code: [
+        '@keyframes tng-progress-spinner-indeterminate {',
+        '  0% { transform: rotate(-90deg); }',
+        '  100% { transform: rotate(270deg); }',
+        '}',
+        '',
+      ].join('\n'),
+    },
+  ]);
+
+  public ngOnDestroy(): void {
+    this.colorSchemeObserver?.disconnect();
+  }
+}

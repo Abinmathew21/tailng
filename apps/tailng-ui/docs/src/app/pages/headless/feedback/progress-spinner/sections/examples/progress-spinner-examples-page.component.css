@@ -1,0 +1,93 @@
+:host {
+  display: block;
+}
+
+.headless-progress-spinner-examples {
+  display: grid;
+  gap: 1.25rem;
+  padding-bottom: 2rem;
+}
+
+.headless-progress-spinner-examples-title {
+  font-size: clamp(1.55rem, 1.5vw + 1rem, 2rem);
+  font-weight: 700;
+  margin: 0;
+}
+
+.headless-progress-spinner-examples-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+  max-inline-size: 64ch;
+}
+
+.headless-progress-spinner-examples-block {
+  background: color-mix(in srgb, var(--tng-semantic-background-surface) 92%, transparent);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 1rem;
+  display: grid;
+  gap: 0.85rem;
+  padding: 1rem;
+}
+
+.headless-spinner-example {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.headless-spinner-example-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.headless-spinner-example-row > span:first-child {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.88rem;
+}
+
+.headless-spinner-example-item {
+  display: inline-flex;
+  height: 2.5rem;
+  width: 2.5rem;
+}
+
+.headless-spinner-example-svg {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
+.headless-spinner-example-track,
+.headless-spinner-example-indicator {
+  fill: none;
+  stroke-linecap: round;
+  stroke-width: 4;
+}
+
+.headless-spinner-example-track {
+  stroke: var(--tng-semantic-border-subtle);
+}
+
+.headless-spinner-example-indicator {
+  stroke: var(--tng-semantic-accent-brand);
+  transform: rotate(-90deg);
+  transform-origin: center;
+}
+
+.headless-spinner-example-indicator--success {
+  stroke: color-mix(in srgb, var(--tng-semantic-accent-brand) 72%, #10b981);
+}
+
+.headless-spinner-example-indicator--indeterminate {
+  animation: tng-progress-spinner-indeterminate 1s linear infinite;
+}
+
+@keyframes tng-progress-spinner-indeterminate {
+  0% {
+    transform: rotate(-90deg);
+  }
+
+  100% {
+    transform: rotate(270deg);
+  }
+}

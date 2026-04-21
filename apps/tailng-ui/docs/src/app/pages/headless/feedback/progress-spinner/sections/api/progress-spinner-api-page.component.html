@@ -1,0 +1,90 @@
+<article class="headless-progress-spinner-api">
+  <h2 class="headless-progress-spinner-api-title">API reference</h2>
+  <p class="headless-progress-spinner-api-lead">
+    Headless progress spinner exposes one semantic root directive. SVG markup, track circles,
+    indicator circles, and motion remain owner-authored.
+  </p>
+
+  <section id="root-directive" class="headless-progress-spinner-api-block">
+    <h3>Root directive</h3>
+    <p>
+      <code>tngProgressSpinner</code> adds <code>role="progressbar"</code>, stable slot metadata,
+      and normalized range attributes to your root element.
+    </p>
+    <tng-code-block
+      [code]="rootCode"
+      adapter="shiki"
+      language="html"
+      title="Root usage"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+
+    <div class="headless-progress-spinner-api-table-wrap">
+      <table class="headless-progress-spinner-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Input</th>
+            <th scope="col">Type</th>
+            <th scope="col">Default</th>
+            <th scope="col">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>min</code></td>
+            <td><code>number</code></td>
+            <td><code>0</code></td>
+            <td>Lower bound for determinate values.</td>
+          </tr>
+          <tr>
+            <td><code>max</code></td>
+            <td><code>number</code></td>
+            <td><code>100</code></td>
+            <td>Upper bound, normalized so it never falls below <code>min</code>.</td>
+          </tr>
+          <tr>
+            <td><code>value</code></td>
+            <td><code>number</code></td>
+            <td><code>0</code></td>
+            <td>Determinate value, clamped between <code>min</code> and <code>max</code>.</td>
+          </tr>
+          <tr>
+            <td><code>indeterminate</code></td>
+            <td><code>boolean</code></td>
+            <td><code>false</code></td>
+            <td>Suppresses the value ARIA attributes and marks the root with <code>data-indeterminate</code>.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="svg-foundation" class="headless-progress-spinner-api-block">
+    <h3>SVG foundation</h3>
+    <p>
+      The primitive does not create track or indicator circles for you. Owners are responsible for
+      SVG markup, circumference math, dash offset, and any indeterminate arc animation.
+    </p>
+    <tng-code-block
+      [code]="svgCode"
+      adapter="shiki"
+      language="html"
+      title="Owner-authored SVG"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="accessibility-contract" class="headless-progress-spinner-api-block">
+    <h3>Accessibility contract</h3>
+    <ul class="headless-progress-spinner-api-list">
+      <li>The root always exposes <code>role="progressbar"</code>.</li>
+      <li>Determinate mode sets <code>aria-valuemin</code>, <code>aria-valuemax</code>, and <code>aria-valuenow</code>.</li>
+      <li>Indeterminate mode removes those value attributes, so provide a clear label through nearby text or <code>aria-label</code>.</li>
+      <li>Because the primitive renders no visible content, owners are fully responsible for contrast, size, and motion clarity.</li>
+    </ul>
+  </section>
+</article>

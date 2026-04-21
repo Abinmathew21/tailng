@@ -11,14 +11,13 @@ import {
 import { TngTab, TngTabList } from '@tailng-ui/primitives';
 import { filter, map, startWith } from 'rxjs/operators';
 
-type ProgressSpinnerDocSectionId = 'api' | 'examples' | 'overview' | 'ownable-install' | 'styling';
+type ProgressSpinnerDocSectionId = 'api' | 'examples' | 'overview' | 'styling';
 
 const progressSpinnerDocSectionIds: readonly ProgressSpinnerDocSectionId[] = [
   'overview',
   'api',
   'styling',
   'examples',
-  'ownable-install',
 ] as const;
 
 const defaultProgressSpinnerDocSection: ProgressSpinnerDocSectionId = 'overview';

@@ -2,25 +2,53 @@
   <h2 class="progress-spinner-styling-title">Styling contract</h2>
   <p class="progress-spinner-styling-lead">
     Progress Spinner exposes stable hooks for the root slot and spinner circles so design systems
-    can tune size, stroke, and motion.
+    can tune size, stroke, and motion while still using the wrapper shell.
   </p>
 
-  <section class="progress-spinner-styling-block">
-    <h3>Slot and class hooks</h3>
+  <section id="wrapper-slot-hooks" class="progress-spinner-styling-block">
+    <h3>Wrapper slot hooks</h3>
     <p>
       Use <code>[data-slot="progress-spinner"]</code> for root sizing and
       <code>.tng-progress-spinner-track</code>/<code>.tng-progress-spinner-indicator</code> for
       circle styling.
     </p>
     <tng-code-block
-      [code]="cssContractCode"
+      [code]="slotContractCode"
       adapter="shiki"
       language="css"
-      title="Recommended CSS contract"
+      title="Slot contract"
       [theme]="codeBlockTheme()"
       [lineNumbers]="false"
       [wrap]="true"
       [sanitizeHtml]="false"
     ></tng-code-block>
+  </section>
+
+  <section id="default-shell" class="progress-spinner-styling-block">
+    <h3>Default shell</h3>
+    <p>
+      The wrapper provides an inline-flex host, an SVG shell, and the default CSS variables for
+      spinner size and stroke width so most teams only need slot-level overrides.
+    </p>
+    <tng-code-block
+      [code]="defaultShellCode"
+      adapter="shiki"
+      language="css"
+      title="Wrapper defaults"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="owner-guidance" class="progress-spinner-styling-block">
+    <h3>Owner guidance</h3>
+    <ul class="progress-spinner-styling-list">
+      <li>Scale <code>size</code> and <code>strokeWidth</code> together so the indicator stays legible.</li>
+      <li>Use slot and circle hooks for tone changes instead of overriding SVG structure assumptions.</li>
+      <li>Keep indeterminate motion restrained so long-running states do not feel noisy or frantic.</li>
+      <li>Pair spinner usage with nearby status text when the task is not self-evident from placement alone.</li>
+    </ul>
   </section>
 </article>

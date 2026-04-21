@@ -4,80 +4,15 @@
     Pair determinate and indeterminate states to communicate completion and loading intent clearly.
   </p>
 
-  <section class="progress-spinner-examples-block">
+  <section id="determinate-metrics" class="progress-spinner-examples-block">
     <app-docs-example-tabs-section
-      heading="Sync and quality metrics"
+      heading="Determinate metrics"
       description="Track completion of known-duration tasks with determinate values."
       ariaLabel="Progress spinner sync examples"
       tabListAriaLabel="Progress spinner sync style variants"
-      defaultValue="headless"
+      defaultValue="plain-css"
       [codeBlockTheme]="codeBlockTheme()"
     >
-      <ng-template
-        appDocsExampleVariant
-        value="headless"
-        label="Headless"
-        panelTitle="Headless metric spinners"
-        [codeTabs]="uploadHeadlessTabs"
-      >
-        <section class="spinner-example-shell spinner-example-shell--headless">
-          <div class="spinner-example-row">
-            <span>Upload progress</span>
-            <span tngProgressSpinner [value]="uploadProgress" class="spinner-example-item">
-              <svg class="spinner-example-svg" viewBox="0 0 40 40">
-                <circle
-                  cx="20"
-                  cy="20"
-                  r="18"
-                  fill="none"
-                  stroke="var(--tng-semantic-border-subtle)"
-                  stroke-width="4"
-                ></circle>
-                <circle
-                  cx="20"
-                  cy="20"
-                  r="18"
-                  fill="none"
-                  stroke="var(--tng-semantic-accent-brand)"
-                  stroke-width="4"
-                  stroke-linecap="round"
-                  [attr.stroke-dasharray]="spinnerCircumference"
-                  [attr.stroke-dashoffset]="spinnerCircumference - (spinnerCircumference * uploadProgress) / 100"
-                  transform="rotate(-90 20 20)"
-                ></circle>
-              </svg>
-            </span>
-          </div>
-          <div class="spinner-example-row">
-            <span>Test coverage</span>
-            <span tngProgressSpinner [value]="testCoverageProgress" class="spinner-example-item">
-              <svg class="spinner-example-svg" viewBox="0 0 40 40">
-                <circle
-                  cx="20"
-                  cy="20"
-                  r="18"
-                  fill="none"
-                  stroke="var(--tng-semantic-border-subtle)"
-                  stroke-width="4"
-                ></circle>
-                <circle
-                  cx="20"
-                  cy="20"
-                  r="18"
-                  fill="none"
-                  stroke="var(--tng-semantic-accent-brand)"
-                  stroke-width="4"
-                  stroke-linecap="round"
-                  [attr.stroke-dasharray]="spinnerCircumference"
-                  [attr.stroke-dashoffset]="spinnerCircumference - (spinnerCircumference * testCoverageProgress) / 100"
-                  transform="rotate(-90 20 20)"
-                ></circle>
-              </svg>
-            </span>
-          </div>
-        </section>
-      </ng-template>
-
       <ng-template
         appDocsExampleVariant
         value="plain-css"
@@ -91,11 +26,8 @@
             <tng-progress-spinner [value]="uploadProgress" ariaLabel="Upload progress"></tng-progress-spinner>
           </div>
           <div class="spinner-example-row">
-            <span>Test coverage</span>
-            <tng-progress-spinner
-              [value]="testCoverageProgress"
-              ariaLabel="Test coverage"
-            ></tng-progress-spinner>
+            <span>Quality checks</span>
+            <tng-progress-spinner [value]="qualityProgress" ariaLabel="Quality checks"></tng-progress-spinner>
           </div>
         </section>
       </ng-template>
@@ -108,48 +40,24 @@
         [codeTabs]="uploadTailwindTabs"
       >
         <section
-          class="flex flex-wrap gap-4 rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+          class="flex flex-wrap gap-4 rounded-xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4"
         >
           <tng-progress-spinner [value]="uploadProgress" ariaLabel="Upload progress"></tng-progress-spinner>
-          <tng-progress-spinner [value]="testCoverageProgress" ariaLabel="Test coverage"></tng-progress-spinner>
+          <tng-progress-spinner [value]="qualityProgress" ariaLabel="Quality checks"></tng-progress-spinner>
         </section>
       </ng-template>
     </app-docs-example-tabs-section>
   </section>
 
-  <section class="progress-spinner-examples-block">
+  <section id="indeterminate-handoff" class="progress-spinner-examples-block">
     <app-docs-example-tabs-section
-      heading="Loading and rollout state"
+      heading="Indeterminate handoff"
       description="Use indeterminate when duration is unknown, then switch to determinate rollout progress."
       ariaLabel="Progress spinner loading examples"
       tabListAriaLabel="Progress spinner loading style variants"
-      defaultValue="headless"
+      defaultValue="plain-css"
       [codeBlockTheme]="codeBlockTheme()"
     >
-      <ng-template
-        appDocsExampleVariant
-        value="headless"
-        label="Headless"
-        panelTitle="Headless loading spinners"
-        [codeTabs]="loadingHeadlessTabs"
-      >
-        <section class="spinner-example-shell spinner-example-shell--headless">
-          <div class="spinner-example-row">
-            <span>Preparing release</span>
-            <span
-              tngProgressSpinner
-              [indeterminate]="true"
-              class="spinner-example-item spinner-example-item--indeterminate"
-              aria-label="Preparing release"
-            ></span>
-          </div>
-          <div class="spinner-example-row">
-            <span>Rollout</span>
-            <tng-progress-spinner [value]="releaseProgress" ariaLabel="Release rollout"></tng-progress-spinner>
-          </div>
-        </section>
-      </ng-template>
-
       <ng-template
         appDocsExampleVariant
         value="plain-css"
@@ -177,7 +85,7 @@
         [codeTabs]="loadingTailwindTabs"
       >
         <section
-          class="flex flex-wrap gap-4 rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+          class="flex flex-wrap gap-4 rounded-xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4"
         >
           <tng-progress-spinner [indeterminate]="true" ariaLabel="Preparing release"></tng-progress-spinner>
           <tng-progress-spinner [value]="releaseProgress" ariaLabel="Release rollout"></tng-progress-spinner>

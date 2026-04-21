@@ -1,23 +1,13 @@
 <article class="progress-spinner-overview">
   <h2 class="progress-spinner-overview-title">Progress Spinner overview</h2>
   <p class="progress-spinner-overview-lead">
-    Progress Spinner supports determinate and indeterminate circular loading states with semantic
-    <code>progressbar</code> attributes.
+    Progress Spinner gives you determinate and indeterminate circular loading states with the
+    default wrapper shell, SVG rendering, and semantic <code>progressbar</code> attributes.
   </p>
 
-  <section class="progress-spinner-overview-block">
+  <section id="imports" class="progress-spinner-overview-block">
     <h3>Imports</h3>
-    <p>Pick primitives for full markup control or wrappers for default styles.</p>
-    <tng-code-block
-      [code]="primitiveImportCode"
-      adapter="shiki"
-      language="ts"
-      title="Primitive import"
-      [theme]="codeBlockTheme()"
-      [lineNumbers]="false"
-      [wrap]="true"
-      [sanitizeHtml]="false"
-    ></tng-code-block>
+    <p>Use the wrapper when you want the built-in SVG shell, dash math, and motion defaults.</p>
     <tng-code-block
       [code]="componentImportCode"
       adapter="shiki"
@@ -30,61 +20,15 @@
     ></tng-code-block>
   </section>
 
-  <section class="progress-spinner-overview-block">
+  <section id="style-variants" class="progress-spinner-overview-block">
     <app-docs-example-tabs-section
-      heading="Spinner variants"
-      description="Use the same circular contract in headless markup, plain CSS wrappers, and Tailwind utility shells."
+      heading="Style variants"
+      description="Use the wrapper inside a plain CSS shell or a utility-authored Tailwind surface."
       ariaLabel="Progress spinner style variants"
       tabListAriaLabel="Progress spinner style tabs"
-      defaultValue="headless"
+      defaultValue="plain-css"
       [codeBlockTheme]="codeBlockTheme()"
     >
-      <ng-template
-        appDocsExampleVariant
-        value="headless"
-        label="Headless"
-        panelTitle="Headless spinner stack"
-        [codeTabs]="headlessCodeTabs"
-      >
-        <section class="spinner-preview-shell spinner-preview-shell--headless">
-          <span
-            tngProgressSpinner
-            [value]="completion"
-            class="spinner-preview-shell__item spinner-preview-shell__item--determinate"
-            aria-label="Sync progress"
-          >
-            <svg class="spinner-preview-svg" viewBox="0 0 40 40">
-              <circle
-                cx="20"
-                cy="20"
-                r="18"
-                fill="none"
-                stroke="var(--tng-semantic-border-subtle)"
-                stroke-width="4"
-              ></circle>
-              <circle
-                cx="20"
-                cy="20"
-                r="18"
-                fill="none"
-                stroke="var(--tng-semantic-accent-brand)"
-                stroke-width="4"
-                stroke-linecap="round"
-                [attr.stroke-dasharray]="spinnerCircumference"
-                [attr.stroke-dashoffset]="spinnerCircumference - (spinnerCircumference * completion) / 100"
-                transform="rotate(-90 20 20)"
-              ></circle>
-            </svg>
-          </span>
-          <span
-            tngProgressSpinner
-            [indeterminate]="true"
-            class="spinner-preview-shell__item spinner-preview-shell__item--indeterminate"
-            aria-label="Loading"
-          ></span>
-        </section>
-      </ng-template>
-
       <ng-template
         appDocsExampleVariant
         value="plain-css"
@@ -107,7 +51,7 @@
         [codeTabs]="tailwindCodeTabs"
       >
         <section
-          class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+          class="rounded-xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4"
         >
           <div class="flex flex-wrap gap-3">
             <tng-progress-spinner [value]="completion" ariaLabel="Deploy progress"></tng-progress-spinner>
@@ -119,7 +63,7 @@
     </app-docs-example-tabs-section>
   </section>
 
-  <section class="progress-spinner-overview-block">
+  <section id="accessibility-baseline" class="progress-spinner-overview-block">
     <h3>Accessibility baseline</h3>
     <ul class="progress-spinner-overview-list">
       <li>Set a meaningful label with <code>ariaLabel</code> when context is not explicit.</li>

@@ -1,23 +1,34 @@
 <article class="progress-spinner-api">
   <h2 class="progress-spinner-api-title">API reference</h2>
   <p class="progress-spinner-api-lead">
-    Progress Spinner exposes a compact contract: range values, indeterminate mode, and semantic
-    accessibility attributes.
+    Progress Spinner exposes a compact wrapper contract: normalized range values, indeterminate
+    mode, and semantic accessibility attributes.
   </p>
 
-  <section class="progress-spinner-api-block">
-    <h3><code>tngProgressSpinner</code> primitive</h3>
-    <p>Use the primitive directive when you want full control over spinner markup and motion.</p>
+  <section id="wrapper-component" class="progress-spinner-api-block">
+    <h3>Wrapper component</h3>
+    <p>
+      <code>tng-progress-spinner</code> renders the SVG shell for you, computes dash offset from
+      the normalized range, and forwards the primitive semantics underneath.
+    </p>
     <tng-code-block
-      [code]="primitiveAttachmentCode"
+      [code]="wrapperUsageCode"
       adapter="shiki"
       language="html"
-      title="Primitive usage"
+      title="Wrapper usage"
       [lineNumbers]="false"
       [wrap]="true"
       [sanitizeHtml]="false"
     ></tng-code-block>
+  </section>
 
+  <section id="size-and-range-inputs" class="progress-spinner-api-block">
+    <h3>Size and range inputs</h3>
+    <p>
+      The wrapper exposes the primitive range inputs and adds <code>ariaLabel</code>,
+      <code>size</code>, and <code>strokeWidth</code> so teams can scale the spinner without
+      rewriting the SVG template.
+    </p>
     <div class="progress-spinner-api-table-wrap">
       <table class="progress-spinner-api-table">
         <thead>
@@ -51,24 +62,42 @@
             <td><code>indeterminate</code></td>
             <td><code>boolean</code></td>
             <td><code>false</code></td>
-            <td>Hides <code>aria-valuenow</code>/<code>aria-valuemin</code>/<code>aria-valuemax</code>.</td>
+            <td>Hides <code>aria-valuenow</code>, <code>aria-valuemin</code>, and <code>aria-valuemax</code>.</td>
+          </tr>
+          <tr>
+            <td><code>ariaLabel</code></td>
+            <td><code>string | null</code></td>
+            <td><code>null</code></td>
+            <td>Supplies an explicit accessible name when surrounding context is not enough.</td>
+          </tr>
+          <tr>
+            <td><code>size</code></td>
+            <td><code>number</code></td>
+            <td><code>40</code></td>
+            <td>Sets the rendered spinner size through the wrapper CSS variable.</td>
+          </tr>
+          <tr>
+            <td><code>strokeWidth</code></td>
+            <td><code>number</code></td>
+            <td><code>4</code></td>
+            <td>Controls both the track and indicator stroke width.</td>
           </tr>
         </tbody>
       </table>
     </div>
   </section>
 
-  <section class="progress-spinner-api-block">
-    <h3><code>tng-progress-spinner</code> wrapper</h3>
+  <section id="primitive-foundation" class="progress-spinner-api-block">
+    <h3>Primitive foundation</h3>
     <p>
-      Wrapper component reuses primitive semantics and adds <code>ariaLabel</code>,
-      <code>size</code>, and <code>strokeWidth</code> inputs.
+      Under the hood, the wrapper uses <code>tngProgressSpinner</code> for the semantic root. Reach
+      for the headless page when you want to author the SVG, circles, and motion directly.
     </p>
     <tng-code-block
-      [code]="componentAttachmentCode"
+      [code]="primitiveUsageCode"
       adapter="shiki"
       language="html"
-      title="Component usage"
+      title="Primitive foundation"
       [lineNumbers]="false"
       [wrap]="true"
       [sanitizeHtml]="false"

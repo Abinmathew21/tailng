@@ -1,0 +1,43 @@
+<article class="headless-progress-spinner-styling">
+  <h2 class="headless-progress-spinner-styling-title">Styling contract</h2>
+  <p class="headless-progress-spinner-styling-lead">
+    Headless progress spinner only guarantees the root slot name. SVG elements, circle styles,
+    dash math, and indeterminate motion all stay in owner CSS.
+  </p>
+
+  <section id="slot-hooks" class="headless-progress-spinner-styling-block">
+    <h3>Slot hooks</h3>
+    <p>
+      Style the semantic root with <code>[data-slot="progress-spinner"]</code> and your own SVG
+      classes for the track and indicator circles.
+    </p>
+  </section>
+
+  <section id="css-starter" class="headless-progress-spinner-styling-block">
+    <h3>CSS starter</h3>
+    <p>
+      This starter keeps the primitive minimal while giving you a predictable circular shell and
+      an animated indeterminate arc.
+    </p>
+    <tng-code-block
+      [code]="cssStarterCode"
+      adapter="shiki"
+      language="css"
+      title="Progress spinner starter CSS"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="motion-guidance" class="headless-progress-spinner-styling-block">
+    <h3>Motion guidance</h3>
+    <ul class="headless-progress-spinner-styling-list">
+      <li>Use a restrained spin speed so long-running operations do not create distracting visual noise.</li>
+      <li>Increase size and stroke weight together to preserve legibility at larger scales.</li>
+      <li>Keep track and indicator contrast strong enough to remain readable on both light and dark surfaces.</li>
+      <li>Prefer determinate spinners only when the numeric range is real and meaningful to the user.</li>
+    </ul>
+  </section>
+</article>

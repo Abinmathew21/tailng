@@ -14,9 +14,12 @@ export class ProgressSpinnerStylingPageComponent implements OnDestroy {
   public readonly codeBlockTheme = signal<'github-dark' | 'github-light'>(
     resolveDocsCodeBlockTheme(this.documentRef),
   );
-  private readonly colorSchemeObserver = observeDocsCodeThemeChanges(this.documentRef, this.codeBlockTheme);
+  private readonly colorSchemeObserver = observeDocsCodeThemeChanges(
+    this.documentRef,
+    this.codeBlockTheme,
+  );
 
-  protected readonly cssContractCode = [
+  protected readonly slotContractCode = [
     '[data-slot="progress-spinner"] {',
     '  --tng-progress-spinner-size: 40px;',
     '  --tng-progress-spinner-stroke-width: 4px;',
@@ -37,8 +40,20 @@ export class ProgressSpinnerStylingPageComponent implements OnDestroy {
     '',
   ].join('\n');
 
+  protected readonly defaultShellCode = [
+    ':host {',
+    '  display: inline-flex;',
+    '}',
+    '',
+    '.tng-progress-spinner {',
+    '  display: inline-flex;',
+    '  height: var(--tng-progress-spinner-size, 40px);',
+    '  width: var(--tng-progress-spinner-size, 40px);',
+    '}',
+    '',
+  ].join('\n');
+
   public ngOnDestroy(): void {
     this.colorSchemeObserver?.disconnect();
   }
-
 }
