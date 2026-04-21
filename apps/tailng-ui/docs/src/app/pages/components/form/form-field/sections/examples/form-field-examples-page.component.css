@@ -13,17 +13,23 @@
 .doc-cmp-form-field-ex-search-shell,
 .doc-cmp-form-field-ex-workspace-shell,
 .doc-cmp-form-field-ex-clear-shell {
-  display: block;
   width: 100%;
-  --tng-input-bg: #ffffff;
-  --tng-input-border: #cbd5e1;
+  --tng-input-bg: var(--tng-semantic-background-surface);
+  --tng-input-border: var(--tng-semantic-border-subtle);
   --tng-input-radius: 0.85rem;
   --tng-input-min-height: 2.7rem;
   --tng-input-px: 0.9rem;
   --tng-input-gap: 0.55rem;
-  --tng-input-fg: #0f172a;
-  --tng-input-focus-ring: rgba(59, 130, 246, 0.18);
-  --tng-input-placeholder: #94a3b8;
+  --tng-input-fg: var(--tng-semantic-foreground-primary);
+  --tng-input-focus-ring: color-mix(in srgb, var(--tng-semantic-focus-ring) 24%, transparent);
+  --tng-input-placeholder: var(--tng-semantic-foreground-muted);
+}
+
+.doc-cmp-form-field-ex-search-shell tng-form-field,
+.doc-cmp-form-field-ex-workspace-shell tng-form-field,
+.doc-cmp-form-field-ex-clear-shell tng-form-field {
+  display: block;
+  width: 100%;
 }
 
 .doc-cmp-form-field-ex-search-shell {
@@ -33,7 +39,7 @@
 .doc-cmp-form-field-ex-search-prefix,
 .doc-cmp-form-field-ex-search-meta,
 .doc-cmp-form-field-ex-workspace-meta {
-  color: #64748b;
+  color: var(--tng-semantic-foreground-secondary);
 }
 
 .doc-cmp-form-field-ex-search-icon {
@@ -52,7 +58,7 @@
   border: 0;
   border-radius: 0.55rem;
   background: transparent;
-  color: #64748b;
+  color: var(--tng-semantic-foreground-secondary);
   font-size: 0.78rem;
   font-weight: 600;
   padding: 0.35rem 0.6rem;
@@ -60,6 +66,6 @@
 }
 
 .doc-cmp-form-field-ex-clear-action:hover {
-  background: rgba(148, 163, 184, 0.14);
-  color: #0f172a;
+  background: color-mix(in srgb, var(--tng-semantic-foreground-secondary) 14%, transparent);
+  color: var(--tng-semantic-foreground-primary);
 }

@@ -8,40 +8,43 @@
   width: min(100%, 34rem);
   margin-inline: auto;
   padding: 1.15rem;
-  border: 1px solid #cbd5e1;
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 1.25rem;
-  background: #ffffff;
-  color: #0f172a;
-  color-scheme: light;
-  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
+  background: var(--tng-semantic-background-surface);
+  color: var(--tng-semantic-foreground-primary);
+  box-shadow: 0 12px 32px color-mix(in srgb, var(--tng-semantic-foreground-primary) 8%, transparent);
 }
 
 .doc-cmp-form-field-ov-plain-label {
-  color: #64748b;
+  color: var(--tng-semantic-foreground-secondary);
   font-size: 0.8rem;
   font-weight: 700;
   letter-spacing: 0.02em;
 }
 
 .doc-cmp-form-field-ov-plain-shell {
-  display: block;
   width: 100%;
-  --tng-input-bg: #ffffff;
-  --tng-input-border: #cbd5e1;
+  --tng-input-bg: var(--tng-semantic-background-surface);
+  --tng-input-border: var(--tng-semantic-border-subtle);
   --tng-input-radius: 0.9rem;
   --tng-input-min-height: 2.85rem;
   --tng-input-px: 0.95rem;
   --tng-input-gap: 0.65rem;
-  --tng-input-fg: #0f172a;
-  --tng-input-focus-ring: rgba(59, 130, 246, 0.18);
+  --tng-input-fg: var(--tng-semantic-foreground-primary);
+  --tng-input-focus-ring: color-mix(in srgb, var(--tng-semantic-focus-ring) 24%, transparent);
   --tng-input-font-size: 0.96rem;
   --tng-input-line-height: 1.45;
-  --tng-input-placeholder: #94a3b8;
+  --tng-input-placeholder: var(--tng-semantic-foreground-muted);
+}
+
+.doc-cmp-form-field-ov-plain-shell tng-form-field {
+  display: block;
+  width: 100%;
 }
 
 .doc-cmp-form-field-ov-plain-prefix,
 .doc-cmp-form-field-ov-plain-meta {
-  color: #64748b;
+  color: var(--tng-semantic-foreground-secondary);
 }
 
 .doc-cmp-form-field-ov-plain-icon {

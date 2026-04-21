@@ -64,10 +64,12 @@
           <div class="input-styling-preview">
             <label class="doc-cmp-form-field-st-workspace-field">
               <span class="doc-cmp-form-field-st-workspace-label">Workspace slug</span>
-              <tng-form-field class="doc-cmp-form-field-st-workspace-shell">
-                <input tngInput type="text" value="core-platform" />
-                <span tngSuffix class="doc-cmp-form-field-st-workspace-meta">.tailng.dev</span>
-              </tng-form-field>
+              <div class="doc-cmp-form-field-st-workspace-shell">
+                <tng-form-field>
+                  <input tngInput type="text" value="core-platform" />
+                  <span tngSuffix class="doc-cmp-form-field-st-workspace-meta">.tailng.dev</span>
+                </tng-form-field>
+              </div>
             </label>
           </div>
         </ng-template>
@@ -82,11 +84,13 @@
         >
           <div class="input-styling-preview">
             <label class="grid w-full max-w-[31rem] gap-2">
-              <span class="text-xs font-semibold text-slate-500">Workspace slug</span>
-              <tng-form-field [class]="tailwindHostClass">
-                <input tngInput type="text" value="core-platform" />
-                <span tngSuffix class="text-xs font-semibold text-slate-500">.tailng.dev</span>
-              </tng-form-field>
+              <span class="text-xs font-semibold text-[var(--tng-semantic-foreground-secondary)]">Workspace slug</span>
+              <div [class]="tailwindHostClass">
+                <tng-form-field>
+                  <input tngInput type="text" value="core-platform" />
+                  <span tngSuffix class="text-xs font-semibold text-[var(--tng-semantic-foreground-secondary)]">.tailng.dev</span>
+                </tng-form-field>
+              </div>
             </label>
           </div>
         </ng-template>

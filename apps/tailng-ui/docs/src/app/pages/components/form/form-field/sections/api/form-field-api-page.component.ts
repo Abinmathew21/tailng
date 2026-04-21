@@ -18,10 +18,12 @@ export class FormFieldApiPageComponent {
   ].join('\n');
 
   protected readonly controlContractCode = [
-    '<tng-form-field class="docs-slug-shell">',
-    '  <input tngInput type="text" value="core-platform" />',
-    '  <span tngSuffix>.tailng.dev</span>',
-    '</tng-form-field>',
+    '<div class="docs-slug-shell">',
+    '  <tng-form-field>',
+    '    <input tngInput type="text" value="core-platform" />',
+    '    <span tngSuffix>.tailng.dev</span>',
+    '  </tng-form-field>',
+    '</div>',
     '',
     '.docs-slug-shell {',
     '  --tng-input-border: #cbd5e1;',

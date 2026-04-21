@@ -24,13 +24,15 @@
           [stackblitzUrl]="stackblitzVanillaUrl"
         >
           <div class="doc-cmp-form-field-ex-search-preview">
-            <tng-form-field class="doc-cmp-form-field-ex-search-shell">
-              <span tngPrefix aria-hidden="true" class="doc-cmp-form-field-ex-search-prefix">
-                <tng-icon icon="search" class="doc-cmp-form-field-ex-search-icon" />
-              </span>
-              <input tngInput type="search" placeholder="Search components..." />
-              <span tngSuffix class="doc-cmp-form-field-ex-search-meta">Ctrl+K</span>
-            </tng-form-field>
+            <div class="doc-cmp-form-field-ex-search-shell">
+              <tng-form-field>
+                <span tngPrefix aria-hidden="true" class="doc-cmp-form-field-ex-search-prefix">
+                  <tng-icon icon="search" class="doc-cmp-form-field-ex-search-icon" />
+                </span>
+                <input tngInput type="search" placeholder="Search components..." />
+                <span tngSuffix class="doc-cmp-form-field-ex-search-meta">Ctrl+K</span>
+              </tng-form-field>
+            </div>
           </div>
         </ng-template>
 
@@ -43,13 +45,15 @@
           [stackblitzUrl]="stackblitzTailwindUrl"
         >
           <div class="doc-cmp-form-field-ex-search-preview">
-            <tng-form-field [class]="searchTailwindHostClass">
-              <span tngPrefix aria-hidden="true" class="text-slate-500">
-                <tng-icon icon="search" class="h-4 w-4" />
-              </span>
-              <input tngInput type="search" placeholder="Search components..." />
-              <span tngSuffix class="text-xs font-semibold text-slate-500">Ctrl+K</span>
-            </tng-form-field>
+            <div [class]="searchTailwindHostClass">
+              <tng-form-field>
+                <span tngPrefix aria-hidden="true" class="text-[var(--tng-semantic-foreground-secondary)]">
+                  <tng-icon icon="search" class="h-4 w-4" />
+                </span>
+                <input tngInput type="search" placeholder="Search components..." />
+                <span tngSuffix class="text-xs font-semibold text-[var(--tng-semantic-foreground-secondary)]">Ctrl+K</span>
+              </tng-form-field>
+            </div>
           </div>
         </ng-template>
       </app-docs-example-tabs-section>
@@ -73,10 +77,12 @@
           [stackblitzUrl]="stackblitzVanillaUrl"
         >
           <div class="doc-cmp-form-field-ex-workspace-preview">
-            <tng-form-field class="doc-cmp-form-field-ex-workspace-shell">
-              <input tngInput type="text" value="core-platform" />
-              <span tngSuffix class="doc-cmp-form-field-ex-workspace-meta">.tailng.dev</span>
-            </tng-form-field>
+            <div class="doc-cmp-form-field-ex-workspace-shell">
+              <tng-form-field>
+                <input tngInput type="text" value="core-platform" />
+                <span tngSuffix class="doc-cmp-form-field-ex-workspace-meta">.tailng.dev</span>
+              </tng-form-field>
+            </div>
           </div>
         </ng-template>
 
@@ -89,10 +95,12 @@
           [stackblitzUrl]="stackblitzTailwindUrl"
         >
           <div class="doc-cmp-form-field-ex-workspace-preview">
-            <tng-form-field [class]="workspaceTailwindHostClass">
-              <input tngInput type="text" value="core-platform" />
-              <span tngSuffix class="text-xs font-semibold text-slate-500">.tailng.dev</span>
-            </tng-form-field>
+            <div [class]="workspaceTailwindHostClass">
+              <tng-form-field>
+                <input tngInput type="text" value="core-platform" />
+                <span tngSuffix class="text-xs font-semibold text-[var(--tng-semantic-foreground-secondary)]">.tailng.dev</span>
+              </tng-form-field>
+            </div>
           </div>
         </ng-template>
       </app-docs-example-tabs-section>
@@ -116,17 +124,19 @@
           [codeTabs]="clearPlainCodeTabs"
         >
           <div class="doc-cmp-form-field-ex-clear-preview">
-            <tng-form-field class="doc-cmp-form-field-ex-clear-shell">
-              <input tngInput type="search" value="TailNG" />
-              <button
-                tngSuffix
-                type="button"
-                class="doc-cmp-form-field-ex-clear-action"
-                aria-label="Clear search"
-              >
-                Clear
-              </button>
-            </tng-form-field>
+            <div class="doc-cmp-form-field-ex-clear-shell">
+              <tng-form-field>
+                <input tngInput type="search" value="TailNG" />
+                <button
+                  tngSuffix
+                  type="button"
+                  class="doc-cmp-form-field-ex-clear-action"
+                  aria-label="Clear search"
+                >
+                  Clear
+                </button>
+              </tng-form-field>
+            </div>
           </div>
         </ng-template>
 
@@ -139,17 +149,19 @@
           [codeTabs]="clearTailwindCodeTabs"
         >
           <div class="doc-cmp-form-field-ex-clear-preview">
-            <tng-form-field [class]="clearTailwindHostClass">
-              <input tngInput type="search" value="TailNG" />
-              <button
-                tngSuffix
-                type="button"
-                aria-label="Clear search"
-                class="rounded-md bg-transparent px-2.5 py-1 text-xs font-semibold text-slate-500 transition hover:bg-slate-200/60 hover:text-slate-900"
-              >
-                Clear
-              </button>
-            </tng-form-field>
+            <div [class]="clearTailwindHostClass">
+              <tng-form-field>
+                <input tngInput type="search" value="TailNG" />
+                <button
+                  tngSuffix
+                  type="button"
+                  aria-label="Clear search"
+                  class="rounded-md bg-transparent px-2.5 py-1 text-xs font-semibold text-[var(--tng-semantic-foreground-secondary)] transition hover:bg-[color-mix(in_srgb,var(--tng-semantic-foreground-secondary)_14%,transparent)] hover:text-[var(--tng-semantic-foreground-primary)]"
+                >
+                  Clear
+                </button>
+              </tng-form-field>
+            </div>
           </div>
         </ng-template>
       </app-docs-example-tabs-section>
