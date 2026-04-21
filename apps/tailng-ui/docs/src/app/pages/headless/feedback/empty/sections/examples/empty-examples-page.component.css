@@ -1,0 +1,68 @@
+:host {
+  display: block;
+}
+
+.headless-empty-examples {
+  display: grid;
+  gap: 1.25rem;
+  padding-bottom: 2rem;
+}
+
+.headless-empty-examples-title {
+  font-size: clamp(1.55rem, 1.5vw + 1rem, 2rem);
+  font-weight: 700;
+  margin: 0;
+}
+
+.headless-empty-examples-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+  max-inline-size: 64ch;
+}
+
+.headless-empty-examples-block {
+  background: color-mix(in srgb, var(--tng-semantic-background-surface) 92%, transparent);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 1rem;
+  display: grid;
+  gap: 0.85rem;
+  padding: 1rem;
+}
+
+.empty-example {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.empty-example--plain {
+  border: 1px dashed var(--tng-semantic-border-strong);
+  border-radius: 0.9rem;
+  justify-items: center;
+  padding: 1.1rem;
+  text-align: center;
+}
+
+.empty-example-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.empty-example-button {
+  background: var(--tng-semantic-accent-brand);
+  border: 0;
+  border-radius: 0.55rem;
+  color: var(--tng-semantic-foreground-inverse);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.86rem;
+  font-weight: 600;
+  min-height: 2.05rem;
+  padding-inline: 0.8rem;
+}
+
+.empty-example-button--subtle {
+  background: transparent;
+  border: 1px solid var(--tng-semantic-border-strong);
+  color: var(--tng-semantic-foreground-secondary);
+}

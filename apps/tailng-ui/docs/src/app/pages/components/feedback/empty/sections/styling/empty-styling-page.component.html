@@ -1,12 +1,12 @@
 <article class="empty-styling">
   <h2 class="empty-styling-title">Styling contract</h2>
   <p class="empty-styling-lead">
-    Empty exposes predictable slot hooks so teams can apply their own visual language without
-    changing behavior code.
+    Empty wrapper components expose the same public slot hooks as the primitives. Style through
+    those hooks first, and move to headless or ownable when you need to own the full shell.
   </p>
 
-  <section class="empty-styling-block">
-    <h3>Slot hooks</h3>
+  <section id="wrapper-slot-hooks" class="empty-styling-block">
+    <h3>Wrapper slot hooks</h3>
     <p>
       Style the same selectors for both headless primitives and wrapper components:
       <code>empty</code>, <code>empty-icon</code>, <code>empty-title</code>,
@@ -22,5 +22,22 @@
       [wrap]="true"
       [sanitizeHtml]="false"
     ></tng-code-block>
+  </section>
+
+  <section id="default-shell" class="empty-styling-block">
+    <h3>Default shell</h3>
+    <p>
+      The wrapper already provides a dashed surface, text alignment, and basic part spacing. Treat
+      those defaults as a baseline shell rather than styling against private wrapper internals.
+    </p>
+  </section>
+
+  <section id="owner-guidance" class="empty-styling-block">
+    <h3>Owner guidance</h3>
+    <ul class="empty-styling-guidance">
+      <li>Use wrapper styling when the built-in surface and <code>align</code> option are close to what your product needs.</li>
+      <li>Use headless empty when you need a fully custom shell, illustration region, or semantic container.</li>
+      <li>Use the ownable install when you want the wrapper model but need to edit the generated shell locally.</li>
+    </ul>
   </section>
 </article>

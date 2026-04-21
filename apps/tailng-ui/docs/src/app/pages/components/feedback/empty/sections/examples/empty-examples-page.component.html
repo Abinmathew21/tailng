@@ -1,35 +1,19 @@
 <article class="empty-examples">
   <h2 class="empty-examples-title">Examples</h2>
   <p class="empty-examples-lead">
-    Production empty-state patterns for no-results flows and first-run onboarding moments.
+    Wrapper empty states are a good fit when you want the default shell but still need product
+    copy, icons, and action content authored in the consuming screen.
   </p>
 
-  <section class="empty-examples-block">
+  <section id="no-results-state" class="empty-examples-block">
     <app-docs-example-tabs-section
       heading="No-results state"
-      description="Guide users back to productive paths when filters or search return no data."
+      description="Guide users back to a productive path when filters or search return nothing."
       ariaLabel="No-results empty examples"
-      tabListAriaLabel="No-results style variants"
-      defaultValue="headless"
+      tabListAriaLabel="No-results empty style variants"
+      defaultValue="plain-css"
       [codeBlockTheme]="codeBlockTheme()"
     >
-      <ng-template
-        appDocsExampleVariant
-        value="headless"
-        label="Headless"
-        panelTitle="Headless no-results empty state"
-        [codeTabs]="noResultsHeadlessTabs"
-      >
-        <section tngEmpty class="empty-example empty-example--headless">
-          <div tngEmptyIcon>🔎</div>
-          <h3 tngEmptyTitle>No search results</h3>
-          <p tngEmptyDescription>Try broader keywords or remove a few filters.</p>
-          <div tngEmptyActions>
-            <button type="button">Reset search</button>
-          </div>
-        </section>
-      </ng-template>
-
       <ng-template
         appDocsExampleVariant
         value="plain-css"
@@ -59,7 +43,7 @@
         [codeTabs]="noResultsTailwindTabs"
       >
         <section
-          class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+          class="rounded-xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4"
         >
           <tng-empty>
             <tng-empty-icon>🛰️</tng-empty-icon>
@@ -70,7 +54,7 @@
             <tng-empty-actions>
               <button
                 type="button"
-                class="rounded-md border border-slate-400 px-3 py-1 text-sm font-medium text-slate-700 dark:border-slate-500 dark:text-slate-200"
+                class="rounded-md border border-[var(--tng-semantic-border-default)] px-3 py-1 text-sm font-medium text-[var(--tng-semantic-foreground-primary)]"
               >
                 Connect agent
               </button>
@@ -81,33 +65,15 @@
     </app-docs-example-tabs-section>
   </section>
 
-  <section class="empty-examples-block">
+  <section id="onboarding-state" class="empty-examples-block">
     <app-docs-example-tabs-section
       heading="Onboarding state"
-      description="Pair action buttons with context text to convert first-run empty states into setup flows."
+      description="Pair action buttons with context text to turn a blank surface into a setup flow."
       ariaLabel="Onboarding empty examples"
-      tabListAriaLabel="Onboarding style variants"
-      defaultValue="headless"
+      tabListAriaLabel="Onboarding empty style variants"
+      defaultValue="plain-css"
       [codeBlockTheme]="codeBlockTheme()"
     >
-      <ng-template
-        appDocsExampleVariant
-        value="headless"
-        label="Headless"
-        panelTitle="Headless onboarding empty state"
-        [codeTabs]="onboardingHeadlessTabs"
-      >
-        <section tngEmpty class="empty-example empty-example--headless">
-          <div tngEmptyIcon>✨</div>
-          <h3 tngEmptyTitle>Welcome to workspace setup</h3>
-          <p tngEmptyDescription>Create your first pipeline to activate deployments.</p>
-          <div tngEmptyActions>
-            <button type="button">Start onboarding</button>
-            <button type="button">View docs</button>
-          </div>
-        </section>
-      </ng-template>
-
       <ng-template
         appDocsExampleVariant
         value="plain-css"
@@ -138,7 +104,7 @@
         [codeTabs]="onboardingTailwindTabs"
       >
         <section
-          class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+          class="rounded-xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4"
         >
           <tng-empty align="start">
             <tng-empty-icon>📦</tng-empty-icon>
@@ -149,13 +115,13 @@
             <tng-empty-actions>
               <button
                 type="button"
-                class="rounded-md border border-slate-400 px-3 py-1 text-sm font-medium text-slate-700 dark:border-slate-500 dark:text-slate-200"
+                class="rounded-md border border-[var(--tng-semantic-border-default)] px-3 py-1 text-sm font-medium text-[var(--tng-semantic-foreground-primary)]"
               >
                 Run build
               </button>
               <button
                 type="button"
-                class="rounded-md border border-slate-400 px-3 py-1 text-sm font-medium text-slate-700 dark:border-slate-500 dark:text-slate-200"
+                class="rounded-md border border-[var(--tng-semantic-border-default)] px-3 py-1 text-sm font-medium text-[var(--tng-semantic-foreground-primary)]"
               >
                 Open pipeline
               </button>

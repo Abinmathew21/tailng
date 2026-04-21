@@ -245,6 +245,13 @@ export const OWNABLE_FEEDBACK_GROUP: OwnableDocsGroup = {
       description:
         'Ownable toast install with local queue UI, notification styling, and generated file structure.',
     },
+    {
+      id: 'empty',
+      slug: 'empty',
+      title: 'Empty',
+      description:
+        'Ownable empty install with local wrapper source, no-data copy patterns, and generated file structure.',
+    },
   ],
 };
 

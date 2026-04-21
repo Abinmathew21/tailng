@@ -14,4 +14,9 @@ export const HEADLESS_FEEDBACK_ROUTES: Routes = [
     loadChildren: () =>
       import('./toast/routes').then((module) => module.HEADLESS_FEEDBACK_TOAST_ROUTES),
   },
+  {
+    path: 'empty',
+    loadChildren: () =>
+      import('./empty/routes').then((module) => module.HEADLESS_FEEDBACK_EMPTY_ROUTES),
+  },
 ];

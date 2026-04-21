@@ -47,6 +47,7 @@ const dialogItem = requireOwnableItem(OWNABLE_OVERLAY_GROUP, 'dialog');
 const popoverItem = requireOwnableItem(OWNABLE_OVERLAY_GROUP, 'popover');
 const tooltipItem = requireOwnableItem(OWNABLE_OVERLAY_GROUP, 'tooltip');
 const toastItem = requireOwnableItem(OWNABLE_FEEDBACK_GROUP, 'toast');
+const emptyItem = requireOwnableItem(OWNABLE_FEEDBACK_GROUP, 'empty');
 const breadcrumbItem = requireOwnableItem(OWNABLE_NAVIGATION_GROUP, 'breadcrumb');
 const contextMenuItem = requireOwnableItem(OWNABLE_NAVIGATION_GROUP, 'context-menu');
 const menubarItem = requireOwnableItem(OWNABLE_NAVIGATION_GROUP, 'menubar');
@@ -240,6 +241,14 @@ export const OWNABLE_ROUTES: Routes = [
         loadComponent: () =>
           import('./feedback/toast/ownable-toast-page.component').then(
             (m) => m.OwnableToastPageComponent,
+          ),
+      },
+      {
+        path: 'feedback/empty',
+        data: toOwnableDocsRouteData(OWNABLE_FEEDBACK_GROUP, emptyItem),
+        loadComponent: () =>
+          import('./feedback/empty/ownable-empty-page.component').then(
+            (m) => m.OwnableEmptyPageComponent,
           ),
       },
       {

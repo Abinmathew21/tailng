@@ -1,18 +1,18 @@
 import type { Routes } from '@angular/router';
-import { COMPONENTS_FEEDBACK_GROUP, toComponentsDocsRouteData } from '../../component-docs.data';
+import { HEADLESS_FEEDBACK_GROUP, toHeadlessDocsRouteData } from '../../headless-docs.data';
 
-const group = COMPONENTS_FEEDBACK_GROUP;
+const group = HEADLESS_FEEDBACK_GROUP;
 const emptyItem = group.items.find((item) => item.slug === 'empty');
 if (emptyItem === undefined) {
-  throw new Error('Missing "empty" in components feedback docs group.');
+  throw new Error('Missing "empty" in headless feedback docs group.');
 }
 
-export const COMPONENTS_FEEDBACK_EMPTY_ROUTES: Routes = [
+export const HEADLESS_FEEDBACK_EMPTY_ROUTES: Routes = [
   {
     path: '',
-    data: toComponentsDocsRouteData(group, emptyItem),
+    data: toHeadlessDocsRouteData(group, emptyItem),
     loadComponent: () =>
-      import('./empty-page.component').then((module) => module.EmptyPageComponent),
+      import('./empty-page.component').then((module) => module.HeadlessEmptyPageComponent),
     children: [
       {
         path: '',
@@ -23,37 +23,29 @@ export const COMPONENTS_FEEDBACK_EMPTY_ROUTES: Routes = [
         path: 'overview',
         loadComponent: () =>
           import('./sections/overview/empty-overview-page.component').then(
-            (module) => module.EmptyOverviewPageComponent,
+            (module) => module.HeadlessEmptyOverviewPageComponent,
           ),
       },
       {
         path: 'api',
         loadComponent: () =>
           import('./sections/api/empty-api-page.component').then(
-            (module) => module.EmptyApiPageComponent,
+            (module) => module.HeadlessEmptyApiPageComponent,
           ),
       },
       {
         path: 'styling',
         loadComponent: () =>
           import('./sections/styling/empty-styling-page.component').then(
-            (module) => module.EmptyStylingPageComponent,
+            (module) => module.HeadlessEmptyStylingPageComponent,
           ),
       },
       {
         path: 'examples',
         loadComponent: () =>
           import('./sections/examples/empty-examples-page.component').then(
-            (module) => module.EmptyExamplesPageComponent,
+            (module) => module.HeadlessEmptyExamplesPageComponent,
           ),
-      },
-      {
-        path: 'ownable-install',
-        data: {
-          registrySlug: 'empty',
-        },
-        pathMatch: 'full',
-        redirectTo: '/ownable/feedback/empty',
       },
       {
         path: '**',

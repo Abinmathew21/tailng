@@ -1,23 +1,17 @@
 <article class="empty-overview">
   <h2 class="empty-overview-title">Empty overview</h2>
   <p class="empty-overview-lead">
-    Empty provides a composable status layout for no-data and no-results states with icon, title,
-    description, and optional actions.
+    Empty provides a wrapper shell for no-data and no-results states with aligned icon, title,
+    description, and action parts. Use the headless page when you want to own every markup detail
+    yourself.
   </p>
 
-  <section class="empty-overview-block">
+  <section id="imports" class="empty-overview-block">
     <h3>Imports</h3>
-    <p>Use primitives for full markup ownership or wrapper components for a styled baseline.</p>
-    <tng-code-block
-      [code]="primitiveImportCode"
-      adapter="shiki"
-      language="ts"
-      title="Primitive imports"
-      [theme]="codeBlockTheme()"
-      [lineNumbers]="false"
-      [wrap]="true"
-      [sanitizeHtml]="false"
-    ></tng-code-block>
+    <p>
+      The wrapper is split into a root plus the same projected parts you use in markup, so teams
+      can keep the structure explicit while still getting the default shell.
+    </p>
     <tng-code-block
       [code]="componentImportCode"
       adapter="shiki"
@@ -30,34 +24,15 @@
     ></tng-code-block>
   </section>
 
-  <section class="empty-overview-block">
+  <section id="style-variants" class="empty-overview-block">
     <app-docs-example-tabs-section
-      heading="Empty state variants"
-      description="Render the same semantic structure using headless directives, plain CSS wrappers, or Tailwind utility shells."
-      ariaLabel="Empty state variants"
-      tabListAriaLabel="Empty style variants"
-      defaultValue="headless"
+      heading="Wrapper variants"
+      description="Render the same wrapper composition with a plain CSS shell or a Tailwind page surface."
+      ariaLabel="Empty wrapper variants"
+      tabListAriaLabel="Empty wrapper style variants"
+      defaultValue="plain-css"
       [codeBlockTheme]="codeBlockTheme()"
     >
-      <ng-template
-        appDocsExampleVariant
-        value="headless"
-        label="Headless"
-        panelTitle="Headless empty state"
-        [codeTabs]="headlessCodeTabs"
-      >
-        <section tngEmpty class="empty-preview empty-preview--headless">
-          <div tngEmptyIcon class="empty-preview-icon">📭</div>
-          <h3 tngEmptyTitle class="empty-preview-title">No invoices yet</h3>
-          <p tngEmptyDescription class="empty-preview-description">
-            Generate your first invoice to start tracking billing workflows.
-          </p>
-          <div tngEmptyActions class="empty-preview-actions">
-            <button type="button" class="empty-preview-button">Create invoice</button>
-          </div>
-        </section>
-      </ng-template>
-
       <ng-template
         appDocsExampleVariant
         value="plain-css"
@@ -90,7 +65,7 @@
         [codeTabs]="tailwindCodeTabs"
       >
         <section
-          class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+          class="rounded-xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4"
         >
           <tng-empty>
             <tng-empty-icon>🗂️</tng-empty-icon>
@@ -101,7 +76,7 @@
             <tng-empty-actions>
               <button
                 type="button"
-                class="rounded-md border border-slate-400 px-3 py-1 text-sm font-medium text-slate-700 dark:border-slate-500 dark:text-slate-200"
+                class="rounded-md border border-[var(--tng-semantic-border-default)] px-3 py-1 text-sm font-medium text-[var(--tng-semantic-foreground-primary)]"
               >
                 Add card
               </button>
@@ -112,12 +87,12 @@
     </app-docs-example-tabs-section>
   </section>
 
-  <section class="empty-overview-block">
+  <section id="accessibility-baseline" class="empty-overview-block">
     <h3>Accessibility baseline</h3>
     <ul class="empty-overview-list">
-      <li>Use informative titles and descriptions that explain the empty condition.</li>
-      <li>Keep action labels specific (<code>Create project</code> instead of generic <code>Go</code>).</li>
-      <li>Preserve a clear reading order: icon, title, description, then actions.</li>
+      <li>Use a specific title that names the empty condition, not just “Empty”.</li>
+      <li>Write description copy that explains the next useful action or why the surface has no content.</li>
+      <li>Keep the action labels concrete so the empty state becomes a recovery path, not a dead end.</li>
     </ul>
   </section>
 </article>

@@ -8,25 +8,27 @@ import { TngCodeBlockComponent } from '@tailng-ui/components';
   styleUrl: './empty-api-page.component.css',
 })
 export class EmptyApiPageComponent {
-  protected readonly primitiveAttachmentCode = [
-    '<section tngEmpty>',
-    '  <div tngEmptyIcon>📭</div>',
-    '  <h3 tngEmptyTitle>No data</h3>',
-    '  <p tngEmptyDescription>Load data to continue.</p>',
-    '  <div tngEmptyActions>',
-    '    <button type="button">Retry</button>',
-    '  </div>',
-    '</section>',
-    '',
-  ].join('\n');
-
-  protected readonly componentAttachmentCode = [
+  protected readonly rootUsageCode = [
     '<tng-empty align="start">',
     '  <tng-empty-icon>🔎</tng-empty-icon>',
     '  <tng-empty-title>No matching records</tng-empty-title>',
     '  <tng-empty-description>',
     '    Try broadening your search criteria.',
     '  </tng-empty-description>',
+    '</tng-empty>',
+    '',
+  ].join('\n');
+
+  protected readonly partUsageCode = [
+    '<tng-empty>',
+    '  <tng-empty-icon>📭</tng-empty-icon>',
+    '  <tng-empty-title>No messages</tng-empty-title>',
+    '  <tng-empty-description>',
+    '    You are all caught up. Invite your team to start new conversations.',
+    '  </tng-empty-description>',
+    '  <tng-empty-actions>',
+    '    <button type="button">Invite team</button>',
+    '  </tng-empty-actions>',
     '</tng-empty>',
     '',
   ].join('\n');

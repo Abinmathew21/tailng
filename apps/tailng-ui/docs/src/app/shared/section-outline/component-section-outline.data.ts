@@ -430,24 +430,22 @@ export const docsComponentOutlineItemsBySlug: Readonly<Record<string, Partial<Re
   'empty': {
     'overview': [
       { id: 'imports', label: 'Imports' },
-      { id: 'no-invoices-yet', label: 'No invoices yet' },
+      { id: 'style-variants', label: 'Style variants' },
       { id: 'accessibility-baseline', label: 'Accessibility baseline' },
     ],
     'api': [
-      { id: 'tngempty-and-part-directives', label: 'tngEmpty and part directives' },
-      { id: 'tng-empty-wrappers', label: 'tng-empty wrappers' },
+      { id: 'wrapper-root', label: 'Wrapper root' },
+      { id: 'wrapper-parts', label: 'Wrapper parts' },
+      { id: 'primitive-foundation', label: 'Primitive foundation' },
     ],
     'styling': [
-      { id: 'slot-hooks', label: 'Slot hooks' },
+      { id: 'wrapper-slot-hooks', label: 'Wrapper slot hooks' },
+      { id: 'default-shell', label: 'Default shell' },
+      { id: 'owner-guidance', label: 'Owner guidance' },
     ],
     'examples': [
-      { id: 'no-search-results', label: 'No search results' },
-      { id: 'welcome-to-workspace-setup', label: 'Welcome to workspace setup' },
-    ],
-    'ownable-install': [
-      { id: 'install-from-registry', label: 'Install from registry' },
-      { id: 'generated-files', label: 'Generated files' },
-      { id: 'import-and-usage', label: 'Import in your feature module/component' },
+      { id: 'no-results-state', label: 'No-results state' },
+      { id: 'onboarding-state', label: 'Onboarding state' },
     ],
   },
   'input': {

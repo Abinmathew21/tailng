@@ -9,13 +9,6 @@ import {
   TngEmptyIconComponent,
   TngEmptyTitleComponent,
 } from '@tailng-ui/components';
-import {
-  TngEmpty as TngEmptyPrimitive,
-  TngEmptyActions as TngEmptyActionsPrimitive,
-  TngEmptyDescription as TngEmptyDescriptionPrimitive,
-  TngEmptyIcon as TngEmptyIconPrimitive,
-  TngEmptyTitle as TngEmptyTitlePrimitive,
-} from '@tailng-ui/primitives';
 import { type DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
 import {
   DocsExampleTabsSectionComponent,
@@ -26,11 +19,6 @@ import {
   selector: 'app-empty-overview-page',
   imports: [
     TngCodeBlockComponent,
-    TngEmptyPrimitive,
-    TngEmptyIconPrimitive,
-    TngEmptyTitlePrimitive,
-    TngEmptyDescriptionPrimitive,
-    TngEmptyActionsPrimitive,
     TngEmptyComponent,
     TngEmptyIconComponent,
     TngEmptyTitleComponent,
@@ -47,61 +35,21 @@ export class EmptyOverviewPageComponent implements OnDestroy {
   public readonly codeBlockTheme = signal<'github-dark' | 'github-light'>(
     resolveDocsCodeBlockTheme(this.documentRef),
   );
-  private readonly colorSchemeObserver = observeDocsCodeThemeChanges(this.documentRef, this.codeBlockTheme);
-
-  protected readonly primitiveImportCode = [
-    "import { TngEmpty, TngEmptyIcon, TngEmptyTitle, TngEmptyDescription, TngEmptyActions } from '@tailng-ui/primitives';",
-    '',
-  ].join('\n');
+  private readonly colorSchemeObserver = observeDocsCodeThemeChanges(
+    this.documentRef,
+    this.codeBlockTheme,
+  );
 
   protected readonly componentImportCode = [
-    "import { TngEmptyComponent, TngEmptyIconComponent, TngEmptyTitleComponent, TngEmptyDescriptionComponent, TngEmptyActionsComponent } from '@tailng-ui/components';",
+    'import {',
+    '  TngEmptyActionsComponent,',
+    '  TngEmptyComponent,',
+    '  TngEmptyDescriptionComponent,',
+    '  TngEmptyIconComponent,',
+    '  TngEmptyTitleComponent,',
+    "} from '@tailng-ui/components';",
     '',
   ].join('\n');
-
-  protected readonly headlessCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
-    {
-      value: 'ts',
-      label: 'TS',
-      language: 'ts',
-      title: 'empty-overview-headless.component.ts',
-      code: "import { TngEmpty, TngEmptyIcon, TngEmptyTitle, TngEmptyDescription, TngEmptyActions } from '@tailng-ui/primitives';\n",
-    },
-    {
-      value: 'html',
-      label: 'HTML',
-      language: 'html',
-      title: 'empty-overview-headless.component.html',
-      code: [
-        '<section tngEmpty class="empty-preview empty-preview--headless">',
-        '  <div tngEmptyIcon class="empty-preview-icon">📭</div>',
-        '  <h3 tngEmptyTitle class="empty-preview-title">No invoices yet</h3>',
-        '  <p tngEmptyDescription class="empty-preview-description">',
-        '    Generate your first invoice to start tracking billing workflows.',
-        '  </p>',
-        '  <div tngEmptyActions class="empty-preview-actions">',
-        '    <button type="button">Create invoice</button>',
-        '  </div>',
-        '</section>',
-        '',
-      ].join('\n'),
-    },
-    {
-      value: 'css',
-      label: 'CSS',
-      language: 'css',
-      title: 'empty-overview-headless.component.css',
-      code: [
-        '.empty-preview--headless {',
-        '  border: 1px dashed var(--tng-semantic-accent-brand);',
-        '  border-radius: 1rem;',
-        '  padding: 1.25rem;',
-        '  text-align: center;',
-        '}',
-        '',
-      ].join('\n'),
-    },
-  ]);
 
   protected readonly plainCssCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
     {
@@ -109,7 +57,31 @@ export class EmptyOverviewPageComponent implements OnDestroy {
       label: 'TS',
       language: 'ts',
       title: 'empty-overview-plain-css.component.ts',
-      code: "import { TngEmptyComponent } from '@tailng-ui/components';\n",
+      code: [
+        "import { Component } from '@angular/core';",
+        'import {',
+        '  TngEmptyActionsComponent,',
+        '  TngEmptyComponent,',
+        '  TngEmptyDescriptionComponent,',
+        '  TngEmptyIconComponent,',
+        '  TngEmptyTitleComponent,',
+        "} from '@tailng-ui/components';",
+        '',
+        '@Component({',
+        "  selector: 'app-empty-overview-plain-css',",
+        '  standalone: true,',
+        '  imports: [',
+        '    TngEmptyComponent,',
+        '    TngEmptyIconComponent,',
+        '    TngEmptyTitleComponent,',
+        '    TngEmptyDescriptionComponent,',
+        '    TngEmptyActionsComponent,',
+        '  ],',
+        "  templateUrl: './empty-overview-plain-css.component.html',",
+        "  styleUrl: './empty-overview-plain-css.component.css',",
+        '})',
+        'export class EmptyOverviewPlainCssComponent {}',
+      ].join('\n'),
     },
     {
       value: 'html',
@@ -117,17 +89,21 @@ export class EmptyOverviewPageComponent implements OnDestroy {
       language: 'html',
       title: 'empty-overview-plain-css.component.html',
       code: [
-        '<tng-empty align="start">',
-        '  <tng-empty-icon>🔍</tng-empty-icon>',
-        '  <tng-empty-title>No matching projects</tng-empty-title>',
-        '  <tng-empty-description>',
-        '    Adjust filters or clear search criteria to discover more projects.',
-        '  </tng-empty-description>',
-        '  <tng-empty-actions>',
-        '    <button type="button">Clear filters</button>',
-        '    <button type="button">Create project</button>',
-        '  </tng-empty-actions>',
-        '</tng-empty>',
+        '<section class="empty-preview-shell empty-preview-shell--plain">',
+        '  <tng-empty align="start">',
+        '    <tng-empty-icon>🔍</tng-empty-icon>',
+        '    <tng-empty-title>No matching projects</tng-empty-title>',
+        '    <tng-empty-description>',
+        '      Adjust filters or clear search criteria to discover more projects.',
+        '    </tng-empty-description>',
+        '    <tng-empty-actions>',
+        '      <button type="button" class="empty-preview-button empty-preview-button--subtle">',
+        '        Clear filters',
+        '      </button>',
+        '      <button type="button" class="empty-preview-button">Create project</button>',
+        '    </tng-empty-actions>',
+        '  </tng-empty>',
+        '</section>',
         '',
       ].join('\n'),
     },
@@ -137,12 +113,12 @@ export class EmptyOverviewPageComponent implements OnDestroy {
       language: 'css',
       title: 'empty-overview-plain-css.component.css',
       code: [
-        '.plain-shell {',
+        '.empty-preview-shell {',
+        '  background: var(--tng-semantic-background-surface);',
         '  border: 1px solid var(--tng-semantic-border-subtle);',
-        '  border-radius: 1rem;',
-        '  padding: 1rem;',
+        '  border-radius: 0.95rem;',
+        '  padding: 0.95rem;',
         '}',
-        '',
       ].join('\n'),
     },
   ]);
@@ -153,7 +129,31 @@ export class EmptyOverviewPageComponent implements OnDestroy {
       label: 'TS',
       language: 'ts',
       title: 'empty-overview-tailwind.component.ts',
-      code: "import { TngEmptyComponent } from '@tailng-ui/components';\n",
+      code: [
+        "import { Component } from '@angular/core';",
+        'import {',
+        '  TngEmptyActionsComponent,',
+        '  TngEmptyComponent,',
+        '  TngEmptyDescriptionComponent,',
+        '  TngEmptyIconComponent,',
+        '  TngEmptyTitleComponent,',
+        "} from '@tailng-ui/components';",
+        '',
+        '@Component({',
+        "  selector: 'app-empty-overview-tailwind',",
+        '  standalone: true,',
+        '  imports: [',
+        '    TngEmptyComponent,',
+        '    TngEmptyIconComponent,',
+        '    TngEmptyTitleComponent,',
+        '    TngEmptyDescriptionComponent,',
+        '    TngEmptyActionsComponent,',
+        '  ],',
+        "  templateUrl: './empty-overview-tailwind.component.html',",
+        "  styleUrl: './empty-overview-tailwind.component.css',",
+        '})',
+        'export class EmptyOverviewTailwindComponent {}',
+      ].join('\n'),
     },
     {
       value: 'html',
@@ -161,7 +161,7 @@ export class EmptyOverviewPageComponent implements OnDestroy {
       language: 'html',
       title: 'empty-overview-tailwind.component.html',
       code: [
-        '<div class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">',
+        '<section class="rounded-xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4">',
         '  <tng-empty>',
         '    <tng-empty-icon>🗂️</tng-empty-icon>',
         '    <tng-empty-title>Nothing in this board</tng-empty-title>',
@@ -169,10 +169,15 @@ export class EmptyOverviewPageComponent implements OnDestroy {
         '      Add your first card to begin planning this sprint.',
         '    </tng-empty-description>',
         '    <tng-empty-actions>',
-        '      <button type="button" class="rounded-md border border-slate-400 px-3 py-1 text-sm">Add card</button>',
+        '      <button',
+        '        type="button"',
+        '        class="rounded-md border border-[var(--tng-semantic-border-default)] px-3 py-1 text-sm font-medium text-[var(--tng-semantic-foreground-primary)]"',
+        '      >',
+        '        Add card',
+        '      </button>',
         '    </tng-empty-actions>',
         '  </tng-empty>',
-        '</div>',
+        '</section>',
         '',
       ].join('\n'),
     },
@@ -188,5 +193,4 @@ export class EmptyOverviewPageComponent implements OnDestroy {
   public ngOnDestroy(): void {
     this.colorSchemeObserver?.disconnect();
   }
-
 }

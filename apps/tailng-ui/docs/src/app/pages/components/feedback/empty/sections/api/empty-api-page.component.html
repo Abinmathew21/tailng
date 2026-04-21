@@ -1,21 +1,22 @@
 <article class="empty-api">
   <h2 class="empty-api-title">API reference</h2>
   <p class="empty-api-lead">
-    Empty is a structural surface. Use primitives for full markup control or wrapper components for
-    an aligned default layout contract.
+    <code>&lt;tng-empty&gt;</code> is a light wrapper around the empty primitives. It adds the
+    default shell and an <code>align</code> input while keeping the same projected parts for icon,
+    title, description, and actions.
   </p>
 
-  <section class="empty-api-block">
-    <h3><code>tngEmpty</code> and part directives</h3>
+  <section id="wrapper-root" class="empty-api-block">
+    <h3><code>&lt;tng-empty&gt;</code> root</h3>
     <p>
-      Apply directives to your own markup. The primitive only adds slot hooks and does not impose
-      interaction behavior.
+      The root wrapper renders the default dashed shell and passes alignment through a public
+      attribute on the internal surface.
     </p>
     <tng-code-block
-      [code]="primitiveAttachmentCode"
+      [code]="rootUsageCode"
       adapter="shiki"
       language="html"
-      title="Primitive usage"
+      title="Root usage"
       [lineNumbers]="false"
       [wrap]="true"
       [sanitizeHtml]="false"
@@ -25,66 +26,81 @@
       <table class="empty-api-table">
         <thead>
           <tr>
-            <th scope="col">Directive</th>
-            <th scope="col">Selector</th>
-            <th scope="col">Data slot</th>
+            <th scope="col">Input</th>
+            <th scope="col">Type</th>
+            <th scope="col">Default</th>
             <th scope="col">Purpose</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td><code>TngEmpty</code></td>
-            <td><code>[tngEmpty]</code></td>
-            <td><code>empty</code></td>
-            <td>Root container for the empty state surface.</td>
-          </tr>
-          <tr>
-            <td><code>TngEmptyIcon</code></td>
-            <td><code>[tngEmptyIcon]</code></td>
-            <td><code>empty-icon</code></td>
-            <td>Optional icon/illustration region.</td>
-          </tr>
-          <tr>
-            <td><code>TngEmptyTitle</code></td>
-            <td><code>[tngEmptyTitle]</code></td>
-            <td><code>empty-title</code></td>
-            <td>Primary headline describing the state.</td>
-          </tr>
-          <tr>
-            <td><code>TngEmptyDescription</code></td>
-            <td><code>[tngEmptyDescription]</code></td>
-            <td><code>empty-description</code></td>
-            <td>Supporting context text.</td>
-          </tr>
-          <tr>
-            <td><code>TngEmptyActions</code></td>
-            <td><code>[tngEmptyActions]</code></td>
-            <td><code>empty-actions</code></td>
-            <td>Action row for retry, create, or navigation buttons.</td>
+            <td><code>align</code></td>
+            <td><code>'center' | 'start'</code></td>
+            <td><code>'center'</code></td>
+            <td>Switches the shell between centered and left-aligned content.</td>
           </tr>
         </tbody>
       </table>
     </div>
   </section>
 
-  <section class="empty-api-block">
-    <h3><code>tng-empty</code> wrappers</h3>
+  <section id="wrapper-parts" class="empty-api-block">
+    <h3>Wrapper parts</h3>
     <p>
-      Wrapper components mirror the primitive parts and add default presentation. The root exposes
-      one input:
+      The wrapper parts mirror the primitive slots. Use the projected part components to keep your
+      structure explicit while staying on the wrapper surface.
     </p>
-    <ul class="empty-api-list">
-      <li><code>align: 'center' | 'start'</code> (default <code>'center'</code>)</li>
-    </ul>
-
     <tng-code-block
-      [code]="componentAttachmentCode"
+      [code]="partUsageCode"
       adapter="shiki"
       language="html"
-      title="Component usage"
+      title="Part composition"
       [lineNumbers]="false"
       [wrap]="true"
       [sanitizeHtml]="false"
     ></tng-code-block>
+
+    <div class="empty-api-table-wrap">
+      <table class="empty-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Component</th>
+            <th scope="col">Selector</th>
+            <th scope="col">Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>TngEmptyIconComponent</code></td>
+            <td><code>&lt;tng-empty-icon&gt;</code></td>
+            <td>Optional icon or illustration region.</td>
+          </tr>
+          <tr>
+            <td><code>TngEmptyTitleComponent</code></td>
+            <td><code>&lt;tng-empty-title&gt;</code></td>
+            <td>Primary headline for the state.</td>
+          </tr>
+          <tr>
+            <td><code>TngEmptyDescriptionComponent</code></td>
+            <td><code>&lt;tng-empty-description&gt;</code></td>
+            <td>Supporting explanation and next-step guidance.</td>
+          </tr>
+          <tr>
+            <td><code>TngEmptyActionsComponent</code></td>
+            <td><code>&lt;tng-empty-actions&gt;</code></td>
+            <td>Optional row for CTA buttons or links.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="primitive-foundation" class="empty-api-block">
+    <h3>Primitive foundation</h3>
+    <p>
+      The wrapper renders the same public <code>data-slot</code> hooks as the primitives. If you
+      need a fully custom shell or want to skip the wrapper defaults entirely, use the headless
+      empty page instead.
+    </p>
   </section>
 </article>

@@ -1,0 +1,115 @@
+<article class="headless-empty-overview">
+  <h2 class="headless-empty-overview-title">Empty overview</h2>
+  <p class="headless-empty-overview-lead">
+    Headless empty gives you only structural slots. The primitive does not add behavior, ARIA, or
+    layout rules beyond stable <code>data-slot</code> hooks on each part.
+  </p>
+
+  <section id="imports" class="headless-empty-overview-block">
+    <h3>Imports</h3>
+    <p>Bring in the root plus any parts you want to render. Omit parts you do not need.</p>
+    <tng-code-block
+      [code]="importCode"
+      adapter="shiki"
+      language="ts"
+      title="Headless empty imports"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="basic-composition" class="headless-empty-overview-block">
+    <h3>Basic composition</h3>
+    <p>
+      The root and parts are purely structural. Your own markup, CSS, and surrounding semantics
+      define how the empty state is announced and displayed.
+    </p>
+    <tng-code-block
+      [code]="compositionCode"
+      adapter="shiki"
+      language="html"
+      title="Headless empty composition"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="style-variants" class="headless-empty-overview-block">
+    <app-docs-example-tabs-section
+      heading="Style variants"
+      description="The same structural slots skinned with owner-authored CSS or Tailwind utilities."
+      ariaLabel="Headless empty style variants"
+      tabListAriaLabel="Headless empty style tabs"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Headless empty with owner CSS"
+        [codeTabs]="plainCodeTabs"
+      >
+        <section tngEmpty class="empty-preview empty-preview--plain">
+          <div tngEmptyIcon class="empty-preview-icon">📭</div>
+          <h3 tngEmptyTitle class="empty-preview-title">No invoices yet</h3>
+          <p tngEmptyDescription class="empty-preview-description">
+            Generate your first invoice to start tracking billing workflows.
+          </p>
+          <div tngEmptyActions class="empty-preview-actions">
+            <button type="button" class="empty-preview-button">Create invoice</button>
+          </div>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Headless empty with Tailwind"
+        [codeTabs]="tailwindCodeTabs"
+      >
+        <div
+          class="rounded-xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4"
+        >
+          <section tngEmpty class="grid gap-3 text-center">
+            <div tngEmptyIcon class="text-4xl leading-none text-[var(--tng-semantic-foreground-muted)]">
+              🗂️
+            </div>
+            <h3 tngEmptyTitle class="m-0 text-lg font-semibold text-[var(--tng-semantic-foreground-primary)]">
+              Nothing in this board
+            </h3>
+            <p
+              tngEmptyDescription
+              class="m-0 max-w-md text-sm leading-6 text-[var(--tng-semantic-foreground-secondary)]"
+            >
+              Add your first card to begin planning this sprint.
+            </p>
+            <div tngEmptyActions class="flex flex-wrap justify-center gap-2">
+              <button
+                type="button"
+                class="rounded-md border border-[var(--tng-semantic-border-default)] px-3 py-1 text-sm font-medium text-[var(--tng-semantic-foreground-primary)]"
+              >
+                Add card
+              </button>
+            </div>
+          </section>
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section id="structural-baseline" class="headless-empty-overview-block">
+    <h3>Structural baseline</h3>
+    <ul class="headless-empty-overview-list">
+      <li>There is no interaction logic or keyboard behavior in the primitive.</li>
+      <li>Every directive only reflects a stable <code>data-slot</code> value.</li>
+      <li>Use your surrounding section, landmark, or heading structure to give the empty state meaning.</li>
+      <li>When you want a default shell with <code>align</code> handling, use the component wrapper.</li>
+    </ul>
+  </section>
+</article>

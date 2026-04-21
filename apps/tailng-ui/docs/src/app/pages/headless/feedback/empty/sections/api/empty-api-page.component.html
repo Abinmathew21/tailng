@@ -1,0 +1,111 @@
+<article class="headless-empty-api">
+  <h2 class="headless-empty-api-title">API reference</h2>
+  <p class="headless-empty-api-lead">
+    Headless empty is a structural primitive. Every directive only adds a stable
+    <code>data-slot</code> value to your own markup.
+  </p>
+
+  <section id="root-directive" class="headless-empty-api-block">
+    <h3>Root directive</h3>
+    <p>
+      <code>tngEmpty</code> marks the outer empty-state container. It has no inputs, no outputs, and
+      no built-in behavior.
+    </p>
+    <tng-code-block
+      [code]="rootCode"
+      adapter="shiki"
+      language="html"
+      title="Root usage"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+
+    <div class="headless-empty-api-table-wrap">
+      <table class="headless-empty-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Directive</th>
+            <th scope="col">Selector</th>
+            <th scope="col">Data slot</th>
+            <th scope="col">Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>TngEmpty</code></td>
+            <td><code>[tngEmpty]</code></td>
+            <td><code>empty</code></td>
+            <td>Root container for the empty-state layout.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="part-directives" class="headless-empty-api-block">
+    <h3>Part directives</h3>
+    <p>
+      Compose only the regions you need. You can omit icon or actions entirely when the state does
+      not need them.
+    </p>
+    <tng-code-block
+      [code]="partCode"
+      adapter="shiki"
+      language="html"
+      title="Part composition"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+
+    <div class="headless-empty-api-table-wrap">
+      <table class="headless-empty-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Directive</th>
+            <th scope="col">Selector</th>
+            <th scope="col">Data slot</th>
+            <th scope="col">Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>TngEmptyIcon</code></td>
+            <td><code>[tngEmptyIcon]</code></td>
+            <td><code>empty-icon</code></td>
+            <td>Optional icon or illustration region.</td>
+          </tr>
+          <tr>
+            <td><code>TngEmptyTitle</code></td>
+            <td><code>[tngEmptyTitle]</code></td>
+            <td><code>empty-title</code></td>
+            <td>Primary heading for the empty condition.</td>
+          </tr>
+          <tr>
+            <td><code>TngEmptyDescription</code></td>
+            <td><code>[tngEmptyDescription]</code></td>
+            <td><code>empty-description</code></td>
+            <td>Supporting copy that explains what happened and what to do next.</td>
+          </tr>
+          <tr>
+            <td><code>TngEmptyActions</code></td>
+            <td><code>[tngEmptyActions]</code></td>
+            <td><code>empty-actions</code></td>
+            <td>Action row for recovery, creation, or navigation controls.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="behavior-baseline" class="headless-empty-api-block">
+    <h3>Behavior baseline</h3>
+    <ul class="headless-empty-api-list">
+      <li>The primitive does not add roles, ARIA relationships, or keyboard handling.</li>
+      <li>The primitive does not enforce order, though icon, title, description, then actions is the expected pattern.</li>
+      <li>Use your surrounding section or heading structure to make the empty state meaningful to assistive technology.</li>
+      <li>Reach for the wrapper when you want a built-in shell and <code>align</code> handling.</li>
+    </ul>
+  </section>
+</article>

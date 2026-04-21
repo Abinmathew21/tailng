@@ -1,16 +1,22 @@
 <section class="docs-component-page">
   <tng-tabs
     class="docs-component-tabs"
-    ariaLabel="Empty documentation sections"
+    ariaLabel="Headless empty documentation sections"
     [activation]="'manual'"
     [value]="activeSection()"
     (valueChange)="onSectionChange($event)"
   >
-    <div tngTabList class="docs-component-tab-list" ariaLabel="Empty documentation tabs">
-      <button type="button" tngTab value="overview" class="docs-component-tab-trigger">Overview</button>
+    <div tngTabList class="docs-component-tab-list" ariaLabel="Headless empty documentation tabs">
+      <button type="button" tngTab value="overview" class="docs-component-tab-trigger">
+        Overview
+      </button>
       <button type="button" tngTab value="api" class="docs-component-tab-trigger">API</button>
-      <button type="button" tngTab value="styling" class="docs-component-tab-trigger">Styling</button>
-      <button type="button" tngTab value="examples" class="docs-component-tab-trigger">Examples</button>
+      <button type="button" tngTab value="styling" class="docs-component-tab-trigger">
+        Styling
+      </button>
+      <button type="button" tngTab value="examples" class="docs-component-tab-trigger">
+        Examples
+      </button>
     </div>
   </tng-tabs>
 

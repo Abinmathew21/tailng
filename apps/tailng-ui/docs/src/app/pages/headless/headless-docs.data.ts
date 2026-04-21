@@ -260,6 +260,13 @@ export const HEADLESS_FEEDBACK_GROUP: HeadlessDocsGroup = {
       description:
         'Viewport and item primitives for stacked notifications with tone semantics and owner-managed lifecycles.',
     },
+    {
+      id: 'empty',
+      slug: 'empty',
+      title: 'Empty',
+      description:
+        'Structural empty-state slots for owner-authored icon, title, description, and action content.',
+    },
   ],
 };
 

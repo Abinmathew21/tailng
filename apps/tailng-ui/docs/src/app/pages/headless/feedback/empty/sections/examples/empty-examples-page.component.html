@@ -1,0 +1,142 @@
+<article class="headless-empty-examples">
+  <h2 class="headless-empty-examples-title">Examples</h2>
+  <p class="headless-empty-examples-lead">
+    Headless empty is a good fit when the product needs its own illustration, spacing, copy tone,
+    or action treatment instead of a standard wrapper shell.
+  </p>
+
+  <section id="no-results-state" class="headless-empty-examples-block">
+    <app-docs-example-tabs-section
+      heading="No-results state"
+      description="Guide users back to productive paths when search or filters return nothing."
+      ariaLabel="Headless empty no-results examples"
+      tabListAriaLabel="Headless empty no-results style tabs"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="No-results state with owner CSS"
+        [codeTabs]="noResultsPlainTabs"
+      >
+        <section tngEmpty class="empty-example empty-example--plain">
+          <div tngEmptyIcon>🔎</div>
+          <h3 tngEmptyTitle>No search results</h3>
+          <p tngEmptyDescription>Try broader keywords or remove a few filters.</p>
+          <div tngEmptyActions class="empty-example-actions">
+            <button type="button" class="empty-example-button">Reset search</button>
+          </div>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="No-results state with Tailwind"
+        [codeTabs]="noResultsTailwindTabs"
+      >
+        <div
+          class="rounded-xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4"
+        >
+          <section tngEmpty class="grid gap-3 text-center">
+            <div tngEmptyIcon class="text-4xl leading-none text-[var(--tng-semantic-foreground-muted)]">
+              🛰️
+            </div>
+            <h3 tngEmptyTitle class="m-0 text-lg font-semibold text-[var(--tng-semantic-foreground-primary)]">
+              No telemetry yet
+            </h3>
+            <p
+              tngEmptyDescription
+              class="m-0 max-w-md text-sm leading-6 text-[var(--tng-semantic-foreground-secondary)]"
+            >
+              Connect your first agent to stream runtime metrics.
+            </p>
+            <div tngEmptyActions class="flex flex-wrap justify-center gap-2">
+              <button
+                type="button"
+                class="rounded-md border border-[var(--tng-semantic-border-default)] px-3 py-1 text-sm font-medium text-[var(--tng-semantic-foreground-primary)]"
+              >
+                Connect agent
+              </button>
+            </div>
+          </section>
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section id="onboarding-state" class="headless-empty-examples-block">
+    <app-docs-example-tabs-section
+      heading="Onboarding state"
+      description="Pair setup copy with focused actions to turn a blank surface into a next-step flow."
+      ariaLabel="Headless empty onboarding examples"
+      tabListAriaLabel="Headless empty onboarding style tabs"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Onboarding state with owner CSS"
+        [codeTabs]="onboardingPlainTabs"
+      >
+        <section tngEmpty class="empty-example empty-example--plain" [attr.data-align]="'start'">
+          <div tngEmptyIcon>✨</div>
+          <h3 tngEmptyTitle>Welcome to workspace setup</h3>
+          <p tngEmptyDescription>Create your first pipeline to activate deployments.</p>
+          <div tngEmptyActions class="empty-example-actions">
+            <button type="button" class="empty-example-button">Start onboarding</button>
+            <button type="button" class="empty-example-button empty-example-button--subtle">
+              View docs
+            </button>
+          </div>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Onboarding state with Tailwind"
+        [codeTabs]="onboardingTailwindTabs"
+      >
+        <div
+          class="rounded-xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4"
+        >
+          <section tngEmpty class="grid gap-3 text-left" [attr.data-align]="'start'">
+            <div tngEmptyIcon class="text-4xl leading-none text-[var(--tng-semantic-foreground-muted)]">
+              📦
+            </div>
+            <h3 tngEmptyTitle class="m-0 text-lg font-semibold text-[var(--tng-semantic-foreground-primary)]">
+              No release artifacts
+            </h3>
+            <p
+              tngEmptyDescription
+              class="m-0 max-w-md text-sm leading-6 text-[var(--tng-semantic-foreground-secondary)]"
+            >
+              Build your project to publish the first release bundle.
+            </p>
+            <div tngEmptyActions class="flex flex-wrap gap-2">
+              <button
+                type="button"
+                class="rounded-md border border-[var(--tng-semantic-border-default)] px-3 py-1 text-sm font-medium text-[var(--tng-semantic-foreground-primary)]"
+              >
+                Run build
+              </button>
+              <button
+                type="button"
+                class="rounded-md border border-[var(--tng-semantic-border-default)] px-3 py-1 text-sm font-medium text-[var(--tng-semantic-foreground-primary)]"
+              >
+                Open pipeline
+              </button>
+            </div>
+          </section>
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+</article>

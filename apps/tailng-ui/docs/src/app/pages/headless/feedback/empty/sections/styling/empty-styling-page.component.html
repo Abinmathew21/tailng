@@ -1,0 +1,53 @@
+<article class="headless-empty-styling">
+  <h2 class="headless-empty-styling-title">Styling contract</h2>
+  <p class="headless-empty-styling-lead">
+    Headless empty exposes only slot hooks. All visual hierarchy, spacing, and action styling are
+    owned by your CSS.
+  </p>
+
+  <section id="slot-hooks" class="headless-empty-styling-block">
+    <h3>Slot hooks</h3>
+    <p>
+      Target the root and parts directly through their public <code>data-slot</code> values. There
+      are no hidden wrapper classes in the primitive.
+    </p>
+    <tng-code-block
+      [code]="slotHooksCode"
+      adapter="shiki"
+      language="css"
+      title="Slot selectors"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="css-starter" class="headless-empty-styling-block">
+    <h3>CSS starter</h3>
+    <p>
+      A practical empty-state baseline usually means styling the root as a centered stack, then
+      adding a text scale for title and description.
+    </p>
+    <tng-code-block
+      [code]="starterCssCode"
+      adapter="shiki"
+      language="css"
+      title="Starter empty CSS"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="owner-guidance" class="headless-empty-styling-block">
+    <h3>Owner guidance</h3>
+    <ul class="headless-empty-styling-list">
+      <li>Keep the visual emphasis on the title and use the description to explain the recovery path.</li>
+      <li>Use actions sparingly. One primary next step is usually better than a crowded empty state.</li>
+      <li>When the empty state belongs inside a panel, style the surrounding surface yourself rather than relying on a default shell.</li>
+      <li>Use the wrapper or ownable install when you want the default dashed surface and part templates out of the box.</li>
+    </ul>
+  </section>
+</article>

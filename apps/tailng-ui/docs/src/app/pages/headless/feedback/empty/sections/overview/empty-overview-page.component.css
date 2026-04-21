@@ -1,0 +1,96 @@
+:host {
+  display: block;
+}
+
+.headless-empty-overview {
+  display: grid;
+  gap: 1.25rem;
+  padding-bottom: 2rem;
+}
+
+.headless-empty-overview-title {
+  font-size: clamp(1.65rem, 1.8vw + 1rem, 2.1rem);
+  font-weight: 700;
+  line-height: 1.15;
+  margin: 0;
+}
+
+.headless-empty-overview-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 1rem;
+  line-height: 1.55;
+  margin: 0;
+  max-inline-size: 64ch;
+}
+
+.headless-empty-overview-block {
+  background: color-mix(in srgb, var(--tng-semantic-background-surface) 92%, transparent);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 1rem;
+  display: grid;
+  gap: 0.9rem;
+  padding: 1.1rem;
+}
+
+.headless-empty-overview-block h3 {
+  font-size: 1.15rem;
+  margin: 0;
+}
+
+.headless-empty-overview-block > p {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.headless-empty-overview-list {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0;
+  padding-inline-start: 1.1rem;
+}
+
+.empty-preview {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.empty-preview--plain {
+  border: 1px dashed var(--tng-semantic-accent-brand);
+  border-radius: 0.9rem;
+  justify-items: center;
+  padding: 1.2rem;
+  text-align: center;
+}
+
+.empty-preview-icon {
+  font-size: 1.7rem;
+  line-height: 1;
+}
+
+.empty-preview-title {
+  margin: 0;
+}
+
+.empty-preview-description {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+  max-width: 30rem;
+}
+
+.empty-preview-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.empty-preview-button {
+  background: var(--tng-semantic-accent-brand);
+  border: 0;
+  border-radius: 0.6rem;
+  color: var(--tng-semantic-foreground-inverse);
+  cursor: pointer;
+  font: inherit;
+  font-weight: 600;
+  min-height: 2.1rem;
+  padding-inline: 0.9rem;
+}
