@@ -148,6 +148,7 @@
 }
 
 .toast-demo-actions {
+  background: color-mix(in srgb, var(--tng-semantic-background-canvas) 70%, transparent);
   border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 0.95rem;
   display: flex;

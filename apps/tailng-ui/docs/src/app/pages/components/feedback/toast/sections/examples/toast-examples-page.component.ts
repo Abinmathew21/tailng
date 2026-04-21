@@ -116,6 +116,7 @@ export class ToastExamplesPageComponent implements OnDestroy {
       title: 'toast-examples-stream-plain-css.component.css',
       code: [
         '.toast-demo-actions {',
+        '  background: color-mix(in srgb, var(--tng-semantic-background-canvas) 70%, transparent);',
         '  border: 1px solid var(--tng-semantic-border-subtle);',
         '  border-radius: 0.95rem;',
         '  display: flex;',
@@ -190,7 +191,7 @@ export class ToastExamplesPageComponent implements OnDestroy {
       title: 'toast-examples-stream-tailwind.component.html',
       code: [
         '<tng-toast #toast position="bottom-right"></tng-toast>',
-        '<section class="flex flex-wrap gap-2 rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">',
+        '<section class="flex flex-wrap gap-2 rounded-xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4">',
         '  <tng-button (click)="showTone(toast, \'neutral\')">Show info</tng-button>',
         '  <tng-button tone="success" (click)="showTone(toast, \'success\')">Show success</tng-button>',
         '  <tng-button tone="success" (click)="showUndoToast(toast)">Show undo toast</tng-button>',
@@ -284,6 +285,7 @@ export class ToastExamplesPageComponent implements OnDestroy {
       title: 'toast-examples-escalation-plain-css.component.css',
       code: [
         '.toast-demo-actions {',
+        '  background: color-mix(in srgb, var(--tng-semantic-background-canvas) 70%, transparent);',
         '  border: 1px solid var(--tng-semantic-border-subtle);',
         '  border-radius: 0.95rem;',
         '  display: flex;',
@@ -359,7 +361,7 @@ export class ToastExamplesPageComponent implements OnDestroy {
       title: 'toast-examples-escalation-tailwind.component.html',
       code: [
         '<tng-toast #toast position="bottom-right"></tng-toast>',
-        '<section class="flex flex-wrap gap-2 rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">',
+        '<section class="flex flex-wrap gap-2 rounded-xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4">',
         '  <tng-button tone="neutral" (click)="showTone(toast, \'warning\')">Show warning</tng-button>',
         '  <tng-button tone="danger" (click)="showTone(toast, \'danger\')">Show persistent error</tng-button>',
         '  <tng-button tone="neutral" (click)="showRetryToast(toast)">Show retry snackbar</tng-button>',

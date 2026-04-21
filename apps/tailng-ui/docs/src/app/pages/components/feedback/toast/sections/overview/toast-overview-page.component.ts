@@ -211,7 +211,7 @@ export class ToastOverviewPageComponent implements OnDestroy {
       code: [
         '<tng-toast #toast position="bottom-right"></tng-toast>',
         '<section',
-        '  class="flex flex-wrap gap-2 rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"',
+        '  class="flex flex-wrap gap-2 rounded-xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4"',
         '>',
         '  <tng-button (click)="showTone(toast, \'neutral\')">Show info</tng-button>',
         '  <tng-button tone="success" (click)="showTone(toast, \'success\')">Show success</tng-button>',
