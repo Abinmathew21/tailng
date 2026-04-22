@@ -1,22 +1,12 @@
 <article class="codeblock-overview">
   <h2 class="codeblock-overview-title">Codeblock overview</h2>
   <p class="codeblock-overview-lead">
-    Codeblock renders source snippets with optional highlighting adapters, copy integration, line
-    numbers, and focusable line ranges.
+    Codeblock gives you a ready-made wrapper for rendered source with copy actions, line numbers,
+    focused ranges, wrapping, and highlighting metadata.
   </p>
 
-  <section class="codeblock-overview-block">
+  <section id="imports" class="codeblock-overview-block">
     <h3>Imports</h3>
-    <tng-code-block
-      [code]="primitiveImportCode"
-      adapter="shiki"
-      language="ts"
-      title="Primitive imports"
-      [theme]="codeBlockTheme()"
-      [lineNumbers]="false"
-      [wrap]="true"
-      [sanitizeHtml]="false"
-    ></tng-code-block>
     <tng-code-block
       [code]="componentImportCode"
       adapter="shiki"
@@ -29,38 +19,15 @@
     ></tng-code-block>
   </section>
 
-  <section class="codeblock-overview-block">
+  <section id="style-variants" class="codeblock-overview-block">
     <app-docs-example-tabs-section
-      heading="Live preview variants"
-      description="Render the same code sample in Headless, Plain-CSS, and Tailwind style layers."
+      heading="Style variants"
+      description="Use the wrapper inside a plain CSS shell or a utility-authored Tailwind surface."
       ariaLabel="Codeblock overview variants"
       tabListAriaLabel="Codeblock overview styles"
-      defaultValue="headless"
+      defaultValue="plain-css"
       [codeBlockTheme]="codeBlockTheme()"
     >
-      <ng-template
-        appDocsExampleVariant
-        value="headless"
-        label="Headless"
-        panelTitle="Headless codeblock"
-        [codeTabs]="headlessCodeTabs"
-      >
-        <div class="codeblock-preview-shell codeblock-preview-shell--headless">
-          <tng-code-block
-            title="load-user.ts"
-            adapter="shiki"
-            language="ts"
-            [code]="usageCode"
-            [theme]="codeBlockTheme()"
-            [lineNumbers]="true"
-            [startingLineNumber]="4"
-            [wrap]="true"
-            [sanitizeHtml]="false"
-            caption="Headless-style shell with component."
-          ></tng-code-block>
-        </div>
-      </ng-template>
-
       <ng-template
         appDocsExampleVariant
         value="plain-css"
@@ -70,14 +37,12 @@
       >
         <div class="codeblock-preview-shell codeblock-preview-shell--plain">
           <tng-code-block
-            title="load-user.ts"
+            title="app.config.ts"
             language="ts"
-            [code]="usageCode"
-            [theme]="codeBlockTheme()"
+            [code]="overviewSnippet"
             [lineNumbers]="true"
-            [startingLineNumber]="4"
             [copy]="true"
-            caption="Plain CSS wrapper using component defaults."
+            caption="Default wrapper shell"
           ></tng-code-block>
         </div>
       </ng-template>
@@ -90,36 +55,31 @@
         [codeTabs]="tailwindCodeTabs"
       >
         <div
-          class="codeblock-preview-shell rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+          class="codeblock-preview-shell rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4"
         >
           <tng-code-block
-            title="load-user.ts"
+            title="app.config.ts"
             variant="ghost"
             language="ts"
-            [code]="usageCode"
-            [theme]="codeBlockTheme()"
+            [code]="overviewSnippet"
             [lineNumbers]="true"
-            [startingLineNumber]="4"
-            [highlightLines]="[6, [10, 12]]"
+            [highlightLines]="[1, [6, 7]]"
             [focusLines]="true"
             [wrap]="true"
             [copy]="true"
-            caption="Tailwind shell + focused line ranges."
+            caption="Ghost variant with focused lines"
           ></tng-code-block>
         </div>
       </ng-template>
     </app-docs-example-tabs-section>
   </section>
 
-  <section class="codeblock-overview-block">
+  <section id="accessibility-baseline" class="codeblock-overview-block">
     <h3>Accessibility baseline</h3>
     <ul class="codeblock-overview-list">
-      <li>Keep a visible title or caption for code context when the snippet is standalone.</li>
-      <li>Use <code>copyLabel</code> and <code>copiedLabel</code> for explicit assistive text.</li>
-      <li>
-        Use <code>lineNumbers</code> and <code>highlightLines</code> to improve orientation during
-        walkthroughs.
-      </li>
+      <li>Use a meaningful <code>title</code> or <code>caption</code> when the snippet stands alone.</li>
+      <li>Keep copy labels explicit with <code>copyLabel</code>, <code>copiedLabel</code>, and <code>errorLabel</code>.</li>
+      <li>Use <code>highlightLines</code> and <code>focusLines</code> sparingly so emphasis stays readable.</li>
     </ul>
   </section>
 </article>

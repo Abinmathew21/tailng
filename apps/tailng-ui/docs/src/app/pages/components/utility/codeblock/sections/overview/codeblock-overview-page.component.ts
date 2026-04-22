@@ -23,84 +23,27 @@ export class CodeblockOverviewPageComponent implements OnDestroy {
   public readonly codeBlockTheme = signal<'github-dark' | 'github-light'>(
     resolveDocsCodeBlockTheme(this.documentRef),
   );
-  private readonly colorSchemeObserver = observeDocsCodeThemeChanges(this.documentRef, this.codeBlockTheme);
-
-  protected readonly primitiveImportCode = [
-    'import {',
-    '  TngCodeBlock,',
-    '  TngCodeBlockHeader,',
-    '  TngCodeBlockBody,',
-    '  TngCodeBlockGutter,',
-    '  TngCodeBlockCode,',
-    "} from '@tailng-ui/primitives';",
-    '',
-  ].join('\n');
+  private readonly colorSchemeObserver = observeDocsCodeThemeChanges(
+    this.documentRef,
+    this.codeBlockTheme,
+  );
 
   protected readonly componentImportCode = [
     "import { TngCodeBlockComponent } from '@tailng-ui/components';",
     '',
   ].join('\n');
 
-  protected readonly usageCode = [
-    'const retries = signal(3);',
+  protected readonly overviewSnippet = [
+    'const config = {',
+    "  mode: 'preview',",
+    '  retries: 2,',
+    '};',
     '',
-    'export async function loadUser(): Promise<string> {',
-    '  if (retries() > 0) {',
-    "    return await Promise.resolve('ok');",
-    '  }',
-    '',
-    "  return 'fallback';",
+    'export function buildLabel(name: string): string {',
+    '  return `${name}:${config.mode}`;',
     '}',
     '',
   ].join('\n');
-
-  protected readonly headlessCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
-    {
-      value: 'ts',
-      label: 'TS',
-      language: 'ts',
-      title: 'codeblock-overview-headless.component.ts',
-      code: ["readonly snippet = `const retries = signal(3);`;", ''].join('\n'),
-    },
-    {
-      value: 'html',
-      label: 'HTML',
-      language: 'html',
-      title: 'codeblock-overview-headless.component.html',
-      code: [
-        '<div class="codeblock-preview-shell codeblock-preview-shell--headless">',
-        '  <tng-code-block',
-        '    title="load-user.ts"',
-        '    adapter="shiki"',
-        '    language="ts"',
-        '    [code]="snippet"',
-        '    [theme]="codeBlockTheme()"',
-        '    [lineNumbers]="true"',
-        '    [startingLineNumber]="4"',
-        '    [wrap]="true"',
-        '    [sanitizeHtml]="false"',
-        '    caption="Headless-style shell with component."',
-        '  ></tng-code-block>',
-        '</div>',
-        '',
-      ].join('\n'),
-    },
-    {
-      value: 'css',
-      label: 'CSS',
-      language: 'css',
-      title: 'codeblock-overview-headless.component.css',
-      code: [
-        '.codeblock-preview-shell--headless {',
-        '  background: color-mix(in srgb, var(--tng-semantic-background-surface) 84%, transparent);',
-        '  border: 1px solid var(--tng-semantic-border-subtle);',
-        '  border-radius: 0.8rem;',
-        '  padding: 0.9rem 1rem;',
-        '}',
-        '',
-      ].join('\n'),
-    },
-  ]);
 
   protected readonly plainCssCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
     {
@@ -108,7 +51,31 @@ export class CodeblockOverviewPageComponent implements OnDestroy {
       label: 'TS',
       language: 'ts',
       title: 'codeblock-overview-plain-css.component.ts',
-      code: ["readonly snippet = `const retries = signal(3);`;"].join('\n'),
+      code: [
+        "import { Component } from '@angular/core';",
+        "import { TngCodeBlockComponent } from '@tailng-ui/components';",
+        '',
+        '@Component({',
+        "  selector: 'app-codeblock-overview-plain-css',",
+        '  standalone: true,',
+        '  imports: [TngCodeBlockComponent],',
+        "  templateUrl: './codeblock-overview-plain-css.component.html',",
+        "  styleUrl: './codeblock-overview-plain-css.component.css',",
+        '})',
+        'export class CodeblockOverviewPlainCssComponent {',
+        '  protected readonly snippet = [',
+        "    'const config = {',",
+        "    \"  mode: 'preview',\",",
+        "    '  retries: 2,',",
+        "    '};',",
+        "    '',",
+        "    'export function buildLabel(name: string): string {',",
+        "    '  return `${name}:${config.mode}`;',",
+        "    '}',",
+        "    '',",
+        "  ].join('\\n');",
+        '}',
+      ].join('\n'),
     },
     {
       value: 'html',
@@ -118,11 +85,12 @@ export class CodeblockOverviewPageComponent implements OnDestroy {
       code: [
         '<div class="codeblock-preview-shell codeblock-preview-shell--plain">',
         '  <tng-code-block',
-        '    title="load-user.ts"',
+        '    title="app.config.ts"',
         '    language="ts"',
         '    [code]="snippet"',
         '    [lineNumbers]="true"',
         '    [copy]="true"',
+        '    caption="Default wrapper shell"',
         '  ></tng-code-block>',
         '</div>',
         '',
@@ -150,7 +118,31 @@ export class CodeblockOverviewPageComponent implements OnDestroy {
       label: 'TS',
       language: 'ts',
       title: 'codeblock-overview-tailwind.component.ts',
-      code: ["readonly snippet = `const retries = signal(3);`;"].join('\n'),
+      code: [
+        "import { Component } from '@angular/core';",
+        "import { TngCodeBlockComponent } from '@tailng-ui/components';",
+        '',
+        '@Component({',
+        "  selector: 'app-codeblock-overview-tailwind',",
+        '  standalone: true,',
+        '  imports: [TngCodeBlockComponent],',
+        "  templateUrl: './codeblock-overview-tailwind.component.html',",
+        "  styleUrl: './codeblock-overview-tailwind.component.css',",
+        '})',
+        'export class CodeblockOverviewTailwindComponent {',
+        '  protected readonly snippet = [',
+        "    'const config = {',",
+        "    \"  mode: 'preview',\",",
+        "    '  retries: 2,',",
+        "    '};',",
+        "    '',",
+        "    'export function buildLabel(name: string): string {',",
+        "    '  return `${name}:${config.mode}`;',",
+        "    '}',",
+        "    '',",
+        "  ].join('\\n');",
+        '}',
+      ].join('\n'),
     },
     {
       value: 'html',
@@ -158,17 +150,18 @@ export class CodeblockOverviewPageComponent implements OnDestroy {
       language: 'html',
       title: 'codeblock-overview-tailwind.component.html',
       code: [
-        '<div class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">',
+        '<div class="rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4">',
         '  <tng-code-block',
-        '    title="load-user.ts"',
+        '    title="app.config.ts"',
         '    variant="ghost"',
         '    language="ts"',
         '    [code]="snippet"',
         '    [lineNumbers]="true"',
-        '    [highlightLines]="[6, [10, 12]]"',
+        '    [highlightLines]="[1, [6, 7]]"',
         '    [focusLines]="true"',
         '    [wrap]="true"',
         '    [copy]="true"',
+        '    caption="Ghost variant with focused lines"',
         '  ></tng-code-block>',
         '</div>',
         '',
@@ -186,5 +179,4 @@ export class CodeblockOverviewPageComponent implements OnDestroy {
   public ngOnDestroy(): void {
     this.colorSchemeObserver?.disconnect();
   }
-
 }

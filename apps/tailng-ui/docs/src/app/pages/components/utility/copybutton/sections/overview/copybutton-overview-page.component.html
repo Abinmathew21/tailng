@@ -1,42 +1,18 @@
 <article class="copybutton-overview">
   <h2 class="copybutton-overview-title">CopyButton overview</h2>
   <p class="copybutton-overview-lead">
-    CopyButton combines the headless <code>tngCopy</code> primitive with a styled
-    <code>&lt;tng-copy-button&gt;</code> wrapper for fast clipboard UX.
+    <code>&lt;tng-copy-button&gt;</code> wraps the headless copy primitive with built-in labels,
+    transient copied/error states, optional icon slots, and a polite live region.
   </p>
 
-  <section class="copybutton-overview-block">
+  <section id="imports" class="copybutton-overview-block">
     <h3>Imports</h3>
-    <p>Use the primitive for full ownership, or use the component for built-in copy states.</p>
-    <tng-code-block
-      [code]="primitiveImportCode"
-      adapter="shiki"
-      language="ts"
-      title="Primitive import"
-      [theme]="codeBlockTheme()"
-      [sanitizeHtml]="false"
-      [wrap]="true"
-      [lineNumbers]="false"
-    ></tng-code-block>
+    <p>Import the wrapper when you want default copy states and label/icon handling out of the box.</p>
     <tng-code-block
       [code]="componentImportCode"
       adapter="shiki"
       language="ts"
-      title="Styled component import"
-      [theme]="codeBlockTheme()"
-      [sanitizeHtml]="false"
-      [wrap]="true"
-      [lineNumbers]="false"
-    ></tng-code-block>
-  </section>
-
-  <section class="copybutton-overview-block">
-    <h3>Usage patterns</h3>
-    <tng-code-block
-      [code]="primitiveUsageCode"
-      adapter="shiki"
-      language="html"
-      title="Primitive usage"
+      title="Wrapper imports"
       [theme]="codeBlockTheme()"
       [sanitizeHtml]="false"
       [wrap]="true"
@@ -46,7 +22,7 @@
       [code]="componentUsageCode"
       adapter="shiki"
       language="html"
-      title="Styled usage"
+      title="Minimal wrapper usage"
       [theme]="codeBlockTheme()"
       [sanitizeHtml]="false"
       [wrap]="true"
@@ -55,53 +31,33 @@
   </section>
 
   <app-docs-example-tabs-section
+    id="style-variants"
     class="copybutton-overview-block"
     heading="Style variants"
-    description="Same copy interaction rendered as headless markup, plain CSS wrapper usage, and Tailwind utility shell."
+    description="The wrapper keeps its own minimum styles, while you tune the surrounding shell or projected icons."
     ariaLabel="CopyButton style variants"
     tabListAriaLabel="CopyButton style tabs"
-    defaultValue="headless"
+    defaultValue="plain-css"
     [codeBlockTheme]="codeBlockTheme()"
   >
     <ng-template
       appDocsExampleVariant
-      value="headless"
-      label="Headless"
-      panelTitle="Headless copy trigger"
-      [codeTabs]="headlessCodeTabs"
-    >
-      <div class="copy-overview-shell copy-overview-shell--headless">
-        <button
-          type="button"
-          tngCopy
-          class="copy-headless-trigger"
-          [tngCopyText]="command"
-          (tngCopied)="onHeadlessCopied($event)"
-          (tngCopyError)="onCopyError($event, 'headless')"
-        >
-          Copy install command
-        </button>
-        <p class="copy-overview-status">{{ headlessStatus() }}</p>
-      </div>
-    </ng-template>
-
-    <ng-template
-      appDocsExampleVariant
       value="plain-css"
       label="Plain-CSS"
-      panelTitle="Plain CSS copy button"
+      panelTitle="Wrapper button (Plain CSS)"
       [codeTabs]="plainCssCodeTabs"
     >
-      <div class="copy-overview-shell copy-overview-shell--plain">
+      <div class="copybutton-overview-preview copybutton-overview-preview--plain">
         <tng-copy-button
           [text]="command"
+          appearance="outline"
           (tngCopied)="onPlainCopied($event)"
-          (tngCopyError)="onCopyError($event, 'plain')"
+          (tngCopyError)="onCopyError('plain', $event)"
         >
           <tng-icon copyIcon icon="copy" class="h-4 w-4"></tng-icon>
           <tng-icon copiedIcon icon="check" class="h-4 w-4"></tng-icon>
         </tng-copy-button>
-        <p class="copy-overview-status">{{ plainStatus() }}</p>
+        <p class="copybutton-overview-status">{{ plainStatus() }}</p>
       </div>
     </ng-template>
 
@@ -109,35 +65,34 @@
       appDocsExampleVariant
       value="tailwind-css"
       label="Tailwind CSS"
-      panelTitle="Tailwind copy button"
+      panelTitle="Wrapper button (Tailwind CSS)"
       [codeTabs]="tailwindCodeTabs"
     >
       <div
-        class="grid gap-3 rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+        class="rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4"
       >
         <tng-copy-button
-          appearance="solid"
           [text]="command"
-          class="text-slate-900 dark:text-slate-100"
+          appearance="outline"
           (tngCopied)="onTailwindCopied($event)"
-          (tngCopyError)="onCopyError($event, 'tailwind')"
+          (tngCopyError)="onCopyError('tailwind', $event)"
         >
           <tng-icon copyIcon icon="copy" class="h-4 w-4"></tng-icon>
           <tng-icon copiedIcon icon="check" class="h-4 w-4"></tng-icon>
         </tng-copy-button>
-        <p class="m-0 text-sm text-slate-600 dark:text-slate-300">{{ tailwindStatus() }}</p>
+        <p class="mt-3 text-sm text-[var(--tng-semantic-foreground-secondary)]">{{ tailwindStatus() }}</p>
       </div>
     </ng-template>
   </app-docs-example-tabs-section>
 
-  <section class="copybutton-overview-block">
+  <section id="accessibility-baseline" class="copybutton-overview-block">
     <h3>Accessibility baseline</h3>
     <ul class="copybutton-overview-list">
-      <li>Use a native button host to preserve Enter/Space activation and tab semantics.</li>
-      <li>State is exposed for styling through <code>data-state</code> on the wrapper component.</li>
+      <li>The wrapper renders a native button internally, so keyboard activation and disabled semantics stay native.</li>
+      <li>Visual state is exposed through <code>data-state</code>, <code>data-size</code>, and <code>data-appearance</code> on the rendered button.</li>
       <li>
-        Copy completion messaging is sent to an internal <code>aria-live="polite"</code> region for
-        assistive feedback.
+        Success and error labels are mirrored into an internal <code>aria-live="polite"</code>
+        region for screen-reader feedback.
       </li>
     </ul>
   </section>

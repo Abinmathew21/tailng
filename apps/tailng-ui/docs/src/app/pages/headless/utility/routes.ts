@@ -9,6 +9,12 @@ const codeblockItem = group.items.find((item) => item.slug === 'codeblock');
 if (codeblockItem === undefined) {
   throw new Error('Missing "codeblock" in headless utility docs group.');
 }
+const copybuttonItem = group.items.find((item) => item.slug === 'copybutton');
+if (copybuttonItem === undefined) {
+  throw new Error('Missing "copybutton" in headless utility docs group.');
+}
+
+const dedicatedUtilitySlugs = new Set([codeblockItem.slug, copybuttonItem.slug]);
 
 export const HEADLESS_UTILITY_ROUTES: Routes = [
   {
@@ -21,6 +27,11 @@ export const HEADLESS_UTILITY_ROUTES: Routes = [
     loadChildren: () =>
       import('./codeblock/routes').then((module) => module.HEADLESS_UTILITY_CODEBLOCK_ROUTES),
   },
+  {
+    path: 'copybutton',
+    loadChildren: () =>
+      import('./copybutton/routes').then((module) => module.HEADLESS_UTILITY_COPYBUTTON_ROUTES),
+  },
   ...group.items.map((item) => ({
     path: item.slug,
     data: toHeadlessDocsRouteData(group, item),
@@ -28,5 +39,5 @@ export const HEADLESS_UTILITY_ROUTES: Routes = [
       import('./landing/utility-landing-page.component').then(
         (module) => module.UtilityLandingPageComponent,
       ),
-  })).filter((route) => route.path !== codeblockItem.slug),
+  })).filter((route) => !dedicatedUtilitySlugs.has(route.path ?? '')),
 ];

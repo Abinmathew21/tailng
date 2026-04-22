@@ -1,0 +1,92 @@
+:host {
+  display: block;
+}
+
+.headless-copybutton-examples {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.headless-copybutton-examples-title {
+  font-size: clamp(1.45rem, 1.05rem + 1.3vw, 1.95rem);
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.headless-copybutton-examples-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+  max-width: 70ch;
+}
+
+.headless-copybutton-examples-block {
+  background: color-mix(in srgb, var(--tng-semantic-background-surface) 88%, transparent);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 1rem;
+  display: grid;
+  gap: 1rem;
+  padding: 1.2rem;
+}
+
+.headless-copybutton-example-shell {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.headless-copybutton-example-shell--plain {
+  background: var(--tng-semantic-background-base);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.85rem;
+  padding: 1rem;
+}
+
+.headless-copybutton-trigger {
+  align-items: center;
+  appearance: none;
+  background: transparent;
+  border: 1px solid var(--tng-semantic-border-strong);
+  border-radius: 0.65rem;
+  color: var(--tng-semantic-foreground-primary);
+  cursor: pointer;
+  display: inline-flex;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  justify-content: center;
+  min-height: 2.5rem;
+  padding: 0 0.95rem;
+  width: fit-content;
+}
+
+.headless-copybutton-trigger:focus-visible {
+  box-shadow: 0 0 0 3px var(--tng-semantic-focus-ring);
+  outline: none;
+}
+
+.headless-copybutton-snippet {
+  background: var(--tng-semantic-background-canvas);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.75rem;
+  margin: 0;
+  overflow-x: auto;
+  padding: 0.75rem;
+}
+
+.headless-copybutton-snippet-line {
+  display: block;
+}
+
+.headless-copybutton-snippet-line-no {
+  color: var(--tng-semantic-foreground-secondary);
+  display: inline-block;
+  margin-right: 0.5rem;
+  min-width: 1.3rem;
+  text-align: right;
+}
+
+.headless-copybutton-status {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.9rem;
+  margin: 0;
+}

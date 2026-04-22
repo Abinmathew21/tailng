@@ -51,20 +51,9 @@ export const COMPONENTS_UTILITY_CODEBLOCK_ROUTES: Routes = [
         path: 'ownable-install',
         data: {
           registrySlug: 'code-block',
-          usageCode: [
-            '<tng-code-block',
-            "  language=\"ts\"",
-            "  [code]=\"snippet\"",
-            "  title=\"app.config.ts\"",
-            '  [copy]="true"',
-            '></tng-code-block>',
-            '',
-          ].join('\n'),
         },
-        loadComponent: () =>
-          import('../../../../shared/ownable-install-section/docs-ownable-install-section.component').then(
-            (module) => module.DocsOwnableInstallSectionComponent,
-          ),
+        pathMatch: 'full',
+        redirectTo: '/ownable/utility/codeblock',
       },
       {
         path: '**',

@@ -1,7 +1,7 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, inject, signal, type OnDestroy } from '@angular/core';
-import { observeDocsCodeThemeChanges, resolveDocsCodeBlockTheme } from '../../../../../../shared/util';
 import { TngCodeBlockComponent } from '@tailng-ui/components';
+import { observeDocsCodeThemeChanges, resolveDocsCodeBlockTheme } from '../../../../../../shared/util';
 
 @Component({
   selector: 'app-copybutton-styling-page',
@@ -11,24 +11,28 @@ import { TngCodeBlockComponent } from '@tailng-ui/components';
 })
 export class CopybuttonStylingPageComponent implements OnDestroy {
   private readonly documentRef = inject(DOCUMENT);
-
   public readonly codeBlockTheme = signal<'github-dark' | 'github-light'>(
     resolveDocsCodeBlockTheme(this.documentRef),
   );
-  private readonly colorSchemeObserver = observeDocsCodeThemeChanges(this.documentRef, this.codeBlockTheme);
+  private readonly colorSchemeObserver = observeDocsCodeThemeChanges(
+    this.documentRef,
+    this.codeBlockTheme,
+  );
 
   protected readonly contractCss = [
-    '.docs-copy-button[data-appearance="solid"] {',
+    'tng-copy-button > .tng-copy-button[data-appearance="solid"] {',
     '  background: var(--tng-semantic-accent-brand);',
     '  color: var(--tng-color-white);',
     '}',
     '',
-    '.docs-copy-button[data-state="copied"] {',
+    'tng-copy-button > .tng-copy-button[data-state="copied"] {',
     '  background: var(--tng-semantic-accent-success);',
+    '  border-color: transparent;',
     '}',
     '',
-    '.docs-copy-button[data-state="error"] {',
+    'tng-copy-button > .tng-copy-button[data-state="error"] {',
     '  background: var(--tng-semantic-accent-danger);',
+    '  border-color: transparent;',
     '}',
     '',
   ].join('\n');
@@ -36,5 +40,4 @@ export class CopybuttonStylingPageComponent implements OnDestroy {
   public ngOnDestroy(): void {
     this.colorSchemeObserver?.disconnect();
   }
-
 }

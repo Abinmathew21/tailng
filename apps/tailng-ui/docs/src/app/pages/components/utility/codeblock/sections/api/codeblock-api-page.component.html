@@ -1,74 +1,25 @@
 <article class="codeblock-api">
   <h2 class="codeblock-api-title">API reference</h2>
   <p class="codeblock-api-lead">
-    Codeblock exposes primitive slot directives and a styled component API for highlight, copy, and
-    line controls.
+    The wrapper owns rendering, copy feedback, and line treatment for you while still exposing the
+    headless slot contract underneath.
   </p>
 
-  <section class="codeblock-api-block">
-    <h3><code>tngCodeBlock</code> primitive parts</h3>
+  <section id="wrapper-component" class="codeblock-api-block">
+    <h3>Wrapper component</h3>
     <tng-code-block
-      [code]="primitiveAttachmentCode"
+      [code]="wrapperUsageCode"
       adapter="shiki"
       language="html"
-      title="Primitive attachment"
+      title="Wrapper usage"
       [lineNumbers]="false"
       [wrap]="true"
       [sanitizeHtml]="false"
     ></tng-code-block>
-
-    <div class="codeblock-api-table-wrap">
-      <table class="codeblock-api-table">
-        <thead>
-          <tr>
-            <th scope="col">Directive</th>
-            <th scope="col">Host</th>
-            <th scope="col">Purpose</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><code>tngCodeBlock</code></td>
-            <td>Root container</td>
-            <td>Sets <code>data-slot="code-block"</code> for contract styling.</td>
-          </tr>
-          <tr>
-            <td><code>tngCodeBlockHeader</code></td>
-            <td>Header container</td>
-            <td>Title/action region slot marker.</td>
-          </tr>
-          <tr>
-            <td><code>tngCodeBlockBody</code></td>
-            <td>Body wrapper</td>
-            <td>Main body slot marker for gutter + code layout.</td>
-          </tr>
-          <tr>
-            <td><code>tngCodeBlockGutter</code></td>
-            <td>Line-number list</td>
-            <td>Line-number slot marker.</td>
-          </tr>
-          <tr>
-            <td><code>tngCodeBlockCode</code></td>
-            <td><code>&lt;code&gt;</code></td>
-            <td>Code content slot marker for typography + tokens.</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
   </section>
 
-  <section class="codeblock-api-block">
-    <h3><code>tng-code-block</code> component inputs</h3>
-    <tng-code-block
-      [code]="componentAttachmentCode"
-      adapter="shiki"
-      language="html"
-      title="Component attachment"
-      [lineNumbers]="false"
-      [wrap]="true"
-      [sanitizeHtml]="false"
-    ></tng-code-block>
-
+  <section id="rendering-and-copy-inputs" class="codeblock-api-block">
+    <h3>Rendering and copy inputs</h3>
     <div class="codeblock-api-table-wrap">
       <table class="codeblock-api-table">
         <thead>
@@ -82,40 +33,62 @@
           <tr>
             <td><code>code</code></td>
             <td><code>string</code></td>
-            <td>Source content rendered in the block.</td>
+            <td>Source content rendered inside the wrapper shell.</td>
           </tr>
           <tr>
-            <td><code>language</code>, <code>theme</code>, <code>adapter</code></td>
+            <td><code>title</code>, <code>caption</code>, <code>variant</code></td>
+            <td><code>string | null</code>, <code>'default' | 'compact' | 'ghost'</code></td>
+            <td>Header copy and overall wrapper presentation.</td>
+          </tr>
+          <tr>
+            <td><code>language</code>, <code>adapter</code>, <code>theme</code></td>
             <td><code>string | null</code></td>
-            <td>Highlighting adapter selection and metadata.</td>
+            <td>Language metadata and adapter selection for highlighted rendering.</td>
           </tr>
           <tr>
-            <td><code>lineNumbers</code>, <code>startingLineNumber</code></td>
-            <td><code>boolean | 'auto'</code>, <code>number</code></td>
-            <td>Line-number rendering and offset.</td>
+            <td><code>lineNumbers</code>, <code>startingLineNumber</code>, <code>showLineNumbers</code></td>
+            <td><code>boolean | 'auto'</code>, <code>number</code>, <code>boolean | undefined</code></td>
+            <td>Line-number visibility and numbering offset.</td>
           </tr>
           <tr>
-            <td><code>highlightLines</code>, <code>focusLines</code></td>
-            <td><code>Array&lt;number | [number, number]&gt;</code>, <code>boolean</code></td>
-            <td>Line emphasis and non-highlighted dimming.</td>
+            <td><code>highlightLines</code>, <code>focusLines</code>, <code>wrap</code>, <code>maxHeight</code></td>
+            <td><code>Array&lt;number | [number, number]&gt;</code>, <code>boolean</code>, <code>boolean</code>, <code>string | number | null</code></td>
+            <td>Line emphasis, dimming, wrapping, and scrollable height control.</td>
           </tr>
           <tr>
-            <td><code>copy</code>, <code>copyLabel</code>, <code>copiedLabel</code></td>
-            <td><code>boolean | 'auto'</code>, <code>string</code>, <code>string</code></td>
-            <td>Clipboard action visibility and feedback labels.</td>
+            <td><code>highlight</code>, <code>highlightMode</code>, <code>sanitizeHtml</code></td>
+            <td><code>boolean</code>, <code>'auto' | 'off' | 'on'</code>, <code>boolean | 'auto'</code></td>
+            <td>Controls whether adapter output is used and how incoming HTML is treated.</td>
           </tr>
           <tr>
-            <td><code>copy</code>, <code>copySuccess</code>, <code>copyError</code></td>
+            <td><code>copy</code>, <code>copyText</code>, <code>copyLabel</code>, <code>copiedLabel</code>, <code>errorLabel</code></td>
+            <td><code>boolean | 'auto'</code>, <code>string | ((ctx) =&gt; string) | null</code>, <code>string</code></td>
+            <td>Clipboard action visibility, payload override, and button labels.</td>
+          </tr>
+          <tr>
+            <td><code>copy</code>, <code>copySuccess</code>, <code>copyError</code>, <code>renderStateChange</code>, <code>tngCopied</code>, <code>tngCopyError</code></td>
             <td>Outputs</td>
-            <td>Proxy events from the copy primitive.</td>
-          </tr>
-          <tr>
-            <td><code>renderStateChange</code></td>
-            <td><code>&#123; state, error? &#125;</code></td>
-            <td>Render lifecycle updates (<code>idle</code>, <code>highlighting</code>, <code>highlighted</code>, <code>error</code>).</td>
+            <td>Clipboard lifecycle events plus render-state notifications.</td>
           </tr>
         </tbody>
       </table>
     </div>
+  </section>
+
+  <section id="primitive-foundation" class="codeblock-api-block">
+    <h3>Primitive foundation</h3>
+    <p>
+      Under the hood the wrapper uses the headless codeblock directives for the root, header, body,
+      gutter, and code regions. Reach for the headless page when you want to author that shell yourself.
+    </p>
+    <tng-code-block
+      [code]="primitiveUsageCode"
+      adapter="shiki"
+      language="html"
+      title="Primitive foundation"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
   </section>
 </article>

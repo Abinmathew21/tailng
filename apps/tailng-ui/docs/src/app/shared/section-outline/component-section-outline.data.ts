@@ -251,26 +251,22 @@ export const docsComponentOutlineItemsBySlug: Readonly<Record<string, Partial<Re
   'codeblock': {
     'overview': [
       { id: 'imports', label: 'Imports' },
-      { id: 'live-preview-variants', label: 'Live preview variants' },
+      { id: 'style-variants', label: 'Style variants' },
       { id: 'accessibility-baseline', label: 'Accessibility baseline' },
     ],
     'api': [
-      { id: 'tngcodeblock-primitive-parts', label: 'tngCodeBlock primitive parts' },
-      { id: 'tng-code-block-component-inputs', label: 'tng-code-block component inputs' },
+      { id: 'wrapper-component', label: 'Wrapper component' },
+      { id: 'rendering-and-copy-inputs', label: 'Rendering and copy inputs' },
+      { id: 'primitive-foundation', label: 'Primitive foundation' },
     ],
     'styling': [
-      { id: 'slot-contract-table', label: 'Slot contract table' },
-      { id: 'state-attributes', label: 'State attributes' },
-      { id: 'example-style-contract', label: 'Example style contract' },
+      { id: 'wrapper-slot-hooks', label: 'Wrapper slot hooks' },
+      { id: 'wrapper-state-attributes', label: 'Wrapper state attributes' },
+      { id: 'owner-guidance', label: 'Owner guidance' },
     ],
     'examples': [
-      { id: 'style-layer-examples', label: 'Style-layer examples' },
-      { id: 'shiki-adapter-rendering', label: 'Shiki adapter rendering' },
-    ],
-    'ownable-install': [
-      { id: 'install-from-registry', label: 'Install from registry' },
-      { id: 'generated-files', label: 'Generated files' },
-      { id: 'import-and-usage', label: 'Import in your feature module/component' },
+      { id: 'compact-snippet', label: 'Compact snippet' },
+      { id: 'focused-review', label: 'Focused review' },
     ],
   },
   'collapsible': {
@@ -325,28 +321,22 @@ export const docsComponentOutlineItemsBySlug: Readonly<Record<string, Partial<Re
   'copybutton': {
     'overview': [
       { id: 'imports', label: 'Imports' },
-      { id: 'usage-patterns', label: 'Usage patterns' },
       { id: 'style-variants', label: 'Style variants' },
       { id: 'accessibility-baseline', label: 'Accessibility baseline' },
     ],
     'api': [
-      { id: 'component-inputs', label: 'Component inputs' },
-      { id: 'component-outputs', label: 'Component outputs' },
-      { id: 'primitive-passthrough-events', label: 'Primitive passthrough events' },
+      { id: 'wrapper-component', label: 'Wrapper component' },
+      { id: 'content-and-feedback-inputs', label: 'Content and feedback inputs' },
+      { id: 'primitive-foundation', label: 'Primitive foundation' },
     ],
     'styling': [
-      { id: 'state-and-variant-hooks', label: 'State and variant hooks' },
-      { id: 'slot-selectors', label: 'Slot selectors' },
-      { id: 'example-contract-overrides', label: 'Example contract overrides' },
+      { id: 'wrapper-slot-hooks', label: 'Wrapper slot hooks' },
+      { id: 'wrapper-state-attributes', label: 'Wrapper state attributes' },
+      { id: 'owner-guidance', label: 'Owner guidance' },
     ],
     'examples': [
-      { id: 'example-1-quick-copy-command', label: 'Example 1: Quick copy command' },
-      { id: 'example-2-copy-from-target-element', label: 'Example 2: Copy from target element' },
-    ],
-    'ownable-install': [
-      { id: 'install-from-registry', label: 'Install from registry' },
-      { id: 'generated-files', label: 'Generated files' },
-      { id: 'import-and-usage', label: 'Import in your feature module/component' },
+      { id: 'install-command', label: 'Install command' },
+      { id: 'copy-from-target', label: 'Copy from target' },
     ],
   },
   'datepicker': {
@@ -729,24 +719,22 @@ export const docsComponentOutlineItemsBySlug: Readonly<Record<string, Partial<Re
   'progress-spinner': {
     'overview': [
       { id: 'imports', label: 'Imports' },
-      { id: 'spinner-variants', label: 'Spinner variants' },
+      { id: 'style-variants', label: 'Style variants' },
       { id: 'accessibility-baseline', label: 'Accessibility baseline' },
     ],
     'api': [
-      { id: 'tngprogressspinner-primitive', label: 'tngProgressSpinner primitive' },
-      { id: 'tng-progress-spinner-wrapper', label: 'tng-progress-spinner wrapper' },
+      { id: 'wrapper-component', label: 'Wrapper component' },
+      { id: 'size-and-range-inputs', label: 'Size and range inputs' },
+      { id: 'primitive-foundation', label: 'Primitive foundation' },
     ],
     'styling': [
-      { id: 'slot-and-class-hooks', label: 'Slot and class hooks' },
+      { id: 'wrapper-slot-hooks', label: 'Wrapper slot hooks' },
+      { id: 'default-shell', label: 'Default shell' },
+      { id: 'owner-guidance', label: 'Owner guidance' },
     ],
     'examples': [
-      { id: 'sync-and-quality-metrics', label: 'Sync and quality metrics' },
-      { id: 'loading-and-rollout-state', label: 'Loading and rollout state' },
-    ],
-    'ownable-install': [
-      { id: 'install-from-registry', label: 'Install from registry' },
-      { id: 'generated-files', label: 'Generated files' },
-      { id: 'import-and-usage', label: 'Import in your feature module/component' },
+      { id: 'determinate-metrics', label: 'Determinate metrics' },
+      { id: 'indeterminate-handoff', label: 'Indeterminate handoff' },
     ],
   },
   'radio': {
@@ -829,24 +817,22 @@ export const docsComponentOutlineItemsBySlug: Readonly<Record<string, Partial<Re
   'skeleton': {
     'overview': [
       { id: 'imports', label: 'Imports' },
-      { id: 'placeholder-variants', label: 'Placeholder variants' },
+      { id: 'style-variants', label: 'Style variants' },
       { id: 'accessibility-baseline', label: 'Accessibility baseline' },
     ],
     'api': [
-      { id: 'tngskeleton-primitive', label: 'tngSkeleton primitive' },
-      { id: 'tng-skeleton-wrapper', label: 'tng-skeleton wrapper' },
+      { id: 'wrapper-component', label: 'Wrapper component' },
+      { id: 'sizing-and-state-inputs', label: 'Sizing and state inputs' },
+      { id: 'primitive-foundation', label: 'Primitive foundation' },
     ],
     'styling': [
-      { id: 'slot-and-state-hooks', label: 'Slot and state hooks' },
+      { id: 'wrapper-slot-hooks', label: 'Wrapper slot hooks' },
+      { id: 'default-shell', label: 'Default shell' },
+      { id: 'owner-guidance', label: 'Owner guidance' },
     ],
     'examples': [
-      { id: 'text-content-placeholder', label: 'Text content placeholder' },
-      { id: 'card-media-placeholder', label: 'Card/media placeholder' },
-    ],
-    'ownable-install': [
-      { id: 'install-from-registry', label: 'Install from registry' },
-      { id: 'generated-files', label: 'Generated files' },
-      { id: 'import-and-usage', label: 'Import in your feature module/component' },
+      { id: 'text-stack', label: 'Text stack' },
+      { id: 'card-placeholder', label: 'Card placeholder' },
     ],
   },
   'stepper': {

@@ -1,0 +1,145 @@
+<article class="codeblock-examples">
+  <h2 class="codeblock-examples-title">Examples</h2>
+  <p class="codeblock-examples-lead">
+    Use the primitive for lightweight inline shells or richer review layouts with authored gutters,
+    token colors, and line emphasis.
+  </p>
+
+  <section id="inline-snippet" class="codeblock-examples-block">
+    <app-docs-example-tabs-section
+      heading="Inline snippet"
+      description="A compact code shell without a gutter works well for short one-line references."
+      ariaLabel="Headless codeblock inline snippet"
+      tabListAriaLabel="Headless codeblock inline snippet styles"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Headless inline snippet"
+        [codeTabs]="inlinePlainTabs"
+      >
+        <section class="codeblock-example-shell codeblock-example-shell--plain">
+          <section tngCodeBlock class="headless-codeblock headless-codeblock--inline">
+            <header tngCodeBlockHeader class="headless-codeblock__header">
+              <h3 class="headless-codeblock__title">package.json</h3>
+            </header>
+
+            <div tngCodeBlockBody class="headless-codeblock__body headless-codeblock__body--inline">
+              <pre class="headless-codeblock__pre"><code tngCodeBlockCode class="headless-codeblock__code"><span class="headless-codeblock__line"><span class="headless-codeblock__token headless-codeblock__token--string">"name"</span>: <span class="headless-codeblock__token headless-codeblock__token--string">"tailng-ui"</span></span></code></pre>
+            </div>
+          </section>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Headless inline snippet (Tailwind)"
+        [codeTabs]="inlineTailwindTabs"
+      >
+        <section class="rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4">
+          <section
+            tngCodeBlock
+            class="overflow-hidden rounded-xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_94%,var(--tng-semantic-accent-brand)_6%)] text-[var(--tng-semantic-foreground-primary)] shadow-sm"
+          >
+            <header
+              tngCodeBlockHeader
+              class="border-b border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_86%,var(--tng-semantic-accent-brand)_10%)] px-4 py-2 text-sm font-semibold text-[var(--tng-semantic-foreground-primary)]"
+            >
+              package.json
+            </header>
+
+            <div tngCodeBlockBody class="block">
+              <pre class="m-0 overflow-x-auto px-4 py-3"><code tngCodeBlockCode class="block font-mono text-[0.84rem] leading-6 text-[var(--tng-semantic-foreground-primary)]"><span class="block whitespace-pre"><span class="text-[var(--tng-semantic-accent-success)]">"name"</span>: <span class="text-[var(--tng-semantic-accent-brand)]">"tailng-ui"</span></span></code></pre>
+            </div>
+          </section>
+        </section>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section id="review-with-gutter" class="codeblock-examples-block">
+    <app-docs-example-tabs-section
+      heading="Review with gutter"
+      description="Build a richer review shell with authored line numbers, highlighted ranges, and dimmed context."
+      ariaLabel="Headless codeblock review shell"
+      tabListAriaLabel="Headless codeblock review shell styles"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Headless review shell"
+        [codeTabs]="reviewPlainTabs"
+      >
+        <section class="codeblock-example-shell codeblock-example-shell--plain">
+          <section tngCodeBlock class="headless-codeblock">
+            <header tngCodeBlockHeader class="headless-codeblock__header">
+              <h3 class="headless-codeblock__title">review.ts</h3>
+              <span class="headless-codeblock__language">ts</span>
+            </header>
+
+            <div tngCodeBlockBody class="headless-codeblock__body">
+              <ol tngCodeBlockGutter class="headless-codeblock__gutter" aria-hidden="true">
+                <li>18</li>
+                <li>19</li>
+                <li>20</li>
+              </ol>
+
+              <pre class="headless-codeblock__pre"><code tngCodeBlockCode class="headless-codeblock__code"><span class="headless-codeblock__line headless-codeblock__line--dim"><span class="headless-codeblock__token headless-codeblock__token--keyword">const</span> draft = await loadDraft();</span><span class="headless-codeblock__line headless-codeblock__line--highlight"><span class="headless-codeblock__token headless-codeblock__token--keyword">if</span> (draft.status !== <span class="headless-codeblock__token headless-codeblock__token--string">'approved'</span>) &#123;</span><span class="headless-codeblock__line">  <span class="headless-codeblock__token headless-codeblock__token--keyword">return</span> <span class="headless-codeblock__token headless-codeblock__token--string">'needs-review'</span>;</span></code></pre>
+            </div>
+          </section>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Headless review shell (Tailwind)"
+        [codeTabs]="reviewTailwindTabs"
+      >
+        <section class="rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4">
+          <section
+            tngCodeBlock
+            class="overflow-hidden rounded-xl border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-base)] text-[var(--tng-semantic-foreground-primary)] shadow-sm"
+          >
+            <header
+              tngCodeBlockHeader
+              class="flex items-center justify-between border-b border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_90%,transparent)] px-4 py-2"
+            >
+              <h3 class="text-sm font-semibold text-[var(--tng-semantic-foreground-primary)]">review.ts</h3>
+              <div class="inline-flex items-center gap-2 text-xs text-[var(--tng-semantic-foreground-secondary)]">
+                <span
+                  class="rounded-full bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_16%,transparent)] px-2 py-1 text-[0.7rem] font-semibold uppercase tracking-[0.18em] text-[var(--tng-semantic-accent-brand)]"
+                >
+                  ts
+                </span>
+              </div>
+            </header>
+
+            <div tngCodeBlockBody class="grid grid-cols-[auto_minmax(0,1fr)]">
+              <ol
+                tngCodeBlockGutter
+                class="m-0 list-none border-r border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_78%,transparent)] px-3 py-3 text-right text-xs text-[var(--tng-semantic-foreground-muted)]"
+                aria-hidden="true"
+              >
+                <li>18</li>
+                <li>19</li>
+                <li>20</li>
+              </ol>
+
+              <pre class="m-0 overflow-x-auto px-4 py-3"><code tngCodeBlockCode class="block font-mono text-[0.84rem] leading-6 text-[var(--tng-semantic-foreground-primary)]"><span class="block whitespace-pre opacity-60"><span class="text-fuchsia-300">const</span> draft = <span class="text-amber-200">await</span> loadDraft();</span><span class="block whitespace-pre rounded bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_12%,transparent)] px-1"><span class="text-fuchsia-300">if</span> (draft.status !== <span class="text-emerald-300">'approved'</span>) &#123;</span><span class="block whitespace-pre">  <span class="text-fuchsia-300">return</span> <span class="text-emerald-300">'needs-review'</span>;</span></code></pre>
+            </div>
+          </section>
+        </section>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+</article>

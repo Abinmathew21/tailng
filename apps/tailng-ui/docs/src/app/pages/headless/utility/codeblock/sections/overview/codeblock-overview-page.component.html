@@ -1,0 +1,145 @@
+<article class="codeblock-overview">
+  <h2 class="codeblock-overview-title">Codeblock overview</h2>
+  <p class="codeblock-overview-lead">
+    Headless codeblock is a structural primitive. It gives you stable slot directives for the root,
+    header, body, gutter, and code surface while you keep full ownership of copy actions, token
+    markup, and line presentation.
+  </p>
+
+  <section id="imports" class="codeblock-overview-block">
+    <h3>Imports</h3>
+    <p>
+      Use the headless directives when you want to build your own shell around a <code>&lt;pre&gt;</code>
+      and <code>&lt;code&gt;</code> surface.
+    </p>
+    <tng-code-block
+      [code]="primitiveImportCode"
+      adapter="shiki"
+      language="ts"
+      title="Primitive imports"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="structural-composition" class="codeblock-overview-block">
+    <h3>Structural composition</h3>
+    <p>
+      The primitive only marks the major regions. Title text, language badges, copy buttons, token
+      spans, and captions are all authored by the owner.
+    </p>
+    <tng-code-block
+      [code]="compositionCode"
+      adapter="shiki"
+      language="html"
+      title="Minimal headless composition"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="style-variants" class="codeblock-overview-block">
+    <app-docs-example-tabs-section
+      heading="Style variants"
+      description="Own the entire shell in plain CSS or utility-authored Tailwind while keeping the primitive slots."
+      ariaLabel="Headless codeblock style variants"
+      tabListAriaLabel="Headless codeblock style tabs"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Headless codeblock (plain CSS)"
+        [codeTabs]="plainCssCodeTabs"
+      >
+        <section class="codeblock-preview-shell codeblock-preview-shell--plain">
+          <section tngCodeBlock class="headless-codeblock">
+            <header tngCodeBlockHeader class="headless-codeblock__header">
+              <h3 class="headless-codeblock__title">app.config.ts</h3>
+              <div class="headless-codeblock__actions">
+                <span class="headless-codeblock__language">ts</span>
+                <button type="button" class="headless-codeblock__copy">Copy</button>
+              </div>
+            </header>
+
+            <div tngCodeBlockBody class="headless-codeblock__body">
+              <ol tngCodeBlockGutter class="headless-codeblock__gutter" aria-hidden="true">
+                <li>1</li>
+                <li>2</li>
+                <li>3</li>
+                <li>4</li>
+              </ol>
+
+              <pre class="headless-codeblock__pre"><code tngCodeBlockCode class="headless-codeblock__code"><span class="headless-codeblock__line"><span class="headless-codeblock__token headless-codeblock__token--keyword">const</span> <span class="headless-codeblock__token headless-codeblock__token--variable">config</span> = <span class="headless-codeblock__token headless-codeblock__token--plain">&#123; mode: </span><span class="headless-codeblock__token headless-codeblock__token--string">'preview'</span><span class="headless-codeblock__token headless-codeblock__token--plain"> &#125;;</span></span><span class="headless-codeblock__line"></span><span class="headless-codeblock__line"><span class="headless-codeblock__token headless-codeblock__token--keyword">export function</span> <span class="headless-codeblock__token headless-codeblock__token--variable">buildLabel</span>(name: string): string &#123;</span><span class="headless-codeblock__line">  <span class="headless-codeblock__token headless-codeblock__token--keyword">return</span> <span class="headless-codeblock__token headless-codeblock__token--string">&#96;&#36;&#123;name&#125;:&#36;&#123;config.mode&#125;&#96;</span>;</span></code></pre>
+            </div>
+          </section>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Headless codeblock (Tailwind)"
+        [codeTabs]="tailwindCodeTabs"
+      >
+        <section class="rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4">
+          <section
+            tngCodeBlock
+            class="overflow-hidden rounded-xl border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-base)] text-[var(--tng-semantic-foreground-primary)] shadow-sm"
+          >
+            <header
+              tngCodeBlockHeader
+              class="flex items-center justify-between border-b border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_90%,transparent)] px-4 py-2"
+            >
+              <h3 class="text-sm font-semibold text-[var(--tng-semantic-foreground-primary)]">review.ts</h3>
+              <div class="inline-flex items-center gap-2 text-xs text-[var(--tng-semantic-foreground-secondary)]">
+                <span
+                  class="rounded-full bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_16%,transparent)] px-2 py-1 font-semibold uppercase tracking-[0.18em] text-[var(--tng-semantic-accent-brand)]"
+                >
+                  ts
+                </span>
+                <button
+                  type="button"
+                  class="rounded-md border border-[var(--tng-semantic-border-default)] px-2 py-1 text-[var(--tng-semantic-foreground-secondary)]"
+                >
+                  Copy
+                </button>
+              </div>
+            </header>
+
+            <div tngCodeBlockBody class="grid grid-cols-[auto_minmax(0,1fr)]">
+              <ol
+                tngCodeBlockGutter
+                class="m-0 list-none border-r border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_78%,transparent)] px-3 py-3 text-right text-xs text-[var(--tng-semantic-foreground-muted)]"
+                aria-hidden="true"
+              >
+                <li>12</li>
+                <li>13</li>
+                <li>14</li>
+                <li>15</li>
+              </ol>
+
+              <pre class="m-0 overflow-x-auto px-4 py-3"><code tngCodeBlockCode class="block font-mono text-[0.84rem] leading-6 text-[var(--tng-semantic-foreground-primary)]"><span class="block whitespace-pre"><span class="text-fuchsia-300">const</span> <span class="text-sky-300">result</span> = <span class="text-amber-200">await</span> loadProfile();</span><span class="block whitespace-pre"></span><span class="block whitespace-pre rounded bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_12%,transparent)] px-1"><span class="text-fuchsia-300">if</span> (result.status !== <span class="text-emerald-300">'ready'</span>) &#123;</span><span class="block whitespace-pre">  <span class="text-fuchsia-300">return</span> <span class="text-emerald-300">'retry'</span>;</span></code></pre>
+            </div>
+          </section>
+        </section>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section id="accessibility-baseline" class="codeblock-overview-block">
+    <h3>Accessibility baseline</h3>
+    <ul class="codeblock-overview-list">
+      <li>Keep the semantic <code>&lt;pre&gt;</code> and <code>&lt;code&gt;</code> elements in your final markup.</li>
+      <li>Mark purely decorative line-number gutters with <code>aria-hidden="true"</code>.</li>
+      <li>Give owner-authored copy buttons explicit labels because the primitive does not add one for you.</li>
+    </ul>
+  </section>
+</article>

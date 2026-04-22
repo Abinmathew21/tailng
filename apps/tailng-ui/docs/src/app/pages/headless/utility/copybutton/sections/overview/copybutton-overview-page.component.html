@@ -1,0 +1,112 @@
+<article class="headless-copybutton-overview">
+  <h2 class="headless-copybutton-overview-title">Headless CopyButton overview</h2>
+  <p class="headless-copybutton-overview-lead">
+    <code>tngCopy</code> turns any owner-authored trigger into a copy action while exposing
+    clipboard state, success/error events, and optional announcement hooks.
+  </p>
+
+  <section id="imports" class="headless-copybutton-overview-block">
+    <h3>Imports</h3>
+    <p>Use the directive directly when you want full control of the trigger markup and styling.</p>
+    <tng-code-block
+      [code]="importCode"
+      adapter="shiki"
+      language="ts"
+      title="Headless import"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="quick-trigger" class="headless-copybutton-overview-block">
+    <h3>Quick trigger</h3>
+    <p>
+      The smallest useful setup is a native button plus <code>tngCopy</code> and either
+      <code>tngCopyText</code> or <code>tngCopyFrom</code>.
+    </p>
+    <tng-code-block
+      [code]="basicUsageCode"
+      adapter="shiki"
+      language="html"
+      title="Minimal copy trigger"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <app-docs-example-tabs-section
+    id="style-variants"
+    class="headless-copybutton-overview-block"
+    heading="Style variants"
+    description="The same primitive trigger rendered with owner-authored Plain CSS and Tailwind shells."
+    ariaLabel="Headless CopyButton style variants"
+    tabListAriaLabel="Headless CopyButton style tabs"
+    defaultValue="plain-css"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+      panelTitle="Plain CSS copy trigger"
+      [codeTabs]="plainCssCodeTabs"
+    >
+      <div class="headless-copybutton-preview headless-copybutton-preview--plain">
+        <button
+          type="button"
+          tngCopy
+          class="headless-copybutton-trigger"
+          [tngCopyText]="command"
+          (tngCopied)="onPlainCopied($event)"
+          (tngCopyError)="onCopyError('plain', $event)"
+        >
+          Copy install command
+        </button>
+        <p class="headless-copybutton-status">{{ plainStatus() }}</p>
+      </div>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Tailwind copy trigger"
+      [codeTabs]="tailwindCodeTabs"
+    >
+      <div
+        class="rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4"
+      >
+        <button
+          type="button"
+          tngCopy
+          class="inline-flex min-h-10 items-center justify-center rounded-xl border border-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_62%,transparent)] bg-[var(--tng-semantic-accent-brand)] px-4 text-sm font-semibold text-[var(--tng-semantic-foreground-inverse)] transition hover:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_86%,var(--tng-semantic-foreground-primary)_14%)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color-mix(in_srgb,var(--tng-semantic-focus-ring)_40%,transparent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--tng-semantic-background-base)]"
+          [tngCopyText]="command"
+          (tngCopied)="onTailwindCopied($event)"
+          (tngCopyError)="onCopyError('tailwind', $event)"
+        >
+          Copy install command
+        </button>
+        <p class="mt-3 text-sm text-[var(--tng-semantic-foreground-secondary)]">{{ tailwindStatus() }}</p>
+      </div>
+    </ng-template>
+  </app-docs-example-tabs-section>
+
+  <section id="accessibility-baseline" class="headless-copybutton-overview-block">
+    <h3>Accessibility baseline</h3>
+    <ul class="headless-copybutton-overview-list">
+      <li>Prefer a native <code>&lt;button&gt;</code> so Enter, Space, and disabled behavior stay native.</li>
+      <li>
+        For non-button hosts, the directive mirrors disabled state through
+        <code>aria-disabled</code> and keyboard activation handling.
+      </li>
+      <li>
+        Headless usage does not render a live region for you; if you need spoken feedback, wire
+        <code>tngCopyAnnounced</code> into your own <code>aria-live</code> region.
+      </li>
+    </ul>
+  </section>
+</article>

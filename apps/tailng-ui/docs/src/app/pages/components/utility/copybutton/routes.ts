@@ -51,20 +51,9 @@ export const COMPONENTS_UTILITY_COPYBUTTON_ROUTES: Routes = [
         path: 'ownable-install',
         data: {
           registrySlug: 'copy',
-          usageCode: [
-            '<tng-copy-button',
-            "  text=\"pnpm add @tailng-ui/components @tailng-ui/primitives @tailng-ui/cdk\"",
-            '  (tngCopied)="onCopied($event)"',
-            '>',
-            '  Copy install command',
-            '</tng-copy-button>',
-            '',
-          ].join('\n'),
         },
-        loadComponent: () =>
-          import('../../../../shared/ownable-install-section/docs-ownable-install-section.component').then(
-            (module) => module.DocsOwnableInstallSectionComponent,
-          ),
+        pathMatch: 'full',
+        redirectTo: '/ownable/utility/copybutton',
       },
       {
         path: '**',

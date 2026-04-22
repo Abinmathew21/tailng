@@ -1,0 +1,119 @@
+<article class="headless-copybutton-api">
+  <h2 class="headless-copybutton-api-title">API reference</h2>
+  <p class="headless-copybutton-api-lead">
+    <code>tngCopy</code> is a directive with one job: resolve a text payload, write it to the
+    clipboard, and report status back to the owner.
+  </p>
+
+  <section id="directive-selector" class="headless-copybutton-api-block">
+    <h3>Directive selector</h3>
+    <p>
+      The primitive attaches through <code>[tngCopy]</code> or the alias
+      <code>[tngCopyButton]</code> and exports itself as <code>tngCopy</code> for runtime access.
+    </p>
+    <tng-code-block
+      [code]="selectorCode"
+      adapter="shiki"
+      language="html"
+      title="Directive attachment"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="inputs-and-outputs" class="headless-copybutton-api-block">
+    <h3>Inputs and outputs</h3>
+    <div class="headless-copybutton-api-table-wrap">
+      <table class="headless-copybutton-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Type</th>
+            <th scope="col">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>tngCopyText</code> / <code>tngCopyButtonText</code></td>
+            <td><code>string</code> or callable value</td>
+            <td>Explicit payload to copy. <code>tngCopyButtonText</code> also accepts a function or signal.</td>
+          </tr>
+          <tr>
+            <td><code>tngCopyFrom</code> / <code>tngCopyButtonTarget</code></td>
+            <td><code>HTMLElement | ElementRef | string | null</code></td>
+            <td>Fallback source element or selector when direct text is omitted.</td>
+          </tr>
+          <tr>
+            <td><code>tngCopyIgnoreSelectors</code></td>
+            <td><code>string | string[] | null</code></td>
+            <td>Removes matched nodes from copied DOM text, useful for line numbers or controls.</td>
+          </tr>
+          <tr>
+            <td><code>tngCopyDisabled</code> / <code>tngCopyButtonDisabled</code></td>
+            <td><code>boolean</code></td>
+            <td>Disables pointer and keyboard activation.</td>
+          </tr>
+          <tr>
+            <td><code>tngCopyButtonFormat</code></td>
+            <td><code>'text/plain' | 'text/html'</code></td>
+            <td>Chooses clipboard format. HTML also writes a plain-text fallback when possible.</td>
+          </tr>
+          <tr>
+            <td><code>tngCopyButtonHotkey</code></td>
+            <td><code>string | null</code></td>
+            <td>Optional local hotkey like <code>mod+shift+c</code> while the host or its children are focused.</td>
+          </tr>
+          <tr>
+            <td><code>tngCopyButtonAnnounce</code></td>
+            <td><code>'auto' | boolean</code></td>
+            <td>
+              Controls whether <code>tngCopyAnnounced</code> emits. <code>auto</code> emits only
+              for keyboard-triggered copies.
+            </td>
+          </tr>
+          <tr>
+            <td><code>tngCopied</code></td>
+            <td><code>string</code></td>
+            <td>Emits the copied text after a successful write.</td>
+          </tr>
+          <tr>
+            <td><code>tngCopySuccess</code></td>
+            <td><code>method + text payload</code></td>
+            <td>Includes the copy method used: <code>clipboard</code> or <code>execCommand</code>.</td>
+          </tr>
+          <tr>
+            <td><code>tngCopyError</code></td>
+            <td><code>error payload</code></td>
+            <td>Normalized error payload when no copy target can be resolved or clipboard write fails.</td>
+          </tr>
+          <tr>
+            <td><code>tngCopyAnnounced</code></td>
+            <td><code>string</code></td>
+            <td>Announcement text emitted for owners that want to mirror copy feedback into their own live region.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="runtime-state" class="headless-copybutton-api-block">
+    <h3>Runtime state</h3>
+    <p>
+      Export the directive instance with <code>#copy="tngCopy"</code> when you need programmatic
+      copy, or when your template wants to react to <code>status()</code>,
+      <code>lastCopiedText()</code>, and <code>error()</code>.
+    </p>
+    <tng-code-block
+      [code]="runtimeCode"
+      adapter="shiki"
+      language="html"
+      title="Exported runtime API"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+</article>

@@ -1,0 +1,98 @@
+<article class="codeblock-api">
+  <h2 class="codeblock-api-title">API reference</h2>
+  <p class="codeblock-api-lead">
+    The headless codeblock primitive is intentionally small. It only marks the major structural
+    regions so you can build your own shell without coupling styles to wrapper internals.
+  </p>
+
+  <section id="slot-directives" class="codeblock-api-block">
+    <h3>Slot directives</h3>
+    <p>
+      Apply the primitives to the major regions of your authored shell. The directives only attach
+      stable <code>data-slot</code> attributes.
+    </p>
+    <tng-code-block
+      [code]="slotAttachmentCode"
+      adapter="shiki"
+      language="html"
+      title="Primitive structure"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="slot-contract" class="codeblock-api-block">
+    <h3>Slot contract</h3>
+    <p>
+      These are the only selectors the primitive adds for you. Everything else in the shell is
+      owner-authored markup.
+    </p>
+    <div class="codeblock-api-table-wrap">
+      <table class="codeblock-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Directive</th>
+            <th scope="col">Host</th>
+            <th scope="col">Slot value</th>
+            <th scope="col">Use</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>tngCodeBlock</code></td>
+            <td>Root container</td>
+            <td><code>code-block</code></td>
+            <td>Overall shell background, border, radius, and layout.</td>
+          </tr>
+          <tr>
+            <td><code>tngCodeBlockHeader</code></td>
+            <td>Header region</td>
+            <td><code>code-block-header</code></td>
+            <td>Top bar for title, language badges, and owner-authored actions.</td>
+          </tr>
+          <tr>
+            <td><code>tngCodeBlockBody</code></td>
+            <td>Body wrapper</td>
+            <td><code>code-block-body</code></td>
+            <td>Main layout region for gutter and code content.</td>
+          </tr>
+          <tr>
+            <td><code>tngCodeBlockGutter</code></td>
+            <td>Line-number list</td>
+            <td><code>code-block-gutter</code></td>
+            <td>Optional gutter region when you render your own line numbers.</td>
+          </tr>
+          <tr>
+            <td><code>tngCodeBlockCode</code></td>
+            <td><code>&lt;code&gt;</code> element</td>
+            <td><code>code-block-code</code></td>
+            <td>Code typography, token coloring, and line treatment surface.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <tng-code-block
+      [code]="contractCode"
+      adapter="shiki"
+      language="css"
+      title="Stable primitive selectors"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="owner-managed-behavior" class="codeblock-api-block">
+    <h3>Owner-managed behavior</h3>
+    <ul class="codeblock-api-list">
+      <li>Token markup and syntax-color classes are authored by you or your chosen renderer.</li>
+      <li>Copy buttons, keyboard shortcuts, and clipboard feedback are not part of the primitive.</li>
+      <li>Line-number content, highlighted ranges, and dimmed lines are all owner-managed presentation.</li>
+      <li>The primitive does not inject a highlighting adapter or render HTML for you.</li>
+    </ul>
+  </section>
+</article>

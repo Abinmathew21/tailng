@@ -34,35 +34,11 @@
   gap: 0.75rem;
 }
 
-.copybutton-example-shell--headless,
 .copybutton-example-shell--plain {
   background: var(--tng-semantic-background-base);
   border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 0.85rem;
   padding: 0.95rem;
-}
-
-.copybutton-headless-trigger {
-  align-items: center;
-  appearance: none;
-  background: transparent;
-  border: 1px solid var(--tng-semantic-border-strong);
-  border-radius: 0.6rem;
-  color: var(--tng-semantic-foreground-primary);
-  cursor: pointer;
-  display: inline-flex;
-  font: inherit;
-  font-size: 0.88rem;
-  font-weight: 600;
-  justify-content: center;
-  min-height: 2.4rem;
-  padding: 0 0.95rem;
-  width: fit-content;
-}
-
-.copybutton-headless-trigger:focus-visible {
-  box-shadow: 0 0 0 3px var(--tng-semantic-focus-ring);
-  outline: none;
 }
 
 .copybutton-snippet {

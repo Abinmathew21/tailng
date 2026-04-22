@@ -325,6 +325,13 @@ export const OWNABLE_UTILITY_GROUP: OwnableDocsGroup = {
       description:
         'Ownable codeblock install with local wrapper source, highlighting hooks, and generated file structure.',
     },
+    {
+      id: 'copybutton',
+      slug: 'copybutton',
+      title: 'CopyButton',
+      description:
+        'Ownable copy button install with local wrapper source, clipboard feedback states, and generated file structure.',
+    },
   ],
 };
 

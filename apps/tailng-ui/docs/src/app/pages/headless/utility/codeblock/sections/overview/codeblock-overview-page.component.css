@@ -1,0 +1,160 @@
+:host {
+  display: block;
+}
+
+.codeblock-overview {
+  display: grid;
+  gap: 1rem;
+}
+
+.codeblock-overview-title {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.codeblock-overview-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.codeblock-overview-block {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.9rem;
+  color: var(--tng-semantic-foreground-secondary);
+  display: grid;
+  gap: 0.75rem;
+  padding: 1rem;
+}
+
+.codeblock-overview-block h3 {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1rem;
+  margin: 0;
+}
+
+.codeblock-preview-shell {
+  display: grid;
+  gap: 0.7rem;
+  max-width: 58rem;
+  width: 100%;
+}
+
+.codeblock-preview-shell--plain {
+  background: var(--tng-semantic-background-surface);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.85rem;
+  padding: 1rem;
+}
+
+.headless-codeblock[data-slot='code-block'] {
+  background: var(--tng-semantic-background-base);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.85rem;
+  color: var(--tng-semantic-foreground-primary);
+  overflow: hidden;
+}
+
+.headless-codeblock [data-slot='code-block-header'] {
+  align-items: center;
+  background: color-mix(in srgb, var(--tng-semantic-background-surface) 88%, transparent);
+  border-bottom: 1px solid var(--tng-semantic-border-subtle);
+  display: flex;
+  justify-content: space-between;
+  min-height: 2.35rem;
+  padding: 0.45rem 0.75rem;
+}
+
+.headless-codeblock__title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.headless-codeblock__actions {
+  align-items: center;
+  display: inline-flex;
+  gap: 0.5rem;
+}
+
+.headless-codeblock__language {
+  color: var(--tng-semantic-accent-brand);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.headless-codeblock__copy {
+  appearance: none;
+  background: transparent;
+  border: 1px solid var(--tng-semantic-border-strong);
+  border-radius: 0.55rem;
+  color: var(--tng-semantic-foreground-secondary);
+  font: inherit;
+  font-size: 0.74rem;
+  font-weight: 600;
+  min-height: 1.8rem;
+  padding: 0 0.7rem;
+}
+
+.headless-codeblock [data-slot='code-block-body'] {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+}
+
+.headless-codeblock [data-slot='code-block-gutter'] {
+  background: color-mix(in srgb, var(--tng-semantic-background-surface) 82%, transparent);
+  border-right: 1px solid var(--tng-semantic-border-subtle);
+  color: var(--tng-semantic-foreground-muted);
+  list-style: none;
+  margin: 0;
+  min-width: 3rem;
+  padding: 0.75rem 0.5rem;
+  text-align: right;
+}
+
+.headless-codeblock [data-slot='code-block-gutter'] li {
+  font-family: var(--tng-code-block-font-family, 'IBM Plex Mono', 'Fira Code', 'Menlo', monospace);
+  font-size: 0.84rem;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.6;
+}
+
+.headless-codeblock__pre {
+  margin: 0;
+  overflow-x: auto;
+  padding: 0.75rem 0.9rem;
+}
+
+.headless-codeblock [data-slot='code-block-code'] {
+  display: block;
+  font-family: var(--tng-code-block-font-family, 'IBM Plex Mono', 'Fira Code', 'Menlo', monospace);
+  font-size: 0.84rem;
+}
+
+.headless-codeblock__line {
+  display: block;
+  line-height: 1.6;
+  white-space: pre;
+}
+
+.headless-codeblock__token--keyword {
+  color: #c084fc;
+}
+
+.headless-codeblock__token--variable {
+  color: #38bdf8;
+}
+
+.headless-codeblock__token--string {
+  color: #34d399;
+}
+
+.codeblock-overview-list {
+  display: grid;
+  gap: 0.45rem;
+  margin: 0;
+  padding-inline-start: 1.1rem;
+}

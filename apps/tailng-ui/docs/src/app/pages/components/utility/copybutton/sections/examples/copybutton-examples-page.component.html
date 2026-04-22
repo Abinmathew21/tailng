@@ -1,58 +1,38 @@
 <article class="copybutton-examples">
   <h2 class="copybutton-examples-title">Examples</h2>
   <p class="copybutton-examples-lead">
-    Each scenario below is shown with headless markup, plain CSS wrappers, and Tailwind utility
-    styles.
+    These examples stay wrapper-focused: the component owns copy state and feedback, while you own
+    the surrounding shell and any projected icon slots.
   </p>
 
   <app-docs-example-tabs-section
+    id="install-command"
     class="copybutton-examples-block"
-    heading="Example 1: Quick copy command"
-    description="Single-action copy button with success/error feedback." 
-    ariaLabel="Quick copy variants"
-    tabListAriaLabel="Quick copy style tabs"
-    defaultValue="headless"
+    heading="Install command"
+    description="Copy a fixed install command with the wrapper’s built-in labels and success state."
+    ariaLabel="Install command variants"
+    tabListAriaLabel="Install command style tabs"
+    defaultValue="plain-css"
     [codeBlockTheme]="codeBlockTheme()"
   >
     <ng-template
       appDocsExampleVariant
-      value="headless"
-      label="Headless"
-      panelTitle="Quick copy (headless)"
-      [codeTabs]="quickHeadlessCodeTabs"
-    >
-      <div class="copybutton-example-shell copybutton-example-shell--headless">
-        <button
-          type="button"
-          tngCopy
-          class="copybutton-headless-trigger"
-          [tngCopyText]="installCommand"
-          (tngCopied)="onCopied('quick-headless', $event)"
-          (tngCopyError)="onCopyError('quick-headless', $event)"
-        >
-          Copy install command
-        </button>
-        <p class="copybutton-example-status">{{ status('quick-headless') }}</p>
-      </div>
-    </ng-template>
-
-    <ng-template
-      appDocsExampleVariant
       value="plain-css"
       label="Plain-CSS"
-      panelTitle="Quick copy (plain CSS)"
-      [codeTabs]="quickPlainCodeTabs"
+      panelTitle="Install command (Plain CSS)"
+      [codeTabs]="installPlainCodeTabs"
     >
       <div class="copybutton-example-shell copybutton-example-shell--plain">
         <tng-copy-button
           [text]="installCommand"
-          (tngCopied)="onCopied('quick-plain', $event)"
-          (tngCopyError)="onCopyError('quick-plain', $event)"
+          appearance="outline"
+          (tngCopied)="onCopied('install-plain', $event)"
+          (tngCopyError)="onCopyError('install-plain', $event)"
         >
           <tng-icon copyIcon icon="copy" class="h-4 w-4"></tng-icon>
           <tng-icon copiedIcon icon="check" class="h-4 w-4"></tng-icon>
         </tng-copy-button>
-        <p class="copybutton-example-status">{{ status('quick-plain') }}</p>
+        <p class="copybutton-example-status">{{ status('install-plain') }}</p>
       </div>
     </ng-template>
 
@@ -60,69 +40,42 @@
       appDocsExampleVariant
       value="tailwind-css"
       label="Tailwind CSS"
-      panelTitle="Quick copy (tailwind)"
-      [codeTabs]="quickTailwindCodeTabs"
+      panelTitle="Install command (Tailwind CSS)"
+      [codeTabs]="installTailwindCodeTabs"
     >
       <div
-        class="grid gap-3 rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+        class="rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4"
       >
         <tng-copy-button
-          appearance="solid"
           [text]="installCommand"
-          class="text-slate-900 dark:text-slate-100"
-          (tngCopied)="onCopied('quick-tailwind', $event)"
-          (tngCopyError)="onCopyError('quick-tailwind', $event)"
+          appearance="outline"
+          (tngCopied)="onCopied('install-tailwind', $event)"
+          (tngCopyError)="onCopyError('install-tailwind', $event)"
         >
           <tng-icon copyIcon icon="copy" class="h-4 w-4"></tng-icon>
           <tng-icon copiedIcon icon="check" class="h-4 w-4"></tng-icon>
         </tng-copy-button>
-        <p class="m-0 text-sm text-slate-600 dark:text-slate-300">{{ status('quick-tailwind') }}</p>
+        <p class="mt-3 text-sm text-[var(--tng-semantic-foreground-secondary)]">{{ status('install-tailwind') }}</p>
       </div>
     </ng-template>
   </app-docs-example-tabs-section>
 
   <app-docs-example-tabs-section
+    id="copy-from-target"
     class="copybutton-examples-block"
-    heading="Example 2: Copy from target element"
-    description="Copy visible snippet content while ignoring line-number markers." 
-    ariaLabel="Target copy variants"
-    tabListAriaLabel="Target copy style tabs"
-    defaultValue="headless"
+    heading="Copy from target"
+    description="Use the wrapper to copy content from another element while ignoring line-number markers."
+    ariaLabel="Copy from target variants"
+    tabListAriaLabel="Copy from target style tabs"
+    defaultValue="plain-css"
     [codeBlockTheme]="codeBlockTheme()"
   >
     <ng-template
       appDocsExampleVariant
-      value="headless"
-      label="Headless"
-      panelTitle="Target copy (headless)"
-      [codeTabs]="snippetHeadlessCodeTabs"
-    >
-      <div class="copybutton-example-shell copybutton-example-shell--headless">
-        <pre #headlessSnippet class="copybutton-snippet">
-<span class="copybutton-snippet-line"><span class="copybutton-snippet-line-no" data-copy-ignore>1</span>pnpm nx run docs:serve</span>
-<span class="copybutton-snippet-line"><span class="copybutton-snippet-line-no" data-copy-ignore>2</span>pnpm nx run docs:build</span>
-        </pre>
-        <button
-          type="button"
-          tngCopy
-          class="copybutton-headless-trigger"
-          [tngCopyFrom]="headlessSnippet"
-          [tngCopyIgnoreSelectors]="['[data-copy-ignore]']"
-          (tngCopySuccess)="onCopySuccess('snippet-headless', $event)"
-          (tngCopyError)="onCopyError('snippet-headless', $event)"
-        >
-          Copy snippet without line numbers
-        </button>
-        <p class="copybutton-example-status">{{ status('snippet-headless') }}</p>
-      </div>
-    </ng-template>
-
-    <ng-template
-      appDocsExampleVariant
       value="plain-css"
       label="Plain-CSS"
-      panelTitle="Target copy (plain CSS)"
-      [codeTabs]="snippetPlainCodeTabs"
+      panelTitle="Copy from target (Plain CSS)"
+      [codeTabs]="targetPlainCodeTabs"
     >
       <div class="copybutton-example-shell copybutton-example-shell--plain">
         <pre #plainSnippet class="copybutton-snippet">
@@ -132,12 +85,12 @@
         <tng-copy-button
           [from]="plainSnippet"
           [ignoreSelectors]="['[data-copy-ignore]']"
-          (tngCopied)="onCopied('snippet-plain', $event)"
-          (tngCopyError)="onCopyError('snippet-plain', $event)"
+          (tngCopied)="onCopied('target-plain', $event)"
+          (tngCopyError)="onCopyError('target-plain', $event)"
         >
-          Copy from target
+          Copy snippet without line numbers
         </tng-copy-button>
-        <p class="copybutton-example-status">{{ status('snippet-plain') }}</p>
+        <p class="copybutton-example-status">{{ status('target-plain') }}</p>
       </div>
     </ng-template>
 
@@ -145,28 +98,29 @@
       appDocsExampleVariant
       value="tailwind-css"
       label="Tailwind CSS"
-      panelTitle="Target copy (tailwind)"
-      [codeTabs]="snippetTailwindCodeTabs"
+      panelTitle="Copy from target (Tailwind CSS)"
+      [codeTabs]="targetTailwindCodeTabs"
     >
       <div
-        class="grid gap-3 rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+        class="rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4"
       >
-        <pre #tailwindSnippet class="m-0 rounded-lg border border-slate-300 bg-slate-100 p-3 text-sm text-slate-800 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100">
-<span class="block"><span class="mr-2 text-slate-400" data-copy-ignore>1</span>pnpm nx run docs:serve</span>
-<span class="block"><span class="mr-2 text-slate-400" data-copy-ignore>2</span>pnpm nx run docs:build</span>
-        </pre>
-        <button
-          type="button"
-          tngCopy
-          class="inline-flex w-fit items-center justify-center rounded-lg border border-slate-400 px-3 py-2 text-sm font-semibold text-slate-700 dark:border-slate-500 dark:text-slate-200"
-          [tngCopyFrom]="tailwindSnippet"
-          [tngCopyIgnoreSelectors]="['[data-copy-ignore]']"
-          (tngCopySuccess)="onCopySuccess('snippet-tailwind', $event)"
-          (tngCopyError)="onCopyError('snippet-tailwind', $event)"
+        <pre
+          #tailwindSnippet
+          class="m-0 rounded-xl border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-base)] p-3 text-sm text-[var(--tng-semantic-foreground-primary)]"
         >
-          Copy target snippet
-        </button>
-        <p class="m-0 text-sm text-slate-600 dark:text-slate-300">{{ status('snippet-tailwind') }}</p>
+<span class="block"><span class="mr-2 text-[var(--tng-semantic-foreground-muted)]" data-copy-ignore>1</span>pnpm nx run docs:serve</span>
+<span class="block"><span class="mr-2 text-[var(--tng-semantic-foreground-muted)]" data-copy-ignore>2</span>pnpm nx run docs:build</span>
+        </pre>
+        <tng-copy-button
+          class="mt-3"
+          [from]="tailwindSnippet"
+          [ignoreSelectors]="['[data-copy-ignore]']"
+          (tngCopied)="onCopied('target-tailwind', $event)"
+          (tngCopyError)="onCopyError('target-tailwind', $event)"
+        >
+          Copy snippet without line numbers
+        </tng-copy-button>
+        <p class="mt-3 text-sm text-[var(--tng-semantic-foreground-secondary)]">{{ status('target-tailwind') }}</p>
       </div>
     </ng-template>
   </app-docs-example-tabs-section>

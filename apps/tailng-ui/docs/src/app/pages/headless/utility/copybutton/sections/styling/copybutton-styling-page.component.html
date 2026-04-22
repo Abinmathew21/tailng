@@ -1,0 +1,85 @@
+<article class="headless-copybutton-styling">
+  <h2 class="headless-copybutton-styling-title">Styling contract</h2>
+  <p class="headless-copybutton-styling-lead">
+    Headless copy triggers only expose host-level behavior. Shape, colors, iconography, and live
+    announcement presentation stay fully owner-controlled.
+  </p>
+
+  <section id="host-state-hooks" class="headless-copybutton-styling-block">
+    <h3>Host state hooks</h3>
+    <div class="headless-copybutton-styling-table-wrap">
+      <table class="headless-copybutton-styling-table">
+        <thead>
+          <tr>
+            <th scope="col">Hook</th>
+            <th scope="col">When it appears</th>
+            <th scope="col">Use it for</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>data-copy-disabled</code></td>
+            <td>Whenever the primitive is disabled, including non-button hosts.</td>
+            <td>Visual disabled states that work for both native and custom hosts.</td>
+          </tr>
+          <tr>
+            <td><code>aria-disabled="true"</code></td>
+            <td>Only on non-button hosts.</td>
+            <td>Styling custom triggers that still need disabled semantics.</td>
+          </tr>
+          <tr>
+            <td><code>disabled</code></td>
+            <td>Only on native button hosts.</td>
+            <td>Native button disabled states.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <tng-code-block
+      [code]="hostStateCode"
+      adapter="shiki"
+      language="css"
+      title="Host selectors"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="css-starter" class="headless-copybutton-styling-block">
+    <h3>CSS starter</h3>
+    <p>
+      Start with a normal button treatment, then add your own focus ring, icon rhythm, and copied
+      state visuals around the primitive events.
+    </p>
+    <tng-code-block
+      [code]="starterCode"
+      adapter="shiki"
+      language="css"
+      title="copy-trigger.css"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="announcement-guidance" class="headless-copybutton-styling-block">
+    <h3>Announcement guidance</h3>
+    <p>
+      The primitive does not render its own live region. Use <code>tngCopyAnnounced</code> when
+      you want to mirror success or error copy feedback into your own visually hidden status node.
+    </p>
+    <tng-code-block
+      [code]="announcementCode"
+      adapter="shiki"
+      language="html"
+      title="Owner-managed live region"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+</article>

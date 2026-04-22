@@ -40,49 +40,19 @@
   margin: 0;
 }
 
-.copy-overview-shell {
+.copybutton-overview-preview {
   display: grid;
   gap: 0.8rem;
 }
 
-.copy-overview-shell--headless {
-  background: var(--tng-semantic-background-base);
-  border: 1px solid var(--tng-semantic-border-subtle);
-  border-radius: 0.85rem;
-  padding: 1rem;
-}
-
-.copy-overview-shell--plain {
+.copybutton-overview-preview--plain {
   background: var(--tng-semantic-background-surface);
   border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 0.85rem;
   padding: 1rem;
 }
 
-.copy-headless-trigger {
-  align-items: center;
-  appearance: none;
-  background: transparent;
-  border: 1px solid var(--tng-semantic-border-strong);
-  border-radius: 0.6rem;
-  color: var(--tng-semantic-foreground-primary);
-  cursor: pointer;
-  display: inline-flex;
-  font: inherit;
-  font-size: 0.88rem;
-  font-weight: 600;
-  justify-content: center;
-  min-height: 2.4rem;
-  padding: 0 0.95rem;
-  width: fit-content;
-}
-
-.copy-headless-trigger:focus-visible {
-  box-shadow: 0 0 0 3px var(--tng-semantic-focus-ring);
-  outline: none;
-}
-
-.copy-overview-status {
+.copybutton-overview-status {
   color: var(--tng-semantic-foreground-secondary);
   font-size: 0.9rem;
   margin: 0;

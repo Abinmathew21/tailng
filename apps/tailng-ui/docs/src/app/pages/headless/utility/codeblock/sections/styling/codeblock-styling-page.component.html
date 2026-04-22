@@ -1,0 +1,61 @@
+<article class="codeblock-styling">
+  <h2 class="codeblock-styling-title">Styling contract</h2>
+  <p class="codeblock-styling-lead">
+    Headless codeblock styling starts with the primitive slot selectors. After that, token classes
+    and line emphasis are part of your authored presentation layer.
+  </p>
+
+  <section id="primitive-slots" class="codeblock-styling-block">
+    <h3>Primitive slots</h3>
+    <p>
+      The primitive only guarantees five structural selectors. Use them as the stable contract for
+      your shell and avoid targeting ad-hoc wrapper markup.
+    </p>
+    <tng-code-block
+      [code]="slotContractCode"
+      adapter="shiki"
+      language="css"
+      title="Primitive slots"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="css-starter" class="codeblock-styling-block">
+    <h3>CSS starter</h3>
+    <p>
+      A practical headless shell usually layers your own block class on top of the primitive slots
+      so token lines and owner-authored buttons stay easy to reason about.
+    </p>
+    <tng-code-block
+      [code]="starterCode"
+      adapter="shiki"
+      language="css"
+      title="Starter shell CSS"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="token-guidance" class="codeblock-styling-block">
+    <h3>Token guidance</h3>
+    <p>
+      Highlighted ranges, dimmed lines, and token colors are not built into the primitive. Define
+      them in your own line and token classes so the rendering pipeline stays under your control.
+    </p>
+    <tng-code-block
+      [code]="tokenCode"
+      adapter="shiki"
+      language="css"
+      title="Line and token treatment"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+</article>

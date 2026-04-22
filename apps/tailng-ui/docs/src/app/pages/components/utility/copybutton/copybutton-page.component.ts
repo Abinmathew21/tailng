@@ -11,14 +11,13 @@ import {
 import { TngTab, TngTabList } from '@tailng-ui/primitives';
 import { filter, map, startWith } from 'rxjs/operators';
 
-type CopybuttonDocSectionId = 'api' | 'examples' | 'overview' | 'ownable-install' | 'styling';
+type CopybuttonDocSectionId = 'api' | 'examples' | 'overview' | 'styling';
 
 const copybuttonDocSectionIds: readonly CopybuttonDocSectionId[] = [
   'overview',
   'api',
   'styling',
   'examples',
-  'ownable-install',
 ] as const;
 
 const defaultCopybuttonDocSection: CopybuttonDocSectionId = 'overview';

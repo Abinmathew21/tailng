@@ -9,6 +9,7 @@ import {
   OWNABLE_OVERLAY_GROUP,
   OWNABLE_RELEASE_GROUP,
   OWNABLE_TOOLING_GROUP,
+  OWNABLE_UTILITY_GROUP,
   toOwnableDocsRouteData,
   type OwnableDocsGroup,
 } from './ownable-docs.data';
@@ -49,10 +50,14 @@ const tooltipItem = requireOwnableItem(OWNABLE_OVERLAY_GROUP, 'tooltip');
 const toastItem = requireOwnableItem(OWNABLE_FEEDBACK_GROUP, 'toast');
 const emptyItem = requireOwnableItem(OWNABLE_FEEDBACK_GROUP, 'empty');
 const progressBarItem = requireOwnableItem(OWNABLE_FEEDBACK_GROUP, 'progress-bar');
+const progressSpinnerItem = requireOwnableItem(OWNABLE_FEEDBACK_GROUP, 'progress-spinner');
+const skeletonItem = requireOwnableItem(OWNABLE_FEEDBACK_GROUP, 'skeleton');
 const breadcrumbItem = requireOwnableItem(OWNABLE_NAVIGATION_GROUP, 'breadcrumb');
 const contextMenuItem = requireOwnableItem(OWNABLE_NAVIGATION_GROUP, 'context-menu');
 const menubarItem = requireOwnableItem(OWNABLE_NAVIGATION_GROUP, 'menubar');
 const treeItem = requireOwnableItem(OWNABLE_NAVIGATION_GROUP, 'tree');
+const codeblockItem = requireOwnableItem(OWNABLE_UTILITY_GROUP, 'codeblock');
+const copybuttonItem = requireOwnableItem(OWNABLE_UTILITY_GROUP, 'copybutton');
 const cliItem = requireOwnableItem(OWNABLE_TOOLING_GROUP, 'cli');
 const registryItem = requireOwnableItem(OWNABLE_TOOLING_GROUP, 'registry');
 const workflowItem = requireOwnableItem(OWNABLE_RELEASE_GROUP, 'workflow');
@@ -261,6 +266,22 @@ export const OWNABLE_ROUTES: Routes = [
           ),
       },
       {
+        path: 'feedback/progress-spinner',
+        data: toOwnableDocsRouteData(OWNABLE_FEEDBACK_GROUP, progressSpinnerItem),
+        loadComponent: () =>
+          import('./feedback/progress-spinner/ownable-progress-spinner-page.component').then(
+            (m) => m.OwnableProgressSpinnerPageComponent,
+          ),
+      },
+      {
+        path: 'feedback/skeleton',
+        data: toOwnableDocsRouteData(OWNABLE_FEEDBACK_GROUP, skeletonItem),
+        loadComponent: () =>
+          import('./feedback/skeleton/ownable-skeleton-page.component').then(
+            (m) => m.OwnableSkeletonPageComponent,
+          ),
+      },
+      {
         path: 'navigation/breadcrumb',
         data: toOwnableDocsRouteData(OWNABLE_NAVIGATION_GROUP, breadcrumbItem),
         loadComponent: () =>
@@ -290,6 +311,22 @@ export const OWNABLE_ROUTES: Routes = [
         loadComponent: () =>
           import('./navigation/tree/ownable-tree-page.component').then(
             (m) => m.OwnableTreePageComponent,
+          ),
+      },
+      {
+        path: 'utility/codeblock',
+        data: toOwnableDocsRouteData(OWNABLE_UTILITY_GROUP, codeblockItem),
+        loadComponent: () =>
+          import('./utility/codeblock/ownable-codeblock-page.component').then(
+            (m) => m.OwnableCodeblockPageComponent,
+          ),
+      },
+      {
+        path: 'utility/copybutton',
+        data: toOwnableDocsRouteData(OWNABLE_UTILITY_GROUP, copybuttonItem),
+        loadComponent: () =>
+          import('./utility/copybutton/ownable-copybutton-page.component').then(
+            (m) => m.OwnableCopybuttonPageComponent,
           ),
       },
       {

@@ -1,0 +1,35 @@
+:host {
+  display: block;
+}
+
+.codeblock-styling {
+  display: grid;
+  gap: 1rem;
+}
+
+.codeblock-styling-title {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.codeblock-styling-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.codeblock-styling-block {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.9rem;
+  color: var(--tng-semantic-foreground-secondary);
+  display: grid;
+  gap: 0.8rem;
+  padding: 1rem;
+}
+
+.codeblock-styling-block h3 {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1rem;
+  margin: 0;
+}

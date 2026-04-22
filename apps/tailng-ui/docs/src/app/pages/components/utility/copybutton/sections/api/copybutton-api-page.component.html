@@ -1,12 +1,21 @@
 <article class="copybutton-api">
   <h2 class="copybutton-api-title">API reference</h2>
   <p class="copybutton-api-lead">
-    <code>&lt;tng-copy-button&gt;</code> wraps the headless <code>tngCopy</code> primitive with
-    stateful labels and icon slots.
+    <code>&lt;tng-copy-button&gt;</code> gives you a ready-made copy control on top of the headless
+    clipboard primitive.
   </p>
 
-  <section class="copybutton-api-block">
-    <h3>Component inputs</h3>
+  <section id="wrapper-component" class="copybutton-api-block">
+    <h3>Wrapper component</h3>
+    <p>
+      The wrapper renders a native button, swaps its label and icon state while copying, and
+      exposes a polite live region for success and error feedback. Use it when you want a
+      production-ready copy control without owning the transient state machine yourself.
+    </p>
+  </section>
+
+  <section id="content-and-feedback-inputs" class="copybutton-api-block">
+    <h3>Content and feedback inputs</h3>
     <div class="copybutton-api-table-wrap">
       <table class="copybutton-api-table">
         <thead>
@@ -28,51 +37,60 @@
             <td><code>from</code></td>
             <td><code>TngCopyFromTarget</code></td>
             <td><code>null</code></td>
-            <td>Fallback source element/selector when text is omitted.</td>
+            <td>Fallback source element or selector when <code>text</code> is omitted.</td>
           </tr>
           <tr>
             <td><code>ignoreSelectors</code></td>
             <td><code>string | string[] | null</code></td>
             <td><code>null</code></td>
-            <td>Selectors removed from copied DOM text.</td>
+            <td>Removes matched nodes from copied DOM text when copying from another element.</td>
           </tr>
           <tr>
             <td><code>appearance</code></td>
             <td><code>'outline' | 'solid' | 'ghost'</code></td>
             <td><code>'outline'</code></td>
-            <td>Visual treatment for wrapper button.</td>
+            <td>Controls the default wrapper treatment.</td>
           </tr>
           <tr>
             <td><code>size</code></td>
             <td><code>'sm' | 'md'</code></td>
             <td><code>'md'</code></td>
-            <td>Controls wrapper button dimensions.</td>
+            <td>Changes minimum height and horizontal padding.</td>
           </tr>
           <tr>
             <td><code>showIcon</code></td>
             <td><code>boolean</code></td>
             <td><code>true</code></td>
-            <td>Shows or hides icon slot content.</td>
+            <td>Shows or hides the icon slot.</td>
           </tr>
           <tr>
             <td><code>disabled</code></td>
             <td><code>boolean</code></td>
             <td><code>false</code></td>
-            <td>Disables copy interactions.</td>
+            <td>Disables all copy interaction.</td>
           </tr>
           <tr>
             <td><code>resetDelay</code></td>
             <td><code>number</code></td>
             <td><code>1500</code></td>
-            <td>Milliseconds before state returns to idle.</td>
+            <td>Milliseconds before the wrapper returns to the idle state.</td>
+          </tr>
+          <tr>
+            <td><code>copyLabel</code>, <code>copyingLabel</code>, <code>copiedLabel</code>, <code>errorLabel</code></td>
+            <td><code>string</code></td>
+            <td>built-in defaults</td>
+            <td>Label text for each wrapper state.</td>
+          </tr>
+          <tr>
+            <td><code>copyIconText</code>, <code>copiedIconText</code></td>
+            <td><code>string</code></td>
+            <td><code>⧉</code>, <code>✓</code></td>
+            <td>Fallback icon glyphs when no projected icon content is provided.</td>
           </tr>
         </tbody>
       </table>
     </div>
-  </section>
 
-  <section class="copybutton-api-block">
-    <h3>Component outputs</h3>
     <div class="copybutton-api-table-wrap">
       <table class="copybutton-api-table">
         <thead>
@@ -86,24 +104,25 @@
           <tr>
             <td><code>tngCopied</code></td>
             <td><code>string</code></td>
-            <td>Emits copied text when copy succeeds.</td>
+            <td>Emits the copied text after success.</td>
           </tr>
           <tr>
             <td><code>tngCopyError</code></td>
             <td><code>Error</code></td>
-            <td>Emits normalized error when copy fails.</td>
+            <td>Emits a normalized error when the copy attempt fails.</td>
           </tr>
         </tbody>
       </table>
     </div>
   </section>
 
-  <section class="copybutton-api-block">
-    <h3>Primitive passthrough events</h3>
+  <section id="primitive-foundation" class="copybutton-api-block">
+    <h3>Primitive foundation</h3>
     <p>
-      For full event detail (<code>tngCopy</code>, <code>tngCopySuccess</code>,
-      <code>tngCopyError</code>, keyboard hotkeys, announce policies), use
-      <code>tngCopy</code> directly on a host element.
+      Under the hood, the wrapper forwards <code>text</code>, <code>from</code>, and
+      <code>ignoreSelectors</code> into the headless <code>tngCopy</code> directive. If you need
+      hotkeys, programmatic copy, or owner-managed live announcements, move to the dedicated
+      headless <code>CopyButton</code> page and use <code>tngCopy</code> directly.
     </p>
   </section>
 </article>

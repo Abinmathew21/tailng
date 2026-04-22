@@ -1,12 +1,21 @@
 <article class="copybutton-styling">
   <h2 class="copybutton-styling-title">Styling contract</h2>
   <p class="copybutton-styling-lead">
-    CopyButton exposes stable state hooks to style wrapper variants without coupling to internal
-    DOM.
+    The wrapper ships with a minimum button shell. Customize the surrounding layout, projected
+    icons, and state treatments by targeting the rendered button’s stable attributes.
   </p>
 
-  <section class="copybutton-styling-block">
-    <h3>State and variant hooks</h3>
+  <section id="wrapper-slot-hooks" class="copybutton-styling-block">
+    <h3>Wrapper slot hooks</h3>
+    <ul class="copybutton-styling-list">
+      <li><code>.tng-copy-button__icon</code> wraps the active copy or copied icon slot.</li>
+      <li><code>.tng-copy-button__label</code> holds the visible button label.</li>
+      <li><code>.tng-copy-live-region</code> is a visually hidden announcement node for assistive feedback.</li>
+    </ul>
+  </section>
+
+  <section id="wrapper-state-attributes" class="copybutton-styling-block">
+    <h3>Wrapper state attributes</h3>
     <div class="copybutton-styling-table-wrap">
       <table class="copybutton-styling-table">
         <thead>
@@ -20,34 +29,30 @@
           <tr>
             <td><code>data-appearance</code></td>
             <td><code>outline | solid | ghost</code></td>
-            <td>Switches wrapper visual treatment.</td>
+            <td>Switches the default wrapper treatment.</td>
           </tr>
           <tr>
             <td><code>data-size</code></td>
             <td><code>sm | md</code></td>
-            <td>Controls control height and horizontal padding.</td>
+            <td>Adjusts minimum height and padding.</td>
           </tr>
           <tr>
             <td><code>data-state</code></td>
             <td><code>idle | copying | copied | error</code></td>
-            <td>Drives transient feedback visuals.</td>
+            <td>Drives copied and error emphasis after a copy attempt.</td>
           </tr>
         </tbody>
       </table>
     </div>
   </section>
 
-  <section class="copybutton-styling-block">
-    <h3>Slot selectors</h3>
-    <ul class="copybutton-styling-list">
-      <li><code>.tng-copy-button__icon</code> for icon sizing/alignment.</li>
-      <li><code>.tng-copy-button__label</code> for text typography tweaks.</li>
-      <li><code>.tng-copy-live-region</code> stays visually hidden for announcements.</li>
-    </ul>
-  </section>
-
-  <section class="copybutton-styling-block">
-    <h3>Example contract overrides</h3>
+  <section id="owner-guidance" class="copybutton-styling-block">
+    <h3>Owner guidance</h3>
+    <p>
+      Target the rendered button inside <code>tng-copy-button</code> when you need custom stateful
+      styling. Keep the live region hidden, and prefer wrapper-level containers for layout and
+      spacing rather than overriding the component’s internal flex alignment.
+    </p>
     <tng-code-block
       [code]="contractCss"
       adapter="shiki"
