@@ -274,6 +274,20 @@ export const HEADLESS_FEEDBACK_GROUP: HeadlessDocsGroup = {
       description:
         'Linear progress primitives with range normalization, aria semantics, and owner-authored track styling.',
     },
+    {
+      id: 'progress-spinner',
+      slug: 'progress-spinner',
+      title: 'Progress Spinner',
+      description:
+        'Circular progress primitive with range normalization, aria semantics, and owner-authored SVG rendering.',
+    },
+    {
+      id: 'skeleton',
+      slug: 'skeleton',
+      title: 'Skeleton',
+      description:
+        'Decorative loading primitive with stable slot and state attributes for owner-authored shimmer placeholders.',
+    },
   ],
 };
 
@@ -286,7 +300,8 @@ export const HEADLESS_UTILITY_GROUP: HeadlessDocsGroup = {
       id: 'codeblock',
       slug: 'codeblock',
       title: 'Codeblock',
-      description: 'Headless code rendering states, adapter contracts, and line metadata hooks.',
+      description:
+        'Structural code-block slot directives for owner-authored headers, gutters, and code surfaces.',
     },
     {
       id: 'copybutton',

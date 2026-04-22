@@ -5,6 +5,7 @@ export type OwnableDocsCategoryId =
   | 'overlay'
   | 'feedback'
   | 'navigation'
+  | 'utility'
   | 'release'
   | 'tooling';
 
@@ -259,6 +260,20 @@ export const OWNABLE_FEEDBACK_GROUP: OwnableDocsGroup = {
       description:
         'Ownable progress-bar install with local wrapper source, track styling, and generated file structure.',
     },
+    {
+      id: 'progress-spinner',
+      slug: 'progress-spinner',
+      title: 'Progress Spinner',
+      description:
+        'Ownable progress-spinner install with local wrapper source, circular motion defaults, and generated file structure.',
+    },
+    {
+      id: 'skeleton',
+      slug: 'skeleton',
+      title: 'Skeleton',
+      description:
+        'Ownable skeleton install with local wrapper source, shimmer defaults, and generated file structure.',
+    },
   ],
 };
 
@@ -298,6 +313,21 @@ export const OWNABLE_NAVIGATION_GROUP: OwnableDocsGroup = {
   ],
 };
 
+export const OWNABLE_UTILITY_GROUP: OwnableDocsGroup = {
+  id: 'utility',
+  title: 'Utility',
+  subtitle: 'Installable utility wrappers with local source ownership',
+  items: [
+    {
+      id: 'codeblock',
+      slug: 'codeblock',
+      title: 'Codeblock',
+      description:
+        'Ownable codeblock install with local wrapper source, highlighting hooks, and generated file structure.',
+    },
+  ],
+};
+
 export const OWNABLE_RELEASE_GROUP: OwnableDocsGroup = {
   id: 'release',
   title: 'Release',
@@ -320,6 +350,7 @@ export const OWNABLE_DOCS_GROUPS: readonly OwnableDocsGroup[] = Object.freeze([
   OWNABLE_OVERLAY_GROUP,
   OWNABLE_FEEDBACK_GROUP,
   OWNABLE_NAVIGATION_GROUP,
+  OWNABLE_UTILITY_GROUP,
   OWNABLE_TOOLING_GROUP,
   OWNABLE_RELEASE_GROUP,
 ]);

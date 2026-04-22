@@ -1,15 +1,18 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, inject, signal, type OnDestroy } from '@angular/core';
-import { observeDocsCodeThemeChanges, resolveDocsCodeBlockTheme } from '../../../../../../shared/util';
 import { TngCodeBlockComponent } from '@tailng-ui/components';
+import {
+  observeDocsCodeThemeChanges,
+  resolveDocsCodeBlockTheme,
+} from '../../../../../../shared/util';
 
 @Component({
-  selector: 'app-skeleton-styling-page',
+  selector: 'app-headless-skeleton-styling-page',
   imports: [TngCodeBlockComponent],
   templateUrl: './skeleton-styling-page.component.html',
   styleUrl: './skeleton-styling-page.component.css',
 })
-export class SkeletonStylingPageComponent implements OnDestroy {
+export class HeadlessSkeletonStylingPageComponent implements OnDestroy {
   private readonly documentRef = inject(DOCUMENT);
   public readonly codeBlockTheme = signal<'github-dark' | 'github-light'>(
     resolveDocsCodeBlockTheme(this.documentRef),
@@ -19,7 +22,7 @@ export class SkeletonStylingPageComponent implements OnDestroy {
     this.codeBlockTheme,
   );
 
-  protected readonly slotContractCode = [
+  protected readonly cssStarterCode = [
     '[data-slot="skeleton"] {',
     '  background: linear-gradient(',
     '    90deg,',
@@ -42,18 +45,10 @@ export class SkeletonStylingPageComponent implements OnDestroy {
     '  animation: tng-skeleton-shimmer 1.3s linear infinite;',
     '}',
     '',
-  ].join('\n');
-
-  protected readonly defaultShellCode = [
-    ':host {',
-    '  display: block;',
+    '@keyframes tng-skeleton-shimmer {',
+    '  0% { background-position: 200% 0; }',
+    '  100% { background-position: -20% 0; }',
     '}',
-    '',
-    '.tng-skeleton {',
-    '  background-size: 220% 100%;',
-    '}',
-    '',
-    '/* width and height are applied inline from the wrapper inputs. */',
     '',
   ].join('\n');
 

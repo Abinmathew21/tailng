@@ -1,0 +1,113 @@
+:host {
+  display: block;
+}
+
+.headless-skeleton-overview {
+  display: grid;
+  gap: 1.25rem;
+  padding-bottom: 2rem;
+}
+
+.headless-skeleton-overview-title {
+  font-size: clamp(1.65rem, 1.8vw + 1rem, 2.1rem);
+  font-weight: 700;
+  line-height: 1.15;
+  margin: 0;
+}
+
+.headless-skeleton-overview-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 1rem;
+  line-height: 1.55;
+  margin: 0;
+  max-inline-size: 60ch;
+}
+
+.headless-skeleton-overview-block {
+  background: color-mix(in srgb, var(--tng-semantic-background-surface) 92%, transparent);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 1rem;
+  display: grid;
+  gap: 0.9rem;
+  padding: 1.1rem;
+}
+
+.headless-skeleton-overview-block h3 {
+  font-size: 1.15rem;
+  margin: 0;
+}
+
+.headless-skeleton-overview-block > p {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.headless-skeleton-overview-list {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0;
+  padding-inline-start: 1.1rem;
+}
+
+.headless-skeleton-preview {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.headless-skeleton-line {
+  background: linear-gradient(
+    90deg,
+    var(--tng-semantic-foreground-secondary) 0%,
+    var(--tng-semantic-border-subtle) 50%,
+    var(--tng-semantic-foreground-secondary) 100%
+  );
+  background-size: 220% 100%;
+  height: 0.9rem;
+  width: 100%;
+}
+
+.headless-skeleton-line--title {
+  height: 1.1rem;
+  width: 58%;
+}
+
+.headless-skeleton-line--short {
+  width: 72%;
+}
+
+.headless-skeleton-line[data-rounded='true'] {
+  border-radius: 0.6rem;
+}
+
+.headless-skeleton-line[data-rounded='false'] {
+  border-radius: 0;
+}
+
+.headless-skeleton-line[data-animated='true'] {
+  animation: tng-skeleton-shimmer 1.3s linear infinite;
+}
+
+/* Tailwind tab demo: same shimmer as .headless-skeleton-line (gradient + motion, not opacity pulse). */
+.skeleton-tw-line {
+  background: linear-gradient(
+    90deg,
+    var(--tng-semantic-foreground-secondary) 0%,
+    var(--tng-semantic-border-subtle) 50%,
+    var(--tng-semantic-foreground-secondary) 100%
+  );
+  background-size: 220% 100%;
+}
+
+.skeleton-tw-line[data-animated='true'] {
+  animation: tng-skeleton-shimmer 1.3s linear infinite;
+}
+
+@keyframes tng-skeleton-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+
+  100% {
+    background-position: -20% 0;
+  }
+}

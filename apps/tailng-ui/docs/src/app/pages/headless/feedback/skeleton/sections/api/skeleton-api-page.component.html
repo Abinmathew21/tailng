@@ -1,0 +1,107 @@
+<article class="headless-skeleton-api">
+  <h2 class="headless-skeleton-api-title">API reference</h2>
+  <p class="headless-skeleton-api-lead">
+    Headless skeleton exposes one structural directive with decorative semantics and two styling
+    state inputs: <code>animated</code> and <code>rounded</code>.
+  </p>
+
+  <section id="root-directive" class="headless-skeleton-api-block">
+    <h3>Root directive</h3>
+    <p>
+      <code>tngSkeleton</code> attaches to any owner-authored block element and marks it as a
+      decorative loading placeholder.
+    </p>
+    <tng-code-block
+      [code]="rootCode"
+      adapter="shiki"
+      language="html"
+      title="Root usage"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+
+    <div class="headless-skeleton-api-table-wrap">
+      <table class="headless-skeleton-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Input</th>
+            <th scope="col">Type</th>
+            <th scope="col">Default</th>
+            <th scope="col">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>animated</code></td>
+            <td><code>boolean</code></td>
+            <td><code>true</code></td>
+            <td>Exposes shimmer state through <code>data-animated</code>.</td>
+          </tr>
+          <tr>
+            <td><code>rounded</code></td>
+            <td><code>boolean</code></td>
+            <td><code>true</code></td>
+            <td>Exposes shape state through <code>data-rounded</code>.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="state-attributes" class="headless-skeleton-api-block">
+    <h3>State attributes</h3>
+    <p>
+      The directive only adds stable attributes to your element. That makes it easy to author one
+      base selector and branch by state in owner CSS.
+    </p>
+    <tng-code-block
+      [code]="attributesCode"
+      adapter="shiki"
+      language="html"
+      title="Rendered state attributes"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+
+    <div class="headless-skeleton-api-table-wrap">
+      <table class="headless-skeleton-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Attribute</th>
+            <th scope="col">Value</th>
+            <th scope="col">Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>data-slot</code></td>
+            <td><code>skeleton</code></td>
+            <td>Stable root selector for all placeholder styling.</td>
+          </tr>
+          <tr>
+            <td><code>data-animated</code></td>
+            <td><code>true</code> or <code>false</code></td>
+            <td>Lets owners toggle shimmer motion through CSS.</td>
+          </tr>
+          <tr>
+            <td><code>data-rounded</code></td>
+            <td><code>true</code> or <code>false</code></td>
+            <td>Lets owners branch between rounded and square placeholders.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="behavior-baseline" class="headless-skeleton-api-block">
+    <h3>Behavior baseline</h3>
+    <ul class="headless-skeleton-api-list">
+      <li>The primitive is decorative and always renders <code>aria-hidden="true"</code>.</li>
+      <li>The primitive also sets <code>role="presentation"</code>.</li>
+      <li>It does not announce loading progress or completion to assistive technology.</li>
+      <li>Use nearby text, a live region, or a real status component when loading state needs to be communicated semantically.</li>
+    </ul>
+  </section>
+</article>

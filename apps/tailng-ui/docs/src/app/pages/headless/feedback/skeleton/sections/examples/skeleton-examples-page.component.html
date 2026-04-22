@@ -1,0 +1,90 @@
+<article class="headless-skeleton-examples">
+  <h2 class="headless-skeleton-examples-title">Examples</h2>
+  <p class="headless-skeleton-examples-lead">
+    Compose skeleton placeholders for text stacks and richer card layouts while the real content is loading.
+  </p>
+
+  <section id="text-stack" class="headless-skeleton-examples-block">
+    <app-docs-example-tabs-section
+      heading="Text stack"
+      description="Use multiple lines to mirror typographic rhythm while content is loading."
+      ariaLabel="Headless skeleton text examples"
+      tabListAriaLabel="Headless skeleton text style variants"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Headless text stack (plain CSS)"
+        [codeTabs]="textPlainTabs"
+      >
+        <section class="headless-skeleton-stack">
+          <div tngSkeleton class="headless-skeleton-line headless-skeleton-line--title"></div>
+          <div tngSkeleton class="headless-skeleton-line"></div>
+          <div tngSkeleton class="headless-skeleton-line headless-skeleton-line--short"></div>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Headless text stack (Tailwind)"
+        [codeTabs]="textTailwindTabs"
+      >
+        <section
+          class="grid gap-2 rounded-xl border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-canvas)] p-4"
+        >
+          <div tngSkeleton class="skeleton-tw-line h-[1.1rem] w-[56%] rounded-lg"></div>
+          <div tngSkeleton class="skeleton-tw-line h-[0.9rem] w-full rounded-lg"></div>
+          <div tngSkeleton class="skeleton-tw-line h-[0.9rem] w-[68%] rounded-lg"></div>
+        </section>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section id="card-placeholder" class="headless-skeleton-examples-block">
+    <app-docs-example-tabs-section
+      heading="Card placeholder"
+      description="Combine avatar, title, text, and media blocks for a richer loading layout."
+      ariaLabel="Headless skeleton card examples"
+      tabListAriaLabel="Headless skeleton card style variants"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Headless card placeholder (plain CSS)"
+        [codeTabs]="cardPlainTabs"
+      >
+        <section class="headless-skeleton-card">
+          <div tngSkeleton class="headless-skeleton-avatar"></div>
+          <div tngSkeleton class="headless-skeleton-card-line headless-skeleton-card-line--title"></div>
+          <div tngSkeleton class="headless-skeleton-card-line"></div>
+          <div tngSkeleton [rounded]="false" class="headless-skeleton-card-media"></div>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Headless card placeholder (Tailwind)"
+        [codeTabs]="cardTailwindTabs"
+      >
+        <section
+          class="grid gap-2 rounded-xl border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-canvas)] p-4"
+        >
+          <div tngSkeleton class="skeleton-tw-line h-11 w-11 rounded-full"></div>
+          <div tngSkeleton class="skeleton-tw-line h-4 w-[58%] rounded-lg"></div>
+          <div tngSkeleton class="skeleton-tw-line h-[0.9rem] w-full rounded-lg"></div>
+          <div tngSkeleton [rounded]="false" class="skeleton-tw-line h-24 w-full"></div>
+        </section>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+</article>

@@ -1,23 +1,13 @@
 <article class="skeleton-overview">
   <h2 class="skeleton-overview-title">Skeleton overview</h2>
   <p class="skeleton-overview-lead">
-    Skeleton provides decorative placeholders that mimic content layout during loading and reduce
-    perceived wait.
+    Skeleton gives you ready-made loading blocks with the default shimmer shell, simple size
+    inputs, and the same stable slot and state hooks as the primitive underneath.
   </p>
 
-  <section class="skeleton-overview-block">
+  <section id="imports" class="skeleton-overview-block">
     <h3>Imports</h3>
-    <p>Use primitives for full control or wrapper component for default sizing inputs.</p>
-    <tng-code-block
-      [code]="primitiveImportCode"
-      adapter="shiki"
-      language="ts"
-      title="Primitive import"
-      [theme]="codeBlockTheme()"
-      [lineNumbers]="false"
-      [wrap]="true"
-      [sanitizeHtml]="false"
-    ></tng-code-block>
+    <p>Use the wrapper when you want the default shimmer treatment and width and height inputs.</p>
     <tng-code-block
       [code]="componentImportCode"
       adapter="shiki"
@@ -30,29 +20,15 @@
     ></tng-code-block>
   </section>
 
-  <section class="skeleton-overview-block">
+  <section id="style-variants" class="skeleton-overview-block">
     <app-docs-example-tabs-section
-      heading="Placeholder variants"
-      description="Use the same loading skeleton layout in headless markup, plain CSS wrappers, and Tailwind utility shells."
+      heading="Style variants"
+      description="Use the wrapper inside a plain CSS stack or a utility-authored Tailwind surface."
       ariaLabel="Skeleton style variants"
       tabListAriaLabel="Skeleton style tabs"
-      defaultValue="headless"
+      defaultValue="plain-css"
       [codeBlockTheme]="codeBlockTheme()"
     >
-      <ng-template
-        appDocsExampleVariant
-        value="headless"
-        label="Headless"
-        panelTitle="Headless skeleton stack"
-        [codeTabs]="headlessCodeTabs"
-      >
-        <section class="skeleton-preview-shell skeleton-preview-shell--headless">
-          <div tngSkeleton class="skeleton-preview-line skeleton-preview-line--title"></div>
-          <div tngSkeleton class="skeleton-preview-line"></div>
-          <div tngSkeleton class="skeleton-preview-line skeleton-preview-line--short"></div>
-        </section>
-      </ng-template>
-
       <ng-template
         appDocsExampleVariant
         value="plain-css"
@@ -61,9 +37,9 @@
         [codeTabs]="plainCssCodeTabs"
       >
         <section class="skeleton-preview-shell skeleton-preview-shell--plain">
-          <tng-skeleton width="58%" height="1.1rem"></tng-skeleton>
-          <tng-skeleton width="100%" height="0.9rem"></tng-skeleton>
-          <tng-skeleton width="72%" height="0.9rem"></tng-skeleton>
+          <tng-skeleton width="64%" height="1.15rem"></tng-skeleton>
+          <tng-skeleton width="100%" height="0.95rem"></tng-skeleton>
+          <tng-skeleton width="78%" height="0.95rem"></tng-skeleton>
         </section>
       </ng-template>
 
@@ -75,22 +51,25 @@
         [codeTabs]="tailwindCodeTabs"
       >
         <section
-          class="grid gap-2 rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+          class="rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4"
         >
-          <tng-skeleton width="58%" height="1.1rem"></tng-skeleton>
-          <tng-skeleton width="100%" height="0.9rem"></tng-skeleton>
-          <tng-skeleton width="72%" height="0.9rem"></tng-skeleton>
+          <div class="grid gap-3">
+            <tng-skeleton width="9rem" height="0.85rem"></tng-skeleton>
+            <tng-skeleton width="100%" height="1rem"></tng-skeleton>
+            <tng-skeleton width="83%" height="1rem"></tng-skeleton>
+            <tng-skeleton width="61%" height="1rem"></tng-skeleton>
+          </div>
         </section>
       </ng-template>
     </app-docs-example-tabs-section>
   </section>
 
-  <section class="skeleton-overview-block">
+  <section id="accessibility-baseline" class="skeleton-overview-block">
     <h3>Accessibility baseline</h3>
     <ul class="skeleton-overview-list">
-      <li>Skeleton placeholders are decorative and default to <code>aria-hidden="true"</code>.</li>
-      <li>Use nearby text or live regions for actual loading status communication.</li>
-      <li>Disable shimmer with <code>[animated]="false"</code> where motion should be reduced.</li>
+      <li>Skeleton placeholders stay decorative and render with <code>aria-hidden="true"</code>.</li>
+      <li>Use nearby text, status copy, or a live region for real loading announcements.</li>
+      <li>Set <code>[animated]="false"</code> when shimmer would add too much motion.</li>
     </ul>
   </section>
 </article>

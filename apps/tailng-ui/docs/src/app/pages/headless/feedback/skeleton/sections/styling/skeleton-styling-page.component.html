@@ -1,0 +1,43 @@
+<article class="headless-skeleton-styling">
+  <h2 class="headless-skeleton-styling-title">Styling contract</h2>
+  <p class="headless-skeleton-styling-lead">
+    Headless skeleton only guarantees the root slot and two state attributes. Shimmer, radius, and
+    sizing all stay in owner CSS.
+  </p>
+
+  <section id="slot-hooks" class="headless-skeleton-styling-block">
+    <h3>Slot hooks</h3>
+    <p>
+      Use <code>[data-slot="skeleton"]</code> as the base selector, then branch by
+      <code>data-animated</code> and <code>data-rounded</code> for shimmer and shape states.
+    </p>
+  </section>
+
+  <section id="css-starter" class="headless-skeleton-styling-block">
+    <h3>CSS starter</h3>
+    <p>
+      This starter keeps the primitive minimal while giving you a straightforward shimmer gradient
+      and state-driven corner treatment.
+    </p>
+    <tng-code-block
+      [code]="cssStarterCode"
+      adapter="shiki"
+      language="css"
+      title="Skeleton starter CSS"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="motion-guidance" class="headless-skeleton-styling-block">
+    <h3>Motion guidance</h3>
+    <ul class="headless-skeleton-styling-list">
+      <li>Keep shimmer subtle and lateral so placeholders feel calm rather than distracting.</li>
+      <li>Disable or reduce shimmer on dense dashboards or in areas where motion competes with real status feedback.</li>
+      <li>Vary placeholder widths and block sizes to mirror the loaded content rhythm more convincingly.</li>
+      <li>Reserve square-corner placeholders for media and rigid surfaces where rounded blocks would look misleading.</li>
+    </ul>
+  </section>
+</article>

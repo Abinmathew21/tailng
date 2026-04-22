@@ -1,24 +1,54 @@
 <article class="skeleton-styling">
   <h2 class="skeleton-styling-title">Styling contract</h2>
   <p class="skeleton-styling-lead">
-    Skeleton exposes stable hooks so design systems can style shimmer, radius, and motion behavior.
+    Skeleton keeps the wrapper surface intentionally small. You can restyle shimmer, radius, and
+    motion through the same public hooks that the primitive exposes.
   </p>
 
-  <section class="skeleton-styling-block">
-    <h3>Slot and state hooks</h3>
+  <section id="wrapper-slot-hooks" class="skeleton-styling-block">
+    <h3>Wrapper slot hooks</h3>
     <p>
-      Use <code>[data-slot="skeleton"]</code> as the base selector. Then branch by
-      <code>data-animated</code> and <code>data-rounded</code>.
+      The wrapper forwards the primitive contract directly, so style
+      <code>[data-slot="skeleton"]</code> and branch from <code>data-rounded</code> and
+      <code>data-animated</code>.
     </p>
     <tng-code-block
-      [code]="cssContractCode"
+      [code]="slotContractCode"
       adapter="shiki"
       language="css"
-      title="Recommended CSS contract"
+      title="Slot contract"
       [theme]="codeBlockTheme()"
       [lineNumbers]="false"
       [wrap]="true"
       [sanitizeHtml]="false"
     ></tng-code-block>
+  </section>
+
+  <section id="default-shell" class="skeleton-styling-block">
+    <h3>Default shell</h3>
+    <p>
+      The wrapper only adds a block-level host and the minimum shimmer shell. Width and height stay
+      owner-controlled through the component inputs.
+    </p>
+    <tng-code-block
+      [code]="defaultShellCode"
+      adapter="shiki"
+      language="css"
+      title="Wrapper defaults"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="owner-guidance" class="skeleton-styling-block">
+    <h3>Owner guidance</h3>
+    <ul class="skeleton-styling-list">
+      <li>Use width and height inputs for layout, then style visual identity through the slot selector.</li>
+      <li>Turn shimmer off for dense dashboards or reduced-motion surfaces where constant movement is distracting.</li>
+      <li>Use <code>[rounded]="false"</code> for media blocks and full-bleed placeholders that should stay rectangular.</li>
+      <li>Keep skeleton shapes close to the final content rhythm so loading does not cause large reflow surprises.</li>
+    </ul>
   </section>
 </article>

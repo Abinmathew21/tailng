@@ -1,17 +1,18 @@
 import type { Routes } from '@angular/router';
-import { COMPONENTS_FEEDBACK_GROUP, toComponentsDocsRouteData } from '../../component-docs.data';
+import { HEADLESS_FEEDBACK_GROUP, toHeadlessDocsRouteData } from '../../headless-docs.data';
 
-const group = COMPONENTS_FEEDBACK_GROUP;
+const group = HEADLESS_FEEDBACK_GROUP;
 const skeletonItem = group.items.find((item) => item.slug === 'skeleton');
 if (skeletonItem === undefined) {
-  throw new Error('Missing "skeleton" in components feedback docs group.');
+  throw new Error('Missing "skeleton" in headless feedback docs group.');
 }
 
-export const COMPONENTS_FEEDBACK_SKELETON_ROUTES: Routes = [
+export const HEADLESS_FEEDBACK_SKELETON_ROUTES: Routes = [
   {
     path: '',
-    data: toComponentsDocsRouteData(group, skeletonItem),
-    loadComponent: () => import('./skeleton-page.component').then((module) => module.SkeletonPageComponent),
+    data: toHeadlessDocsRouteData(group, skeletonItem),
+    loadComponent: () =>
+      import('./skeleton-page.component').then((module) => module.HeadlessSkeletonPageComponent),
     children: [
       {
         path: '',
@@ -22,37 +23,29 @@ export const COMPONENTS_FEEDBACK_SKELETON_ROUTES: Routes = [
         path: 'overview',
         loadComponent: () =>
           import('./sections/overview/skeleton-overview-page.component').then(
-            (module) => module.SkeletonOverviewPageComponent,
+            (module) => module.HeadlessSkeletonOverviewPageComponent,
           ),
       },
       {
         path: 'api',
         loadComponent: () =>
           import('./sections/api/skeleton-api-page.component').then(
-            (module) => module.SkeletonApiPageComponent,
+            (module) => module.HeadlessSkeletonApiPageComponent,
           ),
       },
       {
         path: 'styling',
         loadComponent: () =>
           import('./sections/styling/skeleton-styling-page.component').then(
-            (module) => module.SkeletonStylingPageComponent,
+            (module) => module.HeadlessSkeletonStylingPageComponent,
           ),
       },
       {
         path: 'examples',
         loadComponent: () =>
           import('./sections/examples/skeleton-examples-page.component').then(
-            (module) => module.SkeletonExamplesPageComponent,
+            (module) => module.HeadlessSkeletonExamplesPageComponent,
           ),
-      },
-      {
-        path: 'ownable-install',
-        data: {
-          registrySlug: 'skeleton',
-        },
-        pathMatch: 'full',
-        redirectTo: '/ownable/feedback/skeleton',
       },
       {
         path: '**',

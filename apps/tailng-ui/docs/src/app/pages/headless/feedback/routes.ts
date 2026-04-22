@@ -24,4 +24,16 @@ export const HEADLESS_FEEDBACK_ROUTES: Routes = [
     loadChildren: () =>
       import('./progress-bar/routes').then((module) => module.HEADLESS_FEEDBACK_PROGRESS_BAR_ROUTES),
   },
+  {
+    path: 'progress-spinner',
+    loadChildren: () =>
+      import('./progress-spinner/routes').then(
+        (module) => module.HEADLESS_FEEDBACK_PROGRESS_SPINNER_ROUTES,
+      ),
+  },
+  {
+    path: 'skeleton',
+    loadChildren: () =>
+      import('./skeleton/routes').then((module) => module.HEADLESS_FEEDBACK_SKELETON_ROUTES),
+  },
 ];

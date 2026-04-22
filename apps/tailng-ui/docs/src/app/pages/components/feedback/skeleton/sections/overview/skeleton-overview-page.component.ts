@@ -2,7 +2,6 @@ import { DOCUMENT } from '@angular/common';
 import { Component, inject, signal, type OnDestroy } from '@angular/core';
 import { observeDocsCodeThemeChanges, resolveDocsCodeBlockTheme } from '../../../../../../shared/util';
 import { TngCodeBlockComponent, TngSkeletonComponent } from '@tailng-ui/components';
-import { TngSkeleton as TngSkeletonPrimitive } from '@tailng-ui/primitives';
 import { type DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
 import {
   DocsExampleTabsSectionComponent,
@@ -13,7 +12,6 @@ import {
   selector: 'app-skeleton-overview-page',
   imports: [
     TngCodeBlockComponent,
-    TngSkeletonPrimitive,
     TngSkeletonComponent,
     DocsExampleTabsSectionComponent,
     DocsExampleVariantDirective,
@@ -26,56 +24,15 @@ export class SkeletonOverviewPageComponent implements OnDestroy {
   public readonly codeBlockTheme = signal<'github-dark' | 'github-light'>(
     resolveDocsCodeBlockTheme(this.documentRef),
   );
-  private readonly colorSchemeObserver = observeDocsCodeThemeChanges(this.documentRef, this.codeBlockTheme);
+  private readonly colorSchemeObserver = observeDocsCodeThemeChanges(
+    this.documentRef,
+    this.codeBlockTheme,
+  );
 
-  protected readonly primitiveImportCode = ["import { TngSkeleton } from '@tailng-ui/primitives';", ''].join('\n');
-  protected readonly componentImportCode = ["import { TngSkeletonComponent } from '@tailng-ui/components';", ''].join('\n');
-
-  protected readonly headlessCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
-    {
-      value: 'ts',
-      label: 'TS',
-      language: 'ts',
-      title: 'skeleton-overview-headless.component.ts',
-      code: this.primitiveImportCode,
-    },
-    {
-      value: 'html',
-      label: 'HTML',
-      language: 'html',
-      title: 'skeleton-overview-headless.component.html',
-      code: [
-        '<section class="skeleton-stack">',
-        '  <div tngSkeleton class="skeleton-line skeleton-line--title"></div>',
-        '  <div tngSkeleton class="skeleton-line skeleton-line--body"></div>',
-        '  <div tngSkeleton class="skeleton-line skeleton-line--body-short"></div>',
-        '</section>',
-        '',
-      ].join('\n'),
-    },
-    {
-      value: 'css',
-      label: 'CSS',
-      language: 'css',
-      title: 'skeleton-overview-headless.component.css',
-      code: [
-        '.skeleton-line {',
-        '  height: 0.9rem;',
-        '  width: 100%;',
-        '}',
-        '',
-        '.skeleton-line--title {',
-        '  height: 1.1rem;',
-        '  width: 58%;',
-        '}',
-        '',
-        '.skeleton-line--body-short {',
-        '  width: 72%;',
-        '}',
-        '',
-      ].join('\n'),
-    },
-  ]);
+  protected readonly componentImportCode = [
+    "import { TngSkeletonComponent } from '@tailng-ui/components';",
+    '',
+  ].join('\n');
 
   protected readonly plainCssCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
     {
@@ -83,7 +40,19 @@ export class SkeletonOverviewPageComponent implements OnDestroy {
       label: 'TS',
       language: 'ts',
       title: 'skeleton-overview-plain-css.component.ts',
-      code: this.componentImportCode,
+      code: [
+        "import { Component } from '@angular/core';",
+        "import { TngSkeletonComponent } from '@tailng-ui/components';",
+        '',
+        '@Component({',
+        "  selector: 'app-skeleton-overview-plain-css',",
+        '  standalone: true,',
+        '  imports: [TngSkeletonComponent],',
+        "  templateUrl: './skeleton-overview-plain-css.component.html',",
+        "  styleUrl: './skeleton-overview-plain-css.component.css',",
+        '})',
+        'export class SkeletonOverviewPlainCssComponent {}',
+      ].join('\n'),
     },
     {
       value: 'html',
@@ -91,10 +60,10 @@ export class SkeletonOverviewPageComponent implements OnDestroy {
       language: 'html',
       title: 'skeleton-overview-plain-css.component.html',
       code: [
-        '<section class="skeleton-stack">',
-        '  <tng-skeleton width="58%" height="1.1rem"></tng-skeleton>',
-        '  <tng-skeleton width="100%" height="0.9rem"></tng-skeleton>',
-        '  <tng-skeleton width="72%" height="0.9rem"></tng-skeleton>',
+        '<section class="plain-shell">',
+        '  <tng-skeleton width="64%" height="1.15rem"></tng-skeleton>',
+        '  <tng-skeleton width="100%" height="0.95rem"></tng-skeleton>',
+        '  <tng-skeleton width="78%" height="0.95rem"></tng-skeleton>',
         '</section>',
         '',
       ].join('\n'),
@@ -105,9 +74,9 @@ export class SkeletonOverviewPageComponent implements OnDestroy {
       language: 'css',
       title: 'skeleton-overview-plain-css.component.css',
       code: [
-        '.skeleton-stack {',
+        '.plain-shell {',
         '  display: grid;',
-        '  gap: 0.6rem;',
+        '  gap: 0.7rem;',
         '}',
         '',
       ].join('\n'),
@@ -120,7 +89,19 @@ export class SkeletonOverviewPageComponent implements OnDestroy {
       label: 'TS',
       language: 'ts',
       title: 'skeleton-overview-tailwind.component.ts',
-      code: this.componentImportCode,
+      code: [
+        "import { Component } from '@angular/core';",
+        "import { TngSkeletonComponent } from '@tailng-ui/components';",
+        '',
+        '@Component({',
+        "  selector: 'app-skeleton-overview-tailwind',",
+        '  standalone: true,',
+        '  imports: [TngSkeletonComponent],',
+        "  templateUrl: './skeleton-overview-tailwind.component.html',",
+        "  styleUrl: './skeleton-overview-tailwind.component.css',",
+        '})',
+        'export class SkeletonOverviewTailwindComponent {}',
+      ].join('\n'),
     },
     {
       value: 'html',
@@ -128,10 +109,13 @@ export class SkeletonOverviewPageComponent implements OnDestroy {
       language: 'html',
       title: 'skeleton-overview-tailwind.component.html',
       code: [
-        '<section class="grid gap-2 rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">',
-        '  <tng-skeleton width="58%" height="1.1rem"></tng-skeleton>',
-        '  <tng-skeleton width="100%" height="0.9rem"></tng-skeleton>',
-        '  <tng-skeleton width="72%" height="0.9rem"></tng-skeleton>',
+        '<section class="rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4">',
+        '  <div class="grid gap-3">',
+        '    <tng-skeleton width="9rem" height="0.85rem"></tng-skeleton>',
+        '    <tng-skeleton width="100%" height="1rem"></tng-skeleton>',
+        '    <tng-skeleton width="83%" height="1rem"></tng-skeleton>',
+        '    <tng-skeleton width="61%" height="1rem"></tng-skeleton>',
+        '  </div>',
         '</section>',
         '',
       ].join('\n'),
@@ -148,5 +132,4 @@ export class SkeletonOverviewPageComponent implements OnDestroy {
   public ngOnDestroy(): void {
     this.colorSchemeObserver?.disconnect();
   }
-
 }

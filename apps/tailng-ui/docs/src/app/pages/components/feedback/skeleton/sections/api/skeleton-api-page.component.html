@@ -1,22 +1,33 @@
 <article class="skeleton-api">
   <h2 class="skeleton-api-title">API reference</h2>
   <p class="skeleton-api-lead">
-    Skeleton exposes simple decorative loading controls: animation, rounding, and wrapper sizing.
+    Skeleton exposes a small wrapper contract: CSS size inputs for block dimensions plus toggles
+    for shimmer motion and corner radius.
   </p>
 
-  <section class="skeleton-api-block">
-    <h3><code>tngSkeleton</code> primitive</h3>
-    <p>Attach to any block element to expose skeleton state attributes and semantics.</p>
+  <section id="wrapper-component" class="skeleton-api-block">
+    <h3>Wrapper component</h3>
+    <p>
+      <code>tng-skeleton</code> renders the loading block for you, applies the default shimmer
+      shell, and forwards the primitive state hooks underneath.
+    </p>
     <tng-code-block
-      [code]="primitiveAttachmentCode"
+      [code]="wrapperUsageCode"
       adapter="shiki"
       language="html"
-      title="Primitive usage"
+      title="Wrapper usage"
       [lineNumbers]="false"
       [wrap]="true"
       [sanitizeHtml]="false"
     ></tng-code-block>
+  </section>
 
+  <section id="sizing-and-state-inputs" class="skeleton-api-block">
+    <h3>Sizing and state inputs</h3>
+    <p>
+      Use CSS size strings for layout and boolean toggles to adjust the default shell without
+      replacing the wrapper.
+    </p>
     <div class="skeleton-api-table-wrap">
       <table class="skeleton-api-table">
         <thead>
@@ -29,33 +40,46 @@
         </thead>
         <tbody>
           <tr>
+            <td><code>width</code></td>
+            <td><code>string</code></td>
+            <td><code>'100%'</code></td>
+            <td>Applied inline to the rendered block. Empty strings fall back to <code>100%</code>.</td>
+          </tr>
+          <tr>
+            <td><code>height</code></td>
+            <td><code>string</code></td>
+            <td><code>'1rem'</code></td>
+            <td>Applied inline to the rendered block. Empty strings fall back to <code>1rem</code>.</td>
+          </tr>
+          <tr>
             <td><code>animated</code></td>
             <td><code>boolean</code></td>
             <td><code>true</code></td>
-            <td>Toggles shimmer animation hook via <code>data-animated</code>.</td>
+            <td>Toggles the shimmer motion hook through <code>data-animated</code>.</td>
           </tr>
           <tr>
             <td><code>rounded</code></td>
             <td><code>boolean</code></td>
             <td><code>true</code></td>
-            <td>Toggles corner radius hook via <code>data-rounded</code>.</td>
+            <td>Toggles the wrapper radius hook through <code>data-rounded</code>.</td>
           </tr>
         </tbody>
       </table>
     </div>
   </section>
 
-  <section class="skeleton-api-block">
-    <h3><code>tng-skeleton</code> wrapper</h3>
+  <section id="primitive-foundation" class="skeleton-api-block">
+    <h3>Primitive foundation</h3>
     <p>
-      Wrapper component reuses primitive semantics and adds <code>width</code> and
-      <code>height</code> inputs.
+      Under the hood, the wrapper uses <code>tngSkeleton</code> for the decorative semantics and
+      slot and state attributes. Reach for the headless page when you want to own the element
+      markup directly.
     </p>
     <tng-code-block
-      [code]="componentAttachmentCode"
+      [code]="primitiveUsageCode"
       adapter="shiki"
       language="html"
-      title="Component usage"
+      title="Primitive foundation"
       [lineNumbers]="false"
       [wrap]="true"
       [sanitizeHtml]="false"
