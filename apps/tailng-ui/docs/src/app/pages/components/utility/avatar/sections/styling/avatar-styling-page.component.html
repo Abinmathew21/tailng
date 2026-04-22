@@ -1,12 +1,12 @@
 <article class="avatar-styling">
   <h2 class="avatar-styling-title">Styling contract</h2>
   <p class="avatar-styling-lead">
-    Avatar exposes stable state hooks for shape, size, and fallback presentation without coupling
-    to internal markup structure.
+    Style the wrapper through the stable attributes on the rendered avatar shell and slot nodes,
+    rather than depending on extra local classes on <code>&lt;tng-avatar&gt;</code> itself.
   </p>
 
-  <section class="avatar-styling-block">
-    <h3>State and variant hooks</h3>
+  <section id="wrapper-state-hooks" class="avatar-styling-block">
+    <h3>Wrapper state hooks</h3>
     <div class="avatar-styling-table-wrap">
       <table class="avatar-styling-table">
         <thead>
@@ -20,34 +20,44 @@
           <tr>
             <td><code>data-shape</code></td>
             <td><code>circle | square</code></td>
-            <td>Controls host border radius profile.</td>
+            <td>Controls shell geometry on the internal <code>.tng-avatar</code> element.</td>
           </tr>
           <tr>
             <td><code>data-size</code></td>
             <td><code>sm | md | lg</code></td>
-            <td>Controls control dimensions and fallback text scale.</td>
+            <td>Controls wrapper dimensions and fallback text scale.</td>
           </tr>
           <tr>
             <td><code>data-slot</code></td>
             <td><code>avatar | avatar-image | avatar-fallback</code></td>
-            <td>Targets host/image/fallback styling hooks.</td>
+            <td>Targets shell, image, and fallback nodes.</td>
+          </tr>
+          <tr>
+            <td><code>hidden</code></td>
+            <td>Applied to image or fallback</td>
+            <td>Reflects which visual layer is currently active.</td>
           </tr>
         </tbody>
       </table>
     </div>
   </section>
 
-  <section class="avatar-styling-block">
-    <h3>Common selectors</h3>
+  <section id="wrapper-shell" class="avatar-styling-block">
+    <h3>Wrapper shell</h3>
     <ul class="avatar-styling-list">
-      <li><code>[data-slot='avatar']</code> for frame/border/background overrides.</li>
-      <li><code>[data-slot='avatar-image']</code> for object-fit/filter/opacity controls.</li>
-      <li><code>[data-slot='avatar-fallback']</code> for initials typography and badges.</li>
+      <li><code>:host</code> is <code>inline-flex</code>, so surrounding spacing still belongs to the parent layout.</li>
+      <li>The internal shell is <code>.tng-avatar</code> and carries <code>data-size</code> and <code>data-shape</code>.</li>
+      <li>The wrapper already manages <code>[hidden]</code> on image and fallback slots when sources change.</li>
     </ul>
   </section>
 
-  <section class="avatar-styling-block">
-    <h3>Example contract overrides</h3>
+  <section id="owner-guidance" class="avatar-styling-block">
+    <h3>Owner guidance</h3>
+    <p>
+      Override the wrapper by targeting the internal shell under <code>tng-avatar</code>. If you
+      need custom host structure or owner-managed fallback visibility, move to the headless Avatar
+      page.
+    </p>
     <tng-code-block
       [code]="contractCss"
       adapter="shiki"

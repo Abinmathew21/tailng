@@ -1,26 +1,17 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, inject, signal, type OnDestroy } from '@angular/core';
-import { observeDocsCodeThemeChanges, resolveDocsCodeBlockTheme } from '../../../../../../shared/util';
 import { TngTag } from '@tailng-ui/components';
-import {
-  TngTag as TngTagPrimitive,
-  TngTagClose,
-  TngTagIcon,
-} from '@tailng-ui/primitives';
+import { TngTagIcon } from '@tailng-ui/primitives';
 import { type DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
 import {
   DocsExampleTabsSectionComponent,
   DocsExampleVariantDirective,
 } from '../../../../../../shared/example-tabs-section/docs-example-tabs-section.component';
+import { observeDocsCodeThemeChanges, resolveDocsCodeBlockTheme } from '../../../../../../shared/util';
 
 type TagTone = 'danger' | 'info' | 'neutral' | 'success' | 'warning';
-type ExampleVariant = 'headless' | 'plain' | 'tailwind';
-
-type TagItem = Readonly<{
-  id: string;
-  label: string;
-  tone: TagTone;
-}>;
+type ExampleVariant = 'plain' | 'tailwind';
+type TagItem = Readonly<{ id: string; label: string; tone: TagTone }>;
 
 const FILTER_DEFAULTS: readonly TagItem[] = Object.freeze([
   { id: 'angular', label: 'Angular', tone: 'info' },
@@ -31,7 +22,7 @@ const FILTER_DEFAULTS: readonly TagItem[] = Object.freeze([
 const STATUS_DEFAULTS: readonly TagItem[] = Object.freeze([
   { id: 'new', label: 'New', tone: 'info' },
   { id: 'beta', label: 'Beta', tone: 'warning' },
-  { id: 'error', label: 'Blocked', tone: 'danger' },
+  { id: 'blocked', label: 'Blocked', tone: 'danger' },
   { id: 'stable', label: 'Stable', tone: 'success' },
 ]);
 
@@ -42,13 +33,7 @@ function createCodeTabs(
   cssCode: string,
 ): readonly DocsExampleCodeTab[] {
   return Object.freeze([
-    {
-      value: 'ts',
-      label: 'TS',
-      language: 'ts',
-      title: `${baseName}.component.ts`,
-      code: tsCode,
-    },
+    { value: 'ts', label: 'TS', language: 'ts', title: `${baseName}.component.ts`, code: tsCode },
     {
       value: 'html',
       label: 'HTML',
@@ -68,14 +53,7 @@ function createCodeTabs(
 
 @Component({
   selector: 'app-tag-examples-page',
-  imports: [
-    TngTagPrimitive,
-    TngTagClose,
-    TngTagIcon,
-    TngTag,
-    DocsExampleTabsSectionComponent,
-    DocsExampleVariantDirective,
-  ],
+  imports: [TngTag, TngTagIcon, DocsExampleTabsSectionComponent, DocsExampleVariantDirective],
   templateUrl: './tag-examples-page.component.html',
   styleUrl: './tag-examples-page.component.css',
 })
@@ -85,57 +63,42 @@ export class TagExamplesPageComponent implements OnDestroy {
   public readonly codeBlockTheme = signal<'github-dark' | 'github-light'>(
     resolveDocsCodeBlockTheme(this.documentRef),
   );
-  private readonly colorSchemeObserver = observeDocsCodeThemeChanges(this.documentRef, this.codeBlockTheme);
+  private readonly colorSchemeObserver = observeDocsCodeThemeChanges(
+    this.documentRef,
+    this.codeBlockTheme,
+  );
 
-  protected readonly filterHeadless = signal<readonly TagItem[]>(FILTER_DEFAULTS);
   protected readonly filterPlain = signal<readonly TagItem[]>(FILTER_DEFAULTS);
   protected readonly filterTailwind = signal<readonly TagItem[]>(FILTER_DEFAULTS);
-
-  protected readonly statusHeadless = signal<readonly TagItem[]>(STATUS_DEFAULTS);
-  protected readonly statusPlain = signal<readonly TagItem[]>(STATUS_DEFAULTS);
-  protected readonly statusTailwind = signal<readonly TagItem[]>(STATUS_DEFAULTS);
-
-  protected readonly filterHeadlessTabs = createCodeTabs(
-    'tag-examples-filter-headless',
-    [
-      "import { Component, signal } from '@angular/core';",
-      "import { TngTag, TngTagIcon, TngTagClose } from '@tailng-ui/primitives';",
-      '',
-      'export class TagFilterHeadlessExample {',
-      "  readonly tags = signal(['Angular', 'A11y', 'Design']);",
-      '}',
-      '',
-    ].join('\n'),
-    [
-      '<span tngTag [tngTagRemovable]="true" [tngTagLabel]="tag" (tngTagRemoved)="remove(tag)">',
-      '  <span tngTagIcon aria-hidden="true">●</span>',
-      '  {{ tag }}',
-      '  <button tngTagClose type="button"><span aria-hidden="true">×</span></button>',
-      '</span>',
-      '',
-    ].join('\n'),
-    '.tag-chip { display: inline-flex; gap: 0.35rem; }',
-  );
 
   protected readonly filterPlainTabs = createCodeTabs(
     'tag-examples-filter-plain-css',
     [
       "import { Component, signal } from '@angular/core';",
       "import { TngTag } from '@tailng-ui/components';",
+      "import { TngTagIcon } from '@tailng-ui/primitives';",
       '',
-      'export class TagFilterPlainCssExample {',
-      "  readonly tags = signal(['Angular', 'A11y', 'Design']);",
+      '@Component({',
+      "  selector: 'app-tag-examples-filter-plain-css',",
+      '  standalone: true,',
+      '  imports: [TngTag, TngTagIcon],',
+      "  templateUrl: './tag-examples-filter-plain-css.component.html',",
+      "  styleUrl: './tag-examples-filter-plain-css.component.css',",
+      '})',
+      'export class TagExamplesFilterPlainCssComponent {',
+      "  protected readonly tags = signal(['Angular', 'A11y', 'Design']);",
       '}',
-      '',
     ].join('\n'),
     [
-      '<tng-tag [tone]="tone" [label]="tag" [removable]="true" (removed)="remove(tag)">',
-      '  <span tngTagIcon aria-hidden="true">●</span>',
-      '  {{ tag }}',
-      '</tng-tag>',
+      '<div class="tag-example-row">',
+      '  <tng-tag tone="info" [removable]="true" label="Angular">',
+      '    <span tngTagIcon aria-hidden="true">●</span>',
+      '    Angular',
+      '  </tng-tag>',
+      '</div>',
       '',
     ].join('\n'),
-    '.tag-stack { display: flex; flex-wrap: wrap; gap: 0.75rem; }',
+    '.tag-example-row { display: flex; flex-wrap: wrap; gap: 0.75rem; }',
   );
 
   protected readonly filterTailwindTabs = createCodeTabs(
@@ -143,46 +106,51 @@ export class TagExamplesPageComponent implements OnDestroy {
     [
       "import { Component, signal } from '@angular/core';",
       "import { TngTag } from '@tailng-ui/components';",
+      "import { TngTagIcon } from '@tailng-ui/primitives';",
       '',
-      'export class TagFilterTailwindExample {',
-      "  readonly tags = signal(['Angular', 'A11y', 'Design']);",
+      "type TagTone = 'danger' | 'info' | 'neutral' | 'success' | 'warning';",
+      "type TagItem = Readonly<{ id: string; label: string; tone: TagTone }>;",
+      '',
+      'const FILTER_TAGS: readonly TagItem[] = [',
+      "  { id: 'angular', label: 'Angular', tone: 'info' },",
+      "  { id: 'a11y', label: 'A11y', tone: 'success' },",
+      "  { id: 'design', label: 'Design', tone: 'warning' },",
+      '];',
+      '',
+      '@Component({',
+      "  selector: 'app-tag-examples-filter-tailwind',",
+      '  standalone: true,',
+      '  imports: [TngTag, TngTagIcon],',
+      "  templateUrl: './tag-examples-filter-tailwind.component.html',",
+      "  styleUrl: './tag-examples-filter-tailwind.component.css',",
+      '})',
+      'export class TagExamplesFilterTailwindComponent {',
+      '  protected readonly tags = signal<readonly TagItem[]>(FILTER_TAGS);',
+      '',
+      '  protected removeFilter(tagId: string): void {',
+      '    this.tags.update((items) => items.filter((tag) => tag.id !== tagId));',
+      '  }',
+      '',
+      '  protected resetFilters(): void {',
+      '    this.tags.set(FILTER_TAGS);',
+      '  }',
       '}',
-      '',
     ].join('\n'),
     [
-      '<div class="flex flex-wrap gap-3">',
-      '  <tng-tag',
-      '    [tone]="tone"',
-      '    [label]="tag"',
-      '    [removable]="true"',
-      '    class="text-slate-900 dark:text-slate-100"',
-      '  >',
-      '    <span tngTagIcon aria-hidden="true">●</span>',
-      '    {{ tag }}',
-      '  </tng-tag>',
+      '<div class="flex flex-col gap-3 rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-4 text-tng-fg-primary shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--tng-semantic-border-subtle)_55%,transparent)]">',
+      '  <div class="flex flex-wrap gap-3">',
+      '    @for (tag of tags(); track tag.id) {',
+      '      <tng-tag [tone]="tag.tone" [label]="tag.label" [removable]="true" class="text-tng-fg-primary" (removed)="removeFilter(tag.id)">',
+      '        <span tngTagIcon aria-hidden="true" class="text-[0.7em]">●</span>',
+      '        {{ tag.label }}',
+      '      </tng-tag>',
+      '    }',
+      '  </div>',
+      '  <button type="button" class="inline-flex w-fit min-h-8 items-center rounded-md border border-[var(--tng-semantic-border-default)] px-3 text-xs font-semibold text-tng-fg-primary transition hover:bg-tng-bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color-mix(in_srgb,var(--tng-semantic-focus-ring)_40%,transparent)] focus-visible:ring-offset-2 focus-visible:ring-offset-tng-bg-surface" (click)="resetFilters()">Reset filters</button>',
       '</div>',
       '',
     ].join('\n'),
     '/* Tailwind utilities are applied directly in the template. */',
-  );
-
-  protected readonly statusHeadlessTabs = createCodeTabs(
-    'tag-examples-status-headless',
-    [
-      "import { Component } from '@angular/core';",
-      "import { TngTag } from '@tailng-ui/primitives';",
-      '',
-      'export class TagStatusHeadlessExample {}',
-      '',
-    ].join('\n'),
-    [
-      '<span tngTag class="tag-chip tag-tone-info">New</span>',
-      '<span tngTag class="tag-chip tag-tone-warning">Beta</span>',
-      '<span tngTag class="tag-chip tag-tone-danger">Blocked</span>',
-      '<span tngTag class="tag-chip tag-tone-success">Stable</span>',
-      '',
-    ].join('\n'),
-    '.tag-tone-info { color: var(--tng-semantic-accent-brand); }',
   );
 
   protected readonly statusPlainTabs = createCodeTabs(
@@ -191,17 +159,25 @@ export class TagExamplesPageComponent implements OnDestroy {
       "import { Component } from '@angular/core';",
       "import { TngTag } from '@tailng-ui/components';",
       '',
-      'export class TagStatusPlainCssExample {}',
-      '',
+      '@Component({',
+      "  selector: 'app-tag-examples-status-plain-css',",
+      '  standalone: true,',
+      '  imports: [TngTag],',
+      "  templateUrl: './tag-examples-status-plain-css.component.html',",
+      "  styleUrl: './tag-examples-status-plain-css.component.css',",
+      '})',
+      'export class TagExamplesStatusPlainCssComponent {}',
     ].join('\n'),
     [
-      '<tng-tag tone="info">New</tng-tag>',
-      '<tng-tag tone="warning" appearance="outline">Beta</tng-tag>',
-      '<tng-tag tone="danger">Blocked</tng-tag>',
-      '<tng-tag tone="success" appearance="solid">Stable</tng-tag>',
+      '<div class="tag-example-row">',
+      '  <tng-tag tone="info">New</tng-tag>',
+      '  <tng-tag tone="warning" appearance="outline">Beta</tng-tag>',
+      '  <tng-tag tone="danger">Blocked</tng-tag>',
+      '  <tng-tag tone="success" appearance="solid">Stable</tng-tag>',
+      '</div>',
       '',
     ].join('\n'),
-    '.status-row { display: flex; flex-wrap: wrap; gap: 0.75rem; }',
+    '.tag-example-row { display: flex; flex-wrap: wrap; gap: 0.75rem; }',
   );
 
   protected readonly statusTailwindTabs = createCodeTabs(
@@ -210,15 +186,40 @@ export class TagExamplesPageComponent implements OnDestroy {
       "import { Component } from '@angular/core';",
       "import { TngTag } from '@tailng-ui/components';",
       '',
-      'export class TagStatusTailwindExample {}',
+      "type TagTone = 'danger' | 'info' | 'neutral' | 'success' | 'warning';",
+      "type TagItem = Readonly<{ id: string; label: string; tone: TagTone }>;",
       '',
+      'const STATUSES: readonly TagItem[] = [',
+      "  { id: 'new', label: 'New', tone: 'info' },",
+      "  { id: 'beta', label: 'Beta', tone: 'warning' },",
+      "  { id: 'blocked', label: 'Blocked', tone: 'danger' },",
+      "  { id: 'stable', label: 'Stable', tone: 'success' },",
+      '];',
+      '',
+      '@Component({',
+      "  selector: 'app-tag-examples-status-tailwind',",
+      '  standalone: true,',
+      '  imports: [TngTag],',
+      "  templateUrl: './tag-examples-status-tailwind.component.html',",
+      "  styleUrl: './tag-examples-status-tailwind.component.css',",
+      '})',
+      'export class TagExamplesStatusTailwindComponent {',
+      '  protected readonly statuses = STATUSES;',
+      '',
+      '  protected appearanceFor(tone: TagTone): \'outline\' | \'soft\' | \'solid\' {',
+      "    if (tone === 'warning') return 'outline';",
+      "    if (tone === 'success') return 'solid';",
+      "    return 'soft';",
+      '  }',
+      '}',
     ].join('\n'),
     [
-      '<div class="flex flex-wrap gap-3">',
-      '  <tng-tag tone="info" class="text-slate-900 dark:text-slate-100">New</tng-tag>',
-      '  <tng-tag tone="warning" appearance="outline" class="text-slate-900 dark:text-slate-100">Beta</tng-tag>',
-      '  <tng-tag tone="danger" class="text-slate-900 dark:text-slate-100">Blocked</tng-tag>',
-      '  <tng-tag tone="success" appearance="solid" class="text-slate-900 dark:text-slate-100">Stable</tng-tag>',
+      '<div class="flex flex-col gap-3 rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-4 text-tng-fg-primary shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--tng-semantic-border-subtle)_55%,transparent)]">',
+      '  <div class="flex flex-wrap gap-3">',
+      '    @for (tag of statuses; track tag.id) {',
+      '      <tng-tag [tone]="tag.tone" [appearance]="appearanceFor(tag.tone)" class="text-tng-fg-primary">{{ tag.label }}</tng-tag>',
+      '    }',
+      '  </div>',
       '</div>',
       '',
     ].join('\n'),
@@ -230,11 +231,6 @@ export class TagExamplesPageComponent implements OnDestroy {
   }
 
   protected removeFilter(scope: ExampleVariant, tagId: string): void {
-    if (scope === 'headless') {
-      this.filterHeadless.update((tags) => tags.filter((tag) => tag.id !== tagId));
-      return;
-    }
-
     if (scope === 'plain') {
       this.filterPlain.update((tags) => tags.filter((tag) => tag.id !== tagId));
       return;
@@ -244,11 +240,6 @@ export class TagExamplesPageComponent implements OnDestroy {
   }
 
   protected resetFilters(scope: ExampleVariant): void {
-    if (scope === 'headless') {
-      this.filterHeadless.set(FILTER_DEFAULTS);
-      return;
-    }
-
     if (scope === 'plain') {
       this.filterPlain.set(FILTER_DEFAULTS);
       return;
@@ -257,18 +248,5 @@ export class TagExamplesPageComponent implements OnDestroy {
     this.filterTailwind.set(FILTER_DEFAULTS);
   }
 
-  protected resetStatuses(scope: ExampleVariant): void {
-    if (scope === 'headless') {
-      this.statusHeadless.set(STATUS_DEFAULTS);
-      return;
-    }
-
-    if (scope === 'plain') {
-      this.statusPlain.set(STATUS_DEFAULTS);
-      return;
-    }
-
-    this.statusTailwind.set(STATUS_DEFAULTS);
-  }
-
+  protected readonly statuses = STATUS_DEFAULTS;
 }

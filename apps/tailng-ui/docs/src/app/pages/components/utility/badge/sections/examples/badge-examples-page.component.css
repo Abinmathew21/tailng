@@ -129,8 +129,18 @@
 }
 
 .badge-input-row input[type='range'] {
+  accent-color: var(--tng-semantic-accent-brand);
   flex: 1;
   max-width: 15rem;
+}
+
+.badge-input-row input[type='checkbox'] {
+  accent-color: var(--tng-semantic-accent-brand);
+}
+
+.badge-tailwind-runtime-fields input[type='checkbox'],
+.badge-tailwind-runtime-fields input[type='range'] {
+  accent-color: var(--tng-semantic-accent-brand);
 }
 
 .badge-example-status {

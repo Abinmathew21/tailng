@@ -11,14 +11,13 @@ import {
 import { TngTab, TngTabList } from '@tailng-ui/primitives';
 import { filter, map, startWith } from 'rxjs/operators';
 
-type ButtonDocSectionId = 'api' | 'examples' | 'overview' | 'ownable-install' | 'styling';
+type ButtonDocSectionId = 'api' | 'examples' | 'overview' | 'styling';
 
 const buttonDocSectionIds: readonly ButtonDocSectionId[] = [
   'overview',
   'api',
   'styling',
   'examples',
-  'ownable-install',
 ] as const;
 
 const defaultButtonDocSection: ButtonDocSectionId = 'overview';

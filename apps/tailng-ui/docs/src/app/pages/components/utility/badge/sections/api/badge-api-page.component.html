@@ -1,11 +1,21 @@
 <article class="badge-api">
   <h2 class="badge-api-title">API reference</h2>
   <p class="badge-api-lead">
-    <code>tngBadge</code> is an attribute directive that renders an anchored badge bubble inside
-    the host element. It supports counts, status dots, placement, size, tone, and variant hooks.
+    The components package re-exports <code>tngBadge</code> with the same generated badge-node
+    behavior, so the API surface is the same directive contract available from
+    <code>@tailng-ui/components</code>.
   </p>
 
-  <section class="badge-api-block">
+  <section id="component-package-export" class="badge-api-block">
+    <h3>Component package export</h3>
+    <p>
+      Import <code>TngBadge</code> from <code>@tailng-ui/components</code> when you want to stay
+      on the components surface. It keeps the same <code>[tngBadge]</code> selector and does not
+      add extra wrapper DOM around your host.
+    </p>
+  </section>
+
+  <section id="directive-inputs" class="badge-api-block">
     <h3>Directive inputs</h3>
     <div class="badge-api-table-wrap">
       <table class="badge-api-table">
@@ -101,15 +111,15 @@
     </div>
   </section>
 
-  <section class="badge-api-block">
-    <h3>Outputs and methods</h3>
+  <section id="primitive-foundation" class="badge-api-block">
+    <h3>Primitive foundation</h3>
     <p>
-      <code>tngBadge</code> does not emit custom outputs and does not expose imperative methods.
-      Badge rendering updates reactively from bound inputs.
+      The components export extends the headless Badge primitive. There are no extra outputs or
+      imperative methods, and rendering still updates reactively from the bound inputs.
     </p>
     <p>
-      The directive is exported as <code>tngBadge</code> and applies host hooks including
-      <code>class="tng-badge-host"</code> and <code>data-tng-badge-host</code>.
+      Use the dedicated headless Badge page when you want the primitive-only import surface or when
+      you are documenting lower-level host ownership patterns.
     </p>
   </section>
 </article>

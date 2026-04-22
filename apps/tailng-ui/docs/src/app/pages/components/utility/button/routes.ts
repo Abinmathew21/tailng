@@ -51,17 +51,9 @@ export const COMPONENTS_UTILITY_BUTTON_ROUTES: Routes = [
         path: 'ownable-install',
         data: {
           registrySlug: 'button',
-          usageCode: [
-            '<tng-button tone="primary" appearance="solid" (click)="onSubmit()">',
-            '  Save changes',
-            '</tng-button>',
-            '',
-          ].join('\n'),
         },
-        loadComponent: () =>
-          import('../../../../shared/ownable-install-section/docs-ownable-install-section.component').then(
-            (module) => module.DocsOwnableInstallSectionComponent,
-          ),
+        pathMatch: 'full',
+        redirectTo: '/ownable/utility/button',
       },
       {
         path: '**',

@@ -1,0 +1,79 @@
+<article class="headless-avatar-api">
+  <h2 class="headless-avatar-api-title">API reference</h2>
+  <p class="headless-avatar-api-lead">
+    The headless Avatar primitive is intentionally small. It gives you stable slot markers and
+    nothing more: no inputs, no outputs, and no built-in fallback behavior.
+  </p>
+
+  <section id="directives" class="headless-avatar-api-block">
+    <h3>Directives</h3>
+    <p>
+      Use the host directive on any wrapper element, the image directive on an <code>img</code>,
+      and the fallback directive on any element that should appear when the image is unavailable.
+    </p>
+    <tng-code-block
+      [code]="selectorCode"
+      adapter="shiki"
+      language="html"
+      title="Supported selectors"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="slot-contract" class="headless-avatar-api-block">
+    <h3>Slot contract</h3>
+    <div class="headless-avatar-api-table-wrap">
+      <table class="headless-avatar-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Directive</th>
+            <th scope="col">Selector</th>
+            <th scope="col">Reflected hook</th>
+            <th scope="col">Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>TngAvatar</code></td>
+            <td><code>[tngAvatar]</code></td>
+            <td><code>data-slot="avatar"</code></td>
+            <td>Avatar frame or host element.</td>
+          </tr>
+          <tr>
+            <td><code>TngAvatarImage</code></td>
+            <td><code>img[tngAvatarImage]</code></td>
+            <td><code>data-slot="avatar-image"</code></td>
+            <td>Image node for the visual source.</td>
+          </tr>
+          <tr>
+            <td><code>TngAvatarFallback</code></td>
+            <td><code>[tngAvatarFallback]</code></td>
+            <td><code>data-slot="avatar-fallback"</code></td>
+            <td>Fallback initials, icon, or decorative surface.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="owner-responsibilities" class="headless-avatar-api-block">
+    <h3>Owner responsibilities</h3>
+    <p>
+      You decide when fallback is visible, what alt text is used, and how the avatar is sized or
+      shaped. The primitive does not manage image-error state, hidden toggling, or initials.
+    </p>
+    <tng-code-block
+      [code]="ownerCode"
+      adapter="shiki"
+      language="ts"
+      title="Manual fallback state"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+</article>

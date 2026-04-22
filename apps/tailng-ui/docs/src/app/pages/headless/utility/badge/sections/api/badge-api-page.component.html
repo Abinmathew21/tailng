@@ -1,0 +1,114 @@
+<article class="badge-api">
+  <h2 class="badge-api-title">API reference</h2>
+  <p class="badge-api-lead">
+    Headless Badge is a directive-only primitive. It attaches to your chosen host and generates a
+    badge bubble element inside that host at runtime.
+  </p>
+
+  <section id="directive-selector" class="badge-api-block">
+    <h3>Directive selector</h3>
+    <p>
+      The primitive uses the attribute selector <code>[tngBadge]</code>, so you can apply it to
+      buttons, links, icons, tabs, or any other positioned host.
+    </p>
+    <tng-code-block
+      [code]="selectorCode"
+      adapter="shiki"
+      language="html"
+      title="Badge host"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="inputs-and-generated-node" class="badge-api-block">
+    <h3>Inputs and generated node</h3>
+    <div class="badge-api-table-wrap">
+      <table class="badge-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Input</th>
+            <th scope="col">Type</th>
+            <th scope="col">Default</th>
+            <th scope="col">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>tngBadge</code></td>
+            <td><code>number | string | null | undefined</code></td>
+            <td><code>null</code></td>
+            <td>Primary count or text content.</td>
+          </tr>
+          <tr>
+            <td><code>tngBadgeDot</code></td>
+            <td><code>boolean</code></td>
+            <td><code>false</code></td>
+            <td>Dot mode suppresses text content.</td>
+          </tr>
+          <tr>
+            <td><code>tngBadgeMax</code></td>
+            <td><code>number</code></td>
+            <td><code>99</code></td>
+            <td>Numeric values above max render as <code>99+</code>.</td>
+          </tr>
+          <tr>
+            <td><code>tngBadgeHidden</code></td>
+            <td><code>boolean</code></td>
+            <td><code>false</code></td>
+            <td>Removes the generated badge node while true.</td>
+          </tr>
+          <tr>
+            <td><code>tngBadgePosition</code></td>
+            <td><code>'top-end' | 'top-start' | 'bottom-end' | 'bottom-start'</code></td>
+            <td><code>'top-end'</code></td>
+            <td>Placement corner used for badge anchoring.</td>
+          </tr>
+          <tr>
+            <td><code>tngBadgeSize</code>, <code>tngBadgeTone</code>, <code>tngBadgeVariant</code></td>
+            <td><code>string</code> unions</td>
+            <td><code>'md'</code>, <code>'danger'</code>, <code>'solid'</code></td>
+            <td>Reflected as stable data attributes on the generated badge node.</td>
+          </tr>
+          <tr>
+            <td><code>tngBadgeOffsetX</code>, <code>tngBadgeOffsetY</code></td>
+            <td><code>number | string | null | undefined</code></td>
+            <td><code>null</code></td>
+            <td>Extra offset merged into the runtime transform.</td>
+          </tr>
+          <tr>
+            <td><code>tngBadgeClass</code>, <code>tngBadgeStyle</code></td>
+            <td><code>string</code>, <code>Record&lt;string, string | number&gt;</code></td>
+            <td><code>null</code></td>
+            <td>Applied directly to the generated bubble element.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p>
+      The generated node is a <code>span.tng-badge</code> with
+      <code>aria-hidden="true"</code>, so the host should carry the meaningful accessible label.
+    </p>
+  </section>
+
+  <section id="runtime-positioning" class="badge-api-block">
+    <h3>Runtime positioning</h3>
+    <p>
+      The primitive tracks host and badge size with <code>ResizeObserver</code> when available,
+      falling back to window resize. It also writes runtime metrics as CSS custom properties on the
+      generated badge element.
+    </p>
+    <tng-code-block
+      [code]="runtimeCode"
+      adapter="shiki"
+      language="css"
+      title="Runtime CSS vars"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+</article>

@@ -1,0 +1,223 @@
+<article class="tabs-doc">
+  <h2 class="tabs-doc__title">Examples</h2>
+  <p class="tabs-doc__lead">
+    Common tabs patterns rendered through the components wrapper while the tab parts stay explicit.
+  </p>
+
+  <app-docs-example-tabs-section
+    id="controlled-value"
+    class="tabs-doc__block"
+    heading="Controlled value"
+    description="Bind the selected tab to app state when other UI depends on the active section."
+    ariaLabel="Controlled tabs variants"
+    tabListAriaLabel="Controlled tabs style tabs"
+    defaultValue="plain-css"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+      panelTitle="Controlled tabs (Plain CSS)"
+      [codeTabs]="controlledPlainCodeTabs"
+    >
+      <div class="tabs-demo-shell">
+        <tng-tabs
+          ariaLabel="Workspace sections"
+          [value]="currentValue('plain')"
+          (valueChange)="onValueChange('plain', $event)"
+        >
+          <div tngTabList class="tabs-list" ariaLabel="Workspace sections">
+            <button type="button" tngTab value="overview" class="tabs-trigger">Overview</button>
+            <button type="button" tngTab value="activity" class="tabs-trigger">Activity</button>
+            <button type="button" tngTab value="settings" class="tabs-trigger">Settings</button>
+          </div>
+
+          <section tngTabPanel value="overview" class="tabs-panel">Overview metrics and project summary.</section>
+          <section tngTabPanel value="activity" class="tabs-panel">Activity stream and recent updates.</section>
+          <section tngTabPanel value="settings" class="tabs-panel">Settings form and integration toggles.</section>
+        </tng-tabs>
+        <p class="tabs-doc__status">Current value: {{ currentValue('plain') }}</p>
+      </div>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Controlled tabs (Tailwind CSS)"
+      [codeTabs]="controlledTailwindCodeTabs"
+    >
+      <div
+        class="flex flex-col gap-3 rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-4 text-tng-fg-primary shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--tng-semantic-border-subtle)_55%,transparent)]"
+      >
+        <tng-tabs
+          ariaLabel="Workspace sections"
+          [value]="currentValue('tailwind')"
+          (valueChange)="onValueChange('tailwind', $event)"
+          class="grid gap-3"
+        >
+          <div
+            tngTabList
+            class="flex flex-wrap gap-2 border-b border-tng-border-subtle pb-3"
+            ariaLabel="Workspace sections"
+          >
+            <button
+              type="button"
+              tngTab
+              value="overview"
+              class="rounded-lg border border-transparent px-3 py-2 text-sm font-semibold text-tng-fg-secondary transition data-[selected=true]:border-[var(--tng-semantic-border-default)] data-[selected=true]:bg-tng-bg-base data-[selected=true]:text-tng-fg-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color-mix(in_srgb,var(--tng-semantic-focus-ring)_40%,transparent)] focus-visible:ring-offset-2 focus-visible:ring-offset-tng-bg-surface"
+            >
+              Overview
+            </button>
+            <button
+              type="button"
+              tngTab
+              value="activity"
+              class="rounded-lg border border-transparent px-3 py-2 text-sm font-semibold text-tng-fg-secondary transition data-[selected=true]:border-[var(--tng-semantic-border-default)] data-[selected=true]:bg-tng-bg-base data-[selected=true]:text-tng-fg-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color-mix(in_srgb,var(--tng-semantic-focus-ring)_40%,transparent)] focus-visible:ring-offset-2 focus-visible:ring-offset-tng-bg-surface"
+            >
+              Activity
+            </button>
+            <button
+              type="button"
+              tngTab
+              value="settings"
+              class="rounded-lg border border-transparent px-3 py-2 text-sm font-semibold text-tng-fg-secondary transition data-[selected=true]:border-[var(--tng-semantic-border-default)] data-[selected=true]:bg-tng-bg-base data-[selected=true]:text-tng-fg-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color-mix(in_srgb,var(--tng-semantic-focus-ring)_40%,transparent)] focus-visible:ring-offset-2 focus-visible:ring-offset-tng-bg-surface"
+            >
+              Settings
+            </button>
+          </div>
+
+          <section
+            tngTabPanel
+            value="overview"
+            class="rounded-xl border border-tng-border-subtle bg-tng-bg-base p-4 text-sm text-tng-fg-secondary shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--tng-semantic-border-subtle)_40%,transparent)]"
+          >
+            Overview metrics and project summary.
+          </section>
+          <section
+            tngTabPanel
+            value="activity"
+            class="rounded-xl border border-tng-border-subtle bg-tng-bg-base p-4 text-sm text-tng-fg-secondary shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--tng-semantic-border-subtle)_40%,transparent)]"
+          >
+            Activity stream and recent updates.
+          </section>
+          <section
+            tngTabPanel
+            value="settings"
+            class="rounded-xl border border-tng-border-subtle bg-tng-bg-base p-4 text-sm text-tng-fg-secondary shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--tng-semantic-border-subtle)_40%,transparent)]"
+          >
+            Settings form and integration toggles.
+          </section>
+        </tng-tabs>
+        <p class="m-0 text-sm text-tng-fg-secondary">Current value: {{ currentValue('tailwind') }}</p>
+      </div>
+    </ng-template>
+  </app-docs-example-tabs-section>
+
+  <app-docs-example-tabs-section
+    id="vertical-layout"
+    class="tabs-doc__block"
+    heading="Vertical layout"
+    description="Switch to vertical orientation when tabs behave more like a side navigation rail."
+    ariaLabel="Vertical tabs variants"
+    tabListAriaLabel="Vertical tabs style tabs"
+    defaultValue="plain-css"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+      panelTitle="Vertical tabs (Plain CSS)"
+      [codeTabs]="verticalPlainCodeTabs"
+    >
+      <div class="tabs-demo-shell">
+        <tng-tabs ariaLabel="Settings categories" orientation="vertical" activation="manual" defaultValue="account">
+          <div tngTabList class="tabs-list tabs-list--vertical" ariaLabel="Settings categories">
+            <button type="button" tngTab value="account" class="tabs-trigger">Account</button>
+            <button type="button" tngTab value="team" class="tabs-trigger">Team</button>
+            <button type="button" tngTab value="security" class="tabs-trigger">Security</button>
+          </div>
+
+          <section tngTabPanel value="account" class="tabs-panel">Account preferences and profile details.</section>
+          <section tngTabPanel value="team" class="tabs-panel">Team roles, invites, and shared settings.</section>
+          <section tngTabPanel value="security" class="tabs-panel">Security policies and session controls.</section>
+        </tng-tabs>
+      </div>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Vertical tabs (Tailwind CSS)"
+      [codeTabs]="verticalTailwindCodeTabs"
+    >
+      <div
+        class="flex flex-col gap-3 rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-4 text-tng-fg-primary shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--tng-semantic-border-subtle)_55%,transparent)]"
+      >
+        <tng-tabs
+          ariaLabel="Settings categories"
+          orientation="vertical"
+          activation="manual"
+          defaultValue="account"
+          class="grid gap-4 md:grid-cols-[13rem_minmax(0,1fr)]"
+        >
+          <div
+            tngTabList
+            class="flex flex-col gap-2 md:border-r md:border-tng-border-subtle md:pr-4"
+            ariaLabel="Settings categories"
+          >
+            <button
+              type="button"
+              tngTab
+              value="account"
+              class="rounded-lg border border-transparent px-3 py-2 text-left text-sm font-semibold text-tng-fg-secondary transition data-[selected=true]:border-[var(--tng-semantic-border-default)] data-[selected=true]:bg-tng-bg-base data-[selected=true]:text-tng-fg-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color-mix(in_srgb,var(--tng-semantic-focus-ring)_40%,transparent)] focus-visible:ring-offset-2 focus-visible:ring-offset-tng-bg-surface"
+            >
+              Account
+            </button>
+            <button
+              type="button"
+              tngTab
+              value="team"
+              class="rounded-lg border border-transparent px-3 py-2 text-left text-sm font-semibold text-tng-fg-secondary transition data-[selected=true]:border-[var(--tng-semantic-border-default)] data-[selected=true]:bg-tng-bg-base data-[selected=true]:text-tng-fg-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color-mix(in_srgb,var(--tng-semantic-focus-ring)_40%,transparent)] focus-visible:ring-offset-2 focus-visible:ring-offset-tng-bg-surface"
+            >
+              Team
+            </button>
+            <button
+              type="button"
+              tngTab
+              value="security"
+              class="rounded-lg border border-transparent px-3 py-2 text-left text-sm font-semibold text-tng-fg-secondary transition data-[selected=true]:border-[var(--tng-semantic-border-default)] data-[selected=true]:bg-tng-bg-base data-[selected=true]:text-tng-fg-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color-mix(in_srgb,var(--tng-semantic-focus-ring)_40%,transparent)] focus-visible:ring-offset-2 focus-visible:ring-offset-tng-bg-surface"
+            >
+              Security
+            </button>
+          </div>
+
+          <section
+            tngTabPanel
+            value="account"
+            class="rounded-xl border border-tng-border-subtle bg-tng-bg-base p-4 text-sm text-tng-fg-secondary shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--tng-semantic-border-subtle)_40%,transparent)]"
+          >
+            Account preferences and profile details.
+          </section>
+          <section
+            tngTabPanel
+            value="team"
+            class="rounded-xl border border-tng-border-subtle bg-tng-bg-base p-4 text-sm text-tng-fg-secondary shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--tng-semantic-border-subtle)_40%,transparent)]"
+          >
+            Team roles, invites, and shared settings.
+          </section>
+          <section
+            tngTabPanel
+            value="security"
+            class="rounded-xl border border-tng-border-subtle bg-tng-bg-base p-4 text-sm text-tng-fg-secondary shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--tng-semantic-border-subtle)_40%,transparent)]"
+          >
+            Security policies and session controls.
+          </section>
+        </tng-tabs>
+      </div>
+    </ng-template>
+  </app-docs-example-tabs-section>
+</article>

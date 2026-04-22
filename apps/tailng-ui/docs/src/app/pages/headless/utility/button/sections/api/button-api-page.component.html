@@ -1,0 +1,86 @@
+<article class="headless-button-api">
+  <h2 class="headless-button-api-title">API reference</h2>
+  <p class="headless-button-api-lead">
+    <code>tngPress</code> is a host-normalization directive for button-like interaction. It does
+    not own state or emit custom events; it just makes the host behave like a proper press target.
+  </p>
+
+  <section id="directive-selector" class="headless-button-api-block">
+    <h3>Directive selector</h3>
+    <p>
+      The primitive attaches only to <code>button[tngPress]</code> and <code>a[tngPress]</code>.
+      That keeps the semantics tight and avoids pretending arbitrary elements are buttons.
+    </p>
+    <tng-code-block
+      [code]="selectorCode"
+      adapter="shiki"
+      language="html"
+      title="Supported hosts"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="inputs-and-attrs" class="headless-button-api-block">
+    <h3>Inputs and attrs</h3>
+    <div class="headless-button-api-table-wrap">
+      <table class="headless-button-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Input</th>
+            <th scope="col">Type</th>
+            <th scope="col">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>type</code></td>
+            <td><code>'button' | 'submit' | 'reset'</code></td>
+            <td>Applied only when the host is a native button element.</td>
+          </tr>
+          <tr>
+            <td><code>disabled</code></td>
+            <td><code>boolean</code></td>
+            <td>Blocks click and keyboard activation and reflects disabled host attrs.</td>
+          </tr>
+          <tr>
+            <td><code>ariaPressed</code>, <code>ariaExpanded</code></td>
+            <td><code>boolean | null</code></td>
+            <td>Nullable coercion to ARIA boolean attributes.</td>
+          </tr>
+          <tr>
+            <td><code>ariaHasPopup</code></td>
+            <td><code>'menu' | 'dialog' | 'listbox' | 'grid' | 'tree' | 'true' | 'false'</code></td>
+            <td>Normalized allowed popup values only.</td>
+          </tr>
+          <tr>
+            <td><code>ariaControls</code></td>
+            <td><code>string | null</code></td>
+            <td>Trimmed to <code>null</code> when empty or whitespace.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="host-normalization" class="headless-button-api-block">
+    <h3>Host normalization</h3>
+    <p>
+      On anchors without <code>href</code>, the primitive adds <code>role="button"</code>,
+      normalizes Enter and Space activation, and manages <code>tabindex</code> based on disabled
+      state. On native buttons, it forwards <code>type</code> and <code>disabled</code>.
+    </p>
+    <tng-code-block
+      [code]="normalizationCode"
+      adapter="shiki"
+      language="html"
+      title="Disclosure anchor"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+</article>

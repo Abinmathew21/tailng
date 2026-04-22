@@ -11,14 +11,13 @@ import {
 import { TngTab, TngTabList } from '@tailng-ui/primitives';
 import { filter, map, startWith } from 'rxjs/operators';
 
-type AvatarDocSectionId = 'api' | 'examples' | 'overview' | 'ownable-install' | 'styling';
+type AvatarDocSectionId = 'api' | 'examples' | 'overview' | 'styling';
 
 const avatarDocSectionIds: readonly AvatarDocSectionId[] = [
   'overview',
   'api',
   'styling',
   'examples',
-  'ownable-install',
 ] as const;
 
 const defaultAvatarDocSection: AvatarDocSectionId = 'overview';

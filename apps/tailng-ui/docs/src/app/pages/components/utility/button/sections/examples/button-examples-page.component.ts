@@ -1,21 +1,19 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, inject, signal, type OnDestroy } from '@angular/core';
-import { observeDocsCodeThemeChanges, resolveDocsCodeBlockTheme } from '../../../../../../shared/util';
 import { TngButtonComponent } from '@tailng-ui/components';
 import { TngIcon } from '@tailng-ui/icons';
-import { TngPress } from '@tailng-ui/primitives';
 import { type DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
 import {
   DocsExampleTabsSectionComponent,
   DocsExampleVariantDirective,
 } from '../../../../../../shared/example-tabs-section/docs-example-tabs-section.component';
+import { observeDocsCodeThemeChanges, resolveDocsCodeBlockTheme } from '../../../../../../shared/util';
 
 @Component({
   selector: 'app-button-examples-page',
   imports: [
     TngButtonComponent,
     TngIcon,
-    TngPress,
     DocsExampleTabsSectionComponent,
     DocsExampleVariantDirective,
   ],
@@ -24,89 +22,57 @@ import {
 })
 export class ButtonExamplesPageComponent implements OnDestroy {
   private readonly documentRef = inject(DOCUMENT);
-
   public readonly codeBlockTheme = signal<'github-dark' | 'github-light'>(
     resolveDocsCodeBlockTheme(this.documentRef),
   );
-  private readonly colorSchemeObserver = observeDocsCodeThemeChanges(this.documentRef, this.codeBlockTheme);
+  private readonly colorSchemeObserver = observeDocsCodeThemeChanges(
+    this.documentRef,
+    this.codeBlockTheme,
+  );
 
-  protected readonly headlessActionCount = signal(0);
-  protected readonly plainActionCount = signal(0);
-  protected readonly tailwindActionCount = signal(0);
-
-  protected readonly headlessMenuOpen = signal(false);
-  protected readonly plainMenuOpen = signal(false);
-  protected readonly tailwindMenuOpen = signal(false);
-
-  protected readonly actionHeadlessTabs: readonly DocsExampleCodeTab[] = Object.freeze([
-    {
-      value: 'ts',
-      label: 'TS',
-      language: 'ts',
-      title: 'button-examples-actions-headless.component.ts',
-      code: [
-        "import { Component, signal } from '@angular/core';",
-        "import { TngPress } from '@tailng-ui/primitives';",
-        '',
-        'export class ButtonActionsHeadlessComponent {',
-        '  protected readonly count = signal(0);',
-        '}',
-        '',
-      ].join('\n'),
-    },
-    {
-      value: 'html',
-      label: 'HTML',
-      language: 'html',
-      title: 'button-examples-actions-headless.component.html',
-      code: [
-        '<div class="button-example-row">',
-        '  <button tngPress type="button" class="button-headless" (click)="count.update(v => v + 1)">',
-        '    Save draft',
-        '  </button>',
-        '  <button tngPress type="button" class="button-headless button-headless--ghost">Cancel</button>',
-        '</div>',
-        '',
-      ].join('\n'),
-    },
-    {
-      value: 'css',
-      label: 'CSS',
-      language: 'css',
-      title: 'button-examples-actions-headless.component.css',
-      code: [
-        '.button-example-row { display: flex; flex-wrap: wrap; gap: 0.75rem; }',
-        '',
-      ].join('\n'),
-    },
-  ]);
+  protected readonly actionCount = signal<Record<'plain' | 'tailwind', number>>({
+    plain: 0,
+    tailwind: 0,
+  });
+  protected readonly menuOpen = signal<Record<'plain' | 'tailwind', boolean>>({
+    plain: false,
+    tailwind: false,
+  });
 
   protected readonly actionPlainTabs: readonly DocsExampleCodeTab[] = Object.freeze([
     {
       value: 'ts',
       label: 'TS',
       language: 'ts',
-      title: 'button-examples-actions-plain.component.ts',
+      title: 'button-examples-action-row-plain-css.component.ts',
       code: [
         "import { Component, signal } from '@angular/core';",
         "import { TngButtonComponent } from '@tailng-ui/components';",
         '',
-        'export class ButtonActionsPlainComponent {',
+        '@Component({',
+        "  selector: 'app-button-examples-action-row-plain-css',",
+        '  standalone: true,',
+        '  imports: [TngButtonComponent],',
+        "  templateUrl: './button-examples-action-row-plain-css.component.html',",
+        "  styleUrl: './button-examples-action-row-plain-css.component.css',",
+        '})',
+        'export class ButtonExamplesActionRowPlainCssComponent {',
         '  protected readonly count = signal(0);',
         '}',
-        '',
       ].join('\n'),
     },
     {
       value: 'html',
       label: 'HTML',
       language: 'html',
-      title: 'button-examples-actions-plain.component.html',
+      title: 'button-examples-action-row-plain-css.component.html',
       code: [
-        '<div class="button-example-row">',
-        '  <tng-button tone="primary" appearance="solid" (click)="count.update(v => v + 1)">Save draft</tng-button>',
-        '  <tng-button tone="neutral" appearance="outline">Cancel</tng-button>',
-        '  <tng-button tone="danger" appearance="ghost" [disabled]="true">Delete</tng-button>',
+        '<div class="button-example-row button-example-row--plain">',
+        '  <tng-button tone="primary" appearance="solid" type="button" (click)="count.update((value) => value + 1)">',
+        '    Save draft',
+        '  </tng-button>',
+        '  <tng-button tone="neutral" appearance="outline" type="button">Cancel</tng-button>',
+        '  <tng-button tone="danger" appearance="ghost" type="button" [disabled]="true">Delete</tng-button>',
         '</div>',
         '',
       ].join('\n'),
@@ -115,9 +81,9 @@ export class ButtonExamplesPageComponent implements OnDestroy {
       value: 'css',
       label: 'CSS',
       language: 'css',
-      title: 'button-examples-actions-plain.component.css',
+      title: 'button-examples-action-row-plain-css.component.css',
       code: [
-        '.button-example-row {',
+        '.button-example-row--plain {',
         '  display: flex;',
         '  flex-wrap: wrap;',
         '  gap: 0.75rem;',
@@ -132,30 +98,39 @@ export class ButtonExamplesPageComponent implements OnDestroy {
       value: 'ts',
       label: 'TS',
       language: 'ts',
-      title: 'button-examples-actions-tailwind.component.ts',
+      title: 'button-examples-action-row-tailwind.component.ts',
       code: [
         "import { Component, signal } from '@angular/core';",
         "import { TngButtonComponent } from '@tailng-ui/components';",
         "import { TngIcon } from '@tailng-ui/icons';",
         '',
-        'export class ButtonActionsTailwindComponent {',
+        '@Component({',
+        "  selector: 'app-button-examples-action-row-tailwind',",
+        '  standalone: true,',
+        '  imports: [TngButtonComponent, TngIcon],',
+        "  templateUrl: './button-examples-action-row-tailwind.component.html',",
+        "  styleUrl: './button-examples-action-row-tailwind.component.css',",
+        '})',
+        'export class ButtonExamplesActionRowTailwindComponent {',
         '  protected readonly count = signal(0);',
         '}',
-        '',
       ].join('\n'),
     },
     {
       value: 'html',
       label: 'HTML',
       language: 'html',
-      title: 'button-examples-actions-tailwind.component.html',
+      title: 'button-examples-action-row-tailwind.component.html',
       code: [
-        '<div class="flex flex-wrap gap-3 rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">',
-        '  <tng-button tone="success" appearance="solid" (click)="count.update(v => v + 1)">',
-        '    <tng-icon icon="check" class="h-4 w-4"></tng-icon>',
-        '    Publish',
-        '  </tng-button>',
-        '  <tng-button tone="neutral" appearance="outline">Preview</tng-button>',
+        '<div class="rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4">',
+        '  <div class="flex flex-wrap gap-3">',
+        '    <tng-button tone="success" appearance="solid" type="button" (click)="count.update((value) => value + 1)">',
+        '      <tng-icon icon="check" class="h-4 w-4"></tng-icon>',
+        '      Publish',
+        '    </tng-button>',
+        '    <tng-button tone="neutral" appearance="outline" type="button">Preview</tng-button>',
+        '  </div>',
+        '  <p class="mt-3 text-sm text-[var(--tng-semantic-foreground-secondary)]">clicked: {{ count() }}</p>',
         '</div>',
         '',
       ].join('\n'),
@@ -164,61 +139,8 @@ export class ButtonExamplesPageComponent implements OnDestroy {
       value: 'css',
       label: 'CSS',
       language: 'css',
-      title: 'button-examples-actions-tailwind.component.css',
+      title: 'button-examples-action-row-tailwind.component.css',
       code: '/* Tailwind utilities are applied directly in the template. */',
-    },
-  ]);
-
-  protected readonly menuHeadlessTabs: readonly DocsExampleCodeTab[] = Object.freeze([
-    {
-      value: 'ts',
-      label: 'TS',
-      language: 'ts',
-      title: 'button-examples-menu-headless.component.ts',
-      code: [
-        "import { Component, signal } from '@angular/core';",
-        "import { TngPress } from '@tailng-ui/primitives';",
-        '',
-        'export class ButtonMenuHeadlessComponent {',
-        '  protected readonly open = signal(false);',
-        '}',
-        '',
-      ].join('\n'),
-    },
-    {
-      value: 'html',
-      label: 'HTML',
-      language: 'html',
-      title: 'button-examples-menu-headless.component.html',
-      code: [
-        '<button',
-        '  tngPress',
-        '  type="button"',
-        '  [ariaHasPopup]="\'menu\'"',
-        '  [ariaExpanded]="open()"',
-        '  [ariaControls]="\'headless-menu\'"',
-        '  (click)="open.set(!open())"',
-        '>',
-        '  Open menu',
-        '</button>',
-        '<div id="headless-menu" [hidden]="!open()">Menu content</div>',
-        '',
-      ].join('\n'),
-    },
-    {
-      value: 'css',
-      label: 'CSS',
-      language: 'css',
-      title: 'button-examples-menu-headless.component.css',
-      code: [
-        '.button-menu-surface {',
-        '  border: 1px solid var(--tng-semantic-border-subtle);',
-        '  border-radius: 0.75rem;',
-        '  margin-top: 0.6rem;',
-        '  padding: 0.6rem 0.75rem;',
-        '}',
-        '',
-      ].join('\n'),
     },
   ]);
 
@@ -227,34 +149,41 @@ export class ButtonExamplesPageComponent implements OnDestroy {
       value: 'ts',
       label: 'TS',
       language: 'ts',
-      title: 'button-examples-menu-plain.component.ts',
+      title: 'button-examples-menu-trigger-plain-css.component.ts',
       code: [
         "import { Component, signal } from '@angular/core';",
         "import { TngButtonComponent } from '@tailng-ui/components';",
         '',
-        'export class ButtonMenuPlainComponent {',
+        '@Component({',
+        "  selector: 'app-button-examples-menu-trigger-plain-css',",
+        '  standalone: true,',
+        '  imports: [TngButtonComponent],',
+        "  templateUrl: './button-examples-menu-trigger-plain-css.component.html',",
+        "  styleUrl: './button-examples-menu-trigger-plain-css.component.css',",
+        '})',
+        'export class ButtonExamplesMenuTriggerPlainCssComponent {',
         '  protected readonly open = signal(false);',
         '}',
-        '',
       ].join('\n'),
     },
     {
       value: 'html',
       label: 'HTML',
       language: 'html',
-      title: 'button-examples-menu-plain.component.html',
+      title: 'button-examples-menu-trigger-plain-css.component.html',
       code: [
         '<tng-button',
         '  tone="neutral"',
         '  appearance="outline"',
+        '  type="button"',
         '  [ariaHasPopup]="\'menu\'"',
         '  [ariaExpanded]="open()"',
-        '  [ariaControls]="\'plain-menu\'"',
+        '  [ariaControls]="\'plain-button-menu\'"',
         '  (click)="open.set(!open())"',
         '>',
         '  Actions',
         '</tng-button>',
-        '<div id="plain-menu" [hidden]="!open()">Menu content</div>',
+        '<div id="plain-button-menu" class="button-menu-surface" [hidden]="!open()">Menu content</div>',
         '',
       ].join('\n'),
     },
@@ -262,7 +191,7 @@ export class ButtonExamplesPageComponent implements OnDestroy {
       value: 'css',
       label: 'CSS',
       language: 'css',
-      title: 'button-examples-menu-plain.component.css',
+      title: 'button-examples-menu-trigger-plain-css.component.css',
       code: [
         '.button-menu-surface {',
         '  border: 1px solid var(--tng-semantic-border-subtle);',
@@ -280,35 +209,48 @@ export class ButtonExamplesPageComponent implements OnDestroy {
       value: 'ts',
       label: 'TS',
       language: 'ts',
-      title: 'button-examples-menu-tailwind.component.ts',
+      title: 'button-examples-menu-trigger-tailwind.component.ts',
       code: [
         "import { Component, signal } from '@angular/core';",
         "import { TngButtonComponent } from '@tailng-ui/components';",
         '',
-        'export class ButtonMenuTailwindComponent {',
+        '@Component({',
+        "  selector: 'app-button-examples-menu-trigger-tailwind',",
+        '  standalone: true,',
+        '  imports: [TngButtonComponent],',
+        "  templateUrl: './button-examples-menu-trigger-tailwind.component.html',",
+        "  styleUrl: './button-examples-menu-trigger-tailwind.component.css',",
+        '})',
+        'export class ButtonExamplesMenuTriggerTailwindComponent {',
         '  protected readonly open = signal(false);',
         '}',
-        '',
       ].join('\n'),
     },
     {
       value: 'html',
       label: 'HTML',
       language: 'html',
-      title: 'button-examples-menu-tailwind.component.html',
+      title: 'button-examples-menu-trigger-tailwind.component.html',
       code: [
-        '<div class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">',
+        '<div class="rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4">',
         '  <tng-button',
         '    tone="neutral"',
         '    appearance="ghost"',
+        '    type="button"',
         '    [ariaHasPopup]="\'menu\'"',
         '    [ariaExpanded]="open()"',
-        '    [ariaControls]="\'tw-menu\'"',
+        '    [ariaControls]="\'tailwind-button-menu\'"',
         '    (click)="open.set(!open())"',
         '  >',
         '    Open menu',
         '  </tng-button>',
-        '  <div id="tw-menu" [hidden]="!open()">Menu content</div>',
+        '  <div',
+        '    id="tailwind-button-menu"',
+        '    class="mt-3 rounded-xl border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-base)] p-3 text-sm text-[var(--tng-semantic-foreground-primary)]"',
+        '    [hidden]="!open()"',
+        '  >',
+        '    Menu content',
+        '  </div>',
         '</div>',
         '',
       ].join('\n'),
@@ -317,7 +259,7 @@ export class ButtonExamplesPageComponent implements OnDestroy {
       value: 'css',
       label: 'CSS',
       language: 'css',
-      title: 'button-examples-menu-tailwind.component.css',
+      title: 'button-examples-menu-trigger-tailwind.component.css',
       code: '/* Tailwind utilities are applied directly in the template. */',
     },
   ]);
@@ -326,32 +268,25 @@ export class ButtonExamplesPageComponent implements OnDestroy {
     this.colorSchemeObserver?.disconnect();
   }
 
-  protected increment(scope: 'headless' | 'plain' | 'tailwind'): void {
-    if (scope === 'headless') {
-      this.headlessActionCount.update((value) => value + 1);
-      return;
-    }
-
-    if (scope === 'plain') {
-      this.plainActionCount.update((value) => value + 1);
-      return;
-    }
-
-    this.tailwindActionCount.update((value) => value + 1);
+  protected increment(scope: 'plain' | 'tailwind'): void {
+    this.actionCount.update((current) => ({
+      ...current,
+      [scope]: current[scope] + 1,
+    }));
   }
 
-  protected toggleMenu(scope: 'headless' | 'plain' | 'tailwind'): void {
-    if (scope === 'headless') {
-      this.headlessMenuOpen.update((open) => !open);
-      return;
-    }
-
-    if (scope === 'plain') {
-      this.plainMenuOpen.update((open) => !open);
-      return;
-    }
-
-    this.tailwindMenuOpen.update((open) => !open);
+  protected count(scope: 'plain' | 'tailwind'): number {
+    return this.actionCount()[scope];
   }
 
+  protected toggleMenu(scope: 'plain' | 'tailwind'): void {
+    this.menuOpen.update((current) => ({
+      ...current,
+      [scope]: !current[scope],
+    }));
+  }
+
+  protected isMenuOpen(scope: 'plain' | 'tailwind'): boolean {
+    return this.menuOpen()[scope];
+  }
 }

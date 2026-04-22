@@ -1,0 +1,66 @@
+<article class="docs-copy">
+  <h2>Styling contract</h2>
+  <p>
+    Headless tabs expose stable slot and state attributes without forcing any wrapper shell or
+    default trigger markup.
+  </p>
+
+  <section id="stable-hooks">
+    <h3>Stable hooks</h3>
+    <div class="docs-table-wrap">
+      <table class="docs-table">
+        <thead>
+          <tr>
+            <th scope="col">Hook</th>
+            <th scope="col">Values</th>
+            <th scope="col">Where</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>data-slot</code></td>
+            <td><code>tabs</code>, <code>tab-list</code>, <code>tab</code>, <code>tab-panel</code></td>
+            <td>Root and all registered parts.</td>
+          </tr>
+          <tr>
+            <td><code>data-selected</code>, <code>data-focused</code>, <code>data-disabled</code></td>
+            <td><code>true | false</code></td>
+            <td>Tab triggers.</td>
+          </tr>
+          <tr>
+            <td><code>data-active</code></td>
+            <td><code>true | false</code></td>
+            <td>Panels.</td>
+          </tr>
+          <tr>
+            <td><code>data-orientation</code>, <code>data-activation</code></td>
+            <td>orientation / activation mode</td>
+            <td>Root.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="css-starter">
+    <h3>CSS starter</h3>
+    <tng-code-block
+      [code]="contractCss"
+      adapter="shiki"
+      language="css"
+      title="tabs.primitive.css"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="owner-guidance">
+    <h3>Owner guidance</h3>
+    <p>
+      Prefer styling the explicit slot hooks instead of raw element names. That keeps your tabs
+      contract resilient if you later swap a <code>button</code> trigger for another authored host.
+    </p>
+  </section>
+</article>

@@ -1,11 +1,11 @@
 <article class="button-styling">
   <h2 class="button-styling-title">Styling contract</h2>
   <p class="button-styling-lead">
-    Style wrapper and headless hosts through stable data attributes instead of targeting internal
-    element structure.
+    Style the wrapper through the stable attributes on the rendered button host rather than relying
+    on page-level utility classes or brittle DOM assumptions.
   </p>
 
-  <section class="button-styling-block">
+  <section id="wrapper-state-hooks" class="button-styling-block">
     <h3>Wrapper state hooks</h3>
     <div class="button-styling-table-wrap">
       <table class="button-styling-table">
@@ -42,20 +42,22 @@
     </div>
   </section>
 
-  <section class="button-styling-block">
-    <h3>Primitive host behavior</h3>
+  <section id="wrapper-shell" class="button-styling-block">
+    <h3>Wrapper shell</h3>
     <ul class="button-styling-list">
-      <li>On anchors, <code>aria-disabled="true"</code> is set when disabled.</li>
-      <li>Anchors without <code>href</code> get <code>role="button"</code> automatically.</li>
-      <li>
-        Keyboard activation on anchor hosts is normalized for <code>Enter</code> and
-        <code>Space</code>.
-      </li>
+      <li><code>:host</code> is <code>inline-flex</code>, so layout spacing is typically applied by the parent container.</li>
+      <li>The internal button uses the <code>.tng-button</code> class plus the reflected data attributes.</li>
+      <li>Projected icon or text content stays owner-authored, so spacing inside the content still belongs to you.</li>
     </ul>
   </section>
 
-  <section class="button-styling-block">
-    <h3>Contract CSS snippet</h3>
+  <section id="owner-guidance" class="button-styling-block">
+    <h3>Owner guidance</h3>
+    <p>
+      Override the wrapper by targeting the internal button under <code>tng-button</code>. For
+      fully custom hosts or anchor-button patterns, move to the headless <code>Button</code> page
+      and use <code>tngPress</code> directly.
+    </p>
     <tng-code-block
       [code]="contractCss"
       adapter="shiki"

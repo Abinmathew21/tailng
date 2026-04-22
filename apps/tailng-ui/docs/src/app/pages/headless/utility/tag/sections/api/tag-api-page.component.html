@@ -1,0 +1,94 @@
+<article class="docs-copy">
+  <h2>API reference</h2>
+  <p>
+    Headless Tag is split into the root <code>tngTag</code> directive plus optional
+    <code>tngTagIcon</code> and <code>tngTagClose</code> parts.
+  </p>
+
+  <section id="directive-selector">
+    <h3>Directive selector</h3>
+    <p>
+      Apply <code>tngTag</code> to the element that represents the tag. Add
+      <code>tngTagIcon</code> for decorative leading content and <code>tngTagClose</code> only
+      when the tag is removable.
+    </p>
+  </section>
+
+  <section id="tag-inputs-and-output">
+    <h3>Tag inputs and output</h3>
+    <div class="docs-table-wrap">
+      <table class="docs-table">
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Type</th>
+            <th scope="col">Default</th>
+            <th scope="col">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>tngTagDisabled</code></td>
+            <td><code>boolean</code></td>
+            <td><code>false</code></td>
+            <td>Marks the tag disabled and prevents remove requests.</td>
+          </tr>
+          <tr>
+            <td><code>tngTagRemovable</code></td>
+            <td><code>boolean</code></td>
+            <td><code>false</code></td>
+            <td>Enables removable behavior for a nested <code>tngTagClose</code>.</td>
+          </tr>
+          <tr>
+            <td><code>tngTagLabel</code></td>
+            <td><code>string | null</code></td>
+            <td><code>null</code></td>
+            <td>Source label used for the default close-button accessible name.</td>
+          </tr>
+          <tr>
+            <td><code>(tngTagRemoved)</code></td>
+            <td><code>void</code></td>
+            <td>—</td>
+            <td>Emitted only when a remove request is accepted.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="close-action">
+    <h3>Close action</h3>
+    <div class="docs-table-wrap">
+      <table class="docs-table">
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Type</th>
+            <th scope="col">Default</th>
+            <th scope="col">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>tngTagCloseAriaLabel</code></td>
+            <td><code>string | null</code></td>
+            <td><code>null</code></td>
+            <td>Explicitly overrides the generated remove label.</td>
+          </tr>
+          <tr>
+            <td>Keyboard</td>
+            <td><code>Enter</code> / <code>Space</code></td>
+            <td>enabled</td>
+            <td>Triggers remove when the parent tag is removable.</td>
+          </tr>
+          <tr>
+            <td>Host support</td>
+            <td><code>button</code> or focusable element</td>
+            <td>—</td>
+            <td>Real buttons are preferred, but the directive can decorate another focusable host.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</article>

@@ -1,14 +1,13 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, inject, signal, type OnDestroy } from '@angular/core';
-import { observeDocsCodeThemeChanges, resolveDocsCodeBlockTheme } from '../../../../../../shared/util';
 import { TngButtonComponent, TngCodeBlockComponent } from '@tailng-ui/components';
 import { TngIcon } from '@tailng-ui/icons';
-import { TngPress } from '@tailng-ui/primitives';
 import { type DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
 import {
   DocsExampleTabsSectionComponent,
   DocsExampleVariantDirective,
 } from '../../../../../../shared/example-tabs-section/docs-example-tabs-section.component';
+import { observeDocsCodeThemeChanges, resolveDocsCodeBlockTheme } from '../../../../../../shared/util';
 
 @Component({
   selector: 'app-button-overview-page',
@@ -16,7 +15,6 @@ import {
     TngButtonComponent,
     TngCodeBlockComponent,
     TngIcon,
-    TngPress,
     DocsExampleTabsSectionComponent,
     DocsExampleVariantDirective,
   ],
@@ -25,97 +23,34 @@ import {
 })
 export class ButtonOverviewPageComponent implements OnDestroy {
   private readonly documentRef = inject(DOCUMENT);
-
   public readonly codeBlockTheme = signal<'github-dark' | 'github-light'>(
     resolveDocsCodeBlockTheme(this.documentRef),
   );
-  private readonly colorSchemeObserver = observeDocsCodeThemeChanges(this.documentRef, this.codeBlockTheme);
+  private readonly colorSchemeObserver = observeDocsCodeThemeChanges(
+    this.documentRef,
+    this.codeBlockTheme,
+  );
 
-  protected readonly headlessCount = signal(0);
   protected readonly plainCount = signal(0);
   protected readonly tailwindCount = signal(0);
 
-  protected readonly primitiveImportCode = "import { TngPress } from '@tailng-ui/primitives';";
-  protected readonly componentImportCode =
-    "import { TngButtonComponent } from '@tailng-ui/components';";
-
-  protected readonly primitiveUsageCode = [
-    '<button',
-    '  tngPress',
-    '  type="button"',
-    '  [ariaPressed]="isActive()"',
-    '  (click)="isActive.set(!isActive())"',
-    '>',
-    '  Toggle state',
-    '</button>',
+  protected readonly componentImportCode = [
+    "import { TngButtonComponent } from '@tailng-ui/components';",
+    "import { TngIcon } from '@tailng-ui/icons';",
     '',
   ].join('\n');
 
   protected readonly componentUsageCode = [
     '<tng-button',
-    '  appearance="solid"',
     '  tone="primary"',
-    '  [disabled]="isPending()"',
+    '  appearance="solid"',
+    '  type="button"',
     '  (click)="submit()"',
     '>',
     '  Save changes',
     '</tng-button>',
     '',
   ].join('\n');
-
-  protected readonly headlessCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
-    {
-      value: 'ts',
-      label: 'TS',
-      language: 'ts',
-      title: 'button-overview-headless.component.ts',
-      code: [
-        "import { Component, signal } from '@angular/core';",
-        "import { TngPress } from '@tailng-ui/primitives';",
-        '',
-        '@Component({',
-        '  imports: [TngPress],',
-        '})',
-        'export class ButtonOverviewHeadlessComponent {',
-        '  protected readonly count = signal(0);',
-        '}',
-        '',
-      ].join('\n'),
-    },
-    {
-      value: 'html',
-      label: 'HTML',
-      language: 'html',
-      title: 'button-overview-headless.component.html',
-      code: [
-        '<div class="button-overview-stack">',
-        '  <button tngPress type="button" class="button-headless" (click)="count.update(v => v + 1)">',
-        '    Headless action',
-        '  </button>',
-        '  <button tngPress type="button" class="button-headless button-headless--ghost" [disabled]="true">',
-        '    Disabled',
-        '  </button>',
-        '</div>',
-        '',
-      ].join('\n'),
-    },
-    {
-      value: 'css',
-      label: 'CSS',
-      language: 'css',
-      title: 'button-overview-headless.component.css',
-      code: [
-        '.button-headless {',
-        '  border: 1px solid var(--tng-semantic-border-strong);',
-        '  border-radius: 0.6rem;',
-        '  min-height: 2.4rem;',
-        '  padding: 0 1rem;',
-        '}',
-        '.button-headless--ghost { background: transparent; }',
-        '',
-      ].join('\n'),
-    },
-  ]);
 
   protected readonly plainCssCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
     {
@@ -127,10 +62,16 @@ export class ButtonOverviewPageComponent implements OnDestroy {
         "import { Component, signal } from '@angular/core';",
         "import { TngButtonComponent } from '@tailng-ui/components';",
         '',
-        'export class ButtonOverviewPlainComponent {',
+        '@Component({',
+        "  selector: 'app-button-overview-plain-css',",
+        '  standalone: true,',
+        '  imports: [TngButtonComponent],',
+        "  templateUrl: './button-overview-plain-css.component.html',",
+        "  styleUrl: './button-overview-plain-css.component.css',",
+        '})',
+        'export class ButtonOverviewPlainCssComponent {',
         '  protected readonly count = signal(0);',
         '}',
-        '',
       ].join('\n'),
     },
     {
@@ -139,13 +80,14 @@ export class ButtonOverviewPageComponent implements OnDestroy {
       language: 'html',
       title: 'button-overview-plain-css.component.html',
       code: [
-        '<div class="button-overview-stack">',
-        '  <tng-button tone="primary" appearance="solid" (click)="count.update(v => v + 1)">',
+        '<div class="button-overview-stack button-overview-stack--plain">',
+        '  <tng-button tone="primary" appearance="solid" type="button" (click)="count.update((value) => value + 1)">',
         '    Save',
         '  </tng-button>',
-        '  <tng-button tone="neutral" appearance="outline" [disabled]="true">',
+        '  <tng-button tone="neutral" appearance="outline" type="button" [disabled]="true">',
         '    Disabled',
         '  </tng-button>',
+        '  <p class="button-overview-status">clicked: {{ count() }}</p>',
         '</div>',
         '',
       ].join('\n'),
@@ -156,9 +98,8 @@ export class ButtonOverviewPageComponent implements OnDestroy {
       language: 'css',
       title: 'button-overview-plain-css.component.css',
       code: [
-        '.button-overview-stack {',
-        '  display: flex;',
-        '  flex-wrap: wrap;',
+        '.button-overview-stack--plain {',
+        '  display: grid;',
         '  gap: 0.75rem;',
         '}',
         '',
@@ -177,10 +118,16 @@ export class ButtonOverviewPageComponent implements OnDestroy {
         "import { TngButtonComponent } from '@tailng-ui/components';",
         "import { TngIcon } from '@tailng-ui/icons';",
         '',
+        '@Component({',
+        "  selector: 'app-button-overview-tailwind',",
+        '  standalone: true,',
+        '  imports: [TngButtonComponent, TngIcon],',
+        "  templateUrl: './button-overview-tailwind.component.html',",
+        "  styleUrl: './button-overview-tailwind.component.css',",
+        '})',
         'export class ButtonOverviewTailwindComponent {',
         '  protected readonly count = signal(0);',
         '}',
-        '',
       ].join('\n'),
     },
     {
@@ -189,14 +136,17 @@ export class ButtonOverviewPageComponent implements OnDestroy {
       language: 'html',
       title: 'button-overview-tailwind.component.html',
       code: [
-        '<div class="flex flex-wrap gap-3 rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">',
-        '  <tng-button tone="success" appearance="solid" class="text-slate-900 dark:text-slate-100">',
-        '    <tng-icon icon="check" class="h-4 w-4"></tng-icon>',
-        '    Publish',
-        '  </tng-button>',
-        '  <tng-button tone="neutral" appearance="ghost" class="text-slate-900 dark:text-slate-100">',
-        '    Secondary',
-        '  </tng-button>',
+        '<div class="rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4">',
+        '  <div class="flex flex-wrap gap-3">',
+        '    <tng-button tone="success" appearance="solid" type="button" (click)="count.update((value) => value + 1)">',
+        '      <tng-icon icon="check" class="h-4 w-4"></tng-icon>',
+        '      Publish',
+        '    </tng-button>',
+        '    <tng-button tone="neutral" appearance="ghost" type="button">',
+        '      Secondary',
+        '    </tng-button>',
+        '  </div>',
+        '  <p class="mt-3 text-sm text-[var(--tng-semantic-foreground-secondary)]">clicked: {{ count() }}</p>',
         '</div>',
         '',
       ].join('\n'),
@@ -214,18 +164,12 @@ export class ButtonOverviewPageComponent implements OnDestroy {
     this.colorSchemeObserver?.disconnect();
   }
 
-  protected increment(scope: 'headless' | 'plain' | 'tailwind'): void {
-    if (scope === 'headless') {
-      this.headlessCount.update((count) => count + 1);
-      return;
-    }
-
+  protected increment(scope: 'plain' | 'tailwind'): void {
     if (scope === 'plain') {
-      this.plainCount.update((count) => count + 1);
+      this.plainCount.update((value) => value + 1);
       return;
     }
 
-    this.tailwindCount.update((count) => count + 1);
+    this.tailwindCount.update((value) => value + 1);
   }
-
 }

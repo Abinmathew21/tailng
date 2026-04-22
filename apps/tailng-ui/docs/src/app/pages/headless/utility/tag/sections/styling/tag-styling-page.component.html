@@ -1,0 +1,66 @@
+<article class="docs-copy">
+  <h2>Styling contract</h2>
+  <p>
+    Headless Tag only reflects slots and state. The owner decides spacing, shape, colors, and how
+    the close affordance looks.
+  </p>
+
+  <section id="slot-and-state-hooks">
+    <h3>Slot and state hooks</h3>
+    <div class="docs-table-wrap">
+      <table class="docs-table">
+        <thead>
+          <tr>
+            <th scope="col">Hook</th>
+            <th scope="col">Values</th>
+            <th scope="col">Where</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>data-slot</code></td>
+            <td><code>tag</code>, <code>tag-icon</code>, <code>tag-close</code></td>
+            <td>Root and sub-parts.</td>
+          </tr>
+          <tr>
+            <td><code>data-removable</code></td>
+            <td>present / absent</td>
+            <td>Tag root.</td>
+          </tr>
+          <tr>
+            <td><code>data-disabled</code></td>
+            <td>present / absent</td>
+            <td>Tag root and close action.</td>
+          </tr>
+          <tr>
+            <td><code>data-focused</code></td>
+            <td>present / absent</td>
+            <td>Close action.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="css-starter">
+    <h3>CSS starter</h3>
+    <tng-code-block
+      [code]="contractCss"
+      adapter="shiki"
+      language="css"
+      title="tag.primitive.css"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="owner-guidance">
+    <h3>Owner guidance</h3>
+    <p>
+      Prefer styling by slot and reflected state instead of assuming a specific element type. That
+      keeps your tag contract resilient if you swap wrappers or change the close host later.
+    </p>
+  </section>
+</article>

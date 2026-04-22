@@ -1,0 +1,67 @@
+:host {
+  display: block;
+}
+
+.headless-avatar-styling {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.headless-avatar-styling-title {
+  font-size: clamp(1.45rem, 1.05rem + 1.3vw, 1.95rem);
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.headless-avatar-styling-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+  max-width: 70ch;
+}
+
+.headless-avatar-styling-block {
+  background: color-mix(in srgb, var(--tng-semantic-background-surface) 88%, transparent);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 1rem;
+  display: grid;
+  gap: 0.9rem;
+  padding: 1.2rem;
+}
+
+.headless-avatar-styling-block h3,
+.headless-avatar-styling-block p {
+  margin: 0;
+}
+
+.headless-avatar-styling-block h3 {
+  font-size: 1.05rem;
+  font-weight: 650;
+}
+
+.headless-avatar-styling-block p {
+  color: var(--tng-semantic-foreground-secondary);
+}
+
+.headless-avatar-styling-table-wrap {
+  overflow-x: auto;
+}
+
+.headless-avatar-styling-table {
+  border-collapse: collapse;
+  min-width: 100%;
+}
+
+.headless-avatar-styling-table th,
+.headless-avatar-styling-table td {
+  border-bottom: 1px solid var(--tng-semantic-border-subtle);
+  padding: 0.7rem 0.75rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.headless-avatar-styling-table th {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.82rem;
+  font-weight: 700;
+}

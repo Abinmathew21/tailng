@@ -1,0 +1,112 @@
+<article class="docs-copy">
+  <h2>API reference</h2>
+  <p>
+    Headless tabs are split into one root directive and explicit parts for the list, tab triggers,
+    panels, and optional overflow buttons.
+  </p>
+
+  <section id="directive-selector">
+    <h3>Directive selector</h3>
+    <p>
+      The root directive is <code>[tngTabs]</code>. Place <code>tngTabList</code>,
+      <code>tngTab</code>, and <code>tngTabPanel</code> inside the same root so the primitive can
+      register and synchronize them.
+    </p>
+  </section>
+
+  <section id="selection-and-focus">
+    <h3>Selection and focus</h3>
+    <div class="docs-table-wrap">
+      <table class="docs-table">
+        <thead>
+          <tr>
+            <th scope="col">Root input / output</th>
+            <th scope="col">Type</th>
+            <th scope="col">Default</th>
+            <th scope="col">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>value</code>, <code>defaultValue</code></td>
+            <td><code>string | number | null</code></td>
+            <td><code>undefined</code></td>
+            <td>Controlled and uncontrolled selection inputs.</td>
+          </tr>
+          <tr>
+            <td><code>activation</code></td>
+            <td><code>'auto' | 'manual'</code></td>
+            <td><code>'auto'</code></td>
+            <td>Decides whether focus movement immediately selects the tab.</td>
+          </tr>
+          <tr>
+            <td><code>orientation</code></td>
+            <td><code>'horizontal' | 'vertical'</code></td>
+            <td><code>'horizontal'</code></td>
+            <td>Changes arrow-key behavior and reflected orientation hooks.</td>
+          </tr>
+          <tr>
+            <td><code>scrollButtons</code></td>
+            <td><code>'auto' | 'off' | 'on'</code></td>
+            <td><code>'off'</code></td>
+            <td>Enables overflow scroll-button registration.</td>
+          </tr>
+          <tr>
+            <td><code>loop</code>, <code>dir</code>, <code>disabled</code>, <code>lazy</code>, <code>keepAlive</code></td>
+            <td><code>behavior inputs</code></td>
+            <td>varies</td>
+            <td>Control navigation wrapping, direction, disabled state, and panel mount lifecycle.</td>
+          </tr>
+          <tr>
+            <td><code>(valueChange)</code>, <code>(tabChange)</code>, <code>(focusChange)</code></td>
+            <td><code>events</code></td>
+            <td>—</td>
+            <td>Emit when selection or roving focus changes.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="tab-and-panel-parts">
+    <h3>Tab and panel parts</h3>
+    <div class="docs-table-wrap">
+      <table class="docs-table">
+        <thead>
+          <tr>
+            <th scope="col">Part</th>
+            <th scope="col">Selector</th>
+            <th scope="col">Important inputs</th>
+            <th scope="col">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Tab list</td>
+            <td><code>[tngTabList]</code></td>
+            <td><code>ariaLabel</code>, <code>ariaLabelledby</code></td>
+            <td>Reflects <code>role="tablist"</code> and participates in overflow measurement.</td>
+          </tr>
+          <tr>
+            <td>Tab</td>
+            <td><code>[tngTab]</code></td>
+            <td><code>value</code>, <code>disabled</code>, <code>panelId</code></td>
+            <td>Reflects <code>aria-selected</code>, <code>data-selected</code>, and roving focus.</td>
+          </tr>
+          <tr>
+            <td>Panel</td>
+            <td><code>[tngTabPanel]</code></td>
+            <td><code>value</code>, <code>labelledById</code>, <code>unmountOnExit</code></td>
+            <td>Reflects <code>hidden</code> and <code>data-active</code> based on selection.</td>
+          </tr>
+          <tr>
+            <td>Scroll buttons</td>
+            <td><code>[tngTabsScrollButtonPrev]</code>, <code>[tngTabsScrollButtonNext]</code></td>
+            <td>none</td>
+            <td>Optional overflow controls when you author large tab strips.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</article>

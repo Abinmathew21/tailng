@@ -1,0 +1,87 @@
+<article class="headless-button-styling">
+  <h2 class="headless-button-styling-title">Styling contract</h2>
+  <p class="headless-button-styling-lead">
+    <code>tngPress</code> does not add classes or internal markup. Styling happens entirely through
+    your own host classes plus the reflected ARIA and disabled attributes.
+  </p>
+
+  <section id="host-state-hooks" class="headless-button-styling-block">
+    <h3>Host state hooks</h3>
+    <div class="headless-button-styling-table-wrap">
+      <table class="headless-button-styling-table">
+        <thead>
+          <tr>
+            <th scope="col">Hook</th>
+            <th scope="col">When it appears</th>
+            <th scope="col">Use it for</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>data-disabled</code></td>
+            <td>Whenever the directive is disabled.</td>
+            <td>Unified disabled visuals across anchors and native buttons.</td>
+          </tr>
+          <tr>
+            <td><code>aria-disabled="true"</code></td>
+            <td>Only on anchor hosts.</td>
+            <td>Disabled anchor styling and semantics.</td>
+          </tr>
+          <tr>
+            <td><code>role="button"</code></td>
+            <td>On anchors without <code>href</code>.</td>
+            <td>Target link-like button shells without relying on fragile selectors.</td>
+          </tr>
+          <tr>
+            <td><code>aria-pressed</code>, <code>aria-expanded</code>, <code>aria-haspopup</code></td>
+            <td>When you bind those states yourself.</td>
+            <td>Pressed or disclosure-specific visual states.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <tng-code-block
+      [code]="hostStateCode"
+      adapter="shiki"
+      language="css"
+      title="Useful selectors"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="css-starter" class="headless-button-styling-block">
+    <h3>CSS starter</h3>
+    <p>Build your own shell on the host element. The primitive only guarantees behavior and attrs.</p>
+    <tng-code-block
+      [code]="starterCode"
+      adapter="shiki"
+      language="css"
+      title="press-host.css"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="anchor-guidance" class="headless-button-styling-block">
+    <h3>Anchor guidance</h3>
+    <p>
+      If you style anchor hosts as buttons, keep the text-decoration reset on your own class and
+      respect <code>aria-disabled</code> when you choose to suppress pointer interaction.
+    </p>
+    <tng-code-block
+      [code]="anchorCode"
+      adapter="shiki"
+      language="css"
+      title="anchor-button.css"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+</article>

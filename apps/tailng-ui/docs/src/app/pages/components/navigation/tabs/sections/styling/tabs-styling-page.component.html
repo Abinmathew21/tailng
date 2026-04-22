@@ -1,0 +1,80 @@
+<article class="docs-copy">
+  <h2>Styling contract</h2>
+  <p>
+    The wrapper contributes a default <code>.tng-tabs</code> shell, but the stable styling hooks
+    still come from the primitive parts you place inside it.
+  </p>
+
+  <section id="stable-hooks">
+    <h3>Stable hooks</h3>
+    <div class="docs-table-wrap">
+      <table class="docs-table">
+        <thead>
+          <tr>
+            <th scope="col">Hook</th>
+            <th scope="col">Values</th>
+            <th scope="col">Where</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>data-slot</code></td>
+            <td><code>tabs</code>, <code>tab-list</code>, <code>tab</code>, <code>tab-panel</code></td>
+            <td>Root wrapper and primitive parts.</td>
+          </tr>
+          <tr>
+            <td><code>data-selected</code></td>
+            <td><code>true | false</code></td>
+            <td>Tab triggers.</td>
+          </tr>
+          <tr>
+            <td><code>data-focused</code></td>
+            <td><code>true | false</code></td>
+            <td>Tab triggers.</td>
+          </tr>
+          <tr>
+            <td><code>data-disabled</code></td>
+            <td><code>true | false</code></td>
+            <td>Root and tab triggers.</td>
+          </tr>
+          <tr>
+            <td><code>data-active</code></td>
+            <td><code>true | false</code></td>
+            <td>Tab panels.</td>
+          </tr>
+          <tr>
+            <td><code>data-orientation</code>, <code>data-activation</code></td>
+            <td>orientation / activation mode</td>
+            <td>Root wrapper.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="default-shell">
+    <h3>Default shell</h3>
+    <p>
+      The wrapper root already renders a bordered, padded <code>.tng-tabs</code> shell. You can keep
+      it, extend it, or replace it with your own utility classes around the tab parts.
+    </p>
+  </section>
+
+  <section id="owner-guidance">
+    <h3>Owner guidance</h3>
+    <p>
+      Keep trigger, list, and panel styles on the primitive hooks rather than assuming more wrapper
+      DOM than <code>.tng-tabs</code>.
+    </p>
+    <tng-code-block
+      [code]="contractCss"
+      adapter="shiki"
+      language="css"
+      title="tabs.contract.css"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+</article>

@@ -55,9 +55,14 @@ const skeletonItem = requireOwnableItem(OWNABLE_FEEDBACK_GROUP, 'skeleton');
 const breadcrumbItem = requireOwnableItem(OWNABLE_NAVIGATION_GROUP, 'breadcrumb');
 const contextMenuItem = requireOwnableItem(OWNABLE_NAVIGATION_GROUP, 'context-menu');
 const menubarItem = requireOwnableItem(OWNABLE_NAVIGATION_GROUP, 'menubar');
+const tabsItem = requireOwnableItem(OWNABLE_NAVIGATION_GROUP, 'tabs');
 const treeItem = requireOwnableItem(OWNABLE_NAVIGATION_GROUP, 'tree');
+const avatarItem = requireOwnableItem(OWNABLE_UTILITY_GROUP, 'avatar');
+const badgeItem = requireOwnableItem(OWNABLE_UTILITY_GROUP, 'badge');
+const tagItem = requireOwnableItem(OWNABLE_UTILITY_GROUP, 'tag');
 const codeblockItem = requireOwnableItem(OWNABLE_UTILITY_GROUP, 'codeblock');
 const copybuttonItem = requireOwnableItem(OWNABLE_UTILITY_GROUP, 'copybutton');
+const buttonItem = requireOwnableItem(OWNABLE_UTILITY_GROUP, 'button');
 const cliItem = requireOwnableItem(OWNABLE_TOOLING_GROUP, 'cli');
 const registryItem = requireOwnableItem(OWNABLE_TOOLING_GROUP, 'registry');
 const workflowItem = requireOwnableItem(OWNABLE_RELEASE_GROUP, 'workflow');
@@ -306,11 +311,43 @@ export const OWNABLE_ROUTES: Routes = [
           ),
       },
       {
+        path: 'navigation/tabs',
+        data: toOwnableDocsRouteData(OWNABLE_NAVIGATION_GROUP, tabsItem),
+        loadComponent: () =>
+          import('./navigation/tabs/ownable-tabs-page.component').then(
+            (m) => m.OwnableTabsPageComponent,
+          ),
+      },
+      {
         path: 'navigation/tree',
         data: toOwnableDocsRouteData(OWNABLE_NAVIGATION_GROUP, treeItem),
         loadComponent: () =>
           import('./navigation/tree/ownable-tree-page.component').then(
             (m) => m.OwnableTreePageComponent,
+          ),
+      },
+      {
+        path: 'utility/avatar',
+        data: toOwnableDocsRouteData(OWNABLE_UTILITY_GROUP, avatarItem),
+        loadComponent: () =>
+          import('./utility/avatar/ownable-avatar-page.component').then(
+            (m) => m.OwnableAvatarPageComponent,
+          ),
+      },
+      {
+        path: 'utility/badge',
+        data: toOwnableDocsRouteData(OWNABLE_UTILITY_GROUP, badgeItem),
+        loadComponent: () =>
+          import('./utility/badge/ownable-badge-page.component').then(
+            (m) => m.OwnableBadgePageComponent,
+          ),
+      },
+      {
+        path: 'utility/tag',
+        data: toOwnableDocsRouteData(OWNABLE_UTILITY_GROUP, tagItem),
+        loadComponent: () =>
+          import('./utility/tag/ownable-tag-page.component').then(
+            (m) => m.OwnableTagPageComponent,
           ),
       },
       {
@@ -327,6 +364,14 @@ export const OWNABLE_ROUTES: Routes = [
         loadComponent: () =>
           import('./utility/copybutton/ownable-copybutton-page.component').then(
             (m) => m.OwnableCopybuttonPageComponent,
+          ),
+      },
+      {
+        path: 'utility/button',
+        data: toOwnableDocsRouteData(OWNABLE_UTILITY_GROUP, buttonItem),
+        loadComponent: () =>
+          import('./utility/button/ownable-button-page.component').then(
+            (m) => m.OwnableButtonPageComponent,
           ),
       },
       {

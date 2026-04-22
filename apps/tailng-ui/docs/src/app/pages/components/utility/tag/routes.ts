@@ -49,17 +49,8 @@ export const COMPONENTS_UTILITY_TAG_ROUTES: Routes = [
       },
       {
         path: 'ownable-install',
-        data: {
-          registrySlug: 'tag',
-          usageCode: [
-            '<tng-tag tone="success" [removable]="true" label="Stable">Stable</tng-tag>',
-            '',
-          ].join('\n'),
-        },
-        loadComponent: () =>
-          import('../../../../shared/ownable-install-section/docs-ownable-install-section.component').then(
-            (module) => module.DocsOwnableInstallSectionComponent,
-          ),
+        pathMatch: 'full',
+        redirectTo: '/ownable/utility/tag',
       },
       {
         path: '**',

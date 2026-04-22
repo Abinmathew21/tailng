@@ -1,0 +1,118 @@
+:host {
+  display: block;
+}
+
+.headless-avatar-examples {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.headless-avatar-examples-title {
+  font-size: clamp(1.45rem, 1.05rem + 1.3vw, 1.95rem);
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.headless-avatar-examples-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+  max-width: 70ch;
+}
+
+.headless-avatar-examples-block {
+  background: color-mix(in srgb, var(--tng-semantic-background-surface) 88%, transparent);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 1rem;
+  display: grid;
+  gap: 1rem;
+  padding: 1.2rem;
+}
+
+.headless-avatar-example-shell {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.headless-avatar-example-shell--plain {
+  background: var(--tng-semantic-background-base);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.85rem;
+  padding: 0.95rem;
+}
+
+.headless-avatar-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.headless-avatar-control {
+  appearance: none;
+  background: transparent;
+  border: 1px solid var(--tng-semantic-border-strong);
+  border-radius: 0.55rem;
+  color: var(--tng-semantic-foreground-primary);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 650;
+  min-height: 2rem;
+  padding: 0 0.7rem;
+}
+
+.headless-avatar-control:focus-visible {
+  box-shadow: 0 0 0 3px var(--tng-semantic-focus-ring);
+  outline: none;
+}
+
+.headless-avatar-host {
+  background: var(--tng-semantic-background-surface);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 9999px;
+  display: inline-flex;
+  height: 2.75rem;
+  overflow: hidden;
+  position: relative;
+  width: 2.75rem;
+}
+
+.headless-avatar-host--square {
+  border-radius: 0.75rem;
+}
+
+.headless-avatar-host--lg {
+  height: 3rem;
+  width: 3rem;
+}
+
+.headless-avatar-image {
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+
+.headless-avatar-fallback {
+  align-items: center;
+  color: var(--tng-semantic-foreground-primary);
+  display: inline-flex;
+  font-size: 0.78rem;
+  font-weight: 700;
+  inset: 0;
+  justify-content: center;
+  letter-spacing: 0.03em;
+  position: absolute;
+}
+
+.headless-avatar-roster {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.headless-avatar-status {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.9rem;
+  margin: 0;
+}

@@ -1,0 +1,151 @@
+<article class="badge-overview">
+  <h2 class="badge-overview-title">Headless Badge overview</h2>
+  <p class="badge-overview-lead">
+    <code>tngBadge</code> is a host directive that renders a generated badge bubble inside the host
+    element. You own the host markup and surrounding layout, while the primitive manages the
+    bubble node, placement, and runtime sizing sync.
+  </p>
+
+  <section id="imports" class="badge-overview-block">
+    <h3>Imports</h3>
+    <p>Import the primitive directly when you want full control over the host element and its visual shell.</p>
+    <tng-code-block
+      [code]="importCode"
+      adapter="shiki"
+      language="ts"
+      title="Headless import"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="basic-usage" class="badge-overview-block">
+    <h3>Basic usage</h3>
+    <p>
+      Bind numeric counts, strings, or dot mode directly on the host. The primitive inserts the
+      badge bubble as an internal node and keeps it anchored to the host.
+    </p>
+    <tng-code-block
+      [code]="basicUsageCode"
+      adapter="shiki"
+      language="html"
+      title="Minimal badge host"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <app-docs-example-tabs-section
+    id="style-variants"
+    class="badge-overview-block"
+    heading="Style variants"
+    description="The same badge behavior rendered with owner-authored Plain CSS and Tailwind hosts."
+    ariaLabel="Headless Badge style variants"
+    tabListAriaLabel="Headless Badge style tabs"
+    defaultValue="plain-css"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+      panelTitle="Headless badge row (Plain CSS)"
+      [codeTabs]="plainCssCodeTabs"
+    >
+      <div class="badge-preview-shell badge-preview-shell--plain">
+        <div class="badge-preview-row">
+          <button type="button" class="badge-host" [tngBadge]="count('plain')">Inbox</button>
+          <button type="button" class="badge-host" [tngBadge]="count('plain') * 8" [tngBadgeMax]="99">
+            Alerts
+          </button>
+          <button type="button" class="badge-host" [tngBadge]="null" [tngBadgeDot]="dot('plain')">
+            Presence
+          </button>
+        </div>
+        <div class="badge-preview-controls">
+          <button type="button" class="badge-control" (click)="increment('plain')">+1 count</button>
+          <button type="button" class="badge-control" (click)="toggleDot('plain')">Toggle dot</button>
+          <button type="button" class="badge-control" (click)="reset('plain')">Reset</button>
+        </div>
+        <p class="badge-preview-status">{{ status('plain') }}</p>
+      </div>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Headless badge row (Tailwind CSS)"
+      [codeTabs]="tailwindCodeTabs"
+    >
+      <div
+        class="flex flex-col gap-3 rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-4 text-tng-fg-primary shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--tng-semantic-border-subtle)_55%,transparent)]"
+      >
+        <div class="flex flex-wrap gap-3">
+          <button
+            type="button"
+            [tngBadge]="count('tailwind')"
+            class="inline-flex min-h-10 min-w-28 items-center rounded-lg border border-tng-border-subtle bg-tng-bg-base px-4 py-2 text-sm font-semibold text-tng-fg-primary shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--tng-semantic-border-subtle)_55%,transparent)] transition hover:bg-tng-bg-muted"
+          >
+            Inbox
+          </button>
+          <button
+            type="button"
+            [tngBadge]="count('tailwind') * 11"
+            [tngBadgeMax]="99"
+            class="inline-flex min-h-10 min-w-28 items-center rounded-lg border border-tng-border-subtle bg-tng-bg-base px-4 py-2 text-sm font-semibold text-tng-fg-primary shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--tng-semantic-border-subtle)_55%,transparent)] transition hover:bg-tng-bg-muted"
+          >
+            Alerts
+          </button>
+          <button
+            type="button"
+            [tngBadge]="null"
+            [tngBadgeDot]="dot('tailwind')"
+            class="inline-flex min-h-10 min-w-28 items-center rounded-lg border border-tng-border-subtle bg-tng-bg-base px-4 py-2 text-sm font-semibold text-tng-fg-primary shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--tng-semantic-border-subtle)_55%,transparent)] transition hover:bg-tng-bg-muted"
+          >
+            Presence
+          </button>
+        </div>
+
+        <div class="flex flex-wrap gap-2">
+          <button
+            type="button"
+            class="inline-flex min-h-8 items-center rounded-md border border-[var(--tng-semantic-border-default)] px-3 text-xs font-semibold text-tng-fg-primary transition hover:bg-tng-bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color-mix(in_srgb,var(--tng-semantic-focus-ring)_40%,transparent)] focus-visible:ring-offset-2 focus-visible:ring-offset-tng-bg-surface"
+            (click)="increment('tailwind')"
+          >
+            +1 count
+          </button>
+          <button
+            type="button"
+            class="inline-flex min-h-8 items-center rounded-md border border-[var(--tng-semantic-border-default)] px-3 text-xs font-semibold text-tng-fg-primary transition hover:bg-tng-bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color-mix(in_srgb,var(--tng-semantic-focus-ring)_40%,transparent)] focus-visible:ring-offset-2 focus-visible:ring-offset-tng-bg-surface"
+            (click)="toggleDot('tailwind')"
+          >
+            Toggle dot
+          </button>
+          <button
+            type="button"
+            class="inline-flex min-h-8 items-center rounded-md border border-[var(--tng-semantic-border-default)] px-3 text-xs font-semibold text-tng-fg-primary transition hover:bg-tng-bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color-mix(in_srgb,var(--tng-semantic-focus-ring)_40%,transparent)] focus-visible:ring-offset-2 focus-visible:ring-offset-tng-bg-surface"
+            (click)="reset('tailwind')"
+          >
+            Reset
+          </button>
+        </div>
+
+        <p class="m-0 text-sm text-tng-fg-secondary">{{ status('tailwind') }}</p>
+      </div>
+    </ng-template>
+  </app-docs-example-tabs-section>
+
+  <section id="accessibility-baseline" class="badge-overview-block">
+    <h3>Accessibility baseline</h3>
+    <ul class="badge-overview-list">
+      <li>The generated badge node is decorative by default and is marked with <code>aria-hidden="true"</code>.</li>
+      <li>Put the meaningful label on the host itself, for example <code>aria-label="Inbox notifications"</code>.</li>
+      <li>Use dot mode for status cues when you do not want the bubble to announce a numeric count.</li>
+    </ul>
+  </section>
+</article>

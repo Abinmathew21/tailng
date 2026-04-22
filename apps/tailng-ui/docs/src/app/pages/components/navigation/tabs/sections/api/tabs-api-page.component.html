@@ -1,0 +1,122 @@
+<article class="docs-copy">
+  <h2>API reference</h2>
+  <p>
+    <code>&lt;tng-tabs&gt;</code> is a wrapper root. The behavior contract for selection, focus,
+    and panel activation still comes from the tabs primitives.
+  </p>
+
+  <section id="wrapper-component">
+    <h3>Wrapper component</h3>
+    <div class="docs-table-wrap">
+      <table class="docs-table">
+        <thead>
+          <tr>
+            <th scope="col">Input / Output</th>
+            <th scope="col">Type</th>
+            <th scope="col">Default</th>
+            <th scope="col">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>ariaLabel</code></td>
+            <td><code>string</code></td>
+            <td><code>'Tabs'</code></td>
+            <td>Applied to the wrapper host when you do not supply your own label.</td>
+          </tr>
+          <tr>
+            <td><code>value</code></td>
+            <td><code>string | number | null</code></td>
+            <td><code>undefined</code></td>
+            <td>Controlled selected value forwarded to the primitive root.</td>
+          </tr>
+          <tr>
+            <td><code>defaultValue</code></td>
+            <td><code>string | number | null</code></td>
+            <td><code>undefined</code></td>
+            <td>Uncontrolled initial selection.</td>
+          </tr>
+          <tr>
+            <td><code>activation</code></td>
+            <td><code>'auto' | 'manual'</code></td>
+            <td><code>'auto'</code></td>
+            <td>Controls whether focus movement also selects the active tab.</td>
+          </tr>
+          <tr>
+            <td><code>orientation</code></td>
+            <td><code>'horizontal' | 'vertical'</code></td>
+            <td><code>'horizontal'</code></td>
+            <td>Changes arrow-key behavior and reflected orientation hooks.</td>
+          </tr>
+          <tr>
+            <td><code>scrollButtons</code></td>
+            <td><code>'auto' | 'off' | 'on'</code></td>
+            <td><code>'off'</code></td>
+            <td>Enables scroll-button visibility logic for overflowed tablists.</td>
+          </tr>
+          <tr>
+            <td><code>loop</code>, <code>dir</code>, <code>disabled</code>, <code>lazy</code>, <code>keepAlive</code></td>
+            <td><code>primitive forwarded inputs</code></td>
+            <td>varies</td>
+            <td>Forwarded directly through the wrapper to the primitive root.</td>
+          </tr>
+          <tr>
+            <td><code>(valueChange)</code>, <code>(tabChange)</code>, <code>(focusChange)</code></td>
+            <td><code>events</code></td>
+            <td>—</td>
+            <td>Emitted by the primitive root and re-exposed by the wrapper.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="tablist-tab-panel">
+    <h3>Tablist, tab, and panel</h3>
+    <p>
+      The wrapper does not replace <code>tngTabList</code>, <code>tngTab</code>, or
+      <code>tngTabPanel</code>. You still import and author those parts explicitly.
+    </p>
+    <div class="docs-table-wrap">
+      <table class="docs-table">
+        <thead>
+          <tr>
+            <th scope="col">Part</th>
+            <th scope="col">Selector</th>
+            <th scope="col">Important inputs</th>
+            <th scope="col">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Tab list</td>
+            <td><code>[tngTabList]</code></td>
+            <td><code>ariaLabel</code>, <code>ariaLabelledby</code></td>
+            <td>Provides the required <code>tablist</code> role and registration surface.</td>
+          </tr>
+          <tr>
+            <td>Tab trigger</td>
+            <td><code>[tngTab]</code></td>
+            <td><code>value</code>, <code>disabled</code>, <code>panelId</code></td>
+            <td>Reflects selection, focus, and disabled state through stable data attributes.</td>
+          </tr>
+          <tr>
+            <td>Tab panel</td>
+            <td><code>[tngTabPanel]</code></td>
+            <td><code>value</code>, <code>labelledById</code>, <code>unmountOnExit</code></td>
+            <td>Uses <code>hidden</code> when inactive and can unmount on exit if requested.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="primitive-foundation">
+    <h3>Primitive foundation</h3>
+    <p>
+      The wrapper only adds the default root shell and the optional <code>ariaLabel</code> input.
+      Selection logic, roving focus, keyboard handling, and panel lifecycle all still belong to the
+      headless tabs primitive.
+    </p>
+  </section>
+</article>

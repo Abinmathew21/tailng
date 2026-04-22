@@ -1,84 +1,13 @@
 <article class="tag-api">
   <h2 class="tag-api-title">API reference</h2>
   <p class="tag-api-lead">
-    Tag is split into headless primitives (<code>tngTag</code>, <code>tngTagIcon</code>,
-    <code>tngTagClose</code>) and a styled wrapper component (<code>&lt;tng-tag&gt;</code>).
+    The wrapper component builds on the headless tag primitives. You style and author projected
+    content through <code>&lt;tng-tag&gt;</code>, while remove behavior still comes from the
+    primitive foundation under the hood.
   </p>
 
-  <section class="tag-api-block">
-    <h3>Primitive: <code>tngTag</code> inputs and output</h3>
-    <div class="tag-api-table-wrap">
-      <table class="tag-api-table">
-        <thead>
-          <tr>
-            <th scope="col">Name</th>
-            <th scope="col">Type</th>
-            <th scope="col">Default</th>
-            <th scope="col">Notes</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><code>tngTagDisabled</code></td>
-            <td><code>boolean</code></td>
-            <td><code>false</code></td>
-            <td>Marks tag as disabled and prevents close removal.</td>
-          </tr>
-          <tr>
-            <td><code>tngTagRemovable</code></td>
-            <td><code>boolean</code></td>
-            <td><code>false</code></td>
-            <td>Enables removable behavior for <code>tngTagClose</code>.</td>
-          </tr>
-          <tr>
-            <td><code>tngTagLabel</code></td>
-            <td><code>string | null</code></td>
-            <td><code>null</code></td>
-            <td>Label source used for default close <code>aria-label</code>.</td>
-          </tr>
-          <tr>
-            <td><code>(tngTagRemoved)</code></td>
-            <td><code>void</code></td>
-            <td>—</td>
-            <td>Emitted when close action is accepted.</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-
-  <section class="tag-api-block">
-    <h3>Primitive: <code>tngTagClose</code></h3>
-    <div class="tag-api-table-wrap">
-      <table class="tag-api-table">
-        <thead>
-          <tr>
-            <th scope="col">Name</th>
-            <th scope="col">Type</th>
-            <th scope="col">Default</th>
-            <th scope="col">Notes</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><code>tngTagCloseAriaLabel</code></td>
-            <td><code>string | null</code></td>
-            <td><code>null</code></td>
-            <td>Explicit accessible name for close action.</td>
-          </tr>
-          <tr>
-            <td><code>Keyboard</code></td>
-            <td><code>Enter / Space</code></td>
-            <td>Enabled</td>
-            <td>Triggers remove request when parent tag is removable.</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-
-  <section class="tag-api-block">
-    <h3>Component: <code>&lt;tng-tag&gt;</code></h3>
+  <section id="component-wrapper" class="tag-api-block">
+    <h3>Component wrapper</h3>
     <div class="tag-api-table-wrap">
       <table class="tag-api-table">
         <thead>
@@ -118,25 +47,25 @@
             <td><code>disabled</code></td>
             <td><code>boolean</code></td>
             <td><code>false</code></td>
-            <td>Disables remove action.</td>
+            <td>Disables remove action and reflects disabled state on the inner primitive.</td>
           </tr>
           <tr>
             <td><code>removable</code></td>
             <td><code>boolean</code></td>
             <td><code>false</code></td>
-            <td>Renders built-in close button.</td>
+            <td>Renders the built-in close button.</td>
           </tr>
           <tr>
             <td><code>label</code></td>
             <td><code>string | null</code></td>
             <td><code>null</code></td>
-            <td>Forwarded to primitive label context.</td>
+            <td>Forwarded to the primitive label context.</td>
           </tr>
           <tr>
             <td><code>closeAriaLabel</code></td>
             <td><code>string | null</code></td>
             <td><code>null</code></td>
-            <td>Accessible label override for built-in close button.</td>
+            <td>Accessible label override for the built-in close button.</td>
           </tr>
           <tr>
             <td><code>(removed)</code></td>
@@ -147,5 +76,71 @@
         </tbody>
       </table>
     </div>
+  </section>
+
+  <section id="projected-primitives" class="tag-api-block">
+    <h3>Projected primitives</h3>
+    <p>
+      Use <code>tngTagIcon</code> when you want the wrapper to apply the stable icon slot hook to
+      projected leading content.
+    </p>
+  </section>
+
+  <section id="primitive-foundation" class="tag-api-block">
+    <h3>Primitive foundation</h3>
+    <div class="tag-api-table-wrap">
+      <table class="tag-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Type</th>
+            <th scope="col">Default</th>
+            <th scope="col">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>tngTagDisabled</code></td>
+            <td><code>boolean</code></td>
+            <td><code>false</code></td>
+            <td>Marks the tag disabled and prevents close removal.</td>
+          </tr>
+          <tr>
+            <td><code>tngTagRemovable</code></td>
+            <td><code>boolean</code></td>
+            <td><code>false</code></td>
+            <td>Enables removable behavior for <code>tngTagClose</code>.</td>
+          </tr>
+          <tr>
+            <td><code>tngTagLabel</code></td>
+            <td><code>string | null</code></td>
+            <td><code>null</code></td>
+            <td>Label source used for the default close <code>aria-label</code>.</td>
+          </tr>
+          <tr>
+            <td><code>(tngTagRemoved)</code></td>
+            <td><code>void</code></td>
+            <td>—</td>
+            <td>Emitted when the close action is accepted.</td>
+          </tr>
+          <tr>
+            <td><code>tngTagCloseAriaLabel</code></td>
+            <td><code>string | null</code></td>
+            <td><code>null</code></td>
+            <td>Explicit accessible name for the close action.</td>
+          </tr>
+          <tr>
+            <td><code>Keyboard</code></td>
+            <td><code>Enter / Space</code></td>
+            <td>Enabled</td>
+            <td>Triggers remove request when the parent tag is removable.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p>
+      The wrapper does not replace the primitive slots. It layers style defaults and a close button
+      on top of the same headless remove contract.
+    </p>
   </section>
 </article>

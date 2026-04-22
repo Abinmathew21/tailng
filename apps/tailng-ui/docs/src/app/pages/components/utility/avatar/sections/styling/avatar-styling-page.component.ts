@@ -18,17 +18,16 @@ export class AvatarStylingPageComponent implements OnDestroy {
   private readonly colorSchemeObserver = observeDocsCodeThemeChanges(this.documentRef, this.codeBlockTheme);
 
   protected readonly contractCss = [
-    '.docs-avatar[data-size="lg"] {',
-    '  height: 3rem;',
-    '  width: 3rem;',
+    'tng-avatar > .tng-avatar[data-size="lg"] {',
+    '  box-shadow: 0 0 0 4px color-mix(in srgb, var(--tng-semantic-accent-brand) 12%, transparent);',
     '}',
     '',
-    '.docs-avatar[data-shape="square"] {',
-    '  border-radius: 0.75rem;',
+    'tng-avatar > .tng-avatar[data-shape="square"] {',
+    '  border-radius: 1rem;',
     '}',
     '',
-    '.docs-avatar [data-slot="avatar-fallback"] {',
-    '  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 10%, transparent);',
+    'tng-avatar > .tng-avatar [data-slot="avatar-fallback"] {',
+      '  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 10%, transparent);',
     '}',
     '',
   ].join('\n');

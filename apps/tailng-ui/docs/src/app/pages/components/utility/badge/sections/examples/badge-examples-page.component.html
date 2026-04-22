@@ -1,96 +1,36 @@
 <article class="badge-examples">
   <h2 class="badge-examples-title">Examples</h2>
   <p class="badge-examples-lead">
-    Production badge scenarios rendered through the same behavior contract with Headless,
-    Plain-CSS, and Tailwind CSS visual layers.
+    Production badge scenarios rendered through the components package with Plain-CSS and Tailwind
+    host styling layers.
   </p>
 
   <app-docs-example-tabs-section
+    id="notification-counts"
     class="badge-examples-block"
-    heading="Example 1: Notification counts and caps"
-    description="Count badges with max capping and status chips that can be updated at runtime."
+    heading="Notification counts"
+    description="Count badges with max capping and status dots updated at runtime."
     ariaLabel="Notification badge variants"
     tabListAriaLabel="Notification badge style tabs"
-    defaultValue="headless"
+    defaultValue="plain-css"
     [codeBlockTheme]="codeBlockTheme()"
   >
     <ng-template
       appDocsExampleVariant
-      value="headless"
-      label="Headless"
-      panelTitle="Notification row (headless)"
-      [codeTabs]="notificationsHeadlessCodeTabs"
-    >
-      <div class="badge-example-shell badge-example-shell--headless">
-        <div class="badge-example-row">
-          <button type="button" [tngBadge]="count('headless')" class="badge-example-host">
-            Inbox
-          </button>
-          <button
-            type="button"
-            [tngBadge]="count('headless') * 12"
-            [tngBadgeMax]="99"
-            class="badge-example-host"
-          >
-            Alerts
-          </button>
-          <button
-            type="button"
-            [tngBadge]="null"
-            [tngBadgeDot]="count('headless') > 0"
-            class="badge-example-host"
-          >
-            Presence
-          </button>
-        </div>
-        <div class="badge-example-controls">
-          <button type="button" class="badge-control" (click)="adjustCount('headless', 1)">
-            +1
-          </button>
-          <button type="button" class="badge-control" (click)="adjustCount('headless', -1)">
-            -1
-          </button>
-          <button type="button" class="badge-control" (click)="clearCount('headless')">
-            Clear
-          </button>
-        </div>
-        <p class="badge-example-status">count: {{ count('headless') }}</p>
-      </div>
-    </ng-template>
-
-    <ng-template
-      appDocsExampleVariant
       value="plain-css"
       label="Plain-CSS"
-      panelTitle="Notification row (plain CSS)"
+      panelTitle="Notification row (Plain CSS)"
       [codeTabs]="notificationsPlainCodeTabs"
     >
       <div class="badge-example-shell badge-example-shell--plain">
         <div class="badge-example-row">
-          <button
-            type="button"
-            [tngBadge]="count('plain')"
-            tngBadgeTone="info"
-            class="badge-example-host"
-          >
+          <button type="button" [tngBadge]="count('plain')" tngBadgeTone="info" class="badge-example-host">
             Inbox
           </button>
-          <button
-            type="button"
-            [tngBadge]="count('plain') * 8"
-            [tngBadgeMax]="99"
-            tngBadgeTone="danger"
-            class="badge-example-host"
-          >
+          <button type="button" [tngBadge]="count('plain') * 8" [tngBadgeMax]="99" tngBadgeTone="danger" class="badge-example-host">
             Alerts
           </button>
-          <button
-            type="button"
-            [tngBadge]="null"
-            [tngBadgeDot]="count('plain') > 0"
-            tngBadgeTone="success"
-            class="badge-example-host"
-          >
+          <button type="button" [tngBadge]="null" [tngBadgeDot]="count('plain') > 0" tngBadgeTone="success" class="badge-example-host">
             Presence
           </button>
         </div>
@@ -107,17 +47,17 @@
       appDocsExampleVariant
       value="tailwind-css"
       label="Tailwind CSS"
-      panelTitle="Notification row (Tailwind)"
+      panelTitle="Notification row (Tailwind CSS)"
       [codeTabs]="notificationsTailwindCodeTabs"
     >
       <div
-        class="grid gap-3 rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+        class="flex flex-col gap-3 rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-4 text-tng-fg-primary shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--tng-semantic-border-subtle)_55%,transparent)]"
       >
         <div class="flex flex-wrap gap-3">
           <button
             type="button"
             [tngBadge]="count('tailwind')"
-            class="inline-flex min-h-10 min-w-28 items-center rounded-lg border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-900 dark:border-slate-600 dark:text-slate-100"
+            class="inline-flex min-h-10 min-w-28 items-center rounded-lg border border-tng-border-subtle bg-tng-bg-base px-4 py-2 text-sm font-semibold text-tng-fg-primary shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--tng-semantic-border-subtle)_55%,transparent)] transition hover:bg-tng-bg-muted"
           >
             Inbox
           </button>
@@ -126,7 +66,7 @@
             [tngBadge]="count('tailwind') * 6"
             [tngBadgeMax]="99"
             tngBadgeTone="warning"
-            class="inline-flex min-h-10 min-w-28 items-center rounded-lg border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-900 dark:border-slate-600 dark:text-slate-100"
+            class="inline-flex min-h-10 min-w-28 items-center rounded-lg border border-tng-border-subtle bg-tng-bg-base px-4 py-2 text-sm font-semibold text-tng-fg-primary shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--tng-semantic-border-subtle)_55%,transparent)] transition hover:bg-tng-bg-muted"
           >
             Alerts
           </button>
@@ -135,7 +75,7 @@
             [tngBadge]="null"
             [tngBadgeDot]="count('tailwind') > 0"
             tngBadgeTone="success"
-            class="inline-flex min-h-10 min-w-28 items-center rounded-lg border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-900 dark:border-slate-600 dark:text-slate-100"
+            class="inline-flex min-h-10 min-w-28 items-center rounded-lg border border-tng-border-subtle bg-tng-bg-base px-4 py-2 text-sm font-semibold text-tng-fg-primary shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--tng-semantic-border-subtle)_55%,transparent)] transition hover:bg-tng-bg-muted"
           >
             Presence
           </button>
@@ -143,127 +83,54 @@
         <div class="flex flex-wrap gap-2">
           <button
             type="button"
-            class="inline-flex min-h-8 items-center rounded-md border border-slate-400 px-3 text-xs font-semibold text-slate-700 dark:border-slate-500 dark:text-slate-200"
+            class="inline-flex min-h-8 items-center rounded-md border border-[var(--tng-semantic-border-default)] px-3 text-xs font-semibold text-tng-fg-primary transition hover:bg-tng-bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color-mix(in_srgb,var(--tng-semantic-focus-ring)_40%,transparent)] focus-visible:ring-offset-2 focus-visible:ring-offset-tng-bg-surface"
             (click)="adjustCount('tailwind', 1)"
           >
             +1
           </button>
           <button
             type="button"
-            class="inline-flex min-h-8 items-center rounded-md border border-slate-400 px-3 text-xs font-semibold text-slate-700 dark:border-slate-500 dark:text-slate-200"
+            class="inline-flex min-h-8 items-center rounded-md border border-[var(--tng-semantic-border-default)] px-3 text-xs font-semibold text-tng-fg-primary transition hover:bg-tng-bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color-mix(in_srgb,var(--tng-semantic-focus-ring)_40%,transparent)] focus-visible:ring-offset-2 focus-visible:ring-offset-tng-bg-surface"
             (click)="adjustCount('tailwind', -1)"
           >
             -1
           </button>
           <button
             type="button"
-            class="inline-flex min-h-8 items-center rounded-md border border-slate-400 px-3 text-xs font-semibold text-slate-700 dark:border-slate-500 dark:text-slate-200"
+            class="inline-flex min-h-8 items-center rounded-md border border-[var(--tng-semantic-border-default)] px-3 text-xs font-semibold text-tng-fg-primary transition hover:bg-tng-bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color-mix(in_srgb,var(--tng-semantic-focus-ring)_40%,transparent)] focus-visible:ring-offset-2 focus-visible:ring-offset-tng-bg-surface"
             (click)="clearCount('tailwind')"
           >
             Clear
           </button>
         </div>
-        <p class="m-0 text-sm text-slate-600 dark:text-slate-300">
-          count: {{ count('tailwind') }}
-        </p>
+        <p class="m-0 text-sm text-tng-fg-secondary">count: {{ count('tailwind') }}</p>
       </div>
     </ng-template>
   </app-docs-example-tabs-section>
 
   <app-docs-example-tabs-section
+    id="placement-and-host-sizing"
     class="badge-examples-block"
-    heading="Example 2: Placement and host sizing"
+    heading="Placement and host sizing"
     description="Adjust runtime placement and host dimensions while keeping the badge anchored."
     ariaLabel="Badge runtime placement variants"
     tabListAriaLabel="Badge placement style tabs"
-    defaultValue="headless"
+    defaultValue="plain-css"
     [codeBlockTheme]="codeBlockTheme()"
   >
     <ng-template
       appDocsExampleVariant
-      value="headless"
-      label="Headless"
-      panelTitle="Runtime placement (headless)"
-      [codeTabs]="runtimeHeadlessCodeTabs"
-    >
-      <div class="badge-example-shell badge-example-shell--headless">
-        <button
-          type="button"
-          [tngBadge]="count('headless')"
-          [tngBadgePosition]="position('headless')"
-          [tngBadgeHidden]="hidden('headless')"
-          class="badge-runtime-host"
-          [style.width.px]="width('headless')"
-          [style.height.px]="height('headless')"
-        >
-          Runtime host
-        </button>
-        <div class="badge-runtime-controls">
-          <div class="badge-position-buttons">
-            <button type="button" class="badge-control" (click)="setPosition('headless', 'top-start')">
-              top-start
-            </button>
-            <button type="button" class="badge-control" (click)="setPosition('headless', 'top-end')">
-              top-end
-            </button>
-            <button
-              type="button"
-              class="badge-control"
-              (click)="setPosition('headless', 'bottom-start')"
-            >
-              bottom-start
-            </button>
-            <button
-              type="button"
-              class="badge-control"
-              (click)="setPosition('headless', 'bottom-end')"
-            >
-              bottom-end
-            </button>
-          </div>
-          <label class="badge-input-row">
-            Hidden
-            <input type="checkbox" [checked]="hidden('headless')" (change)="toggleHidden('headless', $event)" />
-          </label>
-          <label class="badge-input-row">
-            Width
-            <input
-              type="range"
-              min="140"
-              max="320"
-              [value]="width('headless')"
-              (input)="updateWidth('headless', $event)"
-            />
-          </label>
-          <label class="badge-input-row">
-            Height
-            <input
-              type="range"
-              min="48"
-              max="140"
-              [value]="height('headless')"
-              (input)="updateHeight('headless', $event)"
-            />
-          </label>
-        </div>
-        <p class="badge-example-status">{{ runtimeSummary('headless') }}</p>
-      </div>
-    </ng-template>
-
-    <ng-template
-      appDocsExampleVariant
       value="plain-css"
       label="Plain-CSS"
-      panelTitle="Runtime placement (plain CSS)"
+      panelTitle="Runtime placement (Plain CSS)"
       [codeTabs]="runtimePlainCodeTabs"
     >
       <div class="badge-example-shell badge-example-shell--plain">
         <button
           type="button"
-          [tngBadge]="count('plain')"
+          [tngBadge]="14"
           [tngBadgePosition]="position('plain')"
           [tngBadgeHidden]="hidden('plain')"
-          tngBadgeTone="info"
           class="badge-runtime-host"
           [style.width.px]="width('plain')"
           [style.height.px]="height('plain')"
@@ -272,18 +139,10 @@
         </button>
         <div class="badge-runtime-controls">
           <div class="badge-position-buttons">
-            <button type="button" class="badge-control" (click)="setPosition('plain', 'top-start')">
-              top-start
-            </button>
-            <button type="button" class="badge-control" (click)="setPosition('plain', 'top-end')">
-              top-end
-            </button>
-            <button type="button" class="badge-control" (click)="setPosition('plain', 'bottom-start')">
-              bottom-start
-            </button>
-            <button type="button" class="badge-control" (click)="setPosition('plain', 'bottom-end')">
-              bottom-end
-            </button>
+            <button type="button" class="badge-control" (click)="setPosition('plain', 'top-start')">top-start</button>
+            <button type="button" class="badge-control" (click)="setPosition('plain', 'top-end')">top-end</button>
+            <button type="button" class="badge-control" (click)="setPosition('plain', 'bottom-start')">bottom-start</button>
+            <button type="button" class="badge-control" (click)="setPosition('plain', 'bottom-end')">bottom-end</button>
           </div>
           <label class="badge-input-row">
             Hidden
@@ -291,23 +150,11 @@
           </label>
           <label class="badge-input-row">
             Width
-            <input
-              type="range"
-              min="140"
-              max="320"
-              [value]="width('plain')"
-              (input)="updateWidth('plain', $event)"
-            />
+            <input type="range" min="140" max="320" [value]="width('plain')" (input)="updateWidth('plain', $event)" />
           </label>
           <label class="badge-input-row">
             Height
-            <input
-              type="range"
-              min="48"
-              max="140"
-              [value]="height('plain')"
-              (input)="updateHeight('plain', $event)"
-            />
+            <input type="range" min="48" max="140" [value]="height('plain')" (input)="updateHeight('plain', $event)" />
           </label>
         </div>
         <p class="badge-example-status">{{ runtimeSummary('plain') }}</p>
@@ -318,18 +165,18 @@
       appDocsExampleVariant
       value="tailwind-css"
       label="Tailwind CSS"
-      panelTitle="Runtime placement (Tailwind)"
+      panelTitle="Runtime placement (Tailwind CSS)"
       [codeTabs]="runtimeTailwindCodeTabs"
     >
       <div
-        class="grid gap-3 rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+        class="flex flex-col gap-3 rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-4 text-tng-fg-primary shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--tng-semantic-border-subtle)_55%,transparent)]"
       >
         <button
           type="button"
-          [tngBadge]="count('tailwind')"
+          [tngBadge]="14"
           [tngBadgePosition]="position('tailwind')"
           [tngBadgeHidden]="hidden('tailwind')"
-          class="inline-flex items-center justify-center rounded-lg border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-900 dark:border-slate-600 dark:text-slate-100"
+          class="inline-flex items-center justify-center rounded-lg border border-tng-border-subtle bg-tng-bg-base px-4 py-2 text-sm font-semibold text-tng-fg-primary shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--tng-semantic-border-subtle)_55%,transparent)] transition-[width,height] hover:bg-tng-bg-muted"
           [style.width.px]="width('tailwind')"
           [style.height.px]="height('tailwind')"
         >
@@ -338,46 +185,48 @@
         <div class="flex flex-wrap gap-2">
           <button
             type="button"
-            class="inline-flex min-h-8 items-center rounded-md border border-slate-400 px-3 text-xs font-semibold text-slate-700 dark:border-slate-500 dark:text-slate-200"
+            class="inline-flex min-h-8 items-center rounded-md border border-[var(--tng-semantic-border-default)] px-3 text-xs font-semibold text-tng-fg-primary transition hover:bg-tng-bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color-mix(in_srgb,var(--tng-semantic-focus-ring)_40%,transparent)] focus-visible:ring-offset-2 focus-visible:ring-offset-tng-bg-surface"
             (click)="setPosition('tailwind', 'top-start')"
           >
             top-start
           </button>
           <button
             type="button"
-            class="inline-flex min-h-8 items-center rounded-md border border-slate-400 px-3 text-xs font-semibold text-slate-700 dark:border-slate-500 dark:text-slate-200"
+            class="inline-flex min-h-8 items-center rounded-md border border-[var(--tng-semantic-border-default)] px-3 text-xs font-semibold text-tng-fg-primary transition hover:bg-tng-bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color-mix(in_srgb,var(--tng-semantic-focus-ring)_40%,transparent)] focus-visible:ring-offset-2 focus-visible:ring-offset-tng-bg-surface"
             (click)="setPosition('tailwind', 'top-end')"
           >
             top-end
           </button>
           <button
             type="button"
-            class="inline-flex min-h-8 items-center rounded-md border border-slate-400 px-3 text-xs font-semibold text-slate-700 dark:border-slate-500 dark:text-slate-200"
+            class="inline-flex min-h-8 items-center rounded-md border border-[var(--tng-semantic-border-default)] px-3 text-xs font-semibold text-tng-fg-primary transition hover:bg-tng-bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color-mix(in_srgb,var(--tng-semantic-focus-ring)_40%,transparent)] focus-visible:ring-offset-2 focus-visible:ring-offset-tng-bg-surface"
             (click)="setPosition('tailwind', 'bottom-start')"
           >
             bottom-start
           </button>
           <button
             type="button"
-            class="inline-flex min-h-8 items-center rounded-md border border-slate-400 px-3 text-xs font-semibold text-slate-700 dark:border-slate-500 dark:text-slate-200"
+            class="inline-flex min-h-8 items-center rounded-md border border-[var(--tng-semantic-border-default)] px-3 text-xs font-semibold text-tng-fg-primary transition hover:bg-tng-bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color-mix(in_srgb,var(--tng-semantic-focus-ring)_40%,transparent)] focus-visible:ring-offset-2 focus-visible:ring-offset-tng-bg-surface"
             (click)="setPosition('tailwind', 'bottom-end')"
           >
             bottom-end
           </button>
         </div>
-        <label class="flex items-center gap-2 text-xs text-slate-700 dark:text-slate-300">
-          Hidden
-          <input type="checkbox" [checked]="hidden('tailwind')" (change)="toggleHidden('tailwind', $event)" />
-        </label>
-        <label class="flex items-center gap-2 text-xs text-slate-700 dark:text-slate-300">
-          Width
-          <input type="range" min="140" max="320" [value]="width('tailwind')" (input)="updateWidth('tailwind', $event)" />
-        </label>
-        <label class="flex items-center gap-2 text-xs text-slate-700 dark:text-slate-300">
-          Height
-          <input type="range" min="48" max="140" [value]="height('tailwind')" (input)="updateHeight('tailwind', $event)" />
-        </label>
-        <p class="m-0 text-sm text-slate-600 dark:text-slate-300">{{ runtimeSummary('tailwind') }}</p>
+        <div class="badge-tailwind-runtime-fields flex flex-wrap items-center gap-4 text-sm text-tng-fg-secondary">
+          <label class="inline-flex items-center gap-2">
+            Hidden
+            <input type="checkbox" [checked]="hidden('tailwind')" (change)="toggleHidden('tailwind', $event)" />
+          </label>
+          <label class="inline-flex items-center gap-2">
+            Width
+            <input type="range" min="140" max="320" [value]="width('tailwind')" (input)="updateWidth('tailwind', $event)" />
+          </label>
+          <label class="inline-flex items-center gap-2">
+            Height
+            <input type="range" min="48" max="140" [value]="height('tailwind')" (input)="updateHeight('tailwind', $event)" />
+          </label>
+        </div>
+        <p class="m-0 text-sm text-tng-fg-secondary">{{ runtimeSummary('tailwind') }}</p>
       </div>
     </ng-template>
   </app-docs-example-tabs-section>

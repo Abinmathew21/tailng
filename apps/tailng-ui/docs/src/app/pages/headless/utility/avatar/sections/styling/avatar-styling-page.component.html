@@ -1,0 +1,75 @@
+<article class="headless-avatar-styling">
+  <h2 class="headless-avatar-styling-title">Styling contract</h2>
+  <p class="headless-avatar-styling-lead">
+    Headless Avatar gives you slot hooks only. Any size, shape, radius, border, or typography
+    system lives in your own classes and attributes.
+  </p>
+
+  <section id="slot-hooks" class="headless-avatar-styling-block">
+    <h3>Slot hooks</h3>
+    <div class="headless-avatar-styling-table-wrap">
+      <table class="headless-avatar-styling-table">
+        <thead>
+          <tr>
+            <th scope="col">Hook</th>
+            <th scope="col">Source</th>
+            <th scope="col">Use it for</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>[data-slot='avatar']</code></td>
+            <td><code>tngAvatar</code> host</td>
+            <td>Frame, border, background, radius, and sizing.</td>
+          </tr>
+          <tr>
+            <td><code>[data-slot='avatar-image']</code></td>
+            <td><code>tngAvatarImage</code></td>
+            <td>Object fit, filters, cropping, and hidden/image transitions.</td>
+          </tr>
+          <tr>
+            <td><code>[data-slot='avatar-fallback']</code></td>
+            <td><code>tngAvatarFallback</code></td>
+            <td>Initials, icon styling, and fallback background treatment.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="css-starter" class="headless-avatar-styling-block">
+    <h3>CSS starter</h3>
+    <p>
+      Start by styling your chosen host class. The primitive does not inject any visual CSS for
+      you.
+    </p>
+    <tng-code-block
+      [code]="starterCode"
+      adapter="shiki"
+      language="css"
+      title="headless-avatar.css"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="sizing-and-shape-guidance" class="headless-avatar-styling-block">
+    <h3>Sizing and shape guidance</h3>
+    <p>
+      If you want a reusable contract like <code>data-size</code> or <code>data-shape</code>, add
+      and style those attributes yourself. They are not part of the primitive by default.
+    </p>
+    <tng-code-block
+      [code]="sizingCode"
+      adapter="shiki"
+      language="css"
+      title="avatar.tokens.css"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+</article>

@@ -1,9 +1,9 @@
 export type ComponentsDocsCategoryId =
   | 'getting-started'
-  | 'form'
   | 'layout'
   | 'overlay'
   | 'feedback'
+  | 'form'
   | 'utility'
   | 'navigation';
 
@@ -145,19 +145,6 @@ export const COMPONENTS_FORM_GROUP: ComponentsDocsGroup = {
       description: 'Multiple-selection dropdown behavior and state handling.',
     },
     {
-      id: 'chips',
-      slug: 'chips',
-      title: 'Chips',
-      description: 'Tokenized input and removable item chip usage patterns.',
-    },
-    {
-      id: 'form-field',
-      slug: 'form-field',
-      title: 'Form Field',
-      description:
-        'Projected input shell with prefix and suffix slots for icons, helper text, and inline actions.',
-    },
-    {
       id: 'datepicker',
       slug: 'datepicker',
       title: 'Datepicker',
@@ -165,10 +152,23 @@ export const COMPONENTS_FORM_GROUP: ComponentsDocsGroup = {
         'Material-style date selection with editable input, adapter formatting, and bounded calendar views.',
     },
     {
+      id: 'chips',
+      slug: 'chips',
+      title: 'Chips',
+      description: 'Tokenized input and removable item chip usage patterns.',
+    },
+    {
       id: 'input-otp',
       slug: 'input-otp',
       title: 'Input OTP',
       description: 'Segmented one-time-password input with keyboard, paste, and form integration.',
+    },
+    {
+      id: 'form-field',
+      slug: 'form-field',
+      title: 'Form Field',
+      description:
+        'Projected input shell with prefix and suffix slots for icons, helper text, and inline actions.',
     },
   ],
 };
@@ -178,6 +178,18 @@ export const COMPONENTS_LAYOUT_GROUP: ComponentsDocsGroup = {
   title: 'Layout',
   subtitle: 'Workflow and structural layout components',
   items: [
+    {
+      id: 'card',
+      slug: 'card',
+      title: 'Card',
+      description: 'Grouped content surfaces with optional media, actions, and footer composition.',
+    },
+    {
+      id: 'separator',
+      slug: 'separator',
+      title: 'Separator',
+      description: 'Horizontal and vertical dividers for visual or semantic content grouping.',
+    },
     {
       id: 'collapsible',
       slug: 'collapsible',
@@ -197,22 +209,10 @@ export const COMPONENTS_LAYOUT_GROUP: ComponentsDocsGroup = {
       description: 'Ordered multi-step workflow surfaces for guided completion flows.',
     },
     {
-      id: 'card',
-      slug: 'card',
-      title: 'Card',
-      description: 'Grouped content surfaces with optional media, actions, and footer composition.',
-    },
-    {
       id: 'drawer',
       slug: 'drawer',
       title: 'Drawer',
       description: 'Slide-in overlay panel with position, mode, focus trap, and backdrop support.',
-    },
-    {
-      id: 'separator',
-      slug: 'separator',
-      title: 'Separator',
-      description: 'Horizontal and vertical dividers for visual or semantic content grouping.',
     },
   ],
 };
@@ -356,6 +356,13 @@ export const COMPONENTS_NAVIGATION_GROUP: ComponentsDocsGroup = {
       description: 'Hierarchical path navigation with optional collapse and current-page semantics.',
     },
     {
+      id: 'tabs',
+      slug: 'tabs',
+      title: 'Tabs',
+      description:
+        'Sectioned navigation with tablist, triggers, panels, and controlled or uncontrolled selection.',
+    },
+    {
       id: 'tree',
       slug: 'tree',
       title: 'Tree',
@@ -366,12 +373,12 @@ export const COMPONENTS_NAVIGATION_GROUP: ComponentsDocsGroup = {
 
 export const COMPONENTS_DOCS_GROUPS: readonly ComponentsDocsGroup[] = Object.freeze([
   COMPONENTS_GETTING_STARTED_GROUP,
-  COMPONENTS_FORM_GROUP,
-  COMPONENTS_UTILITY_GROUP,
-  COMPONENTS_NAVIGATION_GROUP,
   COMPONENTS_LAYOUT_GROUP,
   COMPONENTS_OVERLAY_GROUP,
   COMPONENTS_FEEDBACK_GROUP,
+  COMPONENTS_FORM_GROUP,
+  COMPONENTS_UTILITY_GROUP,
+  COMPONENTS_NAVIGATION_GROUP,
 ]);
 
 const defaultGroup = COMPONENTS_GETTING_STARTED_GROUP;

@@ -1,0 +1,67 @@
+:host {
+  display: block;
+}
+
+.headless-avatar-api {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.headless-avatar-api-title {
+  font-size: clamp(1.45rem, 1.05rem + 1.3vw, 1.95rem);
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.headless-avatar-api-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+  max-width: 70ch;
+}
+
+.headless-avatar-api-block {
+  background: color-mix(in srgb, var(--tng-semantic-background-surface) 88%, transparent);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 1rem;
+  display: grid;
+  gap: 0.9rem;
+  padding: 1.2rem;
+}
+
+.headless-avatar-api-block h3,
+.headless-avatar-api-block p {
+  margin: 0;
+}
+
+.headless-avatar-api-block h3 {
+  font-size: 1.05rem;
+  font-weight: 650;
+}
+
+.headless-avatar-api-block p {
+  color: var(--tng-semantic-foreground-secondary);
+}
+
+.headless-avatar-api-table-wrap {
+  overflow-x: auto;
+}
+
+.headless-avatar-api-table {
+  border-collapse: collapse;
+  min-width: 100%;
+}
+
+.headless-avatar-api-table th,
+.headless-avatar-api-table td {
+  border-bottom: 1px solid var(--tng-semantic-border-subtle);
+  padding: 0.7rem 0.75rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.headless-avatar-api-table th {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.82rem;
+  font-weight: 700;
+}

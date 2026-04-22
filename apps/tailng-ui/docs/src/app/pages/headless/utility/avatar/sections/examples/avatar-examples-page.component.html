@@ -1,0 +1,206 @@
+<article class="headless-avatar-examples">
+  <h2 class="headless-avatar-examples-title">Examples</h2>
+  <p class="headless-avatar-examples-lead">
+    These examples show the two key ownership patterns for headless Avatar: manual fallback control
+    and decorative avatar rosters.
+  </p>
+
+  <app-docs-example-tabs-section
+    id="image-fallback"
+    class="headless-avatar-examples-block"
+    heading="Image fallback"
+    description="The primitive stays neutral while the owner decides when to hide the image and show initials."
+    ariaLabel="Headless Avatar fallback variants"
+    tabListAriaLabel="Headless Avatar fallback style tabs"
+    defaultValue="plain-css"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+      panelTitle="Image fallback (Plain CSS)"
+      [codeTabs]="fallbackPlainTabs"
+    >
+      <div class="headless-avatar-example-shell headless-avatar-example-shell--plain">
+        <div class="headless-avatar-controls">
+          <button type="button" class="headless-avatar-control" (click)="setFallbackSource('plain', 'valid')">Valid</button>
+          <button type="button" class="headless-avatar-control" (click)="setFallbackSource('plain', 'broken')">Broken</button>
+          <button type="button" class="headless-avatar-control" (click)="setFallbackSource('plain', 'none')">No source</button>
+        </div>
+        <span tngAvatar class="headless-avatar-host headless-avatar-host--lg">
+          <img
+            tngAvatarImage
+            class="headless-avatar-image"
+            [attr.src]="srcFor('plain')"
+            [attr.hidden]="showFallback('plain') ? '' : null"
+            alt="Priya Raman"
+            (error)="onFallbackError('plain')"
+            (load)="onFallbackLoad('plain')"
+          />
+          <span
+            tngAvatarFallback
+            class="headless-avatar-fallback"
+            [attr.hidden]="showFallback('plain') ? null : ''"
+            aria-hidden="true"
+          >
+            PR
+          </span>
+        </span>
+        <p class="headless-avatar-status">source mode: {{ modeFor('plain') }}</p>
+      </div>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Image fallback (Tailwind CSS)"
+      [codeTabs]="fallbackTailwindTabs"
+    >
+      <div
+        class="rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4"
+      >
+        <div class="flex flex-wrap gap-2">
+          <button
+            type="button"
+            class="rounded-md border border-[var(--tng-semantic-border-default)] px-2.5 py-1 text-xs font-semibold text-[var(--tng-semantic-foreground-primary)] transition hover:bg-[color-mix(in_srgb,var(--tng-semantic-foreground-primary)_6%,transparent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color-mix(in_srgb,var(--tng-semantic-focus-ring)_40%,transparent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--tng-semantic-background-base)]"
+            (click)="setFallbackSource('tailwind', 'valid')"
+          >
+            Valid
+          </button>
+          <button
+            type="button"
+            class="rounded-md border border-[var(--tng-semantic-border-default)] px-2.5 py-1 text-xs font-semibold text-[var(--tng-semantic-foreground-primary)] transition hover:bg-[color-mix(in_srgb,var(--tng-semantic-foreground-primary)_6%,transparent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color-mix(in_srgb,var(--tng-semantic-focus-ring)_40%,transparent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--tng-semantic-background-base)]"
+            (click)="setFallbackSource('tailwind', 'broken')"
+          >
+            Broken
+          </button>
+          <button
+            type="button"
+            class="rounded-md border border-[var(--tng-semantic-border-default)] px-2.5 py-1 text-xs font-semibold text-[var(--tng-semantic-foreground-primary)] transition hover:bg-[color-mix(in_srgb,var(--tng-semantic-foreground-primary)_6%,transparent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color-mix(in_srgb,var(--tng-semantic-focus-ring)_40%,transparent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--tng-semantic-background-base)]"
+            (click)="setFallbackSource('tailwind', 'none')"
+          >
+            No source
+          </button>
+        </div>
+
+        <div class="mt-3 flex items-center gap-3">
+          <span
+            tngAvatar
+            class="relative inline-flex h-14 w-14 overflow-hidden rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-base)] shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--tng-semantic-border-subtle)_55%,transparent)]"
+          >
+            <img
+              tngAvatarImage
+              class="h-full w-full object-cover"
+              [attr.src]="srcFor('tailwind')"
+              [attr.hidden]="showFallback('tailwind') ? '' : null"
+              alt="Priya Raman"
+              (error)="onFallbackError('tailwind')"
+              (load)="onFallbackLoad('tailwind')"
+            />
+            <span
+              tngAvatarFallback
+              class="absolute inset-0 inline-flex items-center justify-center text-sm font-semibold text-[var(--tng-semantic-foreground-primary)]"
+              [attr.hidden]="showFallback('tailwind') ? null : ''"
+              aria-hidden="true"
+            >
+              PR
+            </span>
+          </span>
+          <p class="m-0 text-sm text-[var(--tng-semantic-foreground-secondary)]">source mode: {{ modeFor('tailwind') }}</p>
+        </div>
+      </div>
+    </ng-template>
+  </app-docs-example-tabs-section>
+
+  <app-docs-example-tabs-section
+    id="decorative-roster"
+    class="headless-avatar-examples-block"
+    heading="Decorative roster"
+    description="Use empty alt text and aria-hidden fallback content when avatars are decorative and nearby text already names people."
+    ariaLabel="Headless Avatar roster variants"
+    tabListAriaLabel="Headless Avatar roster style tabs"
+    defaultValue="plain-css"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+      panelTitle="Decorative roster (Plain CSS)"
+      [codeTabs]="rosterPlainTabs"
+    >
+      <div class="headless-avatar-example-shell headless-avatar-example-shell--plain">
+        <div class="headless-avatar-roster" aria-label="Decorative reviewer avatars">
+          <span tngAvatar class="headless-avatar-host">
+            <img tngAvatarImage [attr.src]="sampleImage" alt="" class="headless-avatar-image" />
+            <span tngAvatarFallback [attr.hidden]="''" class="headless-avatar-fallback" aria-hidden="true">AL</span>
+          </span>
+          <span tngAvatar class="headless-avatar-host">
+            <img tngAvatarImage [attr.hidden]="''" alt="" class="headless-avatar-image" />
+            <span tngAvatarFallback class="headless-avatar-fallback" aria-hidden="true">TN</span>
+          </span>
+          <span tngAvatar class="headless-avatar-host headless-avatar-host--square">
+            <img tngAvatarImage [attr.src]="sampleImage" alt="" class="headless-avatar-image" />
+            <span tngAvatarFallback [attr.hidden]="''" class="headless-avatar-fallback" aria-hidden="true">SQ</span>
+          </span>
+        </div>
+      </div>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Decorative roster (Tailwind CSS)"
+      [codeTabs]="rosterTailwindTabs"
+    >
+      <div
+        class="flex flex-wrap items-center gap-3 rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4"
+      >
+        <span
+          tngAvatar
+          class="relative inline-flex h-12 w-12 overflow-hidden rounded-full border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-base)] shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--tng-semantic-border-subtle)_55%,transparent)]"
+        >
+          <img tngAvatarImage [attr.src]="sampleImage" alt="" class="h-full w-full object-cover" />
+          <span
+            tngAvatarFallback
+            [attr.hidden]="''"
+            class="absolute inset-0 inline-flex items-center justify-center text-sm font-semibold text-[var(--tng-semantic-foreground-primary)]"
+            aria-hidden="true"
+          >
+            AL
+          </span>
+        </span>
+        <span
+          tngAvatar
+          class="relative inline-flex h-10 w-10 overflow-hidden rounded-full border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-base)] shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--tng-semantic-border-subtle)_55%,transparent)]"
+        >
+          <img tngAvatarImage [attr.hidden]="''" alt="" class="h-full w-full object-cover" />
+          <span
+            tngAvatarFallback
+            class="absolute inset-0 inline-flex items-center justify-center text-xs font-semibold text-[var(--tng-semantic-foreground-primary)]"
+            aria-hidden="true"
+          >
+            TN
+          </span>
+        </span>
+        <span
+          tngAvatar
+          class="relative inline-flex h-10 w-10 overflow-hidden rounded-xl border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-base)] shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--tng-semantic-border-subtle)_55%,transparent)]"
+        >
+          <img tngAvatarImage [attr.src]="sampleImage" alt="" class="h-full w-full object-cover" />
+          <span
+            tngAvatarFallback
+            [attr.hidden]="''"
+            class="absolute inset-0 inline-flex items-center justify-center text-xs font-semibold text-[var(--tng-semantic-foreground-primary)]"
+            aria-hidden="true"
+          >
+            SQ
+          </span>
+        </span>
+      </div>
+    </ng-template>
+  </app-docs-example-tabs-section>
+</article>

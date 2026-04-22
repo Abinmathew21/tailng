@@ -1,12 +1,21 @@
 <article class="avatar-api">
   <h2 class="avatar-api-title">API reference</h2>
   <p class="avatar-api-lead">
-    <code>&lt;tng-avatar&gt;</code> wraps the headless avatar primitives and handles fallback
-    display automatically when sources are missing or fail to load.
+    <code>&lt;tng-avatar&gt;</code> wraps the headless avatar slots and owns the common avatar
+    lifecycle: image load/error handling, fallback text generation, and a minimum size/shape shell.
   </p>
 
-  <section class="avatar-api-block">
-    <h3>Component inputs</h3>
+  <section id="wrapper-component" class="avatar-api-block">
+    <h3>Wrapper component</h3>
+    <p>
+      The wrapper renders a <code>span.tng-avatar</code> host, an image slot, and a fallback slot.
+      It automatically toggles which slot is visible based on <code>src</code> presence and image
+      load success.
+    </p>
+  </section>
+
+  <section id="wrapper-inputs" class="avatar-api-block">
+    <h3>Wrapper inputs</h3>
     <div class="avatar-api-table-wrap">
       <table class="avatar-api-table">
         <thead>
@@ -53,31 +62,13 @@
     </div>
   </section>
 
-  <section class="avatar-api-block">
-    <h3>Headless primitives</h3>
-    <div class="avatar-api-table-wrap">
-      <table class="avatar-api-table">
-        <thead>
-          <tr>
-            <th scope="col">Directive</th>
-            <th scope="col">Usage</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><code>tngAvatar</code></td>
-            <td>Avatar host element that exposes shape/size state attributes.</td>
-          </tr>
-          <tr>
-            <td><code>tngAvatarImage</code></td>
-            <td>Image node bound to host slot state. Hide/show is consumer controlled.</td>
-          </tr>
-          <tr>
-            <td><code>tngAvatarFallback</code></td>
-            <td>Fallback content slot (initials/icon) for missing or failed sources.</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+  <section id="primitive-foundation" class="avatar-api-block">
+    <h3>Primitive foundation</h3>
+    <p>
+      <code>&lt;tng-avatar&gt;</code> is built on the headless
+      <code>tngAvatar</code>, <code>tngAvatarImage</code>, and
+      <code>tngAvatarFallback</code> directives. Use the dedicated headless Avatar page when you
+      need fully custom sizing contracts, nonstandard markup, or owner-managed fallback visibility.
+    </p>
   </section>
 </article>

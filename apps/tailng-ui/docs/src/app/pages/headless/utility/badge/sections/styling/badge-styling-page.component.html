@@ -1,0 +1,88 @@
+<article class="badge-styling">
+  <h2 class="badge-styling-title">Styling contract</h2>
+  <p class="badge-styling-lead">
+    Headless Badge generates the bubble node for you, but styling still belongs to your host class
+    and the stable hooks on the generated <code>.tng-badge</code> element.
+  </p>
+
+  <section id="generated-node-hooks" class="badge-styling-block">
+    <h3>Generated node hooks</h3>
+    <div class="badge-styling-table-wrap">
+      <table class="badge-styling-table">
+        <thead>
+          <tr>
+            <th scope="col">Hook</th>
+            <th scope="col">Where it appears</th>
+            <th scope="col">Use it for</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>.tng-badge</code></td>
+            <td>Generated badge node</td>
+            <td>Base badge visuals.</td>
+          </tr>
+          <tr>
+            <td><code>data-slot="badge"</code></td>
+            <td>Generated badge node</td>
+            <td>Stable attribute selector for the bubble.</td>
+          </tr>
+          <tr>
+            <td><code>data-position</code>, <code>data-placement</code></td>
+            <td>Generated badge node</td>
+            <td>Placement-specific transforms.</td>
+          </tr>
+          <tr>
+            <td><code>data-size</code>, <code>data-tone</code>, <code>data-variant</code></td>
+            <td>Generated badge node</td>
+            <td>Theme and size contracts.</td>
+          </tr>
+          <tr>
+            <td><code>data-dot</code>, <code>data-disabled</code></td>
+            <td>Generated badge node</td>
+            <td>Dot mode and disabled-state styling.</td>
+          </tr>
+          <tr>
+            <td><code>.tng-badge-host</code>, <code>data-tng-badge-host</code></td>
+            <td>Host element</td>
+            <td>Parent-level layout and placement overrides.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="css-starter" class="badge-styling-block">
+    <h3>CSS starter</h3>
+    <p>Build your shell on the host, then style the generated bubble beneath it.</p>
+    <tng-code-block
+      [code]="starterCode"
+      adapter="shiki"
+      language="css"
+      title="badge-host.css"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="host-guidance" class="badge-styling-block">
+    <h3>Host guidance</h3>
+    <p>
+      The directive will add <code>position: relative</code> to the host when no inline position is
+      present, so badge placement has a stable anchor. Prefer your own host class for anything more
+      specific.
+    </p>
+    <tng-code-block
+      [code]="hostCode"
+      adapter="shiki"
+      language="css"
+      title="badge-placement.css"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+</article>

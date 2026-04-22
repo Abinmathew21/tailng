@@ -1,0 +1,149 @@
+<article class="tag-examples">
+  <h2 class="tag-examples-title">Examples</h2>
+  <p class="tag-examples-lead">
+    Common headless tag patterns authored with plain CSS and Tailwind without switching to the
+    wrapper component.
+  </p>
+
+  <app-docs-example-tabs-section
+    id="removable-filter-chips"
+    class="tag-examples-block"
+    heading="Removable filter chips"
+    description="Filter tags with owner-authored remove buttons and icon slots."
+    ariaLabel="Headless tag filter variants"
+    tabListAriaLabel="Headless tag filter style tabs"
+    defaultValue="plain-css"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+      panelTitle="Filter chips (Plain CSS)"
+      [codeTabs]="filterPlainTabs"
+    >
+      <div class="tag-example-shell tag-example-shell--plain">
+        <div class="tag-example-row">
+          @for (tag of filterPlain(); track tag.id) {
+            <span
+              tngTag
+              [tngTagLabel]="tag.label"
+              [tngTagRemovable]="true"
+              (tngTagRemoved)="removeFilter('plain', tag.id)"
+              class="tag-chip"
+              [attr.data-tone]="tag.tone"
+            >
+              <span tngTagIcon aria-hidden="true" class="tag-chip-icon">●</span>
+              {{ tag.label }}
+              <button tngTagClose type="button" class="tag-chip-close">
+                <span aria-hidden="true">×</span>
+              </button>
+            </span>
+          }
+        </div>
+        <button type="button" class="tag-control" (click)="resetFilters('plain')">Reset filters</button>
+      </div>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Filter chips (Tailwind CSS)"
+      [codeTabs]="filterTailwindTabs"
+    >
+      <div
+        class="flex flex-col gap-3 rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-4 text-tng-fg-primary shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--tng-semantic-border-subtle)_55%,transparent)]"
+      >
+        <div class="flex flex-wrap gap-3">
+          @for (tag of filterTailwind(); track tag.id) {
+            <span
+              tngTag
+              [tngTagLabel]="tag.label"
+              [tngTagRemovable]="true"
+              [class]="chipTailwindHostClass(tag.tone)"
+              (tngTagRemoved)="removeFilter('tailwind', tag.id)"
+            >
+              <span tngTagIcon aria-hidden="true" class="text-[0.7em]">●</span>
+              {{ tag.label }}
+              <button
+                type="button"
+                tngTagClose
+                class="inline-flex h-4 w-4 shrink-0 items-center justify-center rounded-full text-current opacity-80 transition hover:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color-mix(in_srgb,var(--tng-semantic-focus-ring)_40%,transparent)] focus-visible:ring-offset-1 focus-visible:ring-offset-[color-mix(in_srgb,var(--tng-semantic-background-surface)_70%,transparent)]"
+              >
+                <span aria-hidden="true">×</span>
+              </button>
+            </span>
+          }
+        </div>
+        <button
+          type="button"
+          class="inline-flex w-fit min-h-8 items-center rounded-md border border-[var(--tng-semantic-border-default)] px-3 text-xs font-semibold text-tng-fg-primary transition hover:bg-tng-bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color-mix(in_srgb,var(--tng-semantic-focus-ring)_40%,transparent)] focus-visible:ring-offset-2 focus-visible:ring-offset-tng-bg-surface"
+          (click)="resetFilters('tailwind')"
+        >
+          Reset filters
+        </button>
+      </div>
+    </ng-template>
+  </app-docs-example-tabs-section>
+
+  <app-docs-example-tabs-section
+    id="status-tags"
+    class="tag-examples-block"
+    heading="Status tags"
+    description="Static status and release labels authored directly on the headless primitive."
+    ariaLabel="Headless tag status variants"
+    tabListAriaLabel="Headless tag status style tabs"
+    defaultValue="plain-css"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+      panelTitle="Status tags (Plain CSS)"
+      [codeTabs]="statusPlainTabs"
+    >
+      <div class="tag-example-shell tag-example-shell--plain">
+        <div class="tag-example-row">
+          @for (tag of statuses; track tag.id) {
+            <span tngTag class="tag-chip" [attr.data-tone]="tag.tone">
+              {{ tag.label }}
+            </span>
+          }
+        </div>
+      </div>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Status tags (Tailwind CSS)"
+      [codeTabs]="statusTailwindTabs"
+    >
+      <div
+        class="flex flex-col gap-3 rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-4 text-tng-fg-primary shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--tng-semantic-border-subtle)_55%,transparent)]"
+      >
+        <div class="flex flex-wrap gap-3">
+          <span
+            tngTag
+            class="inline-flex rounded-full border border-transparent bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_20%,transparent)] px-3 py-1 text-xs font-semibold text-tng-accent-brand"
+            >New</span>
+          <span
+            tngTag
+            class="inline-flex rounded-full border border-transparent bg-[color-mix(in_srgb,var(--tng-semantic-foreground-secondary)_20%,transparent)] px-3 py-1 text-xs font-semibold text-tng-fg-secondary"
+            >Beta</span>
+          <span
+            tngTag
+            class="inline-flex rounded-full border border-transparent bg-[color-mix(in_srgb,var(--tng-semantic-accent-danger)_20%,transparent)] px-3 py-1 text-xs font-semibold text-tng-accent-danger"
+            >Blocked</span>
+          <span
+            tngTag
+            class="inline-flex rounded-full border border-transparent bg-tng-accent-success px-3 py-1 text-xs font-semibold text-tng-fg-inverse"
+            >Stable</span>
+        </div>
+      </div>
+    </ng-template>
+  </app-docs-example-tabs-section>
+</article>

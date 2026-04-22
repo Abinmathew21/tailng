@@ -49,23 +49,8 @@ export const COMPONENTS_UTILITY_BADGE_ROUTES: Routes = [
       },
       {
         path: 'ownable-install',
-        data: {
-          registrySlug: 'badge',
-          usageCode: [
-            '<button',
-            '  type="button"',
-            '  [tngBadge]="42"',
-            '  tngBadgeTone="danger"',
-            '>',
-            '  Notifications',
-            '</button>',
-            '',
-          ].join('\n'),
-        },
-        loadComponent: () =>
-          import('../../../../shared/ownable-install-section/docs-ownable-install-section.component').then(
-            (module) => module.DocsOwnableInstallSectionComponent,
-          ),
+        pathMatch: 'full',
+        redirectTo: '/ownable/utility/badge',
       },
       {
         path: '**',

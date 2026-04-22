@@ -1,0 +1,133 @@
+<article class="tag-overview">
+  <h2 class="tag-overview-title">Tag overview</h2>
+  <p class="tag-overview-lead">
+    The headless tag primitive gives you a compact label contract plus optional removable behavior,
+    but all visual treatment still belongs to the owner.
+  </p>
+
+  <section id="imports" class="tag-overview-block">
+    <h3>Imports</h3>
+    <tng-code-block
+      [code]="importCode"
+      adapter="shiki"
+      language="ts"
+      title="Primitive imports"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="basic-usage" class="tag-overview-block">
+    <h3>Basic usage</h3>
+    <p>Compose the tag root, an optional icon slot, and the close action only when the tag is removable.</p>
+    <tng-code-block
+      [code]="basicUsageCode"
+      adapter="shiki"
+      language="html"
+      title="Headless usage"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <app-docs-example-tabs-section
+    id="style-variants"
+    class="tag-overview-block"
+    heading="Style variants"
+    description="The same headless tag behavior rendered with Plain-CSS and Tailwind skins."
+    ariaLabel="Headless tag style variants"
+    tabListAriaLabel="Headless tag style tabs"
+    defaultValue="plain-css"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+      panelTitle="Headless tags (Plain CSS)"
+      [codeTabs]="plainCodeTabs"
+    >
+      <div class="tag-preview-shell tag-preview-shell--plain">
+        <div class="tag-preview-row">
+          @for (tag of plainTags(); track tag.id) {
+            <span
+              tngTag
+              class="tag-chip"
+              [attr.data-tone]="tag.tone"
+              [tngTagLabel]="tag.label"
+              [tngTagRemovable]="true"
+              (tngTagRemoved)="removeTag('plain', tag.id)"
+            >
+              <span tngTagIcon aria-hidden="true" class="tag-chip-icon">●</span>
+              {{ tag.label }}
+              <button tngTagClose class="tag-chip-close" type="button">
+                <span aria-hidden="true">×</span>
+              </button>
+            </span>
+          }
+        </div>
+        <div class="tag-preview-controls">
+          <button type="button" class="tag-control" (click)="reset('plain')">Reset</button>
+        </div>
+        <p class="tag-preview-status">{{ summary('plain') || 'No tags' }}</p>
+      </div>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Headless tags (Tailwind CSS)"
+      [codeTabs]="tailwindCodeTabs"
+    >
+      <div
+        class="flex flex-col gap-3 rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-4 text-tng-fg-primary shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--tng-semantic-border-subtle)_55%,transparent)]"
+      >
+        <div class="flex flex-wrap gap-3">
+          @for (tag of tailwindTags(); track tag.id) {
+            <span
+              tngTag
+              [tngTagLabel]="tag.label"
+              [tngTagRemovable]="true"
+              [class]="chipTailwindHostClass(tag.tone)"
+              (tngTagRemoved)="removeTag('tailwind', tag.id)"
+            >
+              <span tngTagIcon aria-hidden="true" class="text-[0.7em]">●</span>
+              {{ tag.label }}
+              <button
+                type="button"
+                tngTagClose
+                class="inline-flex h-4 w-4 shrink-0 items-center justify-center rounded-full text-current opacity-80 transition hover:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color-mix(in_srgb,var(--tng-semantic-focus-ring)_40%,transparent)] focus-visible:ring-offset-1 focus-visible:ring-offset-[color-mix(in_srgb,var(--tng-semantic-background-surface)_70%,transparent)]"
+              >
+                <span aria-hidden="true">×</span>
+              </button>
+            </span>
+          }
+        </div>
+        <div class="flex flex-wrap gap-2">
+          <button
+            type="button"
+            class="inline-flex min-h-8 items-center rounded-md border border-[var(--tng-semantic-border-default)] px-3 text-xs font-semibold text-tng-fg-primary transition hover:bg-tng-bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color-mix(in_srgb,var(--tng-semantic-focus-ring)_40%,transparent)] focus-visible:ring-offset-2 focus-visible:ring-offset-tng-bg-surface"
+            (click)="reset('tailwind')"
+          >
+            Reset
+          </button>
+        </div>
+        <p class="m-0 text-sm text-tng-fg-secondary">{{ summary('tailwind') || 'No tags' }}</p>
+      </div>
+    </ng-template>
+  </app-docs-example-tabs-section>
+
+  <section id="accessibility-baseline" class="tag-overview-block">
+    <h3>Accessibility baseline</h3>
+    <ul class="tag-overview-list">
+      <li>Use a real <code>&lt;button&gt;</code> for <code>tngTagClose</code> whenever possible.</li>
+      <li>Set <code>tngTagLabel</code> so the default remove label stays meaningful.</li>
+      <li>Keep decorative icons <code>aria-hidden</code> unless they communicate state on their own.</li>
+    </ul>
+  </section>
+</article>

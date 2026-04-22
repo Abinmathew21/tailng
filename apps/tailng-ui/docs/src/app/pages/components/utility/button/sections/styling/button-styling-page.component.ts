@@ -18,16 +18,16 @@ export class ButtonStylingPageComponent implements OnDestroy {
   private readonly colorSchemeObserver = observeDocsCodeThemeChanges(this.documentRef, this.codeBlockTheme);
 
   protected readonly contractCss = [
-    '.docs-button[data-appearance="outline"] {',
+    'tng-button > .tng-button[data-appearance="outline"] {',
     '  border-color: var(--tng-semantic-border-strong);',
     '}',
     '',
-    '.docs-button[data-tone="danger"][data-appearance="solid"] {',
+    'tng-button > .tng-button[data-tone="danger"][data-appearance="solid"] {',
     '  background: var(--tng-semantic-accent-danger);',
     '  color: var(--tng-color-white);',
     '}',
     '',
-    '.docs-button[data-disabled] {',
+    'tng-button > .tng-button[data-disabled] {',
     '  opacity: 0.55;',
     '  cursor: not-allowed;',
     '}',
@@ -37,5 +37,4 @@ export class ButtonStylingPageComponent implements OnDestroy {
   public ngOnDestroy(): void {
     this.colorSchemeObserver?.disconnect();
   }
-
 }

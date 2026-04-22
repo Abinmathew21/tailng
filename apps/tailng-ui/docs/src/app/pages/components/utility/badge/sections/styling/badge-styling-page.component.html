@@ -1,12 +1,12 @@
 <article class="badge-styling">
   <h2 class="badge-styling-title">Styling contract</h2>
   <p class="badge-styling-lead">
-    Badge styling is driven by stable class and data hooks, so contracts can be themed without
-    depending on internal structure beyond the generated badge node.
+    The components package keeps the same stable badge hooks as the primitive, so you style the
+    host and generated bubble without depending on any extra wrapper markup.
   </p>
 
-  <section class="badge-styling-block">
-    <h3>State and variant hooks</h3>
+  <section id="stable-hooks" class="badge-styling-block">
+    <h3>Stable hooks</h3>
     <div class="badge-styling-table-wrap">
       <table class="badge-styling-table">
         <thead>
@@ -57,8 +57,8 @@
     </div>
   </section>
 
-  <section class="badge-styling-block">
-    <h3>Class hooks</h3>
+  <section id="generated-node" class="badge-styling-block">
+    <h3>Generated node</h3>
     <ul class="badge-styling-list">
       <li><code>.tng-badge-host</code> is applied to every host carrying <code>tngBadge</code>.</li>
       <li><code>.tng-badge</code> is applied to the generated bubble node.</li>
@@ -66,8 +66,12 @@
     </ul>
   </section>
 
-  <section class="badge-styling-block">
-    <h3>Example contract overrides</h3>
+  <section id="owner-guidance" class="badge-styling-block">
+    <h3>Owner guidance</h3>
+    <p>
+      Target the generated bubble under your host and keep host layout decisions on your own host
+      class. The components export does not add a visual wrapper of its own.
+    </p>
     <tng-code-block
       [code]="contractCss"
       adapter="shiki"

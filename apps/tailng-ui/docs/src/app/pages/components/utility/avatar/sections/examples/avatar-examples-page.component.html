@@ -1,56 +1,41 @@
 <article class="avatar-examples">
   <h2 class="avatar-examples-title">Examples</h2>
   <p class="avatar-examples-lead">
-    Practical avatar patterns with the same behavior shown across headless markup, plain CSS
-    wrapper usage, and Tailwind utility shells.
+    These examples stay wrapper-focused: the component owns fallback display and slot markup while
+    you compose surrounding roster and status layouts.
   </p>
 
   <app-docs-example-tabs-section
+    id="team-roster"
     class="avatar-examples-block"
-    heading="Example 1: Team roster"
-    description="Render identity badges with fallback initials and size/shape variation."
-    ariaLabel="Avatar roster variants"
-    tabListAriaLabel="Avatar roster style tabs"
-    defaultValue="headless"
+    heading="Team roster"
+    description="Combine wrapper avatars with names and roles in a compact team list."
+    ariaLabel="Avatar team roster variants"
+    tabListAriaLabel="Avatar team roster style tabs"
+    defaultValue="plain-css"
     [codeBlockTheme]="codeBlockTheme()"
   >
     <ng-template
       appDocsExampleVariant
-      value="headless"
-      label="Headless"
-      panelTitle="Roster (headless)"
-      [codeTabs]="rosterHeadlessTabs"
-    >
-      <div class="avatar-example-shell avatar-example-shell--headless">
-        <div class="avatar-roster">
-          <span tngAvatar class="avatar-headless-host">
-            <img tngAvatarImage [attr.src]="sampleImage" alt="Alex" class="avatar-headless-image" />
-            <span tngAvatarFallback class="avatar-headless-fallback" [attr.hidden]="''">AL</span>
-          </span>
-          <span tngAvatar class="avatar-headless-host">
-            <img tngAvatarImage [attr.hidden]="''" alt="" class="avatar-headless-image" />
-            <span tngAvatarFallback class="avatar-headless-fallback">TN</span>
-          </span>
-          <span tngAvatar class="avatar-headless-host avatar-headless-host--square">
-            <img tngAvatarImage [attr.src]="sampleImage" alt="Square" class="avatar-headless-image" />
-            <span tngAvatarFallback class="avatar-headless-fallback" [attr.hidden]="''">SQ</span>
-          </span>
-        </div>
-      </div>
-    </ng-template>
-
-    <ng-template
-      appDocsExampleVariant
       value="plain-css"
       label="Plain-CSS"
-      panelTitle="Roster (plain CSS)"
+      panelTitle="Team roster (Plain CSS)"
       [codeTabs]="rosterPlainTabs"
     >
-      <div class="avatar-example-shell avatar-example-shell--plain">
-        <div class="avatar-roster">
-          <tng-avatar [src]="sampleImage" fallback="Alex"></tng-avatar>
-          <tng-avatar [src]="null" fallback="Tail Ng"></tng-avatar>
-          <tng-avatar [src]="sampleImage" fallback="Square" shape="square"></tng-avatar>
+      <div class="avatar-team-grid">
+        <div class="avatar-team-card">
+          <tng-avatar [src]="sampleImage" fallback="Alex" alt="Alex Morgan"></tng-avatar>
+          <div>
+            <strong>Alex Morgan</strong>
+            <p>Design systems</p>
+          </div>
+        </div>
+        <div class="avatar-team-card">
+          <tng-avatar [src]="null" fallback="TN" alt="Taylor Nguyen"></tng-avatar>
+          <div>
+            <strong>Taylor Nguyen</strong>
+            <p>Release engineering</p>
+          </div>
         </div>
       </div>
     </ng-template>
@@ -59,15 +44,81 @@
       appDocsExampleVariant
       value="tailwind-css"
       label="Tailwind CSS"
-      panelTitle="Roster (Tailwind)"
+      panelTitle="Team roster (Tailwind CSS)"
       [codeTabs]="rosterTailwindTabs"
     >
       <div
-        class="flex flex-wrap items-center gap-3 rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+        class="grid gap-3 rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4"
       >
-        <tng-avatar [src]="sampleImage" fallback="Alex" size="lg"></tng-avatar>
-        <tng-avatar [src]="null" fallback="TN"></tng-avatar>
-        <tng-avatar [src]="sampleImage" fallback="SQ" shape="square" size="sm"></tng-avatar>
+        <div class="grid grid-cols-[auto_1fr] items-center gap-3">
+          <tng-avatar [src]="sampleImage" fallback="Alex" alt="Alex Morgan" size="lg"></tng-avatar>
+          <div>
+            <p class="text-sm font-semibold text-[var(--tng-semantic-foreground-primary)]">Alex Morgan</p>
+            <p class="text-sm text-[var(--tng-semantic-foreground-secondary)]">Design systems</p>
+          </div>
+        </div>
+        <div class="grid grid-cols-[auto_1fr] items-center gap-3">
+          <tng-avatar [src]="null" fallback="TN" alt="Taylor Nguyen"></tng-avatar>
+          <div>
+            <p class="text-sm font-semibold text-[var(--tng-semantic-foreground-primary)]">Taylor Nguyen</p>
+            <p class="text-sm text-[var(--tng-semantic-foreground-secondary)]">Release engineering</p>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </app-docs-example-tabs-section>
+
+  <app-docs-example-tabs-section
+    id="presence-strip"
+    class="avatar-examples-block"
+    heading="Presence strip"
+    description="Layer online and busy indicators around the wrapper avatar without touching the internal fallback logic."
+    ariaLabel="Avatar presence strip variants"
+    tabListAriaLabel="Avatar presence strip style tabs"
+    defaultValue="plain-css"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+      panelTitle="Presence strip (Plain CSS)"
+      [codeTabs]="presencePlainTabs"
+    >
+      <div class="avatar-presence-strip">
+        <div class="avatar-presence-item">
+          <tng-avatar [src]="sampleImage" fallback="PR" alt="Priya Raman"></tng-avatar>
+          <span class="avatar-presence-dot avatar-presence-dot--online"></span>
+        </div>
+        <div class="avatar-presence-item">
+          <tng-avatar [src]="null" fallback="DN" alt="Dev Narang" shape="square"></tng-avatar>
+          <span class="avatar-presence-dot avatar-presence-dot--busy"></span>
+        </div>
+      </div>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Presence strip (Tailwind CSS)"
+      [codeTabs]="presenceTailwindTabs"
+    >
+      <div
+        class="flex gap-3 rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4"
+      >
+        <div class="relative">
+          <tng-avatar [src]="sampleImage" fallback="PR" alt="Priya Raman"></tng-avatar>
+          <span
+            class="absolute -bottom-0.5 -right-0.5 h-3.5 w-3.5 rounded-full border-2 border-[var(--tng-semantic-background-base)] bg-[var(--tng-semantic-accent-success)] shadow-[0_0_0_1px_color-mix(in_srgb,var(--tng-semantic-border-subtle)_70%,transparent)]"
+          ></span>
+        </div>
+        <div class="relative">
+          <tng-avatar [src]="null" fallback="DN" alt="Dev Narang" shape="square"></tng-avatar>
+          <span
+            class="absolute -bottom-0.5 -right-0.5 h-3.5 w-3.5 rounded-full border-2 border-[var(--tng-semantic-background-base)] bg-[var(--tng-semantic-accent-warning)] shadow-[0_0_0_1px_color-mix(in_srgb,var(--tng-semantic-border-subtle)_70%,transparent)]"
+          ></span>
+        </div>
       </div>
     </ng-template>
   </app-docs-example-tabs-section>

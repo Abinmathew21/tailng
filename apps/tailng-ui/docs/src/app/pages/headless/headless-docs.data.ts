@@ -294,7 +294,7 @@ export const HEADLESS_FEEDBACK_GROUP: HeadlessDocsGroup = {
 export const HEADLESS_UTILITY_GROUP: HeadlessDocsGroup = {
   id: 'utility',
   title: 'Utility',
-  subtitle: 'Reusable action and clipboard behavior',
+  subtitle: 'Reusable action, identity, and clipboard behavior',
   items: [
     {
       id: 'codeblock',
@@ -314,6 +314,27 @@ export const HEADLESS_UTILITY_GROUP: HeadlessDocsGroup = {
       slug: 'button',
       title: 'Button',
       description: 'Press normalization, ARIA contracts, and action-state behavior.',
+    },
+    {
+      id: 'avatar',
+      slug: 'avatar',
+      title: 'Avatar',
+      description:
+        'Structural avatar slots for owner-authored image and fallback content without built-in sizing logic.',
+    },
+    {
+      id: 'badge',
+      slug: 'badge',
+      title: 'Badge',
+      description:
+        'Generated badge bubble behavior with owner-controlled host markup, counts, dot mode, and placement.',
+    },
+    {
+      id: 'tag',
+      slug: 'tag',
+      title: 'Tag',
+      description:
+        'Compact tag semantics with owner-authored icon, removable action, and state-reflecting slot hooks.',
     },
   ],
 };
@@ -346,6 +367,13 @@ export const HEADLESS_NAVIGATION_GROUP: HeadlessDocsGroup = {
       slug: 'breadcrumb',
       title: 'Breadcrumb',
       description: 'Structural breadcrumb slots for owner-controlled trails, current links, and separators.',
+    },
+    {
+      id: 'tabs',
+      slug: 'tabs',
+      title: 'Tabs',
+      description:
+        'Tablist, trigger, and panel behavior with roving focus, selection outputs, and mount control.',
     },
     {
       id: 'tree',

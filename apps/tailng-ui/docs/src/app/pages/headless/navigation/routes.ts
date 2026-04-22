@@ -35,6 +35,11 @@ export const HEADLESS_NAVIGATION_ROUTES: Routes = [
       import('./breadcrumb/routes').then((module) => module.HEADLESS_NAVIGATION_BREADCRUMB_ROUTES),
   },
   {
+    path: 'tabs',
+    loadChildren: () =>
+      import('./tabs/routes').then((module) => module.HEADLESS_NAVIGATION_TABS_ROUTES),
+  },
+  {
     path: 'tree',
     loadChildren: () =>
       import('./tree/routes').then((module) => module.HEADLESS_NAVIGATION_TREE_ROUTES),
@@ -46,6 +51,7 @@ export const HEADLESS_NAVIGATION_ROUTES: Routes = [
         item.slug !== 'menu' &&
         item.slug !== 'context-menu' &&
         item.slug !== 'breadcrumb' &&
+        item.slug !== 'tabs' &&
         item.slug !== 'tree',
     )
     .map((item) => ({

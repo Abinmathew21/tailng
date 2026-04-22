@@ -1,23 +1,13 @@
 <article class="avatar-overview">
   <h2 class="avatar-overview-title">Avatar overview</h2>
   <p class="avatar-overview-lead">
-    Use headless primitives for full ownership or <code>&lt;tng-avatar&gt;</code> when you want
-    built-in shape, size, and fallback handling.
+    <code>&lt;tng-avatar&gt;</code> wraps the headless avatar slots with built-in fallback
+    handling, default sizing, and a minimum visual shell.
   </p>
 
-  <section class="avatar-overview-block">
+  <section id="imports" class="avatar-overview-block">
     <h3>Imports</h3>
-    <p>Primitive directives and wrapper component can be used independently.</p>
-    <tng-code-block
-      [code]="primitiveImportCode"
-      adapter="shiki"
-      language="ts"
-      title="Primitive import"
-      [theme]="codeBlockTheme()"
-      [sanitizeHtml]="false"
-      [wrap]="true"
-      [lineNumbers]="false"
-    ></tng-code-block>
+    <p>Use the wrapper when you want the library’s default avatar shell instead of managing fallback logic yourself.</p>
     <tng-code-block
       [code]="componentImportCode"
       adapter="shiki"
@@ -28,25 +18,11 @@
       [wrap]="true"
       [lineNumbers]="false"
     ></tng-code-block>
-  </section>
-
-  <section class="avatar-overview-block">
-    <h3>Usage patterns</h3>
-    <tng-code-block
-      [code]="primitiveUsageCode"
-      adapter="shiki"
-      language="html"
-      title="Headless usage"
-      [theme]="codeBlockTheme()"
-      [sanitizeHtml]="false"
-      [wrap]="true"
-      [lineNumbers]="false"
-    ></tng-code-block>
     <tng-code-block
       [code]="componentUsageCode"
       adapter="shiki"
       language="html"
-      title="Wrapper usage"
+      title="Minimal wrapper usage"
       [theme]="codeBlockTheme()"
       [sanitizeHtml]="false"
       [wrap]="true"
@@ -55,60 +31,20 @@
   </section>
 
   <app-docs-example-tabs-section
+    id="style-variants"
     class="avatar-overview-block"
     heading="Style variants"
-    description="Same avatar behavior rendered as Headless, Plain-CSS wrapper, and Tailwind utility shell."
+    description="The wrapper keeps fallback behavior and slot wiring while you own surrounding composition."
     ariaLabel="Avatar style variants"
     tabListAriaLabel="Avatar style tabs"
-    defaultValue="headless"
+    defaultValue="plain-css"
     [codeBlockTheme]="codeBlockTheme()"
   >
     <ng-template
       appDocsExampleVariant
-      value="headless"
-      label="Headless"
-      panelTitle="Headless avatar"
-      [codeTabs]="headlessCodeTabs"
-    >
-      <div class="avatar-preview-shell avatar-preview-shell--headless">
-        <div class="avatar-preview-controls">
-          <button type="button" class="avatar-control" (click)="setSource('headless', 'valid')">Valid</button>
-          <button type="button" class="avatar-control" (click)="setSource('headless', 'broken')">Broken</button>
-          <button type="button" class="avatar-control" (click)="setSource('headless', 'none')">No source</button>
-        </div>
-        <div class="avatar-preview-row">
-          <span tngAvatar class="avatar-headless-host" data-size="md" data-shape="circle">
-            <img
-              tngAvatarImage
-              [attr.src]="srcFor('headless')"
-              [attr.hidden]="showFallback() ? '' : null"
-              alt="Headless profile"
-              class="avatar-headless-image"
-              (error)="onHeadlessImageError()"
-              (load)="onHeadlessImageLoad()"
-            />
-            <span tngAvatarFallback class="avatar-headless-fallback" [attr.hidden]="showFallback() ? null : ''">
-              TN
-            </span>
-          </span>
-          <span tngAvatar class="avatar-headless-host avatar-headless-host--square" data-size="md" data-shape="square">
-            <img tngAvatarImage [attr.hidden]="''" alt="" class="avatar-headless-image" />
-            <span tngAvatarFallback class="avatar-headless-fallback" aria-hidden="true">🧩</span>
-          </span>
-          <span tngAvatar class="avatar-headless-host avatar-headless-host--sm" data-size="sm" data-shape="circle">
-            <img tngAvatarImage [attr.hidden]="''" alt="" class="avatar-headless-image" />
-            <span tngAvatarFallback class="avatar-headless-fallback">SM</span>
-          </span>
-        </div>
-        <p class="avatar-preview-status">state: {{ headlessDisplayState() }}</p>
-      </div>
-    </ng-template>
-
-    <ng-template
-      appDocsExampleVariant
       value="plain-css"
       label="Plain-CSS"
-      panelTitle="Wrapper avatar (plain CSS)"
+      panelTitle="Wrapper avatar (Plain CSS)"
       [codeTabs]="plainCssCodeTabs"
     >
       <div class="avatar-preview-shell avatar-preview-shell--plain">
@@ -118,11 +54,11 @@
           <button type="button" class="avatar-control" (click)="setSource('plain', 'none')">No source</button>
         </div>
         <div class="avatar-preview-row">
-          <tng-avatar [src]="srcFor('plain')" fallback="Tail Ng"></tng-avatar>
-          <tng-avatar [src]="srcFor('plain')" fallback="Square" shape="square"></tng-avatar>
-          <tng-avatar [src]="null" fallback="NI" size="sm"></tng-avatar>
+          <tng-avatar [src]="srcFor('plain')" fallback="Tail Ng" alt="Taylor Nguyen"></tng-avatar>
+          <tng-avatar [src]="srcFor('plain')" fallback="Square" alt="Taylor Nguyen" shape="square"></tng-avatar>
+          <tng-avatar [src]="null" fallback="NI" alt=""></tng-avatar>
         </div>
-        <p class="avatar-preview-status">source mode: {{ plainDisplayState() }}</p>
+        <p class="avatar-preview-status">source mode: {{ modeFor('plain') }}</p>
       </div>
     </ng-template>
 
@@ -130,52 +66,52 @@
       appDocsExampleVariant
       value="tailwind-css"
       label="Tailwind CSS"
-      panelTitle="Wrapper avatar (Tailwind)"
+      panelTitle="Wrapper avatar (Tailwind CSS)"
       [codeTabs]="tailwindCodeTabs"
     >
       <div
-        class="flex flex-col gap-3 rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+        class="rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4"
       >
         <div class="flex flex-wrap gap-2">
           <button
             type="button"
-            class="rounded-md border border-slate-400 px-2.5 py-1 text-xs font-semibold text-slate-700 dark:border-slate-500 dark:text-slate-200"
+            class="rounded-md border border-[var(--tng-semantic-border-default)] px-2.5 py-1 text-xs font-semibold text-[var(--tng-semantic-foreground-primary)] transition hover:bg-[color-mix(in_srgb,var(--tng-semantic-foreground-primary)_6%,transparent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color-mix(in_srgb,var(--tng-semantic-focus-ring)_40%,transparent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--tng-semantic-background-base)]"
             (click)="setSource('tailwind', 'valid')"
           >
             Valid
           </button>
           <button
             type="button"
-            class="rounded-md border border-slate-400 px-2.5 py-1 text-xs font-semibold text-slate-700 dark:border-slate-500 dark:text-slate-200"
+            class="rounded-md border border-[var(--tng-semantic-border-default)] px-2.5 py-1 text-xs font-semibold text-[var(--tng-semantic-foreground-primary)] transition hover:bg-[color-mix(in_srgb,var(--tng-semantic-foreground-primary)_6%,transparent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color-mix(in_srgb,var(--tng-semantic-focus-ring)_40%,transparent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--tng-semantic-background-base)]"
             (click)="setSource('tailwind', 'broken')"
           >
             Broken
           </button>
           <button
             type="button"
-            class="rounded-md border border-slate-400 px-2.5 py-1 text-xs font-semibold text-slate-700 dark:border-slate-500 dark:text-slate-200"
+            class="rounded-md border border-[var(--tng-semantic-border-default)] px-2.5 py-1 text-xs font-semibold text-[var(--tng-semantic-foreground-primary)] transition hover:bg-[color-mix(in_srgb,var(--tng-semantic-foreground-primary)_6%,transparent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color-mix(in_srgb,var(--tng-semantic-focus-ring)_40%,transparent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--tng-semantic-background-base)]"
             (click)="setSource('tailwind', 'none')"
           >
             No source
           </button>
         </div>
 
-        <div class="flex flex-wrap items-center gap-3">
-          <tng-avatar [src]="srcFor('tailwind')" fallback="TN" size="lg"></tng-avatar>
-          <tng-avatar [src]="srcFor('tailwind')" fallback="SQ" shape="square"></tng-avatar>
-          <tng-avatar [src]="null" fallback="NA" size="sm"></tng-avatar>
+        <div class="mt-3 flex flex-wrap items-center gap-3">
+          <tng-avatar [src]="srcFor('tailwind')" fallback="TN" alt="Taylor Nguyen" size="lg"></tng-avatar>
+          <tng-avatar [src]="srcFor('tailwind')" fallback="SQ" alt="Taylor Nguyen" shape="square"></tng-avatar>
+          <tng-avatar [src]="null" fallback="NA" alt="" size="sm"></tng-avatar>
         </div>
-        <p class="m-0 text-sm text-slate-600 dark:text-slate-300">source mode: {{ tailwindDisplayState() }}</p>
+        <p class="mt-3 text-sm text-[var(--tng-semantic-foreground-secondary)]">source mode: {{ modeFor('tailwind') }}</p>
       </div>
     </ng-template>
   </app-docs-example-tabs-section>
 
-  <section class="avatar-overview-block">
+  <section id="accessibility-baseline" class="avatar-overview-block">
     <h3>Accessibility baseline</h3>
     <ul class="avatar-overview-list">
-      <li>Use meaningful <code>alt</code> text when avatar images identify a person.</li>
-      <li>Use <code>alt=""</code> for decorative avatars to avoid noisy screen-reader output.</li>
-      <li>Provide readable fallback text (initials/icon) when image source is missing or broken.</li>
+      <li>Use meaningful <code>alt</code> text when the avatar identifies a person.</li>
+      <li>Use <code>alt=""</code> for decorative avatars when nearby text already names the person.</li>
+      <li>The wrapper automatically switches to fallback text when <code>src</code> is empty or the image fails to load.</li>
     </ul>
   </section>
 </article>

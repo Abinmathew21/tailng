@@ -1,13 +1,13 @@
 export type OwnableDocsCategoryId =
   | 'getting-started'
-  | 'form'
   | 'layout'
   | 'overlay'
   | 'feedback'
-  | 'navigation'
+  | 'form'
   | 'utility'
-  | 'release'
-  | 'tooling';
+  | 'navigation'
+  | 'tooling'
+  | 'release';
 
 export type OwnableDocsItem = Readonly<{
   id: string;
@@ -90,20 +90,6 @@ export const OWNABLE_FORM_GROUP: OwnableDocsGroup = {
         'Ownable textarea install with local wrapper source, import metadata, and generated file structure.',
     },
     {
-      id: 'autocomplete',
-      slug: 'autocomplete',
-      title: 'Autocomplete',
-      description:
-        'Ownable autocomplete install with local wrapper source, option mapping defaults, and generated file structure.',
-    },
-    {
-      id: 'switch',
-      slug: 'switch',
-      title: 'Switch',
-      description:
-        'Ownable switch install with local wrapper source, settings-focused markup, and generated file structure.',
-    },
-    {
       id: 'label',
       slug: 'label',
       title: 'Label',
@@ -144,6 +130,13 @@ export const OWNABLE_FORM_GROUP: OwnableDocsGroup = {
       title: 'Button Toggle',
       description:
         'Ownable button-toggle install with local group and item wrappers, toolbar semantics, and generated file structure.',
+    },
+    {
+      id: 'autocomplete',
+      slug: 'autocomplete',
+      title: 'Autocomplete',
+      description:
+        'Ownable autocomplete install with local wrapper source, option mapping defaults, and generated file structure.',
     },
     {
       id: 'chips',
@@ -283,11 +276,11 @@ export const OWNABLE_NAVIGATION_GROUP: OwnableDocsGroup = {
   subtitle: 'Installable navigation components',
   items: [
     {
-      id: 'breadcrumb',
-      slug: 'breadcrumb',
-      title: 'Breadcrumb',
+      id: 'menubar',
+      slug: 'menubar',
+      title: 'Menubar',
       description:
-        'Ownable breadcrumb install with local wrapper source, collapsed trail defaults, and generated file structure.',
+        'Ownable menubar install with local wrapper source, command-strip markup, and generated file structure.',
     },
     {
       id: 'context-menu',
@@ -297,11 +290,18 @@ export const OWNABLE_NAVIGATION_GROUP: OwnableDocsGroup = {
         'Ownable context-menu install with local wrapper source, trigger semantics, and generated file structure.',
     },
     {
-      id: 'menubar',
-      slug: 'menubar',
-      title: 'Menubar',
+      id: 'breadcrumb',
+      slug: 'breadcrumb',
+      title: 'Breadcrumb',
       description:
-        'Ownable menubar install with local wrapper source, command-strip markup, and generated file structure.',
+        'Ownable breadcrumb install with local wrapper source, collapsed trail defaults, and generated file structure.',
+    },
+    {
+      id: 'tabs',
+      slug: 'tabs',
+      title: 'Tabs',
+      description:
+        'Ownable tabs install with local wrapper source, tablist markup, and generated file structure.',
     },
     {
       id: 'tree',
@@ -332,6 +332,34 @@ export const OWNABLE_UTILITY_GROUP: OwnableDocsGroup = {
       description:
         'Ownable copy button install with local wrapper source, clipboard feedback states, and generated file structure.',
     },
+    {
+      id: 'button',
+      slug: 'button',
+      title: 'Button',
+      description:
+        'Ownable button install with local wrapper source, action semantics, and generated file structure.',
+    },
+    {
+      id: 'avatar',
+      slug: 'avatar',
+      title: 'Avatar',
+      description:
+        'Ownable avatar install with local wrapper source, fallback initials, and generated file structure.',
+    },
+    {
+      id: 'badge',
+      slug: 'badge',
+      title: 'Badge',
+      description:
+        'Ownable badge install with local directive source, generated bubble styling, and generated file structure.',
+    },
+    {
+      id: 'tag',
+      slug: 'tag',
+      title: 'Tag',
+      description:
+        'Ownable tag install with local wrapper source, removable chip behavior, and generated file structure.',
+    },
   ],
 };
 
@@ -352,12 +380,12 @@ export const OWNABLE_RELEASE_GROUP: OwnableDocsGroup = {
 
 export const OWNABLE_DOCS_GROUPS: readonly OwnableDocsGroup[] = Object.freeze([
   OWNABLE_GETTING_STARTED_GROUP,
-  OWNABLE_FORM_GROUP,
   OWNABLE_LAYOUT_GROUP,
   OWNABLE_OVERLAY_GROUP,
   OWNABLE_FEEDBACK_GROUP,
-  OWNABLE_NAVIGATION_GROUP,
+  OWNABLE_FORM_GROUP,
   OWNABLE_UTILITY_GROUP,
+  OWNABLE_NAVIGATION_GROUP,
   OWNABLE_TOOLING_GROUP,
   OWNABLE_RELEASE_GROUP,
 ]);

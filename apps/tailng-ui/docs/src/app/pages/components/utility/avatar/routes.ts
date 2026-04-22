@@ -49,22 +49,8 @@ export const COMPONENTS_UTILITY_AVATAR_ROUTES: Routes = [
       },
       {
         path: 'ownable-install',
-        data: {
-          registrySlug: 'avatar',
-          usageCode: [
-            '<tng-avatar',
-            '  [src]="userPhotoUrl"',
-            '  fallback="Tail Ng"',
-            '  shape="circle"',
-            '  size="md"',
-            '></tng-avatar>',
-            '',
-          ].join('\n'),
-        },
-        loadComponent: () =>
-          import('../../../../shared/ownable-install-section/docs-ownable-install-section.component').then(
-            (module) => module.DocsOwnableInstallSectionComponent,
-          ),
+        pathMatch: 'full',
+        redirectTo: '/ownable/utility/avatar',
       },
       {
         path: '**',

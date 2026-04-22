@@ -53,52 +53,43 @@ export const docsComponentOutlineItemsBySlug: Readonly<Record<string, Partial<Re
   'avatar': {
     'overview': [
       { id: 'imports', label: 'Imports' },
-      { id: 'usage-patterns', label: 'Usage patterns' },
       { id: 'style-variants', label: 'Style variants' },
       { id: 'accessibility-baseline', label: 'Accessibility baseline' },
     ],
     'api': [
-      { id: 'component-inputs', label: 'Component inputs' },
-      { id: 'headless-primitives', label: 'Headless primitives' },
+      { id: 'wrapper-component', label: 'Wrapper component' },
+      { id: 'wrapper-inputs', label: 'Wrapper inputs' },
+      { id: 'primitive-foundation', label: 'Primitive foundation' },
     ],
     'styling': [
-      { id: 'state-and-variant-hooks', label: 'State and variant hooks' },
-      { id: 'common-selectors', label: 'Common selectors' },
-      { id: 'example-contract-overrides', label: 'Example contract overrides' },
+      { id: 'wrapper-state-hooks', label: 'Wrapper state hooks' },
+      { id: 'wrapper-shell', label: 'Wrapper shell' },
+      { id: 'owner-guidance', label: 'Owner guidance' },
     ],
     'examples': [
-      { id: 'example-1-team-roster', label: 'Example 1: Team roster' },
-    ],
-    'ownable-install': [
-      { id: 'install-from-registry', label: 'Install from registry' },
-      { id: 'generated-files', label: 'Generated files' },
-      { id: 'import-and-usage', label: 'Import in your feature module/component' },
+      { id: 'team-roster', label: 'Team roster' },
+      { id: 'presence-strip', label: 'Presence strip' },
     ],
   },
   'badge': {
     'overview': [
       { id: 'imports', label: 'Imports' },
-      { id: 'usage-patterns', label: 'Usage patterns' },
       { id: 'style-variants', label: 'Style variants' },
       { id: 'accessibility-baseline', label: 'Accessibility baseline' },
     ],
     'api': [
+      { id: 'component-package-export', label: 'Component package export' },
       { id: 'directive-inputs', label: 'Directive inputs' },
-      { id: 'outputs-and-methods', label: 'Outputs and methods' },
+      { id: 'primitive-foundation', label: 'Primitive foundation' },
     ],
     'styling': [
-      { id: 'state-and-variant-hooks', label: 'State and variant hooks' },
-      { id: 'class-hooks', label: 'Class hooks' },
-      { id: 'example-contract-overrides', label: 'Example contract overrides' },
+      { id: 'stable-hooks', label: 'Stable hooks' },
+      { id: 'generated-node', label: 'Generated node' },
+      { id: 'owner-guidance', label: 'Owner guidance' },
     ],
     'examples': [
-      { id: 'example-1-notification-counts-and-caps', label: 'Example 1: Notification counts and caps' },
-      { id: 'example-2-placement-and-host-sizing', label: 'Example 2: Placement and host sizing' },
-    ],
-    'ownable-install': [
-      { id: 'install-from-registry', label: 'Install from registry' },
-      { id: 'generated-files', label: 'Generated files' },
-      { id: 'import-and-usage', label: 'Import in your feature module/component' },
+      { id: 'notification-counts', label: 'Notification counts' },
+      { id: 'placement-and-host-sizing', label: 'Placement and host sizing' },
     ],
   },
   'breadcrumb': {
@@ -130,28 +121,22 @@ export const docsComponentOutlineItemsBySlug: Readonly<Record<string, Partial<Re
   'button': {
     'overview': [
       { id: 'imports', label: 'Imports' },
-      { id: 'usage-patterns', label: 'Usage patterns' },
       { id: 'style-variants', label: 'Style variants' },
       { id: 'accessibility-baseline', label: 'Accessibility baseline' },
     ],
     'api': [
-      { id: 'wrapper-inputs-and-lt-tng-button-and-gt', label: 'Wrapper inputs (&lt;tng-button&gt;)' },
-      { id: 'primitive-inputs-tngpress', label: 'Primitive inputs (tngPress)' },
-      { id: 'behavior-notes', label: 'Behavior notes' },
+      { id: 'wrapper-component', label: 'Wrapper component' },
+      { id: 'aria-and-state-inputs', label: 'ARIA and state inputs' },
+      { id: 'primitive-foundation', label: 'Primitive foundation' },
     ],
     'styling': [
       { id: 'wrapper-state-hooks', label: 'Wrapper state hooks' },
-      { id: 'primitive-host-behavior', label: 'Primitive host behavior' },
-      { id: 'contract-css-snippet', label: 'Contract CSS snippet' },
+      { id: 'wrapper-shell', label: 'Wrapper shell' },
+      { id: 'owner-guidance', label: 'Owner guidance' },
     ],
     'examples': [
-      { id: 'example-1-action-row', label: 'Example 1: Action row' },
-      { id: 'example-2-menu-trigger-semantics', label: 'Example 2: Menu trigger semantics' },
-    ],
-    'ownable-install': [
-      { id: 'install-from-registry', label: 'Install from registry' },
-      { id: 'generated-files', label: 'Generated files' },
-      { id: 'import-and-usage', label: 'Import in your feature module/component' },
+      { id: 'action-row', label: 'Action row' },
+      { id: 'menu-trigger', label: 'Menu trigger' },
     ],
   },
   'button-toggle': {
@@ -893,9 +878,9 @@ export const docsComponentOutlineItemsBySlug: Readonly<Record<string, Partial<Re
       { id: 'accessibility-baseline', label: 'Accessibility baseline' },
     ],
     'api': [
-      { id: 'primitive-tngtag-inputs-and-output', label: 'Primitive: tngTag inputs and output' },
-      { id: 'primitive-tngtagclose', label: 'Primitive: tngTagClose' },
-      { id: 'component-and-lt-tng-tag-and-gt', label: 'Component: &lt;tng-tag&gt;' },
+      { id: 'component-wrapper', label: 'Component wrapper' },
+      { id: 'projected-primitives', label: 'Projected primitives' },
+      { id: 'primitive-foundation', label: 'Primitive foundation' },
     ],
     'styling': [
       { id: 'slot-and-state-hooks', label: 'Slot and state hooks' },
@@ -903,13 +888,30 @@ export const docsComponentOutlineItemsBySlug: Readonly<Record<string, Partial<Re
       { id: 'example-contract-overrides', label: 'Example contract overrides' },
     ],
     'examples': [
-      { id: 'example-1-removable-filter-chips', label: 'Example 1: Removable filter chips' },
-      { id: 'example-2-status-tags', label: 'Example 2: Status tags' },
+      { id: 'removable-filter-chips', label: 'Removable filter chips' },
+      { id: 'status-tags', label: 'Status tags' },
     ],
-    'ownable-install': [
-      { id: 'install-from-registry', label: 'Install from registry' },
-      { id: 'generated-files', label: 'Generated files' },
-      { id: 'import-and-usage', label: 'Import in your feature module/component' },
+  },
+  'tabs': {
+    'overview': [
+      { id: 'imports', label: 'Imports' },
+      { id: 'structure', label: 'Structure' },
+      { id: 'style-variants', label: 'Style variants' },
+      { id: 'behavior-baseline', label: 'Behavior baseline' },
+    ],
+    'api': [
+      { id: 'wrapper-component', label: 'Wrapper component' },
+      { id: 'tablist-tab-panel', label: 'Tablist, tab, and panel' },
+      { id: 'primitive-foundation', label: 'Primitive foundation' },
+    ],
+    'styling': [
+      { id: 'stable-hooks', label: 'Stable hooks' },
+      { id: 'default-shell', label: 'Default shell' },
+      { id: 'owner-guidance', label: 'Owner guidance' },
+    ],
+    'examples': [
+      { id: 'controlled-value', label: 'Controlled value' },
+      { id: 'vertical-layout', label: 'Vertical layout' },
     ],
   },
   'textarea': {
