@@ -1,4 +1,36 @@
 <article class="input-otp-examples">
+  <section id="form-usage" class="input-otp-examples-block">
+    <app-docs-example-tabs-section
+      heading="Form usage"
+      description="OTP fields often represent one step inside a larger approval or verification form."
+      ariaLabel="Input OTP form usage example"
+      tabListAriaLabel="Input OTP form usage variants"
+      defaultValue="live-demo"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template appDocsExampleVariant value="live-demo" label="Live demo" panelTitle="Input OTP form usage">
+        <app-docs-form-demo-shell
+          title="Verify the release request"
+          description="Use the OTP input as part of a final verification form step."
+          submitLabel="Verify code"
+        >
+          <div docsFormDemoField class="docs-component-input-otp-examples-passcode-plain-control">
+            <tng-input-otp
+              [length]="6"
+              [value]="passcodePlainValue()"
+              [ariaLabel]="'Verification code'"
+              (valueChange)="onPasscodePlainValueChange($event)"
+              (complete)="onPasscodePlainComplete($event)"
+            ></tng-input-otp>
+          </div>
+          <p docsFormDemoSummary>
+            Value: {{ passcodePlainValue() || '—' }} · Complete event: {{ passcodePlainComplete() || '—' }}
+          </p>
+        </app-docs-form-demo-shell>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
   <section id="verification-passcode" class="input-otp-examples-block">
     <app-docs-example-tabs-section
       heading="Verification passcode"

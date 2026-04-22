@@ -7,6 +7,45 @@
 
   <section class="textarea-examples-block">
     <app-docs-example-tabs-section
+      heading="Form usage"
+      description="Use the textarea inside a submit-ready form when a larger text field belongs to a workflow."
+      ariaLabel="Textarea form usage example"
+      tabListAriaLabel="Textarea form usage variants"
+      defaultValue="live-demo"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="live-demo"
+        label="Live demo"
+        panelTitle="Textarea form usage"
+      >
+        <app-docs-form-demo-shell
+          title="Draft incident summary"
+          description="Capture multiline status notes before routing the incident update."
+          submitLabel="Save summary"
+        >
+          <div docsFormDemoField class="textarea-postmortem-example">
+            <label class="textarea-postmortem-example__label" for="textarea-form-usage">
+              Incident summary
+            </label>
+            <tng-textarea
+              [id]="'textarea-form-usage'"
+              [rows]="5"
+              [resize]="'vertical'"
+              [placeholder]="'Add the latest incident summary'"
+              [value]="plainValue()"
+              (valueChange)="onPlainValueChange($event)"
+            ></tng-textarea>
+          </div>
+          <p docsFormDemoSummary>{{ plainValue().length }} characters</p>
+        </app-docs-form-demo-shell>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section class="textarea-examples-block">
+    <app-docs-example-tabs-section
       heading="Incident summary composer"
       description="Capture richer text while preserving native textarea semantics and predictable resize behavior."
       ariaLabel="Textarea examples"

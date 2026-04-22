@@ -1,4 +1,41 @@
 <article class="chips-examples">
+  <section id="form-usage" class="docs-page-section">
+    <app-docs-example-tabs-section
+      heading="Form usage"
+      description="Chips often represent removable selections inside a larger form step or filter composer."
+      ariaLabel="Chips form usage example"
+      tabListAriaLabel="Chips form usage variants"
+      defaultValue="live-demo"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template appDocsExampleVariant value="live-demo" label="Live demo" panelTitle="Chips form usage">
+        <app-docs-form-demo-shell
+          title="Review active filters"
+          description="Keep removable chips inside the form so the current selection is visible before submit."
+          submitLabel="Apply filters"
+        >
+          <div docsFormDemoField class="docs-component-chips-examples-live-control">
+            <tng-chips
+              [values]="filterPlainValues()"
+              (valuesChange)="onFilterPlainValuesChange($event)"
+              [ariaLabel]="'Active filters'"
+            >
+              <div class="docs-component-chips-examples-live-row docs-component-chips-examples-live-row--filters">
+                @for (filter of filterPlainValues(); track filter) {
+                  <span tngChip [tngChipValue]="filter" [tngChipLabel]="filter" class="docs-component-chips-examples-live-chip docs-component-chips-examples-live-chip--filter">
+                    <span>{{ filter }}</span>
+                    <button tngChipRemove type="button" class="docs-component-chips-examples-live-chip-remove">&times;</button>
+                  </span>
+                }
+              </div>
+            </tng-chips>
+          </div>
+          <p docsFormDemoSummary>Selected: {{ filterPlainSummary() }}</p>
+        </app-docs-form-demo-shell>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
   <section id="removable-filter-chips" class="docs-page-section">
     <app-docs-example-tabs-section
       heading="Removable filter chips"

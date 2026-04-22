@@ -30,5 +30,56 @@
         This page will include API references, examples, accessibility notes, and migration tips.
       </p>
     </section>
+
+    <section class="mt-6 grid gap-4 rounded-xl border border-tng-border-subtle bg-tng-bg-surface p-6">
+      <div class="grid gap-1">
+        <h2 class="m-0 text-xl font-semibold text-tng-fg-primary">Angular Signal Forms Review</h2>
+        <p class="m-0 max-w-4xl text-sm text-tng-fg-secondary">
+          Reviewed against Angular 21.1 Signal Forms and verified locally where the wrapper already
+          exposes either ControlValueAccessor interop or a model-backed host directive. Use this
+          matrix as the quick answer before you jump into a specific component page.
+        </p>
+      </div>
+
+      <div class="overflow-x-auto rounded-xl border border-tng-border-subtle">
+        <table class="min-w-full border-collapse text-left text-sm">
+          <thead class="bg-tng-bg-base text-xs uppercase tracking-[0.08em] text-tng-fg-secondary">
+            <tr>
+              <th class="border-b border-tng-border-subtle px-4 py-3">Component</th>
+              <th class="border-b border-tng-border-subtle px-4 py-3">Status</th>
+              <th class="border-b border-tng-border-subtle px-4 py-3">Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (row of signalFormsReviewRows; track row.component) {
+              <tr class="align-top">
+                <td class="border-b border-tng-border-subtle px-4 py-3 font-medium text-tng-fg-primary">
+                  <code>{{ row.component }}</code>
+                </td>
+                <td class="border-b border-tng-border-subtle px-4 py-3">
+                  <span
+                    class="inline-flex rounded-full border px-2.5 py-1 text-xs font-semibold uppercase tracking-[0.08em]"
+                    [class.border-emerald-300]="row.status === 'Ready'"
+                    [class.bg-emerald-50]="row.status === 'Ready'"
+                    [class.text-emerald-700]="row.status === 'Ready'"
+                    [class.border-amber-300]="row.status === 'Not ready'"
+                    [class.bg-amber-50]="row.status === 'Not ready'"
+                    [class.text-amber-700]="row.status === 'Not ready'"
+                    [class.border-slate-300]="row.status === 'Not a field' || row.status === 'Not documented yet'"
+                    [class.bg-slate-100]="row.status === 'Not a field' || row.status === 'Not documented yet'"
+                    [class.text-slate-700]="row.status === 'Not a field' || row.status === 'Not documented yet'"
+                  >
+                    {{ row.status }}
+                  </span>
+                </td>
+                <td class="border-b border-tng-border-subtle px-4 py-3 text-tng-fg-secondary">
+                  {{ row.details }}
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
   </tng-card-content>
 </tng-card>

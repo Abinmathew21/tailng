@@ -84,6 +84,27 @@ export class InputApiPageComponent implements OnDestroy {
     '',
   ].join('\n');
 
+  protected readonly signalFormsCode = String.raw`import { Component, signal } from '@angular/core';
+import { FormField, form } from '@angular/forms/signals';
+import { TngInputComponent } from '@tailng-ui/components';
+
+@Component({
+  selector: 'app-profile-name-field',
+  standalone: true,
+  imports: [FormField, TngInputComponent],
+  template: \`
+    <tng-input
+      ariaLabel="Profile name"
+      placeholder="Prince"
+      [formField]="profileForm.name"
+    ></tng-input>
+  \`,
+})
+export class ProfileNameFieldComponent {
+  readonly profileModel = signal({ name: '' });
+  readonly profileForm = form(this.profileModel);
+}`;
+
   public ngOnDestroy(): void {
     this.colorSchemeObserver?.disconnect();
   }

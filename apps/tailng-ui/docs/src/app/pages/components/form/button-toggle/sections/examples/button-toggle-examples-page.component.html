@@ -1,5 +1,37 @@
 <article class="docs-section-page button-toggle-examples">
   <div class="docs-section-page-main">
+    <section id="form-usage" class="docs-section-anchor button-toggle-examples-block">
+      <app-docs-example-tabs-section
+        heading="Form usage"
+        description="Button-toggle groups can act as compact single-select controls inside forms."
+        ariaLabel="Button toggle form usage example"
+        tabListAriaLabel="Button toggle form usage variants"
+        defaultValue="live-demo"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <ng-template appDocsExampleVariant value="live-demo" label="Live demo" panelTitle="Button toggle form usage">
+          <app-docs-form-demo-shell
+            title="Pick a content alignment"
+            description="Use a compact button-toggle group when the choice belongs in a larger editor form."
+            submitLabel="Apply alignment"
+          >
+            <div docsFormDemoField class="doc-cmp-button-toggle-alignment-group">
+              <tng-button-toggle-group
+                ariaLabel="Text alignment"
+                [value]="plainAlignment()"
+                (valueChange)="onPlainAlignmentChange($event)"
+              >
+                <tng-button-toggle [tngButtonToggleValue]="'left'">Left</tng-button-toggle>
+                <tng-button-toggle [tngButtonToggleValue]="'center'">Center</tng-button-toggle>
+                <tng-button-toggle [tngButtonToggleValue]="'right'">Right</tng-button-toggle>
+              </tng-button-toggle-group>
+            </div>
+            <p docsFormDemoSummary>Selected: {{ plainAlignment() }}</p>
+          </app-docs-form-demo-shell>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
+
     <section id="single-select-alignment-controls" class="docs-section-anchor button-toggle-examples-block">
       <app-docs-example-tabs-section
         heading="Single-select alignment controls"

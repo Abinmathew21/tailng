@@ -6,6 +6,37 @@
       compositions now live on the dedicated Form Field page.
     </p>
 
+    <section id="form-usage" class="docs-section-anchor input-examples-block">
+      <app-docs-example-tabs-section
+        heading="Form usage"
+        description="A live submit-ready input example using controlled component state."
+        ariaLabel="Input form usage example"
+        tabListAriaLabel="Input form usage variants"
+        defaultValue="live-demo"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <ng-template appDocsExampleVariant value="live-demo" label="Live demo" panelTitle="Input form usage">
+          <app-docs-form-demo-shell
+            title="Create a workspace"
+            description="Capture the project name before provisioning the workspace."
+            submitLabel="Create workspace"
+          >
+            <div docsFormDemoField class="doc-cmp-input-ex-basic-preview">
+              <tng-input
+                type="text"
+                name="workspaceName"
+                placeholder="Workspace name"
+                ariaLabel="Workspace name"
+                [value]="formDemoValue()"
+                (valueChange)="formDemoValue.set($event)"
+              ></tng-input>
+            </div>
+            <p docsFormDemoSummary>Current value: {{ formDemoValue() || '—' }}</p>
+          </app-docs-form-demo-shell>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
+
     <section id="basic-text-field" class="docs-section-anchor input-examples-block">
       <app-docs-example-tabs-section
         heading="Basic text field"

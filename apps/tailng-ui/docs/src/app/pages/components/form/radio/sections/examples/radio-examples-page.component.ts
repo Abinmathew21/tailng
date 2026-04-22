@@ -6,6 +6,7 @@ import {
   DocsExampleTabsSectionComponent,
   DocsExampleVariantDirective,
 } from '../../../../../../shared/example-tabs-section/docs-example-tabs-section.component';
+import { DocsFormDemoShellComponent } from '../../../../../../shared/form-demo-shell/docs-form-demo-shell.component';
 import {
   observeDocsCodeThemeChanges,
   resolveDocsCodeBlockTheme,
@@ -54,7 +55,12 @@ function createCodeTabs({
 
 @Component({
   selector: 'app-radio-examples-page',
-  imports: [DocsExampleTabsSectionComponent, DocsExampleVariantDirective, TngRadioComponent],
+  imports: [
+    DocsExampleTabsSectionComponent,
+    DocsExampleVariantDirective,
+    DocsFormDemoShellComponent,
+    TngRadioComponent,
+  ],
   templateUrl: './radio-examples-page.component.html',
   styleUrl: './radio-examples-page.component.css',
 })

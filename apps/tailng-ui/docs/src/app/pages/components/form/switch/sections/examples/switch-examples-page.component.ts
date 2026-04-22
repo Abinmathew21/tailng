@@ -6,6 +6,7 @@ import {
   DocsExampleTabsSectionComponent,
   DocsExampleVariantDirective,
 } from '../../../../../../shared/example-tabs-section/docs-example-tabs-section.component';
+import { DocsFormDemoShellComponent } from '../../../../../../shared/form-demo-shell/docs-form-demo-shell.component';
 import {
   observeDocsCodeThemeChanges,
   resolveDocsCodeBlockTheme,
@@ -39,7 +40,12 @@ function createCodeTabs(
 
 @Component({
   selector: 'app-switch-examples-page',
-  imports: [DocsExampleTabsSectionComponent, DocsExampleVariantDirective, TngSwitchComponent],
+  imports: [
+    DocsExampleTabsSectionComponent,
+    DocsExampleVariantDirective,
+    DocsFormDemoShellComponent,
+    TngSwitchComponent,
+  ],
   templateUrl: './switch-examples-page.component.html',
   styleUrl: './switch-examples-page.component.css',
 })

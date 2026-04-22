@@ -7,6 +7,7 @@ import {
   DocsExampleTabsSectionComponent,
   DocsExampleVariantDirective,
 } from '../../../../../../shared/example-tabs-section/docs-example-tabs-section.component';
+import { DocsFormDemoShellComponent } from '../../../../../../shared/form-demo-shell/docs-form-demo-shell.component';
 import {
   observeDocsCodeThemeChanges,
   resolveDocsCodeBlockTheme,
@@ -122,7 +123,12 @@ function toPascalCase(value: string): string {
 
 @Component({
   selector: 'app-datepicker-examples-page',
-  imports: [DocsExampleTabsSectionComponent, DocsExampleVariantDirective, TngDatepickerComponent],
+  imports: [
+    DocsExampleTabsSectionComponent,
+    DocsExampleVariantDirective,
+    DocsFormDemoShellComponent,
+    TngDatepickerComponent,
+  ],
   templateUrl: './datepicker-examples-page.component.html',
   styleUrl: './datepicker-examples-page.component.css',
 })

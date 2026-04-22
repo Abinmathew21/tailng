@@ -1,4 +1,36 @@
 <article class="multi-autocomplete-examples">
+  <section id="form-usage" class="docs-page-section">
+    <app-docs-example-tabs-section
+      heading="Form usage"
+      description="Multi autocomplete works well inside forms when the user needs search plus multi-value submission."
+      ariaLabel="Multi autocomplete form usage example"
+      tabListAriaLabel="Multi autocomplete form usage variants"
+      defaultValue="live-demo"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template appDocsExampleVariant value="live-demo" label="Live demo" panelTitle="Multi autocomplete form usage">
+        <app-docs-form-demo-shell
+          title="Choose launch markets"
+          description="Search and commit multiple regions before submitting the release configuration."
+          submitLabel="Save markets"
+        >
+          <div docsFormDemoField class="docs-multi-autocomplete-launch-live-control">
+            <tng-multi-autocomplete
+              [options]="launchMarkets"
+              [value]="launchPlainValues()"
+              (valueChange)="onLaunchPlainValueChange($event)"
+              [getOptionValue]="getMarketValue"
+              [getOptionLabel]="getMarketLabel"
+              placeholder="Search launch markets"
+              [ariaLabel]="'Launch markets'"
+            ></tng-multi-autocomplete>
+          </div>
+          <p docsFormDemoSummary>Selected: {{ launchPlainSummary() }}</p>
+        </app-docs-form-demo-shell>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
   <section id="launch-market-picker" class="docs-page-section">
     <app-docs-example-tabs-section
       heading="Launch market picker"

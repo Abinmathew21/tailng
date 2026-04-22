@@ -217,5 +217,20 @@
       [wrap]="true"
       [sanitizeHtml]="false"
     ></tng-code-block>
+    <p>
+      Angular Signal Forms can bind <code>&lt;tng-toggle&gt;</code> directly with
+      <code>[formField]</code> for standalone boolean fields. Keep
+      <code>&lt;tng-toggle-group&gt;</code> on its existing controlled value/values contract for now.
+    </p>
+    <tng-code-block
+      [code]="signalFormsCode"
+      adapter="shiki"
+      language="ts"
+      title="Signal forms with standalone toggle"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
   </section>
 </article>

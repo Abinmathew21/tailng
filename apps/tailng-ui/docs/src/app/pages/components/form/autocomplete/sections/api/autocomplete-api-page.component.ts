@@ -24,6 +24,19 @@ readonly getOwnerLabel = (owner: ReleaseOwner) => owner.name;
 readonly isOwnerDisabled = (owner: ReleaseOwner) => owner.disabled === true;
 `;
 
+const SIGNAL_FORMS_LIMITATION_CODE = String.raw`readonly selectedOwner = signal<string | null>(null);
+
+<tng-autocomplete
+  [options]="releaseOwners"
+  [value]="selectedOwner()"
+  (valueChange)="selectedOwner.set($event)"
+  [getOptionValue]="getOwnerValue"
+  [getOptionLabel]="getOwnerLabel"
+  [isOptionDisabled]="isOwnerDisabled"
+  placeholder="Search release owners"
+  [ariaLabel]="'Release owner'"
+></tng-autocomplete>`;
+
 @Component({
   selector: 'app-autocomplete-api-page',
   imports: [TngCodeBlockComponent],
@@ -33,6 +46,7 @@ readonly isOwnerDisabled = (owner: ReleaseOwner) => owner.disabled === true;
 export class AutocompleteApiPageComponent {
   protected readonly wrapperAttachmentCode = WRAPPER_ATTACHMENT_CODE;
   protected readonly accessorCode = ACCESSOR_CODE;
+  protected readonly signalFormsLimitationCode = SIGNAL_FORMS_LIMITATION_CODE;
 
   protected readonly wrapperRows: readonly ApiRow[] = Object.freeze([
     { name: 'options', type: 'readonly O[]', details: 'Source options rendered and filtered by the wrapper.' },

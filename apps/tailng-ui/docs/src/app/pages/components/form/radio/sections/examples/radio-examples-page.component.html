@@ -1,5 +1,54 @@
 <article class="docs-section-page radio-examples">
   <div class="docs-section-page-main">
+    <section id="form-usage" class="docs-section-anchor radio-examples-block">
+      <app-docs-example-tabs-section
+        heading="Form usage"
+        description="Radio groups fit naturally into forms when only one option should be submitted."
+        ariaLabel="Radio form usage example"
+        tabListAriaLabel="Radio form usage variants"
+        defaultValue="live-demo"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <ng-template appDocsExampleVariant value="live-demo" label="Live demo" panelTitle="Radio form usage">
+          <app-docs-form-demo-shell
+            title="Choose a billing plan"
+            description="Use radios inside a form when the user must pick exactly one plan or mode."
+            submitLabel="Continue"
+          >
+            <div docsFormDemoField class="doc-cmp-radio-billing-card">
+              <tng-radio
+                name="docs-form-billing-plan"
+                value="starter"
+                [checked]="plainBillingPlan() === 'starter'"
+                (checkedChange)="onPlainBillingPlanChange('starter', $event)"
+              >
+                Starter
+              </tng-radio>
+              <tng-radio
+                name="docs-form-billing-plan"
+                value="pro"
+                [checked]="plainBillingPlan() === 'pro'"
+                (checkedChange)="onPlainBillingPlanChange('pro', $event)"
+              >
+                Pro
+              </tng-radio>
+              <div class="doc-cmp-radio-billing-item doc-cmp-radio-billing-item--muted">
+                <tng-radio
+                  name="docs-form-billing-plan"
+                  value="enterprise"
+                  [checked]="plainBillingPlan() === 'enterprise'"
+                  (checkedChange)="onPlainBillingPlanChange('enterprise', $event)"
+                >
+                  Enterprise
+                </tng-radio>
+              </div>
+            </div>
+            <p docsFormDemoSummary>Selected: {{ plainBillingPlan() }}</p>
+          </app-docs-form-demo-shell>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
+
     <section id="billing-plan-selection" class="docs-section-anchor radio-examples-block">
       <app-docs-example-tabs-section
         heading="Billing plan selection"

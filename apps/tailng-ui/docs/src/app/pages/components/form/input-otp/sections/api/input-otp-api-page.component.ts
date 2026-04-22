@@ -41,6 +41,27 @@ readonly verificationForm = new FormGroup({
 
 <tng-input-otp formControlName="otp"></tng-input-otp>`;
 
+  protected readonly signalFormsCode = String.raw`import { Component, signal } from '@angular/core';
+import { FormField, form } from '@angular/forms/signals';
+import { TngInputOtpComponent } from '@tailng-ui/components';
+
+@Component({
+  selector: 'app-verification-code-signal-form',
+  standalone: true,
+  imports: [FormField, TngInputOtpComponent],
+  template: \`
+    <tng-input-otp
+      [length]="6"
+      [formField]="verificationForm.code"
+      ariaLabel="Verification code"
+    ></tng-input-otp>
+  \`,
+})
+export class VerificationCodeSignalFormComponent {
+  readonly verificationModel = signal({ code: '' });
+  readonly verificationForm = form(this.verificationModel);
+}`;
+
   public ngOnDestroy(): void {
     this.colorSchemeObserver?.disconnect();
   }

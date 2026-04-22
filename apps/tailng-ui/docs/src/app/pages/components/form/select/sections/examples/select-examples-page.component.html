@@ -1,4 +1,37 @@
 <article class="select-examples">
+  <section id="form-usage" class="docs-page-section">
+    <app-docs-example-tabs-section
+      heading="Form usage"
+      description="Place the select inside a standard form and keep the chosen value ready for submission."
+      ariaLabel="Select form usage example"
+      tabListAriaLabel="Select form usage variants"
+      defaultValue="live-demo"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template appDocsExampleVariant value="live-demo" label="Live demo" panelTitle="Select form usage">
+        <app-docs-form-demo-shell
+          title="Schedule a release"
+          description="Choose the current stage as part of a larger release configuration form."
+          submitLabel="Save release"
+        >
+          <div docsFormDemoField class="docs-component-select-examples-stage-shell">
+            <tng-select
+              [options]="releaseStages"
+              [value]="releaseStagePlainSelectedValue()"
+              (valueChange)="onReleaseStagePlainSelectedValueChange($event)"
+              [getOptionValue]="getReleaseStageValue"
+              [getOptionLabel]="getReleaseStageLabel"
+              [isOptionDisabled]="isReleaseStageDisabled"
+              placeholder="Choose release stage"
+              [ariaLabel]="'Release stage'"
+            ></tng-select>
+          </div>
+          <p docsFormDemoSummary>Selected: {{ releaseStagePlainSummary() }}</p>
+        </app-docs-form-demo-shell>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
   <section id="release-stage-select" class="docs-page-section">
     <app-docs-example-tabs-section
       heading="Release stage select"

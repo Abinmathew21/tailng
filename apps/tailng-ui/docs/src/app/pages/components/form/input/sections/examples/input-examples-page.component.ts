@@ -8,6 +8,7 @@ import {
   DocsExampleTabsSectionComponent,
   DocsExampleVariantDirective,
 } from '../../../../../../shared/example-tabs-section/docs-example-tabs-section.component';
+import { DocsFormDemoShellComponent } from '../../../../../../shared/form-demo-shell/docs-form-demo-shell.component';
 
 function createCodeTabs(options: {
   baseName: string;
@@ -43,7 +44,12 @@ function createCodeTabs(options: {
 
 @Component({
   selector: 'app-input-examples-page',
-  imports: [DocsExampleTabsSectionComponent, DocsExampleVariantDirective, TngInputComponent],
+  imports: [
+    DocsExampleTabsSectionComponent,
+    DocsExampleVariantDirective,
+    DocsFormDemoShellComponent,
+    TngInputComponent,
+  ],
   templateUrl: './input-examples-page.component.html',
   styleUrl: './input-examples-page.component.css',
 })
@@ -57,6 +63,7 @@ export class InputExamplesPageComponent implements OnDestroy {
 
   protected readonly stackblitzVanillaUrl = stackblitzVanillaUrl;
   protected readonly stackblitzTailwindUrl = stackblitzTailwindUrl;
+  protected readonly formDemoValue = signal('Nova workspace');
 
   private readonly tsBasic = [
     "import { Component } from '@angular/core';",

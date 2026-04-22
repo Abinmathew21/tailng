@@ -1,0 +1,34 @@
+<form class="docs-form-demo-shell" (submit)="onSubmit($event)">
+  <header class="docs-form-demo-shell__header">
+    <span class="docs-form-demo-shell__eyebrow">{{ eyebrow() }}</span>
+    <div class="docs-form-demo-shell__copy">
+      <h3 class="docs-form-demo-shell__title">{{ title() }}</h3>
+      @if (description()) {
+        <p class="docs-form-demo-shell__description">{{ description() }}</p>
+      }
+    </div>
+  </header>
+
+  <div class="docs-form-demo-shell__field">
+    <ng-content select="[docsFormDemoField]"></ng-content>
+  </div>
+
+  <footer class="docs-form-demo-shell__footer">
+    <div class="docs-form-demo-shell__summary">
+      <ng-content select="[docsFormDemoSummary]"></ng-content>
+
+      @if (submitted()) {
+        <p class="docs-form-demo-shell__submitted" aria-live="polite">
+          {{ submittedNote() }}
+        </p>
+      }
+    </div>
+
+    <div class="docs-form-demo-shell__actions">
+      <ng-content select="[docsFormDemoActions]"></ng-content>
+      <button class="docs-form-demo-shell__submit" type="submit">
+        {{ submitLabel() }}
+      </button>
+    </div>
+  </footer>
+</form>

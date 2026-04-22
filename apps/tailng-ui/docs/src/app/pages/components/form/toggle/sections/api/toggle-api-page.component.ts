@@ -80,6 +80,30 @@ export class ToggleApiPageComponent implements OnDestroy {
     '',
   ].join('\n');
 
+  protected readonly signalFormsCode = String.raw`import { Component, signal } from '@angular/core';
+import { FormField, form } from '@angular/forms/signals';
+import { TngToggleComponent } from '@tailng-ui/components';
+
+@Component({
+  selector: 'app-pin-sidebar-signal-form',
+  standalone: true,
+  imports: [FormField, TngToggleComponent],
+  template: \`
+    <tng-toggle
+      pressedLabel="Unpin sidebar"
+      unpressedLabel="Pin sidebar"
+      [formField]="preferencesForm.pinSidebar"
+    >
+      <span offIcon>P</span>
+      <span onIcon>P</span>
+    </tng-toggle>
+  \`,
+})
+export class PinSidebarSignalFormComponent {
+  readonly preferencesModel = signal({ pinSidebar: false });
+  readonly preferencesForm = form(this.preferencesModel);
+}`;
+
   public ngOnDestroy(): void {
     this.colorSchemeObserver?.disconnect();
   }

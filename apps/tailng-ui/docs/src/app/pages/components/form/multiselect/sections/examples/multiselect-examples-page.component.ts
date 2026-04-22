@@ -8,6 +8,7 @@ import {
   DocsExampleTabsSectionComponent,
   DocsExampleVariantDirective,
 } from '../../../../../../shared/example-tabs-section/docs-example-tabs-section.component';
+import { DocsFormDemoShellComponent } from '../../../../../../shared/form-demo-shell/docs-form-demo-shell.component';
 
 interface SelectOption {
   readonly value: string;
@@ -507,6 +508,7 @@ const DUAL_TAILWIND_CSS_CODE = '/* Tailwind utilities are applied directly in th
     TngMultiSelectComponent,
     DocsExampleTabsSectionComponent,
     DocsExampleVariantDirective,
+    DocsFormDemoShellComponent,
   ],
   templateUrl: './multiselect-examples-page.component.html',
   styleUrl: './multiselect-examples-page.component.css',

@@ -60,6 +60,27 @@ export class CheckboxApiPageComponent implements OnDestroy {
     '',
   ].join('\n');
 
+  protected readonly signalFormsCode = String.raw`import { Component, signal } from '@angular/core';
+import { FormField, form } from '@angular/forms/signals';
+import { TngCheckboxComponent } from '@tailng-ui/components';
+
+@Component({
+  selector: 'app-release-checklist-signal-form',
+  standalone: true,
+  imports: [FormField, TngCheckboxComponent],
+  template: \`
+    <tng-checkbox [formField]="releaseForm.releaseReady">
+      Release checklist complete
+    </tng-checkbox>
+  \`,
+})
+export class ReleaseChecklistSignalFormComponent {
+  readonly releaseModel = signal<{ releaseReady: boolean | 'mixed' }>({
+    releaseReady: false,
+  });
+  readonly releaseForm = form(this.releaseModel);
+}`;
+
   public ngOnDestroy(): void {
     this.colorSchemeObserver?.disconnect();
   }

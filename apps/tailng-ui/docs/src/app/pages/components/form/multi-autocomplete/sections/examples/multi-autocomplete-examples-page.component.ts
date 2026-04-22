@@ -6,6 +6,7 @@ import {
   DocsExampleTabsSectionComponent,
   DocsExampleVariantDirective,
 } from '../../../../../../shared/example-tabs-section/docs-example-tabs-section.component';
+import { DocsFormDemoShellComponent } from '../../../../../../shared/form-demo-shell/docs-form-demo-shell.component';
 import {
   observeDocsCodeThemeChanges,
   resolveDocsCodeBlockTheme,
@@ -560,6 +561,7 @@ function formatReviewerSummary(values: readonly string[]): string {
     TngMultiAutocompleteComponent,
     DocsExampleTabsSectionComponent,
     DocsExampleVariantDirective,
+    DocsFormDemoShellComponent,
   ],
   templateUrl: './multi-autocomplete-examples-page.component.html',
   styleUrl: './multi-autocomplete-examples-page.component.css',

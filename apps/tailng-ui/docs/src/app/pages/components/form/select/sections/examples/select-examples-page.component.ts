@@ -6,6 +6,7 @@ import {
   DocsExampleTabsSectionComponent,
   DocsExampleVariantDirective,
 } from '../../../../../../shared/example-tabs-section/docs-example-tabs-section.component';
+import { DocsFormDemoShellComponent } from '../../../../../../shared/form-demo-shell/docs-form-demo-shell.component';
 import {
   observeDocsCodeThemeChanges,
   resolveDocsCodeBlockTheme,
@@ -499,7 +500,12 @@ const OWNER_TAILWIND_CSS_CODE = '/* Tailwind utilities are applied directly in t
 
 @Component({
   selector: 'app-select-examples-page',
-  imports: [TngSelectComponent, DocsExampleTabsSectionComponent, DocsExampleVariantDirective],
+  imports: [
+    TngSelectComponent,
+    DocsExampleTabsSectionComponent,
+    DocsExampleVariantDirective,
+    DocsFormDemoShellComponent,
+  ],
   templateUrl: './select-examples-page.component.html',
   styleUrl: './select-examples-page.component.css',
 })

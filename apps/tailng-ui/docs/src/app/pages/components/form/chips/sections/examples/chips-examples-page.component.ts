@@ -7,6 +7,7 @@ import {
   DocsExampleTabsSectionComponent,
   DocsExampleVariantDirective,
 } from '../../../../../../shared/example-tabs-section/docs-example-tabs-section.component';
+import { DocsFormDemoShellComponent } from '../../../../../../shared/form-demo-shell/docs-form-demo-shell.component';
 import {
   observeDocsCodeThemeChanges,
   resolveDocsCodeBlockTheme,
@@ -407,6 +408,7 @@ const LOCKED_TAILWIND_CSS_CODE = '/* Tailwind utilities are applied directly in 
     TngChipRemove,
     DocsExampleTabsSectionComponent,
     DocsExampleVariantDirective,
+    DocsFormDemoShellComponent,
   ],
   templateUrl: './chips-examples-page.component.html',
   styleUrl: './chips-examples-page.component.css',

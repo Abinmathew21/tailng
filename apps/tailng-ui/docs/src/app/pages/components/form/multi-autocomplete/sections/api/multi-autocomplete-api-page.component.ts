@@ -56,6 +56,46 @@ const TEMPLATE_HOOK_CODE = String.raw`<tng-multi-autocomplete
   </ng-template>
 </tng-multi-autocomplete>`;
 
+const SIGNAL_FORMS_CODE = String.raw`import { Component, signal } from '@angular/core';
+import { FormField, form } from '@angular/forms/signals';
+import { TngMultiAutocompleteComponent } from '@tailng-ui/components';
+
+type MarketOption = {
+  readonly code: string;
+  readonly label: string;
+};
+
+@Component({
+  selector: 'app-launch-markets-signal-form',
+  standalone: true,
+  imports: [FormField, TngMultiAutocompleteComponent],
+  template: \`
+    <tng-multi-autocomplete
+      [formField]="launchForm.markets"
+      [options]="markets"
+      [getOptionValue]="getMarketValue"
+      [getOptionLabel]="getMarketLabel"
+      placeholder="Search launch markets"
+      ariaLabel="Launch markets"
+    ></tng-multi-autocomplete>
+  \`,
+})
+export class LaunchMarketsSignalFormComponent {
+  readonly launchModel = signal({
+    markets: ['in'] as readonly string[],
+  });
+  readonly launchForm = form(this.launchModel);
+
+  readonly markets: readonly MarketOption[] = [
+    { code: 'in', label: 'India' },
+    { code: 'sg', label: 'Singapore' },
+    { code: 'us', label: 'United States' },
+  ];
+
+  readonly getMarketValue = (market: MarketOption) => market.code;
+  readonly getMarketLabel = (market: MarketOption) => market.label;
+}`;
+
 @Component({
   selector: 'app-multi-autocomplete-api-page',
   imports: [TngCodeBlockComponent],
@@ -65,6 +105,7 @@ const TEMPLATE_HOOK_CODE = String.raw`<tng-multi-autocomplete
 export class MultiAutocompleteApiPageComponent {
   protected readonly wrapperAttachmentCode = WRAPPER_ATTACHMENT_CODE;
   protected readonly accessorCode = ACCESSOR_CODE;
+  protected readonly signalFormsCode = SIGNAL_FORMS_CODE;
   protected readonly templateHookCode = TEMPLATE_HOOK_CODE;
 
   protected readonly wrapperRows: readonly ApiRow[] = Object.freeze([

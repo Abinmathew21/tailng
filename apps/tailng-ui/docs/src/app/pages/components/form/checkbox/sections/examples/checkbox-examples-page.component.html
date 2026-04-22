@@ -6,6 +6,38 @@
       the <code>&lt;tng-checkbox&gt;</code> API stable while swapping the surrounding styling system.
     </p>
 
+    <section id="form-usage" class="docs-section-anchor checkbox-examples-block">
+      <app-docs-example-tabs-section
+        heading="Form usage"
+        description="A live confirmation step showing checkbox state inside a submit flow."
+        ariaLabel="Checkbox form usage example"
+        tabListAriaLabel="Checkbox form usage variants"
+        defaultValue="live-demo"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <ng-template appDocsExampleVariant value="live-demo" label="Live demo" panelTitle="Checkbox form usage">
+          <app-docs-form-demo-shell
+            title="Release checklist confirmation"
+            description="Use a checkbox when the user must explicitly acknowledge a final step before submit."
+            submitLabel="Confirm release"
+          >
+            <div docsFormDemoField class="doc-cmp-checkbox-consent-panel">
+              <tng-checkbox
+                name="releaseConfirmation"
+                [checked]="formDemoAccepted()"
+                (checkedChange)="formDemoAccepted.set($event)"
+              >
+                I confirm release notes, rollback steps, and monitoring links are ready.
+              </tng-checkbox>
+            </div>
+            <p docsFormDemoSummary>
+              Status: {{ formDemoAccepted() ? 'ready to submit' : 'confirmation required' }}
+            </p>
+          </app-docs-form-demo-shell>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
+
     <section
       id="consent-and-readonly-policy"
       class="docs-section-anchor checkbox-examples-block"

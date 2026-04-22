@@ -77,6 +77,26 @@
     </div>
   </section>
 
+  <section id="signal-forms" class="autocomplete-api__section">
+    <h2>Angular Signal Forms</h2>
+    <p>
+      <code>&lt;tng-autocomplete&gt;</code> is not yet safe for direct <code>[formField]</code>
+      binding. In local interop tests, a later external field update is pushed back to
+      <code>null</code>. Use the controlled <code>value</code> and <code>valueChange</code> pattern
+      below until that sync path is fixed.
+    </p>
+    <tng-code-block
+      [code]="signalFormsLimitationCode"
+      adapter="shiki"
+      language="ts"
+      title="Current fallback pattern"
+      theme="github-dark"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
   <section id="primitive-foundation" class="autocomplete-api__section">
     <h2>Primitive foundation</h2>
     <p>

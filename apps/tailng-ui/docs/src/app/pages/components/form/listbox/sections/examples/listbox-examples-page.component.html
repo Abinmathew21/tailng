@@ -11,6 +11,40 @@
 
 <section class="docs-page-section">
   <app-docs-example-tabs-section
+    heading="Form usage"
+    description="Listboxes can sit inside a standard form when you want keyboard-first single selection."
+    ariaLabel="Listbox form usage example"
+    tabListAriaLabel="Listbox form usage variants"
+    defaultValue="live-demo"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="live-demo"
+      label="Live demo"
+      panelTitle="Listbox form usage"
+    >
+      <app-docs-form-demo-shell
+        title="Set triage priority"
+        description="Use a listbox inside a form when arrow-key selection matters as much as click support."
+        submitLabel="Save priority"
+      >
+        <div docsFormDemoField class="listbox-preview listbox-preview--light">
+          <tng-listbox
+            ariaLabel="Priority queue"
+            [options]="priorityOptions"
+            [value]="plainValue()"
+            (valueChange)="onPlainValueChange($event)"
+          ></tng-listbox>
+        </div>
+        <p docsFormDemoSummary>Selected priority: {{ plainSummary() }}</p>
+      </app-docs-form-demo-shell>
+    </ng-template>
+  </app-docs-example-tabs-section>
+</section>
+
+<section class="docs-page-section">
+  <app-docs-example-tabs-section
     heading="Priority picker"
     description="Compare a light editorial treatment in Plain CSS with a Tailwind utility translation that keeps the same wrapper API and summary feedback."
     ariaLabel="Priority picker variants"

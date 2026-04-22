@@ -77,6 +77,24 @@
     </div>
   </section>
 
+  <section id="signal-forms" class="select-api-block">
+    <h3>Angular Signal Forms</h3>
+    <p>
+      <code>&lt;tng-select&gt;</code> can bind directly with <code>[formField]</code>. The wrapper
+      host exposes a model-backed selection value, so you can keep the committed option inside a
+      signal form without a separate CVA adapter.
+    </p>
+    <tng-code-block
+      [code]="signalFormsCode"
+      adapter="shiki"
+      language="ts"
+      title="Signal forms wiring"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
   <section id="template-hooks" class="select-api-block">
     <h3>Template hooks</h3>
     <p>

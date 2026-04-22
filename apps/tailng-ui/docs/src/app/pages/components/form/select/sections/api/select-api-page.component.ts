@@ -52,6 +52,43 @@ const TEMPLATE_HOOK_CODE = String.raw`<tng-select
   </ng-template>
 </tng-select>`;
 
+const SIGNAL_FORMS_CODE = String.raw`import { Component, signal } from '@angular/core';
+import { FormField, form } from '@angular/forms/signals';
+import { TngSelectComponent } from '@tailng-ui/components';
+
+type ReleaseOwner = {
+  readonly id: string;
+  readonly label: string;
+};
+
+@Component({
+  selector: 'app-release-owner-signal-form',
+  standalone: true,
+  imports: [FormField, TngSelectComponent],
+  template: \`
+    <tng-select
+      [formField]="releaseForm.owner"
+      [options]="owners"
+      [getOptionValue]="getOwnerValue"
+      [getOptionLabel]="getOwnerLabel"
+      placeholder="Choose release owner"
+      aria-label="Release owner"
+    ></tng-select>
+  \`,
+})
+export class ReleaseOwnerSignalFormComponent {
+  readonly releaseModel = signal({ owner: 'alex' });
+  readonly releaseForm = form(this.releaseModel);
+
+  readonly owners: readonly ReleaseOwner[] = [
+    { id: 'alex', label: 'Alex' },
+    { id: 'bri', label: 'Bri' },
+  ];
+
+  readonly getOwnerValue = (owner: ReleaseOwner) => owner.id;
+  readonly getOwnerLabel = (owner: ReleaseOwner) => owner.label;
+}`;
+
 @Component({
   selector: 'app-select-api-page',
   imports: [TngCodeBlockComponent],
@@ -61,6 +98,7 @@ const TEMPLATE_HOOK_CODE = String.raw`<tng-select
 export class SelectApiPageComponent {
   protected readonly wrapperAttachmentCode = WRAPPER_ATTACHMENT_CODE;
   protected readonly accessorCode = ACCESSOR_CODE;
+  protected readonly signalFormsCode = SIGNAL_FORMS_CODE;
   protected readonly templateHookCode = TEMPLATE_HOOK_CODE;
 
   protected readonly wrapperRows: readonly ApiRow[] = Object.freeze([

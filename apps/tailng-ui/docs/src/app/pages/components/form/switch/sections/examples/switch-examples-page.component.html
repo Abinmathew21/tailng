@@ -1,5 +1,43 @@
 <article class="docs-section-page switch-examples">
   <div class="docs-section-page-main">
+    <section id="form-usage" class="docs-section-anchor switch-examples-block">
+      <app-docs-example-tabs-section
+        heading="Form usage"
+        description="Use switches for boolean preferences that submit alongside the rest of the form."
+        ariaLabel="Switch form usage example"
+        tabListAriaLabel="Switch form usage variants"
+        defaultValue="live-demo"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <ng-template appDocsExampleVariant value="live-demo" label="Live demo" panelTitle="Switch form usage">
+          <app-docs-form-demo-shell
+            title="Notification preferences"
+            description="Switches work well for small groups of on/off settings in a settings or release form."
+            submitLabel="Save preferences"
+          >
+            <div docsFormDemoField class="component-switch-settings-card">
+              <tng-switch
+                [checked]="plainCssReleaseEmails()"
+                (checkedChange)="plainCssReleaseEmails.set($event)"
+              >
+                Release summary email
+              </tng-switch>
+              <tng-switch
+                [checked]="plainCssFreezeWindow()"
+                (checkedChange)="plainCssFreezeWindow.set($event)"
+              >
+                Freeze deploy window
+              </tng-switch>
+            </div>
+            <p docsFormDemoSummary>
+              Release email: {{ plainCssReleaseEmails() ? 'On' : 'Off' }} · Freeze window:
+              {{ plainCssFreezeWindow() ? 'On' : 'Off' }}
+            </p>
+          </app-docs-form-demo-shell>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
+
     <section id="settings-panel" class="docs-section-anchor switch-examples-block">
       <app-docs-example-tabs-section
         heading="Settings panel"

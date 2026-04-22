@@ -180,6 +180,20 @@
         [wrap]="true"
         [sanitizeHtml]="false"
       ></tng-code-block>
+      <p class="checkbox-api-note">
+        Angular Signal Forms can bind the component directly with <code>[formField]</code>. The
+        tri-state value still flows as <code>boolean | 'mixed'</code>.
+      </p>
+      <tng-code-block
+        [code]="signalFormsCode"
+        adapter="shiki"
+        language="ts"
+        title="Signal forms"
+        [theme]="codeBlockTheme()"
+        [lineNumbers]="false"
+        [wrap]="true"
+        [sanitizeHtml]="false"
+      ></tng-code-block>
     </section>
   </div>
 </article>

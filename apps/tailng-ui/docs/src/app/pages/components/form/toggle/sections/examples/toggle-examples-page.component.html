@@ -1,5 +1,48 @@
 <article class="docs-section-page toggle-examples">
   <div class="docs-section-page-main">
+    <section id="form-usage" class="docs-section-anchor toggle-examples-stack">
+      <app-docs-example-tabs-section
+        heading="Form usage"
+        description="Standalone toggles work well for optional settings that submit with the rest of a form."
+        ariaLabel="Toggle form usage example"
+        tabListAriaLabel="Toggle form usage variants"
+        defaultValue="live-demo"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <ng-template appDocsExampleVariant value="live-demo" label="Live demo" panelTitle="Toggle form usage">
+          <app-docs-form-demo-shell
+            title="Announcement preferences"
+            description="Use independent toggles for optional delivery targets in a lightweight settings form."
+            submitLabel="Save preferences"
+          >
+            <div docsFormDemoField class="toggle-formatting-card__toolbar" role="group" aria-label="Announcement preferences">
+              <tng-toggle
+                defaultPressed
+                pressedLabel="Disable release email"
+                unpressedLabel="Enable release email"
+              >
+                Release email
+              </tng-toggle>
+              <tng-toggle
+                pressedLabel="Disable status page note"
+                unpressedLabel="Enable status page note"
+              >
+                Status page
+              </tng-toggle>
+              <tng-toggle
+                defaultPressed
+                pressedLabel="Disable changelog entry"
+                unpressedLabel="Enable changelog entry"
+              >
+                Changelog
+              </tng-toggle>
+            </div>
+            <p docsFormDemoSummary>Each toggle keeps its own pressed state until the form is submitted.</p>
+          </app-docs-form-demo-shell>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
+
     <section id="professional-scenarios" class="docs-section-anchor toggle-examples-stack">
       <app-docs-example-tabs-section
         heading="Formatting toolbar"

@@ -6,6 +6,7 @@ import {
   DocsExampleTabsSectionComponent,
   DocsExampleVariantDirective,
 } from '../../../../../../shared/example-tabs-section/docs-example-tabs-section.component';
+import { DocsFormDemoShellComponent } from '../../../../../../shared/form-demo-shell/docs-form-demo-shell.component';
 import {
   observeDocsCodeThemeChanges,
   resolveDocsCodeBlockTheme,
@@ -56,7 +57,12 @@ function createCodeTabs({
 
 @Component({
   selector: 'app-checkbox-examples-page',
-  imports: [DocsExampleTabsSectionComponent, DocsExampleVariantDirective, TngCheckboxComponent],
+  imports: [
+    DocsExampleTabsSectionComponent,
+    DocsExampleVariantDirective,
+    DocsFormDemoShellComponent,
+    TngCheckboxComponent,
+  ],
   templateUrl: './checkbox-examples-page.component.html',
   styleUrl: './checkbox-examples-page.component.css',
 })
@@ -73,6 +79,7 @@ export class CheckboxExamplesPageComponent implements OnDestroy {
 
   protected readonly stackblitzVanillaUrl = stackblitzVanillaUrl;
   protected readonly stackblitzTailwindUrl = stackblitzTailwindUrl;
+  protected readonly formDemoAccepted = signal(false);
 
   protected readonly rows = deploymentChecks;
 

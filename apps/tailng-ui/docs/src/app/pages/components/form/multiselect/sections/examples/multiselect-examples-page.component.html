@@ -1,4 +1,36 @@
 <article class="multiselect-examples">
+  <section id="form-usage" class="docs-page-section">
+    <app-docs-example-tabs-section
+      heading="Form usage"
+      description="Use multiselect inside a form when one field owns several submitted values."
+      ariaLabel="Multiselect form usage example"
+      tabListAriaLabel="Multiselect form usage variants"
+      defaultValue="live-demo"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template appDocsExampleVariant value="live-demo" label="Live demo" panelTitle="Multiselect form usage">
+        <app-docs-form-demo-shell
+          title="Choose rollout statuses"
+          description="Keep the selected statuses visible while the user completes the rest of the form."
+          submitLabel="Save filters"
+        >
+          <div docsFormDemoField class="docs-component-multiselect-examples-status-control">
+            <tng-multiselect
+              [options]="statusOptions"
+              [value]="statusPlainValue()"
+              (valueChange)="onStatusPlainValueChange($event)"
+              [getOptionValue]="getStatusValue"
+              [getOptionLabel]="getStatusLabel"
+              placeholder="Select statuses"
+              aria-label="Status multiselect"
+            ></tng-multiselect>
+          </div>
+          <p docsFormDemoSummary>Selected: {{ statusPlainSummary() }}</p>
+        </app-docs-form-demo-shell>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
   <section id="status-multiselect-variants" class="docs-page-section">
     <app-docs-example-tabs-section
       heading="Status multiselect"

@@ -6,6 +6,38 @@
       examples.
     </p>
 
+    <section id="form-usage" class="docs-section-anchor input-examples-block">
+      <app-docs-example-tabs-section
+        heading="Form usage"
+        description="Use the form-field wrapper as the visual shell for native form controls and helper actions."
+        ariaLabel="Form field form usage example"
+        tabListAriaLabel="Form field form usage variants"
+        defaultValue="live-demo"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <ng-template appDocsExampleVariant value="live-demo" label="Live demo" panelTitle="Form field form usage">
+          <app-docs-form-demo-shell
+            title="Search command center"
+            description="Combine prefixes, suffixes, and a native input inside a real submit-ready form row."
+            submitLabel="Run search"
+          >
+            <div docsFormDemoField class="doc-cmp-form-field-ex-search-preview">
+              <div class="doc-cmp-form-field-ex-search-shell">
+                <tng-form-field>
+                  <span tngPrefix aria-hidden="true" class="doc-cmp-form-field-ex-search-prefix">
+                    <tng-icon icon="search" class="doc-cmp-form-field-ex-search-icon" />
+                  </span>
+                  <input tngInput type="search" name="query" placeholder="Search components..." />
+                  <span tngSuffix class="doc-cmp-form-field-ex-search-meta">Ctrl+K</span>
+                </tng-form-field>
+              </div>
+            </div>
+            <p docsFormDemoSummary>Use the wrapper to keep prefix, input, and suffix semantics grouped inside one field.</p>
+          </app-docs-form-demo-shell>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
+
     <section id="global-search-field" class="docs-section-anchor input-examples-block">
       <app-docs-example-tabs-section
         heading="Global search field"

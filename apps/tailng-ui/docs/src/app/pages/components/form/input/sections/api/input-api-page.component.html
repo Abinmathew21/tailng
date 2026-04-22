@@ -83,6 +83,21 @@
           </tbody>
         </table>
       </div>
+      <p>
+        For Angular Signal Forms, bind <code>[formField]</code> directly on
+        <code>&lt;tng-input&gt;</code>. The primitive <code>input[tngInput]</code> path also works
+        when you need projected adornments inside <code>&lt;tng-form-field&gt;</code>.
+      </p>
+      <tng-code-block
+        [code]="signalFormsCode"
+        adapter="shiki"
+        language="ts"
+        title="Signal forms with tng-input"
+        [theme]="codeBlockTheme()"
+        [lineNumbers]="false"
+        [wrap]="true"
+        [sanitizeHtml]="false"
+      ></tng-code-block>
     </section>
 
     <section id="tng-form-field" class="docs-section-anchor input-api-block">

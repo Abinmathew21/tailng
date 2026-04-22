@@ -121,6 +121,20 @@
       [wrap]="true"
       [sanitizeHtml]="false"
     ></tng-code-block>
+    <p>
+      Angular Signal Forms can also bind the wrapper directly with <code>[formField]</code> when
+      you want the OTP string to live inside a signal-backed form model.
+    </p>
+    <tng-code-block
+      [code]="signalFormsCode"
+      adapter="shiki"
+      language="ts"
+      title="Signal forms wiring"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
   </section>
 
   <section id="primitive-foundation" class="input-otp-api-block">

@@ -6,6 +6,7 @@ import {
   DocsExampleTabsSectionComponent,
   DocsExampleVariantDirective,
 } from '../../../../../../shared/example-tabs-section/docs-example-tabs-section.component';
+import { DocsFormDemoShellComponent } from '../../../../../../shared/form-demo-shell/docs-form-demo-shell.component';
 import {
   observeDocsCodeThemeChanges,
   resolveDocsCodeBlockTheme,
@@ -323,7 +324,12 @@ const RECOVERY_TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid w-fu
 
 @Component({
   selector: 'app-input-otp-examples-page',
-  imports: [TngInputOtpComponent, DocsExampleTabsSectionComponent, DocsExampleVariantDirective],
+  imports: [
+    TngInputOtpComponent,
+    DocsExampleTabsSectionComponent,
+    DocsExampleVariantDirective,
+    DocsFormDemoShellComponent,
+  ],
   templateUrl: './input-otp-examples-page.component.html',
   styleUrl: './input-otp-examples-page.component.css',
 })

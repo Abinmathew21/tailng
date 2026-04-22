@@ -78,6 +78,23 @@
     </div>
   </section>
 
+  <section id="signal-forms" class="multi-autocomplete-api-block">
+    <h3>Angular Signal Forms</h3>
+    <p>
+      <code>&lt;tng-multi-autocomplete&gt;</code> can bind directly with <code>[formField]</code>
+      for readonly array fields. The transient query text stays internal to the wrapper.
+    </p>
+    <tng-code-block
+      [code]="signalFormsCode"
+      adapter="shiki"
+      language="ts"
+      title="Signal forms wiring"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
   <section id="template-hooks" class="multi-autocomplete-api-block">
     <h3>Template hooks</h3>
     <p>

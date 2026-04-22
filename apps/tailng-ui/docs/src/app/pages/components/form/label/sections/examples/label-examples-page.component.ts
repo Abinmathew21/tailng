@@ -6,6 +6,7 @@ import {
   DocsExampleTabsSectionComponent,
   DocsExampleVariantDirective,
 } from '../../../../../../shared/example-tabs-section/docs-example-tabs-section.component';
+import { DocsFormDemoShellComponent } from '../../../../../../shared/form-demo-shell/docs-form-demo-shell.component';
 import { observeDocsCodeThemeChanges, resolveDocsCodeBlockTheme } from '../../../../../../shared/util';
 import { stackblitzTailwindUrl, stackblitzVanillaUrl } from '../../label.util';
 
@@ -42,7 +43,13 @@ function createCodeTabs(
 
 @Component({
   selector: 'app-label-examples-page',
-  imports: [DocsExampleTabsSectionComponent, DocsExampleVariantDirective, TngInputComponent, TngLabelComponent],
+  imports: [
+    DocsExampleTabsSectionComponent,
+    DocsExampleVariantDirective,
+    DocsFormDemoShellComponent,
+    TngInputComponent,
+    TngLabelComponent,
+  ],
   templateUrl: './label-examples-page.component.html',
   styleUrl: './label-examples-page.component.css',
 })
@@ -55,6 +62,8 @@ export class LabelExamplesPageComponent implements OnDestroy {
 
   protected readonly stackblitzVanillaUrl = stackblitzVanillaUrl;
   protected readonly stackblitzTailwindUrl = stackblitzTailwindUrl;
+  protected readonly formDemoProjectName = signal('Nova');
+  protected readonly formDemoAlerts = signal(true);
 
   protected readonly plainCssCodeTabs = createCodeTabs(
     'doc-cmp-label-examples-plain',

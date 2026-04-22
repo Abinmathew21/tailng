@@ -1,0 +1,116 @@
+:host {
+  display: block;
+}
+
+.docs-form-demo-shell {
+  display: grid;
+  gap: 1rem;
+  inline-size: min(100%, 44rem);
+  margin-inline: auto;
+  padding: 1.25rem;
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 1.5rem;
+  background: var(--tng-semantic-background-surface);
+  color: var(--tng-semantic-foreground-primary);
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
+}
+
+.docs-form-demo-shell__header,
+.docs-form-demo-shell__copy,
+.docs-form-demo-shell__summary {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.docs-form-demo-shell__eyebrow {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--tng-semantic-foreground-muted);
+}
+
+.docs-form-demo-shell__title {
+  margin: 0;
+  font-size: 1.05rem;
+  line-height: 1.35;
+}
+
+.docs-form-demo-shell__description,
+.docs-form-demo-shell__submitted {
+  margin: 0;
+  color: var(--tng-semantic-foreground-secondary);
+}
+
+.docs-form-demo-shell__field {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.docs-form-demo-shell__field > * {
+  min-width: 0;
+}
+
+.docs-form-demo-shell__footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.875rem;
+}
+
+.docs-form-demo-shell__summary {
+  flex: 1 1 16rem;
+  min-width: 0;
+  font-size: 0.9rem;
+}
+
+.docs-form-demo-shell__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+.docs-form-demo-shell__submit {
+  border: 0;
+  border-radius: 999px;
+  background: var(--tng-semantic-accent-brand);
+  color: #fff;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 600;
+  line-height: 1;
+  padding: 0.8rem 1.1rem;
+  transition:
+    transform 120ms ease,
+    opacity 120ms ease;
+}
+
+.docs-form-demo-shell__submit:hover {
+  opacity: 0.94;
+}
+
+.docs-form-demo-shell__submit:focus-visible {
+  outline: 3px solid var(--tng-semantic-focus-ring);
+  outline-offset: 3px;
+}
+
+.docs-form-demo-shell__submit:active {
+  transform: translateY(1px);
+}
+
+@media (max-width: 640px) {
+  .docs-form-demo-shell {
+    padding: 1rem;
+  }
+
+  .docs-form-demo-shell__footer,
+  .docs-form-demo-shell__actions {
+    justify-content: stretch;
+  }
+
+  .docs-form-demo-shell__submit {
+    width: 100%;
+  }
+}

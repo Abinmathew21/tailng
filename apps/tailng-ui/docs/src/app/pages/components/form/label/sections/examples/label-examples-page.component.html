@@ -1,5 +1,52 @@
 <article class="label-examples docs-section-page">
   <div class="docs-section-page-main">
+    <section id="form-usage" class="docs-section-anchor label-examples-block">
+      <app-docs-example-tabs-section
+        heading="Form usage"
+        description="Labels stay most valuable when they are shown in the same layout patterns people ship in real forms."
+        ariaLabel="Label form usage example"
+        tabListAriaLabel="Label form usage variants"
+        defaultValue="live-demo"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <ng-template appDocsExampleVariant value="live-demo" label="Live demo" panelTitle="Label form usage">
+          <app-docs-form-demo-shell
+            title="Release metadata"
+            description="Use labels to connect text fields and checkbox rows inside a compact form."
+            submitLabel="Save metadata"
+          >
+            <div docsFormDemoField class="doc-cmp-label-examples-card">
+              <div class="doc-cmp-label-examples-card__field">
+                <tng-label forId="docs-label-form-project" [required]="true">Project name</tng-label>
+                <tng-input
+                  [id]="'docs-label-form-project'"
+                  type="text"
+                  [ariaRequired]="true"
+                  [value]="formDemoProjectName()"
+                  (valueChange)="formDemoProjectName.set($event)"
+                  placeholder="Nova"
+                ></tng-input>
+              </div>
+              <div class="doc-cmp-label-examples-card__row">
+                <input
+                  id="docs-label-form-alerts"
+                  type="checkbox"
+                  class="doc-cmp-label-examples-card__checkbox"
+                  [checked]="formDemoAlerts()"
+                  (change)="formDemoAlerts.set($any($event.target).checked)"
+                />
+                <tng-label forId="docs-label-form-alerts">Send release alerts</tng-label>
+              </div>
+            </div>
+            <p docsFormDemoSummary>
+              Project: {{ formDemoProjectName() || '—' }} · Alerts:
+              {{ formDemoAlerts() ? 'On' : 'Off' }}
+            </p>
+          </app-docs-form-demo-shell>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
+
     <section id="association-patterns" class="docs-section-anchor label-examples-block">
       <app-docs-example-tabs-section
         heading="Association patterns"
