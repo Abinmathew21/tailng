@@ -11,3 +11,14 @@
   gap: 0.5rem;
   padding: 0.9rem 1rem;
 }
+
+:host([data-orientation='vertical']) .tng-tabs {
+  align-items: start;
+}
+
+@media (min-width: 48rem) {
+  :host([data-orientation='vertical']) .tng-tabs {
+    gap: 1rem;
+    grid-template-columns: minmax(0, 13rem) minmax(0, 1fr);
+  }
+}

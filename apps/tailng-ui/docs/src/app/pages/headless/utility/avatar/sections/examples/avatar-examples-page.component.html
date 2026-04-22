@@ -92,7 +92,7 @@
           >
             <img
               tngAvatarImage
-              class="h-full w-full object-cover"
+              class="h-full w-full object-cover [&[hidden]]:!hidden"
               [attr.src]="srcFor('tailwind')"
               [attr.hidden]="showFallback('tailwind') ? '' : null"
               alt="Priya Raman"
@@ -101,7 +101,7 @@
             />
             <span
               tngAvatarFallback
-              class="absolute inset-0 inline-flex items-center justify-center text-sm font-semibold text-[var(--tng-semantic-foreground-primary)]"
+              class="absolute inset-0 inline-flex items-center justify-center text-sm font-semibold text-[var(--tng-semantic-foreground-primary)] [&[hidden]]:!hidden"
               [attr.hidden]="showFallback('tailwind') ? null : ''"
               aria-hidden="true"
             >
@@ -163,11 +163,16 @@
           tngAvatar
           class="relative inline-flex h-12 w-12 overflow-hidden rounded-full border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-base)] shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--tng-semantic-border-subtle)_55%,transparent)]"
         >
-          <img tngAvatarImage [attr.src]="sampleImage" alt="" class="h-full w-full object-cover" />
+          <img
+            tngAvatarImage
+            [attr.src]="sampleImage"
+            alt=""
+            class="h-full w-full object-cover [&[hidden]]:!hidden"
+          />
           <span
             tngAvatarFallback
             [attr.hidden]="''"
-            class="absolute inset-0 inline-flex items-center justify-center text-sm font-semibold text-[var(--tng-semantic-foreground-primary)]"
+            class="absolute inset-0 inline-flex items-center justify-center text-sm font-semibold text-[var(--tng-semantic-foreground-primary)] [&[hidden]]:!hidden"
             aria-hidden="true"
           >
             AL
@@ -177,10 +182,15 @@
           tngAvatar
           class="relative inline-flex h-10 w-10 overflow-hidden rounded-full border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-base)] shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--tng-semantic-border-subtle)_55%,transparent)]"
         >
-          <img tngAvatarImage [attr.hidden]="''" alt="" class="h-full w-full object-cover" />
+          <img
+            tngAvatarImage
+            [attr.hidden]="''"
+            alt=""
+            class="h-full w-full object-cover [&[hidden]]:!hidden"
+          />
           <span
             tngAvatarFallback
-            class="absolute inset-0 inline-flex items-center justify-center text-xs font-semibold text-[var(--tng-semantic-foreground-primary)]"
+            class="absolute inset-0 inline-flex items-center justify-center text-xs font-semibold text-[var(--tng-semantic-foreground-primary)] [&[hidden]]:!hidden"
             aria-hidden="true"
           >
             TN
@@ -190,11 +200,16 @@
           tngAvatar
           class="relative inline-flex h-10 w-10 overflow-hidden rounded-xl border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-base)] shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--tng-semantic-border-subtle)_55%,transparent)]"
         >
-          <img tngAvatarImage [attr.src]="sampleImage" alt="" class="h-full w-full object-cover" />
+          <img
+            tngAvatarImage
+            [attr.src]="sampleImage"
+            alt=""
+            class="h-full w-full object-cover [&[hidden]]:!hidden"
+          />
           <span
             tngAvatarFallback
             [attr.hidden]="''"
-            class="absolute inset-0 inline-flex items-center justify-center text-xs font-semibold text-[var(--tng-semantic-foreground-primary)]"
+            class="absolute inset-0 inline-flex items-center justify-center text-xs font-semibold text-[var(--tng-semantic-foreground-primary)] [&[hidden]]:!hidden"
             aria-hidden="true"
           >
             SQ

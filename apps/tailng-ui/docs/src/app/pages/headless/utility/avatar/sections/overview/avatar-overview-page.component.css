@@ -105,6 +105,11 @@
   width: 100%;
 }
 
+[data-slot='avatar-image'][hidden],
+[data-slot='avatar-fallback'][hidden] {
+  display: none !important;
+}
+
 .headless-avatar-fallback {
   align-items: center;
   color: var(--tng-semantic-foreground-primary);
