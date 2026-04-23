@@ -1,0 +1,317 @@
+:host {
+  display: block;
+}
+
+.page {
+  background: var(--tng-semantic-background-canvas);
+  color: var(--tng-semantic-foreground-primary);
+  min-height: 100vh;
+  padding: 2rem 1rem;
+}
+
+.container {
+  display: grid;
+  gap: 1.25rem;
+  margin: 0 auto;
+  max-width: 78rem;
+}
+
+.hero {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.title {
+  font-size: clamp(1.875rem, 2vw + 1rem, 2.5rem);
+  line-height: 1.1;
+  margin: 0;
+}
+
+.subtitle {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+  max-width: 48rem;
+}
+
+.card {
+  background: var(--tng-semantic-background-surface);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 1rem;
+  display: grid;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.toolbar {
+  align-items: end;
+  display: grid;
+  gap: 0.875rem;
+  grid-template-columns: minmax(0, 1.8fr) minmax(11rem, 0.9fr) auto;
+}
+
+.toolbar-field {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.toolbar-field-compact {
+  min-width: 0;
+}
+
+.toolbar-label {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.toolbar-input,
+.toolbar-select {
+  background: var(--tng-semantic-background-canvas);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.6rem;
+  color: var(--tng-semantic-foreground-primary);
+  font: inherit;
+  min-height: 2.75rem;
+  padding: 0.65rem 0.8rem;
+}
+
+.toolbar-input:focus,
+.toolbar-select:focus,
+.toolbar-button:focus-visible,
+.pagination-button:focus-visible,
+.table-head-sortable:focus-visible,
+.row-checkbox:focus-visible {
+  outline: 2px solid var(--tng-semantic-focus-ring);
+  outline-offset: 2px;
+}
+
+.toolbar-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: flex-end;
+}
+
+.toolbar-button,
+.pagination-button {
+  background: var(--tng-semantic-background-canvas);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.6rem;
+  color: var(--tng-semantic-foreground-primary);
+  cursor: pointer;
+  font: inherit;
+  min-height: 2.75rem;
+  padding: 0.65rem 0.9rem;
+}
+
+.toolbar-button-subtle {
+  color: var(--tng-semantic-foreground-secondary);
+}
+
+.toolbar-button:disabled,
+.pagination-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.table-summary {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
+  justify-content: space-between;
+}
+
+.summary-copy {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.pagination {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.pagination-label {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.9rem;
+  min-width: 7.5rem;
+  text-align: center;
+}
+
+.table-shell {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.9rem;
+  overflow: auto;
+}
+
+.table {
+  border-collapse: separate;
+  border-spacing: 0;
+  inline-size: 100%;
+  min-inline-size: 52rem;
+}
+
+.table-head,
+.table-cell,
+.table-foot {
+  border-bottom: 1px solid var(--tng-semantic-border-subtle);
+  padding: 0.85rem 0.9rem;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.table-head {
+  background: color-mix(in srgb, var(--tng-semantic-background-canvas) 88%, transparent);
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.table-head-sortable {
+  cursor: pointer;
+  user-select: none;
+}
+
+.table-head-sortable[data-sort-active] {
+  color: var(--tng-semantic-accent-brand);
+}
+
+.table-head-sortable[data-sort-direction='asc']::after {
+  content: ' ↑';
+}
+
+.table-head-sortable[data-sort-direction='desc']::after {
+  content: ' ↓';
+}
+
+.table-head-checkbox,
+.table-cell-checkbox {
+  inline-size: 3rem;
+  padding-inline-end: 0.5rem;
+}
+
+.table-row {
+  cursor: pointer;
+  transition: background 120ms ease;
+}
+
+.table-row:hover {
+  background: color-mix(in srgb, var(--tng-semantic-background-canvas) 76%, transparent);
+}
+
+.table-row[data-selected] {
+  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 10%, transparent);
+}
+
+.table-row:last-child .table-cell {
+  border-bottom: 0;
+}
+
+.table-foot {
+  background: color-mix(in srgb, var(--tng-semantic-background-canvas) 92%, transparent);
+  border-bottom: 0;
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.9rem;
+}
+
+.table-cell-number,
+.table-head-number {
+  text-align: right;
+}
+
+.project-cell {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.cell-subtitle {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.78rem;
+}
+
+.row-checkbox {
+  accent-color: var(--tng-semantic-accent-brand);
+  block-size: 1rem;
+  inline-size: 1rem;
+}
+
+.status-pill {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 999px;
+  display: inline-flex;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.25rem 0.55rem;
+}
+
+.status-pill[data-tone='active'] {
+  background: color-mix(in srgb, var(--tng-semantic-accent-success) 12%, transparent);
+  border-color: color-mix(in srgb, var(--tng-semantic-accent-success) 30%, var(--tng-semantic-border-subtle));
+  color: var(--tng-semantic-accent-success);
+}
+
+.status-pill[data-tone='review'] {
+  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 10%, transparent);
+  border-color: color-mix(in srgb, var(--tng-semantic-accent-brand) 30%, var(--tng-semantic-border-subtle));
+  color: var(--tng-semantic-accent-brand);
+}
+
+.status-pill[data-tone='draft'] {
+  background: color-mix(in srgb, var(--tng-semantic-foreground-secondary) 10%, transparent);
+  color: var(--tng-semantic-foreground-secondary);
+}
+
+.status-pill[data-tone='blocked'] {
+  background: color-mix(in srgb, var(--tng-semantic-accent-danger) 12%, transparent);
+  border-color: color-mix(in srgb, var(--tng-semantic-accent-danger) 30%, var(--tng-semantic-border-subtle));
+  color: var(--tng-semantic-accent-danger);
+}
+
+.state-banner,
+.selection-panel {
+  background: var(--tng-semantic-background-canvas);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.75rem;
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+  padding: 0.85rem 0.95rem;
+}
+
+.section-title {
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.check-list {
+  display: grid;
+  gap: 0.45rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.check-list > li {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.55rem;
+  padding: 0.65rem 0.8rem;
+}
+
+@media (max-width: 960px) {
+  .toolbar {
+    grid-template-columns: 1fr;
+  }
+
+  .toolbar-actions {
+    justify-content: flex-start;
+  }
+
+  .table-summary {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

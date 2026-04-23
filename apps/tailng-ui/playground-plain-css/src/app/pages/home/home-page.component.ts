@@ -9,5 +9,5 @@ import { ALL_PLAYGROUND_ITEMS } from '@tailng-ui/registry';
   styleUrl: './home-page.component.css',
 })
 export class HomePageComponent {
-  protected readonly items = ALL_PLAYGROUND_ITEMS;
+  protected readonly items = ALL_PLAYGROUND_ITEMS.filter((item) => item.plain);
 }

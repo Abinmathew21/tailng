@@ -220,10 +220,11 @@ export class PlaygroundLayoutComponent {
 
   protected readonly groups = computed((): readonly TngCategoryGroup[] => {
     const q = this.searchQuery().toLowerCase().trim();
+    const availableItems = ALL_PLAYGROUND_ITEMS.filter((item) => item.plain);
     const filtered =
       q.length === 0
-        ? ALL_PLAYGROUND_ITEMS
-        : ALL_PLAYGROUND_ITEMS.filter(
+        ? availableItems
+        : availableItems.filter(
             (item) =>
               item.title.toLowerCase().includes(q) ||
               item.description.toLowerCase().includes(q) ||

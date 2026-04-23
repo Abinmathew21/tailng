@@ -352,6 +352,13 @@ export const appRoutes: Route[] = [
           ).then((module) => module.GridPlaygroundPageComponent),
       },
       {
+        path: 'table',
+        loadComponent: () =>
+          import(
+            './pages/components/table-demo/table-playground-page.component'
+          ).then((module) => module.TablePlaygroundPageComponent),
+      },
+      {
         path: 'tree',
         loadComponent: () =>
           import(
