@@ -1,23 +1,137 @@
-    <section class="grid gap-4">
-      <h1 class="m-0 text-3xl font-semibold">Theme</h1>
+<section class="components-page-full-bleed grid gap-5">
+  <section
+    tngDrawerContainer
+    class="components-docs-stage border-b border-tng-border-subtle bg-tng-bg-surface/60"
+    [animate]="false"
+    [hasBackdrop]="false"
+    [closeOthersOnOpen]="false"
+  >
+    <tng-drawer
+      class="components-docs-drawer"
+      ariaLabel="Theme docs navigation"
+      tabindex="-1"
+      [opened]="true"
+      [mode]="'overlay'"
+      [position]="'start'"
+      [backdrop]="false"
+      [closeOnOutsideClick]="false"
+      [closeOnEscape]="false"
+      [autoFocus]="'none'"
+      [trapFocus]="false"
+      [inertContent]="false"
+      [allowBodyScroll]="true"
+    >
+      <div class="components-docs-search pb-3">
+        <tng-form-field class="components-docs-search-input" size="sm">
+          <span tngPrefix class="components-docs-search-icon" aria-hidden="true">
+            <tng-icon icon="search" class="h-4 w-4" />
+          </span>
+          <input
+            tngInput
+            class="components-docs-search-control"
+            type="search"
+            placeholder="Search theme docs..."
+            aria-label="Search theme docs navigation"
+            autocomplete="off"
+            [value]="navSearchQuery()"
+            (input)="onNavSearchInput($event)"
+          />
+        </tng-form-field>
+      </div>
 
-      <tng-card variant="outline" padding="lg">
-        <tng-card-header>
-          <tng-card-title>Tokens, Presets, and Mode</tng-card-title>
-          <tng-card-description>
-            Theme presets and semantic token mapping for consistent, mode-aware interfaces.
-          </tng-card-description>
-        </tng-card-header>
-        <tng-card-content>
-          This section will include token references, preset guides, and implementation patterns.
-          Available presets now include Default, Minimal, Slate, Nexus, Prism, Atlas, and Sterling
-          (with dark variants for mode switching).
-        </tng-card-content>
-      </tng-card>
+      @if (filteredNavGroups().length > 0) {
+        <tng-accordion
+          tabindex="-1"
+          [type]="'multiple'"
+          [defaultValue]="defaultExpandedGroups"
+          [collapsible]="true"
+          ariaLabel="Theme docs categories"
+        >
+          @for (group of filteredNavGroups(); track group.id) {
+            <tng-accordion-item [value]="group.id">
+              <tng-accordion-trigger>
+                <span class="flex w-full items-center justify-between gap-3">
+                  <span class="flex min-w-0 flex-col text-left">
+                    <span class="truncate text-sm font-semibold">{{ group.title }}</span>
+                    <span class="truncate text-xs text-tng-fg-secondary">{{ group.subtitle }}</span>
+                  </span>
+                  <span
+                    class="inline-flex h-6 min-w-6 items-center justify-center rounded-full border border-tng-border-subtle px-1 text-xs text-tng-fg-secondary"
+                  >
+                    {{ group.items.length }}
+                  </span>
+                </span>
+              </tng-accordion-trigger>
+              <tng-accordion-panel>
+                <div
+                  tngListbox
+                  class="components-docs-nav-listbox grid gap-1.5 py-1"
+                  [attr.aria-label]="group.title + ' links'"
+                  [value]="activeGroupItemHref(group)"
+                  [typeahead]="false"
+                  [loop]="true"
+                  tabindex="0"
+                  (valueChange)="onNavListboxValueChange($event)"
+                >
+                  @for (item of group.items; track item.id) {
+                    <div
+                      tngOption
+                      [tngValue]="itemHref(group.id, item.slug)"
+                      class="components-docs-nav-option inline-flex min-h-9 w-full items-center justify-between rounded-lg border border-transparent px-3 py-2 text-left text-sm transition-colors"
+                      [class.border-tng-border-subtle]="!isItemActive(group.id, item.slug)"
+                      [class.bg-tng-bg-base]="!isItemActive(group.id, item.slug)"
+                      [class.text-tng-fg-primary]="!isItemActive(group.id, item.slug)"
+                      [class.hover:bg-tng-bg-muted]="!isItemActive(group.id, item.slug)"
+                      [class.border-tng-accent-brand]="isItemActive(group.id, item.slug)"
+                      [class.bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_12%,var(--tng-semantic-background-base))]]="
+                        isItemActive(group.id, item.slug)
+                      "
+                      [class.text-tng-accent-brand]="isItemActive(group.id, item.slug)"
+                    >
+                      <span class="truncate">{{ item.title }}</span>
+                      @if (isItemActive(group.id, item.slug)) {
+                        <tng-icon icon="chevron-right" class="h-4 w-4 shrink-0" />
+                      }
+                    </div>
+                  }
+                </div>
+              </tng-accordion-panel>
+            </tng-accordion-item>
+          }
+        </tng-accordion>
+      } @else {
+        <div
+          class="components-docs-empty-search rounded-lg border border-dashed border-tng-border-subtle p-3"
+        >
+          <p class="m-0 text-sm font-medium text-tng-fg-primary">No matches found</p>
+          <p class="m-0 mt-1 text-xs text-tng-fg-secondary">
+            Try another term (for example: preset, css vars, theme builder).
+          </p>
+        </div>
+      }
+    </tng-drawer>
 
-      <tng-card variant="ghost" padding="md">
-        <tng-card-content>
-          <strong>In progress:</strong> Theme docs page is under active development.
-        </tng-card-content>
-      </tng-card>
-    </section>
+    <main tngDrawerContent class="components-docs-content">
+      <section class="components-docs-breadcrumb">
+        <tng-breadcrumb ariaLabel="Theme documentation path" separator="›">
+          @for (crumb of docsBreadcrumbs(); track $index) {
+            <tng-breadcrumb-item [current]="crumb.current" [routerLink]="crumb.url">
+              {{ crumb.label }}
+            </tng-breadcrumb-item>
+          }
+        </tng-breadcrumb>
+      </section>
+
+      <section class="docs-component-content">
+        <div class="docs-component-content-main" #docsContentRoot>
+          <router-outlet />
+        </div>
+        <app-docs-component-section-outline
+          ariaLabel="Theme page sections"
+          [contentRoot]="docsContentRoot"
+          [title]="'Page content'"
+        />
+      </section>
+    </main>
+  </section>
+</section>

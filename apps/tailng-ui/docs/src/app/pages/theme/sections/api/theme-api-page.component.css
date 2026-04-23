@@ -1,0 +1,14 @@
+:host {
+  display: block;
+}
+
+.theme-api-code-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+@media (min-width: 960px) {
+  .theme-api-code-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

@@ -1,0 +1,115 @@
+<article class="docs-overview theme-builder-page">
+  <section class="docs-overview-block">
+    <h2 class="docs-overview-title">Theme builder</h2>
+    <p class="docs-overview-lead">
+      Use this page to inspect a preset the way a product team usually does while authoring: pick a
+      preset, switch modes, preview real UI tokens, then copy the provider or CSS variable output.
+    </p>
+  </section>
+
+  <section class="docs-overview-block">
+    <h3>Builder controls</h3>
+    <div class="theme-builder-controls">
+      <label class="theme-builder-control">
+        <span>Preset</span>
+        <select [value]="selectedPreset()" (change)="onPresetChange($event)">
+          @for (option of presetOptions; track option.id) {
+            <option [value]="option.id">{{ option.label }}</option>
+          }
+        </select>
+      </label>
+
+      <label class="theme-builder-control">
+        <span>Mode</span>
+        <select [value]="selectedMode()" (change)="onModeChange($event)">
+          @for (option of modeOptions; track option.id) {
+            <option [value]="option.id">{{ option.label }}</option>
+          }
+        </select>
+      </label>
+    </div>
+
+    <p class="theme-builder-description">{{ selectedPresetMeta().description }}</p>
+  </section>
+
+  <section class="docs-overview-block">
+    <h3>Live preview</h3>
+    <div class="theme-builder-preview" [ngStyle]="previewThemeVars()">
+      <div class="theme-builder-preview-shell">
+        <div class="theme-builder-stat-card">
+          <p class="theme-builder-kicker">Theme</p>
+          <h4>{{ themeMeta().name }}</h4>
+          <p class="theme-builder-copy">Mode: {{ themeMeta().mode }}</p>
+        </div>
+
+        <div class="theme-builder-stat-row">
+          <div class="theme-builder-stat-card">
+            <p class="theme-builder-kicker">Primary Surface</p>
+            <p class="theme-builder-copy">Background, border, and foreground update from the active preset.</p>
+          </div>
+          <div class="theme-builder-stat-card">
+            <p class="theme-builder-kicker">Focus</p>
+            <p class="theme-builder-copy">Tab through actions to check keyboard affordance contrast.</p>
+          </div>
+        </div>
+
+        <div class="theme-builder-action-row">
+          <tng-button tone="primary" appearance="solid" type="button">Primary action</tng-button>
+          <tng-button tone="neutral" appearance="outline" type="button">Secondary action</tng-button>
+          <tng-button tone="success" appearance="solid" type="button">Success</tng-button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="docs-overview-block">
+    <h3>Semantic token inspector</h3>
+    <div class="docs-api-table-wrap">
+      <table class="docs-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Token</th>
+            <th scope="col">Expression</th>
+            <th scope="col">Resolved value</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of semanticTokenRows(); track row.name) {
+            <tr>
+              <td><code>{{ row.name }}</code></td>
+              <td><code>{{ row.expression }}</code></td>
+              <td><code>{{ row.resolvedValue }}</code></td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="docs-overview-block">
+    <h3>Export snippets</h3>
+    <div class="theme-builder-code-grid">
+      <tng-code-block
+        [code]="providerCode()"
+        adapter="shiki"
+        language="ts"
+        title="Angular provider"
+        [theme]="codeBlockTheme()"
+        [lineNumbers]="false"
+        [sanitizeHtml]="false"
+        [wrap]="true"
+      ></tng-code-block>
+
+      <tng-code-block
+        [code]="cssVarExcerptCode()"
+        adapter="shiki"
+        language="css"
+        title="CSS variable excerpt"
+        [theme]="codeBlockTheme()"
+        [lineNumbers]="false"
+        [sanitizeHtml]="false"
+        [wrap]="true"
+      ></tng-code-block>
+    </div>
+  </section>
+</article>

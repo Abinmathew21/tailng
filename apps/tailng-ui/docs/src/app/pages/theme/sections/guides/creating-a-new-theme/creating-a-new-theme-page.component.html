@@ -1,0 +1,73 @@
+<article class="docs-overview theme-guide-page">
+  <section class="docs-overview-block">
+    <h2 class="docs-overview-title">Creating a new theme</h2>
+    <p class="docs-overview-lead">
+      The safest workflow is to start from a built-in preset, keep the primitive token scales
+      intact, and override semantic values where product branding or interaction tone needs to
+      change.
+    </p>
+  </section>
+
+  <section class="docs-overview-block">
+    <h3>1. Choose a base preset</h3>
+    <p>
+      Pick the preset that feels closest to the product surface you want. That gives you a complete
+      token contract before you make any product-specific decisions.
+    </p>
+
+    <tng-code-block
+      [code]="basePresetCode"
+      adapter="shiki"
+      language="ts"
+      title="Start from a preset"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+    ></tng-code-block>
+  </section>
+
+  <section class="docs-overview-block">
+    <h3>2. Ship light and dark as a pair</h3>
+    <p>
+      In practice, teams usually author a matched light and dark pair. Keep the semantic intent the
+      same across both so components and utilities can switch mode without changing their markup.
+    </p>
+
+    <tng-code-block
+      [code]="darkPairCode"
+      adapter="shiki"
+      language="ts"
+      title="Create matching light and dark themes"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+    ></tng-code-block>
+  </section>
+
+  <section class="docs-overview-block">
+    <h3>3. Validate the contract before shipping</h3>
+    <p>
+      If you build or merge themes programmatically, validate them in tests so missing scales are
+      caught before they reach runtime styling or Tailwind export paths.
+    </p>
+
+    <ul class="docs-overview-list">
+      <li>Prefer semantic overrides for brand, focus, and surface work.</li>
+      <li>Keep token names stable so downstream wrappers do not need custom branches.</li>
+      <li>Run contract validation in tests when themes are generated dynamically.</li>
+    </ul>
+
+    <tng-code-block
+      [code]="validationCode"
+      adapter="shiki"
+      language="ts"
+      title="Validate the theme contract"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+    ></tng-code-block>
+  </section>
+</article>

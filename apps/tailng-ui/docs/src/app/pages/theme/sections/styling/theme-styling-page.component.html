@@ -1,0 +1,142 @@
+<article class="docs-overview theme-styling">
+  <section id="token-model" class="docs-overview-block">
+    <h2 class="docs-overview-title">Styling and token model</h2>
+    <p class="docs-overview-lead">
+      TailNG themes are split into primitive collections and semantic collections. Primitive values
+      are the low-level design scales; semantic values are the product-facing contract that wrappers
+      and docs consume.
+    </p>
+
+    <div class="theme-styling-collections-grid">
+      <article class="theme-styling-collection-card">
+        <h3>Primitive collections</h3>
+        <div class="theme-styling-collection-list">
+          @for (collection of primitiveCollections; track collection.label) {
+            <div class="theme-styling-collection-item">
+              <div>
+                <p class="theme-styling-collection-label"><code>{{ collection.label }}</code></p>
+                <p class="theme-styling-collection-summary">{{ collection.summary }}</p>
+              </div>
+              <p class="theme-styling-collection-examples">
+                {{ collection.examples.join(', ') }}
+              </p>
+            </div>
+          }
+        </div>
+      </article>
+
+      <article class="theme-styling-collection-card">
+        <h3>Semantic collections</h3>
+        <div class="theme-styling-collection-list">
+          @for (collection of semanticCollections; track collection.label) {
+            <div class="theme-styling-collection-item">
+              <div>
+                <p class="theme-styling-collection-label"><code>{{ collection.label }}</code></p>
+                <p class="theme-styling-collection-summary">{{ collection.summary }}</p>
+              </div>
+              <p class="theme-styling-collection-examples">
+                {{ collection.examples.join(', ') }}
+              </p>
+            </div>
+          }
+        </div>
+      </article>
+    </div>
+
+    <tng-code-block
+      [code]="tokenReferenceCode"
+      adapter="shiki"
+      language="ts"
+      title="Resolve token references"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+    ></tng-code-block>
+  </section>
+
+  <section id="css-variable-output" class="docs-overview-block">
+    <h3>CSS variable output</h3>
+    <p>
+      Use <code>toCssVars()</code> when your app owns the scope that should receive the theme.
+      Export only semantic values, only primitive values, or both depending on how much styling the
+      host owns.
+    </p>
+
+    <div class="theme-styling-code-grid">
+      <tng-code-block
+        [code]="cssVarAdapterCode"
+        adapter="shiki"
+        language="ts"
+        title="Generate variables"
+        [theme]="codeBlockTheme()"
+        [lineNumbers]="false"
+        [sanitizeHtml]="false"
+        [wrap]="true"
+      ></tng-code-block>
+
+      <tng-code-block
+        [code]="semanticVarsOutputCode"
+        adapter="shiki"
+        language="css"
+        title="Semantic variable excerpt"
+        [theme]="codeBlockTheme()"
+        [lineNumbers]="false"
+        [sanitizeHtml]="false"
+        [wrap]="true"
+      ></tng-code-block>
+    </div>
+  </section>
+
+  <section id="component-contract-css" class="docs-overview-block">
+    <h3>Component contract CSS</h3>
+    <p>
+      The package also exposes component contract styles. Import the full bundle when you want the
+      whole styled wrapper layer, or import a single contract when a feature owns only a subset.
+    </p>
+
+    <div class="theme-styling-code-grid">
+      <tng-code-block
+        [code]="contractIndexImportCode"
+        adapter="shiki"
+        language="css"
+        title="All contracts"
+        [theme]="codeBlockTheme()"
+        [lineNumbers]="false"
+        [sanitizeHtml]="false"
+        [wrap]="true"
+      ></tng-code-block>
+
+      <tng-code-block
+        [code]="contractSingleImportCode"
+        adapter="shiki"
+        language="css"
+        title="Single contract"
+        [theme]="codeBlockTheme()"
+        [lineNumbers]="false"
+        [sanitizeHtml]="false"
+        [wrap]="true"
+      ></tng-code-block>
+    </div>
+  </section>
+
+  <section id="tailwind-adapter" class="docs-overview-block">
+    <h3>Tailwind adapter</h3>
+    <p>
+      When Tailwind utilities own spacing and composition, project the same theme definition into
+      your Tailwind config. That keeps colors, spacing, radii, and motion values aligned with the
+      preset used by the rest of the app.
+    </p>
+
+    <tng-code-block
+      [code]="tailwindPresetCode"
+      adapter="shiki"
+      language="ts"
+      title="Create a Tailwind preset"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+    ></tng-code-block>
+  </section>
+</article>

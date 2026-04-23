@@ -1,0 +1,61 @@
+<article class="docs-overview theme-guide-page">
+  <section class="docs-overview-block">
+    <h2 class="docs-overview-title">Download example theme</h2>
+    <p class="docs-overview-lead">
+      Start from a concrete theme file when you want a real light/dark pair instead of a blank
+      exercise. The example below is tuned for an app dashboard surface and is ready to customize.
+    </p>
+
+    <div class="theme-download-actions">
+      <a class="theme-download-link" [href]="downloadHref" download="acme-dashboard.theme.ts">
+        Download starter theme
+      </a>
+      <span class="theme-download-note">TypeScript file with matching light and dark exports.</span>
+    </div>
+  </section>
+
+  <section class="docs-overview-block">
+    <h3>Starter file</h3>
+    <p>
+      The download includes two ready-to-import themes built from TailNG presets. Adjust the
+      semantic accent, surface, and focus tokens first, then continue into your own product scales
+      if needed.
+    </p>
+
+    <tng-code-block
+      [code]="exampleThemeCode"
+      adapter="shiki"
+      language="ts"
+      title="acme-dashboard.theme.ts"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+    ></tng-code-block>
+  </section>
+
+  <section class="docs-overview-block">
+    <h3>Use the downloaded theme</h3>
+    <p>
+      Once the file is in your app, wire one of the exports into the Angular provider or generate
+      CSS variables locally for a smaller theme scope.
+    </p>
+
+    <ul class="docs-overview-list">
+      <li>Use the light export for product surfaces that default to bright canvas and subtle borders.</li>
+      <li>Use the dark export when the whole app runs in dark mode by default.</li>
+      <li>Rename the file and theme metadata so the resulting tokens are clearly product-owned.</li>
+    </ul>
+
+    <tng-code-block
+      [code]="integrationCode"
+      adapter="shiki"
+      language="ts"
+      title="Register the downloaded theme"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+    ></tng-code-block>
+  </section>
+</article>

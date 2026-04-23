@@ -1,0 +1,120 @@
+<article class="docs-overview theme-api">
+  <section id="core-types" class="docs-overview-block">
+    <h2 class="docs-overview-title">Theme API</h2>
+    <p class="docs-overview-lead">
+      The theme package keeps the public surface intentionally small: presets, composition helpers,
+      token resolvers, and adapters that project the same theme definition into runtime CSS or
+      Tailwind config.
+    </p>
+
+    <div class="docs-api-table-wrap">
+      <table class="docs-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Type</th>
+            <th scope="col">Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of coreThemeTypes; track item.name) {
+            <tr>
+              <td><code>{{ item.name }}</code></td>
+              <td>{{ item.description }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="runtime-helpers" class="docs-overview-block">
+    <h3>Runtime helpers</h3>
+    <p>
+      These exports are the common entry points for creating a theme, resolving tokens, and
+      projecting the result into CSS or Angular runtime setup.
+    </p>
+
+    <div class="docs-api-table-wrap">
+      <table class="docs-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Helper</th>
+            <th scope="col">Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of runtimeHelpers; track item.name) {
+            <tr>
+              <td><code>{{ item.name }}</code></td>
+              <td>{{ item.description }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="preset-exports" class="docs-overview-block">
+    <h3>Preset exports</h3>
+    <p>
+      Each built-in preset ships as explicit light and dark exports so teams can pick a starting
+      point without hand-authoring every token scale.
+    </p>
+
+    <div class="docs-api-table-wrap">
+      <table class="docs-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Preset</th>
+            <th scope="col">Light export</th>
+            <th scope="col">Dark export</th>
+            <th scope="col">Intent</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (preset of presetExports; track preset.id) {
+            <tr>
+              <td>{{ preset.label }}</td>
+              <td><code>{{ preset.lightExport }}</code></td>
+              <td><code>{{ preset.darkExport }}</code></td>
+              <td>{{ preset.description }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="composition-flow" class="docs-overview-block">
+    <h3>Composition flow</h3>
+    <p>
+      A typical workflow is: start from a preset, override semantic scales for the product, resolve
+      any token references you need, then apply the result through CSS variables or the Angular
+      provider.
+    </p>
+
+    <div class="theme-api-code-grid">
+      <tng-code-block
+        [code]="compositionCode"
+        adapter="shiki"
+        language="ts"
+        title="Compose and inspect a theme"
+        [theme]="codeBlockTheme()"
+        [lineNumbers]="false"
+        [sanitizeHtml]="false"
+        [wrap]="true"
+      ></tng-code-block>
+
+      <tng-code-block
+        [code]="runtimeApplyCode"
+        adapter="shiki"
+        language="ts"
+        title="Apply a theme at runtime"
+        [theme]="codeBlockTheme()"
+        [lineNumbers]="false"
+        [sanitizeHtml]="false"
+        [wrap]="true"
+      ></tng-code-block>
+    </div>
+  </section>
+</article>

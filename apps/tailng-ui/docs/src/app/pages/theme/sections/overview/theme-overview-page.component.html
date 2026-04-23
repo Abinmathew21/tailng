@@ -1,0 +1,148 @@
+<article class="docs-overview theme-overview">
+  <section id="what-you-get" class="docs-overview-block">
+    <h2 class="docs-overview-title">Theme getting started</h2>
+    <p class="docs-overview-lead">
+      <code>@tailng-ui/theme</code> is the visual contract behind TailNG. It ships presets, token
+      composition helpers, CSS variable adapters, and runtime setup so the same design language can
+      power plain CSS shells, Tailwind apps, and the styled component layer.
+    </p>
+
+    <div class="theme-overview-feature-grid">
+      @for (item of capabilityCards; track item.title) {
+        <article class="theme-overview-feature-card">
+          <h3>{{ item.title }}</h3>
+          <p>{{ item.description }}</p>
+        </article>
+      }
+    </div>
+  </section>
+
+  <section id="quick-start" class="docs-overview-block">
+    <h3>Quick start</h3>
+    <p>
+      Install the package once, then register a preset near the root of your Angular app.
+      Everything under that scope can inherit the same semantic tokens.
+    </p>
+
+    <div class="theme-overview-code-grid">
+      <tng-code-block
+        [code]="quickInstallCode"
+        adapter="shiki"
+        language="bash"
+        title="Install"
+        [theme]="codeBlockTheme()"
+        [lineNumbers]="false"
+        [sanitizeHtml]="false"
+        [wrap]="true"
+      ></tng-code-block>
+
+      <tng-code-block
+        [code]="providerCode()"
+        adapter="shiki"
+        language="ts"
+        title="Register a preset"
+        [theme]="codeBlockTheme()"
+        [lineNumbers]="false"
+        [sanitizeHtml]="false"
+        [wrap]="true"
+      ></tng-code-block>
+    </div>
+  </section>
+
+  <section id="preset-explorer" class="docs-overview-block">
+    <h3>Preset explorer</h3>
+    <p>
+      Switch the preset and mode to see how the same component surface changes when the theme scope
+      changes. The preview below is locally scoped with generated CSS variables, so it behaves like
+      an embedded product surface instead of mutating the docs app itself.
+    </p>
+
+    <div class="theme-overview-controls">
+      <label class="theme-overview-control">
+        <span>Preset</span>
+        <select [value]="selectedPreset()" (change)="onPresetChange($event)">
+          @for (option of presetOptions; track option.id) {
+            <option [value]="option.id">{{ option.label }}</option>
+          }
+        </select>
+      </label>
+
+      <label class="theme-overview-control">
+        <span>Mode</span>
+        <select [value]="selectedMode()" (change)="onModeChange($event)">
+          @for (option of modeOptions; track option.id) {
+            <option [value]="option.id">{{ option.label }}</option>
+          }
+        </select>
+      </label>
+    </div>
+
+    <p class="theme-overview-control-note">
+      {{ selectedPresetMeta().description }}
+    </p>
+
+    <div class="theme-overview-preview-grid" [ngStyle]="previewThemeVars()">
+      <tng-card variant="outline" padding="lg">
+        <tng-card-header>
+          <tng-card-title>{{ activeTheme().meta.name }}</tng-card-title>
+          <tng-card-description>
+            Scoped preview rendered with generated CSS variables and a local
+            <code>color-scheme</code>.
+          </tng-card-description>
+        </tng-card-header>
+        <tng-card-content class="theme-overview-preview-card-content">
+          <p class="theme-overview-preview-copy">
+            Keep layout and behavior stable while the preset controls background, border, accent,
+            and focus treatments.
+          </p>
+          <div class="theme-overview-preview-actions">
+            <tng-button tone="primary" appearance="solid" type="button">Approve</tng-button>
+            <tng-button tone="neutral" appearance="outline" type="button">Review</tng-button>
+          </div>
+        </tng-card-content>
+      </tng-card>
+
+      <div class="theme-overview-token-list">
+        @for (row of previewTokens(); track row.label) {
+          <div class="theme-overview-token-row">
+            <div class="theme-overview-token-meta">
+              <span class="theme-overview-token-label">{{ row.label }}</span>
+              <code class="theme-overview-token-expression">{{ row.expression }}</code>
+              <code class="theme-overview-token-value">{{ row.value }}</code>
+            </div>
+            <span
+              class="theme-overview-token-swatch"
+              [style.background]="row.value"
+              [attr.aria-label]="row.label + ' swatch'"
+            ></span>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <section id="authoring-model" class="docs-overview-block">
+    <h3>Authoring model</h3>
+    <p>
+      Most teams start from a preset, override the semantic scales that matter to the product, then
+      choose the adapter that matches their stack.
+    </p>
+
+    <ul class="docs-overview-list">
+      <li>Use presets for a stable baseline instead of recreating every primitive token from scratch.</li>
+      <li>Prefer semantic overrides for app branding so component wrappers keep a shared vocabulary.</li>
+      <li>Export CSS variables or Tailwind values from the same source theme to avoid design drift.</li>
+    </ul>
+
+    <tng-code-block
+      [code]="authoringCode()"
+      adapter="shiki"
+      language="ts"
+      title="Compose a product theme"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+    ></tng-code-block>
+  </section>
+</article>

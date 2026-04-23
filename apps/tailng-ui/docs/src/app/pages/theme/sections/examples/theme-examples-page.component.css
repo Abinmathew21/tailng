@@ -1,0 +1,77 @@
+:host {
+  display: block;
+}
+
+.theme-example-scope {
+  background: var(--tng-semantic-background-base);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 1rem;
+  padding: 1rem;
+}
+
+.theme-example-card-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.theme-example-card-content {
+  display: grid;
+  gap: 1rem;
+}
+
+.theme-example-copy {
+  margin: 0;
+}
+
+.theme-example-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.theme-example-aside {
+  background: color-mix(in srgb, var(--tng-semantic-background-surface) 88%, transparent);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.9rem;
+  display: grid;
+  gap: 0.75rem;
+  padding: 1rem;
+}
+
+.theme-example-aside h4 {
+  font-size: 1rem;
+  font-weight: 650;
+  margin: 0;
+}
+
+.theme-example-kicker {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.theme-example-pill-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.theme-example-pill {
+  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 16%, transparent);
+  border: 1px solid color-mix(in srgb, var(--tng-semantic-accent-brand) 28%, transparent);
+  border-radius: 999px;
+  color: var(--tng-semantic-foreground-primary);
+  display: inline-flex;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.35rem 0.7rem;
+}
+
+@media (min-width: 960px) {
+  .theme-example-card-grid {
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 0.9fr);
+  }
+}

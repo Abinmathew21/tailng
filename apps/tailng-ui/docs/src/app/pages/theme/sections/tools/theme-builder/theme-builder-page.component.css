@@ -1,0 +1,104 @@
+:host {
+  display: block;
+}
+
+.theme-builder-controls,
+.theme-builder-code-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.theme-builder-control {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.theme-builder-control span {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.84rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.theme-builder-control select {
+  appearance: none;
+  background: var(--tng-semantic-background-base);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.8rem;
+  color: var(--tng-semantic-foreground-primary);
+  font: inherit;
+  min-height: 2.8rem;
+  padding: 0.7rem 0.9rem;
+}
+
+.theme-builder-description {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.theme-builder-preview {
+  background: var(--tng-semantic-background-base);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 1rem;
+  padding: 1rem;
+}
+
+.theme-builder-preview-shell {
+  display: grid;
+  gap: 1rem;
+}
+
+.theme-builder-stat-row {
+  display: grid;
+  gap: 1rem;
+}
+
+.theme-builder-stat-card {
+  background: color-mix(in srgb, var(--tng-semantic-background-surface) 88%, transparent);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.95rem;
+  display: grid;
+  gap: 0.35rem;
+  padding: 1rem;
+}
+
+.theme-builder-stat-card h4,
+.theme-builder-kicker,
+.theme-builder-copy {
+  margin: 0;
+}
+
+.theme-builder-stat-card h4 {
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.theme-builder-kicker {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.theme-builder-copy {
+  color: var(--tng-semantic-foreground-secondary);
+}
+
+.theme-builder-action-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+@media (min-width: 768px) {
+  .theme-builder-controls {
+    grid-template-columns: repeat(2, minmax(0, 15rem));
+  }
+
+  .theme-builder-stat-row,
+  .theme-builder-code-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
