@@ -176,15 +176,6 @@ export class TngSortHeader implements OnDestroy, OnInit {
     return this.sort?.getDirectionFor(this.columnId()) ?? null;
   }
 
-  @HostBinding('attr.tabindex')
-  protected get tabIndexAttr(): '-1' | '0' {
-    if (this.sort === null || this.disabled()) {
-      return '-1';
-    }
-
-    return '0';
-  }
-
   public ngOnDestroy(): void {
     this.sort?.unregisterHeader(this.columnId());
   }

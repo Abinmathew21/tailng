@@ -6,6 +6,10 @@ import {
   TngTableCell,
   TngTableCellOutlet,
   TngTableCellTpl,
+  TngTableColumn,
+  TngTableColumnResizer,
+  TngTableColumnSizing,
+  type TngTableColumnWidthMap,
   TngTableEmpty,
   TngTableError,
   TngTableExpansion,
@@ -24,9 +28,12 @@ import {
   type TngTableRowContextMenuEvent,
   TngTableRowExpander,
   TngTableSelection,
+  TngTableScrollContainer,
   type TngTableSelectionChange,
   TngTableSort,
   TngTableToolbar,
+  type TngTableLayoutMode,
+  type TngTableStickySide,
   type TngTableCellClickEvent,
 } from '..';
 
@@ -84,11 +91,13 @@ export function queryAllByTestId<TElement extends Element>(
 export function dispatchKeydown(
   element: HTMLElement,
   key: string,
+  init: KeyboardEventInit = {},
 ): KeyboardEvent {
   const event = new KeyboardEvent('keydown', {
     bubbles: true,
     cancelable: true,
     key,
+    ...init,
   });
 
   element.dispatchEvent(event);
@@ -847,4 +856,349 @@ export class TableRenderingHarnessComponent {
 
   @ViewChild('footerOutlet')
   public footerOutlet?: TngTableFooterOutlet;
+}
+
+@Component({
+  imports: [
+    TngTable,
+    TngTableScrollContainer,
+    TngTableHeader,
+    TngTableBody,
+    TngTableFooter,
+    TngTableRow,
+    TngTableHeaderCell,
+    TngTableCell,
+  ],
+  template: `
+    <div
+      tngTableScrollContainer
+      data-testid="layout-scroll"
+      [tngTableScrollAxis]="scrollAxis()"
+    >
+      <table
+        tngTable
+        data-testid="layout-table"
+        [dir]="dir()"
+        [tngTableLayout]="layout()"
+      >
+        <thead
+          tngTableHeader
+          data-testid="layout-header"
+          [tngTableHeaderSticky]="stickyHeader()"
+          [tngTableHeaderStickyOffset]="headerStickyOffset()"
+        >
+          <tr tngTableRow>
+            <th
+              tngTableHeaderCell
+              data-testid="layout-header-label"
+              [tngTableColumnId]="'label'"
+              [tngTableStickyColumn]="labelStickySide()"
+              [tngTableStickyOffset]="labelStickyOffset()"
+              [tngTableTruncate]="truncate()"
+            >
+              Project name
+            </th>
+            <th
+              tngTableHeaderCell
+              data-testid="layout-header-status"
+              [tngTableColumnId]="'status'"
+              [tngTableStickyColumn]="statusStickySide()"
+              [tngTableStickyOffset]="statusStickyOffset()"
+            >
+              Status
+            </th>
+            <th
+              tngTableHeaderCell
+              data-testid="layout-header-value"
+              [tngTableColumnId]="'value'"
+              [tngTableStickyColumn]="valueStickySide()"
+              [tngTableStickyOffset]="valueStickyOffset()"
+            >
+              Value
+            </th>
+          </tr>
+        </thead>
+
+        <tbody tngTableBody>
+          <tr tngTableRow [tngTableRowId]="'alpha'">
+            <td
+              tngTableCell
+              data-testid="layout-cell-label"
+              [tngTableColumnId]="'label'"
+              [tngTableStickyColumn]="labelStickySide()"
+              [tngTableStickyOffset]="labelStickyOffset()"
+              [tngTableTruncate]="truncate()"
+            >
+              A very long label that should truncate in fixed layout mode
+            </td>
+            <td
+              tngTableCell
+              data-testid="layout-cell-status"
+              [tngTableColumnId]="'status'"
+              [tngTableStickyColumn]="statusStickySide()"
+              [tngTableStickyOffset]="statusStickyOffset()"
+            >
+              Ready
+            </td>
+            <td
+              tngTableCell
+              data-testid="layout-cell-value"
+              [tngTableColumnId]="'value'"
+              [tngTableStickyColumn]="valueStickySide()"
+              [tngTableStickyOffset]="valueStickyOffset()"
+            >
+              42
+            </td>
+          </tr>
+        </tbody>
+
+        <tfoot
+          tngTableFooter
+          data-testid="layout-footer"
+          [tngTableFooterSticky]="stickyFooter()"
+          [tngTableFooterStickyOffset]="footerStickyOffset()"
+        >
+          <tr tngTableRow>
+            <td
+              tngTableCell
+              data-testid="layout-footer-label"
+              [tngTableColumnId]="'label'"
+              [tngTableStickyColumn]="labelStickySide()"
+              [tngTableStickyOffset]="labelStickyOffset()"
+            >
+              Totals
+            </td>
+            <td
+              tngTableCell
+              data-testid="layout-footer-status"
+              [tngTableColumnId]="'status'"
+              [tngTableStickyColumn]="statusStickySide()"
+              [tngTableStickyOffset]="statusStickyOffset()"
+            >
+              Complete
+            </td>
+            <td
+              tngTableCell
+              data-testid="layout-footer-value"
+              [tngTableColumnId]="'value'"
+              [tngTableStickyColumn]="valueStickySide()"
+              [tngTableStickyOffset]="valueStickyOffset()"
+            >
+              42
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  `,
+})
+export class TableLayoutHarnessComponent {
+  public readonly dir = signal<'ltr' | 'rtl'>('ltr');
+  public readonly footerStickyOffset = signal('8px');
+  public readonly headerStickyOffset = signal('12px');
+  public readonly labelStickyOffset = signal<string | null>(null);
+  public readonly labelStickySide = signal<TngTableStickySide | null>(null);
+  public readonly layout = signal<TngTableLayoutMode>('auto');
+  public readonly scrollAxis = signal<'both' | 'x' | 'y'>('x');
+  public readonly statusStickyOffset = signal<string | null>(null);
+  public readonly statusStickySide = signal<TngTableStickySide | null>(null);
+  public readonly stickyFooter = signal(false);
+  public readonly stickyHeader = signal(false);
+  public readonly truncate = signal(false);
+  public readonly valueStickyOffset = signal<string | null>(null);
+  public readonly valueStickySide = signal<TngTableStickySide | null>(null);
+}
+
+@Component({
+  imports: [
+    TngTable,
+    TngTableHeader,
+    TngTableBody,
+    TngTableRow,
+    TngTableHeaderCell,
+    TngTableCell,
+    TngTableColumnSizing,
+    TngTableColumn,
+    TngTableColumnResizer,
+  ],
+  template: `
+    <table
+      tngTable
+      tngTableColumnSizing
+      data-testid="sizing-table"
+      [dir]="dir()"
+      [tngTableColumnWidths]="widths()"
+      (columnWidthsChange)="onWidthsChange($event)"
+    >
+      <thead tngTableHeader>
+        <tr tngTableRow>
+          <th
+            tngTableHeaderCell
+            tngTableColumn
+            data-testid="sizing-header-label"
+            [tngTableColumn]="'label'"
+            [tngTableColumnWidth]="'240px'"
+          >
+            Label
+            <span [tngTableColumnResizer]="'label'" data-testid="label-resizer"></span>
+          </th>
+          <th
+            tngTableHeaderCell
+            tngTableColumn
+            data-testid="sizing-header-status"
+            [tngTableColumn]="'status'"
+            [tngTableColumnMaxWidth]="'220px'"
+            [tngTableColumnMinWidth]="'120px'"
+            [tngTableColumnWidth]="'140px'"
+          >
+            Status
+            <span [tngTableColumnResizer]="'status'" data-testid="status-resizer"></span>
+          </th>
+          <th
+            tngTableHeaderCell
+            tngTableColumn
+            data-testid="sizing-header-value"
+            [tngTableColumn]="'value'"
+            [tngTableColumnWidth]="'96px'"
+          >
+            Value
+            <span [tngTableColumnResizer]="'value'" data-testid="value-resizer"></span>
+          </th>
+        </tr>
+      </thead>
+
+      <tbody tngTableBody>
+        <tr tngTableRow [tngTableRowId]="'alpha'">
+          <td
+            tngTableCell
+            tngTableColumn
+            data-testid="sizing-cell-label"
+            [tngTableColumn]="'label'"
+            [tngTableColumnWidth]="'240px'"
+          >
+            Alpha
+          </td>
+          <td
+            tngTableCell
+            tngTableColumn
+            data-testid="sizing-cell-status"
+            [tngTableColumn]="'status'"
+            [tngTableColumnMaxWidth]="'220px'"
+            [tngTableColumnMinWidth]="'120px'"
+            [tngTableColumnWidth]="'140px'"
+          >
+            Ready
+          </td>
+          <td
+            tngTableCell
+            tngTableColumn
+            data-testid="sizing-cell-value"
+            [tngTableColumn]="'value'"
+            [tngTableColumnWidth]="'96px'"
+          >
+            42
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  `,
+})
+export class TableSizingHarnessComponent {
+  public readonly dir = signal<'ltr' | 'rtl'>('ltr');
+  public readonly widthEvents: TngTableColumnWidthMap[] = [];
+  public readonly widths = signal<Record<string, string> | undefined>(undefined);
+
+  public onWidthsChange(nextWidths: TngTableColumnWidthMap): void {
+    this.widths.set({ ...nextWidths });
+    this.widthEvents.push(nextWidths);
+  }
+}
+
+@Component({
+  imports: [
+    TngTable,
+    TngTableHeader,
+    TngTableBody,
+    TngTableRow,
+    TngTableHeaderCell,
+    TngTableCell,
+  ],
+  template: `
+    <button type="button" data-testid="before">Before</button>
+
+    @if (showTable()) {
+      <table tngTable data-testid="keyboard-table">
+        <thead tngTableHeader>
+          <tr tngTableRow>
+            <th
+              tngTableHeaderCell
+              [tngTableColumnId]="'label'"
+              data-testid="keyboard-cell-header-label"
+            >
+              Label
+            </th>
+            <th
+              tngTableHeaderCell
+              [tngTableColumnId]="'status'"
+              data-testid="keyboard-cell-header-status"
+            >
+              Status
+            </th>
+            <th
+              tngTableHeaderCell
+              [tngTableColumnId]="'value'"
+              data-testid="keyboard-cell-header-value"
+            >
+              Value
+            </th>
+          </tr>
+        </thead>
+
+        <tbody tngTableBody>
+          @for (row of rows(); track row.id) {
+            <tr
+              tngTableRow
+              [tngTableRowDisabled]="row.disabled ?? false"
+              [tngTableRowId]="row.id"
+            >
+              <td
+                tngTableCell
+                [attr.data-testid]="'keyboard-cell-' + row.id + '-label'"
+                [tngTableColumnId]="'label'"
+              >
+                {{ row.label }}
+              </td>
+              <td
+                tngTableCell
+                [attr.data-testid]="'keyboard-cell-' + row.id + '-status'"
+                [tngTableColumnId]="'status'"
+              >
+                {{ row.status }}
+              </td>
+              <td
+                tngTableCell
+                [attr.data-testid]="'keyboard-cell-' + row.id + '-value'"
+                [tngTableColumnId]="'value'"
+              >
+                {{ row.value }}
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+
+    <button type="button" data-testid="after">After</button>
+  `,
+})
+export class TableKeyboardHarnessComponent {
+  public readonly rows = signal<readonly InteractiveTableRow[]>([
+    { id: 'alpha', label: 'Alpha', status: 'Ready', value: 1 },
+    { disabled: true, id: 'beta', label: 'Beta', status: 'Blocked', value: 2 },
+    { id: 'gamma', label: 'Gamma', status: 'Draft', value: 3 },
+  ]);
+  public readonly showTable = signal(true);
+
+  @ViewChild(TngTable)
+  public tableRef?: TngTable;
 }

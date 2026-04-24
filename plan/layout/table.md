@@ -280,13 +280,13 @@ Optional utility slots (consumer-owned UI):
 - [x] **Context menu:** Right-click emits context menu event with row context (if supported). `DONE`
 
 ### L) Keyboard navigation & focus
-- [ ] **Tab order:** Tab moves into the table to the correct first focusable element (header/row) per contract. `PENDING`
-- [ ] **Roving focus:** Arrow keys move focus across cells/rows without leaving the table (if supported). `PENDING`
-- [ ] **Active-descendant:** Focus stays on container with aria-activedescendant updates (if using that strategy). `PENDING`
-- [ ] **Home/End:** Home/End jump to first/last cell/row in the current scope. `PENDING`
-- [ ] **PageUp/PageDown:** Moves by viewport/page chunk (if supported). `PENDING`
-- [ ] **Escape:** Escape exits interactive mode / closes open popovers (if supported). `PENDING`
-- [ ] **Focus restore:** On destroy, focus restores to trigger element if table opened as overlay (if relevant). `PENDING`
+- [x] **Tab order:** Tab moves into the table to the correct first focusable element (header/row) per contract. `DONE`
+- [x] **Roving focus:** Arrow keys move focus across cells/rows without leaving the table (if supported). `DONE`
+- [x] **Active-descendant:** Focus stays on container with aria-activedescendant updates (if using that strategy). `DONE (N/A: roving tabindex strategy is implemented instead)`
+- [x] **Home/End:** Home/End jump to first/last cell/row in the current scope. `DONE`
+- [x] **PageUp/PageDown:** Moves by viewport/page chunk (if supported). `DONE`
+- [x] **Escape:** Escape exits interactive mode / closes open popovers (if supported). `DONE`
+- [x] **Focus restore:** On destroy, focus restores to trigger element if table opened as overlay (if relevant). `DONE`
 
 ### M) Accessibility semantics
 - [x] **Header association:** Data cells are associated with headers (`scope`, `headers`, or role semantics). `DONE`
@@ -297,19 +297,19 @@ Optional utility slots (consumer-owned UI):
 - [x] **Labeling:** Table has an accessible name via `aria-label`/`aria-labelledby` (or caption). `DONE`
 
 ### N) Layout features
-- [ ] **Fixed layout:** `table-layout: fixed` mode truncates/ellipsis correctly (if supported). `PENDING`
-- [ ] **Auto layout:** Auto layout respects content widths. `PENDING`
-- [ ] **Sticky header:** Sticky header stays pinned during scroll (if supported). `PENDING`
-- [ ] **Sticky footer:** Sticky footer stays pinned (if supported). `PENDING`
-- [ ] **Sticky columns:** Sticky columns remain visible and don’t overlap content. `PENDING`
-- [ ] **Responsive:** Horizontal overflow shows scroll container without breaking header alignment. `PENDING`
+- [x] **Fixed layout:** `table-layout: fixed` mode truncates/ellipsis correctly (if supported). `DONE`
+- [x] **Auto layout:** Auto layout respects content widths. `DONE`
+- [x] **Sticky header:** Sticky header stays pinned during scroll (if supported). `DONE`
+- [x] **Sticky footer:** Sticky footer stays pinned (if supported). `DONE`
+- [x] **Sticky columns:** Sticky columns remain visible and don’t overlap content. `DONE`
+- [x] **Responsive:** Horizontal overflow shows scroll container without breaking header alignment. `DONE`
 
 ### O) Column sizing & resizing
-- [ ] **Default widths:** Column width defaults apply and can be overridden. `PENDING`
-- [ ] **Resize drag:** Dragging resizer updates column width live (if supported). `PENDING`
-- [ ] **Min/max clamp:** Resizing clamps to min/max widths. `PENDING`
-- [ ] **Persist widths:** Persisted widths restore correctly on reload (if supported). `PENDING`
-- [ ] **RTL resizing:** Resizing works in RTL (drag direction + pinned sides correctness). `PENDING`
+- [x] **Default widths:** Column width defaults apply and can be overridden. `DONE`
+- [x] **Resize drag:** Dragging resizer updates column width live (if supported). `DONE`
+- [x] **Min/max clamp:** Resizing clamps to min/max widths. `DONE`
+- [x] **Persist widths:** Persisted widths restore correctly on reload (if supported). `DONE`
+- [x] **RTL resizing:** Resizing works in RTL (drag direction + pinned sides correctness). `DONE`
 
 ### P) Virtualization
 - [ ] **Virtual window:** Only visible rows render when virtualization enabled. `PENDING`

@@ -3,6 +3,8 @@ import {
   HostBinding,
   HostListener,
   Input,
+  type OnDestroy,
+  type OnInit,
   type Signal,
   booleanAttribute,
   contentChildren,
@@ -15,6 +17,10 @@ import {
 import {
   createTngRowExpansionController,
   createTngRowSelectionController,
+  resolveGridNavigationKeyAction,
+  resolveNavigableGridCell,
+  type TngGridNavigableCell,
+  type TngGridNavigationActionType,
   type TngTableRowExpansionMode,
   type TngTableRowExpansionState,
   type TngTableRowSelectionState,
@@ -22,8 +28,11 @@ import {
 } from '@tailng-ui/cdk';
 
 export type TngTableDirection = 'ltr' | 'rtl';
+export type TngTableLayoutMode = 'auto' | 'fixed';
 export type TngTableRowIdResolver<TValue = unknown> = (row: TValue, index: number) => string;
 export type TngTableInteractionTrigger = 'keyboard' | 'pointer' | 'programmatic';
+export type TngTableScrollAxis = 'both' | 'x' | 'y';
+export type TngTableStickySide = 'end' | 'start';
 
 export type TngTableSelectionChange = Readonly<{
   anchorId: string | null;
@@ -56,6 +65,116 @@ export type TngTableCellClickEvent = Readonly<{
 }>;
 
 type TngTableKeydownEvent = Readonly<Pick<KeyboardEvent, 'key' | 'preventDefault'>>;
+type TngTableMovementActionType = Exclude<TngGridNavigationActionType, 'activate' | 'exit'>;
+type TngTablePageDirection = 'backward' | 'forward';
+type TngTableCellPosition = Readonly<{
+  col: number;
+  row: number;
+}>;
+type TngTableFocusableCell = TngTableCell | TngTableHeaderCell;
+
+function createTngTableCellKey(position: TngTableCellPosition): string {
+  return `${position.row}:${position.col}`;
+}
+
+function compareTngTableCellPositions(
+  a: TngTableCellPosition,
+  b: TngTableCellPosition,
+): number {
+  if (a.row !== b.row) {
+    return a.row - b.row;
+  }
+
+  return a.col - b.col;
+}
+
+function isMovementActionType(
+  actionType: TngGridNavigationActionType,
+): actionType is TngTableMovementActionType {
+  return actionType !== 'activate' && actionType !== 'exit';
+}
+
+function resolveTngTableCellPosition(
+  element: HTMLTableCellElement,
+): TngTableCellPosition | null {
+  if (element.cellIndex < 0) {
+    return null;
+  }
+
+  const rowElement = element.parentElement;
+  if (!(rowElement instanceof HTMLTableRowElement) || rowElement.rowIndex < 0) {
+    return null;
+  }
+
+  return Object.freeze({
+    col: element.cellIndex,
+    row: rowElement.rowIndex,
+  });
+}
+
+function isInsideContainer(container: HTMLElement, value: unknown): value is Node {
+  return value instanceof Node && container.contains(value);
+}
+
+function isFocusVisibleElement(value: Element): boolean {
+  return value.matches(':focus-visible');
+}
+
+function hasTableKeyboardModifiers(event: KeyboardEvent): boolean {
+  return event.altKey || event.ctrlKey || event.metaKey || event.shiftKey;
+}
+
+function resolveTngTablePageDirection(key: string): TngTablePageDirection | null {
+  if (key === 'PageDown') {
+    return 'forward';
+  }
+
+  if (key === 'PageUp') {
+    return 'backward';
+  }
+
+  return null;
+}
+
+function normalizeCssLength(value: unknown): string | null {
+  if (typeof value === 'number' && Number.isFinite(value)) {
+    return `${value}px`;
+  }
+
+  if (typeof value !== 'string') {
+    return null;
+  }
+
+  const trimmed = value.trim();
+  return trimmed.length > 0 ? trimmed : null;
+}
+
+function normalizeTableLayoutMode(value: unknown): TngTableLayoutMode {
+  return value === 'fixed' ? 'fixed' : 'auto';
+}
+
+function normalizeTableScrollAxis(value: unknown): TngTableScrollAxis {
+  if (value === 'both' || value === 'y') {
+    return value;
+  }
+
+  return 'x';
+}
+
+function normalizeTableStickySide(value: unknown): TngTableStickySide | null {
+  return value === 'start' || value === 'end' ? value : null;
+}
+
+function resolveStickyPhysicalSide(
+  side: TngTableStickySide,
+  direction: TngTableDirection | null,
+): 'left' | 'right' {
+  if (side === 'start') {
+    return direction === 'rtl' ? 'right' : 'left';
+  }
+
+  return direction === 'rtl' ? 'left' : 'right';
+}
 
 function normalizeTableDirection(value: unknown): TngTableDirection | null {
   if (value === 'ltr' || value === 'rtl') {
@@ -115,8 +234,30 @@ function normalizeBooleanOrNull(value: unknown): boolean | null {
   exportAs: 'tngTableHeader',
 })
 export class TngTableHeader {
+  public readonly sticky = input<boolean, boolean | string>(false, {
+    alias: 'tngTableHeaderSticky',
+    transform: booleanAttribute,
+  });
+  public readonly stickyOffset = input<string | null, unknown>(null, {
+    alias: 'tngTableHeaderStickyOffset',
+    transform: normalizeCssLength,
+  });
+
   @HostBinding('attr.data-slot')
   protected readonly dataSlot = 'table-header' as const;
+
+  @HostBinding('attr.data-sticky')
+  protected get dataStickyAttr(): '' | null {
+    return this.isSticky() ? '' : null;
+  }
+
+  public getStickyInset(): string {
+    return this.stickyOffset() ?? '0px';
+  }
+
+  public isSticky(): boolean {
+    return this.sticky();
+  }
 }
 
 @Directive({
@@ -133,8 +274,65 @@ export class TngTableBody {
   exportAs: 'tngTableFooter',
 })
 export class TngTableFooter {
+  public readonly sticky = input<boolean, boolean | string>(false, {
+    alias: 'tngTableFooterSticky',
+    transform: booleanAttribute,
+  });
+  public readonly stickyOffset = input<string | null, unknown>(null, {
+    alias: 'tngTableFooterStickyOffset',
+    transform: normalizeCssLength,
+  });
+
   @HostBinding('attr.data-slot')
   protected readonly dataSlot = 'table-footer' as const;
+
+  @HostBinding('attr.data-sticky')
+  protected get dataStickyAttr(): '' | null {
+    return this.isSticky() ? '' : null;
+  }
+
+  public getStickyInset(): string {
+    return this.stickyOffset() ?? '0px';
+  }
+
+  public isSticky(): boolean {
+    return this.sticky();
+  }
+}
+
+@Directive({
+  selector: '[tngTableScrollContainer]',
+  exportAs: 'tngTableScrollContainer',
+})
+export class TngTableScrollContainer {
+  public readonly axis = input<TngTableScrollAxis, unknown>('x', {
+    alias: 'tngTableScrollAxis',
+    transform: normalizeTableScrollAxis,
+  });
+
+  @HostBinding('attr.data-slot')
+  protected readonly dataSlot = 'table-scroll-container' as const;
+
+  @HostBinding('attr.data-overflow-axis')
+  protected get dataOverflowAxisAttr(): TngTableScrollAxis {
+    return this.axis();
+  }
+
+  @HostBinding('style.display')
+  protected readonly display = 'block';
+
+  @HostBinding('style.max-width')
+  protected readonly maxWidth = '100%';
+
+  @HostBinding('style.overflow-x')
+  protected get overflowXAttr(): 'auto' | 'hidden' {
+    return this.axis() === 'x' || this.axis() === 'both' ? 'auto' : 'hidden';
+  }
+
+  @HostBinding('style.overflow-y')
+  protected get overflowYAttr(): 'auto' | 'hidden' {
+    return this.axis() === 'y' || this.axis() === 'both' ? 'auto' : 'hidden';
+  }
 }
 
 @Directive({
@@ -490,10 +688,15 @@ export class TngTableRow {
   selector: 'td[tngTableCell]',
   exportAs: 'tngTableCell',
 })
-export class TngTableCell {
+export class TngTableCell implements OnDestroy, OnInit {
+  private readonly footer = inject(TngTableFooter, {
+    optional: true,
+  });
+  private readonly hostRef = inject<ElementRef<HTMLTableCellElement>>(ElementRef);
   private readonly row = inject(TngTableRow, {
     optional: true,
   });
+  private readonly table = inject(forwardRef(() => TngTable)) as TngTable;
 
   public readonly cellClick = output<TngTableCellClickEvent>();
   public readonly columnId = input<string | null, unknown>(null, {
@@ -503,6 +706,18 @@ export class TngTableCell {
   public readonly headers = input<string | null, unknown>(null, {
     alias: 'tngTableHeaders',
     transform: normalizeOptionalString,
+  });
+  public readonly stickyColumn = input<TngTableStickySide | null, unknown>(null, {
+    alias: 'tngTableStickyColumn',
+    transform: normalizeTableStickySide,
+  });
+  public readonly stickyOffset = input<string | null, unknown>(null, {
+    alias: 'tngTableStickyOffset',
+    transform: normalizeCssLength,
+  });
+  public readonly truncate = input<boolean, boolean | string>(false, {
+    alias: 'tngTableTruncate',
+    transform: booleanAttribute,
   });
 
   @HostBinding('attr.data-slot')
@@ -523,9 +738,129 @@ export class TngTableCell {
     return this.headers();
   }
 
+  @HostBinding('attr.data-sticky')
+  protected get dataStickyAttr(): '' | null {
+    return this.isSectionSticky() || this.getStickySide() !== null ? '' : null;
+  }
+
+  @HostBinding('attr.data-sticky-footer')
+  protected get dataStickyFooterAttr(): '' | null {
+    return this.footer?.isSticky() === true ? '' : null;
+  }
+
+  @HostBinding('attr.data-sticky-side')
+  protected get dataStickySideAttr(): TngTableStickySide | null {
+    return this.getStickySide();
+  }
+
+  @HostBinding('attr.data-truncate')
+  protected get dataTruncateAttr(): '' | null {
+    return this.truncate() ? '' : null;
+  }
+
+  @HostBinding('attr.tabindex')
+  protected get tabIndexAttr(): string {
+    return this.table.getCellTabIndex(this);
+  }
+
+  @HostBinding('style.bottom')
+  protected get bottomAttr(): string | null {
+    return this.footer?.isSticky() === true ? this.footer.getStickyInset() : null;
+  }
+
+  @HostBinding('attr.data-focused')
+  protected get dataFocusedAttr(): '' | null {
+    return this.table.isCellFocused(this) ? '' : null;
+  }
+
+  @HostBinding('attr.data-focus-visible')
+  protected get dataFocusVisibleAttr(): '' | null {
+    return this.table.isCellFocusVisible(this) ? '' : null;
+  }
+
+  @HostBinding('style.left')
+  protected get leftAttr(): string | null {
+    return this.table.getCellStickyInset(this, 'left');
+  }
+
+  @HostBinding('style.overflow')
+  protected get overflowAttr(): 'hidden' | null {
+    return this.truncate() ? 'hidden' : null;
+  }
+
+  @HostBinding('style.position')
+  protected get positionAttr(): 'sticky' | null {
+    return this.table.getCellStickyPosition(this);
+  }
+
+  @HostBinding('style.right')
+  protected get rightAttr(): string | null {
+    return this.table.getCellStickyInset(this, 'right');
+  }
+
+  @HostBinding('style.text-overflow')
+  protected get textOverflowAttr(): 'ellipsis' | null {
+    return this.truncate() ? 'ellipsis' : null;
+  }
+
+  @HostBinding('style.white-space')
+  protected get whiteSpaceAttr(): 'nowrap' | null {
+    return this.truncate() ? 'nowrap' : null;
+  }
+
+  @HostBinding('style.z-index')
+  protected get zIndexAttr(): string | null {
+    return this.table.getCellStickyZIndex(this);
+  }
+
+  public ngOnDestroy(): void {
+    this.table.onCellDestroy(this);
+  }
+
+  public ngOnInit(): void {
+    this.table.registerCell(this);
+  }
+
+  public cellKey(): string | null {
+    const position = this.getCellPosition();
+    return position === null ? null : createTngTableCellKey(position);
+  }
+
+  public focusHost(): void {
+    this.hostRef.nativeElement.focus();
+  }
+
+  public getCellPosition(): TngTableCellPosition | null {
+    return resolveTngTableCellPosition(this.hostRef.nativeElement);
+  }
+
+  public getHostElement(): HTMLTableCellElement {
+    return this.hostRef.nativeElement;
+  }
+
+  public getStickyOffset(): string | null {
+    return this.stickyOffset();
+  }
+
+  public getStickySide(): TngTableStickySide | null {
+    return this.stickyColumn();
+  }
+
+  public isDisabled(): boolean {
+    return this.row?.isDisabled() === true;
+  }
+
+  public isFocusVisible(): boolean {
+    return isFocusVisibleElement(this.hostRef.nativeElement);
+  }
+
+  public isSectionSticky(): boolean {
+    return this.footer?.isSticky() === true;
+  }
+
   @HostListener('click', ['$event'])
   protected onClick(event: MouseEvent): void {
-    if (this.row?.isDisabled() === true) {
+    if (this.isDisabled()) {
       return;
     }
 
@@ -537,16 +872,44 @@ export class TngTableCell {
       }),
     );
   }
+
+  @HostListener('focus')
+  protected onFocus(): void {
+    this.table.onCellFocused(this);
+  }
+
+  @HostListener('pointerdown')
+  protected onPointerDown(): void {
+    this.table.onCellPointerDown(this);
+  }
 }
 
 @Directive({
   selector: 'th[tngTableHeaderCell]',
   exportAs: 'tngTableHeaderCell',
 })
-export class TngTableHeaderCell {
+export class TngTableHeaderCell implements OnDestroy, OnInit {
+  private readonly header = inject(TngTableHeader, {
+    optional: true,
+  });
+  private readonly hostRef = inject<ElementRef<HTMLTableCellElement>>(ElementRef);
+  private readonly table = inject(forwardRef(() => TngTable)) as TngTable;
+
   public readonly columnId = input<string | null, unknown>(null, {
     alias: 'tngTableColumnId',
     transform: normalizeOptionalString,
+  });
+  public readonly stickyColumn = input<TngTableStickySide | null, unknown>(null, {
+    alias: 'tngTableStickyColumn',
+    transform: normalizeTableStickySide,
+  });
+  public readonly stickyOffset = input<string | null, unknown>(null, {
+    alias: 'tngTableStickyOffset',
+    transform: normalizeCssLength,
+  });
+  public readonly truncate = input<boolean, boolean | string>(false, {
+    alias: 'tngTableTruncate',
+    transform: booleanAttribute,
   });
 
   @HostBinding('attr.data-slot')
@@ -555,6 +918,136 @@ export class TngTableHeaderCell {
   @HostBinding('attr.data-column-id')
   protected get dataColumnIdAttr(): string | null {
     return this.columnId();
+  }
+
+  @HostBinding('attr.data-sticky')
+  protected get dataStickyAttr(): '' | null {
+    return this.isSectionSticky() || this.getStickySide() !== null ? '' : null;
+  }
+
+  @HostBinding('attr.data-sticky-header')
+  protected get dataStickyHeaderAttr(): '' | null {
+    return this.header?.isSticky() === true ? '' : null;
+  }
+
+  @HostBinding('attr.data-sticky-side')
+  protected get dataStickySideAttr(): TngTableStickySide | null {
+    return this.getStickySide();
+  }
+
+  @HostBinding('attr.data-truncate')
+  protected get dataTruncateAttr(): '' | null {
+    return this.truncate() ? '' : null;
+  }
+
+  @HostBinding('attr.tabindex')
+  protected get tabIndexAttr(): string {
+    return this.table.getCellTabIndex(this);
+  }
+
+  @HostBinding('style.left')
+  protected get leftAttr(): string | null {
+    return this.table.getCellStickyInset(this, 'left');
+  }
+
+  @HostBinding('style.overflow')
+  protected get overflowAttr(): 'hidden' | null {
+    return this.truncate() ? 'hidden' : null;
+  }
+
+  @HostBinding('style.position')
+  protected get positionAttr(): 'sticky' | null {
+    return this.table.getCellStickyPosition(this);
+  }
+
+  @HostBinding('style.right')
+  protected get rightAttr(): string | null {
+    return this.table.getCellStickyInset(this, 'right');
+  }
+
+  @HostBinding('style.text-overflow')
+  protected get textOverflowAttr(): 'ellipsis' | null {
+    return this.truncate() ? 'ellipsis' : null;
+  }
+
+  @HostBinding('style.top')
+  protected get topAttr(): string | null {
+    return this.header?.isSticky() === true ? this.header.getStickyInset() : null;
+  }
+
+  @HostBinding('style.white-space')
+  protected get whiteSpaceAttr(): 'nowrap' | null {
+    return this.truncate() ? 'nowrap' : null;
+  }
+
+  @HostBinding('style.z-index')
+  protected get zIndexAttr(): string | null {
+    return this.table.getCellStickyZIndex(this);
+  }
+
+  @HostBinding('attr.data-focused')
+  protected get dataFocusedAttr(): '' | null {
+    return this.table.isCellFocused(this) ? '' : null;
+  }
+
+  @HostBinding('attr.data-focus-visible')
+  protected get dataFocusVisibleAttr(): '' | null {
+    return this.table.isCellFocusVisible(this) ? '' : null;
+  }
+
+  public ngOnDestroy(): void {
+    this.table.onCellDestroy(this);
+  }
+
+  public ngOnInit(): void {
+    this.table.registerCell(this);
+  }
+
+  public cellKey(): string | null {
+    const position = this.getCellPosition();
+    return position === null ? null : createTngTableCellKey(position);
+  }
+
+  public focusHost(): void {
+    this.hostRef.nativeElement.focus();
+  }
+
+  public getCellPosition(): TngTableCellPosition | null {
+    return resolveTngTableCellPosition(this.hostRef.nativeElement);
+  }
+
+  public getHostElement(): HTMLTableCellElement {
+    return this.hostRef.nativeElement;
+  }
+
+  public getStickyOffset(): string | null {
+    return this.stickyOffset();
+  }
+
+  public getStickySide(): TngTableStickySide | null {
+    return this.stickyColumn();
+  }
+
+  public isDisabled(): boolean {
+    return false;
+  }
+
+  public isFocusVisible(): boolean {
+    return isFocusVisibleElement(this.hostRef.nativeElement);
+  }
+
+  public isSectionSticky(): boolean {
+    return this.header?.isSticky() === true;
+  }
+
+  @HostListener('focus')
+  protected onFocus(): void {
+    this.table.onCellFocused(this);
+  }
+
+  @HostListener('pointerdown')
+  protected onPointerDown(): void {
+    this.table.onCellPointerDown(this);
   }
 }
 
@@ -666,9 +1159,18 @@ export class TngTableRowExpander {
   selector: 'table[tngTable]',
   exportAs: 'tngTable',
 })
-export class TngTable {
+export class TngTable implements OnDestroy {
+  private readonly hostRef = inject<ElementRef<HTMLTableElement>>(ElementRef);
   private readonly headerSlots = contentChildren(TngTableHeader);
   private readonly footerSlots = contentChildren(TngTableFooter);
+  private readonly cells = new Set<TngTableFocusableCell>();
+
+  private activeCell: TngTableFocusableCell | null = null;
+  private domFocusedCell: TngTableFocusableCell | null = null;
+  private focusVisibleCell: TngTableFocusableCell | null = null;
+  private pendingFocusTrigger: TngTableInteractionTrigger | null = null;
+  private restoreFocusElement: HTMLElement | null = null;
+  private shouldRestoreFocusOnDestroy = false;
 
   public readonly items = input<readonly unknown[] | null | undefined>(undefined);
   public readonly error = input<boolean, boolean | string>(false, {
@@ -676,6 +1178,10 @@ export class TngTable {
   });
   public readonly filterable = input<boolean, boolean | string>(false, {
     transform: booleanAttribute,
+  });
+  public readonly layout = input<TngTableLayoutMode, unknown>('auto', {
+    alias: 'tngTableLayout',
+    transform: normalizeTableLayoutMode,
   });
   public readonly loading = input<boolean, boolean | string>(false, {
     transform: booleanAttribute,
@@ -738,6 +1244,11 @@ export class TngTable {
     return this.headerSlots().length > 0 ? '' : null;
   }
 
+  @HostBinding('attr.data-layout')
+  protected get dataLayoutAttr(): TngTableLayoutMode {
+    return this.layout();
+  }
+
   @HostBinding('attr.data-loading')
   protected get dataLoadingAttr(): '' | null {
     return this.loading() ? '' : null;
@@ -751,5 +1262,404 @@ export class TngTable {
   @HostBinding('attr.dir')
   protected get dirAttr(): TngTableDirection | null {
     return this.dir();
+  }
+
+  @HostBinding('style.table-layout')
+  protected get tableLayoutAttr(): TngTableLayoutMode {
+    return this.layout();
+  }
+
+  public ngOnDestroy(): void {
+    const activeElement = this.hostRef.nativeElement.ownerDocument.activeElement;
+    const restoreFocusElement = this.getRestoreFocusElement();
+    const shouldRestoreFocus =
+      restoreFocusElement !== null
+      && (
+        this.shouldRestoreFocusOnDestroy
+        || this.domFocusedCell !== null
+        || isInsideContainer(this.hostRef.nativeElement, activeElement)
+      );
+    if (shouldRestoreFocus) {
+      restoreFocusElement.focus();
+      queueMicrotask(() => {
+        if (restoreFocusElement.isConnected) {
+          restoreFocusElement.focus();
+        }
+      });
+    }
+
+    this.cells.clear();
+    this.activeCell = null;
+    this.domFocusedCell = null;
+    this.focusVisibleCell = null;
+    this.pendingFocusTrigger = null;
+    this.restoreFocusElement = null;
+    this.shouldRestoreFocusOnDestroy = false;
+  }
+
+  public getCellTabIndex(cell: TngTableFocusableCell): string {
+    if (this.isCellDisabled(cell)) {
+      return '-1';
+    }
+
+    return this.getActiveCell() === cell ? '0' : '-1';
+  }
+
+  public isCellFocusVisible(cell: TngTableFocusableCell): boolean {
+    return this.focusVisibleCell === cell;
+  }
+
+  public isCellFocused(cell: TngTableFocusableCell): boolean {
+    return this.domFocusedCell === cell;
+  }
+
+  public getCellStickyInset(
+    cell: TngTableFocusableCell,
+    physicalSide: 'left' | 'right',
+  ): string | null {
+    const stickySide = cell.getStickySide();
+    if (stickySide === null || resolveStickyPhysicalSide(stickySide, this.dir()) !== physicalSide) {
+      return null;
+    }
+
+    return cell.getStickyOffset() ?? '0px';
+  }
+
+  public getCellStickyPosition(cell: TngTableFocusableCell): 'sticky' | null {
+    return cell.isSectionSticky() || cell.getStickySide() !== null ? 'sticky' : null;
+  }
+
+  public getCellStickyZIndex(cell: TngTableFocusableCell): string | null {
+    if (cell.isSectionSticky() && cell.getStickySide() !== null) {
+      return '4';
+    }
+
+    if (cell.isSectionSticky()) {
+      return '3';
+    }
+
+    return cell.getStickySide() !== null ? '2' : null;
+  }
+
+  public onCellFocused(cell: TngTableFocusableCell): void {
+    if (this.isCellDisabled(cell)) {
+      return;
+    }
+
+    const trigger = this.pendingFocusTrigger ?? 'programmatic';
+    this.pendingFocusTrigger = null;
+    this.activeCell = cell;
+    this.domFocusedCell = cell;
+    this.focusVisibleCell =
+      trigger === 'keyboard' || cell.isFocusVisible()
+        ? cell
+        : null;
+  }
+
+  public onCellDestroy(cell: TngTableFocusableCell): void {
+    if (
+      this.domFocusedCell === cell
+      || this.hostRef.nativeElement.ownerDocument.activeElement === cell.getHostElement()
+    ) {
+      this.shouldRestoreFocusOnDestroy = true;
+    }
+
+    this.unregisterCell(cell);
+  }
+
+  public onCellPointerDown(cell: TngTableFocusableCell): void {
+    if (this.isCellDisabled(cell)) {
+      return;
+    }
+
+    this.pendingFocusTrigger = 'pointer';
+    this.focusVisibleCell = null;
+  }
+
+  public registerCell(cell: TngTableFocusableCell): void {
+    this.cells.add(cell);
+    this.ensureFallbackActiveCell();
+  }
+
+  public unregisterCell(cell: TngTableFocusableCell): void {
+    this.cells.delete(cell);
+
+    if (this.activeCell === cell) {
+      this.activeCell = null;
+    }
+
+    if (this.domFocusedCell === cell) {
+      this.domFocusedCell = null;
+    }
+
+    if (this.focusVisibleCell === cell) {
+      this.focusVisibleCell = null;
+    }
+
+    this.ensureFallbackActiveCell();
+  }
+
+  @HostListener('focusin', ['$event'])
+  protected onFocusIn(event: FocusEvent): void {
+    if (isInsideContainer(this.hostRef.nativeElement, event.relatedTarget)) {
+      return;
+    }
+
+    if (event.relatedTarget instanceof HTMLElement) {
+      this.restoreFocusElement = event.relatedTarget;
+    }
+  }
+
+  @HostListener('focusout', ['$event'])
+  protected onFocusOut(event: FocusEvent): void {
+    if (isInsideContainer(this.hostRef.nativeElement, event.relatedTarget)) {
+      return;
+    }
+
+    this.domFocusedCell = null;
+    this.focusVisibleCell = null;
+    this.pendingFocusTrigger = null;
+  }
+
+  @HostListener('keydown', ['$event'])
+  protected onKeyDown(event: KeyboardEvent): void {
+    const activeCell = this.getKeydownActiveCell(event);
+    if (activeCell === null) {
+      return;
+    }
+
+    if (this.handleEscapeKey(event)) {
+      return;
+    }
+
+    if (this.handlePageNavigation(event, activeCell)) {
+      return;
+    }
+
+    const action = resolveGridNavigationKeyAction(event, {
+      direction: this.dir() ?? 'ltr',
+    });
+    if (action === null || !isMovementActionType(action.type)) {
+      return;
+    }
+
+    if (action.preventDefault) {
+      event.preventDefault();
+    }
+
+    this.moveFocus(activeCell, action.type);
+  }
+
+  private ensureFallbackActiveCell(): void {
+    if (this.activeCell !== null && this.cells.has(this.activeCell) && !this.isCellDisabled(this.activeCell)) {
+      return;
+    }
+
+    this.activeCell = this.getFirstEnabledCell();
+  }
+
+  private findCellByPosition(position: TngTableCellPosition): TngTableFocusableCell | null {
+    for (const cell of this.cells) {
+      const candidate = cell.getCellPosition();
+      if (candidate?.row === position.row && candidate.col === position.col) {
+        return cell;
+      }
+    }
+
+    return null;
+  }
+
+  private focusCell(
+    cell: TngTableFocusableCell,
+    trigger: TngTableInteractionTrigger,
+  ): void {
+    this.activeCell = cell;
+    this.pendingFocusTrigger = trigger;
+
+    if (trigger === 'keyboard') {
+      this.focusVisibleCell = cell;
+    }
+
+    cell.focusHost();
+  }
+
+  private getActiveCell(): TngTableFocusableCell | null {
+    this.ensureFallbackActiveCell();
+    return this.activeCell;
+  }
+
+  private getBoundaryCell(
+    cells: readonly TngTableFocusableCell[],
+    direction: TngTablePageDirection,
+  ): TngTableFocusableCell | null {
+    return direction === 'forward'
+      ? cells[cells.length - 1] ?? null
+      : cells[0] ?? null;
+  }
+
+  private getComputedBounds(): Readonly<{ colCount: number; rowCount: number }> {
+    let maxCol = 0;
+    let maxRow = 0;
+
+    for (const cell of this.cells) {
+      const position = cell.getCellPosition();
+      if (position === null) {
+        continue;
+      }
+
+      maxCol = Math.max(maxCol, position.col);
+      maxRow = Math.max(maxRow, position.row);
+    }
+
+    return Object.freeze({
+      colCount: maxCol + 1,
+      rowCount: maxRow + 1,
+    });
+  }
+
+  private getEnabledCells(): readonly TngTableFocusableCell[] {
+    return [...this.cells]
+      .filter((cell) => !this.isCellDisabled(cell) && cell.getCellPosition() !== null)
+      .sort((a, b) => {
+        const aPosition = a.getCellPosition();
+        const bPosition = b.getCellPosition();
+        if (aPosition === null && bPosition === null) {
+          return 0;
+        }
+
+        if (aPosition === null) {
+          return 1;
+        }
+
+        if (bPosition === null) {
+          return -1;
+        }
+
+        return compareTngTableCellPositions(aPosition, bPosition);
+      });
+  }
+
+  private getFirstEnabledCell(): TngTableFocusableCell | null {
+    return this.getEnabledCells()[0] ?? null;
+  }
+
+  private getNavigableCells(): readonly TngGridNavigableCell[] {
+    const navigableCells: TngGridNavigableCell[] = [];
+
+    for (const cell of this.cells) {
+      const position = cell.getCellPosition();
+      if (position === null) {
+        continue;
+      }
+
+      navigableCells.push({
+        col: position.col,
+        disabled: this.isCellDisabled(cell),
+        row: position.row,
+      });
+    }
+
+    return navigableCells;
+  }
+
+  private getKeydownActiveCell(event: KeyboardEvent): TngTableFocusableCell | null {
+    const activeCell = this.getActiveCell();
+    if (activeCell === null || this.isCellDisabled(activeCell)) {
+      return null;
+    }
+
+    return event.target === activeCell.getHostElement() ? activeCell : null;
+  }
+
+  private getRestoreFocusElement(): HTMLElement | null {
+    if (!this.restoreFocusElement?.isConnected) {
+      return null;
+    }
+
+    return this.hostRef.nativeElement.contains(this.restoreFocusElement)
+      ? null
+      : this.restoreFocusElement;
+  }
+
+  private handleEscapeKey(event: KeyboardEvent): boolean {
+    if (event.key !== 'Escape' || hasTableKeyboardModifiers(event)) {
+      return false;
+    }
+
+    event.preventDefault();
+
+    const restoreFocusElement = this.getRestoreFocusElement();
+    if (restoreFocusElement !== null) {
+      this.pendingFocusTrigger = 'programmatic';
+      restoreFocusElement.focus();
+      return true;
+    }
+
+    const activeElement = this.hostRef.nativeElement.ownerDocument.activeElement;
+    if (activeElement instanceof HTMLElement) {
+      activeElement.blur();
+    }
+
+    return true;
+  }
+
+  private handlePageNavigation(
+    event: KeyboardEvent,
+    activeCell: TngTableFocusableCell,
+  ): boolean {
+    const direction = resolveTngTablePageDirection(event.key);
+    if (direction === null || hasTableKeyboardModifiers(event)) {
+      return false;
+    }
+
+    const currentPosition = activeCell.getCellPosition();
+    const enabledCells = this.getEnabledCells();
+    if (currentPosition === null || enabledCells.length === 0) {
+      return true;
+    }
+
+    event.preventDefault();
+
+    const sameColumnCells = enabledCells.filter((cell) => {
+      const position = cell.getCellPosition();
+      return position !== null && position.col === currentPosition.col;
+    });
+    const targetCell = this.getBoundaryCell(sameColumnCells, direction)
+      ?? this.getBoundaryCell(enabledCells, direction);
+
+    if (targetCell !== null) {
+      this.focusCell(targetCell, 'keyboard');
+    }
+
+    return true;
+  }
+
+  private isCellDisabled(cell: TngTableFocusableCell): boolean {
+    return cell.isDisabled();
+  }
+
+  private moveFocus(
+    activeCell: TngTableFocusableCell,
+    actionType: TngTableMovementActionType,
+  ): void {
+    const currentPosition = activeCell.getCellPosition();
+    if (currentPosition === null) {
+      return;
+    }
+
+    const nextPosition = resolveNavigableGridCell(currentPosition, actionType, {
+      bounds: this.getComputedBounds(),
+      cells: this.getNavigableCells(),
+    });
+    if (nextPosition === null) {
+      return;
+    }
+
+    const nextCell = this.findCellByPosition(nextPosition);
+    if (nextCell === null || this.isCellDisabled(nextCell)) {
+      return;
+    }
+
+    this.focusCell(nextCell, 'keyboard');
   }
 }
