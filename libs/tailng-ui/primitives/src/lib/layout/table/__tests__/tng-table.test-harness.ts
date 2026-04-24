@@ -1,4 +1,11 @@
 import { Component, ViewChild, computed, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import {
+  createTngFilterController,
+  createTngPaginationController,
+  createTngSortController,
+  type TngTableSortDirection,
+} from '@tailng-ui/cdk';
 import {
   TngSortHeader,
   TngTable,
@@ -9,6 +16,8 @@ import {
   TngTableColumn,
   TngTableColumnResizer,
   TngTableColumnSizing,
+  createTngTableIntlDateFormatter,
+  createTngTableIntlNumberFormatter,
   type TngTableColumnWidthMap,
   TngTableEmpty,
   TngTableError,
@@ -29,13 +38,22 @@ import {
   TngTableRowExpander,
   TngTableSelection,
   TngTableScrollContainer,
+  TngTableVirtual,
+  type TngTableVirtualRange,
+  TngTableVirtualSpacer,
   type TngTableSelectionChange,
   TngTableSort,
+  type TngTableSortChange,
   TngTableToolbar,
   type TngTableLayoutMode,
   type TngTableStickySide,
   type TngTableCellClickEvent,
 } from '..';
+import {
+  TngPopover,
+  TngPopoverPanel,
+  TngPopoverTrigger,
+} from '../../../overlay';
 
 export type TableItem = Readonly<{
   id: string;
@@ -59,12 +77,19 @@ export type RenderingRow = Readonly<{
   markup: string;
   status: string;
   total: number;
+  updatedAt: Date;
 }>;
 
 export type DynamicTableColumn = Readonly<{
   hidden?: boolean;
   id: DynamicColumnId;
   label: string;
+}>;
+
+export type IntegrationRow = Readonly<{
+  id: string;
+  label: string;
+  status: 'draft' | 'ready';
 }>;
 
 export function getByTestId<TElement extends Element>(
@@ -578,6 +603,244 @@ export class TableInteractionHarnessComponent {
 
 @Component({
   imports: [
+    RouterLink,
+    TngPopover,
+    TngPopoverPanel,
+    TngPopoverTrigger,
+    TngTable,
+    TngTableBody,
+    TngTableCell,
+    TngTableHeader,
+    TngTableHeaderCell,
+    TngTableRow,
+    TngTableSelection,
+  ],
+  template: `
+    <table
+      tngTable
+      tngTableSelection
+      data-testid="integration-table"
+      [tngTableSelectedIds]="selectedIds()"
+      (selectionChange)="onSelectionChange($event)"
+    >
+      <thead tngTableHeader>
+        <tr tngTableRow>
+          <th tngTableHeaderCell [tngTableColumnId]="'label'">Label</th>
+          <th tngTableHeaderCell [tngTableColumnId]="'link'">Link</th>
+          <th tngTableHeaderCell [tngTableColumnId]="'form'">Form</th>
+          <th tngTableHeaderCell [tngTableColumnId]="'overlay'">Overlay</th>
+        </tr>
+      </thead>
+
+      <tbody tngTableBody>
+        @for (row of rows(); track row.id) {
+          <tr
+            tngTableRow
+            [attr.data-testid]="'integration-row-' + row.id"
+            [tngTableRowId]="row.id"
+            (rowClick)="onRowClick($event)"
+          >
+            <td
+              tngTableCell
+              [attr.data-testid]="'integration-cell-' + row.id + '-label'"
+              [tngTableColumnId]="'label'"
+              (cellClick)="onCellClick($event)"
+            >
+              {{ row.label }}
+            </td>
+
+            <td
+              tngTableCell
+              [attr.data-testid]="'integration-cell-' + row.id + '-link'"
+              [tngTableColumnId]="'link'"
+              (cellClick)="onCellClick($event)"
+            >
+              <a [routerLink]="['/detail', row.id]" [attr.data-testid]="'integration-link-' + row.id">
+                Open
+              </a>
+            </td>
+
+            <td
+              tngTableCell
+              [attr.data-testid]="'integration-cell-' + row.id + '-form'"
+              [tngTableColumnId]="'form'"
+              (cellClick)="onCellClick($event)"
+            >
+              <input
+                type="text"
+                [attr.data-testid]="'integration-input-' + row.id"
+                [value]="row.label"
+              />
+              <select [attr.data-testid]="'integration-select-' + row.id">
+                <option value="draft">Draft</option>
+                <option value="ready">Ready</option>
+              </select>
+            </td>
+
+            <td
+              tngTableCell
+              [attr.data-testid]="'integration-cell-' + row.id + '-overlay'"
+              [tngTableColumnId]="'overlay'"
+              (cellClick)="onCellClick($event)"
+            >
+              <section tngPopover #popover="tngPopover" [restoreFocus]="false">
+                <button
+                  type="button"
+                  [attr.data-testid]="'integration-popover-trigger-' + row.id"
+                  [tngPopoverTrigger]="popover"
+                >
+                  Actions
+                </button>
+
+                <section tngPopoverPanel [attr.data-testid]="'integration-popover-panel-' + row.id">
+                  <button type="button">Inspect</button>
+                </section>
+              </section>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  `,
+})
+export class TableEmbeddedIntegrationHarnessComponent {
+  public readonly cellClicks: TngTableCellClickEvent[] = [];
+  public readonly rowClicks: TngTableRowClickEvent[] = [];
+  public readonly rows = signal<readonly IntegrationRow[]>([
+    { id: 'alpha', label: 'Alpha', status: 'ready' },
+  ]);
+  public readonly selectedIds = signal<readonly string[]>([]);
+
+  public onCellClick(event: TngTableCellClickEvent): void {
+    this.cellClicks.push(event);
+  }
+
+  public onRowClick(event: TngTableRowClickEvent): void {
+    this.rowClicks.push(event);
+  }
+
+  public onSelectionChange(event: TngTableSelectionChange): void {
+    this.selectedIds.set(event.selectedIds);
+  }
+}
+
+@Component({
+  imports: [
+    TngSortHeader,
+    TngTable,
+    TngTableBody,
+    TngTableCell,
+    TngTableHeader,
+    TngTableHeaderCell,
+    TngTableRow,
+    TngTableSort,
+  ],
+  template: `
+    <input
+      #filterInput
+      type="text"
+      data-testid="controlled-filter"
+      [value]="query()"
+      (input)="onQueryInput(filterInput.value)"
+    />
+    <button type="button" data-testid="controlled-page-next" (click)="nextPage()">Next page</button>
+
+    <table
+      tngTable
+      tngTableSort
+      #sortRef="tngTableSort"
+      data-testid="controlled-table"
+      [items]="visibleRows()"
+      [filterable]="true"
+      [pageable]="true"
+      [tngTableSortActive]="activeColumnId()"
+      [tngTableSortDirection]="direction()"
+      (sortChange)="onSortChange($event)"
+    >
+      <thead tngTableHeader>
+        <tr tngTableRow>
+          <th
+            tngTableHeaderCell
+            [tngSortHeader]="'label'"
+            data-testid="controlled-sort-header"
+          >
+            Label
+          </th>
+          <th tngTableHeaderCell [tngTableColumnId]="'status'">Status</th>
+        </tr>
+      </thead>
+
+      <tbody tngTableBody>
+        @for (row of visibleRows(); track row.id) {
+          <tr
+            tngTableRow
+            [attr.data-testid]="'controlled-row-' + row.id"
+            [tngTableRowId]="row.id"
+          >
+            <td tngTableCell [tngTableColumnId]="'label'">{{ row.label }}</td>
+            <td tngTableCell [tngTableColumnId]="'status'">{{ row.status }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  `,
+})
+export class TableControlledIntegrationHarnessComponent {
+  public readonly activeColumnId = signal<string | null>(null);
+  public readonly direction = signal<TngTableSortDirection | null>(null);
+  public readonly pageIndex = signal(0);
+  public readonly pageSize = signal(2);
+  public readonly query = signal('');
+  public readonly rows = signal<readonly IntegrationRow[]>([
+    { id: 'gamma', label: 'Gamma', status: 'draft' },
+    { id: 'alpha', label: 'Alpha', status: 'ready' },
+    { id: 'beta', label: 'Beta', status: 'ready' },
+    { id: 'delta', label: 'Delta', status: 'draft' },
+  ]);
+  public readonly sortEvents: TngTableSortChange[] = [];
+
+  public readonly filteredRows = computed(() =>
+    createTngFilterController<IntegrationRow>({
+      globalFilter: (item, query) => item.label.toLowerCase().includes(query.toLowerCase()),
+      query: this.query(),
+    }).apply(this.rows()),
+  );
+  public readonly sortedRows = computed(() =>
+    createTngSortController<IntegrationRow, 'label'>({
+      accessor: (item, columnId) => item[columnId],
+      activeColumnId: this.activeColumnId() === 'label' ? 'label' : null,
+      direction: this.direction(),
+    }).apply(this.filteredRows()),
+  );
+  public readonly visibleRows = computed(() =>
+    createTngPaginationController<IntegrationRow>({
+      pageIndex: this.pageIndex(),
+      pageSize: this.pageSize(),
+    }).slice(this.sortedRows()),
+  );
+
+  @ViewChild('sortRef')
+  public sortRef?: TngTableSort;
+
+  public nextPage(): void {
+    this.pageIndex.update((value) => value + 1);
+  }
+
+  public onQueryInput(query: string): void {
+    this.query.set(query);
+    this.pageIndex.set(0);
+  }
+
+  public onSortChange(event: TngTableSortChange): void {
+    this.activeColumnId.set(event.activeColumnId);
+    this.direction.set(event.direction);
+    this.pageIndex.set(0);
+    this.sortEvents.push(event);
+  }
+}
+
+@Component({
+  imports: [
     TngTable,
     TngTableBody,
     TngTableCell,
@@ -798,6 +1061,24 @@ export class DynamicTableHarnessComponent {
               [value]="rows()[0].markup"
             ></tng-table-cell-outlet>
           </td>
+          <td tngTableCell data-testid="localized-number-cell">
+            <tng-table-cell-outlet
+              [columnId]="'localizedTotal'"
+              [formatter]="localizedNumberFormatter"
+              [row]="rows()[0]"
+              [rowId]="rows()[0].id"
+              [value]="localizedNumberValue()"
+            ></tng-table-cell-outlet>
+          </td>
+          <td tngTableCell data-testid="localized-date-cell">
+            <tng-table-cell-outlet
+              [columnId]="'updatedAt'"
+              [formatter]="localizedDateFormatter"
+              [row]="rows()[0]"
+              [rowId]="rows()[0].id"
+              [value]="rows()[0].updatedAt"
+            ></tng-table-cell-outlet>
+          </td>
         </tr>
       </tbody>
 
@@ -819,6 +1100,14 @@ export class DynamicTableHarnessComponent {
               [value]="footerValue()"
             ></tng-table-footer-outlet>
           </td>
+          <td tngTableCell data-testid="localized-footer-cell">
+            <tng-table-footer-outlet
+              [columnId]="'localizedTotal'"
+              [formatter]="localizedNumberFormatter"
+              [items]="rows()"
+              [value]="localizedFooterValue()"
+            ></tng-table-footer-outlet>
+          </td>
         </tr>
       </tfoot>
     </table>
@@ -826,6 +1115,8 @@ export class DynamicTableHarnessComponent {
 })
 export class TableRenderingHarnessComponent {
   public readonly footerValue = signal(2);
+  public readonly localizedFooterValue = signal(9876.5);
+  public readonly localizedNumberValue = signal(12345.67);
   public readonly rows = signal<readonly RenderingRow[]>([
     {
       active: true,
@@ -834,6 +1125,7 @@ export class TableRenderingHarnessComponent {
       markup: '<strong>Safe</strong>',
       status: 'Active',
       total: 42,
+      updatedAt: new Date('2026-04-24T00:00:00.000Z'),
     },
     {
       active: false,
@@ -842,9 +1134,20 @@ export class TableRenderingHarnessComponent {
       markup: '<em>Draft</em>',
       status: 'Draft',
       total: 18,
+      updatedAt: new Date('2026-04-23T00:00:00.000Z'),
     },
   ]);
 
+  public readonly localizedDateFormatter = createTngTableIntlDateFormatter('en-GB', {
+    day: '2-digit',
+    month: '2-digit',
+    timeZone: 'UTC',
+    year: 'numeric',
+  });
+  public readonly localizedNumberFormatter = createTngTableIntlNumberFormatter('de-DE', {
+    maximumFractionDigits: 2,
+    minimumFractionDigits: 2,
+  });
   public readonly statusFormatter = (value: unknown): string =>
     `formatted:${String(value).toUpperCase()}`;
   public readonly throwingFormatter = (): string => {
@@ -873,6 +1176,7 @@ export class TableRenderingHarnessComponent {
     <div
       tngTableScrollContainer
       data-testid="layout-scroll"
+      [dir]="dir()"
       [tngTableScrollAxis]="scrollAxis()"
     >
       <table
@@ -1111,6 +1415,118 @@ export class TableSizingHarnessComponent {
   public onWidthsChange(nextWidths: TngTableColumnWidthMap): void {
     this.widths.set({ ...nextWidths });
     this.widthEvents.push(nextWidths);
+  }
+}
+
+@Component({
+  imports: [
+    TngTable,
+    TngTableBody,
+    TngTableCell,
+    TngTableHeader,
+    TngTableHeaderCell,
+    TngTableRow,
+    TngTableScrollContainer,
+    TngTableSelection,
+    TngTableVirtual,
+    TngTableVirtualSpacer,
+  ],
+  template: `
+    <div
+      tngTableScrollContainer
+      tngTableVirtual
+      #virtualRef="tngTableVirtual"
+      data-testid="virtual-scroll"
+      [tngTableScrollAxis]="'both'"
+      [tngTableVirtualItemCount]="rows().length"
+      [tngTableVirtualItemSize]="rowHeight()"
+      [tngTableVirtualOverscan]="overscan()"
+      [tngTableVirtualViewportHeight]="viewportHeight()"
+      (rangeChange)="onRangeChange($event)"
+    >
+      <table
+        tngTable
+        tngTableSelection
+        #selectionRef="tngTableSelection"
+        data-testid="virtual-table"
+        [tngTableSelectedIds]="selectedIds()"
+        (selectionChange)="onSelectionChange($event)"
+      >
+        <thead
+          tngTableHeader
+          data-testid="virtual-header"
+          [tngTableHeaderSticky]="stickyHeader()"
+        >
+          <tr tngTableRow>
+            <th tngTableHeaderCell [tngTableColumnId]="'label'">Label</th>
+            <th tngTableHeaderCell [tngTableColumnId]="'status'">Status</th>
+            <th tngTableHeaderCell [tngTableColumnId]="'value'">Value</th>
+          </tr>
+        </thead>
+
+        <tbody tngTableBody>
+          @if (virtualRef.beforeSize() > 0) {
+            <tr
+              tngTableVirtualSpacer
+              data-testid="virtual-top-spacer"
+              [tngTableVirtualSpacerColspan]="3"
+              [tngTableVirtualSpacerSize]="virtualRef.beforeSize()"
+            ></tr>
+          }
+
+          @for (row of virtualRef.slice(rows()); track row.id) {
+            <tr
+              tngTableRow
+              [attr.data-testid]="'virtual-row-' + row.id"
+              [tngTableRowId]="row.id"
+            >
+              <td tngTableCell [tngTableColumnId]="'label'">{{ row.label }}</td>
+              <td tngTableCell [tngTableColumnId]="'status'">{{ row.status }}</td>
+              <td tngTableCell [tngTableColumnId]="'value'">{{ row.value }}</td>
+            </tr>
+          }
+
+          @if (virtualRef.afterSize() > 0) {
+            <tr
+              tngTableVirtualSpacer
+              data-testid="virtual-bottom-spacer"
+              [tngTableVirtualSpacerColspan]="3"
+              [tngTableVirtualSpacerSize]="virtualRef.afterSize()"
+            ></tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  `,
+})
+export class TableVirtualHarnessComponent {
+  public readonly overscan = signal(0);
+  public readonly rangeChanges = signal<readonly TngTableVirtualRange[]>([]);
+  public readonly rowHeight = signal(40);
+  public readonly rows = signal<readonly InteractiveTableRow[]>(
+    Array.from({ length: 20 }, (_, index) => ({
+      id: `row-${index}`,
+      label: `Row ${index}`,
+      status: index % 2 === 0 ? 'Ready' : 'Draft',
+      value: index,
+    })),
+  );
+  public readonly selectedIds = signal<readonly string[]>([]);
+  public readonly stickyHeader = signal(false);
+  public readonly viewportHeight = signal(120);
+
+  @ViewChild('selectionRef')
+  public selectionRef?: TngTableSelection;
+
+  @ViewChild('virtualRef', { static: true })
+  public virtualRef?: TngTableVirtual;
+
+  public onSelectionChange(event: TngTableSelectionChange): void {
+    this.selectedIds.set(event.selectedIds);
+  }
+
+  public onRangeChange(event: TngTableVirtualRange): void {
+    this.rangeChanges.set([...this.rangeChanges(), event]);
   }
 }
 

@@ -72,6 +72,30 @@ type TngTableCellPosition = Readonly<{
   row: number;
 }>;
 type TngTableFocusableCell = TngTableCell | TngTableHeaderCell;
+const tngTableInteractiveTargetSelector = [
+  'a[href]',
+  'button',
+  'input',
+  'label',
+  'select',
+  'summary',
+  'textarea',
+  '[contenteditable=""]',
+  '[contenteditable="plaintext-only"]',
+  '[contenteditable="true"]',
+  '[data-tng-table-interactive]',
+  '[role="button"]',
+  '[role="checkbox"]',
+  '[role="combobox"]',
+  '[role="link"]',
+  '[role="listbox"]',
+  '[role="menuitem"]',
+  '[role="option"]',
+  '[role="radio"]',
+  '[role="switch"]',
+  '[role="tab"]',
+  '[role="textbox"]',
+].join(',');
 
 function createTngTableCellKey(position: TngTableCellPosition): string {
   return `${position.row}:${position.col}`;
@@ -122,6 +146,15 @@ function isFocusVisibleElement(value: Element): boolean {
 
 function hasTableKeyboardModifiers(event: KeyboardEvent): boolean {
   return event.altKey || event.ctrlKey || event.metaKey || event.shiftKey;
+}
+
+function hasInteractiveEventTarget(container: HTMLElement, target: unknown): boolean {
+  if (!(target instanceof Element)) {
+    return false;
+  }
+
+  const interactiveTarget = target.closest<HTMLElement>(tngTableInteractiveTargetSelector);
+  return interactiveTarget !== null && interactiveTarget !== container && container.contains(interactiveTarget);
 }
 
 function resolveTngTablePageDirection(key: string): TngTablePageDirection | null {
@@ -309,9 +342,18 @@ export class TngTableScrollContainer {
     alias: 'tngTableScrollAxis',
     transform: normalizeTableScrollAxis,
   });
+  public readonly dir = input<TngTableDirection | null, unknown>(null, {
+    alias: 'dir',
+    transform: normalizeTableDirection,
+  });
 
   @HostBinding('attr.data-slot')
   protected readonly dataSlot = 'table-scroll-container' as const;
+
+  @HostBinding('attr.dir')
+  protected get dirAttr(): TngTableDirection | null {
+    return this.dir();
+  }
 
   @HostBinding('attr.data-overflow-axis')
   protected get dataOverflowAxisAttr(): TngTableScrollAxis {
@@ -323,6 +365,11 @@ export class TngTableScrollContainer {
 
   @HostBinding('style.max-width')
   protected readonly maxWidth = '100%';
+
+  @HostBinding('style.direction')
+  protected get directionStyleAttr(): TngTableDirection | null {
+    return this.dir();
+  }
 
   @HostBinding('style.overflow-x')
   protected get overflowXAttr(): 'auto' | 'hidden' {
@@ -569,6 +616,7 @@ export class TngTableRow {
   private readonly expansion = inject(forwardRef(() => TngTableExpansion), {
     optional: true,
   }) as TngTableExpansion | null;
+  private readonly hostRef = inject<ElementRef<HTMLTableRowElement>>(ElementRef);
   private readonly selection = inject(forwardRef(() => TngTableSelection), {
     optional: true,
   }) as TngTableSelection | null;
@@ -656,7 +704,11 @@ export class TngTableRow {
 
   @HostListener('click', ['$event'])
   protected onClick(event: MouseEvent): void {
-    if (this.isDisabled()) {
+    if (
+      this.isDisabled()
+      || event.defaultPrevented
+      || hasInteractiveEventTarget(this.hostRef.nativeElement, event.target)
+    ) {
       return;
     }
 
@@ -860,7 +912,11 @@ export class TngTableCell implements OnDestroy, OnInit {
 
   @HostListener('click', ['$event'])
   protected onClick(event: MouseEvent): void {
-    if (this.isDisabled()) {
+    if (
+      this.isDisabled()
+      || event.defaultPrevented
+      || hasInteractiveEventTarget(this.hostRef.nativeElement, event.target)
+    ) {
       return;
     }
 

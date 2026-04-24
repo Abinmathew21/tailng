@@ -51,11 +51,19 @@ export type TngTableFooterFormatter<
   TColumnId extends string = string,
 > = (value: TValue, context: TngTableFooterTplContext<TRow, TValue, TColumnId>) => string;
 
+export type TngTableIntlLocale = readonly string[] | string | undefined;
+export type TngTableIntlFormatterOptions = Readonly<{
+  date?: Intl.DateTimeFormatOptions;
+  locale?: TngTableIntlLocale;
+  number?: Intl.NumberFormatOptions;
+}>;
+
 type TngTableFormattedTextState<TContext> = Readonly<{
   error: Readonly<{ thrown: unknown }> | null;
   text: string;
   context: TContext;
 }>;
+type TngTableValueFormatter<TContext> = (value: unknown, context: TContext) => string;
 
 function normalizeOptionalString(value: unknown): string | null {
   if (typeof value !== 'string') {
@@ -87,6 +95,18 @@ function resolveTemplateRef<TContext>(
   }
 
   return null;
+}
+
+function isIntlLocaleList(value: TngTableIntlLocale): value is readonly string[] {
+  return Array.isArray(value) && value.every((entry) => typeof entry === 'string');
+}
+
+function resolveIntlLocale(locale: TngTableIntlLocale): string | string[] | undefined {
+  if (isIntlLocaleList(locale)) {
+    return locale.slice();
+  }
+
+  return typeof locale === 'string' ? locale : undefined;
 }
 
 function formatTableText<TValue, TContext>(
@@ -139,6 +159,53 @@ export function resolveTngTableTextContent(value: unknown): string {
   }
 
   return '';
+}
+
+export function createTngTableIntlNumberFormatter<TContext = unknown>(
+  locale?: TngTableIntlLocale,
+  options?: Intl.NumberFormatOptions,
+): TngTableValueFormatter<TContext> {
+  const formatter = new Intl.NumberFormat(resolveIntlLocale(locale), options);
+
+  return (value: unknown): string =>
+    typeof value === 'number'
+      ? formatter.format(value)
+      : resolveTngTableTextContent(value);
+}
+
+export function createTngTableIntlDateFormatter<TContext = unknown>(
+  locale?: TngTableIntlLocale,
+  options?: Intl.DateTimeFormatOptions,
+): TngTableValueFormatter<TContext> {
+  const formatter = new Intl.DateTimeFormat(resolveIntlLocale(locale), options);
+
+  return (value: unknown): string =>
+    value instanceof Date
+      ? formatter.format(value)
+      : resolveTngTableTextContent(value);
+}
+
+export function createTngTableIntlFormatter<TContext = unknown>(
+  options: TngTableIntlFormatterOptions = {},
+): TngTableValueFormatter<TContext> {
+  const dateFormatter = options.date === undefined
+    ? null
+    : createTngTableIntlDateFormatter<TContext>(options.locale, options.date);
+  const numberFormatter = options.number === undefined
+    ? null
+    : createTngTableIntlNumberFormatter<TContext>(options.locale, options.number);
+
+  return (value: unknown, context: TContext): string => {
+    if (typeof value === 'number' && numberFormatter !== null) {
+      return numberFormatter(value, context);
+    }
+
+    if (value instanceof Date && dateFormatter !== null) {
+      return dateFormatter(value, context);
+    }
+
+    return resolveTngTableTextContent(value);
+  };
 }
 
 @Directive({

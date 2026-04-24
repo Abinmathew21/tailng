@@ -312,10 +312,10 @@ Optional utility slots (consumer-owned UI):
 - [x] **RTL resizing:** Resizing works in RTL (drag direction + pinned sides correctness). `DONE`
 
 ### P) Virtualization
-- [ ] **Virtual window:** Only visible rows render when virtualization enabled. `PENDING`
-- [ ] **Scroll sync:** Scrolling updates rendered row window without blank gaps. `PENDING`
-- [ ] **Sticky + virtual:** Sticky header works with virtualization. `PENDING`
-- [ ] **Selection + virtual:** Selecting an offscreen row persists and renders selected state when it appears. `PENDING`
+- [x] **Virtual window:** Only visible rows render when virtualization enabled. `DONE`
+- [x] **Scroll sync:** Scrolling updates rendered row window without blank gaps. `DONE`
+- [x] **Sticky + virtual:** Sticky header works with virtualization. `DONE`
+- [x] **Selection + virtual:** Selecting an offscreen row persists and renders selected state when it appears. `DONE`
 
 ### Q) States: loading / empty / error
 - [ ] **Loading row:** Loading state shows skeleton/progress row component without layout shift. `PENDING`
@@ -329,17 +329,17 @@ Optional utility slots (consumer-owned UI):
 - [ ] **No tag selectors:** Theme contract can style purely via slots + state attrs (verified by CSS audit). `PENDING`
 
 ### S) RTL / i18n / localization
-- [ ] **RTL layout:** Column pinning and scroll direction behave correctly in RTL. `PENDING`
-- [ ] **Number/date formatting:** Locale-aware formatting works via provided formatter/adapter. `PENDING`
+- [x] **RTL layout:** Column pinning and scroll direction behave correctly in RTL. `DONE`
+- [x] **Number/date formatting:** Locale-aware formatting works via provided formatter/adapter. `DONE`
 - [x] **Text direction switch:** Runtime dir change (ltr ↔ rtl) preserves state and recalculates pinned offsets (if supported). `DONE`
 
 ### T) Performance & memory
 - [x] **No leaks:** Destroying table releases observers/listeners (no retained references). `DONE`
-- [ ] **Batch updates:** Bulk row updates do not cause O(n²) behaviors in sorting/filtering (smoke perf check). `PENDING`
-- [ ] **Event throttling:** Scroll/resize handlers are throttled/debounced when appropriate (if supported). `PENDING`
+- [x] **Batch updates:** Bulk row updates do not cause O(n²) behaviors in sorting/filtering (smoke perf check). `DONE`
+- [x] **Event throttling:** Scroll/resize handlers are throttled/debounced when appropriate (if supported). `DONE`
 
 ### U) Integration contracts
-- [ ] **Router links:** Cells containing router links work without prevented defaults. `PENDING`
-- [ ] **Forms in cells:** Inputs/selects inside cells remain usable; table doesn’t steal keyboard events unexpectedly. `PENDING`
-- [ ] **Overlay in cells:** Menus/popovers inside cells position correctly and don’t get clipped (if overlay layer used). `PENDING`
-- [ ] **External state control:** Controlled mode (external sort/filter/page) works without internal divergence. `PENDING`
+- [x] **Router links:** Cells containing router links work without prevented defaults. `DONE`
+- [x] **Forms in cells:** Inputs/selects inside cells remain usable; table doesn’t steal keyboard events unexpectedly. `DONE`
+- [x] **Overlay in cells:** Menus/popovers inside cells position correctly and don’t get clipped (if overlay layer used). `DONE`
+- [x] **External state control:** Controlled mode (external sort/filter/page) works without internal divergence. `DONE`

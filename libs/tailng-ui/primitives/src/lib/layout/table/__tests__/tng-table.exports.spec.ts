@@ -1,6 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { afterEach, describe, expect, it } from 'vitest';
 import {
+  createTngTableIntlDateFormatter,
+  createTngTableIntlFormatter,
+  createTngTableIntlNumberFormatter,
   TngTableBody,
   TngTableCell,
   TngTableCellOutlet,
@@ -23,6 +26,8 @@ import {
   TngTableSort,
   TngTable,
   TngTableToolbar,
+  TngTableVirtual,
+  TngTableVirtualSpacer,
 } from '..';
 import { TableHarnessComponent } from './tng-table.test-harness';
 
@@ -54,6 +59,11 @@ describe('tng-table exports and attachment', () => {
     expect(typeof TngTableLoading).toBe('function');
     expect(typeof TngTableEmpty).toBe('function');
     expect(typeof TngTableError).toBe('function');
+    expect(typeof TngTableVirtual).toBe('function');
+    expect(typeof TngTableVirtualSpacer).toBe('function');
+    expect(typeof createTngTableIntlNumberFormatter).toBe('function');
+    expect(typeof createTngTableIntlDateFormatter).toBe('function');
+    expect(typeof createTngTableIntlFormatter).toBe('function');
   });
 
   it('attaches to <table tngTable> without runtime errors', () => {

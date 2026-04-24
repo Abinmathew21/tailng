@@ -12,6 +12,12 @@ type TngSortableEntry<TItem> = Readonly<{
   item: TItem;
 }>;
 
+type TngAccessorSortableEntry<TItem> = Readonly<{
+  index: number;
+  item: TItem;
+  sortValue: unknown;
+}>;
+
 function compareBigints(left: unknown, right: unknown): number | null {
   if (typeof left !== 'bigint' || typeof right !== 'bigint') {
     return null;
@@ -119,20 +125,17 @@ function compareSortedEntries<TItem, TColumnId extends string>(
   return left.index - right.index;
 }
 
-function resolveComparator<TItem, TColumnId extends string>(
-  comparator: TngTableSortComparator<TItem, TColumnId> | undefined,
-  accessor: TngTableSortOptions<TItem, TColumnId>['accessor'],
-): TngTableSortComparator<TItem, TColumnId> | null {
-  if (comparator !== undefined) {
-    return comparator;
+function compareAccessorSortedEntries(
+  left: TngAccessorSortableEntry<unknown>,
+  right: TngAccessorSortableEntry<unknown>,
+  directionMultiplier: number,
+): number {
+  const comparison = compareFallback(left.sortValue, right.sortValue);
+  if (comparison !== 0) {
+    return comparison * directionMultiplier;
   }
 
-  if (accessor === undefined) {
-    return null;
-  }
-
-  return (left, right, columnId) =>
-    compareFallback(accessor(left, columnId), accessor(right, columnId));
+  return left.index - right.index;
 }
 
 function resolveNextDirection(
@@ -154,12 +157,14 @@ class TngTableSortControllerImpl<TItem, TColumnId extends string>
   implements TngTableSortController<TItem, TColumnId>
 {
   private readonly comparator: TngTableSortComparator<TItem, TColumnId> | null;
+  private readonly accessor: TngTableSortOptions<TItem, TColumnId>['accessor'];
   private readonly disableClearState: boolean;
   private activeColumnIdState: TColumnId | null;
   private directionState: TngTableSortDirection | null;
 
   public constructor(options: TngTableSortOptions<TItem, TColumnId>) {
-    this.comparator = resolveComparator(options.comparator, options.accessor);
+    this.accessor = options.accessor;
+    this.comparator = options.comparator ?? null;
     this.disableClearState = options.disableClear ?? false;
     this.activeColumnIdState = options.activeColumnId ?? null;
     this.directionState = options.direction ?? null;
@@ -167,21 +172,37 @@ class TngTableSortControllerImpl<TItem, TColumnId extends string>
 
   public apply(items: readonly TItem[]): readonly TItem[] {
     const activeColumnId = this.activeColumnIdState;
-    const comparator = this.comparator;
-    if (activeColumnId === null || this.directionState === null || comparator === null) {
+    if (activeColumnId === null || this.directionState === null) {
       return [...items];
     }
 
     const directionMultiplier = this.directionState === 'asc' ? 1 : -1;
-    const sortOptions = Object.freeze({
-      activeColumnId,
-      comparator,
-      directionMultiplier,
-    });
+    const comparator = this.comparator;
+    if (comparator !== null) {
+      const sortOptions = Object.freeze({
+        activeColumnId,
+        comparator,
+        directionMultiplier,
+      });
+
+      return items
+        .map<TngSortableEntry<TItem>>((item, index) => ({ index, item }))
+        .sort((left, right) => compareSortedEntries(left, right, sortOptions))
+        .map((entry) => entry.item);
+    }
+
+    const accessor = this.accessor;
+    if (accessor === undefined) {
+      return [...items];
+    }
 
     return items
-      .map<TngSortableEntry<TItem>>((item, index) => ({ index, item }))
-      .sort((left, right) => compareSortedEntries(left, right, sortOptions))
+      .map<TngAccessorSortableEntry<TItem>>((item, index) => ({
+        index,
+        item,
+        sortValue: accessor(item, activeColumnId),
+      }))
+      .sort((left, right) => compareAccessorSortedEntries(left, right, directionMultiplier))
       .map((entry) => entry.item);
   }
 
