@@ -102,6 +102,43 @@ function resolveFesmFiles(root) {
   return { baseDir: root, files: [] };
 }
 
+function readJsonSafe(file) {
+  return JSON.parse(fs.readFileSync(file, "utf8"));
+}
+
+function collectManifestTargets(value) {
+  if (typeof value === "string") {
+    return [value];
+  }
+
+  if (!value || typeof value !== "object") {
+    return [];
+  }
+
+  return Object.values(value).flatMap((entry) => collectManifestTargets(entry));
+}
+
+function assertManifestTargetExists(root, target, label) {
+  const relativeTarget = target.replace(/^\.\//, "");
+  const wildcardIndex = relativeTarget.indexOf("*");
+
+  if (wildcardIndex === -1) {
+    const candidate = path.join(root, relativeTarget);
+    if (!exists(candidate)) {
+      fail(`theme: ${label} points to missing path '${target}'`);
+    }
+    return;
+  }
+
+  const prefix = relativeTarget.slice(0, wildcardIndex);
+  const candidate = path.join(root, prefix);
+  const directory = candidate.endsWith(path.sep) ? candidate.slice(0, -1) : path.dirname(candidate);
+
+  if (!exists(candidate) && !exists(directory)) {
+    fail(`theme: ${label} points to missing wildcard base '${target}'`);
+  }
+}
+
 /**
  * Per-package sanity thresholds
  * - cdk entrypoints can be tiny but valid (e.g., 1–2 directives/utilities)
@@ -210,6 +247,7 @@ function assertThemePackage() {
 
   const pkgJson = path.join(root, "package.json");
   if (!exists(pkgJson)) fail(`theme: missing package.json in dist: ${pkgJson}`);
+  const pkg = readJsonSafe(pkgJson);
 
   const cssRoots = [
     path.join(root, "tokens"),
@@ -239,6 +277,25 @@ function assertThemePackage() {
 
   const cssFiles = cssRoots.flatMap((dir) => listFiles(dir, (f) => f.endsWith(".css")));
   if (cssFiles.length === 0) fail(`theme: css asset roots contain no css files`);
+
+  if (typeof pkg.style !== "string" || pkg.style.length === 0) {
+    fail(`theme: package.json is missing a root 'style' entry`);
+  }
+
+  assertManifestTargetExists(root, pkg.style, "package.json#style");
+
+  if (!pkg.exports || typeof pkg.exports !== "object") {
+    fail(`theme: package.json is missing exports`);
+  }
+
+  const exportTargets = collectManifestTargets(pkg.exports);
+  if (exportTargets.length === 0) {
+    fail(`theme: package.json exports do not declare any target files`);
+  }
+
+  for (const target of exportTargets) {
+    assertManifestTargetExists(root, target, "package.json#exports");
+  }
 
   const tailwindPresetCandidates = [
     path.join(root, "tailwind", "tailng.preset.cjs"),

@@ -29,6 +29,11 @@
         "assets": [
           "libs/tailng-ui/theme/*.md",
           {
+            "input": "libs/tailng-ui/theme",
+            "glob": "index.css",
+            "output": "."
+          },
+          {
             "input": "libs/tailng-ui/theme/src/lib/component-contracts",
             "glob": "**/*.css",
             "output": "component-contracts"

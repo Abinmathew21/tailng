@@ -8,15 +8,18 @@
   },
   "type": "commonjs",
   "main": "./src/index.js",
+  "style": "./index.css",
   "types": "./src/index.d.ts",
   "exports": {
     ".": {
       "types": "./src/index.d.ts",
+      "style": "./index.css",
       "default": "./src/index.js"
     },
-    "./component-contracts/index.css": "./src/lib/component-contracts/index.css",
-    "./component-contracts/*": "./src/lib/component-contracts/*",
-    "./component-contracts/*/*": "./src/lib/component-contracts/*/*"
+    "./index.css": "./index.css",
+    "./component-contracts/index.css": "./component-contracts/index.css",
+    "./component-contracts/*": "./component-contracts/*",
+    "./component-contracts/*/*": "./component-contracts/*/*"
   },
   "sideEffects": [
     "**/*.css"
