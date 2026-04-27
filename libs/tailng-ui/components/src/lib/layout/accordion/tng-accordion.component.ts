@@ -128,6 +128,9 @@ export class TngAccordionIndicator {
       justify-content: space-between;
       min-height: 2.75rem;
       padding: 0.8rem 1rem;
+      transition:
+        background-color 160ms ease,
+        color 160ms ease;
       user-select: none;
       width: 100%;
     }
@@ -137,9 +140,25 @@ export class TngAccordionIndicator {
       opacity: 0.55;
     }
 
-    :host(:focus-visible) {
-      outline: 2px solid var(--tng-semantic-focus-ring);
-      outline-offset: -2px;
+    :host:hover:not([data-disabled='true']) {
+      background: color-mix(
+        in srgb,
+        var(--tng-semantic-foreground-primary) 6%,
+        var(--tng-semantic-background-surface)
+      );
+    }
+
+    :host(:focus-visible):not([data-disabled='true']) {
+      outline: none;
+      background: color-mix(
+        in srgb,
+        var(--tng-semantic-accent-brand) 12%,
+        var(--tng-semantic-background-surface)
+      );
+    }
+
+    :host(:focus-visible):not([data-disabled='true']) .tng-accordion__indicator-slot {
+      color: var(--tng-semantic-accent-brand);
     }
 
     .tng-accordion__trigger-content {
@@ -164,6 +183,7 @@ export class TngAccordionIndicator {
       min-height: 1rem;
       min-width: 1rem;
       order: 2;
+      transition: color 160ms ease;
     }
 
     .tng-accordion__indicator-default {

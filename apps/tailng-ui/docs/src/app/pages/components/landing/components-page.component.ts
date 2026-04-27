@@ -10,6 +10,7 @@ import {
   TngFormFieldComponent,
   TngBreadcrumbComponent,
   TngBreadcrumbItemComponent,
+  TngListboxComponent,
 } from '@tailng-ui/components';
 import { TngIcon } from '@tailng-ui/icons';
 import {
@@ -17,8 +18,6 @@ import {
   TngDrawerContent,
   TngInput,
   TngPrefix,
-  TngListboxDirective,
-  TngOptionDirective,
 } from '@tailng-ui/primitives';
 import { filter, map, startWith } from 'rxjs/operators';
 import {
@@ -26,6 +25,7 @@ import {
   COMPONENTS_DOCS_GROUPS,
   type ComponentsDocsCategoryId,
   type ComponentsDocsGroup,
+  type ComponentsDocsItem,
 } from '../component-docs.data';
 
 @Component({
@@ -44,8 +44,7 @@ import {
     TngFormFieldComponent,
     TngInput,
     TngPrefix,
-    TngListboxDirective,
-    TngOptionDirective,
+    TngListboxComponent,
     TngIcon,
   ],
   templateUrl: './components-page.component.html',
@@ -139,6 +138,12 @@ export class ComponentsPageComponent {
     return buildComponentsDocHref(groupId, itemSlug);
   }
 
+  public readonly navItemTrackBy = (_index: number, item: ComponentsDocsItem) => item.id;
+
+  public navItemHrefFn(group: ComponentsDocsGroup): (item: ComponentsDocsItem) => string {
+    return (item) => this.itemHref(group.id, item.slug);
+  }
+
   public activeGroupItemHref(group: ComponentsDocsGroup): string | null {
     const current = this.normalizeUrl(this.currentUrl());
     const activeItem = group.items.find((item) => {
@@ -154,13 +159,6 @@ export class ComponentsPageComponent {
     }
 
     void this.router.navigateByUrl(value);
-  }
-
-  public isItemActive(groupId: ComponentsDocsCategoryId, itemSlug: string): boolean {
-    return this.isMatchingItemPath(
-      this.normalizeUrl(this.currentUrl()),
-      this.itemHref(groupId, itemSlug),
-    );
   }
 
   public onNavSearchInput(event: Event): void {

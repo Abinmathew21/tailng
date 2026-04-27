@@ -48,13 +48,11 @@
     transform 140ms ease;
 }
 
-.tng-listbox-option:hover {
-  border-color: color-mix(in srgb, var(--tng-semantic-accent-brand) 25%, var(--tng-semantic-border-subtle));
-  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 6%, var(--tng-semantic-background-base));
-}
-
-.tng-listbox-option[data-active] {
+/* Hover and keyboard active share the same chrome (non-selected options). */
+.tng-listbox-option:hover:not([data-selected]):not([data-disabled]):not(:disabled),
+.tng-listbox-option[data-active]:not([data-selected]):not([data-disabled]):not(:disabled) {
   border-color: color-mix(in srgb, var(--tng-semantic-accent-brand) 55%, var(--tng-semantic-border-subtle));
+  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 6%, var(--tng-semantic-background-base));
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--tng-semantic-accent-brand) 14%, transparent);
 }
 
