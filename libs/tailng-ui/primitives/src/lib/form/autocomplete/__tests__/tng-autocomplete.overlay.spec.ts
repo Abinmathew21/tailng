@@ -1,6 +1,6 @@
 import { Component, ViewChild, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import {
   TngAutocomplete,
@@ -182,6 +182,63 @@ class TriggerContainerHostComponent {
   value = signal<string | null>(null);
 }
 
+@Component({
+  imports: [
+    TngAutocomplete,
+    TngAutocompleteTrigger,
+    TngAutocompleteContent,
+    TngAutocompleteOverlay,
+    TngAutocompleteListbox,
+    TngAutocompleteOption,
+  ],
+  template: `
+    <header
+      data-testid="sticky-header"
+      style="position: sticky; top: 0; z-index: 50; height: 64px"
+    >
+      Header
+    </header>
+
+    <main style="height: 2000px; overflow: auto">
+      <div style="height: 320px"></div>
+
+      <div
+        tngAutocomplete
+        #api="tngAutocomplete"
+        [open]="open()"
+        (openChange)="open.set($event)"
+        [value]="value()"
+        (valueChange)="value.set($event)"
+        data-testid="autocomplete"
+      >
+        <input tngAutocompleteTrigger type="text" data-testid="trigger" />
+
+        <div tngAutocompleteContent data-testid="content">
+          <div tngAutocompleteOverlay data-testid="overlay">
+            <ul
+              tngAutocompleteListbox
+              [value]="api.value()"
+              (valueChange)="api.value.set($event)"
+              data-testid="listbox"
+            >
+              <li tngAutocompleteOption [tngValue]="'india'" data-testid="country-india">India</li>
+              <li tngAutocompleteOption [tngValue]="'japan'" data-testid="country-japan">Japan</li>
+              <li tngAutocompleteOption [tngValue]="'spain'" data-testid="country-spain">Spain</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div style="height: 1200px"></div>
+    </main>
+  `,
+})
+class StickyHeaderScrollHostComponent {
+  @ViewChild('api', { static: true }) api!: TngAutocomplete<string>;
+  open = signal(false);
+  value = signal<string | null>(null);
+}
+
 async function openAutocomplete(
   fixture: { detectChanges: () => void },
   trigger: HTMLElement
@@ -193,6 +250,10 @@ async function openAutocomplete(
 }
 
 describe('tng-autocomplete.overlay', () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
   describe('Overlay renders when open=true', () => {
     it('overlay is in body and not hidden when open', async () => {
       const fixture = TestBed.configureTestingModule({
@@ -425,6 +486,63 @@ describe('tng-autocomplete.overlay', () => {
   });
 
   describe('Scroll reposition', () => {
-    it.todo('scroll event triggers overlay reposition');
+    it('keeps the overlay anchored to the trigger after page scroll moves it under a sticky header', async () => {
+      const fixture = TestBed.configureTestingModule({
+        imports: [StickyHeaderScrollHostComponent],
+      }).createComponent(StickyHeaderScrollHostComponent);
+
+      fixture.detectChanges();
+
+      const trigger = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLInputElement;
+      const header = fixture.nativeElement.querySelector('[data-testid="sticky-header"]') as HTMLElement;
+      let triggerTop = 120;
+      const triggerHeight = 32;
+
+      vi.spyOn(trigger, 'getBoundingClientRect').mockImplementation(
+        () =>
+          ({
+            bottom: triggerTop + triggerHeight,
+            height: triggerHeight,
+            left: 24,
+            right: 264,
+            top: triggerTop,
+            width: 240,
+            x: 24,
+            y: triggerTop,
+            toJSON: () => ({}),
+          }) as DOMRect,
+      );
+
+      await openAutocomplete(fixture, trigger);
+
+      await Promise.resolve();
+      fixture.detectChanges();
+
+      const overlay = findOverlay();
+      expect(overlay).toBeTruthy();
+
+      vi.spyOn(overlay!, 'getBoundingClientRect').mockImplementation(
+        () =>
+          ({
+            bottom: 128,
+            height: 120,
+            left: 0,
+            right: 240,
+            top: 8,
+            width: 240,
+            x: 0,
+            y: 8,
+            toJSON: () => ({}),
+          }) as DOMRect,
+      );
+
+      triggerTop = -40;
+      window.dispatchEvent(new Event('scroll'));
+      await new Promise((resolve) => requestAnimationFrame(resolve));
+      fixture.detectChanges();
+
+      expect(overlay!.style.top).toBe(`${triggerTop + triggerHeight}px`);
+      expect(Number(overlay!.style.zIndex)).toBeLessThan(Number(header.style.zIndex));
+    });
   });
 });

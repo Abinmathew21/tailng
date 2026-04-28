@@ -35,6 +35,7 @@ const PORTALLED_AUTOCOMPLETE_THEME_VARS = [
   '--tng-autocomplete-overlay-radius',
   '--tng-autocomplete-overlay-shadow',
   '--tng-autocomplete-overlay-max-width',
+  '--tng-autocomplete-overlay-z-index',
   '--tng-autocomplete-overlay-border',
   '--tng-autocomplete-overlay-bg',
   '--tng-autocomplete-listbox-gap',
@@ -83,6 +84,28 @@ function rectFromClientRect(r: DOMRect | ClientRect): MaybeRect {
 
 function viewportRect(): MaybeRect {
   return { left: 0, top: 0, width: window.innerWidth || 1024, height: window.innerHeight || 768 };
+}
+
+function resolveAnchoredYWhenOffscreen(
+  resultY: number,
+  anchor: MaybeRect,
+  overlay: MaybeRect,
+  viewport: MaybeRect,
+  side: 'bottom' | 'top' | 'left' | 'right',
+  sideOffset: number,
+): number {
+  const viewportBottom = viewport.top + viewport.height;
+  const anchorBottom = anchor.top + anchor.height;
+
+  if (anchorBottom < viewport.top && side === 'bottom') {
+    return anchorBottom + sideOffset;
+  }
+
+  if (anchor.top > viewportBottom && side === 'top') {
+    return anchor.top - overlay.height - sideOffset;
+  }
+
+  return resultY;
 }
 
 function isInside(target: EventTarget | null, container: HTMLElement): boolean {
@@ -160,16 +183,24 @@ export class TngAutocompleteOverlay {
     const anchor = rectFromClientRect(anchorEl.getBoundingClientRect());
     const overlay = rectFromClientRect(panel.getBoundingClientRect());
     const viewport = viewportRect();
+    const offset = this.offset();
     const result = computeOverlayPosition({
       anchorRect: anchor,
       overlayRect: overlay,
       viewportRect: viewport,
       placement: this.placement(),
-      offset: this.offset(),
+      offset,
       collision: this.collision(),
     });
     panel.style.left = `${result.x}px`;
-    panel.style.top = `${result.y}px`;
+    panel.style.top = `${resolveAnchoredYWhenOffscreen(
+      result.y,
+      anchor,
+      overlay,
+      viewport,
+      result.side,
+      offset?.side ?? 0,
+    )}px`;
   }
 
   private setupRepositionListeners(): void {
@@ -246,6 +277,13 @@ export class TngAutocompleteOverlay {
     }
   }
 
+  private applyPortalledStacking(): void {
+    const panel = this.elRef.nativeElement;
+    const overlayZIndex = panel.style.getPropertyValue('--tng-autocomplete-overlay-z-index').trim();
+
+    panel.style.zIndex = overlayZIndex || '2';
+  }
+
   private clearPortalledThemeVars(): void {
     const panel = this.elRef.nativeElement;
 
@@ -266,8 +304,8 @@ export class TngAutocompleteOverlay {
     panel.style.position = 'fixed';
     panel.style.left = '0px';
     panel.style.top = '0px';
-    panel.style.zIndex = '1000';
     this.syncPortalledThemeVars();
+    this.applyPortalledStacking();
 
     queueMicrotask(() => {
       if (!this.autocomplete.open()) return;
@@ -277,16 +315,24 @@ export class TngAutocompleteOverlay {
       panel.style.minWidth = `${anchor.width}px`;
       const overlay = rectFromClientRect(panel.getBoundingClientRect());
       const viewport = viewportRect();
+      const offset = this.offset();
       const result = computeOverlayPosition({
         anchorRect: anchor,
         overlayRect: overlay,
         viewportRect: viewport,
         placement: this.placement(),
-        offset: this.offset(),
+        offset,
         collision: this.collision(),
       });
       panel.style.left = `${result.x}px`;
-      panel.style.top = `${result.y}px`;
+      panel.style.top = `${resolveAnchoredYWhenOffscreen(
+        result.y,
+        anchor,
+        overlay,
+        viewport,
+        result.side,
+        offset?.side ?? 0,
+      )}px`;
     });
 
     this.setupOutsidePointer();

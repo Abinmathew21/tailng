@@ -28,6 +28,7 @@
       0 18px 40px -28px rgba(2, 6, 23, 0.7),
       0 10px 22px -18px rgba(15, 23, 42, 0.55);
     --tng-autocomplete-overlay-max-width: min(92vw, 24rem);
+    --tng-autocomplete-overlay-z-index: 2;
     --tng-autocomplete-listbox-gap: 0.2rem;
     --tng-autocomplete-option-min-height: 2.3rem;
     --tng-autocomplete-option-py: 0.5rem;
@@ -167,6 +168,7 @@
       0 18px 40px -28px rgba(2, 6, 23, 0.7),
       0 10px 22px -18px rgba(15, 23, 42, 0.55);
     --tng-autocomplete-overlay-max-width: min(92vw, 24rem);
+    --tng-autocomplete-overlay-z-index: 2;
     --tng-autocomplete-listbox-gap: 0.2rem;
     --tng-autocomplete-option-min-height: 2.3rem;
     --tng-autocomplete-option-py: 0.5rem;
