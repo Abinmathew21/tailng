@@ -3,19 +3,21 @@ tng-autocomplete {
 }
 
 tng-autocomplete [data-slot='autocomplete-trigger-container'] {
-  display: flex;
-  box-sizing: border-box;
-  min-height: var(--tng-autocomplete-trigger-container-min-height);
   align-items: center;
-  gap: var(--tng-autocomplete-trigger-container-gap, 0.5rem);
-  padding-inline: var(--tng-autocomplete-trigger-container-px, 0.25rem);
+  background: var(--tng-autocomplete-surface, var(--tng-autocomplete-bg, transparent));
   border: 1px solid var(--tng-autocomplete-border-strong, var(--tng-autocomplete-border, transparent));
   border-radius: var(--tng-autocomplete-radius, 0.5rem);
-  background: var(--tng-autocomplete-surface, var(--tng-autocomplete-bg, transparent));
   box-shadow: var(--tng-autocomplete-shadow, none);
+  box-sizing: border-box;
+  display: flex;
+  gap: var(--tng-autocomplete-trigger-container-gap, 0.5rem);
+  min-height: var(--tng-autocomplete-trigger-container-min-height);
+  padding-inline: var(--tng-autocomplete-trigger-container-px, 0.25rem);
+  position: relative;
   transition:
     border-color 120ms var(--tng-autocomplete-ease, ease),
-    box-shadow 120ms var(--tng-autocomplete-ease, ease);
+    box-shadow 120ms var(--tng-autocomplete-ease, ease),
+    background-color 120ms var(--tng-autocomplete-ease, ease);
 }
 
 tng-autocomplete [data-slot='autocomplete-trigger-container']:hover:not(:has([aria-disabled='true'])) {
@@ -31,66 +33,102 @@ tng-autocomplete
 }
 
 tng-autocomplete [data-slot='autocomplete-trigger'] {
-  display: block;
-  box-sizing: border-box;
-  flex: 1 1 auto;
-  min-width: 0;
-  min-height: var(--tng-autocomplete-trigger-min-height);
-  padding: var(--tng-autocomplete-trigger-py) var(--tng-autocomplete-trigger-px);
-  border: none;
   background: transparent;
+  border: none;
+  box-sizing: border-box;
   color: var(--tng-autocomplete-fg, inherit);
+  display: block;
+  flex: 1 1 auto;
   font: inherit;
   line-height: 1.35;
+  min-height: var(--tng-autocomplete-trigger-min-height);
+  min-width: 0;
   outline: none;
+  padding: var(--tng-autocomplete-trigger-py) var(--tng-autocomplete-trigger-px);
+  width: 100%;
 }
 
 tng-autocomplete [data-slot='autocomplete-trigger']::placeholder {
   color: var(--tng-autocomplete-muted, currentColor);
 }
 
-tng-autocomplete [data-slot='autocomplete-icon'] {
-  flex: 0 0 auto;
-  color: var(--tng-autocomplete-muted, currentColor);
-  opacity: var(--tng-autocomplete-icon-opacity, 1);
-  font-size: var(--tng-autocomplete-icon-size, 0.75rem);
-  margin-inline-end: var(--tng-autocomplete-icon-margin-inline-end, 0);
-  cursor: pointer;
+/* Selected leading visual template */
+
+tng-autocomplete .tng-autocomplete-selected-visual {
+  align-items: center;
+  display: inline-flex;
+  inset-inline-start: var(--tng-autocomplete-selected-visual-inset-inline-start, 0.75rem);
+  max-width: var(--tng-autocomplete-selected-visual-max-width, 1.75rem);
+  min-width: 0;
+  overflow: hidden;
+  pointer-events: none;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
 }
 
+tng-autocomplete .tng-autocomplete-trigger--has-selected-visual {
+  caret-color: var(--tng-autocomplete-fg, inherit);
+  color: var(--tng-autocomplete-fg, inherit);
+  padding-inline-start: var(--tng-autocomplete-selected-input-padding-start, 2.65rem);
+}
+
+tng-autocomplete .tng-autocomplete-trigger--has-selected-visual::placeholder {
+  color: transparent;
+  opacity: 0;
+}
+
+tng-autocomplete [data-slot='autocomplete-icon'] {
+  color: var(--tng-autocomplete-muted, currentColor);
+  cursor: pointer;
+  flex: 0 0 auto;
+  font-size: var(--tng-autocomplete-icon-size, 0.75rem);
+  line-height: 1;
+  margin-inline-end: var(--tng-autocomplete-icon-margin-inline-end, 0);
+  opacity: var(--tng-autocomplete-icon-opacity, 1);
+}
+
+/* Overlay */
+
 [data-slot='autocomplete-overlay'] {
-  max-width: var(--tng-autocomplete-overlay-max-width, none);
+  background: var(--tng-autocomplete-overlay-bg, var(--tng-autocomplete-bg, #fff));
   border: 1px solid var(--tng-autocomplete-overlay-border, var(--tng-autocomplete-border, transparent));
   border-radius: var(--tng-autocomplete-overlay-radius, var(--tng-autocomplete-radius, 0.5rem));
-  background: var(--tng-autocomplete-overlay-bg, var(--tng-autocomplete-bg, #fff));
-  padding: var(--tng-autocomplete-overlay-padding, 0.25rem);
   box-shadow: var(--tng-autocomplete-overlay-shadow, 0 4px 12px rgba(0, 0, 0, 0.08));
+  max-width: var(--tng-autocomplete-overlay-max-width, none);
+  padding: var(--tng-autocomplete-overlay-padding, 0.25rem);
 }
 
 [data-slot='autocomplete-listbox'] {
+  display: grid;
+  gap: var(--tng-autocomplete-listbox-gap, 0);
   list-style: none;
   margin: 0;
   padding: 0;
-  display: grid;
-  gap: var(--tng-autocomplete-listbox-gap, 0);
 }
 
 [data-slot='autocomplete-option'] {
-  box-sizing: border-box;
-  display: grid;
-  align-items: start;
-  min-height: var(--tng-autocomplete-option-min-height);
-  padding: var(--tng-autocomplete-option-py, 0.5rem) var(--tng-autocomplete-option-px, 0.75rem);
+  align-items: center;
+  background: transparent;
   border: 1px solid transparent;
   border-radius: var(--tng-autocomplete-option-radius, var(--tng-autocomplete-radius, 0.375rem));
-  background: transparent;
+  box-sizing: border-box;
   color: var(--tng-autocomplete-fg, inherit);
   cursor: pointer;
+  display: grid;
+  min-height: var(--tng-autocomplete-option-min-height);
+  min-width: 0;
+  padding: var(--tng-autocomplete-option-py, 0.5rem) var(--tng-autocomplete-option-px, 0.75rem);
   transition:
     border-color 120ms var(--tng-autocomplete-ease, ease),
     background-color 120ms var(--tng-autocomplete-ease, ease),
     box-shadow 120ms var(--tng-autocomplete-ease, ease),
     opacity 120ms var(--tng-autocomplete-ease, ease);
+}
+
+[data-slot='autocomplete-option'] > * {
+  min-width: 0;
 }
 
 [data-slot='autocomplete-option'][data-active] {
@@ -126,18 +164,54 @@ tng-autocomplete [data-slot='autocomplete-icon'] {
 }
 
 [data-slot='autocomplete-option'][data-disabled] {
-  opacity: var(--tng-autocomplete-option-disabled-opacity, 0.5);
   cursor: not-allowed;
+  opacity: var(--tng-autocomplete-option-disabled-opacity, 0.5);
 }
 
 [data-slot='autocomplete-empty'] {
   box-sizing: border-box;
-  padding: var(--tng-autocomplete-option-py, 0.5rem) var(--tng-autocomplete-option-px, 0.75rem);
   color: var(--tng-autocomplete-muted, #64748b);
+  padding: var(--tng-autocomplete-option-py, 0.5rem) var(--tng-autocomplete-option-px, 0.75rem);
 }
 
 tng-autocomplete[data-disabled] [data-slot='autocomplete-trigger-container'] {
-  opacity: 0.5;
   cursor: not-allowed;
+  opacity: 0.5;
   pointer-events: none;
+}
+
+/* Rich option/value template helpers */
+
+tng-autocomplete .tng-autocomplete-option-content,
+tng-autocomplete .tng-autocomplete-selected-content,
+tng-autocomplete .flag-option,
+tng-autocomplete .flag-selected {
+  align-items: center;
+  display: inline-flex;
+  gap: var(--tng-autocomplete-rich-content-gap, 0.55rem);
+  min-width: 0;
+}
+
+tng-autocomplete .tng-autocomplete-option-label,
+tng-autocomplete .tng-autocomplete-selected-label,
+tng-autocomplete .flag-option > span:not(.flag-chip):not(.flag-code),
+tng-autocomplete .flag-selected > span:not(.flag-chip):not(.flag-code) {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+tng-autocomplete .flag-code {
+  color: var(--tng-autocomplete-muted, currentColor);
+  flex: 0 0 auto;
+  font-size: 0.75rem;
+  margin-inline-start: auto;
+  opacity: 0.85;
+  text-transform: uppercase;
+}
+
+tng-autocomplete .flag-chip {
+  flex: 0 0 auto;
+  margin-inline-start: 0;
 }

@@ -1,12 +1,30 @@
 <div tngAutocompleteTriggerContainer>
+  @if (selectedOptionTemplate() && selectedOption() && !primitive.open()) {
+    <span class="tng-autocomplete-selected-visual">
+      <ng-container
+        [ngTemplateOutlet]="selectedOptionTemplate()"
+        [ngTemplateOutletContext]="{
+          $implicit: selectedOption(),
+          option: selectedOption(),
+          value: primitive.value(),
+          label: selectedLabel()
+        }"
+      />
+    </span>
+  }
+
   <input
     tngAutocompleteTrigger
     type="text"
+    [class.tng-autocomplete-trigger--has-selected-visual]="
+      selectedOptionTemplate() && selectedOption() && !primitive.open()
+    "
     [value]="displayText()"
     (input)="onInput($event)"
     [attr.placeholder]="placeholder()"
     [attr.aria-label]="ariaLabel()"
   />
+
   <span tngAutocompleteIcon aria-hidden="true">
     {{ iconText() }}
   </span>
@@ -21,9 +39,26 @@
           [tngValue]="getOptionValue()(opt)"
           [disabled]="isOptionDisabled()(opt)"
         >
-          {{ getOptionLabel()(opt) }}
+          @if (optionTemplate()) {
+            <ng-container
+              [ngTemplateOutlet]="optionTemplate()"
+              [ngTemplateOutletContext]="{
+                $implicit: opt,
+                option: opt,
+                value: getOptionValue()(opt),
+                label: getOptionLabel()(opt),
+                selected: Object.is(getOptionValue()(opt), primitive.value()),
+                disabled: isOptionDisabled()(opt)
+              }"
+            />
+          } @else {
+            <span class="tng-autocomplete-option-label">
+              {{ getOptionLabel()(opt) }}
+            </span>
+          }
         </li>
       }
+
       @if (filteredOptions().length === 0) {
         <li data-slot="autocomplete-empty">No matches</li>
       }

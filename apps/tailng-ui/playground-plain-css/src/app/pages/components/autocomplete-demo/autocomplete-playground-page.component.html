@@ -80,5 +80,58 @@
         <code>{{ valueC() }}</code>
       </div>
     </section>
+
+    <section class="card">
+      <div class="card__head">
+        <h2 class="h2">3) Components Layer with flags</h2>
+        <p class="muted">Custom option and selected templates with country flags.</p>
+      </div>
+
+      <tng-autocomplete
+  class="component"
+  [options]="countries()"
+  [value]="valueFlag()"
+  (valueChange)="onFlagValueChange($event)"
+  [getOptionValue]="getCountryCodeValue"
+  [getOptionLabel]="getCountryLabel"
+  [trackBy]="trackCountryByCode"
+  placeholder="Type to search country…"
+  ariaLabel="Search country flags"
+>
+  <ng-template
+    #tngAutocompleteOptionTpl
+    let-option="option"
+    let-label="label"
+  >
+    <span class="flag-option">
+      <span
+        [class]="getFlagClass(option)"
+        aria-hidden="true"
+      ></span>
+
+      <span class="flag-label">{{ label }}</span>
+
+      <span class="flag-code">{{ option.code }}</span>
+    </span>
+  </ng-template>
+
+  <ng-template #tngAutocompleteSelectedTpl let-option="option">
+    <span
+      [class]="getFlagClass(option)"
+      aria-hidden="true"
+    ></span>
+  </ng-template>
+</tng-autocomplete>
+
+<div class="demo-value-row">
+  <span class="demo-value-label">value</span>
+  <code>{{ valueFlag() }}</code>
+</div>
+
+      <div class="debug">
+        <span class="pill">value</span>
+        <code>{{ valueFlag() }}</code>
+      </div>
+    </section>
   </section>
 </main>
