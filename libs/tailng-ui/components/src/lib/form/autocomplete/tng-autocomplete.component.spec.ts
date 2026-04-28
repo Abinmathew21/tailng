@@ -227,4 +227,38 @@ describe('tng-autocomplete component', () => {
     expect(trigger.getAttribute('aria-expanded')).toBe('false');
   });
 
+  it('keeps a programmatic value when the current filter hides that option', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [HostComponent],
+    }).createComponent(HostComponent);
+
+    fixture.detectChanges();
+
+    const host = fixture.componentInstance;
+    const trigger = fixture.nativeElement.querySelector(
+      '[data-slot="autocomplete-trigger"]'
+    ) as HTMLInputElement;
+
+    await openAutocomplete(fixture, trigger);
+
+    inputText(trigger, 'Option A');
+    fixture.detectChanges();
+    await Promise.resolve();
+    fixture.detectChanges();
+
+    expect(
+      Array.from(getOpenOverlay().querySelectorAll('[data-slot="autocomplete-option"]')).map((el) =>
+        el.textContent?.trim(),
+      ),
+    ).toEqual(['Option A']);
+
+    host.value.set('b');
+    fixture.detectChanges();
+    await Promise.resolve();
+    fixture.detectChanges();
+
+    expect(host.value()).toBe('b');
+    expect(trigger.value).toBe('Option B');
+  });
+
 });

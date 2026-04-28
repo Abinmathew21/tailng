@@ -40,7 +40,11 @@ export class AutocompletePlaygroundPageComponent implements OnInit {
   public readonly countries = signal<Country[]>([]);
   public readonly query = signal('');
   public readonly value = signal<string | null>(null);
+  public readonly queryHeadless = signal('');
+  public readonly valueHeadless = signal<string | null>(null);
+  public readonly openHeadless = signal(false);
   public readonly valueC = signal<string | null>(null);
+  public readonly valueCProgrammatic = signal<string | null>(null);
   public readonly valueFlag = signal<string | null>(null);
   public readonly open = signal(false);
 
@@ -63,6 +67,19 @@ export class AutocompletePlaygroundPageComponent implements OnInit {
 
   public readonly displayText = computed<string>(() => {
     return this.open() ? this.query() : (this.value() ?? '');
+  });
+
+  public readonly filteredHeadlessOptions = computed<Country[]>(() => {
+    const q = this.queryHeadless().toLowerCase().trim();
+    const list = this.countries();
+    if (!q) return list.slice(0, 50);
+    return list
+      .filter((c) => c.name.toLowerCase().includes(q))
+      .slice(0, 50);
+  });
+
+  public readonly displayHeadlessText = computed<string>(() => {
+    return this.openHeadless() ? this.queryHeadless() : (this.valueHeadless() ?? '');
   });
 
   public ngOnInit(): void {
@@ -95,5 +112,52 @@ export class AutocompletePlaygroundPageComponent implements OnInit {
     const single: string | null =
       typeof v === 'string' ? v : Array.isArray(v) && typeof v[0] === 'string' ? v[0] : null;
     this.valueFlag.set(single);
+  }
+
+  public onValueCChange(v: string | readonly string[] | null): void {
+    const single: string | null =
+      typeof v === 'string' ? v : Array.isArray(v) && typeof v[0] === 'string' ? v[0] : null;
+    this.valueC.set(single);
+  }
+
+  public onComponentProgrammaticValueChange(v: string | readonly string[] | null): void {
+    const single: string | null =
+      typeof v === 'string' ? v : Array.isArray(v) && typeof v[0] === 'string' ? v[0] : null;
+    this.valueCProgrammatic.set(single);
+  }
+
+  public onHeadlessInput(ev: Event): void {
+    const val = (ev.target as HTMLInputElement).value;
+    this.queryHeadless.set(val);
+  }
+
+  public onHeadlessValueChange(v: string | readonly string[] | null): void {
+    const single: string | null =
+      typeof v === 'string' ? v : Array.isArray(v) && typeof v[0] === 'string' ? v[0] : null;
+
+    if (single === null && this.valueHeadless() !== null) {
+      this.queryHeadless.set(this.valueHeadless() ?? '');
+      return;
+    }
+
+    this.valueHeadless.set(single);
+    this.queryHeadless.set(single ?? '');
+  }
+
+  public onHeadlessOpenChange(open: boolean): void {
+    this.openHeadless.set(open);
+    if (!open) {
+      this.queryHeadless.set(this.valueHeadless() ?? '');
+    }
+  }
+
+  public selectHeadlessCountry(name: 'India' | 'Japan' | 'Spain'): void {
+    this.openHeadless.set(false);
+    this.valueHeadless.set(name);
+    this.queryHeadless.set(name);
+  }
+
+  public selectComponentCountry(name: 'India' | 'Japan' | 'Spain'): void {
+    this.valueCProgrammatic.set(name);
   }
 }

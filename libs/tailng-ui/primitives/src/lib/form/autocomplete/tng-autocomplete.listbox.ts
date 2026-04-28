@@ -2,7 +2,10 @@ import { DestroyRef, Directive, effect, HostBinding, HostListener, inject, untra
 import { createTngIdFactory } from '@tailng-ui/cdk';
 import { TngListboxDirective } from '../listbox/listbox.directive';
 import { TngOptionDirective } from '../listbox/option.directive';
-import { TNG_LISTBOX_FORCE_TYPEAHEAD } from '../listbox/tokens';
+import {
+  TNG_LISTBOX_FORCE_TYPEAHEAD,
+  TNG_LISTBOX_PRESERVE_VALUE_ON_UNREGISTER,
+} from '../listbox/tokens';
 import { normalizeToSingle } from '../../internal/combobox';
 import type { TngAutocomplete } from './tng-autocomplete';
 import { TNG_AUTOCOMPLETE_LISTBOX } from './tng-autocomplete.listbox.tokens';
@@ -15,7 +18,8 @@ const createListboxId = createTngIdFactory('tng-autocomplete-listbox');
   selector: '[tngAutocompleteListbox]',
   providers: [
     { provide: TNG_AUTOCOMPLETE_LISTBOX, useExisting: TngAutocompleteListbox },
-    { provide: TNG_LISTBOX_FORCE_TYPEAHEAD, useValue: false }
+    { provide: TNG_LISTBOX_FORCE_TYPEAHEAD, useValue: false },
+    { provide: TNG_LISTBOX_PRESERVE_VALUE_ON_UNREGISTER, useValue: true },
   ],
   hostDirectives: [
     {

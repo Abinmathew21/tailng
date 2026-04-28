@@ -49,6 +49,9 @@ export const COMPONENTS_UTILITY_TAG_ROUTES: Routes = [
       },
       {
         path: 'ownable-install',
+        data: {
+          registrySlug: 'tag',
+        },
         pathMatch: 'full',
         redirectTo: '/ownable/utility/tag',
       },

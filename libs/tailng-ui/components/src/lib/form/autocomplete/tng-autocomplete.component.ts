@@ -1,6 +1,5 @@
 import { NgTemplateOutlet } from '@angular/common';
-import type {
-  TemplateRef} from '@angular/core';
+import type { TemplateRef } from '@angular/core';
 import {
   Component,
   ViewEncapsulation,
@@ -9,7 +8,9 @@ import {
   effect,
   inject,
   input,
+  output,
   signal,
+  untracked,
 } from '@angular/core';
 
 import {
@@ -61,7 +62,6 @@ export type TngAutocompleteSelectedContext<O, V> = {
       directive: TngAutocomplete,
       inputs: [
         'open',
-        'value',
         'disabled',
         'loading',
         'invalid',
@@ -69,7 +69,7 @@ export type TngAutocompleteSelectedContext<O, V> = {
         'descriptionId',
         'errorId',
       ],
-      outputs: ['openChange', 'valueChange'],
+      outputs: ['openChange'],
     },
   ],
   templateUrl: './tng-autocomplete.component.html',
@@ -86,6 +86,15 @@ export class TngAutocompleteComponent<O = unknown, V = unknown> {
     contentChild<TemplateRef<TngAutocompleteSelectedContext<O, V>>>('tngAutocompleteSelectedTpl');
 
   protected readonly Object = Object;
+
+  /**
+   * Controlled value for the styled component.
+   *
+   * `undefined` means uncontrolled mode. In uncontrolled mode, the internal primitive
+   * value is allowed to change without being reset by this wrapper.
+   */
+  public readonly value = input<V | null | undefined>(undefined);
+  public readonly valueChange = output<V | null>();
 
   public readonly options = input<readonly O[]>([]);
   public readonly placeholder = input<string>('Type to search…');
@@ -108,8 +117,8 @@ export class TngAutocompleteComponent<O = unknown, V = unknown> {
   );
 
   public readonly trackBy = input<TngAutocompleteTrackBy<O>>((_, opt) => {
-    const o = opt as Record<string, unknown> | null | undefined;
-    return o?.['value'] ?? o?.['id'] ?? opt;
+    const option = opt as Record<string, unknown> | null | undefined;
+    return option?.['value'] ?? option?.['id'] ?? opt;
   });
 
   public readonly iconText = input<string>('▾');
@@ -117,20 +126,99 @@ export class TngAutocompleteComponent<O = unknown, V = unknown> {
 
   protected readonly query = signal('');
 
-  public constructor() {
-    effect(() => {
-      const value = this.primitive.value();
-      const open = this.primitive.open();
+  private readonly userIsTyping = signal(false);
+  private readonly lastSyncedValue = signal<V | null>(null);
+  private readonly lastAppliedExternalValue = signal<V | null | undefined>(undefined);
 
-      if (!open) {
-        const option = this.findOption(value);
-        this.query.set(option ? this.getOptionLabel()(option) : '');
+  public constructor() {
+    this.setupExternalValueSyncEffect();
+    this.setupPrimitiveValueEmitEffect();
+    this.setupDisplaySyncEffects();
+  }
+
+  private setupExternalValueSyncEffect(): void {
+    effect(() => {
+      const externalValue = this.value();
+      const primitiveValue = untracked(() => this.primitive.value());
+
+      if (externalValue === undefined) {
+        return;
+      }
+
+      if (
+        Object.is(externalValue, this.lastAppliedExternalValue()) &&
+        Object.is(primitiveValue, externalValue)
+      ) {
+        return;
+      }
+
+      this.lastAppliedExternalValue.set(externalValue);
+
+      if (!Object.is(primitiveValue, externalValue)) {
+        this.primitive.value.set(externalValue);
       }
     });
   }
 
+  private setupPrimitiveValueEmitEffect(): void {
+    effect(() => {
+      const primitiveValue = this.primitive.value();
+      const externalValue = this.value();
+      const lastAppliedExternalValue = this.lastAppliedExternalValue();
+
+      if (externalValue !== undefined && !Object.is(externalValue, lastAppliedExternalValue)) {
+        return;
+      }
+
+      if (Object.is(primitiveValue, lastAppliedExternalValue)) {
+        return;
+      }
+
+      if (externalValue !== undefined && Object.is(primitiveValue, externalValue)) {
+        return;
+      }
+
+      this.valueChange.emit(primitiveValue);
+    });
+  }
+
+  private setupDisplaySyncEffects(): void {
+    effect(() => {
+      const value = this.selectedValue();
+      const open = this.primitive.open();
+      const userIsTyping = this.userIsTyping();
+      const lastSyncedValue = this.lastSyncedValue();
+
+      // Track these so query is refreshed after async option loading too.
+      const options = this.options();
+      const getOptionLabel = this.getOptionLabel();
+
+      const option = this.findOption(value, options);
+      const label = this.resolveDisplayLabel(value, option, getOptionLabel);
+
+      const valueChangedSinceLastSync = !Object.is(value, lastSyncedValue);
+
+      if (!open || !userIsTyping || valueChangedSinceLastSync) {
+        this.query.set(label);
+        this.lastSyncedValue.set(value);
+      }
+
+      if (valueChangedSinceLastSync) {
+        this.userIsTyping.set(false);
+      }
+    });
+
+    effect(() => {
+      if (!this.primitive.open()) {
+        this.userIsTyping.set(false);
+      }
+    });
+  }
+
+  protected readonly selectedValue = computed<V | null>(() => this.primitive.value());
+
   protected readonly selectedOption = computed<O | null>(() => {
-    const value = this.primitive.value();
+    const value = this.selectedValue();
 
     if (value === null) {
       return null;
@@ -147,11 +235,9 @@ export class TngAutocompleteComponent<O = unknown, V = unknown> {
     return null;
   });
 
-  protected readonly selectedLabel = computed<string>(() => {
-    const option = this.selectedOption();
-
-    return option ? this.getOptionLabel()(option) : '';
-  });
+  protected readonly selectedLabel = computed<string>(() =>
+    this.resolveDisplayLabel(this.selectedValue(), this.selectedOption(), this.getOptionLabel()),
+  );
 
   protected readonly filteredOptions = computed<readonly O[]>(() => {
     const query = this.query().toLowerCase().trim();
@@ -172,17 +258,34 @@ export class TngAutocompleteComponent<O = unknown, V = unknown> {
 
   protected onInput(event: Event): void {
     const value = (event.target as HTMLInputElement).value;
+    this.userIsTyping.set(true);
     this.query.set(value);
   }
 
-  private findOption(value: V | null): O | null {
+  private resolveDisplayLabel(
+    value: V | null,
+    option: O | null,
+    getOptionLabel: TngAutocompleteGetLabel<O>,
+  ): string {
+    if (option !== null) {
+      return getOptionLabel(option);
+    }
+
+    if (value === null || value === undefined) {
+      return '';
+    }
+
+    return String(value);
+  }
+
+  private findOption(value: V | null, options: readonly O[] = this.options()): O | null {
     if (value === null) {
       return null;
     }
 
     const getValue = this.getOptionValue();
 
-    for (const option of this.options()) {
+    for (const option of options) {
       if (Object.is(getValue(option), value)) {
         return option;
       }

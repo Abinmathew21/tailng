@@ -49,6 +49,9 @@ export const COMPONENTS_UTILITY_AVATAR_ROUTES: Routes = [
       },
       {
         path: 'ownable-install',
+        data: {
+          registrySlug: 'avatar',
+        },
         pathMatch: 'full',
         redirectTo: '/ownable/utility/avatar',
       },

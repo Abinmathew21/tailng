@@ -49,6 +49,9 @@ export const COMPONENTS_UTILITY_BADGE_ROUTES: Routes = [
       },
       {
         path: 'ownable-install',
+        data: {
+          registrySlug: 'badge',
+        },
         pathMatch: 'full',
         redirectTo: '/ownable/utility/badge',
       },

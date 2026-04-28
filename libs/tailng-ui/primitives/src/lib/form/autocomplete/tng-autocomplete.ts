@@ -7,11 +7,11 @@ import {
   model,
   output,
 } from '@angular/core';
-import { TNG_AUTOCOMPLETE } from './tng-autocomplete.tokens';
 import type { TngAutocompleteListboxApi } from './tng-autocomplete.listbox.types';
+import { TNG_AUTOCOMPLETE } from './tng-autocomplete.tokens';
 
 /** Emitted when user commits a free-form value (Enter with no active option). */
-export interface TngAutocompleteCreateEvent {
+export type TngAutocompleteCreateEvent = {
   query: string;
 }
 
@@ -39,9 +39,9 @@ export class TngAutocomplete<T = unknown> {
   private _activeId: string | null = null;
   private _listboxApi: TngAutocompleteListboxApi | null = null;
   /** Set by overlay before programmatic focus restore to prevent reopen-on-focus. */
-  _restoringFocus = false;
+  public _restoringFocus = false;
   /** Set by trigger when create is emitted; listbox effect skips sync to avoid overwriting consumer value. */
-  _createJustEmitted = false;
+  public _createJustEmitted = false;
 
   public readonly loading = input<boolean>(false);
   public readonly invalid = input<boolean>(false);
@@ -78,31 +78,31 @@ export class TngAutocomplete<T = unknown> {
     return this.invalid() ? '' : null;
   }
 
-  setContentId(id: string | null): void { this._contentId = id; }
-  getContentId(): string | null { return this._contentId; }
-  setListboxId(id: string | null): void { this._listboxId = id; }
-  getListboxId(): string | null { return this._listboxId; }
-  setActiveDescendantId(id: string | null): void { this._activeId = id; }
-  getActiveDescendantId(): string | null { return this._activeId; }
+  public setContentId(id: string | null): void { this._contentId = id; }
+  public getContentId(): string | null { return this._contentId; }
+  public setListboxId(id: string | null): void { this._listboxId = id; }
+  public getListboxId(): string | null { return this._listboxId; }
+  public setActiveDescendantId(id: string | null): void { this._activeId = id; }
+  public getActiveDescendantId(): string | null { return this._activeId; }
 
-  openSelect(): void {
+  public openSelect(): void {
     if (this.disabled()) return;
     this.open.set(true);
   }
 
-  close(): void { this.open.set(false); }
+  public close(): void { this.open.set(false); }
 
-  selectValue(value: T): void {
+  public selectValue(value: T): void {
     if (this.disabled()) return;
     this.value.set(value);
     this.close();
   }
 
-  setListboxApi(api: TngAutocompleteListboxApi | null): void {
+  public setListboxApi(api: TngAutocompleteListboxApi | null): void {
     this._listboxApi = api;
   }
 
-  getListboxApi(): TngAutocompleteListboxApi | null {
+  public getListboxApi(): TngAutocompleteListboxApi | null {
     return this._listboxApi;
   }
 }

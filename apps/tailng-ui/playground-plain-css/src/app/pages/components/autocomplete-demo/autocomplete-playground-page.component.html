@@ -68,7 +68,7 @@
         class="component"
         [options]="countries()"
         [value]="valueC()"
-        (valueChange)="valueC.set($event)"
+        (valueChange)="onValueCChange($event)"
         [getOptionValue]="getCountryValue"
         [getOptionLabel]="getCountryLabel"
         placeholder="Type to search…"
@@ -131,6 +131,89 @@
       <div class="debug">
         <span class="pill">value</span>
         <code>{{ valueFlag() }}</code>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="card__head">
+        <h2 class="h2">4) Headless autocomplete with programmatic selection</h2>
+        <p class="muted">Pick from list or set value via quick country buttons.</p>
+      </div>
+
+      <div class="demo-actions">
+        <button type="button" class="demo-btn" (click)="selectHeadlessCountry('India')">India</button>
+        <button type="button" class="demo-btn" (click)="selectHeadlessCountry('Japan')">Japan</button>
+        <button type="button" class="demo-btn" (click)="selectHeadlessCountry('Spain')">Spain</button>
+      </div>
+
+      <section
+        tngAutocomplete
+        class="autocomplete"
+        aria-label="Headless country autocomplete"
+        [open]="openHeadless()"
+        (openChange)="onHeadlessOpenChange($event)"
+        [value]="valueHeadless()"
+        (valueChange)="onHeadlessValueChange($event)"
+      >
+        <div tngAutocompleteTriggerContainer>
+          <input
+            tngAutocompleteTrigger
+            type="text"
+            [value]="displayHeadlessText()"
+            (input)="onHeadlessInput($event)"
+            placeholder="Type to search country…"
+          />
+          <span tngAutocompleteIcon aria-hidden="true">▾</span>
+        </div>
+
+        <div tngAutocompleteContent>
+          <div tngAutocompleteOverlay>
+            <ul tngAutocompleteListbox [value]="valueHeadless()">
+              @for (c of filteredHeadlessOptions(); track c.code) {
+                <li tngAutocompleteOption [tngValue]="c.name">
+                  {{ c.name }}
+                </li>
+              }
+              @if (filteredHeadlessOptions().length === 0) {
+                <li data-slot="autocomplete-empty">No matches</li>
+              }
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <div class="debug">
+        <span class="pill">value</span>
+        <code>{{ valueHeadless() }}</code>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="card__head">
+        <h2 class="h2">5) Component autocomplete with programmatic selection</h2>
+        <p class="muted">Same quick country buttons using the wrapper component.</p>
+      </div>
+
+      <div class="demo-actions">
+        <button type="button" class="demo-btn" (click)="selectComponentCountry('India')">India</button>
+        <button type="button" class="demo-btn" (click)="selectComponentCountry('Japan')">Japan</button>
+        <button type="button" class="demo-btn" (click)="selectComponentCountry('Spain')">Spain</button>
+      </div>
+
+      <tng-autocomplete
+        class="component"
+        [options]="countries()"
+        [value]="valueCProgrammatic()"
+        (valueChange)="onComponentProgrammaticValueChange($event)"
+        [getOptionValue]="getCountryValue"
+        [getOptionLabel]="getCountryLabel"
+        placeholder="Type to search country…"
+        aria-label="Programmatic country selection (component)"
+      />
+
+      <div class="debug">
+        <span class="pill">value</span>
+        <code>{{ valueCProgrammatic() }}</code>
       </div>
     </section>
   </section>

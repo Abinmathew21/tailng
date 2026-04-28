@@ -31,6 +31,99 @@
     </app-docs-example-tabs-section>
   </section>
 
+  <section id="signal-form-usage" class="autocomplete-examples__section">
+    <app-docs-example-tabs-section
+      heading="Signal form usage"
+      description="Use Angular Signal Forms with autocomplete controls for searchable field selection."
+      ariaLabel="Autocomplete signal form usage example"
+      tabListAriaLabel="Autocomplete signal form usage variants"
+      [defaultValue]="'live-demo'"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template appDocsExampleVariant value="live-demo" label="Live demo" panelTitle="Autocomplete signal form usage">
+        <form class="docs-autocomplete-signal-form-example" (submit)="onSignalFormSubmit($event)">
+          <header class="docs-autocomplete-signal-form-example__header">
+            <span class="docs-autocomplete-signal-form-example__eyebrow">Signal form</span>
+            <p class="docs-autocomplete-signal-form-example__copy">
+              Uses Angular Signal Forms (`form(...)` + `FormField`) with autocomplete-driven selections.
+            </p>
+          </header>
+        
+          <div class="docs-autocomplete-signal-form-example__debug">
+            <label class="docs-autocomplete-signal-form-example__debug-field">
+              <span>Country value</span>
+              <input
+                class="docs-autocomplete-signal-form-example__native-field"
+                type="text"
+                [formField]="signalForm.country"
+              />
+            </label>
+        
+            <label class="docs-autocomplete-signal-form-example__debug-field">
+              <span>Currency value</span>
+              <input
+                class="docs-autocomplete-signal-form-example__native-field"
+                type="text"
+                [formField]="signalForm.currency"
+              />
+            </label>
+          </div>
+        
+          <div class="docs-autocomplete-signal-form-example__fields">
+            <div class="docs-autocomplete-signal-form-example__field">
+              <span class="docs-autocomplete-signal-form-example__label">Country</span>
+              <tng-autocomplete
+                [options]="signalFormCountries"
+                [value]="signalFormData().country"
+                (valueChange)="onSignalFormCountryChange($event)"
+                [getOptionValue]="getSignalFormCountryValue"
+                [getOptionLabel]="getSignalFormCountryLabel"
+                placeholder="Search country"
+                ariaLabel="Signal form country"
+              >
+                <ng-template #tngAutocompleteOptionTpl let-option="option" let-label="label">
+                  <span class="flag-option">
+                    <span [class]="getFlagClass(option)" aria-hidden="true"></span>
+                    <span class="flag-label">{{ label }}</span>
+                  </span>
+                </ng-template>
+        
+                <ng-template #tngAutocompleteSelectedTpl let-option="option">
+                  <span [class]="getFlagClass(option)" aria-hidden="true"></span>
+                </ng-template>
+              </tng-autocomplete>
+            </div>
+        
+            <div class="docs-autocomplete-signal-form-example__field">
+              <span class="docs-autocomplete-signal-form-example__label">Currency</span>
+              <tng-autocomplete
+                [options]="signalFormCurrencies"
+                [value]="signalFormData().currency"
+                (valueChange)="onSignalFormCurrencyChange($event)"
+                [getOptionValue]="getSignalFormCurrencyValue"
+                [getOptionLabel]="getSignalFormCurrencyLabel"
+                placeholder="Search currency"
+                ariaLabel="Signal form currency"
+              ></tng-autocomplete>
+            </div>
+          </div>
+        
+          <div class="docs-autocomplete-signal-form-example__footer">
+            <button class="docs-autocomplete-signal-form-example__submit" type="submit">
+              Submit
+            </button>
+          </div>
+        
+          @if (signalFormSubmitted()) {
+            <p class="docs-autocomplete-signal-form-example__summary">
+              {{ signalFormSubmittedSummary() }}
+            </p>
+          }
+        </form>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
   <section id="country-directory" class="autocomplete-examples__section">
     <app-docs-example-tabs-section
       heading="Country directory"

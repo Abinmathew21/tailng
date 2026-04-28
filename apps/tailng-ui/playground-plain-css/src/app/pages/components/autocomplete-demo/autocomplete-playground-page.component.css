@@ -138,3 +138,20 @@
   color: var(--tng-semantic-foreground-muted);
   text-transform: uppercase;
 }
+
+.demo-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.demo-btn {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  background: var(--tng-semantic-background-base);
+  color: var(--tng-semantic-foreground-primary);
+  border-radius: 0.55rem;
+  padding: 0.35rem 0.65rem;
+  font: inherit;
+  font-size: 0.8rem;
+  cursor: pointer;
+}

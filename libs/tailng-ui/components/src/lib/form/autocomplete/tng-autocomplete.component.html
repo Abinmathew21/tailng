@@ -6,7 +6,7 @@
         [ngTemplateOutletContext]="{
           $implicit: selectedOption(),
           option: selectedOption(),
-          value: primitive.value(),
+          value: selectedValue(),
           label: selectedLabel()
         }"
       />
@@ -32,7 +32,7 @@
 
 <div tngAutocompleteContent>
   <div tngAutocompleteOverlay>
-    <ul tngAutocompleteListbox [value]="primitive.value()">
+    <ul tngAutocompleteListbox [value]="selectedValue()">
       @for (opt of filteredOptions(); track trackBy()($index, opt)) {
         <li
           tngAutocompleteOption
@@ -47,7 +47,7 @@
                 option: opt,
                 value: getOptionValue()(opt),
                 label: getOptionLabel()(opt),
-                selected: Object.is(getOptionValue()(opt), primitive.value()),
+                selected: Object.is(getOptionValue()(opt), selectedValue()),
                 disabled: isOptionDisabled()(opt)
               }"
             />

@@ -1,6 +1,9 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, computed, inject, signal, type OnDestroy } from '@angular/core';
+import { FormField, form } from '@angular/forms/signals';
 import { TngAutocompleteComponent } from '@tailng-ui/components';
+import { COUNTRY_LIST } from '../../../../../../shared/data/country-list';
+import { CURRENCY_LIST } from '../../../../../../shared/data/currency-list';
 import type { DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
 import {
   DocsExampleTabsSectionComponent,
@@ -13,16 +16,37 @@ import {
 } from '../../../../../../shared/util';
 import { stackblitzTailwindUrl, stackblitzVanillaUrl } from '../../autocomplete.util';
 
-interface CountryOption {
+type CountryOption = {
   readonly code: string;
   readonly label: string;
-}
+};
 
-interface OwnerOption {
+type OwnerOption = {
   readonly id: string;
   readonly name: string;
   readonly disabled?: boolean;
-}
+};
+
+type CurrencyOption = {
+  readonly code: string;
+  readonly label: string;
+};
+
+type AutocompleteSignalFormData = {
+  readonly country: string;
+  readonly currency: string;
+};
+
+type SharedCountryRecord = {
+  readonly code: string;
+  readonly name: string;
+  readonly currencycode: string;
+};
+
+type SharedCurrencyRecord = {
+  readonly code: string;
+  readonly name: string;
+};
 
 const COUNTRY_OPTIONS: readonly CountryOption[] = Object.freeze([
   { code: 'ca', label: 'Canada' },
@@ -40,6 +64,36 @@ const OWNER_OPTIONS: readonly OwnerOption[] = Object.freeze([
   { id: 'omar', name: 'Omar Aziz', disabled: true },
   { id: 'sanjay', name: 'Sanjay Patel' },
 ]);
+
+const CURRENCY_OPTIONS: readonly CurrencyOption[] = Object.freeze([
+  { code: 'cad', label: 'Canadian Dollar (CAD)' },
+  { code: 'eur', label: 'Euro (EUR)' },
+  { code: 'inr', label: 'Indian Rupee (INR)' },
+  { code: 'jpy', label: 'Japanese Yen (JPY)' },
+  { code: 'mxn', label: 'Mexican Peso (MXN)' },
+  { code: 'usd', label: 'US Dollar (USD)' },
+]);
+
+const SIGNAL_FORM_COUNTRIES: readonly CountryOption[] = Object.freeze(
+  (COUNTRY_LIST as readonly SharedCountryRecord[]).map((country) => ({
+    code: country.code.toLowerCase(),
+    label: country.name,
+  })),
+);
+
+const SIGNAL_FORM_CURRENCIES: readonly CurrencyOption[] = Object.freeze(
+  (CURRENCY_LIST as readonly SharedCurrencyRecord[]).map((currency) => ({
+    code: currency.code.toLowerCase(),
+    label: `${currency.name} (${currency.code})`,
+  })),
+);
+
+const COUNTRY_TO_CURRENCY_CODE: Readonly<Record<string, string>> = Object.freeze(
+  (COUNTRY_LIST as readonly SharedCountryRecord[]).reduce<Record<string, string>>((acc, country) => {
+    acc[country.code.toLowerCase()] = country.currencycode.toLowerCase();
+    return acc;
+  }, {}),
+);
 
 const COUNTRY_PLAIN_TS_CODE = String.raw`import { Component, computed, signal } from '@angular/core';
 import { TngAutocompleteComponent } from '@tailng-ui/components';
@@ -393,16 +447,27 @@ function resolveOwnerLabel(value: string | null): string {
   return OWNER_OPTIONS.find((owner) => owner.id === value)?.name ?? 'none';
 }
 
+function resolveSignalFormCountryLabel(value: string | null): string {
+  return SIGNAL_FORM_COUNTRIES.find((country) => country.code === value)?.label ?? 'none';
+}
+
+function resolveSignalFormCurrencyLabel(value: string | null): string {
+  return SIGNAL_FORM_CURRENCIES.find((currency) => currency.code === value)?.label ?? 'none';
+}
+
 @Component({
   selector: 'app-autocomplete-examples-page',
   imports: [
     TngAutocompleteComponent,
+    FormField,
     DocsExampleTabsSectionComponent,
     DocsExampleVariantDirective,
     DocsFormDemoShellComponent,
   ],
   templateUrl: './autocomplete-examples-page.component.html',
-  styleUrl: './autocomplete-examples-page.component.css',
+  styleUrls: ['./autocomplete-examples-page.component.css',
+    '../../../../../../shared/styles/flags.css',
+  ],
 })
 export class AutocompleteExamplesPageComponent implements OnDestroy {
   private readonly documentRef = inject(DOCUMENT);
@@ -419,22 +484,37 @@ export class AutocompleteExamplesPageComponent implements OnDestroy {
   protected readonly stackblitzTailwindUrl = stackblitzTailwindUrl;
   protected readonly countries = COUNTRY_OPTIONS;
   protected readonly releaseOwners = OWNER_OPTIONS;
-  protected readonly getCountryValue = (country: CountryOption) => country.code;
-  protected readonly getCountryLabel = (country: CountryOption) => country.label;
-  protected readonly getOwnerValue = (owner: OwnerOption) => owner.id;
-  protected readonly getOwnerLabel = (owner: OwnerOption) => owner.name;
-  protected readonly isOwnerDisabled = (owner: OwnerOption) => owner.disabled === true;
+  protected readonly getCountryValue = (country: CountryOption): string => country.code;
+  protected readonly getCountryLabel = (country: CountryOption): string => country.label;
+  protected readonly getOwnerValue = (owner: OwnerOption): string => owner.id;
+  protected readonly getOwnerLabel = (owner: OwnerOption): string => owner.name;
+  protected readonly isOwnerDisabled = (owner: OwnerOption): boolean => owner.disabled === true;
+  protected readonly currencies = CURRENCY_OPTIONS;
+  protected readonly getCurrencyValue = (currency: CurrencyOption): string => currency.code;
+  protected readonly getCurrencyLabel = (currency: CurrencyOption): string => currency.label;
+  protected readonly signalFormCountries = SIGNAL_FORM_COUNTRIES;
+  protected readonly signalFormCurrencies = SIGNAL_FORM_CURRENCIES;
+  protected readonly getSignalFormCountryValue = (country: CountryOption): string => country.code;
+  protected readonly getSignalFormCountryLabel = (country: CountryOption): string => country.label;
+  protected readonly getSignalFormCurrencyValue = (currency: CurrencyOption): string => currency.code;
+  protected readonly getSignalFormCurrencyLabel = (currency: CurrencyOption): string => currency.label;
 
   protected readonly countryPlainValue = signal<string | null>('in');
   protected readonly countryTailwindValue = signal<string | null>('jp');
   protected readonly ownerPlainValue = signal<string | null>('abigail');
   protected readonly ownerTailwindValue = signal<string | null>('mina');
+  protected readonly signalFormData = signal<AutocompleteSignalFormData>({
+    country: 'in',
+    currency: 'inr',
+  });
+  protected readonly signalForm = form(this.signalFormData);
+  protected readonly signalFormSubmitted = signal(false);
+  protected readonly signalFormSubmittedSummary = signal('');
 
   protected readonly countryPlainSummary = computed(() => resolveCountryLabel(this.countryPlainValue()));
   protected readonly countryTailwindSummary = computed(() => resolveCountryLabel(this.countryTailwindValue()));
   protected readonly ownerPlainSummary = computed(() => resolveOwnerLabel(this.ownerPlainValue()));
   protected readonly ownerTailwindSummary = computed(() => resolveOwnerLabel(this.ownerTailwindValue()));
-
   protected readonly countryPlainCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
     { value: 'ts', label: 'TS', language: 'ts', title: 'autocomplete-country-plain.component.ts', code: COUNTRY_PLAIN_TS_CODE },
     { value: 'html', label: 'HTML', language: 'html', title: 'autocomplete-country-plain.component.html', code: COUNTRY_PLAIN_HTML_CODE },
@@ -473,6 +553,41 @@ export class AutocompleteExamplesPageComponent implements OnDestroy {
 
   protected onOwnerTailwindChange(value: unknown): void {
     this.ownerTailwindValue.set(typeof value === 'string' ? value : null);
+  }
+
+  protected readonly getFlagClass = (country: CountryOption): string =>
+
+    `flag-chip country-flag country-flag--${country.code.toLowerCase()}`;
+
+  protected onSignalFormCountryChange(value: unknown): void {
+    const countryCode = typeof value === 'string' ? value : '';
+    const currencyCode = COUNTRY_TO_CURRENCY_CODE[countryCode] ?? '';
+
+    this.signalFormData.update((current) => ({
+      ...current,
+      country: countryCode,
+      currency: currencyCode,
+    }));
+  }
+
+  protected onSignalFormCurrencyChange(value: unknown): void {
+    if (typeof value !== 'string') {
+      return;
+    }
+
+    this.signalFormData.update((current) => ({
+      ...current,
+      currency: value,
+    }));
+  }
+
+  protected onSignalFormSubmit(event: Event): void {
+    event.preventDefault();
+    const { country, currency } = this.signalFormData();
+    this.signalFormSubmittedSummary.set(
+      `Country: ${resolveSignalFormCountryLabel(country)} | Currency: ${resolveSignalFormCurrencyLabel(currency)}`,
+    );
+    this.signalFormSubmitted.set(true);
   }
 
   public ngOnDestroy(): void {

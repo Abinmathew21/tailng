@@ -48,6 +48,9 @@ export const COMPONENTS_NAVIGATION_TABS_ROUTES: Routes = [
       },
       {
         path: 'ownable-install',
+        data: {
+          registrySlug: 'tabs',
+        },
         pathMatch: 'full',
         redirectTo: '/ownable/navigation/tabs',
       },

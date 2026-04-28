@@ -306,7 +306,7 @@ describe('tailng-ui signal forms interop', () => {
     expect(host.assigneeModel().owner).toBe('charlie');
   });
 
-  it('does not keep tng-autocomplete synced after external signal form updates yet', () => {
+  it('binds tng-autocomplete through its host directive model signal', () => {
     const fixture = TestBed.configureTestingModule({
       imports: [AutocompleteSignalFormsHostComponent],
     }).createComponent(AutocompleteSignalFormsHostComponent);
@@ -322,8 +322,8 @@ describe('tailng-ui signal forms interop', () => {
 
     host.assigneeModel.set({ owner: 'bravo' });
     fixture.detectChanges();
-    expect(host.assigneeModel().owner).toBe(null);
-    expect(autocompletePrimitive.value()).toBe(null);
+    expect(host.assigneeModel().owner).toBe('bravo');
+    expect(autocompletePrimitive.value()).toBe('bravo');
   });
 
   it('binds tng-multiselect through its host directive model signal', () => {
