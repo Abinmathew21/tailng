@@ -6,7 +6,11 @@ import {
   TngStepperTrigger,
 } from '@tailng-ui/primitives';
 import { describe, expect, it } from 'vitest';
-import { TngStepperComponent } from '../tng-stepper.component';
+import {
+  TngStepperComponent,
+  TngStepperItemComponent,
+  type TngStepperStep,
+} from '../tng-stepper.component';
 
 @Component({
   imports: [TngStepperComponent],
@@ -83,6 +87,39 @@ class StepperWrapperHeadlessHostComponent {
   public readonly valueChanges: unknown[] = [];
 }
 
+@Component({
+  imports: [TngStepperComponent],
+  template: `
+    <tng-stepper
+      data-testid="wrapper-steps"
+      defaultValue="shipping"
+      linear
+      [steps]="steps()"
+      (valueChange)="valueChanges.push($event)"
+    />
+  `,
+})
+class StepperWrapperStepsHostComponent {
+  public readonly steps = signal<readonly TngStepperStep[]>([
+    { value: 'cart', label: 'Cart', completed: true },
+    { value: 'shipping', label: 'Shipping', description: 'Choose a delivery address' },
+    { value: 'payment', label: 'Payment' },
+  ]);
+  public readonly valueChanges: unknown[] = [];
+}
+
+@Component({
+  imports: [TngStepperComponent, TngStepperItemComponent],
+  template: `
+    <tng-stepper data-testid="wrapper-items" defaultValue="shipping">
+      <tng-stepper-item value="cart" label="Cart" completed />
+      <tng-stepper-item value="shipping" label="Shipping" />
+      <tng-stepper-item value="payment" label="Payment" />
+    </tng-stepper>
+  `,
+})
+class StepperWrapperItemsHostComponent {}
+
 function click(el: HTMLElement): MouseEvent {
   const event = new MouseEvent('click', { bubbles: true, cancelable: true });
   el.dispatchEvent(event);
@@ -92,6 +129,10 @@ function click(el: HTMLElement): MouseEvent {
 describe('tng-stepper component', () => {
   it('exports the stepper component', () => {
     expect(typeof TngStepperComponent).toBe('function');
+  });
+
+  it('exports the stepper item component', () => {
+    expect(typeof TngStepperItemComponent).toBe('function');
   });
 
   it('applies wrapper class and primitive root hooks on the host', () => {
@@ -188,5 +229,59 @@ describe('tng-stepper component', () => {
     click(draft!);
     fixture.detectChanges();
     expect(fixture.componentInstance.valueChanges).toEqual(['draft']);
+  });
+
+  it('renders styled headless items from the steps input', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [StepperWrapperStepsHostComponent],
+    }).createComponent(StepperWrapperStepsHostComponent);
+    fixture.detectChanges();
+
+    const host = fixture.nativeElement as HTMLElement;
+    const wrapper = host.querySelector('[data-testid="wrapper-steps"]');
+    const items = Array.from(
+      host.querySelectorAll<HTMLElement>('[data-testid="wrapper-steps"] tng-stepper-item'),
+    );
+    const triggers = Array.from(
+      host.querySelectorAll<HTMLButtonElement>('[data-testid="wrapper-steps"] [data-slot="stepper-trigger"]'),
+    );
+    const paymentTrigger = triggers[2];
+
+    expect(wrapper?.getAttribute('data-linear')).toBe('');
+    expect(items.length).toBe(3);
+    expect(items[0]?.getAttribute('data-state')).toBe('completed');
+    expect(items[1]?.getAttribute('data-state')).toBe('current');
+    expect(items[1]?.textContent).toContain('Choose a delivery address');
+    expect(triggers[1]?.getAttribute('aria-current')).toBe('step');
+    expect(paymentTrigger?.getAttribute('aria-disabled')).toBe('true');
+
+    click(paymentTrigger);
+    fixture.detectChanges();
+
+    expect(fixture.componentInstance.valueChanges).toEqual([]);
+  });
+
+  it('supports declarative styled stepper item children', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [StepperWrapperItemsHostComponent],
+    }).createComponent(StepperWrapperItemsHostComponent);
+    fixture.detectChanges();
+
+    const host = fixture.nativeElement as HTMLElement;
+    const items = Array.from(
+      host.querySelectorAll<HTMLElement>('[data-testid="wrapper-items"] tng-stepper-item'),
+    );
+    const triggers = Array.from(
+      host.querySelectorAll<HTMLButtonElement>('[data-testid="wrapper-items"] [data-slot="stepper-trigger"]'),
+    );
+
+    expect(items.length).toBe(3);
+    expect(items[0]?.getAttribute('data-state')).toBe('completed');
+    expect(items[1]?.getAttribute('data-state')).toBe('current');
+    expect(items[2]?.getAttribute('data-state')).toBe('upcoming');
+    expect(triggers[1]?.getAttribute('aria-current')).toBe('step');
+    expect(
+      triggers.map((trigger) => trigger.querySelector('[data-slot="stepper-label"]')?.textContent?.trim()),
+    ).toEqual(['Cart', 'Shipping', 'Payment']);
   });
 });

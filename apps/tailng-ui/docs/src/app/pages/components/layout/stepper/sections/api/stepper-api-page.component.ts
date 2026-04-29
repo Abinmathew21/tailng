@@ -24,18 +24,21 @@ export class StepperApiPageComponent {
   ].join('\n');
 
   protected readonly componentAttachmentCode = [
+    "protected readonly steps: readonly TngStepperStep[] = [",
+    "  { value: 'cart', label: 'Cart', completed: true },",
+    "  { value: 'shipping', label: 'Shipping' },",
+    "  { value: 'payment', label: 'Payment' },",
+    '];',
+    '',
+    '<tng-stepper ariaLabel="Checkout steps" defaultValue="shipping" [steps]="steps" />',
+    '',
+  ].join('\n');
+
+  protected readonly componentItemsCode = [
     '<tng-stepper ariaLabel="Checkout steps" defaultValue="shipping" linear>',
-    '  <ol>',
-    '    <li tngStepperItem value="cart" label="Cart" completed>',
-    '      <button tngStepperTrigger><span tngStepperLabel>Cart</span></button>',
-    '    </li>',
-    '    <li tngStepperItem value="shipping" label="Shipping">',
-    '      <button tngStepperTrigger><span tngStepperLabel>Shipping</span></button>',
-    '    </li>',
-    '    <li tngStepperItem value="payment" label="Payment">',
-    '      <button tngStepperTrigger><span tngStepperLabel>Payment</span></button>',
-    '    </li>',
-    '  </ol>',
+    '  <tng-stepper-item value="cart" label="Cart" completed />',
+    '  <tng-stepper-item value="shipping" label="Shipping" />',
+    '  <tng-stepper-item value="payment" label="Payment" />',
     '</tng-stepper>',
     '',
   ].join('\n');

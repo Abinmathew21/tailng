@@ -1,1 +1,33 @@
-<ng-content />
+@if (renderedSteps.length > 0) {
+  @if (ordered()) {
+    <ol class="tng-stepper__list">
+      @for (step of renderedSteps; track step.value) {
+        <tng-stepper-item
+          [value]="step.value"
+          [label]="step.label"
+          [description]="step.description ?? null"
+          [completed]="step.completed ?? false"
+          [optional]="step.optional ?? false"
+          [disabled]="step.disabled ?? false"
+          [error]="step.error ?? false"
+        />
+      }
+    </ol>
+  } @else {
+    <ul class="tng-stepper__list">
+      @for (step of renderedSteps; track step.value) {
+        <tng-stepper-item
+          [value]="step.value"
+          [label]="step.label"
+          [description]="step.description ?? null"
+          [completed]="step.completed ?? false"
+          [optional]="step.optional ?? false"
+          [disabled]="step.disabled ?? false"
+          [error]="step.error ?? false"
+        />
+      }
+    </ul>
+  }
+} @else {
+  <ng-content />
+}

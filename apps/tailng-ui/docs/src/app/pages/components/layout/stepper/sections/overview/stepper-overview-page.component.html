@@ -3,12 +3,12 @@
     <h2 class="stepper-overview-title">Stepper overview</h2>
     <p class="stepper-overview-lead">
       Stepper wraps the headless root with a baseline shell and an accessible label, while the
-      projected headless parts manage value, state attributes, and keyboard focus.
+      generated or projected styled items manage value, state attributes, and keyboard focus.
     </p>
     <h3>Imports</h3>
     <p>
-      Import the wrapper for the styled host, then compose it with the headless item and trigger
-      directives.
+      Import the wrapper for <code>[steps]</code>. Add <code>TngStepperItemComponent</code> when
+      composing declarative item children.
     </p>
     <tng-code-block
       [code]="componentImportCode"
@@ -26,7 +26,7 @@
     <app-docs-example-tabs-section
       id="progress-indicator-variants"
       heading="Progress indicator variants"
-      description="The same wrapper shell rendered through local CSS or a Tailwind utility shell around projected headless step rows."
+      description="The same wrapper shell rendered from a steps array or declarative item children."
       ariaLabel="Stepper progress indicator variants"
       tabListAriaLabel="Stepper styles"
       defaultValue="plain-css"
@@ -40,28 +40,7 @@
         [codeTabs]="plainCssCodeTabs"
       >
         <div class="stepper-preview-shell stepper-preview-shell--plain">
-          <tng-stepper ariaLabel="Release pipeline" defaultValue="review">
-            <ol class="stepper-preview-list">
-              <li tngStepperItem value="draft" label="Draft" completed class="stepper-preview-item">
-                <button tngStepperTrigger class="stepper-preview-trigger">
-                  <span class="stepper-preview-dot">1</span>
-                  <span tngStepperLabel>Draft</span>
-                </button>
-              </li>
-              <li tngStepperItem value="review" label="Review" class="stepper-preview-item">
-                <button tngStepperTrigger class="stepper-preview-trigger">
-                  <span class="stepper-preview-dot">2</span>
-                  <span tngStepperLabel>Review</span>
-                </button>
-              </li>
-              <li tngStepperItem value="publish" label="Publish" class="stepper-preview-item">
-                <button tngStepperTrigger class="stepper-preview-trigger">
-                  <span class="stepper-preview-dot">3</span>
-                  <span tngStepperLabel>Publish</span>
-                </button>
-              </li>
-            </ol>
-          </tng-stepper>
+          <tng-stepper ariaLabel="Release pipeline" defaultValue="review" [steps]="releaseSteps" />
         </div>
       </ng-template>
 
@@ -76,26 +55,9 @@
           class="stepper-preview-shell rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
         >
           <tng-stepper ariaLabel="Release pipeline" defaultValue="review">
-            <ol class="stepper-preview-list">
-              <li tngStepperItem value="draft" label="Draft" completed class="stepper-preview-item">
-                <button tngStepperTrigger class="stepper-preview-trigger">
-                  <span class="stepper-preview-dot">1</span>
-                  <span tngStepperLabel>Draft</span>
-                </button>
-              </li>
-              <li tngStepperItem value="review" label="Review" class="stepper-preview-item">
-                <button tngStepperTrigger class="stepper-preview-trigger">
-                  <span class="stepper-preview-dot">2</span>
-                  <span tngStepperLabel>Review</span>
-                </button>
-              </li>
-              <li tngStepperItem value="publish" label="Publish" class="stepper-preview-item">
-                <button tngStepperTrigger class="stepper-preview-trigger">
-                  <span class="stepper-preview-dot">3</span>
-                  <span tngStepperLabel>Publish</span>
-                </button>
-              </li>
-            </ol>
+            <tng-stepper-item value="draft" label="Draft" completed />
+            <tng-stepper-item value="review" label="Review" />
+            <tng-stepper-item value="publish" label="Publish" />
           </tng-stepper>
         </div>
       </ng-template>
@@ -105,7 +67,7 @@
   <section id="accessibility-baseline" class="stepper-overview-block">
     <h3>Accessibility baseline</h3>
     <ul class="stepper-overview-list">
-      <li><code>tngStepperTrigger</code> applies <code>aria-current="step"</code> to the active step.</li>
+      <li>The styled item renders a headless trigger that applies <code>aria-current="step"</code>.</li>
       <li>Arrow keys move focus across enabled triggers in document order.</li>
       <li>Optional, error, and completed inputs feed the generated state and accessible labels.</li>
     </ul>

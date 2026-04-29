@@ -65,13 +65,23 @@
     <h3><code>tng-stepper</code> (component)</h3>
     <p>
       Wrapper that applies the baseline shell and attaches the headless <code>tngStepper</code>
-      directive to its host. Compose the same projected primitive directives inside it.
+      directive to its host. Use <code>[steps]</code> for data-driven flows, or project styled
+      <code>tng-stepper-item</code> children for declarative markup.
     </p>
     <tng-code-block
       [code]="componentAttachmentCode"
       adapter="shiki"
       language="html"
       title="Component attachment"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+    <tng-code-block
+      [code]="componentItemsCode"
+      adapter="shiki"
+      language="html"
+      title="Declarative item composition"
       [lineNumbers]="false"
       [wrap]="true"
       [sanitizeHtml]="false"
@@ -88,6 +98,18 @@
           </tr>
         </thead>
         <tbody>
+          <tr>
+            <td><code>steps</code></td>
+            <td><code>readonly TngStepperStep[] | null</code></td>
+            <td><code>null</code></td>
+            <td>Generates styled <code>tng-stepper-item</code> rows from data.</td>
+          </tr>
+          <tr>
+            <td><code>ordered</code></td>
+            <td><code>boolean</code></td>
+            <td><code>true</code></td>
+            <td>Uses an ordered list for generated <code>steps</code>; set false for an unordered list.</td>
+          </tr>
           <tr>
             <td><code>ariaLabel</code></td>
             <td><code>string</code></td>
@@ -141,6 +163,53 @@
             <td><code>EventEmitter&lt;TngStepperValueChangeEvent&gt;</code></td>
             <td>-</td>
             <td>Emits value, previous value, and activation source.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="tng-stepper-item-component" class="stepper-api-block">
+    <h3><code>tng-stepper-item</code> (component)</h3>
+    <p>
+      Styled child item that hosts <code>tngStepperItem</code> internally and renders the trigger,
+      label, description, marker, and state styling.
+    </p>
+
+    <div class="stepper-api-table-wrap">
+      <table class="stepper-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Input</th>
+            <th scope="col">Type</th>
+            <th scope="col">Default</th>
+            <th scope="col">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>value</code></td>
+            <td><code>string | number</code></td>
+            <td>generated</td>
+            <td>Stable step identity used by selection and events.</td>
+          </tr>
+          <tr>
+            <td><code>label</code></td>
+            <td><code>string | null</code></td>
+            <td><code>null</code></td>
+            <td>Visible label and accessible label source.</td>
+          </tr>
+          <tr>
+            <td><code>description</code></td>
+            <td><code>string | null</code></td>
+            <td><code>null</code></td>
+            <td>Optional supporting text rendered below the label.</td>
+          </tr>
+          <tr>
+            <td><code>completed</code>, <code>optional</code>, <code>disabled</code>, <code>error</code></td>
+            <td><code>boolean</code></td>
+            <td><code>false</code></td>
+            <td>State flags forwarded to the headless item primitive.</td>
           </tr>
         </tbody>
       </table>
