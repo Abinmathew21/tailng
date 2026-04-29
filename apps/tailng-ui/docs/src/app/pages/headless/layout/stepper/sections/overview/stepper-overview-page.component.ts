@@ -1,7 +1,6 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, inject, signal, type OnDestroy } from '@angular/core';
 import { TngCodeBlockComponent } from '@tailng-ui/components';
-import { TngStepper } from '@tailng-ui/primitives';
 import type { DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
 import {
   DocsExampleTabsSectionComponent,
@@ -16,7 +15,6 @@ import {
   selector: 'app-headless-stepper-overview-page',
   imports: [
     TngCodeBlockComponent,
-    TngStepper,
     DocsExampleTabsSectionComponent,
     DocsExampleVariantDirective,
   ],
@@ -34,13 +32,10 @@ export class HeadlessStepperOverviewPageComponent implements OnDestroy {
     this.codeBlockTheme,
   );
 
-  protected readonly importCode = [
-    "import { TngStepper } from '@tailng-ui/primitives';",
-    '',
-  ].join('\n');
+  protected readonly importCode = '';
 
   protected readonly usageCode = [
-    '<ol tngStepper aria-label="Release flow">',
+    '<ol aria-label="Release flow">',
     '  <li aria-current="step" class="workflow-step workflow-step--current">',
     '    <span class="workflow-step__dot">2</span>',
     '    Review',
@@ -61,12 +56,10 @@ export class HeadlessStepperOverviewPageComponent implements OnDestroy {
       title: 'headless-stepper-overview-plain.component.ts',
       code: [
         "import { Component } from '@angular/core';",
-        "import { TngStepper } from '@tailng-ui/primitives';",
         '',
         '@Component({',
         "  selector: 'app-headless-stepper-overview-plain',",
         '  standalone: true,',
-        '  imports: [TngStepper],',
         "  templateUrl: './headless-stepper-overview-plain.component.html',",
         "  styleUrl: './headless-stepper-overview-plain.component.css',",
         '})',
@@ -79,7 +72,7 @@ export class HeadlessStepperOverviewPageComponent implements OnDestroy {
       language: 'html',
       title: 'headless-stepper-overview-plain.component.html',
       code: [
-        '<ol tngStepper class="headless-stepper-preview-list" aria-label="Release pipeline">',
+        '<ol class="headless-stepper-preview-list" aria-label="Release pipeline">',
         '  <li class="headless-stepper-preview-item is-complete">',
         '    <span class="headless-stepper-preview-dot">✓</span>',
         '    Draft',
@@ -120,12 +113,10 @@ export class HeadlessStepperOverviewPageComponent implements OnDestroy {
       title: 'headless-stepper-overview-tailwind.component.ts',
       code: [
         "import { Component } from '@angular/core';",
-        "import { TngStepper } from '@tailng-ui/primitives';",
         '',
         '@Component({',
         "  selector: 'app-headless-stepper-overview-tailwind',",
         '  standalone: true,',
-        '  imports: [TngStepper],',
         "  templateUrl: './headless-stepper-overview-tailwind.component.html',",
         "  styleUrl: './headless-stepper-overview-tailwind.component.css',",
         '})',
@@ -138,7 +129,7 @@ export class HeadlessStepperOverviewPageComponent implements OnDestroy {
       language: 'html',
       title: 'headless-stepper-overview-tailwind.component.html',
       code: [
-        '<ol tngStepper aria-label="Checkout progress" class="grid gap-3">',
+        '<ol aria-label="Checkout progress" class="grid gap-3">',
         '  <li class="inline-flex min-h-10 items-center gap-3 rounded-xl border border-emerald-300 bg-emerald-50 px-3 py-2 text-slate-900 dark:border-emerald-800 dark:bg-emerald-950/30 dark:text-slate-100">',
         '    <span class="grid h-6 w-6 place-items-center rounded-full bg-emerald-600 text-xs font-semibold text-white">✓</span>',
         '    Cart',

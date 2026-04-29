@@ -1,6 +1,5 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, inject, signal, type OnDestroy } from '@angular/core';
-import { TngStepper } from '@tailng-ui/primitives';
 import type { DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
 import {
   DocsExampleTabsSectionComponent,
@@ -13,7 +12,7 @@ import {
 
 @Component({
   selector: 'app-headless-stepper-examples-page',
-  imports: [TngStepper, DocsExampleTabsSectionComponent, DocsExampleVariantDirective],
+  imports: [DocsExampleTabsSectionComponent, DocsExampleVariantDirective],
   templateUrl: './stepper-examples-page.component.html',
   styleUrls: ['./stepper-examples-page.component.css'],
 })

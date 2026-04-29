@@ -7,11 +7,9 @@ import {
   input,
   signal,
 } from '@angular/core';
-import { TngDropdownMenu as TngDropdownMenuPrimitive } from '@tailng-ui/primitives';
 
 @Component({
   selector: 'tng-dropdown-menu',
-  imports: [TngDropdownMenuPrimitive],
   templateUrl: './tng-dropdown-menu.component.html',
   styleUrl: './tng-dropdown-menu.component.css',
 })

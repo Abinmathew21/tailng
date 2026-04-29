@@ -16,7 +16,6 @@ export * from './input/tng-input-group';
 export * from './input/tng-adornment';
 export * from './input-otp/tng-input-otp';
 export * from './label/tng-label';
-export * from './multiselect/tng-multiselect';
 export * from './multi-select';
 export * from './radio/tng-radio';
 export * from './multi-autocomplete';
@@ -32,4 +31,3 @@ export * from './switch/tng-switch';
 export * from './textarea/tng-textarea';
 export * from './toggle/tng-toggle';
 export * from './toggle-group/tng-toggle-group';
-
