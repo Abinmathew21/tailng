@@ -69,19 +69,12 @@
       </div>
 
       <section
-        #overlayPanel
         class="tng-datepicker-overlay"
-        [attr.aria-labelledby]="outputs().getOverlayAttributes()['aria-labelledby']"
-        [attr.aria-modal]="outputs().getOverlayAttributes()['aria-modal']"
-        [attr.data-open]="outputs().getOverlayAttributes()['data-open']"
-        [attr.data-placement]="currentOverlayPlacement()"
-        [attr.data-position]="outputs().getOverlayAttributes()['data-position']"
-        [attr.data-slot]="outputs().getOverlayAttributes()['data-slot']"
-        [attr.hidden]="outputs().open ? null : ''"
-        [attr.id]="outputs().getOverlayAttributes()['id']"
-        [attr.role]="outputs().getOverlayAttributes()['role']"
-        [style.display]="outputs().open ? null : 'none'"
-        (keydown)="onOverlayKeydown($event)"
+        [tngDatepickerOverlay]="controller"
+        [tngDatepickerOverlayAnchor]="anchorShell"
+        [tngDatepickerOverlayCollision]="overlayCollision()"
+        [tngDatepickerOverlayPlacement]="overlayPlacement()"
+        [tngDatepickerOverlayThemeSource]="overlayThemeSource"
       >
           <header class="tng-datepicker-header tng-datepicker-header-material" data-slot="datepicker-header">
             <div class="tng-datepicker-header-row tng-datepicker-header-row-material">

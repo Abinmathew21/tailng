@@ -14,19 +14,13 @@ import {
 import { booleanAttribute } from '@angular/core';
 import type { OnDestroy } from '@angular/core';
 import {
-  applyFixedPortalledOverlayBaseStyles,
-  clearFixedPortalledOverlayBaseStyles,
-  clearPortalledThemeVars,
-  positionFixedAnchoredOverlay,
-  resolveCssCustomPropertyPx,
-  syncPortalledThemeVars,
   type TngOverlayRuntime,
   type TngOverlayCollisionOptions,
-  type TngOverlayOffset,
   type TngOverlayPlacement,
 } from '@tailng-ui/cdk';
 import {
   createDatepickerController,
+  TngDatepickerOverlay,
   type TngCalendarView,
   type TngDateCell,
   type TngDateAdapter,
@@ -46,7 +40,6 @@ type OptionalBooleanInput = boolean | null | string | undefined;
 type TngDatepickerPlacement = 'auto' | 'bottom' | 'top';
 
 const OVERLAY_VIEWPORT_MARGIN = 12;
-const OVERLAY_OFFSET = 9;
 
 function normalizeOptionalBooleanInput(value: OptionalBooleanInput): boolean | undefined {
   if (value === null || value === undefined) {
@@ -71,41 +64,6 @@ function isKeyboardEventTarget(value: EventTarget | null): value is HTMLElement 
 
 let nextDatepickerInputId = 0;
 
-const PORTALLED_DATEPICKER_THEME_VARS = [
-  '--tng-datepicker-radius',
-  '--tng-datepicker-field-height',
-  '--tng-datepicker-overlay-gap',
-  '--tng-datepicker-day-cell-size',
-  '--tng-datepicker-picker-cell-size',
-  '--tng-datepicker-grid-gap',
-  '--tng-datepicker-inline-gap',
-  '--tng-datepicker-overlay-padding',
-  '--tng-datepicker-border',
-  '--tng-datepicker-border-strong',
-  '--tng-datepicker-bg',
-  '--tng-datepicker-surface',
-  '--tng-datepicker-canvas',
-  '--tng-datepicker-fg',
-  '--tng-datepicker-muted',
-  '--tng-datepicker-brand',
-  '--tng-datepicker-danger',
-  '--tng-datepicker-focus',
-  '--tng-datepicker-shadow',
-  '--tng-datepicker-focus-shadow',
-  '--tng-datepicker-ease',
-  '--tng-datepicker-nav-size',
-  '--tng-semantic-background-base',
-  '--tng-semantic-background-surface',
-  '--tng-semantic-background-canvas',
-  '--tng-semantic-border-subtle',
-  '--tng-semantic-border-strong',
-  '--tng-semantic-foreground-primary',
-  '--tng-semantic-foreground-secondary',
-  '--tng-semantic-accent-brand',
-  '--tng-semantic-accent-danger',
-  '--tng-semantic-focus-ring',
-] as const;
-
 function createDatepickerInputId(): string {
   nextDatepickerInputId += 1;
   return `tng-datepicker-input-${nextDatepickerInputId}`;
@@ -113,6 +71,7 @@ function createDatepickerInputId(): string {
 
 @Component({
   selector: 'tng-datepicker',
+  imports: [TngDatepickerOverlay],
   templateUrl: './tng-datepicker.component.html',
   styleUrl: './tng-datepicker.component.css',
 })
@@ -121,21 +80,10 @@ export class TngDatepickerComponent<TDate = Date> implements OnDestroy {
   private readonly defaultLocale = inject(LOCALE_ID);
   private readonly fallbackInputId = createDatepickerInputId();
   private readonly ownerDocument = this.hostElement.nativeElement.ownerDocument ?? null;
-  private readonly ownerWindow = this.ownerDocument?.defaultView ?? null;
   private readonly renderVersion = signal(0);
-  private readonly overlayOpen = signal(false);
-  private readonly resolvedOverlayPlacement = signal<'bottom' | 'top'>('bottom');
-  private readonly anchorRef = viewChild<ElementRef<HTMLElement>>('anchorShell');
   private readonly triggerRef = viewChild<ElementRef<HTMLElement>>('triggerButton');
-  private readonly overlayRef = viewChild<ElementRef<HTMLElement>>('overlayPanel');
-  private overlayPlaceholder: Comment | null = null;
-  private overlayOriginalParent: Node | null = null;
-  private removeResizeListener: (() => void) | null = null;
-  private removeScrollListener: (() => void) | null = null;
-  private resizeObserver: ResizeObserver | null = null;
-  private overlayLayoutFrame: number | null = null;
   private appliedInitialState = false;
-  private readonly controller = createDatepickerController<TDate>({
+  protected readonly controller = createDatepickerController<TDate>({
     allowManualInput: true,
     autoCommitView: false,
     closeOnEscape: true,
@@ -156,7 +104,6 @@ export class TngDatepickerComponent<TDate = Date> implements OnDestroy {
         this.activeDateChange.emit(event.activeDate);
         break;
       case 'closed':
-        this.overlayOpen.set(false);
         this.openChange.emit(false);
         this.closed.emit(event.reason);
         break;
@@ -164,7 +111,6 @@ export class TngDatepickerComponent<TDate = Date> implements OnDestroy {
         this.monthChange.emit(event.visibleMonth);
         break;
       case 'opened':
-        this.overlayOpen.set(true);
         this.openChange.emit(true);
         this.queueOverlayFocusSync();
         break;
@@ -272,7 +218,9 @@ export class TngDatepickerComponent<TDate = Date> implements OnDestroy {
   protected readonly invalidState = computed(
     () => this.invalid() || this.outputs().validationError !== null,
   );
-  protected readonly currentOverlayPlacement = computed(() => this.resolvedOverlayPlacement());
+  protected readonly overlayCollision = computed(() => this.resolveOverlayCollision(this.placement()));
+  protected readonly overlayPlacement = computed(() => this.resolveOverlayPlacement(this.placement()));
+  protected readonly overlayThemeSource = this.hostElement.nativeElement;
 
   protected readonly materialPeriodLabel = computed(() => {
     const outputs = this.outputs();
@@ -300,39 +248,6 @@ export class TngDatepickerComponent<TDate = Date> implements OnDestroy {
     effect(() => {
       const trigger = this.triggerRef()?.nativeElement ?? null;
       this.controller.registerTrigger(trigger);
-    });
-
-    effect(() => {
-      const overlay = this.overlayRef()?.nativeElement ?? null;
-      this.controller.registerOverlay(overlay);
-      this.initializeOverlayPortal(overlay);
-      this.renderVersion.update((value) => value + 1);
-    });
-
-    effect(() => {
-      const overlay = this.overlayRef()?.nativeElement;
-      if (overlay === undefined) {
-        return;
-      }
-
-      if (this.overlayOpen()) {
-        this.mountOverlayToBodyAndPosition();
-        return;
-      }
-
-      this.restoreOverlayToPlaceholder();
-    });
-
-    effect(() => {
-      this.placement();
-      this.direction();
-      this.overlaySize();
-
-      if (!this.overlayOpen()) {
-        return;
-      }
-
-      this.scheduleOverlayLayoutSync();
     });
 
     effect(() => {
@@ -373,7 +288,6 @@ export class TngDatepickerComponent<TDate = Date> implements OnDestroy {
       }
 
       const controlledOpen = this.open();
-      const currentOpen = this.controller.getOutputs().open;
       if (controlledOpen !== undefined) {
         this.controller.setOpen(controlledOpen);
       }
@@ -393,13 +307,6 @@ export class TngDatepickerComponent<TDate = Date> implements OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    if (this.overlayLayoutFrame !== null && this.ownerWindow !== null) {
-      this.ownerWindow.cancelAnimationFrame(this.overlayLayoutFrame);
-      this.overlayLayoutFrame = null;
-    }
-
-    this.teardownOverlayRepositionListeners();
-    this.restoreOverlayToPlaceholder(true);
     this.unsubscribe();
     this.controller.destroy();
   }
@@ -530,10 +437,6 @@ export class TngDatepickerComponent<TDate = Date> implements OnDestroy {
     this.queueOverlayFocusSync();
   }
 
-  protected onOverlayKeydown(event: KeyboardEvent): void {
-    this.controller.handleOverlayKeyDown(event);
-  }
-
   protected onTriggerClick(): void {
     if (this.disabled()) {
       return;
@@ -604,8 +507,6 @@ export class TngDatepickerComponent<TDate = Date> implements OnDestroy {
   }
 
   private queueOverlayFocusSync(): void {
-    this.scheduleOverlayLayoutSync();
-
     queueMicrotask(() => {
       const focusActiveTarget = (): void => {
         const outputs = this.outputs();
@@ -675,174 +576,13 @@ export class TngDatepickerComponent<TDate = Date> implements OnDestroy {
     return key === 'Enter' || key === ' ';
   }
 
-  private scheduleOverlayLayoutSync(): void {
-    if (!this.overlayOpen() || this.ownerWindow === null) {
-      return;
-    }
-
-    if (this.overlayLayoutFrame !== null) {
-      this.ownerWindow.cancelAnimationFrame(this.overlayLayoutFrame);
-    }
-
-    this.overlayLayoutFrame = this.ownerWindow.requestAnimationFrame(() => {
-      this.overlayLayoutFrame = null;
-      this.positionOverlay();
-    });
-  }
-
-  private initializeOverlayPortal(overlay: HTMLElement | null): void {
-    if (overlay === null || this.overlayPlaceholder !== null) {
-      return;
-    }
-
-    const placeholderDocument = this.ownerDocument ?? document;
-    this.overlayPlaceholder = placeholderDocument.createComment('tng-datepicker-overlay-anchor');
-    this.overlayOriginalParent = overlay.parentNode;
-    this.overlayOriginalParent?.insertBefore(this.overlayPlaceholder, overlay);
-  }
-
-  private positionOverlay(): void {
-    const overlay = this.overlayRef()?.nativeElement;
-    const anchor = this.anchorRef()?.nativeElement;
-    if (overlay === undefined || anchor === undefined || this.ownerWindow === null) {
-      return;
-    }
-
-    const result = positionFixedAnchoredOverlay({
-      anchor,
-      collision: this.resolveOverlayCollision(this.placement()),
-      direction: this.direction(),
-      offset: this.resolveOverlayOffset(),
-      overlay,
-      placement: this.resolveOverlayPlacement(this.placement()),
-      viewportMargin: OVERLAY_VIEWPORT_MARGIN,
-      windowRef: this.ownerWindow,
-    });
-
-    this.resolvedOverlayPlacement.set(result.side === 'top' ? 'top' : 'bottom');
-    overlay.style.visibility = '';
-  }
-
-  private syncPortalledThemeVars(overlay: HTMLElement): void {
-    syncPortalledThemeVars({
-      cssVars: PORTALLED_DATEPICKER_THEME_VARS,
-      panel: overlay,
-      source: this.hostElement.nativeElement,
-    });
-  }
-
-  private clearPortalledThemeVars(overlay: HTMLElement): void {
-    clearPortalledThemeVars(overlay, PORTALLED_DATEPICKER_THEME_VARS);
-  }
-
-  private mountOverlayToBodyAndPosition(): void {
-    const overlay = this.overlayRef()?.nativeElement;
-    if (overlay === undefined || this.ownerDocument === null) {
-      return;
-    }
-
-    this.initializeOverlayPortal(overlay);
-    this.setupOverlayRepositionListeners();
-
-    if (overlay.parentNode !== this.ownerDocument.body) {
-      this.ownerDocument.body.appendChild(overlay);
-    }
-
-    applyFixedPortalledOverlayBaseStyles(overlay);
-    this.syncPortalledThemeVars(overlay);
-
-    queueMicrotask(() => {
-      if (!this.overlayOpen()) {
-        return;
-      }
-
-      this.positionOverlay();
-    });
-  }
-
-  private restoreOverlayToPlaceholder(force = false): void {
-    const overlay = this.overlayRef()?.nativeElement;
-    if (overlay === undefined) {
-      return;
-    }
-
-    if (!force && overlay.parentNode !== this.ownerDocument?.body) {
-      return;
-    }
-
-    const placeholder = this.overlayPlaceholder;
-    if (placeholder?.parentNode !== null && placeholder !== null) {
-      placeholder.parentNode.insertBefore(overlay, placeholder);
-    } else if (this.overlayOriginalParent !== null) {
-      this.overlayOriginalParent.appendChild(overlay);
-    }
-
-    this.teardownOverlayRepositionListeners();
-    this.resolvedOverlayPlacement.set(this.placement() === 'top' ? 'top' : 'bottom');
-    this.clearPortalledThemeVars(overlay);
-    clearFixedPortalledOverlayBaseStyles(overlay);
-    overlay.style.maxHeight = '';
-    overlay.style.maxWidth = '';
-    overlay.style.width = '';
-  }
-
-  private setupOverlayRepositionListeners(): void {
-    if (this.ownerWindow === null || this.removeResizeListener !== null || this.removeScrollListener !== null) {
-      return;
-    }
-
-    const schedule = (): void => {
-      this.scheduleOverlayLayoutSync();
-    };
-
-    this.ownerWindow.addEventListener('resize', schedule);
-    this.ownerWindow.addEventListener('scroll', schedule, true);
-    this.removeResizeListener = () => this.ownerWindow?.removeEventListener('resize', schedule);
-    this.removeScrollListener = () => this.ownerWindow?.removeEventListener('scroll', schedule, true);
-
-    if ('ResizeObserver' in this.ownerWindow) {
-      this.resizeObserver = new this.ownerWindow.ResizeObserver(() => {
-        this.scheduleOverlayLayoutSync();
-      });
-
-      const anchor = this.anchorRef()?.nativeElement;
-      if (anchor !== undefined) {
-        this.resizeObserver.observe(anchor);
-      }
-
-      const overlay = this.overlayRef()?.nativeElement;
-      if (overlay !== undefined) {
-        this.resizeObserver.observe(overlay);
-      }
-    }
-  }
-
-  private teardownOverlayRepositionListeners(): void {
-    this.removeResizeListener?.();
-    this.removeScrollListener?.();
-    this.removeResizeListener = null;
-    this.removeScrollListener = null;
-    this.resizeObserver?.disconnect();
-    this.resizeObserver = null;
-  }
-
   private resolveOverlayCollision(
     placement: TngDatepickerPlacement,
   ): TngOverlayCollisionOptions {
     return {
       flip: placement === 'auto',
       padding: OVERLAY_VIEWPORT_MARGIN,
-      shift: true,
-    };
-  }
-
-  private resolveOverlayOffset(): TngOverlayOffset {
-    return {
-      side: resolveCssCustomPropertyPx(
-        this.hostElement.nativeElement,
-        '--tng-datepicker-overlay-gap',
-        OVERLAY_OFFSET,
-      ),
+      shift: false,
     };
   }
 

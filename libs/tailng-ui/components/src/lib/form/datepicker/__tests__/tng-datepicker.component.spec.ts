@@ -224,6 +224,7 @@ class CustomFormatDatepickerHostComponent {
         --tng-semantic-border-subtle: #d8e2ef;
         --tng-semantic-foreground-primary: #0f172a;
         --tng-semantic-accent-brand: #2563eb;
+        --tng-z-overlay: 2;
         color-scheme: light;
       "
     />
@@ -296,6 +297,7 @@ describe('tng-datepicker component behavior', () => {
     const overlay = getRequiredFromRoot<HTMLElement>(document.body, '[data-slot="datepicker-overlay"]');
     expect(overlay.parentNode).toBe(document.body);
     expect(overlay.style.position).toBe('fixed');
+    expect(overlay.style.zIndex).toBe('var(--tng-z-overlay, 1000)');
     expect((document.activeElement as HTMLElement | null)?.getAttribute('data-slot')).toBe('datepicker-cell');
   });
 
@@ -313,6 +315,7 @@ describe('tng-datepicker component behavior', () => {
     expect(overlay.style.getPropertyValue('--tng-datepicker-fg').trim()).toBe('#0f172a');
     expect(overlay.style.getPropertyValue('--tng-datepicker-brand').trim()).toBe('#2563eb');
     expect(overlay.style.getPropertyValue('--tng-datepicker-nav-size').trim()).toBe('2.8rem');
+    expect(overlay.style.getPropertyValue('--tng-z-overlay').trim()).toBe('2');
     expect(overlay.style.colorScheme).toBe('light');
 
     getRequired<HTMLButtonElement>(fixture, '[data-slot="datepicker-trigger"]').click();
@@ -320,6 +323,8 @@ describe('tng-datepicker component behavior', () => {
 
     expect(overlay.style.getPropertyValue('--tng-datepicker-surface').trim()).toBe('');
     expect(overlay.style.getPropertyValue('--tng-datepicker-nav-size').trim()).toBe('');
+    expect(overlay.style.getPropertyValue('--tng-z-overlay').trim()).toBe('');
+    expect(overlay.style.zIndex).toBe('');
     expect(overlay.style.colorScheme).toBe('');
   });
 
@@ -584,6 +589,36 @@ describe('tng-datepicker component behavior', () => {
 
     expect(overlay.getAttribute('data-placement')).toBe('top');
     expect(overlay.style.maxHeight).not.toBe('');
+
+    Object.defineProperty(window, 'innerHeight', { configurable: true, value: originalInnerHeight });
+  });
+
+  it('keeps the overlay open and lets it follow when scrolling moves the trigger outside the viewport', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [UncontrolledDatepickerHostComponent],
+    }).createComponent(UncontrolledDatepickerHostComponent);
+
+    await settle(fixture);
+
+    getRequired<HTMLButtonElement>(fixture, '[data-slot="datepicker-trigger"]').click();
+    await settle(fixture);
+
+    const anchor = getRequired<HTMLElement>(fixture, '[data-slot="datepicker-input-shell"]');
+    const overlay = getRequiredFromRoot<HTMLElement>(document.body, '[data-slot="datepicker-overlay"]');
+    const originalInnerHeight = window.innerHeight;
+
+    vi.spyOn(anchor, 'getBoundingClientRect').mockReturnValue(createRect(-80, -20));
+    vi.spyOn(overlay, 'getBoundingClientRect').mockReturnValue(createRect(0, 320));
+    Object.defineProperty(window, 'innerHeight', { configurable: true, value: 760 });
+
+    window.dispatchEvent(new Event('scroll'));
+    await waitForAnimationFrame();
+    await settle(fixture);
+
+    expect(fixture.componentInstance.openChanges).toEqual([true]);
+    expect(overlay.parentNode).toBe(document.body);
+    expect(overlay.getAttribute('hidden')).toBeNull();
+    expect(overlay.style.top).toBe('-11px');
 
     Object.defineProperty(window, 'innerHeight', { configurable: true, value: originalInnerHeight });
   });

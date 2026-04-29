@@ -1,0 +1,97 @@
+import { Component, signal } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
+import { describe, expect, it } from 'vitest';
+import { TngMonthDaypickerComponent, type TngMonthDayValue } from '../tng-month-daypicker.component';
+
+function keydown(target: EventTarget, key: string): KeyboardEvent {
+  const event = new KeyboardEvent('keydown', { bubbles: true, cancelable: true, key });
+  target.dispatchEvent(event);
+  return event;
+}
+
+async function settle(fixture: { detectChanges(): void; whenStable(): Promise<unknown> }): Promise<void> {
+  fixture.detectChanges();
+  await fixture.whenStable();
+  fixture.detectChanges();
+}
+
+async function waitForAnimationFrame(): Promise<void> {
+  await new Promise<void>((resolve) => {
+    requestAnimationFrame(() => resolve());
+  });
+}
+
+function getRequired<T extends Element>(root: ParentNode, selector: string): T {
+  const element = root.querySelector(selector);
+  if (element === null) {
+    throw new Error(`Expected selector ${selector} to exist.`);
+  }
+
+  return element as T;
+}
+
+@Component({
+  imports: [TngMonthDaypickerComponent],
+  template: `
+    <tng-month-daypicker
+      [defaultValue]="defaultValue()"
+      [year]="year()"
+      (valueChange)="valueChanges.push($event)"
+    />
+  `,
+})
+class MonthDaypickerHostComponent {
+  public readonly defaultValue = signal<TngMonthDayValue>({ day: 22, month: 4 });
+  public readonly year = signal(2024);
+  public readonly valueChanges: TngMonthDayValue[] = [];
+}
+
+describe('tng-month-daypicker component', () => {
+  it('uses the month-daypicker selector and displays month-day text', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [MonthDaypickerHostComponent],
+    }).createComponent(MonthDaypickerHostComponent);
+
+    await settle(fixture);
+
+    const input = getRequired<HTMLInputElement>(fixture.nativeElement, '[data-slot="datepicker-input"]');
+    expect(input.value).toBe('04-22');
+  });
+
+  it('parses manual month-day input against the fixed year', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [MonthDaypickerHostComponent],
+    }).createComponent(MonthDaypickerHostComponent);
+
+    await settle(fixture);
+
+    const input = getRequired<HTMLInputElement>(fixture.nativeElement, '[data-slot="datepicker-input"]');
+    input.value = '09-14';
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+    keydown(input, 'Enter');
+    await settle(fixture);
+
+    expect(fixture.componentInstance.valueChanges).toEqual([{ day: 14, month: 9 }]);
+  });
+
+  it('routes period navigation to month selection instead of year selection', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [MonthDaypickerHostComponent],
+    }).createComponent(MonthDaypickerHostComponent);
+
+    await settle(fixture);
+
+    getRequired<HTMLButtonElement>(fixture.nativeElement, '[data-slot="datepicker-trigger"]').click();
+    await settle(fixture);
+    await waitForAnimationFrame();
+    await settle(fixture);
+
+    getRequired<HTMLButtonElement>(document.body, '[data-slot="datepicker-period-button"]').click();
+    await settle(fixture);
+    await waitForAnimationFrame();
+    await settle(fixture);
+
+    expect(document.body.querySelectorAll('[data-slot="datepicker-year"]').length).toBe(0);
+    expect(document.body.querySelectorAll('[data-slot="datepicker-month"]').length).toBeGreaterThan(0);
+  });
+});

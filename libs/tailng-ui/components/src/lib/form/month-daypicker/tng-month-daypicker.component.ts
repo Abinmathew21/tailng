@@ -1,0 +1,153 @@
+import { Component, computed, input, output, signal, viewChild } from '@angular/core';
+import {
+  defaultDatepickerDateAdapter,
+  type TngCalendarView,
+  type TngDateAdapter,
+  type TngDateValue,
+} from '@tailng-ui/primitives';
+import { TngDatepickerComponent } from '../datepicker/tng-datepicker.component';
+
+export type TngMonthDayValue = Readonly<{
+  day: number;
+  month: number;
+}>;
+
+function currentYear(): number {
+  return new Date().getFullYear();
+}
+
+function normalizeYear(value: number | string): number {
+  return Math.trunc(typeof value === 'number' ? value : Number(value));
+}
+
+function normalizeMonthDay(value: TngMonthDayValue): TngMonthDayValue {
+  return Object.freeze({
+    day: Math.max(1, Math.min(31, Math.trunc(value.day))),
+    month: Math.max(1, Math.min(12, Math.trunc(value.month))),
+  });
+}
+
+function pad2(value: number): string {
+  return value.toString().padStart(2, '0');
+}
+
+function createDate(year: number, value: TngMonthDayValue): Date {
+  return defaultDatepickerDateAdapter.createDate(year, value.month - 1, value.day);
+}
+
+function toMonthDay(date: Date): TngMonthDayValue {
+  return Object.freeze({
+    day: defaultDatepickerDateAdapter.getDate(date),
+    month: defaultDatepickerDateAdapter.getMonth(date) + 1,
+  });
+}
+
+function createMonthDayAdapter(year: number): TngDateAdapter<Date> {
+  return {
+    ...defaultDatepickerDateAdapter,
+    format: (date, format, locale) => {
+      if (format === 'input') {
+        return `${pad2(defaultDatepickerDateAdapter.getMonth(date) + 1)}-${pad2(
+          defaultDatepickerDateAdapter.getDate(date),
+        )}`;
+      }
+
+      return defaultDatepickerDateAdapter.format(date, format, locale);
+    },
+    parse: (text, locale) => {
+      const match = /^(\d{2})-(\d{2})$/.exec(text.trim());
+      if (match !== null) {
+        return createDate(year, {
+          day: Number(match[2]),
+          month: Number(match[1]),
+        });
+      }
+
+      return defaultDatepickerDateAdapter.parse(text, locale);
+    },
+  };
+}
+
+@Component({
+  selector: 'tng-month-daypicker',
+  imports: [TngDatepickerComponent],
+  template: `
+    <tng-datepicker
+      #datepicker
+      [adapter]="adapter()"
+      [allowManualInput]="allowManualInput()"
+      [autoCommitView]="true"
+      [defaultOpen]="defaultOpen()"
+      [disabled]="disabled()"
+      [fullWidth]="fullWidth()"
+      [maxDate]="maxDate()"
+      [minDate]="minDate()"
+      [placeholder]="placeholder()"
+      [readonly]="readonly()"
+      [restoreFocus]="restoreFocus()"
+      [value]="selectedDate()"
+      (openChange)="openChange.emit($event)"
+      (valueChange)="handleDateValueChange($event)"
+      (viewChange)="handleViewChange($event)"
+    />
+  `,
+})
+export class TngMonthDaypickerComponent {
+  private readonly datepicker = viewChild<TngDatepickerComponent<Date>>('datepicker');
+  private readonly internalValue = signal<TngMonthDayValue | undefined>(undefined);
+  private hasObservedInitialValue = false;
+
+  public readonly value = input<TngMonthDayValue | undefined, TngMonthDayValue | undefined>(undefined, {
+    transform: (value: TngMonthDayValue | undefined) => (value === undefined ? undefined : normalizeMonthDay(value)),
+  });
+  public readonly defaultValue = input<TngMonthDayValue, TngMonthDayValue>({ day: 1, month: 1 }, {
+    transform: normalizeMonthDay,
+  });
+  public readonly year = input<number, number | string>(currentYear(), {
+    transform: normalizeYear,
+  });
+  public readonly allowManualInput = input<boolean>(true);
+  public readonly defaultOpen = input<boolean>(false);
+  public readonly disabled = input<boolean>(false);
+  public readonly fullWidth = input<boolean>(true);
+  public readonly placeholder = input<string>('MM-DD');
+  public readonly readonly = input<boolean>(false);
+  public readonly restoreFocus = input<boolean>(true);
+
+  public readonly valueChange = output<TngMonthDayValue>();
+  public readonly openChange = output<boolean>();
+
+  protected readonly selectedValue = computed(() => this.value() ?? this.internalValue() ?? this.defaultValue());
+  protected readonly selectedDate = computed(() => createDate(this.year(), this.selectedValue()));
+  protected readonly minDate = computed(() => defaultDatepickerDateAdapter.createDate(this.year(), 0, 1));
+  protected readonly maxDate = computed(() => defaultDatepickerDateAdapter.createDate(this.year(), 11, 31));
+  protected readonly adapter = computed(() => createMonthDayAdapter(this.year()));
+
+  protected handleDateValueChange(value: TngDateValue<Date>): void {
+    if (!(value instanceof Date)) {
+      return;
+    }
+
+    const nextValue = toMonthDay(value);
+    if (!this.hasObservedInitialValue) {
+      this.hasObservedInitialValue = true;
+      const selectedValue = this.selectedValue();
+      if (selectedValue.month === nextValue.month && selectedValue.day === nextValue.day) {
+        return;
+      }
+    }
+
+    this.internalValue.set(nextValue);
+    this.valueChange.emit(nextValue);
+  }
+
+  protected handleViewChange(view: TngCalendarView): void {
+    if (view !== 'year') {
+      return;
+    }
+
+    queueMicrotask(() => {
+      this.datepicker()?.showMonthsPanel();
+    });
+  }
+}

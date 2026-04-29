@@ -40,6 +40,7 @@ type OverlayAnchorInput =
   | HTMLElement
   | null
   | undefined;
+type OverlayThemeSourceInput = OverlayAnchorInput;
 
 const PORTALLED_DATEPICKER_THEME_VARS = [
   '--tng-datepicker-radius',
@@ -74,10 +75,12 @@ const PORTALLED_DATEPICKER_THEME_VARS = [
   '--tng-semantic-accent-brand',
   '--tng-semantic-accent-danger',
   '--tng-semantic-focus-ring',
+  '--tng-z-overlay',
 ] as const;
 
 const OVERLAY_VIEWPORT_MARGIN = 12;
 const OVERLAY_OFFSET = 9;
+const OVERLAY_Z_INDEX = 'var(--tng-z-overlay, 1000)';
 
 function resolveAnchorElement(anchor: OverlayAnchorInput): HTMLElement | null {
   if (anchor instanceof ElementRef) {
@@ -85,6 +88,10 @@ function resolveAnchorElement(anchor: OverlayAnchorInput): HTMLElement | null {
   }
 
   return anchor instanceof HTMLElement ? anchor : null;
+}
+
+function resolveThemeSourceElement(source: OverlayThemeSourceInput): HTMLElement | null {
+  return resolveAnchorElement(source);
 }
 
 @Directive({
@@ -121,6 +128,9 @@ export class TngDatepickerOverlay {
   });
   public readonly collision = input<TngOverlayCollisionOptions | undefined>(undefined, {
     alias: 'tngDatepickerOverlayCollision',
+  });
+  public readonly themeSource = input<OverlayThemeSourceInput>(undefined, {
+    alias: 'tngDatepickerOverlayThemeSource',
   });
 
   @HostBinding('attr.hidden')
@@ -222,6 +232,7 @@ export class TngDatepickerOverlay {
       this.placement();
       this.offset();
       this.collision();
+      this.themeSource();
       this.anchor();
 
       if (open) {
@@ -353,7 +364,7 @@ export class TngDatepickerOverlay {
 
   private syncPortalledThemeVars(): void {
     const overlay = this.elRef.nativeElement;
-    const themeSource = this.findAnchorEl();
+    const themeSource = resolveThemeSourceElement(this.themeSource()) ?? this.findAnchorEl();
     if (themeSource === null) {
       return;
     }
@@ -381,7 +392,7 @@ export class TngDatepickerOverlay {
       this.ownerDocument.body.appendChild(overlay);
     }
 
-    applyFixedPortalledOverlayBaseStyles(overlay);
+    applyFixedPortalledOverlayBaseStyles(overlay, OVERLAY_Z_INDEX);
     this.syncPortalledThemeVars();
 
     queueMicrotask(() => {
@@ -442,7 +453,7 @@ export class TngDatepickerOverlay {
     return this.collision() ?? {
       flip: true,
       padding: OVERLAY_VIEWPORT_MARGIN,
-      shift: true,
+      shift: false,
     };
   }
 
