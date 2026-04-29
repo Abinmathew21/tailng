@@ -29,6 +29,7 @@ function pointerdown(el: HTMLElement, init: Partial<PointerEventInit> = {}): voi
       [value]="value()"
       (valueChange)="value.set($event)"
       data-testid="multi-select"
+      style="--tng-select-z-overlay: 2"
     >
       <button tngSelectTrigger data-testid="trigger">Trigger</button>
 
@@ -86,6 +87,10 @@ describe('tng-multi-select overlay (shared overlay)', () => {
 
     expect(overlay.parentElement).toBe(document.body);
     expect(overlay.hasAttribute('hidden')).toBe(false);
+    expect(overlay.style.getPropertyValue('--tng-select-z-overlay').trim()).toBe('2');
+    expect(overlay.style.zIndex).toBe(
+      'var(--tng-select-z-overlay, var(--tng-select-overlay-z-index, var(--tng-z-overlay, 2)))',
+    );
 
     host.open.set(false);
     fixture.detectChanges();
@@ -93,6 +98,8 @@ describe('tng-multi-select overlay (shared overlay)', () => {
 
     expect(overlay.parentElement).not.toBe(document.body);
     expect(overlay.hasAttribute('hidden')).toBe(true);
+    expect(overlay.style.getPropertyValue('--tng-select-z-overlay').trim()).toBe('');
+    expect(overlay.style.zIndex).toBe('');
   });
 
   it('positions overlay relative to trigger - sets inline left/top', async () => {
