@@ -75,12 +75,13 @@ const PORTALLED_DATEPICKER_THEME_VARS = [
   '--tng-semantic-accent-brand',
   '--tng-semantic-accent-danger',
   '--tng-semantic-focus-ring',
+  '--tng-datepicker-z-overlay',
   '--tng-z-overlay',
 ] as const;
 
 const OVERLAY_VIEWPORT_MARGIN = 12;
 const OVERLAY_OFFSET = 9;
-const OVERLAY_Z_INDEX = 'var(--tng-z-overlay, 1000)';
+const OVERLAY_Z_INDEX = 'var(--tng-datepicker-z-overlay, var(--tng-z-overlay, 1000))';
 
 function resolveAnchorElement(anchor: OverlayAnchorInput): HTMLElement | null {
   if (anchor instanceof ElementRef) {

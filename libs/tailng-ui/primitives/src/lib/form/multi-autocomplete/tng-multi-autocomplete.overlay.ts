@@ -21,6 +21,9 @@ const PORTALLED_MULTI_AUTOCOMPLETE_THEME_VARS = [
   '--tng-multi-autocomplete-chip-px',
   '--tng-multi-autocomplete-option-py',
   '--tng-multi-autocomplete-option-px',
+  '--tng-multi-autocomplete-z-overlay',
+  '--tng-multi-autocomplete-overlay-z-index',
+  '--tng-z-overlay',
   '--tng-multi-autocomplete-border',
   '--tng-multi-autocomplete-border-strong',
   '--tng-multi-autocomplete-bg',
@@ -206,6 +209,11 @@ export class TngMultiAutocompleteOverlay {
     }
   }
 
+  private applyPortalledStacking(): void {
+    this.elRef.nativeElement.style.zIndex =
+      'var(--tng-multi-autocomplete-z-overlay, var(--tng-multi-autocomplete-overlay-z-index, var(--tng-z-overlay, 2)))';
+  }
+
   private clearPortalledThemeVars(): void {
     const panel = this.elRef.nativeElement;
 
@@ -227,8 +235,8 @@ export class TngMultiAutocompleteOverlay {
     panel.style.position = 'fixed';
     panel.style.left = '0px';
     panel.style.top = '0px';
-    panel.style.zIndex = '1000';
     this.syncPortalledThemeVars();
+    this.applyPortalledStacking();
 
     queueMicrotask(() => {
       if (!this.multi.open()) return;

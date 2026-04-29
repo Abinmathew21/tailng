@@ -35,6 +35,10 @@ export const tngMenuCssVars = {
   itemPaddingY: '--tng-menu-item-py',
   itemPaddingX: '--tng-menu-item-px',
   shadow: '--tng-menu-shadow',
+  zOverlay: '--tng-menu-z-overlay',
+  overlayZIndex: '--tng-menu-overlay-z-index',
+  zBackdrop: '--tng-menu-z-backdrop',
+  backdropZIndex: '--tng-menu-backdrop-z-index',
 } as const;
 
 export const tngMenuSemanticTokens = {

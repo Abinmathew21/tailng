@@ -122,7 +122,7 @@ describe('tng-datepicker.overlay', () => {
     const mountedOverlay = getRequired<HTMLElement>(document.body, '[data-testid="overlay"]');
     expect(mountedOverlay.parentNode).toBe(document.body);
     expect(mountedOverlay.style.position).toBe('fixed');
-    expect(mountedOverlay.style.zIndex).toBe('var(--tng-z-overlay, 1000)');
+    expect(mountedOverlay.style.zIndex).toBe('var(--tng-datepicker-z-overlay, var(--tng-z-overlay, 1000))');
     expect(mountedOverlay.getAttribute('hidden')).toBeNull();
     expect(mountedOverlay.style.getPropertyValue('--tng-datepicker-surface').trim()).toBe('#f8fafc');
     expect(mountedOverlay.style.getPropertyValue('--tng-datepicker-border').trim()).toBe('#d8e2ef');

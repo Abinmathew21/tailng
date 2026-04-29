@@ -38,6 +38,9 @@ const PORTALLED_SELECT_THEME_VARS = [
   '--tng-select-overlay-radius',
   '--tng-select-overlay-shadow',
   '--tng-select-overlay-max-width',
+  '--tng-select-z-overlay',
+  '--tng-select-overlay-z-index',
+  '--tng-z-overlay',
   '--tng-select-overlay-border',
   '--tng-select-overlay-bg',
   '--tng-select-overlay-max-height',
@@ -230,6 +233,11 @@ export class TngSelectOverlay {
     }
   }
 
+  private applyPortalledStacking(): void {
+    this.elRef.nativeElement.style.zIndex =
+      'var(--tng-select-z-overlay, var(--tng-select-overlay-z-index, var(--tng-z-overlay, 2)))';
+  }
+
   private clearPortalledThemeVars(): void {
     const panel = this.elRef.nativeElement;
 
@@ -252,8 +260,8 @@ export class TngSelectOverlay {
     panel.style.position = 'fixed';
     panel.style.left = '0px';
     panel.style.top = '0px';
-    panel.style.zIndex = '1000';
     this.syncPortalledThemeVars();
+    this.applyPortalledStacking();
 
     queueMicrotask(() => {
       if (!this.host.open()) return;

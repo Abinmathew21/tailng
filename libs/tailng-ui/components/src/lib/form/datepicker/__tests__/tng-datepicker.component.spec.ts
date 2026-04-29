@@ -224,7 +224,7 @@ class CustomFormatDatepickerHostComponent {
         --tng-semantic-border-subtle: #d8e2ef;
         --tng-semantic-foreground-primary: #0f172a;
         --tng-semantic-accent-brand: #2563eb;
-        --tng-z-overlay: 2;
+        --tng-datepicker-z-overlay: 2;
         color-scheme: light;
       "
     />
@@ -297,7 +297,7 @@ describe('tng-datepicker component behavior', () => {
     const overlay = getRequiredFromRoot<HTMLElement>(document.body, '[data-slot="datepicker-overlay"]');
     expect(overlay.parentNode).toBe(document.body);
     expect(overlay.style.position).toBe('fixed');
-    expect(overlay.style.zIndex).toBe('var(--tng-z-overlay, 1000)');
+    expect(overlay.style.zIndex).toBe('var(--tng-datepicker-z-overlay, var(--tng-z-overlay, 1000))');
     expect((document.activeElement as HTMLElement | null)?.getAttribute('data-slot')).toBe('datepicker-cell');
   });
 
@@ -315,7 +315,7 @@ describe('tng-datepicker component behavior', () => {
     expect(overlay.style.getPropertyValue('--tng-datepicker-fg').trim()).toBe('#0f172a');
     expect(overlay.style.getPropertyValue('--tng-datepicker-brand').trim()).toBe('#2563eb');
     expect(overlay.style.getPropertyValue('--tng-datepicker-nav-size').trim()).toBe('2.8rem');
-    expect(overlay.style.getPropertyValue('--tng-z-overlay').trim()).toBe('2');
+    expect(overlay.style.getPropertyValue('--tng-datepicker-z-overlay').trim()).toBe('2');
     expect(overlay.style.colorScheme).toBe('light');
 
     getRequired<HTMLButtonElement>(fixture, '[data-slot="datepicker-trigger"]').click();
@@ -323,7 +323,7 @@ describe('tng-datepicker component behavior', () => {
 
     expect(overlay.style.getPropertyValue('--tng-datepicker-surface').trim()).toBe('');
     expect(overlay.style.getPropertyValue('--tng-datepicker-nav-size').trim()).toBe('');
-    expect(overlay.style.getPropertyValue('--tng-z-overlay').trim()).toBe('');
+    expect(overlay.style.getPropertyValue('--tng-datepicker-z-overlay').trim()).toBe('');
     expect(overlay.style.zIndex).toBe('');
     expect(overlay.style.colorScheme).toBe('');
   });

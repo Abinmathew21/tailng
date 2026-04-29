@@ -31,6 +31,7 @@ function focus(el: HTMLElement): void {
         --tng-multi-autocomplete-border: #d8e2ef;
         --tng-multi-autocomplete-fg: #0f172a;
         --tng-multi-autocomplete-brand: #2563eb;
+        --tng-multi-autocomplete-z-overlay: 2;
         color-scheme: light;
       "
       [open]="open()"
@@ -99,6 +100,10 @@ describe('tng-multi-autocomplete overlay mounting', () => {
     expect(overlay.style.getPropertyValue('--tng-multi-autocomplete-border').trim()).toBe('#d8e2ef');
     expect(overlay.style.getPropertyValue('--tng-multi-autocomplete-fg').trim()).toBe('#0f172a');
     expect(overlay.style.getPropertyValue('--tng-multi-autocomplete-brand').trim()).toBe('#2563eb');
+    expect(overlay.style.getPropertyValue('--tng-multi-autocomplete-z-overlay').trim()).toBe('2');
+    expect(overlay.style.zIndex).toBe(
+      'var(--tng-multi-autocomplete-z-overlay, var(--tng-multi-autocomplete-overlay-z-index, var(--tng-z-overlay, 2)))',
+    );
     expect(overlay.style.colorScheme).toBe('light');
     expect(overlay.style.width).toBe('320px');
     expect(overlay.style.minWidth).toBe('320px');
@@ -111,6 +116,8 @@ describe('tng-multi-autocomplete overlay mounting', () => {
     expect(overlay.parentNode).not.toBe(document.body);
     expect(fixture.nativeElement.contains(overlay)).toBe(true);
     expect(overlay.style.getPropertyValue('--tng-multi-autocomplete-surface').trim()).toBe('');
+    expect(overlay.style.getPropertyValue('--tng-multi-autocomplete-z-overlay').trim()).toBe('');
+    expect(overlay.style.zIndex).toBe('');
     expect(overlay.style.colorScheme).toBe('');
     expect(overlay.style.width).toBe('');
     expect(overlay.style.minWidth).toBe('');

@@ -32,6 +32,7 @@ function pointerdown(el: HTMLElement, init: Partial<PointerEventInit> = {}): voi
         --tng-select-border: #d8e2ef;
         --tng-select-fg: #0f172a;
         --tng-select-brand: #2563eb;
+        --tng-select-z-overlay: 2;
         --tng-semantic-background-surface: #f8fafc;
         --tng-semantic-border-subtle: #d8e2ef;
         --tng-semantic-foreground-primary: #0f172a;
@@ -187,6 +188,10 @@ describe('tng-select overlay primitive', () => {
     expect(overlay.style.getPropertyValue('--tng-select-border').trim()).toBe('#d8e2ef');
     expect(overlay.style.getPropertyValue('--tng-select-fg').trim()).toBe('#0f172a');
     expect(overlay.style.getPropertyValue('--tng-select-brand').trim()).toBe('#2563eb');
+    expect(overlay.style.getPropertyValue('--tng-select-z-overlay').trim()).toBe('2');
+    expect(overlay.style.zIndex).toBe(
+      'var(--tng-select-z-overlay, var(--tng-select-overlay-z-index, var(--tng-z-overlay, 2)))',
+    );
     expect(overlay.style.getPropertyValue('--tng-semantic-background-surface').trim()).toBe('#f8fafc');
     expect(overlay.style.colorScheme).toBe('light');
     expect(overlay.style.width).toBe('320px');
@@ -199,6 +204,8 @@ describe('tng-select overlay primitive', () => {
 
     expect(overlay.parentElement).not.toBe(document.body);
     expect(overlay.style.getPropertyValue('--tng-select-surface').trim()).toBe('');
+    expect(overlay.style.getPropertyValue('--tng-select-z-overlay').trim()).toBe('');
+    expect(overlay.style.zIndex).toBe('');
     expect(overlay.style.colorScheme).toBe('');
     expect(overlay.style.width).toBe('');
     expect(overlay.style.minWidth).toBe('');

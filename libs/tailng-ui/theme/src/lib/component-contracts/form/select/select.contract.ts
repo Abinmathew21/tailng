@@ -49,6 +49,8 @@ export const tngSelectCssVars = {
   optionPaddingY: '--tng-select-option-py',
   optionPaddingX: '--tng-select-option-px',
   shadow: '--tng-select-overlay-shadow',
+  zOverlay: '--tng-select-z-overlay',
+  overlayZIndex: '--tng-select-overlay-z-index',
 
   /**
    * Overlay min-width strategy:

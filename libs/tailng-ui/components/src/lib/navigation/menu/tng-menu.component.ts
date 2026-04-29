@@ -177,7 +177,7 @@ export class TngMenuComponent {
     });
 
     host.style.position = 'fixed';
-    host.style.zIndex = '50';
+    host.style.zIndex = 'var(--tng-menu-z-overlay, var(--tng-menu-overlay-z-index, var(--tng-z-overlay, 50)))';
     host.style.margin = '0';
     host.style.left = `${result.x}px`;
     host.style.top = `${result.y}px`;

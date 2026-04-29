@@ -41,6 +41,8 @@ export const tngMultiAutocompleteCssVars = {
   chipPaddingX: '--tng-multi-autocomplete-chip-px',
   optionPaddingY: '--tng-multi-autocomplete-option-py',
   optionPaddingX: '--tng-multi-autocomplete-option-px',
+  zOverlay: '--tng-multi-autocomplete-z-overlay',
+  overlayZIndex: '--tng-multi-autocomplete-overlay-z-index',
 } as const;
 
 export const tngMultiAutocompleteSemanticTokens = {

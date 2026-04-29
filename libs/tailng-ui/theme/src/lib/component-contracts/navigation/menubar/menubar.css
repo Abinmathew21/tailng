@@ -42,6 +42,8 @@
       0 10px 32px -24px color-mix(in srgb, var(--tng-menubar-shadow-ink) 18%, transparent);
     --tng-menubar-shadow-focus:
       inset 0 0 0 1px color-mix(in srgb, var(--tng-menubar-focus-ring) 55%, transparent);
+    --tng-menubar-menu-z-overlay: var(--tng-menubar-menu-overlay-z-index, var(--tng-z-overlay, 50));
+    --tng-menu-z-overlay: var(--tng-menubar-menu-z-overlay);
     --tng-menubar-ease: cubic-bezier(0.4, 0, 0.2, 1);
 
     padding: var(--tng-menubar-padding);

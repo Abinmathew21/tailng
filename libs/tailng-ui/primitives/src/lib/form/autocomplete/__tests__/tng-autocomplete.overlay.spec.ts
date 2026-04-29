@@ -210,6 +210,7 @@ class TriggerContainerHostComponent {
         [value]="value()"
         (valueChange)="value.set($event)"
         data-testid="autocomplete"
+        style="--tng-autocomplete-z-overlay: 2"
       >
         <input tngAutocompleteTrigger type="text" data-testid="trigger" />
 
@@ -542,7 +543,12 @@ describe('tng-autocomplete.overlay', () => {
       fixture.detectChanges();
 
       expect(overlay!.style.top).toBe(`${triggerTop + triggerHeight}px`);
-      expect(Number(overlay!.style.zIndex)).toBeLessThan(Number(header.style.zIndex));
+      expect(overlay!.style.zIndex).toBe(
+        'var(--tng-autocomplete-z-overlay, var(--tng-autocomplete-overlay-z-index, var(--tng-z-overlay, 2)))',
+      );
+      expect(Number(overlay!.style.getPropertyValue('--tng-autocomplete-z-overlay'))).toBeLessThan(
+        Number(header.style.zIndex),
+      );
     });
   });
 });

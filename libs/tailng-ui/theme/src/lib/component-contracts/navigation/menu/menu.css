@@ -32,6 +32,8 @@
       0 0 0 3px color-mix(in srgb, var(--tng-menu-focus-ring) 28%, transparent);
     --tng-menu-panel-shadow-focus:
       0 0 0 2px color-mix(in srgb, var(--tng-menu-focus-ring) 18%, transparent);
+    --tng-menu-z-overlay: var(--tng-menu-overlay-z-index, var(--tng-z-overlay, 50));
+    --tng-menu-z-backdrop: var(--tng-menu-backdrop-z-index, var(--tng-z-backdrop, 40));
     --tng-menu-ease: cubic-bezier(0.4, 0, 0.2, 1);
   }
 
@@ -114,7 +116,7 @@
     position: absolute;
     top: calc(100% + 0.55rem);
     left: 0;
-    z-index: 50;
+    z-index: var(--tng-menu-z-overlay);
 
     padding: 0.55rem;
 
@@ -253,7 +255,7 @@
   [data-slot="menu-backdrop"] {
     position: fixed;
     inset: 0;
-    z-index: 40;
+    z-index: var(--tng-menu-z-backdrop);
     background: color-mix(
       in srgb,
       var(--tng-semantic-foreground-primary, #0f172a) 6%,

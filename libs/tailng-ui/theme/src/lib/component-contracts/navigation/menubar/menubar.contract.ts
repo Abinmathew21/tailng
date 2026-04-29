@@ -26,6 +26,8 @@ export const tngMenubarCssVars = {
   radius: '--tng-menubar-radius',
   padding: '--tng-menubar-padding',
   itemPaddingX: '--tng-menubar-item-px',
+  menuZOverlay: '--tng-menubar-menu-z-overlay',
+  menuOverlayZIndex: '--tng-menubar-menu-overlay-z-index',
 } as const;
 
 export const tngMenubarSemanticTokens = {

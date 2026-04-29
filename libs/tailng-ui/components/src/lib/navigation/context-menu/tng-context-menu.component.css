@@ -1,4 +1,10 @@
 :host {
+  --tng-context-menu-z-overlay: var(
+    --tng-context-menu-overlay-z-index,
+    var(--tng-menu-overlay-z-index, var(--tng-z-overlay, 50))
+  );
+  --tng-menu-z-overlay: var(--tng-context-menu-z-overlay);
+
   background: var(--tng-semantic-background-canvas);
   border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 0.75rem;

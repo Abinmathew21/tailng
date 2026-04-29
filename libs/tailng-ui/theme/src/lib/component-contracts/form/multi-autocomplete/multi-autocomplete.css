@@ -24,6 +24,10 @@
     --tng-multi-autocomplete-chip-px: 0.5rem;
     --tng-multi-autocomplete-option-py: 0.5rem;
     --tng-multi-autocomplete-option-px: 0.75rem;
+    --tng-multi-autocomplete-z-overlay: var(
+      --tng-multi-autocomplete-overlay-z-index,
+      var(--tng-z-overlay, 2)
+    );
 
     --tng-multi-autocomplete-border: var(--tng-semantic-border-subtle, #e5e7eb);
     --tng-multi-autocomplete-border-strong: var(--tng-semantic-border-strong, #d1d5db);
@@ -156,7 +160,7 @@
     top: calc(100% + 0.5rem);
     left: 0;
     right: 0;
-    z-index: 20;
+    z-index: var(--tng-multi-autocomplete-z-overlay);
   }
 
   :where([data-slot="multi-autocomplete-content"][hidden]) {
@@ -164,6 +168,11 @@
   }
 
   :where([data-slot="multi-autocomplete-overlay"]) {
+    --tng-multi-autocomplete-z-overlay: var(
+      --tng-multi-autocomplete-overlay-z-index,
+      var(--tng-z-overlay, 2)
+    );
+
     width: 100%;
     box-sizing: border-box;
 

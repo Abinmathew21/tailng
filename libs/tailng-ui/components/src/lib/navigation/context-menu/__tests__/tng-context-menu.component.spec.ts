@@ -63,6 +63,7 @@ function pointerdown(el: HTMLElement): PointerEvent {
       ariaLabel="Row actions"
       (tngMenuSelect)="onSelect($event)"
       data-testid="menu"
+      style="--tng-context-menu-z-overlay: 9"
     >
       <button type="button" tngMenuItem [tngMenuItemValue]="'Duplicate row'" data-testid="duplicate">
         Duplicate
@@ -106,6 +107,22 @@ describe('tng-context-menu component wrapper', () => {
     expect(menu.getAttribute('aria-label')).toBe('Row actions');
     expect(menu.getAttribute('data-state')).toBe('open');
     expect(target.getAttribute('aria-expanded')).toBe('true');
+  });
+
+  it('bridges context-menu overlay z-index into the shared menu z-index token', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [ContextMenuComponentHost],
+    }).createComponent(ContextMenuComponentHost);
+
+    fixture.detectChanges();
+
+    const menu = fixture.nativeElement.querySelector('[data-testid="menu"]') as HTMLElement;
+    const styles = getComputedStyle(menu);
+
+    expect(styles.getPropertyValue('--tng-context-menu-z-overlay').trim()).toBe('9');
+    expect(styles.getPropertyValue('--tng-menu-z-overlay').trim()).toContain(
+      '--tng-context-menu-z-overlay',
+    );
   });
 
   it('opens from keyboard context-menu shortcuts and focuses the panel', () => {

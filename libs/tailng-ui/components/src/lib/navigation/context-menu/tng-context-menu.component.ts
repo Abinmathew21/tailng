@@ -27,5 +27,9 @@ export class TngContextMenuComponent {
   protected get hostAriaLabel(): string {
     return this.ariaLabel();
   }
+
+  @HostBinding('style.--tng-menu-z-overlay')
+  protected readonly menuZOverlay =
+    'var(--tng-context-menu-z-overlay, var(--tng-context-menu-overlay-z-index, var(--tng-menu-overlay-z-index, var(--tng-z-overlay, 50))))';
 }
 export { TngContextMenuComponent as TngContextMenu };

@@ -35,7 +35,9 @@ const PORTALLED_AUTOCOMPLETE_THEME_VARS = [
   '--tng-autocomplete-overlay-radius',
   '--tng-autocomplete-overlay-shadow',
   '--tng-autocomplete-overlay-max-width',
+  '--tng-autocomplete-z-overlay',
   '--tng-autocomplete-overlay-z-index',
+  '--tng-z-overlay',
   '--tng-autocomplete-overlay-border',
   '--tng-autocomplete-overlay-bg',
   '--tng-autocomplete-listbox-gap',
@@ -279,9 +281,8 @@ export class TngAutocompleteOverlay {
 
   private applyPortalledStacking(): void {
     const panel = this.elRef.nativeElement;
-    const overlayZIndex = panel.style.getPropertyValue('--tng-autocomplete-overlay-z-index').trim();
 
-    panel.style.zIndex = overlayZIndex || '2';
+    panel.style.zIndex = 'var(--tng-autocomplete-z-overlay, var(--tng-autocomplete-overlay-z-index, var(--tng-z-overlay, 2)))';
   }
 
   private clearPortalledThemeVars(): void {

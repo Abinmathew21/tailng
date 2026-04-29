@@ -6,6 +6,10 @@
   display: inline-grid;
   gap: 0.45rem;
   position: relative;
+  --tng-dropdown-menu-z-overlay: var(
+    --tng-dropdown-menu-overlay-z-index,
+    var(--tng-z-overlay, 10)
+  );
 }
 
 .tng-dropdown-menu__trigger {
@@ -39,7 +43,7 @@
   padding: 0.45rem;
   position: absolute;
   top: calc(100% + 0.25rem);
-  z-index: 10;
+  z-index: var(--tng-dropdown-menu-z-overlay);
 }
 
 .tng-dropdown-menu__panel :where([role='menuitem']) {

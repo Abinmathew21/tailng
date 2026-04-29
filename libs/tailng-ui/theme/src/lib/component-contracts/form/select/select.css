@@ -27,6 +27,7 @@
       0 4px 6px -1px rgba(0, 0, 0, 0.1),
       0 10px 25px -5px rgba(0, 0, 0, 0.1);
     --tng-select-overlay-max-width: min(92vw, 20rem);
+    --tng-select-z-overlay: var(--tng-select-overlay-z-index, var(--tng-z-overlay, 2));
     --tng-select-listbox-gap: 0.25rem;
     --tng-select-option-min-height: 2.25rem;
     --tng-select-option-py: 0.5rem;
@@ -153,6 +154,7 @@
       0 4px 6px -1px rgba(0, 0, 0, 0.1),
       0 10px 25px -5px rgba(0, 0, 0, 0.1);
     --tng-select-overlay-max-width: min(92vw, 20rem);
+    --tng-select-z-overlay: var(--tng-select-overlay-z-index, var(--tng-z-overlay, 2));
     --tng-select-listbox-gap: 0.25rem;
     --tng-select-option-min-height: 2.25rem;
     --tng-select-option-py: 0.5rem;
