@@ -2,9 +2,9 @@
   <section id="imports" class="headless-stepper-overview-block">
     <h2 class="headless-stepper-overview-title">Stepper overview</h2>
     <p class="headless-stepper-overview-lead">
-      Headless stepper is intentionally minimal. It marks the root container with a stable slot
-      hook and leaves step item structure, current-state semantics, and visual treatment to your
-      own markup.
+      Headless stepper models ordered progress through a list of steps. It owns value, roving
+      focus, activation policy, and state attributes while leaving the markup and visual treatment
+      to your application.
     </p>
     <tng-code-block
       [code]="importCode"
@@ -21,8 +21,9 @@
   <section id="basic-composition" class="headless-stepper-overview-block">
     <h3>Basic composition</h3>
     <p>
-      Attach <code>tngStepper</code> to the ordered list or section that owns your progress flow,
-      then author the step items, labels, and state semantics directly in the surrounding markup.
+      Attach <code>tngStepper</code> to the flow root, render an ordered list of
+      <code>tngStepperItem</code> rows, and put a focusable <code>tngStepperTrigger</code> inside
+      each row. Labels, descriptions, panels, and connectors are composable hooks.
     </p>
     <tng-code-block
       [code]="usageCode"
@@ -53,20 +54,28 @@
       panelTitle="Headless stepper (plain CSS)"
       [codeTabs]="plainCodeTabs"
     >
-      <ol tngStepper class="headless-stepper-preview-list" aria-label="Release pipeline">
-        <li class="headless-stepper-preview-item is-complete">
-          <span class="headless-stepper-preview-dot">✓</span>
-          Draft
+      <section tngStepper defaultValue="review" ariaLabel="Release pipeline">
+        <ol class="headless-stepper-preview-list">
+        <li tngStepperItem value="draft" label="Draft" completed class="headless-stepper-preview-item">
+          <button tngStepperTrigger class="headless-stepper-preview-trigger">
+            <span class="headless-stepper-preview-dot">1</span>
+            <span tngStepperLabel>Draft</span>
+          </button>
         </li>
-        <li aria-current="step" class="headless-stepper-preview-item is-current">
-          <span class="headless-stepper-preview-dot">2</span>
-          Review
+        <li tngStepperItem value="review" label="Review" class="headless-stepper-preview-item">
+          <button tngStepperTrigger class="headless-stepper-preview-trigger">
+            <span class="headless-stepper-preview-dot">2</span>
+            <span tngStepperLabel>Review</span>
+          </button>
         </li>
-        <li class="headless-stepper-preview-item">
-          <span class="headless-stepper-preview-dot">3</span>
-          Publish
+        <li tngStepperItem value="publish" label="Publish" class="headless-stepper-preview-item">
+          <button tngStepperTrigger class="headless-stepper-preview-trigger">
+            <span class="headless-stepper-preview-dot">3</span>
+            <span tngStepperLabel>Publish</span>
+          </button>
         </li>
-      </ol>
+        </ol>
+      </section>
     </ng-template>
 
     <ng-template
@@ -76,37 +85,54 @@
       panelTitle="Headless stepper (Tailwind CSS)"
       [codeTabs]="tailwindCodeTabs"
     >
-      <ol tngStepper aria-label="Checkout progress" class="grid gap-3">
+      <section tngStepper defaultValue="shipping" ariaLabel="Checkout progress" class="grid gap-3">
+        <ol class="grid gap-3">
         <li
-          class="inline-flex min-h-10 items-center gap-3 rounded-xl border border-emerald-300 bg-emerald-50 px-3 py-2 text-slate-900 dark:border-emerald-800 dark:bg-emerald-950/30 dark:text-slate-100"
+          tngStepperItem
+          value="cart"
+          label="Cart"
+          completed
+          class="inline-flex min-h-10 items-center gap-3 rounded-lg border border-emerald-300 bg-emerald-50 px-3 py-2 text-slate-900 dark:border-emerald-800 dark:bg-emerald-950/30 dark:text-slate-100"
         >
-          <span class="grid h-6 w-6 place-items-center rounded-full bg-emerald-600 text-xs font-semibold text-white">✓</span>
-          Cart
+          <button tngStepperTrigger class="inline-flex items-center gap-3">
+            <span class="grid h-6 w-6 place-items-center rounded-full bg-emerald-600 text-xs font-semibold text-white">1</span>
+            <span tngStepperLabel>Cart</span>
+          </button>
         </li>
         <li
-          aria-current="step"
-          class="inline-flex min-h-10 items-center gap-3 rounded-xl border border-sky-300 bg-sky-50 px-3 py-2 text-slate-900 dark:border-sky-800 dark:bg-sky-950/30 dark:text-slate-100"
+          tngStepperItem
+          value="shipping"
+          label="Shipping"
+          class="inline-flex min-h-10 items-center gap-3 rounded-lg border border-sky-300 bg-sky-50 px-3 py-2 text-slate-900 dark:border-sky-800 dark:bg-sky-950/30 dark:text-slate-100"
         >
-          <span class="grid h-6 w-6 place-items-center rounded-full bg-sky-600 text-xs font-semibold text-white">2</span>
-          Shipping
+          <button tngStepperTrigger class="inline-flex items-center gap-3">
+            <span class="grid h-6 w-6 place-items-center rounded-full bg-sky-600 text-xs font-semibold text-white">2</span>
+            <span tngStepperLabel>Shipping</span>
+          </button>
         </li>
         <li
-          class="inline-flex min-h-10 items-center gap-3 rounded-xl border border-slate-300 bg-white px-3 py-2 text-slate-700 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300"
+          tngStepperItem
+          value="payment"
+          label="Payment"
+          class="inline-flex min-h-10 items-center gap-3 rounded-lg border border-slate-300 bg-white px-3 py-2 text-slate-700 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300"
         >
-          <span class="grid h-6 w-6 place-items-center rounded-full bg-slate-200 text-xs font-semibold text-slate-700 dark:bg-slate-800 dark:text-slate-300">3</span>
-          Payment
+          <button tngStepperTrigger class="inline-flex items-center gap-3">
+            <span class="grid h-6 w-6 place-items-center rounded-full bg-slate-200 text-xs font-semibold text-slate-700 dark:bg-slate-800 dark:text-slate-300">3</span>
+            <span tngStepperLabel>Payment</span>
+          </button>
         </li>
-      </ol>
+        </ol>
+      </section>
     </ng-template>
   </app-docs-example-tabs-section>
 
   <section id="accessibility-baseline" class="headless-stepper-overview-block">
     <h3>Accessibility baseline</h3>
     <ul class="headless-stepper-overview-list">
-      <li>Keep the overall flow semantic by using an ordered list when the sequence matters.</li>
-      <li>Expose the active item with <code>aria-current="step"</code> on the current step row or trigger.</li>
-      <li>Include readable text for complete, optional, or error states instead of relying on color alone.</li>
-      <li>If a step is interactive, use real links or buttons inside each item rather than non-semantic containers.</li>
+      <li>Give the root an accessible name with <code>ariaLabel</code> or <code>ariaLabelledby</code>.</li>
+      <li>The current trigger receives <code>aria-current="step"</code> and a position label.</li>
+      <li>Disabled or blocked triggers expose <code>aria-disabled="true"</code>.</li>
+      <li>Keyboard users move through enabled triggers with arrows, Home, End, Enter, and Space.</li>
     </ul>
   </section>
 </article>

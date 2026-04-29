@@ -59,14 +59,32 @@
   padding: 0.35rem 0.75rem;
 }
 
-.headless-stepper-preview-item.is-current {
+.headless-stepper-preview-item[data-state="current"] {
   background: color-mix(in srgb, var(--tng-semantic-accent-brand) 14%, transparent);
   border-color: var(--tng-semantic-accent-brand);
 }
 
-.headless-stepper-preview-item.is-complete {
+.headless-stepper-preview-item[data-state="completed"] {
   background: color-mix(in srgb, var(--tng-semantic-accent-success) 12%, transparent);
   border-color: var(--tng-semantic-accent-success);
+}
+
+.headless-stepper-preview-trigger {
+  align-items: center;
+  appearance: none;
+  background: transparent;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+  display: inline-flex;
+  font: inherit;
+  gap: 0.55rem;
+  padding: 0;
+}
+
+.headless-stepper-preview-trigger:focus-visible {
+  outline: 2px solid var(--tng-semantic-accent-brand);
+  outline-offset: 3px;
 }
 
 .headless-stepper-preview-dot {

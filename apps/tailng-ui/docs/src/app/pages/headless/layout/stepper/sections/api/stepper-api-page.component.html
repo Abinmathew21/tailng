@@ -1,15 +1,15 @@
 <article class="headless-stepper-api">
   <h2 class="headless-stepper-api-title">API reference</h2>
   <p class="headless-stepper-api-lead">
-    Headless stepper is a structural primitive. It marks the root with a stable slot selector and
-    leaves step rows, states, and any interactivity to the owning markup.
+    Stepper is a headless progress primitive with registered steps, value-driven selection,
+    roving trigger focus, list-based semantics, and reflected state attributes.
   </p>
 
   <section id="root-directive" class="headless-stepper-api-block">
     <h3><code>tngStepper</code></h3>
     <p>
-      Attach the directive to the container that owns your ordered progress content. The primitive
-      does not add step-item directives, outputs, or keyboard behavior.
+      Attach the root directive to the element that owns the step list. The root controls the
+      current value, orientation, focus loop, and linear activation policy.
     </p>
     <tng-code-block
       [code]="usageCode"
@@ -25,44 +25,125 @@
       <table class="headless-stepper-api-table">
         <thead>
           <tr>
-            <th scope="col">Surface</th>
-            <th scope="col">Value</th>
+            <th scope="col">Input / output</th>
+            <th scope="col">Type</th>
             <th scope="col">Purpose</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>Selector</td>
-            <td><code>[tngStepper]</code></td>
-            <td>Attaches the primitive to your chosen host element.</td>
+            <td><code>value</code></td>
+            <td><code>string | number | null</code></td>
+            <td>Controlled current step value.</td>
           </tr>
           <tr>
-            <td>Export alias</td>
-            <td><code>tngStepper</code></td>
-            <td>Lets templates reference the directive instance if needed.</td>
+            <td><code>defaultValue</code></td>
+            <td><code>string | number | null</code></td>
+            <td>Initial uncontrolled current step value.</td>
           </tr>
           <tr>
-            <td>Host hook</td>
-            <td><code>data-slot="stepper"</code></td>
-            <td>Stable selector for styling and queries.</td>
+            <td><code>orientation</code></td>
+            <td><code>'horizontal' | 'vertical'</code></td>
+            <td>Controls root <code>data-orientation</code> and arrow-key direction.</td>
           </tr>
           <tr>
-            <td>Built-in state hooks</td>
-            <td>None</td>
-            <td>Current, complete, and error state semantics are fully owner-authored.</td>
+            <td><code>linear</code></td>
+            <td><code>boolean</code></td>
+            <td>Blocks future incomplete step activation while allowing current and completed steps.</td>
+          </tr>
+          <tr>
+            <td><code>loopFocus</code></td>
+            <td><code>boolean</code></td>
+            <td>Allows arrow focus to wrap between first and last enabled triggers.</td>
+          </tr>
+          <tr>
+            <td><code>ariaLabel</code> / <code>ariaLabelledby</code></td>
+            <td><code>string</code></td>
+            <td>Accessible name for the progress flow root.</td>
+          </tr>
+          <tr>
+            <td><code>valueChange</code></td>
+            <td><code>string | number</code></td>
+            <td>Emits when an allowed activation requests a new current step.</td>
+          </tr>
+          <tr>
+            <td><code>stepChange</code></td>
+            <td><code>{{ '{' }} value, previousValue, trigger {{ '}' }}</code></td>
+            <td>Detailed change event with pointer, keyboard, or programmatic source.</td>
           </tr>
         </tbody>
       </table>
     </div>
   </section>
 
+  <section id="item-directive" class="headless-stepper-api-block">
+    <h3><code>tngStepperItem</code></h3>
+    <p>
+      Register each ordered step with a unique <code>value</code>. Item state is reflected onto the
+      item and trigger so styling can key off the same contract.
+    </p>
+    <div class="headless-stepper-api-table-wrap">
+      <table class="headless-stepper-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Input</th>
+            <th scope="col">Type</th>
+            <th scope="col">Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>value</code></td>
+            <td><code>string | number</code></td>
+            <td>Required unique step id; ordering comes from DOM order.</td>
+          </tr>
+          <tr>
+            <td><code>completed</code></td>
+            <td><code>boolean</code></td>
+            <td>Marks the step complete and allows activation in linear mode.</td>
+          </tr>
+          <tr>
+            <td><code>optional</code></td>
+            <td><code>boolean</code></td>
+            <td>Adds optional announcement text and <code>data-optional</code>.</td>
+          </tr>
+          <tr>
+            <td><code>disabled</code></td>
+            <td><code>boolean</code></td>
+            <td>Removes the trigger from roving focus and activation.</td>
+          </tr>
+          <tr>
+            <td><code>error</code></td>
+            <td><code>boolean</code></td>
+            <td>Reflects the error state and announcement text.</td>
+          </tr>
+          <tr>
+            <td><code>label</code> / <code>description</code></td>
+            <td><code>string</code></td>
+            <td>Accessible trigger text used with generated position and state text.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="trigger-and-content-directives" class="headless-stepper-api-block">
+    <h3>Trigger and content directives</h3>
+    <ul>
+      <li><code>tngStepperTrigger</code> is the focusable, click and keyboard activatable part.</li>
+      <li><code>tngStepperLabel</code> and <code>tngStepperDescription</code> are structural slots for your text.</li>
+      <li><code>tngStepperPanel</code> hides inactive content and labels itself from its trigger.</li>
+      <li><code>tngStepperConnector</code> mirrors the owning item state for presentational connector lines.</li>
+    </ul>
+  </section>
+
   <section id="owner-responsibilities" class="headless-stepper-api-block">
     <h3>Owner responsibilities</h3>
     <ul>
-      <li>Choose the correct semantic container, usually an ordered list for linear flows.</li>
-      <li>Author step rows, labels, icons, connectors, and state tokens in your own markup.</li>
-      <li>Expose the active step with <code>aria-current="step"</code> when the flow has a current position.</li>
-      <li>Add any keyboard or link behavior yourself if step rows are navigable.</li>
+      <li>Use an ordered list when visual order communicates sequence.</li>
+      <li>Keep each step value unique and stable across reorders.</li>
+      <li>Update controlled <code>value</code> after <code>valueChange</code> if you want the UI to move.</li>
+      <li>Render visible optional, error, and completed affordances instead of relying on color only.</li>
     </ul>
   </section>
 </article>

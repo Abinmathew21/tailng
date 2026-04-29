@@ -5,6 +5,7 @@ export * from './collapsible/tng-collapsible';
 export * from './drawer/tng-drawer';
 export * from './grid/tng-grid';
 export * from './separator/tng-separator';
+export * from './stepper';
 export * from './table';
 
 export * from './tree/tng-tree';

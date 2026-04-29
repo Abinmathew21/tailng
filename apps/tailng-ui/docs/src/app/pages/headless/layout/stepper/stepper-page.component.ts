@@ -29,10 +29,12 @@ const headlessStepperOutlineItemsBySection: Readonly<
   ],
   api: [
     { id: 'root-directive', label: 'Root directive' },
+    { id: 'item-directive', label: 'Item directive' },
+    { id: 'trigger-and-content-directives', label: 'Trigger and content' },
     { id: 'owner-responsibilities', label: 'Owner responsibilities' },
   ],
   styling: [
-    { id: 'slot-and-owner-hooks', label: 'Slot and owner hooks' },
+    { id: 'slot-and-state-hooks', label: 'Slot and state hooks' },
     { id: 'css-starter', label: 'CSS starter' },
     { id: 'practical-guidance', label: 'Practical guidance' },
   ],

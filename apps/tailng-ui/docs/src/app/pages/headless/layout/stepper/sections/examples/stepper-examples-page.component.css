@@ -49,19 +49,48 @@
   padding: 0.35rem 0.75rem;
 }
 
-.headless-stepper-example-item.is-current {
+.headless-stepper-example-item[data-state="current"] {
   background: color-mix(in srgb, var(--tng-semantic-accent-brand) 14%, transparent);
   border-color: var(--tng-semantic-accent-brand);
 }
 
-.headless-stepper-example-item.is-complete {
+.headless-stepper-example-item[data-state="completed"] {
   background: color-mix(in srgb, var(--tng-semantic-accent-success) 12%, transparent);
   border-color: var(--tng-semantic-accent-success);
 }
 
-.headless-stepper-example-item.is-error {
+.headless-stepper-example-item[data-state="error"] {
   background: color-mix(in srgb, var(--tng-semantic-accent-danger) 10%, transparent);
   border-color: var(--tng-semantic-accent-danger);
+}
+
+.headless-stepper-example-trigger {
+  align-items: center;
+  appearance: none;
+  background: transparent;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+  display: inline-flex;
+  flex-wrap: wrap;
+  font: inherit;
+  gap: 0.55rem;
+  padding: 0;
+  text-align: start;
+}
+
+.headless-stepper-example-trigger:focus-visible {
+  outline: 2px solid var(--tng-semantic-accent-brand);
+  outline-offset: 3px;
+}
+
+.description {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.8rem;
+}
+
+.connector {
+  display: none;
 }
 
 .dot {

@@ -9,11 +9,25 @@ import { TngCodeBlockComponent } from '@tailng-ui/components';
 })
 export class HeadlessStepperApiPageComponent {
   protected readonly usageCode = [
-    '<ol tngStepper aria-label="Checkout progress">',
-    '  <li aria-current="step" data-state="current">Shipping</li>',
-    '  <li data-state="upcoming">Payment</li>',
-    '  <li data-state="upcoming">Confirmation</li>',
-    '</ol>',
-    '',
+    '<section',
+    '  tngStepper',
+    '  ariaLabel="Checkout progress"',
+    '  defaultValue="shipping"',
+    '  linear',
+    '  (valueChange)="currentStep = $event"',
+    '>',
+    '  <ol>',
+    '    <li tngStepperItem value="cart" label="Cart" completed>',
+    '      <button tngStepperTrigger><span tngStepperLabel>Cart</span></button>',
+    '    </li>',
+    '    <li tngStepperItem value="shipping" label="Shipping">',
+    '      <button tngStepperTrigger>',
+    '        <span tngStepperLabel>Shipping</span>',
+    '        <span tngStepperDescription>Address and delivery</span>',
+    '      </button>',
+    '      <section tngStepperPanel>Shipping form</section>',
+    '    </li>',
+    '  </ol>',
+    '</section>',
   ].join('\n');
 }

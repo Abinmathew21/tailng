@@ -214,7 +214,7 @@ export const HEADLESS_LAYOUT_GROUP: HeadlessDocsGroup = {
       slug: 'stepper',
       title: 'Stepper',
       description:
-        'Minimal structural hook for ordered progress flows with owner-authored step item semantics and styling.',
+        'Ordered progress primitive with value-driven steps, roving focus, linear mode, and state hooks.',
     },
   ],
 };

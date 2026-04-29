@@ -176,103 +176,103 @@ It should expose state, navigation behavior, and accessibility semantics while l
 
 ### A) Rendering and structure
 
-- [ ] Renders root and ordered step triggers.
-- [ ] Applies orientation attributes correctly.
-- [ ] Exactly one step is current when value is set.
-- [ ] Optional/completed/error/disabled states render correct hooks.
+- [x] Renders root and ordered step triggers.
+- [x] Applies orientation attributes correctly.
+- [x] Exactly one step is current when value is set.
+- [x] Optional/completed/error/disabled states render correct hooks.
 
 ### B) Accessibility
 
-- [ ] Root has accessible name (`aria-label` or `aria-labelledby`).
-- [ ] Current step has `aria-current="step"`.
-- [ ] Non-current steps do not have `aria-current`.
-- [ ] Disabled steps expose `aria-disabled`.
-- [ ] Position text (step X of Y) is exposed for AT.
-- [ ] Optional/error/completed state text is announced.
+- [x] Root has accessible name (`aria-label` or `aria-labelledby`).
+- [x] Current step has `aria-current="step"`.
+- [x] Non-current steps do not have `aria-current`.
+- [x] Disabled steps expose `aria-disabled`.
+- [x] Position text (step X of Y) is exposed for AT.
+- [x] Optional/error/completed state text is announced.
 
 ### C) Focus and roving tabindex
 
-- [ ] Only one trigger is tabbable (`tabindex=0`), others `-1`.
-- [ ] Tab enters on current or last-focused trigger.
-- [ ] Arrow keys move focus among enabled triggers.
-- [ ] Home/End move focus to first/last enabled.
-- [ ] Disabled triggers are skipped by roving focus.
+- [x] Only one trigger is tabbable (`tabindex=0`), others `-1`.
+- [x] Tab enters on current or last-focused trigger.
+- [x] Arrow keys move focus among enabled triggers.
+- [x] Home/End move focus to first/last enabled.
+- [x] Disabled triggers are skipped by roving focus.
 
 ### D) Activation behavior
 
-- [ ] Click activates step when allowed.
-- [ ] Enter activates focused step when allowed.
-- [ ] Space activates focused step when allowed.
-- [ ] Disabled step never activates via click/keyboard.
+- [x] Click activates step when allowed.
+- [x] Enter activates focused step when allowed.
+- [x] Space activates focused step when allowed.
+- [x] Disabled step never activates via click/keyboard.
 
 ### E) Linear mode behavior
 
-- [ ] In linear mode, future incomplete step activation is blocked.
-- [ ] In linear mode, previous completed steps are activatable.
-- [ ] Blocked activation does not emit `valueChange`.
-- [ ] In non-linear mode, any enabled step activates.
+- [x] In linear mode, future incomplete step activation is blocked.
+- [x] In linear mode, previous completed steps are activatable.
+- [x] Blocked activation does not emit `valueChange`.
+- [x] In non-linear mode, any enabled step activates.
 
 ### F) Controlled behavior
 
-- [ ] Controlled `value` drives current step.
-- [ ] User activation emits `valueChange` with next step value.
-- [ ] Controlled step does not visually change until host updates input.
+- [x] Controlled `value` drives current step.
+- [x] User activation emits `valueChange` with next step value.
+- [x] Controlled step does not visually change until host updates input.
 
 ### G) Uncontrolled behavior
 
-- [ ] Uses `defaultValue` as initial current step.
-- [ ] Without `value/defaultValue`, selects first enabled step.
-- [ ] Uncontrolled activation updates internal current step.
+- [x] Uses `defaultValue` as initial current step.
+- [x] Without `value/defaultValue`, selects first enabled step.
+- [x] Uncontrolled activation updates internal current step.
 
 ### H) Dynamic children
 
-- [ ] Removing current step selects nearest enabled fallback.
-- [ ] Disabling current step selects nearest enabled fallback.
-- [ ] Reordering steps preserves selection by `value`.
-- [ ] Duplicate values trigger dev warning.
+- [x] Removing current step selects nearest enabled fallback.
+- [x] Disabling current step selects nearest enabled fallback.
+- [x] Reordering steps preserves selection by `value`.
+- [x] Duplicate values trigger dev warning.
 
 ### I) Orientation and RTL
 
-- [ ] Horizontal LTR arrow behavior is correct.
-- [ ] Horizontal RTL arrow behavior is reversed correctly.
-- [ ] Vertical arrow behavior uses Up/Down only.
+- [x] Horizontal LTR arrow behavior is correct.
+- [x] Horizontal RTL arrow behavior is reversed correctly.
+- [x] Vertical arrow behavior uses Up/Down only.
 
 ### J) Data attributes
 
-- [ ] Root `data-orientation` and `data-linear` update reactively.
-- [ ] Trigger `data-state` reflects state transitions.
-- [ ] `data-step-index` reflects DOM order changes.
+- [x] Root `data-orientation` and `data-linear` update reactively.
+- [x] Trigger `data-state` reflects state transitions.
+- [x] `data-step-index` reflects DOM order changes.
 
 ### K) Integration (if panels are included)
 
-- [ ] Active panel tracks current step.
-- [ ] Inactive panels hidden correctly.
-- [ ] Panel linkage (`aria-controls` / `aria-labelledby`) is valid.
+- [x] Active panel tracks current step.
+- [x] Inactive panels hidden correctly.
+- [x] Panel linkage (`aria-controls` / `aria-labelledby`) is valid.
 
 ### L) Edge cases
 
-- [ ] Zero-step scenario does not throw.
-- [ ] Single-step scenario maintains stable focus and selection.
-- [ ] Invalid controlled `value` falls back predictably.
-- [ ] Rapid updates do not produce expression-changed errors.
+- [x] Zero-step scenario does not throw.
+- [x] Single-step scenario maintains stable focus and selection.
+- [x] Invalid controlled `value` falls back predictably.
+- [x] Rapid updates do not produce expression-changed errors.
 
 ## Implementation Steps
 
-1. [x] Headless primitive created in `primitives`
-2. [x] Headless tests added in `__tests__`
-3. [x] Plain CSS playground demo added
-4. [x] Tailwind playground demo added
-5. [x] Styled `<tng-stepper>` wrapper created in `components`
-6. [x] Wrapper tests added in `components/__tests__`
-7. [x] Plain CSS wrapper demo added
-8. [x] Tailwind wrapper demo added
-9. [x] Docs overview page added/updated
-10. [x] Docs API page added/updated
-11. [x] Docs styling page added/updated
-12. [x] Docs examples page added/updated
-13. [x] Registry templates added (`tailng add stepper`)
-14. [x] CLI generator wired for stepper
-15. [x] CLI integration tests added
+1. [ ] Headless primitive created in `primitives`
+2. [ ] Headless tests added in `__tests__`
+3. [ ] Plain CSS playground demo added
+4. [ ] Tailwind playground demo added
+5. [ ] Styled `<tng-stepper>` wrapper created in `components`
+6. [ ] Wrapper tests added in `components/__tests__`
+7. [ ] Plain CSS wrapper demo added
+8. [ ] Tailwind wrapper demo added
+9. [ ] Docs overview page added/updated
+10. [ ] Docs API page added/updated
+11. [ ] Docs styling page added/updated
+12. [ ] Docs examples page added/updated
+13. [ ] Registry templates added (`tailng add stepper`)
+14. [ ] CLI generator wired for stepper
+15. [ ] CLI integration tests added
 
 ## Links
 

@@ -35,14 +35,14 @@ describe('tng-stepper component', () => {
     expect(typeof TngStepperComponent).toBe('function');
   });
 
-  it('applies primitive slot + wrapper class on the rendered section', () => {
+  it('applies wrapper class on the rendered section', () => {
     const fixture = TestBed.configureTestingModule({
       imports: [StepperWrapperHostComponent],
     }).createComponent(StepperWrapperHostComponent);
     fixture.detectChanges();
 
     const stepperSection = fixture.nativeElement.querySelector(
-      '[data-testid="wrapper"] [data-slot="stepper"]',
+      '[data-testid="wrapper"] section.tng-stepper',
     ) as HTMLElement | null;
 
     expect(stepperSection).toBeTruthy();
@@ -56,7 +56,7 @@ describe('tng-stepper component', () => {
     fixture.detectChanges();
 
     const stepperSection = fixture.nativeElement.querySelector(
-      '[data-testid="wrapper-default"] [data-slot="stepper"]',
+      '[data-testid="wrapper-default"] section.tng-stepper',
     ) as HTMLElement | null;
 
     expect(stepperSection).toBeTruthy();
@@ -70,7 +70,7 @@ describe('tng-stepper component', () => {
     fixture.detectChanges();
 
     const stepperSection = fixture.nativeElement.querySelector(
-      '[data-testid="wrapper"] [data-slot="stepper"]',
+      '[data-testid="wrapper"] section.tng-stepper',
     ) as HTMLElement | null;
     expect(stepperSection).toBeTruthy();
     expect(stepperSection?.getAttribute('aria-label')).toBe('Release flow');
