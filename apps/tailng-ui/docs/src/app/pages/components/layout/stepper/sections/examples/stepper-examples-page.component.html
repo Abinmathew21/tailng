@@ -1,8 +1,8 @@
 <article class="stepper-examples">
   <h2 class="stepper-examples-title">Examples</h2>
   <p class="stepper-examples-lead">
-    Reusable wrapper-based stepper layouts for checkout, release workflows, and validation fallback
-    paths.
+    Reusable wrapper-based stepper layouts that compose the styled host with headless step items,
+    triggers, and state attributes.
   </p>
 
   <section id="checkout-progression-variants" class="stepper-examples-block">
@@ -22,11 +22,26 @@
         [codeTabs]="checkoutPlainCodeTabs"
       >
         <div class="stepper-example-shell stepper-example-shell--plain">
-          <tng-stepper ariaLabel="Checkout progress">
+          <tng-stepper ariaLabel="Checkout progress" defaultValue="shipping" linear>
             <ol class="stepper-example-list">
-              <li class="stepper-example-item is-complete"><span class="dot">✓</span> Cart</li>
-              <li aria-current="step" class="stepper-example-item is-current"><span class="dot">2</span> Shipping</li>
-              <li class="stepper-example-item"><span class="dot">3</span> Payment</li>
+              <li tngStepperItem value="cart" label="Cart" completed class="stepper-example-item">
+                <button tngStepperTrigger class="stepper-example-trigger">
+                  <span class="dot">1</span>
+                  <span tngStepperLabel>Cart</span>
+                </button>
+              </li>
+              <li tngStepperItem value="shipping" label="Shipping" class="stepper-example-item">
+                <button tngStepperTrigger class="stepper-example-trigger">
+                  <span class="dot">2</span>
+                  <span tngStepperLabel>Shipping</span>
+                </button>
+              </li>
+              <li tngStepperItem value="payment" label="Payment" class="stepper-example-item">
+                <button tngStepperTrigger class="stepper-example-trigger">
+                  <span class="dot">3</span>
+                  <span tngStepperLabel>Payment</span>
+                </button>
+              </li>
             </ol>
           </tng-stepper>
         </div>
@@ -42,11 +57,26 @@
         <div
           class="stepper-example-shell rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
         >
-          <tng-stepper ariaLabel="Checkout progress">
+          <tng-stepper ariaLabel="Checkout progress" defaultValue="shipping" linear>
             <ol class="stepper-example-list">
-              <li class="stepper-example-item is-complete"><span class="dot">✓</span> Cart</li>
-              <li aria-current="step" class="stepper-example-item is-current"><span class="dot">2</span> Shipping</li>
-              <li class="stepper-example-item"><span class="dot">3</span> Payment</li>
+              <li tngStepperItem value="cart" label="Cart" completed class="stepper-example-item">
+                <button tngStepperTrigger class="stepper-example-trigger">
+                  <span class="dot">1</span>
+                  <span tngStepperLabel>Cart</span>
+                </button>
+              </li>
+              <li tngStepperItem value="shipping" label="Shipping" class="stepper-example-item">
+                <button tngStepperTrigger class="stepper-example-trigger">
+                  <span class="dot">2</span>
+                  <span tngStepperLabel>Shipping</span>
+                </button>
+              </li>
+              <li tngStepperItem value="payment" label="Payment" class="stepper-example-item">
+                <button tngStepperTrigger class="stepper-example-trigger">
+                  <span class="dot">3</span>
+                  <span tngStepperLabel>Payment</span>
+                </button>
+              </li>
             </ol>
           </tng-stepper>
         </div>
@@ -71,11 +101,26 @@
         [codeTabs]="releasePlainCodeTabs"
       >
         <div class="stepper-example-shell stepper-example-shell--plain">
-          <tng-stepper ariaLabel="Release flow">
+          <tng-stepper ariaLabel="Release flow" defaultValue="publish">
             <ol class="stepper-example-list">
-              <li class="stepper-example-item is-complete"><span class="dot">✓</span> Draft</li>
-              <li class="stepper-example-item is-complete"><span class="dot">✓</span> Review</li>
-              <li aria-current="step" class="stepper-example-item is-current"><span class="dot">3</span> Publish</li>
+              <li tngStepperItem value="draft" label="Draft" completed class="stepper-example-item">
+                <button tngStepperTrigger class="stepper-example-trigger">
+                  <span class="dot">1</span>
+                  <span tngStepperLabel>Draft</span>
+                </button>
+              </li>
+              <li tngStepperItem value="review" label="Review" completed class="stepper-example-item">
+                <button tngStepperTrigger class="stepper-example-trigger">
+                  <span class="dot">2</span>
+                  <span tngStepperLabel>Review</span>
+                </button>
+              </li>
+              <li tngStepperItem value="publish" label="Publish" class="stepper-example-item">
+                <button tngStepperTrigger class="stepper-example-trigger">
+                  <span class="dot">3</span>
+                  <span tngStepperLabel>Publish</span>
+                </button>
+              </li>
             </ol>
           </tng-stepper>
         </div>
@@ -91,11 +136,26 @@
         <div
           class="stepper-example-shell rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
         >
-          <tng-stepper ariaLabel="Release flow">
+          <tng-stepper ariaLabel="Release flow" defaultValue="publish">
             <ol class="stepper-example-list">
-              <li class="stepper-example-item is-complete"><span class="dot">✓</span> Draft</li>
-              <li class="stepper-example-item is-complete"><span class="dot">✓</span> Review</li>
-              <li aria-current="step" class="stepper-example-item is-current"><span class="dot">3</span> Publish</li>
+              <li tngStepperItem value="draft" label="Draft" completed class="stepper-example-item">
+                <button tngStepperTrigger class="stepper-example-trigger">
+                  <span class="dot">1</span>
+                  <span tngStepperLabel>Draft</span>
+                </button>
+              </li>
+              <li tngStepperItem value="review" label="Review" completed class="stepper-example-item">
+                <button tngStepperTrigger class="stepper-example-trigger">
+                  <span class="dot">2</span>
+                  <span tngStepperLabel>Review</span>
+                </button>
+              </li>
+              <li tngStepperItem value="publish" label="Publish" class="stepper-example-item">
+                <button tngStepperTrigger class="stepper-example-trigger">
+                  <span class="dot">3</span>
+                  <span tngStepperLabel>Publish</span>
+                </button>
+              </li>
             </ol>
           </tng-stepper>
         </div>
@@ -120,11 +180,27 @@
         [codeTabs]="errorPlainCodeTabs"
       >
         <div class="stepper-example-shell stepper-example-shell--plain">
-          <tng-stepper ariaLabel="Onboarding">
+          <tng-stepper ariaLabel="Onboarding" defaultValue="billing">
             <ol class="stepper-example-list">
-              <li class="stepper-example-item is-complete"><span class="dot">✓</span> Profile</li>
-              <li aria-current="step" class="stepper-example-item is-error"><span class="dot">2</span> Billing</li>
-              <li class="stepper-example-item"><span class="dot">3</span> Team invite</li>
+              <li tngStepperItem value="profile" label="Profile" completed class="stepper-example-item">
+                <button tngStepperTrigger class="stepper-example-trigger">
+                  <span class="dot">1</span>
+                  <span tngStepperLabel>Profile</span>
+                </button>
+              </li>
+              <li tngStepperItem value="billing" label="Billing" error class="stepper-example-item">
+                <button tngStepperTrigger class="stepper-example-trigger">
+                  <span class="dot">2</span>
+                  <span tngStepperLabel>Billing</span>
+                </button>
+                <span tngStepperDescription class="stepper-example-description">Card declined</span>
+              </li>
+              <li tngStepperItem value="invite" label="Team invite" class="stepper-example-item">
+                <button tngStepperTrigger class="stepper-example-trigger">
+                  <span class="dot">3</span>
+                  <span tngStepperLabel>Team invite</span>
+                </button>
+              </li>
             </ol>
           </tng-stepper>
         </div>
@@ -140,11 +216,27 @@
         <div
           class="stepper-example-shell rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
         >
-          <tng-stepper ariaLabel="Onboarding">
+          <tng-stepper ariaLabel="Onboarding" defaultValue="billing">
             <ol class="stepper-example-list">
-              <li class="stepper-example-item is-complete"><span class="dot">✓</span> Profile</li>
-              <li aria-current="step" class="stepper-example-item is-error"><span class="dot">2</span> Billing</li>
-              <li class="stepper-example-item"><span class="dot">3</span> Team invite</li>
+              <li tngStepperItem value="profile" label="Profile" completed class="stepper-example-item">
+                <button tngStepperTrigger class="stepper-example-trigger">
+                  <span class="dot">1</span>
+                  <span tngStepperLabel>Profile</span>
+                </button>
+              </li>
+              <li tngStepperItem value="billing" label="Billing" error class="stepper-example-item">
+                <button tngStepperTrigger class="stepper-example-trigger">
+                  <span class="dot">2</span>
+                  <span tngStepperLabel>Billing</span>
+                </button>
+                <span tngStepperDescription class="stepper-example-description">Card declined</span>
+              </li>
+              <li tngStepperItem value="invite" label="Team invite" class="stepper-example-item">
+                <button tngStepperTrigger class="stepper-example-trigger">
+                  <span class="dot">3</span>
+                  <span tngStepperLabel>Team invite</span>
+                </button>
+              </li>
             </ol>
           </tng-stepper>
         </div>

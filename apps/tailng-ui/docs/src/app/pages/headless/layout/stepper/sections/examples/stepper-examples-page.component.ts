@@ -6,7 +6,6 @@ import {
   TngStepperDescription,
   TngStepperItem,
   TngStepperLabel,
-  TngStepperPanel,
   TngStepperTrigger,
 } from '@tailng-ui/primitives';
 import type { DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
@@ -27,7 +26,6 @@ import {
     TngStepperDescription,
     TngStepperItem,
     TngStepperLabel,
-    TngStepperPanel,
     TngStepperTrigger,
     DocsExampleTabsSectionComponent,
     DocsExampleVariantDirective,

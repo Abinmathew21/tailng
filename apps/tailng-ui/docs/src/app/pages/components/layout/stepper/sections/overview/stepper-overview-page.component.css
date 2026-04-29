@@ -68,24 +68,44 @@
 }
 
 .stepper-preview-item {
-  align-items: center;
   border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 0.65rem;
   color: var(--tng-semantic-foreground-primary);
-  display: inline-flex;
-  gap: 0.55rem;
   min-height: 2.2rem;
-  padding: 0.35rem 0.7rem;
 }
 
-.stepper-preview-item.is-current {
+.stepper-preview-item[data-state='current'] {
   background: color-mix(in srgb, var(--tng-semantic-accent-brand) 14%, transparent);
   border-color: var(--tng-semantic-accent-brand);
 }
 
-.stepper-preview-item.is-complete {
+.stepper-preview-item[data-state='completed'] {
   background: color-mix(in srgb, var(--tng-semantic-accent-success) 12%, transparent);
   border-color: var(--tng-semantic-accent-success);
+}
+
+.stepper-preview-trigger {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+  display: inline-flex;
+  gap: 0.55rem;
+  min-height: 2.2rem;
+  padding: 0.35rem 0.7rem;
+  text-align: start;
+  width: 100%;
+}
+
+.stepper-preview-trigger:focus-visible {
+  border-radius: 0.55rem;
+  outline: 2px solid var(--tng-semantic-accent-brand);
+  outline-offset: 2px;
+}
+
+.stepper-preview-trigger[aria-disabled='true'] {
+  cursor: not-allowed;
 }
 
 .stepper-preview-dot {

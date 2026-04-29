@@ -1,15 +1,15 @@
 <article class="stepper-api">
   <h2 class="stepper-api-title">API reference</h2>
   <p class="stepper-api-lead">
-    Stepper currently provides a structural primitive directive and a styled wrapper component.
-    Behavioral navigation APIs are planned for the next iteration.
+    Stepper provides a headless primitive set for value, focus, and state management, plus a styled
+    wrapper component that hosts the same primitive internally.
   </p>
 
   <section id="tngstepper-directive" class="stepper-api-block">
     <h3><code>tngStepper</code> (directive)</h3>
     <p>
-      Attach on a container element (<code>ol</code>, <code>section</code>, etc.) to expose
-      stepper slot semantics. The rows inside are fully owner-authored.
+      Attach on a container element (<code>ol</code>, <code>section</code>, etc.) and project
+      stepper items, triggers, labels, descriptions, panels, and connectors inside it.
     </p>
     <tng-code-block
       [code]="primitiveAttachmentCode"
@@ -32,24 +32,29 @@
         </thead>
         <tbody>
           <tr>
-            <td>Host attribute</td>
-            <td><code>data-slot="stepper"</code></td>
-            <td>Stable styling and query hook.</td>
+            <td>Root attributes</td>
+            <td><code>data-slot</code>, <code>data-orientation</code>, <code>data-linear</code></td>
+            <td>Stable styling hooks for the primitive root.</td>
           </tr>
           <tr>
-            <td>Selector</td>
-            <td><code>[tngStepper]</code></td>
-            <td>Attach stepper semantics without imposing markup.</td>
+            <td>Root inputs</td>
+            <td><code>value</code>, <code>defaultValue</code>, <code>orientation</code>, <code>linear</code>, <code>loopFocus</code></td>
+            <td>Control selection, first render state, orientation, linear gating, and focus wrapping.</td>
           </tr>
           <tr>
-            <td>Export alias</td>
-            <td><code>tngStepper</code></td>
-            <td>Reference directive instance from templates if needed.</td>
+            <td>Root outputs</td>
+            <td><code>valueChange</code>, <code>stepChange</code></td>
+            <td>Observe selected value changes and activation source metadata.</td>
           </tr>
           <tr>
-            <td>Built-in item hooks</td>
-            <td>None</td>
-            <td>Any <code>data-state</code>, <code>aria-current</code>, or classes on step rows are app-authored.</td>
+            <td>Item selector</td>
+            <td><code>[tngStepperItem]</code></td>
+            <td>Registers each step and emits <code>data-state</code>, <code>data-step-index</code>, and optional state hooks.</td>
+          </tr>
+          <tr>
+            <td>Trigger selector</td>
+            <td><code>[tngStepperTrigger]</code></td>
+            <td>Handles click activation, arrow-key focus, <code>aria-current</code>, and disabled semantics.</td>
           </tr>
         </tbody>
       </table>
@@ -59,8 +64,8 @@
   <section id="tng-stepper-component" class="stepper-api-block">
     <h3><code>tng-stepper</code> (component)</h3>
     <p>
-      Wrapper that applies a baseline shell and forwards <code>ariaLabel</code> to the stepper
-      host. It does not generate step rows or manage current, completed, or error states for you.
+      Wrapper that applies the baseline shell and attaches the headless <code>tngStepper</code>
+      directive to its host. Compose the same projected primitive directives inside it.
     </p>
     <tng-code-block
       [code]="componentAttachmentCode"
@@ -88,6 +93,54 @@
             <td><code>string</code></td>
             <td><code>'Stepper'</code></td>
             <td>Sets accessible label on the underlying stepper host.</td>
+          </tr>
+          <tr>
+            <td><code>ariaLabelledby</code></td>
+            <td><code>string | null</code></td>
+            <td><code>null</code></td>
+            <td>Uses an external label element and suppresses the fallback <code>ariaLabel</code>.</td>
+          </tr>
+          <tr>
+            <td><code>value</code></td>
+            <td><code>string | number | null</code></td>
+            <td><code>undefined</code></td>
+            <td>Controls the selected step value when supplied.</td>
+          </tr>
+          <tr>
+            <td><code>defaultValue</code></td>
+            <td><code>string | number | null</code></td>
+            <td><code>undefined</code></td>
+            <td>Sets the initial uncontrolled selected value.</td>
+          </tr>
+          <tr>
+            <td><code>orientation</code></td>
+            <td><code>'horizontal' | 'vertical'</code></td>
+            <td><code>'horizontal'</code></td>
+            <td>Controls orientation metadata and keyboard direction behavior.</td>
+          </tr>
+          <tr>
+            <td><code>linear</code></td>
+            <td><code>boolean</code></td>
+            <td><code>false</code></td>
+            <td>Prevents activation of future incomplete steps.</td>
+          </tr>
+          <tr>
+            <td><code>loopFocus</code></td>
+            <td><code>boolean</code></td>
+            <td><code>true</code></td>
+            <td>Allows arrow-key focus to wrap at the ends.</td>
+          </tr>
+          <tr>
+            <td><code>valueChange</code></td>
+            <td><code>EventEmitter&lt;string | number&gt;</code></td>
+            <td>-</td>
+            <td>Emits the newly selected value.</td>
+          </tr>
+          <tr>
+            <td><code>stepChange</code></td>
+            <td><code>EventEmitter&lt;TngStepperValueChangeEvent&gt;</code></td>
+            <td>-</td>
+            <td>Emits value, previous value, and activation source.</td>
           </tr>
         </tbody>
       </table>

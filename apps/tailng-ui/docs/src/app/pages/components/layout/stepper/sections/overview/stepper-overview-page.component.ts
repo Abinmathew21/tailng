@@ -1,18 +1,29 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, inject, signal, type OnDestroy } from '@angular/core';
-import { observeDocsCodeThemeChanges, resolveDocsCodeBlockTheme } from '../../../../../../shared/util';
 import { TngCodeBlockComponent, TngStepperComponent } from '@tailng-ui/components';
+import {
+  TngStepperItem,
+  TngStepperLabel,
+  TngStepperTrigger,
+} from '@tailng-ui/primitives';
 import type { DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
 import {
   DocsExampleTabsSectionComponent,
   DocsExampleVariantDirective,
 } from '../../../../../../shared/example-tabs-section/docs-example-tabs-section.component';
+import {
+  observeDocsCodeThemeChanges,
+  resolveDocsCodeBlockTheme,
+} from '../../../../../../shared/util';
 
 @Component({
   selector: 'app-stepper-overview-page',
   imports: [
     TngCodeBlockComponent,
     TngStepperComponent,
+    TngStepperItem,
+    TngStepperLabel,
+    TngStepperTrigger,
     DocsExampleTabsSectionComponent,
     DocsExampleVariantDirective,
   ],
@@ -29,6 +40,11 @@ export class StepperOverviewPageComponent implements OnDestroy {
 
   protected readonly componentImportCode = [
     "import { TngStepperComponent } from '@tailng-ui/components';",
+    'import {',
+    '  TngStepperItem,',
+    '  TngStepperLabel,',
+    '  TngStepperTrigger,',
+    "} from '@tailng-ui/primitives';",
     '',
   ].join('\n');
 
@@ -41,11 +57,12 @@ export class StepperOverviewPageComponent implements OnDestroy {
       code: [
         "import { Component } from '@angular/core';",
         "import { TngStepperComponent } from '@tailng-ui/components';",
+        "import { TngStepperItem, TngStepperLabel, TngStepperTrigger } from '@tailng-ui/primitives';",
         '',
         '@Component({',
         "  selector: 'app-stepper-overview-plain-css',",
         '  standalone: true,',
-        '  imports: [TngStepperComponent],',
+        '  imports: [TngStepperComponent, TngStepperItem, TngStepperLabel, TngStepperTrigger],',
         "  templateUrl: './stepper-overview-plain-css.component.html',",
         "  styleUrl: './stepper-overview-plain-css.component.css',",
         '})',
@@ -59,11 +76,26 @@ export class StepperOverviewPageComponent implements OnDestroy {
       title: 'stepper-overview-plain-css.component.html',
       code: [
         '<div class="stepper-preview-shell stepper-preview-shell--plain">',
-        '  <tng-stepper ariaLabel="Release pipeline">',
+        '  <tng-stepper ariaLabel="Release pipeline" defaultValue="review">',
         '    <ol class="stepper-preview-list">',
-        '      <li class="stepper-preview-item is-complete"><span class="stepper-preview-dot">✓</span> Draft</li>',
-        '      <li aria-current="step" class="stepper-preview-item is-current"><span class="stepper-preview-dot">2</span> Review</li>',
-        '      <li class="stepper-preview-item"><span class="stepper-preview-dot">3</span> Publish</li>',
+        '      <li tngStepperItem value="draft" label="Draft" completed class="stepper-preview-item">',
+        '        <button tngStepperTrigger class="stepper-preview-trigger">',
+        '          <span class="stepper-preview-dot">1</span>',
+        '          <span tngStepperLabel>Draft</span>',
+        '        </button>',
+        '      </li>',
+        '      <li tngStepperItem value="review" label="Review" class="stepper-preview-item">',
+        '        <button tngStepperTrigger class="stepper-preview-trigger">',
+        '          <span class="stepper-preview-dot">2</span>',
+        '          <span tngStepperLabel>Review</span>',
+        '        </button>',
+        '      </li>',
+        '      <li tngStepperItem value="publish" label="Publish" class="stepper-preview-item">',
+        '        <button tngStepperTrigger class="stepper-preview-trigger">',
+        '          <span class="stepper-preview-dot">3</span>',
+        '          <span tngStepperLabel>Publish</span>',
+        '        </button>',
+        '      </li>',
         '    </ol>',
         '  </tng-stepper>',
         '</div>',
@@ -93,11 +125,12 @@ export class StepperOverviewPageComponent implements OnDestroy {
       code: [
         "import { Component } from '@angular/core';",
         "import { TngStepperComponent } from '@tailng-ui/components';",
+        "import { TngStepperItem, TngStepperLabel, TngStepperTrigger } from '@tailng-ui/primitives';",
         '',
         '@Component({',
         "  selector: 'app-stepper-overview-tailwind',",
         '  standalone: true,',
-        '  imports: [TngStepperComponent],',
+        '  imports: [TngStepperComponent, TngStepperItem, TngStepperLabel, TngStepperTrigger],',
         "  templateUrl: './stepper-overview-tailwind.component.html',",
         "  styleUrl: './stepper-overview-tailwind.component.css',",
         '})',
@@ -111,11 +144,26 @@ export class StepperOverviewPageComponent implements OnDestroy {
       title: 'stepper-overview-tailwind.component.html',
       code: [
         '<div class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">',
-        '  <tng-stepper ariaLabel="Release pipeline">',
+        '  <tng-stepper ariaLabel="Release pipeline" defaultValue="review">',
         '    <ol class="stepper-preview-list">',
-        '      <li class="stepper-preview-item is-complete"><span class="stepper-preview-dot">✓</span> Draft</li>',
-        '      <li aria-current="step" class="stepper-preview-item is-current"><span class="stepper-preview-dot">2</span> Review</li>',
-        '      <li class="stepper-preview-item"><span class="stepper-preview-dot">3</span> Publish</li>',
+        '      <li tngStepperItem value="draft" label="Draft" completed class="stepper-preview-item">',
+        '        <button tngStepperTrigger class="stepper-preview-trigger">',
+        '          <span class="stepper-preview-dot">1</span>',
+        '          <span tngStepperLabel>Draft</span>',
+        '        </button>',
+        '      </li>',
+        '      <li tngStepperItem value="review" label="Review" class="stepper-preview-item">',
+        '        <button tngStepperTrigger class="stepper-preview-trigger">',
+        '          <span class="stepper-preview-dot">2</span>',
+        '          <span tngStepperLabel>Review</span>',
+        '        </button>',
+        '      </li>',
+        '      <li tngStepperItem value="publish" label="Publish" class="stepper-preview-item">',
+        '        <button tngStepperTrigger class="stepper-preview-trigger">',
+        '          <span class="stepper-preview-dot">3</span>',
+        '          <span tngStepperLabel>Publish</span>',
+        '        </button>',
+        '      </li>',
         '    </ol>',
         '  </tng-stepper>',
         '</div>',

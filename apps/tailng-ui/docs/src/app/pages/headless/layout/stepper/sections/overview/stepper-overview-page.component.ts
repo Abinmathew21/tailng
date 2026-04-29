@@ -3,11 +3,8 @@ import { Component, inject, signal, type OnDestroy } from '@angular/core';
 import { TngCodeBlockComponent } from '@tailng-ui/components';
 import {
   TngStepper,
-  TngStepperConnector,
-  TngStepperDescription,
   TngStepperItem,
   TngStepperLabel,
-  TngStepperPanel,
   TngStepperTrigger,
 } from '@tailng-ui/primitives';
 import type { DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
@@ -25,11 +22,8 @@ import {
   imports: [
     TngCodeBlockComponent,
     TngStepper,
-    TngStepperConnector,
-    TngStepperDescription,
     TngStepperItem,
     TngStepperLabel,
-    TngStepperPanel,
     TngStepperTrigger,
     DocsExampleTabsSectionComponent,
     DocsExampleVariantDirective,

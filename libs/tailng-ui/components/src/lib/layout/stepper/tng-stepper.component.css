@@ -1,8 +1,4 @@
 :host {
-  display: block;
-}
-
-.tng-stepper {
   background: var(--tng-semantic-background-base);
   border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 0.75rem;

@@ -206,7 +206,7 @@ export const COMPONENTS_LAYOUT_GROUP: ComponentsDocsGroup = {
       id: 'stepper',
       slug: 'stepper',
       title: 'Stepper',
-      description: 'Ordered multi-step workflow surfaces for guided completion flows.',
+      description: 'Styled stepper shell powered by headless value, focus, and state management.',
     },
     {
       id: 'drawer',

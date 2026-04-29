@@ -1,9 +1,8 @@
 <article class="stepper-styling">
   <h2 class="stepper-styling-title">Styling contract</h2>
   <p class="stepper-styling-lead">
-    The library owns the stepper root hook. State tokens for individual rows are still authored by
-    your app, so keep those conventions centralized if you want current, complete, and error
-    treatment to stay consistent across flows.
+    The wrapper owns the shell class while the headless primitive emits stable slot, orientation,
+    state, and focus hooks across projected items and triggers.
   </p>
 
   <section id="state-hooks" class="stepper-styling-block">
@@ -24,24 +23,49 @@
             <td>Container spacing, orientation layouts, connector styling.</td>
           </tr>
           <tr>
+            <td><code>data-orientation</code></td>
+            <td>Root (library-owned)</td>
+            <td>Horizontal and vertical layout selectors.</td>
+          </tr>
+          <tr>
+            <td><code>data-linear</code></td>
+            <td>Root (library-owned)</td>
+            <td>Linear-flow styling or analytics hook when linear mode is active.</td>
+          </tr>
+          <tr>
+            <td><code>data-slot="stepper-item"</code></td>
+            <td>Projected item (library-owned)</td>
+            <td>Per-step row styling.</td>
+          </tr>
+          <tr>
+            <td><code>data-slot="stepper-trigger"</code></td>
+            <td>Projected trigger (library-owned)</td>
+            <td>Focus rings, hit target sizing, and button/link reset styles.</td>
+          </tr>
+          <tr>
             <td><code>data-state="current"</code></td>
-            <td>Step item (owner-authored)</td>
+            <td>Projected item and trigger (library-owned)</td>
             <td>Active step emphasis and readable current-state styling.</td>
           </tr>
           <tr>
             <td><code>data-state="completed"</code></td>
-            <td>Step item (owner-authored)</td>
+            <td>Projected item and trigger (library-owned)</td>
             <td>Past-step confirmation colors and icon treatment.</td>
           </tr>
           <tr>
             <td><code>data-state="upcoming"</code></td>
-            <td>Step item (owner-authored)</td>
+            <td>Projected item and trigger (library-owned)</td>
             <td>Muted future-step presentation.</td>
           </tr>
           <tr>
             <td><code>data-state="error"</code></td>
-            <td>Step item (owner-authored)</td>
+            <td>Projected item and trigger (library-owned)</td>
             <td>Validation/processing failure styling.</td>
+          </tr>
+          <tr>
+            <td><code>aria-current="step"</code></td>
+            <td>Projected trigger (library-owned)</td>
+            <td>Current-step accessibility and selector hook.</td>
           </tr>
         </tbody>
       </table>
@@ -60,8 +84,8 @@
       [sanitizeHtml]="false"
     ></tng-code-block>
     <p class="stepper-styling-note">
-      The inner <code>data-state</code> selectors in this starter are conventions from your app,
-      not attributes emitted by the stepper wrapper itself.
+      Style the wrapper host for the shell, then target projected primitive slots for item state,
+      trigger focus, optional markers, panels, and connectors.
     </p>
   </section>
 </article>
