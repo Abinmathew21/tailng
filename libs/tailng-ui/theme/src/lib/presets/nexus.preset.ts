@@ -8,10 +8,10 @@ export const nexusThemePreset: ThemeDefinition = {
   },
   tokens: createThemeTokens({
     background: {
-      base: '{color.white}',
-      canvas: '#f4f8ff',
-      muted: '#e8eefc',
-      surface: '#f8faff',
+      base: '#f7f8fa',
+      canvas: '#f5f7fb',
+      muted: '#e8edf5',
+      surface: '#fafbfc',
     },
     foreground: {
       primary: '{color.neutral900}',

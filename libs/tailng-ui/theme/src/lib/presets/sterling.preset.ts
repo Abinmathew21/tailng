@@ -8,10 +8,10 @@ export const sterlingThemePreset: ThemeDefinition = {
   },
   tokens: createThemeTokens({
     background: {
-      base: '{color.white}',
+      base: '#f7f8fa',
       canvas: '#f8f8f7',
       muted: '{color.neutral100}',
-      surface: '{color.white}',
+      surface: '#fbfbfc',
     },
     foreground: {
       primary: '#1f2937',

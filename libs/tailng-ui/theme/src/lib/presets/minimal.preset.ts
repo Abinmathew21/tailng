@@ -8,11 +8,11 @@ export const minimalThemePreset: ThemeDefinition = {
   },
   tokens: createThemeTokens({
     background: {
-      canvas: '{color.white}',
-      surface: '{color.white}',
+      canvas: '#f6f7f9',
+      surface: '#fbfbfc',
     },
     foreground: {
-      primary: '{color.black}',
+      primary: '#111827',
       secondary: '{color.neutral500}',
       inverse: '{color.white}',
     },
@@ -21,14 +21,14 @@ export const minimalThemePreset: ThemeDefinition = {
       strong: '{color.neutral500}',
     },
     accent: {
-      brand: '{color.black}',
+      brand: '#111827',
       brandHover: '{color.neutral900}',
       danger: '{color.danger500}',
       success: '{color.success500}',
       warning: '{color.warning500}',
     },
     focus: {
-      ring: '{color.black}',
+      ring: '#111827',
     },
   }),
 };

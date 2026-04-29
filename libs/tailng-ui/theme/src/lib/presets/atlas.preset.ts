@@ -8,10 +8,10 @@ export const atlasThemePreset: ThemeDefinition = {
   },
   tokens: createThemeTokens({
     background: {
-      base: '{color.white}',
+      base: '#f7f8fa',
       canvas: '#f6f7f9',
       muted: '#e5e7eb',
-      surface: '{color.white}',
+      surface: '#fbfbfc',
     },
     foreground: {
       primary: '#1f2937',

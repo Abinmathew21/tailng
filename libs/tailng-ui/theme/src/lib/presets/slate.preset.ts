@@ -8,7 +8,7 @@ export const slateThemePreset: ThemeDefinition = {
   },
   tokens: createThemeTokens({
     background: {
-      base: '{color.white}',
+      base: '#f7f8fa',
       canvas: '#f5f7fb',
       muted: '#eef2f7',
       surface: '#f8fafc',

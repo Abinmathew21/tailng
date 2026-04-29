@@ -8,10 +8,10 @@ export const prismThemePreset: ThemeDefinition = {
   },
   tokens: createThemeTokens({
     background: {
-      base: '{color.white}',
+      base: '#f7f8fa',
       canvas: '#f7f8fc',
       muted: '#eef2ff',
-      surface: '{color.white}',
+      surface: '#fbfbfc',
     },
     foreground: {
       primary: '#111827',
