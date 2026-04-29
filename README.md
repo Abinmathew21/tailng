@@ -12,371 +12,345 @@
   </p>
 
   <p>
-    A modern Angular 21+ component system built with Signals,
-    Standalone APIs, and strict architectural discipline.
+    Angular 21+ components, headless primitives, theme contracts, and ownable source installs
+    for teams building design systems and application UI.
   </p>
 </div>
 
 ---
 
 [![Build Status](https://github.com/tailng/tailng-ui/actions/workflows/prod-build-deploy.yml/badge.svg)](https://github.com/tailng/tailng-ui/actions/workflows/prod-build-deploy.yml)
-[![NPM Version](https://img.shields.io/npm/v/@tailng-ui/ui.svg)](https://www.npmjs.com/package/@tailng-ui/ui)
+[![NPM Version](https://img.shields.io/npm/v/@tailng-ui/components.svg)](https://www.npmjs.com/package/@tailng-ui/components)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ---
 
-## ✨ What is TailNG?
+## What is TailNG?
 
-TailNG is an open-source Angular component system designed for:
+TailNG is an open-source Angular UI system for applications and design systems that need accessible behavior, strict type safety, and implementation ownership.
 
-- Large applications
-- Enterprise design systems
-- Strict type safety
-- Accessibility-first development
-- Signal-based architecture
-- Tailwind-compatible styling
+The monorepo provides:
 
-It combines:
+- Ready-to-use styled Angular components.
+- Headless primitives for custom UI systems.
+- Low-level accessibility, collection, overlay, and runtime utilities.
+- Theme contracts, CSS variable tooling, and Tailwind adapters.
+- A copy-source registry and CLI for shadcn-style local component ownership.
+- Documentation and playground apps for package, Tailwind, plain CSS, and registry workflows.
 
-- Angular 21+
-- Standalone Components
-- Angular Signals
-- Strict ESLint architecture
-- Nx monorepo discipline
-- Optional Tailwind integration
+TailNG is built with Angular 21+, standalone APIs, signals, Nx, Vitest, and strict ESLint boundaries.
 
----
+## Packages
 
-## 🎯 Product Direction
+| Package                 | Description                                                                          |
+| ----------------------- | ------------------------------------------------------------------------------------ |
+| `@tailng-ui/components` | Styled Angular components built on TailNG primitives.                                |
+| `@tailng-ui/primitives` | Headless, accessibility-first Angular primitives.                                    |
+| `@tailng-ui/cdk`        | Behavior, accessibility, collection, overlay, and runtime utilities.                 |
+| `@tailng-ui/theme`      | Theme contracts, presets, CSS variables, component contracts, and Tailwind adapters. |
+| `@tailng-ui/icons`      | Angular icon wrappers backed by `@ng-icons`.                                         |
+| `@tailng-ui/charts`     | Apache ECharts wrappers for Angular.                                                 |
+| `@tailng-ui/registry`   | Metadata for ownable component installs.                                             |
+| `tailng`                | CLI for listing and copying ownable components into Angular apps.                    |
 
-TailNG is evolving toward a framework-agnostic component platform with:
+## Installation
 
-- Accessibility-first primitives built on Angular CDK and `@angular/aria` (experimental)
-- Wrapper abstractions that make component composition simpler for app developers
-- Additional in-house components implemented using ARIA authoring principles
-- Micro-level styling control for each component (slots, states, tokens, and hooks)
-- No required dependency on Tailwind or any specific CSS framework
-- Zero hard coupling between component behavior and styling systems
-- Shadcn-style copy/paste distribution mode in addition to package install
-
-### Risk Decision (`@angular/aria`)
-
-- Primary path: use `@angular/aria` as the basis for new primitives
-- Current tradeoff: accept experimental risk while Angular 22 direction matures
-- Fallback policy: do not build full CDK fallback now
-- Constraint: keep an adapter seam now so fallback can be implemented later without rewrites
-- Rule: components depend on TailNG primitive contracts, not direct `@angular/aria` imports
-
----
-
-## 📦 Packages
-
-| Package | Description |
-|----------|-------------|
-| `@tailng-ui/ui` | Main component library |
-| `@tailng-ui/cdk` | Behavior primitives & utilities |
-| `@tailng-ui/theme` | Design tokens & Tailwind adapter |
-| `@tailng-ui/icons` | Icon wrappers |
-| `@tailng-ui/charts` | Apache ECharts Angular wrappers |
-
----
-
-## 🚀 Installation
+Install styled components:
 
 ```bash
-pnpm add @tailng-ui/ui
+pnpm add @tailng-ui/components @tailng-ui/primitives @tailng-ui/cdk
 ```
 
-Peer dependencies:
+Install headless primitives:
 
-- `@angular/core` ^21
-- `@angular/common` ^21
-- `@angular/forms` ^21
+```bash
+pnpm add @tailng-ui/primitives @tailng-ui/cdk
+```
 
----
+Install the theme package:
 
-## ⚡ Quick Example
+```bash
+pnpm add @tailng-ui/theme
+```
+
+Use the ownable-source CLI without adding it permanently:
+
+```bash
+pnpm dlx tailng list
+pnpm dlx tailng add button
+```
+
+Primary peer dependencies:
+
+- `@angular/core` `^21.1.0`
+- `@angular/common` `^21.1.0`
+- `@angular/forms` `^21.1.0`
+- `@angular/platform-browser` `^21.1.0`
+- `@angular/router` `^21.1.0`
+- `tslib` `^2.3.0`
+
+Package-specific peer dependencies are listed in each package README.
+
+## Quick Example
 
 ```ts
 import { Component } from '@angular/core';
-import { TngButton } from '@tailng-ui/ui';
+import { TngButton } from '@tailng-ui/components';
 
 @Component({
   standalone: true,
   imports: [TngButton],
-  template: `
-    <tng-button variant="primary">
-      Click me
-    </tng-button>
-  `,
+  template: `<tng-button tone="success">Continue</tng-button>`,
 })
 export class ExampleComponent {}
 ```
 
----
+For headless usage:
 
-## 🏗 Architecture
+```ts
+import { Component } from '@angular/core';
+import { TngPress } from '@tailng-ui/primitives';
 
-TailNG follows a layered structure:
+@Component({
+  standalone: true,
+  imports: [TngPress],
+  template: `<button tngPress>Action</button>`,
+})
+export class ExampleComponent {}
+```
 
+## Architecture
+
+TailNG is organized as an Nx workspace with layered packages:
+
+```text
 apps/
-  docs/          → Documentation site
-  playground/    → Component sandbox
+  tailng-ui/
+    docs/                  Documentation site
+    playground-plain-css/  Plain CSS playground
+    playground-registry/   Ownable install playground
+    playground-tailwind/   Tailwind playground
 
 libs/
-  ui/            → Styled components
-  cdk/           → Behavior primitives
-  theme/         → Tokens & adapters
-  icons/         → Icon library
+  tailng/
+    cli/                   tailng command-line tool
+  tailng-ui/
+    cdk/                   Headless behavior and runtime utilities
+    primitives/            Headless Angular primitives
+    components/            Styled Angular components
+    theme/                 Theme engine and CSS contracts
+    icons/                 Icon wrappers
+    charts/                Chart wrappers
+    registry/              Ownable install metadata
+```
 
-Design principles:
+Layering rules:
 
-- Composition over prop explosion
-- Behavior separated from styling
-- Strict architectural boundaries (Nx enforced)
-- Public API discipline
-- No deep imports
-- Exhaustive state safety
+- Components depend on primitives and CDK contracts.
+- Primitives depend on CDK behavior utilities.
+- Styling is separated from behavior.
+- Public APIs are exported from package entry points.
+- Deep imports are avoided.
+- Accessibility and keyboard behavior are treated as package contracts.
 
----
+## Product Direction
 
-## 🧠 Philosophy
+TailNG is moving toward a component platform that supports both package installs and source ownership.
 
-TailNG is:
+Current priorities:
 
-- Headless-friendly
-- Tailwind-compatible (not required)
-- Accessibility-aware
-- Strictly typed
-- Enterprise-ready
-- Open-source forever (MIT)
+- Accessibility-first primitives and components.
+- Wrapper abstractions that keep app usage simple.
+- Component style contracts for slots, states, tokens, and hooks.
+- No hard dependency on Tailwind or any single CSS framework.
+- Copy-source installation through the `tailng` CLI.
+- Stable package boundaries across CDK, primitives, components, theme, registry, and docs.
 
-We aim to provide:
+## Development
 
-- Clean APIs
-- Predictable behavior
-- Scalable structure
-- Zero vendor lock-in
+Requirements:
 
----
+- Node.js `>=20.20.0`
+- pnpm `>=10.30.0`
 
-## 🧪 Development
-
-### Install dependencies
+Install dependencies:
 
 ```bash
 pnpm install
 ```
 
-### Run playground
-
-```bash
-pnpm playground
-```
-
-Run registry CLI playground:
-
-```bash
-pnpm dev:registry
-```
-
-### Run docs site
+Run the documentation site:
 
 ```bash
 pnpm start:docs
 ```
 
-Build static output for Cloudflare Pages:
+Run playgrounds:
 
 ```bash
-pnpm seo:docs
+pnpm start:vanilla
+pnpm start:tailwind
 ```
 
-If prerender fails with a Chrome/Puppeteer error, install the browser once:
+Build packages and apps:
+
+```bash
+pnpm run build
+```
+
+Build selected targets:
+
+```bash
+pnpm run build:docs
+pnpm run build:theme
+pnpm run build:cli
+pnpm run build:vanilla
+pnpm run build:tailwind
+```
+
+Generate static output:
+
+```bash
+pnpm run seo:docs
+pnpm run seo:vanilla
+pnpm run seo:tailwind
+```
+
+If prerendering fails because Chrome is missing, install the browser once:
 
 ```bash
 pnpm exec puppeteer browsers install chrome
 ```
 
-Build static playground output for Cloudflare Pages:
+## Testing and Quality
+
+Run all package tests:
 
 ```bash
-pnpm playground:seo
+pnpm run test:packages
 ```
 
-Build static plain-css playground output for Cloudflare Pages:
+Run the full Vitest suite:
 
 ```bash
-pnpm playground:plain-css:seo
+pnpm run test:all
 ```
 
-### Lint
+Run targeted tests:
 
 ```bash
-pnpm nx run-many -t lint
+pnpm run test:cdk
+pnpm run test:primitives
+pnpm run test:components
+pnpm run test:theme
+pnpm run test:icons
+pnpm run test:charts
+pnpm run test:registry
+pnpm run test:cli
+pnpm run test:docs
 ```
 
-### Test
+Lint and format:
 
 ```bash
-pnpm test
+pnpm run lint
+pnpm run format:nx
+pnpm run format:prettier
 ```
 
-Run all library tests directly with Nx:
+Typecheck key package surfaces:
 
 ```bash
-pnpm test:nx
+pnpm run typecheck:registry
+pnpm run typecheck:cli
+pnpm run typecheck:docs
 ```
 
-Run only `theme` tests:
+Run the ownable install contract checks:
 
 ```bash
-pnpm test:theme
+pnpm run verify:ownable-contracts
 ```
 
-Run CLI integration tests (`tailng add ...` end-to-end in temp directories):
+## TailNG CLI
+
+Build and run the local CLI:
 
 ```bash
-pnpm test:cli
+pnpm run build:cli
+pnpm run run:tailng -- list
 ```
 
-Run only `icons` tests:
+Preview generated files:
 
 ```bash
-pnpm test:icons
+pnpm run run:tailng -- add button --cwd apps/tailng-ui/playground-registry --dry-run
 ```
 
-Run only `charts` tests:
+Generate files:
 
 ```bash
-pnpm test:charts
+pnpm run run:tailng -- add button --cwd apps/tailng-ui/playground-registry
 ```
 
-Run in watch mode:
+Overwrite existing generated files:
 
 ```bash
-pnpm nx run theme:vite:test --watch
+pnpm run run:tailng -- add button --cwd apps/tailng-ui/playground-registry --force
 ```
 
-Run with coverage:
+`tailng add <component-name>` writes source under:
 
-```bash
-pnpm nx run theme:vite:test --coverage
+```text
+<cwd>/src/app/tailng-ui/<component>/
 ```
 
-Run directly with Vitest (without Nx):
-
-```bash
-pnpm exec vitest run --config libs/tailng-ui/theme/vitest.config.ts
-```
-
-### TailNG CLI (local)
-
-Build and run the `tailng` CLI:
-
-```bash
-pnpm build:cli
-pnpm run:tailng -- list
-pnpm run:tailng -- add button --cwd apps/tailng-ui/playground-plain-css --dry-run
-pnpm run:tailng -- add dialog --cwd apps/tailng-ui/playground-plain-css --dry-run
-pnpm run:tailng -- add popover --cwd apps/tailng-ui/playground-plain-css --dry-run
-pnpm run:tailng -- add button --cwd apps/tailng-ui/playground-registry --dry-run
-```
-
-Registry command reference:
-
-- List available registry items:
-
-```bash
-pnpm run:tailng -- list
-```
-
-- Preview file generation without writing:
-
-```bash
-pnpm run:tailng -- add button --cwd apps/tailng-ui/playground-registry --dry-run
-pnpm run:tailng -- add dialog --cwd apps/tailng-ui/playground-registry --dry-run
-pnpm run:tailng -- add popover --cwd apps/tailng-ui/playground-registry --dry-run
-```
-
-- Generate files:
-
-```bash
-pnpm run:tailng -- add button --cwd apps/tailng-ui/playground-registry
-```
-
-- Overwrite existing generated files:
-
-```bash
-pnpm run:tailng -- add button --cwd apps/tailng-ui/playground-registry --force
-```
-
-Note:
-
-- `--dry-run` shows `CREATE`, `SKIP`, or `OVERWRITE` behavior.
-- `--cwd` should point to the app root where files must be generated.
-- `tailng add <component-name>` follows shadcn-style source copy. Example for `button`:
-  - `src/app/tailng-ui/button/tng-press-primitive.ts`
-  - `src/app/tailng-ui/button/tng-button.ts`
-  - `src/app/tailng-ui/button/tng-button.html`
-  - `src/app/tailng-ui/button/tng-button.css`
-  - `src/app/tailng-ui/button/index.ts`
-- Import locally in your app:
+Import generated components from the local app path:
 
 ```ts
 import { TngButton } from './tailng-ui/button';
 ```
 
-Canonical aliases supported by `tailng add`:
+Common aliases supported by `tailng add`:
 
-- `slide-toggle` -> `switch`
-- `sidenav` -> `drawer`
-- `sidebar` -> `drawer`
-- `side-nav` -> `drawer`
-- `sheet` -> `drawer`
-- `expansion-panel` -> `accordion`
-- `spinner` -> `progress-spinner`
-- `snackbar` -> `toast`
-- `sonner` -> `toast`
+| Alias                                     | Canonical item     |
+| ----------------------------------------- | ------------------ |
+| `slide-toggle`                            | `switch`           |
+| `sidenav`, `sidebar`, `side-nav`, `sheet` | `drawer`           |
+| `expansion-panel`                         | `accordion`        |
+| `spinner`                                 | `progress-spinner` |
+| `snackbar`, `sonner`                      | `toast`            |
 
----
+## Component Guidelines
 
-## 🏷 Component Guidelines
+- Use standalone Angular APIs.
+- Prefer signals and `input()` for component inputs.
+- Keep behavior and styling separate.
+- Avoid default exports.
+- Use explicit return types.
+- Keep public APIs intentional and documented.
+- Preserve accessibility semantics, roles, states, and keyboard behavior.
+- Add or update tests when changing behavior.
 
-- Use Angular Signals (`input()`)
-- Standalone components only
-- No default exports
-- Explicit return types
-- Exhaustive switch checks
-- Complexity ≤ 8
-- Max params ≤ 3
-- Accessibility-first markup
-- Strict ESLint enforced
+## Documentation
 
----
+- Website: [https://tailng.dev](https://tailng.dev)
+- GitHub: [https://github.com/tailng/tailng-ui](https://github.com/tailng/tailng-ui)
+- npm components: [@tailng-ui/components](https://www.npmjs.com/package/@tailng-ui/components)
+- npm CLI: [tailng](https://www.npmjs.com/package/tailng)
 
-## 📖 Documentation
-
-- Website: https://tailng.dev
-- npm: https://www.npmjs.com/package/@tailng-ui/ui
-- GitHub: https://github.com/tailng/tailng-ui
-
----
-
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome.
 
 Before submitting a PR:
 
-- Follow ESLint rules
-- Respect architectural boundaries
-- Avoid deep imports
-- Maintain strict typing
-- Include playground demo
+- Run relevant tests and lint checks.
+- Respect Nx boundaries and package layering.
+- Avoid deep imports.
+- Keep typing strict.
+- Include docs or playground coverage for user-facing changes.
 
----
-
-## 📜 License
+## License
 
 MIT © 2026 TailNG
