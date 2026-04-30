@@ -26,6 +26,7 @@ import { menuRegistryItem } from './menu/menu.registry';
 import { menubarRegistryItem } from './menubar/menubar.registry';
 import { multiselectRegistryItem } from './multiselect/multiselect.registry';
 import { navigationmenuRegistryItem } from './navigation-menu/navigation-menu.registry';
+import { paginationRegistryItem } from './pagination/pagination.registry';
 import { popoverRegistryItem } from './popover/popover.registry';
 import { progressBarRegistryItem } from './progress-bar/progress-bar.registry';
 import { progressSpinnerRegistryItem } from './progress-spinner/progress-spinner.registry';
@@ -38,6 +39,7 @@ import { skeletonRegistryItem } from './skeleton/skeleton.registry';
 import { sliderRegistryItem } from './slider/slider.registry';
 import { stepperRegistryItem } from './stepper/stepper.registry';
 import { switchRegistryItem } from './switch/switch.registry';
+import { tableRegistryItem } from './table/table.registry';
 import { tabsRegistryItem } from './tabs/tabs.registry';
 import { tagRegistryItem } from './tag/tag.registry';
 import { textareaRegistryItem } from './textarea/textarea.registry';
@@ -71,6 +73,7 @@ const rawRegistry: readonly RegistryItemSource[] = [
   menubarRegistryItem,
   navigationmenuRegistryItem,
   toolbarRegistryItem,
+  paginationRegistryItem,
   tabsRegistryItem,
   stepperRegistryItem,
   togglegroupRegistryItem,
@@ -86,6 +89,7 @@ const rawRegistry: readonly RegistryItemSource[] = [
   multiselectRegistryItem,
   gridRegistryItem,
   treeRegistryItem,
+  tableRegistryItem,
   drawerRegistryItem,
   bottomsheetRegistryItem,
   popoverRegistryItem,

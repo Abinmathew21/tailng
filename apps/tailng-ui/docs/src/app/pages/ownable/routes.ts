@@ -44,6 +44,7 @@ const separatorItem = requireOwnableItem(OWNABLE_LAYOUT_GROUP, 'separator');
 const collapsibleItem = requireOwnableItem(OWNABLE_LAYOUT_GROUP, 'collapsible');
 const accordionItem = requireOwnableItem(OWNABLE_LAYOUT_GROUP, 'accordion');
 const stepperItem = requireOwnableItem(OWNABLE_LAYOUT_GROUP, 'stepper');
+const tableItem = requireOwnableItem(OWNABLE_LAYOUT_GROUP, 'table');
 const dialogItem = requireOwnableItem(OWNABLE_OVERLAY_GROUP, 'dialog');
 const popoverItem = requireOwnableItem(OWNABLE_OVERLAY_GROUP, 'popover');
 const tooltipItem = requireOwnableItem(OWNABLE_OVERLAY_GROUP, 'tooltip');
@@ -57,6 +58,7 @@ const contextMenuItem = requireOwnableItem(OWNABLE_NAVIGATION_GROUP, 'context-me
 const menubarItem = requireOwnableItem(OWNABLE_NAVIGATION_GROUP, 'menubar');
 const tabsItem = requireOwnableItem(OWNABLE_NAVIGATION_GROUP, 'tabs');
 const treeItem = requireOwnableItem(OWNABLE_NAVIGATION_GROUP, 'tree');
+const paginationItem = requireOwnableItem(OWNABLE_NAVIGATION_GROUP, 'pagination');
 const avatarItem = requireOwnableItem(OWNABLE_UTILITY_GROUP, 'avatar');
 const badgeItem = requireOwnableItem(OWNABLE_UTILITY_GROUP, 'badge');
 const tagItem = requireOwnableItem(OWNABLE_UTILITY_GROUP, 'tag');
@@ -223,6 +225,14 @@ export const OWNABLE_ROUTES: Routes = [
           ),
       },
       {
+        path: 'layout/table',
+        data: toOwnableDocsRouteData(OWNABLE_LAYOUT_GROUP, tableItem),
+        loadComponent: () =>
+          import('./layout/table/ownable-table-page.component').then(
+            (m) => m.OwnableTablePageComponent,
+          ),
+      },
+      {
         path: 'overlay/dialog',
         data: toOwnableDocsRouteData(OWNABLE_OVERLAY_GROUP, dialogItem),
         loadComponent: () =>
@@ -327,6 +337,14 @@ export const OWNABLE_ROUTES: Routes = [
           ),
       },
       {
+        path: 'navigation/pagination',
+        data: toOwnableDocsRouteData(OWNABLE_NAVIGATION_GROUP, paginationItem),
+        loadComponent: () =>
+          import('./navigation/pagination/ownable-pagination-page.component').then(
+            (m) => m.OwnablePaginationPageComponent,
+          ),
+      },
+      {
         path: 'utility/avatar',
         data: toOwnableDocsRouteData(OWNABLE_UTILITY_GROUP, avatarItem),
         loadComponent: () =>
@@ -346,9 +364,7 @@ export const OWNABLE_ROUTES: Routes = [
         path: 'utility/tag',
         data: toOwnableDocsRouteData(OWNABLE_UTILITY_GROUP, tagItem),
         loadComponent: () =>
-          import('./utility/tag/ownable-tag-page.component').then(
-            (m) => m.OwnableTagPageComponent,
-          ),
+          import('./utility/tag/ownable-tag-page.component').then((m) => m.OwnableTagPageComponent),
       },
       {
         path: 'utility/codeblock',
@@ -378,9 +394,7 @@ export const OWNABLE_ROUTES: Routes = [
         path: 'tooling/cli',
         data: toOwnableDocsRouteData(OWNABLE_TOOLING_GROUP, cliItem),
         loadComponent: () =>
-          import('./tooling/cli/ownable-cli-page.component').then(
-            (m) => m.OwnableCliPageComponent,
-          ),
+          import('./tooling/cli/ownable-cli-page.component').then((m) => m.OwnableCliPageComponent),
       },
       {
         path: 'tooling/registry',

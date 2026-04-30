@@ -1,370 +1,260 @@
 import type { RegistryInstallMetadata, RegistryItem, RegistryItemSource } from './registry.types';
 
 const registryInstallMetadata: Readonly<Record<string, RegistryInstallMetadata>> = {
-  "accordion": {
-    "importPath": "./tailng-ui/accordion",
-    "importSymbols": [
-      "TngAccordion",
-      "TngAccordionPrimitive"
-    ]
+  accordion: {
+    importPath: './tailng-ui/accordion',
+    importSymbols: ['TngAccordion', 'TngAccordionPrimitive'],
   },
-  "autocomplete": {
-    "importPath": "./tailng-ui/autocomplete",
-    "importSymbols": [
-      "TngAutocomplete",
-      "TngAutocompletePrimitive"
-    ]
+  autocomplete: {
+    importPath: './tailng-ui/autocomplete',
+    importSymbols: ['TngAutocomplete', 'TngAutocompletePrimitive'],
   },
-  "avatar": {
-    "importPath": "./tailng-ui/avatar",
-    "importSymbols": [
-      "TngAvatar",
-      "TngAvatarPrimitive",
-      "TngAvatarImagePrimitive",
-      "TngAvatarFallbackPrimitive"
-    ]
+  avatar: {
+    importPath: './tailng-ui/avatar',
+    importSymbols: [
+      'TngAvatar',
+      'TngAvatarPrimitive',
+      'TngAvatarImagePrimitive',
+      'TngAvatarFallbackPrimitive',
+    ],
   },
-  "badge": {
-    "importPath": "./tailng-ui/badge",
-    "importSymbols": [
-      "TngBadge",
-      "TngBadgePrimitive"
-    ]
+  badge: {
+    importPath: './tailng-ui/badge',
+    importSymbols: ['TngBadge', 'TngBadgePrimitive'],
   },
-  "bottom-sheet": {
-    "importPath": "./tailng-ui/bottom-sheet",
-    "importSymbols": [
-      "TngBottomSheet",
-      "TngBottomSheetPrimitive"
-    ]
+  'bottom-sheet': {
+    importPath: './tailng-ui/bottom-sheet',
+    importSymbols: ['TngBottomSheet', 'TngBottomSheetPrimitive'],
   },
-  "breadcrumb": {
-    "importPath": "./tailng-ui/breadcrumb",
-    "importSymbols": [
-      "TngBreadcrumb",
-      "TngBreadcrumbPrimitive",
-      "TngBreadcrumbListPrimitive",
-      "TngBreadcrumbItemPrimitive",
-      "TngBreadcrumbLinkPrimitive",
-      "TngBreadcrumbSeparatorPrimitive"
-    ]
+  breadcrumb: {
+    importPath: './tailng-ui/breadcrumb',
+    importSymbols: [
+      'TngBreadcrumb',
+      'TngBreadcrumbPrimitive',
+      'TngBreadcrumbListPrimitive',
+      'TngBreadcrumbItemPrimitive',
+      'TngBreadcrumbLinkPrimitive',
+      'TngBreadcrumbSeparatorPrimitive',
+    ],
   },
-  "button": {
-    "importPath": "./tailng-ui/button",
-    "importSymbols": [
-      "TngButton",
-      "TngPressPrimitive"
-    ]
+  button: {
+    importPath: './tailng-ui/button',
+    importSymbols: ['TngButton', 'TngPressPrimitive'],
   },
-  "button-toggle": {
-    "importPath": "./tailng-ui/button-toggle",
-    "importSymbols": [
-      "TngButtonToggle",
-      "TngButtonToggleGroup",
-      "TngButtonTogglePrimitive",
-      "TngButtonToggleGroupPrimitive"
-    ]
+  'button-toggle': {
+    importPath: './tailng-ui/button-toggle',
+    importSymbols: [
+      'TngButtonToggle',
+      'TngButtonToggleGroup',
+      'TngButtonTogglePrimitive',
+      'TngButtonToggleGroupPrimitive',
+    ],
   },
-  "card": {
-    "importPath": "./tailng-ui/card",
-    "importSymbols": [
-      "TngCard",
-      "TngCardHeader",
-      "TngCardTitle",
-      "TngCardDescription",
-      "TngCardContent",
-      "TngCardFooter",
-      "TngCardPrimitive",
-      "TngCardHeaderPrimitive",
-      "TngCardTitlePrimitive",
-      "TngCardDescriptionPrimitive",
-      "TngCardContentPrimitive",
-      "TngCardFooterPrimitive"
-    ]
+  card: {
+    importPath: './tailng-ui/card',
+    importSymbols: [
+      'TngCard',
+      'TngCardHeader',
+      'TngCardTitle',
+      'TngCardDescription',
+      'TngCardContent',
+      'TngCardFooter',
+      'TngCardPrimitive',
+      'TngCardHeaderPrimitive',
+      'TngCardTitlePrimitive',
+      'TngCardDescriptionPrimitive',
+      'TngCardContentPrimitive',
+      'TngCardFooterPrimitive',
+    ],
   },
-  "checkbox": {
-    "importPath": "./tailng-ui/checkbox",
-    "importSymbols": [
-      "TngCheckbox",
-      "TngCheckboxPrimitive"
-    ]
+  checkbox: {
+    importPath: './tailng-ui/checkbox',
+    importSymbols: ['TngCheckbox', 'TngCheckboxPrimitive'],
   },
-  "chips": {
-    "importPath": "./tailng-ui/chips",
-    "importSymbols": [
-      "TngChips",
-      "TngChipsPrimitive"
-    ]
+  chips: {
+    importPath: './tailng-ui/chips',
+    importSymbols: ['TngChips', 'TngChipsPrimitive'],
   },
-  "code-block": {
-    "importPath": "./tailng-ui/code-block",
-    "importSymbols": [
-      "TngCodeHighlightingResolver",
-      "TngCodeBlock",
-      "TngCodeBlockPrimitive",
-      "TngCodeBlockHeaderPrimitive",
-      "TngCodeBlockBodyPrimitive",
-      "TngCodeBlockGutterPrimitive",
-      "TngCodeBlockCodePrimitive"
-    ]
+  'code-block': {
+    importPath: './tailng-ui/code-block',
+    importSymbols: [
+      'TngCodeHighlightingResolver',
+      'TngCodeBlock',
+      'TngCodeBlockPrimitive',
+      'TngCodeBlockHeaderPrimitive',
+      'TngCodeBlockBodyPrimitive',
+      'TngCodeBlockGutterPrimitive',
+      'TngCodeBlockCodePrimitive',
+    ],
   },
-  "collapsible": {
-    "importPath": "./tailng-ui/collapsible",
-    "importSymbols": [
-      "TngCollapsible",
-      "TngCollapsiblePrimitive",
-      "TngCollapsibleTriggerPrimitive",
-      "TngCollapsibleContentPrimitive"
-    ]
+  collapsible: {
+    importPath: './tailng-ui/collapsible',
+    importSymbols: [
+      'TngCollapsible',
+      'TngCollapsiblePrimitive',
+      'TngCollapsibleTriggerPrimitive',
+      'TngCollapsibleContentPrimitive',
+    ],
   },
-  "combobox": {
-    "importPath": "./tailng-ui/combobox",
-    "importSymbols": [
-      "TngCombobox",
-      "TngComboboxPrimitive"
-    ]
+  combobox: {
+    importPath: './tailng-ui/combobox',
+    importSymbols: ['TngCombobox', 'TngComboboxPrimitive'],
   },
-  "context-menu": {
-    "importPath": "./tailng-ui/context-menu",
-    "importSymbols": [
-      "TngContextMenu",
-      "TngContextMenuPrimitive"
-    ]
+  'context-menu': {
+    importPath: './tailng-ui/context-menu',
+    importSymbols: ['TngContextMenu', 'TngContextMenuPrimitive'],
   },
-  "copy": {
-    "importPath": "./tailng-ui/copy",
-    "importSymbols": [
-      "TngCopyButton",
-      "TngCopyPrimitive"
-    ]
+  copy: {
+    importPath: './tailng-ui/copy',
+    importSymbols: ['TngCopyButton', 'TngCopyPrimitive'],
   },
-  "dialog": {
-    "importPath": "./tailng-ui/dialog",
-    "importSymbols": [
-      "TngDialog"
-    ]
+  dialog: {
+    importPath: './tailng-ui/dialog',
+    importSymbols: ['TngDialog'],
   },
-  "drawer": {
-    "importPath": "./tailng-ui/drawer",
-    "importSymbols": [
-      "TngDrawer",
-      "TngDrawerPrimitive"
-    ]
+  drawer: {
+    importPath: './tailng-ui/drawer',
+    importSymbols: ['TngDrawer', 'TngDrawerPrimitive'],
   },
-  "dropdown-menu": {
-    "importPath": "./tailng-ui/dropdown-menu",
-    "importSymbols": [
-      "TngDropdownMenu",
-      "TngDropdownMenuPrimitive"
-    ]
+  'dropdown-menu': {
+    importPath: './tailng-ui/dropdown-menu',
+    importSymbols: ['TngDropdownMenu', 'TngDropdownMenuPrimitive'],
   },
-  "empty": {
-    "importPath": "./tailng-ui/empty",
-    "importSymbols": [
-      "TngEmpty",
-      "TngEmptyIcon",
-      "TngEmptyTitle",
-      "TngEmptyDescription",
-      "TngEmptyActions",
-      "TngEmptyPrimitive",
-      "TngEmptyIconPrimitive",
-      "TngEmptyTitlePrimitive",
-      "TngEmptyDescriptionPrimitive",
-      "TngEmptyActionsPrimitive"
-    ]
+  empty: {
+    importPath: './tailng-ui/empty',
+    importSymbols: [
+      'TngEmpty',
+      'TngEmptyIcon',
+      'TngEmptyTitle',
+      'TngEmptyDescription',
+      'TngEmptyActions',
+      'TngEmptyPrimitive',
+      'TngEmptyIconPrimitive',
+      'TngEmptyTitlePrimitive',
+      'TngEmptyDescriptionPrimitive',
+      'TngEmptyActionsPrimitive',
+    ],
   },
-  "grid": {
-    "importPath": "./tailng-ui/grid",
-    "importSymbols": [
-      "TngGrid",
-      "TngGridPrimitive"
-    ]
+  grid: {
+    importPath: './tailng-ui/grid',
+    importSymbols: ['TngGrid', 'TngGridPrimitive'],
   },
-  "input": {
-    "importPath": "./tailng-ui/input",
-    "importSymbols": [
-      "TngInput",
-      "TngInputPrimitive"
-    ]
+  input: {
+    importPath: './tailng-ui/input',
+    importSymbols: ['TngInput', 'TngInputPrimitive'],
   },
-  "input-otp": {
-    "importPath": "./tailng-ui/input-otp",
-    "importSymbols": [
-      "TngInputOtp",
-      "TngInputOtpPrimitive"
-    ]
+  'input-otp': {
+    importPath: './tailng-ui/input-otp',
+    importSymbols: ['TngInputOtp', 'TngInputOtpPrimitive'],
   },
-  "label": {
-    "importPath": "./tailng-ui/label",
-    "importSymbols": [
-      "TngLabel",
-      "TngLabelPrimitive"
-    ]
+  label: {
+    importPath: './tailng-ui/label',
+    importSymbols: ['TngLabel', 'TngLabelPrimitive'],
   },
-  "menu": {
-    "importPath": "./tailng-ui/menu",
-    "importSymbols": [
-      "TngMenu",
-      "TngMenuTriggerFor",
-      "TngMenuPrimitive"
-    ]
+  menu: {
+    importPath: './tailng-ui/menu',
+    importSymbols: ['TngMenu', 'TngMenuTriggerFor', 'TngMenuPrimitive'],
   },
-  "menubar": {
-    "importPath": "./tailng-ui/menubar",
-    "importSymbols": [
-      "TngMenubar",
-      "TngMenubarPrimitive"
-    ]
+  menubar: {
+    importPath: './tailng-ui/menubar',
+    importSymbols: ['TngMenubar', 'TngMenubarPrimitive'],
   },
-  "multiselect": {
-    "importPath": "./tailng-ui/multiselect",
-    "importSymbols": [
-      "TngMultiselect",
-      "TngMultiselectPrimitive"
-    ]
+  multiselect: {
+    importPath: './tailng-ui/multiselect',
+    importSymbols: ['TngMultiselect', 'TngMultiselectPrimitive'],
   },
-  "navigation-menu": {
-    "importPath": "./tailng-ui/navigation-menu",
-    "importSymbols": [
-      "TngNavigationMenu",
-      "TngNavigationMenuPrimitive"
-    ]
+  'navigation-menu': {
+    importPath: './tailng-ui/navigation-menu',
+    importSymbols: ['TngNavigationMenu', 'TngNavigationMenuPrimitive'],
   },
-  "popover": {
-    "importPath": "./tailng-ui/popover",
-    "importSymbols": [
-      "TngPopover"
-    ]
+  pagination: {
+    importPath: './tailng-ui/pagination',
+    importSymbols: ['TngPaginator', 'TngPaginationPrimitive'],
   },
-  "progress-bar": {
-    "importPath": "./tailng-ui/progress-bar",
-    "importSymbols": [
-      "TngProgressBar",
-      "TngProgressBarPrimitive",
-      "TngProgressBarIndicatorPrimitive"
-    ]
+  popover: {
+    importPath: './tailng-ui/popover',
+    importSymbols: ['TngPopover'],
   },
-  "progress-spinner": {
-    "importPath": "./tailng-ui/progress-spinner",
-    "importSymbols": [
-      "TngProgressSpinner",
-      "TngProgressSpinnerPrimitive"
-    ]
+  'progress-bar': {
+    importPath: './tailng-ui/progress-bar',
+    importSymbols: [
+      'TngProgressBar',
+      'TngProgressBarPrimitive',
+      'TngProgressBarIndicatorPrimitive',
+    ],
   },
-  "radio": {
-    "importPath": "./tailng-ui/radio",
-    "importSymbols": [
-      "TngRadio",
-      "TngRadioPrimitive"
-    ]
+  'progress-spinner': {
+    importPath: './tailng-ui/progress-spinner',
+    importSymbols: ['TngProgressSpinner', 'TngProgressSpinnerPrimitive'],
   },
-  "select": {
-    "importPath": "./tailng-ui/select",
-    "importSymbols": [
-      "TngSelect",
-      "TngSelectPrimitive"
-    ]
+  radio: {
+    importPath: './tailng-ui/radio',
+    importSymbols: ['TngRadio', 'TngRadioPrimitive'],
   },
-  "separator": {
-    "importPath": "./tailng-ui/separator",
-    "importSymbols": [
-      "TngSeparator",
-      "TngSeparatorPrimitive"
-    ]
+  select: {
+    importPath: './tailng-ui/select',
+    importSymbols: ['TngSelect', 'TngSelectPrimitive'],
   },
-  "skeleton": {
-    "importPath": "./tailng-ui/skeleton",
-    "importSymbols": [
-      "TngSkeleton",
-      "TngSkeletonPrimitive"
-    ]
+  separator: {
+    importPath: './tailng-ui/separator',
+    importSymbols: ['TngSeparator', 'TngSeparatorPrimitive'],
   },
-  "slider": {
-    "importPath": "./tailng-ui/slider",
-    "importSymbols": [
-      "TngSlider",
-      "TngSliderPrimitive"
-    ]
+  skeleton: {
+    importPath: './tailng-ui/skeleton',
+    importSymbols: ['TngSkeleton', 'TngSkeletonPrimitive'],
   },
-  "stepper": {
-    "importPath": "./tailng-ui/stepper",
-    "importSymbols": [
-      "TngStepper",
-      "TngStepperPrimitive"
-    ]
+  slider: {
+    importPath: './tailng-ui/slider',
+    importSymbols: ['TngSlider', 'TngSliderPrimitive'],
   },
-  "switch": {
-    "importPath": "./tailng-ui/switch",
-    "importSymbols": [
-      "TngSwitch",
-      "TngSwitchPrimitive"
-    ]
+  stepper: {
+    importPath: './tailng-ui/stepper',
+    importSymbols: ['TngStepper', 'TngStepperPrimitive'],
   },
-  "tabs": {
-    "importPath": "./tailng-ui/tabs",
-    "importSymbols": [
-      "TngTabs",
-      "TngTabsPrimitive"
-    ]
+  switch: {
+    importPath: './tailng-ui/switch',
+    importSymbols: ['TngSwitch', 'TngSwitchPrimitive'],
   },
-  "tag": {
-    "importPath": "./tailng-ui/tag",
-    "importSymbols": [
-      "TngTag",
-      "TngTagPrimitive"
-    ]
+  table: {
+    importPath: './tailng-ui/table',
+    importSymbols: ['TngTable', 'TngTablePrimitive'],
   },
-  "textarea": {
-    "importPath": "./tailng-ui/textarea",
-    "importSymbols": [
-      "TngTextarea",
-      "TngTextareaPrimitive"
-    ]
+  tabs: {
+    importPath: './tailng-ui/tabs',
+    importSymbols: ['TngTabs', 'TngTabsPrimitive'],
   },
-  "toast": {
-    "importPath": "./tailng-ui/toast",
-    "importSymbols": [
-      "TngToast",
-      "TngToastViewportPrimitive",
-      "TngToastItemPrimitive"
-    ]
+  tag: {
+    importPath: './tailng-ui/tag',
+    importSymbols: ['TngTag', 'TngTagPrimitive'],
   },
-  "toggle": {
-    "importPath": "./tailng-ui/toggle",
-    "importSymbols": [
-      "TngToggle",
-      "TngTogglePrimitive"
-    ]
+  textarea: {
+    importPath: './tailng-ui/textarea',
+    importSymbols: ['TngTextarea', 'TngTextareaPrimitive'],
   },
-  "toggle-group": {
-    "importPath": "./tailng-ui/toggle-group",
-    "importSymbols": [
-      "TngToggleGroup",
-      "TngToggleGroupPrimitive"
-    ]
+  toast: {
+    importPath: './tailng-ui/toast',
+    importSymbols: ['TngToast', 'TngToastViewportPrimitive', 'TngToastItemPrimitive'],
   },
-  "toolbar": {
-    "importPath": "./tailng-ui/toolbar",
-    "importSymbols": [
-      "TngToolbar",
-      "TngToolbarPrimitive"
-    ]
+  toggle: {
+    importPath: './tailng-ui/toggle',
+    importSymbols: ['TngToggle', 'TngTogglePrimitive'],
   },
-  "tooltip": {
-    "importPath": "./tailng-ui/tooltip",
-    "importSymbols": [
-      "TngTooltip",
-      "TngTooltipTrigger",
-      "TngTooltipContent"
-    ]
+  'toggle-group': {
+    importPath: './tailng-ui/toggle-group',
+    importSymbols: ['TngToggleGroup', 'TngToggleGroupPrimitive'],
   },
-  "tree": {
-    "importPath": "./tailng-ui/tree",
-    "importSymbols": [
-      "TngTree",
-      "TngTreePrimitive"
-    ]
-  }
+  toolbar: {
+    importPath: './tailng-ui/toolbar',
+    importSymbols: ['TngToolbar', 'TngToolbarPrimitive'],
+  },
+  tooltip: {
+    importPath: './tailng-ui/tooltip',
+    importSymbols: ['TngTooltip', 'TngTooltipTrigger', 'TngTooltipContent'],
+  },
+  tree: {
+    importPath: './tailng-ui/tree',
+    importSymbols: ['TngTree', 'TngTreePrimitive'],
+  },
 };
 
 export function getRegistryInstallMetadata(name: string): RegistryInstallMetadata | undefined {

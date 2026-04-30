@@ -1,7 +1,11 @@
 import type { Routes } from '@angular/router';
-import { HEADLESS_LAYOUT_GROUP } from '../headless-docs.data';
+import { HEADLESS_LAYOUT_GROUP, toHeadlessDocsRouteData } from '../headless-docs.data';
 
 const group = HEADLESS_LAYOUT_GROUP;
+const tableItem = group.items.find((item) => item.slug === 'table');
+if (tableItem === undefined) {
+  throw new Error('Missing "table" in headless layout docs group.');
+}
 
 export const HEADLESS_LAYOUT_ROUTES: Routes = [
   {
@@ -33,5 +37,13 @@ export const HEADLESS_LAYOUT_ROUTES: Routes = [
     path: 'stepper',
     loadChildren: () =>
       import('./stepper/routes').then((module) => module.HEADLESS_LAYOUT_STEPPER_ROUTES),
+  },
+  {
+    path: tableItem.slug,
+    data: toHeadlessDocsRouteData(group, tableItem),
+    loadComponent: () =>
+      import('./table/headless-table-page.component').then(
+        (module) => module.HeadlessTablePageComponent,
+      ),
   },
 ];

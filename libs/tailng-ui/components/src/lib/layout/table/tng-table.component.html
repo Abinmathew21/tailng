@@ -1,0 +1,117 @@
+<div
+  tngTableScrollContainer
+  class="tng-table__scroll"
+  [dir]="dir()"
+  [tngTableScrollAxis]="scrollAxis()"
+>
+  <table
+    tngTable
+    tngTableSort
+    class="tng-table"
+    [attr.data-density]="density()"
+    [ariaLabel]="ariaLabel()"
+    [ariaLabelledby]="ariaLabelledby()"
+    [dir]="dir()"
+    [error]="error()"
+    [filterable]="filterable()"
+    [items]="items()"
+    [loading]="loading()"
+    [pageable]="pageable()"
+    [tngTableLayout]="layout()"
+    [tngTableSortActive]="sortActive()"
+    [tngTableSortDirection]="sortDirection()"
+    [tngTableSortDisableClear]="sortDisableClear()"
+    (sortChange)="onSortChange($event)"
+  >
+    <colgroup>
+      @for (column of visibleColumns; track column.id) {
+        <col [style.width]="getColumnWidth(column)" />
+      }
+    </colgroup>
+
+    <thead tngTableHeader [tngTableHeaderSticky]="stickyHeader()">
+      <tr tngTableRow>
+        @for (column of visibleColumns; track column.id) {
+          @if (column.sortable === true) {
+            <th
+              tngTableHeaderCell
+              tngSortHeader
+              class="tng-table__header-cell"
+              scope="col"
+              [attr.data-align]="getHeaderAlign(column)"
+              [tngSortHeader]="column.id"
+              [tngTableColumnId]="column.id"
+              [tngTableStickyColumn]="column.sticky ?? null"
+              [tngTableTruncate]="column.truncate === true"
+            >
+              @if (getHeaderTemplate(column.id); as headerTemplate) {
+                <ng-container
+                  *ngTemplateOutlet="headerTemplate.templateRef; context: getHeaderContext(column)"
+                />
+              } @else {
+                <span class="tng-table__header-label">{{ getColumnLabel(column) }}</span>
+              }
+            </th>
+          } @else {
+            <th
+              tngTableHeaderCell
+              class="tng-table__header-cell"
+              scope="col"
+              [attr.data-align]="getHeaderAlign(column)"
+              [tngTableColumnId]="column.id"
+              [tngTableStickyColumn]="column.sticky ?? null"
+              [tngTableTruncate]="column.truncate === true"
+            >
+              @if (getHeaderTemplate(column.id); as headerTemplate) {
+                <ng-container
+                  *ngTemplateOutlet="headerTemplate.templateRef; context: getHeaderContext(column)"
+                />
+              } @else {
+                <span class="tng-table__header-label">{{ getColumnLabel(column) }}</span>
+              }
+            </th>
+          }
+        }
+      </tr>
+    </thead>
+
+    <tbody tngTableBody>
+      @if (loading()) {
+        <tr tngTableRow>
+          <td tngTableCell class="tng-table__state-cell" [attr.colspan]="getColspan()">Loading</td>
+        </tr>
+      } @else if (error()) {
+        <tr tngTableRow>
+          <td tngTableCell class="tng-table__state-cell" [attr.colspan]="getColspan()">Error</td>
+        </tr>
+      } @else if (items().length === 0) {
+        <tr tngTableRow>
+          <td tngTableCell class="tng-table__state-cell" [attr.colspan]="getColspan()">No results</td>
+        </tr>
+      } @else {
+        @for (row of items(); track getRowId(row, $index); let rowIndex = $index) {
+          <tr tngTableRow [tngTableRowId]="getRowId(row, rowIndex)">
+            @for (column of visibleColumns; track column.id) {
+              <td
+                tngTableCell
+                class="tng-table__cell"
+                [attr.data-align]="getCellAlign(column)"
+                [tngTableColumnId]="column.id"
+                [tngTableStickyColumn]="column.sticky ?? null"
+                [tngTableTruncate]="column.truncate === true"
+              >
+                @if (getCellTemplate(column.id); as cellTemplate) {
+                  <ng-container
+                    *ngTemplateOutlet="cellTemplate.templateRef; context: getCellContext(row, column, rowIndex)"
+                  />
+                } @else {
+                  {{ getCellText(row, column, rowIndex) }}
+                }
+              </td>
+            }
+          </tr>
+        }
+      }
+    </tbody>
+  </table>
+</div>

@@ -18,7 +18,14 @@ import {
 } from '@tailng-ui/cdk';
 
 export type TngPaginationMode = TngTablePaginationMode;
-export type TngPaginationTrigger = 'first' | 'last' | 'next' | 'page' | 'previous' | 'programmatic' | 'size';
+export type TngPaginationTrigger =
+  | 'first'
+  | 'last'
+  | 'next'
+  | 'page'
+  | 'previous'
+  | 'programmatic'
+  | 'size';
 
 export type TngPaginationChangeEvent = Readonly<{
   mode: TngPaginationMode;
@@ -140,7 +147,9 @@ export class TngPagination {
     return this.createController().setPageIndex(this.rawPageIndex(), this.totalItems());
   });
 
-  public readonly pageCount = computed(() => this.createController().getPageCount(this.totalItems()));
+  public readonly pageCount = computed(() =>
+    this.createController().getPageCount(this.totalItems()),
+  );
   public readonly isFirstPage = computed(() => this.state().pageIndex <= 0);
   public readonly isLastPage = computed(() => {
     const pageCount = this.pageCount();
@@ -236,7 +245,10 @@ export class TngPagination {
   }
 
   private rawPageIndex(): number {
-    return this.pageIndex() ?? (this.hasUncontrolledPageIndex() ? this.uncontrolledPageIndex() : this.defaultPageIndex());
+    return (
+      this.pageIndex() ??
+      (this.hasUncontrolledPageIndex() ? this.uncontrolledPageIndex() : this.defaultPageIndex())
+    );
   }
 
   private createController(): TngTablePaginationController<unknown> {
@@ -248,7 +260,10 @@ export class TngPagination {
   }
 
   private rawPageSize(): number {
-    return this.pageSize() ?? (this.hasUncontrolledPageSize() ? this.uncontrolledPageSize() : this.defaultPageSize());
+    return (
+      this.pageSize() ??
+      (this.hasUncontrolledPageSize() ? this.uncontrolledPageSize() : this.defaultPageSize())
+    );
   }
 
   private commit(nextState: TngTablePaginationState, trigger: TngPaginationTrigger): void {
@@ -292,6 +307,7 @@ export class TngPagination {
   }
 }
 
+@Directive()
 abstract class TngPaginationButton {
   protected readonly pagination = inject(TngPagination);
 

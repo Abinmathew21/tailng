@@ -108,13 +108,15 @@ export const HEADLESS_FORM_GROUP: HeadlessDocsGroup = {
       id: 'switch',
       slug: 'switch',
       title: 'Switch',
-      description: 'Two-state switch behavior with button semantics, data-state hooks, and ARIA wiring.',
+      description:
+        'Two-state switch behavior with button semantics, data-state hooks, and ARIA wiring.',
     },
     {
       id: 'radio',
       slug: 'radio',
       title: 'Radio',
-      description: 'Single-choice native radio behavior with readonly, invalid, and focus-visible hooks.',
+      description:
+        'Single-choice native radio behavior with readonly, invalid, and focus-visible hooks.',
     },
     {
       id: 'button-toggle',
@@ -151,7 +153,8 @@ export const HEADLESS_FORM_GROUP: HeadlessDocsGroup = {
       id: 'multiselect',
       slug: 'multiselect',
       title: 'MultiSelect',
-      description: 'Multiple selection state handling and interaction contracts in select overlays.',
+      description:
+        'Multiple selection state handling and interaction contracts in select overlays.',
     },
     {
       id: 'datepicker',
@@ -215,6 +218,13 @@ export const HEADLESS_LAYOUT_GROUP: HeadlessDocsGroup = {
       title: 'Stepper',
       description:
         'Ordered progress primitive with value-driven steps, roving focus, linear mode, and state hooks.',
+    },
+    {
+      id: 'table',
+      slug: 'table',
+      title: 'Table',
+      description:
+        'Semantic table primitives for sortable, selectable, scrollable, and stateful data grids.',
     },
   ],
 };
@@ -366,7 +376,8 @@ export const HEADLESS_NAVIGATION_GROUP: HeadlessDocsGroup = {
       id: 'breadcrumb',
       slug: 'breadcrumb',
       title: 'Breadcrumb',
-      description: 'Structural breadcrumb slots for owner-controlled trails, current links, and separators.',
+      description:
+        'Structural breadcrumb slots for owner-controlled trails, current links, and separators.',
     },
     {
       id: 'tabs',
@@ -379,7 +390,15 @@ export const HEADLESS_NAVIGATION_GROUP: HeadlessDocsGroup = {
       id: 'tree',
       slug: 'tree',
       title: 'Tree',
-      description: 'Hierarchical treeitem contracts with owned expansion, selection, and typeahead styling.',
+      description:
+        'Hierarchical treeitem contracts with owned expansion, selection, and typeahead styling.',
+    },
+    {
+      id: 'pagination',
+      slug: 'pagination',
+      title: 'Pagination',
+      description:
+        'Page index, size, movement controls, and client or server pagination contracts.',
     },
   ],
 };
@@ -402,10 +421,7 @@ if (defaultItem === undefined) {
 
 export const DEFAULT_HEADLESS_DOCS_SEGMENT = `${defaultGroup.id}/${defaultItem.slug}`;
 
-export function buildHeadlessDocHref(
-  groupId: HeadlessDocsCategoryId,
-  itemSlug: string,
-): string {
+export function buildHeadlessDocHref(groupId: HeadlessDocsCategoryId, itemSlug: string): string {
   return `/headless/${groupId}/${itemSlug}`;
 }
 
