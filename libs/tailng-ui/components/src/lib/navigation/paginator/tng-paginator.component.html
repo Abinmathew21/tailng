@@ -1,0 +1,70 @@
+<nav
+  #pagination="tngPagination"
+  tngPagination
+  class="tng-paginator"
+  [attr.data-size]="size()"
+  [ariaLabel]="ariaLabel()"
+  [defaultPageIndex]="defaultPageIndex()"
+  [defaultPageSize]="defaultPageSize()"
+  [disabled]="disabled()"
+  [mode]="mode()"
+  [pageIndex]="pageIndex()"
+  [pageSize]="pageSize()"
+  [totalItems]="totalItems()"
+  (pageChange)="onPageChange($event)"
+  (pageIndexChange)="onPageIndexChange($event)"
+  (pageSizeChange)="onPageSizeChange($event)"
+>
+  @if (showRange()) {
+    <span class="tng-paginator__range" data-testid="range">
+      {{ getRangeLabel(pagination.state().pageIndex, pagination.state().pageSize, totalItems()) }}
+    </span>
+  }
+
+  <div class="tng-paginator__controls">
+    @if (showFirstLast()) {
+      <button tngPaginationFirst class="tng-paginator__button" type="button" aria-label="First page">
+        <span aria-hidden="true">|&lt;</span>
+      </button>
+    }
+
+    <button tngPaginationPrevious class="tng-paginator__button" type="button" aria-label="Previous page">
+      <span aria-hidden="true">&lt;</span>
+    </button>
+
+    <div class="tng-paginator__pages" aria-label="Pages">
+      @for (page of getPages(pagination.state().pageIndex, pagination.pageCount()); track page) {
+        <button
+          tngPaginationPage
+          class="tng-paginator__button tng-paginator__page"
+          type="button"
+          [attr.aria-label]="getPageLabel(page)"
+          [tngPaginationPage]="page"
+        >
+          {{ page + 1 }}
+        </button>
+      }
+    </div>
+
+    <button tngPaginationNext class="tng-paginator__button" type="button" aria-label="Next page">
+      <span aria-hidden="true">&gt;</span>
+    </button>
+
+    @if (showFirstLast()) {
+      <button tngPaginationLast class="tng-paginator__button" type="button" aria-label="Last page">
+        <span aria-hidden="true">&gt;|</span>
+      </button>
+    }
+  </div>
+
+  @if (showPageSize()) {
+    <label class="tng-paginator__size">
+      <span class="tng-paginator__size-label">Rows</span>
+      <select tngPaginationPageSize class="tng-paginator__select">
+        @for (option of normalizedPageSizeOptions(); track option) {
+          <option [value]="option">{{ option }}</option>
+        }
+      </select>
+    </label>
+  }
+</nav>
