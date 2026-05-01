@@ -26,6 +26,8 @@ import { tngPrimitiveOverlayRuntime } from '../tng-overlay-runtime';
 const createPopoverId = createTngIdFactory('tng-popover');
 const createPopoverPanelId = createTngIdFactory('tng-popover-panel');
 const createPopoverFocusableId = createTngIdFactory('tng-popover-focusable');
+const TNG_OVERLAY_LAYER_ID_ATTR = 'data-tng-overlay-layer-id';
+const TNG_OVERLAY_OWNER_ID_ATTR = 'data-tng-overlay-owner-id';
 
 type OptionalBooleanInput = boolean | null | string | undefined;
 
@@ -184,6 +186,11 @@ export class TngPopover implements OnDestroy, OnInit {
 
   @HostBinding('attr.data-slot')
   protected readonly dataSlot = 'popover';
+
+  @HostBinding(`attr.${TNG_OVERLAY_LAYER_ID_ATTR}`)
+  protected get overlayLayerIdAttr(): string {
+    return this.instanceId;
+  }
 
   @HostBinding('attr.data-open')
   protected get dataOpenAttr(): 'false' | 'true' {
@@ -444,7 +451,13 @@ export class TngPopover implements OnDestroy, OnInit {
           return true;
         }
 
-        return path.includes(hostElement);
+        if (path.includes(hostElement)) {
+          return true;
+        }
+
+        return path.some((entry): boolean => {
+          return entry instanceof Element && entry.getAttribute(TNG_OVERLAY_OWNER_ID_ATTR) === this.instanceId;
+        });
       },
       dismissOnEscape: this.shouldCloseFromEscape(),
       dismissOnOutsidePointer: this.shouldCloseFromOutsidePointer(),

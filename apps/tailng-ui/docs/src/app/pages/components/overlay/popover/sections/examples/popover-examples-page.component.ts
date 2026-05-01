@@ -1,16 +1,37 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, inject, signal, type OnDestroy } from '@angular/core';
 import { observeDocsCodeThemeChanges, resolveDocsCodeBlockTheme } from '../../../../../../shared/util';
-import { TngPopoverComponent } from '@tailng-ui/components';
+import {
+  TngMenuComponent,
+  TngMenuTriggerFor,
+  TngMultiSelectComponent,
+  TngPopoverComponent,
+  TngSelectComponent,
+} from '@tailng-ui/components';
+import { TngMenuItem, type TngMenuSelectEvent } from '@tailng-ui/primitives';
 import { type DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
 import {
   DocsExampleTabsSectionComponent,
   DocsExampleVariantDirective,
 } from '../../../../../../shared/example-tabs-section/docs-example-tabs-section.component';
 
+type NestedOverlayOption = Readonly<{
+  label: string;
+  value: string;
+}>;
+
 @Component({
   selector: 'app-popover-examples-page',
-  imports: [TngPopoverComponent, DocsExampleTabsSectionComponent, DocsExampleVariantDirective],
+  imports: [
+    TngPopoverComponent,
+    TngSelectComponent,
+    TngMultiSelectComponent,
+    TngMenuComponent,
+    TngMenuTriggerFor,
+    TngMenuItem,
+    DocsExampleTabsSectionComponent,
+    DocsExampleVariantDirective,
+  ],
   templateUrl: './popover-examples-page.component.html',
   styleUrl: './popover-examples-page.component.css',
 })
@@ -30,6 +51,20 @@ export class PopoverExamplesPageComponent implements OnDestroy {
 
   protected readonly plainResult = signal('No decision yet');
   protected readonly tailwindResult = signal('No decision yet');
+  protected readonly nestedSelectValue = signal<string | null>('owner');
+  protected readonly nestedMultiSelectValue = signal<readonly string[]>(['email']);
+  protected readonly nestedMenuResult = signal('No command selected');
+
+  protected readonly nestedRoleOptions: readonly NestedOverlayOption[] = [
+    { label: 'Owner', value: 'owner' },
+    { label: 'Maintainer', value: 'maintainer' },
+    { label: 'Viewer', value: 'viewer' },
+  ];
+  protected readonly nestedChannelOptions: readonly NestedOverlayOption[] = [
+    { label: 'Email', value: 'email' },
+    { label: 'Slack', value: 'slack' },
+    { label: 'PagerDuty', value: 'pagerduty' },
+  ];
 
   protected readonly plainCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
     {
@@ -189,5 +224,9 @@ export class PopoverExamplesPageComponent implements OnDestroy {
   protected onTailwindApprove(): void {
     this.tailwindResult.set('Deployment approved');
     this.tailwindOpen.set(false);
+  }
+
+  protected onNestedMenuSelect(event: TngMenuSelectEvent): void {
+    this.nestedMenuResult.set(String(event.value ?? event.itemId));
   }
 }

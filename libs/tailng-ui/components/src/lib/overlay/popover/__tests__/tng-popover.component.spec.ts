@@ -5,6 +5,16 @@ import {
   TngPopoverComponent,
   type TngPopoverCloseReason,
 } from '../tng-popover.component';
+import { TngSelectComponent } from '../../../form/select/tng-select.component';
+import { TngMultiSelectComponent } from '../../../form/multiselect/tng-multiselect.component';
+import { TngMenuComponent } from '../../../navigation/menu/tng-menu.component';
+import { TngMenuTriggerFor } from '../../../navigation/menu/tng-menu-trigger-for.directive';
+import { TngMenuItem } from '@tailng-ui/primitives';
+
+type OverlayOption = Readonly<{
+  label: string;
+  value: string;
+}>;
 
 function getByTestId<T extends Element>(fixture: { nativeElement: HTMLElement }, testId: string): T {
   const element = fixture.nativeElement.querySelector(`[data-testid="${testId}"]`) as T | null;
@@ -37,6 +47,15 @@ function pointerdown(target: EventTarget): PointerEvent {
   });
   target.dispatchEvent(event);
   return event;
+}
+
+function getFromDocument<T extends Element>(selector: string): T {
+  const element = document.querySelector(selector) as T | null;
+  if (element === null) {
+    throw new Error(`Expected document element ${selector} to exist.`);
+  }
+
+  return element;
 }
 
 async function settle(fixture: { detectChanges(): void; whenStable(): Promise<unknown> }): Promise<void> {
@@ -98,9 +117,84 @@ class ControlledPopoverHostComponent {
   readonly closeReasons: TngPopoverCloseReason[] = [];
 }
 
+@Component({
+  imports: [TngPopoverComponent, TngSelectComponent],
+  template: `
+    <tng-popover
+      [defaultOpen]="true"
+      [autoFocus]="'none'"
+      [restoreFocus]="false"
+      (closed)="closeReasons.push($event)"
+    >
+      <tng-select
+        data-testid="select"
+        [options]="options"
+        [placeholder]="'Pick one'"
+      />
+    </tng-popover>
+
+    <button type="button" data-testid="outside">Outside</button>
+  `,
+})
+class PopoverWithSelectHostComponent {
+  readonly options: readonly OverlayOption[] = [
+    { label: 'Alpha', value: 'alpha' },
+    { label: 'Beta', value: 'beta' },
+  ];
+  readonly closeReasons: TngPopoverCloseReason[] = [];
+}
+
+@Component({
+  imports: [TngPopoverComponent, TngMultiSelectComponent],
+  template: `
+    <tng-popover
+      [defaultOpen]="true"
+      [autoFocus]="'none'"
+      [restoreFocus]="false"
+      (closed)="closeReasons.push($event)"
+    >
+      <tng-multiselect
+        data-testid="multiselect"
+        [options]="options"
+        [placeholder]="'Pick many'"
+      />
+    </tng-popover>
+  `,
+})
+class PopoverWithMultiSelectHostComponent {
+  readonly options: readonly OverlayOption[] = [
+    { label: 'Alpha', value: 'alpha' },
+    { label: 'Beta', value: 'beta' },
+  ];
+  readonly closeReasons: TngPopoverCloseReason[] = [];
+}
+
+@Component({
+  imports: [TngPopoverComponent, TngMenuComponent, TngMenuTriggerFor, TngMenuItem],
+  template: `
+    <tng-popover
+      [defaultOpen]="true"
+      [autoFocus]="'none'"
+      [restoreFocus]="false"
+      (closed)="closeReasons.push($event)"
+    >
+      <button type="button" [tngMenuTriggerFor]="menu" data-testid="menu-trigger">Menu</button>
+      <tng-menu #menu="tngMenu" data-testid="menu">
+        <button type="button" tngMenuItem data-testid="menu-item">Archive</button>
+      </tng-menu>
+    </tng-popover>
+  `,
+})
+class PopoverWithMenuHostComponent {
+  readonly closeReasons: TngPopoverCloseReason[] = [];
+}
+
 describe('tng-popover component behavior', () => {
   afterEach(() => {
     TestBed.resetTestingModule();
+    document
+      .querySelectorAll('[data-slot="select-overlay"]')
+      .forEach((element) => element.remove());
   });
 
   it('exports the popover component', () => {
@@ -256,5 +350,58 @@ describe('tng-popover component behavior', () => {
     expect(fixture.componentInstance.openChanges).toEqual([false]);
     expect(fixture.componentInstance.open()).toBe(true);
     expect(findPanel(fixture)?.getAttribute('hidden')).toBeNull();
+  });
+
+  it('keeps the popover open when a portalled select option is selected', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [PopoverWithSelectHostComponent],
+    }).createComponent(PopoverWithSelectHostComponent);
+
+    await settle(fixture);
+
+    pointerdown(getByTestId<HTMLElement>(fixture, 'select').querySelector('button')!);
+    await settle(fixture);
+
+    pointerdown(getFromDocument<HTMLElement>('[data-slot="select-option"]'));
+    await settle(fixture);
+
+    expect(fixture.componentInstance.closeReasons).toEqual([]);
+    expect(findPanel(fixture)?.getAttribute('hidden')).toBeNull();
+  });
+
+  it('keeps the popover open when a portalled multiselect option is toggled', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [PopoverWithMultiSelectHostComponent],
+    }).createComponent(PopoverWithMultiSelectHostComponent);
+
+    await settle(fixture);
+
+    pointerdown(getByTestId<HTMLElement>(fixture, 'multiselect').querySelector('button')!);
+    await settle(fixture);
+
+    pointerdown(getFromDocument<HTMLElement>('[data-slot="multi-select-option"]'));
+    await settle(fixture);
+
+    expect(fixture.componentInstance.closeReasons).toEqual([]);
+    expect(findPanel(fixture)?.getAttribute('hidden')).toBeNull();
+    expect(getFromDocument<HTMLElement>('[data-slot="select-overlay"]').getAttribute('hidden')).toBeNull();
+  });
+
+  it('keeps the popover open when an inner menu item closes its menu', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [PopoverWithMenuHostComponent],
+    }).createComponent(PopoverWithMenuHostComponent);
+
+    await settle(fixture);
+
+    getByTestId<HTMLButtonElement>(fixture, 'menu-trigger').click();
+    await settle(fixture);
+
+    getByTestId<HTMLButtonElement>(fixture, 'menu-item').click();
+    await settle(fixture);
+
+    expect(fixture.componentInstance.closeReasons).toEqual([]);
+    expect(findPanel(fixture)?.getAttribute('hidden')).toBeNull();
+    expect(getByTestId<HTMLElement>(fixture, 'menu').getAttribute('data-state')).toBe('closed');
   });
 });

@@ -268,4 +268,151 @@
       </ng-template>
     </app-docs-example-tabs-section>
   </section>
+
+  <section id="nested-overlays" class="headless-popover-examples-block">
+    <h3>Nested interactive overlays</h3>
+    <p class="headless-popover-examples-copy">
+      Headless select, multiselect, and menu primitives can run inside a popover without dismissing
+      the parent panel.
+    </p>
+
+    <div class="headless-popover-nested-grid">
+      <section
+        tngPopover
+        #headlessSelectPopover="tngPopover"
+        class="headless-popover-nested-shell"
+        [autoFocus]="'none'"
+        [restoreFocus]="false"
+      >
+        <button
+          type="button"
+          class="headless-popover-example-trigger"
+          [tngPopoverTrigger]="headlessSelectPopover"
+        >
+          Role filter
+        </button>
+
+        <section tngPopoverPanel class="headless-popover-nested-panel">
+          <p class="headless-popover-nested-label">Role</p>
+          <section
+            tngSelect
+            class="headless-popover-nested-select"
+            [value]="nestedSelectValue()"
+            (valueChange)="onNestedSelectValueChange($event)"
+          >
+            <button type="button" tngSelectTrigger class="headless-popover-nested-select-trigger">
+              <span tngSelectValue>{{ nestedSelectValue() ?? 'Choose role' }}</span>
+              <span tngSelectIcon aria-hidden="true">▾</span>
+            </button>
+            <div tngSelectContent>
+              <div tngSelectOverlay>
+                <ul
+                  tngSelectListbox
+                  class="headless-popover-nested-listbox"
+                  [value]="nestedSelectValue()"
+                  (valueChange)="onNestedSelectValueChange($event)"
+                >
+                  @for (option of nestedRoleOptions; track option.value) {
+                    <li tngSelectOption [tngValue]="option.value">{{ option.label }}</li>
+                  }
+                </ul>
+              </div>
+            </div>
+          </section>
+          <p class="headless-popover-example-state">selected: {{ nestedSelectValue() }}</p>
+        </section>
+      </section>
+
+      <section
+        tngPopover
+        #headlessMultiPopover="tngPopover"
+        class="headless-popover-nested-shell"
+        [autoFocus]="'none'"
+        [restoreFocus]="false"
+      >
+        <button
+          type="button"
+          class="headless-popover-example-trigger"
+          [tngPopoverTrigger]="headlessMultiPopover"
+        >
+          Notify channels
+        </button>
+
+        <section tngPopoverPanel class="headless-popover-nested-panel">
+          <p class="headless-popover-nested-label">Channels</p>
+          <section
+            tngMultiSelect
+            class="headless-popover-nested-select"
+            [value]="nestedMultiSelectValue()"
+            (valueChange)="onNestedMultiSelectValueChange($event)"
+          >
+            <button type="button" tngSelectTrigger class="headless-popover-nested-select-trigger">
+              <span tngSelectValue>{{ nestedMultiSelectValue().join(', ') || 'Choose channels' }}</span>
+              <span tngSelectIcon aria-hidden="true">▾</span>
+            </button>
+            <div tngSelectContent>
+              <div tngSelectOverlay>
+                <ul
+                  tngMultiSelectListbox
+                  class="headless-popover-nested-listbox"
+                  [multiple]="true"
+                  [value]="nestedMultiSelectValue()"
+                  (valueChange)="onNestedMultiSelectValueChange($event)"
+                >
+                  @for (option of nestedChannelOptions; track option.value) {
+                    <li tngMultiSelectOption [tngValue]="option.value">{{ option.label }}</li>
+                  }
+                </ul>
+              </div>
+            </div>
+          </section>
+          <p class="headless-popover-example-state">selected: {{ nestedMultiSelectValue().join(', ') || 'none' }}</p>
+        </section>
+      </section>
+
+      <section
+        tngPopover
+        #headlessMenuPopover="tngPopover"
+        class="headless-popover-nested-shell"
+        [autoFocus]="'none'"
+        [restoreFocus]="false"
+      >
+        <button
+          type="button"
+          class="headless-popover-example-trigger"
+          [tngPopoverTrigger]="headlessMenuPopover"
+        >
+          Menu actions
+        </button>
+
+        <section tngPopoverPanel class="headless-popover-nested-panel">
+          <p class="headless-popover-nested-label">Project action</p>
+          <div class="headless-popover-nested-menu-shell">
+            <button
+              type="button"
+              class="headless-popover-example-secondary"
+              [tngMenuTrigger]="headlessNestedMenu"
+            >
+              Open menu
+            </button>
+            <section
+              tngMenu
+              #headlessNestedMenu="tngMenu"
+              class="headless-popover-nested-menu"
+              aria-label="Project actions"
+              (tngMenuSelect)="onNestedMenuSelect($event)"
+            >
+              <button type="button" tngMenuItem [tngMenuItemValue]="'Duplicate project'">
+                Duplicate project
+              </button>
+              <button type="button" tngMenuItem [tngMenuItemValue]="'Archive project'">
+                Archive project
+              </button>
+            </section>
+          </div>
+          <p class="headless-popover-example-state">command: {{ nestedMenuResult() }}</p>
+        </section>
+      </section>
+    </div>
+  </section>
 </article>
