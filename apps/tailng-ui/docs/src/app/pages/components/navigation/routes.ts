@@ -1,8 +1,5 @@
 import type { Routes } from '@angular/router';
-import {
-  COMPONENTS_NAVIGATION_GROUP,
-  toComponentsDocsRouteData,
-} from '../component-docs.data';
+import { COMPONENTS_NAVIGATION_GROUP, toComponentsDocsRouteData } from '../component-docs.data';
 
 const group = COMPONENTS_NAVIGATION_GROUP;
 const breadcrumbItem = group.items.find((item) => item.slug === 'breadcrumb');
@@ -29,6 +26,10 @@ const treeItem = group.items.find((item) => item.slug === 'tree');
 if (treeItem === undefined) {
   throw new Error('Missing "tree" in components navigation docs group.');
 }
+const paginationItem = group.items.find((item) => item.slug === 'pagination');
+if (paginationItem === undefined) {
+  throw new Error('Missing "pagination" in components navigation docs group.');
+}
 const landingItems = group.items.filter(
   (item) =>
     item.slug !== breadcrumbItem.slug &&
@@ -36,7 +37,8 @@ const landingItems = group.items.filter(
     item.slug !== menubarItem.slug &&
     item.slug !== menuItem.slug &&
     item.slug !== contextMenuItem.slug &&
-    item.slug !== treeItem.slug,
+    item.slug !== treeItem.slug &&
+    item.slug !== paginationItem.slug,
 );
 
 export const COMPONENTS_NAVIGATION_ROUTES: Routes = [
@@ -48,7 +50,9 @@ export const COMPONENTS_NAVIGATION_ROUTES: Routes = [
   {
     path: breadcrumbItem.slug,
     loadChildren: () =>
-      import('./breadcrumb/routes').then((module) => module.COMPONENTS_NAVIGATION_BREADCRUMB_ROUTES),
+      import('./breadcrumb/routes').then(
+        (module) => module.COMPONENTS_NAVIGATION_BREADCRUMB_ROUTES,
+      ),
   },
   {
     path: tabsItem.slug,
@@ -76,6 +80,13 @@ export const COMPONENTS_NAVIGATION_ROUTES: Routes = [
     path: treeItem.slug,
     loadChildren: () =>
       import('./tree/routes').then((module) => module.COMPONENTS_NAVIGATION_TREE_ROUTES),
+  },
+  {
+    path: paginationItem.slug,
+    loadChildren: () =>
+      import('./pagination/routes').then(
+        (module) => module.COMPONENTS_NAVIGATION_PAGINATION_ROUTES,
+      ),
   },
   ...landingItems.map((item) => ({
     path: item.slug,

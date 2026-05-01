@@ -65,7 +65,8 @@ export const OWNABLE_TOOLING_GROUP: OwnableDocsGroup = {
       id: 'registry',
       slug: 'registry',
       title: 'Registry',
-      description: 'The registry contract that defines generated files, install metadata, and names.',
+      description:
+        'The registry contract that defines generated files, install metadata, and names.',
     },
   ],
 };
@@ -195,6 +196,13 @@ export const OWNABLE_LAYOUT_GROUP: OwnableDocsGroup = {
       description:
         'Ownable stepper install with local wrapper source, progress markup, and generated file structure.',
     },
+    {
+      id: 'table',
+      slug: 'table',
+      title: 'Table',
+      description:
+        'Ownable table install with local column rendering, data-state markup, and generated file structure.',
+    },
   ],
 };
 
@@ -309,6 +317,13 @@ export const OWNABLE_NAVIGATION_GROUP: OwnableDocsGroup = {
       title: 'Tree',
       description:
         'Ownable tree install with local wrapper source, hierarchical row presentation, and generated file structure.',
+    },
+    {
+      id: 'pagination',
+      slug: 'pagination',
+      title: 'Pagination',
+      description:
+        'Ownable pagination install with local control markup, page-size options, and generated file structure.',
     },
   ],
 };

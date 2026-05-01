@@ -1,10 +1,11 @@
 import type { Routes } from '@angular/router';
-import {
-  HEADLESS_NAVIGATION_GROUP,
-  toHeadlessDocsRouteData,
-} from '../headless-docs.data';
+import { HEADLESS_NAVIGATION_GROUP, toHeadlessDocsRouteData } from '../headless-docs.data';
 
 const group = HEADLESS_NAVIGATION_GROUP;
+const paginationItem = group.items.find((item) => item.slug === 'pagination');
+if (paginationItem === undefined) {
+  throw new Error('Missing "pagination" in headless navigation docs group.');
+}
 
 export const HEADLESS_NAVIGATION_ROUTES: Routes = [
   {
@@ -44,6 +45,11 @@ export const HEADLESS_NAVIGATION_ROUTES: Routes = [
     loadChildren: () =>
       import('./tree/routes').then((module) => module.HEADLESS_NAVIGATION_TREE_ROUTES),
   },
+  {
+    path: paginationItem.slug,
+    loadChildren: () =>
+      import('./pagination/routes').then((module) => module.HEADLESS_NAVIGATION_PAGINATION_ROUTES),
+  },
   ...group.items
     .filter(
       (item) =>
@@ -52,7 +58,8 @@ export const HEADLESS_NAVIGATION_ROUTES: Routes = [
         item.slug !== 'context-menu' &&
         item.slug !== 'breadcrumb' &&
         item.slug !== 'tabs' &&
-        item.slug !== 'tree',
+        item.slug !== 'tree' &&
+        item.slug !== 'pagination',
     )
     .map((item) => ({
       path: item.slug,

@@ -214,6 +214,12 @@ export const COMPONENTS_LAYOUT_GROUP: ComponentsDocsGroup = {
       title: 'Drawer',
       description: 'Slide-in overlay panel with position, mode, focus trap, and backdrop support.',
     },
+    {
+      id: 'table',
+      slug: 'table',
+      title: 'Table',
+      description: 'Styled data table shell with columns, sorting, sticky cells, and empty states.',
+    },
   ],
 };
 
@@ -238,7 +244,8 @@ export const COMPONENTS_OVERLAY_GROUP: ComponentsDocsGroup = {
       id: 'tooltip',
       slug: 'tooltip',
       title: 'Tooltip',
-      description: 'Hover/focus helper text with trigger/content association and side placement hooks.',
+      description:
+        'Hover/focus helper text with trigger/content association and side placement hooks.',
     },
   ],
 };
@@ -353,7 +360,8 @@ export const COMPONENTS_NAVIGATION_GROUP: ComponentsDocsGroup = {
       id: 'breadcrumb',
       slug: 'breadcrumb',
       title: 'Breadcrumb',
-      description: 'Hierarchical path navigation with optional collapse and current-page semantics.',
+      description:
+        'Hierarchical path navigation with optional collapse and current-page semantics.',
     },
     {
       id: 'tabs',
@@ -366,7 +374,15 @@ export const COMPONENTS_NAVIGATION_GROUP: ComponentsDocsGroup = {
       id: 'tree',
       slug: 'tree',
       title: 'Tree',
-      description: 'Hierarchical data navigation with keyboard support, selection, and expand/collapse.',
+      description:
+        'Hierarchical data navigation with keyboard support, selection, and expand/collapse.',
+    },
+    {
+      id: 'pagination',
+      slug: 'pagination',
+      title: 'Pagination',
+      description:
+        'Styled paginator controls for page movement, ranges, page size, and server mode.',
     },
   ],
 };

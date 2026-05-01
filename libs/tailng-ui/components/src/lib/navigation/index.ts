@@ -15,5 +15,6 @@ export * from './menu/tng-menu.component';
 export * from './menu/tng-menu-trigger-for.directive';
 export * from './menubar/tng-menubar.component';
 export * from './navigation-menu/tng-navigation-menu.component';
+export * from './paginator/tng-paginator.component';
 export * from './tabs/tng-tabs.component';
 export * from './toolbar/tng-toolbar.component';

@@ -37,6 +37,11 @@ if (separatorItem === undefined) {
   throw new Error('Missing "separator" in components layout docs group.');
 }
 
+const tableItem = group.items.find((item) => item.slug === 'table');
+if (tableItem === undefined) {
+  throw new Error('Missing "table" in components layout docs group.');
+}
+
 export const COMPONENTS_LAYOUT_ROUTES: Routes = [
   {
     path: '',
@@ -47,17 +52,13 @@ export const COMPONENTS_LAYOUT_ROUTES: Routes = [
     path: collapsibleItem.slug,
     data: toComponentsDocsRouteData(group, collapsibleItem),
     loadChildren: () =>
-      import('./collapsible/routes').then(
-        (module) => module.COMPONENTS_LAYOUT_COLLAPSIBLE_ROUTES,
-      ),
+      import('./collapsible/routes').then((module) => module.COMPONENTS_LAYOUT_COLLAPSIBLE_ROUTES),
   },
   {
     path: accordionItem.slug,
     data: toComponentsDocsRouteData(group, accordionItem),
     loadChildren: () =>
-      import('./accordion/routes').then(
-        (module) => module.COMPONENTS_LAYOUT_ACCORDION_ROUTES,
-      ),
+      import('./accordion/routes').then((module) => module.COMPONENTS_LAYOUT_ACCORDION_ROUTES),
   },
   {
     path: stepperItem.slug,
@@ -82,5 +83,11 @@ export const COMPONENTS_LAYOUT_ROUTES: Routes = [
     data: toComponentsDocsRouteData(group, separatorItem),
     loadChildren: () =>
       import('./separator/routes').then((module) => module.COMPONENTS_LAYOUT_SEPARATOR_ROUTES),
+  },
+  {
+    path: tableItem.slug,
+    data: toComponentsDocsRouteData(group, tableItem),
+    loadChildren: () =>
+      import('./table/routes').then((module) => module.COMPONENTS_LAYOUT_TABLE_ROUTES),
   },
 ];

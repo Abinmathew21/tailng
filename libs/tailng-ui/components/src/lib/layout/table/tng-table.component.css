@@ -1,0 +1,104 @@
+:host {
+  display: block;
+}
+
+.tng-table__scroll {
+  border: 1px solid var(--tng-table-border, var(--tng-semantic-border-subtle));
+  border-radius: var(--tng-table-radius, 0.65rem);
+  background: var(--tng-semantic-background-surface);
+}
+
+.tng-table {
+  border-collapse: separate;
+  border-spacing: 0;
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 0.875rem;
+  min-width: 100%;
+  width: 100%;
+}
+
+.tng-table__header-cell,
+.tng-table__cell,
+.tng-table__state-cell {
+  border-bottom: 1px solid var(--tng-table-border, var(--tng-semantic-border-subtle));
+  line-height: 1.35;
+  padding: var(--tng-table-cell-py, 0.75rem) var(--tng-table-cell-px, 0.9rem);
+  text-align: start;
+  vertical-align: middle;
+}
+
+.tng-table[data-density='compact'] .tng-table__header-cell,
+.tng-table[data-density='compact'] .tng-table__cell,
+.tng-table[data-density='compact'] .tng-table__state-cell {
+  padding-block: 0.5rem;
+}
+
+.tng-table__header-cell {
+  background: var(--tng-table-header-bg, color-mix(in srgb, var(--tng-semantic-background-surface) 84%, var(--tng-semantic-background-base) 16%));
+  color: var(--tng-semantic-foreground-secondary);
+  font-weight: 650;
+  user-select: none;
+}
+
+.tng-table__header-cell[tngSortHeader] {
+  cursor: pointer;
+}
+
+.tng-table__header-cell[tngSortHeader]:focus-visible {
+  box-shadow: inset 0 0 0 2px var(--tng-semantic-focus-ring);
+  outline: none;
+}
+
+.tng-table__header-label {
+  align-items: center;
+  display: inline-flex;
+  gap: 0.35rem;
+}
+
+.tng-table__header-cell[data-sort-active] .tng-table__header-label::after {
+  content: '';
+  border-inline: 0.25rem solid transparent;
+  display: inline-block;
+  height: 0;
+  width: 0;
+}
+
+.tng-table__header-cell[data-sort-direction='asc'] .tng-table__header-label::after {
+  border-bottom: 0.4rem solid currentColor;
+}
+
+.tng-table__header-cell[data-sort-direction='desc'] .tng-table__header-label::after {
+  border-top: 0.4rem solid currentColor;
+}
+
+.tng-table__cell {
+  background: var(--tng-semantic-background-surface);
+}
+
+.tng-table tr[data-slot='table-row']:hover .tng-table__cell {
+  background: var(--tng-table-row-hover-bg, color-mix(in srgb, var(--tng-semantic-foreground-primary) 4%, var(--tng-semantic-background-surface)));
+}
+
+.tng-table tr:last-child .tng-table__cell,
+.tng-table tr:last-child .tng-table__state-cell {
+  border-bottom: 0;
+}
+
+.tng-table__header-cell[data-align='center'],
+.tng-table__cell[data-align='center'] {
+  text-align: center;
+}
+
+.tng-table__header-cell[data-align='end'],
+.tng-table__cell[data-align='end'] {
+  text-align: end;
+}
+
+.tng-table__state-cell {
+  color: var(--tng-semantic-foreground-secondary);
+  text-align: center;
+}
+
+.tng-table [data-sticky] {
+  background: inherit;
+}

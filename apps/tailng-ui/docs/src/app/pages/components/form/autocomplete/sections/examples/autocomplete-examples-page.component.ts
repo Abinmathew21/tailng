@@ -48,6 +48,9 @@ type SharedCurrencyRecord = {
   readonly name: string;
 };
 
+const FLAG_STYLESHEET_ID = 'docs-country-flag-stylesheet';
+const FLAG_STYLESHEET_HREF = 'assets/styles/flags.css';
+
 const COUNTRY_OPTIONS: readonly CountryOption[] = Object.freeze([
   { code: 'ca', label: 'Canada' },
   { code: 'de', label: 'Germany' },
@@ -455,6 +458,18 @@ function resolveSignalFormCurrencyLabel(value: string | null): string {
   return SIGNAL_FORM_CURRENCIES.find((currency) => currency.code === value)?.label ?? 'none';
 }
 
+function ensureFlagStylesheet(documentRef: Document): void {
+  if (documentRef.getElementById(FLAG_STYLESHEET_ID)) {
+    return;
+  }
+
+  const linkElement = documentRef.createElement('link');
+  linkElement.id = FLAG_STYLESHEET_ID;
+  linkElement.rel = 'stylesheet';
+  linkElement.href = FLAG_STYLESHEET_HREF;
+  documentRef.head.appendChild(linkElement);
+}
+
 @Component({
   selector: 'app-autocomplete-examples-page',
   imports: [
@@ -465,9 +480,7 @@ function resolveSignalFormCurrencyLabel(value: string | null): string {
     DocsFormDemoShellComponent,
   ],
   templateUrl: './autocomplete-examples-page.component.html',
-  styleUrls: ['./autocomplete-examples-page.component.css',
-    '../../../../../../shared/styles/flags.css',
-  ],
+  styleUrls: ['./autocomplete-examples-page.component.css'],
 })
 export class AutocompleteExamplesPageComponent implements OnDestroy {
   private readonly documentRef = inject(DOCUMENT);
@@ -510,6 +523,10 @@ export class AutocompleteExamplesPageComponent implements OnDestroy {
   protected readonly signalForm = form(this.signalFormData);
   protected readonly signalFormSubmitted = signal(false);
   protected readonly signalFormSubmittedSummary = signal('');
+
+  public constructor() {
+    ensureFlagStylesheet(this.documentRef);
+  }
 
   protected readonly countryPlainSummary = computed(() => resolveCountryLabel(this.countryPlainValue()));
   protected readonly countryTailwindSummary = computed(() => resolveCountryLabel(this.countryTailwindValue()));
