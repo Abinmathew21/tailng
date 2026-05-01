@@ -88,6 +88,9 @@ const PORTALLED_SELECT_THEME_VARS = [
   '--tng-semantic-focus-ring',
 ] as const;
 
+const TNG_OVERLAY_LAYER_ID_ATTR = 'data-tng-overlay-layer-id';
+const TNG_OVERLAY_OWNER_ID_ATTR = 'data-tng-overlay-owner-id';
+
 function rectFromClientRect(r: DOMRect | ClientRect): MaybeRect {
   return { left: r.left, top: r.top, width: r.width, height: r.height };
 }
@@ -98,6 +101,10 @@ function viewportRect(): MaybeRect {
 
 function isInside(target: EventTarget | null, container: HTMLElement): boolean {
   return !!target && target instanceof Node && container.contains(target);
+}
+
+function resolveOverlayOwnerId(host: HTMLElement): string | null {
+  return host.closest<HTMLElement>(`[${TNG_OVERLAY_LAYER_ID_ATTR}]`)?.getAttribute(TNG_OVERLAY_LAYER_ID_ATTR) ?? null;
 }
 
 @Directive({
@@ -252,6 +259,10 @@ export class TngSelectOverlay {
     this.lastFocusedBeforeOpen = document.activeElement as HTMLElement | null;
     this.setupRepositionListeners();
     const panel = this.elRef.nativeElement;
+    const ownerId = resolveOverlayOwnerId(this.host.hostElement);
+    if (ownerId !== null) {
+      panel.setAttribute(TNG_OVERLAY_OWNER_ID_ATTR, ownerId);
+    }
 
     if (panel.parentNode !== document.body) {
       document.body.appendChild(panel);
@@ -325,6 +336,7 @@ export class TngSelectOverlay {
     panel.style.zIndex = '';
     panel.style.width = '';
     panel.style.minWidth = '';
+    panel.removeAttribute(TNG_OVERLAY_OWNER_ID_ATTR);
     this.clearPortalledThemeVars();
     this.teardownOutsidePointer();
   }

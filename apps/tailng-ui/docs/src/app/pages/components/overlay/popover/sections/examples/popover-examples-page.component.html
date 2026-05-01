@@ -81,4 +81,68 @@
       </ng-template>
     </app-docs-example-tabs-section>
   </section>
+
+  <section id="nested-overlays" class="popover-examples-block">
+    <h3 class="popover-examples-subtitle">Nested interactive overlays</h3>
+    <p class="popover-examples-lead">
+      Select, multiselect, and menu interactions run inside a popover without dismissing the
+      parent popover.
+    </p>
+
+    <div class="popover-nested-grid">
+      <div class="popover-nested-demo">
+        <tng-popover triggerLabel="Role filter" [autoFocus]="'none'" [restoreFocus]="false">
+          <div class="popover-nested-panel">
+            <p class="popover-nested-label">Role</p>
+            <tng-select
+              [options]="nestedRoleOptions"
+              [placeholder]="'Choose role'"
+              [value]="nestedSelectValue()"
+              (valueChange)="nestedSelectValue.set($event)"
+            />
+            <p class="popover-example-state">selected: {{ nestedSelectValue() }}</p>
+          </div>
+        </tng-popover>
+      </div>
+
+      <div class="popover-nested-demo">
+        <tng-popover triggerLabel="Notify channels" [autoFocus]="'none'" [restoreFocus]="false">
+          <div class="popover-nested-panel">
+            <p class="popover-nested-label">Channels</p>
+            <tng-multiselect
+              [options]="nestedChannelOptions"
+              [placeholder]="'Choose channels'"
+              [value]="nestedMultiSelectValue()"
+              (valueChange)="nestedMultiSelectValue.set($event)"
+            />
+            <p class="popover-example-state">selected: {{ nestedMultiSelectValue().join(', ') || 'none' }}</p>
+          </div>
+        </tng-popover>
+      </div>
+
+      <div class="popover-nested-demo">
+        <tng-popover triggerLabel="Menu actions" [autoFocus]="'none'" [restoreFocus]="false">
+          <div class="popover-nested-panel">
+            <p class="popover-nested-label">Project action</p>
+            <button type="button" class="popover-example-secondary" [tngMenuTriggerFor]="nestedMenu">
+              Open menu
+            </button>
+            <tng-menu
+              #nestedMenu="tngMenu"
+              ariaLabel="Project actions"
+              (tngMenuSelect)="onNestedMenuSelect($event)"
+            >
+              <button type="button" tngMenuItem [tngMenuItemValue]="'Duplicate project'">
+                Duplicate project
+              </button>
+              <button type="button" tngMenuItem [tngMenuItemValue]="'Archive project'">
+                Archive project
+              </button>
+            </tng-menu>
+            <p class="popover-example-state">command: {{ nestedMenuResult() }}</p>
+          </div>
+        </tng-popover>
+      </div>
+    </div>
+  </section>
 </article>

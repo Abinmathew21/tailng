@@ -6,6 +6,21 @@ import {
   TngPopoverPanel,
   TngPopoverTrigger,
   type TngPopoverCloseReason,
+  TngMenu,
+  TngMenuItem,
+  TngMenuTrigger,
+  type TngMenuSelectEvent,
+  TngMultiSelect,
+  TngMultiSelectListbox,
+  TngMultiSelectOption,
+  TngSelect,
+  TngSelectContent,
+  TngSelectIcon,
+  TngSelectListbox,
+  TngSelectOption,
+  TngSelectOverlay,
+  TngSelectTrigger,
+  TngSelectValue,
 } from '@tailng-ui/primitives';
 import type { DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
 import {
@@ -17,6 +32,11 @@ import {
   resolveDocsCodeBlockTheme,
 } from '../../../../../../shared/util';
 
+type HeadlessNestedOverlayOption = Readonly<{
+  label: string;
+  value: string;
+}>;
+
 @Component({
   selector: 'app-headless-popover-examples-page',
   imports: [
@@ -24,6 +44,20 @@ import {
     TngPopoverClose,
     TngPopoverPanel,
     TngPopoverTrigger,
+    TngSelect,
+    TngSelectTrigger,
+    TngSelectValue,
+    TngSelectIcon,
+    TngSelectContent,
+    TngSelectOverlay,
+    TngSelectListbox,
+    TngSelectOption,
+    TngMultiSelect,
+    TngMultiSelectListbox,
+    TngMultiSelectOption,
+    TngMenu,
+    TngMenuTrigger,
+    TngMenuItem,
     DocsExampleTabsSectionComponent,
     DocsExampleVariantDirective,
   ],
@@ -49,6 +83,20 @@ export class HeadlessPopoverExamplesPageComponent implements OnDestroy {
   protected readonly controlledPlainResult = signal('Checklist pending');
   protected readonly controlledTailwindOpen = signal(false);
   protected readonly controlledTailwindResult = signal('Checklist pending');
+  protected readonly nestedSelectValue = signal<string | null>('owner');
+  protected readonly nestedMultiSelectValue = signal<readonly string[]>(['email']);
+  protected readonly nestedMenuResult = signal('No command selected');
+
+  protected readonly nestedRoleOptions: readonly HeadlessNestedOverlayOption[] = [
+    { label: 'Owner', value: 'owner' },
+    { label: 'Maintainer', value: 'maintainer' },
+    { label: 'Viewer', value: 'viewer' },
+  ];
+  protected readonly nestedChannelOptions: readonly HeadlessNestedOverlayOption[] = [
+    { label: 'Email', value: 'email' },
+    { label: 'Slack', value: 'slack' },
+    { label: 'PagerDuty', value: 'pagerduty' },
+  ];
 
   protected readonly destructivePlainCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
     {
@@ -468,5 +516,17 @@ export class HeadlessPopoverExamplesPageComponent implements OnDestroy {
   protected onControlledTailwindContinue(): void {
     this.controlledTailwindResult.set('Checklist accepted');
     this.controlledTailwindOpen.set(false);
+  }
+
+  protected onNestedSelectValueChange(value: string | readonly string[] | null): void {
+    this.nestedSelectValue.set(typeof value === 'string' ? value : null);
+  }
+
+  protected onNestedMultiSelectValueChange(value: string | readonly string[] | null): void {
+    this.nestedMultiSelectValue.set(Array.isArray(value) ? [...value] : []);
+  }
+
+  protected onNestedMenuSelect(event: TngMenuSelectEvent): void {
+    this.nestedMenuResult.set(String(event.value ?? event.itemId));
   }
 }
