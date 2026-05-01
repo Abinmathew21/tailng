@@ -4,22 +4,22 @@ import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/ro
 import { TngTabsComponent } from '@tailng-ui/components';
 import { TngTab, TngTabList } from '@tailng-ui/primitives';
 import { filter, map, startWith } from 'rxjs/operators';
-import type { DocsSectionRailItem } from '../../../../shared/section-rail/docs-section-rail.component';
 import { DocsComponentSectionOutlineComponent } from '../../../../shared/section-outline/docs-component-section-outline.component';
+import type { DocsSectionRailItem } from '../../../../shared/section-rail/docs-section-rail.component';
 
-type HeadlessPaginationDocSectionId = 'api' | 'examples' | 'overview' | 'styling';
+type HeadlessTableDocSectionId = 'api' | 'examples' | 'overview' | 'styling';
 
-const headlessPaginationDocSectionIds: readonly HeadlessPaginationDocSectionId[] = [
+const headlessTableDocSectionIds: readonly HeadlessTableDocSectionId[] = [
   'overview',
   'api',
   'styling',
   'examples',
 ] as const;
 
-const defaultHeadlessPaginationDocSection: HeadlessPaginationDocSectionId = 'overview';
+const defaultHeadlessTableDocSection: HeadlessTableDocSectionId = 'overview';
 
-const headlessPaginationOutlineItemsBySection: Readonly<
-  Record<HeadlessPaginationDocSectionId, readonly DocsSectionRailItem[]>
+const headlessTableOutlineItemsBySection: Readonly<
+  Record<HeadlessTableDocSectionId, readonly DocsSectionRailItem[]>
 > = {
   overview: [
     { id: 'imports', label: 'Imports' },
@@ -27,9 +27,9 @@ const headlessPaginationOutlineItemsBySection: Readonly<
     { id: 'accessibility-baseline', label: 'Accessibility baseline' },
   ],
   api: [
-    { id: 'root-directive', label: 'Root directive' },
-    { id: 'movement-buttons', label: 'Movement buttons' },
-    { id: 'page-size-select', label: 'Page size select' },
+    { id: 'root-and-sections', label: 'Root and sections' },
+    { id: 'rows-and-cells', label: 'Rows and cells' },
+    { id: 'state-directives', label: 'State directives' },
   ],
   styling: [
     { id: 'slot-hooks', label: 'Slot hooks' },
@@ -37,17 +37,17 @@ const headlessPaginationOutlineItemsBySection: Readonly<
     { id: 'practical-guidance', label: 'Practical guidance' },
   ],
   examples: [
-    { id: 'controlled-pagination', label: 'Controlled pagination' },
-    { id: 'server-mode', label: 'Server mode' },
+    { id: 'release-queue', label: 'Release queue' },
+    { id: 'sticky-columns', label: 'Sticky columns' },
   ],
 } as const;
 
-function isHeadlessPaginationDocSectionId(value: string): value is HeadlessPaginationDocSectionId {
-  return headlessPaginationDocSectionIds.includes(value as HeadlessPaginationDocSectionId);
+function isHeadlessTableDocSectionId(value: string): value is HeadlessTableDocSectionId {
+  return headlessTableDocSectionIds.includes(value as HeadlessTableDocSectionId);
 }
 
 @Component({
-  selector: 'app-headless-pagination-page',
+  selector: 'app-headless-table-page',
   imports: [
     RouterOutlet,
     TngTabsComponent,
@@ -55,9 +55,9 @@ function isHeadlessPaginationDocSectionId(value: string): value is HeadlessPagin
     TngTab,
     DocsComponentSectionOutlineComponent,
   ],
-  templateUrl: './headless-pagination-page.component.html',
+  templateUrl: './table-page.component.html',
 })
-export class HeadlessPaginationPageComponent {
+export class HeadlessTablePageComponent {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly currentUrl = toSignal(
@@ -69,11 +69,11 @@ export class HeadlessPaginationPageComponent {
     { initialValue: this.router.url },
   );
 
-  public readonly activeSection = computed<HeadlessPaginationDocSectionId>(() => {
-    return this.resolveSectionFromUrl(this.currentUrl()) ?? defaultHeadlessPaginationDocSection;
+  public readonly activeSection = computed<HeadlessTableDocSectionId>(() => {
+    return this.resolveSectionFromUrl(this.currentUrl()) ?? defaultHeadlessTableDocSection;
   });
   public readonly outlineItems = computed<readonly DocsSectionRailItem[]>(() => {
-    return headlessPaginationOutlineItemsBySection[this.activeSection()];
+    return headlessTableOutlineItemsBySection[this.activeSection()];
   });
   public readonly outlineTitle = computed<string>(() => {
     switch (this.activeSection()) {
@@ -89,11 +89,11 @@ export class HeadlessPaginationPageComponent {
     }
   });
   public readonly outlineAriaLabel = computed<string>(() => {
-    return `Headless pagination ${this.activeSection()} section navigation`;
+    return `Headless table ${this.activeSection()} section navigation`;
   });
 
   public onSectionChange(value: string | number | null): void {
-    if (typeof value !== 'string' || !isHeadlessPaginationDocSectionId(value)) {
+    if (typeof value !== 'string' || !isHeadlessTableDocSectionId(value)) {
       return;
     }
 
@@ -104,10 +104,10 @@ export class HeadlessPaginationPageComponent {
     void this.router.navigate([value], { relativeTo: this.route });
   }
 
-  private resolveSectionFromUrl(rawUrl: string): HeadlessPaginationDocSectionId | null {
+  private resolveSectionFromUrl(rawUrl: string): HeadlessTableDocSectionId | null {
     const segments = this.normalizeUrl(rawUrl).split('/').filter(Boolean);
     const section = segments[3];
-    return section !== undefined && isHeadlessPaginationDocSectionId(section) ? section : null;
+    return section !== undefined && isHeadlessTableDocSectionId(section) ? section : null;
   }
 
   private normalizeUrl(rawUrl: string): string {

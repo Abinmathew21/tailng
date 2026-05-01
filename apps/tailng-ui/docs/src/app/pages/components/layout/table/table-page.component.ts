@@ -1,74 +1,99 @@
-import { Component } from '@angular/core';
-import { TngTableComponent, type TngTableColumn } from '@tailng-ui/components';
+import { computed, Component, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { TngTabsComponent } from '@tailng-ui/components';
+import { TngTab, TngTabList } from '@tailng-ui/primitives';
+import { filter, map, startWith } from 'rxjs/operators';
+import { DocsComponentSectionOutlineComponent } from '../../../../shared/section-outline/docs-component-section-outline.component';
+import {
+  getDocsComponentSectionOutlineAriaLabel,
+  getDocsComponentSectionOutlineItems,
+  getDocsComponentSectionOutlineTitle,
+} from '../../../../shared/section-outline/component-section-outline.data';
 
-type ReleaseRow = Readonly<{
-  owner: string;
-  service: string;
-  status: string;
-  updated: string;
-}>;
+type TableDocSectionId = 'api' | 'examples' | 'overview' | 'styling';
+
+const tableDocSectionIds: readonly TableDocSectionId[] = [
+  'overview',
+  'api',
+  'styling',
+  'examples',
+] as const;
+
+const defaultTableDocSection: TableDocSectionId = 'overview';
+
+function isTableDocSectionId(value: string): value is TableDocSectionId {
+  return tableDocSectionIds.includes(value as TableDocSectionId);
+}
 
 @Component({
   selector: 'app-table-page',
-  imports: [TngTableComponent],
-  template: `
-    <article class="docs-section-page">
-      <div class="docs-section-page-main">
-        <section id="overview" class="docs-section-anchor docs-overview-block">
-          <h1 class="docs-overview-title">Table</h1>
-          <p class="docs-overview-lead">
-            The table component renders a styled, accessible data grid from column metadata and row
-            objects while keeping custom cell templates available for product-specific content.
-          </p>
-        </section>
-
-        <section id="basic-usage" class="docs-section-anchor docs-overview-block">
-          <h2>Basic usage</h2>
-          <tng-table
-            ariaLabel="Release services"
-            density="comfortable"
-            [columns]="columns"
-            [items]="rows"
-            [stickyHeader]="true"
-          />
-        </section>
-
-        <section id="api" class="docs-section-anchor docs-overview-block">
-          <h2>API notes</h2>
-          <ul class="docs-overview-list">
-            <li>
-              <code>columns</code> define labels, accessors, alignment, widths, truncation, sorting,
-              and sticky sides.
-            </li>
-            <li>
-              <code>items</code> is the row source; empty, loading, and error states render built-in
-              rows.
-            </li>
-            <li>
-              Use <code>ng-template[tngTableCellTemplate]</code> for custom cells and
-              <code>tngTableHeaderTemplate</code> for custom headers.
-            </li>
-            <li>
-              <code>sortChange</code> forwards the primitive sort event for client or server
-              sorting.
-            </li>
-          </ul>
-        </section>
-      </div>
-    </article>
-  `,
+  imports: [
+    RouterOutlet,
+    TngTabsComponent,
+    TngTabList,
+    TngTab,
+    DocsComponentSectionOutlineComponent,
+  ],
+  templateUrl: './table-page.component.html',
 })
 export class TablePageComponent {
-  protected readonly columns: readonly TngTableColumn<ReleaseRow>[] = [
-    { id: 'service', label: 'Service', sortable: true, sticky: 'start', width: 180 },
-    { id: 'owner', label: 'Owner' },
-    { id: 'status', label: 'Status' },
-    { id: 'updated', label: 'Updated', align: 'end' },
-  ];
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly currentUrl = toSignal(
+    this.router.events.pipe(
+      filter((event): event is NavigationEnd => event instanceof NavigationEnd),
+      map((event) => event.urlAfterRedirects),
+      startWith(this.router.url),
+    ),
+    { initialValue: this.router.url },
+  );
+  private readonly docsItem = this.route.snapshot.data['item'] as
+    | { slug?: string; title?: string }
+    | undefined;
+  private readonly docsItemSlug = this.docsItem?.slug ?? '';
+  private readonly docsItemTitle = this.docsItem?.title ?? 'Component';
 
-  protected readonly rows: readonly ReleaseRow[] = [
-    { service: 'Billing API', owner: 'Mina Lee', status: 'Ready', updated: '2m ago' },
-    { service: 'Docs shell', owner: 'Ava Mathews', status: 'Review', updated: '18m ago' },
-    { service: 'Search index', owner: 'Omar Aziz', status: 'Blocked', updated: '1h ago' },
-  ];
+  public readonly activeSection = computed<TableDocSectionId>(() => {
+    return this.resolveSectionFromUrl(this.currentUrl()) ?? defaultTableDocSection;
+  });
+  public readonly outlineItems = computed(() => {
+    return getDocsComponentSectionOutlineItems(this.docsItemSlug, this.activeSection());
+  });
+  public readonly outlineTitle = computed(() => {
+    return getDocsComponentSectionOutlineTitle(this.activeSection());
+  });
+  public readonly outlineAriaLabel = computed(() => {
+    return getDocsComponentSectionOutlineAriaLabel(this.docsItemTitle, this.activeSection());
+  });
+
+  public onSectionChange(value: string | number | null): void {
+    if (typeof value !== 'string' || !isTableDocSectionId(value)) {
+      return;
+    }
+    if (value === this.activeSection()) {
+      return;
+    }
+    void this.router.navigate([value], { relativeTo: this.route });
+  }
+
+  private resolveSectionFromUrl(rawUrl: string): TableDocSectionId | null {
+    const segments = this.normalizeUrl(rawUrl).split('/').filter(Boolean);
+    const section = segments[3];
+    return section !== undefined && isTableDocSectionId(section) ? section : null;
+  }
+
+  private normalizeUrl(rawUrl: string): string {
+    const queryIndex = rawUrl.indexOf('?');
+    const hashIndex = rawUrl.indexOf('#');
+    let endIndex = rawUrl.length;
+    if (queryIndex >= 0) {
+      endIndex = Math.min(endIndex, queryIndex);
+    }
+    if (hashIndex >= 0) {
+      endIndex = Math.min(endIndex, hashIndex);
+    }
+    const normalized = rawUrl.slice(0, endIndex);
+    return normalized.length > 1 && normalized.endsWith('/') ? normalized.slice(0, -1) : normalized;
+  }
 }

@@ -16,7 +16,7 @@ type ReleaseRow = Readonly<{
 }>;
 
 @Component({
-  selector: 'app-headless-table-page',
+  selector: 'app-headless-table-overview-page',
   imports: [
     TngTableScrollContainer,
     TngTable,
@@ -29,16 +29,16 @@ type ReleaseRow = Readonly<{
   template: `
     <article class="docs-section-page">
       <div class="docs-section-page-main">
-        <section id="overview" class="docs-section-anchor docs-overview-block">
-          <h1 class="docs-overview-title">Headless Table</h1>
+        <section id="imports" class="docs-section-anchor docs-overview-block">
+          <h2 class="docs-overview-title">Table overview</h2>
           <p class="docs-overview-lead">
-            Table primitives add stable slots, focus management, row ids, sticky metadata, and
-            data-state hooks to native table markup without controlling your rendering model.
+            Headless table adds stable slots, focus management, row ids, sticky metadata, and
+            data-state hooks to native table markup.
           </p>
         </section>
 
         <section id="basic-composition" class="docs-section-anchor docs-overview-block">
-          <h2>Basic composition</h2>
+          <h3>Basic composition</h3>
           <div
             tngTableScrollContainer
             class="overflow-x-auto rounded-lg border border-tng-border-subtle"
@@ -75,29 +75,25 @@ type ReleaseRow = Readonly<{
           </div>
         </section>
 
-        <section id="api" class="docs-section-anchor docs-overview-block">
-          <h2>API notes</h2>
+        <section id="accessibility-baseline" class="docs-section-anchor docs-overview-block">
+          <h3>Accessibility baseline</h3>
           <ul class="docs-overview-list">
             <li>
-              Use <code>tngTable</code>, <code>tngTableHeader</code>, <code>tngTableBody</code>, and
-              row/cell directives on native table elements.
+              Keep native <code>table</code>, <code>thead</code>, <code>tbody</code>,
+              <code>tr</code>, <code>th</code>, and <code>td</code> semantics.
             </li>
             <li>
-              <code>items</code>, <code>loading</code>, <code>error</code>, and
-              <code>pageable</code> reflect data state attributes.
+              Use <code>ariaLabel</code> or <code>ariaLabelledby</code> when the table has no
+              visible caption.
             </li>
-            <li>
-              Cells support roving focus plus <code>data-focused</code> and
-              <code>data-focus-visible</code> hooks.
-            </li>
-            <li>Sticky headers and columns are opt-in through section and cell inputs.</li>
+            <li>Interactive controls inside cells are ignored by row click handling.</li>
           </ul>
         </section>
       </div>
     </article>
   `,
 })
-export class HeadlessTablePageComponent {
+export class HeadlessTableOverviewPageComponent {
   protected readonly rows: readonly ReleaseRow[] = [
     { service: 'Billing API', owner: 'Mina Lee', status: 'Ready' },
     { service: 'Docs shell', owner: 'Ava Mathews', status: 'Review' },

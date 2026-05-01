@@ -41,9 +41,7 @@ export const HEADLESS_LAYOUT_ROUTES: Routes = [
   {
     path: tableItem.slug,
     data: toHeadlessDocsRouteData(group, tableItem),
-    loadComponent: () =>
-      import('./table/headless-table-page.component').then(
-        (module) => module.HeadlessTablePageComponent,
-      ),
+    loadChildren: () =>
+      import('./table/routes').then((module) => module.HEADLESS_LAYOUT_TABLE_ROUTES),
   },
 ];

@@ -87,7 +87,7 @@ export const COMPONENTS_LAYOUT_ROUTES: Routes = [
   {
     path: tableItem.slug,
     data: toComponentsDocsRouteData(group, tableItem),
-    loadComponent: () =>
-      import('./table/table-page.component').then((module) => module.TablePageComponent),
+    loadChildren: () =>
+      import('./table/routes').then((module) => module.COMPONENTS_LAYOUT_TABLE_ROUTES),
   },
 ];

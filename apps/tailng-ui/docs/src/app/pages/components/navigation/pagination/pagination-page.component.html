@@ -1,0 +1,34 @@
+<section class="docs-component-page">
+  <tng-tabs
+    class="docs-component-tabs"
+    ariaLabel="Pagination documentation sections"
+    [activation]="'manual'"
+    [value]="activeSection()"
+    (valueChange)="onSectionChange($event)"
+  >
+    <div tngTabList class="docs-component-tab-list" ariaLabel="Pagination documentation tabs">
+      <button type="button" tngTab value="overview" class="docs-component-tab-trigger">
+        Overview
+      </button>
+      <button type="button" tngTab value="api" class="docs-component-tab-trigger">API</button>
+      <button type="button" tngTab value="styling" class="docs-component-tab-trigger">
+        Styling
+      </button>
+      <button type="button" tngTab value="examples" class="docs-component-tab-trigger">
+        Examples
+      </button>
+    </div>
+  </tng-tabs>
+
+  <section class="docs-component-content">
+    <div class="docs-component-content-main" #docsContentRoot>
+      <router-outlet />
+    </div>
+    <app-docs-component-section-outline
+      [ariaLabel]="outlineAriaLabel()"
+      [contentRoot]="docsContentRoot"
+      [items]="outlineItems()"
+      [title]="outlineTitle()"
+    />
+  </section>
+</section>

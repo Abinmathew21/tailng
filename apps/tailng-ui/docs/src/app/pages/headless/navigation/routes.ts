@@ -47,11 +47,8 @@ export const HEADLESS_NAVIGATION_ROUTES: Routes = [
   },
   {
     path: paginationItem.slug,
-    data: toHeadlessDocsRouteData(group, paginationItem),
-    loadComponent: () =>
-      import('./pagination/headless-pagination-page.component').then(
-        (module) => module.HeadlessPaginationPageComponent,
-      ),
+    loadChildren: () =>
+      import('./pagination/routes').then((module) => module.HEADLESS_NAVIGATION_PAGINATION_ROUTES),
   },
   ...group.items
     .filter(

@@ -83,10 +83,9 @@ export const COMPONENTS_NAVIGATION_ROUTES: Routes = [
   },
   {
     path: paginationItem.slug,
-    data: toComponentsDocsRouteData(group, paginationItem),
-    loadComponent: () =>
-      import('./pagination/pagination-page.component').then(
-        (module) => module.PaginationPageComponent,
+    loadChildren: () =>
+      import('./pagination/routes').then(
+        (module) => module.COMPONENTS_NAVIGATION_PAGINATION_ROUTES,
       ),
   },
   ...landingItems.map((item) => ({

@@ -1,59 +1,101 @@
-import { Component, signal } from '@angular/core';
-import { TngPaginatorComponent } from '@tailng-ui/components';
+import { computed, Component, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { TngTabsComponent } from '@tailng-ui/components';
+import { TngTab, TngTabList } from '@tailng-ui/primitives';
+import { filter, map, startWith } from 'rxjs/operators';
+import { DocsComponentSectionOutlineComponent } from '../../../../shared/section-outline/docs-component-section-outline.component';
+import {
+  getDocsComponentSectionOutlineAriaLabel,
+  getDocsComponentSectionOutlineItems,
+  getDocsComponentSectionOutlineTitle,
+} from '../../../../shared/section-outline/component-section-outline.data';
+
+type PaginationDocSectionId = 'api' | 'examples' | 'overview' | 'styling';
+
+const paginationDocSectionIds: readonly PaginationDocSectionId[] = [
+  'overview',
+  'api',
+  'styling',
+  'examples',
+] as const;
+
+const defaultPaginationDocSection: PaginationDocSectionId = 'overview';
+
+function isPaginationDocSectionId(value: string): value is PaginationDocSectionId {
+  return paginationDocSectionIds.includes(value as PaginationDocSectionId);
+}
 
 @Component({
   selector: 'app-pagination-page',
-  imports: [TngPaginatorComponent],
-  template: `
-    <article class="docs-section-page">
-      <div class="docs-section-page-main">
-        <section id="overview" class="docs-section-anchor docs-overview-block">
-          <h1 class="docs-overview-title">Pagination</h1>
-          <p class="docs-overview-lead">
-            The styled paginator wraps the headless pagination contract with range text, movement
-            controls, numbered page buttons, and page-size selection.
-          </p>
-        </section>
-
-        <section id="basic-usage" class="docs-section-anchor docs-overview-block">
-          <h2>Basic usage</h2>
-          <tng-paginator
-            ariaLabel="Invoice result pages"
-            [totalItems]="128"
-            [pageIndex]="pageIndex()"
-            [pageSize]="pageSize()"
-            [pageSizeOptions]="[10, 25, 50]"
-            (pageIndexChange)="pageIndex.set($event)"
-            (pageSizeChange)="pageSize.set($event)"
-          />
-        </section>
-
-        <section id="api" class="docs-section-anchor docs-overview-block">
-          <h2>API notes</h2>
-          <ul class="docs-overview-list">
-            <li>
-              <code>totalItems</code>, <code>pageIndex</code>, and <code>pageSize</code> define the
-              current range.
-            </li>
-            <li>
-              <code>mode="server"</code> supports paged API responses where the next page can be
-              requested optimistically.
-            </li>
-            <li>
-              <code>showFirstLast</code>, <code>showPageSize</code>, and <code>showRange</code> trim
-              the surface for compact layouts.
-            </li>
-            <li>
-              <code>pageChange</code> includes previous values and the trigger that caused the
-              change.
-            </li>
-          </ul>
-        </section>
-      </div>
-    </article>
-  `,
+  imports: [
+    RouterOutlet,
+    TngTabsComponent,
+    TngTabList,
+    TngTab,
+    DocsComponentSectionOutlineComponent,
+  ],
+  templateUrl: './pagination-page.component.html',
 })
 export class PaginationPageComponent {
-  protected readonly pageIndex = signal(0);
-  protected readonly pageSize = signal(10);
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly currentUrl = toSignal(
+    this.router.events.pipe(
+      filter((event): event is NavigationEnd => event instanceof NavigationEnd),
+      map((event) => event.urlAfterRedirects),
+      startWith(this.router.url),
+    ),
+    { initialValue: this.router.url },
+  );
+  private readonly docsItem = this.route.snapshot.data['item'] as
+    | { slug?: string; title?: string }
+    | undefined;
+  private readonly docsItemSlug = this.docsItem?.slug ?? '';
+  private readonly docsItemTitle = this.docsItem?.title ?? 'Component';
+
+  public readonly activeSection = computed<PaginationDocSectionId>(() => {
+    return this.resolveSectionFromUrl(this.currentUrl()) ?? defaultPaginationDocSection;
+  });
+  public readonly outlineItems = computed(() => {
+    return getDocsComponentSectionOutlineItems(this.docsItemSlug, this.activeSection());
+  });
+  public readonly outlineTitle = computed(() => {
+    return getDocsComponentSectionOutlineTitle(this.activeSection());
+  });
+  public readonly outlineAriaLabel = computed(() => {
+    return getDocsComponentSectionOutlineAriaLabel(this.docsItemTitle, this.activeSection());
+  });
+
+  public onSectionChange(value: string | number | null): void {
+    if (typeof value !== 'string' || !isPaginationDocSectionId(value)) {
+      return;
+    }
+
+    if (value === this.activeSection()) {
+      return;
+    }
+
+    void this.router.navigate([value], { relativeTo: this.route });
+  }
+
+  private resolveSectionFromUrl(rawUrl: string): PaginationDocSectionId | null {
+    const segments = this.normalizeUrl(rawUrl).split('/').filter(Boolean);
+    const section = segments[3];
+    return section !== undefined && isPaginationDocSectionId(section) ? section : null;
+  }
+
+  private normalizeUrl(rawUrl: string): string {
+    const queryIndex = rawUrl.indexOf('?');
+    const hashIndex = rawUrl.indexOf('#');
+    let endIndex = rawUrl.length;
+    if (queryIndex >= 0) {
+      endIndex = Math.min(endIndex, queryIndex);
+    }
+    if (hashIndex >= 0) {
+      endIndex = Math.min(endIndex, hashIndex);
+    }
+    const normalized = rawUrl.slice(0, endIndex);
+    return normalized.length > 1 && normalized.endsWith('/') ? normalized.slice(0, -1) : normalized;
+  }
 }
