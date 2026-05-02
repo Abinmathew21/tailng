@@ -174,6 +174,77 @@ describe('tng-context-menu component wrapper', () => {
     expect(target.getAttribute('aria-expanded')).toBe('false');
   });
 
+  it('moves the active item and selects it with keyboard after opening from pointer', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [ContextMenuComponentHost],
+    }).createComponent(ContextMenuComponentHost);
+
+    fixture.detectChanges();
+
+    const host = fixture.componentInstance;
+    const target = fixture.nativeElement.querySelector('[data-testid="target"]') as HTMLDivElement;
+    const menu = fixture.nativeElement.querySelector('[data-testid="menu"]') as HTMLElement;
+    const duplicate = fixture.nativeElement.querySelector(
+      '[data-testid="duplicate"]',
+    ) as HTMLButtonElement;
+
+    contextmenu(target);
+    fixture.detectChanges();
+
+    expect(document.activeElement).toBe(menu);
+
+    const arrowEvent = keydown(menu, 'ArrowDown');
+    fixture.detectChanges();
+
+    expect(arrowEvent.defaultPrevented).toBe(true);
+    expect(menu.getAttribute('aria-activedescendant')).toBe(duplicate.id);
+    expect(duplicate.hasAttribute('data-active')).toBe(true);
+
+    const enterEvent = keydown(menu, 'Enter');
+    fixture.detectChanges();
+
+    expect(enterEvent.defaultPrevented).toBe(true);
+    expect(host.events).toEqual([
+      {
+        value: 'Duplicate row',
+        itemId: duplicate.id,
+        trigger: 'keyboard',
+      },
+    ]);
+    expect(menu.getAttribute('data-state')).toBe('closed');
+  });
+
+  it('reasserts panel focus after a pointer-open frame so arrow keys keep working', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [ContextMenuComponentHost],
+    }).createComponent(ContextMenuComponentHost);
+
+    fixture.detectChanges();
+
+    const target = fixture.nativeElement.querySelector('[data-testid="target"]') as HTMLDivElement;
+    const menu = fixture.nativeElement.querySelector('[data-testid="menu"]') as HTMLElement;
+    const duplicate = fixture.nativeElement.querySelector(
+      '[data-testid="duplicate"]',
+    ) as HTMLButtonElement;
+
+    contextmenu(target);
+    fixture.detectChanges();
+
+    target.focus();
+    expect(document.activeElement).toBe(target);
+
+    await new Promise((resolve) => requestAnimationFrame(resolve));
+    fixture.detectChanges();
+
+    expect(document.activeElement).toBe(menu);
+
+    keydown(menu, 'ArrowDown');
+    fixture.detectChanges();
+
+    expect(menu.getAttribute('aria-activedescendant')).toBe(duplicate.id);
+    expect(duplicate.hasAttribute('data-active')).toBe(true);
+  });
+
   it('does not open when disabled is true', () => {
     const fixture = TestBed.configureTestingModule({
       imports: [ContextMenuComponentHost],

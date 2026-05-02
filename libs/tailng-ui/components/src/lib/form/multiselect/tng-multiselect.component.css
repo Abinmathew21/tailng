@@ -83,6 +83,11 @@ tng-multiselect [data-slot='select-icon'] {
     opacity 120ms var(--tng-select-ease, ease);
 }
 
+[data-slot='multi-select-option']:hover:not([data-disabled]) {
+  background: var(--tng-select-option-bg-active, var(--tng-select-surface, #f8fafc));
+  border-color: var(--tng-select-option-border-active, var(--tng-select-border, #e2e8f0));
+}
+
 [data-slot='multi-select-option'][data-active] {
   background: var(--tng-select-option-bg-active, var(--tng-select-surface, #f8fafc));
   border-color: var(--tng-select-option-border-active, var(--tng-select-border, #e2e8f0));

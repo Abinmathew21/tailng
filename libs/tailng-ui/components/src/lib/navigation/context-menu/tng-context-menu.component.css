@@ -23,3 +23,66 @@
 :host[hidden] {
   display: none !important;
 }
+
+tng-context-menu [data-slot='menu-item'] {
+  align-items: center;
+  appearance: none;
+  background: transparent;
+  border: 0;
+  border-radius: var(--tng-menu-item-radius, calc(var(--tng-menu-radius, 0.75rem) - 0.25rem));
+  box-sizing: border-box;
+  color: inherit;
+  cursor: pointer;
+  display: flex;
+  font: inherit;
+  font-size: var(--tng-menu-item-font-size, 0.875rem);
+  font-weight: var(--tng-menu-item-font-weight, 500);
+  gap: var(--tng-menu-item-gap, 0.75rem);
+  justify-content: space-between;
+  line-height: 1.3;
+  min-height: var(--tng-menu-item-min-height, 2.35rem);
+  padding: var(--tng-menu-item-py, 0.54rem) var(--tng-menu-item-px, 0.88rem);
+  text-align: left;
+  text-decoration: none;
+  transition:
+    background-color 150ms var(--tng-menu-ease, ease),
+    box-shadow 150ms var(--tng-menu-ease, ease),
+    color 150ms var(--tng-menu-ease, ease);
+  width: 100%;
+}
+
+tng-context-menu [data-slot='menu-item']:hover:not([aria-disabled='true']),
+tng-context-menu [data-slot='menu-item']:focus-visible:not([aria-disabled='true']) {
+  background: var(
+    --tng-menu-item-bg-hover,
+    color-mix(in srgb, var(--tng-menu-brand, #3b82f6) 13%, var(--tng-menu-surface-muted, #f8fafc))
+  );
+  box-shadow: var(
+    --tng-menu-item-shadow-hover,
+    inset 0 0 0 1px color-mix(in srgb, var(--tng-menu-brand, #3b82f6) 14%, transparent)
+  );
+  outline: none;
+}
+
+tng-context-menu [data-slot='menu-item'][data-active]:not([aria-disabled='true']),
+tng-context-menu [data-slot='menu-item'][aria-expanded='true'],
+tng-context-menu [data-slot='menu-item'][aria-checked='true'] {
+  background: var(
+    --tng-menu-item-bg-active,
+    color-mix(in srgb, var(--tng-menu-brand, #3b82f6) 17%, var(--tng-menu-surface-muted, #f8fafc))
+  );
+  box-shadow: var(
+    --tng-menu-item-shadow-active,
+    inset 0 0 0 1px color-mix(in srgb, var(--tng-menu-brand, #3b82f6) 18%, transparent)
+  );
+  color: var(
+    --tng-menu-item-fg-active,
+    color-mix(in srgb, var(--tng-menu-brand, #3b82f6) 82%, var(--tng-menu-fg, currentColor))
+  );
+  font-weight: var(--tng-menu-item-font-weight-active, 600);
+}
+
+tng-context-menu [data-slot='menu-item'][aria-disabled='true'] {
+  cursor: not-allowed;
+  opacity: var(--tng-menu-item-disabled-opacity, 0.45);
+}

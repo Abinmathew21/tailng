@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostBinding, inject, input, DestroyRef, NgZone } from '@angular/core';
+import { Component, ElementRef, HostBinding, inject, input, DestroyRef, NgZone, ViewEncapsulation } from '@angular/core';
 import { computeOverlayPosition } from '@tailng-ui/cdk';
 import {
   TNG_MENU_DEFER_HOST_FOCUS_UNTIL_POSITIONED,
@@ -27,6 +27,7 @@ function viewportRect(): { left: number; top: number; width: number; height: num
   ],
   templateUrl: './tng-menu.component.html',
   styleUrl: './tng-menu.component.css',
+  encapsulation: ViewEncapsulation.None,
   exportAs: 'tngMenuComponent',
 })
 export class TngMenuComponent {

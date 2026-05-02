@@ -2,6 +2,7 @@ import {
   Component,
   ContentChild,
   TemplateRef,
+  ViewEncapsulation,
   computed,
   inject,
   input,
@@ -70,6 +71,7 @@ type SelectedItem<O, V> = {
   ],
   templateUrl: './tng-multi-autocomplete.component.html',
   styleUrl: './tng-multi-autocomplete.component.css',
+  encapsulation: ViewEncapsulation.None,
 })
 export class TngMultiAutocompleteComponent<O = unknown, V = unknown> {
   protected readonly primitive = inject<TngMultiAutocomplete<V>>(TngMultiAutocomplete);
