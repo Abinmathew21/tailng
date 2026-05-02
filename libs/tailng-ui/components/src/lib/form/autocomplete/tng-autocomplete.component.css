@@ -131,6 +131,11 @@ tng-autocomplete [data-slot='autocomplete-icon'] {
   min-width: 0;
 }
 
+[data-slot='autocomplete-option']:hover:not([data-disabled]) {
+  background: var(--tng-autocomplete-option-bg-active, var(--tng-autocomplete-surface, #f8fafc));
+  border-color: var(--tng-autocomplete-option-border-active, var(--tng-autocomplete-border, #e2e8f0));
+}
+
 [data-slot='autocomplete-option'][data-active] {
   background: var(--tng-autocomplete-option-bg-active, var(--tng-autocomplete-surface, #f8fafc));
   border-color: var(--tng-autocomplete-option-border-active, var(--tng-autocomplete-border, #e2e8f0));
