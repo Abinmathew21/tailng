@@ -1,7 +1,7 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, computed, effect, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router';
+import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import {
   TngBreadcrumbComponent,
   TngBreadcrumbItemComponent,
@@ -136,7 +136,6 @@ const footerResourceLinks: readonly LinkItem[] = [
 @Component({
   imports: [
     RouterOutlet,
-    RouterLink,
     TngBreadcrumbComponent,
     TngBreadcrumbItemComponent,
     TngMenuComponent,
