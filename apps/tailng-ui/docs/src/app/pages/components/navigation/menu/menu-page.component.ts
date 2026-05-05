@@ -1,14 +1,13 @@
 import { computed, Component, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
-import { TngTabsComponent } from '@tailng-ui/components';
+import { DocsComponentSectionTabsComponent } from '../../../../shared/component-section-tabs/docs-component-section-tabs.component';
 import { DocsComponentSectionOutlineComponent } from '../../../../shared/section-outline/docs-component-section-outline.component';
 import {
   getDocsComponentSectionOutlineAriaLabel,
   getDocsComponentSectionOutlineItems,
   getDocsComponentSectionOutlineTitle,
 } from '../../../../shared/section-outline/component-section-outline.data';
-import { TngTab, TngTabList } from '@tailng-ui/primitives';
 import { filter, map, startWith } from 'rxjs/operators';
 
 type MenuDocSectionId = 'api' | 'examples' | 'overview' | 'styling';
@@ -23,7 +22,7 @@ function isMenuDocSectionId(value: string): value is MenuDocSectionId {
 
 @Component({
   selector: 'app-menu-page',
-  imports: [RouterOutlet, TngTabsComponent, TngTabList, TngTab, DocsComponentSectionOutlineComponent],
+  imports: [RouterOutlet, DocsComponentSectionTabsComponent, DocsComponentSectionOutlineComponent],
   templateUrl: './menu-page.component.html',
 })
 export class MenuPageComponent {
@@ -43,10 +42,6 @@ export class MenuPageComponent {
     return section ?? defaultMenuDocSection;
   });
 
-  public readonly activePrimarySection = computed<string | null>(() => {
-    return this.activeSection();
-  });
-
   private readonly docsItem = this.route.snapshot.data['item'] as
     | { slug?: string; title?: string }
     | undefined;
@@ -61,18 +56,6 @@ export class MenuPageComponent {
   public readonly outlineAriaLabel = computed(() => {
     return getDocsComponentSectionOutlineAriaLabel(this.docsItemTitle, this.activeSection());
   });
-
-  public onPrimarySectionChange(value: string | number | null): void {
-    if (typeof value !== 'string' || !isMenuDocSectionId(value)) {
-      return;
-    }
-
-    if (value === this.activePrimarySection()) {
-      return;
-    }
-
-    void this.router.navigate([value], { relativeTo: this.route });
-  }
 
   private resolveSectionFromUrl(rawUrl: string): MenuDocSectionId | null {
     const path = this.normalizeUrl(rawUrl);

@@ -1,9 +1,8 @@
 import { computed, Component, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
-import { TngTabsComponent } from '@tailng-ui/components';
-import { TngTab, TngTabList } from '@tailng-ui/primitives';
 import { filter, map, startWith } from 'rxjs/operators';
+import { DocsComponentSectionTabsComponent } from '../../../../shared/component-section-tabs/docs-component-section-tabs.component';
 import { DocsComponentSectionOutlineComponent } from '../../../../shared/section-outline/docs-component-section-outline.component';
 import {
   getDocsComponentSectionOutlineAriaLabel,
@@ -28,13 +27,7 @@ function isPaginationDocSectionId(value: string): value is PaginationDocSectionI
 
 @Component({
   selector: 'app-pagination-page',
-  imports: [
-    RouterOutlet,
-    TngTabsComponent,
-    TngTabList,
-    TngTab,
-    DocsComponentSectionOutlineComponent,
-  ],
+  imports: [RouterOutlet, DocsComponentSectionTabsComponent, DocsComponentSectionOutlineComponent],
   templateUrl: './pagination-page.component.html',
 })
 export class PaginationPageComponent {
@@ -66,18 +59,6 @@ export class PaginationPageComponent {
   public readonly outlineAriaLabel = computed(() => {
     return getDocsComponentSectionOutlineAriaLabel(this.docsItemTitle, this.activeSection());
   });
-
-  public onSectionChange(value: string | number | null): void {
-    if (typeof value !== 'string' || !isPaginationDocSectionId(value)) {
-      return;
-    }
-
-    if (value === this.activeSection()) {
-      return;
-    }
-
-    void this.router.navigate([value], { relativeTo: this.route });
-  }
 
   private resolveSectionFromUrl(rawUrl: string): PaginationDocSectionId | null {
     const segments = this.normalizeUrl(rawUrl).split('/').filter(Boolean);

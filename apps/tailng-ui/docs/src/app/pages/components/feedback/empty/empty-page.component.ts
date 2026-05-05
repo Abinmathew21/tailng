@@ -1,14 +1,13 @@
 import { computed, Component, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
-import { TngTabsComponent } from '@tailng-ui/components';
+import { DocsComponentSectionTabsComponent } from '../../../../shared/component-section-tabs/docs-component-section-tabs.component';
 import { DocsComponentSectionOutlineComponent } from '../../../../shared/section-outline/docs-component-section-outline.component';
 import {
   getDocsComponentSectionOutlineAriaLabel,
   getDocsComponentSectionOutlineItems,
   getDocsComponentSectionOutlineTitle,
 } from '../../../../shared/section-outline/component-section-outline.data';
-import { TngTab, TngTabList } from '@tailng-ui/primitives';
 import { filter, map, startWith } from 'rxjs/operators';
 
 type EmptyDocSectionId = 'api' | 'examples' | 'overview' | 'styling';
@@ -28,7 +27,7 @@ function isEmptyDocSectionId(value: string): value is EmptyDocSectionId {
 
 @Component({
   selector: 'app-empty-page',
-  imports: [RouterOutlet, TngTabsComponent, TngTabList, TngTab, DocsComponentSectionOutlineComponent],
+  imports: [RouterOutlet, DocsComponentSectionTabsComponent, DocsComponentSectionOutlineComponent],
   templateUrl: './empty-page.component.html',
 })
 export class EmptyPageComponent {
@@ -61,18 +60,6 @@ export class EmptyPageComponent {
   public readonly outlineAriaLabel = computed(() => {
     return getDocsComponentSectionOutlineAriaLabel(this.docsItemTitle, this.activeSection());
   });
-
-  public onSectionChange(value: string | number | null): void {
-    if (typeof value !== 'string' || !isEmptyDocSectionId(value)) {
-      return;
-    }
-
-    if (value === this.activeSection()) {
-      return;
-    }
-
-    void this.router.navigate([value], { relativeTo: this.route });
-  }
 
   private resolveSectionFromUrl(rawUrl: string): EmptyDocSectionId | null {
     const path = this.normalizeUrl(rawUrl);
