@@ -17,8 +17,6 @@ import {
   TngDrawerContent,
   TngInput,
   TngPrefix,
-  TngListboxDirective,
-  TngOptionDirective,
 } from '@tailng-ui/primitives';
 import { filter, map, startWith } from 'rxjs/operators';
 import {
@@ -45,8 +43,6 @@ import { DocsComponentSectionOutlineComponent } from '../../../shared/section-ou
     TngFormFieldComponent,
     TngInput,
     TngPrefix,
-    TngListboxDirective,
-    TngOptionDirective,
     TngIcon,
     DocsComponentSectionOutlineComponent,
   ],
@@ -139,23 +135,6 @@ export class OwnablePageComponent {
 
   public itemHref(groupId: OwnableDocsCategoryId, itemSlug: string): string {
     return buildOwnableDocHref(groupId, itemSlug);
-  }
-
-  public activeGroupItemHref(group: OwnableDocsGroup): string | null {
-    const current = this.normalizeUrl(this.currentUrl());
-    const activeItem = group.items.find((item) => {
-      const itemUrl = this.itemHref(group.id, item.slug);
-      return this.isMatchingItemPath(current, itemUrl);
-    });
-    return activeItem ? this.itemHref(group.id, activeItem.slug) : null;
-  }
-
-  public onNavListboxValueChange(value: string | readonly string[] | null): void {
-    if (typeof value !== 'string' || value.length === 0) {
-      return;
-    }
-
-    void this.router.navigateByUrl(value);
   }
 
   public isItemActive(groupId: OwnableDocsCategoryId, itemSlug: string): boolean {
