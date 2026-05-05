@@ -593,7 +593,7 @@ describe('tng-datepicker component behavior', () => {
     Object.defineProperty(window, 'innerHeight', { configurable: true, value: originalInnerHeight });
   });
 
-  it('keeps the overlay open and lets it follow when scrolling moves the trigger outside the viewport', async () => {
+  it('locks page scroll and keeps the overlay stable when scroll events fire', async () => {
     const fixture = TestBed.configureTestingModule({
       imports: [UncontrolledDatepickerHostComponent],
     }).createComponent(UncontrolledDatepickerHostComponent);
@@ -606,10 +606,13 @@ describe('tng-datepicker component behavior', () => {
     const anchor = getRequired<HTMLElement>(fixture, '[data-slot="datepicker-input-shell"]');
     const overlay = getRequiredFromRoot<HTMLElement>(document.body, '[data-slot="datepicker-overlay"]');
     const originalInnerHeight = window.innerHeight;
+    const originalTop = overlay.style.top;
 
     vi.spyOn(anchor, 'getBoundingClientRect').mockReturnValue(createRect(-80, -20));
     vi.spyOn(overlay, 'getBoundingClientRect').mockReturnValue(createRect(0, 320));
     Object.defineProperty(window, 'innerHeight', { configurable: true, value: 760 });
+
+    expect(document.body.style.overflow).toBe('hidden');
 
     window.dispatchEvent(new Event('scroll'));
     await waitForAnimationFrame();
@@ -618,7 +621,12 @@ describe('tng-datepicker component behavior', () => {
     expect(fixture.componentInstance.openChanges).toEqual([true]);
     expect(overlay.parentNode).toBe(document.body);
     expect(overlay.getAttribute('hidden')).toBeNull();
-    expect(overlay.style.top).toBe('-11px');
+    expect(overlay.style.top).toBe(originalTop);
+
+    getRequired<HTMLButtonElement>(fixture, '[data-slot="datepicker-trigger"]').click();
+    await settle(fixture);
+
+    expect(document.body.style.overflow).toBe('');
 
     Object.defineProperty(window, 'innerHeight', { configurable: true, value: originalInnerHeight });
   });
