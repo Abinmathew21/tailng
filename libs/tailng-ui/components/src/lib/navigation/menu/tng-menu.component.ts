@@ -1,4 +1,14 @@
-import { Component, ElementRef, HostBinding, inject, input, DestroyRef, NgZone, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  ElementRef,
+  HostBinding,
+  HostListener,
+  NgZone,
+  ViewEncapsulation,
+  inject,
+  input,
+} from '@angular/core';
 import { computeOverlayPosition } from '@tailng-ui/cdk';
 import {
   TNG_MENU_DEFER_HOST_FOCUS_UNTIL_POSITIONED,
@@ -46,20 +56,33 @@ export class TngMenuComponent {
   /** Retries when overlay rect is 0×0 before first placement (layout not ready yet). */
   private initialPlacementRetryCount = 0;
 
-  readonly ariaLabel = input<string>('Menu');
+  public readonly ariaLabel = input<string>('Menu');
 
   @HostBinding('attr.aria-label')
   protected get hostAriaLabel(): string {
     return this.ariaLabel();
   }
 
-  constructor() {
+  @HostListener('window:scroll')
+  protected onWindowScroll(): void {
+    if (!this.primitive.isOpen()) {
+      return;
+    }
+
+    setTimeout((): void => {
+      this.ngZone.run((): void => {
+        this.primitive.close(true);
+      });
+    }, 0);
+  }
+
+  public constructor() {
     this.destroyRef.onDestroy(() => {
       this.detachPositioningListeners();
     });
   }
 
-  ngDoCheck(): void {
+  public ngDoCheck(): void {
     const isOpen = this.primitive.isOpen();
 
     if (!this.lastOpenState && isOpen) {
@@ -221,13 +244,11 @@ export class TngMenuComponent {
   private attachPositioningListeners(): void {
     if (this.removeResizeListener) return;
 
-    const schedule = () => this.queuePositioning();
-
+    const schedule = (): void => this.queuePositioning();
     this.ngZone.runOutsideAngular(() => {
       window.addEventListener('resize', schedule);
-      window.addEventListener('scroll', schedule, true);
-      this.removeResizeListener = () => window.removeEventListener('resize', schedule);
-      this.removeScrollListener = () => window.removeEventListener('scroll', schedule, true);
+      this.removeResizeListener = (): void => window.removeEventListener('resize', schedule);
+      this.removeScrollListener = null;
 
       if ('ResizeObserver' in window) {
         this.resizeObserver = new ResizeObserver(() => schedule());

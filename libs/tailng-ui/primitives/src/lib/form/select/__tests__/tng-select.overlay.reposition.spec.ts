@@ -59,7 +59,7 @@ class HostComponent {
   open = signal(false);
 }
 
-describe('tng-select overlay primitive (reposition)', () => {
+describe('tng-select overlay primitive (scroll lock + reposition)', () => {
   let addSpy: ReturnType<typeof vi.spyOn>;
   let removeSpy: ReturnType<typeof vi.spyOn>;
 
@@ -72,6 +72,8 @@ describe('tng-select overlay primitive (reposition)', () => {
     addSpy.mockRestore();
     removeSpy.mockRestore();
     document.body.innerHTML = '';
+    document.body.style.overflow = '';
+    document.body.style.paddingRight = '';
   });
 
   it('does not reposition while closed (no measurements)', () => {
@@ -154,7 +156,7 @@ describe('tng-select overlay primitive (reposition)', () => {
     expect(overlayRectSpy).toHaveBeenCalled();
   });
 
-  it('repositions on scroll when open - measures trigger + overlay', async () => {
+  it('locks page scroll while open and does not reposition on scroll', async () => {
     const fixture = TestBed.configureTestingModule({
       imports: [HostComponent],
     }).createComponent(HostComponent);
@@ -201,6 +203,8 @@ describe('tng-select overlay primitive (reposition)', () => {
   
     // flush initial queueMicrotask positioning
     await Promise.resolve();
+
+    expect(document.body.style.overflow).toBe('hidden');
   
     // clear initial calls
     triggerRectSpy.mockClear();
@@ -213,8 +217,13 @@ describe('tng-select overlay primitive (reposition)', () => {
     // ✅ reposition is typically rAF-batched
     await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
   
-    expect(triggerRectSpy).toHaveBeenCalled();
-    expect(overlayRectSpy).toHaveBeenCalled();
+    expect(triggerRectSpy).not.toHaveBeenCalled();
+    expect(overlayRectSpy).not.toHaveBeenCalled();
+
+    fixture.componentInstance.open.set(false);
+    fixture.detectChanges();
+
+    expect(document.body.style.overflow).toBe('');
   });
 
   it('stops repositioning after close (no measurements after events)', async () => {
@@ -264,10 +273,10 @@ describe('tng-select overlay primitive (reposition)', () => {
     fixture.detectChanges();
     await Promise.resolve();
 
-    // We don't pin exact options, just that resize/scroll are registered.
+    // We don't pin exact options, just that resize is registered for anchored layout updates.
     const addCalls = addSpy.mock.calls.map(([type]) => type);
     expect(addCalls).toContain('resize');
-    expect(addCalls).toContain('scroll');
+    expect(addCalls).not.toContain('scroll');
 
     // close
     host.open.set(false);
@@ -275,7 +284,7 @@ describe('tng-select overlay primitive (reposition)', () => {
 
     const removeCalls = removeSpy.mock.calls.map(([type]) => type);
     expect(removeCalls).toContain('resize');
-    expect(removeCalls).toContain('scroll');
+    expect(removeCalls).not.toContain('scroll');
 
     // destroy also safe (no throw); if already removed, this just ensures no regressions
     fixture.destroy();

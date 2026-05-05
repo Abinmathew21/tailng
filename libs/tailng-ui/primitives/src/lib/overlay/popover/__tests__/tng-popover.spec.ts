@@ -316,6 +316,23 @@ describe('tng-popover primitive behavior', () => {
     expect(getByTestId<HTMLElement>(fixture, 'panel').getAttribute('hidden')).toBeNull();
   });
 
+  it('closes when the page scrolls while open', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [UncontrolledPopoverHarnessComponent],
+    }).createComponent(UncontrolledPopoverHarnessComponent);
+    fixture.componentInstance.defaultOpen.set(true);
+
+    await settle(fixture);
+
+    expect(getByTestId<HTMLElement>(fixture, 'panel').getAttribute('hidden')).toBeNull();
+
+    window.dispatchEvent(new Event('scroll'));
+    await settle(fixture);
+
+    expect(fixture.componentInstance.closeReasons).toEqual(['outside-pointer']);
+    expect(getByTestId<HTMLElement>(fixture, 'panel').getAttribute('hidden')).toBe('');
+  });
+
   it('disabled state prevents opening from trigger', async () => {
     const fixture = TestBed.configureTestingModule({
       imports: [UncontrolledPopoverHarnessComponent],

@@ -117,3 +117,24 @@ export function createScrollLockManager(
 ): TngScrollLockManager {
   return new ScrollLockManager(options);
 }
+
+const globalScrollLockManagers = new WeakMap<object, TngScrollLockManager>();
+
+export function getGlobalScrollLockManager(
+  options: Readonly<TngScrollLockOptions> = {},
+): TngScrollLockManager {
+  const documentRef = options.documentRef ?? null;
+  if (documentRef === null) {
+    return createScrollLockManager(options);
+  }
+
+  const key = documentRef as object;
+  const existing = globalScrollLockManagers.get(key);
+  if (existing !== undefined) {
+    return existing;
+  }
+
+  const manager = createScrollLockManager(options);
+  globalScrollLockManagers.set(key, manager);
+  return manager;
+}

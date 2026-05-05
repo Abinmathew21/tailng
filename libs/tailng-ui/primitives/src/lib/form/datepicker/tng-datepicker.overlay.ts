@@ -13,6 +13,8 @@ import {
   applyFixedPortalledOverlayBaseStyles,
   clearFixedPortalledOverlayBaseStyles,
   clearPortalledThemeVars,
+  createTngIdFactory,
+  getGlobalScrollLockManager,
   positionFixedAnchoredOverlay,
   resolveCssCustomPropertyPx,
   syncPortalledThemeVars,
@@ -82,6 +84,7 @@ const PORTALLED_DATEPICKER_THEME_VARS = [
 const OVERLAY_VIEWPORT_MARGIN = 12;
 const OVERLAY_OFFSET = 9;
 const OVERLAY_Z_INDEX = 'var(--tng-datepicker-z-overlay, var(--tng-z-overlay, 1000))';
+const createDatepickerOverlayLockId = createTngIdFactory('tng-datepicker-overlay-lock');
 
 function resolveAnchorElement(anchor: OverlayAnchorInput): HTMLElement | null {
   if (anchor instanceof ElementRef) {
@@ -100,19 +103,22 @@ function resolveThemeSourceElement(source: OverlayThemeSourceInput): HTMLElement
   exportAs: 'tngDatepickerOverlay',
 })
 export class TngDatepickerOverlay {
-  private readonly elRef = inject(ElementRef<HTMLElement>);
+  private readonly elRef = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly destroyRef = inject(DestroyRef);
 
   private readonly ownerDocument = this.elRef.nativeElement.ownerDocument ?? null;
   private readonly ownerWindow = this.ownerDocument?.defaultView ?? null;
   private readonly renderVersion = signal(0);
   private readonly resolvedPlacement = signal<'bottom' | 'top'>('bottom');
+  private readonly instanceId = createDatepickerOverlayLockId();
+  private readonly scrollLock = getGlobalScrollLockManager({
+    documentRef: this.ownerDocument,
+  });
 
   private overlayPlaceholder: Comment | null = null;
   private overlayOriginalParent: Node | null = null;
   private overlayLayoutFrame: number | null = null;
   private removeResizeListener: (() => void) | null = null;
-  private removeScrollListener: (() => void) | null = null;
   private resizeObserver: ResizeObserver | null = null;
 
   public readonly controller = input.required<TngDatepickerOverlayController>({
@@ -326,7 +332,7 @@ export class TngDatepickerOverlay {
   }
 
   private setupRepositionListeners(): void {
-    if (this.ownerWindow === null || this.removeResizeListener !== null || this.removeScrollListener !== null) {
+    if (this.ownerWindow === null || this.removeResizeListener !== null) {
       return;
     }
 
@@ -335,9 +341,9 @@ export class TngDatepickerOverlay {
     };
 
     this.ownerWindow.addEventListener('resize', schedule);
-    this.ownerWindow.addEventListener('scroll', schedule, true);
-    this.removeResizeListener = () => this.ownerWindow?.removeEventListener('resize', schedule);
-    this.removeScrollListener = () => this.ownerWindow?.removeEventListener('scroll', schedule, true);
+    this.removeResizeListener = (): void => {
+      this.ownerWindow?.removeEventListener('resize', schedule);
+    };
 
     if ('ResizeObserver' in this.ownerWindow) {
       const ResizeObserverCtor = this.ownerWindow.ResizeObserver;
@@ -356,9 +362,7 @@ export class TngDatepickerOverlay {
 
   private teardownRepositionListeners(): void {
     this.removeResizeListener?.();
-    this.removeScrollListener?.();
     this.removeResizeListener = null;
-    this.removeScrollListener = null;
     this.resizeObserver?.disconnect();
     this.resizeObserver = null;
   }
@@ -388,6 +392,7 @@ export class TngDatepickerOverlay {
     }
 
     this.setupRepositionListeners();
+    this.scrollLock.acquire(this.instanceId);
 
     if (overlay.parentNode !== this.ownerDocument.body) {
       this.ownerDocument.body.appendChild(overlay);
@@ -419,6 +424,7 @@ export class TngDatepickerOverlay {
     }
 
     this.teardownRepositionListeners();
+    this.scrollLock.release(this.instanceId);
     this.resolvedPlacement.set(this.resolvePlacement().side === 'top' ? 'top' : 'bottom');
     this.clearPortalledThemeVars();
     clearFixedPortalledOverlayBaseStyles(overlay);

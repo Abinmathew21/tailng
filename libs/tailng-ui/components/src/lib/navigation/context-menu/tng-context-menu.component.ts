@@ -7,10 +7,13 @@ import {
   inject,
   input,
 } from '@angular/core';
+import { createTngIdFactory, getGlobalScrollLockManager } from '@tailng-ui/cdk';
 import {
   TngContextMenu as TngContextMenuPrimitive,
   TngMenu as TngMenuPrimitive,
 } from '@tailng-ui/primitives';
+
+const createContextMenuLockId = createTngIdFactory('tng-context-menu-lock');
 
 @Component({
   selector: 'tng-context-menu',
@@ -33,29 +36,39 @@ export class TngContextMenuComponent {
   private readonly menu = inject<TngMenuPrimitive>(TngMenuPrimitive);
   private readonly destroyRef = inject(DestroyRef);
   private readonly ngZone = inject(NgZone);
+  private readonly instanceId = createContextMenuLockId();
+  private readonly scrollLock = getGlobalScrollLockManager({
+    documentRef: typeof document === 'undefined' ? null : document,
+  });
   private lastOpenState = false;
   private focusRafId: number | null = null;
 
   public readonly ariaLabel = input<string>('Context menu');
 
-  constructor() {
+  public constructor() {
     this.destroyRef.onDestroy(() => {
       if (this.focusRafId !== null) {
         cancelAnimationFrame(this.focusRafId);
       }
+      this.scrollLock.release(this.instanceId);
     });
   }
 
-  ngDoCheck(): void {
+  public ngDoCheck(): void {
     const isOpen = this.menu.isOpen();
 
     if (!this.lastOpenState && isOpen) {
+      this.scrollLock.acquire(this.instanceId);
       this.queuePanelFocus();
     }
 
     if (!isOpen && this.focusRafId !== null) {
       cancelAnimationFrame(this.focusRafId);
       this.focusRafId = null;
+    }
+
+    if (this.lastOpenState && !isOpen) {
+      this.scrollLock.release(this.instanceId);
     }
 
     this.lastOpenState = isOpen;
