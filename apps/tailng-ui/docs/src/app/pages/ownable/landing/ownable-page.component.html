@@ -63,38 +63,24 @@
                 </span>
               </tng-accordion-trigger>
               <tng-accordion-panel>
-                <div
-                  tngListbox
-                  class="components-docs-nav-listbox grid gap-1.5 py-1"
-                  [attr.aria-label]="group.title + ' links'"
-                  [value]="activeGroupItemHref(group)"
-                  [typeahead]="false"
-                  [loop]="true"
-                  tabindex="0"
-                  (valueChange)="onNavListboxValueChange($event)"
-                >
+                <nav class="components-docs-nav-group" [attr.aria-label]="group.title + ' links'">
+                  <ul class="components-docs-nav-list">
                   @for (item of group.items; track item.id) {
-                    <div
-                      tngOption
-                      [tngValue]="itemHref(group.id, item.slug)"
-                      class="components-docs-nav-option inline-flex min-h-9 w-full items-center justify-between rounded-lg border border-transparent px-3 py-2 text-left text-sm transition-colors"
-                      [class.border-tng-border-subtle]="!isItemActive(group.id, item.slug)"
-                      [class.bg-tng-bg-base]="!isItemActive(group.id, item.slug)"
-                      [class.text-tng-fg-primary]="!isItemActive(group.id, item.slug)"
-                      [class.hover:bg-tng-bg-muted]="!isItemActive(group.id, item.slug)"
-                      [class.border-tng-accent-brand]="isItemActive(group.id, item.slug)"
-                      [class.bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_12%,var(--tng-semantic-background-base))]]="
-                        isItemActive(group.id, item.slug)
-                      "
-                      [class.text-tng-accent-brand]="isItemActive(group.id, item.slug)"
-                    >
-                      <span class="truncate">{{ item.title }}</span>
-                      @if (isItemActive(group.id, item.slug)) {
-                        <tng-icon icon="chevron-right" class="h-4 w-4 shrink-0" />
-                      }
-                    </div>
+                    <li class="components-docs-nav-item">
+                      <a
+                        class="components-docs-nav-link"
+                        [href]="itemHref(group.id, item.slug)"
+                        [class.components-docs-nav-link--selected]="isItemActive(group.id, item.slug)"
+                      >
+                        <span class="truncate">{{ item.title }}</span>
+                        @if (isItemActive(group.id, item.slug)) {
+                          <tng-icon icon="chevron-right" class="h-4 w-4 shrink-0" />
+                        }
+                      </a>
+                    </li>
                   }
-                </div>
+                  </ul>
+                </nav>
               </tng-accordion-panel>
             </tng-accordion-item>
           }
