@@ -107,7 +107,6 @@ function createScopedSharedCssCode(classes: ExampleClassNames): string {
     '  display: block;',
     '  inline-size: 18.5rem;',
     '  max-inline-size: 100%;',
-    '  color-scheme: light;',
     '  --tng-datepicker-radius: 1.1rem;',
     '  --tng-datepicker-field-height: 2.95rem;',
     '  --tng-datepicker-overlay-gap: 0.56rem;',
@@ -324,7 +323,7 @@ function createScopedSharedCssCode(classes: ExampleClassNames): string {
     '  white-space: nowrap;',
     '}',
     `.${classes.weekdays} [data-slot="datepicker-weekday"] {`,
-    '  color: color-mix(in srgb, var(--tng-datepicker-muted) 92%, white 8%);',
+    '  color: color-mix(in srgb, var(--tng-datepicker-muted) 92%, var(--tng-datepicker-canvas) 8%);',
     '  font-size: 0.68rem;',
     '  font-weight: 600;',
     '  letter-spacing: 0.02em;',
@@ -378,7 +377,7 @@ function createScopedSharedCssCode(classes: ExampleClassNames): string {
     `.${classes.overlay} [data-slot="datepicker-year"][data-selected] {`,
     '  border-color: color-mix(in srgb, var(--tng-datepicker-brand) 44%, var(--tng-datepicker-border) 56%);',
     '  background: color-mix(in srgb, var(--tng-datepicker-brand) 18%, var(--tng-datepicker-canvas) 82%);',
-    '  color: color-mix(in srgb, var(--tng-datepicker-brand) 78%, #0f172a 22%);',
+    '  color: color-mix(in srgb, var(--tng-datepicker-brand) 78%, var(--tng-datepicker-fg) 22%);',
     '}',
     `.${classes.cell}[data-selected][data-active],`,
     `.${classes.pickerCell}[data-selected][data-active],`,
@@ -387,7 +386,7 @@ function createScopedSharedCssCode(classes: ExampleClassNames): string {
     '  border-color: color-mix(in srgb, var(--tng-datepicker-brand) 62%, var(--tng-datepicker-border) 38%);',
     '  background: color-mix(in srgb, var(--tng-datepicker-brand) 24%, var(--tng-datepicker-canvas) 76%);',
     '  box-shadow:',
-    '    inset 0 1px 0 rgba(255, 255, 255, 0.8),',
+    '    inset 0 1px 0 color-mix(in srgb, var(--tng-datepicker-canvas) 42%, transparent),',
     '    0 0 0 1px color-mix(in srgb, var(--tng-datepicker-brand) 18%, transparent);',
     '}',
     `.${classes.cell}[aria-current="date"]:not([data-selected]) {`,
@@ -395,7 +394,7 @@ function createScopedSharedCssCode(classes: ExampleClassNames): string {
     '  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--tng-datepicker-brand) 12%, transparent);',
     '}',
     `.${classes.cell}:not([data-in-month]) {`,
-    '  color: color-mix(in srgb, var(--tng-datepicker-muted) 84%, white 16%);',
+    '  color: color-mix(in srgb, var(--tng-datepicker-muted) 84%, var(--tng-datepicker-canvas) 16%);',
     '  opacity: 0.58;',
     '}',
     `.${classes.cell}[data-disabled],`,
@@ -413,36 +412,24 @@ function createScopedSharedCssCode(classes: ExampleClassNames): string {
   ].join('\n');
 }
 
-function createThemeCss(
-  selector: string,
-  options: {
-    bg: string;
-    border: string;
-    borderStrong: string;
-    brand: string;
-    canvas: string;
-    focus: string;
-    focusShadow: string;
-    fg: string;
-    muted: string;
-    shadow?: string;
-    surface: string;
-  },
-): string {
+function createThemeCss(selector: string, accent: 'brand' | 'success'): string {
+  const accentToken =
+    accent === 'brand'
+      ? 'var(--tng-semantic-accent-brand)'
+      : 'var(--tng-semantic-accent-success)';
   return [
     `${selector} {`,
-    '  color-scheme: light;',
-    `  --tng-datepicker-bg: ${options.bg};`,
-    `  --tng-datepicker-border: ${options.border};`,
-    `  --tng-datepicker-border-strong: ${options.borderStrong};`,
-    `  --tng-datepicker-brand: ${options.brand};`,
-    `  --tng-datepicker-canvas: ${options.canvas};`,
-    `  --tng-datepicker-focus: ${options.focus};`,
-    `  --tng-datepicker-focus-shadow: ${options.focusShadow};`,
-    `  --tng-datepicker-fg: ${options.fg};`,
-    `  --tng-datepicker-muted: ${options.muted};`,
-    `  --tng-datepicker-surface: ${options.surface};`,
-    `  --tng-datepicker-shadow: ${options.shadow ?? '0 22px 38px rgba(15, 23, 42, 0.12), 0 10px 20px rgba(15, 23, 42, 0.08)'};`,
+    '  --tng-datepicker-bg: var(--tng-semantic-background-base);',
+    '  --tng-datepicker-border: var(--tng-semantic-border-default);',
+    '  --tng-datepicker-border-strong: var(--tng-semantic-border-strong);',
+    `  --tng-datepicker-brand: ${accentToken};`,
+    '  --tng-datepicker-canvas: var(--tng-semantic-background-canvas);',
+    `  --tng-datepicker-focus: ${accentToken};`,
+    `  --tng-datepicker-focus-shadow: 0 0 0 3px color-mix(in srgb, ${accentToken} 22%, transparent);`,
+    '  --tng-datepicker-fg: var(--tng-semantic-foreground-primary);',
+    '  --tng-datepicker-muted: var(--tng-semantic-foreground-secondary);',
+    `  --tng-datepicker-surface: color-mix(in srgb, ${accentToken} 14%, var(--tng-semantic-background-surface));`,
+    '  --tng-datepicker-shadow: 0 22px 38px rgba(15, 23, 42, 0.12), 0 10px 20px rgba(15, 23, 42, 0.08);',
     '}',
     '',
   ].join('\n');
@@ -723,23 +710,65 @@ function createHeadlessTailwindHtmlCode(options: {
   name: string;
   placeholder: string;
   triggerLabel: string;
+  variant: 'booking' | 'reporting';
 }): string {
   const bindings = createExampleBindingNames(options.name);
+  const shellOpenLight =
+    options.variant === 'booking'
+      ? 'data-[open=true]:border-blue-600 data-[open=true]:shadow-[0_0_0_3px_rgba(37,99,235,0.16)]'
+      : 'data-[open=true]:border-teal-700 data-[open=true]:shadow-[0_0_0_3px_rgba(15,118,110,0.16)]';
+  const shellDark =
+    'dark:border-slate-700/90 dark:bg-[linear-gradient(180deg,#0f172a_0%,#020617_100%)] dark:focus-within:border-slate-500 dark:focus-within:shadow-[0_0_0_3px_rgba(100,116,139,0.20)]';
+  const shellOpenDark =
+    options.variant === 'booking'
+      ? 'dark:data-[open=true]:border-blue-500 dark:data-[open=true]:shadow-[0_0_0_3px_rgba(59,130,246,0.20)]'
+      : 'dark:data-[open=true]:border-teal-500 dark:data-[open=true]:shadow-[0_0_0_3px_rgba(45,212,191,0.20)]';
+  const shellInvalidDark =
+    'dark:data-[invalid=true]:border-rose-500 dark:data-[invalid=true]:shadow-[0_0_0_3px_rgba(251,113,133,0.20)]';
+  const triggerDark =
+    options.variant === 'booking'
+      ? 'dark:border-slate-700/90 dark:bg-[linear-gradient(180deg,#0f172a_0%,#1e3a8a_100%)] dark:text-slate-100 dark:hover:bg-blue-900/40'
+      : 'dark:border-slate-700/90 dark:bg-[linear-gradient(180deg,#0f172a_0%,#042f2e_100%)] dark:text-slate-100 dark:hover:bg-teal-900/40';
+  const overlayDark =
+    options.variant === 'booking'
+      ? 'dark:border-slate-700/90 dark:bg-[linear-gradient(180deg,#0f172a_0%,#1e293b_100%)] dark:text-slate-100 dark:shadow-[0_26px_44px_rgba(2,6,23,0.62),0_10px_22px_rgba(2,6,23,0.38)]'
+      : 'dark:border-slate-700/90 dark:bg-[linear-gradient(180deg,#0f172a_0%,#022c22_100%)] dark:text-slate-100 dark:shadow-[0_26px_44px_rgba(2,6,23,0.62),0_10px_22px_rgba(2,6,23,0.38)]';
+  const navDark =
+    options.variant === 'booking'
+      ? 'dark:border-slate-600/90 dark:bg-slate-900/80 dark:text-slate-100 dark:hover:bg-blue-900/40'
+      : 'dark:border-slate-600/90 dark:bg-slate-900/80 dark:text-slate-100 dark:hover:bg-teal-900/40';
+  const cellDark =
+    options.variant === 'booking'
+      ? 'dark:border-transparent dark:bg-slate-900/55 dark:text-slate-100 dark:hover:border-slate-600/90 dark:hover:bg-slate-800/90 dark:data-[active=true]:border-blue-500/80 dark:data-[active=true]:bg-blue-900/35 dark:data-[active=true]:shadow-[0_0_0_1px_rgba(59,130,246,0.25)] dark:data-[selected=true]:border-blue-400 dark:data-[selected=true]:bg-blue-700/35 dark:data-[selected=true]:text-blue-100'
+      : 'dark:border-transparent dark:bg-slate-900/55 dark:text-slate-100 dark:hover:border-slate-600/90 dark:hover:bg-slate-800/90 dark:data-[active=true]:border-teal-500/80 dark:data-[active=true]:bg-teal-900/35 dark:data-[active=true]:shadow-[0_0_0_1px_rgba(45,212,191,0.25)] dark:data-[selected=true]:border-teal-400 dark:data-[selected=true]:bg-teal-700/35 dark:data-[selected=true]:text-teal-100';
+
+  const inputShellClass = [
+    'flex min-h-[2.95rem] min-w-0 w-full overflow-hidden rounded-[1.08rem] border border-slate-300/90',
+    'bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] shadow-[0_1px_2px_rgba(15,23,42,0.04)]',
+    'transition-[border-color,box-shadow,background-color] duration-150',
+    'focus-within:border-slate-400 focus-within:shadow-[0_0_0_3px_rgba(148,163,184,0.14)]',
+    shellOpenLight,
+    'data-[invalid=true]:border-rose-600 data-[invalid=true]:shadow-[0_0_0_3px_rgba(225,29,72,0.16)]',
+    shellDark,
+    shellOpenDark,
+    shellInvalidDark,
+  ].join(' ');
+
   return [
     options.containerOpen,
     `  ${options.kickerLine}`,
     `  ${options.copyLine}`,
-    `  <section class="block w-[18.5rem] max-w-full [color-scheme:light]" [tngDatepickerHost]="${bindings.controller}">`,
+    `  <section class="block w-[18.5rem] max-w-full" [tngDatepickerHost]="${bindings.controller}">`,
     '    <div class="grid gap-[0.2rem]" data-slot="datepicker-field">',
     `      <div #${bindings.anchorRef} class="relative">`,
     '        <div',
-    '          class="flex min-h-[2.95rem] min-w-0 w-full overflow-hidden rounded-[1.08rem] border border-slate-300/90 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] shadow-[0_1px_2px_rgba(15,23,42,0.04)] transition-[border-color,box-shadow,background-color] duration-150 focus-within:border-slate-400 focus-within:shadow-[0_0_0_3px_rgba(148,163,184,0.14)] data-[open=true]:border-slate-500 data-[open=true]:shadow-[var(--tng-datepicker-focus-shadow)] data-[invalid=true]:border-rose-600 data-[invalid=true]:shadow-[0_0_0_3px_rgba(225,29,72,0.16)]"',
+    `          class="${inputShellClass}"`,
     '          data-slot="datepicker-input-shell"',
     `          [attr.data-invalid]="${bindings.datepicker}.outputs().validationError !== null ? 'true' : null"`,
     `          [attr.data-open]="${bindings.datepicker}.outputs().getTriggerAttributes()['data-open']"`,
     '        >',
     '          <input',
-    '            class="min-h-full min-w-0 flex-1 appearance-none border-0 bg-transparent px-[0.96rem] py-[0.72rem] text-[0.98rem] font-semibold tracking-[0.01em] text-slate-950 outline-none ring-0 focus:outline-none focus:ring-0 placeholder:font-medium placeholder:text-slate-400"',
+    '            class="min-h-full min-w-0 flex-1 appearance-none border-0 bg-transparent px-[0.96rem] py-[0.72rem] text-[0.98rem] font-semibold tracking-[0.01em] text-slate-950 outline-none ring-0 focus:outline-none focus:ring-0 placeholder:font-medium placeholder:text-slate-400 dark:text-slate-100 dark:placeholder:text-slate-500"',
     `            [tngDatepickerInput]="${bindings.controller}"`,
     '            type="text"',
     '            inputmode="numeric"',
@@ -750,37 +779,37 @@ function createHeadlessTailwindHtmlCode(options: {
     '          <button',
     '            type="button"',
     '            tabindex="-1"',
-    `            class="inline-flex min-w-[3.25rem] shrink-0 items-center justify-center gap-[0.34rem] border-l border-slate-300/80 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] px-[0.78rem] text-slate-950 transition-colors duration-150 ${options.brandHover}"`,
+    `            class="inline-flex min-w-[3.25rem] shrink-0 items-center justify-center gap-[0.34rem] border-l border-slate-300/80 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] px-[0.78rem] text-slate-950 transition-colors duration-150 ${options.brandHover} ${triggerDark}"`,
     `            [tngDatepickerTrigger]="${bindings.controller}"`,
     `            aria-label="${options.triggerLabel}"`,
     '          >',
-    '            <tng-icon icon="calendar-days" class="size-[1.05rem] shrink-0 text-slate-950" />',
-    '            <span class="text-[0.68rem] leading-none text-slate-500" aria-hidden="true">▾</span>',
+    '            <tng-icon icon="calendar-days" class="size-[1.05rem] shrink-0 text-slate-950 dark:text-slate-100" />',
+    '            <span class="text-[0.68rem] leading-none text-slate-500 dark:text-slate-400" aria-hidden="true">▾</span>',
     '          </button>',
     '        </div>',
     '',
     '        <section',
     `          [tngDatepickerOverlay]="${bindings.controller}"`,
     `          [tngDatepickerOverlayAnchor]="${bindings.anchorRef}"`,
-    '          class="grid w-[min(20rem,calc(100vw-2rem))] gap-[0.68rem] rounded-[1.26rem] border border-slate-300/90 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-[0.8rem] text-slate-950 shadow-[0_22px_38px_rgba(15,23,42,0.12),0_10px_20px_rgba(15,23,42,0.08)]"',
+    `          class="grid w-[min(20rem,calc(100vw-2rem))] gap-[0.68rem] rounded-[1.26rem] border border-slate-300/90 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-[0.8rem] text-slate-950 shadow-[0_22px_38px_rgba(15,23,42,0.12),0_10px_20px_rgba(15,23,42,0.08)] ${overlayDark}"`,
     '        >',
     '          <header class="grid gap-[0.42rem]" data-slot="datepicker-header">',
     '            <div class="grid grid-cols-[1.9rem_minmax(0,1fr)_1.9rem] items-center gap-[0.4rem]">',
-    `              <button [tngDatepickerPrevButton]="${bindings.controller}" type="button" class="inline-flex min-h-[2rem] items-center justify-center rounded-[0.82rem] border border-slate-300/90 bg-white/80 text-[1.05rem] leading-none text-slate-950 transition-colors duration-150 ${options.brandHover}">‹</button>`,
-    `              <button [tngDatepickerPeriodButton]="${bindings.controller}" type="button" class="inline-flex min-h-[2rem] min-w-0 items-center justify-center gap-[0.24rem] rounded-[0.82rem] border border-slate-300/90 bg-white/80 px-[0.72rem] font-semibold text-slate-950 transition-colors duration-150 ${options.brandHover}">`,
+    `              <button [tngDatepickerPrevButton]="${bindings.controller}" type="button" class="inline-flex min-h-[2rem] items-center justify-center rounded-[0.82rem] border border-slate-300/90 bg-white/80 text-[1.05rem] leading-none text-slate-950 transition-colors duration-150 ${options.brandHover} ${navDark}">‹</button>`,
+    `              <button [tngDatepickerPeriodButton]="${bindings.controller}" type="button" class="inline-flex min-h-[2rem] min-w-0 items-center justify-center gap-[0.24rem] rounded-[0.82rem] border border-slate-300/90 bg-white/80 px-[0.72rem] font-semibold text-slate-950 transition-colors duration-150 ${options.brandHover} ${navDark}">`,
     `                <span class="truncate">{{ ${bindings.datepicker}.periodLabel() }}</span>`,
     `                @if (${bindings.datepicker}.outputs().view !== 'year') {`,
-    '                  <span class="text-[0.68rem] leading-none text-slate-500" aria-hidden="true">▾</span>',
+    '                  <span class="text-[0.68rem] leading-none text-slate-500 dark:text-slate-400" aria-hidden="true">▾</span>',
     '                }',
     '              </button>',
-    `              <button [tngDatepickerNextButton]="${bindings.controller}" type="button" class="inline-flex min-h-[2rem] items-center justify-center rounded-[0.82rem] border border-slate-300/90 bg-white/80 text-[1.05rem] leading-none text-slate-950 transition-colors duration-150 ${options.brandHover}">›</button>`,
+    `              <button [tngDatepickerNextButton]="${bindings.controller}" type="button" class="inline-flex min-h-[2rem] items-center justify-center rounded-[0.82rem] border border-slate-300/90 bg-white/80 text-[1.05rem] leading-none text-slate-950 transition-colors duration-150 ${options.brandHover} ${navDark}">›</button>`,
     '            </div>',
     '          </header>',
     '',
     `          @if (${bindings.datepicker}.outputs().view === 'day') {`,
     '            <div class="grid grid-cols-7 gap-[0.28rem]" data-slot="datepicker-weekdays" aria-hidden="true">',
     `              @for (label of ${bindings.datepicker}.outputs().weekdayLabels; track label) {`,
-    '                <span class="text-center text-[0.68rem] font-medium text-slate-500" data-slot="datepicker-weekday">{{ label }}</span>',
+    '                <span class="text-center text-[0.68rem] font-medium text-slate-500 dark:text-slate-400" data-slot="datepicker-weekday">{{ label }}</span>',
     '              }',
     '            </div>',
     '',
@@ -789,7 +818,7 @@ function createHeadlessTailwindHtmlCode(options: {
     '                <button',
     '                  [tngDatepickerDayCell]="cell"',
     '                  type="button"',
-    '                  class="min-h-[2.28rem] rounded-[0.82rem] border border-transparent bg-slate-50 text-slate-950 transition-[border-color,box-shadow,background-color,color,opacity] duration-150 hover:border-slate-300/90 hover:bg-white data-[active=true]:border-slate-300/90 data-[active=true]:bg-white data-[active=true]:shadow-[0_0_0_1px_rgba(15,23,42,0.05)] data-[selected=true]:text-slate-950 data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-45"',
+    `                  class="min-h-[2.28rem] rounded-[0.82rem] border border-transparent bg-slate-50 text-slate-950 transition-[border-color,box-shadow,background-color,color,opacity] duration-150 hover:border-slate-300/90 hover:bg-white data-[active=true]:border-slate-300/90 data-[active=true]:bg-white data-[active=true]:shadow-[0_0_0_1px_rgba(15,23,42,0.05)] data-[selected=true]:text-slate-950 data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-45 ${cellDark}"`,
     '                >',
     '                  {{ cell.label }}',
     '                </button>',
@@ -803,7 +832,7 @@ function createHeadlessTailwindHtmlCode(options: {
     '                <button',
     '                  [tngDatepickerMonthOption]="option"',
     '                  type="button"',
-    '                  class="min-h-[2.38rem] rounded-[0.82rem] border border-transparent bg-slate-50 text-slate-950 transition-[border-color,box-shadow,background-color,color,opacity] duration-150 hover:border-slate-300/90 hover:bg-white data-[active=true]:border-slate-300/90 data-[active=true]:bg-white data-[active=true]:shadow-[0_0_0_1px_rgba(15,23,42,0.05)] data-[selected=true]:text-slate-950 data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-45"',
+    `                  class="min-h-[2.38rem] rounded-[0.82rem] border border-transparent bg-slate-50 text-slate-950 transition-[border-color,box-shadow,background-color,color,opacity] duration-150 hover:border-slate-300/90 hover:bg-white data-[active=true]:border-slate-300/90 data-[active=true]:bg-white data-[active=true]:shadow-[0_0_0_1px_rgba(15,23,42,0.05)] data-[selected=true]:text-slate-950 data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-45 ${cellDark}"`,
     '                >',
     '                  {{ option.label }}',
     '                </button>',
@@ -817,7 +846,7 @@ function createHeadlessTailwindHtmlCode(options: {
     '                <button',
     '                  [tngDatepickerYearOption]="option"',
     '                  type="button"',
-    '                  class="min-h-[2.38rem] rounded-[0.82rem] border border-transparent bg-slate-50 text-slate-950 transition-[border-color,box-shadow,background-color,color,opacity] duration-150 hover:border-slate-300/90 hover:bg-white data-[active=true]:border-slate-300/90 data-[active=true]:bg-white data-[active=true]:shadow-[0_0_0_1px_rgba(15,23,42,0.05)] data-[selected=true]:text-slate-950 data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-45"',
+    `                  class="min-h-[2.38rem] rounded-[0.82rem] border border-transparent bg-slate-50 text-slate-950 transition-[border-color,box-shadow,background-color,color,opacity] duration-150 hover:border-slate-300/90 hover:bg-white data-[active=true]:border-slate-300/90 data-[active=true]:bg-white data-[active=true]:shadow-[0_0_0_1px_rgba(15,23,42,0.05)] data-[selected=true]:text-slate-950 data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-45 ${cellDark}"`,
     '                >',
     '                  {{ option.label }}',
     '                </button>',
@@ -851,22 +880,26 @@ function createPlainCssCode(
     '  width: min(100%, 22rem);',
     '  margin-inline: auto;',
     '  padding: 1rem;',
-    '  border: 1px solid #cbd5e1;',
+    '  border: 1px solid color-mix(in srgb, var(--tng-semantic-border-default) 84%, var(--tng-semantic-background-canvas) 16%);',
     '  border-radius: 1.25rem;',
-    '  background: #ffffff;',
-    '  color: #0f172a;',
-    '  color-scheme: light;',
-    '  box-shadow: 0 14px 34px rgba(15, 23, 42, 0.08);',
+    '  background:',
+    '    linear-gradient(',
+    '      180deg,',
+    '      color-mix(in srgb, var(--tng-semantic-background-canvas) 88%, var(--tng-semantic-background-surface) 12%) 0%,',
+    '      color-mix(in srgb, var(--tng-semantic-background-canvas) 64%, var(--tng-semantic-background-surface) 36%) 100%',
+    '    );',
+    '  color: var(--tng-semantic-foreground-primary);',
+    '  box-shadow: 0 14px 34px color-mix(in srgb, var(--tng-semantic-background-canvas) 68%, transparent);',
     '}',
     `.${classes.kicker} {`,
-    '  color: #64748b;',
+    '  color: var(--tng-semantic-foreground-secondary);',
     '  font-size: 0.8rem;',
     '  font-weight: 700;',
     '  letter-spacing: 0.02em;',
     '}',
     `.${classes.copy} {`,
     '  margin: 0;',
-    '  color: #475569;',
+    '  color: var(--tng-semantic-foreground-secondary);',
     '  line-height: 1.6;',
     '}',
     '',
@@ -988,18 +1021,7 @@ export class HeadlessDatepickerExamplesPageComponent implements OnDestroy {
         kicker: 'docs-headless-datepicker-examples-booking-plain-kicker',
         copy: 'docs-headless-datepicker-examples-booking-plain-copy',
       },
-      createThemeCss(`.${createExampleClassNames('headless-booking-window-plain').demo}`, {
-        bg: '#ffffff',
-        border: '#cbd5e1',
-        borderStrong: '#94a3b8',
-        brand: '#2563eb',
-        canvas: '#ffffff',
-        focus: '#2563eb',
-        focusShadow: '0 0 0 3px rgba(37, 99, 235, 0.16)',
-        fg: '#0f172a',
-        muted: '#64748b',
-        surface: '#eff6ff',
-      }),
+      createThemeCss(`.${createExampleClassNames('headless-booking-window-plain').demo}`, 'brand'),
     ),
   );
 
@@ -1017,12 +1039,13 @@ export class HeadlessDatepickerExamplesPageComponent implements OnDestroy {
     ]),
     createHeadlessTailwindHtmlCode({
       name: 'headless-booking-window-tailwind',
+      variant: 'booking',
       containerOpen:
-        '<section class="mx-auto grid w-full max-w-[22rem] gap-3 rounded-[1.5rem] border border-slate-200/90 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-4 text-slate-900 shadow-[0_18px_38px_rgba(15,23,42,0.10)] [color-scheme:light]">',
+        '<section class="mx-auto grid w-full max-w-[22rem] gap-3 rounded-[1.5rem] border border-slate-200/90 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-4 text-slate-900 shadow-[0_18px_38px_rgba(15,23,42,0.10)] dark:border-slate-700/90 dark:bg-[linear-gradient(180deg,#0f172a_0%,#020617_100%)] dark:text-slate-100 dark:shadow-[0_22px_42px_rgba(2,6,23,0.62)]">',
       kickerLine:
-        '<span class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Booking window</span>',
+        '<span class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500 dark:text-slate-400">Booking window</span>',
       copyLine:
-        '<p class="m-0 text-sm leading-6 text-slate-600">Constrain the selectable booking window without giving up manual input.</p>',
+        '<p class="m-0 text-sm leading-6 text-slate-600 dark:text-slate-400">Constrain the selectable booking window without giving up manual input.</p>',
       brandHover: 'hover:bg-blue-50',
       placeholder: 'MM-DD-YYYY',
       inputAriaLabel: 'Booking start date',
@@ -1065,18 +1088,7 @@ export class HeadlessDatepickerExamplesPageComponent implements OnDestroy {
         kicker: 'docs-headless-datepicker-examples-reporting-plain-kicker',
         copy: 'docs-headless-datepicker-examples-reporting-plain-copy',
       },
-      createThemeCss(`.${createExampleClassNames('headless-reporting-calendar-plain').demo}`, {
-        bg: '#ffffff',
-        border: '#c7d2e3',
-        borderStrong: '#94a3b8',
-        brand: '#0f766e',
-        canvas: '#ffffff',
-        focus: '#0f766e',
-        focusShadow: '0 0 0 3px rgba(15, 118, 110, 0.16)',
-        fg: '#0f172a',
-        muted: '#5f6f88',
-        surface: '#ecfeff',
-      }),
+      createThemeCss(`.${createExampleClassNames('headless-reporting-calendar-plain').demo}`, 'success'),
     ),
   );
 
@@ -1096,12 +1108,13 @@ export class HeadlessDatepickerExamplesPageComponent implements OnDestroy {
     ),
     createHeadlessTailwindHtmlCode({
       name: 'headless-reporting-calendar-tailwind',
+      variant: 'reporting',
       containerOpen:
-        '<section class="mx-auto grid w-full max-w-[22rem] gap-3 rounded-[1.5rem] border border-slate-200/90 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-4 text-slate-900 shadow-[0_18px_38px_rgba(15,23,42,0.10)] [color-scheme:light]">',
+        '<section class="mx-auto grid w-full max-w-[22rem] gap-3 rounded-[1.5rem] border border-slate-200/90 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-4 text-slate-900 shadow-[0_18px_38px_rgba(15,23,42,0.10)] dark:border-slate-700/90 dark:bg-[linear-gradient(180deg,#0f172a_0%,#020617_100%)] dark:text-slate-100 dark:shadow-[0_22px_42px_rgba(2,6,23,0.62)]">',
       kickerLine:
-        '<span class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Reporting calendar</span>',
+        '<span class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500 dark:text-slate-400">Reporting calendar</span>',
       copyLine:
-        '<p class="m-0 text-sm leading-6 text-slate-600">Swap in a reporting adapter when the field format and period label follow business conventions.</p>',
+        '<p class="m-0 text-sm leading-6 text-slate-600 dark:text-slate-400">Swap in a reporting adapter when the field format and period label follow business conventions.</p>',
       brandHover: 'hover:bg-teal-50',
       placeholder: 'DD.MM.YYYY',
       inputAriaLabel: 'Reporting period',

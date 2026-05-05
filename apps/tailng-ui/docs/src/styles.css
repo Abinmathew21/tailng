@@ -263,17 +263,21 @@ tng-tabs.docs-component-tabs .tng-tabs,
   max-inline-size: 100%;
   box-sizing: border-box;
   padding: 1rem;
-  border: 1px solid #cbd5e1;
+  border: 1px solid color-mix(in srgb, var(--tng-semantic-border-default) 84%, var(--tng-semantic-background-canvas) 16%);
   border-radius: 1.25rem;
-  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
-  color: #0f172a;
-  color-scheme: light;
-  box-shadow: 0 14px 34px rgba(15, 23, 42, 0.08);
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--tng-semantic-background-canvas) 88%, var(--tng-semantic-background-surface) 12%) 0%,
+      color-mix(in srgb, var(--tng-semantic-background-canvas) 64%, var(--tng-semantic-background-surface) 36%) 100%
+    );
+  color: var(--tng-semantic-foreground-primary);
+  box-shadow: 0 14px 34px color-mix(in srgb, var(--tng-semantic-background-canvas) 68%, transparent);
   justify-items: start;
 }
 
 .docs-headless-datepicker-overview-plain-label {
-  color: #64748b;
+  color: var(--tng-semantic-foreground-secondary);
   font-size: 0.8rem;
   font-weight: 700;
   letter-spacing: 0.02em;
@@ -286,7 +290,6 @@ tng-tabs.docs-component-tabs .tng-tabs,
 }
 
 .docs-headless-datepicker-overview-demo {
-  color-scheme: light;
   --tng-datepicker-radius: 1.1rem;
   --tng-datepicker-field-height: 2.95rem;
   --tng-datepicker-overlay-gap: 0.56rem;
@@ -302,16 +305,16 @@ tng-tabs.docs-component-tabs .tng-tabs,
 }
 
 .docs-headless-datepicker-overview-demo--plain {
-  --tng-datepicker-border: #cbd5e1;
-  --tng-datepicker-border-strong: #94a3b8;
-  --tng-datepicker-bg: #ffffff;
-  --tng-datepicker-surface: #f8fafc;
-  --tng-datepicker-canvas: #ffffff;
-  --tng-datepicker-fg: #0f172a;
-  --tng-datepicker-muted: #64748b;
-  --tng-datepicker-brand: #2563eb;
-  --tng-datepicker-focus: #2563eb;
-  --tng-datepicker-focus-shadow: 0 0 0 3px rgba(37, 99, 235, 0.16);
+  --tng-datepicker-border: var(--tng-semantic-border-default);
+  --tng-datepicker-border-strong: var(--tng-semantic-border-strong);
+  --tng-datepicker-bg: var(--tng-semantic-background-base);
+  --tng-datepicker-surface: var(--tng-semantic-background-surface);
+  --tng-datepicker-canvas: var(--tng-semantic-background-canvas);
+  --tng-datepicker-fg: var(--tng-semantic-foreground-primary);
+  --tng-datepicker-muted: var(--tng-semantic-foreground-secondary);
+  --tng-datepicker-brand: var(--tng-semantic-accent-brand);
+  --tng-datepicker-focus: var(--tng-semantic-accent-brand);
+  --tng-datepicker-focus-shadow: 0 0 0 3px color-mix(in srgb, var(--tng-semantic-accent-brand) 22%, transparent);
 }
 
 .docs-headless-datepicker-overview-demo--tailwind {

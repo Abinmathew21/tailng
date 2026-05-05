@@ -25,3 +25,5 @@ export type TngScrollLockManager = Readonly<{
   isLocked: () => boolean;
   release: (lockId: string) => void;
 }>;
+
+export type TngOverlayScrollStrategy = 'block' | 'close' | 'reposition';

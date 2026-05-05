@@ -58,6 +58,8 @@ describe('tng-multi-select overlay (shared overlay)', () => {
     while (document.body.children.length > bodyChildrenBefore) {
       document.body.removeChild(document.body.lastElementChild!);
     }
+    document.body.style.overflow = '';
+    document.body.style.paddingRight = '';
   });
 
   it('is mounted in DOM but hidden when closed', () => {
@@ -84,6 +86,7 @@ describe('tng-multi-select overlay (shared overlay)', () => {
     pointerdown(trigger);
     fixture.detectChanges();
     expect(host.api.open()).toBe(true);
+    expect(document.body.style.overflow).toBe('hidden');
 
     expect(overlay.parentElement).toBe(document.body);
     expect(overlay.hasAttribute('hidden')).toBe(false);
@@ -95,6 +98,7 @@ describe('tng-multi-select overlay (shared overlay)', () => {
     host.open.set(false);
     fixture.detectChanges();
     expect(host.api.open()).toBe(false);
+    expect(document.body.style.overflow).toBe('');
 
     expect(overlay.parentElement).not.toBe(document.body);
     expect(overlay.hasAttribute('hidden')).toBe(true);

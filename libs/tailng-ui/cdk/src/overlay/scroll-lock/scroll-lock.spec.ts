@@ -1,5 +1,5 @@
 import { expect, it } from 'vitest';
-import { createScrollLockManager } from './scroll-lock';
+import { createScrollLockManager, getGlobalScrollLockManager } from './scroll-lock';
 import type { TngScrollLockDocument } from './scroll-lock.types';
 
 function createDocumentRef(): TngScrollLockDocument {
@@ -78,4 +78,22 @@ it('is no-op when browser mode is unavailable', () => {
   manager.release('a');
 
   expect(manager.isLocked()).toBe(false);
+});
+
+it('shares global managers per document so nested overlays release independently', () => {
+  const documentRef = createDocumentRef();
+  const first = getGlobalScrollLockManager({ documentRef });
+  const second = getGlobalScrollLockManager({ documentRef });
+
+  expect(first).toBe(second);
+
+  first.acquire('select');
+  second.acquire('datepicker');
+  first.release('select');
+
+  expect(documentRef.body.style.overflow).toBe('hidden');
+
+  second.release('datepicker');
+
+  expect(documentRef.body.style.overflow).toBeUndefined();
 });

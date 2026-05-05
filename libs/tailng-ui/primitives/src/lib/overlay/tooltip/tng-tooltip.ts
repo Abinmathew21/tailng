@@ -1,10 +1,12 @@
+import type {
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import {
   Directive,
   ElementRef,
   HostBinding,
   HostListener,
-  OnDestroy,
-  OnInit,
   booleanAttribute,
   effect,
   inject,
@@ -447,7 +449,8 @@ export class TngTooltip implements OnDestroy, OnInit {
       this.scheduleReposition();
     };
     const onScroll = (): void => {
-      this.scheduleReposition();
+      this.openCloseDelayController.cancelAll();
+      this.setOpenState(false);
     };
 
     this.win.addEventListener('resize', onResize);

@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it } from 'vitest';
 
 import {
   TngContextMenuTrigger,
@@ -84,6 +84,11 @@ class ContextMenuComponentHost {
 }
 
 describe('tng-context-menu component wrapper', () => {
+  afterEach(() => {
+    document.body.style.overflow = '';
+    document.body.style.paddingRight = '';
+  });
+
   it('exports the context-menu component', () => {
     expect(typeof TngContextMenuComponent).toBe('function');
   });
@@ -107,6 +112,27 @@ describe('tng-context-menu component wrapper', () => {
     expect(menu.getAttribute('aria-label')).toBe('Row actions');
     expect(menu.getAttribute('data-state')).toBe('open');
     expect(target.getAttribute('aria-expanded')).toBe('true');
+    expect(document.body.style.overflow).toBe('hidden');
+  });
+
+  it('releases scroll lock after close', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [ContextMenuComponentHost],
+    }).createComponent(ContextMenuComponentHost);
+
+    fixture.detectChanges();
+
+    const target = fixture.nativeElement.querySelector('[data-testid="target"]') as HTMLDivElement;
+    const outside = fixture.nativeElement.querySelector('[data-testid="outside"]') as HTMLButtonElement;
+
+    contextmenu(target);
+    fixture.detectChanges();
+    expect(document.body.style.overflow).toBe('hidden');
+
+    pointerdown(outside);
+    fixture.detectChanges();
+
+    expect(document.body.style.overflow).toBe('');
   });
 
   it('bridges context-menu overlay z-index into the shared menu z-index token', () => {

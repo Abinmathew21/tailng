@@ -1,6 +1,7 @@
 import type {
   OnDestroy,
-  OnInit} from '@angular/core';
+  OnInit,
+} from '@angular/core';
 import {
   Directive,
   ElementRef,
@@ -183,6 +184,7 @@ export class TngPopover implements OnDestroy, OnInit {
   private panelElement: HTMLElement | null = null;
   private panelElementId: string | null = null;
   private triggerElement: HTMLElement | null = null;
+  private removeScrollListener: (() => void) | null = null;
 
   @HostBinding('attr.data-slot')
   protected readonly dataSlot = 'popover';
@@ -317,6 +319,7 @@ export class TngPopover implements OnDestroy, OnInit {
     this.registerFocusLayer();
     this.activateFocusLayer();
     this.registerOverlayLayer();
+    this.setupScrollCloseListener();
     this.focusInitialElement();
   }
 
@@ -329,6 +332,7 @@ export class TngPopover implements OnDestroy, OnInit {
     this.deactivateFocusLayer();
     this.unregisterFocusLayer();
     this.unregisterOverlayLayer();
+    this.teardownScrollCloseListener();
   }
 
   private focusInitialElement(): void {
@@ -485,6 +489,28 @@ export class TngPopover implements OnDestroy, OnInit {
 
     tngPrimitiveOverlayRuntime.unregisterLayer(this.instanceId);
     this.isOverlayLayerRegistered = false;
+  }
+
+  private setupScrollCloseListener(): void {
+    if (this.removeScrollListener !== null || this.documentRef === null) {
+      return;
+    }
+
+    const win = this.documentRef.defaultView;
+    if (win === null) {
+      return;
+    }
+
+    const onScroll = (): void => {
+      this.requestClose('outside-pointer');
+    };
+    win.addEventListener('scroll', onScroll, true);
+    this.removeScrollListener = (): void => win.removeEventListener('scroll', onScroll, true);
+  }
+
+  private teardownScrollCloseListener(): void {
+    this.removeScrollListener?.();
+    this.removeScrollListener = null;
   }
 
   private focusElement(target: HTMLElement): void {

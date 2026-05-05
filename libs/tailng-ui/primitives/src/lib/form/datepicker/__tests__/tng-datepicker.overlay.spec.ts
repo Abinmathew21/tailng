@@ -100,6 +100,8 @@ class DatepickerOverlayHostComponent implements AfterViewInit {
 describe('tng-datepicker.overlay', () => {
   afterEach(() => {
     document.body.querySelectorAll('[data-testid="overlay"]').forEach((element) => element.remove());
+    document.body.style.overflow = '';
+    document.body.style.paddingRight = '';
     vi.restoreAllMocks();
     TestBed.resetTestingModule();
   });
@@ -122,6 +124,7 @@ describe('tng-datepicker.overlay', () => {
     const mountedOverlay = getRequired<HTMLElement>(document.body, '[data-testid="overlay"]');
     expect(mountedOverlay.parentNode).toBe(document.body);
     expect(mountedOverlay.style.position).toBe('fixed');
+    expect(document.body.style.overflow).toBe('hidden');
     expect(mountedOverlay.style.zIndex).toBe('var(--tng-datepicker-z-overlay, var(--tng-z-overlay, 1000))');
     expect(mountedOverlay.getAttribute('hidden')).toBeNull();
     expect(mountedOverlay.style.getPropertyValue('--tng-datepicker-surface').trim()).toBe('#f8fafc');
@@ -141,6 +144,7 @@ describe('tng-datepicker.overlay', () => {
     expect(overlay.style.getPropertyValue('--tng-datepicker-nav-size').trim()).toBe('');
     expect(overlay.style.zIndex).toBe('');
     expect(overlay.style.colorScheme).toBe('');
+    expect(document.body.style.overflow).toBe('');
   });
 
   it('flips the overlay above the anchor when there is more available space above', async () => {
@@ -172,7 +176,7 @@ describe('tng-datepicker.overlay', () => {
     Object.defineProperty(window, 'innerHeight', { configurable: true, value: originalInnerHeight });
   });
 
-  it('keeps the overlay open and lets it follow when scrolling moves the anchor outside the viewport', async () => {
+  it('locks page scroll and does not reposition from scroll events while open', async () => {
     const fixture = TestBed.configureTestingModule({
       imports: [DatepickerOverlayHostComponent],
     }).createComponent(DatepickerOverlayHostComponent);
@@ -180,16 +184,14 @@ describe('tng-datepicker.overlay', () => {
     await settle(fixture);
 
     const trigger = getRequired<HTMLButtonElement>(fixture.nativeElement, '[data-testid="trigger"]');
-    const anchor = getRequired<HTMLElement>(fixture.nativeElement, '[data-testid="anchor"]');
-    const originalInnerHeight = window.innerHeight;
-
     trigger.click();
     await settle(fixture);
 
     const overlay = getRequired<HTMLElement>(document.body, '[data-testid="overlay"]');
-    vi.spyOn(anchor, 'getBoundingClientRect').mockReturnValue(createRect(-80, -20));
-    vi.spyOn(overlay, 'getBoundingClientRect').mockReturnValue(createRect(0, 320));
-    Object.defineProperty(window, 'innerHeight', { configurable: true, value: 760 });
+    const overlayTop = overlay.style.top;
+    const overlayRectSpy = vi.spyOn(overlay, 'getBoundingClientRect');
+
+    expect(document.body.style.overflow).toBe('hidden');
 
     window.dispatchEvent(new Event('scroll'));
     await waitForAnimationFrame();
@@ -198,8 +200,7 @@ describe('tng-datepicker.overlay', () => {
     expect(fixture.componentInstance.controller.getOutputs().open).toBe(true);
     expect(overlay.parentNode).toBe(document.body);
     expect(overlay.getAttribute('hidden')).toBeNull();
-    expect(overlay.style.top).toBe('-11px');
-
-    Object.defineProperty(window, 'innerHeight', { configurable: true, value: originalInnerHeight });
+    expect(overlay.style.top).toBe(overlayTop);
+    expect(overlayRectSpy).not.toHaveBeenCalled();
   });
 });

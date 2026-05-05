@@ -291,6 +291,26 @@ describe('tng-tooltip primitive helpers', () => {
     expect(content.getAttribute('hidden')).toBe('');
   });
 
+  it('closes root-managed tooltip on scroll', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [TooltipRootHarnessComponent],
+    }).createComponent(TooltipRootHarnessComponent);
+    await settle(fixture);
+
+    const trigger = getByTestId<HTMLButtonElement>(fixture, 'trigger');
+    const content = getByTestId<HTMLElement>(fixture, 'content');
+
+    trigger.dispatchEvent(new FocusEvent('focus'));
+    await settle(fixture);
+    expect(content.getAttribute('hidden')).toBeNull();
+
+    window.dispatchEvent(new Event('scroll'));
+    await settle(fixture);
+
+    expect(content.getAttribute('hidden')).toBe('');
+    expect(trigger.getAttribute('aria-describedby')).toBeNull();
+  });
+
   it('participates in overlay runtime and closes on Escape keydown from document', async () => {
     const fixture = TestBed.configureTestingModule({
       imports: [TooltipRootHarnessComponent],

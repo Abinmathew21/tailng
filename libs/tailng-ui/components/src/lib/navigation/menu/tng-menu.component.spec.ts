@@ -88,4 +88,27 @@ describe('tng-menu component', () => {
       'var(--tng-menu-z-overlay, var(--tng-menu-overlay-z-index, var(--tng-z-overlay, 50)))',
     );
   });
+
+  it('closes when the page scrolls while open', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [PositionedHostComponent],
+    }).createComponent(PositionedHostComponent);
+
+    fixture.detectChanges();
+
+    const trigger = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLButtonElement;
+    const menu = fixture.nativeElement.querySelector('[data-testid="menu"]') as HTMLElement;
+
+    trigger.click();
+    fixture.detectChanges();
+    await new Promise((resolve) => requestAnimationFrame(resolve));
+    fixture.detectChanges();
+
+    expect(menu.getAttribute('data-state')).toBe('open');
+
+    window.dispatchEvent(new Event('scroll'));
+    await new Promise((resolve) => setTimeout(resolve, 10));
+
+    expect(menu.getAttribute('data-state')).toBe('closed');
+  });
 });
