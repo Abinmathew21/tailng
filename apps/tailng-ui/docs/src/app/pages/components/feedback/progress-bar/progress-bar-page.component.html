@@ -1,24 +1,5 @@
 <section class="docs-component-page">
-  <tng-tabs
-    class="docs-component-tabs"
-    ariaLabel="Progress bar documentation sections"
-    [activation]="'manual'"
-    [value]="activeSection()"
-    (valueChange)="onSectionChange($event)"
-  >
-    <div tngTabList class="docs-component-tab-list" ariaLabel="Progress bar documentation tabs">
-      <button type="button" tngTab value="overview" class="docs-component-tab-trigger">
-        Overview
-      </button>
-      <button type="button" tngTab value="api" class="docs-component-tab-trigger">API</button>
-      <button type="button" tngTab value="styling" class="docs-component-tab-trigger">
-        Styling
-      </button>
-      <button type="button" tngTab value="examples" class="docs-component-tab-trigger">
-        Examples
-      </button>
-    </div>
-  </tng-tabs>
+  <app-docs-component-section-tabs sectionName="Progress bar" [value]="activeSection()" />
 
   <section class="docs-component-content">
     <div class="docs-component-content-main" #docsContentRoot>

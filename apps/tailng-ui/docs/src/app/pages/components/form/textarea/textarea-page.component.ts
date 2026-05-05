@@ -1,14 +1,13 @@
 import { computed, Component, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
-import { TngTabsComponent } from '@tailng-ui/components';
-import { TngTab, TngTabList } from '@tailng-ui/primitives';
 import { filter, map, startWith } from 'rxjs/operators';
 import {
   getDocsComponentSectionOutlineAriaLabel,
   getDocsComponentSectionOutlineItems,
   getDocsComponentSectionOutlineTitle,
 } from '../../../../shared/section-outline/component-section-outline.data';
+import { DocsComponentSectionTabsComponent } from '../../../../shared/component-section-tabs/docs-component-section-tabs.component';
 import { DocsComponentSectionOutlineComponent } from '../../../../shared/section-outline/docs-component-section-outline.component';
 
 type TextareaDocSectionId = 'api' | 'examples' | 'overview' | 'styling';
@@ -28,7 +27,7 @@ function isTextareaDocSectionId(value: string): value is TextareaDocSectionId {
 
 @Component({
   selector: 'app-textarea-page',
-  imports: [RouterOutlet, TngTabsComponent, TngTabList, TngTab, DocsComponentSectionOutlineComponent],
+  imports: [RouterOutlet, DocsComponentSectionTabsComponent, DocsComponentSectionOutlineComponent],
   templateUrl: './textarea-page.component.html',
 })
 export class TextareaPageComponent {
@@ -61,18 +60,6 @@ export class TextareaPageComponent {
   public readonly outlineAriaLabel = computed(() => {
     return getDocsComponentSectionOutlineAriaLabel(this.docsItemTitle, this.activeSection());
   });
-
-  public onSectionChange(value: string | number | null): void {
-    if (typeof value !== 'string' || !isTextareaDocSectionId(value)) {
-      return;
-    }
-
-    if (value === this.activeSection()) {
-      return;
-    }
-
-    void this.router.navigate([value], { relativeTo: this.route });
-  }
 
   private resolveSectionFromUrl(rawUrl: string): TextareaDocSectionId | null {
     const path = this.normalizeUrl(rawUrl);

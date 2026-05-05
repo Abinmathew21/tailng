@@ -1,1 +1,0 @@
-$(sed '1,493!d' /Users/prince/Tociva/Projects/tailng/tailng3/tailng3/apps/tailng-ui/docs/src/app/shared/section-outline/component-section-outline.data.ts)

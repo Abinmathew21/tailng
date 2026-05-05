@@ -1,0 +1,14 @@
+<tng-tabs
+  class="docs-component-tabs"
+  [ariaLabel]="sectionName() + ' documentation sections'"
+  [activation]="'manual'"
+  [value]="value()"
+>
+  <div tngTabList class="docs-component-tab-list" [ariaLabel]="sectionName() + ' documentation tabs'">
+    @for (tab of tabs(); track tab.value) {
+      <a tngTab [value]="tab.value" [href]="tabHrefs()[tab.value]" class="docs-component-tab-trigger">
+        {{ tab.label }}
+      </a>
+    }
+  </div>
+</tng-tabs>

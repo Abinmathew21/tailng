@@ -1,6 +1,6 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router';
 import {
   TngAccordionComponent,
   TngAccordionItemComponent,
@@ -10,7 +10,6 @@ import {
   TngFormFieldComponent,
   TngBreadcrumbComponent,
   TngBreadcrumbItemComponent,
-  TngListboxComponent,
 } from '@tailng-ui/components';
 import { TngIcon } from '@tailng-ui/icons';
 import {
@@ -32,6 +31,7 @@ import {
   selector: 'app-components-page',
   imports: [
     RouterOutlet,
+    RouterLink,
     TngAccordionComponent,
     TngAccordionItemComponent,
     TngAccordionTriggerComponent,
@@ -44,7 +44,6 @@ import {
     TngFormFieldComponent,
     TngInput,
     TngPrefix,
-    TngListboxComponent,
     TngIcon,
   ],
   templateUrl: './components-page.component.html',
@@ -138,27 +137,9 @@ export class ComponentsPageComponent {
     return buildComponentsDocHref(groupId, itemSlug);
   }
 
-  public readonly navItemTrackBy = (_index: number, item: ComponentsDocsItem) => item.id;
-
-  public navItemHrefFn(group: ComponentsDocsGroup): (item: ComponentsDocsItem) => string {
-    return (item) => this.itemHref(group.id, item.slug);
-  }
-
-  public activeGroupItemHref(group: ComponentsDocsGroup): string | null {
+  public isNavItemActive(group: ComponentsDocsGroup, item: ComponentsDocsItem): boolean {
     const current = this.normalizeUrl(this.currentUrl());
-    const activeItem = group.items.find((item) => {
-      const itemUrl = this.itemHref(group.id, item.slug);
-      return this.isMatchingItemPath(current, itemUrl);
-    });
-    return activeItem ? this.itemHref(group.id, activeItem.slug) : null;
-  }
-
-  public onNavListboxValueChange(value: string | readonly string[] | null): void {
-    if (typeof value !== 'string' || value.length === 0) {
-      return;
-    }
-
-    void this.router.navigateByUrl(value);
+    return this.isMatchingItemPath(current, this.itemHref(group.id, item.slug));
   }
 
   public onNavSearchInput(event: Event): void {

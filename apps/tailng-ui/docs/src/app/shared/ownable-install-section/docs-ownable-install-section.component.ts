@@ -1,4 +1,4 @@
-import { DOCUMENT, NgFor, NgIf } from '@angular/common';
+import { DOCUMENT } from '@angular/common';
 import { Component, inject, input, signal, type OnDestroy } from '@angular/core';
 import { observeDocsCodeThemeChanges, resolveDocsCodeBlockTheme } from '../util';
 import { ActivatedRoute, type Data } from '@angular/router';
@@ -19,8 +19,6 @@ const fallbackData: OwnableInstallRouteData = {
 @Component({
   selector: 'app-docs-ownable-install-section',
   imports: [
-    NgFor,
-    NgIf,
     TngCodeBlockComponent,
     TngTabsComponent,
     TngTabList,

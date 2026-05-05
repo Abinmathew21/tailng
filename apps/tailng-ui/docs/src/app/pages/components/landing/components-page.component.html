@@ -63,24 +63,24 @@
                 </span>
               </tng-accordion-trigger>
               <tng-accordion-panel>
-                <tng-listbox
-                  class="components-docs-nav-listbox"
-                  [ariaLabel]="group.title + ' links'"
-                  [options]="group.items"
-                  [getOptionValue]="navItemHrefFn(group)"
-                  [trackBy]="navItemTrackBy"
-                  [value]="activeGroupItemHref(group)"
-                  [typeahead]="false"
-                  [loop]="true"
-                  (valueChange)="onNavListboxValueChange($event)"
-                >
-                  <ng-template #tngListboxOptionTpl let-ctx>
-                    <span class="truncate">{{ ctx.label }}</span>
-                    @if (ctx.selected) {
-                      <tng-icon icon="chevron-right" class="h-4 w-4 shrink-0" />
+                <nav class="components-docs-nav-group" [attr.aria-label]="group.title + ' links'">
+                  <ul class="components-docs-nav-list">
+                    @for (item of group.items; track item.id) {
+                      <li class="components-docs-nav-item">
+                        <a
+                          class="components-docs-nav-link"
+                          [href]="itemHref(group.id, item.slug)"
+                          [class.components-docs-nav-link--selected]="isNavItemActive(group, item)"
+                        >
+                          <span class="truncate">{{ item.title }}</span>
+                          @if (isNavItemActive(group, item)) {
+                            <tng-icon icon="chevron-right" class="h-4 w-4 shrink-0" aria-hidden="true" />
+                          }
+                        </a>
+                      </li>
                     }
-                  </ng-template>
-                </tng-listbox>
+                  </ul>
+                </nav>
               </tng-accordion-panel>
             </tng-accordion-item>
           }

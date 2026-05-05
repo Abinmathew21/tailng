@@ -1,4 +1,3 @@
-import { NgIf } from '@angular/common';
 import { Component, ViewChild, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
@@ -192,25 +191,30 @@ class MultiDrawerHostComponent {
 }
 
 @Component({
-  imports: [NgIf, TngDrawerContainer, TngDrawer, TngDrawerContent],
+  imports: [TngDrawerContainer, TngDrawer, TngDrawerContent],
   template: `
-    <section *ngIf="showContainer()" tngDrawerContainer [animate]="false" data-testid="container">
-      <aside
-        *ngIf="showDrawer()"
-        tngDrawer
-        #drawer="tngDrawer"
-        [defaultOpened]="drawerDefaultOpened()"
-        [mode]="mode()"
-        [restoreFocus]="true"
-        (closeStart)="lifecycle.push('closeStart')"
-        (tngDrawerClosed)="lifecycle.push('closed')"
-        data-testid="drawer"
-        style="width: 160px"
-      >
-        <button data-testid="drawer-btn">Drawer button</button>
-      </aside>
-      <main *ngIf="showContent()" tngDrawerContent data-testid="content"></main>
-    </section>
+    @if (showContainer()) {
+      <section tngDrawerContainer [animate]="false" data-testid="container">
+        @if (showDrawer()) {
+          <aside
+            tngDrawer
+            #drawer="tngDrawer"
+            [defaultOpened]="drawerDefaultOpened()"
+            [mode]="mode()"
+            [restoreFocus]="true"
+            (closeStart)="lifecycle.push('closeStart')"
+            (tngDrawerClosed)="lifecycle.push('closed')"
+            data-testid="drawer"
+            style="width: 160px"
+          >
+            <button data-testid="drawer-btn">Drawer button</button>
+          </aside>
+        }
+        @if (showContent()) {
+          <main tngDrawerContent data-testid="content"></main>
+        }
+      </section>
+    }
     <button data-testid="fallback">Fallback</button>
   `,
 })

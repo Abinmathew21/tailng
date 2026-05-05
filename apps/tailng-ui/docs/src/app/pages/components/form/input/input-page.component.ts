@@ -1,9 +1,8 @@
 import { computed, Component, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
-import { TngTabsComponent } from '@tailng-ui/components';
+import { DocsComponentSectionTabsComponent } from '../../../../shared/component-section-tabs/docs-component-section-tabs.component';
 import { DocsComponentSectionOutlineComponent } from '../../../../shared/section-outline/docs-component-section-outline.component';
-import { TngTab, TngTabList } from '@tailng-ui/primitives';
 import { filter, map, startWith } from 'rxjs/operators';
 import type { DocsSectionRailItem } from '../../../../shared/section-rail/docs-section-rail.component';
 
@@ -62,7 +61,7 @@ function isInputDocSectionId(value: string): value is InputDocSectionId {
 
 @Component({
   selector: 'app-input-page',
-  imports: [RouterOutlet, TngTabsComponent, TngTabList, TngTab, DocsComponentSectionOutlineComponent],
+  imports: [RouterOutlet, DocsComponentSectionTabsComponent, DocsComponentSectionOutlineComponent],
   templateUrl: './input-page.component.html',
 })
 export class InputPageComponent {
@@ -100,18 +99,6 @@ export class InputPageComponent {
   public readonly outlineAriaLabel = computed<string>(() => {
     return `Input ${this.activeSection()} section navigation`;
   });
-
-  public onSectionChange(value: string | number | null): void {
-    if (typeof value !== 'string' || !isInputDocSectionId(value)) {
-      return;
-    }
-
-    if (value === this.activeSection()) {
-      return;
-    }
-
-    void this.router.navigate([value], { relativeTo: this.route });
-  }
 
   private resolveSectionFromUrl(rawUrl: string): InputDocSectionId | null {
     const path = this.normalizeUrl(rawUrl);
