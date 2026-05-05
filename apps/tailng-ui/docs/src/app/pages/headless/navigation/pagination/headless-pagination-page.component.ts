@@ -1,10 +1,9 @@
 import { computed, Component, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
-import { TngTabsComponent } from '@tailng-ui/components';
-import { TngTab, TngTabList } from '@tailng-ui/primitives';
 import { filter, map, startWith } from 'rxjs/operators';
 import type { DocsSectionRailItem } from '../../../../shared/section-rail/docs-section-rail.component';
+import { DocsComponentSectionTabsComponent } from '../../../../shared/component-section-tabs/docs-component-section-tabs.component';
 import { DocsComponentSectionOutlineComponent } from '../../../../shared/section-outline/docs-component-section-outline.component';
 
 type HeadlessPaginationDocSectionId = 'api' | 'examples' | 'overview' | 'styling';
@@ -48,13 +47,7 @@ function isHeadlessPaginationDocSectionId(value: string): value is HeadlessPagin
 
 @Component({
   selector: 'app-headless-pagination-page',
-  imports: [
-    RouterOutlet,
-    TngTabsComponent,
-    TngTabList,
-    TngTab,
-    DocsComponentSectionOutlineComponent,
-  ],
+  imports: [RouterOutlet, DocsComponentSectionTabsComponent, DocsComponentSectionOutlineComponent],
   templateUrl: './headless-pagination-page.component.html',
 })
 export class HeadlessPaginationPageComponent {
@@ -91,18 +84,6 @@ export class HeadlessPaginationPageComponent {
   public readonly outlineAriaLabel = computed<string>(() => {
     return `Headless pagination ${this.activeSection()} section navigation`;
   });
-
-  public onSectionChange(value: string | number | null): void {
-    if (typeof value !== 'string' || !isHeadlessPaginationDocSectionId(value)) {
-      return;
-    }
-
-    if (value === this.activeSection()) {
-      return;
-    }
-
-    void this.router.navigate([value], { relativeTo: this.route });
-  }
 
   private resolveSectionFromUrl(rawUrl: string): HeadlessPaginationDocSectionId | null {
     const segments = this.normalizeUrl(rawUrl).split('/').filter(Boolean);

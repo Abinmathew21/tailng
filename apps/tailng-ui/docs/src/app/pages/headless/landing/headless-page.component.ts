@@ -17,8 +17,6 @@ import {
   TngDrawerContent,
   TngInput,
   TngPrefix,
-  TngListboxDirective,
-  TngOptionDirective,
 } from '@tailng-ui/primitives';
 import { filter, map, startWith } from 'rxjs/operators';
 import {
@@ -44,8 +42,6 @@ import {
     TngFormFieldComponent,
     TngInput,
     TngPrefix,
-    TngListboxDirective,
-    TngOptionDirective,
     TngIcon,
   ],
   templateUrl: './headless-page.component.html',
@@ -137,23 +133,6 @@ export class HeadlessPageComponent {
 
   public itemHref(groupId: HeadlessDocsCategoryId, itemSlug: string): string {
     return buildHeadlessDocHref(groupId, itemSlug);
-  }
-
-  public activeGroupItemHref(group: HeadlessDocsGroup): string | null {
-    const current = this.normalizeUrl(this.currentUrl());
-    const activeItem = group.items.find((item) => {
-      const itemUrl = this.itemHref(group.id, item.slug);
-      return this.isMatchingItemPath(current, itemUrl);
-    });
-    return activeItem ? this.itemHref(group.id, activeItem.slug) : null;
-  }
-
-  public onNavListboxValueChange(value: string | readonly string[] | null): void {
-    if (typeof value !== 'string' || value.length === 0) {
-      return;
-    }
-
-    void this.router.navigateByUrl(value);
   }
 
   public isItemActive(groupId: HeadlessDocsCategoryId, itemSlug: string): boolean {
