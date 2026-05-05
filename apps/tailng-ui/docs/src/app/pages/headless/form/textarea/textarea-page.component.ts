@@ -1,9 +1,8 @@
 import { computed, Component, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
-import { TngTabsComponent } from '@tailng-ui/components';
-import { TngTab, TngTabList } from '@tailng-ui/primitives';
 import { filter, map, startWith } from 'rxjs/operators';
+import { DocsComponentSectionTabsComponent } from '../../../../shared/component-section-tabs/docs-component-section-tabs.component';
 import { DocsComponentSectionOutlineComponent } from '../../../../shared/section-outline/docs-component-section-outline.component';
 import type { DocsSectionRailItem } from '../../../../shared/section-rail/docs-section-rail.component';
 
@@ -60,7 +59,7 @@ function isHeadlessTextareaDocSectionId(value: string): value is HeadlessTextare
 
 @Component({
   selector: 'app-headless-textarea-page',
-  imports: [RouterOutlet, TngTabsComponent, TngTabList, TngTab, DocsComponentSectionOutlineComponent],
+  imports: [RouterOutlet, DocsComponentSectionTabsComponent, DocsComponentSectionOutlineComponent],
   templateUrl: './textarea-page.component.html',
 })
 export class HeadlessTextareaPageComponent {
@@ -98,18 +97,6 @@ export class HeadlessTextareaPageComponent {
   public readonly outlineAriaLabel = computed<string>(() => {
     return `Headless textarea ${this.activeSection()} section navigation`;
   });
-
-  public onSectionChange(value: string | number | null): void {
-    if (typeof value !== 'string' || !isHeadlessTextareaDocSectionId(value)) {
-      return;
-    }
-
-    if (value === this.activeSection()) {
-      return;
-    }
-
-    void this.router.navigate([value], { relativeTo: this.route });
-  }
 
   private resolveSectionFromUrl(rawUrl: string): HeadlessTextareaDocSectionId | null {
     const path = this.normalizeUrl(rawUrl);

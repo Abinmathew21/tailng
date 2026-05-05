@@ -1,9 +1,8 @@
 import { computed, Component, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
-import { TngTabsComponent } from '@tailng-ui/components';
-import { TngTab, TngTabList } from '@tailng-ui/primitives';
 import { filter, map, startWith } from 'rxjs/operators';
+import { DocsComponentSectionTabsComponent } from '../../../../shared/component-section-tabs/docs-component-section-tabs.component';
 import { DocsComponentSectionOutlineComponent } from '../../../../shared/section-outline/docs-component-section-outline.component';
 import type { DocsSectionRailItem } from '../../../../shared/section-rail/docs-section-rail.component';
 
@@ -53,7 +52,7 @@ function isHeadlessAutocompleteDocSectionId(
 
 @Component({
   selector: 'app-headless-autocomplete-page',
-  imports: [RouterOutlet, TngTabsComponent, TngTabList, TngTab, DocsComponentSectionOutlineComponent],
+  imports: [RouterOutlet, DocsComponentSectionTabsComponent, DocsComponentSectionOutlineComponent],
   templateUrl: './autocomplete-page.component.html',
 })
 export class HeadlessAutocompletePageComponent {
@@ -91,18 +90,6 @@ export class HeadlessAutocompletePageComponent {
   public readonly outlineAriaLabel = computed<string>(() => {
     return `Headless autocomplete ${this.activeSection()} section navigation`;
   });
-
-  public onSectionChange(value: string | number | null): void {
-    if (typeof value !== 'string' || !isHeadlessAutocompleteDocSectionId(value)) {
-      return;
-    }
-
-    if (value === this.activeSection()) {
-      return;
-    }
-
-    void this.router.navigate([value], { relativeTo: this.route });
-  }
 
   private resolveSectionFromUrl(rawUrl: string): HeadlessAutocompleteDocSectionId | null {
     const path = this.normalizeUrl(rawUrl);

@@ -1,9 +1,8 @@
 import { computed, Component, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
-import { TngTabsComponent } from '@tailng-ui/components';
-import { TngTab, TngTabList } from '@tailng-ui/primitives';
 import { filter, map, startWith } from 'rxjs/operators';
+import { DocsComponentSectionTabsComponent } from '../../../../shared/component-section-tabs/docs-component-section-tabs.component';
 import { DocsComponentSectionOutlineComponent } from '../../../../shared/section-outline/docs-component-section-outline.component';
 import type { DocsSectionRailItem } from '../../../../shared/section-rail/docs-section-rail.component';
 
@@ -50,7 +49,7 @@ function isHeadlessChipsDocSectionId(value: string): value is HeadlessChipsDocSe
 
 @Component({
   selector: 'app-headless-chips-page',
-  imports: [RouterOutlet, TngTabsComponent, TngTabList, TngTab, DocsComponentSectionOutlineComponent],
+  imports: [RouterOutlet, DocsComponentSectionTabsComponent, DocsComponentSectionOutlineComponent],
   templateUrl: './chips-page.component.html',
 })
 export class HeadlessChipsPageComponent {
@@ -88,18 +87,6 @@ export class HeadlessChipsPageComponent {
   public readonly outlineAriaLabel = computed<string>(() => {
     return `Headless chips ${this.activeSection()} section navigation`;
   });
-
-  public onSectionChange(value: string | number | null): void {
-    if (typeof value !== 'string' || !isHeadlessChipsDocSectionId(value)) {
-      return;
-    }
-
-    if (value === this.activeSection()) {
-      return;
-    }
-
-    void this.router.navigate([value], { relativeTo: this.route });
-  }
 
   private resolveSectionFromUrl(rawUrl: string): HeadlessChipsDocSectionId | null {
     const path = this.normalizeUrl(rawUrl);

@@ -1,9 +1,8 @@
 import { computed, Component, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
-import { TngTabsComponent } from '@tailng-ui/components';
-import { TngTab, TngTabList } from '@tailng-ui/primitives';
 import { filter, map, startWith } from 'rxjs/operators';
+import { DocsComponentSectionTabsComponent } from '../../../../shared/component-section-tabs/docs-component-section-tabs.component';
 import { DocsComponentSectionOutlineComponent } from '../../../../shared/section-outline/docs-component-section-outline.component';
 import type { DocsSectionRailItem } from '../../../../shared/section-rail/docs-section-rail.component';
 
@@ -49,7 +48,7 @@ function isHeadlessTagDocSectionId(value: string): value is HeadlessTagDocSectio
 
 @Component({
   selector: 'app-headless-tag-page',
-  imports: [RouterOutlet, TngTabsComponent, TngTabList, TngTab, DocsComponentSectionOutlineComponent],
+  imports: [RouterOutlet, DocsComponentSectionTabsComponent, DocsComponentSectionOutlineComponent],
   templateUrl: './tag-page.component.html',
 })
 export class HeadlessTagPageComponent {
@@ -87,18 +86,6 @@ export class HeadlessTagPageComponent {
   public readonly outlineAriaLabel = computed<string>(() => {
     return `Headless Tag ${this.activeSection()} section navigation`;
   });
-
-  public onSectionChange(value: string | number | null): void {
-    if (typeof value !== 'string' || !isHeadlessTagDocSectionId(value)) {
-      return;
-    }
-
-    if (value === this.activeSection()) {
-      return;
-    }
-
-    void this.router.navigate([value], { relativeTo: this.route });
-  }
 
   private resolveSectionFromUrl(rawUrl: string): HeadlessTagDocSectionId | null {
     const path = this.normalizeUrl(rawUrl);
