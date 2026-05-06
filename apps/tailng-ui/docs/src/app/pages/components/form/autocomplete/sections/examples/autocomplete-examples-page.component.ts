@@ -98,6 +98,20 @@ const COUNTRY_TO_CURRENCY_CODE: Readonly<Record<string, string>> = Object.freeze
   }, {}),
 );
 
+function filterOptions<T>(
+  options: readonly T[],
+  query: string,
+  getLabel: (option: T) => string,
+): readonly T[] {
+  const normalizedQuery = query.toLowerCase().trim();
+
+  if (!normalizedQuery) {
+    return options;
+  }
+
+  return options.filter((option) => getLabel(option).toLowerCase().includes(normalizedQuery));
+}
+
 const COUNTRY_PLAIN_TS_CODE = String.raw`import { Component, computed, signal } from '@angular/core';
 import { TngAutocompleteComponent } from '@tailng-ui/components';
 
@@ -126,6 +140,12 @@ const COUNTRY_OPTIONS: readonly CountryOption[] = Object.freeze([
 export class DocsAutocompleteCountryExamplePlainComponent {
   readonly countries = COUNTRY_OPTIONS;
   readonly selectedCountry = signal<string | null>('in');
+  readonly countryQuery = signal('');
+  readonly filteredCountries = computed(() =>
+    this.countries.filter((country) =>
+      country.label.toLowerCase().includes(this.countryQuery().toLowerCase().trim()),
+    ),
+  );
   readonly selectedSummary = computed(
     () => this.countries.find((country) => country.code === this.selectedCountry())?.label ?? 'none',
   );
@@ -148,9 +168,11 @@ const COUNTRY_PLAIN_HTML_CODE = String.raw`<section class="docs-autocomplete-cou
 
   <div class="docs-autocomplete-country-example__control">
     <tng-autocomplete
-      [options]="countries"
+      [options]="filteredCountries()"
       [value]="selectedCountry()"
       (valueChange)="onSelectedCountryChange($event)"
+      [query]="countryQuery()"
+      (queryChange)="countryQuery.set($event)"
       [getOptionValue]="getCountryValue"
       [getOptionLabel]="getCountryLabel"
       placeholder="Type Ind to filter"
@@ -232,6 +254,12 @@ const COUNTRY_OPTIONS: readonly CountryOption[] = Object.freeze([
 export class DocsAutocompleteCountryExampleTailwindComponent {
   readonly countries = COUNTRY_OPTIONS;
   readonly selectedCountry = signal<string | null>('jp');
+  readonly countryQuery = signal('');
+  readonly filteredCountries = computed(() =>
+    this.countries.filter((country) =>
+      country.label.toLowerCase().includes(this.countryQuery().toLowerCase().trim()),
+    ),
+  );
   readonly selectedSummary = computed(
     () => this.countries.find((country) => country.code === this.selectedCountry())?.label ?? 'none',
   );
@@ -254,9 +282,11 @@ const COUNTRY_TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w
 
   <div class="block w-full">
     <tng-autocomplete
-      [options]="countries"
+      [options]="filteredCountries()"
       [value]="selectedCountry()"
       (valueChange)="onSelectedCountryChange($event)"
+      [query]="countryQuery()"
+      (queryChange)="countryQuery.set($event)"
       [getOptionValue]="getCountryValue"
       [getOptionLabel]="getCountryLabel"
       placeholder="Type Ind to filter"
@@ -296,6 +326,12 @@ const OWNER_OPTIONS: readonly OwnerOption[] = Object.freeze([
 export class DocsAutocompleteOwnerExamplePlainComponent {
   readonly owners = OWNER_OPTIONS;
   readonly selectedOwner = signal<string | null>('abigail');
+  readonly ownerQuery = signal('');
+  readonly filteredOwners = computed(() =>
+    this.owners.filter((owner) =>
+      owner.name.toLowerCase().includes(this.ownerQuery().toLowerCase().trim()),
+    ),
+  );
   readonly selectedSummary = computed(
     () => this.owners.find((owner) => owner.id === this.selectedOwner())?.name ?? 'none',
   );
@@ -319,9 +355,11 @@ const OWNER_PLAIN_HTML_CODE = String.raw`<section class="docs-autocomplete-owner
 
   <div class="docs-autocomplete-owner-example__control">
     <tng-autocomplete
-      [options]="owners"
+      [options]="filteredOwners()"
       [value]="selectedOwner()"
       (valueChange)="onSelectedOwnerChange($event)"
+      [query]="ownerQuery()"
+      (queryChange)="ownerQuery.set($event)"
       [getOptionValue]="getOwnerValue"
       [getOptionLabel]="getOwnerLabel"
       [isOptionDisabled]="isOwnerDisabled"
@@ -402,6 +440,12 @@ const OWNER_OPTIONS: readonly OwnerOption[] = Object.freeze([
 export class DocsAutocompleteOwnerExampleTailwindComponent {
   readonly owners = OWNER_OPTIONS;
   readonly selectedOwner = signal<string | null>('mina');
+  readonly ownerQuery = signal('');
+  readonly filteredOwners = computed(() =>
+    this.owners.filter((owner) =>
+      owner.name.toLowerCase().includes(this.ownerQuery().toLowerCase().trim()),
+    ),
+  );
   readonly selectedSummary = computed(
     () => this.owners.find((owner) => owner.id === this.selectedOwner())?.name ?? 'none',
   );
@@ -425,9 +469,11 @@ const OWNER_TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-[
 
   <div class="block w-full">
     <tng-autocomplete
-      [options]="owners"
+      [options]="filteredOwners()"
       [value]="selectedOwner()"
       (valueChange)="onSelectedOwnerChange($event)"
+      [query]="ownerQuery()"
+      (queryChange)="ownerQuery.set($event)"
       [getOptionValue]="getOwnerValue"
       [getOptionLabel]="getOwnerLabel"
       [isOptionDisabled]="isOwnerDisabled"
@@ -516,6 +562,12 @@ export class AutocompleteExamplesPageComponent implements OnDestroy {
   protected readonly countryTailwindValue = signal<string | null>('jp');
   protected readonly ownerPlainValue = signal<string | null>('abigail');
   protected readonly ownerTailwindValue = signal<string | null>('mina');
+  protected readonly countryPlainQuery = signal('');
+  protected readonly countryTailwindQuery = signal('');
+  protected readonly ownerPlainQuery = signal('');
+  protected readonly ownerTailwindQuery = signal('');
+  protected readonly signalFormCountryQuery = signal('');
+  protected readonly signalFormCurrencyQuery = signal('');
   protected readonly signalFormData = signal<AutocompleteSignalFormData>({
     country: 'in',
     currency: 'inr',
@@ -532,6 +584,32 @@ export class AutocompleteExamplesPageComponent implements OnDestroy {
   protected readonly countryTailwindSummary = computed(() => resolveCountryLabel(this.countryTailwindValue()));
   protected readonly ownerPlainSummary = computed(() => resolveOwnerLabel(this.ownerPlainValue()));
   protected readonly ownerTailwindSummary = computed(() => resolveOwnerLabel(this.ownerTailwindValue()));
+  protected readonly filteredCountryPlainOptions = computed(() =>
+    filterOptions(this.countries, this.countryPlainQuery(), this.getCountryLabel),
+  );
+  protected readonly filteredCountryTailwindOptions = computed(() =>
+    filterOptions(this.countries, this.countryTailwindQuery(), this.getCountryLabel),
+  );
+  protected readonly filteredOwnerPlainOptions = computed(() =>
+    filterOptions(this.releaseOwners, this.ownerPlainQuery(), this.getOwnerLabel),
+  );
+  protected readonly filteredOwnerTailwindOptions = computed(() =>
+    filterOptions(this.releaseOwners, this.ownerTailwindQuery(), this.getOwnerLabel),
+  );
+  protected readonly filteredSignalFormCountries = computed(() =>
+    filterOptions(
+      this.signalFormCountries,
+      this.signalFormCountryQuery(),
+      this.getSignalFormCountryLabel,
+    ),
+  );
+  protected readonly filteredSignalFormCurrencies = computed(() =>
+    filterOptions(
+      this.signalFormCurrencies,
+      this.signalFormCurrencyQuery(),
+      this.getSignalFormCurrencyLabel,
+    ),
+  );
   protected readonly countryPlainCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
     { value: 'ts', label: 'TS', language: 'ts', title: 'autocomplete-country-plain.component.ts', code: COUNTRY_PLAIN_TS_CODE },
     { value: 'html', label: 'HTML', language: 'html', title: 'autocomplete-country-plain.component.html', code: COUNTRY_PLAIN_HTML_CODE },

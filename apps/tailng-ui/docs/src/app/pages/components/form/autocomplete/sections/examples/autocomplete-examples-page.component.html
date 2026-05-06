@@ -16,9 +16,11 @@
         >
           <div docsFormDemoField class="docs-autocomplete-country-example__control">
             <tng-autocomplete
-              [options]="countries"
+              [options]="filteredCountryPlainOptions()"
               [value]="countryPlainValue()"
               (valueChange)="onCountryPlainChange($event)"
+              [query]="countryPlainQuery()"
+              (queryChange)="countryPlainQuery.set($event)"
               [getOptionValue]="getCountryValue"
               [getOptionLabel]="getCountryLabel"
               placeholder="Type Ind to filter"
@@ -73,9 +75,11 @@
             <div class="docs-autocomplete-signal-form-example__field">
               <span class="docs-autocomplete-signal-form-example__label">Country</span>
               <tng-autocomplete
-                [options]="signalFormCountries"
+                [options]="filteredSignalFormCountries()"
                 [value]="signalFormData().country"
                 (valueChange)="onSignalFormCountryChange($event)"
+                [query]="signalFormCountryQuery()"
+                (queryChange)="signalFormCountryQuery.set($event)"
                 [getOptionValue]="getSignalFormCountryValue"
                 [getOptionLabel]="getSignalFormCountryLabel"
                 placeholder="Search country"
@@ -97,9 +101,11 @@
             <div class="docs-autocomplete-signal-form-example__field">
               <span class="docs-autocomplete-signal-form-example__label">Currency</span>
               <tng-autocomplete
-                [options]="signalFormCurrencies"
+                [options]="filteredSignalFormCurrencies()"
                 [value]="signalFormData().currency"
                 (valueChange)="onSignalFormCurrencyChange($event)"
+                [query]="signalFormCurrencyQuery()"
+                (queryChange)="signalFormCurrencyQuery.set($event)"
                 [getOptionValue]="getSignalFormCurrencyValue"
                 [getOptionLabel]="getSignalFormCurrencyLabel"
                 placeholder="Search currency"
@@ -151,9 +157,11 @@
 
           <div class="docs-autocomplete-country-example__control">
             <tng-autocomplete
-              [options]="countries"
+              [options]="filteredCountryPlainOptions()"
               [value]="countryPlainValue()"
               (valueChange)="onCountryPlainChange($event)"
+              [query]="countryPlainQuery()"
+              (queryChange)="countryPlainQuery.set($event)"
               [getOptionValue]="getCountryValue"
               [getOptionLabel]="getCountryLabel"
               placeholder="Type Ind to filter"
@@ -185,9 +193,11 @@
 
           <div class="block w-full">
             <tng-autocomplete
-              [options]="countries"
+              [options]="filteredCountryTailwindOptions()"
               [value]="countryTailwindValue()"
               (valueChange)="onCountryTailwindChange($event)"
+              [query]="countryTailwindQuery()"
+              (queryChange)="countryTailwindQuery.set($event)"
               [getOptionValue]="getCountryValue"
               [getOptionLabel]="getCountryLabel"
               placeholder="Type Ind to filter"
@@ -228,9 +238,11 @@
 
           <div class="docs-autocomplete-owner-example__control">
             <tng-autocomplete
-              [options]="releaseOwners"
+              [options]="filteredOwnerPlainOptions()"
               [value]="ownerPlainValue()"
               (valueChange)="onOwnerPlainChange($event)"
+              [query]="ownerPlainQuery()"
+              (queryChange)="ownerPlainQuery.set($event)"
               [getOptionValue]="getOwnerValue"
               [getOptionLabel]="getOwnerLabel"
               [isOptionDisabled]="isOwnerDisabled"
@@ -263,9 +275,11 @@
 
           <div class="block w-full">
             <tng-autocomplete
-              [options]="releaseOwners"
+              [options]="filteredOwnerTailwindOptions()"
               [value]="ownerTailwindValue()"
               (valueChange)="onOwnerTailwindChange($event)"
+              [query]="ownerTailwindQuery()"
+              (queryChange)="ownerTailwindQuery.set($event)"
               [getOptionValue]="getOwnerValue"
               [getOptionLabel]="getOwnerLabel"
               [isOptionDisabled]="isOwnerDisabled"

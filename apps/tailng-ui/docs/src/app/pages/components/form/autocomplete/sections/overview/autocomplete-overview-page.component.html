@@ -17,8 +17,8 @@
   <section id="basic-usage" class="autocomplete-overview__section">
     <h2>Basic usage</h2>
     <p>
-      <code>&lt;tng-autocomplete&gt;</code> owns query display, local filtering, the combobox
-      trigger, and the listbox overlay. You pass options plus accessors for value and label.
+      <code>&lt;tng-autocomplete&gt;</code> exposes query text and renders the option list you pass
+      in. Compute local results in the parent, or replace that computed list with server results.
     </p>
     <tng-code-block
       [code]="basicUsageCode"
@@ -59,9 +59,11 @@
 
           <div class="docs-autocomplete-overview-example__control">
             <tng-autocomplete
-              [options]="countries"
+              [options]="filteredPlainCountries()"
               [value]="plainCountry()"
               (valueChange)="onPlainCountryChange($event)"
+              [query]="plainCountryQuery()"
+              (queryChange)="plainCountryQuery.set($event)"
               [getOptionValue]="getCountryValue"
               [getOptionLabel]="getCountryLabel"
               placeholder="Type Ind to filter"
@@ -93,9 +95,11 @@
 
           <div class="block min-w-0 w-full">
             <tng-autocomplete
-              [options]="countries"
+              [options]="filteredTailwindCountries()"
               [value]="tailwindCountry()"
               (valueChange)="onTailwindCountryChange($event)"
+              [query]="tailwindCountryQuery()"
+              (queryChange)="tailwindCountryQuery.set($event)"
               [getOptionValue]="getCountryValue"
               [getOptionLabel]="getCountryLabel"
               placeholder="Type Ind to filter"

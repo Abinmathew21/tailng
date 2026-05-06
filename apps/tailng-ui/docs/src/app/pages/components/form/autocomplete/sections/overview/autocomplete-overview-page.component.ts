@@ -30,9 +30,11 @@ const COUNTRY_OPTIONS: readonly CountryOption[] = Object.freeze([
 const COMPONENT_IMPORT_CODE = String.raw`import { TngAutocompleteComponent } from '@tailng-ui/components';`;
 
 const BASIC_USAGE_CODE = String.raw`<tng-autocomplete
-  [options]="countries"
+  [options]="filteredCountries()"
   [value]="selectedCountry()"
   (valueChange)="onSelectedCountryChange($event)"
+  [query]="countryQuery()"
+  (queryChange)="countryQuery.set($event)"
   [getOptionValue]="getCountryValue"
   [getOptionLabel]="getCountryLabel"
   placeholder="Search countries"
@@ -68,6 +70,18 @@ const COUNTRY_OPTIONS: readonly CountryOption[] = Object.freeze([
 export class DocsAutocompleteOverviewPlainComponent {
   readonly countries = COUNTRY_OPTIONS;
   readonly selectedCountry = signal<string | null>('in');
+  readonly countryQuery = signal('');
+  readonly filteredCountries = computed(() => {
+    const query = this.countryQuery().toLowerCase().trim();
+
+    if (!query) {
+      return this.countries;
+    }
+
+    return this.countries.filter((country) =>
+      country.label.toLowerCase().includes(query),
+    );
+  });
   readonly selectedLabel = computed(
     () => this.countries.find((country) => country.code === this.selectedCountry())?.label ?? 'none',
   );
@@ -90,9 +104,11 @@ const PLAIN_HTML_CODE = String.raw`<section class="docs-autocomplete-overview-ex
 
   <div class="docs-autocomplete-overview-example__control">
     <tng-autocomplete
-      [options]="countries"
+      [options]="filteredCountries()"
       [value]="selectedCountry()"
       (valueChange)="onSelectedCountryChange($event)"
+      [query]="countryQuery()"
+      (queryChange)="countryQuery.set($event)"
       [getOptionValue]="getCountryValue"
       [getOptionLabel]="getCountryLabel"
       placeholder="Type Ind to filter"
@@ -176,6 +192,18 @@ const COUNTRY_OPTIONS: readonly CountryOption[] = Object.freeze([
 export class DocsAutocompleteOverviewTailwindComponent {
   readonly countries = COUNTRY_OPTIONS;
   readonly selectedCountry = signal<string | null>('de');
+  readonly countryQuery = signal('');
+  readonly filteredCountries = computed(() => {
+    const query = this.countryQuery().toLowerCase().trim();
+
+    if (!query) {
+      return this.countries;
+    }
+
+    return this.countries.filter((country) =>
+      country.label.toLowerCase().includes(query),
+    );
+  });
   readonly selectedLabel = computed(
     () => this.countries.find((country) => country.code === this.selectedCountry())?.label ?? 'none',
   );
@@ -198,9 +226,11 @@ const TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-[34rem]
 
   <div class="block min-w-0 w-full">
     <tng-autocomplete
-      [options]="countries"
+      [options]="filteredCountries()"
       [value]="selectedCountry()"
       (valueChange)="onSelectedCountryChange($event)"
+      [query]="countryQuery()"
+      (queryChange)="countryQuery.set($event)"
       [getOptionValue]="getCountryValue"
       [getOptionLabel]="getCountryLabel"
       placeholder="Type Ind to filter"
@@ -216,6 +246,18 @@ const TAILWIND_CSS_CODE = '/* Tokens are applied via Tailwind arbitrary properti
 
 function resolveCountryLabel(value: string | null): string {
   return COUNTRY_OPTIONS.find((country) => country.code === value)?.label ?? 'none';
+}
+
+function filterCountries(query: string): readonly CountryOption[] {
+  const normalizedQuery = query.toLowerCase().trim();
+
+  if (!normalizedQuery) {
+    return COUNTRY_OPTIONS;
+  }
+
+  return COUNTRY_OPTIONS.filter((country) =>
+    country.label.toLowerCase().includes(normalizedQuery),
+  );
 }
 
 @Component({
@@ -247,8 +289,14 @@ export class AutocompleteOverviewPageComponent implements OnDestroy {
   protected readonly getCountryLabel = (country: CountryOption) => country.label;
   protected readonly plainCountry = signal<string | null>('in');
   protected readonly tailwindCountry = signal<string | null>('de');
+  protected readonly plainCountryQuery = signal('');
+  protected readonly tailwindCountryQuery = signal('');
   protected readonly plainSummary = computed(() => resolveCountryLabel(this.plainCountry()));
   protected readonly tailwindSummary = computed(() => resolveCountryLabel(this.tailwindCountry()));
+  protected readonly filteredPlainCountries = computed(() => filterCountries(this.plainCountryQuery()));
+  protected readonly filteredTailwindCountries = computed(() =>
+    filterCountries(this.tailwindCountryQuery()),
+  );
   protected readonly componentImportCode = COMPONENT_IMPORT_CODE;
   protected readonly basicUsageCode = BASIC_USAGE_CODE;
 

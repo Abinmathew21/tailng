@@ -44,9 +44,11 @@
           </div>
           <div class="docs-multi-autocomplete-overview-live-control">
             <tng-multi-autocomplete
-              [options]="markets"
+              [options]="filteredPlainMarkets()"
               [value]="plainMarkets()"
               (valueChange)="onPlainMarketsChange($event)"
+              [query]="plainMarketQuery()"
+              (queryChange)="plainMarketQuery.set($event)"
               [getOptionValue]="getMarketValue"
               [getOptionLabel]="getMarketLabel"
               placeholder="Search launch markets"
@@ -65,9 +67,11 @@
           </div>
           <div class="block w-full min-w-0 [--tng-multi-autocomplete-radius:1rem] [--tng-multi-autocomplete-padding:0.5rem] [--tng-multi-autocomplete-trigger-py:0.45rem] [--tng-multi-autocomplete-trigger-px:0.5rem] [--tng-multi-autocomplete-chip-py:0.375rem] [--tng-multi-autocomplete-chip-px:0.75rem] [--tng-multi-autocomplete-option-py:0.625rem] [--tng-multi-autocomplete-option-px:0.875rem]">
             <tng-multi-autocomplete
-              [options]="markets"
+              [options]="filteredTailwindMarkets()"
               [value]="tailwindMarkets()"
               (valueChange)="onTailwindMarketsChange($event)"
+              [query]="tailwindMarketQuery()"
+              (queryChange)="tailwindMarketQuery.set($event)"
               [getOptionValue]="getMarketValue"
               [getOptionLabel]="getMarketLabel"
               placeholder="Search launch markets"
@@ -83,9 +87,9 @@
   <section id="behavior-baseline" class="docs-page-section">
     <h2>Behavior baseline</h2>
     <ul>
-      <li>The wrapper owns query text internally while exposing the committed value array through <code>value</code> and <code>valueChange</code>.</li>
-      <li>Selected chips stay visible and removable while the trigger filters the overlay list.</li>
-      <li>Use the headless primitive when you need direct control over query orchestration or overlay markup.</li>
+      <li>The wrapper exposes query text while the parent passes the option list to render.</li>
+      <li>Selected chips stay visible and removable while parent-owned filtering narrows the overlay list.</li>
+      <li>Use the headless primitive when you need custom trigger or overlay markup.</li>
     </ul>
   </section>
 </article>

@@ -8,15 +8,32 @@ interface ApiRow {
 }
 
 const WRAPPER_ATTACHMENT_CODE = String.raw`<tng-multi-autocomplete
-  [options]="releaseMarkets"
+  [options]="filteredReleaseMarkets()"
   [value]="selectedMarkets()"
   (valueChange)="onSelectedMarketsChange($event)"
+  [query]="marketQuery()"
+  (queryChange)="marketQuery.set($event)"
   [getOptionValue]="getMarketValue"
   [getOptionLabel]="getMarketLabel"
   [isOptionDisabled]="isMarketDisabled"
   placeholder="Search launch markets"
   [ariaLabel]="'Launch markets'"
 ></tng-multi-autocomplete>`;
+
+const QUERY_FILTERING_CODE = String.raw`readonly marketQuery = signal('');
+
+readonly filteredReleaseMarkets = computed(() => {
+  const query = this.marketQuery().toLowerCase().trim();
+
+  if (!query) {
+    return this.releaseMarkets;
+  }
+
+  return this.releaseMarkets.filter((market) =>
+    market.label.toLowerCase().includes(query),
+  );
+});
+`;
 
 const ACCESSOR_CODE = String.raw`interface ReleaseMarketOption {
   readonly code: string;
@@ -104,6 +121,7 @@ export class LaunchMarketsSignalFormComponent {
 })
 export class MultiAutocompleteApiPageComponent {
   protected readonly wrapperAttachmentCode = WRAPPER_ATTACHMENT_CODE;
+  protected readonly queryFilteringCode = QUERY_FILTERING_CODE;
   protected readonly accessorCode = ACCESSOR_CODE;
   protected readonly signalFormsCode = SIGNAL_FORMS_CODE;
   protected readonly templateHookCode = TEMPLATE_HOOK_CODE;
@@ -112,7 +130,7 @@ export class MultiAutocompleteApiPageComponent {
     {
       name: 'options',
       type: 'readonly O[]',
-      details: 'Full option collection rendered by the wrapper and filtered against the internal query.',
+      details: 'Options rendered by the wrapper. Pass a pre-filtered list for local or server-side search.',
     },
     {
       name: 'value / valueChange',
@@ -123,6 +141,11 @@ export class MultiAutocompleteApiPageComponent {
       name: 'open / openChange',
       type: 'boolean / output',
       details: 'Optional controlled overlay state when the parent needs to observe or drive the menu.',
+    },
+    {
+      name: 'query / queryChange',
+      type: 'string / output',
+      details: 'Controlled trigger text for local filtering, debounced requests, or server-driven results.',
     },
     {
       name: 'disabled, loading, invalid',
@@ -155,7 +178,7 @@ export class MultiAutocompleteApiPageComponent {
     {
       name: 'getOptionLabel',
       type: '(option: O) => string',
-      details: 'Maps each option object to the text used for filtering, chips, and the default option template.',
+      details: 'Maps each option object to the text used for chips and the default option template.',
     },
     {
       name: 'isOptionDisabled',
@@ -185,8 +208,8 @@ export class MultiAutocompleteApiPageComponent {
   protected readonly primitiveFoundationRows: readonly ApiRow[] = Object.freeze([
     {
       name: 'Query model',
-      type: 'Wrapper-owned',
-      details: 'The wrapper keeps the transient query text internal. Drop to headless when a parent component must own query orchestration directly.',
+      type: 'Wrapper API',
+      details: 'Bind query/queryChange when a parent component needs local filtering, debounced requests, or server-driven results.',
     },
     {
       name: 'Overlay markup',
@@ -196,7 +219,7 @@ export class MultiAutocompleteApiPageComponent {
     {
       name: 'Primitive escape hatch',
       type: 'Available',
-      details: 'Use headless multi autocomplete when you need bespoke trigger markup, custom overlay structure, or direct query/open coordination.',
+      details: 'Use headless multi autocomplete when you need bespoke trigger markup or custom overlay structure.',
     },
   ]);
 }
