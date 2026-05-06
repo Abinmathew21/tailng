@@ -31,9 +31,11 @@ const MARKET_OPTIONS: readonly MarketOption[] = Object.freeze([
 const COMPONENT_IMPORT_CODE = String.raw`import { TngMultiAutocompleteComponent } from '@tailng-ui/components';`;
 
 const BASIC_USAGE_CODE = String.raw`<tng-multi-autocomplete
-  [options]="markets"
+  [options]="filteredMarkets()"
   [value]="selectedMarkets()"
   (valueChange)="onSelectedMarketsChange($event)"
+  [query]="marketQuery()"
+  (queryChange)="marketQuery.set($event)"
   [getOptionValue]="getMarketValue"
   [getOptionLabel]="getMarketLabel"
   placeholder="Search launch markets"
@@ -69,6 +71,18 @@ const COMPONENT_OVERVIEW_PLAIN_LAUNCH_MARKET_OPTIONS: readonly ComponentOverview
 export class DocsMultiAutocompleteOverviewPlainComponent {
   readonly componentOverviewPlainLaunchMarkets = COMPONENT_OVERVIEW_PLAIN_LAUNCH_MARKET_OPTIONS;
   readonly componentOverviewPlainSelectedMarketCodes = signal<readonly string[]>(['in', 'jp']);
+  readonly componentOverviewPlainMarketQuery = signal('');
+  readonly componentOverviewPlainFilteredLaunchMarkets = computed(() => {
+    const query = this.componentOverviewPlainMarketQuery().toLowerCase().trim();
+
+    if (!query) {
+      return this.componentOverviewPlainLaunchMarkets;
+    }
+
+    return this.componentOverviewPlainLaunchMarkets.filter((market) =>
+      market.label.toLowerCase().includes(query),
+    );
+  });
   readonly componentOverviewPlainSelectedMarketSummary = computed(() => {
     if (this.componentOverviewPlainSelectedMarketCodes().length === 0) {
       return 'none';
@@ -106,9 +120,11 @@ const PLAIN_HTML_CODE = String.raw`<section class="docs-multi-autocomplete-overv
 
   <div class="docs-multi-autocomplete-overview-plain-control">
     <tng-multi-autocomplete
-      [options]="componentOverviewPlainLaunchMarkets"
+      [options]="componentOverviewPlainFilteredLaunchMarkets()"
       [value]="componentOverviewPlainSelectedMarketCodes()"
       (valueChange)="onComponentOverviewPlainSelectedMarketsChange($event)"
+      [query]="componentOverviewPlainMarketQuery()"
+      (queryChange)="componentOverviewPlainMarketQuery.set($event)"
       [getOptionValue]="getComponentOverviewPlainMarketValue"
       [getOptionLabel]="getComponentOverviewPlainMarketLabel"
       placeholder="Search launch markets"
@@ -192,6 +208,18 @@ const COMPONENT_OVERVIEW_TAILWIND_LAUNCH_MARKET_OPTIONS: readonly ComponentOverv
 export class DocsMultiAutocompleteOverviewTailwindComponent {
   readonly componentOverviewTailwindLaunchMarkets = COMPONENT_OVERVIEW_TAILWIND_LAUNCH_MARKET_OPTIONS;
   readonly componentOverviewTailwindSelectedMarketCodes = signal<readonly string[]>(['ca', 'es']);
+  readonly componentOverviewTailwindMarketQuery = signal('');
+  readonly componentOverviewTailwindFilteredLaunchMarkets = computed(() => {
+    const query = this.componentOverviewTailwindMarketQuery().toLowerCase().trim();
+
+    if (!query) {
+      return this.componentOverviewTailwindLaunchMarkets;
+    }
+
+    return this.componentOverviewTailwindLaunchMarkets.filter((market) =>
+      market.label.toLowerCase().includes(query),
+    );
+  });
   readonly componentOverviewTailwindSelectedMarketSummary = computed(() => {
     if (this.componentOverviewTailwindSelectedMarketCodes().length === 0) {
       return 'none';
@@ -229,9 +257,11 @@ const TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-[36rem]
 
   <div class="block w-full min-w-0 [--tng-multi-autocomplete-radius:1rem] [--tng-multi-autocomplete-padding:0.5rem] [--tng-multi-autocomplete-trigger-py:0.45rem] [--tng-multi-autocomplete-trigger-px:0.5rem] [--tng-multi-autocomplete-chip-py:0.375rem] [--tng-multi-autocomplete-chip-px:0.75rem] [--tng-multi-autocomplete-option-py:0.625rem] [--tng-multi-autocomplete-option-px:0.875rem]">
     <tng-multi-autocomplete
-      [options]="componentOverviewTailwindLaunchMarkets"
+      [options]="componentOverviewTailwindFilteredLaunchMarkets()"
       [value]="componentOverviewTailwindSelectedMarketCodes()"
       (valueChange)="onComponentOverviewTailwindSelectedMarketsChange($event)"
+      [query]="componentOverviewTailwindMarketQuery()"
+      (queryChange)="componentOverviewTailwindMarketQuery.set($event)"
       [getOptionValue]="getComponentOverviewTailwindMarketValue"
       [getOptionLabel]="getComponentOverviewTailwindMarketLabel"
       placeholder="Search launch markets"
@@ -243,6 +273,18 @@ const TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-[36rem]
 </section>`;
 
 const TAILWIND_CSS_CODE = String.raw`/* No additional CSS file is required for this Tailwind example. */`;
+
+function filterMarkets(query: string): readonly MarketOption[] {
+  const normalizedQuery = query.toLowerCase().trim();
+
+  if (!normalizedQuery) {
+    return MARKET_OPTIONS;
+  }
+
+  return MARKET_OPTIONS.filter((market) =>
+    market.label.toLowerCase().includes(normalizedQuery),
+  );
+}
 
 @Component({
   selector: 'app-multi-autocomplete-overview-page',
@@ -273,8 +315,12 @@ export class MultiAutocompleteOverviewPageComponent implements OnDestroy {
   protected readonly getMarketLabel = (market: MarketOption) => market.label;
   protected readonly plainMarkets = signal<readonly string[]>(['in', 'jp']);
   protected readonly tailwindMarkets = signal<readonly string[]>(['ca', 'es']);
+  protected readonly plainMarketQuery = signal('');
+  protected readonly tailwindMarketQuery = signal('');
   protected readonly plainSummary = computed(() => this.formatSelection(this.plainMarkets()));
   protected readonly tailwindSummary = computed(() => this.formatSelection(this.tailwindMarkets()));
+  protected readonly filteredPlainMarkets = computed(() => filterMarkets(this.plainMarketQuery()));
+  protected readonly filteredTailwindMarkets = computed(() => filterMarkets(this.tailwindMarketQuery()));
 
   protected readonly componentImportCode = COMPONENT_IMPORT_CODE;
   protected readonly basicUsageCode = BASIC_USAGE_CODE;

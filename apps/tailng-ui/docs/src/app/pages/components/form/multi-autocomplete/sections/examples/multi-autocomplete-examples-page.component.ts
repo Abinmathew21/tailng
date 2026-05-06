@@ -43,6 +43,20 @@ const REVIEWER_OPTIONS: readonly ReviewerOption[] = Object.freeze([
   { id: 'sanjay', name: 'Sanjay Patel', team: 'Documentation' },
 ]);
 
+function filterOptions<T>(
+  options: readonly T[],
+  query: string,
+  getLabel: (option: T) => string,
+): readonly T[] {
+  const normalizedQuery = query.toLowerCase().trim();
+
+  if (!normalizedQuery) {
+    return options;
+  }
+
+  return options.filter((option) => getLabel(option).toLowerCase().includes(normalizedQuery));
+}
+
 const MARKET_PLAIN_TS_CODE = String.raw`import { Component, computed, signal } from '@angular/core';
 import { TngMultiAutocompleteComponent } from '@tailng-ui/components';
 
@@ -72,6 +86,12 @@ const COMPONENT_EXAMPLES_PLAIN_LAUNCH_MARKET_OPTIONS: readonly ComponentExamples
 export class DocsMultiAutocompleteLaunchMarketsPlainComponent {
   readonly componentExamplesPlainLaunchMarkets = COMPONENT_EXAMPLES_PLAIN_LAUNCH_MARKET_OPTIONS;
   readonly componentExamplesPlainSelectedMarketCodes = signal<readonly string[]>(['in', 'jp']);
+  readonly componentExamplesPlainMarketQuery = signal('');
+  readonly componentExamplesPlainFilteredLaunchMarkets = computed(() =>
+    this.componentExamplesPlainLaunchMarkets.filter((market) =>
+      market.label.toLowerCase().includes(this.componentExamplesPlainMarketQuery().toLowerCase().trim()),
+    ),
+  );
   readonly componentExamplesPlainSelectedMarketSummary = computed(() => {
     if (this.componentExamplesPlainSelectedMarketCodes().length === 0) {
       return 'none';
@@ -103,15 +123,17 @@ const MARKET_PLAIN_HTML_CODE = String.raw`<section class="docs-multi-autocomplet
   <div class="docs-multi-autocomplete-launch-markets-plain-header">
     <span class="docs-multi-autocomplete-launch-markets-plain-kicker">Launch markets</span>
     <p class="docs-multi-autocomplete-launch-markets-plain-copy">
-      Keep a controlled array of launch regions while the wrapper owns the query text and chips.
+      Keep a controlled array of launch regions while the parent owns filtering and the wrapper renders chips.
     </p>
   </div>
 
   <div class="docs-multi-autocomplete-launch-markets-plain-control">
     <tng-multi-autocomplete
-      [options]="componentExamplesPlainLaunchMarkets"
+      [options]="componentExamplesPlainFilteredLaunchMarkets()"
       [value]="componentExamplesPlainSelectedMarketCodes()"
       (valueChange)="onComponentExamplesPlainSelectedMarketsChange($event)"
+      [query]="componentExamplesPlainMarketQuery()"
+      (queryChange)="componentExamplesPlainMarketQuery.set($event)"
       [getOptionValue]="getComponentExamplesPlainMarketValue"
       [getOptionLabel]="getComponentExamplesPlainMarketLabel"
       placeholder="Search launch markets"
@@ -195,6 +217,12 @@ const COMPONENT_EXAMPLES_TAILWIND_LAUNCH_MARKET_OPTIONS: readonly ComponentExamp
 export class DocsMultiAutocompleteLaunchMarketsTailwindComponent {
   readonly componentExamplesTailwindLaunchMarkets = COMPONENT_EXAMPLES_TAILWIND_LAUNCH_MARKET_OPTIONS;
   readonly componentExamplesTailwindSelectedMarketCodes = signal<readonly string[]>(['ca', 'es']);
+  readonly componentExamplesTailwindMarketQuery = signal('');
+  readonly componentExamplesTailwindFilteredLaunchMarkets = computed(() =>
+    this.componentExamplesTailwindLaunchMarkets.filter((market) =>
+      market.label.toLowerCase().includes(this.componentExamplesTailwindMarketQuery().toLowerCase().trim()),
+    ),
+  );
   readonly componentExamplesTailwindSelectedMarketSummary = computed(() => {
     if (this.componentExamplesTailwindSelectedMarketCodes().length === 0) {
       return 'none';
@@ -226,15 +254,17 @@ const MARKET_TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-
   <div class="grid gap-1">
     <span class="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--tng-semantic-foreground-muted)]">Launch markets</span>
     <p class="m-0 text-sm text-[var(--tng-semantic-foreground-secondary)]">
-      Keep a controlled array of launch regions while the wrapper owns the query text and chips.
+      Keep a controlled array of launch regions while the parent owns filtering and the wrapper renders chips.
     </p>
   </div>
 
   <div class="block w-full min-w-0 [--tng-multi-autocomplete-radius:1rem] [--tng-multi-autocomplete-padding:0.5rem] [--tng-multi-autocomplete-trigger-py:0.45rem] [--tng-multi-autocomplete-trigger-px:0.5rem] [--tng-multi-autocomplete-chip-py:0.375rem] [--tng-multi-autocomplete-chip-px:0.75rem] [--tng-multi-autocomplete-option-py:0.625rem] [--tng-multi-autocomplete-option-px:0.875rem]">
     <tng-multi-autocomplete
-      [options]="componentExamplesTailwindLaunchMarkets"
+      [options]="componentExamplesTailwindFilteredLaunchMarkets()"
       [value]="componentExamplesTailwindSelectedMarketCodes()"
       (valueChange)="onComponentExamplesTailwindSelectedMarketsChange($event)"
+      [query]="componentExamplesTailwindMarketQuery()"
+      (queryChange)="componentExamplesTailwindMarketQuery.set($event)"
       [getOptionValue]="getComponentExamplesTailwindMarketValue"
       [getOptionLabel]="getComponentExamplesTailwindMarketLabel"
       placeholder="Search launch markets"
@@ -274,6 +304,12 @@ const COMPONENT_EXAMPLES_PLAIN_REVIEWER_ROSTER_OPTIONS: readonly ComponentExampl
 export class DocsMultiAutocompleteReviewerRosterPlainComponent {
   readonly componentExamplesPlainReviewerRoster = COMPONENT_EXAMPLES_PLAIN_REVIEWER_ROSTER_OPTIONS;
   readonly componentExamplesPlainSelectedReviewerIds = signal<readonly string[]>(['abigail', 'sanjay']);
+  readonly componentExamplesPlainReviewerQuery = signal('');
+  readonly componentExamplesPlainFilteredReviewerRoster = computed(() =>
+    this.componentExamplesPlainReviewerRoster.filter((reviewer) =>
+      reviewer.name.toLowerCase().includes(this.componentExamplesPlainReviewerQuery().toLowerCase().trim()),
+    ),
+  );
   readonly componentExamplesPlainReviewerSummary = computed(() => {
     if (this.componentExamplesPlainSelectedReviewerIds().length === 0) {
       return 'none';
@@ -312,9 +348,11 @@ const REVIEWER_PLAIN_HTML_CODE = String.raw`<section class="docs-multi-autocompl
 
   <div class="docs-multi-autocomplete-reviewer-roster-plain-control">
     <tng-multi-autocomplete
-      [options]="componentExamplesPlainReviewerRoster"
+      [options]="componentExamplesPlainFilteredReviewerRoster()"
       [value]="componentExamplesPlainSelectedReviewerIds()"
       (valueChange)="onComponentExamplesPlainSelectedReviewersChange($event)"
+      [query]="componentExamplesPlainReviewerQuery()"
+      (queryChange)="componentExamplesPlainReviewerQuery.set($event)"
       [getOptionValue]="getComponentExamplesPlainReviewerValue"
       [getOptionLabel]="getComponentExamplesPlainReviewerLabel"
       [isOptionDisabled]="isComponentExamplesPlainReviewerDisabled"
@@ -462,6 +500,12 @@ const COMPONENT_EXAMPLES_TAILWIND_REVIEWER_ROSTER_OPTIONS: readonly ComponentExa
 export class DocsMultiAutocompleteReviewerRosterTailwindComponent {
   readonly componentExamplesTailwindReviewerRoster = COMPONENT_EXAMPLES_TAILWIND_REVIEWER_ROSTER_OPTIONS;
   readonly componentExamplesTailwindSelectedReviewerIds = signal<readonly string[]>(['mina']);
+  readonly componentExamplesTailwindReviewerQuery = signal('');
+  readonly componentExamplesTailwindFilteredReviewerRoster = computed(() =>
+    this.componentExamplesTailwindReviewerRoster.filter((reviewer) =>
+      reviewer.name.toLowerCase().includes(this.componentExamplesTailwindReviewerQuery().toLowerCase().trim()),
+    ),
+  );
   readonly componentExamplesTailwindReviewerSummary = computed(() => {
     if (this.componentExamplesTailwindSelectedReviewerIds().length === 0) {
       return 'none';
@@ -500,9 +544,11 @@ const REVIEWER_TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-
 
   <div class="block w-full min-w-0 [--tng-multi-autocomplete-radius:1rem] [--tng-multi-autocomplete-padding:0.5rem] [--tng-multi-autocomplete-trigger-py:0.45rem] [--tng-multi-autocomplete-trigger-px:0.5rem] [--tng-multi-autocomplete-chip-py:0.375rem] [--tng-multi-autocomplete-chip-px:0.75rem] [--tng-multi-autocomplete-option-py:0.625rem] [--tng-multi-autocomplete-option-px:0.875rem]">
     <tng-multi-autocomplete
-      [options]="componentExamplesTailwindReviewerRoster"
+      [options]="componentExamplesTailwindFilteredReviewerRoster()"
       [value]="componentExamplesTailwindSelectedReviewerIds()"
       (valueChange)="onComponentExamplesTailwindSelectedReviewersChange($event)"
+      [query]="componentExamplesTailwindReviewerQuery()"
+      (queryChange)="componentExamplesTailwindReviewerQuery.set($event)"
       [getOptionValue]="getComponentExamplesTailwindReviewerValue"
       [getOptionLabel]="getComponentExamplesTailwindReviewerLabel"
       [isOptionDisabled]="isComponentExamplesTailwindReviewerDisabled"
@@ -591,11 +637,27 @@ export class MultiAutocompleteExamplesPageComponent implements OnDestroy {
   protected readonly launchTailwindValues = signal<readonly string[]>(['ca', 'es']);
   protected readonly reviewerPlainValues = signal<readonly string[]>(['abigail', 'sanjay']);
   protected readonly reviewerTailwindValues = signal<readonly string[]>(['mina']);
+  protected readonly launchPlainQuery = signal('');
+  protected readonly launchTailwindQuery = signal('');
+  protected readonly reviewerPlainQuery = signal('');
+  protected readonly reviewerTailwindQuery = signal('');
 
   protected readonly launchPlainSummary = computed(() => formatMarketSummary(this.launchPlainValues()));
   protected readonly launchTailwindSummary = computed(() => formatMarketSummary(this.launchTailwindValues()));
   protected readonly reviewerPlainSummary = computed(() => formatReviewerSummary(this.reviewerPlainValues()));
   protected readonly reviewerTailwindSummary = computed(() => formatReviewerSummary(this.reviewerTailwindValues()));
+  protected readonly filteredLaunchPlainOptions = computed(() =>
+    filterOptions(this.launchMarkets, this.launchPlainQuery(), this.getMarketLabel),
+  );
+  protected readonly filteredLaunchTailwindOptions = computed(() =>
+    filterOptions(this.launchMarkets, this.launchTailwindQuery(), this.getMarketLabel),
+  );
+  protected readonly filteredReviewerPlainOptions = computed(() =>
+    filterOptions(this.reviewers, this.reviewerPlainQuery(), this.getReviewerLabel),
+  );
+  protected readonly filteredReviewerTailwindOptions = computed(() =>
+    filterOptions(this.reviewers, this.reviewerTailwindQuery(), this.getReviewerLabel),
+  );
 
   protected readonly marketPlainCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
     { value: 'ts', label: 'TS', language: 'ts', title: 'docs-multi-autocomplete-launch-markets-plain.component.ts', code: MARKET_PLAIN_TS_CODE },

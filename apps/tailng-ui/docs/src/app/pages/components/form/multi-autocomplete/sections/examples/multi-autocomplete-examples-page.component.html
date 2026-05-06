@@ -16,9 +16,11 @@
         >
           <div docsFormDemoField class="docs-multi-autocomplete-launch-live-control">
             <tng-multi-autocomplete
-              [options]="launchMarkets"
+              [options]="filteredLaunchPlainOptions()"
               [value]="launchPlainValues()"
               (valueChange)="onLaunchPlainValueChange($event)"
+              [query]="launchPlainQuery()"
+              (queryChange)="launchPlainQuery.set($event)"
               [getOptionValue]="getMarketValue"
               [getOptionLabel]="getMarketLabel"
               placeholder="Search launch markets"
@@ -45,15 +47,17 @@
           <div class="docs-multi-autocomplete-launch-live-header">
             <span class="docs-multi-autocomplete-launch-live-kicker">Launch markets</span>
             <p class="docs-multi-autocomplete-launch-live-copy">
-              Keep a controlled array of launch regions while the wrapper owns the query text and chips.
+              Keep a controlled array of launch regions while the parent owns filtering and the wrapper renders chips.
             </p>
           </div>
 
           <div class="docs-multi-autocomplete-launch-live-control">
             <tng-multi-autocomplete
-              [options]="launchMarkets"
+              [options]="filteredLaunchPlainOptions()"
               [value]="launchPlainValues()"
               (valueChange)="onLaunchPlainValueChange($event)"
+              [query]="launchPlainQuery()"
+              (queryChange)="launchPlainQuery.set($event)"
               [getOptionValue]="getMarketValue"
               [getOptionLabel]="getMarketLabel"
               placeholder="Search launch markets"
@@ -70,15 +74,17 @@
           <div class="grid gap-1">
             <span class="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--tng-semantic-foreground-muted)]">Launch markets</span>
             <p class="m-0 text-sm text-[var(--tng-semantic-foreground-secondary)]">
-              Keep a controlled array of launch regions while the wrapper owns the query text and chips.
+              Keep a controlled array of launch regions while the parent owns filtering and the wrapper renders chips.
             </p>
           </div>
 
           <div class="block w-full min-w-0 [--tng-multi-autocomplete-radius:1rem] [--tng-multi-autocomplete-padding:0.5rem] [--tng-multi-autocomplete-trigger-py:0.45rem] [--tng-multi-autocomplete-trigger-px:0.5rem] [--tng-multi-autocomplete-chip-py:0.375rem] [--tng-multi-autocomplete-chip-px:0.75rem] [--tng-multi-autocomplete-option-py:0.625rem] [--tng-multi-autocomplete-option-px:0.875rem]">
             <tng-multi-autocomplete
-              [options]="launchMarkets"
+              [options]="filteredLaunchTailwindOptions()"
               [value]="launchTailwindValues()"
               (valueChange)="onLaunchTailwindValueChange($event)"
+              [query]="launchTailwindQuery()"
+              (queryChange)="launchTailwindQuery.set($event)"
               [getOptionValue]="getMarketValue"
               [getOptionLabel]="getMarketLabel"
               placeholder="Search launch markets"
@@ -112,9 +118,11 @@
 
           <div class="docs-multi-autocomplete-reviewer-live-control">
             <tng-multi-autocomplete
-              [options]="reviewers"
+              [options]="filteredReviewerPlainOptions()"
               [value]="reviewerPlainValues()"
               (valueChange)="onReviewerPlainValueChange($event)"
+              [query]="reviewerPlainQuery()"
+              (queryChange)="reviewerPlainQuery.set($event)"
               [getOptionValue]="getReviewerValue"
               [getOptionLabel]="getReviewerLabel"
               [isOptionDisabled]="isReviewerDisabled"
@@ -157,9 +165,11 @@
 
           <div class="block w-full min-w-0 [--tng-multi-autocomplete-radius:1rem] [--tng-multi-autocomplete-padding:0.5rem] [--tng-multi-autocomplete-trigger-py:0.45rem] [--tng-multi-autocomplete-trigger-px:0.5rem] [--tng-multi-autocomplete-chip-py:0.375rem] [--tng-multi-autocomplete-chip-px:0.75rem] [--tng-multi-autocomplete-option-py:0.625rem] [--tng-multi-autocomplete-option-px:0.875rem]">
             <tng-multi-autocomplete
-              [options]="reviewers"
+              [options]="filteredReviewerTailwindOptions()"
               [value]="reviewerTailwindValues()"
               (valueChange)="onReviewerTailwindValueChange($event)"
+              [query]="reviewerTailwindQuery()"
+              (queryChange)="reviewerTailwindQuery.set($event)"
               [getOptionValue]="getReviewerValue"
               [getOptionLabel]="getReviewerLabel"
               [isOptionDisabled]="isReviewerDisabled"

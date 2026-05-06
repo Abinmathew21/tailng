@@ -20,6 +20,11 @@ function pointerdown(el: HTMLElement): void {
   );
 }
 
+function inputText(el: HTMLInputElement, value: string): void {
+  el.value = value;
+  el.dispatchEvent(new Event('input', { bubbles: true, cancelable: true }));
+}
+
 function getOpenOverlay(): HTMLElement | null {
   return (
     Array.from(document.body.querySelectorAll('[data-slot="multi-autocomplete-overlay"]')).find(
@@ -52,6 +57,36 @@ class HostComponent {
   readonly value = signal<readonly string[]>(['de']);
   readonly getOptionValue = (market: MarketOption) => market.code;
   readonly getOptionLabel = (market: MarketOption) => market.label;
+}
+
+@Component({
+  imports: [TngMultiAutocompleteComponent],
+  template: `
+    <tng-multi-autocomplete
+      data-testid="multi"
+      [options]="options()"
+      [query]="query()"
+      (queryChange)="onQueryChange($event)"
+      [getOptionValue]="getOptionValue"
+      [getOptionLabel]="getOptionLabel"
+    />
+  `,
+})
+class QueryHostComponent {
+  readonly options = signal<readonly MarketOption[]>([
+    { code: 'ca', label: 'Canada' },
+    { code: 'de', label: 'Germany' },
+    { code: 'jp', label: 'Japan' },
+  ]);
+  readonly query = signal('');
+  readonly queryChangeCalls: string[] = [];
+  readonly getOptionValue = (market: MarketOption) => market.code;
+  readonly getOptionLabel = (market: MarketOption) => market.label;
+
+  onQueryChange(query: string): void {
+    this.queryChangeCalls.push(query);
+    this.query.set(query);
+  }
 }
 
 describe('tng-multi-autocomplete component', () => {
@@ -106,5 +141,63 @@ describe('tng-multi-autocomplete component', () => {
     fixture.detectChanges();
 
     expect(host.value()).toEqual([]);
+  });
+
+  it('exposes queryChange from the component wrapper when typing', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [QueryHostComponent],
+    }).createComponent(QueryHostComponent);
+
+    fixture.detectChanges();
+
+    const host = fixture.componentInstance;
+    const trigger = fixture.nativeElement.querySelector(
+      '[data-slot="multi-autocomplete-trigger"]',
+    ) as HTMLInputElement;
+
+    trigger.focus();
+    fixture.detectChanges();
+    await Promise.resolve();
+    fixture.detectChanges();
+
+    inputText(trigger, 'api');
+    fixture.detectChanges();
+    await Promise.resolve();
+    fixture.detectChanges();
+
+    expect(host.query()).toBe('api');
+    expect(host.queryChangeCalls).toContain('api');
+    expect(trigger.value).toBe('api');
+  });
+
+  it('renders server-filtered options as provided by the host', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [QueryHostComponent],
+    }).createComponent(QueryHostComponent);
+
+    fixture.detectChanges();
+
+    const host = fixture.componentInstance;
+    const trigger = fixture.nativeElement.querySelector(
+      '[data-slot="multi-autocomplete-trigger"]',
+    ) as HTMLInputElement;
+
+    trigger.focus();
+    fixture.detectChanges();
+    await Promise.resolve();
+    fixture.detectChanges();
+
+    inputText(trigger, 'remote');
+    host.options.set([{ code: 'de', label: 'Germany' }]);
+    fixture.detectChanges();
+    await Promise.resolve();
+    fixture.detectChanges();
+
+    const options = Array.from(
+      getOpenOverlay()?.querySelectorAll('[data-slot="multi-autocomplete-option"]') ?? [],
+    ) as HTMLElement[];
+
+    expect(host.query()).toBe('remote');
+    expect(options.map((el) => el.textContent?.trim())).toEqual(['Germany']);
   });
 });

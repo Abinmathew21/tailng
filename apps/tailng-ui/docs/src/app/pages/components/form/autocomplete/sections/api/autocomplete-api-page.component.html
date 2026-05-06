@@ -3,7 +3,8 @@
     <h2><code>tng-autocomplete</code></h2>
     <p>
       The wrapper covers the standard searchable single-select case. Pass options, accessors, and
-      the committed value model; the wrapper owns query text and the internal primitive wiring.
+      the committed value model; bind query text when the parent owns local filtering or server-side
+      search.
     </p>
     <tng-code-block
       [code]="wrapperAttachmentCode"
@@ -36,6 +37,26 @@
         </tbody>
       </table>
     </div>
+  </section>
+
+  <section id="query-filtering" class="autocomplete-api__section">
+    <h2>Query and filtering</h2>
+    <p>
+      <code>&lt;tng-autocomplete&gt;</code> exposes the current input text through
+      <code>query</code> and <code>queryChange</code>. The wrapper renders the
+      <code>options</code> array exactly as provided, so local filtering and remote API requests
+      both live in the parent component.
+    </p>
+    <tng-code-block
+      [code]="queryFilteringCode"
+      adapter="shiki"
+      language="ts"
+      title="Local filtering"
+      theme="github-dark"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
   </section>
 
   <section id="option-accessors" class="autocomplete-api__section">

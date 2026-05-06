@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { afterEach, describe, expect, it } from 'vitest';
 import { TngAutocompleteComponent } from './tng-autocomplete.component';
@@ -37,9 +37,11 @@ type Option = { value: string; label: string };
   imports: [TngAutocompleteComponent],
   template: `
     <tng-autocomplete
-      [options]="options"
+      [options]="filteredOptions()"
       [value]="value()"
       (valueChange)="value.set($event)"
+      [query]="query()"
+      (queryChange)="query.set($event)"
       [getOptionValue]="getOptionValue"
       [getOptionLabel]="getOptionLabel"
       placeholder="Type to search"
@@ -54,8 +56,50 @@ class HostComponent {
     { value: 'c', label: 'Option C' },
   ];
   readonly value = signal<string | null>(null);
+  readonly query = signal('');
+  readonly filteredOptions = computed(() => {
+    const query = this.query().toLowerCase().trim();
+
+    if (!query) {
+      return this.options;
+    }
+
+    return this.options.filter((option) =>
+      option.label.toLowerCase().includes(query),
+    );
+  });
   readonly getOptionValue = (o: Option) => o.value;
   readonly getOptionLabel = (o: Option) => o.label;
+}
+
+@Component({
+  imports: [TngAutocompleteComponent],
+  template: `
+    <tng-autocomplete
+      [options]="options()"
+      [query]="query()"
+      (queryChange)="onQueryChange($event)"
+      [getOptionValue]="getOptionValue"
+      [getOptionLabel]="getOptionLabel"
+      data-testid="autocomplete"
+    />
+  `,
+})
+class QueryHostComponent {
+  readonly options = signal<Option[]>([
+    { value: 'a', label: 'Option A' },
+    { value: 'b', label: 'Option B' },
+    { value: 'c', label: 'Option C' },
+  ]);
+  readonly query = signal('');
+  readonly queryChangeCalls: string[] = [];
+  readonly getOptionValue = (o: Option) => o.value;
+  readonly getOptionLabel = (o: Option) => o.label;
+
+  onQueryChange(query: string): void {
+    this.queryChangeCalls.push(query);
+    this.query.set(query);
+  }
 }
 
 async function openAutocomplete(
@@ -198,6 +242,58 @@ describe('tng-autocomplete component', () => {
     expect(allOptions().length).toBe(0);
     expect(emptyState()).toBeTruthy();
     expect(emptyState()?.textContent).toContain('No matches');
+  });
+
+  it('exposes queryChange from the component wrapper when typing', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [QueryHostComponent],
+    }).createComponent(QueryHostComponent);
+
+    fixture.detectChanges();
+
+    const host = fixture.componentInstance;
+    const trigger = fixture.nativeElement.querySelector(
+      '[data-slot="autocomplete-trigger"]'
+    ) as HTMLInputElement;
+
+    await openAutocomplete(fixture, trigger);
+
+    inputText(trigger, 'api');
+    fixture.detectChanges();
+    await Promise.resolve();
+    fixture.detectChanges();
+
+    expect(host.query()).toBe('api');
+    expect(host.queryChangeCalls).toContain('api');
+    expect(trigger.value).toBe('api');
+  });
+
+  it('renders server-filtered options as provided by the host', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [QueryHostComponent],
+    }).createComponent(QueryHostComponent);
+
+    fixture.detectChanges();
+
+    const host = fixture.componentInstance;
+    const trigger = fixture.nativeElement.querySelector(
+      '[data-slot="autocomplete-trigger"]'
+    ) as HTMLInputElement;
+
+    await openAutocomplete(fixture, trigger);
+
+    inputText(trigger, 'remote');
+    host.options.set([{ value: 'b', label: 'Option B' }]);
+    fixture.detectChanges();
+    await Promise.resolve();
+    fixture.detectChanges();
+
+    const options = Array.from(
+      getOpenOverlay().querySelectorAll('[data-slot="autocomplete-option"]'),
+    ) as HTMLElement[];
+
+    expect(host.query()).toBe('remote');
+    expect(options.map((el) => el.textContent?.trim())).toEqual(['Option B']);
   });
 
   it('pointer-selecting an option selects it, closes overlay, and updates trigger text', async () => {

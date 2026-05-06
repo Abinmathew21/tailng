@@ -2,8 +2,8 @@
   <h2 class="multi-autocomplete-api-title">API reference</h2>
   <p class="multi-autocomplete-api-lead">
     <code>&lt;tng-multi-autocomplete&gt;</code> wraps the headless primitive for the standard chip-based
-    multi-select workflow. You pass options and accessors; the wrapper owns the query input, overlay,
-    and default chip rendering.
+    multi-select workflow. You pass options and accessors; bind query text when the parent owns local
+    filtering or server-side search.
   </p>
 
   <section id="wrapper-apis" class="multi-autocomplete-api-block">
@@ -38,6 +38,25 @@
         </tbody>
       </table>
     </div>
+  </section>
+
+  <section id="query-filtering" class="multi-autocomplete-api-block">
+    <h3>Query and filtering</h3>
+    <p>
+      <code>&lt;tng-multi-autocomplete&gt;</code> exposes the trigger text through
+      <code>query</code> and <code>queryChange</code>. The wrapper renders the
+      <code>options</code> array exactly as provided, so local filtering and remote API requests
+      both live in the parent component.
+    </p>
+    <tng-code-block
+      [code]="queryFilteringCode"
+      adapter="shiki"
+      language="ts"
+      title="Local filtering"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
   </section>
 
   <section id="option-accessors" class="multi-autocomplete-api-block">
@@ -82,7 +101,8 @@
     <h3>Angular Signal Forms</h3>
     <p>
       <code>&lt;tng-multi-autocomplete&gt;</code> can bind directly with <code>[formField]</code>
-      for readonly array fields. The transient query text stays internal to the wrapper.
+      for readonly array fields. Bind <code>query</code> separately when the parent needs to filter
+      options or request them from a server.
     </p>
     <tng-code-block
       [code]="signalFormsCode"
@@ -137,7 +157,7 @@
     <h3>Primitive foundation</h3>
     <p>
       The wrapper is intentionally opinionated around the common “chips + input + results list” UX.
-      Use the headless primitive when you need to own the transient query model or rebuild the shell.
+      Use the headless primitive when you need to rebuild the shell.
     </p>
 
     <div class="multi-autocomplete-api-table-wrap">
