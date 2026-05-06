@@ -65,8 +65,8 @@ type SelectedItem<O, V> = {
   hostDirectives: [
     {
       directive: TngMultiAutocomplete,
-      inputs: ['open', 'value', 'disabled', 'loading', 'invalid'],
-      outputs: ['openChange', 'valueChange'],
+      inputs: ['open', 'value', 'query', 'disabled', 'loading', 'invalid'],
+      outputs: ['openChange', 'valueChange', 'queryChange'],
     },
   ],
   templateUrl: './tng-multi-autocomplete.component.html',
@@ -123,24 +123,7 @@ export class TngMultiAutocompleteComponent<O = unknown, V = unknown> {
   });
 
   protected readonly filteredOptions = computed<readonly O[]>(() => {
-    const q = this.primitive.query().toLowerCase().trim();
-    const list = this.options();
-    const getLabel = this.getOptionLabel();
-    const getValue = this.getOptionValue();
-    const selected = this.primitive.value();
-
-    const matches = q
-      ? list.filter((opt) => getLabel(opt).toLowerCase().includes(q))
-      : list;
-
-    const pinnedSelected = matches.filter((opt) =>
-      this.hasSelectedValue(getValue(opt), selected),
-    );
-    const remaining = matches.filter(
-      (opt) => !this.hasSelectedValue(getValue(opt), selected),
-    );
-
-    return [...pinnedSelected, ...remaining];
+    return this.options();
   });
 
   protected chipContext(item: SelectedItem<O, V>): TngMultiAutocompleteChipContext<O, V> {

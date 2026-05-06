@@ -8,6 +8,7 @@ import {
   effect,
   inject,
   input,
+  model,
   output,
   signal,
   untracked,
@@ -98,6 +99,7 @@ export class TngAutocompleteComponent<O = unknown, V = unknown> {
 
   public readonly options = input<readonly O[]>([]);
   public readonly placeholder = input<string>('Type to search…');
+  public readonly query = model<string>('');
 
   public readonly getOptionValue = input<TngAutocompleteGetValue<O, V>>(
     ((opt: unknown) => (opt as { value?: V })?.value) as TngAutocompleteGetValue<O, V>,
@@ -124,8 +126,6 @@ export class TngAutocompleteComponent<O = unknown, V = unknown> {
   public readonly iconText = input<string>('▾');
   public readonly ariaLabel = input<string>('Autocomplete');
 
-  protected readonly query = signal('');
-
   private readonly userIsTyping = signal(false);
   private readonly lastSyncedValue = signal<V | null>(null);
   private readonly lastAppliedExternalValue = signal<V | null | undefined>(undefined);
@@ -133,6 +133,7 @@ export class TngAutocompleteComponent<O = unknown, V = unknown> {
   public constructor() {
     this.setupExternalValueSyncEffect();
     this.setupPrimitiveValueEmitEffect();
+    this.setupPrimitiveQuerySyncEffect();
     this.setupDisplaySyncEffects();
   }
 
@@ -179,6 +180,16 @@ export class TngAutocompleteComponent<O = unknown, V = unknown> {
       }
 
       this.valueChange.emit(primitiveValue);
+    });
+  }
+
+  private setupPrimitiveQuerySyncEffect(): void {
+    effect(() => {
+      const query = this.query();
+
+      if (!Object.is(this.primitive.query(), query)) {
+        this.primitive.query.set(query);
+      }
     });
   }
 
@@ -240,16 +251,7 @@ export class TngAutocompleteComponent<O = unknown, V = unknown> {
   );
 
   protected readonly filteredOptions = computed<readonly O[]>(() => {
-    const query = this.query().toLowerCase().trim();
-    const list = this.options();
-
-    if (!query) {
-      return list;
-    }
-
-    const getLabel = this.getOptionLabel();
-
-    return list.filter((option) => getLabel(option).toLowerCase().includes(query));
+    return this.options();
   });
 
   protected readonly displayText = computed<string>(() =>
@@ -259,6 +261,11 @@ export class TngAutocompleteComponent<O = unknown, V = unknown> {
   protected onInput(event: Event): void {
     const value = (event.target as HTMLInputElement).value;
     this.userIsTyping.set(true);
+    this.query.set(value);
+  }
+
+  protected onFocus(event: FocusEvent): void {
+    const value = (event.target as HTMLInputElement).value;
     this.query.set(value);
   }
 
