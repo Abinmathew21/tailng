@@ -1,0 +1,1670 @@
+[
+  {
+    "title": "Quick Start",
+    "description": "Fast path to scaffold and run your first TailNG component page.",
+    "section": "Components / Getting Started",
+    "url": "/components/getting-started/quick-start",
+    "tags": [
+      "components",
+      "getting-started",
+      "quick-start",
+      "quick-start"
+    ]
+  },
+  {
+    "title": "Installation",
+    "description": "Package-level install matrix for TailNG Components and peer layers.",
+    "section": "Components / Getting Started",
+    "url": "/components/getting-started/installation",
+    "tags": [
+      "components",
+      "getting-started",
+      "installation",
+      "installation"
+    ]
+  },
+  {
+    "title": "Plain CSS Setup",
+    "description": "Set up TailNG Components with semantic tokens using vanilla CSS.",
+    "section": "Components / Getting Started",
+    "url": "/components/getting-started/plain-css-setup",
+    "tags": [
+      "components",
+      "getting-started",
+      "plain-css-setup",
+      "plain-css-setup"
+    ]
+  },
+  {
+    "title": "Tailwind Setup",
+    "description": "Integrate TailNG Components with utility-first styling in Tailwind.",
+    "section": "Components / Getting Started",
+    "url": "/components/getting-started/tailwind-setup",
+    "tags": [
+      "components",
+      "getting-started",
+      "tailwind-setup",
+      "tailwind-setup"
+    ]
+  },
+  {
+    "title": "Card",
+    "description": "Grouped content surfaces with optional media, actions, and footer composition.",
+    "section": "Components / Layout",
+    "url": "/components/layout/card",
+    "tags": [
+      "components",
+      "layout",
+      "card",
+      "card"
+    ]
+  },
+  {
+    "title": "Separator",
+    "description": "Horizontal and vertical dividers for visual or semantic content grouping.",
+    "section": "Components / Layout",
+    "url": "/components/layout/separator",
+    "tags": [
+      "components",
+      "layout",
+      "separator",
+      "separator"
+    ]
+  },
+  {
+    "title": "Collapsible",
+    "description": "Expandable disclosure regions with headless and styled integration paths.",
+    "section": "Components / Layout",
+    "url": "/components/layout/collapsible",
+    "tags": [
+      "components",
+      "layout",
+      "collapsible",
+      "collapsible"
+    ]
+  },
+  {
+    "title": "Accordion",
+    "description": "Single and multi-expand panel groups with keyboard navigation and aria wiring.",
+    "section": "Components / Layout",
+    "url": "/components/layout/accordion",
+    "tags": [
+      "components",
+      "layout",
+      "accordion",
+      "accordion"
+    ]
+  },
+  {
+    "title": "Stepper",
+    "description": "Styled stepper shell powered by headless value, focus, and state management.",
+    "section": "Components / Layout",
+    "url": "/components/layout/stepper",
+    "tags": [
+      "components",
+      "layout",
+      "stepper",
+      "stepper"
+    ]
+  },
+  {
+    "title": "Drawer",
+    "description": "Slide-in overlay panel with position, mode, focus trap, and backdrop support.",
+    "section": "Components / Layout",
+    "url": "/components/layout/drawer",
+    "tags": [
+      "components",
+      "layout",
+      "drawer",
+      "drawer"
+    ]
+  },
+  {
+    "title": "Table",
+    "description": "Styled data table shell with columns, sorting, sticky cells, and empty states.",
+    "section": "Components / Layout",
+    "url": "/components/layout/table",
+    "tags": [
+      "components",
+      "layout",
+      "table",
+      "table"
+    ]
+  },
+  {
+    "title": "Dialog",
+    "description": "Modal panel with backdrop dismissal, focus trap, and close reason outputs.",
+    "section": "Components / Overlay",
+    "url": "/components/overlay/dialog",
+    "tags": [
+      "components",
+      "overlay",
+      "dialog",
+      "dialog"
+    ]
+  },
+  {
+    "title": "Popover",
+    "description": "Anchored floating panel with trigger semantics and outside/Escape dismissal.",
+    "section": "Components / Overlay",
+    "url": "/components/overlay/popover",
+    "tags": [
+      "components",
+      "overlay",
+      "popover",
+      "popover"
+    ]
+  },
+  {
+    "title": "Tooltip",
+    "description": "Hover/focus helper text with trigger/content association and side placement hooks.",
+    "section": "Components / Overlay",
+    "url": "/components/overlay/tooltip",
+    "tags": [
+      "components",
+      "overlay",
+      "tooltip",
+      "tooltip"
+    ]
+  },
+  {
+    "title": "Toast",
+    "description": "Stacked notification toasts with auto-dismiss timing, dismiss actions, and tone semantics.",
+    "section": "Components / Feedback",
+    "url": "/components/feedback/toast",
+    "tags": [
+      "components",
+      "feedback",
+      "toast",
+      "toast"
+    ]
+  },
+  {
+    "title": "Empty",
+    "description": "Empty-state layout with icon, title, description, and action composition.",
+    "section": "Components / Feedback",
+    "url": "/components/feedback/empty",
+    "tags": [
+      "components",
+      "feedback",
+      "empty",
+      "empty"
+    ]
+  },
+  {
+    "title": "Progress Bar",
+    "description": "Linear determinate and indeterminate loading states with aria semantics.",
+    "section": "Components / Feedback",
+    "url": "/components/feedback/progress-bar",
+    "tags": [
+      "components",
+      "feedback",
+      "progress-bar",
+      "progress-bar"
+    ]
+  },
+  {
+    "title": "Progress Spinner",
+    "description": "Circular determinate and indeterminate loading states with aria semantics.",
+    "section": "Components / Feedback",
+    "url": "/components/feedback/progress-spinner",
+    "tags": [
+      "components",
+      "feedback",
+      "progress-spinner",
+      "progress-spinner"
+    ]
+  },
+  {
+    "title": "Skeleton",
+    "description": "Decorative placeholder blocks for loading layouts and content scaffolding.",
+    "section": "Components / Feedback",
+    "url": "/components/feedback/skeleton",
+    "tags": [
+      "components",
+      "feedback",
+      "skeleton",
+      "skeleton"
+    ]
+  },
+  {
+    "title": "Input",
+    "description": "Text input fields, adornments, validation messaging, and layout patterns.",
+    "section": "Components / Form",
+    "url": "/components/form/input",
+    "tags": [
+      "components",
+      "form",
+      "input",
+      "input"
+    ]
+  },
+  {
+    "title": "Textarea",
+    "description": "Multiline text input patterns with input-first primitives and styled textarea wrappers.",
+    "section": "Components / Form",
+    "url": "/components/form/textarea",
+    "tags": [
+      "components",
+      "form",
+      "textarea",
+      "textarea"
+    ]
+  },
+  {
+    "title": "Label",
+    "description": "Accessible label semantics for explicit and wrapped control association.",
+    "section": "Components / Form",
+    "url": "/components/form/label",
+    "tags": [
+      "components",
+      "form",
+      "label",
+      "label"
+    ]
+  },
+  {
+    "title": "Checkbox",
+    "description": "Binary and tri-state selection patterns with headless and styled usage.",
+    "section": "Components / Form",
+    "url": "/components/form/checkbox",
+    "tags": [
+      "components",
+      "form",
+      "checkbox",
+      "checkbox"
+    ]
+  },
+  {
+    "title": "Toggle",
+    "description": "Pressed button semantics for compact on/off actions and toolbar commands.",
+    "section": "Components / Form",
+    "url": "/components/form/toggle",
+    "tags": [
+      "components",
+      "form",
+      "toggle",
+      "toggle"
+    ]
+  },
+  {
+    "title": "Switch",
+    "description": "Two-state on/off toggle with track/thumb rendering and arrow-key support.",
+    "section": "Components / Form",
+    "url": "/components/form/switch",
+    "tags": [
+      "components",
+      "form",
+      "switch",
+      "switch"
+    ]
+  },
+  {
+    "title": "Radio",
+    "description": "Single-choice grouped selection with native semantics and keyboard behavior.",
+    "section": "Components / Form",
+    "url": "/components/form/radio",
+    "tags": [
+      "components",
+      "form",
+      "radio",
+      "radio"
+    ]
+  },
+  {
+    "title": "Button Toggle",
+    "description": "Single and multiple pressed-button groups for toolbars and view switches.",
+    "section": "Components / Form",
+    "url": "/components/form/button-toggle",
+    "tags": [
+      "components",
+      "form",
+      "button-toggle",
+      "button-toggle"
+    ]
+  },
+  {
+    "title": "ListBox",
+    "description": "Listbox interaction patterns and keyboard behavior reference.",
+    "section": "Components / Form",
+    "url": "/components/form/listbox",
+    "tags": [
+      "components",
+      "form",
+      "listbox",
+      "listbox"
+    ]
+  },
+  {
+    "title": "AutoComplete",
+    "description": "Single-value autocomplete patterns and filtering behavior.",
+    "section": "Components / Form",
+    "url": "/components/form/autocomplete",
+    "tags": [
+      "components",
+      "form",
+      "autocomplete",
+      "autocomplete"
+    ]
+  },
+  {
+    "title": "MultiAutocomplete",
+    "description": "Chip-based autocomplete selection for multiple values.",
+    "section": "Components / Form",
+    "url": "/components/form/multi-autocomplete",
+    "tags": [
+      "components",
+      "form",
+      "multi-autocomplete",
+      "multi-autocomplete"
+    ]
+  },
+  {
+    "title": "Select",
+    "description": "Single-choice select surfaces and trigger/content composition.",
+    "section": "Components / Form",
+    "url": "/components/form/select",
+    "tags": [
+      "components",
+      "form",
+      "select",
+      "select"
+    ]
+  },
+  {
+    "title": "MultiSelect",
+    "description": "Multiple-selection dropdown behavior and state handling.",
+    "section": "Components / Form",
+    "url": "/components/form/multiselect",
+    "tags": [
+      "components",
+      "form",
+      "multiselect",
+      "multiselect"
+    ]
+  },
+  {
+    "title": "Datepicker",
+    "description": "Material-style date selection with editable input, adapter formatting, and bounded calendar views.",
+    "section": "Components / Form",
+    "url": "/components/form/datepicker",
+    "tags": [
+      "components",
+      "form",
+      "datepicker",
+      "datepicker"
+    ]
+  },
+  {
+    "title": "Chips",
+    "description": "Tokenized input and removable item chip usage patterns.",
+    "section": "Components / Form",
+    "url": "/components/form/chips",
+    "tags": [
+      "components",
+      "form",
+      "chips",
+      "chips"
+    ]
+  },
+  {
+    "title": "Input OTP",
+    "description": "Segmented one-time-password input with keyboard, paste, and form integration.",
+    "section": "Components / Form",
+    "url": "/components/form/input-otp",
+    "tags": [
+      "components",
+      "form",
+      "input-otp",
+      "input-otp"
+    ]
+  },
+  {
+    "title": "Form Field",
+    "description": "Projected input shell with prefix and suffix slots for icons, helper text, and inline actions.",
+    "section": "Components / Form",
+    "url": "/components/form/form-field",
+    "tags": [
+      "components",
+      "form",
+      "form-field",
+      "form-field"
+    ]
+  },
+  {
+    "title": "Codeblock",
+    "description": "Code rendering, highlighting adapters, and line metadata.",
+    "section": "Components / Utility",
+    "url": "/components/utility/codeblock",
+    "tags": [
+      "components",
+      "utility",
+      "codeblock",
+      "codeblock"
+    ]
+  },
+  {
+    "title": "CopyButton",
+    "description": "Clipboard actions, success/error states, and feedback hooks.",
+    "section": "Components / Utility",
+    "url": "/components/utility/copybutton",
+    "tags": [
+      "components",
+      "utility",
+      "copybutton",
+      "copybutton"
+    ]
+  },
+  {
+    "title": "Button",
+    "description": "Press/action semantics, accessibility, and interaction states.",
+    "section": "Components / Utility",
+    "url": "/components/utility/button",
+    "tags": [
+      "components",
+      "utility",
+      "button",
+      "button"
+    ]
+  },
+  {
+    "title": "Avatar",
+    "description": "Identity surfaces with fallback handling, shape, and size variants.",
+    "section": "Components / Utility",
+    "url": "/components/utility/avatar",
+    "tags": [
+      "components",
+      "utility",
+      "avatar",
+      "avatar"
+    ]
+  },
+  {
+    "title": "Badge",
+    "description": "Count, dot, and placement badges for notifications and status overlays.",
+    "section": "Components / Utility",
+    "url": "/components/utility/badge",
+    "tags": [
+      "components",
+      "utility",
+      "badge",
+      "badge"
+    ]
+  },
+  {
+    "title": "Tag",
+    "description": "Compact label chips with optional icon and removable close action.",
+    "section": "Components / Utility",
+    "url": "/components/utility/tag",
+    "tags": [
+      "components",
+      "utility",
+      "tag",
+      "tag"
+    ]
+  },
+  {
+    "title": "Menubar",
+    "description": "Top-level menubar patterns with owned menu integration.",
+    "section": "Components / Navigation",
+    "url": "/components/navigation/menubar",
+    "tags": [
+      "components",
+      "navigation",
+      "menubar",
+      "menubar"
+    ]
+  },
+  {
+    "title": "Menu",
+    "description": "Contextual menu interactions, keyboard flow, and submenu behavior.",
+    "section": "Components / Navigation",
+    "url": "/components/navigation/menu",
+    "tags": [
+      "components",
+      "navigation",
+      "menu",
+      "menu"
+    ]
+  },
+  {
+    "title": "Context Menu",
+    "description": "Right-click and keyboard context actions anchored to element surfaces.",
+    "section": "Components / Navigation",
+    "url": "/components/navigation/context-menu",
+    "tags": [
+      "components",
+      "navigation",
+      "context-menu",
+      "context-menu"
+    ]
+  },
+  {
+    "title": "Breadcrumb",
+    "description": "Hierarchical path navigation with optional collapse and current-page semantics.",
+    "section": "Components / Navigation",
+    "url": "/components/navigation/breadcrumb",
+    "tags": [
+      "components",
+      "navigation",
+      "breadcrumb",
+      "breadcrumb"
+    ]
+  },
+  {
+    "title": "Tabs",
+    "description": "Sectioned navigation with tablist, triggers, panels, and controlled or uncontrolled selection.",
+    "section": "Components / Navigation",
+    "url": "/components/navigation/tabs",
+    "tags": [
+      "components",
+      "navigation",
+      "tabs",
+      "tabs"
+    ]
+  },
+  {
+    "title": "Tree",
+    "description": "Hierarchical data navigation with keyboard support, selection, and expand/collapse.",
+    "section": "Components / Navigation",
+    "url": "/components/navigation/tree",
+    "tags": [
+      "components",
+      "navigation",
+      "tree",
+      "tree"
+    ]
+  },
+  {
+    "title": "Pagination",
+    "description": "Styled paginator controls for page movement, ranges, page size, and server mode.",
+    "section": "Components / Navigation",
+    "url": "/components/navigation/pagination",
+    "tags": [
+      "components",
+      "navigation",
+      "pagination",
+      "pagination"
+    ]
+  },
+  {
+    "title": "Quick Start",
+    "description": "Create a first headless-driven page with keyboard-safe interaction defaults.",
+    "section": "Headless / Getting Started",
+    "url": "/headless/getting-started/quick-start",
+    "tags": [
+      "headless",
+      "getting-started",
+      "quick-start",
+      "quick-start"
+    ]
+  },
+  {
+    "title": "Installation",
+    "description": "Install headless packages with peer dependencies and recommended layering.",
+    "section": "Headless / Getting Started",
+    "url": "/headless/getting-started/installation",
+    "tags": [
+      "headless",
+      "getting-started",
+      "installation",
+      "installation"
+    ]
+  },
+  {
+    "title": "Plain CSS Setup",
+    "description": "Wire headless patterns with your own CSS contract and semantic token strategy.",
+    "section": "Headless / Getting Started",
+    "url": "/headless/getting-started/plain-css-setup",
+    "tags": [
+      "headless",
+      "getting-started",
+      "plain-css-setup",
+      "plain-css-setup"
+    ]
+  },
+  {
+    "title": "Tailwind Setup",
+    "description": "Compose headless patterns with utility classes and local design conventions.",
+    "section": "Headless / Getting Started",
+    "url": "/headless/getting-started/tailwind-setup",
+    "tags": [
+      "headless",
+      "getting-started",
+      "tailwind-setup",
+      "tailwind-setup"
+    ]
+  },
+  {
+    "title": "Card",
+    "description": "Structural card slots for owner-authored content groupings, media regions, and footer actions.",
+    "section": "Headless / Layout",
+    "url": "/headless/layout/card",
+    "tags": [
+      "headless",
+      "layout",
+      "card",
+      "card"
+    ]
+  },
+  {
+    "title": "Separator",
+    "description": "Minimal divider primitive with orientation and decorative semantics for owner-authored layouts.",
+    "section": "Headless / Layout",
+    "url": "/headless/layout/separator",
+    "tags": [
+      "headless",
+      "layout",
+      "separator",
+      "separator"
+    ]
+  },
+  {
+    "title": "Collapsible",
+    "description": "Owner-controlled disclosure structure with trigger/content wiring and stable state hooks.",
+    "section": "Headless / Layout",
+    "url": "/headless/layout/collapsible",
+    "tags": [
+      "headless",
+      "layout",
+      "collapsible",
+      "collapsible"
+    ]
+  },
+  {
+    "title": "Accordion",
+    "description": "Headless multi-section disclosure behavior with item registration, roving focus, and panel lifecycle control.",
+    "section": "Headless / Layout",
+    "url": "/headless/layout/accordion",
+    "tags": [
+      "headless",
+      "layout",
+      "accordion",
+      "accordion"
+    ]
+  },
+  {
+    "title": "Stepper",
+    "description": "Ordered progress primitive with value-driven steps, roving focus, linear mode, and state hooks.",
+    "section": "Headless / Layout",
+    "url": "/headless/layout/stepper",
+    "tags": [
+      "headless",
+      "layout",
+      "stepper",
+      "stepper"
+    ]
+  },
+  {
+    "title": "Table",
+    "description": "Semantic table primitives for sortable, selectable, scrollable, and stateful data grids.",
+    "section": "Headless / Layout",
+    "url": "/headless/layout/table",
+    "tags": [
+      "headless",
+      "layout",
+      "table",
+      "table"
+    ]
+  },
+  {
+    "title": "Dialog",
+    "description": "Modal dialog behavior with backdrop dismissal, focus trapping, and close reason output.",
+    "section": "Headless / Overlay",
+    "url": "/headless/overlay/dialog",
+    "tags": [
+      "headless",
+      "overlay",
+      "dialog",
+      "dialog"
+    ]
+  },
+  {
+    "title": "Popover",
+    "description": "Anchored floating panel behavior with trigger wiring, outside dismissal, and focus handoff.",
+    "section": "Headless / Overlay",
+    "url": "/headless/overlay/popover",
+    "tags": [
+      "headless",
+      "overlay",
+      "popover",
+      "popover"
+    ]
+  },
+  {
+    "title": "Tooltip",
+    "description": "Hover and focus helper text behavior with managed anchoring, collision-aware positioning, and ARIA wiring.",
+    "section": "Headless / Overlay",
+    "url": "/headless/overlay/tooltip",
+    "tags": [
+      "headless",
+      "overlay",
+      "tooltip",
+      "tooltip"
+    ]
+  },
+  {
+    "title": "Toast",
+    "description": "Viewport and item primitives for stacked notifications with tone semantics and owner-managed lifecycles.",
+    "section": "Headless / Feedback",
+    "url": "/headless/feedback/toast",
+    "tags": [
+      "headless",
+      "feedback",
+      "toast",
+      "toast"
+    ]
+  },
+  {
+    "title": "Empty",
+    "description": "Structural empty-state slots for owner-authored icon, title, description, and action content.",
+    "section": "Headless / Feedback",
+    "url": "/headless/feedback/empty",
+    "tags": [
+      "headless",
+      "feedback",
+      "empty",
+      "empty"
+    ]
+  },
+  {
+    "title": "Progress Bar",
+    "description": "Linear progress primitives with range normalization, aria semantics, and owner-authored track styling.",
+    "section": "Headless / Feedback",
+    "url": "/headless/feedback/progress-bar",
+    "tags": [
+      "headless",
+      "feedback",
+      "progress-bar",
+      "progress-bar"
+    ]
+  },
+  {
+    "title": "Progress Spinner",
+    "description": "Circular progress primitive with range normalization, aria semantics, and owner-authored SVG rendering.",
+    "section": "Headless / Feedback",
+    "url": "/headless/feedback/progress-spinner",
+    "tags": [
+      "headless",
+      "feedback",
+      "progress-spinner",
+      "progress-spinner"
+    ]
+  },
+  {
+    "title": "Skeleton",
+    "description": "Decorative loading primitive with stable slot and state attributes for owner-authored shimmer placeholders.",
+    "section": "Headless / Feedback",
+    "url": "/headless/feedback/skeleton",
+    "tags": [
+      "headless",
+      "feedback",
+      "skeleton",
+      "skeleton"
+    ]
+  },
+  {
+    "title": "Input",
+    "description": "Control semantics, group slots, and input behavior contracts for text entry.",
+    "section": "Headless / Form",
+    "url": "/headless/form/input",
+    "tags": [
+      "headless",
+      "form",
+      "input",
+      "input"
+    ]
+  },
+  {
+    "title": "Input Group",
+    "description": "Shell primitive for one input control plus optional prefix and suffix content with mirrored state attrs.",
+    "section": "Headless / Form",
+    "url": "/headless/form/input-group",
+    "tags": [
+      "headless",
+      "form",
+      "input-group",
+      "input-group"
+    ]
+  },
+  {
+    "title": "Textarea",
+    "description": "Multiline text-entry behavior, resize controls, and grouped textarea composition contracts.",
+    "section": "Headless / Form",
+    "url": "/headless/form/textarea",
+    "tags": [
+      "headless",
+      "form",
+      "textarea",
+      "textarea"
+    ]
+  },
+  {
+    "title": "Label",
+    "description": "Native label semantics with required and disabled styling hooks for explicit or wrapped controls.",
+    "section": "Headless / Form",
+    "url": "/headless/form/label",
+    "tags": [
+      "headless",
+      "form",
+      "label",
+      "label"
+    ]
+  },
+  {
+    "title": "Checkbox",
+    "description": "Binary and mixed selection state behavior with keyboard and ARIA support.",
+    "section": "Headless / Form",
+    "url": "/headless/form/checkbox",
+    "tags": [
+      "headless",
+      "form",
+      "checkbox",
+      "checkbox"
+    ]
+  },
+  {
+    "title": "Toggle",
+    "description": "Pressed-state behavior and group semantics for compact toggle interactions.",
+    "section": "Headless / Form",
+    "url": "/headless/form/toggle",
+    "tags": [
+      "headless",
+      "form",
+      "toggle",
+      "toggle"
+    ]
+  },
+  {
+    "title": "Switch",
+    "description": "Two-state switch behavior with button semantics, data-state hooks, and ARIA wiring.",
+    "section": "Headless / Form",
+    "url": "/headless/form/switch",
+    "tags": [
+      "headless",
+      "form",
+      "switch",
+      "switch"
+    ]
+  },
+  {
+    "title": "Radio",
+    "description": "Single-choice native radio behavior with readonly, invalid, and focus-visible hooks.",
+    "section": "Headless / Form",
+    "url": "/headless/form/radio",
+    "tags": [
+      "headless",
+      "form",
+      "radio",
+      "radio"
+    ]
+  },
+  {
+    "title": "Button Toggle",
+    "description": "Single and multiple pressed-button groups with roving focus, selection outputs, and styling hooks.",
+    "section": "Headless / Form",
+    "url": "/headless/form/button-toggle",
+    "tags": [
+      "headless",
+      "form",
+      "button-toggle",
+      "button-toggle"
+    ]
+  },
+  {
+    "title": "ListBox",
+    "description": "Roving focus, option activation, and selection models for listbox patterns.",
+    "section": "Headless / Form",
+    "url": "/headless/form/listbox",
+    "tags": [
+      "headless",
+      "form",
+      "listbox",
+      "listbox"
+    ]
+  },
+  {
+    "title": "AutoComplete",
+    "description": "Single-value query + option filtering with owned trigger/content directives.",
+    "section": "Headless / Form",
+    "url": "/headless/form/autocomplete",
+    "tags": [
+      "headless",
+      "form",
+      "autocomplete",
+      "autocomplete"
+    ]
+  },
+  {
+    "title": "MultiAutocomplete",
+    "description": "Chip-based multi-selection query handling and option synchronization.",
+    "section": "Headless / Form",
+    "url": "/headless/form/multi-autocomplete",
+    "tags": [
+      "headless",
+      "form",
+      "multi-autocomplete",
+      "multi-autocomplete"
+    ]
+  },
+  {
+    "title": "Select",
+    "description": "Primitive select trigger/content behavior, keyboard flow, and option roles.",
+    "section": "Headless / Form",
+    "url": "/headless/form/selectbox",
+    "tags": [
+      "headless",
+      "form",
+      "selectbox",
+      "selectbox"
+    ]
+  },
+  {
+    "title": "MultiSelect",
+    "description": "Multiple selection state handling and interaction contracts in select overlays.",
+    "section": "Headless / Form",
+    "url": "/headless/form/multiselect",
+    "tags": [
+      "headless",
+      "form",
+      "multiselect",
+      "multiselect"
+    ]
+  },
+  {
+    "title": "Datepicker",
+    "description": "Headless calendar controller with editable input orchestration, overlay ownership, and bounded date navigation.",
+    "section": "Headless / Form",
+    "url": "/headless/form/datepicker",
+    "tags": [
+      "headless",
+      "form",
+      "datepicker",
+      "datepicker"
+    ]
+  },
+  {
+    "title": "Chips",
+    "description": "Token removal, focus order, and input integration behavior for chip lists.",
+    "section": "Headless / Form",
+    "url": "/headless/form/chips",
+    "tags": [
+      "headless",
+      "form",
+      "chips",
+      "chips"
+    ]
+  },
+  {
+    "title": "Input OTP",
+    "description": "Segmented OTP entry primitives with owned slot markup, paste handling, and reflected state attrs.",
+    "section": "Headless / Form",
+    "url": "/headless/form/input-otp",
+    "tags": [
+      "headless",
+      "form",
+      "input-otp",
+      "input-otp"
+    ]
+  },
+  {
+    "title": "Codeblock",
+    "description": "Structural code-block slot directives for owner-authored headers, gutters, and code surfaces.",
+    "section": "Headless / Utility",
+    "url": "/headless/utility/codeblock",
+    "tags": [
+      "headless",
+      "utility",
+      "codeblock",
+      "codeblock"
+    ]
+  },
+  {
+    "title": "CopyButton",
+    "description": "Clipboard action behavior, status signals, and announcer integration hooks.",
+    "section": "Headless / Utility",
+    "url": "/headless/utility/copybutton",
+    "tags": [
+      "headless",
+      "utility",
+      "copybutton",
+      "copybutton"
+    ]
+  },
+  {
+    "title": "Button",
+    "description": "Press normalization, ARIA contracts, and action-state behavior.",
+    "section": "Headless / Utility",
+    "url": "/headless/utility/button",
+    "tags": [
+      "headless",
+      "utility",
+      "button",
+      "button"
+    ]
+  },
+  {
+    "title": "Avatar",
+    "description": "Structural avatar slots for owner-authored image and fallback content without built-in sizing logic.",
+    "section": "Headless / Utility",
+    "url": "/headless/utility/avatar",
+    "tags": [
+      "headless",
+      "utility",
+      "avatar",
+      "avatar"
+    ]
+  },
+  {
+    "title": "Badge",
+    "description": "Generated badge bubble behavior with owner-controlled host markup, counts, dot mode, and placement.",
+    "section": "Headless / Utility",
+    "url": "/headless/utility/badge",
+    "tags": [
+      "headless",
+      "utility",
+      "badge",
+      "badge"
+    ]
+  },
+  {
+    "title": "Tag",
+    "description": "Compact tag semantics with owner-authored icon, removable action, and state-reflecting slot hooks.",
+    "section": "Headless / Utility",
+    "url": "/headless/utility/tag",
+    "tags": [
+      "headless",
+      "utility",
+      "tag",
+      "tag"
+    ]
+  },
+  {
+    "title": "Menubar",
+    "description": "Top-level command bar behavior with focus transfer and owned menu wiring.",
+    "section": "Headless / Navigation",
+    "url": "/headless/navigation/menubar",
+    "tags": [
+      "headless",
+      "navigation",
+      "menubar",
+      "menubar"
+    ]
+  },
+  {
+    "title": "Menu",
+    "description": "Menu, submenu, trigger, and item behavior contracts with keyboard support.",
+    "section": "Headless / Navigation",
+    "url": "/headless/navigation/menu",
+    "tags": [
+      "headless",
+      "navigation",
+      "menu",
+      "menu"
+    ]
+  },
+  {
+    "title": "Context Menu",
+    "description": "Context-triggered menu behavior for right-click and keyboard surface actions.",
+    "section": "Headless / Navigation",
+    "url": "/headless/navigation/context-menu",
+    "tags": [
+      "headless",
+      "navigation",
+      "context-menu",
+      "context-menu"
+    ]
+  },
+  {
+    "title": "Breadcrumb",
+    "description": "Structural breadcrumb slots for owner-controlled trails, current links, and separators.",
+    "section": "Headless / Navigation",
+    "url": "/headless/navigation/breadcrumb",
+    "tags": [
+      "headless",
+      "navigation",
+      "breadcrumb",
+      "breadcrumb"
+    ]
+  },
+  {
+    "title": "Tabs",
+    "description": "Tablist, trigger, and panel behavior with roving focus, selection outputs, and mount control.",
+    "section": "Headless / Navigation",
+    "url": "/headless/navigation/tabs",
+    "tags": [
+      "headless",
+      "navigation",
+      "tabs",
+      "tabs"
+    ]
+  },
+  {
+    "title": "Tree",
+    "description": "Hierarchical treeitem contracts with owned expansion, selection, and typeahead styling.",
+    "section": "Headless / Navigation",
+    "url": "/headless/navigation/tree",
+    "tags": [
+      "headless",
+      "navigation",
+      "tree",
+      "tree"
+    ]
+  },
+  {
+    "title": "Pagination",
+    "description": "Page index, size, movement controls, and client or server pagination contracts.",
+    "section": "Headless / Navigation",
+    "url": "/headless/navigation/pagination",
+    "tags": [
+      "headless",
+      "navigation",
+      "pagination",
+      "pagination"
+    ]
+  },
+  {
+    "title": "Overview",
+    "description": "What ownable means in TailNG and when local source ownership is the right fit.",
+    "section": "Ownable / Getting Started",
+    "url": "/ownable/getting-started/overview",
+    "tags": [
+      "ownable",
+      "getting-started",
+      "overview",
+      "overview"
+    ]
+  },
+  {
+    "title": "Quick Start",
+    "description": "List the surface, add a component, and edit the generated files locally.",
+    "section": "Ownable / Getting Started",
+    "url": "/ownable/getting-started/quick-start",
+    "tags": [
+      "ownable",
+      "getting-started",
+      "quick-start",
+      "quick-start"
+    ]
+  },
+  {
+    "title": "Card",
+    "description": "Ownable card install with local wrapper source, content shell markup, and generated file structure.",
+    "section": "Ownable / Layout",
+    "url": "/ownable/layout/card",
+    "tags": [
+      "ownable",
+      "layout",
+      "card",
+      "card"
+    ]
+  },
+  {
+    "title": "Separator",
+    "description": "Ownable separator install with local wrapper source, divider styling, and generated file structure.",
+    "section": "Ownable / Layout",
+    "url": "/ownable/layout/separator",
+    "tags": [
+      "ownable",
+      "layout",
+      "separator",
+      "separator"
+    ]
+  },
+  {
+    "title": "Collapsible",
+    "description": "Ownable collapsible install with local wrapper source, disclosure markup, and generated file structure.",
+    "section": "Ownable / Layout",
+    "url": "/ownable/layout/collapsible",
+    "tags": [
+      "ownable",
+      "layout",
+      "collapsible",
+      "collapsible"
+    ]
+  },
+  {
+    "title": "Accordion",
+    "description": "Ownable accordion install with local wrapper source, section markup, and generated file structure.",
+    "section": "Ownable / Layout",
+    "url": "/ownable/layout/accordion",
+    "tags": [
+      "ownable",
+      "layout",
+      "accordion",
+      "accordion"
+    ]
+  },
+  {
+    "title": "Stepper",
+    "description": "Ownable stepper install with local wrapper source, progress markup, and generated file structure.",
+    "section": "Ownable / Layout",
+    "url": "/ownable/layout/stepper",
+    "tags": [
+      "ownable",
+      "layout",
+      "stepper",
+      "stepper"
+    ]
+  },
+  {
+    "title": "Table",
+    "description": "Ownable table install with local column rendering, data-state markup, and generated file structure.",
+    "section": "Ownable / Layout",
+    "url": "/ownable/layout/table",
+    "tags": [
+      "ownable",
+      "layout",
+      "table",
+      "table"
+    ]
+  },
+  {
+    "title": "Dialog",
+    "description": "Ownable dialog install with local wrapper source, modal behavior helpers, and generated file structure.",
+    "section": "Ownable / Overlay",
+    "url": "/ownable/overlay/dialog",
+    "tags": [
+      "ownable",
+      "overlay",
+      "dialog",
+      "dialog"
+    ]
+  },
+  {
+    "title": "Popover",
+    "description": "Ownable popover install with local wrapper source, anchored panel behavior, and generated file structure.",
+    "section": "Ownable / Overlay",
+    "url": "/ownable/overlay/popover",
+    "tags": [
+      "ownable",
+      "overlay",
+      "popover",
+      "popover"
+    ]
+  },
+  {
+    "title": "Tooltip",
+    "description": "Ownable tooltip install with local wrapper source, helper-text defaults, and generated file structure.",
+    "section": "Ownable / Overlay",
+    "url": "/ownable/overlay/tooltip",
+    "tags": [
+      "ownable",
+      "overlay",
+      "tooltip",
+      "tooltip"
+    ]
+  },
+  {
+    "title": "Toast",
+    "description": "Ownable toast install with local queue UI, notification styling, and generated file structure.",
+    "section": "Ownable / Feedback",
+    "url": "/ownable/feedback/toast",
+    "tags": [
+      "ownable",
+      "feedback",
+      "toast",
+      "toast"
+    ]
+  },
+  {
+    "title": "Empty",
+    "description": "Ownable empty install with local wrapper source, no-data copy patterns, and generated file structure.",
+    "section": "Ownable / Feedback",
+    "url": "/ownable/feedback/empty",
+    "tags": [
+      "ownable",
+      "feedback",
+      "empty",
+      "empty"
+    ]
+  },
+  {
+    "title": "Progress Bar",
+    "description": "Ownable progress-bar install with local wrapper source, track styling, and generated file structure.",
+    "section": "Ownable / Feedback",
+    "url": "/ownable/feedback/progress-bar",
+    "tags": [
+      "ownable",
+      "feedback",
+      "progress-bar",
+      "progress-bar"
+    ]
+  },
+  {
+    "title": "Progress Spinner",
+    "description": "Ownable progress-spinner install with local wrapper source, circular motion defaults, and generated file structure.",
+    "section": "Ownable / Feedback",
+    "url": "/ownable/feedback/progress-spinner",
+    "tags": [
+      "ownable",
+      "feedback",
+      "progress-spinner",
+      "progress-spinner"
+    ]
+  },
+  {
+    "title": "Skeleton",
+    "description": "Ownable skeleton install with local wrapper source, shimmer defaults, and generated file structure.",
+    "section": "Ownable / Feedback",
+    "url": "/ownable/feedback/skeleton",
+    "tags": [
+      "ownable",
+      "feedback",
+      "skeleton",
+      "skeleton"
+    ]
+  },
+  {
+    "title": "Input",
+    "description": "Ownable input install with local wrapper source, import metadata, and generated file structure.",
+    "section": "Ownable / Form",
+    "url": "/ownable/form/input",
+    "tags": [
+      "ownable",
+      "form",
+      "input",
+      "input"
+    ]
+  },
+  {
+    "title": "Textarea",
+    "description": "Ownable textarea install with local wrapper source, import metadata, and generated file structure.",
+    "section": "Ownable / Form",
+    "url": "/ownable/form/textarea",
+    "tags": [
+      "ownable",
+      "form",
+      "textarea",
+      "textarea"
+    ]
+  },
+  {
+    "title": "Label",
+    "description": "Ownable label install with local wrapper source, semantic defaults, and generated file structure.",
+    "section": "Ownable / Form",
+    "url": "/ownable/form/label",
+    "tags": [
+      "ownable",
+      "form",
+      "label",
+      "label"
+    ]
+  },
+  {
+    "title": "Checkbox",
+    "description": "Ownable checkbox install with local wrapper source, form integration, and generated file structure.",
+    "section": "Ownable / Form",
+    "url": "/ownable/form/checkbox",
+    "tags": [
+      "ownable",
+      "form",
+      "checkbox",
+      "checkbox"
+    ]
+  },
+  {
+    "title": "Toggle",
+    "description": "Ownable toggle install with local wrapper source, icon-slot ownership, and generated file structure.",
+    "section": "Ownable / Form",
+    "url": "/ownable/form/toggle",
+    "tags": [
+      "ownable",
+      "form",
+      "toggle",
+      "toggle"
+    ]
+  },
+  {
+    "title": "Switch",
+    "description": "Ownable switch install with local wrapper source, form integration, and generated file structure.",
+    "section": "Ownable / Form",
+    "url": "/ownable/form/switch",
+    "tags": [
+      "ownable",
+      "form",
+      "switch",
+      "switch"
+    ]
+  },
+  {
+    "title": "Radio",
+    "description": "Ownable radio install with local wrapper source, group semantics, and generated file structure.",
+    "section": "Ownable / Form",
+    "url": "/ownable/form/radio",
+    "tags": [
+      "ownable",
+      "form",
+      "radio",
+      "radio"
+    ]
+  },
+  {
+    "title": "Button Toggle",
+    "description": "Ownable button-toggle install with local group and item wrappers, toolbar semantics, and generated file structure.",
+    "section": "Ownable / Form",
+    "url": "/ownable/form/button-toggle",
+    "tags": [
+      "ownable",
+      "form",
+      "button-toggle",
+      "button-toggle"
+    ]
+  },
+  {
+    "title": "Autocomplete",
+    "description": "Ownable autocomplete install with local wrapper source, option mapping defaults, and generated file structure.",
+    "section": "Ownable / Form",
+    "url": "/ownable/form/autocomplete",
+    "tags": [
+      "ownable",
+      "form",
+      "autocomplete",
+      "autocomplete"
+    ]
+  },
+  {
+    "title": "Chips",
+    "description": "Ownable chips install with local wrapper source, removable token markup, and generated file structure.",
+    "section": "Ownable / Form",
+    "url": "/ownable/form/chips",
+    "tags": [
+      "ownable",
+      "form",
+      "chips",
+      "chips"
+    ]
+  },
+  {
+    "title": "Input OTP",
+    "description": "Ownable input-otp install with local wrapper source, verification-flow defaults, and generated file structure.",
+    "section": "Ownable / Form",
+    "url": "/ownable/form/input-otp",
+    "tags": [
+      "ownable",
+      "form",
+      "input-otp",
+      "input-otp"
+    ]
+  },
+  {
+    "title": "Codeblock",
+    "description": "Ownable codeblock install with local wrapper source, highlighting hooks, and generated file structure.",
+    "section": "Ownable / Utility",
+    "url": "/ownable/utility/codeblock",
+    "tags": [
+      "ownable",
+      "utility",
+      "codeblock",
+      "codeblock"
+    ]
+  },
+  {
+    "title": "CopyButton",
+    "description": "Ownable copy button install with local wrapper source, clipboard feedback states, and generated file structure.",
+    "section": "Ownable / Utility",
+    "url": "/ownable/utility/copybutton",
+    "tags": [
+      "ownable",
+      "utility",
+      "copybutton",
+      "copybutton"
+    ]
+  },
+  {
+    "title": "Button",
+    "description": "Ownable button install with local wrapper source, action semantics, and generated file structure.",
+    "section": "Ownable / Utility",
+    "url": "/ownable/utility/button",
+    "tags": [
+      "ownable",
+      "utility",
+      "button",
+      "button"
+    ]
+  },
+  {
+    "title": "Avatar",
+    "description": "Ownable avatar install with local wrapper source, fallback initials, and generated file structure.",
+    "section": "Ownable / Utility",
+    "url": "/ownable/utility/avatar",
+    "tags": [
+      "ownable",
+      "utility",
+      "avatar",
+      "avatar"
+    ]
+  },
+  {
+    "title": "Badge",
+    "description": "Ownable badge install with local directive source, generated bubble styling, and generated file structure.",
+    "section": "Ownable / Utility",
+    "url": "/ownable/utility/badge",
+    "tags": [
+      "ownable",
+      "utility",
+      "badge",
+      "badge"
+    ]
+  },
+  {
+    "title": "Tag",
+    "description": "Ownable tag install with local wrapper source, removable chip behavior, and generated file structure.",
+    "section": "Ownable / Utility",
+    "url": "/ownable/utility/tag",
+    "tags": [
+      "ownable",
+      "utility",
+      "tag",
+      "tag"
+    ]
+  },
+  {
+    "title": "Menubar",
+    "description": "Ownable menubar install with local wrapper source, command-strip markup, and generated file structure.",
+    "section": "Ownable / Navigation",
+    "url": "/ownable/navigation/menubar",
+    "tags": [
+      "ownable",
+      "navigation",
+      "menubar",
+      "menubar"
+    ]
+  },
+  {
+    "title": "Context Menu",
+    "description": "Ownable context-menu install with local wrapper source, trigger semantics, and generated file structure.",
+    "section": "Ownable / Navigation",
+    "url": "/ownable/navigation/context-menu",
+    "tags": [
+      "ownable",
+      "navigation",
+      "context-menu",
+      "context-menu"
+    ]
+  },
+  {
+    "title": "Breadcrumb",
+    "description": "Ownable breadcrumb install with local wrapper source, collapsed trail defaults, and generated file structure.",
+    "section": "Ownable / Navigation",
+    "url": "/ownable/navigation/breadcrumb",
+    "tags": [
+      "ownable",
+      "navigation",
+      "breadcrumb",
+      "breadcrumb"
+    ]
+  },
+  {
+    "title": "Tabs",
+    "description": "Ownable tabs install with local wrapper source, tablist markup, and generated file structure.",
+    "section": "Ownable / Navigation",
+    "url": "/ownable/navigation/tabs",
+    "tags": [
+      "ownable",
+      "navigation",
+      "tabs",
+      "tabs"
+    ]
+  },
+  {
+    "title": "Tree",
+    "description": "Ownable tree install with local wrapper source, hierarchical row presentation, and generated file structure.",
+    "section": "Ownable / Navigation",
+    "url": "/ownable/navigation/tree",
+    "tags": [
+      "ownable",
+      "navigation",
+      "tree",
+      "tree"
+    ]
+  },
+  {
+    "title": "Pagination",
+    "description": "Ownable pagination install with local control markup, page-size options, and generated file structure.",
+    "section": "Ownable / Navigation",
+    "url": "/ownable/navigation/pagination",
+    "tags": [
+      "ownable",
+      "navigation",
+      "pagination",
+      "pagination"
+    ]
+  },
+  {
+    "title": "CLI",
+    "description": "Commands, options, aliases, and user-facing behavior of the `tailng` CLI.",
+    "section": "Ownable / Tooling",
+    "url": "/ownable/tooling/cli",
+    "tags": [
+      "ownable",
+      "tooling",
+      "cli",
+      "cli"
+    ]
+  },
+  {
+    "title": "Registry",
+    "description": "The registry contract that defines generated files, install metadata, and names.",
+    "section": "Ownable / Tooling",
+    "url": "/ownable/tooling/registry",
+    "tags": [
+      "ownable",
+      "tooling",
+      "registry",
+      "registry"
+    ]
+  },
+  {
+    "title": "Release Workflow",
+    "description": "How registry and CLI releases are validated, packed, smoke-tested, and published.",
+    "section": "Ownable / Release",
+    "url": "/ownable/release/workflow",
+    "tags": [
+      "ownable",
+      "release",
+      "workflow",
+      "workflow"
+    ]
+  }
+]
