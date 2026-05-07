@@ -293,4 +293,60 @@
       </ng-template>
     </app-docs-example-tabs-section>
   </section>
+
+  <section id="programmatic-country-search" class="autocomplete-examples__section">
+    <app-docs-example-tabs-section
+      heading="Programmatic country search"
+      description="Type in an external input, click Search, and forward that value into autocomplete query with overlay opened."
+      ariaLabel="Autocomplete programmatic country search example"
+      tabListAriaLabel="Autocomplete programmatic country search variants"
+      [defaultValue]="'live-demo'"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template appDocsExampleVariant value="live-demo" label="Live demo" panelTitle="Programmatic country search">
+        <section class="docs-autocomplete-country-example">
+          <div class="docs-autocomplete-country-example__header">
+            <span class="docs-autocomplete-country-example__eyebrow">Programmatic search trigger</span>
+            <p class="docs-autocomplete-country-example__copy">
+              Enter a term, click Search, then autocomplete query is updated and its overlay opens.
+            </p>
+          </div>
+
+          <div class="docs-autocomplete-programmatic-row">
+            <input
+              class="docs-autocomplete-programmatic-input"
+              type="text"
+              [value]="programmaticInputQuery()"
+              (input)="programmaticInputQuery.set($any($event.target).value)"
+              placeholder="Type: ind, mex, jap..."
+              aria-label="Programmatic country query"
+            />
+            <tng-button type="button" appearance="outline" tone="neutral" size="sm" (click)="applyProgrammaticCountryQuery()">
+              Search
+            </tng-button>
+          </div>
+
+          <div class="docs-autocomplete-country-example__control">
+            <tng-autocomplete
+              [options]="filteredProgrammaticCountryOptions()"
+              [value]="programmaticCountryValue()"
+              (valueChange)="onProgrammaticCountryChange($event)"
+              [query]="programmaticAutocompleteQuery()"
+              (queryChange)="programmaticAutocompleteQuery.set($event)"
+              [open]="programmaticAutocompleteOpen()"
+              (openChange)="programmaticAutocompleteOpen.set($event)"
+              [getOptionValue]="getCountryValue"
+              [getOptionLabel]="getCountryLabel"
+              placeholder="Country search"
+              [ariaLabel]="'Programmatic country search'"
+            ></tng-autocomplete>
+          </div>
+
+          <p class="docs-autocomplete-country-example__summary">
+            Selected: {{ programmaticCountrySummary() }}
+          </p>
+        </section>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
 </article>

@@ -1,7 +1,7 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, computed, inject, signal, type OnDestroy } from '@angular/core';
 import { FormField, form } from '@angular/forms/signals';
-import { TngAutocompleteComponent } from '@tailng-ui/components';
+import { TngAutocompleteComponent, TngButtonComponent } from '@tailng-ui/components';
 import { COUNTRY_LIST } from '../../../../../../shared/data/country-list';
 import { CURRENCY_LIST } from '../../../../../../shared/data/currency-list';
 import type { DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
@@ -520,6 +520,7 @@ function ensureFlagStylesheet(documentRef: Document): void {
   selector: 'app-autocomplete-examples-page',
   imports: [
     TngAutocompleteComponent,
+    TngButtonComponent,
     FormField,
     DocsExampleTabsSectionComponent,
     DocsExampleVariantDirective,
@@ -566,6 +567,10 @@ export class AutocompleteExamplesPageComponent implements OnDestroy {
   protected readonly countryTailwindQuery = signal('');
   protected readonly ownerPlainQuery = signal('');
   protected readonly ownerTailwindQuery = signal('');
+  protected readonly programmaticInputQuery = signal('');
+  protected readonly programmaticAutocompleteQuery = signal('');
+  protected readonly programmaticCountryValue = signal<string | null>(null);
+  protected readonly programmaticAutocompleteOpen = signal(false);
   protected readonly signalFormCountryQuery = signal('');
   protected readonly signalFormCurrencyQuery = signal('');
   protected readonly signalFormData = signal<AutocompleteSignalFormData>({
@@ -595,6 +600,16 @@ export class AutocompleteExamplesPageComponent implements OnDestroy {
   );
   protected readonly filteredOwnerTailwindOptions = computed(() =>
     filterOptions(this.releaseOwners, this.ownerTailwindQuery(), this.getOwnerLabel),
+  );
+  protected readonly filteredProgrammaticCountryOptions = computed(() =>
+    filterOptions(
+      this.countries,
+      this.programmaticAutocompleteQuery(),
+      this.getCountryLabel,
+    ),
+  );
+  protected readonly programmaticCountrySummary = computed(() =>
+    resolveCountryLabel(this.programmaticCountryValue()),
   );
   protected readonly filteredSignalFormCountries = computed(() =>
     filterOptions(
@@ -648,6 +663,15 @@ export class AutocompleteExamplesPageComponent implements OnDestroy {
 
   protected onOwnerTailwindChange(value: unknown): void {
     this.ownerTailwindValue.set(typeof value === 'string' ? value : null);
+  }
+
+  protected onProgrammaticCountryChange(value: unknown): void {
+    this.programmaticCountryValue.set(typeof value === 'string' ? value : null);
+  }
+
+  protected applyProgrammaticCountryQuery(): void {
+    this.programmaticAutocompleteQuery.set(this.programmaticInputQuery().trim());
+    this.programmaticAutocompleteOpen.set(true);
   }
 
   protected readonly getFlagClass = (country: CountryOption): string =>

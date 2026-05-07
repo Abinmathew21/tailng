@@ -375,6 +375,75 @@ async function openAutocomplete(
 }
 
 describe('tng-autocomplete query (Autocomplete-specific)', () => {
+  describe('programmatic query + open', () => {
+    it('keeps programmatically set query when opened', async () => {
+      const fixture = TestBed.configureTestingModule({
+        imports: [QueryHostComponent],
+      }).createComponent(QueryHostComponent);
+
+      fixture.detectChanges();
+
+      const host = fixture.componentInstance;
+      const trigger = fixture.nativeElement.querySelector(
+        '[data-testid="trigger"]'
+      ) as HTMLInputElement;
+
+      host.query.set('un');
+      host.api.open.set(true);
+      fixture.detectChanges();
+      await Promise.resolve();
+      fixture.detectChanges();
+
+      expect(host.open()).toBe(true);
+      expect(host.query()).toBe('un');
+      expect(trigger.value).toBe('un');
+    });
+
+    it('does not clear programmatic query after effect flush while open', async () => {
+      const fixture = TestBed.configureTestingModule({
+        imports: [QueryHostComponent],
+      }).createComponent(QueryHostComponent);
+
+      fixture.detectChanges();
+
+      const host = fixture.componentInstance;
+      const trigger = fixture.nativeElement.querySelector(
+        '[data-testid="trigger"]'
+      ) as HTMLInputElement;
+
+      host.query.set('ind');
+      host.api.open.set(true);
+      fixture.detectChanges();
+
+      await Promise.resolve();
+      fixture.detectChanges();
+      await Promise.resolve();
+      fixture.detectChanges();
+
+      expect(host.query()).toBe('ind');
+      expect(trigger.value).toBe('ind');
+      expect(host.open()).toBe(true);
+    });
+
+    it('programmatic query while open drives filtered options', async () => {
+      const fixture = TestBed.configureTestingModule({
+        imports: [FilteredQueryHostComponent],
+      }).createComponent(FilteredQueryHostComponent);
+
+      fixture.detectChanges();
+
+      const host = fixture.componentInstance;
+
+      host.query.set('un');
+      host.api.open.set(true);
+      fixture.detectChanges();
+      await Promise.resolve();
+      fixture.detectChanges();
+
+      expect(host.filteredOptions()).toEqual(['United States', 'United Kingdom']);
+    });
+  });
+
   describe('typing updates query signal', () => {
     it('input events update query signal', () => {
       const fixture = TestBed.configureTestingModule({
