@@ -1,7 +1,5 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, inject, signal, type OnDestroy } from '@angular/core';
-import { observeDocsCodeThemeChanges, resolveDocsCodeBlockTheme } from '../../../../../../shared/util';
-import { stackblitzTailwindUrl, stackblitzVanillaUrl } from '../../input.util';
 import { TngInputComponent } from '@tailng-ui/components';
 import type { DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
 import {
@@ -9,6 +7,8 @@ import {
   DocsExampleVariantDirective,
 } from '../../../../../../shared/example-tabs-section/docs-example-tabs-section.component';
 import { DocsFormDemoShellComponent } from '../../../../../../shared/form-demo-shell/docs-form-demo-shell.component';
+import { observeDocsCodeThemeChanges, resolveDocsCodeBlockTheme } from '../../../../../../shared/util';
+import { stackblitzTailwindUrl, stackblitzVanillaUrl } from '../../input.util';
 
 function createCodeTabs(options: {
   baseName: string;
@@ -64,6 +64,7 @@ export class InputExamplesPageComponent implements OnDestroy {
   protected readonly stackblitzVanillaUrl = stackblitzVanillaUrl;
   protected readonly stackblitzTailwindUrl = stackblitzTailwindUrl;
   protected readonly formDemoValue = signal('Nova workspace');
+  protected readonly taxGroupRate = signal('8.5');
 
   private readonly tsBasic = [
     "import { Component } from '@angular/core';",
@@ -107,6 +108,23 @@ export class InputExamplesPageComponent implements OnDestroy {
     "  styleUrl: './doc-cmp-input-ex-validation.component.css',",
     '})',
     'export class DocCmpInputExValidationComponent {}',
+    '',
+  ].join('\n');
+
+  private readonly tsNumber = [
+    "import { Component, signal } from '@angular/core';",
+    "import { TngInputComponent } from '@tailng-ui/components';",
+    '',
+    '@Component({',
+    "  selector: 'app-doc-cmp-input-ex-number',",
+    '  standalone: true,',
+    '  imports: [TngInputComponent],',
+    "  templateUrl: './doc-cmp-input-ex-number.component.html',",
+    "  styleUrl: './doc-cmp-input-ex-number.component.css',",
+    '})',
+    'export class DocCmpInputExNumberComponent {',
+    "  protected readonly taxGroupRate = signal('8.5');",
+    '}',
     '',
   ].join('\n');
 
@@ -165,6 +183,22 @@ export class InputExamplesPageComponent implements OnDestroy {
     '.doc-cmp-input-ex-validation-helper--danger {',
     '  color: #dc2626;',
     '  font-size: 0.82rem;',
+    '}',
+    '',
+  ].join('\n');
+
+  private readonly plainCssNumber = [
+    '/* Layout only; tng-input renders the number controls. */',
+    '',
+    '.doc-cmp-input-ex-number-preview {',
+    '  display: grid;',
+    '  gap: 0.65rem;',
+    '  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));',
+    '  width: min(100%, 40rem);',
+    '}',
+    '',
+    '.doc-cmp-input-ex-number-hidden {',
+    '  --tng-input-number-controls-display: none;',
     '}',
     '',
   ].join('\n');
@@ -269,6 +303,73 @@ export class InputExamplesPageComponent implements OnDestroy {
       '',
     ].join('\n'),
     cssCode: this.tailwindCssCode,
+  });
+
+  protected readonly numberPlainCodeTabs = createCodeTabs({
+    baseName: 'doc-cmp-input-ex-number-plain',
+    tsCode: this.tsNumber,
+    htmlCode: [
+      '<div class="doc-cmp-input-ex-number-preview">',
+      '  <tng-input',
+      '    id="tax-group-rate"',
+      '    type="number"',
+      '    ariaLabel="Tax group rate"',
+      '    [step]="0.5"',
+      '    [min]="0"',
+      '    [max]="100"',
+      '    [value]="taxGroupRate()"',
+      '    (valueChange)="taxGroupRate.set($event)"',
+      '  ></tng-input>',
+      '',
+      '  <tng-input',
+      '    class="doc-cmp-input-ex-number-hidden"',
+      '    type="number"',
+      '    ariaLabel="Tax group rate without controls"',
+      '    value="8.5"',
+      '    [step]="0.5"',
+      '    [min]="0"',
+      '    [max]="100"',
+      '  ></tng-input>',
+      '</div>',
+      '',
+    ].join('\n'),
+    cssCode: this.plainCssNumber,
+  });
+
+  protected readonly numberTailwindCodeTabs = createCodeTabs({
+    baseName: 'doc-cmp-input-ex-number-tailwind',
+    tsCode: this.tsNumber,
+    htmlCode: [
+      '<div class="doc-cmp-input-ex-number-preview grid w-full max-w-2xl grid-cols-1 gap-3 sm:grid-cols-2">',
+      '  <tng-input',
+      '    id="tax-group-rate"',
+      '    type="number"',
+      '    ariaLabel="Tax group rate"',
+      '    [step]="0.5"',
+      '    [min]="0"',
+      '    [max]="100"',
+      '    [value]="taxGroupRate()"',
+      '    (valueChange)="taxGroupRate.set($event)"',
+      '  ></tng-input>',
+      '',
+      '  <tng-input',
+      '    class="doc-cmp-input-ex-number-hidden"',
+      '    type="number"',
+      '    ariaLabel="Tax group rate without controls"',
+      '    value="8.5"',
+      '    [step]="0.5"',
+      '    [min]="0"',
+      '    [max]="100"',
+      '  ></tng-input>',
+      '</div>',
+      '',
+    ].join('\n'),
+    cssCode: [
+      '.doc-cmp-input-ex-number-hidden {',
+      '  --tng-input-number-controls-display: none;',
+      '}',
+      '',
+    ].join('\n'),
   });
 
   protected readonly statesPlainCodeTabs = createCodeTabs({

@@ -2,16 +2,19 @@ import {
   Component,
   forwardRef,
   HostBinding,
+  ViewChild,
   input,
   output,
 } from '@angular/core';
 import { booleanAttribute } from '@angular/core';
-import type { ControlValueAccessor} from '@angular/forms';
+import type { ElementRef } from '@angular/core';
+import type { ControlValueAccessor } from '@angular/forms';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import {
   coerceTngInputNullableBoolean,
   TngInput,
+  TngSuffix,
   type TngInputType,
 } from '@tailng-ui/primitives';
 
@@ -37,10 +40,36 @@ function readInputValue(event: unknown): string | null {
   return target.value;
 }
 
+function normalizeNumberAttr(value: number | string | null | undefined): string | null {
+  if (value === undefined || value === null) return null;
+  const normalized = String(value).trim();
+  return normalized.length > 0 ? normalized : null;
+}
+
+function readFiniteNumber(value: number | string | null | undefined): number | null {
+  if (value === undefined || value === null || value === '') return null;
+  const numericValue = typeof value === 'number' ? value : Number(value);
+  return Number.isFinite(numericValue) ? numericValue : null;
+}
+
+function formatNumberValue(value: number): string {
+  return Number.parseFloat(value.toPrecision(12)).toString();
+}
+
+function stringifyControlValue(value: unknown): string | null {
+  if (value === null || value === undefined) return null;
+  if (typeof value === 'string') return value;
+  if (typeof value === 'number' || typeof value === 'boolean' || typeof value === 'bigint') {
+    return String(value);
+  }
+
+  return null;
+}
+
 @Component({
   selector: 'tng-input',
   standalone: true,
-  imports: [TngFormFieldComponent, TngInput],
+  imports: [TngFormFieldComponent, TngInput, TngSuffix],
   templateUrl: './tng-input.component.html',
   styleUrl: './tng-input.component.css',
   providers: [
@@ -84,6 +113,9 @@ export class TngInputComponent implements ControlValueAccessor {
   public readonly required = input<boolean, boolean | string>(false, {
     transform: booleanAttribute,
   });
+  public readonly max = input<number | string | null>(null);
+  public readonly min = input<number | string | null>(null);
+  public readonly step = input<number | string | null>(null);
   public readonly type = input<TngInputType>('text');
 
   /**
@@ -98,6 +130,9 @@ export class TngInputComponent implements ControlValueAccessor {
   public readonly blurEvent = output<FocusEvent>({ alias: 'blur' });
 
   // ---- CVA state ----
+  @ViewChild('inputControl')
+  private readonly inputControl: ElementRef<HTMLInputElement> | undefined;
+
   private usingCva = false;
   private cvaValue: string | null = null;
   private cvaDisabled = false;
@@ -124,6 +159,11 @@ export class TngInputComponent implements ControlValueAccessor {
     return this.tone();
   }
 
+  @HostBinding('attr.data-type')
+  protected get dataType(): TngInputType {
+    return this.type();
+  }
+
   @HostBinding('attr.data-full-width')
   protected get dataFullWidth(): '' | null {
     return this.fullWidth() ? '' : null;
@@ -139,15 +179,14 @@ export class TngInputComponent implements ControlValueAccessor {
     return this.cvaDisabled || this.disabled();
   }
 
+  protected get isNumberInput(): boolean {
+    return this.type() === 'number';
+  }
+
   // ---- CVA ----
   public writeValue(value: unknown): void {
     this.usingCva = true;
-    this.cvaValue =
-      typeof value === 'string'
-        ? value
-        : value == null
-          ? null
-          : String(value);
+    this.cvaValue = stringifyControlValue(value);
   }
 
   public registerOnChange(fn: (value: string) => void): void {
@@ -170,6 +209,31 @@ export class TngInputComponent implements ControlValueAccessor {
     // If disabled, ignore (optional safety)
     if (this.effectiveDisabled) return;
 
+    this.commitValue(next, event);
+  }
+
+  public stepNumber(delta: -1 | 1): void {
+    if (!this.isNumberInput || this.effectiveDisabled || this.readonly()) return;
+
+    const inputElement = this.inputControl?.nativeElement;
+    if (inputElement === undefined) return;
+
+    inputElement.focus();
+
+    try {
+      if (delta > 0) {
+        inputElement.stepUp();
+      } else {
+        inputElement.stepDown();
+      }
+    } catch {
+      inputElement.value = this.nextSteppedValue(inputElement.value, delta);
+    }
+
+    this.commitValue(inputElement.value, null);
+  }
+
+  private commitValue(next: string, event: unknown): void {
     // Keep CVA in sync when used
     if (this.usingCva) {
       if (this.cvaValue === next) {
@@ -189,12 +253,32 @@ export class TngInputComponent implements ControlValueAccessor {
     }
   }
 
-  public onBlur(event: FocusEvent): void {
+  private nextSteppedValue(currentValue: string, delta: -1 | 1): string {
+    const min = readFiniteNumber(this.min());
+    const max = readFiniteNumber(this.max());
+    const step = readFiniteNumber(this.step()) ?? 1;
+    const current = readFiniteNumber(currentValue) ?? min ?? 0;
+    const nextStep = step > 0 ? step : 1;
+    let next = current + delta * nextStep;
+
+    if (min !== null) next = Math.max(min, next);
+    if (max !== null) next = Math.min(max, next);
+
+    return formatNumberValue(next);
+  }
+
+  public onBlur(event: unknown): void {
     this.onTouched();
-    this.blurEvent.emit(event);
+    if (event instanceof FocusEvent) {
+      this.blurEvent.emit(event);
+    }
   }
 
   protected normalizeAttrValue(value: string | null | undefined): string | null {
     return normalizeAttr(value);
+  }
+
+  protected normalizeNumberAttrValue(value: number | string | null | undefined): string | null {
+    return normalizeNumberAttr(value);
   }
 }

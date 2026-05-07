@@ -6,6 +6,7 @@
   [fullWidth]="fullWidth()"
 >
   <input
+    #inputControl
     tngInput
     class="tng-input-control"
     [type]="type()"
@@ -19,10 +20,38 @@
     [ariaRequired]="ariaRequired()"
     [attr.autocomplete]="normalizeAttrValue(autocomplete())"
     [attr.id]="normalizeAttrValue(id())"
+    [attr.max]="normalizeNumberAttrValue(max())"
+    [attr.min]="normalizeNumberAttrValue(min())"
     [attr.name]="normalizeAttrValue(name())"
     [attr.placeholder]="normalizeAttrValue(placeholder())"
+    [attr.step]="normalizeNumberAttrValue(step())"
     [value]="effectiveValue"
     (input)="onInput($event)"
     (blur)="onBlur($event)"
   />
+
+  @if (isNumberInput) {
+    <span tngSuffix class="tng-input-number-controls">
+      <button
+        class="tng-input-number-button"
+        type="button"
+        tabindex="-1"
+        [disabled]="effectiveDisabled || readonly()"
+        aria-label="Increment value"
+        (click)="stepNumber(1)"
+      >
+        <span class="tng-input-number-icon" aria-hidden="true"></span>
+      </button>
+      <button
+        class="tng-input-number-button"
+        type="button"
+        tabindex="-1"
+        [disabled]="effectiveDisabled || readonly()"
+        aria-label="Decrement value"
+        (click)="stepNumber(-1)"
+      >
+        <span class="tng-input-number-icon" aria-hidden="true"></span>
+      </button>
+    </span>
+  }
 </tng-form-field>

@@ -134,6 +134,71 @@
       </app-docs-example-tabs-section>
     </section>
 
+    <section id="number-controls" class="docs-section-anchor input-examples-block">
+      <app-docs-example-tabs-section
+        heading="Number controls"
+        description="Custom stepper buttons for numeric fields, with an opt-out CSS override."
+        ariaLabel="Number input control variants"
+        tabListAriaLabel="Number input control style variants"
+        defaultValue="plain-css"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <ng-template appDocsExampleVariant value="plain-css" label="Plain-CSS" panelTitle="Number controls (Plain-CSS)" [codeTabs]="numberPlainCodeTabs" [stackblitzUrl]="stackblitzVanillaUrl">
+          <div class="doc-cmp-input-ex-number-preview">
+            <tng-input
+              id="tax-group-rate"
+              type="number"
+              ariaLabel="Tax group rate"
+              [step]="0.5"
+              [min]="0"
+              [max]="100"
+              [value]="taxGroupRate()"
+              (valueChange)="taxGroupRate.set($event)"
+              (click)="focusProjectedInput($event)"
+            ></tng-input>
+
+            <tng-input
+              class="doc-cmp-input-ex-number-hidden"
+              type="number"
+              ariaLabel="Tax group rate without controls"
+              value="8.5"
+              [step]="0.5"
+              [min]="0"
+              [max]="100"
+              (click)="focusProjectedInput($event)"
+            ></tng-input>
+          </div>
+        </ng-template>
+
+        <ng-template appDocsExampleVariant value="tailwind-css" label="Tailwind CSS" panelTitle="Number controls (Tailwind CSS)" [codeTabs]="numberTailwindCodeTabs" [stackblitzUrl]="stackblitzTailwindUrl">
+          <div class="doc-cmp-input-ex-number-preview grid w-full max-w-2xl grid-cols-1 gap-3 sm:grid-cols-2">
+            <tng-input
+              id="tax-group-rate-tailwind"
+              type="number"
+              ariaLabel="Tax group rate"
+              [step]="0.5"
+              [min]="0"
+              [max]="100"
+              [value]="taxGroupRate()"
+              (valueChange)="taxGroupRate.set($event)"
+              (click)="focusProjectedInput($event)"
+            ></tng-input>
+
+            <tng-input
+              class="doc-cmp-input-ex-number-hidden"
+              type="number"
+              ariaLabel="Tax group rate without controls"
+              value="8.5"
+              [step]="0.5"
+              [min]="0"
+              [max]="100"
+              (click)="focusProjectedInput($event)"
+            ></tng-input>
+          </div>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
+
     <section id="readonly-and-disabled-states" class="docs-section-anchor input-examples-block">
       <app-docs-example-tabs-section
         heading="Readonly and disabled states"
