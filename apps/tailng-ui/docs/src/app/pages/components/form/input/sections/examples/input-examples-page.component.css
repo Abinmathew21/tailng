@@ -75,6 +75,18 @@
   color: #dc2626;
 }
 
+/* Number controls */
+.doc-cmp-input-ex-number-preview {
+  display: grid;
+  gap: 0.65rem;
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  width: min(100%, 40rem);
+}
+
+.doc-cmp-input-ex-number-hidden {
+  --tng-input-number-controls-display: none;
+}
+
 /* Readonly / disabled */
 .doc-cmp-input-ex-states-preview {
   display: grid;
@@ -88,7 +100,8 @@
 }
 
 @media (max-width: 760px) {
-  .doc-cmp-input-ex-types-grid {
+  .doc-cmp-input-ex-types-grid,
+  .doc-cmp-input-ex-number-preview {
     grid-template-columns: 1fr;
   }
 }

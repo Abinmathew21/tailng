@@ -1,8 +1,8 @@
-import { readFileSync } from 'node:fs';
-import { join } from 'node:path';
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { TngInputComponent } from '../tng-input.component';
@@ -30,7 +30,7 @@ class InputHostComponent {
   public fullWidth = true;
   public placeholder = 'Search';
   public value = 'Nitrogen';
-  public type: 'text' | 'search' = 'text';
+  public type: 'text' | 'search' | 'number' = 'text';
   public ariaLabel = 'Example input';
   public emittedValue: string | null = null;
 
@@ -62,6 +62,32 @@ class InputHostComponent {
   `,
 })
 class HostStyledInputComponent {}
+
+@Component({
+  imports: [TngInputComponent],
+  template: `
+    <tng-input
+      type="number"
+      [value]="value"
+      [step]="step"
+      [min]="min"
+      [max]="max"
+      (valueChange)="onValueChange($event)"
+    />
+  `,
+})
+class NumberInputHostComponent {
+  public value = '1';
+  public step: number | string | null = 0.5;
+  public min: number | string | null = 0;
+  public max: number | string | null = 2;
+  public emittedValue: string | null = null;
+
+  public onValueChange(value: string): void {
+    this.emittedValue = value;
+    this.value = value;
+  }
+}
 
 const themeContractCss = [
   readFileSync(
@@ -160,5 +186,70 @@ describe('<tng-input> component', () => {
       "color: var(--_tng-input-placeholder, var(--tng-semantic-foreground-muted));",
     );
     expect(inputEl.placeholder).toBe('Search docs');
+  });
+
+  it('renders custom controls and passes number constraints to the native input', async () => {
+    await TestBed.configureTestingModule({ imports: [NumberInputHostComponent] }).compileComponents();
+    const fixture = TestBed.createComponent(NumberInputHostComponent);
+    fixture.detectChanges();
+
+    const inputEl = fixture.debugElement.query(By.css('input')).nativeElement as HTMLInputElement;
+    const controls = fixture.debugElement.query(By.css('.tng-input-number-controls')).nativeElement as HTMLElement;
+    const buttons = fixture.debugElement.queryAll(By.css('.tng-input-number-button'));
+
+    expect(inputEl.type).toBe('number');
+    expect(inputEl.getAttribute('min')).toBe('0');
+    expect(inputEl.getAttribute('max')).toBe('2');
+    expect(inputEl.getAttribute('step')).toBe('0.5');
+    expect(controls).toBeInstanceOf(HTMLElement);
+    expect(buttons).toHaveLength(2);
+    expect(buttons[0].nativeElement.getAttribute('aria-label')).toBe('Increment value');
+    expect(buttons[1].nativeElement.getAttribute('aria-label')).toBe('Decrement value');
+  });
+
+  it('increments and decrements number values with the configured step', async () => {
+    await TestBed.configureTestingModule({ imports: [NumberInputHostComponent] }).compileComponents();
+    const fixture = TestBed.createComponent(NumberInputHostComponent);
+    fixture.detectChanges();
+
+    const inputEl = fixture.debugElement.query(By.css('input')).nativeElement as HTMLInputElement;
+    const [incrementButton, decrementButton] = fixture.debugElement.queryAll(
+      By.css('.tng-input-number-button'),
+    );
+
+    incrementButton.nativeElement.click();
+    fixture.detectChanges();
+
+    expect(fixture.componentInstance.emittedValue).toBe('1.5');
+    expect(inputEl.value).toBe('1.5');
+
+    decrementButton.nativeElement.click();
+    fixture.detectChanges();
+
+    expect(fixture.componentInstance.emittedValue).toBe('1');
+    expect(inputEl.value).toBe('1');
+  });
+
+  it('allows the custom number controls to be hidden with a CSS override', async () => {
+    await TestBed.configureTestingModule({ imports: [NumberInputHostComponent] }).compileComponents();
+    const styleElement = document.createElement('style');
+    styleElement.textContent = `
+      tng-input.hide-number-controls .tng-input-number-controls {
+        display: none;
+      }
+    `;
+    document.head.appendChild(styleElement);
+
+    const fixture = TestBed.createComponent(NumberInputHostComponent);
+    fixture.detectChanges();
+
+    const host = fixture.debugElement.query(By.css('tng-input')).nativeElement as HTMLElement;
+    const controls = fixture.debugElement.query(By.css('.tng-input-number-controls')).nativeElement as HTMLElement;
+
+    host.classList.add('hide-number-controls');
+
+    expect(getComputedStyle(controls).display).toBe('none');
+
+    styleElement.remove();
   });
 });

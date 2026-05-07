@@ -11,6 +11,10 @@
   width: 100%;
 }
 
+:host([data-type='number']) .tng-input {
+  --tng-input-gap: 0;
+}
+
 :host(:not([data-full-width])) .tng-input {
   width: auto;
 }
@@ -35,4 +39,90 @@
 
 .tng-input-control::placeholder {
   color: var(--_tng-input-placeholder, var(--tng-semantic-foreground-muted));
+}
+
+.tng-input-control[type='number'] {
+  -moz-appearance: textfield;
+}
+
+.tng-input-control[type='number']::-webkit-inner-spin-button,
+.tng-input-control[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+
+.tng-input-number-controls {
+  align-self: stretch;
+  background: var(
+    --tng-input-number-control-bg,
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--tng-semantic-accent-brand, currentColor) 3%, transparent),
+      color-mix(in srgb, var(--tng-semantic-accent-brand, currentColor) 5%, transparent)
+    )
+  );
+  border-inline-start: 1px solid
+    var(
+      --tng-input-number-control-border,
+      color-mix(in srgb, var(--_tng-input-border, currentColor) 72%, transparent)
+    );
+  box-sizing: border-box;
+  color: var(--tng-input-number-control-fg, var(--_tng-input-fg, currentColor));
+  display: var(--tng-input-number-controls-display, flex);
+  flex: 0 0 auto;
+  flex-direction: column;
+  justify-content: center;
+  margin-block: calc(var(--_tng-input-py, 0px) * -1);
+  margin-inline-end: calc(var(--_tng-input-px, 0.85rem) * -1);
+  min-height: var(--_tng-input-min-height, 2.5rem);
+  min-width: var(--tng-input-number-control-width, 3rem);
+  overflow: hidden;
+}
+
+.tng-input-number-button {
+  align-items: center;
+  appearance: none;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  color: inherit;
+  cursor: pointer;
+  display: inline-flex;
+  flex: 1 1 0;
+  justify-content: center;
+  min-height: 0;
+  min-width: 100%;
+  padding: 0;
+}
+
+.tng-input-number-button:hover:not(:disabled) {
+  background: var(
+    --tng-input-number-control-hover-bg,
+    color-mix(in srgb, var(--tng-semantic-accent-brand, currentColor) 9%, transparent)
+  );
+  color: var(--tng-input-number-control-hover-fg, var(--_tng-input-fg, currentColor));
+}
+
+.tng-input-number-button + .tng-input-number-button {
+  border-block-start: 1px solid
+    var(
+      --tng-input-number-control-divider,
+      color-mix(in srgb, var(--_tng-input-border, currentColor) 52%, transparent)
+    );
+}
+
+.tng-input-number-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.tng-input-number-button:first-child .tng-input-number-icon {
+  border-block-end: 0.25rem solid currentColor;
+  border-inline: 0.25rem solid transparent;
+}
+
+.tng-input-number-button:last-child .tng-input-number-icon {
+  border-block-start: 0.25rem solid currentColor;
+  border-inline: 0.25rem solid transparent;
 }
