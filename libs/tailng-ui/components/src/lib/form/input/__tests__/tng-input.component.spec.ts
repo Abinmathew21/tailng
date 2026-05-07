@@ -89,6 +89,23 @@ class NumberInputHostComponent {
   }
 }
 
+@Component({
+  imports: [TngInputComponent],
+  template: `
+    <tng-input
+      type="number"
+      [step]="step"
+      [min]="min"
+      [max]="max"
+    />
+  `,
+})
+class OptionalNumberConstraintsHostComponent {
+  public step: number | undefined = undefined;
+  public min: number | undefined = undefined;
+  public max: number | undefined = undefined;
+}
+
 const themeContractCss = [
   readFileSync(
     join(
@@ -251,5 +268,19 @@ describe('<tng-input> component', () => {
     expect(getComputedStyle(controls).display).toBe('none');
 
     styleElement.remove();
+  });
+
+  it('accepts undefined number constraint bindings', async () => {
+    await TestBed.configureTestingModule({
+      imports: [OptionalNumberConstraintsHostComponent],
+    }).compileComponents();
+    const fixture = TestBed.createComponent(OptionalNumberConstraintsHostComponent);
+    fixture.detectChanges();
+
+    const inputEl = fixture.debugElement.query(By.css('input')).nativeElement as HTMLInputElement;
+
+    expect(inputEl.hasAttribute('min')).toBe(false);
+    expect(inputEl.hasAttribute('max')).toBe(false);
+    expect(inputEl.hasAttribute('step')).toBe(false);
   });
 });

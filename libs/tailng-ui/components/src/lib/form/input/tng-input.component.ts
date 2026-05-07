@@ -46,6 +46,10 @@ function normalizeNumberAttr(value: number | string | null | undefined): string 
   return normalized.length > 0 ? normalized : null;
 }
 
+function normalizeOptionalNumberInput(value: number | string | null | undefined): number | string | null {
+  return value ?? null;
+}
+
 function readFiniteNumber(value: number | string | null | undefined): number | null {
   if (value === undefined || value === null || value === '') return null;
   const numericValue = typeof value === 'number' ? value : Number(value);
@@ -113,9 +117,15 @@ export class TngInputComponent implements ControlValueAccessor {
   public readonly required = input<boolean, boolean | string>(false, {
     transform: booleanAttribute,
   });
-  public readonly max = input<number | string | null>(null);
-  public readonly min = input<number | string | null>(null);
-  public readonly step = input<number | string | null>(null);
+  public readonly max = input<number | string | null, number | string | null | undefined>(null, {
+    transform: normalizeOptionalNumberInput,
+  });
+  public readonly min = input<number | string | null, number | string | null | undefined>(null, {
+    transform: normalizeOptionalNumberInput,
+  });
+  public readonly step = input<number | string | null, number | string | null | undefined>(null, {
+    transform: normalizeOptionalNumberInput,
+  });
   public readonly type = input<TngInputType>('text');
 
   /**
