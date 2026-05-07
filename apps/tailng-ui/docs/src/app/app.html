@@ -22,16 +22,21 @@
       </div>
 
       <div class="flex items-center gap-2">
+        <app-docs-global-search />
+
         <div class="relative hidden sm:block">
-          <button
+          <tng-button
             id="docs-theme-preset-trigger"
             type="button"
+            appearance="ghost"
+            tone="neutral"
+            size="sm"
             [tngMenuTriggerFor]="themeMenu"
             aria-label="Theme preset"
-            class="border-0 bg-transparent p-0 shadow-none hidden h-9 w-9 items-center justify-center rounded-md border border-transparent text-tng-fg-secondary transition-colors hover:border-tng-border-subtle hover:bg-tng-bg-muted hover:text-tng-fg-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tng-focus-ring md:inline-flex"
+            class="hidden h-9 w-9 md:inline-flex"
           >
             <tng-icon icon="palette" class="h-4 w-4" />
-          </button>
+          </tng-button>
 
           <tng-menu
             #themeMenu="tngMenu"
@@ -67,11 +72,13 @@
           </tng-menu>
         </div>
 
-        <button
+        <tng-button
           type="button"
-          class="docs-mode-toggle hidden h-9 w-9 items-center justify-center rounded-md border border-transparent text-tng-fg-secondary transition-colors hover:border-tng-border-subtle hover:bg-tng-bg-muted hover:text-tng-fg-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tng-focus-ring md:inline-flex"
-          [attr.aria-label]="darkMode() ? 'Switch to light mode' : 'Switch to dark mode'"
-          [attr.aria-pressed]="darkMode()"
+          appearance="ghost"
+          tone="neutral"
+          size="sm"
+          class="docs-mode-toggle hidden md:inline-flex"
+          [ariaPressed]="darkMode()"
           (click)="toggleMode()"
         >
           @if (darkMode()) {
@@ -79,7 +86,8 @@
           } @else {
             <tng-icon icon="sun" class="h-4 w-4" />
           }
-        </button>
+          <span class="sr-only">{{ darkMode() ? 'Switch to light mode' : 'Switch to dark mode' }}</span>
+        </tng-button>
 
         <a
           href="https://github.com/tailng/tailng-ui"
@@ -92,12 +100,15 @@
         </a>
 
         <div class="relative hidden md:block">
-          <button
+          <tng-button
             id="docs-npm-packages-trigger"
             type="button"
+            appearance="ghost"
+            tone="neutral"
+            size="sm"
             [tngMenuTriggerFor]="npmPackagesMenu"
             aria-label="npm packages"
-            class="border-0 bg-transparent p-0 shadow-none hidden h-9 w-9 items-center justify-center rounded-md border border-transparent text-tng-fg-secondary transition-colors hover:border-tng-border-subtle hover:bg-tng-bg-muted hover:text-tng-fg-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tng-focus-ring md:inline-flex"
+            class="hidden h-9 w-9 md:inline-flex"
           >
             <svg
               aria-hidden="true"
@@ -112,7 +123,7 @@
                 fill="#ffffff"
               ></path>
             </svg>
-          </button>
+          </tng-button>
 
           <tng-menu
             #npmPackagesMenu="tngMenu"
@@ -240,4 +251,5 @@
       </div>
     </div>
   </footer>
+
 </main>

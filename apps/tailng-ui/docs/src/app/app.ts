@@ -5,6 +5,7 @@ import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import {
   TngBreadcrumbComponent,
   TngBreadcrumbItemComponent,
+  TngButtonComponent,
   TngMenuComponent,
   TngMenuTriggerFor,
 } from '@tailng-ui/components';
@@ -29,6 +30,7 @@ import {
   type ThemeDefinition,
 } from '@tailng-ui/theme';
 import { filter } from 'rxjs/operators';
+import { DocsGlobalSearchComponent } from './shared/global-search/trigger/docs-global-search.component';
 
 type ThemePresetId =
   | 'default'
@@ -136,8 +138,10 @@ const footerResourceLinks: readonly LinkItem[] = [
 @Component({
   imports: [
     RouterOutlet,
+    DocsGlobalSearchComponent,
     TngBreadcrumbComponent,
     TngBreadcrumbItemComponent,
+    TngButtonComponent,
     TngMenuComponent,
     TngMenuTriggerFor,
     TngMenuItem,

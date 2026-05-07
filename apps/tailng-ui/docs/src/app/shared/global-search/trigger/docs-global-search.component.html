@@ -1,0 +1,18 @@
+<button
+  type="button"
+  class="docs-global-search-trigger hidden h-9 items-center gap-2 rounded-md border border-tng-border-subtle bg-tng-bg-surface px-3 text-sm text-tng-fg-secondary transition-colors hover:bg-tng-bg-muted hover:text-tng-fg-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tng-focus-ring md:inline-flex"
+  aria-label="Open docs search"
+  (click)="openSearch()"
+  (keydown)="onSearchButtonKeydown($event)"
+>
+  <tng-icon icon="search" class="h-4 w-4" />
+  <span>Search</span>
+  <kbd class="docs-global-search-trigger__shortcut">{{ searchShortcutHint() }}</kbd>
+</button>
+
+<app-docs-global-search-dialog
+  [open]="searchOpen()"
+  [initialValue]="searchInitialValue()"
+  (openChange)="onSearchOpenChange($event)"
+  (closed)="onSearchClosed()"
+/>

@@ -1,0 +1,40 @@
+<tng-dialog
+  title="Search docs"
+  description="Search pages, sections, and indexed docs content."
+  size="lg"
+  [open]="open()"
+  (openChange)="onDialogOpenChange($event)"
+  (closed)="onDialogClosed()"
+  class="docs-global-search-dialog"
+>
+  @if (open()) {
+    <div #autocompleteEl data-tng-dialog-initial-focus>
+      <tng-autocomplete
+        class="docs-global-search-autocomplete"
+        [options]="filteredItems()"
+        [value]="value()"
+        (valueChange)="onValueChange($event)"
+        [query]="query()"
+        (queryChange)="query.set($event)"
+        [getOptionValue]="getItemValue"
+        [getOptionLabel]="getItemLabel"
+        [trackBy]="trackItem"
+        placeholder="Search components, headless APIs, theme docs..."
+        ariaLabel="Global docs search"
+        iconText="⌕"
+      >
+        <ng-template #tngAutocompleteOptionTpl let-option="option" let-label="label">
+          <span class="docs-global-search-option">
+            <span class="docs-global-search-option__title">{{ label }}</span>
+            @if (option.description) {
+              <span class="docs-global-search-option__description">{{ option.description }}</span>
+            }
+            @if (option.section) {
+              <span class="docs-global-search-option__section">{{ option.section }}</span>
+            }
+          </span>
+        </ng-template>
+      </tng-autocomplete>
+    </div>
+  }
+</tng-dialog>
