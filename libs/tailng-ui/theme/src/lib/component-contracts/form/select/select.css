@@ -37,7 +37,7 @@
     /* surface + border */
     --tng-select-border: var(--tng-semantic-border-subtle, #e5e7eb);
     --tng-select-border-strong: var(--tng-semantic-border-strong, #d1d5db);
-    --tng-select-bg: var(--tng-semantic-background-base, #ffffff);
+    --tng-select-bg: var(--tng-semantic-background-surface, #ffffff);
     --tng-select-surface: var(--tng-semantic-background-surface, #f8fafc);
     --tng-select-fg: var(--tng-semantic-foreground-primary, #0f172a);
     --tng-select-muted: var(--tng-semantic-foreground-muted, #64748b);

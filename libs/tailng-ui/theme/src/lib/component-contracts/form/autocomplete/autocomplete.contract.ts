@@ -59,7 +59,7 @@ export const tngAutocompleteCssVars = {
  * Semantic tokens referenced by the default theme CSS.
  */
 export const tngAutocompleteSemanticTokens = {
-  bg: '--tng-semantic-background-base',
+  bg: '--tng-semantic-background-surface',
   surface: '--tng-semantic-background-surface',
   canvas: '--tng-semantic-background-canvas',
   fg: '--tng-semantic-foreground-primary',
