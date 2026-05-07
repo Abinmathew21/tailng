@@ -114,5 +114,6 @@
   },
   "dependencies": {
     "fuse.js": "^7.3.0"
-  }
+  },
+  "packageManager": "pnpm@10.30.0"
 }
