@@ -208,6 +208,21 @@ pnpm run build:vanilla
 pnpm run build:tailwind
 ```
 
+Build and publish docs locally (Cloudflare Pages):
+
+```bash
+CF_DOCS_PROJECT_NAME=taling-dev \
+CLOUDFLARE_API_TOKEN=90Oh4-tjMr9Fxj8naoK_8odkfw8QdbHpS-CVNTf- \
+CLOUDFLARE_ACCOUNT_ID=218f66f3a999f3f020117242ec252f18 \
+./tools/build-deploy-docs.sh
+```
+
+Notes:
+
+- `CF_DOCS_PROJECT_NAME` maps to the Cloudflare Pages project name.
+- `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` are required by `wrangler`.
+- If needed, you can override branch and output behavior with `CF_PAGES_BRANCH` and `DOCS_DIST`.
+
 Generate static output:
 
 ```bash

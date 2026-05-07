@@ -57,3 +57,5 @@ apps/tailng-ui/playground-registry/src/app/*-demo/
 apps/tailng-ui/playground-registry/src/app/tailng-ui/
 
 .codex-npmrc
+
+.env
