@@ -129,6 +129,54 @@ class ControlledQueryHostComponent {
 }
 
 describe('tng-multi-autocomplete controlled query integration', () => {
+  it('keeps programmatic query when opened via controlled open state', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [ControlledQueryHostComponent],
+    }).createComponent(ControlledQueryHostComponent);
+
+    fixture.detectChanges();
+
+    const host = fixture.componentInstance;
+    const root = fixture.nativeElement as HTMLElement;
+    const trigger = root.querySelector('[data-testid="trigger"]') as HTMLInputElement;
+
+    host.open.set(false);
+    host.query.set('un');
+    host.open.set(true);
+    fixture.detectChanges();
+    await Promise.resolve();
+    fixture.detectChanges();
+
+    expect(host.open()).toBe(true);
+    expect(host.query()).toBe('un');
+    expect(trigger.value).toBe('un');
+    expect(optionTexts(root)).toEqual([]);
+    expect(root.querySelector('[data-testid="empty"]')?.textContent?.trim()).toBe('No matches');
+  });
+
+  it('programmatic query while open drives filtered options', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [ControlledQueryHostComponent],
+    }).createComponent(ControlledQueryHostComponent);
+
+    fixture.detectChanges();
+
+    const host = fixture.componentInstance;
+    const root = fixture.nativeElement as HTMLElement;
+    const trigger = root.querySelector('[data-testid="trigger"]') as HTMLInputElement;
+
+    host.countries.set(['United States', 'United Kingdom', 'India']);
+    host.query.set('un');
+    fixture.detectChanges();
+    await Promise.resolve();
+    fixture.detectChanges();
+
+    expect(host.open()).toBe(true);
+    expect(host.query()).toBe('un');
+    expect(trigger.value).toBe('un');
+    expect(optionTexts(root)).toEqual(['United States', 'United Kingdom']);
+  });
+
   it('typing updates the controlled host query and keeps the typed text in the trigger', async () => {
     const fixture = TestBed.configureTestingModule({
       imports: [ControlledQueryHostComponent],

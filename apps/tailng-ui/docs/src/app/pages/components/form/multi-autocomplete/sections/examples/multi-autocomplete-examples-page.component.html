@@ -16,18 +16,19 @@
         >
           <div docsFormDemoField class="docs-multi-autocomplete-launch-live-control">
             <tng-multi-autocomplete
-              [options]="filteredLaunchPlainOptions()"
-              [value]="launchPlainValues()"
-              (valueChange)="onLaunchPlainValueChange($event)"
-              [query]="launchPlainQuery()"
-              (queryChange)="launchPlainQuery.set($event)"
+              [options]="filteredFormUsageLaunchOptions()"
+              [value]="formUsageLaunchValues()"
+              (valueChange)="onFormUsageLaunchValueChange($event)"
+              [query]="formUsageLaunchQuery()"
+              (queryChange)="formUsageLaunchQuery.set($event)"
               [getOptionValue]="getMarketValue"
               [getOptionLabel]="getMarketLabel"
+              [resolveValueLabel]="getMarketLabelByValue"
               placeholder="Search launch markets"
               [ariaLabel]="'Launch markets'"
             ></tng-multi-autocomplete>
           </div>
-          <p docsFormDemoSummary>Selected: {{ launchPlainSummary() }}</p>
+          <p docsFormDemoSummary>Selected: {{ formUsageLaunchSummary() }}</p>
         </app-docs-form-demo-shell>
       </ng-template>
     </app-docs-example-tabs-section>
@@ -60,6 +61,7 @@
               (queryChange)="launchPlainQuery.set($event)"
               [getOptionValue]="getMarketValue"
               [getOptionLabel]="getMarketLabel"
+              [resolveValueLabel]="getMarketLabelByValue"
               placeholder="Search launch markets"
               [ariaLabel]="'Launch markets'"
             ></tng-multi-autocomplete>
@@ -87,6 +89,7 @@
               (queryChange)="launchTailwindQuery.set($event)"
               [getOptionValue]="getMarketValue"
               [getOptionLabel]="getMarketLabel"
+              [resolveValueLabel]="getMarketLabelByValue"
               placeholder="Search launch markets"
               [ariaLabel]="'Launch markets'"
             ></tng-multi-autocomplete>
@@ -125,6 +128,7 @@
               (queryChange)="reviewerPlainQuery.set($event)"
               [getOptionValue]="getReviewerValue"
               [getOptionLabel]="getReviewerLabel"
+              [resolveValueLabel]="getReviewerLabelByValue"
               [isOptionDisabled]="isReviewerDisabled"
               placeholder="Assign release owners"
               [ariaLabel]="'Release owner roster'"
@@ -172,6 +176,7 @@
               (queryChange)="reviewerTailwindQuery.set($event)"
               [getOptionValue]="getReviewerValue"
               [getOptionLabel]="getReviewerLabel"
+              [resolveValueLabel]="getReviewerLabelByValue"
               [isOptionDisabled]="isReviewerDisabled"
               placeholder="Assign release owners"
               [ariaLabel]="'Release owner roster'"
@@ -198,6 +203,63 @@
           </div>
 
           <p class="m-0 text-xs text-[var(--tng-semantic-foreground-secondary)]">Selected: {{ reviewerTailwindSummary() }}</p>
+        </section>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section id="programmatic-query-open" class="docs-page-section">
+    <app-docs-example-tabs-section
+      heading="Programmatic query + open"
+      description="Type in an external input, click Search, and push that value into multi-autocomplete query while opening the overlay."
+      ariaLabel="Multi autocomplete programmatic query and open example"
+      tabListAriaLabel="Multi autocomplete programmatic query and open variants"
+      defaultValue="live-demo"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template appDocsExampleVariant value="live-demo" label="Live demo" panelTitle="Programmatic query + open">
+        <section class="docs-multi-autocomplete-launch-live-shell">
+          <div class="docs-multi-autocomplete-launch-live-header">
+            <span class="docs-multi-autocomplete-launch-live-kicker">Programmatic search trigger</span>
+            <p class="docs-multi-autocomplete-launch-live-copy">
+              Enter a market query, click Search, and the overlay opens using the forwarded query.
+            </p>
+          </div>
+
+          <div class="docs-multi-autocomplete-programmatic-row">
+            <input
+              class="docs-multi-autocomplete-programmatic-input"
+              type="text"
+              [value]="programmaticInputQuery()"
+              (input)="programmaticInputQuery.set($any($event.target).value)"
+              placeholder="Type: ind, mex, jap..."
+              aria-label="Programmatic launch market query"
+            />
+            <tng-button type="button" appearance="outline" tone="neutral" size="sm" (click)="applyProgrammaticLaunchQuery()">
+              Search
+            </tng-button>
+          </div>
+
+          <div class="docs-multi-autocomplete-launch-live-control">
+            <tng-multi-autocomplete
+              [options]="filteredProgrammaticLaunchOptions()"
+              [value]="programmaticLaunchValues()"
+              (valueChange)="onProgrammaticLaunchValueChange($event)"
+              [query]="programmaticLaunchQuery()"
+              (queryChange)="programmaticLaunchQuery.set($event)"
+              [open]="programmaticLaunchOpen()"
+              (openChange)="programmaticLaunchOpen.set($event)"
+              [getOptionValue]="getMarketValue"
+              [getOptionLabel]="getMarketLabel"
+              [resolveValueLabel]="getMarketLabelByValue"
+              placeholder="Search launch markets"
+              [ariaLabel]="'Programmatic launch market search'"
+            ></tng-multi-autocomplete>
+          </div>
+
+          <p class="docs-multi-autocomplete-launch-live-summary">
+            Selected: {{ programmaticLaunchSummary() }}
+          </p>
         </section>
       </ng-template>
     </app-docs-example-tabs-section>

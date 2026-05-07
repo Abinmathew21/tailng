@@ -1,6 +1,6 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, computed, inject, signal, type OnDestroy } from '@angular/core';
-import { TngMultiAutocompleteComponent } from '@tailng-ui/components';
+import { TngButtonComponent, TngMultiAutocompleteComponent } from '@tailng-ui/components';
 import type { DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
 import {
   DocsExampleTabsSectionComponent,
@@ -604,6 +604,7 @@ function formatReviewerSummary(values: readonly string[]): string {
 @Component({
   selector: 'app-multi-autocomplete-examples-page',
   imports: [
+    TngButtonComponent,
     TngMultiAutocompleteComponent,
     DocsExampleTabsSectionComponent,
     DocsExampleVariantDirective,
@@ -629,23 +630,39 @@ export class MultiAutocompleteExamplesPageComponent implements OnDestroy {
   protected readonly reviewers = REVIEWER_OPTIONS;
   protected readonly getMarketValue = (market: MarketOption) => market.code;
   protected readonly getMarketLabel = (market: MarketOption) => market.label;
+  protected readonly getMarketLabelByValue = (value: string) =>
+    this.launchMarkets.find((market) => market.code === value)?.label ?? value;
   protected readonly getReviewerValue = (reviewer: ReviewerOption) => reviewer.id;
   protected readonly getReviewerLabel = (reviewer: ReviewerOption) => reviewer.name;
+  protected readonly getReviewerLabelByValue = (value: string) =>
+    this.reviewers.find((reviewer) => reviewer.id === value)?.name ?? value;
   protected readonly isReviewerDisabled = (reviewer: ReviewerOption) => reviewer.disabled === true;
 
+  protected readonly formUsageLaunchValues = signal<readonly string[]>(['in', 'jp']);
   protected readonly launchPlainValues = signal<readonly string[]>(['in', 'jp']);
   protected readonly launchTailwindValues = signal<readonly string[]>(['ca', 'es']);
   protected readonly reviewerPlainValues = signal<readonly string[]>(['abigail', 'sanjay']);
   protected readonly reviewerTailwindValues = signal<readonly string[]>(['mina']);
+  protected readonly formUsageLaunchQuery = signal('');
   protected readonly launchPlainQuery = signal('');
   protected readonly launchTailwindQuery = signal('');
   protected readonly reviewerPlainQuery = signal('');
   protected readonly reviewerTailwindQuery = signal('');
+  protected readonly programmaticInputQuery = signal('');
+  protected readonly programmaticLaunchQuery = signal('');
+  protected readonly programmaticLaunchValues = signal<readonly string[]>([]);
+  protected readonly programmaticLaunchOpen = signal(false);
 
+  protected readonly formUsageLaunchSummary = computed(() =>
+    formatMarketSummary(this.formUsageLaunchValues()),
+  );
   protected readonly launchPlainSummary = computed(() => formatMarketSummary(this.launchPlainValues()));
   protected readonly launchTailwindSummary = computed(() => formatMarketSummary(this.launchTailwindValues()));
   protected readonly reviewerPlainSummary = computed(() => formatReviewerSummary(this.reviewerPlainValues()));
   protected readonly reviewerTailwindSummary = computed(() => formatReviewerSummary(this.reviewerTailwindValues()));
+  protected readonly filteredFormUsageLaunchOptions = computed(() =>
+    filterOptions(this.launchMarkets, this.formUsageLaunchQuery(), this.getMarketLabel),
+  );
   protected readonly filteredLaunchPlainOptions = computed(() =>
     filterOptions(this.launchMarkets, this.launchPlainQuery(), this.getMarketLabel),
   );
@@ -657,6 +674,12 @@ export class MultiAutocompleteExamplesPageComponent implements OnDestroy {
   );
   protected readonly filteredReviewerTailwindOptions = computed(() =>
     filterOptions(this.reviewers, this.reviewerTailwindQuery(), this.getReviewerLabel),
+  );
+  protected readonly filteredProgrammaticLaunchOptions = computed(() =>
+    filterOptions(this.launchMarkets, this.programmaticLaunchQuery(), this.getMarketLabel),
+  );
+  protected readonly programmaticLaunchSummary = computed(() =>
+    formatMarketSummary(this.programmaticLaunchValues()),
   );
 
   protected readonly marketPlainCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
@@ -680,6 +703,10 @@ export class MultiAutocompleteExamplesPageComponent implements OnDestroy {
     { value: 'css', label: 'CSS', language: 'css', title: 'docs-multi-autocomplete-reviewer-roster-tailwind.component.css', code: REVIEWER_TAILWIND_CSS_CODE },
   ]);
 
+  protected onFormUsageLaunchValueChange(value: unknown): void {
+    this.formUsageLaunchValues.set(this.toValueArray(value));
+  }
+
   protected onLaunchPlainValueChange(value: unknown): void {
     this.launchPlainValues.set(this.toValueArray(value));
   }
@@ -694,6 +721,15 @@ export class MultiAutocompleteExamplesPageComponent implements OnDestroy {
 
   protected onReviewerTailwindValueChange(value: unknown): void {
     this.reviewerTailwindValues.set(this.toValueArray(value));
+  }
+
+  protected onProgrammaticLaunchValueChange(value: unknown): void {
+    this.programmaticLaunchValues.set(this.toValueArray(value));
+  }
+
+  protected applyProgrammaticLaunchQuery(): void {
+    this.programmaticLaunchQuery.set(this.programmaticInputQuery().trim());
+    this.programmaticLaunchOpen.set(true);
   }
 
   public ngOnDestroy(): void {
