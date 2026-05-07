@@ -38,7 +38,7 @@
     /* surface + border */
     --tng-autocomplete-border: var(--tng-semantic-border-subtle, #e5e7eb);
     --tng-autocomplete-border-strong: var(--tng-semantic-border-strong, #bac6d8);
-    --tng-autocomplete-bg: var(--tng-semantic-background-base, #ffffff);
+    --tng-autocomplete-bg: var(--tng-semantic-background-surface, #ffffff);
     --tng-autocomplete-surface: var(--tng-semantic-background-surface, #f8fafc);
     --tng-autocomplete-fg: var(--tng-semantic-foreground-primary, #0f172a);
     --tng-autocomplete-muted: var(--tng-semantic-foreground-muted, #64748b);

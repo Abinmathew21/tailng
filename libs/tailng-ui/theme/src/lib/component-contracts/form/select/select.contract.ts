@@ -68,7 +68,7 @@ export const tngSelectCssVars = {
  * Keeping them listed here helps tooling/docs/presets.
  */
 export const tngSelectSemanticTokens = {
-  bg: '--tng-semantic-background-base',
+  bg: '--tng-semantic-background-surface',
   surface: '--tng-semantic-background-surface',
   canvas: '--tng-semantic-background-canvas',
 

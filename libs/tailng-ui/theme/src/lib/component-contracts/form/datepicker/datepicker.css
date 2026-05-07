@@ -17,7 +17,7 @@
 
     --tng-datepicker-border: var(--tng-semantic-border-subtle, #d1d9e6);
     --tng-datepicker-border-strong: var(--tng-semantic-border-strong, #bac6d8);
-    --tng-datepicker-bg: var(--tng-semantic-background-base, #ffffff);
+    --tng-datepicker-bg: var(--tng-semantic-background-surface, #ffffff);
     --tng-datepicker-surface: var(--tng-semantic-background-surface, #f5f8fc);
     --tng-datepicker-canvas: var(--tng-semantic-background-canvas, #ffffff);
     --tng-datepicker-fg: var(--tng-semantic-foreground-primary, #152036);
@@ -49,12 +49,7 @@
     box-sizing: border-box;
     border: 1px solid color-mix(in srgb, var(--tng-datepicker-border) 84%, var(--tng-datepicker-canvas) 16%);
     border-radius: var(--tng-datepicker-radius);
-    background:
-      linear-gradient(
-        180deg,
-        color-mix(in srgb, var(--tng-datepicker-canvas) 58%, var(--tng-datepicker-surface) 42%),
-        color-mix(in srgb, var(--tng-datepicker-canvas) 74%, var(--tng-datepicker-surface) 26%)
-      );
+    background: var(--tng-datepicker-bg);
     box-shadow: 0 1px 2px color-mix(in srgb, var(--tng-datepicker-fg) 4%, transparent);
     isolation: isolate;
     transition:

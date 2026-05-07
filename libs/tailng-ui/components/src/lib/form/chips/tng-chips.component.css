@@ -3,7 +3,7 @@
 }
 
 .tng-chips {
-  background: var(--tng-semantic-background-base);
+  background: var(--tng-semantic-background-surface);
   border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 0.75rem;
   color: var(--tng-semantic-foreground-primary);
