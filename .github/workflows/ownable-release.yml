@@ -60,7 +60,7 @@ jobs:
       - name: Enable Corepack and pnpm
         run: |
           corepack enable
-          corepack prepare pnpm@latest --activate
+          corepack prepare pnpm@10.30.0 --activate
           pnpm --version
           which pnpm
 
