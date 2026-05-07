@@ -21,24 +21,6 @@
       [inertContent]="false"
       [allowBodyScroll]="true"
     >
-      <div class="components-docs-search pb-3">
-        <tng-form-field class="components-docs-search-input" size="sm">
-          <span tngPrefix class="components-docs-search-icon" aria-hidden="true">
-            <tng-icon icon="search" class="h-4 w-4" />
-          </span>
-          <input
-            tngInput
-            class="components-docs-search-control"
-            type="search"
-            placeholder="Search component docs..."
-            aria-label="Search component docs navigation"
-            autocomplete="off"
-            [value]="navSearchQuery()"
-            (input)="onNavSearchInput($event)"
-          />
-        </tng-form-field>
-      </div>
-
       @if (filteredNavGroups().length > 0) {
         <tng-accordion
           tabindex="-1"
@@ -87,7 +69,7 @@
         </tng-accordion>
       } @else {
         <div
-          class="components-docs-empty-search rounded-lg border border-dashed border-tng-border-subtle p-3"
+          class="components-docs-empty-state rounded-lg border border-dashed border-tng-border-subtle p-3"
         >
           <p class="m-0 text-sm font-medium text-tng-fg-primary">No matches found</p>
           <p class="m-0 mt-1 text-xs text-tng-fg-secondary">

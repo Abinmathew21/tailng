@@ -51,6 +51,62 @@
     </ul>
   </section>
 
+  <section id="layout-tokens" class="button-styling-block">
+    <h3>Layout tokens</h3>
+    <p>
+      Use custom properties on the <code>tng-button</code> host to control width and content
+      alignment without deep selectors or global overrides.
+    </p>
+    <div class="button-styling-table-wrap">
+      <table class="button-styling-table">
+        <thead>
+          <tr>
+            <th scope="col">Token</th>
+            <th scope="col">Default</th>
+            <th scope="col">Usage</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>--tng-button-width</code></td>
+            <td><code>auto</code></td>
+            <td>Sets explicit inline width for the rendered button.</td>
+          </tr>
+          <tr>
+            <td><code>--tng-button-min-width</code></td>
+            <td><code>auto</code></td>
+            <td>Provides minimum width without affecting host layout helpers.</td>
+          </tr>
+          <tr>
+            <td><code>--tng-button-max-width</code></td>
+            <td><code>none</code></td>
+            <td>Constrains button growth in flexible rows.</td>
+          </tr>
+          <tr>
+            <td><code>--tng-button-justify</code></td>
+            <td><code>center</code></td>
+            <td>Controls content alignment inside the internal button.</td>
+          </tr>
+          <tr>
+            <td><code>--tng-button-gap</code></td>
+            <td><code>0.5rem</code></td>
+            <td>Adjusts spacing between projected icon and label.</td>
+          </tr>
+          <tr>
+            <td><code>--tng-button-padding-inline-sm/md/lg</code></td>
+            <td><code>0.75rem / 1rem / 1.25rem</code></td>
+            <td>Size-aware horizontal padding tokens.</td>
+          </tr>
+          <tr>
+            <td><code>--tng-button-padding-block</code></td>
+            <td><code>0</code></td>
+            <td>Optional vertical padding shared across sizes.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
   <section id="owner-guidance" class="button-styling-block">
     <h3>Owner guidance</h3>
     <p>

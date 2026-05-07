@@ -36,7 +36,7 @@
 }
 
 .components-docs-drawer > tng-accordion,
-.components-docs-drawer > .components-docs-empty-search {
+.components-docs-drawer > .components-docs-empty-state {
   min-height: 0;
   overflow-y: auto;
   overscroll-behavior: contain;
@@ -66,67 +66,6 @@
   position: sticky;
   top: 4rem;
   z-index: 10;
-}
-
-.components-docs-search {
-  margin-bottom: 0.35rem;
-  padding-inline: 0.1rem;
-}
-
-.components-docs-search-input {
-  --tng-semantic-background-surface: var(--tng-semantic-background-base);
-  --tng-semantic-border-strong: var(--tng-semantic-border-subtle);
-  --tng-semantic-focus-ring: color-mix(in srgb, var(--tng-semantic-accent-brand) 22%, transparent);
-  --tng-input-inline-gap: 0.55rem;
-
-  display: block;
-  width: 100%;
-}
-
-.components-docs-search-icon {
-  align-items: center;
-  color: var(--tng-semantic-foreground-muted);
-  display: inline-flex;
-  transform: translateY(2px);
-  transition: color 160ms ease;
-}
-
-.components-docs-search-input:focus-within .components-docs-search-icon {
-  color: var(--tng-semantic-accent-brand);
-}
-
-.components-docs-search-control {
-  -webkit-appearance: none;
-  appearance: none;
-  background: transparent;
-  border: 0;
-  box-shadow: none;
-  color: var(--tng-semantic-foreground-primary);
-  font-size: 0.94rem;
-  line-height: 1.35;
-  min-width: 0;
-  outline: none;
-  width: 100%;
-}
-
-.components-docs-search-control::placeholder {
-  color: var(--tng-semantic-foreground-muted);
-  opacity: 1;
-}
-
-.components-docs-search-control:focus {
-  border: 0;
-  box-shadow: none;
-  outline: none;
-}
-
-.components-docs-search-control::-webkit-search-decoration,
-.components-docs-search-control::-webkit-search-cancel-button,
-.components-docs-search-control::-webkit-search-results-button,
-.components-docs-search-control::-webkit-search-results-decoration {
-  -webkit-appearance: none;
-  appearance: none;
-  display: none;
 }
 
 .components-docs-nav-list {
@@ -191,7 +130,7 @@
   box-shadow: inset 0 0 0 1px var(--tng-semantic-focus-ring);
 }
 
-.components-docs-empty-search {
+.components-docs-empty-state {
   background: var(--tng-semantic-background-base);
 }
 
@@ -216,7 +155,7 @@
   }
 
   .components-docs-drawer > tng-accordion,
-  .components-docs-drawer > .components-docs-empty-search {
+  .components-docs-drawer > .components-docs-empty-state {
     overflow: visible;
   }
 

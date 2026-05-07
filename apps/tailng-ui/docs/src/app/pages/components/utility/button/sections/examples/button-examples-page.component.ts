@@ -264,6 +264,67 @@ export class ButtonExamplesPageComponent implements OnDestroy {
     },
   ]);
 
+  protected readonly layoutTokenTabs: readonly DocsExampleCodeTab[] = Object.freeze([
+    {
+      value: 'ts',
+      label: 'TS',
+      language: 'ts',
+      title: 'button-examples-layout-tokens.component.ts',
+      code: [
+        "import { Component } from '@angular/core';",
+        "import { TngButtonComponent } from '@tailng-ui/components';",
+        '',
+        '@Component({',
+        "  selector: 'app-button-examples-layout-tokens',",
+        '  standalone: true,',
+        '  imports: [TngButtonComponent],',
+        "  templateUrl: './button-examples-layout-tokens.component.html',",
+        "  styleUrl: './button-examples-layout-tokens.component.css',",
+        '})',
+        'export class ButtonExamplesLayoutTokensComponent {}',
+      ].join('\n'),
+    },
+    {
+      value: 'html',
+      label: 'HTML',
+      language: 'html',
+      title: 'button-examples-layout-tokens.component.html',
+      code: [
+        '<div class="button-layout-token-example">',
+        '  <tng-button',
+        '    class="button-layout-token-example__trigger"',
+        '    tone="neutral"',
+        '    appearance="outline"',
+        '    size="sm"',
+        '    type="button"',
+        '  >',
+        '    <span>Search</span>',
+        '    <span class="button-layout-token-example__hint">Ctrl K</span>',
+        '  </tng-button>',
+        '</div>',
+        '',
+      ].join('\n'),
+    },
+    {
+      value: 'css',
+      label: 'CSS',
+      language: 'css',
+      title: 'button-examples-layout-tokens.component.css',
+      code: [
+        '.button-layout-token-example {',
+        '  width: min(100%, 16rem);',
+        '}',
+        '',
+        '.button-layout-token-example__trigger {',
+        '  --tng-button-justify: space-between;',
+        '  --tng-button-min-width: 12rem;',
+        '  --tng-button-width: 100%;',
+        '}',
+        '',
+      ].join('\n'),
+    },
+  ]);
+
   public ngOnDestroy(): void {
     this.colorSchemeObserver?.disconnect();
   }

@@ -1,10 +1,11 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, HostListener, computed, inject, signal } from '@angular/core';
+import { TngButtonComponent } from '@tailng-ui/components';
 import { TngIcon } from '@tailng-ui/icons';
 import { DocsGlobalSearchDialogComponent } from '../dialog/docs-global-search-dialog.component';
 
 @Component({
-  imports: [DocsGlobalSearchDialogComponent, TngIcon],
+  imports: [DocsGlobalSearchDialogComponent, TngButtonComponent, TngIcon],
   selector: 'app-docs-global-search',
   templateUrl: './docs-global-search.component.html',
   styleUrl: './docs-global-search.component.css',

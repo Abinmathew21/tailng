@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import {
@@ -9,14 +9,11 @@ import {
   TngBreadcrumbComponent,
   TngBreadcrumbItemComponent,
   TngDrawerComponent,
-  TngFormFieldComponent,
 } from '@tailng-ui/components';
 import { TngIcon } from '@tailng-ui/icons';
 import {
   TngDrawerContainer,
   TngDrawerContent,
-  TngInput,
-  TngPrefix,
 } from '@tailng-ui/primitives';
 import { filter, map, startWith } from 'rxjs/operators';
 import {
@@ -39,9 +36,6 @@ import {
     TngDrawerContainer,
     TngDrawerContent,
     TngDrawerComponent,
-    TngFormFieldComponent,
-    TngInput,
-    TngPrefix,
     TngIcon,
   ],
   templateUrl: './headless-page.component.html',
@@ -60,31 +54,7 @@ export class HeadlessPageComponent {
 
   public readonly navGroups = HEADLESS_DOCS_GROUPS;
   public readonly defaultExpandedGroups = HEADLESS_DOCS_GROUPS.map((group) => group.id);
-  public readonly navSearchQuery = signal<string>('');
-  public readonly filteredNavGroups = computed<readonly HeadlessDocsGroup[]>(() => {
-    const query = this.normalizeSearchQuery(this.navSearchQuery());
-    if (query.length === 0) {
-      return this.navGroups;
-    }
-
-    return this.navGroups
-      .map((group) => {
-        if (this.groupMatchesQuery(group, query)) {
-          return group;
-        }
-
-        const matchingItems = group.items.filter((item) => this.itemMatchesQuery(item, query));
-        if (matchingItems.length === 0) {
-          return null;
-        }
-
-        return {
-          ...group,
-          items: matchingItems,
-        };
-      })
-      .filter((group): group is HeadlessDocsGroup => group !== null);
-  });
+  public readonly filteredNavGroups = computed<readonly HeadlessDocsGroup[]>(() => this.navGroups);
 
   public readonly docsBreadcrumbs = computed<
     readonly { current: boolean; label: string; url: string | null }[]
@@ -140,34 +110,6 @@ export class HeadlessPageComponent {
       this.normalizeUrl(this.currentUrl()),
       this.itemHref(groupId, itemSlug),
     );
-  }
-
-  public onNavSearchInput(event: Event): void {
-    const target = event.target;
-    if (!(target instanceof HTMLInputElement)) {
-      return;
-    }
-
-    this.navSearchQuery.set(target.value);
-  }
-
-  private groupMatchesQuery(group: HeadlessDocsGroup, query: string): boolean {
-    return (
-      this.normalizeSearchQuery(group.title).includes(query) ||
-      this.normalizeSearchQuery(group.subtitle).includes(query)
-    );
-  }
-
-  private itemMatchesQuery(item: HeadlessDocsGroup['items'][number], query: string): boolean {
-    return (
-      this.normalizeSearchQuery(item.title).includes(query) ||
-      this.normalizeSearchQuery(item.slug).includes(query) ||
-      this.normalizeSearchQuery(item.description).includes(query)
-    );
-  }
-
-  private normalizeSearchQuery(value: string): string {
-    return value.trim().toLowerCase();
   }
 
   private normalizeUrl(rawUrl: string): string {
