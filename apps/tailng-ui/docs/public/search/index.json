@@ -60,6 +60,45 @@
     ]
   },
   {
+    "title": "Card API",
+    "description": "Grouped content surfaces with optional media, actions, and footer composition. API.",
+    "section": "Components / Layout",
+    "url": "/components/layout/card/api",
+    "tags": [
+      "components",
+      "layout",
+      "card",
+      "card",
+      "api"
+    ]
+  },
+  {
+    "title": "Card Stylings",
+    "description": "Grouped content surfaces with optional media, actions, and footer composition. Stylings.",
+    "section": "Components / Layout",
+    "url": "/components/layout/card/stylings",
+    "tags": [
+      "components",
+      "layout",
+      "card",
+      "card",
+      "stylings"
+    ]
+  },
+  {
+    "title": "Card Examples",
+    "description": "Grouped content surfaces with optional media, actions, and footer composition. Examples.",
+    "section": "Components / Layout",
+    "url": "/components/layout/card/examples",
+    "tags": [
+      "components",
+      "layout",
+      "card",
+      "card",
+      "examples"
+    ]
+  },
+  {
     "title": "Separator",
     "description": "Horizontal and vertical dividers for visual or semantic content grouping.",
     "section": "Components / Layout",
@@ -69,6 +108,45 @@
       "layout",
       "separator",
       "separator"
+    ]
+  },
+  {
+    "title": "Separator API",
+    "description": "Horizontal and vertical dividers for visual or semantic content grouping. API.",
+    "section": "Components / Layout",
+    "url": "/components/layout/separator/api",
+    "tags": [
+      "components",
+      "layout",
+      "separator",
+      "separator",
+      "api"
+    ]
+  },
+  {
+    "title": "Separator Stylings",
+    "description": "Horizontal and vertical dividers for visual or semantic content grouping. Stylings.",
+    "section": "Components / Layout",
+    "url": "/components/layout/separator/stylings",
+    "tags": [
+      "components",
+      "layout",
+      "separator",
+      "separator",
+      "stylings"
+    ]
+  },
+  {
+    "title": "Separator Examples",
+    "description": "Horizontal and vertical dividers for visual or semantic content grouping. Examples.",
+    "section": "Components / Layout",
+    "url": "/components/layout/separator/examples",
+    "tags": [
+      "components",
+      "layout",
+      "separator",
+      "separator",
+      "examples"
     ]
   },
   {
@@ -84,6 +162,45 @@
     ]
   },
   {
+    "title": "Collapsible API",
+    "description": "Expandable disclosure regions with headless and styled integration paths. API.",
+    "section": "Components / Layout",
+    "url": "/components/layout/collapsible/api",
+    "tags": [
+      "components",
+      "layout",
+      "collapsible",
+      "collapsible",
+      "api"
+    ]
+  },
+  {
+    "title": "Collapsible Stylings",
+    "description": "Expandable disclosure regions with headless and styled integration paths. Stylings.",
+    "section": "Components / Layout",
+    "url": "/components/layout/collapsible/stylings",
+    "tags": [
+      "components",
+      "layout",
+      "collapsible",
+      "collapsible",
+      "stylings"
+    ]
+  },
+  {
+    "title": "Collapsible Examples",
+    "description": "Expandable disclosure regions with headless and styled integration paths. Examples.",
+    "section": "Components / Layout",
+    "url": "/components/layout/collapsible/examples",
+    "tags": [
+      "components",
+      "layout",
+      "collapsible",
+      "collapsible",
+      "examples"
+    ]
+  },
+  {
     "title": "Accordion",
     "description": "Single and multi-expand panel groups with keyboard navigation and aria wiring.",
     "section": "Components / Layout",
@@ -93,6 +210,45 @@
       "layout",
       "accordion",
       "accordion"
+    ]
+  },
+  {
+    "title": "Accordion API",
+    "description": "Single and multi-expand panel groups with keyboard navigation and aria wiring. API.",
+    "section": "Components / Layout",
+    "url": "/components/layout/accordion/api",
+    "tags": [
+      "components",
+      "layout",
+      "accordion",
+      "accordion",
+      "api"
+    ]
+  },
+  {
+    "title": "Accordion Stylings",
+    "description": "Single and multi-expand panel groups with keyboard navigation and aria wiring. Stylings.",
+    "section": "Components / Layout",
+    "url": "/components/layout/accordion/stylings",
+    "tags": [
+      "components",
+      "layout",
+      "accordion",
+      "accordion",
+      "stylings"
+    ]
+  },
+  {
+    "title": "Accordion Examples",
+    "description": "Single and multi-expand panel groups with keyboard navigation and aria wiring. Examples.",
+    "section": "Components / Layout",
+    "url": "/components/layout/accordion/examples",
+    "tags": [
+      "components",
+      "layout",
+      "accordion",
+      "accordion",
+      "examples"
     ]
   },
   {
@@ -108,6 +264,45 @@
     ]
   },
   {
+    "title": "Stepper API",
+    "description": "Styled stepper shell powered by headless value, focus, and state management. API.",
+    "section": "Components / Layout",
+    "url": "/components/layout/stepper/api",
+    "tags": [
+      "components",
+      "layout",
+      "stepper",
+      "stepper",
+      "api"
+    ]
+  },
+  {
+    "title": "Stepper Stylings",
+    "description": "Styled stepper shell powered by headless value, focus, and state management. Stylings.",
+    "section": "Components / Layout",
+    "url": "/components/layout/stepper/stylings",
+    "tags": [
+      "components",
+      "layout",
+      "stepper",
+      "stepper",
+      "stylings"
+    ]
+  },
+  {
+    "title": "Stepper Examples",
+    "description": "Styled stepper shell powered by headless value, focus, and state management. Examples.",
+    "section": "Components / Layout",
+    "url": "/components/layout/stepper/examples",
+    "tags": [
+      "components",
+      "layout",
+      "stepper",
+      "stepper",
+      "examples"
+    ]
+  },
+  {
     "title": "Drawer",
     "description": "Slide-in overlay panel with position, mode, focus trap, and backdrop support.",
     "section": "Components / Layout",
@@ -117,6 +312,45 @@
       "layout",
       "drawer",
       "drawer"
+    ]
+  },
+  {
+    "title": "Drawer API",
+    "description": "Slide-in overlay panel with position, mode, focus trap, and backdrop support. API.",
+    "section": "Components / Layout",
+    "url": "/components/layout/drawer/api",
+    "tags": [
+      "components",
+      "layout",
+      "drawer",
+      "drawer",
+      "api"
+    ]
+  },
+  {
+    "title": "Drawer Stylings",
+    "description": "Slide-in overlay panel with position, mode, focus trap, and backdrop support. Stylings.",
+    "section": "Components / Layout",
+    "url": "/components/layout/drawer/stylings",
+    "tags": [
+      "components",
+      "layout",
+      "drawer",
+      "drawer",
+      "stylings"
+    ]
+  },
+  {
+    "title": "Drawer Examples",
+    "description": "Slide-in overlay panel with position, mode, focus trap, and backdrop support. Examples.",
+    "section": "Components / Layout",
+    "url": "/components/layout/drawer/examples",
+    "tags": [
+      "components",
+      "layout",
+      "drawer",
+      "drawer",
+      "examples"
     ]
   },
   {
@@ -132,6 +366,45 @@
     ]
   },
   {
+    "title": "Table API",
+    "description": "Styled data table shell with columns, sorting, sticky cells, and empty states. API.",
+    "section": "Components / Layout",
+    "url": "/components/layout/table/api",
+    "tags": [
+      "components",
+      "layout",
+      "table",
+      "table",
+      "api"
+    ]
+  },
+  {
+    "title": "Table Stylings",
+    "description": "Styled data table shell with columns, sorting, sticky cells, and empty states. Stylings.",
+    "section": "Components / Layout",
+    "url": "/components/layout/table/stylings",
+    "tags": [
+      "components",
+      "layout",
+      "table",
+      "table",
+      "stylings"
+    ]
+  },
+  {
+    "title": "Table Examples",
+    "description": "Styled data table shell with columns, sorting, sticky cells, and empty states. Examples.",
+    "section": "Components / Layout",
+    "url": "/components/layout/table/examples",
+    "tags": [
+      "components",
+      "layout",
+      "table",
+      "table",
+      "examples"
+    ]
+  },
+  {
     "title": "Dialog",
     "description": "Modal panel with backdrop dismissal, focus trap, and close reason outputs.",
     "section": "Components / Overlay",
@@ -141,6 +414,45 @@
       "overlay",
       "dialog",
       "dialog"
+    ]
+  },
+  {
+    "title": "Dialog API",
+    "description": "Modal panel with backdrop dismissal, focus trap, and close reason outputs. API.",
+    "section": "Components / Overlay",
+    "url": "/components/overlay/dialog/api",
+    "tags": [
+      "components",
+      "overlay",
+      "dialog",
+      "dialog",
+      "api"
+    ]
+  },
+  {
+    "title": "Dialog Stylings",
+    "description": "Modal panel with backdrop dismissal, focus trap, and close reason outputs. Stylings.",
+    "section": "Components / Overlay",
+    "url": "/components/overlay/dialog/stylings",
+    "tags": [
+      "components",
+      "overlay",
+      "dialog",
+      "dialog",
+      "stylings"
+    ]
+  },
+  {
+    "title": "Dialog Examples",
+    "description": "Modal panel with backdrop dismissal, focus trap, and close reason outputs. Examples.",
+    "section": "Components / Overlay",
+    "url": "/components/overlay/dialog/examples",
+    "tags": [
+      "components",
+      "overlay",
+      "dialog",
+      "dialog",
+      "examples"
     ]
   },
   {
@@ -156,6 +468,45 @@
     ]
   },
   {
+    "title": "Popover API",
+    "description": "Anchored floating panel with trigger semantics and outside/Escape dismissal. API.",
+    "section": "Components / Overlay",
+    "url": "/components/overlay/popover/api",
+    "tags": [
+      "components",
+      "overlay",
+      "popover",
+      "popover",
+      "api"
+    ]
+  },
+  {
+    "title": "Popover Stylings",
+    "description": "Anchored floating panel with trigger semantics and outside/Escape dismissal. Stylings.",
+    "section": "Components / Overlay",
+    "url": "/components/overlay/popover/stylings",
+    "tags": [
+      "components",
+      "overlay",
+      "popover",
+      "popover",
+      "stylings"
+    ]
+  },
+  {
+    "title": "Popover Examples",
+    "description": "Anchored floating panel with trigger semantics and outside/Escape dismissal. Examples.",
+    "section": "Components / Overlay",
+    "url": "/components/overlay/popover/examples",
+    "tags": [
+      "components",
+      "overlay",
+      "popover",
+      "popover",
+      "examples"
+    ]
+  },
+  {
     "title": "Tooltip",
     "description": "Hover/focus helper text with trigger/content association and side placement hooks.",
     "section": "Components / Overlay",
@@ -165,6 +516,45 @@
       "overlay",
       "tooltip",
       "tooltip"
+    ]
+  },
+  {
+    "title": "Tooltip API",
+    "description": "Hover/focus helper text with trigger/content association and side placement hooks. API.",
+    "section": "Components / Overlay",
+    "url": "/components/overlay/tooltip/api",
+    "tags": [
+      "components",
+      "overlay",
+      "tooltip",
+      "tooltip",
+      "api"
+    ]
+  },
+  {
+    "title": "Tooltip Stylings",
+    "description": "Hover/focus helper text with trigger/content association and side placement hooks. Stylings.",
+    "section": "Components / Overlay",
+    "url": "/components/overlay/tooltip/stylings",
+    "tags": [
+      "components",
+      "overlay",
+      "tooltip",
+      "tooltip",
+      "stylings"
+    ]
+  },
+  {
+    "title": "Tooltip Examples",
+    "description": "Hover/focus helper text with trigger/content association and side placement hooks. Examples.",
+    "section": "Components / Overlay",
+    "url": "/components/overlay/tooltip/examples",
+    "tags": [
+      "components",
+      "overlay",
+      "tooltip",
+      "tooltip",
+      "examples"
     ]
   },
   {
@@ -180,6 +570,45 @@
     ]
   },
   {
+    "title": "Toast API",
+    "description": "Stacked notification toasts with auto-dismiss timing, dismiss actions, and tone semantics. API.",
+    "section": "Components / Feedback",
+    "url": "/components/feedback/toast/api",
+    "tags": [
+      "components",
+      "feedback",
+      "toast",
+      "toast",
+      "api"
+    ]
+  },
+  {
+    "title": "Toast Stylings",
+    "description": "Stacked notification toasts with auto-dismiss timing, dismiss actions, and tone semantics. Stylings.",
+    "section": "Components / Feedback",
+    "url": "/components/feedback/toast/stylings",
+    "tags": [
+      "components",
+      "feedback",
+      "toast",
+      "toast",
+      "stylings"
+    ]
+  },
+  {
+    "title": "Toast Examples",
+    "description": "Stacked notification toasts with auto-dismiss timing, dismiss actions, and tone semantics. Examples.",
+    "section": "Components / Feedback",
+    "url": "/components/feedback/toast/examples",
+    "tags": [
+      "components",
+      "feedback",
+      "toast",
+      "toast",
+      "examples"
+    ]
+  },
+  {
     "title": "Empty",
     "description": "Empty-state layout with icon, title, description, and action composition.",
     "section": "Components / Feedback",
@@ -189,6 +618,45 @@
       "feedback",
       "empty",
       "empty"
+    ]
+  },
+  {
+    "title": "Empty API",
+    "description": "Empty-state layout with icon, title, description, and action composition. API.",
+    "section": "Components / Feedback",
+    "url": "/components/feedback/empty/api",
+    "tags": [
+      "components",
+      "feedback",
+      "empty",
+      "empty",
+      "api"
+    ]
+  },
+  {
+    "title": "Empty Stylings",
+    "description": "Empty-state layout with icon, title, description, and action composition. Stylings.",
+    "section": "Components / Feedback",
+    "url": "/components/feedback/empty/stylings",
+    "tags": [
+      "components",
+      "feedback",
+      "empty",
+      "empty",
+      "stylings"
+    ]
+  },
+  {
+    "title": "Empty Examples",
+    "description": "Empty-state layout with icon, title, description, and action composition. Examples.",
+    "section": "Components / Feedback",
+    "url": "/components/feedback/empty/examples",
+    "tags": [
+      "components",
+      "feedback",
+      "empty",
+      "empty",
+      "examples"
     ]
   },
   {
@@ -204,6 +672,45 @@
     ]
   },
   {
+    "title": "Progress Bar API",
+    "description": "Linear determinate and indeterminate loading states with aria semantics. API.",
+    "section": "Components / Feedback",
+    "url": "/components/feedback/progress-bar/api",
+    "tags": [
+      "components",
+      "feedback",
+      "progress-bar",
+      "progress-bar",
+      "api"
+    ]
+  },
+  {
+    "title": "Progress Bar Stylings",
+    "description": "Linear determinate and indeterminate loading states with aria semantics. Stylings.",
+    "section": "Components / Feedback",
+    "url": "/components/feedback/progress-bar/stylings",
+    "tags": [
+      "components",
+      "feedback",
+      "progress-bar",
+      "progress-bar",
+      "stylings"
+    ]
+  },
+  {
+    "title": "Progress Bar Examples",
+    "description": "Linear determinate and indeterminate loading states with aria semantics. Examples.",
+    "section": "Components / Feedback",
+    "url": "/components/feedback/progress-bar/examples",
+    "tags": [
+      "components",
+      "feedback",
+      "progress-bar",
+      "progress-bar",
+      "examples"
+    ]
+  },
+  {
     "title": "Progress Spinner",
     "description": "Circular determinate and indeterminate loading states with aria semantics.",
     "section": "Components / Feedback",
@@ -213,6 +720,45 @@
       "feedback",
       "progress-spinner",
       "progress-spinner"
+    ]
+  },
+  {
+    "title": "Progress Spinner API",
+    "description": "Circular determinate and indeterminate loading states with aria semantics. API.",
+    "section": "Components / Feedback",
+    "url": "/components/feedback/progress-spinner/api",
+    "tags": [
+      "components",
+      "feedback",
+      "progress-spinner",
+      "progress-spinner",
+      "api"
+    ]
+  },
+  {
+    "title": "Progress Spinner Stylings",
+    "description": "Circular determinate and indeterminate loading states with aria semantics. Stylings.",
+    "section": "Components / Feedback",
+    "url": "/components/feedback/progress-spinner/stylings",
+    "tags": [
+      "components",
+      "feedback",
+      "progress-spinner",
+      "progress-spinner",
+      "stylings"
+    ]
+  },
+  {
+    "title": "Progress Spinner Examples",
+    "description": "Circular determinate and indeterminate loading states with aria semantics. Examples.",
+    "section": "Components / Feedback",
+    "url": "/components/feedback/progress-spinner/examples",
+    "tags": [
+      "components",
+      "feedback",
+      "progress-spinner",
+      "progress-spinner",
+      "examples"
     ]
   },
   {
@@ -228,6 +774,45 @@
     ]
   },
   {
+    "title": "Skeleton API",
+    "description": "Decorative placeholder blocks for loading layouts and content scaffolding. API.",
+    "section": "Components / Feedback",
+    "url": "/components/feedback/skeleton/api",
+    "tags": [
+      "components",
+      "feedback",
+      "skeleton",
+      "skeleton",
+      "api"
+    ]
+  },
+  {
+    "title": "Skeleton Stylings",
+    "description": "Decorative placeholder blocks for loading layouts and content scaffolding. Stylings.",
+    "section": "Components / Feedback",
+    "url": "/components/feedback/skeleton/stylings",
+    "tags": [
+      "components",
+      "feedback",
+      "skeleton",
+      "skeleton",
+      "stylings"
+    ]
+  },
+  {
+    "title": "Skeleton Examples",
+    "description": "Decorative placeholder blocks for loading layouts and content scaffolding. Examples.",
+    "section": "Components / Feedback",
+    "url": "/components/feedback/skeleton/examples",
+    "tags": [
+      "components",
+      "feedback",
+      "skeleton",
+      "skeleton",
+      "examples"
+    ]
+  },
+  {
     "title": "Input",
     "description": "Text input fields, adornments, validation messaging, and layout patterns.",
     "section": "Components / Form",
@@ -237,6 +822,45 @@
       "form",
       "input",
       "input"
+    ]
+  },
+  {
+    "title": "Input API",
+    "description": "Text input fields, adornments, validation messaging, and layout patterns. API.",
+    "section": "Components / Form",
+    "url": "/components/form/input/api",
+    "tags": [
+      "components",
+      "form",
+      "input",
+      "input",
+      "api"
+    ]
+  },
+  {
+    "title": "Input Stylings",
+    "description": "Text input fields, adornments, validation messaging, and layout patterns. Stylings.",
+    "section": "Components / Form",
+    "url": "/components/form/input/stylings",
+    "tags": [
+      "components",
+      "form",
+      "input",
+      "input",
+      "stylings"
+    ]
+  },
+  {
+    "title": "Input Examples",
+    "description": "Text input fields, adornments, validation messaging, and layout patterns. Examples.",
+    "section": "Components / Form",
+    "url": "/components/form/input/examples",
+    "tags": [
+      "components",
+      "form",
+      "input",
+      "input",
+      "examples"
     ]
   },
   {
@@ -252,6 +876,45 @@
     ]
   },
   {
+    "title": "Textarea API",
+    "description": "Multiline text input patterns with input-first primitives and styled textarea wrappers. API.",
+    "section": "Components / Form",
+    "url": "/components/form/textarea/api",
+    "tags": [
+      "components",
+      "form",
+      "textarea",
+      "textarea",
+      "api"
+    ]
+  },
+  {
+    "title": "Textarea Stylings",
+    "description": "Multiline text input patterns with input-first primitives and styled textarea wrappers. Stylings.",
+    "section": "Components / Form",
+    "url": "/components/form/textarea/stylings",
+    "tags": [
+      "components",
+      "form",
+      "textarea",
+      "textarea",
+      "stylings"
+    ]
+  },
+  {
+    "title": "Textarea Examples",
+    "description": "Multiline text input patterns with input-first primitives and styled textarea wrappers. Examples.",
+    "section": "Components / Form",
+    "url": "/components/form/textarea/examples",
+    "tags": [
+      "components",
+      "form",
+      "textarea",
+      "textarea",
+      "examples"
+    ]
+  },
+  {
     "title": "Label",
     "description": "Accessible label semantics for explicit and wrapped control association.",
     "section": "Components / Form",
@@ -261,6 +924,45 @@
       "form",
       "label",
       "label"
+    ]
+  },
+  {
+    "title": "Label API",
+    "description": "Accessible label semantics for explicit and wrapped control association. API.",
+    "section": "Components / Form",
+    "url": "/components/form/label/api",
+    "tags": [
+      "components",
+      "form",
+      "label",
+      "label",
+      "api"
+    ]
+  },
+  {
+    "title": "Label Stylings",
+    "description": "Accessible label semantics for explicit and wrapped control association. Stylings.",
+    "section": "Components / Form",
+    "url": "/components/form/label/stylings",
+    "tags": [
+      "components",
+      "form",
+      "label",
+      "label",
+      "stylings"
+    ]
+  },
+  {
+    "title": "Label Examples",
+    "description": "Accessible label semantics for explicit and wrapped control association. Examples.",
+    "section": "Components / Form",
+    "url": "/components/form/label/examples",
+    "tags": [
+      "components",
+      "form",
+      "label",
+      "label",
+      "examples"
     ]
   },
   {
@@ -276,6 +978,45 @@
     ]
   },
   {
+    "title": "Checkbox API",
+    "description": "Binary and tri-state selection patterns with headless and styled usage. API.",
+    "section": "Components / Form",
+    "url": "/components/form/checkbox/api",
+    "tags": [
+      "components",
+      "form",
+      "checkbox",
+      "checkbox",
+      "api"
+    ]
+  },
+  {
+    "title": "Checkbox Stylings",
+    "description": "Binary and tri-state selection patterns with headless and styled usage. Stylings.",
+    "section": "Components / Form",
+    "url": "/components/form/checkbox/stylings",
+    "tags": [
+      "components",
+      "form",
+      "checkbox",
+      "checkbox",
+      "stylings"
+    ]
+  },
+  {
+    "title": "Checkbox Examples",
+    "description": "Binary and tri-state selection patterns with headless and styled usage. Examples.",
+    "section": "Components / Form",
+    "url": "/components/form/checkbox/examples",
+    "tags": [
+      "components",
+      "form",
+      "checkbox",
+      "checkbox",
+      "examples"
+    ]
+  },
+  {
     "title": "Toggle",
     "description": "Pressed button semantics for compact on/off actions and toolbar commands.",
     "section": "Components / Form",
@@ -285,6 +1026,45 @@
       "form",
       "toggle",
       "toggle"
+    ]
+  },
+  {
+    "title": "Toggle API",
+    "description": "Pressed button semantics for compact on/off actions and toolbar commands. API.",
+    "section": "Components / Form",
+    "url": "/components/form/toggle/api",
+    "tags": [
+      "components",
+      "form",
+      "toggle",
+      "toggle",
+      "api"
+    ]
+  },
+  {
+    "title": "Toggle Stylings",
+    "description": "Pressed button semantics for compact on/off actions and toolbar commands. Stylings.",
+    "section": "Components / Form",
+    "url": "/components/form/toggle/stylings",
+    "tags": [
+      "components",
+      "form",
+      "toggle",
+      "toggle",
+      "stylings"
+    ]
+  },
+  {
+    "title": "Toggle Examples",
+    "description": "Pressed button semantics for compact on/off actions and toolbar commands. Examples.",
+    "section": "Components / Form",
+    "url": "/components/form/toggle/examples",
+    "tags": [
+      "components",
+      "form",
+      "toggle",
+      "toggle",
+      "examples"
     ]
   },
   {
@@ -300,6 +1080,45 @@
     ]
   },
   {
+    "title": "Switch API",
+    "description": "Two-state on/off toggle with track/thumb rendering and arrow-key support. API.",
+    "section": "Components / Form",
+    "url": "/components/form/switch/api",
+    "tags": [
+      "components",
+      "form",
+      "switch",
+      "switch",
+      "api"
+    ]
+  },
+  {
+    "title": "Switch Stylings",
+    "description": "Two-state on/off toggle with track/thumb rendering and arrow-key support. Stylings.",
+    "section": "Components / Form",
+    "url": "/components/form/switch/stylings",
+    "tags": [
+      "components",
+      "form",
+      "switch",
+      "switch",
+      "stylings"
+    ]
+  },
+  {
+    "title": "Switch Examples",
+    "description": "Two-state on/off toggle with track/thumb rendering and arrow-key support. Examples.",
+    "section": "Components / Form",
+    "url": "/components/form/switch/examples",
+    "tags": [
+      "components",
+      "form",
+      "switch",
+      "switch",
+      "examples"
+    ]
+  },
+  {
     "title": "Radio",
     "description": "Single-choice grouped selection with native semantics and keyboard behavior.",
     "section": "Components / Form",
@@ -309,6 +1128,45 @@
       "form",
       "radio",
       "radio"
+    ]
+  },
+  {
+    "title": "Radio API",
+    "description": "Single-choice grouped selection with native semantics and keyboard behavior. API.",
+    "section": "Components / Form",
+    "url": "/components/form/radio/api",
+    "tags": [
+      "components",
+      "form",
+      "radio",
+      "radio",
+      "api"
+    ]
+  },
+  {
+    "title": "Radio Stylings",
+    "description": "Single-choice grouped selection with native semantics and keyboard behavior. Stylings.",
+    "section": "Components / Form",
+    "url": "/components/form/radio/stylings",
+    "tags": [
+      "components",
+      "form",
+      "radio",
+      "radio",
+      "stylings"
+    ]
+  },
+  {
+    "title": "Radio Examples",
+    "description": "Single-choice grouped selection with native semantics and keyboard behavior. Examples.",
+    "section": "Components / Form",
+    "url": "/components/form/radio/examples",
+    "tags": [
+      "components",
+      "form",
+      "radio",
+      "radio",
+      "examples"
     ]
   },
   {
@@ -324,6 +1182,45 @@
     ]
   },
   {
+    "title": "Button Toggle API",
+    "description": "Single and multiple pressed-button groups for toolbars and view switches. API.",
+    "section": "Components / Form",
+    "url": "/components/form/button-toggle/api",
+    "tags": [
+      "components",
+      "form",
+      "button-toggle",
+      "button-toggle",
+      "api"
+    ]
+  },
+  {
+    "title": "Button Toggle Stylings",
+    "description": "Single and multiple pressed-button groups for toolbars and view switches. Stylings.",
+    "section": "Components / Form",
+    "url": "/components/form/button-toggle/stylings",
+    "tags": [
+      "components",
+      "form",
+      "button-toggle",
+      "button-toggle",
+      "stylings"
+    ]
+  },
+  {
+    "title": "Button Toggle Examples",
+    "description": "Single and multiple pressed-button groups for toolbars and view switches. Examples.",
+    "section": "Components / Form",
+    "url": "/components/form/button-toggle/examples",
+    "tags": [
+      "components",
+      "form",
+      "button-toggle",
+      "button-toggle",
+      "examples"
+    ]
+  },
+  {
     "title": "ListBox",
     "description": "Listbox interaction patterns and keyboard behavior reference.",
     "section": "Components / Form",
@@ -333,6 +1230,45 @@
       "form",
       "listbox",
       "listbox"
+    ]
+  },
+  {
+    "title": "ListBox API",
+    "description": "Listbox interaction patterns and keyboard behavior reference. API.",
+    "section": "Components / Form",
+    "url": "/components/form/listbox/api",
+    "tags": [
+      "components",
+      "form",
+      "listbox",
+      "listbox",
+      "api"
+    ]
+  },
+  {
+    "title": "ListBox Stylings",
+    "description": "Listbox interaction patterns and keyboard behavior reference. Stylings.",
+    "section": "Components / Form",
+    "url": "/components/form/listbox/stylings",
+    "tags": [
+      "components",
+      "form",
+      "listbox",
+      "listbox",
+      "stylings"
+    ]
+  },
+  {
+    "title": "ListBox Examples",
+    "description": "Listbox interaction patterns and keyboard behavior reference. Examples.",
+    "section": "Components / Form",
+    "url": "/components/form/listbox/examples",
+    "tags": [
+      "components",
+      "form",
+      "listbox",
+      "listbox",
+      "examples"
     ]
   },
   {
@@ -348,6 +1284,45 @@
     ]
   },
   {
+    "title": "AutoComplete API",
+    "description": "Single-value autocomplete patterns and filtering behavior. API.",
+    "section": "Components / Form",
+    "url": "/components/form/autocomplete/api",
+    "tags": [
+      "components",
+      "form",
+      "autocomplete",
+      "autocomplete",
+      "api"
+    ]
+  },
+  {
+    "title": "AutoComplete Stylings",
+    "description": "Single-value autocomplete patterns and filtering behavior. Stylings.",
+    "section": "Components / Form",
+    "url": "/components/form/autocomplete/stylings",
+    "tags": [
+      "components",
+      "form",
+      "autocomplete",
+      "autocomplete",
+      "stylings"
+    ]
+  },
+  {
+    "title": "AutoComplete Examples",
+    "description": "Single-value autocomplete patterns and filtering behavior. Examples.",
+    "section": "Components / Form",
+    "url": "/components/form/autocomplete/examples",
+    "tags": [
+      "components",
+      "form",
+      "autocomplete",
+      "autocomplete",
+      "examples"
+    ]
+  },
+  {
     "title": "MultiAutocomplete",
     "description": "Chip-based autocomplete selection for multiple values.",
     "section": "Components / Form",
@@ -357,6 +1332,45 @@
       "form",
       "multi-autocomplete",
       "multi-autocomplete"
+    ]
+  },
+  {
+    "title": "MultiAutocomplete API",
+    "description": "Chip-based autocomplete selection for multiple values. API.",
+    "section": "Components / Form",
+    "url": "/components/form/multi-autocomplete/api",
+    "tags": [
+      "components",
+      "form",
+      "multi-autocomplete",
+      "multi-autocomplete",
+      "api"
+    ]
+  },
+  {
+    "title": "MultiAutocomplete Stylings",
+    "description": "Chip-based autocomplete selection for multiple values. Stylings.",
+    "section": "Components / Form",
+    "url": "/components/form/multi-autocomplete/stylings",
+    "tags": [
+      "components",
+      "form",
+      "multi-autocomplete",
+      "multi-autocomplete",
+      "stylings"
+    ]
+  },
+  {
+    "title": "MultiAutocomplete Examples",
+    "description": "Chip-based autocomplete selection for multiple values. Examples.",
+    "section": "Components / Form",
+    "url": "/components/form/multi-autocomplete/examples",
+    "tags": [
+      "components",
+      "form",
+      "multi-autocomplete",
+      "multi-autocomplete",
+      "examples"
     ]
   },
   {
@@ -372,6 +1386,45 @@
     ]
   },
   {
+    "title": "Select API",
+    "description": "Single-choice select surfaces and trigger/content composition. API.",
+    "section": "Components / Form",
+    "url": "/components/form/select/api",
+    "tags": [
+      "components",
+      "form",
+      "select",
+      "select",
+      "api"
+    ]
+  },
+  {
+    "title": "Select Stylings",
+    "description": "Single-choice select surfaces and trigger/content composition. Stylings.",
+    "section": "Components / Form",
+    "url": "/components/form/select/stylings",
+    "tags": [
+      "components",
+      "form",
+      "select",
+      "select",
+      "stylings"
+    ]
+  },
+  {
+    "title": "Select Examples",
+    "description": "Single-choice select surfaces and trigger/content composition. Examples.",
+    "section": "Components / Form",
+    "url": "/components/form/select/examples",
+    "tags": [
+      "components",
+      "form",
+      "select",
+      "select",
+      "examples"
+    ]
+  },
+  {
     "title": "MultiSelect",
     "description": "Multiple-selection dropdown behavior and state handling.",
     "section": "Components / Form",
@@ -381,6 +1434,45 @@
       "form",
       "multiselect",
       "multiselect"
+    ]
+  },
+  {
+    "title": "MultiSelect API",
+    "description": "Multiple-selection dropdown behavior and state handling. API.",
+    "section": "Components / Form",
+    "url": "/components/form/multiselect/api",
+    "tags": [
+      "components",
+      "form",
+      "multiselect",
+      "multiselect",
+      "api"
+    ]
+  },
+  {
+    "title": "MultiSelect Stylings",
+    "description": "Multiple-selection dropdown behavior and state handling. Stylings.",
+    "section": "Components / Form",
+    "url": "/components/form/multiselect/stylings",
+    "tags": [
+      "components",
+      "form",
+      "multiselect",
+      "multiselect",
+      "stylings"
+    ]
+  },
+  {
+    "title": "MultiSelect Examples",
+    "description": "Multiple-selection dropdown behavior and state handling. Examples.",
+    "section": "Components / Form",
+    "url": "/components/form/multiselect/examples",
+    "tags": [
+      "components",
+      "form",
+      "multiselect",
+      "multiselect",
+      "examples"
     ]
   },
   {
@@ -396,6 +1488,45 @@
     ]
   },
   {
+    "title": "Datepicker API",
+    "description": "Material-style date selection with editable input, adapter formatting, and bounded calendar views. API.",
+    "section": "Components / Form",
+    "url": "/components/form/datepicker/api",
+    "tags": [
+      "components",
+      "form",
+      "datepicker",
+      "datepicker",
+      "api"
+    ]
+  },
+  {
+    "title": "Datepicker Stylings",
+    "description": "Material-style date selection with editable input, adapter formatting, and bounded calendar views. Stylings.",
+    "section": "Components / Form",
+    "url": "/components/form/datepicker/stylings",
+    "tags": [
+      "components",
+      "form",
+      "datepicker",
+      "datepicker",
+      "stylings"
+    ]
+  },
+  {
+    "title": "Datepicker Examples",
+    "description": "Material-style date selection with editable input, adapter formatting, and bounded calendar views. Examples.",
+    "section": "Components / Form",
+    "url": "/components/form/datepicker/examples",
+    "tags": [
+      "components",
+      "form",
+      "datepicker",
+      "datepicker",
+      "examples"
+    ]
+  },
+  {
     "title": "Chips",
     "description": "Tokenized input and removable item chip usage patterns.",
     "section": "Components / Form",
@@ -405,6 +1536,45 @@
       "form",
       "chips",
       "chips"
+    ]
+  },
+  {
+    "title": "Chips API",
+    "description": "Tokenized input and removable item chip usage patterns. API.",
+    "section": "Components / Form",
+    "url": "/components/form/chips/api",
+    "tags": [
+      "components",
+      "form",
+      "chips",
+      "chips",
+      "api"
+    ]
+  },
+  {
+    "title": "Chips Stylings",
+    "description": "Tokenized input and removable item chip usage patterns. Stylings.",
+    "section": "Components / Form",
+    "url": "/components/form/chips/stylings",
+    "tags": [
+      "components",
+      "form",
+      "chips",
+      "chips",
+      "stylings"
+    ]
+  },
+  {
+    "title": "Chips Examples",
+    "description": "Tokenized input and removable item chip usage patterns. Examples.",
+    "section": "Components / Form",
+    "url": "/components/form/chips/examples",
+    "tags": [
+      "components",
+      "form",
+      "chips",
+      "chips",
+      "examples"
     ]
   },
   {
@@ -420,6 +1590,45 @@
     ]
   },
   {
+    "title": "Input OTP API",
+    "description": "Segmented one-time-password input with keyboard, paste, and form integration. API.",
+    "section": "Components / Form",
+    "url": "/components/form/input-otp/api",
+    "tags": [
+      "components",
+      "form",
+      "input-otp",
+      "input-otp",
+      "api"
+    ]
+  },
+  {
+    "title": "Input OTP Stylings",
+    "description": "Segmented one-time-password input with keyboard, paste, and form integration. Stylings.",
+    "section": "Components / Form",
+    "url": "/components/form/input-otp/stylings",
+    "tags": [
+      "components",
+      "form",
+      "input-otp",
+      "input-otp",
+      "stylings"
+    ]
+  },
+  {
+    "title": "Input OTP Examples",
+    "description": "Segmented one-time-password input with keyboard, paste, and form integration. Examples.",
+    "section": "Components / Form",
+    "url": "/components/form/input-otp/examples",
+    "tags": [
+      "components",
+      "form",
+      "input-otp",
+      "input-otp",
+      "examples"
+    ]
+  },
+  {
     "title": "Form Field",
     "description": "Projected input shell with prefix and suffix slots for icons, helper text, and inline actions.",
     "section": "Components / Form",
@@ -429,6 +1638,45 @@
       "form",
       "form-field",
       "form-field"
+    ]
+  },
+  {
+    "title": "Form Field API",
+    "description": "Projected input shell with prefix and suffix slots for icons, helper text, and inline actions. API.",
+    "section": "Components / Form",
+    "url": "/components/form/form-field/api",
+    "tags": [
+      "components",
+      "form",
+      "form-field",
+      "form-field",
+      "api"
+    ]
+  },
+  {
+    "title": "Form Field Stylings",
+    "description": "Projected input shell with prefix and suffix slots for icons, helper text, and inline actions. Stylings.",
+    "section": "Components / Form",
+    "url": "/components/form/form-field/stylings",
+    "tags": [
+      "components",
+      "form",
+      "form-field",
+      "form-field",
+      "stylings"
+    ]
+  },
+  {
+    "title": "Form Field Examples",
+    "description": "Projected input shell with prefix and suffix slots for icons, helper text, and inline actions. Examples.",
+    "section": "Components / Form",
+    "url": "/components/form/form-field/examples",
+    "tags": [
+      "components",
+      "form",
+      "form-field",
+      "form-field",
+      "examples"
     ]
   },
   {
@@ -444,6 +1692,45 @@
     ]
   },
   {
+    "title": "Codeblock API",
+    "description": "Code rendering, highlighting adapters, and line metadata. API.",
+    "section": "Components / Utility",
+    "url": "/components/utility/codeblock/api",
+    "tags": [
+      "components",
+      "utility",
+      "codeblock",
+      "codeblock",
+      "api"
+    ]
+  },
+  {
+    "title": "Codeblock Stylings",
+    "description": "Code rendering, highlighting adapters, and line metadata. Stylings.",
+    "section": "Components / Utility",
+    "url": "/components/utility/codeblock/stylings",
+    "tags": [
+      "components",
+      "utility",
+      "codeblock",
+      "codeblock",
+      "stylings"
+    ]
+  },
+  {
+    "title": "Codeblock Examples",
+    "description": "Code rendering, highlighting adapters, and line metadata. Examples.",
+    "section": "Components / Utility",
+    "url": "/components/utility/codeblock/examples",
+    "tags": [
+      "components",
+      "utility",
+      "codeblock",
+      "codeblock",
+      "examples"
+    ]
+  },
+  {
     "title": "CopyButton",
     "description": "Clipboard actions, success/error states, and feedback hooks.",
     "section": "Components / Utility",
@@ -453,6 +1740,45 @@
       "utility",
       "copybutton",
       "copybutton"
+    ]
+  },
+  {
+    "title": "CopyButton API",
+    "description": "Clipboard actions, success/error states, and feedback hooks. API.",
+    "section": "Components / Utility",
+    "url": "/components/utility/copybutton/api",
+    "tags": [
+      "components",
+      "utility",
+      "copybutton",
+      "copybutton",
+      "api"
+    ]
+  },
+  {
+    "title": "CopyButton Stylings",
+    "description": "Clipboard actions, success/error states, and feedback hooks. Stylings.",
+    "section": "Components / Utility",
+    "url": "/components/utility/copybutton/stylings",
+    "tags": [
+      "components",
+      "utility",
+      "copybutton",
+      "copybutton",
+      "stylings"
+    ]
+  },
+  {
+    "title": "CopyButton Examples",
+    "description": "Clipboard actions, success/error states, and feedback hooks. Examples.",
+    "section": "Components / Utility",
+    "url": "/components/utility/copybutton/examples",
+    "tags": [
+      "components",
+      "utility",
+      "copybutton",
+      "copybutton",
+      "examples"
     ]
   },
   {
@@ -468,6 +1794,45 @@
     ]
   },
   {
+    "title": "Button API",
+    "description": "Press/action semantics, accessibility, and interaction states. API.",
+    "section": "Components / Utility",
+    "url": "/components/utility/button/api",
+    "tags": [
+      "components",
+      "utility",
+      "button",
+      "button",
+      "api"
+    ]
+  },
+  {
+    "title": "Button Stylings",
+    "description": "Press/action semantics, accessibility, and interaction states. Stylings.",
+    "section": "Components / Utility",
+    "url": "/components/utility/button/stylings",
+    "tags": [
+      "components",
+      "utility",
+      "button",
+      "button",
+      "stylings"
+    ]
+  },
+  {
+    "title": "Button Examples",
+    "description": "Press/action semantics, accessibility, and interaction states. Examples.",
+    "section": "Components / Utility",
+    "url": "/components/utility/button/examples",
+    "tags": [
+      "components",
+      "utility",
+      "button",
+      "button",
+      "examples"
+    ]
+  },
+  {
     "title": "Avatar",
     "description": "Identity surfaces with fallback handling, shape, and size variants.",
     "section": "Components / Utility",
@@ -477,6 +1842,45 @@
       "utility",
       "avatar",
       "avatar"
+    ]
+  },
+  {
+    "title": "Avatar API",
+    "description": "Identity surfaces with fallback handling, shape, and size variants. API.",
+    "section": "Components / Utility",
+    "url": "/components/utility/avatar/api",
+    "tags": [
+      "components",
+      "utility",
+      "avatar",
+      "avatar",
+      "api"
+    ]
+  },
+  {
+    "title": "Avatar Stylings",
+    "description": "Identity surfaces with fallback handling, shape, and size variants. Stylings.",
+    "section": "Components / Utility",
+    "url": "/components/utility/avatar/stylings",
+    "tags": [
+      "components",
+      "utility",
+      "avatar",
+      "avatar",
+      "stylings"
+    ]
+  },
+  {
+    "title": "Avatar Examples",
+    "description": "Identity surfaces with fallback handling, shape, and size variants. Examples.",
+    "section": "Components / Utility",
+    "url": "/components/utility/avatar/examples",
+    "tags": [
+      "components",
+      "utility",
+      "avatar",
+      "avatar",
+      "examples"
     ]
   },
   {
@@ -492,6 +1896,45 @@
     ]
   },
   {
+    "title": "Badge API",
+    "description": "Count, dot, and placement badges for notifications and status overlays. API.",
+    "section": "Components / Utility",
+    "url": "/components/utility/badge/api",
+    "tags": [
+      "components",
+      "utility",
+      "badge",
+      "badge",
+      "api"
+    ]
+  },
+  {
+    "title": "Badge Stylings",
+    "description": "Count, dot, and placement badges for notifications and status overlays. Stylings.",
+    "section": "Components / Utility",
+    "url": "/components/utility/badge/stylings",
+    "tags": [
+      "components",
+      "utility",
+      "badge",
+      "badge",
+      "stylings"
+    ]
+  },
+  {
+    "title": "Badge Examples",
+    "description": "Count, dot, and placement badges for notifications and status overlays. Examples.",
+    "section": "Components / Utility",
+    "url": "/components/utility/badge/examples",
+    "tags": [
+      "components",
+      "utility",
+      "badge",
+      "badge",
+      "examples"
+    ]
+  },
+  {
     "title": "Tag",
     "description": "Compact label chips with optional icon and removable close action.",
     "section": "Components / Utility",
@@ -501,6 +1944,45 @@
       "utility",
       "tag",
       "tag"
+    ]
+  },
+  {
+    "title": "Tag API",
+    "description": "Compact label chips with optional icon and removable close action. API.",
+    "section": "Components / Utility",
+    "url": "/components/utility/tag/api",
+    "tags": [
+      "components",
+      "utility",
+      "tag",
+      "tag",
+      "api"
+    ]
+  },
+  {
+    "title": "Tag Stylings",
+    "description": "Compact label chips with optional icon and removable close action. Stylings.",
+    "section": "Components / Utility",
+    "url": "/components/utility/tag/stylings",
+    "tags": [
+      "components",
+      "utility",
+      "tag",
+      "tag",
+      "stylings"
+    ]
+  },
+  {
+    "title": "Tag Examples",
+    "description": "Compact label chips with optional icon and removable close action. Examples.",
+    "section": "Components / Utility",
+    "url": "/components/utility/tag/examples",
+    "tags": [
+      "components",
+      "utility",
+      "tag",
+      "tag",
+      "examples"
     ]
   },
   {
@@ -516,6 +1998,45 @@
     ]
   },
   {
+    "title": "Menubar API",
+    "description": "Top-level menubar patterns with owned menu integration. API.",
+    "section": "Components / Navigation",
+    "url": "/components/navigation/menubar/api",
+    "tags": [
+      "components",
+      "navigation",
+      "menubar",
+      "menubar",
+      "api"
+    ]
+  },
+  {
+    "title": "Menubar Stylings",
+    "description": "Top-level menubar patterns with owned menu integration. Stylings.",
+    "section": "Components / Navigation",
+    "url": "/components/navigation/menubar/stylings",
+    "tags": [
+      "components",
+      "navigation",
+      "menubar",
+      "menubar",
+      "stylings"
+    ]
+  },
+  {
+    "title": "Menubar Examples",
+    "description": "Top-level menubar patterns with owned menu integration. Examples.",
+    "section": "Components / Navigation",
+    "url": "/components/navigation/menubar/examples",
+    "tags": [
+      "components",
+      "navigation",
+      "menubar",
+      "menubar",
+      "examples"
+    ]
+  },
+  {
     "title": "Menu",
     "description": "Contextual menu interactions, keyboard flow, and submenu behavior.",
     "section": "Components / Navigation",
@@ -525,6 +2046,45 @@
       "navigation",
       "menu",
       "menu"
+    ]
+  },
+  {
+    "title": "Menu API",
+    "description": "Contextual menu interactions, keyboard flow, and submenu behavior. API.",
+    "section": "Components / Navigation",
+    "url": "/components/navigation/menu/api",
+    "tags": [
+      "components",
+      "navigation",
+      "menu",
+      "menu",
+      "api"
+    ]
+  },
+  {
+    "title": "Menu Stylings",
+    "description": "Contextual menu interactions, keyboard flow, and submenu behavior. Stylings.",
+    "section": "Components / Navigation",
+    "url": "/components/navigation/menu/stylings",
+    "tags": [
+      "components",
+      "navigation",
+      "menu",
+      "menu",
+      "stylings"
+    ]
+  },
+  {
+    "title": "Menu Examples",
+    "description": "Contextual menu interactions, keyboard flow, and submenu behavior. Examples.",
+    "section": "Components / Navigation",
+    "url": "/components/navigation/menu/examples",
+    "tags": [
+      "components",
+      "navigation",
+      "menu",
+      "menu",
+      "examples"
     ]
   },
   {
@@ -540,6 +2100,45 @@
     ]
   },
   {
+    "title": "Context Menu API",
+    "description": "Right-click and keyboard context actions anchored to element surfaces. API.",
+    "section": "Components / Navigation",
+    "url": "/components/navigation/context-menu/api",
+    "tags": [
+      "components",
+      "navigation",
+      "context-menu",
+      "context-menu",
+      "api"
+    ]
+  },
+  {
+    "title": "Context Menu Stylings",
+    "description": "Right-click and keyboard context actions anchored to element surfaces. Stylings.",
+    "section": "Components / Navigation",
+    "url": "/components/navigation/context-menu/stylings",
+    "tags": [
+      "components",
+      "navigation",
+      "context-menu",
+      "context-menu",
+      "stylings"
+    ]
+  },
+  {
+    "title": "Context Menu Examples",
+    "description": "Right-click and keyboard context actions anchored to element surfaces. Examples.",
+    "section": "Components / Navigation",
+    "url": "/components/navigation/context-menu/examples",
+    "tags": [
+      "components",
+      "navigation",
+      "context-menu",
+      "context-menu",
+      "examples"
+    ]
+  },
+  {
     "title": "Breadcrumb",
     "description": "Hierarchical path navigation with optional collapse and current-page semantics.",
     "section": "Components / Navigation",
@@ -549,6 +2148,45 @@
       "navigation",
       "breadcrumb",
       "breadcrumb"
+    ]
+  },
+  {
+    "title": "Breadcrumb API",
+    "description": "Hierarchical path navigation with optional collapse and current-page semantics. API.",
+    "section": "Components / Navigation",
+    "url": "/components/navigation/breadcrumb/api",
+    "tags": [
+      "components",
+      "navigation",
+      "breadcrumb",
+      "breadcrumb",
+      "api"
+    ]
+  },
+  {
+    "title": "Breadcrumb Stylings",
+    "description": "Hierarchical path navigation with optional collapse and current-page semantics. Stylings.",
+    "section": "Components / Navigation",
+    "url": "/components/navigation/breadcrumb/stylings",
+    "tags": [
+      "components",
+      "navigation",
+      "breadcrumb",
+      "breadcrumb",
+      "stylings"
+    ]
+  },
+  {
+    "title": "Breadcrumb Examples",
+    "description": "Hierarchical path navigation with optional collapse and current-page semantics. Examples.",
+    "section": "Components / Navigation",
+    "url": "/components/navigation/breadcrumb/examples",
+    "tags": [
+      "components",
+      "navigation",
+      "breadcrumb",
+      "breadcrumb",
+      "examples"
     ]
   },
   {
@@ -564,6 +2202,45 @@
     ]
   },
   {
+    "title": "Tabs API",
+    "description": "Sectioned navigation with tablist, triggers, panels, and controlled or uncontrolled selection. API.",
+    "section": "Components / Navigation",
+    "url": "/components/navigation/tabs/api",
+    "tags": [
+      "components",
+      "navigation",
+      "tabs",
+      "tabs",
+      "api"
+    ]
+  },
+  {
+    "title": "Tabs Stylings",
+    "description": "Sectioned navigation with tablist, triggers, panels, and controlled or uncontrolled selection. Stylings.",
+    "section": "Components / Navigation",
+    "url": "/components/navigation/tabs/stylings",
+    "tags": [
+      "components",
+      "navigation",
+      "tabs",
+      "tabs",
+      "stylings"
+    ]
+  },
+  {
+    "title": "Tabs Examples",
+    "description": "Sectioned navigation with tablist, triggers, panels, and controlled or uncontrolled selection. Examples.",
+    "section": "Components / Navigation",
+    "url": "/components/navigation/tabs/examples",
+    "tags": [
+      "components",
+      "navigation",
+      "tabs",
+      "tabs",
+      "examples"
+    ]
+  },
+  {
     "title": "Tree",
     "description": "Hierarchical data navigation with keyboard support, selection, and expand/collapse.",
     "section": "Components / Navigation",
@@ -576,6 +2253,45 @@
     ]
   },
   {
+    "title": "Tree API",
+    "description": "Hierarchical data navigation with keyboard support, selection, and expand/collapse. API.",
+    "section": "Components / Navigation",
+    "url": "/components/navigation/tree/api",
+    "tags": [
+      "components",
+      "navigation",
+      "tree",
+      "tree",
+      "api"
+    ]
+  },
+  {
+    "title": "Tree Stylings",
+    "description": "Hierarchical data navigation with keyboard support, selection, and expand/collapse. Stylings.",
+    "section": "Components / Navigation",
+    "url": "/components/navigation/tree/stylings",
+    "tags": [
+      "components",
+      "navigation",
+      "tree",
+      "tree",
+      "stylings"
+    ]
+  },
+  {
+    "title": "Tree Examples",
+    "description": "Hierarchical data navigation with keyboard support, selection, and expand/collapse. Examples.",
+    "section": "Components / Navigation",
+    "url": "/components/navigation/tree/examples",
+    "tags": [
+      "components",
+      "navigation",
+      "tree",
+      "tree",
+      "examples"
+    ]
+  },
+  {
     "title": "Pagination",
     "description": "Styled paginator controls for page movement, ranges, page size, and server mode.",
     "section": "Components / Navigation",
@@ -585,6 +2301,45 @@
       "navigation",
       "pagination",
       "pagination"
+    ]
+  },
+  {
+    "title": "Pagination API",
+    "description": "Styled paginator controls for page movement, ranges, page size, and server mode. API.",
+    "section": "Components / Navigation",
+    "url": "/components/navigation/pagination/api",
+    "tags": [
+      "components",
+      "navigation",
+      "pagination",
+      "pagination",
+      "api"
+    ]
+  },
+  {
+    "title": "Pagination Stylings",
+    "description": "Styled paginator controls for page movement, ranges, page size, and server mode. Stylings.",
+    "section": "Components / Navigation",
+    "url": "/components/navigation/pagination/stylings",
+    "tags": [
+      "components",
+      "navigation",
+      "pagination",
+      "pagination",
+      "stylings"
+    ]
+  },
+  {
+    "title": "Pagination Examples",
+    "description": "Styled paginator controls for page movement, ranges, page size, and server mode. Examples.",
+    "section": "Components / Navigation",
+    "url": "/components/navigation/pagination/examples",
+    "tags": [
+      "components",
+      "navigation",
+      "pagination",
+      "pagination",
+      "examples"
     ]
   },
   {

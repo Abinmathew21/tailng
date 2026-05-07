@@ -102,6 +102,44 @@ class QueryHostComponent {
   }
 }
 
+@Component({
+  imports: [TngAutocompleteComponent],
+  template: `
+    <tng-autocomplete
+      [options]="filteredOptions()"
+      [open]="open()"
+      (openChange)="open.set($event)"
+      [value]="value()"
+      (valueChange)="value.set($event)"
+      [query]="query()"
+      (queryChange)="query.set($event)"
+      [getOptionValue]="getOptionValue"
+      [getOptionLabel]="getOptionLabel"
+      placeholder="Type to search"
+      data-testid="autocomplete"
+    />
+  `,
+})
+class ProgrammaticOpenQueryHostComponent {
+  readonly options: Option[] = [
+    { value: 'us', label: 'United States' },
+    { value: 'uk', label: 'United Kingdom' },
+    { value: 'in', label: 'India' },
+  ];
+  readonly open = signal(false);
+  readonly value = signal<string | null>(null);
+  readonly query = signal('');
+  readonly filteredOptions = computed(() => {
+    const query = this.query().toLowerCase().trim();
+    if (!query) {
+      return this.options;
+    }
+    return this.options.filter((option) => option.label.toLowerCase().includes(query));
+  });
+  readonly getOptionValue = (o: Option) => o.value;
+  readonly getOptionLabel = (o: Option) => o.label;
+}
+
 async function openAutocomplete(
   fixture: { detectChanges: () => void },
   trigger: HTMLElement
@@ -294,6 +332,62 @@ describe('tng-autocomplete component', () => {
 
     expect(host.query()).toBe('remote');
     expect(options.map((el) => el.textContent?.trim())).toEqual(['Option B']);
+  });
+
+  it('keeps programmatic query when opened via controlled open state', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [ProgrammaticOpenQueryHostComponent],
+    }).createComponent(ProgrammaticOpenQueryHostComponent);
+
+    fixture.detectChanges();
+
+    const host = fixture.componentInstance;
+    const trigger = fixture.nativeElement.querySelector(
+      '[data-slot="autocomplete-trigger"]'
+    ) as HTMLInputElement;
+
+    host.query.set('un');
+    host.open.set(true);
+    fixture.detectChanges();
+    await Promise.resolve();
+    fixture.detectChanges();
+
+    const options = Array.from(
+      getOpenOverlay().querySelectorAll('[data-slot="autocomplete-option"]'),
+    ) as HTMLElement[];
+
+    expect(host.open()).toBe(true);
+    expect(host.query()).toBe('un');
+    expect(trigger.value).toBe('un');
+    expect(options.map((el) => el.textContent?.trim())).toEqual([
+      'United States',
+      'United Kingdom',
+    ]);
+  });
+
+  it('does not clear programmatic query after additional effect flush while open', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [ProgrammaticOpenQueryHostComponent],
+    }).createComponent(ProgrammaticOpenQueryHostComponent);
+
+    fixture.detectChanges();
+
+    const host = fixture.componentInstance;
+    const trigger = fixture.nativeElement.querySelector(
+      '[data-slot="autocomplete-trigger"]'
+    ) as HTMLInputElement;
+
+    host.query.set('un');
+    host.open.set(true);
+    fixture.detectChanges();
+    await Promise.resolve();
+    fixture.detectChanges();
+    await Promise.resolve();
+    fixture.detectChanges();
+
+    expect(host.open()).toBe(true);
+    expect(host.query()).toBe('un');
+    expect(trigger.value).toBe('un');
   });
 
   it('pointer-selecting an option selects it, closes overlay, and updates trigger text', async () => {

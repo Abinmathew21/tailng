@@ -1,5 +1,5 @@
 import '@angular/compiler';
-import { Component, signal } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { afterEach, describe, expect, it } from 'vitest';
 
@@ -87,6 +87,83 @@ class QueryHostComponent {
     this.queryChangeCalls.push(query);
     this.query.set(query);
   }
+}
+
+@Component({
+  imports: [TngMultiAutocompleteComponent],
+  template: `
+    <tng-multi-autocomplete
+      data-testid="multi"
+      [options]="filteredOptions()"
+      [open]="open()"
+      (openChange)="open.set($event)"
+      [value]="value()"
+      (valueChange)="value.set($event)"
+      [query]="query()"
+      (queryChange)="query.set($event)"
+      [getOptionValue]="getOptionValue"
+      [getOptionLabel]="getOptionLabel"
+      placeholder="Search launch markets"
+      [ariaLabel]="'Launch markets'"
+    />
+  `,
+})
+class ProgrammaticOpenQueryHostComponent {
+  readonly options: readonly MarketOption[] = [
+    { code: 'us', label: 'United States' },
+    { code: 'uk', label: 'United Kingdom' },
+    { code: 'in', label: 'India' },
+  ];
+  readonly open = signal(false);
+  readonly value = signal<readonly string[]>([]);
+  readonly query = signal('');
+  readonly filteredOptions = computed(() => {
+    const query = this.query().toLowerCase().trim();
+    if (!query) {
+      return this.options;
+    }
+    return this.options.filter((option) => option.label.toLowerCase().includes(query));
+  });
+  readonly getOptionValue = (market: MarketOption) => market.code;
+  readonly getOptionLabel = (market: MarketOption) => market.label;
+}
+
+@Component({
+  imports: [TngMultiAutocompleteComponent],
+  template: `
+    <tng-multi-autocomplete
+      data-testid="multi"
+      [options]="filteredOptions()"
+      [value]="value()"
+      [query]="query()"
+      (queryChange)="query.set($event)"
+      [getOptionValue]="getOptionValue"
+      [getOptionLabel]="getOptionLabel"
+      [resolveValueLabel]="resolveValueLabel"
+    />
+  `,
+})
+class ResolveLabelHostComponent {
+  readonly options: readonly MarketOption[] = [
+    { code: 'ca', label: 'Canada' },
+    { code: 'de', label: 'Germany' },
+    { code: 'jp', label: 'Japan' },
+  ];
+  readonly value = signal<readonly string[]>(['de', 'jp']);
+  readonly query = signal('');
+  readonly getOptionValue = (market: MarketOption) => market.code;
+  readonly getOptionLabel = (market: MarketOption) => market.label;
+  readonly resolveValueLabel = (value: string) =>
+    this.options.find((option) => option.code === value)?.label ?? value;
+  readonly filteredOptions = computed(() => {
+    const normalizedQuery = this.query().toLowerCase().trim();
+    if (!normalizedQuery) {
+      return this.options;
+    }
+    return this.options.filter((option) =>
+      option.label.toLowerCase().includes(normalizedQuery),
+    );
+  });
 }
 
 describe('tng-multi-autocomplete component', () => {
@@ -199,5 +276,90 @@ describe('tng-multi-autocomplete component', () => {
 
     expect(host.query()).toBe('remote');
     expect(options.map((el) => el.textContent?.trim())).toEqual(['Germany']);
+  });
+
+  it('keeps programmatic query when opened via controlled open state', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [ProgrammaticOpenQueryHostComponent],
+    }).createComponent(ProgrammaticOpenQueryHostComponent);
+
+    fixture.detectChanges();
+
+    const host = fixture.componentInstance;
+    const trigger = fixture.nativeElement.querySelector(
+      '[data-slot="multi-autocomplete-trigger"]',
+    ) as HTMLInputElement;
+
+    host.query.set('un');
+    host.open.set(true);
+    fixture.detectChanges();
+    await Promise.resolve();
+    fixture.detectChanges();
+
+    const options = Array.from(
+      getOpenOverlay()?.querySelectorAll('[data-slot="multi-autocomplete-option"]') ?? [],
+    ) as HTMLElement[];
+
+    expect(host.open()).toBe(true);
+    expect(host.query()).toBe('un');
+    expect(trigger.value).toBe('un');
+    expect(options.map((el) => el.textContent?.trim())).toEqual([
+      'United States',
+      'United Kingdom',
+    ]);
+  });
+
+  it('does not clear programmatic query after additional effect flush while open', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [ProgrammaticOpenQueryHostComponent],
+    }).createComponent(ProgrammaticOpenQueryHostComponent);
+
+    fixture.detectChanges();
+
+    const host = fixture.componentInstance;
+    const trigger = fixture.nativeElement.querySelector(
+      '[data-slot="multi-autocomplete-trigger"]',
+    ) as HTMLInputElement;
+
+    host.query.set('un');
+    host.open.set(true);
+    fixture.detectChanges();
+    await Promise.resolve();
+    fixture.detectChanges();
+    await Promise.resolve();
+    fixture.detectChanges();
+
+    expect(host.open()).toBe(true);
+    expect(host.query()).toBe('un');
+    expect(trigger.value).toBe('un');
+  });
+
+  it('keeps chip labels when selected values are not in filtered options', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [ResolveLabelHostComponent],
+    }).createComponent(ResolveLabelHostComponent);
+
+    fixture.detectChanges();
+
+    const host = fixture.componentInstance;
+    const trigger = fixture.nativeElement.querySelector(
+      '[data-slot="multi-autocomplete-trigger"]',
+    ) as HTMLInputElement;
+
+    inputText(trigger, 'Can');
+    host.query.set('Can');
+    fixture.detectChanges();
+    await Promise.resolve();
+    fixture.detectChanges();
+
+    const chipLabels = Array.from(
+      fixture.nativeElement.querySelectorAll('[data-slot="multi-autocomplete-chip"] > span'),
+    ) as HTMLElement[]
+    
+    const renderedLabels = chipLabels
+      .map((element) => element.textContent?.trim())
+      .filter((value): value is string => !!value);
+
+    expect(renderedLabels).toEqual(['Germany', 'Japan']);
   });
 });

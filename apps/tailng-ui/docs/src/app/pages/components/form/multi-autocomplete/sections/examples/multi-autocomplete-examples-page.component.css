@@ -115,3 +115,26 @@
   color: var(--tng-semantic-foreground-muted);
   font-size: 0.75rem;
 }
+
+.docs-multi-autocomplete-programmatic-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.6rem;
+  align-items: center;
+}
+
+.docs-multi-autocomplete-programmatic-input {
+  width: 100%;
+  min-height: 2.25rem;
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.65rem;
+  background: var(--tng-semantic-background-base);
+  color: var(--tng-semantic-foreground-primary);
+  font: inherit;
+  padding: 0.45rem 0.72rem;
+}
+
+.docs-multi-autocomplete-programmatic-input:focus-visible {
+  outline: 2px solid var(--tng-semantic-focus-ring);
+  outline-offset: 1px;
+}

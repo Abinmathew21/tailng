@@ -118,4 +118,36 @@
       </div>
     </ng-template>
   </app-docs-example-tabs-section>
+
+  <app-docs-example-tabs-section
+    id="layout-tokens"
+    class="button-examples-block"
+    heading="Layout tokens"
+    description="Set width and content alignment through button-scoped CSS variables on the tng-button host."
+    ariaLabel="Button layout token example"
+    tabListAriaLabel="Button layout token style tabs"
+    defaultValue="plain-css"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+      panelTitle="Layout tokens (Plain CSS)"
+      [codeTabs]="layoutTokenTabs"
+    >
+      <div class="button-layout-token-example">
+        <tng-button
+          class="button-layout-token-example__trigger"
+          tone="neutral"
+          appearance="outline"
+          size="sm"
+          type="button"
+        >
+          <span>Search</span>
+          <span class="button-layout-token-example__hint">Ctrl K</span>
+        </tng-button>
+      </div>
+    </ng-template>
+  </app-docs-example-tabs-section>
 </article>

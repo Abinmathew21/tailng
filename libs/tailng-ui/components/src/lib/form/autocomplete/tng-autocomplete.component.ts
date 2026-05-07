@@ -129,6 +129,7 @@ export class TngAutocompleteComponent<O = unknown, V = unknown> {
   private readonly userIsTyping = signal(false);
   private readonly lastSyncedValue = signal<V | null>(null);
   private readonly lastAppliedExternalValue = signal<V | null | undefined>(undefined);
+  private readonly knownOptionLabels: Array<{ value: V; label: string }> = [];
 
   public constructor() {
     this.setupExternalValueSyncEffect();
@@ -203,13 +204,20 @@ export class TngAutocompleteComponent<O = unknown, V = unknown> {
       // Track these so query is refreshed after async option loading too.
       const options = this.options();
       const getOptionLabel = this.getOptionLabel();
+      const getOptionValue = this.getOptionValue();
+      this.rememberOptionLabels(options, getOptionValue, getOptionLabel);
 
       const option = this.findOption(value, options);
-      const label = this.resolveDisplayLabel(value, option, getOptionLabel);
+      const label = this.resolveDisplayLabel(value, option, getOptionLabel, this.findKnownLabel(value));
 
       const valueChangedSinceLastSync = !Object.is(value, lastSyncedValue);
+      const shouldPreserveProgrammaticQuery =
+        open &&
+        !userIsTyping &&
+        !valueChangedSinceLastSync &&
+        !Object.is(this.query(), label);
 
-      if (!open || !userIsTyping || valueChangedSinceLastSync) {
+      if (!shouldPreserveProgrammaticQuery && (!open || !userIsTyping || valueChangedSinceLastSync)) {
         this.query.set(label);
         this.lastSyncedValue.set(value);
       }
@@ -273,9 +281,14 @@ export class TngAutocompleteComponent<O = unknown, V = unknown> {
     value: V | null,
     option: O | null,
     getOptionLabel: TngAutocompleteGetLabel<O>,
+    knownLabel: string | null = null,
   ): string {
     if (option !== null) {
       return getOptionLabel(option);
+    }
+
+    if (knownLabel !== null) {
+      return knownLabel;
     }
 
     if (value === null || value === undefined) {
@@ -299,5 +312,30 @@ export class TngAutocompleteComponent<O = unknown, V = unknown> {
     }
 
     return null;
+  }
+
+  private rememberOptionLabels(
+    options: readonly O[],
+    getOptionValue: TngAutocompleteGetValue<O, V>,
+    getOptionLabel: TngAutocompleteGetLabel<O>,
+  ): void {
+    for (const option of options) {
+      const value = getOptionValue(option);
+      const label = getOptionLabel(option);
+      const existing = this.knownOptionLabels.find((entry) => Object.is(entry.value, value));
+      if (existing !== undefined) {
+        existing.label = label;
+      } else {
+        this.knownOptionLabels.push({ value, label });
+      }
+    }
+  }
+
+  private findKnownLabel(value: V | null): string | null {
+    if (value === null || value === undefined) {
+      return null;
+    }
+
+    return this.knownOptionLabels.find((entry) => Object.is(entry.value, value))?.label ?? null;
   }
 }

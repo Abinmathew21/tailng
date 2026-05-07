@@ -18,8 +18,14 @@ export class ButtonStylingPageComponent implements OnDestroy {
   private readonly colorSchemeObserver = observeDocsCodeThemeChanges(this.documentRef, this.codeBlockTheme);
 
   protected readonly contractCss = [
-    'tng-button > .tng-button[data-appearance="outline"] {',
-    '  border-color: var(--tng-semantic-border-strong);',
+    '.docs-search-trigger-button {',
+    '  --tng-button-min-width: 10rem;',
+    '  --tng-button-width: 100%;',
+    '  --tng-button-justify: space-between;',
+    '}',
+    '',
+    '.docs-search-trigger-button > .tng-button[data-size="sm"] {',
+    '  --tng-button-padding-inline-sm: 0.875rem;',
     '}',
     '',
     'tng-button > .tng-button[data-tone="danger"][data-appearance="solid"] {',

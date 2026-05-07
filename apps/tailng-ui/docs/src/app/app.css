@@ -2,3 +2,22 @@
   display: block;
   min-height: 100vh;
 }
+
+.menu-trigger-icon[data-slot='menu-trigger'] {
+  --tng-menu-trigger-gap: 0;
+  --tng-menu-trigger-min-height: auto;
+  --tng-menu-trigger-min-width: auto;
+  --tng-menu-trigger-padding-y: 0;
+  --tng-menu-trigger-padding-x: 0;
+  --tng-menu-trigger-border: 0;
+  --tng-menu-trigger-bg: transparent;
+  --tng-menu-trigger-shadow: none;
+  --tng-menu-trigger-hover-border-color: transparent;
+  --tng-menu-trigger-hover-bg: transparent;
+  --tng-menu-trigger-focus-border-color: transparent;
+  --tng-menu-trigger-focus-shadow: none;
+  --tng-menu-trigger-expanded-border-color: transparent;
+  --tng-menu-trigger-expanded-bg: transparent;
+  --tng-menu-trigger-expanded-color: inherit;
+  --tng-menu-trigger-expanded-shadow: none;
+}

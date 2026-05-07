@@ -128,8 +128,10 @@ const npmPackageLinks: readonly LinkItem[] = [
   { label: 'tailng', href: 'https://www.npmjs.com/package/tailng' },
 ];
 
+const githubRepositoryUrl = 'https://github.com/tailng/tailng-ui';
+
 const footerResourceLinks: readonly LinkItem[] = [
-  { label: 'GitHub Repository', href: 'https://github.com/tailng/tailng-ui' },
+  { label: 'GitHub Repository', href: githubRepositoryUrl },
   { label: 'Issue Tracker', href: 'https://github.com/tailng/tailng-ui/issues' },
   { label: 'Project README', href: 'https://github.com/tailng/tailng-ui/blob/main/README.md' },
   { label: 'MIT License', href: 'https://opensource.org/license/mit' },
@@ -218,6 +220,14 @@ export class App {
 
   public toggleMode(): void {
     this.darkMode.update((current) => !current);
+  }
+
+  public onPrimaryNavigationSelect(route: string): void {
+    void this.router.navigateByUrl(route);
+  }
+
+  public openGithubRepository(): void {
+    this.documentRef.defaultView?.open(githubRepositoryUrl, '_blank', 'noopener,noreferrer');
   }
 
   public onNpmMenuSelect(event: TngMenuSelectEvent): void {

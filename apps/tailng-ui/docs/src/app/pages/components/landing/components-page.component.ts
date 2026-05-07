@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router';
 import {
@@ -7,7 +7,6 @@ import {
   TngAccordionPanelComponent,
   TngAccordionTriggerComponent,
   TngDrawerComponent,
-  TngFormFieldComponent,
   TngBreadcrumbComponent,
   TngBreadcrumbItemComponent,
 } from '@tailng-ui/components';
@@ -15,8 +14,6 @@ import { TngIcon } from '@tailng-ui/icons';
 import {
   TngDrawerContainer,
   TngDrawerContent,
-  TngInput,
-  TngPrefix,
 } from '@tailng-ui/primitives';
 import { filter, map, startWith } from 'rxjs/operators';
 import {
@@ -41,9 +38,6 @@ import {
     TngDrawerContainer,
     TngDrawerContent,
     TngDrawerComponent,
-    TngFormFieldComponent,
-    TngInput,
-    TngPrefix,
     TngIcon,
   ],
   templateUrl: './components-page.component.html',
@@ -62,31 +56,7 @@ export class ComponentsPageComponent {
 
   public readonly navGroups = COMPONENTS_DOCS_GROUPS;
   public readonly defaultExpandedGroups = COMPONENTS_DOCS_GROUPS.map((group) => group.id);
-  public readonly navSearchQuery = signal<string>('');
-  public readonly filteredNavGroups = computed<readonly ComponentsDocsGroup[]>(() => {
-    const query = this.normalizeSearchQuery(this.navSearchQuery());
-    if (query.length === 0) {
-      return this.navGroups;
-    }
-
-    return this.navGroups
-      .map((group) => {
-        if (this.groupMatchesQuery(group, query)) {
-          return group;
-        }
-
-        const matchingItems = group.items.filter((item) => this.itemMatchesQuery(item, query));
-        if (matchingItems.length === 0) {
-          return null;
-        }
-
-        return {
-          ...group,
-          items: matchingItems,
-        };
-      })
-      .filter((group): group is ComponentsDocsGroup => group !== null);
-  });
+  public readonly filteredNavGroups = computed<readonly ComponentsDocsGroup[]>(() => this.navGroups);
 
   public readonly docsBreadcrumbs = computed<
     readonly { current: boolean; label: string; url: string | null }[]
@@ -140,34 +110,6 @@ export class ComponentsPageComponent {
   public isNavItemActive(group: ComponentsDocsGroup, item: ComponentsDocsItem): boolean {
     const current = this.normalizeUrl(this.currentUrl());
     return this.isMatchingItemPath(current, this.itemHref(group.id, item.slug));
-  }
-
-  public onNavSearchInput(event: Event): void {
-    const target = event.target;
-    if (!(target instanceof HTMLInputElement)) {
-      return;
-    }
-
-    this.navSearchQuery.set(target.value);
-  }
-
-  private groupMatchesQuery(group: ComponentsDocsGroup, query: string): boolean {
-    return (
-      this.normalizeSearchQuery(group.title).includes(query) ||
-      this.normalizeSearchQuery(group.subtitle).includes(query)
-    );
-  }
-
-  private itemMatchesQuery(item: ComponentsDocsGroup['items'][number], query: string): boolean {
-    return (
-      this.normalizeSearchQuery(item.title).includes(query) ||
-      this.normalizeSearchQuery(item.slug).includes(query) ||
-      this.normalizeSearchQuery(item.description).includes(query)
-    );
-  }
-
-  private normalizeSearchQuery(value: string): string {
-    return value.trim().toLowerCase();
   }
 
   private normalizeUrl(rawUrl: string): string {

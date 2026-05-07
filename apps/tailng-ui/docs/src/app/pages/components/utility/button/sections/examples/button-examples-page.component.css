@@ -51,3 +51,22 @@
   font-size: 0.9rem;
   margin: 0;
 }
+
+.button-layout-token-example {
+  width: min(100%, 16rem);
+}
+
+.button-layout-token-example__trigger {
+  --tng-button-justify: space-between;
+  --tng-button-min-width: 12rem;
+  --tng-button-width: 100%;
+}
+
+.button-layout-token-example__hint {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.375rem;
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.72rem;
+  line-height: 1;
+  padding: 0.15rem 0.35rem;
+}

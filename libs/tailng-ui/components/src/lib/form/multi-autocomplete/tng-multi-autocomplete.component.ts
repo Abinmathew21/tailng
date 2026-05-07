@@ -21,6 +21,7 @@ import {
 
 export type TngMultiAutocompleteGetValue<O, V> = (opt: O) => V;
 export type TngMultiAutocompleteGetLabel<O> = (opt: O) => string;
+export type TngMultiAutocompleteResolveLabel<V> = (value: V) => string | null | undefined;
 export type TngMultiAutocompleteIsDisabled<O> = (opt: O) => boolean;
 export type TngMultiAutocompleteTrackBy<O> = (index: number, opt: O) => unknown;
 
@@ -92,6 +93,9 @@ export class TngMultiAutocompleteComponent<O = unknown, V = unknown> {
           opt,
       )) as TngMultiAutocompleteGetLabel<O>,
   );
+  readonly resolveValueLabel = input<TngMultiAutocompleteResolveLabel<V>>(
+    (() => null) as TngMultiAutocompleteResolveLabel<V>,
+  );
   readonly isOptionDisabled = input<TngMultiAutocompleteIsDisabled<O>>(
     ((opt: unknown) =>
       !!(opt as { disabled?: boolean })?.disabled) as TngMultiAutocompleteIsDisabled<O>,
@@ -110,13 +114,15 @@ export class TngMultiAutocompleteComponent<O = unknown, V = unknown> {
   protected readonly selectedItems = computed<readonly SelectedItem<O, V>[]>(() => {
     const values = this.primitive.value();
     const getLabel = this.getOptionLabel();
+    const resolveValueLabel = this.resolveValueLabel();
 
     return values.map((value) => {
       const option = this.findOption(value);
+      const fallbackLabel = resolveValueLabel(value);
       return {
         option,
         value,
-        label: option ? getLabel(option) : String(value),
+        label: option ? getLabel(option) : (fallbackLabel ?? String(value)),
         trackId: value as unknown,
       };
     });
