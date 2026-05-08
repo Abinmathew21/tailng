@@ -1,0 +1,82 @@
+:host {
+  display: block;
+}
+
+.command-palette-examples {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.command-palette-examples-title {
+  font-size: clamp(1.45rem, 1.05rem + 1.3vw, 1.95rem);
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.command-palette-examples-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+  max-width: 72ch;
+}
+
+.command-palette-examples-block {
+  display: block;
+}
+
+.command-palette-example-card {
+  align-items: center;
+  background: var(--tng-semantic-background-surface);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.85rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+  padding: 1rem;
+}
+
+.command-palette-example-status {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.92rem;
+  margin: 0;
+}
+
+.command-palette-example-kbd {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.35rem;
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.1rem 0.3rem;
+}
+
+.command-palette-example-option {
+  align-items: center;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  min-width: 0;
+}
+
+.command-palette-example-option small {
+  color: var(--tng-semantic-foreground-secondary);
+  display: block;
+  margin-top: 0.2rem;
+}
+
+.command-palette-example-pill {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 999px;
+  color: var(--tng-semantic-foreground-secondary);
+  flex: 0 0 auto;
+  font-size: 0.75rem;
+  padding: 0.15rem 0.45rem;
+}
+
+.command-palette-example-footer {
+  color: var(--tng-semantic-foreground-muted);
+}
+
+.command-palette-example-overlay {
+  --tng-z-overlay: 1200;
+}

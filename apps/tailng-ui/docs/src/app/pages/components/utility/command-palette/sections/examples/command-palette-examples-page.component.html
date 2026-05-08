@@ -1,0 +1,108 @@
+<article class="command-palette-examples">
+  <h2 class="command-palette-examples-title">Examples</h2>
+  <p class="command-palette-examples-lead">
+    Use the default renderer for simple search results, then add templates when rows need richer
+    operational context.
+  </p>
+
+  <app-docs-example-tabs-section
+    id="default-device-search"
+    class="command-palette-examples-block"
+    heading="Default device search"
+    description="A controlled search palette with default option, empty, loading, prefix, suffix, and footer rendering."
+    ariaLabel="Default command palette example"
+    tabListAriaLabel="Default command palette code tabs"
+    defaultValue="preview"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="preview"
+      label="Preview"
+      panelTitle="Default device search"
+      [codeTabs]="defaultTabs"
+    >
+      <div class="command-palette-example-card">
+        <tng-button type="button" appearance="outline" tone="neutral" (click)="defaultOpen.set(true)">
+          Search devices
+        </tng-button>
+        @if (defaultSelected(); as device) {
+          <p class="command-palette-example-status">Selected {{ device.label }} · {{ device.status }}</p>
+        }
+      </div>
+      <tng-command-palette
+        class="command-palette-example-overlay"
+        [open]="defaultOpen()"
+        [query]="defaultQuery()"
+        [options]="defaultResults()"
+        placeholder="Search devices..."
+        [getOptionValue]="getDeviceValue"
+        [getOptionLabel]="getDeviceLabel"
+        [getOptionDescription]="getDeviceDescription"
+        (openChange)="defaultOpen.set($event)"
+        (queryChange)="defaultQuery.set($event)"
+        (optionSelect)="onDefaultSelect($event)"
+      />
+    </ng-template>
+  </app-docs-example-tabs-section>
+
+  <app-docs-example-tabs-section
+    id="templated-device-search"
+    class="command-palette-examples-block"
+    heading="Templated device search"
+    description="Replace the input adornment, option row, and footer while keeping the palette behavior."
+    ariaLabel="Templated command palette example"
+    tabListAriaLabel="Templated command palette code tabs"
+    defaultValue="preview"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="preview"
+      label="Preview"
+      panelTitle="Templated device search"
+      [codeTabs]="customTabs"
+    >
+      <div class="command-palette-example-card">
+        <tng-button type="button" appearance="solid" tone="primary" (click)="customOpen.set(true)">
+          Open custom palette
+        </tng-button>
+        @if (customSelected(); as device) {
+          <p class="command-palette-example-status">Selected {{ device.label }} · {{ device.status }}</p>
+        }
+      </div>
+      <tng-command-palette
+        class="command-palette-example-overlay"
+        [open]="customOpen()"
+        [query]="customQuery()"
+        [options]="customResults()"
+        placeholder="Search devices..."
+        footerText="Arrows move · Enter opens · Esc closes"
+        [getOptionValue]="getDeviceValue"
+        [getOptionLabel]="getDeviceLabel"
+        [getOptionDescription]="getDeviceDescription"
+        (openChange)="customOpen.set($event)"
+        (queryChange)="customQuery.set($event)"
+        (optionSelect)="onCustomSelect($event)"
+      >
+        <ng-template #tngCommandPaletteInputPrefixTpl>
+          <span class="command-palette-example-kbd">⌘K</span>
+        </ng-template>
+
+        <ng-template #tngCommandPaletteOptionTpl let-item>
+          <span class="command-palette-example-option">
+            <span>
+              <strong>{{ item.label }}</strong>
+              <small>{{ item.description }}</small>
+            </span>
+            <span class="command-palette-example-pill">{{ item.status }}</span>
+          </span>
+        </ng-template>
+
+        <ng-template #tngCommandPaletteFooterTpl>
+          <span class="command-palette-example-footer">Arrows move · Enter opens · Esc closes</span>
+        </ng-template>
+      </tng-command-palette>
+    </ng-template>
+  </app-docs-example-tabs-section>
+</article>

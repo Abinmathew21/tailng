@@ -1,0 +1,71 @@
+<article class="command-palette-overview">
+  <h2 class="command-palette-overview-title">Command Palette overview</h2>
+  <p class="command-palette-overview-lead">
+    <code>&lt;tng-command-palette&gt;</code> provides a modal search surface for app commands,
+    device pickers, and quick navigation. The parent owns the query and result data while the
+    component owns the popup, input, keyboard navigation, and selection events.
+  </p>
+
+  <section id="imports" class="command-palette-overview-block">
+    <h3>Imports</h3>
+    <p>Import the wrapper and bind it to signal state for open, query, and results.</p>
+    <tng-code-block
+      [code]="componentImportCode"
+      adapter="shiki"
+      language="ts"
+      title="Wrapper imports"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+    <tng-code-block
+      [code]="componentUsageCode"
+      adapter="shiki"
+      language="html"
+      title="Minimal usage"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="live-preview" class="command-palette-overview-block">
+    <h3>Live preview</h3>
+    <p>Open the palette, type a device name or status, then use arrow keys and Enter to select.</p>
+
+    <div class="command-palette-overview-preview">
+      <tng-button type="button" appearance="outline" tone="neutral" (click)="searchOpen.set(true)">
+        Open command palette
+      </tng-button>
+
+      @if (selectedDevice(); as device) {
+        <p class="command-palette-overview-selected">
+          Selected: <strong>{{ device.label }}</strong> · {{ device.status }}
+        </p>
+      }
+    </div>
+
+    <tng-command-palette
+      class="command-palette-overview-overlay"
+      [open]="searchOpen()"
+      [query]="searchQuery()"
+      [options]="searchResults()"
+      placeholder="Search devices..."
+      (openChange)="searchOpen.set($event)"
+      (queryChange)="searchQuery.set($event)"
+      (optionSelect)="onDeviceSelect($event)"
+    />
+  </section>
+
+  <section id="composition-model" class="command-palette-overview-block">
+    <h3>Composition model</h3>
+    <ul class="command-palette-overview-list">
+      <li>Dialog behavior handles Escape, backdrop close, focus trap, and restore focus.</li>
+      <li>The input emits every query change; filtering, loading, and fetching stay in the parent.</li>
+      <li>Listbox navigation keeps focus in the input while active option state moves in the list.</li>
+      <li>Templates let you replace the prefix, suffix, option row, loading, empty, and footer content.</li>
+    </ul>
+  </section>
+</article>

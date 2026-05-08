@@ -1833,6 +1833,57 @@
     ]
   },
   {
+    "title": "Command Palette",
+    "description": "Modal search palette with query output, templated results, keyboard selection, and empty/loading states.",
+    "section": "Components / Utility",
+    "url": "/components/utility/command-palette",
+    "tags": [
+      "components",
+      "utility",
+      "command-palette",
+      "command-palette"
+    ]
+  },
+  {
+    "title": "Command Palette API",
+    "description": "Modal search palette with query output, templated results, keyboard selection, and empty/loading states. API.",
+    "section": "Components / Utility",
+    "url": "/components/utility/command-palette/api",
+    "tags": [
+      "components",
+      "utility",
+      "command-palette",
+      "command-palette",
+      "api"
+    ]
+  },
+  {
+    "title": "Command Palette Styling",
+    "description": "Modal search palette with query output, templated results, keyboard selection, and empty/loading states. Styling.",
+    "section": "Components / Utility",
+    "url": "/components/utility/command-palette/styling",
+    "tags": [
+      "components",
+      "utility",
+      "command-palette",
+      "command-palette",
+      "styling"
+    ]
+  },
+  {
+    "title": "Command Palette Examples",
+    "description": "Modal search palette with query output, templated results, keyboard selection, and empty/loading states. Examples.",
+    "section": "Components / Utility",
+    "url": "/components/utility/command-palette/examples",
+    "tags": [
+      "components",
+      "utility",
+      "command-palette",
+      "command-palette",
+      "examples"
+    ]
+  },
+  {
     "title": "Avatar",
     "description": "Identity surfaces with fallback handling, shape, and size variants.",
     "section": "Components / Utility",

@@ -40,6 +40,11 @@ if (buttonItem === undefined) {
   throw new Error('Missing "button" in components utility docs group.');
 }
 
+const commandPaletteItem = group.items.find((item) => item.slug === 'command-palette');
+if (commandPaletteItem === undefined) {
+  throw new Error('Missing "command-palette" in components utility docs group.');
+}
+
 const utilityLandingSlugs = new Set([
   avatarItem.slug,
   badgeItem.slug,
@@ -47,6 +52,7 @@ const utilityLandingSlugs = new Set([
   codeblockItem.slug,
   copybuttonItem.slug,
   buttonItem.slug,
+  commandPaletteItem.slug,
 ]);
 
 export const COMPONENTS_UTILITY_ROUTES: Routes = [
@@ -86,6 +92,13 @@ export const COMPONENTS_UTILITY_ROUTES: Routes = [
     path: buttonItem.slug,
     loadChildren: () =>
       import('./button/routes').then((module) => module.COMPONENTS_UTILITY_BUTTON_ROUTES),
+  },
+  {
+    path: commandPaletteItem.slug,
+    loadChildren: () =>
+      import('./command-palette/routes').then(
+        (module) => module.COMPONENTS_UTILITY_COMMAND_PALETTE_ROUTES,
+      ),
   },
   ...group.items
     .filter((item) => !utilityLandingSlugs.has(item.slug))

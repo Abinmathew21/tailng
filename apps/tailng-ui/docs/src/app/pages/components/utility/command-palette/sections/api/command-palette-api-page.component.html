@@ -1,0 +1,195 @@
+<article class="command-palette-api">
+  <h2 class="command-palette-api-title">API reference</h2>
+  <p class="command-palette-api-lead">
+    <code>&lt;tng-command-palette&gt;</code> is a controlled wrapper: bind open, query, and
+    options from the parent, then react to query and selection outputs.
+  </p>
+
+  <section id="component-inputs" class="command-palette-api-block">
+    <h3>Component inputs</h3>
+    <div class="command-palette-api-table-wrap">
+      <table class="command-palette-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Input</th>
+            <th scope="col">Type</th>
+            <th scope="col">Default</th>
+            <th scope="col">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>open</code></td>
+            <td><code>boolean</code></td>
+            <td><code>false</code></td>
+            <td>Controls whether the dialog-backed popup is visible.</td>
+          </tr>
+          <tr>
+            <td><code>query</code></td>
+            <td><code>string</code></td>
+            <td><code>''</code></td>
+            <td>Displayed in the search input.</td>
+          </tr>
+          <tr>
+            <td><code>options</code></td>
+            <td><code>readonly O[]</code></td>
+            <td><code>[]</code></td>
+            <td>Rows rendered in the result list.</td>
+          </tr>
+          <tr>
+            <td><code>loading</code></td>
+            <td><code>boolean</code></td>
+            <td><code>false</code></td>
+            <td>Shows loading content and takes precedence over the empty state.</td>
+          </tr>
+          <tr>
+            <td><code>placeholder</code></td>
+            <td><code>string</code></td>
+            <td><code>'Search...'</code></td>
+            <td>Placeholder forwarded to the input.</td>
+          </tr>
+          <tr>
+            <td><code>ariaLabel</code></td>
+            <td><code>string</code></td>
+            <td><code>'Command search'</code></td>
+            <td>Labels the dialog and input.</td>
+          </tr>
+          <tr>
+            <td><code>emptyText</code></td>
+            <td><code>string</code></td>
+            <td><code>'No results found'</code></td>
+            <td>Default empty state text.</td>
+          </tr>
+          <tr>
+            <td><code>loadingText</code></td>
+            <td><code>string</code></td>
+            <td><code>'Loading...'</code></td>
+            <td>Default loading state text.</td>
+          </tr>
+          <tr>
+            <td><code>footerText</code></td>
+            <td><code>string</code></td>
+            <td><code>'↑ ↓ Navigate · Enter Select · Esc Close'</code></td>
+            <td>Default footer hint text.</td>
+          </tr>
+          <tr>
+            <td><code>closeOnSelect</code></td>
+            <td><code>boolean</code></td>
+            <td><code>true</code></td>
+            <td>Closes after pointer or keyboard selection.</td>
+          </tr>
+          <tr>
+            <td><code>showClearButton</code></td>
+            <td><code>boolean</code></td>
+            <td><code>true</code></td>
+            <td>Shows the default suffix clear button when query is non-empty.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="option-mapping" class="command-palette-api-block">
+    <h3>Option mapping</h3>
+    <div class="command-palette-api-table-wrap">
+      <table class="command-palette-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Input</th>
+            <th scope="col">Type</th>
+            <th scope="col">Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>getOptionValue</code></td>
+            <td><code>(option: O) =&gt; V</code></td>
+            <td>Value emitted and used for active/selected matching.</td>
+          </tr>
+          <tr>
+            <td><code>getOptionLabel</code></td>
+            <td><code>(option: O) =&gt; string</code></td>
+            <td>Default row label and selection payload label.</td>
+          </tr>
+          <tr>
+            <td><code>getOptionDescription</code></td>
+            <td><code>(option: O) =&gt; string | null | undefined</code></td>
+            <td>Optional default row description.</td>
+          </tr>
+          <tr>
+            <td><code>isOptionDisabled</code></td>
+            <td><code>(option: O) =&gt; boolean</code></td>
+            <td>Marks a row disabled and blocks selection.</td>
+          </tr>
+          <tr>
+            <td><code>trackBy</code></td>
+            <td><code>(index: number, option: O) =&gt; unknown</code></td>
+            <td>Controls Angular row tracking.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="outputs-and-templates" class="command-palette-api-block">
+    <h3>Outputs and templates</h3>
+    <div class="command-palette-api-table-wrap">
+      <table class="command-palette-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Type</th>
+            <th scope="col">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>openChange</code></td>
+            <td><code>boolean</code></td>
+            <td>Emitted for Escape, backdrop close, and close-on-select.</td>
+          </tr>
+          <tr>
+            <td><code>queryChange</code></td>
+            <td><code>string</code></td>
+            <td>Emitted on typing and default clear button click.</td>
+          </tr>
+          <tr>
+            <td><code>optionSelect</code></td>
+            <td><code>{{ '{' }} option: O; value: V; label: string {{ '}' }}</code></td>
+            <td>Emitted for pointer click and Enter on the active option.</td>
+          </tr>
+          <tr>
+            <td><code>#tngCommandPaletteInputPrefixTpl</code></td>
+            <td><code>TemplateRef</code></td>
+            <td>Replaces the default search prefix.</td>
+          </tr>
+          <tr>
+            <td><code>#tngCommandPaletteInputSuffixTpl</code></td>
+            <td><code>TemplateRef</code></td>
+            <td>Replaces the default clear suffix.</td>
+          </tr>
+          <tr>
+            <td><code>#tngCommandPaletteOptionTpl</code></td>
+            <td><code>TemplateRef</code></td>
+            <td>Receives option, value, label, description, active, selected, and disabled context.</td>
+          </tr>
+          <tr>
+            <td><code>#tngCommandPaletteEmptyTpl</code></td>
+            <td><code>TemplateRef</code></td>
+            <td>Replaces the empty state.</td>
+          </tr>
+          <tr>
+            <td><code>#tngCommandPaletteLoadingTpl</code></td>
+            <td><code>TemplateRef</code></td>
+            <td>Replaces the loading state.</td>
+          </tr>
+          <tr>
+            <td><code>#tngCommandPaletteFooterTpl</code></td>
+            <td><code>TemplateRef</code></td>
+            <td>Replaces the keyboard-help footer.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</article>

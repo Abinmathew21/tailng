@@ -1,0 +1,125 @@
+<div
+  tngDialog
+  class="tng-command-palette-root"
+  [open]="open()"
+  [ariaLabel]="ariaLabel()"
+  [closeOnEscape]="true"
+  [closeOnBackdropClick]="true"
+  [autoFocus]="'first-focusable'"
+  (openChange)="onDialogOpenChange($event)"
+>
+  @if (open()) {
+    <div tngDialogBackdrop class="tng-command-palette-backdrop">
+      <section tngDialogPanel class="tng-command-palette-panel">
+        <div class="tng-command-palette-search">
+          <tng-form-field appearance="ghost" size="lg" tone="primary" fullWidth>
+            <span tngPrefix class="tng-command-palette-input-prefix">
+              @if (inputPrefixTpl()) {
+                <ng-container [ngTemplateOutlet]="inputPrefixTpl()" />
+              } @else {
+                <span class="tng-command-palette-search-icon" aria-hidden="true">⌕</span>
+              }
+            </span>
+
+            <input
+              #inputRef
+              tngInput
+              data-tng-dialog-initial-focus
+              class="tng-command-palette-input"
+              type="text"
+              enterkeyhint="search"
+              autocomplete="off"
+              spellcheck="false"
+              [value]="query()"
+              [attr.placeholder]="placeholder()"
+              [attr.aria-label]="ariaLabel()"
+              (input)="onInput($event)"
+              (keydown)="onInputKeydown($event)"
+            />
+
+            @if (inputSuffixTpl() || (showClearButton() && hasQuery())) {
+              <span tngSuffix class="tng-command-palette-input-suffix">
+                @if (inputSuffixTpl()) {
+                  <ng-container [ngTemplateOutlet]="inputSuffixTpl()" />
+                } @else {
+                  <button
+                    type="button"
+                    class="tng-command-palette-clear"
+                    aria-label="Clear search"
+                    (click)="clearQuery()"
+                  >
+                    ×
+                  </button>
+                }
+              </span>
+            }
+          </tng-form-field>
+        </div>
+
+        <div class="tng-command-palette-body">
+          @if (loading()) {
+            @if (loadingTpl()) {
+              <ng-container [ngTemplateOutlet]="loadingTpl()" />
+            } @else {
+              <div class="tng-command-palette-state" data-state="loading">
+                {{ loadingText() }}
+              </div>
+            }
+          } @else if (!hasOptions()) {
+            @if (emptyTpl()) {
+              <ng-container [ngTemplateOutlet]="emptyTpl()" />
+            } @else {
+              <div class="tng-command-palette-state" data-state="empty">
+                {{ emptyText() }}
+              </div>
+            }
+          } @else {
+            <div
+              tngListbox
+              class="tng-command-palette-listbox"
+              aria-label="Command results"
+              [typeahead]="false"
+              [value]="selectedValue()"
+              (valueChange)="onListboxValueChange($event)"
+            >
+              @for (option of options(); track trackBy()($index, option)) {
+                <button
+                  type="button"
+                  tngOption
+                  class="tng-command-palette-option"
+                  [tngValue]="getOptionValue()(option)"
+                  [disabled]="isOptionDisabled()(option)"
+                  [attr.disabled]="isOptionDisabled()(option) ? '' : null"
+                >
+                  @if (optionTpl()) {
+                    <ng-container
+                      [ngTemplateOutlet]="optionTpl()"
+                      [ngTemplateOutletContext]="optionContext(option)"
+                    />
+                  } @else {
+                    <span class="tng-command-palette-option__label">
+                      {{ getOptionLabel()(option) }}
+                    </span>
+                    @if (resolveOptionDescription(option); as description) {
+                      <span class="tng-command-palette-option__description">
+                        {{ description }}
+                      </span>
+                    }
+                  }
+                </button>
+              }
+            </div>
+          }
+        </div>
+
+        <footer class="tng-command-palette-footer">
+          @if (footerTpl()) {
+            <ng-container [ngTemplateOutlet]="footerTpl()" />
+          } @else {
+            {{ footerText() }}
+          }
+        </footer>
+      </section>
+    </div>
+  }
+</div>

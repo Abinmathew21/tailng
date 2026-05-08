@@ -1,0 +1,67 @@
+<article class="command-palette-styling">
+  <h2 class="command-palette-styling-title">Styling contract</h2>
+  <p class="command-palette-styling-lead">
+    Style the palette through its host tokens, stable classes, and listbox state attributes. The
+    component owns the modal shell while option content can be fully templated.
+  </p>
+
+  <section id="layout-tokens" class="command-palette-styling-block">
+    <h3>Layout tokens</h3>
+    <div class="command-palette-styling-table-wrap">
+      <table class="command-palette-styling-table">
+        <thead>
+          <tr>
+            <th scope="col">Token</th>
+            <th scope="col">Default</th>
+            <th scope="col">Usage</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>--tng-command-palette-width</code></td>
+            <td><code>min(40rem, calc(100vw - 2rem))</code></td>
+            <td>Controls modal panel width.</td>
+          </tr>
+          <tr>
+            <td><code>--tng-command-palette-max-height</code></td>
+            <td><code>min(35rem, calc(100vh - 4rem))</code></td>
+            <td>Constrains the full panel.</td>
+          </tr>
+          <tr>
+            <td><code>--tng-command-palette-list-max-height</code></td>
+            <td><code>min(22rem, calc(100vh - 15rem))</code></td>
+            <td>Constrains the scrolling result area.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="state-hooks" class="command-palette-styling-block">
+    <h3>State hooks</h3>
+    <ul class="command-palette-styling-list">
+      <li><code>.tng-command-palette-option[data-active]</code> styles the keyboard-active row.</li>
+      <li><code>.tng-command-palette-option[data-selected]</code> styles the selected row.</li>
+      <li><code>.tng-command-palette-option[data-disabled]</code> styles rows blocked by <code>isOptionDisabled</code>.</li>
+      <li><code>.tng-command-palette-state[data-state="loading"]</code> and <code>[data-state="empty"]</code> distinguish default state blocks.</li>
+    </ul>
+  </section>
+
+  <section id="template-guidance" class="command-palette-styling-block">
+    <h3>Template guidance</h3>
+    <p>
+      Prefer option templates for app-specific row layout. Keep the palette shell tokens for width,
+      height, and shared modal behavior.
+    </p>
+    <tng-code-block
+      [code]="contractCss"
+      adapter="shiki"
+      language="css"
+      title="command-palette.contract.css"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+</article>

@@ -313,6 +313,13 @@ export const COMPONENTS_UTILITY_GROUP: ComponentsDocsGroup = {
       description: 'Press/action semantics, accessibility, and interaction states.',
     },
     {
+      id: 'command-palette',
+      slug: 'command-palette',
+      title: 'Command Palette',
+      description:
+        'Modal search palette with query output, templated results, keyboard selection, and empty/loading states.',
+    },
+    {
       id: 'avatar',
       slug: 'avatar',
       title: 'Avatar',
