@@ -66,12 +66,54 @@ export class InputOverviewPageComponent implements OnDestroy {
   ].join('\n');
 
   protected readonly nativeValidationCode = [
-    '<tng-input type="email" ariaLabel="Email" required></tng-input>',
+    '<tng-input',
+    '  type="email"',
+    '  ariaLabel="Email"',
+    '  ariaErrormessage="email-error"',
+    '  pattern="[^@]+@example\\.com"',
+    '  required',
+    '></tng-input>',
+    '<p id="email-error">Use your example.com email address.</p>',
+    '',
+  ].join('\n');
+
+  protected readonly nativeHintsCode = [
+    '<tng-input',
+    '  type="email"',
+    '  ariaLabel="Work email"',
+    '  placeholder="team@example.com"',
+    '  inputmode="email"',
+    '  enterkeyhint="next"',
+    '  autocapitalize="none"',
+    '  autocomplete="email"',
+    '  [maxlength]="64"',
+    '  [spellcheck]="false"',
+    '></tng-input>',
+    '',
+  ].join('\n');
+
+  protected readonly eventFacadeCode = [
+    '<tng-input',
+    '  type="number"',
+    '  ariaLabel="Seats"',
+    '  [min]="1"',
+    '  [max]="50"',
+    '  [step]="1"',
+    '  (input)="onInput($event)"',
+    '  (change)="onCommit($event)"',
+    '  (keydown)="onKeydown($event)"',
+    '></tng-input>',
     '',
   ].join('\n');
 
   protected readonly searchExampleCode = [
-    '<tng-input type="search" placeholder="Search docs" ariaLabel="Search docs"></tng-input>',
+    '<tng-input',
+    '  type="search"',
+    '  placeholder="Search docs"',
+    '  ariaLabel="Search docs"',
+    '  inputmode="search"',
+    '  enterkeyhint="search"',
+    '></tng-input>',
     '',
   ].join('\n');
 

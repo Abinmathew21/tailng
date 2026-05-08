@@ -35,6 +35,22 @@ function toAriaBoolean(value: boolean | null): 'false' | 'true' | null {
   return value ? 'true' : 'false';
 }
 
+function normalizeAriaInvalidValue(value: string | null | undefined): 'false' | 'grammar' | 'spelling' | 'true' | null {
+  const normalized = normalizeStringValue(value);
+  if (normalized === null) return null;
+
+  if (
+    normalized === 'false' ||
+    normalized === 'grammar' ||
+    normalized === 'spelling' ||
+    normalized === 'true'
+  ) {
+    return normalized;
+  }
+
+  return 'true';
+}
+
 @Directive({
   selector: 'input[tngInput], textarea[tngInput]',
   exportAs: 'tngInput',
@@ -48,6 +64,12 @@ export class TngInput {
   private readonly initialAriaLabelledby = normalizeStringValue(this.hostElement.getAttribute('aria-labelledby'));
   private readonly initialAriaDescribedBy = normalizeStringValue(
     this.hostElement.getAttribute('aria-describedby'),
+  );
+  private readonly initialAriaInvalid = normalizeAriaInvalidValue(
+    this.hostElement.getAttribute('aria-invalid'),
+  );
+  private readonly initialAriaRequired = coerceTngInputNullableBoolean(
+    this.hostElement.getAttribute('aria-required'),
   );
 
   private readonly generatedId = this.idService.nextId('tng-input');
@@ -113,14 +135,22 @@ export class TngInput {
    * makes unit tests + bindings more stable.)
    */
   @HostBinding('attr.aria-invalid')
-  protected get ariaInvalidAttr(): 'true' | null {
-    return this.isInvalid() ? 'true' : null;
+  protected get ariaInvalidAttr(): 'false' | 'grammar' | 'spelling' | 'true' | null {
+    const override = this.ariaInvalid();
+    if (override !== null) return override ? 'true' : null;
+
+    if (this.initialAriaInvalid !== null) return this.initialAriaInvalid;
+
+    return this.hostElement.matches(':invalid') ? 'true' : null;
   }
 
   @HostBinding('attr.aria-required')
   protected get ariaRequiredAttr(): 'false' | 'true' | null {
     if (this.required()) return 'true';
-    return toAriaBoolean(this.ariaRequired());
+    const provided = toAriaBoolean(this.ariaRequired());
+    if (provided !== null) return provided;
+
+    return toAriaBoolean(this.initialAriaRequired);
   }
 
   @HostBinding('attr.data-disabled')
@@ -157,8 +187,9 @@ export class TngInput {
     const override = this.ariaInvalid();
     if (override !== null) return override;
 
+    if (this.initialAriaInvalid !== null) return this.initialAriaInvalid !== 'false';
+
     // jsdom may not fully implement validity; this is still correct for browsers.
     return this.hostElement.matches(':invalid');
   }
 }
-

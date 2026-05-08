@@ -81,17 +81,17 @@
       >
         <ng-template appDocsExampleVariant value="plain-css" label="Plain-CSS" panelTitle="Type variants (Plain-CSS)" [codeTabs]="typePlainCodeTabs" [stackblitzUrl]="stackblitzVanillaUrl">
           <div class="doc-cmp-input-ex-types-preview doc-cmp-input-ex-types-grid">
-            <tng-input type="email" placeholder="team@tailng.dev" ariaLabel="Email"></tng-input>
-            <tng-input type="search" placeholder="Search docs" ariaLabel="Search"></tng-input>
-            <tng-input type="number" placeholder="42" ariaLabel="Number"></tng-input>
+            <tng-input type="email" placeholder="team@tailng.dev" ariaLabel="Email" inputmode="email" autocomplete="email"></tng-input>
+            <tng-input type="search" placeholder="Search docs" ariaLabel="Search" inputmode="search" enterkeyhint="search"></tng-input>
+            <tng-input type="number" placeholder="42" ariaLabel="Number" [min]="0" [max]="100" [step]="1"></tng-input>
           </div>
         </ng-template>
 
         <ng-template appDocsExampleVariant value="tailwind-css" label="Tailwind CSS" panelTitle="Type variants (Tailwind CSS)" [codeTabs]="typeTailwindCodeTabs" [stackblitzUrl]="stackblitzTailwindUrl">
           <div class="doc-cmp-input-ex-types-preview doc-cmp-input-ex-types-grid">
-            <tng-input type="email" placeholder="team@tailng.dev" ariaLabel="Email"></tng-input>
-            <tng-input type="search" placeholder="Search docs" ariaLabel="Search"></tng-input>
-            <tng-input type="number" placeholder="42" ariaLabel="Number"></tng-input>
+            <tng-input type="email" placeholder="team@tailng.dev" ariaLabel="Email" inputmode="email" autocomplete="email"></tng-input>
+            <tng-input type="search" placeholder="Search docs" ariaLabel="Search" inputmode="search" enterkeyhint="search"></tng-input>
+            <tng-input type="number" placeholder="42" ariaLabel="Number" [min]="0" [max]="100" [step]="1"></tng-input>
           </div>
         </ng-template>
       </app-docs-example-tabs-section>
@@ -112,10 +112,12 @@
               tone="danger"
               type="email"
               value="team@tailng"
+              ariaDescribedBy="input-validation-helper"
+              ariaErrormessage="input-validation-helper"
               [ariaInvalid]="true"
               (click)="focusProjectedInput($event)"
             ></tng-input>
-            <p class="doc-cmp-input-ex-validation-helper doc-cmp-input-ex-validation-helper--danger">Enter a valid email address in user&#64;domain format.</p>
+            <p id="input-validation-helper" class="doc-cmp-input-ex-validation-helper doc-cmp-input-ex-validation-helper--danger">Enter a valid email address in user&#64;domain format.</p>
           </div>
         </ng-template>
 
@@ -125,10 +127,12 @@
               tone="danger"
               type="email"
               value="team@tailng"
+              ariaDescribedBy="input-validation-helper-tailwind"
+              ariaErrormessage="input-validation-helper-tailwind"
               [ariaInvalid]="true"
               (click)="focusProjectedInput($event)"
             ></tng-input>
-            <p class="doc-cmp-input-ex-validation-tw-helper text-xs font-medium text-red-600">Enter a valid email address in user&#64;domain format.</p>
+            <p id="input-validation-helper-tailwind" class="doc-cmp-input-ex-validation-tw-helper text-xs font-medium text-red-600">Enter a valid email address in user&#64;domain format.</p>
           </div>
         </ng-template>
       </app-docs-example-tabs-section>
@@ -137,7 +141,7 @@
     <section id="number-controls" class="docs-section-anchor input-examples-block">
       <app-docs-example-tabs-section
         heading="Number controls"
-        description="Custom stepper buttons for numeric fields, with an opt-out CSS override."
+        description="Custom stepper buttons for numeric fields. Arrow, page, Home, and End keys use the same value path."
         ariaLabel="Number input control variants"
         tabListAriaLabel="Number input control style variants"
         defaultValue="plain-css"

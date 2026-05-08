@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it } from 'vitest';
 
 import { TngInput } from '../tng-input';
 
@@ -14,6 +14,7 @@ import { TngInput } from '../tng-input';
       [ariaLabelledby]="ariaLabelledby"
       [ariaDescribedBy]="ariaDescribedBy"
       [ariaInvalid]="ariaInvalid"
+      [ariaRequired]="ariaRequired"
     />
   `,
 })
@@ -22,9 +23,31 @@ class AriaHostComponent {
   public ariaLabelledby: string | null = null;
   public ariaDescribedBy: string | null = null;
   public ariaInvalid: boolean | null = null;
+  public ariaRequired: boolean | null = null;
+}
+
+@Component({
+  imports: [TngInput],
+  template: `
+    <input
+      tngInput
+      aria-invalid="grammar"
+      aria-required="false"
+      [ariaInvalid]="ariaInvalid"
+      [ariaRequired]="ariaRequired"
+    />
+  `,
+})
+class InitialAriaHostComponent {
+  public ariaInvalid: boolean | null = null;
+  public ariaRequired: boolean | null = null;
 }
 
 describe('tngInput primitive — ARIA pass-through', () => {
+  afterEach(() => {
+    TestBed.resetTestingModule();
+  });
+
   it('reflects ariaLabel as aria-label when provided', async () => {
     await TestBed.configureTestingModule({ imports: [AriaHostComponent] }).compileComponents();
 
@@ -67,6 +90,30 @@ describe('tngInput primitive — ARIA pass-through', () => {
 
     const el = fixture.debugElement.query(By.css('input')).nativeElement as HTMLInputElement;
     expect(el.getAttribute('aria-invalid')).toBe('true');
+  });
+
+  it('preserves initial aria-invalid and aria-required attributes when inputs are unset', async () => {
+    await TestBed.configureTestingModule({ imports: [InitialAriaHostComponent] }).compileComponents();
+
+    const fixture = TestBed.createComponent(InitialAriaHostComponent);
+    fixture.detectChanges();
+
+    const el = fixture.debugElement.query(By.css('input')).nativeElement as HTMLInputElement;
+    expect(el.getAttribute('aria-invalid')).toBe('grammar');
+    expect(el.getAttribute('aria-required')).toBe('false');
+  });
+
+  it('lets ariaInvalid and ariaRequired inputs override initial native ARIA attributes', async () => {
+    await TestBed.configureTestingModule({ imports: [InitialAriaHostComponent] }).compileComponents();
+
+    const fixture = TestBed.createComponent(InitialAriaHostComponent);
+    fixture.componentInstance.ariaInvalid = false;
+    fixture.componentInstance.ariaRequired = true;
+    fixture.detectChanges();
+
+    const el = fixture.debugElement.query(By.css('input')).nativeElement as HTMLInputElement;
+    expect(el.hasAttribute('aria-invalid')).toBe(false);
+    expect(el.getAttribute('aria-required')).toBe('true');
   });
 
   it('omits ARIA attributes when inputs are null/empty per normalization contract', async () => {

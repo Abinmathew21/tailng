@@ -51,6 +51,21 @@
               <td>Forwarded to the internal native input.</td>
             </tr>
             <tr>
+              <td><code>maxlength</code>, <code>minlength</code>, <code>pattern</code></td>
+              <td><code>number | string | null</code> / <code>string | null</code></td>
+              <td>Forwarded to native validation attributes on the internal input.</td>
+            </tr>
+            <tr>
+              <td><code>inputmode</code>, <code>enterkeyhint</code>, <code>autocapitalize</code>, <code>spellcheck</code></td>
+              <td><code>string | null</code> / nullable boolean-like</td>
+              <td>Forwarded for mobile keyboard hints, text entry behavior, and browser spelling UI.</td>
+            </tr>
+            <tr>
+              <td><code>form</code>, <code>list</code></td>
+              <td><code>string | null</code></td>
+              <td>Forwarded to associate the internal input with a form or datalist.</td>
+            </tr>
+            <tr>
               <td><code>appearance</code>, <code>size</code>, <code>tone</code>, <code>fullWidth</code></td>
               <td>visual inputs</td>
               <td>Passed through to the internal <code>tng-form-field</code> shell.</td>
@@ -61,9 +76,9 @@
               <td>Forwarded to the internal native input.</td>
             </tr>
             <tr>
-              <td><code>ariaLabel</code>, <code>ariaLabelledby</code>, <code>ariaDescribedBy</code>, <code>ariaInvalid</code>, <code>ariaRequired</code></td>
+              <td><code>ariaLabel</code>, <code>ariaLabelledby</code>, <code>ariaDescribedBy</code>, <code>ariaErrormessage</code>, <code>ariaInvalid</code>, <code>ariaRequired</code></td>
               <td>ARIA inputs</td>
-              <td>Forwarded to the internal <code>tngInput</code> primitive.</td>
+              <td>Forwarded to the internal <code>tngInput</code> primitive or native ARIA attribute.</td>
             </tr>
             <tr>
               <td><code>valueChange</code></td>
@@ -71,9 +86,14 @@
               <td>Emits on internal input changes.</td>
             </tr>
             <tr>
-              <td><code>input</code>, <code>blur</code></td>
+              <td><code>input</code>, <code>change</code>, <code>focus</code>, <code>blur</code></td>
               <td>aliased DOM event outputs</td>
-              <td>Forward the underlying native input and blur events.</td>
+              <td>Forward a single facade event from the underlying native input.</td>
+            </tr>
+            <tr>
+              <td><code>keydown</code>, <code>keyup</code></td>
+              <td>aliased keyboard event outputs</td>
+              <td>Forward keyboard events from the underlying native input. Number inputs also handle supported stepping keys.</td>
             </tr>
             <tr>
               <td>Angular forms</td>
@@ -187,7 +207,7 @@
             <tr>
               <td><code>ariaInvalid</code>, <code>ariaRequired</code></td>
               <td>boolean-like</td>
-              <td>ARIA/state hooks layered on top of the native control.</td>
+              <td>ARIA/state hooks layered on top of the native control. Initial native <code>aria-invalid</code> and <code>aria-required</code> are preserved until these inputs override them.</td>
             </tr>
             <tr>
               <td><code>disabled</code>, <code>readonly</code>, <code>required</code></td>

@@ -27,9 +27,11 @@ import {
 
 type NullableBooleanInput = boolean | null | string | undefined;
 
-function normalizeAttr(value: string | null | undefined): string | null {
+function normalizeAttr(value: unknown): string | null {
   if (value === undefined || value === null) return null;
-  const v = value.trim();
+  if (typeof value !== 'string' && typeof value !== 'number' && typeof value !== 'boolean') return null;
+
+  const v = String(value).trim();
   return v.length > 0 ? v : null;
 }
 
@@ -50,6 +52,11 @@ function normalizeOptionalNumberInput(value: number | string | null | undefined)
   return value ?? null;
 }
 
+function formatNullableBooleanAttr(value: boolean | null): 'false' | 'true' | null {
+  if (value === null) return null;
+  return value ? 'true' : 'false';
+}
+
 function readFiniteNumber(value: number | string | null | undefined): number | null {
   if (value === undefined || value === null || value === '') return null;
   const numericValue = typeof value === 'number' ? value : Number(value);
@@ -68,6 +75,15 @@ function stringifyControlValue(value: unknown): string | null {
   }
 
   return null;
+}
+
+function createInputEvent(inputElement: HTMLInputElement): Event {
+  const event = new Event('input', { bubbles: true });
+  Object.defineProperty(event, 'target', {
+    configurable: true,
+    value: inputElement,
+  });
+  return event;
 }
 
 @Component({
@@ -100,16 +116,23 @@ export class TngInputComponent implements ControlValueAccessor {
   });
   public readonly ariaLabel = input<string | null>(null);
   public readonly ariaLabelledby = input<string | null>(null);
+  public readonly ariaErrormessage = input<string | null>(null);
   public readonly ariaRequired = input<boolean | null, NullableBooleanInput>(null, {
     transform: coerceTngInputNullableBoolean,
   });
 
+  public readonly autocapitalize = input<string | null>(null);
   public readonly autocomplete = input<string | null>(null);
   public readonly disabled = input<boolean, boolean | string>(false, {
     transform: booleanAttribute,
   });
+  public readonly enterkeyhint = input<string | null>(null);
+  public readonly formAttr = input<string | null>(null, { alias: 'form' });
   public readonly id = input<string | null>(null);
+  public readonly inputmode = input<string | null>(null);
+  public readonly list = input<string | null>(null);
   public readonly name = input<string | null>(null);
+  public readonly pattern = input<string | null>(null);
   public readonly placeholder = input<string | null>(null);
   public readonly readonly = input<boolean, boolean | string>(false, {
     transform: booleanAttribute,
@@ -120,8 +143,17 @@ export class TngInputComponent implements ControlValueAccessor {
   public readonly max = input<number | string | null, number | string | null | undefined>(null, {
     transform: normalizeOptionalNumberInput,
   });
+  public readonly maxlength = input<number | string | null, number | string | null | undefined>(null, {
+    transform: normalizeOptionalNumberInput,
+  });
   public readonly min = input<number | string | null, number | string | null | undefined>(null, {
     transform: normalizeOptionalNumberInput,
+  });
+  public readonly minlength = input<number | string | null, number | string | null | undefined>(null, {
+    transform: normalizeOptionalNumberInput,
+  });
+  public readonly spellcheck = input<boolean | null, NullableBooleanInput>(null, {
+    transform: coerceTngInputNullableBoolean,
   });
   public readonly step = input<number | string | null, number | string | null | undefined>(null, {
     transform: normalizeOptionalNumberInput,
@@ -137,7 +169,11 @@ export class TngInputComponent implements ControlValueAccessor {
   // ---- Outputs ----
   public readonly valueChange = output<string>();
   public readonly inputEvent = output<Event>({ alias: 'input' });
+  public readonly changeEvent = output<Event>({ alias: 'change' });
+  public readonly focusEvent = output<FocusEvent>({ alias: 'focus' });
   public readonly blurEvent = output<FocusEvent>({ alias: 'blur' });
+  public readonly keydownEvent = output<KeyboardEvent>({ alias: 'keydown' });
+  public readonly keyupEvent = output<KeyboardEvent>({ alias: 'keyup' });
 
   // ---- CVA state ----
   @ViewChild('inputControl')
@@ -147,7 +183,7 @@ export class TngInputComponent implements ControlValueAccessor {
   private cvaValue: string | null = null;
   private cvaDisabled = false;
 
-  private onChange: (value: string) => void = () => undefined;
+  private onCvaChange: (value: string) => void = () => undefined;
   private onTouched: () => void = () => undefined;
 
   // ---- Host attrs (optional, useful for styling/debug) ----
@@ -200,7 +236,7 @@ export class TngInputComponent implements ControlValueAccessor {
   }
 
   public registerOnChange(fn: (value: string) => void): void {
-    this.onChange = fn;
+    this.onCvaChange = fn;
   }
 
   public registerOnTouched(fn: () => void): void {
@@ -213,6 +249,10 @@ export class TngInputComponent implements ControlValueAccessor {
 
   // ---- DOM handlers ----
   public onInput(event: unknown): void {
+    if (event instanceof Event) {
+      event.stopPropagation();
+    }
+
     const next = readInputValue(event);
     if (next === null) return;
 
@@ -222,7 +262,44 @@ export class TngInputComponent implements ControlValueAccessor {
     this.commitValue(next, event);
   }
 
-  public stepNumber(delta: -1 | 1): void {
+  public onKeydown(event: unknown): void {
+    if (!(event instanceof KeyboardEvent)) return;
+
+    event.stopPropagation();
+    this.keydownEvent.emit(event);
+
+    if (!this.isNumberInput || this.effectiveDisabled) return;
+
+    switch (event.key) {
+      case 'ArrowUp':
+        this.stepNumberFromKey(event, 1);
+        break;
+      case 'ArrowDown':
+        this.stepNumberFromKey(event, -1);
+        break;
+      case 'PageUp':
+        this.stepNumberFromKey(event, 1, 10);
+        break;
+      case 'PageDown':
+        this.stepNumberFromKey(event, -1, 10);
+        break;
+      case 'Home':
+        this.setNumberBoundaryFromKey(event, 'min');
+        break;
+      case 'End':
+        this.setNumberBoundaryFromKey(event, 'max');
+        break;
+    }
+  }
+
+  public onKeyup(event: unknown): void {
+    if (!(event instanceof KeyboardEvent)) return;
+
+    event.stopPropagation();
+    this.keyupEvent.emit(event);
+  }
+
+  public stepNumber(delta: -1 | 1, stepCount = 1): void {
     if (!this.isNumberInput || this.effectiveDisabled || this.readonly()) return;
 
     const inputElement = this.inputControl?.nativeElement;
@@ -232,15 +309,34 @@ export class TngInputComponent implements ControlValueAccessor {
 
     try {
       if (delta > 0) {
-        inputElement.stepUp();
+        inputElement.stepUp(stepCount);
       } else {
-        inputElement.stepDown();
+        inputElement.stepDown(stepCount);
       }
     } catch {
-      inputElement.value = this.nextSteppedValue(inputElement.value, delta);
+      inputElement.value = this.nextSteppedValue(inputElement.value, delta, stepCount);
     }
 
-    this.commitValue(inputElement.value, null);
+    this.commitValue(inputElement.value, createInputEvent(inputElement));
+  }
+
+  private stepNumberFromKey(event: KeyboardEvent, delta: -1 | 1, stepCount = 1): void {
+    event.preventDefault();
+    this.stepNumber(delta, stepCount);
+  }
+
+  private setNumberBoundaryFromKey(event: KeyboardEvent, boundary: 'max' | 'min'): void {
+    const boundaryValue = readFiniteNumber(boundary === 'min' ? this.min() : this.max());
+    if (boundaryValue === null) return;
+
+    event.preventDefault();
+    if (this.readonly()) return;
+
+    const inputElement = this.inputControl?.nativeElement;
+    if (inputElement === undefined) return;
+
+    inputElement.value = formatNumberValue(boundaryValue);
+    this.commitValue(inputElement.value, createInputEvent(inputElement));
   }
 
   private commitValue(next: string, event: unknown): void {
@@ -252,7 +348,7 @@ export class TngInputComponent implements ControlValueAccessor {
         return;
       }
       this.cvaValue = next;
-      this.onChange(next);
+      this.onCvaChange(next);
     }
 
     // For controlled-input usage, emit valueChange always
@@ -263,13 +359,13 @@ export class TngInputComponent implements ControlValueAccessor {
     }
   }
 
-  private nextSteppedValue(currentValue: string, delta: -1 | 1): string {
+  private nextSteppedValue(currentValue: string, delta: -1 | 1, stepCount: number): string {
     const min = readFiniteNumber(this.min());
     const max = readFiniteNumber(this.max());
     const step = readFiniteNumber(this.step()) ?? 1;
     const current = readFiniteNumber(currentValue) ?? min ?? 0;
     const nextStep = step > 0 ? step : 1;
-    let next = current + delta * nextStep;
+    let next = current + delta * nextStep * stepCount;
 
     if (min !== null) next = Math.max(min, next);
     if (max !== null) next = Math.min(max, next);
@@ -278,17 +374,39 @@ export class TngInputComponent implements ControlValueAccessor {
   }
 
   public onBlur(event: unknown): void {
+    if (event instanceof Event) {
+      event.stopPropagation();
+    }
+
     this.onTouched();
     if (event instanceof FocusEvent) {
       this.blurEvent.emit(event);
     }
   }
 
-  protected normalizeAttrValue(value: string | null | undefined): string | null {
+  public onFocus(event: unknown): void {
+    if (!(event instanceof FocusEvent)) return;
+
+    event.stopPropagation();
+    this.focusEvent.emit(event);
+  }
+
+  public onChangeEvent(event: unknown): void {
+    if (!(event instanceof Event)) return;
+
+    event.stopPropagation();
+    this.changeEvent.emit(event);
+  }
+
+  protected normalizeAttrValue(value: unknown): string | null {
     return normalizeAttr(value);
   }
 
   protected normalizeNumberAttrValue(value: number | string | null | undefined): string | null {
     return normalizeNumberAttr(value);
+  }
+
+  protected formatNullableBooleanAttrValue(value: boolean | null): 'false' | 'true' | null {
+    return formatNullableBooleanAttr(value);
   }
 }

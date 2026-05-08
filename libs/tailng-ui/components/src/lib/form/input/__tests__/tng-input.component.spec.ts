@@ -72,7 +72,10 @@ class HostStyledInputComponent {}
       [step]="step"
       [min]="min"
       [max]="max"
+      [readonly]="readonly"
+      [disabled]="disabled"
       (valueChange)="onValueChange($event)"
+      (input)="onInputEvent($event)"
     />
   `,
 })
@@ -81,12 +84,27 @@ class NumberInputHostComponent {
   public step: number | string | null = 0.5;
   public min: number | string | null = 0;
   public max: number | string | null = 2;
+  public readonly = false;
+  public disabled = false;
   public emittedValue: string | null = null;
+  public inputEventCount = 0;
+  public inputEventValue: string | null = null;
 
   public onValueChange(value: string): void {
     this.emittedValue = value;
     this.value = value;
   }
+
+  public onInputEvent(event: Event): void {
+    this.inputEventCount += 1;
+    this.inputEventValue = event.target instanceof HTMLInputElement ? event.target.value : null;
+  }
+}
+
+function dispatchKeyboardEvent(inputEl: HTMLInputElement, key: string): KeyboardEvent {
+  const event = new KeyboardEvent('keydown', { bubbles: true, cancelable: true, key });
+  inputEl.dispatchEvent(event);
+  return event;
 }
 
 @Component({
@@ -104,6 +122,106 @@ class OptionalNumberConstraintsHostComponent {
   public step: number | undefined = undefined;
   public min: number | undefined = undefined;
   public max: number | undefined = undefined;
+}
+
+@Component({
+  imports: [TngInputComponent],
+  template: `
+    <tng-input
+      [ariaErrormessage]="ariaErrormessage"
+      [autocapitalize]="autocapitalize"
+      [enterkeyhint]="enterkeyhint"
+      [form]="form"
+      [inputmode]="inputmode"
+      [list]="list"
+      [maxlength]="maxlength"
+      [minlength]="minlength"
+      [pattern]="pattern"
+      [spellcheck]="spellcheck"
+    />
+  `,
+})
+class NativeInputAttributeHostComponent {
+  public ariaErrormessage: string | null = 'input-error';
+  public autocapitalize: string | null = 'words';
+  public enterkeyhint: string | null = 'search';
+  public form: string | null = 'customer-form';
+  public inputmode: string | null = 'email';
+  public list: string | null = 'email-suggestions';
+  public maxlength: number | string | null | undefined = 64;
+  public minlength: number | string | null = 3;
+  public pattern: string | null = '[^@]+@example\\.com';
+  public spellcheck: boolean | null = false;
+}
+
+@Component({
+  imports: [TngInputComponent],
+  template: `
+    <tng-input
+      ariaLabel="Event facade"
+      [value]="value"
+      (input)="onInputEvent($event)"
+      (change)="onChangeEvent($event)"
+      (focus)="onFocusEvent($event)"
+      (blur)="onBlurEvent($event)"
+      (keydown)="onKeydownEvent($event)"
+      (keyup)="onKeyupEvent($event)"
+      (beforeinput)="onBeforeInputEvent($event)"
+      (compositionstart)="onCompositionStartEvent($event)"
+    />
+  `,
+})
+class EventFacadeHostComponent {
+  public value = 'Initial';
+  public inputCount = 0;
+  public changeCount = 0;
+  public focusCount = 0;
+  public blurCount = 0;
+  public keydownCount = 0;
+  public keyupCount = 0;
+  public beforeInputCount = 0;
+  public compositionStartCount = 0;
+  public lastEventTarget: EventTarget | null = null;
+
+  public onInputEvent(event: Event): void {
+    this.inputCount += 1;
+    this.lastEventTarget = event.target;
+  }
+
+  public onChangeEvent(event: Event): void {
+    this.changeCount += 1;
+    this.lastEventTarget = event.target;
+  }
+
+  public onFocusEvent(event: FocusEvent): void {
+    this.focusCount += 1;
+    this.lastEventTarget = event.target;
+  }
+
+  public onBlurEvent(event: FocusEvent): void {
+    this.blurCount += 1;
+    this.lastEventTarget = event.target;
+  }
+
+  public onKeydownEvent(event: KeyboardEvent): void {
+    this.keydownCount += 1;
+    this.lastEventTarget = event.target;
+  }
+
+  public onKeyupEvent(event: KeyboardEvent): void {
+    this.keyupCount += 1;
+    this.lastEventTarget = event.target;
+  }
+
+  public onBeforeInputEvent(event: Event): void {
+    this.beforeInputCount += 1;
+    this.lastEventTarget = event.target;
+  }
+
+  public onCompositionStartEvent(event: CompositionEvent): void {
+    this.compositionStartCount += 1;
+    this.lastEventTarget = event.target;
+  }
 }
 
 const themeContractCss = [
@@ -160,6 +278,76 @@ describe('<tng-input> component', () => {
     fixture.detectChanges();
 
     expect(fixture.componentInstance.emittedValue).toBe('Oxygen');
+  });
+
+  it('emits one facade event for native input, change, focus, blur, keydown, and keyup', async () => {
+    await TestBed.configureTestingModule({ imports: [EventFacadeHostComponent] }).compileComponents();
+    const fixture = TestBed.createComponent(EventFacadeHostComponent);
+    fixture.detectChanges();
+
+    const host = fixture.debugElement.query(By.css('tng-input')).nativeElement as HTMLElement;
+    const inputEl = fixture.debugElement.query(By.css('input')).nativeElement as HTMLInputElement;
+
+    let hostInputBubbleCount = 0;
+    let hostChangeBubbleCount = 0;
+    let hostKeydownBubbleCount = 0;
+    host.addEventListener('input', () => {
+      hostInputBubbleCount += 1;
+    });
+    host.addEventListener('change', () => {
+      hostChangeBubbleCount += 1;
+    });
+    host.addEventListener('keydown', () => {
+      hostKeydownBubbleCount += 1;
+    });
+
+    inputEl.value = 'Updated';
+    inputEl.dispatchEvent(new Event('input', { bubbles: true }));
+    inputEl.dispatchEvent(new Event('change', { bubbles: true }));
+    inputEl.dispatchEvent(new FocusEvent('focus'));
+    inputEl.dispatchEvent(new FocusEvent('blur'));
+    inputEl.dispatchEvent(new KeyboardEvent('keydown', { bubbles: true, key: 'a' }));
+    inputEl.dispatchEvent(new KeyboardEvent('keyup', { bubbles: true, key: 'a' }));
+    fixture.detectChanges();
+
+    expect(fixture.componentInstance.inputCount).toBe(1);
+    expect(fixture.componentInstance.changeCount).toBe(1);
+    expect(fixture.componentInstance.focusCount).toBe(1);
+    expect(fixture.componentInstance.blurCount).toBe(1);
+    expect(fixture.componentInstance.keydownCount).toBe(1);
+    expect(fixture.componentInstance.keyupCount).toBe(1);
+    expect(fixture.componentInstance.lastEventTarget).toBe(inputEl);
+    expect(hostInputBubbleCount).toBe(0);
+    expect(hostChangeBubbleCount).toBe(0);
+    expect(hostKeydownBubbleCount).toBe(0);
+  });
+
+  it('does not prevent default typing, beforeinput, or IME composition events', async () => {
+    await TestBed.configureTestingModule({ imports: [EventFacadeHostComponent] }).compileComponents();
+    const fixture = TestBed.createComponent(EventFacadeHostComponent);
+    fixture.detectChanges();
+
+    const inputEl = fixture.debugElement.query(By.css('input')).nativeElement as HTMLInputElement;
+
+    const beforeInputEvent = new InputEvent('beforeinput', {
+      bubbles: true,
+      cancelable: true,
+      data: 'あ',
+    });
+    const compositionStartEvent = new CompositionEvent('compositionstart', {
+      bubbles: true,
+      cancelable: true,
+    });
+
+    inputEl.dispatchEvent(beforeInputEvent);
+    inputEl.dispatchEvent(compositionStartEvent);
+    fixture.detectChanges();
+
+    expect(beforeInputEvent.defaultPrevented).toBe(false);
+    expect(compositionStartEvent.defaultPrevented).toBe(false);
+    expect(fixture.componentInstance.beforeInputCount).toBe(1);
+    expect(fixture.componentInstance.compositionStartCount).toBe(1);
+    expect(fixture.componentInstance.lastEventTarget).toBe(inputEl);
   });
 
   it('passes visual tokens through to the internal form field', async () => {
@@ -247,6 +435,138 @@ describe('<tng-input> component', () => {
     expect(inputEl.value).toBe('1');
   });
 
+  it('emits the aliased input event when custom number controls change the value', async () => {
+    await TestBed.configureTestingModule({ imports: [NumberInputHostComponent] }).compileComponents();
+    const fixture = TestBed.createComponent(NumberInputHostComponent);
+    fixture.detectChanges();
+
+    const [incrementButton] = fixture.debugElement.queryAll(By.css('.tng-input-number-button'));
+
+    incrementButton.nativeElement.click();
+    fixture.detectChanges();
+
+    expect(fixture.componentInstance.emittedValue).toBe('1.5');
+    expect(fixture.componentInstance.inputEventCount).toBe(1);
+    expect(fixture.componentInstance.inputEventValue).toBe('1.5');
+  });
+
+  it('steps number values from ArrowUp and ArrowDown key presses', async () => {
+    await TestBed.configureTestingModule({ imports: [NumberInputHostComponent] }).compileComponents();
+    const fixture = TestBed.createComponent(NumberInputHostComponent);
+    fixture.detectChanges();
+
+    const inputEl = fixture.debugElement.query(By.css('input')).nativeElement as HTMLInputElement;
+
+    const arrowUpEvent = dispatchKeyboardEvent(inputEl, 'ArrowUp');
+    fixture.detectChanges();
+
+    expect(arrowUpEvent.defaultPrevented).toBe(true);
+    expect(fixture.componentInstance.emittedValue).toBe('1.5');
+    expect(fixture.componentInstance.inputEventValue).toBe('1.5');
+    expect(inputEl.value).toBe('1.5');
+
+    const arrowDownEvent = dispatchKeyboardEvent(inputEl, 'ArrowDown');
+    fixture.detectChanges();
+
+    expect(arrowDownEvent.defaultPrevented).toBe(true);
+    expect(fixture.componentInstance.emittedValue).toBe('1');
+    expect(fixture.componentInstance.inputEventValue).toBe('1');
+    expect(inputEl.value).toBe('1');
+  });
+
+  it('jumps number values from PageUp and PageDown key presses', async () => {
+    await TestBed.configureTestingModule({ imports: [NumberInputHostComponent] }).compileComponents();
+    const fixture = TestBed.createComponent(NumberInputHostComponent);
+    fixture.detectChanges();
+
+    const inputEl = fixture.debugElement.query(By.css('input')).nativeElement as HTMLInputElement;
+
+    const pageUpEvent = dispatchKeyboardEvent(inputEl, 'PageUp');
+    fixture.detectChanges();
+
+    expect(pageUpEvent.defaultPrevented).toBe(true);
+    expect(fixture.componentInstance.emittedValue).toBe('2');
+    expect(inputEl.value).toBe('2');
+
+    const pageDownEvent = dispatchKeyboardEvent(inputEl, 'PageDown');
+    fixture.detectChanges();
+
+    expect(pageDownEvent.defaultPrevented).toBe(true);
+    expect(fixture.componentInstance.emittedValue).toBe('0');
+    expect(inputEl.value).toBe('0');
+  });
+
+  it('moves number values to min and max from Home and End key presses', async () => {
+    await TestBed.configureTestingModule({ imports: [NumberInputHostComponent] }).compileComponents();
+    const fixture = TestBed.createComponent(NumberInputHostComponent);
+    fixture.detectChanges();
+
+    const inputEl = fixture.debugElement.query(By.css('input')).nativeElement as HTMLInputElement;
+
+    const homeEvent = dispatchKeyboardEvent(inputEl, 'Home');
+    fixture.detectChanges();
+
+    expect(homeEvent.defaultPrevented).toBe(true);
+    expect(fixture.componentInstance.emittedValue).toBe('0');
+    expect(inputEl.value).toBe('0');
+
+    const endEvent = dispatchKeyboardEvent(inputEl, 'End');
+    fixture.detectChanges();
+
+    expect(endEvent.defaultPrevented).toBe(true);
+    expect(fixture.componentInstance.emittedValue).toBe('2');
+    expect(inputEl.value).toBe('2');
+  });
+
+  it('does not intercept Enter or Space on number inputs', async () => {
+    await TestBed.configureTestingModule({ imports: [NumberInputHostComponent] }).compileComponents();
+    const fixture = TestBed.createComponent(NumberInputHostComponent);
+    fixture.detectChanges();
+
+    const inputEl = fixture.debugElement.query(By.css('input')).nativeElement as HTMLInputElement;
+
+    const enterEvent = dispatchKeyboardEvent(inputEl, 'Enter');
+    const spaceEvent = dispatchKeyboardEvent(inputEl, ' ');
+    fixture.detectChanges();
+
+    expect(enterEvent.defaultPrevented).toBe(false);
+    expect(spaceEvent.defaultPrevented).toBe(false);
+    expect(fixture.componentInstance.emittedValue).toBeNull();
+    expect(fixture.componentInstance.inputEventCount).toBe(0);
+    expect(inputEl.value).toBe('1');
+  });
+
+  it('suppresses number key stepping when readonly or disabled', async () => {
+    await TestBed.configureTestingModule({ imports: [NumberInputHostComponent] }).compileComponents();
+    const fixture = TestBed.createComponent(NumberInputHostComponent);
+    fixture.detectChanges();
+
+    const inputEl = fixture.debugElement.query(By.css('input')).nativeElement as HTMLInputElement;
+
+    fixture.componentInstance.readonly = true;
+    fixture.changeDetectorRef.detectChanges();
+
+    const readonlyEvent = dispatchKeyboardEvent(inputEl, 'ArrowUp');
+    fixture.detectChanges();
+
+    expect(readonlyEvent.defaultPrevented).toBe(true);
+    expect(fixture.componentInstance.emittedValue).toBeNull();
+    expect(fixture.componentInstance.inputEventCount).toBe(0);
+    expect(inputEl.value).toBe('1');
+
+    fixture.componentInstance.readonly = false;
+    fixture.componentInstance.disabled = true;
+    fixture.changeDetectorRef.detectChanges();
+
+    const disabledEvent = dispatchKeyboardEvent(inputEl, 'ArrowUp');
+    fixture.detectChanges();
+
+    expect(disabledEvent.defaultPrevented).toBe(false);
+    expect(fixture.componentInstance.emittedValue).toBeNull();
+    expect(fixture.componentInstance.inputEventCount).toBe(0);
+    expect(inputEl.value).toBe('1');
+  });
+
   it('allows the custom number controls to be hidden with a CSS override', async () => {
     await TestBed.configureTestingModule({ imports: [NumberInputHostComponent] }).compileComponents();
     const styleElement = document.createElement('style');
@@ -282,5 +602,55 @@ describe('<tng-input> component', () => {
     expect(inputEl.hasAttribute('min')).toBe(false);
     expect(inputEl.hasAttribute('max')).toBe(false);
     expect(inputEl.hasAttribute('step')).toBe(false);
+  });
+
+  it('passes common native validation, mobile keyboard, form, and aria attributes to the internal input', async () => {
+    await TestBed.configureTestingModule({ imports: [NativeInputAttributeHostComponent] }).compileComponents();
+    const fixture = TestBed.createComponent(NativeInputAttributeHostComponent);
+    fixture.detectChanges();
+
+    const inputEl = fixture.debugElement.query(By.css('input')).nativeElement as HTMLInputElement;
+
+    expect(inputEl.getAttribute('aria-errormessage')).toBe('input-error');
+    expect(inputEl.getAttribute('autocapitalize')).toBe('words');
+    expect(inputEl.getAttribute('enterkeyhint')).toBe('search');
+    expect(inputEl.getAttribute('form')).toBe('customer-form');
+    expect(inputEl.getAttribute('inputmode')).toBe('email');
+    expect(inputEl.getAttribute('list')).toBe('email-suggestions');
+    expect(inputEl.getAttribute('maxlength')).toBe('64');
+    expect(inputEl.getAttribute('minlength')).toBe('3');
+    expect(inputEl.getAttribute('pattern')).toBe('[^@]+@example\\.com');
+    expect(inputEl.getAttribute('spellcheck')).toBe('false');
+  });
+
+  it('removes optional native input attributes when bindings are null or empty', async () => {
+    await TestBed.configureTestingModule({ imports: [NativeInputAttributeHostComponent] }).compileComponents();
+    const fixture = TestBed.createComponent(NativeInputAttributeHostComponent);
+    fixture.detectChanges();
+
+    fixture.componentInstance.ariaErrormessage = ' ';
+    fixture.componentInstance.autocapitalize = '';
+    fixture.componentInstance.enterkeyhint = null;
+    fixture.componentInstance.form = null;
+    fixture.componentInstance.inputmode = '';
+    fixture.componentInstance.list = null;
+    fixture.componentInstance.maxlength = undefined;
+    fixture.componentInstance.minlength = null;
+    fixture.componentInstance.pattern = ' ';
+    fixture.componentInstance.spellcheck = null;
+    fixture.changeDetectorRef.detectChanges();
+
+    const inputEl = fixture.debugElement.query(By.css('input')).nativeElement as HTMLInputElement;
+
+    expect(inputEl.hasAttribute('aria-errormessage')).toBe(false);
+    expect(inputEl.hasAttribute('autocapitalize')).toBe(false);
+    expect(inputEl.hasAttribute('enterkeyhint')).toBe(false);
+    expect(inputEl.hasAttribute('form')).toBe(false);
+    expect(inputEl.hasAttribute('inputmode')).toBe(false);
+    expect(inputEl.hasAttribute('list')).toBe(false);
+    expect(inputEl.hasAttribute('maxlength')).toBe(false);
+    expect(inputEl.hasAttribute('minlength')).toBe(false);
+    expect(inputEl.hasAttribute('pattern')).toBe(false);
+    expect(inputEl.hasAttribute('spellcheck')).toBe(false);
   });
 });

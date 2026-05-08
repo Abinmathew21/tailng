@@ -22,6 +22,8 @@
       <ul class="input-overview-list">
         <li><strong>Native-first behavior:</strong> <code>&lt;tng-input&gt;</code> still renders a real native <code>&lt;input&gt;</code>.</li>
         <li><strong>Clear split of responsibility:</strong> plain fields stay on <code>&lt;tng-input&gt;</code>; projected content lives on <code>&lt;tng-form-field&gt;</code>.</li>
+        <li><strong>Input facade:</strong> common native attributes and events are forwarded through the component wrapper.</li>
+        <li><strong>Number affordances:</strong> number inputs include pointer controls plus keyboard stepping for arrow, page, and boundary keys.</li>
         <li><strong>Theme contract:</strong> shell styling is controlled through tokens such as <code>--tng-input-bg</code>, <code>--tng-input-border</code>, <code>--tng-input-gap</code>, and <code>--tng-input-focus-ring</code>.</li>
         <li><strong>Stable hooks:</strong> the shell and internal control expose <code>data-slot</code> markers and state attrs instead of requiring implementation-specific class names.</li>
       </ul>
@@ -178,6 +180,7 @@
       <h3>Accessibility guidance</h3>
       <ul class="input-overview-list">
         <li>Give the field an accessible name with a visible label, <code>ariaLabel</code>, or <code>ariaLabelledby</code>.</li>
+        <li>Link validation copy with <code>ariaDescribedBy</code> or <code>ariaErrormessage</code> when the message is rendered outside the field.</li>
         <li>Mark decorative prefix/suffix content as <code>aria-hidden="true"</code>.</li>
         <li>Keep trailing buttons inside <code>&lt;tng-form-field&gt;</code> explicitly labelled.</li>
         <li>Use the dedicated Textarea page for multiline content instead of stretching the Input API to cover both.</li>
@@ -208,6 +211,42 @@
         adapter="shiki"
         language="html"
         title="Native required validation"
+        [theme]="codeBlockTheme()"
+        [sanitizeHtml]="false"
+        [wrap]="true"
+        [lineNumbers]="false"
+      ></tng-code-block>
+
+      <h4>Mobile and native input hints</h4>
+      <p>
+        Use the native pass-through inputs when the browser can improve editing, validation, or
+        form association.
+      </p>
+      <tng-code-block
+        [code]="nativeHintsCode"
+        adapter="shiki"
+        language="html"
+        title="Native input hints"
+        [theme]="codeBlockTheme()"
+        [sanitizeHtml]="false"
+        [wrap]="true"
+        [lineNumbers]="false"
+      ></tng-code-block>
+    </section>
+
+    <section id="interaction-behavior" class="docs-section-anchor input-overview-block">
+      <h3>Interaction behavior</h3>
+      <ul class="input-overview-list">
+        <li>Text input editing, selection, <code>beforeinput</code>, and IME composition remain native.</li>
+        <li>Number inputs handle <code>ArrowUp</code>, <code>ArrowDown</code>, <code>PageUp</code>, <code>PageDown</code>, <code>Home</code>, and <code>End</code>.</li>
+        <li><code>Enter</code> and <code>Space</code> are not intercepted by the number input wrapper.</li>
+        <li><code>input</code>, <code>change</code>, <code>focus</code>, <code>blur</code>, <code>keydown</code>, and <code>keyup</code> are exposed as component outputs.</li>
+      </ul>
+      <tng-code-block
+        [code]="eventFacadeCode"
+        adapter="shiki"
+        language="html"
+        title="Facade events"
         [theme]="codeBlockTheme()"
         [sanitizeHtml]="false"
         [wrap]="true"

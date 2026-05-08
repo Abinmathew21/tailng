@@ -27,6 +27,7 @@ const inputOutlineItemsBySection: Readonly<Record<InputDocSectionId, readonly Do
       { id: 'structure', label: 'Structure' },
       { id: 'accessibility-guidance', label: 'Accessibility guidance' },
       { id: 'validation-patterns', label: 'Validation patterns' },
+      { id: 'interaction-behavior', label: 'Interaction behavior' },
       { id: 'examples', label: 'Examples' },
       { id: 'common-pitfalls', label: 'Common pitfalls' },
       { id: 'testing-notes', label: 'Testing notes' },
@@ -48,9 +49,11 @@ const inputOutlineItemsBySection: Readonly<Record<InputDocSectionId, readonly Do
       },
     ],
     examples: [
+      { id: 'form-usage', label: 'Form usage' },
       { id: 'basic-text-field', label: 'Basic text field' },
       { id: 'type-variants', label: 'Type variants' },
       { id: 'validation-feedback', label: 'Validation feedback' },
+      { id: 'number-controls', label: 'Number controls' },
       { id: 'readonly-and-disabled-states', label: 'Readonly and disabled states' },
     ],
   } as const;
