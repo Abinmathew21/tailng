@@ -1,13 +1,15 @@
 import { DOCUMENT } from '@angular/common';
-import { Component, computed, effect, inject, signal } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Component, HostListener, computed, effect, inject, signal } from '@angular/core';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import {
   TngBreadcrumbComponent,
   TngBreadcrumbItemComponent,
   TngButtonComponent,
+  TngCommandPaletteComponent,
   TngMenuComponent,
   TngMenuTriggerFor,
+  type TngCommandPaletteOptionSelect,
 } from '@tailng-ui/components';
 import { TngIcon } from '@tailng-ui/icons';
 import { TngMenuItem, type TngMenuSelectEvent } from '@tailng-ui/primitives';
@@ -30,7 +32,7 @@ import {
   type ThemeDefinition,
 } from '@tailng-ui/theme';
 import { filter } from 'rxjs/operators';
-import { DocsGlobalSearchComponent } from './shared/global-search/trigger/docs-global-search.component';
+import { DocsSearchIndexService, type DocsSearchEntry } from './shared/search/docs-search-index.service';
 
 type ThemePresetId =
   | 'default'
@@ -140,10 +142,10 @@ const footerResourceLinks: readonly LinkItem[] = [
 @Component({
   imports: [
     RouterOutlet,
-    DocsGlobalSearchComponent,
     TngBreadcrumbComponent,
     TngBreadcrumbItemComponent,
     TngButtonComponent,
+    TngCommandPaletteComponent,
     TngMenuComponent,
     TngMenuTriggerFor,
     TngMenuItem,
@@ -156,6 +158,7 @@ const footerResourceLinks: readonly LinkItem[] = [
 export class App {
   private readonly documentRef = inject(DOCUMENT);
   private readonly router = inject(Router);
+  private readonly searchIndex = toSignal(inject(DocsSearchIndexService).index$);
 
   public readonly darkMode = signal(true);
   public readonly presetOptions = presetOptions;
@@ -178,6 +181,17 @@ export class App {
   public readonly effectiveMode = computed<'light' | 'dark'>(() =>
     this.darkMode() ? 'dark' : 'light',
   );
+  public readonly searchOpen = signal(false);
+  public readonly searchInitialValue = signal('');
+  public readonly searchQuery = signal('');
+  public readonly searchOptions = signal<readonly DocsSearchEntry[]>([]);
+  public readonly searchShortcutHint = computed<string>(() =>
+    this.isMacPlatform() ? '⌘K' : 'Ctrl K',
+  );
+  public readonly getSearchOptionValue = (item: DocsSearchEntry): string => item.url;
+  public readonly getSearchOptionLabel = (item: DocsSearchEntry): string => item.title;
+  public readonly getSearchOptionDescription = (item: DocsSearchEntry): string =>
+    item.description ?? item.section ?? '';
 
   private readonly activeTheme = computed<ThemeDefinition>(() => {
     return this.getPresetByMode(this.selectedPreset(), this.effectiveMode());
@@ -186,6 +200,29 @@ export class App {
   public constructor() {
     effect((): void => {
       applyTailngTheme(this.activeTheme());
+    });
+    effect((): void => {
+      const index = this.searchIndex();
+      const query = this.searchQuery().trim();
+
+      if (index === undefined) {
+        this.searchOptions.set([]);
+        return;
+      }
+
+      if (query.length === 0) {
+        this.searchOptions.set(index.entries.slice(0, 8));
+        return;
+      }
+
+      this.searchOptions.set(index.fuse.search(query).slice(0, 10).map((result) => result.item));
+    });
+    effect((): void => {
+      if (!this.searchOpen()) {
+        return;
+      }
+
+      this.searchQuery.set(this.searchInitialValue());
     });
 
     this.router.events
@@ -226,6 +263,18 @@ export class App {
     void this.router.navigateByUrl(route);
   }
 
+  @HostListener('document:keydown', ['$event'])
+  public onDocumentKeydown(event: KeyboardEvent): void {
+    const shortcutPressed = this.isMacPlatform() ? event.metaKey : event.ctrlKey;
+    if (event.key.toLowerCase() !== 'k' || !shortcutPressed) {
+      return;
+    }
+
+    event.preventDefault();
+    event.stopPropagation();
+    this.openSearch();
+  }
+
   public openGithubRepository(): void {
     this.documentRef.defaultView?.open(githubRepositoryUrl, '_blank', 'noopener,noreferrer');
   }
@@ -249,6 +298,37 @@ export class App {
 
   public isPresetSelected(preset: ThemePresetId): boolean {
     return this.selectedPreset() === preset;
+  }
+
+  public openSearch(initialValue = ''): void {
+    this.searchInitialValue.set(initialValue);
+    this.searchOpen.set(true);
+  }
+
+  public onSearchButtonKeydown(event: KeyboardEvent): void {
+    if (event.key.length !== 1 || event.ctrlKey || event.metaKey || event.altKey) {
+      return;
+    }
+
+    event.preventDefault();
+    this.openSearch(event.key.trim());
+  }
+
+  public onSearchOpenChange(open: boolean): void {
+    this.searchOpen.set(open);
+    if (!open) {
+      this.searchInitialValue.set('');
+      this.searchQuery.set('');
+    }
+  }
+
+  public onSearchOptionSelect(
+    event: TngCommandPaletteOptionSelect<DocsSearchEntry, unknown>,
+  ): void {
+    this.searchOpen.set(false);
+    this.searchInitialValue.set('');
+    this.searchQuery.set('');
+    void this.router.navigateByUrl(event.option.url);
   }
 
   private getPresetByMode(
@@ -286,6 +366,11 @@ export class App {
   
     return presets[preset]?.[mode]
       ?? (mode === 'dark' ? defaultDarkThemePreset : defaultThemePreset);
+  }
+
+  private isMacPlatform(): boolean {
+    const navigatorRef = this.documentRef.defaultView?.navigator;
+    return navigatorRef?.platform.toLowerCase().includes('mac') ?? false;
   }
 
   private buildBreadcrumbs(rawUrl: string): readonly BreadcrumbItem[] {

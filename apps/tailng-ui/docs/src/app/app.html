@@ -33,7 +33,55 @@
       </div>
 
       <div class="flex items-center gap-2">
-        <app-docs-global-search />
+        <tng-button
+          type="button"
+          appearance="outline"
+          tone="neutral"
+          size="sm"
+          class="docs-global-search-trigger"
+          aria-label="Open docs search"
+          (click)="openSearch()"
+          (keydown)="onSearchButtonKeydown($event)"
+        >
+          <tng-icon icon="search" class="h-4 w-4" />
+          <span>Search</span>
+          <kbd class="docs-global-search-trigger__shortcut">{{ searchShortcutHint() }}</kbd>
+        </tng-button>
+
+        <tng-command-palette
+          class="docs-global-search-overlay"
+          [open]="searchOpen()"
+          [query]="searchQuery()"
+          [options]="searchOptions()"
+          [getOptionValue]="getSearchOptionValue"
+          [getOptionLabel]="getSearchOptionLabel"
+          [getOptionDescription]="getSearchOptionDescription"
+          placeholder="Search components, headless APIs, theme docs..."
+          footerText="Arrows move · Enter opens · Esc closes"
+          (openChange)="onSearchOpenChange($event)"
+          (queryChange)="searchQuery.set($event)"
+          (optionSelect)="onSearchOptionSelect($event)"
+        >
+          <ng-template #tngCommandPaletteInputPrefixTpl>
+            <span aria-hidden="true" class="docs-global-search-prefix">{{ searchShortcutHint() }}</span>
+          </ng-template>
+
+          <ng-template #tngCommandPaletteOptionTpl let-item>
+            <span class="docs-global-search-option">
+              <span class="docs-global-search-option__title">{{ item.title }}</span>
+              @if (item.description) {
+                <span class="docs-global-search-option__description">{{ item.description }}</span>
+              }
+              @if (item.section) {
+                <span class="docs-global-search-option__section">{{ item.section }}</span>
+              }
+            </span>
+          </ng-template>
+
+          <ng-template #tngCommandPaletteFooterTpl>
+            Arrows move · Enter opens · Esc closes
+          </ng-template>
+        </tng-command-palette>
 
         <tng-button
           id="docs-theme-preset-trigger"
