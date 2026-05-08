@@ -47,11 +47,27 @@
     </ul>
   </section>
 
+  <section id="inner-parts" class="command-palette-styling-block">
+    <h3>Inner component styles</h3>
+    <p>
+      Add a class on <code>&lt;tng-command-palette&gt;</code> and target the stable inner classes to
+      customize backdrop, panel shell, search row, options, and footer without changing component
+      behavior.
+    </p>
+    <ul class="command-palette-styling-list">
+      <li><code>.tng-command-palette-backdrop</code> controls the screen overlay.</li>
+      <li><code>.tng-command-palette-panel</code> controls the dialog container.</li>
+      <li><code>.tng-command-palette-search</code> controls the input region spacing and border.</li>
+      <li><code>.tng-command-palette-option</code> controls each result row.</li>
+      <li><code>.tng-command-palette-footer</code> controls helper and shortcut text.</li>
+    </ul>
+  </section>
+
   <section id="template-guidance" class="command-palette-styling-block">
     <h3>Template guidance</h3>
     <p>
-      Prefer option templates for app-specific row layout. Keep the palette shell tokens for width,
-      height, and shared modal behavior.
+      Combine host tokens for layout/stacking with scoped inner-class selectors for shell details.
+      Prefer templates for app-specific row content and metadata layout.
     </p>
     <tng-code-block
       [code]="contractCss"
