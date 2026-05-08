@@ -62,10 +62,6 @@
           (queryChange)="searchQuery.set($event)"
           (optionSelect)="onSearchOptionSelect($event)"
         >
-          <ng-template #tngCommandPaletteInputPrefixTpl>
-            <span aria-hidden="true" class="docs-global-search-prefix">{{ searchShortcutHint() }}</span>
-          </ng-template>
-
           <ng-template #tngCommandPaletteOptionTpl let-item>
             <span class="docs-global-search-option">
               <span class="docs-global-search-option__title">{{ item.title }}</span>

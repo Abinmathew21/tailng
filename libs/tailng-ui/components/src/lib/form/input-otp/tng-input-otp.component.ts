@@ -1,5 +1,4 @@
-import type {
-  AfterViewInit, OnDestroy } from '@angular/core';
+import type { AfterViewInit, InputSignalWithTransform, OnDestroy } from '@angular/core';
 import {
   Component,
   computed,
@@ -13,7 +12,7 @@ import {
   signal,
 } from '@angular/core';
 import { booleanAttribute } from '@angular/core';
-import type { ControlValueAccessor} from '@angular/forms';
+import type { ControlValueAccessor } from '@angular/forms';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import {
   applyTngOtpCharacters,
@@ -30,6 +29,7 @@ import {
 
 export type TngInputOtpType = 'numeric' | 'alphanumeric' | 'custom';
 export type TngInputOtpInputMode = 'numeric' | 'text' | 'tel' | 'decimal';
+type TngInputOtpPatternInput = string | RegExp | readonly RegExp[] | null | undefined;
 
 export {
   applyTngOtpCharacters,
@@ -74,6 +74,19 @@ function clampOtpIndex(index: number, length: number): number {
   return Math.trunc(index);
 }
 
+function normalizeOtpPatternInput(value: TngInputOtpPatternInput): readonly RegExp[] {
+  if (value === undefined || value === null) return [];
+
+  if (typeof value === 'string') {
+    const normalized = value.trim();
+    return normalized.length > 0 ? [new RegExp(normalized)] : [];
+  }
+
+  if (value instanceof RegExp) return [value];
+
+  return value;
+}
+
 @Component({
   selector: 'tng-input-otp',
   imports: [TngInputOtpPrimitive],
@@ -112,7 +125,12 @@ export class TngInputOtpComponent implements AfterViewInit, ControlValueAccessor
   public readonly valueInput = input<string | null | undefined>(undefined, { alias: 'value' });
   public readonly defaultValue = input<string>('');
   public readonly type = input<TngInputOtpType>('numeric');
-  public readonly pattern = input<string | RegExp | null>(null);
+  public readonly pattern: InputSignalWithTransform<readonly RegExp[], TngInputOtpPatternInput> = input<
+    readonly RegExp[],
+    TngInputOtpPatternInput
+  >([], {
+    transform: normalizeOtpPatternInput,
+  });
 
   public readonly mask = input<boolean, boolean | string>(false, {
     transform: booleanAttribute,
@@ -355,7 +373,7 @@ export class TngInputOtpComponent implements AfterViewInit, ControlValueAccessor
       return;
     }
 
-    const chars = sanitizeTngOtpCharacters(target.value, this.type(), this.pattern());
+    const chars = sanitizeTngOtpCharacters(target.value, this.type(), this.currentPattern());
     if (chars.length === 0) {
       const nextValue = removeTngOtpCharacter(this.currentValue(), this.resolveEditableIndex(index));
       this.commitValue(nextValue, this.resolveEditableIndex(index));
@@ -384,7 +402,7 @@ export class TngInputOtpComponent implements AfterViewInit, ControlValueAccessor
     }
 
     const clipboardValue = event.clipboardData?.getData('text') ?? '';
-    const chars = sanitizeTngOtpCharacters(clipboardValue, this.type(), this.pattern());
+    const chars = sanitizeTngOtpCharacters(clipboardValue, this.type(), this.currentPattern());
     if (chars.length === 0) {
       event.preventDefault();
       return;
@@ -524,9 +542,13 @@ export class TngInputOtpComponent implements AfterViewInit, ControlValueAccessor
   }
 
   private normalizeAndClamp(value: string): string {
-    const chars = sanitizeTngOtpCharacters(value, this.type(), this.pattern());
+    const chars = sanitizeTngOtpCharacters(value, this.type(), this.currentPattern());
     const safeLength = this.length();
     return chars.slice(0, safeLength).join('');
+  }
+
+  private currentPattern(): RegExp | null {
+    return this.pattern()[0] ?? null;
   }
 
   private attachFormResetListener(): void {

@@ -7,7 +7,7 @@ import {
   output,
 } from '@angular/core';
 import { booleanAttribute } from '@angular/core';
-import type { ElementRef } from '@angular/core';
+import type { ElementRef, InputSignalWithTransform } from '@angular/core';
 import type { ControlValueAccessor } from '@angular/forms';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 
@@ -26,6 +26,7 @@ import {
 } from '../form-field/tng-form-field.component';
 
 type NullableBooleanInput = boolean | null | string | undefined;
+type PatternInput = string | RegExp | readonly RegExp[] | null | undefined;
 
 function normalizeAttr(value: unknown): string | null {
   if (value === undefined || value === null) return null;
@@ -50,6 +51,23 @@ function normalizeNumberAttr(value: number | string | null | undefined): string 
 
 function normalizeOptionalNumberInput(value: number | string | null | undefined): number | string | null {
   return value ?? null;
+}
+
+function normalizePatternInput(value: PatternInput): readonly RegExp[] {
+  if (value === undefined || value === null) return [];
+
+  if (typeof value === 'string') {
+    const normalized = value.trim();
+    return normalized.length > 0 ? [new RegExp(normalized)] : [];
+  }
+
+  if (value instanceof RegExp) return [value];
+
+  return value;
+}
+
+function formatPatternAttr(patterns: readonly RegExp[]): string | null {
+  return patterns[0]?.source ?? null;
 }
 
 function formatNullableBooleanAttr(value: boolean | null): 'false' | 'true' | null {
@@ -132,7 +150,12 @@ export class TngInputComponent implements ControlValueAccessor {
   public readonly inputmode = input<string | null>(null);
   public readonly list = input<string | null>(null);
   public readonly name = input<string | null>(null);
-  public readonly pattern = input<string | null>(null);
+  public readonly pattern: InputSignalWithTransform<readonly RegExp[], PatternInput> = input<
+    readonly RegExp[],
+    PatternInput
+  >([], {
+    transform: normalizePatternInput,
+  });
   public readonly placeholder = input<string | null>(null);
   public readonly readonly = input<boolean, boolean | string>(false, {
     transform: booleanAttribute,
@@ -404,6 +427,10 @@ export class TngInputComponent implements ControlValueAccessor {
 
   protected normalizeNumberAttrValue(value: number | string | null | undefined): string | null {
     return normalizeNumberAttr(value);
+  }
+
+  protected formatPatternAttrValue(value: readonly RegExp[]): string | null {
+    return formatPatternAttr(value);
   }
 
   protected formatNullableBooleanAttrValue(value: boolean | null): 'false' | 'true' | null {

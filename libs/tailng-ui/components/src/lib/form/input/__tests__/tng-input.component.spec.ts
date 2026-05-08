@@ -150,7 +150,7 @@ class NativeInputAttributeHostComponent {
   public list: string | null = 'email-suggestions';
   public maxlength: number | string | null | undefined = 64;
   public minlength: number | string | null = 3;
-  public pattern: string | null = '[^@]+@example\\.com';
+  public pattern: string | RegExp | readonly RegExp[] | null = '[^@]+@example\\.com';
   public spellcheck: boolean | null = false;
 }
 
@@ -621,6 +621,18 @@ describe('<tng-input> component', () => {
     expect(inputEl.getAttribute('minlength')).toBe('3');
     expect(inputEl.getAttribute('pattern')).toBe('[^@]+@example\\.com');
     expect(inputEl.getAttribute('spellcheck')).toBe('false');
+  });
+
+  it('accepts RegExp arrays for signal forms pattern metadata', async () => {
+    await TestBed.configureTestingModule({ imports: [NativeInputAttributeHostComponent] }).compileComponents();
+    const fixture = TestBed.createComponent(NativeInputAttributeHostComponent);
+
+    fixture.componentInstance.pattern = [/^[A-Z]+$/];
+    fixture.detectChanges();
+
+    const inputEl = fixture.debugElement.query(By.css('input')).nativeElement as HTMLInputElement;
+
+    expect(inputEl.getAttribute('pattern')).toBe('^[A-Z]+$');
   });
 
   it('removes optional native input attributes when bindings are null or empty', async () => {

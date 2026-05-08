@@ -1,7 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { FormField, form } from '@angular/forms/signals';
+import { FormField, form, pattern as patternValidator } from '@angular/forms/signals';
 import { describe, expect, it } from 'vitest';
 
 import {
@@ -41,6 +41,17 @@ class InputSignalFormsHostComponent {
 }
 
 @Component({
+  imports: [FormField, TngInputComponent],
+  template: `<tng-input data-testid="input" ariaLabel="Project code" [formField]="projectForm.code"></tng-input>`,
+})
+class InputPatternSignalFormsHostComponent {
+  readonly projectModel = signal({ code: 'ABC' });
+  readonly projectForm = form(this.projectModel, (project) => {
+    patternValidator(project.code, /^[A-Z]+$/);
+  });
+}
+
+@Component({
   imports: [FormField, TngCheckboxComponent],
   template: `
     <tng-checkbox data-testid="checkbox" [formField]="releaseForm.ready">
@@ -73,6 +84,17 @@ class ToggleSignalFormsHostComponent {
 class InputOtpSignalFormsHostComponent {
   readonly verificationModel = signal({ code: '12' });
   readonly verificationForm = form(this.verificationModel);
+}
+
+@Component({
+  imports: [FormField, TngInputOtpComponent],
+  template: `<tng-input-otp data-testid="otp" type="custom" [length]="4" [formField]="verificationForm.code"></tng-input-otp>`,
+})
+class InputOtpPatternSignalFormsHostComponent {
+  readonly verificationModel = signal({ code: 'AB' });
+  readonly verificationForm = form(this.verificationModel, (verification) => {
+    patternValidator(verification.code, /^[A-Z]+$/);
+  });
 }
 
 @Component({
@@ -202,6 +224,22 @@ describe('tailng-ui signal forms interop', () => {
     expect(host.projectModel().name).toBe('Signal-ready input');
   });
 
+  it('binds signal form pattern metadata to tng-input', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [InputPatternSignalFormsHostComponent],
+    }).createComponent(InputPatternSignalFormsHostComponent);
+
+    fixture.detectChanges();
+
+    const input = queryRequiredElement(
+      fixture,
+      '[data-testid="input"] input',
+      HTMLInputElement,
+    );
+
+    expect(input.getAttribute('pattern')).toBe('^[A-Z]+$');
+  });
+
   it('binds tng-checkbox through ControlValueAccessor interop', () => {
     const fixture = TestBed.configureTestingModule({
       imports: [CheckboxSignalFormsHostComponent],
@@ -280,6 +318,27 @@ describe('tailng-ui signal forms interop', () => {
     fixture.detectChanges();
 
     expect(host.verificationModel().code).toBe('48');
+  });
+
+  it('binds signal form pattern metadata to tng-input-otp', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [InputOtpPatternSignalFormsHostComponent],
+    }).createComponent(InputOtpPatternSignalFormsHostComponent);
+
+    fixture.detectChanges();
+
+    const host = fixture.componentInstance;
+    const firstSlot = queryRequiredElement(
+      fixture,
+      '[data-testid="otp"] [data-tng-otp-slot="0"]',
+      HTMLInputElement,
+    );
+
+    firstSlot.value = 'C';
+    firstSlot.dispatchEvent(new Event('input', { bubbles: true }));
+    fixture.detectChanges();
+
+    expect(host.verificationModel().code).toBe('CB');
   });
 
   it('binds tng-select through its host directive model signal', () => {

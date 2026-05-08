@@ -92,7 +92,7 @@ class UncontrolledOtpHostComponent {
   public readonly length = signal(6);
   public readonly defaultValue = signal('');
   public readonly type = signal<'numeric' | 'alphanumeric' | 'custom'>('numeric');
-  public readonly pattern = signal<string | RegExp | null>(null);
+  public readonly pattern = signal<string | RegExp | readonly RegExp[] | null>(null);
   public readonly readonly = signal(false);
   public readonly disabled = signal(false);
   public readonly required = signal(false);
