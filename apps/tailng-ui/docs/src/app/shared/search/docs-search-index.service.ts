@@ -27,7 +27,7 @@ export class DocsSearchIndexService {
       fuse: new Fuse(entries, {
         includeScore: false,
         ignoreLocation: true,
-        threshold: 0.35,
+        threshold: 0.4,
         keys: [
           { name: 'title', weight: 2 },
           { name: 'tags', weight: 1.5 },
