@@ -1,0 +1,24 @@
+<span
+  tngChip
+  class="tng-chip"
+  tabindex="0"
+  [tngChipValue]="value()"
+  [tngChipLabel]="resolvedLabel()"
+  [tngChipDisabled]="disabled()"
+  [tngChipRemovable]="removable()"
+  (chipRemove)="chipRemove.emit($event)"
+>
+  <span class="tng-chip-label">
+    <ng-content>{{ resolvedLabel() }}</ng-content>
+  </span>
+  @if (removable()) {
+    <button
+      tngChipRemove
+      class="tng-chip-remove"
+      type="button"
+      [tngChipRemoveAriaLabel]="removeAriaLabel()"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  }
+</span>

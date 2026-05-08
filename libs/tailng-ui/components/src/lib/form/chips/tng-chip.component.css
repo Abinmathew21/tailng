@@ -1,0 +1,73 @@
+:host {
+  display: inline-flex;
+}
+
+.tng-chip {
+  align-items: center;
+  background: var(--tng-semantic-background-muted);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 999rem;
+  color: var(--tng-semantic-foreground-primary);
+  display: inline-flex;
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 500;
+  gap: 0.375rem;
+  line-height: 1.25;
+  min-height: 2rem;
+  max-width: 100%;
+  padding: 0.25rem 0.35rem 0.25rem 0.75rem;
+}
+
+.tng-chip:focus-visible {
+  box-shadow: 0 0 0 3px var(--tng-semantic-focus-ring);
+  outline: none;
+}
+
+.tng-chip[data-disabled] {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.tng-chip-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tng-chip-remove {
+  align-items: center;
+  appearance: none;
+  background: transparent;
+  border: 0;
+  border-radius: 999rem;
+  color: var(--tng-semantic-foreground-secondary);
+  cursor: pointer;
+  display: inline-flex;
+  flex: 0 0 auto;
+  font: inherit;
+  height: 1.35rem;
+  justify-content: center;
+  line-height: 1;
+  padding: 0;
+  transition: background-color 140ms ease, color 140ms ease;
+  width: 1.35rem;
+}
+
+.tng-chip-remove:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--tng-semantic-foreground-primary) 10%, transparent);
+  color: var(--tng-semantic-foreground-primary);
+}
+
+.tng-chip-remove:focus-visible,
+.tng-chip-remove[data-focused] {
+  box-shadow: 0 0 0 2px var(--tng-semantic-focus-ring);
+  outline: none;
+}
+
+.tng-chip-remove:disabled,
+.tng-chip-remove[data-disabled] {
+  cursor: not-allowed;
+  opacity: 0.55;
+}

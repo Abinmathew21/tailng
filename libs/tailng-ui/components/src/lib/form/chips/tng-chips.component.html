@@ -6,5 +6,15 @@
   [tngChipsValues]="values()"
   [tngChipsDefaultValues]="defaultValues()"
 >
+  @for (item of displayItems(); track item) {
+    <tng-chip
+      [value]="item"
+      [label]="resolveItemLabel(item)"
+      [disabled]="disabled()"
+      (chipRemove)="onChipRemove($event)"
+    >
+      {{ resolveItemLabel(item) }}
+    </tng-chip>
+  }
   <ng-content />
 </section>

@@ -7,6 +7,7 @@ export * from './autocomplete/tng-autocomplete.component';
 export * from './button-toggle/tng-button-toggle.component';
 export * from './button-toggle/tng-button-toggle-group.component';
 export * from './checkbox/tng-checkbox.component';
+export * from './chips/tng-chip.component';
 export * from './chips/tng-chips.component';
 export * from './datepicker/tng-datepicker.component';
 export * from './form-field/tng-form-field.component';
