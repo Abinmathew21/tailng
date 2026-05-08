@@ -243,7 +243,7 @@ describe('tng-command-palette component', () => {
 
     expect(requirePanel(fixture)).toBeTruthy();
     expect(getInput(fixture).placeholder).toBe('Search devices...');
-    expect(fixture.nativeElement.textContent).toContain('⌕');
+    expect(fixture.nativeElement.querySelector('.tng-command-palette-search-icon svg')).toBeTruthy();
     expect(fixture.nativeElement.querySelector('.tng-command-palette-clear')).toBeTruthy();
     expect(fixture.nativeElement.textContent).toContain('Router');
     expect(fixture.nativeElement.textContent).toContain('Core network device');
