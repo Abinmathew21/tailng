@@ -46,9 +46,16 @@
 }
 
 .tng-command-palette-search-icon {
+  align-items: center;
   display: inline-flex;
-  font-size: 1.1rem;
+  justify-content: center;
   line-height: 1;
+}
+
+.tng-command-palette-search-icon svg {
+  display: block;
+  height: 1.5rem;
+  width: 1.5rem;
 }
 
 .tng-command-palette-clear {
