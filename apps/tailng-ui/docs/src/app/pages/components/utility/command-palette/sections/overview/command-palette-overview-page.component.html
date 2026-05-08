@@ -31,33 +31,97 @@
     ></tng-code-block>
   </section>
 
-  <section id="live-preview" class="command-palette-overview-block">
-    <h3>Live preview</h3>
-    <p>Open the palette, type a device name or status, then use arrow keys and Enter to select.</p>
+  <app-docs-example-tabs-section
+    id="live-preview"
+    class="command-palette-overview-block"
+    heading="Live preview"
+    description="Compare plain CSS and Tailwind implementations. Both demos are fully copy-pastable from the code tabs."
+    ariaLabel="Command palette live preview variants"
+    tabListAriaLabel="Command palette live preview tabs"
+    defaultValue="plain-css"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain CSS"
+      panelTitle="Command palette (Plain CSS)"
+      [codeTabs]="plainCssCodeTabs"
+    >
+      <div class="command-palette-overview-preview command-palette-overview-preview--plain">
+        <tng-button type="button" appearance="outline" tone="neutral" (click)="plainOpen.set(true)">
+          Open command palette
+        </tng-button>
 
-    <div class="command-palette-overview-preview">
-      <tng-button type="button" appearance="outline" tone="neutral" (click)="searchOpen.set(true)">
-        Open command palette
-      </tng-button>
+        @if (plainSelected(); as device) {
+          <p class="command-palette-overview-selected">
+            Selected: <strong>{{ device.label }}</strong> · {{ device.status }}
+          </p>
+        }
+      </div>
 
-      @if (selectedDevice(); as device) {
-        <p class="command-palette-overview-selected">
-          Selected: <strong>{{ device.label }}</strong> · {{ device.status }}
-        </p>
-      }
-    </div>
+      <tng-command-palette
+        class="command-palette-overview-overlay"
+        [open]="plainOpen()"
+        [query]="plainQuery()"
+        [options]="plainResults()"
+        placeholder="Search devices..."
+        (openChange)="plainOpen.set($event)"
+        (queryChange)="plainQuery.set($event)"
+        (optionSelect)="onPlainSelect($event)"
+      />
+    </ng-template>
 
-    <tng-command-palette
-      class="command-palette-overview-overlay"
-      [open]="searchOpen()"
-      [query]="searchQuery()"
-      [options]="searchResults()"
-      placeholder="Search devices..."
-      (openChange)="searchOpen.set($event)"
-      (queryChange)="searchQuery.set($event)"
-      (optionSelect)="onDeviceSelect($event)"
-    />
-  </section>
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Command palette (Tailwind CSS)"
+      [codeTabs]="tailwindCodeTabs"
+    >
+      <div
+        class="rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4"
+      >
+        <div class="flex flex-wrap items-center gap-3">
+          <tng-button type="button" appearance="solid" tone="primary" (click)="tailwindOpen.set(true)">
+            Open custom palette
+          </tng-button>
+          @if (tailwindSelected(); as device) {
+            <p class="text-sm text-[var(--tng-semantic-foreground-secondary)]">
+              Selected: <strong>{{ device.label }}</strong> · {{ device.status }}
+            </p>
+          }
+        </div>
+      </div>
+
+      <tng-command-palette
+        class="command-palette-overview-overlay"
+        [open]="tailwindOpen()"
+        [query]="tailwindQuery()"
+        [options]="tailwindResults()"
+        placeholder="Search devices..."
+        (openChange)="tailwindOpen.set($event)"
+        (queryChange)="tailwindQuery.set($event)"
+        (optionSelect)="onTailwindSelect($event)"
+      >
+        <ng-template #tngCommandPaletteOptionTpl let-item>
+          <span class="flex min-w-0 items-center justify-between gap-4">
+            <span class="min-w-0">
+              <strong class="block truncate">{{ item.label }}</strong>
+              <small class="block text-[var(--tng-semantic-foreground-secondary)]">
+                {{ item.description }}
+              </small>
+            </span>
+            <span
+              class="rounded-full border border-[var(--tng-semantic-border-subtle)] px-2 py-0.5 text-xs text-[var(--tng-semantic-foreground-secondary)]"
+            >
+              {{ item.status }}
+            </span>
+          </span>
+        </ng-template>
+      </tng-command-palette>
+    </ng-template>
+  </app-docs-example-tabs-section>
 
   <section id="composition-model" class="command-palette-overview-block">
     <h3>Composition model</h3>

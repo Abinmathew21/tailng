@@ -6,20 +6,20 @@
   </p>
 
   <app-docs-example-tabs-section
-    id="default-device-search"
+    id="style-variants"
     class="command-palette-examples-block"
-    heading="Default device search"
-    description="A controlled search palette with default option, empty, loading, prefix, suffix, and footer rendering."
-    ariaLabel="Default command palette example"
-    tabListAriaLabel="Default command palette code tabs"
-    defaultValue="preview"
+    heading="Style variants"
+    description="Use plain CSS or Tailwind for surrounding layout while keeping the same command palette behavior."
+    ariaLabel="Command palette style variants"
+    tabListAriaLabel="Command palette style tabs"
+    defaultValue="plain-css"
     [codeBlockTheme]="codeBlockTheme()"
   >
     <ng-template
       appDocsExampleVariant
-      value="preview"
-      label="Preview"
-      panelTitle="Default device search"
+      value="plain-css"
+      label="Plain CSS"
+      panelTitle="Default device search (Plain CSS)"
       [codeTabs]="defaultTabs"
     >
       <div class="command-palette-example-card">
@@ -44,6 +44,42 @@
         (optionSelect)="onDefaultSelect($event)"
       />
     </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Default device search (Tailwind CSS)"
+      [codeTabs]="tailwindTabs"
+    >
+      <div
+        class="rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4"
+      >
+        <div class="flex flex-wrap items-center gap-3">
+          <tng-button type="button" appearance="solid" tone="primary" (click)="tailwindOpen.set(true)">
+            Open palette
+          </tng-button>
+          @if (tailwindSelected(); as device) {
+            <p class="text-sm text-[var(--tng-semantic-foreground-secondary)]">
+              Selected {{ device.label }} · {{ device.status }}
+            </p>
+          }
+        </div>
+      </div>
+      <tng-command-palette
+        class="command-palette-example-overlay"
+        [open]="tailwindOpen()"
+        [query]="tailwindQuery()"
+        [options]="tailwindResults()"
+        placeholder="Search devices..."
+        [getOptionValue]="getDeviceValue"
+        [getOptionLabel]="getDeviceLabel"
+        [getOptionDescription]="getDeviceDescription"
+        (openChange)="tailwindOpen.set($event)"
+        (queryChange)="tailwindQuery.set($event)"
+        (optionSelect)="onTailwindSelect($event)"
+      />
+    </ng-template>
   </app-docs-example-tabs-section>
 
   <app-docs-example-tabs-section
@@ -53,14 +89,14 @@
     description="Replace the input adornment, option row, and footer while keeping the palette behavior."
     ariaLabel="Templated command palette example"
     tabListAriaLabel="Templated command palette code tabs"
-    defaultValue="preview"
+    defaultValue="plain-css"
     [codeBlockTheme]="codeBlockTheme()"
   >
     <ng-template
       appDocsExampleVariant
-      value="preview"
-      label="Preview"
-      panelTitle="Templated device search"
+      value="plain-css"
+      label="Plain CSS"
+      panelTitle="Templated device search (Plain CSS)"
       [codeTabs]="customTabs"
     >
       <div class="command-palette-example-card">
@@ -101,6 +137,80 @@
 
         <ng-template #tngCommandPaletteFooterTpl>
           <span class="command-palette-example-footer">Arrows move · Enter opens · Esc closes</span>
+        </ng-template>
+      </tng-command-palette>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Templated device search (Tailwind CSS)"
+      [codeTabs]="tailwindCustomTabs"
+    >
+      <div
+        class="rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4"
+      >
+        <div class="flex flex-wrap items-center gap-3">
+          <tng-button
+            type="button"
+            appearance="solid"
+            tone="primary"
+            (click)="tailwindCustomOpen.set(true)"
+          >
+            Open custom palette
+          </tng-button>
+
+          @if (tailwindCustomSelected(); as device) {
+            <p class="text-sm text-[var(--tng-semantic-foreground-secondary)]">
+              Selected <strong>{{ device.label }}</strong> · {{ device.status }}
+            </p>
+          }
+        </div>
+      </div>
+
+      <tng-command-palette
+        class="command-palette-example-overlay"
+        [open]="tailwindCustomOpen()"
+        [query]="tailwindCustomQuery()"
+        [options]="tailwindCustomResults()"
+        placeholder="Search devices..."
+        footerText="Arrows move · Enter opens · Esc closes"
+        [getOptionValue]="getDeviceValue"
+        [getOptionLabel]="getDeviceLabel"
+        [getOptionDescription]="getDeviceDescription"
+        (openChange)="tailwindCustomOpen.set($event)"
+        (queryChange)="tailwindCustomQuery.set($event)"
+        (optionSelect)="onTailwindCustomSelect($event)"
+      >
+        <ng-template #tngCommandPaletteInputPrefixTpl>
+          <span
+            class="rounded border border-[var(--tng-semantic-border-subtle)] px-1 py-0.5 text-[0.72rem] font-bold text-[var(--tng-semantic-foreground-secondary)]"
+          >
+            ⌘K
+          </span>
+        </ng-template>
+
+        <ng-template #tngCommandPaletteOptionTpl let-item>
+          <span class="flex min-w-0 items-center justify-between gap-4">
+            <span class="min-w-0">
+              <strong class="block truncate">{{ item.label }}</strong>
+              <small class="mt-0.25 block text-[var(--tng-semantic-foreground-secondary)]">
+                {{ item.description }}
+              </small>
+            </span>
+            <span
+              class="shrink-0 rounded-full border border-[var(--tng-semantic-border-subtle)] px-2 py-0.5 text-xs text-[var(--tng-semantic-foreground-secondary)]"
+            >
+              {{ item.status }}
+            </span>
+          </span>
+        </ng-template>
+
+        <ng-template #tngCommandPaletteFooterTpl>
+          <span class="text-[var(--tng-semantic-foreground-muted)]">
+            Arrows move · Enter opens · Esc closes
+          </span>
         </ng-template>
       </tng-command-palette>
     </ng-template>
