@@ -25,10 +25,16 @@ if (installationItem === undefined) {
   throw new Error('Missing "installation" in components getting-started docs group.');
 }
 
+const signalFormDemoItem = group.items.find((item) => item.slug === 'signal-form-demo');
+if (signalFormDemoItem === undefined) {
+  throw new Error('Missing "signal-form-demo" in components getting-started docs group.');
+}
+
 const landingPageSlugs = new Set([
   plainCssSetupItem.slug,
   tailwindSetupItem.slug,
   installationItem.slug,
+  signalFormDemoItem.slug,
 ]);
 
 export const COMPONENTS_GETTING_STARTED_ROUTES: Routes = [
@@ -42,6 +48,14 @@ export const COMPONENTS_GETTING_STARTED_ROUTES: Routes = [
     data: toComponentsDocsRouteData(group, installationItem),
     loadComponent: () =>
       import('./installation/installation-page.component').then((m) => m.InstallationPageComponent),
+  },
+  {
+    path: signalFormDemoItem.slug,
+    data: toComponentsDocsRouteData(group, signalFormDemoItem),
+    loadComponent: () =>
+      import('./signal-form-demo/signal-form-demo-page.component').then(
+        (module) => module.SignalFormDemoPageComponent,
+      ),
   },
   {
     path: plainCssSetupItem.slug,

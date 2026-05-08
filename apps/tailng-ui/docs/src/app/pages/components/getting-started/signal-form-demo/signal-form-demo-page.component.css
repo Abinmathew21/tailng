@@ -1,0 +1,121 @@
+:host {
+  display: block;
+}
+
+.signal-form-demo {
+  display: grid;
+  gap: 1.5rem;
+}
+
+@media (min-width: 1180px) {
+  .signal-form-demo {
+    grid-template-columns: minmax(0, 1fr) 360px;
+    align-items: start;
+  }
+}
+
+.demo-form,
+.demo-section,
+.demo-control,
+.demo-stack {
+  display: grid;
+  gap: 1rem;
+}
+
+.demo-section {
+  padding: 1rem;
+  border: 1px solid var(--tng-color-border, rgba(148, 163, 184, 0.3));
+  border-radius: 1rem;
+  background: color-mix(in srgb, var(--tng-color-surface, transparent) 88%, transparent);
+}
+
+.demo-section h2,
+.demo-preview h2 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 650;
+}
+
+.demo-section p {
+  margin: 0.25rem 0 0;
+  color: var(--tng-semantic-foreground-muted);
+  font-size: 0.875rem;
+}
+
+.demo-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+@media (min-width: 760px) {
+  .demo-grid.two-columns {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .demo-grid.three-columns {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .demo-grid.four-columns {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.full-width {
+  grid-column: 1 / -1;
+}
+
+.demo-choice-group {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0.875rem;
+  border: 1px solid var(--tng-color-border, rgba(148, 163, 184, 0.3));
+  border-radius: 0.75rem;
+}
+
+.demo-choice-group legend {
+  padding: 0 0.25rem;
+  font-size: 0.8125rem;
+  font-weight: 650;
+}
+
+.demo-label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.demo-label-row span {
+  color: var(--tng-semantic-foreground-muted);
+  font-size: 0.8125rem;
+}
+
+.demo-summary {
+  display: block;
+  padding: 0.75rem 0.875rem;
+  color: var(--tng-semantic-foreground-muted);
+  font-size: 0.875rem;
+}
+
+.demo-preview {
+  display: grid;
+  gap: 0.75rem;
+  padding: 1rem;
+  border: 1px solid var(--tng-color-border, rgba(148, 163, 184, 0.3));
+  border-radius: 1rem;
+  background: color-mix(in srgb, var(--tng-color-surface, #020617) 92%, transparent);
+}
+
+.demo-preview pre {
+  overflow: auto;
+  max-height: 720px;
+  margin: 0;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  background: rgba(15, 23, 42, 0.9);
+  color: #e2e8f0;
+  font-size: 0.75rem;
+  line-height: 1.55;
+}

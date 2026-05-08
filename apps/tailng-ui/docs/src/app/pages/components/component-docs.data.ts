@@ -46,6 +46,12 @@ export const COMPONENTS_GETTING_STARTED_GROUP: ComponentsDocsGroup = {
       description: 'Package-level install matrix for TailNG Components and peer layers.',
     },
     {
+      id: 'signal-form-demo',
+      slug: 'signal-form-demo',
+      title: 'Signal Form Demo',
+      description: 'Real-world Angular signal forms example using the TailNG form components.',
+    },
+    {
       id: 'plain-css-setup',
       slug: 'plain-css-setup',
       title: 'Plain CSS Setup',

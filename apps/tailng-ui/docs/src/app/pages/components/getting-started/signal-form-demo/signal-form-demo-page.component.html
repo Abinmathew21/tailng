@@ -1,0 +1,318 @@
+<tng-card variant="outline" padding="lg">
+  <tng-card-header>
+    <div class="grid gap-1 pb-2">
+      <h1 class="m-0 text-3xl font-semibold">Signal Form Demo</h1>
+      <p class="m-0 max-w-3xl text-sm text-tng-fg-secondary md:text-base">
+        A workspace access request form backed by Angular signal forms. The page combines the
+        TailNG form components in a single product-style workflow.
+      </p>
+    </div>
+    <div class="mb-1 text-xs font-semibold uppercase tracking-[0.08em] text-tng-fg-secondary">
+      {{ groupTitle() }}
+    </div>
+    <tng-card-title>{{ item().title }}</tng-card-title>
+    <tng-card-description>{{ item().description }}</tng-card-description>
+  </tng-card-header>
+
+  <tng-card-content>
+    <div class="signal-form-demo">
+      <form class="demo-form" aria-label="Workspace access request">
+        <section class="demo-section">
+          <div>
+            <h2>Requester Verification</h2>
+            <p>Start with identity, email validation, and an OTP confirmation code.</p>
+          </div>
+
+          <div class="demo-grid two-columns">
+            <div class="demo-control">
+              <tng-label forId="request-title" required>Request title</tng-label>
+              <tng-input
+                id="request-title"
+                placeholder="Production observability access"
+                ariaLabel="Request title"
+                [formField]="requestForm.requestTitle"
+              />
+            </div>
+
+            <div class="demo-control">
+              <tng-label forId="requester-email" required>Requester email</tng-label>
+              <tng-input
+                id="requester-email"
+                type="email"
+                placeholder="you@example.com"
+                ariaLabel="Requester email"
+                [formField]="requestForm.requesterEmail"
+              />
+            </div>
+
+            <div class="demo-control">
+              <tng-label required>Verification code</tng-label>
+              <tng-input-otp
+                ariaLabel="Verification code"
+                [length]="6"
+                [formField]="requestForm.verificationCode"
+              />
+            </div>
+
+            <div class="demo-control">
+              <tng-label forId="justification" required>Business justification</tng-label>
+              <tng-textarea
+                id="justification"
+                placeholder="Explain why this access is needed"
+                ariaLabel="Business justification"
+                [rows]="5"
+                [value]="requestModel().businessJustification"
+                (valueChange)="updateField('businessJustification', $event)"
+              />
+            </div>
+          </div>
+        </section>
+
+        <section class="demo-section">
+          <div>
+            <h2>Access Scope</h2>
+            <p>Select the owning team, approvers, applications, channels, and target environment.</p>
+          </div>
+
+          <div class="demo-grid two-columns">
+            <div class="demo-control">
+              <tng-label>Department</tng-label>
+              <tng-select
+                aria-label="Department"
+                placeholder="Choose department"
+                [options]="departmentOptions"
+                [getOptionLabel]="getOptionLabel"
+                [getOptionValue]="getOptionValue"
+                [formField]="requestForm.department"
+              />
+            </div>
+
+            <div class="demo-control">
+              <tng-label>Manager</tng-label>
+              <tng-autocomplete
+                ariaLabel="Manager"
+                placeholder="Search manager"
+                [options]="peopleOptions"
+                [getOptionLabel]="getOptionLabel"
+                [getOptionValue]="getOptionValue"
+                [formField]="requestForm.managerId"
+              />
+            </div>
+
+            <div class="demo-control">
+              <tng-label>Approvers</tng-label>
+              <tng-multi-autocomplete
+                ariaLabel="Approvers"
+                placeholder="Search approvers"
+                [options]="filteredReviewerOptions()"
+                [query]="reviewerQuery()"
+                (queryChange)="reviewerQuery.set($event)"
+                [getOptionLabel]="getOptionLabel"
+                [getOptionValue]="getOptionValue"
+                [resolveValueLabel]="resolvePersonLabel"
+                [formField]="requestForm.reviewers"
+              />
+            </div>
+
+            <div class="demo-control">
+              <tng-label>Requested apps</tng-label>
+              <tng-multiselect
+                aria-label="Requested apps"
+                placeholder="Choose apps"
+                [options]="appOptions"
+                [getOptionLabel]="getOptionLabel"
+                [getOptionValue]="getOptionValue"
+                [formField]="requestForm.requestedApps"
+              />
+            </div>
+
+            <div class="demo-control full-width">
+              <tng-label>Access channels</tng-label>
+              <tng-listbox
+                ariaLabel="Access channels"
+                [multiple]="true"
+                [options]="channelOptions"
+                [value]="requestModel().accessChannels"
+                [getOptionLabel]="getOptionLabel"
+                [getOptionValue]="getOptionValue"
+                [getOptionDescription]="getOptionDescription"
+                (valueChange)="updateAccessChannels($event)"
+              />
+            </div>
+          </div>
+
+          <div class="demo-grid three-columns">
+            <fieldset class="demo-choice-group">
+              <legend>Access type</legend>
+              <tng-radio
+                name="access-type"
+                value="temporary"
+                [checked]="requestModel().accessType === 'temporary'"
+                (checkedChange)="updateAccessType('temporary', $event)"
+              >
+                Temporary
+              </tng-radio>
+              <tng-radio
+                name="access-type"
+                value="permanent"
+                [checked]="requestModel().accessType === 'permanent'"
+                (checkedChange)="updateAccessType('permanent', $event)"
+              >
+                Permanent
+              </tng-radio>
+            </fieldset>
+
+            <div class="demo-control">
+              <tng-label>Environment</tng-label>
+              <tng-button-toggle-group
+                ariaLabel="Environment"
+                [value]="requestModel().environment"
+                (valueChange)="updateEnvironment($event)"
+              >
+                <tng-button-toggle value="development">Dev</tng-button-toggle>
+                <tng-button-toggle value="staging">Stage</tng-button-toggle>
+                <tng-button-toggle value="production">Prod</tng-button-toggle>
+              </tng-button-toggle-group>
+            </div>
+
+            <div class="demo-control">
+              <tng-label>Priority</tng-label>
+              <tng-toggle-group
+                ariaLabel="Priority"
+                selectionMode="single"
+                [value]="requestModel().priority"
+                (valueChange)="updatePriority($event)"
+              >
+                <tng-toggle value="low">Low</tng-toggle>
+                <tng-toggle value="medium">Medium</tng-toggle>
+                <tng-toggle value="high">High</tng-toggle>
+                <tng-toggle value="critical">Critical</tng-toggle>
+              </tng-toggle-group>
+            </div>
+          </div>
+        </section>
+
+        <section class="demo-section">
+          <div>
+            <h2>Schedule & Risk</h2>
+            <p>Use date-oriented controls and a slider to describe duration and risk posture.</p>
+          </div>
+
+          <div class="demo-grid four-columns">
+            <div class="demo-control">
+              <tng-label>Start date</tng-label>
+              <tng-datepicker
+                inputAriaLabel="Start date"
+                placeholder="MM-DD-YYYY"
+                [value]="requestModel().startDate"
+                (valueChange)="updateDateField('startDate', $event)"
+              />
+            </div>
+
+            <div class="demo-control">
+              <tng-label>End date</tng-label>
+              <tng-datepicker
+                inputAriaLabel="End date"
+                placeholder="MM-DD-YYYY"
+                [value]="requestModel().endDate"
+                (valueChange)="updateDateField('endDate', $event)"
+              />
+            </div>
+
+            <div class="demo-control">
+              <tng-label>Renewal day</tng-label>
+              <tng-month-daypicker
+                [value]="requestModel().renewalMonthDay"
+                (valueChange)="updateField('renewalMonthDay', $event)"
+              />
+            </div>
+
+            <div class="demo-control">
+              <tng-label>Budget year</tng-label>
+              <tng-yearpicker
+                [value]="requestModel().budgetYear"
+                [minYear]="2024"
+                [maxYear]="2030"
+                (valueChange)="updateField('budgetYear', $event)"
+              />
+            </div>
+
+            <div class="demo-control full-width">
+              <div class="demo-label-row">
+                <tng-label>Risk tolerance</tng-label>
+                <span>{{ riskLabel() }} · {{ requestModel().riskTolerance }}</span>
+              </div>
+              <tng-slider
+                [min]="0"
+                [max]="100"
+                [step]="5"
+                [value]="requestModel().riskTolerance"
+                (valueChange)="updateField('riskTolerance', $event)"
+              />
+            </div>
+          </div>
+        </section>
+
+        <section class="demo-section">
+          <div>
+            <h2>Policy & Metadata</h2>
+            <p>Finish with policy acknowledgements, notifications, and removable tags.</p>
+          </div>
+
+          <div class="demo-grid two-columns">
+            <div class="demo-stack">
+              <tng-toggle [formField]="requestForm.requiresPrivilegedAccess">
+                Requires privileged access
+              </tng-toggle>
+
+              <tng-switch
+                ariaLabel="Allow weekend access"
+                [checked]="requestModel().allowWeekendAccess"
+                (checkedChange)="updateField('allowWeekendAccess', $event)"
+              >
+                Allow weekend access
+              </tng-switch>
+
+              <tng-checkbox [formField]="requestForm.acknowledgePolicy">
+                I acknowledge the access policy
+              </tng-checkbox>
+
+              <tng-switch
+                ariaLabel="Notify on approval"
+                [checked]="requestModel().notifyOnApproval"
+                (checkedChange)="updateField('notifyOnApproval', $event)"
+              >
+                Notify requester on approval
+              </tng-switch>
+            </div>
+
+            <div class="demo-control">
+              <tng-label>Tags</tng-label>
+              <tng-chips
+                ariaLabel="Request tags"
+                [values]="requestModel().tags"
+                (valuesChange)="updateTags($event)"
+              >
+                @for (tag of requestModel().tags; track tag) {
+                  <span tngChip [tngChipValue]="tag" [tngChipLabel]="tag">
+                    <span>{{ tag }}</span>
+                    <button type="button" tngChipRemove [attr.aria-label]="'Remove ' + tag"></button>
+                  </span>
+                }
+              </tng-chips>
+            </div>
+          </div>
+
+          <tng-form-field appearance="solid" tone="primary">
+            <span class="demo-summary">Signal form model updates live as each component changes.</span>
+          </tng-form-field>
+        </section>
+      </form>
+
+      <aside class="demo-preview" aria-label="Signal form model preview">
+        <h2>Current model</h2>
+        <pre>{{ preview() }}</pre>
+      </aside>
+    </div>
+  </tng-card-content>
+</tng-card>

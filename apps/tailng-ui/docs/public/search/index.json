@@ -24,6 +24,18 @@
     ]
   },
   {
+    "title": "Signal Form Demo",
+    "description": "Real-world Angular signal forms example using the TailNG form components.",
+    "section": "Components / Getting Started",
+    "url": "/components/getting-started/signal-form-demo",
+    "tags": [
+      "components",
+      "getting-started",
+      "signal-form-demo",
+      "signal-form-demo"
+    ]
+  },
+  {
     "title": "Plain CSS Setup",
     "description": "Set up TailNG Components with semantic tokens using vanilla CSS.",
     "section": "Components / Getting Started",
