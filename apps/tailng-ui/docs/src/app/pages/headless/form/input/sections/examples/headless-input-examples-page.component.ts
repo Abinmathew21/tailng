@@ -2,7 +2,7 @@ import { DOCUMENT } from '@angular/common';
 import { Component, inject, signal, type OnDestroy } from '@angular/core';
 import { observeDocsCodeThemeChanges, resolveDocsCodeBlockTheme } from '../../../../../../shared/util';
 import { TngIcon } from '@tailng-ui/icons';
-import { TngInput, TngInputGroup, TngPrefix, TngSuffix } from '@tailng-ui/primitives';
+import { TngInput, TngInputGroup, TngInputFieldPrefix, TngInputFieldSuffix } from '@tailng-ui/primitives';
 import type { DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
 import {
   DocsExampleTabsSectionComponent,
@@ -50,8 +50,8 @@ function createCodeTabs({ baseName, tsCode, htmlCode, cssCode }: CreateCodeTabsA
     DocsExampleVariantDirective,
     TngInputGroup,
     TngInput,
-    TngPrefix,
-    TngSuffix,
+    TngInputFieldPrefix,
+    TngInputFieldSuffix,
     TngIcon,
   ],
   templateUrl: './headless-input-examples-page.component.html',
@@ -73,13 +73,13 @@ export class HeadlessInputExamplesPageComponent implements OnDestroy {
 
   protected readonly headlessSearchTsCode = [
     'import { Component } from "@angular/core";',
-    'import { TngInput, TngInputGroup, TngPrefix, TngSuffix } from "@tailng-ui/primitives";',
+    'import { TngInput, TngInputGroup, TngInputFieldPrefix, TngInputFieldSuffix } from "@tailng-ui/primitives";',
     'import { TngIcon } from "@tailng-ui/icons";',
     '',
     '@Component({',
     "  selector: 'app-search-input',",
     '  standalone: true,',
-    '  imports: [TngInputGroup, TngInput, TngPrefix, TngSuffix, TngIcon],',
+    '  imports: [TngInputGroup, TngInput, TngInputFieldPrefix, TngInputFieldSuffix, TngIcon],',
     "  templateUrl: './search-input.component.html',",
     "  styleUrl: './search-input.component.css',",
     '})',
@@ -89,12 +89,12 @@ export class HeadlessInputExamplesPageComponent implements OnDestroy {
 
   protected readonly headlessWorkspaceTsCode = [
     'import { Component } from "@angular/core";',
-    'import { TngInput, TngInputGroup, TngSuffix } from "@tailng-ui/primitives";',
+    'import { TngInput, TngInputGroup, TngInputFieldSuffix } from "@tailng-ui/primitives";',
     '',
     '@Component({',
     "  selector: 'app-workspace-slug-input',",
     '  standalone: true,',
-    '  imports: [TngInputGroup, TngInput, TngSuffix],',
+    '  imports: [TngInputGroup, TngInput, TngInputFieldSuffix],',
     "  templateUrl: './workspace-slug-input.component.html',",
     "  styleUrl: './workspace-slug-input.component.css',",
     '})',
@@ -105,7 +105,7 @@ export class HeadlessInputExamplesPageComponent implements OnDestroy {
   protected readonly workspaceHeadlessHtmlCode = [
     '<div tngInputGroup class="domain-shell">',
     '  <input tngInput type="text" value="core-platform" aria-label="Subdomain" />',
-    '  <span tngSuffix class="domain-suffix" aria-hidden="true">.tailng.dev</span>',
+    '  <span tngInputFieldSuffix class="domain-suffix" aria-hidden="true">.tailng.dev</span>',
     '</div>',
     '',
   ].join('\n');
@@ -211,7 +211,7 @@ export class HeadlessInputExamplesPageComponent implements OnDestroy {
     '  class="min-h-11 items-center gap-2 rounded-xl border border-slate-300 bg-white px-3 shadow-sm transition',
     '         [&[data-focused]]:border-blue-500 [&[data-focused]]:ring-2 [&[data-focused]]:ring-blue-200"',
     '>',
-    '  <span tngPrefix aria-hidden="true" class="text-slate-500">',
+    '  <span tngInputFieldPrefix aria-hidden="true" class="text-slate-500">',
     '    <tng-icon icon="search" class="h-4 w-4" />',
     '  </span>',
     '  <input',
@@ -220,7 +220,7 @@ export class HeadlessInputExamplesPageComponent implements OnDestroy {
     '    placeholder="Search components..."',
     '    class="min-w-0 flex-1 appearance-none border-0 bg-transparent p-0 text-[0.98rem] text-slate-900 placeholder:text-slate-400 outline-none"',
     '  />',
-    '  <span tngSuffix class="text-xs font-semibold text-slate-500">Ctrl+K</span>',
+    '  <span tngInputFieldSuffix class="text-xs font-semibold text-slate-500">Ctrl+K</span>',
     '</div>',
     '',
   ].join('\n');
@@ -238,7 +238,7 @@ export class HeadlessInputExamplesPageComponent implements OnDestroy {
     '    value="core-platform"',
     '    class="min-w-0 flex-1 appearance-none border-0 bg-transparent p-0 text-[0.98rem] text-slate-900 placeholder:text-slate-400 outline-none"',
     '  />',
-    '  <span tngSuffix class="text-xs font-semibold text-blue-700">.tailng.dev</span>',
+    '  <span tngInputFieldSuffix class="text-xs font-semibold text-blue-700">.tailng.dev</span>',
     '</div>',
     '',
   ].join('\n');
@@ -297,11 +297,11 @@ export class HeadlessInputExamplesPageComponent implements OnDestroy {
 
   protected readonly searchHeadlessHtmlCode = [
     '<div tngInputGroup class="input-example-headless-shell">',
-    '  <span tngPrefix aria-hidden="true">',
+    '  <span tngInputFieldPrefix aria-hidden="true">',
     '    <tng-icon icon="search" class="input-example-icon" />',
     '  </span>',
     '  <input tngInput type="search" placeholder="Search components..." />',
-    '  <span tngSuffix class="input-example-meta">Ctrl+K</span>',
+    '  <span tngInputFieldSuffix class="input-example-meta">Ctrl+K</span>',
     '</div>',
     '',
   ].join('\n');

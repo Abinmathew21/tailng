@@ -9,7 +9,7 @@ import {
   TngBreadcrumbComponent,
   TngBreadcrumbItemComponent,
   TngDrawerComponent,
-  TngFormFieldComponent,
+  TngInputFieldComponent,
 } from '@tailng-ui/components';
 import { TngIcon } from '@tailng-ui/icons';
 import {
@@ -18,7 +18,7 @@ import {
   TngInput,
   TngListboxDirective,
   TngOptionDirective,
-  TngPrefix,
+  TngInputFieldPrefix,
 } from '@tailng-ui/primitives';
 import { filter, map, startWith } from 'rxjs/operators';
 import { DocsComponentSectionOutlineComponent } from '../../../shared/section-outline/docs-component-section-outline.component';
@@ -42,9 +42,9 @@ import {
     TngDrawerContainer,
     TngDrawerContent,
     TngDrawerComponent,
-    TngFormFieldComponent,
+    TngInputFieldComponent,
     TngInput,
-    TngPrefix,
+    TngInputFieldPrefix,
     TngListboxDirective,
     TngOptionDirective,
     TngIcon,

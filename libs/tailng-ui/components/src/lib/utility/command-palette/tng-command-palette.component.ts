@@ -21,12 +21,12 @@ import {
   TngInput,
   TngListboxDirective,
   TngOptionDirective,
-  TngPrefix,
-  TngSuffix,
+  TngInputFieldPrefix,
+  TngInputFieldSuffix,
   type ListboxValue,
 } from '@tailng-ui/primitives';
 
-import { TngFormFieldComponent } from '../../form/form-field/tng-form-field.component';
+import { TngInputFieldComponent } from '../../form/input-field/tng-input-field.component';
 
 export type TngCommandPaletteGetValue<O, V> = (option: O) => V;
 export type TngCommandPaletteGetLabel<O> = (option: O) => string;
@@ -136,12 +136,12 @@ function normalizeListboxValue<TValue>(value: ListboxValue<TValue>): TValue | nu
     TngDialog,
     TngDialogBackdrop,
     TngDialogPanel,
-    TngFormFieldComponent,
+    TngInputFieldComponent,
     TngInput,
     TngListboxDirective,
     TngOptionDirective,
-    TngPrefix,
-    TngSuffix,
+    TngInputFieldPrefix,
+    TngInputFieldSuffix,
   ],
   templateUrl: './tng-command-palette.component.html',
   styleUrl: './tng-command-palette.component.css',

@@ -2,24 +2,24 @@ import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { describe, expect, it } from 'vitest';
 
-import { TngPrefix } from '../tng-adornment';
-import { TngSuffix } from '../tng-adornment';
+import { TngInputFieldPrefix } from '../tng-adornment';
+import { TngInputFieldSuffix } from '../tng-adornment';
 import { TngInput } from '../tng-input';
 import { TngInputGroup } from '../tng-input-group';
 
 @Component({
-  imports: [TngInputGroup, TngInput, TngPrefix, TngSuffix],
+  imports: [TngInputGroup, TngInput, TngInputFieldPrefix, TngInputFieldSuffix],
   template: `
     @if (show) {
       <tng-input-group>
         @if (leading) {
-          <span tngPrefix>Leading</span>
+          <span tngInputFieldPrefix>Leading</span>
         }
 
         <input tngInput [disabled]="disabled" />
 
         @if (trailing) {
-          <span tngSuffix>Trailing</span>
+          <span tngInputFieldSuffix>Trailing</span>
         }
       </tng-input-group>
     }

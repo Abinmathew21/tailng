@@ -14,16 +14,16 @@ import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import {
   coerceTngInputNullableBoolean,
   TngInput,
-  TngSuffix,
+  TngInputFieldSuffix,
   type TngInputType,
 } from '@tailng-ui/primitives';
 
 import {
-  TngFormFieldComponent,
-  type TngFormFieldAppearance,
-  type TngFormFieldSize,
-  type TngFormFieldTone,
-} from '../form-field/tng-form-field.component';
+  TngInputFieldComponent,
+  type TngInputFieldAppearance,
+  type TngInputFieldSize,
+  type TngInputFieldTone,
+} from '../input-field/tng-input-field.component';
 
 type NullableBooleanInput = boolean | null | string | undefined;
 type PatternInput = string | RegExp | readonly RegExp[] | null | undefined;
@@ -107,7 +107,7 @@ function createInputEvent(inputElement: HTMLInputElement): Event {
 @Component({
   selector: 'tng-input',
   standalone: true,
-  imports: [TngFormFieldComponent, TngInput, TngSuffix],
+  imports: [TngInputFieldComponent, TngInput, TngInputFieldSuffix],
   templateUrl: './tng-input.component.html',
   styleUrl: './tng-input.component.css',
   providers: [
@@ -119,10 +119,10 @@ function createInputEvent(inputElement: HTMLInputElement): Event {
   ],
 })
 export class TngInputComponent implements ControlValueAccessor {
-  // ---- Wrapper (form-field) appearance knobs ----
-  public readonly appearance = input<TngFormFieldAppearance>('outline');
-  public readonly size = input<TngFormFieldSize>('md');
-  public readonly tone = input<TngFormFieldTone>('neutral');
+  // ---- Wrapper (input-field) appearance knobs ----
+  public readonly appearance = input<TngInputFieldAppearance>('outline');
+  public readonly size = input<TngInputFieldSize>('md');
+  public readonly tone = input<TngInputFieldTone>('neutral');
   public readonly fullWidth = input<boolean, boolean | string>(true, {
     transform: booleanAttribute,
   });
@@ -214,17 +214,17 @@ export class TngInputComponent implements ControlValueAccessor {
   protected readonly dataSlot = 'input-component' as const;
 
   @HostBinding('attr.data-appearance')
-  protected get dataAppearance(): TngFormFieldAppearance {
+  protected get dataAppearance(): TngInputFieldAppearance {
     return this.appearance();
   }
 
   @HostBinding('attr.data-size')
-  protected get dataSize(): TngFormFieldSize {
+  protected get dataSize(): TngInputFieldSize {
     return this.size();
   }
 
   @HostBinding('attr.data-tone')
-  protected get dataTone(): TngFormFieldTone {
+  protected get dataTone(): TngInputFieldTone {
     return this.tone();
   }
 

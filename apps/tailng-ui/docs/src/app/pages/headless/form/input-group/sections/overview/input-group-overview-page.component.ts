@@ -2,7 +2,7 @@ import { DOCUMENT } from '@angular/common';
 import { Component, inject, signal, type OnDestroy } from '@angular/core';
 import { TngCodeBlockComponent } from '@tailng-ui/components';
 import { TngIcon } from '@tailng-ui/icons';
-import { TngInput, TngInputGroup, TngPrefix, TngSuffix } from '@tailng-ui/primitives';
+import { TngInput, TngInputGroup, TngInputFieldPrefix, TngInputFieldSuffix } from '@tailng-ui/primitives';
 import type { DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
 import {
   DocsExampleTabsSectionComponent,
@@ -43,12 +43,12 @@ function createStandaloneExampleTsCode(selector: string, className: string): str
   return [
     "import { Component } from '@angular/core';",
     "import { TngIcon } from '@tailng-ui/icons';",
-    "import { TngInput, TngInputGroup, TngPrefix, TngSuffix } from '@tailng-ui/primitives';",
+    "import { TngInput, TngInputGroup, TngInputFieldPrefix, TngInputFieldSuffix } from '@tailng-ui/primitives';",
     '',
     '@Component({',
     `  selector: '${selector}',`,
     '  standalone: true,',
-    '  imports: [TngIcon, TngInput, TngInputGroup, TngPrefix, TngSuffix],',
+    '  imports: [TngIcon, TngInput, TngInputGroup, TngInputFieldPrefix, TngInputFieldSuffix],',
     `  templateUrl: './${selector}.component.html',`,
     `  styleUrl: './${selector}.component.css',`,
     '})',
@@ -66,8 +66,8 @@ function createStandaloneExampleTsCode(selector: string, className: string): str
     TngIcon,
     TngInput,
     TngInputGroup,
-    TngPrefix,
-    TngSuffix,
+    TngInputFieldPrefix,
+    TngInputFieldSuffix,
   ],
   templateUrl: './input-group-overview-page.component.html',
   styleUrls: [
@@ -90,7 +90,7 @@ export class HeadlessInputGroupOverviewPageComponent implements OnDestroy {
   protected readonly stackblitzTailwindUrl = stackblitzTailwindUrl;
 
   protected readonly importsCode = [
-    "import { TngInput, TngInputGroup, TngPrefix, TngSuffix } from '@tailng-ui/primitives';",
+    "import { TngInput, TngInputGroup, TngInputFieldPrefix, TngInputFieldSuffix } from '@tailng-ui/primitives';",
     "import { TngIcon } from '@tailng-ui/icons';",
     '',
   ].join('\n');
@@ -104,11 +104,11 @@ export class HeadlessInputGroupOverviewPageComponent implements OnDestroy {
 
   protected readonly groupedCompositionCode = [
     '<tng-input-group>',
-    '  <span tngPrefix aria-hidden="true">',
+    '  <span tngInputFieldPrefix aria-hidden="true">',
     '    <tng-icon icon="search"></tng-icon>',
     '  </span>',
     '  <input tngInput type="search" placeholder="Search docs..." />',
-    '  <span tngSuffix aria-hidden="true">Ctrl+K</span>',
+    '  <span tngInputFieldSuffix aria-hidden="true">Ctrl+K</span>',
     '</tng-input-group>',
     '',
   ].join('\n');
@@ -131,11 +131,11 @@ export class HeadlessInputGroupOverviewPageComponent implements OnDestroy {
   protected readonly accessibilityCode = [
     '<label for="docs-search">Search docs</label>',
     '<tng-input-group>',
-    '  <span tngPrefix aria-hidden="true">',
+    '  <span tngInputFieldPrefix aria-hidden="true">',
     '    <tng-icon icon="search"></tng-icon>',
     '  </span>',
     '  <input id="docs-search" tngInput type="search" />',
-    '  <button tngSuffix type="button" aria-label="Clear search">Clear</button>',
+    '  <button tngInputFieldSuffix type="button" aria-label="Clear search">Clear</button>',
     '</tng-input-group>',
     '',
   ].join('\n');
@@ -150,7 +150,7 @@ export class HeadlessInputGroupOverviewPageComponent implements OnDestroy {
       '<label class="docs-headless-input-group-overview-plain-card">',
       '  <span class="docs-headless-input-group-overview-plain-label">Search docs</span>',
       '  <tng-input-group class="docs-headless-input-group-overview-plain-shell">',
-      '    <span tngPrefix aria-hidden="true" class="docs-headless-input-group-overview-plain-prefix">',
+      '    <span tngInputFieldPrefix aria-hidden="true" class="docs-headless-input-group-overview-plain-prefix">',
       '      <tng-icon icon="search" class="docs-headless-input-group-overview-plain-icon"></tng-icon>',
       '    </span>',
       '    <input',
@@ -159,7 +159,7 @@ export class HeadlessInputGroupOverviewPageComponent implements OnDestroy {
       '      placeholder="Search components..."',
       '      class="docs-headless-input-group-overview-plain-control"',
       '    />',
-      '    <span tngSuffix class="docs-headless-input-group-overview-plain-meta">Ctrl+K</span>',
+      '    <span tngInputFieldSuffix class="docs-headless-input-group-overview-plain-meta">Ctrl+K</span>',
       '  </tng-input-group>',
       '</label>',
       '',
@@ -252,7 +252,7 @@ export class HeadlessInputGroupOverviewPageComponent implements OnDestroy {
       '  <tng-input-group',
       '    class="min-h-[2.85rem] w-full items-center gap-[0.65rem] rounded-[0.9rem] border border-slate-300 bg-white px-4 text-slate-900 transition [&[data-focused]]:border-blue-500 [&[data-focused]]:ring-4 [&[data-focused]]:ring-blue-100"',
       '  >',
-      '    <span tngPrefix aria-hidden="true" class="text-slate-500">',
+      '    <span tngInputFieldPrefix aria-hidden="true" class="text-slate-500">',
       '      <tng-icon icon="search" class="h-4 w-4"></tng-icon>',
       '    </span>',
       '    <input',
@@ -261,7 +261,7 @@ export class HeadlessInputGroupOverviewPageComponent implements OnDestroy {
       '      placeholder="Search components..."',
       '      class="min-w-0 flex-1 border-0 bg-transparent p-0 text-[0.96rem] leading-[1.45] text-slate-900 outline-none placeholder:text-slate-400"',
       '    />',
-      '    <span tngSuffix class="whitespace-nowrap text-xs font-semibold text-slate-500">Ctrl+K</span>',
+      '    <span tngInputFieldSuffix class="whitespace-nowrap text-xs font-semibold text-slate-500">Ctrl+K</span>',
       '  </tng-input-group>',
       '</label>',
       '',

@@ -11,6 +11,10 @@ const inputItem = group.items.find((item) => item.slug === 'input');
 if (inputItem === undefined) {
   throw new Error('Missing "input" in components form docs group.');
 }
+const inputFieldItem = group.items.find((item) => item.slug === 'input-field');
+if (inputFieldItem === undefined) {
+  throw new Error('Missing "input-field" in components form docs group.');
+}
 const formFieldItem = group.items.find((item) => item.slug === 'form-field');
 if (formFieldItem === undefined) {
   throw new Error('Missing "form-field" in components form docs group.');
@@ -78,6 +82,7 @@ if (switchItem === undefined) {
 
 const landingSlugs = new Set([
   inputItem.slug,
+  inputFieldItem.slug,
   formFieldItem.slug,
   datepickerItem.slug,
   textareaItem.slug,
@@ -106,6 +111,11 @@ export const COMPONENTS_FORM_ROUTES: Routes = [
     path: inputItem.slug,
     loadChildren: () =>
       import('./input/routes').then((module) => module.COMPONENTS_FORM_INPUT_ROUTES),
+  },
+  {
+    path: inputFieldItem.slug,
+    loadChildren: () =>
+      import('./input-field/routes').then((module) => module.COMPONENTS_FORM_INPUT_FIELD_ROUTES),
   },
   {
     path: formFieldItem.slug,

@@ -1,8 +1,15 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, inject, signal, type OnDestroy } from '@angular/core';
-import { TngCodeBlockComponent, TngFormFieldComponent } from '@tailng-ui/components';
-import { TngIcon } from '@tailng-ui/icons';
-import { TngInput, TngPrefix, TngSuffix } from '@tailng-ui/primitives';
+import {
+  TngCodeBlockComponent,
+  TngError,
+  TngFormFieldComponent,
+  TngHint,
+  TngInputComponent,
+  TngInputFieldComponent,
+  TngLabelComponent,
+} from '@tailng-ui/components';
+import { TngInput, TngInputFieldPrefix, TngInputFieldSuffix } from '@tailng-ui/primitives';
 import type { DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
 import {
   DocsExampleTabsSectionComponent,
@@ -12,19 +19,21 @@ import {
   observeDocsCodeThemeChanges,
   resolveDocsCodeBlockTheme,
 } from '../../../../../../shared/util';
-import { stackblitzTailwindUrl, stackblitzVanillaUrl } from '../../form-field.util';
 
-function createOverviewTsCode(selector: string, className: string): string {
+function createStandaloneExampleTsCode(
+  selector: string,
+  className: string,
+  importLines: readonly string[],
+  imports: readonly string[],
+): string {
   return [
     "import { Component } from '@angular/core';",
-    "import { TngFormFieldComponent } from '@tailng-ui/components';",
-    "import { TngIcon } from '@tailng-ui/icons';",
-    "import { TngInput, TngPrefix, TngSuffix } from '@tailng-ui/primitives';",
+    ...importLines,
     '',
     '@Component({',
     "  selector: '" + selector + "',",
     '  standalone: true,',
-    '  imports: [TngFormFieldComponent, TngIcon, TngInput, TngPrefix, TngSuffix],',
+    '  imports: [' + imports.join(', ') + '],',
     "  templateUrl: './" + selector + ".component.html',",
     "  styleUrl: './" + selector + ".component.css',",
     '})',
@@ -58,28 +67,34 @@ function createCodeTabs(
   ]);
 }
 
+const inputGroupImportLines = [
+  "import { TngFormFieldComponent, TngHint, TngInputFieldComponent, TngLabelComponent } from '@tailng-ui/components';",
+  "import { TngInput, TngInputFieldPrefix, TngInputFieldSuffix } from '@tailng-ui/primitives';",
+] as const;
+
 @Component({
   selector: 'app-form-field-overview-page',
   imports: [
-    TngCodeBlockComponent,
     DocsExampleTabsSectionComponent,
     DocsExampleVariantDirective,
+    TngCodeBlockComponent,
     TngFormFieldComponent,
+    TngHint,
+    TngError,
+    TngInputComponent,
+    TngInputFieldComponent,
+    TngLabelComponent,
     TngInput,
-    TngPrefix,
-    TngSuffix,
-    TngIcon,
+    TngInputFieldPrefix,
+    TngInputFieldSuffix,
   ],
   templateUrl: './form-field-overview-page.component.html',
-  styleUrls: [
-    '../../../../../../shared/form/input/input-styles.css',
-    './form-field-overview-page.component.css',
-  ],
+  styleUrl: './form-field-overview-page.component.css',
 })
 export class FormFieldOverviewPageComponent implements OnDestroy {
   private readonly documentRef = inject(DOCUMENT);
 
-  readonly codeBlockTheme = signal<'github-dark' | 'github-light'>(
+  public readonly codeBlockTheme = signal<'github-dark' | 'github-light'>(
     resolveDocsCodeBlockTheme(this.documentRef),
   );
   private readonly colorSchemeObserver = observeDocsCodeThemeChanges(
@@ -87,197 +102,106 @@ export class FormFieldOverviewPageComponent implements OnDestroy {
     this.codeBlockTheme,
   );
 
-  protected readonly stackblitzVanillaUrl = stackblitzVanillaUrl;
-  protected readonly stackblitzTailwindUrl = stackblitzTailwindUrl;
-
-  protected readonly importsCode = [
-    "import { TngFormFieldComponent } from '@tailng-ui/components';",
-    "import { TngIcon } from '@tailng-ui/icons';",
-    "import { TngInput, TngPrefix, TngSuffix } from '@tailng-ui/primitives';",
-    '',
-  ].join('\n');
-
-  protected readonly basicCompositionCode = [
+  protected readonly basicCode = [
     '<tng-form-field>',
-    '  <input tngInput type="text" placeholder="Search docs" />',
+    '  <tng-label forId="email">Email</tng-label>',
+    '  <tng-input id="email" type="email" placeholder="team@tailng.dev" required />',
+    '  <p tngHint>Use your work email.</p>',
+    '  <p tngError>Email is required.</p>',
     '</tng-form-field>',
     '',
   ].join('\n');
 
-  protected readonly searchCompositionCode = [
-    '<tng-form-field>',
-    '  <span tngPrefix aria-hidden="true">',
-    '    <tng-icon icon="search"></tng-icon>',
-    '  </span>',
-    '  <input tngInput type="search" placeholder="Search components..." />',
-    '  <span tngSuffix aria-hidden="true">Ctrl+K</span>',
-    '</tng-form-field>',
-    '',
-  ].join('\n');
-
-  protected readonly relationshipCode = [
-    '<tng-input type="text" placeholder="Display name" ariaLabel="Display name"></tng-input>',
-    '',
-    '<!-- Reach for tng-form-field when the shell needs projected content -->',
-    '<tng-form-field>',
-    '  <span tngPrefix aria-hidden="true">',
-    '    <tng-icon icon="search"></tng-icon>',
-    '  </span>',
-    '  <input tngInput type="search" placeholder="Search components..." />',
-    '  <span tngSuffix aria-hidden="true">Ctrl+K</span>',
-    '</tng-form-field>',
-    '',
-  ].join('\n');
-
-  protected readonly accessibilityCode = [
-    '<label for="docs-search">Search docs</label>',
-    '<tng-form-field>',
-    '  <span tngPrefix aria-hidden="true">',
-    '    <tng-icon icon="search"></tng-icon>',
-    '  </span>',
-    '  <input id="docs-search" tngInput type="search" />',
-    '  <button tngSuffix type="button" aria-label="Clear search">Clear</button>',
-    '</tng-form-field>',
-    '',
-  ].join('\n');
-
-  private readonly tailwindHostClassValue = [
-    'block',
+  protected readonly inputGroupTailwindFieldClass = [
+    'grid',
     'w-full',
-    '[--tng-input-bg:var(--tng-semantic-background-surface)]',
-    '[--tng-input-border:var(--tng-semantic-border-subtle)]',
-    '[--tng-input-radius:0.9rem]',
-    '[--tng-input-min-height:2.85rem]',
-    '[--tng-input-px:0.95rem]',
-    '[--tng-input-gap:0.65rem]',
-    '[--tng-input-fg:var(--tng-semantic-foreground-primary)]',
-    '[--tng-input-focus-ring:color-mix(in_srgb,var(--tng-semantic-focus-ring)_24%,transparent)]',
-    '[--tng-input-font-size:0.96rem]',
-    '[--tng-input-line-height:1.45]',
-    '[--tng-input-placeholder:var(--tng-semantic-foreground-muted)]',
+    'gap-2',
+    '[--tng-form-field-label-fg:var(--tng-semantic-foreground-primary)]',
+    '[--tng-form-field-message-fg:var(--tng-semantic-foreground-secondary)]',
   ].join(' ');
 
-  protected readonly tailwindHostClass = this.tailwindHostClassValue;
-
-  private readonly plainExampleTsCode = createOverviewTsCode(
-    'app-doc-cmp-form-field-ov-plain-search',
-    'DocCmpFormFieldOvPlainSearchComponent',
-  );
-
-  private readonly plainExampleHtmlCode = [
-    '<label class="doc-cmp-form-field-ov-plain-card">',
-    '  <span class="doc-cmp-form-field-ov-plain-label">Search docs</span>',
-    '  <div class="doc-cmp-form-field-ov-plain-shell">',
-    '    <tng-form-field>',
-    '      <span tngPrefix aria-hidden="true" class="doc-cmp-form-field-ov-plain-prefix">',
-    '        <tng-icon icon="search" class="doc-cmp-form-field-ov-plain-icon"></tng-icon>',
-    '      </span>',
-    '      <input tngInput type="search" placeholder="Search components..." />',
-    '      <span tngSuffix class="doc-cmp-form-field-ov-plain-meta">Ctrl+K</span>',
-    '    </tng-form-field>',
-    '  </div>',
-    '</label>',
-    '',
-  ].join('\n');
-
-  private readonly plainExampleCssCode = [
-    '.doc-cmp-form-field-ov-plain-card {',
-    '  display: grid;',
-    '  gap: 0.65rem;',
-    '  width: min(100%, 34rem);',
-    '  margin-inline: auto;',
-    '  padding: 1.15rem;',
-    '  border: 1px solid var(--tng-semantic-border-subtle);',
-    '  border-radius: 1.25rem;',
-    '  background: var(--tng-semantic-background-surface);',
-    '  color: var(--tng-semantic-foreground-primary);',
-    '  box-shadow: 0 12px 32px color-mix(in srgb, var(--tng-semantic-foreground-primary) 8%, transparent);',
-    '}',
-    '',
-    '.doc-cmp-form-field-ov-plain-label {',
-    '  color: var(--tng-semantic-foreground-secondary);',
-    '  font-size: 0.8rem;',
-    '  font-weight: 700;',
-    '  letter-spacing: 0.02em;',
-    '}',
-    '',
-    '.doc-cmp-form-field-ov-plain-shell {',
-    '  width: 100%;',
-    '  --tng-input-bg: var(--tng-semantic-background-surface);',
-    '  --tng-input-border: var(--tng-semantic-border-subtle);',
-    '  --tng-input-radius: 0.9rem;',
-    '  --tng-input-min-height: 2.85rem;',
-    '  --tng-input-px: 0.95rem;',
-    '  --tng-input-gap: 0.65rem;',
-    '  --tng-input-fg: var(--tng-semantic-foreground-primary);',
-    '  --tng-input-focus-ring: color-mix(in srgb, var(--tng-semantic-focus-ring) 24%, transparent);',
-    '  --tng-input-font-size: 0.96rem;',
-    '  --tng-input-line-height: 1.45;',
-    '  --tng-input-placeholder: var(--tng-semantic-foreground-muted);',
-    '}',
-    '',
-    '.doc-cmp-form-field-ov-plain-shell tng-form-field {',
-    '  display: block;',
-    '  width: 100%;',
-    '}',
-    '',
-    '.doc-cmp-form-field-ov-plain-prefix,',
-    '.doc-cmp-form-field-ov-plain-meta {',
-    '  color: var(--tng-semantic-foreground-secondary);',
-    '}',
-    '',
-    '.doc-cmp-form-field-ov-plain-icon {',
-    '  width: 1rem;',
-    '  height: 1rem;',
-    '}',
-    '',
-    '.doc-cmp-form-field-ov-plain-meta {',
-    '  font-size: 0.8rem;',
-    '  font-weight: 600;',
-    '  white-space: nowrap;',
-    '}',
-    '',
-  ].join('\n');
-
-  private readonly tailwindExampleTsCode = createOverviewTsCode(
-    'app-doc-cmp-form-field-ov-tailwind-search',
-    'DocCmpFormFieldOvTailwindSearchComponent',
-  );
-
-  private readonly tailwindExampleHtmlCode = [
-    '<label class="mx-auto grid w-full max-w-[34rem] gap-2 rounded-[1.5rem] border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-surface)] p-5 text-[var(--tng-semantic-foreground-primary)] shadow-[0_12px_32px_color-mix(in_srgb,var(--tng-semantic-foreground-primary)_8%,transparent)]">',
-    '  <span class="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--tng-semantic-foreground-secondary)]">Search docs</span>',
-    '  <div class="' + this.tailwindHostClassValue + '">',
-    '    <tng-form-field>',
-    '      <span tngPrefix aria-hidden="true" class="text-[var(--tng-semantic-foreground-secondary)]">',
-    '        <tng-icon icon="search" class="h-4 w-4"></tng-icon>',
-    '      </span>',
-    '      <input tngInput type="search" placeholder="Search components..." />',
-    '      <span tngSuffix class="text-xs font-semibold text-[var(--tng-semantic-foreground-secondary)]">Ctrl+K</span>',
-    '    </tng-form-field>',
-    '  </div>',
-    '</label>',
-    '',
-  ].join('\n');
-
-  private readonly tailwindExampleCssCode =
+  private readonly tailwindCssCode =
     '/* Tailwind utilities and host token overrides are applied directly in the template. */';
 
-  protected readonly plainCssExampleCodeTabs = createCodeTabs(
-    'doc-cmp-form-field-overview-plain',
-    this.plainExampleTsCode,
-    this.plainExampleHtmlCode,
-    this.plainExampleCssCode,
+  protected readonly inputGroupPlainCodeTabs = createCodeTabs(
+    'doc-cmp-form-field-overview-input-group-plain',
+    createStandaloneExampleTsCode(
+      'app-doc-cmp-form-field-ov-input-group-plain',
+      'DocCmpFormFieldOvInputGroupPlainComponent',
+      inputGroupImportLines,
+      [
+        'TngFormFieldComponent',
+        'TngHint',
+        'TngInputFieldComponent',
+        'TngLabelComponent',
+        'TngInput',
+        'TngInputFieldPrefix',
+        'TngInputFieldSuffix',
+      ],
+    ),
+    [
+      '<div class="doc-cmp-form-field-ov-input-group-shell">',
+      '  <tng-form-field>',
+      '    <tng-label forId="amount">Amount</tng-label>',
+      '    <tng-input-field>',
+      '      <span tngInputFieldPrefix>$</span>',
+      '      <input tngInput id="amount" type="number" />',
+      '      <span tngInputFieldSuffix>USD</span>',
+      '    </tng-input-field>',
+      '    <p tngHint>Enter amount before tax.</p>',
+      '  </tng-form-field>',
+      '</div>',
+      '',
+    ].join('\n'),
+    [
+      '.doc-cmp-form-field-ov-input-group-shell {',
+      '  width: min(100%, 30rem);',
+      '}',
+      '',
+      '.doc-cmp-form-field-ov-input-group-shell [tngInputFieldPrefix],',
+      '.doc-cmp-form-field-ov-input-group-shell [tngInputFieldSuffix] {',
+      '  color: var(--tng-semantic-foreground-secondary);',
+      '  font-size: 0.875rem;',
+      '  font-weight: 600;',
+      '}',
+      '',
+    ].join('\n'),
   );
 
-  protected readonly tailwindExampleCodeTabs = createCodeTabs(
-    'doc-cmp-form-field-overview-tailwind',
-    this.tailwindExampleTsCode,
-    this.tailwindExampleHtmlCode,
-    this.tailwindExampleCssCode,
+  protected readonly inputGroupTailwindCodeTabs = createCodeTabs(
+    'doc-cmp-form-field-overview-input-group-tailwind',
+    createStandaloneExampleTsCode(
+      'app-doc-cmp-form-field-ov-input-group-tailwind',
+      'DocCmpFormFieldOvInputGroupTailwindComponent',
+      inputGroupImportLines,
+      [
+        'TngFormFieldComponent',
+        'TngHint',
+        'TngInputFieldComponent',
+        'TngLabelComponent',
+        'TngInput',
+        'TngInputFieldPrefix',
+        'TngInputFieldSuffix',
+      ],
+    ),
+    [
+      '<div class="w-full max-w-[30rem]">',
+      '  <tng-form-field class="' + this.inputGroupTailwindFieldClass + '">',
+      '    <tng-label forId="amount">Amount</tng-label>',
+      '    <tng-input-field>',
+      '      <span tngInputFieldPrefix class="text-sm font-semibold text-[var(--tng-semantic-foreground-secondary)]">$</span>',
+      '      <input tngInput id="amount" type="number" />',
+      '      <span tngInputFieldSuffix class="text-sm font-semibold text-[var(--tng-semantic-foreground-secondary)]">USD</span>',
+      '    </tng-input-field>',
+      '    <p tngHint>Enter amount before tax.</p>',
+      '  </tng-form-field>',
+      '</div>',
+      '',
+    ].join('\n'),
+    this.tailwindCssCode,
   );
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.colorSchemeObserver?.disconnect();
   }
 }

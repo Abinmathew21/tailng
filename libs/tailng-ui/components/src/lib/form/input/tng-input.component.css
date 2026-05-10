@@ -19,7 +19,7 @@
   width: auto;
 }
 
-/* Optional: make sure the native control fills the form-field */
+/* Optional: make sure the native control fills the input-field */
 .tng-input-control {
   appearance: none;
   background: transparent;

@@ -3,7 +3,7 @@
     <h2 class="input-api-title">API reference</h2>
     <p class="input-api-lead">
       Input now exposes a split component contract: <code>&lt;tng-input&gt;</code> for the plain
-      self-rendering case, <code>&lt;tng-form-field&gt;</code> for projected adornments, and the
+      self-rendering case, <code>&lt;tng-input-field&gt;</code> for projected adornments, and the
       headless primitives underneath.
     </p>
 
@@ -68,7 +68,7 @@
             <tr>
               <td><code>appearance</code>, <code>size</code>, <code>tone</code>, <code>fullWidth</code></td>
               <td>visual inputs</td>
-              <td>Passed through to the internal <code>tng-form-field</code> shell.</td>
+              <td>Passed through to the internal <code>tng-input-field</code> shell.</td>
             </tr>
             <tr>
               <td><code>disabled</code>, <code>readonly</code>, <code>required</code></td>
@@ -106,7 +106,7 @@
       <p>
         For Angular Signal Forms, bind <code>[formField]</code> directly on
         <code>&lt;tng-input&gt;</code>. The primitive <code>input[tngInput]</code> path also works
-        when you need projected adornments inside <code>&lt;tng-form-field&gt;</code>.
+        when you need projected adornments inside <code>&lt;tng-input-field&gt;</code>.
       </p>
       <tng-code-block
         [code]="signalFormsCode"
@@ -120,18 +120,18 @@
       ></tng-code-block>
     </section>
 
-    <section id="tng-form-field" class="docs-section-anchor input-api-block">
-      <h3><code>&lt;tng-form-field&gt;</code> (component shell)</h3>
+    <section id="tng-input-field" class="docs-section-anchor input-api-block">
+      <h3><code>&lt;tng-input-field&gt;</code> (component shell)</h3>
       <p>
-        Wraps one projected <code>input[tngInput]</code> plus optional <code>tngPrefix</code> /
-        <code>tngSuffix</code> content. Use it for search fields, fixed domain suffixes, and clear
+        Wraps one projected <code>input[tngInput]</code> plus optional <code>tngInputFieldPrefix</code> /
+        <code>tngInputFieldSuffix</code> content. Use it for search fields, fixed domain suffixes, and clear
         buttons. The snippet below includes the imports needed for a standalone Angular component.
       </p>
       <tng-code-block
         [code]="formFieldTemplateCode"
         adapter="shiki"
         language="ts"
-        title="doc-cmp-input-api-form-field.component.ts"
+        title="doc-cmp-input-api-input-field.component.ts"
         [theme]="codeBlockTheme()"
         [lineNumbers]="false"
         [wrap]="true"
@@ -238,13 +238,13 @@
           </thead>
           <tbody>
             <tr>
-              <td><code>tngPrefix</code></td>
+              <td><code>tngInputFieldPrefix</code></td>
               <td>Projected leading element</td>
               <td><code>data-slot="input-leading"</code></td>
               <td>Marks prefix/adornment content before the control.</td>
             </tr>
             <tr>
-              <td><code>tngSuffix</code></td>
+              <td><code>tngInputFieldSuffix</code></td>
               <td>Projected trailing element</td>
               <td><code>data-slot="input-trailing"</code></td>
               <td>Marks suffix/action content after the control.</td>

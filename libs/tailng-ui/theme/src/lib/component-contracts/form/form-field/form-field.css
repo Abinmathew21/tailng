@@ -1,79 +1,90 @@
-:where([data-slot='form-field-wrapper']) {
+:where([data-slot='form-field']) {
+  --tng-form-field-fg: var(--tng-semantic-foreground-primary);
+  --tng-form-field-frame-bg: var(--tng-semantic-background-surface);
+  --tng-form-field-frame-border: var(--tng-semantic-border-strong);
+  --tng-form-field-frame-focus-border: var(--tng-semantic-accent-brand, var(--tng-semantic-focus-ring));
+  --tng-form-field-frame-focus-ring: var(--tng-semantic-focus-ring);
+  --tng-form-field-frame-invalid-border: var(--tng-semantic-accent-danger);
+  --tng-form-field-frame-radius: 0.65rem;
+  --tng-form-field-frame-px: 0.75rem;
+  --tng-form-field-frame-py: 0.55rem;
+  --tng-form-field-label-fg: var(--tng-semantic-foreground-secondary);
+  --tng-form-field-adornment-fg: var(--tng-semantic-foreground-secondary);
+  --tng-form-field-message-fg: var(--tng-semantic-foreground-muted);
+  --tng-form-field-required-marker-fg: var(--tng-semantic-accent-danger);
+  --tng-input-bg: transparent;
+  --tng-input-border: transparent;
+  --tng-input-focus-ring: transparent;
+  --tng-input-radius: 0;
+  --tng-input-px: 0;
+  --tng-select-bg: transparent;
+  --tng-select-border-strong: transparent;
+  --tng-select-shadow-focus: none;
+  --tng-autocomplete-surface: transparent;
+  --tng-autocomplete-border-strong: transparent;
+  --tng-autocomplete-shadow-focus: none;
+}
+
+:where([data-slot='form-field'][data-focused]) {
+  --tng-form-field-label-fg: var(--tng-semantic-accent-brand, var(--tng-semantic-focus-ring));
+}
+
+:where([data-slot='form-field'][data-invalid]) {
+  --tng-form-field-label-fg: var(--tng-semantic-accent-danger);
+  --tng-form-field-message-fg: var(--tng-semantic-accent-danger);
+}
+
+:where([data-slot='form-field'][data-disabled]) {
+  --tng-form-field-label-fg: var(--tng-semantic-foreground-muted);
+}
+
+:where([data-slot='form-field'][data-size='sm']) {
+  --tng-form-field-gap: 0.35rem;
+  --tng-form-field-frame-min-height: 2.25rem;
+  --tng-form-field-frame-px: 0.65rem;
+  --tng-form-field-frame-py: 0.4rem;
+  --tng-form-field-label-font-size: 0.8125rem;
+  --tng-form-field-message-font-size: 0.75rem;
+}
+
+:where([data-slot='form-field'][data-size='lg']) {
+  --tng-form-field-gap: 0.55rem;
+  --tng-form-field-frame-min-height: 3rem;
+  --tng-form-field-frame-px: 1rem;
+  --tng-form-field-frame-py: 0.7rem;
+  --tng-form-field-label-font-size: 0.9375rem;
+  --tng-form-field-message-font-size: 0.875rem;
+}
+
+:where([data-slot='form-field'][data-label-position='left']) {
+  --tng-form-field-left-gap: 1rem;
+}
+
+:where([data-slot='form-field-hint'], [data-slot='form-field-error']) {
+  display: block;
+}
+
+:where([data-slot='form-field-prefix'], [data-slot='form-field-suffix']) {
   display: inline-flex;
-  max-width: 100%;
-
-  --_tng-input-bg-default: var(--tng-semantic-background-surface);
-  --_tng-input-border-default: var(--tng-semantic-border-strong);
-  --_tng-input-fg-default: var(--tng-semantic-foreground-primary);
-  --_tng-input-radius-default: 0.6rem;
-  --_tng-input-min-height-default: 2.5rem;
-  --_tng-input-py-default: 0;
-  --_tng-input-px-default: 0.85rem;
-  --_tng-input-gap-default: 0.55rem;
-  --_tng-input-focus-ring-default: var(--tng-semantic-focus-ring);
-  --_tng-input-font-size-default: inherit;
-  --_tng-input-font-weight-default: inherit;
-  --_tng-input-line-height-default: inherit;
-  --_tng-input-placeholder-default: var(--tng-semantic-foreground-muted);
-
-  --_tng-input-bg: var(--tng-input-bg, var(--_tng-input-bg-default));
-  --_tng-input-border: var(--tng-input-border, var(--_tng-input-border-default));
-  --_tng-input-fg: var(--tng-input-fg, var(--_tng-input-fg-default));
-  --_tng-input-radius: var(--tng-input-radius, var(--_tng-input-radius-default));
-  --_tng-input-min-height: var(--tng-input-min-height, var(--_tng-input-min-height-default));
-  --_tng-input-py: var(--tng-input-py, var(--_tng-input-py-default));
-  --_tng-input-px: var(--tng-input-px, var(--_tng-input-px-default));
-  --_tng-input-gap: var(--tng-input-gap, var(--_tng-input-gap-default));
-  --_tng-input-focus-ring: var(--tng-input-focus-ring, var(--_tng-input-focus-ring-default));
-  --_tng-input-font-size: var(--tng-input-font-size, var(--_tng-input-font-size-default));
-  --_tng-input-font-weight: var(--tng-input-font-weight, var(--_tng-input-font-weight-default));
-  --_tng-input-line-height: var(--tng-input-line-height, var(--_tng-input-line-height-default));
-  --_tng-input-placeholder: var(--tng-input-placeholder, var(--_tng-input-placeholder-default));
+  flex: 0 0 auto;
+  align-items: center;
+  min-width: 0;
+  color: var(--tng-form-field-adornment-fg);
+  font-size: var(--tng-form-field-adornment-font-size, 0.875rem);
+  line-height: 1;
 }
 
-:where([data-slot='form-field-wrapper'][data-full-width]) {
-  width: 100%;
+:where([data-slot='form-field-hint'][data-align='end'], [data-slot='form-field-error'][data-align='end']) {
+  text-align: end;
 }
 
-:where([data-slot='form-field-wrapper']) :where([data-slot='input-group']) {
-  width: 100%;
-}
+@media (max-width: 640px) {
+  :where([data-slot='form-field'][data-label-position='left']) {
+    grid-template-columns: 1fr;
+  }
 
-:where([data-slot='form-field-wrapper']:not([data-full-width])) :where([data-slot='input-group']) {
-  width: auto;
-}
-
-:where([data-slot='form-field-wrapper'][data-appearance='solid']) {
-  --_tng-input-bg-default: var(--tng-semantic-background-muted, var(--tng-semantic-background-surface));
-}
-
-:where([data-slot='form-field-wrapper'][data-appearance='ghost']) {
-  --_tng-input-bg-default: transparent;
-  --_tng-input-border-default: transparent;
-}
-
-:where([data-slot='form-field-wrapper'][data-size='sm']) {
-  --_tng-input-gap-default: 0.45rem;
-  --_tng-input-radius-default: 0.5rem;
-  --_tng-input-min-height-default: 2.125rem;
-  --_tng-input-px-default: 0.65rem;
-}
-
-:where([data-slot='form-field-wrapper'][data-size='lg']) {
-  --_tng-input-gap-default: 0.65rem;
-  --_tng-input-radius-default: 0.75rem;
-  --_tng-input-min-height-default: 3rem;
-  --_tng-input-px-default: 1rem;
-}
-
-:where([data-slot='form-field-wrapper'][data-tone='primary']) {
-  --_tng-input-focus-ring-default: var(--tng-semantic-accent-brand, var(--tng-semantic-focus-ring));
-}
-
-:where([data-slot='form-field-wrapper'][data-tone='success']) {
-  --_tng-input-focus-ring-default: var(--tng-semantic-accent-success, var(--tng-semantic-focus-ring));
-}
-
-:where([data-slot='form-field-wrapper'][data-tone='danger']) {
-  --_tng-input-focus-ring-default: var(--tng-semantic-accent-danger, var(--tng-semantic-focus-ring));
+  :where([data-slot='form-field'][data-label-position='left']) :is(.tng-form-field__label, .tng-form-field__control-row, .tng-form-field__messages) {
+    grid-column: 1;
+    grid-row: auto;
+  }
 }

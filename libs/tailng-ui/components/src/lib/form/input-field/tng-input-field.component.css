@@ -1,0 +1,35 @@
+/*
+ * Visual styling lives in the theme contract:
+ * libs/tailng-ui/theme/src/lib/component-contracts/form/input-field/input-field.css
+ */
+
+:host {
+  display: inline-flex;
+  max-width: 100%;
+}
+
+:host([data-full-width]) {
+  width: 100%;
+}
+
+.tng-input-field {
+  width: 100%;
+}
+
+:host(:not([data-full-width])) .tng-input-field {
+  width: auto;
+}
+
+.tng-input-field-slot-proxy {
+  align-items: center;
+  display: inline-flex;
+  min-width: 0;
+}
+
+.tng-input-field-control-proxy {
+  align-items: center;
+  display: flex;
+  flex: 1 1 auto;
+  min-width: 0;
+  width: 100%;
+}

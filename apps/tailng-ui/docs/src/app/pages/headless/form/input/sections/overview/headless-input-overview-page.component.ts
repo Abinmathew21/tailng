@@ -70,24 +70,24 @@ export class HeadlessInputOverviewPageComponent implements OnDestroy {
   ].join('\n');
 
   protected readonly primitivesImportCode = [
-    "import { TngInput, TngInputGroup, TngPrefix, TngSuffix } from '@tailng-ui/primitives';",
+    "import { TngInput, TngInputGroup, TngInputFieldPrefix, TngInputFieldSuffix } from '@tailng-ui/primitives';",
     '',
   ].join('\n');
 
   protected readonly groupedInputCode = [
     '<tng-input-group>',
-    '  <span tngPrefix aria-hidden="true">Search</span>',
+    '  <span tngInputFieldPrefix aria-hidden="true">Search</span>',
     '  <input tngInput type="search" placeholder="Search..." />',
-    '  <span tngSuffix aria-hidden="true">Ctrl+K</span>',
+    '  <span tngInputFieldSuffix aria-hidden="true">Ctrl+K</span>',
     '</tng-input-group>',
     '',
   ].join('\n');
 
   protected readonly searchWithHintCode = [
     '<tng-input-group class="demo-group">',
-    '  <span tngPrefix aria-hidden="true">Search</span>',
+    '  <span tngInputFieldPrefix aria-hidden="true">Search</span>',
     '  <input tngInput type="search" placeholder="Search primitives" />',
-    '  <span tngSuffix aria-hidden="true">Ctrl+K</span>',
+    '  <span tngInputFieldSuffix aria-hidden="true">Ctrl+K</span>',
     '</tng-input-group>',
     '',
   ].join('\n');
@@ -95,7 +95,7 @@ export class HeadlessInputOverviewPageComponent implements OnDestroy {
   protected readonly searchWithClearButtonCode = [
     '<tng-input-group class="demo-group">',
     '  <input tngInput type="search" placeholder="Search..." />',
-    '  <button tngSuffix type="button" aria-label="Clear">X</button>',
+    '  <button tngInputFieldSuffix type="button" aria-label="Clear">X</button>',
     '</tng-input-group>',
     '',
   ].join('\n');

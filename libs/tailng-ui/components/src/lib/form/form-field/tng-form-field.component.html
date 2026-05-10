@@ -1,13 +1,40 @@
-<tng-input-group class="tng-form-field">
-  <span tngPrefix class="tng-form-field-slot-proxy" data-tng-input-prefix-proxy>
-    <ng-content select="[tngPrefix], [tngInputLeading]"></ng-content>
-  </span>
+<fieldset
+  data-slot="form-field-control-row"
+  [attr.class]="classList('tng-form-field__frame', slotClass('controlRow'))"
+>
+  <legend
+    data-slot="form-field-label"
+    [attr.class]="classList('tng-form-field__label', slotClass('label'))"
+  >
+    <ng-content select="label[tngLabel], tng-label"></ng-content>
+    <span
+      aria-hidden="true"
+      data-slot="form-field-required-marker"
+      [hidden]="!showRequiredMarker()"
+      [attr.class]="classList('tng-form-field__required-marker', slotClass('requiredMarker'))"
+    >*</span>
+  </legend>
 
-  <span class="tng-form-field-control-proxy" data-tng-input-control-proxy>
-    <ng-content select="input[tngInput], textarea[tngInput]"></ng-content>
-  </span>
+  <div class="tng-form-field__control-row">
+    <ng-content select="[tngFormFieldPrefix]"></ng-content>
 
-  <span tngSuffix class="tng-form-field-slot-proxy" data-tng-input-suffix-proxy>
-    <ng-content select="[tngSuffix], [tngInputTrailing]"></ng-content>
-  </span>
-</tng-input-group>
+    <div
+      data-slot="form-field-control"
+      [attr.class]="classList('tng-form-field__control', slotClass('control'))"
+    >
+      <ng-content
+        select="input[tngInput], textarea[tngInput], textarea[tngTextarea], tng-input, tng-input-field, tng-textarea, tng-select, tng-multiselect, tng-autocomplete, tng-multi-autocomplete, tng-datepicker, tng-input-otp, tng-input-group, [tngInputGroup], [tngFormFieldControl]"
+      ></ng-content>
+    </div>
+
+    <ng-content select="[tngFormFieldSuffix]"></ng-content>
+  </div>
+</fieldset>
+
+<div
+  data-slot="form-field-messages"
+  [attr.class]="classList('tng-form-field__messages', slotClass('messages'))"
+>
+  <ng-content select="[tngHint], tng-hint"></ng-content>
+  <ng-content select="[tngError], tng-error"></ng-content>
+</div>

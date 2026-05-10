@@ -1,0 +1,125 @@
+<article class="docs-section-page input-styling">
+  <div class="docs-section-page-main">
+    <h2 class="input-styling-title">Styling contract</h2>
+    <p class="input-styling-lead">
+      Style <code>tng-input-field</code> through host CSS variables and your own classes on
+      projected prefix, suffix, and action elements.
+    </p>
+
+    <section id="css-contracts" class="docs-section-anchor input-styling-block">
+      <h3>Supported contract</h3>
+      <p>
+        The public styling path is the host token contract inherited from the shared input shell.
+        Apply these vars on a class attached to <code>&lt;tng-input-field&gt;</code>.
+      </p>
+      <tng-code-block
+        [code]="contractsCode"
+        adapter="shiki"
+        language="css"
+        title="Public host contract"
+        [theme]="codeBlockTheme()"
+        [sanitizeHtml]="false"
+        [wrap]="true"
+        [lineNumbers]="false"
+      ></tng-code-block>
+    </section>
+
+    <section id="shell-state-hooks" class="docs-section-anchor input-styling-block">
+      <h3>Shell state ownership</h3>
+      <p>
+        The wrapper consumes the focus and validation states internally. If you need custom shell
+        selectors keyed off <code>data-focused</code> or <code>data-invalid</code>, move to the
+        headless <code>&lt;tng-input-group&gt;</code> primitive.
+      </p>
+      <tng-code-block
+        [code]="stateOwnershipCode"
+        adapter="shiki"
+        language="html"
+        title="State ownership"
+        [theme]="codeBlockTheme()"
+        [sanitizeHtml]="false"
+        [wrap]="true"
+        [lineNumbers]="false"
+      ></tng-code-block>
+    </section>
+
+    <section id="user-scenario-style-examples" class="docs-section-anchor input-styling-block">
+      <h3>Workspace slug shell</h3>
+      <app-docs-example-tabs-section
+        heading="Workspace slug shell"
+        description="A projected suffix is often the reason to reach for input-field instead of the simple input component."
+        ariaLabel="Input field styling examples"
+        tabListAriaLabel="Input field styling variants"
+        defaultValue="plain-css"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <ng-template
+          appDocsExampleVariant
+          value="plain-css"
+          label="Plain-CSS"
+          panelTitle="Workspace slug shell (Plain-CSS)"
+          [codeTabs]="plainScenarioCodeTabs"
+          [stackblitzUrl]="stackblitzVanillaUrl"
+        >
+          <div class="input-styling-preview">
+            <label class="doc-cmp-input-field-st-workspace-field">
+              <span class="doc-cmp-input-field-st-workspace-label">Workspace slug</span>
+              <div class="doc-cmp-input-field-st-workspace-shell">
+                <tng-input-field>
+                  <input tngInput type="text" value="core-platform" />
+                  <span tngInputFieldSuffix class="doc-cmp-input-field-st-workspace-meta">.tailng.dev</span>
+                </tng-input-field>
+              </div>
+            </label>
+          </div>
+        </ng-template>
+
+        <ng-template
+          appDocsExampleVariant
+          value="tailwind-css"
+          label="Tailwind CSS"
+          panelTitle="Workspace slug shell (Tailwind CSS)"
+          [codeTabs]="tailwindScenarioCodeTabs"
+          [stackblitzUrl]="stackblitzTailwindUrl"
+        >
+          <div class="input-styling-preview">
+            <label class="grid w-full max-w-[31rem] gap-2">
+              <span class="text-xs font-semibold text-[var(--tng-semantic-foreground-secondary)]">Workspace slug</span>
+              <div [class]="tailwindHostClass">
+                <tng-input-field>
+                  <input tngInput type="text" value="core-platform" />
+                  <span tngInputFieldSuffix class="text-xs font-semibold text-[var(--tng-semantic-foreground-secondary)]">.tailng.dev</span>
+                </tng-input-field>
+              </div>
+            </label>
+          </div>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
+
+    <section
+      id="different-styling-pattern-examples"
+      class="docs-section-anchor input-styling-block"
+    >
+      <h3>Projected content classes</h3>
+      <div class="input-styling-patterns">
+        @for (pattern of stylePatternExamples; track pattern.title) {
+          <article class="input-styling-pattern-card">
+            <h4>{{ pattern.title }}</h4>
+            <p>{{ pattern.description }}</p>
+            <tng-code-block
+              [code]="pattern.code"
+              adapter="shiki"
+              [language]="pattern.language"
+              [title]="pattern.title"
+              [theme]="codeBlockTheme()"
+              [sanitizeHtml]="false"
+              [wrap]="true"
+              [lineNumbers]="false"
+            ></tng-code-block>
+          </article>
+        }
+      </div>
+    </section>
+  </div>
+</article>

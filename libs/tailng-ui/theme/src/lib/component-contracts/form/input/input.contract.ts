@@ -2,7 +2,7 @@
  * TailNG Input — primitive style contract
  *
  * Scope: primitives layer (`tngInput` directive + `tngInputGroup` component)
- * Public wrapper components such as `<tng-form-field>` and `<tng-input>`
+ * Public wrapper components such as `<tng-input-field>` and `<tng-input>`
  * should theme the shell by setting these CSS custom properties instead of
  * restyling the primitive slots directly.
  *

@@ -3,17 +3,17 @@
     <h2 class="input-overview-title">Input</h2>
     <p class="input-overview-lead">
       <code>&lt;tng-input&gt;</code> is the default component for a plain single-line field.
-      <code>&lt;tng-form-field&gt;</code> is the projected shell for prefixes, suffixes, and inline
+      <code>&lt;tng-input-field&gt;</code> is the projected shell for prefixes, suffixes, and inline
       actions. <code>tngInput</code> remains the headless primitive underneath both.
     </p>
     <p class="input-overview-lead">
       Use <code>&lt;tng-input&gt;</code> for the common case. Move to
-      <code>&lt;tng-form-field&gt;</code> only when the field needs projected content that the simple
+      <code>&lt;tng-input-field&gt;</code> only when the field needs projected content that the simple
       component should not own.
     </p>
     <ol class="input-overview-steps">
       <li><strong>Simple component:</strong> <code>&lt;tng-input&gt;</code> for standard fields.</li>
-      <li><strong>Projected shell:</strong> <code>&lt;tng-form-field&gt;</code> for adornments and inline actions.</li>
+      <li><strong>Projected shell:</strong> <code>&lt;tng-input-field&gt;</code> for adornments and inline actions.</li>
       <li><strong>Primitive layer:</strong> <code>tngInput</code> when you need full DOM control.</li>
     </ol>
 
@@ -21,7 +21,7 @@
       <h3>What you get</h3>
       <ul class="input-overview-list">
         <li><strong>Native-first behavior:</strong> <code>&lt;tng-input&gt;</code> still renders a real native <code>&lt;input&gt;</code>.</li>
-        <li><strong>Clear split of responsibility:</strong> plain fields stay on <code>&lt;tng-input&gt;</code>; projected content lives on <code>&lt;tng-form-field&gt;</code>.</li>
+        <li><strong>Clear split of responsibility:</strong> plain fields stay on <code>&lt;tng-input&gt;</code>; projected content lives on <code>&lt;tng-input-field&gt;</code>.</li>
         <li><strong>Input facade:</strong> common native attributes and events are forwarded through the component wrapper.</li>
         <li><strong>Number affordances:</strong> number inputs include pointer controls plus keyboard stepping for arrow, page, and boundary keys.</li>
         <li><strong>Theme contract:</strong> shell styling is controlled through tokens such as <code>--tng-input-bg</code>, <code>--tng-input-border</code>, <code>--tng-input-gap</code>, and <code>--tng-input-focus-ring</code>.</li>
@@ -96,8 +96,8 @@
       <h3>Installation</h3>
       <p>
         Import the simple component from <code>@tailng-ui/components</code>. Add
-        <code>tngInput</code>, <code>tngPrefix</code>, and <code>tngSuffix</code> only when the
-        field needs projected content through <code>&lt;tng-form-field&gt;</code>.
+        <code>tngInput</code>, <code>tngInputFieldPrefix</code>, and <code>tngInputFieldSuffix</code> only when the
+        field needs projected content through <code>&lt;tng-input-field&gt;</code>.
       </p>
       <tng-code-block
         [code]="installationCode"
@@ -131,7 +131,7 @@
 
       <h4>Projected shell when needed</h4>
       <p>
-        Move to <code>&lt;tng-form-field&gt;</code> when the field needs projected adornments or
+        Move to <code>&lt;tng-input-field&gt;</code> when the field needs projected adornments or
         inline actions.
       </p>
       <tng-code-block
@@ -171,7 +171,7 @@
         <code>[data-slot='input']</code>.
       </p>
       <p>
-        <code>&lt;tng-form-field&gt;</code> uses the same shell contract, but expects a projected
+        <code>&lt;tng-input-field&gt;</code> uses the same shell contract, but expects a projected
         <code>input[tngInput]</code> so you can add prefixes, suffixes, and trailing actions.
       </p>
     </section>
@@ -182,7 +182,7 @@
         <li>Give the field an accessible name with a visible label, <code>ariaLabel</code>, or <code>ariaLabelledby</code>.</li>
         <li>Link validation copy with <code>ariaDescribedBy</code> or <code>ariaErrormessage</code> when the message is rendered outside the field.</li>
         <li>Mark decorative prefix/suffix content as <code>aria-hidden="true"</code>.</li>
-        <li>Keep trailing buttons inside <code>&lt;tng-form-field&gt;</code> explicitly labelled.</li>
+        <li>Keep trailing buttons inside <code>&lt;tng-input-field&gt;</code> explicitly labelled.</li>
         <li>Use the dedicated Textarea page for multiline content instead of stretching the Input API to cover both.</li>
       </ul>
     </section>
@@ -268,13 +268,13 @@
         [lineNumbers]="false"
       ></tng-code-block>
 
-      <h4>When to move to form field</h4>
-      <p>As soon as the field needs projected content, use the dedicated Form Field contract.</p>
+      <h4>When to move to input field</h4>
+      <p>As soon as the field needs projected content, use the dedicated Input Field contract.</p>
       <tng-code-block
         [code]="formFieldReferenceCode"
         adapter="shiki"
         language="html"
-        title="Move to form field"
+        title="Move to input field"
         [theme]="codeBlockTheme()"
         [sanitizeHtml]="false"
         [wrap]="true"
@@ -285,7 +285,7 @@
     <section id="common-pitfalls" class="docs-section-anchor input-overview-block">
       <h3>Common pitfalls</h3>
       <p><strong>Projected shell without the primitive</strong></p>
-      <p>If you use <code>&lt;tng-form-field&gt;</code>, the projected control still must carry <code>tngInput</code>.</p>
+      <p>If you use <code>&lt;tng-input-field&gt;</code>, the projected control still must carry <code>tngInput</code>.</p>
       <div class="doc-cmp-input-overview-pitfall-grid">
         <div>
           <p class="doc-cmp-input-overview-pitfall-label">Correct</p>

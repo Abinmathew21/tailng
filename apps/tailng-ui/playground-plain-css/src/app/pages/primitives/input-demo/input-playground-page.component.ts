@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { TngFormFieldComponent, TngInputComponent } from '@tailng-ui/components';
+import { TngInputFieldComponent, TngInputComponent } from '@tailng-ui/components';
 
 import {
   TngInput as TngInputPrimitive,
   TngInputGroup,
-  TngPrefix,
-  TngSuffix,
+  TngInputFieldPrefix,
+  TngInputFieldSuffix,
 } from '@tailng-ui/primitives';
 
 @Component({
@@ -13,9 +13,9 @@ import {
   imports: [
     TngInputPrimitive,
     TngInputGroup,
-    TngPrefix,
-    TngSuffix,
-    TngFormFieldComponent,
+    TngInputFieldPrefix,
+    TngInputFieldSuffix,
+    TngInputFieldComponent,
     TngInputComponent,
   ],
   templateUrl: './input-playground-page.component.html',

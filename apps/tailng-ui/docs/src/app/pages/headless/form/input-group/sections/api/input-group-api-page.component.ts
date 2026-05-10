@@ -28,9 +28,9 @@ export class HeadlessInputGroupApiPageComponent implements OnDestroy {
 
   protected readonly groupTemplateCode = [
     '<tng-input-group>',
-    '  <span tngPrefix aria-hidden="true">Search</span>',
+    '  <span tngInputFieldPrefix aria-hidden="true">Search</span>',
     '  <input tngInput type="search" placeholder="Search docs..." />',
-    '  <button tngSuffix type="button" aria-label="Clear search">Clear</button>',
+    '  <button tngInputFieldSuffix type="button" aria-label="Clear search">Clear</button>',
     '</tng-input-group>',
     '',
   ].join('\n');

@@ -1,7 +1,7 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, inject, signal, type OnDestroy } from '@angular/core';
 import { TngIcon } from '@tailng-ui/icons';
-import { TngInput, TngInputGroup, TngPrefix, TngSuffix } from '@tailng-ui/primitives';
+import { TngInput, TngInputGroup, TngInputFieldPrefix, TngInputFieldSuffix } from '@tailng-ui/primitives';
 import type { DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
 import {
   DocsExampleTabsSectionComponent,
@@ -98,8 +98,8 @@ function createStandaloneExampleTsCode({
     TngIcon,
     TngInput,
     TngInputGroup,
-    TngPrefix,
-    TngSuffix,
+    TngInputFieldPrefix,
+    TngInputFieldSuffix,
   ],
   templateUrl: './input-group-examples-page.component.html',
   styleUrls: [
@@ -131,16 +131,16 @@ export class HeadlessInputGroupExamplesPageComponent implements OnDestroy {
       importsSource: [
         "import { Component } from '@angular/core';",
         "import { TngIcon } from '@tailng-ui/icons';",
-        "import { TngInput, TngInputGroup, TngPrefix, TngSuffix } from '@tailng-ui/primitives';",
+        "import { TngInput, TngInputGroup, TngInputFieldPrefix, TngInputFieldSuffix } from '@tailng-ui/primitives';",
       ],
-      importsArray: ['TngIcon', 'TngInput', 'TngInputGroup', 'TngPrefix', 'TngSuffix'],
+      importsArray: ['TngIcon', 'TngInput', 'TngInputGroup', 'TngInputFieldPrefix', 'TngInputFieldSuffix'],
     }),
     htmlCode: [
       '<label class="docs-headless-input-group-examples-plain-search-command-card">',
       '  <span class="docs-headless-input-group-examples-plain-search-command-label">Search docs</span>',
       '  <tng-input-group class="docs-headless-input-group-examples-plain-search-command-shell">',
       '    <span',
-      '      tngPrefix',
+      '      tngInputFieldPrefix',
       '      aria-hidden="true"',
       '      class="docs-headless-input-group-examples-plain-search-command-prefix"',
       '    >',
@@ -155,7 +155,7 @@ export class HeadlessInputGroupExamplesPageComponent implements OnDestroy {
       '      placeholder="Search components..."',
       '      class="docs-headless-input-group-examples-plain-search-command-control"',
       '    />',
-      '    <span tngSuffix class="docs-headless-input-group-examples-plain-search-command-meta">Ctrl+K</span>',
+      '    <span tngInputFieldSuffix class="docs-headless-input-group-examples-plain-search-command-meta">Ctrl+K</span>',
       '  </tng-input-group>',
       '</label>',
       '',
@@ -235,9 +235,9 @@ export class HeadlessInputGroupExamplesPageComponent implements OnDestroy {
       importsSource: [
         "import { Component } from '@angular/core';",
         "import { TngIcon } from '@tailng-ui/icons';",
-        "import { TngInput, TngInputGroup, TngPrefix, TngSuffix } from '@tailng-ui/primitives';",
+        "import { TngInput, TngInputGroup, TngInputFieldPrefix, TngInputFieldSuffix } from '@tailng-ui/primitives';",
       ],
-      importsArray: ['TngIcon', 'TngInput', 'TngInputGroup', 'TngPrefix', 'TngSuffix'],
+      importsArray: ['TngIcon', 'TngInput', 'TngInputGroup', 'TngInputFieldPrefix', 'TngInputFieldSuffix'],
     }),
     htmlCode: [
       '<label class="grid w-full max-w-[34rem] gap-2 rounded-[1.5rem] border border-slate-200 bg-white p-5 text-slate-900 shadow-sm">',
@@ -245,7 +245,7 @@ export class HeadlessInputGroupExamplesPageComponent implements OnDestroy {
       '  <tng-input-group',
       '    class="min-h-[2.85rem] w-full items-center gap-[0.65rem] rounded-[0.92rem] border border-slate-300 bg-white px-4 text-slate-900 transition [&[data-focused]]:border-blue-500 [&[data-focused]]:ring-4 [&[data-focused]]:ring-blue-100"',
       '  >',
-      '    <span tngPrefix aria-hidden="true" class="text-slate-500">',
+      '    <span tngInputFieldPrefix aria-hidden="true" class="text-slate-500">',
       '      <tng-icon icon="search" class="h-4 w-4"></tng-icon>',
       '    </span>',
       '    <input',
@@ -254,7 +254,7 @@ export class HeadlessInputGroupExamplesPageComponent implements OnDestroy {
       '      placeholder="Search components..."',
       '      class="min-w-0 flex-1 border-0 bg-transparent p-0 text-[0.96rem] leading-[1.45] text-slate-900 outline-none placeholder:text-slate-400"',
       '    />',
-      '    <span tngSuffix class="whitespace-nowrap text-xs font-semibold text-slate-500">Ctrl+K</span>',
+      '    <span tngInputFieldSuffix class="whitespace-nowrap text-xs font-semibold text-slate-500">Ctrl+K</span>',
       '  </tng-input-group>',
       '</label>',
       '',
@@ -269,9 +269,9 @@ export class HeadlessInputGroupExamplesPageComponent implements OnDestroy {
       className: 'HeadlessInputGroupExamplesPlainWorkspaceSlugComponent',
       importsSource: [
         "import { Component } from '@angular/core';",
-        "import { TngInput, TngInputGroup, TngSuffix } from '@tailng-ui/primitives';",
+        "import { TngInput, TngInputGroup, TngInputFieldSuffix } from '@tailng-ui/primitives';",
       ],
-      importsArray: ['TngInput', 'TngInputGroup', 'TngSuffix'],
+      importsArray: ['TngInput', 'TngInputGroup', 'TngInputFieldSuffix'],
     }),
     htmlCode: [
       '<label class="docs-headless-input-group-examples-plain-workspace-slug-card">',
@@ -283,7 +283,7 @@ export class HeadlessInputGroupExamplesPageComponent implements OnDestroy {
       '      value="core-platform"',
       '      class="docs-headless-input-group-examples-plain-workspace-slug-control"',
       '    />',
-      '    <span tngSuffix class="docs-headless-input-group-examples-plain-workspace-slug-meta">.tailng.dev</span>',
+      '    <span tngInputFieldSuffix class="docs-headless-input-group-examples-plain-workspace-slug-meta">.tailng.dev</span>',
       '  </tng-input-group>',
       '</label>',
       '',
@@ -348,9 +348,9 @@ export class HeadlessInputGroupExamplesPageComponent implements OnDestroy {
       className: 'HeadlessInputGroupExamplesTailwindWorkspaceSlugComponent',
       importsSource: [
         "import { Component } from '@angular/core';",
-        "import { TngInput, TngInputGroup, TngSuffix } from '@tailng-ui/primitives';",
+        "import { TngInput, TngInputGroup, TngInputFieldSuffix } from '@tailng-ui/primitives';",
       ],
-      importsArray: ['TngInput', 'TngInputGroup', 'TngSuffix'],
+      importsArray: ['TngInput', 'TngInputGroup', 'TngInputFieldSuffix'],
     }),
     htmlCode: [
       '<label class="grid w-full max-w-[31rem] gap-2">',
@@ -364,7 +364,7 @@ export class HeadlessInputGroupExamplesPageComponent implements OnDestroy {
       '      value="core-platform"',
       '      class="min-w-0 flex-1 border-0 bg-transparent p-0 text-slate-900 outline-none"',
       '    />',
-      '    <span tngSuffix class="whitespace-nowrap text-xs font-semibold text-slate-500">.tailng.dev</span>',
+      '    <span tngInputFieldSuffix class="whitespace-nowrap text-xs font-semibold text-slate-500">.tailng.dev</span>',
       '  </tng-input-group>',
       '</label>',
       '',
@@ -379,9 +379,9 @@ export class HeadlessInputGroupExamplesPageComponent implements OnDestroy {
       className: 'HeadlessInputGroupExamplesPlainClearActionComponent',
       importsSource: [
         "import { Component, signal } from '@angular/core';",
-        "import { TngInput, TngInputGroup, TngPrefix, TngSuffix } from '@tailng-ui/primitives';",
+        "import { TngInput, TngInputGroup, TngInputFieldPrefix, TngInputFieldSuffix } from '@tailng-ui/primitives';",
       ],
-      importsArray: ['TngInput', 'TngInputGroup', 'TngPrefix', 'TngSuffix'],
+      importsArray: ['TngInput', 'TngInputGroup', 'TngInputFieldPrefix', 'TngInputFieldSuffix'],
       members: [
         "readonly headlessInputGroupExamplesPlainClearActionQuery = signal('design tokens');",
         '',
@@ -400,7 +400,7 @@ export class HeadlessInputGroupExamplesPageComponent implements OnDestroy {
       '<label class="docs-headless-input-group-examples-plain-clear-action-card">',
       '  <span class="docs-headless-input-group-examples-plain-clear-action-label">Command palette query</span>',
       '  <tng-input-group class="docs-headless-input-group-examples-plain-clear-action-shell">',
-      '    <span tngPrefix class="docs-headless-input-group-examples-plain-clear-action-prefix">Query</span>',
+      '    <span tngInputFieldPrefix class="docs-headless-input-group-examples-plain-clear-action-prefix">Query</span>',
       '    <input',
       '      tngInput',
       '      type="search"',
@@ -410,7 +410,7 @@ export class HeadlessInputGroupExamplesPageComponent implements OnDestroy {
       '      class="docs-headless-input-group-examples-plain-clear-action-control"',
       '    />',
       '    <button',
-      '      tngSuffix',
+      '      tngInputFieldSuffix',
       '      type="button"',
       '      class="docs-headless-input-group-examples-plain-clear-action-button"',
       '      [disabled]="headlessInputGroupExamplesPlainClearActionQuery().length === 0"',
@@ -512,9 +512,9 @@ export class HeadlessInputGroupExamplesPageComponent implements OnDestroy {
       className: 'HeadlessInputGroupExamplesTailwindClearActionComponent',
       importsSource: [
         "import { Component, signal } from '@angular/core';",
-        "import { TngInput, TngInputGroup, TngPrefix, TngSuffix } from '@tailng-ui/primitives';",
+        "import { TngInput, TngInputGroup, TngInputFieldPrefix, TngInputFieldSuffix } from '@tailng-ui/primitives';",
       ],
-      importsArray: ['TngInput', 'TngInputGroup', 'TngPrefix', 'TngSuffix'],
+      importsArray: ['TngInput', 'TngInputGroup', 'TngInputFieldPrefix', 'TngInputFieldSuffix'],
       members: [
         "readonly headlessInputGroupExamplesTailwindClearActionQuery = signal('design tokens');",
         '',
@@ -535,7 +535,7 @@ export class HeadlessInputGroupExamplesPageComponent implements OnDestroy {
       '  <tng-input-group',
       '    class="min-h-[2.9rem] w-full items-center gap-[0.7rem] rounded-[0.92rem] border border-slate-300 bg-white px-4 text-slate-900 transition [&[data-focused]]:border-blue-500 [&[data-focused]]:ring-4 [&[data-focused]]:ring-blue-100"',
       '  >',
-      '    <span tngPrefix class="text-[0.78rem] font-bold uppercase tracking-[0.22em] text-slate-500">Query</span>',
+      '    <span tngInputFieldPrefix class="text-[0.78rem] font-bold uppercase tracking-[0.22em] text-slate-500">Query</span>',
       '    <input',
       '      tngInput',
       '      type="search"',
@@ -545,7 +545,7 @@ export class HeadlessInputGroupExamplesPageComponent implements OnDestroy {
       '      class="min-w-0 flex-1 border-0 bg-transparent p-0 text-[0.96rem] leading-[1.45] text-slate-900 outline-none placeholder:text-slate-400"',
       '    />',
       '    <button',
-      '      tngSuffix',
+      '      tngInputFieldSuffix',
       '      type="button"',
       '      class="rounded-full bg-blue-100 px-3 py-1.5 text-[0.78rem] font-bold leading-none text-blue-700 transition hover:bg-blue-200 disabled:cursor-default disabled:opacity-50"',
       '      [disabled]="headlessInputGroupExamplesTailwindClearActionQuery().length === 0"',

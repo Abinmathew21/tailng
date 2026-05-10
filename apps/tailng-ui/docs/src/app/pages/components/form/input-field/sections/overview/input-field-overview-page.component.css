@@ -1,0 +1,59 @@
+:host {
+  display: block;
+}
+
+.doc-cmp-input-field-ov-plain-card {
+  display: grid;
+  gap: 0.65rem;
+  width: min(100%, 34rem);
+  margin-inline: auto;
+  padding: 1.15rem;
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 1.25rem;
+  background: var(--tng-semantic-background-surface);
+  color: var(--tng-semantic-foreground-primary);
+  box-shadow: 0 12px 32px color-mix(in srgb, var(--tng-semantic-foreground-primary) 8%, transparent);
+}
+
+.doc-cmp-input-field-ov-plain-label {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.doc-cmp-input-field-ov-plain-shell {
+  width: 100%;
+  --tng-input-bg: var(--tng-semantic-background-surface);
+  --tng-input-border: var(--tng-semantic-border-subtle);
+  --tng-input-radius: 0.9rem;
+  --tng-input-min-height: 2.85rem;
+  --tng-input-px: 0.95rem;
+  --tng-input-gap: 0.65rem;
+  --tng-input-fg: var(--tng-semantic-foreground-primary);
+  --tng-input-focus-ring: color-mix(in srgb, var(--tng-semantic-focus-ring) 24%, transparent);
+  --tng-input-font-size: 0.96rem;
+  --tng-input-line-height: 1.45;
+  --tng-input-placeholder: var(--tng-semantic-foreground-muted);
+}
+
+.doc-cmp-input-field-ov-plain-shell tng-input-field {
+  display: block;
+  width: 100%;
+}
+
+.doc-cmp-input-field-ov-plain-prefix,
+.doc-cmp-input-field-ov-plain-meta {
+  color: var(--tng-semantic-foreground-secondary);
+}
+
+.doc-cmp-input-field-ov-plain-icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.doc-cmp-input-field-ov-plain-meta {
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+}

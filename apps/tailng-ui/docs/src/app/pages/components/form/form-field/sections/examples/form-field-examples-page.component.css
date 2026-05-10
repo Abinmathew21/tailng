@@ -2,70 +2,79 @@
   display: block;
 }
 
-.doc-cmp-form-field-ex-search-preview,
-.doc-cmp-form-field-ex-workspace-preview,
-.doc-cmp-form-field-ex-clear-preview {
+.form-field-examples code {
+  color: var(--tng-semantic-foreground-primary);
+}
+
+.doc-cmp-form-field-ex-form-preview,
+.doc-cmp-form-field-ex-basic-preview,
+.doc-cmp-form-field-ex-supported-preview,
+.doc-cmp-form-field-ex-left-preview,
+.doc-cmp-form-field-ex-error-preview {
   display: grid;
   gap: 0.65rem;
-  width: min(100%, 32rem);
+  width: min(100%, 100%);
 }
 
-.doc-cmp-form-field-ex-search-shell,
-.doc-cmp-form-field-ex-workspace-shell,
-.doc-cmp-form-field-ex-clear-shell {
-  width: 100%;
-  --tng-input-bg: var(--tng-semantic-background-surface);
-  --tng-input-border: var(--tng-semantic-border-subtle);
-  --tng-input-radius: 0.85rem;
-  --tng-input-min-height: 2.7rem;
-  --tng-input-px: 0.9rem;
-  --tng-input-gap: 0.55rem;
-  --tng-input-fg: var(--tng-semantic-foreground-primary);
-  --tng-input-focus-ring: color-mix(in srgb, var(--tng-semantic-focus-ring) 24%, transparent);
-  --tng-input-placeholder: var(--tng-semantic-foreground-muted);
+.doc-cmp-form-field-ex-form-shell,
+.doc-cmp-form-field-ex-basic-shell,
+.doc-cmp-form-field-ex-error-shell {
+  width: min(100%, 34rem);
 }
 
-.doc-cmp-form-field-ex-search-shell tng-form-field,
-.doc-cmp-form-field-ex-workspace-shell tng-form-field,
-.doc-cmp-form-field-ex-clear-shell tng-form-field {
-  display: block;
-  width: 100%;
+.doc-cmp-form-field-ex-left-shell {
+  width: min(100%, 38rem);
 }
 
-.doc-cmp-form-field-ex-search-shell {
-  --tng-input-gap: 0.65rem;
+.doc-cmp-form-field-ex-supported-grid {
+  display: grid;
+  gap: 1.25rem;
+  width: min(100%, 48rem);
 }
 
-.doc-cmp-form-field-ex-search-prefix,
-.doc-cmp-form-field-ex-search-meta,
-.doc-cmp-form-field-ex-workspace-meta {
+.doc-cmp-form-field-ex-form-shell tng-form-field,
+.doc-cmp-form-field-ex-basic-shell tng-form-field,
+.doc-cmp-form-field-ex-supported-grid tng-form-field,
+.doc-cmp-form-field-ex-left-shell tng-form-field {
+  --tng-form-field-label-fg: var(--tng-semantic-foreground-primary);
+  --tng-form-field-message-fg: var(--tng-semantic-foreground-secondary);
+}
+
+.doc-cmp-form-field-ex-left-shell tng-form-field {
+  --tng-form-field-left-gap: 1.25rem;
+}
+
+.doc-cmp-form-field-ex-form-preview [tngInputFieldPrefix],
+.doc-cmp-form-field-ex-form-shell [tngInputFieldPrefix],
+.doc-cmp-form-field-ex-error-shell [tngInputFieldPrefix],
+.doc-cmp-form-field-ex-error-shell [tngInputFieldSuffix] {
   color: var(--tng-semantic-foreground-secondary);
 }
 
-.doc-cmp-form-field-ex-search-icon {
-  height: 1.05rem;
-  width: 1.05rem;
+.doc-cmp-form-field-ex-form-preview [tngInputFieldPrefix],
+.doc-cmp-form-field-ex-form-shell [tngInputFieldPrefix] {
+  font-size: 0.875rem;
 }
 
-.doc-cmp-form-field-ex-search-meta,
-.doc-cmp-form-field-ex-workspace-meta {
-  font-size: 0.8rem;
-  font-weight: 600;
-  white-space: nowrap;
-}
-
-.doc-cmp-form-field-ex-clear-action {
+.doc-cmp-form-field-ex-form-preview [tngInputFieldSuffix],
+.doc-cmp-form-field-ex-form-shell [tngInputFieldSuffix] {
   border: 0;
-  border-radius: 0.55rem;
   background: transparent;
-  color: var(--tng-semantic-foreground-secondary);
-  font-size: 0.78rem;
-  font-weight: 600;
-  padding: 0.35rem 0.6rem;
-  transition: background-color 150ms ease, color 150ms ease;
+  color: var(--tng-semantic-accent-brand);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.8125rem;
+  font-weight: 700;
 }
 
-.doc-cmp-form-field-ex-clear-action:hover {
-  background: color-mix(in srgb, var(--tng-semantic-foreground-secondary) 14%, transparent);
-  color: var(--tng-semantic-foreground-primary);
+@media (min-width: 760px) {
+  .doc-cmp-form-field-ex-supported-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .doc-cmp-form-field-ex-left-shell tng-form-field {
+    --tng-form-field-left-gap: 0.8rem;
+  }
 }

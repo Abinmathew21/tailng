@@ -1,0 +1,71 @@
+:host {
+  display: block;
+}
+
+.doc-cmp-input-field-ex-search-preview,
+.doc-cmp-input-field-ex-workspace-preview,
+.doc-cmp-input-field-ex-clear-preview {
+  display: grid;
+  gap: 0.65rem;
+  width: min(100%, 32rem);
+}
+
+.doc-cmp-input-field-ex-search-shell,
+.doc-cmp-input-field-ex-workspace-shell,
+.doc-cmp-input-field-ex-clear-shell {
+  width: 100%;
+  --tng-input-bg: var(--tng-semantic-background-surface);
+  --tng-input-border: var(--tng-semantic-border-subtle);
+  --tng-input-radius: 0.85rem;
+  --tng-input-min-height: 2.7rem;
+  --tng-input-px: 0.9rem;
+  --tng-input-gap: 0.55rem;
+  --tng-input-fg: var(--tng-semantic-foreground-primary);
+  --tng-input-focus-ring: color-mix(in srgb, var(--tng-semantic-focus-ring) 24%, transparent);
+  --tng-input-placeholder: var(--tng-semantic-foreground-muted);
+}
+
+.doc-cmp-input-field-ex-search-shell tng-input-field,
+.doc-cmp-input-field-ex-workspace-shell tng-input-field,
+.doc-cmp-input-field-ex-clear-shell tng-input-field {
+  display: block;
+  width: 100%;
+}
+
+.doc-cmp-input-field-ex-search-shell {
+  --tng-input-gap: 0.65rem;
+}
+
+.doc-cmp-input-field-ex-search-prefix,
+.doc-cmp-input-field-ex-search-meta,
+.doc-cmp-input-field-ex-workspace-meta {
+  color: var(--tng-semantic-foreground-secondary);
+}
+
+.doc-cmp-input-field-ex-search-icon {
+  height: 1.05rem;
+  width: 1.05rem;
+}
+
+.doc-cmp-input-field-ex-search-meta,
+.doc-cmp-input-field-ex-workspace-meta {
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.doc-cmp-input-field-ex-clear-action {
+  border: 0;
+  border-radius: 0.55rem;
+  background: transparent;
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 0.35rem 0.6rem;
+  transition: background-color 150ms ease, color 150ms ease;
+}
+
+.doc-cmp-input-field-ex-clear-action:hover {
+  background: color-mix(in srgb, var(--tng-semantic-foreground-secondary) 14%, transparent);
+  color: var(--tng-semantic-foreground-primary);
+}

@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { describe, expect, it } from 'vitest';
 
-import { TngPrefix, TngSuffix } from '../tng-adornment';
+import { TngInputFieldPrefix, TngInputFieldSuffix } from '../tng-adornment';
 import { TngInput } from '../tng-input';
 import { TngInputGroup } from '../tng-input-group';
 
@@ -18,10 +18,10 @@ import { TngInputGroup } from '../tng-input-group';
 class GroupOnlyInputHostComponent {}
 
 @Component({
-  imports: [TngInputGroup, TngInput, TngPrefix],
+  imports: [TngInputGroup, TngInput, TngInputFieldPrefix],
   template: `
     <tng-input-group>
-      <span tngPrefix>@</span>
+      <span tngInputFieldPrefix>@</span>
       <input tngInput />
     </tng-input-group>
   `,
@@ -29,35 +29,35 @@ class GroupOnlyInputHostComponent {}
 class GroupWithPrefixHostComponent {}
 
 @Component({
-  imports: [TngInputGroup, TngInput, TngSuffix],
+  imports: [TngInputGroup, TngInput, TngInputFieldSuffix],
   template: `
     <tng-input-group>
       <input tngInput />
-      <button tngSuffix type="button">X</button>
+      <button tngInputFieldSuffix type="button">X</button>
     </tng-input-group>
   `,
 })
 class GroupWithSuffixHostComponent {}
 
 @Component({
-  imports: [TngInputGroup, TngInput, TngPrefix, TngSuffix],
+  imports: [TngInputGroup, TngInput, TngInputFieldPrefix, TngInputFieldSuffix],
   template: `
     <tng-input-group style="width: 240px;">
-      <span tngPrefix>@</span>
+      <span tngInputFieldPrefix>@</span>
       <input tngInput value="Ada Lovelace" />
-      <button tngSuffix type="button">X</button>
+      <button tngInputFieldSuffix type="button">X</button>
     </tng-input-group>
   `,
 })
 class GroupWithPrefixAndSuffixNarrowHostComponent {}
 
 @Component({
-  imports: [TngInputGroup, TngInput, TngPrefix, TngSuffix],
+  imports: [TngInputGroup, TngInput, TngInputFieldPrefix, TngInputFieldSuffix],
   template: `
     <tng-input-group style="width: 640px;">
-      <span tngPrefix>@</span>
+      <span tngInputFieldPrefix>@</span>
       <input tngInput value="Ada Lovelace" />
-      <button tngSuffix type="button">X</button>
+      <button tngInputFieldSuffix type="button">X</button>
     </tng-input-group>
   `,
 })

@@ -75,7 +75,7 @@ export class HeadlessTextareaOverviewPageComponent implements OnDestroy {
   protected readonly stackblitzTailwindUrl = stackblitzTailwindUrl;
 
   protected readonly primitiveImportCode = [
-    "import { TngTextarea, TngInputGroup, TngSuffix } from '@tailng-ui/primitives';",
+    "import { TngTextarea, TngInputGroup, TngInputFieldSuffix } from '@tailng-ui/primitives';",
     '',
   ].join('\n');
 
@@ -87,7 +87,7 @@ export class HeadlessTextareaOverviewPageComponent implements OnDestroy {
   protected readonly groupedTextareaCode = [
     '<div tngInputGroup class="release-notes-shell">',
     '  <textarea tngTextarea rows="5" placeholder="Summarize the rollout"></textarea>',
-    '  <span tngSuffix aria-hidden="true">Autosaves</span>',
+    '  <span tngInputFieldSuffix aria-hidden="true">Autosaves</span>',
     '</div>',
     '',
   ].join('\n');
@@ -101,7 +101,7 @@ export class HeadlessTextareaOverviewPageComponent implements OnDestroy {
     '    [value]="releaseNotes()"',
     '    (input)="onReleaseNotesInput($event)"',
     '  ></textarea>',
-    '  <span tngSuffix aria-hidden="true">Autosaves</span>',
+    '  <span tngInputFieldSuffix aria-hidden="true">Autosaves</span>',
     '</div>',
     '',
   ].join('\n');

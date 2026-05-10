@@ -3,25 +3,25 @@ import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { describe, expect, it } from 'vitest';
 
-import { TngFormFieldComponent } from '../tng-form-field.component';
-import { TngInput, TngPrefix, TngSuffix } from '@tailng-ui/primitives';
+import { TngInputFieldComponent } from '../tng-input-field.component';
+import { TngInput, TngInputFieldPrefix, TngInputFieldSuffix } from '@tailng-ui/primitives';
 
 @Component({
-  // Only import TngFormFieldComponent here.
+  // Only import TngInputFieldComponent here.
   // It already imports TngInputGroup internally.
   // We only need primitives for the projected content.
-  imports: [TngFormFieldComponent, TngInput, TngPrefix, TngSuffix],
+  imports: [TngInputFieldComponent, TngInput, TngInputFieldPrefix, TngInputFieldSuffix],
   template: `
-    <tng-form-field>
-      <span tngPrefix>Lead</span>
+    <tng-input-field>
+      <span tngInputFieldPrefix>Lead</span>
       <input tngInput />
-      <span tngSuffix>Trail</span>
-    </tng-form-field>
+      <span tngInputFieldSuffix>Trail</span>
+    </tng-input-field>
   `,
 })
 class A11yHostComponent {}
 
-describe('tng-form-field — accessibility basics', () => {
+describe('tng-input-field — accessibility basics', () => {
   it('does not introduce extra tab stops beyond the actual input control', async () => {
     await TestBed.configureTestingModule({ imports: [A11yHostComponent] }).compileComponents();
 
@@ -30,7 +30,7 @@ describe('tng-form-field — accessibility basics', () => {
     await fixture.whenStable?.();
     fixture.detectChanges();
 
-    const hostDe = fixture.debugElement.query(By.css('tng-form-field'));
+    const hostDe = fixture.debugElement.query(By.css('tng-input-field'));
     const groupDe = fixture.debugElement.query(By.css('tng-input-group'));
 
     expect(hostDe).not.toBeNull();
@@ -97,7 +97,7 @@ describe('tng-form-field — accessibility basics', () => {
     const fixture = TestBed.createComponent(A11yHostComponent);
     fixture.detectChanges();
 
-    const host = fixture.debugElement.query(By.css('tng-form-field')).nativeElement as HTMLElement;
+    const host = fixture.debugElement.query(By.css('tng-input-field')).nativeElement as HTMLElement;
     const group = fixture.debugElement.query(By.css('tng-input-group')).nativeElement as HTMLElement;
 
     expect(host.hasAttribute('aria-live')).toBe(false);
@@ -106,11 +106,11 @@ describe('tng-form-field — accessibility basics', () => {
 
   it('does not override ARIA attributes on the projected control by default', async () => {
     @Component({
-      imports: [TngFormFieldComponent, TngInput],
+      imports: [TngInputFieldComponent, TngInput],
       template: `
-        <tng-form-field>
+        <tng-input-field>
           <input tngInput aria-label="Custom Label" aria-describedby="a b" />
-        </tng-form-field>
+        </tng-input-field>
       `,
     })
     class ControlAriaHostComponent {}

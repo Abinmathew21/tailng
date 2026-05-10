@@ -6,6 +6,7 @@
 export * from './listbox/listbox.directive';
 export * from './listbox/option.directive';
 export * from './listbox/tokens';
+export * from './_shared/id';
 export * from './autocomplete';
 export * from './button-toggle/tng-button-toggle';
 export * from './checkbox/tng-checkbox';

@@ -1,68 +1,61 @@
-import { tngInputCssVars, tngInputHostStates, tngInputSlots } from '../input/input.contract';
-
 /**
- * TailNG Form Field — public shell style contract
+ * TailNG Form Field — label/control/message wrapper contract.
  *
- * Scope: component layer (`<tng-form-field>` and wrappers such as `<tng-input>`)
- * The form-field contract composes the primitive input slots/states and exposes
- * the host-level appearance variants that map onto the primitive CSS vars.
+ * Scope: component layer (`<tng-form-field>`, `tngHint`, and `tngError`).
  */
 
 export const tngFormFieldSlots = {
-  root: 'form-field-wrapper',
-  group: tngInputSlots.group,
-  control: tngInputSlots.control,
-  leadingWrap: tngInputSlots.leadingWrap,
-  controlWrap: tngInputSlots.controlWrap,
-  trailingWrap: tngInputSlots.trailingWrap,
-  leading: tngInputSlots.leading,
-  trailing: tngInputSlots.trailing,
+  root: 'form-field',
+  label: 'form-field-label',
+  controlRow: 'form-field-control-row',
+  control: 'form-field-control',
+  messages: 'form-field-messages',
+  hint: 'form-field-hint',
+  error: 'form-field-error',
+  requiredMarker: 'form-field-required-marker',
+  prefix: 'form-field-prefix',
+  suffix: 'form-field-suffix',
 } as const;
 
 export type TngFormFieldSlot = (typeof tngFormFieldSlots)[keyof typeof tngFormFieldSlots];
 
 export const tngFormFieldHostAttrs = {
-  appearance: 'data-appearance',
+  labelPosition: 'data-label-position',
   size: 'data-size',
-  tone: 'data-tone',
-  fullWidth: 'data-full-width',
 } as const;
 
 export const tngFormFieldStates = {
-  disabled: tngInputHostStates.disabled,
-  invalid: tngInputHostStates.invalid,
-  readonly: tngInputHostStates.readonly,
-  focused: tngInputHostStates.focused,
-  hasLeading: tngInputHostStates.hasLeading,
-  hasTrailing: tngInputHostStates.hasTrailing,
+  focused: 'data-focused',
+  disabled: 'data-disabled',
+  invalid: 'data-invalid',
+  required: 'data-required',
 } as const;
 
-/**
- * Form-field variants are expressed by assigning the primitive input vars.
- */
 export const tngFormFieldCssVars = {
-  bg: tngInputCssVars.bg,
-  border: tngInputCssVars.border,
-  fg: tngInputCssVars.fg,
-  radius: tngInputCssVars.radius,
-  minHeight: tngInputCssVars.minHeight,
-  paddingY: tngInputCssVars.paddingY,
-  paddingX: tngInputCssVars.paddingX,
-  gap: tngInputCssVars.gap,
-  focusRing: tngInputCssVars.focusRing,
-  fontSize: tngInputCssVars.fontSize,
-  fontWeight: tngInputCssVars.fontWeight,
-  lineHeight: tngInputCssVars.lineHeight,
-  placeholder: tngInputCssVars.placeholder,
-} as const;
-
-export const tngFormFieldSemanticTokens = {
-  surface: '--tng-semantic-background-surface',
-  surfaceMuted: '--tng-semantic-background-muted',
-  fg: '--tng-semantic-foreground-primary',
-  border: '--tng-semantic-border-strong',
-  focus: '--tng-semantic-focus-ring',
-  brand: '--tng-semantic-accent-brand',
-  success: '--tng-semantic-accent-success',
-  danger: '--tng-semantic-accent-danger',
+  gap: '--tng-form-field-gap',
+  leftGap: '--tng-form-field-left-gap',
+  leftLabelWidth: '--tng-form-field-left-label-width',
+  fg: '--tng-form-field-fg',
+  frameBg: '--tng-form-field-frame-bg',
+  frameBorder: '--tng-form-field-frame-border',
+  frameFocusBorder: '--tng-form-field-frame-focus-border',
+  frameFocusRing: '--tng-form-field-frame-focus-ring',
+  frameInvalidBorder: '--tng-form-field-frame-invalid-border',
+  frameMinHeight: '--tng-form-field-frame-min-height',
+  framePx: '--tng-form-field-frame-px',
+  framePy: '--tng-form-field-frame-py',
+  frameRadius: '--tng-form-field-frame-radius',
+  labelFg: '--tng-form-field-label-fg',
+  labelFontSize: '--tng-form-field-label-font-size',
+  labelFontWeight: '--tng-form-field-label-font-weight',
+  outlineLabelInset: '--tng-form-field-outline-label-inset',
+  outlineLabelPx: '--tng-form-field-outline-label-px',
+  adornmentFg: '--tng-form-field-adornment-fg',
+  adornmentFontSize: '--tng-form-field-adornment-font-size',
+  adornmentGap: '--tng-form-field-adornment-gap',
+  messageGap: '--tng-form-field-message-gap',
+  messageFg: '--tng-form-field-message-fg',
+  messageFontSize: '--tng-form-field-message-font-size',
+  messageMinHeight: '--tng-form-field-message-min-height',
+  requiredMarkerFg: '--tng-form-field-required-marker-fg',
 } as const;

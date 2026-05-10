@@ -3,23 +3,23 @@ import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { describe, expect, it } from 'vitest';
 
-import { TngPrefix } from '../tng-adornment';
-import { TngSuffix } from '../tng-adornment';
+import { TngInputFieldPrefix } from '../tng-adornment';
+import { TngInputFieldSuffix } from '../tng-adornment';
 import { TngInput } from '../tng-input';
 import { TngInputGroup } from '../tng-input-group';
 
 @Component({
-  imports: [TngInputGroup, TngInput, TngPrefix, TngSuffix],
+  imports: [TngInputGroup, TngInput, TngInputFieldPrefix, TngInputFieldSuffix],
   template: `
     <tng-input-group>
-      <span tngPrefix>
+      <span tngInputFieldPrefix>
         <span class="lead-a">A</span>
         <span class="lead-b">B</span>
       </span>
 
       <input tngInput />
 
-      <span tngSuffix>
+      <span tngInputFieldSuffix>
         <span class="trail-x">X</span>
         <span class="trail-y">Y</span>
       </span>
@@ -29,17 +29,17 @@ import { TngInputGroup } from '../tng-input-group';
 class DomOrderHostComponent {}
 
 @Component({
-  imports: [TngInputGroup, TngInput, TngPrefix, TngSuffix],
+  imports: [TngInputGroup, TngInput, TngInputFieldPrefix, TngInputFieldSuffix],
   template: `
     <tng-input-group>
       @if (showLeading) {
-        <span tngPrefix><span class="lead">L</span></span>
+        <span tngInputFieldPrefix><span class="lead">L</span></span>
       }
 
       <input tngInput />
 
       @if (showTrailing) {
-        <span tngSuffix><span class="trail">T</span></span>
+        <span tngInputFieldSuffix><span class="trail">T</span></span>
       }
     </tng-input-group>
   `,

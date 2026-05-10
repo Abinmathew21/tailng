@@ -58,11 +58,11 @@
           <span class="label">Search with leading + trailing</span>
 
           <tng-input-group class="demo-group">
-            <span tngPrefix class="adornment" aria-hidden="true">🔎</span>
+            <span tngInputFieldPrefix class="adornment" aria-hidden="true">🔎</span>
 
             <input tngInput type="search" placeholder="Search primitives" class="demo-control" />
 
-            <span tngSuffix class="adornment" aria-hidden="true">⌘K</span>
+            <span tngInputFieldSuffix class="adornment" aria-hidden="true">⌘K</span>
           </tng-input-group>
 
           <p class="hint">
@@ -74,7 +74,7 @@
           <span class="label">Email with @ prefix</span>
 
           <tng-input-group class="demo-group">
-            <span tngPrefix class="adornment" aria-hidden="true">@</span>
+            <span tngInputFieldPrefix class="adornment" aria-hidden="true">@</span>
             <input tngInput type="email" placeholder="name" class="demo-control" />
           </tng-input-group>
         </div>
@@ -83,7 +83,7 @@
           <span class="label">Disabled control (group reflects data-disabled)</span>
 
           <tng-input-group class="demo-group">
-            <span tngPrefix class="adornment" aria-hidden="true">⛔</span>
+            <span tngInputFieldPrefix class="adornment" aria-hidden="true">⛔</span>
             <input tngInput placeholder="Disabled" [disabled]="true" class="demo-control" />
           </tng-input-group>
         </div>
@@ -92,7 +92,7 @@
           <span class="label">Invalid via ariaInvalid (group reflects data-invalid)</span>
 
           <tng-input-group class="demo-group">
-            <span tngPrefix class="adornment" aria-hidden="true">!</span>
+            <span tngInputFieldPrefix class="adornment" aria-hidden="true">!</span>
             <input tngInput placeholder="Invalid" [ariaInvalid]="true" class="demo-control" />
           </tng-input-group>
 
@@ -109,7 +109,7 @@
             <input tngInput type="search" placeholder="Search…" class="demo-control" />
 
             <!-- focusable trailing: this WILL be an extra tab stop, by design -->
-            <button tngSuffix type="button" class="icon-btn" aria-label="Clear">
+            <button tngInputFieldSuffix type="button" class="icon-btn" aria-label="Clear">
               ✕
             </button>
           </tng-input-group>
@@ -125,7 +125,7 @@
     <!-- C) Components -->
     <!-- --------------------------------------------- -->
     <section class="card">
-      <h2>Components: simple input + form field</h2>
+      <h2>Components: simple input + input field</h2>
 
       <div class="stack">
         <div class="field">
@@ -134,13 +134,13 @@
         </div>
 
         <div class="field">
-          <span class="label">Form field with prefix + suffix (`&lt;tng-form-field&gt;`)</span>
+          <span class="label">Input field with prefix + suffix (`&lt;tng-input-field&gt;`)</span>
 
-          <tng-form-field appearance="solid" size="lg">
-            <span tngPrefix class="adornment" aria-hidden="true">#</span>
+          <tng-input-field appearance="solid" size="lg">
+            <span tngInputFieldPrefix class="adornment" aria-hidden="true">#</span>
             <input tngInput type="text" placeholder="Issue number" />
-            <span tngSuffix class="adornment" aria-hidden="true">v1</span>
-          </tng-form-field>
+            <span tngInputFieldSuffix class="adornment" aria-hidden="true">v1</span>
+          </tng-input-field>
         </div>
 
         <div class="field">

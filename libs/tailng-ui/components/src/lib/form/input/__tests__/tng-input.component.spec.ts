@@ -228,7 +228,7 @@ const themeContractCss = [
   readFileSync(
     join(
       process.cwd(),
-      'libs/tailng-ui/theme/src/lib/component-contracts/form/form-field/form-field.css',
+      'libs/tailng-ui/theme/src/lib/component-contracts/form/input-field/input-field.css',
     ),
     'utf8',
   ),
@@ -350,7 +350,7 @@ describe('<tng-input> component', () => {
     expect(fixture.componentInstance.lastEventTarget).toBe(inputEl);
   });
 
-  it('passes visual tokens through to the internal form field', async () => {
+  it('passes visual tokens through to the internal input field', async () => {
     await TestBed.configureTestingModule({ imports: [InputHostComponent] }).compileComponents();
     const fixture = TestBed.createComponent(InputHostComponent);
     fixture.componentInstance.size = 'lg';
@@ -359,14 +359,14 @@ describe('<tng-input> component', () => {
     fixture.detectChanges();
 
     const host = fixture.debugElement.query(By.css('tng-input')).nativeElement as HTMLElement;
-    const formField = fixture.debugElement.query(By.css('tng-form-field')).nativeElement as HTMLElement;
+    const inputField = fixture.debugElement.query(By.css('tng-input-field')).nativeElement as HTMLElement;
 
     expect(host.getAttribute('data-size')).toBe('lg');
     expect(host.getAttribute('data-appearance')).toBe('solid');
     expect(host.getAttribute('data-tone')).toBe('primary');
-    expect(formField.getAttribute('data-size')).toBe('lg');
-    expect(formField.getAttribute('data-appearance')).toBe('solid');
-    expect(formField.getAttribute('data-tone')).toBe('primary');
+    expect(inputField.getAttribute('data-size')).toBe('lg');
+    expect(inputField.getAttribute('data-appearance')).toBe('solid');
+    expect(inputField.getAttribute('data-tone')).toBe('primary');
   });
 
   it('surfaces host-level CSS variables for the theme contract to consume', async () => {

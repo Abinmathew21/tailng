@@ -92,7 +92,7 @@ export class HeadlessTextareaApiPageComponent implements OnDestroy {
     '    placeholder="Add reviewer notes"',
     '    aria-label="Reviewer notes"',
     '  ></textarea>',
-    '  <span tngSuffix aria-hidden="true">Draft</span>',
+    '  <span tngInputFieldSuffix aria-hidden="true">Draft</span>',
     '</div>',
     '',
   ].join('\n');

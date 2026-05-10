@@ -34,7 +34,7 @@ const inputOutlineItemsBySection: Readonly<Record<InputDocSectionId, readonly Do
     ],
     api: [
       { id: 'tng-input-component', label: '<tng-input>' },
-      { id: 'tng-form-field', label: '<tng-form-field>' },
+      { id: 'tng-input-field', label: '<tng-input-field>' },
       { id: 'tng-input-directive', label: 'tngInput' },
       { id: 'slot-directives', label: 'Slot directives' },
     ],

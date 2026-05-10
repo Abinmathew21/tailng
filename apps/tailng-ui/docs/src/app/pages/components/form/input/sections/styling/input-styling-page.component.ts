@@ -34,8 +34,8 @@ export class InputStylingPageComponent implements OnDestroy {
   protected readonly slotSelectorsCode = [
     'tng-input',
     '[data-slot="input-component"]',
-    'tng-form-field',
-    '[data-slot="form-field-wrapper"]',
+    'tng-input-field',
+    '[data-slot="input-field-wrapper"]',
     '[data-appearance]',
     '[data-size]',
     '[data-tone]',

@@ -1,0 +1,40 @@
+:host {
+  display: block;
+}
+
+.doc-cmp-input-field-st-workspace-field {
+  display: grid;
+  gap: 0.5rem;
+  width: min(100%, 31rem);
+}
+
+.doc-cmp-input-field-st-workspace-label {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.doc-cmp-input-field-st-workspace-shell {
+  width: 100%;
+  --tng-input-bg: var(--tng-semantic-background-surface);
+  --tng-input-border: var(--tng-semantic-border-subtle);
+  --tng-input-radius: 0.78rem;
+  --tng-input-min-height: 2.65rem;
+  --tng-input-px: 0.85rem;
+  --tng-input-gap: 0.55rem;
+  --tng-input-fg: var(--tng-semantic-foreground-primary);
+  --tng-input-focus-ring: color-mix(in srgb, var(--tng-semantic-focus-ring) 24%, transparent);
+  --tng-input-placeholder: var(--tng-semantic-foreground-muted);
+}
+
+.doc-cmp-input-field-st-workspace-shell tng-input-field {
+  display: block;
+  width: 100%;
+}
+
+.doc-cmp-input-field-st-workspace-meta {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+}

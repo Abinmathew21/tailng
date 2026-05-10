@@ -7,6 +7,11 @@ import {
   TngCardDescriptionComponent,
   TngCardHeaderComponent,
   TngCardTitleComponent,
+  TngMonthDaypickerComponent,
+  TngSliderComponent,
+  TngToggleComponent,
+  TngToggleGroupComponent,
+  TngYearpickerComponent,
 } from '@tailng-ui/components';
 import { TngIcon } from '@tailng-ui/icons';
 import { map } from 'rxjs/operators';
@@ -35,6 +40,11 @@ const fallbackData: ComponentsDocsRouteData = toComponentsDocsRouteData(
     TngCardTitleComponent,
     TngCardDescriptionComponent,
     TngCardContentComponent,
+    TngMonthDaypickerComponent,
+    TngSliderComponent,
+    TngToggleComponent,
+    TngToggleGroupComponent,
+    TngYearpickerComponent,
     TngIcon,
   ],
   templateUrl: './form-landing-page.component.html',
@@ -124,12 +134,22 @@ export class FormLandingPageComponent {
       details: 'Group state is coordinated by value/values inputs and outputs, not a direct signal-form field binding.',
     },
     {
+      component: 'tng-month-daypicker',
+      status: 'Not ready',
+      details: 'Currently exposes controlled value/valueChange only. It is not yet wired as a signal-form field control.',
+    },
+    {
+      component: 'tng-yearpicker',
+      status: 'Not ready',
+      details: 'Currently exposes controlled value/valueChange only. It is not yet wired as a signal-form field control.',
+    },
+    {
       component: 'tng-chips',
       status: 'Not a field',
       details: 'Treat this as selected-value presentation and removal UI around another field model, not as a standalone form control.',
     },
     {
-      component: 'tng-form-field',
+      component: 'tng-input-field',
       status: 'Not a field',
       details: 'Shell only. Pair it with input[tngInput] or another actual field control.',
     },
@@ -145,8 +165,8 @@ export class FormLandingPageComponent {
     },
     {
       component: 'tng-slider',
-      status: 'Not documented yet',
-      details: 'The component currently exposes value/valueChange only and does not have a dedicated docs page in this section yet.',
+      status: 'Not ready',
+      details: 'Currently exposes value/valueChange only. It does not yet implement ControlValueAccessor or a model-backed form control contract.',
     },
   ]);
 }

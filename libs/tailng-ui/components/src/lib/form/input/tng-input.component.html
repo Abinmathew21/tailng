@@ -1,4 +1,4 @@
-<tng-form-field
+<tng-input-field
   class="tng-input"
   [appearance]="appearance()"
   [size]="size()"
@@ -45,7 +45,7 @@
   />
 
   @if (isNumberInput) {
-    <span tngSuffix class="tng-input-number-controls">
+    <span tngInputFieldSuffix class="tng-input-number-controls">
       <button
         class="tng-input-number-button"
         type="button"
@@ -68,4 +68,4 @@
       </button>
     </span>
   }
-</tng-form-field>
+</tng-input-field>

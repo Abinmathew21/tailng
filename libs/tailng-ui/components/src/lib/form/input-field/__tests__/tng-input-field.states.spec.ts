@@ -5,15 +5,15 @@ import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { describe, expect, it } from 'vitest';
 
-import { TngFormFieldComponent } from '../tng-form-field.component';
-import { TngInput, TngPrefix, TngSuffix } from '@tailng-ui/primitives';
+import { TngInputFieldComponent } from '../tng-input-field.component';
+import { TngInput, TngInputFieldPrefix, TngInputFieldSuffix } from '@tailng-ui/primitives';
 
 @Component({
-  imports: [TngFormFieldComponent, TngInput, TngPrefix, TngSuffix],
+  imports: [TngInputFieldComponent, TngInput, TngInputFieldPrefix, TngInputFieldSuffix],
   template: `
-    <tng-form-field>
+    <tng-input-field>
       @if (showLeading) {
-        <span tngPrefix>Lead</span>
+        <span tngInputFieldPrefix>Lead</span>
       }
 
       <input
@@ -23,9 +23,9 @@ import { TngInput, TngPrefix, TngSuffix } from '@tailng-ui/primitives';
       />
 
       @if (showTrailing) {
-        <span tngSuffix>Trail</span>
+        <span tngInputFieldSuffix>Trail</span>
       }
-    </tng-form-field>
+    </tng-input-field>
   `,
 })
 class StatesHostComponent {
@@ -35,15 +35,15 @@ class StatesHostComponent {
   public showTrailing = false;
 }
 
-const formFieldComponentCss = readFileSync(
+const inputFieldComponentCss = readFileSync(
   join(
     process.cwd(),
-    'libs/tailng-ui/components/src/lib/form/form-field/tng-form-field.component.css',
+    'libs/tailng-ui/components/src/lib/form/input-field/tng-input-field.component.css',
   ),
   'utf8',
 );
 
-describe('tng-form-field — interactive visual state hooks', () => {
+describe('tng-input-field — interactive visual state hooks', () => {
   async function flushState(fixture: any): Promise<void> {
     fixture.detectChanges(false);
     await fixture.whenStable?.();
@@ -53,7 +53,7 @@ describe('tng-form-field — interactive visual state hooks', () => {
   }
 
   function getGroupEl(fixture: any): HTMLElement {
-    // The primitive group is rendered inside <tng-form-field>
+    // The primitive group is rendered inside <tng-input-field>
     return fixture.debugElement.query(By.css('tng-input-group')).nativeElement as HTMLElement;
   }
 
@@ -144,12 +144,12 @@ describe('tng-form-field — interactive visual state hooks', () => {
     const fixture = TestBed.createComponent(StatesHostComponent);
     await flushState(fixture);
 
-    const proxy = fixture.debugElement.query(By.css('.tng-form-field-control-proxy')).nativeElement as HTMLElement;
+    const proxy = fixture.debugElement.query(By.css('.tng-input-field-control-proxy')).nativeElement as HTMLElement;
 
     expect(proxy).toBeTruthy();
-    expect(formFieldComponentCss).toContain('.tng-form-field-control-proxy');
-    expect(formFieldComponentCss).toContain('display: flex;');
-    expect(formFieldComponentCss).toContain('flex: 1 1 auto;');
-    expect(formFieldComponentCss).toContain('width: 100%;');
+    expect(inputFieldComponentCss).toContain('.tng-input-field-control-proxy');
+    expect(inputFieldComponentCss).toContain('display: flex;');
+    expect(inputFieldComponentCss).toContain('flex: 1 1 auto;');
+    expect(inputFieldComponentCss).toContain('width: 100%;');
   });
 });

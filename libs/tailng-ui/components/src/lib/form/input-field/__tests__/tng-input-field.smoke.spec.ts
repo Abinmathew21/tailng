@@ -4,33 +4,33 @@ import { By } from '@angular/platform-browser';
 import { describe, expect, it } from 'vitest';
 
 // TODO: update import paths once implemented
-import { TngInput, TngPrefix, TngSuffix } from '@tailng-ui/primitives';
-import { TngFormFieldComponent } from '../tng-form-field.component';
+import { TngInput, TngInputFieldPrefix, TngInputFieldSuffix } from '@tailng-ui/primitives';
+import { TngInputFieldComponent } from '../tng-input-field.component';
 
 @Component({
-  imports: [TngFormFieldComponent, TngInput],
+  imports: [TngInputFieldComponent, TngInput],
   template: `
-    <tng-form-field>
+    <tng-input-field>
       <input tngInput />
-    </tng-form-field>
+    </tng-input-field>
   `,
 })
 class StyledSmokeHostComponent {}
 
 @Component({
-  imports: [TngFormFieldComponent, TngInput, TngPrefix, TngSuffix],
+  imports: [TngInputFieldComponent, TngInput, TngInputFieldPrefix, TngInputFieldSuffix],
   template: `
-    <tng-form-field>
-      <span tngPrefix>Leading</span>
+    <tng-input-field>
+      <span tngInputFieldPrefix>Leading</span>
       <input tngInput />
-      <span tngSuffix>Trailing</span>
-    </tng-form-field>
+      <span tngInputFieldSuffix>Trailing</span>
+    </tng-input-field>
   `,
 })
 class StyledSlotsHostComponent {}
 
-describe('<tng-form-field> shell — smoke & composition', () => {
-  it.skip('renders <tng-form-field> without errors with a projected <input tngInput>', async () => {
+describe('<tng-input-field> shell — smoke & composition', () => {
+  it.skip('renders <tng-input-field> without errors with a projected <input tngInput>', async () => {
     await TestBed.configureTestingModule({ imports: [StyledSmokeHostComponent] }).compileComponents();
 
     const fixture = TestBed.createComponent(StyledSmokeHostComponent);
@@ -40,7 +40,7 @@ describe('<tng-form-field> shell — smoke & composition', () => {
     expect(input).toBeTruthy();
   });
 
-  it.skip('renders <tng-form-field> with both leading and trailing content without errors', async () => {
+  it.skip('renders <tng-input-field> with both leading and trailing content without errors', async () => {
     await TestBed.configureTestingModule({ imports: [StyledSlotsHostComponent] }).compileComponents();
 
     const fixture = TestBed.createComponent(StyledSlotsHostComponent);

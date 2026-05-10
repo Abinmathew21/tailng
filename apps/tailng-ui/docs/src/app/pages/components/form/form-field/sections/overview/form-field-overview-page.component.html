@@ -1,40 +1,55 @@
-<article class="docs-section-page input-overview">
+<article class="docs-section-page form-field-doc">
   <div class="docs-section-page-main">
-    <h2 class="input-overview-title">Form Field</h2>
-    <p class="input-overview-lead">
-      <code>&lt;tng-form-field&gt;</code> is the component shell for one projected
-      <code>input[tngInput]</code> or <code>textarea[tngInput]</code> plus optional
-      <code>tngPrefix</code>/<code>tngSuffix</code> content.
+    <h2>Form Field</h2>
+    <p>
+      <code>&lt;tng-form-field&gt;</code> is the optional wrapper for a complete field:
+      label, one control, hint text, error text, and field-level state styling.
     </p>
-    <p class="input-overview-lead">
-      Reach for it when the field needs icons, fixed helper text, or trailing actions while the
-      shared TailNG shell keeps border, spacing, and focus treatment consistent.
+    <p>
+      Use it when the label and messages should travel with the control. Keep
+      <code>&lt;tng-input-field&gt;</code> for the narrower prefix/suffix input shell.
     </p>
 
-    <section id="what-form-field-does" class="docs-section-anchor input-overview-block">
-      <h3>What form field does</h3>
-      <ul class="input-overview-list">
-        <li>
-          <strong>Owns the shell</strong>: the component applies the shared input chrome and
-          density model.
-        </li>
-        <li>
-          <strong>Projects one real control</strong>: the native input or textarea still comes
-          from <code>tngInput</code>.
-        </li>
-        <li>
-          <strong>Keeps adornments outside the input</strong>: prefix and suffix content share the
-          same shell without custom layout glue.
-        </li>
+    <section id="what-form-field-does" class="docs-section-anchor">
+      <h3>What Form Field Does</h3>
+      <ul>
+        <li>Connects a projected <code>label[tngLabel]</code> to the compatible control.</li>
+        <li>Collects visible <code>tngHint</code> and <code>tngError</code> ids for <code>aria-describedby</code>.</li>
+        <li>Reflects focused, invalid, disabled, required, size, and label position state with data attributes.</li>
       </ul>
     </section>
 
-    <section id="simple-examples" class="docs-section-anchor input-overview-block">
+    <section id="basic-field" class="docs-section-anchor">
+      <h3>Basic Field</h3>
+      <div class="form-field-doc-preview">
+        <tng-form-field>
+          <tng-label forId="docs-form-field-email">Email</tng-label>
+          <tng-input
+            id="docs-form-field-email"
+            type="email"
+            placeholder="team@tailng.dev"
+            required
+          />
+          <p tngHint>Use your work email.</p>
+          <p tngError>Email is required.</p>
+        </tng-form-field>
+      </div>
+      <tng-code-block
+        [code]="basicCode"
+        adapter="shiki"
+        language="html"
+        title="Field with label, hint, and error"
+        [lineNumbers]="false"
+        [wrap]="true"
+      />
+    </section>
+
+    <section id="input-group-field" class="docs-section-anchor">
       <app-docs-example-tabs-section
-        heading="Simple examples"
-        description="Compare the same form-field composition across plain CSS and Tailwind CSS while styling only through the host token contract."
-        ariaLabel="Form field style examples"
-        tabListAriaLabel="Form field example style variants"
+        heading="With Input Group"
+        description="Use tng-input-field inside tng-form-field when the control needs prefix or suffix content."
+        ariaLabel="Form field with input group examples"
+        tabListAriaLabel="Form field input group variants"
         defaultValue="plain-css"
         [codeBlockTheme]="codeBlockTheme()"
       >
@@ -42,131 +57,52 @@
           appDocsExampleVariant
           value="plain-css"
           label="Plain-CSS"
-          panelTitle="Form Field (Plain-CSS)"
-          [codeTabs]="plainCssExampleCodeTabs"
-          [stackblitzUrl]="stackblitzVanillaUrl"
+          panelTitle="Input group field (Plain-CSS)"
+          [codeTabs]="inputGroupPlainCodeTabs"
         >
-          <label class="doc-cmp-form-field-ov-plain-card">
-            <span class="doc-cmp-form-field-ov-plain-label">Search docs</span>
-            <div class="doc-cmp-form-field-ov-plain-shell">
-              <tng-form-field>
-                <span tngPrefix aria-hidden="true" class="doc-cmp-form-field-ov-plain-prefix">
-                  <tng-icon icon="search" class="doc-cmp-form-field-ov-plain-icon" />
-                </span>
-                <input tngInput type="search" placeholder="Search components..." />
-                <span tngSuffix class="doc-cmp-form-field-ov-plain-meta">Ctrl+K</span>
-              </tng-form-field>
-            </div>
-          </label>
+          <div class="form-field-doc-preview">
+            <tng-form-field>
+              <tng-label forId="docs-form-field-amount">Amount</tng-label>
+              <tng-input-field>
+                <span tngInputFieldPrefix>$</span>
+                <input tngInput id="docs-form-field-amount" type="number" />
+                <span tngInputFieldSuffix>USD</span>
+              </tng-input-field>
+              <p tngHint>Enter amount before tax.</p>
+            </tng-form-field>
+          </div>
         </ng-template>
 
         <ng-template
           appDocsExampleVariant
           value="tailwind-css"
           label="Tailwind CSS"
-          panelTitle="Form Field (Tailwind CSS)"
-          [codeTabs]="tailwindExampleCodeTabs"
-          [stackblitzUrl]="stackblitzTailwindUrl"
+          panelTitle="Input group field (Tailwind CSS)"
+          [codeTabs]="inputGroupTailwindCodeTabs"
         >
-          <label class="mx-auto grid w-full max-w-[34rem] gap-2 rounded-[1.5rem] border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-surface)] p-5 text-[var(--tng-semantic-foreground-primary)] shadow-[0_12px_32px_color-mix(in_srgb,var(--tng-semantic-foreground-primary)_8%,transparent)]">
-            <span class="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--tng-semantic-foreground-secondary)]"
-              >Search docs</span
-            >
-            <div [class]="tailwindHostClass">
-              <tng-form-field>
-                <span tngPrefix aria-hidden="true" class="text-[var(--tng-semantic-foreground-secondary)]">
-                  <tng-icon icon="search" class="h-4 w-4" />
+          <div class="form-field-doc-preview">
+            <tng-form-field [class]="inputGroupTailwindFieldClass">
+              <tng-label forId="docs-form-field-amount-tailwind">Amount</tng-label>
+              <tng-input-field>
+                <span
+                  tngInputFieldPrefix
+                  class="text-sm font-semibold text-[var(--tng-semantic-foreground-secondary)]"
+                >
+                  $
                 </span>
-                <input tngInput type="search" placeholder="Search components..." />
-                <span tngSuffix class="text-xs font-semibold text-[var(--tng-semantic-foreground-secondary)]">Ctrl+K</span>
-              </tng-form-field>
-            </div>
-          </label>
+                <input tngInput id="docs-form-field-amount-tailwind" type="number" />
+                <span
+                  tngInputFieldSuffix
+                  class="text-sm font-semibold text-[var(--tng-semantic-foreground-secondary)]"
+                >
+                  USD
+                </span>
+              </tng-input-field>
+              <p tngHint>Enter amount before tax.</p>
+            </tng-form-field>
+          </div>
         </ng-template>
       </app-docs-example-tabs-section>
-    </section>
-
-    <section id="installation" class="docs-section-anchor input-overview-block">
-      <h3>Installation</h3>
-      <p>
-        Import the shell component from components and the projected input primitives from
-        primitives. Bring in icons only when the field actually renders icon content.
-      </p>
-      <tng-code-block
-        [code]="importsCode"
-        adapter="shiki"
-        language="ts"
-        title="Imports"
-        [theme]="codeBlockTheme()"
-        [sanitizeHtml]="false"
-        [wrap]="true"
-        [lineNumbers]="false"
-      ></tng-code-block>
-    </section>
-
-    <section id="basic-composition" class="docs-section-anchor input-overview-block">
-      <h3>Basic composition</h3>
-      <h4>Minimal shell</h4>
-      <tng-code-block
-        [code]="basicCompositionCode"
-        adapter="shiki"
-        language="html"
-        title="Minimal form field"
-        [theme]="codeBlockTheme()"
-        [sanitizeHtml]="false"
-        [wrap]="true"
-        [lineNumbers]="false"
-      ></tng-code-block>
-
-      <h4>Search field with slots</h4>
-      <tng-code-block
-        [code]="searchCompositionCode"
-        adapter="shiki"
-        language="html"
-        title="Search field"
-        [theme]="codeBlockTheme()"
-        [sanitizeHtml]="false"
-        [wrap]="true"
-        [lineNumbers]="false"
-      ></tng-code-block>
-    </section>
-
-    <section id="relationship-to-input-component" class="docs-section-anchor input-overview-block">
-      <h3>Relationship to input component</h3>
-      <p>
-        <code>&lt;tng-input&gt;</code> is still the better fit when the field is just a plain
-        control. Choose <code>&lt;tng-form-field&gt;</code> once the shell needs projected prefix
-        or suffix content.
-      </p>
-      <tng-code-block
-        [code]="relationshipCode"
-        adapter="shiki"
-        language="html"
-        title="Choose the right component"
-        [theme]="codeBlockTheme()"
-        [sanitizeHtml]="false"
-        [wrap]="true"
-        [lineNumbers]="false"
-      ></tng-code-block>
-    </section>
-
-    <section id="accessibility-guidance" class="docs-section-anchor input-overview-block">
-      <h3>Accessibility guidance</h3>
-      <ul class="input-overview-list">
-        <li>Give the projected input or textarea a real accessible name with a label or ARIA.</li>
-        <li>Mark decorative prefix and suffix content as <code>aria-hidden="true"</code>.</li>
-        <li>Trailing buttons should keep their own explicit accessible labels.</li>
-      </ul>
-      <tng-code-block
-        [code]="accessibilityCode"
-        adapter="shiki"
-        language="html"
-        title="Accessible composition"
-        [theme]="codeBlockTheme()"
-        [sanitizeHtml]="false"
-        [wrap]="true"
-        [lineNumbers]="false"
-      ></tng-code-block>
     </section>
   </div>
 </article>

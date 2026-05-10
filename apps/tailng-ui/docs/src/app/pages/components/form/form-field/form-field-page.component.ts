@@ -1,6 +1,7 @@
 import { computed, Component, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { filter, map, startWith } from 'rxjs/operators';
 import { DocsComponentSectionTabsComponent } from '../../../../shared/component-section-tabs/docs-component-section-tabs.component';
 import { DocsComponentSectionOutlineComponent } from '../../../../shared/section-outline/docs-component-section-outline.component';
 import {
@@ -8,7 +9,6 @@ import {
   getDocsComponentSectionOutlineItems,
   getDocsComponentSectionOutlineTitle,
 } from '../../../../shared/section-outline/component-section-outline.data';
-import { filter, map, startWith } from 'rxjs/operators';
 
 type FormFieldDocSectionId = 'api' | 'examples' | 'overview' | 'styling';
 
@@ -68,15 +68,10 @@ export class FormFieldPageComponent {
   private resolveSectionFromUrl(rawUrl: string): FormFieldDocSectionId | null {
     const path = this.normalizeUrl(rawUrl);
     const segments = path.split('/').filter((segment) => segment.length > 0);
-    if (segments.length < 4) {
-      return null;
-    }
+    if (segments.length < 4) return null;
 
     const section = segments[3];
-    if (section === undefined || !isFormFieldDocSectionId(section)) {
-      return null;
-    }
-
+    if (section === undefined || !isFormFieldDocSectionId(section)) return null;
     return section;
   }
 
@@ -85,19 +80,11 @@ export class FormFieldPageComponent {
     const hashIndex = rawUrl.indexOf('#');
     let endIndex = rawUrl.length;
 
-    if (queryIndex >= 0) {
-      endIndex = Math.min(endIndex, queryIndex);
-    }
-
-    if (hashIndex >= 0) {
-      endIndex = Math.min(endIndex, hashIndex);
-    }
+    if (queryIndex >= 0) endIndex = Math.min(endIndex, queryIndex);
+    if (hashIndex >= 0) endIndex = Math.min(endIndex, hashIndex);
 
     const normalized = rawUrl.slice(0, endIndex);
-    if (normalized.length > 1 && normalized.endsWith('/')) {
-      return normalized.slice(0, -1);
-    }
-
-    return normalized;
+    return normalized.length > 1 && normalized.endsWith('/') ? normalized.slice(0, -1) : normalized;
   }
 }
+

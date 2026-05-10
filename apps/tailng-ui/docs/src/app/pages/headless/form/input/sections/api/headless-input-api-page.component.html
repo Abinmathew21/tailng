@@ -50,7 +50,7 @@
       <h3><code>tngInputGroup</code> (primitive shell)</h3>
       <p>
         Wraps a single projected <code>tngInput</code> control with optional
-        <code>tngPrefix</code>/<code>tngSuffix</code> slots and provides the base structural layout for
+        <code>tngInputFieldPrefix</code>/<code>tngInputFieldSuffix</code> slots and provides the base structural layout for
         leading, control, and trailing regions.
       </p>
       <app-docs-example-tabs-section
@@ -72,7 +72,7 @@
         >
           <div class="input-example-preview">
             <div tngInputGroup class="input-example-headless-shell">
-              <span tngPrefix aria-hidden="true" class="input-api-prefix">
+              <span tngInputFieldPrefix aria-hidden="true" class="input-api-prefix">
                 <tng-icon icon="search" class="input-example-icon" />
               </span>
               <input
@@ -83,7 +83,7 @@
                 class="input-api-control"
               />
               <button
-                tngSuffix
+                tngInputFieldSuffix
                 type="button"
                 class="input-api-icon-button"
                 aria-label="Clear search"
@@ -108,7 +108,7 @@
               class="min-h-11 w-full max-w-[32rem] items-center gap-2 rounded-xl border border-slate-300 bg-white px-3 shadow-sm transition
                      [&[data-focused]]:border-blue-500 [&[data-focused]]:ring-2 [&[data-focused]]:ring-blue-200"
             >
-              <span tngPrefix aria-hidden="true" class="text-slate-500">
+              <span tngInputFieldPrefix aria-hidden="true" class="text-slate-500">
                 <tng-icon icon="search" class="h-4 w-4" />
               </span>
               <input
@@ -119,7 +119,7 @@
                 class="min-w-0 flex-1 border-0 bg-transparent p-0 text-[0.98rem] outline-none"
               />
               <button
-                tngSuffix
+                tngInputFieldSuffix
                 type="button"
                 aria-label="Clear search"
                 class="inline-flex items-center rounded-full border-0 bg-transparent p-0 text-slate-500 transition hover:text-slate-700"
@@ -210,13 +210,13 @@
           </thead>
           <tbody>
             <tr>
-              <td><code>tngPrefix</code></td>
+              <td><code>tngInputFieldPrefix</code></td>
               <td>Projected leading element</td>
               <td><code>data-slot="input-leading"</code></td>
               <td>Marks prefix/adornment content projected into the group’s leading region.</td>
             </tr>
             <tr>
-              <td><code>tngSuffix</code></td>
+              <td><code>tngInputFieldSuffix</code></td>
               <td>Projected trailing element</td>
               <td><code>data-slot="input-trailing"</code></td>
               <td>Marks suffix/action content projected into the group’s trailing region.</td>

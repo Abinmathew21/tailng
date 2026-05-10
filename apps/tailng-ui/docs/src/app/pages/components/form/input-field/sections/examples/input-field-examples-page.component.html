@@ -1,0 +1,202 @@
+<article class="docs-section-page input-examples">
+  <div class="docs-section-page-main">
+    <h2 class="input-examples-title">Examples</h2>
+    <p class="input-examples-lead">
+      Common <code>tng-input-field</code> patterns with explicit Plain-CSS and Tailwind CSS shell
+      examples.
+    </p>
+
+    <section id="form-usage" class="docs-section-anchor input-examples-block">
+      <app-docs-example-tabs-section
+        heading="Form usage"
+        description="Use the input-field wrapper as the visual shell for native form controls and helper actions."
+        ariaLabel="Input field form usage example"
+        tabListAriaLabel="Input field form usage variants"
+        defaultValue="live-demo"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <ng-template appDocsExampleVariant value="live-demo" label="Live demo" panelTitle="Input field form usage">
+          <app-docs-form-demo-shell
+            title="Search command center"
+            description="Combine prefixes, suffixes, and a native input inside a real submit-ready form row."
+            submitLabel="Run search"
+          >
+            <div docsFormDemoField class="doc-cmp-input-field-ex-search-preview">
+              <div class="doc-cmp-input-field-ex-search-shell">
+                <tng-input-field>
+                  <span tngInputFieldPrefix aria-hidden="true" class="doc-cmp-input-field-ex-search-prefix">
+                    <tng-icon icon="search" class="doc-cmp-input-field-ex-search-icon" />
+                  </span>
+                  <input tngInput type="search" name="query" placeholder="Search components..." />
+                  <span tngInputFieldSuffix class="doc-cmp-input-field-ex-search-meta">Ctrl+K</span>
+                </tng-input-field>
+              </div>
+            </div>
+            <p docsFormDemoSummary>Use the wrapper to keep prefix, input, and suffix semantics grouped inside one field.</p>
+          </app-docs-form-demo-shell>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
+
+    <section id="global-search-field" class="docs-section-anchor input-examples-block">
+      <app-docs-example-tabs-section
+        heading="Global search field"
+        description="Search field with an icon prefix and keyboard-hint suffix."
+        ariaLabel="Input field search variants"
+        tabListAriaLabel="Input field search style variants"
+        defaultValue="plain-css"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <ng-template
+          appDocsExampleVariant
+          value="plain-css"
+          label="Plain-CSS"
+          panelTitle="Global search field (Plain-CSS)"
+          [codeTabs]="searchPlainCodeTabs"
+          [stackblitzUrl]="stackblitzVanillaUrl"
+        >
+          <div class="doc-cmp-input-field-ex-search-preview">
+            <div class="doc-cmp-input-field-ex-search-shell">
+              <tng-input-field>
+                <span tngInputFieldPrefix aria-hidden="true" class="doc-cmp-input-field-ex-search-prefix">
+                  <tng-icon icon="search" class="doc-cmp-input-field-ex-search-icon" />
+                </span>
+                <input tngInput type="search" placeholder="Search components..." />
+                <span tngInputFieldSuffix class="doc-cmp-input-field-ex-search-meta">Ctrl+K</span>
+              </tng-input-field>
+            </div>
+          </div>
+        </ng-template>
+
+        <ng-template
+          appDocsExampleVariant
+          value="tailwind-css"
+          label="Tailwind CSS"
+          panelTitle="Global search field (Tailwind CSS)"
+          [codeTabs]="searchTailwindCodeTabs"
+          [stackblitzUrl]="stackblitzTailwindUrl"
+        >
+          <div class="doc-cmp-input-field-ex-search-preview">
+            <div [class]="searchTailwindHostClass">
+              <tng-input-field>
+                <span tngInputFieldPrefix aria-hidden="true" class="text-[var(--tng-semantic-foreground-secondary)]">
+                  <tng-icon icon="search" class="h-4 w-4" />
+                </span>
+                <input tngInput type="search" placeholder="Search components..." />
+                <span tngInputFieldSuffix class="text-xs font-semibold text-[var(--tng-semantic-foreground-secondary)]">Ctrl+K</span>
+              </tng-input-field>
+            </div>
+          </div>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
+
+    <section id="workspace-slug-field" class="docs-section-anchor input-examples-block">
+      <app-docs-example-tabs-section
+        heading="Workspace slug field"
+        description="Editable workspace slug paired with a fixed suffix domain."
+        ariaLabel="Input field workspace variants"
+        tabListAriaLabel="Input field workspace style variants"
+        defaultValue="plain-css"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <ng-template
+          appDocsExampleVariant
+          value="plain-css"
+          label="Plain-CSS"
+          panelTitle="Workspace slug field (Plain-CSS)"
+          [codeTabs]="workspacePlainCodeTabs"
+          [stackblitzUrl]="stackblitzVanillaUrl"
+        >
+          <div class="doc-cmp-input-field-ex-workspace-preview">
+            <div class="doc-cmp-input-field-ex-workspace-shell">
+              <tng-input-field>
+                <input tngInput type="text" value="core-platform" />
+                <span tngInputFieldSuffix class="doc-cmp-input-field-ex-workspace-meta">.tailng.dev</span>
+              </tng-input-field>
+            </div>
+          </div>
+        </ng-template>
+
+        <ng-template
+          appDocsExampleVariant
+          value="tailwind-css"
+          label="Tailwind CSS"
+          panelTitle="Workspace slug field (Tailwind CSS)"
+          [codeTabs]="workspaceTailwindCodeTabs"
+          [stackblitzUrl]="stackblitzTailwindUrl"
+        >
+          <div class="doc-cmp-input-field-ex-workspace-preview">
+            <div [class]="workspaceTailwindHostClass">
+              <tng-input-field>
+                <input tngInput type="text" value="core-platform" />
+                <span tngInputFieldSuffix class="text-xs font-semibold text-[var(--tng-semantic-foreground-secondary)]">.tailng.dev</span>
+              </tng-input-field>
+            </div>
+          </div>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
+
+    <section id="clear-action-field" class="docs-section-anchor input-examples-block">
+      <app-docs-example-tabs-section
+        heading="Clear action field"
+        description="Trailing action button inside the shared shell."
+        ariaLabel="Input field clear action variants"
+        tabListAriaLabel="Input field clear action style variants"
+        defaultValue="plain-css"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <ng-template
+          appDocsExampleVariant
+          value="plain-css"
+          label="Plain-CSS"
+          panelTitle="Clear action field (Plain-CSS)"
+          [stackblitzUrl]="stackblitzVanillaUrl"
+          [codeTabs]="clearPlainCodeTabs"
+        >
+          <div class="doc-cmp-input-field-ex-clear-preview">
+            <div class="doc-cmp-input-field-ex-clear-shell">
+              <tng-input-field>
+                <input tngInput type="search" value="TailNG" />
+                <button
+                  tngInputFieldSuffix
+                  type="button"
+                  class="doc-cmp-input-field-ex-clear-action"
+                  aria-label="Clear search"
+                >
+                  Clear
+                </button>
+              </tng-input-field>
+            </div>
+          </div>
+        </ng-template>
+
+        <ng-template
+          appDocsExampleVariant
+          value="tailwind-css"
+          label="Tailwind CSS"
+          panelTitle="Clear action field (Tailwind CSS)"
+          [stackblitzUrl]="stackblitzTailwindUrl"
+          [codeTabs]="clearTailwindCodeTabs"
+        >
+          <div class="doc-cmp-input-field-ex-clear-preview">
+            <div [class]="clearTailwindHostClass">
+              <tng-input-field>
+                <input tngInput type="search" value="TailNG" />
+                <button
+                  tngInputFieldSuffix
+                  type="button"
+                  aria-label="Clear search"
+                  class="rounded-md bg-transparent px-2.5 py-1 text-xs font-semibold text-[var(--tng-semantic-foreground-secondary)] transition hover:bg-[color-mix(in_srgb,var(--tng-semantic-foreground-secondary)_14%,transparent)] hover:text-[var(--tng-semantic-foreground-primary)]"
+                >
+                  Clear
+                </button>
+              </tng-input-field>
+            </div>
+          </div>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
+  </div>
+</article>

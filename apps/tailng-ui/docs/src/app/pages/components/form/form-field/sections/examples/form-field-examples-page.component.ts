@@ -1,19 +1,30 @@
-import { DOCUMENT } from '@angular/common';
+import { DOCUMENT, NgTemplateOutlet } from '@angular/common';
 import { Component, inject, signal, type OnDestroy } from '@angular/core';
-import { TngFormFieldComponent } from '@tailng-ui/components';
-import { TngIcon } from '@tailng-ui/icons';
-import { TngInput, TngPrefix, TngSuffix } from '@tailng-ui/primitives';
+import {
+  TngAutocompleteComponent,
+  TngDatepickerComponent,
+  TngError,
+  TngFormFieldComponent,
+  TngHint,
+  TngInputComponent,
+  TngInputFieldComponent,
+  TngInputOtpComponent,
+  TngLabelComponent,
+  TngMultiAutocompleteComponent,
+  TngMultiSelectComponent,
+  TngSelectComponent,
+  TngTextareaComponent,
+} from '@tailng-ui/components';
+import { TngInput, TngInputFieldPrefix, TngInputFieldSuffix } from '@tailng-ui/primitives';
 import type { DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
 import {
   DocsExampleTabsSectionComponent,
   DocsExampleVariantDirective,
 } from '../../../../../../shared/example-tabs-section/docs-example-tabs-section.component';
-import { DocsFormDemoShellComponent } from '../../../../../../shared/form-demo-shell/docs-form-demo-shell.component';
 import {
   observeDocsCodeThemeChanges,
   resolveDocsCodeBlockTheme,
 } from '../../../../../../shared/util';
-import { stackblitzTailwindUrl, stackblitzVanillaUrl } from '../../form-field.util';
 
 function createStandaloneExampleTsCode(
   selector: string,
@@ -62,17 +73,120 @@ function createCodeTabs(
   ]);
 }
 
+const formFieldImportLines = [
+  "import { TngFormFieldComponent, TngHint, TngInputFieldComponent, TngLabelComponent } from '@tailng-ui/components';",
+  "import { TngInput } from '@tailng-ui/primitives';",
+] as const;
+
+const inputGroupFieldImportLines = [
+  "import { TngFormFieldComponent, TngHint, TngInputFieldComponent, TngLabelComponent } from '@tailng-ui/components';",
+  "import { TngInput, TngInputFieldPrefix, TngInputFieldSuffix } from '@tailng-ui/primitives';",
+] as const;
+
+const inputGroupImportLines = [
+  "import { TngError, TngFormFieldComponent, TngHint, TngInputFieldComponent, TngLabelComponent } from '@tailng-ui/components';",
+  "import { TngInput, TngInputFieldPrefix, TngInputFieldSuffix } from '@tailng-ui/primitives';",
+] as const;
+
+const supportedControlsImportLines = [
+  "import { TngAutocompleteComponent, TngDatepickerComponent, TngFormFieldComponent, TngHint, TngInputComponent, TngInputFieldComponent, TngInputOtpComponent, TngLabelComponent, TngMultiAutocompleteComponent, TngMultiSelectComponent, TngSelectComponent, TngTextareaComponent } from '@tailng-ui/components';",
+  "import { TngInput, TngInputFieldPrefix, TngInputFieldSuffix } from '@tailng-ui/primitives';",
+] as const;
+
+type FieldOption = {
+  readonly label: string;
+  readonly value: string;
+  readonly disabled?: boolean;
+};
+
+function createSupportedControlsTsCode(selector: string, className: string): string {
+  return [
+    "import { Component } from '@angular/core';",
+    ...supportedControlsImportLines,
+    '',
+    'type FieldOption = {',
+    '  readonly label: string;',
+    '  readonly value: string;',
+    '  readonly disabled?: boolean;',
+    '};',
+    '',
+    '@Component({',
+    "  selector: '" + selector + "',",
+    '  standalone: true,',
+    '  imports: [',
+    '    TngAutocompleteComponent,',
+    '    TngDatepickerComponent,',
+    '    TngFormFieldComponent,',
+    '    TngHint,',
+    '    TngInputComponent,',
+    '    TngInputFieldComponent,',
+    '    TngInputOtpComponent,',
+    '    TngLabelComponent,',
+    '    TngMultiAutocompleteComponent,',
+    '    TngMultiSelectComponent,',
+    '    TngSelectComponent,',
+    '    TngTextareaComponent,',
+    '    TngInput,',
+    '    TngInputFieldPrefix,',
+    '    TngInputFieldSuffix,',
+    '  ],',
+    "  templateUrl: './" + selector + ".component.html',",
+    "  styleUrl: './" + selector + ".component.css',",
+    '})',
+    'export class ' + className + ' {',
+    "  readonly ownerOptions: readonly FieldOption[] = [",
+    "    { label: 'Asha Raman', value: 'asha' },",
+    "    { label: 'Mika Chen', value: 'mika' },",
+    "    { label: 'Noor Patel', value: 'noor' },",
+    '  ];',
+    '',
+    "  readonly skillOptions: readonly FieldOption[] = [",
+    "    { label: 'Accessibility', value: 'a11y' },",
+    "    { label: 'Design systems', value: 'design-systems' },",
+    "    { label: 'Performance', value: 'performance' },",
+    '  ];',
+    '',
+    "  readonly priorityOptions: readonly FieldOption[] = [",
+    "    { label: 'Low', value: 'low' },",
+    "    { label: 'Medium', value: 'medium' },",
+    "    { label: 'High', value: 'high' },",
+    '  ];',
+    '',
+    "  readonly channelOptions: readonly FieldOption[] = [",
+    "    { label: 'Docs', value: 'docs' },",
+    "    { label: 'Runtime', value: 'runtime' },",
+    "    { label: 'Theme', value: 'theme' },",
+    '  ];',
+    '',
+    '  readonly getOptionValue = (option: FieldOption): string => option.value;',
+    '  readonly getOptionLabel = (option: FieldOption): string => option.label;',
+    '}',
+    '',
+  ].join('\n');
+}
+
 @Component({
   selector: 'app-form-field-examples-page',
   imports: [
     DocsExampleTabsSectionComponent,
     DocsExampleVariantDirective,
-    DocsFormDemoShellComponent,
+    NgTemplateOutlet,
+    TngAutocompleteComponent,
+    TngDatepickerComponent,
     TngFormFieldComponent,
+    TngInputComponent,
+    TngInputFieldComponent,
+    TngInputOtpComponent,
+    TngLabelComponent,
+    TngMultiAutocompleteComponent,
+    TngMultiSelectComponent,
+    TngSelectComponent,
+    TngTextareaComponent,
+    TngHint,
+    TngError,
     TngInput,
-    TngPrefix,
-    TngSuffix,
-    TngIcon,
+    TngInputFieldPrefix,
+    TngInputFieldSuffix,
   ],
   templateUrl: './form-field-examples-page.component.html',
   styleUrls: [
@@ -83,9 +197,6 @@ function createCodeTabs(
 export class FormFieldExamplesPageComponent implements OnDestroy {
   private readonly documentRef = inject(DOCUMENT);
 
-  protected readonly stackblitzVanillaUrl = stackblitzVanillaUrl;
-  protected readonly stackblitzTailwindUrl = stackblitzTailwindUrl;
-
   public readonly codeBlockTheme = signal<'github-dark' | 'github-light'>(
     resolveDocsCodeBlockTheme(this.documentRef),
   );
@@ -94,294 +205,576 @@ export class FormFieldExamplesPageComponent implements OnDestroy {
     this.codeBlockTheme,
   );
 
-  private readonly searchTailwindHostClassValue = [
-    'block',
+  private readonly basicTailwindFieldClassValue = [
+    'grid',
     'w-full',
-    '[--tng-input-bg:var(--tng-semantic-background-surface)]',
-    '[--tng-input-border:var(--tng-semantic-border-subtle)]',
-    '[--tng-input-radius:0.85rem]',
-    '[--tng-input-min-height:2.7rem]',
-    '[--tng-input-px:0.9rem]',
-    '[--tng-input-gap:0.65rem]',
-    '[--tng-input-fg:var(--tng-semantic-foreground-primary)]',
-    '[--tng-input-focus-ring:color-mix(in_srgb,var(--tng-semantic-focus-ring)_24%,transparent)]',
-    '[--tng-input-placeholder:var(--tng-semantic-foreground-muted)]',
+    'gap-2',
+    '[--tng-form-field-label-fg:var(--tng-semantic-foreground-primary)]',
+    '[--tng-form-field-message-fg:var(--tng-semantic-foreground-secondary)]',
   ].join(' ');
 
-  private readonly workspaceTailwindHostClassValue = [
-    'block',
+  private readonly formUsageTailwindFieldClassValue = [
+    'grid',
     'w-full',
-    '[--tng-input-bg:var(--tng-semantic-background-surface)]',
-    '[--tng-input-border:var(--tng-semantic-border-subtle)]',
-    '[--tng-input-radius:0.85rem]',
-    '[--tng-input-min-height:2.7rem]',
-    '[--tng-input-px:0.9rem]',
-    '[--tng-input-gap:0.55rem]',
-    '[--tng-input-fg:var(--tng-semantic-foreground-primary)]',
-    '[--tng-input-focus-ring:color-mix(in_srgb,var(--tng-semantic-focus-ring)_24%,transparent)]',
+    'gap-2',
+    '[--tng-form-field-label-fg:var(--tng-semantic-foreground-primary)]',
+    '[--tng-form-field-message-fg:var(--tng-semantic-foreground-secondary)]',
   ].join(' ');
 
-  private readonly clearTailwindHostClassValue = [
-    'block',
+  private readonly leftTailwindFieldClassValue = [
+    'grid',
     'w-full',
-    '[--tng-input-bg:var(--tng-semantic-background-surface)]',
-    '[--tng-input-border:var(--tng-semantic-border-subtle)]',
-    '[--tng-input-radius:0.85rem]',
-    '[--tng-input-min-height:2.7rem]',
-    '[--tng-input-px:0.9rem]',
-    '[--tng-input-gap:0.55rem]',
-    '[--tng-input-fg:var(--tng-semantic-foreground-primary)]',
-    '[--tng-input-focus-ring:color-mix(in_srgb,var(--tng-semantic-focus-ring)_24%,transparent)]',
+    'gap-2',
+    '[--tng-form-field-left-gap:1.25rem]',
+    '[--tng-form-field-label-fg:var(--tng-semantic-foreground-primary)]',
+    '[--tng-form-field-message-fg:var(--tng-semantic-foreground-secondary)]',
   ].join(' ');
 
-  protected readonly searchTailwindHostClass = this.searchTailwindHostClassValue;
-  protected readonly workspaceTailwindHostClass = this.workspaceTailwindHostClassValue;
-  protected readonly clearTailwindHostClass = this.clearTailwindHostClassValue;
+  private readonly errorTailwindFieldClassValue = [
+    'grid',
+    'w-full',
+    'gap-2',
+    '[--tng-form-field-label-fg:var(--tng-semantic-accent-danger)]',
+    '[--tng-form-field-message-fg:var(--tng-semantic-accent-danger)]',
+  ].join(' ');
+
+  protected readonly formUsageTailwindFieldClass = this.formUsageTailwindFieldClassValue;
+  protected readonly basicTailwindFieldClass = this.basicTailwindFieldClassValue;
+  protected readonly leftTailwindFieldClass = this.leftTailwindFieldClassValue;
+  protected readonly errorTailwindFieldClass = this.errorTailwindFieldClassValue;
 
   private readonly tailwindCssCode =
     '/* Tailwind utilities and host token overrides are applied directly in the template. */';
 
-  protected readonly searchPlainCodeTabs = createCodeTabs(
-    'doc-cmp-form-field-examples-search-plain',
-    createStandaloneExampleTsCode(
-      'app-doc-cmp-form-field-ex-search-plain',
-      'DocCmpFormFieldExSearchPlainComponent',
-      [
-        "import { TngFormFieldComponent } from '@tailng-ui/components';",
-        "import { TngIcon } from '@tailng-ui/icons';",
-        "import { TngInput, TngPrefix, TngSuffix } from '@tailng-ui/primitives';",
-      ],
-      ['TngFormFieldComponent', 'TngIcon', 'TngInput', 'TngPrefix', 'TngSuffix'],
+  protected readonly ownerOptions: readonly FieldOption[] = [
+    { label: 'Asha Raman', value: 'asha' },
+    { label: 'Mika Chen', value: 'mika' },
+    { label: 'Noor Patel', value: 'noor' },
+  ];
+
+  protected readonly skillOptions: readonly FieldOption[] = [
+    { label: 'Accessibility', value: 'a11y' },
+    { label: 'Design systems', value: 'design-systems' },
+    { label: 'Performance', value: 'performance' },
+  ];
+
+  protected readonly priorityOptions: readonly FieldOption[] = [
+    { label: 'Low', value: 'low' },
+    { label: 'Medium', value: 'medium' },
+    { label: 'High', value: 'high' },
+  ];
+
+  protected readonly channelOptions: readonly FieldOption[] = [
+    { label: 'Docs', value: 'docs' },
+    { label: 'Runtime', value: 'runtime' },
+    { label: 'Theme', value: 'theme' },
+  ];
+
+  protected readonly getOptionValue = (option: FieldOption): string => option.value;
+  protected readonly getOptionLabel = (option: FieldOption): string => option.label;
+
+  private readonly supportedControlsPlainHtmlCode = [
+    '<div class="doc-cmp-form-field-ex-supported-grid">',
+    '  <tng-form-field>',
+    '    <tng-label forId="project-name">Input component</tng-label>',
+    '    <tng-input id="project-name" name="projectName" placeholder="Migration plan" />',
+    '    <p tngHint>Use the styled input component for simple text values.</p>',
+    '  </tng-form-field>',
+    '',
+    '  <tng-form-field>',
+    '    <tng-label forId="workspace-handle">Input field shell</tng-label>',
+    '    <tng-input-field>',
+    '      <span tngInputFieldPrefix>@</span>',
+    '      <input tngInput id="workspace-handle" name="workspaceHandle" placeholder="acme" />',
+    '      <span tngInputFieldSuffix>.team</span>',
+    '    </tng-input-field>',
+    '    <p tngHint>Use the input-field shell when the input needs inner adornments.</p>',
+    '  </tng-form-field>',
+    '',
+    '  <tng-form-field>',
+    '    <tng-label forId="release-summary">Textarea</tng-label>',
+    '    <tng-textarea id="release-summary" name="summary" placeholder="Summarize the release" rows="4" />',
+    '    <p tngHint>Textarea keeps multiline entry in the same field contract.</p>',
+    '  </tng-form-field>',
+    '',
+    '  <tng-form-field>',
+    '    <tng-label>Autocomplete</tng-label>',
+    '    <tng-autocomplete',
+    '      [options]="ownerOptions"',
+    '      [getOptionValue]="getOptionValue"',
+    '      [getOptionLabel]="getOptionLabel"',
+    '      placeholder="Search owner"',
+    '      ariaLabel="Release owner"',
+    '    />',
+    '    <p tngHint>Autocomplete works as one searchable control surface.</p>',
+    '  </tng-form-field>',
+    '',
+    '  <tng-form-field>',
+    '    <tng-label>MultiAutocomplete</tng-label>',
+    '    <tng-multi-autocomplete',
+    '      [options]="skillOptions"',
+    '      [getOptionValue]="getOptionValue"',
+    '      [getOptionLabel]="getOptionLabel"',
+    '      placeholder="Add skills"',
+    '      ariaLabel="Required skills"',
+    '    />',
+    '    <p tngHint>MultiAutocomplete collects several searchable values.</p>',
+    '  </tng-form-field>',
+    '',
+    '  <tng-form-field>',
+    '    <tng-label id="priority-label">Select</tng-label>',
+    '    <tng-select',
+    '      [options]="priorityOptions"',
+    '      [getOptionValue]="getOptionValue"',
+    '      [getOptionLabel]="getOptionLabel"',
+    '      placeholder="Choose priority"',
+    '      labelId="priority-label"',
+    '    />',
+    '    <p tngHint>Select uses the field shell for label and message rhythm.</p>',
+    '  </tng-form-field>',
+    '',
+    '  <tng-form-field>',
+    '    <tng-label id="channel-label">MultiSelect</tng-label>',
+    '    <tng-multiselect',
+    '      [options]="channelOptions"',
+    "      [value]=\"['docs', 'runtime']\"",
+    '      [getOptionValue]="getOptionValue"',
+    '      [getOptionLabel]="getOptionLabel"',
+    '      placeholder="Choose channels"',
+    '      labelId="channel-label"',
+    '    />',
+    '    <p tngHint>MultiSelect keeps a multi-value trigger in one field.</p>',
+    '  </tng-form-field>',
+    '',
+    '  <tng-form-field>',
+    '    <tng-label forId="release-date">Datepicker</tng-label>',
+    '    <tng-datepicker',
+    '      id="release-date"',
+    "      [defaultValue]=\"'2026-05-18'\"",
+    "      [today]=\"'2026-05-09'\"",
+    '      placeholder="Pick release date"',
+    '      ariaLabel="Release date"',
+    '    />',
+    '    <p tngHint>Datepicker remains a single date field with calendar affordances.</p>',
+    '  </tng-form-field>',
+    '',
+    '  <tng-form-field>',
+    '    <tng-label forId="verification-code">Input OTP</tng-label>',
+    '    <tng-input-otp id="verification-code" [length]="6" defaultValue="184206" ariaLabel="Verification code" />',
+    '    <p tngHint>Input OTP is one logical field composed of multiple slots.</p>',
+    '  </tng-form-field>',
+    '</div>',
+    '',
+  ].join('\n');
+
+  private readonly supportedControlsTailwindHtmlCode = [
+    this.supportedControlsPlainHtmlCode
+      .replace(
+        '<div class="doc-cmp-form-field-ex-supported-grid">',
+        '<div class="grid w-full gap-5 md:grid-cols-2">',
+      )
+      .split('<tng-form-field>')
+      .join('<tng-form-field class="grid gap-2">')
+      .replace(
+        '<span tngInputFieldPrefix>@</span>',
+        '<span tngInputFieldPrefix class="text-sm text-[var(--tng-semantic-foreground-secondary)]">@</span>',
+      )
+      .replace(
+        '<span tngInputFieldSuffix>.team</span>',
+        '<span tngInputFieldSuffix class="text-sm text-[var(--tng-semantic-foreground-secondary)]">.team</span>',
+      ),
+  ].join('\n');
+
+  protected readonly supportedControlsPlainCodeTabs = createCodeTabs(
+    'doc-cmp-form-field-examples-supported-controls-plain',
+    createSupportedControlsTsCode(
+      'app-doc-cmp-form-field-ex-supported-controls-plain',
+      'DocCmpFormFieldExSupportedControlsPlainComponent',
     ),
+    this.supportedControlsPlainHtmlCode,
     [
-      '<div class="doc-cmp-form-field-ex-search-shell">',
-      '  <tng-form-field>',
-      '    <span tngPrefix aria-hidden="true" class="doc-cmp-form-field-ex-search-prefix">',
-      '      <tng-icon icon="search" class="doc-cmp-form-field-ex-search-icon"></tng-icon>',
-      '    </span>',
-      '    <input tngInput type="search" placeholder="Search components..." />',
-      '    <span tngSuffix class="doc-cmp-form-field-ex-search-meta">Ctrl+K</span>',
-      '  </tng-form-field>',
-      '</div>',
-      '',
-    ].join('\n'),
-    [
-      '.doc-cmp-form-field-ex-search-shell {',
-      '  width: 100%;',
-      '  --tng-input-bg: var(--tng-semantic-background-surface);',
-      '  --tng-input-border: var(--tng-semantic-border-subtle);',
-      '  --tng-input-radius: 0.85rem;',
-      '  --tng-input-min-height: 2.7rem;',
-      '  --tng-input-px: 0.9rem;',
-      '  --tng-input-gap: 0.65rem;',
-      '  --tng-input-fg: var(--tng-semantic-foreground-primary);',
-      '  --tng-input-focus-ring: color-mix(in srgb, var(--tng-semantic-focus-ring) 24%, transparent);',
-      '  --tng-input-placeholder: var(--tng-semantic-foreground-muted);',
+      '.doc-cmp-form-field-ex-supported-grid {',
+      '  display: grid;',
+      '  gap: 1.25rem;',
+      '  width: min(100%, 48rem);',
       '}',
       '',
-      '.doc-cmp-form-field-ex-search-shell tng-form-field {',
-      '  display: block;',
-      '  width: 100%;',
+      '@media (min-width: 760px) {',
+      '  .doc-cmp-form-field-ex-supported-grid {',
+      '    grid-template-columns: repeat(2, minmax(0, 1fr));',
+      '  }',
       '}',
       '',
-      '.doc-cmp-form-field-ex-search-prefix,',
-      '.doc-cmp-form-field-ex-search-meta {',
-      '  color: var(--tng-semantic-foreground-secondary);',
-      '}',
-      '',
-      '.doc-cmp-form-field-ex-search-icon {',
-      '  width: 1.05rem;',
-      '  height: 1.05rem;',
-      '}',
-      '',
-      '.doc-cmp-form-field-ex-search-meta {',
-      '  font-size: 0.78rem;',
-      '  font-weight: 600;',
-      '  white-space: nowrap;',
+      '.doc-cmp-form-field-ex-supported-grid tng-form-field {',
+      '  --tng-form-field-label-fg: var(--tng-semantic-foreground-primary);',
+      '  --tng-form-field-message-fg: var(--tng-semantic-foreground-secondary);',
       '}',
       '',
     ].join('\n'),
   );
 
-  protected readonly searchTailwindCodeTabs = createCodeTabs(
-    'doc-cmp-form-field-examples-search-tailwind',
-    createStandaloneExampleTsCode(
-      'app-doc-cmp-form-field-ex-search-tailwind',
-      'DocCmpFormFieldExSearchTailwindComponent',
-      [
-        "import { TngFormFieldComponent } from '@tailng-ui/components';",
-        "import { TngIcon } from '@tailng-ui/icons';",
-        "import { TngInput, TngPrefix, TngSuffix } from '@tailng-ui/primitives';",
-      ],
-      ['TngFormFieldComponent', 'TngIcon', 'TngInput', 'TngPrefix', 'TngSuffix'],
+  protected readonly supportedControlsTailwindCodeTabs = createCodeTabs(
+    'doc-cmp-form-field-examples-supported-controls-tailwind',
+    createSupportedControlsTsCode(
+      'app-doc-cmp-form-field-ex-supported-controls-tailwind',
+      'DocCmpFormFieldExSupportedControlsTailwindComponent',
     ),
-    [
-      '<div class="' + this.searchTailwindHostClassValue + '">',
-      '  <tng-form-field>',
-      '    <span tngPrefix aria-hidden="true" class="text-[var(--tng-semantic-foreground-secondary)]">',
-      '      <tng-icon icon="search" class="h-4 w-4"></tng-icon>',
-      '    </span>',
-      '    <input tngInput type="search" placeholder="Search components..." />',
-      '    <span tngSuffix class="text-xs font-semibold text-[var(--tng-semantic-foreground-secondary)]">Ctrl+K</span>',
-      '  </tng-form-field>',
-      '</div>',
-      '',
-    ].join('\n'),
+    this.supportedControlsTailwindHtmlCode,
     this.tailwindCssCode,
   );
 
-  protected readonly workspacePlainCodeTabs = createCodeTabs(
-    'doc-cmp-form-field-examples-workspace-plain',
+  protected readonly supportedControlsOutlineCodeTabs = createCodeTabs(
+    'doc-cmp-form-field-examples-supported-controls-outline',
+    createSupportedControlsTsCode(
+      'app-doc-cmp-form-field-ex-supported-controls-outline',
+      'DocCmpFormFieldExSupportedControlsOutlineComponent',
+    ),
+    this.supportedControlsPlainHtmlCode
+      .split('<tng-form-field>')
+      .join('<tng-form-field labelPosition="outline">'),
+    [
+      '.doc-cmp-form-field-ex-supported-grid {',
+      '  display: grid;',
+      '  gap: 1.25rem;',
+      '  width: min(100%, 48rem);',
+      '}',
+      '',
+      '@media (min-width: 760px) {',
+      '  .doc-cmp-form-field-ex-supported-grid {',
+      '    grid-template-columns: repeat(2, minmax(0, 1fr));',
+      '  }',
+      '}',
+      '',
+    ].join('\n'),
+  );
+
+  protected readonly supportedControlsAboveCodeTabs = createCodeTabs(
+    'doc-cmp-form-field-examples-supported-controls-above',
+    createSupportedControlsTsCode(
+      'app-doc-cmp-form-field-ex-supported-controls-above',
+      'DocCmpFormFieldExSupportedControlsAboveComponent',
+    ),
+    this.supportedControlsPlainHtmlCode
+      .split('<tng-form-field>')
+      .join('<tng-form-field labelPosition="above">'),
+    [
+      '.doc-cmp-form-field-ex-supported-grid {',
+      '  display: grid;',
+      '  gap: 1.25rem;',
+      '  width: min(100%, 48rem);',
+      '}',
+      '',
+      '@media (min-width: 760px) {',
+      '  .doc-cmp-form-field-ex-supported-grid {',
+      '    grid-template-columns: repeat(2, minmax(0, 1fr));',
+      '  }',
+      '}',
+      '',
+    ].join('\n'),
+  );
+
+  protected readonly supportedControlsLeftCodeTabs = createCodeTabs(
+    'doc-cmp-form-field-examples-supported-controls-left',
+    createSupportedControlsTsCode(
+      'app-doc-cmp-form-field-ex-supported-controls-left',
+      'DocCmpFormFieldExSupportedControlsLeftComponent',
+    ),
+    this.supportedControlsPlainHtmlCode
+      .split('<tng-form-field>')
+      .join('<tng-form-field labelPosition="left">'),
+    [
+      '.doc-cmp-form-field-ex-supported-grid {',
+      '  display: grid;',
+      '  gap: 1.25rem;',
+      '  width: min(100%, 48rem);',
+      '}',
+      '',
+      '@media (min-width: 760px) {',
+      '  .doc-cmp-form-field-ex-supported-grid {',
+      '    grid-template-columns: repeat(2, minmax(0, 1fr));',
+      '  }',
+      '}',
+      '',
+    ].join('\n'),
+  );
+
+  protected readonly formUsagePlainCodeTabs = createCodeTabs(
+    'doc-cmp-form-field-examples-form-usage-plain',
     createStandaloneExampleTsCode(
-      'app-doc-cmp-form-field-ex-workspace-plain',
-      'DocCmpFormFieldExWorkspacePlainComponent',
+      'app-doc-cmp-form-field-ex-form-usage-plain',
+      'DocCmpFormFieldExFormUsagePlainComponent',
+      inputGroupFieldImportLines,
       [
-        "import { TngFormFieldComponent } from '@tailng-ui/components';",
-        "import { TngInput, TngSuffix } from '@tailng-ui/primitives';",
+        'TngFormFieldComponent',
+        'TngInputFieldComponent',
+        'TngLabelComponent',
+        'TngHint',
+        'TngInput',
+        'TngInputFieldPrefix',
+        'TngInputFieldSuffix',
       ],
-      ['TngFormFieldComponent', 'TngInput', 'TngSuffix'],
     ),
     [
-      '<div class="doc-cmp-form-field-ex-workspace-shell">',
+      '<form class="doc-cmp-form-field-ex-form-shell">',
       '  <tng-form-field>',
-      '    <input tngInput type="text" value="core-platform" />',
-      '    <span tngSuffix class="doc-cmp-form-field-ex-workspace-meta">.tailng.dev</span>',
+      '    <tng-label forId="workspace-url">Workspace URL</tng-label>',
+      '    <tng-input-field>',
+      '      <span tngInputFieldPrefix>tailng.dev/</span>',
+      '      <input tngInput id="workspace-url" name="workspaceUrl" placeholder="acme-product" />',
+      '      <button tngInputFieldSuffix type="submit">Create</button>',
+      '    </tng-input-field>',
+      '    <p tngHint>Use lowercase letters, numbers, and hyphens.</p>',
       '  </tng-form-field>',
-      '</div>',
+      '</form>',
       '',
     ].join('\n'),
     [
-      '.doc-cmp-form-field-ex-workspace-shell {',
-      '  width: 100%;',
-      '  --tng-input-bg: var(--tng-semantic-background-surface);',
-      '  --tng-input-border: var(--tng-semantic-border-subtle);',
-      '  --tng-input-radius: 0.85rem;',
-      '  --tng-input-min-height: 2.7rem;',
-      '  --tng-input-px: 0.9rem;',
-      '  --tng-input-gap: 0.55rem;',
-      '  --tng-input-fg: var(--tng-semantic-foreground-primary);',
-      '  --tng-input-focus-ring: color-mix(in srgb, var(--tng-semantic-focus-ring) 24%, transparent);',
+      '.doc-cmp-form-field-ex-form-shell {',
+      '  width: min(100%, 34rem);',
       '}',
       '',
-      '.doc-cmp-form-field-ex-workspace-shell tng-form-field {',
-      '  display: block;',
-      '  width: 100%;',
+      '.doc-cmp-form-field-ex-form-shell tng-form-field {',
+      '  --tng-form-field-label-fg: var(--tng-semantic-foreground-primary);',
+      '  --tng-form-field-message-fg: var(--tng-semantic-foreground-secondary);',
       '}',
       '',
-      '.doc-cmp-form-field-ex-workspace-meta {',
+      '.doc-cmp-form-field-ex-form-shell [tngInputFieldPrefix] {',
       '  color: var(--tng-semantic-foreground-secondary);',
-      '  font-size: 0.8rem;',
-      '  font-weight: 600;',
-      '  white-space: nowrap;',
+      '  font-size: 0.875rem;',
       '}',
       '',
-    ].join('\n'),
-  );
-
-  protected readonly workspaceTailwindCodeTabs = createCodeTabs(
-    'doc-cmp-form-field-examples-workspace-tailwind',
-    createStandaloneExampleTsCode(
-      'app-doc-cmp-form-field-ex-workspace-tailwind',
-      'DocCmpFormFieldExWorkspaceTailwindComponent',
-      [
-        "import { TngFormFieldComponent } from '@tailng-ui/components';",
-        "import { TngInput, TngSuffix } from '@tailng-ui/primitives';",
-      ],
-      ['TngFormFieldComponent', 'TngInput', 'TngSuffix'],
-    ),
-    [
-      '<div class="' + this.workspaceTailwindHostClassValue + '">',
-      '  <tng-form-field>',
-      '    <input tngInput type="text" value="core-platform" />',
-      '    <span tngSuffix class="text-xs font-semibold text-[var(--tng-semantic-foreground-secondary)]">.tailng.dev</span>',
-      '  </tng-form-field>',
-      '</div>',
-      '',
-    ].join('\n'),
-    this.tailwindCssCode,
-  );
-
-  protected readonly clearPlainCodeTabs = createCodeTabs(
-    'doc-cmp-form-field-examples-clear-plain',
-    createStandaloneExampleTsCode(
-      'app-doc-cmp-form-field-ex-clear-plain',
-      'DocCmpFormFieldExClearPlainComponent',
-      [
-        "import { TngFormFieldComponent } from '@tailng-ui/components';",
-        "import { TngInput, TngSuffix } from '@tailng-ui/primitives';",
-      ],
-      ['TngFormFieldComponent', 'TngInput', 'TngSuffix'],
-    ),
-    [
-      '<div class="doc-cmp-form-field-ex-clear-shell">',
-      '  <tng-form-field>',
-      '    <input tngInput type="search" value="TailNG" />',
-      '    <button tngSuffix type="button" class="doc-cmp-form-field-ex-clear-action" aria-label="Clear search">',
-      '      Clear',
-      '    </button>',
-      '  </tng-form-field>',
-      '</div>',
-      '',
-    ].join('\n'),
-    [
-      '.doc-cmp-form-field-ex-clear-shell {',
-      '  width: 100%;',
-      '  --tng-input-bg: var(--tng-semantic-background-surface);',
-      '  --tng-input-border: var(--tng-semantic-border-subtle);',
-      '  --tng-input-radius: 0.85rem;',
-      '  --tng-input-min-height: 2.7rem;',
-      '  --tng-input-px: 0.9rem;',
-      '  --tng-input-gap: 0.55rem;',
-      '  --tng-input-fg: var(--tng-semantic-foreground-primary);',
-      '  --tng-input-focus-ring: color-mix(in srgb, var(--tng-semantic-focus-ring) 24%, transparent);',
-      '}',
-      '',
-      '.doc-cmp-form-field-ex-clear-shell tng-form-field {',
-      '  display: block;',
-      '  width: 100%;',
-      '}',
-      '',
-      '.doc-cmp-form-field-ex-clear-action {',
+      '.doc-cmp-form-field-ex-form-shell [tngInputFieldSuffix] {',
       '  border: 0;',
-      '  border-radius: 0.55rem;',
       '  background: transparent;',
-      '  color: var(--tng-semantic-foreground-secondary);',
-      '  font-size: 0.78rem;',
-      '  font-weight: 600;',
-      '  padding: 0.35rem 0.6rem;',
-      '}',
-      '',
-      '.doc-cmp-form-field-ex-clear-action:hover {',
-      '  background: color-mix(in srgb, var(--tng-semantic-foreground-secondary) 14%, transparent);',
-      '  color: var(--tng-semantic-foreground-primary);',
+      '  color: var(--tng-semantic-accent-brand);',
+      '  cursor: pointer;',
+      '  font: inherit;',
+      '  font-size: 0.8125rem;',
+      '  font-weight: 700;',
       '}',
       '',
     ].join('\n'),
   );
 
-  protected readonly clearTailwindCodeTabs = createCodeTabs(
-    'doc-cmp-form-field-examples-clear-tailwind',
+  protected readonly formUsageTailwindCodeTabs = createCodeTabs(
+    'doc-cmp-form-field-examples-form-usage-tailwind',
     createStandaloneExampleTsCode(
-      'app-doc-cmp-form-field-ex-clear-tailwind',
-      'DocCmpFormFieldExClearTailwindComponent',
+      'app-doc-cmp-form-field-ex-form-usage-tailwind',
+      'DocCmpFormFieldExFormUsageTailwindComponent',
+      inputGroupFieldImportLines,
       [
-        "import { TngFormFieldComponent } from '@tailng-ui/components';",
-        "import { TngInput, TngSuffix } from '@tailng-ui/primitives';",
+        'TngFormFieldComponent',
+        'TngInputFieldComponent',
+        'TngLabelComponent',
+        'TngHint',
+        'TngInput',
+        'TngInputFieldPrefix',
+        'TngInputFieldSuffix',
       ],
-      ['TngFormFieldComponent', 'TngInput', 'TngSuffix'],
     ),
     [
-      '<div class="' + this.clearTailwindHostClassValue + '">',
+      '<form class="w-full max-w-[34rem]">',
+      '  <tng-form-field class="' + this.formUsageTailwindFieldClassValue + '">',
+      '    <tng-label forId="workspace-url">Workspace URL</tng-label>',
+      '    <tng-input-field>',
+      '      <span tngInputFieldPrefix class="text-sm text-[var(--tng-semantic-foreground-secondary)]">tailng.dev/</span>',
+      '      <input tngInput id="workspace-url" name="workspaceUrl" placeholder="acme-product" />',
+      '      <button tngInputFieldSuffix type="submit" class="text-xs font-bold text-[var(--tng-semantic-accent-brand)]">Create</button>',
+      '    </tng-input-field>',
+      '    <p tngHint>Use lowercase letters, numbers, and hyphens.</p>',
+      '  </tng-form-field>',
+      '</form>',
+      '',
+    ].join('\n'),
+    this.tailwindCssCode,
+  );
+
+  protected readonly basicPlainCodeTabs = createCodeTabs(
+    'doc-cmp-form-field-examples-basic-plain',
+    createStandaloneExampleTsCode(
+      'app-doc-cmp-form-field-ex-basic-plain',
+      'DocCmpFormFieldExBasicPlainComponent',
+      formFieldImportLines,
+      ['TngFormFieldComponent', 'TngHint', 'TngInputFieldComponent', 'TngLabelComponent', 'TngInput'],
+    ),
+    [
+      '<div class="doc-cmp-form-field-ex-basic-shell">',
       '  <tng-form-field>',
-      '    <input tngInput type="search" value="TailNG" />',
-      '    <button',
-      '      tngSuffix',
-      '      type="button"',
-      '      aria-label="Clear search"',
-      '      class="rounded-md bg-transparent px-2.5 py-1 text-xs font-semibold text-[var(--tng-semantic-foreground-secondary)] transition hover:bg-[color-mix(in_srgb,var(--tng-semantic-foreground-secondary)_14%,transparent)] hover:text-[var(--tng-semantic-foreground-primary)]"',
-      '    >',
-      '      Clear',
-      '    </button>',
+      '    <tng-label forId="workspace-name">Workspace name</tng-label>',
+      '    <tng-input-field>',
+      '      <input tngInput id="workspace-name" name="workspace" placeholder="Acme product" />',
+      '    </tng-input-field>',
+      '    <p tngHint>Use a name your team will recognize.</p>',
+      '  </tng-form-field>',
+      '</div>',
+      '',
+    ].join('\n'),
+    [
+      '.doc-cmp-form-field-ex-basic-shell {',
+      '  width: min(100%, 34rem);',
+      '}',
+      '',
+      '.doc-cmp-form-field-ex-basic-shell tng-form-field {',
+      '  --tng-form-field-label-fg: var(--tng-semantic-foreground-primary);',
+      '  --tng-form-field-message-fg: var(--tng-semantic-foreground-secondary);',
+      '}',
+      '',
+    ].join('\n'),
+  );
+
+  protected readonly basicTailwindCodeTabs = createCodeTabs(
+    'doc-cmp-form-field-examples-basic-tailwind',
+    createStandaloneExampleTsCode(
+      'app-doc-cmp-form-field-ex-basic-tailwind',
+      'DocCmpFormFieldExBasicTailwindComponent',
+      formFieldImportLines,
+      ['TngFormFieldComponent', 'TngHint', 'TngInputFieldComponent', 'TngLabelComponent', 'TngInput'],
+    ),
+    [
+      '<div class="w-full max-w-[34rem]">',
+      '  <tng-form-field class="' + this.basicTailwindFieldClassValue + '">',
+      '    <tng-label forId="workspace-name">Workspace name</tng-label>',
+      '    <tng-input-field>',
+      '      <input tngInput id="workspace-name" name="workspace" placeholder="Acme product" />',
+      '    </tng-input-field>',
+      '    <p tngHint>Use a name your team will recognize.</p>',
+      '  </tng-form-field>',
+      '</div>',
+      '',
+    ].join('\n'),
+    this.tailwindCssCode,
+  );
+
+  protected readonly leftPlainCodeTabs = createCodeTabs(
+    'doc-cmp-form-field-examples-left-plain',
+    createStandaloneExampleTsCode(
+      'app-doc-cmp-form-field-ex-left-plain',
+      'DocCmpFormFieldExLeftPlainComponent',
+      formFieldImportLines,
+      ['TngFormFieldComponent', 'TngHint', 'TngInputFieldComponent', 'TngLabelComponent', 'TngInput'],
+    ),
+    [
+      '<div class="doc-cmp-form-field-ex-left-shell">',
+      '  <tng-form-field labelPosition="left">',
+      '    <tng-label forId="workspace-slug">Workspace slug</tng-label>',
+      '    <tng-input-field>',
+      '      <input tngInput id="workspace-slug" name="slug" placeholder="acme-platform" />',
+      '    </tng-input-field>',
+      '    <p tngHint>Lowercase letters and hyphens only.</p>',
+      '  </tng-form-field>',
+      '</div>',
+      '',
+    ].join('\n'),
+    [
+      '.doc-cmp-form-field-ex-left-shell {',
+      '  width: min(100%, 38rem);',
+      '}',
+      '',
+      '.doc-cmp-form-field-ex-left-shell tng-form-field {',
+      '  --tng-form-field-left-gap: 1.25rem;',
+      '  --tng-form-field-label-fg: var(--tng-semantic-foreground-primary);',
+      '  --tng-form-field-message-fg: var(--tng-semantic-foreground-secondary);',
+      '}',
+      '',
+    ].join('\n'),
+  );
+
+  protected readonly leftTailwindCodeTabs = createCodeTabs(
+    'doc-cmp-form-field-examples-left-tailwind',
+    createStandaloneExampleTsCode(
+      'app-doc-cmp-form-field-ex-left-tailwind',
+      'DocCmpFormFieldExLeftTailwindComponent',
+      formFieldImportLines,
+      ['TngFormFieldComponent', 'TngHint', 'TngInputFieldComponent', 'TngLabelComponent', 'TngInput'],
+    ),
+    [
+      '<div class="w-full max-w-[38rem]">',
+      '  <tng-form-field labelPosition="left" class="' + this.leftTailwindFieldClassValue + '">',
+      '    <tng-label forId="workspace-slug">Workspace slug</tng-label>',
+      '    <tng-input-field>',
+      '      <input tngInput id="workspace-slug" name="slug" placeholder="acme-platform" />',
+      '    </tng-input-field>',
+      '    <p tngHint>Lowercase letters and hyphens only.</p>',
+      '  </tng-form-field>',
+      '</div>',
+      '',
+    ].join('\n'),
+    this.tailwindCssCode,
+  );
+
+  protected readonly errorPlainCodeTabs = createCodeTabs(
+    'doc-cmp-form-field-examples-error-plain',
+    createStandaloneExampleTsCode(
+      'app-doc-cmp-form-field-ex-error-plain',
+      'DocCmpFormFieldExErrorPlainComponent',
+      inputGroupImportLines,
+      [
+        'TngError',
+        'TngFormFieldComponent',
+        'TngInputFieldComponent',
+        'TngLabelComponent',
+        'TngHint',
+        'TngInput',
+        'TngInputFieldPrefix',
+        'TngInputFieldSuffix',
+      ],
+    ),
+    [
+      '<div class="doc-cmp-form-field-ex-error-shell">',
+      '  <tng-form-field hideHintWhenError invalid>',
+      '    <tng-label forId="budget">Budget</tng-label>',
+      '    <tng-input-field tone="danger">',
+      '      <span tngInputFieldPrefix>$</span>',
+      '      <input tngInput id="budget" name="budget" type="number" />',
+      '      <button tngInputFieldSuffix type="button">Clear</button>',
+      '    </tng-input-field>',
+      '    <p tngHint>Whole dollars only.</p>',
+      '    <p tngError>Budget is required.</p>',
+      '  </tng-form-field>',
+      '</div>',
+      '',
+    ].join('\n'),
+    [
+      '.doc-cmp-form-field-ex-error-shell {',
+      '  width: min(100%, 34rem);',
+      '}',
+      '',
+      '.doc-cmp-form-field-ex-error-shell [tngInputFieldPrefix],',
+      '.doc-cmp-form-field-ex-error-shell [tngInputFieldSuffix] {',
+      '  color: var(--tng-semantic-foreground-secondary);',
+      '}',
+      '',
+    ].join('\n'),
+  );
+
+  protected readonly errorTailwindCodeTabs = createCodeTabs(
+    'doc-cmp-form-field-examples-error-tailwind',
+    createStandaloneExampleTsCode(
+      'app-doc-cmp-form-field-ex-error-tailwind',
+      'DocCmpFormFieldExErrorTailwindComponent',
+      inputGroupImportLines,
+      [
+        'TngError',
+        'TngFormFieldComponent',
+        'TngInputFieldComponent',
+        'TngLabelComponent',
+        'TngHint',
+        'TngInput',
+        'TngInputFieldPrefix',
+        'TngInputFieldSuffix',
+      ],
+    ),
+    [
+      '<div class="w-full max-w-[34rem]">',
+      '  <tng-form-field hideHintWhenError invalid class="' + this.errorTailwindFieldClassValue + '">',
+      '    <tng-label forId="budget">Budget</tng-label>',
+      '    <tng-input-field tone="danger">',
+      '      <span tngInputFieldPrefix class="text-[var(--tng-semantic-foreground-secondary)]">$</span>',
+      '      <input tngInput id="budget" name="budget" type="number" />',
+      '      <button tngInputFieldSuffix type="button" class="px-2 text-xs font-semibold text-[var(--tng-semantic-foreground-secondary)]">Clear</button>',
+      '    </tng-input-field>',
+      '    <p tngHint>Whole dollars only.</p>',
+      '    <p tngError>Budget is required.</p>',
       '  </tng-form-field>',
       '</div>',
       '',

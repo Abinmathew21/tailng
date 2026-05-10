@@ -12,8 +12,8 @@
     <div tngDialogBackdrop class="tng-command-palette-backdrop">
       <section tngDialogPanel class="tng-command-palette-panel">
         <div class="tng-command-palette-search">
-          <tng-form-field appearance="ghost" size="lg" tone="primary" fullWidth>
-            <span tngPrefix class="tng-command-palette-input-prefix">
+          <tng-input-field appearance="ghost" size="lg" tone="primary" fullWidth>
+            <span tngInputFieldPrefix class="tng-command-palette-input-prefix">
               @if (inputPrefixTpl()) {
                 <ng-container [ngTemplateOutlet]="inputPrefixTpl()" />
               } @else {
@@ -51,7 +51,7 @@
             />
 
             @if (inputSuffixTpl() || (showClearButton() && hasQuery())) {
-              <span tngSuffix class="tng-command-palette-input-suffix">
+              <span tngInputFieldSuffix class="tng-command-palette-input-suffix">
                 @if (inputSuffixTpl()) {
                   <ng-container [ngTemplateOutlet]="inputSuffixTpl()" />
                 } @else {
@@ -66,7 +66,7 @@
                 }
               </span>
             }
-          </tng-form-field>
+          </tng-input-field>
         </div>
 
         <div class="tng-command-palette-body">

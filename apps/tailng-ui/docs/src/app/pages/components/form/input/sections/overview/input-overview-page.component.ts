@@ -36,8 +36,8 @@ export class InputOverviewPageComponent implements OnDestroy {
   protected readonly stackblitzTailwindUrl = stackblitzTailwindUrl;
 
   protected readonly installationCode = [
-    "import { TngFormFieldComponent, TngInputComponent } from '@tailng-ui/components';",
-    "import { TngInput, TngPrefix, TngSuffix } from '@tailng-ui/primitives';",
+    "import { TngInputFieldComponent, TngInputComponent } from '@tailng-ui/components';",
+    "import { TngInput, TngInputFieldPrefix, TngInputFieldSuffix } from '@tailng-ui/primitives';",
     '',
   ].join('\n');
 
@@ -47,11 +47,11 @@ export class InputOverviewPageComponent implements OnDestroy {
   ].join('\n');
 
   protected readonly formFieldUsageCode = [
-    '<tng-form-field>',
-    '  <span tngPrefix aria-hidden="true">Search</span>',
+    '<tng-input-field>',
+    '  <span tngInputFieldPrefix aria-hidden="true">Search</span>',
     '  <input tngInput type="search" placeholder="Search docs" aria-label="Search docs" />',
-    '  <span tngSuffix aria-hidden="true">Ctrl+K</span>',
-    '</tng-form-field>',
+    '  <span tngInputFieldSuffix aria-hidden="true">Ctrl+K</span>',
+    '</tng-input-field>',
     '',
   ].join('\n');
 
@@ -118,25 +118,25 @@ export class InputOverviewPageComponent implements OnDestroy {
   ].join('\n');
 
   protected readonly formFieldReferenceCode = [
-    '<!-- Move to tng-form-field when the field needs projected content -->',
-    '<tng-form-field>',
-    '  <span tngPrefix aria-hidden="true">Search</span>',
+    '<!-- Move to tng-input-field when the field needs projected content -->',
+    '<tng-input-field>',
+    '  <span tngInputFieldPrefix aria-hidden="true">Search</span>',
     '  <input tngInput type="search" placeholder="Search docs" aria-label="Search docs" />',
-    '</tng-form-field>',
+    '</tng-input-field>',
     '',
   ].join('\n');
 
   protected readonly pitfallCorrectCode = [
-    '<tng-form-field>',
+    '<tng-input-field>',
     '  <input tngInput />',
-    '</tng-form-field>',
+    '</tng-input-field>',
     '',
   ].join('\n');
 
   protected readonly pitfallIncorrectCode = [
-    '<tng-form-field>',
+    '<tng-input-field>',
     '  <input />',
-    '</tng-form-field>',
+    '</tng-input-field>',
     '',
   ].join('\n');
 

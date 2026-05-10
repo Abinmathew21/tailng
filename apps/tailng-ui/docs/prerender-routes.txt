@@ -60,6 +60,11 @@
 /components/form/datepicker/examples
 /components/form/datepicker/overview
 /components/form/datepicker/styling
+/components/form/input-field
+/components/form/input-field/api
+/components/form/input-field/examples
+/components/form/input-field/overview
+/components/form/input-field/styling
 /components/form/form-field
 /components/form/form-field/api
 /components/form/form-field/examples

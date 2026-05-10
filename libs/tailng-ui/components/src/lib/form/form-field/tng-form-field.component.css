@@ -1,35 +1,127 @@
-/*
- * Visual styling lives in the theme contract:
- * libs/tailng-ui/theme/src/lib/component-contracts/form/form-field/form-field.css
- */
-
 :host {
-  display: inline-flex;
+  display: grid;
+  gap: var(--tng-form-field-gap, 0.45rem);
   max-width: 100%;
+  color: var(--tng-form-field-fg, var(--tng-semantic-foreground-primary, inherit));
 }
 
-:host([data-full-width]) {
-  width: 100%;
-}
-
-.tng-form-field {
-  width: 100%;
-}
-
-:host(:not([data-full-width])) .tng-form-field {
-  width: auto;
-}
-
-.tng-form-field-slot-proxy {
-  align-items: center;
-  display: inline-flex;
+.tng-form-field__frame {
   min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
 }
 
-.tng-form-field-control-proxy {
+.tng-form-field__label {
+  display: inline-flex;
   align-items: center;
+  gap: 0.25rem;
+  min-width: 0;
+  padding: 0;
+  color: var(--tng-form-field-label-fg, var(--tng-semantic-foreground-secondary, currentColor));
+  font-size: var(--tng-form-field-label-font-size, 0.875rem);
+  font-weight: var(--tng-form-field-label-font-weight, 600);
+  line-height: 1.35;
+}
+
+.tng-form-field__label:empty {
+  display: none;
+}
+
+.tng-form-field__control-row {
   display: flex;
+  align-items: center;
+  gap: var(--tng-form-field-adornment-gap, 0.5rem);
+  min-width: 0;
+  min-height: var(--tng-form-field-frame-min-height, 2.625rem);
+  padding: var(--tng-form-field-frame-py, 0.55rem) var(--tng-form-field-frame-px, 0.75rem);
+  border: 1px solid var(--tng-form-field-frame-border, var(--tng-semantic-border-strong, currentColor));
+  border-radius: var(--tng-form-field-frame-radius, 0.65rem);
+  background: var(--tng-form-field-frame-bg, var(--tng-semantic-background-surface, Canvas));
+}
+
+:host([data-label-position='outline']) {
+  gap: 0.25rem;
+}
+
+:host([data-label-position='outline']) .tng-form-field__frame {
+  padding: 0 var(--tng-form-field-frame-px, 0.75rem) var(--tng-form-field-frame-py, 0.55rem);
+  border: 1px solid var(--tng-form-field-frame-border, var(--tng-semantic-border-strong, currentColor));
+  border-radius: var(--tng-form-field-frame-radius, 0.65rem);
+  background: var(--tng-form-field-frame-bg, var(--tng-semantic-background-surface, Canvas));
+}
+
+:host([data-label-position='outline']) .tng-form-field__label {
+  width: max-content;
+  max-width: calc(100% - 1.5rem);
+  margin-inline-start: var(--tng-form-field-outline-label-inset, 0.75rem);
+  padding-inline: var(--tng-form-field-outline-label-px, 0.25rem);
+}
+
+:host([data-label-position='outline']) .tng-form-field__control-row {
+  min-height: calc(var(--tng-form-field-frame-min-height, 2.625rem) - var(--tng-form-field-frame-py));
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+:host([data-label-position='left']) {
+  grid-template-columns: var(--tng-form-field-left-label-width, max-content) minmax(0, 1fr);
+  align-items: start;
+  column-gap: var(--tng-form-field-left-gap, 1rem);
+}
+
+:host([data-label-position='left']) .tng-form-field__frame {
+  display: contents;
+}
+
+:host([data-label-position='left']) .tng-form-field__label {
+  align-self: center;
+  grid-column: 1;
+  grid-row: 1;
+}
+
+:host([data-label-position='left']) .tng-form-field__control-row,
+:host([data-label-position='left']) .tng-form-field__messages {
+  grid-column: 2;
+}
+
+:host([data-focused]:not([data-label-position='outline'])) .tng-form-field__control-row,
+:host([data-focused][data-label-position='outline']) .tng-form-field__frame {
+  border-color: var(--tng-form-field-frame-focus-border, var(--tng-semantic-accent-brand, currentColor));
+  box-shadow: 0 0 0 3px var(--tng-form-field-frame-focus-ring, var(--tng-semantic-focus-ring, transparent));
+}
+
+:host([data-invalid]:not([data-label-position='outline'])) .tng-form-field__control-row,
+:host([data-invalid][data-label-position='outline']) .tng-form-field__frame {
+  border-color: var(--tng-form-field-frame-invalid-border);
+}
+
+.tng-form-field__control {
   flex: 1 1 auto;
   min-width: 0;
-  width: 100%;
+}
+
+.tng-form-field__messages {
+  display: grid;
+  gap: var(--tng-form-field-message-gap, 0.25rem);
+  min-height: var(--tng-form-field-message-min-height, 1rem);
+  color: var(--tng-form-field-message-fg, var(--tng-semantic-foreground-muted, currentColor));
+  font-size: var(--tng-form-field-message-font-size, 0.8125rem);
+  line-height: 1.35;
+}
+
+:host([data-invalid]) {
+  --tng-form-field-label-fg: var(--tng-semantic-accent-danger, #dc2626);
+  --tng-form-field-message-fg: var(--tng-semantic-accent-danger, #dc2626);
+}
+
+:host([data-disabled]) {
+  opacity: 0.62;
+}
+
+.tng-form-field__required-marker {
+  color: var(--tng-form-field-required-marker-fg, var(--tng-semantic-accent-danger, #dc2626));
+  line-height: 1;
 }

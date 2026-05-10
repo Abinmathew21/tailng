@@ -2,7 +2,7 @@ import { DOCUMENT } from '@angular/common';
 import { Component, ViewEncapsulation, inject, signal, type OnDestroy } from '@angular/core';
 import { observeDocsCodeThemeChanges, resolveDocsCodeBlockTheme } from '../../../../../../shared/util';
 import { TngCodeBlockComponent } from '@tailng-ui/components';
-import { TngInput, TngInputGroup, TngPrefix, TngSuffix } from '@tailng-ui/primitives';
+import { TngInput, TngInputGroup, TngInputFieldPrefix, TngInputFieldSuffix } from '@tailng-ui/primitives';
 import type { DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
 import {
   DocsExampleTabsSectionComponent,
@@ -18,8 +18,8 @@ import { stackblitzVanillaUrl, stackblitzTailwindUrl } from '../../input.util';
     DocsExampleVariantDirective,
     TngInputGroup,
     TngInput,
-    TngPrefix,
-    TngSuffix,
+    TngInputFieldPrefix,
+    TngInputFieldSuffix,
   ],
   templateUrl: './headless-input-styling-page.component.html',
   encapsulation: ViewEncapsulation.None,
@@ -47,14 +47,14 @@ export class HeadlessInputStylingPageComponent implements OnDestroy {
     '>',
     '  <span class="account-profile-example-field-label">Display name</span>',
     '    <div tngInputGroup class="account-profile-example-shell">',
-    '      <span tngPrefix aria-hidden="true">@</span>',
+    '      <span tngInputFieldPrefix aria-hidden="true">@</span>',
     '      <input',
     '        tngInput',
     '        type="text"',
     '        value="Ada Lovelace"',
     '        aria-label="Display name"',
     '      />',
-    '      <button tngSuffix type="button" aria-label="Clear">X</button>',
+    '      <button tngInputFieldSuffix type="button" aria-label="Clear">X</button>',
     '    </div>',
     '</label>',
     '</div>',
@@ -184,7 +184,7 @@ export class HeadlessInputStylingPageComponent implements OnDestroy {
     '      tngInputGroup',
     '      class="min-h-11 cursor-text rounded-[0.8rem] border border-[#cfd6df] bg-white px-[0.85rem] text-[#111827] shadow-sm transition-[border-color,box-shadow,background-color] duration-200 [&[data-focused]]:border-[#3b82f6] [&[data-focused]]:shadow-[0_0_0_3px_rgba(59,130,246,0.16)]">',
     '      <span',
-    '        tngPrefix',
+    '        tngInputFieldPrefix',
     '        aria-hidden="true"',
     '        class="inline-flex items-center text-[0.95rem] font-semibold leading-none text-[#6b7280]">',
     '        @',
@@ -198,7 +198,7 @@ export class HeadlessInputStylingPageComponent implements OnDestroy {
     '        class="min-w-0 flex-1 border-0 bg-transparent p-0 text-[0.98rem] font-medium leading-5 text-[#111827] outline-none placeholder:text-[#9ca3af]"/>',
     '',
     '      <button',
-    '        tngSuffix',
+    '        tngInputFieldSuffix',
     '        type="button"',
     '        aria-label="Clear"',
     '        class="inline-flex min-h-6 min-w-6 items-center justify-center rounded-full border-0 bg-transparent p-0 leading-none text-[#6b7280] transition-[background-color,color] duration-200 hover:bg-[#f3f4f6] hover:text-[#374151] focus:outline-none">',
@@ -214,11 +214,11 @@ export class HeadlessInputStylingPageComponent implements OnDestroy {
 
   protected readonly plainCssHeadlessScenarioTsCode = [
     "import { Component } from '@angular/core';",
-    "import { TngInput, TngInputGroup, TngPrefix, TngSuffix } from '@tailng-ui/primitives';",
+    "import { TngInput, TngInputGroup, TngInputFieldPrefix, TngInputFieldSuffix } from '@tailng-ui/primitives';",
     '',
     '@Component({',
     "  selector: 'app-plain-css-headless-account-form',",
-    '  imports: [TngInput, TngInputGroup, TngPrefix, TngSuffix],',
+    '  imports: [TngInput, TngInputGroup, TngInputFieldPrefix, TngInputFieldSuffix],',
     "  templateUrl: './plain-css-headless-account-form.component.html',",
     "  styleUrl: './plain-css-headless-account-form.component.css',",
     '})',
@@ -228,11 +228,11 @@ export class HeadlessInputStylingPageComponent implements OnDestroy {
 
   protected readonly tailwindHeadlessScenarioTsCode = [
     "import { Component } from '@angular/core';",
-    "import { TngInput, TngInputGroup, TngPrefix, TngSuffix } from '@tailng-ui/primitives';",
+    "import { TngInput, TngInputGroup, TngInputFieldPrefix, TngInputFieldSuffix } from '@tailng-ui/primitives';",
     '',
     '@Component({',
     "  selector: 'app-tailwind-headless-account-form',",
-    '  imports: [TngInput, TngInputGroup, TngPrefix, TngSuffix],',
+    '  imports: [TngInput, TngInputGroup, TngInputFieldPrefix, TngInputFieldSuffix],',
     "  templateUrl: './tailwind-headless-account-form.component.html',",
     "  styleUrl: './tailwind-headless-account-form.component.css',",
     '})',

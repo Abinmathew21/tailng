@@ -2,6 +2,7 @@
 @import "./form/autocomplete/autocomplete.css" layer(tng.contracts);
 @import "./form/multi-autocomplete/multi-autocomplete.css" layer(tng.contracts);
 @import "./form/input/input.css" layer(tng.contracts);
+@import "./form/input-field/input-field.css" layer(tng.contracts);
 @import "./form/form-field/form-field.css" layer(tng.contracts);
 @import "./form/datepicker/datepicker.css" layer(tng.contracts);
 @import "./navigation/menu/menu.css" layer(tng.contracts);

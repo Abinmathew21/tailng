@@ -1641,25 +1641,78 @@
     ]
   },
   {
-    "title": "Form Field",
+    "title": "Input Field",
     "description": "Projected input shell with prefix and suffix slots for icons, helper text, and inline actions.",
+    "section": "Components / Form",
+    "url": "/components/form/input-field",
+    "tags": [
+      "components",
+      "form",
+      "input-field",
+      "input-field"
+    ]
+  },
+  {
+    "title": "Input Field API",
+    "description": "Projected input shell with prefix and suffix slots for icons, helper text, and inline actions. API.",
+    "section": "Components / Form",
+    "url": "/components/form/input-field/api",
+    "tags": [
+      "components",
+      "form",
+      "input-field",
+      "input-field",
+      "api"
+    ]
+  },
+  {
+    "title": "Input Field Stylings",
+    "description": "Projected input shell with prefix and suffix slots for icons, helper text, and inline actions. Stylings.",
+    "section": "Components / Form",
+    "url": "/components/form/input-field/stylings",
+    "tags": [
+      "components",
+      "form",
+      "input-field",
+      "input-field",
+      "stylings"
+    ]
+  },
+  {
+    "title": "Input Field Examples",
+    "description": "Projected input shell with prefix and suffix slots for icons, helper text, and inline actions. Examples.",
+    "section": "Components / Form",
+    "url": "/components/form/input-field/examples",
+    "tags": [
+      "components",
+      "form",
+      "input-field",
+      "input-field",
+      "examples"
+    ]
+  },
+  {
+    "title": "Form Field",
+    "description": "Complete field wrapper for labels, controls, hints, errors, and accessibility wiring.",
     "section": "Components / Form",
     "url": "/components/form/form-field",
     "tags": [
       "components",
       "form",
+      "tng-form-field",
       "form-field",
       "form-field"
     ]
   },
   {
     "title": "Form Field API",
-    "description": "Projected input shell with prefix and suffix slots for icons, helper text, and inline actions. API.",
+    "description": "Complete field wrapper for labels, controls, hints, errors, and accessibility wiring. API.",
     "section": "Components / Form",
     "url": "/components/form/form-field/api",
     "tags": [
       "components",
       "form",
+      "tng-form-field",
       "form-field",
       "form-field",
       "api"
@@ -1667,12 +1720,13 @@
   },
   {
     "title": "Form Field Stylings",
-    "description": "Projected input shell with prefix and suffix slots for icons, helper text, and inline actions. Stylings.",
+    "description": "Complete field wrapper for labels, controls, hints, errors, and accessibility wiring. Stylings.",
     "section": "Components / Form",
     "url": "/components/form/form-field/stylings",
     "tags": [
       "components",
       "form",
+      "tng-form-field",
       "form-field",
       "form-field",
       "stylings"
@@ -1680,12 +1734,13 @@
   },
   {
     "title": "Form Field Examples",
-    "description": "Projected input shell with prefix and suffix slots for icons, helper text, and inline actions. Examples.",
+    "description": "Complete field wrapper for labels, controls, hints, errors, and accessibility wiring. Examples.",
     "section": "Components / Form",
     "url": "/components/form/form-field/examples",
     "tags": [
       "components",
       "form",
+      "tng-form-field",
       "form-field",
       "form-field",
       "examples"

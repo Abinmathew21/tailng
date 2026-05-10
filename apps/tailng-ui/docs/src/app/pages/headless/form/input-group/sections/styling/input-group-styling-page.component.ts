@@ -1,7 +1,7 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, inject, signal, type OnDestroy } from '@angular/core';
 import { TngCodeBlockComponent } from '@tailng-ui/components';
-import { TngInput, TngInputGroup, TngSuffix } from '@tailng-ui/primitives';
+import { TngInput, TngInputGroup, TngInputFieldSuffix } from '@tailng-ui/primitives';
 import type { DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
 import {
   DocsExampleTabsSectionComponent,
@@ -41,12 +41,12 @@ function createCodeTabs(
 function createStandaloneExampleTsCode(selector: string, className: string): string {
   return [
     "import { Component } from '@angular/core';",
-    "import { TngInput, TngInputGroup, TngSuffix } from '@tailng-ui/primitives';",
+    "import { TngInput, TngInputGroup, TngInputFieldSuffix } from '@tailng-ui/primitives';",
     '',
     '@Component({',
     `  selector: '${selector}',`,
     '  standalone: true,',
-    '  imports: [TngInput, TngInputGroup, TngSuffix],',
+    '  imports: [TngInput, TngInputGroup, TngInputFieldSuffix],',
     `  templateUrl: './${selector}.component.html',`,
     `  styleUrl: './${selector}.component.css',`,
     '})',
@@ -63,7 +63,7 @@ function createStandaloneExampleTsCode(selector: string, className: string): str
     DocsExampleVariantDirective,
     TngInput,
     TngInputGroup,
-    TngSuffix,
+    TngInputFieldSuffix,
   ],
   templateUrl: './input-group-styling-page.component.html',
   styleUrls: [
@@ -119,7 +119,7 @@ export class HeadlessInputGroupStylingPageComponent implements OnDestroy {
       '      value="core-platform"',
       '      class="docs-headless-input-group-styling-plain-control"',
       '    />',
-      '    <span tngSuffix class="docs-headless-input-group-styling-plain-meta">.tailng.dev</span>',
+      '    <span tngInputFieldSuffix class="docs-headless-input-group-styling-plain-meta">.tailng.dev</span>',
       '  </tng-input-group>',
       '</label>',
       '',
@@ -195,7 +195,7 @@ export class HeadlessInputGroupStylingPageComponent implements OnDestroy {
       '      value="core-platform"',
       '      class="min-w-0 flex-1 border-0 bg-transparent p-0 text-slate-900 outline-none"',
       '    />',
-      '    <span tngSuffix class="whitespace-nowrap text-xs font-semibold text-slate-500">.tailng.dev</span>',
+      '    <span tngInputFieldSuffix class="whitespace-nowrap text-xs font-semibold text-slate-500">.tailng.dev</span>',
       '  </tng-input-group>',
       '</label>',
       '',

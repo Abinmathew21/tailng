@@ -103,6 +103,12 @@ export const COMPONENTS_FORM_GROUP: ComponentsDocsGroup = {
       description: 'Pressed button semantics for compact on/off actions and toolbar commands.',
     },
     {
+      id: 'toggle-group',
+      slug: 'toggle-group',
+      title: 'Toggle Group',
+      description: 'Coordinated single or multiple selection state for grouped toggle buttons.',
+    },
+    {
       id: 'switch',
       slug: 'switch',
       title: 'Switch',
@@ -158,6 +164,24 @@ export const COMPONENTS_FORM_GROUP: ComponentsDocsGroup = {
         'Material-style date selection with editable input, adapter formatting, and bounded calendar views.',
     },
     {
+      id: 'month-daypicker',
+      slug: 'month-daypicker',
+      title: 'Month Daypicker',
+      description: 'Month-day selection for recurring dates without exposing a year in the value.',
+    },
+    {
+      id: 'yearpicker',
+      slug: 'yearpicker',
+      title: 'Yearpicker',
+      description: 'Year-only selection built on the shared datepicker surface.',
+    },
+    {
+      id: 'slider',
+      slug: 'slider',
+      title: 'Slider',
+      description: 'Range input wrapper for numeric settings and continuous values.',
+    },
+    {
       id: 'chips',
       slug: 'chips',
       title: 'Chips',
@@ -170,11 +194,18 @@ export const COMPONENTS_FORM_GROUP: ComponentsDocsGroup = {
       description: 'Segmented one-time-password input with keyboard, paste, and form integration.',
     },
     {
+      id: 'input-field',
+      slug: 'input-field',
+      title: 'Input Field',
+      description:
+        'Projected input shell with prefix and suffix slots for icons, helper text, and inline actions.',
+    },
+    {
       id: 'form-field',
       slug: 'form-field',
       title: 'Form Field',
       description:
-        'Projected input shell with prefix and suffix slots for icons, helper text, and inline actions.',
+        'Complete field wrapper for labels, controls, hints, errors, and accessibility wiring.',
     },
   ],
 };

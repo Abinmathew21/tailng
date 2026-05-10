@@ -31,6 +31,84 @@
       </p>
     </section>
 
+    @switch (item().slug) {
+      @case ('slider') {
+        <section class="mt-6 grid gap-4 rounded-xl border border-tng-border-subtle bg-tng-bg-surface p-6">
+          <div class="grid gap-1">
+            <h2 class="m-0 text-xl font-semibold text-tng-fg-primary">Sample</h2>
+            <p class="m-0 max-w-3xl text-sm text-tng-fg-secondary">
+              A compact numeric range control for settings like volume, budget, or intensity.
+            </p>
+          </div>
+          <div class="grid max-w-xl gap-3">
+            <div class="flex items-center justify-between text-sm">
+              <span class="font-medium text-tng-fg-primary">Profile match</span>
+              <span class="text-tng-fg-secondary">72%</span>
+            </div>
+            <tng-slider min="0" max="100" step="1" value="72" />
+          </div>
+        </section>
+      }
+
+      @case ('toggle-group') {
+        <section class="mt-6 grid gap-4 rounded-xl border border-tng-border-subtle bg-tng-bg-surface p-6">
+          <div class="grid gap-1">
+            <h2 class="m-0 text-xl font-semibold text-tng-fg-primary">Sample</h2>
+            <p class="m-0 max-w-3xl text-sm text-tng-fg-secondary">
+              Coordinate several toggle items as one single-select or multi-select control.
+            </p>
+          </div>
+          <tng-toggle-group
+            ariaLabel="Density"
+            selectionMode="single"
+            defaultValue="comfortable"
+            class="w-fit"
+          >
+            <tng-toggle value="compact" pressedLabel="Compact" unpressedLabel="Compact">
+              <span onIcon>Compact</span>
+              <span offIcon>Compact</span>
+            </tng-toggle>
+            <tng-toggle value="comfortable" pressedLabel="Comfortable" unpressedLabel="Comfortable">
+              <span onIcon>Comfortable</span>
+              <span offIcon>Comfortable</span>
+            </tng-toggle>
+            <tng-toggle value="spacious" pressedLabel="Spacious" unpressedLabel="Spacious">
+              <span onIcon>Spacious</span>
+              <span offIcon>Spacious</span>
+            </tng-toggle>
+          </tng-toggle-group>
+        </section>
+      }
+
+      @case ('month-daypicker') {
+        <section class="mt-6 grid gap-4 rounded-xl border border-tng-border-subtle bg-tng-bg-surface p-6">
+          <div class="grid gap-1">
+            <h2 class="m-0 text-xl font-semibold text-tng-fg-primary">Sample</h2>
+            <p class="m-0 max-w-3xl text-sm text-tng-fg-secondary">
+              Capture recurring month-day values such as birthdays, renewals, and yearly reminders.
+            </p>
+          </div>
+          <div class="max-w-sm">
+            <tng-month-daypicker [defaultValue]="{ month: 5, day: 8 }" />
+          </div>
+        </section>
+      }
+
+      @case ('yearpicker') {
+        <section class="mt-6 grid gap-4 rounded-xl border border-tng-border-subtle bg-tng-bg-surface p-6">
+          <div class="grid gap-1">
+            <h2 class="m-0 text-xl font-semibold text-tng-fg-primary">Sample</h2>
+            <p class="m-0 max-w-3xl text-sm text-tng-fg-secondary">
+              Use a year-only picker when the day and month are fixed by the workflow.
+            </p>
+          </div>
+          <div class="max-w-sm">
+            <tng-yearpicker value="2026" minYear="2020" maxYear="2032" />
+          </div>
+        </section>
+      }
+    }
+
     <section class="mt-6 grid gap-4 rounded-xl border border-tng-border-subtle bg-tng-bg-surface p-6">
       <div class="grid gap-1">
         <h2 class="m-0 text-xl font-semibold text-tng-fg-primary">Angular Signal Forms Review</h2>

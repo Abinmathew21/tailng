@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 
-import { TngPrefix, TngSuffix } from './tng-adornment';
+import { TngInputFieldPrefix, TngInputFieldSuffix } from './tng-adornment';
 import { TngInput } from './tng-input';
 
 function containsProjectedContent(childElementCount: number, textContent: string | null): boolean {
@@ -24,7 +24,7 @@ function containsProjectedContent(childElementCount: number, textContent: string
   template: `
     @if (hasLeadingSlot()) {
       <span class="tng-input-group-leading" data-slot="input-group-leading">
-        <ng-content select="[tngPrefix], [tngInputLeading], [data-tng-input-prefix-proxy]"></ng-content>
+        <ng-content select="[tngInputFieldPrefix], [tngInputLeading], [data-tng-input-prefix-proxy]"></ng-content>
       </span>
     }
 
@@ -34,7 +34,7 @@ function containsProjectedContent(childElementCount: number, textContent: string
 
     @if (hasTrailingSlot()) {
       <span class="tng-input-group-trailing" data-slot="input-group-trailing">
-        <ng-content select="[tngSuffix], [tngInputTrailing], [data-tng-input-suffix-proxy]"></ng-content>
+        <ng-content select="[tngInputFieldSuffix], [tngInputTrailing], [data-tng-input-suffix-proxy]"></ng-content>
       </span>
     }
   `,
@@ -74,11 +74,11 @@ export class TngInputGroup implements AfterContentInit, OnDestroy {
   @ContentChildren(TngInput, { descendants: true })
   protected controls!: QueryList<TngInput>;
 
-  @ContentChildren(TngPrefix, { descendants: true })
-  protected prefixSlots!: QueryList<TngPrefix>;
+  @ContentChildren(TngInputFieldPrefix, { descendants: true })
+  protected prefixSlots!: QueryList<TngInputFieldPrefix>;
 
-  @ContentChildren(TngSuffix, { descendants: true })
-  protected suffixSlots!: QueryList<TngSuffix>;
+  @ContentChildren(TngInputFieldSuffix, { descendants: true })
+  protected suffixSlots!: QueryList<TngInputFieldSuffix>;
 
   private readonly hostElement: HTMLElement = inject(ElementRef<HTMLElement>).nativeElement as HTMLElement;
   private focused = false;

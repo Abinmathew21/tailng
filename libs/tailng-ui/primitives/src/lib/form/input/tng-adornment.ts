@@ -1,10 +1,10 @@
 import { Directive, ElementRef, HostBinding, inject } from '@angular/core';
 
 @Directive({
-  selector: '[tngPrefix], [tngInputLeading]',
-  exportAs: 'tngPrefix',
+  selector: '[tngInputFieldPrefix], [tngInputLeading]',
+  exportAs: 'tngInputFieldPrefix',
 })
-export class TngPrefix {
+export class TngInputFieldPrefix {
   public readonly hostElement: HTMLElement = inject(ElementRef<HTMLElement>).nativeElement as HTMLElement;
 
   @HostBinding('attr.data-slot')
@@ -12,10 +12,10 @@ export class TngPrefix {
 }
 
 @Directive({
-  selector: '[tngSuffix], [tngInputTrailing]',
-  exportAs: 'tngSuffix',
+  selector: '[tngInputFieldSuffix], [tngInputTrailing]',
+  exportAs: 'tngInputFieldSuffix',
 })
-export class TngSuffix {
+export class TngInputFieldSuffix {
   public readonly hostElement: HTMLElement = inject(ElementRef<HTMLElement>).nativeElement as HTMLElement;
 
   @HostBinding('attr.data-slot')

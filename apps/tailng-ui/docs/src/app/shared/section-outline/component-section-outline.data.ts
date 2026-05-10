@@ -472,7 +472,7 @@ export const docsComponentOutlineItemsBySlug: Readonly<
     ],
     api: [
       { id: 'tng-input-component', label: '&lt;tng-input&gt;' },
-      { id: 'tng-form-field', label: '&lt;tng-form-field&gt;' },
+      { id: 'tng-input-field', label: '&lt;tng-input-field&gt;' },
       { id: 'tng-input-directive', label: 'tngInput (directive)' },
       { id: 'slot-directives', label: 'Slot directives' },
     ],
@@ -495,9 +495,9 @@ export const docsComponentOutlineItemsBySlug: Readonly<
       { id: 'import-and-usage', label: 'Import in your feature module/component' },
     ],
   },
-  'form-field': {
+  'input-field': {
     overview: [
-      { id: 'what-form-field-does', label: 'What form field does' },
+      { id: 'what-input-field-does', label: 'What input field does' },
       { id: 'simple-examples', label: 'Simple examples' },
       { id: 'installation', label: 'Installation' },
       { id: 'basic-composition', label: 'Basic composition' },
@@ -505,7 +505,7 @@ export const docsComponentOutlineItemsBySlug: Readonly<
       { id: 'accessibility-guidance', label: 'Accessibility guidance' },
     ],
     api: [
-      { id: 'tng-form-field-component', label: '&lt;tng-form-field&gt;' },
+      { id: 'tng-input-field-component', label: '&lt;tng-input-field&gt;' },
       { id: 'projected-control-contract', label: 'Projected control contract' },
       { id: 'slot-directives', label: 'Slot directives' },
     ],
@@ -519,6 +519,29 @@ export const docsComponentOutlineItemsBySlug: Readonly<
       { id: 'global-search-field', label: 'Global search field' },
       { id: 'workspace-slug-field', label: 'Workspace slug field' },
       { id: 'clear-action-field', label: 'Clear action field' },
+    ],
+  },
+  'form-field': {
+    overview: [
+      { id: 'what-form-field-does', label: 'What form field does' },
+      { id: 'basic-field', label: 'Basic field' },
+      { id: 'input-group-field', label: 'With input group' },
+    ],
+    api: [
+      { id: 'imports', label: 'Imports' },
+      { id: 'tng-form-field-component', label: '&lt;tng-form-field&gt;' },
+      { id: 'messages', label: 'Messages' },
+      { id: 'custom-control-contract', label: 'Custom control contract' },
+    ],
+    styling: [
+      { id: 'slot-classes', label: 'Slot classes' },
+      { id: 'css-variables', label: 'CSS variables' },
+    ],
+    examples: [
+      { id: 'form-usage', label: 'Form usage' },
+      { id: 'basic-field', label: 'Basic field' },
+      { id: 'horizontal-field', label: 'Horizontal layout' },
+      { id: 'error-field', label: 'Error state' },
     ],
   },
   'input-otp': {
