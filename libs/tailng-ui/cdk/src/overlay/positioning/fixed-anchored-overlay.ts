@@ -30,7 +30,7 @@ export type TngFixedAnchoredOverlayPositionResult = Readonly<{
   side: 'bottom' | 'top';
 }>;
 
-function rectFromClientRect(rect: DOMRect | ClientRect): MaybeRect {
+function rectFromClientRect(rect: Readonly<DOMRect | ClientRect>): MaybeRect {
   return {
     height: rect.height,
     left: rect.left,
@@ -39,7 +39,7 @@ function rectFromClientRect(rect: DOMRect | ClientRect): MaybeRect {
   };
 }
 
-function viewportRect(windowRef: Window): MaybeRect {
+function viewportRect(windowRef: Readonly<Window>): MaybeRect {
   return {
     height: windowRef.innerHeight || 768,
     left: 0,
@@ -48,44 +48,53 @@ function viewportRect(windowRef: Window): MaybeRect {
   };
 }
 
+function getAvailableHeight(
+  side: 'top' | 'bottom',
+  rects: Readonly<{ anchor: MaybeRect; viewport: MaybeRect }>,
+  options: Readonly<{ margin: number; offset: number }>,
+): number {
+  const { anchor, viewport } = rects;
+  const anchorBottom = anchor.top + anchor.height;
+
+  return side === 'top'
+    ? Math.max(0, Math.floor(anchor.top - options.margin - options.offset))
+    : Math.max(0, Math.floor(viewport.height - anchorBottom - options.margin - options.offset));
+}
+
 export function positionFixedAnchoredOverlay(
-  options: TngFixedAnchoredOverlayPositionOptions,
+  options: Readonly<TngFixedAnchoredOverlayPositionOptions>,
 ): TngFixedAnchoredOverlayPositionResult {
   const anchorRect = rectFromClientRect(options.anchor.getBoundingClientRect());
   const viewport = viewportRect(options.windowRef);
   const maxInlineSize = Math.max(0, viewport.width - options.viewportMargin * 2);
   const inlineSize = Math.max(0, Math.min(anchorRect.width, maxInlineSize));
 
-  options.overlay.style.width = `${inlineSize}px`;
-  options.overlay.style.maxWidth = `${maxInlineSize}px`;
-  options.overlay.style.maxHeight = '';
+  const { overlay } = options;
+  overlay.style.width = `${inlineSize}px`;
+  overlay.style.maxWidth = `${maxInlineSize}px`;
+  overlay.style.maxHeight = '';
 
-  const overlayRect = rectFromClientRect(options.overlay.getBoundingClientRect());
   const result = computeOverlayPosition({
     anchorRect,
     collision: options.collision,
     direction: options.direction ?? 'ltr',
     offset: options.offset,
-    overlayRect,
+    overlayRect: rectFromClientRect(overlay.getBoundingClientRect()),
     placement: options.placement,
     viewportRect: viewport,
   });
 
-  options.overlay.style.left = `${result.x}px`;
-  options.overlay.style.top = `${result.y}px`;
-  const sideOffset = options.offset.side ?? 0;
+  overlay.style.left = `${result.x}px`;
+  overlay.style.top = `${result.y}px`;
 
-  const anchorBottom = anchorRect.top + anchorRect.height;
-  const availableHeight =
-    result.side === 'top'
-      ? Math.max(0, Math.floor(anchorRect.top - options.viewportMargin - sideOffset))
-      : Math.max(
-          0,
-          Math.floor(viewport.height - anchorBottom - options.viewportMargin - sideOffset),
-        );
+  const availableHeight = getAvailableHeight(
+    result.side === 'top' ? 'top' : 'bottom',
+    { anchor: anchorRect, viewport },
+    { margin: options.viewportMargin, offset: options.offset.side ?? 0 },
+  );
 
   if (availableHeight > 0) {
-    options.overlay.style.maxHeight = `${availableHeight}px`;
+    overlay.style.maxHeight = `${availableHeight}px`;
   }
 
   return {
