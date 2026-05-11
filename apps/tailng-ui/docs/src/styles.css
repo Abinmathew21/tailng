@@ -82,10 +82,13 @@ app-root {
 
 tng-tabs.docs-component-tabs .tng-tabs,
 .docs-component-tabs .tng-tabs {
+  align-items: stretch;
   background: inherit;
   border: 0 !important;
   border-radius: 0 !important;
   box-shadow: none;
+  display: flex;
+  flex-direction: row;
   gap: 0;
   padding: 0;
 }
@@ -93,9 +96,46 @@ tng-tabs.docs-component-tabs .tng-tabs,
 .docs-component-tabs [data-slot='tab-list'] {
   border-bottom: 1px solid var(--tng-semantic-border-subtle);
   display: flex;
+  flex: 1;
   flex-wrap: nowrap;
   gap: 0;
-  width: 100%;
+  min-width: 0;
+  /* Scroll container at all widths: primitives use scrollWidth/clientWidth and scrollLeft for scrollButtons. */
+  -ms-overflow-style: none;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+}
+
+.docs-component-tabs [data-slot='tab-list']::-webkit-scrollbar {
+  display: none;
+}
+
+.docs-component-tabs [data-slot='tabs-scroll-button-prev'],
+.docs-component-tabs [data-slot='tabs-scroll-button-next'] {
+  align-items: center;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--tng-semantic-border-subtle);
+  color: var(--tng-semantic-foreground-primary);
+  cursor: pointer;
+  display: flex;
+  flex-shrink: 0;
+  font-size: 1.25rem;
+  justify-content: center;
+  padding-inline: 0.5rem;
+  width: 2rem;
+}
+
+.docs-component-tabs [data-slot='tabs-scroll-button-prev'][hidden],
+.docs-component-tabs [data-slot='tabs-scroll-button-next'][hidden] {
+  display: none;
+}
+
+.docs-component-tabs [data-slot='tabs-scroll-button-prev'][disabled],
+.docs-component-tabs [data-slot='tabs-scroll-button-next'][disabled] {
+  color: var(--tng-semantic-foreground-disabled, #666);
+  cursor: default;
 }
 
 .docs-component-tabs [data-slot='tab'] {
@@ -244,10 +284,6 @@ tng-tabs.docs-component-tabs .tng-tabs,
 @media (max-width: 760px) {
   .docs-component-page {
     padding-inline: 1rem;
-  }
-
-  .docs-component-tabs [data-slot='tab-list'] {
-    flex-wrap: wrap;
   }
 
   .docs-component-tabs [data-slot='tab'] {

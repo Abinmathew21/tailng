@@ -1,7 +1,8 @@
 import { Component, computed, inject, input } from '@angular/core';
 import { Router } from '@angular/router';
 import { TngTabsComponent } from '@tailng-ui/components';
-import { TngTab, TngTabList } from '@tailng-ui/primitives';
+import { TngIcon } from '@tailng-ui/icons';
+import { TngTab, TngTabList, TngTabsScrollButtonNext, TngTabsScrollButtonPrev } from '@tailng-ui/primitives';
 
 export type DocsComponentSectionTab = {
   value: string;
@@ -17,8 +18,9 @@ const defaultTabs: readonly DocsComponentSectionTab[] = [
 
 @Component({
   selector: 'app-docs-component-section-tabs',
-  imports: [TngTabsComponent, TngTabList, TngTab],
+  imports: [TngTabsComponent, TngTabList, TngTab, TngTabsScrollButtonPrev, TngTabsScrollButtonNext, TngIcon],
   templateUrl: './docs-component-section-tabs.component.html',
+  styleUrl: './docs-component-section-tabs.component.css',
 })
 export class DocsComponentSectionTabsComponent {
   private readonly router = inject(Router);
