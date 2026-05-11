@@ -21,6 +21,7 @@ import {
   type TngOverlayCollisionOptions,
   type TngOverlayOffset,
   type TngOverlayPlacement,
+  type TngOverlayRect,
 } from '@tailng-ui/cdk';
 import type {
   TngDatepickerAttributeMap,
@@ -96,6 +97,61 @@ function resolveAnchorElement(anchor: OverlayAnchorInput): HTMLElement | null {
 
 function resolveThemeSourceElement(source: OverlayThemeSourceInput): HTMLElement | null {
   return resolveAnchorElement(source);
+}
+
+/**
+ * When the overlay's anchor lives inside a `tng-form-field`, the form-field is
+ * the visible frame the consumer sees, so the overlay should span it
+ * (width + left/right edges). For the `left` label layout the form-field's
+ * root spans the label column too, so anchor on the inner control-row instead.
+ */
+function findFormFieldAnchor(host: HTMLElement | null): HTMLElement | null {
+  if (host === null) return null;
+  const formField = host.closest('[data-slot="form-field"]') as HTMLElement | null;
+  if (formField === null) return null;
+  if (formField.getAttribute('data-label-position') === 'left') {
+    const row = formField.querySelector('.tng-form-field__control-row') as HTMLElement | null;
+    return row ?? formField;
+  }
+  return formField;
+}
+
+/**
+ * Rect to use for overlay positioning. When the anchor is a form-field root,
+ * the horizontal extent is taken from the form-field (so the overlay spans
+ * the field frame) but the vertical extent is taken from the inner frame
+ * element (the input row) so the overlay opens directly under the input
+ * rather than below the messages region beneath the frame.
+ */
+function anchorRectFor(anchorEl: HTMLElement): TngOverlayRect {
+  const widthRect = anchorEl.getBoundingClientRect();
+  if (!anchorEl.matches('[data-slot="form-field"]')) {
+    return {
+      height: widthRect.height,
+      left: widthRect.left,
+      top: widthRect.top,
+      width: widthRect.width,
+    };
+  }
+  const labelPosition = anchorEl.getAttribute('data-label-position');
+  const fieldset = anchorEl.querySelector('[data-slot="form-field-control-row"]') as HTMLElement | null;
+  const innerRow = anchorEl.querySelector('.tng-form-field__control-row') as HTMLElement | null;
+  const positionEl = labelPosition === 'outline' ? (fieldset ?? innerRow) : (innerRow ?? fieldset);
+  if (positionEl === null) {
+    return {
+      height: widthRect.height,
+      left: widthRect.left,
+      top: widthRect.top,
+      width: widthRect.width,
+    };
+  }
+  const positionRect = positionEl.getBoundingClientRect();
+  return {
+    height: positionRect.height,
+    left: widthRect.left,
+    top: positionRect.top,
+    width: widthRect.width,
+  };
 }
 
 @Directive({
@@ -276,7 +332,12 @@ export class TngDatepickerOverlay {
     }
   }
 
-  private findAnchorEl(): HTMLElement | null {
+  /**
+   * Resolve the explicit/datepicker-owned anchor (input-shell or trigger).
+   * This is the element used to read datepicker-scoped CSS custom properties
+   * (e.g. `--tng-datepicker-overlay-gap`) and to align the overlay vertically.
+   */
+  private findDatepickerAnchorEl(): HTMLElement | null {
     const explicitAnchor = resolveAnchorElement(this.anchor());
     if (explicitAnchor !== null) {
       return explicitAnchor;
@@ -293,6 +354,16 @@ export class TngDatepickerOverlay {
       scope?.querySelector('[data-slot="datepicker-input-shell"]') ??
       scope?.querySelector('[data-slot="datepicker-trigger"]')
     ) as HTMLElement | null;
+  }
+
+  /**
+   * Anchor for overlay positioning, width, and dismiss boundary. Prefer the
+   * enclosing form-field (so the overlay spans the visible frame) and fall
+   * back to the datepicker-owned anchor otherwise.
+   */
+  private findAnchorEl(): HTMLElement | null {
+    const datepickerAnchor = this.findDatepickerAnchorEl();
+    return findFormFieldAnchor(datepickerAnchor) ?? datepickerAnchor;
   }
 
   private scheduleReposition(): void {
@@ -319,6 +390,7 @@ export class TngDatepickerOverlay {
 
     const result = positionFixedAnchoredOverlay({
       anchor,
+      anchorRect: anchorRectFor(anchor),
       collision: this.resolveCollision(),
       direction: this.resolveDirection(),
       offset: this.resolveOffset(),
@@ -369,7 +441,7 @@ export class TngDatepickerOverlay {
 
   private syncPortalledThemeVars(): void {
     const overlay = this.elRef.nativeElement;
-    const themeSource = resolveThemeSourceElement(this.themeSource()) ?? this.findAnchorEl();
+    const themeSource = resolveThemeSourceElement(this.themeSource()) ?? this.findDatepickerAnchorEl();
     if (themeSource === null) {
       return;
     }
@@ -443,7 +515,7 @@ export class TngDatepickerOverlay {
       return explicitOffset;
     }
 
-    const themeSource = this.findAnchorEl();
+    const themeSource = this.findDatepickerAnchorEl();
     return {
       side:
         themeSource === null
