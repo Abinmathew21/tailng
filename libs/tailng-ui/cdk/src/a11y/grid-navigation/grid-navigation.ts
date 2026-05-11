@@ -16,6 +16,11 @@ type TngGridMoveBounds = Readonly<{
   maxRow: number;
 }>;
 
+type FindNextCellOptions = Readonly<{
+  delta: -1 | 1;
+  wrap: boolean;
+}>;
+
 function createAction(
   type: TngGridNavigationActionType,
   preventDefault: boolean,
@@ -250,18 +255,19 @@ function groupCellsByAxis(
 function findNextCellInRow(
   cellsInRow: readonly TngGridCellPosition[],
   col: number,
-  delta: -1 | 1,
-  wrap: boolean,
+  options: FindNextCellOptions,
 ): TngGridCellPosition | null {
+  const { delta, wrap } = options;
   const candidates = delta > 0
     ? cellsInRow.filter((cell) => cell.col > col)
     : [...cellsInRow].reverse().filter((cell) => cell.col < col);
 
-  if (candidates.length > 0) {
-    return candidates[0] ?? null;
+  const nextCell = candidates[0];
+  if (nextCell !== undefined) {
+    return nextCell;
   }
 
-  if (!wrap || cellsInRow.length === 0) {
+  if (wrap === false) {
     return null;
   }
 
@@ -271,19 +277,20 @@ function findNextCellInRow(
 function findNextCellInColumn(
   cellsInColumn: readonly TngGridCellPosition[],
   row: number,
-  delta: -1 | 1,
-  wrap: boolean,
+  options: FindNextCellOptions,
 ): TngGridCellPosition | null {
+  const { delta, wrap } = options;
   const sorted = [...cellsInColumn].sort(compareGridCellPosition);
   const candidates = delta > 0
     ? sorted.filter((cell) => cell.row > row)
     : [...sorted].reverse().filter((cell) => cell.row < row);
 
-  if (candidates.length > 0) {
-    return candidates[0] ?? null;
+  const nextCell = candidates[0];
+  if (nextCell !== undefined) {
+    return nextCell;
   }
 
-  if (!wrap || sorted.length === 0) {
+  if (wrap === false) {
     return null;
   }
 
@@ -317,6 +324,33 @@ export function moveGridCell(
   return movementActionHandlers[actionType](start, bounds);
 }
 
+type ResolveContext = Readonly<{
+  start: TngGridCellPosition;
+  cellsByRow: ReadonlyMap<number, readonly TngGridCellPosition[]>;
+  cellsByColumn: ReadonlyMap<number, readonly TngGridCellPosition[]>;
+  enabledCells: readonly TngGridCellPosition[];
+  wrap: boolean;
+}>;
+
+const movementResolvers: Readonly<
+  Record<TngGridMovementActionType, (ctx: ResolveContext) => TngGridCellPosition | null>
+> = {
+  'move-left': ({ start, cellsByRow, wrap }) =>
+    findNextCellInRow(cellsByRow.get(start.row) ?? [], start.col, { delta: -1, wrap }),
+  'move-right': ({ start, cellsByRow, wrap }) =>
+    findNextCellInRow(cellsByRow.get(start.row) ?? [], start.col, { delta: 1, wrap }),
+  'move-up': ({ start, cellsByColumn, wrap }) =>
+    findNextCellInColumn(cellsByColumn.get(start.col) ?? [], start.row, { delta: -1, wrap }),
+  'move-down': ({ start, cellsByColumn, wrap }) =>
+    findNextCellInColumn(cellsByColumn.get(start.col) ?? [], start.row, { delta: 1, wrap }),
+  'move-row-start': ({ start, cellsByRow }) =>
+    findRowBoundaryCell(cellsByRow.get(start.row), 'start'),
+  'move-row-end': ({ start, cellsByRow }) =>
+    findRowBoundaryCell(cellsByRow.get(start.row), 'end'),
+  'move-grid-start': ({ enabledCells }) => enabledCells[0] ?? null,
+  'move-grid-end': ({ enabledCells }) => enabledCells[enabledCells.length - 1] ?? null,
+};
+
 export function resolveNavigableGridCell(
   position: TngGridCellPosition,
   actionType: TngGridNavigationActionType,
@@ -329,52 +363,19 @@ export function resolveNavigableGridCell(
     return null;
   }
 
+  const fallback = enabledCells.find((cell) => cell.row === start.row && cell.col === start.col) ?? start;
+
   if (!isMovementActionType(actionType)) {
-    return enabledCells.find((cell) => cell.row === start.row && cell.col === start.col) ?? start;
+    return fallback;
   }
 
-  const cellsByRow = groupCellsByAxis(enabledCells, 'row');
-  const cellsByColumn = groupCellsByAxis(enabledCells, 'col');
-  const wrap = options.wrap ?? false;
+  const context: ResolveContext = {
+    start,
+    enabledCells,
+    wrap: options.wrap ?? false,
+    cellsByRow: groupCellsByAxis(enabledCells, 'row'),
+    cellsByColumn: groupCellsByAxis(enabledCells, 'col'),
+  };
 
-  switch (actionType) {
-    case 'move-left':
-      return (
-        findNextCellInRow(cellsByRow.get(start.row) ?? [], start.col, -1, wrap)
-        ?? enabledCells.find((cell) => cell.row === start.row && cell.col === start.col)
-        ?? start
-      );
-    case 'move-right':
-      return (
-        findNextCellInRow(cellsByRow.get(start.row) ?? [], start.col, 1, wrap)
-        ?? enabledCells.find((cell) => cell.row === start.row && cell.col === start.col)
-        ?? start
-      );
-    case 'move-up':
-      return (
-        findNextCellInColumn(cellsByColumn.get(start.col) ?? [], start.row, -1, wrap)
-        ?? enabledCells.find((cell) => cell.row === start.row && cell.col === start.col)
-        ?? start
-      );
-    case 'move-down':
-      return (
-        findNextCellInColumn(cellsByColumn.get(start.col) ?? [], start.row, 1, wrap)
-        ?? enabledCells.find((cell) => cell.row === start.row && cell.col === start.col)
-        ?? start
-      );
-    case 'move-row-start':
-      return findRowBoundaryCell(cellsByRow.get(start.row), 'start')
-        ?? enabledCells.find((cell) => cell.row === start.row && cell.col === start.col)
-        ?? start;
-    case 'move-row-end':
-      return findRowBoundaryCell(cellsByRow.get(start.row), 'end')
-        ?? enabledCells.find((cell) => cell.row === start.row && cell.col === start.col)
-        ?? start;
-    case 'move-grid-start':
-      return enabledCells[0] ?? null;
-    case 'move-grid-end':
-      return enabledCells[enabledCells.length - 1] ?? null;
-    default:
-      return enabledCells.find((cell) => cell.row === start.row && cell.col === start.col) ?? start;
-  }
+  return movementResolvers[actionType](context) ?? fallback;
 }
