@@ -87,10 +87,18 @@
   grid-column: 2;
 }
 
-:host([data-focused]:not([data-label-position='outline'])) .tng-form-field__control-row,
-:host([data-focused][data-label-position='outline']) .tng-form-field__frame {
+:host([data-focused]:not([data-label-position='outline'])) .tng-form-field__control-row {
   border-color: var(--tng-form-field-frame-focus-border, var(--tng-semantic-accent-brand, currentColor));
   box-shadow: 0 0 0 3px var(--tng-form-field-frame-focus-ring, var(--tng-semantic-focus-ring, transparent));
+}
+
+/* Outlined fieldset: focus rides on the border (no outer halo); pad in by 1px so 1px→2px border does not shift content. */
+:host([data-focused][data-label-position='outline']) .tng-form-field__frame {
+  border-width: 2px;
+  border-color: var(--tng-form-field-frame-focus-border, var(--tng-semantic-accent-brand, currentColor));
+  box-shadow: none;
+  padding-inline: calc(var(--tng-form-field-frame-px, 0.75rem) - 1px);
+  padding-block-end: calc(var(--tng-form-field-frame-py, 0.55rem) - 1px);
 }
 
 :host([data-invalid]:not([data-label-position='outline'])) .tng-form-field__control-row,
