@@ -188,6 +188,7 @@ export class App {
   public readonly searchShortcutHint = computed<string>(() =>
     this.isMacPlatform() ? '⌘K' : 'Ctrl K',
   );
+  public readonly mobileMenuOpen = signal(false);
   public readonly getSearchOptionValue = (item: DocsSearchEntry): string => item.url;
   public readonly getSearchOptionLabel = (item: DocsSearchEntry): string => item.title;
   public readonly getSearchOptionDescription = (item: DocsSearchEntry): string =>
@@ -259,12 +260,26 @@ export class App {
     this.darkMode.update((current) => !current);
   }
 
+  public toggleMobileMenu(): void {
+    this.mobileMenuOpen.update((open) => !open);
+  }
+
+  public closeMobileMenu(): void {
+    this.mobileMenuOpen.set(false);
+  }
+
   public onPrimaryNavigationSelect(route: string): void {
+    this.closeMobileMenu();
     void this.router.navigateByUrl(route);
   }
 
   @HostListener('document:keydown', ['$event'])
   public onDocumentKeydown(event: KeyboardEvent): void {
+    if (event.key === 'Escape' && this.mobileMenuOpen()) {
+      this.closeMobileMenu();
+      return;
+    }
+
     const shortcutPressed = this.isMacPlatform() ? event.metaKey : event.ctrlKey;
     if (event.key.toLowerCase() !== 'k' || !shortcutPressed) {
       return;

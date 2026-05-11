@@ -13,7 +13,7 @@
           (click)="onPrimaryNavigationSelect('/')"
         >
           <img src="logo.svg" alt="TailNG logo" class="h-9 w-9" />
-          <span class="truncate text-base font-semibold text-tng-fg-primary">TailNG</span>
+          <span class="hidden truncate text-base font-semibold text-tng-fg-primary sm:inline">TailNG</span>
         </tng-button>
 
         <nav class="hidden items-center gap-1 lg:flex">
@@ -33,6 +33,20 @@
       </div>
 
       <div class="flex items-center gap-2">
+        <!-- Mobile: icon-only ghost search button -->
+        <tng-button
+          type="button"
+          appearance="ghost"
+          tone="neutral"
+          size="sm"
+          class="docs-mobile-search-trigger h-9 w-9 text-tng-fg-secondary hover:text-tng-fg-primary"
+          aria-label="Open docs search"
+          (click)="openSearch()"
+        >
+          <tng-icon icon="search" class="h-4 w-4" />
+        </tng-button>
+
+        <!-- Desktop: full outline search button -->
         <tng-button
           type="button"
           appearance="outline"
@@ -131,7 +145,7 @@
           appearance="ghost"
           tone="neutral"
           size="sm"
-          class="docs-mode-toggle hidden md:inline-flex"
+          class="docs-mode-toggle"
           [ariaPressed]="darkMode()"
           (click)="toggleMode()"
         >
@@ -200,9 +214,62 @@
           </a>
           }
         </tng-menu>
+        <!-- Hamburger / close (hidden on lg+) -->
+        <tng-button
+          type="button"
+          appearance="ghost"
+          tone="neutral"
+          size="sm"
+          class="docs-hamburger-btn h-9 w-9"
+          [ariaPressed]="mobileMenuOpen()"
+          aria-label="Toggle navigation menu"
+          (click)="toggleMobileMenu()"
+        >
+          @if (mobileMenuOpen()) {
+            <tng-icon icon="x" class="h-5 w-5" />
+          } @else {
+            <tng-icon icon="menu" class="h-5 w-5" />
+          }
+        </tng-button>
       </div>
     </div>
   </header>
+
+  <!-- Mobile menu backdrop -->
+  @if (mobileMenuOpen()) {
+    <div
+      class="docs-mobile-backdrop lg:hidden"
+      aria-hidden="true"
+      (click)="closeMobileMenu()"
+    ></div>
+  }
+
+  <!-- Mobile drawer -->
+  <nav
+    class="docs-mobile-drawer lg:hidden"
+    [class.docs-mobile-drawer--open]="mobileMenuOpen()"
+    aria-label="Mobile navigation"
+  >
+    <div class="docs-mobile-drawer__inner">
+      <!-- Primary navigation -->
+      <section class="docs-mobile-drawer__section">
+        <p class="docs-mobile-drawer__section-label">Navigation</p>
+        @for (item of primaryNavigation; track item.label) {
+          <tng-button
+            type="button"
+            appearance="ghost"
+            tone="neutral"
+            size="sm"
+            class="docs-mobile-drawer__nav-item"
+            (click)="onPrimaryNavigationSelect(item.route)"
+          >
+            {{ item.label }}
+          </tng-button>
+        }
+      </section>
+
+    </div>
+  </nav>
 
   <div
     [class.mx-auto]="!componentsDocsLayout()"
@@ -224,7 +291,7 @@
     </section>
     }
 
-    <section [class.py-8]="!componentsDocsLayout()">
+    <section [class.pb-8]="!componentsDocsLayout()">
       <router-outlet />
     </section>
   </div>
