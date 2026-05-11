@@ -16,6 +16,7 @@
   --tng-form-field-required-marker-fg: var(--tng-semantic-accent-danger);
   --tng-input-bg: transparent;
   --tng-input-border: transparent;
+  --tng-input-invalid-border: transparent;
   --tng-input-focus-ring: transparent;
   --tng-input-radius: 0;
   --tng-input-px: 0;

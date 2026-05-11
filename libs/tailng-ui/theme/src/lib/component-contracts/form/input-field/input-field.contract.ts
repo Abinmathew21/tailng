@@ -43,6 +43,7 @@ export const tngInputFieldStates = {
 export const tngInputFieldCssVars = {
   bg: tngInputCssVars.bg,
   border: tngInputCssVars.border,
+  invalidBorder: tngInputCssVars.invalidBorder,
   fg: tngInputCssVars.fg,
   radius: tngInputCssVars.radius,
   minHeight: tngInputCssVars.minHeight,

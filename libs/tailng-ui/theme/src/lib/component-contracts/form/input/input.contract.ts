@@ -58,6 +58,7 @@ export const tngInputHostStates = {
 export const tngInputCssVars = {
   bg: '--tng-input-bg',
   border: '--tng-input-border',
+  invalidBorder: '--tng-input-invalid-border',
   fg: '--tng-input-fg',
 
   radius: '--tng-input-radius',

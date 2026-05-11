@@ -21,7 +21,7 @@
 }
 
 :where([data-slot='input-group'][data-invalid]) {
-  border-color: var(--tng-semantic-accent-danger);
+  border-color: var(--tng-input-invalid-border, var(--tng-semantic-accent-danger));
 }
 
 :where([data-slot='input-group'][data-disabled]) {
