@@ -22,6 +22,7 @@ export type TngFormFieldSlot = (typeof tngFormFieldSlots)[keyof typeof tngFormFi
 export const tngFormFieldHostAttrs = {
   labelPosition: 'data-label-position',
   size: 'data-size',
+  inlineWidth: 'data-inline-width',
 } as const;
 
 export const tngFormFieldStates = {
@@ -33,8 +34,10 @@ export const tngFormFieldStates = {
 
 export const tngFormFieldCssVars = {
   gap: '--tng-form-field-gap',
+  labelGap: '--tng-form-field-label-gap',
   leftGap: '--tng-form-field-left-gap',
   leftLabelWidth: '--tng-form-field-left-label-width',
+  leftControlMaxWidth: '--tng-form-field-left-control-max-width',
   fg: '--tng-form-field-fg',
   frameBg: '--tng-form-field-frame-bg',
   frameBorder: '--tng-form-field-frame-border',

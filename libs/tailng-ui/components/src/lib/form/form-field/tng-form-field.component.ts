@@ -105,6 +105,10 @@ export class TngFormFieldComponent implements AfterContentChecked {
   public readonly hideHintWhenError = input<boolean, boolean | string>(false, {
     transform: booleanAttribute,
   });
+  /** When true, the field no longer stretches to the full width of its container (default is full width). */
+  public readonly inlineWidth = input<boolean, boolean | string>(false, {
+    transform: booleanAttribute,
+  });
   public readonly disabled = input<boolean | null, NullableBooleanInput>(null, {
     transform: coerceNullableBoolean,
   });
@@ -163,6 +167,11 @@ export class TngFormFieldComponent implements AfterContentChecked {
   @HostBinding('attr.data-required')
   protected get dataRequired(): '' | null {
     return this.isRequired() ? '' : null;
+  }
+
+  @HostBinding('attr.data-inline-width')
+  protected get dataInlineWidth(): '' | null {
+    return this.inlineWidth() ? '' : null;
   }
 
   @HostListener('focusin')

@@ -6,7 +6,7 @@
     min-width: 0;
 
     --tng-datepicker-radius: 1rem;
-    --tng-datepicker-field-height: 2.95rem;
+    --tng-datepicker-field-height: 2.625rem;
     --tng-datepicker-overlay-gap: 0.56rem;
     --tng-datepicker-day-cell-size: 2.2rem;
     --tng-datepicker-picker-cell-size: 2.3rem;
@@ -85,7 +85,7 @@
     font-weight: 600;
     line-height: 1.35;
     letter-spacing: 0.01em;
-    padding-block: 0.74rem;
+    padding-block: 0.5rem;
     padding-inline: 1.08rem 0.98rem;
     outline: none;
     box-shadow: none;

@@ -112,6 +112,48 @@ function resolveOverlayOwnerId(host: HTMLElement): string | null {
   return host.closest<HTMLElement>(`[${TNG_OVERLAY_LAYER_ID_ATTR}]`)?.getAttribute(TNG_OVERLAY_LAYER_ID_ATTR) ?? null;
 }
 
+/**
+ * When the overlay's host element lives inside a `tng-form-field`, the form-field
+ * is the visible frame the consumer sees, so the overlay should align with it
+ * (width + left/right edges). For the `left` label layout the form-field's root
+ * spans the label column too, so anchor on the inner control-row instead.
+ */
+function findFormFieldAnchor(host: HTMLElement): HTMLElement | null {
+  const formField = host.closest('[data-slot="form-field"]') as HTMLElement | null;
+  if (!formField) return null;
+  if (formField.getAttribute('data-label-position') === 'left') {
+    const row = formField.querySelector('.tng-form-field__control-row') as HTMLElement | null;
+    return row ?? formField;
+  }
+  return formField;
+}
+
+/**
+ * Rect to use for overlay positioning. When the anchor is a form-field root, the
+ * horizontal extent is taken from the form-field (so the overlay spans the field
+ * frame) but the vertical extent is taken from the inner fieldset (the input row)
+ * so the overlay opens directly under the input rather than below the messages
+ * region beneath the frame.
+ */
+function anchorRectFor(anchorEl: HTMLElement): MaybeRect {
+  const widthRect = anchorEl.getBoundingClientRect();
+  if (!anchorEl.matches('[data-slot="form-field"]')) {
+    return rectFromClientRect(widthRect);
+  }
+  const labelPosition = anchorEl.getAttribute('data-label-position');
+  const fieldset = anchorEl.querySelector('[data-slot="form-field-control-row"]') as HTMLElement | null;
+  const innerRow = anchorEl.querySelector('.tng-form-field__control-row') as HTMLElement | null;
+  const positionEl = labelPosition === 'outline' ? (fieldset ?? innerRow) : (innerRow ?? fieldset);
+  if (!positionEl) return rectFromClientRect(widthRect);
+  const positionRect = positionEl.getBoundingClientRect();
+  return {
+    left: widthRect.left,
+    width: widthRect.width,
+    top: positionRect.top,
+    height: positionRect.height,
+  };
+}
+
 @Directive({
   selector: '[tngSelectOverlay]',
   exportAs: 'tngSelectOverlay',
@@ -168,10 +210,10 @@ export class TngSelectOverlay {
   private reposition(): void {
     if (!this.host.open()) return;
     const panel = this.elRef.nativeElement;
-    const trigger = this.findTriggerEl();
-    if (!trigger) return;
+    const anchorEl = this.findAnchorEl();
+    if (!anchorEl) return;
 
-    const anchor = rectFromClientRect(trigger.getBoundingClientRect());
+    const anchor = anchorRectFor(anchorEl);
     const overlay = rectFromClientRect(panel.getBoundingClientRect());
     const viewport = viewportRect();
 
@@ -204,8 +246,8 @@ export class TngSelectOverlay {
 
     if ('ResizeObserver' in window) {
       this.resizeObserver = new ResizeObserver(() => schedule());
-      const trigger = this.findTriggerEl();
-      if (trigger) this.resizeObserver.observe(trigger);
+      const anchorEl = this.findAnchorEl();
+      if (anchorEl) this.resizeObserver.observe(anchorEl);
       this.resizeObserver.observe(this.elRef.nativeElement);
     }
   }
@@ -220,6 +262,15 @@ export class TngSelectOverlay {
   private findTriggerEl(): HTMLElement | null {
     const root = this.host.hostElement;
     return root.querySelector('[data-slot="select-trigger"]') as HTMLElement | null;
+  }
+
+  /**
+   * Anchor for overlay positioning, width, and dismiss boundary.
+   * Prefer the enclosing form-field (so the overlay aligns with the visible
+   * field frame), else the select trigger itself.
+   */
+  private findAnchorEl(): HTMLElement | null {
+    return findFormFieldAnchor(this.host.hostElement) ?? this.findTriggerEl();
   }
 
   private syncPortalledThemeVars(): void {
@@ -280,14 +331,17 @@ export class TngSelectOverlay {
 
     queueMicrotask(() => {
       if (!this.host.open()) return;
-      const trigger = this.findTriggerEl();
-      if (!trigger) return;
+      const anchorEl = this.findAnchorEl();
+      if (!anchorEl) return;
 
-      const anchor = rectFromClientRect(trigger.getBoundingClientRect());
+      const anchor = anchorRectFor(anchorEl);
       const viewportWidth = viewportRect().width;
       const inlineSize = Math.max(0, Math.min(anchor.width, viewportWidth - 16));
       panel.style.width = `${inlineSize}px`;
       panel.style.minWidth = `${inlineSize}px`;
+      if (findFormFieldAnchor(this.host.hostElement)) {
+        panel.style.maxWidth = 'none';
+      }
 
       const overlay = rectFromClientRect(panel.getBoundingClientRect());
       const viewport = viewportRect();
@@ -341,6 +395,7 @@ export class TngSelectOverlay {
     panel.style.zIndex = '';
     panel.style.width = '';
     panel.style.minWidth = '';
+    panel.style.maxWidth = '';
     panel.removeAttribute(TNG_OVERLAY_OWNER_ID_ATTR);
     this.clearPortalledThemeVars();
     this.teardownOutsidePointer();
@@ -352,9 +407,9 @@ export class TngSelectOverlay {
     const onPointerDown = (ev: PointerEvent): void => {
       if (!this.host.open()) return;
       const panel = this.elRef.nativeElement;
-      const trigger = this.findTriggerEl();
+      const anchorEl = this.findAnchorEl();
       if (isInside(ev.target, panel)) return;
-      if (trigger && isInside(ev.target, trigger)) return;
+      if (anchorEl && isInside(ev.target, anchorEl)) return;
       if (
         this.host.multiple() &&
         ev.target &&

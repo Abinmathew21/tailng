@@ -55,6 +55,48 @@ function isInside(target: EventTarget | null, container: HTMLElement): boolean {
   return !!target && target instanceof Node && container.contains(target);
 }
 
+/**
+ * When the overlay's host element lives inside a `tng-form-field`, the form-field
+ * is the visible frame the consumer sees, so the overlay should align with it
+ * (width + left/right edges). For the `left` label layout the form-field's root
+ * spans the label column too, so anchor on the inner control-row instead.
+ */
+function findFormFieldAnchor(host: HTMLElement): HTMLElement | null {
+  const formField = host.closest('[data-slot="form-field"]') as HTMLElement | null;
+  if (!formField) return null;
+  if (formField.getAttribute('data-label-position') === 'left') {
+    const row = formField.querySelector('.tng-form-field__control-row') as HTMLElement | null;
+    return row ?? formField;
+  }
+  return formField;
+}
+
+/**
+ * Rect to use for overlay positioning. When the anchor is a form-field root, the
+ * horizontal extent is taken from the form-field (so the overlay spans the field
+ * frame) but the vertical extent is taken from the inner fieldset (the input row)
+ * so the overlay opens directly under the input rather than below the messages
+ * region beneath the frame.
+ */
+function anchorRectFor(anchorEl: HTMLElement): MaybeRect {
+  const widthRect = anchorEl.getBoundingClientRect();
+  if (!anchorEl.matches('[data-slot="form-field"]')) {
+    return rectFromClientRect(widthRect);
+  }
+  const labelPosition = anchorEl.getAttribute('data-label-position');
+  const fieldset = anchorEl.querySelector('[data-slot="form-field-control-row"]') as HTMLElement | null;
+  const innerRow = anchorEl.querySelector('.tng-form-field__control-row') as HTMLElement | null;
+  const positionEl = labelPosition === 'outline' ? (fieldset ?? innerRow) : (innerRow ?? fieldset);
+  if (!positionEl) return rectFromClientRect(widthRect);
+  const positionRect = positionEl.getBoundingClientRect();
+  return {
+    left: widthRect.left,
+    width: widthRect.width,
+    top: positionRect.top,
+    height: positionRect.height,
+  };
+}
+
 @Directive({
   selector: '[tngMultiAutocompleteOverlay]',
   exportAs: 'tngMultiAutocompleteOverlay',
@@ -104,8 +146,13 @@ export class TngMultiAutocompleteOverlay {
     });
   }
 
+  /**
+   * Anchor for overlay positioning, width, and dismiss boundary.
+   * Prefer the enclosing form-field (so the overlay aligns with the visible
+   * field frame), else the multi-autocomplete host element itself.
+   */
   private findAnchorEl(): HTMLElement {
-    return this.multi.hostElement;
+    return findFormFieldAnchor(this.multi.hostElement) ?? this.multi.hostElement;
   }
 
   private reposition(): void {
@@ -113,7 +160,7 @@ export class TngMultiAutocompleteOverlay {
 
     const panel = this.elRef.nativeElement;
     const anchorEl = this.findAnchorEl();
-    const anchor = rectFromClientRect(anchorEl.getBoundingClientRect());
+    const anchor = anchorRectFor(anchorEl);
     const overlay = rectFromClientRect(panel.getBoundingClientRect());
     const viewport = viewportRect();
     const result = computeOverlayPosition({
@@ -170,7 +217,7 @@ export class TngMultiAutocompleteOverlay {
 
       const panel = this.elRef.nativeElement;
       if (isInside(event.target, panel)) return;
-      if (isInside(event.target, this.multi.hostElement)) return;
+      if (isInside(event.target, this.findAnchorEl())) return;
       if (event.target && (event.target as Element).closest?.('[data-slot="multi-autocomplete-option"]')) {
         return;
       }
@@ -241,7 +288,7 @@ export class TngMultiAutocompleteOverlay {
     queueMicrotask(() => {
       if (!this.multi.open()) return;
 
-      const anchor = rectFromClientRect(this.findAnchorEl().getBoundingClientRect());
+      const anchor = anchorRectFor(this.findAnchorEl());
       const viewportWidth = viewportRect().width;
       const inlineSize = Math.max(0, Math.min(anchor.width, viewportWidth - 16));
       panel.style.width = `${inlineSize}px`;

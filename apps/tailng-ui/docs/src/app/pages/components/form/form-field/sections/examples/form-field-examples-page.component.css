@@ -2,79 +2,19 @@
   display: block;
 }
 
-.form-field-examples code {
-  color: var(--tng-semantic-foreground-primary);
-}
-
-.doc-cmp-form-field-ex-form-preview,
-.doc-cmp-form-field-ex-basic-preview,
-.doc-cmp-form-field-ex-supported-preview,
-.doc-cmp-form-field-ex-left-preview,
-.doc-cmp-form-field-ex-error-preview {
-  display: grid;
-  gap: 0.65rem;
-  width: min(100%, 100%);
-}
-
-.doc-cmp-form-field-ex-form-shell,
-.doc-cmp-form-field-ex-basic-shell,
-.doc-cmp-form-field-ex-error-shell {
-  width: min(100%, 34rem);
-}
-
-.doc-cmp-form-field-ex-left-shell {
-  width: min(100%, 38rem);
-}
-
-.doc-cmp-form-field-ex-supported-grid {
+/* Two-column form shell for outline / above (and default) label positions — not used for labelPosition="left". */
+.doc-cmp-form-field-ex-form-grid {
   display: grid;
   gap: 1.25rem;
-  width: min(100%, 48rem);
+  grid-template-columns: 1fr;
 }
 
-.doc-cmp-form-field-ex-form-shell tng-form-field,
-.doc-cmp-form-field-ex-basic-shell tng-form-field,
-.doc-cmp-form-field-ex-supported-grid tng-form-field,
-.doc-cmp-form-field-ex-left-shell tng-form-field {
-  --tng-form-field-label-fg: var(--tng-semantic-foreground-primary);
-  --tng-form-field-message-fg: var(--tng-semantic-foreground-secondary);
-}
-
-.doc-cmp-form-field-ex-left-shell tng-form-field {
-  --tng-form-field-left-gap: 1.25rem;
-}
-
-.doc-cmp-form-field-ex-form-preview [tngInputFieldPrefix],
-.doc-cmp-form-field-ex-form-shell [tngInputFieldPrefix],
-.doc-cmp-form-field-ex-error-shell [tngInputFieldPrefix],
-.doc-cmp-form-field-ex-error-shell [tngInputFieldSuffix] {
-  color: var(--tng-semantic-foreground-secondary);
-}
-
-.doc-cmp-form-field-ex-form-preview [tngInputFieldPrefix],
-.doc-cmp-form-field-ex-form-shell [tngInputFieldPrefix] {
-  font-size: 0.875rem;
-}
-
-.doc-cmp-form-field-ex-form-preview [tngInputFieldSuffix],
-.doc-cmp-form-field-ex-form-shell [tngInputFieldSuffix] {
-  border: 0;
-  background: transparent;
-  color: var(--tng-semantic-accent-brand);
-  cursor: pointer;
-  font: inherit;
-  font-size: 0.8125rem;
-  font-weight: 700;
-}
-
-@media (min-width: 760px) {
-  .doc-cmp-form-field-ex-supported-grid {
+@media (min-width: 720px) {
+  .doc-cmp-form-field-ex-form-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
-@media (max-width: 760px) {
-  .doc-cmp-form-field-ex-left-shell tng-form-field {
-    --tng-form-field-left-gap: 0.8rem;
-  }
+.doc-cmp-form-field-ex-form-grid > tng-form-field {
+  min-width: 0;
 }

@@ -42,6 +42,17 @@ function findOverlay(): HTMLElement | null {
   return document.body.querySelector('[data-testid="overlay"]') as HTMLElement | null;
 }
 
+/** Mirrors theme autocomplete host grid + open gap collapse (primitives tests do not load theme CSS). */
+function injectAutocompleteHostGridStylesheetForTests(): HTMLStyleElement {
+  const el = document.createElement('style');
+  el.setAttribute('data-tng-autocomplete-host-grid-test', '');
+  el.textContent =
+    '[data-slot="autocomplete"]{display:grid;gap:0.45rem;min-width:0}' +
+    '[data-slot="autocomplete"][data-state="open"]{gap:0}';
+  document.head.appendChild(el);
+  return el;
+}
+
 @Component({
   imports: [
     TngAutocomplete,
@@ -253,6 +264,37 @@ async function openAutocomplete(
 describe('tng-autocomplete.overlay', () => {
   afterEach(() => {
     vi.restoreAllMocks();
+  });
+
+  describe('Host layout when overlay is portalled', () => {
+    it('does not apply grid row-gap under the trigger while open', async () => {
+      const style = injectAutocompleteHostGridStylesheetForTests();
+      try {
+        const fixture = TestBed.configureTestingModule({
+          imports: [HostComponent],
+        }).createComponent(HostComponent);
+
+        fixture.detectChanges();
+
+        const host = fixture.nativeElement.querySelector('[data-testid="autocomplete"]') as HTMLElement;
+        const trigger = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLInputElement;
+
+        const heightClosed = host.getBoundingClientRect().height;
+
+        await openAutocomplete(fixture, trigger);
+        fixture.detectChanges();
+        await Promise.resolve();
+        fixture.detectChanges();
+
+        expect(host.getAttribute('data-state')).toBe('open');
+        expect(getComputedStyle(host).gap.startsWith('0px')).toBe(true);
+
+        const heightOpen = host.getBoundingClientRect().height;
+        expect(Math.abs(heightOpen - heightClosed)).toBeLessThan(2);
+      } finally {
+        style.remove();
+      }
+    });
   });
 
   describe('Overlay renders when open=true', () => {

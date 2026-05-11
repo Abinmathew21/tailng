@@ -58,6 +58,15 @@
     --tng-autocomplete-ease: cubic-bezier(0.4, 0, 0.2, 1);
   }
 
+  /*
+   * When open, the overlay is portalled to document.body; the in-flow content wrapper is empty.
+   * Without collapsing gap, the host grid would still apply row-gap between the trigger row and
+   * the empty second row, adding visible space under the trigger inside form shells.
+   */
+  :where([data-slot="autocomplete"][data-state="open"]) {
+    gap: 0;
+  }
+
   /* ---------------- Trigger container (input + icon) ---------------- */
 
   :where([data-slot="autocomplete-trigger-container"]) {

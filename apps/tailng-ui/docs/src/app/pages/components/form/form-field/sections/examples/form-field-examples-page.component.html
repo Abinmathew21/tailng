@@ -22,24 +22,22 @@
           panelTitle="Form usage (Plain-CSS)"
           [codeTabs]="formUsagePlainCodeTabs"
         >
-          <div class="doc-cmp-form-field-ex-form-preview">
-            <form class="doc-cmp-form-field-ex-form-shell">
-              <tng-form-field>
-                <tng-label forId="docs-form-field-form-usage-url">Workspace URL</tng-label>
-                <tng-input-field>
-                  <span tngInputFieldPrefix>tailng.dev/</span>
-                  <input
-                    tngInput
-                    id="docs-form-field-form-usage-url"
-                    name="workspaceUrl"
-                    placeholder="acme-product"
-                  />
-                  <button tngInputFieldSuffix type="submit">Create</button>
-                </tng-input-field>
-                <p tngHint>Use lowercase letters, numbers, and hyphens.</p>
-              </tng-form-field>
-            </form>
-          </div>
+          <form>
+            <tng-form-field>
+              <tng-label forId="docs-form-field-form-usage-url">Workspace URL</tng-label>
+              <tng-input-field>
+                <span tngInputFieldPrefix>tailng.dev/</span>
+                <input
+                  tngInput
+                  id="docs-form-field-form-usage-url"
+                  name="workspaceUrl"
+                  placeholder="acme-product"
+                />
+                <button tngInputFieldSuffix type="submit">Create</button>
+              </tng-input-field>
+              <p tngHint>Use lowercase letters, numbers, and hyphens.</p>
+            </tng-form-field>
+          </form>
         </ng-template>
 
         <ng-template
@@ -49,32 +47,22 @@
           panelTitle="Form usage (Tailwind CSS)"
           [codeTabs]="formUsageTailwindCodeTabs"
         >
-          <div class="doc-cmp-form-field-ex-form-preview">
-            <form class="w-full max-w-[34rem]">
-              <tng-form-field [class]="formUsageTailwindFieldClass">
-                <tng-label forId="docs-form-field-form-usage-tailwind-url">Workspace URL</tng-label>
-                <tng-input-field>
-                  <span tngInputFieldPrefix class="text-sm text-[var(--tng-semantic-foreground-secondary)]">
-                    tailng.dev/
-                  </span>
-                  <input
-                    tngInput
-                    id="docs-form-field-form-usage-tailwind-url"
-                    name="workspaceUrl"
-                    placeholder="acme-product"
-                  />
-                  <button
-                    tngInputFieldSuffix
-                    type="submit"
-                    class="text-xs font-bold text-[var(--tng-semantic-accent-brand)]"
-                  >
-                    Create
-                  </button>
-                </tng-input-field>
-                <p tngHint>Use lowercase letters, numbers, and hyphens.</p>
-              </tng-form-field>
-            </form>
-          </div>
+          <form>
+            <tng-form-field>
+              <tng-label forId="docs-form-field-form-usage-tailwind-url">Workspace URL</tng-label>
+              <tng-input-field>
+                <span tngInputFieldPrefix>tailng.dev/</span>
+                <input
+                  tngInput
+                  id="docs-form-field-form-usage-tailwind-url"
+                  name="workspaceUrl"
+                  placeholder="acme-product"
+                />
+                <button tngInputFieldSuffix type="submit">Create</button>
+              </tng-input-field>
+              <p tngHint>Use lowercase letters, numbers, and hyphens.</p>
+            </tng-form-field>
+          </form>
         </ng-template>
       </app-docs-example-tabs-section>
     </section>
@@ -95,22 +83,18 @@
           panelTitle="Basic field (Plain-CSS)"
           [codeTabs]="basicPlainCodeTabs"
         >
-          <div class="doc-cmp-form-field-ex-basic-preview">
-            <div class="doc-cmp-form-field-ex-basic-shell">
-              <tng-form-field>
-                <tng-label forId="docs-form-field-basic-workspace">Workspace name</tng-label>
-                <tng-input-field>
-                  <input
-                    tngInput
-                    id="docs-form-field-basic-workspace"
-                    name="workspace"
-                    placeholder="Acme product"
-                  />
-                </tng-input-field>
-                <p tngHint>Use a name your team will recognize.</p>
-              </tng-form-field>
-            </div>
-          </div>
+          <tng-form-field>
+            <tng-label forId="docs-form-field-basic-workspace">Workspace name</tng-label>
+            <tng-input-field>
+              <input
+                tngInput
+                id="docs-form-field-basic-workspace"
+                name="workspace"
+                placeholder="Acme product"
+              />
+            </tng-input-field>
+            <p tngHint>Use a name your team will recognize.</p>
+          </tng-form-field>
         </ng-template>
 
         <ng-template
@@ -120,22 +104,18 @@
           panelTitle="Basic field (Tailwind CSS)"
           [codeTabs]="basicTailwindCodeTabs"
         >
-          <div class="doc-cmp-form-field-ex-basic-preview">
-            <div class="w-full max-w-[34rem]">
-              <tng-form-field [class]="basicTailwindFieldClass">
-                <tng-label forId="docs-form-field-basic-tailwind-workspace">Workspace name</tng-label>
-                <tng-input-field>
-                  <input
-                    tngInput
-                    id="docs-form-field-basic-tailwind-workspace"
-                    name="workspace"
-                    placeholder="Acme product"
-                  />
-                </tng-input-field>
-                <p tngHint>Use a name your team will recognize.</p>
-              </tng-form-field>
-            </div>
-          </div>
+          <tng-form-field>
+            <tng-label forId="docs-form-field-basic-tailwind-workspace">Workspace name</tng-label>
+            <tng-input-field>
+              <input
+                tngInput
+                id="docs-form-field-basic-tailwind-workspace"
+                name="workspace"
+                placeholder="Acme product"
+              />
+            </tng-input-field>
+            <p tngHint>Use a name your team will recognize.</p>
+          </tng-form-field>
         </ng-template>
       </app-docs-example-tabs-section>
     </section>
@@ -143,7 +123,7 @@
     <section id="supported-controls" class="docs-section-anchor input-examples-block">
       <app-docs-example-tabs-section
         heading="Supported controls"
-        description="Each supported TailNG control can sit in the same label, control, hint, and error contract."
+        description="Each supported TailNG control can sit in the same label, control, hint, and error contract. Fields use the default above label in a two-column layout from 720px."
         ariaLabel="Supported form field control examples"
         tabListAriaLabel="Supported form field control style variants"
         defaultValue="plain-css"
@@ -156,116 +136,102 @@
           panelTitle="Supported controls (Plain-CSS)"
           [codeTabs]="supportedControlsPlainCodeTabs"
         >
-          <div class="doc-cmp-form-field-ex-supported-preview">
-            <div class="doc-cmp-form-field-ex-supported-grid">
-              <tng-form-field>
-                <tng-label forId="docs-form-field-supported-input">Input component</tng-label>
-                <tng-input
-                  id="docs-form-field-supported-input"
-                  name="projectName"
-                  placeholder="Migration plan"
-                />
-                <p tngHint>Use the styled input component for simple text values.</p>
-              </tng-form-field>
+          <div class="doc-cmp-form-field-ex-form-grid">
+            <tng-form-field>
+              <tng-label forId="docs-form-field-supported-input">Input component</tng-label>
+              <tng-input
+                id="docs-form-field-supported-input"
+                name="projectName"
+                placeholder="Migration plan"
+              />
+              <p tngHint>Use the styled input component for simple text values.</p>
+            </tng-form-field>
 
-              <tng-form-field>
-                <tng-label forId="docs-form-field-supported-input-field">Input field shell</tng-label>
-                <tng-input-field>
-                  <span tngInputFieldPrefix>@</span>
-                  <input
-                    tngInput
-                    id="docs-form-field-supported-input-field"
-                    name="workspaceHandle"
-                    placeholder="acme"
-                  />
-                  <span tngInputFieldSuffix>.team</span>
-                </tng-input-field>
-                <p tngHint>Use the input-field shell when the input needs inner adornments.</p>
-              </tng-form-field>
-
-              <tng-form-field>
-                <tng-label forId="docs-form-field-supported-textarea">Textarea</tng-label>
-                <tng-textarea
-                  id="docs-form-field-supported-textarea"
-                  name="summary"
-                  placeholder="Summarize the release"
-                  rows="4"
+            <tng-form-field>
+              <tng-label forId="docs-form-field-supported-input-field">Input field shell</tng-label>
+              <tng-input-field>
+                <span tngInputFieldPrefix>@</span>
+                <input
+                  tngInput
+                  id="docs-form-field-supported-input-field"
+                  name="workspaceHandle"
+                  placeholder="acme"
                 />
-                <p tngHint>Textarea keeps multiline entry in the same field contract.</p>
-              </tng-form-field>
+                <span tngInputFieldSuffix>.team</span>
+              </tng-input-field>
+              <p tngHint>Use the input-field shell when the input needs inner adornments.</p>
+            </tng-form-field>
 
-              <tng-form-field>
-                <tng-label>Autocomplete</tng-label>
-                <tng-autocomplete
-                  [options]="ownerOptions"
-                  [getOptionValue]="getOptionValue"
-                  [getOptionLabel]="getOptionLabel"
-                  placeholder="Search owner"
-                  ariaLabel="Release owner"
-                />
-                <p tngHint>Autocomplete works as one searchable control surface.</p>
-              </tng-form-field>
+            <tng-form-field>
+              <tng-label forId="docs-form-field-supported-textarea">Textarea</tng-label>
+              <tng-textarea
+                id="docs-form-field-supported-textarea"
+                name="summary"
+                placeholder="Summarize the release"
+              />
+              <p tngHint>Textarea keeps multiline entry in the same field contract.</p>
+            </tng-form-field>
 
-              <tng-form-field>
-                <tng-label>MultiAutocomplete</tng-label>
-                <tng-multi-autocomplete
-                  [options]="skillOptions"
-                  [getOptionValue]="getOptionValue"
-                  [getOptionLabel]="getOptionLabel"
-                  placeholder="Add skills"
-                  ariaLabel="Required skills"
-                />
-                <p tngHint>MultiAutocomplete collects several searchable values.</p>
-              </tng-form-field>
+            <tng-form-field>
+              <tng-label>Autocomplete</tng-label>
+              <tng-autocomplete
+                [options]="ownerOptions"
+                [getOptionValue]="getOptionValue"
+                [getOptionLabel]="getOptionLabel"
+                placeholder="Search owner"
+                ariaLabel="Release owner"
+              />
+              <p tngHint>Autocomplete works as one searchable control surface.</p>
+            </tng-form-field>
 
-              <tng-form-field>
-                <tng-label id="docs-form-field-supported-select-label">Select</tng-label>
-                <tng-select
-                  [options]="priorityOptions"
-                  [getOptionValue]="getOptionValue"
-                  [getOptionLabel]="getOptionLabel"
-                  placeholder="Choose priority"
-                  labelId="docs-form-field-supported-select-label"
-                />
-                <p tngHint>Select uses the field shell for label and message rhythm.</p>
-              </tng-form-field>
+            <tng-form-field>
+              <tng-label>MultiAutocomplete</tng-label>
+              <tng-multi-autocomplete
+                [options]="skillOptions"
+                [getOptionValue]="getOptionValue"
+                [getOptionLabel]="getOptionLabel"
+                placeholder="Add skills"
+                ariaLabel="Required skills"
+              />
+              <p tngHint>MultiAutocomplete collects several searchable values.</p>
+            </tng-form-field>
 
-              <tng-form-field>
-                <tng-label id="docs-form-field-supported-multiselect-label">MultiSelect</tng-label>
-                <tng-multiselect
-                  [options]="channelOptions"
-                  [value]="['docs', 'runtime']"
-                  [getOptionValue]="getOptionValue"
-                  [getOptionLabel]="getOptionLabel"
-                  placeholder="Choose channels"
-                  labelId="docs-form-field-supported-multiselect-label"
-                />
-                <p tngHint>MultiSelect keeps a multi-value trigger in one field.</p>
-              </tng-form-field>
+            <tng-form-field>
+              <tng-label id="docs-form-field-supported-select-label">Select</tng-label>
+              <tng-select
+                [options]="priorityOptions"
+                [getOptionValue]="getOptionValue"
+                [getOptionLabel]="getOptionLabel"
+                placeholder="Choose priority"
+                labelId="docs-form-field-supported-select-label"
+              />
+              <p tngHint>Select uses the field shell for label and message rhythm.</p>
+            </tng-form-field>
 
-              <tng-form-field>
-                <tng-label forId="docs-form-field-supported-datepicker">Datepicker</tng-label>
-                <tng-datepicker
-                  id="docs-form-field-supported-datepicker"
-                  [defaultValue]="'2026-05-18'"
-                  [today]="'2026-05-09'"
-                  placeholder="Pick release date"
-                  ariaLabel="Release date"
-                />
-                <p tngHint>Datepicker remains a single date field with calendar affordances.</p>
-              </tng-form-field>
+            <tng-form-field>
+              <tng-label id="docs-form-field-supported-multiselect-label">MultiSelect</tng-label>
+              <tng-multiselect
+                [options]="channelOptions"
+                [value]="['docs', 'runtime']"
+                [getOptionValue]="getOptionValue"
+                [getOptionLabel]="getOptionLabel"
+                placeholder="Choose channels"
+                labelId="docs-form-field-supported-multiselect-label"
+              />
+              <p tngHint>MultiSelect keeps a multi-value trigger in one field.</p>
+            </tng-form-field>
 
-              <tng-form-field>
-                <tng-label forId="docs-form-field-supported-otp">Input OTP</tng-label>
-                <tng-input-otp
-                  id="docs-form-field-supported-otp"
-                  [length]="6"
-                  defaultValue="184206"
-                  ariaLabel="Verification code"
-                />
-                <p tngHint>Input OTP is one logical field composed of multiple slots.</p>
-              </tng-form-field>
-            </div>
+            <tng-form-field>
+              <tng-label forId="docs-form-field-supported-datepicker">Datepicker</tng-label>
+              <tng-datepicker
+                id="docs-form-field-supported-datepicker"
+                [defaultValue]="'2026-05-18'"
+                [today]="'2026-05-09'"
+                placeholder="Pick release date"
+                ariaLabel="Release date"
+              />
+              <p tngHint>Datepicker remains a single date field with calendar affordances.</p>
+            </tng-form-field>
           </div>
         </ng-template>
 
@@ -276,116 +242,102 @@
           panelTitle="Supported controls (Tailwind CSS)"
           [codeTabs]="supportedControlsTailwindCodeTabs"
         >
-          <div class="doc-cmp-form-field-ex-supported-preview">
-            <div class="grid w-full gap-5 md:grid-cols-2">
-              <tng-form-field class="grid gap-2">
-                <tng-label forId="docs-form-field-supported-tw-input">Input component</tng-label>
-                <tng-input
-                  id="docs-form-field-supported-tw-input"
-                  name="projectName"
-                  placeholder="Migration plan"
-                />
-                <p tngHint>Use the styled input component for simple text values.</p>
-              </tng-form-field>
+          <div class="doc-cmp-form-field-ex-form-grid">
+            <tng-form-field>
+              <tng-label forId="docs-form-field-supported-tw-input">Input component</tng-label>
+              <tng-input
+                id="docs-form-field-supported-tw-input"
+                name="projectName"
+                placeholder="Migration plan"
+              />
+              <p tngHint>Use the styled input component for simple text values.</p>
+            </tng-form-field>
 
-              <tng-form-field class="grid gap-2">
-                <tng-label forId="docs-form-field-supported-tw-input-field">Input field shell</tng-label>
-                <tng-input-field>
-                  <span tngInputFieldPrefix class="text-sm text-[var(--tng-semantic-foreground-secondary)]">@</span>
-                  <input
-                    tngInput
-                    id="docs-form-field-supported-tw-input-field"
-                    name="workspaceHandle"
-                    placeholder="acme"
-                  />
-                  <span tngInputFieldSuffix class="text-sm text-[var(--tng-semantic-foreground-secondary)]">.team</span>
-                </tng-input-field>
-                <p tngHint>Use the input-field shell when the input needs inner adornments.</p>
-              </tng-form-field>
-
-              <tng-form-field class="grid gap-2">
-                <tng-label forId="docs-form-field-supported-tw-textarea">Textarea</tng-label>
-                <tng-textarea
-                  id="docs-form-field-supported-tw-textarea"
-                  name="summary"
-                  placeholder="Summarize the release"
-                  rows="4"
+            <tng-form-field>
+              <tng-label forId="docs-form-field-supported-tw-input-field">Input field shell</tng-label>
+              <tng-input-field>
+                <span tngInputFieldPrefix>@</span>
+                <input
+                  tngInput
+                  id="docs-form-field-supported-tw-input-field"
+                  name="workspaceHandle"
+                  placeholder="acme"
                 />
-                <p tngHint>Textarea keeps multiline entry in the same field contract.</p>
-              </tng-form-field>
+                <span tngInputFieldSuffix>.team</span>
+              </tng-input-field>
+              <p tngHint>Use the input-field shell when the input needs inner adornments.</p>
+            </tng-form-field>
 
-              <tng-form-field class="grid gap-2">
-                <tng-label>Autocomplete</tng-label>
-                <tng-autocomplete
-                  [options]="ownerOptions"
-                  [getOptionValue]="getOptionValue"
-                  [getOptionLabel]="getOptionLabel"
-                  placeholder="Search owner"
-                  ariaLabel="Release owner"
-                />
-                <p tngHint>Autocomplete works as one searchable control surface.</p>
-              </tng-form-field>
+            <tng-form-field>
+              <tng-label forId="docs-form-field-supported-tw-textarea">Textarea</tng-label>
+              <tng-textarea
+                id="docs-form-field-supported-tw-textarea"
+                name="summary"
+                placeholder="Summarize the release"
+              />
+              <p tngHint>Textarea keeps multiline entry in the same field contract.</p>
+            </tng-form-field>
 
-              <tng-form-field class="grid gap-2">
-                <tng-label>MultiAutocomplete</tng-label>
-                <tng-multi-autocomplete
-                  [options]="skillOptions"
-                  [getOptionValue]="getOptionValue"
-                  [getOptionLabel]="getOptionLabel"
-                  placeholder="Add skills"
-                  ariaLabel="Required skills"
-                />
-                <p tngHint>MultiAutocomplete collects several searchable values.</p>
-              </tng-form-field>
+            <tng-form-field>
+              <tng-label>Autocomplete</tng-label>
+              <tng-autocomplete
+                [options]="ownerOptions"
+                [getOptionValue]="getOptionValue"
+                [getOptionLabel]="getOptionLabel"
+                placeholder="Search owner"
+                ariaLabel="Release owner"
+              />
+              <p tngHint>Autocomplete works as one searchable control surface.</p>
+            </tng-form-field>
 
-              <tng-form-field class="grid gap-2">
-                <tng-label id="docs-form-field-supported-tw-select-label">Select</tng-label>
-                <tng-select
-                  [options]="priorityOptions"
-                  [getOptionValue]="getOptionValue"
-                  [getOptionLabel]="getOptionLabel"
-                  placeholder="Choose priority"
-                  labelId="docs-form-field-supported-tw-select-label"
-                />
-                <p tngHint>Select uses the field shell for label and message rhythm.</p>
-              </tng-form-field>
+            <tng-form-field>
+              <tng-label>MultiAutocomplete</tng-label>
+              <tng-multi-autocomplete
+                [options]="skillOptions"
+                [getOptionValue]="getOptionValue"
+                [getOptionLabel]="getOptionLabel"
+                placeholder="Add skills"
+                ariaLabel="Required skills"
+              />
+              <p tngHint>MultiAutocomplete collects several searchable values.</p>
+            </tng-form-field>
 
-              <tng-form-field class="grid gap-2">
-                <tng-label id="docs-form-field-supported-tw-multiselect-label">MultiSelect</tng-label>
-                <tng-multiselect
-                  [options]="channelOptions"
-                  [value]="['docs', 'runtime']"
-                  [getOptionValue]="getOptionValue"
-                  [getOptionLabel]="getOptionLabel"
-                  placeholder="Choose channels"
-                  labelId="docs-form-field-supported-tw-multiselect-label"
-                />
-                <p tngHint>MultiSelect keeps a multi-value trigger in one field.</p>
-              </tng-form-field>
+            <tng-form-field>
+              <tng-label id="docs-form-field-supported-tw-select-label">Select</tng-label>
+              <tng-select
+                [options]="priorityOptions"
+                [getOptionValue]="getOptionValue"
+                [getOptionLabel]="getOptionLabel"
+                placeholder="Choose priority"
+                labelId="docs-form-field-supported-tw-select-label"
+              />
+              <p tngHint>Select uses the field shell for label and message rhythm.</p>
+            </tng-form-field>
 
-              <tng-form-field class="grid gap-2">
-                <tng-label forId="docs-form-field-supported-tw-datepicker">Datepicker</tng-label>
-                <tng-datepicker
-                  id="docs-form-field-supported-tw-datepicker"
-                  [defaultValue]="'2026-05-18'"
-                  [today]="'2026-05-09'"
-                  placeholder="Pick release date"
-                  ariaLabel="Release date"
-                />
-                <p tngHint>Datepicker remains a single date field with calendar affordances.</p>
-              </tng-form-field>
+            <tng-form-field>
+              <tng-label id="docs-form-field-supported-tw-multiselect-label">MultiSelect</tng-label>
+              <tng-multiselect
+                [options]="channelOptions"
+                [value]="['docs', 'runtime']"
+                [getOptionValue]="getOptionValue"
+                [getOptionLabel]="getOptionLabel"
+                placeholder="Choose channels"
+                labelId="docs-form-field-supported-tw-multiselect-label"
+              />
+              <p tngHint>MultiSelect keeps a multi-value trigger in one field.</p>
+            </tng-form-field>
 
-              <tng-form-field class="grid gap-2">
-                <tng-label forId="docs-form-field-supported-tw-otp">Input OTP</tng-label>
-                <tng-input-otp
-                  id="docs-form-field-supported-tw-otp"
-                  [length]="6"
-                  defaultValue="184206"
-                  ariaLabel="Verification code"
-                />
-                <p tngHint>Input OTP is one logical field composed of multiple slots.</p>
-              </tng-form-field>
-            </div>
+            <tng-form-field>
+              <tng-label forId="docs-form-field-supported-tw-datepicker">Datepicker</tng-label>
+              <tng-datepicker
+                id="docs-form-field-supported-tw-datepicker"
+                [defaultValue]="'2026-05-18'"
+                [today]="'2026-05-09'"
+                placeholder="Pick release date"
+                ariaLabel="Release date"
+              />
+              <p tngHint>Datepicker remains a single date field with calendar affordances.</p>
+            </tng-form-field>
           </div>
         </ng-template>
       </app-docs-example-tabs-section>
@@ -394,7 +346,7 @@
     <section id="supported-control-label-positions" class="docs-section-anchor input-examples-block">
       <app-docs-example-tabs-section
         heading="Supported control label positions"
-        description="The same supported controls can place the label on the outline, above the border, or left of the border."
+        description="The same supported controls can place the label on the outline, above the border, or left of the border. Outline and above use a two-column layout from 720px; left uses a single column."
         ariaLabel="Supported form field label position examples"
         tabListAriaLabel="Supported form field label position variants"
         defaultValue="outline"
@@ -407,14 +359,12 @@
           panelTitle="Supported controls (Outline)"
           [codeTabs]="supportedControlsOutlineCodeTabs"
         >
-          <div class="doc-cmp-form-field-ex-supported-preview">
-            <ng-container
-              *ngTemplateOutlet="
-                supportedAppearanceControls;
-                context: { labelPosition: 'outline', idPrefix: 'docs-form-field-supported-outline' }
-              "
-            />
-          </div>
+          <ng-container
+            *ngTemplateOutlet="
+              supportedAppearanceControls;
+              context: { labelPosition: 'outline', idPrefix: 'docs-form-field-supported-outline' }
+            "
+          />
         </ng-template>
 
         <ng-template
@@ -424,14 +374,12 @@
           panelTitle="Supported controls (Above)"
           [codeTabs]="supportedControlsAboveCodeTabs"
         >
-          <div class="doc-cmp-form-field-ex-supported-preview">
-            <ng-container
-              *ngTemplateOutlet="
-                supportedAppearanceControls;
-                context: { labelPosition: 'above', idPrefix: 'docs-form-field-supported-above' }
-              "
-            />
-          </div>
+          <ng-container
+            *ngTemplateOutlet="
+              supportedAppearanceControls;
+              context: { labelPosition: 'above', idPrefix: 'docs-form-field-supported-above' }
+            "
+          />
         </ng-template>
 
         <ng-template
@@ -441,20 +389,22 @@
           panelTitle="Supported controls (Left)"
           [codeTabs]="supportedControlsLeftCodeTabs"
         >
-          <div class="doc-cmp-form-field-ex-supported-preview">
-            <ng-container
-              *ngTemplateOutlet="
-                supportedAppearanceControls;
-                context: { labelPosition: 'left', idPrefix: 'docs-form-field-supported-left' }
-              "
-            />
-          </div>
+          <ng-container
+            *ngTemplateOutlet="
+              supportedAppearanceControls;
+              context: { labelPosition: 'left', idPrefix: 'docs-form-field-supported-left' }
+            "
+          />
         </ng-template>
       </app-docs-example-tabs-section>
     </section>
 
     <ng-template #supportedAppearanceControls let-labelPosition="labelPosition" let-idPrefix="idPrefix">
-      <div class="doc-cmp-form-field-ex-supported-grid">
+      <div
+        [class.doc-cmp-form-field-ex-form-grid]="
+          labelPosition === 'outline' || labelPosition === 'above'
+        "
+      >
         <tng-form-field [labelPosition]="labelPosition">
           <tng-label [forId]="idPrefix + '-input'">Input component</tng-label>
           <tng-input
@@ -486,7 +436,6 @@
             [id]="idPrefix + '-textarea'"
             name="summary"
             placeholder="Summarize the release"
-            rows="4"
           />
           <p tngHint>Textarea keeps multiline entry in the same field contract.</p>
         </tng-form-field>
@@ -551,17 +500,6 @@
           />
           <p tngHint>Datepicker remains a single date field with calendar affordances.</p>
         </tng-form-field>
-
-        <tng-form-field [labelPosition]="labelPosition">
-          <tng-label [forId]="idPrefix + '-otp'">Input OTP</tng-label>
-          <tng-input-otp
-            [id]="idPrefix + '-otp'"
-            [length]="6"
-            defaultValue="184206"
-            ariaLabel="Verification code"
-          />
-          <p tngHint>Input OTP is one logical field composed of multiple slots.</p>
-        </tng-form-field>
       </div>
     </ng-template>
 
@@ -581,22 +519,18 @@
           panelTitle="Left label field (Plain-CSS)"
           [codeTabs]="leftPlainCodeTabs"
         >
-          <div class="doc-cmp-form-field-ex-left-preview">
-            <div class="doc-cmp-form-field-ex-left-shell">
-              <tng-form-field labelPosition="left">
-                <tng-label forId="docs-form-field-left-slug">Workspace slug</tng-label>
-                <tng-input-field>
-                  <input
-                    tngInput
-                    id="docs-form-field-left-slug"
-                    name="slug"
-                    placeholder="acme-platform"
-                  />
-                </tng-input-field>
-                <p tngHint>Lowercase letters and hyphens only.</p>
-              </tng-form-field>
-            </div>
-          </div>
+          <tng-form-field labelPosition="left">
+            <tng-label forId="docs-form-field-left-slug">Workspace slug</tng-label>
+            <tng-input-field>
+              <input
+                tngInput
+                id="docs-form-field-left-slug"
+                name="slug"
+                placeholder="acme-platform"
+              />
+            </tng-input-field>
+            <p tngHint>Lowercase letters and hyphens only.</p>
+          </tng-form-field>
         </ng-template>
 
         <ng-template
@@ -606,22 +540,18 @@
           panelTitle="Left label field (Tailwind CSS)"
           [codeTabs]="leftTailwindCodeTabs"
         >
-          <div class="doc-cmp-form-field-ex-left-preview">
-            <div class="w-full max-w-[38rem]">
-              <tng-form-field labelPosition="left" [class]="leftTailwindFieldClass">
-                <tng-label forId="docs-form-field-left-tailwind-slug">Workspace slug</tng-label>
-                <tng-input-field>
-                  <input
-                    tngInput
-                    id="docs-form-field-left-tailwind-slug"
-                    name="slug"
-                    placeholder="acme-platform"
-                  />
-                </tng-input-field>
-                <p tngHint>Lowercase letters and hyphens only.</p>
-              </tng-form-field>
-            </div>
-          </div>
+          <tng-form-field labelPosition="left">
+            <tng-label forId="docs-form-field-left-tailwind-slug">Workspace slug</tng-label>
+            <tng-input-field>
+              <input
+                tngInput
+                id="docs-form-field-left-tailwind-slug"
+                name="slug"
+                placeholder="acme-platform"
+              />
+            </tng-input-field>
+            <p tngHint>Lowercase letters and hyphens only.</p>
+          </tng-form-field>
         </ng-template>
       </app-docs-example-tabs-section>
     </section>
@@ -642,20 +572,16 @@
           panelTitle="Invalid input group field (Plain-CSS)"
           [codeTabs]="errorPlainCodeTabs"
         >
-          <div class="doc-cmp-form-field-ex-error-preview">
-            <div class="doc-cmp-form-field-ex-error-shell">
-              <tng-form-field hideHintWhenError invalid>
-                <tng-label forId="docs-form-field-error-budget">Budget</tng-label>
-                <tng-input-field tone="danger">
-                  <span tngInputFieldPrefix>$</span>
-                  <input tngInput id="docs-form-field-error-budget" name="budget" type="number" />
-                  <button tngInputFieldSuffix type="button">Clear</button>
-                </tng-input-field>
-                <p tngHint>Whole dollars only.</p>
-                <p tngError>Budget is required.</p>
-              </tng-form-field>
-            </div>
-          </div>
+          <tng-form-field hideHintWhenError invalid>
+            <tng-label forId="docs-form-field-error-budget">Budget</tng-label>
+            <tng-input-field tone="danger">
+              <span tngInputFieldPrefix>$</span>
+              <input tngInput id="docs-form-field-error-budget" name="budget" type="number" />
+              <button tngInputFieldSuffix type="button">Clear</button>
+            </tng-input-field>
+            <p tngHint>Whole dollars only.</p>
+            <p tngError>Budget is required.</p>
+          </tng-form-field>
         </ng-template>
 
         <ng-template
@@ -665,31 +591,21 @@
           panelTitle="Invalid input group field (Tailwind CSS)"
           [codeTabs]="errorTailwindCodeTabs"
         >
-          <div class="doc-cmp-form-field-ex-error-preview">
-            <div class="w-full max-w-[34rem]">
-              <tng-form-field hideHintWhenError invalid [class]="errorTailwindFieldClass">
-                <tng-label forId="docs-form-field-error-tailwind-budget">Budget</tng-label>
-                <tng-input-field tone="danger">
-                  <span tngInputFieldPrefix class="text-[var(--tng-semantic-foreground-secondary)]">$</span>
-                  <input
-                    tngInput
-                    id="docs-form-field-error-tailwind-budget"
-                    name="budget"
-                    type="number"
-                  />
-                  <button
-                    tngInputFieldSuffix
-                    type="button"
-                    class="px-2 text-xs font-semibold text-[var(--tng-semantic-foreground-secondary)]"
-                  >
-                    Clear
-                  </button>
-                </tng-input-field>
-                <p tngHint>Whole dollars only.</p>
-                <p tngError>Budget is required.</p>
-              </tng-form-field>
-            </div>
-          </div>
+          <tng-form-field hideHintWhenError invalid>
+            <tng-label forId="docs-form-field-error-tailwind-budget">Budget</tng-label>
+            <tng-input-field tone="danger">
+              <span tngInputFieldPrefix>$</span>
+              <input
+                tngInput
+                id="docs-form-field-error-tailwind-budget"
+                name="budget"
+                type="number"
+              />
+              <button tngInputFieldSuffix type="button">Clear</button>
+            </tng-input-field>
+            <p tngHint>Whole dollars only.</p>
+            <p tngError>Budget is required.</p>
+          </tng-form-field>
         </ng-template>
       </app-docs-example-tabs-section>
     </section>

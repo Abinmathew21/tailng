@@ -136,3 +136,26 @@
   list-style: none;
   padding: var(--tng-multi-autocomplete-option-py, 0.5rem) var(--tng-multi-autocomplete-option-px, 0.75rem);
 }
+
+/* Inside a form-field the wrapper provides the border, background, padding,
+   and focus indication, so neutralize the multi-autocomplete host's own chrome
+   to render as a single control. Targets the in-flow host only — the portalled
+   overlay is outside the form-field, so its own visuals are preserved. */
+tng-form-field tng-multi-autocomplete {
+  background: transparent;
+  border-color: transparent;
+  border-radius: 0;
+  box-shadow: none;
+  min-height: 0;
+  padding: 0;
+}
+
+tng-form-field tng-multi-autocomplete:has([data-slot='multi-autocomplete-trigger']:is(:focus, :focus-visible)),
+tng-form-field tng-multi-autocomplete:has([data-slot='multi-autocomplete-chip']:is(:focus, :focus-visible)) {
+  border-color: transparent;
+  box-shadow: none;
+}
+
+tng-form-field tng-multi-autocomplete [data-slot='multi-autocomplete-trigger'] {
+  padding-inline: 0;
+}
