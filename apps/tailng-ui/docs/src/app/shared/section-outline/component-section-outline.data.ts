@@ -993,6 +993,7 @@ export const docsComponentOutlineItemsBySlug: Readonly<
     examples: [
       { id: 'controlled-value', label: 'Controlled value' },
       { id: 'vertical-layout', label: 'Vertical layout' },
+      { id: 'scroll-buttons', label: 'Scroll buttons' },
     ],
   },
   textarea: {
