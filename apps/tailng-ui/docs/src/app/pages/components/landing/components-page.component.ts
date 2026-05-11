@@ -1,4 +1,5 @@
-import { Component, computed, inject } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Component, computed, DestroyRef, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router';
 import {
@@ -15,7 +16,7 @@ import {
   TngDrawerContainer,
   TngDrawerContent,
 } from '@tailng-ui/primitives';
-import { filter, map, startWith } from 'rxjs/operators';
+import { filter, map, startWith, tap } from 'rxjs/operators';
 import {
   buildComponentsDocHref,
   COMPONENTS_DOCS_GROUPS,
@@ -45,18 +46,47 @@ import {
 })
 export class ComponentsPageComponent {
   private readonly router = inject(Router);
+  private readonly document = inject(DOCUMENT);
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly mobileQuery =
+    this.document.defaultView?.matchMedia('(max-width: 768px)') ?? null;
+
+  public readonly isMobile = signal(this.mobileQuery?.matches ?? false);
+
+  constructor() {
+    if (this.mobileQuery) {
+      const handler = (e: MediaQueryListEvent) => this.isMobile.set(e.matches);
+      this.mobileQuery.addEventListener('change', handler);
+      this.destroyRef.onDestroy(() => this.mobileQuery!.removeEventListener('change', handler));
+    }
+  }
+
+  public readonly mobileNavOpen = signal(false);
+
   private readonly currentUrl = toSignal(
     this.router.events.pipe(
       filter((event): event is NavigationEnd => event instanceof NavigationEnd),
+      tap(() => {
+        if (this.isMobile()) {
+          this.mobileNavOpen.set(false);
+        }
+      }),
       map((event) => event.urlAfterRedirects),
       startWith(this.router.url),
     ),
     { initialValue: this.router.url },
   );
 
+  public readonly drawerOpened = computed(() => !this.isMobile() || this.mobileNavOpen());
+
   public readonly navGroups = COMPONENTS_DOCS_GROUPS;
   public readonly defaultExpandedGroups = COMPONENTS_DOCS_GROUPS.map((group) => group.id);
+
   public readonly filteredNavGroups = computed<readonly ComponentsDocsGroup[]>(() => this.navGroups);
+
+  public readonly currentPageLabel = computed(
+    () => this.docsBreadcrumbs().find((crumb) => crumb.current)?.label ?? '',
+  );
 
   public readonly docsBreadcrumbs = computed<
     readonly { current: boolean; label: string; url: string | null }[]
@@ -102,6 +132,16 @@ export class ComponentsPageComponent {
 
     return crumbs;
   });
+
+  public onDrawerOpenedChange(opened: boolean): void {
+    if (!opened) {
+      this.mobileNavOpen.set(false);
+    }
+  }
+
+  public toggleMobileNav(): void {
+    this.mobileNavOpen.update((open) => !open);
+  }
 
   public itemHref(groupId: ComponentsDocsCategoryId, itemSlug: string): string {
     return buildComponentsDocHref(groupId, itemSlug);

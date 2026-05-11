@@ -10,16 +10,18 @@
       class="components-docs-drawer"
       ariaLabel="Components docs navigation"
       tabindex="-1"
-      [opened]="true"
+      [opened]="drawerOpened()"
       [mode]="'overlay'"
       [position]="'start'"
-      [backdrop]="false"
-      [closeOnOutsideClick]="false"
-      [closeOnEscape]="false"
-      [autoFocus]="'none'"
-      [trapFocus]="false"
-      [inertContent]="false"
-      [allowBodyScroll]="true"
+      [backdrop]="isMobile()"
+      [closeOnOutsideClick]="isMobile()"
+      [closeOnEscape]="isMobile()"
+      [autoFocus]="isMobile() ? 'first-focusable' : 'none'"
+      [trapFocus]="isMobile() ? 'auto' : false"
+      [inertContent]="isMobile() ? 'auto' : false"
+      [allowBodyScroll]="!isMobile()"
+      [swipeToClose]="isMobile()"
+      (openedChange)="onDrawerOpenedChange($event)"
     >
       @if (filteredNavGroups().length > 0) {
         <tng-accordion
@@ -81,13 +83,33 @@
 
     <main tngDrawerContent class="components-docs-content">
       <section class="components-docs-breadcrumb">
-        <tng-breadcrumb ariaLabel="Components documentation path" separator="›">
-          @for (crumb of docsBreadcrumbs(); track $index) {
-            <tng-breadcrumb-item [current]="crumb.current" [routerLink]="crumb.url">
-              {{ crumb.label }}
-            </tng-breadcrumb-item>
+        @if (isMobile()) {
+          <button
+            type="button"
+            class="components-docs-nav-toggle"
+            [attr.aria-expanded]="mobileNavOpen()"
+            aria-label="Toggle components navigation"
+            (click)="toggleMobileNav()"
+          >
+            <span class="components-docs-nav-toggle-bars" aria-hidden="true">
+              <span></span>
+              <span></span>
+              <span></span>
+            </span>
+            <span class="components-docs-nav-toggle-label">Menu</span>
+          </button>
+          @if (currentPageLabel()) {
+            <span class="components-docs-current-page" aria-current="page">{{ currentPageLabel() }}</span>
           }
-        </tng-breadcrumb>
+        } @else {
+          <tng-breadcrumb ariaLabel="Components documentation path" separator="›">
+            @for (crumb of docsBreadcrumbs(); track $index) {
+              <tng-breadcrumb-item [current]="crumb.current" [routerLink]="crumb.url">
+                {{ crumb.label }}
+              </tng-breadcrumb-item>
+            }
+          </tng-breadcrumb>
+        }
       </section>
 
       <router-outlet />
