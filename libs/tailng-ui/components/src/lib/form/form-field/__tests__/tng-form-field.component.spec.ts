@@ -1,4 +1,4 @@
-import { Component, Directive, ElementRef, inject } from '@angular/core';
+import { Component, Directive, ElementRef, inject, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { describe, expect, it, vi } from 'vitest';
@@ -81,7 +81,7 @@ class TestFormFieldControlDirective implements TngFormFieldControl {
       [hideHintWhenError]="hideHintWhenError"
       [disabled]="forcedDisabled"
       [invalid]="forcedInvalid"
-      [inlineWidth]="inlineWidth"
+      [inlineWidth]="inlineWidth()"
       [slot]="slot"
     >
       @if (showLabel) {
@@ -116,7 +116,7 @@ class NativeHostComponent {
   public hideHintWhenError = false;
   public forcedDisabled: boolean | null = null;
   public forcedInvalid: boolean | null = null;
-  public inlineWidth = false;
+  public readonly inlineWidth = signal(false);
   public slot = { root: 'root-slot', label: 'label-slot', requiredMarker: 'marker-slot' };
   public showLabel = true;
   public showInput = true;
@@ -293,7 +293,7 @@ describe('tng-form-field', () => {
     const field = fixture.debugElement.query(By.css('tng-form-field')).nativeElement as HTMLElement;
     expect(field.hasAttribute('data-inline-width')).toBe(false);
 
-    fixture.componentInstance.inlineWidth = true;
+    fixture.componentInstance.inlineWidth.set(true);
     await flush(fixture);
 
     expect(field.hasAttribute('data-inline-width')).toBe(true);
@@ -597,14 +597,14 @@ describe('tng-form-field: appearance + controlType', () => {
     @Component({
       imports: [TngFormFieldComponent, TngInput, TngLabel],
       template: `
-        <tng-form-field [appearance]="appearance">
+        <tng-form-field [appearance]="appearance()">
           <label tngLabel>Email</label>
           <input tngInput aria-label="Email" />
         </tng-form-field>
       `,
     })
     class HostComponent {
-      public appearance: 'outlined' | 'plain' | 'none' = 'plain';
+      public readonly appearance = signal<'outlined' | 'plain' | 'none'>('plain');
     }
 
     await TestBed.configureTestingModule({ imports: [HostComponent] }).compileComponents();
@@ -614,7 +614,7 @@ describe('tng-form-field: appearance + controlType', () => {
 
     expect(field.getAttribute('data-appearance')).toBe('plain');
 
-    fixture.componentInstance.appearance = 'none';
+    fixture.componentInstance.appearance.set('none');
     await flush(fixture);
     expect(field.getAttribute('data-appearance')).toBe('none');
   });
@@ -623,14 +623,14 @@ describe('tng-form-field: appearance + controlType', () => {
     @Component({
       imports: [TngFormFieldComponent, TngInput, TngLabel],
       template: `
-        <tng-form-field [controlType]="controlType">
+        <tng-form-field [controlType]="controlType()">
           <label tngLabel>Email</label>
           <input tngInput aria-label="Email" />
         </tng-form-field>
       `,
     })
     class HostComponent {
-      public controlType: 'text' | 'inline' | 'group' | 'composite' = 'inline';
+      public readonly controlType = signal<'text' | 'inline' | 'group' | 'composite'>('inline');
     }
 
     await TestBed.configureTestingModule({ imports: [HostComponent] }).compileComponents();
@@ -640,7 +640,7 @@ describe('tng-form-field: appearance + controlType', () => {
 
     expect(field.getAttribute('data-control-type')).toBe('inline');
 
-    fixture.componentInstance.controlType = 'composite';
+    fixture.componentInstance.controlType.set('composite');
     await flush(fixture);
     expect(field.getAttribute('data-control-type')).toBe('composite');
   });
@@ -824,13 +824,13 @@ describe('tng-form-field: new control integrations', () => {
       template: `
         <tng-form-field>
           <label tngLabel>Terms</label>
-          <tng-switch ariaLabel="Terms" [invalid]="invalid" [required]="required" />
+          <tng-switch ariaLabel="Terms" [invalid]="switchInvalid()" [required]="switchRequired()" />
         </tng-form-field>
       `,
     })
     class HostComponent {
-      public invalid = false;
-      public required = false;
+      public readonly switchInvalid = signal(false);
+      public readonly switchRequired = signal(false);
     }
 
     await TestBed.configureTestingModule({ imports: [HostComponent] }).compileComponents();
@@ -841,8 +841,8 @@ describe('tng-form-field: new control integrations', () => {
     expect(field.hasAttribute('data-invalid')).toBe(false);
     expect(field.hasAttribute('data-required')).toBe(false);
 
-    fixture.componentInstance.invalid = true;
-    fixture.componentInstance.required = true;
+    fixture.componentInstance.switchInvalid.set(true);
+    fixture.componentInstance.switchRequired.set(true);
     await flush(fixture);
 
     expect(field.getAttribute('data-invalid')).toBe('');

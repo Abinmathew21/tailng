@@ -393,16 +393,22 @@ export class TngFormFieldComponent implements AfterContentChecked {
   }
 
   private projectedControlElement(): HTMLElement | null {
+    return this.projectedControlElements()[0] ?? null;
+  }
+
+  private projectedControlElements(): readonly HTMLElement[] {
     const controlSlot = this.hostElement.querySelector<HTMLElement>(
       '[data-slot="form-field-control"]',
     );
-    if (controlSlot === null) return null;
+    if (controlSlot === null) return [];
 
-    // Walk children of the control slot, skip Angular comment markers / whitespace.
-    for (const child of Array.from(controlSlot.children)) {
-      if (child instanceof HTMLElement) return child;
-    }
-    return null;
+    // Only direct projected children are logical form-field controls.
+    // Nested children can provide TNG_FORM_FIELD_CONTROL too, but they are
+    // internal items/options of a group or composite control and should not
+    // be counted as additional form-field controls.
+    return Array.from(controlSlot.children).filter((child): child is HTMLElement => {
+      return child instanceof HTMLElement;
+    });
   }
 
   private syncField(): void {
@@ -606,14 +612,15 @@ export class TngFormFieldComponent implements AfterContentChecked {
   }
 
   /**
-   * Counts compatible controls projected into the field for dev-mode warning.
-   * Includes:
-   *  - registered TngFormFieldControl instances,
-   *  - bare native [tngInput] / [tngTextarea] inputs,
-   *  - whichever is greater (since registered controls usually contain a
-   *    native input internally, we'd double-count if we summed).
+   * Counts logical controls projected into the field for dev-mode warning.
+   * Direct children of the control slot are treated as the public controls.
+   * Descendant controls are ignored because grouped/composite controls can
+   * contain internal items that also provide TNG_FORM_FIELD_CONTROL.
    */
   private compatibleControlCount(): number {
+    const directProjectedControls = this.projectedControlElements();
+    if (directProjectedControls.length > 0) return directProjectedControls.length;
+
     const native = this.nativeControlElements().length;
     const custom = this.customControls?.length ?? 0;
     return Math.max(native, custom);
