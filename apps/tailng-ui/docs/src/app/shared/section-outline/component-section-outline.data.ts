@@ -529,8 +529,10 @@ export const docsComponentOutlineItemsBySlug: Readonly<
     ],
     api: [
       { id: 'imports', label: 'Imports' },
-      { id: 'tng-form-field-component', label: '&lt;tng-form-field&gt;' },
+      { id: 'tng-form-field-component', label: '<tng-form-field>' },
       { id: 'messages', label: 'Messages' },
+      { id: 'adornments', label: 'Adornments' },
+      { id: 'supported-controls', label: 'Supported controls' },
       { id: 'custom-control-contract', label: 'Custom control contract' },
     ],
     styling: [
@@ -540,8 +542,12 @@ export const docsComponentOutlineItemsBySlug: Readonly<
     examples: [
       { id: 'form-usage', label: 'Form usage' },
       { id: 'basic-field', label: 'Basic field' },
-      { id: 'horizontal-field', label: 'Horizontal layout' },
-      { id: 'error-field', label: 'Error state' },
+      { id: 'supported-controls', label: 'Supported controls' },
+      { id: 'supported-control-label-positions', label: 'Supported control label positions' },
+      { id: 'left-label-field', label: 'Left label' },
+      { id: 'error-field', label: 'Error state with input group' },
+      { id: 'inline-controls', label: 'Inline controls' },
+      { id: 'composite-controls', label: 'Composite controls' },
     ],
   },
   'input-otp': {
