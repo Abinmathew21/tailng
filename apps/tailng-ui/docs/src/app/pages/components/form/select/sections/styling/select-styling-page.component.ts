@@ -12,13 +12,13 @@ import {
 } from '../../../../../../shared/util';
 import { stackblitzTailwindUrl, stackblitzVanillaUrl } from '../../select.util';
 
-interface ContractRow {
+type ContractRow = {
   readonly selector: string;
   readonly appliedOn: string;
   readonly purpose: string;
 }
 
-interface ReleaseOwnerOption {
+type ReleaseOwnerOption = {
   readonly id: string;
   readonly name: string;
   readonly team: string;
@@ -296,7 +296,7 @@ export class SelectStylingPageComponent implements OnDestroy {
     RELEASE_OWNER_OPTIONS.map((owner) => [owner.id, owner.name]),
   );
 
-  readonly codeBlockTheme = signal<'github-dark' | 'github-light'>(
+  public readonly codeBlockTheme = signal<'github-dark' | 'github-light'>(
     resolveDocsCodeBlockTheme(this.documentRef),
   );
 
@@ -347,9 +347,9 @@ export class SelectStylingPageComponent implements OnDestroy {
     { value: 'css', label: 'CSS', language: 'css', title: 'component-select-styling-tailwind-example.component.css', code: TAILWIND_CSS_CODE },
   ]);
 
-  protected readonly getReleaseOwnerValue = (owner: ReleaseOwnerOption) => owner.id;
-  protected readonly getReleaseOwnerLabel = (owner: ReleaseOwnerOption) => owner.name;
-  protected readonly isReleaseOwnerDisabled = (owner: ReleaseOwnerOption) => owner.disabled === true;
+  protected readonly getReleaseOwnerValue = (owner: ReleaseOwnerOption): string => owner.id;
+  protected readonly getReleaseOwnerLabel = (owner: ReleaseOwnerOption): string => owner.name;
+  protected readonly isReleaseOwnerDisabled = (owner: ReleaseOwnerOption): boolean => owner.disabled === true;
 
   protected readonly stylingPlainSummary = computed(() => this.resolveReleaseOwnerLabel(this.stylingPlainSelectedOwnerId()));
   protected readonly stylingTailwindSummary = computed(() => this.resolveReleaseOwnerLabel(this.stylingTailwindSelectedOwnerId()));
@@ -380,7 +380,7 @@ export class SelectStylingPageComponent implements OnDestroy {
     }
 
     if (Array.isArray(value)) {
-      const first = value[0];
+      const first: unknown = value[0];
       return typeof first === 'string' ? first : null;
     }
 

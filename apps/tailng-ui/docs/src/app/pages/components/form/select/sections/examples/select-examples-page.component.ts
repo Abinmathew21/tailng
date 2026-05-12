@@ -13,14 +13,14 @@ import {
 } from '../../../../../../shared/util';
 import { stackblitzTailwindUrl, stackblitzVanillaUrl } from '../../select.util';
 
-interface ReleaseStageOption {
+type ReleaseStageOption = {
   readonly value: string;
   readonly label: string;
   readonly note: string;
   readonly disabled?: boolean;
 }
 
-interface ReleaseOwnerOption {
+type ReleaseOwnerOption = {
   readonly id: string;
   readonly name: string;
   readonly team: string;
@@ -518,7 +518,7 @@ export class SelectExamplesPageComponent implements OnDestroy {
     RELEASE_OWNER_OPTIONS.map((owner) => [owner.id, owner.name]),
   );
 
-  readonly codeBlockTheme = signal<'github-dark' | 'github-light'>(
+  public readonly codeBlockTheme = signal<'github-dark' | 'github-light'>(
     resolveDocsCodeBlockTheme(this.documentRef),
   );
 
@@ -560,12 +560,12 @@ export class SelectExamplesPageComponent implements OnDestroy {
     { value: 'css', label: 'CSS', language: 'css', title: 'component-select-examples-owner-tailwind.component.css', code: OWNER_TAILWIND_CSS_CODE },
   ]);
 
-  protected readonly getReleaseStageValue = (stage: ReleaseStageOption) => stage.value;
-  protected readonly getReleaseStageLabel = (stage: ReleaseStageOption) => stage.label;
-  protected readonly isReleaseStageDisabled = (stage: ReleaseStageOption) => stage.disabled === true;
-  protected readonly getReleaseOwnerValue = (owner: ReleaseOwnerOption) => owner.id;
-  protected readonly getReleaseOwnerLabel = (owner: ReleaseOwnerOption) => owner.name;
-  protected readonly isReleaseOwnerDisabled = (owner: ReleaseOwnerOption) => owner.disabled === true;
+  protected readonly getReleaseStageValue = (stage: ReleaseStageOption): string => stage.value;
+  protected readonly getReleaseStageLabel = (stage: ReleaseStageOption): string => stage.label;
+  protected readonly isReleaseStageDisabled = (stage: ReleaseStageOption): boolean => stage.disabled === true;
+  protected readonly getReleaseOwnerValue = (owner: ReleaseOwnerOption): string => owner.id;
+  protected readonly getReleaseOwnerLabel = (owner: ReleaseOwnerOption): string => owner.name;
+  protected readonly isReleaseOwnerDisabled = (owner: ReleaseOwnerOption): boolean => owner.disabled === true;
 
   protected readonly releaseStagePlainSummary = computed(() => this.resolveReleaseStageLabel(this.releaseStagePlainSelectedValue()));
   protected readonly releaseStageTailwindSummary = computed(() => this.resolveReleaseStageLabel(this.releaseStageTailwindSelectedValue()));
@@ -614,7 +614,7 @@ export class SelectExamplesPageComponent implements OnDestroy {
     }
 
     if (Array.isArray(value)) {
-      const first = value[0];
+      const first: unknown = value[0];
       return typeof first === 'string' ? first : null;
     }
 
