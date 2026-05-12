@@ -208,8 +208,12 @@ const textareaTemplateHtml = `<textarea
 `;
 
 const textareaTemplateCss = `:host {
-  display: inline-flex;
-  width: min(28rem, 100%);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
 }
 
 .tng-textarea {
@@ -218,8 +222,10 @@ const textareaTemplateCss = `:host {
   border: 1px solid var(--tng-semantic-border-strong, #64748b);
   border-radius: 0.75rem;
   color: var(--tng-semantic-foreground-primary, #0f172a);
+  flex: 1 1 auto;
   font: inherit;
   line-height: 1.35;
+  min-height: 0;
   padding: 0.7rem 0.85rem;
   resize: vertical;
   width: 100%;

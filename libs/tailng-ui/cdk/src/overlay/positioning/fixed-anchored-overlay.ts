@@ -3,6 +3,7 @@ import type {
   TngOverlayCollisionOptions,
   TngOverlayOffset,
   TngOverlayPlacement,
+  TngOverlayRect,
 } from './positioning.types';
 
 type MaybeRect = Readonly<{
@@ -14,6 +15,14 @@ type MaybeRect = Readonly<{
 
 export type TngFixedAnchoredOverlayPositionOptions = Readonly<{
   anchor: HTMLElement;
+  /**
+   * Optional rect override. When provided, this rect is used for positioning
+   * instead of `anchor.getBoundingClientRect()`. Useful when the visible
+   * frame to align with does not match the DOM anchor element exactly (e.g.
+   * positioning an overlay to span a form-field wrapper while still using the
+   * inner control for vertical bounds).
+   */
+  anchorRect?: TngOverlayRect;
   collision: TngOverlayCollisionOptions;
   direction?: 'ltr' | 'rtl';
   offset: TngOverlayOffset;
@@ -64,7 +73,7 @@ function getAvailableHeight(
 export function positionFixedAnchoredOverlay(
   options: Readonly<TngFixedAnchoredOverlayPositionOptions>,
 ): TngFixedAnchoredOverlayPositionResult {
-  const anchorRect = rectFromClientRect(options.anchor.getBoundingClientRect());
+  const anchorRect: MaybeRect = options.anchorRect ?? rectFromClientRect(options.anchor.getBoundingClientRect());
   const viewport = viewportRect(options.windowRef);
   const maxInlineSize = Math.max(0, viewport.width - options.viewportMargin * 2);
   const inlineSize = Math.max(0, Math.min(anchorRect.width, maxInlineSize));

@@ -1,8 +1,15 @@
 :host {
-  display: grid;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
   gap: var(--tng-form-field-gap, 0.45rem);
+  width: 100%;
   max-width: 100%;
   color: var(--tng-form-field-fg, var(--tng-semantic-foreground-primary, inherit));
+}
+
+:host([data-inline-width]) {
+  width: auto;
 }
 
 .tng-form-field__frame {
@@ -26,6 +33,10 @@
 
 .tng-form-field__label:empty {
   display: none;
+}
+
+:host([data-label-position='above']) .tng-form-field__label {
+  margin-block-end: var(--tng-form-field-label-gap, 0.5rem);
 }
 
 .tng-form-field__control-row {
@@ -67,7 +78,11 @@
 }
 
 :host([data-label-position='left']) {
-  grid-template-columns: var(--tng-form-field-left-label-width, max-content) minmax(0, 1fr);
+  display: grid;
+  grid-template-columns:
+    minmax(0, var(--tng-form-field-left-label-width, 10rem))
+    minmax(0, var(--tng-form-field-left-control-max-width, 22rem));
+  justify-content: start;
   align-items: start;
   column-gap: var(--tng-form-field-left-gap, 1rem);
 }
@@ -77,9 +92,15 @@
 }
 
 :host([data-label-position='left']) .tng-form-field__label {
-  align-self: center;
+  display: flex;
+  align-self: stretch;
+  justify-content: flex-start;
+  min-height: var(--tng-form-field-frame-min-height, 2.625rem);
   grid-column: 1;
   grid-row: 1;
+  overflow-wrap: break-word;
+  text-align: start;
+  word-break: break-word;
 }
 
 :host([data-label-position='left']) .tng-form-field__control-row,
@@ -111,9 +132,31 @@
   min-width: 0;
 }
 
+.tng-form-field__control > * {
+  width: 100%;
+  min-width: 0;
+}
+
+/* Multiline controls: same width as other fields, ~2× single-line chrome height. */
+:host:is(:has(tng-textarea), :has(textarea[tngTextarea]), :has(textarea[tngInput])) .tng-form-field__control-row {
+  align-items: stretch;
+  min-height: calc(2 * var(--tng-form-field-frame-min-height, 2.625rem));
+}
+
+:host([data-label-position='outline']:is(:has(tng-textarea), :has(textarea[tngTextarea]), :has(textarea[tngInput])))
+  .tng-form-field__control-row {
+  min-height: calc(2 * (var(--tng-form-field-frame-min-height, 2.625rem) - var(--tng-form-field-frame-py, 0.55rem)));
+}
+
+:host:is(:has(tng-textarea), :has(textarea[tngTextarea]), :has(textarea[tngInput])) .tng-form-field__control {
+  display: flex;
+  align-items: stretch;
+}
+
 .tng-form-field__messages {
   display: grid;
   gap: var(--tng-form-field-message-gap, 0.25rem);
+  min-width: 0;
   min-height: var(--tng-form-field-message-min-height, 1rem);
   color: var(--tng-form-field-message-fg, var(--tng-semantic-foreground-muted, currentColor));
   font-size: var(--tng-form-field-message-font-size, 0.8125rem);

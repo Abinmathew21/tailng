@@ -8,7 +8,6 @@ import {
   TngHint,
   TngInputComponent,
   TngInputFieldComponent,
-  TngInputOtpComponent,
   TngLabelComponent,
   TngMultiAutocompleteComponent,
   TngMultiSelectComponent,
@@ -47,6 +46,25 @@ function createStandaloneExampleTsCode(
     '',
   ].join('\n');
 }
+
+const supportedControlsTwoColumnExampleCss = [
+  '.doc-cmp-form-field-ex-form-grid {',
+  '  display: grid;',
+  '  gap: 1.25rem;',
+  '  grid-template-columns: 1fr;',
+  '}',
+  '',
+  '@media (min-width: 720px) {',
+  '  .doc-cmp-form-field-ex-form-grid {',
+  '    grid-template-columns: repeat(2, minmax(0, 1fr));',
+  '  }',
+  '}',
+  '',
+  '.doc-cmp-form-field-ex-form-grid > tng-form-field {',
+  '  min-width: 0;',
+  '}',
+  '',
+].join('\n');
 
 function createCodeTabs(
   baseName: string,
@@ -89,7 +107,7 @@ const inputGroupImportLines = [
 ] as const;
 
 const supportedControlsImportLines = [
-  "import { TngAutocompleteComponent, TngDatepickerComponent, TngFormFieldComponent, TngHint, TngInputComponent, TngInputFieldComponent, TngInputOtpComponent, TngLabelComponent, TngMultiAutocompleteComponent, TngMultiSelectComponent, TngSelectComponent, TngTextareaComponent } from '@tailng-ui/components';",
+  "import { TngAutocompleteComponent, TngDatepickerComponent, TngFormFieldComponent, TngHint, TngInputComponent, TngInputFieldComponent, TngLabelComponent, TngMultiAutocompleteComponent, TngMultiSelectComponent, TngSelectComponent, TngTextareaComponent } from '@tailng-ui/components';",
   "import { TngInput, TngInputFieldPrefix, TngInputFieldSuffix } from '@tailng-ui/primitives';",
 ] as const;
 
@@ -120,7 +138,6 @@ function createSupportedControlsTsCode(selector: string, className: string): str
     '    TngHint,',
     '    TngInputComponent,',
     '    TngInputFieldComponent,',
-    '    TngInputOtpComponent,',
     '    TngLabelComponent,',
     '    TngMultiAutocompleteComponent,',
     '    TngMultiSelectComponent,',
@@ -176,7 +193,6 @@ function createSupportedControlsTsCode(selector: string, className: string): str
     TngFormFieldComponent,
     TngInputComponent,
     TngInputFieldComponent,
-    TngInputOtpComponent,
     TngLabelComponent,
     TngMultiAutocompleteComponent,
     TngMultiSelectComponent,
@@ -204,47 +220,6 @@ export class FormFieldExamplesPageComponent implements OnDestroy {
     this.documentRef,
     this.codeBlockTheme,
   );
-
-  private readonly basicTailwindFieldClassValue = [
-    'grid',
-    'w-full',
-    'gap-2',
-    '[--tng-form-field-label-fg:var(--tng-semantic-foreground-primary)]',
-    '[--tng-form-field-message-fg:var(--tng-semantic-foreground-secondary)]',
-  ].join(' ');
-
-  private readonly formUsageTailwindFieldClassValue = [
-    'grid',
-    'w-full',
-    'gap-2',
-    '[--tng-form-field-label-fg:var(--tng-semantic-foreground-primary)]',
-    '[--tng-form-field-message-fg:var(--tng-semantic-foreground-secondary)]',
-  ].join(' ');
-
-  private readonly leftTailwindFieldClassValue = [
-    'grid',
-    'w-full',
-    'gap-2',
-    '[--tng-form-field-left-gap:1.25rem]',
-    '[--tng-form-field-label-fg:var(--tng-semantic-foreground-primary)]',
-    '[--tng-form-field-message-fg:var(--tng-semantic-foreground-secondary)]',
-  ].join(' ');
-
-  private readonly errorTailwindFieldClassValue = [
-    'grid',
-    'w-full',
-    'gap-2',
-    '[--tng-form-field-label-fg:var(--tng-semantic-accent-danger)]',
-    '[--tng-form-field-message-fg:var(--tng-semantic-accent-danger)]',
-  ].join(' ');
-
-  protected readonly formUsageTailwindFieldClass = this.formUsageTailwindFieldClassValue;
-  protected readonly basicTailwindFieldClass = this.basicTailwindFieldClassValue;
-  protected readonly leftTailwindFieldClass = this.leftTailwindFieldClassValue;
-  protected readonly errorTailwindFieldClass = this.errorTailwindFieldClassValue;
-
-  private readonly tailwindCssCode =
-    '/* Tailwind utilities and host token overrides are applied directly in the template. */';
 
   protected readonly ownerOptions: readonly FieldOption[] = [
     { label: 'Asha Raman', value: 'asha' },
@@ -274,7 +249,7 @@ export class FormFieldExamplesPageComponent implements OnDestroy {
   protected readonly getOptionLabel = (option: FieldOption): string => option.label;
 
   private readonly supportedControlsPlainHtmlCode = [
-    '<div class="doc-cmp-form-field-ex-supported-grid">',
+    '<div class="doc-cmp-form-field-ex-form-grid">',
     '  <tng-form-field>',
     '    <tng-label forId="project-name">Input component</tng-label>',
     '    <tng-input id="project-name" name="projectName" placeholder="Migration plan" />',
@@ -293,7 +268,7 @@ export class FormFieldExamplesPageComponent implements OnDestroy {
     '',
     '  <tng-form-field>',
     '    <tng-label forId="release-summary">Textarea</tng-label>',
-    '    <tng-textarea id="release-summary" name="summary" placeholder="Summarize the release" rows="4" />',
+    '    <tng-textarea id="release-summary" name="summary" placeholder="Summarize the release" />',
     '    <p tngHint>Textarea keeps multiline entry in the same field contract.</p>',
     '  </tng-form-field>',
     '',
@@ -357,33 +332,11 @@ export class FormFieldExamplesPageComponent implements OnDestroy {
     '    />',
     '    <p tngHint>Datepicker remains a single date field with calendar affordances.</p>',
     '  </tng-form-field>',
-    '',
-    '  <tng-form-field>',
-    '    <tng-label forId="verification-code">Input OTP</tng-label>',
-    '    <tng-input-otp id="verification-code" [length]="6" defaultValue="184206" ariaLabel="Verification code" />',
-    '    <p tngHint>Input OTP is one logical field composed of multiple slots.</p>',
-    '  </tng-form-field>',
     '</div>',
     '',
   ].join('\n');
 
-  private readonly supportedControlsTailwindHtmlCode = [
-    this.supportedControlsPlainHtmlCode
-      .replace(
-        '<div class="doc-cmp-form-field-ex-supported-grid">',
-        '<div class="grid w-full gap-5 md:grid-cols-2">',
-      )
-      .split('<tng-form-field>')
-      .join('<tng-form-field class="grid gap-2">')
-      .replace(
-        '<span tngInputFieldPrefix>@</span>',
-        '<span tngInputFieldPrefix class="text-sm text-[var(--tng-semantic-foreground-secondary)]">@</span>',
-      )
-      .replace(
-        '<span tngInputFieldSuffix>.team</span>',
-        '<span tngInputFieldSuffix class="text-sm text-[var(--tng-semantic-foreground-secondary)]">.team</span>',
-      ),
-  ].join('\n');
+  private readonly supportedControlsTailwindHtmlCode = this.supportedControlsPlainHtmlCode;
 
   protected readonly supportedControlsPlainCodeTabs = createCodeTabs(
     'doc-cmp-form-field-examples-supported-controls-plain',
@@ -392,25 +345,7 @@ export class FormFieldExamplesPageComponent implements OnDestroy {
       'DocCmpFormFieldExSupportedControlsPlainComponent',
     ),
     this.supportedControlsPlainHtmlCode,
-    [
-      '.doc-cmp-form-field-ex-supported-grid {',
-      '  display: grid;',
-      '  gap: 1.25rem;',
-      '  width: min(100%, 48rem);',
-      '}',
-      '',
-      '@media (min-width: 760px) {',
-      '  .doc-cmp-form-field-ex-supported-grid {',
-      '    grid-template-columns: repeat(2, minmax(0, 1fr));',
-      '  }',
-      '}',
-      '',
-      '.doc-cmp-form-field-ex-supported-grid tng-form-field {',
-      '  --tng-form-field-label-fg: var(--tng-semantic-foreground-primary);',
-      '  --tng-form-field-message-fg: var(--tng-semantic-foreground-secondary);',
-      '}',
-      '',
-    ].join('\n'),
+    supportedControlsTwoColumnExampleCss,
   );
 
   protected readonly supportedControlsTailwindCodeTabs = createCodeTabs(
@@ -420,7 +355,7 @@ export class FormFieldExamplesPageComponent implements OnDestroy {
       'DocCmpFormFieldExSupportedControlsTailwindComponent',
     ),
     this.supportedControlsTailwindHtmlCode,
-    this.tailwindCssCode,
+    supportedControlsTwoColumnExampleCss,
   );
 
   protected readonly supportedControlsOutlineCodeTabs = createCodeTabs(
@@ -432,20 +367,7 @@ export class FormFieldExamplesPageComponent implements OnDestroy {
     this.supportedControlsPlainHtmlCode
       .split('<tng-form-field>')
       .join('<tng-form-field labelPosition="outline">'),
-    [
-      '.doc-cmp-form-field-ex-supported-grid {',
-      '  display: grid;',
-      '  gap: 1.25rem;',
-      '  width: min(100%, 48rem);',
-      '}',
-      '',
-      '@media (min-width: 760px) {',
-      '  .doc-cmp-form-field-ex-supported-grid {',
-      '    grid-template-columns: repeat(2, minmax(0, 1fr));',
-      '  }',
-      '}',
-      '',
-    ].join('\n'),
+    supportedControlsTwoColumnExampleCss,
   );
 
   protected readonly supportedControlsAboveCodeTabs = createCodeTabs(
@@ -457,20 +379,7 @@ export class FormFieldExamplesPageComponent implements OnDestroy {
     this.supportedControlsPlainHtmlCode
       .split('<tng-form-field>')
       .join('<tng-form-field labelPosition="above">'),
-    [
-      '.doc-cmp-form-field-ex-supported-grid {',
-      '  display: grid;',
-      '  gap: 1.25rem;',
-      '  width: min(100%, 48rem);',
-      '}',
-      '',
-      '@media (min-width: 760px) {',
-      '  .doc-cmp-form-field-ex-supported-grid {',
-      '    grid-template-columns: repeat(2, minmax(0, 1fr));',
-      '  }',
-      '}',
-      '',
-    ].join('\n'),
+    supportedControlsTwoColumnExampleCss,
   );
 
   protected readonly supportedControlsLeftCodeTabs = createCodeTabs(
@@ -480,22 +389,10 @@ export class FormFieldExamplesPageComponent implements OnDestroy {
       'DocCmpFormFieldExSupportedControlsLeftComponent',
     ),
     this.supportedControlsPlainHtmlCode
+      .replace('<div class="doc-cmp-form-field-ex-form-grid">', '<div>')
       .split('<tng-form-field>')
       .join('<tng-form-field labelPosition="left">'),
-    [
-      '.doc-cmp-form-field-ex-supported-grid {',
-      '  display: grid;',
-      '  gap: 1.25rem;',
-      '  width: min(100%, 48rem);',
-      '}',
-      '',
-      '@media (min-width: 760px) {',
-      '  .doc-cmp-form-field-ex-supported-grid {',
-      '    grid-template-columns: repeat(2, minmax(0, 1fr));',
-      '  }',
-      '}',
-      '',
-    ].join('\n'),
+    '',
   );
 
   protected readonly formUsagePlainCodeTabs = createCodeTabs(
@@ -515,7 +412,7 @@ export class FormFieldExamplesPageComponent implements OnDestroy {
       ],
     ),
     [
-      '<form class="doc-cmp-form-field-ex-form-shell">',
+      '<form>',
       '  <tng-form-field>',
       '    <tng-label forId="workspace-url">Workspace URL</tng-label>',
       '    <tng-input-field>',
@@ -528,32 +425,7 @@ export class FormFieldExamplesPageComponent implements OnDestroy {
       '</form>',
       '',
     ].join('\n'),
-    [
-      '.doc-cmp-form-field-ex-form-shell {',
-      '  width: min(100%, 34rem);',
-      '}',
-      '',
-      '.doc-cmp-form-field-ex-form-shell tng-form-field {',
-      '  --tng-form-field-label-fg: var(--tng-semantic-foreground-primary);',
-      '  --tng-form-field-message-fg: var(--tng-semantic-foreground-secondary);',
-      '}',
-      '',
-      '.doc-cmp-form-field-ex-form-shell [tngInputFieldPrefix] {',
-      '  color: var(--tng-semantic-foreground-secondary);',
-      '  font-size: 0.875rem;',
-      '}',
-      '',
-      '.doc-cmp-form-field-ex-form-shell [tngInputFieldSuffix] {',
-      '  border: 0;',
-      '  background: transparent;',
-      '  color: var(--tng-semantic-accent-brand);',
-      '  cursor: pointer;',
-      '  font: inherit;',
-      '  font-size: 0.8125rem;',
-      '  font-weight: 700;',
-      '}',
-      '',
-    ].join('\n'),
+    '',
   );
 
   protected readonly formUsageTailwindCodeTabs = createCodeTabs(
@@ -573,20 +445,20 @@ export class FormFieldExamplesPageComponent implements OnDestroy {
       ],
     ),
     [
-      '<form class="w-full max-w-[34rem]">',
-      '  <tng-form-field class="' + this.formUsageTailwindFieldClassValue + '">',
+      '<form>',
+      '  <tng-form-field>',
       '    <tng-label forId="workspace-url">Workspace URL</tng-label>',
       '    <tng-input-field>',
-      '      <span tngInputFieldPrefix class="text-sm text-[var(--tng-semantic-foreground-secondary)]">tailng.dev/</span>',
+      '      <span tngInputFieldPrefix>tailng.dev/</span>',
       '      <input tngInput id="workspace-url" name="workspaceUrl" placeholder="acme-product" />',
-      '      <button tngInputFieldSuffix type="submit" class="text-xs font-bold text-[var(--tng-semantic-accent-brand)]">Create</button>',
+      '      <button tngInputFieldSuffix type="submit">Create</button>',
       '    </tng-input-field>',
       '    <p tngHint>Use lowercase letters, numbers, and hyphens.</p>',
       '  </tng-form-field>',
       '</form>',
       '',
     ].join('\n'),
-    this.tailwindCssCode,
+    '',
   );
 
   protected readonly basicPlainCodeTabs = createCodeTabs(
@@ -598,28 +470,16 @@ export class FormFieldExamplesPageComponent implements OnDestroy {
       ['TngFormFieldComponent', 'TngHint', 'TngInputFieldComponent', 'TngLabelComponent', 'TngInput'],
     ),
     [
-      '<div class="doc-cmp-form-field-ex-basic-shell">',
-      '  <tng-form-field>',
-      '    <tng-label forId="workspace-name">Workspace name</tng-label>',
-      '    <tng-input-field>',
-      '      <input tngInput id="workspace-name" name="workspace" placeholder="Acme product" />',
-      '    </tng-input-field>',
-      '    <p tngHint>Use a name your team will recognize.</p>',
-      '  </tng-form-field>',
-      '</div>',
+      '<tng-form-field>',
+      '  <tng-label forId="workspace-name">Workspace name</tng-label>',
+      '  <tng-input-field>',
+      '    <input tngInput id="workspace-name" name="workspace" placeholder="Acme product" />',
+      '  </tng-input-field>',
+      '  <p tngHint>Use a name your team will recognize.</p>',
+      '</tng-form-field>',
       '',
     ].join('\n'),
-    [
-      '.doc-cmp-form-field-ex-basic-shell {',
-      '  width: min(100%, 34rem);',
-      '}',
-      '',
-      '.doc-cmp-form-field-ex-basic-shell tng-form-field {',
-      '  --tng-form-field-label-fg: var(--tng-semantic-foreground-primary);',
-      '  --tng-form-field-message-fg: var(--tng-semantic-foreground-secondary);',
-      '}',
-      '',
-    ].join('\n'),
+    '',
   );
 
   protected readonly basicTailwindCodeTabs = createCodeTabs(
@@ -631,18 +491,16 @@ export class FormFieldExamplesPageComponent implements OnDestroy {
       ['TngFormFieldComponent', 'TngHint', 'TngInputFieldComponent', 'TngLabelComponent', 'TngInput'],
     ),
     [
-      '<div class="w-full max-w-[34rem]">',
-      '  <tng-form-field class="' + this.basicTailwindFieldClassValue + '">',
-      '    <tng-label forId="workspace-name">Workspace name</tng-label>',
-      '    <tng-input-field>',
-      '      <input tngInput id="workspace-name" name="workspace" placeholder="Acme product" />',
-      '    </tng-input-field>',
-      '    <p tngHint>Use a name your team will recognize.</p>',
-      '  </tng-form-field>',
-      '</div>',
+      '<tng-form-field>',
+      '  <tng-label forId="workspace-name">Workspace name</tng-label>',
+      '  <tng-input-field>',
+      '    <input tngInput id="workspace-name" name="workspace" placeholder="Acme product" />',
+      '  </tng-input-field>',
+      '  <p tngHint>Use a name your team will recognize.</p>',
+      '</tng-form-field>',
       '',
     ].join('\n'),
-    this.tailwindCssCode,
+    '',
   );
 
   protected readonly leftPlainCodeTabs = createCodeTabs(
@@ -654,29 +512,16 @@ export class FormFieldExamplesPageComponent implements OnDestroy {
       ['TngFormFieldComponent', 'TngHint', 'TngInputFieldComponent', 'TngLabelComponent', 'TngInput'],
     ),
     [
-      '<div class="doc-cmp-form-field-ex-left-shell">',
-      '  <tng-form-field labelPosition="left">',
-      '    <tng-label forId="workspace-slug">Workspace slug</tng-label>',
-      '    <tng-input-field>',
-      '      <input tngInput id="workspace-slug" name="slug" placeholder="acme-platform" />',
-      '    </tng-input-field>',
-      '    <p tngHint>Lowercase letters and hyphens only.</p>',
-      '  </tng-form-field>',
-      '</div>',
+      '<tng-form-field labelPosition="left">',
+      '  <tng-label forId="workspace-slug">Workspace slug</tng-label>',
+      '  <tng-input-field>',
+      '    <input tngInput id="workspace-slug" name="slug" placeholder="acme-platform" />',
+      '  </tng-input-field>',
+      '  <p tngHint>Lowercase letters and hyphens only.</p>',
+      '</tng-form-field>',
       '',
     ].join('\n'),
-    [
-      '.doc-cmp-form-field-ex-left-shell {',
-      '  width: min(100%, 38rem);',
-      '}',
-      '',
-      '.doc-cmp-form-field-ex-left-shell tng-form-field {',
-      '  --tng-form-field-left-gap: 1.25rem;',
-      '  --tng-form-field-label-fg: var(--tng-semantic-foreground-primary);',
-      '  --tng-form-field-message-fg: var(--tng-semantic-foreground-secondary);',
-      '}',
-      '',
-    ].join('\n'),
+    '',
   );
 
   protected readonly leftTailwindCodeTabs = createCodeTabs(
@@ -688,18 +533,16 @@ export class FormFieldExamplesPageComponent implements OnDestroy {
       ['TngFormFieldComponent', 'TngHint', 'TngInputFieldComponent', 'TngLabelComponent', 'TngInput'],
     ),
     [
-      '<div class="w-full max-w-[38rem]">',
-      '  <tng-form-field labelPosition="left" class="' + this.leftTailwindFieldClassValue + '">',
-      '    <tng-label forId="workspace-slug">Workspace slug</tng-label>',
-      '    <tng-input-field>',
-      '      <input tngInput id="workspace-slug" name="slug" placeholder="acme-platform" />',
-      '    </tng-input-field>',
-      '    <p tngHint>Lowercase letters and hyphens only.</p>',
-      '  </tng-form-field>',
-      '</div>',
+      '<tng-form-field labelPosition="left">',
+      '  <tng-label forId="workspace-slug">Workspace slug</tng-label>',
+      '  <tng-input-field>',
+      '    <input tngInput id="workspace-slug" name="slug" placeholder="acme-platform" />',
+      '  </tng-input-field>',
+      '  <p tngHint>Lowercase letters and hyphens only.</p>',
+      '</tng-form-field>',
       '',
     ].join('\n'),
-    this.tailwindCssCode,
+    '',
   );
 
   protected readonly errorPlainCodeTabs = createCodeTabs(
@@ -720,31 +563,19 @@ export class FormFieldExamplesPageComponent implements OnDestroy {
       ],
     ),
     [
-      '<div class="doc-cmp-form-field-ex-error-shell">',
-      '  <tng-form-field hideHintWhenError invalid>',
-      '    <tng-label forId="budget">Budget</tng-label>',
-      '    <tng-input-field tone="danger">',
-      '      <span tngInputFieldPrefix>$</span>',
-      '      <input tngInput id="budget" name="budget" type="number" />',
-      '      <button tngInputFieldSuffix type="button">Clear</button>',
-      '    </tng-input-field>',
-      '    <p tngHint>Whole dollars only.</p>',
-      '    <p tngError>Budget is required.</p>',
-      '  </tng-form-field>',
-      '</div>',
+      '<tng-form-field hideHintWhenError invalid>',
+      '  <tng-label forId="budget">Budget</tng-label>',
+      '  <tng-input-field tone="danger">',
+      '    <span tngInputFieldPrefix>$</span>',
+      '    <input tngInput id="budget" name="budget" type="number" />',
+      '    <button tngInputFieldSuffix type="button">Clear</button>',
+      '  </tng-input-field>',
+      '  <p tngHint>Whole dollars only.</p>',
+      '  <p tngError>Budget is required.</p>',
+      '</tng-form-field>',
       '',
     ].join('\n'),
-    [
-      '.doc-cmp-form-field-ex-error-shell {',
-      '  width: min(100%, 34rem);',
-      '}',
-      '',
-      '.doc-cmp-form-field-ex-error-shell [tngInputFieldPrefix],',
-      '.doc-cmp-form-field-ex-error-shell [tngInputFieldSuffix] {',
-      '  color: var(--tng-semantic-foreground-secondary);',
-      '}',
-      '',
-    ].join('\n'),
+    '',
   );
 
   protected readonly errorTailwindCodeTabs = createCodeTabs(
@@ -765,21 +596,19 @@ export class FormFieldExamplesPageComponent implements OnDestroy {
       ],
     ),
     [
-      '<div class="w-full max-w-[34rem]">',
-      '  <tng-form-field hideHintWhenError invalid class="' + this.errorTailwindFieldClassValue + '">',
-      '    <tng-label forId="budget">Budget</tng-label>',
-      '    <tng-input-field tone="danger">',
-      '      <span tngInputFieldPrefix class="text-[var(--tng-semantic-foreground-secondary)]">$</span>',
-      '      <input tngInput id="budget" name="budget" type="number" />',
-      '      <button tngInputFieldSuffix type="button" class="px-2 text-xs font-semibold text-[var(--tng-semantic-foreground-secondary)]">Clear</button>',
-      '    </tng-input-field>',
-      '    <p tngHint>Whole dollars only.</p>',
-      '    <p tngError>Budget is required.</p>',
-      '  </tng-form-field>',
-      '</div>',
+      '<tng-form-field hideHintWhenError invalid>',
+      '  <tng-label forId="budget">Budget</tng-label>',
+      '  <tng-input-field tone="danger">',
+      '    <span tngInputFieldPrefix>$</span>',
+      '    <input tngInput id="budget" name="budget" type="number" />',
+      '    <button tngInputFieldSuffix type="button">Clear</button>',
+      '  </tng-input-field>',
+      '  <p tngHint>Whole dollars only.</p>',
+      '  <p tngError>Budget is required.</p>',
+      '</tng-form-field>',
       '',
     ].join('\n'),
-    this.tailwindCssCode,
+    '',
   );
 
   public ngOnDestroy(): void {

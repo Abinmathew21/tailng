@@ -140,3 +140,25 @@ tng-select[data-disabled] [data-slot='select-trigger'] {
   cursor: not-allowed;
   pointer-events: none;
 }
+
+/* Inside a form-field the wrapper provides the border, background, padding,
+   and focus indication, so neutralize the select trigger's own chrome to render
+   as a single control. Targets the in-flow trigger only — the portalled overlay
+   is outside the form-field, so its own visuals are preserved. */
+tng-form-field tng-select [data-slot='select-trigger'] {
+  background: transparent;
+  border-color: transparent;
+  border-radius: 0;
+  box-shadow: none;
+  min-height: 0;
+  padding-inline: 0;
+}
+
+tng-form-field tng-select [data-slot='select-trigger']:hover:not([aria-disabled='true']) {
+  border-color: transparent;
+}
+
+tng-form-field tng-select [data-slot='select-trigger']:is(:focus, :focus-visible) {
+  border-color: transparent;
+  box-shadow: none;
+}

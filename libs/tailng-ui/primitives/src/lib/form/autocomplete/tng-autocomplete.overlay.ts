@@ -114,6 +114,48 @@ function isInside(target: EventTarget | null, container: HTMLElement): boolean {
   return !!target && target instanceof Node && container.contains(target);
 }
 
+/**
+ * When the overlay's host element lives inside a `tng-form-field`, the form-field
+ * is the visible frame the consumer sees, so the overlay should align with it
+ * (width + left/right edges). For the `left` label layout the form-field's root
+ * spans the label column too, so anchor on the inner control-row instead.
+ */
+function findFormFieldAnchor(host: HTMLElement): HTMLElement | null {
+  const formField = host.closest('[data-slot="form-field"]') as HTMLElement | null;
+  if (!formField) return null;
+  if (formField.getAttribute('data-label-position') === 'left') {
+    const row = formField.querySelector('.tng-form-field__control-row') as HTMLElement | null;
+    return row ?? formField;
+  }
+  return formField;
+}
+
+/**
+ * Rect to use for overlay positioning. When the anchor is a form-field root, the
+ * horizontal extent is taken from the form-field (so the overlay spans the field
+ * frame) but the vertical extent is taken from the inner fieldset (the input row)
+ * so the overlay opens directly under the input rather than below the messages
+ * region beneath the frame.
+ */
+function anchorRectFor(anchorEl: HTMLElement): MaybeRect {
+  const widthRect = anchorEl.getBoundingClientRect();
+  if (!anchorEl.matches('[data-slot="form-field"]')) {
+    return rectFromClientRect(widthRect);
+  }
+  const labelPosition = anchorEl.getAttribute('data-label-position');
+  const fieldset = anchorEl.querySelector('[data-slot="form-field-control-row"]') as HTMLElement | null;
+  const innerRow = anchorEl.querySelector('.tng-form-field__control-row') as HTMLElement | null;
+  const positionEl = labelPosition === 'outline' ? (fieldset ?? innerRow) : (innerRow ?? fieldset);
+  if (!positionEl) return rectFromClientRect(widthRect);
+  const positionRect = positionEl.getBoundingClientRect();
+  return {
+    left: widthRect.left,
+    width: widthRect.width,
+    top: positionRect.top,
+    height: positionRect.height,
+  };
+}
+
 @Directive({
   selector: '[tngAutocompleteOverlay]',
   exportAs: 'tngAutocompleteOverlay',
@@ -164,9 +206,16 @@ export class TngAutocompleteOverlay {
     });
   }
 
-  /** Anchor for overlay: container (trigger+icon) if present, else the input trigger. */
+  /**
+   * Anchor for overlay positioning, width, and dismiss boundary.
+   * Prefer the enclosing form-field (so the overlay aligns with the visible
+   * field frame), else the trigger container (trigger + icon), else the input
+   * trigger itself.
+   */
   private findAnchorEl(): HTMLElement | null {
     const root = this.autocomplete.hostElement;
+    const formFieldAnchor = findFormFieldAnchor(root);
+    if (formFieldAnchor) return formFieldAnchor;
     const container = root.querySelector('[data-slot="autocomplete-trigger-container"]') as HTMLElement | null;
     if (container) return container;
     return root.querySelector('[data-slot="autocomplete-trigger"]') as HTMLElement | null;
@@ -182,7 +231,7 @@ export class TngAutocompleteOverlay {
     const panel = this.elRef.nativeElement;
     const anchorEl = this.findAnchorEl();
     if (!anchorEl) return;
-    const anchor = rectFromClientRect(anchorEl.getBoundingClientRect());
+    const anchor = anchorRectFor(anchorEl);
     const overlay = rectFromClientRect(panel.getBoundingClientRect());
     const viewport = viewportRect();
     const offset = this.offset();
@@ -312,8 +361,12 @@ export class TngAutocompleteOverlay {
       if (!this.autocomplete.open()) return;
       const anchorEl = this.findAnchorEl();
       if (!anchorEl) return;
-      const anchor = rectFromClientRect(anchorEl.getBoundingClientRect());
+      const anchor = anchorRectFor(anchorEl);
       panel.style.minWidth = `${anchor.width}px`;
+      if (findFormFieldAnchor(this.autocomplete.hostElement)) {
+        panel.style.width = `${anchor.width}px`;
+        panel.style.maxWidth = 'none';
+      }
       const overlay = rectFromClientRect(panel.getBoundingClientRect());
       const viewport = viewportRect();
       const offset = this.offset();
@@ -370,6 +423,8 @@ export class TngAutocompleteOverlay {
     panel.style.top = '';
     panel.style.zIndex = '';
     panel.style.minWidth = '';
+    panel.style.width = '';
+    panel.style.maxWidth = '';
     this.clearPortalledThemeVars();
     this.teardownOutsidePointer();
   }

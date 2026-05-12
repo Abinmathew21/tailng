@@ -6,7 +6,7 @@
     min-width: 0;
 
     --tng-datepicker-radius: 1rem;
-    --tng-datepicker-field-height: 2.95rem;
+    --tng-datepicker-field-height: 2.625rem;
     --tng-datepicker-overlay-gap: 0.56rem;
     --tng-datepicker-day-cell-size: 2.2rem;
     --tng-datepicker-picker-cell-size: 2.3rem;
@@ -85,7 +85,7 @@
     font-weight: 600;
     line-height: 1.35;
     letter-spacing: 0.01em;
-    padding-block: 0.74rem;
+    padding-block: 0.5rem;
     padding-inline: 1.08rem 0.98rem;
     outline: none;
     box-shadow: none;
@@ -147,6 +147,7 @@
     box-sizing: border-box;
     display: grid;
     gap: 0.68rem;
+    min-width: min(18rem, calc(100vw - 1.5rem));
     border: 1px solid color-mix(in srgb, var(--tng-datepicker-border) 86%, var(--tng-datepicker-canvas) 14%);
     border-radius: calc(var(--tng-datepicker-radius) + 0.18rem);
     background:
@@ -271,6 +272,7 @@
     justify-content: center;
     box-sizing: border-box;
     width: 100%;
+    aspect-ratio: 1 / 1;
     min-height: var(--tng-datepicker-day-cell-size);
     border: 1px solid color-mix(in srgb, var(--tng-datepicker-border) 84%, var(--tng-datepicker-canvas) 16%);
     border-radius: 0.82rem;
@@ -292,6 +294,7 @@
   button[data-slot='datepicker-year'],
   :where([data-slot='datepicker-month']),
   :where([data-slot='datepicker-year']) {
+    aspect-ratio: 4 / 3;
     min-height: var(--tng-datepicker-picker-cell-size);
     font-size: 0.9rem;
   }

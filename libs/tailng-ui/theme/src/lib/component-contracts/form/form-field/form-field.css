@@ -1,19 +1,22 @@
 :where([data-slot='form-field']) {
   --tng-form-field-fg: var(--tng-semantic-foreground-primary);
+  --tng-form-field-label-gap: 0.5rem;
   --tng-form-field-frame-bg: var(--tng-semantic-background-surface);
   --tng-form-field-frame-border: var(--tng-semantic-border-strong);
   --tng-form-field-frame-focus-border: var(--tng-semantic-accent-brand, var(--tng-semantic-focus-ring));
   --tng-form-field-frame-focus-ring: var(--tng-semantic-focus-ring);
   --tng-form-field-frame-invalid-border: var(--tng-semantic-accent-danger);
   --tng-form-field-frame-radius: 0.65rem;
+  --tng-form-field-frame-min-height: 2.625rem;
   --tng-form-field-frame-px: 0.75rem;
-  --tng-form-field-frame-py: 0.55rem;
+  --tng-form-field-frame-py: 0.0rem;
   --tng-form-field-label-fg: var(--tng-semantic-foreground-secondary);
   --tng-form-field-adornment-fg: var(--tng-semantic-foreground-secondary);
   --tng-form-field-message-fg: var(--tng-semantic-foreground-muted);
   --tng-form-field-required-marker-fg: var(--tng-semantic-accent-danger);
   --tng-input-bg: transparent;
   --tng-input-border: transparent;
+  --tng-input-invalid-border: transparent;
   --tng-input-focus-ring: transparent;
   --tng-input-radius: 0;
   --tng-input-px: 0;
@@ -23,6 +26,28 @@
   --tng-autocomplete-surface: transparent;
   --tng-autocomplete-border-strong: transparent;
   --tng-autocomplete-shadow-focus: none;
+  --tng-datepicker-bg: transparent;
+  --tng-datepicker-border: transparent;
+  --tng-datepicker-focus-shadow: none;
+  --tng-datepicker-radius: 0;
+  --tng-datepicker-field-height: calc(var(--tng-form-field-frame-min-height, 2.625rem) - 2 * var(--tng-form-field-frame-py, 0.55rem));
+}
+
+:where([data-slot='form-field']) :where([data-slot='datepicker-input-shell']) {
+  border-width: 0;
+  box-shadow: none;
+}
+
+:where([data-slot='form-field']) :where([data-slot='datepicker-input']) {
+  padding-block: 0;
+  padding-inline: 0;
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+:where([data-slot='form-field']) :where([data-slot='datepicker-trigger']) {
+  border-inline-start-width: 0;
+  background: transparent;
 }
 
 :where([data-slot='form-field'][data-focused]) {
@@ -40,24 +65,42 @@
 
 :where([data-slot='form-field'][data-size='sm']) {
   --tng-form-field-gap: 0.35rem;
+  --tng-form-field-label-gap: 0.4rem;
   --tng-form-field-frame-min-height: 2.25rem;
   --tng-form-field-frame-px: 0.65rem;
   --tng-form-field-frame-py: 0.4rem;
   --tng-form-field-label-font-size: 0.8125rem;
   --tng-form-field-message-font-size: 0.75rem;
+  --tng-form-field-left-label-width: 8.5rem;
+  --tng-form-field-left-control-max-width: 18rem;
 }
 
 :where([data-slot='form-field'][data-size='lg']) {
   --tng-form-field-gap: 0.55rem;
+  --tng-form-field-label-gap: 0.625rem;
   --tng-form-field-frame-min-height: 3rem;
   --tng-form-field-frame-px: 1rem;
   --tng-form-field-frame-py: 0.7rem;
   --tng-form-field-label-font-size: 0.9375rem;
   --tng-form-field-message-font-size: 0.875rem;
+  --tng-form-field-left-label-width: 12rem;
+  --tng-form-field-left-control-max-width: 26rem;
 }
 
 :where([data-slot='form-field'][data-label-position='left']) {
   --tng-form-field-left-gap: 1rem;
+  --tng-form-field-left-label-width: 10rem;
+  --tng-form-field-left-control-max-width: 22rem;
+}
+
+:where([data-slot='form-field'][data-label-position='left'][data-size='sm']) {
+  --tng-form-field-left-label-width: 8.5rem;
+  --tng-form-field-left-control-max-width: 18rem;
+}
+
+:where([data-slot='form-field'][data-label-position='left'][data-size='lg']) {
+  --tng-form-field-left-label-width: 12rem;
+  --tng-form-field-left-control-max-width: 26rem;
 }
 
 :where([data-slot='form-field-hint'], [data-slot='form-field-error']) {

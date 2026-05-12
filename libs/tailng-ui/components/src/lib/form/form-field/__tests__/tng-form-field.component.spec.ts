@@ -74,6 +74,7 @@ class TestFormFieldControlDirective implements TngFormFieldControl {
       [hideHintWhenError]="hideHintWhenError"
       [disabled]="forcedDisabled"
       [invalid]="forcedInvalid"
+      [inlineWidth]="inlineWidth"
       [slot]="slot"
     >
       @if (showLabel) {
@@ -108,6 +109,7 @@ class NativeHostComponent {
   public hideHintWhenError = false;
   public forcedDisabled: boolean | null = null;
   public forcedInvalid: boolean | null = null;
+  public inlineWidth = false;
   public slot = { root: 'root-slot', label: 'label-slot', requiredMarker: 'marker-slot' };
   public showLabel = true;
   public showInput = true;
@@ -271,10 +273,22 @@ describe('tng-form-field', () => {
     expect(field.getAttribute('data-label-position')).toBe('above');
     expect(field.hasAttribute('data-appearance')).toBe(false);
     expect(field.hasAttribute('data-orientation')).toBe(false);
+    expect(field.hasAttribute('data-inline-width')).toBe(false);
     expect(field.className).toContain('tng-form-field');
     expect(field.className).toContain('root-slot');
     expect(fixture.nativeElement.textContent).toContain('Email');
     expect(fixture.nativeElement.textContent).toContain('Use your work email.');
+  });
+
+  it('sets data-inline-width when inlineWidth is enabled', async () => {
+    const fixture = await createNativeHost();
+    const field = fixture.debugElement.query(By.css('tng-form-field')).nativeElement as HTMLElement;
+    expect(field.hasAttribute('data-inline-width')).toBe(false);
+
+    fixture.componentInstance.inlineWidth = true;
+    await flush(fixture);
+
+    expect(field.hasAttribute('data-inline-width')).toBe(true);
   });
 
   it('associates a projected label with the native input and preserves external described-by ids', async () => {
