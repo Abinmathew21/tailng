@@ -12,7 +12,7 @@ import {
 } from '../../../../../../shared/util';
 import { stackblitzTailwindUrl, stackblitzVanillaUrl } from '../../select.util';
 
-interface WorkflowStageOption {
+type WorkflowStageOption = {
   readonly value: string;
   readonly label: string;
   readonly note: string;
@@ -307,7 +307,7 @@ export class SelectOverviewPageComponent implements OnDestroy {
     WORKFLOW_STAGE_OPTIONS.map((stage) => [stage.value, stage.label]),
   );
 
-  readonly codeBlockTheme = signal<'github-dark' | 'github-light'>(
+  public readonly codeBlockTheme = signal<'github-dark' | 'github-light'>(
     resolveDocsCodeBlockTheme(this.documentRef),
   );
 
@@ -336,9 +336,9 @@ export class SelectOverviewPageComponent implements OnDestroy {
     { value: 'css', label: 'CSS', language: 'css', title: 'component-select-overview-tailwind-example.component.css', code: TAILWIND_CSS_CODE },
   ]);
 
-  protected readonly getWorkflowStageValue = (stage: WorkflowStageOption) => stage.value;
-  protected readonly getWorkflowStageLabel = (stage: WorkflowStageOption) => stage.label;
-  protected readonly isWorkflowStageDisabled = (stage: WorkflowStageOption) => stage.disabled === true;
+  protected readonly getWorkflowStageValue = (stage: WorkflowStageOption): string => stage.value;
+  protected readonly getWorkflowStageLabel = (stage: WorkflowStageOption): string => stage.label;
+  protected readonly isWorkflowStageDisabled = (stage: WorkflowStageOption): boolean => stage.disabled === true;
 
   protected readonly overviewPlainSummary = computed(() => this.resolveWorkflowStageLabel(this.overviewPlainSelectedStage()));
   protected readonly overviewTailwindSummary = computed(() => this.resolveWorkflowStageLabel(this.overviewTailwindSelectedStage()));
@@ -369,7 +369,7 @@ export class SelectOverviewPageComponent implements OnDestroy {
     }
 
     if (Array.isArray(value)) {
-      const first = value[0];
+      const first: unknown = value[0];
       return typeof first === 'string' ? first : null;
     }
 
