@@ -22,9 +22,10 @@
       data-slot="form-field-control"
       [attr.class]="classList('tng-form-field__control', slotClass('control'))"
     >
-      <ng-content
-        select="input[tngInput], textarea[tngInput], textarea[tngTextarea], tng-input, tng-input-field, tng-textarea, tng-select, tng-multiselect, tng-autocomplete, tng-multi-autocomplete, tng-datepicker, tng-input-group, [tngInputGroup], [tngFormFieldControl]"
-      ></ng-content>
+      <!-- Explicit escape hatch first so dev-mode control-count logic stays accurate. -->
+      <ng-content select="[tngFormFieldControl]"></ng-content>
+      <!-- Default slot: anything else projected lands in the control area. -->
+      <ng-content></ng-content>
     </div>
 
     <ng-content select="[tngFormFieldSuffix]"></ng-content>

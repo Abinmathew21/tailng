@@ -2,14 +2,23 @@ import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   ContentChild,
+  ElementRef,
   HostBinding,
   TemplateRef,
+  booleanAttribute,
   computed,
+  forwardRef,
   inject,
   input,
 } from '@angular/core';
 
 import { TngListboxDirective, TngOptionDirective, type ListboxValue } from '@tailng-ui/primitives';
+
+import {
+  TNG_FORM_FIELD_CONTROL,
+  type TngFormFieldControl,
+} from '../form-field/tng-form-field.control';
+import { createFormFieldAdapter } from '../form-field/tng-form-field-adapter';
 
 export type TngListboxGetValue<O, V> = (option: O) => V;
 export type TngListboxGetLabel<O> = (option: O) => string;
@@ -51,14 +60,47 @@ function normalizeAttr(value: string | null | undefined): string | null {
   ],
   templateUrl: './tng-listbox.component.html',
   styleUrl: './tng-listbox.component.css',
+  providers: [
+    {
+      provide: TNG_FORM_FIELD_CONTROL,
+      useFactory: (cmp: TngListboxComponent) => cmp.formFieldControl,
+      deps: [forwardRef(() => TngListboxComponent)],
+    },
+  ],
 })
 export class TngListboxComponent<O = unknown, V = unknown> {
+  private readonly hostEl: HTMLElement = inject(ElementRef<HTMLElement>).nativeElement;
   protected readonly primitive = inject<TngListboxDirective<V>>(TngListboxDirective);
 
   public readonly options = input<readonly O[]>([]);
   public readonly ariaLabel = input<string | null>(null);
   public readonly ariaLabelledby = input<string | null>(null);
   public readonly ariaDescribedBy = input<string | null>(null);
+  /**
+   * Optional invalid/required hints for form-field integration. The listbox
+   * itself has no `required` semantics in ARIA, so these only influence the
+   * form-field's visual state and aria-invalid forwarding.
+   */
+  public readonly invalid = input<boolean, boolean | string>(false, {
+    transform: booleanAttribute,
+  });
+  public readonly required = input<boolean, boolean | string>(false, {
+    transform: booleanAttribute,
+  });
+
+  /**
+   * Form-field integration. The listbox host is itself focusable (tabindex
+   * binding on the component), so label `for=` would not work — the form-field
+   * routes labelling via `aria-labelledby` and describedby on the host.
+   */
+  public readonly formFieldControl: TngFormFieldControl = createFormFieldAdapter({
+    hostElement: this.hostEl,
+    controlKind: 'composite',
+    isDisabled: () => this.primitive.disabled() === true,
+    isFocused: () => false,
+    isInvalid: () => this.invalid(),
+    isRequired: () => this.required(),
+  });
 
   public readonly getOptionValue = input<TngListboxGetValue<O, V>>(
     ((option: any) =>

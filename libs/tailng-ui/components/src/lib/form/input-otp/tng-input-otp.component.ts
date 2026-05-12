@@ -27,6 +27,12 @@ import {
   TngInputOtp as TngInputOtpPrimitive,
 } from '@tailng-ui/primitives';
 
+import {
+  TNG_FORM_FIELD_CONTROL,
+  type TngFormFieldControl,
+} from '../form-field/tng-form-field.control';
+import { createFormFieldAdapter } from '../form-field/tng-form-field-adapter';
+
 export type TngInputOtpType = 'numeric' | 'alphanumeric' | 'custom';
 export type TngInputOtpInputMode = 'numeric' | 'text' | 'tel' | 'decimal';
 type TngInputOtpPatternInput = string | RegExp | readonly RegExp[] | null | undefined;
@@ -98,11 +104,17 @@ function normalizeOtpPatternInput(value: TngInputOtpPatternInput): readonly RegE
       useExisting: forwardRef(() => TngInputOtpComponent),
       multi: true,
     },
+    {
+      provide: TNG_FORM_FIELD_CONTROL,
+      useFactory: (cmp: TngInputOtpComponent) => cmp.formFieldControl,
+      deps: [forwardRef(() => TngInputOtpComponent)],
+    },
   ],
 })
 export class TngInputOtpComponent implements AfterViewInit, ControlValueAccessor, OnDestroy {
   private readonly hostRef = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly renderer = inject(Renderer2);
+  private readonly hostEl: HTMLElement = this.hostRef.nativeElement;
 
   private readonly generatedId = `tng-input-otp-${++tngInputOtpInstanceCounter}`;
   private resetUnlisten: (() => void) | null = null;
@@ -167,6 +179,22 @@ export class TngInputOtpComponent implements AfterViewInit, ControlValueAccessor
 
   public readonly valueChange = output<string>();
   public readonly complete = output<string>();
+
+  /**
+   * Form-field integration. The OTP root carries aria-labelledby/describedby
+   * (already bound in the template), so the form-field's adapter writes to
+   * the host element. The focusable element returned is the host root — the
+   * OTP itself manages which slot input takes focus.
+   */
+  public readonly formFieldControl: TngFormFieldControl = createFormFieldAdapter({
+    hostElement: this.hostEl,
+    focusableSelector: '[tngInputOtp]',
+    controlKind: 'composite',
+    isDisabled: () => this.disabledInput() || this.formsDisabled(),
+    isFocused: () => this.focusedState(),
+    isInvalid: () => this.invalid(),
+    isRequired: () => this.required(),
+  });
 
   protected readonly disabled = computed(() => this.disabledInput() || this.formsDisabled());
   protected readonly focused = computed(() => this.focusedState());

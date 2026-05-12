@@ -12,6 +12,7 @@ export * from './chips/tng-chips.component';
 export * from './datepicker/tng-datepicker.component';
 export * from './form-field/tng-form-field.component';
 export * from './form-field/tng-form-field-adornment';
+export * from './form-field/tng-form-field-adapter';
 export * from './form-field/tng-form-field.control';
 export * from './form-field/tng-form-field-message';
 export * from './input-field/tng-input-field.component';

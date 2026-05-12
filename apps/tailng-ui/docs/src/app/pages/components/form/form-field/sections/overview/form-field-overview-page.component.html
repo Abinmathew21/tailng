@@ -22,7 +22,27 @@
         <li>Connects a projected <code>label[tngLabel]</code> to the compatible control.</li>
         <li>Collects visible <code>tngHint</code> and <code>tngError</code> ids for <code>aria-describedby</code>.</li>
         <li>Reflects focused, invalid, disabled, required, size, and label position state with data attributes.</li>
+        <li>Auto-adapts visual chrome and layout to the projected control (text input, switch, slider, listbox, datepicker …) — see <code>appearance</code> and <code>controlType</code>.</li>
       </ul>
+    </section>
+
+    <section id="supported-controls" class="docs-section-anchor">
+      <h3>Supported controls</h3>
+      <p>
+        Any control projected as a child works. TailNG's text-shaped controls
+        (<code>tng-input</code>, <code>tng-textarea</code>, <code>tng-select</code>,
+        <code>tng-multiselect</code>, <code>tng-autocomplete</code>, <code>tng-multi-autocomplete</code>,
+        <code>tng-input-field</code>, <code>tng-datepicker</code>) sit inside the standard outlined frame.
+        Inline-shaped controls (<code>tng-switch</code>, <code>tng-toggle</code>, <code>tng-checkbox</code>)
+        switch to <code>plain</code> appearance with the label trailing on the same row.
+        Composite controls (<code>tng-radio</code>, <code>tng-slider</code>, <code>tng-toggle-group</code>,
+        <code>tng-listbox</code>, <code>tng-input-otp</code>, <code>tng-month-daypicker</code>,
+        <code>tng-yearpicker</code>) keep their own chrome inside a plain frame.
+      </p>
+      <p>
+        Auto-detection picks sensible defaults; set <code>appearance</code> or <code>controlType</code>
+        on <code>&lt;tng-form-field&gt;</code> to override.
+      </p>
     </section>
 
     <section id="basic-field" class="docs-section-anchor">

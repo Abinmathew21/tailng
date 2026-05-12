@@ -1,6 +1,7 @@
 :where([data-slot='form-field']) {
   --tng-form-field-fg: var(--tng-semantic-foreground-primary);
   --tng-form-field-label-gap: 0.5rem;
+  --tng-form-field-inline-gap: 0.5rem;
   --tng-form-field-frame-bg: var(--tng-semantic-background-surface);
   --tng-form-field-frame-border: var(--tng-semantic-border-strong);
   --tng-form-field-frame-focus-border: var(--tng-semantic-accent-brand, var(--tng-semantic-focus-ring));
@@ -33,21 +34,43 @@
   --tng-datepicker-field-height: calc(var(--tng-form-field-frame-min-height, 2.625rem) - 2 * var(--tng-form-field-frame-py, 0.55rem));
 }
 
-:where([data-slot='form-field']) :where([data-slot='datepicker-input-shell']) {
+:where([data-slot='form-field'][data-appearance='outlined']) :where([data-slot='datepicker-input-shell']) {
   border-width: 0;
   box-shadow: none;
 }
 
-:where([data-slot='form-field']) :where([data-slot='datepicker-input']) {
+:where([data-slot='form-field'][data-appearance='outlined']) :where([data-slot='datepicker-input']) {
   padding-block: 0;
   padding-inline: 0;
   font-size: inherit;
   font-weight: inherit;
 }
 
-:where([data-slot='form-field']) :where([data-slot='datepicker-trigger']) {
+:where([data-slot='form-field'][data-appearance='outlined']) :where([data-slot='datepicker-trigger']) {
   border-inline-start-width: 0;
   background: transparent;
+}
+
+/* When the form-field uses `plain` or `none` appearance the wrapped control
+ * keeps its own chrome — restore the variables we override above so the inner
+ * input / select / datepicker / etc. paint their normal borders. */
+:where([data-slot='form-field']:is([data-appearance='plain'], [data-appearance='none'])) {
+  --tng-input-bg: revert-layer;
+  --tng-input-border: revert-layer;
+  --tng-input-invalid-border: revert-layer;
+  --tng-input-focus-ring: revert-layer;
+  --tng-input-radius: revert-layer;
+  --tng-input-px: revert-layer;
+  --tng-select-bg: revert-layer;
+  --tng-select-border-strong: revert-layer;
+  --tng-select-shadow-focus: revert-layer;
+  --tng-autocomplete-surface: revert-layer;
+  --tng-autocomplete-border-strong: revert-layer;
+  --tng-autocomplete-shadow-focus: revert-layer;
+  --tng-datepicker-bg: revert-layer;
+  --tng-datepicker-border: revert-layer;
+  --tng-datepicker-focus-shadow: revert-layer;
+  --tng-datepicker-radius: revert-layer;
 }
 
 :where([data-slot='form-field'][data-focused]) {

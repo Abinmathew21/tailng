@@ -22,8 +22,16 @@ export type TngFormFieldSlot = (typeof tngFormFieldSlots)[keyof typeof tngFormFi
 export const tngFormFieldHostAttrs = {
   labelPosition: 'data-label-position',
   size: 'data-size',
+  appearance: 'data-appearance',
+  controlType: 'data-control-type',
   inlineWidth: 'data-inline-width',
 } as const;
+
+export const tngFormFieldAppearances = ['outlined', 'plain', 'none'] as const;
+export type TngFormFieldAppearance = (typeof tngFormFieldAppearances)[number];
+
+export const tngFormFieldControlTypes = ['text', 'inline', 'group', 'composite'] as const;
+export type TngFormFieldControlType = (typeof tngFormFieldControlTypes)[number];
 
 export const tngFormFieldStates = {
   focused: 'data-focused',
@@ -56,6 +64,7 @@ export const tngFormFieldCssVars = {
   adornmentFg: '--tng-form-field-adornment-fg',
   adornmentFontSize: '--tng-form-field-adornment-font-size',
   adornmentGap: '--tng-form-field-adornment-gap',
+  inlineGap: '--tng-form-field-inline-gap',
   messageGap: '--tng-form-field-message-gap',
   messageFg: '--tng-form-field-message-fg',
   messageFontSize: '--tng-form-field-message-font-size',

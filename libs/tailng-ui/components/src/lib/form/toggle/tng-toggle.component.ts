@@ -1,6 +1,7 @@
 import {
   booleanAttribute,
   Component,
+  ElementRef,
   OnInit,
   computed,
   forwardRef,
@@ -15,6 +16,12 @@ import {
   TngToggle as TngTogglePrimitive,
   TngToggleGroup as TngToggleGroupPrimitive,
 } from '@tailng-ui/primitives';
+
+import {
+  TNG_FORM_FIELD_CONTROL,
+  type TngFormFieldControl,
+} from '../form-field/tng-form-field.control';
+import { createFormFieldAdapter } from '../form-field/tng-form-field-adapter';
 
 export function toggleTngToggleState(pressed: boolean): boolean {
   return !pressed;
@@ -66,9 +73,15 @@ function injectParentToggleGroup(): TngToggleGroupPrimitive | null {
       useExisting: forwardRef(() => TngToggleComponent),
       multi: true,
     },
+    {
+      provide: TNG_FORM_FIELD_CONTROL,
+      useFactory: (cmp: TngToggleComponent) => cmp.formFieldControl,
+      deps: [forwardRef(() => TngToggleComponent)],
+    },
   ],
 })
 export class TngToggleComponent implements ControlValueAccessor, OnInit {
+  private readonly hostEl: HTMLElement = inject(ElementRef<HTMLElement>).nativeElement;
   private readonly group = inject(TngToggleGroupPrimitive, {
     optional: true,
     skipSelf: true,
@@ -95,10 +108,32 @@ export class TngToggleComponent implements ControlValueAccessor, OnInit {
   public readonly disabled = input<boolean, boolean | string>(false, {
     transform: booleanAttribute,
   });
+  public readonly invalid = input<boolean, boolean | string>(false, {
+    transform: booleanAttribute,
+  });
+  public readonly required = input<boolean, boolean | string>(false, {
+    transform: booleanAttribute,
+  });
   public readonly pressedLabel = input<string>('Enabled');
   public readonly unpressedLabel = input<string>('Disabled');
 
   public readonly pressedChange = output<boolean>();
+
+  /**
+   * Form-field integration. Toggle focuses on `<button tngToggle>`; label
+   * `for=` and aria-describedby route there. When the toggle is inside a
+   * `<tng-toggle-group>`, the group typically owns labelling and the toggle's
+   * own form-field registration is rarely used.
+   */
+  public readonly formFieldControl: TngFormFieldControl = createFormFieldAdapter({
+    hostElement: this.hostEl,
+    focusableSelector: 'button[tngToggle]',
+    controlKind: 'inline',
+    isDisabled: () => this.resolvedDisabled(),
+    isFocused: () => false,
+    isInvalid: () => this.invalid(),
+    isRequired: () => this.required(),
+  });
 
   protected readonly resolvedDisabled = computed<boolean>(() => {
     const groupDisabled = this.group?.isGroupDisabled() === true && this.groupManagesState();

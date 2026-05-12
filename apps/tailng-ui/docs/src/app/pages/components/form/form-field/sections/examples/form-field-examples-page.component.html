@@ -232,6 +232,99 @@
               />
               <p tngHint>Datepicker remains a single date field with calendar affordances.</p>
             </tng-form-field>
+
+            <tng-form-field appearance="outlined" controlType="text">
+              <tng-label>Switch</tng-label>
+              <tng-switch ariaLabel="Email notifications" />
+              <p tngHint>Switch with a forced outlined frame and stacked label.</p>
+            </tng-form-field>
+
+            <tng-form-field appearance="outlined" controlType="text">
+              <tng-label>Toggle</tng-label>
+              <tng-toggle pressedLabel="On" unpressedLabel="Off" />
+              <p tngHint>Toggle with a forced outlined frame and stacked label.</p>
+            </tng-form-field>
+
+            <tng-form-field appearance="outlined" controlType="text">
+              <tng-label>Radio</tng-label>
+              <tng-radio name="plan" value="pro">Pro</tng-radio>
+              <p tngHint>Radio with a forced outlined frame and stacked label.</p>
+            </tng-form-field>
+
+            <tng-form-field appearance="outlined">
+              <tng-label>Slider</tng-label>
+              <tng-slider [min]="0" [max]="100" [value]="60" />
+              <p tngHint>Slider drawn inside an explicitly outlined frame.</p>
+            </tng-form-field>
+
+            <tng-form-field appearance="outlined">
+              <tng-label>Input OTP</tng-label>
+              <tng-input-otp [length]="6" />
+              <p tngHint>Input OTP drawn inside an explicitly outlined frame.</p>
+            </tng-form-field>
+
+            <tng-form-field appearance="outlined">
+              <tng-label>Toggle group</tng-label>
+              <tng-toggle-group selectionMode="single" ariaLabel="Editor density" [value]="'comfortable'">
+                <tng-toggle [value]="'compact'" pressedLabel="Compact density" unpressedLabel="Compact density">
+                  Compact
+                </tng-toggle>
+                <tng-toggle [value]="'comfortable'" pressedLabel="Comfortable density" unpressedLabel="Comfortable density">
+                  Comfortable
+                </tng-toggle>
+                <tng-toggle [value]="'spacious'" pressedLabel="Spacious density" unpressedLabel="Spacious density">
+                  Spacious
+                </tng-toggle>
+              </tng-toggle-group>
+              <p tngHint>Toggle group inside an explicitly outlined frame.</p>
+            </tng-form-field>
+
+            <tng-form-field appearance="outlined">
+              <tng-label>Button toggle group</tng-label>
+              <tng-button-toggle-group ariaLabel="Density" [value]="'comfortable'">
+                <tng-button-toggle [tngButtonToggleValue]="'compact'">Compact</tng-button-toggle>
+                <tng-button-toggle [tngButtonToggleValue]="'comfortable'">Comfortable</tng-button-toggle>
+                <tng-button-toggle [tngButtonToggleValue]="'spacious'">Spacious</tng-button-toggle>
+              </tng-button-toggle-group>
+              <p tngHint>Button toggle group inside an explicitly outlined frame.</p>
+            </tng-form-field>
+
+            <tng-form-field appearance="outlined" controlType="text">
+              <tng-label>Checkbox</tng-label>
+              <tng-checkbox name="notifications">Send weekly digest</tng-checkbox>
+              <p tngHint>Checkbox with a forced outlined frame and stacked label.</p>
+            </tng-form-field>
+
+            <tng-form-field appearance="outlined">
+              <tng-label>Listbox</tng-label>
+              <tng-listbox
+                [options]="channelOptions"
+                [getOptionValue]="getOptionValue"
+                [getOptionLabel]="getOptionLabel"
+                ariaLabel="Release channels"
+              />
+              <p tngHint>Listbox inside an explicitly outlined frame.</p>
+            </tng-form-field>
+
+            <tng-form-field appearance="outlined">
+              <tng-label forId="docs-form-field-supported-month-day">Month/Day picker</tng-label>
+              <tng-month-daypicker
+                id="docs-form-field-supported-month-day"
+                [defaultValue]="{ month: 5, day: 18 }"
+                placeholder="Pick a month and day"
+              />
+              <p tngHint>Month/Day picker inside an explicitly outlined frame.</p>
+            </tng-form-field>
+
+            <tng-form-field appearance="outlined">
+              <tng-label forId="docs-form-field-supported-year">Year picker</tng-label>
+              <tng-yearpicker
+                id="docs-form-field-supported-year"
+                [defaultValue]="2026"
+                placeholder="Pick release year"
+              />
+              <p tngHint>Year picker inside an explicitly outlined frame.</p>
+            </tng-form-field>
           </div>
         </ng-template>
 
@@ -337,6 +430,99 @@
                 ariaLabel="Release date"
               />
               <p tngHint>Datepicker remains a single date field with calendar affordances.</p>
+            </tng-form-field>
+
+            <tng-form-field appearance="outlined" controlType="text">
+              <tng-label>Switch</tng-label>
+              <tng-switch ariaLabel="Email notifications" />
+              <p tngHint>Switch with a forced outlined frame and stacked label.</p>
+            </tng-form-field>
+
+            <tng-form-field appearance="outlined" controlType="text">
+              <tng-label>Toggle</tng-label>
+              <tng-toggle pressedLabel="On" unpressedLabel="Off" />
+              <p tngHint>Toggle with a forced outlined frame and stacked label.</p>
+            </tng-form-field>
+
+            <tng-form-field appearance="outlined" controlType="text">
+              <tng-label>Radio</tng-label>
+              <tng-radio name="plan" value="pro">Pro</tng-radio>
+              <p tngHint>Radio with a forced outlined frame and stacked label.</p>
+            </tng-form-field>
+
+            <tng-form-field appearance="outlined">
+              <tng-label>Slider</tng-label>
+              <tng-slider [min]="0" [max]="100" [value]="60" />
+              <p tngHint>Slider drawn inside an explicitly outlined frame.</p>
+            </tng-form-field>
+
+            <tng-form-field appearance="outlined">
+              <tng-label>Input OTP</tng-label>
+              <tng-input-otp [length]="6" />
+              <p tngHint>Input OTP drawn inside an explicitly outlined frame.</p>
+            </tng-form-field>
+
+            <tng-form-field appearance="outlined">
+              <tng-label>Toggle group</tng-label>
+              <tng-toggle-group selectionMode="single" ariaLabel="Editor density" [value]="'comfortable'">
+                <tng-toggle [value]="'compact'" pressedLabel="Compact density" unpressedLabel="Compact density">
+                  Compact
+                </tng-toggle>
+                <tng-toggle [value]="'comfortable'" pressedLabel="Comfortable density" unpressedLabel="Comfortable density">
+                  Comfortable
+                </tng-toggle>
+                <tng-toggle [value]="'spacious'" pressedLabel="Spacious density" unpressedLabel="Spacious density">
+                  Spacious
+                </tng-toggle>
+              </tng-toggle-group>
+              <p tngHint>Toggle group inside an explicitly outlined frame.</p>
+            </tng-form-field>
+
+            <tng-form-field appearance="outlined">
+              <tng-label>Button toggle group</tng-label>
+              <tng-button-toggle-group ariaLabel="Density" [value]="'comfortable'">
+                <tng-button-toggle [tngButtonToggleValue]="'compact'">Compact</tng-button-toggle>
+                <tng-button-toggle [tngButtonToggleValue]="'comfortable'">Comfortable</tng-button-toggle>
+                <tng-button-toggle [tngButtonToggleValue]="'spacious'">Spacious</tng-button-toggle>
+              </tng-button-toggle-group>
+              <p tngHint>Button toggle group inside an explicitly outlined frame.</p>
+            </tng-form-field>
+
+            <tng-form-field appearance="outlined" controlType="text">
+              <tng-label>Checkbox</tng-label>
+              <tng-checkbox name="notifications">Send weekly digest</tng-checkbox>
+              <p tngHint>Checkbox with a forced outlined frame and stacked label.</p>
+            </tng-form-field>
+
+            <tng-form-field appearance="outlined">
+              <tng-label>Listbox</tng-label>
+              <tng-listbox
+                [options]="channelOptions"
+                [getOptionValue]="getOptionValue"
+                [getOptionLabel]="getOptionLabel"
+                ariaLabel="Release channels"
+              />
+              <p tngHint>Listbox inside an explicitly outlined frame.</p>
+            </tng-form-field>
+
+            <tng-form-field appearance="outlined">
+              <tng-label forId="docs-form-field-supported-tw-month-day">Month/Day picker</tng-label>
+              <tng-month-daypicker
+                id="docs-form-field-supported-tw-month-day"
+                [defaultValue]="{ month: 5, day: 18 }"
+                placeholder="Pick a month and day"
+              />
+              <p tngHint>Month/Day picker inside an explicitly outlined frame.</p>
+            </tng-form-field>
+
+            <tng-form-field appearance="outlined">
+              <tng-label forId="docs-form-field-supported-tw-year">Year picker</tng-label>
+              <tng-yearpicker
+                id="docs-form-field-supported-tw-year"
+                [defaultValue]="2026"
+                placeholder="Pick release year"
+              />
+              <p tngHint>Year picker inside an explicitly outlined frame.</p>
             </tng-form-field>
           </div>
         </ng-template>
@@ -500,6 +686,99 @@
           />
           <p tngHint>Datepicker remains a single date field with calendar affordances.</p>
         </tng-form-field>
+
+        <tng-form-field [labelPosition]="labelPosition" appearance="outlined" controlType="text">
+          <tng-label>Switch</tng-label>
+          <tng-switch ariaLabel="Email notifications" />
+          <p tngHint>Switch with a forced outlined frame and stacked label.</p>
+        </tng-form-field>
+
+        <tng-form-field [labelPosition]="labelPosition" appearance="outlined" controlType="text">
+          <tng-label>Toggle</tng-label>
+          <tng-toggle pressedLabel="On" unpressedLabel="Off" />
+          <p tngHint>Toggle with a forced outlined frame and stacked label.</p>
+        </tng-form-field>
+
+        <tng-form-field [labelPosition]="labelPosition" appearance="outlined" controlType="text">
+          <tng-label>Radio</tng-label>
+          <tng-radio name="plan" value="pro">Pro</tng-radio>
+          <p tngHint>Radio with a forced outlined frame and stacked label.</p>
+        </tng-form-field>
+
+        <tng-form-field [labelPosition]="labelPosition" appearance="outlined">
+          <tng-label>Slider</tng-label>
+          <tng-slider [min]="0" [max]="100" [value]="60" />
+          <p tngHint>Slider drawn inside an explicitly outlined frame.</p>
+        </tng-form-field>
+
+        <tng-form-field [labelPosition]="labelPosition" appearance="outlined">
+          <tng-label>Input OTP</tng-label>
+          <tng-input-otp [length]="6" />
+          <p tngHint>Input OTP drawn inside an explicitly outlined frame.</p>
+        </tng-form-field>
+
+        <tng-form-field [labelPosition]="labelPosition" appearance="outlined">
+          <tng-label>Toggle group</tng-label>
+          <tng-toggle-group selectionMode="single" ariaLabel="Editor density" [value]="'comfortable'">
+            <tng-toggle [value]="'compact'" pressedLabel="Compact density" unpressedLabel="Compact density">
+              Compact
+            </tng-toggle>
+            <tng-toggle [value]="'comfortable'" pressedLabel="Comfortable density" unpressedLabel="Comfortable density">
+              Comfortable
+            </tng-toggle>
+            <tng-toggle [value]="'spacious'" pressedLabel="Spacious density" unpressedLabel="Spacious density">
+              Spacious
+            </tng-toggle>
+          </tng-toggle-group>
+          <p tngHint>Toggle group inside an explicitly outlined frame.</p>
+        </tng-form-field>
+
+        <tng-form-field [labelPosition]="labelPosition" appearance="outlined">
+          <tng-label>Button toggle group</tng-label>
+          <tng-button-toggle-group ariaLabel="Density" [value]="'comfortable'">
+            <tng-button-toggle [tngButtonToggleValue]="'compact'">Compact</tng-button-toggle>
+            <tng-button-toggle [tngButtonToggleValue]="'comfortable'">Comfortable</tng-button-toggle>
+            <tng-button-toggle [tngButtonToggleValue]="'spacious'">Spacious</tng-button-toggle>
+          </tng-button-toggle-group>
+          <p tngHint>Button toggle group inside an explicitly outlined frame.</p>
+        </tng-form-field>
+
+        <tng-form-field [labelPosition]="labelPosition" appearance="outlined" controlType="text">
+          <tng-label>Checkbox</tng-label>
+          <tng-checkbox name="notifications">Send weekly digest</tng-checkbox>
+          <p tngHint>Checkbox with a forced outlined frame and stacked label.</p>
+        </tng-form-field>
+
+        <tng-form-field [labelPosition]="labelPosition" appearance="outlined">
+          <tng-label>Listbox</tng-label>
+          <tng-listbox
+            [options]="channelOptions"
+            [getOptionValue]="getOptionValue"
+            [getOptionLabel]="getOptionLabel"
+            ariaLabel="Release channels"
+          />
+          <p tngHint>Listbox inside an explicitly outlined frame.</p>
+        </tng-form-field>
+
+        <tng-form-field [labelPosition]="labelPosition" appearance="outlined">
+          <tng-label [forId]="idPrefix + '-month-day'">Month/Day picker</tng-label>
+          <tng-month-daypicker
+            [id]="idPrefix + '-month-day'"
+            [defaultValue]="{ month: 5, day: 18 }"
+            placeholder="Pick a month and day"
+          />
+          <p tngHint>Month/Day picker inside an explicitly outlined frame.</p>
+        </tng-form-field>
+
+        <tng-form-field [labelPosition]="labelPosition" appearance="outlined">
+          <tng-label [forId]="idPrefix + '-year'">Year picker</tng-label>
+          <tng-yearpicker
+            [id]="idPrefix + '-year'"
+            [defaultValue]="2026"
+            placeholder="Pick release year"
+          />
+          <p tngHint>Year picker inside an explicitly outlined frame.</p>
+        </tng-form-field>
       </div>
     </ng-template>
 
@@ -608,6 +887,55 @@
           </tng-form-field>
         </ng-template>
       </app-docs-example-tabs-section>
+    </section>
+
+    <section id="inline-controls" class="docs-section-anchor input-examples-block">
+      <h3>Inline controls</h3>
+      <p>
+        Switch, toggle, and single checkbox auto-adopt the inline-trailing layout:
+        the label sits to the right of the control on the same row, no outlined frame.
+      </p>
+      <div class="form-field-doc-preview" style="display: grid; gap: 1.25rem; max-width: 24rem;">
+        <tng-form-field>
+          <tng-label>Email notifications</tng-label>
+          <tng-switch ariaLabel="Email notifications" />
+          <p tngHint>We'll occasionally send product updates.</p>
+        </tng-form-field>
+
+        <tng-form-field>
+          <tng-label>Bold</tng-label>
+          <tng-toggle pressedLabel="On" unpressedLabel="Off" />
+          <p tngHint>Toggle bold formatting.</p>
+        </tng-form-field>
+      </div>
+    </section>
+
+    <section id="composite-controls" class="docs-section-anchor input-examples-block">
+      <h3>Composite controls</h3>
+      <p>
+        Slider, listbox, input-otp, toggle-group, month-day picker, year picker, and
+        single radio all sit inside a plain frame — the control draws its own chrome
+        while the form-field owns label and messages.
+      </p>
+      <div class="form-field-doc-preview" style="display: grid; gap: 1.25rem; max-width: 28rem;">
+        <tng-form-field>
+          <tng-label>Volume</tng-label>
+          <tng-slider [min]="0" [max]="100" [value]="60" />
+          <p tngHint>0–100, in steps of 1.</p>
+        </tng-form-field>
+
+        <tng-form-field>
+          <tng-label>Verification code</tng-label>
+          <tng-input-otp [length]="6" />
+          <p tngHint>Enter the six-digit code from your email.</p>
+        </tng-form-field>
+
+        <tng-form-field>
+          <tng-label>Plan</tng-label>
+          <tng-radio name="plan" value="pro">Pro</tng-radio>
+          <p tngHint>One radio per option.</p>
+        </tng-form-field>
+      </div>
     </section>
   </div>
 </article>

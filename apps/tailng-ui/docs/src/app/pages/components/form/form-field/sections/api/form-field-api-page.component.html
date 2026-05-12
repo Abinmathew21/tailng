@@ -13,6 +13,8 @@
         <tbody>
           <tr><td><code>labelPosition</code></td><td><code>'outline' | 'above' | 'left'</code></td><td>Places the label on the top border, above the border, or left of the border. Defaults to <code>above</code>.</td></tr>
           <tr><td><code>size</code></td><td><code>'sm' | 'md' | 'lg'</code></td><td>Label and message density.</td></tr>
+          <tr><td><code>appearance</code></td><td><code>'outlined' | 'plain' | 'none'</code></td><td>Visual chrome around the control. <code>outlined</code> paints the standard text-field border (default for inputs). <code>plain</code> strips the border / padding for controls that draw their own chrome (switch, slider, listbox, …). <code>none</code> strips the message container chrome as well. Auto-detected from the projected control; explicit value wins.</td></tr>
+          <tr><td><code>controlType</code></td><td><code>'auto' | 'text' | 'inline' | 'group' | 'composite'</code></td><td>Layout hint. <code>inline</code> puts the label to the right of the control on the same row — the default for switch/toggle/single-checkbox. <code>auto</code> derives the value from the projected control's tag.</td></tr>
           <tr><td><code>requiredMarker</code></td><td><code>boolean</code></td><td>Shows the marker when the control is required.</td></tr>
           <tr><td><code>hideHintWhenError</code></td><td><code>boolean</code></td><td>Hides hints when visible errors are present.</td></tr>
           <tr><td><code>inlineWidth</code></td><td><code>boolean</code></td><td>When <code>true</code>, the field uses intrinsic width instead of stretching to the container. Defaults to <code>false</code> (full width).</td></tr>
@@ -44,6 +46,26 @@
           <tr><td><code>tngFormFieldSuffix</code></td><td>Directive</td><td>Projects content after the control slot.</td></tr>
         </tbody>
       </table>
+    </section>
+
+    <section id="supported-controls" class="docs-section-anchor">
+      <h3>Supported controls</h3>
+      <p>
+        The form-field projects any control via a default <code>&lt;ng-content&gt;</code> slot —
+        you don't need to register a selector. Out of the box, the following TailNG controls
+        register themselves through <code>TNG_FORM_FIELD_CONTROL</code> so the form-field can
+        route label, <code>aria-describedby</code>, and state correctly:
+      </p>
+      <ul>
+        <li><code>tng-input</code> / <code>tng-textarea</code> / <code>tng-input-field</code> / <code>tng-select</code> / <code>tng-multiselect</code> / <code>tng-autocomplete</code> / <code>tng-multi-autocomplete</code> / <code>tng-datepicker</code> — text-shaped, outlined frame.</li>
+        <li><code>tng-switch</code> / <code>tng-toggle</code> / <code>tng-checkbox</code> — inline-trailing label, plain frame.</li>
+        <li><code>tng-radio</code> / <code>tng-slider</code> / <code>tng-toggle-group</code> / <code>tng-listbox</code> / <code>tng-input-otp</code> / <code>tng-month-daypicker</code> / <code>tng-yearpicker</code> — plain frame, label above.</li>
+      </ul>
+      <p>
+        Anything else projected as a child works too: the form-field falls back to the
+        default content slot and visual styling. Use <code>appearance</code> and
+        <code>controlType</code> to pin the layout when auto-detection isn't what you want.
+      </p>
     </section>
 
     <section id="custom-control-contract" class="docs-section-anchor">

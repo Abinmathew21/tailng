@@ -44,6 +44,12 @@
   align-items: center;
   gap: var(--tng-form-field-adornment-gap, 0.5rem);
   min-width: 0;
+}
+
+/* ---------------------------------------------------------------------------
+ * Appearance: outlined (default) — paints the standard text-input frame.
+ * ------------------------------------------------------------------------- */
+:host([data-appearance='outlined']) .tng-form-field__control-row {
   min-height: var(--tng-form-field-frame-min-height, 2.625rem);
   padding: var(--tng-form-field-frame-py, 0.55rem) var(--tng-form-field-frame-px, 0.75rem);
   border: 1px solid var(--tng-form-field-frame-border, var(--tng-semantic-border-strong, currentColor));
@@ -55,21 +61,21 @@
   gap: 0.25rem;
 }
 
-:host([data-label-position='outline']) .tng-form-field__frame {
+:host([data-label-position='outline'][data-appearance='outlined']) .tng-form-field__frame {
   padding: 0 var(--tng-form-field-frame-px, 0.75rem) var(--tng-form-field-frame-py, 0.55rem);
   border: 1px solid var(--tng-form-field-frame-border, var(--tng-semantic-border-strong, currentColor));
   border-radius: var(--tng-form-field-frame-radius, 0.65rem);
   background: var(--tng-form-field-frame-bg, var(--tng-semantic-background-surface, Canvas));
 }
 
-:host([data-label-position='outline']) .tng-form-field__label {
+:host([data-label-position='outline'][data-appearance='outlined']) .tng-form-field__label {
   width: max-content;
   max-width: calc(100% - 1.5rem);
   margin-inline-start: var(--tng-form-field-outline-label-inset, 0.75rem);
   padding-inline: var(--tng-form-field-outline-label-px, 0.25rem);
 }
 
-:host([data-label-position='outline']) .tng-form-field__control-row {
+:host([data-label-position='outline'][data-appearance='outlined']) .tng-form-field__control-row {
   min-height: calc(var(--tng-form-field-frame-min-height, 2.625rem) - var(--tng-form-field-frame-py));
   padding: 0;
   border: 0;
@@ -108,13 +114,13 @@
   grid-column: 2;
 }
 
-:host([data-focused]:not([data-label-position='outline'])) .tng-form-field__control-row {
+:host([data-focused][data-appearance='outlined']:not([data-label-position='outline'])) .tng-form-field__control-row {
   border-color: var(--tng-form-field-frame-focus-border, var(--tng-semantic-accent-brand, currentColor));
   box-shadow: 0 0 0 3px var(--tng-form-field-frame-focus-ring, var(--tng-semantic-focus-ring, transparent));
 }
 
 /* Outlined fieldset: focus rides on the border (no outer halo); pad in by 1px so 1px→2px border does not shift content. */
-:host([data-focused][data-label-position='outline']) .tng-form-field__frame {
+:host([data-focused][data-appearance='outlined'][data-label-position='outline']) .tng-form-field__frame {
   border-width: 2px;
   border-color: var(--tng-form-field-frame-focus-border, var(--tng-semantic-accent-brand, currentColor));
   box-shadow: none;
@@ -122,9 +128,62 @@
   padding-block-end: calc(var(--tng-form-field-frame-py, 0.55rem) - 1px);
 }
 
-:host([data-invalid]:not([data-label-position='outline'])) .tng-form-field__control-row,
-:host([data-invalid][data-label-position='outline']) .tng-form-field__frame {
+:host([data-invalid][data-appearance='outlined']:not([data-label-position='outline'])) .tng-form-field__control-row,
+:host([data-invalid][data-appearance='outlined'][data-label-position='outline']) .tng-form-field__frame {
   border-color: var(--tng-form-field-frame-invalid-border);
+}
+
+/* ---------------------------------------------------------------------------
+ * Appearance: outlined — when the projected control is a plain-by-default
+ * kind (switch, toggle, checkbox, radio, slider, listbox, OTP, toggle-group,
+ * month-daypicker, yearpicker) and the author has explicitly forced
+ * `appearance="outlined"`, drop the frame's surface background so the control
+ * sits inside a *bordered container* rather than on top of a second filled
+ * surface. The border / padding / radius are kept; only the fill is removed.
+ * ------------------------------------------------------------------------- */
+:host(
+    [data-appearance='outlined'][data-control-kind='inline']:not([data-label-position='outline'])
+  )
+  .tng-form-field__control-row,
+:host(
+    [data-appearance='outlined'][data-control-kind='group']:not([data-label-position='outline'])
+  )
+  .tng-form-field__control-row,
+:host(
+    [data-appearance='outlined'][data-control-kind='composite']:not([data-label-position='outline'])
+  )
+  .tng-form-field__control-row {
+  background: transparent;
+}
+
+:host([data-appearance='outlined'][data-label-position='outline'][data-control-kind='inline']) .tng-form-field__frame,
+:host([data-appearance='outlined'][data-label-position='outline'][data-control-kind='group']) .tng-form-field__frame,
+:host([data-appearance='outlined'][data-label-position='outline'][data-control-kind='composite']) .tng-form-field__frame {
+  background: transparent;
+}
+
+/* ---------------------------------------------------------------------------
+ * Appearance: plain — control draws its own chrome; the form-field only owns
+ * the label / messages stack.
+ * ------------------------------------------------------------------------- */
+:host([data-appearance='plain']) .tng-form-field__control-row {
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+/* ---------------------------------------------------------------------------
+ * Appearance: none — strips the messages chrome too. Authors fully own the
+ * surface (useful for embedded usages).
+ * ------------------------------------------------------------------------- */
+:host([data-appearance='none']) {
+  --tng-form-field-message-min-height: 0;
+}
+
+:host([data-appearance='none']) .tng-form-field__messages {
+  min-height: 0;
 }
 
 .tng-form-field__control {
@@ -138,17 +197,17 @@
 }
 
 /* Multiline controls: same width as other fields, ~2× single-line chrome height. */
-:host:is(:has(tng-textarea), :has(textarea[tngTextarea]), :has(textarea[tngInput])) .tng-form-field__control-row {
+:host([data-appearance='outlined']):is(:has(tng-textarea), :has(textarea[tngTextarea]), :has(textarea[tngInput])) .tng-form-field__control-row {
   align-items: stretch;
   min-height: calc(2 * var(--tng-form-field-frame-min-height, 2.625rem));
 }
 
-:host([data-label-position='outline']:is(:has(tng-textarea), :has(textarea[tngTextarea]), :has(textarea[tngInput])))
+:host([data-appearance='outlined'][data-label-position='outline']:is(:has(tng-textarea), :has(textarea[tngTextarea]), :has(textarea[tngInput])))
   .tng-form-field__control-row {
   min-height: calc(2 * (var(--tng-form-field-frame-min-height, 2.625rem) - var(--tng-form-field-frame-py, 0.55rem)));
 }
 
-:host:is(:has(tng-textarea), :has(textarea[tngTextarea]), :has(textarea[tngInput])) .tng-form-field__control {
+:host(:is(:has(tng-textarea), :has(textarea[tngTextarea]), :has(textarea[tngInput]))) .tng-form-field__control {
   display: flex;
   align-items: stretch;
 }
@@ -175,4 +234,49 @@
 .tng-form-field__required-marker {
   color: var(--tng-form-field-required-marker-fg, var(--tng-semantic-accent-danger, #dc2626));
   line-height: 1;
+}
+
+/* ---------------------------------------------------------------------------
+ * Control type: inline — label trails the control on the same row (used by
+ * switch, toggle, single checkbox by default). Authors can still set
+ * `labelPosition` to override the layout direction.
+ * ------------------------------------------------------------------------- */
+:host([data-control-type='inline']) {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: auto;
+}
+
+:host([data-control-type='inline']) .tng-form-field__frame {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--tng-form-field-inline-gap, 0.5rem);
+}
+
+:host([data-control-type='inline']) .tng-form-field__label {
+  margin-block-end: 0;
+}
+
+:host([data-control-type='inline']) .tng-form-field__control-row {
+  flex: 0 0 auto;
+}
+
+:host([data-control-type='inline']) .tng-form-field__control {
+  flex: 0 0 auto;
+}
+
+:host([data-control-type='inline']) .tng-form-field__control > * {
+  width: auto;
+}
+
+/* When the author forces a vertical label position with `labelPosition="above"|"left"|"outline"`,
+   honor that and disable the inline-trailing layout. */
+:host([data-control-type='inline'][data-label-position='outline']) .tng-form-field__frame,
+:host([data-control-type='inline'][data-label-position='left']) .tng-form-field__frame {
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
 }

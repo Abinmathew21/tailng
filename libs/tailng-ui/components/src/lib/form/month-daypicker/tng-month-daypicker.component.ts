@@ -1,4 +1,15 @@
-import { Component, computed, input, output, signal, viewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  booleanAttribute,
+  computed,
+  forwardRef,
+  inject,
+  input,
+  output,
+  signal,
+  viewChild,
+} from '@angular/core';
 import {
   defaultDatepickerDateAdapter,
   type TngCalendarView,
@@ -6,6 +17,12 @@ import {
   type TngDateValue,
 } from '@tailng-ui/primitives';
 import { TngDatepickerComponent } from '../datepicker/tng-datepicker.component';
+
+import {
+  TNG_FORM_FIELD_CONTROL,
+  type TngFormFieldControl,
+} from '../form-field/tng-form-field.control';
+import { createFormFieldAdapter } from '../form-field/tng-form-field-adapter';
 
 export type TngMonthDayValue = Readonly<{
   day: number;
@@ -91,8 +108,16 @@ function createMonthDayAdapter(year: number): TngDateAdapter<Date> {
       (viewChange)="handleViewChange($event)"
     />
   `,
+  providers: [
+    {
+      provide: TNG_FORM_FIELD_CONTROL,
+      useFactory: (cmp: TngMonthDaypickerComponent) => cmp.formFieldControl,
+      deps: [forwardRef(() => TngMonthDaypickerComponent)],
+    },
+  ],
 })
 export class TngMonthDaypickerComponent {
+  private readonly hostEl: HTMLElement = inject(ElementRef<HTMLElement>).nativeElement;
   private readonly datepicker = viewChild<TngDatepickerComponent<Date>>('datepicker');
   private readonly internalValue = signal<TngMonthDayValue | undefined>(undefined);
   private hasObservedInitialValue = false;
@@ -113,9 +138,30 @@ export class TngMonthDaypickerComponent {
   public readonly placeholder = input<string>('MM-DD');
   public readonly readonly = input<boolean>(false);
   public readonly restoreFocus = input<boolean>(true);
+  public readonly invalid = input<boolean, boolean | string>(false, {
+    transform: booleanAttribute,
+  });
+  public readonly required = input<boolean, boolean | string>(false, {
+    transform: booleanAttribute,
+  });
 
   public readonly valueChange = output<TngMonthDayValue>();
   public readonly openChange = output<boolean>();
+
+  /**
+   * Form-field integration. The focusable element is the inner datepicker's
+   * text input. Label `for=` and aria-describedby route there so the user can
+   * click the form-field label to focus the picker input.
+   */
+  public readonly formFieldControl: TngFormFieldControl = createFormFieldAdapter({
+    hostElement: this.hostEl,
+    focusableSelector: 'input[data-slot="datepicker-input"]',
+    controlKind: 'composite',
+    isDisabled: () => this.disabled(),
+    isFocused: () => false,
+    isInvalid: () => this.invalid(),
+    isRequired: () => this.required(),
+  });
 
   protected readonly selectedValue = computed(() => this.value() ?? this.internalValue() ?? this.defaultValue());
   protected readonly selectedDate = computed(() => createDate(this.year(), this.selectedValue()));

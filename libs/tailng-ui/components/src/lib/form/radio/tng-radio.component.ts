@@ -1,5 +1,19 @@
-import { booleanAttribute, Component, input, output } from '@angular/core';
+import {
+  booleanAttribute,
+  Component,
+  ElementRef,
+  forwardRef,
+  inject,
+  input,
+  output,
+} from '@angular/core';
 import { TngRadio as TngRadioPrimitive } from '@tailng-ui/primitives';
+
+import {
+  TNG_FORM_FIELD_CONTROL,
+  type TngFormFieldControl,
+} from '../form-field/tng-form-field.control';
+import { createFormFieldAdapter } from '../form-field/tng-form-field-adapter';
 
 export function readTngRadioChecked(event: unknown): boolean | null {
   if (!(event instanceof Event)) {
@@ -23,8 +37,17 @@ export function shouldEmitTngRadioCheckedChange(disabled: boolean, readonly: boo
   imports: [TngRadioPrimitive],
   templateUrl: './tng-radio.component.html',
   styleUrl: './tng-radio.component.css',
+  providers: [
+    {
+      provide: TNG_FORM_FIELD_CONTROL,
+      useFactory: (cmp: TngRadioComponent) => cmp.formFieldControl,
+      deps: [forwardRef(() => TngRadioComponent)],
+    },
+  ],
 })
 export class TngRadioComponent {
+  private readonly hostEl: HTMLElement = inject(ElementRef<HTMLElement>).nativeElement;
+
   public readonly ariaDescribedBy = input<string | null>(null);
   public readonly ariaInvalid = input<boolean, boolean | string>(false, {
     transform: booleanAttribute,
@@ -48,6 +71,22 @@ export class TngRadioComponent {
   public readonly value = input<string>('on');
 
   public readonly checkedChange = output<boolean>();
+
+  /**
+   * Form-field integration. Standalone radios are focusable via the inner
+   * `<input tngRadio>` — label `for=` and aria-describedby route there.
+   * Inside a radio-group, the group typically owns labelling; using
+   * `<tng-form-field>` per individual radio is supported but uncommon.
+   */
+  public readonly formFieldControl: TngFormFieldControl = createFormFieldAdapter({
+    hostElement: this.hostEl,
+    focusableSelector: 'input[tngRadio]',
+    controlKind: 'inline',
+    isDisabled: () => this.disabled(),
+    isFocused: () => false,
+    isInvalid: () => this.invalid(),
+    isRequired: () => this.required(),
+  });
 
   public onChange(event: unknown): void {
     const checked = readTngRadioChecked(event);
