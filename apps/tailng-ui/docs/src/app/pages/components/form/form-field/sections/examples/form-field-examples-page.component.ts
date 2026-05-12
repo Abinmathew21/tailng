@@ -26,7 +26,12 @@ import {
   TngToggleGroupComponent,
   TngYearpickerComponent,
 } from '@tailng-ui/components';
-import { TngInput, TngInputFieldPrefix, TngInputFieldSuffix } from '@tailng-ui/primitives';
+import {
+  TngInput,
+  TngInputFieldPrefix,
+  TngInputFieldSuffix,
+  type TngButtonToggleValue,
+} from '@tailng-ui/primitives';
 import type { DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
 import {
   DocsExampleTabsSectionComponent,
@@ -141,7 +146,7 @@ type FieldOption = {
 
 function createSupportedControlsTsCode(selector: string, className: string): string {
   return [
-    "import { Component } from '@angular/core';",
+    "import { Component, signal } from '@angular/core';",
     ...supportedControlsImportLines,
     '',
     'type FieldOption = {',
@@ -185,6 +190,10 @@ function createSupportedControlsTsCode(selector: string, className: string): str
     "  styleUrl: './" + selector + ".component.css',",
     '})',
     'export class ' + className + ' {',
+    '  readonly docsFormFieldSupportedSwitchEmails = signal(false);',
+    '  readonly docsFormFieldSupportedToggleGroupDensity = signal<string | null>(\'comfortable\');',
+    '  readonly docsFormFieldSupportedButtonToggleGroupDensity = signal<string | null>(\'comfortable\');',
+    '',
     "  readonly ownerOptions: readonly FieldOption[] = [",
     "    { label: 'Asha Raman', value: 'asha' },",
     "    { label: 'Mika Chen', value: 'mika' },",
@@ -294,6 +303,25 @@ export class FormFieldExamplesPageComponent implements OnDestroy {
   protected readonly getOptionValue = (option: FieldOption): string => option.value;
   protected readonly getOptionLabel = (option: FieldOption): string => option.label;
 
+  protected readonly docsFormFieldSupportedPlainSwitchEmails = signal(false);
+  protected readonly docsFormFieldSupportedTailwindSwitchEmails = signal(false);
+  protected readonly docsFormFieldSupportedLabelLayoutSwitchEmails = signal(false);
+  protected readonly docsFormFieldInlinePreviewSwitchEmails = signal(false);
+
+  protected readonly docsFormFieldSupportedPlainToggleGroupDensity = signal<string | null>('comfortable');
+  protected readonly docsFormFieldSupportedTailwindToggleGroupDensity = signal<string | null>('comfortable');
+  protected readonly docsFormFieldSupportedLabelLayoutToggleGroupDensity = signal<string | null>('comfortable');
+
+  protected readonly docsFormFieldSupportedPlainButtonToggleGroupDensity = signal<TngButtonToggleValue | null>(
+    'comfortable',
+  );
+  protected readonly docsFormFieldSupportedTailwindButtonToggleGroupDensity = signal<TngButtonToggleValue | null>(
+    'comfortable',
+  );
+  protected readonly docsFormFieldSupportedLabelLayoutButtonToggleGroupDensity = signal<TngButtonToggleValue | null>(
+    'comfortable',
+  );
+
   private readonly supportedControlsPlainHtmlCode = [
     '<div class="doc-cmp-form-field-ex-form-grid">',
     '  <tng-form-field>',
@@ -381,7 +409,11 @@ export class FormFieldExamplesPageComponent implements OnDestroy {
     '',
     '  <tng-form-field appearance="outlined" controlType="text">',
     '    <tng-label>Switch</tng-label>',
-    '    <tng-switch ariaLabel="Email notifications" />',
+    '    <tng-switch',
+    '      ariaLabel="Email notifications"',
+    '      [checked]="docsFormFieldSupportedSwitchEmails()"',
+    '      (checkedChange)="docsFormFieldSupportedSwitchEmails.set($event)"',
+    '    />',
     '    <p tngHint>Switch with a forced outlined frame and stacked label.</p>',
     '  </tng-form-field>',
     '',
@@ -411,7 +443,12 @@ export class FormFieldExamplesPageComponent implements OnDestroy {
     '',
     '  <tng-form-field appearance="outlined">',
     '    <tng-label>Toggle group</tng-label>',
-    '    <tng-toggle-group selectionMode="single" ariaLabel="Editor density" [value]="\'comfortable\'">',
+    '    <tng-toggle-group',
+    '      selectionMode="single"',
+    '      ariaLabel="Editor density"',
+    '      [value]="docsFormFieldSupportedToggleGroupDensity()"',
+    '      (valueChange)="docsFormFieldSupportedToggleGroupDensity.set($event)"',
+    '    >',
     "      <tng-toggle [value]=\"'compact'\" pressedLabel=\"Compact density\" unpressedLabel=\"Compact density\">",
     '        Compact',
     '      </tng-toggle>',
@@ -427,7 +464,11 @@ export class FormFieldExamplesPageComponent implements OnDestroy {
     '',
     '  <tng-form-field appearance="outlined">',
     '    <tng-label>Button toggle group</tng-label>',
-    '    <tng-button-toggle-group ariaLabel="Density" [value]="\'comfortable\'">',
+    '    <tng-button-toggle-group',
+    '      ariaLabel="Density"',
+    '      [value]="docsFormFieldSupportedButtonToggleGroupDensity()"',
+    '      (valueChange)="docsFormFieldSupportedButtonToggleGroupDensity.set($event)"',
+    '    >',
     "      <tng-button-toggle [tngButtonToggleValue]=\"'compact'\">Compact</tng-button-toggle>",
     "      <tng-button-toggle [tngButtonToggleValue]=\"'comfortable'\">Comfortable</tng-button-toggle>",
     "      <tng-button-toggle [tngButtonToggleValue]=\"'spacious'\">Spacious</tng-button-toggle>",
