@@ -1,7 +1,7 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, computed, inject, signal, type OnDestroy } from '@angular/core';
-import { TngChip, TngChipRemove } from '@tailng-ui/primitives';
 import { TngChipsComponent, TngCodeBlockComponent } from '@tailng-ui/components';
+import { TngChip, TngChipRemove } from '@tailng-ui/primitives';
 import type { DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
 import {
   DocsExampleTabsSectionComponent,
@@ -13,7 +13,7 @@ import {
 } from '../../../../../../shared/util';
 import { stackblitzTailwindUrl, stackblitzVanillaUrl } from '../../chips.util';
 
-interface ContractRow {
+type ContractRow = {
   readonly selector: string;
   readonly appliedOn: string;
   readonly purpose: string;
@@ -258,7 +258,7 @@ const TAILWIND_CSS_CODE = '/* Tailwind utilities are applied directly in the tem
 })
 export class ChipsStylingPageComponent implements OnDestroy {
   private readonly documentRef = inject(DOCUMENT);
-  readonly codeBlockTheme = signal<'github-dark' | 'github-light'>(
+  public readonly codeBlockTheme = signal<'github-dark' | 'github-light'>(
     resolveDocsCodeBlockTheme(this.documentRef),
   );
   private readonly colorSchemeObserver = observeDocsCodeThemeChanges(this.documentRef, this.codeBlockTheme);
@@ -332,7 +332,7 @@ export class ChipsStylingPageComponent implements OnDestroy {
   protected readonly stackblitzVanillaUrl = stackblitzVanillaUrl;
   protected readonly stackblitzTailwindUrl = stackblitzTailwindUrl;
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.colorSchemeObserver?.disconnect();
   }
 
