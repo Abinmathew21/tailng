@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { TngCodeBlockComponent } from '@tailng-ui/components';
 
-interface ApiRow {
+type ApiRow = {
   readonly name: string;
   readonly type: string;
   readonly details: string;
