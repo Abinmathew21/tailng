@@ -15,6 +15,21 @@
   box-shadow: 0 0 0 3px var(--tng-semantic-focus-ring);
 }
 
+/*
+ * Outlined form-field already paints border + focus on the control row; keep
+ * the listbox chrome on options only, not a second frame or fill on the host.
+ */
+:host-context(tng-form-field[data-appearance='outlined']) {
+  border: 0;
+  box-shadow: none;
+  background: transparent;
+}
+
+:host-context(tng-form-field[data-appearance='outlined']):focus {
+  border-color: transparent;
+  box-shadow: none;
+}
+
 :host([data-disabled]) {
   cursor: not-allowed;
   opacity: 0.72;

@@ -235,7 +235,11 @@
 
             <tng-form-field appearance="outlined" controlType="text">
               <tng-label>Switch</tng-label>
-              <tng-switch ariaLabel="Email notifications" />
+              <tng-switch
+                ariaLabel="Email notifications"
+                [checked]="docsFormFieldSupportedPlainSwitchEmails()"
+                (checkedChange)="docsFormFieldSupportedPlainSwitchEmails.set($event)"
+              />
               <p tngHint>Switch with a forced outlined frame and stacked label.</p>
             </tng-form-field>
 
@@ -265,7 +269,12 @@
 
             <tng-form-field appearance="outlined">
               <tng-label>Toggle group</tng-label>
-              <tng-toggle-group selectionMode="single" ariaLabel="Editor density" [value]="'comfortable'">
+              <tng-toggle-group
+                selectionMode="single"
+                ariaLabel="Editor density"
+                [value]="docsFormFieldSupportedPlainToggleGroupDensity()"
+                (valueChange)="docsFormFieldSupportedPlainToggleGroupDensity.set($event)"
+              >
                 <tng-toggle [value]="'compact'" pressedLabel="Compact density" unpressedLabel="Compact density">
                   Compact
                 </tng-toggle>
@@ -281,7 +290,11 @@
 
             <tng-form-field appearance="outlined">
               <tng-label>Button toggle group</tng-label>
-              <tng-button-toggle-group ariaLabel="Density" [value]="'comfortable'">
+              <tng-button-toggle-group
+                ariaLabel="Density"
+                [value]="docsFormFieldSupportedPlainButtonToggleGroupDensity()"
+                (valueChange)="docsFormFieldSupportedPlainButtonToggleGroupDensity.set($event)"
+              >
                 <tng-button-toggle [tngButtonToggleValue]="'compact'">Compact</tng-button-toggle>
                 <tng-button-toggle [tngButtonToggleValue]="'comfortable'">Comfortable</tng-button-toggle>
                 <tng-button-toggle [tngButtonToggleValue]="'spacious'">Spacious</tng-button-toggle>
@@ -434,7 +447,11 @@
 
             <tng-form-field appearance="outlined" controlType="text">
               <tng-label>Switch</tng-label>
-              <tng-switch ariaLabel="Email notifications" />
+              <tng-switch
+                ariaLabel="Email notifications"
+                [checked]="docsFormFieldSupportedTailwindSwitchEmails()"
+                (checkedChange)="docsFormFieldSupportedTailwindSwitchEmails.set($event)"
+              />
               <p tngHint>Switch with a forced outlined frame and stacked label.</p>
             </tng-form-field>
 
@@ -464,7 +481,12 @@
 
             <tng-form-field appearance="outlined">
               <tng-label>Toggle group</tng-label>
-              <tng-toggle-group selectionMode="single" ariaLabel="Editor density" [value]="'comfortable'">
+              <tng-toggle-group
+                selectionMode="single"
+                ariaLabel="Editor density"
+                [value]="docsFormFieldSupportedTailwindToggleGroupDensity()"
+                (valueChange)="docsFormFieldSupportedTailwindToggleGroupDensity.set($event)"
+              >
                 <tng-toggle [value]="'compact'" pressedLabel="Compact density" unpressedLabel="Compact density">
                   Compact
                 </tng-toggle>
@@ -480,7 +502,11 @@
 
             <tng-form-field appearance="outlined">
               <tng-label>Button toggle group</tng-label>
-              <tng-button-toggle-group ariaLabel="Density" [value]="'comfortable'">
+              <tng-button-toggle-group
+                ariaLabel="Density"
+                [value]="docsFormFieldSupportedTailwindButtonToggleGroupDensity()"
+                (valueChange)="docsFormFieldSupportedTailwindButtonToggleGroupDensity.set($event)"
+              >
                 <tng-button-toggle [tngButtonToggleValue]="'compact'">Compact</tng-button-toggle>
                 <tng-button-toggle [tngButtonToggleValue]="'comfortable'">Comfortable</tng-button-toggle>
                 <tng-button-toggle [tngButtonToggleValue]="'spacious'">Spacious</tng-button-toggle>
@@ -689,7 +715,11 @@
 
         <tng-form-field [labelPosition]="labelPosition" appearance="outlined" controlType="text">
           <tng-label>Switch</tng-label>
-          <tng-switch ariaLabel="Email notifications" />
+          <tng-switch
+            ariaLabel="Email notifications"
+            [checked]="docsFormFieldSupportedLabelLayoutSwitchEmails()"
+            (checkedChange)="docsFormFieldSupportedLabelLayoutSwitchEmails.set($event)"
+          />
           <p tngHint>Switch with a forced outlined frame and stacked label.</p>
         </tng-form-field>
 
@@ -719,7 +749,12 @@
 
         <tng-form-field [labelPosition]="labelPosition" appearance="outlined">
           <tng-label>Toggle group</tng-label>
-          <tng-toggle-group selectionMode="single" ariaLabel="Editor density" [value]="'comfortable'">
+          <tng-toggle-group
+            selectionMode="single"
+            ariaLabel="Editor density"
+            [value]="docsFormFieldSupportedLabelLayoutToggleGroupDensity()"
+            (valueChange)="docsFormFieldSupportedLabelLayoutToggleGroupDensity.set($event)"
+          >
             <tng-toggle [value]="'compact'" pressedLabel="Compact density" unpressedLabel="Compact density">
               Compact
             </tng-toggle>
@@ -735,7 +770,11 @@
 
         <tng-form-field [labelPosition]="labelPosition" appearance="outlined">
           <tng-label>Button toggle group</tng-label>
-          <tng-button-toggle-group ariaLabel="Density" [value]="'comfortable'">
+          <tng-button-toggle-group
+            ariaLabel="Density"
+            [value]="docsFormFieldSupportedLabelLayoutButtonToggleGroupDensity()"
+            (valueChange)="docsFormFieldSupportedLabelLayoutButtonToggleGroupDensity.set($event)"
+          >
             <tng-button-toggle [tngButtonToggleValue]="'compact'">Compact</tng-button-toggle>
             <tng-button-toggle [tngButtonToggleValue]="'comfortable'">Comfortable</tng-button-toggle>
             <tng-button-toggle [tngButtonToggleValue]="'spacious'">Spacious</tng-button-toggle>
@@ -898,7 +937,11 @@
       <div class="form-field-doc-preview" style="display: grid; gap: 1.25rem; max-width: 24rem;">
         <tng-form-field>
           <tng-label>Email notifications</tng-label>
-          <tng-switch ariaLabel="Email notifications" />
+          <tng-switch
+            ariaLabel="Email notifications"
+            [checked]="docsFormFieldInlinePreviewSwitchEmails()"
+            (checkedChange)="docsFormFieldInlinePreviewSwitchEmails.set($event)"
+          />
           <p tngHint>We'll occasionally send product updates.</p>
         </tng-form-field>
 
