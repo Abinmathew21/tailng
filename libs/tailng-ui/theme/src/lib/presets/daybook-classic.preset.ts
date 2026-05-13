@@ -8,10 +8,10 @@ export const daybookClassicThemePreset: ThemeDefinition = {
   },
   tokens: createThemeTokens({
     background: {
-      base: '#f4e79f',
-      canvas: '#fff2ae',
-      muted: '#e1d174',
-      surface: '#f8eda5',
+      base: '#f6edbd',
+      canvas: '#f4e79f',
+      muted: '#e7d989',
+      surface: '#fff8cf',
     },
     foreground: {
       primary: '#111827',
@@ -32,7 +32,7 @@ export const daybookClassicThemePreset: ThemeDefinition = {
       warning: '#b86800',
     },
     focus: {
-      ring: '#0f8b8d',
+      ring: '#174a78',
     },
   }),
 };

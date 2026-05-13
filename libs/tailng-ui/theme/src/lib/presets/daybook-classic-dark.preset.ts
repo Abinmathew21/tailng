@@ -25,8 +25,8 @@ export const daybookClassicDarkThemePreset: ThemeDefinition = {
       strong: '#6aa0c4',
     },
     accent: {
-      brand: '#ffd84d',
-      brandHover: '#ffe88a',
+      brand: '#7db8e8',
+      brandHover: '#a8d0f0',
       danger: '#ff7a66',
       success: '#6bd17c',
       warning: '#ffb84d',
