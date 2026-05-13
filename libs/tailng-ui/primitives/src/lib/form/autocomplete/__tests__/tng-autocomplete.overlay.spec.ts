@@ -263,6 +263,7 @@ async function openAutocomplete(
 
 describe('tng-autocomplete.overlay', () => {
   afterEach(() => {
+    TestBed.resetTestingModule();
     vi.restoreAllMocks();
   });
 

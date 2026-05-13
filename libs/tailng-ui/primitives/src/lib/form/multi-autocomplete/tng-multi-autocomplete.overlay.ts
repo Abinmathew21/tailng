@@ -6,7 +6,7 @@ import {
   effect,
   inject,
 } from '@angular/core';
-import { computeOverlayPosition } from '@tailng-ui/cdk';
+import { computeOverlayPosition, resolveAnchoredYWhenOffscreen } from '@tailng-ui/cdk';
 import { TNG_MULTI_AUTOCOMPLETE } from './tng-multi-autocomplete.tokens';
 import type { TngMultiAutocomplete } from './tng-multi-autocomplete';
 
@@ -170,7 +170,13 @@ export class TngMultiAutocompleteOverlay {
     });
 
     panel.style.left = `${result.x}px`;
-    panel.style.top = `${result.y}px`;
+    panel.style.top = `${resolveAnchoredYWhenOffscreen({
+      anchorRect: anchor,
+      overlayRect: overlay,
+      side: result.side,
+      viewportRect: viewport,
+      y: result.y,
+    })}px`;
   }
 
   private setupRepositionListeners(): void {

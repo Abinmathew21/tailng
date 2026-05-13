@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { TngMultiAutocomplete } from '../tng-multi-autocomplete';
 import { TngMultiAutocompleteContent } from '../tng-multi-autocomplete.content';
@@ -59,7 +59,62 @@ class MultiAutocompleteOverlayHostComponent {
   readonly value = signal<readonly string[]>([]);
 }
 
+@Component({
+  imports: [
+    TngMultiAutocomplete,
+    TngMultiAutocompleteTrigger,
+    TngMultiAutocompleteContent,
+    TngMultiAutocompleteOverlay,
+    TngMultiAutocompleteListbox,
+    TngMultiAutocompleteOption,
+  ],
+  template: `
+    <header
+      data-testid="sticky-header"
+      style="position: sticky; top: 0; z-index: 50; height: 64px"
+    >
+      Header
+    </header>
+
+    <main style="height: 2000px; overflow: auto">
+      <div style="height: 320px"></div>
+
+      <section
+        tngMultiAutocomplete
+        style="--tng-multi-autocomplete-z-overlay: 2"
+        [open]="open()"
+        (openChange)="open.set($event)"
+        [value]="value()"
+        (valueChange)="value.set($event)"
+        data-testid="multi-autocomplete"
+      >
+        <input tngMultiAutocompleteTrigger data-testid="trigger" type="text" autocomplete="off" />
+
+        <div tngMultiAutocompleteContent>
+          <div tngMultiAutocompleteOverlay data-testid="overlay">
+            <ul tngMultiAutocompleteListbox>
+              <li tngMultiAutocompleteOption [tngValue]="'India'">India</li>
+              <li tngMultiAutocompleteOption [tngValue]="'Indonesia'">Indonesia</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <div style="height: 1200px"></div>
+    </main>
+  `,
+})
+class StickyHeaderScrollHostComponent {
+  readonly open = signal(false);
+  readonly value = signal<readonly string[]>([]);
+}
+
 describe('tng-multi-autocomplete overlay mounting', () => {
+  afterEach(() => {
+    TestBed.resetTestingModule();
+    vi.restoreAllMocks();
+  });
+
   it('moves overlay to document.body while open and restores it on close', async () => {
     const fixture = TestBed.configureTestingModule({
       imports: [MultiAutocompleteOverlayHostComponent],
@@ -121,5 +176,70 @@ describe('tng-multi-autocomplete overlay mounting', () => {
     expect(overlay.style.colorScheme).toBe('');
     expect(overlay.style.width).toBe('');
     expect(overlay.style.minWidth).toBe('');
+  });
+
+  it('keeps the overlay anchored to the trigger after page scroll moves it under a sticky header', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [StickyHeaderScrollHostComponent],
+    }).createComponent(StickyHeaderScrollHostComponent);
+
+    fixture.detectChanges();
+
+    const multiHost = fixture.nativeElement.querySelector('[data-testid="multi-autocomplete"]') as HTMLElement;
+    const trigger = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLInputElement;
+    const header = fixture.nativeElement.querySelector('[data-testid="sticky-header"]') as HTMLElement;
+    let hostTop = 120;
+    const hostHeight = 48;
+
+    vi.spyOn(multiHost, 'getBoundingClientRect').mockImplementation(
+      () =>
+        ({
+          bottom: hostTop + hostHeight,
+          height: hostHeight,
+          left: 24,
+          right: 264,
+          top: hostTop,
+          width: 240,
+          x: 24,
+          y: hostTop,
+          toJSON: () => ({}),
+        }) as DOMRect,
+    );
+
+    focus(trigger);
+    fixture.detectChanges();
+    await Promise.resolve();
+    fixture.detectChanges();
+
+    const overlay = document.body.querySelector('[data-testid="overlay"]') as HTMLElement | null;
+    expect(overlay).toBeTruthy();
+
+    vi.spyOn(overlay!, 'getBoundingClientRect').mockImplementation(
+      () =>
+        ({
+          bottom: 128,
+          height: 120,
+          left: 0,
+          right: 240,
+          top: 8,
+          width: 240,
+          x: 0,
+          y: 8,
+          toJSON: () => ({}),
+        }) as DOMRect,
+    );
+
+    hostTop = -64;
+    window.dispatchEvent(new Event('scroll'));
+    await new Promise((resolve) => requestAnimationFrame(resolve));
+    fixture.detectChanges();
+
+    expect(overlay!.style.top).toBe(`${hostTop + hostHeight}px`);
+    expect(overlay!.style.zIndex).toBe(
+      'var(--tng-multi-autocomplete-z-overlay, var(--tng-multi-autocomplete-overlay-z-index, var(--tng-z-overlay, 2)))',
+    );
+    expect(Number(overlay!.style.getPropertyValue('--tng-multi-autocomplete-z-overlay'))).toBeLessThan(
+      Number(header.style.zIndex),
+    );
   });
 });

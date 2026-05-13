@@ -215,6 +215,10 @@ tng-form-field tng-autocomplete [data-slot='autocomplete-trigger'] {
   padding-inline: 0;
 }
 
+tng-form-field tng-autocomplete [data-slot='autocomplete-trigger'].tng-autocomplete-trigger--has-selected-visual {
+  padding-inline-start: var(--tng-autocomplete-selected-input-padding-start, 2.65rem);
+}
+
 tng-form-field tng-autocomplete [data-slot='autocomplete-icon'] {
   margin-inline-end: 0;
 }

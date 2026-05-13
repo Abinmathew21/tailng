@@ -12,7 +12,7 @@ import type {
   TngOverlayOffset,
   TngOverlayPlacement,
 } from '@tailng-ui/cdk';
-import { computeOverlayPosition } from '@tailng-ui/cdk';
+import { computeOverlayPosition, resolveAnchoredYWhenOffscreen } from '@tailng-ui/cdk';
 import { TNG_AUTOCOMPLETE } from './tng-autocomplete.tokens';
 import type { TngAutocomplete } from './tng-autocomplete';
 
@@ -86,28 +86,6 @@ function rectFromClientRect(r: DOMRect | ClientRect): MaybeRect {
 
 function viewportRect(): MaybeRect {
   return { left: 0, top: 0, width: window.innerWidth || 1024, height: window.innerHeight || 768 };
-}
-
-function resolveAnchoredYWhenOffscreen(
-  resultY: number,
-  anchor: MaybeRect,
-  overlay: MaybeRect,
-  viewport: MaybeRect,
-  side: 'bottom' | 'top' | 'left' | 'right',
-  sideOffset: number,
-): number {
-  const viewportBottom = viewport.top + viewport.height;
-  const anchorBottom = anchor.top + anchor.height;
-
-  if (anchorBottom < viewport.top && side === 'bottom') {
-    return anchorBottom + sideOffset;
-  }
-
-  if (anchor.top > viewportBottom && side === 'top') {
-    return anchor.top - overlay.height - sideOffset;
-  }
-
-  return resultY;
 }
 
 function isInside(target: EventTarget | null, container: HTMLElement): boolean {
@@ -244,14 +222,14 @@ export class TngAutocompleteOverlay {
       collision: this.collision(),
     });
     panel.style.left = `${result.x}px`;
-    panel.style.top = `${resolveAnchoredYWhenOffscreen(
-      result.y,
-      anchor,
-      overlay,
-      viewport,
-      result.side,
-      offset?.side ?? 0,
-    )}px`;
+    panel.style.top = `${resolveAnchoredYWhenOffscreen({
+      anchorRect: anchor,
+      overlayRect: overlay,
+      side: result.side,
+      sideOffset: offset?.side,
+      viewportRect: viewport,
+      y: result.y,
+    })}px`;
   }
 
   private setupRepositionListeners(): void {
@@ -379,14 +357,14 @@ export class TngAutocompleteOverlay {
         collision: this.collision(),
       });
       panel.style.left = `${result.x}px`;
-      panel.style.top = `${resolveAnchoredYWhenOffscreen(
-        result.y,
-        anchor,
-        overlay,
-        viewport,
-        result.side,
-        offset?.side ?? 0,
-      )}px`;
+      panel.style.top = `${resolveAnchoredYWhenOffscreen({
+        anchorRect: anchor,
+        overlayRect: overlay,
+        side: result.side,
+        sideOffset: offset?.side,
+        viewportRect: viewport,
+        y: result.y,
+      })}px`;
     });
 
     this.setupOutsidePointer();

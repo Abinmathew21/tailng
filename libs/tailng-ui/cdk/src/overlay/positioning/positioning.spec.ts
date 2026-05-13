@@ -1,5 +1,5 @@
 import { expect, it } from 'vitest';
-import { computeOverlayPosition } from './positioning';
+import { computeOverlayPosition, resolveAnchoredYWhenOffscreen } from './positioning';
 
 it('computes bottom-centered placement by default', () => {
   const result = computeOverlayPosition({
@@ -214,4 +214,29 @@ it('applies start/end alignment correctly for left/right sides (Y axis)', () => 
 
   // Y end => anchor.bottom - overlay.height = 240 - 90 = 150
   expect(leftEnd.y).toBe(150);
+});
+
+it('keeps a bottom overlay anchored after the anchor scrolls above the viewport', () => {
+  const shiftedY = resolveAnchoredYWhenOffscreen({
+    anchorRect: { height: 32, left: 24, top: -40, width: 240 },
+    overlayRect: { height: 120, left: 0, top: 8, width: 240 },
+    side: 'bottom',
+    viewportRect: { height: 600, left: 0, top: 0, width: 800 },
+    y: 8,
+  });
+
+  expect(shiftedY).toBe(-8);
+});
+
+it('keeps a top overlay anchored after the anchor scrolls below the viewport', () => {
+  const shiftedY = resolveAnchoredYWhenOffscreen({
+    anchorRect: { height: 32, left: 24, top: 640, width: 240 },
+    overlayRect: { height: 120, left: 0, top: 472, width: 240 },
+    side: 'top',
+    sideOffset: 4,
+    viewportRect: { height: 600, left: 0, top: 0, width: 800 },
+    y: 472,
+  });
+
+  expect(shiftedY).toBe(516);
 });

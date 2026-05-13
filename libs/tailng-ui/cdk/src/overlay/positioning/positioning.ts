@@ -51,6 +51,15 @@ type TngCollisionResolution = Readonly<{
   shouldShift: boolean;
 }>;
 
+export type TngResolveAnchoredYWhenOffscreenOptions = Readonly<{
+  anchorRect: TngOverlayRect;
+  overlayRect: TngOverlayRect;
+  side: TngOverlaySide;
+  sideOffset?: number;
+  viewportRect: TngOverlayRect;
+  y: number;
+}>;
+
 function normalizeRect(rect: TngOverlayRect): TngNormalizedRect {
   return {
     bottom: rect.top + rect.height,
@@ -175,7 +184,7 @@ function resolveSide(context: TngPlacementContext): TngOverlaySide {
 
 function clamp(value: number, min: number, max: number): number {
   // important: overlay bigger than available space
-  if (max < min) return min; 
+  if (max < min) return min;
   if (value < min) return min;
   if (value > max) return max;
   return value;
@@ -252,4 +261,23 @@ export function computeOverlayPosition(
     x: position.x,
     y: position.y,
   };
+}
+
+export function resolveAnchoredYWhenOffscreen(
+  options: TngResolveAnchoredYWhenOffscreenOptions,
+): number {
+  const anchorRect = normalizeRect(options.anchorRect);
+  const viewportRect = normalizeRect(options.viewportRect);
+  const overlayRect = normalizeRect(options.overlayRect);
+  const sideOffset = options.sideOffset ?? 0;
+
+  if (anchorRect.bottom < viewportRect.top && options.side === 'bottom') {
+    return anchorRect.bottom + sideOffset;
+  }
+
+  if (anchorRect.top > viewportRect.bottom && options.side === 'top') {
+    return anchorRect.top - overlayRect.height - sideOffset;
+  }
+
+  return options.y;
 }
