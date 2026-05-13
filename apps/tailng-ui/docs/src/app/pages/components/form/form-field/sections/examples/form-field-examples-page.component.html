@@ -176,11 +176,11 @@
               <tng-label>Country</tng-label>
               <div class="doc-cmp-form-field-ex-country-autocomplete">
                 <tng-autocomplete
-                  [options]="filteredCountryAutocompleteOptions()"
-                  [value]="countryAutocompleteValue()"
-                  (valueChange)="onCountryAutocompleteChange($event)"
-                  [query]="countryAutocompleteQuery()"
-                  (queryChange)="countryAutocompleteQuery.set($event)"
+                  [options]="filteredCountryAutocompleteSupportedPlainOptions()"
+                  [value]="countryAutocompleteSupportedPlainValue()"
+                  (valueChange)="onCountryAutocompleteSupportedPlainChange($event)"
+                  [query]="countryAutocompleteSupportedPlainQuery()"
+                  (queryChange)="countryAutocompleteSupportedPlainQuery.set($event)"
                   [getOptionValue]="getCountryValue"
                   [getOptionLabel]="getCountryLabel"
                   placeholder="Search country"
@@ -408,11 +408,11 @@
               <tng-label>Country</tng-label>
               <div class="doc-cmp-form-field-ex-country-autocomplete">
                 <tng-autocomplete
-                  [options]="filteredCountryAutocompleteOptions()"
-                  [value]="countryAutocompleteValue()"
-                  (valueChange)="onCountryAutocompleteChange($event)"
-                  [query]="countryAutocompleteQuery()"
-                  (queryChange)="countryAutocompleteQuery.set($event)"
+                  [options]="filteredCountryAutocompleteSupportedTwOptions()"
+                  [value]="countryAutocompleteSupportedTwValue()"
+                  (valueChange)="onCountryAutocompleteSupportedTwChange($event)"
+                  [query]="countryAutocompleteSupportedTwQuery()"
+                  (queryChange)="countryAutocompleteSupportedTwQuery.set($event)"
                   [getOptionValue]="getCountryValue"
                   [getOptionLabel]="getCountryLabel"
                   placeholder="Search country"
@@ -696,11 +696,11 @@
           <tng-label>Country</tng-label>
           <div class="doc-cmp-form-field-ex-country-autocomplete">
             <tng-autocomplete
-              [options]="filteredCountryAutocompleteOptions()"
-              [value]="countryAutocompleteValue()"
-              (valueChange)="onCountryAutocompleteChange($event)"
-              [query]="countryAutocompleteQuery()"
-              (queryChange)="countryAutocompleteQuery.set($event)"
+              [options]="filteredCountryAutocompleteLabelLayoutOptions()"
+              [value]="countryAutocompleteLabelLayoutValue()"
+              (valueChange)="onCountryAutocompleteLabelLayoutChange($event)"
+              [query]="countryAutocompleteLabelLayoutQuery()"
+              (queryChange)="countryAutocompleteLabelLayoutQuery.set($event)"
               [getOptionValue]="getCountryValue"
               [getOptionLabel]="getCountryLabel"
               placeholder="Search country"

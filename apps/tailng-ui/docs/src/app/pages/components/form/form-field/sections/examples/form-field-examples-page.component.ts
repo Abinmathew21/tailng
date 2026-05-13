@@ -295,14 +295,14 @@ function createSupportedControlsTsCode(selector: string, className: string): str
     "    label: country.name,",
     '  }));',
     '',
-    '  readonly countryAutocompleteValue = signal<string | null>(\'in\');',
-    '  readonly countryAutocompleteQuery = signal(\'\');',
-    '  readonly filteredCountryAutocompleteOptions = computed(() =>',
-    '    filterOptions(this.countryAutocompleteOptions, this.countryAutocompleteQuery(), this.getCountryLabel),',
+    '  readonly countryAutocompleteSupportedPlainValue = signal<string | null>(\'in\');',
+    '  readonly countryAutocompleteSupportedPlainQuery = signal(\'\');',
+    '  readonly filteredCountryAutocompleteSupportedPlainOptions = computed(() =>',
+    '    filterOptions(this.countryAutocompleteOptions, this.countryAutocompleteSupportedPlainQuery(), this.getCountryLabel),',
     '  );',
     '',
-    '  onCountryAutocompleteChange(value: unknown): void {',
-    "    this.countryAutocompleteValue.set(typeof value === 'string' ? value : null);",
+    '  onCountryAutocompleteSupportedPlainChange(value: unknown): void {',
+    "    this.countryAutocompleteSupportedPlainValue.set(typeof value === 'string' ? value : null);",
     '  }',
     '',
     "  readonly skillOptions: readonly FieldOption[] = [",
@@ -389,24 +389,55 @@ export class FormFieldExamplesPageComponent implements OnDestroy {
 
   protected readonly countryAutocompleteOptions = SUPPORTED_CONTROLS_COUNTRY_OPTIONS;
 
-  protected readonly countryAutocompleteValue = signal<string | null>('in');
-  protected readonly countryAutocompleteQuery = signal('');
+  /** Separate state per mounted Country example so closed instances do not overwrite the open field's query. */
+  protected readonly countryAutocompleteSupportedPlainValue = signal<string | null>('in');
+  protected readonly countryAutocompleteSupportedPlainQuery = signal('');
+
+  protected readonly countryAutocompleteSupportedTwValue = signal<string | null>('in');
+  protected readonly countryAutocompleteSupportedTwQuery = signal('');
+
+  protected readonly countryAutocompleteLabelLayoutValue = signal<string | null>('in');
+  protected readonly countryAutocompleteLabelLayoutQuery = signal('');
 
   protected readonly getCountryValue = (country: SupportedControlsCountryOption): string => country.code;
   protected readonly getCountryLabel = (country: SupportedControlsCountryOption): string => country.label;
   protected readonly getFlagClass = (country: SupportedControlsCountryOption): string =>
     `flag-chip country-flag country-flag--${country.code.toLowerCase()}`;
 
-  protected readonly filteredCountryAutocompleteOptions = computed(() =>
+  protected readonly filteredCountryAutocompleteSupportedPlainOptions = computed(() =>
     filterAutocompleteOptions(
       this.countryAutocompleteOptions,
-      this.countryAutocompleteQuery(),
+      this.countryAutocompleteSupportedPlainQuery(),
       this.getCountryLabel,
     ),
   );
 
-  protected onCountryAutocompleteChange(value: unknown): void {
-    this.countryAutocompleteValue.set(typeof value === 'string' ? value : null);
+  protected readonly filteredCountryAutocompleteSupportedTwOptions = computed(() =>
+    filterAutocompleteOptions(
+      this.countryAutocompleteOptions,
+      this.countryAutocompleteSupportedTwQuery(),
+      this.getCountryLabel,
+    ),
+  );
+
+  protected readonly filteredCountryAutocompleteLabelLayoutOptions = computed(() =>
+    filterAutocompleteOptions(
+      this.countryAutocompleteOptions,
+      this.countryAutocompleteLabelLayoutQuery(),
+      this.getCountryLabel,
+    ),
+  );
+
+  protected onCountryAutocompleteSupportedPlainChange(value: unknown): void {
+    this.countryAutocompleteSupportedPlainValue.set(typeof value === 'string' ? value : null);
+  }
+
+  protected onCountryAutocompleteSupportedTwChange(value: unknown): void {
+    this.countryAutocompleteSupportedTwValue.set(typeof value === 'string' ? value : null);
+  }
+
+  protected onCountryAutocompleteLabelLayoutChange(value: unknown): void {
+    this.countryAutocompleteLabelLayoutValue.set(typeof value === 'string' ? value : null);
   }
 
   protected readonly skillOptions: readonly FieldOption[] = [
@@ -486,11 +517,11 @@ export class FormFieldExamplesPageComponent implements OnDestroy {
     '    <tng-label>Country</tng-label>',
     '    <div class="doc-cmp-form-field-ex-country-autocomplete">',
     '      <tng-autocomplete',
-    '        [options]="filteredCountryAutocompleteOptions()"',
-    '        [value]="countryAutocompleteValue()"',
-    '        (valueChange)="onCountryAutocompleteChange($event)"',
-    '        [query]="countryAutocompleteQuery()"',
-    '        (queryChange)="countryAutocompleteQuery.set($event)"',
+    '        [options]="filteredCountryAutocompleteSupportedPlainOptions()"',
+    '        [value]="countryAutocompleteSupportedPlainValue()"',
+    '        (valueChange)="onCountryAutocompleteSupportedPlainChange($event)"',
+    '        [query]="countryAutocompleteSupportedPlainQuery()"',
+    '        (queryChange)="countryAutocompleteSupportedPlainQuery.set($event)"',
     '        [getOptionValue]="getCountryValue"',
     '        [getOptionLabel]="getCountryLabel"',
     '        placeholder="Search country"',
