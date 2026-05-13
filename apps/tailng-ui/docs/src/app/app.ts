@@ -46,6 +46,8 @@ type ThemePresetId =
   | 'sterling'
   | 'daybook-classic';
 
+type ThemeModeId = 'light' | 'dark';
+
 type ThemePresetOption = Readonly<{
   id: ThemePresetId;
   icon: string;
@@ -124,6 +126,37 @@ function isThemePresetId(value: unknown): value is ThemePresetId {
   return typeof value === 'string' && presetOptions.some((preset) => preset.id === value);
 }
 
+function isThemeModeId(value: unknown): value is ThemeModeId {
+  return value === 'light' || value === 'dark';
+}
+
+const themePresetStorageKey = 'tailng.docs.themePreset';
+const themeModeStorageKey = 'tailng.docs.themeMode';
+
+function getStorage(windowRef: Window | null | undefined): Storage | null {
+  try {
+    return windowRef?.localStorage ?? null;
+  } catch {
+    return null;
+  }
+}
+
+function readStorageValue(storage: Storage | null, key: string): string | null {
+  try {
+    return storage?.getItem(key) ?? null;
+  } catch {
+    return null;
+  }
+}
+
+function writeStorageValue(storage: Storage | null, key: string, value: string): void {
+  try {
+    storage?.setItem(key, value);
+  } catch {
+    // Local storage can be unavailable in private or restricted browser contexts.
+  }
+}
+
 const primaryNavigation: readonly NavItem[] = [
   { label: 'Components', route: '/components' },
   { label: 'Ownable', route: '/ownable' },
@@ -172,10 +205,11 @@ export class App {
   private readonly documentRef = inject(DOCUMENT);
   private readonly router = inject(Router);
   private readonly searchIndex = toSignal(inject(DocsSearchIndexService).index$);
+  private readonly localStorageRef = getStorage(this.documentRef.defaultView);
 
-  public readonly darkMode = signal(true);
+  public readonly darkMode = signal(this.readStoredThemeMode() === 'dark');
   public readonly presetOptions = presetOptions;
-  public readonly selectedPreset = signal<ThemePresetId>('default');
+  public readonly selectedPreset = signal<ThemePresetId>(this.readStoredThemePreset());
   public readonly primaryNavigation = primaryNavigation;
   public readonly npmPackageLinks = npmPackageLinks;
   public readonly footerResourceLinks = footerResourceLinks;
@@ -191,7 +225,7 @@ export class App {
     this.currentUrl().startsWith('/theme'),
   );
 
-  public readonly effectiveMode = computed<'light' | 'dark'>(() =>
+  public readonly effectiveMode = computed<ThemeModeId>(() =>
     this.darkMode() ? 'dark' : 'light',
   );
   public readonly searchOpen = signal(false);
@@ -214,6 +248,10 @@ export class App {
   public constructor() {
     effect((): void => {
       applyTailngTheme(this.activeTheme());
+    });
+    effect((): void => {
+      writeStorageValue(this.localStorageRef, themePresetStorageKey, this.selectedPreset());
+      writeStorageValue(this.localStorageRef, themeModeStorageKey, this.effectiveMode());
     });
     effect((): void => {
       const index = this.searchIndex();
@@ -352,7 +390,7 @@ export class App {
 
   private getPresetByMode(
     preset: ThemePresetId,
-    mode: 'light' | 'dark',
+    mode: ThemeModeId,
   ): ThemeDefinition {
     const presets: Partial<
       Record<ThemePresetId, { light: ThemeDefinition; dark: ThemeDefinition }>
@@ -389,6 +427,16 @@ export class App {
   
     return presets[preset]?.[mode]
       ?? (mode === 'dark' ? defaultDarkThemePreset : defaultThemePreset);
+  }
+
+  private readStoredThemePreset(): ThemePresetId {
+    const storedPreset = readStorageValue(this.localStorageRef, themePresetStorageKey);
+    return isThemePresetId(storedPreset) ? storedPreset : 'default';
+  }
+
+  private readStoredThemeMode(): ThemeModeId {
+    const storedMode = readStorageValue(this.localStorageRef, themeModeStorageKey);
+    return isThemeModeId(storedMode) ? storedMode : 'dark';
   }
 
   private isMacPlatform(): boolean {

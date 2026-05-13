@@ -8,10 +8,10 @@ export const daybookClassicThemePreset: ThemeDefinition = {
   },
   tokens: createThemeTokens({
     background: {
-      base: '#f7f0bf',
-      canvas: '#fff7c7',
-      muted: '#eadf94',
-      surface: '#fffbe4',
+      base: '#f4e79f',
+      canvas: '#fff2ae',
+      muted: '#e1d174',
+      surface: '#f8eda5',
     },
     foreground: {
       primary: '#111827',
@@ -20,8 +20,8 @@ export const daybookClassicThemePreset: ThemeDefinition = {
       inverse: '#fff7cf',
     },
     border: {
-      default: '#9b9761',
-      subtle: '#d6cc7a',
+      default: '#9b8e43',
+      subtle: '#c9ba62',
       strong: '#174a78',
     },
     accent: {
