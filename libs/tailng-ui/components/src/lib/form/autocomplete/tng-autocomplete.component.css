@@ -132,19 +132,19 @@ tng-autocomplete [data-slot='autocomplete-icon'] {
 }
 
 [data-slot='autocomplete-option']:hover:not([data-disabled]) {
-  background: var(--tng-autocomplete-option-bg-active, var(--tng-autocomplete-surface, #f8fafc));
-  border-color: var(--tng-autocomplete-option-border-active, var(--tng-autocomplete-border, #e2e8f0));
+  background: var(--tng-autocomplete-option-bg-active, color-mix(in srgb, var(--tng-autocomplete-brand, #3b82f6) 10%, transparent));
+  border-color: var(--tng-autocomplete-option-border-active, transparent);
 }
 
 [data-slot='autocomplete-option'][data-active] {
-  background: var(--tng-autocomplete-option-bg-active, var(--tng-autocomplete-surface, #f8fafc));
-  border-color: var(--tng-autocomplete-option-border-active, var(--tng-autocomplete-border, #e2e8f0));
+  background: var(--tng-autocomplete-option-bg-active, color-mix(in srgb, var(--tng-autocomplete-brand, #3b82f6) 14%, transparent));
+  border-color: var(--tng-autocomplete-option-border-active, color-mix(in srgb, var(--tng-autocomplete-brand, #3b82f6) 32%, transparent));
 }
 
 [data-slot='autocomplete-option'][data-selected] {
   background: var(
     --tng-autocomplete-option-bg-selected,
-    color-mix(in srgb, var(--tng-autocomplete-brand, #3b82f6) 8%, var(--tng-autocomplete-bg, #fff))
+    color-mix(in srgb, var(--tng-autocomplete-brand, #3b82f6) 18%, transparent)
   );
   border-color: var(
     --tng-autocomplete-option-border-selected,
@@ -156,7 +156,7 @@ tng-autocomplete [data-slot='autocomplete-icon'] {
 [data-slot='autocomplete-option'][data-selected][data-active] {
   background: var(
     --tng-autocomplete-option-bg-selected-active,
-    color-mix(in srgb, var(--tng-autocomplete-brand, #3b82f6) 14%, var(--tng-autocomplete-bg, #fff))
+    color-mix(in srgb, var(--tng-autocomplete-brand, #3b82f6) 24%, transparent)
   );
   border-color: var(
     --tng-autocomplete-option-border-selected-active,

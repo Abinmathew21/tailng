@@ -4,6 +4,8 @@ import { TngPress } from '@tailng-ui/primitives';
 import {
   createTheme,
   darkSemanticTokens,
+  daybookClassicDarkThemePreset,
+  daybookClassicThemePreset,
   defaultThemePreset,
   minimalThemePreset,
   resolveToken,
@@ -11,7 +13,7 @@ import {
 } from '@tailng-ui/theme';
 import type { ThemeDefinition, ThemeSemanticTokens } from '@tailng-ui/theme';
 
-type PresetId = 'default' | 'minimal';
+type PresetId = 'default' | 'minimal' | 'daybook-classic';
 type ModeId = 'light' | 'dark';
 
 type SelectOption<TValue extends string> = Readonly<{
@@ -28,6 +30,7 @@ type SemanticTokenRow = Readonly<{
 const presetOptions: readonly SelectOption<PresetId>[] = [
   { id: 'default', label: 'Default' },
   { id: 'minimal', label: 'Minimal' },
+  { id: 'daybook-classic', label: 'Daybook Classic' },
 ];
 
 const modeOptions: readonly SelectOption<ModeId>[] = [
@@ -73,13 +76,19 @@ export class ThemePlaygroundPageComponent {
   protected readonly selectedMode = signal<ModeId>('light');
 
   protected readonly activeTheme = computed<ThemeDefinition>(() => {
-    const basePreset = this.getBasePreset(this.selectedPreset());
+    const preset = this.selectedPreset();
+    const mode = this.selectedMode();
+    if (preset === 'daybook-classic') {
+      return mode === 'dark' ? daybookClassicDarkThemePreset : daybookClassicThemePreset;
+    }
+
+    const basePreset = this.getBasePreset(preset);
     return createTheme(basePreset, {
       meta: {
-        mode: this.selectedMode(),
+        mode,
       },
       tokens: {
-        semantic: this.resolveSemanticTokens(basePreset, this.selectedMode()),
+        semantic: this.resolveSemanticTokens(basePreset, mode),
       },
     });
   });

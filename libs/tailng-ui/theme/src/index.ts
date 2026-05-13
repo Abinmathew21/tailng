@@ -33,6 +33,8 @@ export { atlasThemePreset } from './lib/presets/atlas.preset';
 export { atlasDarkThemePreset } from './lib/presets/atlas-dark.preset';
 export { sterlingThemePreset } from './lib/presets/sterling.preset';
 export { sterlingDarkThemePreset } from './lib/presets/sterling-dark.preset';
+export { daybookClassicThemePreset } from './lib/presets/daybook-classic.preset';
+export { daybookClassicDarkThemePreset } from './lib/presets/daybook-classic-dark.preset';
 
 export { createTheme } from './lib/engine/create-theme';
 export { mergeTheme } from './lib/engine/merge-theme';

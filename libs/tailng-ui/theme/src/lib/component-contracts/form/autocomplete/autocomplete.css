@@ -249,27 +249,27 @@
   }
 
   :where([data-slot="autocomplete-option"]:hover):not([data-disabled]) {
-    background: color-mix(in srgb, var(--tng-autocomplete-fg) 8%, transparent);
-    border-color: color-mix(in srgb, var(--tng-autocomplete-border) 72%, transparent);
+    background: color-mix(in srgb, var(--tng-autocomplete-brand) 10%, transparent);
+    border-color: transparent;
   }
 
   :where([data-slot="autocomplete-option"][data-active]):not([data-disabled]) {
-    background: color-mix(in srgb, var(--tng-autocomplete-fg) 11%, transparent);
-    border-color: color-mix(in srgb, var(--tng-autocomplete-fg) 24%, transparent);
+    background: color-mix(in srgb, var(--tng-autocomplete-brand) 14%, transparent);
+    border-color: color-mix(in srgb, var(--tng-autocomplete-brand) 32%, transparent);
   }
 
   :where([data-slot="autocomplete-option"][data-selected]),
   :where([data-slot="autocomplete-option"][aria-selected="true"]) {
-    background: color-mix(in srgb, var(--tng-autocomplete-brand) 19%, transparent);
+    background: color-mix(in srgb, var(--tng-autocomplete-brand) 18%, transparent);
     color: var(--tng-autocomplete-brand);
     font-weight: 500;
-    border-color: color-mix(in srgb, var(--tng-autocomplete-brand) 45%, transparent);
+    border-color: color-mix(in srgb, var(--tng-autocomplete-brand) 40%, transparent);
   }
 
   :where([data-slot="autocomplete-option"][data-selected][data-active]),
   :where([data-slot="autocomplete-option"][aria-selected="true"][data-active]) {
-    background: color-mix(in srgb, var(--tng-autocomplete-brand) 25%, transparent);
-    border-color: color-mix(in srgb, var(--tng-autocomplete-brand) 58%, transparent);
+    background: color-mix(in srgb, var(--tng-autocomplete-brand) 24%, transparent);
+    border-color: color-mix(in srgb, var(--tng-autocomplete-brand) 55%, transparent);
   }
 
   :where([data-slot="autocomplete-option"]:focus-visible):not([data-disabled]) {

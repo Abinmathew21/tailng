@@ -84,19 +84,19 @@ tng-multiselect [data-slot='select-icon'] {
 }
 
 [data-slot='multi-select-option']:hover:not([data-disabled]) {
-  background: var(--tng-select-option-bg-active, var(--tng-select-surface, #f8fafc));
-  border-color: var(--tng-select-option-border-active, var(--tng-select-border, #e2e8f0));
+  background: var(--tng-select-option-bg-active, color-mix(in srgb, var(--tng-select-brand, #3b82f6) 10%, transparent));
+  border-color: var(--tng-select-option-border-active, transparent);
 }
 
 [data-slot='multi-select-option'][data-active] {
-  background: var(--tng-select-option-bg-active, var(--tng-select-surface, #f8fafc));
-  border-color: var(--tng-select-option-border-active, var(--tng-select-border, #e2e8f0));
+  background: var(--tng-select-option-bg-active, color-mix(in srgb, var(--tng-select-brand, #3b82f6) 14%, transparent));
+  border-color: var(--tng-select-option-border-active, color-mix(in srgb, var(--tng-select-brand, #3b82f6) 32%, transparent));
 }
 
 [data-slot='multi-select-option'][data-selected] {
   background: var(
     --tng-select-option-bg-selected,
-    color-mix(in srgb, var(--tng-select-brand, #3b82f6) 8%, var(--tng-select-bg, #fff))
+    color-mix(in srgb, var(--tng-select-brand, #3b82f6) 18%, transparent)
   );
   border-color: var(
     --tng-select-option-border-selected,
@@ -108,7 +108,7 @@ tng-multiselect [data-slot='select-icon'] {
 [data-slot='multi-select-option'][data-selected][data-active] {
   background: var(
     --tng-select-option-bg-selected-active,
-    color-mix(in srgb, var(--tng-select-brand, #3b82f6) 14%, var(--tng-select-bg, #fff))
+    color-mix(in srgb, var(--tng-select-brand, #3b82f6) 24%, transparent)
   );
   border-color: var(
     --tng-select-option-border-selected-active,

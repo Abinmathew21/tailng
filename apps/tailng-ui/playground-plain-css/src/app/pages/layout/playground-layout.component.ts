@@ -44,6 +44,8 @@ import {
 import {
   createTheme,
   darkSemanticTokens,
+  daybookClassicDarkThemePreset,
+  daybookClassicThemePreset,
   defaultThemePreset,
   minimalThemePreset,
   resolveToken,
@@ -52,11 +54,12 @@ import {
 import type { ThemeDefinition, ThemeSemanticTokens } from '@tailng-ui/theme';
 import { filter, map, startWith } from 'rxjs';
 
-type PresetId = 'default' | 'minimal';
+type PresetId = 'default' | 'minimal' | 'daybook-classic';
 
 const PRESET_OPTIONS: readonly { id: PresetId; label: string }[] = [
   { id: 'default', label: 'Default' },
   { id: 'minimal', label: 'Minimal' },
+  { id: 'daybook-classic', label: 'Daybook Classic' },
 ];
 
 const SEMANTIC_COLLECTIONS: readonly (keyof ThemeSemanticTokens)[] = [
@@ -105,8 +108,13 @@ export class PlaygroundLayoutComponent {
   private readonly themeMenuRef = viewChild<ElementRef<HTMLElement>>('themeMenuRef');
 
   protected readonly activeTheme = computed<ThemeDefinition>(() => {
-    const basePreset = this.getBasePreset(this.selectedPreset());
+    const preset = this.selectedPreset();
     const mode = this.darkMode() ? 'dark' : 'light';
+    if (preset === 'daybook-classic') {
+      return mode === 'dark' ? daybookClassicDarkThemePreset : daybookClassicThemePreset;
+    }
+
+    const basePreset = this.getBasePreset(preset);
     const semantic =
       mode === 'dark' ? darkSemanticTokens : basePreset.tokens.semantic;
     return createTheme(basePreset, {

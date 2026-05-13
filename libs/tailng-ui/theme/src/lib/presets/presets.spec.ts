@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { atlasDarkThemePreset } from './atlas-dark.preset';
 import { atlasThemePreset } from './atlas.preset';
+import { daybookClassicDarkThemePreset } from './daybook-classic-dark.preset';
+import { daybookClassicThemePreset } from './daybook-classic.preset';
 import { defaultDarkThemePreset } from './default-dark.preset';
 import { defaultThemePreset } from './default.preset';
 import { minimalDarkThemePreset } from './minimal-dark.preset';
@@ -23,6 +25,7 @@ describe('theme presets', () => {
     expect(prismThemePreset.meta.mode).toBe('light');
     expect(atlasThemePreset.meta.mode).toBe('light');
     expect(sterlingThemePreset.meta.mode).toBe('light');
+    expect(daybookClassicThemePreset.meta.mode).toBe('light');
   });
 
   it('exports dark preset variants with dark mode metadata', () => {
@@ -33,6 +36,7 @@ describe('theme presets', () => {
     expect(prismDarkThemePreset.meta.mode).toBe('dark');
     expect(atlasDarkThemePreset.meta.mode).toBe('dark');
     expect(sterlingDarkThemePreset.meta.mode).toBe('dark');
+    expect(daybookClassicDarkThemePreset.meta.mode).toBe('dark');
     expect(defaultDarkThemePreset.meta.name).toBe('tailng-default-dark');
     expect(minimalDarkThemePreset.meta.name).toBe('tailng-minimal-dark');
     expect(slateDarkThemePreset.meta.name).toBe('tailng-slate-dark');
@@ -40,6 +44,7 @@ describe('theme presets', () => {
     expect(prismDarkThemePreset.meta.name).toBe('tailng-prism-dark');
     expect(atlasDarkThemePreset.meta.name).toBe('tailng-atlas-dark');
     expect(sterlingDarkThemePreset.meta.name).toBe('tailng-sterling-dark');
+    expect(daybookClassicDarkThemePreset.meta.name).toBe('tailng-daybook-classic-dark');
   });
 
   it('provides non-empty semantic scales for dark preset variants', () => {
@@ -56,5 +61,8 @@ describe('theme presets', () => {
     expect(Object.keys(sterlingDarkThemePreset.tokens.semantic.background).length).toBeGreaterThan(
       0,
     );
+    expect(
+      Object.keys(daybookClassicDarkThemePreset.tokens.semantic.background).length,
+    ).toBeGreaterThan(0);
   });
 });

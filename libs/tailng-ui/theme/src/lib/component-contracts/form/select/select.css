@@ -229,14 +229,14 @@
   /* Hover */
   :where([data-slot="select-option"]:hover):not([data-disabled]),
   :where([data-slot="multi-select-option"]:hover):not([data-disabled]) {
-    background: color-mix(in srgb, var(--tng-select-fg) 10%, transparent);
+    background: color-mix(in srgb, var(--tng-select-brand) 10%, transparent);
   }
 
   /* Active (keyboard focus) - visible highlight */
   :where([data-slot="select-option"][data-active]):not([data-disabled]),
   :where([data-slot="multi-select-option"][data-active]):not([data-disabled]) {
-    background: color-mix(in srgb, var(--tng-select-fg) 12%, transparent);
-    border-color: color-mix(in srgb, var(--tng-select-fg) 20%, transparent);
+    background: color-mix(in srgb, var(--tng-select-brand) 14%, transparent);
+    border-color: color-mix(in srgb, var(--tng-select-brand) 32%, transparent);
   }
 
   /* Selected - distinct brand treatment (data-selected or aria-selected for portaled content) */

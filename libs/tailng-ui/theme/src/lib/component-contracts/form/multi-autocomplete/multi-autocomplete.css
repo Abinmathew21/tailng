@@ -226,12 +226,12 @@
   }
 
   :where([data-slot="multi-autocomplete-option"]:hover):not([data-disabled]) {
-    background: color-mix(in srgb, var(--tng-multi-autocomplete-fg) 8%, transparent);
+    background: color-mix(in srgb, var(--tng-multi-autocomplete-brand) 10%, transparent);
   }
 
   :where([data-slot="multi-autocomplete-option"][data-active]):not([data-disabled]) {
-    background: color-mix(in srgb, var(--tng-multi-autocomplete-fg) 10%, transparent);
-    border-color: color-mix(in srgb, var(--tng-multi-autocomplete-fg) 18%, transparent);
+    background: color-mix(in srgb, var(--tng-multi-autocomplete-brand) 14%, transparent);
+    border-color: color-mix(in srgb, var(--tng-multi-autocomplete-brand) 32%, transparent);
   }
 
   :where([data-slot="multi-autocomplete-option"][data-selected]),

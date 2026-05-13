@@ -1,6 +1,8 @@
 import {
   atlasDarkThemePreset,
   atlasThemePreset,
+  daybookClassicDarkThemePreset,
+  daybookClassicThemePreset,
   defaultDarkThemePreset,
   defaultThemePreset,
   minimalDarkThemePreset,
@@ -39,7 +41,8 @@ export type ThemeDocsPresetId =
   | 'nexus'
   | 'prism'
   | 'atlas'
-  | 'sterling';
+  | 'sterling'
+  | 'daybook-classic';
 
 export type ThemeDocsModeId = 'light' | 'dark';
 
@@ -187,6 +190,13 @@ export const THEME_DOCS_PRESET_OPTIONS: readonly ThemeDocsPresetOption[] = [
     lightExport: 'sterlingThemePreset',
     darkExport: 'sterlingDarkThemePreset',
   },
+  {
+    id: 'daybook-classic',
+    label: 'Daybook Classic',
+    description: 'Ledger-toned paper, navy, and signal colors for dense finance workflows.',
+    lightExport: 'daybookClassicThemePreset',
+    darkExport: 'daybookClassicDarkThemePreset',
+  },
 ] as const;
 
 export const THEME_DOCS_MODE_OPTIONS: readonly ThemeDocsModeOption[] = [
@@ -222,6 +232,10 @@ const themeDocsPresetMap: Readonly<Record<ThemeDocsPresetId, ThemeDocsPresetReco
   sterling: {
     light: sterlingThemePreset,
     dark: sterlingDarkThemePreset,
+  },
+  'daybook-classic': {
+    light: daybookClassicThemePreset,
+    dark: daybookClassicDarkThemePreset,
   },
 } as const;
 

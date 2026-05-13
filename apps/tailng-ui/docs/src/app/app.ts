@@ -17,6 +17,8 @@ import {
   applyTailngTheme,
   atlasDarkThemePreset,
   atlasThemePreset,
+  daybookClassicDarkThemePreset,
+  daybookClassicThemePreset,
   defaultDarkThemePreset,
   defaultThemePreset,
   minimalDarkThemePreset,
@@ -41,7 +43,8 @@ type ThemePresetId =
   | 'nexus'
   | 'prism'
   | 'atlas'
-  | 'sterling';
+  | 'sterling'
+  | 'daybook-classic';
 
 type ThemePresetOption = Readonly<{
   id: ThemePresetId;
@@ -109,7 +112,17 @@ const presetOptions: readonly ThemePresetOption[] = [
     label: 'Sterling',
     description: 'Sophisticated and premium, great for a theme that emphasizes excellence and trust.',
   },
+  {
+    id: 'daybook-classic',
+    icon: 'book-open',
+    label: 'Daybook Classic',
+    description: 'Classic ledger tones for dense finance and back-office interfaces.',
+  },
 ];
+
+function isThemePresetId(value: unknown): value is ThemePresetId {
+  return typeof value === 'string' && presetOptions.some((preset) => preset.id === value);
+}
 
 const primaryNavigation: readonly NavItem[] = [
   { label: 'Components', route: '/components' },
@@ -242,17 +255,8 @@ export class App {
   }
 
   public onThemePresetMenuSelect(event: TngMenuSelectEvent): void {
-    const value = event.value;
-    if (
-      value === 'default' ||
-      value === 'minimal' ||
-      value === 'slate' ||
-      value === 'nexus' ||
-      value === 'prism' ||
-      value === 'atlas' ||
-      value === 'sterling'
-    ) {
-      this.onPresetSelect(value);
+    if (isThemePresetId(event.value)) {
+      this.onPresetSelect(event.value);
     }
   }
 
@@ -376,6 +380,10 @@ export class App {
       sterling: {
         light: sterlingThemePreset,
         dark: sterlingDarkThemePreset,
+      },
+      'daybook-classic': {
+        light: daybookClassicThemePreset,
+        dark: daybookClassicDarkThemePreset,
       },
     };
   
