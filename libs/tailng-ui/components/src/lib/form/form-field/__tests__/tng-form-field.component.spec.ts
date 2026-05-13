@@ -460,6 +460,19 @@ describe('tng-form-field', () => {
     expect(field.getAttribute('data-focused')).toBe('');
   });
 
+  it('focuses the control when non-interactive field chrome is clicked', async () => {
+    const fixture = await createNativeHost();
+    const frame = fixture.debugElement.query(
+      By.css('[data-slot="form-field-control-row"]'),
+    ).nativeElement as HTMLElement;
+    const input = fixture.debugElement.query(By.css('input[tngInput]')).nativeElement as HTMLInputElement;
+
+    frame.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
+    await flush(fixture);
+
+    expect(document.activeElement).toBe(input);
+  });
+
   it('wires textarea controls through the same label and described-by path', async () => {
     await TestBed.configureTestingModule({ imports: [TextareaHostComponent] }).compileComponents();
     const fixture = TestBed.createComponent(TextareaHostComponent);
@@ -897,6 +910,31 @@ describe('tng-form-field: new control integrations', () => {
     expect(root.getAttribute('aria-describedby')).toContain('otp-hint');
   });
 
+  it('focuses the input-otp slot when its form-field label is clicked', async () => {
+    @Component({
+      imports: [TngFormFieldComponent, TngInputOtpComponent, TngLabel],
+      template: `
+        <tng-form-field>
+          <label tngLabel>OTP</label>
+          <tng-input-otp [length]="4" />
+        </tng-form-field>
+      `,
+    })
+    class HostComponent {}
+
+    await TestBed.configureTestingModule({ imports: [HostComponent] }).compileComponents();
+    const fixture = TestBed.createComponent(HostComponent);
+    await flush(fixture);
+
+    const label = fixture.debugElement.query(By.css('label[tngLabel]')).nativeElement as HTMLLabelElement;
+    const firstSlot = fixture.debugElement.query(By.css('[data-tng-otp-slot="0"]')).nativeElement as HTMLInputElement;
+
+    label.click();
+    await flush(fixture);
+
+    expect(document.activeElement).toBe(firstSlot);
+  });
+
   it('routes aria-describedby to the toggle-group host', async () => {
     @Component({
       imports: [TngFormFieldComponent, TngToggleGroupComponent, TngToggleComponent, TngLabel, TngHint],
@@ -920,6 +958,34 @@ describe('tng-form-field: new control integrations', () => {
 
     const group = fixture.debugElement.query(By.css('tng-toggle-group')).nativeElement as HTMLElement;
     expect(group.getAttribute('aria-describedby')).toBe('align-hint');
+  });
+
+  it('focuses the first toggle-group button when its form-field label is clicked', async () => {
+    @Component({
+      imports: [TngFormFieldComponent, TngToggleGroupComponent, TngToggleComponent, TngLabel],
+      template: `
+        <tng-form-field>
+          <label tngLabel>Alignment</label>
+          <tng-toggle-group ariaLabel="Alignment">
+            <tng-toggle value="left">L</tng-toggle>
+            <tng-toggle value="center">C</tng-toggle>
+          </tng-toggle-group>
+        </tng-form-field>
+      `,
+    })
+    class HostComponent {}
+
+    await TestBed.configureTestingModule({ imports: [HostComponent] }).compileComponents();
+    const fixture = TestBed.createComponent(HostComponent);
+    await flush(fixture);
+
+    const label = fixture.debugElement.query(By.css('label[tngLabel]')).nativeElement as HTMLLabelElement;
+    const firstButton = fixture.debugElement.query(By.css('button[tngToggle]')).nativeElement as HTMLButtonElement;
+
+    label.click();
+    await flush(fixture);
+
+    expect(document.activeElement).toBe(firstButton);
   });
 
   it('exposes the registered focusable element via TNG_FORM_FIELD_CONTROL', async () => {

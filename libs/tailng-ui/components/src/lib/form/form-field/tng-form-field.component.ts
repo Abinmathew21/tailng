@@ -97,6 +97,17 @@ const COMPOSITE_CONTROL_TAGS: readonly string[] = [
   'tng-input-otp',
 ];
 
+const INTERACTIVE_CLICK_TARGET_SELECTOR = [
+  'a[href]',
+  'button',
+  'input',
+  'select',
+  'textarea',
+  'summary',
+  '[contenteditable="true"]',
+  '[tabindex]:not([tabindex="-1"])',
+].join(',');
+
 function coerceNullableBoolean(value: NullableBooleanInput): boolean | null {
   if (value === undefined || value === null) return null;
   if (value === '' || value === true || value === 'true') return true;
@@ -328,6 +339,16 @@ export class TngFormFieldComponent implements AfterContentChecked {
   protected onFocusOut(nextTarget: Readonly<EventTarget> | null): void {
     if (nextTarget instanceof Node && this.hostElement.contains(nextTarget)) return;
     this.fieldFocused = false;
+  }
+
+  @HostListener('click', ['$event'])
+  protected onClick(event: MouseEvent): void {
+    if (event.defaultPrevented || this.isDisabled()) return;
+    const target = event.target;
+    if (!(target instanceof Element)) return;
+    if (this.isSelfHandledInteractiveTarget(target)) return;
+
+    this.focusableControlElement()?.focus();
   }
 
   protected classList(...classes: readonly (string | null | undefined)[]): string {
@@ -591,6 +612,31 @@ export class TngFormFieldComponent implements AfterContentChecked {
   private labelElement(): HTMLLabelElement | null {
     const element = this.hostElement.querySelector('label[tngLabel], tng-label label');
     return element instanceof HTMLLabelElement ? element : null;
+  }
+
+  private focusableControlElement(): HTMLElement | null {
+    const customFocusable = this.customControl()?.focusableElement ?? null;
+    const customFocusTarget = this.focusTargetFrom(customFocusable);
+    if (customFocusTarget !== null) return customFocusTarget;
+
+    const nativeControl = this.nativeControlElement();
+    if (nativeControl !== null) return nativeControl;
+
+    const controlSlot = this.hostElement.querySelector<HTMLElement>(
+      '[data-slot="form-field-control"]',
+    );
+    return this.focusTargetFrom(controlSlot);
+  }
+
+  private focusTargetFrom(container: HTMLElement | null): HTMLElement | null {
+    if (container === null) return null;
+    if (container.matches(INTERACTIVE_CLICK_TARGET_SELECTOR)) return container;
+    return container.querySelector<HTMLElement>(INTERACTIVE_CLICK_TARGET_SELECTOR);
+  }
+
+  private isSelfHandledInteractiveTarget(target: Element): boolean {
+    const interactive = target.closest(INTERACTIVE_CLICK_TARGET_SELECTOR);
+    return interactive !== null && this.hostElement.contains(interactive);
   }
 
   private nativeControlElement(): NativeControlElement | null {
