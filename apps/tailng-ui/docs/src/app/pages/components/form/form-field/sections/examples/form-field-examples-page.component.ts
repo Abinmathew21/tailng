@@ -1,5 +1,5 @@
 import { DOCUMENT, NgTemplateOutlet } from '@angular/common';
-import { Component, inject, signal, type OnDestroy } from '@angular/core';
+import { Component, computed, inject, signal, type OnDestroy } from '@angular/core';
 import {
   TngAutocompleteComponent,
   TngButtonToggleComponent,
@@ -37,6 +37,7 @@ import {
   DocsExampleTabsSectionComponent,
   DocsExampleVariantDirective,
 } from '../../../../../../shared/example-tabs-section/docs-example-tabs-section.component';
+import { COUNTRY_LIST } from '../../../../../../shared/data/country-list';
 import {
   observeDocsCodeThemeChanges,
   resolveDocsCodeBlockTheme,
@@ -134,9 +135,15 @@ const inputGroupImportLines = [
 ] as const;
 
 const supportedControlsImportLines = [
+  "import { DOCUMENT } from '@angular/common';",
+  "import { Component, computed, inject, signal } from '@angular/core';",
+  "import { COUNTRY_LIST } from '../../../../../../shared/data/country-list';",
   "import { TngAutocompleteComponent, TngButtonToggleComponent, TngButtonToggleGroupComponent, TngCheckboxComponent, TngDatepickerComponent, TngFormFieldComponent, TngHint, TngInputComponent, TngInputFieldComponent, TngInputOtpComponent, TngLabelComponent, TngListboxComponent, TngMonthDaypickerComponent, TngMultiAutocompleteComponent, TngMultiSelectComponent, TngRadioComponent, TngSelectComponent, TngSliderComponent, TngSwitchComponent, TngTextareaComponent, TngToggleComponent, TngToggleGroupComponent, TngYearpickerComponent } from '@tailng-ui/components';",
   "import { TngInput, TngInputFieldPrefix, TngInputFieldSuffix } from '@tailng-ui/primitives';",
 ] as const;
+
+const FLAG_STYLESHEET_ID = 'docs-country-flag-stylesheet';
+const FLAG_STYLESHEET_HREF = 'assets/styles/flags.css';
 
 type FieldOption = {
   readonly label: string;
@@ -144,9 +151,51 @@ type FieldOption = {
   readonly disabled?: boolean;
 };
 
+type SupportedControlsCountryOption = {
+  readonly code: string;
+  readonly label: string;
+};
+
+type SharedCountryRecord = {
+  readonly code: string;
+  readonly name: string;
+};
+
+function filterAutocompleteOptions<T>(
+  options: readonly T[],
+  query: string,
+  getLabel: (option: T) => string,
+): readonly T[] {
+  const normalizedQuery = query.toLowerCase().trim();
+
+  if (!normalizedQuery) {
+    return options;
+  }
+
+  return options.filter((option) => getLabel(option).toLowerCase().includes(normalizedQuery));
+}
+
+function ensureFlagStylesheet(documentRef: Document): void {
+  if (documentRef.getElementById(FLAG_STYLESHEET_ID)) {
+    return;
+  }
+
+  const linkElement = documentRef.createElement('link');
+  linkElement.id = FLAG_STYLESHEET_ID;
+  linkElement.rel = 'stylesheet';
+  linkElement.href = FLAG_STYLESHEET_HREF;
+  documentRef.head.appendChild(linkElement);
+}
+
+const SUPPORTED_CONTROLS_COUNTRY_OPTIONS: readonly SupportedControlsCountryOption[] = Object.freeze(
+  (COUNTRY_LIST as readonly SharedCountryRecord[]).map((country) => ({
+    code: country.code.toLowerCase(),
+    label: country.name,
+  })),
+);
+
 function createSupportedControlsTsCode(selector: string, className: string): string {
   return [
-    "import { Component, signal } from '@angular/core';",
     ...supportedControlsImportLines,
     '',
     'type FieldOption = {',
@@ -154,6 +203,42 @@ function createSupportedControlsTsCode(selector: string, className: string): str
     '  readonly value: string;',
     '  readonly disabled?: boolean;',
     '};',
+    '',
+    'type CountryOption = {',
+    '  readonly code: string;',
+    '  readonly label: string;',
+    '};',
+    '',
+    'type SharedCountryRecord = {',
+    '  readonly code: string;',
+    '  readonly name: string;',
+    '};',
+    '',
+    'function filterOptions<T>(',
+    '  options: readonly T[],',
+    '  query: string,',
+    '  getLabel: (option: T) => string,',
+    '): readonly T[] {',
+    '  const normalizedQuery = query.toLowerCase().trim();',
+    '  if (!normalizedQuery) {',
+    '    return options;',
+    '  }',
+    '  return options.filter((option) => getLabel(option).toLowerCase().includes(normalizedQuery));',
+    '}',
+    '',
+    "const FLAG_STYLESHEET_ID = 'docs-country-flag-stylesheet';",
+    "const FLAG_STYLESHEET_HREF = 'assets/styles/flags.css';",
+    '',
+    'function ensureFlagStylesheet(documentRef: Document): void {',
+    '  if (documentRef.getElementById(FLAG_STYLESHEET_ID)) {',
+    '    return;',
+    '  }',
+    '  const linkElement = documentRef.createElement(\'link\');',
+    '  linkElement.id = FLAG_STYLESHEET_ID;',
+    "  linkElement.rel = 'stylesheet';",
+    '  linkElement.href = FLAG_STYLESHEET_HREF;',
+    '  documentRef.head.appendChild(linkElement);',
+    '}',
     '',
     '@Component({',
     "  selector: '" + selector + "',",
@@ -190,15 +275,35 @@ function createSupportedControlsTsCode(selector: string, className: string): str
     "  styleUrl: './" + selector + ".component.css',",
     '})',
     'export class ' + className + ' {',
+    '  private readonly documentRef = inject(DOCUMENT);',
+    '',
+    '  constructor() {',
+    '    ensureFlagStylesheet(this.documentRef);',
+    '  }',
+    '',
     '  readonly docsFormFieldSupportedSwitchEmails = signal(false);',
     '  readonly docsFormFieldSupportedToggleGroupDensity = signal<string | null>(\'comfortable\');',
     '  readonly docsFormFieldSupportedButtonToggleGroupDensity = signal<string | null>(\'comfortable\');',
     '',
-    "  readonly ownerOptions: readonly FieldOption[] = [",
-    "    { label: 'Asha Raman', value: 'asha' },",
-    "    { label: 'Mika Chen', value: 'mika' },",
-    "    { label: 'Noor Patel', value: 'noor' },",
-    '  ];',
+    '  readonly getCountryValue = (country: CountryOption): string => country.code;',
+    '  readonly getCountryLabel = (country: CountryOption): string => country.label;',
+    '  readonly getFlagClass = (country: CountryOption): string =>',
+    '    `flag-chip country-flag country-flag--${country.code.toLowerCase()}`;',
+    '',
+    "  readonly countryAutocompleteOptions: readonly CountryOption[] = (COUNTRY_LIST as readonly SharedCountryRecord[]).map((country) => ({",
+    "    code: country.code.toLowerCase(),",
+    "    label: country.name,",
+    '  }));',
+    '',
+    '  readonly countryAutocompleteValue = signal<string | null>(\'in\');',
+    '  readonly countryAutocompleteQuery = signal(\'\');',
+    '  readonly filteredCountryAutocompleteOptions = computed(() =>',
+    '    filterOptions(this.countryAutocompleteOptions, this.countryAutocompleteQuery(), this.getCountryLabel),',
+    '  );',
+    '',
+    '  onCountryAutocompleteChange(value: unknown): void {',
+    "    this.countryAutocompleteValue.set(typeof value === 'string' ? value : null);",
+    '  }',
     '',
     "  readonly skillOptions: readonly FieldOption[] = [",
     "    { label: 'Accessibility', value: 'a11y' },",
@@ -220,6 +325,8 @@ function createSupportedControlsTsCode(selector: string, className: string): str
     '',
     '  readonly getOptionValue = (option: FieldOption): string => option.value;',
     '  readonly getOptionLabel = (option: FieldOption): string => option.label;',
+    '  readonly getSkillLabelByValue = (value: string): string | null =>',
+    '    this.skillOptions.find((o) => o.value === value)?.label ?? null;',
     '}',
     '',
   ].join('\n');
@@ -268,6 +375,10 @@ function createSupportedControlsTsCode(selector: string, className: string): str
 export class FormFieldExamplesPageComponent implements OnDestroy {
   private readonly documentRef = inject(DOCUMENT);
 
+  public constructor() {
+    ensureFlagStylesheet(this.documentRef);
+  }
+
   public readonly codeBlockTheme = signal<'github-dark' | 'github-light'>(
     resolveDocsCodeBlockTheme(this.documentRef),
   );
@@ -276,17 +387,40 @@ export class FormFieldExamplesPageComponent implements OnDestroy {
     this.codeBlockTheme,
   );
 
-  protected readonly ownerOptions: readonly FieldOption[] = [
-    { label: 'Asha Raman', value: 'asha' },
-    { label: 'Mika Chen', value: 'mika' },
-    { label: 'Noor Patel', value: 'noor' },
-  ];
+  protected readonly countryAutocompleteOptions = SUPPORTED_CONTROLS_COUNTRY_OPTIONS;
+
+  protected readonly countryAutocompleteValue = signal<string | null>('in');
+  protected readonly countryAutocompleteQuery = signal('');
+
+  protected readonly getCountryValue = (country: SupportedControlsCountryOption): string => country.code;
+  protected readonly getCountryLabel = (country: SupportedControlsCountryOption): string => country.label;
+  protected readonly getFlagClass = (country: SupportedControlsCountryOption): string =>
+    `flag-chip country-flag country-flag--${country.code.toLowerCase()}`;
+
+  protected readonly filteredCountryAutocompleteOptions = computed(() =>
+    filterAutocompleteOptions(
+      this.countryAutocompleteOptions,
+      this.countryAutocompleteQuery(),
+      this.getCountryLabel,
+    ),
+  );
+
+  protected onCountryAutocompleteChange(value: unknown): void {
+    this.countryAutocompleteValue.set(typeof value === 'string' ? value : null);
+  }
 
   protected readonly skillOptions: readonly FieldOption[] = [
     { label: 'Accessibility', value: 'a11y' },
     { label: 'Design systems', value: 'design-systems' },
     { label: 'Performance', value: 'performance' },
   ];
+
+  protected readonly skillQuery = signal('');
+  protected readonly filteredSkillOptions = computed(() => {
+    const q = this.skillQuery().toLowerCase().trim();
+    if (!q) return this.skillOptions;
+    return this.skillOptions.filter((o) => o.label.toLowerCase().includes(q));
+  });
 
   protected readonly priorityOptions: readonly FieldOption[] = [
     { label: 'Low', value: 'low' },
@@ -302,6 +436,8 @@ export class FormFieldExamplesPageComponent implements OnDestroy {
 
   protected readonly getOptionValue = (option: FieldOption): string => option.value;
   protected readonly getOptionLabel = (option: FieldOption): string => option.label;
+  protected readonly getSkillLabelByValue = (value: string): string | null =>
+    this.skillOptions.find((o) => o.value === value)?.label ?? null;
 
   protected readonly docsFormFieldSupportedPlainSwitchEmails = signal(false);
   protected readonly docsFormFieldSupportedTailwindSwitchEmails = signal(false);
@@ -347,15 +483,31 @@ export class FormFieldExamplesPageComponent implements OnDestroy {
     '  </tng-form-field>',
     '',
     '  <tng-form-field>',
-    '    <tng-label>Autocomplete</tng-label>',
-    '    <tng-autocomplete',
-    '      [options]="ownerOptions"',
-    '      [getOptionValue]="getOptionValue"',
-    '      [getOptionLabel]="getOptionLabel"',
-    '      placeholder="Search owner"',
-    '      ariaLabel="Release owner"',
-    '    />',
-    '    <p tngHint>Autocomplete works as one searchable control surface.</p>',
+    '    <tng-label>Country</tng-label>',
+    '    <div class="doc-cmp-form-field-ex-country-autocomplete">',
+    '      <tng-autocomplete',
+    '        [options]="filteredCountryAutocompleteOptions()"',
+    '        [value]="countryAutocompleteValue()"',
+    '        (valueChange)="onCountryAutocompleteChange($event)"',
+    '        [query]="countryAutocompleteQuery()"',
+    '        (queryChange)="countryAutocompleteQuery.set($event)"',
+    '        [getOptionValue]="getCountryValue"',
+    '        [getOptionLabel]="getCountryLabel"',
+    '        placeholder="Search country"',
+    '        ariaLabel="Release country"',
+    '      >',
+    '        <ng-template #tngAutocompleteOptionTpl let-option="option" let-label="label">',
+    '          <span class="flag-option">',
+    '            <span [class]="getFlagClass(option)" aria-hidden="true"></span>',
+    '            <span class="flag-label">{{ label }}</span>',
+    '          </span>',
+    '        </ng-template>',
+    '        <ng-template #tngAutocompleteSelectedTpl let-option="option">',
+    '          <span [class]="getFlagClass(option)" aria-hidden="true"></span>',
+    '        </ng-template>',
+    '      </tng-autocomplete>',
+    '    </div>',
+    '    <p tngHint>Autocomplete supports custom option and selected templates, such as flags with labels.</p>',
     '  </tng-form-field>',
     '',
     '  <tng-form-field>',
@@ -364,6 +516,7 @@ export class FormFieldExamplesPageComponent implements OnDestroy {
     '      [options]="skillOptions"',
     '      [getOptionValue]="getOptionValue"',
     '      [getOptionLabel]="getOptionLabel"',
+    '      [resolveValueLabel]="getSkillLabelByValue"',
     '      placeholder="Add skills"',
     '      ariaLabel="Required skills"',
     '    />',

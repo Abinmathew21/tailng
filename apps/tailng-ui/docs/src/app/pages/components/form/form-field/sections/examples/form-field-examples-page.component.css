@@ -18,3 +18,14 @@
 .doc-cmp-form-field-ex-form-grid > tng-form-field {
   min-width: 0;
 }
+
+.doc-cmp-form-field-ex-country-autocomplete tng-autocomplete {
+  display: block;
+  width: 100%;
+}
+
+.flag-option {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}

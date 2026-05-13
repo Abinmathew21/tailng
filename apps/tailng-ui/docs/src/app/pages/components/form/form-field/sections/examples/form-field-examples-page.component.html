@@ -173,23 +173,43 @@
             </tng-form-field>
 
             <tng-form-field>
-              <tng-label>Autocomplete</tng-label>
-              <tng-autocomplete
-                [options]="ownerOptions"
-                [getOptionValue]="getOptionValue"
-                [getOptionLabel]="getOptionLabel"
-                placeholder="Search owner"
-                ariaLabel="Release owner"
-              />
-              <p tngHint>Autocomplete works as one searchable control surface.</p>
+              <tng-label>Country</tng-label>
+              <div class="doc-cmp-form-field-ex-country-autocomplete">
+                <tng-autocomplete
+                  [options]="filteredCountryAutocompleteOptions()"
+                  [value]="countryAutocompleteValue()"
+                  (valueChange)="onCountryAutocompleteChange($event)"
+                  [query]="countryAutocompleteQuery()"
+                  (queryChange)="countryAutocompleteQuery.set($event)"
+                  [getOptionValue]="getCountryValue"
+                  [getOptionLabel]="getCountryLabel"
+                  placeholder="Search country"
+                  ariaLabel="Release country"
+                >
+                  <ng-template #tngAutocompleteOptionTpl let-option="option" let-label="label">
+                    <span class="flag-option">
+                      <span [class]="getFlagClass(option)" aria-hidden="true"></span>
+                      <span class="flag-label">{{ label }}</span>
+                    </span>
+                  </ng-template>
+
+                  <ng-template #tngAutocompleteSelectedTpl let-option="option">
+                    <span [class]="getFlagClass(option)" aria-hidden="true"></span>
+                  </ng-template>
+                </tng-autocomplete>
+              </div>
+              <p tngHint>Autocomplete supports custom option and selected templates, such as flags with labels.</p>
             </tng-form-field>
 
             <tng-form-field>
               <tng-label>MultiAutocomplete</tng-label>
               <tng-multi-autocomplete
-                [options]="skillOptions"
+                [options]="filteredSkillOptions()"
+                [query]="skillQuery()"
+                (queryChange)="skillQuery.set($event)"
                 [getOptionValue]="getOptionValue"
                 [getOptionLabel]="getOptionLabel"
+                [resolveValueLabel]="getSkillLabelByValue"
                 placeholder="Add skills"
                 ariaLabel="Required skills"
               />
@@ -385,23 +405,43 @@
             </tng-form-field>
 
             <tng-form-field>
-              <tng-label>Autocomplete</tng-label>
-              <tng-autocomplete
-                [options]="ownerOptions"
-                [getOptionValue]="getOptionValue"
-                [getOptionLabel]="getOptionLabel"
-                placeholder="Search owner"
-                ariaLabel="Release owner"
-              />
-              <p tngHint>Autocomplete works as one searchable control surface.</p>
+              <tng-label>Country</tng-label>
+              <div class="doc-cmp-form-field-ex-country-autocomplete">
+                <tng-autocomplete
+                  [options]="filteredCountryAutocompleteOptions()"
+                  [value]="countryAutocompleteValue()"
+                  (valueChange)="onCountryAutocompleteChange($event)"
+                  [query]="countryAutocompleteQuery()"
+                  (queryChange)="countryAutocompleteQuery.set($event)"
+                  [getOptionValue]="getCountryValue"
+                  [getOptionLabel]="getCountryLabel"
+                  placeholder="Search country"
+                  ariaLabel="Release country"
+                >
+                  <ng-template #tngAutocompleteOptionTpl let-option="option" let-label="label">
+                    <span class="flag-option">
+                      <span [class]="getFlagClass(option)" aria-hidden="true"></span>
+                      <span class="flag-label">{{ label }}</span>
+                    </span>
+                  </ng-template>
+
+                  <ng-template #tngAutocompleteSelectedTpl let-option="option">
+                    <span [class]="getFlagClass(option)" aria-hidden="true"></span>
+                  </ng-template>
+                </tng-autocomplete>
+              </div>
+              <p tngHint>Autocomplete supports custom option and selected templates, such as flags with labels.</p>
             </tng-form-field>
 
             <tng-form-field>
               <tng-label>MultiAutocomplete</tng-label>
               <tng-multi-autocomplete
-                [options]="skillOptions"
+                [options]="filteredSkillOptions()"
+                [query]="skillQuery()"
+                (queryChange)="skillQuery.set($event)"
                 [getOptionValue]="getOptionValue"
                 [getOptionLabel]="getOptionLabel"
+                [resolveValueLabel]="getSkillLabelByValue"
                 placeholder="Add skills"
                 ariaLabel="Required skills"
               />
@@ -653,23 +693,43 @@
         </tng-form-field>
 
         <tng-form-field [labelPosition]="labelPosition">
-          <tng-label>Autocomplete</tng-label>
-          <tng-autocomplete
-            [options]="ownerOptions"
-            [getOptionValue]="getOptionValue"
-            [getOptionLabel]="getOptionLabel"
-            placeholder="Search owner"
-            ariaLabel="Release owner"
-          />
-          <p tngHint>Autocomplete works as one searchable control surface.</p>
+          <tng-label>Country</tng-label>
+          <div class="doc-cmp-form-field-ex-country-autocomplete">
+            <tng-autocomplete
+              [options]="filteredCountryAutocompleteOptions()"
+              [value]="countryAutocompleteValue()"
+              (valueChange)="onCountryAutocompleteChange($event)"
+              [query]="countryAutocompleteQuery()"
+              (queryChange)="countryAutocompleteQuery.set($event)"
+              [getOptionValue]="getCountryValue"
+              [getOptionLabel]="getCountryLabel"
+              placeholder="Search country"
+              ariaLabel="Release country"
+            >
+              <ng-template #tngAutocompleteOptionTpl let-option="option" let-label="label">
+                <span class="flag-option">
+                  <span [class]="getFlagClass(option)" aria-hidden="true"></span>
+                  <span class="flag-label">{{ label }}</span>
+                </span>
+              </ng-template>
+
+              <ng-template #tngAutocompleteSelectedTpl let-option="option">
+                <span [class]="getFlagClass(option)" aria-hidden="true"></span>
+              </ng-template>
+            </tng-autocomplete>
+          </div>
+          <p tngHint>Autocomplete supports custom option and selected templates, such as flags with labels.</p>
         </tng-form-field>
 
         <tng-form-field [labelPosition]="labelPosition">
           <tng-label>MultiAutocomplete</tng-label>
           <tng-multi-autocomplete
-            [options]="skillOptions"
+            [options]="filteredSkillOptions()"
+            [query]="skillQuery()"
+            (queryChange)="skillQuery.set($event)"
             [getOptionValue]="getOptionValue"
             [getOptionLabel]="getOptionLabel"
+            [resolveValueLabel]="getSkillLabelByValue"
             placeholder="Add skills"
             ariaLabel="Required skills"
           />
