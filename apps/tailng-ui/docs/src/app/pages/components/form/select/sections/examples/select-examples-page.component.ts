@@ -518,7 +518,7 @@ export class SelectExamplesPageComponent implements OnDestroy {
     RELEASE_OWNER_OPTIONS.map((owner) => [owner.id, owner.name]),
   );
 
-  public readonly codeBlockTheme = signal<'github-dark' | 'github-light'>(
+  protected readonly codeBlockTheme = signal<'github-dark' | 'github-light'>(
     resolveDocsCodeBlockTheme(this.documentRef),
   );
 
