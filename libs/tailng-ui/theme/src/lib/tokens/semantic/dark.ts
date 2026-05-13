@@ -2,10 +2,10 @@ import type { ThemeSemanticTokens } from '../../contracts/token.types';
 
 export const darkSemanticTokens: ThemeSemanticTokens = {
   background: {
-    base: '#1e293b',
-    canvas: '#0f172a',
-    muted: '#334155',
-    surface: '#334155',
+    base: '#172033',
+    canvas: '#0b1020',
+    muted: '#26344d',
+    surface: '#1f2a3d',
   },
   foreground: {
     primary: '{color.white}',
@@ -14,8 +14,8 @@ export const darkSemanticTokens: ThemeSemanticTokens = {
     inverse: '{color.neutral900}',
   },
   border: {
-    default: '#475569',
-    subtle: '#475569',
+    default: '#3d4c63',
+    subtle: '#2a364a',
     strong: '#64748b',
   },
   accent: {

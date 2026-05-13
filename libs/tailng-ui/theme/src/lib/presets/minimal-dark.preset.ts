@@ -8,10 +8,10 @@ export const minimalDarkThemePreset: ThemeDefinition = {
   },
   tokens: createThemeTokens({
     background: {
-      base: '{color.neutral900}',
-      canvas: '{color.neutral900}',
-      muted: '#1e293b',
-      surface: '#1e293b',
+      base: '#111827',
+      canvas: '#0b111c',
+      muted: '#1f2937',
+      surface: '#151f2e',
     },
     foreground: {
       primary: '{color.white}',
@@ -21,7 +21,7 @@ export const minimalDarkThemePreset: ThemeDefinition = {
     },
     border: {
       default: '#334155',
-      subtle: '#334155',
+      subtle: '#273244',
       strong: '{color.neutral400}',
     },
     accent: {

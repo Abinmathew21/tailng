@@ -2,10 +2,10 @@ import type { ThemeSemanticTokens } from '../../contracts/token.types';
 
 export const lightSemanticTokens: ThemeSemanticTokens = {
   background: {
-    base: '#f7f8fa',
-    canvas: '#f3f4f6',
-    muted: '#e9edf2',
-    surface: '#fbfbfc',
+    base: '#eef4fb',
+    canvas: '#e3edf8',
+    muted: '#d4e2f2',
+    surface: '#f3f8fd',
   },
   foreground: {
     primary: '#1f2937',
@@ -14,9 +14,9 @@ export const lightSemanticTokens: ThemeSemanticTokens = {
     inverse: '{color.white}',
   },
   border: {
-    default: '#d1d5db',
-    subtle: '#e5e7eb',
-    strong: '#9ca3af',
+    default: '#b8c7d9',
+    subtle: '#cdd9e8',
+    strong: '#7f92aa',
   },
   accent: {
     brand: '{color.primary500}',

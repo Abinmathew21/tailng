@@ -8,10 +8,10 @@ export const prismDarkThemePreset: ThemeDefinition = {
   },
   tokens: createThemeTokens({
     background: {
-      base: '#0f172a',
-      canvas: '#0b1020',
-      muted: '#1f2937',
-      surface: '#111827',
+      base: '#15122b',
+      canvas: '#0e0b1f',
+      muted: '#272044',
+      surface: '#1b1634',
     },
     foreground: {
       primary: '#f3f4f6',
@@ -20,9 +20,9 @@ export const prismDarkThemePreset: ThemeDefinition = {
       inverse: '#111827',
     },
     border: {
-      default: '#374151',
-      subtle: '#1f2937',
-      strong: '#4b5563',
+      default: '#3d315f',
+      subtle: '#2b2349',
+      strong: '#67578e',
     },
     accent: {
       brand: '#818cf8',

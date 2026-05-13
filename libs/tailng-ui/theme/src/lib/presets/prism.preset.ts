@@ -8,10 +8,10 @@ export const prismThemePreset: ThemeDefinition = {
   },
   tokens: createThemeTokens({
     background: {
-      base: '#f7f8fa',
-      canvas: '#f7f8fc',
-      muted: '#eef2ff',
-      surface: '#fbfbfc',
+      base: '#f1efff',
+      canvas: '#e8e6ff',
+      muted: '#dcd7ff',
+      surface: '#f7f5ff',
     },
     foreground: {
       primary: '#111827',
@@ -20,9 +20,9 @@ export const prismThemePreset: ThemeDefinition = {
       inverse: '{color.white}',
     },
     border: {
-      default: '#d1d5db',
-      subtle: '#e5e7eb',
-      strong: '#9ca3af',
+      default: '#c8c0ff',
+      subtle: '#ded8ff',
+      strong: '#8b80ef',
     },
     accent: {
       brand: '#4f46e5',

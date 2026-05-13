@@ -8,10 +8,10 @@ export const nexusThemePreset: ThemeDefinition = {
   },
   tokens: createThemeTokens({
     background: {
-      base: '#f7f8fa',
-      canvas: '#f5f7fb',
-      muted: '#e8edf5',
-      surface: '#fafbfc',
+      base: '#eef5ff',
+      canvas: '#e0ecff',
+      muted: '#cadcff',
+      surface: '#f3f7ff',
     },
     foreground: {
       primary: '{color.neutral900}',
@@ -20,9 +20,9 @@ export const nexusThemePreset: ThemeDefinition = {
       inverse: '{color.white}',
     },
     border: {
-      default: '#c7d2fe',
-      subtle: '#dbeafe',
-      strong: '#93c5fd',
+      default: '#9ebcff',
+      subtle: '#bfd2ff',
+      strong: '#5b8def',
     },
     accent: {
       brand: '{color.primary500}',

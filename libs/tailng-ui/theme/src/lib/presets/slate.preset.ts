@@ -8,10 +8,10 @@ export const slateThemePreset: ThemeDefinition = {
   },
   tokens: createThemeTokens({
     background: {
-      base: '#f7f8fa',
-      canvas: '#f5f7fb',
-      muted: '#eef2f7',
-      surface: '#f8fafc',
+      base: '#edf2f7',
+      canvas: '#e2e8f0',
+      muted: '#d4dde8',
+      surface: '#f1f5f9',
     },
     foreground: {
       primary: '#1f2937',
@@ -20,9 +20,9 @@ export const slateThemePreset: ThemeDefinition = {
       inverse: '{color.white}',
     },
     border: {
-      default: '#cbd5e1',
-      subtle: '#e2e8f0',
-      strong: '#94a3b8',
+      default: '#b6c2d1',
+      subtle: '#cbd5e1',
+      strong: '#7f8ea3',
     },
     accent: {
       brand: '#334155',

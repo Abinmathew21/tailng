@@ -8,8 +8,10 @@ export const minimalThemePreset: ThemeDefinition = {
   },
   tokens: createThemeTokens({
     background: {
-      canvas: '#f6f7f9',
-      surface: '#fbfbfc',
+      base: '#f1f3f6',
+      canvas: '#e8edf3',
+      muted: '#dce3eb',
+      surface: '#f4f6f8',
     },
     foreground: {
       primary: '#111827',
@@ -17,7 +19,8 @@ export const minimalThemePreset: ThemeDefinition = {
       inverse: '{color.white}',
     },
     border: {
-      subtle: '{color.neutral100}',
+      default: '#c4ccd7',
+      subtle: '#d3dae3',
       strong: '{color.neutral500}',
     },
     accent: {

@@ -8,10 +8,10 @@ export const nexusDarkThemePreset: ThemeDefinition = {
   },
   tokens: createThemeTokens({
     background: {
-      base: '#0b1220',
-      canvas: '#050b17',
-      muted: '#1e293b',
-      surface: '#111827',
+      base: '#0b1530',
+      canvas: '#050b1c',
+      muted: '#14294d',
+      surface: '#0f1e38',
     },
     foreground: {
       primary: '#e2e8f0',
@@ -20,9 +20,9 @@ export const nexusDarkThemePreset: ThemeDefinition = {
       inverse: '{color.neutral900}',
     },
     border: {
-      default: '#334155',
-      subtle: '#1e293b',
-      strong: '#475569',
+      default: '#244163',
+      subtle: '#173153',
+      strong: '#4a6d95',
     },
     accent: {
       brand: '#60a5fa',

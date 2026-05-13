@@ -8,10 +8,10 @@ export const atlasThemePreset: ThemeDefinition = {
   },
   tokens: createThemeTokens({
     background: {
-      base: '#f7f8fa',
-      canvas: '#f6f7f9',
-      muted: '#e5e7eb',
-      surface: '#fbfbfc',
+      base: '#edf8f6',
+      canvas: '#dff2ef',
+      muted: '#cce6e1',
+      surface: '#f3fbf9',
     },
     foreground: {
       primary: '#1f2937',
@@ -20,9 +20,9 @@ export const atlasThemePreset: ThemeDefinition = {
       inverse: '{color.white}',
     },
     border: {
-      default: '#cbd5e1',
-      subtle: '#e5e7eb',
-      strong: '#94a3b8',
+      default: '#9ccac2',
+      subtle: '#c0ddd8',
+      strong: '#2d9a8f',
     },
     accent: {
       brand: '#0f766e',

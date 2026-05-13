@@ -8,10 +8,10 @@ export const sterlingThemePreset: ThemeDefinition = {
   },
   tokens: createThemeTokens({
     background: {
-      base: '#f7f8fa',
-      canvas: '#f8f8f7',
-      muted: '{color.neutral100}',
-      surface: '#fbfbfc',
+      base: '#f0f2f5',
+      canvas: '#e7ebf0',
+      muted: '#d9dee6',
+      surface: '#f5f7fa',
     },
     foreground: {
       primary: '#1f2937',
@@ -20,9 +20,9 @@ export const sterlingThemePreset: ThemeDefinition = {
       inverse: '{color.white}',
     },
     border: {
-      default: '#cbd5e1',
-      subtle: '#e2e8f0',
-      strong: '#94a3b8',
+      default: '#b6bfca',
+      subtle: '#d1d7df',
+      strong: '#6b7280',
     },
     accent: {
       brand: '#374151',
