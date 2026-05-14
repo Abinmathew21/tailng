@@ -1,8 +1,8 @@
 import { readdirSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
-import { listRegistryItemNames } from './registry';
 import { getRegistryGeneratedFilePaths, getRegistryImportSymbols } from './ownable-docs';
+import { listRegistryItemNames } from './registry';
 
 function collectRouteFiles(directory: string): readonly string[] {
   const entries = readdirSync(directory, { withFileTypes: true });
