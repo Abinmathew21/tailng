@@ -227,7 +227,7 @@ describe('tng-toast component', () => {
     });
     fixture.detectChanges();
 
-    const actionButton = fixture.nativeElement.querySelector<HTMLButtonElement>('.tng-toast-action');
+    const actionButton = (fixture.nativeElement as HTMLElement).querySelector<HTMLButtonElement>('.tng-toast-action');
     if (!(actionButton instanceof HTMLButtonElement)) {
       throw new Error('Expected toast action button.');
     }
@@ -269,7 +269,7 @@ describe('tng-toast component', () => {
     });
     fixture.detectChanges();
 
-    const actionButton = fixture.nativeElement.querySelector<HTMLButtonElement>('.tng-toast-action');
+    const actionButton = (fixture.nativeElement as HTMLElement).querySelector<HTMLButtonElement>('.tng-toast-action');
     if (!(actionButton instanceof HTMLButtonElement)) {
       throw new Error('Expected toast action button.');
     }
@@ -344,7 +344,7 @@ describe('tng-toast component', () => {
     const id = toastComponent.show('Interactive focus restore');
     fixture.detectChanges();
 
-    const closeButton = fixture.nativeElement.querySelector<HTMLButtonElement>('.tng-toast-close');
+    const closeButton = (fixture.nativeElement as HTMLElement).querySelector<HTMLButtonElement>('.tng-toast-close');
     if (!(closeButton instanceof HTMLButtonElement)) {
       throw new Error('Expected toast close button.');
     }
@@ -395,7 +395,7 @@ describe('tng-toast component', () => {
     });
     fixture.detectChanges();
 
-    const actionButton = fixture.nativeElement.querySelector<HTMLButtonElement>('.tng-toast-action');
+    const actionButton = (fixture.nativeElement as HTMLElement).querySelector<HTMLButtonElement>('.tng-toast-action');
     if (!(actionButton instanceof HTMLButtonElement)) {
       throw new Error('Expected toast action button.');
     }

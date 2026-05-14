@@ -1,11 +1,10 @@
 import { Component, effect, input, output, signal, viewChild } from '@angular/core';
-import type { OnDestroy } from '@angular/core';
+import type { OnDestroy, ElementRef } from '@angular/core';
 import {
   createTngIdFactory,
   createTngKeyedTimerController,
   resolveFocusableElements,
 } from '@tailng-ui/cdk';
-import type { ElementRef } from '@angular/core';
 import type { TngOverlayDismissReason } from '@tailng-ui/cdk';
 import type { TngToastTone } from '@tailng-ui/primitives';
 import {
@@ -280,21 +279,24 @@ export class TngToastComponent implements OnDestroy {
   }
 
   private resolveEscapeDismissToastId(): string | null {
-    const latestToast = this.toasts()[this.toasts().length - 1];
-    const fallbackToastId = latestToast?.id ?? null;
+    const toasts = this.toasts();
+    const fallbackToastId = toasts[toasts.length - 1]?.id ?? null;
+    return this.getFocusedToastId() ?? fallbackToastId;
+  }
 
-    const viewportElement = this.viewportRef()?.nativeElement;
-    if (viewportElement === undefined || this.documentRef === null) {
-      return fallbackToastId;
+  private getFocusedToastId(): string | null {
+    const viewport = this.viewportRef()?.nativeElement;
+    if (viewport === undefined || this.documentRef === null) {
+      return null;
     }
 
     const activeElement = this.documentRef.activeElement;
-    if (!(activeElement instanceof HTMLElement) || !viewportElement.contains(activeElement)) {
-      return fallbackToastId;
+    if (!(activeElement instanceof HTMLElement) || !viewport.contains(activeElement)) {
+      return null;
     }
 
     const focusedToast = activeElement.closest<HTMLElement>('[data-slot="toast-item"][data-toast-id]');
-    return focusedToast?.getAttribute('data-toast-id') ?? fallbackToastId;
+    return focusedToast?.getAttribute('data-toast-id') ?? null;
   }
 
   private activateFocusLayer(): void {
