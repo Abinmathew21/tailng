@@ -12,6 +12,7 @@ export * from './button-toggle/tng-button-toggle';
 export * from './checkbox/tng-checkbox';
 export * from './chips/tng-chips';
 export * from './datepicker';
+export * from './date-range-picker';
 export * from './input/tng-input';
 export * from './input/tng-input-group';
 export * from './input/tng-adornment';
@@ -27,6 +28,7 @@ export * from './select/tng-select.overlay';
 export * from './select/tng-select.listbox';
 export * from './select/tng-select.listbox.types';
 
+export * from './number-range';
 export * from './slider/tng-slider';
 export * from './switch/tng-switch';
 export * from './textarea/tng-textarea';

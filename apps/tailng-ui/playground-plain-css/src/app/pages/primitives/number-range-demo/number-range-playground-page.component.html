@@ -1,0 +1,301 @@
+<main class="page">
+  <header class="hero">
+    <h1 class="title">Number Range</h1>
+    <p class="subtitle">
+      Two-value numeric range input. Supports controlled, uncontrolled, reactive-forms, validation,
+      disabled, readonly, and slot-class customisation.
+    </p>
+  </header>
+
+  <div class="container">
+
+    <!-- ──────────────────────────────────────────────────────────────────── -->
+    <!-- A) Basic / uncontrolled                                              -->
+    <!-- ──────────────────────────────────────────────────────────────────── -->
+    <section class="card">
+      <h2>Basic (uncontrolled)</h2>
+      <p class="description">
+        No <code>[value]</code> binding. The component manages its own state.
+        <code>valueChange</code> fires on every input event.
+      </p>
+
+      <tng-number-range
+        class="range"
+        minPlaceholder="Min"
+        maxPlaceholder="Max"
+        ariaLabel="Basic number range"
+        (valueChange)="onBasicChange($event)"
+      />
+
+      <p class="current">{{ lastBasicEvent() }}</p>
+    </section>
+
+    <!-- ──────────────────────────────────────────────────────────────────── -->
+    <!-- B) Controlled with signal                                            -->
+    <!-- ──────────────────────────────────────────────────────────────────── -->
+    <section class="card">
+      <h2>Controlled (signal)</h2>
+      <p class="description">
+        <code>[value]</code> drives the display; <code>(valueChange)</code> updates the signal.
+      </p>
+
+      <tng-number-range
+        class="range"
+        [value]="priceRange()"
+        minPlaceholder="Min price"
+        maxPlaceholder="Max price"
+        ariaLabel="Price range"
+        minAriaLabel="Minimum price"
+        maxAriaLabel="Maximum price"
+        (valueChange)="onPriceChange($event)"
+      />
+
+      <p class="current">
+        min: {{ priceRange().min ?? 'null' }} &nbsp;|&nbsp; max: {{ priceRange().max ?? 'null' }}
+      </p>
+
+      <button class="action" type="button" (click)="resetPrice()">Reset</button>
+    </section>
+
+    <!-- ──────────────────────────────────────────────────────────────────── -->
+    <!-- C) Min / max boundaries + step                                       -->
+    <!-- ──────────────────────────────────────────────────────────────────── -->
+    <section class="card">
+      <h2>Boundaries &amp; step</h2>
+      <p class="description">
+        Configured <code>[min]="0"</code>, <code>[max]="10000"</code>, <code>[step]="100"</code>.
+        Values outside the boundary are reported as invalid but not blocked.
+      </p>
+
+      <tng-number-range
+        class="range"
+        [value]="boundedRange()"
+        [min]="0"
+        [max]="10000"
+        [step]="100"
+        minPlaceholder="0"
+        maxPlaceholder="10 000"
+        ariaLabel="Budget range"
+        (valueChange)="onBoundedChange($event)"
+      />
+
+      <p class="current">
+        min: {{ boundedRange().min ?? 'null' }} &nbsp;|&nbsp; max: {{ boundedRange().max ?? 'null' }}
+      </p>
+    </section>
+
+    <!-- ──────────────────────────────────────────────────────────────────── -->
+    <!-- D) With placeholders + custom separator                              -->
+    <!-- ──────────────────────────────────────────────────────────────────── -->
+    <section class="card">
+      <h2>Placeholders &amp; custom separator</h2>
+      <p class="description">
+        <code>minPlaceholder</code>, <code>maxPlaceholder</code>, and
+        <code>[separator]="'to'"</code> customise the label and divider text.
+      </p>
+
+      <tng-number-range
+        class="range"
+        [separator]="'to'"
+        minPlaceholder="From"
+        maxPlaceholder="To"
+        ariaLabel="Age range"
+        minAriaLabel="Minimum age"
+        maxAriaLabel="Maximum age"
+      />
+    </section>
+
+    <!-- ──────────────────────────────────────────────────────────────────── -->
+    <!-- E) Reactive forms                                                    -->
+    <!-- ──────────────────────────────────────────────────────────────────── -->
+    <section class="card">
+      <h2>Reactive forms (<code>formControlName</code>)</h2>
+      <p class="description">
+        Integrates via <code>ControlValueAccessor</code>.
+        The form control value is the full <code>&#123; min, max &#125;</code> object.
+      </p>
+
+      <form [formGroup]="form" class="stack">
+        <tng-number-range
+          class="range"
+          formControlName="budget"
+          minPlaceholder="Min budget"
+          maxPlaceholder="Max budget"
+          ariaLabel="Budget range"
+        />
+      </form>
+
+      <p class="current">
+        form value: {{ form.value }}
+      </p>
+
+      <div class="row">
+        <button class="action" type="button" (click)="resetForm()">Reset form</button>
+        <span class="pill" [class.pill--valid]="form.valid" [class.pill--invalid]="form.invalid">
+          {{ form.valid ? 'valid' : 'invalid' }}
+        </span>
+        <span class="pill" [class.pill--touched]="budgetControl.touched">
+          {{ budgetControl.touched ? 'touched' : 'untouched' }}
+        </span>
+      </div>
+    </section>
+
+    <!-- ──────────────────────────────────────────────────────────────────── -->
+    <!-- F) Validation states                                                 -->
+    <!-- ──────────────────────────────────────────────────────────────────── -->
+    <section class="card">
+      <h2>Validation states</h2>
+      <p class="description">
+        Range order is validated automatically (min &gt; max = invalid).
+        The <code>[invalid]</code> input forces external invalid state.
+      </p>
+
+      <div class="stack">
+        <div class="field">
+          <label class="label">Auto-validated (try min &gt; max)</label>
+          <tng-number-range
+            class="range"
+            [value]="invalidRange()"
+            minPlaceholder="Min"
+            maxPlaceholder="Max"
+            ariaLabel="Validated range"
+            (valueChange)="onInvalidRangeChange($event)"
+          />
+          <p class="hint">
+            min: {{ invalidRange().min ?? 'null' }} &nbsp;|&nbsp;
+            max: {{ invalidRange().max ?? 'null' }}
+          </p>
+        </div>
+
+        <div class="field">
+          <label class="label">External <code>[invalid]</code> flag</label>
+          <tng-number-range
+            class="range"
+            [invalid]="forceInvalid()"
+            minPlaceholder="Min"
+            maxPlaceholder="Max"
+            ariaLabel="Externally invalidated range"
+          />
+          <button
+            class="action action--sm"
+            type="button"
+            (click)="forceInvalid.set(!forceInvalid())"
+          >
+            Toggle invalid ({{ forceInvalid() ? 'on' : 'off' }})
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ──────────────────────────────────────────────────────────────────── -->
+    <!-- G) Disabled                                                          -->
+    <!-- ──────────────────────────────────────────────────────────────────── -->
+    <section class="card">
+      <h2>Disabled</h2>
+      <p class="description">
+        Both inputs are disabled and interactions are blocked.
+      </p>
+
+      <tng-number-range
+        class="range"
+        [value]="{ min: 100, max: 500 }"
+        [disabled]="true"
+        minPlaceholder="Min"
+        maxPlaceholder="Max"
+        ariaLabel="Disabled range"
+      />
+    </section>
+
+    <!-- ──────────────────────────────────────────────────────────────────── -->
+    <!-- H) Readonly                                                          -->
+    <!-- ──────────────────────────────────────────────────────────────────── -->
+    <section class="card">
+      <h2>Readonly</h2>
+      <p class="description">
+        Inputs are focusable but value editing is prevented.
+      </p>
+
+      <tng-number-range
+        class="range"
+        [value]="{ min: 200, max: 800 }"
+        [readonly]="true"
+        minPlaceholder="Min"
+        maxPlaceholder="Max"
+        ariaLabel="Readonly range"
+      />
+    </section>
+
+    <!-- ──────────────────────────────────────────────────────────────────── -->
+    <!-- I) Required                                                          -->
+    <!-- ──────────────────────────────────────────────────────────────────── -->
+    <section class="card">
+      <h2>Required</h2>
+      <p class="description">
+        <code>[required]="true"</code> sets the native <code>required</code> attribute on both
+        inputs, enabling browser and form validation.
+      </p>
+
+      <tng-number-range
+        class="range"
+        [required]="true"
+        minPlaceholder="Min (required)"
+        maxPlaceholder="Max (required)"
+        ariaLabel="Required range"
+      />
+    </section>
+
+    <!-- ──────────────────────────────────────────────────────────────────── -->
+    <!-- J) Slot class customisation                                          -->
+    <!-- ──────────────────────────────────────────────────────────────────── -->
+    <section class="card">
+      <h2>Slot class customisation</h2>
+      <p class="description">
+        The <code>[slot]</code> input accepts a <code>Partial&lt;Record&lt;TngNumberRangeSlots, string&gt;&gt;</code>
+        to attach extra CSS classes to individual parts.
+      </p>
+
+      <tng-number-range
+        class="range"
+        [value]="slotRange()"
+        [slot]="{ minInput: 'custom-input custom-input--min', maxInput: 'custom-input custom-input--max', separator: 'custom-sep' }"
+        minPlaceholder="From"
+        maxPlaceholder="To"
+        ariaLabel="Slotted range"
+        (valueChange)="onSlotChange($event)"
+      />
+
+      <p class="hint hint--code">
+        slot.minInput = "custom-input custom-input--min" &nbsp;·&nbsp;
+        slot.separator = "custom-sep"
+      </p>
+    </section>
+
+    <!-- ──────────────────────────────────────────────────────────────────── -->
+    <!-- K) Aria labels                                                       -->
+    <!-- ──────────────────────────────────────────────────────────────────── -->
+    <section class="card">
+      <h2>Accessibility labels</h2>
+      <p class="description">
+        <code>ariaLabel</code> labels the group; <code>minAriaLabel</code> /
+        <code>maxAriaLabel</code> label each input individually.
+        The separator is always <code>aria-hidden</code>.
+      </p>
+
+      <tng-number-range
+        class="range"
+        ariaLabel="Price filter"
+        minAriaLabel="Minimum price in dollars"
+        maxAriaLabel="Maximum price in dollars"
+        minPlaceholder="e.g. 50"
+        maxPlaceholder="e.g. 500"
+      />
+
+      <p class="hint hint--code">
+        group: aria-label="Price filter" &nbsp;·&nbsp;
+        min: aria-label="Minimum price in dollars" &nbsp;·&nbsp;
+        max: aria-label="Maximum price in dollars"
+      </p>
+    </section>
+
+  </div>
+</main>

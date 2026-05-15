@@ -1,0 +1,54 @@
+<div
+  class="tng-number-range"
+  [class]="slotClass('root')"
+  role="group"
+  [attr.aria-label]="ariaLabel() || null"
+  [attr.aria-labelledby]="ariaLabelledby() || null"
+  [attr.data-disabled]="effectiveDisabled ? '' : null"
+  [attr.data-readonly]="readonly() ? '' : null"
+  [attr.data-invalid]="!isValid() ? '' : null"
+  (click)="onGroupClick($event)"
+>
+  <input
+    #minInput
+    class="tng-number-range__input tng-number-range__input--min"
+    [class]="slotClass('minInput')"
+    type="number"
+    [value]="minInputValue()"
+    [attr.min]="min() !== null ? min() : null"
+    [attr.max]="max() !== null ? max() : null"
+    [attr.step]="step() !== null ? step() : null"
+    [attr.placeholder]="minPlaceholder() || null"
+    [disabled]="effectiveDisabled"
+    [readOnly]="readonly()"
+    [required]="required()"
+    [attr.aria-label]="minAriaLabel()"
+    [attr.aria-invalid]="!isValid() ? 'true' : null"
+    (input)="onMinInput($event)"
+    (blur)="onTouched()"
+  />
+
+  <span
+    class="tng-number-range__separator"
+    [class]="slotClass('separator')"
+    aria-hidden="true"
+  >{{ separator() }}</span>
+
+  <input
+    class="tng-number-range__input tng-number-range__input--max"
+    [class]="slotClass('maxInput')"
+    type="number"
+    [value]="maxInputValue()"
+    [attr.min]="min() !== null ? min() : null"
+    [attr.max]="max() !== null ? max() : null"
+    [attr.step]="step() !== null ? step() : null"
+    [attr.placeholder]="maxPlaceholder() || null"
+    [disabled]="effectiveDisabled"
+    [readOnly]="readonly()"
+    [required]="required()"
+    [attr.aria-label]="maxAriaLabel()"
+    [attr.aria-invalid]="!isValid() ? 'true' : null"
+    (input)="onMaxInput($event)"
+    (blur)="onTouched()"
+  />
+</div>

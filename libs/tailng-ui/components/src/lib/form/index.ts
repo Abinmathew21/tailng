@@ -17,6 +17,7 @@ export * from './form-field/tng-form-field.control';
 export * from './form-field/tng-form-field-message';
 export * from './input-field/tng-input-field.component';
 export * from './input/tng-input.component';
+export * from './number-range';
 export * from './input-otp';
 export * from './label/tng-label.component';
 export * from './listbox/tng-listbox.component';

@@ -1,0 +1,169 @@
+/*
+ * TailNG Number Range — component styles
+ *
+ * Theme contract (CSS custom properties)
+ * ─────────────────────────────────────────────────────────────────────────────
+ * Public overrides (set on host or a parent):
+ *   --tng-number-range-bg               Input background
+ *   --tng-number-range-border           Input border colour
+ *   --tng-number-range-fg               Input text colour
+ *   --tng-number-range-placeholder      Placeholder text colour
+ *   --tng-number-range-radius           Input border-radius
+ *   --tng-number-range-min-height       Input minimum height
+ *   --tng-number-range-px               Input horizontal padding
+ *   --tng-number-range-gap              Gap between min, separator, and max
+ *   --tng-number-range-focus-ring       Focus ring colour
+ *   --tng-number-range-invalid-border   Border colour when invalid
+ *   --tng-number-range-separator-color  Separator text colour
+ *
+ * All public vars fall back to semantic tokens, which automatically track
+ * the active theme and light/dark mode — no media queries needed.
+ * ─────────────────────────────────────────────────────────────────────────────
+ */
+
+:host {
+  display: inline-flex;
+  max-width: 100%;
+
+  /* ── Defaults (derived from semantic tokens) ─────────────────────────── */
+  --_tng-nr-bg-default:              var(--tng-semantic-background-surface);
+  --_tng-nr-border-default:          var(--tng-semantic-border-strong);
+  --_tng-nr-fg-default:              var(--tng-semantic-foreground-primary);
+  --_tng-nr-placeholder-default:     var(--tng-semantic-foreground-muted);
+  --_tng-nr-radius-default:          0.5rem;
+  --_tng-nr-min-height-default:      2.5rem;
+  --_tng-nr-px-default:              0.75rem;
+  --_tng-nr-gap-default:             0.25rem;
+  --_tng-nr-focus-ring-default:      var(--tng-semantic-focus-ring);
+  --_tng-nr-invalid-border-default:  var(--tng-semantic-accent-danger);
+  --_tng-nr-separator-color-default: var(--tng-semantic-foreground-secondary);
+
+  /* ── Resolved values (public override → default) ─────────────────────── */
+  --_tng-nr-bg:              var(--tng-number-range-bg,              var(--_tng-nr-bg-default));
+  --_tng-nr-border:          var(--tng-number-range-border,          var(--_tng-nr-border-default));
+  --_tng-nr-fg:              var(--tng-number-range-fg,              var(--_tng-nr-fg-default));
+  --_tng-nr-placeholder:     var(--tng-number-range-placeholder,     var(--_tng-nr-placeholder-default));
+  --_tng-nr-radius:          var(--tng-number-range-radius,          var(--_tng-nr-radius-default));
+  --_tng-nr-min-height:      var(--tng-number-range-min-height,      var(--_tng-nr-min-height-default));
+  --_tng-nr-px:              var(--tng-number-range-px,              var(--_tng-nr-px-default));
+  --_tng-nr-gap:             var(--tng-number-range-gap,             var(--_tng-nr-gap-default));
+  --_tng-nr-focus-ring:      var(--tng-number-range-focus-ring,      var(--_tng-nr-focus-ring-default));
+  --_tng-nr-invalid-border:  var(--tng-number-range-invalid-border,  var(--_tng-nr-invalid-border-default));
+  --_tng-nr-separator-color: var(--tng-number-range-separator-color, var(--_tng-nr-separator-color-default));
+}
+
+/* ── Host state reflections ──────────────────────────────────────────────── */
+
+:host([data-disabled]) {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+:host([data-readonly]) {
+  cursor: default;
+}
+
+/* ── Root group container — the single visual field unit ─────────────────── */
+
+.tng-number-range {
+  align-items: center;
+  background: var(--_tng-nr-bg);
+  border: 1px solid var(--_tng-nr-border);
+  border-radius: var(--_tng-nr-radius);
+  color: var(--_tng-nr-fg);
+  cursor: text;
+  display: inline-flex;
+  gap: var(--_tng-nr-gap);
+  overflow: hidden;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  width: 100%;
+}
+
+/* ── Group-level focus ring ──────────────────────────────────────────────── */
+
+.tng-number-range:focus-within {
+  box-shadow: 0 0 0 3px var(--_tng-nr-focus-ring);
+  outline: none;
+}
+
+/* ── Native number inputs — flush inside the group ───────────────────────── */
+
+.tng-number-range__input {
+  /* Reset */
+  all: unset;
+  -webkit-appearance: none;
+  -moz-appearance: textfield; /* removes spinner in Firefox */
+  appearance: none;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+
+  /* Layout */
+  display: block;
+  flex: 1 1 0;
+  min-height: var(--_tng-nr-min-height);
+  min-width: 4rem;
+  padding: 0 var(--_tng-nr-px);
+  width: 0; /* flex handles actual width */
+
+  /* Appearance — no individual border; group provides the border */
+  background: transparent;
+  color: inherit;
+  cursor: text;
+  font: inherit;
+}
+
+.tng-number-range__input::placeholder {
+  color: var(--_tng-nr-placeholder);
+}
+
+/* No individual focus ring — group :focus-within handles it */
+.tng-number-range__input:focus-visible {
+  outline: none;
+}
+
+/* Remove number input spinners — all browsers */
+.tng-number-range__input::-webkit-inner-spin-button,
+.tng-number-range__input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+  display: none;
+  margin: 0;
+}
+
+/* ── Separator ───────────────────────────────────────────────────────────── */
+
+.tng-number-range__separator {
+  color: var(--_tng-nr-separator-color);
+  flex-shrink: 0;
+  font-size: 0.875em;
+  padding: 0 var(--_tng-nr-gap);
+  user-select: none;
+}
+
+/* ── State: invalid — border on the group ────────────────────────────────── */
+
+.tng-number-range[data-invalid] {
+  border-color: var(--_tng-nr-invalid-border);
+}
+
+.tng-number-range[data-invalid]:focus-within {
+  box-shadow: 0 0 0 3px
+    color-mix(in srgb, var(--_tng-nr-invalid-border) 25%, transparent);
+}
+
+/* ── State: disabled ─────────────────────────────────────────────────────── */
+
+.tng-number-range[data-disabled] {
+  cursor: not-allowed;
+}
+
+.tng-number-range[data-disabled] .tng-number-range__input {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ── State: readonly ─────────────────────────────────────────────────────── */
+
+.tng-number-range[data-readonly] .tng-number-range__input {
+  cursor: default;
+}
