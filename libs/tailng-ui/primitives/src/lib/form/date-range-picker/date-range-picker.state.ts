@@ -1,18 +1,20 @@
-import { normalizeDateInput } from './date-range-picker.adapters';
-import { datesEqual, isDateInRange, normalizeRangeOrder } from './date-range-picker.utils';
+/* eslint-disable max-params -- Date range picker state helpers keep the established positional API. */
+import {
+  clearDateSelectionForMode,
+  dateSelectionValuesEqual,
+  datesEqual,
+  normalizeDateSelectionInput,
+} from '@tailng-ui/cdk';
 import type {
   TngDateAdapter,
-  TngDateInputValue,
   TngDateRange,
-  TngDateRangeInput,
   TngDateSelectionInput,
   TngDateValue,
   TngDateRangePickerSelectionMode,
 } from './date-range-picker.types';
+import { isDateInRange } from './date-range-picker.utils';
 
-function isRangeInput<TDate>(
-  value: TngDateSelectionInput<TDate>,
-): value is Readonly<TngDateRangeInput<TDate>> {
+function isRangeValue<TDate>(value: TngDateValue<TDate>): value is TngDateRange<TDate> {
   return (
     typeof value === 'object' &&
     value !== null &&
@@ -31,34 +33,16 @@ export function normalizeSelectionInput<TDate>(
   validationError: string | null;
   value: TngDateValue<TDate>;
 }> {
-  if (value === null || value === undefined) {
-    return Object.freeze({ validationError: null, value: null });
-  }
-
-  if (!isRangeInput(value)) {
-    const startDate = normalizeDateInput(adapter, value as TngDateInputValue<TDate>, locale);
-    if (startDate === null) {
-      return Object.freeze({ validationError: 'invalid-value', value: null });
-    }
-    return Object.freeze({
-      validationError: null,
-      value: Object.freeze({ end: null, start: startDate }),
-    });
-  }
-
-  const start = normalizeDateInput(adapter, value.start, locale);
-  const end = normalizeDateInput(adapter, value.end, locale);
-  if (value.start !== null && value.start !== undefined && start === null) {
-    return Object.freeze({ validationError: 'invalid-value', value: null });
-  }
-  if (value.end !== null && value.end !== undefined && end === null) {
-    return Object.freeze({ validationError: 'invalid-value', value: null });
-  }
-
-  return Object.freeze({
-    validationError: null,
-    value: normalizeRangeOrder(adapter, Object.freeze({ end, start })),
+  const normalized = normalizeDateSelectionInput({
+    adapter,
+    locale,
+    selectionMode: 'range',
+    value,
   });
+  return normalized as Readonly<{
+    validationError: string | null;
+    value: TngDateValue<TDate>;
+  }>;
 }
 
 export function selectionValuesEqual<TDate>(
@@ -67,26 +51,13 @@ export function selectionValuesEqual<TDate>(
   left: TngDateValue<TDate>,
   right: TngDateValue<TDate>,
 ): boolean {
-  if (left === right) {
-    return true;
-  }
-
-  if (left === null || right === null) {
-    return left === right;
-  }
-
-  const leftRange = left as TngDateRange<TDate>;
-  const rightRange = right as TngDateRange<TDate>;
-  return (
-    datesEqual(adapter, leftRange.start, rightRange.start) &&
-    datesEqual(adapter, leftRange.end, rightRange.end)
-  );
+  return dateSelectionValuesEqual({ adapter, left, right, selectionMode: 'range' });
 }
 
 export function clearSelectionForMode<TDate>(
   _selectionMode: TngDateRangePickerSelectionMode,
 ): TngDateValue<TDate> {
-  return Object.freeze({ end: null, start: null });
+  return clearDateSelectionForMode('range') as TngDateValue<TDate>;
 }
 
 export function valueIncludesDate<TDate>(
@@ -95,7 +66,7 @@ export function valueIncludesDate<TDate>(
   value: TngDateValue<TDate>,
   date: TDate,
 ): boolean {
-  if (value === null || !isRangeInput(value)) {
+  if (!isRangeValue(value)) {
     return false;
   }
 
