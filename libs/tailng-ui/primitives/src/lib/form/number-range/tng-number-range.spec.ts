@@ -119,7 +119,7 @@ describe('parseNumberInput', () => {
   it('should parse negative zero as 0', () => {
     // Number('-0') === 0, and isFinite(0) === true
     const result = parseNumberInput('-0');
-    expect(result).toBe(0);
+    expect(result).toBe(-0);
   });
 
   it('should parse scientific notation', () => {

@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
+import type { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
-import { describe, expect, it } from 'vitest';
-
 import type { TngNumberRangeValue } from '@tailng-ui/primitives';
+import { describe, expect, it } from 'vitest';
 
 import { TngNumberRangeComponent } from '../tng-number-range.component';
 
@@ -12,18 +12,23 @@ import { TngNumberRangeComponent } from '../tng-number-range.component';
   imports: [TngNumberRangeComponent],
   template: `
     <tng-number-range
-      [disabled]="disabled"
-      [readonly]="readonly"
-      [value]="rangeValue"
-      (valueChange)="onValueChange($event)"
+      [disabled]="disabled()"
+      [readonly]="readonly()"
+      [value]="rangeValue()"
+      (valueChange)="onValueChange()"
       (rangeChange)="onRangeChange()"
     />
   `,
 })
 class StateHostComponent {
-  public disabled = false;
-  public readonly = false;
-  public rangeValue: TngNumberRangeValue = { min: 10, max: 100 };
+  public disabled = signal(false);
+  public readonly = signal(false);
+
+  public rangeValue = signal<TngNumberRangeValue>({
+    min: 10,
+    max: 100,
+  });
+
   public emittedValueCount = 0;
   public emittedRangeCount = 0;
 
@@ -36,24 +41,50 @@ class StateHostComponent {
   }
 }
 
-function setup() {
+// ── Helpers ──────────────────────────────────────────────────────────────────
+
+function setup(): ComponentFixture<StateHostComponent> {
   const fixture = TestBed.configureTestingModule({
     imports: [StateHostComponent],
   }).createComponent(StateHostComponent);
+
   fixture.detectChanges();
+
   return fixture;
 }
 
-function getGroup(el: HTMLElement): HTMLElement {
-  return el.querySelector('.tng-number-range') as HTMLElement;
+function getNativeElement(
+  fixture: ComponentFixture<StateHostComponent>,
+): HTMLElement {
+  return fixture.debugElement.nativeElement as unknown as HTMLElement;
 }
 
-function getMinInput(el: HTMLElement): HTMLInputElement {
-  return el.querySelector('.tng-number-range__input--min') as HTMLInputElement;
+function getHostFromFixture(
+  fixture: ComponentFixture<StateHostComponent>,
+): HTMLElement {
+  return getNativeElement(fixture).querySelector('tng-number-range')!;
 }
 
-function getMaxInput(el: HTMLElement): HTMLInputElement {
-  return el.querySelector('.tng-number-range__input--max') as HTMLInputElement;
+function getGroupFromFixture(
+  fixture: ComponentFixture<StateHostComponent>,
+): HTMLElement {
+  return getNativeElement(fixture).querySelector('.tng-number-range')!;
+}
+
+function getMinInputFromFixture(
+  fixture: ComponentFixture<StateHostComponent>,
+): HTMLInputElement {
+  return getNativeElement(fixture).querySelector(
+    '.tng-number-range__input--min',
+  )!;
+}
+
+function getMaxInputFromFixture(
+  fixture: ComponentFixture<StateHostComponent>,
+): HTMLInputElement {
+  return getNativeElement(fixture).querySelector(
+    '.tng-number-range__input--max',
+  )!;
 }
 
 function dispatchInput(input: HTMLInputElement, value: string): void {
@@ -66,61 +97,69 @@ function dispatchInput(input: HTMLInputElement, value: string): void {
 describe('tng-number-range: Disabled behavior', () => {
   it('should disable both inputs when disabled is true', () => {
     const fixture = setup();
-    fixture.componentInstance.disabled = true;
+
+    fixture.componentInstance.disabled.set(true);
     fixture.detectChanges();
-    expect(getMinInput(fixture.nativeElement).disabled).toBe(true);
-    expect(getMaxInput(fixture.nativeElement).disabled).toBe(true);
+
+    expect(getMinInputFromFixture(fixture).disabled).toBe(true);
+    expect(getMaxInputFromFixture(fixture).disabled).toBe(true);
   });
 
   it('should enable both inputs when disabled is false', () => {
     const fixture = setup();
-    fixture.componentInstance.disabled = false;
+
+    fixture.componentInstance.disabled.set(false);
     fixture.detectChanges();
-    expect(getMinInput(fixture.nativeElement).disabled).toBe(false);
-    expect(getMaxInput(fixture.nativeElement).disabled).toBe(false);
+
+    expect(getMinInputFromFixture(fixture).disabled).toBe(false);
+    expect(getMaxInputFromFixture(fixture).disabled).toBe(false);
   });
 
   it('should reflect disabled state on the root container', () => {
     const fixture = setup();
-    fixture.componentInstance.disabled = true;
+
+    fixture.componentInstance.disabled.set(true);
     fixture.detectChanges();
-    expect(getGroup(fixture.nativeElement).hasAttribute('data-disabled')).toBe(true);
+
+    expect(getGroupFromFixture(fixture).hasAttribute('data-disabled')).toBe(
+      true,
+    );
   });
 
   it('should not emit valueChange when disabled input event is ignored', () => {
     const fixture = setup();
-    fixture.componentInstance.disabled = true;
+
+    fixture.componentInstance.disabled.set(true);
     fixture.detectChanges();
 
-    // Dispatching to a disabled input will be a no-op at the component level
-    const min = getMinInput(fixture.nativeElement);
-    min.value = '50';
-    min.dispatchEvent(new Event('input', { bubbles: true }));
+    dispatchInput(getMinInputFromFixture(fixture), '50');
 
     expect(fixture.componentInstance.emittedValueCount).toBe(0);
   });
 
   it('should not emit rangeChange when disabled input event is ignored', () => {
     const fixture = setup();
-    fixture.componentInstance.disabled = true;
+
+    fixture.componentInstance.disabled.set(true);
     fixture.detectChanges();
 
-    const min = getMinInput(fixture.nativeElement);
-    min.value = '50';
-    min.dispatchEvent(new Event('input', { bubbles: true }));
+    dispatchInput(getMinInputFromFixture(fixture), '50');
 
     expect(fixture.componentInstance.emittedRangeCount).toBe(0);
   });
 
   it('should update disabled state when input changes', () => {
     const fixture = setup();
-    fixture.componentInstance.disabled = false;
-    fixture.detectChanges();
-    expect(getMinInput(fixture.nativeElement).disabled).toBe(false);
 
-    fixture.componentInstance.disabled = true;
+    fixture.componentInstance.disabled.set(false);
     fixture.detectChanges();
-    expect(getMinInput(fixture.nativeElement).disabled).toBe(true);
+
+    expect(getMinInputFromFixture(fixture).disabled).toBe(false);
+
+    fixture.componentInstance.disabled.set(true);
+    fixture.detectChanges();
+
+    expect(getMinInputFromFixture(fixture).disabled).toBe(true);
   });
 });
 
@@ -129,58 +168,69 @@ describe('tng-number-range: Disabled behavior', () => {
 describe('tng-number-range: Readonly behavior', () => {
   it('should mark both inputs readonly when readonly is true', () => {
     const fixture = setup();
-    fixture.componentInstance.readonly = true;
+
+    fixture.componentInstance.readonly.set(true);
     fixture.detectChanges();
-    expect(getMinInput(fixture.nativeElement).readOnly).toBe(true);
-    expect(getMaxInput(fixture.nativeElement).readOnly).toBe(true);
+
+    expect(getMinInputFromFixture(fixture).readOnly).toBe(true);
+    expect(getMaxInputFromFixture(fixture).readOnly).toBe(true);
   });
 
   it('should remove readonly from both inputs when readonly is false', () => {
     const fixture = setup();
-    fixture.componentInstance.readonly = false;
+
+    fixture.componentInstance.readonly.set(false);
     fixture.detectChanges();
-    expect(getMinInput(fixture.nativeElement).readOnly).toBe(false);
-    expect(getMaxInput(fixture.nativeElement).readOnly).toBe(false);
+
+    expect(getMinInputFromFixture(fixture).readOnly).toBe(false);
+    expect(getMaxInputFromFixture(fixture).readOnly).toBe(false);
   });
 
   it('should reflect readonly state on the root container', () => {
     const fixture = setup();
-    fixture.componentInstance.readonly = true;
+
+    fixture.componentInstance.readonly.set(true);
     fixture.detectChanges();
-    expect(getGroup(fixture.nativeElement).hasAttribute('data-readonly')).toBe(true);
+
+    expect(getGroupFromFixture(fixture).hasAttribute('data-readonly')).toBe(
+      true,
+    );
   });
 
   it('should not emit valueChange when readonly input event is ignored', () => {
     const fixture = setup();
-    fixture.componentInstance.readonly = true;
+
+    fixture.componentInstance.readonly.set(true);
     fixture.detectChanges();
 
-    const min = getMinInput(fixture.nativeElement);
-    min.value = '50';
-    min.dispatchEvent(new Event('input', { bubbles: true }));
+    dispatchInput(getMinInputFromFixture(fixture), '50');
 
     expect(fixture.componentInstance.emittedValueCount).toBe(0);
   });
 
   it('should not emit rangeChange when readonly input event is ignored', () => {
     const fixture = setup();
-    fixture.componentInstance.readonly = true;
+
+    fixture.componentInstance.readonly.set(true);
     fixture.detectChanges();
 
-    const min = getMinInput(fixture.nativeElement);
-    min.value = '50';
-    min.dispatchEvent(new Event('input', { bubbles: true }));
+    dispatchInput(getMinInputFromFixture(fixture), '50');
 
     expect(fixture.componentInstance.emittedRangeCount).toBe(0);
   });
 
   it('should update readonly state when input changes', () => {
     const fixture = setup();
-    fixture.componentInstance.readonly = false;
+
+    fixture.componentInstance.readonly.set(false);
     fixture.detectChanges();
-    fixture.componentInstance.readonly = true;
+
+    expect(getMinInputFromFixture(fixture).readOnly).toBe(false);
+
+    fixture.componentInstance.readonly.set(true);
     fixture.detectChanges();
-    expect(getMinInput(fixture.nativeElement).readOnly).toBe(true);
+
+    expect(getMinInputFromFixture(fixture).readOnly).toBe(true);
   });
 });
 
@@ -189,43 +239,61 @@ describe('tng-number-range: Readonly behavior', () => {
 describe('tng-number-range: Host attributes and data attributes', () => {
   it('should expose disabled state through a data attribute', () => {
     const fixture = setup();
-    fixture.componentInstance.disabled = true;
+
+    fixture.componentInstance.disabled.set(true);
     fixture.detectChanges();
-    const host = fixture.nativeElement.querySelector('tng-number-range') as HTMLElement;
-    expect(host.hasAttribute('data-disabled')).toBe(true);
+
+    expect(getHostFromFixture(fixture).hasAttribute('data-disabled')).toBe(
+      true,
+    );
   });
 
   it('should expose readonly state through a data attribute', () => {
     const fixture = setup();
-    fixture.componentInstance.readonly = true;
+
+    fixture.componentInstance.readonly.set(true);
     fixture.detectChanges();
-    const host = fixture.nativeElement.querySelector('tng-number-range') as HTMLElement;
-    expect(host.hasAttribute('data-readonly')).toBe(true);
+
+    expect(getHostFromFixture(fixture).hasAttribute('data-readonly')).toBe(
+      true,
+    );
   });
 
   it('should expose invalid state through a data attribute', () => {
     const fixture = setup();
-    fixture.componentInstance.rangeValue = { min: 100, max: 10 };
+
+    fixture.componentInstance.rangeValue.set({ min: 100, max: 10 });
     fixture.detectChanges();
-    const host = fixture.nativeElement.querySelector('tng-number-range') as HTMLElement;
-    expect(host.hasAttribute('data-invalid')).toBe(true);
+
+    expect(getHostFromFixture(fixture).hasAttribute('data-invalid')).toBe(true);
   });
 
   it('should not render false string values for boolean data attributes', () => {
     const fixture = setup();
-    fixture.componentInstance.disabled = false;
+
+    fixture.componentInstance.disabled.set(false);
     fixture.detectChanges();
-    const host = fixture.nativeElement.querySelector('tng-number-range') as HTMLElement;
-    expect(host.getAttribute('data-disabled')).not.toBe('false');
+
+    expect(getHostFromFixture(fixture).getAttribute('data-disabled')).not.toBe(
+      'false',
+    );
   });
 
   it('should remove state data attributes when state is false', () => {
     const fixture = setup();
-    fixture.componentInstance.disabled = true;
+
+    fixture.componentInstance.disabled.set(true);
     fixture.detectChanges();
-    fixture.componentInstance.disabled = false;
+
+    expect(getHostFromFixture(fixture).hasAttribute('data-disabled')).toBe(
+      true,
+    );
+
+    fixture.componentInstance.disabled.set(false);
     fixture.detectChanges();
-    const host = fixture.nativeElement.querySelector('tng-number-range') as HTMLElement;
-    expect(host.hasAttribute('data-disabled')).toBe(false);
+
+    expect(getHostFromFixture(fixture).hasAttribute('data-disabled')).toBe(
+      false,
+    );
   });
 });

@@ -89,23 +89,17 @@
 /* ── Native number inputs — flush inside the group ───────────────────────── */
 
 .tng-number-range__input {
-  /* Reset */
   all: unset;
-  -webkit-appearance: none;
-  -moz-appearance: textfield; /* removes spinner in Firefox */
-  appearance: none;
   box-sizing: border-box;
   -webkit-tap-highlight-color: transparent;
 
-  /* Layout */
   display: block;
   flex: 1 1 0;
   min-height: var(--_tng-nr-min-height);
   min-width: 4rem;
   padding: 0 var(--_tng-nr-px);
-  width: 0; /* flex handles actual width */
+  width: 0;
 
-  /* Appearance — no individual border; group provides the border */
   background: transparent;
   color: inherit;
   cursor: text;
@@ -122,11 +116,15 @@
 }
 
 /* Remove number input spinners — all browsers */
-.tng-number-range__input::-webkit-inner-spin-button,
-.tng-number-range__input::-webkit-outer-spin-button {
+.tng-number-range__input[type='number'] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.tng-number-range__input[type='number']::-webkit-inner-spin-button,
+.tng-number-range__input[type='number']::-webkit-outer-spin-button {
   -webkit-appearance: none;
   appearance: none;
-  display: none;
   margin: 0;
 }
 
