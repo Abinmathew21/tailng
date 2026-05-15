@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { describe, expect, it, vi } from 'vitest';
-
 import type { TngNumberRangeValue } from '@tailng-ui/primitives';
+import { describe, expect, it } from 'vitest';
+
 
 import { TngNumberRangeComponent } from '../tng-number-range.component';
 
@@ -71,15 +71,15 @@ function setup<T>(hostType: new () => T) {
     imports: [hostType],
   }).createComponent(hostType);
   fixture.detectChanges();
-  return fixture;
+  return fixture as typeof fixture & { nativeElement: HTMLElement };
 }
 
 function getMinInput(nativeElement: HTMLElement): HTMLInputElement {
-  return nativeElement.querySelector('.tng-number-range__input--min') as HTMLInputElement;
+  return nativeElement.querySelector('.tng-number-range__input--min')!;
 }
 
 function getMaxInput(nativeElement: HTMLElement): HTMLInputElement {
-  return nativeElement.querySelector('.tng-number-range__input--max') as HTMLInputElement;
+  return nativeElement.querySelector('.tng-number-range__input--max')!;
 }
 
 function dispatchInput(input: HTMLInputElement, value: string): void {
@@ -251,7 +251,7 @@ describe('tng-number-range: Uncontrolled value behavior', () => {
     const fixture = setup(UncontrolledHostComponent);
     dispatchInput(getMaxInput(fixture.nativeElement), '80');
     const emitted = fixture.componentInstance.emittedValues[0];
-    expect(emitted.min).toBe(5);
+    expect(emitted?.min).toBe(5);
   });
 
   it('should support clearing min in uncontrolled mode', () => {

@@ -5,6 +5,7 @@
 @import "./form/input-field/input-field.css" layer(tng.contracts);
 @import "./form/form-field/form-field.css" layer(tng.contracts);
 @import "./form/datepicker/datepicker.css" layer(tng.contracts);
+@import "./form/date-range-picker/date-range-picker.css" layer(tng.contracts);
 @import "./navigation/menu/menu.css" layer(tng.contracts);
 @import "./navigation/menubar/menubar.css" layer(tng.contracts);
 @import "./layout/tree/tree.css" layer(tng.contracts);

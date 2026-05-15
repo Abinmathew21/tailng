@@ -1,0 +1,326 @@
+<div
+  class="tng-date-range-picker-root"
+  [attr.aria-describedby]="outputs().getHostAttributes()['aria-describedby']"
+  [attr.aria-label]="outputs().getHostAttributes()['aria-label']"
+  [attr.aria-labelledby]="outputs().getHostAttributes()['aria-labelledby']"
+  [attr.data-disabled]="outputs().getHostAttributes()['data-disabled']"
+  [attr.data-open]="outputs().getHostAttributes()['data-open']"
+  [attr.data-slot]="outputs().getHostAttributes()['data-slot']"
+  [attr.data-view]="outputs().getHostAttributes()['data-view']"
+  [attr.dir]="outputs().getHostAttributes()['dir']"
+  [attr.role]="outputs().getHostAttributes()['role']"
+>
+  <div class="tng-date-range-picker-field" data-slot="date-range-picker-field">
+    <div class="tng-date-range-picker-anchor">
+      <div
+        #anchorShell
+        class="tng-date-range-picker-input-shell"
+        data-slot="date-range-picker-input-shell"
+        [attr.data-invalid]="invalidState() ? 'true' : null"
+        [attr.data-open]="outputs().getTriggerAttributes()['data-open']"
+      >
+        <input
+          [id]="resolveInputId()"
+          class="tng-date-range-picker-input"
+          data-slot="date-range-picker-input"
+          type="text"
+          inputmode="numeric"
+          [disabled]="disabled()"
+          [readOnly]="readonly() || !allowManualInput()"
+          [required]="false"
+          [value]="outputs().inputText"
+          [attr.aria-invalid]="invalidState() ? 'true' : null"
+          [attr.aria-label]="inputAriaLabel()"
+          [attr.placeholder]="placeholder()"
+          (blur)="onInputBlur()"
+          (input)="onInputChange($event)"
+          (keydown)="onInputKeydown($event)"
+        />
+
+        <button
+          #triggerButton
+          type="button"
+          class="tng-date-range-picker-trigger"
+          [disabled]="disabled()"
+          [attr.aria-controls]="outputs().getTriggerAttributes()['aria-controls']"
+          [attr.aria-expanded]="outputs().getTriggerAttributes()['aria-expanded']"
+          [attr.aria-haspopup]="outputs().getTriggerAttributes()['aria-haspopup']"
+          [attr.data-open]="outputs().getTriggerAttributes()['data-open']"
+          [attr.data-slot]="outputs().getTriggerAttributes()['data-slot']"
+          [attr.aria-label]="'Open date range calendar'"
+          (click)="onTriggerClick()"
+          (keydown)="onTriggerKeydown($event)"
+        >
+          <svg
+            aria-hidden="true"
+            class="tng-date-range-picker-trigger-calendar"
+            viewBox="0 0 20 20"
+            fill="none"
+          >
+            <path
+              d="M6 2.5V5"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.8"
+            />
+            <path
+              d="M14 2.5V5"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.8"
+            />
+            <rect
+              x="3.25"
+              y="4.25"
+              width="13.5"
+              height="12.5"
+              rx="2.25"
+              stroke="currentColor"
+              stroke-width="1.8"
+            />
+            <path
+              d="M3.75 7.5H16.25"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-width="1.8"
+            />
+            <path
+              d="M6.75 10.5H7.25"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-width="1.8"
+            />
+            <path
+              d="M9.75 10.5H10.25"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-width="1.8"
+            />
+            <path
+              d="M12.75 10.5H13.25"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-width="1.8"
+            />
+            <path
+              d="M6.75 13.5H7.25"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-width="1.8"
+            />
+            <path
+              d="M9.75 13.5H10.25"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-width="1.8"
+            />
+          </svg>
+          <svg
+            aria-hidden="true"
+            class="tng-date-range-picker-trigger-chevron"
+            viewBox="0 0 16 16"
+            fill="none"
+          >
+            <path
+              d="M4.5 6.25L8 9.75L11.5 6.25"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.6"
+            />
+          </svg>
+        </button>
+      </div>
+
+      <section
+        class="tng-date-range-picker-overlay"
+        [tngDateRangePickerOverlay]="controller"
+        [tngDateRangePickerOverlayAnchor]="anchorShell"
+        [tngDateRangePickerOverlayCollision]="overlayCollision()"
+        [tngDateRangePickerOverlayPlacement]="overlayPlacement()"
+        [tngDateRangePickerOverlayThemeSource]="overlayThemeSource"
+      >
+        <header
+          class="tng-date-range-picker-header tng-date-range-picker-header-material"
+          data-slot="date-range-picker-header"
+        >
+          <div class="tng-date-range-picker-header-row tng-date-range-picker-header-row-material">
+            <button
+              type="button"
+              class="tng-date-range-picker-nav-button"
+              data-slot="date-range-picker-nav-button"
+              (click)="pageBackward()"
+            >
+              <span aria-hidden="true">&lsaquo;</span>
+            </button>
+
+            <button
+              type="button"
+              class="tng-date-range-picker-period-button"
+              [attr.aria-haspopup]="!isYearView() ? 'grid' : null"
+              data-slot="date-range-picker-period-button"
+              [attr.id]="outputs().getGridAttributes()['aria-labelledby']"
+              [attr.data-interactive]="!isYearView() ? 'true' : null"
+              (click)="onPeriodButtonClick()"
+            >
+              <span class="tng-date-range-picker-period-button-title-row">
+                <span class="tng-date-range-picker-period-button-title">{{
+                  materialPeriodLabel()
+                }}</span>
+                @if (!isYearView()) {
+                  <svg
+                    aria-hidden="true"
+                    class="tng-date-range-picker-period-button-chevron"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                  >
+                    <path
+                      d="M4.5 6.25L8 9.75L11.5 6.25"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="1.6"
+                    />
+                  </svg>
+                }
+              </span>
+            </button>
+
+            <button
+              type="button"
+              class="tng-date-range-picker-nav-button"
+              data-slot="date-range-picker-nav-button"
+              (click)="pageForward()"
+            >
+              <span aria-hidden="true">&rsaquo;</span>
+            </button>
+          </div>
+        </header>
+
+        @if (isDayView()) {
+          <div
+            class="tng-date-range-picker-weekdays"
+            data-slot="date-range-picker-weekdays"
+            aria-hidden="true"
+          >
+            @for (label of outputs().weekdayLabels; track label) {
+              <span class="tng-date-range-picker-weekday" data-slot="date-range-picker-weekday">{{
+                label
+              }}</span>
+            }
+          </div>
+
+          <div
+            class="tng-date-range-picker-grid tng-date-range-picker-grid-days"
+            [attr.aria-activedescendant]="outputs().getGridAttributes()['aria-activedescendant']"
+            [attr.aria-labelledby]="outputs().getGridAttributes()['aria-labelledby']"
+            [attr.data-slot]="outputs().getGridAttributes()['data-slot']"
+            [attr.id]="outputs().getGridAttributes()['id']"
+            [attr.role]="outputs().getGridAttributes()['role']"
+            (keydown)="onGridKeydown($event)"
+          >
+            @for (cell of outputs().cells; track cell.id) {
+              <button
+                type="button"
+                class="tng-date-range-picker-cell"
+                [disabled]="cell.disabled"
+                [attr.aria-current]="outputs().getCellAttributes(cell)['aria-current']"
+                [attr.aria-disabled]="outputs().getCellAttributes(cell)['aria-disabled']"
+                [attr.aria-label]="outputs().getCellAttributes(cell)['aria-label']"
+                [attr.aria-selected]="outputs().getCellAttributes(cell)['aria-selected']"
+                [attr.data-active]="outputs().getCellAttributes(cell)['data-active']"
+                [attr.data-disabled]="outputs().getCellAttributes(cell)['data-disabled']"
+                [attr.data-focused]="outputs().getCellAttributes(cell)['data-focused']"
+                [attr.data-focus-visible]="outputs().getCellAttributes(cell)['data-focus-visible']"
+                [attr.data-hidden]="outputs().getCellAttributes(cell)['data-hidden']"
+                [attr.data-in-month]="outputs().getCellAttributes(cell)['data-in-month']"
+                [attr.data-in-range]="outputs().getCellAttributes(cell)['data-in-range']"
+                [attr.data-outside-month]="outputs().getCellAttributes(cell)['data-outside-month']"
+                [attr.data-preview-end]="outputs().getCellAttributes(cell)['data-preview-end']"
+                [attr.data-preview-range]="outputs().getCellAttributes(cell)['data-preview-range']"
+                [attr.data-range-end]="outputs().getCellAttributes(cell)['data-range-end']"
+                [attr.data-range-start]="outputs().getCellAttributes(cell)['data-range-start']"
+                [attr.data-selected]="outputs().getCellAttributes(cell)['data-selected']"
+                [attr.data-slot]="outputs().getCellAttributes(cell)['data-slot']"
+                [attr.data-today]="outputs().getCellAttributes(cell)['data-today']"
+                [attr.id]="cell.id"
+                [attr.role]="outputs().getCellAttributes(cell)['role']"
+                [attr.tabindex]="outputs().getCellAttributes(cell)['tabindex']"
+                (click)="onDayCellClick(cell)"
+                (pointerenter)="onDayCellPointerEnter(cell)"
+              >
+                {{ cell.label }}
+              </button>
+            }
+          </div>
+        }
+
+        @if (isMonthView()) {
+          <div
+            class="tng-date-range-picker-grid tng-date-range-picker-grid-picker"
+            data-slot="date-range-picker-grid"
+            role="grid"
+            (keydown)="onMonthKeydown($event)"
+          >
+            @for (option of outputs().monthOptions; track option.id) {
+              <button
+                type="button"
+                class="tng-date-range-picker-picker-cell"
+                [disabled]="option.disabled"
+                [attr.aria-disabled]="outputs().getMonthAttributes(option)['aria-disabled']"
+                [attr.aria-selected]="outputs().getMonthAttributes(option)['aria-selected']"
+                [attr.data-active]="outputs().getMonthAttributes(option)['data-active']"
+                [attr.data-disabled]="outputs().getMonthAttributes(option)['data-disabled']"
+                [attr.data-focus-visible]="
+                  outputs().getMonthAttributes(option)['data-focus-visible']
+                "
+                [attr.data-selected]="outputs().getMonthAttributes(option)['data-selected']"
+                [attr.data-slot]="outputs().getMonthAttributes(option)['data-slot']"
+                [attr.id]="option.id"
+                [attr.role]="outputs().getMonthAttributes(option)['role']"
+                [attr.tabindex]="outputs().getMonthAttributes(option)['tabindex']"
+                (click)="onMonthOptionClick(option)"
+              >
+                {{ option.label }}
+              </button>
+            }
+          </div>
+        }
+
+        @if (isYearView()) {
+          <div
+            class="tng-date-range-picker-grid tng-date-range-picker-grid-picker"
+            data-slot="date-range-picker-grid"
+            role="grid"
+            (keydown)="onYearKeydown($event)"
+          >
+            @for (option of outputs().yearOptions; track option.id) {
+              <button
+                type="button"
+                class="tng-date-range-picker-picker-cell"
+                [disabled]="option.disabled"
+                [attr.aria-disabled]="outputs().getYearAttributes(option)['aria-disabled']"
+                [attr.aria-selected]="outputs().getYearAttributes(option)['aria-selected']"
+                [attr.data-active]="outputs().getYearAttributes(option)['data-active']"
+                [attr.data-disabled]="outputs().getYearAttributes(option)['data-disabled']"
+                [attr.data-focus-visible]="
+                  outputs().getYearAttributes(option)['data-focus-visible']
+                "
+                [attr.data-selected]="outputs().getYearAttributes(option)['data-selected']"
+                [attr.data-slot]="outputs().getYearAttributes(option)['data-slot']"
+                [attr.id]="option.id"
+                [attr.role]="outputs().getYearAttributes(option)['role']"
+                [attr.tabindex]="outputs().getYearAttributes(option)['tabindex']"
+                (click)="onYearOptionClick(option)"
+              >
+                {{ option.label }}
+              </button>
+            }
+          </div>
+        }
+      </section>
+    </div>
+  </div>
+</div>

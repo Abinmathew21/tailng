@@ -87,6 +87,11 @@ export const HEADLESS_FORM_ROUTES: Routes = [
     loadChildren: () =>
       import('./datepicker/routes').then((m) => m.HEADLESS_FORM_DATEPICKER_ROUTES),
   },
+  {
+    path: 'date-range-picker',
+    loadChildren: () =>
+      import('./date-range-picker/routes').then((m) => m.HEADLESS_FORM_DATE_RANGE_PICKER_ROUTES),
+  },
   ...group.items
     .filter(
       (item) =>
@@ -106,7 +111,8 @@ export const HEADLESS_FORM_ROUTES: Routes = [
         item.slug !== 'multi-autocomplete' &&
         item.slug !== 'selectbox' &&
         item.slug !== 'multiselect' &&
-        item.slug !== 'datepicker',
+        item.slug !== 'datepicker' &&
+        item.slug !== 'date-range-picker',
     )
     .map((item) => ({
       path: item.slug,

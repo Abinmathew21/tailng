@@ -1,0 +1,313 @@
+.hd-examples {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.hd-title {
+  font-size: 1.9rem;
+  font-weight: 800;
+  margin: 0;
+}
+
+.hd-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  line-height: 1.65;
+  margin: 0;
+  max-width: 58rem;
+}
+
+.hd-block {
+  display: grid;
+  gap: 1rem;
+}
+
+.hd-preview {
+  display: grid;
+  gap: 0.85rem;
+  justify-items: start;
+}
+
+.dh-card {
+  display: grid;
+  gap: 0.8rem;
+  width: min(100%, 22rem);
+  margin-inline: auto;
+  padding: 1rem;
+  border: 1px solid var(--tng-semantic-border-default);
+  border-radius: 1.25rem;
+  background: var(--tng-semantic-background-surface);
+  color: var(--tng-semantic-foreground-primary);
+  box-shadow: 0 14px 34px color-mix(in srgb, var(--tng-semantic-foreground-primary) 8%, transparent);
+}
+
+.dh-kicker {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.dh-copy {
+  margin: 0;
+  color: var(--tng-semantic-foreground-secondary);
+  line-height: 1.6;
+}
+
+.dh-demo {
+  display: block;
+  inline-size: min(100%, 18.5rem);
+  max-inline-size: 18.5rem;
+  --tng-date-range-picker-radius: 1.08rem;
+  --tng-date-range-picker-field-height: 3.15rem;
+  --tng-date-range-picker-overlay-gap: 0.66rem;
+  --tng-date-range-picker-day-cell-size: 2.28rem;
+  --tng-date-range-picker-picker-cell-size: 2.38rem;
+  --tng-date-range-picker-grid-gap: 0.28rem;
+  --tng-date-range-picker-inline-gap: 0.36rem;
+  --tng-date-range-picker-overlay-padding: 0.88rem;
+  --tng-date-range-picker-shadow: 0 22px 38px rgba(15, 23, 42, 0.12), 0 10px 20px rgba(15, 23, 42, 0.08);
+}
+
+.dh-field {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.dh-anchor {
+  position: relative;
+}
+
+.dh-shell {
+  align-items: stretch;
+  display: flex;
+  gap: 0;
+  min-inline-size: 0;
+  min-height: var(--tng-date-range-picker-field-height);
+  padding-inline: 0;
+  border: 1px solid var(--tng-date-range-picker-border);
+  border-radius: var(--tng-date-range-picker-radius);
+  background: var(--tng-date-range-picker-bg);
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05);
+  transition: border-color 150ms ease, box-shadow 150ms ease, background-color 150ms ease;
+}
+
+.dh-shell:focus-within {
+  border-color: color-mix(in srgb, var(--tng-date-range-picker-brand) 62%, var(--tng-date-range-picker-border) 38%);
+  box-shadow: var(--tng-date-range-picker-focus-shadow);
+}
+
+.dh-input {
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  caret-color: var(--tng-date-range-picker-brand);
+  color: var(--tng-date-range-picker-fg);
+  flex: 1 1 auto;
+  font: inherit;
+  font-size: 0.98rem;
+  font-weight: 600;
+  line-height: 1.35;
+  min-height: 100%;
+  min-inline-size: 0;
+  outline: none;
+  padding: 0.72rem 0.96rem;
+}
+
+.dh-input:focus,
+.dh-input:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
+.dh-input::placeholder {
+  color: color-mix(in srgb, var(--tng-date-range-picker-muted) 90%, var(--tng-date-range-picker-canvas) 10%);
+  opacity: 1;
+}
+
+.dh-trigger,
+.dh-nav,
+.dh-period,
+.dh-cell,
+.dh-picker-cell {
+  font: inherit;
+}
+
+.dh-trigger-icon {
+  height: 1.05rem;
+  width: 1.05rem;
+}
+
+.dh-trigger-chevron,
+.dh-period-chevron {
+  font-size: 0.75rem;
+  line-height: 1;
+}
+
+.dh-trigger {
+  flex: 0 0 auto;
+  min-width: 3rem;
+  padding-inline: 0.78rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.34rem;
+  border: 0;
+  border-inline-start: 1px solid
+    color-mix(in srgb, var(--tng-date-range-picker-border) 72%, var(--tng-date-range-picker-canvas) 28%);
+  background: var(--tng-date-range-picker-bg);
+  color: var(--tng-date-range-picker-fg);
+  cursor: pointer;
+  font: inherit;
+  appearance: none;
+  -webkit-appearance: none;
+  transition: background-color 150ms ease, color 150ms ease;
+}
+
+.dh-trigger:hover {
+  color: var(--tng-date-range-picker-fg);
+  outline: none;
+  box-shadow: none;
+  background: color-mix(in srgb, var(--tng-date-range-picker-brand) 9%, var(--tng-date-range-picker-surface));
+}
+
+.dh-trigger:focus,
+.dh-trigger:focus-visible {
+  outline: none;
+  box-shadow: none;
+  background: color-mix(in srgb, var(--tng-date-range-picker-brand) 9%, var(--tng-date-range-picker-surface));
+}
+
+.dh-header {
+  color: var(--tng-date-range-picker-fg);
+  display: grid;
+  gap: 0.42rem;
+}
+
+.dh-header-row {
+  align-items: center;
+  display: grid;
+  gap: 0.4rem;
+  grid-template-columns: 1.9rem minmax(0, 1fr) 1.9rem;
+}
+
+.dh-period {
+  align-items: center;
+  display: inline-flex;
+  gap: 0.24rem;
+  justify-content: center;
+  min-inline-size: 0;
+  width: 100%;
+}
+
+.dh-period-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dh-nav,
+.dh-period {
+  min-height: 2rem;
+  border: 1px solid var(--tng-date-range-picker-border);
+  background: var(--tng-date-range-picker-surface);
+  color: var(--tng-date-range-picker-fg);
+}
+
+.dh-weekdays,
+.dh-day-grid {
+  display: grid;
+  gap: var(--tng-date-range-picker-grid-gap);
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+
+.dh-picker-grid {
+  display: grid;
+  gap: var(--tng-date-range-picker-grid-gap);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.dh-weekdays [data-slot='date-range-picker-weekday'] {
+  color: color-mix(in srgb, var(--tng-date-range-picker-muted) 92%, var(--tng-date-range-picker-canvas) 8%);
+  font-size: 0.68rem;
+  text-align: center;
+}
+
+.dh-overlay {
+  inline-size: min(20rem, calc(100vw - 2rem));
+  border: 1px solid var(--tng-date-range-picker-border);
+  border-radius: calc(var(--tng-date-range-picker-radius) + 0.18rem);
+  background: var(--tng-date-range-picker-canvas);
+  color: var(--tng-date-range-picker-fg);
+  box-shadow: var(--tng-date-range-picker-shadow);
+}
+
+.dh-cell,
+.dh-picker-cell {
+  border: 1px solid transparent;
+  background: var(--tng-date-range-picker-surface);
+  color: var(--tng-date-range-picker-fg);
+}
+
+.dh-cell[data-active],
+.dh-picker-cell[data-active] {
+  border-color: color-mix(in srgb, var(--tng-date-range-picker-brand) 34%, var(--tng-date-range-picker-border) 66%);
+  background: color-mix(in srgb, var(--tng-date-range-picker-brand) 9%, var(--tng-date-range-picker-surface) 91%);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--tng-date-range-picker-brand) 14%, transparent);
+}
+
+.dh-cell[data-selected],
+.dh-picker-cell[data-selected] {
+  border-color: color-mix(in srgb, var(--tng-date-range-picker-brand) 46%, var(--tng-date-range-picker-border) 54%);
+  background: color-mix(in srgb, var(--tng-date-range-picker-brand) 18%, var(--tng-date-range-picker-canvas) 82%);
+  color: color-mix(in srgb, var(--tng-date-range-picker-brand) 74%, var(--tng-date-range-picker-fg) 26%);
+}
+
+.dh-cell[data-selected][data-active],
+.dh-picker-cell[data-selected][data-active] {
+  border-color: color-mix(in srgb, var(--tng-date-range-picker-brand) 62%, var(--tng-date-range-picker-border) 38%);
+  background: color-mix(in srgb, var(--tng-date-range-picker-brand) 24%, var(--tng-date-range-picker-canvas) 76%);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--tng-date-range-picker-canvas) 42%, transparent),
+    0 0 0 1px color-mix(in srgb, var(--tng-date-range-picker-brand) 16%, transparent);
+}
+
+.dh-cell[aria-current='date']:not([data-selected]) {
+  border-color: color-mix(in srgb, var(--tng-date-range-picker-brand) 28%, var(--tng-date-range-picker-border) 72%);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--tng-date-range-picker-brand) 12%, transparent);
+}
+
+.dh-cell:not([data-in-month]) {
+  color: color-mix(in srgb, var(--tng-date-range-picker-muted) 84%, var(--tng-date-range-picker-canvas) 16%);
+  opacity: 0.58;
+}
+
+.dh-cell[data-disabled],
+.dh-picker-cell[data-disabled] {
+  opacity: 0.46;
+  box-shadow: none;
+}
+
+.dh-demo--booking,
+.dh-demo--reporting {
+  --tng-date-range-picker-bg: var(--tng-semantic-background-surface);
+  --tng-date-range-picker-border: var(--tng-semantic-border-default);
+  --tng-date-range-picker-canvas: var(--tng-semantic-background-canvas);
+  --tng-date-range-picker-focus-shadow: 0 0 0 3px color-mix(in srgb, var(--tng-date-range-picker-brand) 22%, transparent);
+  --tng-date-range-picker-fg: var(--tng-semantic-foreground-primary);
+  --tng-date-range-picker-muted: var(--tng-semantic-foreground-secondary);
+  --tng-date-range-picker-surface: color-mix(
+    in srgb,
+    var(--tng-date-range-picker-brand) 14%,
+    var(--tng-semantic-background-surface)
+  );
+}
+
+.dh-demo--booking {
+  --tng-date-range-picker-brand: var(--tng-semantic-accent-brand);
+}
+
+.dh-demo--reporting {
+  --tng-date-range-picker-brand: var(--tng-semantic-accent-success);
+}

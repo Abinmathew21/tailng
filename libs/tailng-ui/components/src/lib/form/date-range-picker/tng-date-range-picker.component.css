@@ -1,0 +1,125 @@
+:host {
+  display: inline-grid;
+  max-width: 100%;
+  min-width: min(18rem, 100%);
+}
+
+:host([data-full-width]) {
+  display: block;
+  width: 100%;
+}
+
+.tng-date-range-picker-root {
+  --tng-date-range-picker-radius: 0.85rem;
+}
+
+.tng-date-range-picker-anchor {
+  min-width: 0;
+  position: relative;
+}
+
+.tng-date-range-picker-input-shell {
+  border-radius: var(--tng-date-range-picker-radius);
+}
+
+.tng-date-range-picker-trigger-calendar {
+  height: 1.05rem;
+  width: 1.05rem;
+}
+
+.tng-date-range-picker-trigger-chevron,
+.tng-date-range-picker-period-button-chevron {
+  flex: 0 0 auto;
+  height: 0.68rem;
+  width: 0.68rem;
+}
+
+.tng-date-range-picker-overlay {
+  max-width: calc(100vw - 1.5rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  position: fixed;
+  z-index: 30;
+}
+
+.tng-date-range-picker-header-row {
+  align-items: center;
+  display: grid;
+  gap: 0.34rem;
+}
+
+.tng-date-range-picker-header-row-material {
+  grid-template-columns:
+    var(--tng-date-range-picker-nav-size, 2.1rem)
+    minmax(0, 1fr)
+    var(--tng-date-range-picker-nav-size, 2.1rem);
+}
+
+.tng-date-range-picker-period-button {
+  align-items: center;
+  display: inline-flex;
+  justify-content: center;
+  justify-self: center;
+  min-width: 0;
+  width: 100%;
+}
+
+.tng-date-range-picker-period-button-title-row {
+  align-items: center;
+  display: inline-flex;
+  gap: 0.24rem;
+}
+
+.tng-date-range-picker-period-button-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tng-date-range-picker-input,
+.tng-date-range-picker-trigger {
+  outline: none;
+}
+
+.tng-date-range-picker-input {
+  padding-block: 0.5rem;
+  padding-inline: 1.25rem 1rem;
+}
+
+.tng-date-range-picker-input:focus,
+.tng-date-range-picker-input:focus-visible,
+.tng-date-range-picker-trigger:focus,
+.tng-date-range-picker-trigger:focus-visible {
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+.tng-date-range-picker-trigger::-moz-focus-inner {
+  border: 0;
+}
+
+.tng-date-range-picker-weekdays {
+  display: grid;
+  gap: var(--tng-date-range-picker-grid-gap);
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+
+.tng-date-range-picker-grid {
+  display: grid;
+  gap: var(--tng-date-range-picker-grid-gap);
+}
+
+.tng-date-range-picker-grid-days {
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+
+.tng-date-range-picker-grid-picker {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+@media (max-width: 40rem) {
+  :host,
+  :host([data-full-width]) {
+    width: 100%;
+  }
+}

@@ -1,0 +1,221 @@
+<article class="date-range-picker-styling">
+  <h2 class="date-range-picker-styling-title">Styling contract</h2>
+  <p class="date-range-picker-styling-lead">
+    The wrapper, the helper directives, and the portaled overlay all share one public slot and
+    state contract. Style against the exported data attributes and CSS variables instead of DOM
+    structure or fixed light and dark utility classes.
+  </p>
+
+  <section class="date-range-picker-styling-block">
+    <h3>Slot selectors</h3>
+    <div class="date-range-picker-styling-table-wrap">
+      <table class="date-range-picker-styling-table">
+        <thead>
+          <tr>
+            <th scope="col">Selector</th>
+            <th scope="col">Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>[data-slot="date-range-picker"]</code></td>
+            <td>Root contract for field-level layout tokens, host state hooks, and shared semantic colors.</td>
+          </tr>
+          <tr>
+            <td><code>[data-slot="date-range-picker-field"]</code></td>
+            <td>Field wrapper that contains the input shell and the overlay anchor.</td>
+          </tr>
+          <tr>
+            <td><code>[data-slot="date-range-picker-input-shell"]</code></td>
+            <td>Combined input and trigger chrome. Use this for border, invalid, open, and focus treatment.</td>
+          </tr>
+          <tr>
+            <td><code>[data-slot="date-range-picker-input"]</code> / <code>[data-slot="date-range-picker-trigger"]</code></td>
+            <td>Editable text field and calendar trigger inside the shared shell.</td>
+          </tr>
+          <tr>
+            <td><code>[data-slot="date-range-picker-overlay"]</code></td>
+            <td>Popup panel. It is portaled to <code>body</code>, so scope theme tokens on an ancestor that can be copied to the overlay.</td>
+          </tr>
+          <tr>
+            <td><code>[data-slot="date-range-picker-header"]</code> / <code>[data-slot="date-range-picker-nav-button"]</code> / <code>[data-slot="date-range-picker-period-button"]</code></td>
+            <td>Header row and drill-down controls.</td>
+          </tr>
+          <tr>
+            <td><code>[data-slot="date-range-picker-weekdays"]</code> / <code>[data-slot="date-range-picker-weekday"]</code></td>
+            <td>Weekday label row in day view.</td>
+          </tr>
+          <tr>
+            <td><code>[data-slot="date-range-picker-grid"]</code></td>
+            <td>Shared grid container for day, month, and year panels.</td>
+          </tr>
+          <tr>
+            <td><code>[data-slot="date-range-picker-cell"]</code> / <code>[data-slot="date-range-picker-month"]</code> / <code>[data-slot="date-range-picker-year"]</code></td>
+            <td>Interactive day, month, and year cells.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="date-range-picker-styling-block">
+    <h3>State hooks</h3>
+    <div class="date-range-picker-styling-table-wrap">
+      <table class="date-range-picker-styling-table">
+        <thead>
+          <tr>
+            <th scope="col">State</th>
+            <th scope="col">Applied on</th>
+            <th scope="col">Use case</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>[data-open]</code></td>
+            <td>Host, input shell, trigger, overlay</td>
+            <td>Open-state affordances and trigger emphasis.</td>
+          </tr>
+          <tr>
+            <td><code>[data-view]</code></td>
+            <td>Host</td>
+            <td>View-specific layout or animation changes across day, month, and year panels.</td>
+          </tr>
+          <tr>
+            <td><code>[data-invalid]</code></td>
+            <td>Input shell</td>
+            <td>Manual input parse and bounds failure treatment.</td>
+          </tr>
+          <tr>
+            <td><code>[data-disabled]</code></td>
+            <td>Host, day cells, month cells, year cells</td>
+            <td>Disabled field or out-of-range date visuals.</td>
+          </tr>
+          <tr>
+            <td><code>[data-active]</code></td>
+            <td>Day, month, and year cells</td>
+            <td>Current roving target when focus and selection differ.</td>
+          </tr>
+          <tr>
+            <td><code>[data-selected]</code></td>
+            <td>Day, month, and year cells</td>
+            <td>Committed selection state.</td>
+          </tr>
+          <tr>
+            <td><code>[data-focus-visible]</code></td>
+            <td>Day, month, and year cells</td>
+            <td>Keyboard focus treatment independent of selected state.</td>
+          </tr>
+          <tr>
+            <td><code>[data-hidden]</code></td>
+            <td>Day cells</td>
+            <td>Lets headless layouts suppress or fade hidden outside-month cells cleanly.</td>
+          </tr>
+          <tr>
+            <td><code>[data-in-month]</code></td>
+            <td>Day cells</td>
+            <td>Distinguishes outside-month days from the visible month.</td>
+          </tr>
+          <tr>
+            <td><code>[data-in-range]</code>, <code>[data-range-start]</code>, <code>[data-range-end]</code></td>
+            <td>Day cells in range mode</td>
+            <td>Supports shared background, start cap, and end cap styling for range selection.</td>
+          </tr>
+          <tr>
+            <td><code>[data-placement]</code> / <code>[data-position]</code></td>
+            <td>Overlay</td>
+            <td>Respond to flipped popup placement and horizontal alignment.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="date-range-picker-styling-block">
+    <h3>Common custom properties</h3>
+    <div class="date-range-picker-styling-table-wrap">
+      <table class="date-range-picker-styling-table">
+        <thead>
+          <tr>
+            <th scope="col">Token</th>
+            <th scope="col">Typical usage</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>--tng-date-range-picker-radius</code></td>
+            <td>Input shell and overlay radius.</td>
+          </tr>
+          <tr>
+            <td><code>--tng-date-range-picker-field-height</code></td>
+            <td>Combined input and trigger height.</td>
+          </tr>
+          <tr>
+            <td><code>--tng-date-range-picker-overlay-padding</code></td>
+            <td>Outer padding inside the popup panel.</td>
+          </tr>
+          <tr>
+            <td><code>--tng-date-range-picker-grid-gap</code></td>
+            <td>Spacing between day, month, and year cells.</td>
+          </tr>
+          <tr>
+            <td><code>--tng-date-range-picker-day-cell-size</code> / <code>--tng-date-range-picker-picker-cell-size</code></td>
+            <td>Base cell sizing for day and picker panels.</td>
+          </tr>
+          <tr>
+            <td><code>--tng-date-range-picker-brand</code> / <code>--tng-date-range-picker-focus</code></td>
+            <td>Selection, hover, and focus accents.</td>
+          </tr>
+          <tr>
+            <td><code>--tng-date-range-picker-border</code> / <code>--tng-date-range-picker-surface</code> / <code>--tng-date-range-picker-fg</code></td>
+            <td>Field chrome, popup surface, and foreground styling.</td>
+          </tr>
+          <tr>
+            <td><code>--tng-date-range-picker-shadow</code> / <code>--tng-date-range-picker-focus-shadow</code></td>
+            <td>Popup depth and focus ring treatment.</td>
+          </tr>
+          <tr>
+            <td><code>--tng-date-range-picker-nav-size</code></td>
+            <td>Header navigation button footprint.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="date-range-picker-styling-block">
+    <h3>Theme-aware wrapper shell</h3>
+    <p>
+      When you place the wrapper inside a utility shell, prefer semantic tokens so the surrounding
+      surface stays aligned with theme and mode changes and the portaled overlay inherits the same
+      visual language.
+    </p>
+    <tng-code-block
+      [code]="themeAwareShellCode"
+      adapter="shiki"
+      language="css"
+      title="Theme-aware container"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section class="date-range-picker-styling-block">
+    <h3>Compact override example</h3>
+    <p>
+      These tokens are already tuned for the docs examples. Override them on a wrapper scope when a
+      denser or roomier product surface needs a different rhythm.
+    </p>
+    <tng-code-block
+      [code]="compactThemeCode"
+      adapter="shiki"
+      language="css"
+      title="Scoped token overrides"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+</article>

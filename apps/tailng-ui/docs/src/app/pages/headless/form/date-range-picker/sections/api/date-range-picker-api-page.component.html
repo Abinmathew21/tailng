@@ -1,0 +1,240 @@
+<article class="headless-date-range-picker-api">
+  <h2 class="headless-date-range-picker-api-title">API reference</h2>
+  <p class="headless-date-range-picker-api-lead">
+    Headless Date Range Picker is a controller plus a small set of binding directives. You still own the
+    field, trigger, overlay, and calendar layout, while the primitive owns parsing, roving focus,
+    panel transitions, and the public accessibility attributes.
+  </p>
+
+  <section id="createdaterangepickercontroller" class="headless-date-range-picker-api-block">
+    <h3><code>createDateRangePickerController(...)</code></h3>
+    <tng-code-block
+      [code]="controllerAttachCode"
+      adapter="shiki"
+      language="ts"
+      title="Controller + Angular binding"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+
+    <div class="headless-date-range-picker-api-table-wrap">
+      <table class="headless-date-range-picker-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Option</th>
+            <th scope="col">Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>value</code> / <code>defaultValue</code></td>
+            <td>Initial or controlled range selection state.</td>
+          </tr>
+          <tr>
+            <td><code>today</code></td>
+            <td>Overrides the date marked as today in the calendar grid.</td>
+          </tr>
+          <tr>
+            <td><code>minDate</code> / <code>maxDate</code></td>
+            <td>Disables out-of-range days, months, and years.</td>
+          </tr>
+          <tr>
+            <td><code>adapter</code></td>
+            <td>Controls input parsing, formatting, and visible period labels.</td>
+          </tr>
+          <tr>
+            <td><code>closeOnSelect</code></td>
+            <td>Closes the popup after a committed range selection.</td>
+          </tr>
+          <tr>
+            <td><code>trapFocus</code></td>
+            <td>Keeps focus inside the popup while it is open.</td>
+          </tr>
+          <tr>
+            <td><code>showOutsideDays</code></td>
+            <td>Shows adjacent-month days in the visible month grid.</td>
+          </tr>
+          <tr>
+            <td><code>overlayMode</code> / <code>position</code></td>
+            <td>Controls overlay layout and alignment from the field.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="primitive-directives" class="headless-date-range-picker-api-block">
+    <h3>Primitive directives</h3>
+    <p>
+      These directives are the current headless binding layer. They keep the docs and applications
+      out of the manual key, click, aria, and active-descendant plumbing that the older examples
+      had to repeat.
+    </p>
+    <tng-code-block
+      [code]="directiveAttachCode"
+      adapter="shiki"
+      language="html"
+      title="Field + overlay wiring"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+
+    <div class="headless-date-range-picker-api-table-wrap">
+      <table class="headless-date-range-picker-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Directive</th>
+            <th scope="col">Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>[tngDateRangePickerHost]</code></td>
+            <td>Applies the public root attributes like <code>data-open</code>, <code>data-view</code>, and root ARIA labels.</td>
+          </tr>
+          <tr>
+            <td><code>[tngDateRangePickerInput]</code></td>
+            <td>Wires input text, manual commits, open-on-click, and basic keyboard entry into the controller.</td>
+          </tr>
+          <tr>
+            <td><code>[tngDateRangePickerTrigger]</code></td>
+            <td>Registers the trigger element and forwards the wrapper-grade trigger keyboard behavior.</td>
+          </tr>
+          <tr>
+            <td><code>[tngDateRangePickerOverlay]</code></td>
+            <td>Ports the popup to <code>document.body</code>, syncs overlay attrs, and keeps positioning/focus semantics aligned.</td>
+          </tr>
+          <tr>
+            <td><code>[tngDateRangePickerPrevButton]</code> / <code>[tngDateRangePickerNextButton]</code></td>
+            <td>Pages the current view without repeating day/month/year branching in your component code.</td>
+          </tr>
+          <tr>
+            <td><code>[tngDateRangePickerPeriodButton]</code></td>
+            <td>Handles the standard period drill-down flow and keeps focus synced after the view changes.</td>
+          </tr>
+          <tr>
+            <td><code>[tngDateRangePickerDayGrid]</code>, <code>[tngDateRangePickerMonthGrid]</code>, <code>[tngDateRangePickerYearGrid]</code></td>
+            <td>Forward the correct keyboard behavior for each panel.</td>
+          </tr>
+          <tr>
+            <td><code>[tngDateRangePickerDayCell]</code>, <code>[tngDateRangePickerMonthOption]</code>, <code>[tngDateRangePickerYearOption]</code></td>
+            <td>Apply the public cell attrs and click behavior so buttons stay headless but not repetitive.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="grid-directives" class="headless-date-range-picker-api-block">
+    <h3>Grid rendering</h3>
+    <p>
+      The controller still exposes the view data. The difference is that the cell and grid
+      directives now own the common interactions, so the template only needs to render the panels
+      it wants.
+    </p>
+    <p>
+      This keeps the layout genuinely headless: you decide which panel to show and how to arrange
+      it, while the primitive keeps the keyboard and selection model consistent.
+    </p>
+    <tng-code-block
+      [code]="gridAttachCode"
+      adapter="shiki"
+      language="html"
+      title="Day / month / year panels"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="slot-outputs" class="headless-date-range-picker-api-block">
+    <h3>Controller outputs</h3>
+    <p>
+      <code>dateRangePicker.outputs()</code> is the primary read model. The <code>get*Attributes()</code>
+      helpers are still available for advanced custom composition, but they are now the lower-level
+      escape hatch rather than the default path.
+    </p>
+    <div class="headless-date-range-picker-api-table-wrap">
+      <table class="headless-date-range-picker-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Output</th>
+            <th scope="col">Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>cells</code></td>
+            <td>Visible day cells with disabled, selected, range, active, today, and in-month state.</td>
+          </tr>
+          <tr>
+            <td><code>monthOptions</code> / <code>yearOptions</code></td>
+            <td>Picker options for month and year drill-down panels.</td>
+          </tr>
+          <tr>
+            <td><code>inputText</code></td>
+            <td>Current editable input text, including in-progress manual entry.</td>
+          </tr>
+          <tr>
+            <td><code>labelMonthYear</code></td>
+            <td>Ready-to-render month/year label for the day view header.</td>
+          </tr>
+          <tr>
+            <td><code>getHostAttributes()</code> / <code>getOverlayAttributes()</code> / <code>getGridAttributes()</code></td>
+            <td>Low-level attribute maps for advanced compositions or environments where you are not using the helper directives.</td>
+          </tr>
+          <tr>
+            <td><code>getCellAttributes(...)</code> / <code>getMonthAttributes(...)</code> / <code>getYearAttributes(...)</code></td>
+            <td>Low-level item attrs for fully custom cell markup beyond the provided option directives.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="controller-methods" class="headless-date-range-picker-api-block">
+    <h3>Controller methods</h3>
+    <div class="headless-date-range-picker-api-table-wrap">
+      <table class="headless-date-range-picker-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Method</th>
+            <th scope="col">Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>open()</code> / <code>close()</code> / <code>toggleOpen()</code></td>
+            <td>Owns popup visibility.</td>
+          </tr>
+          <tr>
+            <td><code>setInputText(...)</code> / <code>commitInputText()</code></td>
+            <td>Supports manual editing with adapter validation and bounds checks.</td>
+          </tr>
+          <tr>
+            <td><code>subscribe(...)</code></td>
+            <td>Low-level subscription hook. Angular apps can usually prefer <code>bindTngDateRangePicker(...)</code> instead.</td>
+          </tr>
+          <tr>
+            <td><code>showYearsPanel()</code> / <code>showMonthsPanel()</code> / <code>showDaysPanel()</code></td>
+            <td>Lets the implementation drive the visible panel explicitly when it wants a custom view flow.</td>
+          </tr>
+          <tr>
+            <td><code>prevMonth()</code> / <code>nextMonth()</code> / <code>prevYear()</code> / <code>nextYear()</code></td>
+            <td>Pages the visible range for the current view.</td>
+          </tr>
+          <tr>
+            <td><code>selectMonth(...)</code> / <code>selectYear(...)</code> / <code>handleCellClick(...)</code></td>
+            <td>Low-level selection hooks for layouts that want to bypass the stock option directives.</td>
+          </tr>
+          <tr>
+            <td><code>handleTriggerKeyDown(...)</code> / <code>handleOverlayKeyDown(...)</code> / <code>handleGridKeyDown(...)</code></td>
+            <td>Still available as the lower-level escape hatch if you are building a custom directive layer of your own.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</article>

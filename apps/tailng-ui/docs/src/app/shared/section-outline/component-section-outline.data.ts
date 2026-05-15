@@ -389,6 +389,41 @@ export const docsComponentOutlineItemsBySlug: Readonly<
       { id: 'import-and-usage', label: 'Import in your feature module/component' },
     ],
   },
+  'date-range-picker': {
+    overview: [
+      { id: 'simple-sample', label: 'Simple sample' },
+      { id: 'imports', label: 'Imports' },
+      { id: 'quick-start', label: 'Quick start' },
+      { id: 'headless-orchestration', label: 'Headless orchestration' },
+      { id: 'behavior-baseline', label: 'Behavior baseline' },
+    ],
+    api: [
+      { id: 'tng-date-range-picker-component', label: 'tng-date-range-picker (component)' },
+      { id: 'outputs', label: 'Outputs' },
+      { id: 'wrapper-instance-methods', label: 'Wrapper instance methods' },
+      { id: 'headless-binding-layer', label: 'Headless binding layer' },
+      { id: 'advanced-controller-options', label: 'Advanced controller options' },
+      { id: 'controller-methods', label: 'Controller methods' },
+    ],
+    styling: [
+      { id: 'slot-selectors', label: 'Slot selectors' },
+      { id: 'state-hooks', label: 'State hooks' },
+      { id: 'common-custom-properties', label: 'Common custom properties' },
+      { id: 'theme-aware-wrapper-shell', label: 'Theme-aware wrapper shell' },
+      { id: 'compact-override-example', label: 'Compact override example' },
+    ],
+    examples: [
+      { id: 'form-usage', label: 'Form usage' },
+      { id: 'default-wrapper', label: 'Default wrapper' },
+      { id: 'custom-format', label: 'Custom format' },
+      { id: 'bounded-range', label: 'Bounded range' },
+    ],
+    'ownable-install': [
+      { id: 'install-from-registry', label: 'Install from registry' },
+      { id: 'generated-files', label: 'Generated files' },
+      { id: 'import-and-usage', label: 'Import in your feature module/component' },
+    ],
+  },
   dialog: {
     overview: [
       { id: 'imports', label: 'Imports' },

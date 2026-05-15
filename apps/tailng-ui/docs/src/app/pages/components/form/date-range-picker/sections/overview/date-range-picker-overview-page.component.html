@@ -1,0 +1,140 @@
+<article class="date-range-picker-overview">
+  <h2 class="date-range-picker-overview-title">Date Range Picker overview</h2>
+  <p class="date-range-picker-overview-lead">
+    TailNG Date Range Picker ships as a compact wrapper with editable input, keyboard-first calendar
+    navigation, adapter-driven formatting, and bounded month, year, and day selection.
+  </p>
+
+  <app-docs-example-tabs-section
+    class="date-range-picker-overview-block"
+    heading="Simple sample"
+    description="Compare the stock wrapper in its default plain-CSS presentation and in a theme-aware Tailwind shell. Headless composition is covered in the separate headless Date Range Picker docs."
+    ariaLabel="Date Range Picker overview style examples"
+    tabListAriaLabel="Date Range Picker overview example style variants"
+    defaultValue="plain-css"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+      panelTitle="Simple sample (Plain-CSS)"
+      [codeTabs]="simplePlainCodeTabs"
+    >
+      <div class="date-range-picker-overview-example-preview">
+        <div class="date-range-picker-overview-example-control">
+          <tng-date-range-picker
+            [defaultOpen]="false"
+            [defaultValue]="{ start: '2024-04-22', end: '2024-04-26' }"
+            [today]="'2024-04-18'"
+            [minDate]="'2024-04-01'"
+            [maxDate]="'2026-03-31'"
+            [fullWidth]="false"
+            ariaLabel="Invoice period"
+          ></tng-date-range-picker>
+        </div>
+      </div>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Simple sample (Tailwind CSS)"
+      [codeTabs]="simpleTailwindCodeTabs"
+    >
+      <div class="date-range-picker-overview-example-preview">
+        <div
+          class="w-full max-w-[18.5rem] rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[linear-gradient(180deg,color-mix(in_srgb,var(--tng-semantic-background-base)_92%,var(--tng-semantic-background-surface)_8%),color-mix(in_srgb,var(--tng-semantic-background-base)_76%,var(--tng-semantic-background-surface)_24%))] p-3 text-[var(--tng-semantic-foreground-primary)] shadow-[0_10px_24px_color-mix(in_srgb,var(--tng-semantic-foreground-primary)_10%,transparent)]"
+        >
+          <tng-date-range-picker
+            [defaultOpen]="false"
+            [defaultValue]="{ start: '2024-04-22', end: '2024-04-26' }"
+            [today]="'2024-04-18'"
+            [minDate]="'2024-04-01'"
+            [maxDate]="'2026-03-31'"
+            [fullWidth]="false"
+            ariaLabel="Invoice period"
+          ></tng-date-range-picker>
+        </div>
+      </div>
+    </ng-template>
+  </app-docs-example-tabs-section>
+
+  <section class="date-range-picker-overview-block">
+    <h3>Imports</h3>
+    <p>
+      Use <code>TngDateRangePickerComponent</code> for the default wrapper. Reach for
+      <code>createDateRangePickerController</code> plus <code>bindTngDateRangePicker</code> when you need
+      custom layout while keeping the same calendar logic, focus behavior, and public slot/state
+      contract.
+    </p>
+
+    <tng-code-block
+      [code]="componentImportCode"
+      adapter="shiki"
+      language="ts"
+      title="Wrapper import"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+
+    <tng-code-block
+      [code]="primitiveImportCode"
+      adapter="shiki"
+      language="ts"
+      title="Headless binding imports"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section class="date-range-picker-overview-block">
+    <h3>Quick start</h3>
+    <tng-code-block
+      [code]="wrapperUsageCode"
+      adapter="shiki"
+      language="html"
+      title="Default wrapper usage"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section class="date-range-picker-overview-block">
+    <h3>Headless orchestration</h3>
+    <p>
+      The wrapper keeps the material drill-down flow by default. Headless implementations should
+      start with <code>bindTngDateRangePicker(...)</code> and the helper directives so the template
+      keeps the same ARIA, keyboard, and overlay behavior without repeating low-level event
+      plumbing.
+    </p>
+    <tng-code-block
+      [code]="headlessControllerCode"
+      adapter="shiki"
+      language="ts"
+      title="Controller + binding setup"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section class="date-range-picker-overview-block">
+    <h3>Behavior baseline</h3>
+    <ul class="date-range-picker-overview-list">
+      <li>The wrapper supports uncontrolled and controlled selection through <code>defaultValue</code> and <code>value</code>.</li>
+      <li>Range selection commits a <code>&#123; start, end &#125;</code> value and keeps hover preview state on day cells.</li>
+      <li>The centered month-year button drills from year to month to day while navigation keeps bounds intact.</li>
+      <li><code>minDate</code>, <code>maxDate</code>, and <code>disableDate</code> all feed the same availability model.</li>
+      <li>Theme changes should flow through semantic tokens so the field and the portaled overlay stay visually in sync.</li>
+    </ul>
+  </section>
+</article>

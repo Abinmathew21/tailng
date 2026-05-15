@@ -1,0 +1,78 @@
+:host {
+  display: block;
+}
+
+.date-range-picker-api {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.date-range-picker-api-lead-group {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.date-range-picker-api-title {
+  font-size: 1.9rem;
+  font-weight: 800;
+  margin: 0;
+}
+
+.date-range-picker-api-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  line-height: 1.65;
+  margin: 0;
+  max-width: 58rem;
+}
+
+.date-range-picker-api-block {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.date-range-picker-api-block h3,
+.date-range-picker-api-block h4 {
+  margin: 0;
+}
+
+.date-range-picker-api-block p {
+  line-height: 1.65;
+  margin: 0;
+  max-width: 58rem;
+}
+
+.date-range-picker-api-table-wrap {
+  overflow-x: auto;
+}
+
+.date-range-picker-api-table {
+  border-collapse: collapse;
+  min-width: 42rem;
+  width: 100%;
+}
+
+.date-range-picker-api-table th,
+.date-range-picker-api-table td {
+  border-bottom: 1px solid var(--tng-semantic-border-subtle);
+  padding: 0.75rem 0.8rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.date-range-picker-api-table th {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.79rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+}
+
+.date-range-picker-api-table td {
+  line-height: 1.6;
+}
+
+@media (max-width: 760px) {
+  .date-range-picker-api-table {
+    min-width: 36rem;
+  }
+}

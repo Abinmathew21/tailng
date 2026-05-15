@@ -1,0 +1,127 @@
+:host {
+  display: block;
+}
+
+.date-range-picker-examples {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.date-range-picker-examples-title {
+  font-size: 1.9rem;
+  font-weight: 800;
+  margin: 0;
+}
+
+.date-range-picker-examples-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  line-height: 1.65;
+  margin: 0;
+  max-width: 58rem;
+}
+
+.date-range-picker-examples-block {
+  display: grid;
+  gap: 1rem;
+}
+
+.date-range-picker-example-preview {
+  display: grid;
+  gap: 0.85rem;
+  justify-items: start;
+}
+
+.date-range-picker-example-control,
+.date-range-picker-headless-demo {
+  display: block;
+  inline-size: min(100%, 18.5rem);
+  max-inline-size: 18.5rem;
+}
+
+.date-range-picker-headless-field {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.date-range-picker-headless-anchor {
+  position: relative;
+}
+
+.date-range-picker-headless-shell {
+  display: flex;
+  min-inline-size: 0;
+}
+
+.date-range-picker-headless-input {
+  min-inline-size: 0;
+}
+
+.date-range-picker-headless-trigger,
+.date-range-picker-headless-nav,
+.date-range-picker-headless-period,
+.date-range-picker-headless-cell,
+.date-range-picker-headless-picker-cell {
+  font: inherit;
+}
+
+.date-range-picker-headless-trigger-icon {
+  height: 1rem;
+  width: 1rem;
+}
+
+.date-range-picker-headless-trigger-chevron,
+.date-range-picker-headless-period-chevron {
+  font-size: 0.75rem;
+  line-height: 1;
+}
+
+.date-range-picker-headless-header {
+  display: grid;
+  gap: 0.42rem;
+}
+
+.date-range-picker-headless-header-row {
+  align-items: center;
+  display: grid;
+  gap: 0.4rem;
+  grid-template-columns: 1.9rem minmax(0, 1fr) 1.9rem;
+}
+
+.date-range-picker-headless-period {
+  align-items: center;
+  display: inline-flex;
+  gap: 0.24rem;
+  justify-content: center;
+  min-inline-size: 0;
+  width: 100%;
+}
+
+.date-range-picker-headless-period-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.date-range-picker-headless-weekdays,
+.date-range-picker-headless-day-grid {
+  display: grid;
+  gap: var(--tng-date-range-picker-grid-gap);
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+
+.date-range-picker-headless-picker-grid {
+  display: grid;
+  gap: var(--tng-date-range-picker-grid-gap);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.date-range-picker-headless-weekdays [data-slot='date-range-picker-weekday'] {
+  text-align: center;
+}
+
+.date-range-picker-example-note {
+  color: var(--tng-semantic-foreground-secondary);
+  line-height: 1.6;
+  margin: 0;
+  max-width: 34rem;
+}

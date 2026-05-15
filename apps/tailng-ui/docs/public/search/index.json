@@ -1539,6 +1539,57 @@
     ]
   },
   {
+    "title": "Date Range Picker",
+    "description": "Material-style date range selection with editable input, adapter formatting, and bounded calendar views.",
+    "section": "Components / Form",
+    "url": "/components/form/date-range-picker",
+    "tags": [
+      "components",
+      "form",
+      "date-range-picker",
+      "date-range-picker"
+    ]
+  },
+  {
+    "title": "Date Range Picker API",
+    "description": "Material-style date range selection with editable input, adapter formatting, and bounded calendar views. API.",
+    "section": "Components / Form",
+    "url": "/components/form/date-range-picker/api",
+    "tags": [
+      "components",
+      "form",
+      "date-range-picker",
+      "date-range-picker",
+      "api"
+    ]
+  },
+  {
+    "title": "Date Range Picker Stylings",
+    "description": "Material-style date range selection with editable input, adapter formatting, and bounded calendar views. Stylings.",
+    "section": "Components / Form",
+    "url": "/components/form/date-range-picker/stylings",
+    "tags": [
+      "components",
+      "form",
+      "date-range-picker",
+      "date-range-picker",
+      "stylings"
+    ]
+  },
+  {
+    "title": "Date Range Picker Examples",
+    "description": "Material-style date range selection with editable input, adapter formatting, and bounded calendar views. Examples.",
+    "section": "Components / Form",
+    "url": "/components/form/date-range-picker/examples",
+    "tags": [
+      "components",
+      "form",
+      "date-range-picker",
+      "date-range-picker",
+      "examples"
+    ]
+  },
+  {
     "title": "Chips",
     "description": "Tokenized input and removable item chip usage patterns.",
     "section": "Components / Form",
@@ -2854,6 +2905,18 @@
       "form",
       "datepicker",
       "datepicker"
+    ]
+  },
+  {
+    "title": "Date Range Picker",
+    "description": "Headless date range controller with editable input orchestration, overlay ownership, preview state, and bounded range navigation.",
+    "section": "Headless / Form",
+    "url": "/headless/form/date-range-picker",
+    "tags": [
+      "headless",
+      "form",
+      "date-range-picker",
+      "date-range-picker"
     ]
   },
   {

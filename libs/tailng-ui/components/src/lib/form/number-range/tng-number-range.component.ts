@@ -1,11 +1,13 @@
 import {
   booleanAttribute,
+  ChangeDetectionStrategy,
   Component,
   computed,
   ElementRef,
   forwardRef,
   HostBinding,
   input,
+  OnInit,
   output,
   signal,
   ViewChild,
@@ -46,6 +48,7 @@ function normalizeStep(
 @Component({
   selector: 'tng-number-range',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './tng-number-range.component.html',
   styleUrl: './tng-number-range.component.css',
   providers: [
@@ -56,7 +59,7 @@ function normalizeStep(
     },
   ],
 })
-export class TngNumberRangeComponent implements ControlValueAccessor {
+export class TngNumberRangeComponent implements ControlValueAccessor, OnInit {
   // ── Controlled value ──────────────────────────────────────────────────────
   public readonly value = input<TngNumberRangeValue | null>(null);
   public readonly defaultValue = input<TngNumberRangeValue | null>(null);
@@ -211,6 +214,14 @@ export class TngNumberRangeComponent implements ControlValueAccessor {
 
   public onTouched(): void {
     this.onCvaTouched();
+  }
+
+  // ── Lifecycle ─────────────────────────────────────────────────────────────
+  public ngOnInit(): void {
+    const dv = this.defaultValue();
+    if (dv !== null) {
+      this.internalValue.set(normalizeRangeValue(dv));
+    }
   }
 
   // ── CVA ───────────────────────────────────────────────────────────────────

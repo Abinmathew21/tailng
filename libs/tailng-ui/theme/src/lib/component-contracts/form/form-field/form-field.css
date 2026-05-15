@@ -32,21 +32,29 @@
   --tng-datepicker-focus-shadow: none;
   --tng-datepicker-radius: 0;
   --tng-datepicker-field-height: calc(var(--tng-form-field-frame-min-height, 2.625rem) - 2 * var(--tng-form-field-frame-py, 0.55rem));
+  --tng-date-range-picker-bg: transparent;
+  --tng-date-range-picker-border: transparent;
+  --tng-date-range-picker-focus-shadow: none;
+  --tng-date-range-picker-radius: 0;
+  --tng-date-range-picker-field-height: calc(var(--tng-form-field-frame-min-height, 2.625rem) - 2 * var(--tng-form-field-frame-py, 0.55rem));
 }
 
-:where([data-slot='form-field'][data-appearance='outlined']) :where([data-slot='datepicker-input-shell']) {
+:where([data-slot='form-field'][data-appearance='outlined'])
+  :where([data-slot='datepicker-input-shell'], [data-slot='date-range-picker-input-shell']) {
   border-width: 0;
   box-shadow: none;
 }
 
-:where([data-slot='form-field'][data-appearance='outlined']) :where([data-slot='datepicker-input']) {
+:where([data-slot='form-field'][data-appearance='outlined'])
+  :where([data-slot='datepicker-input'], [data-slot='date-range-picker-input']) {
   padding-block: 0;
   padding-inline: 0;
   font-size: inherit;
   font-weight: inherit;
 }
 
-:where([data-slot='form-field'][data-appearance='outlined']) :where([data-slot='datepicker-trigger']) {
+:where([data-slot='form-field'][data-appearance='outlined'])
+  :where([data-slot='datepicker-trigger'], [data-slot='date-range-picker-trigger']) {
   border-inline-start-width: 0;
   background: transparent;
 }
@@ -71,6 +79,10 @@
   --tng-datepicker-border: revert-layer;
   --tng-datepicker-focus-shadow: revert-layer;
   --tng-datepicker-radius: revert-layer;
+  --tng-date-range-picker-bg: revert-layer;
+  --tng-date-range-picker-border: revert-layer;
+  --tng-date-range-picker-focus-shadow: revert-layer;
+  --tng-date-range-picker-radius: revert-layer;
 }
 
 :where([data-slot='form-field'][data-focused]) {

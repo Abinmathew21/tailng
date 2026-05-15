@@ -1,0 +1,198 @@
+<article class="date-range-picker-api">
+  <h2 class="date-range-picker-api-title">API reference</h2>
+  <div class="date-range-picker-api-lead-group">
+    <p class="date-range-picker-api-lead">
+      The default surface is <code>tng-date-range-picker</code>. When you need custom markup, use
+      <code>createDateRangePickerController(...)</code>, <code>bindTngDateRangePicker(...)</code>, and the
+      date range picker helper directives instead of wiring keyboard, focus, and ARIA behavior by hand.
+    </p>
+    <p class="date-range-picker-api-lead">
+      The wrapper intentionally sets a few opinionated defaults on top of the controller, notably
+      <code>closeOnSelect</code>, <code>trapFocus</code>, and <code>autoCommitView</code>.
+    </p>
+  </div>
+
+  <section class="date-range-picker-api-block">
+    <h3><code>tng-date-range-picker</code> (component)</h3>
+    <tng-code-block
+      [code]="wrapperAttachCode"
+      adapter="shiki"
+      language="html"
+      title="Wrapper attachment"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+
+    @for (group of wrapperInputGroups; track group.title) {
+      <h4>{{ group.title }}</h4>
+      @if (group.description) {
+        <p>{{ group.description }}</p>
+      }
+      <div class="date-range-picker-api-table-wrap">
+        <table class="date-range-picker-api-table">
+          <thead>
+            <tr>
+              <th scope="col">Property</th>
+              <th scope="col">Type</th>
+              <th scope="col">Default</th>
+              <th scope="col">Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (row of group.rows; track row.name) {
+              <tr>
+                <td><code>{{ row.name }}</code></td>
+                <td><code>{{ row.type }}</code></td>
+                <td>{{ row.default }}</td>
+                <td>{{ row.details }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </section>
+
+  <section class="date-range-picker-api-block">
+    <h3>Outputs</h3>
+    <div class="date-range-picker-api-table-wrap">
+      <table class="date-range-picker-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Output</th>
+            <th scope="col">Type</th>
+            <th scope="col">Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of wrapperOutputRows; track row.name) {
+            <tr>
+              <td><code>{{ row.name }}</code></td>
+              <td><code>{{ row.type }}</code></td>
+              <td>{{ row.details }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="date-range-picker-api-block">
+    <h3>Wrapper instance methods</h3>
+    <div class="date-range-picker-api-table-wrap">
+      <table class="date-range-picker-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Method</th>
+            <th scope="col">Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of wrapperMethodRows; track row.name) {
+            <tr>
+              <td><code>{{ row.name }}</code></td>
+              <td>{{ row.details }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="date-range-picker-api-block">
+    <h3>Headless binding layer</h3>
+    <tng-code-block
+      [code]="headlessAttachCode"
+      adapter="shiki"
+      language="ts"
+      title="Controller + Angular binding"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+    <tng-code-block
+      [code]="directiveAttachCode"
+      adapter="shiki"
+      language="html"
+      title="Field + overlay wiring"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+
+    <div class="date-range-picker-api-table-wrap">
+      <table class="date-range-picker-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Helper</th>
+            <th scope="col">Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of headlessBindingRows; track row.name) {
+            <tr>
+              <td><code>{{ row.name }}</code></td>
+              <td>{{ row.details }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="date-range-picker-api-block">
+    <h3>Advanced controller options</h3>
+    <p>
+      The wrapper covers the common surface. These options are available when you work with the
+      controller directly.
+    </p>
+    <div class="date-range-picker-api-table-wrap">
+      <table class="date-range-picker-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Option</th>
+            <th scope="col">Type</th>
+            <th scope="col">Default</th>
+            <th scope="col">Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of headlessOptionRows; track row.name) {
+            <tr>
+              <td><code>{{ row.name }}</code></td>
+              <td><code>{{ row.type }}</code></td>
+              <td>{{ row.default }}</td>
+              <td>{{ row.details }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="date-range-picker-api-block">
+    <h3>Controller methods</h3>
+    <div class="date-range-picker-api-table-wrap">
+      <table class="date-range-picker-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Method</th>
+            <th scope="col">Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of controllerMethodRows; track row.name) {
+            <tr>
+              <td><code>{{ row.name }}</code></td>
+              <td>{{ row.details }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+</article>

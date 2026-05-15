@@ -164,6 +164,13 @@ export const HEADLESS_FORM_GROUP: HeadlessDocsGroup = {
         'Headless calendar controller with editable input orchestration, overlay ownership, and bounded date navigation.',
     },
     {
+      id: 'date-range-picker',
+      slug: 'date-range-picker',
+      title: 'Date Range Picker',
+      description:
+        'Headless date range controller with editable input orchestration, overlay ownership, preview state, and bounded range navigation.',
+    },
+    {
       id: 'chips',
       slug: 'chips',
       title: 'Chips',

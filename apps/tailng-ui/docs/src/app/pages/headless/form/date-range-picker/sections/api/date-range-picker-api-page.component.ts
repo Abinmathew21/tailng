@@ -1,0 +1,81 @@
+import { Component } from '@angular/core';
+import { TngCodeBlockComponent } from '@tailng-ui/components';
+
+@Component({
+  selector: 'app-headless-date-range-picker-api-page',
+  imports: [TngCodeBlockComponent],
+  templateUrl: './date-range-picker-api-page.component.html',
+  styleUrl: './date-range-picker-api-page.component.css',
+})
+export class HeadlessDateRangePickerApiPageComponent {
+  protected readonly controllerAttachCode = [
+    "import { bindTngDateRangePicker, createDateRangePickerController } from '@tailng-ui/primitives';",
+    '',
+    'readonly controller = createDateRangePickerController<Date>({',
+    "  ownerDocument: document,",
+    "  value: { start: '2024-04-22', end: '2024-04-26' },",
+    "  today: '2024-04-18',",
+    "  minDate: '2024-04-01',",
+    "  maxDate: '2026-03-31',",
+    '  closeOnSelect: true,',
+    '  trapFocus: true,',
+    '  showOutsideDays: true,',
+    '});',
+    '',
+    'readonly dateRangePicker = bindTngDateRangePicker(this.controller);',
+    '',
+  ].join('\n');
+
+  protected readonly directiveAttachCode = [
+    '<section [tngDateRangePickerHost]="controller">',
+    '  <div data-slot="date-range-picker-field">',
+    '    <div #anchorShell>',
+    '      <div',
+    '        data-slot="date-range-picker-input-shell"',
+    "        [attr.data-invalid]=\"dateRangePicker.outputs().validationError !== null ? 'true' : null\"",
+    "        [attr.data-open]=\"dateRangePicker.outputs().getTriggerAttributes()['data-open']\"",
+    '      >',
+    '        <input [tngDateRangePickerInput]="controller" type="text" placeholder="MM-DD-YYYY - MM-DD-YYYY" />',
+    '        <button [tngDateRangePickerTrigger]="controller" type="button">Open</button>',
+    '      </div>',
+    '',
+    '      <section [tngDateRangePickerOverlay]="controller" [tngDateRangePickerOverlayAnchor]="anchorShell">',
+    '        <button [tngDateRangePickerPrevButton]="controller" type="button">‹</button>',
+    '        <button [tngDateRangePickerPeriodButton]="controller" type="button">',
+    '          {{ dateRangePicker.periodLabel() }}',
+    '        </button>',
+    '        <button [tngDateRangePickerNextButton]="controller" type="button">›</button>',
+    '      </section>',
+    '    </div>',
+    '  </div>',
+    '</section>',
+    '',
+  ].join('\n');
+
+  protected readonly gridAttachCode = [
+    '@if (dateRangePicker.outputs().view === \'day\') {',
+    '  <div [tngDateRangePickerDayGrid]="controller">',
+    '    @for (cell of dateRangePicker.outputs().cells; track cell.id) {',
+    '      <button [tngDateRangePickerDayCell]="cell" type="button">{{ cell.label }}</button>',
+    '    }',
+    '  </div>',
+    '}',
+    '',
+    '@if (dateRangePicker.outputs().view === \'month\') {',
+    '  <div [tngDateRangePickerMonthGrid]="controller">',
+    '    @for (option of dateRangePicker.outputs().monthOptions; track option.id) {',
+    '      <button [tngDateRangePickerMonthOption]="option" type="button">{{ option.label }}</button>',
+    '    }',
+    '  </div>',
+    '}',
+    '',
+    '@if (dateRangePicker.outputs().view === \'year\') {',
+    '  <div [tngDateRangePickerYearGrid]="controller">',
+    '    @for (option of dateRangePicker.outputs().yearOptions; track option.id) {',
+    '      <button [tngDateRangePickerYearOption]="option" type="button">{{ option.label }}</button>',
+    '    }',
+    '  </div>',
+    '}',
+    '',
+  ].join('\n');
+}

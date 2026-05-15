@@ -164,6 +164,13 @@ export const COMPONENTS_FORM_GROUP: ComponentsDocsGroup = {
         'Material-style date selection with editable input, adapter formatting, and bounded calendar views.',
     },
     {
+      id: 'date-range-picker',
+      slug: 'date-range-picker',
+      title: 'Date Range Picker',
+      description:
+        'Material-style date range selection with editable input, adapter formatting, and bounded calendar views.',
+    },
+    {
       id: 'month-daypicker',
       slug: 'month-daypicker',
       title: 'Month Daypicker',

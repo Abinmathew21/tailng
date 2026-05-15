@@ -1,0 +1,232 @@
+<article class="date-range-picker-examples">
+  <h2 class="date-range-picker-examples-title">Examples</h2>
+  <p class="date-range-picker-examples-lead">
+    These examples focus on the styled wrapper in its default plain-CSS presentation and in a
+    theme-aware Tailwind shell. Headless composition lives in the separate headless Date Range Picker
+    section.
+  </p>
+
+  <section class="date-range-picker-examples-block">
+    <app-docs-example-tabs-section
+      heading="Form usage"
+      description="Date Range Picker fits naturally into scheduling and reporting forms where the selected range is one submitted field."
+      ariaLabel="Date Range Picker form usage example"
+      tabListAriaLabel="Date Range Picker form usage variants"
+      defaultValue="live-demo"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template appDocsExampleVariant value="live-demo" label="Live demo" panelTitle="Date Range Picker form usage">
+        <app-docs-form-demo-shell
+          title="Choose an invoice period"
+          description="Use the date range picker as one range field inside a larger form without changing its core interaction model."
+          submitLabel="Save range"
+        >
+          <div docsFormDemoField class="date-range-picker-example-control">
+            <tng-date-range-picker
+              [defaultOpen]="false"
+              [defaultValue]="{ start: '2024-04-22', end: '2024-04-26' }"
+              [today]="'2024-04-18'"
+              [minDate]="'2024-04-01'"
+              [maxDate]="'2026-03-31'"
+              [fullWidth]="false"
+              ariaLabel="Invoice period"
+            ></tng-date-range-picker>
+          </div>
+          <p docsFormDemoSummary>The chosen range stays part of the form until submit or reset.</p>
+        </app-docs-form-demo-shell>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section class="date-range-picker-examples-block">
+    <app-docs-example-tabs-section
+      heading="Default wrapper"
+      description="Stock date range picker behavior with editable input, bounded navigation, and the material year → month → day drill-down."
+      ariaLabel="Default wrapper date range picker variants"
+      tabListAriaLabel="Default wrapper example styles"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Default wrapper (Plain-CSS)"
+        [codeTabs]="defaultPlainCodeTabs"
+      >
+        <div class="date-range-picker-example-preview">
+          <div class="date-range-picker-example-control">
+            <tng-date-range-picker
+              [defaultOpen]="false"
+              [defaultValue]="{ start: '2024-04-22', end: '2024-04-26' }"
+              [today]="'2024-04-18'"
+              [minDate]="'2024-04-01'"
+              [maxDate]="'2026-03-31'"
+              [fullWidth]="false"
+              ariaLabel="Invoice period"
+            ></tng-date-range-picker>
+          </div>
+          <p class="date-range-picker-example-note">
+            The default wrapper picks up the theme contract without extra utility classes.
+          </p>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Default wrapper (Tailwind CSS)"
+        [codeTabs]="defaultTailwindCodeTabs"
+      >
+        <div class="date-range-picker-example-preview">
+          <div
+            class="w-full max-w-[18.5rem] rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[linear-gradient(180deg,color-mix(in_srgb,var(--tng-semantic-background-base)_92%,var(--tng-semantic-background-surface)_8%),color-mix(in_srgb,var(--tng-semantic-background-base)_76%,var(--tng-semantic-background-surface)_24%))] p-3 text-[var(--tng-semantic-foreground-primary)] shadow-[0_10px_24px_color-mix(in_srgb,var(--tng-semantic-foreground-primary)_10%,transparent)]"
+          >
+            <tng-date-range-picker
+              [defaultOpen]="false"
+              [defaultValue]="{ start: '2024-04-22', end: '2024-04-26' }"
+              [today]="'2024-04-18'"
+              [minDate]="'2024-04-01'"
+              [maxDate]="'2026-03-31'"
+              [fullWidth]="false"
+              ariaLabel="Invoice period"
+            ></tng-date-range-picker>
+          </div>
+          <p class="date-range-picker-example-note">
+            Tailwind can own the outer surface while semantic tokens keep light, dark, and custom
+            themes in sync.
+          </p>
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section class="date-range-picker-examples-block">
+    <app-docs-example-tabs-section
+      heading="Custom format"
+      description="Adapter-driven formatting changes the input text and period label without changing the calendar behavior."
+      ariaLabel="Custom format date range picker variants"
+      tabListAriaLabel="Custom format example styles"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Custom format (Plain-CSS)"
+        [codeTabs]="customPlainCodeTabs"
+      >
+        <div class="date-range-picker-example-preview">
+          <div class="date-range-picker-example-control">
+            <tng-date-range-picker
+              [defaultOpen]="false"
+              [adapter]="customFormatAdapter"
+              [defaultValue]="{ start: '2024-04-22', end: '2024-04-26' }"
+              [today]="'2024-04-18'"
+              [fullWidth]="false"
+              ariaLabel="Reporting period"
+            ></tng-date-range-picker>
+          </div>
+          <p class="date-range-picker-example-note">
+            The wrapper consumes the adapter directly for both input parsing and overlay display
+            text.
+          </p>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Custom format (Tailwind CSS)"
+        [codeTabs]="customTailwindCodeTabs"
+      >
+        <div class="date-range-picker-example-preview">
+          <div
+            class="w-full max-w-[18.5rem] rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[linear-gradient(180deg,color-mix(in_srgb,var(--tng-semantic-background-base)_92%,var(--tng-semantic-background-surface)_8%),color-mix(in_srgb,var(--tng-semantic-background-base)_76%,var(--tng-semantic-background-surface)_24%))] p-3 text-[var(--tng-semantic-foreground-primary)] shadow-[0_10px_24px_color-mix(in_srgb,var(--tng-semantic-foreground-primary)_10%,transparent)]"
+          >
+            <tng-date-range-picker
+              [defaultOpen]="false"
+              [adapter]="customFormatAdapter"
+              [defaultValue]="{ start: '2024-04-22', end: '2024-04-26' }"
+              [today]="'2024-04-18'"
+              [fullWidth]="false"
+              ariaLabel="Reporting period"
+            ></tng-date-range-picker>
+          </div>
+          <p class="date-range-picker-example-note">
+            Tailwind can style the product surface without freezing the demo into a single light or
+            dark palette.
+          </p>
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section class="date-range-picker-examples-block">
+    <app-docs-example-tabs-section
+      heading="Bounded range"
+      description="Min and max dates constrain day, month, and year navigation, including keyboard movement at the panel edges."
+      ariaLabel="Bounded range date range picker variants"
+      tabListAriaLabel="Bounded range example styles"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Bounded range (Plain-CSS)"
+        [codeTabs]="boundedPlainCodeTabs"
+      >
+        <div class="date-range-picker-example-preview">
+          <div class="date-range-picker-example-control">
+            <tng-date-range-picker
+              [defaultOpen]="false"
+              [defaultValue]="{ start: '2024-04-18', end: '2024-04-21' }"
+              [today]="'2024-04-18'"
+              [minDate]="'2024-04-10'"
+              [maxDate]="'2024-04-25'"
+              [fullWidth]="false"
+              ariaLabel="Bounded shipping period"
+            ></tng-date-range-picker>
+          </div>
+          <p class="date-range-picker-example-note">
+            The wrapper stops month and year traversal on the nearest enabled value inside the
+            allowed window.
+          </p>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Bounded range (Tailwind CSS)"
+        [codeTabs]="boundedTailwindCodeTabs"
+      >
+        <div class="date-range-picker-example-preview">
+          <div
+            class="w-full max-w-[18.5rem] rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[linear-gradient(180deg,color-mix(in_srgb,var(--tng-semantic-background-base)_92%,var(--tng-semantic-background-surface)_8%),color-mix(in_srgb,var(--tng-semantic-background-base)_76%,var(--tng-semantic-background-surface)_24%))] p-3 text-[var(--tng-semantic-foreground-primary)] shadow-[0_10px_24px_color-mix(in_srgb,var(--tng-semantic-foreground-primary)_10%,transparent)]"
+          >
+            <tng-date-range-picker
+              [defaultOpen]="false"
+              [defaultValue]="{ start: '2024-04-18', end: '2024-04-21' }"
+              [today]="'2024-04-18'"
+              [minDate]="'2024-04-10'"
+              [maxDate]="'2024-04-25'"
+              [fullWidth]="false"
+              ariaLabel="Bounded shipping period"
+            ></tng-date-range-picker>
+          </div>
+          <p class="date-range-picker-example-note">
+            Use a utility shell when range constraints need to sit inside a larger Tailwind-composed
+            surface without breaking theme switching.
+          </p>
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+</article>
