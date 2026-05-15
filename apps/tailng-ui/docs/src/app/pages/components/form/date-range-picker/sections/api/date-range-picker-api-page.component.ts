@@ -164,6 +164,30 @@ export class DateRangePickerApiPageComponent implements OnDestroy {
           details: 'Closes the popup when Escape is pressed.',
         },
         {
+          name: 'enableTypeahead',
+          type: 'boolean',
+          default: 'true',
+          details: 'Enables keyboard typeahead navigation in month and year grids.',
+        },
+        {
+          name: 'fixedWeeks',
+          type: 'boolean',
+          default: 'true',
+          details: 'Always renders 6 weeks in the day grid to keep the overlay height stable across months.',
+        },
+        {
+          name: 'onPartialInputCommit',
+          type: 'boolean',
+          default: 'false',
+          details: 'Allows partial manual input commits (start date only) before the end date is entered.',
+        },
+        {
+          name: 'skipDisabled',
+          type: 'boolean',
+          default: 'true',
+          details: 'Controls whether keyboard arrow navigation jumps over disabled dates.',
+        },
+        {
           name: 'closeOnOutsideClick',
           type: 'boolean',
           default: 'true',
@@ -353,6 +377,11 @@ export class DateRangePickerApiPageComponent implements OnDestroy {
       name: 'activeDateChange',
       type: 'TDate',
       details: 'Emits as keyboard focus moves through the calendar model.',
+    },
+    {
+      name: 'previewEndDateChange',
+      type: 'TDate',
+      details: 'Emits as the pointer hovers over candidate end dates during an in-progress range selection.',
     },
     {
       name: 'viewChange',

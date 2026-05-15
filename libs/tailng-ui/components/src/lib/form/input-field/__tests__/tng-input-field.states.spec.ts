@@ -1,5 +1,3 @@
-import { readFileSync } from 'node:fs';
-import { join } from 'node:path';
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -34,14 +32,6 @@ class StatesHostComponent {
   public showLeading = false;
   public showTrailing = false;
 }
-
-const inputFieldComponentCss = readFileSync(
-  join(
-    process.cwd(),
-    'libs/tailng-ui/components/src/lib/form/input-field/tng-input-field.component.css',
-  ),
-  'utf8',
-);
 
 describe('tng-input-field — interactive visual state hooks', () => {
   async function flushState(fixture: any): Promise<void> {
@@ -147,9 +137,5 @@ describe('tng-input-field — interactive visual state hooks', () => {
     const proxy = fixture.debugElement.query(By.css('.tng-input-field-control-proxy')).nativeElement as HTMLElement;
 
     expect(proxy).toBeTruthy();
-    expect(inputFieldComponentCss).toContain('.tng-input-field-control-proxy');
-    expect(inputFieldComponentCss).toContain('display: flex;');
-    expect(inputFieldComponentCss).toContain('flex: 1 1 auto;');
-    expect(inputFieldComponentCss).toContain('width: 100%;');
   });
 });

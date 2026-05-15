@@ -1,0 +1,211 @@
+<article class="docs-section-page number-range-examples">
+  <div class="docs-section-page-main">
+    <h2 class="number-range-examples-title">Examples</h2>
+    <p class="number-range-examples-lead">
+      Common usage patterns for <code>&lt;tng-number-range&gt;</code>, from a simple range field
+      through constrained inputs, validation feedback, and state variants.
+    </p>
+
+    <section id="form-usage" class="docs-section-anchor number-range-examples-block">
+      <app-docs-example-tabs-section
+        heading="Form usage"
+        description="A live submit-ready number range example using controlled component state."
+        ariaLabel="Number range form usage example"
+        tabListAriaLabel="Number range form usage variants"
+        defaultValue="live-demo"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <ng-template appDocsExampleVariant value="live-demo" label="Live demo" panelTitle="Number range form usage">
+          <app-docs-form-demo-shell
+            title="Set price filter"
+            description="Define a minimum and maximum price to filter the product catalog."
+            submitLabel="Apply filter"
+          >
+            <div docsFormDemoField class="doc-cmp-nr-ex-form-preview">
+              <tng-number-range
+                [min]="0"
+                [max]="10000"
+                [value]="formDemoValue()"
+                (valueChange)="formDemoValue.set($event)"
+                minPlaceholder="Min price"
+                maxPlaceholder="Max price"
+                ariaLabel="Price range"
+              ></tng-number-range>
+            </div>
+            <p docsFormDemoSummary>{{ formDemoDisplayValue() }}</p>
+          </app-docs-form-demo-shell>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
+
+    <section id="basic-range" class="docs-section-anchor number-range-examples-block">
+      <app-docs-example-tabs-section
+        heading="Basic range"
+        description="The default component path for a plain numeric min/max range input."
+        ariaLabel="Basic range variants"
+        tabListAriaLabel="Basic range style variants"
+        defaultValue="plain-css"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <ng-template appDocsExampleVariant value="plain-css" label="Plain-CSS" panelTitle="Basic range (Plain-CSS)" [codeTabs]="basicPlainCodeTabs" [stackblitzUrl]="stackblitzVanillaUrl">
+          <div class="doc-cmp-nr-ex-basic-preview">
+            <tng-number-range
+              minPlaceholder="Min"
+              maxPlaceholder="Max"
+              ariaLabel="Numeric range"
+            ></tng-number-range>
+          </div>
+        </ng-template>
+
+        <ng-template appDocsExampleVariant value="tailwind-css" label="Tailwind CSS" panelTitle="Basic range (Tailwind CSS)" [codeTabs]="basicTailwindCodeTabs" [stackblitzUrl]="stackblitzTailwindUrl">
+          <div class="w-full max-w-[28rem]">
+            <tng-number-range
+              minPlaceholder="Min"
+              maxPlaceholder="Max"
+              ariaLabel="Numeric range"
+            ></tng-number-range>
+          </div>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
+
+    <section id="with-constraints" class="docs-section-anchor number-range-examples-block">
+      <app-docs-example-tabs-section
+        heading="With constraints"
+        description="Bounded range with min, max, and step constraints. Automatic validity checking detects out-of-bound values."
+        ariaLabel="Constrained range variants"
+        tabListAriaLabel="Constrained range style variants"
+        defaultValue="plain-css"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <ng-template appDocsExampleVariant value="plain-css" label="Plain-CSS" panelTitle="Constrained range (Plain-CSS)" [codeTabs]="constraintsPlainCodeTabs" [stackblitzUrl]="stackblitzVanillaUrl">
+          <div class="doc-cmp-nr-ex-constraints-preview">
+            <tng-number-range
+              [min]="0"
+              [max]="100"
+              [step]="5"
+              [value]="constrainedRange()"
+              (valueChange)="constrainedRange.set($event)"
+              minPlaceholder="0"
+              maxPlaceholder="100"
+              ariaLabel="Percentage range"
+              minAriaLabel="Minimum percentage"
+              maxAriaLabel="Maximum percentage"
+            ></tng-number-range>
+            <p class="doc-cmp-nr-ex-constraints-hint">Accepts 0–100 in steps of 5</p>
+          </div>
+        </ng-template>
+
+        <ng-template appDocsExampleVariant value="tailwind-css" label="Tailwind CSS" panelTitle="Constrained range (Tailwind CSS)" [codeTabs]="constraintsTailwindCodeTabs" [stackblitzUrl]="stackblitzTailwindUrl">
+          <div class="grid w-full max-w-[28rem] gap-2">
+            <tng-number-range
+              [min]="0"
+              [max]="100"
+              [step]="5"
+              [value]="constrainedRange()"
+              (valueChange)="constrainedRange.set($event)"
+              minPlaceholder="0"
+              maxPlaceholder="100"
+              ariaLabel="Percentage range"
+              minAriaLabel="Minimum percentage"
+              maxAriaLabel="Maximum percentage"
+            ></tng-number-range>
+            <p class="text-xs text-[var(--tng-semantic-foreground-secondary)]">Accepts 0–100 in steps of 5</p>
+          </div>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
+
+    <section id="validation-feedback" class="docs-section-anchor number-range-examples-block">
+      <app-docs-example-tabs-section
+        heading="Validation feedback"
+        description="Invalid states — auto-computed when min exceeds max, or forced via the explicit [invalid] input."
+        ariaLabel="Validation range variants"
+        tabListAriaLabel="Validation range style variants"
+        defaultValue="plain-css"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <ng-template appDocsExampleVariant value="plain-css" label="Plain-CSS" panelTitle="Validation feedback (Plain-CSS)" [codeTabs]="validationPlainCodeTabs" [stackblitzUrl]="stackblitzVanillaUrl">
+          <div class="doc-cmp-nr-ex-validation-preview">
+            <tng-number-range
+              [min]="0"
+              [max]="100"
+              [value]="{ min: 80, max: 20 }"
+              ariaLabel="Invalid range"
+            ></tng-number-range>
+            <p class="doc-cmp-nr-ex-validation-helper doc-cmp-nr-ex-validation-helper--danger">
+              Minimum must not exceed maximum.
+            </p>
+            <tng-number-range
+              [invalid]="true"
+              ariaLabel="Explicitly invalid range"
+              minPlaceholder="From"
+              maxPlaceholder="To"
+            ></tng-number-range>
+          </div>
+        </ng-template>
+
+        <ng-template appDocsExampleVariant value="tailwind-css" label="Tailwind CSS" panelTitle="Validation feedback (Tailwind CSS)" [codeTabs]="validationTailwindCodeTabs" [stackblitzUrl]="stackblitzTailwindUrl">
+          <div class="grid w-full max-w-[28rem] gap-3">
+            <div class="grid gap-1">
+              <tng-number-range
+                [min]="0"
+                [max]="100"
+                [value]="{ min: 80, max: 20 }"
+                ariaLabel="Invalid range"
+              ></tng-number-range>
+              <p class="text-xs font-medium text-red-600">Minimum must not exceed maximum.</p>
+            </div>
+            <tng-number-range
+              [invalid]="true"
+              ariaLabel="Explicitly invalid range"
+              minPlaceholder="From"
+              maxPlaceholder="To"
+            ></tng-number-range>
+          </div>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
+
+    <section id="readonly-and-disabled-states" class="docs-section-anchor number-range-examples-block">
+      <app-docs-example-tabs-section
+        heading="Readonly and disabled states"
+        description="Side-by-side state treatment for readonly and disabled range fields."
+        ariaLabel="Readonly disabled range variants"
+        tabListAriaLabel="Readonly disabled range style variants"
+        defaultValue="plain-css"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <ng-template appDocsExampleVariant value="plain-css" label="Plain-CSS" panelTitle="Readonly and disabled states (Plain-CSS)" [codeTabs]="statesPlainCodeTabs" [stackblitzUrl]="stackblitzVanillaUrl">
+          <div class="doc-cmp-nr-ex-states-preview">
+            <tng-number-range
+              [value]="{ min: 10, max: 90 }"
+              ariaLabel="Readonly range"
+              readonly
+            ></tng-number-range>
+            <tng-number-range
+              [value]="{ min: 0, max: 100 }"
+              ariaLabel="Disabled range"
+              disabled
+            ></tng-number-range>
+          </div>
+        </ng-template>
+
+        <ng-template appDocsExampleVariant value="tailwind-css" label="Tailwind CSS" panelTitle="Readonly and disabled states (Tailwind CSS)" [codeTabs]="statesTailwindCodeTabs" [stackblitzUrl]="stackblitzTailwindUrl">
+          <div class="grid w-full max-w-[28rem] gap-3">
+            <tng-number-range
+              [value]="{ min: 10, max: 90 }"
+              ariaLabel="Readonly range"
+              readonly
+            ></tng-number-range>
+            <tng-number-range
+              [value]="{ min: 0, max: 100 }"
+              ariaLabel="Disabled range"
+              disabled
+            ></tng-number-range>
+          </div>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
+  </div>
+</article>

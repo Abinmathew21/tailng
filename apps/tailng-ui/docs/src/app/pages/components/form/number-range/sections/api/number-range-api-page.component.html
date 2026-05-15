@@ -1,0 +1,262 @@
+<article class="docs-section-page number-range-api">
+  <div class="docs-section-page-main">
+    <h2 class="number-range-api-title">API reference</h2>
+    <p class="number-range-api-lead">
+      <code>&lt;tng-number-range&gt;</code> is the single component entry point for dual numeric
+      range input. All configuration is done through Angular signal inputs and outputs.
+    </p>
+
+    <section id="tng-number-range-component" class="docs-section-anchor number-range-api-block">
+      <h3><code>&lt;tng-number-range&gt;</code> (component)</h3>
+      <p>
+        A standalone Angular component that renders a min/max numeric input group. The snippet
+        below is ready to paste into a standalone Angular component.
+      </p>
+      <tng-code-block
+        [code]="componentTemplateCode"
+        adapter="shiki"
+        language="ts"
+        title="doc-cmp-nr-api-example.component.ts"
+        [theme]="codeBlockTheme()"
+        [lineNumbers]="false"
+        [wrap]="true"
+        [sanitizeHtml]="false"
+      ></tng-code-block>
+    </section>
+
+    <section id="inputs-reference" class="docs-section-anchor number-range-api-block">
+      <h3>Inputs reference</h3>
+      <div class="number-range-api-table-wrap">
+        <table class="number-range-api-table">
+          <thead>
+            <tr>
+              <th scope="col">Input</th>
+              <th scope="col">Type</th>
+              <th scope="col">Default</th>
+              <th scope="col">Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>value</code></td>
+              <td><code>TngNumberRangeValue | null</code></td>
+              <td><code>null</code></td>
+              <td>Controlled value. When provided, drives the displayed min/max values. Both fields can independently be <code>null</code> to represent an empty input.</td>
+            </tr>
+            <tr>
+              <td><code>defaultValue</code></td>
+              <td><code>TngNumberRangeValue | null</code></td>
+              <td><code>null</code></td>
+              <td>Initial value for uncontrolled usage. Applied once at initialization; not tracked thereafter.</td>
+            </tr>
+            <tr>
+              <td><code>min</code></td>
+              <td><code>number | string | null</code></td>
+              <td><code>null</code></td>
+              <td>Lower bound for both inputs. Forwarded as the native <code>min</code> attribute and used for built-in validity checking. Accepts string input which is normalized to a number.</td>
+            </tr>
+            <tr>
+              <td><code>max</code></td>
+              <td><code>number | string | null</code></td>
+              <td><code>null</code></td>
+              <td>Upper bound for both inputs. Forwarded as the native <code>max</code> attribute and used for built-in validity checking.</td>
+            </tr>
+            <tr>
+              <td><code>step</code></td>
+              <td><code>number | string | null</code></td>
+              <td><code>null</code></td>
+              <td>Step interval for both inputs. Forwarded as the native <code>step</code> attribute. Pass <code>"any"</code> to allow any decimal value.</td>
+            </tr>
+            <tr>
+              <td><code>disabled</code></td>
+              <td><code>boolean | string</code></td>
+              <td><code>false</code></td>
+              <td>Disables both inputs. Also set by CVA's <code>setDisabledState</code> when used in forms.</td>
+            </tr>
+            <tr>
+              <td><code>readonly</code></td>
+              <td><code>boolean | string</code></td>
+              <td><code>false</code></td>
+              <td>Marks both inputs as read-only. Reflects <code>data-readonly</code> to the host and group.</td>
+            </tr>
+            <tr>
+              <td><code>required</code></td>
+              <td><code>boolean | string</code></td>
+              <td><code>false</code></td>
+              <td>Forwards the <code>required</code> attribute to both native inputs.</td>
+            </tr>
+            <tr>
+              <td><code>invalid</code></td>
+              <td><code>boolean | string</code></td>
+              <td><code>false</code></td>
+              <td>Explicitly forces the invalid visual state regardless of computed validity.</td>
+            </tr>
+            <tr>
+              <td><code>minPlaceholder</code></td>
+              <td><code>string</code></td>
+              <td><code>''</code></td>
+              <td>Placeholder text for the min input.</td>
+            </tr>
+            <tr>
+              <td><code>maxPlaceholder</code></td>
+              <td><code>string</code></td>
+              <td><code>''</code></td>
+              <td>Placeholder text for the max input.</td>
+            </tr>
+            <tr>
+              <td><code>separator</code></td>
+              <td><code>string</code></td>
+              <td><code>'—'</code></td>
+              <td>Text rendered between the min and max inputs. Can be any string or symbol.</td>
+            </tr>
+            <tr>
+              <td><code>ariaLabel</code></td>
+              <td><code>string | null</code></td>
+              <td><code>null</code></td>
+              <td>Accessible label for the outer <code>role="group"</code> container.</td>
+            </tr>
+            <tr>
+              <td><code>ariaLabelledby</code></td>
+              <td><code>string | null</code></td>
+              <td><code>null</code></td>
+              <td>ID of an external element that labels the group. Alternative to <code>ariaLabel</code>.</td>
+            </tr>
+            <tr>
+              <td><code>minAriaLabel</code></td>
+              <td><code>string</code></td>
+              <td><code>'Minimum'</code></td>
+              <td>Accessible label for the min input. Override for more descriptive screen-reader text.</td>
+            </tr>
+            <tr>
+              <td><code>maxAriaLabel</code></td>
+              <td><code>string</code></td>
+              <td><code>'Maximum'</code></td>
+              <td>Accessible label for the max input. Override for more descriptive screen-reader text.</td>
+            </tr>
+            <tr>
+              <td><code>slot</code></td>
+              <td><code>Partial&lt;Record&lt;TngNumberRangeSlots, string&gt;&gt;</code></td>
+              <td><code>{{ '{' }}{{ '}' }}</code></td>
+              <td>Additional CSS class names to merge onto internal slot elements. Keys: <code>root</code>, <code>group</code>, <code>minInput</code>, <code>separator</code>, <code>maxInput</code>.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>The <code>[slot]</code> input lets you attach extra classes to any internal element:</p>
+      <tng-code-block
+        [code]="slotCustomizationCode"
+        adapter="shiki"
+        language="html"
+        title="Slot class customization"
+        [theme]="codeBlockTheme()"
+        [lineNumbers]="false"
+        [wrap]="true"
+        [sanitizeHtml]="false"
+      ></tng-code-block>
+    </section>
+
+    <section id="outputs-reference" class="docs-section-anchor number-range-api-block">
+      <h3>Outputs reference</h3>
+      <div class="number-range-api-table-wrap">
+        <table class="number-range-api-table">
+          <thead>
+            <tr>
+              <th scope="col">Output</th>
+              <th scope="col">Type</th>
+              <th scope="col">Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>valueChange</code></td>
+              <td><code>output&lt;TngNumberRangeValue&gt;</code></td>
+              <td>Emits on every input event from either field with the current <code>&#123; min, max &#125;</code> value object. Use for two-way binding or controlled state updates.</td>
+            </tr>
+            <tr>
+              <td><code>rangeChange</code></td>
+              <td><code>output&lt;TngNumberRangeChangeEvent&gt;</code></td>
+              <td>Emits the full change event including the updated <code>value</code>, the <code>source</code> field (<code>'min'</code> or <code>'max'</code>), and the computed <code>valid</code> boolean.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>
+        For Angular forms, the component also implements <code>ControlValueAccessor</code> — use
+        <code>formControlName</code> or <code>[(ngModel)]</code> directly without extra adapters.
+      </p>
+      <div class="number-range-api-table-wrap">
+        <table class="number-range-api-table">
+          <thead>
+            <tr>
+              <th scope="col">Forms feature</th>
+              <th scope="col">Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Angular forms</td>
+              <td>Implements <code>ControlValueAccessor</code>. Works with template-driven (<code>ngModel</code>) and reactive forms (<code>formControlName</code>, <code>formControl</code>) without adapters.</td>
+            </tr>
+            <tr>
+              <td>Value type</td>
+              <td><code>TngNumberRangeValue</code> — <code>&#123; min: number | null; max: number | null &#125;</code></td>
+            </tr>
+            <tr>
+              <td>Disabled state</td>
+              <td>Controlled by <code>setDisabledState</code> when the bound form control is disabled.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="types-reference" class="docs-section-anchor number-range-api-block">
+      <h3>Types reference</h3>
+      <p>
+        All types are exported from <code>@tailng-ui/primitives</code>.
+      </p>
+      <tng-code-block
+        [code]="typesCode"
+        adapter="shiki"
+        language="ts"
+        title="Exported types"
+        [theme]="codeBlockTheme()"
+        [lineNumbers]="false"
+        [wrap]="true"
+        [sanitizeHtml]="false"
+      ></tng-code-block>
+
+      <h4>Host state attributes</h4>
+      <div class="number-range-api-table-wrap">
+        <table class="number-range-api-table">
+          <thead>
+            <tr>
+              <th scope="col">Attribute</th>
+              <th scope="col">Location</th>
+              <th scope="col">When present</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>data-disabled</code></td>
+              <td>Host element &amp; inner group</td>
+              <td>When <code>disabled</code> is true or the CVA form control is disabled.</td>
+            </tr>
+            <tr>
+              <td><code>data-readonly</code></td>
+              <td>Host element &amp; inner group</td>
+              <td>When <code>readonly</code> is true.</td>
+            </tr>
+            <tr>
+              <td><code>data-invalid</code></td>
+              <td>Host element &amp; inner group</td>
+              <td>When the range fails built-in validity checks or <code>[invalid]="true"</code> is set.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+</article>

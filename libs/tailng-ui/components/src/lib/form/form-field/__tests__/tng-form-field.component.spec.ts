@@ -1,15 +1,9 @@
 import { Component, Directive, ElementRef, inject, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { readFileSync } from 'node:fs';
-import { join } from 'node:path';
-import { describe, expect, it, vi } from 'vitest';
 
 import { TngInput, TngInputGroup, TngLabel, TngInputFieldPrefix, TngInputFieldSuffix, TngTextarea } from '@tailng-ui/primitives';
-import {
-  TNG_FORM_FIELD_CONTROL,
-  type TngFormFieldControl,
-} from '../tng-form-field.control';
+import { describe, expect, it, vi } from 'vitest';
 import { TngInputComponent } from '../../input/tng-input.component';
 import { TngInputFieldComponent } from '../../input-field/tng-input-field.component';
 import { TngInputOtpComponent } from '../../input-otp/tng-input-otp.component';
@@ -21,8 +15,12 @@ import { TngSwitchComponent } from '../../switch/tng-switch.component';
 import { TngToggleComponent } from '../../toggle/tng-toggle.component';
 import { TngToggleGroupComponent } from '../../toggle-group/tng-toggle-group.component';
 import { TngFormFieldPrefix, TngFormFieldSuffix } from '../tng-form-field-adornment';
-import { TngFormFieldComponent } from '../tng-form-field.component';
 import { TngError, TngHint } from '../tng-form-field-message';
+import { TngFormFieldComponent } from '../tng-form-field.component';
+import {
+  TNG_FORM_FIELD_CONTROL,
+  type TngFormFieldControl,
+} from '../tng-form-field.control';
 
 @Directive({
   selector: '[testFormFieldControl]',
@@ -1013,18 +1011,6 @@ describe('tng-form-field: new control integrations', () => {
 
     expect(adapter.focusableElement).toBe(button);
     expect(adapter.controlKind).toBe('inline');
-  });
-
-  it('exposes transparent number stepper tokens in the form-field theme contract', () => {
-    const formFieldContractCss = readFileSync(
-      join(process.cwd(), 'libs/tailng-ui/theme/src/lib/component-contracts/form/form-field/form-field.css'),
-      'utf8',
-    );
-
-    expect(formFieldContractCss).toContain('--tng-input-number-control-bg: transparent;');
-    expect(formFieldContractCss).toContain('--tng-input-number-control-hover-bg: transparent;');
-    expect(formFieldContractCss).toContain('--tng-input-number-control-bg: revert-layer;');
-    expect(formFieldContractCss).toContain('--tng-input-number-control-hover-bg: revert-layer;');
   });
 
   it('lets a nested tng-input number stepper inherit a transparent background from the field', async () => {

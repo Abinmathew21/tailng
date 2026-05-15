@@ -1,0 +1,91 @@
+:host {
+  display: block;
+}
+
+.number-range-styling-title {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.number-range-styling-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.number-range-styling-block {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.9rem;
+  color: var(--tng-semantic-foreground-secondary);
+  display: grid;
+  gap: 0.7rem;
+  padding: 1rem;
+}
+
+.number-range-styling-block h3 {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1rem;
+  margin: 0;
+}
+
+.number-range-styling-block p {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.doc-cmp-nr-styling-scenario-fields {
+  display: grid;
+  gap: 0.9rem;
+  max-width: 28rem;
+}
+
+.doc-cmp-nr-styling-scenario-surface {
+  display: grid;
+  gap: 0.5rem;
+  padding: 0.9rem;
+  border-radius: 0.95rem;
+}
+
+.doc-cmp-nr-styling-scenario-surface--plain {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  background: color-mix(in srgb, var(--tng-semantic-background-surface) 88%, transparent);
+}
+
+.doc-cmp-nr-styling-scenario-label {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.number-range-styling-pattern-grid {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.number-range-styling-pattern-card {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.75rem;
+  display: grid;
+  gap: 0.6rem;
+  overflow: hidden;
+  padding: 0.85rem;
+}
+
+.number-range-styling-pattern-header {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.number-range-styling-pattern-header h4 {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.number-range-styling-pattern-header p {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.84rem;
+  margin: 0;
+}

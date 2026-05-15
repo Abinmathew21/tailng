@@ -1,0 +1,262 @@
+<article class="docs-section-page number-range-overview">
+  <div class="docs-section-page-main">
+    <h2 class="number-range-overview-title">Number Range</h2>
+    <p class="number-range-overview-lead">
+      <code>&lt;tng-number-range&gt;</code> renders a dual numeric input group — a min field, a
+      configurable separator, and a max field — inside a single unified shell. It supports
+      controlled and uncontrolled value modes, Angular reactive and template-driven forms via
+      <code>ControlValueAccessor</code>, and automatic range validity checking.
+    </p>
+
+    <section id="what-you-get" class="docs-section-anchor number-range-overview-block">
+      <h3>What you get</h3>
+      <ul class="number-range-overview-list">
+        <li><strong>Single-shell range field:</strong> min and max inputs share one visual border, one focus ring, and one validity state.</li>
+        <li><strong>Native number semantics:</strong> both inputs are <code>type="number"</code>, so browser autocomplete, keyboard stepping, and validation all work natively.</li>
+        <li><strong>Built-in validity logic:</strong> the component computes invalid when <code>min &gt; max</code>, when either value exceeds configured bounds, or when the explicit <code>[invalid]</code> input is set.</li>
+        <li><strong>Forms-ready:</strong> implements <code>ControlValueAccessor</code>, so it drops directly into reactive and template-driven forms without any adapter.</li>
+        <li><strong>Slot customization:</strong> override CSS classes on any internal slot via the <code>[slot]</code> input.</li>
+        <li><strong>Theme contract:</strong> all visual properties are driven by the <code>--tng-number-range-*</code> token surface — no internal DOM targeting needed.</li>
+        <li><strong>State attributes:</strong> <code>data-disabled</code>, <code>data-readonly</code>, and <code>data-invalid</code> are reflected to the host and the inner group for container styling.</li>
+      </ul>
+    </section>
+
+    <app-docs-example-tabs-section
+      id="simple-examples"
+      class="docs-section-anchor number-range-overview-block"
+      heading="Simple examples"
+      description="Compare the same basic <code>tng-number-range</code> usage across plain CSS and Tailwind CSS styles."
+      ariaLabel="Number Range style examples"
+      tabListAriaLabel="Number Range example style variants"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Basic range (Plain CSS)"
+        [codeTabs]="plainCssExampleCodeTabs"
+        [stackblitzUrl]="stackblitzVanillaUrl"
+      >
+        <ng-container [ngTemplateOutlet]="basicPlainCssPreviewTemplate" />
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Basic range (Tailwind CSS)"
+        [codeTabs]="tailwindExampleCodeTabs"
+        [stackblitzUrl]="stackblitzTailwindUrl"
+      >
+        <ng-container [ngTemplateOutlet]="basicTailwindPreviewTemplate" />
+      </ng-template>
+    </app-docs-example-tabs-section>
+
+    <ng-template #basicPlainCssPreviewTemplate>
+      <div class="doc-cmp-nr-overview-simple-fields">
+        <label class="doc-cmp-nr-overview-plain-surface">
+          <span class="doc-cmp-nr-overview-plain-label">Price range</span>
+          <tng-number-range
+            [min]="0"
+            [max]="1000"
+            minPlaceholder="Min"
+            maxPlaceholder="Max"
+            ariaLabel="Price range"
+          ></tng-number-range>
+        </label>
+      </div>
+    </ng-template>
+
+    <ng-template #basicTailwindPreviewTemplate>
+      <div class="doc-cmp-nr-overview-simple-fields">
+        <label class="grid gap-2 rounded-xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-3">
+          <span class="text-xs font-semibold text-[var(--tng-semantic-foreground-secondary)]">Price range</span>
+          <tng-number-range
+            [min]="0"
+            [max]="1000"
+            minPlaceholder="Min"
+            maxPlaceholder="Max"
+            ariaLabel="Price range"
+          ></tng-number-range>
+        </label>
+      </div>
+    </ng-template>
+
+    <section id="installation" class="docs-section-anchor number-range-overview-block">
+      <h3>Installation</h3>
+      <p>
+        Import <code>TngNumberRangeComponent</code> from <code>@tailng-ui/components</code> into
+        your standalone component's <code>imports</code> array.
+      </p>
+      <tng-code-block
+        [code]="installationCode"
+        adapter="shiki"
+        language="ts"
+        title="Recommended import"
+        [theme]="codeBlockTheme()"
+        [sanitizeHtml]="false"
+        [wrap]="true"
+        [lineNumbers]="false"
+      ></tng-code-block>
+    </section>
+
+    <section id="basic-usage" class="docs-section-anchor number-range-overview-block">
+      <h3>Basic usage</h3>
+      <h4>Template usage</h4>
+      <p>
+        Pass <code>[min]</code>, <code>[max]</code>, and an accessible label. Subscribe to
+        <code>(valueChange)</code> for value updates, or use the full
+        <code>(rangeChange)</code> output when you also need to know which field changed and
+        whether the resulting range is valid.
+      </p>
+      <tng-code-block
+        [code]="basicUsageCode"
+        adapter="shiki"
+        language="html"
+        title="Basic usage"
+        [theme]="codeBlockTheme()"
+        [sanitizeHtml]="false"
+        [wrap]="true"
+        [lineNumbers]="false"
+      ></tng-code-block>
+
+      <h4>Controlled value</h4>
+      <p>
+        Drive the displayed value with <code>[value]</code> and update it through
+        <code>(valueChange)</code>. Both <code>min</code> and <code>max</code> can be
+        <code>null</code> to represent an empty field.
+      </p>
+      <tng-code-block
+        [code]="controlledUsageCode"
+        adapter="shiki"
+        language="ts"
+        title="Controlled value"
+        [theme]="codeBlockTheme()"
+        [sanitizeHtml]="false"
+        [wrap]="true"
+        [lineNumbers]="false"
+      ></tng-code-block>
+
+      <h4>Default (uncontrolled) value</h4>
+      <p>
+        For uncontrolled usage, provide <code>[defaultValue]</code> once at mount time. The
+        component owns the value internally from that point.
+      </p>
+      <tng-code-block
+        [code]="defaultValueCode"
+        adapter="shiki"
+        language="html"
+        title="Default value"
+        [theme]="codeBlockTheme()"
+        [sanitizeHtml]="false"
+        [wrap]="true"
+        [lineNumbers]="false"
+      ></tng-code-block>
+
+      <h4>Custom separator</h4>
+      <p>
+        The separator between min and max defaults to <code>—</code>. Override it with the
+        <code>separator</code> input to use any string or symbol.
+      </p>
+      <tng-code-block
+        [code]="separatorCode"
+        adapter="shiki"
+        language="html"
+        title="Custom separator"
+        [theme]="codeBlockTheme()"
+        [sanitizeHtml]="false"
+        [wrap]="true"
+        [lineNumbers]="false"
+      ></tng-code-block>
+    </section>
+
+    <section id="structure" class="docs-section-anchor number-range-overview-block">
+      <h3>Structure</h3>
+      <p>
+        <code>&lt;tng-number-range&gt;</code> renders a <code>div[role="group"]</code> container
+        that holds two native <code>&lt;input type="number"&gt;</code> elements and a
+        <code>&lt;span&gt;</code> separator. The host element itself carries the
+        <code>data-disabled</code>, <code>data-readonly</code>, and <code>data-invalid</code>
+        state attributes. The inner group element mirrors the same state attributes for container
+        and theme-level styling.
+      </p>
+      <p>
+        Spinner controls (browser-native step arrows) are hidden by default via CSS so the field
+        looks like a plain text pair. The numeric type is retained so keyboard stepping and mobile
+        numeric keyboards still work.
+      </p>
+    </section>
+
+    <section id="accessibility-guidance" class="docs-section-anchor number-range-overview-block">
+      <h3>Accessibility guidance</h3>
+      <ul class="number-range-overview-list">
+        <li>Always provide an accessible name for the group via <code>ariaLabel</code> or <code>ariaLabelledby</code>. This labels the <code>role="group"</code> container.</li>
+        <li>Each individual input has its own label via <code>minAriaLabel</code> (default: <code>"Minimum"</code>) and <code>maxAriaLabel</code> (default: <code>"Maximum"</code>). Override these when the context demands more descriptive labels, for example <code>"Minimum price"</code> and <code>"Maximum price"</code>.</li>
+        <li>When the range is invalid, both inputs receive <code>aria-invalid="true"</code> automatically. Link an error description by placing it in a sibling element and referencing it at the form-field level.</li>
+        <li>The separator span carries <code>aria-hidden="true"</code> to keep the reading order clean for screen readers.</li>
+        <li>Clicking anywhere in the group shell that is not an input focuses the min input, matching the expected shell click-to-focus pattern.</li>
+      </ul>
+    </section>
+
+    <section id="validation-patterns" class="docs-section-anchor number-range-overview-block">
+      <h3>Validation patterns</h3>
+      <p>
+        The component runs three validity checks automatically: min is at or above the
+        configured lower bound, max is at or below the configured upper bound, and min does not
+        exceed max. It enters the invalid state as soon as any of these fail or when the explicit
+        <code>[invalid]</code> input is set to <code>true</code>.
+      </p>
+      <tng-code-block
+        [code]="validationCode"
+        adapter="shiki"
+        language="html"
+        title="Validation patterns"
+        [theme]="codeBlockTheme()"
+        [sanitizeHtml]="false"
+        [wrap]="true"
+        [lineNumbers]="false"
+      ></tng-code-block>
+    </section>
+
+    <section id="forms-integration" class="docs-section-anchor number-range-overview-block">
+      <h3>Forms integration</h3>
+      <p>
+        <code>&lt;tng-number-range&gt;</code> implements <code>ControlValueAccessor</code> and
+        works directly with Angular reactive forms and template-driven forms. The control value
+        type is <code>TngNumberRangeValue</code> — an object with <code>min</code> and
+        <code>max</code> fields that are either a <code>number</code> or <code>null</code>.
+      </p>
+      <tng-code-block
+        [code]="cvaUsageCode"
+        adapter="shiki"
+        language="ts"
+        title="Reactive forms usage"
+        [theme]="codeBlockTheme()"
+        [sanitizeHtml]="false"
+        [wrap]="true"
+        [lineNumbers]="false"
+      ></tng-code-block>
+    </section>
+
+    <section id="testing-notes" class="docs-section-anchor number-range-overview-block">
+      <h3>Testing notes</h3>
+      <p>
+        Query the stable CSS class selectors or state attributes rather than relying on
+        implementation-specific DOM shape. Both the root group and the individual min/max inputs
+        expose predictable class names.
+      </p>
+      <tng-code-block
+        [code]="testingNotesCode"
+        adapter="shiki"
+        language="ts"
+        title="Stable selectors"
+        [theme]="codeBlockTheme()"
+        [sanitizeHtml]="false"
+        [wrap]="true"
+        [lineNumbers]="false"
+      ></tng-code-block>
+    </section>
+  </div>
+</article>

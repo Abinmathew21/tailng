@@ -78,6 +78,13 @@ export const COMPONENTS_FORM_GROUP: ComponentsDocsGroup = {
       description: 'Text input fields, adornments, validation messaging, and layout patterns.',
     },
     {
+      id: 'number-range',
+      slug: 'number-range',
+      title: 'Number Range',
+      description:
+        'Dual numeric input for min/max range selection with built-in validity checking and form integration.',
+    },
+    {
       id: 'textarea',
       slug: 'textarea',
       title: 'Textarea',

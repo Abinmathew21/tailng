@@ -1,0 +1,75 @@
+:host {
+  display: block;
+}
+
+.number-range-overview-title {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.number-range-overview-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.number-range-overview-block {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.9rem;
+  color: var(--tng-semantic-foreground-secondary);
+  display: grid;
+  gap: 0.7rem;
+  padding: 1rem;
+}
+
+.number-range-overview-block h3 {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1rem;
+  margin: 0;
+}
+
+.number-range-overview-block h4 {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 0.92rem;
+  margin: 0;
+}
+
+.number-range-overview-block p {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.number-range-overview-list {
+  display: grid;
+  gap: 0.4rem;
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+.number-range-overview-list li {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.doc-cmp-nr-overview-simple-fields {
+  display: grid;
+  gap: 0.9rem;
+  max-width: 28rem;
+}
+
+.doc-cmp-nr-overview-plain-surface {
+  display: grid;
+  gap: 0.5rem;
+  padding: 0.9rem;
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.95rem;
+  background: color-mix(in srgb, var(--tng-semantic-background-surface) 88%, transparent);
+}
+
+.doc-cmp-nr-overview-plain-label {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.78rem;
+  font-weight: 600;
+}

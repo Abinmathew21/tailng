@@ -1,0 +1,143 @@
+<article class="docs-section-page number-range-styling">
+  <div class="docs-section-page-main">
+    <h2 class="number-range-styling-title">Styling contract</h2>
+    <p class="number-range-styling-lead">
+      Style <code>&lt;tng-number-range&gt;</code> through the host-level token contract. Set
+      <code>--tng-number-range-*</code> overrides on the host element or a scoped parent class and
+      avoid reaching into internal DOM selectors for routine visual changes.
+    </p>
+
+    <section id="css-contracts" class="docs-section-anchor number-range-styling-block">
+      <h3>CSS contracts</h3>
+      <p>
+        These selectors are the public styling surface. Internal slots follow the BEM-style class
+        contract used in the component template and are safe to target for fine-grained overrides.
+      </p>
+      <tng-code-block
+        [code]="slotSelectorsCode"
+        adapter="shiki"
+        language="css"
+        title="Public selectors"
+        [theme]="codeBlockTheme()"
+        [sanitizeHtml]="false"
+        [wrap]="true"
+        [lineNumbers]="false"
+      ></tng-code-block>
+    </section>
+
+    <section id="shell-state-hooks" class="docs-section-anchor number-range-styling-block">
+      <h3>Shell state hooks</h3>
+      <p>
+        Invalid, disabled, and readonly styling should use the emitted state attributes rather
+        than custom class bookkeeping or input event listeners.
+      </p>
+      <tng-code-block
+        [code]="stateHooksCode"
+        adapter="shiki"
+        language="css"
+        title="State hooks"
+        [theme]="codeBlockTheme()"
+        [sanitizeHtml]="false"
+        [wrap]="true"
+        [lineNumbers]="false"
+      ></tng-code-block>
+    </section>
+
+    <section id="theme-contract-tokens" class="docs-section-anchor number-range-styling-block">
+      <h3>Theme contract tokens</h3>
+      <p>
+        All visual properties fall back to semantic tokens so they automatically track the active
+        theme and light/dark mode. Override any token on the host or a scoped wrapper.
+      </p>
+      <tng-code-block
+        [code]="themeTokensCode"
+        adapter="shiki"
+        language="css"
+        title="Public number-range tokens"
+        [theme]="codeBlockTheme()"
+        [sanitizeHtml]="false"
+        [wrap]="true"
+        [lineNumbers]="false"
+      ></tng-code-block>
+    </section>
+
+    <app-docs-example-tabs-section
+      id="user-scenario-style-examples"
+      class="docs-section-anchor number-range-styling-block"
+      heading="User scenario style examples"
+      description="Filter panel styling with the component token contract in plain CSS and Tailwind CSS."
+      ariaLabel="Number Range styling scenarios"
+      tabListAriaLabel="Number Range styling variants"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Price range filter"
+        [codeTabs]="plainCssScenarioCodeTabs"
+        [stackblitzUrl]="stackblitzVanillaUrl"
+      >
+        <div class="doc-cmp-nr-styling-scenario-fields">
+          <label class="doc-cmp-nr-styling-scenario-surface doc-cmp-nr-styling-scenario-surface--plain">
+            <span class="doc-cmp-nr-styling-scenario-label">Price range</span>
+            <tng-number-range
+              [min]="0"
+              [max]="1000"
+              minPlaceholder="Min"
+              maxPlaceholder="Max"
+              ariaLabel="Price range"
+            ></tng-number-range>
+          </label>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Price range filter"
+        [codeTabs]="tailwindScenarioCodeTabs"
+        [stackblitzUrl]="stackblitzTailwindUrl"
+      >
+        <div class="doc-cmp-nr-styling-scenario-fields">
+          <label class="grid w-full max-w-[28rem] gap-2 rounded-xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-3">
+            <span class="text-xs font-semibold uppercase tracking-[0.01em] text-[var(--tng-semantic-foreground-secondary)]">Price range</span>
+            <tng-number-range
+              [min]="0"
+              [max]="1000"
+              minPlaceholder="Min"
+              maxPlaceholder="Max"
+              ariaLabel="Price range"
+            ></tng-number-range>
+          </label>
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
+
+    <section id="different-styling-pattern-examples" class="docs-section-anchor number-range-styling-block">
+      <h3>Different styling pattern examples</h3>
+      <div class="number-range-styling-pattern-grid">
+        @for (example of stylePatternExamples; track example.title) {
+          <article class="number-range-styling-pattern-card">
+            <header class="number-range-styling-pattern-header">
+              <h4>{{ example.title }}</h4>
+              <p>{{ example.description }}</p>
+            </header>
+            <tng-code-block
+              [code]="example.code"
+              adapter="shiki"
+              [language]="example.language"
+              [title]="example.title"
+              [theme]="codeBlockTheme()"
+              [lineNumbers]="false"
+              [wrap]="true"
+              [sanitizeHtml]="false"
+            ></tng-code-block>
+          </article>
+        }
+      </div>
+    </section>
+  </div>
+</article>

@@ -876,6 +876,57 @@
     ]
   },
   {
+    "title": "Number Range",
+    "description": "Dual numeric input for min/max range selection with built-in validity checking and form integration.",
+    "section": "Components / Form",
+    "url": "/components/form/number-range",
+    "tags": [
+      "components",
+      "form",
+      "number-range",
+      "number-range"
+    ]
+  },
+  {
+    "title": "Number Range API",
+    "description": "Dual numeric input for min/max range selection with built-in validity checking and form integration. API.",
+    "section": "Components / Form",
+    "url": "/components/form/number-range/api",
+    "tags": [
+      "components",
+      "form",
+      "number-range",
+      "number-range",
+      "api"
+    ]
+  },
+  {
+    "title": "Number Range Stylings",
+    "description": "Dual numeric input for min/max range selection with built-in validity checking and form integration. Stylings.",
+    "section": "Components / Form",
+    "url": "/components/form/number-range/stylings",
+    "tags": [
+      "components",
+      "form",
+      "number-range",
+      "number-range",
+      "stylings"
+    ]
+  },
+  {
+    "title": "Number Range Examples",
+    "description": "Dual numeric input for min/max range selection with built-in validity checking and form integration. Examples.",
+    "section": "Components / Form",
+    "url": "/components/form/number-range/examples",
+    "tags": [
+      "components",
+      "form",
+      "number-range",
+      "number-range",
+      "examples"
+    ]
+  },
+  {
     "title": "Textarea",
     "description": "Multiline text input patterns with input-first primitives and styled textarea wrappers.",
     "section": "Components / Form",
