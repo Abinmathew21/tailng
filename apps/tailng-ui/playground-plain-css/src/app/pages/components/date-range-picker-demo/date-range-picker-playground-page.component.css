@@ -1,0 +1,424 @@
+:host {
+  display: block;
+}
+
+.page {
+  background: var(--tng-semantic-background-canvas);
+  color: var(--tng-semantic-foreground-primary);
+  min-height: 100vh;
+  padding: 2rem 1rem 3rem;
+}
+
+.container {
+  display: grid;
+  gap: 1.5rem;
+  margin: 0 auto;
+  max-width: 72rem;
+}
+
+.hero {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.title {
+  font-size: clamp(2rem, 2.4vw + 1rem, 3rem);
+  line-height: 1.05;
+  margin: 0;
+}
+
+.subtitle {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 1.05rem;
+  margin: 0;
+  max-width: 54rem;
+}
+
+.card {
+  background: color-mix(
+    in srgb,
+    var(--tng-semantic-background-surface) 92%,
+    var(--tng-semantic-background-canvas) 8%
+  );
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 1rem;
+  box-shadow: 0 20px 42px color-mix(in srgb, var(--tng-semantic-foreground-primary) 7%, transparent);
+  display: grid;
+  gap: 1.25rem;
+  overflow: visible;
+  padding: 1.35rem;
+}
+
+.card-header {
+  align-items: flex-start;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: space-between;
+}
+
+.card h2 {
+  font-size: 1.4rem;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.demo-note {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0.45rem 0 0;
+  max-width: 44rem;
+}
+
+.selection-pill {
+  background: color-mix(
+    in srgb,
+    var(--tng-semantic-background-canvas) 72%,
+    var(--tng-semantic-background-surface) 28%
+  );
+  border: 1px solid
+    color-mix(
+      in srgb,
+      var(--tng-semantic-border-subtle) 84%,
+      var(--tng-semantic-background-canvas) 16%
+    );
+  border-radius: 0.75rem;
+  display: grid;
+  gap: 0.08rem;
+  max-width: 24rem;
+  min-width: 17rem;
+  padding: 0.7rem 0.85rem;
+}
+
+.selection-label,
+.field-label,
+.header-eyebrow {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.range-picker {
+  display: grid;
+  gap: 0.9rem;
+  max-width: 31rem;
+}
+
+.field {
+  display: grid;
+  gap: 0.35rem;
+  position: relative;
+}
+
+.input-anchor {
+  position: relative;
+}
+
+.input-shell {
+  align-items: center;
+  background: var(--tng-semantic-background-base);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.7rem;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  min-height: 2.9rem;
+  overflow: hidden;
+  width: 100%;
+}
+
+.input-shell[data-open='true'] {
+  border-color: var(--tng-semantic-accent-brand);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--tng-semantic-accent-brand) 22%, transparent);
+}
+
+.manual-input {
+  background: transparent;
+  border: 0;
+  color: var(--tng-semantic-foreground-primary);
+  font: inherit;
+  min-width: 0;
+  outline: none;
+  padding: 0.8rem 0.9rem;
+}
+
+.trigger {
+  align-items: center;
+  align-self: stretch;
+  background: color-mix(
+    in srgb,
+    var(--tng-semantic-background-surface) 82%,
+    var(--tng-semantic-background-base) 18%
+  );
+  border: 0;
+  border-inline-start: 1px solid var(--tng-semantic-border-subtle);
+  color: var(--tng-semantic-foreground-primary);
+  cursor: pointer;
+  display: inline-flex;
+  gap: 0.3rem;
+  justify-content: center;
+  min-width: 4.2rem;
+  padding: 0 0.8rem;
+}
+
+.trigger:hover {
+  background: color-mix(
+    in srgb,
+    var(--tng-semantic-accent-brand) 10%,
+    var(--tng-semantic-background-surface) 90%
+  );
+}
+
+.trigger-calendar-icon {
+  font-size: 1.05rem;
+}
+
+.trigger-icon {
+  font-size: 0.82rem;
+}
+
+.overlay {
+  --tng-date-range-picker-overlay-gap: 0.5rem;
+  --tng-date-range-picker-grid-gap: 0.24rem;
+  --tng-date-range-picker-day-cell-size: 2.35rem;
+  --tng-date-range-picker-picker-cell-size: 2.45rem;
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(
+        in srgb,
+        var(--tng-semantic-background-surface) 96%,
+        var(--tng-semantic-background-canvas) 4%
+      ),
+      var(--tng-semantic-background-surface)
+    );
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.9rem;
+  box-shadow:
+    0 18px 42px
+    color-mix(in srgb, var(--tng-semantic-foreground-primary) 16%, transparent);
+  color: var(--tng-semantic-foreground-primary);
+  max-width: calc(100vw - 1.5rem);
+  padding: 0.9rem;
+}
+
+.header-group {
+  align-items: center;
+  display: grid;
+  gap: 0.45rem;
+  grid-template-columns: auto 1fr auto;
+}
+
+.header-eyebrow {
+  margin: 0 0 0.2rem;
+}
+
+.header-title {
+  font-size: 0.98rem;
+  line-height: 1.1;
+  margin: 0;
+}
+
+.nav-button {
+  font-size: 1.1rem;
+  height: 2.1rem;
+  width: 2.1rem;
+}
+
+.view-switcher {
+  display: flex;
+  gap: 0.32rem;
+}
+
+.view-chip {
+  font-size: 0.76rem;
+  font-weight: 600;
+  min-height: 1.95rem;
+  padding: 0.34rem 0.62rem;
+}
+
+.view-chip[data-active='true'] {
+  background: var(--tng-semantic-accent-brand);
+  color: var(--tng-semantic-background-base);
+}
+
+.calendar-grid-shell {
+  display: grid;
+  gap: var(--tng-date-range-picker-overlay-gap, 0.5rem);
+}
+
+.weekday-row,
+.day-grid {
+  display: grid;
+  gap: var(--tng-date-range-picker-grid-gap, 0.24rem);
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+
+.weekday-label {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.69rem;
+  letter-spacing: 0.03em;
+  padding: 0 0 0.2rem;
+  text-align: center;
+}
+
+.day-cell,
+.picker-cell,
+.nav-button,
+.view-chip,
+.footer-button {
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 0.55rem;
+  color: inherit;
+  cursor: pointer;
+}
+
+.day-cell,
+.picker-cell {
+  min-height: var(--tng-date-range-picker-day-cell-size, 2.35rem);
+}
+
+.day-cell {
+  font-size: 0.95rem;
+  font-weight: 650;
+  position: relative;
+}
+
+.day-cell[data-in-month='true']:hover,
+.picker-cell:hover,
+.nav-button:hover,
+.footer-button:hover {
+  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 10%, transparent);
+}
+
+.day-cell[data-disabled='true'],
+.picker-cell[data-disabled='true'] {
+  color: color-mix(in srgb, var(--tng-semantic-foreground-secondary) 54%, transparent);
+  cursor: not-allowed;
+}
+
+.day-cell[data-preview-range='true'] {
+  --date-range-preview-border: color-mix(
+    in srgb,
+    var(--tng-semantic-accent-brand) 46%,
+    var(--tng-semantic-border-subtle) 54%
+  );
+  background: transparent;
+  border-color: transparent;
+  border-style: dotted;
+  border-block-color: var(--date-range-preview-border);
+}
+
+.day-cell[data-preview-range='true'][data-preview-row-start='true'] {
+  border-inline-start-color: var(--date-range-preview-border);
+}
+
+.day-cell[data-preview-range='true'][data-preview-row-end='true'] {
+  border-inline-end-color: var(--date-range-preview-border);
+}
+
+.day-cell[data-in-range='true'] {
+  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 18%, transparent);
+}
+
+.day-cell[data-range-start='true'],
+.day-cell[data-range-end='true'],
+.picker-cell[data-selected='true'] {
+  background: var(--tng-semantic-accent-brand);
+  color: var(--tng-semantic-background-base);
+}
+
+.day-cell[data-active='true'],
+.picker-cell[data-active='true'] {
+  border-color: var(--tng-semantic-accent-brand);
+}
+
+.day-cell[aria-current='date']::after {
+  background: currentColor;
+  border-radius: 999px;
+  bottom: 0.28rem;
+  content: '';
+  height: 0.22rem;
+  left: calc(50% - 0.11rem);
+  position: absolute;
+  width: 0.22rem;
+}
+
+.picker-grid {
+  display: grid;
+  gap: var(--tng-date-range-picker-grid-gap, 0.24rem);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.picker-cell {
+  font-size: 0.9rem;
+  font-weight: 600;
+  min-height: var(--tng-date-range-picker-picker-cell-size, 2.45rem);
+  padding: 0.34rem 0.55rem;
+}
+
+.overlay-footer {
+  display: flex;
+  gap: 0.42rem;
+  justify-content: flex-end;
+}
+
+.footer-button {
+  font-size: 0.84rem;
+  font-weight: 600;
+  min-height: 2.1rem;
+  padding: 0.34rem 0.72rem;
+}
+
+.footer-button[data-variant='primary'] {
+  background: var(--tng-semantic-accent-brand);
+  color: var(--tng-semantic-background-base);
+}
+
+.range-state {
+  color: var(--tng-semantic-foreground-secondary);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem 1rem;
+  font-size: 0.9rem;
+}
+
+.range-state strong {
+  color: var(--tng-semantic-foreground-primary);
+}
+
+.validation-error {
+  color: #b91c1c;
+}
+
+@media (max-width: 720px) {
+  .page {
+    padding-inline: 0.85rem;
+  }
+
+  .card {
+    padding: 1rem;
+  }
+
+  .range-picker {
+    max-width: 100%;
+  }
+
+  .card-header,
+  .overlay-footer {
+    align-items: stretch;
+    display: grid;
+  }
+
+  .selection-pill {
+    min-width: 0;
+  }
+
+  .view-switcher {
+    flex-wrap: wrap;
+  }
+
+  .overlay {
+    width: 100%;
+  }
+}

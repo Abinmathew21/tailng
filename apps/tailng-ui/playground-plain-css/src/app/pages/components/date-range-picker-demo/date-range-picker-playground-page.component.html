@@ -1,0 +1,511 @@
+<main class="page">
+  <section class="container">
+    <header class="hero">
+      <h1 class="title">Date Range Picker</h1>
+      <p class="subtitle">
+        Headless range selection with normalized reverse picks, hover preview, keyboard movement,
+        and popup focus behavior.
+      </p>
+    </header>
+
+    <section class="card">
+      <div class="card-header">
+        <div>
+          <h2>Headless controller (`createDateRangePickerController`)</h2>
+          <p class="demo-note">
+            Sundays are disabled. Select a start date, preview the range by hovering or moving
+            focus, then select the end date.
+          </p>
+        </div>
+        <div class="selection-pill">
+          <span class="selection-label">Selected range</span>
+          <strong>{{ rangeSummary() }}</strong>
+        </div>
+      </div>
+
+      <div
+        class="range-picker"
+        [attr.aria-describedby]="outputs().getHostAttributes()['aria-describedby']"
+        [attr.aria-label]="outputs().getHostAttributes()['aria-label']"
+        [attr.aria-labelledby]="outputs().getHostAttributes()['aria-labelledby']"
+        [attr.data-disabled]="outputs().getHostAttributes()['data-disabled']"
+        [attr.data-open]="outputs().getHostAttributes()['data-open']"
+        [attr.data-slot]="outputs().getHostAttributes()['data-slot']"
+        [attr.data-view]="outputs().getHostAttributes()['data-view']"
+        [attr.dir]="outputs().getHostAttributes()['dir']"
+        [attr.role]="outputs().getHostAttributes()['role']"
+      >
+        <div class="field" data-slot="date-range-picker-field">
+          <span class="field-label">Travel dates</span>
+
+          <div class="input-anchor">
+            <div
+              #rangeAnchorShell
+              class="input-shell"
+              data-slot="date-range-picker-input-shell"
+              [attr.data-invalid]="outputs().validationError !== null ? 'true' : null"
+              [attr.data-open]="outputs().getTriggerAttributes()['data-open']"
+            >
+              <input
+                class="manual-input"
+                data-slot="date-range-picker-input"
+                type="text"
+                inputmode="numeric"
+                placeholder="MM-DD-YYYY"
+                aria-label="Editable range start input"
+                [value]="outputs().inputText"
+                [attr.aria-invalid]="outputs().validationError !== null ? 'true' : null"
+                (blur)="onInputBlur()"
+                (input)="onInputChange($event)"
+                (keydown)="onInputKeydown($event)"
+              />
+
+              <button
+                #triggerButton
+                type="button"
+                class="trigger"
+                [attr.aria-label]="'Open date range picker'"
+                [attr.aria-controls]="outputs().getTriggerAttributes()['aria-controls']"
+                [attr.aria-expanded]="outputs().getTriggerAttributes()['aria-expanded']"
+                [attr.aria-haspopup]="outputs().getTriggerAttributes()['aria-haspopup']"
+                [attr.data-open]="outputs().getTriggerAttributes()['data-open']"
+                [attr.data-slot]="outputs().getTriggerAttributes()['data-slot']"
+                (click)="onTriggerClick()"
+                (keydown)="onTriggerKeydown($event)"
+              >
+                <tng-icon icon="calendar-days" class="trigger-calendar-icon" aria-hidden="true" />
+                <span class="trigger-icon" aria-hidden="true">▾</span>
+              </button>
+            </div>
+
+            <section
+              [tngDateRangePickerOverlay]="controller"
+              [tngDateRangePickerOverlayAnchor]="rangeAnchorShell"
+              class="overlay"
+              [attr.aria-labelledby]="outputs().getOverlayAttributes()['aria-labelledby']"
+              [attr.aria-modal]="outputs().getOverlayAttributes()['aria-modal']"
+              [attr.data-open]="outputs().getOverlayAttributes()['data-open']"
+              [attr.data-position]="outputs().getOverlayAttributes()['data-position']"
+              [attr.data-slot]="outputs().getOverlayAttributes()['data-slot']"
+              [attr.id]="outputs().getOverlayAttributes()['id']"
+              [attr.role]="outputs().getOverlayAttributes()['role']"
+              (keydown)="onOverlayKeydown($event)"
+            >
+              <header class="overlay-header" data-slot="date-range-picker-header">
+                <div class="header-group">
+                  <button
+                    type="button"
+                    class="nav-button"
+                    data-slot="date-range-picker-nav-button"
+                    aria-label="Previous period"
+                    (click)="pageBackward()"
+                  >
+                    ‹
+                  </button>
+                  <div class="header-copy">
+                    <p class="header-eyebrow">Visible period</p>
+                    <h3
+                      class="header-title"
+                      [attr.id]="outputs().getGridAttributes()['aria-labelledby']"
+                    >
+                      {{ outputs().labelMonthYear }}
+                    </h3>
+                  </div>
+                  <button
+                    type="button"
+                    class="nav-button"
+                    data-slot="date-range-picker-nav-button"
+                    aria-label="Next period"
+                    (click)="pageForward()"
+                  >
+                    ›
+                  </button>
+                </div>
+
+                <div class="view-switcher" role="tablist" aria-label="Calendar view">
+                  <button
+                    type="button"
+                    class="view-chip"
+                    [attr.data-active]="isDayView() ? 'true' : null"
+                    (click)="onViewChange('day')"
+                  >
+                    Days
+                  </button>
+                  <button
+                    type="button"
+                    class="view-chip"
+                    [attr.data-active]="isMonthView() ? 'true' : null"
+                    (click)="onViewChange('month')"
+                  >
+                    Months
+                  </button>
+                  <button
+                    type="button"
+                    class="view-chip"
+                    [attr.data-active]="isYearView() ? 'true' : null"
+                    (click)="onViewChange('year')"
+                  >
+                    Years
+                  </button>
+                </div>
+              </header>
+
+              @if (isDayView()) {
+                <div class="calendar-grid-shell">
+                  <div
+                    class="weekday-row"
+                    data-slot="date-range-picker-weekdays"
+                    aria-hidden="true"
+                  >
+                    @for (label of outputs().weekdayLabels; track label) {
+                      <span class="weekday-label" data-slot="date-range-picker-weekday">{{
+                        label
+                      }}</span>
+                    }
+                  </div>
+
+                  <div
+                    class="day-grid"
+                    [attr.aria-activedescendant]="
+                      outputs().getGridAttributes()['aria-activedescendant']
+                    "
+                    [attr.aria-labelledby]="outputs().getGridAttributes()['aria-labelledby']"
+                    [attr.data-slot]="outputs().getGridAttributes()['data-slot']"
+                    [attr.id]="outputs().getGridAttributes()['id']"
+                    [attr.role]="outputs().getGridAttributes()['role']"
+                    (keydown)="onGridKeydown($event)"
+                  >
+                    @for (cell of outputs().cells; track cell.id) {
+                      <button
+                        type="button"
+                        class="day-cell"
+                        [disabled]="cell.disabled"
+                        [attr.aria-current]="cell.today ? 'date' : null"
+                        [attr.aria-disabled]="cell.disabled ? 'true' : null"
+                        [attr.aria-selected]="outputs().getCellAttributes(cell)['aria-selected']"
+                        [attr.data-active]="outputs().getCellAttributes(cell)['data-active']"
+                        [attr.data-disabled]="outputs().getCellAttributes(cell)['data-disabled']"
+                        [attr.data-focus-visible]="
+                          outputs().getCellAttributes(cell)['data-focus-visible']
+                        "
+                        [attr.data-in-month]="outputs().getCellAttributes(cell)['data-in-month']"
+                        [attr.data-in-range]="outputs().getCellAttributes(cell)['data-in-range']"
+                        [attr.data-preview-end]="
+                          outputs().getCellAttributes(cell)['data-preview-end']
+                        "
+                        [attr.data-preview-row-end]="isPreviewRowEnd(cell) ? 'true' : null"
+                        [attr.data-preview-row-start]="isPreviewRowStart(cell) ? 'true' : null"
+                        [attr.data-preview-range]="
+                          outputs().getCellAttributes(cell)['data-preview-range']
+                        "
+                        [attr.data-range-end]="outputs().getCellAttributes(cell)['data-range-end']"
+                        [attr.data-range-start]="
+                          outputs().getCellAttributes(cell)['data-range-start']
+                        "
+                        [attr.data-selected]="outputs().getCellAttributes(cell)['data-selected']"
+                        [attr.data-slot]="outputs().getCellAttributes(cell)['data-slot']"
+                        [attr.id]="cell.id"
+                        [attr.role]="outputs().getCellAttributes(cell)['role']"
+                        [attr.tabindex]="outputs().getCellAttributes(cell)['tabindex']"
+                        (click)="onDayCellClick(cell)"
+                        (pointerenter)="onDayCellPointerEnter(cell)"
+                      >
+                        {{ cell.label }}
+                      </button>
+                    }
+                  </div>
+                </div>
+              }
+
+              @if (isMonthView()) {
+                <div
+                  class="picker-grid"
+                  data-slot="date-range-picker-grid"
+                  role="grid"
+                  (keydown)="onMonthKeydown($event)"
+                >
+                  @for (option of outputs().monthOptions; track option.id) {
+                    <button
+                      type="button"
+                      class="picker-cell"
+                      [disabled]="option.disabled"
+                      [attr.aria-disabled]="outputs().getMonthAttributes(option)['aria-disabled']"
+                      [attr.aria-selected]="outputs().getMonthAttributes(option)['aria-selected']"
+                      [attr.data-active]="outputs().getMonthAttributes(option)['data-active']"
+                      [attr.data-disabled]="outputs().getMonthAttributes(option)['data-disabled']"
+                      [attr.data-selected]="outputs().getMonthAttributes(option)['data-selected']"
+                      [attr.data-slot]="outputs().getMonthAttributes(option)['data-slot']"
+                      [attr.id]="option.id"
+                      [attr.role]="outputs().getMonthAttributes(option)['role']"
+                      [attr.tabindex]="outputs().getMonthAttributes(option)['tabindex']"
+                      (click)="onMonthOptionClick(option)"
+                    >
+                      {{ option.label }}
+                    </button>
+                  }
+                </div>
+              }
+
+              @if (isYearView()) {
+                <div
+                  class="picker-grid"
+                  data-slot="date-range-picker-grid"
+                  role="grid"
+                  (keydown)="onYearKeydown($event)"
+                >
+                  @for (option of outputs().yearOptions; track option.id) {
+                    <button
+                      type="button"
+                      class="picker-cell"
+                      [disabled]="option.disabled"
+                      [attr.aria-disabled]="outputs().getYearAttributes(option)['aria-disabled']"
+                      [attr.aria-selected]="outputs().getYearAttributes(option)['aria-selected']"
+                      [attr.data-active]="outputs().getYearAttributes(option)['data-active']"
+                      [attr.data-disabled]="outputs().getYearAttributes(option)['data-disabled']"
+                      [attr.data-selected]="outputs().getYearAttributes(option)['data-selected']"
+                      [attr.data-slot]="outputs().getYearAttributes(option)['data-slot']"
+                      [attr.id]="option.id"
+                      [attr.role]="outputs().getYearAttributes(option)['role']"
+                      [attr.tabindex]="outputs().getYearAttributes(option)['tabindex']"
+                      (click)="onYearOptionClick(option)"
+                    >
+                      {{ option.label }}
+                    </button>
+                  }
+                </div>
+              }
+
+              <footer class="overlay-footer">
+                <button type="button" class="footer-button" (click)="clear()">Clear</button>
+                <button
+                  type="button"
+                  class="footer-button"
+                  data-variant="primary"
+                  (click)="close()"
+                >
+                  Done
+                </button>
+              </footer>
+            </section>
+          </div>
+        </div>
+
+        <div class="range-state">
+          <span><strong>Start:</strong> {{ startSummary() }}</span>
+          <span><strong>End:</strong> {{ endSummary() }}</span>
+          <span><strong>Preview:</strong> {{ previewSummary() }}</span>
+        </div>
+
+        @if (outputs().validationError !== null) {
+          <strong class="validation-error">Invalid date range input</strong>
+        }
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="card-header">
+        <div>
+          <h2>Fixed 10-day centered window</h2>
+          <p class="demo-note">
+            Hover a date to preview five days before it, the hovered day, and four days after it.
+            Selecting any date commits that full 10-day range.
+          </p>
+        </div>
+        <div class="selection-pill">
+          <span class="selection-label">Selected window</span>
+          <strong>{{ fixedWindowSummary() }}</strong>
+        </div>
+      </div>
+
+      <div
+        class="range-picker"
+        [attr.aria-describedby]="fixedWindowOutputs().getHostAttributes()['aria-describedby']"
+        [attr.aria-label]="fixedWindowOutputs().getHostAttributes()['aria-label']"
+        [attr.aria-labelledby]="fixedWindowOutputs().getHostAttributes()['aria-labelledby']"
+        [attr.data-disabled]="fixedWindowOutputs().getHostAttributes()['data-disabled']"
+        [attr.data-open]="fixedWindowOutputs().getHostAttributes()['data-open']"
+        [attr.data-slot]="fixedWindowOutputs().getHostAttributes()['data-slot']"
+        [attr.data-view]="fixedWindowOutputs().getHostAttributes()['data-view']"
+        [attr.dir]="fixedWindowOutputs().getHostAttributes()['dir']"
+        [attr.role]="fixedWindowOutputs().getHostAttributes()['role']"
+      >
+        <div class="field" data-slot="date-range-picker-field">
+          <span class="field-label">Fixed length stay</span>
+
+          <div class="input-anchor">
+            <div
+              #fixedWindowAnchorShell
+              class="input-shell"
+              data-slot="date-range-picker-input-shell"
+              [attr.data-open]="fixedWindowOutputs().getTriggerAttributes()['data-open']"
+            >
+              <input
+                class="manual-input"
+                data-slot="date-range-picker-input"
+                type="text"
+                readonly
+                aria-label="Selected fixed 10-day range"
+                [value]="fixedWindowOutputs().inputText"
+                (keydown)="onFixedWindowInputKeydown($event)"
+              />
+
+              <button
+                #fixedWindowTriggerButton
+                type="button"
+                class="trigger"
+                [attr.aria-label]="'Open fixed date range picker'"
+                [attr.aria-controls]="fixedWindowOutputs().getTriggerAttributes()['aria-controls']"
+                [attr.aria-expanded]="fixedWindowOutputs().getTriggerAttributes()['aria-expanded']"
+                [attr.aria-haspopup]="fixedWindowOutputs().getTriggerAttributes()['aria-haspopup']"
+                [attr.data-open]="fixedWindowOutputs().getTriggerAttributes()['data-open']"
+                [attr.data-slot]="fixedWindowOutputs().getTriggerAttributes()['data-slot']"
+                (click)="onFixedWindowTriggerClick()"
+                (keydown)="onFixedWindowTriggerKeydown($event)"
+              >
+                <tng-icon icon="calendar-days" class="trigger-calendar-icon" aria-hidden="true" />
+                <span class="trigger-icon" aria-hidden="true">▾</span>
+              </button>
+            </div>
+
+            <section
+              [tngDateRangePickerOverlay]="fixedWindowController"
+              [tngDateRangePickerOverlayAnchor]="fixedWindowAnchorShell"
+              class="overlay"
+              [attr.aria-labelledby]="fixedWindowOutputs().getOverlayAttributes()['aria-labelledby']"
+              [attr.aria-modal]="fixedWindowOutputs().getOverlayAttributes()['aria-modal']"
+              [attr.data-open]="fixedWindowOutputs().getOverlayAttributes()['data-open']"
+              [attr.data-position]="fixedWindowOutputs().getOverlayAttributes()['data-position']"
+              [attr.data-slot]="fixedWindowOutputs().getOverlayAttributes()['data-slot']"
+              [attr.id]="fixedWindowOutputs().getOverlayAttributes()['id']"
+              [attr.role]="fixedWindowOutputs().getOverlayAttributes()['role']"
+              (keydown)="onFixedWindowOverlayKeydown($event)"
+            >
+              <header class="overlay-header" data-slot="date-range-picker-header">
+                <div class="header-group">
+                  <button
+                    type="button"
+                    class="nav-button"
+                    data-slot="date-range-picker-nav-button"
+                    aria-label="Previous month"
+                    (click)="pageFixedWindowBackward()"
+                  >
+                    ‹
+                  </button>
+                  <div class="header-copy">
+                    <p class="header-eyebrow">Visible period</p>
+                    <h3
+                      class="header-title"
+                      [attr.id]="fixedWindowOutputs().getGridAttributes()['aria-labelledby']"
+                    >
+                      {{ fixedWindowOutputs().labelMonthYear }}
+                    </h3>
+                  </div>
+                  <button
+                    type="button"
+                    class="nav-button"
+                    data-slot="date-range-picker-nav-button"
+                    aria-label="Next month"
+                    (click)="pageFixedWindowForward()"
+                  >
+                    ›
+                  </button>
+                </div>
+              </header>
+
+              <div class="calendar-grid-shell">
+                <div class="weekday-row" data-slot="date-range-picker-weekdays" aria-hidden="true">
+                  @for (label of fixedWindowOutputs().weekdayLabels; track label) {
+                    <span class="weekday-label" data-slot="date-range-picker-weekday">{{
+                      label
+                    }}</span>
+                  }
+                </div>
+
+                <div
+                  class="day-grid"
+                  [attr.aria-activedescendant]="
+                    fixedWindowOutputs().getGridAttributes()['aria-activedescendant']
+                  "
+                  [attr.aria-labelledby]="
+                    fixedWindowOutputs().getGridAttributes()['aria-labelledby']
+                  "
+                  [attr.data-slot]="fixedWindowOutputs().getGridAttributes()['data-slot']"
+                  [attr.id]="fixedWindowOutputs().getGridAttributes()['id']"
+                  [attr.role]="fixedWindowOutputs().getGridAttributes()['role']"
+                  (keydown)="onFixedWindowGridKeydown($event)"
+                >
+                  @for (cell of fixedWindowOutputs().cells; track cell.id) {
+                    <button
+                      type="button"
+                      class="day-cell"
+                      [disabled]="cell.disabled"
+                      [attr.aria-current]="cell.today ? 'date' : null"
+                      [attr.aria-disabled]="cell.disabled ? 'true' : null"
+                      [attr.aria-selected]="
+                        fixedWindowOutputs().getCellAttributes(cell)['aria-selected']
+                      "
+                      [attr.data-active]="
+                        fixedWindowOutputs().getCellAttributes(cell)['data-active']
+                      "
+                      [attr.data-disabled]="
+                        fixedWindowOutputs().getCellAttributes(cell)['data-disabled']
+                      "
+                      [attr.data-in-month]="
+                        fixedWindowOutputs().getCellAttributes(cell)['data-in-month']
+                      "
+                      [attr.data-in-range]="
+                        fixedWindowOutputs().getCellAttributes(cell)['data-in-range']
+                      "
+                      [attr.data-preview-row-end]="
+                        isFixedWindowPreviewRowEnd(cell) ? 'true' : null
+                      "
+                      [attr.data-preview-row-start]="
+                        isFixedWindowPreviewRowStart(cell) ? 'true' : null
+                      "
+                      [attr.data-preview-range]="
+                        isFixedWindowPreviewCell(cell) ? 'true' : null
+                      "
+                      [attr.data-range-end]="
+                        fixedWindowOutputs().getCellAttributes(cell)['data-range-end']
+                      "
+                      [attr.data-range-start]="
+                        fixedWindowOutputs().getCellAttributes(cell)['data-range-start']
+                      "
+                      [attr.data-selected]="
+                        fixedWindowOutputs().getCellAttributes(cell)['data-selected']
+                      "
+                      [attr.data-slot]="
+                        fixedWindowOutputs().getCellAttributes(cell)['data-slot']
+                      "
+                      [attr.id]="cell.id"
+                      [attr.role]="fixedWindowOutputs().getCellAttributes(cell)['role']"
+                      [attr.tabindex]="fixedWindowOutputs().getCellAttributes(cell)['tabindex']"
+                      (click)="onFixedWindowDayCellClick(cell)"
+                      (pointerenter)="onFixedWindowDayCellPointerEnter(cell)"
+                    >
+                      {{ cell.label }}
+                    </button>
+                  }
+                </div>
+              </div>
+
+              <footer class="overlay-footer">
+                <button type="button" class="footer-button" (click)="clearFixedWindow()">
+                  Clear
+                </button>
+                <button
+                  type="button"
+                  class="footer-button"
+                  data-variant="primary"
+                  (click)="closeFixedWindow()"
+                >
+                  Done
+                </button>
+              </footer>
+            </section>
+          </div>
+        </div>
+      </div>
+    </section>
+  </section>
+</main>
