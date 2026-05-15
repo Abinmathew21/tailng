@@ -668,6 +668,17 @@
         </tng-form-field>
 
         <tng-form-field [labelPosition]="labelPosition">
+          <tng-label [forId]="idPrefix + '-input-number'">Number input</tng-label>
+          <tng-input
+            type="number"
+            [id]="idPrefix + '-input-number'"
+            name="quantity"
+            placeholder="0"
+          />
+          <p tngHint>Use type number for numeric-only values.</p>
+        </tng-form-field>
+
+        <tng-form-field [labelPosition]="labelPosition">
           <tng-label [forId]="idPrefix + '-input-field'">Input field shell</tng-label>
           <tng-input-field>
             <span tngInputFieldPrefix>@</span>

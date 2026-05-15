@@ -21,6 +21,8 @@
   --tng-input-focus-ring: transparent;
   --tng-input-radius: 0;
   --tng-input-px: 0;
+  --tng-input-number-control-bg: transparent;
+  --tng-input-number-control-hover-bg: transparent;
   --tng-select-bg: transparent;
   --tng-select-border-strong: transparent;
   --tng-select-shadow-focus: none;
@@ -69,6 +71,8 @@
   --tng-input-focus-ring: revert-layer;
   --tng-input-radius: revert-layer;
   --tng-input-px: revert-layer;
+  --tng-input-number-control-bg: revert-layer;
+  --tng-input-number-control-hover-bg: revert-layer;
   --tng-select-bg: revert-layer;
   --tng-select-border-strong: revert-layer;
   --tng-select-shadow-focus: revert-layer;

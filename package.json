@@ -28,7 +28,7 @@
     "seo:docs": "pnpm run build:docs && pnpm run prerender:docs",
     "seo:tailwind": "pnpm run build:tailwind && pnpm run prerender:tailwind",
     "seo:vanilla": "pnpm run build:vanilla && pnpm run prerender:vanilla",
-    "start:docs": "NX_DAEMON=false NX_ISOLATE_PLUGINS=false nx serve docs",
+    "start:docs": "NX_DAEMON=false NX_ISOLATE_PLUGINS=false nx serve docs --port 4201",
     "start:tailwind": "NX_DAEMON=false NX_ISOLATE_PLUGINS=false nx serve playground-tailwind --port 4202",
     "start:vanilla": "NX_DAEMON=false NX_ISOLATE_PLUGINS=false nx serve playground-plain-css --port 4201",
     "test:all": "vitest run",

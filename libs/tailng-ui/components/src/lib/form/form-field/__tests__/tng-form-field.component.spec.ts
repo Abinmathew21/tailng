@@ -1,6 +1,8 @@
 import { Component, Directive, ElementRef, inject, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { describe, expect, it, vi } from 'vitest';
 
 import { TngInput, TngInputGroup, TngLabel, TngInputFieldPrefix, TngInputFieldSuffix, TngTextarea } from '@tailng-ui/primitives';
@@ -8,6 +10,7 @@ import {
   TNG_FORM_FIELD_CONTROL,
   type TngFormFieldControl,
 } from '../tng-form-field.control';
+import { TngInputComponent } from '../../input/tng-input.component';
 import { TngInputFieldComponent } from '../../input-field/tng-input-field.component';
 import { TngInputOtpComponent } from '../../input-otp/tng-input-otp.component';
 import { TngListboxComponent } from '../../listbox/tng-listbox.component';
@@ -1010,5 +1013,50 @@ describe('tng-form-field: new control integrations', () => {
 
     expect(adapter.focusableElement).toBe(button);
     expect(adapter.controlKind).toBe('inline');
+  });
+
+  it('exposes transparent number stepper tokens in the form-field theme contract', () => {
+    const formFieldContractCss = readFileSync(
+      join(process.cwd(), 'libs/tailng-ui/theme/src/lib/component-contracts/form/form-field/form-field.css'),
+      'utf8',
+    );
+
+    expect(formFieldContractCss).toContain('--tng-input-number-control-bg: transparent;');
+    expect(formFieldContractCss).toContain('--tng-input-number-control-hover-bg: transparent;');
+    expect(formFieldContractCss).toContain('--tng-input-number-control-bg: revert-layer;');
+    expect(formFieldContractCss).toContain('--tng-input-number-control-hover-bg: revert-layer;');
+  });
+
+  it('lets a nested tng-input number stepper inherit a transparent background from the field', async () => {
+    @Component({
+      imports: [TngFormFieldComponent, TngInputComponent, TngLabel],
+      styles: [
+        `
+          tng-form-field {
+            --tng-input-number-control-bg: transparent;
+            --tng-input-number-control-hover-bg: transparent;
+            --tng-input-bg: transparent;
+            --tng-input-border: transparent;
+            --tng-input-px: 0;
+          }
+        `,
+      ],
+      template: `
+        <tng-form-field>
+          <label tngLabel>Quantity</label>
+          <tng-input type="number" value="1" />
+        </tng-form-field>
+      `,
+    })
+    class NumberInputFieldHostComponent {}
+
+    await TestBed.configureTestingModule({ imports: [NumberInputFieldHostComponent] }).compileComponents();
+    const fixture = TestBed.createComponent(NumberInputFieldHostComponent);
+    await flush(fixture);
+
+    const controls = fixture.debugElement.query(By.css('.tng-input-number-controls'))
+      .nativeElement as HTMLElement;
+
+    expect(getComputedStyle(controls).backgroundColor).toBe('rgba(0, 0, 0, 0)');
   });
 });
