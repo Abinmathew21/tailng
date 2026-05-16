@@ -30,6 +30,7 @@ import {
   TngInput,
   TngInputFieldPrefix,
   TngInputFieldSuffix,
+  TngInputGroup,
   type TngButtonToggleValue,
 } from '@tailng-ui/primitives';
 import type { DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
@@ -139,7 +140,7 @@ const supportedControlsImportLines = [
   "import { Component, computed, inject, signal } from '@angular/core';",
   "import { COUNTRY_LIST } from '../../../../../../shared/data/country-list';",
   "import { TngAutocompleteComponent, TngButtonToggleComponent, TngButtonToggleGroupComponent, TngCheckboxComponent, TngDatepickerComponent, TngFormFieldComponent, TngHint, TngInputComponent, TngInputFieldComponent, TngInputOtpComponent, TngLabelComponent, TngListboxComponent, TngMonthDaypickerComponent, TngMultiAutocompleteComponent, TngMultiSelectComponent, TngRadioComponent, TngSelectComponent, TngSliderComponent, TngSwitchComponent, TngTextareaComponent, TngToggleComponent, TngToggleGroupComponent, TngYearpickerComponent } from '@tailng-ui/components';",
-  "import { TngInput, TngInputFieldPrefix, TngInputFieldSuffix } from '@tailng-ui/primitives';",
+  "import { TngInput, TngInputFieldPrefix, TngInputFieldSuffix, TngInputGroup } from '@tailng-ui/primitives';",
 ] as const;
 
 const FLAG_STYLESHEET_ID = 'docs-country-flag-stylesheet';
@@ -270,6 +271,7 @@ function createSupportedControlsTsCode(selector: string, className: string): str
     '    TngInput,',
     '    TngInputFieldPrefix,',
     '    TngInputFieldSuffix,',
+    '    TngInputGroup,',
     '  ],',
     "  templateUrl: './" + selector + ".component.html',",
     "  styleUrl: './" + selector + ".component.css',",
@@ -365,6 +367,7 @@ function createSupportedControlsTsCode(selector: string, className: string): str
     TngInput,
     TngInputFieldPrefix,
     TngInputFieldSuffix,
+    TngInputGroup,
   ],
   templateUrl: './form-field-examples-page.component.html',
   styleUrls: [
@@ -505,6 +508,16 @@ export class FormFieldExamplesPageComponent implements OnDestroy {
     '      <span tngInputFieldSuffix>.team</span>',
     '    </tng-input-field>',
     '    <p tngHint>Use the input-field shell when the input needs inner adornments.</p>',
+    '  </tng-form-field>',
+    '',
+    '  <tng-form-field>',
+    '    <tng-label forId="amount">Input group</tng-label>',
+    '    <tng-input-group>',
+    '      <span tngInputFieldPrefix>$</span>',
+    '      <input tngInput id="amount" name="amount" type="number" placeholder="0" />',
+    '      <span tngInputFieldSuffix>USD</span>',
+    '    </tng-input-group>',
+    '    <p tngHint>Use the headless input-group primitive when you own the group shell styles.</p>',
     '  </tng-form-field>',
     '',
     '  <tng-form-field>',

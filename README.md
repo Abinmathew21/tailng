@@ -271,6 +271,11 @@ Lint and format:
 pnpm run lint
 pnpm run format:nx
 pnpm run format:prettier
+
+pnpm nx lint docs
+pnpm nx lint cdk
+pnpm nx lint primitives
+
 ```
 
 Typecheck key package surfaces:

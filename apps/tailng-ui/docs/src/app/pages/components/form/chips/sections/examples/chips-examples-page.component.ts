@@ -415,7 +415,7 @@ const LOCKED_TAILWIND_CSS_CODE = '/* Tailwind utilities are applied directly in 
 })
 export class ChipsExamplesPageComponent implements OnDestroy {
   private readonly documentRef = inject(DOCUMENT);
-  public readonly codeBlockTheme = signal<'github-dark' | 'github-light'>(
+  protected readonly codeBlockTheme = signal<'github-dark' | 'github-light'>(
     resolveDocsCodeBlockTheme(this.documentRef),
   );
   private readonly colorSchemeObserver = observeDocsCodeThemeChanges(this.documentRef, this.codeBlockTheme);
