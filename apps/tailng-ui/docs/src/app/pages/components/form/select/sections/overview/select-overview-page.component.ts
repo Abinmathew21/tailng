@@ -307,7 +307,7 @@ export class SelectOverviewPageComponent implements OnDestroy {
     WORKFLOW_STAGE_OPTIONS.map((stage) => [stage.value, stage.label]),
   );
 
-  public readonly codeBlockTheme = signal<'github-dark' | 'github-light'>(
+  protected readonly codeBlockTheme = signal<'github-dark' | 'github-light'>(
     resolveDocsCodeBlockTheme(this.documentRef),
   );
 

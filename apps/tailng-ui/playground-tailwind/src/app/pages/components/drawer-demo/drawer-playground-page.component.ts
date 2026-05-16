@@ -24,16 +24,16 @@ import type { TngDrawerDirection, TngDrawerMode, TngDrawerPosition } from '@tail
   templateUrl: './drawer-playground-page.component.html',
 })
 export class DrawerPlaygroundPageComponent {
-  readonly drawerOpen = signal(false);
-  readonly drawerMode = signal<TngDrawerMode>('overlay');
-  readonly drawerDirection = signal<TngDrawerDirection>('ltr');
-  readonly drawerPosition = signal<TngDrawerPosition>('start');
+  protected readonly drawerOpen = signal(false);
+  protected readonly drawerMode = signal<TngDrawerMode>('overlay');
+  protected readonly drawerDirection = signal<TngDrawerDirection>('ltr');
+  protected readonly drawerPosition = signal<TngDrawerPosition>('start');
 
-  readonly componentDrawerOpen = signal(false);
+  protected readonly componentDrawerOpen = signal(false);
 
-  readonly dualDrawerOpenStart = signal(false);
-  readonly dualDrawerOpenEnd = signal(false);
-  readonly dualDrawerCloseOthersOnOpen = signal(false);
+  protected readonly dualDrawerOpenStart = signal(false);
+  protected readonly dualDrawerOpenEnd = signal(false);
+  protected readonly dualDrawerCloseOthersOnOpen = signal(false);
 
-  readonly sidenavOpen = signal(true);
+  protected readonly sidenavOpen = signal(true);
 }
