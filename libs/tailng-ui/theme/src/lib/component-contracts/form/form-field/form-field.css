@@ -84,6 +84,7 @@
   :where([data-slot='input-group']) {
   border-width: 0;
   box-shadow: none;
+  --_tng-input-border: transparent;
   min-height: calc(var(--tng-form-field-frame-min-height, 2.625rem) - 2 * var(--tng-form-field-frame-py, 0));
 }
 
@@ -93,7 +94,7 @@
 }
 
 /* Hide native number spinners inside form-field (e.g. input[tngInput] in input-group). */
-:where([data-slot='form-field']) :where(input[data-slot='input'][type='number']) {
+:where([data-slot='form-field']) input[data-slot='input'][type='number'] {
   -moz-appearance: textfield;
   appearance: textfield;
 }
