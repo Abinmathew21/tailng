@@ -1,0 +1,205 @@
+<article class="yearpicker-styling">
+  <h2 class="yearpicker-styling-title">Styling contract</h2>
+  <p class="yearpicker-styling-lead">
+    <code>tng-yearpicker</code> delegates all rendering to the shared datepicker surface. Style
+    against the exported data attributes and CSS custom properties rather than internal DOM
+    structure or hard-coded color values.
+  </p>
+
+  <section class="yearpicker-styling-block">
+    <h3>Slot selectors</h3>
+    <div class="yearpicker-styling-table-wrap">
+      <table class="yearpicker-styling-table">
+        <thead>
+          <tr>
+            <th scope="col">Selector</th>
+            <th scope="col">Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>[data-slot="datepicker"]</code></td>
+            <td>Root contract for field-level layout tokens, host state hooks, and shared semantic colors.</td>
+          </tr>
+          <tr>
+            <td><code>[data-slot="datepicker-field"]</code></td>
+            <td>Field wrapper containing the input shell and overlay anchor.</td>
+          </tr>
+          <tr>
+            <td><code>[data-slot="datepicker-input-shell"]</code></td>
+            <td>Combined input and trigger chrome. Apply border, invalid, open, and focus treatment here.</td>
+          </tr>
+          <tr>
+            <td><code>[data-slot="datepicker-input"]</code> / <code>[data-slot="datepicker-trigger"]</code></td>
+            <td>Editable text field and calendar icon trigger inside the shared shell.</td>
+          </tr>
+          <tr>
+            <td><code>[data-slot="datepicker-overlay"]</code></td>
+            <td>Year grid popup portaled to <code>body</code>. Scope theme tokens on an ancestor.</td>
+          </tr>
+          <tr>
+            <td><code>[data-slot="datepicker-header"]</code> / <code>[data-slot="datepicker-nav-button"]</code> / <code>[data-slot="datepicker-period-button"]</code></td>
+            <td>Header row and year page navigation controls.</td>
+          </tr>
+          <tr>
+            <td><code>[data-slot="datepicker-grid"]</code></td>
+            <td>Year grid container.</td>
+          </tr>
+          <tr>
+            <td><code>[data-slot="datepicker-year"]</code></td>
+            <td>Interactive year cells.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="yearpicker-styling-block">
+    <h3>State hooks</h3>
+    <div class="yearpicker-styling-table-wrap">
+      <table class="yearpicker-styling-table">
+        <thead>
+          <tr>
+            <th scope="col">State</th>
+            <th scope="col">Applied on</th>
+            <th scope="col">Use case</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>[data-open]</code></td>
+            <td>Host, input shell, trigger, overlay</td>
+            <td>Open-state affordances and trigger emphasis.</td>
+          </tr>
+          <tr>
+            <td><code>[data-view]</code></td>
+            <td>Host</td>
+            <td>Always <code>year</code> for the yearpicker; useful for scoped animations.</td>
+          </tr>
+          <tr>
+            <td><code>[data-invalid]</code></td>
+            <td>Input shell</td>
+            <td>Unparseable or out-of-range year input.</td>
+          </tr>
+          <tr>
+            <td><code>[data-disabled]</code></td>
+            <td>Host, year cells</td>
+            <td>Disabled field or out-of-bounds year cells.</td>
+          </tr>
+          <tr>
+            <td><code>[data-selected]</code></td>
+            <td>Year cells</td>
+            <td>Currently selected year.</td>
+          </tr>
+          <tr>
+            <td><code>[data-active]</code></td>
+            <td>Year cells</td>
+            <td>Current roving keyboard target.</td>
+          </tr>
+          <tr>
+            <td><code>[data-focus-visible]</code></td>
+            <td>Year cells</td>
+            <td>Keyboard focus ring treatment independent of selected state.</td>
+          </tr>
+          <tr>
+            <td><code>[data-placement]</code></td>
+            <td>Overlay</td>
+            <td>Responds to flipped popup placement above or below the field.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="yearpicker-styling-block">
+    <h3>Common custom properties</h3>
+    <p>
+      All tokens use the <code>--tng-datepicker-</code> prefix since
+      <code>tng-yearpicker</code> shares the datepicker component surface.
+    </p>
+    <div class="yearpicker-styling-table-wrap">
+      <table class="yearpicker-styling-table">
+        <thead>
+          <tr>
+            <th scope="col">Token</th>
+            <th scope="col">Typical usage</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>--tng-datepicker-radius</code></td>
+            <td>Input shell and overlay border radius.</td>
+          </tr>
+          <tr>
+            <td><code>--tng-datepicker-field-height</code></td>
+            <td>Combined input and trigger height.</td>
+          </tr>
+          <tr>
+            <td><code>--tng-datepicker-overlay-padding</code></td>
+            <td>Outer padding inside the year grid popup.</td>
+          </tr>
+          <tr>
+            <td><code>--tng-datepicker-grid-gap</code></td>
+            <td>Spacing between year cells.</td>
+          </tr>
+          <tr>
+            <td><code>--tng-datepicker-picker-cell-size</code></td>
+            <td>Base size for year cells.</td>
+          </tr>
+          <tr>
+            <td><code>--tng-datepicker-brand</code> / <code>--tng-datepicker-focus</code></td>
+            <td>Selection, hover, and focus ring accents.</td>
+          </tr>
+          <tr>
+            <td><code>--tng-datepicker-border</code> / <code>--tng-datepicker-surface</code> / <code>--tng-datepicker-fg</code></td>
+            <td>Field chrome, popup surface, and foreground styling.</td>
+          </tr>
+          <tr>
+            <td><code>--tng-datepicker-shadow</code></td>
+            <td>Popup depth shadow.</td>
+          </tr>
+          <tr>
+            <td><code>--tng-datepicker-nav-size</code></td>
+            <td>Header navigation button footprint.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="yearpicker-styling-block">
+    <h3>Theme-aware wrapper shell</h3>
+    <p>
+      Prefer semantic tokens when placing the picker inside a utility shell so the surface stays
+      aligned with theme and mode changes.
+    </p>
+    <tng-code-block
+      [code]="themeAwareShellCode"
+      adapter="shiki"
+      language="css"
+      title="Theme-aware container"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section class="yearpicker-styling-block">
+    <h3>Compact override example</h3>
+    <p>
+      Override datepicker tokens on a scoped wrapper class to achieve a denser or roomier layout
+      without touching global styles.
+    </p>
+    <tng-code-block
+      [code]="compactThemeCode"
+      adapter="shiki"
+      language="css"
+      title="Scoped token overrides"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+</article>

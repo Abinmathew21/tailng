@@ -1,0 +1,194 @@
+<article class="month-daypicker-examples">
+  <h2 class="month-daypicker-examples-title">Examples</h2>
+  <p class="month-daypicker-examples-lead">
+    These examples show the styled wrapper in its default plain-CSS presentation and in a
+    theme-aware Tailwind shell across common use cases.
+  </p>
+
+  <section class="month-daypicker-examples-block">
+    <app-docs-example-tabs-section
+      heading="Form usage"
+      description="Month Daypicker fits naturally into forms where a recurring date — birthday, anniversary, or annual deadline — is one submitted field."
+      ariaLabel="Month Daypicker form usage example"
+      tabListAriaLabel="Month Daypicker form usage variants"
+      defaultValue="live-demo"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template appDocsExampleVariant value="live-demo" label="Live demo" panelTitle="Month Daypicker form usage">
+        <app-docs-form-demo-shell
+          title="Choose an anniversary date"
+          description="Select a month and day combination for a recurring annual event."
+          submitLabel="Save date"
+        >
+          <div docsFormDemoField class="month-daypicker-example-control">
+            <tng-month-daypicker
+              [defaultValue]="{ month: 12, day: 25 }"
+              [year]="2024"
+              [fullWidth]="false"
+            ></tng-month-daypicker>
+          </div>
+          <p docsFormDemoSummary>The chosen month-day is part of the form until submit or reset.</p>
+        </app-docs-form-demo-shell>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section class="month-daypicker-examples-block">
+    <app-docs-example-tabs-section
+      heading="Default wrapper"
+      description="Stock behavior with editable MM-DD input and month-then-day calendar navigation."
+      ariaLabel="Default month-daypicker wrapper variants"
+      tabListAriaLabel="Default wrapper example styles"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Default wrapper (Plain-CSS)"
+        [codeTabs]="defaultPlainCodeTabs"
+      >
+        <div class="month-daypicker-example-preview">
+          <div class="month-daypicker-example-control">
+            <tng-month-daypicker
+              [defaultValue]="{ month: 12, day: 25 }"
+              [year]="2024"
+              [fullWidth]="false"
+            ></tng-month-daypicker>
+          </div>
+          <p class="month-daypicker-example-note">
+            The default wrapper picks up the theme contract without extra utility classes.
+          </p>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Default wrapper (Tailwind CSS)"
+        [codeTabs]="defaultTailwindCodeTabs"
+      >
+        <div class="month-daypicker-example-preview">
+          <div class="w-full max-w-[12rem]">
+            <tng-month-daypicker
+              [defaultValue]="{ month: 12, day: 25 }"
+              [year]="2024"
+              [fullWidth]="false"
+            ></tng-month-daypicker>
+          </div>
+          <p class="month-daypicker-example-note">
+            Tailwind can own the outer surface while semantic tokens keep light, dark, and custom
+            themes in sync.
+          </p>
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section class="month-daypicker-examples-block">
+    <app-docs-example-tabs-section
+      heading="Disabled state"
+      description="The entire field — input, trigger, and calendar — is inert when disabled is true."
+      ariaLabel="Disabled month-daypicker variants"
+      tabListAriaLabel="Disabled example styles"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Disabled state (Plain-CSS)"
+        [codeTabs]="disabledPlainCodeTabs"
+      >
+        <div class="month-daypicker-example-preview">
+          <div class="month-daypicker-example-control">
+            <tng-month-daypicker
+              [defaultValue]="{ month: 7, day: 4 }"
+              [year]="2024"
+              [disabled]="true"
+              [fullWidth]="false"
+            ></tng-month-daypicker>
+          </div>
+          <p class="month-daypicker-example-note">
+            Disabled styling flows through the <code>[data-disabled]</code> state hook on the host
+            and cells.
+          </p>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Disabled state (Tailwind CSS)"
+        [codeTabs]="disabledTailwindCodeTabs"
+      >
+        <div class="month-daypicker-example-preview">
+          <div class="w-full max-w-[12rem]">
+            <tng-month-daypicker
+              [defaultValue]="{ month: 7, day: 4 }"
+              [year]="2024"
+              [disabled]="true"
+              [fullWidth]="false"
+            ></tng-month-daypicker>
+          </div>
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section class="month-daypicker-examples-block">
+    <app-docs-example-tabs-section
+      heading="Read-only"
+      description="The text field is read-only but the calendar popup remains accessible for selection."
+      ariaLabel="Read-only month-daypicker variants"
+      tabListAriaLabel="Read-only example styles"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Read-only (Plain-CSS)"
+        [codeTabs]="readonlyPlainCodeTabs"
+      >
+        <div class="month-daypicker-example-preview">
+          <div class="month-daypicker-example-control">
+            <tng-month-daypicker
+              [defaultValue]="{ month: 3, day: 15 }"
+              [year]="2024"
+              [readonly]="true"
+              [fullWidth]="false"
+            ></tng-month-daypicker>
+          </div>
+          <p class="month-daypicker-example-note">
+            Manual typing is blocked but calendar-based selection still commits a value.
+          </p>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Read-only (Tailwind CSS)"
+        [codeTabs]="readonlyTailwindCodeTabs"
+      >
+        <div class="month-daypicker-example-preview">
+          <div class="w-full max-w-[12rem]">
+            <tng-month-daypicker
+              [defaultValue]="{ month: 3, day: 15 }"
+              [year]="2024"
+              [readonly]="true"
+              [fullWidth]="false"
+            ></tng-month-daypicker>
+          </div>
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+</article>

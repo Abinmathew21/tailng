@@ -1,0 +1,195 @@
+<article class="yearpicker-examples">
+  <h2 class="yearpicker-examples-title">Examples</h2>
+  <p class="yearpicker-examples-lead">
+    These examples show the styled wrapper in its default plain-CSS presentation and in a
+    theme-aware Tailwind shell across common use cases.
+  </p>
+
+  <section class="yearpicker-examples-block">
+    <app-docs-example-tabs-section
+      heading="Form usage"
+      description="Yearpicker fits naturally into forms where a fiscal year, report year, or model year is a single submitted field."
+      ariaLabel="Yearpicker form usage example"
+      tabListAriaLabel="Yearpicker form usage variants"
+      defaultValue="live-demo"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template appDocsExampleVariant value="live-demo" label="Live demo" panelTitle="Yearpicker form usage">
+        <app-docs-form-demo-shell
+          title="Choose a fiscal year"
+          description="Select the year for which this report applies."
+          submitLabel="Save year"
+        >
+          <div docsFormDemoField class="yearpicker-example-control">
+            <tng-yearpicker
+              [defaultValue]="2024"
+              [minYear]="2000"
+              [maxYear]="2030"
+              [fullWidth]="false"
+            ></tng-yearpicker>
+          </div>
+          <p docsFormDemoSummary>The chosen year is part of the form until submit or reset.</p>
+        </app-docs-form-demo-shell>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section class="yearpicker-examples-block">
+    <app-docs-example-tabs-section
+      heading="Default wrapper"
+      description="Stock behavior with editable YYYY input and a year grid popup that closes automatically on selection."
+      ariaLabel="Default yearpicker wrapper variants"
+      tabListAriaLabel="Default wrapper example styles"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Default wrapper (Plain-CSS)"
+        [codeTabs]="defaultPlainCodeTabs"
+      >
+        <div class="yearpicker-example-preview">
+          <div class="yearpicker-example-control">
+            <tng-yearpicker
+              [defaultValue]="2024"
+              [minYear]="2000"
+              [maxYear]="2030"
+              [fullWidth]="false"
+            ></tng-yearpicker>
+          </div>
+          <p class="yearpicker-example-note">
+            The default wrapper picks up the theme contract without extra utility classes.
+          </p>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Default wrapper (Tailwind CSS)"
+        [codeTabs]="defaultTailwindCodeTabs"
+      >
+        <div class="yearpicker-example-preview">
+          <div class="w-full max-w-[10rem]">
+            <tng-yearpicker
+              [defaultValue]="2024"
+              [minYear]="2000"
+              [maxYear]="2030"
+              [fullWidth]="false"
+            ></tng-yearpicker>
+          </div>
+          <p class="yearpicker-example-note">
+            Tailwind can own the outer surface while semantic tokens keep light, dark, and custom
+            themes in sync.
+          </p>
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section class="yearpicker-examples-block">
+    <app-docs-example-tabs-section
+      heading="Bounded range"
+      description="minYear and maxYear constrain the year grid cells and keyboard navigation."
+      ariaLabel="Bounded yearpicker variants"
+      tabListAriaLabel="Bounded range example styles"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Bounded range (Plain-CSS)"
+        [codeTabs]="boundedPlainCodeTabs"
+      >
+        <div class="yearpicker-example-preview">
+          <div class="yearpicker-example-control">
+            <tng-yearpicker
+              [defaultValue]="2024"
+              [minYear]="2020"
+              [maxYear]="2026"
+              [fullWidth]="false"
+            ></tng-yearpicker>
+          </div>
+          <p class="yearpicker-example-note">
+            Years outside the bounded window are rendered as disabled cells.
+          </p>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Bounded range (Tailwind CSS)"
+        [codeTabs]="boundedTailwindCodeTabs"
+      >
+        <div class="yearpicker-example-preview">
+          <div class="w-full max-w-[10rem]">
+            <tng-yearpicker
+              [defaultValue]="2024"
+              [minYear]="2020"
+              [maxYear]="2026"
+              [fullWidth]="false"
+            ></tng-yearpicker>
+          </div>
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section class="yearpicker-examples-block">
+    <app-docs-example-tabs-section
+      heading="Disabled state"
+      description="The entire field — input, trigger, and year grid — is inert when disabled is true."
+      ariaLabel="Disabled yearpicker variants"
+      tabListAriaLabel="Disabled example styles"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Disabled state (Plain-CSS)"
+        [codeTabs]="disabledPlainCodeTabs"
+      >
+        <div class="yearpicker-example-preview">
+          <div class="yearpicker-example-control">
+            <tng-yearpicker
+              [defaultValue]="2024"
+              [disabled]="true"
+              [fullWidth]="false"
+            ></tng-yearpicker>
+          </div>
+          <p class="yearpicker-example-note">
+            Disabled styling flows through the <code>[data-disabled]</code> state hook on the host
+            and year cells.
+          </p>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Disabled state (Tailwind CSS)"
+        [codeTabs]="disabledTailwindCodeTabs"
+      >
+        <div class="yearpicker-example-preview">
+          <div class="w-full max-w-[10rem]">
+            <tng-yearpicker
+              [defaultValue]="2024"
+              [disabled]="true"
+              [fullWidth]="false"
+            ></tng-yearpicker>
+          </div>
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+</article>
