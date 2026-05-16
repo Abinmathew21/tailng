@@ -163,6 +163,22 @@
             </tng-form-field>
 
             <tng-form-field>
+              <tng-label forId="docs-form-field-supported-input-group">Input group</tng-label>
+              <tng-input-group>
+                <span tngInputFieldPrefix>$</span>
+                <input
+                  tngInput
+                  id="docs-form-field-supported-input-group"
+                  name="amount"
+                  type="number"
+                  placeholder="0"
+                />
+                <span tngInputFieldSuffix>USD</span>
+              </tng-input-group>
+              <p tngHint>Use the headless input-group primitive when you own the group shell styles.</p>
+            </tng-form-field>
+
+            <tng-form-field>
               <tng-label forId="docs-form-field-supported-textarea">Textarea</tng-label>
               <tng-textarea
                 id="docs-form-field-supported-textarea"
@@ -395,6 +411,22 @@
             </tng-form-field>
 
             <tng-form-field>
+              <tng-label forId="docs-form-field-supported-tw-input-group">Input group</tng-label>
+              <tng-input-group>
+                <span tngInputFieldPrefix>$</span>
+                <input
+                  tngInput
+                  id="docs-form-field-supported-tw-input-group"
+                  name="amount"
+                  type="number"
+                  placeholder="0"
+                />
+                <span tngInputFieldSuffix>USD</span>
+              </tng-input-group>
+              <p tngHint>Use the headless input-group primitive when you own the group shell styles.</p>
+            </tng-form-field>
+
+            <tng-form-field>
               <tng-label forId="docs-form-field-supported-tw-textarea">Textarea</tng-label>
               <tng-textarea
                 id="docs-form-field-supported-tw-textarea"
@@ -598,7 +630,7 @@
     <section id="supported-control-label-positions" class="docs-section-anchor input-examples-block">
       <app-docs-example-tabs-section
         heading="Supported control label positions"
-        description="The same supported controls can place the label on the outline, above the border, or left of the border. Outline and above use a two-column layout from 720px; left uses a single column."
+        description="The same supported controls—including input groups with prefix and suffix adornments—can place the label on the outline, above the border, or left of the border. Outline and above use a two-column layout from 720px; left uses a single column."
         ariaLabel="Supported form field label position examples"
         tabListAriaLabel="Supported form field label position variants"
         defaultValue="outline"
@@ -691,6 +723,22 @@
             <span tngInputFieldSuffix>.team</span>
           </tng-input-field>
           <p tngHint>Use the input-field shell when the input needs inner adornments.</p>
+        </tng-form-field>
+
+        <tng-form-field [labelPosition]="labelPosition">
+          <tng-label [forId]="idPrefix + '-input-group'">Input group</tng-label>
+          <tng-input-group>
+            <span tngInputFieldPrefix>$</span>
+            <input
+              tngInput
+              [id]="idPrefix + '-input-group'"
+              name="amount"
+              type="number"
+              placeholder="0"
+            />
+            <span tngInputFieldSuffix>USD</span>
+          </tng-input-group>
+          <p tngHint>Use the headless input-group primitive when you own the group shell styles.</p>
         </tng-form-field>
 
         <tng-form-field [labelPosition]="labelPosition">

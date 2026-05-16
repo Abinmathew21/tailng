@@ -1,9 +1,12 @@
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
+
 import { Component, Directive, ElementRef, inject, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 import { TngInput, TngInputGroup, TngLabel, TngInputFieldPrefix, TngInputFieldSuffix, TngTextarea } from '@tailng-ui/primitives';
-import { describe, expect, it, vi } from 'vitest';
+import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest';
 import { TngInputComponent } from '../../input/tng-input.component';
 import { TngInputFieldComponent } from '../../input-field/tng-input-field.component';
 import { TngInputOtpComponent } from '../../input-otp/tng-input-otp.component';
@@ -506,19 +509,68 @@ describe('tng-form-field', () => {
     expect(host.getAttribute('aria-required')).toBe('true');
   });
 
-  it('projects an input group as the control area without disrupting prefix or suffix content', async () => {
-    await TestBed.configureTestingModule({ imports: [InputGroupHostComponent] }).compileComponents();
-    const fixture = TestBed.createComponent(InputGroupHostComponent);
-    await flush(fixture);
+  describe('input group inside outlined form-field', () => {
+    const inputGroupThemeContractCss = [
+      readFileSync(
+        join(process.cwd(), 'libs/tailng-ui/theme/src/lib/component-contracts/form/form-field/form-field.css'),
+        'utf8',
+      ),
+      readFileSync(
+        join(process.cwd(), 'libs/tailng-ui/theme/src/lib/component-contracts/form/input/input.css'),
+        'utf8',
+      ),
+    ].join('\n');
 
-    const control = fixture.debugElement.query(By.css('[data-slot="form-field-control"]')).nativeElement as HTMLElement;
-    const group = fixture.debugElement.query(By.css('[tngInputGroup]')).nativeElement as HTMLElement;
-    const input = fixture.debugElement.query(By.css('input[tngInput]')).nativeElement as HTMLInputElement;
+    let themeStyleElement: HTMLStyleElement | null = null;
 
-    expect(control.contains(group)).toBe(true);
-    expect(input.getAttribute('aria-describedby') ?? '').toMatch(/^tng-hint-/u);
-    expect(control.textContent).toContain('$');
-    expect(control.textContent).toContain('Clear');
+    beforeAll(() => {
+      themeStyleElement = document.createElement('style');
+      themeStyleElement.textContent = inputGroupThemeContractCss;
+      document.head.appendChild(themeStyleElement);
+    });
+
+    afterAll(() => {
+      themeStyleElement?.remove();
+      themeStyleElement = null;
+    });
+
+    it('projects an input group as the control area without disrupting prefix or suffix content', async () => {
+      await TestBed.configureTestingModule({ imports: [InputGroupHostComponent] }).compileComponents();
+      const fixture = TestBed.createComponent(InputGroupHostComponent);
+      await flush(fixture);
+
+      const control = fixture.debugElement.query(By.css('[data-slot="form-field-control"]'))
+        .nativeElement as HTMLElement;
+      const group = fixture.debugElement.query(By.css('[tngInputGroup]')).nativeElement as HTMLElement;
+      const input = fixture.debugElement.query(By.css('input[tngInput]')).nativeElement as HTMLInputElement;
+
+      expect(control.contains(group)).toBe(true);
+      expect(input.getAttribute('aria-describedby') ?? '').toMatch(/^tng-hint-/u);
+      expect(control.textContent).toContain('$');
+      expect(control.textContent).toContain('Clear');
+    });
+
+    it('suppresses the input-group shell border and focus ring so the form-field frame owns chrome', async () => {
+      await TestBed.configureTestingModule({ imports: [InputGroupHostComponent] }).compileComponents();
+      const fixture = TestBed.createComponent(InputGroupHostComponent);
+      await flush(fixture);
+
+      const formField = fixture.debugElement.query(By.directive(TngFormFieldComponent)).nativeElement as HTMLElement;
+      const group = fixture.debugElement.query(By.css('[data-slot="input-group"]')).nativeElement as HTMLElement;
+      const input = fixture.debugElement.query(By.css('input[tngInput]')).nativeElement as HTMLInputElement;
+
+      expect(formField.getAttribute('data-appearance')).toBe('outlined');
+      expect(getComputedStyle(group).borderWidth).toBe('0px');
+      expect(getComputedStyle(group).boxShadow).toBe('none');
+      expect(getComputedStyle(group).getPropertyValue('--_tng-input-border').trim()).toBe('transparent');
+      expect(getComputedStyle(input).appearance).toBe('textfield');
+
+      input.focus();
+      await flush(fixture);
+
+      expect(group.getAttribute('data-focused')).toBe('');
+      expect(getComputedStyle(group).boxShadow).toBe('none');
+    });
   });
 
   it('projects an input-field component as the control area with prefix and suffix content', async () => {

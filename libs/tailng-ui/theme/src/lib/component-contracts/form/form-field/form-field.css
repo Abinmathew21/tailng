@@ -23,6 +23,25 @@
   --tng-input-px: 0;
   --tng-input-number-control-bg: transparent;
   --tng-input-number-control-hover-bg: transparent;
+  /* Bridge public input tokens to the private names used by [data-slot='input-group']. */
+  --_tng-input-bg-default: var(--tng-semantic-background-surface);
+  --_tng-input-border-default: var(--tng-semantic-border-strong);
+  --_tng-input-fg-default: var(--tng-semantic-foreground-primary);
+  --_tng-input-radius-default: 0.6rem;
+  --_tng-input-min-height-default: 2.5rem;
+  --_tng-input-py-default: 0;
+  --_tng-input-px-default: 0.85rem;
+  --_tng-input-gap-default: 0.55rem;
+  --_tng-input-focus-ring-default: var(--tng-semantic-focus-ring);
+  --_tng-input-bg: var(--tng-input-bg, var(--_tng-input-bg-default));
+  --_tng-input-border: var(--tng-input-border, var(--_tng-input-border-default));
+  --_tng-input-fg: var(--tng-input-fg, var(--_tng-input-fg-default));
+  --_tng-input-radius: var(--tng-input-radius, var(--_tng-input-radius-default));
+  --_tng-input-min-height: var(--tng-input-min-height, var(--_tng-input-min-height-default));
+  --_tng-input-py: var(--tng-input-py, var(--_tng-input-py-default));
+  --_tng-input-px: var(--tng-input-px, var(--_tng-input-px-default));
+  --_tng-input-gap: var(--tng-input-gap, var(--_tng-input-gap-default));
+  --_tng-input-focus-ring: var(--tng-input-focus-ring, var(--_tng-input-focus-ring-default));
   --tng-select-bg: transparent;
   --tng-select-border-strong: transparent;
   --tng-select-shadow-focus: none;
@@ -61,6 +80,33 @@
   background: transparent;
 }
 
+:where([data-slot='form-field'][data-appearance='outlined'])
+  :where([data-slot='input-group']) {
+  border-width: 0;
+  box-shadow: none;
+  min-height: calc(var(--tng-form-field-frame-min-height, 2.625rem) - 2 * var(--tng-form-field-frame-py, 0));
+}
+
+:where([data-slot='form-field'][data-appearance='outlined'])
+  :where([data-slot='input-group'][data-focused]) {
+  box-shadow: none;
+}
+
+/* Hide native number spinners inside form-field (e.g. input[tngInput] in input-group). */
+:where([data-slot='form-field']) :where(input[data-slot='input'][type='number']) {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+:where([data-slot='form-field'])
+  :where(input[data-slot='input'][type='number'])::-webkit-inner-spin-button,
+:where([data-slot='form-field'])
+  :where(input[data-slot='input'][type='number'])::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+
 /* When the form-field uses `plain` or `none` appearance the wrapped control
  * keeps its own chrome — restore the variables we override above so the inner
  * input / select / datepicker / etc. paint their normal borders. */
@@ -73,6 +119,15 @@
   --tng-input-px: revert-layer;
   --tng-input-number-control-bg: revert-layer;
   --tng-input-number-control-hover-bg: revert-layer;
+  --_tng-input-bg: revert-layer;
+  --_tng-input-border: revert-layer;
+  --_tng-input-fg: revert-layer;
+  --_tng-input-radius: revert-layer;
+  --_tng-input-min-height: revert-layer;
+  --_tng-input-py: revert-layer;
+  --_tng-input-px: revert-layer;
+  --_tng-input-gap: revert-layer;
+  --_tng-input-focus-ring: revert-layer;
   --tng-select-bg: revert-layer;
   --tng-select-border-strong: revert-layer;
   --tng-select-shadow-focus: revert-layer;
