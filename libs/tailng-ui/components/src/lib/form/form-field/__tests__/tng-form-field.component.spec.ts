@@ -512,14 +512,37 @@ describe('tng-form-field', () => {
   describe('input group inside outlined form-field', () => {
     const inputGroupThemeContractCss = [
       readFileSync(
-        join(process.cwd(), 'libs/tailng-ui/theme/src/lib/component-contracts/form/form-field/form-field.css'),
-        'utf8',
-      ),
-      readFileSync(
         join(process.cwd(), 'libs/tailng-ui/theme/src/lib/component-contracts/form/input/input.css'),
         'utf8',
       ),
+      readFileSync(
+        join(process.cwd(), 'libs/tailng-ui/theme/src/lib/component-contracts/form/form-field/form-field.css'),
+        'utf8',
+      ),
     ].join('\n');
+
+    /** jsdom does not compute `appearance` from stylesheets when `all: unset` is set on inputs. */
+    function expectNumberInputSpinnerHidingRuleInDocument(): void {
+      let found = false;
+      for (const sheet of Array.from(document.styleSheets)) {
+        try {
+          for (const rule of Array.from(sheet.cssRules)) {
+            if (
+              rule.cssText.includes('[data-slot="form-field"]') &&
+              rule.cssText.includes('[type="number"]') &&
+              rule.cssText.includes('appearance: textfield')
+            ) {
+              found = true;
+              break;
+            }
+          }
+        } catch {
+          /* cross-origin stylesheet */
+        }
+        if (found) break;
+      }
+      expect(found).toBe(true);
+    }
 
     let themeStyleElement: HTMLStyleElement | null = null;
 
@@ -563,7 +586,12 @@ describe('tng-form-field', () => {
       expect(getComputedStyle(group).borderWidth).toBe('0px');
       expect(getComputedStyle(group).boxShadow).toBe('none');
       expect(getComputedStyle(group).getPropertyValue('--_tng-input-border').trim()).toBe('transparent');
-      expect(getComputedStyle(input).appearance).toBe('textfield');
+      expect(input.type).toBe('number');
+      expect(input.getAttribute('data-slot')).toBe('input');
+      expect(formField.getAttribute('data-slot')).toBe('form-field');
+      expect(formField.contains(input)).toBe(true);
+      expect(inputGroupThemeContractCss).toContain('appearance: textfield');
+      expectNumberInputSpinnerHidingRuleInDocument();
 
       input.focus();
       await flush(fixture);
