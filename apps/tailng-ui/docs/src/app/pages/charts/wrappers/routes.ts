@@ -7,61 +7,34 @@ if (defaultItem === undefined) {
   throw new Error('Charts wrappers docs are empty.');
 }
 
-function wrapperRoutes(itemSlug: string): Routes {
-  const item = group.items.find((candidate) => candidate.slug === itemSlug);
-  if (!item) {
-    throw new Error(`Missing "${itemSlug}" in charts wrappers docs group.`);
-  }
+const lineChartItem = group.items.find((item) => item.slug === 'line-chart');
+if (lineChartItem === undefined) {
+  throw new Error('Missing "line-chart" in charts wrappers docs group.');
+}
 
-  return [
-    {
-      path: '',
-      data: toChartsDocsRouteData(group, item),
-      loadComponent: () =>
-        import('./shared/chart-wrapper-page.component').then(
-          (module) => module.ChartWrapperPageComponent,
-        ),
-      children: [
-        {
-          path: '',
-          pathMatch: 'full',
-          redirectTo: 'overview',
-        },
-        {
-          path: 'overview',
-          loadComponent: () =>
-            import('./shared/sections/chart-wrapper-overview-page.component').then(
-              (module) => module.ChartWrapperOverviewPageComponent,
-            ),
-        },
-        {
-          path: 'api',
-          loadComponent: () =>
-            import('./shared/sections/chart-wrapper-api-page.component').then(
-              (module) => module.ChartWrapperApiPageComponent,
-            ),
-        },
-        {
-          path: 'styling',
-          loadComponent: () =>
-            import('./shared/sections/chart-wrapper-styling-page.component').then(
-              (module) => module.ChartWrapperStylingPageComponent,
-            ),
-        },
-        {
-          path: 'examples',
-          loadComponent: () =>
-            import('./shared/sections/chart-wrapper-examples-page.component').then(
-              (module) => module.ChartWrapperExamplesPageComponent,
-            ),
-        },
-        {
-          path: '**',
-          redirectTo: 'overview',
-        },
-      ],
-    },
-  ];
+const barChartItem = group.items.find((item) => item.slug === 'bar-chart');
+if (barChartItem === undefined) {
+  throw new Error('Missing "bar-chart" in charts wrappers docs group.');
+}
+
+const areaChartItem = group.items.find((item) => item.slug === 'area-chart');
+if (areaChartItem === undefined) {
+  throw new Error('Missing "area-chart" in charts wrappers docs group.');
+}
+
+const pieChartItem = group.items.find((item) => item.slug === 'pie-chart');
+if (pieChartItem === undefined) {
+  throw new Error('Missing "pie-chart" in charts wrappers docs group.');
+}
+
+const scatterChartItem = group.items.find((item) => item.slug === 'scatter-chart');
+if (scatterChartItem === undefined) {
+  throw new Error('Missing "scatter-chart" in charts wrappers docs group.');
+}
+
+const heatmapChartItem = group.items.find((item) => item.slug === 'heatmap-chart');
+if (heatmapChartItem === undefined) {
+  throw new Error('Missing "heatmap-chart" in charts wrappers docs group.');
 }
 
 export const CHARTS_WRAPPERS_ROUTES: Routes = [
@@ -70,10 +43,44 @@ export const CHARTS_WRAPPERS_ROUTES: Routes = [
     pathMatch: 'full',
     redirectTo: defaultItem.slug,
   },
-  ...group.items.flatMap((item) => [
-    {
-      path: item.slug,
-      children: wrapperRoutes(item.slug),
-    },
-  ]),
+  {
+    path: lineChartItem.slug,
+    data: toChartsDocsRouteData(group, lineChartItem),
+    loadChildren: () =>
+      import('./line-chart/routes').then((module) => module.CHARTS_WRAPPERS_LINE_CHART_ROUTES),
+  },
+  {
+    path: barChartItem.slug,
+    data: toChartsDocsRouteData(group, barChartItem),
+    loadChildren: () =>
+      import('./bar-chart/routes').then((module) => module.CHARTS_WRAPPERS_BAR_CHART_ROUTES),
+  },
+  {
+    path: areaChartItem.slug,
+    data: toChartsDocsRouteData(group, areaChartItem),
+    loadChildren: () =>
+      import('./area-chart/routes').then((module) => module.CHARTS_WRAPPERS_AREA_CHART_ROUTES),
+  },
+  {
+    path: pieChartItem.slug,
+    data: toChartsDocsRouteData(group, pieChartItem),
+    loadChildren: () =>
+      import('./pie-chart/routes').then((module) => module.CHARTS_WRAPPERS_PIE_CHART_ROUTES),
+  },
+  {
+    path: scatterChartItem.slug,
+    data: toChartsDocsRouteData(group, scatterChartItem),
+    loadChildren: () =>
+      import('./scatter-chart/routes').then(
+        (module) => module.CHARTS_WRAPPERS_SCATTER_CHART_ROUTES,
+      ),
+  },
+  {
+    path: heatmapChartItem.slug,
+    data: toChartsDocsRouteData(group, heatmapChartItem),
+    loadChildren: () =>
+      import('./heatmap-chart/routes').then(
+        (module) => module.CHARTS_WRAPPERS_HEATMAP_CHART_ROUTES,
+      ),
+  },
 ];

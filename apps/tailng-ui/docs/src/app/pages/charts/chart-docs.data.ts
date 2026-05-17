@@ -1,4 +1,6 @@
-export type ChartsDocsCategoryId = 'getting-started' | 'wrappers' | 'composition';
+import { CHARTS_SERIES_DOCS_GROUPS } from './series/chart-series-docs.data';
+
+export type ChartsDocsCategoryId = string;
 
 export type ChartsDocsItem = Readonly<{
   id: string;
@@ -44,7 +46,7 @@ export const CHARTS_GETTING_STARTED_GROUP: ChartsDocsGroup = {
 
 export const CHARTS_WRAPPERS_GROUP: ChartsDocsGroup = {
   id: 'wrappers',
-  title: 'Chart Wrappers',
+  title: 'Core Charts',
   subtitle: 'Field-driven chart components for common visualizations',
   items: [
     {
@@ -103,7 +105,7 @@ export const CHARTS_COMPOSITION_GROUP: ChartsDocsGroup = {
 
 export const CHARTS_DOCS_GROUPS: readonly ChartsDocsGroup[] = Object.freeze([
   CHARTS_GETTING_STARTED_GROUP,
-  CHARTS_WRAPPERS_GROUP,
+  ...CHARTS_SERIES_DOCS_GROUPS,
   CHARTS_COMPOSITION_GROUP,
 ]);
 
@@ -115,10 +117,7 @@ if (defaultItem === undefined) {
 
 export const DEFAULT_CHARTS_DOCS_SEGMENT = `${defaultGroup.id}/${defaultItem.slug}`;
 
-export function buildChartsDocHref(
-  groupId: ChartsDocsCategoryId,
-  itemSlug: string,
-): string {
+export function buildChartsDocHref(groupId: ChartsDocsCategoryId, itemSlug: string): string {
   return `/charts/${groupId}/${itemSlug}`;
 }
 

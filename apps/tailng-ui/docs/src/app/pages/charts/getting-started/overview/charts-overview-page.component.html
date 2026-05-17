@@ -1,10 +1,10 @@
 <tng-card variant="outline" padding="lg">
   <tng-card-header>
     <div class="grid gap-1 pb-2">
-      <p class="m-0 text-sm font-semibold uppercase text-tng-accent-brand">@tailng-ui/charts</p>
+      <p class="m-0 text-sm font-semibold uppercase text-tng-accent-brand">&#64;tailng-ui/charts</p>
       <h1 class="m-0 text-3xl font-semibold">Charts</h1>
       <p class="m-0 max-w-3xl text-sm text-tng-fg-secondary md:text-base">
-        TailNG-owned chart wrappers and semi-headless composition for Angular apps that need
+        TailNG-owned chart series and semi-headless composition for Angular apps that need
         predictable APIs, theme-aware rendering, and an Apache ECharts runtime behind the surface.
       </p>
     </div>
@@ -30,11 +30,11 @@
 
       <section class="charts-overview-examples grid gap-4">
         <div class="charts-overview-examples__header">
-          <p class="charts-overview-examples__eyebrow">Wrappers</p>
+          <p class="charts-overview-examples__eyebrow">Chart types</p>
           <h2 class="charts-overview-examples__title">One example per chart type</h2>
           <p class="charts-overview-examples__lead">
-            Each wrapper maps records to field names, generates ECharts options, and resolves theme
-            tokens automatically.
+            Each chart maps records to field names, generates ECharts options, and resolves theme
+            variables automatically.
           </p>
         </div>
 
@@ -42,7 +42,7 @@
           @for (preview of chartPreviews; track preview.slug) {
             <a
               class="charts-demo charts-demo--link"
-              [routerLink]="docHref(preview.docSlug)"
+              [routerLink]="docHref(preview.categorySlug, preview.docSlug)"
               [attr.aria-label]="'Open ' + preview.title + ' chart docs'"
             >
               <div class="charts-demo__header">

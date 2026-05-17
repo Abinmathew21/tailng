@@ -1,0 +1,69 @@
+@if (chart(); as chart) {
+  <article class="chart-doc-section chart-doc-section--overview">
+    <section class="chart-doc-block">
+      <h2 class="chart-doc-section-title">{{ chart.title }}</h2>
+      <p class="chart-doc-section-lead">
+        <code>&lt;{{ chart.selector }}&gt;</code>
+        {{ chart.description }}
+      </p>
+    </section>
+
+    <section id="metadata" class="chart-doc-block">
+      <h3>Chart metadata</h3>
+      <div class="chart-doc-table-wrap">
+        <table class="chart-doc-table">
+          <tbody>
+            <tr>
+              <th scope="row">Category</th>
+              <td>{{ chart.categoryTitle }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Series type</th>
+              <td>
+                <code>{{ chart.seriesType }}</code>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">Coordinate system</th>
+              <td>
+                <code>{{ chart.coordinateSystem }}</code>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">Features</th>
+              <td>{{ featureSummary() }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="imports" class="chart-doc-block">
+      <h3>Imports</h3>
+      <tng-code-block
+        [code]="importCode()"
+        adapter="shiki"
+        language="ts"
+        title="Chart imports"
+        [theme]="codeBlockTheme()"
+        [sanitizeHtml]="false"
+        [wrap]="true"
+        [lineNumbers]="false"
+      />
+    </section>
+
+    <section id="usage" class="chart-doc-block">
+      <h3>Minimal usage</h3>
+      <tng-code-block
+        [code]="usageCode()"
+        adapter="shiki"
+        language="ts"
+        title="Standalone component"
+        [theme]="codeBlockTheme()"
+        [sanitizeHtml]="false"
+        [wrap]="true"
+        [lineNumbers]="false"
+      />
+    </section>
+  </article>
+}

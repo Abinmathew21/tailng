@@ -1,0 +1,18 @@
+<section class="docs-component-page">
+  <app-docs-component-section-tabs
+    [sectionName]="sectionName()"
+    [value]="activeSection()"
+    [tabs]="sectionTabs"
+  />
+
+  <section class="docs-component-content">
+    <div class="docs-component-content-main" #docsContentRoot>
+      <router-outlet />
+    </div>
+    <app-docs-component-section-outline
+      [ariaLabel]="outlineAriaLabel()"
+      [contentRoot]="docsContentRoot"
+      [title]="outlineTitle()"
+    />
+  </section>
+</section>

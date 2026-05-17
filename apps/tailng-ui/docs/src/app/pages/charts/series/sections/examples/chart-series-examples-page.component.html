@@ -1,0 +1,37 @@
+@if (chart(); as chart) {
+  <article class="chart-doc-section">
+    <h2 class="chart-doc-section-title">{{ chart.title }} example</h2>
+    <p class="chart-doc-section-lead">
+      Use the field inputs from the API tab to map your records into the generated
+      <code>{{ chart.seriesType }}</code> option.
+    </p>
+
+    <section id="data-shape" class="chart-doc-block">
+      <h3>Data shape</h3>
+      <tng-code-block
+        [code]="dataCode"
+        adapter="shiki"
+        language="ts"
+        title="Data"
+        [theme]="codeBlockTheme()"
+        [sanitizeHtml]="false"
+        [wrap]="true"
+        [lineNumbers]="false"
+      />
+    </section>
+
+    <section id="template" class="chart-doc-block">
+      <h3>Template</h3>
+      <tng-code-block
+        [code]="templateCode()"
+        adapter="shiki"
+        language="html"
+        title="Template"
+        [theme]="codeBlockTheme()"
+        [sanitizeHtml]="false"
+        [wrap]="true"
+        [lineNumbers]="false"
+      />
+    </section>
+  </article>
+}

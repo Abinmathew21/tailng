@@ -1,5 +1,6 @@
 import type { Routes } from '@angular/router';
 import { DEFAULT_CHARTS_DOCS_SEGMENT } from './chart-docs.data';
+import { CHARTS_SERIES_ROUTES } from './series/routes';
 
 export const CHARTS_ROUTES: Routes = [
   {
@@ -17,11 +18,7 @@ export const CHARTS_ROUTES: Routes = [
         loadChildren: () =>
           import('./getting-started/routes').then((module) => module.CHARTS_GETTING_STARTED_ROUTES),
       },
-      {
-        path: 'wrappers',
-        loadChildren: () =>
-          import('./wrappers/routes').then((module) => module.CHARTS_WRAPPERS_ROUTES),
-      },
+      ...CHARTS_SERIES_ROUTES,
       {
         path: 'composition',
         loadChildren: () =>

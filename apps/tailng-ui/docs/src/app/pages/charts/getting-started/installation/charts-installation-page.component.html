@@ -24,18 +24,30 @@
         </p>
         <p class="m-0">
           Add
-          <code class="font-mono text-xs md:text-sm">@tailng-ui/charts</code>
+          <code class="font-mono text-xs md:text-sm">&#64;tailng-ui/charts</code>
           together with the
           <code class="font-mono text-xs md:text-sm">echarts</code>
           peer dependency. Theme tokens from
-          <code class="font-mono text-xs md:text-sm">@tailng-ui/theme</code>
+          <code class="font-mono text-xs md:text-sm">&#64;tailng-ui/theme</code>
           are recommended when you want charts to follow your app preset.
         </p>
-        <tng-tabs ariaLabel="Package manager install commands" [defaultValue]="'pnpm'" class="grid gap-3">
-          <div tngTabList class="charts-install-tabs-list flex flex-wrap gap-2" ariaLabel="Package manager">
-            <button type="button" tngTab value="pnpm" class="charts-install-tab-trigger">pnpm</button>
+        <tng-tabs
+          ariaLabel="Package manager install commands"
+          [defaultValue]="'pnpm'"
+          class="grid gap-3"
+        >
+          <div
+            tngTabList
+            class="charts-install-tabs-list flex flex-wrap gap-2"
+            ariaLabel="Package manager"
+          >
+            <button type="button" tngTab value="pnpm" class="charts-install-tab-trigger">
+              pnpm
+            </button>
             <button type="button" tngTab value="npm" class="charts-install-tab-trigger">npm</button>
-            <button type="button" tngTab value="yarn" class="charts-install-tab-trigger">yarn</button>
+            <button type="button" tngTab value="yarn" class="charts-install-tab-trigger">
+              yarn
+            </button>
           </div>
           <div tngTabPanel value="pnpm">
             <tng-code-block

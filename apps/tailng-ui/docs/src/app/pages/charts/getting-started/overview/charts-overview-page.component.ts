@@ -47,6 +47,7 @@ type ChartPreviewSlug = 'line' | 'bar' | 'area' | 'pie' | 'scatter' | 'heatmap';
 
 type ChartPreview = Readonly<{
   slug: ChartPreviewSlug;
+  categorySlug: string;
   docSlug: string;
   title: string;
   description: string;
@@ -86,7 +87,7 @@ export class ChartsOverviewPageComponent {
 
   protected readonly capabilities: readonly Capability[] = [
     { label: 'Renderers', value: 'Canvas default, SVG opt-in' },
-    { label: 'Wrappers', value: 'Line, bar, area, pie, scatter, heatmap' },
+    { label: 'Series', value: 'Line, bar, area, pie, scatter, heatmap' },
     { label: 'Composition', value: 'Root, surface, legend context' },
     { label: 'Runtime', value: 'ECharts isolated internally' },
   ];
@@ -94,44 +95,50 @@ export class ChartsOverviewPageComponent {
   protected readonly chartPreviews: readonly ChartPreview[] = [
     {
       slug: 'line',
+      categorySlug: 'line',
       docSlug: 'line-chart',
       title: 'Line',
       description: 'Smoothed trend over categories.',
     },
     {
       slug: 'bar',
+      categorySlug: 'bar',
       docSlug: 'bar-chart',
       title: 'Bar',
       description: 'Grouped comparison with legend toggles.',
     },
     {
       slug: 'area',
+      categorySlug: 'area',
       docSlug: 'area-chart',
       title: 'Area',
       description: 'Filled cumulative or volume emphasis.',
     },
     {
       slug: 'pie',
+      categorySlug: 'pie',
       docSlug: 'pie-chart',
       title: 'Pie',
       description: 'Part-to-whole with donut mode.',
     },
     {
       slug: 'scatter',
+      categorySlug: 'scatter',
       docSlug: 'scatter-chart',
       title: 'Scatter',
       description: 'Correlation with sized symbols.',
     },
     {
       slug: 'heatmap',
+      categorySlug: 'heatmap',
       docSlug: 'heatmap-chart',
       title: 'Heatmap',
       description: 'Matrix intensity by x/y pairs.',
     },
   ];
 
-  protected docHref(docSlug: string): readonly string[] {
-    return ['/charts', 'wrappers', docSlug, 'examples'];
+  protected docHref(categorySlug: string, docSlug: string): readonly string[] {
+    return ['/charts', categorySlug, docSlug, 'examples'];
   }
 
   protected readonly revenueData = CHART_REVENUE_DATA;
