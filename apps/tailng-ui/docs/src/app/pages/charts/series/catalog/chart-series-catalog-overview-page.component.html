@@ -1,0 +1,113 @@
+@if (chart(); as chartConfig) {
+  <article class="chart-pilot-overview">
+    <h2 class="chart-pilot-overview-title">{{ chartConfig.title }} overview</h2>
+    <p class="chart-pilot-overview-lead">
+      <code>&lt;{{ chartConfig.selector }}&gt;</code>
+      {{ chartConfig.description }}
+    </p>
+
+    <app-docs-example-tabs-section
+      class="chart-pilot-overview-block"
+      heading="Simple sample"
+      [description]="
+        'Compare the ' +
+        chartConfig.title +
+        ' preset in its default plain-CSS presentation and in a theme-aware Tailwind shell.'
+      "
+      [ariaLabel]="chartConfig.title + ' overview style examples'"
+      [tabListAriaLabel]="chartConfig.title + ' overview example style variants'"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Simple sample (Plain-CSS)"
+        [codeTabs]="simplePlainCodeTabs()"
+      >
+        <div class="chart-pilot-overview-example-preview">
+          <div class="chart-pilot-overview-example-chart chart-pilot-overview-example-chart--plain">
+            <app-chart-series-catalog-chart
+              [config]="chartConfig"
+              [data]="demoData()"
+              [height]="chartHeight"
+            />
+          </div>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Simple sample (Tailwind CSS)"
+        [codeTabs]="simpleTailwindCodeTabs()"
+      >
+        <div class="chart-pilot-overview-example-preview">
+          <div [class]="tailwindShellClass">
+            <app-chart-series-catalog-chart
+              [config]="chartConfig"
+              [data]="demoData()"
+              [height]="chartHeight"
+            />
+          </div>
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
+
+    <section id="metadata" class="chart-doc-block chart-pilot-overview-block">
+      <h3>Chart metadata</h3>
+      <div class="chart-doc-table-wrap">
+        <table class="chart-doc-table">
+          <tbody>
+            <tr>
+              <th scope="row">Category</th>
+              <td>{{ chartConfig.categoryTitle }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Series type</th>
+              <td><code>{{ chartConfig.seriesType }}</code></td>
+            </tr>
+            <tr>
+              <th scope="row">Coordinate system</th>
+              <td><code>{{ chartConfig.coordinateSystem }}</code></td>
+            </tr>
+            <tr>
+              <th scope="row">Features</th>
+              <td>{{ featureSummary() }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="imports" class="chart-doc-block chart-pilot-overview-block">
+      <h3>Imports</h3>
+      <tng-code-block
+        [code]="importCode()"
+        adapter="shiki"
+        language="ts"
+        title="Chart imports"
+        [theme]="codeBlockTheme()"
+        [sanitizeHtml]="false"
+        [wrap]="true"
+        [lineNumbers]="false"
+      />
+    </section>
+
+    <section id="usage" class="chart-doc-block chart-pilot-overview-block">
+      <h3>Minimal usage</h3>
+      <tng-code-block
+        [code]="usageCode()"
+        adapter="shiki"
+        language="ts"
+        title="Standalone component"
+        [theme]="codeBlockTheme()"
+        [sanitizeHtml]="false"
+        [wrap]="true"
+        [lineNumbers]="false"
+      />
+    </section>
+  </article>
+}

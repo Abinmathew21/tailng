@@ -64,6 +64,12 @@
     "lint": {
       "executor": "@nx/eslint:lint"
     },
+    "sync-search-charts": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node apps/tailng-ui/docs/scripts/sync-charts-search-index.mjs"
+      }
+    },
     "vite:test": {
       "executor": "@nx/vitest:test",
       "outputs": [

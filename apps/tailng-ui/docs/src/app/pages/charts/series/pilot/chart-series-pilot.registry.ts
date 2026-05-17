@@ -67,24 +67,24 @@ const PILOT_SECTION_LOADERS: Readonly<Record<string, ChartSeriesPilotSectionLoad
   },
 };
 
-const GENERIC_OVERVIEW_LOADER = () =>
-  import('../sections/overview/chart-series-overview-page.component').then(
-    (module) => module.ChartSeriesOverviewPageComponent,
+const CATALOG_OVERVIEW_LOADER = () =>
+  import('../catalog/chart-series-catalog-overview-page.component').then(
+    (module) => module.ChartSeriesCatalogOverviewPageComponent,
   );
 
-const GENERIC_API_LOADER = () =>
-  import('../sections/api/chart-series-api-page.component').then(
-    (module) => module.ChartSeriesApiPageComponent,
+const CATALOG_API_LOADER = () =>
+  import('../catalog/chart-series-catalog-api-page.component').then(
+    (module) => module.ChartSeriesCatalogApiPageComponent,
   );
 
-const GENERIC_STYLING_LOADER = () =>
-  import('../sections/styling/chart-series-styling-page.component').then(
-    (module) => module.ChartSeriesStylingPageComponent,
+const CATALOG_STYLING_LOADER = () =>
+  import('../catalog/chart-series-catalog-styling-page.component').then(
+    (module) => module.ChartSeriesCatalogStylingPageComponent,
   );
 
-const GENERIC_EXAMPLES_LOADER = () =>
-  import('../sections/examples/chart-series-examples-page.component').then(
-    (module) => module.ChartSeriesExamplesPageComponent,
+const CATALOG_EXAMPLES_LOADER = () =>
+  import('../catalog/chart-series-catalog-examples-page.component').then(
+    (module) => module.ChartSeriesCatalogExamplesPageComponent,
   );
 
 function resolvePilotKey(categoryId: string, slug: string): string {
@@ -105,11 +105,11 @@ export function isChartSeriesPilotChart(categoryId: string, slug: string): boole
 function buildPilotSectionRoute(
   path: string,
   pilotLoader: ChartSeriesPilotSectionLoader | undefined,
-  genericLoader: ChartSeriesPilotSectionLoader,
+  catalogLoader: ChartSeriesPilotSectionLoader,
 ): Routes[number] {
   return {
     path,
-    loadComponent: pilotLoader ?? genericLoader,
+    loadComponent: pilotLoader ?? catalogLoader,
   };
 }
 
@@ -120,9 +120,9 @@ export function buildChartSeriesPilotChildRoutes(
   const pilot = resolvePilotLoaders(categoryId, slug);
 
   return [
-    buildPilotSectionRoute('overview', pilot?.overview, GENERIC_OVERVIEW_LOADER),
-    buildPilotSectionRoute('api', pilot?.api, GENERIC_API_LOADER),
-    buildPilotSectionRoute('styling', pilot?.styling, GENERIC_STYLING_LOADER),
-    buildPilotSectionRoute('examples', pilot?.examples, GENERIC_EXAMPLES_LOADER),
+    buildPilotSectionRoute('overview', pilot?.overview, CATALOG_OVERVIEW_LOADER),
+    buildPilotSectionRoute('api', pilot?.api, CATALOG_API_LOADER),
+    buildPilotSectionRoute('styling', pilot?.styling, CATALOG_STYLING_LOADER),
+    buildPilotSectionRoute('examples', pilot?.examples, CATALOG_EXAMPLES_LOADER),
   ];
 }

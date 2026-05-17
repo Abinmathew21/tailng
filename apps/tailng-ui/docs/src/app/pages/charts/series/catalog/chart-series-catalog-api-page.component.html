@@ -1,9 +1,12 @@
-@if (chart(); as chart) {
+@if (chart(); as chartConfig) {
   <article class="chart-doc-section">
     <h2 class="chart-doc-section-title">API reference</h2>
     <p class="chart-doc-section-lead">
-      <code>&lt;{{ chart.selector }}&gt;</code>
-      maps records into a generated ECharts <code>{{ chart.seriesType }}</code> option.
+      <code>&lt;{{ chartConfig.selector }}&gt;</code>
+      maps records into a generated ECharts <code>{{ chartConfig.seriesType }}</code> option.
+      @if (chartConfig.usageAttributes) {
+        Bind <code>{{ chartConfig.usageAttributes }}</code> to the columns in your data.
+      }
     </p>
 
     <section id="field-inputs" class="chart-doc-block">
@@ -21,15 +24,9 @@
           <tbody>
             @for (row of fieldInputs(); track row.name) {
               <tr>
-                <td>
-                  <code>{{ row.name }}</code>
-                </td>
-                <td>
-                  <code>{{ row.type }}</code>
-                </td>
-                <td>
-                  <code>{{ row.defaultValue }}</code>
-                </td>
+                <td><code>{{ row.name }}</code></td>
+                <td><code>{{ row.type }}</code></td>
+                <td><code>{{ row.defaultValue }}</code></td>
                 <td>{{ row.notes }}</td>
               </tr>
             }
@@ -53,15 +50,9 @@
           <tbody>
             @for (row of sharedInputs; track row.name) {
               <tr>
-                <td>
-                  <code>{{ row.name }}</code>
-                </td>
-                <td>
-                  <code>{{ row.type }}</code>
-                </td>
-                <td>
-                  <code>{{ row.defaultValue }}</code>
-                </td>
+                <td><code>{{ row.name }}</code></td>
+                <td><code>{{ row.type }}</code></td>
+                <td><code>{{ row.defaultValue }}</code></td>
                 <td>{{ row.notes }}</td>
               </tr>
             }
