@@ -77,3 +77,37 @@
   min-width: 0;
   padding: 1rem;
 }
+
+.chart-doc-section--overview {
+  gap: 1.25rem;
+}
+
+.chart-overview-hero {
+  display: grid;
+  gap: 1rem;
+  min-height: 0;
+}
+
+.chart-overview-hero__intro {
+  display: grid;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.chart-overview-hero__preview {
+  min-height: clamp(12rem, 34vh, 20rem);
+}
+
+@media (min-width: 900px) {
+  .chart-overview-hero {
+    align-items: center;
+    gap: 1.25rem;
+    grid-template-columns: minmax(0, 0.42fr) minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 899px) {
+  .chart-overview-hero__preview {
+    order: -1;
+  }
+}

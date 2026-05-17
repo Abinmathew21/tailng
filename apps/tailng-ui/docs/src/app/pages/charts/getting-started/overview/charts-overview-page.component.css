@@ -1,13 +1,5 @@
-.charts-overview-layout {
-  display: grid;
-  gap: 1.5rem;
-}
-
-@media (min-width: 768px) {
-  .charts-overview-layout {
-    align-items: center;
-    grid-template-columns: minmax(0, 0.92fr) minmax(280px, 1.08fr);
-  }
+.charts-overview {
+  color: var(--tng-semantic-foreground-primary);
 }
 
 .charts-capability-grid {
@@ -38,6 +30,89 @@
   line-height: 1.35;
 }
 
-.charts-overview-chart {
+.charts-overview-examples__header {
+  display: grid;
+  gap: 0.35rem;
+  max-width: 48rem;
+}
+
+.charts-overview-examples__eyebrow {
+  color: var(--tng-semantic-accent-brand);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.charts-overview-examples__title {
+  font-size: 1.45rem;
+  font-weight: 650;
+  margin: 0;
+}
+
+.charts-overview-examples__lead {
+  color: var(--tng-semantic-foreground-secondary);
+  line-height: 1.65;
+  margin: 0;
+}
+
+.charts-demo-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.charts-demo {
+  background: var(--tng-semantic-background-base);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.5rem;
+  display: grid;
+  gap: 1rem;
   min-width: 0;
+  padding: 1rem;
+}
+
+.charts-demo--link {
+  color: inherit;
+  cursor: pointer;
+  text-decoration: none;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.charts-demo--link:hover {
+  border-color: var(--tng-semantic-accent-brand);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--tng-semantic-accent-brand) 35%, transparent);
+}
+
+.charts-demo--link:focus-visible {
+  box-shadow: inset 0 0 0 1px var(--tng-semantic-focus-ring);
+  outline: none;
+}
+
+.charts-demo__header {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.charts-demo__header h3 {
+  font-size: 1rem;
+  font-weight: 650;
+  margin: 0;
+}
+
+.charts-demo__header p {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.9rem;
+  line-height: 1.45;
+  margin: 0;
+}
+
+.charts-demo__cta {
+  color: var(--tng-semantic-accent-brand);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  margin-top: 0.15rem;
 }

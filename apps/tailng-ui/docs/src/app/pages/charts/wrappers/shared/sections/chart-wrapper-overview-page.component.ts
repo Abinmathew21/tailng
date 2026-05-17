@@ -5,6 +5,7 @@ import { NavigationEnd, Router } from '@angular/router';
 import { TngCodeBlockComponent } from '@tailng-ui/components';
 import { filter, map, startWith } from 'rxjs/operators';
 import { observeDocsCodeThemeChanges, resolveDocsCodeBlockTheme } from '../../../../../shared/util';
+import { ChartWrapperLiveDemoComponent } from '../chart-wrapper-live-demo.component';
 import {
   resolveChartWrapperDocConfig,
   type ChartWrapperDocConfig,
@@ -13,11 +14,14 @@ import { resolveChartWrapperSlugFromUrl } from '../chart-wrapper-route.util';
 
 @Component({
   selector: 'app-chart-wrapper-overview-page',
-  imports: [TngCodeBlockComponent],
+  imports: [TngCodeBlockComponent, ChartWrapperLiveDemoComponent],
   templateUrl: './chart-wrapper-overview-page.component.html',
   styleUrl: './chart-doc-section.css',
 })
 export class ChartWrapperOverviewPageComponent implements OnDestroy {
+  /** Sized to stay above the fold below docs chrome (header, breadcrumb, tabs). */
+  protected readonly heroChartHeight = 280;
+
   private readonly router = inject(Router);
   private readonly documentRef = inject(DOCUMENT);
   private readonly currentUrl = toSignal(
