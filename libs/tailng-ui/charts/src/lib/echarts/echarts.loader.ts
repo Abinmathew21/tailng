@@ -1,10 +1,50 @@
-import type { TngChartRuntime, TngChartRuntimeLoader } from './chart.types';
+import type { TngChartRuntime, TngChartRuntimeLoader } from '../core/chart.types';
 
 type TngRuntimeModuleLoader = () => Promise<unknown>;
 
+let hasRegisteredTngChartModules = false;
+
+async function loadTngEchartsCoreRuntime(): Promise<unknown> {
+  const [core, charts, components, features, renderers] = await Promise.all([
+    import('echarts/core'),
+    import('echarts/charts'),
+    import('echarts/components'),
+    import('echarts/features'),
+    import('echarts/renderers'),
+  ]);
+
+  const runtime = resolveTngEchartsModule(core);
+  if (runtime === null) {
+    return core;
+  }
+
+  if (!hasRegisteredTngChartModules) {
+    runtime.use?.([
+      charts.LineChart,
+      charts.BarChart,
+      charts.PieChart,
+      charts.ScatterChart,
+      charts.HeatmapChart,
+      components.GridComponent,
+      components.TooltipComponent,
+      components.LegendComponent,
+      components.DatasetComponent,
+      components.TransformComponent,
+      components.VisualMapComponent,
+      components.TitleComponent,
+      features.LabelLayout,
+      features.UniversalTransition,
+      renderers.CanvasRenderer,
+      renderers.SVGRenderer,
+    ]);
+    hasRegisteredTngChartModules = true;
+  }
+
+  return runtime;
+}
+
 const runtimeModuleLoaders: readonly TngRuntimeModuleLoader[] = Object.freeze([
-  async (): Promise<unknown> => import('echarts'),
-  async (): Promise<unknown> => import('echarts/core'),
+  loadTngEchartsCoreRuntime,
 ]);
 
 function hasInitMethod(candidate: unknown): candidate is Pick<TngChartRuntime, 'init'> {

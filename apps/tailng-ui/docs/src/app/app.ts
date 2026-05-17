@@ -159,6 +159,7 @@ function writeStorageValue(storage: Storage | null, key: string, value: string):
 
 const primaryNavigation: readonly NavItem[] = [
   { label: 'Components', route: '/components' },
+  { label: 'Charts', route: '/charts' },
   { label: 'Ownable', route: '/ownable' },
   { label: 'Headless', route: '/headless' },
   { label: 'CDK', route: '/cdk' },
@@ -168,6 +169,7 @@ const primaryNavigation: readonly NavItem[] = [
 
 const npmPackageLinks: readonly LinkItem[] = [
   { label: '@tailng-ui/cdk', href: 'https://www.npmjs.com/package/@tailng-ui/cdk' },
+  { label: '@tailng-ui/charts', href: 'https://www.npmjs.com/package/@tailng-ui/charts' },
   { label: '@tailng-ui/primitives', href: 'https://www.npmjs.com/package/@tailng-ui/primitives' },
   { label: '@tailng-ui/components', href: 'https://www.npmjs.com/package/@tailng-ui/components' },
   { label: '@tailng-ui/registry', href: 'https://www.npmjs.com/package/@tailng-ui/registry' },

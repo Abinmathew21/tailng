@@ -3653,5 +3653,20 @@
       "workflow",
       "workflow"
     ]
+  },
+  {
+    "title": "Charts",
+    "description": "TailNG chart wrappers, live examples, and semi-headless chart composition.",
+    "section": "Charts",
+    "url": "/charts",
+    "tags": [
+      "charts",
+      "echarts",
+      "line",
+      "bar",
+      "pie",
+      "scatter",
+      "area"
+    ]
   }
 ]

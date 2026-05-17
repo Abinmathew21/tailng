@@ -1,0 +1,176 @@
+<article class="charts-page grid gap-8 py-8">
+  <section class="charts-hero grid gap-6 overflow-hidden py-8 md:grid-cols-[minmax(0,0.92fr)_minmax(320px,1.08fr)]">
+    <div class="charts-hero__copy flex flex-col justify-center gap-5">
+      <div class="grid gap-3">
+        <p class="m-0 text-sm font-semibold uppercase text-tng-accent-brand">
+          @tailng-ui/charts
+        </p>
+        <h1 class="m-0 text-4xl font-semibold tracking-normal text-tng-fg-primary md:text-5xl">
+          Charts
+        </h1>
+        <p class="m-0 max-w-2xl text-base leading-7 text-tng-fg-secondary">
+          TailNG-owned chart wrappers and semi-headless composition for Angular apps that need
+          predictable APIs, theme-aware rendering, and an Apache ECharts runtime behind the surface.
+        </p>
+      </div>
+
+      <div class="charts-capability-grid">
+        @for (capability of capabilities; track capability.label) {
+          <div class="charts-capability">
+            <span class="charts-capability__label">{{ capability.label }}</span>
+            <span class="charts-capability__value">{{ capability.value }}</span>
+          </div>
+        }
+      </div>
+    </div>
+
+    <div class="charts-hero__chart">
+      <tng-area-chart
+        [data]="revenueData"
+        [height]="320"
+        xField="quarter"
+        yField="revenue"
+        smooth
+      />
+    </div>
+  </section>
+
+  <section id="install" class="charts-section grid gap-4">
+    <div class="charts-section__header">
+      <p class="charts-section__eyebrow">Install</p>
+      <h2>Package setup</h2>
+      <p>
+        Install the TailNG chart package with ECharts. The renderer runtime is loaded internally,
+        while the public API stays TailNG-owned.
+      </p>
+    </div>
+
+    <pre class="charts-code"><code>{{ installCode }}</code></pre>
+  </section>
+
+  <section id="live-examples" class="charts-section grid gap-4">
+    <div class="charts-section__header">
+      <p class="charts-section__eyebrow">Examples</p>
+      <h2>Chart wrappers</h2>
+      <p>
+        Use the wrapper components for everyday charts. They manage option generation, legend
+        state, empty/loading surfaces, renderer selection, theme resolution, and events.
+      </p>
+    </div>
+
+    <div class="charts-demo-grid">
+      <section class="charts-demo">
+        <div class="charts-demo__header">
+          <h3>Revenue Trend</h3>
+          <p>Line chart with smoothed category data.</p>
+        </div>
+        <tng-line-chart
+          [data]="revenueData"
+          [height]="260"
+          xField="quarter"
+          yField="revenue"
+          smooth
+        />
+      </section>
+
+      <section class="charts-demo">
+        <div class="charts-demo__header">
+          <h3>Regional Activity</h3>
+          <p>Grouped bar chart with context-driven legend toggles.</p>
+        </div>
+        <tng-bar-chart
+          [data]="regionData"
+          [height]="260"
+          [series]="regionSeries"
+          xField="region"
+        />
+      </section>
+
+      <section class="charts-demo">
+        <div class="charts-demo__header">
+          <h3>Product Mix</h3>
+          <p>Donut pie chart for part-to-whole data.</p>
+        </div>
+        <tng-pie-chart
+          [data]="productMixData"
+          [height]="260"
+          nameField="category"
+          valueField="value"
+          donut
+        />
+      </section>
+
+      <section class="charts-demo">
+        <div class="charts-demo__header">
+          <h3>Engagement Shape</h3>
+          <p>Scatter chart with data-driven symbol sizing.</p>
+        </div>
+        <tng-scatter-chart
+          [data]="engagementData"
+          [height]="260"
+          xField="visits"
+          yField="conversion"
+          sizeField="volume"
+        />
+      </section>
+    </div>
+  </section>
+
+  <section id="usage" class="charts-section grid gap-4">
+    <div class="charts-section__header">
+      <p class="charts-section__eyebrow">Usage</p>
+      <h2>Wrapper import</h2>
+      <p>
+        Import the chart component you need into a standalone Angular component and pass field names
+        that map to records in your data array.
+      </p>
+    </div>
+
+    <pre class="charts-code"><code>{{ wrapperCode }}</code></pre>
+  </section>
+
+  <section id="composition" class="charts-section grid gap-4">
+    <div class="charts-section__header">
+      <p class="charts-section__eyebrow">Composition</p>
+      <h2>Semi-headless surface</h2>
+      <p>
+        Compose `tng-chart-root`, `tng-chart-surface`, and `tng-chart-legend` when you want to own
+        the surrounding layout while reusing TailNG chart state and renderer isolation.
+      </p>
+    </div>
+
+    <pre class="charts-code"><code>{{ headlessCode }}</code></pre>
+  </section>
+
+  <section id="api" class="charts-section grid gap-4">
+    <div class="charts-section__header">
+      <p class="charts-section__eyebrow">Reference</p>
+      <h2>Chart components</h2>
+      <p>
+        All wrappers support `height`, `legend`, `loading`, `merge`, `renderer`, `runtimeLoader`,
+        `theme`, `optionOverride`, and normalized chart events.
+      </p>
+    </div>
+
+    <div class="charts-table-wrap">
+      <table class="charts-table">
+        <thead>
+          <tr>
+            <th>Component</th>
+            <th>Required fields</th>
+            <th>Use case</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of apiRows; track row.name) {
+            <tr>
+              <td><code>{{ row.name }}</code></td>
+              <td>{{ row.required }}</td>
+              <td>{{ row.useCase }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+</article>
