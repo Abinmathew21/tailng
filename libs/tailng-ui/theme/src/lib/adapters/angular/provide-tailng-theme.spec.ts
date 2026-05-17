@@ -1,8 +1,8 @@
 import { describe, expect, it, vi } from 'vitest';
+import { applyTailngTheme, TAILNG_THEME_CHANGE_EVENT } from './provide-tailng-theme';
 import { createTheme } from '../../engine/create-theme';
 import { defaultThemePreset } from '../../presets/default.preset';
 import { darkSemanticTokens } from '../../tokens/semantic/dark';
-import { applyTailngTheme } from './provide-tailng-theme';
 
 function createTargetSpy(): Readonly<{
   setPropertySpy: ReturnType<typeof vi.fn>;
@@ -50,5 +50,22 @@ describe('applyTailngTheme', () => {
 
     const keys = setPropertySpy.mock.calls.map((entry) => entry[0] as string);
     expect(keys).not.toContain('color-scheme');
+  });
+
+  it('dispatches a theme change event after writing variables', () => {
+    const { target } = createTargetSpy();
+    const listener = vi.fn();
+
+    globalThis.addEventListener(TAILNG_THEME_CHANGE_EVENT, listener);
+    applyTailngTheme(defaultThemePreset, { target });
+    globalThis.removeEventListener(TAILNG_THEME_CHANGE_EVENT, listener);
+
+    const event = listener.mock.calls[0]?.[0] as CustomEvent | undefined;
+
+    expect(listener).toHaveBeenCalledTimes(1);
+    expect(event?.detail).toEqual({
+      mode: defaultThemePreset.meta.mode,
+      name: defaultThemePreset.meta.name,
+    });
   });
 });

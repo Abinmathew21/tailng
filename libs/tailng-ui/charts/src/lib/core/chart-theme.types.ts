@@ -1,13 +1,23 @@
 export type TngChartResolvedTheme = Readonly<{
+  axisLabelColor: string;
+  axisLineColor: string;
   backgroundColor: string;
   borderColor: string;
   dangerColor: string;
   foregroundColor: string;
+  gridLineColor: string;
+  heatmapHighColor: string;
+  heatmapLowColor: string;
+  heatmapMidColor: string;
   infoColor: string;
   mutedColor: string;
+  mutedTextColor: string;
   palette: readonly string[];
   primaryColor: string;
   successColor: string;
   surfaceColor: string;
+  textColor: string;
+  tooltipBackgroundColor: string;
+  tooltipBorderColor: string;
   warningColor: string;
 }>;

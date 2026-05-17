@@ -51,12 +51,14 @@ export type { CssVarAdapterOptions } from './lib/adapters/css-vars/to-css-vars';
 export { toCssVars } from './lib/adapters/css-vars/to-css-vars';
 export { injectThemeVars } from './lib/adapters/css-vars/inject-theme-vars';
 export type {
+  TailngThemeChangeEventDetail,
   TailngThemeProviderOptions,
   TailngThemeRuntimeOptions,
 } from './lib/adapters/angular/provide-tailng-theme';
 export {
   applyTailngTheme,
   provideTailngTheme,
+  TAILNG_THEME_CHANGE_EVENT,
 } from './lib/adapters/angular/provide-tailng-theme';
 
 export type { TailwindThemePreset } from './lib/adapters/tailwind/to-tailwind-preset';

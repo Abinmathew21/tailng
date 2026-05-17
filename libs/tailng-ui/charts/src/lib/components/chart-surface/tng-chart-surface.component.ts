@@ -10,6 +10,8 @@ import {
 } from '@angular/core';
 import type { AfterViewInit, ElementRef, OnDestroy } from '@angular/core';
 import { TNG_CHART_CONTEXT } from '../../core/chart-context';
+import { resolveTngChartTheme } from '../../core/chart-theme';
+import { TNG_CHART_THEME_CHANGE_EVENT } from '../../core/chart-theme-events';
 import type {
   TngChartHeight,
   TngChartInitOptions,
@@ -24,7 +26,6 @@ import type {
 import { resolveTngChartHeight } from '../../core/chart.utils';
 import { createTngChartPointEvent } from '../../echarts/echarts-event.adapter';
 import { createTngEchartsOption } from '../../echarts/echarts-option.factory';
-import { resolveTngEchartsTheme } from '../../echarts/echarts-theme.factory';
 import { loadTngEchartsRuntime } from '../../echarts/echarts.loader';
 
 function booleanAttributeOrNull(value: boolean | string | null): boolean | null {
@@ -92,6 +93,7 @@ export class TngChartSurfaceComponent implements AfterViewInit, OnDestroy {
   private hoverHandler: ((event: unknown) => void) | null = null;
   private resizeFrameId: number | null = null;
   private resizeObserver: ResizeObserver | null = null;
+  private themeChangeHandler: (() => void) | null = null;
   private activeRenderer: TngChartRenderer | null = null;
   private readonly hasResizeObserverApi = typeof ResizeObserver !== 'undefined';
 
@@ -153,6 +155,7 @@ export class TngChartSurfaceComponent implements AfterViewInit, OnDestroy {
   });
 
   public ngAfterViewInit(): void {
+    this.listenForThemeChanges();
     void this.initializeChart();
   }
 
@@ -161,6 +164,7 @@ export class TngChartSurfaceComponent implements AfterViewInit, OnDestroy {
     this.syncLoadingEffect.destroy();
     this.syncResizeEffect.destroy();
     this.syncRendererEffect.destroy();
+    this.stopListeningForThemeChanges();
     this.disconnectResizeObserver();
     this.disposeChart();
   }
@@ -211,7 +215,7 @@ export class TngChartSurfaceComponent implements AfterViewInit, OnDestroy {
   }
 
   private createThemedOption(option: TngChartOption): TngChartOption {
-    return createTngEchartsOption(option, resolveTngEchartsTheme(this.hostRef()?.nativeElement));
+    return createTngEchartsOption(option, resolveTngChartTheme(this.hostRef()?.nativeElement));
   }
 
   private detachPointEvents(): void {
@@ -275,6 +279,29 @@ export class TngChartSurfaceComponent implements AfterViewInit, OnDestroy {
     }
   }
 
+  private listenForThemeChanges(): void {
+    if (
+      this.themeChangeHandler !== null ||
+      typeof globalThis.addEventListener !== 'function'
+    ) {
+      return;
+    }
+
+    this.themeChangeHandler = (): void => {
+      this.refreshTheme();
+    };
+
+    globalThis.addEventListener(TNG_CHART_THEME_CHANGE_EVENT, this.themeChangeHandler);
+  }
+
+  private refreshTheme(): void {
+    this.applyOption(this.resolvedOption(), this.resolvedMerge(), this.resolvedLazyUpdate());
+
+    if (this.chart !== null) {
+      this.scheduleResize(this.chart);
+    }
+  }
+
   private initChart(runtime: TngChartRuntime): TngChartInstance {
     const hostElement = this.hostRef()?.nativeElement;
     if (hostElement === undefined) {
@@ -322,6 +349,19 @@ export class TngChartSurfaceComponent implements AfterViewInit, OnDestroy {
     }
 
     this.chart.hideLoading?.();
+  }
+
+  private stopListeningForThemeChanges(): void {
+    if (
+      this.themeChangeHandler === null ||
+      typeof globalThis.removeEventListener !== 'function'
+    ) {
+      this.themeChangeHandler = null;
+      return;
+    }
+
+    globalThis.removeEventListener(TNG_CHART_THEME_CHANGE_EVENT, this.themeChangeHandler);
+    this.themeChangeHandler = null;
   }
 
   private toErrorMessage(error: unknown): string {

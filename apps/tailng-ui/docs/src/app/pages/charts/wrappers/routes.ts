@@ -1,8 +1,5 @@
 import type { Routes } from '@angular/router';
-import {
-  CHARTS_WRAPPERS_GROUP,
-  toChartsDocsRouteData,
-} from '../chart-docs.data';
+import { CHARTS_WRAPPERS_GROUP, toChartsDocsRouteData } from '../chart-docs.data';
 
 const group = CHARTS_WRAPPERS_GROUP;
 const defaultItem = group.items[0];
@@ -42,6 +39,13 @@ function wrapperRoutes(itemSlug: string): Routes {
           loadComponent: () =>
             import('./shared/sections/chart-wrapper-api-page.component').then(
               (module) => module.ChartWrapperApiPageComponent,
+            ),
+        },
+        {
+          path: 'styling',
+          loadComponent: () =>
+            import('./shared/sections/chart-wrapper-styling-page.component').then(
+              (module) => module.ChartWrapperStylingPageComponent,
             ),
         },
         {

@@ -6,13 +6,15 @@ import {
   DocsComponentSectionTabsComponent,
   type DocsComponentSectionTab,
 } from '../../../../shared/component-section-tabs/docs-component-section-tabs.component';
+import { DocsComponentSectionOutlineComponent } from '../../../../shared/section-outline/docs-component-section-outline.component';
 import type { ChartsDocsRouteData } from '../../chart-docs.data';
 
-type ChartWrapperDocSectionId = 'api' | 'examples' | 'overview';
+type ChartWrapperDocSectionId = 'api' | 'examples' | 'overview' | 'styling';
 
 const chartWrapperDocSectionIds: readonly ChartWrapperDocSectionId[] = [
   'overview',
   'api',
+  'styling',
   'examples',
 ] as const;
 
@@ -21,6 +23,7 @@ const defaultChartWrapperDocSection: ChartWrapperDocSectionId = 'overview';
 const chartSectionTabs: readonly DocsComponentSectionTab[] = [
   { value: 'overview', label: 'Overview' },
   { value: 'api', label: 'API' },
+  { value: 'styling', label: 'Styling' },
   { value: 'examples', label: 'Examples' },
 ] as const;
 
@@ -30,7 +33,7 @@ function isChartWrapperDocSectionId(value: string): value is ChartWrapperDocSect
 
 @Component({
   selector: 'app-chart-wrapper-page',
-  imports: [RouterOutlet, DocsComponentSectionTabsComponent],
+  imports: [RouterOutlet, DocsComponentSectionTabsComponent, DocsComponentSectionOutlineComponent],
   templateUrl: './chart-wrapper-page.component.html',
 })
 export class ChartWrapperPageComponent {
@@ -54,6 +57,21 @@ export class ChartWrapperPageComponent {
 
   private readonly docsItem = this.route.snapshot.data as ChartsDocsRouteData | undefined;
   public readonly docsItemTitle = this.docsItem?.item.title ?? 'Chart';
+  public readonly outlineTitle = computed(() => {
+    switch (this.activeSection()) {
+      case 'api':
+        return 'API content';
+      case 'examples':
+        return 'Examples content';
+      case 'styling':
+        return 'Styling content';
+      case 'overview':
+        return 'Overview content';
+    }
+  });
+  public readonly outlineAriaLabel = computed(() => {
+    return `${this.docsItemTitle} ${this.activeSection()} page sections`;
+  });
 
   private resolveSectionFromUrl(rawUrl: string): ChartWrapperDocSectionId | null {
     const path = this.normalizeUrl(rawUrl);

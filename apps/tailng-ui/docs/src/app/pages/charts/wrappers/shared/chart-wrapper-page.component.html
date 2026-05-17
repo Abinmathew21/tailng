@@ -6,8 +6,13 @@
   />
 
   <section class="docs-component-content">
-    <div class="docs-component-content-main">
+    <div class="docs-component-content-main" #docsContentRoot>
       <router-outlet />
     </div>
+    <app-docs-component-section-outline
+      [ariaLabel]="outlineAriaLabel()"
+      [contentRoot]="docsContentRoot"
+      [title]="outlineTitle()"
+    />
   </section>
 </section>

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { describe, expect, it, vi } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import {
   resolveTngChartNotMerge,
   resolveTngChartRenderer,
@@ -10,6 +10,7 @@ import {
 } from './tng-chart-surface.component';
 import type { TngChartOptionFactory } from '../../core/chart-context';
 import type { TngChartLegendItem } from '../../core/chart-series.types';
+import { TNG_CHART_THEME_CHANGE_EVENT } from '../../core/chart-theme-events';
 import type { TngChartInstance, TngChartOption } from '../../core/chart.types';
 import { TngChartRootComponent } from '../chart-root/tng-chart-root.component';
 import { TngChartLegendComponent } from '../legend/tng-chart-legend.component';
@@ -61,6 +62,10 @@ async function flushChartSurfaceEffects(): Promise<void> {
 }
 
 describe('tng-chart-surface component', () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
   it('exports the chart surface component', () => {
     expect(typeof TngChartSurfaceComponent).toBe('function');
   });
@@ -111,5 +116,39 @@ describe('tng-chart-surface component', () => {
     expect(fixture.componentInstance.init).toHaveBeenCalledTimes(1);
     expect(setOption).toHaveBeenCalledTimes(2);
     expect(lastOption['hiddenSeries']).toEqual(['revenue']);
+  });
+
+  it('refreshes TailNG theme colors without recreating the ECharts instance', async () => {
+    let values: Record<string, string> = {
+      '--tng-semantic-accent-brand': '#2563eb',
+    };
+
+    vi.spyOn(globalThis, 'getComputedStyle').mockReturnValue({
+      getPropertyValue: (name: string): string => values[name] ?? '',
+    } as CSSStyleDeclaration);
+
+    const fixture = TestBed.configureTestingModule({
+      imports: [ChartSurfaceContextHostComponent],
+    }).createComponent(ChartSurfaceContextHostComponent);
+
+    fixture.detectChanges();
+    await fixture.whenStable();
+    await flushChartSurfaceEffects();
+
+    const setOption = vi.mocked(fixture.componentInstance.chart.setOption);
+    const firstOption = setOption.mock.calls.at(-1)?.[0] as Readonly<Record<string, unknown>>;
+
+    values = {
+      '--tng-semantic-accent-brand': '#7c3aed',
+    };
+    globalThis.dispatchEvent(new Event(TNG_CHART_THEME_CHANGE_EVENT));
+    await flushChartSurfaceEffects();
+
+    const lastOption = setOption.mock.calls.at(-1)?.[0] as Readonly<Record<string, unknown>>;
+
+    expect(fixture.componentInstance.init).toHaveBeenCalledTimes(1);
+    expect(setOption).toHaveBeenCalledTimes(2);
+    expect(firstOption['color']).toEqual(expect.arrayContaining(['#2563eb']));
+    expect(lastOption['color']).toEqual(expect.arrayContaining(['#7c3aed']));
   });
 });

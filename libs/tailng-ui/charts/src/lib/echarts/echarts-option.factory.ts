@@ -1,3 +1,4 @@
+import { createTngEchartsThemeOption } from './echarts-theme';
 import type { TngChartResolvedTheme } from '../core/chart-theme.types';
 import type { TngChartOption } from '../core/chart.types';
 
@@ -13,7 +14,18 @@ function mergeOptionValue(base: unknown, override: unknown): unknown {
   }
 
   if (Array.isArray(base) && Array.isArray(override)) {
-    return override.map((overrideItem, index) => mergeOptionValue(base[index], overrideItem));
+    const baseItems = base as readonly unknown[];
+    const overrideItems = override as readonly unknown[];
+
+    return overrideItems.map((overrideItem, index) => mergeOptionValue(baseItems[index], overrideItem));
+  }
+
+  if (isRecord(base) && Array.isArray(override)) {
+    const overrideItems = override as readonly unknown[];
+
+    return overrideItems.map((overrideItem) =>
+      isRecord(overrideItem) ? mergeOptionRecords(base, overrideItem) : overrideItem,
+    );
   }
 
   if (isRecord(base) && isRecord(override)) {
@@ -21,34 +33,6 @@ function mergeOptionValue(base: unknown, override: unknown): unknown {
   }
 
   return override;
-}
-
-function createTngAxisThemeOption(theme: TngChartResolvedTheme): Readonly<Record<string, unknown>> {
-  return {
-    axisLabel: {
-      color: theme.mutedColor,
-    },
-    axisLine: {
-      lineStyle: {
-        color: theme.borderColor,
-      },
-    },
-    splitLine: {
-      lineStyle: {
-        color: theme.borderColor,
-      },
-    },
-  };
-}
-
-function createTngTooltipThemeOption(theme: TngChartResolvedTheme): Readonly<Record<string, unknown>> {
-  return {
-    backgroundColor: theme.surfaceColor,
-    borderColor: theme.borderColor,
-    textStyle: {
-      color: theme.foregroundColor,
-    },
-  };
 }
 
 export function mergeOptionRecords(
@@ -63,28 +47,7 @@ export function mergeOptionRecords(
 
   return merged;
 }
-
-export function createTngEchartsThemeOption(theme: TngChartResolvedTheme): TngChartOption {
-  return {
-    backgroundColor: 'transparent',
-    color: [...theme.palette],
-    textStyle: {
-      color: theme.foregroundColor,
-      fontFamily: 'inherit',
-    },
-    tooltip: createTngTooltipThemeOption(theme),
-    visualMap: {
-      inRange: {
-        color: [theme.surfaceColor, theme.infoColor, theme.primaryColor],
-      },
-      textStyle: {
-        color: theme.mutedColor,
-      },
-    },
-    xAxis: createTngAxisThemeOption(theme),
-    yAxis: createTngAxisThemeOption(theme),
-  } as TngChartOption;
-}
+export { createTngEchartsThemeOption };
 
 export function createTngEchartsOption(
   option: TngChartOption,
