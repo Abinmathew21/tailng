@@ -1,0 +1,19 @@
+import type { TngChartOption } from '../../../core/chart.types';
+import type { TngCatalogChartOptionInput } from '../../catalog/catalog-chart.types';
+import { createTngCatalogChartOption, defineTngCatalogChartPreset } from '../../catalog/catalog-option.factory';
+
+export const TNG_HALF_DONUT_CHART_PRESET = defineTngCatalogChartPreset({
+  category: "Pie",
+  coordinateSystem: "none",
+  features: ["half","ring"],
+  name: "Half Donut",
+  selector: "tng-half-donut-chart",
+  seriesType: "pie",
+  slug: "half-donut",
+});
+
+export type TngHalfDonutChartOptionInput = TngCatalogChartOptionInput;
+
+export function createTngHalfDonutChartOption(input: TngHalfDonutChartOptionInput): TngChartOption {
+  return createTngCatalogChartOption(input, TNG_HALF_DONUT_CHART_PRESET);
+}

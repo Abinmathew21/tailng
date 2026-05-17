@@ -2,7 +2,120 @@ import type { TngChartRuntime, TngChartRuntimeLoader } from '../core/chart.types
 
 type TngRuntimeModuleLoader = () => Promise<unknown>;
 
+type TngEchartsModuleSets = Readonly<{
+  charts: Readonly<Record<string, unknown>>;
+  components: Readonly<Record<string, unknown>>;
+  features: Readonly<Record<string, unknown>>;
+  renderers: Readonly<Record<string, unknown>>;
+  runtime: TngChartRuntime;
+}>;
+
 let hasRegisteredTngChartModules = false;
+
+function pickTngEchartsModule(module: unknown, key: string): unknown {
+  if (typeof module !== 'object' || module === null) {
+    return null;
+  }
+
+  const candidate = (module as Readonly<Record<string, unknown>>)[key];
+  return candidate ?? null;
+}
+
+function compactTngEchartsModules(modules: readonly unknown[]): readonly unknown[] {
+  return modules.filter((module) => module !== null && module !== undefined);
+}
+
+function createTngEchartsChartModules(charts: Readonly<Record<string, unknown>>): readonly unknown[] {
+  return [
+    charts['LineChart'],
+    charts['BarChart'],
+    charts['BoxplotChart'],
+    charts['CandlestickChart'],
+    pickTngEchartsModule(charts, 'ChordChart'),
+    charts['CustomChart'],
+    charts['EffectScatterChart'],
+    charts['FunnelChart'],
+    charts['GaugeChart'],
+    charts['GraphChart'],
+    charts['PieChart'],
+    charts['ParallelChart'],
+    charts['PictorialBarChart'],
+    charts['RadarChart'],
+    charts['SankeyChart'],
+    charts['ScatterChart'],
+    charts['HeatmapChart'],
+    charts['LinesChart'],
+    charts['MapChart'],
+    charts['SunburstChart'],
+    charts['ThemeRiverChart'],
+    charts['TreeChart'],
+    charts['TreemapChart'],
+  ];
+}
+
+function createTngEchartsComponentModules(
+  components: Readonly<Record<string, unknown>>,
+): readonly unknown[] {
+  return [
+    components['AriaComponent'],
+    components['AxisPointerComponent'],
+    components['BrushComponent'],
+    components['CalendarComponent'],
+    components['DataZoomComponent'],
+    components['DataZoomInsideComponent'],
+    components['DataZoomSliderComponent'],
+    components['GeoComponent'],
+    components['GraphicComponent'],
+    components['GridComponent'],
+    components['GridSimpleComponent'],
+    components['TooltipComponent'],
+    components['LegendComponent'],
+    components['LegendPlainComponent'],
+    components['LegendScrollComponent'],
+    components['DatasetComponent'],
+    components['TransformComponent'],
+    components['MarkAreaComponent'],
+    components['MarkLineComponent'],
+    components['MarkPointComponent'],
+    pickTngEchartsModule(components, 'MatrixComponent'),
+    components['ParallelComponent'],
+    components['PolarComponent'],
+    components['RadarComponent'],
+    components['SingleAxisComponent'],
+    components['VisualMapComponent'],
+    components['VisualMapContinuousComponent'],
+    components['VisualMapPiecewiseComponent'],
+    components['TitleComponent'],
+    components['ToolboxComponent'],
+  ];
+}
+
+function createTngEchartsFeatureModules(
+  features: Readonly<Record<string, unknown>>,
+  renderers: Readonly<Record<string, unknown>>,
+): readonly unknown[] {
+  return [
+    features['LabelLayout'],
+    features['UniversalTransition'],
+    renderers['CanvasRenderer'],
+    renderers['SVGRenderer'],
+  ];
+}
+
+function registerTngEchartsModules(moduleSets: TngEchartsModuleSets): void {
+  if (hasRegisteredTngChartModules) {
+    return;
+  }
+
+  moduleSets.runtime.use?.(
+    compactTngEchartsModules([
+      ...createTngEchartsChartModules(moduleSets.charts),
+      ...createTngEchartsComponentModules(moduleSets.components),
+      ...createTngEchartsFeatureModules(moduleSets.features, moduleSets.renderers),
+    ]),
+  );
+  hasRegisteredTngChartModules = true;
+}
 
 async function loadTngEchartsCoreRuntime(): Promise<unknown> {
   const [core, charts, components, features, renderers] = await Promise.all([
@@ -18,27 +131,7 @@ async function loadTngEchartsCoreRuntime(): Promise<unknown> {
     return core;
   }
 
-  if (!hasRegisteredTngChartModules) {
-    runtime.use?.([
-      charts.LineChart,
-      charts.BarChart,
-      charts.PieChart,
-      charts.ScatterChart,
-      charts.HeatmapChart,
-      components.GridComponent,
-      components.TooltipComponent,
-      components.LegendComponent,
-      components.DatasetComponent,
-      components.TransformComponent,
-      components.VisualMapComponent,
-      components.TitleComponent,
-      features.LabelLayout,
-      features.UniversalTransition,
-      renderers.CanvasRenderer,
-      renderers.SVGRenderer,
-    ]);
-    hasRegisteredTngChartModules = true;
-  }
+  registerTngEchartsModules({ charts, components, features, renderers, runtime });
 
   return runtime;
 }

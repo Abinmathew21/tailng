@@ -2,8 +2,30 @@ import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
 import { dirname, join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
+import { TNG_CATALOG_CHART_PRESETS } from './series/catalog/catalog-registry';
 
 const libRoot = dirname(fileURLToPath(import.meta.url));
+
+const categorySlugOverrides = new Map<string, string>([
+  ['GEO/Map', 'geo-map'],
+  ['PictorialBar', 'pictorial-bar'],
+  ['ThemeRiver', 'theme-river'],
+]);
+
+function toKebabCase(value: string): string {
+  return value
+    .replace(/([a-z])([A-Z])/g, '$1 $2')
+    .replace(/GEO/g, 'Geo')
+    .replace(/OHLC/g, 'Ohlc')
+    .split(/[^A-Za-z0-9]+/)
+    .filter(Boolean)
+    .map((part) => part.toLowerCase())
+    .join('-');
+}
+
+function toCategorySlug(category: string): string {
+  return categorySlugOverrides.get(category) ?? toKebabCase(category);
+}
 
 function listTypeScriptFiles(directory: string): readonly string[] {
   return readdirSync(directory).flatMap((entry) => {
@@ -104,5 +126,25 @@ describe('charts package architecture', () => {
     const cycle = findFirstCycle(graph).map((file) => relative(libRoot, file));
 
     expect(cycle).toEqual([]);
+  });
+
+  it('tracks the requested ECharts catalog as category folders with unique selectors', () => {
+    const selectors = TNG_CATALOG_CHART_PRESETS.map((preset) => preset.selector);
+    const categories = new Set(TNG_CATALOG_CHART_PRESETS.map((preset) => preset.category));
+
+    expect(TNG_CATALOG_CHART_PRESETS).toHaveLength(143);
+    expect(categories.size).toBe(24);
+    expect(new Set(selectors).size).toBe(selectors.length);
+
+    for (const preset of TNG_CATALOG_CHART_PRESETS) {
+      const categorySlug = toCategorySlug(preset.category);
+      const chartFolder = join(libRoot, 'series', categorySlug, preset.slug);
+      const componentPath = join(chartFolder, `tng-${preset.slug}-chart.component.ts`);
+      const optionFactoryPath = join(chartFolder, `${preset.slug}-option.factory.ts`);
+
+      expect(existsSync(chartFolder)).toBe(true);
+      expect(existsSync(componentPath)).toBe(true);
+      expect(existsSync(optionFactoryPath)).toBe(true);
+    }
   });
 });
