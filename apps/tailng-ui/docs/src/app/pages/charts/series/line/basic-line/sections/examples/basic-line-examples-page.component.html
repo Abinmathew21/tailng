@@ -1,0 +1,35 @@
+<article class="chart-pilot-examples">
+  <h2 class="chart-pilot-examples-title">Basic Line examples</h2>
+  <p class="chart-pilot-examples-lead">
+    Map category labels and numeric values into a cartesian line preset. TailNG generates the
+    ECharts option, legend, and theme tokens for you.
+  </p>
+
+  <section id="default" class="chart-pilot-examples-block">
+    <app-docs-example-tabs-section
+      heading="Default preset"
+      description="Monthly values with the Basic Line catalog component."
+      ariaLabel="Basic line default example"
+      tabListAriaLabel="Basic line example variants"
+      defaultValue="live-demo"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="live-demo"
+        label="Live demo"
+        panelTitle="Basic line chart"
+        [codeTabs]="defaultExampleTabs"
+      >
+        <div class="chart-pilot-examples-demo">
+          <tng-basic-line-chart
+            [data]="data"
+            xField="label"
+            yField="value"
+            [height]="chartHeight"
+          />
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+</article>

@@ -1,6 +1,7 @@
 import type { Routes } from '@angular/router';
 import { toChartsDocsRouteData } from '../chart-docs.data';
 import { CHARTS_SERIES_DOCS_GROUPS } from './chart-series-docs.data';
+import { buildChartSeriesPilotChildRoutes } from './pilot/chart-series-pilot.registry';
 
 function buildChartSeriesItemRoutes(groupIndex: number, itemIndex: number): Routes {
   const group = CHARTS_SERIES_DOCS_GROUPS[groupIndex];
@@ -27,34 +28,7 @@ function buildChartSeriesItemRoutes(groupIndex: number, itemIndex: number): Rout
           pathMatch: 'full',
           redirectTo: 'overview',
         },
-        {
-          path: 'overview',
-          loadComponent: () =>
-            import('./sections/overview/chart-series-overview-page.component').then(
-              (module) => module.ChartSeriesOverviewPageComponent,
-            ),
-        },
-        {
-          path: 'api',
-          loadComponent: () =>
-            import('./sections/api/chart-series-api-page.component').then(
-              (module) => module.ChartSeriesApiPageComponent,
-            ),
-        },
-        {
-          path: 'styling',
-          loadComponent: () =>
-            import('./sections/styling/chart-series-styling-page.component').then(
-              (module) => module.ChartSeriesStylingPageComponent,
-            ),
-        },
-        {
-          path: 'examples',
-          loadComponent: () =>
-            import('./sections/examples/chart-series-examples-page.component').then(
-              (module) => module.ChartSeriesExamplesPageComponent,
-            ),
-        },
+        ...buildChartSeriesPilotChildRoutes(group.id, item.slug),
         {
           path: '**',
           redirectTo: 'overview',

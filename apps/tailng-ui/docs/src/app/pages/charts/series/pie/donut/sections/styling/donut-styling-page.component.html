@@ -1,0 +1,64 @@
+<article class="chart-doc-section chart-doc-section--styling">
+  <h2 class="chart-doc-section-title">Donut styling</h2>
+  <p class="chart-doc-section-lead">
+    Pie presets read palette and text variables from the host. Tune slice colors on
+    <code>tng-donut-chart</code> or adjust labels and emphasis through
+    <code>optionOverride</code>.
+  </p>
+
+  <section id="theme-variables" class="chart-doc-block">
+    <h3>Theme variables</h3>
+    <div class="chart-doc-table-wrap">
+      <table class="chart-doc-table chart-doc-table--variables">
+        <thead>
+          <tr>
+            <th scope="col">Variable</th>
+            <th scope="col">Fallback chain</th>
+            <th scope="col">Used for</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of themeVariables; track row.name) {
+            <tr>
+              <td><code>{{ row.name }}</code></td>
+              <td>{{ row.fallbackChain }}</td>
+              <td>{{ row.detail }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="css-starter" class="chart-doc-block">
+    <h3>CSS starter</h3>
+    <tng-code-block
+      [code]="cssVariableCode"
+      adapter="shiki"
+      language="css"
+      title="Chart theme variables"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    />
+  </section>
+
+  <section id="option-overrides" class="chart-doc-block">
+    <h3>Option overrides</h3>
+    <p class="chart-doc-copy">
+      Use <code>optionOverride</code> for slice labels, border radius, selected-mode emphasis, or
+      scrollable legends on dense product mixes.
+    </p>
+    <tng-code-block
+      [code]="overrideCode"
+      adapter="shiki"
+      language="ts"
+      title="Option override"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    />
+  </section>
+</article>

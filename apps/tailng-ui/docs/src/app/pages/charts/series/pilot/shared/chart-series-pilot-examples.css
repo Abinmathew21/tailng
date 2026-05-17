@@ -1,0 +1,30 @@
+.chart-pilot-examples {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.chart-pilot-examples-title {
+  font-size: clamp(1.45rem, 1.05rem + 1.3vw, 1.95rem);
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.chart-pilot-examples-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+  max-width: 70ch;
+}
+
+.chart-pilot-examples-block {
+  scroll-margin-top: 5.5rem;
+}
+
+.chart-pilot-examples-demo {
+  background: var(--tng-semantic-background-base);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.5rem;
+  min-height: clamp(14rem, 32vh, 22rem);
+  min-width: 0;
+  padding: 1rem;
+}

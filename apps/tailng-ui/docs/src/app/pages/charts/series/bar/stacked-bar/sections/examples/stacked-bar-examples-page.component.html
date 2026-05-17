@@ -1,0 +1,35 @@
+<article class="chart-pilot-examples">
+  <h2 class="chart-pilot-examples-title">Stacked Bar examples</h2>
+  <p class="chart-pilot-examples-lead">
+    Compare categories with the stacked bar preset. Field inputs map records into a generated bar
+    series with stacking enabled.
+  </p>
+
+  <section id="default" class="chart-pilot-examples-block">
+    <app-docs-example-tabs-section
+      heading="Regional totals"
+      description="Category labels on the x-axis with stacked bar semantics from the preset."
+      ariaLabel="Stacked bar default example"
+      tabListAriaLabel="Stacked bar example variants"
+      defaultValue="live-demo"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="live-demo"
+        label="Live demo"
+        panelTitle="Stacked bar chart"
+        [codeTabs]="defaultExampleTabs"
+      >
+        <div class="chart-pilot-examples-demo">
+          <tng-stacked-bar-chart
+            [data]="data"
+            xField="label"
+            yField="value"
+            [height]="chartHeight"
+          />
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+</article>

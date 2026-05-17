@@ -1,0 +1,60 @@
+<article class="chart-doc-section">
+  <h2 class="chart-doc-section-title">API reference</h2>
+  <p class="chart-doc-section-lead">
+    <code>&lt;tng-stacked-bar-chart&gt;</code>
+    maps records into a generated ECharts <code>bar</code> option with stacking. Bind category
+    labels to <code>xField</code> and measures to <code>yField</code>.
+  </p>
+
+  <section id="field-inputs" class="chart-doc-block">
+    <h3>Field inputs</h3>
+    <div class="chart-doc-table-wrap">
+      <table class="chart-doc-table">
+        <thead>
+          <tr>
+            <th scope="col">Input</th>
+            <th scope="col">Type</th>
+            <th scope="col">Default</th>
+            <th scope="col">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of fieldInputs; track row.name) {
+            <tr>
+              <td><code>{{ row.name }}</code></td>
+              <td><code>{{ row.type }}</code></td>
+              <td><code>{{ row.defaultValue }}</code></td>
+              <td>{{ row.notes }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="shared-inputs" class="chart-doc-block">
+    <h3>Shared inputs</h3>
+    <div class="chart-doc-table-wrap">
+      <table class="chart-doc-table">
+        <thead>
+          <tr>
+            <th scope="col">Input</th>
+            <th scope="col">Type</th>
+            <th scope="col">Default</th>
+            <th scope="col">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of sharedInputs; track row.name) {
+            <tr>
+              <td><code>{{ row.name }}</code></td>
+              <td><code>{{ row.type }}</code></td>
+              <td><code>{{ row.defaultValue }}</code></td>
+              <td>{{ row.notes }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+</article>

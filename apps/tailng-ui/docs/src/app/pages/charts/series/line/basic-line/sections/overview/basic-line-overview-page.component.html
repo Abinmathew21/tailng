@@ -1,0 +1,74 @@
+<article class="chart-doc-section chart-doc-section--overview">
+  <section class="chart-overview-hero">
+    <div class="chart-overview-hero__intro">
+      <h2 class="chart-doc-section-title">Basic Line</h2>
+      <p class="chart-doc-section-lead">
+        <code>&lt;tng-basic-line-chart&gt;</code>
+        maps category labels and values into a cartesian line preset with generated legend, axis,
+        and theme tokens.
+      </p>
+    </div>
+    <div class="chart-overview-hero__preview chart-doc-demo">
+      <tng-basic-line-chart
+        [data]="data"
+        xField="label"
+        yField="value"
+        [height]="heroChartHeight"
+      />
+    </div>
+  </section>
+
+  <section id="metadata" class="chart-doc-block">
+    <h3>Chart metadata</h3>
+    <div class="chart-doc-table-wrap">
+      <table class="chart-doc-table">
+        <tbody>
+          <tr>
+            <th scope="row">Category</th>
+            <td>Line</td>
+          </tr>
+          <tr>
+            <th scope="row">Series type</th>
+            <td><code>line</code></td>
+          </tr>
+          <tr>
+            <th scope="row">Coordinate system</th>
+            <td><code>cartesian2d</code></td>
+          </tr>
+          <tr>
+            <th scope="row">Features</th>
+            <td>{{ featureSummary }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="imports" class="chart-doc-block">
+    <h3>Imports</h3>
+    <tng-code-block
+      [code]="importCode"
+      adapter="shiki"
+      language="ts"
+      title="Chart imports"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    />
+  </section>
+
+  <section id="usage" class="chart-doc-block">
+    <h3>Minimal usage</h3>
+    <tng-code-block
+      [code]="usageCode"
+      adapter="shiki"
+      language="ts"
+      title="Standalone component"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    />
+  </section>
+</article>

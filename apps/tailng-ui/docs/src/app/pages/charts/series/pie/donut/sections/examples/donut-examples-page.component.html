@@ -1,0 +1,35 @@
+<article class="chart-pilot-examples">
+  <h2 class="chart-pilot-examples-title">Donut examples</h2>
+  <p class="chart-pilot-examples-lead">
+    Part-to-whole breakdowns with the donut preset. Slice labels and values map directly from your
+    records.
+  </p>
+
+  <section id="default" class="chart-pilot-examples-block">
+    <app-docs-example-tabs-section
+      heading="Product mix"
+      description="Named slices with scalar values rendered as a ring chart."
+      ariaLabel="Donut default example"
+      tabListAriaLabel="Donut example variants"
+      defaultValue="live-demo"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="live-demo"
+        label="Live demo"
+        panelTitle="Donut chart"
+        [codeTabs]="defaultExampleTabs"
+      >
+        <div class="chart-pilot-examples-demo">
+          <tng-donut-chart
+            [data]="data"
+            nameField="name"
+            valueField="value"
+            [height]="chartHeight"
+          />
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+</article>
