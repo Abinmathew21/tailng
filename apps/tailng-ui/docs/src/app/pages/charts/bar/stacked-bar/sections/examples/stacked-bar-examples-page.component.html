@@ -1,0 +1,218 @@
+<article class="chart-pilot-examples">
+  <h2 class="chart-pilot-examples-title">Examples</h2>
+  <p class="chart-pilot-examples-lead">
+    Stacked Bar examples in the default plain-CSS presentation and in a theme-aware Tailwind shell.
+    TailNG generates the ECharts option, legend, and chart variables for you.
+  </p>
+
+  <section id="dashboard-usage" class="chart-pilot-examples-block">
+    <app-docs-example-tabs-section
+      heading="Dashboard usage"
+      description="Drop the catalog stacked bar chart into an analytics card without changing the field-driven API."
+      ariaLabel="Stacked bar dashboard usage example"
+      tabListAriaLabel="Stacked bar dashboard usage variants"
+      defaultValue="live-demo"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="live-demo"
+        label="Live demo"
+        panelTitle="Stacked bar dashboard usage"
+      >
+        <app-docs-form-demo-shell
+          title="Regional performance"
+          description="Map label and value fields from your records into the generated stacked bar option."
+          submitLabel="Refresh chart"
+        >
+          <div docsFormDemoField class="chart-pilot-example-control">
+            <tng-stacked-bar-chart
+              [data]="data"
+              xField="label"
+              yField="value"
+              [height]="chartHeight"
+            />
+          </div>
+          <p docsFormDemoSummary>Five regional totals rendered with the Stacked Bar preset.</p>
+        </app-docs-form-demo-shell>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section id="default-preset" class="chart-pilot-examples-block">
+    <app-docs-example-tabs-section
+      heading="Default preset"
+      description="Stock Stacked Bar behavior with category labels on the x-axis and numeric values on the y-axis."
+      ariaLabel="Stacked bar default preset variants"
+      tabListAriaLabel="Stacked bar default preset example styles"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Default preset (Plain-CSS)"
+        [codeTabs]="defaultPlainCodeTabs"
+      >
+        <div class="chart-pilot-example-preview">
+          <div class="chart-pilot-example-chart chart-pilot-example-chart--plain">
+            <tng-stacked-bar-chart
+              [data]="data"
+              xField="label"
+              yField="value"
+              [height]="chartHeight"
+            />
+          </div>
+          <p class="chart-pilot-example-note">
+            The default preset picks up the chart theme contract without extra utility classes on the
+            host.
+          </p>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Default preset (Tailwind CSS)"
+        [codeTabs]="defaultTailwindCodeTabs"
+      >
+        <div class="chart-pilot-example-preview">
+          <div [class]="tailwindShellClass">
+            <tng-stacked-bar-chart
+              [data]="data"
+              xField="label"
+              yField="value"
+              [height]="chartHeight"
+            />
+          </div>
+          <p class="chart-pilot-example-note">
+            Tailwind can own the outer analytics surface while semantic tokens keep light, dark, and
+            custom themes in sync.
+          </p>
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section id="scoped-theme" class="chart-pilot-examples-block">
+    <app-docs-example-tabs-section
+      heading="Scoped theme variables"
+      description="Override chart CSS variables on the host element to align the preset with your product palette."
+      ariaLabel="Stacked bar scoped theme variants"
+      tabListAriaLabel="Stacked bar scoped theme example styles"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Scoped theme (Plain-CSS)"
+        [codeTabs]="themedPlainCodeTabs"
+      >
+        <div class="chart-pilot-example-preview">
+          <div class="chart-pilot-example-chart chart-pilot-example-chart--themed">
+            <tng-stacked-bar-chart
+              [data]="data"
+              xField="label"
+              yField="value"
+              [height]="chartHeight"
+            />
+          </div>
+          <p class="chart-pilot-example-note">
+            Scoped variables on <code>tng-stacked-bar-chart</code> flow into axis, grid, and series
+            colors.
+          </p>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Scoped theme (Tailwind CSS)"
+        [codeTabs]="themedTailwindCodeTabs"
+      >
+        <div class="chart-pilot-example-preview">
+          <div
+            class="grid gap-3 rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_90%,transparent)] p-4"
+          >
+            <p class="m-0 text-sm font-medium text-[var(--tng-semantic-foreground-primary)]">
+              Regional totals
+            </p>
+            <tng-stacked-bar-chart
+              [data]="data"
+              xField="label"
+              yField="value"
+              [height]="chartHeight"
+            />
+          </div>
+          <p class="chart-pilot-example-note">
+            Combine utility shells with inherited chart variables when the chart sits inside a
+            Tailwind-composed dashboard.
+          </p>
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section id="option-override" class="chart-pilot-examples-block">
+    <app-docs-example-tabs-section
+      heading="Option override"
+      description="Use optionOverride when the generated preset needs ECharts-specific bar corner radius."
+      ariaLabel="Stacked bar option override variants"
+      tabListAriaLabel="Stacked bar option override example styles"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Option override (Plain-CSS)"
+        [codeTabs]="overridePlainCodeTabs"
+      >
+        <div class="chart-pilot-example-preview">
+          <div class="chart-pilot-example-chart chart-pilot-example-chart--plain">
+            <tng-stacked-bar-chart
+              [data]="data"
+              xField="label"
+              yField="value"
+              [height]="chartHeight"
+              [optionOverride]="chartOptionOverride"
+            />
+          </div>
+          <p class="chart-pilot-example-note">
+            The hook receives the generated option and returns the final ECharts configuration.
+          </p>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Option override (Tailwind CSS)"
+        [codeTabs]="overrideTailwindCodeTabs"
+      >
+        <div class="chart-pilot-example-preview">
+          <div [class]="tailwindShellClass">
+            <tng-stacked-bar-chart
+              [data]="data"
+              xField="label"
+              yField="value"
+              [height]="chartHeight"
+              [optionOverride]="chartOptionOverride"
+            />
+          </div>
+          <p class="chart-pilot-example-note">
+            Option overrides compose with Tailwind shells—the chart host still owns rendering and
+            theme resolution.
+          </p>
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+</article>

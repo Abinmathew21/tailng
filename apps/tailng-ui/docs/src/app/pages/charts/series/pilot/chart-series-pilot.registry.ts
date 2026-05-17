@@ -31,19 +31,19 @@ const PILOT_SECTION_LOADERS: Readonly<Record<string, ChartSeriesPilotSectionLoad
   },
   'bar/stacked-bar': {
     overview: () =>
-      import('../bar/stacked-bar/sections/overview/stacked-bar-overview-page.component').then(
+      import('../../bar/stacked-bar/sections/overview/stacked-bar-overview-page.component').then(
         (module) => module.StackedBarOverviewPageComponent,
       ),
     api: () =>
-      import('../bar/stacked-bar/sections/api/stacked-bar-api-page.component').then(
+      import('../../bar/stacked-bar/sections/api/stacked-bar-api-page.component').then(
         (module) => module.StackedBarApiPageComponent,
       ),
     styling: () =>
-      import('../bar/stacked-bar/sections/styling/stacked-bar-styling-page.component').then(
+      import('../../bar/stacked-bar/sections/styling/stacked-bar-styling-page.component').then(
         (module) => module.StackedBarStylingPageComponent,
       ),
     examples: () =>
-      import('../bar/stacked-bar/sections/examples/stacked-bar-examples-page.component').then(
+      import('../../bar/stacked-bar/sections/examples/stacked-bar-examples-page.component').then(
         (module) => module.StackedBarExamplesPageComponent,
       ),
   },

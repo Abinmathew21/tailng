@@ -1,16 +1,16 @@
 <article class="chart-pilot-examples">
-  <h2 class="chart-pilot-examples-title">Basic Line examples</h2>
+  <h2 class="chart-pilot-examples-title">Examples</h2>
   <p class="chart-pilot-examples-lead">
-    Map category labels and numeric values into a cartesian line preset. TailNG generates the
-    ECharts option, legend, and theme tokens for you.
+    Basic Line examples in the default plain-CSS presentation and in a theme-aware Tailwind shell.
+    TailNG generates the ECharts option, legend, and chart variables for you.
   </p>
 
-  <section id="default" class="chart-pilot-examples-block">
+  <section id="dashboard-usage" class="chart-pilot-examples-block">
     <app-docs-example-tabs-section
-      heading="Default preset"
-      description="Monthly values with the Basic Line catalog component."
-      ariaLabel="Basic line default example"
-      tabListAriaLabel="Basic line example variants"
+      heading="Dashboard usage"
+      description="Drop the catalog line chart into an analytics card without changing the field-driven API."
+      ariaLabel="Basic line dashboard usage example"
+      tabListAriaLabel="Basic line dashboard usage variants"
       defaultValue="live-demo"
       [codeBlockTheme]="codeBlockTheme()"
     >
@@ -18,16 +18,199 @@
         appDocsExampleVariant
         value="live-demo"
         label="Live demo"
-        panelTitle="Basic line chart"
-        [codeTabs]="defaultExampleTabs"
+        panelTitle="Basic line dashboard usage"
       >
-        <div class="chart-pilot-examples-demo">
-          <tng-basic-line-chart
-            [data]="data"
-            xField="label"
-            yField="value"
-            [height]="chartHeight"
-          />
+        <app-docs-form-demo-shell
+          title="Monthly revenue"
+          description="Map label and value fields from your records into the generated line option."
+          submitLabel="Refresh chart"
+        >
+          <div docsFormDemoField class="chart-pilot-example-control">
+            <tng-basic-line-chart
+              [data]="data"
+              xField="label"
+              yField="value"
+              [height]="chartHeight"
+            />
+          </div>
+          <p docsFormDemoSummary>Six monthly points rendered with the Basic Line preset.</p>
+        </app-docs-form-demo-shell>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section id="default-preset" class="chart-pilot-examples-block">
+    <app-docs-example-tabs-section
+      heading="Default preset"
+      description="Stock Basic Line behavior with category labels on the x-axis and numeric values on the y-axis."
+      ariaLabel="Basic line default preset variants"
+      tabListAriaLabel="Basic line default preset example styles"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Default preset (Plain-CSS)"
+        [codeTabs]="defaultPlainCodeTabs"
+      >
+        <div class="chart-pilot-example-preview">
+          <div class="chart-pilot-example-chart chart-pilot-example-chart--plain">
+            <tng-basic-line-chart
+              [data]="data"
+              xField="label"
+              yField="value"
+              [height]="chartHeight"
+            />
+          </div>
+          <p class="chart-pilot-example-note">
+            The default preset picks up the chart theme contract without extra utility classes on the
+            host.
+          </p>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Default preset (Tailwind CSS)"
+        [codeTabs]="defaultTailwindCodeTabs"
+      >
+        <div class="chart-pilot-example-preview">
+          <div [class]="tailwindShellClass">
+            <tng-basic-line-chart
+              [data]="data"
+              xField="label"
+              yField="value"
+              [height]="chartHeight"
+            />
+          </div>
+          <p class="chart-pilot-example-note">
+            Tailwind can own the outer analytics surface while semantic tokens keep light, dark, and
+            custom themes in sync.
+          </p>
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section id="scoped-theme" class="chart-pilot-examples-block">
+    <app-docs-example-tabs-section
+      heading="Scoped theme variables"
+      description="Override chart CSS variables on the host element to align the preset with your product palette."
+      ariaLabel="Basic line scoped theme variants"
+      tabListAriaLabel="Basic line scoped theme example styles"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Scoped theme (Plain-CSS)"
+        [codeTabs]="themedPlainCodeTabs"
+      >
+        <div class="chart-pilot-example-preview">
+          <div class="chart-pilot-example-chart chart-pilot-example-chart--themed">
+            <tng-basic-line-chart
+              [data]="data"
+              xField="label"
+              yField="value"
+              [height]="chartHeight"
+            />
+          </div>
+          <p class="chart-pilot-example-note">
+            Scoped variables on <code>tng-basic-line-chart</code> flow into axis, grid, and series
+            colors.
+          </p>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Scoped theme (Tailwind CSS)"
+        [codeTabs]="themedTailwindCodeTabs"
+      >
+        <div class="chart-pilot-example-preview">
+          <div
+            class="grid gap-3 rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_90%,transparent)] p-4"
+          >
+            <p class="m-0 text-sm font-medium text-[var(--tng-semantic-foreground-primary)]">
+              Revenue trend
+            </p>
+            <tng-basic-line-chart
+              [data]="data"
+              xField="label"
+              yField="value"
+              [height]="chartHeight"
+            />
+          </div>
+          <p class="chart-pilot-example-note">
+            Combine utility shells with inherited chart variables when the chart sits inside a
+            Tailwind-composed dashboard.
+          </p>
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section id="option-override" class="chart-pilot-examples-block">
+    <app-docs-example-tabs-section
+      heading="Option override"
+      description="Use optionOverride when the generated preset needs ECharts-specific line width or symbol sizing."
+      ariaLabel="Basic line option override variants"
+      tabListAriaLabel="Basic line option override example styles"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Option override (Plain-CSS)"
+        [codeTabs]="overridePlainCodeTabs"
+      >
+        <div class="chart-pilot-example-preview">
+          <div class="chart-pilot-example-chart chart-pilot-example-chart--plain">
+            <tng-basic-line-chart
+              [data]="data"
+              xField="label"
+              yField="value"
+              [height]="chartHeight"
+              [optionOverride]="chartOptionOverride"
+            />
+          </div>
+          <p class="chart-pilot-example-note">
+            The hook receives the generated option and returns the final ECharts configuration.
+          </p>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Option override (Tailwind CSS)"
+        [codeTabs]="overrideTailwindCodeTabs"
+      >
+        <div class="chart-pilot-example-preview">
+          <div [class]="tailwindShellClass">
+            <tng-basic-line-chart
+              [data]="data"
+              xField="label"
+              yField="value"
+              [height]="chartHeight"
+              [optionOverride]="chartOptionOverride"
+            />
+          </div>
+          <p class="chart-pilot-example-note">
+            Option overrides compose with Tailwind shells—the chart host still owns rendering and
+            theme resolution.
+          </p>
         </div>
       </ng-template>
     </app-docs-example-tabs-section>

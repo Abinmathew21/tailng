@@ -30,7 +30,7 @@ import {
   CHART_REGION_DATA,
   CHART_REGION_SERIES,
   CHART_REVENUE_DATA,
-} from '../../wrappers/shared/chart-wrapper-docs.config';
+} from '../../shared/chart-wrapper-docs.config';
 
 const overviewItem = CHARTS_GETTING_STARTED_GROUP.items.find((item) => item.slug === 'overview');
 if (!overviewItem) {

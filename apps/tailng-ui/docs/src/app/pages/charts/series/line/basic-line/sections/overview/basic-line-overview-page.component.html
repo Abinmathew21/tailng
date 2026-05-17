@@ -1,24 +1,60 @@
-<article class="chart-doc-section chart-doc-section--overview">
-  <section class="chart-overview-hero">
-    <div class="chart-overview-hero__intro">
-      <h2 class="chart-doc-section-title">Basic Line</h2>
-      <p class="chart-doc-section-lead">
-        <code>&lt;tng-basic-line-chart&gt;</code>
-        maps category labels and values into a cartesian line preset with generated legend, axis,
-        and theme tokens.
-      </p>
-    </div>
-    <div class="chart-overview-hero__preview chart-doc-demo">
-      <tng-basic-line-chart
-        [data]="data"
-        xField="label"
-        yField="value"
-        [height]="heroChartHeight"
-      />
-    </div>
-  </section>
+<article class="chart-pilot-overview">
+  <h2 class="chart-pilot-overview-title">Basic Line overview</h2>
+  <p class="chart-pilot-overview-lead">
+    <code>&lt;tng-basic-line-chart&gt;</code>
+    maps category labels and values into a cartesian line preset. TailNG generates the ECharts
+    option, legend, axis, and theme tokens for you.
+  </p>
 
-  <section id="metadata" class="chart-doc-block">
+  <app-docs-example-tabs-section
+    class="chart-pilot-overview-block"
+    heading="Simple sample"
+    description="Compare the Basic Line preset in its default plain-CSS presentation and in a theme-aware Tailwind shell."
+    ariaLabel="Basic line overview style examples"
+    tabListAriaLabel="Basic line overview example style variants"
+    defaultValue="plain-css"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+      panelTitle="Simple sample (Plain-CSS)"
+      [codeTabs]="simplePlainCodeTabs"
+    >
+      <div class="chart-pilot-overview-example-preview">
+        <div class="chart-pilot-overview-example-chart chart-pilot-overview-example-chart--plain">
+          <tng-basic-line-chart
+            [data]="data"
+            xField="label"
+            yField="value"
+            [height]="chartHeight"
+          />
+        </div>
+      </div>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Simple sample (Tailwind CSS)"
+      [codeTabs]="simpleTailwindCodeTabs"
+    >
+      <div class="chart-pilot-overview-example-preview">
+        <div [class]="tailwindShellClass">
+          <tng-basic-line-chart
+            [data]="data"
+            xField="label"
+            yField="value"
+            [height]="chartHeight"
+          />
+        </div>
+      </div>
+    </ng-template>
+  </app-docs-example-tabs-section>
+
+  <section id="metadata" class="chart-doc-block chart-pilot-overview-block">
     <h3>Chart metadata</h3>
     <div class="chart-doc-table-wrap">
       <table class="chart-doc-table">
@@ -44,7 +80,7 @@
     </div>
   </section>
 
-  <section id="imports" class="chart-doc-block">
+  <section id="imports" class="chart-doc-block chart-pilot-overview-block">
     <h3>Imports</h3>
     <tng-code-block
       [code]="importCode"
@@ -58,7 +94,7 @@
     />
   </section>
 
-  <section id="usage" class="chart-doc-block">
+  <section id="usage" class="chart-doc-block chart-pilot-overview-block">
     <h3>Minimal usage</h3>
     <tng-code-block
       [code]="usageCode"

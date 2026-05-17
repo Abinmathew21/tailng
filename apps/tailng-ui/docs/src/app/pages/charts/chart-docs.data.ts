@@ -44,50 +44,6 @@ export const CHARTS_GETTING_STARTED_GROUP: ChartsDocsGroup = {
   ],
 };
 
-export const CHARTS_WRAPPERS_GROUP: ChartsDocsGroup = {
-  id: 'wrappers',
-  title: 'Core Charts',
-  subtitle: 'Field-driven chart components for common visualizations',
-  items: [
-    {
-      id: 'line-chart',
-      slug: 'line-chart',
-      title: 'Line Chart',
-      description: 'Trend charts over categories or time buckets.',
-    },
-    {
-      id: 'bar-chart',
-      slug: 'bar-chart',
-      title: 'Bar Chart',
-      description: 'Category comparison, stacked bars, and horizontal bars.',
-    },
-    {
-      id: 'area-chart',
-      slug: 'area-chart',
-      title: 'Area Chart',
-      description: 'Filled line charts and cumulative trends.',
-    },
-    {
-      id: 'pie-chart',
-      slug: 'pie-chart',
-      title: 'Pie Chart',
-      description: 'Part-to-whole breakdowns with optional donut mode.',
-    },
-    {
-      id: 'scatter-chart',
-      slug: 'scatter-chart',
-      title: 'Scatter Chart',
-      description: 'Correlation, distribution, and bubble-like plots.',
-    },
-    {
-      id: 'heatmap-chart',
-      slug: 'heatmap-chart',
-      title: 'Heatmap Chart',
-      description: 'Matrix intensity views with a visual map.',
-    },
-  ],
-};
-
 export const CHARTS_COMPOSITION_GROUP: ChartsDocsGroup = {
   id: 'composition',
   title: 'Composition',

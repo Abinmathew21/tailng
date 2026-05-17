@@ -1,0 +1,5 @@
+@import '../../../../series/pilot/shared/chart-series-pilot-section.css';
+
+:host {
+  display: block;
+}

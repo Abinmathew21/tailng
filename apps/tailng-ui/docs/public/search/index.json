@@ -3672,42 +3672,42 @@
     "title": "Line Chart",
     "description": "Trend charts over categories or time buckets.",
     "section": "Charts",
-    "url": "/charts/wrappers/line-chart/overview",
+    "url": "/charts/line/line-chart/overview",
     "tags": ["charts", "line", "trend"]
   },
   {
     "title": "Bar Chart",
     "description": "Category comparison, stacked bars, and horizontal bars.",
     "section": "Charts",
-    "url": "/charts/wrappers/bar-chart/overview",
+    "url": "/charts/bar/bar-chart/overview",
     "tags": ["charts", "bar"]
   },
   {
     "title": "Area Chart",
     "description": "Filled line charts and cumulative trends.",
     "section": "Charts",
-    "url": "/charts/wrappers/area-chart/overview",
+    "url": "/charts/area/area-chart/overview",
     "tags": ["charts", "area"]
   },
   {
     "title": "Pie Chart",
     "description": "Part-to-whole breakdowns with optional donut mode.",
     "section": "Charts",
-    "url": "/charts/wrappers/pie-chart/overview",
+    "url": "/charts/pie/pie-chart/overview",
     "tags": ["charts", "pie", "donut"]
   },
   {
     "title": "Scatter Chart",
     "description": "Correlation, distribution, and bubble-like plots.",
     "section": "Charts",
-    "url": "/charts/wrappers/scatter-chart/overview",
+    "url": "/charts/scatter/scatter-chart/overview",
     "tags": ["charts", "scatter"]
   },
   {
     "title": "Heatmap Chart",
     "description": "Matrix intensity views with a visual map.",
     "section": "Charts",
-    "url": "/charts/wrappers/heatmap-chart/overview",
+    "url": "/charts/heatmap/heatmap-chart/overview",
     "tags": ["charts", "heatmap"]
   },
   {

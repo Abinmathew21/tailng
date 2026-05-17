@@ -1106,6 +1106,17 @@ export const CHARTS_SERIES_DOCS_GROUPS: readonly ChartsDocsGroup[] = Object.free
   },
 ]);
 
+function requireChartSeriesDocsGroup(groupId: string): ChartsDocsGroup {
+  const group = CHARTS_SERIES_DOCS_GROUPS.find((entry) => entry.id === groupId);
+  if (group === undefined) {
+    throw new Error(`Missing charts series docs group "${groupId}".`);
+  }
+
+  return group;
+}
+
+export const CHARTS_SERIES_BAR_GROUP = requireChartSeriesDocsGroup('bar');
+
 export const CHART_SERIES_DOC_CONFIGS: readonly ChartSeriesDocConfig[] = [
   {
     categoryId: 'line',
