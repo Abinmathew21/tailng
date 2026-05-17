@@ -1,0 +1,43 @@
+<tng-card variant="outline" padding="lg">
+  <tng-card-header>
+    <div class="grid gap-1 pb-2">
+      <p class="m-0 text-sm font-semibold uppercase text-tng-accent-brand">@tailng-ui/charts</p>
+      <h1 class="m-0 text-3xl font-semibold">Charts</h1>
+      <p class="m-0 max-w-3xl text-sm text-tng-fg-secondary md:text-base">
+        TailNG-owned chart wrappers and semi-headless composition for Angular apps that need
+        predictable APIs, theme-aware rendering, and an Apache ECharts runtime behind the surface.
+      </p>
+    </div>
+    <div
+      class="mb-1 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.08em] text-tng-fg-secondary"
+    >
+      <tng-icon icon="book-open" class="h-4 w-4" />
+      <span>{{ groupTitle() }}</span>
+    </div>
+    <tng-card-title>{{ item().title }}</tng-card-title>
+    <tng-card-description>{{ item().description }}</tng-card-description>
+  </tng-card-header>
+  <tng-card-content>
+    <section class="charts-overview-layout">
+      <div class="charts-overview-copy">
+        <div class="charts-capability-grid">
+          @for (capability of capabilities; track capability.label) {
+            <div class="charts-capability">
+              <span class="charts-capability__label">{{ capability.label }}</span>
+              <span class="charts-capability__value">{{ capability.value }}</span>
+            </div>
+          }
+        </div>
+      </div>
+      <div class="charts-overview-chart">
+        <tng-area-chart
+          [data]="revenueData"
+          [height]="320"
+          xField="quarter"
+          yField="revenue"
+          smooth
+        />
+      </div>
+    </section>
+  </tng-card-content>
+</tng-card>

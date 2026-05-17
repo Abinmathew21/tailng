@@ -1,0 +1,37 @@
+@if (config(); as chart) {
+  <article class="chart-doc-section">
+    <h2 class="chart-doc-section-title">{{ chart.selector }} overview</h2>
+    <p class="chart-doc-section-lead">
+      <code>&lt;{{ chart.selector }}&gt;</code>
+      {{ chart.overviewLead }}
+    </p>
+
+    <section id="imports" class="chart-doc-block">
+      <h3>Imports</h3>
+      <tng-code-block
+        [code]="importCode()"
+        adapter="shiki"
+        language="ts"
+        title="Chart imports"
+        [theme]="codeBlockTheme()"
+        [sanitizeHtml]="false"
+        [wrap]="true"
+        [lineNumbers]="false"
+      />
+    </section>
+
+    <section id="usage" class="chart-doc-block">
+      <h3>Minimal usage</h3>
+      <tng-code-block
+        [code]="usageCode()"
+        adapter="shiki"
+        language="ts"
+        title="Standalone component"
+        [theme]="codeBlockTheme()"
+        [sanitizeHtml]="false"
+        [wrap]="true"
+        [lineNumbers]="false"
+      />
+    </section>
+  </article>
+}

@@ -1,0 +1,13 @@
+<section class="docs-component-page">
+  <app-docs-component-section-tabs
+    [sectionName]="docsItemTitle"
+    [value]="activeSection()"
+    [tabs]="sectionTabs"
+  />
+
+  <section class="docs-component-content">
+    <div class="docs-component-content-main">
+      <router-outlet />
+    </div>
+  </section>
+</section>

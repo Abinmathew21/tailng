@@ -222,6 +222,7 @@ export class App {
   );
   public readonly componentsDocsLayout = computed<boolean>(() =>
     this.currentUrl().startsWith('/components') ||
+    this.currentUrl().startsWith('/charts') ||
     this.currentUrl().startsWith('/ownable') ||
     this.currentUrl().startsWith('/headless') ||
     this.currentUrl().startsWith('/theme'),

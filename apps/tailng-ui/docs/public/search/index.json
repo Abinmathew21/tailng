@@ -3655,18 +3655,66 @@
     ]
   },
   {
-    "title": "Charts",
-    "description": "TailNG chart wrappers, live examples, and semi-headless chart composition.",
+    "title": "Charts Overview",
+    "description": "TailNG-owned chart wrappers, theme-aware rendering, and an isolated Apache ECharts runtime.",
     "section": "Charts",
-    "url": "/charts",
-    "tags": [
-      "charts",
-      "echarts",
-      "line",
-      "bar",
-      "pie",
-      "scatter",
-      "area"
-    ]
+    "url": "/charts/getting-started/overview",
+    "tags": ["charts", "echarts", "overview"]
+  },
+  {
+    "title": "Charts Installation",
+    "description": "Install @tailng-ui/charts with the ECharts peer dependency.",
+    "section": "Charts",
+    "url": "/charts/getting-started/installation",
+    "tags": ["charts", "install", "echarts"]
+  },
+  {
+    "title": "Line Chart",
+    "description": "Trend charts over categories or time buckets.",
+    "section": "Charts",
+    "url": "/charts/wrappers/line-chart/overview",
+    "tags": ["charts", "line", "trend"]
+  },
+  {
+    "title": "Bar Chart",
+    "description": "Category comparison, stacked bars, and horizontal bars.",
+    "section": "Charts",
+    "url": "/charts/wrappers/bar-chart/overview",
+    "tags": ["charts", "bar"]
+  },
+  {
+    "title": "Area Chart",
+    "description": "Filled line charts and cumulative trends.",
+    "section": "Charts",
+    "url": "/charts/wrappers/area-chart/overview",
+    "tags": ["charts", "area"]
+  },
+  {
+    "title": "Pie Chart",
+    "description": "Part-to-whole breakdowns with optional donut mode.",
+    "section": "Charts",
+    "url": "/charts/wrappers/pie-chart/overview",
+    "tags": ["charts", "pie", "donut"]
+  },
+  {
+    "title": "Scatter Chart",
+    "description": "Correlation, distribution, and bubble-like plots.",
+    "section": "Charts",
+    "url": "/charts/wrappers/scatter-chart/overview",
+    "tags": ["charts", "scatter"]
+  },
+  {
+    "title": "Heatmap Chart",
+    "description": "Matrix intensity views with a visual map.",
+    "section": "Charts",
+    "url": "/charts/wrappers/heatmap-chart/overview",
+    "tags": ["charts", "heatmap"]
+  },
+  {
+    "title": "Semi-headless Charts",
+    "description": "Compose chart root, surface, and legend with TailNG chart context.",
+    "section": "Charts",
+    "url": "/charts/composition/semi-headless",
+    "tags": ["charts", "composition", "headless"]
   }
 ]

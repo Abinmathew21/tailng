@@ -1,0 +1,42 @@
+<tng-card variant="outline" padding="lg">
+  <tng-card-header>
+    <div class="grid gap-1 pb-2">
+      <h1 class="m-0 text-3xl font-semibold">Semi-headless composition</h1>
+      <p class="m-0 max-w-3xl text-sm text-tng-fg-secondary md:text-base">
+        Compose chart root, surface, and legend when you want to own the surrounding layout while
+        reusing TailNG chart state and renderer isolation.
+      </p>
+    </div>
+    <div
+      class="mb-1 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.08em] text-tng-fg-secondary"
+    >
+      <tng-icon icon="book-open" class="h-4 w-4" />
+      <span>{{ groupTitle() }}</span>
+    </div>
+    <tng-card-title>{{ item().title }}</tng-card-title>
+    <tng-card-description>{{ item().description }}</tng-card-description>
+  </tng-card-header>
+  <tng-card-content>
+    <section class="grid gap-4 text-sm text-tng-fg-secondary md:text-base">
+      <p class="m-0">
+        Use
+        <code class="font-mono text-xs md:text-sm">tng-chart-root</code>
+        as the state host,
+        <code class="font-mono text-xs md:text-sm">tng-chart-surface</code>
+        for the renderer, and
+        <code class="font-mono text-xs md:text-sm">tng-chart-legend</code>
+        for a TailNG-styled legend that reads from chart context.
+      </p>
+      <tng-code-block
+        [code]="compositionCode"
+        adapter="shiki"
+        language="html"
+        title="Semi-headless chart layout"
+        [theme]="codeBlockTheme()"
+        [sanitizeHtml]="false"
+        [wrap]="true"
+        [lineNumbers]="false"
+      />
+    </section>
+  </tng-card-content>
+</tng-card>

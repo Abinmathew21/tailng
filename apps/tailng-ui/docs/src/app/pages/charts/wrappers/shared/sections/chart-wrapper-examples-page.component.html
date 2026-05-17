@@ -1,0 +1,67 @@
+@if (config(); as chart) {
+  <article class="chart-doc-section">
+    <h2 class="chart-doc-section-title">{{ chart.exampleTitle }}</h2>
+    <p class="chart-doc-section-lead">{{ chart.exampleDescription }}</p>
+
+    <section id="live-demo" class="chart-doc-block">
+      <h3>Live example</h3>
+      <div class="chart-doc-demo">
+        @switch (chart.slug) {
+          @case ('line-chart') {
+            <tng-line-chart
+              [data]="revenueData"
+              [height]="280"
+              xField="quarter"
+              yField="revenue"
+              smooth
+            />
+          }
+          @case ('bar-chart') {
+            <tng-bar-chart
+              [data]="regionData"
+              [height]="280"
+              [series]="regionSeries"
+              xField="region"
+            />
+          }
+          @case ('area-chart') {
+            <tng-area-chart
+              [data]="revenueData"
+              [height]="280"
+              xField="quarter"
+              yField="revenue"
+              smooth
+            />
+          }
+          @case ('pie-chart') {
+            <tng-pie-chart
+              [data]="productMixData"
+              [height]="280"
+              nameField="category"
+              valueField="value"
+              donut
+            />
+          }
+          @case ('scatter-chart') {
+            <tng-scatter-chart
+              [data]="engagementData"
+              [height]="280"
+              xField="visits"
+              yField="conversion"
+              sizeField="volume"
+            />
+          }
+          @case ('heatmap-chart') {
+            <tng-heatmap-chart
+              [data]="heatmapData"
+              [height]="280"
+              xField="hour"
+              yField="day"
+              valueField="value"
+            />
+          }
+        }
+      </div>
+    </section>
+  </article>
+}

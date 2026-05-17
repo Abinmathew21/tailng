@@ -1,135 +1,180 @@
-import { Component } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Component, computed, DestroyRef, inject, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router';
 import {
-  TngAreaChartComponent,
-  TngBarChartComponent,
-  TngLineChartComponent,
-  TngPieChartComponent,
-  TngScatterChartComponent,
-  type TngChartData,
-  type TngChartSeries,
-} from '@tailng-ui/charts';
-
-type ApiRow = Readonly<{
-  name: string;
-  required: string;
-  useCase: string;
-}>;
-
-type Capability = Readonly<{
-  label: string;
-  value: string;
-}>;
+  TngAccordionComponent,
+  TngAccordionItemComponent,
+  TngAccordionPanelComponent,
+  TngAccordionTriggerComponent,
+  TngBreadcrumbComponent,
+  TngBreadcrumbItemComponent,
+  TngDrawerComponent,
+} from '@tailng-ui/components';
+import { TngIcon } from '@tailng-ui/icons';
+import { TngDrawerContainer, TngDrawerContent } from '@tailng-ui/primitives';
+import { filter, map, startWith, tap } from 'rxjs/operators';
+import {
+  buildChartsDocHref,
+  CHARTS_DOCS_GROUPS,
+  type ChartsDocsCategoryId,
+  type ChartsDocsGroup,
+  type ChartsDocsItem,
+} from '../chart-docs.data';
 
 @Component({
   selector: 'app-charts-page',
   imports: [
-    TngAreaChartComponent,
-    TngBarChartComponent,
-    TngLineChartComponent,
-    TngPieChartComponent,
-    TngScatterChartComponent,
+    RouterOutlet,
+    RouterLink,
+    TngAccordionComponent,
+    TngAccordionItemComponent,
+    TngAccordionTriggerComponent,
+    TngAccordionPanelComponent,
+    TngBreadcrumbComponent,
+    TngBreadcrumbItemComponent,
+    TngDrawerContainer,
+    TngDrawerContent,
+    TngDrawerComponent,
+    TngIcon,
   ],
   templateUrl: './charts-page.component.html',
   styleUrl: './charts-page.component.css',
 })
 export class ChartsPageComponent {
-  protected readonly capabilities: readonly Capability[] = [
-    { label: 'Renderers', value: 'Canvas default, SVG opt-in' },
-    { label: 'Wrappers', value: 'Line, bar, area, pie, scatter, heatmap' },
-    { label: 'Composition', value: 'Root, surface, legend context' },
-    { label: 'Runtime', value: 'ECharts isolated internally' },
-  ];
+  private readonly router = inject(Router);
+  private readonly document = inject(DOCUMENT);
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly mobileQuery =
+    this.document.defaultView?.matchMedia('(max-width: 768px)') ?? null;
 
-  protected readonly revenueData: TngChartData = [
-    { quarter: 'Q1', revenue: 42, margin: 18 },
-    { quarter: 'Q2', revenue: 58, margin: 23 },
-    { quarter: 'Q3', revenue: 64, margin: 27 },
-    { quarter: 'Q4', revenue: 86, margin: 31 },
-  ];
+  public readonly isMobile = signal(this.mobileQuery?.matches ?? false);
 
-  protected readonly productMixData: TngChartData = [
-    { category: 'Core', value: 44 },
-    { category: 'Pro', value: 31 },
-    { category: 'Enterprise', value: 18 },
-    { category: 'Services', value: 7 },
-  ];
+  constructor() {
+    if (this.mobileQuery) {
+      const handler = (e: MediaQueryListEvent) => this.isMobile.set(e.matches);
+      this.mobileQuery.addEventListener('change', handler);
+      this.destroyRef.onDestroy(() => this.mobileQuery!.removeEventListener('change', handler));
+    }
+  }
 
-  protected readonly regionData: TngChartData = [
-    { region: 'North', active: 26, retained: 18 },
-    { region: 'West', active: 34, retained: 24 },
-    { region: 'South', active: 30, retained: 21 },
-    { region: 'East', active: 22, retained: 15 },
-  ];
+  public readonly mobileNavOpen = signal(false);
 
-  protected readonly engagementData: TngChartData = [
-    { visits: 12, conversion: 8, volume: 36 },
-    { visits: 18, conversion: 13, volume: 58 },
-    { visits: 24, conversion: 18, volume: 72 },
-    { visits: 31, conversion: 23, volume: 90 },
-    { visits: 37, conversion: 28, volume: 110 },
-  ];
+  private readonly currentUrl = toSignal(
+    this.router.events.pipe(
+      filter((event): event is NavigationEnd => event instanceof NavigationEnd),
+      tap(() => {
+        if (this.isMobile()) {
+          this.mobileNavOpen.set(false);
+        }
+      }),
+      map((event) => event.urlAfterRedirects),
+      startWith(this.router.url),
+    ),
+    { initialValue: this.router.url },
+  );
 
-  protected readonly regionSeries: readonly TngChartSeries[] = [
-    { key: 'active', label: 'Active', yField: 'active' },
-    { key: 'retained', label: 'Retained', yField: 'retained' },
-  ];
+  public readonly drawerOpened = computed(() => !this.isMobile() || this.mobileNavOpen());
 
-  protected readonly apiRows: readonly ApiRow[] = [
-    {
-      name: 'tng-line-chart',
-      required: 'data, xField',
-      useCase: 'Trend charts over categories or time buckets.',
-    },
-    {
-      name: 'tng-bar-chart',
-      required: 'data, xField',
-      useCase: 'Category comparison, stacked bars, horizontal bars.',
-    },
-    {
-      name: 'tng-area-chart',
-      required: 'data, xField',
-      useCase: 'Filled line charts and cumulative trends.',
-    },
-    {
-      name: 'tng-pie-chart',
-      required: 'data, nameField, valueField',
-      useCase: 'Part-to-whole breakdowns with optional donut mode.',
-    },
-    {
-      name: 'tng-scatter-chart',
-      required: 'data, xField, yField',
-      useCase: 'Correlation, distribution, and bubble-like plots.',
-    },
-    {
-      name: 'tng-heatmap-chart',
-      required: 'data, xField, yField, valueField',
-      useCase: 'Matrix intensity views with a visual map.',
-    },
-  ];
+  public readonly navGroups = CHARTS_DOCS_GROUPS;
+  public readonly defaultExpandedGroups = CHARTS_DOCS_GROUPS.map((group) => group.id);
 
-  protected readonly installCode = 'pnpm add @tailng-ui/charts echarts';
+  public readonly filteredNavGroups = computed<readonly ChartsDocsGroup[]>(() => this.navGroups);
 
-  protected readonly wrapperCode = [
-    "import { TngLineChart, type TngChartData } from '@tailng-ui/charts';",
-    '',
-    'const data: TngChartData = [',
-    "  { quarter: 'Q1', revenue: 42 },",
-    "  { quarter: 'Q2', revenue: 58 },",
-    '];',
-    '',
-    '@Component({',
-    '  imports: [TngLineChart],',
-    "  template: `<tng-line-chart [data]=\"data\" xField=\"quarter\" yField=\"revenue\" smooth />`,",
-    '})',
-    'export class RevenueChartExample {',
-    '  protected readonly data = data;',
-    '}',
-  ].join('\n');
+  public readonly currentPageLabel = computed(
+    () => this.docsBreadcrumbs().find((crumb) => crumb.current)?.label ?? '',
+  );
 
-  protected readonly headlessCode = [
-    '<tng-chart-root [optionFactory]="optionFactory" [legendItems]="legendItems">',
-    '  <tng-chart-surface />',
-    '  <tng-chart-legend />',
-    '</tng-chart-root>',
-  ].join('\n');
+  public readonly docsBreadcrumbs = computed<
+    readonly { current: boolean; label: string; url: string | null }[]
+  >(() => {
+    const url = this.normalizeUrl(this.currentUrl());
+    const segments = url.split('/').filter((segment) => segment.length > 0);
+
+    const crumbs: { current: boolean; label: string; url: string | null }[] = [
+      { current: false, label: 'Home', url: '/' },
+      { current: false, label: 'Charts', url: '/charts' },
+    ];
+
+    if (segments.length < 2 || segments[0] !== 'charts') {
+      crumbs[crumbs.length - 1] = { ...crumbs[crumbs.length - 1], current: true, url: null };
+      return crumbs;
+    }
+
+    const groupId = segments[1] as ChartsDocsCategoryId | undefined;
+    const group = CHARTS_DOCS_GROUPS.find((candidate) => candidate.id === groupId);
+    if (!group) {
+      crumbs[crumbs.length - 1] = { ...crumbs[crumbs.length - 1], current: true, url: null };
+      return crumbs;
+    }
+
+    crumbs.push({
+      current: false,
+      label: group.title,
+      url: `/charts/${group.id}`,
+    });
+
+    const itemSlug = segments[2];
+    const item = group.items.find((candidate) => candidate.slug === itemSlug);
+    if (!item) {
+      crumbs[crumbs.length - 1] = { ...crumbs[crumbs.length - 1], current: true, url: null };
+      return crumbs;
+    }
+
+    crumbs.push({
+      current: true,
+      label: item.title,
+      url: null,
+    });
+
+    return crumbs;
+  });
+
+  public onDrawerOpenedChange(opened: boolean): void {
+    if (!opened) {
+      this.mobileNavOpen.set(false);
+    }
+  }
+
+  public toggleMobileNav(): void {
+    this.mobileNavOpen.update((open) => !open);
+  }
+
+  public itemHref(groupId: ChartsDocsCategoryId, itemSlug: string): string {
+    return buildChartsDocHref(groupId, itemSlug);
+  }
+
+  public isNavItemActive(group: ChartsDocsGroup, item: ChartsDocsItem): boolean {
+    const current = this.normalizeUrl(this.currentUrl());
+    return this.isMatchingItemPath(current, this.itemHref(group.id, item.slug));
+  }
+
+  private normalizeUrl(rawUrl: string): string {
+    const queryIndex = rawUrl.indexOf('?');
+    const hashIndex = rawUrl.indexOf('#');
+    let endIndex = rawUrl.length;
+
+    if (queryIndex >= 0) {
+      endIndex = Math.min(endIndex, queryIndex);
+    }
+
+    if (hashIndex >= 0) {
+      endIndex = Math.min(endIndex, hashIndex);
+    }
+
+    const normalized = rawUrl.slice(0, endIndex);
+    if (normalized.length > 1 && normalized.endsWith('/')) {
+      return normalized.slice(0, -1);
+    }
+
+    return normalized;
+  }
+
+  private isMatchingItemPath(currentUrl: string, itemUrl: string): boolean {
+    if (currentUrl === itemUrl) {
+      return true;
+    }
+
+    return currentUrl.startsWith(`${itemUrl}/`);
+  }
 }
