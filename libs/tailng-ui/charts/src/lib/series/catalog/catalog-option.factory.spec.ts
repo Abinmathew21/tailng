@@ -64,7 +64,9 @@ describe('createTngCatalogChartOption', () => {
       stackedBarPreset,
     ) as Readonly<Record<string, unknown>>;
     const series = option['series'] as readonly Readonly<Record<string, unknown>>[];
+    const grid = option['grid'] as Readonly<Record<string, unknown>>;
 
+    expect(grid['bottom']).toBe(72);
     expect(series).toHaveLength(2);
     expect(series[0]).toMatchObject({
       id: 'subscriptions',

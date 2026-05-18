@@ -98,6 +98,24 @@ function createValueRange(values: readonly number[]): Readonly<{ max: number; mi
   };
 }
 
+function resolveCartesianGridBottom(
+  input: TngCatalogChartOptionInput,
+  preset: TngCatalogChartPreset,
+): number {
+  const hasDataZoom = hasFeature(preset, 'dataZoom');
+  const hasLegend = input.legend !== false;
+
+  if (hasDataZoom && hasLegend) {
+    return 96;
+  }
+
+  if (hasDataZoom) {
+    return 64;
+  }
+
+  return hasLegend ? 72 : 24;
+}
+
 function createVisualMapOption(
   discrete: boolean,
   enabled: boolean,
@@ -134,7 +152,7 @@ function createCartesianOption(
 
   return {
     grid: {
-      bottom: hasFeature(preset, 'dataZoom') ? 64 : 24,
+      bottom: resolveCartesianGridBottom(input, preset),
       containLabel: true,
       left: 24,
       right: hasFeature(preset, 'multiAxis') ? 56 : 24,
