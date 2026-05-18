@@ -1,4 +1,5 @@
-import { Component, computed, inject } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Component, computed, DestroyRef, effect, ElementRef, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import {
@@ -43,6 +44,20 @@ import {
 })
 export class HeadlessPageComponent {
   private readonly router = inject(Router);
+  private readonly document = inject(DOCUMENT);
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly hostElement = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
+  private activeNavScrollFrame: number | null = null;
+
+  public constructor() {
+    effect(() => {
+      this.currentUrl();
+      this.scheduleActiveNavScroll();
+    });
+
+    this.destroyRef.onDestroy((): void => this.cancelActiveNavScroll());
+  }
+
   private readonly currentUrl = toSignal(
     this.router.events.pipe(
       filter((event): event is NavigationEnd => event instanceof NavigationEnd),
@@ -139,5 +154,47 @@ export class HeadlessPageComponent {
     }
 
     return currentUrl.startsWith(`${itemUrl}/`);
+  }
+
+  private scheduleActiveNavScroll(): void {
+    const ownerWindow = this.document.defaultView;
+    if (ownerWindow === null) {
+      return;
+    }
+
+    this.cancelActiveNavScroll();
+    this.activeNavScrollFrame = ownerWindow.requestAnimationFrame(() => {
+      this.activeNavScrollFrame = ownerWindow.requestAnimationFrame(() => {
+        this.activeNavScrollFrame = null;
+        this.scrollActiveNavItemIntoView();
+      });
+    });
+  }
+
+  private cancelActiveNavScroll(): void {
+    const ownerWindow = this.document.defaultView;
+    if (ownerWindow === null || this.activeNavScrollFrame === null) {
+      this.activeNavScrollFrame = null;
+      return;
+    }
+
+    ownerWindow.cancelAnimationFrame(this.activeNavScrollFrame);
+    this.activeNavScrollFrame = null;
+  }
+
+  private scrollActiveNavItemIntoView(): void {
+    const selectedLink = this.hostElement.querySelector<HTMLElement>(
+      '.components-docs-nav-link--selected',
+    );
+    const navScroller = selectedLink?.closest<HTMLElement>('tng-accordion') ?? null;
+    if (selectedLink === null || navScroller === null) {
+      return;
+    }
+
+    const selectedRect = selectedLink.getBoundingClientRect();
+    const scrollerRect = navScroller.getBoundingClientRect();
+    const selectedCenter = selectedRect.top - scrollerRect.top + selectedRect.height / 2;
+    const scrollerCenter = navScroller.clientHeight / 2;
+    navScroller.scrollBy({ top: selectedCenter - scrollerCenter, behavior: 'auto' });
   }
 }

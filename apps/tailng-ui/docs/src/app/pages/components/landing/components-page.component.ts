@@ -1,5 +1,5 @@
 import { DOCUMENT } from '@angular/common';
-import { Component, computed, DestroyRef, inject, signal } from '@angular/core';
+import { Component, computed, DestroyRef, effect, ElementRef, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router';
 import {
@@ -48,17 +48,33 @@ export class ComponentsPageComponent {
   private readonly router = inject(Router);
   private readonly document = inject(DOCUMENT);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly hostElement = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
   private readonly mobileQuery =
     this.document.defaultView?.matchMedia('(max-width: 768px)') ?? null;
+  private activeNavScrollFrame: number | null = null;
 
   public readonly isMobile = signal(this.mobileQuery?.matches ?? false);
 
-  constructor() {
-    if (this.mobileQuery) {
-      const handler = (e: MediaQueryListEvent) => this.isMobile.set(e.matches);
-      this.mobileQuery.addEventListener('change', handler);
-      this.destroyRef.onDestroy(() => this.mobileQuery!.removeEventListener('change', handler));
+  public constructor() {
+    const mobileQuery = this.mobileQuery;
+    if (mobileQuery) {
+      const handler = (e: MediaQueryListEvent): void => this.isMobile.set(e.matches);
+      mobileQuery.addEventListener('change', handler);
+      this.destroyRef.onDestroy((): void => mobileQuery.removeEventListener('change', handler));
     }
+
+    effect(() => {
+      this.currentUrl();
+
+      if (!this.drawerOpened()) {
+        this.cancelActiveNavScroll();
+        return;
+      }
+
+      this.scheduleActiveNavScroll();
+    });
+
+    this.destroyRef.onDestroy((): void => this.cancelActiveNavScroll());
   }
 
   public readonly mobileNavOpen = signal(false);
@@ -179,5 +195,47 @@ export class ComponentsPageComponent {
     }
 
     return currentUrl.startsWith(`${itemUrl}/`);
+  }
+
+  private scheduleActiveNavScroll(): void {
+    const ownerWindow = this.document.defaultView;
+    if (ownerWindow === null) {
+      return;
+    }
+
+    this.cancelActiveNavScroll();
+    this.activeNavScrollFrame = ownerWindow.requestAnimationFrame(() => {
+      this.activeNavScrollFrame = ownerWindow.requestAnimationFrame(() => {
+        this.activeNavScrollFrame = null;
+        this.scrollActiveNavItemIntoView();
+      });
+    });
+  }
+
+  private cancelActiveNavScroll(): void {
+    const ownerWindow = this.document.defaultView;
+    if (ownerWindow === null || this.activeNavScrollFrame === null) {
+      this.activeNavScrollFrame = null;
+      return;
+    }
+
+    ownerWindow.cancelAnimationFrame(this.activeNavScrollFrame);
+    this.activeNavScrollFrame = null;
+  }
+
+  private scrollActiveNavItemIntoView(): void {
+    const selectedLink = this.hostElement.querySelector<HTMLElement>(
+      '.components-docs-nav-link--selected',
+    );
+    const navScroller = selectedLink?.closest<HTMLElement>('tng-accordion') ?? null;
+    if (selectedLink === null || navScroller === null) {
+      return;
+    }
+
+    const selectedRect = selectedLink.getBoundingClientRect();
+    const scrollerRect = navScroller.getBoundingClientRect();
+    const selectedCenter = selectedRect.top - scrollerRect.top + selectedRect.height / 2;
+    const scrollerCenter = navScroller.clientHeight / 2;
+    navScroller.scrollBy({ top: selectedCenter - scrollerCenter, behavior: 'auto' });
   }
 }
