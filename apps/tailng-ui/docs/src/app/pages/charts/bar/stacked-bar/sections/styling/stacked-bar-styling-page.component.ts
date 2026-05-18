@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { TngCodeBlockComponent } from '@tailng-ui/components';
 import { CHART_SERIES_THEME_VARIABLES } from '../../../../series/chart-series-docs.data';
-import { ChartSeriesPilotThemeBase } from '../../../../series/pilot/shared/chart-series-pilot-theme.base';
+import { ChartSeriesThemeBase } from '../../../../series/shared/chart-series-theme.base';
 
 @Component({
   selector: 'app-stacked-bar-styling-page',
@@ -9,7 +9,7 @@ import { ChartSeriesPilotThemeBase } from '../../../../series/pilot/shared/chart
   templateUrl: './stacked-bar-styling-page.component.html',
   styleUrl: './stacked-bar-styling-page.component.css',
 })
-export class StackedBarStylingPageComponent extends ChartSeriesPilotThemeBase {
+export class StackedBarStylingPageComponent extends ChartSeriesThemeBase {
   protected readonly themeVariables = CHART_SERIES_THEME_VARIABLES;
   protected readonly cssVariableCode = [
     '.analytics-panel tng-stacked-bar-chart {',

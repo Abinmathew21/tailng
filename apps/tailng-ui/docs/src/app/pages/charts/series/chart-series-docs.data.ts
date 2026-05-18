@@ -1106,7 +1106,7 @@ export const CHARTS_SERIES_DOCS_GROUPS: readonly ChartsDocsGroup[] = Object.free
   },
 ]);
 
-function requireChartSeriesDocsGroup(groupId: string): ChartsDocsGroup {
+export function requireChartSeriesDocsGroup(groupId: string): ChartsDocsGroup {
   const group = CHARTS_SERIES_DOCS_GROUPS.find((entry) => entry.id === groupId);
   if (group === undefined) {
     throw new Error(`Missing charts series docs group "${groupId}".`);

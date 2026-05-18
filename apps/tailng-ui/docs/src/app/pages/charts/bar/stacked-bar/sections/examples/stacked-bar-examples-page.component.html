@@ -1,11 +1,11 @@
-<article class="chart-pilot-examples">
-  <h2 class="chart-pilot-examples-title">Examples</h2>
-  <p class="chart-pilot-examples-lead">
+<article class="chart-series-examples">
+  <h2 class="chart-series-examples-title">Examples</h2>
+  <p class="chart-series-examples-lead">
     Stacked Bar examples in the default plain-CSS presentation and in a theme-aware Tailwind shell.
     TailNG generates the ECharts option, legend, and chart variables for you.
   </p>
 
-  <section id="dashboard-usage" class="chart-pilot-examples-block">
+  <section id="dashboard-usage" class="chart-series-examples-block">
     <app-docs-example-tabs-section
       heading="Dashboard usage"
       description="Drop the catalog stacked bar chart into an analytics card without changing the field-driven API."
@@ -25,7 +25,7 @@
           description="Map category labels and measure series from your records into the generated stacked bar option."
           submitLabel="Refresh chart"
         >
-          <div docsFormDemoField class="chart-pilot-example-control">
+          <div docsFormDemoField class="chart-series-example-control">
             <tng-stacked-bar-chart
               [data]="data"
               xField="label"
@@ -39,7 +39,7 @@
     </app-docs-example-tabs-section>
   </section>
 
-  <section id="default-preset" class="chart-pilot-examples-block">
+  <section id="default-preset" class="chart-series-examples-block">
     <app-docs-example-tabs-section
       heading="Default preset"
       description="Stock Stacked Bar behavior with category labels on the x-axis and multiple measures in one stack."
@@ -55,8 +55,8 @@
         panelTitle="Default preset (Plain-CSS)"
         [codeTabs]="defaultPlainCodeTabs"
       >
-        <div class="chart-pilot-example-preview">
-          <div class="chart-pilot-example-chart chart-pilot-example-chart--plain">
+        <div class="chart-series-example-preview">
+          <div class="chart-series-example-chart chart-series-example-chart--plain">
             <tng-stacked-bar-chart
               [data]="data"
               xField="label"
@@ -64,7 +64,7 @@
               [height]="chartHeight"
             />
           </div>
-          <p class="chart-pilot-example-note">
+          <p class="chart-series-example-note">
             The default preset picks up the chart theme contract without extra utility classes on the
             host.
           </p>
@@ -78,7 +78,7 @@
         panelTitle="Default preset (Tailwind CSS)"
         [codeTabs]="defaultTailwindCodeTabs"
       >
-        <div class="chart-pilot-example-preview">
+        <div class="chart-series-example-preview">
           <div [class]="tailwindShellClass">
             <tng-stacked-bar-chart
               [data]="data"
@@ -87,7 +87,7 @@
               [height]="chartHeight"
             />
           </div>
-          <p class="chart-pilot-example-note">
+          <p class="chart-series-example-note">
             Tailwind can own the outer analytics surface while semantic tokens keep light, dark, and
             custom themes in sync.
           </p>
@@ -96,7 +96,7 @@
     </app-docs-example-tabs-section>
   </section>
 
-  <section id="scoped-theme" class="chart-pilot-examples-block">
+  <section id="scoped-theme" class="chart-series-examples-block">
     <app-docs-example-tabs-section
       heading="Scoped theme variables"
       description="Override chart CSS variables on the host element to align the preset with your product palette."
@@ -112,8 +112,8 @@
         panelTitle="Scoped theme (Plain-CSS)"
         [codeTabs]="themedPlainCodeTabs"
       >
-        <div class="chart-pilot-example-preview">
-          <div class="chart-pilot-example-chart chart-pilot-example-chart--themed">
+        <div class="chart-series-example-preview">
+          <div class="chart-series-example-chart chart-series-example-chart--themed">
             <tng-stacked-bar-chart
               [data]="data"
               xField="label"
@@ -121,7 +121,7 @@
               [height]="chartHeight"
             />
           </div>
-          <p class="chart-pilot-example-note">
+          <p class="chart-series-example-note">
             Scoped variables on <code>tng-stacked-bar-chart</code> flow into axis, grid, and series
             colors.
           </p>
@@ -135,7 +135,7 @@
         panelTitle="Scoped theme (Tailwind CSS)"
         [codeTabs]="themedTailwindCodeTabs"
       >
-        <div class="chart-pilot-example-preview">
+        <div class="chart-series-example-preview">
           <div
             class="grid gap-3 rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_90%,transparent)] p-4"
           >
@@ -149,7 +149,7 @@
               [height]="chartHeight"
             />
           </div>
-          <p class="chart-pilot-example-note">
+          <p class="chart-series-example-note">
             Combine utility shells with inherited chart variables when the chart sits inside a
             Tailwind-composed dashboard.
           </p>
@@ -158,7 +158,7 @@
     </app-docs-example-tabs-section>
   </section>
 
-  <section id="option-override" class="chart-pilot-examples-block">
+  <section id="option-override" class="chart-series-examples-block">
     <app-docs-example-tabs-section
       heading="Option override"
       description="Use optionOverride when the generated preset needs ECharts-specific bar corner radius."
@@ -174,8 +174,8 @@
         panelTitle="Option override (Plain-CSS)"
         [codeTabs]="overridePlainCodeTabs"
       >
-        <div class="chart-pilot-example-preview">
-          <div class="chart-pilot-example-chart chart-pilot-example-chart--plain">
+        <div class="chart-series-example-preview">
+          <div class="chart-series-example-chart chart-series-example-chart--plain">
             <tng-stacked-bar-chart
               [data]="data"
               xField="label"
@@ -184,7 +184,7 @@
               [optionOverride]="chartOptionOverride"
             />
           </div>
-          <p class="chart-pilot-example-note">
+          <p class="chart-series-example-note">
             The hook receives the generated option and returns the final ECharts configuration.
           </p>
         </div>
@@ -197,7 +197,7 @@
         panelTitle="Option override (Tailwind CSS)"
         [codeTabs]="overrideTailwindCodeTabs"
       >
-        <div class="chart-pilot-example-preview">
+        <div class="chart-series-example-preview">
           <div [class]="tailwindShellClass">
             <tng-stacked-bar-chart
               [data]="data"
@@ -207,7 +207,7 @@
               [optionOverride]="chartOptionOverride"
             />
           </div>
-          <p class="chart-pilot-example-note">
+          <p class="chart-series-example-note">
             Option overrides compose with Tailwind shells—the chart host still owns rendering and
             theme resolution.
           </p>

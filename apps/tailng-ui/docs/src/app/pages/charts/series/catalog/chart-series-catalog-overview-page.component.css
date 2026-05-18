@@ -1,5 +1,5 @@
-@import '../pilot/shared/chart-series-pilot-section.css';
-@import '../pilot/shared/chart-series-pilot-overview.css';
+@import '../shared/chart-series-doc-section.css';
+@import '../shared/chart-series-overview.css';
 
 :host {
   display: block;

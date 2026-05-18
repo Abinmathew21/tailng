@@ -2,12 +2,12 @@ import { computed, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter, map, startWith } from 'rxjs/operators';
-import { ChartSeriesPilotThemeBase } from '../pilot/shared/chart-series-pilot-theme.base';
+import { ChartSeriesThemeBase } from '../shared/chart-series-theme.base';
 import { resolveChartSeriesDocConfigFromUrl } from '../chart-series-docs.data';
 import { buildCatalogDemoData } from './chart-series-catalog.util';
-import { CHART_PILOT_TAILWIND_SHELL_CLASS } from '../pilot/shared/chart-series-pilot-examples.util';
+import { CHART_SERIES_TAILWIND_SHELL_CLASS } from '../shared/chart-series-examples.util';
 
-export abstract class ChartSeriesCatalogPageBase extends ChartSeriesPilotThemeBase {
+export abstract class ChartSeriesCatalogPageBase extends ChartSeriesThemeBase {
   private readonly router = inject(Router);
 
   protected readonly currentUrl = toSignal(
@@ -27,7 +27,7 @@ export abstract class ChartSeriesCatalogPageBase extends ChartSeriesPilotThemeBa
   });
 
   protected readonly chartHeight = 300;
-  protected readonly tailwindShellClass = CHART_PILOT_TAILWIND_SHELL_CLASS;
+  protected readonly tailwindShellClass = CHART_SERIES_TAILWIND_SHELL_CLASS;
 
   protected readonly featureSummary = computed(() => {
     const config = this.chart();

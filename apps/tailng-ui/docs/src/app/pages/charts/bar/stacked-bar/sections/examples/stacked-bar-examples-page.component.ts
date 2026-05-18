@@ -6,13 +6,13 @@ import {
 } from '../../../../../../shared/example-tabs-section/docs-example-tabs-section.component';
 import { DocsFormDemoShellComponent } from '../../../../../../shared/form-demo-shell/docs-form-demo-shell.component';
 import {
-  CHART_PILOT_PLAIN_LAYOUT_CSS,
-  CHART_PILOT_TAILWIND_LAYOUT_CSS,
-  CHART_PILOT_TAILWIND_SHELL_CLASS,
-  createChartPilotCodeTabs,
-} from '../../../../series/pilot/shared/chart-series-pilot-examples.util';
-import { ChartSeriesPilotThemeBase } from '../../../../series/pilot/shared/chart-series-pilot-theme.base';
-import { STACKED_BAR_DEMO_DATA, STACKED_BAR_DEMO_SERIES } from '../../stacked-bar-pilot.data';
+  CHART_SERIES_PLAIN_LAYOUT_CSS,
+  CHART_SERIES_TAILWIND_LAYOUT_CSS,
+  CHART_SERIES_TAILWIND_SHELL_CLASS,
+  createChartSeriesCodeTabs,
+} from '../../../../series/shared/chart-series-examples.util';
+import { ChartSeriesThemeBase } from '../../../../series/shared/chart-series-theme.base';
+import { STACKED_BAR_DEMO_DATA, STACKED_BAR_DEMO_SERIES } from '../../stacked-bar-chart.data';
 
 @Component({
   selector: 'app-stacked-bar-examples-page',
@@ -25,11 +25,11 @@ import { STACKED_BAR_DEMO_DATA, STACKED_BAR_DEMO_SERIES } from '../../stacked-ba
   templateUrl: './stacked-bar-examples-page.component.html',
   styleUrl: './stacked-bar-examples-page.component.css',
 })
-export class StackedBarExamplesPageComponent extends ChartSeriesPilotThemeBase {
+export class StackedBarExamplesPageComponent extends ChartSeriesThemeBase {
   protected readonly chartHeight = 300;
   protected readonly data = STACKED_BAR_DEMO_DATA;
   protected readonly series = STACKED_BAR_DEMO_SERIES;
-  protected readonly tailwindShellClass = CHART_PILOT_TAILWIND_SHELL_CLASS;
+  protected readonly tailwindShellClass = CHART_SERIES_TAILWIND_SHELL_CLASS;
 
   protected readonly chartOptionOverride: TngChartOptionOverride = (option) => ({
     ...option,
@@ -39,7 +39,7 @@ export class StackedBarExamplesPageComponent extends ChartSeriesPilotThemeBase {
     })),
   });
 
-  protected readonly defaultPlainCodeTabs = createChartPilotCodeTabs({
+  protected readonly defaultPlainCodeTabs = createChartSeriesCodeTabs({
     baseName: 'stacked-bar-default-plain',
     tsCode: [
       "import { Component } from '@angular/core';",
@@ -72,8 +72,8 @@ export class StackedBarExamplesPageComponent extends ChartSeriesPilotThemeBase {
       '}',
     ].join('\n'),
     htmlCode: [
-      '<div class="chart-pilot-example-preview">',
-      '  <div class="chart-pilot-example-chart chart-pilot-example-chart--plain">',
+      '<div class="chart-series-example-preview">',
+      '  <div class="chart-series-example-chart chart-series-example-chart--plain">',
       '    <tng-stacked-bar-chart',
       '      [data]="data"',
       '      xField="label"',
@@ -83,10 +83,10 @@ export class StackedBarExamplesPageComponent extends ChartSeriesPilotThemeBase {
       '  </div>',
       '</div>',
     ].join('\n'),
-    cssCode: CHART_PILOT_PLAIN_LAYOUT_CSS,
+    cssCode: CHART_SERIES_PLAIN_LAYOUT_CSS,
   });
 
-  protected readonly defaultTailwindCodeTabs = createChartPilotCodeTabs({
+  protected readonly defaultTailwindCodeTabs = createChartSeriesCodeTabs({
     baseName: 'stacked-bar-default-tailwind',
     tsCode: [
       "import { Component } from '@angular/core';",
@@ -119,7 +119,7 @@ export class StackedBarExamplesPageComponent extends ChartSeriesPilotThemeBase {
       '}',
     ].join('\n'),
     htmlCode: [
-      '<div class="chart-pilot-example-preview">',
+      '<div class="chart-series-example-preview">',
       '  <div class="chart-shell">',
       '    <tng-stacked-bar-chart',
       '      [data]="data"',
@@ -130,10 +130,10 @@ export class StackedBarExamplesPageComponent extends ChartSeriesPilotThemeBase {
       '  </div>',
       '</div>',
     ].join('\n'),
-    cssCode: CHART_PILOT_TAILWIND_LAYOUT_CSS,
+    cssCode: CHART_SERIES_TAILWIND_LAYOUT_CSS,
   });
 
-  protected readonly themedPlainCodeTabs = createChartPilotCodeTabs({
+  protected readonly themedPlainCodeTabs = createChartSeriesCodeTabs({
     baseName: 'stacked-bar-themed-plain',
     tsCode: [
       "import { Component } from '@angular/core';",
@@ -165,7 +165,7 @@ export class StackedBarExamplesPageComponent extends ChartSeriesPilotThemeBase {
     ].join('\n'),
     htmlCode: [
       '<div class="analytics-panel">',
-      '  <div class="chart-pilot-example-chart chart-pilot-example-chart--themed">',
+      '  <div class="chart-series-example-chart chart-series-example-chart--themed">',
       '    <tng-stacked-bar-chart',
       '      [data]="data"',
       '      xField="label"',
@@ -176,7 +176,7 @@ export class StackedBarExamplesPageComponent extends ChartSeriesPilotThemeBase {
       '</div>',
     ].join('\n'),
     cssCode: [
-      CHART_PILOT_PLAIN_LAYOUT_CSS,
+      CHART_SERIES_PLAIN_LAYOUT_CSS,
       '',
       '.analytics-panel tng-stacked-bar-chart {',
       '  --tng-chart-series-1: var(--tng-semantic-accent-brand);',
@@ -186,7 +186,7 @@ export class StackedBarExamplesPageComponent extends ChartSeriesPilotThemeBase {
     ].join('\n'),
   });
 
-  protected readonly themedTailwindCodeTabs = createChartPilotCodeTabs({
+  protected readonly themedTailwindCodeTabs = createChartSeriesCodeTabs({
     baseName: 'stacked-bar-themed-tailwind',
     tsCode: [
       "import { Component } from '@angular/core';",
@@ -226,10 +226,10 @@ export class StackedBarExamplesPageComponent extends ChartSeriesPilotThemeBase {
       '  />',
       '</div>',
     ].join('\n'),
-    cssCode: CHART_PILOT_TAILWIND_LAYOUT_CSS,
+    cssCode: CHART_SERIES_TAILWIND_LAYOUT_CSS,
   });
 
-  protected readonly overridePlainCodeTabs = createChartPilotCodeTabs({
+  protected readonly overridePlainCodeTabs = createChartSeriesCodeTabs({
     baseName: 'stacked-bar-override-plain',
     tsCode: [
       "import { Component } from '@angular/core';",
@@ -267,7 +267,7 @@ export class StackedBarExamplesPageComponent extends ChartSeriesPilotThemeBase {
       '}',
     ].join('\n'),
     htmlCode: [
-      '<div class="chart-pilot-example-chart chart-pilot-example-chart--plain">',
+      '<div class="chart-series-example-chart chart-series-example-chart--plain">',
       '  <tng-stacked-bar-chart',
       '    [data]="data"',
       '    xField="label"',
@@ -277,10 +277,10 @@ export class StackedBarExamplesPageComponent extends ChartSeriesPilotThemeBase {
       '  />',
       '</div>',
     ].join('\n'),
-    cssCode: CHART_PILOT_PLAIN_LAYOUT_CSS,
+    cssCode: CHART_SERIES_PLAIN_LAYOUT_CSS,
   });
 
-  protected readonly overrideTailwindCodeTabs = createChartPilotCodeTabs({
+  protected readonly overrideTailwindCodeTabs = createChartSeriesCodeTabs({
     baseName: 'stacked-bar-override-tailwind',
     tsCode: [
       "import { Component } from '@angular/core';",
@@ -328,6 +328,6 @@ export class StackedBarExamplesPageComponent extends ChartSeriesPilotThemeBase {
       '  />',
       '</div>',
     ].join('\n'),
-    cssCode: CHART_PILOT_TAILWIND_LAYOUT_CSS,
+    cssCode: CHART_SERIES_TAILWIND_LAYOUT_CSS,
   });
 }

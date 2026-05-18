@@ -1,10 +1,10 @@
 import type { TngChartData, TngChartOptionOverride } from '@tailng-ui/charts';
 import type { ChartSeriesDocConfig } from '../chart-series-docs.data';
 import {
-  CHART_PILOT_PLAIN_LAYOUT_CSS,
-  CHART_PILOT_TAILWIND_LAYOUT_CSS,
-  createChartPilotCodeTabs,
-} from '../pilot/shared/chart-series-pilot-examples.util';
+  CHART_SERIES_PLAIN_LAYOUT_CSS,
+  CHART_SERIES_TAILWIND_LAYOUT_CSS,
+  createChartSeriesCodeTabs,
+} from '../shared/chart-series-examples.util';
 
 export type ChartUsageBindings = Readonly<Record<string, string>>;
 
@@ -121,7 +121,7 @@ export function buildCatalogTemplateMarkup(
 export function buildCatalogOverviewPlainCodeTabs(config: ChartSeriesDocConfig) {
   const className = toExampleClassName(config, 'OverviewPlain');
 
-  return createChartPilotCodeTabs({
+  return createChartSeriesCodeTabs({
     baseName: `overview-${config.slug}-plain`,
     tsCode: [
       "import { Component } from '@angular/core';",
@@ -143,12 +143,12 @@ export function buildCatalogOverviewPlainCodeTabs(config: ChartSeriesDocConfig) 
       '}',
     ].join('\n'),
     htmlCode: [
-      '<div class="chart-pilot-overview-example-chart chart-pilot-overview-example-chart--plain">',
+      '<div class="chart-series-overview-example-chart chart-series-overview-example-chart--plain">',
       buildCatalogTemplateMarkup(config),
       '</div>',
     ].join('\n'),
     cssCode: [
-      '.chart-pilot-overview-example-chart--plain {',
+      '.chart-series-overview-example-chart--plain {',
       '  min-height: 20rem;',
       '  padding: 1rem;',
       '}',
@@ -160,7 +160,7 @@ export function buildCatalogOverviewPlainCodeTabs(config: ChartSeriesDocConfig) 
 export function buildCatalogOverviewTailwindCodeTabs(config: ChartSeriesDocConfig) {
   const className = toExampleClassName(config, 'OverviewTailwind');
 
-  return createChartPilotCodeTabs({
+  return createChartSeriesCodeTabs({
     baseName: `overview-${config.slug}-tailwind`,
     tsCode: [
       "import { Component } from '@angular/core';",
@@ -185,7 +185,7 @@ export function buildCatalogOverviewTailwindCodeTabs(config: ChartSeriesDocConfi
       buildCatalogTemplateMarkup(config),
       '</div>',
     ].join('\n'),
-    cssCode: CHART_PILOT_TAILWIND_LAYOUT_CSS,
+    cssCode: CHART_SERIES_TAILWIND_LAYOUT_CSS,
   });
 }
 
@@ -196,15 +196,15 @@ export function buildCatalogExamplePresetCodeTabs(
 ) {
   const shellClass =
     variant === 'themed' && style === 'plain'
-      ? 'chart-pilot-example-chart chart-pilot-example-chart--themed'
+      ? 'chart-series-example-chart chart-series-example-chart--themed'
       : style === 'plain'
-        ? 'chart-pilot-example-chart chart-pilot-example-chart--plain'
+        ? 'chart-series-example-chart chart-series-example-chart--plain'
         : undefined;
   const useTailwindShell = style === 'tailwind' && variant !== 'themed';
   const className = toExampleClassName(config, `${variant}-${style}`);
   const optionOverride = variant === 'override';
 
-  return createChartPilotCodeTabs({
+  return createChartSeriesCodeTabs({
     baseName: `${config.slug}-${variant}-${style}`,
     tsCode: [
       "import { Component } from '@angular/core';",
@@ -228,13 +228,13 @@ export function buildCatalogExamplePresetCodeTabs(
       .filter((line) => line.length > 0)
       .join('\n'),
     htmlCode: [
-      '<div class="chart-pilot-example-preview">',
+      '<div class="chart-series-example-preview">',
       useTailwindShell
         ? `<div class="chart-shell">${buildCatalogTemplateMarkup(config, { optionOverride })}</div>`
-        : `<div class="${shellClass ?? 'chart-pilot-example-chart chart-pilot-example-chart--plain'}">${buildCatalogTemplateMarkup(config, { optionOverride })}</div>`,
+        : `<div class="${shellClass ?? 'chart-series-example-chart chart-series-example-chart--plain'}">${buildCatalogTemplateMarkup(config, { optionOverride })}</div>`,
       '</div>',
     ].join('\n'),
-    cssCode: style === 'plain' ? CHART_PILOT_PLAIN_LAYOUT_CSS : CHART_PILOT_TAILWIND_LAYOUT_CSS,
+    cssCode: style === 'plain' ? CHART_SERIES_PLAIN_LAYOUT_CSS : CHART_SERIES_TAILWIND_LAYOUT_CSS,
   });
 }
 
