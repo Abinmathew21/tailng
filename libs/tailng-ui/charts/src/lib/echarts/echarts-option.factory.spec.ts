@@ -53,14 +53,12 @@ describe('createTngEchartsOption', () => {
     const title = option['title'] as Readonly<Record<string, unknown>>;
     const legend = option['legend'] as Readonly<Record<string, unknown>>;
     const tooltip = option['tooltip'] as Readonly<Record<string, unknown>>;
-    const visualMap = option['visualMap'] as Readonly<Record<string, unknown>>;
     const xAxis = option['xAxis'] as Readonly<Record<string, unknown>>;
     const splitLine = xAxis['splitLine'] as Readonly<Record<string, unknown>>;
     const splitLineStyle = splitLine['lineStyle'] as Readonly<Record<string, unknown>>;
     const legendTextStyle = legend['textStyle'] as Readonly<Record<string, unknown>>;
     const titleTextStyle = title['textStyle'] as Readonly<Record<string, unknown>>;
     const tooltipTextStyle = tooltip['textStyle'] as Readonly<Record<string, unknown>>;
-    const inRange = (visualMap['inRange'] as Readonly<Record<string, unknown>>);
 
     expect(option['color']).toEqual(theme.palette);
     expect(titleTextStyle['color']).toBe(theme.textColor);
@@ -69,11 +67,31 @@ describe('createTngEchartsOption', () => {
     expect(tooltip['borderColor']).toBe(theme.tooltipBorderColor);
     expect(tooltipTextStyle['color']).toBe(theme.textColor);
     expect(splitLineStyle['color']).toBe(theme.gridLineColor);
+    expect(option['visualMap']).toBeUndefined();
+  });
+
+  it('only applies visualMap theme defaults when the chart option declares visualMap', () => {
+    const option = createTngEchartsOption(
+      {
+        visualMap: {
+          max: 100,
+          min: 0,
+        },
+      },
+      theme,
+    ) as Readonly<Record<string, unknown>>;
+    const visualMap = option['visualMap'] as Readonly<Record<string, unknown>>;
+    const inRange = visualMap['inRange'] as Readonly<Record<string, unknown>>;
+    const textStyle = visualMap['textStyle'] as Readonly<Record<string, unknown>>;
+
+    expect(visualMap['max']).toBe(100);
+    expect(visualMap['min']).toBe(0);
     expect(inRange['color']).toEqual([
       theme.heatmapLowColor,
       theme.heatmapMidColor,
       theme.heatmapHighColor,
     ]);
+    expect(textStyle['color']).toBe(theme.mutedTextColor);
   });
 
   it('applies axis theme defaults to axis arrays', () => {

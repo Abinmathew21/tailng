@@ -56,6 +56,13 @@ export function createTngEchartsThemeOption(theme: TngChartResolvedTheme): TngCh
       },
     },
     tooltip: createTngTooltipThemeOption(theme),
+    xAxis: createTngAxisThemeOption(theme),
+    yAxis: createTngAxisThemeOption(theme),
+  } as TngChartOption;
+}
+
+export function createTngEchartsVisualMapThemeOption(theme: TngChartResolvedTheme): TngChartOption {
+  return {
     visualMap: {
       inRange: {
         color: [theme.heatmapLowColor, theme.heatmapMidColor, theme.heatmapHighColor],
@@ -64,7 +71,5 @@ export function createTngEchartsThemeOption(theme: TngChartResolvedTheme): TngCh
         color: theme.mutedTextColor,
       },
     },
-    xAxis: createTngAxisThemeOption(theme),
-    yAxis: createTngAxisThemeOption(theme),
   } as TngChartOption;
 }

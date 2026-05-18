@@ -83,6 +83,38 @@ function createAxisOption(
       };
 }
 
+function createValueRange(values: readonly number[]): Readonly<{ max: number; min: number }> {
+  if (values.length === 0) {
+    return { max: 0, min: 0 };
+  }
+
+  return {
+    max: Math.max(...values),
+    min: Math.min(...values),
+  };
+}
+
+function createVisualMapOption(
+  discrete: boolean,
+  enabled: boolean,
+  values: readonly number[],
+): TngOptionRecord {
+  if (!enabled) {
+    return {};
+  }
+
+  const range = createValueRange(values);
+
+  return {
+    visualMap: {
+      calculable: !discrete,
+      max: range.max,
+      min: range.min,
+      type: discrete ? 'piecewise' : 'continuous',
+    },
+  };
+}
+
 function createCartesianOption(
   input: TngCatalogChartOptionInput,
   preset: TngCatalogChartPreset,
@@ -452,9 +484,18 @@ export function createTngCatalogChartOption(
   input: TngCatalogChartOptionInput,
   preset: TngCatalogChartPreset,
 ): TngChartOption {
+  const discreteVisualMap = hasFeature(preset, 'discreteVisualMap');
+  const visualMapEnabled = discreteVisualMap || hasFeature(preset, 'visualMap');
+  const visualMapValueField = resolveInputField(input.valueField, DEFAULT_VALUE_FIELD);
+  const visualMapValues = visualMapEnabled
+    ? input.data
+        .map((datum) => getTngChartNumberValue(datum, visualMapValueField))
+        .filter((value): value is number => value !== null)
+    : [];
   const option: TngChartOption = {
     ...createBaseOption(input, preset),
     ...createCoordinateOption(input, preset),
+    ...createVisualMapOption(discreteVisualMap, visualMapEnabled, visualMapValues),
     series: createCatalogSeries(input, preset),
   };
 
