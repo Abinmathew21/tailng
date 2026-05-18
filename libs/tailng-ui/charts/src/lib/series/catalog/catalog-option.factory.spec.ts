@@ -48,6 +48,38 @@ describe('createTngCatalogChartOption', () => {
     expect(option['visualMap']).toBeUndefined();
   });
 
+  it('creates stacked bar series from series metadata', () => {
+    const option = createTngCatalogChartOption(
+      {
+        data: [
+          { label: 'North', services: 14, subscriptions: 26 },
+          { label: 'West', services: 18, subscriptions: 34 },
+        ],
+        series: [
+          { key: 'subscriptions', label: 'Subscriptions', yField: 'subscriptions' },
+          { key: 'services', label: 'Services', yField: 'services' },
+        ],
+        xField: 'label',
+      },
+      stackedBarPreset,
+    ) as Readonly<Record<string, unknown>>;
+    const series = option['series'] as readonly Readonly<Record<string, unknown>>[];
+
+    expect(series).toHaveLength(2);
+    expect(series[0]).toMatchObject({
+      id: 'subscriptions',
+      name: 'Subscriptions',
+      stack: 'total',
+      type: 'bar',
+    });
+    expect(series[1]).toMatchObject({
+      id: 'services',
+      name: 'Services',
+      stack: 'total',
+      type: 'bar',
+    });
+  });
+
   it('creates a ranged visualMap for visualMap catalog presets', () => {
     const option = createTngCatalogChartOption(
       {

@@ -3,7 +3,7 @@
   <p class="chart-pilot-overview-lead">
     <code>&lt;tng-stacked-bar-chart&gt;</code>
     compares categories with stacking enabled on the generated bar series. Map
-    <code>xField</code> and <code>yField</code> to your record shape.
+    <code>xField</code> and <code>series</code> to your record shape.
   </p>
 
   <app-docs-example-tabs-section
@@ -27,7 +27,7 @@
           <tng-stacked-bar-chart
             [data]="data"
             xField="label"
-            yField="value"
+            [series]="series"
             [height]="chartHeight"
           />
         </div>
@@ -46,7 +46,7 @@
           <tng-stacked-bar-chart
             [data]="data"
             xField="label"
-            yField="value"
+            [series]="series"
             [height]="chartHeight"
           />
         </div>

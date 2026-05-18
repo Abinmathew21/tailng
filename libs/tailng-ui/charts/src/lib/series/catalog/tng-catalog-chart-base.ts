@@ -9,6 +9,7 @@ import type {
   TngChartPointEvent,
   TngChartRenderer,
   TngChartRuntimeLoader,
+  TngChartSeries,
   TngChartTheme,
 } from '../../core/chart.types';
 
@@ -32,6 +33,7 @@ export abstract class TngCatalogChartComponentBase {
   public readonly optionOverride = input<TngChartOptionOverride | null>(null);
   public readonly renderer = input<TngChartRenderer>('canvas');
   public readonly runtimeLoader = input<TngChartRuntimeLoader | null>(null);
+  public readonly series = input<readonly TngChartSeries[] | null>(null);
   public readonly sourceField = input<string | null>(null);
   public readonly targetField = input<string | null>(null);
   public readonly theme = input<TngChartTheme>(null);
@@ -56,6 +58,7 @@ export abstract class TngCatalogChartComponentBase {
         legend: this.legend(),
         nameField: this.nameField(),
         optionOverride: this.optionOverride(),
+        series: this.series(),
         sourceField: this.sourceField(),
         targetField: this.targetField(),
         tooltip: this.tooltip(),

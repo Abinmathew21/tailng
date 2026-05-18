@@ -22,14 +22,14 @@
       >
         <app-docs-form-demo-shell
           title="Regional performance"
-          description="Map label and value fields from your records into the generated stacked bar option."
+          description="Map category labels and measure series from your records into the generated stacked bar option."
           submitLabel="Refresh chart"
         >
           <div docsFormDemoField class="chart-pilot-example-control">
             <tng-stacked-bar-chart
               [data]="data"
               xField="label"
-              yField="value"
+              [series]="series"
               [height]="chartHeight"
             />
           </div>
@@ -42,7 +42,7 @@
   <section id="default-preset" class="chart-pilot-examples-block">
     <app-docs-example-tabs-section
       heading="Default preset"
-      description="Stock Stacked Bar behavior with category labels on the x-axis and numeric values on the y-axis."
+      description="Stock Stacked Bar behavior with category labels on the x-axis and multiple measures in one stack."
       ariaLabel="Stacked bar default preset variants"
       tabListAriaLabel="Stacked bar default preset example styles"
       defaultValue="plain-css"
@@ -60,7 +60,7 @@
             <tng-stacked-bar-chart
               [data]="data"
               xField="label"
-              yField="value"
+              [series]="series"
               [height]="chartHeight"
             />
           </div>
@@ -83,7 +83,7 @@
             <tng-stacked-bar-chart
               [data]="data"
               xField="label"
-              yField="value"
+              [series]="series"
               [height]="chartHeight"
             />
           </div>
@@ -117,7 +117,7 @@
             <tng-stacked-bar-chart
               [data]="data"
               xField="label"
-              yField="value"
+              [series]="series"
               [height]="chartHeight"
             />
           </div>
@@ -145,7 +145,7 @@
             <tng-stacked-bar-chart
               [data]="data"
               xField="label"
-              yField="value"
+              [series]="series"
               [height]="chartHeight"
             />
           </div>
@@ -179,7 +179,7 @@
             <tng-stacked-bar-chart
               [data]="data"
               xField="label"
-              yField="value"
+              [series]="series"
               [height]="chartHeight"
               [optionOverride]="chartOptionOverride"
             />
@@ -202,7 +202,7 @@
             <tng-stacked-bar-chart
               [data]="data"
               xField="label"
-              yField="value"
+              [series]="series"
               [height]="chartHeight"
               [optionOverride]="chartOptionOverride"
             />

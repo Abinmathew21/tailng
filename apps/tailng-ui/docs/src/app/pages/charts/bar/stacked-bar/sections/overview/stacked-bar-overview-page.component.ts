@@ -5,15 +5,16 @@ import {
   DocsExampleTabsSectionComponent,
   DocsExampleVariantDirective,
 } from '../../../../../../shared/example-tabs-section/docs-example-tabs-section.component';
-import { ChartSeriesPilotThemeBase } from '../../../../series/pilot/shared/chart-series-pilot-theme.base';
 import {
   CHART_PILOT_TAILWIND_LAYOUT_CSS,
   CHART_PILOT_TAILWIND_SHELL_CLASS,
   createChartPilotCodeTabs,
 } from '../../../../series/pilot/shared/chart-series-pilot-examples.util';
+import { ChartSeriesPilotThemeBase } from '../../../../series/pilot/shared/chart-series-pilot-theme.base';
 import {
   STACKED_BAR_CHART_CONFIG,
   STACKED_BAR_DEMO_DATA,
+  STACKED_BAR_DEMO_SERIES,
   STACKED_BAR_IMPORT_CODE,
   STACKED_BAR_USAGE_CODE,
 } from '../../stacked-bar-pilot.data';
@@ -31,6 +32,7 @@ import {
 })
 export class StackedBarOverviewPageComponent extends ChartSeriesPilotThemeBase {
   protected readonly data = STACKED_BAR_DEMO_DATA;
+  protected readonly series = STACKED_BAR_DEMO_SERIES;
   protected readonly chartHeight = 300;
   protected readonly tailwindShellClass = CHART_PILOT_TAILWIND_SHELL_CLASS;
   protected readonly importCode = STACKED_BAR_IMPORT_CODE;
@@ -44,12 +46,18 @@ export class StackedBarOverviewPageComponent extends ChartSeriesPilotThemeBase {
     baseName: 'overview-stacked-bar-plain',
     tsCode: [
       "import { Component } from '@angular/core';",
-      "import { TngStackedBarChart, type TngChartData } from '@tailng-ui/charts';",
+      "import { TngStackedBarChart, type TngChartData, type TngChartSeries } from '@tailng-ui/charts';",
       '',
       'const data: TngChartData = [',
-      "  { label: 'North', value: 26 },",
-      "  { label: 'West', value: 34 },",
-      "  { label: 'South', value: 30 },",
+      "  { label: 'North', subscriptions: 26, services: 14, support: 8 },",
+      "  { label: 'West', subscriptions: 34, services: 18, support: 12 },",
+      "  { label: 'South', subscriptions: 30, services: 16, support: 10 },",
+      '];',
+      '',
+      'const series: readonly TngChartSeries[] = [',
+      "  { key: 'subscriptions', label: 'Subscriptions', yField: 'subscriptions' },",
+      "  { key: 'services', label: 'Services', yField: 'services' },",
+      "  { key: 'support', label: 'Support', yField: 'support' },",
       '];',
       '',
       '@Component({',
@@ -59,6 +67,7 @@ export class StackedBarOverviewPageComponent extends ChartSeriesPilotThemeBase {
       '})',
       'export class OverviewStackedBarPlainComponent {',
       '  protected readonly data = data;',
+      '  protected readonly series = series;',
       '}',
     ].join('\n'),
     htmlCode: [
@@ -66,7 +75,7 @@ export class StackedBarOverviewPageComponent extends ChartSeriesPilotThemeBase {
       '  <tng-stacked-bar-chart',
       '    [data]="data"',
       '    xField="label"',
-      '    yField="value"',
+      '    [series]="series"',
       '    [height]="300"',
       '  />',
       '</div>',
@@ -84,12 +93,18 @@ export class StackedBarOverviewPageComponent extends ChartSeriesPilotThemeBase {
     baseName: 'overview-stacked-bar-tailwind',
     tsCode: [
       "import { Component } from '@angular/core';",
-      "import { TngStackedBarChart, type TngChartData } from '@tailng-ui/charts';",
+      "import { TngStackedBarChart, type TngChartData, type TngChartSeries } from '@tailng-ui/charts';",
       '',
       'const data: TngChartData = [',
-      "  { label: 'North', value: 26 },",
-      "  { label: 'West', value: 34 },",
-      "  { label: 'South', value: 30 },",
+      "  { label: 'North', subscriptions: 26, services: 14, support: 8 },",
+      "  { label: 'West', subscriptions: 34, services: 18, support: 12 },",
+      "  { label: 'South', subscriptions: 30, services: 16, support: 10 },",
+      '];',
+      '',
+      'const series: readonly TngChartSeries[] = [',
+      "  { key: 'subscriptions', label: 'Subscriptions', yField: 'subscriptions' },",
+      "  { key: 'services', label: 'Services', yField: 'services' },",
+      "  { key: 'support', label: 'Support', yField: 'support' },",
       '];',
       '',
       '@Component({',
@@ -98,6 +113,7 @@ export class StackedBarOverviewPageComponent extends ChartSeriesPilotThemeBase {
       '})',
       'export class OverviewStackedBarTailwindComponent {',
       '  protected readonly data = data;',
+      '  protected readonly series = series;',
       '}',
     ].join('\n'),
     htmlCode: [
@@ -105,7 +121,7 @@ export class StackedBarOverviewPageComponent extends ChartSeriesPilotThemeBase {
       '  <tng-stacked-bar-chart',
       '    [data]="data"',
       '    xField="label"',
-      '    yField="value"',
+      '    [series]="series"',
       '    [height]="300"',
       '  />',
       '</div>',

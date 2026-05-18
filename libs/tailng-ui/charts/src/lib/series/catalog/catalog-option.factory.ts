@@ -4,15 +4,19 @@ import type {
   TngCatalogCoordinateSystem,
   TngCatalogSeriesType,
 } from './catalog-chart.types';
+import type { TngChartSeries } from '../../core/chart-series.types';
 import { TNG_CHART_SOURCE_DATUM_KEY } from '../../core/chart.tokens';
 import type { TngChartOption } from '../../core/chart.types';
 import {
   applyTngChartOptionOverride,
   createTngChartDataItem,
+  createTngChartSeriesFromField,
   getTngChartFieldValue,
   getTngChartNumberValue,
   getTngChartStringValue,
   getTngChartUniqueStrings,
+  isTngChartSeriesVisible,
+  resolveTngChartSeriesValueField,
 } from '../../core/chart.utils';
 
 type TngOptionRecord = Record<string, unknown>;
@@ -235,23 +239,41 @@ function createLineOrAreaSeries(
   ];
 }
 
+function createBarSeriesItem(
+  input: TngCatalogChartOptionInput,
+  preset: TngCatalogChartPreset,
+  series: TngChartSeries,
+): TngOptionRecord {
+  const yField = resolveTngChartSeriesValueField(series);
+
+  return {
+    coordinateSystem: resolveCoordinateSystem(preset.coordinateSystem),
+    data: input.data.map((datum) => createTngChartDataItem(getTngChartNumberValue(datum, yField) ?? 0, datum)),
+    id: series.key,
+    itemStyle:
+      series.color === null || series.color === undefined
+        ? undefined
+        : {
+            color: series.color,
+          },
+    large: hasFeature(preset, 'large'),
+    name: series.label ?? series.key,
+    realtimeSort: hasFeature(preset, 'race') || hasFeature(preset, 'sorted'),
+    stack: hasFeature(preset, 'stacked') || hasFeature(preset, 'normalized') ? series.stack ?? 'total' : undefined,
+    type: preset.seriesType,
+  };
+}
+
 function createBarSeries(
   input: TngCatalogChartOptionInput,
   preset: TngCatalogChartPreset,
 ): readonly TngOptionRecord[] {
   const yField = resolveInputField(input.yField, DEFAULT_Y_FIELD);
+  const hiddenSeries = input.hiddenSeries ?? new Set<string>();
 
-  return [
-    {
-      coordinateSystem: resolveCoordinateSystem(preset.coordinateSystem),
-      data: input.data.map((datum) => createTngChartDataItem(getTngChartNumberValue(datum, yField) ?? 0, datum)),
-      large: hasFeature(preset, 'large'),
-      name: yField,
-      realtimeSort: hasFeature(preset, 'race') || hasFeature(preset, 'sorted'),
-      stack: hasFeature(preset, 'stacked') || hasFeature(preset, 'normalized') ? 'total' : undefined,
-      type: preset.seriesType,
-    },
-  ];
+  return createTngChartSeriesFromField(yField, input.series ?? null)
+    .filter((series) => isTngChartSeriesVisible(series, hiddenSeries))
+    .map((series) => createBarSeriesItem(input, preset, series));
 }
 
 function createPieLikeSeries(

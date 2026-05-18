@@ -1142,7 +1142,7 @@ export const CHART_SERIES_DOC_CONFIGS: readonly ChartSeriesDocConfig[] = [
     coordinateSystem: 'cartesian2d',
     description: 'Basic Line preset for line visualizations.',
     features: [],
-    fieldInputs: ['data', 'xField', 'yField'],
+    fieldInputs: ['data', 'xField', 'yField', 'series'],
     importName: 'TngBasicLineChart',
     legacyKind: 'catalog',
     selector: 'tng-basic-line-chart',
@@ -1151,7 +1151,7 @@ export const CHART_SERIES_DOC_CONFIGS: readonly ChartSeriesDocConfig[] = [
     sourcePath:
       'libs/tailng-ui/charts/src/lib/series/line/basic-line/tng-basic-line-chart.component.ts',
     title: 'Basic Line',
-    usageAttributes: 'xField="label" yField="value"',
+    usageAttributes: 'xField="label" [series]="series"',
   },
   {
     categoryId: 'line',
@@ -1160,7 +1160,7 @@ export const CHART_SERIES_DOC_CONFIGS: readonly ChartSeriesDocConfig[] = [
     coordinateSystem: 'cartesian2d',
     description: 'Dynamic Line preset for line visualizations with dynamic updates.',
     features: ['dynamic'],
-    fieldInputs: ['data', 'xField', 'yField'],
+    fieldInputs: ['data', 'xField', 'series'],
     importName: 'TngDynamicLineChart',
     legacyKind: 'catalog',
     selector: 'tng-dynamic-line-chart',
@@ -1788,7 +1788,7 @@ export const CHART_SERIES_DOC_CONFIGS: readonly ChartSeriesDocConfig[] = [
     coordinateSystem: 'cartesian2d',
     description: 'Stacked Bar preset for bar visualizations with stacking.',
     features: ['stacked'],
-    fieldInputs: ['data', 'xField', 'yField'],
+    fieldInputs: ['data', 'xField', 'series'],
     importName: 'TngStackedBarChart',
     legacyKind: 'catalog',
     selector: 'tng-stacked-bar-chart',
@@ -1797,7 +1797,7 @@ export const CHART_SERIES_DOC_CONFIGS: readonly ChartSeriesDocConfig[] = [
     sourcePath:
       'libs/tailng-ui/charts/src/lib/series/bar/stacked-bar/tng-stacked-bar-chart.component.ts',
     title: 'Stacked Bar',
-    usageAttributes: 'xField="label" yField="value"',
+    usageAttributes: 'xField="label" [series]="series"',
   },
   {
     categoryId: 'bar',
@@ -3924,7 +3924,7 @@ export const CHART_SERIES_FIELD_INPUTS: readonly ChartSeriesDocInputRow[] = [
     name: 'series',
     type: 'readonly TngChartSeries[] | null',
     defaultValue: 'null',
-    notes: 'Series metadata for the legacy line, bar, and area wrappers.',
+    notes: 'Series metadata for multi-measure line, bar, area, and catalog presets.',
   },
   {
     name: 'sizeField',
