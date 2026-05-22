@@ -11,6 +11,10 @@ export const appRoutes: Route[] = [
     loadChildren: () => import('./pages/components/routes').then((m) => m.COMPONENTS_ROUTES),
   },
   {
+    path: 'charts',
+    loadChildren: () => import('./pages/charts/routes').then((m) => m.CHARTS_ROUTES),
+  },
+  {
     path: 'ownable',
     loadChildren: () => import('./pages/ownable/routes').then((m) => m.OWNABLE_ROUTES),
   },

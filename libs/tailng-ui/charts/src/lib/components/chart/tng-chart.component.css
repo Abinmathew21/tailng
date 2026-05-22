@@ -1,0 +1,10 @@
+:host {
+  display: block;
+  min-height: 1px;
+}
+
+.tng-chart-host {
+  block-size: 100%;
+  inline-size: 100%;
+  min-block-size: 1px;
+}

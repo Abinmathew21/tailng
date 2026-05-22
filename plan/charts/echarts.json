@@ -1,0 +1,193 @@
+{
+  "Line": [
+    "Basic Line",
+    "Smoothed Line",
+    "Stacked Line",
+    "Step Line",
+    "Log Axis Line",
+    "Time Series Line",
+    "Dynamic Line",
+    "Line Race",
+    "Line with Mark Lines",
+    "Multi Axis Line",
+    "Polar Line",
+    "Interactive Line",
+    "Large Scale Line",
+    "Sparkline"
+  ],
+  "Area": [
+    "Basic Area",
+    "Stacked Area",
+    "Gradient Area",
+    "Large Scale Area",
+    "Confidence Band",
+    "Area Pieces",
+    "Time Series Area"
+  ],
+  "Bar": [
+    "Basic Bar",
+    "Horizontal Bar",
+    "Stacked Bar",
+    "Normalized Stacked Bar",
+    "Grouped Bar",
+    "Rounded Bar",
+    "Negative Bar",
+    "Waterfall Bar",
+    "Large Scale Bar",
+    "Dynamic Bar",
+    "Bar Race",
+    "Drilldown Bar",
+    "Polar Bar",
+    "Radial Bar",
+    "Sorted Bar"
+  ],
+  "Pie": [
+    "Basic Pie",
+    "Donut",
+    "Half Donut",
+    "Rounded Donut",
+    "Nightingale",
+    "Nested Pie",
+    "Scrollable Legend Pie",
+    "Pie on Calendar",
+    "Pie on GEO Map"
+  ],
+  "Scatter": [
+    "Basic Scatter",
+    "Effect Scatter",
+    "Bubble Chart",
+    "Large Scatter",
+    "Jitter Scatter",
+    "Regression Scatter",
+    "Scatter Matrix",
+    "Calendar Scatter",
+    "Geo Scatter",
+    "Single Axis Scatter"
+  ],
+  "Heatmap": [
+    "Cartesian Heatmap",
+    "Large Heatmap",
+    "Discrete Color Heatmap",
+    "Calendar Heatmap",
+    "Matrix Heatmap"
+  ],
+  "GEO/Map": [
+    "Geo Map",
+    "Choropleth Map",
+    "SVG Map",
+    "Geo Scatter",
+    "Geo Lines",
+    "Map to Bar Morph",
+    "Hexagonal Binning"
+  ],
+  "Candlestick": [
+    "Basic Candlestick",
+    "OHLC",
+    "Large Scale Candlestick",
+    "Candlestick with Brush",
+    "Intraday Candlestick"
+  ],
+  "Radar": [
+    "Basic Radar",
+    "Customized Radar",
+    "Multiple Radar"
+  ],
+  "Boxplot": [
+    "Basic Boxplot",
+    "Aggregated Boxplot",
+    "Multi Category Boxplot"
+  ],
+  "Graph": [
+    "Basic Graph",
+    "Force Graph",
+    "Graph on Cartesian",
+    "Dynamic Graph",
+    "Geo Graph",
+    "Calendar Graph"
+  ],
+  "Lines": [
+    "Geo Lines",
+    "Large Scale Lines"
+  ],
+  "Tree": [
+    "Basic Tree",
+    "Horizontal Tree",
+    "Vertical Tree",
+    "Radial Tree",
+    "Polyline Tree"
+  ],
+  "Treemap": [
+    "Basic Treemap",
+    "Disk Usage Treemap",
+    "Parent Label Treemap",
+    "Gradient Treemap"
+  ],
+  "Sunburst": [
+    "Basic Sunburst",
+    "Rounded Sunburst",
+    "Rotated Label Sunburst",
+    "Monochrome Sunburst",
+    "VisualMap Sunburst"
+  ],
+  "Parallel": [
+    "Basic Parallel",
+    "AQI Parallel",
+    "Nutrients Parallel"
+  ],
+  "Sankey": [
+    "Basic Sankey",
+    "Vertical Sankey",
+    "Styled Sankey",
+    "Level Sankey",
+    "Gradient Edge Sankey",
+    "Node Aligned Sankey"
+  ],
+  "Chord": [
+    "Basic Chord",
+    "Chord minAngle",
+    "Chord lineStyle.color",
+    "Styled Chord"
+  ],
+  "Funnel": [
+    "Basic Funnel",
+    "Compare Funnel",
+    "Customized Funnel",
+    "Multiple Funnel"
+  ],
+  "Gauge": [
+    "Basic Gauge",
+    "Speed Gauge",
+    "Progress Gauge",
+    "Grade Gauge",
+    "Multi Title Gauge",
+    "Temperature Gauge",
+    "Ring Gauge",
+    "Barometer Gauge",
+    "Clock Gauge"
+  ],
+  "PictorialBar": [
+    "Basic Pictorial Bar",
+    "Symbol Pictorial Bar",
+    "Dotted Pictorial Bar",
+    "Image/SVG Pictorial Bar"
+  ],
+  "ThemeRiver": [
+    "Basic ThemeRiver"
+  ],
+  "Calendar": [
+    "Basic Calendar",
+    "Calendar Heatmap",
+    "Calendar Graph",
+    "Calendar Pie",
+    "Calendar Icon"
+  ],
+  "Matrix": [
+    "Basic Matrix",
+    "Correlation Matrix",
+    "Covariance Matrix",
+    "Confusion Matrix",
+    "Graph Matrix",
+    "Pie Matrix",
+    "Responsive Matrix Layout"
+  ]
+}

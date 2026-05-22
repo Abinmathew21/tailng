@@ -1,0 +1,113 @@
+<article class="month-daypicker-overview">
+  <h2 class="month-daypicker-overview-title">Month Daypicker overview</h2>
+  <p class="month-daypicker-overview-lead">
+    TailNG Month Daypicker lets users pick a month-and-day combination — perfect for recurring
+    dates like birthdays or anniversaries — without ever exposing a year in the emitted value.
+    It wraps the shared datepicker surface with a custom adapter that formats and parses the
+    <code>MM-DD</code> pattern and locks navigation to the months panel.
+  </p>
+
+  <app-docs-example-tabs-section
+    class="month-daypicker-overview-block"
+    heading="Simple sample"
+    description="Compare the stock wrapper in its default plain-CSS presentation and in a theme-aware Tailwind shell."
+    ariaLabel="Month Daypicker overview style examples"
+    tabListAriaLabel="Month Daypicker overview example style variants"
+    defaultValue="plain-css"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+      panelTitle="Simple sample (Plain-CSS)"
+      [codeTabs]="simplePlainCodeTabs"
+    >
+      <div class="month-daypicker-overview-example-preview">
+        <div class="month-daypicker-overview-example-control">
+          <tng-month-daypicker
+            [defaultValue]="{ month: 12, day: 25 }"
+            [year]="2024"
+            [fullWidth]="false"
+          ></tng-month-daypicker>
+        </div>
+      </div>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Simple sample (Tailwind CSS)"
+      [codeTabs]="simpleTailwindCodeTabs"
+    >
+      <div class="month-daypicker-overview-example-preview">
+        <div
+          class="w-full max-w-[12rem] rounded-xl border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-surface)] p-2 text-[var(--tng-semantic-foreground-primary)]"
+        >
+          <tng-month-daypicker
+            [defaultValue]="{ month: 12, day: 25 }"
+            [year]="2024"
+            [fullWidth]="false"
+          ></tng-month-daypicker>
+        </div>
+      </div>
+    </ng-template>
+  </app-docs-example-tabs-section>
+
+  <section class="month-daypicker-overview-block">
+    <h3>Import</h3>
+    <p>
+      Add <code>TngMonthDaypickerComponent</code> to your component's <code>imports</code> array.
+      No primitives import is required for the wrapper path.
+    </p>
+    <tng-code-block
+      [code]="componentImportCode"
+      adapter="shiki"
+      language="ts"
+      title="Wrapper import"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section class="month-daypicker-overview-block">
+    <h3>Quick start</h3>
+    <tng-code-block
+      [code]="wrapperUsageCode"
+      adapter="shiki"
+      language="html"
+      title="Default wrapper usage"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section class="month-daypicker-overview-block">
+    <h3>How it works</h3>
+    <p>
+      Internally, the component converts the <code>&#123; month, day &#125;</code> value into a
+      full <code>Date</code> object using the configured <code>year</code> input so the underlying
+      datepicker calendar renders correctly. The <code>year</code> also pins the min and max date
+      to January 1 and December 31 of that year, ensuring the calendar only navigates within a
+      single year. When the user selects a date, the component strips the year and emits only the
+      month and day.
+    </p>
+  </section>
+
+  <section class="month-daypicker-overview-block">
+    <h3>Behavior baseline</h3>
+    <ul class="month-daypicker-overview-list">
+      <li>Supports both uncontrolled (<code>defaultValue</code>) and controlled (<code>value</code>) selection modes.</li>
+      <li>The input field displays and accepts the <code>MM-DD</code> format; the adapter handles parsing and formatting.</li>
+      <li>Calendar navigation is constrained to months and days within the provided <code>year</code>.</li>
+      <li>Drilling into the year panel redirects back to the months panel automatically.</li>
+      <li>Integrates with <code>tng-form-field</code> via the <code>TNG_FORM_FIELD_CONTROL</code> token.</li>
+      <li>Theme changes flow through semantic tokens so the field and portaled overlay stay in sync.</li>
+    </ul>
+  </section>
+</article>

@@ -1,0 +1,92 @@
+<tng-card variant="outline" padding="lg">
+  <tng-card-header>
+    <div class="grid gap-1 pb-2">
+      <h1 class="m-0 text-3xl font-semibold">Installation</h1>
+      <p class="m-0 max-w-3xl text-sm text-tng-fg-secondary md:text-base">
+        Install the TailNG chart package with ECharts. The renderer runtime is loaded internally,
+        while the public API stays TailNG-owned.
+      </p>
+    </div>
+    <div
+      class="mb-1 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.08em] text-tng-fg-secondary"
+    >
+      <tng-icon icon="book-open" class="h-4 w-4" />
+      <span>{{ groupTitle() }}</span>
+    </div>
+    <tng-card-title>{{ item().title }}</tng-card-title>
+    <tng-card-description>{{ item().description }}</tng-card-description>
+  </tng-card-header>
+  <tng-card-content>
+    <section class="grid gap-6 text-sm text-tng-fg-secondary md:text-base">
+      <div class="grid gap-2">
+        <p class="m-0 text-xs font-semibold uppercase tracking-[0.12em] text-tng-fg-secondary">
+          Package install
+        </p>
+        <p class="m-0">
+          Add
+          <code class="font-mono text-xs md:text-sm">&#64;tailng-ui/charts</code>
+          together with the
+          <code class="font-mono text-xs md:text-sm">echarts</code>
+          peer dependency. Theme tokens from
+          <code class="font-mono text-xs md:text-sm">&#64;tailng-ui/theme</code>
+          are recommended when you want charts to follow your app preset.
+        </p>
+        <tng-tabs
+          ariaLabel="Package manager install commands"
+          [defaultValue]="'pnpm'"
+          class="grid gap-3"
+        >
+          <div
+            tngTabList
+            class="charts-install-tabs-list flex flex-wrap gap-2"
+            ariaLabel="Package manager"
+          >
+            <button type="button" tngTab value="pnpm" class="charts-install-tab-trigger">
+              pnpm
+            </button>
+            <button type="button" tngTab value="npm" class="charts-install-tab-trigger">npm</button>
+            <button type="button" tngTab value="yarn" class="charts-install-tab-trigger">
+              yarn
+            </button>
+          </div>
+          <div tngTabPanel value="pnpm">
+            <tng-code-block
+              [code]="installPnpmCode"
+              adapter="shiki"
+              language="bash"
+              title="pnpm"
+              [theme]="codeBlockTheme()"
+              [sanitizeHtml]="false"
+              [wrap]="true"
+              [lineNumbers]="false"
+            />
+          </div>
+          <div tngTabPanel value="npm">
+            <tng-code-block
+              [code]="installNpmCode"
+              adapter="shiki"
+              language="bash"
+              title="npm"
+              [theme]="codeBlockTheme()"
+              [sanitizeHtml]="false"
+              [wrap]="true"
+              [lineNumbers]="false"
+            />
+          </div>
+          <div tngTabPanel value="yarn">
+            <tng-code-block
+              [code]="installYarnCode"
+              adapter="shiki"
+              language="bash"
+              title="yarn"
+              [theme]="codeBlockTheme()"
+              [sanitizeHtml]="false"
+              [wrap]="true"
+              [lineNumbers]="false"
+            />
+          </div>
+        </tng-tabs>
+      </div>
+    </section>
+  </tng-card-content>
+</tng-card>

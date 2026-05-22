@@ -1,0 +1,114 @@
+<tng-card variant="outline" padding="lg">
+  <tng-card-header>
+    <div class="grid gap-1 pb-2">
+      <p class="m-0 text-sm font-semibold uppercase text-tng-accent-brand">&#64;tailng-ui/charts</p>
+      <h1 class="m-0 text-3xl font-semibold">Charts</h1>
+      <p class="m-0 max-w-3xl text-sm text-tng-fg-secondary md:text-base">
+        TailNG-owned chart series and semi-headless composition for Angular apps that need
+        predictable APIs, theme-aware rendering, and an Apache ECharts runtime behind the surface.
+      </p>
+    </div>
+    <div
+      class="mb-1 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.08em] text-tng-fg-secondary"
+    >
+      <tng-icon icon="book-open" class="h-4 w-4" />
+      <span>{{ groupTitle() }}</span>
+    </div>
+    <tng-card-title>{{ item().title }}</tng-card-title>
+    <tng-card-description>{{ item().description }}</tng-card-description>
+  </tng-card-header>
+  <tng-card-content>
+    <section class="charts-overview grid gap-8">
+      <div class="charts-capability-grid">
+        @for (capability of capabilities; track capability.label) {
+          <div class="charts-capability">
+            <span class="charts-capability__label">{{ capability.label }}</span>
+            <span class="charts-capability__value">{{ capability.value }}</span>
+          </div>
+        }
+      </div>
+
+      <section class="charts-overview-examples grid gap-4">
+        <div class="charts-overview-examples__header">
+          <p class="charts-overview-examples__eyebrow">Chart types</p>
+          <h2 class="charts-overview-examples__title">One example per chart type</h2>
+          <p class="charts-overview-examples__lead">
+            Each chart maps records to field names, generates ECharts options, and resolves theme
+            variables automatically.
+          </p>
+        </div>
+
+        <div class="charts-demo-grid">
+          @for (preview of chartPreviews; track preview.slug) {
+            <a
+              class="charts-demo charts-demo--link"
+              [routerLink]="docHref(preview.categorySlug, preview.docSlug)"
+              [attr.aria-label]="'Open ' + preview.title + ' chart docs'"
+            >
+              <div class="charts-demo__header">
+                <h3>{{ preview.title }}</h3>
+                <p>{{ preview.description }}</p>
+                <span class="charts-demo__cta">View docs</span>
+              </div>
+              @switch (preview.slug) {
+                @case ('line') {
+                  <tng-line-chart
+                    [data]="revenueData"
+                    [height]="220"
+                    xField="quarter"
+                    yField="revenue"
+                    smooth
+                  />
+                }
+                @case ('bar') {
+                  <tng-bar-chart
+                    [data]="regionData"
+                    [height]="220"
+                    [series]="regionSeries"
+                    xField="region"
+                  />
+                }
+                @case ('area') {
+                  <tng-area-chart
+                    [data]="revenueData"
+                    [height]="220"
+                    xField="quarter"
+                    yField="revenue"
+                    smooth
+                  />
+                }
+                @case ('pie') {
+                  <tng-pie-chart
+                    [data]="productMixData"
+                    [height]="220"
+                    nameField="category"
+                    valueField="value"
+                    donut
+                  />
+                }
+                @case ('scatter') {
+                  <tng-scatter-chart
+                    [data]="engagementData"
+                    [height]="220"
+                    xField="visits"
+                    yField="conversion"
+                    sizeField="volume"
+                  />
+                }
+                @case ('heatmap') {
+                  <tng-heatmap-chart
+                    [data]="heatmapData"
+                    [height]="220"
+                    xField="hour"
+                    yField="day"
+                    valueField="value"
+                  />
+                }
+              }
+            </a>
+          }
+        </div>
+      </section>
+    </section>
+  </tng-card-content>
+</tng-card>

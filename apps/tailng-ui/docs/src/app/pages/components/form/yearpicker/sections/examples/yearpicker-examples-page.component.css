@@ -1,0 +1,46 @@
+:host {
+  display: block;
+}
+
+.yearpicker-examples {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.yearpicker-examples-title {
+  font-size: 1.9rem;
+  font-weight: 800;
+  margin: 0;
+}
+
+.yearpicker-examples-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  line-height: 1.65;
+  margin: 0;
+  max-width: 56rem;
+}
+
+.yearpicker-examples-block {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.yearpicker-example-preview {
+  display: grid;
+  gap: 0.85rem;
+  justify-items: start;
+}
+
+.yearpicker-example-control {
+  display: block;
+  inline-size: min(100%, 10rem);
+  max-inline-size: 10rem;
+}
+
+.yearpicker-example-note {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.875rem;
+  line-height: 1.6;
+  margin: 0;
+  max-width: 48rem;
+}

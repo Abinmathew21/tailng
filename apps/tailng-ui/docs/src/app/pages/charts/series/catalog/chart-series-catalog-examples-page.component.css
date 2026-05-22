@@ -1,0 +1,5 @@
+@import '../shared/chart-series-examples.css';
+
+:host {
+  display: block;
+}

@@ -1,0 +1,15 @@
+<div class="tng-chart-legend" aria-label="Chart legend">
+  @for (item of renderedItems(); track item.key) {
+    <button
+      type="button"
+      class="tng-chart-legend__item"
+      [class.tng-chart-legend__item--hidden]="item.hidden === true"
+      [disabled]="item.disabled === true"
+      [attr.aria-pressed]="item.hidden === true ? 'false' : 'true'"
+      (click)="toggleItem(item)"
+    >
+      <span class="tng-chart-legend__swatch" [style.background]="item.color"></span>
+      <span class="tng-chart-legend__label">{{ item.label }}</span>
+    </button>
+  }
+</div>

@@ -1,0 +1,77 @@
+.chart-series-examples {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.chart-series-examples-title {
+  font-size: 1.9rem;
+  font-weight: 800;
+  margin: 0;
+}
+
+.chart-series-examples-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  line-height: 1.65;
+  margin: 0;
+  max-width: 58rem;
+}
+
+.chart-series-examples-block {
+  display: grid;
+  gap: 1rem;
+}
+
+.chart-series-example-preview {
+  display: grid;
+  gap: 0.85rem;
+  justify-items: stretch;
+  width: min(100%, 48rem);
+}
+
+.chart-series-example-chart {
+  display: block;
+  min-width: 0;
+  width: 100%;
+}
+
+.chart-series-example-chart--plain {
+  background: var(--tng-semantic-background-base);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.75rem;
+  min-height: 20rem;
+  padding: 1rem;
+}
+
+.chart-series-example-chart--themed {
+  background: color-mix(in srgb, var(--tng-semantic-background-surface) 88%, transparent);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.75rem;
+  min-height: 20rem;
+  padding: 1rem;
+}
+
+.chart-series-example-chart--themed tng-basic-line-chart,
+.chart-series-example-chart--themed tng-stacked-bar-chart {
+  --tng-chart-series-1: var(--tng-semantic-accent-brand);
+  --tng-chart-axis-label: var(--tng-semantic-foreground-secondary);
+  --tng-chart-grid-line: color-mix(in srgb, var(--tng-semantic-border-subtle) 72%, transparent);
+}
+
+.chart-series-example-chart--themed tng-donut-chart {
+  --tng-chart-series-1: var(--tng-semantic-accent-brand);
+  --tng-chart-series-2: var(--tng-semantic-accent-info);
+  --tng-chart-muted: var(--tng-semantic-foreground-secondary);
+}
+
+.chart-series-example-note {
+  color: var(--tng-semantic-foreground-secondary);
+  line-height: 1.6;
+  margin: 0;
+  max-width: 42rem;
+}
+
+.chart-series-example-control {
+  display: block;
+  min-width: 0;
+  width: 100%;
+}

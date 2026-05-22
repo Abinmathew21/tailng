@@ -1,0 +1,97 @@
+<article class="yearpicker-api">
+  <h2 class="yearpicker-api-title">API reference</h2>
+  <p class="yearpicker-api-lead">
+    The default surface is <code>tng-yearpicker</code>. It wraps the shared datepicker with a
+    year-only adapter and opens the year grid directly, closing automatically after selection and
+    emitting a plain <code>number</code>.
+  </p>
+
+  <section class="yearpicker-api-block">
+    <h3><code>tng-yearpicker</code> (component)</h3>
+    <tng-code-block
+      [code]="wrapperAttachCode"
+      adapter="shiki"
+      language="html"
+      title="Wrapper attachment"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+
+    @for (group of wrapperInputGroups; track group.title) {
+      <h4>{{ group.title }}</h4>
+      @if (group.description) {
+        <p>{{ group.description }}</p>
+      }
+      <div class="yearpicker-api-table-wrap">
+        <table class="yearpicker-api-table">
+          <thead>
+            <tr>
+              <th scope="col">Property</th>
+              <th scope="col">Type</th>
+              <th scope="col">Default</th>
+              <th scope="col">Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (row of group.rows; track row.name) {
+              <tr>
+                <td><code>{{ row.name }}</code></td>
+                <td><code>{{ row.type }}</code></td>
+                <td>{{ row.default }}</td>
+                <td>{{ row.details }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </section>
+
+  <section class="yearpicker-api-block">
+    <h3>Outputs</h3>
+    <div class="yearpicker-api-table-wrap">
+      <table class="yearpicker-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Output</th>
+            <th scope="col">Type</th>
+            <th scope="col">Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of wrapperOutputRows; track row.name) {
+            <tr>
+              <td><code>{{ row.name }}</code></td>
+              <td><code>{{ row.type }}</code></td>
+              <td>{{ row.details }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="yearpicker-api-block">
+    <h3>Internal lifecycle notes</h3>
+    <p>
+      The year grid popup follows a two-step commit: when the user selects a year cell, the
+      controller records it as a pending year and transitions to the month view. The component
+      intercepts the <code>viewChange</code> event — when the view reaches <code>month</code> with
+      a pending year, it emits <code>valueChange</code> and closes the popup immediately. This
+      keeps the UX feeling instant without requiring a separate confirm button.
+    </p>
+  </section>
+
+  <section class="yearpicker-api-block">
+    <h3>Form-field integration</h3>
+    <p>
+      <code>tng-yearpicker</code> registers itself with the <code>TNG_FORM_FIELD_CONTROL</code>
+      token so it works seamlessly inside <code>tng-form-field</code>. The focusable element is the
+      inner datepicker text input — clicking the form-field label routes focus there directly. The
+      <code>invalid</code> and <code>required</code> inputs are forwarded to the shared control
+      adapter so error and hint messaging renders correctly.
+    </p>
+  </section>
+</article>

@@ -1,0 +1,6 @@
+@import '../shared/chart-series-doc-section.css';
+@import '../shared/chart-series-overview.css';
+
+:host {
+  display: block;
+}

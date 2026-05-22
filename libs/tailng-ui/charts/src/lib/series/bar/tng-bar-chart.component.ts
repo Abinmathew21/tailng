@@ -1,33 +1,135 @@
 import { booleanAttribute, Component, computed, input, output } from '@angular/core';
+import type {
+  TngBarChartKind,
+  TngBarChartOrientation,
+  TngLegacyBarChartInput,
+} from './bar-chart.types';
+import { createTngBarChartOption, isTngLegacyBarChartInput } from './bar-option.factory';
 import { TNG_BAR_CHART_DEFAULT_KIND } from './bar.defaults';
-import { createTngBarChartOption } from './bar.option-builder';
-import type { TngBarChartInput, TngBarChartKind } from './bar.types';
-import type { TngChartRenderer, TngChartRuntimeLoader, TngChartTheme } from '../../chart.types';
-import { TngChartComponent } from '../../tng-chart.component';
+import { TngChartRootComponent } from '../../components/chart-root/tng-chart-root.component';
+import { TngChartSurfaceComponent } from '../../components/chart-surface/tng-chart-surface.component';
+import { TngChartEmptyStateComponent } from '../../components/empty-state/tng-chart-empty-state.component';
+import { TngChartLegendComponent } from '../../components/legend/tng-chart-legend.component';
+import { TngChartLoadingStateComponent } from '../../components/loading-state/tng-chart-loading-state.component';
+import type { TngChartOptionFactory } from '../../core/chart-context';
+import type { TngChartLegendItem, TngChartSeries } from '../../core/chart-series.types';
+import { TNG_CHART_DEFAULT_THEME } from '../../core/chart.tokens';
+import type {
+  TngChartData,
+  TngChartOption,
+  TngChartOptionOverride,
+  TngChartPointEvent,
+  TngChartRenderer,
+  TngChartRuntimeLoader,
+  TngChartTheme,
+} from '../../core/chart.types';
+import {
+  createTngChartLegendItems,
+  createTngChartSeriesFromField,
+} from '../../core/chart.utils';
 
 @Component({
   selector: 'tng-bar-chart',
-  imports: [TngChartComponent],
+  imports: [
+    TngChartRootComponent,
+    TngChartSurfaceComponent,
+    TngChartEmptyStateComponent,
+    TngChartLegendComponent,
+    TngChartLoadingStateComponent,
+  ],
   templateUrl: './tng-bar-chart.component.html',
   styleUrl: './tng-bar-chart.component.css',
 })
 export class TngBarChartComponent {
-  public readonly data = input.required<TngBarChartInput>();
+  public readonly data = input.required<TngChartData | TngLegacyBarChartInput>();
+  public readonly emptyMessage = input('No chart data available.');
+  public readonly height = input<number | string>(320);
   public readonly kind = input<TngBarChartKind>(TNG_BAR_CHART_DEFAULT_KIND);
+  public readonly legend = input<boolean, boolean | string>(true, {
+    transform: booleanAttribute,
+  });
   public readonly loading = input<boolean, boolean | string>(false, {
     transform: booleanAttribute,
   });
   public readonly merge = input<boolean, boolean | string>(false, {
     transform: booleanAttribute,
   });
+  public readonly optionOverride = input<TngChartOptionOverride | null>(null);
+  public readonly orientation = input<TngBarChartOrientation>('vertical');
   public readonly renderer = input<TngChartRenderer>('canvas');
   public readonly runtimeLoader = input<TngChartRuntimeLoader | null>(null);
+  public readonly series = input<readonly TngChartSeries[] | null>(null);
+  public readonly stacked = input<boolean, boolean | string>(false, {
+    transform: booleanAttribute,
+  });
   public readonly theme = input<TngChartTheme>(null);
+  public readonly tooltip = input<boolean, boolean | string>(true, {
+    transform: booleanAttribute,
+  });
+  public readonly xField = input<string | null>(null);
+  public readonly yField = input<string | null>(null);
 
+  public readonly chartReady = output<unknown>();
+  public readonly pointClick = output<TngChartPointEvent>();
+  public readonly pointHover = output<TngChartPointEvent>();
   public readonly ready = output<void>();
   public readonly runtimeError = output<string>();
 
-  protected readonly option = computed<Readonly<Record<string, unknown>>>(() => {
-    return createTngBarChartOption(this.data(), this.kind());
+  protected readonly isEmpty = computed<boolean>(() => {
+    const data = this.data();
+    return isTngLegacyBarChartInput(data)
+      ? data.categories.length === 0 || data.series.length === 0
+      : data.length === 0;
+  });
+  protected readonly legendItems = computed<readonly TngChartLegendItem[]>(() => {
+    const data = this.data();
+
+    if (isTngLegacyBarChartInput(data)) {
+      return data.series.map((series, index) => ({
+        color:
+          series.color ??
+          TNG_CHART_DEFAULT_THEME.palette[index % TNG_CHART_DEFAULT_THEME.palette.length] ??
+          null,
+        key: series.name,
+        label: series.name,
+      }));
+    }
+
+    return createTngChartLegendItems(
+      createTngChartSeriesFromField(this.yField(), this.series()),
+      TNG_CHART_DEFAULT_THEME.palette,
+      new Set<string>(),
+    );
+  });
+  protected readonly optionFactory = computed<TngChartOptionFactory>(() => {
+    const data = this.data();
+    const kind = this.kind();
+
+    if (isTngLegacyBarChartInput(data)) {
+      return (): TngChartOption => createTngBarChartOption(data, kind);
+    }
+
+    const legend = this.legend();
+    const optionOverride = this.optionOverride();
+    const orientation = this.orientation();
+    const series = this.series();
+    const stacked = this.stacked();
+    const tooltip = this.tooltip();
+    const xField = this.xField() ?? '';
+    const yField = this.yField();
+
+    return (hiddenSeries: ReadonlySet<string>): TngChartOption =>
+      createTngBarChartOption({
+        data,
+        hiddenSeries,
+        legend,
+        optionOverride,
+        orientation,
+        series,
+        stacked,
+        tooltip,
+        xField,
+        yField,
+      });
   });
 }

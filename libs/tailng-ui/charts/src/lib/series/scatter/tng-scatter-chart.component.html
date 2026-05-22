@@ -1,0 +1,28 @@
+@if (loading()) {
+  <tng-chart-loading-state [height]="height()" />
+} @else if (isEmpty()) {
+  <tng-chart-empty-state [height]="height()" [message]="emptyMessage()" />
+} @else {
+  <tng-chart-root
+    class="tng-scatter-chart-host"
+    [height]="height()"
+    [legendItems]="legendItems()"
+    [merge]="merge()"
+    [optionFactory]="optionFactory()"
+    [renderer]="renderer()"
+    [runtimeLoader]="runtimeLoader()"
+    [theme]="theme()"
+  >
+    <tng-chart-surface
+      (chartReady)="chartReady.emit($event)"
+      (pointClick)="pointClick.emit($event)"
+      (pointHover)="pointHover.emit($event)"
+      (ready)="ready.emit()"
+      (runtimeError)="runtimeError.emit($event)"
+    />
+
+    @if (legend()) {
+      <tng-chart-legend />
+    }
+  </tng-chart-root>
+}

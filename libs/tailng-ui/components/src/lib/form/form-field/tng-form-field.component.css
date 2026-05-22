@@ -207,6 +207,25 @@
   min-height: calc(2 * (var(--tng-form-field-frame-min-height, 2.625rem) - var(--tng-form-field-frame-py, 0.55rem)));
 }
 
+/* Multiline typing section: give the textarea comfortable, uniform padding on
+   all four sides. The default outlined layout carries the frame padding on the
+   control-row, so override it here; for the `outline` label position the frame
+   owns the inset and the control-row is normally padding-free, so add it back. */
+:host([data-appearance='outlined']:not([data-label-position='outline'])):is(:has(tng-textarea), :has(textarea[tngTextarea]), :has(textarea[tngInput]))
+  .tng-form-field__control-row {
+  padding: var(--tng-form-field-textarea-padding, 0.75rem);
+}
+
+/* Outline label position: the frame already insets the sides (frame-px) and the
+   bottom (frame-py), and the top is taken by the floating label. Only top up the
+   block padding so the typing text clears the label and the four sides read as
+   the same comfortable gap, without doubling the horizontal inset. */
+:host([data-appearance='outlined'][data-label-position='outline']:is(:has(tng-textarea), :has(textarea[tngTextarea]), :has(textarea[tngInput])))
+  .tng-form-field__control-row {
+  padding: var(--tng-form-field-textarea-padding, 0.75rem) 0
+    calc(var(--tng-form-field-textarea-padding, 0.75rem) - var(--tng-form-field-frame-py, 0.55rem)) 0;
+}
+
 :host(:is(:has(tng-textarea), :has(textarea[tngTextarea]), :has(textarea[tngInput]))) .tng-form-field__control {
   display: flex;
   align-items: stretch;

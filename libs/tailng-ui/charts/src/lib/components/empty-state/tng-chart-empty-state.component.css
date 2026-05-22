@@ -1,0 +1,21 @@
+:host {
+  display: block;
+}
+
+.tng-chart-empty-state {
+  align-items: center;
+  block-size: 100%;
+  border: 1px dashed var(--tng-semantic-border-subtle, #e5e7eb);
+  border-radius: 0.5rem;
+  color: var(--tng-semantic-foreground-muted, #6b7280);
+  display: flex;
+  justify-content: center;
+  min-block-size: 10rem;
+  padding: 1rem;
+  text-align: center;
+}
+
+.tng-chart-empty-state__message {
+  font-size: 0.875rem;
+  margin: 0;
+}

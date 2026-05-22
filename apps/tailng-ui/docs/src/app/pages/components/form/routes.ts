@@ -87,6 +87,14 @@ const switchItem = group.items.find((item) => item.slug === 'switch');
 if (switchItem === undefined) {
   throw new Error('Missing "switch" in components form docs group.');
 }
+const monthDaypickerItem = group.items.find((item) => item.slug === 'month-daypicker');
+if (monthDaypickerItem === undefined) {
+  throw new Error('Missing "month-daypicker" in components form docs group.');
+}
+const yearpickerItem = group.items.find((item) => item.slug === 'yearpicker');
+if (yearpickerItem === undefined) {
+  throw new Error('Missing "yearpicker" in components form docs group.');
+}
 
 const landingSlugs = new Set([
   inputItem.slug,
@@ -109,6 +117,8 @@ const landingSlugs = new Set([
   multiselectItem.slug,
   chipsItem.slug,
   switchItem.slug,
+  monthDaypickerItem.slug,
+  yearpickerItem.slug,
 ]);
 
 export const COMPONENTS_FORM_ROUTES: Routes = [
@@ -224,6 +234,18 @@ export const COMPONENTS_FORM_ROUTES: Routes = [
     path: switchItem.slug,
     loadChildren: () =>
       import('./switch/routes').then((module) => module.COMPONENTS_FORM_SWITCH_ROUTES),
+  },
+  {
+    path: monthDaypickerItem.slug,
+    loadChildren: () =>
+      import('./month-daypicker/routes').then(
+        (module) => module.COMPONENTS_FORM_MONTH_DAYPICKER_ROUTES,
+      ),
+  },
+  {
+    path: yearpickerItem.slug,
+    loadChildren: () =>
+      import('./yearpicker/routes').then((module) => module.COMPONENTS_FORM_YEARPICKER_ROUTES),
   },
   ...group.items
     .filter((item) => !landingSlugs.has(item.slug))

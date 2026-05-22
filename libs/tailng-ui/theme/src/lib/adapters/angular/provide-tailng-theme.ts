@@ -3,15 +3,22 @@ import {
   makeEnvironmentProviders,
   type EnvironmentProviders,
 } from '@angular/core';
-import { injectThemeVars } from '../css-vars/inject-theme-vars';
-import type { CssVarAdapterOptions } from '../css-vars/to-css-vars';
 import type { ThemeDefinition } from '../../contracts/theme.types';
 import { defaultThemePreset } from '../../presets/default.preset';
+import { injectThemeVars } from '../css-vars/inject-theme-vars';
+import type { CssVarAdapterOptions } from '../css-vars/to-css-vars';
 
 type ThemeStyleWriter = Pick<CSSStyleDeclaration, 'setProperty'>;
 
 type ThemeTarget = Readonly<{
   style: ThemeStyleWriter;
+}>;
+
+export const TAILNG_THEME_CHANGE_EVENT = 'tailng-theme-change';
+
+export type TailngThemeChangeEventDetail = Readonly<{
+  mode: string;
+  name: string;
 }>;
 
 export type TailngThemeRuntimeOptions = Readonly<{
@@ -53,6 +60,24 @@ function resolveRuntimeOptions(
   };
 }
 
+function dispatchTailngThemeChange(theme: Readonly<ThemeDefinition>): void {
+  if (
+    typeof globalThis.dispatchEvent !== 'function' ||
+    typeof globalThis.CustomEvent !== 'function'
+  ) {
+    return;
+  }
+
+  globalThis.dispatchEvent(
+    new CustomEvent<TailngThemeChangeEventDetail>(TAILNG_THEME_CHANGE_EVENT, {
+      detail: {
+        mode: theme.meta.mode,
+        name: theme.meta.name,
+      },
+    }),
+  );
+}
+
 export function applyTailngTheme(
   theme: Readonly<ThemeDefinition>,
   options: TailngThemeRuntimeOptions = {},
@@ -66,6 +91,8 @@ export function applyTailngTheme(
   if (resolvedOptions.applyColorScheme) {
     resolvedOptions.target.style.setProperty('color-scheme', theme.meta.mode);
   }
+
+  dispatchTailngThemeChange(theme);
 }
 
 export function provideTailngTheme(

@@ -1,0 +1,44 @@
+.chart-series-overview {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.chart-series-overview-title {
+  font-size: 1.9rem;
+  font-weight: 800;
+  margin: 0;
+}
+
+.chart-series-overview-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 1rem;
+  line-height: 1.65;
+  margin: 0;
+  max-width: 56rem;
+}
+
+.chart-series-overview-block {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.chart-series-overview-example-preview {
+  display: grid;
+  gap: 0.85rem;
+  justify-items: stretch;
+  width: min(100%, 48rem);
+}
+
+.chart-series-overview-example-chart {
+  display: block;
+  min-height: 20rem;
+  min-width: 0;
+  width: 100%;
+}
+
+.chart-series-overview-example-chart--plain {
+  background: var(--tng-semantic-background-base);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.75rem;
+  padding: 1rem;
+}

@@ -1,0 +1,266 @@
+:host {
+  display: block;
+}
+
+.components-page-full-bleed {
+  box-sizing: border-box;
+  margin-inline: calc(50% - 50vw);
+  width: 100vw;
+}
+
+.components-docs-stage {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: stretch;
+  min-height: calc(100dvh - 4rem);
+  overflow: visible;
+}
+
+.components-docs-drawer {
+  align-content: stretch;
+  align-self: start;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  display: grid;
+  gap: 0.25rem;
+  grid-template-rows: minmax(0, 1fr);
+  height: calc(100dvh - 4rem);
+  min-height: 0;
+  overflow: hidden;
+  padding: 0.85rem;
+  position: sticky;
+  top: 4rem;
+  width: min(22rem, 88vw);
+}
+
+.components-docs-drawer > tng-accordion,
+.components-docs-drawer > .components-docs-empty-state {
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+}
+
+.components-docs-content {
+  --docs-component-tabs-top: 6.65rem;
+
+  align-self: stretch;
+  background: var(--tng-semantic-background-base);
+  display: block;
+  min-height: 0;
+  overflow: visible;
+  padding: 1rem;
+}
+
+:host ::ng-deep .components-docs-content > * > tng-card > .tng-card {
+  border: 0;
+  box-shadow: none;
+}
+
+.components-docs-breadcrumb {
+  background: inherit;
+  margin-bottom: 0.75rem;
+  padding-block: 0.45rem 0.15rem;
+  position: sticky;
+  top: 4rem;
+  z-index: 10;
+}
+
+.components-docs-nav-toggle {
+  align-items: center;
+  background: var(--tng-semantic-background-muted);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.5rem;
+  box-sizing: border-box;
+  color: var(--tng-semantic-foreground-primary);
+  cursor: pointer;
+  display: inline-flex;
+  flex-shrink: 0;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  gap: 0.375rem;
+  height: 2rem;
+  padding: 0 0.625rem;
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    box-shadow 160ms ease;
+  white-space: nowrap;
+}
+
+.components-docs-nav-toggle:hover {
+  background: var(--tng-semantic-background-base);
+  box-shadow: inset 0 0 0 1px var(--tng-semantic-focus-ring);
+}
+
+.components-docs-nav-toggle:focus-visible {
+  box-shadow: inset 0 0 0 1px var(--tng-semantic-focus-ring);
+  outline: none;
+}
+
+.components-docs-nav-toggle-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  height: 14px;
+  justify-content: center;
+  width: 16px;
+}
+
+.components-docs-nav-toggle-bars span {
+  background: currentColor;
+  border-radius: 1px;
+  display: block;
+  height: 2px;
+  width: 100%;
+}
+
+.components-docs-current-page {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 0.875rem;
+  font-weight: 500;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.components-docs-nav-list {
+  display: grid;
+  gap: 0.375rem;
+  list-style: none;
+  margin: 0;
+  min-width: 0;
+  padding: 0.25rem 0;
+  width: 100%;
+}
+
+.components-docs-nav-item {
+  margin: 0;
+}
+
+.components-docs-nav-link {
+  align-items: center;
+  border: 1px solid transparent;
+  border-radius: 0.5rem;
+  box-shadow: none;
+  box-sizing: border-box;
+  color: var(--tng-semantic-foreground-primary);
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 0.875rem;
+  gap: 0.5rem;
+  justify-content: space-between;
+  line-height: 1.25;
+  min-height: 2.25rem;
+  padding: 0.5rem 0.75rem;
+  text-decoration: none;
+  transition:
+    border-color 160ms ease,
+    background-color 160ms ease,
+    color 160ms ease,
+    box-shadow 160ms ease;
+  width: 100%;
+}
+
+.components-docs-nav-link:hover:not(.components-docs-nav-link--selected) {
+  background: var(--tng-semantic-background-muted);
+  box-shadow: inset 0 0 0 1px var(--tng-semantic-focus-ring);
+}
+
+.components-docs-nav-link:focus-visible {
+  box-shadow: inset 0 0 0 1px var(--tng-semantic-focus-ring);
+  outline: none;
+}
+
+.components-docs-nav-link--selected {
+  background: color-mix(
+    in srgb,
+    var(--tng-semantic-accent-brand) 12%,
+    var(--tng-semantic-background-base)
+  );
+  border-color: var(--tng-semantic-accent-brand);
+  color: var(--tng-semantic-accent-brand);
+}
+
+.components-docs-nav-link--selected:focus-visible {
+  box-shadow: inset 0 0 0 1px var(--tng-semantic-focus-ring);
+}
+
+.components-docs-empty-state {
+  background: var(--tng-semantic-background-base);
+}
+
+@media (max-width: 768px) {
+  .components-docs-stage {
+    grid-template-columns: 1fr;
+    height: auto;
+    min-height: calc(100dvh - 4rem);
+    overflow: visible;
+    position: relative;
+  }
+
+  .components-docs-drawer {
+    background: var(--tng-semantic-background-base);
+    border: 1px solid var(--tng-semantic-border-subtle);
+    border-radius: 0 0.75rem 0.75rem 0;
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.12);
+    grid-template-rows: minmax(0, 1fr);
+    height: calc(100dvh - 4rem);
+    left: 0;
+    overflow: hidden;
+    padding: 0.85rem;
+    position: fixed;
+    top: 4rem;
+    width: min(22rem, 88vw);
+    z-index: 100;
+  }
+
+  .components-docs-drawer > tng-accordion,
+  .components-docs-drawer > .components-docs-empty-state {
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-gutter: stable;
+  }
+
+  .components-docs-breadcrumb {
+    align-items: center;
+    display: flex;
+    gap: 0.5rem;
+    overflow: hidden;
+  }
+
+  .components-docs-nav-link {
+    min-height: 2.75rem;
+  }
+
+  .components-docs-content {
+    overflow: visible;
+    padding: 0.75rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .components-docs-drawer:not([hidden]) {
+    animation: components-docs-drawer-slide-in 220ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+}
+
+@keyframes components-docs-drawer-slide-in {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+:host ::ng-deep [data-slot='drawer-backdrop'] {
+  background: rgba(0, 0, 0, 0.35);
+  inset: 0;
+  position: fixed;
+  z-index: 99;
+}

@@ -1,0 +1,115 @@
+<article class="yearpicker-overview">
+  <h2 class="yearpicker-overview-title">Yearpicker overview</h2>
+  <p class="yearpicker-overview-lead">
+    TailNG Yearpicker is a year-only selection surface built on the shared datepicker component.
+    It opens directly on the year grid, emits a plain <code>number</code> on selection, and closes
+    automatically — making it ideal for fiscal year fields, filter panels, and settings where
+    month and day are not relevant.
+  </p>
+
+  <app-docs-example-tabs-section
+    class="yearpicker-overview-block"
+    heading="Simple sample"
+    description="Compare the stock wrapper in its default plain-CSS presentation and in a theme-aware Tailwind shell."
+    ariaLabel="Yearpicker overview style examples"
+    tabListAriaLabel="Yearpicker overview example style variants"
+    defaultValue="plain-css"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+      panelTitle="Simple sample (Plain-CSS)"
+      [codeTabs]="simplePlainCodeTabs"
+    >
+      <div class="yearpicker-overview-example-preview">
+        <div class="yearpicker-overview-example-control">
+          <tng-yearpicker
+            [defaultValue]="2024"
+            [minYear]="2000"
+            [maxYear]="2030"
+            [fullWidth]="false"
+          ></tng-yearpicker>
+        </div>
+      </div>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Simple sample (Tailwind CSS)"
+      [codeTabs]="simpleTailwindCodeTabs"
+    >
+      <div class="yearpicker-overview-example-preview">
+        <div
+          class="w-full max-w-[10rem] rounded-xl border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-surface)] p-2 text-[var(--tng-semantic-foreground-primary)]"
+        >
+          <tng-yearpicker
+            [defaultValue]="2024"
+            [minYear]="2000"
+            [maxYear]="2030"
+            [fullWidth]="false"
+          ></tng-yearpicker>
+        </div>
+      </div>
+    </ng-template>
+  </app-docs-example-tabs-section>
+
+  <section class="yearpicker-overview-block">
+    <h3>Import</h3>
+    <p>
+      Add <code>TngYearpickerComponent</code> to your component's <code>imports</code> array.
+    </p>
+    <tng-code-block
+      [code]="componentImportCode"
+      adapter="shiki"
+      language="ts"
+      title="Wrapper import"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section class="yearpicker-overview-block">
+    <h3>Quick start</h3>
+    <tng-code-block
+      [code]="wrapperUsageCode"
+      adapter="shiki"
+      language="html"
+      title="Default wrapper usage"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section class="yearpicker-overview-block">
+    <h3>How it works</h3>
+    <p>
+      The yearpicker wraps the shared datepicker with a custom adapter that formats dates as
+      plain four-digit years and parses <code>YYYY</code> strings back into a <code>Date</code>.
+      The <code>fixedMonth</code> and <code>fixedDay</code> inputs pin the internal date to a
+      consistent anchor — useful when the downstream system expects a full date but only cares about
+      the year. On open, the popup jumps directly to the year grid; when the user picks a year, the
+      popup closes and <code>valueChange</code> emits the number.
+    </p>
+  </section>
+
+  <section class="yearpicker-overview-block">
+    <h3>Behavior baseline</h3>
+    <ul class="yearpicker-overview-list">
+      <li>Supports both uncontrolled (<code>defaultValue</code>) and controlled (<code>value</code>) selection modes.</li>
+      <li>The text input accepts a four-digit <code>YYYY</code> string; invalid input is discarded.</li>
+      <li><code>minYear</code> and <code>maxYear</code> constrain the year grid and keyboard navigation.</li>
+      <li>The popup opens directly on the year grid and closes automatically after selection.</li>
+      <li><code>yearPageSize</code> controls how many years appear per page (default 24).</li>
+      <li>Integrates with <code>tng-form-field</code> via the <code>TNG_FORM_FIELD_CONTROL</code> token.</li>
+      <li>Theme changes flow through semantic tokens so the field and portaled overlay stay in sync.</li>
+    </ul>
+  </section>
+</article>

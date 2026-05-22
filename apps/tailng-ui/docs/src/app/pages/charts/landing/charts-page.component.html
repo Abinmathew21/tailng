@@ -1,0 +1,118 @@
+<section class="components-page-full-bleed grid gap-5">
+  <section
+    tngDrawerContainer
+    class="components-docs-stage border-b border-tng-border-subtle bg-tng-bg-surface/60"
+    [animate]="false"
+    [hasBackdrop]="false"
+    [closeOthersOnOpen]="false"
+  >
+    <tng-drawer
+      class="components-docs-drawer"
+      ariaLabel="Charts docs navigation"
+      tabindex="-1"
+      [opened]="drawerOpened()"
+      [mode]="'overlay'"
+      [position]="'start'"
+      [backdrop]="isMobile()"
+      [closeOnOutsideClick]="isMobile()"
+      [closeOnEscape]="isMobile()"
+      [autoFocus]="isMobile() ? 'first-focusable' : 'none'"
+      [trapFocus]="isMobile() ? 'auto' : false"
+      [inertContent]="isMobile() ? 'auto' : false"
+      [allowBodyScroll]="!isMobile()"
+      [swipeToClose]="isMobile()"
+      (openedChange)="onDrawerOpenedChange($event)"
+    >
+      @if (filteredNavGroups().length > 0) {
+        <tng-accordion
+          tabindex="-1"
+          [type]="'multiple'"
+          [defaultValue]="defaultExpandedGroups"
+          [collapsible]="true"
+          ariaLabel="Charts docs categories"
+        >
+          @for (group of filteredNavGroups(); track group.id) {
+            <tng-accordion-item [value]="group.id">
+              <tng-accordion-trigger>
+                <span class="flex w-full items-center justify-between gap-3">
+                  <span class="flex min-w-0 flex-col text-left">
+                    <span class="truncate text-sm font-semibold">{{ group.title }}</span>
+                    <span class="truncate text-xs text-tng-fg-secondary">{{ group.subtitle }}</span>
+                  </span>
+                  <span
+                    class="inline-flex h-6 min-w-6 items-center justify-center rounded-full border border-tng-border-subtle px-1 text-xs text-tng-fg-secondary"
+                  >
+                    {{ group.items.length }}
+                  </span>
+                </span>
+              </tng-accordion-trigger>
+              <tng-accordion-panel>
+                <nav class="components-docs-nav-group" [attr.aria-label]="group.title + ' links'">
+                  <ul class="components-docs-nav-list">
+                    @for (item of group.items; track item.id) {
+                      <li class="components-docs-nav-item">
+                        <a
+                          class="components-docs-nav-link"
+                          [href]="itemHref(group.id, item.slug)"
+                          [class.components-docs-nav-link--selected]="isNavItemActive(group, item)"
+                        >
+                          <span class="truncate">{{ item.title }}</span>
+                          @if (isNavItemActive(group, item)) {
+                            <tng-icon icon="chevron-right" class="h-4 w-4 shrink-0" aria-hidden="true" />
+                          }
+                        </a>
+                      </li>
+                    }
+                  </ul>
+                </nav>
+              </tng-accordion-panel>
+            </tng-accordion-item>
+          }
+        </tng-accordion>
+      } @else {
+        <div
+          class="components-docs-empty-state rounded-lg border border-dashed border-tng-border-subtle p-3"
+        >
+          <p class="m-0 text-sm font-medium text-tng-fg-primary">No matches found</p>
+          <p class="m-0 mt-1 text-xs text-tng-fg-secondary">
+            Try another term (for example: line, bar, pie, heatmap).
+          </p>
+        </div>
+      }
+    </tng-drawer>
+
+    <main tngDrawerContent class="components-docs-content">
+      <section class="components-docs-breadcrumb">
+        @if (isMobile()) {
+          <button
+            type="button"
+            class="components-docs-nav-toggle"
+            [attr.aria-expanded]="mobileNavOpen()"
+            aria-label="Toggle charts navigation"
+            (click)="toggleMobileNav()"
+          >
+            <span class="components-docs-nav-toggle-bars" aria-hidden="true">
+              <span></span>
+              <span></span>
+              <span></span>
+            </span>
+            <span class="components-docs-nav-toggle-label">Menu</span>
+          </button>
+          @if (currentPageLabel()) {
+            <span class="components-docs-current-page" aria-current="page">{{ currentPageLabel() }}</span>
+          }
+        } @else {
+          <tng-breadcrumb ariaLabel="Charts documentation path" separator="›">
+            @for (crumb of docsBreadcrumbs(); track $index) {
+              <tng-breadcrumb-item [current]="crumb.current" [routerLink]="crumb.url">
+                {{ crumb.label }}
+              </tng-breadcrumb-item>
+            }
+          </tng-breadcrumb>
+        }
+      </section>
+
+      <router-outlet />
+    </main>
+  </section>
+</section>
