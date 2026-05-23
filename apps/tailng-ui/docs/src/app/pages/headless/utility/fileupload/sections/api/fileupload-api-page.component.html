@@ -1,0 +1,100 @@
+<article class="headless-fileupload-api">
+  <h2 class="headless-fileupload-api-title">API reference</h2>
+  <p class="headless-fileupload-api-lead">
+    <code>tngFileUpload</code> is a standalone directive that makes its host a drop zone, validates
+    dropped files, and reports accepted and rejected results back to the owner.
+  </p>
+
+  <section id="directive-selector" class="headless-fileupload-api-block">
+    <h3>Directive selector</h3>
+    <p>
+      The primitive attaches through <code>[tngFileUpload]</code> and exports itself as
+      <code>tngFileUpload</code>. It works on any section-like host element.
+    </p>
+    <tng-code-block
+      [code]="selectorCode"
+      adapter="shiki"
+      language="html"
+      title="Directive attachment"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="inputs-and-outputs" class="headless-fileupload-api-block">
+    <h3>Inputs and outputs</h3>
+    <div class="headless-fileupload-api-table-wrap">
+      <table class="headless-fileupload-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Type</th>
+            <th scope="col">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>accept</code></td>
+            <td><code>string | string[] | null</code></td>
+            <td>
+              Comma-separated or array of tokens: extensions (<code>.pdf</code>), exact MIME types
+              (<code>application/pdf</code>), or wildcard groups (<code>image/*</code>). Empty means
+              no restriction.
+            </td>
+          </tr>
+          <tr>
+            <td><code>multiple</code></td>
+            <td><code>boolean</code></td>
+            <td>When false, the first valid file is accepted and the rest are rejected as <code>multiple</code>.</td>
+          </tr>
+          <tr>
+            <td><code>maxSize</code></td>
+            <td><code>number | null</code></td>
+            <td>Maximum size in bytes. Zero, negative, and null values disable size validation.</td>
+          </tr>
+          <tr>
+            <td><code>disabled</code></td>
+            <td><code>boolean</code></td>
+            <td>Disabled drop zones are fully passive: no <code>preventDefault</code>, no emits.</td>
+          </tr>
+          <tr>
+            <td><code>filesSelected</code></td>
+            <td><code>TngFileUploadSelectedEvent</code></td>
+            <td>Emits <code>&#123; files, source &#125;</code> when one or more valid files are selected.</td>
+          </tr>
+          <tr>
+            <td><code>filesRejected</code></td>
+            <td><code>TngFileUploadRejectedEvent</code></td>
+            <td>Emits <code>&#123; rejected, accepted, source &#125;</code> when files fail validation.</td>
+          </tr>
+          <tr>
+            <td><code>dragStateChange</code></td>
+            <td><code>'idle' | 'dragging' | 'rejected'</code></td>
+            <td>Emits whenever the drag interaction state changes.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="validation-model" class="headless-fileupload-api-block">
+    <h3>Validation model</h3>
+    <p>
+      Each file is checked for <code>type</code> first, then <code>size</code>. Only files that pass
+      both are considered for acceptance, and the <code>multiple</code> rule is applied last. Input
+      order is preserved within both the accepted and rejected lists.
+    </p>
+    <tng-code-block
+      [code]="validationCode"
+      adapter="shiki"
+      language="ts"
+      title="Reading rejected files"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+</article>

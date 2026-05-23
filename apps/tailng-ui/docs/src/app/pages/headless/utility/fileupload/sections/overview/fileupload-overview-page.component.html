@@ -1,0 +1,129 @@
+<article class="headless-fileupload-overview">
+  <h2 class="headless-fileupload-overview-title">Headless FileUpload overview</h2>
+  <p class="headless-fileupload-overview-lead">
+    <code>tngFileUpload</code> turns any owner-authored section-like element into a drag-and-drop
+    drop zone. The primitive handles drag events, accept/size/multiplicity validation, and drag-state
+    reflection while you control every visual detail.
+  </p>
+
+  <section id="imports" class="headless-fileupload-overview-block">
+    <h3>Imports</h3>
+    <p>Attach the directive directly to a <code>div</code>, <code>section</code>, or <code>label</code> host.</p>
+    <tng-code-block
+      [code]="importCode"
+      adapter="shiki"
+      language="ts"
+      title="Headless import"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="quick-drop-zone" class="headless-fileupload-overview-block">
+    <h3>Quick drop zone</h3>
+    <p>
+      The smallest useful setup is a host element plus <code>tngFileUpload</code> and a
+      <code>filesSelected</code> handler. Add <code>accept</code>, <code>maxSize</code>, and
+      <code>multiple</code> as needed.
+    </p>
+    <tng-code-block
+      [code]="basicUsageCode"
+      adapter="shiki"
+      language="html"
+      title="Minimal drop zone"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <app-docs-example-tabs-section
+    id="style-variants"
+    class="headless-fileupload-overview-block"
+    heading="Style variants"
+    description="The same primitive drop zone rendered with owner-authored Plain CSS and Tailwind shells."
+    ariaLabel="Headless FileUpload style variants"
+    tabListAriaLabel="Headless FileUpload style tabs"
+    defaultValue="plain-css"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+      panelTitle="Plain CSS drop zone"
+      [codeTabs]="plainCssCodeTabs"
+    >
+      <div class="headless-fileupload-preview headless-fileupload-preview--plain">
+        <div
+          tngFileUpload
+          class="headless-fileupload-zone"
+          [multiple]="true"
+          (filesSelected)="onPlainSelected($event)"
+          (dragStateChange)="plainDrag.set($event)"
+        >
+          <p class="headless-fileupload-zone-hint">Drag files here or drop a batch.</p>
+          <p class="headless-fileupload-zone-state">Drag state: {{ plainDrag() }}</p>
+        </div>
+        @if (plainFiles().length > 0) {
+          <ul class="headless-fileupload-list">
+            @for (name of plainFiles(); track name) {
+              <li>{{ name }}</li>
+            }
+          </ul>
+        }
+      </div>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Tailwind drop zone"
+      [codeTabs]="tailwindCodeTabs"
+    >
+      <div
+        class="rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4"
+      >
+        <div
+          tngFileUpload
+          [multiple]="true"
+          (filesSelected)="onTailwindSelected($event)"
+          (dragStateChange)="tailwindDrag.set($event)"
+          class="rounded-xl border-2 border-dashed border-[var(--tng-semantic-border-strong)] p-6 text-center data-[dragging]:border-[var(--tng-semantic-accent-brand)] data-[dragging]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_10%,transparent)]"
+        >
+          <p class="text-sm text-[var(--tng-semantic-foreground-secondary)]">Drag files here or drop a batch.</p>
+          <p class="mt-1 text-xs text-[var(--tng-semantic-foreground-muted)]">Drag state: {{ tailwindDrag() }}</p>
+        </div>
+        @if (tailwindFiles().length > 0) {
+          <ul class="mt-3 grid gap-1 text-sm text-[var(--tng-semantic-foreground-secondary)]">
+            @for (name of tailwindFiles(); track name) {
+              <li>{{ name }}</li>
+            }
+          </ul>
+        }
+      </div>
+    </ng-template>
+  </app-docs-example-tabs-section>
+
+  <section id="accessibility-baseline" class="headless-fileupload-overview-block">
+    <h3>Accessibility baseline</h3>
+    <ul class="headless-fileupload-overview-list">
+      <li>
+        The directive never sets <code>role</code>, <code>tabindex</code>, or ARIA attributes, so any
+        accessibility metadata you author on the host is preserved.
+      </li>
+      <li>
+        Drag-and-drop is pointer-only by design; pair the zone with a native file input button if you
+        need a keyboard-accessible fallback.
+      </li>
+      <li>
+        Reflect <code>filesRejected</code> reasons into your own status text so assistive technology
+        users learn why a file was not accepted.
+      </li>
+    </ul>
+  </section>
+</article>

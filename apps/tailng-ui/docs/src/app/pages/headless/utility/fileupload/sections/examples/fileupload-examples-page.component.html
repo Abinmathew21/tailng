@@ -1,0 +1,173 @@
+<article class="headless-fileupload-examples">
+  <h2 class="headless-fileupload-examples-title">Examples</h2>
+  <p class="headless-fileupload-examples-lead">
+    Each example below stays fully headless: the primitive handles drag events and validation while
+    the owner authors every visual detail. Drag files from your file manager onto a zone to try it.
+  </p>
+
+  <app-docs-example-tabs-section
+    id="basic-drop-zone"
+    class="headless-fileupload-examples-block"
+    heading="Basic drop zone"
+    description="A single-file drop zone that emits filesSelected and reflects drag state via data-dragging."
+    ariaLabel="Basic drop zone variants"
+    tabListAriaLabel="Basic drop zone style tabs"
+    defaultValue="plain-css"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+      panelTitle="Basic drop zone (Plain CSS)"
+      [codeTabs]="basicTabs"
+    >
+      <div class="headless-fileupload-example-shell">
+        <div
+          tngFileUpload
+          class="headless-fileupload-zone"
+          (filesSelected)="onSelected('basic', $event)"
+          (dragStateChange)="onDrag('basic', $event)"
+        >
+          <p class="headless-fileupload-zone-hint">Drop a single file here.</p>
+          <p class="headless-fileupload-zone-state">Drag state: {{ drag('basic') }}</p>
+        </div>
+        @if (accepted('basic').length > 0) {
+          <ul class="headless-fileupload-list">
+            @for (name of accepted('basic'); track name) {
+              <li>{{ name }}</li>
+            }
+          </ul>
+        }
+      </div>
+    </ng-template>
+  </app-docs-example-tabs-section>
+
+  <app-docs-example-tabs-section
+    id="multiple-and-accept"
+    class="headless-fileupload-examples-block"
+    heading="Multiple and accept"
+    description="Allow multiple files but only accept images and PDFs; everything else is rejected by type."
+    ariaLabel="Multiple and accept variants"
+    tabListAriaLabel="Multiple and accept style tabs"
+    defaultValue="plain-css"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+      panelTitle="Multiple and accept (Plain CSS)"
+      [codeTabs]="acceptTabs"
+    >
+      <div class="headless-fileupload-example-shell">
+        <div
+          tngFileUpload
+          class="headless-fileupload-zone"
+          [multiple]="true"
+          [accept]="'image/*,.pdf'"
+          (filesSelected)="onSelected('accept', $event)"
+          (filesRejected)="onRejected('accept', $event)"
+          (dragStateChange)="onDrag('accept', $event)"
+        >
+          <p class="headless-fileupload-zone-hint">Drop images or PDFs (multiple allowed).</p>
+          <p class="headless-fileupload-zone-state">Drag state: {{ drag('accept') }}</p>
+        </div>
+        @if (accepted('accept').length > 0) {
+          <ul class="headless-fileupload-list">
+            @for (name of accepted('accept'); track name) {
+              <li>{{ name }}</li>
+            }
+          </ul>
+        }
+        @if (rejected('accept').length > 0) {
+          <ul class="headless-fileupload-list headless-fileupload-list--rejected">
+            @for (message of rejected('accept'); track message) {
+              <li>{{ message }}</li>
+            }
+          </ul>
+        }
+      </div>
+    </ng-template>
+  </app-docs-example-tabs-section>
+
+  <app-docs-example-tabs-section
+    id="max-size"
+    class="headless-fileupload-examples-block"
+    heading="Max size validation"
+    description="Reject files larger than 1 MB with a reason and message, while still accepting valid files."
+    ariaLabel="Max size validation variants"
+    tabListAriaLabel="Max size validation style tabs"
+    defaultValue="plain-css"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+      panelTitle="Max size validation (Plain CSS)"
+      [codeTabs]="sizeTabs"
+    >
+      <div class="headless-fileupload-example-shell">
+        <div
+          tngFileUpload
+          class="headless-fileupload-zone"
+          [multiple]="true"
+          [maxSize]="maxSizeBytes"
+          (filesSelected)="onSelected('size', $event)"
+          (filesRejected)="onRejected('size', $event)"
+          (dragStateChange)="onDrag('size', $event)"
+        >
+          <p class="headless-fileupload-zone-hint">Files larger than 1 MB are rejected.</p>
+          <p class="headless-fileupload-zone-state">Drag state: {{ drag('size') }}</p>
+        </div>
+        @if (accepted('size').length > 0) {
+          <ul class="headless-fileupload-list">
+            @for (name of accepted('size'); track name) {
+              <li>{{ name }}</li>
+            }
+          </ul>
+        }
+        @if (rejected('size').length > 0) {
+          <ul class="headless-fileupload-list headless-fileupload-list--rejected">
+            @for (message of rejected('size'); track message) {
+              <li>{{ message }}</li>
+            }
+          </ul>
+        }
+      </div>
+    </ng-template>
+  </app-docs-example-tabs-section>
+
+  <app-docs-example-tabs-section
+    id="disabled-drop-zone"
+    class="headless-fileupload-examples-block"
+    heading="Disabled drop zone"
+    description="A disabled zone is fully passive: it ignores drops, emits nothing, and reflects data-disabled."
+    ariaLabel="Disabled drop zone variants"
+    tabListAriaLabel="Disabled drop zone style tabs"
+    defaultValue="plain-css"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+      panelTitle="Disabled drop zone (Plain CSS)"
+      [codeTabs]="disabledTabs"
+    >
+      <div class="headless-fileupload-example-shell">
+        <div
+          tngFileUpload
+          class="headless-fileupload-zone"
+          [disabled]="true"
+          (filesSelected)="onSelected('disabled', $event)"
+          (dragStateChange)="onDrag('disabled', $event)"
+        >
+          <p class="headless-fileupload-zone-hint">This drop zone is disabled and ignores drops.</p>
+          <p class="headless-fileupload-zone-state">Drag state: {{ drag('disabled') }}</p>
+        </div>
+      </div>
+    </ng-template>
+  </app-docs-example-tabs-section>
+</article>

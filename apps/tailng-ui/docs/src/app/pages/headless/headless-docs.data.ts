@@ -327,6 +327,13 @@ export const HEADLESS_UTILITY_GROUP: HeadlessDocsGroup = {
       description: 'Clipboard action behavior, status signals, and announcer integration hooks.',
     },
     {
+      id: 'fileupload',
+      slug: 'fileupload',
+      title: 'FileUpload',
+      description:
+        'Headless drag-and-drop file selection with accept, size, and multiplicity validation plus drag-state hooks.',
+    },
+    {
       id: 'button',
       slug: 'button',
       title: 'Button',

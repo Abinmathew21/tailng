@@ -1,0 +1,98 @@
+:host {
+  display: block;
+}
+
+.headless-fileupload-overview {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.headless-fileupload-overview-title {
+  font-size: clamp(1.45rem, 1.05rem + 1.3vw, 1.95rem);
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.headless-fileupload-overview-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+  max-width: 70ch;
+}
+
+.headless-fileupload-overview-block {
+  background: color-mix(in srgb, var(--tng-semantic-background-surface) 88%, transparent);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 1rem;
+  display: grid;
+  gap: 0.9rem;
+  padding: 1.2rem;
+}
+
+.headless-fileupload-overview-block h3 {
+  font-size: 1.05rem;
+  font-weight: 650;
+  margin: 0;
+}
+
+.headless-fileupload-overview-block p {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.headless-fileupload-preview {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.headless-fileupload-preview--plain {
+  background: var(--tng-semantic-background-base);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.85rem;
+  padding: 1rem;
+}
+
+.headless-fileupload-zone {
+  border: 2px dashed var(--tng-semantic-border-strong);
+  border-radius: 0.85rem;
+  display: grid;
+  gap: 0.35rem;
+  padding: 1.5rem;
+  text-align: center;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.headless-fileupload-zone[data-dragging] {
+  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 10%, transparent);
+  border-color: var(--tng-semantic-accent-brand);
+}
+
+.headless-fileupload-zone-hint {
+  color: var(--tng-semantic-foreground-primary);
+  font-weight: 600;
+  margin: 0;
+}
+
+.headless-fileupload-zone-state {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+.headless-fileupload-list {
+  display: grid;
+  gap: 0.4rem;
+  margin: 0;
+  padding-inline-start: 1.1rem;
+}
+
+.headless-fileupload-overview-list {
+  display: grid;
+  gap: 0.55rem;
+  margin: 0;
+  padding-inline-start: 1.1rem;
+}
+
+.headless-fileupload-overview-list code {
+  font-size: 0.84em;
+}

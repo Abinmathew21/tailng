@@ -1,0 +1,91 @@
+<article class="headless-fileupload-styling">
+  <h2 class="headless-fileupload-styling-title">Styling contract</h2>
+  <p class="headless-fileupload-styling-lead">
+    The headless drop zone only exposes host-level state attributes. Shape, colors, drag affordances,
+    and rejected-state presentation stay fully owner-controlled.
+  </p>
+
+  <section id="host-state-hooks" class="headless-fileupload-styling-block">
+    <h3>Host state hooks</h3>
+    <div class="headless-fileupload-styling-table-wrap">
+      <table class="headless-fileupload-styling-table">
+        <thead>
+          <tr>
+            <th scope="col">Hook</th>
+            <th scope="col">When it appears</th>
+            <th scope="col">Use it for</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>data-file-upload</code></td>
+            <td>Always present on the host.</td>
+            <td>Base selector for scoping drop-zone styles.</td>
+          </tr>
+          <tr>
+            <td><code>data-dragging</code></td>
+            <td>While a drag gesture is active over the host.</td>
+            <td>Highlight the active drop target.</td>
+          </tr>
+          <tr>
+            <td><code>data-disabled</code></td>
+            <td>Whenever the directive is disabled.</td>
+            <td>Dim or lock the zone for the passive disabled state.</td>
+          </tr>
+          <tr>
+            <td><code>data-rejected</code></td>
+            <td>While the drag/drop state is rejected (when surfaced).</td>
+            <td>Optional negative feedback styling.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <tng-code-block
+      [code]="hostStateCode"
+      adapter="shiki"
+      language="css"
+      title="Host selectors"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="css-starter" class="headless-fileupload-styling-block">
+    <h3>CSS starter</h3>
+    <p>
+      Start with a dashed drop target, then react to <code>data-dragging</code> and
+      <code>data-disabled</code> for hover and locked affordances.
+    </p>
+    <tng-code-block
+      [code]="starterCode"
+      adapter="shiki"
+      language="css"
+      title="dropzone.css"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="accessibility-guidance" class="headless-fileupload-styling-block">
+    <h3>Accessibility guidance</h3>
+    <p>
+      The primitive does not render its own status region. Mirror <code>filesSelected</code> and
+      <code>filesRejected</code> results into your own <code>aria-live</code> node so the outcome of
+      a drop is announced.
+    </p>
+    <tng-code-block
+      [code]="statusCode"
+      adapter="shiki"
+      language="html"
+      title="Owner-managed status region"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+</article>

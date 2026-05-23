@@ -17,6 +17,10 @@ const copybuttonItem = group.items.find((item) => item.slug === 'copybutton');
 if (copybuttonItem === undefined) {
   throw new Error('Missing "copybutton" in headless utility docs group.');
 }
+const fileuploadItem = group.items.find((item) => item.slug === 'fileupload');
+if (fileuploadItem === undefined) {
+  throw new Error('Missing "fileupload" in headless utility docs group.');
+}
 const buttonItem = group.items.find((item) => item.slug === 'button');
 if (buttonItem === undefined) {
   throw new Error('Missing "button" in headless utility docs group.');
@@ -34,6 +38,7 @@ const dedicatedUtilitySlugs = new Set([
   avatarItem.slug,
   codeblockItem.slug,
   copybuttonItem.slug,
+  fileuploadItem.slug,
   buttonItem.slug,
   badgeItem.slug,
   tagItem.slug,
@@ -59,6 +64,11 @@ export const HEADLESS_UTILITY_ROUTES: Routes = [
     path: 'copybutton',
     loadChildren: () =>
       import('./copybutton/routes').then((module) => module.HEADLESS_UTILITY_COPYBUTTON_ROUTES),
+  },
+  {
+    path: 'fileupload',
+    loadChildren: () =>
+      import('./fileupload/routes').then((module) => module.HEADLESS_UTILITY_FILEUPLOAD_ROUTES),
   },
   {
     path: 'button',
