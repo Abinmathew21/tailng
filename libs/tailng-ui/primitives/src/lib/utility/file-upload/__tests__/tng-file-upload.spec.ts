@@ -87,14 +87,14 @@ describe('TngFileUploadDirective', () => {
 
     it('treats null accept as no restriction', () => {
       const fixture = createFileUploadFixture();
-      fixture.component.accept = null;
+      fixture.component.accept.set(null);
       fixture.detectChanges();
       expect(fixture.component.directive.accept()).toEqual([]);
     });
 
     it('treats null maxSize as no restriction', () => {
       const fixture = createFileUploadFixture();
-      fixture.component.maxSize = null;
+      fixture.component.maxSize.set(null);
       fixture.detectChanges();
       expect(fixture.component.directive.maxSize()).toBeNull();
     });
@@ -103,7 +103,7 @@ describe('TngFileUploadDirective', () => {
   describe('boolean input handling', () => {
     function setMultiple(value: boolean | string): FileUploadFixture {
       const fixture = createFileUploadFixture();
-      fixture.component.multiple = value;
+      fixture.component.multiple.set(value);
       fixture.detectChanges();
       return fixture;
     }
@@ -122,14 +122,14 @@ describe('TngFileUploadDirective', () => {
 
     it('treats [disabled]="true" as disabled', () => {
       const fixture = createFileUploadFixture();
-      fixture.component.disabled = true;
+      fixture.component.disabled.set(true);
       fixture.detectChanges();
       expect(fixture.component.directive.disabled()).toBe(true);
     });
 
     it('treats a plain disabled attribute as disabled', () => {
       const fixture = createFileUploadFixture();
-      fixture.component.disabled = '';
+      fixture.component.disabled.set('');
       fixture.detectChanges();
       expect(fixture.component.directive.disabled()).toBe(true);
     });
@@ -158,11 +158,11 @@ describe('TngFileUploadDirective', () => {
 
     it('adds data-disabled when disabled and removes it when enabled', () => {
       const fixture = createFileUploadFixture();
-      fixture.component.disabled = true;
+      fixture.component.disabled.set(true);
       fixture.detectChanges();
       expect(fixture.element.hasAttribute('data-disabled')).toBe(true);
 
-      fixture.component.disabled = false;
+      fixture.component.disabled.set(false);
       fixture.detectChanges();
       expect(fixture.element.hasAttribute('data-disabled')).toBe(false);
     });
@@ -219,10 +219,11 @@ describe('TngFileUploadDirective', () => {
     });
 
     it('handles rapid drag enter and leave events with nested counting', () => {
-      const { component, element } = createFileUploadFixture();
+      const { component, element, detectChanges } = createFileUploadFixture();
       dispatchDrag(element, 'dragenter', [makeFile('a.png', 'image/png')]);
       dispatchDrag(element, 'dragenter', [makeFile('a.png', 'image/png')]);
       dispatchDrag(element, 'dragleave');
+      detectChanges();
       expect(element.hasAttribute('data-dragging')).toBe(true);
       dispatchDrag(element, 'dragleave');
       expect(component.dragStates).toEqual(['dragging', 'idle']);
@@ -280,7 +281,7 @@ describe('TngFileUploadDirective', () => {
   describe('disabled state', () => {
     function disabledFixture(): FileUploadFixture {
       const fixture = createFileUploadFixture();
-      fixture.component.disabled = true;
+      fixture.component.disabled.set(true);
       fixture.detectChanges();
       return fixture;
     }
@@ -312,7 +313,7 @@ describe('TngFileUploadDirective', () => {
 
     it('does not emit filesRejected when disabled', () => {
       const fixture = disabledFixture();
-      fixture.component.accept = ['.pdf'];
+      fixture.component.accept.set(['.pdf']);
       fixture.detectChanges();
       dispatchDrag(fixture.element, 'drop', [makeFile('a.png', 'image/png')]);
       expect(fixture.component.rejectedEvents).toEqual([]);
@@ -329,7 +330,7 @@ describe('TngFileUploadDirective', () => {
 
     it('emits selected files in dropped order', () => {
       const fixture = createFileUploadFixture();
-      fixture.component.multiple = true;
+      fixture.component.multiple.set(true);
       fixture.detectChanges();
       const a = makeFile('a.png', 'image/png');
       const b = makeFile('b.png', 'image/png');
@@ -351,7 +352,7 @@ describe('TngFileUploadDirective', () => {
 
     it('does not emit filesSelected when all files are rejected', () => {
       const fixture = createFileUploadFixture();
-      fixture.component.accept = ['.pdf'];
+      fixture.component.accept.set(['.pdf']);
       fixture.detectChanges();
       dispatchDrag(fixture.element, 'drop', [makeFile('a.png', 'image/png')]);
       expect(fixture.component.selectedEvents).toEqual([]);
@@ -371,7 +372,7 @@ describe('TngFileUploadDirective', () => {
 
     it('accepts all files when multiple is true', () => {
       const fixture = createFileUploadFixture();
-      fixture.component.multiple = true;
+      fixture.component.multiple.set(true);
       fixture.detectChanges();
       const a = makeFile('a.png', 'image/png');
       const b = makeFile('b.png', 'image/png');
@@ -384,9 +385,9 @@ describe('TngFileUploadDirective', () => {
   describe('mixed accepted / rejected files', () => {
     it('emits accepted files alongside rejected files in one drop', () => {
       const fixture = createFileUploadFixture();
-      fixture.component.multiple = true;
-      fixture.component.accept = ['image/*'];
-      fixture.component.maxSize = 100;
+      fixture.component.multiple.set(true);
+      fixture.component.accept.set(['image/*']);
+      fixture.component.maxSize.set(100);
       fixture.detectChanges();
 
       const good = makeFile('a.png', 'image/png', 10);

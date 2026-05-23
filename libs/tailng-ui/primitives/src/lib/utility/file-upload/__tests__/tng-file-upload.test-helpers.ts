@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, signal } from '@angular/core';
 import type { ElementRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
@@ -20,10 +20,10 @@ import type {
     <div
       #zone
       tngFileUpload
-      [accept]="accept"
-      [multiple]="multiple"
-      [maxSize]="maxSize"
-      [disabled]="disabled"
+      [accept]="accept()"
+      [multiple]="multiple()"
+      [maxSize]="maxSize()"
+      [disabled]="disabled()"
       (filesSelected)="selectedEvents.push($event)"
       (filesRejected)="rejectedEvents.push($event)"
       (dragStateChange)="dragStates.push($event)"
@@ -38,10 +38,10 @@ import type {
   `,
 })
 export class FileUploadHostComponent {
-  public accept: string | readonly string[] | null | undefined = undefined;
-  public multiple: boolean | string = false;
-  public maxSize: number | null | undefined = null;
-  public disabled: boolean | string = false;
+  public readonly accept = signal<string | readonly string[] | null | undefined>(undefined);
+  public readonly multiple = signal<boolean | string>(false);
+  public readonly maxSize = signal<number | null | undefined>(null);
+  public readonly disabled = signal<boolean | string>(false);
 
   public readonly selectedEvents: TngFileUploadSelectedEvent[] = [];
   public readonly rejectedEvents: TngFileUploadRejectedEvent[] = [];
