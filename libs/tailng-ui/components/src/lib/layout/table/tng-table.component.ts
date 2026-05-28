@@ -181,12 +181,12 @@ export class TngTableHeaderTemplate<TRow = unknown> {
   selector: 'tng-table',
   imports: [
     NgTemplateOutlet,
-    TngSortHeader,
     TngTablePrimitive,
     TngTableBody,
     TngTableCell,
     TngTableHeader,
     TngTableHeaderCell,
+    TngSortHeader,
     TngTableRow,
     TngTableScrollContainer,
     TngTableSort,

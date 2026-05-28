@@ -502,7 +502,8 @@ describe('tng-table grouped headers', () => {
         fixture,
         'th[data-column-id="person"]',
       );
-      expect(groupHeader.hasAttribute('data-sortable')).toBe(false);
+      expect(groupHeader.getAttribute('data-slot')).not.toBe('table-sort-header');
+      expect(groupHeader.hasAttribute('aria-sort')).toBe(false);
     });
 
     it('does not trigger sort when clicking a group header', () => {
@@ -522,15 +523,15 @@ describe('tng-table grouped headers', () => {
     it('renders sort indicator only for sortable leaf headers', () => {
       const fixture = createGroupedFixture();
       expect(
-        query<HTMLTableCellElement>(fixture, 'th[data-column-id="firstName"]').hasAttribute(
-          'data-sortable',
+        query<HTMLTableCellElement>(fixture, 'th[data-column-id="firstName"]').getAttribute(
+          'data-slot',
         ),
-      ).toBe(true);
+      ).toBe('table-sort-header');
       expect(
-        query<HTMLTableCellElement>(fixture, 'th[data-column-id="email"]').hasAttribute(
-          'data-sortable',
+        query<HTMLTableCellElement>(fixture, 'th[data-column-id="email"]').getAttribute(
+          'data-slot',
         ),
-      ).toBe(false);
+      ).toBe('table-header-cell');
     });
 
     it('ignores `sortable` on group columns', () => {
@@ -546,10 +547,10 @@ describe('tng-table grouped headers', () => {
       fixture.detectChanges();
 
       expect(
-        query<HTMLTableCellElement>(fixture, 'th[data-column-id="grp"]').hasAttribute(
-          'data-sortable',
+        query<HTMLTableCellElement>(fixture, 'th[data-column-id="grp"]').getAttribute(
+          'data-slot',
         ),
-      ).toBe(false);
+      ).not.toBe('table-sort-header');
     });
   });
 
@@ -901,9 +902,9 @@ describe('tng-table grouped headers', () => {
         fixture,
         'th[data-column-id="lastName"]',
       );
-      // The sortable leaf participates in the sort directive (aria-sort=none by default).
-      expect(sortableLeaf.hasAttribute('data-sortable')).toBe(true);
-      expect(nonSortableLeaf.hasAttribute('data-sortable')).toBe(false);
+      // The sortable leaf carries aria-sort via the sort directive (defaults to "none").
+      expect(sortableLeaf.hasAttribute('aria-sort')).toBe(true);
+      expect(nonSortableLeaf.hasAttribute('aria-sort')).toBe(false);
     });
   });
 

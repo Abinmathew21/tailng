@@ -1,8 +1,10 @@
 import {
+  ChangeDetectorRef,
   Directive,
   HostBinding,
   HostListener,
   Input,
+  afterEveryRender,
   type OnDestroy,
   type OnInit,
   type Signal,
@@ -1217,6 +1219,7 @@ export class TngTableRowExpander {
 })
 export class TngTable implements OnDestroy {
   private readonly hostRef = inject<ElementRef<HTMLTableElement>>(ElementRef);
+  private readonly cdr = inject(ChangeDetectorRef);
   private readonly headerSlots = contentChildren(TngTableHeader);
   private readonly footerSlots = contentChildren(TngTableFooter);
   private readonly cells = new Set<TngTableFocusableCell>();
@@ -1353,6 +1356,16 @@ export class TngTable implements OnDestroy {
     this.shouldRestoreFocusOnDestroy = false;
   }
 
+  constructor() {
+    afterEveryRender(() => {
+      const prev = this.activeCell;
+      this.ensureFallbackActiveCell();
+      if (this.activeCell !== prev) {
+        this.cdr.markForCheck();
+      }
+    });
+  }
+
   public getCellTabIndex(cell: TngTableFocusableCell): string {
     if (this.isCellDisabled(cell)) {
       return '-1';
@@ -1451,8 +1464,6 @@ export class TngTable implements OnDestroy {
     if (this.focusVisibleCell === cell) {
       this.focusVisibleCell = null;
     }
-
-    this.ensureFallbackActiveCell();
   }
 
   @HostListener('focusin', ['$event'])
@@ -1540,7 +1551,6 @@ export class TngTable implements OnDestroy {
   }
 
   private getActiveCell(): TngTableFocusableCell | null {
-    this.ensureFallbackActiveCell();
     return this.activeCell;
   }
 
