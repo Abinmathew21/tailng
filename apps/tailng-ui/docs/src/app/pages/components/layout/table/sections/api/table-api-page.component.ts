@@ -29,8 +29,9 @@ import { Component } from '@angular/core';
                   <td><code>columns</code></td>
                   <td><code>readonly TngTableColumn&lt;TRow&gt;[]</code></td>
                   <td>
-                    Column ids, labels, accessors, alignment, sorting, sticky position, truncation,
-                    and width.
+                    A column tree. Leaves carry id, label, accessor, alignment, sorting, sticky
+                    position, truncation and width. Groups carry id, label, and a
+                    <code>children</code> array to produce multi-row headers with colspan / rowspan.
                   </td>
                 </tr>
                 <tr>
@@ -80,6 +81,9 @@ import { Component } from '@angular/core';
             </li>
             <li>
               <code>ng-template[tngTableHeaderTemplate]</code> customizes header cells by column id.
+              The context exposes <code>label</code>, <code>columnId</code>, <code>column</code>,
+              <code>isGroup</code>, <code>depth</code>, <code>colspan</code>, and
+              <code>rowspan</code>, so the same template can render leaf and group headers.
             </li>
           </ul>
         </section>

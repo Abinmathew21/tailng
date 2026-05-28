@@ -4,9 +4,11 @@ import {
   Directive,
   TemplateRef,
   booleanAttribute,
+  computed,
   contentChildren,
   inject,
   input,
+  isDevMode,
   output,
 } from '@angular/core';
 import type { TngTableSortDirection } from '@tailng-ui/cdk';
@@ -31,7 +33,7 @@ export type TngTableDensity = 'compact' | 'comfortable';
 export type TngTableCellAlign = 'center' | 'end' | 'start';
 export type TngTableColumnAccessor<TRow> = keyof TRow | ((row: TRow, index: number) => unknown);
 
-export type TngTableColumn<TRow = unknown> = Readonly<{
+export type TngTableLeafColumn<TRow = unknown> = Readonly<{
   id: string;
   label?: string;
   accessor?: TngTableColumnAccessor<TRow>;
@@ -41,11 +43,25 @@ export type TngTableColumn<TRow = unknown> = Readonly<{
   sticky?: TngTableStickySide | null;
   truncate?: boolean;
   width?: number | string | null;
+  hidden?: boolean;
+  children?: never;
 }>;
+
+export type TngTableGroupColumn<TRow = unknown> = Readonly<{
+  id: string;
+  label?: string;
+  headerAlign?: TngTableCellAlign;
+  hidden?: boolean;
+  children: readonly TngTableColumn<TRow>[];
+}>;
+
+export type TngTableColumn<TRow = unknown> =
+  | TngTableLeafColumn<TRow>
+  | TngTableGroupColumn<TRow>;
 
 export type TngTableCellContext<TRow = unknown> = Readonly<{
   $implicit: unknown;
-  column: TngTableColumn<TRow>;
+  column: TngTableLeafColumn<TRow>;
   columnId: string;
   row: TRow;
   rowIndex: number;
@@ -57,7 +73,45 @@ export type TngTableHeaderContext<TRow = unknown> = Readonly<{
   column: TngTableColumn<TRow>;
   columnId: string;
   label: string;
+  isGroup: boolean;
+  depth: number;
+  colspan: number;
+  rowspan: number;
 }>;
+
+export type TngTableHeaderCellNode<TRow = unknown> = Readonly<{
+  column: TngTableColumn<TRow>;
+  id: string;
+  label: string;
+  isGroup: boolean;
+  depth: number;
+  colspan: number;
+  rowspan: number;
+}>;
+
+type HeaderTreeModel<TRow> = Readonly<{
+  headerRows: ReadonlyArray<ReadonlyArray<TngTableHeaderCellNode<TRow>>>;
+  leafColumns: ReadonlyArray<TngTableLeafColumn<TRow>>;
+  maxDepth: number;
+}>;
+
+function isGroupColumn<TRow>(
+  column: TngTableColumn<TRow>,
+): column is TngTableGroupColumn<TRow> {
+  return (
+    'children' in column &&
+    Array.isArray((column as TngTableGroupColumn<TRow>).children) &&
+    (column as TngTableGroupColumn<TRow>).children.length > 0
+  );
+}
+
+function isHidden<TRow>(column: TngTableColumn<TRow>): boolean {
+  return (column as { hidden?: boolean }).hidden === true;
+}
+
+function hasValidId<TRow>(column: TngTableColumn<TRow>): boolean {
+  return typeof column.id === 'string' && column.id.trim().length > 0;
+}
 
 function normalizeCssLength(value: number | string | null | undefined): string | null {
   if (typeof value === 'number' && Number.isFinite(value)) {
@@ -95,6 +149,10 @@ function normalizeCellValue(value: unknown): string {
   }
 
   return JSON.stringify(value);
+}
+
+function getColumnLabelText<TRow>(column: TngTableColumn<TRow>): string {
+  return column.label ?? column.id;
 }
 
 @Directive({
@@ -172,27 +230,48 @@ export class TngTableComponent<TRow = unknown> {
 
   public readonly sortChange = output<TngTableSortChange>();
 
+  protected readonly headerTreeModel = computed<HeaderTreeModel<TRow>>(() =>
+    this.buildHeaderTreeModel(this.columns()),
+  );
+
   protected get visibleColumns(): readonly TngTableColumn<TRow>[] {
-    return this.columns().filter((column) => column.id.trim().length > 0);
+    return this.columns().filter(
+      (column) => hasValidId(column) && !isHidden(column),
+    );
+  }
+
+  protected get headerRows(): ReadonlyArray<ReadonlyArray<TngTableHeaderCellNode<TRow>>> {
+    return this.headerTreeModel().headerRows;
+  }
+
+  protected get leafColumns(): ReadonlyArray<TngTableLeafColumn<TRow>> {
+    return this.headerTreeModel().leafColumns;
   }
 
   protected getColumnLabel(column: TngTableColumn<TRow>): string {
-    return column.label ?? column.id;
+    return getColumnLabelText(column);
   }
 
-  protected getColumnWidth(column: TngTableColumn<TRow>): string | null {
+  protected getColumnWidth(column: TngTableLeafColumn<TRow>): string | null {
     return normalizeCssLength(column.width);
   }
 
-  protected getHeaderAlign(column: TngTableColumn<TRow>): TngTableCellAlign {
-    return normalizeCellAlign(column.headerAlign ?? column.align);
+  protected getHeaderAlign(node: TngTableHeaderCellNode<TRow>): TngTableCellAlign {
+    if (node.isGroup) {
+      return normalizeCellAlign(
+        (node.column as TngTableGroupColumn<TRow>).headerAlign ?? 'center',
+      );
+    }
+
+    const leaf = node.column as TngTableLeafColumn<TRow>;
+    return normalizeCellAlign(leaf.headerAlign ?? leaf.align);
   }
 
-  protected getCellAlign(column: TngTableColumn<TRow>): TngTableCellAlign {
+  protected getCellAlign(column: TngTableLeafColumn<TRow>): TngTableCellAlign {
     return normalizeCellAlign(column.align);
   }
 
-  protected getCellValue(row: TRow, column: TngTableColumn<TRow>, rowIndex: number): unknown {
+  protected getCellValue(row: TRow, column: TngTableLeafColumn<TRow>, rowIndex: number): unknown {
     const accessor = column.accessor;
     if (typeof accessor === 'function') {
       return accessor(row, rowIndex);
@@ -205,7 +284,7 @@ export class TngTableComponent<TRow = unknown> {
     return (row as Record<PropertyKey, unknown>)[column.id];
   }
 
-  protected getCellText(row: TRow, column: TngTableColumn<TRow>, rowIndex: number): string {
+  protected getCellText(row: TRow, column: TngTableLeafColumn<TRow>, rowIndex: number): string {
     return normalizeCellValue(this.getCellValue(row, column, rowIndex));
   }
 
@@ -241,7 +320,7 @@ export class TngTableComponent<TRow = unknown> {
 
   protected getCellContext(
     row: TRow,
-    column: TngTableColumn<TRow>,
+    column: TngTableLeafColumn<TRow>,
     rowIndex: number,
   ): TngTableCellContext<TRow> {
     const value = this.getCellValue(row, column, rowIndex);
@@ -256,25 +335,207 @@ export class TngTableComponent<TRow = unknown> {
     };
   }
 
-  protected getHeaderContext(column: TngTableColumn<TRow>): TngTableHeaderContext<TRow> {
+  protected getHeaderContext(node: TngTableHeaderCellNode<TRow>): TngTableHeaderContext<TRow> {
     return {
-      $implicit: column,
-      column,
-      columnId: column.id,
-      label: this.getColumnLabel(column),
+      $implicit: node.column,
+      column: node.column,
+      columnId: node.id,
+      label: node.label,
+      isGroup: node.isGroup,
+      depth: node.depth,
+      colspan: node.colspan,
+      rowspan: node.rowspan,
     };
   }
 
   protected getColspan(): number {
-    return Math.max(1, this.visibleColumns.length);
+    return Math.max(1, this.leafColumns.length);
   }
 
   protected getRowId(_row: TRow, rowIndex: number): string {
     return String(rowIndex);
   }
 
+  protected getNodeKey(node: TngTableHeaderCellNode<TRow>): string {
+    return `${node.depth}:${node.id}`;
+  }
+
+  protected isSortableLeaf(node: TngTableHeaderCellNode<TRow>): boolean {
+    return !node.isGroup && (node.column as TngTableLeafColumn<TRow>).sortable === true;
+  }
+
   protected onSortChange(event: TngTableSortChange): void {
     this.sortChange.emit(event);
+  }
+
+  private buildHeaderTreeModel(
+    columns: readonly TngTableColumn<TRow>[],
+  ): HeaderTreeModel<TRow> {
+    const filtered = columns.filter(
+      (column) => hasValidId(column) && !isHidden(column),
+    );
+
+    const maxDepth = this.computeMaxDepth(filtered);
+    const headerRows: TngTableHeaderCellNode<TRow>[][] = Array.from(
+      { length: Math.max(1, maxDepth) },
+      () => [],
+    );
+    const leafColumns: TngTableLeafColumn<TRow>[] = [];
+
+    for (const column of filtered) {
+      this.walkColumn(column, 0, maxDepth, headerRows, leafColumns);
+    }
+
+    if (isDevMode()) {
+      this.validateColumnTree(columns);
+    }
+
+    return Object.freeze({
+      headerRows: headerRows.map((row) => Object.freeze(row.slice())) as ReadonlyArray<
+        ReadonlyArray<TngTableHeaderCellNode<TRow>>
+      >,
+      leafColumns: Object.freeze(leafColumns.slice()),
+      maxDepth: Math.max(1, maxDepth),
+    });
+  }
+
+  private walkColumn(
+    column: TngTableColumn<TRow>,
+    depth: number,
+    maxDepth: number,
+    headerRows: TngTableHeaderCellNode<TRow>[][],
+    leafColumns: TngTableLeafColumn<TRow>[],
+  ): number {
+    if (isGroupColumn(column)) {
+      const visibleChildren = column.children.filter(
+        (child) => hasValidId(child) && !isHidden(child),
+      );
+
+      // Empty group after filtering: skip entirely.
+      if (visibleChildren.length === 0) {
+        return 0;
+      }
+
+      let colspan = 0;
+      for (const child of visibleChildren) {
+        colspan += this.walkColumn(child, depth + 1, maxDepth, headerRows, leafColumns);
+      }
+
+      if (colspan === 0) {
+        return 0;
+      }
+
+      headerRows[depth].push(
+        Object.freeze({
+          column,
+          id: column.id,
+          label: getColumnLabelText(column),
+          isGroup: true,
+          depth,
+          colspan,
+          rowspan: 1,
+        }),
+      );
+
+      return colspan;
+    }
+
+    const leaf = column as TngTableLeafColumn<TRow>;
+    leafColumns.push(leaf);
+    const rowspan = Math.max(1, maxDepth - depth);
+    headerRows[depth].push(
+      Object.freeze({
+        column: leaf,
+        id: leaf.id,
+        label: getColumnLabelText(leaf),
+        isGroup: false,
+        depth,
+        colspan: 1,
+        rowspan,
+      }),
+    );
+
+    return 1;
+  }
+
+  private computeMaxDepth(columns: readonly TngTableColumn<TRow>[]): number {
+    let max = 0;
+    const walk = (column: TngTableColumn<TRow>, depth: number): void => {
+      if (isGroupColumn(column)) {
+        const visibleChildren = column.children.filter(
+          (child) => hasValidId(child) && !isHidden(child),
+        );
+        if (visibleChildren.length === 0) {
+          return;
+        }
+        for (const child of visibleChildren) {
+          walk(child, depth + 1);
+        }
+      } else {
+        max = Math.max(max, depth + 1);
+      }
+    };
+    for (const column of columns) {
+      if (hasValidId(column) && !isHidden(column)) {
+        walk(column, 0);
+      }
+    }
+    return max;
+  }
+
+  private validateColumnTree(columns: readonly TngTableColumn<TRow>[]): void {
+    const seenIds = new Set<string>();
+
+    const visit = (column: TngTableColumn<TRow>): void => {
+      if (!hasValidId(column)) {
+        return;
+      }
+
+      if (seenIds.has(column.id)) {
+        console.warn(
+          `[tng-table] Duplicate column id "${column.id}" detected in column tree.`,
+        );
+      } else {
+        seenIds.add(column.id);
+      }
+
+      if (
+        'children' in column &&
+        column.children !== undefined &&
+        !Array.isArray(column.children)
+      ) {
+        console.warn(
+          `[tng-table] Column "${column.id}" declares "children" but it is not an array.`,
+        );
+      }
+
+      if (isGroupColumn(column)) {
+        const groupExtras = column as unknown as Record<string, unknown>;
+        for (const leafOnlyProp of [
+          'accessor',
+          'sortable',
+          'sticky',
+          'truncate',
+          'width',
+          'align',
+        ]) {
+          if (groupExtras[leafOnlyProp] !== undefined) {
+            console.warn(
+              `[tng-table] Group column "${column.id}" defines leaf-only property "${leafOnlyProp}"; it will be ignored.`,
+            );
+          }
+        }
+
+        for (const child of column.children) {
+          visit(child);
+        }
+      }
+      // Empty `children: []` arrays are treated as leaves — silent by design.
+    };
+
+    for (const column of columns) {
+      visit(column);
+    }
   }
 }
 

@@ -24,55 +24,65 @@
     (sortChange)="onSortChange($event)"
   >
     <colgroup>
-      @for (column of visibleColumns; track column.id) {
+      @for (column of leafColumns; track column.id) {
         <col [style.width]="getColumnWidth(column)" />
       }
     </colgroup>
 
     <thead tngTableHeader [tngTableHeaderSticky]="stickyHeader()">
-      <tr tngTableRow>
-        @for (column of visibleColumns; track column.id) {
-          @if (column.sortable === true) {
-            <th
-              tngTableHeaderCell
-              tngSortHeader
-              class="tng-table__header-cell"
-              scope="col"
-              [attr.data-align]="getHeaderAlign(column)"
-              [tngSortHeader]="column.id"
-              [tngTableColumnId]="column.id"
-              [tngTableStickyColumn]="column.sticky ?? null"
-              [tngTableTruncate]="column.truncate === true"
-            >
-              @if (getHeaderTemplate(column.id); as headerTemplate) {
-                <ng-container
-                  *ngTemplateOutlet="headerTemplate.templateRef; context: getHeaderContext(column)"
-                />
-              } @else {
-                <span class="tng-table__header-label">{{ getColumnLabel(column) }}</span>
-              }
-            </th>
-          } @else {
-            <th
-              tngTableHeaderCell
-              class="tng-table__header-cell"
-              scope="col"
-              [attr.data-align]="getHeaderAlign(column)"
-              [tngTableColumnId]="column.id"
-              [tngTableStickyColumn]="column.sticky ?? null"
-              [tngTableTruncate]="column.truncate === true"
-            >
-              @if (getHeaderTemplate(column.id); as headerTemplate) {
-                <ng-container
-                  *ngTemplateOutlet="headerTemplate.templateRef; context: getHeaderContext(column)"
-                />
-              } @else {
-                <span class="tng-table__header-label">{{ getColumnLabel(column) }}</span>
-              }
-            </th>
+      @for (row of headerRows; track $index) {
+        <tr tngTableRow>
+          @for (node of row; track getNodeKey(node)) {
+            @if (isSortableLeaf(node)) {
+              <th
+                tngTableHeaderCell
+                tngSortHeader
+                class="tng-table__header-cell"
+                scope="col"
+                [attr.data-align]="getHeaderAlign(node)"
+                [attr.data-header-group]="node.isGroup ? '' : null"
+                [attr.data-header-depth]="node.depth"
+                [attr.colspan]="node.colspan > 1 ? node.colspan : null"
+                [attr.rowspan]="node.rowspan > 1 ? node.rowspan : null"
+                [tngSortHeader]="node.id"
+                [tngTableColumnId]="node.id"
+                [tngTableStickyColumn]="node.isGroup ? null : ($any(node.column).sticky ?? null)"
+                [tngTableTruncate]="!node.isGroup && $any(node.column).truncate === true"
+              >
+                @if (getHeaderTemplate(node.id); as headerTemplate) {
+                  <ng-container
+                    *ngTemplateOutlet="headerTemplate.templateRef; context: getHeaderContext(node)"
+                  />
+                } @else {
+                  <span class="tng-table__header-label">{{ node.label }}</span>
+                }
+              </th>
+            } @else {
+              <th
+                tngTableHeaderCell
+                class="tng-table__header-cell"
+                [attr.scope]="node.isGroup ? 'colgroup' : 'col'"
+                [attr.data-align]="getHeaderAlign(node)"
+                [attr.data-header-group]="node.isGroup ? '' : null"
+                [attr.data-header-depth]="node.depth"
+                [attr.colspan]="node.colspan > 1 ? node.colspan : null"
+                [attr.rowspan]="node.rowspan > 1 ? node.rowspan : null"
+                [tngTableColumnId]="node.id"
+                [tngTableStickyColumn]="node.isGroup ? null : ($any(node.column).sticky ?? null)"
+                [tngTableTruncate]="!node.isGroup && $any(node.column).truncate === true"
+              >
+                @if (getHeaderTemplate(node.id); as headerTemplate) {
+                  <ng-container
+                    *ngTemplateOutlet="headerTemplate.templateRef; context: getHeaderContext(node)"
+                  />
+                } @else {
+                  <span class="tng-table__header-label">{{ node.label }}</span>
+                }
+              </th>
+            }
           }
-        }
-      </tr>
+        </tr>
+      }
     </thead>
 
     <tbody tngTableBody>
@@ -91,7 +101,7 @@
       } @else {
         @for (row of items(); track getRowId(row, $index); let rowIndex = $index) {
           <tr tngTableRow [tngTableRowId]="getRowId(row, rowIndex)">
-            @for (column of visibleColumns; track column.id) {
+            @for (column of leafColumns; track column.id) {
               <td
                 tngTableCell
                 class="tng-table__cell"
