@@ -49,11 +49,7 @@ import {
   type TngTableStickySide,
   type TngTableCellClickEvent,
 } from '..';
-import {
-  TngPopover,
-  TngPopoverPanel,
-  TngPopoverTrigger,
-} from '../../../overlay';
+import { TngPopover, TngPopoverPanel, TngPopoverTrigger } from '../../../overlay';
 
 export type TableItem = Readonly<{
   id: string;
@@ -295,12 +291,7 @@ export class TableHarnessComponent {
         </tbody>
       </table>
     } @else {
-      <table
-        tngTable
-        tngTableSort
-        #sortRef="tngTableSort"
-        data-testid="table"
-      >
+      <table tngTable tngTableSort #sortRef="tngTableSort" data-testid="table">
         @if (showHeader()) {
           <thead tngTableHeader data-testid="header">
             <tr tngTableRow>
@@ -447,11 +438,7 @@ export class TableSelectionHarnessComponent {
 
       <tbody tngTableBody>
         @for (row of rows(); track row.id) {
-          <tr
-            tngTableRow
-            [attr.data-testid]="'expansion-row-' + row.id"
-            [tngTableRowId]="row.id"
-          >
+          <tr tngTableRow [attr.data-testid]="'expansion-row-' + row.id" [tngTableRowId]="row.id">
             <td tngTableCell [tngTableColumnId]="'label'">
               <div
                 tabindex="0"
@@ -526,14 +513,7 @@ export class TableExpansionHarnessComponent {
 }
 
 @Component({
-  imports: [
-    TngTable,
-    TngTableBody,
-    TngTableCell,
-    TngTableHeader,
-    TngTableHeaderCell,
-    TngTableRow,
-  ],
+  imports: [TngTable, TngTableBody, TngTableCell, TngTableHeader, TngTableHeaderCell, TngTableRow],
   template: `
     <table tngTable data-testid="interaction-table">
       <thead tngTableHeader>
@@ -560,11 +540,7 @@ export class TableExpansionHarnessComponent {
             >
               {{ row.label }}
             </td>
-            <td
-              tngTableCell
-              [tngTableColumnId]="'actions'"
-              (cellClick)="onCellClick($event)"
-            >
+            <td tngTableCell [tngTableColumnId]="'actions'" (cellClick)="onCellClick($event)">
               <button
                 type="button"
                 [attr.data-testid]="'row-action-' + row.id"
@@ -655,7 +631,10 @@ export class TableInteractionHarnessComponent {
               [tngTableColumnId]="'link'"
               (cellClick)="onCellClick($event)"
             >
-              <a [routerLink]="['/detail', row.id]" [attr.data-testid]="'integration-link-' + row.id">
+              <a
+                [routerLink]="['/detail', row.id]"
+                [attr.data-testid]="'integration-link-' + row.id"
+              >
                 Open
               </a>
             </td>
@@ -759,11 +738,7 @@ export class TableEmbeddedIntegrationHarnessComponent {
     >
       <thead tngTableHeader>
         <tr tngTableRow>
-          <th
-            tngTableHeaderCell
-            [tngSortHeader]="'label'"
-            data-testid="controlled-sort-header"
-          >
+          <th tngTableHeaderCell [tngSortHeader]="'label'" data-testid="controlled-sort-header">
             Label
           </th>
           <th tngTableHeaderCell [tngTableColumnId]="'status'">Status</th>
@@ -772,11 +747,7 @@ export class TableEmbeddedIntegrationHarnessComponent {
 
       <tbody tngTableBody>
         @for (row of visibleRows(); track row.id) {
-          <tr
-            tngTableRow
-            [attr.data-testid]="'controlled-row-' + row.id"
-            [tngTableRowId]="row.id"
-          >
+          <tr tngTableRow [attr.data-testid]="'controlled-row-' + row.id" [tngTableRowId]="row.id">
             <td tngTableCell [tngTableColumnId]="'label'">{{ row.label }}</td>
             <td tngTableCell [tngTableColumnId]="'status'">{{ row.status }}</td>
           </tr>
@@ -875,11 +846,7 @@ export class TableControlledIntegrationHarnessComponent {
 
       <tbody tngTableBody>
         @for (row of rows(); track row.id) {
-          <tr
-            tngTableRow
-            [attr.data-testid]="'dynamic-row-' + row.id"
-            [tngTableRowId]="row.id"
-          >
+          <tr tngTableRow [attr.data-testid]="'dynamic-row-' + row.id" [tngTableRowId]="row.id">
             @for (column of visibleColumns(); track column.id) {
               <td
                 tngTableCell
@@ -964,7 +931,9 @@ export class DynamicTableHarnessComponent {
       let-items="items"
       let-value
     >
-      <span data-testid="custom-footer-content">{{ columnId }}::{{ items.length }}::{{ value }}</span>
+      <span data-testid="custom-footer-content"
+        >{{ columnId }}::{{ items.length }}::{{ value }}</span
+      >
     </ng-template>
 
     <ng-template tngTableCellTpl #htmlTemplate="tngTableCellTpl" let-value>
@@ -1179,12 +1148,7 @@ export class TableRenderingHarnessComponent {
       [dir]="dir()"
       [tngTableScrollAxis]="scrollAxis()"
     >
-      <table
-        tngTable
-        data-testid="layout-table"
-        [dir]="dir()"
-        [tngTableLayout]="layout()"
-      >
+      <table tngTable data-testid="layout-table" [dir]="dir()" [tngTableLayout]="layout()">
         <thead
           tngTableHeader
           data-testid="layout-header"
@@ -1452,11 +1416,7 @@ export class TableSizingHarnessComponent {
         [tngTableSelectedIds]="selectedIds()"
         (selectionChange)="onSelectionChange($event)"
       >
-        <thead
-          tngTableHeader
-          data-testid="virtual-header"
-          [tngTableHeaderSticky]="stickyHeader()"
-        >
+        <thead tngTableHeader data-testid="virtual-header" [tngTableHeaderSticky]="stickyHeader()">
           <tr tngTableRow>
             <th tngTableHeaderCell [tngTableColumnId]="'label'">Label</th>
             <th tngTableHeaderCell [tngTableColumnId]="'status'">Status</th>
@@ -1475,11 +1435,7 @@ export class TableSizingHarnessComponent {
           }
 
           @for (row of virtualRef.slice(rows()); track row.id) {
-            <tr
-              tngTableRow
-              [attr.data-testid]="'virtual-row-' + row.id"
-              [tngTableRowId]="row.id"
-            >
+            <tr tngTableRow [attr.data-testid]="'virtual-row-' + row.id" [tngTableRowId]="row.id">
               <td tngTableCell [tngTableColumnId]="'label'">{{ row.label }}</td>
               <td tngTableCell [tngTableColumnId]="'status'">{{ row.status }}</td>
               <td tngTableCell [tngTableColumnId]="'value'">{{ row.value }}</td>
@@ -1531,14 +1487,7 @@ export class TableVirtualHarnessComponent {
 }
 
 @Component({
-  imports: [
-    TngTable,
-    TngTableHeader,
-    TngTableBody,
-    TngTableRow,
-    TngTableHeaderCell,
-    TngTableCell,
-  ],
+  imports: [TngTable, TngTableHeader, TngTableBody, TngTableRow, TngTableHeaderCell, TngTableCell],
   template: `
     <button type="button" data-testid="before">Before</button>
 
@@ -1572,11 +1521,7 @@ export class TableVirtualHarnessComponent {
 
         <tbody tngTableBody>
           @for (row of rows(); track row.id) {
-            <tr
-              tngTableRow
-              [tngTableRowDisabled]="row.disabled ?? false"
-              [tngTableRowId]="row.id"
-            >
+            <tr tngTableRow [tngTableRowDisabled]="row.disabled ?? false" [tngTableRowId]="row.id">
               <td
                 tngTableCell
                 [attr.data-testid]="'keyboard-cell-' + row.id + '-label'"
@@ -1618,3 +1563,34 @@ export class TableKeyboardHarnessComponent {
   @ViewChild(TngTable)
   public tableRef?: TngTable;
 }
+
+@Component({
+  imports: [TngTable, TngTableHeader, TngTableBody, TngTableRow, TngTableHeaderCell, TngTableCell],
+  template: `
+    <table tngTable data-testid="keyboard-span-table">
+      <thead tngTableHeader>
+        <tr tngTableRow>
+          <th tngTableHeaderCell data-testid="span-header-group">Group</th>
+          <th tngTableHeaderCell data-testid="span-header-name">Name</th>
+        </tr>
+      </thead>
+
+      <tbody tngTableBody>
+        <tr tngTableRow>
+          <td tngTableCell [tngTableRowspan]="2" data-testid="span-group-engineering">
+            Engineering
+          </td>
+          <td tngTableCell data-testid="span-name-alice">Alice</td>
+        </tr>
+        <tr tngTableRow>
+          <td tngTableCell data-testid="span-name-bob">Bob</td>
+        </tr>
+        <tr tngTableRow>
+          <td tngTableCell data-testid="span-group-sales">Sales</td>
+          <td tngTableCell data-testid="span-name-dave">Dave</td>
+        </tr>
+      </tbody>
+    </table>
+  `,
+})
+export class TableKeyboardSpanHarnessComponent {}

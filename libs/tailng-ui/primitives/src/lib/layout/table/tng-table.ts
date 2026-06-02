@@ -74,6 +74,10 @@ type TngTableCellPosition = Readonly<{
   row: number;
 }>;
 type TngTableFocusableCell = TngTableCell | TngTableHeaderCell;
+type TngTableCellSpan = Readonly<{
+  colspan: number;
+  rowspan: number;
+}>;
 const tngTableInteractiveTargetSelector = [
   'a[href]',
   'button',
@@ -98,15 +102,13 @@ const tngTableInteractiveTargetSelector = [
   '[role="tab"]',
   '[role="textbox"]',
 ].join(',');
+const tngTableCellSpansCache = new WeakMap<HTMLTableElement, boolean>();
 
 function createTngTableCellKey(position: TngTableCellPosition): string {
   return `${position.row}:${position.col}`;
 }
 
-function compareTngTableCellPositions(
-  a: TngTableCellPosition,
-  b: TngTableCellPosition,
-): number {
+function compareTngTableCellPositions(a: TngTableCellPosition, b: TngTableCellPosition): number {
   if (a.row !== b.row) {
     return a.row - b.row;
   }
@@ -120,22 +122,120 @@ function isMovementActionType(
   return actionType !== 'activate' && actionType !== 'exit';
 }
 
-function resolveTngTableCellPosition(
-  element: HTMLTableCellElement,
-): TngTableCellPosition | null {
-  if (element.cellIndex < 0) {
-    return null;
-  }
-
+function resolveTngTableCellPosition(element: HTMLTableCellElement): TngTableCellPosition | null {
   const rowElement = element.parentElement;
-  if (!(rowElement instanceof HTMLTableRowElement) || rowElement.rowIndex < 0) {
+  if (!(rowElement instanceof HTMLTableRowElement)) {
     return null;
   }
 
+  const tableElement = rowElement.closest('table');
+  if (tableElement === null) {
+    return null;
+  }
+
+  if (!hasTngTableCellSpans(tableElement)) {
+    if (element.cellIndex < 0 || rowElement.rowIndex < 0) {
+      return null;
+    }
+
+    return Object.freeze({
+      col: element.cellIndex,
+      row: rowElement.rowIndex,
+    });
+  }
+
+  const occupied = new Set<string>();
+  const rows = Array.from(tableElement.rows);
+
+  for (const row of rows) {
+    const rowIndex = row.rowIndex;
+    if (rowIndex < 0) {
+      continue;
+    }
+
+    let col = 0;
+    for (const cell of Array.from(row.cells)) {
+      while (occupied.has(createTngTableCellKey({ col, row: rowIndex }))) {
+        col += 1;
+      }
+
+      if (cell === element) {
+        return Object.freeze({ col, row: rowIndex });
+      }
+
+      const span = getNativeCellSpan(cell);
+      markTngTableCellSpan(occupied, { col, row: rowIndex }, span);
+      col += span.colspan;
+    }
+  }
+
+  return null;
+}
+
+function hasTngTableCellSpans(tableElement: HTMLTableElement): boolean {
+  const cached = tngTableCellSpansCache.get(tableElement);
+  if (cached !== undefined) {
+    return cached;
+  }
+
+  for (const row of Array.from(tableElement.rows)) {
+    for (const cell of Array.from(row.cells)) {
+      if (cell.colSpan > 1 || cell.rowSpan > 1) {
+        tngTableCellSpansCache.set(tableElement, true);
+        return true;
+      }
+    }
+  }
+
+  tngTableCellSpansCache.set(tableElement, false);
+  return false;
+}
+
+function normalizeTableSpan(value: unknown): number {
+  const span = typeof value === 'number' ? value : Number(value);
+  return Number.isFinite(span) && span > 1 ? Math.floor(span) : 1;
+}
+
+function getNativeCellSpan(element: HTMLTableCellElement): TngTableCellSpan {
   return Object.freeze({
-    col: element.cellIndex,
-    row: rowElement.rowIndex,
+    colspan: normalizeTableSpan(element.colSpan),
+    rowspan: normalizeTableSpan(element.rowSpan),
   });
+}
+
+function markTngTableCellSpan(
+  occupied: Set<string>,
+  position: TngTableCellPosition,
+  span: TngTableCellSpan,
+): void {
+  for (let rowOffset = 0; rowOffset < span.rowspan; rowOffset += 1) {
+    for (let colOffset = 0; colOffset < span.colspan; colOffset += 1) {
+      occupied.add(
+        createTngTableCellKey({
+          col: position.col + colOffset,
+          row: position.row + rowOffset,
+        }),
+      );
+    }
+  }
+}
+
+function setTngTableSpanAttribute(
+  element: HTMLTableCellElement,
+  attributeName: 'colspan' | 'rowspan',
+  value: unknown,
+): void {
+  const tableElement = element.closest('table');
+  if (tableElement !== null) {
+    tngTableCellSpansCache.delete(tableElement);
+  }
+
+  const span = normalizeTableSpan(value);
+  if (span > 1) {
+    element.setAttribute(attributeName, String(span));
+  } else {
+    element.removeAttribute(attributeName);
+  }
 }
 
 function isInsideContainer(container: HTMLElement, value: unknown): value is Node {
@@ -156,7 +256,11 @@ function hasInteractiveEventTarget(container: HTMLElement, target: unknown): boo
   }
 
   const interactiveTarget = target.closest<HTMLElement>(tngTableInteractiveTargetSelector);
-  return interactiveTarget !== null && interactiveTarget !== container && container.contains(interactiveTarget);
+  return (
+    interactiveTarget !== null &&
+    interactiveTarget !== container &&
+    container.contains(interactiveTarget)
+  );
 }
 
 function resolveTngTablePageDirection(key: string): TngTablePageDirection | null {
@@ -243,7 +347,9 @@ function normalizeOptionalString(value: unknown): string | null {
   return trimmed.length > 0 ? trimmed : null;
 }
 
-function normalizeOptionalStringArray(value: readonly string[] | null | undefined): readonly string[] {
+function normalizeOptionalStringArray(
+  value: readonly string[] | null | undefined,
+): readonly string[] {
   return Array.isArray(value)
     ? value
         .filter((item): item is string => typeof item === 'string')
@@ -389,9 +495,12 @@ export class TngTableScrollContainer {
   exportAs: 'tngTableSelection',
 })
 export class TngTableSelection {
-  private readonly rows = contentChildren(forwardRef(() => TngTableRow), {
-    descendants: true,
-  }) as Signal<readonly TngTableRow[]>;
+  private readonly rows = contentChildren(
+    forwardRef(() => TngTableRow),
+    {
+      descendants: true,
+    },
+  ) as Signal<readonly TngTableRow[]>;
   private uncontrolledAnchorId: string | null = null;
   private uncontrolledSelectedIds: readonly string[] = [];
 
@@ -408,7 +517,9 @@ export class TngTableSelection {
   @HostBinding('attr.data-selectable')
   protected readonly dataSelectable = '' as const;
 
-  public clear(trigger: TngTableInteractionTrigger = 'programmatic'): TngTableRowSelectionState<string> {
+  public clear(
+    trigger: TngTableInteractionTrigger = 'programmatic',
+  ): TngTableRowSelectionState<string> {
     return this.commit(this.createController().clear(), null, trigger);
   }
 
@@ -484,7 +595,7 @@ export class TngTableSelection {
   private getAnchorId(): string | null {
     const selectedIds = this.getCurrentSelectedIds();
     const lastSelectedId =
-      selectedIds.length > 0 ? selectedIds[selectedIds.length - 1] ?? null : null;
+      selectedIds.length > 0 ? (selectedIds[selectedIds.length - 1] ?? null) : null;
     return this.uncontrolledAnchorId !== null && selectedIds.includes(this.uncontrolledAnchorId)
       ? this.uncontrolledAnchorId
       : lastSelectedId;
@@ -555,7 +666,9 @@ export class TngTableExpansion {
   @HostBinding('attr.data-expandable')
   protected readonly dataExpandable = '' as const;
 
-  public clear(trigger: TngTableInteractionTrigger = 'programmatic'): TngTableRowExpansionState<string> {
+  public clear(
+    trigger: TngTableInteractionTrigger = 'programmatic',
+  ): TngTableRowExpansionState<string> {
     const nextState = this.createController().clear();
     return this.commit(nextState, null, trigger);
   }
@@ -615,13 +728,19 @@ export class TngTableExpansion {
   exportAs: 'tngTableRow',
 })
 export class TngTableRow {
-  private readonly expansion = inject(forwardRef(() => TngTableExpansion), {
-    optional: true,
-  }) as TngTableExpansion | null;
+  private readonly expansion = inject(
+    forwardRef(() => TngTableExpansion),
+    {
+      optional: true,
+    },
+  ) as TngTableExpansion | null;
   private readonly hostRef = inject<ElementRef<HTMLTableRowElement>>(ElementRef);
-  private readonly selection = inject(forwardRef(() => TngTableSelection), {
-    optional: true,
-  }) as TngTableSelection | null;
+  private readonly selection = inject(
+    forwardRef(() => TngTableSelection),
+    {
+      optional: true,
+    },
+  ) as TngTableSelection | null;
 
   public readonly disabled = input<boolean, boolean | string>(false, {
     alias: 'tngTableRowDisabled',
@@ -707,9 +826,9 @@ export class TngTableRow {
   @HostListener('click', ['$event'])
   protected onClick(event: MouseEvent): void {
     if (
-      this.isDisabled()
-      || event.defaultPrevented
-      || hasInteractiveEventTarget(this.hostRef.nativeElement, event.target)
+      this.isDisabled() ||
+      event.defaultPrevented ||
+      hasInteractiveEventTarget(this.hostRef.nativeElement, event.target)
     ) {
       return;
     }
@@ -773,6 +892,16 @@ export class TngTableCell implements OnDestroy, OnInit {
     alias: 'tngTableTruncate',
     transform: booleanAttribute,
   });
+
+  @Input('tngTableColspan')
+  public set tableColspan(value: unknown) {
+    setTngTableSpanAttribute(this.hostRef.nativeElement, 'colspan', value);
+  }
+
+  @Input('tngTableRowspan')
+  public set tableRowspan(value: unknown) {
+    setTngTableSpanAttribute(this.hostRef.nativeElement, 'rowspan', value);
+  }
 
   @HostBinding('attr.data-slot')
   protected readonly dataSlot = 'table-cell' as const;
@@ -892,6 +1021,14 @@ export class TngTableCell implements OnDestroy, OnInit {
     return this.hostRef.nativeElement;
   }
 
+  public getColspan(): number {
+    return getNativeCellSpan(this.hostRef.nativeElement).colspan;
+  }
+
+  public getRowspan(): number {
+    return getNativeCellSpan(this.hostRef.nativeElement).rowspan;
+  }
+
   public getStickyOffset(): string | null {
     return this.stickyOffset();
   }
@@ -915,9 +1052,9 @@ export class TngTableCell implements OnDestroy, OnInit {
   @HostListener('click', ['$event'])
   protected onClick(event: MouseEvent): void {
     if (
-      this.isDisabled()
-      || event.defaultPrevented
-      || hasInteractiveEventTarget(this.hostRef.nativeElement, event.target)
+      this.isDisabled() ||
+      event.defaultPrevented ||
+      hasInteractiveEventTarget(this.hostRef.nativeElement, event.target)
     ) {
       return;
     }
@@ -969,6 +1106,16 @@ export class TngTableHeaderCell implements OnDestroy, OnInit {
     alias: 'tngTableTruncate',
     transform: booleanAttribute,
   });
+
+  @Input('tngTableColspan')
+  public set tableColspan(value: unknown) {
+    setTngTableSpanAttribute(this.hostRef.nativeElement, 'colspan', value);
+  }
+
+  @Input('tngTableRowspan')
+  public set tableRowspan(value: unknown) {
+    setTngTableSpanAttribute(this.hostRef.nativeElement, 'rowspan', value);
+  }
 
   @HostBinding('attr.data-slot')
   protected readonly dataSlot = 'table-header-cell' as const;
@@ -1078,6 +1225,14 @@ export class TngTableHeaderCell implements OnDestroy, OnInit {
     return this.hostRef.nativeElement;
   }
 
+  public getColspan(): number {
+    return getNativeCellSpan(this.hostRef.nativeElement).colspan;
+  }
+
+  public getRowspan(): number {
+    return getNativeCellSpan(this.hostRef.nativeElement).rowspan;
+  }
+
   public getStickyOffset(): string | null {
     return this.stickyOffset();
   }
@@ -1159,9 +1314,12 @@ export class TngTablePagination {
   exportAs: 'tngTableRowExpander',
 })
 export class TngTableRowExpander {
-  private readonly expansion = inject(forwardRef(() => TngTableExpansion), {
-    optional: true,
-  }) as TngTableExpansion | null;
+  private readonly expansion = inject(
+    forwardRef(() => TngTableExpansion),
+    {
+      optional: true,
+    },
+  ) as TngTableExpansion | null;
   private readonly hostRef = inject<ElementRef<HTMLElement>>(ElementRef);
 
   public readonly rowId = input.required<string>({
@@ -1332,12 +1490,10 @@ export class TngTable implements OnDestroy {
     const activeElement = this.hostRef.nativeElement.ownerDocument.activeElement;
     const restoreFocusElement = this.getRestoreFocusElement();
     const shouldRestoreFocus =
-      restoreFocusElement !== null
-      && (
-        this.shouldRestoreFocusOnDestroy
-        || this.domFocusedCell !== null
-        || isInsideContainer(this.hostRef.nativeElement, activeElement)
-      );
+      restoreFocusElement !== null &&
+      (this.shouldRestoreFocusOnDestroy ||
+        this.domFocusedCell !== null ||
+        isInsideContainer(this.hostRef.nativeElement, activeElement));
     if (shouldRestoreFocus) {
       restoreFocusElement.focus();
       queueMicrotask(() => {
@@ -1419,16 +1575,13 @@ export class TngTable implements OnDestroy {
     this.pendingFocusTrigger = null;
     this.activeCell = cell;
     this.domFocusedCell = cell;
-    this.focusVisibleCell =
-      trigger === 'keyboard' || cell.isFocusVisible()
-        ? cell
-        : null;
+    this.focusVisibleCell = trigger === 'keyboard' || cell.isFocusVisible() ? cell : null;
   }
 
   public onCellDestroy(cell: TngTableFocusableCell): void {
     if (
-      this.domFocusedCell === cell
-      || this.hostRef.nativeElement.ownerDocument.activeElement === cell.getHostElement()
+      this.domFocusedCell === cell ||
+      this.hostRef.nativeElement.ownerDocument.activeElement === cell.getHostElement()
     ) {
       this.shouldRestoreFocusOnDestroy = true;
     }
@@ -1518,7 +1671,11 @@ export class TngTable implements OnDestroy {
   }
 
   private ensureFallbackActiveCell(): void {
-    if (this.activeCell !== null && this.cells.has(this.activeCell) && !this.isCellDisabled(this.activeCell)) {
+    if (
+      this.activeCell !== null &&
+      this.cells.has(this.activeCell) &&
+      !this.isCellDisabled(this.activeCell)
+    ) {
       return;
     }
 
@@ -1528,7 +1685,13 @@ export class TngTable implements OnDestroy {
   private findCellByPosition(position: TngTableCellPosition): TngTableFocusableCell | null {
     for (const cell of this.cells) {
       const candidate = cell.getCellPosition();
-      if (candidate?.row === position.row && candidate.col === position.col) {
+      if (
+        candidate !== null &&
+        position.row >= candidate.row &&
+        position.row < candidate.row + cell.getRowspan() &&
+        position.col >= candidate.col &&
+        position.col < candidate.col + cell.getColspan()
+      ) {
         return cell;
       }
     }
@@ -1536,10 +1699,7 @@ export class TngTable implements OnDestroy {
     return null;
   }
 
-  private focusCell(
-    cell: TngTableFocusableCell,
-    trigger: TngTableInteractionTrigger,
-  ): void {
+  private focusCell(cell: TngTableFocusableCell, trigger: TngTableInteractionTrigger): void {
     this.activeCell = cell;
     this.pendingFocusTrigger = trigger;
 
@@ -1558,9 +1718,7 @@ export class TngTable implements OnDestroy {
     cells: readonly TngTableFocusableCell[],
     direction: TngTablePageDirection,
   ): TngTableFocusableCell | null {
-    return direction === 'forward'
-      ? cells[cells.length - 1] ?? null
-      : cells[0] ?? null;
+    return direction === 'forward' ? (cells[cells.length - 1] ?? null) : (cells[0] ?? null);
   }
 
   private getComputedBounds(): Readonly<{ colCount: number; rowCount: number }> {
@@ -1573,8 +1731,8 @@ export class TngTable implements OnDestroy {
         continue;
       }
 
-      maxCol = Math.max(maxCol, position.col);
-      maxRow = Math.max(maxRow, position.row);
+      maxCol = Math.max(maxCol, position.col + cell.getColspan() - 1);
+      maxRow = Math.max(maxRow, position.row + cell.getRowspan() - 1);
     }
 
     return Object.freeze({
@@ -1618,11 +1776,16 @@ export class TngTable implements OnDestroy {
         continue;
       }
 
-      navigableCells.push({
-        col: position.col,
-        disabled: this.isCellDisabled(cell),
-        row: position.row,
-      });
+      const disabled = this.isCellDisabled(cell);
+      for (let rowOffset = 0; rowOffset < cell.getRowspan(); rowOffset += 1) {
+        for (let colOffset = 0; colOffset < cell.getColspan(); colOffset += 1) {
+          navigableCells.push({
+            col: position.col + colOffset,
+            disabled,
+            row: position.row + rowOffset,
+          });
+        }
+      }
     }
 
     return navigableCells;
@@ -1669,10 +1832,7 @@ export class TngTable implements OnDestroy {
     return true;
   }
 
-  private handlePageNavigation(
-    event: KeyboardEvent,
-    activeCell: TngTableFocusableCell,
-  ): boolean {
+  private handlePageNavigation(event: KeyboardEvent, activeCell: TngTableFocusableCell): boolean {
     const direction = resolveTngTablePageDirection(event.key);
     if (direction === null || hasTableKeyboardModifiers(event)) {
       return false;
@@ -1688,10 +1848,15 @@ export class TngTable implements OnDestroy {
 
     const sameColumnCells = enabledCells.filter((cell) => {
       const position = cell.getCellPosition();
-      return position !== null && position.col === currentPosition.col;
+      return (
+        position !== null &&
+        currentPosition.col >= position.col &&
+        currentPosition.col < position.col + cell.getColspan()
+      );
     });
-    const targetCell = this.getBoundaryCell(sameColumnCells, direction)
-      ?? this.getBoundaryCell(enabledCells, direction);
+    const targetCell =
+      this.getBoundaryCell(sameColumnCells, direction) ??
+      this.getBoundaryCell(enabledCells, direction);
 
     if (targetCell !== null) {
       this.focusCell(targetCell, 'keyboard');

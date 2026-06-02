@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import {
   TableKeyboardHarnessComponent,
+  TableKeyboardSpanHarnessComponent,
   dispatchKeydown,
   getByTestId,
 } from './tng-table.test-harness';
@@ -91,10 +92,7 @@ describe('tng-table keyboard navigation and focus', () => {
       getByTestId<HTMLTableCellElement>(fixture, 'keyboard-cell-gamma-label'),
     );
 
-    dispatchKeydown(
-      getByTestId<HTMLTableCellElement>(fixture, 'keyboard-cell-gamma-label'),
-      'End',
-    );
+    dispatchKeydown(getByTestId<HTMLTableCellElement>(fixture, 'keyboard-cell-gamma-label'), 'End');
     fixture.detectChanges();
     expect(document.activeElement).toBe(
       getByTestId<HTMLTableCellElement>(fixture, 'keyboard-cell-gamma-value'),
@@ -144,6 +142,63 @@ describe('tng-table keyboard navigation and focus', () => {
     expect(event.defaultPrevented).toBe(true);
     expect(document.activeElement).toBe(
       getByTestId<HTMLTableCellElement>(fixture, 'keyboard-cell-header-status'),
+    );
+  });
+
+  it('maps rowspan cells to their full visual footprint for keyboard navigation', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [TableKeyboardSpanHarnessComponent],
+    }).createComponent(TableKeyboardSpanHarnessComponent);
+    fixture.detectChanges();
+
+    const group = getByTestId<HTMLTableCellElement>(fixture, 'span-group-engineering');
+    const alice = getByTestId<HTMLTableCellElement>(fixture, 'span-name-alice');
+    const bob = getByTestId<HTMLTableCellElement>(fixture, 'span-name-bob');
+    const sales = getByTestId<HTMLTableCellElement>(fixture, 'span-group-sales');
+
+    expect(group.getAttribute('rowspan')).toBe('2');
+
+    group.focus();
+    fixture.detectChanges();
+
+    let event = dispatchKeydown(group, 'ArrowRight');
+    fixture.detectChanges();
+    expect(event.defaultPrevented).toBe(true);
+    expect(document.activeElement).toBe(alice);
+
+    event = dispatchKeydown(alice, 'ArrowDown');
+    fixture.detectChanges();
+    expect(event.defaultPrevented).toBe(true);
+    expect(document.activeElement).toBe(bob);
+
+    event = dispatchKeydown(bob, 'ArrowLeft');
+    fixture.detectChanges();
+    expect(event.defaultPrevented).toBe(true);
+    expect(document.activeElement).toBe(group);
+
+    event = dispatchKeydown(group, 'ArrowDown');
+    fixture.detectChanges();
+    expect(event.defaultPrevented).toBe(true);
+    expect(document.activeElement).toBe(group);
+
+    bob.focus();
+    fixture.detectChanges();
+
+    event = dispatchKeydown(bob, 'ArrowDown');
+    fixture.detectChanges();
+    expect(event.defaultPrevented).toBe(true);
+    expect(document.activeElement).toBe(
+      getByTestId<HTMLTableCellElement>(fixture, 'span-name-dave'),
+    );
+
+    sales.focus();
+    fixture.detectChanges();
+
+    event = dispatchKeydown(sales, 'ArrowRight');
+    fixture.detectChanges();
+    expect(event.defaultPrevented).toBe(true);
+    expect(document.activeElement).toBe(
+      getByTestId<HTMLTableCellElement>(fixture, 'span-name-dave'),
     );
   });
 

@@ -28,6 +28,14 @@ type PersonRow = Readonly<{
   notes: string;
 }>;
 
+type DepartmentRow = Readonly<{
+  id: string;
+  department: string;
+  region: string;
+  employee: string;
+  salary: number;
+}>;
+
 @Component({
   imports: [TngTableComponent, TngTableCellTemplate, TngTableHeaderTemplate],
   template: `
@@ -77,11 +85,7 @@ class TableHostComponent {
 @Component({
   imports: [TngTableComponent, TngTableCellTemplate, TngTableHeaderTemplate],
   template: `
-    <tng-table
-      [columns]="columns()"
-      [items]="items()"
-      (sortChange)="onSortChange($event)"
-    >
+    <tng-table [columns]="columns()" [items]="items()" (sortChange)="onSortChange($event)">
       <ng-template
         tngTableHeaderTemplate="person"
         let-isGroup="isGroup"
@@ -96,7 +100,8 @@ class TableHostComponent {
           [attr.data-depth]="depth"
           [attr.data-colspan]="colspan"
           [attr.data-rowspan]="rowspan"
-        >{{ label }}</span>
+          >{{ label }}</span
+        >
       </ng-template>
       <ng-template
         tngTableHeaderTemplate="firstName"
@@ -112,7 +117,8 @@ class TableHostComponent {
           [attr.data-depth]="depth"
           [attr.data-colspan]="colspan"
           [attr.data-rowspan]="rowspan"
-        >{{ label }}</span>
+          >{{ label }}</span
+        >
       </ng-template>
     </tng-table>
   `,
@@ -167,6 +173,43 @@ class GroupedTableHostComponent {
   }
 }
 
+@Component({
+  imports: [TngTableComponent, TngTableCellTemplate],
+  template: `
+    <tng-table [columns]="columns()" [items]="items()">
+      <ng-template
+        tngTableCellTemplate="department"
+        let-value
+        let-groupSize="groupSize"
+        let-isGroupLeader="isGroupLeader"
+      >
+        <span
+          data-testid="department-template"
+          [attr.data-group-size]="groupSize"
+          [attr.data-group-leader]="isGroupLeader"
+          >{{ value }}</span
+        >
+      </ng-template>
+    </tng-table>
+  `,
+})
+class GroupedBodyTableHostComponent {
+  public readonly columns = signal<readonly TngTableColumn<DepartmentRow>[]>([
+    { id: 'department', label: 'Department', groupBy: true },
+    { id: 'employee', label: 'Employee' },
+    { id: 'salary', label: 'Salary', align: 'end' },
+  ]);
+
+  public readonly items = signal<readonly DepartmentRow[]>([
+    { id: '1', department: 'Engineering', region: 'NA', employee: 'Alice', salary: 90_000 },
+    { id: '2', department: 'Engineering', region: 'NA', employee: 'Bob', salary: 85_000 },
+    { id: '3', department: 'Engineering', region: 'EU', employee: 'Carol', salary: 95_000 },
+    { id: '4', department: 'Sales', region: 'NA', employee: 'Dave', salary: 70_000 },
+    { id: '5', department: 'Sales', region: 'EU', employee: 'Eve', salary: 72_000 },
+    { id: '6', department: 'HR', region: 'NA', employee: 'Frank', salary: 60_000 },
+  ]);
+}
+
 function createFixture() {
   const fixture = TestBed.configureTestingModule({
     imports: [TableHostComponent],
@@ -180,6 +223,15 @@ function createGroupedFixture() {
   const fixture = TestBed.configureTestingModule({
     imports: [GroupedTableHostComponent],
   }).createComponent(GroupedTableHostComponent);
+
+  fixture.detectChanges();
+  return fixture;
+}
+
+function createGroupedBodyFixture() {
+  const fixture = TestBed.configureTestingModule({
+    imports: [GroupedBodyTableHostComponent],
+  }).createComponent(GroupedBodyTableHostComponent);
 
   fixture.detectChanges();
   return fixture;
@@ -227,20 +279,20 @@ describe('tng-table component', () => {
     expect(table.getAttribute('aria-label')).toBe('Orders');
     expect(table.getAttribute('data-has-header')).toBe('');
     expect(queryAll<HTMLTableCellElement>(fixture, 'tbody td')).toHaveLength(6);
-    expect(query<HTMLTableCellElement>(fixture, 'td[data-column-id="name"]').textContent?.trim()).toBe(
-      'Alpha',
-    );
-    expect(query<HTMLTableCellElement>(fixture, 'td[data-column-id="total"]').textContent?.trim()).toBe(
-      '12',
-    );
+    expect(
+      query<HTMLTableCellElement>(fixture, 'td[data-column-id="name"]').textContent?.trim(),
+    ).toBe('Alpha');
+    expect(
+      query<HTMLTableCellElement>(fixture, 'td[data-column-id="total"]').textContent?.trim(),
+    ).toBe('12');
   });
 
   it('uses projected header and cell templates', () => {
     const fixture = createFixture();
 
-    expect(query<HTMLTableCellElement>(fixture, 'th[data-column-id="status"]').textContent?.trim()).toBe(
-      'Status label',
-    );
+    expect(
+      query<HTMLTableCellElement>(fixture, 'th[data-column-id="status"]').textContent?.trim(),
+    ).toBe('Status label');
     expect(query<HTMLElement>(fixture, '[data-testid="status-cell"]').textContent?.trim()).toBe(
       'Ready',
     );
@@ -308,8 +360,8 @@ describe('tng-table grouped headers', () => {
       const bodyRows = queryAll(fixture, 'tbody tr');
       expect(bodyRows).toHaveLength(2);
       expect(queryAll(bodyRows[0], 'td')).toHaveLength(6);
-      const ids = queryAll<HTMLTableCellElement>(bodyRows[0], 'td').map(
-        (cell) => cell.getAttribute('data-column-id'),
+      const ids = queryAll<HTMLTableCellElement>(bodyRows[0], 'td').map((cell) =>
+        cell.getAttribute('data-column-id'),
       );
       expect(ids).toEqual(['firstName', 'lastName', 'email', 'dob', 'anniversary', 'notes']);
     });
@@ -327,10 +379,9 @@ describe('tng-table grouped headers', () => {
       const cols = queryAll<HTMLTableColElement>(fixture, 'colgroup col');
       expect(cols).toHaveLength(6);
 
-      const bottomLeafIds = queryAll<HTMLTableCellElement>(
-        fixture,
-        'thead tr:last-child th',
-      ).map((th) => th.getAttribute('data-column-id'));
+      const bottomLeafIds = queryAll<HTMLTableCellElement>(fixture, 'thead tr:last-child th').map(
+        (th) => th.getAttribute('data-column-id'),
+      );
       expect(bottomLeafIds).toEqual(['firstName', 'lastName', 'email', 'dob', 'anniversary']);
     });
 
@@ -422,20 +473,14 @@ describe('tng-table grouped headers', () => {
         fixture,
         'thead th[data-column-id="person"]',
       );
-      const datesHeader = query<HTMLTableCellElement>(
-        fixture,
-        'thead th[data-column-id="dates"]',
-      );
+      const datesHeader = query<HTMLTableCellElement>(fixture, 'thead th[data-column-id="dates"]');
       expect(personHeader.getAttribute('colspan')).toBe('3');
       expect(datesHeader.getAttribute('colspan')).toBe('2');
     });
 
     it('calculates correct `rowspan` for leaf header cells', () => {
       const fixture = createGroupedFixture();
-      const notesHeader = query<HTMLTableCellElement>(
-        fixture,
-        'thead th[data-column-id="notes"]',
-      );
+      const notesHeader = query<HTMLTableCellElement>(fixture, 'thead th[data-column-id="notes"]');
       // Notes is a top-level leaf in a 2-deep tree → should rowspan 2.
       expect(notesHeader.getAttribute('rowspan')).toBe('2');
 
@@ -448,10 +493,9 @@ describe('tng-table grouped headers', () => {
 
     it('renders group headers above their leaf columns', () => {
       const fixture = createGroupedFixture();
-      const firstRowIds = queryAll<HTMLTableCellElement>(
-        fixture,
-        'thead tr:first-child th',
-      ).map((th) => th.getAttribute('data-column-id'));
+      const firstRowIds = queryAll<HTMLTableCellElement>(fixture, 'thead tr:first-child th').map(
+        (th) => th.getAttribute('data-column-id'),
+      );
       expect(firstRowIds).toEqual(['person', 'dates', 'notes']);
     });
 
@@ -466,10 +510,7 @@ describe('tng-table grouped headers', () => {
 
     it('keeps standalone leaf headers stretched across remaining header depth', () => {
       const fixture = createGroupedFixture();
-      const notesHeader = query<HTMLTableCellElement>(
-        fixture,
-        'thead th[data-column-id="notes"]',
-      );
+      const notesHeader = query<HTMLTableCellElement>(fixture, 'thead th[data-column-id="notes"]');
       expect(notesHeader.getAttribute('rowspan')).toBe('2');
     });
 
@@ -498,10 +539,7 @@ describe('tng-table grouped headers', () => {
 
     it('does not attach sort behavior to group header cells', () => {
       const fixture = createGroupedFixture();
-      const groupHeader = query<HTMLTableCellElement>(
-        fixture,
-        'th[data-column-id="person"]',
-      );
+      const groupHeader = query<HTMLTableCellElement>(fixture, 'th[data-column-id="person"]');
       expect(groupHeader.getAttribute('data-slot')).not.toBe('table-sort-header');
       expect(groupHeader.hasAttribute('aria-sort')).toBe(false);
     });
@@ -547,9 +585,7 @@ describe('tng-table grouped headers', () => {
       fixture.detectChanges();
 
       expect(
-        query<HTMLTableCellElement>(fixture, 'th[data-column-id="grp"]').getAttribute(
-          'data-slot',
-        ),
+        query<HTMLTableCellElement>(fixture, 'th[data-column-id="grp"]').getAttribute('data-slot'),
       ).not.toBe('table-sort-header');
     });
   });
@@ -634,10 +670,7 @@ describe('tng-table grouped headers', () => {
       ] as readonly TngTableColumn<PersonRow>[]);
       fixture.detectChanges();
 
-      const personHeader = query<HTMLTableCellElement>(
-        fixture,
-        'th[data-column-id="person"]',
-      );
+      const personHeader = query<HTMLTableCellElement>(fixture, 'th[data-column-id="person"]');
       expect(personHeader.getAttribute('colspan')).toBe('2');
     });
   });
@@ -698,14 +731,8 @@ describe('tng-table grouped headers', () => {
 
     it('keeps grouped header colspan aligned with colgroup leaf count', () => {
       const fixture = createGroupedFixture();
-      const personHeader = query<HTMLTableCellElement>(
-        fixture,
-        'th[data-column-id="person"]',
-      );
-      const datesHeader = query<HTMLTableCellElement>(
-        fixture,
-        'th[data-column-id="dates"]',
-      );
+      const personHeader = query<HTMLTableCellElement>(fixture, 'th[data-column-id="person"]');
+      const datesHeader = query<HTMLTableCellElement>(fixture, 'th[data-column-id="dates"]');
       const personColspan = Number(personHeader.getAttribute('colspan') ?? '1');
       const datesColspan = Number(datesHeader.getAttribute('colspan') ?? '1');
       const standaloneLeafCount = 1; // notes
@@ -779,9 +806,9 @@ describe('tng-table grouped headers', () => {
 
     it('provides `depth` in header template context', () => {
       const fixture = createGroupedFixture();
-      expect(
-        query(fixture, '[data-testid="person-group-header"]').getAttribute('data-depth'),
-      ).toBe('0');
+      expect(query(fixture, '[data-testid="person-group-header"]').getAttribute('data-depth')).toBe(
+        '0',
+      );
       expect(
         query(fixture, '[data-testid="first-name-leaf-header"]').getAttribute('data-depth'),
       ).toBe('1');
@@ -809,14 +836,8 @@ describe('tng-table grouped headers', () => {
 
     it('applies group header classes independently from leaf header classes', () => {
       const fixture = createGroupedFixture();
-      const groupHeader = query<HTMLTableCellElement>(
-        fixture,
-        'th[data-column-id="person"]',
-      );
-      const leafHeader = query<HTMLTableCellElement>(
-        fixture,
-        'th[data-column-id="firstName"]',
-      );
+      const groupHeader = query<HTMLTableCellElement>(fixture, 'th[data-column-id="person"]');
+      const leafHeader = query<HTMLTableCellElement>(fixture, 'th[data-column-id="firstName"]');
       expect(groupHeader.hasAttribute('data-header-group')).toBe(true);
       expect(leafHeader.hasAttribute('data-header-group')).toBe(false);
     });
@@ -844,9 +865,7 @@ describe('tng-table grouped headers', () => {
     it('renders group headers as <th scope="colgroup">', () => {
       const fixture = createGroupedFixture();
       expect(
-        query<HTMLTableCellElement>(fixture, 'th[data-column-id="person"]').getAttribute(
-          'scope',
-        ),
+        query<HTMLTableCellElement>(fixture, 'th[data-column-id="person"]').getAttribute('scope'),
       ).toBe('colgroup');
     });
 
@@ -858,9 +877,7 @@ describe('tng-table grouped headers', () => {
         ),
       ).toBe('col');
       expect(
-        query<HTMLTableCellElement>(fixture, 'th[data-column-id="notes"]').getAttribute(
-          'scope',
-        ),
+        query<HTMLTableCellElement>(fixture, 'th[data-column-id="notes"]').getAttribute('scope'),
       ).toBe('col');
     });
 
@@ -875,33 +892,23 @@ describe('tng-table grouped headers', () => {
 
     it('preserves accessible column labels for grouped tables', () => {
       const fixture = createGroupedFixture();
-      const groupLabels = queryAll<HTMLTableCellElement>(
-        fixture,
-        'thead tr:first-child th',
-      ).map((th) => th.textContent?.trim());
+      const groupLabels = queryAll<HTMLTableCellElement>(fixture, 'thead tr:first-child th').map(
+        (th) => th.textContent?.trim(),
+      );
       expect(groupLabels[0]).toContain('Person');
       expect(groupLabels[1]).toContain('Dates');
     });
 
     it('avoids invalid ARIA sort attributes on group headers', () => {
       const fixture = createGroupedFixture();
-      const personHeader = query<HTMLTableCellElement>(
-        fixture,
-        'th[data-column-id="person"]',
-      );
+      const personHeader = query<HTMLTableCellElement>(fixture, 'th[data-column-id="person"]');
       expect(personHeader.hasAttribute('aria-sort')).toBe(false);
     });
 
     it('applies `aria-sort` only to sortable leaf headers', () => {
       const fixture = createGroupedFixture();
-      const sortableLeaf = query<HTMLTableCellElement>(
-        fixture,
-        'th[data-column-id="firstName"]',
-      );
-      const nonSortableLeaf = query<HTMLTableCellElement>(
-        fixture,
-        'th[data-column-id="lastName"]',
-      );
+      const sortableLeaf = query<HTMLTableCellElement>(fixture, 'th[data-column-id="firstName"]');
+      const nonSortableLeaf = query<HTMLTableCellElement>(fixture, 'th[data-column-id="lastName"]');
       // The sortable leaf carries aria-sort via the sort directive (defaults to "none").
       expect(sortableLeaf.hasAttribute('aria-sort')).toBe(true);
       expect(nonSortableLeaf.hasAttribute('aria-sort')).toBe(false);
@@ -975,6 +982,20 @@ describe('tng-table grouped headers', () => {
       expect(
         (warnSpy.mock.calls as readonly unknown[][]).some((call) =>
           String(call[0]).includes('sortable'),
+        ),
+      ).toBe(true);
+    });
+
+    it('warns in dev mode when a group-by leaf column is sticky', () => {
+      const fixture = createGroupedFixture();
+      fixture.componentInstance.columns.set([
+        { id: 'firstName', label: 'First', groupBy: true, sticky: 'start' },
+      ] as readonly TngTableColumn<PersonRow>[]);
+      fixture.detectChanges();
+
+      expect(
+        (warnSpy.mock.calls as readonly unknown[][]).some((call) =>
+          String(call[0]).includes('combines "groupBy" and "sticky"'),
         ),
       ).toBe(true);
     });
@@ -1070,5 +1091,109 @@ describe('tng-table grouped headers', () => {
       fixture.detectChanges();
       expect(queryAll(fixture, 'colgroup col')).toHaveLength(1);
     });
+  });
+});
+
+describe('tng-table body group-by rows', () => {
+  it('merges consecutive equal values in a group-by leaf column', () => {
+    const fixture = createGroupedBodyFixture();
+
+    const rows = queryAll<HTMLTableRowElement>(fixture, 'tbody tr');
+    expect(rows).toHaveLength(6);
+    expect(queryAll(rows[0], 'td')).toHaveLength(3);
+    expect(queryAll(rows[1], 'td')).toHaveLength(2);
+    expect(queryAll(rows[2], 'td')).toHaveLength(2);
+    expect(queryAll(rows[3], 'td')).toHaveLength(3);
+    expect(queryAll(rows[4], 'td')).toHaveLength(2);
+    expect(queryAll(rows[5], 'td')).toHaveLength(3);
+
+    const departmentCells = queryAll<HTMLTableCellElement>(
+      fixture,
+      'tbody td[data-column-id="department"]',
+    );
+    expect(departmentCells.map((cell) => cell.textContent?.trim())).toEqual([
+      'Engineering',
+      'Sales',
+      'HR',
+    ]);
+    expect(departmentCells.map((cell) => cell.getAttribute('rowspan'))).toEqual(['3', '2', null]);
+  });
+
+  it('does not merge non-consecutive equal values', () => {
+    const fixture = createGroupedBodyFixture();
+    fixture.componentInstance.items.set([
+      { id: '1', department: 'Engineering', region: 'NA', employee: 'Alice', salary: 90_000 },
+      { id: '2', department: 'Sales', region: 'NA', employee: 'Dave', salary: 70_000 },
+      { id: '3', department: 'Engineering', region: 'EU', employee: 'Carol', salary: 95_000 },
+    ]);
+    fixture.detectChanges();
+
+    const departmentCells = queryAll<HTMLTableCellElement>(
+      fixture,
+      'tbody td[data-column-id="department"]',
+    );
+    expect(departmentCells).toHaveLength(3);
+    expect(departmentCells.map((cell) => cell.getAttribute('rowspan'))).toEqual([null, null, null]);
+  });
+
+  it('supports nested group-by columns left-to-right', () => {
+    const fixture = createGroupedBodyFixture();
+    fixture.componentInstance.columns.set([
+      { id: 'department', label: 'Department', groupBy: true },
+      { id: 'region', label: 'Region', groupBy: true },
+      { id: 'employee', label: 'Employee' },
+    ]);
+    fixture.componentInstance.items.set([
+      { id: '1', department: 'Engineering', region: 'NA', employee: 'Alice', salary: 90_000 },
+      { id: '2', department: 'Engineering', region: 'NA', employee: 'Bob', salary: 85_000 },
+      { id: '3', department: 'Engineering', region: 'EU', employee: 'Carol', salary: 95_000 },
+      { id: '4', department: 'Sales', region: 'NA', employee: 'Dave', salary: 70_000 },
+      { id: '5', department: 'Sales', region: 'NA', employee: 'Eve', salary: 72_000 },
+    ]);
+    fixture.detectChanges();
+
+    const departmentCells = queryAll<HTMLTableCellElement>(
+      fixture,
+      'tbody td[data-column-id="department"]',
+    );
+    const regionCells = queryAll<HTMLTableCellElement>(
+      fixture,
+      'tbody td[data-column-id="region"]',
+    );
+
+    expect(departmentCells.map((cell) => cell.getAttribute('rowspan'))).toEqual(['3', '2']);
+    expect(regionCells.map((cell) => cell.textContent?.trim())).toEqual(['NA', 'EU', 'NA']);
+    expect(regionCells.map((cell) => cell.getAttribute('rowspan'))).toEqual(['2', null, '2']);
+  });
+
+  it('passes group metadata into cell templates for the leader cell', () => {
+    const fixture = createGroupedBodyFixture();
+
+    const templates = queryAll<HTMLElement>(fixture, '[data-testid="department-template"]');
+    expect(templates[0]?.getAttribute('data-group-size')).toBe('3');
+    expect(templates[0]?.getAttribute('data-group-leader')).toBe('true');
+    expect(templates[2]?.getAttribute('data-group-size')).toBe('1');
+    expect(templates[2]?.getAttribute('data-group-leader')).toBe('true');
+  });
+
+  it('uses top vertical alignment for merged group cells by default and allows middle alignment', () => {
+    const fixture = createGroupedBodyFixture();
+    expect(
+      query<HTMLTableCellElement>(fixture, 'tbody td[data-column-id="department"]').getAttribute(
+        'data-group-align',
+      ),
+    ).toBe('top');
+
+    fixture.componentInstance.columns.set([
+      { id: 'department', label: 'Department', groupBy: true, groupByAlign: 'middle' },
+      { id: 'employee', label: 'Employee' },
+    ]);
+    fixture.detectChanges();
+
+    expect(
+      query<HTMLTableCellElement>(fixture, 'tbody td[data-column-id="department"]').getAttribute(
+        'data-group-align',
+      ),
+    ).toBe('middle');
   });
 });

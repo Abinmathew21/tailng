@@ -42,10 +42,10 @@
                 [attr.data-align]="getHeaderAlign(node)"
                 [attr.data-header-group]="node.isGroup ? '' : null"
                 [attr.data-header-depth]="node.depth"
-                [attr.colspan]="node.colspan > 1 ? node.colspan : null"
-                [attr.rowspan]="node.rowspan > 1 ? node.rowspan : null"
                 [tngSortHeader]="node.id"
+                [tngTableColspan]="node.colspan"
                 [tngTableColumnId]="node.id"
+                [tngTableRowspan]="node.rowspan"
                 [tngTableStickyColumn]="node.isGroup ? null : ($any(node.column).sticky ?? null)"
                 [tngTableTruncate]="!node.isGroup && $any(node.column).truncate === true"
               >
@@ -65,9 +65,9 @@
                 [attr.data-align]="getHeaderAlign(node)"
                 [attr.data-header-group]="node.isGroup ? '' : null"
                 [attr.data-header-depth]="node.depth"
-                [attr.colspan]="node.colspan > 1 ? node.colspan : null"
-                [attr.rowspan]="node.rowspan > 1 ? node.rowspan : null"
+                [tngTableColspan]="node.colspan"
                 [tngTableColumnId]="node.id"
+                [tngTableRowspan]="node.rowspan"
                 [tngTableStickyColumn]="node.isGroup ? null : ($any(node.column).sticky ?? null)"
                 [tngTableTruncate]="!node.isGroup && $any(node.column).truncate === true"
               >
@@ -96,28 +96,41 @@
         </tr>
       } @else if (items().length === 0) {
         <tr tngTableRow>
-          <td tngTableCell class="tng-table__state-cell" [attr.colspan]="getColspan()">No results</td>
+          <td tngTableCell class="tng-table__state-cell" [attr.colspan]="getColspan()">
+            No results
+          </td>
         </tr>
       } @else {
         @for (row of items(); track getRowId(row, $index); let rowIndex = $index) {
           <tr tngTableRow [tngTableRowId]="getRowId(row, rowIndex)">
             @for (column of leafColumns; track column.id) {
-              <td
-                tngTableCell
-                class="tng-table__cell"
-                [attr.data-align]="getCellAlign(column)"
-                [tngTableColumnId]="column.id"
-                [tngTableStickyColumn]="column.sticky ?? null"
-                [tngTableTruncate]="column.truncate === true"
-              >
-                @if (getCellTemplate(column.id); as cellTemplate) {
-                  <ng-container
-                    *ngTemplateOutlet="cellTemplate.templateRef; context: getCellContext(row, column, rowIndex)"
-                  />
-                } @else {
-                  {{ getCellText(row, column, rowIndex) }}
+              @if (getBodyCellSpan(rowIndex, column.id); as span) {
+                @if (span.render) {
+                  <td
+                    tngTableCell
+                    class="tng-table__cell"
+                    [attr.data-align]="getCellAlign(column)"
+                    [attr.data-group-align]="getGroupByAlign(column, span)"
+                    [attr.data-group-leader]="span.isGroupLeader ? '' : null"
+                    [attr.data-group-size]="span.isGroupLeader ? span.groupSize : null"
+                    [tngTableColumnId]="column.id"
+                    [tngTableRowspan]="span.rowspan"
+                    [tngTableStickyColumn]="column.sticky ?? null"
+                    [tngTableTruncate]="column.truncate === true"
+                  >
+                    @if (getCellTemplate(column.id); as cellTemplate) {
+                      <ng-container
+                        *ngTemplateOutlet="
+                          cellTemplate.templateRef;
+                          context: getCellContext(row, column, rowIndex, span)
+                        "
+                      />
+                    } @else {
+                      {{ getCellText(row, column, rowIndex) }}
+                    }
+                  </td>
                 }
-              </td>
+              }
             }
           </tr>
         }

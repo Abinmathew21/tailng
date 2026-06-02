@@ -30,8 +30,9 @@ import { Component } from '@angular/core';
                   <td><code>readonly TngTableColumn&lt;TRow&gt;[]</code></td>
                   <td>
                     A column tree. Leaves carry id, label, accessor, alignment, sorting, sticky
-                    position, truncation and width. Groups carry id, label, and a
-                    <code>children</code> array to produce multi-row headers with colspan / rowspan.
+                    position, truncation, width, and optional <code>groupBy</code> row merging.
+                    Groups carry id, label, and a <code>children</code> array to produce multi-row
+                    headers with colspan / rowspan.
                   </td>
                 </tr>
                 <tr>
@@ -77,7 +78,10 @@ import { Component } from '@angular/core';
               changes.
             </li>
             <li>
-              <code>ng-template[tngTableCellTemplate]</code> customizes body cells by column id.
+              <code>ng-template[tngTableCellTemplate]</code> customizes body cells by column id. The
+              context exposes <code>value</code>, <code>row</code>, <code>rowIndex</code>,
+              <code>column</code>, <code>columnId</code>, <code>groupSize</code>, and
+              <code>isGroupLeader</code>.
             </li>
             <li>
               <code>ng-template[tngTableHeaderTemplate]</code> customizes header cells by column id.

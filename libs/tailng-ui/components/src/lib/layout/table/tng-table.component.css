@@ -34,7 +34,14 @@
 }
 
 .tng-table__header-cell {
-  background: var(--tng-table-header-bg, color-mix(in srgb, var(--tng-semantic-background-surface) 84%, var(--tng-semantic-background-base) 16%));
+  background: var(
+    --tng-table-header-bg,
+    color-mix(
+      in srgb,
+      var(--tng-semantic-background-surface) 84%,
+      var(--tng-semantic-background-base) 16%
+    )
+  );
   color: var(--tng-semantic-foreground-secondary);
   font-weight: 650;
   user-select: none;
@@ -75,8 +82,23 @@
   background: var(--tng-semantic-background-surface);
 }
 
+.tng-table__cell[data-group-align='top'] {
+  vertical-align: top;
+}
+
+.tng-table__cell[data-group-align='middle'] {
+  vertical-align: middle;
+}
+
 .tng-table tr[data-slot='table-row']:hover .tng-table__cell {
-  background: var(--tng-table-row-hover-bg, color-mix(in srgb, var(--tng-semantic-foreground-primary) 4%, var(--tng-semantic-background-surface)));
+  background: var(
+    --tng-table-row-hover-bg,
+    color-mix(
+      in srgb,
+      var(--tng-semantic-foreground-primary) 4%,
+      var(--tng-semantic-background-surface)
+    )
+  );
 }
 
 .tng-table tr:last-child .tng-table__cell,

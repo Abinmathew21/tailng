@@ -34,6 +34,13 @@ type PersonRow = Readonly<{
   phone: string;
 }>;
 
+type DepartmentRow = Readonly<{
+  department: string;
+  employee: string;
+  level: string;
+  salary: string;
+}>;
+
 function createCodeTabs(
   baseName: string,
   tsCode: string,
@@ -347,6 +354,98 @@ const groupedTailwindHtml = [
   '',
 ].join('\n');
 
+const groupByTableTs = [
+  "import { Component } from '@angular/core';",
+  "import { TngTableCellTemplate, TngTableComponent, type TngTableColumn } from '@tailng-ui/components';",
+  '',
+  'type DepartmentRow = Readonly<{',
+  '  department: string;',
+  '  employee: string;',
+  '  level: string;',
+  '  salary: string;',
+  '}>;',
+  '',
+  '@Component({',
+  "  selector: 'app-department-table',",
+  '  standalone: true,',
+  '  imports: [TngTableComponent, TngTableCellTemplate],',
+  "  templateUrl: './department-table.component.html',",
+  "  styleUrl: './department-table.component.css',",
+  '})',
+  'export class DepartmentTableComponent {',
+  '  protected readonly columns: readonly TngTableColumn<DepartmentRow>[] = [',
+  "    { id: 'department', label: 'Department', groupBy: true },",
+  "    { id: 'employee', label: 'Employee' },",
+  "    { id: 'level', label: 'Level' },",
+  "    { id: 'salary', label: 'Salary', align: 'end' },",
+  '  ];',
+  '',
+  '  // Rows should be pre-sorted by the group-by column.',
+  '  protected readonly rows: readonly DepartmentRow[] = [',
+  "    { department: 'Engineering', employee: 'Alice Nguyen', level: 'Staff', salary: '$148k' },",
+  "    { department: 'Engineering', employee: 'Ben Carter', level: 'Senior', salary: '$132k' },",
+  "    { department: 'Engineering', employee: 'Carla Diaz', level: 'Principal', salary: '$171k' },",
+  "    { department: 'Sales', employee: 'Dev Malik', level: 'Manager', salary: '$118k' },",
+  "    { department: 'Sales', employee: 'Eve Brooks', level: 'Associate', salary: '$86k' },",
+  "    { department: 'People', employee: 'Frank Stone', level: 'Lead', salary: '$104k' },",
+  '  ];',
+  '}',
+].join('\n');
+
+const groupByPlainHtml = [
+  '<section class="table-card group-by-demo">',
+  '  <tng-table ariaLabel="Departments" [columns]="columns" [items]="rows" density="compact">',
+  '    <ng-template tngTableCellTemplate="department" let-value let-groupSize="groupSize">',
+  '      <span class="department-group">',
+  '        <strong>{{ value }}</strong>',
+  '        <small>{{ groupSize }} people</small>',
+  '      </span>',
+  '    </ng-template>',
+  '  </tng-table>',
+  '</section>',
+  '',
+].join('\n');
+
+const groupByPlainCss = [
+  '.table-card {',
+  '  border: 1px solid var(--tng-semantic-border-subtle);',
+  '  border-radius: 0.875rem;',
+  '  padding: 1rem;',
+  '}',
+  '',
+  '.department-group {',
+  '  display: grid;',
+  '  gap: 0.2rem;',
+  '}',
+  '',
+  '.department-group small {',
+  '  color: var(--tng-semantic-foreground-secondary);',
+  '  font-size: 0.75rem;',
+  '}',
+  '',
+  '.group-by-demo td[data-group-leader] {',
+  '  background: color-mix(',
+  '    in srgb,',
+  '    var(--tng-semantic-background-surface) 82%,',
+  '    var(--tng-semantic-background-base) 18%',
+  '  );',
+  '}',
+].join('\n');
+
+const groupByTailwindHtml = [
+  '<section class="rounded-xl border border-tng-border-subtle bg-tng-bg-surface p-4">',
+  '  <tng-table ariaLabel="Departments" [columns]="columns" [items]="rows" density="compact">',
+  '    <ng-template tngTableCellTemplate="department" let-value let-groupSize="groupSize">',
+  '      <span class="grid gap-0.5">',
+  '        <strong>{{ value }}</strong>',
+  '        <span class="text-xs text-tng-fg-secondary">{{ groupSize }} people</span>',
+  '      </span>',
+  '    </ng-template>',
+  '  </tng-table>',
+  '</section>',
+  '',
+].join('\n');
+
 @Component({
   selector: 'app-table-examples-page',
   imports: [
@@ -489,11 +588,7 @@ const groupedTailwindHtml = [
         >
           <section class="table-demo-shell grouped-demo">
             <tng-table ariaLabel="People" [columns]="personColumns" [items]="personRows">
-              <ng-template
-                tngTableHeaderTemplate="dates"
-                let-label="label"
-                let-colspan="colspan"
-              >
+              <ng-template tngTableHeaderTemplate="dates" let-label="label" let-colspan="colspan">
                 <span class="group-header">
                   {{ label }} <small>({{ colspan }} cols)</small>
                 </span>
@@ -511,14 +606,71 @@ const groupedTailwindHtml = [
         >
           <section class="rounded-xl border border-tng-border-subtle bg-tng-bg-surface p-4">
             <tng-table ariaLabel="People" [columns]="personColumns" [items]="personRows">
-              <ng-template
-                tngTableHeaderTemplate="dates"
-                let-label="label"
-                let-colspan="colspan"
-              >
+              <ng-template tngTableHeaderTemplate="dates" let-label="label" let-colspan="colspan">
                 <span class="inline-flex items-baseline gap-1 font-bold">
                   {{ label }}
-                  <span class="text-xs font-medium text-tng-fg-secondary">({{ colspan }} cols)</span>
+                  <span class="text-xs font-medium text-tng-fg-secondary"
+                    >({{ colspan }} cols)</span
+                  >
+                </span>
+              </ng-template>
+            </tng-table>
+          </section>
+        </ng-template>
+      </app-docs-example-tabs-section>
+
+      <app-docs-example-tabs-section
+        id="grouped-body-rows"
+        class="table-doc__block"
+        heading="Grouped body rows"
+        description="Mark a leaf column with groupBy to merge consecutive equal values into native rowspan cells. Keep the incoming rows sorted by the grouped column so each group is contiguous."
+        ariaLabel="Grouped body row variants"
+        tabListAriaLabel="Grouped body row style tabs"
+        defaultValue="plain-css"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <ng-template
+          appDocsExampleVariant
+          value="plain-css"
+          label="Plain-CSS"
+          panelTitle="Grouped body rows (Plain CSS)"
+          [codeTabs]="groupByPlainCodeTabs"
+        >
+          <section class="table-demo-shell group-by-demo">
+            <tng-table
+              ariaLabel="Departments"
+              [columns]="departmentColumns"
+              [items]="departmentRows"
+              density="compact"
+            >
+              <ng-template tngTableCellTemplate="department" let-value let-groupSize="groupSize">
+                <span class="department-group">
+                  <strong>{{ value }}</strong>
+                  <small>{{ groupSize }} people</small>
+                </span>
+              </ng-template>
+            </tng-table>
+          </section>
+        </ng-template>
+
+        <ng-template
+          appDocsExampleVariant
+          value="tailwind-css"
+          label="Tailwind CSS"
+          panelTitle="Grouped body rows (Tailwind CSS)"
+          [codeTabs]="groupByTailwindCodeTabs"
+        >
+          <section class="rounded-xl border border-tng-border-subtle bg-tng-bg-surface p-4">
+            <tng-table
+              ariaLabel="Departments"
+              [columns]="departmentColumns"
+              [items]="departmentRows"
+              density="compact"
+            >
+              <ng-template tngTableCellTemplate="department" let-value let-groupSize="groupSize">
+                <span class="grid gap-0.5">
+                  <strong>{{ value }}</strong>
+                  <span class="text-xs text-tng-fg-secondary">{{ groupSize }} people</span>
                 </span>
               </ng-template>
             </tng-table>
@@ -578,6 +730,16 @@ const groupedTailwindHtml = [
         font-weight: 500;
       }
 
+      .department-group {
+        display: grid;
+        gap: 0.2rem;
+      }
+
+      .department-group small {
+        color: var(--tng-semantic-foreground-secondary);
+        font-size: 0.75rem;
+      }
+
       .grouped-demo ::ng-deep th[data-header-group] {
         background: color-mix(
           in srgb,
@@ -585,6 +747,14 @@ const groupedTailwindHtml = [
           var(--tng-semantic-background-base) 30%
         );
         border-bottom: 1px solid var(--tng-semantic-border-subtle);
+      }
+
+      .group-by-demo ::ng-deep td[data-group-leader] {
+        background: color-mix(
+          in srgb,
+          var(--tng-semantic-background-surface) 82%,
+          var(--tng-semantic-background-base) 18%
+        );
       }
     `,
   ],
@@ -634,6 +804,18 @@ export class TableExamplesPageComponent implements OnDestroy {
     'person-table-tailwind',
     groupedTableTs,
     groupedTailwindHtml,
+    '/* Tailwind utilities are applied directly in the template. */',
+  );
+  protected readonly groupByPlainCodeTabs = createCodeTabs(
+    'department-table-plain-css',
+    groupByTableTs,
+    groupByPlainHtml,
+    groupByPlainCss,
+  );
+  protected readonly groupByTailwindCodeTabs = createCodeTabs(
+    'department-table-tailwind',
+    groupByTableTs,
+    groupByTailwindHtml,
     '/* Tailwind utilities are applied directly in the template. */',
   );
 
@@ -706,6 +888,22 @@ export class TableExamplesPageComponent implements OnDestroy {
       anniversary: '1930-06-15',
       notes: 'Rear Admiral',
     },
+  ];
+
+  protected readonly departmentColumns: readonly TngTableColumn<DepartmentRow>[] = [
+    { id: 'department', label: 'Department', groupBy: true },
+    { id: 'employee', label: 'Employee' },
+    { id: 'level', label: 'Level' },
+    { id: 'salary', label: 'Salary', align: 'end' },
+  ];
+
+  protected readonly departmentRows: readonly DepartmentRow[] = [
+    { department: 'Engineering', employee: 'Alice Nguyen', level: 'Staff', salary: '$148k' },
+    { department: 'Engineering', employee: 'Ben Carter', level: 'Senior', salary: '$132k' },
+    { department: 'Engineering', employee: 'Carla Diaz', level: 'Principal', salary: '$171k' },
+    { department: 'Sales', employee: 'Dev Malik', level: 'Manager', salary: '$118k' },
+    { department: 'Sales', employee: 'Eve Brooks', level: 'Associate', salary: '$86k' },
+    { department: 'People', employee: 'Frank Stone', level: 'Lead', salary: '$104k' },
   ];
 
   protected sortActive: string | null = 'owner';
