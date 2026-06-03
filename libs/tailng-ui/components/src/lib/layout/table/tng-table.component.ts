@@ -1,4 +1,4 @@
-import { NgTemplateOutlet } from '@angular/common';
+import { NgStyle, NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   Directive,
@@ -10,6 +10,7 @@ import {
   input,
   isDevMode,
   output,
+  signal,
 } from '@angular/core';
 import type { TngTableSortDirection } from '@tailng-ui/cdk';
 import {
@@ -30,18 +31,47 @@ import {
 } from '@tailng-ui/primitives';
 
 export type TngTableDensity = 'compact' | 'comfortable';
+export type TngTableHoverMode = 'row' | 'group';
 export type TngTableCellAlign = 'center' | 'end' | 'start';
 export type TngTableGroupByAlign = 'middle' | 'top';
 export type TngTableColumnAccessor<TRow> = keyof TRow | ((row: TRow, index: number) => unknown);
+
+/** Class values accepted by the styling hooks — mirrors the native `[class]` binding inputs. */
+export type TngTableClassInput =
+  | string
+  | readonly string[]
+  | Record<string, boolean>
+  | null
+  | undefined;
+export type TngTableRowClassFn<TRow> = (row: TRow, index: number) => TngTableClassInput;
+export type TngTableCellClassFn<TRow> = (
+  row: TRow,
+  value: unknown,
+  index: number,
+) => TngTableClassInput;
+export type TngTableStyleInput =
+  | Readonly<Record<string, string | number | null | undefined>>
+  | null
+  | undefined;
+export type TngTableRowStyleFn<TRow> = (row: TRow, index: number) => TngTableStyleInput;
+export type TngTableCellStyleFn<TRow> = (
+  row: TRow,
+  value: unknown,
+  index: number,
+) => TngTableStyleInput;
 
 export type TngTableLeafColumn<TRow = unknown> = Readonly<{
   id: string;
   label?: string;
   accessor?: TngTableColumnAccessor<TRow>;
   align?: TngTableCellAlign;
+  cellClass?: TngTableClassInput | TngTableCellClassFn<TRow>;
+  cellStyle?: TngTableStyleInput | TngTableCellStyleFn<TRow>;
   groupBy?: boolean;
   groupByAlign?: TngTableGroupByAlign;
   headerAlign?: TngTableCellAlign;
+  headerClass?: TngTableClassInput;
+  headerStyle?: TngTableStyleInput;
   sortable?: boolean;
   sticky?: TngTableStickySide | null;
   truncate?: boolean;
@@ -54,6 +84,8 @@ export type TngTableGroupColumn<TRow = unknown> = Readonly<{
   id: string;
   label?: string;
   headerAlign?: TngTableCellAlign;
+  headerClass?: TngTableClassInput;
+  headerStyle?: TngTableStyleInput;
   hidden?: boolean;
   children: readonly TngTableColumn<TRow>[];
 }>;
@@ -171,6 +203,40 @@ function normalizeCellValue(value: unknown): string {
   return JSON.stringify(value);
 }
 
+function normalizeClassToken(token: string): string {
+  return token.trim();
+}
+
+/**
+ * Flattens the supported class inputs (`string | string[] | Record<string, boolean>`)
+ * into a single space-separated string. Done in the component rather than relying on
+ * the native `[class]` binding directly so that object keys containing multiple
+ * space-separated classes (which the native binding does not split) keep working.
+ */
+function normalizeClassValue(value: TngTableClassInput): string {
+  if (value === null || value === undefined) {
+    return '';
+  }
+
+  if (typeof value === 'string') {
+    return normalizeClassToken(value);
+  }
+
+  if (Array.isArray(value)) {
+    return value
+      .filter((token): token is string => typeof token === 'string')
+      .map(normalizeClassToken)
+      .filter((token) => token.length > 0)
+      .join(' ');
+  }
+
+  return Object.entries(value as Record<string, boolean>)
+    .filter(([, enabled]) => Boolean(enabled))
+    .map(([token]) => normalizeClassToken(token))
+    .filter((token) => token.length > 0)
+    .join(' ');
+}
+
 function areGroupValuesEqual(a: unknown, b: unknown): boolean {
   if (Object.is(a, b)) {
     return true;
@@ -212,6 +278,7 @@ export class TngTableHeaderTemplate<TRow = unknown> {
 @Component({
   selector: 'tng-table',
   imports: [
+    NgStyle,
     NgTemplateOutlet,
     TngTablePrimitive,
     TngTableBody,
@@ -236,6 +303,7 @@ export class TngTableComponent<TRow = unknown> {
   public readonly columns = input<readonly TngTableColumn<TRow>[]>([]);
   public readonly density = input<TngTableDensity>('comfortable');
   public readonly dir = input<TngTableDirection | null>(null);
+  public readonly hoverMode = input<TngTableHoverMode>('row');
   public readonly error = input<boolean, boolean | string>(false, {
     transform: booleanAttribute,
   });
@@ -250,6 +318,8 @@ export class TngTableComponent<TRow = unknown> {
   public readonly pageable = input<boolean, boolean | string>(false, {
     transform: booleanAttribute,
   });
+  public readonly rowClass = input<TngTableRowClassFn<TRow> | null>(null);
+  public readonly rowStyle = input<TngTableRowStyleFn<TRow> | null>(null);
   public readonly scrollAxis = input<TngTableScrollAxis>('x');
   public readonly sortActive = input<string | null | undefined>(undefined);
   public readonly sortDirection = input<TngTableSortDirection | null | undefined>(undefined);
@@ -268,6 +338,37 @@ export class TngTableComponent<TRow = unknown> {
   protected readonly bodySpanGrid = computed<
     ReadonlyArray<Readonly<Record<string, TngTableBodyCellSpan>>>
   >(() => this.buildBodySpanGrid(this.items(), this.headerTreeModel().leafColumns));
+
+  // For each body row, the index of its group leader based on the outermost
+  // groupBy column. Rows that merge into the same rowspan share a key, so a
+  // hover can highlight the whole group rather than a single physical <tr>.
+  protected readonly rowGroupKeys = computed<readonly number[]>(() => {
+    const items = this.items();
+    const grid = this.bodySpanGrid();
+    const primary = this.headerTreeModel().leafColumns.find((column) => column.groupBy === true);
+
+    if (!primary) {
+      return items.map((_, index) => index);
+    }
+
+    const keys: number[] = [];
+    let leader = 0;
+    for (let index = 0; index < items.length; index += 1) {
+      if (grid[index]?.[primary.id]?.isGroupLeader) {
+        leader = index;
+      }
+      keys.push(leader);
+    }
+    return keys;
+  });
+
+  // True when at least one leaf column declares groupBy, i.e. body rows merge
+  // into rowspan groups and per-group styling hooks are meaningful.
+  protected readonly hasRowGrouping = computed<boolean>(() =>
+    this.headerTreeModel().leafColumns.some((column) => column.groupBy === true),
+  );
+
+  private readonly hoveredRowGroup = signal<number | null>(null);
 
   protected get visibleColumns(): readonly TngTableColumn<TRow>[] {
     return this.columns().filter((column) => hasValidId(column) && !isHidden(column));
@@ -407,6 +508,103 @@ export class TngTableComponent<TRow = unknown> {
 
   protected getRowId(_row: TRow, rowIndex: number): string {
     return String(rowIndex);
+  }
+
+  protected onRowPointerEnter(rowIndex: number): void {
+    if (this.hoverMode() !== 'group') {
+      return;
+    }
+    this.hoveredRowGroup.set(this.rowGroupKeys()[rowIndex] ?? null);
+  }
+
+  protected onTablePointerLeave(): void {
+    if (this.hoveredRowGroup() !== null) {
+      this.hoveredRowGroup.set(null);
+    }
+  }
+
+  protected isRowGroupHovered(rowIndex: number): boolean {
+    return this.hoverMode() === 'group' && this.hoveredRowGroup() === this.rowGroupKeys()[rowIndex];
+  }
+
+  // Position of a row within its primary (outermost) groupBy run. Returns null
+  // when the table has no grouping so non-grouped tables stay unannotated.
+  protected getRowGroupPosition(
+    rowIndex: number,
+  ): 'first' | 'middle' | 'last' | 'single' | null {
+    if (!this.hasRowGrouping()) {
+      return null;
+    }
+
+    const keys = this.rowGroupKeys();
+    const key = keys[rowIndex];
+    const prevSame = rowIndex > 0 && keys[rowIndex - 1] === key;
+    const nextSame = rowIndex < keys.length - 1 && keys[rowIndex + 1] === key;
+
+    if (prevSame && nextSame) {
+      return 'middle';
+    }
+    if (nextSame) {
+      return 'first';
+    }
+    if (prevSame) {
+      return 'last';
+    }
+    return 'single';
+  }
+
+  protected resolveRowClass(row: TRow, rowIndex: number): string {
+    const rowClass = this.rowClass();
+    return rowClass ? normalizeClassValue(rowClass(row, rowIndex)) : '';
+  }
+
+  protected resolveCellClass(
+    column: TngTableLeafColumn<TRow>,
+    row: TRow,
+    rowIndex: number,
+  ): string {
+    const cellClass = column.cellClass;
+    if (cellClass === undefined || cellClass === null) {
+      return '';
+    }
+
+    if (typeof cellClass === 'function') {
+      return normalizeClassValue(cellClass(row, this.getCellValue(row, column, rowIndex), rowIndex));
+    }
+
+    return normalizeClassValue(cellClass);
+  }
+
+  protected resolveHeaderClass(node: TngTableHeaderCellNode<TRow>): string {
+    return normalizeClassValue(
+      (node.column as { headerClass?: TngTableClassInput }).headerClass,
+    );
+  }
+
+  protected resolveRowStyle(row: TRow, rowIndex: number): TngTableStyleInput {
+    const rowStyle = this.rowStyle();
+    return rowStyle ? rowStyle(row, rowIndex) : null;
+  }
+
+  protected resolveCellStyle(
+    column: TngTableLeafColumn<TRow>,
+    row: TRow,
+    rowIndex: number,
+  ): TngTableStyleInput {
+    const cellStyle = column.cellStyle;
+    if (cellStyle === undefined || cellStyle === null) {
+      return null;
+    }
+
+    if (typeof cellStyle === 'function') {
+      return cellStyle(row, this.getCellValue(row, column, rowIndex), rowIndex);
+    }
+
+    return cellStyle;
+  }
+
+  protected resolveHeaderStyle(node: TngTableHeaderCellNode<TRow>): TngTableStyleInput {
+    return (node.column as { headerStyle?: TngTableStyleInput }).headerStyle ?? null;
   }
 
   protected getNodeKey(node: TngTableHeaderCellNode<TRow>): string {
@@ -628,6 +826,8 @@ export class TngTableComponent<TRow = unknown> {
         const groupExtras = column as unknown as Record<string, unknown>;
         for (const leafOnlyProp of [
           'accessor',
+          'cellClass',
+          'cellStyle',
           'groupBy',
           'groupByAlign',
           'sortable',

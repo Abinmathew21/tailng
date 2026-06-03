@@ -79,7 +79,7 @@
 }
 
 .tng-table__cell {
-  background: var(--tng-semantic-background-surface);
+  background: var(--tng-table-row-bg, var(--tng-semantic-background-surface));
 }
 
 .tng-table__cell[data-group-align='top'] {
@@ -90,7 +90,8 @@
   vertical-align: middle;
 }
 
-.tng-table tr[data-slot='table-row']:hover .tng-table__cell {
+.tng-table:not([data-hover-mode='group']) tr[data-slot='table-row']:hover .tng-table__cell,
+.tng-table[data-hover-mode='group'] tr[data-group-hover] .tng-table__cell {
   background: var(
     --tng-table-row-hover-bg,
     color-mix(
@@ -104,6 +105,17 @@
 .tng-table tr:last-child .tng-table__cell,
 .tng-table tr:last-child .tng-table__state-cell {
   border-bottom: 0;
+}
+
+/*
+ * Within a groupBy run, only the last row of the group keeps a divider so each
+ * group reads as one block. The merged leader cell ([data-group-leader]) is
+ * excluded because its border already sits at the bottom of the whole rowspan.
+ * Colour rather than width is cleared to keep row heights identical.
+ */
+.tng-table tr[data-group-position='first'] .tng-table__cell:not([data-group-leader]),
+.tng-table tr[data-group-position='middle'] .tng-table__cell:not([data-group-leader]) {
+  border-bottom-color: transparent;
 }
 
 .tng-table__header-cell[data-align='center'],

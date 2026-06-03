@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import type { TngTableSortChange } from '@tailng-ui/primitives';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
@@ -6,9 +6,13 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import {
   TngTable,
   TngTableCellTemplate,
+  type TngTableClassInput,
   type TngTableColumn,
   TngTableComponent,
   TngTableHeaderTemplate,
+  type TngTableRowClassFn,
+  type TngTableRowStyleFn,
+  type TngTableStyleInput,
 } from './tng-table.component';
 
 type TableRow = Readonly<{
@@ -208,6 +212,62 @@ class GroupedBodyTableHostComponent {
     { id: '5', department: 'Sales', region: 'EU', employee: 'Eve', salary: 72_000 },
     { id: '6', department: 'HR', region: 'NA', employee: 'Frank', salary: 60_000 },
   ]);
+}
+
+@Component({
+  imports: [TngTableComponent],
+  template: `
+    <tng-table
+      [columns]="columns()"
+      [items]="items()"
+      [rowClass]="rowClass()"
+      [rowStyle]="rowStyle()"
+    ></tng-table>
+  `,
+})
+class ClassHookTableHostComponent {
+  public readonly rowClass = signal<TngTableRowClassFn<TableRow> | null>(null);
+  public readonly rowStyle = signal<TngTableRowStyleFn<TableRow> | null>(null);
+  public readonly cellClass = signal<
+    TngTableClassInput | ((row: TableRow, value: unknown, index: number) => TngTableClassInput)
+  >('money-cell');
+  public readonly cellStyle = signal<
+    TngTableStyleInput | ((row: TableRow, value: unknown, index: number) => TngTableStyleInput)
+  >(null);
+  public readonly headerClass = signal<TngTableClassInput>('name-head');
+  public readonly headerStyle = signal<TngTableStyleInput>(null);
+
+  // Columns derive from the class signals so updating a hook re-renders the table.
+  public readonly columns = computed<readonly TngTableColumn<TableRow>[]>(() => [
+    {
+      id: 'name',
+      label: 'Name',
+      headerClass: this.headerClass(),
+      headerStyle: this.headerStyle(),
+    },
+    { id: 'status', label: 'Status' },
+    {
+      id: 'total',
+      label: 'Total',
+      align: 'end',
+      cellClass: this.cellClass(),
+      cellStyle: this.cellStyle(),
+    },
+  ]);
+
+  public readonly items = signal<readonly TableRow[]>([
+    { id: 'a', name: 'Alpha', status: 'Ready', total: 12 },
+    { id: 'b', name: 'Beta', status: 'Draft', total: 7 },
+  ]);
+}
+
+function createClassHookFixture() {
+  const fixture = TestBed.configureTestingModule({
+    imports: [ClassHookTableHostComponent],
+  }).createComponent(ClassHookTableHostComponent);
+
+  fixture.detectChanges();
+  return fixture;
 }
 
 function createFixture() {
@@ -1195,5 +1255,298 @@ describe('tng-table body group-by rows', () => {
         'data-group-align',
       ),
     ).toBe('middle');
+  });
+});
+
+describe('tng-table row/cell/header class hooks', () => {
+  function rowClasses(fixture: { nativeElement: unknown }): readonly string[][] {
+    return queryAll<HTMLTableRowElement>(fixture, 'tbody tr').map((tr) =>
+      Array.from(tr.classList),
+    );
+  }
+
+  describe('rowClass', () => {
+    it('does not add any class when rowClass is null', () => {
+      const fixture = createClassHookFixture();
+      for (const classes of rowClasses(fixture)) {
+        expect(classes).toHaveLength(0);
+      }
+    });
+
+    it('applies a static string class to every body row', () => {
+      const fixture = createClassHookFixture();
+      fixture.componentInstance.rowClass.set(() => 'row-base');
+      fixture.detectChanges();
+
+      for (const classes of rowClasses(fixture)) {
+        expect(classes).toContain('row-base');
+      }
+    });
+
+    it('passes the row and index to the predicate for conditional classes', () => {
+      const fixture = createClassHookFixture();
+      fixture.componentInstance.rowClass.set((row, index) =>
+        row.status === 'Draft' ? `draft-${index}` : `ready-${index}`,
+      );
+      fixture.detectChanges();
+
+      const rows = rowClasses(fixture);
+      expect(rows[0]).toContain('ready-0');
+      expect(rows[1]).toContain('draft-1');
+    });
+
+    it('supports the array form', () => {
+      const fixture = createClassHookFixture();
+      fixture.componentInstance.rowClass.set(() => ['a', 'b']);
+      fixture.detectChanges();
+
+      expect(rowClasses(fixture)[0]).toEqual(expect.arrayContaining(['a', 'b']));
+    });
+
+    it('supports the object form and only applies truthy keys', () => {
+      const fixture = createClassHookFixture();
+      fixture.componentInstance.rowClass.set((row) => ({
+        'is-draft': row.status === 'Draft',
+        'is-ready': row.status === 'Ready',
+      }));
+      fixture.detectChanges();
+
+      const rows = rowClasses(fixture);
+      expect(rows[0]).toContain('is-ready');
+      expect(rows[0]).not.toContain('is-draft');
+      expect(rows[1]).toContain('is-draft');
+      expect(rows[1]).not.toContain('is-ready');
+    });
+
+    it('reacts to predicate changes', () => {
+      const fixture = createClassHookFixture();
+      fixture.componentInstance.rowClass.set(() => 'first');
+      fixture.detectChanges();
+      expect(rowClasses(fixture)[0]).toContain('first');
+
+      fixture.componentInstance.rowClass.set(() => 'second');
+      fixture.detectChanges();
+      const updated = rowClasses(fixture)[0];
+      expect(updated).toContain('second');
+      expect(updated).not.toContain('first');
+    });
+
+    it('keeps the primitive row slot attribute intact alongside custom classes', () => {
+      const fixture = createClassHookFixture();
+      fixture.componentInstance.rowClass.set(() => 'row-base');
+      fixture.detectChanges();
+
+      const row = query<HTMLTableRowElement>(fixture, 'tbody tr');
+      expect(row.getAttribute('data-slot')).toBe('table-row');
+      expect(row.classList.contains('row-base')).toBe(true);
+    });
+  });
+
+  describe('cellClass', () => {
+    it('applies a static class to the configured column only and preserves the base cell class', () => {
+      const fixture = createClassHookFixture();
+
+      const totalCell = query<HTMLTableCellElement>(fixture, 'td[data-column-id="total"]');
+      expect(totalCell.classList.contains('tng-table__cell')).toBe(true);
+      expect(totalCell.classList.contains('money-cell')).toBe(true);
+
+      const nameCell = query<HTMLTableCellElement>(fixture, 'td[data-column-id="name"]');
+      expect(nameCell.classList.contains('money-cell')).toBe(false);
+      expect(nameCell.classList.contains('tng-table__cell')).toBe(true);
+    });
+
+    it('passes row, value, and index into the predicate form', () => {
+      const fixture = createClassHookFixture();
+      fixture.componentInstance.cellClass.set((_row, value, index) =>
+        Number(value) > 10 ? `high-${index}` : `low-${index}`,
+      );
+      fixture.detectChanges();
+
+      const cells = queryAll<HTMLTableCellElement>(fixture, 'td[data-column-id="total"]');
+      expect(cells[0].classList.contains('high-0')).toBe(true);
+      expect(cells[1].classList.contains('low-1')).toBe(true);
+    });
+
+    it('supports multi-class strings on a single column', () => {
+      const fixture = createClassHookFixture();
+      fixture.componentInstance.cellClass.set('a b');
+      fixture.detectChanges();
+
+      const totalCell = query<HTMLTableCellElement>(fixture, 'td[data-column-id="total"]');
+      expect(totalCell.classList.contains('a')).toBe(true);
+      expect(totalCell.classList.contains('b')).toBe(true);
+    });
+
+    it('supports the object form on a single column', () => {
+      const fixture = createClassHookFixture();
+      fixture.componentInstance.cellClass.set({ negative: false, positive: true });
+      fixture.detectChanges();
+
+      const totalCell = query<HTMLTableCellElement>(fixture, 'td[data-column-id="total"]');
+      expect(totalCell.classList.contains('positive')).toBe(true);
+      expect(totalCell.classList.contains('negative')).toBe(false);
+    });
+  });
+
+  describe('headerClass', () => {
+    it('applies a class to the configured header cell while keeping the base header class', () => {
+      const fixture = createClassHookFixture();
+
+      const nameHeader = query<HTMLTableCellElement>(fixture, 'th[data-column-id="name"]');
+      expect(nameHeader.classList.contains('tng-table__header-cell')).toBe(true);
+      expect(nameHeader.classList.contains('name-head')).toBe(true);
+
+      const statusHeader = query<HTMLTableCellElement>(fixture, 'th[data-column-id="status"]');
+      expect(statusHeader.classList.contains('name-head')).toBe(false);
+    });
+
+    it('supports headerClass on group columns', () => {
+      @Component({
+        imports: [TngTableComponent],
+        template: `<tng-table [columns]="columns()" [items]="[]"></tng-table>`,
+      })
+      class GroupHeaderClassHost {
+        public readonly columns = signal<readonly TngTableColumn<{ a: string }>[]>([
+          {
+            id: 'group',
+            label: 'Group',
+            headerClass: 'group-head',
+            children: [{ id: 'a', label: 'A' }],
+          },
+        ]);
+      }
+
+      const fixture = TestBed.configureTestingModule({
+        imports: [GroupHeaderClassHost],
+      }).createComponent(GroupHeaderClassHost);
+      fixture.detectChanges();
+
+      const groupHeader = query<HTMLTableCellElement>(fixture, 'th[data-column-id="group"]');
+      expect(groupHeader.classList.contains('group-head')).toBe(true);
+      expect(groupHeader.classList.contains('tng-table__header-cell')).toBe(true);
+    });
+  });
+});
+
+describe('tng-table row/cell/header style hooks', () => {
+  describe('rowStyle', () => {
+    it('applies custom properties to body rows for component-scoped row styling', () => {
+      const fixture = createClassHookFixture();
+      fixture.componentInstance.rowStyle.set((row) =>
+        row.status === 'Draft' ? { '--tng-table-row-bg': 'rgb(255, 230, 230)' } : null,
+      );
+      fixture.detectChanges();
+
+      const rows = queryAll<HTMLTableRowElement>(fixture, 'tbody tr');
+      expect(rows[0]?.style.getPropertyValue('--tng-table-row-bg')).toBe('');
+      expect(rows[1]?.style.getPropertyValue('--tng-table-row-bg')).toBe('rgb(255, 230, 230)');
+    });
+
+    it('updates row styles when the predicate changes', () => {
+      const fixture = createClassHookFixture();
+      fixture.componentInstance.rowStyle.set(() => ({ '--tng-table-row-bg': 'red' }));
+      fixture.detectChanges();
+
+      const row = query<HTMLTableRowElement>(fixture, 'tbody tr');
+      expect(row.style.getPropertyValue('--tng-table-row-bg')).toBe('red');
+
+      fixture.componentInstance.rowStyle.set(() => ({ '--tng-table-row-bg': 'blue' }));
+      fixture.detectChanges();
+
+      expect(row.style.getPropertyValue('--tng-table-row-bg')).toBe('blue');
+    });
+  });
+
+  describe('cellStyle', () => {
+    it('applies a static style object to the configured column only', () => {
+      const fixture = createClassHookFixture();
+      fixture.componentInstance.cellStyle.set({ color: 'rgb(180, 35, 24)', 'font-weight': 650 });
+      fixture.detectChanges();
+
+      const totalCell = query<HTMLTableCellElement>(fixture, 'td[data-column-id="total"]');
+      expect(totalCell.style.color).toBe('rgb(180, 35, 24)');
+      expect(totalCell.style.fontWeight).toBe('650');
+
+      const nameCell = query<HTMLTableCellElement>(fixture, 'td[data-column-id="name"]');
+      expect(nameCell.style.color).toBe('');
+      expect(nameCell.style.fontWeight).toBe('');
+    });
+
+    it('passes row, value, and index into the predicate form', () => {
+      const fixture = createClassHookFixture();
+      fixture.componentInstance.cellStyle.set((row, value, index) =>
+        row.status === 'Draft' && Number(value) === 7 && index === 1
+          ? { color: 'rgb(180, 35, 24)' }
+          : null,
+      );
+      fixture.detectChanges();
+
+      const cells = queryAll<HTMLTableCellElement>(fixture, 'td[data-column-id="total"]');
+      expect(cells[0]?.style.color).toBe('');
+      expect(cells[1]?.style.color).toBe('rgb(180, 35, 24)');
+    });
+  });
+
+  describe('headerStyle', () => {
+    it('applies a style object to the configured header cell', () => {
+      const fixture = createClassHookFixture();
+      fixture.componentInstance.headerStyle.set({ color: 'rgb(20, 83, 45)' });
+      fixture.detectChanges();
+
+      const nameHeader = query<HTMLTableCellElement>(fixture, 'th[data-column-id="name"]');
+      expect(nameHeader.style.color).toBe('rgb(20, 83, 45)');
+
+      const statusHeader = query<HTMLTableCellElement>(fixture, 'th[data-column-id="status"]');
+      expect(statusHeader.style.color).toBe('');
+    });
+
+    it('supports headerStyle on group columns', () => {
+      @Component({
+        imports: [TngTableComponent],
+        template: `<tng-table [columns]="columns()" [items]="[]"></tng-table>`,
+      })
+      class GroupHeaderStyleHost {
+        public readonly columns = signal<readonly TngTableColumn<{ a: string }>[]>([
+          {
+            id: 'group',
+            label: 'Group',
+            headerStyle: { color: 'rgb(20, 83, 45)' },
+            children: [{ id: 'a', label: 'A' }],
+          },
+        ]);
+      }
+
+      const fixture = TestBed.configureTestingModule({
+        imports: [GroupHeaderStyleHost],
+      }).createComponent(GroupHeaderStyleHost);
+      fixture.detectChanges();
+
+      const groupHeader = query<HTMLTableCellElement>(fixture, 'th[data-column-id="group"]');
+      expect(groupHeader.style.color).toBe('rgb(20, 83, 45)');
+    });
+  });
+});
+
+describe('tng-table grouped row styling hooks', () => {
+  it('annotates body rows with data-group-position based on the primary group', () => {
+    const fixture = createGroupedBodyFixture();
+
+    const positions = queryAll<HTMLTableRowElement>(fixture, 'tbody tr').map((tr) =>
+      tr.getAttribute('data-group-position'),
+    );
+    // Engineering x3, Sales x2, HR x1.
+    expect(positions).toEqual(['first', 'middle', 'last', 'first', 'last', 'single']);
+  });
+
+  it('omits data-group-position when no column is grouped', () => {
+    const fixture = createFixture();
+    for (const tr of queryAll<HTMLTableRowElement>(fixture, 'tbody tr')) {
+      expect(tr.hasAttribute('data-group-position')).toBe(false);
+    }
+  });
+
+  it('defaults hover mode to row and reflects the group hover mode attribute', () => {
+    const fixture = createGroupedBodyFixture();
+    expect(query<HTMLTableElement>(fixture, 'table').getAttribute('data-hover-mode')).toBe('row');
   });
 });

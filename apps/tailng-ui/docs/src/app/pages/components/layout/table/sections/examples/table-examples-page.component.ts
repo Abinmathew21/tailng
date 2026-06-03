@@ -394,7 +394,7 @@ const groupByTableTs = [
 
 const groupByPlainHtml = [
   '<section class="table-card group-by-demo">',
-  '  <tng-table ariaLabel="Departments" [columns]="columns" [items]="rows" density="compact">',
+  '  <tng-table ariaLabel="Departments" hoverMode="group" [columns]="columns" [items]="rows" density="compact">',
   '    <ng-template tngTableCellTemplate="department" let-value let-groupSize="groupSize">',
   '      <span class="department-group">',
   '        <strong>{{ value }}</strong>',
@@ -434,7 +434,7 @@ const groupByPlainCss = [
 
 const groupByTailwindHtml = [
   '<section class="rounded-xl border border-tng-border-subtle bg-tng-bg-surface p-4">',
-  '  <tng-table ariaLabel="Departments" [columns]="columns" [items]="rows" density="compact">',
+  '  <tng-table ariaLabel="Departments" hoverMode="group" [columns]="columns" [items]="rows" density="compact">',
   '    <ng-template tngTableCellTemplate="department" let-value let-groupSize="groupSize">',
   '      <span class="grid gap-0.5">',
   '        <strong>{{ value }}</strong>',
@@ -442,6 +442,89 @@ const groupByTailwindHtml = [
   '      </span>',
   '    </ng-template>',
   '  </tng-table>',
+  '</section>',
+  '',
+].join('\n');
+
+const classHookTableTs = [
+  "import { Component } from '@angular/core';",
+  "import { TngTableComponent, type TngTableColumn } from '@tailng-ui/components';",
+  '',
+  'type AccountRow = Readonly<{ owner: string; plan: string; seats: number; health: string }>;',
+  '',
+  '@Component({',
+  "  selector: 'app-account-class-table',",
+  '  standalone: true,',
+  '  imports: [TngTableComponent],',
+  "  templateUrl: './account-class-table.component.html',",
+  "  styleUrl: './account-class-table.component.css',",
+  '})',
+  'export class AccountClassTableComponent {',
+  '  // Per-row style hook: return inline styles, CSS variables, or null.',
+  '  protected readonly rowStyle = (row: AccountRow) =>',
+  "    row.health === 'At risk'",
+  "      ? { '--tng-table-row-bg': 'var(--account-risk-row-bg)' }",
+  '      : null;',
+  '',
+  '  protected readonly columns: readonly TngTableColumn<AccountRow>[] = [',
+  "    { id: 'owner', label: 'Owner' },",
+  "    { id: 'plan', label: 'Plan' },",
+  '    {',
+  "      id: 'seats',",
+  "      label: 'Seats',",
+  "      align: 'end',",
+  '      // Per-cell style hook receives (row, value, index).',
+  "      cellStyle: (_row, value) =>",
+  "        Number(value) < 20 ? { color: 'var(--account-low-seat-color)', fontWeight: 650 } : null,",
+  '    },',
+  "    { id: 'health', label: 'Health' },",
+  '  ];',
+  '',
+  '  protected readonly rows: readonly AccountRow[] = [',
+  "    { owner: 'Ava Mathews', plan: 'Enterprise', seats: 82, health: 'Healthy' },",
+  "    { owner: 'Mina Lee', plan: 'Growth', seats: 28, health: 'Needs review' },",
+  "    { owner: 'Omar Aziz', plan: 'Starter', seats: 9, health: 'At risk' },",
+  '  ];',
+  '}',
+].join('\n');
+
+const classHookPlainHtml = [
+  '<section class="table-card account-style-table">',
+  '  <tng-table',
+  '    ariaLabel="Accounts"',
+  '    density="compact"',
+  '    [columns]="columns"',
+  '    [items]="rows"',
+  '    [rowStyle]="rowStyle"',
+  '  />',
+  '</section>',
+  '',
+].join('\n');
+
+const classHookPlainCss = [
+  '.account-style-table {',
+  '  --account-risk-row-bg: color-mix(',
+  '    in srgb,',
+  '    var(--tng-semantic-accent-danger) 12%,',
+  '    var(--tng-semantic-background-surface)',
+  '  );',
+  '  --account-low-seat-color: var(--tng-semantic-accent-danger);',
+  '}',
+].join('\n');
+
+const classHookTailwindTs = classHookTableTs
+  .replace("'var(--account-risk-row-bg)'", "'rgb(254 242 242)'")
+  .replace("'var(--account-low-seat-color)'", "'rgb(220 38 38)'");
+
+const classHookTailwindHtml = [
+  '<section class="rounded-xl border border-tng-border-subtle bg-tng-bg-surface p-4">',
+  '  <tng-table',
+  '    ariaLabel="Accounts"',
+  '    density="compact"',
+  '    [columns]="columns"',
+  '    [items]="rows"',
+  '    [rowStyle]="rowStyle"',
+  '  />',
   '</section>',
   '',
 ].join('\n');
@@ -623,7 +706,7 @@ const groupByTailwindHtml = [
         id="grouped-body-rows"
         class="table-doc__block"
         heading="Grouped body rows"
-        description="Mark a leaf column with groupBy to merge consecutive equal values into native rowspan cells. Keep the incoming rows sorted by the grouped column so each group is contiguous."
+        description="Mark a leaf column with groupBy to merge consecutive equal values into native rowspan cells. Keep the incoming rows sorted by the grouped column so each group is contiguous. Set hoverMode=&quot;group&quot; so hovering any row highlights the whole merged group instead of a single physical row."
         ariaLabel="Grouped body row variants"
         tabListAriaLabel="Grouped body row style tabs"
         defaultValue="plain-css"
@@ -639,6 +722,7 @@ const groupByTailwindHtml = [
           <section class="table-demo-shell group-by-demo">
             <tng-table
               ariaLabel="Departments"
+              hoverMode="group"
               [columns]="departmentColumns"
               [items]="departmentRows"
               density="compact"
@@ -663,6 +747,7 @@ const groupByTailwindHtml = [
           <section class="rounded-xl border border-tng-border-subtle bg-tng-bg-surface p-4">
             <tng-table
               ariaLabel="Departments"
+              hoverMode="group"
               [columns]="departmentColumns"
               [items]="departmentRows"
               density="compact"
@@ -674,6 +759,55 @@ const groupByTailwindHtml = [
                 </span>
               </ng-template>
             </tng-table>
+          </section>
+        </ng-template>
+      </app-docs-example-tabs-section>
+
+      <app-docs-example-tabs-section
+        id="conditional-row-and-cell-classes"
+        class="table-doc__block"
+        heading="Conditional row and cell styling"
+        description="Style specific rows and cells with the rowStyle input and column cellStyle hook. These apply inline styles and CSS custom properties to the table's internal elements, so component CSS variables can drive the result without global selectors."
+        ariaLabel="Conditional styling table variants"
+        tabListAriaLabel="Conditional styling table style tabs"
+        defaultValue="plain-css"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <ng-template
+          appDocsExampleVariant
+          value="plain-css"
+          label="Plain-CSS"
+          panelTitle="Conditional styles (Plain CSS)"
+          [codeTabs]="classHookPlainCodeTabs"
+        >
+          <section class="table-demo-shell class-hook-demo">
+            <tng-table
+              ariaLabel="Accounts"
+              density="compact"
+              [columns]="classHookColumns"
+              [items]="rows"
+              [rowStyle]="classHookRowStyle"
+            />
+          </section>
+        </ng-template>
+
+        <ng-template
+          appDocsExampleVariant
+          value="tailwind-css"
+          label="Tailwind CSS"
+          panelTitle="Conditional styles (Tailwind CSS)"
+          [codeTabs]="classHookTailwindCodeTabs"
+        >
+          <section class="rounded-xl border border-tng-border-subtle bg-tng-bg-surface p-4">
+            <section class="class-hook-demo">
+              <tng-table
+                ariaLabel="Accounts"
+                density="compact"
+                [columns]="classHookColumns"
+                [items]="rows"
+                [rowStyle]="classHookRowStyle"
+              />
+            </section>
           </section>
         </ng-template>
       </app-docs-example-tabs-section>
@@ -756,6 +890,15 @@ const groupByTailwindHtml = [
           var(--tng-semantic-background-base) 18%
         );
       }
+
+      .class-hook-demo {
+        --account-risk-row-bg: color-mix(
+          in srgb,
+          var(--tng-semantic-accent-danger) 12%,
+          var(--tng-semantic-background-surface)
+        );
+        --account-low-seat-color: var(--tng-semantic-accent-danger);
+      }
     `,
   ],
 })
@@ -818,11 +961,43 @@ export class TableExamplesPageComponent implements OnDestroy {
     groupByTailwindHtml,
     '/* Tailwind utilities are applied directly in the template. */',
   );
+  protected readonly classHookPlainCodeTabs = createCodeTabs(
+    'account-class-table-plain-css',
+    classHookTableTs,
+    classHookPlainHtml,
+    classHookPlainCss,
+  );
+  protected readonly classHookTailwindCodeTabs = createCodeTabs(
+    'account-class-table-tailwind',
+    classHookTailwindTs,
+    classHookTailwindHtml,
+    '/* Styles are returned by rowStyle / cellStyle. */',
+  );
 
   protected readonly columns: readonly TngTableColumn<AccountRow>[] = [
     { id: 'owner', label: 'Owner', sortable: true },
     { id: 'plan', label: 'Plan', sortable: true },
     { id: 'seats', label: 'Seats', align: 'end', sortable: true },
+    { id: 'health', label: 'Health' },
+  ];
+
+  protected readonly classHookRowStyle = (row: AccountRow) =>
+    row.health === 'At risk'
+      ? { '--tng-table-row-bg': 'var(--account-risk-row-bg)' }
+      : null;
+
+  protected readonly classHookColumns: readonly TngTableColumn<AccountRow>[] = [
+    { id: 'owner', label: 'Owner' },
+    { id: 'plan', label: 'Plan' },
+    {
+      id: 'seats',
+      label: 'Seats',
+      align: 'end',
+      cellStyle: (_row, value) =>
+        Number(value) < 20
+          ? { color: 'var(--account-low-seat-color)', fontWeight: 650 }
+          : null,
+    },
     { id: 'health', label: 'Health' },
   ];
 

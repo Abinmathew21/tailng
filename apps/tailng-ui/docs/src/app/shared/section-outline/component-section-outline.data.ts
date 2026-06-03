@@ -203,15 +203,18 @@ export const docsComponentOutlineItemsBySlug: Readonly<
     api: [
       { id: 'component-wrapper', label: 'Component wrapper' },
       { id: 'inputs', label: 'Inputs' },
+      { id: 'class-hooks', label: 'Styling hooks' },
       { id: 'outputs-and-templates', label: 'Outputs and templates' },
     ],
     styling: [
       { id: 'state-and-slot-hooks', label: 'State and slot hooks' },
+      { id: 'row-and-cell-classes', label: 'Row and cell styling' },
       { id: 'css-starter', label: 'CSS starter' },
     ],
     examples: [
       { id: 'sortable-account-table', label: 'Sortable account table' },
       { id: 'custom-cell-template', label: 'Custom cell template' },
+      { id: 'conditional-row-and-cell-classes', label: 'Conditional row and cell styling' },
     ],
     'ownable-install': [
       { id: 'install-from-registry', label: 'Install from registry' },

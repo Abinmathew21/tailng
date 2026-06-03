@@ -9,6 +9,7 @@
     tngTableSort
     class="tng-table"
     [attr.data-density]="density()"
+    [attr.data-hover-mode]="hoverMode()"
     [ariaLabel]="ariaLabel()"
     [ariaLabelledby]="ariaLabelledby()"
     [dir]="dir()"
@@ -22,6 +23,7 @@
     [tngTableSortDirection]="sortDirection()"
     [tngTableSortDisableClear]="sortDisableClear()"
     (sortChange)="onSortChange($event)"
+    (mouseleave)="onTablePointerLeave()"
   >
     <colgroup>
       @for (column of leafColumns; track column.id) {
@@ -39,6 +41,8 @@
                 tngSortHeader
                 class="tng-table__header-cell"
                 scope="col"
+                [class]="resolveHeaderClass(node)"
+                [ngStyle]="resolveHeaderStyle(node)"
                 [attr.data-align]="getHeaderAlign(node)"
                 [attr.data-header-group]="node.isGroup ? '' : null"
                 [attr.data-header-depth]="node.depth"
@@ -62,6 +66,8 @@
                 tngTableHeaderCell
                 class="tng-table__header-cell"
                 [attr.scope]="node.isGroup ? 'colgroup' : 'col'"
+                [class]="resolveHeaderClass(node)"
+                [ngStyle]="resolveHeaderStyle(node)"
                 [attr.data-align]="getHeaderAlign(node)"
                 [attr.data-header-group]="node.isGroup ? '' : null"
                 [attr.data-header-depth]="node.depth"
@@ -102,13 +108,23 @@
         </tr>
       } @else {
         @for (row of items(); track getRowId(row, $index); let rowIndex = $index) {
-          <tr tngTableRow [tngTableRowId]="getRowId(row, rowIndex)">
+          <tr
+            tngTableRow
+            [tngTableRowId]="getRowId(row, rowIndex)"
+            [class]="resolveRowClass(row, rowIndex)"
+            [ngStyle]="resolveRowStyle(row, rowIndex)"
+            [attr.data-group-hover]="isRowGroupHovered(rowIndex) ? '' : null"
+            [attr.data-group-position]="getRowGroupPosition(rowIndex)"
+            (mouseenter)="onRowPointerEnter(rowIndex)"
+          >
             @for (column of leafColumns; track column.id) {
               @if (getBodyCellSpan(rowIndex, column.id); as span) {
                 @if (span.render) {
                   <td
                     tngTableCell
                     class="tng-table__cell"
+                    [class]="resolveCellClass(column, row, rowIndex)"
+                    [ngStyle]="resolveCellStyle(column, row, rowIndex)"
                     [attr.data-align]="getCellAlign(column)"
                     [attr.data-group-align]="getGroupByAlign(column, span)"
                     [attr.data-group-leader]="span.isGroupLeader ? '' : null"
