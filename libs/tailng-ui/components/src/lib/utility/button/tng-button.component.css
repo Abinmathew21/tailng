@@ -67,6 +67,30 @@
   color: var(--tng-semantic-foreground-primary);
 }
 
+.tng-button[data-appearance='solid'][data-tone='primary']:not(:disabled):not([data-disabled]):hover {
+  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 85%, black);
+}
+
+.tng-button[data-appearance='solid'][data-tone='danger']:not(:disabled):not([data-disabled]):hover {
+  background: color-mix(in srgb, var(--tng-semantic-accent-danger) 85%, black);
+}
+
+.tng-button[data-appearance='solid'][data-tone='success']:not(:disabled):not([data-disabled]):hover {
+  background: color-mix(in srgb, var(--tng-semantic-accent-success) 85%, black);
+}
+
+.tng-button[data-appearance='solid'][data-tone='neutral']:not(:disabled):not([data-disabled]):hover {
+  background: var(--tng-semantic-background-muted);
+}
+
+.tng-button[data-appearance='outline']:not(:disabled):not([data-disabled]):hover {
+  background: var(--tng-semantic-background-muted);
+}
+
+.tng-button[data-appearance='ghost']:not(:disabled):not([data-disabled]):hover {
+  background: var(--tng-semantic-background-muted);
+}
+
 .tng-button:focus-visible {
   box-shadow: 0 0 0 3px var(--tng-semantic-focus-ring);
   outline: none;
