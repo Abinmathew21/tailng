@@ -54,6 +54,21 @@
   gap: 0.35rem;
 }
 
+/* Group header cells (colspan > 1) get a slightly deeper background tint
+   to visually separate them from the leaf header row below. */
+.tng-tree-table__header-cell[data-header-group] {
+  background: var(
+    --tng-tree-table-group-header-bg,
+    color-mix(
+      in srgb,
+      var(--tng-semantic-background-surface) 70%,
+      var(--tng-semantic-background-base) 30%
+    )
+  );
+  border-bottom: 1px solid var(--tng-tree-table-border, var(--tng-semantic-border-subtle));
+  text-align: center;
+}
+
 /* ── Body cell (shared) ────────────────────────────────────────────────────── */
 
 .tng-tree-table__cell {

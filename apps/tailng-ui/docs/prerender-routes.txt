@@ -178,6 +178,11 @@
 /components/layout/table/overview
 /components/layout/table/ownable-install
 /components/layout/table/styling
+/components/layout/tree-table
+/components/layout/tree-table/api
+/components/layout/tree-table/examples
+/components/layout/tree-table/overview
+/components/layout/tree-table/styling
 /components/navigation/breadcrumb
 /components/navigation/breadcrumb/api
 /components/navigation/breadcrumb/examples

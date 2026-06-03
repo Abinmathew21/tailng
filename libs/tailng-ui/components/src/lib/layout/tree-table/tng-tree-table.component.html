@@ -7,27 +7,36 @@
     [attr.data-loading]="loading() ? '' : null"
     [attr.data-empty]="!loading() && data().length === 0 ? '' : null"
   >
+    <!-- Column widths — driven by leaf columns only -->
     <colgroup>
-      @for (column of columns(); track trackByColumnKey($index, column)) {
+      @for (column of leafColumns; track trackByColumnKey($index, column)) {
         <col [style.width]="getColumnWidth(column)" />
       }
     </colgroup>
 
+    <!-- Header — supports multi-row headers for group columns -->
     <thead class="tng-tree-table__thead">
-      <tr class="tng-tree-table__header-row">
-        @for (column of columns(); track trackByColumnKey($index, column)) {
-          <th
-            class="tng-tree-table__header-cell"
-            scope="col"
-            [class]="resolveHeaderClass(column)"
-            [attr.data-align]="getCellAlign(column)"
-          >
-            <span class="tng-tree-table__header-label">{{ column.label }}</span>
-          </th>
-        }
-      </tr>
+      @for (row of headerRows; track $index) {
+        <tr class="tng-tree-table__header-row">
+          @for (node of row; track trackByNodeKey($index, node)) {
+            <th
+              class="tng-tree-table__header-cell"
+              [attr.scope]="node.isGroup ? 'colgroup' : 'col'"
+              [class]="resolveHeaderClass(node)"
+              [ngStyle]="resolveHeaderStyle(node)"
+              [attr.data-align]="getHeaderAlign(node)"
+              [attr.data-header-group]="node.isGroup ? '' : null"
+              [attr.colspan]="node.colspan > 1 ? node.colspan : null"
+              [attr.rowspan]="node.rowspan > 1 ? node.rowspan : null"
+            >
+              <span class="tng-tree-table__header-label">{{ node.label }}</span>
+            </th>
+          }
+        </tr>
+      }
     </thead>
 
+    <!-- Body -->
     <tbody class="tng-tree-table__tbody">
       @if (loading()) {
         <tr class="tng-tree-table__loading-row">
@@ -56,18 +65,21 @@
             [attr.data-expanded]="flatRow.expanded ? '' : null"
             [attr.data-selected]="flatRow.selected ? '' : null"
             [attr.data-disabled]="flatRow.disabled ? '' : null"
+            [class]="resolveRowClass(flatRow)"
+            [ngStyle]="resolveRowStyle(flatRow)"
             (click)="onRowClick(flatRow, $event)"
             (keydown)="onRowKeydown(flatRow, $event, rowIndex)"
           >
-            @for (column of columns(); track trackByColumnKey($index, column)) {
+            @for (column of leafColumns; track trackByColumnKey($index, column)) {
               @if (isTreeColumn(column)) {
+                <!-- Tree cell: indent + toggle/placeholder + content -->
                 <td
                   class="tng-tree-table__cell tng-tree-table__tree-cell"
                   role="gridcell"
                   [class]="resolveCellClass(column, flatRow.row)"
+                  [ngStyle]="resolveCellStyle(column, flatRow.row)"
                   [attr.data-align]="getCellAlign(column)"
                 >
-                  <!-- Indent spacer -->
                   <span
                     class="tng-tree-table__indent"
                     aria-hidden="true"
@@ -76,7 +88,6 @@
                     [style.flex-shrink]="'0'"
                   ></span>
 
-                  <!-- Expand/collapse toggle or placeholder spacer -->
                   @if (flatRow.expandable) {
                     <button
                       class="tng-tree-table__toggle"
@@ -90,26 +101,28 @@
                       </span>
                     </button>
                   } @else {
-                    <!-- placeholder keeps alignment when row is not expandable -->
                     <span
                       class="tng-tree-table__toggle-placeholder"
                       aria-hidden="true"
                     ></span>
                   }
 
-                  <!-- Cell content -->
                   <span class="tng-tree-table__cell-content">
                     {{ getCellText(flatRow.row, column, rowIndex) }}
                   </span>
                 </td>
               } @else {
+                <!-- Regular data cell -->
                 <td
                   class="tng-tree-table__cell"
                   role="gridcell"
                   [class]="resolveCellClass(column, flatRow.row)"
+                  [ngStyle]="resolveCellStyle(column, flatRow.row)"
                   [attr.data-align]="getCellAlign(column)"
                 >
-                  {{ getCellText(flatRow.row, column, rowIndex) }}
+                  <span class="tng-tree-table__cell-content">
+                    {{ getCellText(flatRow.row, column, rowIndex) }}
+                  </span>
                 </td>
               }
             }

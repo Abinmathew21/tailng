@@ -1,0 +1,542 @@
+<article class="tree-table-doc">
+  <h2 class="tree-table-doc__title">Examples</h2>
+  <p class="tree-table-doc__lead">
+    Copy-pasteable tree table examples. Each demo is interactive — click the toggle buttons or
+    press ArrowRight/Left on any row.
+  </p>
+
+  <!-- 1. Basic -->
+  <app-docs-example-tabs-section
+    id="basic-tree-table"
+    class="tree-table-doc__block"
+    heading="Basic tree table"
+    description="Click the expand button or press ArrowRight on a parent row to reveal children."
+    ariaLabel="Basic tree table variants"
+    tabListAriaLabel="Basic tree table style tabs"
+    defaultValue="plain-css"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+      panelTitle="Basic tree table"
+      [codeTabs]="basicCodeTabs"
+    >
+      <div class="tree-demo-shell">
+        <tng-tree-table
+          ariaLabel="Accounts"
+          [columns]="accountColumns"
+          [data]="accountData"
+          [getKey]="getAccountKey"
+          [getChildren]="getAccountChildren"
+          [expandedKeys]="basicExpandedKeys()"
+          (expandedKeysChange)="basicExpandedKeys.set($event)"
+        />
+      </div>
+    </ng-template>
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Basic tree table (Tailwind)"
+      [codeTabs]="basicCodeTabs"
+    >
+      <tng-tree-table
+        ariaLabel="Accounts"
+        class="[--tng-tree-table-radius:0.75rem] [--tng-tree-table-cell-px:1rem]"
+        [columns]="accountColumns"
+        [data]="accountData"
+        [getKey]="getAccountKey"
+        [getChildren]="getAccountChildren"
+        [expandedKeys]="basicExpandedKeys()"
+        (expandedKeysChange)="basicExpandedKeys.set($event)"
+      />
+    </ng-template>
+  </app-docs-example-tabs-section>
+
+  <!-- 2. Controlled expanded keys -->
+  <app-docs-example-tabs-section
+    id="controlled-expanded-keys"
+    class="tree-table-doc__block"
+    heading="Controlled expanded keys"
+    description="Drive expansion from outside using a signal. The component never mutates the input array."
+    ariaLabel="Controlled expanded keys variants"
+    tabListAriaLabel="Controlled expanded keys style tabs"
+    defaultValue="plain-css"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+      panelTitle="Controlled expansion"
+      [codeTabs]="controlledCodeTabs"
+    >
+      <div class="tree-demo-shell">
+        <div class="tree-demo-toolbar">
+          <button class="tree-demo-btn" (click)="toggleAllAccounts()">
+            {{ controlledExpandedKeys().length > 0 ? 'Collapse all' : 'Expand all' }}
+          </button>
+        </div>
+        <tng-tree-table
+          ariaLabel="Accounts"
+          [columns]="accountColumns"
+          [data]="accountData"
+          [getKey]="getAccountKey"
+          [getChildren]="getAccountChildren"
+          [expandedKeys]="controlledExpandedKeys()"
+          (expandedKeysChange)="controlledExpandedKeys.set($event)"
+        />
+      </div>
+    </ng-template>
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Controlled expansion (Tailwind)"
+      [codeTabs]="controlledCodeTabs"
+    >
+      <div class="flex flex-col gap-2">
+        <button
+          class="self-start rounded-md border border-tng-border-subtle px-3 py-1.5 text-sm"
+          (click)="toggleAllAccounts()"
+        >
+          {{ controlledExpandedKeys().length > 0 ? 'Collapse all' : 'Expand all' }}
+        </button>
+        <tng-tree-table
+          ariaLabel="Accounts"
+          class="[--tng-tree-table-radius:0.75rem] [--tng-tree-table-cell-px:1rem]"
+          [columns]="accountColumns"
+          [data]="accountData"
+          [getKey]="getAccountKey"
+          [getChildren]="getAccountChildren"
+          [expandedKeys]="controlledExpandedKeys()"
+          (expandedKeysChange)="controlledExpandedKeys.set($event)"
+        />
+      </div>
+    </ng-template>
+  </app-docs-example-tabs-section>
+
+  <!-- 3. Selectable rows -->
+  <app-docs-example-tabs-section
+    id="selectable-rows"
+    class="tree-table-doc__block"
+    heading="Selectable rows"
+    description="Enable selectable to allow Space-key and programmatic row selection. Selected keys are controlled."
+    ariaLabel="Selectable rows variants"
+    tabListAriaLabel="Selectable rows style tabs"
+    defaultValue="plain-css"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+      panelTitle="Selectable rows"
+      [codeTabs]="selectableCodeTabs"
+    >
+      <div class="tree-demo-shell">
+        <p class="tree-demo-status">Selected: {{ selectedKeys().join(', ') || 'none' }}</p>
+        <tng-tree-table
+          ariaLabel="Accounts"
+          selectable
+          [columns]="accountColumns"
+          [data]="accountData"
+          [getKey]="getAccountKey"
+          [getChildren]="getAccountChildren"
+          [expandedKeys]="selectableExpandedKeys()"
+          [selectedKeys]="selectedKeys()"
+          (expandedKeysChange)="selectableExpandedKeys.set($event)"
+          (selectedKeysChange)="selectedKeys.set($event)"
+        />
+      </div>
+    </ng-template>
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Selectable rows (Tailwind)"
+      [codeTabs]="selectableCodeTabs"
+    >
+      <div class="flex flex-col gap-2">
+        <p class="text-sm text-tng-fg-secondary">
+          Selected: {{ selectedKeys().join(', ') || 'none' }}
+        </p>
+        <tng-tree-table
+          ariaLabel="Accounts"
+          selectable
+          class="[--tng-tree-table-radius:0.75rem] [--tng-tree-table-cell-px:1rem]"
+          [columns]="accountColumns"
+          [data]="accountData"
+          [getKey]="getAccountKey"
+          [getChildren]="getAccountChildren"
+          [expandedKeys]="selectableExpandedKeys()"
+          [selectedKeys]="selectedKeys()"
+          (expandedKeysChange)="selectableExpandedKeys.set($event)"
+          (selectedKeysChange)="selectedKeys.set($event)"
+        />
+      </div>
+    </ng-template>
+  </app-docs-example-tabs-section>
+
+  <!-- 4. Loading state -->
+  <app-docs-example-tabs-section
+    id="loading-state"
+    class="tree-table-doc__block"
+    heading="Loading state"
+    description="Set loading to show a full-width row. Loading takes priority over the empty state."
+    ariaLabel="Loading state variants"
+    tabListAriaLabel="Loading state style tabs"
+    defaultValue="plain-css"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+      panelTitle="Loading state"
+      [codeTabs]="loadingCodeTabs"
+    >
+      <div class="tree-demo-shell">
+        <tng-tree-table
+          ariaLabel="Accounts"
+          loadingText="Fetching accounts…"
+          [loading]="true"
+          [columns]="accountColumns"
+          [data]="[]"
+          [getKey]="getAccountKey"
+          [getChildren]="getAccountChildren"
+        />
+      </div>
+    </ng-template>
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Loading state (Tailwind)"
+      [codeTabs]="loadingCodeTabs"
+    >
+      <tng-tree-table
+        ariaLabel="Accounts"
+        loadingText="Fetching accounts…"
+        class="[--tng-tree-table-radius:0.75rem]"
+        [loading]="true"
+        [columns]="accountColumns"
+        [data]="[]"
+        [getKey]="getAccountKey"
+        [getChildren]="getAccountChildren"
+      />
+    </ng-template>
+  </app-docs-example-tabs-section>
+
+  <!-- 5. Empty state -->
+  <app-docs-example-tabs-section
+    id="empty-state"
+    class="tree-table-doc__block"
+    heading="Empty state"
+    description="When data is an empty array (and loading is false), the empty row is displayed."
+    ariaLabel="Empty state variants"
+    tabListAriaLabel="Empty state style tabs"
+    defaultValue="plain-css"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+      panelTitle="Empty state"
+      [codeTabs]="emptyCodeTabs"
+    >
+      <div class="tree-demo-shell">
+        <tng-tree-table
+          ariaLabel="Accounts"
+          emptyText="No accounts match your filter"
+          [columns]="accountColumns"
+          [data]="[]"
+          [getKey]="getAccountKey"
+          [getChildren]="getAccountChildren"
+        />
+      </div>
+    </ng-template>
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Empty state (Tailwind)"
+      [codeTabs]="emptyCodeTabs"
+    >
+      <tng-tree-table
+        ariaLabel="Accounts"
+        emptyText="No accounts match your filter"
+        class="[--tng-tree-table-radius:0.75rem]"
+        [columns]="accountColumns"
+        [data]="[]"
+        [getKey]="getAccountKey"
+        [getChildren]="getAccountChildren"
+      />
+    </ng-template>
+  </app-docs-example-tabs-section>
+
+  <!-- 6. Custom tree column -->
+  <app-docs-example-tabs-section
+    id="custom-tree-column"
+    class="tree-table-doc__block"
+    heading="Custom tree column"
+    description="Use treeColumnKey to pick the tree column by id when no column has treeToggle: true. Adjust indentSize for tighter or wider hierarchies."
+    ariaLabel="Custom tree column variants"
+    tabListAriaLabel="Custom tree column style tabs"
+    defaultValue="plain-css"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+      panelTitle="Custom tree column"
+      [codeTabs]="customTreeColCodeTabs"
+    >
+      <div class="tree-demo-shell">
+        <tng-tree-table
+          ariaLabel="Files"
+          treeColumnKey="name"
+          [indentSize]="16"
+          [columns]="fileColumns"
+          [data]="fileData"
+          [getKey]="getFileKey"
+          [getChildren]="getFileChildren"
+          [expandedKeys]="fileExpandedKeys()"
+          (expandedKeysChange)="fileExpandedKeys.set($event)"
+        />
+      </div>
+    </ng-template>
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Custom tree column (Tailwind)"
+      [codeTabs]="customTreeColCodeTabs"
+    >
+      <tng-tree-table
+        ariaLabel="Files"
+        treeColumnKey="name"
+        class="[--tng-tree-table-radius:0.75rem]"
+        [indentSize]="16"
+        [columns]="fileColumns"
+        [data]="fileData"
+        [getKey]="getFileKey"
+        [getChildren]="getFileChildren"
+        [expandedKeys]="fileExpandedKeys()"
+        (expandedKeysChange)="fileExpandedKeys.set($event)"
+      />
+    </ng-template>
+  </app-docs-example-tabs-section>
+
+  <!-- 7. rowClass / rowStyle -->
+  <app-docs-example-tabs-section
+    id="row-class-and-style"
+    class="tree-table-doc__block"
+    heading="Row class and style"
+    description="rowStyle paints the row background via a CSS custom property; rowClass adds utility classes driven by the row data or nesting level."
+    ariaLabel="Row class and style variants"
+    tabListAriaLabel="Row class and style tabs"
+    defaultValue="plain-css"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+      panelTitle="Row class and style"
+      [codeTabs]="rowStyleCodeTabs"
+    >
+      <div class="tree-demo-shell row-style-demo">
+        <tng-tree-table
+          ariaLabel="Accounts"
+          [columns]="accountColumns"
+          [data]="stylingData"
+          [getKey]="getAccountKey"
+          [getChildren]="getAccountChildren"
+          [expandedKeys]="rowStyleExpandedKeys()"
+          [rowStyle]="rowStyleFn"
+          [rowClass]="rowClassFn"
+          (expandedKeysChange)="rowStyleExpandedKeys.set($event)"
+        />
+      </div>
+    </ng-template>
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Row class and style (Tailwind)"
+      [codeTabs]="rowStyleCodeTabs"
+    >
+      <div class="row-style-demo">
+        <tng-tree-table
+          ariaLabel="Accounts"
+          class="[--tng-tree-table-radius:0.75rem] [--tng-tree-table-cell-px:1rem]"
+          [columns]="accountColumns"
+          [data]="stylingData"
+          [getKey]="getAccountKey"
+          [getChildren]="getAccountChildren"
+          [expandedKeys]="rowStyleExpandedKeys()"
+          [rowStyle]="rowStyleFn"
+          [rowClass]="rowClassFn"
+          (expandedKeysChange)="rowStyleExpandedKeys.set($event)"
+        />
+      </div>
+    </ng-template>
+  </app-docs-example-tabs-section>
+
+  <!-- 8. cellClass / cellStyle -->
+  <app-docs-example-tabs-section
+    id="cell-class-and-style"
+    class="tree-table-doc__block"
+    heading="Cell class and style"
+    description="cellClass adds classes to individual body cells; cellStyle applies inline styles. Both are column-level hooks and can be a static value or a per-row function."
+    ariaLabel="Cell class and style variants"
+    tabListAriaLabel="Cell class and style tabs"
+    defaultValue="plain-css"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+      panelTitle="Cell class and style"
+      [codeTabs]="cellStyleCodeTabs"
+    >
+      <div class="tree-demo-shell cell-style-demo">
+        <tng-tree-table
+          ariaLabel="Accounts"
+          [columns]="cellStyledColumns"
+          [data]="stylingData"
+          [getKey]="getAccountKey"
+          [getChildren]="getAccountChildren"
+          [expandedKeys]="cellStyleExpandedKeys()"
+          (expandedKeysChange)="cellStyleExpandedKeys.set($event)"
+        />
+      </div>
+    </ng-template>
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Cell class and style (Tailwind)"
+      [codeTabs]="cellStyleCodeTabs"
+    >
+      <div class="cell-style-demo">
+        <tng-tree-table
+          ariaLabel="Accounts"
+          class="[--tng-tree-table-radius:0.75rem] [--tng-tree-table-cell-px:1rem]"
+          [columns]="cellStyledColumns"
+          [data]="stylingData"
+          [getKey]="getAccountKey"
+          [getChildren]="getAccountChildren"
+          [expandedKeys]="cellStyleExpandedKeys()"
+          (expandedKeysChange)="cellStyleExpandedKeys.set($event)"
+        />
+      </div>
+    </ng-template>
+  </app-docs-example-tabs-section>
+
+  <!-- 9. headerClass / headerStyle -->
+  <app-docs-example-tabs-section
+    id="header-class-and-style"
+    class="tree-table-doc__block"
+    heading="Header class and style"
+    description="headerClass and headerStyle are column-level hooks for the header th. Use them to visually differentiate columns — emphasis, de-emphasis, or accent colours."
+    ariaLabel="Header class and style variants"
+    tabListAriaLabel="Header class and style tabs"
+    defaultValue="plain-css"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+      panelTitle="Header class and style"
+      [codeTabs]="headerStyleCodeTabs"
+    >
+      <div class="tree-demo-shell">
+        <tng-tree-table
+          ariaLabel="Accounts"
+          [columns]="headerStyledColumns"
+          [data]="accountData"
+          [getKey]="getAccountKey"
+          [getChildren]="getAccountChildren"
+          [expandedKeys]="headerStyleExpandedKeys()"
+          (expandedKeysChange)="headerStyleExpandedKeys.set($event)"
+        />
+      </div>
+    </ng-template>
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Header class and style (Tailwind)"
+      [codeTabs]="headerStyleCodeTabs"
+    >
+      <tng-tree-table
+        ariaLabel="Accounts"
+        class="[--tng-tree-table-radius:0.75rem] [--tng-tree-table-cell-px:1rem]"
+        [columns]="headerStyledColumns"
+        [data]="accountData"
+        [getKey]="getAccountKey"
+        [getChildren]="getAccountChildren"
+        [expandedKeys]="headerStyleExpandedKeys()"
+        (expandedKeysChange)="headerStyleExpandedKeys.set($event)"
+      />
+    </ng-template>
+  </app-docs-example-tabs-section>
+
+  <!-- 10. Group header columns -->
+  <app-docs-example-tabs-section
+    id="group-header-columns"
+    class="tree-table-doc__block"
+    heading="Group header columns"
+    description="A group column produces only a spanning header cell; leaf children produce body cells. Hidden leaves are removed, and labels can fall back to their key."
+    ariaLabel="Group header column variants"
+    tabListAriaLabel="Group header column tabs"
+    defaultValue="plain-css"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+      panelTitle="Group header columns"
+      [codeTabs]="groupHeaderCodeTabs"
+    >
+      <div class="tree-demo-shell group-header-demo">
+        <tng-tree-table
+          ariaLabel="Accounts"
+          [columns]="groupHeaderColumns"
+          [data]="accountData"
+          [getKey]="getAccountKey"
+          [getChildren]="getAccountChildren"
+          [expandedKeys]="groupHeaderExpandedKeys()"
+          (expandedKeysChange)="groupHeaderExpandedKeys.set($event)"
+        />
+      </div>
+    </ng-template>
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Group header columns (Tailwind)"
+      [codeTabs]="groupHeaderCodeTabs"
+    >
+      <tng-tree-table
+        ariaLabel="Accounts"
+        class="group-header-demo [--tng-tree-table-radius:0.75rem] [--tng-tree-table-cell-px:1rem]"
+        [columns]="groupHeaderColumns"
+        [data]="accountData"
+        [getKey]="getAccountKey"
+        [getChildren]="getAccountChildren"
+        [expandedKeys]="groupHeaderExpandedKeys()"
+        (expandedKeysChange)="groupHeaderExpandedKeys.set($event)"
+      />
+    </ng-template>
+  </app-docs-example-tabs-section>
+</article>

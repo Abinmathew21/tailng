@@ -160,6 +160,14 @@ describe('TngTreeTableComponent', () => {
       expect(nameCell?.textContent).toContain('Assets');
     });
 
+    it('should wrap regular cell text in cell content span', () => {
+      const rows = getRows(fixture);
+      const firstCells = rows[0]!.querySelectorAll('.tng-tree-table__cell');
+      const typeCell = firstCells[1];
+      const content = typeCell?.querySelector('.tng-tree-table__cell-content');
+      expect(content?.textContent).toContain('Group');
+    });
+
     it('should render tree toggle button for expandable rows', () => {
       const rows = getRows(fixture);
       const btn = getToggleButton(rows[0]!);

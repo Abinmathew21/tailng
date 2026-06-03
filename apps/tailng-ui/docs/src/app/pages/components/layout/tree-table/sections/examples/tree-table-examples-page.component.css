@@ -1,0 +1,124 @@
+:host {
+  display: block;
+}
+
+.tree-table-doc {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.tree-table-doc__title {
+  font-size: clamp(1.45rem, 1.05rem + 1.3vw, 1.95rem);
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.tree-table-doc__lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+  max-width: 72ch;
+}
+
+.tree-table-doc__block,
+.tree-demo-shell {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 1rem;
+  padding: 1rem;
+}
+
+.tree-demo-toolbar {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.tree-demo-btn {
+  background: transparent;
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.375rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+  padding: 0.375rem 0.75rem;
+}
+
+.tree-demo-btn:hover {
+  background: color-mix(
+    in srgb,
+    var(--tng-semantic-foreground-primary) 6%,
+    var(--tng-semantic-background-surface)
+  );
+}
+
+.tree-demo-status {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.8125rem;
+  margin: 0 0 0.5rem;
+}
+
+/* ── Demo 7: rowStyle / rowClass ── */
+.row-style-demo {
+  --row-risk-bg: color-mix(
+    in srgb,
+    var(--tng-semantic-accent-danger) 10%,
+    var(--tng-semantic-background-surface)
+  );
+}
+
+.row-style-demo ::ng-deep .is-group-row {
+  font-weight: 650;
+}
+
+/* ── Demo 8: cellClass / cellStyle ── */
+.cell-style-demo {
+  --cell-danger-fg: var(--tng-semantic-accent-danger);
+}
+
+.cell-style-demo ::ng-deep .type-pill .tng-tree-table__cell-content {
+  border-radius: 999px;
+  display: inline-flex;
+  flex: 0 0 auto;
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 0.125rem 0.5rem;
+}
+
+.cell-style-demo ::ng-deep .type-pill--group .tng-tree-table__cell-content {
+  background: color-mix(in srgb, var(--tng-semantic-accent-info) 12%, transparent);
+  color: var(--tng-semantic-accent-info);
+}
+
+.cell-style-demo ::ng-deep .type-pill--leaf .tng-tree-table__cell-content {
+  background: color-mix(
+    in srgb,
+    var(--tng-semantic-foreground-primary) 8%,
+    transparent
+  );
+  color: var(--tng-semantic-foreground-secondary);
+}
+
+/* ── Demo 9: headerClass / headerStyle ── */
+::ng-deep .col-header--primary {
+  color: var(--tng-semantic-foreground-primary) !important;
+  font-weight: 700;
+}
+
+::ng-deep .col-header--muted {
+  color: var(--tng-semantic-foreground-secondary);
+  font-weight: 500;
+}
+
+/* ── Demo 10: grouped header columns ── */
+.group-header-demo {
+  --tng-tree-table-group-header-bg: color-mix(
+    in srgb,
+    var(--tng-semantic-accent-info) 8%,
+    var(--tng-semantic-background-surface)
+  );
+}
+
+:host ::ng-deep .group-col-header {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}

@@ -1,6 +1,11 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, inject, signal, type OnDestroy } from '@angular/core';
-import { TngTreeTableComponent, type TngTreeTableColumn } from '@tailng-ui/components';
+import {
+  TngTreeTableComponent,
+  type TngTreeTableColumn,
+  type TngTreeTableFlatRow,
+  type TngTreeTableStyleInput,
+} from '@tailng-ui/components';
 import type { TngTreeTableKey } from '@tailng-ui/primitives';
 import type { DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
 import {
@@ -13,6 +18,7 @@ import {
 } from '../../../../../../shared/util';
 
 // ── Shared types ──────────────────────────────────────────────────────────────
+
 type AccountRow = {
   id: string;
   name: string;
@@ -30,6 +36,7 @@ type FileRow = {
 };
 
 // ── Code-tab factory ──────────────────────────────────────────────────────────
+
 function createCodeTabs(
   baseName: string,
   tsCode: string,
@@ -55,7 +62,17 @@ function createCodeTabs(
   ]);
 }
 
+// ── Shared CSS ────────────────────────────────────────────────────────────────
+
+const sharedCss = [
+  'tng-tree-table {',
+  '  --tng-tree-table-radius: 0.75rem;',
+  '  --tng-tree-table-cell-px: 1rem;',
+  '}',
+].join('\n');
+
 // ── 1. Basic tree table ───────────────────────────────────────────────────────
+
 const basicTs = [
   "import { Component } from '@angular/core';",
   "import { TngTreeTableComponent, type TngTreeTableColumn } from '@tailng-ui/components';",
@@ -63,19 +80,19 @@ const basicTs = [
   '',
   'type AccountRow = { id: string; name: string; type: string; balance: number; children?: AccountRow[] };',
   '',
-  '@Component({ selector: \'app-basic-tree-table\', standalone: true, imports: [TngTreeTableComponent] })',
+  "@Component({ selector: 'app-basic-tree-table', standalone: true, imports: [TngTreeTableComponent] })",
   'export class BasicTreeTableComponent {',
   '  protected expandedKeys: readonly TngTreeTableKey[] = [];',
-  '  protected readonly columns: readonly TngTreeTableColumn<AccountRow>[] = [',
-  '    { key: \'name\', label: \'Account\', treeToggle: true, accessor: r => r.name },',
-  '    { key: \'type\', label: \'Type\', accessor: r => r.type },',
-  '    { key: \'balance\', label: \'Balance\', align: \'end\', accessor: r => r.balance },',
+  "  protected readonly columns: readonly TngTreeTableColumn<AccountRow>[] = [",
+  "    { key: 'name', label: 'Account', treeToggle: true, accessor: r => r.name },",
+  "    { key: 'type', label: 'Type', accessor: r => r.type },",
+  "    { key: 'balance', label: 'Balance', align: 'end', accessor: r => r.balance },",
   '  ];',
   '  protected readonly data: readonly AccountRow[] = [',
-  '    { id: \'assets\', name: \'Assets\', type: \'Group\', balance: 10000, children: [',
-  '      { id: \'cash\', name: \'Cash\', type: \'Ledger\', balance: 3000 },',
+  "    { id: 'assets', name: 'Assets', type: 'Group', balance: 10000, children: [",
+  "      { id: 'cash', name: 'Cash', type: 'Ledger', balance: 3000 },",
   '    ]},',
-  '    { id: \'liab\', name: \'Liabilities\', type: \'Group\', balance: 4000 },',
+  "    { id: 'liab', name: 'Liabilities', type: 'Group', balance: 4000 },",
   '  ];',
   '  protected readonly getKey = (row: AccountRow) => row.id;',
   '  protected readonly getChildren = (row: AccountRow) => row.children;',
@@ -94,14 +111,8 @@ const basicHtml = [
   '/>',
 ].join('\n');
 
-const sharedCss = [
-  'tng-tree-table {',
-  '  --tng-tree-table-radius: 0.75rem;',
-  '  --tng-tree-table-cell-px: 1rem;',
-  '}',
-].join('\n');
-
 // ── 2. Controlled expanded keys ───────────────────────────────────────────────
+
 const controlledTs = [
   "import { Component, signal } from '@angular/core';",
   "import { TngTreeTableComponent, type TngTreeTableColumn } from '@tailng-ui/components';",
@@ -109,16 +120,12 @@ const controlledTs = [
   '',
   'type AccountRow = { id: string; name: string; type: string; balance: number; children?: AccountRow[] };',
   '',
-  '@Component({ selector: \'app-controlled-tree-table\', standalone: true, imports: [TngTreeTableComponent] })',
+  "@Component({ selector: 'app-controlled-tree-table', standalone: true, imports: [TngTreeTableComponent] })",
   'export class ControlledTreeTableComponent {',
-  '  protected readonly expandedKeys = signal<readonly TngTreeTableKey[]>([\'assets\']);',
-  '  protected readonly columns: readonly TngTreeTableColumn<AccountRow>[] = [',
-  '    { key: \'name\', label: \'Account\', treeToggle: true, accessor: r => r.name },',
-  '    { key: \'type\', label: \'Type\', accessor: r => r.type },',
-  '  ];',
-  '  // ... data, getKey, getChildren same as basic example',
+  "  protected readonly expandedKeys = signal<readonly TngTreeTableKey[]>(['assets']);",
+  '  // ... columns, data, getKey, getChildren same as basic example',
   '  protected toggleAll(): void {',
-  '    this.expandedKeys.set(this.expandedKeys().length > 0 ? [] : [\'assets\', \'liab\']);',
+  "    this.expandedKeys.set(this.expandedKeys().length > 0 ? [] : ['assets', 'liab']);",
   '  }',
   '}',
 ].join('\n');
@@ -137,12 +144,13 @@ const controlledHtml = [
 ].join('\n');
 
 // ── 3. Selectable rows ────────────────────────────────────────────────────────
+
 const selectableTs = [
   "import { Component, signal } from '@angular/core';",
   "import { TngTreeTableComponent, type TngTreeTableColumn } from '@tailng-ui/components';",
   "import type { TngTreeTableKey } from '@tailng-ui/primitives';",
   '',
-  '@Component({ selector: \'app-selectable-tree-table\', standalone: true, imports: [TngTreeTableComponent] })',
+  "@Component({ selector: 'app-selectable-tree-table', standalone: true, imports: [TngTreeTableComponent] })",
   'export class SelectableTreeTableComponent {',
   '  protected readonly expandedKeys = signal<readonly TngTreeTableKey[]>([]);',
   '  protected readonly selectedKeys = signal<readonly TngTreeTableKey[]>([]);',
@@ -166,25 +174,12 @@ const selectableHtml = [
 ].join('\n');
 
 // ── 4. Loading state ──────────────────────────────────────────────────────────
-const loadingTs = [
-  "import { Component, signal } from '@angular/core';",
-  "import { TngTreeTableComponent, type TngTreeTableColumn } from '@tailng-ui/components';",
-  '',
-  '@Component({ selector: \'app-loading-tree-table\', standalone: true, imports: [TngTreeTableComponent] })',
-  'export class LoadingTreeTableComponent {',
-  '  protected readonly loading = signal(true);',
-  '  protected readonly columns = [',
-  '    { key: \'name\', label: \'Account\', treeToggle: true },',
-  '    { key: \'balance\', label: \'Balance\', align: \'end\' as const },',
-  '  ];',
-  '}',
-].join('\n');
 
 const loadingHtml = [
   '<tng-tree-table',
   '  ariaLabel="Accounts"',
   '  loadingText="Fetching accounts…"',
-  '  [loading]="loading()"',
+  '  [loading]="true"',
   '  [columns]="columns"',
   '  [data]="[]"',
   '  [getKey]="r => r.id"',
@@ -193,23 +188,11 @@ const loadingHtml = [
 ].join('\n');
 
 // ── 5. Empty state ────────────────────────────────────────────────────────────
-const emptyTs = [
-  "import { Component } from '@angular/core';",
-  "import { TngTreeTableComponent, type TngTreeTableColumn } from '@tailng-ui/components';",
-  '',
-  '@Component({ selector: \'app-empty-tree-table\', standalone: true, imports: [TngTreeTableComponent] })',
-  'export class EmptyTreeTableComponent {',
-  '  protected readonly columns = [',
-  '    { key: \'name\', label: \'Account\', treeToggle: true },',
-  '    { key: \'balance\', label: \'Balance\', align: \'end\' as const },',
-  '  ];',
-  '}',
-].join('\n');
 
 const emptyHtml = [
   '<tng-tree-table',
   '  ariaLabel="Accounts"',
-  '  emptyText="No accounts found"',
+  '  emptyText="No accounts match your filter"',
   '  [columns]="columns"',
   '  [data]="[]"',
   '  [getKey]="r => r.id"',
@@ -218,26 +201,6 @@ const emptyHtml = [
 ].join('\n');
 
 // ── 6. Custom tree column ─────────────────────────────────────────────────────
-const customTreeColTs = [
-  "import { Component, signal } from '@angular/core';",
-  "import { TngTreeTableComponent, type TngTreeTableColumn } from '@tailng-ui/components';",
-  "import type { TngTreeTableKey } from '@tailng-ui/primitives';",
-  '',
-  'type FileRow = { id: string; name: string; size: string; modified: string; children?: FileRow[] };',
-  '',
-  '@Component({ selector: \'app-file-tree-table\', standalone: true, imports: [TngTreeTableComponent] })',
-  'export class FileTreeTableComponent {',
-  '  protected readonly expandedKeys = signal<readonly TngTreeTableKey[]>([]);',
-  '  protected readonly columns: readonly TngTreeTableColumn<FileRow>[] = [',
-  '    // treeColumnKey=\'name\' on the component selects the tree column when treeToggle is not set',
-  '    { key: \'name\', label: \'Name\', accessor: r => r.name },',
-  '    { key: \'size\', label: \'Size\', align: \'end\', accessor: r => r.size },',
-  '    { key: \'modified\', label: \'Modified\', accessor: r => r.modified },',
-  '  ];',
-  '  protected readonly getKey = (row: FileRow) => row.id;',
-  '  protected readonly getChildren = (row: FileRow) => row.children;',
-  '}',
-].join('\n');
 
 const customTreeColHtml = [
   '<tng-tree-table',
@@ -253,408 +216,267 @@ const customTreeColHtml = [
   '/>',
 ].join('\n');
 
+// ── 7. rowClass / rowStyle ────────────────────────────────────────────────────
+
+const rowStyleTs = [
+  "import { Component, signal } from '@angular/core';",
+  "import {",
+  "  TngTreeTableComponent,",
+  "  type TngTreeTableColumn,",
+  "  type TngTreeTableFlatRow,",
+  "} from '@tailng-ui/components';",
+  "import type { TngTreeTableKey } from '@tailng-ui/primitives';",
+  '',
+  'type AccountRow = { id: string; name: string; type: string; balance: number; children?: AccountRow[] };',
+  '',
+  "@Component({ selector: 'app-row-style-table', standalone: true, imports: [TngTreeTableComponent] })",
+  'export class RowStyleTableComponent {',
+  '  protected readonly expandedKeys = signal<readonly TngTreeTableKey[]>([]);',
+  '  protected readonly columns: readonly TngTreeTableColumn<AccountRow>[] = [',
+  "    { key: 'name', label: 'Account', treeToggle: true, accessor: r => r.name },",
+  "    { key: 'type', label: 'Type', accessor: r => r.type },",
+  "    { key: 'balance', label: 'Balance', align: 'end', accessor: r => r.balance.toLocaleString() },",
+  '  ];',
+  '  // ... data, getKey, getChildren same as basic example',
+  '',
+  '  // rowStyle: paint the row background via a CSS custom property.',
+  '  // rowClass: receives flatRow so it can style by level, expansion, or selection.',
+  '  protected readonly rowStyleFn = (row: AccountRow) =>',
+  "    row.balance < 0 ? { '--tng-tree-table-row-bg': 'var(--row-risk-bg)' } : null;",
+  '',
+  '  protected readonly rowClassFn = (',
+  '    _row: AccountRow,',
+  '    flatRow: TngTreeTableFlatRow<AccountRow>,',
+  '  ) => flatRow.level === 0 ? \'is-group-row\' : null;',
+  '}',
+].join('\n');
+
+const rowStyleHtml = [
+  '<tng-tree-table',
+  '  ariaLabel="Accounts"',
+  '  [columns]="columns"',
+  '  [data]="data"',
+  '  [getKey]="getKey"',
+  '  [getChildren]="getChildren"',
+  '  [expandedKeys]="expandedKeys()"',
+  '  [rowStyle]="rowStyleFn"',
+  '  [rowClass]="rowClassFn"',
+  '  (expandedKeysChange)="expandedKeys.set($event)"',
+  '/>',
+].join('\n');
+
+const rowStyleCss = [
+  '.row-style-demo {',
+  '  /* Danger tint for negative-balance rows */',
+  '  --row-risk-bg: color-mix(',
+  '    in srgb,',
+  '    var(--tng-semantic-accent-danger) 10%,',
+  '    var(--tng-semantic-background-surface)',
+  '  );',
+  '}',
+  '',
+  '/* Bold text for root-level group rows */',
+  '.row-style-demo ::ng-deep .is-group-row {',
+  '  font-weight: 650;',
+  '}',
+].join('\n');
+
+// ── 8. cellClass / cellStyle ──────────────────────────────────────────────────
+
+const cellStyleTs = [
+  "import { Component, signal } from '@angular/core';",
+  "import { TngTreeTableComponent, type TngTreeTableColumn } from '@tailng-ui/components';",
+  "import type { TngTreeTableKey } from '@tailng-ui/primitives';",
+  '',
+  'type AccountRow = { id: string; name: string; type: string; balance: number; children?: AccountRow[] };',
+  '',
+  "@Component({ selector: 'app-cell-style-table', standalone: true, imports: [TngTreeTableComponent] })",
+  'export class CellStyleTableComponent {',
+  '  protected readonly expandedKeys = signal<readonly TngTreeTableKey[]>([]);',
+  '  protected readonly columns: readonly TngTreeTableColumn<AccountRow>[] = [',
+  "    { key: 'name', label: 'Account', treeToggle: true, accessor: r => r.name },",
+  '    {',
+  "      key: 'type',",
+  "      label: 'Type',",
+  '      accessor: r => r.type,',
+  '      // cellClass: add badge classes based on the type value',
+  '      cellClass: (row) =>',
+  "        row.type === 'Group' ? 'type-pill type-pill--group' : 'type-pill type-pill--leaf',",
+  '    },',
+  '    {',
+  "      key: 'balance',",
+  "      label: 'Balance',",
+  "      align: 'end',",
+  '      accessor: r => r.balance.toLocaleString(),',
+  '      // cellStyle: color negative values with a danger token',
+  "      cellStyle: (row) => row.balance < 0 ? { color: 'var(--cell-danger-fg)', fontWeight: 650 } : null,",
+  '    },',
+  '  ];',
+  '  // ... data, getKey, getChildren same as basic example',
+  '}',
+].join('\n');
+
+const cellStyleHtml = [
+  '<tng-tree-table',
+  '  ariaLabel="Accounts"',
+  '  [columns]="columns"',
+  '  [data]="data"',
+  '  [getKey]="getKey"',
+  '  [getChildren]="getChildren"',
+  '  [expandedKeys]="expandedKeys()"',
+  '  (expandedKeysChange)="expandedKeys.set($event)"',
+  '/>',
+].join('\n');
+
+const cellStyleCss = [
+  '.cell-style-demo {',
+  '  --cell-danger-fg: var(--tng-semantic-accent-danger);',
+  '}',
+  '',
+  '.cell-style-demo ::ng-deep .type-pill .tng-tree-table__cell-content {',
+  '  border-radius: 999px;',
+  '  display: inline-flex;',
+  '  flex: 0 0 auto;',
+  '  font-size: 0.75rem;',
+  '  font-weight: 500;',
+  '  padding: 0.125rem 0.5rem;',
+  '}',
+  '',
+  '.cell-style-demo ::ng-deep .type-pill--group .tng-tree-table__cell-content {',
+  '  background: color-mix(in srgb, var(--tng-semantic-accent-info) 12%, transparent);',
+  '  color: var(--tng-semantic-accent-info);',
+  '}',
+  '',
+  '.cell-style-demo ::ng-deep .type-pill--leaf .tng-tree-table__cell-content {',
+  '  background: color-mix(in srgb, var(--tng-semantic-foreground-primary) 8%, transparent);',
+  '  color: var(--tng-semantic-foreground-secondary);',
+  '}',
+].join('\n');
+
+// ── 9. headerClass / headerStyle ──────────────────────────────────────────────
+
+const headerStyleTs = [
+  "import { Component, signal } from '@angular/core';",
+  "import { TngTreeTableComponent, type TngTreeTableColumn } from '@tailng-ui/components';",
+  "import type { TngTreeTableKey } from '@tailng-ui/primitives';",
+  '',
+  'type AccountRow = { id: string; name: string; type: string; balance: number; children?: AccountRow[] };',
+  '',
+  "@Component({ selector: 'app-header-style-table', standalone: true, imports: [TngTreeTableComponent] })",
+  'export class HeaderStyleTableComponent {',
+  '  protected readonly expandedKeys = signal<readonly TngTreeTableKey[]>([]);',
+  '  protected readonly columns: readonly TngTreeTableColumn<AccountRow>[] = [',
+  '    {',
+  "      key: 'name', label: 'Account', treeToggle: true, accessor: r => r.name,",
+  "      // headerClass: add a custom class to the header cell",
+  "      headerClass: 'col-header--primary',",
+  '    },',
+  '    {',
+  "      key: 'type', label: 'Type', accessor: r => r.type,",
+  "      // headerClass: visually de-emphasise the metadata column",
+  "      headerClass: 'col-header--muted',",
+  '    },',
+  '    {',
+  "      key: 'balance', label: 'Balance', align: 'end', accessor: r => r.balance.toLocaleString(),",
+  '      // headerStyle: inline style — accent color for the financial column',
+  "      headerStyle: { color: 'var(--tng-semantic-accent-info)', fontWeight: 700 },",
+  '    },',
+  '  ];',
+  '  // ... data, getKey, getChildren same as basic example',
+  '}',
+].join('\n');
+
+const headerStyleHtml = [
+  '<tng-tree-table',
+  '  ariaLabel="Accounts"',
+  '  [columns]="columns"',
+  '  [data]="data"',
+  '  [getKey]="getKey"',
+  '  [getChildren]="getChildren"',
+  '  [expandedKeys]="expandedKeys()"',
+  '  (expandedKeysChange)="expandedKeys.set($event)"',
+  '/>',
+].join('\n');
+
+const headerStyleCss = [
+  ':host ::ng-deep .col-header--primary {',
+  '  color: var(--tng-semantic-foreground-primary) !important;',
+  '  font-weight: 700;',
+  '}',
+  '',
+  ':host ::ng-deep .col-header--muted {',
+  '  color: var(--tng-semantic-foreground-tertiary, var(--tng-semantic-foreground-secondary));',
+  '  font-weight: 500;',
+  '}',
+].join('\n');
+
+// ── 10. Group header columns ──────────────────────────────────────────────────
+
+const groupHeaderTs = [
+  "import { Component, signal } from '@angular/core';",
+  "import { TngTreeTableComponent, type TngTreeTableColumn } from '@tailng-ui/components';",
+  "import type { TngTreeTableKey } from '@tailng-ui/primitives';",
+  '',
+  'type AccountRow = { id: string; name: string; type: string; balance: number; children?: AccountRow[] };',
+  '',
+  "@Component({ selector: 'app-group-header-tree-table', standalone: true, imports: [TngTreeTableComponent] })",
+  'export class GroupHeaderTreeTableComponent {',
+  '  protected readonly expandedKeys = signal<readonly TngTreeTableKey[]>([]);',
+  '  protected readonly columns: readonly TngTreeTableColumn<AccountRow>[] = [',
+  '    // Leaf column — hosts the tree toggle',
+  "    { key: 'name', label: 'Account', treeToggle: true, accessor: r => r.name },",
+  '    // Group column — produces a colspan header; no body cells',
+  '    {',
+  "      key: 'financial',",
+  "      label: 'Financial',",
+  "      headerClass: 'group-col-header',",
+  "      headerStyle: { color: 'var(--tng-semantic-accent-info)' },",
+  '      children: [',
+  "        { key: 'type', label: 'Type', accessor: r => r.type },",
+  "        { key: 'balance', align: 'end', accessor: r => r.balance.toLocaleString() },",
+  "        { key: 'internalMemo', label: 'Internal memo', hidden: true },",
+  '      ],',
+  '    },',
+  '  ];',
+  '  // ... data, getKey, getChildren same as basic example',
+  '}',
+].join('\n');
+
+const groupHeaderHtml = [
+  '<tng-tree-table',
+  '  ariaLabel="Accounts"',
+  '  [columns]="columns"',
+  '  [data]="data"',
+  '  [getKey]="getKey"',
+  '  [getChildren]="getChildren"',
+  '  [expandedKeys]="expandedKeys()"',
+  '  (expandedKeysChange)="expandedKeys.set($event)"',
+  '/>',
+].join('\n');
+
+const groupHeaderCss = [
+  'tng-tree-table {',
+  '  --tng-tree-table-group-header-bg: color-mix(',
+  '    in srgb,',
+  '    var(--tng-semantic-accent-info) 8%,',
+  '    var(--tng-semantic-background-surface)',
+  '  );',
+  '}',
+  '',
+  ':host ::ng-deep .group-col-header {',
+  '  font-weight: 700;',
+  '  font-size: 0.7rem;',
+  '  text-transform: uppercase;',
+  '}',
+].join('\n');
+
+// ── Component ─────────────────────────────────────────────────────────────────
+
 @Component({
   selector: 'app-tree-table-examples-page',
   imports: [TngTreeTableComponent, DocsExampleTabsSectionComponent, DocsExampleVariantDirective],
-  template: `
-    <article class="tree-table-doc">
-      <h2 class="tree-table-doc__title">Examples</h2>
-      <p class="tree-table-doc__lead">
-        Copy-pasteable tree table examples. Each demo is interactive — click the toggle buttons or
-        press ArrowRight/Left on any row.
-      </p>
-
-      <!-- 1. Basic -->
-      <app-docs-example-tabs-section
-        id="basic-tree-table"
-        class="tree-table-doc__block"
-        heading="Basic tree table"
-        description="Click the expand button or press ArrowRight on a parent row to reveal children."
-        ariaLabel="Basic tree table variants"
-        tabListAriaLabel="Basic tree table style tabs"
-        defaultValue="plain-css"
-        [codeBlockTheme]="codeBlockTheme()"
-      >
-        <ng-template
-          appDocsExampleVariant
-          value="plain-css"
-          label="Plain-CSS"
-          panelTitle="Basic tree table"
-          [codeTabs]="basicCodeTabs"
-        >
-          <div class="tree-demo-shell">
-            <tng-tree-table
-              ariaLabel="Accounts"
-              [columns]="accountColumns"
-              [data]="accountData"
-              [getKey]="getAccountKey"
-              [getChildren]="getAccountChildren"
-              [expandedKeys]="basicExpandedKeys()"
-              (expandedKeysChange)="basicExpandedKeys.set($event)"
-            />
-          </div>
-        </ng-template>
-        <ng-template
-          appDocsExampleVariant
-          value="tailwind-css"
-          label="Tailwind CSS"
-          panelTitle="Basic tree table (Tailwind)"
-          [codeTabs]="basicCodeTabs"
-        >
-          <tng-tree-table
-            ariaLabel="Accounts"
-            class="[--tng-tree-table-radius:0.75rem] [--tng-tree-table-cell-px:1rem]"
-            [columns]="accountColumns"
-            [data]="accountData"
-            [getKey]="getAccountKey"
-            [getChildren]="getAccountChildren"
-            [expandedKeys]="basicExpandedKeys()"
-            (expandedKeysChange)="basicExpandedKeys.set($event)"
-          />
-        </ng-template>
-      </app-docs-example-tabs-section>
-
-      <!-- 2. Controlled expanded keys -->
-      <app-docs-example-tabs-section
-        id="controlled-expanded-keys"
-        class="tree-table-doc__block"
-        heading="Controlled expanded keys"
-        description="Drive expansion from outside using a signal. The component never mutates the input array."
-        ariaLabel="Controlled expanded keys variants"
-        tabListAriaLabel="Controlled expanded keys style tabs"
-        defaultValue="plain-css"
-        [codeBlockTheme]="codeBlockTheme()"
-      >
-        <ng-template
-          appDocsExampleVariant
-          value="plain-css"
-          label="Plain-CSS"
-          panelTitle="Controlled expansion"
-          [codeTabs]="controlledCodeTabs"
-        >
-          <div class="tree-demo-shell">
-            <div class="tree-demo-toolbar">
-              <button class="tree-demo-btn" (click)="toggleAllAccounts()">
-                {{ controlledExpandedKeys().length > 0 ? 'Collapse all' : 'Expand all' }}
-              </button>
-            </div>
-            <tng-tree-table
-              ariaLabel="Accounts"
-              [columns]="accountColumns"
-              [data]="accountData"
-              [getKey]="getAccountKey"
-              [getChildren]="getAccountChildren"
-              [expandedKeys]="controlledExpandedKeys()"
-              (expandedKeysChange)="controlledExpandedKeys.set($event)"
-            />
-          </div>
-        </ng-template>
-        <ng-template
-          appDocsExampleVariant
-          value="tailwind-css"
-          label="Tailwind CSS"
-          panelTitle="Controlled expansion (Tailwind)"
-          [codeTabs]="controlledCodeTabs"
-        >
-          <div class="flex flex-col gap-2">
-            <button
-              class="self-start rounded-md border border-tng-border-subtle px-3 py-1.5 text-sm"
-              (click)="toggleAllAccounts()"
-            >
-              {{ controlledExpandedKeys().length > 0 ? 'Collapse all' : 'Expand all' }}
-            </button>
-            <tng-tree-table
-              ariaLabel="Accounts"
-              class="[--tng-tree-table-radius:0.75rem] [--tng-tree-table-cell-px:1rem]"
-              [columns]="accountColumns"
-              [data]="accountData"
-              [getKey]="getAccountKey"
-              [getChildren]="getAccountChildren"
-              [expandedKeys]="controlledExpandedKeys()"
-              (expandedKeysChange)="controlledExpandedKeys.set($event)"
-            />
-          </div>
-        </ng-template>
-      </app-docs-example-tabs-section>
-
-      <!-- 3. Selectable rows -->
-      <app-docs-example-tabs-section
-        id="selectable-rows"
-        class="tree-table-doc__block"
-        heading="Selectable rows"
-        description="Enable selectable to allow Space-key and programmatic row selection. Selected keys are controlled — the component emits a new array."
-        ariaLabel="Selectable rows variants"
-        tabListAriaLabel="Selectable rows style tabs"
-        defaultValue="plain-css"
-        [codeBlockTheme]="codeBlockTheme()"
-      >
-        <ng-template
-          appDocsExampleVariant
-          value="plain-css"
-          label="Plain-CSS"
-          panelTitle="Selectable rows"
-          [codeTabs]="selectableCodeTabs"
-        >
-          <div class="tree-demo-shell">
-            <p class="tree-demo-status">
-              Selected: {{ selectedKeys().join(', ') || 'none' }}
-            </p>
-            <tng-tree-table
-              ariaLabel="Accounts"
-              selectable
-              [columns]="accountColumns"
-              [data]="accountData"
-              [getKey]="getAccountKey"
-              [getChildren]="getAccountChildren"
-              [expandedKeys]="selectableExpandedKeys()"
-              [selectedKeys]="selectedKeys()"
-              (expandedKeysChange)="selectableExpandedKeys.set($event)"
-              (selectedKeysChange)="selectedKeys.set($event)"
-            />
-          </div>
-        </ng-template>
-        <ng-template
-          appDocsExampleVariant
-          value="tailwind-css"
-          label="Tailwind CSS"
-          panelTitle="Selectable rows (Tailwind)"
-          [codeTabs]="selectableCodeTabs"
-        >
-          <div class="flex flex-col gap-2">
-            <p class="text-sm text-tng-fg-secondary">
-              Selected: {{ selectedKeys().join(', ') || 'none' }}
-            </p>
-            <tng-tree-table
-              ariaLabel="Accounts"
-              selectable
-              class="[--tng-tree-table-radius:0.75rem] [--tng-tree-table-cell-px:1rem]"
-              [columns]="accountColumns"
-              [data]="accountData"
-              [getKey]="getAccountKey"
-              [getChildren]="getAccountChildren"
-              [expandedKeys]="selectableExpandedKeys()"
-              [selectedKeys]="selectedKeys()"
-              (expandedKeysChange)="selectableExpandedKeys.set($event)"
-              (selectedKeysChange)="selectedKeys.set($event)"
-            />
-          </div>
-        </ng-template>
-      </app-docs-example-tabs-section>
-
-      <!-- 4. Loading state -->
-      <app-docs-example-tabs-section
-        id="loading-state"
-        class="tree-table-doc__block"
-        heading="Loading state"
-        description="Set loading to show a full-width row. Loading takes priority over the empty state."
-        ariaLabel="Loading state variants"
-        tabListAriaLabel="Loading state style tabs"
-        defaultValue="plain-css"
-        [codeBlockTheme]="codeBlockTheme()"
-      >
-        <ng-template
-          appDocsExampleVariant
-          value="plain-css"
-          label="Plain-CSS"
-          panelTitle="Loading state"
-          [codeTabs]="loadingCodeTabs"
-        >
-          <div class="tree-demo-shell">
-            <tng-tree-table
-              ariaLabel="Accounts"
-              loadingText="Fetching accounts…"
-              [loading]="true"
-              [columns]="accountColumns"
-              [data]="[]"
-              [getKey]="getAccountKey"
-              [getChildren]="getAccountChildren"
-            />
-          </div>
-        </ng-template>
-        <ng-template
-          appDocsExampleVariant
-          value="tailwind-css"
-          label="Tailwind CSS"
-          panelTitle="Loading state (Tailwind)"
-          [codeTabs]="loadingCodeTabs"
-        >
-          <tng-tree-table
-            ariaLabel="Accounts"
-            loadingText="Fetching accounts…"
-            class="[--tng-tree-table-radius:0.75rem]"
-            [loading]="true"
-            [columns]="accountColumns"
-            [data]="[]"
-            [getKey]="getAccountKey"
-            [getChildren]="getAccountChildren"
-          />
-        </ng-template>
-      </app-docs-example-tabs-section>
-
-      <!-- 5. Empty state -->
-      <app-docs-example-tabs-section
-        id="empty-state"
-        class="tree-table-doc__block"
-        heading="Empty state"
-        description="When data is an empty array (and loading is false), the empty row is displayed."
-        ariaLabel="Empty state variants"
-        tabListAriaLabel="Empty state style tabs"
-        defaultValue="plain-css"
-        [codeBlockTheme]="codeBlockTheme()"
-      >
-        <ng-template
-          appDocsExampleVariant
-          value="plain-css"
-          label="Plain-CSS"
-          panelTitle="Empty state"
-          [codeTabs]="emptyCodeTabs"
-        >
-          <div class="tree-demo-shell">
-            <tng-tree-table
-              ariaLabel="Accounts"
-              emptyText="No accounts match your filter"
-              [columns]="accountColumns"
-              [data]="[]"
-              [getKey]="getAccountKey"
-              [getChildren]="getAccountChildren"
-            />
-          </div>
-        </ng-template>
-        <ng-template
-          appDocsExampleVariant
-          value="tailwind-css"
-          label="Tailwind CSS"
-          panelTitle="Empty state (Tailwind)"
-          [codeTabs]="emptyCodeTabs"
-        >
-          <tng-tree-table
-            ariaLabel="Accounts"
-            emptyText="No accounts match your filter"
-            class="[--tng-tree-table-radius:0.75rem]"
-            [columns]="accountColumns"
-            [data]="[]"
-            [getKey]="getAccountKey"
-            [getChildren]="getAccountChildren"
-          />
-        </ng-template>
-      </app-docs-example-tabs-section>
-
-      <!-- 6. Custom tree column -->
-      <app-docs-example-tabs-section
-        id="custom-tree-column"
-        class="tree-table-doc__block"
-        heading="Custom tree column"
-        description="Use treeColumnKey to pick the tree column by id when no column has treeToggle: true. Adjust indentSize for tighter or wider hierarchies."
-        ariaLabel="Custom tree column variants"
-        tabListAriaLabel="Custom tree column style tabs"
-        defaultValue="plain-css"
-        [codeBlockTheme]="codeBlockTheme()"
-      >
-        <ng-template
-          appDocsExampleVariant
-          value="plain-css"
-          label="Plain-CSS"
-          panelTitle="Custom tree column"
-          [codeTabs]="customTreeColCodeTabs"
-        >
-          <div class="tree-demo-shell">
-            <tng-tree-table
-              ariaLabel="Files"
-              treeColumnKey="name"
-              [indentSize]="16"
-              [columns]="fileColumns"
-              [data]="fileData"
-              [getKey]="getFileKey"
-              [getChildren]="getFileChildren"
-              [expandedKeys]="fileExpandedKeys()"
-              (expandedKeysChange)="fileExpandedKeys.set($event)"
-            />
-          </div>
-        </ng-template>
-        <ng-template
-          appDocsExampleVariant
-          value="tailwind-css"
-          label="Tailwind CSS"
-          panelTitle="Custom tree column (Tailwind)"
-          [codeTabs]="customTreeColCodeTabs"
-        >
-          <tng-tree-table
-            ariaLabel="Files"
-            treeColumnKey="name"
-            class="[--tng-tree-table-radius:0.75rem]"
-            [indentSize]="16"
-            [columns]="fileColumns"
-            [data]="fileData"
-            [getKey]="getFileKey"
-            [getChildren]="getFileChildren"
-            [expandedKeys]="fileExpandedKeys()"
-            (expandedKeysChange)="fileExpandedKeys.set($event)"
-          />
-        </ng-template>
-      </app-docs-example-tabs-section>
-    </article>
-  `,
-  styles: [
-    `
-      :host {
-        display: block;
-      }
-
-      .tree-table-doc {
-        display: grid;
-        gap: 1.5rem;
-      }
-
-      .tree-table-doc__title {
-        font-size: clamp(1.45rem, 1.05rem + 1.3vw, 1.95rem);
-        font-weight: 700;
-        line-height: 1.2;
-        margin: 0;
-      }
-
-      .tree-table-doc__lead {
-        color: var(--tng-semantic-foreground-secondary);
-        margin: 0;
-        max-width: 72ch;
-      }
-
-      .tree-table-doc__block,
-      .tree-demo-shell {
-        border: 1px solid var(--tng-semantic-border-subtle);
-        border-radius: 1rem;
-        padding: 1rem;
-      }
-
-      .tree-demo-toolbar {
-        display: flex;
-        gap: 0.5rem;
-        margin-bottom: 0.75rem;
-      }
-
-      .tree-demo-btn {
-        background: transparent;
-        border: 1px solid var(--tng-semantic-border-subtle);
-        border-radius: 0.375rem;
-        cursor: pointer;
-        font-size: 0.875rem;
-        padding: 0.375rem 0.75rem;
-      }
-
-      .tree-demo-btn:hover {
-        background: color-mix(
-          in srgb,
-          var(--tng-semantic-foreground-primary) 6%,
-          var(--tng-semantic-background-surface)
-        );
-      }
-
-      .tree-demo-status {
-        color: var(--tng-semantic-foreground-secondary);
-        font-size: 0.8125rem;
-        margin: 0 0 0.5rem;
-      }
-    `,
-  ],
+  templateUrl: './tree-table-examples-page.component.html',
+  styleUrl: './tree-table-examples-page.component.css',
 })
 export class TreeTableExamplesPageComponent implements OnDestroy {
   private readonly documentRef = inject(DOCUMENT);
@@ -669,19 +491,57 @@ export class TreeTableExamplesPageComponent implements OnDestroy {
 
   // ── Code tabs ──────────────────────────────────────────────────────────────
 
-  protected readonly basicCodeTabs = createCodeTabs('basic-tree-table', basicTs, basicHtml, sharedCss);
-  protected readonly controlledCodeTabs = createCodeTabs('controlled-tree-table', controlledTs, controlledHtml, sharedCss);
-  protected readonly selectableCodeTabs = createCodeTabs('selectable-tree-table', selectableTs, selectableHtml, sharedCss);
-  protected readonly loadingCodeTabs = createCodeTabs('loading-tree-table', loadingTs, loadingHtml, sharedCss);
-  protected readonly emptyCodeTabs = createCodeTabs('empty-tree-table', emptyTs, emptyHtml, sharedCss);
-  protected readonly customTreeColCodeTabs = createCodeTabs('custom-tree-col', customTreeColTs, customTreeColHtml, sharedCss);
+  protected readonly basicCodeTabs = createCodeTabs(
+    'basic-tree-table', basicTs, basicHtml, sharedCss,
+  );
+  protected readonly controlledCodeTabs = createCodeTabs(
+    'controlled-tree-table', controlledTs, controlledHtml, sharedCss,
+  );
+  protected readonly selectableCodeTabs = createCodeTabs(
+    'selectable-tree-table', selectableTs, selectableHtml, sharedCss,
+  );
+  protected readonly loadingCodeTabs = createCodeTabs(
+    'loading-tree-table',
+    "// See HTML tab — set [loading]='true' and provide columns.",
+    loadingHtml,
+    sharedCss,
+  );
+  protected readonly emptyCodeTabs = createCodeTabs(
+    'empty-tree-table',
+    "// See HTML tab — pass an empty [] to [data].",
+    emptyHtml,
+    sharedCss,
+  );
+  protected readonly customTreeColCodeTabs = createCodeTabs(
+    'custom-tree-col',
+    "// Use treeColumnKey='name' when no column has treeToggle: true.",
+    customTreeColHtml,
+    sharedCss,
+  );
+  protected readonly rowStyleCodeTabs = createCodeTabs(
+    'row-style-tree-table', rowStyleTs, rowStyleHtml, rowStyleCss,
+  );
+  protected readonly cellStyleCodeTabs = createCodeTabs(
+    'cell-style-tree-table', cellStyleTs, cellStyleHtml, cellStyleCss,
+  );
+  protected readonly headerStyleCodeTabs = createCodeTabs(
+    'header-style-tree-table', headerStyleTs, headerStyleHtml, headerStyleCss,
+  );
+  protected readonly groupHeaderCodeTabs = createCodeTabs(
+    'group-header-tree-table', groupHeaderTs, groupHeaderHtml, groupHeaderCss,
+  );
 
-  // ── Account data (shared across demos 1–5) ─────────────────────────────────
+  // ── Account data (shared) ─────────────────────────────────────────────────
 
   protected readonly accountColumns: readonly TngTreeTableColumn<AccountRow>[] = [
     { key: 'name', label: 'Account', treeToggle: true, accessor: (r) => r.name },
     { key: 'type', label: 'Type', accessor: (r) => r.type },
-    { key: 'balance', label: 'Balance', align: 'end', accessor: (r) => r.balance.toLocaleString() },
+    {
+      key: 'balance',
+      label: 'Balance',
+      align: 'end',
+      accessor: (r) => r.balance.toLocaleString(),
+    },
   ];
 
   protected readonly accountData: readonly AccountRow[] = [
@@ -714,16 +574,44 @@ export class TreeTableExamplesPageComponent implements OnDestroy {
     { id: 'equity', name: 'Equity', type: 'Group', balance: 9000 },
   ];
 
-  protected readonly getAccountKey = (row: AccountRow) => row.id;
-  protected readonly getAccountChildren = (row: AccountRow) => row.children;
+  protected readonly getAccountKey = (row: AccountRow): TngTreeTableKey => row.id;
+  protected readonly getAccountChildren = (row: AccountRow): readonly AccountRow[] | undefined =>
+    row.children;
 
-  // ── Per-demo expansion / selection state ───────────────────────────────────
+  // ── Styling demo data (negative balances for contrast) ────────────────────
+
+  protected readonly stylingData: readonly AccountRow[] = [
+    {
+      id: 'assets',
+      name: 'Assets',
+      type: 'Group',
+      balance: 13000,
+      children: [
+        { id: 'cash', name: 'Cash', type: 'Ledger', balance: 3000 },
+        { id: 'invest', name: 'Investments', type: 'Ledger', balance: 10000 },
+      ],
+    },
+    {
+      id: 'liab',
+      name: 'Liabilities',
+      type: 'Group',
+      balance: -4000,
+      children: [{ id: 'loan', name: 'Bank Loan', type: 'Ledger', balance: -4000 }],
+    },
+    { id: 'equity', name: 'Equity', type: 'Group', balance: 9000 },
+  ];
+
+  // ── Per-demo expansion / selection state ──────────────────────────────────
 
   protected readonly basicExpandedKeys = signal<readonly TngTreeTableKey[]>([]);
   protected readonly controlledExpandedKeys = signal<readonly TngTreeTableKey[]>([]);
   protected readonly selectableExpandedKeys = signal<readonly TngTreeTableKey[]>([]);
   protected readonly selectedKeys = signal<readonly TngTreeTableKey[]>([]);
   protected readonly fileExpandedKeys = signal<readonly TngTreeTableKey[]>([]);
+  protected readonly rowStyleExpandedKeys = signal<readonly TngTreeTableKey[]>(['assets', 'liab']);
+  protected readonly cellStyleExpandedKeys = signal<readonly TngTreeTableKey[]>(['assets', 'liab']);
+  protected readonly headerStyleExpandedKeys = signal<readonly TngTreeTableKey[]>([]);
+  protected readonly groupHeaderExpandedKeys = signal<readonly TngTreeTableKey[]>([]);
 
   protected toggleAllAccounts(): void {
     const allGroupIds: TngTreeTableKey[] = ['assets', 'invest', 'liab'];
@@ -731,6 +619,85 @@ export class TreeTableExamplesPageComponent implements OnDestroy {
       this.controlledExpandedKeys().length > 0 ? [] : allGroupIds,
     );
   }
+
+  // ── Demo 7: row hooks ─────────────────────────────────────────────────────
+
+  protected readonly rowStyleFn = (row: AccountRow): TngTreeTableStyleInput =>
+    row.balance < 0 ? { '--tng-tree-table-row-bg': 'var(--row-risk-bg)' } : null;
+
+  protected readonly rowClassFn = (
+    _row: AccountRow,
+    flatRow: TngTreeTableFlatRow<AccountRow>,
+  ): string | null => (flatRow.level === 0 ? 'is-group-row' : null);
+
+  // ── Demo 8: cell hooks ────────────────────────────────────────────────────
+
+  protected readonly cellStyledColumns: readonly TngTreeTableColumn<AccountRow>[] = [
+    { key: 'name', label: 'Account', treeToggle: true, accessor: (r) => r.name },
+    {
+      key: 'type',
+      label: 'Type',
+      accessor: (r) => r.type,
+      cellClass: (row) =>
+        row.type === 'Group' ? 'type-pill type-pill--group' : 'type-pill type-pill--leaf',
+    },
+    {
+      key: 'balance',
+      label: 'Balance',
+      align: 'end',
+      accessor: (r) => r.balance.toLocaleString(),
+      cellStyle: (row): TngTreeTableStyleInput =>
+        row.balance < 0
+          ? { color: 'var(--cell-danger-fg)', fontWeight: 650 }
+          : null,
+    },
+  ];
+
+  // ── Demo 9: header hooks ──────────────────────────────────────────────────
+
+  protected readonly headerStyledColumns: readonly TngTreeTableColumn<AccountRow>[] = [
+    {
+      key: 'name',
+      label: 'Account',
+      treeToggle: true,
+      accessor: (r) => r.name,
+      headerClass: 'col-header--primary',
+    },
+    {
+      key: 'type',
+      label: 'Type',
+      accessor: (r) => r.type,
+      headerClass: 'col-header--muted',
+    },
+    {
+      key: 'balance',
+      label: 'Balance',
+      align: 'end',
+      accessor: (r) => r.balance.toLocaleString(),
+      headerStyle: { color: 'var(--tng-semantic-accent-info)', fontWeight: 700 },
+    },
+  ];
+
+  // ── Demo 10: group header columns ─────────────────────────────────────────
+
+  protected readonly groupHeaderColumns: readonly TngTreeTableColumn<AccountRow>[] = [
+    { key: 'name', label: 'Account', treeToggle: true, accessor: (r) => r.name },
+    {
+      key: 'financial',
+      label: 'Financial',
+      headerClass: 'group-col-header',
+      headerStyle: { color: 'var(--tng-semantic-accent-info)' },
+      children: [
+        { key: 'type', label: 'Type', accessor: (r) => r.type },
+        {
+          key: 'balance',
+          align: 'end',
+          accessor: (r) => r.balance.toLocaleString(),
+        },
+        { key: 'internalMemo', label: 'Internal memo', hidden: true },
+      ],
+    },
+  ];
 
   // ── File data (demo 6) ────────────────────────────────────────────────────
 
@@ -763,8 +730,9 @@ export class TreeTableExamplesPageComponent implements OnDestroy {
     { id: 'pkg', name: 'package.json', size: '1.8 KB', modified: 'Last week' },
   ];
 
-  protected readonly getFileKey = (row: FileRow) => row.id;
-  protected readonly getFileChildren = (row: FileRow) => row.children;
+  protected readonly getFileKey = (row: FileRow): TngTreeTableKey => row.id;
+  protected readonly getFileChildren = (row: FileRow): readonly FileRow[] | undefined =>
+    row.children;
 
   public ngOnDestroy(): void {
     this.colorSchemeObserver?.disconnect();
