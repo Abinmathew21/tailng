@@ -539,4 +539,138 @@
       />
     </ng-template>
   </app-docs-example-tabs-section>
+
+  <!-- 11. Cell templates (status badge + action buttons) -->
+  <app-docs-example-tabs-section
+    id="cell-templates"
+    class="tree-table-doc__block"
+    heading="Cell templates"
+    description="Use ng-template[tngTreeTableCellTemplate] to render any Angular content in a column — badges, icon buttons, links, or any component. The template receives the full row, flatRow (level, expanded, expandable), and the column's accessor value."
+    ariaLabel="Cell template variants"
+    tabListAriaLabel="Cell template style tabs"
+    defaultValue="plain-css"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+      panelTitle="Cell templates"
+      [codeTabs]="cellTemplateCodeTabs"
+    >
+      <div class="tree-demo-shell cell-template-demo">
+        @if (cellTemplateLastAction()) {
+          <p class="tree-demo-status">Last action: {{ cellTemplateLastAction() }}</p>
+        }
+        <tng-tree-table
+          ariaLabel="Ledger accounts"
+          [columns]="ledgerColumns"
+          [data]="ledgerData"
+          [getKey]="getLedgerKey"
+          [getChildren]="getLedgerChildren"
+          [expandedKeys]="cellTemplateExpandedKeys()"
+          (expandedKeysChange)="cellTemplateExpandedKeys.set($event)"
+        >
+          <!-- Status badge: colored pill based on row.status -->
+          <ng-template tngTreeTableCellTemplate="status" let-row="row">
+            <span class="status-badge" [attr.data-status]="row.status">
+              {{ row.status }}
+            </span>
+          </ng-template>
+
+          <!-- Actions: view / edit / delete icon buttons -->
+          <ng-template tngTreeTableCellTemplate="actions" let-row="row">
+            <div class="row-actions">
+              <button
+                type="button"
+                class="action-btn"
+                aria-label="View"
+                (click)="onLedgerView(row)"
+              >
+                <tng-icon icon="eye" />
+              </button>
+              <button
+                type="button"
+                class="action-btn"
+                aria-label="Edit"
+                (click)="onLedgerEdit(row)"
+              >
+                <tng-icon icon="pencil" />
+              </button>
+              <button
+                type="button"
+                class="action-btn action-btn--danger"
+                aria-label="Delete"
+                (click)="onLedgerDelete(row)"
+              >
+                <tng-icon icon="trash-2" />
+              </button>
+            </div>
+          </ng-template>
+        </tng-tree-table>
+      </div>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Cell templates (Tailwind)"
+      [codeTabs]="cellTemplateCodeTabs"
+    >
+      <tng-tree-table
+        ariaLabel="Ledger accounts"
+        class="[--tng-tree-table-radius:0.75rem] [--tng-tree-table-cell-px:1rem]"
+        [columns]="ledgerColumns"
+        [data]="ledgerData"
+        [getKey]="getLedgerKey"
+        [getChildren]="getLedgerChildren"
+        [expandedKeys]="cellTemplateExpandedKeys()"
+        (expandedKeysChange)="cellTemplateExpandedKeys.set($event)"
+      >
+        <ng-template tngTreeTableCellTemplate="status" let-row="row">
+          <span
+            class="inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium capitalize"
+            [class.bg-green-100]="row.status === 'active'"
+            [class.text-green-700]="row.status === 'active'"
+            [class.bg-amber-100]="row.status === 'review'"
+            [class.text-amber-700]="row.status === 'review'"
+            [class.bg-neutral-100]="row.status === 'inactive'"
+            [class.text-neutral-500]="row.status === 'inactive'"
+          >
+            {{ row.status }}
+          </span>
+        </ng-template>
+
+        <ng-template tngTreeTableCellTemplate="actions" let-row="row">
+          <div class="flex items-center justify-end gap-1">
+            <button
+              type="button"
+              class="flex h-7 w-7 items-center justify-center rounded-md text-neutral-400 hover:bg-neutral-100 hover:text-neutral-700"
+              aria-label="View"
+              (click)="onLedgerView(row)"
+            >
+              <tng-icon icon="eye" class="h-4 w-4" />
+            </button>
+            <button
+              type="button"
+              class="flex h-7 w-7 items-center justify-center rounded-md text-neutral-400 hover:bg-neutral-100 hover:text-neutral-700"
+              aria-label="Edit"
+              (click)="onLedgerEdit(row)"
+            >
+              <tng-icon icon="pencil" class="h-4 w-4" />
+            </button>
+            <button
+              type="button"
+              class="flex h-7 w-7 items-center justify-center rounded-md text-neutral-400 hover:bg-red-50 hover:text-red-600"
+              aria-label="Delete"
+              (click)="onLedgerDelete(row)"
+            >
+              <tng-icon icon="trash-2" class="h-4 w-4" />
+            </button>
+          </div>
+        </ng-template>
+      </tng-tree-table>
+    </ng-template>
+  </app-docs-example-tabs-section>
 </article>

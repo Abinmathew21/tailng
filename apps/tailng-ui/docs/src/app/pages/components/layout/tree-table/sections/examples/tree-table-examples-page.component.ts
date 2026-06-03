@@ -1,12 +1,14 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, inject, signal, type OnDestroy } from '@angular/core';
 import {
+  TngTreeTableCellTemplate,
   TngTreeTableComponent,
   type TngTreeTableColumn,
   type TngTreeTableFlatRow,
   type TngTreeTableStyleInput,
 } from '@tailng-ui/components';
 import type { TngTreeTableKey } from '@tailng-ui/primitives';
+import { TngIcon } from '@tailng-ui/icons';
 import type { DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
 import {
   DocsExampleTabsSectionComponent,
@@ -33,6 +35,14 @@ type FileRow = {
   size: string;
   modified: string;
   children?: FileRow[];
+};
+
+type LedgerRow = {
+  id: string;
+  name: string;
+  status: 'active' | 'inactive' | 'review';
+  balance: number;
+  children?: LedgerRow[];
 };
 
 // ── Code-tab factory ──────────────────────────────────────────────────────────
@@ -470,11 +480,185 @@ const groupHeaderCss = [
   '}',
 ].join('\n');
 
+// ── 11. Cell templates ────────────────────────────────────────────────────────
+
+const cellTemplateTs = [
+  "import { Component, signal } from '@angular/core';",
+  "import {",
+  "  TngTreeTableCellTemplate,",
+  "  TngTreeTableComponent,",
+  "  type TngTreeTableColumn,",
+  "} from '@tailng-ui/components';",
+  "import { TngIcon } from '@tailng-ui/icons';",
+  "import type { TngTreeTableKey } from '@tailng-ui/primitives';",
+  '',
+  'type LedgerRow = {',
+  '  id: string;',
+  '  name: string;',
+  "  status: 'active' | 'inactive' | 'review';",
+  '  balance: number;',
+  '  children?: LedgerRow[];',
+  '};',
+  '',
+  "@Component({",
+  "  selector: 'app-cell-template-tree-table',",
+  '  standalone: true,',
+  '  imports: [TngTreeTableComponent, TngTreeTableCellTemplate, TngIcon],',
+  '})',
+  'export class CellTemplateTreeTableComponent {',
+  '  protected readonly expandedKeys = signal<readonly TngTreeTableKey[]>([]);',
+  '  protected readonly lastAction = signal<string | null>(null);',
+  '',
+  '  protected readonly columns: readonly TngTreeTableColumn<LedgerRow>[] = [',
+  "    { key: 'name', label: 'Account', treeToggle: true, accessor: r => r.name },",
+  "    { key: 'status', label: 'Status', align: 'center', width: '9rem' },",
+  "    { key: 'balance', label: 'Balance', align: 'end', accessor: r => r.balance.toLocaleString() },",
+  "    { key: 'actions', label: 'Actions', align: 'end', width: '8rem' },",
+  '  ];',
+  '',
+  '  protected readonly data: readonly LedgerRow[] = [',
+  "    { id: 'assets', name: 'Assets', status: 'active', balance: 13000, children: [",
+  "      { id: 'cash', name: 'Cash', status: 'active', balance: 3000 },",
+  "      { id: 'invest', name: 'Investments', status: 'review', balance: 10000, children: [",
+  "        { id: 'stocks', name: 'Stocks', status: 'active', balance: 6000 },",
+  "        { id: 'bonds', name: 'Bonds', status: 'inactive', balance: 4000 },",
+  '      ]},',
+  '    ]},',
+  "    { id: 'liab', name: 'Liabilities', status: 'review', balance: -4000, children: [",
+  "      { id: 'loan', name: 'Bank Loan', status: 'active', balance: -4000 },",
+  '    ]},',
+  "    { id: 'equity', name: 'Equity', status: 'active', balance: 9000 },",
+  '  ];',
+  '',
+  '  protected readonly getKey = (row: LedgerRow): TngTreeTableKey => row.id;',
+  '  protected readonly getChildren = (row: LedgerRow) => row.children;',
+  '',
+  '  protected onView(row: LedgerRow): void { this.lastAction.set(`View: ${row.name}`); }',
+  '  protected onEdit(row: LedgerRow): void { this.lastAction.set(`Edit: ${row.name}`); }',
+  '  protected onDelete(row: LedgerRow): void { this.lastAction.set(`Delete: ${row.name}`); }',
+  '}',
+].join('\n');
+
+const cellTemplateHtml = [
+  '<p *ngIf="lastAction()">Last action: {{ lastAction() }}</p>',
+  '',
+  '<tng-tree-table',
+  '  ariaLabel="Ledger accounts"',
+  '  [columns]="columns"',
+  '  [data]="data"',
+  '  [getKey]="getKey"',
+  '  [getChildren]="getChildren"',
+  '  [expandedKeys]="expandedKeys()"',
+  '  (expandedKeysChange)="expandedKeys.set($event)"',
+  '>',
+  '  <!-- Status badge: renders a colored pill from the row status value -->',
+  '  <ng-template tngTreeTableCellTemplate="status" let-row="row">',
+  '    <span class="status-badge" [attr.data-status]="row.status">',
+  '      {{ row.status }}',
+  '    </span>',
+  '  </ng-template>',
+  '',
+  '  <!-- Actions: icon buttons for view / edit / delete -->',
+  '  <ng-template tngTreeTableCellTemplate="actions" let-row="row">',
+  '    <div class="row-actions">',
+  '      <button type="button" class="action-btn" aria-label="View" (click)="onView(row)">',
+  '        <tng-icon icon="eye" />',
+  '      </button>',
+  '      <button type="button" class="action-btn" aria-label="Edit" (click)="onEdit(row)">',
+  '        <tng-icon icon="pencil" />',
+  '      </button>',
+  '      <button type="button" class="action-btn action-btn--danger" aria-label="Delete" (click)="onDelete(row)">',
+  '        <tng-icon icon="trash-2" />',
+  '      </button>',
+  '    </div>',
+  '  </ng-template>',
+  '</tng-tree-table>',
+].join('\n');
+
+const cellTemplateCss = [
+  'tng-tree-table {',
+  '  --tng-tree-table-radius: 0.75rem;',
+  '  --tng-tree-table-cell-px: 1rem;',
+  '}',
+  '',
+  '/* Status badge */  ',
+  '.status-badge {',
+  '  border-radius: 999px;',
+  '  display: inline-flex;',
+  '  font-size: 0.75rem;',
+  '  font-weight: 500;',
+  '  padding: 0.125rem 0.625rem;',
+  '  text-transform: capitalize;',
+  '}',
+  '',
+  '.status-badge[data-status="active"] {',
+  '  background: color-mix(in srgb, var(--tng-semantic-accent-success) 14%, transparent);',
+  '  color: var(--tng-semantic-accent-success);',
+  '}',
+  '',
+  '.status-badge[data-status="inactive"] {',
+  '  background: color-mix(in srgb, var(--tng-semantic-foreground-primary) 8%, transparent);',
+  '  color: var(--tng-semantic-foreground-secondary);',
+  '}',
+  '',
+  '.status-badge[data-status="review"] {',
+  '  background: color-mix(in srgb, var(--tng-semantic-accent-warning) 14%, transparent);',
+  '  color: var(--tng-semantic-accent-warning);',
+  '}',
+  '',
+  '/* Action buttons */  ',
+  '.row-actions {',
+  '  align-items: center;',
+  '  display: flex;',
+  '  gap: 0.25rem;',
+  '  justify-content: flex-end;',
+  '}',
+  '',
+  '.action-btn {',
+  '  align-items: center;',
+  '  background: transparent;',
+  '  border: none;',
+  '  border-radius: 0.375rem;',
+  '  color: var(--tng-semantic-foreground-secondary);',
+  '  cursor: pointer;',
+  '  display: inline-flex;',
+  '  height: 1.75rem;',
+  '  justify-content: center;',
+  '  padding: 0;',
+  '  transition: background 120ms, color 120ms;',
+  '  width: 1.75rem;',
+  '}',
+  '',
+  '.action-btn:hover {',
+  '  background: color-mix(',
+  '    in srgb,',
+  '    var(--tng-semantic-foreground-primary) 8%,',
+  '    var(--tng-semantic-background-surface)',
+  '  );',
+  '  color: var(--tng-semantic-foreground-primary);',
+  '}',
+  '',
+  '.action-btn--danger:hover {',
+  '  background: color-mix(in srgb, var(--tng-semantic-accent-danger) 12%, transparent);',
+  '  color: var(--tng-semantic-accent-danger);',
+  '}',
+  '',
+  '.action-btn tng-icon {',
+  '  font-size: 1rem;',
+  '}',
+].join('\n');
+
 // ── Component ─────────────────────────────────────────────────────────────────
 
 @Component({
   selector: 'app-tree-table-examples-page',
-  imports: [TngTreeTableComponent, DocsExampleTabsSectionComponent, DocsExampleVariantDirective],
+  imports: [
+    TngTreeTableComponent,
+    TngTreeTableCellTemplate,
+    TngIcon,
+    DocsExampleTabsSectionComponent,
+    DocsExampleVariantDirective,
+  ],
   templateUrl: './tree-table-examples-page.component.html',
   styleUrl: './tree-table-examples-page.component.css',
 })
@@ -529,6 +713,9 @@ export class TreeTableExamplesPageComponent implements OnDestroy {
   );
   protected readonly groupHeaderCodeTabs = createCodeTabs(
     'group-header-tree-table', groupHeaderTs, groupHeaderHtml, groupHeaderCss,
+  );
+  protected readonly cellTemplateCodeTabs = createCodeTabs(
+    'cell-template-tree-table', cellTemplateTs, cellTemplateHtml, cellTemplateCss,
   );
 
   // ── Account data (shared) ─────────────────────────────────────────────────
@@ -733,6 +920,69 @@ export class TreeTableExamplesPageComponent implements OnDestroy {
   protected readonly getFileKey = (row: FileRow): TngTreeTableKey => row.id;
   protected readonly getFileChildren = (row: FileRow): readonly FileRow[] | undefined =>
     row.children;
+
+  // ── Demo 11: cell templates ───────────────────────────────────────────────
+
+  protected readonly cellTemplateExpandedKeys = signal<readonly TngTreeTableKey[]>(['assets', 'liab']);
+  protected readonly cellTemplateLastAction = signal<string | null>(null);
+
+  protected readonly ledgerColumns: readonly TngTreeTableColumn<LedgerRow>[] = [
+    { key: 'name', label: 'Account', treeToggle: true, accessor: (r) => r.name },
+    { key: 'status', label: 'Status', align: 'center', width: '9rem' },
+    {
+      key: 'balance',
+      label: 'Balance',
+      align: 'end',
+      accessor: (r) => r.balance.toLocaleString(),
+    },
+    { key: 'actions', label: 'Actions', align: 'end', width: '8rem' },
+  ];
+
+  protected readonly ledgerData: readonly LedgerRow[] = [
+    {
+      id: 'assets',
+      name: 'Assets',
+      status: 'active',
+      balance: 13000,
+      children: [
+        { id: 'cash', name: 'Cash', status: 'active', balance: 3000 },
+        {
+          id: 'invest',
+          name: 'Investments',
+          status: 'review',
+          balance: 10000,
+          children: [
+            { id: 'stocks', name: 'Stocks', status: 'active', balance: 6000 },
+            { id: 'bonds', name: 'Bonds', status: 'inactive', balance: 4000 },
+          ],
+        },
+      ],
+    },
+    {
+      id: 'liab',
+      name: 'Liabilities',
+      status: 'review',
+      balance: -4000,
+      children: [{ id: 'loan', name: 'Bank Loan', status: 'active', balance: -4000 }],
+    },
+    { id: 'equity', name: 'Equity', status: 'active', balance: 9000 },
+  ];
+
+  protected readonly getLedgerKey = (row: LedgerRow): TngTreeTableKey => row.id;
+  protected readonly getLedgerChildren = (row: LedgerRow): readonly LedgerRow[] | undefined =>
+    row.children;
+
+  protected onLedgerView(row: LedgerRow): void {
+    this.cellTemplateLastAction.set(`View: ${row.name}`);
+  }
+
+  protected onLedgerEdit(row: LedgerRow): void {
+    this.cellTemplateLastAction.set(`Edit: ${row.name}`);
+  }
+
+  protected onLedgerDelete(row: LedgerRow): void {
+    this.cellTemplateLastAction.set(`Delete: ${row.name}`);
+  }
 
   public ngOnDestroy(): void {
     this.colorSchemeObserver?.disconnect();

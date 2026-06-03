@@ -29,7 +29,13 @@
               [attr.colspan]="node.colspan > 1 ? node.colspan : null"
               [attr.rowspan]="node.rowspan > 1 ? node.rowspan : null"
             >
-              <span class="tng-tree-table__header-label">{{ node.label }}</span>
+              @if (getHeaderTemplate(node.key); as headerTemplate) {
+                <ng-container
+                  *ngTemplateOutlet="headerTemplate.templateRef; context: getHeaderContext(node)"
+                />
+              } @else {
+                <span class="tng-tree-table__header-label">{{ node.label }}</span>
+              }
             </th>
           }
         </tr>
@@ -108,7 +114,16 @@
                   }
 
                   <span class="tng-tree-table__cell-content">
-                    {{ getCellText(flatRow.row, column, rowIndex) }}
+                    @if (getCellTemplate(column.key); as cellTemplate) {
+                      <ng-container
+                        *ngTemplateOutlet="
+                          cellTemplate.templateRef;
+                          context: getCellContext(flatRow, column, rowIndex)
+                        "
+                      />
+                    } @else {
+                      {{ getCellText(flatRow.row, column, rowIndex) }}
+                    }
                   </span>
                 </td>
               } @else {
@@ -120,9 +135,18 @@
                   [ngStyle]="resolveCellStyle(column, flatRow.row)"
                   [attr.data-align]="getCellAlign(column)"
                 >
-                  <span class="tng-tree-table__cell-content">
-                    {{ getCellText(flatRow.row, column, rowIndex) }}
-                  </span>
+                  @if (getCellTemplate(column.key); as cellTemplate) {
+                    <ng-container
+                      *ngTemplateOutlet="
+                        cellTemplate.templateRef;
+                        context: getCellContext(flatRow, column, rowIndex)
+                      "
+                    />
+                  } @else {
+                    <span class="tng-tree-table__cell-content">
+                      {{ getCellText(flatRow.row, column, rowIndex) }}
+                    </span>
+                  }
                 </td>
               }
             }

@@ -1,9 +1,13 @@
-import { NgStyle } from '@angular/common';
+import { NgStyle, NgTemplateOutlet } from '@angular/common';
 import {
   Component,
+  Directive,
   ElementRef,
+  TemplateRef,
   booleanAttribute,
   computed,
+  contentChildren,
+  inject,
   input,
   output,
   viewChildren,
@@ -102,17 +106,69 @@ function normalizeCellAlign(
   return value === 'center' || value === 'end' ? value : 'start';
 }
 
+// ── Template context types ────────────────────────────────────────────────────
+
+export type TngTreeTableCellContext<TRow = unknown> = Readonly<{
+  $implicit: unknown;
+  column: TngTreeTableLeafColumn<TRow>;
+  columnKey: string;
+  row: TRow;
+  rowIndex: number;
+  flatRow: TngTreeTableFlatRow<TRow>;
+  value: unknown;
+}>;
+
+export type TngTreeTableHeaderContext<TRow = unknown> = Readonly<{
+  $implicit: TngTreeTableColumn<TRow>;
+  column: TngTreeTableColumn<TRow>;
+  columnKey: string;
+  label: string;
+  isGroup: boolean;
+  depth: number;
+  colspan: number;
+  rowspan: number;
+}>;
+
+// ── Template directives ───────────────────────────────────────────────────────
+
+@Directive({
+  selector: 'ng-template[tngTreeTableCellTemplate]',
+  exportAs: 'tngTreeTableCellTemplate',
+})
+export class TngTreeTableCellTemplate<TRow = unknown> {
+  public readonly columnKey = input<string | null>(null, {
+    alias: 'tngTreeTableCellTemplate',
+  });
+  public readonly templateRef = inject<TemplateRef<TngTreeTableCellContext<TRow>>>(TemplateRef);
+}
+
+@Directive({
+  selector: 'ng-template[tngTreeTableHeaderTemplate]',
+  exportAs: 'tngTreeTableHeaderTemplate',
+})
+export class TngTreeTableHeaderTemplate<TRow = unknown> {
+  public readonly columnKey = input<string | null>(null, {
+    alias: 'tngTreeTableHeaderTemplate',
+  });
+  public readonly templateRef = inject<TemplateRef<TngTreeTableHeaderContext<TRow>>>(TemplateRef);
+}
+
 // ── Component ─────────────────────────────────────────────────────────────────
 
 @Component({
   selector: 'tng-tree-table',
   exportAs: 'tngTreeTableComponent',
   standalone: true,
-  imports: [NgStyle],
+  imports: [NgStyle, NgTemplateOutlet],
   templateUrl: './tng-tree-table.component.html',
   styleUrl: './tng-tree-table.component.css',
 })
 export class TngTreeTableComponent<TRow = unknown> {
+  // ── Content children (templates) ─────────────────────────────────────────────
+
+  private readonly cellTemplates = contentChildren(TngTreeTableCellTemplate<TRow>);
+  private readonly headerTemplates = contentChildren(TngTreeTableHeaderTemplate<TRow>);
+
   // ── Inputs ──────────────────────────────────────────────────────────────────
 
   public readonly data = input<readonly TRow[]>([]);
@@ -403,6 +459,56 @@ export class TngTreeTableComponent<TRow = unknown> {
     return cellStyle;
   }
 
+  // ── Template lookup ───────────────────────────────────────────────────────────
+
+  protected getCellTemplate(columnKey: string): TngTreeTableCellTemplate<TRow> | null {
+    let fallback: TngTreeTableCellTemplate<TRow> | null = null;
+    for (const tpl of this.cellTemplates()) {
+      if (tpl.columnKey() === columnKey) return tpl;
+      if (tpl.columnKey() === null) fallback = tpl;
+    }
+    return fallback;
+  }
+
+  protected getHeaderTemplate(columnKey: string): TngTreeTableHeaderTemplate<TRow> | null {
+    let fallback: TngTreeTableHeaderTemplate<TRow> | null = null;
+    for (const tpl of this.headerTemplates()) {
+      if (tpl.columnKey() === columnKey) return tpl;
+      if (tpl.columnKey() === null) fallback = tpl;
+    }
+    return fallback;
+  }
+
+  protected getCellContext(
+    flatRow: TngTreeTableFlatRow<TRow>,
+    column: TngTreeTableLeafColumn<TRow>,
+    rowIndex: number,
+  ): TngTreeTableCellContext<TRow> {
+    const value = this.getCellValue(flatRow.row, column, rowIndex);
+    return {
+      $implicit: value,
+      column,
+      columnKey: column.key,
+      row: flatRow.row,
+      rowIndex,
+      flatRow,
+      value,
+    };
+  }
+
+  protected getHeaderContext(node: TngTreeTableHeaderNode<TRow>): TngTreeTableHeaderContext<TRow> {
+    return {
+      $implicit: node.column,
+      column: node.column,
+      columnKey: node.key,
+      label: node.label,
+      isGroup: node.isGroup,
+      depth: node.depth,
+      colspan: node.colspan,
+      rowspan: node.rowspan,
+    };
+  }
+
   // ── Track-by helpers ──────────────────────────────────────────────────────────
 
   protected trackByKey(_index: number, flatRow: TngTreeTableFlatRow<TRow>): TngTreeTableKey {
@@ -525,3 +631,5 @@ export class TngTreeTableComponent<TRow = unknown> {
 }
 
 export { TngTreeTableComponent as TngTreeTable };
+export { TngTreeTableCellTemplate as TngTreeTableCellTpl };
+export { TngTreeTableHeaderTemplate as TngTreeTableHeaderTpl };
