@@ -24,6 +24,10 @@
   line-height: 1.35;
   padding: var(--tng-table-cell-py, 0.75rem) var(--tng-table-cell-px, 0.9rem);
   text-align: start;
+}
+
+.tng-table__header-cell,
+.tng-table__state-cell {
   vertical-align: middle;
 }
 
@@ -80,6 +84,7 @@
 
 .tng-table__cell {
   background: var(--tng-table-row-bg, var(--tng-semantic-background-surface));
+  vertical-align: top;
 }
 
 .tng-table__cell[data-group-align='top'] {

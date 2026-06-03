@@ -392,6 +392,26 @@ describe('tng-table component', () => {
     expect(query<HTMLTableElement>(fixture, 'table').hasAttribute('data-error')).toBe(true);
   });
 
+  it('top-aligns body cells while preserving header, state, and horizontal alignment styles', () => {
+    const fixture = createFixture();
+
+    const nameHeader = query<HTMLTableCellElement>(fixture, 'th[data-column-id="name"]');
+    const nameCell = query<HTMLTableCellElement>(fixture, 'td[data-column-id="name"]');
+    const totalCell = query<HTMLTableCellElement>(fixture, 'td[data-column-id="total"]');
+
+    expect(getComputedStyle(nameHeader).verticalAlign).toBe('middle');
+    expect(getComputedStyle(nameCell).verticalAlign).toBe('top');
+    expect(getComputedStyle(nameCell).textAlign).toBe('start');
+    expect(getComputedStyle(totalCell).textAlign).toBe('end');
+
+    fixture.componentInstance.items.set([]);
+    fixture.detectChanges();
+
+    const stateCell = query<HTMLTableCellElement>(fixture, 'tbody td.tng-table__state-cell');
+    expect(getComputedStyle(stateCell).verticalAlign).toBe('middle');
+    expect(getComputedStyle(stateCell).textAlign).toBe('center');
+  });
+
   it('applies density and sticky header configuration', () => {
     const fixture = createFixture();
 
@@ -1238,11 +1258,12 @@ describe('tng-table body group-by rows', () => {
 
   it('uses top vertical alignment for merged group cells by default and allows middle alignment', () => {
     const fixture = createGroupedBodyFixture();
-    expect(
-      query<HTMLTableCellElement>(fixture, 'tbody td[data-column-id="department"]').getAttribute(
-        'data-group-align',
-      ),
-    ).toBe('top');
+    const defaultGroupCell = query<HTMLTableCellElement>(
+      fixture,
+      'tbody td[data-column-id="department"]',
+    );
+    expect(defaultGroupCell.getAttribute('data-group-align')).toBe('top');
+    expect(getComputedStyle(defaultGroupCell).verticalAlign).toBe('top');
 
     fixture.componentInstance.columns.set([
       { id: 'department', label: 'Department', groupBy: true, groupByAlign: 'middle' },
@@ -1250,11 +1271,12 @@ describe('tng-table body group-by rows', () => {
     ]);
     fixture.detectChanges();
 
-    expect(
-      query<HTMLTableCellElement>(fixture, 'tbody td[data-column-id="department"]').getAttribute(
-        'data-group-align',
-      ),
-    ).toBe('middle');
+    const middleGroupCell = query<HTMLTableCellElement>(
+      fixture,
+      'tbody td[data-column-id="department"]',
+    );
+    expect(middleGroupCell.getAttribute('data-group-align')).toBe('middle');
+    expect(getComputedStyle(middleGroupCell).verticalAlign).toBe('middle');
   });
 });
 
